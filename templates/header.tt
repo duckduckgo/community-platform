@@ -1,0 +1,13 @@
+<header>
+	<h1><a href="<@ u('Root','index') @>">DuckDuckGo Community Platform</a></h1>
+	
+	<div class="userbox">
+		<@ IF c.user @>
+			<a href="<@ u('My','account') @>"><@ l('Welcome [_1]!',c.user.username) @></a>
+			<div><a href="<@ u('My','logout') @>"><@ l('Logout') @></a></div>
+		<@ ELSIF !no_login @>
+			<@ INCLUDE my/loginform.tt @>
+		<@ END @>
+	</div>
+
+</header>

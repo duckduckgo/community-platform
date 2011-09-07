@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="<@ language @>">
+	<@ PROCESS head.tt @>
+	<body>
+		<div id="wrapper"> 
+			<div id="header">
+			
+				<@ INCLUDE header.tt @>
+				
+			</div>
+			<hr/>
+			<div id="nav">
+			
+				<@ INCLUDE nav.tt @>
+				
+			</div>
+			<hr/>
+			<div id="content">
+				<article>
+			
+				<@ PROCESS $LAYOUTS.shift @>
+				
+				</article>
+			</div>
+			<hr/>
+			<div id="footer">
+			
+				<@ INCLUDE footer.tt @>
+				
+			</div>
+		</div>
+	</body>
+</html>
+<!-- <@ version @> -->

@@ -1,0 +1,2 @@
+<@ USE Dumper @><@ USE Date @><@ USE Capture @><@ USE String -@>
+<@ MACRO d(args) BLOCK; Dumper.dump_html(args); END; -@>

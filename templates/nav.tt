@@ -1,0 +1,7 @@
+<nav>
+	<ul id="mainnav">
+		<li><a href="<@ u('My','account') @>"><@ l('Your account') @></a></li>
+		<li><a href="<@ u('Translate','index') @>"><@ l('Help translating') @></a></li>
+		<li><a href="<@ u('Screen','index') @>"><@ l('Screenshots') @></a></li>
+	</ul>
+</nav>

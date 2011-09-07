@@ -1,0 +1,14 @@
+<head>
+	<title><@ prefix_title @> <@ IF title @>- <@ title @><@ END @></title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<@ FOREACH meta IN metas.pairs @>
+		<meta name="<@ meta.key @>" content="<@ meta.value @>" /> 
+	<@ END @>
+	<link rel="stylesheet" type="text/css" href="/static/css/reset.css" />
+	<link rel="stylesheet" type="text/css" href="/static/css/ddgc.css" />
+	<script type="text/javascript" src="/static/js/jquery.js"></script>
+	<script type="text/javascript" src="/static/js/jquery-ui.js"></script>
+	<script type="text/javascript" src="/static/js/console.js"></script>
+	<script type="text/javascript" src="/static/js/helper.js"></script>
+	<script type="text/javascript" src="/static/js/ddgc.js"></script>
+</head>

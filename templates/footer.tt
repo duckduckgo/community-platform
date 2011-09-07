@@ -1,0 +1,8 @@
+<footer>
+	<div class="footer">
+		<a href="<@ u('Base','about') @>">About</a> |
+		<a href="<@ u('Base','privacy') @>">Privay</a> |
+		<a href="<@ u('Base','termsofuse') @>">Terms Of Use</a> |
+		&copy; 2011 <a href="http://duckduckgo.com" title="DuckDuckGo Search Engine">DuckDuckGo, Inc.</a>
+	</div>
+</footer> 
