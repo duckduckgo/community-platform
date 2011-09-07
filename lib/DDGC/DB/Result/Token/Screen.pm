@@ -20,6 +20,16 @@ column screen_id => {
 	is_nullable => 1,
 };
 
+column tag_x => {
+	data_type => 'int',
+	is_nullable => 1,
+};
+
+column tag_y => {
+	data_type => 'int',
+	is_nullable => 1,
+};
+
 column created => {
 	data_type => 'timestamp with time zone',
 	set_on_create => 1,
