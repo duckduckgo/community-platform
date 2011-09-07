@@ -1,1 +1,56 @@
-<form action="<@ u('My','register') @>" method="post" name="registerform" id="registerform">	<fieldset>		<legend><span><@ l('Register') @></span></legend>		<@ IF register_failed @>			<span class="error">				<@ l('Register failed!') @>			</span>			<br />		<@ END @>		<@ IF need_username @>			<span class="error">				<@ l('We need a username.') @>			</span>			<br />		<@ END @>		<@ IF user_exist @>			<span class="error">				<@ l('The user [_1] exist already.',user_exist) @>			</span>			<br />		<@ END @>		<label for="username"><@ l('Username') @></label>		<input type="text" name="username" id="username" value="<@ username @>" />		<br />		<@ IF password_too_short @>			<span class="error">				<@ l('Password must be at least [_1] characters.',3) @>			</span>			<br />		<@ END @>		<label for="password"><@ l('Password') @></label>		<input type="password" name="password" id="password" />		<br />		<@ IF password_different @>			<span class="error">				<@ l('Both passwords must be identical.') @>			</span>			<br />		<@ END @>		<label for="repeat_password"><@ l('Repeat password') @></label>		<input type="password" name="repeat_password" id="repeat_password" />		<br />		<img src="<@ u('Base','captcha') @>" alt="Captcha"/>		<br />		<@ IF wrong_captcha @>			<span class="error">				<@ l('Captcha is wrong.') @>			</span>			<br />		<@ END @>		<label for="captcha"><@ l('Captcha') @></label>		<input type="text" name="captcha" id="captcha" />		<br />		<input type="submit" value="<@ l('Register') @>" name="register" id="register" />	</fieldset></form>
+<form action="<@ u('My','register') @>" method="post" name="registerform" id="registerform">
+	<fieldset>
+		<legend><span><@ l('Register') @></span></legend>
+		<@ IF register_failed @>
+			<span class="error">
+				<@ l('Register failed!') @>
+			</span>
+			<br />
+		<@ END @>
+		<@ IF need_username @>
+			<span class="error">
+				<@ l('We need a username.') @>
+			</span>
+			<br />
+		<@ END @>
+		<@ IF user_exist @>
+			<span class="error">
+				<@ l('The user [_1] exist already.',user_exist) @>
+			</span>
+			<br />
+		<@ END @>
+		<label for="username"><@ l('Username') @></label>
+		<input type="text" name="username" id="username" value="<@ username @>" />
+		<br />
+		<@ IF password_too_short @>
+			<span class="error">
+				<@ l('Password must be at least [_1] characters.',3) @>
+			</span>
+			<br />
+		<@ END @>
+		<label for="password"><@ l('Password') @></label>
+		<input type="password" name="password" id="password" />
+		<br />
+		<@ IF password_different @>
+			<span class="error">
+				<@ l('Both passwords must be identical.') @>
+			</span>
+			<br />
+		<@ END @>
+		<label for="repeat_password"><@ l('Repeat password') @></label>
+		<input type="password" name="repeat_password" id="repeat_password" />
+		<br />
+		<img src="<@ u('Base','captcha') @>" alt="Captcha"/>
+		<br />
+		<@ IF wrong_captcha @>
+			<span class="error">
+				<@ l('Captcha is wrong.') @>
+			</span>
+			<br />
+		<@ END @>
+		<label for="captcha"><@ l('Captcha') @></label>
+		<input type="text" name="captcha" id="captcha" />
+		<br />
+		<input type="submit" value="<@ l('Register') @>" name="register" id="register" />
+	</fieldset>
+</form>

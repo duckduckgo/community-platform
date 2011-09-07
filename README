@@ -1,1 +1,70 @@
-Run script/ddgc_web_server.pl to test the application.
+DuckDuckGo Community Platform Repository
+========================================
+
+In order to test this application on your own machine you require Perl installed, which is the case on nearly all Unix Systems. We don't
+suggest trying to install on Windows, cause we don't test our application on this platform. The platform itself is tested and deployed always
+on Debian stable. You need some packages on debian to install all Perl modules proper, just execute this as root:
+
+  apt-get install build-essential libgd2-xpm-dev git
+
+==============================================================================================
+
+NOW WE DONT NEED ROOT ANYMORE!!!! DO ANYTHING ELSE WITH YOUR USERACCOUNT IN YOUR USERSPACE!!!!
+NOW WE DONT NEED ROOT ANYMORE!!!! DO ANYTHING ELSE WITH YOUR USERACCOUNT IN YOUR USERSPACE!!!!
+NOW WE DONT NEED ROOT ANYMORE!!!! DO ANYTHING ELSE WITH YOUR USERACCOUNT IN YOUR USERSPACE!!!!
+
+==============================================================================================
+
+We need to install local::lib, best is just following this instructions:
+
+  wget http://cpan.cpantesters.org/authors/id/A/AP/APEIRON/local-lib-1.008004.tar.gz
+  tar xvzf local-lib-1.008004.tar.gz
+  cd local-lib-1.008004
+  perl Makefile.PL --bootstrap
+  make test && make install
+
+After this you need to configure your shell to include the proper environment variables for
+local::lib, you can do this for bash with this command:
+
+  echo 'eval $(perl -I$HOME/perl5/lib/perl5 -Mlocal::lib)' >>~/.bashrc
+
+Best is now to relogin to be sure the variables are set, you can check it with this command:
+
+  set | grep PERL5
+  
+You should get back some variables, if not, then you did something wrong ;). If you see the
+variables, then you did anything probably and can now install Perl modules in your local
+userspace. We now install first another CPAN client to install the modules:
+
+  cpan App::cpanminus
+  
+After this you got the new command "cpanm" which is a much nicer way to install modules, we
+need a small bunch of base modules to get our stuff best done:
+
+  cpanm Dist::Zilla Catalyst::Devel
+
+Now you can clone the repository of the platform:
+
+  git clone git://github.com/duckduckgo/community-platform.git
+  
+Then inside the repository you can install the requirements for authors and the requirements
+of the distribution itself:
+
+  cd community-platform
+  cpanm $( dzil authordeps )
+  cpanm $( dzil listdeps )
+  
+WARNING: Check for errors! In worst case, just redo both install commands, and you can see
+them more clear!
+  
+When all requirements are installed we can deploy a small test setup for the environment:
+
+  script/ddgc_deploy_dev.pl
+  
+And now you can start the web application with:
+
+  script/ddgc_web_server.pl -r -d
+  
+-r means that it reloads on changes, and the -d means to activate the debugging.
+
+Have fun!!!!!!!!

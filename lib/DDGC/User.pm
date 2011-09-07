@@ -1,1 +1,7 @@
-package DDGC::User;use Moose;1;
+package DDGC::User;
+
+use Moose;
+
+
+
+1;
