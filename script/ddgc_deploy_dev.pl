@@ -11,7 +11,6 @@ use File::Path qw( make_path remove_tree );
 
 use DDGC::Config;
 use SQL::Translator::Diff;
-use DDP;
 use File::Copy;
 
 use Getopt::Long;
@@ -22,7 +21,9 @@ GetOptions (
 	"kill"  => \$kill,
 );
 
-die "environment exist, use --kill to kill it!" if -d DDGC::Config::rootdir_path;
+if (-d DDGC::Config::rootdir_path) {
+	$kill ? remove_tree(DDGC::Config::rootdir_path) : die "environment exist, use --kill to kill it!"
+}
 
 DDGC::Config::rootdir();
 DDGC::Config::filesdir();
