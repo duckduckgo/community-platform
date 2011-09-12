@@ -1,8 +1,8 @@
-package DDGC::DB::Result::Screen;
+package DDGC::DB::Result::Token::Language::Translation;
 
 use DBIx::Class::Candy -components => [ 'TimeStamp', 'InflateColumn::DateTime', 'InflateColumn::Serializer', 'SingletonRows', 'EncodedColumn' ];
 
-table 'screen';
+table 'token_language_translation';
 
 column id => {
 	data_type => 'bigint',
@@ -10,26 +10,19 @@ column id => {
 };
 primary_key 'id';
 
-column description => {
+column translation => {
 	data_type => 'text',
-	is_nullable => 1,
-};
-
-column tags => {
-	data_type => 'text',
-	is_nullable => 1,
-};
-
-column data => {
-	data_type => 'text',
-	is_nullable => 1,
-	serializer_class => 'YAML',
-};
-
-column deleted => {
-	data_type => 'tinyint',
 	is_nullable => 0,
-	default_value => 0,
+};
+
+column notes => {
+	data_type => 'text',
+	is_nullable => 1,
+};
+
+column token_language_id => {
+	data_type => 'bigint',
+	is_nullable => 0,
 };
 
 column users_id => {
@@ -50,11 +43,11 @@ column updated => {
 
 belongs_to 'user', 'DDGC::DB::Result::User', 'users_id';
 
-has_many 'token_screens', 'DDGC::DB::Result::Token::Screen', 'screen_id';
+belongs_to 'token_language', 'DDGC::DB::Result::Token::Language', 'token_language_id';
 
 use overload '""' => sub {
 	my $self = shift;
-	return 'Screen #'.$self->id;
+	return 'Token-Language-Translation #'.$self->id;
 }, fallback => 1;
 
 1;

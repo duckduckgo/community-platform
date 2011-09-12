@@ -60,6 +60,8 @@ column updated => {
 	set_on_update => 1,
 };
 
+has_many 'token_languages', 'DDGC::DB::Result::Token::Language', 'language_id';
+
 use overload '""' => sub {
 	my $self = shift;
 	return 'Language '.$self->name_in_english.' with locale '.$self->locale.' #'.$self->id;
