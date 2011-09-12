@@ -19,4 +19,4 @@
 		<td><b><@ c.user.username @>@<@ xmpp_userhost @></b></td>
 	</tr>
 </table>
-<a href="<@ u('My::Help','xmpp') @>"><@ l('Instructions for using the XMPP server') @></a>
+<a href="<@ u('Help','view','xmpp') @>"><@ l('Instructions for using the XMPP server') @></a>

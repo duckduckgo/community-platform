@@ -42,7 +42,6 @@ column updated => {
 };
 
 belongs_to 'user', 'DDGC::DB::Result::User', 'users_id';
-
 belongs_to 'token_language', 'DDGC::DB::Result::Token::Language', 'token_language_id';
 
 use overload '""' => sub {

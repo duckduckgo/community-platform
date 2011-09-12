@@ -43,6 +43,7 @@ column updated => {
 };
 
 has_many 'screens', 'DDGC::DB::Result::Screen', 'users_id';
+has_many 'token_language_translations', 'DDGC::DB::Result::Token::Language::Translation', 'users_id';
 
 use overload '""' => sub {
 	my $self = shift;

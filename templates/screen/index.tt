@@ -1,1 +1,0 @@
-<a href="<@ u('My::Help','screen') @>"><@ l('Instructions for uploading screenshots') @></a>

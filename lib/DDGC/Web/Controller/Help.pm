@@ -1,21 +1,15 @@
-package DDGC::Web::Controller::Screen;
+package DDGC::Web::Controller::Help;
 use Moose;
 use namespace::autoclean;
 
-use DDGC::Config;
-
 BEGIN {extends 'Catalyst::Controller'; }
 
-sub base :Chained('/base') :PathPart('screen') :CaptureArgs(0) {
+sub base :Chained('/base') :PathPart('help') :CaptureArgs(0) {
     my ( $self, $c ) = @_;
 }
 
 sub view :Chained('base') :PathPart('') :Args(1) {
     my ( $self, $c, $id ) = @_;
-	$c->stash->{screen} = $c->model('DB::Screen')->find({
-		id => $id,
-		deleted => 0,
-	});
 }
 
 sub do :Chained('base') :CaptureArgs(0) {
@@ -32,10 +26,6 @@ sub list :Chained('do') :Args(0) {
 		page => $page,
 		rows => 20,
 	})->all];
-}
-
-sub upload :Chained('do') :Args(0) {
-    my ( $self, $c ) = @_;
 }
 
 __PACKAGE__->meta->make_immutable;
