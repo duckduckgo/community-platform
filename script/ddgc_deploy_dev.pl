@@ -31,8 +31,6 @@ DDGC::Config::cachedir();
 
 copy(DDGC::Config::prosody_db_samplefile,DDGC::Config::rootdir) or die "Copy failed: $!";
 
-DDGC::Config::prosody_db_samplefile;
-
 eval {
 	exec $FindBin::Dir . "/ddgc_db_autoupgrade.pl";
 };

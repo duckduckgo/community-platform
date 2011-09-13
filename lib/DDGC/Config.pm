@@ -75,6 +75,12 @@ sub filesdir {
 	return File::Spec->rel2abs( $dir );
 }
 
+sub screen_filesdir {
+	my $dir = defined $ENV{'DDGC_FILESDIR_SCREEN'} ? $ENV{'DDGC_FILESDIR_SCREEN'} : filesdir().'/screens/';
+	make_path($dir) if !-d $dir;
+	return File::Spec->rel2abs( $dir );
+}
+
 sub cachedir {
 	my $dir = defined $ENV{'DDGC_CACHEDIR'} ? $ENV{'DDGC_CACHEDIR'} : rootdir().'/cache/';
 	make_path($dir) if !-d $dir;
