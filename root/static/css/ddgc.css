@@ -9,6 +9,13 @@ p {
 	padding: 10px;
 }
 
+.error {
+	padding: 10px;
+	background-color: red;
+	font-size: large;
+	font-weight: bold;	
+}
+
 .menu {
 	padding: 10px;
 	margin: 10px;
@@ -117,3 +124,13 @@ p {
 .welcome_entry {
 	padding: 10px;
 }
+
+/* my/...tt */
+
+.mybox {
+	background-color: lightblue;
+	padding: 10px;
+	margin-bottom: 10px;
+}
+
+

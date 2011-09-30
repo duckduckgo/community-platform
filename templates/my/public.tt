@@ -1,0 +1,20 @@
+<div class="public mybox">
+	<form action="<@ u('My','public') @>" method="post" name="publicform" id="publicform">
+		<div class="button" style="float:right"><a href="<@ u('Help','view','public') @>"><@ l('Informations about setting your profile public') @></a></div>
+		<@ IF wrong_captcha @>
+			<div class="error"><@ l('Captcha is wrong.') @></div>
+		<@ END @>
+		<div>
+			<img src="<@ u('Base','captcha') @>" alt="Captcha"/>
+		</div>
+		<div>
+			<label for="captcha"><@ l('Captcha') @></label>
+			<input type="text" name="captcha" id="captcha" />
+		</div>
+		<@ IF c.user.public @>
+			<input type="submit" value="<@ l('Hide your profile again') @>" name="hide_profile" />
+		<@ ELSE @>
+			<input type="submit" value="<@ l('Make your profile public') @>" name="show_profile" />
+		<@ END @>
+	</form>
+</div>

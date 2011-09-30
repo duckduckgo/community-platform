@@ -1,1 +1,3 @@
-<@ INCLUDE my/loginform.tt @>
+<div class="mybox">
+	<@ INCLUDE my/loginform.tt @>
+</div>

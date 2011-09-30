@@ -47,6 +47,28 @@ sub timeline :Chained('logged_in') :Args(0) {
     my ( $self, $c ) = @_;
 }
 
+sub public :Chained('logged_in') :Args(0) {
+    my ( $self, $c ) = @_;
+
+	return $c->detach if !($c->req->params->{hide_profile} || $c->req->params->{show_profile});
+	
+	if (!$c->validate_captcha($c->req->params->{captcha})) {
+		$c->stash->{wrong_captcha} = 1;
+		return $c->detach;
+	}
+
+	if ($c->req->params->{hide_profile}) {
+		$c->user->public(0);
+	} elsif ($c->req->params->{show_profile}) {
+		$c->user->public(1);
+	}
+	$c->user->update();
+
+	$c->response->redirect($c->chained_uri('My','account'));
+	return $c->detach;
+
+}
+
 sub forgotpw :Chained('logged_out') :Args(0) {
     my ( $self, $c ) = @_;
 }
@@ -54,7 +76,7 @@ sub forgotpw :Chained('logged_out') :Args(0) {
 sub login :Chained('logged_out') :Args(0) {
     my ( $self, $c ) = @_;
 
-	$c->stash->{no_login} = 1;
+	$c->stash->{no_userbox} = 1;
 	
 	if ( my $username = $c->req->params->{username} and my $password = $c->req->params->{password} ) {
 		if ($c->authenticate({

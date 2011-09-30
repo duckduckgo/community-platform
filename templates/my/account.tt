@@ -1,6 +1,7 @@
-<div class="account_information">
-	<div><@ l('Your XMPP/Jabber account') @></div>
-	<table class="account_data">
+<div class="account_information mybox">
+	<div class="button" style="float:right"><a href="<@ u('Help','view','xmpp') @>"><@ l('Instructions for using the XMPP/Jabber server') @></a></div>
+	<p><@ l('Your XMPP/Jabber account') @></p>
+	<p><table class="account_data">
 		<tr>
 			<td>Username</td>
 			<td><b><@ c.user.username @></b></td>
@@ -17,8 +18,15 @@
 			<td>XMPP/Jabber Address</td>
 			<td><b><@ c.user.username @>@<@ xmpp_userhost @></b></td>
 		</tr>
-	</table>
-	<div class="menu">
-		<span class="button"><a href="<@ u('Help','view','xmpp') @>"><@ l('Instructions for using the XMPP server') @></a></span>
-	</div>
+	</table></p>
+</div>
+<div class="public mybox">
+	<div class="button" style="float:right"><a href="<@ u('Help','view','public') @>"><@ l('Informations about setting your profile public') @></a></div>
+	<@ IF c.user.public @>
+		<p><@ l('Your profile is public visible') @></p>
+		<p><a href="<@ u('My','public') @>"><@ l('Hide your profile again') @></a></p>
+	<@ ELSE @>
+		<p><@ l('Your profile is not public visible so far') @></p>
+		<p><a href="<@ u('My','public') @>"><@ l('Make your profile public') @></a></p>
+	<@ END @>
 </div>

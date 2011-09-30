@@ -1,7 +1,6 @@
 package DDGC::User;
 
 use Moose;
-use MooseX::NonMoose;
 
 has username => (
 	isa => 'Str',
@@ -13,6 +12,12 @@ has db => (
 	isa => 'DDGC::DB::Result::User',
 	is => 'ro',
 	required => 1,
+	handles => [qw(
+		public
+		created
+		updated
+		update
+	)],
 );
 
 has prosody => (
@@ -32,9 +37,6 @@ has auth_realm => (
 );
 
 sub password { shift->prosody->{accounts}->{password} }
-sub public { shift->db->public(@_) }
-sub created { shift->db->created(@_) }
-sub updated { shift->db->updated(@_) }
 
 # For Catalyst
 sub supports {{}}
