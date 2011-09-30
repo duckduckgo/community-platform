@@ -6,6 +6,7 @@ BEGIN {extends 'Catalyst::Controller'; }
 
 sub base :Chained('/base') :PathPart('help') :CaptureArgs(0) {
     my ( $self, $c ) = @_;
+	push @{$c->stash->{template_layout}}, 'centered_content.tt';
 }
 
 sub view :Chained('base') :PathPart('') :Args(1) {

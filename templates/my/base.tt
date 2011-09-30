@@ -1,0 +1,7 @@
+<div class="menu">
+	<span class="button"><a href="<@ u('My','account') @>">Overview</a></span>
+	<span class="button"><a href="<@ u('My','apps') @>">Applications</a></span>
+</div>
+<div>
+	<@ PROCESS $LAYOUTS.shift @>
+</div>

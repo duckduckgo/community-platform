@@ -8,13 +8,13 @@
 				<@ INCLUDE header.tt @>
 				
 			</div>
-			<hr/>
-			<div id="nav">
-			
-				<@ INCLUDE nav.tt @>
-				
-			</div>
-			<hr/>
+			<@ IF headline_template @>
+				<div id="headline">
+
+					<@ INCLUDE headline.tt @>
+
+				</div>
+			<@ END @>
 			<div id="content">
 				<article>
 			
@@ -22,7 +22,6 @@
 				
 				</article>
 			</div>
-			<hr/>
 			<div id="footer">
 			
 				<@ INCLUDE footer.tt @>

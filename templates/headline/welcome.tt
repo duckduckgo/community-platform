@@ -1,0 +1,14 @@
+<div>
+	<@ l('Welcome to the DuckDuckGo community platform') @>
+</div>
+<div id="welcome_features">
+	<div class="feature_box feature_wide">
+		Feature
+	</div>
+	<div class="feature_box">
+		Feature
+	</div>
+	<div class="feature_box">
+		Feature
+	</div>
+</div>

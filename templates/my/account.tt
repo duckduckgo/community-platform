@@ -1,22 +1,24 @@
-<h1><@ l('Your account') @></h1>
-<hr/>
-<h2><@ l('Your XMPP/Jabber account') @></h2>
-<table class="account_data">
-	<tr>
-		<td>Username</td>
-		<td><b><@ c.user.username @></b></td>
-	</tr>
-	<tr>
-		<td>Domain</td>
-		<td><b><@ xmpp_userhost @></b></td>
-	</tr>
-	<tr>
-		<td>Resource</td>
-		<td><i><@ l('whatever you want') @></i></td>
-	</tr>
-	<tr>
-		<td>XMPP/Jabber Address</td>
-		<td><b><@ c.user.username @>@<@ xmpp_userhost @></b></td>
-	</tr>
-</table>
-<a href="<@ u('Help','view','xmpp') @>"><@ l('Instructions for using the XMPP server') @></a>
+<div class="account_information">
+	<div><@ l('Your XMPP/Jabber account') @></div>
+	<table class="account_data">
+		<tr>
+			<td>Username</td>
+			<td><b><@ c.user.username @></b></td>
+		</tr>
+		<tr>
+			<td>Domain</td>
+			<td><b><@ xmpp_userhost @></b></td>
+		</tr>
+		<tr>
+			<td>Resource</td>
+			<td><i><@ l('whatever you want') @></i></td>
+		</tr>
+		<tr>
+			<td>XMPP/Jabber Address</td>
+			<td><b><@ c.user.username @>@<@ xmpp_userhost @></b></td>
+		</tr>
+	</table>
+	<div class="menu">
+		<span class="button"><a href="<@ u('Help','view','xmpp') @>"><@ l('Instructions for using the XMPP server') @></a></span>
+	</div>
+</div>

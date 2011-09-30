@@ -44,8 +44,7 @@ __PACKAGE__->config(
 					password_type	=> 'clear',
 				},
 				store => {
-					class			=> '+DDGC::Web::Authentication::Store::Prosody',
-					userhost		=> DDGC::Config::prosody_userhost(),
+					class			=> '+DDGC::Web::Authentication::Store::DDGC',
 				},
 			},
 		},

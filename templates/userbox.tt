@@ -1,0 +1,17 @@
+<div id="userbox">
+	<div id="userbox_headline">
+		<@ IF c.user @>
+			<a href="<@ u('My','account') @>"><@ l('Welcome [_1]!',c.user.username) @></a>
+		<@ ELSE @>
+			<@ l('Login or register') @>
+		<@ END @>
+	</div>
+	<div id="userbox_content">
+		<@ IF c.user @>
+			<div><a href="<@ u('My','account') @>"><@ l('Your account') @></a></div>
+			<div><a href="<@ u('My','logout') @>"><@ l('Logout') @></a></div>
+		<@ ELSIF !no_login @>
+			<@ INCLUDE my/loginform.tt @>
+		<@ END @>
+	</div>
+</div>

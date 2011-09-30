@@ -8,6 +8,8 @@ BEGIN {extends 'Catalyst::Controller'; }
 
 sub base :Chained('/base') :PathPart('my') :CaptureArgs(0) {
     my ( $self, $c ) = @_;
+	$c->stash->{headline_template} = 'headline/my.tt';
+	push @{$c->stash->{template_layout}}, 'centered_content.tt';
 }
 
 sub logout :Chained('base') :Args(0) :Global {
@@ -22,6 +24,7 @@ sub logged_in :Chained('base') :PathPart('') :CaptureArgs(0) {
 		$c->response->redirect($c->uri_for($self->action_for("login")));
 		return $c->detach;
 	}
+	push @{$c->stash->{template_layout}}, 'my/base.tt';
 }
 
 sub logged_out :Chained('base') :PathPart('') :CaptureArgs(0) {
@@ -33,6 +36,14 @@ sub logged_out :Chained('base') :PathPart('') :CaptureArgs(0) {
 }
 
 sub account :Chained('logged_in') :Args(0) {
+    my ( $self, $c ) = @_;
+}
+
+sub apps :Chained('logged_in') :Args(0) {
+    my ( $self, $c ) = @_;
+}
+
+sub timeline :Chained('logged_in') :Args(0) {
     my ( $self, $c ) = @_;
 }
 
@@ -98,16 +109,15 @@ sub register :Chained('logged_out') :Args(0) {
 		$c->stash->{user_exist} = $username;
 		$error = 1;
 	} else {
-		$c->stash->{username} = $c->req->params->{username};
+		$c->stash->{username} = $username;
 	}
 	
 	return $c->detach if $error;
 
-	# CREATE TABLE `prosody` (`host` TEXT, `user` TEXT, `store` TEXT, `key` TEXT, `type` TEXT, `value` TEXT);
-	# INSERT INTO "prosody" VALUES('test.domain','testone','accounts','password','string','testpass');
+	my $prosody_user;
+	my $db_user;
 
-	my $user;
-	$user = $c->model('ProsodyDB::Prosody')->create({
+	$prosody_user = $c->model('ProsodyDB::Prosody')->create({
 		host => DDGC::Config::prosody_userhost(),
 		user => $username,
 		store => 'accounts',
@@ -115,8 +125,14 @@ sub register :Chained('logged_out') :Args(0) {
 		type => 'string',
 		value => $password,
 	});
-	
-	if (!$user) {
+
+	if ($prosody_user) {
+		$db_user = $c->model('DB::User')->create({
+			username => $username,
+		});
+	}
+
+	if (!$prosody_user || !$db_user) {
 		$c->stash->{register_failed} = 1;
 		return $c->detach;
 	}

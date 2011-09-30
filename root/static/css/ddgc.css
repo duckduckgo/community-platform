@@ -1,0 +1,119 @@
+/* UNIVERSAL */
+
+.centered_content {
+	margin: 0px auto;
+	width: 1024px;
+}
+
+p {
+	padding: 10px;
+}
+
+.menu {
+	padding: 10px;
+	margin: 10px;
+	font-size: large;
+	font-weight: bold;
+}
+
+.button {
+	padding: 10px;
+	background-color: lightgrey;
+}
+
+/* base.tt */
+
+#header {
+	background-color: lightblue;
+	padding: 10px;
+}
+
+#headline {
+	background-color: orange;
+	padding: 10px;
+	font-size: x-large;
+	font-weight: bold;
+}
+
+#headline_content {
+	margin: 10px auto;
+	width: 1024px;
+}
+
+#content {
+	background-color: yellow;
+	padding: 10px;
+}
+
+#footer {
+	background-color: pink;
+	padding: 10px;
+}
+
+#footer_content {
+	margin: 0px auto;
+	width: 1024px;
+}
+
+#userbox {
+	background-color: lightgrey;
+	padding: 10px;
+	float: right;
+}
+
+#userbox {
+	background-color: lightgrey;
+	padding: 10px;
+	float: right;
+}
+
+#userbox_headline {
+	background-color: yellow;
+	padding: 10px;
+}
+
+#userbox_content {
+	background-color: orange;
+	padding: 10px;
+}
+
+/* base/welcome.tt | headline/welcome.tt */
+
+.feature_box {
+	width: 250px;
+	height: 250px;
+	margin: 10px;
+	background-color: lightgrey;
+	float: left;
+	padding: 10px;
+}
+
+.feature_wide {
+	width: 400px;
+}
+
+#welcome_features {
+	height: 270px;
+}
+
+.welcome_cols {
+	width: 475px;
+	margin: 10px;
+	padding: 10px;
+	background-color: lightblue;
+}
+
+/* TODO: bad idea, requires that #welcome_left is always bigger than #welcome_right */
+#welcome_right {
+	float: right;
+}
+
+.welcome_headline {
+	padding: 10px;
+	font-size: large;
+	font-weight: bold;
+}
+
+.welcome_entry {
+	padding: 10px;
+}

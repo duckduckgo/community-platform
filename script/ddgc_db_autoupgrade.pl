@@ -10,13 +10,13 @@ use DDGC::DB;
 use SQL::Translator::Diff;
 use IO::All;
 
-use Getopt::Long;
+#use Getopt::Long;
 
-my $kill_database;
+#my $kill_database;
 
-GetOptions (
-	"kill-database"  => \$kill_database,
-);
+#GetOptions (
+#	"kill-database"  => \$kill_database,
+#);
 
 {
 	package DDGC::DBOld;

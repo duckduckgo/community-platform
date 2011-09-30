@@ -10,14 +10,15 @@ column id => {
 };
 primary_key 'id';
 
-column username => {
+unique_column username => {
 	data_type => 'text',
 	is_nullable => 0,
 };
 
-column profile_start => {
-	data_type => 'text',
-	is_nullable => 1,
+column public => {
+	data_type => 'int',
+	is_nullable => 0,
+	default_value => 0,
 };
 
 column data => {

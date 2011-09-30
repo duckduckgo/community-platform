@@ -35,6 +35,6 @@ ssh -t ddgcview@view.dukgo.com "(
 	mv ~/deploy-view ~/view &&
 	rm -rf ~/cache-view &&
 	mkdir ~/cache-view &&
-	### perl ~/view/script/ddgc_db_autoupgrade.pl &&
+	perl ~/view/script/ddgc_db_autoupgrade.pl &&
 	perl ~/view/script/ddgc_web_fastcgi.pl --listen ~/view.web.socket -d -p ~/view.web.pid
 )"
