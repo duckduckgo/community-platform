@@ -13,8 +13,7 @@ ssh -t ddgcview@view.dukgo.com "(
 	cd ~/deploy-view &&
 	tar xz --strip-components=1 -f $1 &&
 	rm $1 &&
-	cpanm --installdeps . &&
-	perl Makefile.PL && make test &&
+	cpanm -n --installdeps . &&
 	if [ -f ~/view.web.pid ]; then
 		OLDPID=\$( cat ~/view.web.pid )
 	fi &&
