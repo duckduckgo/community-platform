@@ -1,0 +1,9 @@
+<div class="mybox">
+
+	<@ FOREACH user IN users @>
+		<div>
+			#<@ user.id @> <@ user.username @> <@ IF user.public @>Public<@ END @> <@ IF user.admin @>Admin<@ END @>
+		</div>
+	<@ END @>
+
+</div>

@@ -1,3 +1,6 @@
+<div class="mybox">
+	<a href="<@ u('Base','welcome') @>">Go back to the welcome screen to see how you can help</a>
+</div>
 <div class="account_information mybox">
 	<div class="button" style="float:right"><a href="<@ u('Help','view','xmpp') @>"><@ l('Instructions for using the XMPP/Jabber server') @></a></div>
 	<p><@ l('Your XMPP/Jabber account') @></p>
@@ -29,4 +32,15 @@
 		<p><@ l('Your profile is not public visible so far') @></p>
 		<p><a href="<@ u('My','public') @>"><@ l('Make your profile public') @></a></p>
 	<@ END @>
+</div>
+<div class="languages mybox">
+	<div class="button" style="float:right"><a href="<@ u('Help','view','mylanguages') @>"><@ l('Informations') @></a></div>
+	<@ IF c.user.languages @>
+		<@ FOR user_language IN c.user.user_languages @>
+			<p><@ user_language.language.name_in_local @></p>
+		<@ END @>
+	<@ ELSE @>
+		<p><@ l('No languages defined for yourself') @></p>
+	<@ END @>
+	<p><a href="<@ u('My','languages') @>">Edit your languages</a></p>
 </div>

@@ -1,0 +1,9 @@
+<div>
+	Language name in english: <input type="text" size="80" name="language_<@ language.id || 0 @>_name_in_english" value="<@ language.name_in_english @>" />
+</div>
+<div>
+	Language name in the language: <input type="text" size="80" name="language_<@ language.id || 0 @>_name_in_local" value="<@ language.name_in_local @>" />
+</div>
+<div>
+	Locale: <input type="text" name="language_<@ language.id || 0 @>_locale" value="<@ language.locale @>" />
+</div>

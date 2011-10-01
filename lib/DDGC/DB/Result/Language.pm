@@ -35,7 +35,7 @@ column locale => {
 
 column flagicon => {
 	data_type => 'text',
-	is_nullable => 0,
+	is_nullable => 1,
 };
 
 column data => {
@@ -61,6 +61,7 @@ column updated => {
 };
 
 has_many 'token_languages', 'DDGC::DB::Result::Token::Language', 'language_id';
+has_many 'user_languages', 'DDGC::DB::Result::User::Language', 'language_id';
 
 use overload '""' => sub {
 	my $self = shift;

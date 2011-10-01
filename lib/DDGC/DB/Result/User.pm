@@ -21,6 +21,12 @@ column public => {
 	default_value => 0,
 };
 
+column admin => {
+	data_type => 'int',
+	is_nullable => 0,
+	default_value => 0,
+};
+
 column data => {
 	data_type => 'text',
 	is_nullable => 1,
@@ -43,8 +49,9 @@ column updated => {
 	set_on_update => 1,
 };
 
-has_many 'screens', 'DDGC::DB::Result::Screen', 'users_id';
-has_many 'token_language_translations', 'DDGC::DB::Result::Token::Language::Translation', 'users_id';
+has_many 'screens', 'DDGC::DB::Result::Screen', { 'foreign.username' => 'self.username' };
+has_many 'token_language_translations', 'DDGC::DB::Result::Token::Language::Translation', { 'foreign.username' => 'self.username' };
+has_many 'user_languages', 'DDGC::DB::Result::User::Language', { 'foreign.username' => 'self.username' };
 
 use overload '""' => sub {
 	my $self = shift;

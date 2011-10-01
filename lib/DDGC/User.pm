@@ -17,6 +17,10 @@ has db => (
 		created
 		updated
 		update
+		admin
+		user_languages
+		screens
+		token_language_translations
 	)],
 );
 

@@ -39,6 +39,17 @@ sub account :Chained('logged_in') :Args(0) {
     my ( $self, $c ) = @_;
 }
 
+sub languages :Chained('logged_in') :Args(0) {
+    my ( $self, $c ) = @_;
+	$c->stash->{languages} = [$c->model('DB::Language')->search({})->all];
+	if ($c->req->params->{add_user_language}) {
+		$c->user->db->create_related('user_languages',{
+			grade => $c->req->params->{grade},
+			language_id => $c->req->params->{language_id},
+		});
+	}
+}
+
 sub apps :Chained('logged_in') :Args(0) {
     my ( $self, $c ) = @_;
 }

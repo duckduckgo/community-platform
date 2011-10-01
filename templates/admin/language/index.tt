@@ -1,0 +1,15 @@
+<form action="<@ u('Admin::Language','index') @>" method="post" name="languagesform" id="languagesform">
+	<div class="mybox">
+		<@ FOREACH list_language IN languages @>
+			<p>#<@ list_language.id @></p>
+			<@ INCLUDE admin/language/form.tt language=list_language @>
+			<p><input type="submit" value="Delete" name="language_<@ list_language.id @>_delete" /></p>
+		<@ END @>
+	</div>
+	<div class="mybox">
+		<@ INCLUDE admin/language/form.tt @>
+		<div>
+			<input type="submit" value="Save languages" name="save_languages" />
+		</div>
+	</div>
+</form>

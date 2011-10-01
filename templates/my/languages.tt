@@ -1,0 +1,31 @@
+<form action="<@ u('My','languages') @>" method="post" name="mylanguagesform" id="mylanguagesform">
+	<@ FOREACH user_language IN c.user.user_languages @>
+		<div class="mybox">
+			<p>Language: <@ user_language.language.name_in_local @></p>
+			<p>Grade: <@ user_language.grade @></p>
+			<input type="submit" value="Delete Entry" name="user_language_<@ user_language.id @>_delete" />
+		</div>
+	<@ END @>
+	<div class="mybox">
+		<p>
+			<select name="language_id">
+				<@ FOREACH list_language IN languages @>
+					<option value="<@ list_language.id @>"><@ list_language.name_in_local @></option>
+				<@ END @>
+			</select>
+		</p>
+		<p>
+			<select name="grade">
+				<option value="1">1 - basic ability - enough to understand written material or simple questions in this language</option>
+				<option value="2">2 - intermediate ability - enough for editing or discussions</option>
+				<option value="3">3 - advanced level - though you can write in this language with no problem, some small errors might occur</option>
+				<option value="4">4 - 'near-native' level - although it's not your first language from birth, your ability is something like that of a native speaker</option>
+				<option value="5">5 - native - you have been grown up with this language in your environment</option>
+				<option value="6">6 - professional proficiency - you are earning your money with work in this language (like writer, translator, ...)</option>
+			</select>			
+		</p>
+		<p>
+			<input type="submit" value="Add Language" name="add_user_language" />
+		</p>
+	</div>
+</form>
