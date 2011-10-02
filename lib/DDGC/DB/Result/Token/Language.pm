@@ -20,6 +20,11 @@ column language_id => {
 	is_nullable => 0,
 };
 
+column notes => {
+	data_type => 'text',
+	is_nullable => 1,
+};
+
 column created => {
 	data_type => 'timestamp with time zone',
 	set_on_create => 1,

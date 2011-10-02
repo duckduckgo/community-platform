@@ -3,6 +3,7 @@ use Moose;
 use namespace::autoclean;
 
 use DDGC::Config;
+use DDGC::User;
 
 BEGIN {extends 'Catalyst::Controller'; }
 
@@ -107,14 +108,14 @@ sub register :Chained('logged_out') :Args(0) {
 	$c->stash->{no_login} = 1;
 
 	return $c->detach if !$c->req->params->{register};
-	
+
 	if (!$c->validate_captcha($c->req->params->{captcha})) {
 		$c->stash->{wrong_captcha} = 1;
 		return $c->detach;
 	}
 
 	my $error = 0;
-	
+
 	if ($c->req->params->{repeat_password} ne $c->req->params->{password}) {
 		$c->stash->{password_different} = 1;
 		$error = 1;
@@ -133,39 +134,18 @@ sub register :Chained('logged_out') :Args(0) {
 	my $username = $c->req->params->{username};
 	my $password = $c->req->params->{password};
 
-	my $count = $c->model('ProsodyDB::Prosody')->search({
-		host => DDGC::Config::prosody_userhost(),
-		user => $username,
-	})->count;
-	
-	if ($count > 0) {
+	my %xmpp = $c->model('DDGC')->xmpp->user($username);
+
+	if (%xmpp) {
 		$c->stash->{user_exist} = $username;
 		$error = 1;
 	} else {
 		$c->stash->{username} = $username;
 	}
-	
+
 	return $c->detach if $error;
 
-	my $prosody_user;
-	my $db_user;
-
-	$prosody_user = $c->model('ProsodyDB::Prosody')->create({
-		host => DDGC::Config::prosody_userhost(),
-		user => $username,
-		store => 'accounts',
-		key => 'password',
-		type => 'string',
-		value => $password,
-	});
-
-	if ($prosody_user) {
-		$db_user = $c->model('DB::User')->create({
-			username => $username,
-		});
-	}
-
-	if (!$prosody_user || !$db_user) {
+	if (!DDGC::User->create($username,$password)) {
 		$c->stash->{register_failed} = 1;
 		return $c->detach;
 	}

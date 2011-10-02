@@ -15,6 +15,12 @@ column translation => {
 	is_nullable => 0,
 };
 
+column data => {
+	data_type => 'text',
+	is_nullable => 1,
+	serializer_class => 'YAML',
+};
+
 column notes => {
 	data_type => 'text',
 	is_nullable => 1,

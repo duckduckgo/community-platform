@@ -1,6 +1,8 @@
 package DDGC::User;
 
 use Moose;
+use DDGC::XMPP;
+use DDGC::DB;
 
 has username => (
 	isa => 'Str',
@@ -24,11 +26,73 @@ has db => (
 	)],
 );
 
-has prosody => (
+sub password { shift->xmpp->{accounts}->{password} }
+
+has xmpp => (
 	isa => 'HashRef',
 	is => 'ro',
 	required => 1,
 );
+
+sub create {
+	my ( $class, $username, $password ) = @_;
+	
+	return unless $username and $password;
+	
+	my %xmpp_user_find = DDGC::XMPP->new->user($username);
+	
+	die "user exists" if %xmpp_user_find;
+	
+	my $prosody_user;
+	my $db_user;
+
+	$prosody_user = DDGC::XMPP->new->_prosody->_db->resultset('Prosody')->create({
+		host => DDGC::Config::prosody_userhost(),
+		user => $username,
+		store => 'accounts',
+		key => 'password',
+		type => 'string',
+		value => $password,
+	});
+
+	if ($prosody_user) {
+		$db_user = DDGC::DB->connect->resultset('User')->create({
+			username => $username,
+			notes => 'Created account',
+		});
+	}
+
+	return unless $db_user;
+	
+	my %xmpp_user = DDGC::XMPP->new->user($username);
+	
+	return $class->new({
+		username => $username,
+		db => $db_user,
+		xmpp => \%xmpp_user,
+	});
+}
+
+sub find {
+	my ( $class, $username ) = @_;
+
+	return unless $username;
+
+	my %xmpp_user = DDGC::XMPP->new->user($username);
+
+	return unless %xmpp_user;
+
+	my $db_user = DDGC::DB->connect->resultset('User')->find_or_create({
+		username => $username,
+		notes => 'Generated automatically based on prosody account',
+	});
+
+	return $class->new({
+		username => $username,
+		db => $db_user,
+		xmpp => \%xmpp_user,
+	});
+}
 
 # Store given by Catalyst
 has store => (
@@ -39,8 +103,6 @@ has store => (
 has auth_realm => (
 	is => 'rw',
 );
-
-sub password { shift->prosody->{accounts}->{password} }
 
 # For Catalyst
 sub supports {{}}
