@@ -27,7 +27,7 @@ __PACKAGE__->config(
     name => 'DDGC::Web',
     disable_component_resolution_regex_fallback => 1,
 	default_view => 'TT::Layouts',
-	encoding => 'UTF-8',
+	encoding => 'utf8',
 	static => {
 		dirs => [
 			'root'

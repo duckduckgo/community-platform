@@ -121,7 +121,7 @@ sub add_users {
 	$testone->admin(1);
 	$testone->notes('Testuser, admin');
 	$testone->create_related('user_languages',{
-		language_id => $self->c->{languages}->{'de'},
+		language_id => $self->c->{languages}->{'de'}->id,
 		grade => 5,
 	});
 	$testone->update;
@@ -133,7 +133,7 @@ sub add_users {
 		$user->$_($data->{$_}) for (keys %{$data});
 		for (keys %{$languages}) {
 			$user->create_related('user_languages',{
-				language_id => $self->c->{languages}->{$_},
+				language_id => $self->c->{languages}->{$_}->id,
 				grade => $languages->{$_},
 			});
 		}
