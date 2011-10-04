@@ -16,7 +16,7 @@ __PACKAGE__->config(
 	],
 	PLUGIN_BASE => 'DDGC::Web::Template',
 	PRE_PROCESS => 'macros.tt',
-	ENCODING => 'utf-8',
+	ENCODING => 'utf8',
 	COMPILE_DIR => "/tmp/sycontent_web_template_cache_$<",
 	STASH => Template::Stash::XS->new,
 	RECURSION => 1,

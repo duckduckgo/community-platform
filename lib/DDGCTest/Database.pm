@@ -1,4 +1,4 @@
-package DDGCTest::Database;
+ï»¿package DDGCTest::Database;
 
 use Moose;
 use DDGC::DB;
@@ -69,7 +69,7 @@ sub languages {{
 	},
 	'es' => {
 		name_in_english => 'Spanish of Spain',
-		name_in_local => 'Español de España',
+		name_in_local => 'EspaÃ±ol de EspaÃ±a',
 		locale => 'es_ES',
 	},
 }}

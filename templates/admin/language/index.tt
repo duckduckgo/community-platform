@@ -1,4 +1,4 @@
-<form action="<@ u('Admin::Language','index') @>" method="post" name="languagesform" id="languagesform">
+﻿<form action="<@ u('Admin::Language','index') @>" method="post" name="languagesform" id="languagesform">
 	<div class="mybox">
 		<@ FOREACH list_language IN languages @>
 			<p>#<@ list_language.id @></p>
