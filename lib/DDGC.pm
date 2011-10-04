@@ -4,6 +4,7 @@ package DDGC;
 use Moose;
 use DDGC::Config;
 use DDGC::DB;
+use DDGC::User;
 use File::Copy;
 
 # TESTING AND DEVELOPMENT, NOT FOR PRODUCTION
@@ -32,5 +33,66 @@ has xmpp => (
 	lazy_build => 1,
 );
 sub _build_xmpp { DDGC::XMPP->new }
+
+
+sub create_user {
+	my ( $self, $username, $password ) = @_;
+	
+	return unless $username and $password;
+	
+	my %xmpp_user_find = $self->xmpp->user($username);
+	
+	die "user exists" if %xmpp_user_find;
+	
+	my $prosody_user;
+	my $db_user;
+
+	$prosody_user = $self->xmpp->_prosody->_db->resultset('Prosody')->create({
+		host => DDGC::Config::prosody_userhost(),
+		user => $username,
+		store => 'accounts',
+		key => 'password',
+		type => 'string',
+		value => $password,
+	});
+
+	if ($prosody_user) {
+		$db_user = $self->db->resultset('User')->create({
+			username => $username,
+			notes => 'Created account',
+		});
+	}
+
+	return unless $db_user;
+	
+	my %xmpp_user = $self->xmpp->user($username);
+	
+	return DDGC::User->new({
+		username => $username,
+		db => $db_user,
+		xmpp => \%xmpp_user,
+	});
+}
+
+sub find_user {
+	my ( $self, $username ) = @_;
+
+	return unless $username;
+
+	my %xmpp_user = $self->xmpp->user($username);
+
+	return unless %xmpp_user;
+
+	my $db_user = $self->db->resultset('User')->find_or_create({
+		username => $username,
+		notes => 'Generated automatically based on prosody account',
+	});
+
+	return DDGC::User->new({
+		username => $username,
+		db => $db_user,
+		xmpp => \%xmpp_user,
+	});
+}
 
 1;

@@ -22,6 +22,7 @@ sub index :Chained('base') :PathPart('') :Args(0) {
 			for (@keys) {
 				$l->$_($c->req->params->{$p.$_}) if $c->req->params->{$p.$_};
 			}
+			$l->update;
 		}
 	}
 	my %new;

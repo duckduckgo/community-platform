@@ -9,6 +9,7 @@ use strict;
 use warnings;
 
 use DDGC;
+use DDGCTest::Database;
 use File::Path qw( make_path remove_tree );
 
 use Getopt::Long;
@@ -23,4 +24,4 @@ if (-d DDGC::Config::rootdir_path) {
 	$kill ? remove_tree(DDGC::Config::rootdir_path) : die "environment exist, use --kill to kill it!"
 }
 
-DDGC->new->deploy_fresh;
+DDGCTest::Database->new(DDGC->new)->deploy;

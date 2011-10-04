@@ -64,8 +64,8 @@ sub db_params {
 	if (db_dsn =~ m/:SQLite:/) {
 		$vars{sqlite_unicode} = 1;
 	} elsif (db_dsn =~ m/:Pg:/) {
-		$vars{pg_enable_utf8} = 1,
-	};
+		$vars{pg_enable_utf8} = 1;
+	}
 	return \%vars;
 }
 

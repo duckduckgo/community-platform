@@ -145,7 +145,7 @@ sub register :Chained('logged_out') :Args(0) {
 
 	return $c->detach if $error;
 
-	if (!DDGC::User->create($username,$password)) {
+	if (!$c->model('DDGC')->create_user($username,$password)) {
 		$c->stash->{register_failed} = 1;
 		return $c->detach;
 	}

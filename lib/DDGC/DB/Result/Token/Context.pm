@@ -38,10 +38,11 @@ column updated => {
 };
 
 has_many 'tokens', 'DDGC::DB::Result::Token', 'token_context_id';
+has_many 'token_context_languages', 'DDGC::DB::Result::Token::Context::Language', 'token_context_id';
 
 use overload '""' => sub {
 	my $self = shift;
-	return 'Token Context '.$self->name.' #'.$self->id;
+	return 'Token-Context '.$self->name.' #'.$self->id;
 }, fallback => 1;
 
 1;

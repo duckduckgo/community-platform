@@ -39,7 +39,7 @@ sub find_user {
 	
 	return unless $username;
 	
-	return DDGC::User->find($username);
+	return $self->c->model('DDGC')->find_user($username);
 }
 
 sub get_user {

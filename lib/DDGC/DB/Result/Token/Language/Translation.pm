@@ -31,6 +31,11 @@ column token_language_id => {
 	is_nullable => 0,
 };
 
+column takenfrom_token_language_translation_id => {
+	data_type => 'bigint',
+	is_nullable => 1,
+};
+
 # column users_id => {
 	# data_type => 'bigint',
 	# is_nullable => 0,
@@ -55,6 +60,7 @@ column updated => {
 #belongs_to 'user', 'DDGC::DB::Result::User', 'users_id';
 belongs_to 'user', 'DDGC::DB::Result::User', { 'foreign.username' => 'self.username' };
 belongs_to 'token_language', 'DDGC::DB::Result::Token::Language', 'token_language_id';
+belongs_to 'takenfrom', 'DDGC::DB::Result::Token::Language::Translation', 'takenfrom_token_language_translation_id';
 
 use overload '""' => sub {
 	my $self = shift;
