@@ -1,4 +1,4 @@
-﻿package DDGCTest::Database;
+package DDGCTest::Database;
 
 use Moose;
 use DDGC::DB;
