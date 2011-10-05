@@ -68,18 +68,28 @@ p {
 	float: right;
 }
 
-#userbox {
-	background-color: lightgrey;
-	padding: 10px;
-	float: right;
-}
-
 #userbox_headline {
 	background-color: yellow;
 	padding: 10px;
 }
 
 #userbox_content {
+	background-color: orange;
+	padding: 10px;
+}
+
+#languagebox {
+	background-color: lightgrey;
+	padding: 10px;
+	float: right;
+}
+
+#languagebox_headline {
+	background-color: yellow;
+	padding: 10px;
+}
+
+#languagebox_content {
 	background-color: orange;
 	padding: 10px;
 }

@@ -16,7 +16,7 @@ primary_key 'id';
 #
 
 # German in Germany
-column name_in_english => {
+unique_column name_in_english => {
 	data_type => 'text',
 	is_nullable => 0,
 };
@@ -28,7 +28,7 @@ column name_in_local => {
 };
 
 # de_DE
-column locale => {
+unique_column locale => {
 	data_type => 'text',
 	is_nullable => 0,
 };
@@ -63,6 +63,8 @@ column updated => {
 has_many 'token_languages', 'DDGC::DB::Result::Token::Language', 'language_id';
 has_many 'user_languages', 'DDGC::DB::Result::User::Language', 'language_id';
 has_many 'token_contexts', 'DDGC::DB::Result::Token::Context', 'source_language_id';
+
+many_to_many 'users', 'user_languages', 'user';
 
 use overload '""' => sub {
 	my $self = shift;

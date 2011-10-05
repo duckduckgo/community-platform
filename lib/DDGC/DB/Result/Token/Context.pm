@@ -10,6 +10,11 @@ column id => {
 };
 primary_key 'id';
 
+unique_column key => {
+	data_type => 'text',
+	is_nullable => 0,
+};
+
 column name => {
 	data_type => 'text',
 	is_nullable => 0,
@@ -51,6 +56,8 @@ has_many 'tokens', 'DDGC::DB::Result::Token', 'token_context_id';
 has_many 'token_context_languages', 'DDGC::DB::Result::Token::Context::Language', 'token_context_id';
 
 belongs_to 'source_language', 'DDGC::DB::Result::Language', 'source_language_id';
+
+many_to_many 'languages', 'token_context_languages', 'language';
 
 use overload '""' => sub {
 	my $self = shift;

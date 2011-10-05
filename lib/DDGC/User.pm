@@ -15,6 +15,7 @@ has db => (
 	is => 'ro',
 	required => 1,
 	handles => [qw(
+		id
 		public
 		created
 		updated
@@ -31,6 +32,21 @@ has db => (
 );
 
 sub password { shift->xmpp->{accounts}->{password} }
+
+has locales => (
+	isa => 'HashRef[DDGC::DB::Result::User::Language]',
+	is => 'ro',
+	lazy_build => 1,
+);
+
+sub _build_locales {
+	my ( $self ) = @_;
+	my %locs;
+	for ($self->db->search_related('user_languages',{},{ prefetch => 'language' })->all) {
+		$locs{$_->language->locale} = $_;
+	}
+	return \%locs;
+}
 
 has xmpp => (
 	isa => 'HashRef',

@@ -138,6 +138,10 @@ sub add_users {
 		language_id => $self->c->{languages}->{'de'}->id,
 		grade => 5,
 	});
+	$testone->create_related('user_languages',{
+		language_id => $self->c->{languages}->{'us'}->id,
+		grade => 3,
+	});
 	$testone->update;
 	for (keys %{$self->users}) {
 		my $data = $self->users->{$_};
@@ -169,7 +173,8 @@ sub add_users {
 #  \__\___/|_|\_\___|_| |_|  \___\___/|_| |_|\__\___/_/\_\\__|
 
 sub token_contexts {{
-	'DuckDuckGo Results' => {
+	'duckduckgo-results' => {
+		name => 'DuckDuckGo Results',
 		base => 'us',
 		description => 'Snippets around the Resultpage of DuckDuckGo',
 		languages => [qw( us de es br )],
@@ -242,7 +247,8 @@ sub token_contexts {{
 		tokens => [
 		],
 	},
-	'DuckDuckGo Homepage' => {
+	'duckduckgo-homepage' => {
+		name => 'DuckDuckGo Homepage',
 		base => 'us',
 		description => 'Snippets around the Homepage of DuckDuckGo',
 		languages => [qw( us de es br )],
@@ -262,7 +268,7 @@ sub add_token_contexts {
 		my $languages = delete $data->{languages};
 		my $snippets = delete $data->{snippets};
 		my $tokens = delete $data->{tokens};
-		$data->{name} = $_;
+		$data->{key} = $_;
 		$data->{source_language_id} = $self->c->{languages}->{$base}->id;
 		my $tc = $rs->create($data);
 		for (@{$languages}) {

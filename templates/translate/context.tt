@@ -1,5 +1,25 @@
-<form action="<@ u('Translate','context',token_context.id) @>" method="post" name="translatecontextform" id="translatecontextform">
+<form action="<@ u('Translate','context',token_context.key) @>" method="post" name="translatecontextform" id="translatecontextform">
 	<div class="mybox">
+		<div id="languagebox" style="float:right">
+			<div id="languagebox_headline">
+				<@ l('Current language') @>:
+				<@ language.name_in_english @>
+			</div>
+			<div id="languagebox_content">
+				<@ FOR loc IN locales.values @>
+					<p>
+						<@ loc.l.name_in_english @>
+						<@ IF language.locale != loc.l.locale @>
+							<a href="<@ u('Translate','context',token_context.key,{ locale => loc.l.locale }) @>">
+								<@ IF loc.u @><@ l('You can speak this language') @><@ ELSE @><@ l('You can\'t speak this language') @><@ END @>
+							</a>
+						<@ ELSE @>
+							<@ IF loc.u @><@ l('You can speak this language') @><@ ELSE @><@ l('You can\'t speak this language') @><@ END @>
+						<@ END @>
+					</p>
+				<@ END @>
+			</div>
+		</div>
 		<div>
 			<@ token_context.name @> 
 			<@ l('Page') @>: 
@@ -14,6 +34,6 @@
 		</div>
 	<@ END @>
 	<div class="mybox">
-		<@ INCLUDE pager.tt pager=tokens.pager url=u('Translate','context',token_context.id,{ page => 'PAGE_NO' }) @>
+		<@ INCLUDE pager.tt pager=tokens.pager url=u('Translate','context',token_context.key,{ page => 'PAGE_NO' }) @>
 	</div>
 </form>

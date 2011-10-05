@@ -53,6 +53,8 @@ has_many 'screens', 'DDGC::DB::Result::Screen', { 'foreign.username' => 'self.us
 has_many 'token_language_translations', 'DDGC::DB::Result::Token::Language::Translation', { 'foreign.username' => 'self.username' };
 has_many 'user_languages', 'DDGC::DB::Result::User::Language', { 'foreign.username' => 'self.username' };
 
+many_to_many 'languages', 'user_languages', 'language';
+
 use overload '""' => sub {
 	my $self = shift;
 	return 'User '.$self->username.' #'.$self->id;
