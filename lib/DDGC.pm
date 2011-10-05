@@ -34,6 +34,8 @@ has xmpp => (
 );
 sub _build_xmpp { DDGC::XMPP->new }
 
+sub resultset { shift->db->resultset(@_) }
+sub rs { shift->resultset(@_) }
 
 sub create_user {
 	my ( $self, $username, $password ) = @_;

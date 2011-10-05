@@ -62,6 +62,7 @@ column updated => {
 
 has_many 'token_languages', 'DDGC::DB::Result::Token::Language', 'language_id';
 has_many 'user_languages', 'DDGC::DB::Result::User::Language', 'language_id';
+has_many 'token_contexts', 'DDGC::DB::Result::Token::Context', 'source_language_id';
 
 use overload '""' => sub {
 	my $self = shift;

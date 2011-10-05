@@ -10,7 +10,7 @@ column id => {
 };
 primary_key 'id';
 
-column token => {
+column name => {
 	data_type => 'text',
 	is_nullable => 0,
 };

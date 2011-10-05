@@ -82,6 +82,12 @@ sub localize {
 	return join('|',@_);
 }
 
+sub d {
+	my ( $c, @args ) = @_;
+	return $c->model('DDGC') if !@args;
+	return $c->model('DDGC::'.join('::',@args));
+}
+
 # Start the application
 __PACKAGE__->setup();
 

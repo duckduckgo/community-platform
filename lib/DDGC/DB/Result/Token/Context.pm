@@ -15,10 +15,20 @@ column name => {
 	is_nullable => 0,
 };
 
+column description => {
+	data_type => 'text',
+	is_nullable => 1,
+};
+
 column data => {
 	data_type => 'text',
 	is_nullable => 1,
 	serializer_class => 'YAML',
+};
+
+column source_language_id => {
+	data_type => 'int',
+	is_nullable => 0,
 };
 
 column notes => {
@@ -39,6 +49,8 @@ column updated => {
 
 has_many 'tokens', 'DDGC::DB::Result::Token', 'token_context_id';
 has_many 'token_context_languages', 'DDGC::DB::Result::Token::Context::Language', 'token_context_id';
+
+belongs_to 'source_language', 'DDGC::DB::Result::Language', 'source_language_id';
 
 use overload '""' => sub {
 	my $self = shift;

@@ -1,0 +1,22 @@
+<form action="<@ u('Translate','context',token_context.id) @>" method="post" name="translatecontextform" id="translatecontextform">
+	<div class="mybox">
+		<div>
+			<option value="<@ page @>" name="page" id="page" />
+			<@ token_context.name @> 
+			<@ l('Page') @>: <@ page @>
+			<@ l('Pagesize') @>: 
+			<select name="pagesize" id="pagesize">
+				<@ FOR pagesize_option IN pagesize_options @>
+					<option value="<@ pagesize_option @>"<@ IF pagesize_option == pagesize @> selected="selected"<@ END @>><@ pagesize_option @></option>
+				<@ END @>
+			</select>
+		</div>
+	</div>
+	<@ FOR token IN tokens.all @>
+		<div class="mybox">
+			<@ token.name @>
+		</div>
+	<@ END @>
+	<div class="mybox">
+	</div>
+</form>

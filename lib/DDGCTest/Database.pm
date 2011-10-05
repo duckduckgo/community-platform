@@ -1,4 +1,8 @@
 package DDGCTest::Database;
+#
+# BE SURE YOU SAVE THIS FILE AS UTF-8 WITHOUT BYTE ORDER MARK (BOM)
+#
+######################################################################
 
 use Moose;
 use DDGC::DB;
@@ -13,6 +17,8 @@ has _ddgc => (
 sub d { shift->_ddgc(@_) }
 
 sub db { shift->_ddgc->db(@_) }
+
+sub xmpp { shift->_ddgc->xmpp(@_) }
 
 has test => (
 	is => 'ro',
@@ -44,11 +50,13 @@ sub deploy {
 	$self->d->deploy_fresh;
 	$self->add_languages;
 	$self->add_users;
+	$self->add_token_contexts;
 }
 
 sub isa_ok { ::isa_ok(@_) if shift->test }
 sub is { ::is(@_) if shift->test }
 
+#####################################################
 #  _
 # | | __ _ _ __   __ _ _   _  __ _  __ _  ___  ___
 # | |/ _` | '_ \ / _` | | | |/ _` |/ _` |/ _ \/ __|
@@ -72,6 +80,11 @@ sub languages {{
 		name_in_local => 'Español de España',
 		locale => 'es_ES',
 	},
+	'br' => {
+		name_in_english => 'Portuguese of Brazil',
+		name_in_local => 'Português do Brasil',
+		locale => 'pt_BR',
+	},
 }}
 
 sub add_languages {
@@ -80,6 +93,7 @@ sub add_languages {
 	$self->c->{languages}->{$_} = $rs->create($self->languages->{$_}) for (keys %{$self->languages});
 }
 
+#############################
 #  _   _ ___  ___ _ __ ___
 # | | | / __|/ _ \ '__/ __|
 # | |_| \__ \  __/ |  \__ \
@@ -147,4 +161,133 @@ sub add_users {
 	}
 }
 
+################################################################
+#  _        _                                _            _
+# | |_ ___ | | _____ _ __     ___ ___  _ __ | |_ _____  _| |_
+# | __/ _ \| |/ / _ \ '_ \   / __/ _ \| '_ \| __/ _ \ \/ / __|
+# | || (_) |   <  __/ | | | | (_| (_) | | | | ||  __/>  <| |_
+#  \__\___/|_|\_\___|_| |_|  \___\___/|_| |_|\__\___/_/\_\\__|
+
+sub token_contexts {{
+	'DuckDuckGo Results' => {
+		base => 'us',
+		description => 'Snippets around the Resultpage of DuckDuckGo',
+		languages => [qw( us de es br )],
+		snippets => [
+			'try',
+			'vehicle info',
+			'map',
+			'search',
+			'try search on',
+			'searches',
+			'uses our',
+			'using our',
+			'syntax',
+			'more at',
+			'more',
+			'top',
+			'official site',
+			'random password',
+			'random number',
+			'random',
+			'entry in',
+			'web links',
+			'try web links',
+			'can mean different things',
+			'click what you meant by',
+			'meanings',
+			'some meanings',
+			'more meanings',
+			'dictionary',
+			'shipment tracking',
+			'try to go there',
+			'is a parked domain (last time we checked)',
+			'is an area code in',
+			'is a zip code in',
+			'is a phone number in',
+			'reverse search',
+			'pay',
+			'free',
+			'uses results from',
+			'results from',
+			'no right topic?',
+			'some topics grouped into',
+			'more topics',
+			'topics',
+			'grouped into sections',
+			'and',
+			'more links',
+			'related topics',
+			'more related topics',
+			'at',
+			'ignore this box please',
+			'put search terms here',
+			'settings',
+			'goodies',
+			'spread',
+			'add to',
+			'from any region',
+			'I\'m feeling ducky',
+			'sort by date',
+			'popular',
+			'programming',
+			'images',
+			'news',
+			'zero-click info',
+			'this page requires',
+			'get the non-JS version',
+			'here',
+			'category',
+		],
+		tokens => [
+		],
+	},
+	'DuckDuckGo Homepage' => {
+		base => 'us',
+		description => 'Snippets around the Homepage of DuckDuckGo',
+		languages => [qw( us de es br )],
+		snippets => [
+		],
+		tokens => [
+		],
+	},
+}}
+
+sub add_token_contexts {
+	my ( $self ) = @_;
+	my $rs = $self->db->resultset('Token::Context');
+	for (keys %{$self->token_contexts}) {
+		my $data = $self->token_contexts->{$_};
+		my $base = delete $data->{base};
+		my $languages = delete $data->{languages};
+		my $snippets = delete $data->{snippets};
+		my $tokens = delete $data->{tokens};
+		$data->{name} = $_;
+		$data->{source_language_id} = $self->c->{languages}->{$base}->id;
+		my $tc = $rs->create($data);
+		for (@{$languages}) {
+			$tc->create_related('token_context_languages',{
+				language_id => $self->c->{languages}->{$_}->id,
+			});
+		}
+		for (@{$snippets}) {
+			$tc->create_related('tokens',{
+				name => $_,
+				snippet => 1,
+			});
+		}
+		for (@{$tokens}) {
+			$tc->create_related('tokens',{
+				name => $_,
+				snippet => 0,
+			});
+		}
+	}
+}
+
 1;
+
+
+
+
+

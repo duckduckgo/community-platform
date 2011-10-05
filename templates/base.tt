@@ -18,7 +18,7 @@
 			<div id="content">
 				<article>
 			
-				<@ PROCESS $LAYOUTS.shift @>
+					<@ PROCESS $LAYOUTS.shift @>
 				
 				</article>
 			</div>
