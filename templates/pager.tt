@@ -1,0 +1,7 @@
+<div style="text-align:center">
+<@ INCLUDE pager/entry.tt no_string="<<" no=pager.previous_page @> |
+<@ FOR no IN [ 1..pager.last_page ] @>
+	<@ INCLUDE pager/entry.tt @> |
+<@ END @>
+<@ INCLUDE pager/entry.tt no_string=">>" no=pager.next_page @>
+</div>

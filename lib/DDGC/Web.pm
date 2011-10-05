@@ -88,6 +88,24 @@ sub d {
 	return $c->model('DDGC::'.join('::',@args));
 }
 
+sub pager_init {
+	my ( $c, $key, $default_pagesize ) = @_;
+	$default_pagesize = 20 if !$default_pagesize;
+	$c->session->{pager} = {} if !$c->session->{pager};
+	$c->session->{pager}->{$key} = {} if !$c->session->{pager}->{$key};
+	if ($c->req->params->{pagesize} && $c->req->params->{pagesize} != $c->session->{pager}->{$key}->{pagesize}) {
+		$c->stash->{page} = 1;
+	} else {
+		$c->stash->{page} = $c->req->params->{page} ? $c->req->params->{page} :
+			$c->session->{pager}->{$key}->{page} ? $c->session->{pager}->{$key}->{page} : 1;
+	}
+	$c->stash->{pagesize} = $c->req->params->{pagesize} ? $c->req->params->{pagesize} :
+		$c->session->{pager}->{$key}->{pagesize} ? $c->session->{pager}->{$key}->{pagesize} : $default_pagesize;
+	$c->stash->{pagesize_options} = [qw( 10 20 40 50 100 )];
+	$c->session->{pager}->{$key}->{pagesize} = $c->stash->{pagesize};
+	$c->session->{pager}->{$key}->{page} = $c->stash->{page};
+}
+
 # Start the application
 __PACKAGE__->setup();
 

@@ -1,0 +1,7 @@
+<@ IF page == no -@>
+<@ no_string ? no_string : no @>
+<@ ELSIF !no -@>
+<@ no_string @>
+<@ ELSE -@>
+<a href="<@ url.replace('PAGE_NO', no) @>"><@ no_string ? no_string : no @></a>
+<@ END -@>

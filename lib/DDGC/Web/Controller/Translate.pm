@@ -26,10 +26,8 @@ sub logged_in :Chained('base') :PathPart('') :CaptureArgs(0) {
 
 sub context :Chained('logged_in') :Args(1) {
     my ( $self, $c, $token_context_id ) = @_;
+	$c->pager_init($c->action,20);
 	$c->stash->{token_context} = $c->d->rs('Token::Context')->find($token_context_id);
-	$c->stash->{page} = $c->req->params->{page} ? $c->req->params->{page} : 1;
-	$c->stash->{pagesize} = $c->req->params->{pagesize} ? $c->req->params->{pagesize} : 20;
-	$c->stash->{pagesize_options} = [qw( 10 20 40 50 100 )];
 	$c->stash->{tokens} = $c->d->rs('Token::Context')->search_related('tokens',{},{
 		order_by => 'tokens.created',
 		page => $c->stash->{page},

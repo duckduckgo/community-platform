@@ -1,15 +1,11 @@
 <form action="<@ u('Translate','context',token_context.id) @>" method="post" name="translatecontextform" id="translatecontextform">
 	<div class="mybox">
 		<div>
-			<option value="<@ page @>" name="page" id="page" />
 			<@ token_context.name @> 
-			<@ l('Page') @>: <@ page @>
+			<@ l('Page') @>: 
+			<@ INCLUDE pager/dropdown.tt pager=tokens.pager @>
 			<@ l('Pagesize') @>: 
-			<select name="pagesize" id="pagesize">
-				<@ FOR pagesize_option IN pagesize_options @>
-					<option value="<@ pagesize_option @>"<@ IF pagesize_option == pagesize @> selected="selected"<@ END @>><@ pagesize_option @></option>
-				<@ END @>
-			</select>
+			<@ INCLUDE pager/pagesize.tt @>
 		</div>
 	</div>
 	<@ FOR token IN tokens.all @>
@@ -18,5 +14,6 @@
 		</div>
 	<@ END @>
 	<div class="mybox">
+		<@ INCLUDE pager.tt pager=tokens.pager url=u('Translate','context',token_context.id,{ page => 'PAGE_NO' }) @>
 	</div>
 </form>
