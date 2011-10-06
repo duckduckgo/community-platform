@@ -49,16 +49,41 @@ sub context :Chained('logged_in') :Args(1) {
 	}
 	$c->stash->{locale} = $l->locale if !$c->stash->{locale};
 	$c->stash->{language} = $c->stash->{locales}->{$c->stash->{locale}}->{l};
-	$c->stash->{tokens} = $c->stash->{token_context}->search_related('tokens',{},{
+	$c->stash->{tokens} = $c->stash->{token_context}->search_related_rs('tokens',{
+		snippet => 1,
+	},{
 		order_by => 'me.created',
-		prefetch => { token_languages => {
-			token_language_translations => {
-				user => { user_languages => 'language' }
-			}
-		}},
 		page => $c->stash->{page},
 		rows => $c->stash->{pagesize},
 	});
+	if ($c->req->params->{save_translations}) {
+		for (keys %{$c->req->params}) {
+			if (length($c->req->params->{$_}) > 0 && $_ =~ m/token_(\d+)/) {
+				my %vars = (
+					token_id => $_,
+					language_id => $c->stash->{language}->id,
+				);
+				my $tl = $c->d->rs('Token::Language')->search(\%vars)->first;
+				$tl = $c->d->rs('Token::Language')->create(\%vars) if !$tl;
+				my $tlt = $tl->update_or_create_related('token_language_translations',{
+					translation => $c->req->params->{$_},
+					user => $c->user->db,
+				},{
+					key => 'token_language_translation_token_language_id_username',
+				});
+			}
+		}
+	}
+	# for ($c->stash->{tokens_base}->search_related('token_languages',{
+		# 'token_languages.language_id' => $c->stash->{language}->id,
+	# })->search_related('token_language_translations',{
+	# })->all) {
+		# p($_->token_language->token->id);
+		# p($_->translation);
+	# };
+	p($c->stash->{tokens_base}->search_related('token_languages',{
+	})->search_related('token_language_translations',{
+	})->all);
 	$c->session->{locale}->{$c->action} = $c->stash->{locale};
 }
 

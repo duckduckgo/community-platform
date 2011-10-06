@@ -5,6 +5,7 @@
 				<@ l('Current language') @>:
 				<@ language.name_in_english @>
 			</div>
+			<input type="hidden" name="locale" value="<@ locale @>" />
 			<div id="languagebox_content">
 				<@ FOR loc IN locales.values @>
 					<p>
@@ -30,9 +31,24 @@
 	</div>
 	<@ FOR token IN tokens.all @>
 		<div class="mybox">
-			<@ token.name @>
+			<div>
+				"<@ token.name @>"
+			</div>
+			<div>
+				<input type="text" name="token_<@ token.id @>" value="" size="80" />
+			</div>
 		</div>
 	<@ END @>
+	<@ FOR translation IN translations.all @>
+		<div class="mybox">
+			<div>
+				"<@ translation.translation @>"
+			</div>
+		</div>
+	<@ END @>
+	<div class="mybox">
+		<input type="submit" name="save_translations" id="save_translations" value="<@ l('Save your translations') @>" />
+	</div>
 	<div class="mybox">
 		<@ INCLUDE pager.tt pager=tokens.pager url=u('Translate','context',token_context.key,{ page => 'PAGE_NO' }) @>
 	</div>

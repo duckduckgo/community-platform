@@ -22,6 +22,7 @@ has db => (
 		update
 		admin
 		user_languages
+		languages
 		screens
 		notes
 		data
