@@ -22,39 +22,55 @@
 			</div>
 		</div>
 		<div>
-			<@ token_context.name @> 
-			<@ l('Page') @>: 
-			<@ INCLUDE pager/dropdown.tt pager=token_languages.pager @>
-			<@ l('Pagesize') @>: 
-			<@ INCLUDE pager/pagesize.tt @>
-		</div>
-	</div>
-	<@ FOR token_language IN token_languages.all @>
-		<div class="mybox">
-			<div>
-				"<@ token_language.token.name @>"
-			</div>
-			<div>
-				<input type="text" name="token_language_<@ token_language.id @>" value="<@ token_language.translations(c.user).translation @>" size="80" />
-			</div>
-			<@ FOR translation IN token_language.translations @>
-				<div>
-					<@ translation.translation @>
-				</div>
+			<@ token_context.name @>
+			<@ IF !cant_speak @>
+				<@ l('Page') @>: 
+				<@ INCLUDE pager/dropdown.tt pager=token_languages.pager @>
+				<@ l('Pagesize') @>: 
+				<@ INCLUDE pager/pagesize.tt @>
 			<@ END @>
 		</div>
-	<@ END @>
-	<@ FOR translation IN translations.all @>
+	</div>
+	<@ IF cant_speak @>
 		<div class="mybox">
-			<div>
-				"<@ translation.translation @>"
+			<p><a href="<@ u('My','languages') @>"><@ l('You must add this language to your languages for translating it') @></a></p>
+		</div>
+	<@ ELSE @>
+		<@ FOR token_language IN token_languages.all @>
+			<@ SET other_translations = token_language.translations(c.user,1) @>
+			<@ SET own_translation = token_language.translations(c.user) @>
+			<div class="mybox">
+				<div>
+					"<@ token_language.token.name @>"
+					<@ IF other_translations @>
+						<select class="other_translation">
+							<option></option>
+							<@ FOR translation IN other_translations @>
+								<option><@ translation.translation @></option>
+							<@ END @>
+						</select>
+					<@ END @>
+				</div>
+				<div>
+					<input type="text" name="token_language_<@ token_language.id @>" value="<@ own_translation.translation @>" size="80" />
+				</div>
 			</div>
+		<@ END @>
+		<@ FOR translation IN translations.all @>
+			<div class="mybox">
+				<div>
+					"<@ translation.translation @>"
+				</div>
+			</div>
+		<@ END @>
+		<div class="mybox">
+			<input type="submit" name="save_translations" id="save_translations" value="<@ l('Save your translations') @>" />
+			<@ IF token_languages.pager.next_page @>
+				<input type="submit" name="save_translations_next_page" id="save_translations_next_page" value="<@ l('Save your translations and go to next page') @>" />
+			<@ END @>
+		</div>
+		<div class="mybox">
+			<@ INCLUDE pager.tt pager=token_languages.pager url=u('Translate','context',token_context.key,{ page => 'PAGE_NO' }) @>
 		</div>
 	<@ END @>
-	<div class="mybox">
-		<input type="submit" name="save_translations" id="save_translations" value="<@ l('Save your translations') @>" />
-	</div>
-	<div class="mybox">
-		<@ INCLUDE pager.tt pager=token_languages.pager url=u('Translate','context',token_context.key,{ page => 'PAGE_NO' }) @>
-	</div>
 </form>

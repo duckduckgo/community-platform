@@ -44,7 +44,10 @@ has_many 'token_language_translations', 'DDGC::DB::Result::Token::Language::Tran
 unique_constraint [qw/ token_id language_id /];
 
 sub translations {
-	my ( $self, $user ) = @_;
+	my ( $self, $user, $not ) = @_;
+	return $self->search_related('token_language_translations',{
+		username => { '!=' => $user->username },
+	})->first if $not;
 	return $self->search_related('token_language_translations',{
 		username => $user->username,
 	})->first if $user;
