@@ -10,8 +10,8 @@
 		<div id="userbox_content">
 			<@ IF c.user @>
 				<p><a href="<@ u('My','account') @>"><@ l('Your account') @></a></p>
-				<p><a href="<@ u('My','apps') @>"><@ l('Your applications') @></a></p>
 				<@ IF c.user.admin @>
+					<p><a href="<@ u('My','apps') @>"><@ l('Your applications') @></a></p>
 					<p><a href="<@ u('Admin','index') @>"><@ l('Admin interface') @></a></p>
 				<@ END @>
 				<p><a href="<@ u('My','logout') @>"><@ l('Logout') @></a></p>

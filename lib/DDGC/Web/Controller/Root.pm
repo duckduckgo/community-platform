@@ -18,12 +18,12 @@ sub base :Chained('/') :PathPart('') :CaptureArgs(0) {
 
 sub index :Chained('base') :PathPart('') :Args(0) {
     my ( $self, $c ) = @_;
-	if ($c->user) {
-		return $c->detach('My','timeline');
-	} else {
+#	if ($c->user) {
+#		return $c->detach('My','timeline');
+#	} else {
 		$c->response->redirect($c->chained_uri('Base','welcome'));
 		return $c->detach;
-	}
+#	}
 }
 
 sub default :Chained('base') :PathPart('') :Args {
