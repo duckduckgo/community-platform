@@ -49,24 +49,24 @@ sub context :Chained('logged_in') :Args(1) {
 	}
 	$c->stash->{locale} = $l->locale if !$c->stash->{locale};
 	$c->stash->{language} = $c->stash->{locales}->{$c->stash->{locale}}->{l};
-	$c->stash->{tokens} = $c->stash->{token_context}->search_related_rs('tokens',{
-		snippet => 1,
+	$c->stash->{token_languages} = $c->stash->{token_context}->tokens->search_related_rs('token_languages',{
+		'token.snippet' => 1,
+		'token_languages.language_id' => $c->stash->{language}->id,
 	},{
-		order_by => 'me.created',
+		order_by => 'token_languages.created',
 		page => $c->stash->{page},
 		rows => $c->stash->{pagesize},
+		prefetch => 'token',
 	});
 	if ($c->req->params->{save_translations}) {
+		my %k;
 		for (keys %{$c->req->params}) {
-			if (length($c->req->params->{$_}) > 0 && $_ =~ m/token_(\d+)/) {
-				my %vars = (
-					token_id => $_,
-					language_id => $c->stash->{language}->id,
-				);
-				my $tl = $c->d->rs('Token::Language')->search(\%vars)->first;
-				$tl = $c->d->rs('Token::Language')->create(\%vars) if !$tl;
-				my $tlt = $tl->update_or_create_related('token_language_translations',{
-					translation => $c->req->params->{$_},
+			$k{$1} = $c->req->params->{$_} if (length($c->req->params->{$_}) > 0 && $_ =~ m/token_language_(\d+)/);
+		}
+		for ($c->stash->{token_languages}->all) {
+			if (defined $k{$_->id}) {
+				$_->update_or_create_related('token_language_translations',{
+					translation => $k{$_->id},
 					user => $c->user->db,
 				},{
 					key => 'token_language_translation_token_language_id_username',
@@ -74,16 +74,9 @@ sub context :Chained('logged_in') :Args(1) {
 			}
 		}
 	}
-	# for ($c->stash->{tokens_base}->search_related('token_languages',{
-		# 'token_languages.language_id' => $c->stash->{language}->id,
-	# })->search_related('token_language_translations',{
-	# })->all) {
-		# p($_->token_language->token->id);
-		# p($_->translation);
-	# };
-	p($c->stash->{tokens_base}->search_related('token_languages',{
-	})->search_related('token_language_translations',{
-	})->all);
+	for ($c->stash->{token_languages}->search_related('token_language_translations',{})->all) {
+		p($_);
+	}
 	$c->session->{locale}->{$c->action} = $c->stash->{locale};
 }
 

@@ -24,19 +24,24 @@
 		<div>
 			<@ token_context.name @> 
 			<@ l('Page') @>: 
-			<@ INCLUDE pager/dropdown.tt pager=tokens.pager @>
+			<@ INCLUDE pager/dropdown.tt pager=token_languages.pager @>
 			<@ l('Pagesize') @>: 
 			<@ INCLUDE pager/pagesize.tt @>
 		</div>
 	</div>
-	<@ FOR token IN tokens.all @>
+	<@ FOR token_language IN token_languages.all @>
 		<div class="mybox">
 			<div>
-				"<@ token.name @>"
+				"<@ token_language.token.name @>"
 			</div>
 			<div>
-				<input type="text" name="token_<@ token.id @>" value="" size="80" />
+				<input type="text" name="token_language_<@ token_language.id @>" value="<@ token_language.translations(c.user).translation @>" size="80" />
 			</div>
+			<@ FOR translation IN token_language.translations @>
+				<div>
+					<@ translation.translation @>
+				</div>
+			<@ END @>
 		</div>
 	<@ END @>
 	<@ FOR translation IN translations.all @>
@@ -50,6 +55,6 @@
 		<input type="submit" name="save_translations" id="save_translations" value="<@ l('Save your translations') @>" />
 	</div>
 	<div class="mybox">
-		<@ INCLUDE pager.tt pager=tokens.pager url=u('Translate','context',token_context.key,{ page => 'PAGE_NO' }) @>
+		<@ INCLUDE pager.tt pager=token_languages.pager url=u('Translate','context',token_context.key,{ page => 'PAGE_NO' }) @>
 	</div>
 </form>

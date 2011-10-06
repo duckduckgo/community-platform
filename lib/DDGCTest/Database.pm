@@ -277,7 +277,7 @@ sub add_token_contexts {
 			});
 		}
 		for (@{$snippets}) {
-			$tc->create_related('tokens',{
+			my $token = $tc->create_related('tokens',{
 				name => $_,
 				snippet => 1,
 			});
@@ -288,6 +288,7 @@ sub add_token_contexts {
 				snippet => 0,
 			});
 		}
+		$tc->update_token_languages;
 	}
 }
 

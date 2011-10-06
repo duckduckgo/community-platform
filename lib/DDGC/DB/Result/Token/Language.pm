@@ -41,6 +41,18 @@ belongs_to 'language', 'DDGC::DB::Result::Language', 'language_id';
 
 has_many 'token_language_translations', 'DDGC::DB::Result::Token::Language::Translation', 'token_language_id';
 
+unique_constraint [qw/ token_id language_id /];
+
+sub translations {
+	my ( $self, $user ) = @_;
+	return $self->search_related('token_language_translations',{
+		username => $user->username,
+	})->first if $user;
+	$self->search_related('token_language_translations',{},{
+		group_by => ['translation'],
+	})->all;
+}
+
 use overload '""' => sub {
 	my $self = shift;
 	return 'Token-Language #'.$self->id;
