@@ -38,7 +38,7 @@ column deleted => {
 # };
 
 column username => {
-	data_type => 'bigint',
+	data_type => 'text',
 	is_nullable => 0,
 };
 
