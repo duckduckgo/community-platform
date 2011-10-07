@@ -1,5 +1,5 @@
 <div class="email mybox">
-	<form action="<@ u('My','email') @>" method="post" name="publicform" id="publicform">
+	<form action="<@ u('My','email') @>" method="post" name="emailform" id="emailform">
 		<a href="<@ u('My','account') @>">Go back to your account</a>
 		<@ IF wrong_captcha @>
 			<div class="error"><@ l('Captcha is wrong.') @></div>
@@ -17,7 +17,7 @@
 			New email address: <input type="text" size="80" name="emailaddress" />
 		</div>
 		<div>
-			<input type="submit" value="Save Email" name="email" />
+			<input type="submit" value="Save Email" name="save_email" />
 		</div>
 	</form>
 </div>

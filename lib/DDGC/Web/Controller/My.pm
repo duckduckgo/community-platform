@@ -61,23 +61,28 @@ sub timeline :Chained('logged_in') :Args(0) {
 }
 
 sub email :Chained('logged_in') :Args(0) {
-        my ( $self, $c, ) = @_;
-        #$c->user->data({ email => $blub });
-        if (!$c->validate_captcha($c->req->params->{captcha})) {
-                $c->stash->{wrong_captcha} = 1;
-                return $c->detach;
-        }
-	
-	$c->user->data({}) if !$c->user->data;
-	my $email = $c->req->params->{emailaddress};
-	if ( ($email) && Email::Valid->address($email) ) {
-	        $c->user->data->{email}=$email;
-        	$c->user->update();
+	my ( $self, $c, ) = @_;
+
+	return $c->detach if !$c->req->params->{save_email};
+
+	if (!$c->validate_captcha($c->req->params->{captcha})) {
+		$c->stash->{wrong_captcha} = 1;
+		return;
 	}
 
+	my $email = $c->req->params->{emailaddress};
 
-        $c->response->redirect($c->chained_uri('My','account'));
-        return $c->detach;
+	if ( !$email || !Email::Valid->address($email) ) {
+		$c->stash->{no_valid_email} = 1;
+		return;
+	}
+
+	$c->user->data({}) if !$c->user->data;
+	$c->user->data->{email} = $email;
+	$c->user->update();
+
+	$c->response->redirect($c->chained_uri('My','account'));
+	return $c->detach;
 }
 
 
