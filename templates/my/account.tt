@@ -23,18 +23,23 @@
 		</tr>
 	</table></p>
 </div>
+<div class="email mybox">
+	<p><@ l('Your Email account') @></p>
+	<@ IF c.user.data.email @>Your email is: <@ c.user.data.email @><@ ELSE @>You didnt add an email to your account so far!<@ END @>
+	<a href="<@ u('My','email') @>">Change email of account</a>
+</div>
 <div class="public mybox">
-	<div class="button" style="float:right"><a href="<@ u('Help','view','public') @>"><@ l('Information about making your profile public') @></a></div>
+	<div class="button" style="float:right"><a href="<@ u('Help','view','public') @>"><@ l('Informations about setting your profile public') @></a></div>
 	<@ IF c.user.public @>
-		<p><@ l('Your profile is publicly visible') @></p>
+		<p><@ l('Your profile is public visible') @></p>
 		<p><a href="<@ u('My','public') @>"><@ l('Hide your profile again') @></a></p>
 	<@ ELSE @>
-		<p><@ l('Your profile is not publicly visible so far') @></p>
+		<p><@ l('Your profile is not public visible so far') @></p>
 		<p><a href="<@ u('My','public') @>"><@ l('Make your profile public') @></a></p>
 	<@ END @>
 </div>
 <div class="languages mybox">
-	<div class="button" style="float:right"><a href="<@ u('Help','view','mylanguages') @>"><@ l('Information') @></a></div>
+	<div class="button" style="float:right"><a href="<@ u('Help','view','mylanguages') @>"><@ l('Informations') @></a></div>
 	<@ IF c.user.languages @>
 		<@ FOR user_language IN c.user.user_languages @>
 			<p><@ user_language.language.name_in_local @></p>

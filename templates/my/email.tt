@@ -1,0 +1,23 @@
+<div class="email mybox">
+	<form action="<@ u('My','email') @>" method="post" name="publicform" id="publicform">
+		<a href="<@ u('My','account') @>">Go back to your account</a>
+		<@ IF wrong_captcha @>
+			<div class="error"><@ l('Captcha is wrong.') @></div>
+		<@ END @>
+		<div>
+			<img src="<@ u('Base','captcha') @>" alt="Captcha"/>
+		</div>
+		<div>
+			<label for="captcha"><@ l('Captcha') @></label>
+			<input type="text" name="captcha" id="captcha" />
+		</div>
+		<p><@ l('Your current email address:') @></p>
+		<p><@ c.user.data.email @></p>
+		<div>
+			New email address: <input type="text" size="80" name="emailaddress" />
+		</div>
+		<div>
+			<input type="submit" value="Save Email" name="email" />
+		</div>
+	</form>
+</div>

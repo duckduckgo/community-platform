@@ -4,6 +4,7 @@ use namespace::autoclean;
 
 use DDGC::Config;
 use DDGC::User;
+use Email::Valid;
 
 BEGIN {extends 'Catalyst::Controller'; }
 
@@ -58,6 +59,27 @@ sub apps :Chained('logged_in') :Args(0) {
 sub timeline :Chained('logged_in') :Args(0) {
     my ( $self, $c ) = @_;
 }
+
+sub email :Chained('logged_in') :Args(0) {
+        my ( $self, $c, ) = @_;
+        #$c->user->data({ email => $blub });
+        if (!$c->validate_captcha($c->req->params->{captcha})) {
+                $c->stash->{wrong_captcha} = 1;
+                return $c->detach;
+        }
+	
+	$c->user->data({}) if !$c->user->data;
+	my $email = $c->req->params->{emailaddress};
+	if ( ($email) && Email::Valid->address($email) ) {
+	        $c->user->data->{email}=$email;
+        	$c->user->update();
+	}
+
+
+        $c->response->redirect($c->chained_uri('My','account'));
+        return $c->detach;
+}
+
 
 sub public :Chained('logged_in') :Args(0) {
     my ( $self, $c ) = @_;
