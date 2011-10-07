@@ -1,0 +1,10 @@
+<div>
+	Help name: <input type="text" size="80" name="help_<@ help.id || 0 @>_key" value="<@ help.key @>" />
+</div>
+<div>
+        Help title: <input type="text" size="80" name="help_<@ help.id || 0 @>_name" value="<@ help.name @>" />
+</div>
+<div>
+	Description: <textarea name="help_<@ help.id || 0 @>_description" cols="80" rows="10"><@ help.description @></textarea>
+</div>
+

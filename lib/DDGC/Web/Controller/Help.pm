@@ -6,11 +6,16 @@ BEGIN {extends 'Catalyst::Controller'; }
 
 sub base :Chained('/base') :PathPart('help') :CaptureArgs(0) {
     my ( $self, $c ) = @_;
-	push @{$c->stash->{template_layout}}, 'centered_content.tt';
-}
+	$c->stash->{headline_template} = 'headline/help.tt';
+	push @{$c->stash->{template_layout}}, 'centered_content.tt';}
 
 sub view :Chained('base') :PathPart('') :Args(1) {
-    my ( $self, $c, $id ) = @_;
+    my ( $self, $c, $key ) = @_;
+	$c->stash->{help} = $c->model('DB::Help')->search({ key => $key })->first;
+	if (!$c->stash->{help}) {
+		$c->response->redirect($c->chained_uri('Help','list'));
+		return $c->detach;
+	}
 }
 
 sub do :Chained('base') :CaptureArgs(0) {
@@ -19,13 +24,10 @@ sub do :Chained('base') :CaptureArgs(0) {
 
 sub list :Chained('do') :Args(0) {
     my ( $self, $c ) = @_;
-	my $page = $c->req->params->{page}+0;
-	$page = 1 if $page < 1;
-	$c->stash->{screens} = [$c->model('DB::Screen')->search({
-		deleted => 0,
-	},{
-		page => $page,
-		rows => 20,
+	$c->pager_init($c->action,20);
+	$c->stash->{helps} = [$c->model('DB::Help')->search({},{
+		page => $c->stash->{page},
+		rows => $c->stash->{pagesize},
 	})->all];
 }
 
