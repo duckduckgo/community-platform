@@ -1,7 +1,7 @@
 <form action="<@ u('Admin::Token','index') @>" method="post" name="tokencontextsform" id="tokencontextsform">
 	<div class="mybox">
 		<@ FOREACH list_token_context IN token_contexts @>
-			<p>#<@ list_token_context.id @></p>
+			<p>#<@ list_token_context.id @> [<@ list_token_context.key @>] <@ list_token_context.name @></p>
 			<@ INCLUDE admin/token/tokencontextform.tt token_context=list_token_context @>
 			<p><input type="submit" value="Delete" name="token_context_<@ list_token_context.id @>_delete" /></p>
 		<@ END @>
