@@ -2,7 +2,7 @@
 	<div id="footer_content">
 		<a href="<@ u('Base','welcome') @>">Welcome</a> |
 		<a href="<@ u('Base','about') @>">About</a> |
-		<a href="<@ u('Base','privacy') @>">Privay</a> |
+		<a href="<@ u('Base','privacy') @>">Privacy</a> |
 		<a href="<@ u('Base','termsofuse') @>">Terms Of Use</a> |
 		Powered by <a href="http://www.perl.org/">Perl</a> |
 		Delivered by <a href="http://nginx.org/">nginx</a> |

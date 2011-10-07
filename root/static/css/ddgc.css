@@ -30,16 +30,33 @@ p {
 
 /* base.tt */
 
+#wrapper {
+	position: absolute;
+	min-width: 500px;
+	width: 100%;
+}
+
 #header {
-	background-color: lightblue;
-	padding: 10px;
+        width: 100%;
+/*        padding-bottom: 0px;*/
+	background: url('/static/images/headerbg.v101.lblue.png') repeat-x lightblue;
+	overflow: hidden;
+	z-index: 5;
+	border-bottom: 1px solid #F3F9FD;
+	height: 64px;
+	box-shadow: 0px 2px 3px #000;
+}
+
+header {
+	padding: 20px;
 }
 
 #headline {
-	background-color: orange;
+	background-color: #f2f8fc;
 	padding: 10px;
 	font-size: x-large;
 	font-weight: bold;
+	box-shadow: 0px 2px 2px #000;
 }
 
 #headline_content {
@@ -48,8 +65,10 @@ p {
 }
 
 #content {
-	background-color: yellow;
+	background-color: #e1e7fb;
+	box-shadow: inset 0px 2px 3px rgba(0,0,0,0.2);
 	padding: 10px;
+	/*margin-top: 100px;*/
 }
 
 #footer {
@@ -63,19 +82,38 @@ p {
 }
 
 #userbox {
-	background-color: lightgrey;
-	padding: 10px;
-	float: right;
+	padding: 5px;
+	position: absolute;
+	z-index: 10;
+	right: 10px;
+        top: 0px;
+}
+
+#userbox:hover {
+	background-color: #fff;
+	border: 1px solid #DDD;
+	margin-top: -1px;
+	margin-right: -1px;
+	box-shadow: 0 1px 3px 0 rgba(0,0,0,0.2)
 }
 
 #userbox_headline {
-	background-color: yellow;
 	padding: 10px;
+	background: url('/static/images/triangle.png') no-repeat scroll 0px 15px transparent;
 }
 
 #userbox_content {
-	background-color: orange;
-	padding: 10px;
+	background-color: #fff;
+}
+
+#userbox_content p {
+        position: relative;
+        left: -5px;
+	width: 96%;
+}
+
+#userbox_content p:hover {
+	background-color: #ddd;
 }
 
 #languagebox {
@@ -100,7 +138,9 @@ p {
 	width: 250px;
 	height: 250px;
 	margin: 10px;
-	background-color: lightgrey;
+	background-color: #d3e9f7;
+	border-radius: 4px;
+	box-shadow: inset 2px 2px 4px rgba(0,0,0,0.2), inset -2px -2px 4px rgba(0,0,0,0.2);
 	float: left;
 	padding: 10px;
 }
@@ -118,6 +158,7 @@ p {
 	margin: 10px;
 	padding: 10px;
 	background-color: lightblue;
+	border-radius: 4px;
 }
 
 /* TODO: bad idea, requires that #welcome_left is always bigger than #welcome_right */
@@ -141,6 +182,7 @@ p {
 	background-color: lightblue;
 	padding: 10px;
 	margin-bottom: 10px;
+	border-radius: 4px;
 }
 
 
