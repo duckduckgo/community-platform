@@ -1,0 +1,15 @@
+<form action="<@ u('Admin::Help','index') @>" method="post" name="helpform" id="helpform">
+	<div class="mybox">
+		<@ FOREACH list_help IN help @>
+			<p>#<@ list_help.id @></p>
+			<@ INCLUDE admin/help/form.tt help=list_help @>
+			<p><input type="submit" value="Delete" name="help_<@ list_help.id @>_delete" /></p>
+		<@ END @>
+	</div>
+	<div class="mybox">
+		<@ INCLUDE admin/help/form.tt @>
+		<div>
+			<input type="submit" value="Save Help" name="save_help" />
+		</div>
+	</div>
+</form>
