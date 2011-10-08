@@ -109,7 +109,29 @@ sub public :Chained('logged_in') :Args(0) {
 }
 
 sub forgotpw :Chained('logged_out') :Args(0) {
-    my ( $self, $c ) = @_;
+	my ( $self, $c ) = @_;
+	return $c->detach if !$c->req->params->{requestpw};
+	my $username = $c->req->params->{username};
+	my $email = $c->req->params->{emailaddress};
+	my $found_user = $c->d->find_user($username);
+	my $found_email;
+	if ($found_user) {
+		$found_email = $found_user->data->{email};
+	}
+	if ( (!$found_user) || ( $email ne $found_email) ) {
+		return;
+	}
+	$c->stash->{email} = {
+		to          => $found_user->data->{email},
+		from        => 'noreply@xxxxxx.de',
+		subject     => 'Reset Password',
+		template	=> 'email/forgotpw.tt',
+		charset		=> 'utf-8',
+		content_type => 'text/plain',
+	};
+
+	$c->forward( $c->view('Email::TT') )
+	
 }
 
 sub login :Chained('logged_out') :Args(0) {

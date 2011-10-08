@@ -1,0 +1,15 @@
+<div class="forgotpw mybox">
+	<form action="<@ u('My','forgotpw') @>" method="post" name="forgotpwform" id="forgotpwform">
+		<a href="<@ u('My','account') @>">Go back to your account</a>
+		<div>
+			Your username: <input type="text" size="80" name="username" />
+
+		</div>
+		<div>
+			Your email address: <input type="text" size="80" name="emailaddress" />
+		</div>
+		<div>
+			<input type="submit" value="Request new password" name="requestpw" />
+		</div>
+	</form>
+</div>
