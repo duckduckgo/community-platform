@@ -15,7 +15,7 @@ column token_id => {
 	is_nullable => 0,
 };
 
-column language_id => { 
+column token_context_language_id => { 
 	data_type => 'bigint',
 	is_nullable => 0,
 };
@@ -37,11 +37,11 @@ column updated => {
 };
 
 belongs_to 'token', 'DDGC::DB::Result::Token', 'token_id';
-belongs_to 'language', 'DDGC::DB::Result::Language', 'language_id';
+belongs_to 'token_context_language', 'DDGC::DB::Result::Token::Context::Language', 'token_context_language_id';
 
 has_many 'token_language_translations', 'DDGC::DB::Result::Token::Language::Translation', 'token_language_id';
 
-unique_constraint [qw/ token_id language_id /];
+unique_constraint [qw/ token_id token_context_language_id /];
 
 sub used_translation {
 	my ( $self ) = @_;

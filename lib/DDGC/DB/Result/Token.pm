@@ -53,6 +53,19 @@ belongs_to 'token_context', 'DDGC::DB::Result::Token::Context', 'token_context_i
 has_many 'token_screens', 'DDGC::DB::Result::Token::Screen', 'token_id';
 has_many 'token_languages', 'DDGC::DB::Result::Token::Language', 'token_id';
 
+sub insert {
+	my $self = shift;
+	my $guard = $self->result_source->schema->txn_scope_guard;
+	$self->next::method(@_);
+	for ($self->token_context->token_context_languages->all) {
+		$self->create_related('token_languages',{
+			token_context_language_id => $_->id,
+		});
+	}
+	$guard->commit;
+	return $self;
+}
+
 use overload '""' => sub {
 	my $self = shift;
 	return 'Token #'.$self->id;

@@ -41,14 +41,16 @@ sub context :Chained('logged_in') :PathPart('') :Args(1) {
 	});
 	$c->stash->{locales} = {};
 	my $l;
-	for ($c->stash->{token_context}->languages) {
-		$l = $_;
+	for ($c->stash->{token_context}->token_context_languages) {
+		$l = $_->language;
+		my $tcl = $_;
 		my @uloc = grep { $l->locale eq $_ } keys %{$c->user->locales};
 		my $u; $u = $c->user->locales->{$uloc[0]} if @uloc;
 		$c->stash->{locale} = $u->language->locale if $u && !$c->stash->{locale};
 		$c->stash->{locales}->{$l->locale} = {
 			l => $l,
 			u => $u,
+			tcl => $tcl,
 		};
 	}
 	$c->stash->{locale} = $l->locale if !$c->stash->{locale};
@@ -56,11 +58,10 @@ sub context :Chained('logged_in') :PathPart('') :Args(1) {
 	my $save_translations = $c->req->params->{save_translations} || $c->req->params->{save_translations_next_page} ? 1 : 0;
 	my $next_page = $c->req->params->{save_translations_next_page} ? 1 : 0;
 	if ($c->stash->{locales}->{$c->stash->{locale}}->{u}) {
-		$c->stash->{token_languages} = $c->stash->{token_context}->tokens->search_related_rs('token_languages',{
+		$c->stash->{token_languages} = $c->stash->{locales}->{$c->stash->{locale}}->{tcl}->token_languages->search({
 			'token.snippet' => 1,
-			'token_languages.language_id' => $c->stash->{language}->id,
 		},{
-			order_by => 'token_languages.created',
+			order_by => 'me.created',
 			page => $c->stash->{page},
 			rows => $c->stash->{pagesize},
 			prefetch => 'token',
