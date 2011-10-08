@@ -54,6 +54,18 @@ has_many 'token_language_translations', 'DDGC::DB::Result::Token::Language::Tran
 
 unique_constraint [qw/ token_id token_context_language_id /];
 
+sub gettext_snippet {
+	my ( $self ) = @_;
+	return if !$self->translation;
+	my $id = $self->token->name;
+	my $str = $self->translation;
+	return << "EOF";
+
+msgid "$id"
+msgstr "$str"
+EOF
+}
+
 sub auto_use {
 	my ( $self ) = @_;
 	my @translations = $self->search_related('token_language_translations',{},{
