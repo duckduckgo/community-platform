@@ -2,7 +2,7 @@
 	<a href="<@ u('Base','welcome') @>">Go back to the welcome screen to see how you can help</a>
 </div>
 <div class="account_information mybox">
-	<div class="buttonwrap"><a class="button" href="<@ u('Help','view','xmpp') @>"><@ l('Instructions for using the XMPP/Jabber server') @></a></div>
+	<div class="buttonwrap" style="float:right;margin-top:10px"><a class="button" href="<@ u('Help','view','xmpp') @>"><@ l('Instructions for using the XMPP/Jabber server') @></a></div>
 	<p><@ l('Your XMPP/Jabber account') @></p>
 	<p><table class="account_data">
 		<tr>
@@ -29,7 +29,7 @@
 	<a href="<@ u('My','email') @>">Change email of account</a>
 </div>
 <div class="public mybox">
-	<div class="buttonwrap"><a class="button" href="<@ u('Help','view','public') @>"><@ l('Information about making your profile public') @></a></div>
+	<div class="buttonwrap" style="float:right;margin-top:10px"><a class="button" href="<@ u('Help','view','public') @>"><@ l('Information about making your profile public') @></a></div>
 	<@ IF c.user.public @>
 		<p><@ l('Your profile is publicly visible') @></p>
 		<p><a href="<@ u('My','public') @>"><@ l('Hide your profile again') @></a></p>
@@ -39,7 +39,7 @@
 	<@ END @>
 </div>
 <div class="languages mybox">
-	<div class="buttonwrap"><a class="button" href="<@ u('Help','view','mylanguages') @>"><@ l('Information') @></a></div>
+	<div class="buttonwrap" style="float:right;margin-top:10px;"><a class="button" href="<@ u('Help','view','mylanguages') @>"><@ l('Information') @></a></div>
 	<@ IF c.user.languages @>
 		<@ FOR user_language IN c.user.user_languages @>
 			<p><@ user_language.language.name_in_local @></p>

@@ -6,7 +6,7 @@
 				<@ language.name_in_english @>
 			</div>
 			<input type="hidden" name="locale" value="<@ locale @>" />
-			<div id="languagebox_content" class="fancymenu_content">
+			<div id="languagebox_content">
 				<@ FOR loc IN locales.values @>
 					<p>
 						<@ loc.l.name_in_english @>

@@ -1,13 +1,13 @@
 <@ IF !no_userbox @>
 	<div id="userbox" class="fancymenu">
-		<div id="userbox_headline" class="fancymenu_headline">
+		<div id="userbox_headline">
 			<@ IF c.user @>
 				<@ l('Welcome [_1]!',c.user.username) @>
 			<@ ELSE @>
 				<@ l('Login or register') @>
 			<@ END @>
 		</div>
-		<div id="userbox_content" class="fancymenu_content">
+		<div id="userbox_content">
 			<@ IF c.user @>
 				<p><a href="<@ u('My','account') @>"><@ l('Your account') @></a></p>
 				<@ IF c.user.admin @>

@@ -216,6 +216,5 @@ header {
 	margin-bottom: 10px;
 	border-radius: 4px;
 	box-shadow: inset 0px 0px 4px rgba(0,0,0,0.2);
-	/* TODO|FIXME This makes it suck when the window is tiny */
 	max-width: 100%;
 }

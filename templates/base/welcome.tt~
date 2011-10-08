@@ -8,9 +8,9 @@
 	<div class="welcome_entry">Picture</div>
 	<div class="welcome_entry">Picture</div>
 	<div class="welcome_headline">Latest translation</div>
-	<div class="welcome_entry">Someone translated "Bla bla bla" into FLAG to "Blahhh Blahhh Blahhh"</div>
-	<div class="welcome_entry">Someone translated "Bla bla bla" into FLAG to "Blahhh Blahhh Blahhh"</div>
-	<div class="welcome_entry">Someone translated "Bla bla bla" into FLAG to "Blahhh Blahhh Blahhh"</div>
+	<div class="welcome_entry">Someone translate "Bla bla bla" into FLAG to "Blahhh Blahhh Blahhh"</div>
+	<div class="welcome_entry">Someone translate "Bla bla bla" into FLAG to "Blahhh Blahhh Blahhh"</div>
+	<div class="welcome_entry">Someone translate "Bla bla bla" into FLAG to "Blahhh Blahhh Blahhh"</div>
 </div>
 <div class="welcome_cols" id="welcome_left">
 	<div class="welcome_headline">News</div>
