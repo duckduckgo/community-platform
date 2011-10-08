@@ -251,7 +251,7 @@ sub token_contexts {{
 		name => 'DuckDuckGo Homepage',
 		base => 'us',
 		description => 'Snippets around the Homepage of DuckDuckGo',
-		languages => [qw( us de es br )],
+		languages => [qw( de es br )],
 		snippets => [
 		],
 		tokens => [
@@ -266,16 +266,12 @@ sub add_token_contexts {
 		my $data = $self->token_contexts->{$_};
 		my $base = delete $data->{base};
 		my $languages = delete $data->{languages};
+		push @{$languages}, $base;
 		my $snippets = delete $data->{snippets};
 		my $tokens = delete $data->{tokens};
 		$data->{key} = $_;
 		$data->{source_language_id} = $self->c->{languages}->{$base}->id;
 		my $tc = $rs->create($data);
-		for (@{$languages}) {
-			$tc->create_related('token_context_languages',{
-				language_id => $self->c->{languages}->{$_}->id,
-			});
-		}
 		for (@{$snippets}) {
 			my $token = $tc->create_related('tokens',{
 				name => $_,
@@ -288,7 +284,11 @@ sub add_token_contexts {
 				snippet => 0,
 			});
 		}
-		$tc->update_token_languages;
+		for (@{$languages}) {
+			$tc->create_related('token_context_languages',{
+				language_id => $self->c->{languages}->{$_}->id,
+			});
+		}
 	}
 }
 

@@ -64,22 +64,4 @@ use overload '""' => sub {
 	return 'Token-Context '.$self->name.' #'.$self->id;
 }, fallback => 1;
 
-sub update_token_languages {
-	my $self = shift;
-
-	my @languages = $self->languages->all;
-	my @tokens = $self->tokens->all;
-	
-	for my $t (@tokens) {
-		for my $l (@languages) {
-			$t->find_or_create_related('token_languages',{
-				language_id => $l->id,
-			},{
-				key => 'token_language_token_id_language_id',
-			});
-		}
-	}
-
-}
-
 1;
