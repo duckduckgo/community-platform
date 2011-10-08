@@ -7,5 +7,4 @@ use lib $FindBin::Dir . "/../lib";
 
 use DDGC::App::PoGenerator;
 
-
 DDGC::App::PoGenerator->new_with_options();
