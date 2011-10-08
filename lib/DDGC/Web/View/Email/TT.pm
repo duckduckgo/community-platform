@@ -4,12 +4,11 @@ use Moose;
 extends 'Catalyst::View::Email::Template';
 
 __PACKAGE__->config(
-    stash_key       => 'email',
 	default => {
-		view => 'TT::Email',
-		content_type => 'text/html',
-		charset => 'utf-8',
+		content_type => 'text/plain',
+		charset => 'utf-8'
 	},
+	view => 'TT',
 	# sender => {
 		# mailer => 'Test',
 	# },

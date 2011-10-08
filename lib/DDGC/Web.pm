@@ -64,16 +64,6 @@ __PACKAGE__->config(
 		particle => [3000],
 		out => {force => 'jpeg'}
 	},
-	'View::Email::TT' => {
-		default => {
-			content_type => 'text/plain',
-			charset => 'utf-8'
-		},
-		view => 'TT',
-	},
-	'View::JSON' => {
-		expose_stash    => 'x',
-	},
 );
 
 sub localize {
