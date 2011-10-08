@@ -85,6 +85,11 @@ sub languages {{
 		name_in_local => 'Português do Brasil',
 		locale => 'pt_BR',
 	},
+	'ru' => {
+		name_in_english => 'Russian of Russia',
+		name_in_local => 'Русский России',
+		locale => 'ru_RU',
+	},
 }}
 
 sub add_languages {
@@ -106,7 +111,7 @@ sub users {{
 		admin => 1,
 		notes => 'Testuser, admin and public',
 		languages => {
-			es => 5,
+			es => 6,
 		},
 	},
 	'testthree' => {
@@ -114,7 +119,7 @@ sub users {{
 		public => 1,
 		notes => 'Testuser, public',
 		languages => {
-			us => 5,
+			us => 6,
 		},
 	},
 	'testfour' => {
@@ -179,70 +184,126 @@ sub token_contexts {{
 		description => 'Snippets around the Resultpage of DuckDuckGo',
 		languages => [qw( us de es br )],
 		snippets => [
-			'try',
-			'vehicle info',
-			'map',
-			'search',
-			'try search on',
-			'searches',
-			'uses our',
-			'using our',
-			'syntax',
-			'more at',
-			'more',
-			'top',
-			'official site',
-			'random password',
-			'random number',
-			'random',
-			'entry in',
-			'web links',
-			'try web links',
-			'can mean different things',
-			'click what you meant by',
-			'meanings',
-			'some meanings',
-			'more meanings',
-			'dictionary',
-			'shipment tracking',
-			'try to go there',
-			'is a parked domain (last time we checked)',
-			'is an area code in',
-			'is a zip code in',
-			'is a phone number in',
-			'reverse search',
-			'pay',
-			'free',
-			'uses results from',
-			'results from',
-			'no right topic?',
-			'some topics grouped into',
-			'more topics',
-			'topics',
-			'grouped into sections',
-			'and',
-			'more links',
-			'related topics',
-			'more related topics',
-			'at',
-			'ignore this box please',
-			'put search terms here',
-			'settings',
-			'goodies',
-			'spread',
-			'add to',
-			'from any region',
-			'I\'m feeling ducky',
-			'sort by date',
-			'popular',
-			'programming',
-			'images',
-			'news',
-			'zero-click info',
-			'this page requires',
-			'get the non-JS version',
-			'here',
-			'category',
+			'try', {
+				testone => {
+					'de' => 'Versuch',
+					'us' => 'tryy',
+				},
+				testthree => {
+					'us' => 'try',
+				},
+			},
+			'vehicle info', {
+				testone => {
+					'de' => 'Fahrzeug Information',
+					'us' => 'vehycle ynfo',
+				},
+				testthree => {
+					'us' => 'vehicle info',
+				},
+			},
+			'map', {
+				testone => {
+					'de' => 'Karte',
+					'us' => 'maaap',
+				},
+				testthree => {
+					'us' => 'map',
+				},
+			},
+			'search', {
+				testone => {
+					'de' => 'Suche',
+					'us' => 'zearch',
+				},
+				testthree => {
+					'us' => 'search',
+				},
+			},
+			'try search on', {
+				testone => {
+					'de' => 'Versuch deine Suche auf',
+					'us' => 'dry zearch pn'
+				},
+				testthree => {
+					'us' => 'try search on',
+				},
+			},
+			'searches', {
+				testone => {
+					'de' => 'Suchen',
+					'us' => 'zearchez',
+				},
+				testthree => {
+					'us' => 'searches',
+				},
+			},
+			'uses our', {
+				testone => {
+					'de' => 'benutzt unser',
+					'us' => 'uzez my',
+				},
+				testthree => {
+					'us' => 'uses our',
+				},
+			},
+			'using our', {},
+			'syntax', {},
+			'more at', {},
+			'more', {},
+			'top', {},
+			'official site', {},
+			'random password', {},
+			'random number', {},
+			'random', {},
+			'entry in', {},
+			'web links', {},
+			'try web links', {},
+			'can mean different things', {},
+			'click what you meant by', {},
+			'meanings', {},
+			'some meanings', {},
+			'more meanings', {},
+			'dictionary', {},
+			'shipment tracking', {},
+			'try to go there', {},
+			'is a parked domain (last time we checked)', {},
+			'is an area code in', {},
+			'is a zip code in', {},
+			'is a phone number in', {},
+			'reverse search', {},
+			'pay', {},
+			'free', {},
+			'uses results from', {},
+			'results from', {},
+			'no right topic?', {},
+			'some topics grouped into', {},
+			'more topics', {},
+			'topics', {},
+			'grouped into sections', {},
+			'and', {},
+			'more links', {},
+			'related topics', {},
+			'more related topics', {},
+			'at', {},
+			'ignore this box please', {},
+			'put search terms here', {},
+			'settings', {},
+			'goodies', {},
+			'spread', {},
+			'add to', {},
+			'from any region', {},
+			'I\'m feeling ducky', {},
+			'sort by date', {},
+			'popular', {},
+			'programming', {},
+			'images', {},
+			'news', {},
+			'zero-click info', {},
+			'this page requires', {},
+			'get the non-JS version', {},
+			'here', {},
+			'category', {},
 		],
 		tokens => [
 		],
@@ -272,23 +333,47 @@ sub add_token_contexts {
 		$data->{key} = $_;
 		$data->{source_language_id} = $self->c->{languages}->{$base}->id;
 		my $tc = $rs->create($data);
-		for (@{$snippets}) {
+		my @translations;
+		while (@{$snippets}) {
+			my $sn = shift @{$snippets};
+			my $tl = shift @{$snippets};
 			my $token = $tc->create_related('tokens',{
-				name => $_,
+				name => $sn,
 				snippet => 1,
 			});
+			push @translations, [ $token, $tl ];
 		}
-		for (@{$tokens}) {
-			$tc->create_related('tokens',{
-				name => $_,
+		while (@{$tokens}) {
+			my $sn = shift @{$tokens};
+			my $tl = shift @{$tokens};
+			my $token = $tc->create_related('tokens',{
+				name => $sn,
 				snippet => 0,
 			});
+			push @translations, [ $token, $tl ];
 		}
+		my %tcl;
 		for (@{$languages}) {
-			$tc->create_related('token_context_languages',{
+			$tcl{$_} = $tc->create_related('token_context_languages',{
 				language_id => $self->c->{languages}->{$_}->id,
 			});
 		}
+		for (@translations) {
+			my $token = shift @{$_};
+			my $trans = shift @{$_};
+			for my $u (keys %{$trans}) {
+				for (keys %{$trans->{$u}}) {
+					my $tl = $token->search_related('token_languages',{
+						token_context_language_id => $tcl{$_}->id,
+					})->first;
+					$tl->create_related('token_language_translations',{
+						username => $u,
+						translation => $trans->{$u}->{$_},
+					});
+				}
+			}
+		}
+		$_->auto_use for ($tc->token_context_languages->search_related('token_languages')->all);
 	}
 }
 

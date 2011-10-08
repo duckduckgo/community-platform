@@ -39,7 +39,6 @@
 		<@ FOR token_language IN token_languages.all @>
 			<@ SET other_translations = token_language.translations(c.user,1) @>
 			<@ SET own_translation = token_language.translations(c.user) @>
-			<@ SET used_translation = token_language.used_translation @>
 			<div class="mybox">
 				<table>
 					<tr>
@@ -47,8 +46,8 @@
 							"<@ token_language.token.name @>"
 						</td>
 						<td>
-							<@ IF used_translation @>
-								<@ l('Translation in use') @>: "<@ used_translation @>"
+							<@ IF token_language.used_translation @>
+								<@ l('Translation in use') @>: "<@ token_language.used_translation @>"
 							<@ ELSE @>
 								<@ l('Not yet any translation in use') @>
 							<@ END @>

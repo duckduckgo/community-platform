@@ -3,7 +3,6 @@
 		<div class="mybox">
 			<p>Language: <@ user_language.language.name_in_local @></p>
 			<p>Grade: <@ user_language.grade @></p>
-			<input type="submit" value="Delete Entry" name="user_language_<@ user_language.id @>_delete" />
 		</div>
 	<@ END @>
 	<div class="mybox">

@@ -54,12 +54,38 @@ has_many 'token_language_translations', 'DDGC::DB::Result::Token::Language::Tran
 
 unique_constraint [qw/ token_id token_context_language_id /];
 
-sub used_translation {
+sub auto_use {
 	my ( $self ) = @_;
-	return $self->search_related('token_language_translations',{
-		used => 1,
-	})->first;
+	my @translations = $self->search_related('token_language_translations',{},{
+		order_by => 'me.updated',
+		prefetch => { user => 'user_languages' },
+	})->all;
+	my %first;
+	my %grade;
+	for (@translations) {
+		$first{$_->translation} = $_ unless defined $first{$_->translation};
+		my $translation_grade = $_->user->search_related('user_languages',{
+			language_id => $self->token_context_language->language->id,
+		})->first->grade;
+		my $best_grade = defined $grade{$_->translation} ? $grade{$_->translation} : 0;
+		$grade{$_->translation} = $translation_grade if $translation_grade > $best_grade;
+	}
+	my $best;
+	for (keys %first) {
+		if ($best) {
+			$best = $first{$_} if $grade{$_} > $grade{$best->translation}
+		} else {
+			$best = $first{$_};
+		}
+	}
+	if ($best) {
+		$self->translation($best->translation);
+		$self->translation_data($best->data);
+		return $self->update;
+	}
 }
+
+sub used_translation { shift->translation }
 
 sub translations {
 	my ( $self, $user, $not ) = @_;

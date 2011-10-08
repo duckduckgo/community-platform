@@ -45,9 +45,11 @@ sub languages :Chained('logged_in') :Args(0) {
     my ( $self, $c ) = @_;
 	$c->stash->{languages} = [$c->model('DB::Language')->search({})->all];
 	if ($c->req->params->{add_user_language}) {
-		$c->user->db->create_related('user_languages',{
+		$c->user->db->update_or_create_related('user_languages',{
 			grade => $c->req->params->{grade},
 			language_id => $c->req->params->{language_id},
+		},{
+			key => 'user_language_language_id_username',
 		});
 	}
 }

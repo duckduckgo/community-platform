@@ -53,6 +53,8 @@ column updated => {
 belongs_to 'user', 'DDGC::DB::Result::User', { 'foreign.username' => 'self.username' };
 belongs_to 'language', 'DDGC::DB::Result::Language', 'language_id';
 
+unique_constraint [qw/ language_id username /];
+
 use overload '""' => sub {
 	my $self = shift;
 	return 'User-Language #'.$self->id;
