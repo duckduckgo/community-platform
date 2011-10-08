@@ -26,12 +26,6 @@ column notes => {
 	is_nullable => 1,
 };
 
-column used => {
-	data_type => 'tinyint',
-	is_nullable => 0,
-	default_value => 0,
-};
-
 column token_language_id => {
 	data_type => 'bigint',
 	is_nullable => 0,

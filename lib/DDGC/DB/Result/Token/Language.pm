@@ -25,6 +25,17 @@ column notes => {
 	is_nullable => 1,
 };
 
+column translation => {
+	data_type => 'text',
+	is_nullable => 1,
+};
+
+column translation_data => {
+	data_type => 'text',
+	is_nullable => 1,
+	serializer_class => 'YAML',
+};
+
 column created => {
 	data_type => 'timestamp with time zone',
 	set_on_create => 1,
