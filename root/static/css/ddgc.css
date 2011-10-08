@@ -1,9 +1,5 @@
 /* UNIVERSAL */
 
-html, body {
-	overflow: hidden;
-}
-
 .centered_content {
 	margin: 0px auto;
 	width: 1024px;
