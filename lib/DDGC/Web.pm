@@ -64,8 +64,7 @@ __PACKAGE__->config(
 		particle => [3000],
 		out => {force => 'jpeg'}
 	},
-	'View::Email' => {
-		stash_key => 'email',
+	'View::Email::TT' => {
 		default => {
 			content_type => 'text/plain',
 			charset => 'utf-8'
