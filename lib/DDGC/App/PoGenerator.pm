@@ -1,6 +1,7 @@
 package DDGC::App::PoGenerator;
 
 use Moose;
+use DDGC;
 
 with qw(
 	MooseX::Getopt
@@ -35,5 +36,12 @@ has fallback => (
 	is => 'ro',
 	default => sub { 0 },
 );
+
+has _ddgc {
+	traits => [qw( NoGetopt )],
+	isa => 'DDGC',
+	is => 'ro',
+	default => sub { DDGC->new };
+}
 
 1;

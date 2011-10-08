@@ -108,6 +108,19 @@ sub public :Chained('logged_in') :Args(0) {
 
 }
 
+sub forgotpw_tokencheck :Chained('logged_out') :Args(2) {
+	my ( $self, $c, $user, $token ) = @_;
+	
+	#
+	# You can link to here from inside the email: <@ u('My','forgotpw_tokencheck',the_user_object.username,token) @>
+	#
+	
+	#
+	# get the user, check if the token stored in him is the token we get
+	#
+
+}
+
 sub forgotpw :Chained('logged_out') :Args(0) {
 	my ( $self, $c ) = @_;
 	return $c->detach if !$c->req->params->{requestpw};
@@ -118,9 +131,17 @@ sub forgotpw :Chained('logged_out') :Args(0) {
 	if ($found_user) {
 		$found_email = $found_user->data->{email};
 	}
-	if ( (!$found_user) || ( $email ne $found_email) ) {
+	unless ($found_user && $email eq $found_email) {
+		$c->stash->{wrong_user_or_wrong_email} = 1;
 		return;
 	}
+	
+	#
+	# generate a token, you can use rand() to get a random number and there is Digest::MD5 (already in dist.ini)
+	# which gives md5_hex, so you can make the random number look more cool
+	# save it on the user (->data->{forgotpw_token} ... ->update())
+	#
+	
 	$c->stash->{email} = {
 		to          => $found_user->data->{email},
 		from        => 'noreply@xxxxxx.de',
@@ -130,7 +151,9 @@ sub forgotpw :Chained('logged_out') :Args(0) {
 		content_type => 'text/plain',
 	};
 
-	$c->forward( $c->view('Email::TT') )
+	$c->forward( $c->view('Email::TT') );
+	
+	$c->stash->{email_sent};
 	
 }
 
