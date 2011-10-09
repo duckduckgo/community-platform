@@ -109,7 +109,7 @@ sub users {{
 		pw => 'test1234',
 		public => 1,
 		admin => 1,
-		notes => 'Testuser, admin and public',
+		notes => 'Testuser, admin, public, es',
 		languages => {
 			es => 6,
 		},
@@ -117,18 +117,26 @@ sub users {{
 	'testthree' => {
 		pw => '1234test',
 		public => 1,
-		notes => 'Testuser, public',
+		notes => 'Testuser, public, us',
 		languages => {
 			us => 6,
 		},
 	},
 	'testfour' => {
 		pw => '1234test',
-		notes => 'Testuser',
+		notes => 'Testuser, de, es, us',
 		languages => {
 			de => 3,
 			es => 3,
 			us => 5,
+		},
+	},
+	'testfive' => {
+		pw => '1-2-3-4-5',
+		notes => 'Testuser, ru, us',
+		languages => {
+			ru => 5,
+			us => 2,
 		},
 	},
 }}
@@ -182,7 +190,7 @@ sub token_contexts {{
 		name => 'The context of tests',
 		base => 'us',
 		description => 'Bla blub the test is dead the test is dead!',
-		languages => [qw( us de es br )],
+		languages => [qw( us de es br ru )],
 		snippets => [
 			'Hello %1', {
 				testone => {
@@ -191,6 +199,9 @@ sub token_contexts {{
 				},
 				testthree => {
 					'us' => 'Welcome %1',
+				},
+				testfive => {
+					'ru' => 'Привет %1',
 				},
 			},
 			'You are %1 from %2', {
@@ -201,6 +212,9 @@ sub token_contexts {{
 				testthree => {
 					'us' => 'You are %1 from %2',
 				},
+				testfive => {
+					'ru' => 'Вы %1 из %2',
+				},
 			},
 		],
 		tokens => [
@@ -210,7 +224,7 @@ sub token_contexts {{
 		name => 'DuckDuckGo Results',
 		base => 'us',
 		description => 'Snippets around the Resultpage of DuckDuckGo',
-		languages => [qw( us de es br )],
+		languages => [qw( us de es br ru )],
 		snippets => [
 			'try', {
 				testone => {
@@ -340,7 +354,7 @@ sub token_contexts {{
 		name => 'DuckDuckGo Homepage',
 		base => 'us',
 		description => 'Snippets around the Homepage of DuckDuckGo',
-		languages => [qw( de es br )],
+		languages => [qw( de es br ru )],
 		snippets => [
 		],
 		tokens => [

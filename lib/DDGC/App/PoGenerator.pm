@@ -3,7 +3,7 @@ package DDGC::App::PoGenerator;
 use Moose;
 use DDGC;
 use File::Spec;
-use IO::All;
+use IO::All -utf8;
 
 with qw(
 	MooseX::Getopt
