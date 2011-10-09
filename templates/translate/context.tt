@@ -40,7 +40,8 @@
 			<@ SET other_translations = token_language.translations(c.user,1) @>
 			<@ SET own_translation = token_language.translations(c.user) @>
 			<div class="mybox">
-				<table>
+				<span class="help">?</span> <!-- <= Doesn't matter what this is... -->
+				<table class="tokentable">
 					<tr>
 						<td>
 							"<@ token_language.token.name @>"
@@ -52,6 +53,10 @@
 								<@ l('Not yet any translation in use') @>
 							<@ END @>
 						</td>
+					</tr>
+					<tr>
+						<td>magical row of awe</td>
+						<td><- same here</td>
 					</tr>
 					<tr>
 						<td>
@@ -84,3 +89,4 @@
 		</div>
 	<@ END @>
 </form>
+

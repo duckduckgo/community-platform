@@ -215,3 +215,26 @@ header {
 	/* TODO|FIXME This makes it suck when the window is tiny */
 	max-width: 100%;
 }
+
+
+/* translate/ */
+
+.tokentable td {
+	margin: 2px;
+	padding: 2px;
+}
+
+.help {
+	float: right;
+	position: relative;
+	color: #666;
+	background-color: rgba(103,133,179,0.5);
+	border: 1px solid #bbf;
+	box-shadow: 0 1px 3px 0 rgba(0,0,0,0.2);
+	border-radius: 4px;
+	text-decoration: none;
+	padding: 4px;
+	top: -10px;
+	right: -10px;
+	cursor: pointer;
+}
