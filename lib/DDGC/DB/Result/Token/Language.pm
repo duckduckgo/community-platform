@@ -55,10 +55,11 @@ has_many 'token_language_translations', 'DDGC::DB::Result::Token::Language::Tran
 unique_constraint [qw/ token_id token_context_language_id /];
 
 sub gettext_snippet {
-	my ( $self ) = @_;
-	return if !$self->translation;
-	my $id = $self->token->name;
+	my ( $self, $fallback ) = @_;
 	my $str = $self->translation;
+	return unless $str || $fallback;
+	my $id = $self->token->name;
+	$str = $id unless $str;
 	return << "EOF";
 
 msgid "$id"

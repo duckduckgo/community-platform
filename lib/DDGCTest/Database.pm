@@ -178,6 +178,34 @@ sub add_users {
 #  \__\___/|_|\_\___|_| |_|  \___\___/|_| |_|\__\___/_/\_\\__|
 
 sub token_contexts {{
+	'test-context' => {
+		name => 'The context of tests',
+		base => 'us',
+		description => 'Bla blub the test is dead the test is dead!',
+		languages => [qw( us de es br )],
+		snippets => [
+			'Hello %1', {
+				testone => {
+					'de' => 'Hallo %1',
+					'us' => 'Heeellloooo %1',
+				},
+				testthree => {
+					'us' => 'Welcome %1',
+				},
+			},
+			'You are %1 from %2', {
+				testone => {
+					'de' => 'Du bist %1 aus %2',
+					'us' => 'You, u %1 ofda %2',
+				},
+				testthree => {
+					'us' => 'You are %1 from %2',
+				},
+			},
+		],
+		tokens => [
+		],
+	},
 	'duckduckgo-results' => {
 		name => 'DuckDuckGo Results',
 		base => 'us',

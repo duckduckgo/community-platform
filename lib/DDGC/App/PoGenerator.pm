@@ -30,14 +30,13 @@ has allcontext => (
 has auto => (
 	isa => 'Bool',
 	is => 'ro',
-	default => sub { 0 },
+	default => sub { 1 },
 );
 
-# NOT IMPLEMENTED YET
 has fallback => (
 	isa => 'Bool',
 	is => 'ro',
-	default => sub { 0 },
+	default => sub { 1 },
 );
 
 has _ddgc => (
@@ -106,12 +105,7 @@ EOF
 	$intro > $file;
 	for ($token_context_language->search_related('token_languages')->all) {
 		$_->auto_use if ($self->auto && !$_->translation);
-		if ($_->translation) {
-			$_->gettext_snippet >> $file;
-			# "\n" >> $file;
-			# 'msgid "'.$_->token->name.'"'."\n" >> $file;
-			# 'msgstr "'.$_->translation.'"'."\n" >> $file;
-		}
+		$_->gettext_snippet($self->fallback) >> $file;
 	}
 }
 
