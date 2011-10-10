@@ -1,8 +1,8 @@
 <div class="public mybox">
 	<form action="<@ u('My','public') @>" method="post" name="publicform" id="publicform">
-		<div class="button" style="float:right"><a href="<@ u('Help','view','public') @>"><@ l('Informations about setting your profile public') @></a></div>
+		<div class="button" style="float:right"><a href="<@ u('Help','view','public') @>"><@ l('Information about making your profile public') @></a></div>
 		<@ IF wrong_captcha @>
-			<div class="error"><@ l('Captcha is wrong.') @></div>
+			<div class="error"><@ l('You entered the verification code incorrectly.') @></div>
 		<@ END @>
 		<div>
 			<img src="<@ u('Base','captcha') @>" alt="Captcha"/>

@@ -3,7 +3,7 @@
 		<legend><span><@ l('Register') @></span></legend>
 		<@ IF register_failed @>
 			<span class="error">
-				<@ l('Register failed!') @>
+				<@ l('Registration failed!') @>
 			</span>
 			<br />
 		<@ END @>
@@ -44,7 +44,7 @@
 		<br />
 		<@ IF wrong_captcha @>
 			<span class="error">
-				<@ l('Captcha is wrong.') @>
+				<@ l('You entered the verification code incorrectly.') @>
 			</span>
 			<br />
 		<@ END @>
