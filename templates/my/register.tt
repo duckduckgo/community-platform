@@ -15,7 +15,7 @@
 		<@ END @>
 		<@ IF user_exist @>
 			<span class="error">
-				<@ l('The user [_1] exist already.',user_exist) @>
+				<@ l('The user [_1] exists already.',user_exist) @>
 			</span>
 			<br />
 		<@ END @>
