@@ -25,8 +25,8 @@
 </div>
 <div class="email mybox">
 	<p><@ l('Your Email account') @></p>
-	<@ IF c.user.data.email @>Your email is: <@ c.user.data.email @><@ ELSE @>You didnt add an email to your account so far!<@ END @>
-	<a href="<@ u('My','email') @>">Change email of account</a>
+	<@ IF c.user.data.email @>Your email is: <@ c.user.data.email @><@ ELSE @>You have not added an email address to your account yet!<@ END @>
+	<a href="<@ u('My','email') @>">Change my email address</a>
 </div>
 <div class="public mybox">
 	<div class="buttonwrap"><a class="button" href="<@ u('Help','view','public') @>"><@ l('Information about making your profile public') @></a></div>
@@ -34,7 +34,7 @@
 		<p><@ l('Your profile is publicly visible') @></p>
 		<p><a href="<@ u('My','public') @>"><@ l('Hide your profile again') @></a></p>
 	<@ ELSE @>
-		<p><@ l('Your profile is not publicly visible so far') @></p>
+		<p><@ l('Your profile is not publicly visible yet') @></p>
 		<p><a href="<@ u('My','public') @>"><@ l('Make your profile public') @></a></p>
 	<@ END @>
 </div>

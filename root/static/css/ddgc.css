@@ -1,5 +1,13 @@
 /* UNIVERSAL */
 
+a {
+	color: #1168CC;
+}
+
+a:visited {
+	color: #6830BB;
+}
+
 .centered_content {
 	margin: 0px auto;
 	width: 1024px;
@@ -11,9 +19,9 @@ p {
 
 .error {
 	padding: 10px;
-	background-color: red;
 	font-size: large;
 	font-weight: bold;	
+	color: #f00;
 }
 
 .menu {

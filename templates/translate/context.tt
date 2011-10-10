@@ -33,7 +33,7 @@
 	</div>
 	<@ IF cant_speak @>
 		<div class="mybox">
-			<p><a href="<@ u('My','languages') @>"><@ l('You must add this language to your languages for translating it') @></a></p>
+			<p><a href="<@ u('My','languages') @>"><@ l('You must add this language to your known languages for translating it') @></a></p>
 		</div>
 	<@ ELSE @>
 		<@ FOR token_language IN token_languages.all @>
@@ -71,7 +71,7 @@
 									<@ END @>
 								</select>
 							<@ ELSE @>
-								<@ l('Noone translated this so far') @>
+								<@ l('No one translated this so far') @>
 							<@ END @>
 						</td>
 					</tr>

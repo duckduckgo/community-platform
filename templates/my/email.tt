@@ -2,7 +2,7 @@
 	<form action="<@ u('My','email') @>" method="post" name="emailform" id="emailform">
 		<a href="<@ u('My','account') @>">Go back to your account</a>
 		<@ IF wrong_captcha @>
-			<div class="error"><@ l('Captcha is wrong.') @></div>
+			<div class="error"><@ l('You entered the verification code incorrectly.') @></div>
 		<@ END @>
 		<div>
 			<img src="<@ u('Base','captcha') @>" alt="Captcha"/>

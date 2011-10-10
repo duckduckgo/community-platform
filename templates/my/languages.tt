@@ -19,7 +19,7 @@
 				<option value="2">2 - intermediate ability - enough for editing or discussions</option>
 				<option value="3">3 - advanced level - though you can write in this language with no problem, some small errors might occur</option>
 				<option value="4">4 - 'near-native' level - although it's not your first language from birth, your ability is something like that of a native speaker</option>
-				<option value="5">5 - native - you have been grown up with this language in your environment</option>
+				<option value="5">5 - native - you have grown up with this language in your environment</option>
 				<option value="6">6 - professional proficiency - you are earning your money with work in this language (like writer, translator, ...)</option>
 			</select>			
 		</p>
