@@ -72,6 +72,17 @@ sub context :Chained('logged_in') :PathPart('') :Args(1) {
 				$k{$1} = $c->req->params->{$_} if (length($c->req->params->{$_}) > 0 && $_ =~ m/token_language_(\d+)/);
 			}
 			for ($c->stash->{token_languages}->all) {
+				if ($c->user->admin) {
+					my $change = 0;
+					if ($c->req->params->{'token_notes_'.$_->id.'_edit'}) {
+						$_->token->notes($c->req->params->{'token_notes_'.$_->id.'_edit'});
+						$_->token->update;
+					}
+					if ($c->req->params->{'token_language_notes_'.$_->id.'_edit'}) {
+						$_->notes($c->req->params->{'token_language_notes_'.$_->id.'_edit'});
+						$_->update;
+					}
+				}
 				if (defined $k{$_->id}) {
 					$_->update_or_create_related('token_language_translations',{
 						translation => $k{$_->id},
