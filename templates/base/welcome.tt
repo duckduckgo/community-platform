@@ -1,3 +1,10 @@
+<div class="mybox legacybox">
+	<@ IF c.user @>
+		<a href="<@ u('My','account') @>">Get more information about your account</a>
+	<@ ELSE @>
+		Please use <a href="http://ddg.gg/">http://ddg.gg/</a> your short URL!&nbsp; It's shorter :)
+	<@ END @>
+</div>
 <div class="welcome_cols" id="welcome_right">
 	<div class="welcome_headline">Latest activity</div>
 	<div class="welcome_entry">Someone did something</div>

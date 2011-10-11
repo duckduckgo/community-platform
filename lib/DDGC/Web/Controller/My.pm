@@ -14,16 +14,16 @@ sub base :Chained('/base') :PathPart('my') :CaptureArgs(0) {
 	push @{$c->stash->{template_layout}}, 'centered_content.tt';
 }
 
-sub logout :Chained('base') :Args(0) :Global {
+sub logout :Chained('base') :Args(0) {
     my ( $self, $c ) = @_;
 	$c->logout;
-	$c->response->redirect($c->uri_for($self->action_for("login")));
+	$c->response->redirect($c->chained_uri('Base','welcome'));
 }
 
 sub logged_in :Chained('base') :PathPart('') :CaptureArgs(0) {
     my ( $self, $c ) = @_;
 	if (!$c->user) {
-		$c->response->redirect($c->uri_for($self->action_for("login")));
+		$c->response->redirect($c->chained_uri('My','login'));
 		return $c->detach;
 	}
 	push @{$c->stash->{template_layout}}, 'my/base.tt';
@@ -32,7 +32,7 @@ sub logged_in :Chained('base') :PathPart('') :CaptureArgs(0) {
 sub logged_out :Chained('base') :PathPart('') :CaptureArgs(0) {
     my ( $self, $c ) = @_;
 	if ($c->user) {
-		$c->response->redirect($c->uri_for($self->action_for("account")));
+		$c->response->redirect($c->chained_uri('My','account'));
 		return $c->detach;
 	}
 }
@@ -169,7 +169,7 @@ sub login :Chained('logged_out') :Args(0) {
 			username => $username,
 			password => $password,
 		}, 'users')) {
-			$c->response->redirect($c->uri_for($self->action_for('account')));
+			$c->response->redirect($c->chained_uri('Base','welcome'));
 		} else {
 			$c->stash->{login_failed} = 1;
 		}
@@ -224,7 +224,7 @@ sub register :Chained('logged_out') :Args(0) {
 		return $c->detach;
 	}
 
-	$c->response->redirect($c->uri_for($self->action_for('login')));
+		$c->response->redirect($c->chained_uri('My','login'));
 
 }
 

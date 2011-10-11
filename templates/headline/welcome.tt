@@ -9,6 +9,6 @@
 		<a href="<@ u('Help','view','contribute') @>">You want to contribute to this platform?</a>
 	</div>
 	<div class="feature_box">
-		<a href="<@ u('Help','view','services') @>">You provide a service and want to use features of this platform for it?</a>
+		<a href="<@ u('Help','view','screenupload') @>">Upload screenshots of DuckDuckGo, just for the fun or to show a bug!</a>
 	</div>
 </div>

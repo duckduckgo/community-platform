@@ -246,3 +246,13 @@ header {
 	right: -10px;
 	cursor: pointer;
 }
+
+/****************** legacybox *****************/
+
+.legacybox {
+	padding: 10px;
+	font-family: "Segoe UI","Arial",sans-serif;
+	font: 20px arial,helvetica,clean,sans-serif;
+	color: #222222;
+	text-align: center;
+}

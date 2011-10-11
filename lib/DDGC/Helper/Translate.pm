@@ -8,12 +8,11 @@ use Exporter 'import';
 our @EXPORT = qw( l l_set_locales l_add_context l_set_context );
 
 use DDGC::Localize;
+use IO::All;
 
 my %cons;
 my @locales;
 my $current;
-
-use DDP;
 
 sub l { $current->localize(@_) }
 
