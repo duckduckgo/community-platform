@@ -115,6 +115,9 @@ sub public :Chained('logged_in') :Args(0) {
 sub forgotpw_tokencheck :Chained('logged_out') :Args(2) {
 	my ( $self, $c, $user, $token ) = @_;
 
+	$c->stash->{check_username} = $user;
+	$c->stash->{check_token} = $token;
+
 	my $found_user = $c->d->find_user($user);
 	if ( (!$found_user) || ( $user ne $found_user) ) {
 		return;
@@ -124,10 +127,7 @@ sub forgotpw_tokencheck :Chained('logged_out') :Args(2) {
 		return;
 	}
 
-	$c->stash->{check_username} = $user;
-	$c->stash->{check_token} = $token;
-
-	my $newpass = md5_base64(int(rand(9999999999999999)));
+	my $newpass = md5_base64(int(rand(99999999)));
 	$found_user->data->{newpass} = $newpass;
 
 	
@@ -162,7 +162,7 @@ sub forgotpw :Chained('logged_out') :Args(0) {
 	# save it on the user (->data->{forgotpw_token} ... ->update())
 	#
 
-	my $token = md5_hex(int(rand(9999999999999999)));
+	my $token = md5_hex(int(rand(99999999)));
 	$found_user->data->{token} = $token;
 	$found_user->update;
 	$c->stash->{token} = $token;
