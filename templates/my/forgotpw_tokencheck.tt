@@ -1,0 +1,10 @@
+<div class="forgotpw_tokencheck mybox">
+	<form action="<@ u('My','forgotpw_tokencheck',check_username,check_token) @>" method="post" name="forgotpw_tokencheckform" id="forgotpw_tokencheckform">
+		<div>
+			I'm sure, reset my password.
+		</div>
+		<div>
+			<input type="submit" value="Reset" name="forgotpw_tokencheck" />
+		</div>
+	</form>
+</div>

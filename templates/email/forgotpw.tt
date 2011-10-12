@@ -1,2 +1,9 @@
-test
-meh
+This is an automated email from duckduckgo's community-platform. DO NOT REPLY.
+
+You have requested a password reset.
+
+Please click on the following link to confirm you want to reset your password:
+
+<@ u('My','forgotpw_tokencheck',c.stash.user,c.stash.token) @>
+
+Greetings from the duckduckgo team.

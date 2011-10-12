@@ -5,6 +5,8 @@ use namespace::autoclean;
 use DDGC::Config;
 use DDGC::User;
 use Email::Valid;
+use Digest::MD5 qw(md5_base64 md5_hex);
+
 
 BEGIN {extends 'Catalyst::Controller'; }
 
@@ -112,6 +114,22 @@ sub public :Chained('logged_in') :Args(0) {
 
 sub forgotpw_tokencheck :Chained('logged_out') :Args(2) {
 	my ( $self, $c, $user, $token ) = @_;
+
+	my $found_user = $c->d->find_user($user);
+	if ( (!$found_user) || ( $user ne $found_user) ) {
+		return;
+	}
+	my $found_token = $found_user->data->{token};
+	if ( (!$found_token) || ( $token ne $found_token) ) {
+		return;
+	}
+
+	$c->stash->{check_username} = $user;
+	$c->stash->{check_token} = $token;
+
+	my $newpass = md5_base64(int(rand(9999999999999999)));
+	$found_user->data->{newpass} = $newpass;
+
 	
 	#
 	# You can link to here from inside the email: <@ u('My','forgotpw_tokencheck',the_user_object.username,token) @>
@@ -143,6 +161,13 @@ sub forgotpw :Chained('logged_out') :Args(0) {
 	# which gives md5_hex, so you can make the random number look more cool
 	# save it on the user (->data->{forgotpw_token} ... ->update())
 	#
+
+	my $token = md5_hex(int(rand(9999999999999999)));
+	$found_user->data->{token} = $token;
+	$found_user->update;
+	$c->stash->{token} = $token;
+	$c->stash->{user} = $found_user->username;
+
 	
 	$c->stash->{email} = {
 		to          => $found_user->data->{email},
