@@ -37,6 +37,20 @@ sub _build_xmpp { DDGC::XMPP->new }
 sub resultset { shift->db->resultset(@_) }
 sub rs { shift->resultset(@_) }
 
+sub update_password {
+	my ( $self, $username, $password ) = @_;
+	my $pwrow = $self->xmpp->_prosody->_db->resultset('Prosody')->search({
+		host => DDGC::Config::prosody_userhost(),
+		user => $username,
+		store => 'accounts',
+		key => 'password',
+		type => 'string',
+	})->first;
+	die "unknown user" if !$pwrow;
+	$pwrow->value($password);
+	$pwrow->update;
+}
+
 sub create_user {
 	my ( $self, $username, $password ) = @_;
 	
