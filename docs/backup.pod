@@ -1,0 +1,11 @@
+= Backup =
+
+== Database ==
+
+PostgreSQL database ddgc and prosody
+
+== Config ==
+
+/etc/prosody/*
+/etc/postgresql/8.4/main/pg_hba.conf
+/etc/nginx/*

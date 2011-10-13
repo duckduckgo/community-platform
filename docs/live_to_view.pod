@@ -1,0 +1,66 @@
+= Live to View =
+
+Live: wing.dukgo.com (Linode US)
+View: donald.dukgo.com (Linode UK)
+
+== System ==
+
+Updating the state of the view to the state of the live system.
+
+=== First time ===
+
+==== General ====
+
+adding user ddgc
+
+generating postgres user and db for ddgc and prosody with same name
+
+installing local::lib for ddgc and App::cpanminus in it
+
+mkdir /home/ddgc/backup
+
+==== LUA ====
+
+Bug in liblua-dbi installation of prosody repository, download debian archive and remove libmysqlclient15off requirement, then install the new package
+
+==== nginx ====
+
+Make /etc/nginx/conf.d empty
+
+=== Sync debian packages ===
+
+  dpkg --get-selections | ssh view dpkg --selections
+
+=== Files for 1:1 copy ===
+
+  /etc/postgresql/8.4/main/pg_hba.conf
+  /etc/prosody/certs/view.dukgo.com.*
+  /etc/nginx/certs/view.dukgo.com.*
+  /etc/nginx/certs/server.*
+  /etc/nginx/nginx.conf
+  /etc/nginx/fastcgi_params_plack
+
+=== Files for replace ===
+
+==== Replaces ====
+
+  s/dukgo.com/view.dukgo.com/g
+  s/live.ddg.gg/view.ddg.gg/g
+  s/duckduckgo.org/view.duckduckgo.org/g
+
+==== Files ====
+
+  /etc/prosody.cfg.lua
+  /etc/nginx/conf.d/99_default
+  /etc/nginx/conf.d/10_dukgo.com
+  /etc/nginx/conf.d/11_ddg.gg
+  /etc/nginx/conf.d/12_duckduckgo.org
+  /home/ddgc/ddgc_config.sh
+
+== files of repository ==
+
+  share/prosody/modules/mod_blockuser.lua => /usr/local/lib/prosody/modules/
+
+== DDGC::Web ==
+
+TODO

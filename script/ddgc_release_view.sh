@@ -2,20 +2,20 @@
 
 CURRENT_DATE_FILENAME=$( date +%Y%m%d_%H%M%S )
 
-ssh ddgcview@view.dukgo.com "(
-	rm -rf ~/deploy-view &&
-	mkdir ~/deploy-view
+ssh ddgc@view.dukgo.com "(
+	rm -rf ~/deploy &&
+	mkdir ~/deploy
 )"
-scp $1 ddgcview@view.dukgo.com:~/deploy-view
-ssh -t ddgcview@view.dukgo.com "(
+scp $1 ddgc@view.dukgo.com:~/deploy
+ssh -t ddgc@view.dukgo.com "(
 	eval \$(perl -I\$HOME/perl5/lib/perl5 -Mlocal::lib) &&
 	. ~/ddgc_config.sh &&
-	cd ~/deploy-view &&
+	cd ~/deploy &&
 	tar xz --strip-components=1 -f $1 &&
 	rm $1 &&
 	cpanm -n --installdeps . &&
-	if [ -f ~/view.web.pid ]; then
-		OLDPID=\$( cat ~/view.web.pid )
+	if [ -f ~/web.pid ]; then
+		OLDPID=\$( cat ~/web.pid )
 	fi &&
 	if [ \"\$OLDPID\" ]; then
 		if [ \"\$( ps x | cut -c1-5 | grep \$OLDPID )\" ]; then
@@ -30,11 +30,13 @@ ssh -t ddgcview@view.dukgo.com "(
 			fi;
 		fi;
 	fi &&
-	mv ~/view ~/backup/view-$CURRENT_DATE_FILENAME &&
-	mv ~/deploy-view ~/view &&
-	rm -rf ~/cache-view &&
-	mkdir ~/cache-view &&
+	# probably adding check for database in sync
+	mv ~/live ~/backup/$CURRENT_DATE_FILENAME &&
+	mv ~/deploy ~/live &&
+	rm -rf ~/cache &&
+	mkdir ~/cache &&
 	. ~/ddgc_config.sh &&
-	perl ~/view/script/ddgc_db_autoupgrade.pl &&
-	perl ~/view/script/ddgc_web_fastcgi.pl --listen ~/view.web.socket -d -p ~/view.web.pid
+	# replace against check above
+	#perl ~/live/script/ddgc_db_autoupgrade.pl &&
+	perl ~/live/script/ddgc_web_fastcgi.pl --listen ~/web.socket -d -p ~/web.pid
 )"

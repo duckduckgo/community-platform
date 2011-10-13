@@ -15,13 +15,19 @@ use File::Path qw( make_path remove_tree );
 use Getopt::Long;
 
 my $kill;
+my $start;
 
 GetOptions (
 	"kill"  => \$kill,
+	"start" => \$start,
 );
 
 if (-d DDGC::Config::rootdir_path) {
 	$kill ? remove_tree(DDGC::Config::rootdir_path) : die "environment exist, use --kill to kill it!"
 }
 
-DDGCTest::Database->new(DDGC->new)->deploy;
+if ($start) {
+	DDGCTest::Database->new(DDGC->new)->deploy;
+} else {
+	DDGCTest::Database->new(DDGC->new)->deploy;
+}

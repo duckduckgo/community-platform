@@ -26,6 +26,7 @@ our $VERSION ||= '0.0development';
 __PACKAGE__->config(
     name => 'DDGC::Web',
     disable_component_resolution_regex_fallback => 1,
+	using_frontend_proxy => 1,
 	default_view => 'TT::Layouts',
 	encoding => 'utf8',
 	static => {
