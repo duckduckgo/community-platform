@@ -7,3 +7,13 @@
 <div>
 	Locale: <input type="text" name="language_<@ language.id || 0 @>_locale" value="<@ language.locale @>" />
 </div>
+<div>
+	Flagicon: 
+	<@ IF language.flagicon @><img src="<@ language.flag_url @>" /><@ END @>
+	<select name="language_<@ language.id || 0 @>_flagicon">
+		<option value=""></option>
+		<@ FOR flagicon IN flaglist @>
+			<option value="<@ flagicon @>"<@ IF flagicon == language.flagicon @> selected="selected"<@ END @>><@ flagicon @></option>
+		<@ END @>
+	</select>
+</div>

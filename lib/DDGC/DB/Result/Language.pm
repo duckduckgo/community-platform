@@ -37,6 +37,7 @@ column flagicon => {
 	data_type => 'text',
 	is_nullable => 1,
 };
+sub flag_url { 'http://duckduckgo.com/f2/'.(shift->flagicon).'.png' }
 
 column data => {
 	data_type => 'text',

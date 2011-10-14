@@ -3,8 +3,10 @@
 		<@ FOREACH list_language IN languages @>
 			<p>#<@ list_language.id @></p>
 			<@ INCLUDE admin/language/form.tt language=list_language @>
-			<p><input type="submit" value="Delete" name="language_<@ list_language.id @>_delete" /></p>
 		<@ END @>
+		<div>
+			<input type="submit" value="Update languages" name="save_languages" />
+		</div>
 	</div>
 	<div class="mybox">
 		<@ INCLUDE admin/language/form.tt @>
@@ -13,3 +15,6 @@
 		</div>
 	</div>
 </form>
+<@ FOREACH flagicon IN flaglist @>
+	<img src="http://duckduckgo.com/f2/<@ flagicon @>.png" title="<@ flagicon @>" alt="<@ flagicon @>" />
+<@ END @>

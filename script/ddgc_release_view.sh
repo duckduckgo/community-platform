@@ -38,5 +38,5 @@ ssh -t ddgc@view.dukgo.com "(
 	. ~/ddgc_config.sh &&
 	# replace against check above
 	#perl ~/live/script/ddgc_db_autoupgrade.pl &&
-	perl ~/live/script/ddgc_web_fastcgi.pl --listen ~/web.socket -d -p ~/web.pid
+	perl ~/live/script/ddgc_web_fastcgi.pl --listen 127.0.0.1:8989 -d -p ~/web.pid
 )"

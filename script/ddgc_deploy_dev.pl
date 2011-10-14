@@ -10,6 +10,7 @@ use warnings;
 
 use DDGC;
 use DDGCTest::Database;
+use DDGCTest::DatabaseStart;
 use File::Path qw( make_path remove_tree );
 
 use Getopt::Long;
@@ -27,7 +28,7 @@ if (-d DDGC::Config::rootdir_path) {
 }
 
 if ($start) {
-	DDGCTest::Database->new(DDGC->new)->deploy;
+	DDGCTest::DatabaseStart->new(DDGC->new)->deploy;
 } else {
 	DDGCTest::Database->new(DDGC->new)->deploy;
 }

@@ -6,6 +6,9 @@ use DDGC::Config;
 use DDGC::DB;
 use DDGC::User;
 use File::Copy;
+use IO::All;
+use File::Spec;
+use File::ShareDir::ProjectDistDir;
 
 # TESTING AND DEVELOPMENT, NOT FOR PRODUCTION
 sub deploy_fresh {
@@ -110,5 +113,9 @@ sub find_user {
 		xmpp => \%xmpp_user,
 	});
 }
+
+use Data::Printer;
+
+sub flaglist { map { chomp; $_; } io( File::Spec->catfile(dist_dir('DDGC'), 'flaglist.txt') )->slurp }
 
 1;

@@ -3,12 +3,14 @@
 		<div id="languagebox" class="fancymenu" style="float:right">
 			<div id="languagebox_headline" class="fancymenu_headline">
 				<@ l('Current language') @>:
+				<img src="<@ language.flag_url @>" />
 				<@ language.name_in_english @>
 			</div>
 			<input type="hidden" name="locale" value="<@ locale @>" />
 			<div id="languagebox_content" class="fancymenu_content">
 				<@ FOR loc IN locales.values @>
 					<p>
+						<img src="<@ loc.l.flag_url @>" />
 						<@ loc.l.name_in_english @>
 						<@ IF language.locale != loc.l.locale @>
 							<a href="<@ u('Translate','context',token_context.key,{ locale => loc.l.locale }) @>">

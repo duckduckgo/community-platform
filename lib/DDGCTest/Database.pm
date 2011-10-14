@@ -69,26 +69,31 @@ sub languages {{
 		name_in_english => 'English of United States',
 		name_in_local => 'English of United States',
 		locale => 'en_US',
+		flagicon => 'us',
 	},
 	'de' => {
 		name_in_english => 'German of Germany',
 		name_in_local => 'Deutsch von Deutschland',
 		locale => 'de_DE',
+		flagicon => 'de',
 	},
 	'es' => {
 		name_in_english => 'Spanish of Spain',
 		name_in_local => 'Español de España',
 		locale => 'es_ES',
+		flagicon => 'es',
 	},
 	'br' => {
 		name_in_english => 'Portuguese of Brazil',
 		name_in_local => 'Português do Brasil',
 		locale => 'pt_BR',
+		flagicon => 'br',
 	},
 	'ru' => {
 		name_in_english => 'Russian of Russia',
 		name_in_local => 'Русский России',
 		locale => 'ru_RU',
+		flagicon => 'ru',
 	},
 }}
 

@@ -1,7 +1,7 @@
 <form action="<@ u('My','languages') @>" method="post" name="mylanguagesform" id="mylanguagesform">
 	<@ FOREACH user_language IN c.user.user_languages @>
 		<div class="mybox">
-			<p>Language: <@ user_language.language.name_in_local @></p>
+			<p>Language: <img src="<@ user_language.language.flag_url @>" /><@ user_language.language.name_in_local @></p>
 			<p>Grade: <@ user_language.grade @></p>
 		</div>
 	<@ END @>
