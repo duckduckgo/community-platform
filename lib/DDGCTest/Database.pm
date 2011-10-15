@@ -259,6 +259,10 @@ sub token_contexts {{
 				},
 			},
 			'search', {
+				notes => {
+					token => 'test note',
+					de => 'de test note',
+				},
 				testone => {
 					'de' => 'Suche',
 					'us' => 'zearch',
@@ -409,14 +413,29 @@ sub add_token_contexts {
 			my $token = shift @{$_};
 			my $trans = shift @{$_};
 			for my $u (keys %{$trans}) {
-				for (keys %{$trans->{$u}}) {
-					my $tl = $token->search_related('token_languages',{
-						token_context_language_id => $tcl{$_}->id,
-					})->first;
-					$tl->create_related('token_language_translations',{
-						username => $u,
-						translation => $trans->{$u}->{$_},
-					});
+				if ($u eq 'notes') {
+					for (keys %{$trans->{$u}}) {
+						if ($_ eq 'token') {
+							$token->notes($trans->{$u}->{$_});
+							$token->update;
+						} else {
+							my $tl = $token->search_related('token_languages',{
+								token_context_language_id => $tcl{$_}->id,
+							})->first;
+							$tl->notes($trans->{$u}->{$_});
+							$tl->update;
+						}
+					}
+				} else {
+					for (keys %{$trans->{$u}}) {
+						my $tl = $token->search_related('token_languages',{
+							token_context_language_id => $tcl{$_}->id,
+						})->first;
+						$tl->create_related('token_language_translations',{
+							username => $u,
+							translation => $trans->{$u}->{$_},
+						});
+					}
 				}
 			}
 		}

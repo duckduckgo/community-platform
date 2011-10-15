@@ -86,7 +86,12 @@ sub token_contexts {{
 		description => 'Snippets around the Resultpage of DuckDuckGo',
 		languages => [qw( us de es br ru )],
 		snippets => [
-			'try $1', {},
+			'try $1', {
+				notes => {
+					token => 'note at the token directly',
+					de => 'note for specific language translation of the token',
+				},
+			},
 			'vehicle info', {},
 			'map', {},
 			'search', {},
