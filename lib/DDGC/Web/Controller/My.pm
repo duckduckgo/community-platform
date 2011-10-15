@@ -115,23 +115,37 @@ sub public :Chained('logged_in') :Args(0) {
 sub forgotpw_tokencheck :Chained('logged_out') :Args(2) {
 	my ( $self, $c, $user, $token ) = @_;
 
-	$c->stash->{resetok} = 'no';
-	return $c->detach if !$c->req->params->{forgotpw_tokencheck};
 	$c->stash->{check_username} = $user;
 	$c->stash->{check_token} = $token;
 
-	my $found_user = $c->d->find_user($user);
+	my $found_userhash = $c->d->find_user($user);
+	my $found_user = $found_userhash->username;
 	if ( (!$found_user) || ( $user ne $found_user) ) {
 		return;
 	}
-	my $found_token = $found_user->data->{token};
+	my $found_token = $found_userhash->data->{token};
 	if ( (!$found_token) || ( $token ne $found_token) ) {
 		return;
 	}
+	return if !$c->req->params->{forgotpw_tokencheck};
 
 	my $newpass = md5_base64(int(rand(99999999)));
-	$found_user->data->{newpass} = $newpass;
-	$c->stash->{resetok} = 'ok';
+	#$found_userhash->data->{newpass} = $newpass;
+	$c->d->update_password($user,$newpass);
+	$c->stash->{newpass} = $newpass;
+
+	$c->stash->{email} = {
+		to          => $found_userhash->data->{email},
+		from        => 'noreply@xxxxxx.de',
+		subject     => '[DuckDuckGo Community] New Password',
+		template        => 'email/newpw.tt',
+		charset         => 'utf-8',
+		content_type => 'text/plain',
+	};
+
+	$c->forward( $c->view('Email::TT') );
+
+	$c->stash->{resetok} = 1;
 
 	
 	#
@@ -175,7 +189,7 @@ sub forgotpw :Chained('logged_out') :Args(0) {
 	$c->stash->{email} = {
 		to          => $found_user->data->{email},
 		from        => 'noreply@xxxxxx.de',
-		subject     => 'Reset Password',
+		subject     => '[DuckDuckGo Community] Reset Password',
 		template	=> 'email/forgotpw.tt',
 		charset		=> 'utf-8',
 		content_type => 'text/plain',
@@ -183,7 +197,7 @@ sub forgotpw :Chained('logged_out') :Args(0) {
 
 	$c->forward( $c->view('Email::TT') );
 	
-	$c->stash->{email_sent};
+	$c->stash->{sentok} = 1;
 	
 }
 

@@ -1,6 +1,6 @@
 <div class="forgotpw_tokencheck mybox">
 	<form action="<@ u('My','forgotpw_tokencheck',check_username,check_token) @>" method="post" name="forgotpw_tokencheckform" id="forgotpw_tokencheckform">
-		<@ IF c.stash.resetok == ok @>
+		<@ IF resetok @>
 			<div>
 				Your password has been reset.
 			</div>
