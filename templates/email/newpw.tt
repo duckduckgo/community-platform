@@ -2,8 +2,6 @@ This is an automated email from DuckDuckGo's Community platform. DO NOT REPLY.
 
 You have requested a password reset.
 
-Please click on the following link to confirm you want to reset your password:
-
-<@ u('My','forgotpw_tokencheck',c.stash.user,c.stash.token) @>
+This is your new password: <@ c.stash.newpass @>
 
 Greetings from the DuckDuckGo Community team.
