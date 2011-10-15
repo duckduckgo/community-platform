@@ -115,6 +115,8 @@ sub public :Chained('logged_in') :Args(0) {
 sub forgotpw_tokencheck :Chained('logged_out') :Args(2) {
 	my ( $self, $c, $user, $token ) = @_;
 
+	$c->stash->{resetok} = 'no';
+	return $c->detach if !$c->req->params->{forgotpw_tokencheck};
 	$c->stash->{check_username} = $user;
 	$c->stash->{check_token} = $token;
 
@@ -129,6 +131,7 @@ sub forgotpw_tokencheck :Chained('logged_out') :Args(2) {
 
 	my $newpass = md5_base64(int(rand(99999999)));
 	$found_user->data->{newpass} = $newpass;
+	$c->stash->{resetok} = 'ok';
 
 	
 	#
