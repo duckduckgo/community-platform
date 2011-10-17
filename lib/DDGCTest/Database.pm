@@ -95,6 +95,12 @@ sub languages {{
 		locale => 'ru_RU',
 		flagicon => 'ru',
 	},
+	'in' => {
+		name_in_english => 'Hindi of India',
+		name_in_local => 'इंडिया का हिन्दी',
+		locale => 'hi_IN',
+		flagicon => 'in',
+	},
 }}
 
 sub add_languages {

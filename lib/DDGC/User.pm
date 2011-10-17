@@ -19,7 +19,6 @@ has db => (
 		public
 		created
 		updated
-		update
 		admin
 		user_languages
 		languages
@@ -27,11 +26,12 @@ has db => (
 		notes
 		data
 		token_language_translations
+	),qw(
 		create_related
 		find_related
+		update
 	)],
 );
-
 sub password { shift->xmpp->{accounts}->{password} }
 
 has locales => (
@@ -55,6 +55,21 @@ has xmpp => (
 	required => 1,
 );
 
+sub BUILD {
+	my ( $self ) = @_;
+	die "username of database is not username of DDGC::User" if $self->username ne $self->db->username;
+}
+
+sub public_username {
+	my ( $self ) = @_;
+	if ($self->public) {
+		return $self->username;
+	}
+	return;
+}
+
+# For Catalyst
+
 # Store given by Catalyst
 has store => (
 	is => 'rw',
@@ -65,7 +80,6 @@ has auth_realm => (
 	is => 'rw',
 );
 
-# For Catalyst
 sub supports {{}}
 
 sub for_session {
