@@ -1,6 +1,8 @@
 <header>
 
-	<a href="<@ u('Root','index') @>">DuckDuckGo Community Platform</a>
+	<a href="<@ u('Root','index') @>"><img id="logo" alt="DuckDuckGo Community Platform" src="/static/images/fduck.v101.green.png"/></a>
+	
+	<iframe src="http://duckduckgo.com/search.html?bgcolor=DBECF8" style="overflow:hidden;margin:0;padding:0;width:398px;height:38px;position:absolute;z-index:10;margin-left:-199px;left:50%;margin-top:-7px;" frameborder="0"></iframe>
 	
 	<@ INCLUDE userbox.tt @>
 
