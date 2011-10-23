@@ -1,13 +1,13 @@
-<form action="<@ u('Admin::Token','index') @>" method="post" name="tokencontextsform" id="tokencontextsform">
+<form action="<@ u('Admin::Token','index') @>" method="post" name="tokendomainsform" id="tokendomainsform">
 	<div class="mybox">
-		<@ FOREACH list_token_context IN token_contexts @>
-			<p>#<@ list_token_context.id @> [<@ list_token_context.key @>] <@ list_token_context.name @></p>
-			<@ INCLUDE admin/token/tokencontextform.tt token_context=list_token_context @>
-			<p><input type="submit" value="Delete" name="token_context_<@ list_token_context.id @>_delete" /></p>
+		<@ FOREACH list_token_domain IN token_domains @>
+			<p>#<@ list_token_domain.id @> [<@ list_token_domain.key @>] <@ list_token_domain.name @></p>
+			<@ INCLUDE admin/token/tokendomainform.tt token_domain=list_token_domain @>
+			<p><input type="submit" value="Delete" name="token_domain_<@ list_token_domain.id @>_delete" /></p>
 		<@ END @>
 	</div>
 	<div class="mybox">
-		<@ INCLUDE admin/token/tokencontextform.tt @>
+		<@ INCLUDE admin/token/tokendomainform.tt @>
 		<div>
 			<input type="submit" value="Save languages" name="save_languages" />
 		</div>

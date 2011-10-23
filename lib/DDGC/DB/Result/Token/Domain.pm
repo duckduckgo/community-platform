@@ -1,8 +1,8 @@
-package DDGC::DB::Result::Token::Context;
+package DDGC::DB::Result::Token::Domain;
 
 use DBIx::Class::Candy -components => [ 'TimeStamp', 'InflateColumn::DateTime', 'InflateColumn::Serializer', 'SingletonRows', 'EncodedColumn' ];
 
-table 'token_context';
+table 'token_domain';
 
 column id => {
 	data_type => 'bigint',
@@ -52,16 +52,16 @@ column updated => {
 	set_on_update => 1,
 };
 
-has_many 'tokens', 'DDGC::DB::Result::Token', 'token_context_id';
-has_many 'token_context_languages', 'DDGC::DB::Result::Token::Context::Language', 'token_context_id';
+has_many 'tokens', 'DDGC::DB::Result::Token', 'token_domain_id';
+has_many 'token_domain_languages', 'DDGC::DB::Result::Token::Domain::Language', 'token_domain_id';
 
 belongs_to 'source_language', 'DDGC::DB::Result::Language', 'source_language_id';
 
-many_to_many 'languages', 'token_context_languages', 'language';
+many_to_many 'languages', 'token_domain_languages', 'language';
 
 use overload '""' => sub {
 	my $self = shift;
-	return 'Token-Context '.$self->name.' #'.$self->id;
+	return 'Token-Domain '.$self->name.' #'.$self->id;
 }, fallback => 1;
 
 1;

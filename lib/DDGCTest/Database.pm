@@ -33,7 +33,7 @@ has c => (
 	default => sub {{
 		languages => {},
 		users => {},
-		token_context => {},
+		token_domain => {},
 	}},
 );
 
@@ -50,7 +50,7 @@ sub deploy {
 	$self->d->deploy_fresh;
 	$self->add_languages;
 	$self->add_users;
-	$self->add_token_contexts;
+	$self->add_token_domains;
 }
 
 sub isa_ok { ::isa_ok(@_) if shift->test }
@@ -196,9 +196,9 @@ sub add_users {
 # | || (_) |   <  __/ | | | | (_| (_) | | | | ||  __/>  <| |_
 #  \__\___/|_|\_\___|_| |_|  \___\___/|_| |_|\__\___/_/\_\\__|
 
-sub token_contexts {{
-	'test-context' => {
-		name => 'The context of tests',
+sub token_domains {{
+	'test-domain' => {
+		name => 'The domain of tests',
 		base => 'us',
 		description => 'Bla blub the test is dead the test is dead!',
 		languages => [qw( us de es br ru )],
@@ -377,11 +377,11 @@ sub token_contexts {{
 	},
 }}
 
-sub add_token_contexts {
+sub add_token_domains {
 	my ( $self ) = @_;
-	my $rs = $self->db->resultset('Token::Context');
-	for (keys %{$self->token_contexts}) {
-		my $data = $self->token_contexts->{$_};
+	my $rs = $self->db->resultset('Token::Domain');
+	for (keys %{$self->token_domains}) {
+		my $data = $self->token_domains->{$_};
 		my $base = delete $data->{base};
 		my $languages = delete $data->{languages};
 		push @{$languages}, $base;
@@ -411,7 +411,7 @@ sub add_token_contexts {
 		}
 		my %tcl;
 		for (@{$languages}) {
-			$tcl{$_} = $tc->create_related('token_context_languages',{
+			$tcl{$_} = $tc->create_related('token_domain_languages',{
 				language_id => $self->c->{languages}->{$_}->id,
 			});
 		}
@@ -426,7 +426,7 @@ sub add_token_contexts {
 							$token->update;
 						} else {
 							my $tl = $token->search_related('token_languages',{
-								token_context_language_id => $tcl{$_}->id,
+								token_domain_language_id => $tcl{$_}->id,
 							})->first;
 							$tl->notes($trans->{$u}->{$_});
 							$tl->update;
@@ -435,7 +435,7 @@ sub add_token_contexts {
 				} else {
 					for (keys %{$trans->{$u}}) {
 						my $tl = $token->search_related('token_languages',{
-							token_context_language_id => $tcl{$_}->id,
+							token_domain_language_id => $tcl{$_}->id,
 						})->first;
 						$tl->create_related('token_language_translations',{
 							username => $u,
@@ -445,7 +445,7 @@ sub add_token_contexts {
 				}
 			}
 		}
-		$_->auto_use for ($tc->token_context_languages->search_related('token_languages')->all);
+		$_->auto_use for ($tc->token_domain_languages->search_related('token_languages')->all);
 	}
 }
 

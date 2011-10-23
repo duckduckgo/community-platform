@@ -1,3 +1,0 @@
-<div>
-	Name: <input type="text" size="80" name="token_context_<@ token_context.id || 0 @>_name" value="<@ token_context.name @>" />
-</div>

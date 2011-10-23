@@ -15,7 +15,7 @@ column token_id => {
 	is_nullable => 0,
 };
 
-column token_context_language_id => { 
+column token_domain_language_id => { 
 	data_type => 'bigint',
 	is_nullable => 0,
 };
@@ -48,11 +48,11 @@ column updated => {
 };
 
 belongs_to 'token', 'DDGC::DB::Result::Token', 'token_id';
-belongs_to 'token_context_language', 'DDGC::DB::Result::Token::Context::Language', 'token_context_language_id';
+belongs_to 'token_domain_language', 'DDGC::DB::Result::Token::Domain::Language', 'token_domain_language_id';
 
 has_many 'token_language_translations', 'DDGC::DB::Result::Token::Language::Translation', 'token_language_id';
 
-unique_constraint [qw/ token_id token_context_language_id /];
+unique_constraint [qw/ token_id token_domain_language_id /];
 
 sub gettext_snippet {
 	my ( $self, $fallback ) = @_;
@@ -78,7 +78,7 @@ sub auto_use {
 	for (@translations) {
 		$first{$_->translation} = $_ unless defined $first{$_->translation};
 		my $translation_grade = $_->user->search_related('user_languages',{
-			language_id => $self->token_context_language->language->id,
+			language_id => $self->token_domain_language->language->id,
 		})->first->grade;
 		my $best_grade = defined $grade{$_->translation} ? $grade{$_->translation} : 0;
 		$grade{$_->translation} = $translation_grade if $translation_grade > $best_grade;

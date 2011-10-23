@@ -1,8 +1,8 @@
-package DDGC::DB::Result::Token::Context::Language;
+package DDGC::DB::Result::Token::Domain::Language;
 
 use DBIx::Class::Candy -components => [ 'TimeStamp', 'InflateColumn::DateTime', 'InflateColumn::Serializer', 'SingletonRows', 'EncodedColumn' ];
 
-table 'token_context_language';
+table 'token_domain_language';
 
 column id => {
 	data_type => 'bigint',
@@ -15,7 +15,7 @@ column language_id => {
 	is_nullable => 0,
 };
 
-column token_context_id => {
+column token_domain_id => {
 	data_type => 'bigint',
 	is_nullable => 0,
 };
@@ -31,16 +31,16 @@ column updated => {
 	set_on_update => 1,
 };
 
-belongs_to 'token_context', 'DDGC::DB::Result::Token::Context', 'token_context_id';
+belongs_to 'token_domain', 'DDGC::DB::Result::Token::Domain', 'token_domain_id';
 belongs_to 'language', 'DDGC::DB::Result::Language', 'language_id';
 
-has_many 'token_languages', 'DDGC::DB::Result::Token::Language', 'token_context_language_id';
+has_many 'token_languages', 'DDGC::DB::Result::Token::Language', 'token_domain_language_id';
 
 sub insert {
 	my $self = shift;
 	my $guard = $self->result_source->schema->txn_scope_guard;
 	$self->next::method(@_);
-	for ($self->token_context->tokens->all) {
+	for ($self->token_domain->tokens->all) {
 		$self->create_related('token_languages',{
 			token_id => $_->id,
 		});
@@ -51,7 +51,7 @@ sub insert {
 
 use overload '""' => sub {
 	my $self = shift;
-	return 'Token-Context-Language #'.$self->id;
+	return 'Token-Domain-Language #'.$self->id;
 }, fallback => 1;
 
 1;

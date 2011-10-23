@@ -18,7 +18,7 @@ sub do :Chained('base') :CaptureArgs(0) {
 
 sub index :Chained('do') :Args(0) {
     my ( $self, $c ) = @_;
-	$c->stash->{token_contexts} = $c->d->rs('Token::Context')->search({});
+	$c->stash->{token_domains} = $c->d->rs('Token::Domain')->search({});
 }
 
 sub logged_in :Chained('base') :PathPart('') :CaptureArgs(0) {
@@ -29,19 +29,19 @@ sub logged_in :Chained('base') :PathPart('') :CaptureArgs(0) {
 	}
 }
 
-sub context :Chained('logged_in') :PathPart('') :Args(1) {
-    my ( $self, $c, $token_context_key ) = @_;
+sub domain :Chained('logged_in') :PathPart('') :Args(1) {
+    my ( $self, $c, $token_domain_key ) = @_;
 	$c->pager_init($c->action,20);
 	$c->stash->{locale} = $c->req->params->{locale} ? $c->req->params->{locale} :
 		$c->session->{locale}->{$c->action} ? $c->session->{locale}->{$c->action} : undef;
-	$c->stash->{token_context} = $c->d->rs('Token::Context')->find({ key => $token_context_key },{
+	$c->stash->{token_domain} = $c->d->rs('Token::Domain')->find({ key => $token_domain_key },{
 		prefetch => {
-			token_context_languages => 'language',
+			token_domain_languages => 'language',
 		},
 	});
 	$c->stash->{locales} = {};
 	my $l;
-	for ($c->stash->{token_context}->token_context_languages) {
+	for ($c->stash->{token_domain}->token_domain_languages) {
 		$l = $_->language;
 		my $tcl = $_;
 		my @uloc = grep { $l->locale eq $_ } keys %{$c->user->locales};
@@ -93,7 +93,7 @@ sub context :Chained('logged_in') :PathPart('') :Args(1) {
 				}
 			}
 			if ($next_page && $c->stash->{token_languages}->pager->next_page) {
-				$c->res->redirect($c->chained_uri('Translate','context',$c->stash->{token_context}->key,{ page => $c->stash->{token_languages}->pager->next_page }));
+				$c->res->redirect($c->chained_uri('Translate','domain',$c->stash->{token_domain}->key,{ page => $c->stash->{token_languages}->pager->next_page }));
 				return $c->detach;
 			}
 		}

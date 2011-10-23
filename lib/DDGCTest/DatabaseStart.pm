@@ -17,7 +17,7 @@ sub deploy {
 	my ( $self ) = @_;
 	$self->add_languages;
 	$self->add_users;
-	$self->add_token_contexts;
+	$self->add_token_domains;
 }
 
 #############################
@@ -79,7 +79,7 @@ sub update_user {
 # | || (_) |   <  __/ | | | | (_| (_) | | | | ||  __/>  <| |_
 #  \__\___/|_|\_\___|_| |_|  \___\___/|_| |_|\__\___/_/\_\\__|
 
-sub token_contexts {{
+sub token_domains {{
 	'duckduckgo-results' => {
 		name => 'DuckDuckGo Results',
 		base => 'us',

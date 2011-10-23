@@ -62,7 +62,7 @@ column updated => {
 };
 
 has_many 'user_languages', 'DDGC::DB::Result::User::Language', 'language_id';
-has_many 'token_contexts', 'DDGC::DB::Result::Token::Context', 'source_language_id';
+has_many 'token_domains', 'DDGC::DB::Result::Token::Domain', 'source_language_id';
 
 many_to_many 'users', 'user_languages', 'user';
 
