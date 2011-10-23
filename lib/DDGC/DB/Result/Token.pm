@@ -10,11 +10,24 @@ column id => {
 };
 primary_key 'id';
 
-column name => {
+column msgid => {
 	data_type => 'text',
 	is_nullable => 0,
 };
 
+column msgid_plural => {
+	data_type => 'text',
+	is_nullable => 1,
+};
+
+column msgctxt => {
+	data_type => 'text',
+	is_nullable => 1,
+};
+
+#
+# By definition non-snippets don't have plural forms
+#
 column snippet => {
 	data_type => 'tinyint',
 	is_nullable => 0,

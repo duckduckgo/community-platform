@@ -25,12 +25,40 @@ column notes => {
 	is_nullable => 1,
 };
 
-column translation => {
+column msgstr0 => {
+	data_type => 'text',
+	is_nullable => 1,
+};
+sub msgstr { shift->msgstr0(@_) }
+
+column msgstr1 => {
 	data_type => 'text',
 	is_nullable => 1,
 };
 
-column translation_data => {
+column msgstr2 => {
+	data_type => 'text',
+	is_nullable => 1,
+};
+
+column msgstr3 => {
+	data_type => 'text',
+	is_nullable => 1,
+};
+
+column msgstr4 => {
+	data_type => 'text',
+	is_nullable => 1,
+};
+
+column msgstr5 => {
+	data_type => 'text',
+	is_nullable => 1,
+};
+
+sub msgstr_index_max { 5 }
+
+column data => {
 	data_type => 'text',
 	is_nullable => 1,
 	serializer_class => 'YAML',
@@ -56,15 +84,41 @@ unique_constraint [qw/ token_id token_domain_language_id /];
 
 sub gettext_snippet {
 	my ( $self, $fallback ) = @_;
-	my $str = $self->translation;
-	return unless $str || $fallback;
-	my $id = $self->token->name;
-	$str = $id unless $str;
-	return << "EOF";
+	my %vars;
+	if ($self->token->msgid_plural) {
+		for (0..$self->msgstr_index_max) {
+			my $func = 'msgstr'.$_;
+			my $result = $self->$func;
+			$vars{'msgstr['.$_.']'} = $result if $result;
+		}
+	} else {
+		$vars{'msgstr'} = $self->msgstr0 if $self->msgstr0;
+	}
+	return unless %vars || $fallback;
+	$vars{msgid} = $self->token->msgid;
+	$vars{msgid_plural} = $self->token->msgid_plural if $self->token->msgid_plural;
+	#$str = $id unless $str;
+	return "\n".$self->gettext_snippet_formatter(%vars);
+}
 
-msgid "$id"
-msgstr "$str"
-EOF
+sub gettext_snippet_formatter {
+	my ( $self, %vars ) = @_;
+	my $return;
+	for (qw( msgctxt msgid msgid_plural )) {
+		$return .= $_.' "'.(delete $vars{$_}).'"'."\n" if $vars{$_};
+	}
+	for (sort { $a cmp $b } keys %vars) {
+		$return .= $_.' "'.(delete $vars{$_}).'"'."\n";
+	}
+	return $return;
+}
+
+sub set_translation {
+	my ( $self, $translation ) = @_;
+	for (0..$self->msgstr_index_max) {
+		my $func = 'msgstr'.$_;
+		$self->$func($translation->$func);
+	}
 }
 
 sub auto_use {
@@ -76,24 +130,23 @@ sub auto_use {
 	my %first;
 	my %grade;
 	for (@translations) {
-		$first{$_->translation} = $_ unless defined $first{$_->translation};
+		$first{$_->key} = $_ unless defined $first{$_->key};
 		my $translation_grade = $_->user->search_related('user_languages',{
 			language_id => $self->token_domain_language->language->id,
 		})->first->grade;
-		my $best_grade = defined $grade{$_->translation} ? $grade{$_->translation} : 0;
-		$grade{$_->translation} = $translation_grade if $translation_grade > $best_grade;
+		my $best_grade = defined $grade{$_->key} ? $grade{$_->key} : 0;
+		$grade{$_->key} = $translation_grade if $translation_grade > $best_grade;
 	}
 	my $best;
 	for (keys %first) {
 		if ($best) {
-			$best = $first{$_} if $grade{$_} > $grade{$best->translation}
+			$best = $first{$_} if $grade{$_} > $grade{$best->key}
 		} else {
 			$best = $first{$_};
 		}
 	}
 	if ($best) {
-		$self->translation($best->translation);
-		$self->translation_data($best->data);
+		$self->set_translation($best);
 		return $self->update;
 	}
 }

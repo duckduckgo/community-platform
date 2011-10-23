@@ -39,6 +39,25 @@ column flagicon => {
 };
 sub flag_url { 'http://duckduckgo.com/f2/'.(shift->flagicon).'.png' }
 
+column nplurals => {
+	data_type => 'tinyint',
+	is_nullable => 0,
+	default_value => 2,
+};
+
+column plural => {
+	data_type => 'text',
+	is_nullable => 0,
+	default_value => 'n != 1',
+};
+
+# find them all: http://translate.sourceforge.net/wiki/l10n/pluralforms
+sub plural_forms {
+	my ( $self ) = @_;
+	return 'nplurals=1; plural=0' if ($self->nplurals == 1);
+	'nplurals='.($self->nplurals).'; plural='.($self->plural).';';
+}
+
 column data => {
 	data_type => 'text',
 	is_nullable => 1,

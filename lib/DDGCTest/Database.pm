@@ -88,12 +88,15 @@ sub languages {{
 		name_in_local => 'Português do Brasil',
 		locale => 'pt_BR',
 		flagicon => 'br',
+		plural => '(n > 1)',
 	},
 	'ru' => {
 		name_in_english => 'Russian of Russia',
 		name_in_local => 'Русский России',
 		locale => 'ru_RU',
 		flagicon => 'ru',
+		nplurals => '3',
+		plural => 'n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2',
 	},
 	'in' => {
 		name_in_english => 'Hindi of India',
@@ -203,28 +206,40 @@ sub token_domains {{
 		description => 'Bla blub the test is dead the test is dead!',
 		languages => [qw( us de es br ru )],
 		snippets => [
-			'Hello %1', {
+			'Hello %s', {
 				testone => {
-					'de' => 'Hallo %1',
-					'us' => 'Heeellloooo %1',
+					'de' => 'Hallo %s',
+					'us' => 'Heeellloooo %s',
 				},
 				testthree => {
-					'us' => 'Welcome %1',
+					'us' => 'Welcome %s',
 				},
 				testfive => {
-					'ru' => 'Привет %1',
+					'ru' => 'Привет %s',
 				},
 			},
-			'You are %1 from %2', {
+			'You are %s from %s', {
 				testone => {
-					'de' => 'Du bist %1 aus %2',
-					'us' => 'You, u %1 ofda %2',
+					'de' => 'Du bist %s aus %s',
+					'us' => 'You, u %s ofda %s',
 				},
 				testthree => {
-					'us' => 'You are %1 from %2',
+					'us' => 'You are %s from %s',
 				},
 				testfive => {
-					'ru' => 'Вы %1 из %2',
+					'ru' => 'Вы %s из %s',
+				},
+			},
+			'You have %d message', 'You have %d messages', {
+				testone => {
+					'de' => [ 'Du hast %d Nachricht', 'Du hast %d Nachrichten' ],
+					'us' => [ 'Yu hav %d meage', 'Yuuu hve %d meages' ],
+				},
+				testthree => {
+					'us' => [ 'You have %d message', 'You have %d messages' ],
+				},
+				testfive => {
+					'ru' => [ 'You have %d message', 'You have %d messages', 'You have %d messagess' ],
 				},
 			},
 		],
@@ -392,10 +407,15 @@ sub add_token_domains {
 		my $tc = $rs->create($data);
 		my @translations;
 		while (@{$snippets}) {
-			my $sn = shift @{$snippets};
+			my %msgid;
+			$msgid{msgid} = shift @{$snippets};
 			my $tl = shift @{$snippets};
+			if (ref $tl ne 'HASH') {
+				$msgid{msgid_plural} = $tl;
+				$tl = shift @{$snippets};
+			}
 			my $token = $tc->create_related('tokens',{
-				name => $sn,
+				%msgid,
 				snippet => 1,
 			});
 			push @translations, [ $token, $tl ];
@@ -437,9 +457,19 @@ sub add_token_domains {
 						my $tl = $token->search_related('token_languages',{
 							token_domain_language_id => $tcl{$_}->id,
 						})->first;
+						my %msgstr;
+						if (ref $trans->{$u}->{$_} eq 'ARRAY') {
+							my $i = 0;
+							for (@{$trans->{$u}->{$_}}) {
+								$msgstr{'msgstr'.$i} = $_;
+								$i++;
+							}
+						} else {
+							$msgstr{msgstr0} = $trans->{$u}->{$_},
+						}
 						$tl->create_related('token_language_translations',{
 							username => $u,
-							translation => $trans->{$u}->{$_},
+							%msgstr,
 						});
 					}
 				}

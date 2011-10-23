@@ -10,10 +10,38 @@ column id => {
 };
 primary_key 'id';
 
-column translation => {
+column msgstr0 => {
 	data_type => 'text',
 	is_nullable => 0,
 };
+sub msgstr { shift->msgstr0(@_) }
+
+column msgstr1 => {
+	data_type => 'text',
+	is_nullable => 1,
+};
+
+column msgstr2 => {
+	data_type => 'text',
+	is_nullable => 1,
+};
+
+column msgstr3 => {
+	data_type => 'text',
+	is_nullable => 1,
+};
+
+column msgstr4 => {
+	data_type => 'text',
+	is_nullable => 1,
+};
+
+column msgstr5 => {
+	data_type => 'text',
+	is_nullable => 1,
+};
+
+sub msgstr_index_max { 5 }
 
 column data => {
 	data_type => 'text',
@@ -66,6 +94,16 @@ belongs_to 'token_language', 'DDGC::DB::Result::Token::Language', 'token_languag
 
 # TODO
 #belongs_to 'takenfrom', 'DDGC::DB::Result::Token::Language::Translation', 'takenfrom_token_language_translation_id';
+
+sub key {
+	my ( $self ) = @_;
+	my $key;
+	for (0..$self->msgstr_index_max) {
+		my $func = 'msgstr'.$_;
+		$key .= $self->$func ? $self->$func : '';
+	}
+	return $key;
+}
 
 use overload '""' => sub {
 	my $self = shift;
