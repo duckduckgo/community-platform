@@ -239,7 +239,7 @@ sub token_domains {{
 					'us' => [ 'You have %d message', 'You have %d messages' ],
 				},
 				testfive => {
-					'ru' => [ 'You have %d message', 'You have %d messages', 'You have %d messagess' ],
+					'ru' => [ 'У вас %d сообщение', 'У вас %d сообщения', 'У вас %d сообщений' ],					
 				},
 			},
 		],
