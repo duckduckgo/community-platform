@@ -221,7 +221,7 @@ sub token_domains {{
 			'You are %s from %s', {
 				testone => {
 					'de' => 'Du bist %s aus %s',
-					'us' => 'You, u %s ofda %s',
+					'us' => 'You, ofda %2$s u %1$s',
 				},
 				testthree => {
 					'us' => 'You are %s from %s',

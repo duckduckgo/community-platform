@@ -97,6 +97,7 @@ sub gettext_snippet {
 	return unless %vars || $fallback;
 	$vars{msgid} = $self->token->msgid;
 	$vars{msgid_plural} = $self->token->msgid_plural if $self->token->msgid_plural;
+	$vars{msgctxt} = $self->token->msgctxt if $self->token->msgctxt;
 	#$str = $id unless $str;
 	return "\n".$self->gettext_snippet_formatter(%vars);
 }
@@ -104,7 +105,7 @@ sub gettext_snippet {
 sub gettext_snippet_formatter {
 	my ( $self, %vars ) = @_;
 	my $return;
-	for (qw( msgctxt msgid msgid_plural )) {
+	for (qw( msgid msgctxt msgid_plural )) {
 		$return .= $_.' "'.(delete $vars{$_}).'"'."\n" if $vars{$_};
 	}
 	for (sort { $a cmp $b } keys %vars) {
