@@ -3,8 +3,8 @@
 		<div id="languagebox" class="fancymenu" style="float:right">
 			<div id="languagebox_headline" class="fancymenu_headline">
 				<@ l('Current language') @>:
-				<img src="<@ language.flag_url @>" />
-				<@ language.name_in_english @>
+				<img src="<@ cur_language.flag_url @>" />
+				<@ cur_language.name_in_english @>
 			</div>
 			<input type="hidden" name="locale" value="<@ locale @>" />
 			<div id="languagebox_content" class="fancymenu_content">
@@ -12,7 +12,7 @@
 					<p>
 						<img src="<@ loc.l.flag_url @>" />
 						<@ loc.l.name_in_english @>
-						<@ IF language.locale != loc.l.locale @>
+						<@ IF cur_language.locale != loc.l.locale @>
 							<a href="<@ u('Translate','domain',token_domain.key,{ locale => loc.l.locale }) @>">
 								<@ IF loc.u @><@ l('You can speak this language') @><@ ELSE @><@ l('You can\'t speak this language') @><@ END @>
 							</a>
@@ -35,7 +35,7 @@
 	</div>
 	<@ IF cant_speak @>
 		<div class="mybox">
-			<p><a href="<@ u('My','languages') @>"><@ l('You must add this language to your known languages for translating it') @></a></p>
+			<p><a href="<@ u('My','languages',{ locale => cur_language.locale }) @>"><@ l('You must add this language to your known languages for translating it') @></a></p>
 		</div>
 	<@ ELSE @>
 		<@ FOR token_language IN token_languages.all @>

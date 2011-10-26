@@ -3,10 +3,10 @@
 </div>
 <div id="welcome_features">
 	<div class="feature_box feature_wide">
-		<a href="<@ u('Translate','index') @>">Help translating DuckDuckGo and other platforms into your language!</a>
+		<a href="<@ u('Translate','index') @>">Help translating DuckDuckGo into your language!</a>
 	</div>
 	<div class="feature_box">
-		<a href="<@ u('Help','view','contribute') @>">You want to contribute to this platform?</a>
+		You want to contribute to <a href="https://github.com/duckduckgo/community-platform/blob/master/README">this platform?</a> or <a href="https://github.com/duckduckgo/duckduckgo/wiki">directly to DuckDuckGo</a>
 	</div>
 	<div class="feature_box">
 		<a href="https://duckduckgo.com/spread.html">Help spreading the word of DuckDuckGo!</a>

@@ -1,3 +1,8 @@
+<@ IF languages @>
+	<div class="mybox">
+		Now you can start translating DuckDuckGo :-). Have fun! <a href="<@ u('translate','index') @>">Just click here</a>.
+	</div>
+<@ END @>
 <form action="<@ u('My','languages') @>" method="post" name="mylanguagesform" id="mylanguagesform">
 	<@ FOREACH user_language IN c.user.user_languages @>
 		<div class="mybox">
@@ -9,7 +14,7 @@
 		<p>
 			<select name="language_id">
 				<@ FOREACH list_language IN languages @>
-					<option value="<@ list_language.id @>"><@ list_language.name_in_local @></option>
+					<option value="<@ list_language.id @>" <@ IF c.req.params.locale == list_language.locale @>selected="selected"<@ END @>><@ list_language.name_in_local @></option>
 				<@ END @>
 			</select>
 		</p>

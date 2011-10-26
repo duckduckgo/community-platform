@@ -53,7 +53,7 @@ sub domain :Chained('logged_in') :PathPart('') :Args(1) {
 		};
 	}
 	$c->stash->{locale} = $l->locale if !$c->stash->{locale};
-	$c->stash->{language} = $c->stash->{locales}->{$c->stash->{locale}}->{l};
+	$c->stash->{cur_language} = $c->stash->{locales}->{$c->stash->{locale}}->{l};
 	$c->pager_init($c->action,20);
 	my $save_translations = $c->req->params->{save_translations} || $c->req->params->{save_translations_next_page} ? 1 : 0;
 	my $next_page = $c->req->params->{save_translations_next_page} ? 1 : 0;
