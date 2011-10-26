@@ -69,7 +69,8 @@ __PACKAGE__->config(
 
 sub localize {
 	my $c = shift;
-	return join('|',@_);
+	# thanks to perigrin for this
+	return sprintf($_[0], @_[1, $#_]);
 }
 
 sub d {

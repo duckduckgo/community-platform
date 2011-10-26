@@ -48,11 +48,22 @@
 				<table class="tokentable">
 					<tr>
 						<td>
-							"<@ token_language.token.name @>"
+							<table>
+								<tr>
+									<th><@ l('Singular') @></th>
+									<td><@ token_language.token.msgid @></td>
+								</tr>
+								<@ IF token_language.token.msgid_plural @>
+									<tr>
+										<th><@ l('Plural') @></th>
+										<td><@ token_language.token.msgid_plural @></td>
+									</tr>
+								<@ END @>
+							</table>
 						</td>
 						<td>
-							<@ IF token_language.used_translation @>
-								<@ l('Translation in use') @>: "<@ token_language.used_translation @>"
+							<@ IF token_language.msgstr @>
+								<@ INCLUDE translate/domain/translation.tt text=l('Translation in use') translation=token_language @>
 							<@ ELSE @>
 								<@ l('Not yet any translation in use') @>
 							<@ END @>
@@ -80,18 +91,24 @@
 					</tr>
 					<tr>
 						<td>
-							<input type="text" name="token_language_<@ token_language.id @>" value="<@ own_translation.translation @>" size="80" />
+							<table>
+								<tr>
+									<td colspan="2"><@ l('Translation in use') @>:</td>
+								</tr>
+								<@ FOR n IN [ 0..token_language.max_msgstr_index ] @>
+									<@ SET func = 'msgstr' _ n @>
+									<tr>
+										<td><@ IF n == 0 @><@ l('Singular') @><@ ELSE @><@ n @>th Plural Form<@ END @></td>
+										<td>
+											<input type="text" name="token_language_<@ token_language.id @>_<@ func @>" value="<@ own_translation.$func @>" size="80" />
+										</td>
+									</tr>
+								<@ END @>
+							</table>
 						</td>
 						<td>
-							<@ IF other_translations @>
-								<select class="other_translation">
-									<option></option>
-									<@ FOR translation IN other_translations @>
-										<option><@ translation.translation @></option>
-									<@ END @>
-								</select>
-							<@ ELSE @>
-								<@ l('No one translated this so far') @>
+							<@ FOR translation IN other_translations @>
+								<@ INCLUDE translate/domain/translation.tt text=l('Translation of %s',translation.user.username) @>
 							<@ END @>
 						</td>
 					</tr>

@@ -216,6 +216,7 @@ sub token_domains {{
 				},
 				testfive => {
 					'ru' => 'Привет %s',
+					'us' => 'Welcomee %s',
 				},
 			},
 			'You are %s from %s', {
@@ -228,6 +229,7 @@ sub token_domains {{
 				},
 				testfive => {
 					'ru' => 'Вы %s из %s',
+					'us' => 'You ar %s from %s',
 				},
 			},
 			'You have %d message', 'You have %d messages', {
@@ -240,152 +242,58 @@ sub token_domains {{
 				},
 				testfive => {
 					'ru' => [ 'У вас %d сообщение', 'У вас %d сообщения', 'У вас %d сообщений' ],					
+					'us' => [ 'You have %d mssage', 'You have %d messges' ],
 				},
 			},
 		],
 		tokens => [
 		],
 	},
-	'duckduckgo-results' => {
-		name => 'DuckDuckGo Results',
+	'more-tests' => {
+		name => 'The domain of other tests wow!',
 		base => 'us',
-		description => 'Snippets around the Resultpage of DuckDuckGo',
-		languages => [qw( us de es br ru )],
+		description => 'PRAISE THE TEST!',
+		languages => [qw( us de br ru )],
 		snippets => [
-			'try', {
+			'Yes dude %s %s %s', {
 				testone => {
-					'de' => 'Versuch',
-					'us' => 'tryy',
+					'de' => 'Jawohl %s Der %s Herr %s',
+					'us' => 'Yeah %s douche %s %s',
 				},
 				testthree => {
-					'us' => 'try',
+					'us' => 'Yes dude %s %s %s',
+				},
+				testfive => {
+					'ru' => 'Привет %s %s %s',
+					'us' => 'Welcomee %s %s %s',
 				},
 			},
-			'vehicle info', {
+			'You are %s from %s', {
 				testone => {
-					'de' => 'Fahrzeug Information',
-					'us' => 'vehycle ynfo',
+					'de' => 'Du bist %s aus %s',
+					'us' => 'You, ofda %2$s u %1$s',
 				},
 				testthree => {
-					'us' => 'vehicle info',
+					'us' => 'You are %s from %s',
+				},
+				testfive => {
+					'ru' => 'Вы %s из %s',
+					'us' => 'You ar %s from %s',
 				},
 			},
-			'map', {
+			'You have %d message', 'You have %d messages', {
 				testone => {
-					'de' => 'Karte',
-					'us' => 'maaap',
+					'de' => [ 'Du hast %d Nachricht', 'Du hast %d Nachrichten' ],
+					'us' => [ 'Yu hav %d meage', 'Yuuu hve %d meages' ],
 				},
 				testthree => {
-					'us' => 'map',
+					'us' => [ 'You have %d message', 'You have %d messages' ],
+				},
+				testfive => {
+					'ru' => [ 'У вас %d сообщение', 'У вас %d сообщения', 'У вас %d сообщений' ],					
+					'us' => [ 'You have %d mssage', 'You have %d messges' ],
 				},
 			},
-			'search', {
-				notes => {
-					token => 'test note',
-					de => 'de test note',
-				},
-				testone => {
-					'de' => 'Suche',
-					'us' => 'zearch',
-				},
-				testthree => {
-					'us' => 'search',
-				},
-			},
-			'try search on', {
-				testone => {
-					'de' => 'Versuch deine Suche auf',
-					'us' => 'dry zearch pn'
-				},
-				testthree => {
-					'us' => 'try search on',
-				},
-			},
-			'searches', {
-				testone => {
-					'de' => 'Suchen',
-					'us' => 'zearchez',
-				},
-				testthree => {
-					'us' => 'searches',
-				},
-			},
-			'uses our', {
-				testone => {
-					'de' => 'benutzt unser',
-					'us' => 'uzez my',
-				},
-				testthree => {
-					'us' => 'uses our',
-				},
-			},
-			'using our', {},
-			'syntax', {},
-			'more at', {},
-			'more', {},
-			'top', {},
-			'official site', {},
-			'random password', {},
-			'random number', {},
-			'random', {},
-			'entry in', {},
-			'web links', {},
-			'try web links', {},
-			'can mean different things', {},
-			'click what you meant by', {},
-			'meanings', {},
-			'some meanings', {},
-			'more meanings', {},
-			'dictionary', {},
-			'shipment tracking', {},
-			'try to go there', {},
-			'is a parked domain (last time we checked)', {},
-			'is an area code in', {},
-			'is a zip code in', {},
-			'is a phone number in', {},
-			'reverse search', {},
-			'pay', {},
-			'free', {},
-			'uses results from', {},
-			'results from', {},
-			'no right topic?', {},
-			'some topics grouped into', {},
-			'more topics', {},
-			'topics', {},
-			'grouped into sections', {},
-			'and', {},
-			'more links', {},
-			'related topics', {},
-			'more related topics', {},
-			'at', {},
-			'ignore this box please', {},
-			'put search terms here', {},
-			'settings', {},
-			'goodies', {},
-			'spread', {},
-			'add to', {},
-			'from any region', {},
-			'I\'m feeling ducky', {},
-			'sort by date', {},
-			'popular', {},
-			'programming', {},
-			'images', {},
-			'news', {},
-			'zero-click info', {},
-			'this page requires', {},
-			'get the non-JS version', {},
-			'here', {},
-			'category', {},
-		],
-		tokens => [
-		],
-	},
-	'duckduckgo-homepage' => {
-		name => 'DuckDuckGo Homepage',
-		base => 'us',
-		description => 'Snippets around the Homepage of DuckDuckGo',
-		languages => [qw( de es br ru )],
-		snippets => [
 		],
 		tokens => [
 		],

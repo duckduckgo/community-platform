@@ -2,7 +2,7 @@
 	<div id="userbox" class="fancymenu">
 		<div id="userbox_headline" class="fancymenu_headline">
 			<@ IF c.user @>
-				<@ l('Welcome [_1]!',c.user.username) @>
+				<@ l('Welcome %s!',c.user.username) @>
 			<@ ELSE @>
 				<@ l('Login or register') @>
 			<@ END @>

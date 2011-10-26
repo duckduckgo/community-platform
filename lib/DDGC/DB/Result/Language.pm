@@ -44,6 +44,7 @@ column nplurals => {
 	is_nullable => 0,
 	default_value => 2,
 };
+sub nplurals_index { shift->nplurals - 1 }
 
 column plural => {
 	data_type => 'text',

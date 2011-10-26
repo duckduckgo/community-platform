@@ -152,20 +152,37 @@ sub auto_use {
 	}
 }
 
-sub used_translation { shift->translation }
+sub max_msgstr_index {
+	my ( $self ) = @_;
+	if ( $self->token->msgid_plural ) {
+		return $self->token_domain_language->language->nplurals_index;
+	} else {
+		return 0;
+	}
+}
 
 sub translations {
-	my ( $self, $user, $not ) = @_;
-	return $self->search_related('token_language_translations',{
-		username => { '!=' => $user->username },
-	})->first if $not;
-	return $self->search_related('token_language_translations',{
-		username => $user->username,
-	})->first if $user;
-	$self->search_related('token_language_translations',{},{
-		group_by => ['translation'],
-	})->all;
+    my ( $self, $user, $for_other ) = @_;
+    return $self->token_language_translations unless $user;
+    my $is_user = sub { $_->username eq $user->username };
+    my @tokens = $self->token_language_translations;
+
+    return grep { $is_user->($_) } @tokens unless ($for_other);
+    return grep { !$is_user->($_) } @tokens;
 }
+
+# the same code, just different written (for people who have no clue of CODEREF)
+# sub translations {
+	# my ( $self, $user, $for_other ) = @_;
+	# return $self->token_language_translations unless $user;
+	# my @results;
+	# for (@{$self->token_language_translations}) {
+		# my $is_user = $_->username eq $user->username;
+		# return $_ if $is_user and not $for_other;
+		# push @results, $_ unless $is_user;
+	# }
+	# return @results;
+# }
 
 use overload '""' => sub {
 	my $self = shift;
