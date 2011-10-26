@@ -6,24 +6,25 @@
 	<@ END @>
 </div>
 <div class="welcome_cols" id="welcome_right">
-	<div class="welcome_headline">Latest activity</div>
-	<div class="welcome_entry">Someone did something</div>
-	<div class="welcome_entry">Someone did something</div>
-	<div class="welcome_entry">Someone did something</div>
-	<div class="welcome_headline">Latest pictures</div>
-	<div class="welcome_entry">Picture</div>
-	<div class="welcome_entry">Picture</div>
-	<div class="welcome_entry">Picture</div>
-	<div class="welcome_headline">Latest translation</div>
-	<div class="welcome_entry">Someone translated "Bla bla bla" into FLAG to "Blahhh Blahhh Blahhh"</div>
-	<div class="welcome_entry">Someone translated "Bla bla bla" into FLAG to "Blahhh Blahhh Blahhh"</div>
-	<div class="welcome_entry">Someone translated "Bla bla bla" into FLAG to "Blahhh Blahhh Blahhh"</div>
+	<div class="welcome_headline">Test DuckDuckGo Goodies</div>
+	<div class="welcome_entry"><a href="https://duckduckgo.com/?q=64*343">64*343</a></div>
+	<div class="welcome_entry"><a href="https://duckduckgo.com/?q=%243.43%2B%2434.45">$3.43+$34.45</a></div>
+	<div class="welcome_entry"><a href="https://duckduckgo.com/?q=birth+date+of+bono">birth date of bono</a></div>
+	<div class="welcome_entry"><a href="https://duckduckgo.com/?q=age+of+joan+rivers">age of joan rivers</a></div>	
+	<div class="welcome_entry"><a href="https://duckduckgo.com/?q=msft+vs+aapl+5yr">msft vs aapl 5yr</a></div>	
+	<div class="welcome_entry"><a href="https://duckduckgo.com/?q=throw+5+dice">throw 5 dice</a></div>	
+	<div class="welcome_headline">DuckDuckGo Social</div>
+	<div class="welcome_entry"><a href="http://duck.co/">DuckDuckGo Forum</a></div>	
+	<div class="welcome_entry"><a href="http://twitter.com/duckduckgo/team/members">The team behind DuckDuckGo</a></div>
+	<div class="welcome_entry"><a href="http://twitter.com/duckduckgo">DuckDuckGo on Twitter</a></div>
+	<div class="welcome_entry"><a href="http://facebook.com/duckduckgo">DuckDuckGo on Facebook</a></div>
+	<div class="welcome_entry"><a href="http://webchat.freenode.net/?channels=duckduckgo">DuckDuckGo IRC Channel</a></div>	
 </div>
 <div class="welcome_cols" id="welcome_left">
-	<div class="welcome_headline">News</div>
-	<div class="welcome_entry">Look, just because I don't be givin' no man a foot massage don't make it right for Marsellus to throw Antwone into a glass motherfuckin' house, fuckin' up the way the nigger talks. Motherfucker do that shit to me, he better paralyze my ass, 'cause I'll kill the motherfucker, know what I'm sayin'?</div>
-	<div class="welcome_entry">Normally, both your asses would be dead as fucking fried chicken, but you happen to pull this shit while I'm in a transitional period so I don't wanna kill you, I wanna help you. But I can't give you this case, it don't belong to me. Besides, I've already been through too much shit this morning over this case to hand it over to your dumb ass.</div>
-	<div class="welcome_entry">Do you see any Teletubbies in here? Do you see a slender plastic tag clipped to my shirt with my name printed on it? Do you see a little Asian child with a blank expression on his face sitting outside on a mechanical helicopter that shakes when you put quarters in it? No? Well, that's what you see at a toy store. And you must think you're in a toy store, because you're here shopping for an infant named Jeb.</div>
-	<div class="welcome_headline">Wanna help?</div>
-	<div class="welcome_entry">Your bones don't break, mine do. That's clear. Your cells react to bacteria and viruses differently than mine. You don't get sick, I do. That's also clear. But for some reason, you and I react the exact same way to water. We swallow it too fast, we choke. We get some in our lungs, we drown. However unreal it may seem, we are connected, you and I. We're on the same curve, just on opposite ends.</div>
+	<div class="welcome_headline">Welcome to our community project</div>
+	<div class="welcome_entry"><a href="https://duckduckgo.com/">DuckDuckGo</a> is a general purpose search engine like Google or Bing. If you want to know more about DuckDuckGo, checkout our <a href="https://duckduckgo.com/about.html">About page</a></div>
+	<div class="welcome_entry">Our search engine is very very user driven and we like to integrate and get in dialog with our community on all possible levels. We react fast on chat, email or forum. We want to finalize this touch with opening a community platform for all users, which is not only used by our users, but also developed by the community. Everybody can contribute, the community decides where we go.</div>
+	<div class="welcome_entry">One thing the community always requested was options for helping us, spread the word about DuckDuckGo and helping us to extend the options DuckDuckGo offers. We have a bunch of open source projects on our <a href="">Github organization page</a>, where you can give pull request or can get added as contributor. This is the first reason for this platform, we want the community to help us translate DuckDuckGo into all possible (and impossible ;) ) languages.</div>
+	<div class="welcome_headline">Translate DuckDuckGo!</div>
+	<div class="welcome_entry">If you want to help to translate, you must <a href="<@ u('my','register') @>">register</a> or <a href="<@ u('my','login') @>">login</a> with your existing XMPP dukgo.com account to this platform, and then add the languages you can speak. Then you can go through the sets of so called "tokens", small text snippets, which we need to translate. We explain this procedure more clear after you registered or logged in.</div>
 </div>

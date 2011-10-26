@@ -2,9 +2,9 @@
 	<div id="userbox" class="fancymenu">
 		<div id="userbox_headline" class="fancymenu_headline">
 			<@ IF c.user @>
-				<@ l('Welcome %s!',c.user.username) @>
+				<a href="<@ u('My','account') @>"><@ l('Welcome %s!',c.user.username) @></a>
 			<@ ELSE @>
-				<@ l('Login or register') @>
+				<a href="<@ u('My','account') @>">Login</a> or <a href="<@ u('My','register') @>">register</a>
 			<@ END @>
 		</div>
 		<div id="userbox_content" class="fancymenu_content">

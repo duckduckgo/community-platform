@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="<@ language @>">
+<html lang="<@ language.code2 @>">
 	<@ PROCESS head.tt @>
 	<body>
 		<div id="wrapper"> 

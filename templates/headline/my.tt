@@ -1,1 +1,1 @@
-<div>Your account</div>
+<div>Your account <@ c.user.username @>@dukgo.com <@ IF c.user.admin @>ADMIN<@ END @></div>

@@ -147,7 +147,7 @@ sub forgotpw_tokencheck :Chained('logged_out') :Args(2) {
 
 	$c->stash->{resetok} = 1;
 
-	
+
 	#
 	# You can link to here from inside the email: <@ u('My','forgotpw_tokencheck',the_user_object.username,token) @>
 	#
@@ -211,7 +211,7 @@ sub login :Chained('logged_out') :Args(0) {
 			username => $username,
 			password => $password,
 		}, 'users')) {
-			$c->response->redirect($c->chained_uri('Base','welcome'));
+			$c->response->redirect($c->chained_uri('My','account'));
 		} else {
 			$c->stash->{login_failed} = 1;
 		}
