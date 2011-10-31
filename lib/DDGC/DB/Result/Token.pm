@@ -26,9 +26,14 @@ column msgctxt => {
 };
 
 #
-# By definition non-snippets don't have plural forms
+# Token Type
 #
-column snippet => {
+# 0: not listed
+# 1: snippet
+# 2: free text (no plural forms, may include HTML)
+# 3: image (no plural forms)
+#
+column type => {
 	data_type => 'tinyint',
 	is_nullable => 0,
 	default_value => 1,

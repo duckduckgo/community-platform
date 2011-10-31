@@ -1,38 +1,8 @@
-<form action="<@ u('Translate','domain',token_domain.key) @>" method="post" name="translatedomainform" id="translatedomainform">
+<form action="<@ u('Translate','snippets',token_domain.key,cur_language.locale) @>" method="post" name="translatedomainform" id="translatedomainform">
 	<div class="mybox">
-		<div id="languagebox" class="fancymenu" style="float:right">
-			<div id="languagebox_headline" class="fancymenu_headline">
-				<@ l('Current language') @>:
-				<img src="<@ cur_language.flag_url @>" />
-				<@ cur_language.name_in_english @>
-			</div>
-			<input type="hidden" name="locale" value="<@ locale @>" />
-			<div id="languagebox_content" class="fancymenu_content">
-				<@ FOR loc IN locales.values @>
-					<p>
-						<img src="<@ loc.l.flag_url @>" />
-						<@ loc.l.name_in_english @>
-						<@ IF cur_language.locale != loc.l.locale @>
-							<a href="<@ u('Translate','domain',token_domain.key,{ locale => loc.l.locale }) @>">
-								<@ IF loc.u @><@ l('You can speak this language') @><@ ELSE @><@ l('You can\'t speak this language') @><@ END @>
-							</a>
-						<@ ELSE @>
-							<@ IF loc.u @><@ l('You can speak this language') @><@ ELSE @><@ l('You can\'t speak this language') @><@ END @>
-						<@ END @>
-					</p>
-				<@ END @>
-			</div>
-		</div>
-		<div>
-			<@ token_domain.name @>
-			<@ IF !cant_speak @>
-				<@ l('Page') @>: 
-				<@ INCLUDE pager/dropdown.tt pager=token_languages.pager @>
-				<@ l('Pagesize') @>: 
-				<@ INCLUDE pager/pagesize.tt @>
-			<@ END @>
-		</div>
+		<h1><@ l('Translate text snippets for %s',token_domain.name) @></h1>
 	</div>
+	<@ INCLUDE translate/languagebox.tt @>
 	<@ IF cant_speak @>
 		<div class="mybox">
 			<p><a href="<@ u('My','languages',{ locale => cur_language.locale }) @>"><@ l('You must add this language to your known languages for translating it') @></a></p>
@@ -140,10 +110,10 @@
 			<@ END @>
 		</div>
 		<div class="mybox">
-			<@ INCLUDE pager.tt pager=token_languages.pager url=u('Translate','domain',token_domain.key,{ page => 'PAGE_NO' }) @>
+			<@ INCLUDE pager.tt pager=token_languages.pager url=u('Translate','snippets',token_domain.key,cur_language.locale,{ page => 'PAGE_NO' }) @>
 		</div>
 	<@ END @>
 </form>
 <div class="mybox">
-	<a style="float:right" href="<@ u('Translate','index') @>"><@ l('Back to all translation projects') @></a>
+	<a style="float:right" href="<@ u('Translate','index') @>"><@ l('Back to all text domains') @></a>
 </div>

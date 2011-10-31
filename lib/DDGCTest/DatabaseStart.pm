@@ -80,607 +80,513 @@ sub update_user {
 #  \__\___/|_|\_\___|_| |_|  \___\___/|_| |_|\__\___/_/\_\\__|
 
 sub token_domains {{
-	'duckduckgo-results' => {
-		name => 'DuckDuckGo Results',
+	'duckduckgo-duckduckgo' => {
+		name => 'DuckDuckGo Mainpage',
 		base => 'us',
-		description => 'Snippets around the Resultpage of DuckDuckGo',
+		description => 'Snippets around the pages of DuckDuckGo itself',
 		languages => [qw( us de es br ru )],
 		snippets => [
-
 		    'Settings', {
-			notes => {
-			    token => 'In the top menu',
-			},
+				notes => {
+					token => 'In the top menu',
+				},
 		    },
 		    'Goodies', {
-			notes => {
-			    token => 'In the top menu',
-			},
+				notes => {
+					token => 'In the top menu',
+				},
 		    },
 		    'Team Duck', {
-			notes => {
-			    token => 'In the top menu',
-			},
+				notes => {
+					token => 'In the top menu',
+				},
 		    },
 		    'Results', {
-			notes => {
-			    token => 'In the top menu under Settings',
-			},
+				notes => {
+					token => 'In the top menu under Settings',
+				},
 		    },
 		    'Privacy', {
-			notes => {
-			    token => 'In the top menu under Settings',
-			},
+				notes => {
+					token => 'In the top menu under Settings',
+				},
 		    },
 		    'Colors', {
-			notes => {
-			    token => 'In the top menu under Settings',
-			},
+				notes => {
+					token => 'In the top menu under Settings',
+				},
 		    },
 		    'Look', {
-			notes => {
-			    token => 'In the top menu under Settings',
-			},
+				notes => {
+					token => 'In the top menu under Settings',
+				},
 		    },
 		    'Interface', {
-			notes => {
-			    token => 'In the top menu under Settings',
-			},
+				notes => {
+					token => 'In the top menu under Settings',
+				},
 		    },
 		    'All Settings', {
-			notes => {
-			    token => 'In the top menu under Settings',
-			},
+				notes => {
+					token => 'In the top menu under Settings',
+				},
 		    },
 		    'URL Params', {
-			notes => {
-			    token => 'In the top menu under Settings',
-			},
+				notes => {
+					token => 'In the top menu under Settings',
+				},
 		    },
 		    'Load/Reset', {
-			notes => {
-			    token => 'In the top menu under Settings',
-			},
+				notes => {
+					token => 'In the top menu under Settings',
+				},
 		    },
 		    'Shortcuts', {
-			notes => {
-			    token => 'In the top menu under Goodies',
-			},
+				notes => {
+					token => 'In the top menu under Goodies',
+				},
 		    },
 		    'Technical', {
-			notes => {
-			    token => 'In the top menu under Goodies',
-			},
+				notes => {
+					token => 'In the top menu under Goodies',
+				},
 		    },
 		    'Add-ons', {
-			notes => {
-			    token => 'In the top menu under Goodies',
-			},
+				notes => {
+					token => 'In the top menu under Goodies',
+				},
 		    },
 		    'About', {
-			notes => {
-			    token => 'In the top menu under Goodies',
-			},
+				notes => {
+					token => 'In the top menu under Goodies',
+				},
 		    },
 		    'Privacy', {
-			notes => {
-			    token => 'In the top menu under Goodies',
-			},
+				notes => {
+					token => 'In the top menu under Goodies',
+				},
 		    },
 		    'Add to $1', {
-			notes => {
-			    token => 'In the top menu under Team Duck -- $1 will be browser names, like Firefox.',
-			},
+				notes => {
+					token => 'In the top menu under Team Duck -- $1 will be browser names, like Firefox.',
+				},
 		    },
-
-		    'Get results for different meanings of $1', {
-			notes => {
-			    token => 'In 0-click box -- for disambiguation.'
-			},
+		    'Get results for different meanings of %s', {
+				notes => {
+					token => 'In 0-click box -- for disambiguation.'
+				},
 		    },
-
 		    'See also', {
-			notes => {
-			    token => 'In 0-click box -- for disambiguation.'
-			},
+				notes => {
+					token => 'In 0-click box -- for disambiguation.'
+				},
 		    },
-
 		    'Other uses', {
-			notes => {
-			    token => 'In 0-click box -- for disambiguation.'
-			},
+				notes => {
+					token => 'In 0-click box -- for disambiguation.'
+				},
 		    },
-
 		    'Meanings', {
-			notes => {
-			    token => 'In 0-click box -- for disambiguation.'
-			},
+				notes => {
+					token => 'In 0-click box -- for disambiguation.'
+				},
 		    },
-
 		    'Dictionary', {
-			notes => {
-			    token => 'In 0-click box -- link to definition.'
-			},
+				notes => {
+					token => 'In 0-click box -- link to definition.'
+				},
 		    },
-
 		    'Category', {
-			notes => {
-			    token => 'In 0-click box -- link to category page.'
-			},
+				notes => {
+					token => 'In 0-click box -- link to category page.'
+				},
 		    },
-
 		    'More related topics', {
-			notes => {
-			    token => 'In 0-click box -- link to category page.'
-			},
+				notes => {
+					token => 'In 0-click box -- link to category page.'
+				},
 		    },
-
-		    'More at $1', {
-			notes => {
-			    token => 'In 0-click box -- $1 will be a site name, like Wikipedia.'
-			},
+		    'More at %s', {
+				notes => {
+					token => 'In 0-click box -- %s will be a site name, like Wikipedia.'
+				},
 		    },
-
-		    'Entry in $1', {
-			notes => {
-			    token => 'In results when 0-click box cannot be displayed for some reason -- $1 will be a site name, like Wikipedia.'
-			},
+		    'Entry in %s', {
+				notes => {
+					token => 'In results when 0-click box cannot be displayed for some reason -- %s will be a site name, like Wikipedia.'
+				},
 		    },
-
 		    'Official site', {
-			notes => {
-			    token => 'Whether a site is official or not.'
-			},
+				notes => {
+					token => 'Whether a site is official or not.'
+				},
 		    },
-
-		    'Ads via $1', {
-			notes => {
-			    token => 'For advertising -- $1 will be an ad provider, like Amazon.'
-			},
+		    'Ads via %s', {
+				notes => {
+					token => 'For advertising -- %s will be an ad provider, like Amazon.'
+				},
 		    },
-
 		    'Search ideas', {
-			notes => {
-			    token => 'A label for the search ideas feature.'
-			},
+				notes => {
+					token => 'A label for the search ideas feature.'
+				},
 		    },
-
 		    'More results', {
-			notes => {
-			    token => 'A link to get more results from a particular domain.'
-			},
+				notes => {
+					token => 'A link to get more results from a particular domain.'
+				},
 		    },
-
-		    'results by $1', {
-			notes => {
-			    token => 'Used to identify sources -- $1 will be a source, like Bing.'
-			},
+		    'results by %s', {
+				notes => {
+					token => 'Used to identify sources -- %s will be a source, like Bing.'
+				},
 		    },
-
-		    'built with $1', {
-			notes => {
-			    token => 'Used to identify underyling technology -- $1 will be a name, like Yahoo!.'
-			},
+		    'built with %s', {
+				notes => {
+					token => 'Used to identify underyling technology -- %s will be a name, like Yahoo!.'
+				},
 		    },
-
 		    'What does this mean?', {
-			notes => {
-			    token => 'Used to link to a question on our help center.'
-			},
+				notes => {
+					token => 'Used to link to a question on our help center.'
+				},
 		    },
-		    
 		    'More links', {
-			notes => {
-			    token => 'A link to get more results (when auto-scroll is off or in special cases).'
-			},
+				notes => {
+					token => 'A link to get more results (when auto-scroll is off or in special cases).'
+				},
 		    },
-
 		    'more', {
-			notes => {
-			    token => 'Used to point to additional social networking profiles (in results).'
-			},
+				notes => {
+					token => 'Used to point to additional social networking profiles (in results).'
+				},
 		    },
-
 		    'Special', {
-			notes => {
-			    token => 'Used in the !bang dropdown.'
-			},
+				notes => {
+					token => 'Used in the !bang dropdown.'
+				},
 		    },
-
 		    'Try search on', {
-			notes => {
-			    token => 'Used in the !bang dropdown.'
-			},
+				notes => {
+					token => 'Used in the !bang dropdown.'
+				},
 		    },
-
 		    'Show all', {
-			notes => {
-			    token => 'Used in the !bang dropdown.'
-			},
+				notes => {
+					token => 'Used in the !bang dropdown.'
+				},
 		    },
-
 		    'By category', {
-			notes => {
-			    token => 'Used in the !bang dropdown.'
-			},
+				notes => {
+					token => 'Used in the !bang dropdown.'
+				},
 		    },
-
 		    'Alphabetically', {
-			notes => {
-			    token => 'Used in the !bang dropdown.'
-			},
+				notes => {
+					token => 'Used in the !bang dropdown.'
+				},
 		    },
-
 		    'Map', {
-			notes => {
-			    token => 'Used in 0-click box for local results, e.g. http://duckduckgo.com/?q=black+lab+bistro'
-			},
+				notes => {
+					token => 'Used in 0-click box for local results, e.g. http://duckduckgo.com/?q=black+lab+bistro'
+				},
 		    },
-
 		    'Nearby', {
-			notes => {
-			    token => 'Used in 0-click box for local results, e.g. http://duckduckgo.com/?q=black+lab+bistro'
-			},
+				notes => {
+					token => 'Used in 0-click box for local results, e.g. http://duckduckgo.com/?q=black+lab+bistro'
+				},
+		    },
+		    'Computed by %s', {
+				notes => {
+					token => 'Used in 0-click box for attribution -- %s would be a provider, like Wolfram|Alpha'
+				},
+		    },
+		    '%s is a zip code in %s', {
+				notes => {
+					token => 'Used in 0-click box for local results, e.g. https://duckduckgo.com/?q=19460'
+				},
 		    },
 
-		    'Computed by $1', {
-			notes => {
-			    token => 'Used in 0-click box for attribution -- $1 would be a provider, like Wolfram|Alpha'
-			},
+		    '%s is a phone number in %s', {
+				notes => {
+					token => 'Used in 0-click box for local results, e.g. https://duckduckgo.com/?q=%28323%29+319-6185'
+				},
 		    },
-
-		    '$1 is a zip code in $2', {
-			notes => {
-			    token => 'Used in 0-click box for local results, e.g. https://duckduckgo.com/?q=19460'
-			},
+		    'shipment tracking', {
+				notes => {
+					token => 'Used in goodie results, e.g. https://duckduckgo.com/?q=1Z0884XV0399906189'
+				},
 		    },
-
-		    '$1 is a phone number in $2', {
-			notes => {
-			    token => 'Used in 0-click box for local results, e.g. https://duckduckgo.com/?q=%28323%29+319-6185'
-			},
+		    'Reverse search', {
+				notes => {
+					token => 'Used in goodie results, e.g. https://duckduckgo.com/?q=%28323%29+319-6185'
+				},
 		    },
-
-		    'shipment tracking',
-			notes => {
-			    token => 'Used in goodie results, e.g. https://duckduckgo.com/?q=1Z0884XV0399906189'
-			},
+		    'pay', {
+				notes => {
+					token => 'Used in goodie results, e.g. https://duckduckgo.com/?q=%28323%29+319-6185'
+				},
 		    },
-
-		    'Reverse search',
-			notes => {
-			    token => 'Used in goodie results, e.g. https://duckduckgo.com/?q=%28323%29+319-6185'
-			},
+		    'vehicle info', {
+				notes => {
+					token => 'Used in goodie results, e.g. https://duckduckgo.com/?q=1g8gg35m1g7123101'
+				},
 		    },
-
-		    'pay',
-			notes => {
-			    token => 'Used in goodie results, e.g. https://duckduckgo.com/?q=%28323%29+319-6185'
-			},
+		    'Reviews', {
+				notes => {
+					token => 'Used in 0-click box for product results, e.g. https://duckduckgo.com/?q=9780061353246'
+				},
 		    },
-
-		    'vehicle info',
-			notes => {
-			    token => 'Used in goodie results, e.g. https://duckduckgo.com/?q=1g8gg35m1g7123101'
-			},
+		    'random number', {
+				notes => {
+					token => 'Used in 0-click box for goodies, e.g. https://duckduckgo.com/?q=random+number'
+				},
 		    },
-
-		    'Reviews',
-			notes => {
-			    token => 'Used in 0-click box for product results, e.g. https://duckduckgo.com/?q=9780061353246'
-			},
+		    'random password', {
+				notes => {
+					token => 'Used in 0-click box for goodies, e.g. https://duckduckgo.com/?q=random+password'
+				},
 		    },
-
-		    'random number',
-			notes => {
-			    token => 'Used in 0-click box for goodies, e.g. https://duckduckgo.com/?q=random+number'
-			},
+		    'random', {
+				notes => {
+					token => 'Used in 0-click box for goodies, e.g. https://duckduckgo.com/?q=yes+or+no'
+				},
 		    },
-
-		    'random password',
-			notes => {
-			    token => 'Used in 0-click box for goodies, e.g. https://duckduckgo.com/?q=random+password'
-			},
+		    '%s is in', {
+				notes => {
+					token => 'Used in 0-click box for local results, e.g. https://duckduckgo.com/?q=72.94.249.36'
+				},
 		    },
-
-		    'random',
-			notes => {
-			    token => 'Used in 0-click box for goodies, e.g. https://duckduckgo.com/?q=yes+or+no'
-			},
+		    'try to go there', {
+				notes => {
+					token => 'Used in goodie results, e.g. https://duckduckgo.com/?q=72.94.249.36'
+				},
 		    },
-
-		    '$1 is in',
-			notes => {
-			    token => 'Used in 0-click box for local results, e.g. https://duckduckgo.com/?q=72.94.249.36'
-			},
+		    '%s is a parked domain (last time we checked).', {
+				notes => {
+					token => 'Message displayed sometimes at top of results.'
+				},
 		    },
-
-		    'try to go there',
-			notes => {
-			    token => 'Used in goodie results, e.g. https://duckduckgo.com/?q=72.94.249.36'
-			},
+		    'Try: %s', {
+				notes => {
+					token => 'Message displayed sometimes at top of results (for bang syntax), e.g. https://duckduckgo.com/?q=twitter+test'
+				},
 		    },
-
-		    '$1 is a parked domain (last time we checked).',
-			notes => {
-			    token => 'Message displayed sometimes at top of results.'
-			},
+		    'Searches %s using our %s', {
+				notes => {
+					token => 'Message displayed sometimes at top of results (for bang syntax), e.g. https://duckduckgo.com/?q=twitter+test'
+				},
 		    },
-
-		    'Try: $1',
-			notes => {
-			    token => 'Message displayed sometimes at top of results (for bang syntax), e.g. https://duckduckgo.com/?q=twitter+test'
-			},
+		    'Offers', {
+				notes => {
+					token => 'Used in 0-click box for product results, e.g. https://duckduckgo.com/?q=9780061353246'
+				},
 		    },
-
-		    'Searches $1 using our $2',
-			notes => {
-			    token => 'Message displayed sometimes at top of results (for bang syntax), e.g. https://duckduckgo.com/?q=twitter+test'
-			},
+		    'Similar', {
+				notes => {
+					token => 'Used in 0-click box for product results, e.g. https://duckduckgo.com/?q=9780061353246'
+				},
 		    },
-
-		    'Offers',
-			notes => {
-			    token => 'Used in 0-click box for product results, e.g. https://duckduckgo.com/?q=9780061353246'
-			},
+		    'Library', {
+				notes => {
+					token => 'Used in 0-click box for product results, e.g. https://duckduckgo.com/?q=9780061353246'
+				},
 		    },
-
-		    'Similar',
-			notes => {
-			    token => 'Used in 0-click box for product results, e.g. https://duckduckgo.com/?q=9780061353246'
-			},
+		    'Top', {
+				notes => {
+					token => 'Used in headings on Category pages, e.g. https://duckduckgo.com/?q=simpsons+characters'
+				},
 		    },
-
-		    'Library',
-			notes => {
-			    token => 'Used in 0-click box for product results, e.g. https://duckduckgo.com/?q=9780061353246'
-			},
+		    'Web links', {
+				notes => {
+					token => 'Used in heading on bottom of Category pages, e.g. https://duckduckgo.com/?q=simpsons+characters'
+				},
 		    },
-
-		    'Top',
-			notes => {
-			    token => 'Used in headings on Category pages, e.g. https://duckduckgo.com/?q=simpsons+characters'
-			},
+		    'No right topic? Try web links...', {
+				notes => {
+					token => 'Used at the bottom of Category pages, e.g. https://duckduckgo.com/?q=simpsons+characters'
+				},
 		    },
-
-		    'Web links',
-			notes => {
-			    token => 'Used in heading on bottom of Category pages, e.g. https://duckduckgo.com/?q=simpsons+characters'
-			},
+		    'DDG Topics List', {
+				notes => {
+					token => 'Used at the bottom of Category pages, e.g. https://duckduckgo.com/?q=simpsons+characters'
+				},
 		    },
-
-		    'No right topic? Try web links...',
-			notes => {
-			    token => 'Used at the bottom of Category pages, e.g. https://duckduckgo.com/?q=simpsons+characters'
-			},
+		    'uses results from %s', {
+				notes => {
+					token => 'Used at the top of results for source attribution -- $1 is a source name, like Blekko'
+				},
 		    },
-
-		    'DDG Topics List',
-			notes => {
-			    token => 'Used at the bottom of Category pages, e.g. https://duckduckgo.com/?q=simpsons+characters'
-			},
+		    'ignore this box please', {
+				notes => {
+					token => 'Used for some hidden HTML elements'
+				},
 		    },
-
-		    'uses results from $1',
-			notes => {
-			    token => 'Used at the top of results for source attribution -- $1 is a source name, like Blekko'
-			},
+		    'put search terms here', {
+				notes => {
+					token => 'Used if you enter nothing in the search box.'
+				},
 		    },
-
-		    'ignore this box please',
-			notes => {
-			    token => 'Used for some hidden HTML elements'
-			},
+		    'I\m feeling ducky', {
+				notes => {
+					token => 'Used in the !bang dropdown.'
+				},
 		    },
-
-		    'put search terms here',
-			notes => {
-			    token => 'Used if you enter nothing in the search box.'
-			},
+		    'sort by date', {
+				notes => {
+					token => 'Used in the !bang dropdown.'
+				},
 		    },
-
-		    'I\m feeling ducky',
-			notes => {
-			    token => 'Used in the !bang dropdown.'
-			},
+		    'Images', {
+				notes => {
+					token => 'Used in the !bang dropdown.'
+				},
 		    },
-
-		    'sort by date',
-			notes => {
-			    token => 'Used in the !bang dropdown.'
-			},
+		    'News', {
+				notes => {
+					token => 'Used in the !bang dropdown.'
+				},
 		    },
-
-		    'Images',
-			notes => {
-			    token => 'Used in the !bang dropdown.'
-			},
+		    'This page requires %s', {
+				notes => {
+					token => 'Used for browsers not meeting certain requirements.'
+				},
 		    },
-
-		    'News',
-			notes => {
-			    token => 'Used in the !bang dropdown.'
-			},
+		    'Get the non-JS version', {
+				notes => {
+					token => 'Used for browsers not having JavaScript.'
+				},
 		    },
-
-		    'This page requires $1',
-			notes => {
-			    token => 'Used for browsers not meeting certain requirements.'
-			},
+		    'privacy policy', {
+				notes => {
+					token => 'Link on the homepage.'
+				},
 		    },
-
-		    'Get the non-JS version',
-			notes => {
-			    token => 'Used for browsers not having JavaScript.'
-			},
+		    'bubble', {
+				notes => {
+					token => 'Link on the homepage in the context of the Filter Bubble and dontbubble.us'
+				},
 		    },
-
-		    'privacy policy',
-			notes => {
-			    token => 'Link on the homepage.'
-			},
+		    'track', {
+				notes => {
+					token => 'Link on the homepage in the context of the No Tracking and donttrack.us'
+				},
 		    },
-
-		    'bubble',
-			notes => {
-			    token => 'Link on the homepage in the context of the Filter Bubble and dontbubble.us'
-			},
+		    'We don\'t %s or %s you!', {
+				notes => {
+					token => 'On the homepage.'
+				},
 		    },
-
-		    'track',
-			notes => {
-			    token => 'Link on the homepage in the context of the No Tracking and donttrack.us'
-			},
+		    'See our %s', {
+				notes => {
+					token => 'On the homepage.'
+				},
 		    },
-
-		    'We don\'t $1 or $2 you!',
-			notes => {
-			    token => 'On the homepage.'
-			},
+		    'Set as Homepage', {
+				notes => {
+					token => 'On the homepage.'
+				},
 		    },
-
-		    'See our $1',
-			notes => {
-			    token => 'On the homepage.'
-			},
+		    '%s is a %s', {
+				notes => {
+					token => 'Used in 0-click box for product results, e.g. https://duckduckgo.com/?q=9780061353246'
+				},
 		    },
-
-		    'Set as Homepage',
-			notes => {
-			    token => 'On the homepage.'
-			},
+		    'by %s', {
+				notes => {
+					token => 'Used in 0-click box for product results, e.g. https://duckduckgo.com/?q=9780061353246'
+				},
 		    },
-
-		    '$1 is a $2',
-			notes => {
-			    token => 'Used in 0-click box for product results, e.g. https://duckduckgo.com/?q=9780061353246'
-			},
+		    'released %s', {
+				notes => {
+					token => 'Used in 0-click box for product results, e.g. https://duckduckgo.com/?q=9780061353246'
+				},
 		    },
-
-		    'by $1',
-			notes => {
-			    token => 'Used in 0-click box for product results, e.g. https://duckduckgo.com/?q=9780061353246'
-			},
+		    'from %s', {
+				notes => {
+					token => 'Used in 0-click box for product results, e.g. https://duckduckgo.com/?q=9780061353246'
+				},
 		    },
-
-		    'released $1',
-			notes => {
-			    token => 'Used in 0-click box for product results, e.g. https://duckduckgo.com/?q=9780061353246'
-			},
+		    'and %s', {
+				notes => {
+					token => 'Used in 0-click box for product results, e.g. https://duckduckgo.com/?q=superbad+dvd'
+				},
 		    },
-
-		    'from $1',
-			notes => {
-			    token => 'Used in 0-click box for product results, e.g. https://duckduckgo.com/?q=9780061353246'
-			},
+		    '%d pg', '%d pgs', {
+				notes => {
+					token => 'An abbreviation for pages. Used in 0-click box for product results, e.g. https://duckduckgo.com/?q=9780061353246'
+				},
 		    },
-
-		    'and $1',
-			notes => {
-			    token => 'Used in 0-click box for product results, e.g. https://duckduckgo.com/?q=superbad+dvd'
-			},
+		    '%d disc', '%d discs', {
+				notes => {
+					token => 'Used in ads for products, e.g. https://duckduckgo.com/?q=the+graduate+dvd'
+				},
 		    },
-
-		    'pg', 'pgs',
-			notes => {
-			    token => 'An abbreviation for pages. Used in 0-click box for product results, e.g. https://duckduckgo.com/?q=9780061353246'
-			},
+		    'book', {
+				notes => {
+					token => 'Used in 0-click box for product results, e.g. https://duckduckgo.com/?q=superbad+dvd'
+				},
 		    },
-
-		    'disc', 'discs',
-			notes => {
-			    token => 'Used in ads for products, e.g. https://duckduckgo.com/?q=the+graduate+dvd'
-			},
+		    'album', {
+				notes => {
+					token => 'Used in 0-click box for product results, e.g. https://duckduckgo.com/?q=superbad+dvd'
+				},
 		    },
-
-		    'book',
-			notes => {
-			    token => 'Used in 0-click box for product results, e.g. https://duckduckgo.com/?q=superbad+dvd'
-			},
+		    'track', {
+				notes => {
+					token => 'Used in 0-click box for product results, e.g. https://duckduckgo.com/?q=superbad+dvd'
+				},
 		    },
-
-		    'album',
-			notes => {
-			    token => 'Used in 0-click box for product results, e.g. https://duckduckgo.com/?q=superbad+dvd'
-			},
+		    'Did yo mean %s?', {
+				notes => {
+					token => 'Used in spelling correction, e.g. https://duckduckgo.com/?q=testingg',
+				},
 		    },
-
-		    'track',
-			notes => {
-			    token => 'Used in 0-click box for product results, e.g. https://duckduckgo.com/?q=superbad+dvd'
-			},
+		    'Listen', {
+				notes => {
+					token => 'Used in 0-click bot for video results, e.g. https://duckduckgo.com/?q=blink182+song',
+				},
 		    },
-
-		    'Did yo mean $1?',
-			notes => {
-			    token => 'Used in spelling correction, e.g. https://duckduckgo.com/?q=testingg',
-			},
+		    'Safe search filtered your search to %s', {
+				notes => {
+					token => 'Message displayed sometimes at top of results.'
+				},
 		    },
-
-		    'Listen',
-			notes => {
-			    token => 'Used in 0-click bot for video results, e.g. https://duckduckgo.com/?q=blink182+song',
-			},
+		    'Safe search filtered 0-click info for %s', {
+				notes => {
+					token => 'Message displayed sometimes at top of results.'
+				},
 		    },
-
-		    'Safe search filtered your search to $1',
-			notes => {
-			    token => 'Message displayed sometimes at top of results.'
-			},
+		    'Use %s command to turn off temporarily.', {
+				notes => {
+					token => 'Message displayed sometimes at top of results.'
+				},
 		    },
-
-		    'Safe search filtered 0-click info for $1',
-			notes => {
-			    token => 'Message displayed sometimes at top of results.'
-			},
+		    'Turn off', {
+				notes => {
+					token => 'Message displayed sometimes at top of results -- in the context of safe search.'
+				},
 		    },
-
-		    'Use $1 command to turn off temporarily.',
-			notes => {
-			    token => 'Message displayed sometimes at top of results.'
-			},
+		    'temporarily', {
+				notes => {
+					token => 'Message displayed sometimes at top of results -- in the context of safe search.'
+				},
 		    },
-
-		    'Turn off'
-			notes => {
-			    token => 'Message displayed sometimes at top of results -- in the context of safe search.'
-			},
+		    'permanently', {
+				notes => {
+					token => 'Message displayed sometimes at top of results -- in the context of safe search.'
+				},
 		    },
-
-		    'temporarily'
-			notes => {
-			    token => 'Message displayed sometimes at top of results -- in the context of safe search.'
-			},
+		    'Keyboard shortcuts', {
+				notes => {
+					token => 'Section heading (for right column).'
+				},
 		    },
-
-		    'permanently'
-			notes => {
-			    token => 'Message displayed sometimes at top of results -- in the context of safe search.'
-			},
+		    'Search syntax', {
+				notes => {
+					token => 'Section heading (for right column).'
+				},
 		    },
-
-		    'Keyboard shortcuts'
-			notes => {
-			    token => 'Section heading (for right column).'
-			},
-		    },
-
-		    'Search syntax'
-			notes => {
-			    token => 'Section heading (for right column).'
-			},
-		    },
-
-		],
-		tokens => [
-		],
-	},
-	'duckduckgo-settings' => {
-		name => 'DuckDuckGo Settings',
-		base => 'us',
-		description => 'Snippets around the Settings of DuckDuckGo',
-		languages => [qw( us de es br ru )],
-		snippets => [
 		],
 		tokens => [
 		],
@@ -698,7 +604,7 @@ sub token_domains {{
 	'test' => {
 		name => 'Test area, playfield for you',
 		base => 'us',
-		description => 'The translations for _THIS_ platform :-)',
+		description => 'Play around with the translation interface without doing any harm! :)',
 		languages => [qw( us de es br ru )],
 		snippets => [
 			'From $1 to $2 over $3' => {},

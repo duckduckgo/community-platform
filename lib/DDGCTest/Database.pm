@@ -604,7 +604,7 @@ sub add_token_domains {
 			}
 			my $token = $tc->create_related('tokens',{
 				%msgid,
-				snippet => 1,
+				type => 1,
 			});
 			push @translations, [ $token, $tl ];
 		}
@@ -613,7 +613,7 @@ sub add_token_domains {
 			my $tl = shift @{$tokens};
 			my $token = $tc->create_related('tokens',{
 				name => $sn,
-				snippet => 0,
+				type => 2,
 			});
 			push @translations, [ $token, $tl ];
 		}

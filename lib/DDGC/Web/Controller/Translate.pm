@@ -29,19 +29,18 @@ sub logged_in :Chained('base') :PathPart('') :CaptureArgs(0) {
 	}
 }
 
-sub domain :Chained('logged_in') :PathPart('') :Args(1) {
+sub domain :Chained('logged_in') :PathPart('') :CaptureArgs(1) {
     my ( $self, $c, $token_domain_key ) = @_;
 	$c->stash->{locale} = $c->req->params->{locale} ? $c->req->params->{locale} :
-		$c->session->{locale}->{$c->action} ? $c->session->{locale}->{$c->action} : undef;
+		$c->session->{cur_locale}->{$token_domain_key} ? $c->session->{cur_locale}->{$token_domain_key} : undef;
 	$c->stash->{token_domain} = $c->d->rs('Token::Domain')->find({ key => $token_domain_key },{
 		prefetch => {
 			token_domain_languages => 'language',
 		},
 	});
 	$c->stash->{locales} = {};
-	my $l;
 	for ($c->stash->{token_domain}->token_domain_languages) {
-		$l = $_->language;
+		my $l = $_->language;
 		my $tcl = $_;
 		my @uloc = grep { $l->locale eq $_ } keys %{$c->user->locales};
 		my $u; $u = $c->user->locales->{$uloc[0]} if @uloc;
@@ -51,58 +50,73 @@ sub domain :Chained('logged_in') :PathPart('') :Args(1) {
 			u => $u,
 			tcl => $tcl,
 		};
+		$c->stash->{last_locale} = $l->locale;
 	}
-	$c->stash->{locale} = $l->locale if !$c->stash->{locale};
+}
+
+sub domainindex :Chained('domain') :PathPart('') :Args(0) {
+    my ( $self, $c ) = @_;
+	$c->response->redirect($c->chained_uri('Translate','snippets',$c->stash->{token_domain}->key,$c->stash->{last_locale}));
+	return $c->detach;
+}
+
+sub locale :Chained('domain') :PathPart('') :CaptureArgs(1) {
+    my ( $self, $c, $locale ) = @_;
+	$c->stash->{locale} = $locale;
+	if (!$c->stash->{locales}->{$c->stash->{locale}}->{u}) {
+		$c->response->redirect($c->chained_uri('Translate','domainindex',$c->stash->{token_domain}->key,{ cantspeak => $locale }));
+		return $c->detach;
+	}
 	$c->stash->{cur_language} = $c->stash->{locales}->{$c->stash->{locale}}->{l};
-	$c->pager_init($c->action,20);
+	$c->session->{cur_locale}->{$c->stash->{token_domain}->key} = $c->stash->{locale};
+}
+
+sub snippets :Chained('locale') :Args(0) {
+    my ( $self, $c ) = @_;
+	$c->pager_init({$c->action}.{$c->stash->{token_domain}->key}.{$c->stash->{locale}},20);
 	my $save_translations = $c->req->params->{save_translations} || $c->req->params->{save_translations_next_page} ? 1 : 0;
 	my $next_page = $c->req->params->{save_translations_next_page} ? 1 : 0;
-	if ($c->stash->{locales}->{$c->stash->{locale}}->{u}) {
-		$c->stash->{token_languages} = $c->stash->{locales}->{$c->stash->{locale}}->{tcl}->token_languages->search({
-			'token.snippet' => 1,
-		},{
-			order_by => 'me.created',
-			page => $c->stash->{page},
-			rows => $c->stash->{pagesize},
-			prefetch => 'token',
-		});
-		if ($save_translations) {
-			my %k; # storage of token_language_id + msgstr index
-			for (keys %{$c->req->params}) {
-				if (length($c->req->params->{$_}) > 0 && $_ =~ m/token_language_(\d+)_msgstr(\d)/) {
-					$k{$1} = {} unless defined $k{$1};
-					$k{$1}->{'msgstr'.$2} = $c->req->params->{$_} ;
-				}
-			}
-			for ($c->stash->{token_languages}->all) {
-				if ($c->user->admin) {
-					my $change = 0;
-					if ($c->req->params->{'token_notes_'.$_->id.'_edit'}) {
-						$_->token->notes($c->req->params->{'token_notes_'.$_->id.'_edit'});
-						$_->token->update;
-					}
-					if ($c->req->params->{'token_language_notes_'.$_->id.'_edit'}) {
-						$_->notes($c->req->params->{'token_language_notes_'.$_->id.'_edit'});
-						$_->update;
-					}
-				}
-				if (defined $k{$_->id}) {
-					$_->update_or_create_related('token_language_translations',{
-						%{$k{$_->id}},
-						user => $c->user->db,
-					},{
-						key => 'token_language_translation_token_language_id_username',
-					});
-				}
-			}
-			if ($next_page && $c->stash->{token_languages}->pager->next_page) {
-				$c->res->redirect($c->chained_uri('Translate','domain',$c->stash->{token_domain}->key,{ page => $c->stash->{token_languages}->pager->next_page }));
-				return $c->detach;
+	$c->stash->{token_languages} = $c->stash->{locales}->{$c->stash->{locale}}->{tcl}->token_languages->search({
+		'token.type' => 1,
+	},{
+		order_by => 'me.created',
+		page => $c->stash->{page},
+		rows => $c->stash->{pagesize},
+		prefetch => 'token',
+	});
+	if ($save_translations) {
+		my %k; # storage of token_language_id + msgstr index
+		for (keys %{$c->req->params}) {
+			if (length($c->req->params->{$_}) > 0 && $_ =~ m/token_language_(\d+)_msgstr(\d)/) {
+				$k{$1} = {} unless defined $k{$1};
+				$k{$1}->{'msgstr'.$2} = $c->req->params->{$_} ;
 			}
 		}
-		$c->session->{locale}->{$c->action} = $c->stash->{locale};
-	} else {
-		$c->stash->{cant_speak} = 1;
+		for ($c->stash->{token_languages}->all) {
+			if ($c->user->admin) {
+				my $change = 0;
+				if ($c->req->params->{'token_notes_'.$_->id.'_edit'}) {
+					$_->token->notes($c->req->params->{'token_notes_'.$_->id.'_edit'});
+					$_->token->update;
+				}
+				if ($c->req->params->{'token_language_notes_'.$_->id.'_edit'}) {
+					$_->notes($c->req->params->{'token_language_notes_'.$_->id.'_edit'});
+					$_->update;
+				}
+			}
+			if (defined $k{$_->id}) {
+				$_->update_or_create_related('token_language_translations',{
+					%{$k{$_->id}},
+					user => $c->user->db,
+				},{
+					key => 'token_language_translation_token_language_id_username',
+				});
+			}
+		}
+		if ($next_page && $c->stash->{token_languages}->pager->next_page) {
+			$c->res->redirect($c->chained_uri('Translate','snippets',$c->stash->{token_domain}->key,$c->stash->{locale},{ page => $c->stash->{token_languages}->pager->next_page }));
+			return $c->detach;
+		}
 	}
 }
 
