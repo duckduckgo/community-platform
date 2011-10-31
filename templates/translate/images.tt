@@ -1,6 +1,6 @@
-<form action="<@ u('Translate','snippets',token_domain.key,cur_language.locale) @>" method="post" name="translatedomainform" id="translatedomainform">
+<form action="<@ u('Translate','images',token_domain.key,cur_language.locale) @>" method="post" name="translatedomainform" id="translatedomainform">
 	<div class="mybox">
-		<h1><@ l('Translate text snippets for %s',token_domain.name) @></h1>
+		<h1><@ l('Translate images for %s',token_domain.name) @></h1>
 	</div>
 	<@ INCLUDE translate/languagebox.tt @>
 	<@ IF cant_speak @>
@@ -19,24 +19,11 @@
 					<tr>
 						<td>
 							<table>
-								<tr>
-									<th><@ l('Singular') @></th>
-									<td><@ token_language.token.msgid @></td>
-								</tr>
-								<@ IF token_language.token.msgid_plural @>
-									<tr>
-										<th><@ l('Plural') @></th>
-										<td><@ token_language.token.msgid_plural @></td>
-									</tr>
-								<@ END @>
+								<@ token_language.token.msgid @>
 							</table>
 						</td>
 						<td>
-							<@ IF token_language.msgstr @>
-								<@ INCLUDE translate/snippets/translation.tt text=l('Translation in use') translation=token_language @>
-							<@ ELSE @>
-								<@ l('Not yet any translation in use') @>
-							<@ END @>
+							TODO
 						</td>
 					</tr>
 					<tr>
@@ -63,23 +50,17 @@
 						<td>
 							<table>
 								<tr>
-									<td colspan="2"><@ l('Translation in use') @>:</td>
+									<td><@ l('Translation in use') @>:</td>
 								</tr>
-								<@ FOR n IN [ 0..token_language.max_msgstr_index ] @>
-									<@ SET func = 'msgstr' _ n @>
-									<tr>
-										<td><@ IF n == 0 @><@ l('Singular') @><@ ELSE @><@ n @>th Plural Form<@ END @></td>
-										<td>
-											<input type="text" name="token_language_<@ token_language.id @>_<@ func @>" value="<@ own_translation.$func @>" size="80" />
-										</td>
-									</tr>
-								<@ END @>
+								<tr>
+									<td>
+										TODO
+									</td>
+								</tr>
 							</table>
 						</td>
 						<td>
-							<@ FOR translation IN other_translations @>
-								<@ INCLUDE translate/snippets/translation.tt text=l('Translation of %s',translation.user.username) @>
-							<@ END @>
+							TODO
 						</td>
 					</tr>
 				</table>
@@ -110,7 +91,7 @@
 			<@ END @>
 		</div>
 		<div class="mybox">
-			<@ INCLUDE pager.tt pager=token_languages.pager url=u('Translate','snippets',token_domain.key,cur_language.locale,{ page => 'PAGE_NO' }) @>
+			<@ INCLUDE pager.tt pager=token_languages.pager url=u('Translate','images',token_domain.key,cur_language.locale,{ page => 'PAGE_NO' }) @>
 		</div>
 	<@ END @>
 </form>
