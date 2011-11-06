@@ -200,6 +200,40 @@ sub add_users {
 #  \__\___/|_|\_\___|_| |_|  \___\___/|_| |_|\__\___/_/\_\\__|
 
 sub token_domains {{
+	'test' => {
+		name => 'Test area, playfield for you',
+		base => 'us',
+		description => 'Play around with the translation interface without doing any harm! :)',
+		languages => [qw( us de es br ru )],
+		snippets => [
+			'From %s to %s over %s', {},
+			'THIS IS SPARTA', {},
+			'You should duck %s', {},
+			'Around the world', {},
+			'I\'m a little teapot', {},
+			'Bird is the word', {},
+			'%s is the %s', {},
+			'You have %s', {},
+			'%s message', '%s messages', {},
+		],
+		texts => [
+			'::test::something::1' => {
+				notes => {
+					token => 'The first paragraph should be about love'
+				},
+			},
+			'::test::something::2' => {
+				notes => {
+					token => 'The second paragraph should be about war'
+				},
+			},
+			'::test::something::3' => {
+				notes => {
+					token => 'And the third paragraph should be about DuckDuckGo!'
+				},
+			},
+		],
+	},
 	'test-domain' => {
 		name => 'The domain of tests',
 		base => 'us',
@@ -276,7 +310,7 @@ sub token_domains {{
 			'Hrooop, something\'s broke!', {},
 			'If you don\'t know, why should I? >:O', {},
 		],
-		tokens => [
+		texts => [
 		],
 	},
 	'more-tests' => {
@@ -286,6 +320,19 @@ sub token_domains {{
 		languages => [qw( us de br ru )],
 		snippets => [
 			'Yes dude %s %s %s', {
+				testone => {
+					'de' => 'Jawohl %s Der %s Herr %s',
+					'us' => 'Yeah %s douche %s %s',
+				},
+				testthree => {
+					'us' => 'Yes dude %s %s %s',
+				},
+				testfive => {
+					'ru' => 'Привет %s %s %s',
+					'us' => 'Welcomee %s %s %s',
+				},
+			},
+			\'testarea','Yes dude %s %s %s', {
 				testone => {
 					'de' => 'Jawohl %s Der %s Herr %s',
 					'us' => 'Yeah %s douche %s %s',
@@ -311,7 +358,20 @@ sub token_domains {{
 					'us' => 'You ar %s from %s',
 				},
 			},
-			'You have %d message', 'You have %d messages', {
+			\'email', 'You have %d message', 'You have %d messages', {
+				testone => {
+					'de' => [ 'Du hast %d Nachricht', 'Du hast %d Nachrichten' ],
+					'us' => [ 'Yu hav %d meage', 'Yuuu hve %d meages' ],
+				},
+				testthree => {
+					'us' => [ 'You have %d message', 'You have %d messages' ],
+				},
+				testfive => {
+					'ru' => [ 'У вас %d сообщение', 'У вас %d сообщения', 'У вас %d сообщений' ],					
+					'us' => [ 'You have %d mssage', 'You have %d messges' ],
+				},
+			},
+			\'community', 'You have %d message', 'You have %d messages', {
 				testone => {
 					'de' => [ 'Du hast %d Nachricht', 'Du hast %d Nachrichten' ],
 					'us' => [ 'Yu hav %d meage', 'Yuuu hve %d meages' ],
@@ -325,7 +385,7 @@ sub token_domains {{
 				},
 			},
 		],
-		tokens => [
+		texts => [
 		],
 	},
 	'feeling-words' => {
@@ -575,7 +635,7 @@ sub token_domains {{
 			'worried',{},
 			'wronged',{},
 		],
-		tokens => [
+		texts => [
 		],
 	},
 }}
@@ -589,13 +649,16 @@ sub add_token_domains {
 		my $languages = delete $data->{languages};
 		push @{$languages}, $base;
 		my $snippets = delete $data->{snippets};
-		my $tokens = delete $data->{tokens};
+		my $texts = delete $data->{texts};
 		$data->{key} = $_;
 		$data->{source_language_id} = $self->c->{languages}->{$base}->id;
 		my $tc = $rs->create($data);
 		my @translations;
 		while (@{$snippets}) {
 			my %msgid;
+			if (ref $snippets->[0] eq 'SCALAR') {
+				$msgid{msgctxt} = ${shift @{$snippets}};
+			}
 			$msgid{msgid} = shift @{$snippets};
 			my $tl = shift @{$snippets};
 			if (ref $tl ne 'HASH') {
@@ -608,11 +671,11 @@ sub add_token_domains {
 			});
 			push @translations, [ $token, $tl ];
 		}
-		while (@{$tokens}) {
-			my $sn = shift @{$tokens};
-			my $tl = shift @{$tokens};
+		while (@{$texts}) {
+			my $sn = shift @{$texts};
+			my $tl = shift @{$texts};
 			my $token = $tc->create_related('tokens',{
-				name => $sn,
+				msgid => $sn,
 				type => 2,
 			});
 			push @translations, [ $token, $tl ];

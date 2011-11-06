@@ -81,10 +81,10 @@ sub update_user {
 
 sub token_domains {{
 	'duckduckgo-duckduckgo' => {
-		name => 'DuckDuckGo Mainpage',
+		name => 'DuckDuckGo Core',
 		base => 'us',
-		description => 'Snippets around the pages of DuckDuckGo itself',
-		languages => [qw( us de es br ru )],
+		description => 'Snippets around the core pages of DuckDuckGo, the homepage, the resultpage, the settings and the ZeroClickInfo in there',
+		languages => [qw( us de es ru )],
 		snippets => [
 		    'Settings', {
 				notes => {
@@ -166,9 +166,9 @@ sub token_domains {{
 					token => 'In the top menu under Goodies',
 				},
 		    },
-		    'Add to $1', {
+		    'Add to %s', {
 				notes => {
-					token => 'In the top menu under Team Duck -- $1 will be browser names, like Firefox.',
+					token => 'In the top menu under Team Duck -- %s will be browser names, like Firefox.',
 				},
 		    },
 		    'Get results for different meanings of %s', {
@@ -414,7 +414,7 @@ sub token_domains {{
 		    },
 		    'uses results from %s', {
 				notes => {
-					token => 'Used at the top of results for source attribution -- $1 is a source name, like Blekko'
+					token => 'Used at the top of results for source attribution -- %s is a source name, like Blekko'
 				},
 		    },
 		    'ignore this box please', {
@@ -467,7 +467,7 @@ sub token_domains {{
 					token => 'Link on the homepage in the context of the Filter Bubble and dontbubble.us'
 				},
 		    },
-		    'track', {
+		    \'donttrackus', 'track', {
 				notes => {
 					token => 'Link on the homepage in the context of the No Tracking and donttrack.us'
 				},
@@ -532,7 +532,7 @@ sub token_domains {{
 					token => 'Used in 0-click box for product results, e.g. https://duckduckgo.com/?q=superbad+dvd'
 				},
 		    },
-		    'track', {
+		    \'zci-product', 'track', {
 				notes => {
 					token => 'Used in 0-click box for product results, e.g. https://duckduckgo.com/?q=superbad+dvd'
 				},
@@ -607,17 +607,32 @@ sub token_domains {{
 		description => 'Play around with the translation interface without doing any harm! :)',
 		languages => [qw( us de es br ru )],
 		snippets => [
-			'From $1 to $2 over $3' => {},
-			'THIS IS SPARTA' => {},
-			'You should duck $1' => {},
-			'Around the world' => {},
-			'I\'m a little teapot' => {},
-			'Bird is the word' => {},
-			'$1 is the $2' => {},
-			'You have $1' => {},
-			'$1 messages' => {},
+			'From %s to %s over %s', {},
+			'THIS IS SPARTA', {},
+			'You should duck %s', {},
+			'Around the world', {},
+			'I\'m a little teapot', {},
+			'Bird is the word', {},
+			'%s is the %s', {},
+			'You have %s', {},
+			'%s message', '%s messages', {},
 		],
 		tokens => [
+			'::test::something::1' => {
+				notes => {
+					token => 'The first paragraph should be about love'
+				},
+			},
+			'::test::something::2' => {
+				notes => {
+					token => 'The second paragraph should be about war'
+				},
+			},
+			'::test::something::3' => {
+				notes => {
+					token => 'And the third paragraph should be about DuckDuckGo!'
+				},
+			},
 		],
 	},
 }}

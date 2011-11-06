@@ -19,6 +19,12 @@
 					<tr>
 						<td>
 							<table>
+								<@ IF token_language.token.msgctxt @>
+									<tr>
+										<th><@ l('Context') @></th>
+										<td><@ token_language.token.msgctxt @></td>
+									</tr>
+								<@ END @>
 								<tr>
 									<th><@ l('Singular') @></th>
 									<td><@ token_language.token.msgid @></td>
