@@ -74,8 +74,8 @@ Then inside the repository you can install the requirements for authors and the 
 of the distribution itself:
 
   cd community-platform
-  cpanm $( dzil authordeps )
-  cpanm $( dzil listdeps )
+  cpanm $( dzil authordeps --missing )
+  cpanm $( dzil listdeps --missing )
   
 WARNING!!!! Check for errors! If you don't have the overview, just redo both cpanm commands,
 and you can see the errors more clear! As mentioned above, it could be just a bad mirror.
