@@ -9,7 +9,6 @@ sub base :Chained('/base') :PathPart('base') :CaptureArgs(0) {
 	my $headline_template = $c->req->action;
 	$headline_template =~ s/^\/base/headline/;
 	$c->stash->{headline_template} = $headline_template.'.tt';
-	push @{$c->stash->{template_layout}}, 'centered_content.tt';
 }
 
 sub captcha :Chained('base') :Args(0) {

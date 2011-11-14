@@ -7,7 +7,7 @@ BEGIN {extends 'Catalyst::Controller'; }
 sub base :Chained('/base') :PathPart('help') :CaptureArgs(0) {
     my ( $self, $c ) = @_;
 	$c->stash->{headline_template} = 'headline/help.tt';
-	push @{$c->stash->{template_layout}}, 'centered_content.tt';}
+}
 
 sub view :Chained('base') :PathPart('') :Args(1) {
     my ( $self, $c, $key ) = @_;
