@@ -1,13 +1,17 @@
-<form action="<@ u('Translate','snippets',token_domain.key,cur_language.locale) @>" method="post" name="translatedomainform" id="translatedomainform">
-	<div class="mybox">
-		<h1><@ l('Translate text snippets for %s',token_domain.name) @></h1>
-	</div>
-	<@ INCLUDE translate/languagebox.tt @>
+<h1><@ l('Translate text snippets for %s',token_domain.name) @></h1>
+<@ INCLUDE translate/languagebox.tt @>
+<@ INCLUDE translate/pager.tt @>
+
+<form action="<@ u('Translate','snippets',token_domain.key,cur_language.locale) @>" method="post" id="formTranslateDomain"> <!-- do NOT list languages you can't speak-->
+  <fieldset><!-- fieldset per term to translate-->
+  <legend class="ac"><span><@ token_language.token.msgid @></span></legend>
+
 	<@ IF cant_speak @>
 		<div class="mybox">
 			<p><a href="<@ u('My','languages',{ locale => cur_language.locale }) @>"><@ l('You must add this language to your known languages for translating it') @></a></p>
 		</div>
 	<@ ELSE @>
+
 		<@ FOR token_language IN token_languages.all @>
 			<@ SET other_translations = token_language.translations(c.user,1) @>
 			<@ SET own_translation = token_language.translations(c.user) @>

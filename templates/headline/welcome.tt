@@ -1,14 +1,6 @@
-<div>
-	<@ l('Welcome to the DuckDuckGo community platform') @>
-</div>
-<div id="welcome_features">
-	<div class="feature_box feature_wide">
-		<a href="<@ u('Translate','index') @>">Help translating DuckDuckGo into your language!</a>
-	</div>
-	<div class="feature_box">
-		You want to contribute to <a href="https://github.com/duckduckgo/community-platform/blob/master/README">this platform?</a> or <a href="https://github.com/duckduckgo/duckduckgo/wiki">directly to DuckDuckGo</a>
-	</div>
-	<div class="feature_box">
-		<a href="https://duckduckgo.com/spread.html">Help spreading the word of DuckDuckGo!</a>
-	</div>
-</div>
+      <h1 id="skip"><@ l('Welcome to the DuckDuckGo community platform') @></h1>
+      <ul class="actions getstarted">
+        <li><a href="<@ u('Translate','index') @>">Help us translate DuckDuckGo and other projects.</a></li>
+        <li><a href="<@ u('Help','view','contribute') @>">Contribute to the Community Platform.</a></li>
+        <li><a href="<@ u('Help','view','screenupload') @>">Submit feedback.</a></li>
+      </ul>

@@ -1,5 +1,5 @@
 <select class="autosubmit" name="pagesize" id="pagesize">
-	<@ FOR pagesize_option IN pagesize_options @>
-		<option value="<@ pagesize_option @>"<@ IF pagesize_option == pagesize @> selected="selected"<@ END @>><@ pagesize_option @></option>
-	<@ END @>
+<@ FOR pagesize_option IN pagesize_options @>
+  <option value="<@ pagesize_option @>"<@ IF pagesize_option == pagesize @> selected="selected"<@ END @>><@ pagesize_option @></option>
+<@ END @>
 </select>

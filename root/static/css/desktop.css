@@ -1,0 +1,275 @@
+/*ddg wider screens*/
+
+body {
+  padding: 0;
+}
+
+#access {
+  position: absolute;
+  margin: -5em 0 0 -999px;
+}
+        #access a:focus {
+          margin: 6em 0 0 1300px;
+          text-decoration: none;
+        }
+
+.header {
+  min-height: 85px;
+}
+
+#logo {
+  float: left;
+  margin: 5px 1em 0 5px;
+}
+
+/*iframe*/
+#hf {
+  float: left;
+  max-width: 30em;
+  margin: 0 1em 1em 5em;
+  padding-top: 1em;
+  font-size: 1em;
+}
+#hf input[type=text] {
+  width: 75%;
+}
+
+#logreg {
+  float: right;
+  margin: 5px 5px .5em 0;
+  width: 27em; /*login form*/
+  padding: 5px;
+  border: 1px solid transparent;
+}
+#logreg.user {
+  width: 16em;/*logged-in width*/
+}
+        #logreg:hover {
+          background-color: #fff;
+          border-color: #666;
+        }
+
+#logreg p:first-child, #logreg>ul>li>a {
+  padding-bottom: 2px;
+  font-weight: normal;
+  border-bottom: 0;
+}
+
+/*temp, for JS*/
+#logreg p.view {
+  float: right;
+  width: 9em;
+  padding-left: 12px;
+  background: url(../images/triangle.png) 0 50% no-repeat;
+}
+        #logref p.view+form {
+          clear: right;
+        }
+
+/*temp*/
+/*
+#logreg form, #logreg form+p {
+  display: none;
+}
+*/
+
+#logreg form div {
+  display: inline-block;
+  min-width: 11em;
+  margin-bottom: 0;
+  vertical-align: top;
+}
+*+html  #logreg form div {display: inline;}
+
+#logreg input[type=text],
+#logreg input[type=password] {
+  padding: .3em .2em;
+}
+#logreg input[type=password] {
+  margin-bottom: 0;
+}
+
+#logreg input+a {
+  display: block;
+  margin-left: 0;
+  padding: .2em;
+  text-align: center;
+  white-space: normal;
+}
+
+#logreg input[type=submit] {
+  width: auto;
+  margin-top: 1.1em;
+  padding: .2em;
+}
+
+#logreg form+p {
+  margin-top: -1.4em;
+  padding-right: .5em;
+  text-align: right;
+}
+
+#logreg form+p a {
+  display: inline;
+  margin: 0;
+  padding: .2em;
+  color: #277bbc;
+  font-weight: normal;
+  font-size: .9em;
+  background-color: transparent;
+  border: 0;
+}
+        #logreg form+p a:focus, #logreg form+p a:hover {
+          text-decoration: underline;
+        }
+
+/*logged in*/
+#logreg ul:first-child {
+  position: relative;
+  margin-bottom: 0;
+  z-index: 5;
+}
+        #logreg>ul>li>a {
+          padding: .6em 12px .6em .6em;
+          vertical-align: bottom;
+          background: url(../images/triangle.png) 100% 80% no-repeat;
+        }
+        #logreg ul>li>a:focus {
+          background-color: #fff;
+        }
+
+        #logreg ul ul {
+          position: absolute;
+          left: 0;
+          width: 16em;
+          margin-left: -9999px;
+          padding: 5px;
+          background-color: #fff;
+          border: 1px solid #666;
+          border-top: 0;
+        }
+
+        #logreg ul a:focus+ul, #logreg ul li:hover ul {
+          left: auto;
+          margin-left: -6px;
+        }
+        #logreg ul a:focus:hover {
+          margin-left: 0; /*fix Mozilla's b0rkness: add margins of both states*/
+        }
+
+        #logreg ul ul a {
+          padding: .6em;
+          color: #277bbc;
+          background-color: transparent;
+          border-bottom: 0;
+        }
+                #logreg ul ul a:before {
+                  content: "";
+                }
+
+                #logreg ul ul a:focus, #logreg ul ul a:hover { 
+                  background-color: #dbe4ea;
+                }
+                /*keyboardable*/
+                #logreg ul ul a:focus {
+                  width: 14.5em;
+                  margin-left: 9999px;
+                }
+        
+
+
+.main {
+  clear: both;
+  width: 80%;
+  max-width: 80em;
+  min-width: 820px;
+  min-height: 350px;
+  margin: 0 auto;
+  padding: 3em 0 .5em;
+  overflow: hidden;
+}
+
+h1 {
+  font-size: 1.2em;
+}
+
+.text {
+  text-align: left;
+}
+
+.actions {
+  text-align: center;
+}
+
+.actions li {
+  display: inline-block;
+  width: 30%;
+  margin: 0 .2em 1.5em;
+  padding: .5em;
+  vertical-align: top;
+  text-align: left;
+}
+*+html .actions li {display: inline;}
+
+.getstarted li {
+  width: 25%;
+}
+
+.actions li:first-child {
+  margin-left: 0;
+}
+        /*main page*/
+        .getstarted li:first-child {
+          width: 40%;
+        }
+
+.actions li:last-child {
+  margin-right: 0;
+}
+
+        .getstarted a {
+          min-height: 6em;
+          font-size: 1.8em;
+        }
+                .getstarted a:hover {
+                  text-decoration: none;
+                }
+.aboutddg {
+  width: 45%;
+  padding: 15px;
+  margin-bottom: 2em;
+}
+
+#footer {
+  clear: both;
+  padding-top: .5em;
+}
+
+#footer li {
+  display: inline-block;
+  margin: 0 .2em;
+  padding: .2em 0;
+  font-size: .9em;
+}
+
+#footer li:before {
+  display: inline-block;
+  content: "|";
+  margin-right: .5em;
+  color: #666;
+}
+        #footer li:first-child:before {
+          content: "\a0";
+          color: #fff;
+        }
+        #footer ul+ul {
+          border-top: 0;
+        }
+                #footer ul+ul li {
+                  display: inline-block;  
+                }
+                *+html #footer ul+ul li {display: inline;}
+
+        #footer li:last-child {
+          text-align: left;
+        }

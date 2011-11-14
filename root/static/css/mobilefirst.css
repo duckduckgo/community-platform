@@ -1,0 +1,357 @@
+/*DDG Community Platform: all devices not print*/
+
+ul, ol, li, dt, dd, p, form, fieldset, legend {
+  margin: 0;
+  padding: 0; /*protect form controls*/
+}
+
+fieldset, img {
+  border: 0;
+}
+img {
+  vertical-align: bottom;
+}
+
+ul {
+  list-style: none;
+}
+
+/*accessible title, but remove where added titles are retarded/redundant*/
+a[title]:focus:after { 
+  content: " " attr(title);
+}
+a[title]:hover:focus:after { 
+  content: "";
+}
+
+strong {
+  font-weight: bold;
+}
+
+em {
+  font-style: italic;
+}
+
+/*offscreen accessible elements*/
+.ac {
+  position: absolute;
+  left: -999em;
+}
+/*end reset*/
+
+html {
+  background-color: #262626; /*footer colour to bleed through tall pages*/
+}
+
+body {
+  margin: 0;
+  padding: 2px 5px;
+  color: #222;
+  font: 100%/120% "Segoe UI", "lucida grande", arial, sans-serif;
+  background-color: #fafafa;
+}
+
+#access {
+  width: 12em;  /*haslayout*/
+  margin: 20px auto 2em;
+}
+        #access a {
+          display: block;
+          width: 9.5em;
+          padding: 1em;
+          text-decoration: none;
+          text-align: center;
+          background-color: #fff;
+          border: 2px solid #277bbc;
+        }
+        #access a:focus, #access a:hover {
+          text-decoration: underline;
+        }
+
+.header {
+  background: url(../images/headerbg.grey.png) 0 100% repeat-x;
+  border-bottom: 1px solid #d9d9d9;
+
+  -webkit-box-shadow: 0 3px 5px -3px rgba(51,51,51,0.2);
+  -o-box-shadow: 0 3px 5px -3px rgba(51,51,51,0.2);
+  box-shadow: 0 3px 5px -3px rgba(51,51,51,0.2);
+} 
+
+/*iframe*/
+#hf {
+  margin-bottom: 1em;
+}
+
+#hf input[type=text] {
+  width: 70%;
+  height: 28px;
+  padding: 2px 10px 2px 5px;
+  border: 1px solid #c00;
+  border-radius: 4px;
+  -moz-border-radius: 4px;
+}
+
+#hfb {
+  width: 32px;
+  height: 32px;
+  margin-left: -10px;
+  vertical-align: bottom;
+  background: url(../images/sbutton.v102.green.png) 0 0 no-repeat;
+  border: 1px solid #1eb54e;
+  border-radius: 4px;
+  -moz-border-radius: 4px;
+}
+        #hfb:active {
+          background-position: 0 -32px;
+        }
+
+#logreg p:first-child, #logreg>ul>li>a {
+  display: block;
+  margin-bottom: 0;
+  padding-bottom: 10px;
+  color: #222;
+  font-weight: bold;
+  text-decoration: none;
+  border-bottom: 1px solid #277bbc;
+}
+#logreg p:first-child a {
+  color: #222;
+  text-decoration: none;
+}
+
+#logreg legend span {
+  position: absolute;
+  margin-left: -999em;
+}
+
+#logreg form div {
+  margin-bottom: .5em;
+}
+
+#logreg label {
+  display: block;
+  font-size: .9em;
+}
+
+#logreg input {
+  font-size: 1em;
+}
+
+#logreg input[type=text],
+#logreg input[type=password] {
+  width: 10em;
+  margin-bottom: .5em;
+  padding: .5em .2em;
+  background-color: #dbe4ea;
+  border: 1px solid #277bbc;
+  border-radius: 5px;
+  -moz-border-radius: 5px; /*temp*/
+}
+        #logreg input[type=text]:hover,
+        #logreg input[type=password]:hover {
+         background-color: #f0f3f6; 
+        }
+        #logreg input[type=text]:focus,
+        #logreg input[type=password]:focus {
+          background-color: #fff;
+        }
+
+/*forgot password?*/
+#logreg input+a {
+  margin-left: 2em;
+  padding: .5em .2em;
+  font-size: .9em;
+  white-space: nowrap; /*keep words together, check small screens/large text*/
+}
+
+#logreg input[type=submit] {
+  display: inline-block;
+  width: 10.5em;
+  padding: .5em .4em;
+}
+
+#logreg form+p {
+  margin: 2em 0 0;
+  text-align: left;
+}
+
+#logreg form+p a {
+  width: 10em;
+  margin: .5em 0;
+  padding: .5em .2em;
+  color: #222;
+  font-weight: bold;
+  text-align: center;
+  border-radius: 5px;
+  -moz-border-radius: 5px; /*temp*/
+}
+
+/*logged in*/
+#logreg>ul {
+  margin-bottom: 1em;
+}
+        #logreg li li {
+          display: inline;
+        }
+        #logreg ul ul a {
+          display: block;
+          padding: 1.5em;
+          color: #222;
+          background-color: #dbe4ea;
+          border-bottom: 1px solid #277bbc;
+        }
+                #logreg ul ul a:before {
+                  content: "\00bb\0a";
+                }
+                #logreg ul ul a:focus, #logreg ul ul a:hover {
+                  color: #277bbc;
+                  background-color: #f0f3f6;
+                }
+
+.main {
+  padding-top: 3em;
+  text-align: center;
+}
+
+a {
+  color: #277bbc;
+}
+        a:visited {
+        }
+        a:focus, a:hover {
+          text-decoration: none;
+        }
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 0;
+  line-height: 120%;
+}
+
+h1 {
+  text-align: center;
+}
+
+p {
+  margin-bottom: .6em;
+}
+
+.actions {
+  margin-top: .5em;
+}
+
+.actions li {
+  width: 90%;
+  margin: 0 auto 2em;
+  padding: .5em;
+  border-radius: 5px;
+  -moz-border-radius: 5px; /*temp*/
+
+  -moz-box-shadow: 0 5px 5px -3px rgba(51,51,51,0.2);
+  -webkit-box-shadow: 0 5px 5px -3px rgba(51,51,51,0.2);
+  -o-box-shadow: 0 5px 5px -3px rgba(51,51,51,0.2);
+  box-shadow: 0 5px 5px -3px rgba(51,51,51,0.2);
+}
+.getstarted li {
+  background-color: #23b64f;
+}
+.getstarted li:first-child {
+  background-color: #c00;
+}
+/*IE7 does not support nth-child*/
+.getstarted li:first-child+li+li {
+  background-color: #0f78be;
+}
+  
+        .getstarted a {
+          display: block;
+          min-height: 4em;
+          color: #fff;
+          font-weight: bold;
+          font-size: 2em;
+          line-height: 1.2em;
+          text-decoration: none;
+          text-shadow: 0 2px 2px rgba(51,51,51,0.3);
+        }
+                .getstarted a:focus, .getstarted a:hover {
+                  text-decoration: underline;
+                }
+
+.infobox {
+  width: 50%;
+  margin: 1em auto;
+  padding: 1em 1em 1em 50px;
+  text-align: left;
+  background: url(../images/important.png) 10px 50% no-repeat;
+  border: 2px dashed #0d72ba;
+  border-radius: 5px;
+  -moz-border-radius: 5px;/*temp*/
+}
+
+/*buttons*/
+.button {
+  text-align: center;
+}
+        .button a {
+          display: inline-block;
+          padding: .5em 2em;	
+          color: #222;
+          text-decoration: none;
+          background-color: #ccc;
+          border: 1px solid #666;
+          border-radius: 5px;
+        }
+                .button a:focus, .button a:hover {
+                  background-color: #eee;
+                }
+                .button a:active {
+                  position: relative;
+                  top: 1px;
+                }
+
+.aboutddg {
+  display: inline-block;
+  width: 96%;
+  margin: 1em .2em 1em;
+  padding: 7px;
+  text-align: left;
+  vertical-align: top;
+  background-color: #eee;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  -moz-border-radius: 5px; /*temp*/
+}
+        .aboutddg h2 {
+          margin: .6em 0 .2em;
+        }
+        .aboutddg ul li {
+          margin-bottom: .4em;
+        }
+
+#footer {
+  min-height: 2em;
+  margin-top: 1em;
+  color: #fff;
+  background-color: #262626;/*same as HTML element*/
+}
+        #footer ul {
+          text-align: center;
+        }
+        #footer li {
+          display: inline-block;
+          padding: .5em 1em;
+          text-align: left;
+        }  
+        *+html #footer li {display: inline;}
+
+        #footer ul+ul {
+          border-top: 1px solid #4c4c4c;
+        }
+                #footer ul+ul li {
+                  display: block;  
+                }
+                #footer ul+ul li:last-child {
+                  text-align: center;
+                }
+      #footer a {
+        color: #80c1d6;
+      }

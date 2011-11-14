@@ -1,14 +1,27 @@
 <head>
-	<title><@ prefix_title @> <@ IF title @>- <@ title @><@ END @></title>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	<@ FOREACH meta IN metas.pairs @>
-		<meta name="<@ meta.key @>" content="<@ meta.value @>" /> 
-	<@ END @>
-	<link rel="stylesheet" type="text/css" href="/static/css/reset.css" />
-	<link rel="stylesheet" type="text/css" href="/static/css/ddgc.css" />
-	<script type="text/javascript" src="/static/js/jquery.js"></script>
-	<script type="text/javascript" src="/static/js/jquery-ui.js"></script>
-	<script type="text/javascript" src="/static/js/console.js"></script>
-	<script type="text/javascript" src="/static/js/helper.js"></script>
-	<script type="text/javascript" src="/static/js/ddgc.js"></script>
+  <meta charset="UTF-8">
+  <title><@ prefix_title @> <@ IF title @>- <@ title @><@ END @></title>
+  <@ FOREACH meta IN metas.pairs @>
+          <meta name="<@ meta.key @>" content="<@ meta.value @>"> 
+  <@ END @>
+  <meta name="viewport" content="width=device-width; initial-scale=1.0;">
+  <link rel="stylesheet" media="screen, projection, handheld" href="/static/css/mobilefirst.css">
+  <link rel="stylesheet" media="screen and (min-width:600px), projection and (min-width:600px)" href="/static/css/desktop.css" title="large screen layout">
+  <!--leaving these scripts in til I decide what to do with them-->
+  <script type="text/javascript" src="/static/js/jquery.js"></script>
+  <script type="text/javascript" src="/static/js/jquery-ui.js"></script>
+  <script type="text/javascript" src="/static/js/console.js"></script>
+  <script type="text/javascript" src="/static/js/helper.js"></script>
+  <script type="text/javascript" src="/static/js/ddgc.js"></script>
+  <!--[if lt IE 9]>
+  <link rel="stylesheet" media="screen" href="/static/css/desktop.css">
+  <script>
+    var structure = document.styleSheets[document.styleSheets.length-1];
+    function doQuery() {
+       structure.disabled = document.documentElement.offsetWidth < 600;
+    }
+    window.attachEvent('onresize', doQuery);
+    doQuery();
+  </script>
+  <![endif]-->
 </head>
