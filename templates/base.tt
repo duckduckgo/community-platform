@@ -1,33 +1,17 @@
 <!DOCTYPE html>
-<html lang="<@ language.locale @>">
-	<@ INCLUDE head.tt @>
-	<body>
-		<div id="wrapper"> 
-			<div id="header">
-			
-				<@ INCLUDE header.tt @>
-				
-			</div>
-			<@ IF headline_template @>
-				<div id="headline">
-
-					<@ INCLUDE headline.tt @>
-
-				</div>
-			<@ END @>
-			<div id="content">
-				<article>
-			
-					<@ INCLUDE $LAYOUTS.shift @>
-				
-				</article>
-			</div>
-			<div id="footer">
-			
-				<@ INCLUDE footer.tt @>
-				
-			</div>
-		</div>
-	</body>
+<html lang="<@ language @>">
+<@ PROCESS head.tt @>
+  <body>
+    <@ INCLUDE header.tt @>
+    <div class="main" role="main">
+    <@ IF headline_template @>
+      <@ INCLUDE headline.tt @>
+    <@ END @>
+    <@ PROCESS $LAYOUTS.shift @>
+    </div>
+    <div id="footer" role="contentinfo">
+      <@ INCLUDE footer.tt @>
+    </div>
+  </body>
+  <!-- <@ version @> -->
 </html>
-<!-- <@ version @> -->
