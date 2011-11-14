@@ -1,35 +1,14 @@
-<div class="mybox">
-	<div id="languagebox" class="fancymenu" style="float:right">
-		<div id="languagebox_headline" class="fancymenu_headline">
-			<@ l('Current language') @>:
-			<img src="<@ cur_language.flag_url @>" />
-			<@ cur_language.name_in_english @>
-		</div>
-		<input type="hidden" name="locale" value="<@ locale @>" />
-		<div id="languagebox_content" class="fancymenu_content">
-			<@ FOR loc IN locales.values @>
-				<p>
-					<img src="<@ loc.l.flag_url @>" />
-					<@ loc.l.name_in_english @>
-					<@ IF cur_language.locale != loc.l.locale AND loc.u @>
-						<a href="<@ u('Translate','snippets',token_domain.key,loc.l.locale) @>">
-							<@ l('You can speak this language') @>
-						</a>
-					<@ ELSE @>
-						<@ IF loc.u @><@ l('You can speak this language') @><@ ELSE @><@ l('You can\'t speak this language') @><@ END @>
-					<@ END @>
-				</p>
-			<@ END @>
-		</div>
-	</div>
-	<div>
-		<@ IF !cant_speak @>
-			<@ l('Page') @>: 
-			<@ INCLUDE pager/dropdown.tt pager=token_languages.pager @>
-			<@ IF !no_pagesize @>
-				<@ l('Pagesize') @>: 
-				<@ INCLUDE pager/pagesize.tt @>
-			<@ END @>
-		<@ END @>
-	</div>
-</div>
+<ul id="languageBox">
+  <li><@ l('Current language') @>: <a href="void"><img src="<@ cur_language.flag_url @>" alt=""> <@ cur_language.name_in_english @></a>
+    <input type="hidden" name="locale" value="<@ locale @>">
+    <ul>
+    <@ FOR loc IN locales.values @>
+      <li> 
+      <@ IF cur_language.locale != loc.l.locale AND loc.u @>
+        <a href="<@ u('Translate','snippets',token_domain.key,loc.l.locale) @>"><img src="<@ loc.l.flag_url @>" alt=""> <@ loc.l.name_in_english @></a>
+      <@ END @>
+      </li>
+    <@ END @>
+    </ul>
+  </li>
+</ul>

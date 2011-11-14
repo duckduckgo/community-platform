@@ -1,1 +1,19 @@
-<div class="mybox">	<p class="welcome_headline">Welcome to the translation interface!</p>	<p>Here you can translate the different text snippets of our sites. Its a very easy process, by choosing the project part you want to translate you get to a list of all existing text snippets, which you can translate step by step into your language, you can choose on the top right of the page. You can see existing translations on the right, important is here, that you dont need to give the same translation again, this would not be helpful and just increase your own work.</p></div><!-- <div class="buttonwrap"><a class="button" href="<@ u('Help','view','translate') @>"><@ l('Instructions for our translation system') @></a></div> --><@ IF !c.user @>	<div class="mybox">		<@ l('You must be logged in for translating') @>		<a href="<@ u('My','login') @>"><@ l('Login') @></a>		<a href="<@ u('My','register') @>"><@ l('Register') @></a>	</div><@ ELSE @>	<@ FOR token_domain IN token_domains.all @>		<div class="mybox">			<a href="<@ u('Translate','domainindex',token_domain.key) @>"><@ token_domain.name @></a>			<@ IF token_domain.description @>				<div>					<@ token_domain.description @>				</div>			<@ END @>		</div>	<@ END @><@ END @>
+<h1 id="skip">Welcome to the translation interface!</h1>
+<div class="text">
+<@ IF !c.user @>
+    <p><@ l('You must be logged in for translating') @>: <a href="<@ u('My','login') @>"><@ l('Login') @></a> <@ l('or') @> <a href="<@ u('My','register') @>"><@ l('Register') @></a>.</p>
+<@ ELSE @>
+  <p>Here you can translate the different text snippets of our sites. It's a very easy process, by choosing the project part you want to translate you get to a list of all existing text snippets, which you can translate step by step into your language, you can choose on the top right of the page. You can see existing translations on the right, important is here, that you don't need to give the same translation again, this would not be helpful and just increase your own work.</p>
+
+  <!--p><a href="<@ u('Help','view','translate') @>"><@ l('Instructions for our translation system') @></a></p-->
+  <@ FOR token_domain IN token_domains.all @>
+    <ul class="actions">
+      <li><h2><a href="<@ u('Translate','domainindex',token_domain.key) @>"><@ token_domain.name @></a></h2>
+      <@ IF token_domain.description @>
+      <p><@ token_domain.description @></p>
+      <@ END @>
+      </li>
+    </ul>
+  <@ END @>
+  </div>
+<@ END @>
