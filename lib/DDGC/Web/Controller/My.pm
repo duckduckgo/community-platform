@@ -13,7 +13,6 @@ BEGIN {extends 'Catalyst::Controller'; }
 sub base :Chained('/base') :PathPart('my') :CaptureArgs(0) {
     my ( $self, $c ) = @_;
 	$c->stash->{headline_template} = 'headline/my.tt';
-	push @{$c->stash->{template_layout}}, 'centered_content.tt';
 }
 
 sub logout :Chained('base') :Args(0) {

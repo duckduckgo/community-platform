@@ -9,7 +9,6 @@ BEGIN {extends 'Catalyst::Controller'; }
 
 sub base :Chained('/base') :PathPart('translate') :CaptureArgs(0) {
     my ( $self, $c ) = @_;
-	push @{$c->stash->{template_layout}}, 'centered_content.tt';
 }
 
 sub do :Chained('base') :CaptureArgs(0) {

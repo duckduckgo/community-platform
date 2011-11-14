@@ -13,7 +13,6 @@ sub base :Chained('/base') :PathPart('admin') :CaptureArgs(0) {
 		return $c->detach;
 	}
 	$c->stash->{headline_template} = 'headline/admin.tt';
-	push @{$c->stash->{template_layout}}, 'centered_content.tt';
 }
 
 sub index :Chained('base') :Args(0) {

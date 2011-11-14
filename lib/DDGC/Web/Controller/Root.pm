@@ -28,7 +28,6 @@ sub index :Chained('base') :PathPart('') :Args(0) {
 
 sub default :Chained('base') :PathPart('') :Args {
     my ( $self, $c ) = @_;
-	push @{$c->stash->{template_layout}}, 'centered_content.tt';
     $c->response->status(404);
 }
 

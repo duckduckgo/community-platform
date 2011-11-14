@@ -1,3 +1,0 @@
-<div class="centered_content">
-	<@ PROCESS $LAYOUTS.shift @>
-</div>
