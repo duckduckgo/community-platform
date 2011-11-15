@@ -185,16 +185,32 @@ body {
   min-width: 820px;
   min-height: 350px;
   margin: 0 auto;
-  padding: 3em 0 .5em;
+  padding: 1em 0 .5em;
   overflow: hidden;
 }
 
 h1 {
+  margin: 0 0 .6em;
+  font-size: 1.4em;
+}
+
+h2 {
+  margin: .4em 0;
   font-size: 1.2em;
 }
 
+h3 {
+  margin-bottom: .2em;
+  font-size: 1.1em;
+}
+
+
 .text {
   text-align: left;
+}
+
+.text p {
+  line-height: 1.2em;
 }
 
 .actions {
@@ -204,6 +220,7 @@ h1 {
 .actions li {
   display: inline-block;
   width: 30%;
+  min-height: 8em;
   margin: 0 .2em 1.5em;
   padding: .5em;
   vertical-align: top;
@@ -234,11 +251,42 @@ h1 {
                 .getstarted a:hover {
                   text-decoration: none;
                 }
+/*mainpage*/
 .aboutddg {
   width: 45%;
   padding: 15px;
   margin-bottom: 2em;
 }
+
+/*myaccount*/
+.account div {
+  width: 90%;
+  margin: 0 auto 2em;
+  padding: 7px .8em;
+  background-color: #eee;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  -moz-border-radius: 5px; /*temp*/
+}
+
+.text dl {
+  width: 24em;
+  margin: .2em 7px 1em;
+  padding: 7px;
+  background-color: transparent;
+  border: 0;
+}
+        .text dt, .text dd {
+          display: inline-block;
+          margin-bottom: .2em;
+          vertical-align: top;
+        }
+        *+html .text dt,*+html .text dd{display:inline;}
+
+        .text dt {
+          width: 48%;
+          margin-right: 7px;
+        }
 
 #footer {
   clear: both;
