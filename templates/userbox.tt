@@ -2,7 +2,7 @@
   <div id="logreg"<@ IF c.user @> class="user"<@ END @>>
   <@ IF c.user @>
     <ul>
-      <li><a href="<@ u('my','account') @>"><img src="/static/images/profile.png" width="50" height="50" alt="profile image"> <@ l('welcome %s!',c.user.username) @></a>
+      <li><a class="profile" href="<@ u('my','account') @>"><img src="/static/images/profile.png" width="50" height="50" alt="profile image"> <@ l('welcome %s!',c.user.username) @></a>
   <@ ELSE @>
     <p><a href="<@ u('my','account') @>">Login</a> or <a href="<@ u('my','register') @>">register</a></p>
   <@ END @>

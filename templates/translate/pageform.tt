@@ -1,17 +1,18 @@
-<form action="dunno" method="get" id="formPages"> 
+<form action="#" method="get" id="formPages"> 
   <fieldset>
   <legend class="ac"><span><@ l('Choose page and number of items per page') @></span></legend>
 <@ IF !cant_speak @>
-    <label for="page"><@ l('Page') @>: </label>
-  <@ INCLUDE pager/dropdown.tt pager=token_languages.pager @>
+    <div>
+      <label for="page"><@ l('Page') @>: </label>
+    <@ INCLUDE pager/dropdown.tt pager=token_languages.pager @>
+    </div>
 
     <@ IF !no_pagesize @>
-    <label for="pagesize"><@ l('Pagesize') @>: </label> 
+    <div>
+      <label for="pagesize"><@ l('Items per page') @>: </label> 
       <@ INCLUDE pager/pagesize.tt @>
+    </div>
     <@ END @>
   <@ END @>
-    <!-- submit unless Javascript available; Javascript adds onsubmit to selects
-    and hides submit button; action must == the action-->
-    <input type="submit" value="<@ l('set pages') @>">
   </fieldset>
 </form>

@@ -1,5 +1,5 @@
-<div style="margin-bottom:1em;background-color:#ff0;" class="translations">
-  <h2 style="margin:0;"><@ text @>:</h2>
+<div class="translations">
+  <h2><@ text @>:</h2>
   <dl>
     <@ FOR n IN [ 0..token_language.max_msgstr_index ] @>
       <@ SET func = 'msgstr' _ n @>
