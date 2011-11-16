@@ -1,13 +1,12 @@
+<h2 class="ac"><@ l('Choose your language') @></h2>
 <ul id="languageBox">
-  <li><@ l('Current language') @>: <a href="void"><img src="<@ cur_language.flag_url @>" alt=""> <@ cur_language.name_in_english @></a>
+  <li><@ l('Current language') @>: <a href="#void"><img src="<@ cur_language.flag_url @>" alt=""> <@ cur_language.name_in_english @></a>
     <input type="hidden" name="locale" value="<@ locale @>">
     <ul>
     <@ FOR loc IN locales.values @>
-      <li> 
       <@ IF cur_language.locale != loc.l.locale AND loc.u @>
-        <a href="<@ u('Translate','snippets',token_domain.key,loc.l.locale) @>"><img src="<@ loc.l.flag_url @>" alt=""> <@ loc.l.name_in_english @></a>
+      <li><a href="<@ u('Translate','snippets',token_domain.key,loc.l.locale) @>"><img src="<@ loc.l.flag_url @>" alt=""> <@ loc.l.name_in_english @></a></li>
       <@ END @>
-      </li>
     <@ END @>
     </ul>
   </li>

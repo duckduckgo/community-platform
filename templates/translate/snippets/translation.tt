@@ -1,12 +1,10 @@
-<table>
-	<tr>
-		<th colspan="2"><@ text @>:</th>
-	</tr>
-	<@ FOR n IN [ 0..token_language.max_msgstr_index ] @>
-		<@ SET func = 'msgstr' _ n @>
-		<tr>
-			<th><@ IF n == 0 @><@ l('Singular') @><@ ELSE @><@ n @>th Plural Form<@ END @></th>
-			<td><@ translation.$func @></td>
-		</tr>
-	<@ END @>
-</table>
+<div class="translations">
+  <h2><@ text @>:</h2>
+  <dl>
+    <@ FOR n IN [ 0..token_language.max_msgstr_index ] @>
+      <@ SET func = 'msgstr' _ n @>
+    <dt><@ IF n == 0 @><@ l('Singular') @><@ ELSE @><@ n @>th Plural Form<@ END @></dt>
+      <dd><@ translation.$func @></dd>
+    <@ END @>
+  </dl>
+</div>
