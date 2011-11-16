@@ -1,6 +1,7 @@
 /*ddg wider screens*/
 
 body {
+  min-width: 820px;
   padding: 0;
 }
 
