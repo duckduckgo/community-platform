@@ -1,0 +1,18 @@
+<form action="#" method="get" id="formPages"> 
+  <fieldset>
+  <legend class="ac"><span><@ l('Choose page and number of items per page') @></span></legend>
+<@ IF !cant_speak @>
+    <div>
+      <label for="page"><@ l('Page') @>: </label>
+    <@ INCLUDE pager/dropdown.tt pager=token_languages.pager @>
+    </div>
+
+    <@ IF !no_pagesize @>
+    <div>
+      <label for="pagesize"><@ l('Items per page') @>: </label> 
+      <@ INCLUDE pager/pagesize.tt @>
+    </div>
+    <@ END @>
+  <@ END @>
+  </fieldset>
+</form>

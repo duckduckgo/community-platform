@@ -1,23 +1,24 @@
-<div class="loginform">
-	<form action="<@ u('My','login') @>" method="post" name="loginform" id="loginform">
-		<input type="hidden" value="<@ IF c.req.params.from @><@ c.req.params.from @><@ ELSE @><@ c.req.uri @><@ END @>" name="from" />
-		<div>
-			<@ IF login_failed @>
-				<div class="error">
-					<@ l('Login failed!') @>
-				</div>
-			<@ END @>
-			<div>
-				<label for="username"><@ l('Username') @></label>
-				<input type="text" name="username" id="username" value="<@ username @>" />
-			</div>
-			<div>
-				<label for="password"><@ l('Password') @></label>
-				<input type="password" name="password" id="password" />
-			</div>
-			<input type="submit" value="<@ l('Login') @>" name="login" id="login" />
-			<a href="<@ u('My','forgotpw') @>"><@ l('Forgot password?') @></a>
-			<a href="<@ u('My','register') @>"><@ l('Register') @></a>
-		</div>
-	</form>
-</div>
+        <@ IF login_failed @>
+                <p class="error">
+                        <@ l('Login failed!') @>
+                </p>
+        <@ END @>
+        <form action="<@ u('My','login') @>"  method="post" id="formLogin">
+          <fieldset>
+          <legend><span>Log in</span></legend>
+
+          <input type="hidden" value="<@ IF c.req.params.from @><@ c.req.params.from @><@ ELSE @><@ c.req.uri @><@ END @>" name="from">
+            <div>
+              <label for="username"><@ l('Username') @>: </label>
+                <input type="text" id="username" name="username" value="<@ username @>">
+            </div>
+            <div>
+              <label for="password"><@ l('Password') @>: </label>
+                <input type="password" id="password" name="password" value="">
+
+                <a href="<@ u('My','forgotpw') @>"><@ l('Forgot password?') @></a>
+            </div>
+            <input type="submit" value="<@ l('Login') @>">
+          </fieldset>
+        </form>
+        <p class="button"><a href="<@ u('My','register') @>"><@ l('Register') @></a></p>

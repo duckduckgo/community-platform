@@ -1,58 +1,56 @@
-<div class="mybox">
-	<div class="welcome_headline">Welcome to your DuckDuckGo community account!</div>
-	<p>All you can do here so far is start to translate DuckDuckGo and its sites. Please add for this your languages and best also add your email here, so that you can start translating and also can recover your password via email if you forgot it. If you already did this, directly head to the <a href="<@ u('Translate','index') @>">translation interface</a>.</p>
-	<p>You also can find here the informations you need to use our XMPP/Jabber server with your account</p>
-</div>
-<div class="languages mybox">
-	<!-- <div class="buttonwrap"><a class="button" href="<@ u('Help','view','mylanguages') @>"><@ l('Information') @></a></div> -->
-	<p class="welcome_headline"><@ l('Your Languages') @></p>
+    <div class="text account">
+      <h2>Welcome to your DuckDuckGo community account!</h2>
+      <p>All you can do here so far is start to translate DuckDuckGo and its sites. Please add for this your languages and best also add your email here, so that you can start translating and also can recover your password via email if you forgot it. If you already did this, directly head to the <a href="<@ u('Translate','index') @>">translation interface</a>.</p>
+      <p>You also can find here the informations you need to use our XMPP/Jabber server with your account.</p>
+
+      <div>
+        <!--p class="button"><a href="<@ u('Help','view','mylanguages') @>"><@ l('Information') @></a></p-->
+	<h3><@ l('Your Languages') @>:</h3>
 	<@ IF c.user.languages @>
-		<@ FOR user_language IN c.user.user_languages @>
-			<p><@ user_language.language.name_in_local @></p>
-		<@ END @>
+        <ul class="bullets">
+          <@ FOR user_language IN c.user.user_languages @>
+            <li><@ user_language.language.name_in_local @></li>
+          <@ END @>
+        </ul>
 	<@ ELSE @>
-		<p><@ l('No languages defined for yourself') @></p>
+        <p><@ l('No languages defined for yourself') @>.</p>
 	<@ END @>
-	<p><a href="<@ u('My','languages') @>">Edit your languages</a></p>
-</div>
-<div class="email mybox">
-	<p class="welcome_headline"><@ l('Your Email') @></p>
+	<p class="button"><a href="<@ u('My','languages') @>">Edit your languages</a></p>
+      </div>
+
+      <div>
+	<h3><@ l('Your Email') @></h3>
 	<p>You can only request a new password if you add your email!</p>
 	<p><@ IF c.user.data.email @>Your email is: <@ c.user.data.email @><@ ELSE @>You have not added an email address to your account yet!<@ END @></p>
-	<p><a href="<@ u('My','email') @>">Change my email address</a></p>
-</div>
-<div class="account_information mybox">
-	<!-- <div class="buttonwrap"><a class="button" href="<@ u('Help','view','xmpp') @>"><@ l('Instructions for using the XMPP/Jabber server') @></a></div> -->
-	<p class="welcome_headline"><@ l('Your XMPP/Jabber account') @></p>
-	<p>We provide a public XMPP/Jabber server, bound to your account, here you got all the informations you need to add it to your prefered client. You can find a list of clients <a href="http://xmpp.org/xmpp-software/clients/">here</a>. XMPP is an open-standard instant communication protocol, like ICQ, MSN or Yahoo. More information you can find on the <a href="http://en.wikipedia.org/wiki/Jabber">Wikipedia Page</a></p>
-	<p><table class="account_data">
-		<tr>
-			<td>Username</td>
-			<td><b><@ c.user.username @></b></td>
-		</tr>
-		<tr>
-			<td>Domain</td>
-			<td><b><@ xmpp_userhost @></b></td>
-		</tr>
-		<tr>
-			<td>Resource</td>
-			<td><i><@ l('whatever you want') @></i></td>
-		</tr>
-		<tr>
-			<td>XMPP/Jabber Address</td>
-			<td><b><@ c.user.username @>@<@ xmpp_userhost @></b></td>
-		</tr>
-	</table></p>
-</div>
-<div class="public mybox">
-	<p class="welcome_headline"><@ l('Make your account public') @></p>
-	<!-- <div class="buttonwrap"><a class="button" href="<@ u('Help','view','public') @>"><@ l('Information about making your profile public') @></a></div> -->
+	<p class="button"><a href="<@ u('My','email') @>">Change my email address</a></p>
+      </div>
+
+      <div>
+	<!--p class="button"><a  href="<@ u('Help','view','xmpp') @>"><@ l('Instructions for using the XMPP/Jabber server') @></a></p-->
+	<h3><@ l('Your XMPP/Jabber account') @></h3>
+	<p>We provide a public XMPP/Jabber server, bound to your account, here you got all the informations you need to add it to your prefered client. You can find a list of clients <a href="http://xmpp.org/xmpp-software/clients/">here</a>. XMPP is an open-standard instant communication protocol, like ICQ, MSN or Yahoo. More information you can find on the <a href="http://en.wikipedia.org/wiki/Jabber">Wikipedia Page</a>.</p>
+	<dl>
+          <dt>Username: </dt>
+            <dd><@ c.user.username @></dd>
+          <dt>Domain: </dt>
+            <dd><@ xmpp_userhost @></dd>
+          <dt>Resource: </dt>
+            <dd class="italic"><@ l('whatever you want') @></dd>
+          <dt>XMPP/Jabber Address: </dt>
+            <dd><@ c.user.username @>@<@ xmpp_userhost @></dd>
+	</dl>
+      </div>
+
+      <div>
+	<h3><@ l('Make your account public') @></h3>
+	<!--p class="button"><a href="<@ u('Help','view','public') @>"><@ l('Information about making your profile public') @></a></p-->
 	<p>This feature is not used so far, but if you set it to public, you will be seen first on lists of users, when we activate this feature.</p>
 	<@ IF c.user.public @>
-		<p><@ l('Your profile is publicly visible') @></p>
-		<p><a href="<@ u('My','public') @>"><@ l('Hide your profile again') @></a></p>
+          <p><@ l('Your profile is publicly visible') @>.</p>
+          <p class="button"><a href="<@ u('My','public') @>"><@ l('Hide your profile again') @></a></p>
 	<@ ELSE @>
-		<p><@ l('Your profile is not publicly visible yet') @></p>
-		<p><a href="<@ u('My','public') @>"><@ l('Make your profile public') @></a></p>
+          <p><@ l('Your profile is not publicly visible yet') @>.</p>
+          <p class="button"><a href="<@ u('My','public') @>"><@ l('Make your profile public') @></a></p>
 	<@ END @>
-</div>
+      </div>
+    </div>

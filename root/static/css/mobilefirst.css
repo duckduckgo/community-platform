@@ -1,6 +1,6 @@
 /*DDG Community Platform: all devices not print*/
 
-ul, ol, li, dt, dd, p, form, fieldset, legend {
+ul, ol, li, dl, dt, dd, p, form, fieldset, legend {
   margin: 0;
   padding: 0; /*protect form controls*/
 }
@@ -10,6 +10,10 @@ fieldset, img {
 }
 img {
   vertical-align: bottom;
+}
+
+input, textarea {
+  font-size: 1em; /*browsers all screw with these*/
 }
 
 ul {
@@ -36,6 +40,10 @@ em {
 .ac {
   position: absolute;
   left: -999em;
+}
+/*display none Javascripted elements*/
+.hidden {
+  display: none;
 }
 /*end reset*/
 
@@ -105,7 +113,7 @@ body {
           background-position: 0 -32px;
         }
 
-#logreg p:first-child, #logreg>ul>li>a {
+#logreg p:first-child, #logreg a.profile {
   display: block;
   margin-bottom: 0;
   padding-bottom: 10px;
@@ -131,10 +139,6 @@ body {
 #logreg label {
   display: block;
   font-size: .9em;
-}
-
-#logreg input {
-  font-size: 1em;
 }
 
 #logreg input[type=text],
@@ -223,13 +227,17 @@ a {
         }
 
 h1, h2, h3, h4, h5, h6 {
-  margin: 0;
   line-height: 120%;
 }
 
 h1 {
+  margin-top: 0;
   text-align: center;
 }
+
+.text h3 {
+  margin: 1em 0 .2em;
+} 
 
 p {
   margin-bottom: .6em;
@@ -287,6 +295,18 @@ p {
   -moz-border-radius: 5px;/*temp*/
 }
 
+.text p {
+  line-height: 1.6em;
+}
+
+ul.bullets {
+  padding-left: 22px;
+}
+        ul.bullets li {
+          display: list-item;
+          list-style-type: circle;
+        }
+
 /*buttons*/
 .button {
   text-align: center;
@@ -307,7 +327,7 @@ p {
                   position: relative;
                   top: 1px;
                 }
-
+/*mainpage*/
 .aboutddg {
   display: inline-block;
   width: 96%;
@@ -326,6 +346,221 @@ p {
         .aboutddg ul li {
           margin-bottom: .4em;
         }
+
+/*myaccount*/
+.account div {
+  margin-bottom: 2em;
+}
+
+.text ul {
+  margin-bottom: 1em;
+}
+
+.text dl {
+  width: 13em;
+  margin: .2em auto 1em;
+  padding: 7px 7px 0;
+  background-color: #fff; /*long domains may extend beyond body*/
+  border: solid #ccc;
+  border-width: 1px 0;
+}
+        .text dt, .text dd {
+          text-align: left;
+        }
+
+        .text dd {
+          margin-bottom: 1em;
+          font-weight: bold;
+        }
+                /*no idea why this must be italic*/
+                .text dd.italic {
+                  font-weight: normal;
+                  font-style: italic;
+                } 
+
+/*translate snippets etc*/
+#languageBox {
+  margin-bottom: 1em;
+  border-top: 1px solid #277bbc;
+}
+
+#languageBox>li {
+  font-weight: bold;
+  font-size: 1.2em;
+}
+
+/*flags*/
+#languageBox img {
+  vertical-align: middle;
+}
+        #languageBox a {
+          text-align: right;
+        }
+
+        #languageBox>li a[href="#void"] {
+          display: inline-block;
+          margin-left: .3em;
+          padding: .5em;
+          color: #222;
+          font-weight: normal;
+          font-size: .9em;
+          text-decoration: none;
+        }
+
+#languageBox ul {
+  margin-top: 1em;
+  border-top: 1px solid #277bbc;
+}
+
+#languageBox ul li {
+  font-weight: normal;
+  font-size: 1em;
+}
+
+#languageBox ul a {
+  display: block;
+  padding: 1.5em;
+  background-color: #dbe4ea;
+  border-bottom: 1px solid #277bbc;
+}
+        #languageBox ul a:focus, #languageBox ul a:hover {
+          color: #277bbc;
+          background-color: #f0f3f6;
+        }
+
+#formPages {
+  margin: 1em 5px;
+  padding: .5em 0;
+  border: solid #277bbc;
+  border-width: 1px 0;
+}
+
+#formPages label {
+  display: block;
+  margin: .2em .2em 0;
+}
+
+#formPages select {
+  margin-bottom: 1.5em;
+  padding: .2em;
+}
+
+#formTranslateDomain {
+  padding: 7px;
+  text-align: left;
+}
+
+        #formTranslateDomain>fieldset {
+          margin: .5em 0 1em;
+          padding: 5px;
+          background-color: #dbe4ea;
+          border: 1px solid #277bbc;
+        }
+        #formTranslateDomain>fieldset:nth-child(2n) {
+          background-color: #f0f3f6;
+        }
+
+/*terms to translate; context, singular, plural...*/
+/*results, what people translated*/
+#formTranslateDomain dl {
+  margin-bottom: 1em;
+}
+        #formTranslateDomain dt, 
+        #formTranslateDomain dd {
+          display: inline-block;
+          margin-bottom: .5em;
+          vertical-align: top;
+        } 
+        *+html #formTranslateDomain dt,
+        *+html #formTranslateDomain dd {display:inline;}
+   
+        #formTranslateDomain dt {
+          width: 25%;
+          min-width: 6em;
+          margin-right: 7px;
+          font-weight: bold;
+          font-size: 1.2em;
+        }
+        #formTranslateDomain .translations dt {
+          min-width: 8em;
+        }
+        #formTranslateDomain dd {
+          width: 60%;
+        }
+                #formTranslateDomain dd span {
+                  padding: 5px;
+                  color: #000; 
+                  background-color: #ff0;/*highlight term*/
+                }
+
+form div.translations {
+  margin: 0 auto 2em;
+  border-bottom: 1px solid #888;
+}
+ 
+form .translations h2 {
+  margin: 0 0 .2em;
+  font-size: 1.1em;
+}
+
+#formTranslateDomain .translations dt {
+  margin-bottom: .2em;
+  font-size: 1em;
+}
+
+/*inner fieldsets == translation in use labels/inputs*/
+#formTranslateDomain fieldset fieldset {
+  margin-bottom: 2em;
+  padding: 5px;
+  background-color: #fff;
+  border: 1px solid #277bbc;
+}
+        #formTranslateDomain fieldset fieldset legend span {
+          margin-left: 7px;
+          font-weight: bold;
+          color: #222; /*IE*/
+          text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff;
+        }
+          
+#formTranslateDomain label {
+  display: block;
+}
+        #formTranslateDomain label[for$="show"] {
+          display: inline-block;
+          margin-bottom: .6em;
+        }
+
+#formTranslateDomain input[type=text], 
+#formTranslateDomain textarea {
+  width: 90%;
+  margin-bottom: .6em;
+  background-color: #f0f3f6; 
+  border: 1px solid #277bbc;
+  border-radius: 5px;
+  -moz-border-radius: 5px; /*temp*/
+}
+#formTranslateDomain input[type=text] {
+  padding: .5em .2em;
+}
+#formTranslateDomain textarea {
+  font-size: 1.1em;
+  color: #000;
+}
+        #formTranslateDomain input[type=text]:hover, 
+        #formTranslateDomain textarea:hover,
+        #formTranslateDomain input[type=text]:focus, 
+        #formTranslateDomain textarea:focus {
+          background-color: #fff; 
+         -webkit-box-shadow: 0 0 5px rgba(39,123,188,0.5), 0 0 5px rgba(39,123,188,0.5);
+         -moz-box-shadow: 0 0 5px rgba(39,123,188,0.5), 0 0 5px rgba(39,123,188,0.5);/*temp*/
+         box-shadow: 0 0 5px rgba(39,123,188,0.5), 0 0 5px rgba(39,123,188,0.5);
+        }
+  
+#formTranslateDomain input[type=submit] {
+  display: block;/*save and next page much too long text*/
+  width: 90%;
+  margin: .2em auto;
+}
 
 #footer {
   min-height: 2em;

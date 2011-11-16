@@ -1,3 +1,1 @@
-<div>
-	<@ PROCESS $LAYOUTS.shift @>
-</div>
+  <@ PROCESS $LAYOUTS.shift @>

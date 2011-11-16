@@ -1,129 +1,103 @@
 <h1><@ l('Translate text snippets for %s',token_domain.name) @></h1>
 <@ INCLUDE translate/languagebox.tt @>
-<@ INCLUDE translate/pager.tt @>
+<@ INCLUDE translate/pageform.tt @>
 
-<form action="<@ u('Translate','snippets',token_domain.key,cur_language.locale) @>" method="post" id="formTranslateDomain"> <!-- do NOT list languages you can't speak-->
-  <fieldset><!-- fieldset per term to translate-->
-  <legend class="ac"><span><@ token_language.token.msgid @></span></legend>
+<@ IF cant_speak @>
+  <p><a href="<@ u('My','languages',{ locale => cur_language.locale }) @>"><@ l('You must add this language to your known languages for translating it') @></a></p>
+<@ ELSE @>
+<form action="<@ u('Translate','snippets',token_domain.key,cur_language.locale) @>" method="post" id="formTranslateDomain">
 
-	<@ IF cant_speak @>
-		<div class="mybox">
-			<p><a href="<@ u('My','languages',{ locale => cur_language.locale }) @>"><@ l('You must add this language to your known languages for translating it') @></a></p>
-		</div>
-	<@ ELSE @>
+  <@ FOR token_language IN token_languages.all @>
+    <@ SET other_translations = token_language.translations(c.user,1) @>
+    <@ SET own_translation = token_language.translations(c.user) @>
 
-		<@ FOR token_language IN token_languages.all @>
-			<@ SET other_translations = token_language.translations(c.user,1) @>
-			<@ SET own_translation = token_language.translations(c.user) @>
-			<div class="mybox">
-				<@ IF c.user.admin || token_language.token.notes || token_language.notes @>
-					<span id="token_notes_<@ token_language.id @>_help" class="token_notes_help help">?</span>
-				<@ END @>
-				<table class="tokentable">
-					<tr>
-						<td>
-							<table>
-								<@ IF token_language.token.msgctxt @>
-									<tr>
-										<th><@ l('Context') @></th>
-										<td><@ token_language.token.msgctxt @></td>
-									</tr>
-								<@ END @>
-								<tr>
-									<th><@ l('Singular') @></th>
-									<td><@ token_language.token.msgid @></td>
-								</tr>
-								<@ IF token_language.token.msgid_plural @>
-									<tr>
-										<th><@ l('Plural') @></th>
-										<td><@ token_language.token.msgid_plural @></td>
-									</tr>
-								<@ END @>
-							</table>
-						</td>
-						<td>
-							<@ IF token_language.msgstr @>
-								<@ INCLUDE translate/snippets/translation.tt text=l('Translation in use') translation=token_language @>
-							<@ ELSE @>
-								<@ l('Not yet any translation in use') @>
-							<@ END @>
-						</td>
-					</tr>
-					<tr>
-						<td colspan="2">
-							<div id="token_notes_<@ token_language.id @>" class="token_notes">
-								<@ IF c.user.admin @>
-									<textarea cols="80" name="token_notes_<@ token_language.id @>_edit"><@ token_language.token.notes | html @></textarea>
-									Token Notes
-								<@ ELSE @>
-									<@ token_language.token.notes @>
-								<@ END @>
-							</div>
-							<div id="token_language_notes_<@ token_language.id @>" class="token_language_notes">
-								<@ IF c.user.admin @>
-									<textarea cols="80" name="token_language_notes_<@ token_language.id @>_edit"><@ token_language.notes | html @></textarea>
-									Token Language Notes
-								<@ ELSE @>
-									<@ token_language.notes @>
-								<@ END @>
-							</div>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<table>
-								<tr>
-									<td colspan="2"><@ l('Translation in use') @>:</td>
-								</tr>
-								<@ FOR n IN [ 0..token_language.max_msgstr_index ] @>
-									<@ SET func = 'msgstr' _ n @>
-									<tr>
-										<td><@ IF n == 0 @><@ l('Singular') @><@ ELSE @><@ n @>th Plural Form<@ END @></td>
-										<td>
-											<input type="text" name="token_language_<@ token_language.id @>_<@ func @>" value="<@ own_translation.$func @>" size="80" />
-										</td>
-									</tr>
-								<@ END @>
-							</table>
-						</td>
-						<td>
-							<@ FOR translation IN other_translations @>
-								<@ INCLUDE translate/snippets/translation.tt text=l('Translation of %s',translation.user.username) @>
-							<@ END @>
-						</td>
-					</tr>
-				</table>
-			</div>
-			<script type="text/javascript">
-			
-				$(function() {
+    <fieldset><!-- fieldset per term to translate-->
+    <legend class="ac"><span><@ token_language.token.msgid @></span></legend>
+      <dl>
+    <@ IF token_language.token.msgctxt @>
+        <dt><@ l('Context') @>: </dt>
+          <dd><span><@ token_language.token.msgctxt @></span></dd>
+    <@ END @>
+        <dt><@ l('Singular') @>: </dt>
+          <dd><span><@ token_language.token.msgid @></span></dd>
+    <@ IF token_language.token.msgid_plural @>
+        <dt><@ l('Plural') @>: </dt>
+          <dd><span><@ token_language.token.msgid_plural @></span></dd>
+    <@ END @>
+      </dl>
 
-					$('#token_notes_<@ token_language.id @>').hide();
-					$('#token_language_notes_<@ token_language.id @>').hide();
-				
-					$('#token_notes_<@ token_language.id @>_help').toggle(function(){
-						$('#token_notes_<@ token_language.id @>').show();
-						$('#token_language_notes_<@ token_language.id @>').show();
-					},function(){
-						$('#token_notes_<@ token_language.id @>').hide();
-						$('#token_language_notes_<@ token_language.id @>').hide();
-					});
-					
-				});
-			
-			</script>
-		<@ END @>
-		<div class="mybox">
-			<input type="submit" name="save_translations" id="save_translations" value="<@ l('Save your translations') @>" />
-			<@ IF token_languages.pager.next_page @>
-				<input type="submit" name="save_translations_next_page" id="save_translations_next_page" value="<@ l('Save your translations and go to next page') @>" />
-			<@ END @>
-		</div>
-		<div class="mybox">
-			<@ INCLUDE pager.tt pager=token_languages.pager url=u('Translate','snippets',token_domain.key,cur_language.locale,{ page => 'PAGE_NO' }) @>
-		</div>
-	<@ END @>
+      <fieldset>
+      <legend><span><@ l('Translation in use') @></span></legend>
+    <@ FOR n IN [ 0..token_language.max_msgstr_index ] @>
+      <@ SET func = 'msgstr' _ n @>
+        <label for="token_language_<@ token_language.id @>_<@ func @>"><@ IF n == 0 @><@ l('Singular') @><@ ELSE @><@ n @>th Plural Form<@ END @>: </label>
+        <input type="text" id="token_language_<@ token_language.id @>_<@ func @>" name="token_language_<@ token_language.id @>_<@ func @>" value="<@ own_translation.$func @>">
+    <@ END @>
+      </fieldset>
+
+    <@ IF c.user.admin || token_language.token.notes || token_language.notes @>
+      <fieldset>
+      <legend><span><@ l('Token Notes') @></span></legend>
+        <label for="token_notes_<@ token_language.id @>_show"><@ l('Show Token Notes?') @></label>
+          <select id="token_notes_<@ token_language.id @>_show"><!--no name, is purely for toggle-->
+            <option value="no"><@ l('No') @></option>
+            <option value="yes"><@ l('Yes') @></option>
+          </select>
+      <!--span id="token_notes_<@ token_language.id @>_help" class="token_notes_help help">?</span-->
+    <@ END @>
+
+    <!--div id="token_notes_<@ token_language.id @>" class="token_notes"-->
+
+        <div class="toggle"><!--offscreen unless toggled by hasTokens above-->
+    <@ IF c.user.admin @>
+            <label for="token_notes_<@ token_language.id @>_edit">Token Notes </label>
+              <textarea cols="40" rows="5" id="token_notes_<@ token_language.id @>_edit" name="token_notes_<@ token_language.id @>_edit"><@ token_language.token.notes | html @></textarea>
+    <@ ELSE @>
+      <p><@ token_language.token.notes @></p>
+    <@ END @>
+	<!--div id="token_language_notes_<@ token_language.id @>" class="token_language_notes"-->
+    <@ IF c.user.admin @>
+            <label for="token_language_notes_<@ token_language.id @>_edit">Token Language Notes </label> 
+              <textarea cols="40" rows="5" id="token_language_notes_<@ token_language.id @>_edit" name="token_language_notes_<@ token_language.id @>_edit"><@ token_language.notes | html @></textarea>
+    <@ ELSE @>
+     <p><@ token_language.notes @></p>
+    <@ END @>
+          </div><!--toggle div-->
+        </fieldset>
+
+    <@ FOR translation IN other_translations @>
+      <@ INCLUDE translate/snippets/translation.tt text=l('Translation of %s',translation.user.username) @>
+    <@ END @>
+
+    <@ IF token_language.msgstr @>
+      <@ INCLUDE translate/snippets/translation.tt text=l('Translation in use') translation=token_language @>
+    <@ ELSE @>
+      <p><@ l('Not yet any translation in use') @></p>
+    <@ END @>
+
+    <script type="text/javascript">
+      $(function() {
+          $('#token_notes_<@ token_language.id @>').hide();
+          $('#token_language_notes_<@ token_language.id @>').hide();
+          $('#token_notes_<@ token_language.id @>_help').toggle(function(){
+              $('#token_notes_<@ token_language.id @>').show();
+              $('#token_language_notes_<@ token_language.id @>').show();
+          },function(){
+              $('#token_notes_<@ token_language.id @>').hide();
+              $('#token_language_notes_<@ token_language.id @>').hide();
+          });
+      });
+    </script>
+  </fieldset>
+  <@ END @>
+  <div>
+    <input type="submit" name="save_translations" value="<@ l('Save your translations') @>">
+  <@ IF token_languages.pager.next_page @>
+    <input type="submit" name="save_translations_next_page" value="<@ l('Save your translations and go to next page') @>">
+  <@ END @>
+  </div>
 </form>
-<div class="mybox">
-	<a style="float:right" href="<@ u('Translate','index') @>"><@ l('Back to all text domains') @></a>
-</div>
+
+<@ INCLUDE pager.tt pager=token_languages.pager url=u('Translate','snippets',token_domain.key,cur_language.locale,{ page => 'PAGE_NO' }) @>
+<@ END @>
+<p><a href="<@ u('Translate','index') @>"><@ l('Back to all text domains') @></a></p>
