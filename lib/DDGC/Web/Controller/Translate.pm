@@ -72,7 +72,7 @@ sub locale :Chained('domain') :PathPart('') :CaptureArgs(1) {
 
 sub snippets :Chained('locale') :Args(0) {
     my ( $self, $c ) = @_;
-	$c->pager_init({$c->action}.{$c->stash->{token_domain}->key}.{$c->stash->{locale}},20);
+	$c->pager_init($c->action.$c->stash->{token_domain}->key.$c->stash->{locale},20);
 	my $save_translations = $c->req->params->{save_translations} || $c->req->params->{save_translations_next_page} ? 1 : 0;
 	my $next_page = $c->req->params->{save_translations_next_page} ? 1 : 0;
 	$c->stash->{token_languages} = $c->stash->{locales}->{$c->stash->{locale}}->{tcl}->token_languages->search({
