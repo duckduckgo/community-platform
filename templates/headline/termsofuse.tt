@@ -1,1 +1,1 @@
-<@ l('Terms of use') @>
+<h1 id="skip"><@ l('Terms of use') @></h1>
