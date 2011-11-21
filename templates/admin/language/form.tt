@@ -1,19 +1,22 @@
 <div>
-	Language name in english: <input type="text" size="80" name="language_<@ language.id || 0 @>_name_in_english" value="<@ language.name_in_english @>" />
+  <label for="language_<@ language.id @>_name_in_english">Language name in english: </label>
+    <input type="text" id="language_<@ language.id @>_name_in_english" name="language_<@ language.id || 0 @>_name_in_english" value="<@ language.name_in_english @>">
 </div>
 <div>
-	Language name in the language: <input type="text" size="80" name="language_<@ language.id || 0 @>_name_in_local" value="<@ language.name_in_local @>" />
+  <label for="language_<@ language.id @>_name_in_local">Language name in the language: </label>
+    <input type="text" id="language_<@ language.id @>_name_in_local" name="language_<@ language.id || 0 @>_name_in_local" value="<@ language.name_in_local @>">
 </div>
 <div>
-	Locale: <input type="text" name="language_<@ language.id || 0 @>_locale" value="<@ language.locale @>" />
+  <label for="language_<@ language.id @>_locale">Locale: </label>
+    <input type="text" id="language_<@ language.id @>_locale" name="language_<@ language.id || 0 @>_locale" value="<@ language.locale @>">
 </div>
 <div>
-	Flagicon: 
-	<@ IF language.flagicon @><img src="<@ language.flag_url @>" /><@ END @>
-	<select name="language_<@ language.id || 0 @>_flagicon">
-		<option value=""></option>
-		<@ FOR flagicon IN flaglist @>
-			<option value="<@ flagicon @>"<@ IF flagicon == language.flagicon @> selected="selected"<@ END @>><@ flagicon @></option>
-		<@ END @>
-	</select>
+  <label for="language_<@ language.id @>_flagicon">Flagicon: </label> 
+  <@ IF language.flagicon @><img src="<@ language.flag_url @>" width="16" height="11" alt=""><@ END @>
+    <select  id="language_<@ language.id @>_flagicon" name="language_<@ language.id || 0 @>_flagicon">
+      <option value="">None</option>
+      <@ FOR flagicon IN flaglist @>
+      <option value="<@ flagicon @>"<@ IF flagicon == language.flagicon @> selected="selected"<@ END @>><@ flagicon @></option>
+      <@ END @>
+    </select>
 </div>
