@@ -75,8 +75,7 @@ body {
 }
 *+html  #logreg form div {display: inline;}
 
-#logreg input[type=text],
-#logreg input[type=password] {
+#logreg input:not([type=submit]) {
   padding: .3em .2em;
 }
 #logreg input[type=password] {
@@ -369,10 +368,10 @@ h3 {
   clear: both;
   overflow: hidden;
 }
-        #formTranslateDomain fieldset fieldset {
+        .main form fieldset fieldset {
           padding: .5em 5px .5em 1em ;
         }
-        #formTranslateDomain>fieldset:nth-child(2n) {
+        .main form>fieldset:nth-child(2n) {
           background-color: #dbe4ea;
         }
 
@@ -389,11 +388,12 @@ form div.translations {
           border: 0;
         }
 
-#formTranslateDomain input[type=submit] {
+.main form input[type=submit] {
   float: left;
   width: auto;
 }
-        #formTranslateDomain input[type=submit]+input[type=submit] {
+        /*any second submits*/
+        .main form input[type=submit]+input[type=submit] {
           float: right;
         }
 

@@ -141,8 +141,8 @@ body {
   font-size: .9em;
 }
 
-#logreg input[type=text],
-#logreg input[type=password] {
+/*:not() selector IE9+ */
+#logreg input:not([type=submit]) {
   width: 10em;
   margin-bottom: .5em;
   padding: .5em .2em;
@@ -151,12 +151,10 @@ body {
   border-radius: 5px;
   -moz-border-radius: 5px; /*temp*/
 }
-        #logreg input[type=text]:hover,
-        #logreg input[type=password]:hover {
+        #logreg input:not([type=submit]):hover {
          background-color: #f0f3f6; 
         }
-        #logreg input[type=text]:focus,
-        #logreg input[type=password]:focus {
+        #logreg input:not([type=submit]):focus {
           background-color: #fff;
         }
 
@@ -266,6 +264,7 @@ p {
   background-color: #c00;
 }
 /*IE7 does not support nth-child*/
+/*this WILL break if more than 3 items exist on main page*/
 .getstarted li:first-child+li+li {
   background-color: #0f78be;
 }
@@ -428,35 +427,31 @@ ul.bullets {
           background-color: #f0f3f6;
         }
 
-#formPages {
-  margin: 1em 5px;
-  padding: .5em 0;
-  border: solid #277bbc;
-  border-width: 1px 0;
-}
-
-#formPages label {
-  display: block;
-  margin: .2em .2em 0;
-}
-
-#formPages select {
-  margin-bottom: 1.5em;
-  padding: .2em;
-}
-
-#formTranslateDomain {
+.main form {
   padding: 7px;
   text-align: left;
 }
 
-        #formTranslateDomain>fieldset {
+#formPages {
+  margin: 1em 5px;
+  padding: .5em 0;
+  text-align: center;/**/
+  border: solid #277bbc;
+  border-width: 1px 0;
+}
+
+        .main form>fieldset {
           margin: .5em 0 1em;
           padding: 5px;
           background-color: #dbe4ea;
           border: 1px solid #277bbc;
         }
-        #formTranslateDomain>fieldset:nth-child(2n) {
+        .main #formPages>fieldset {
+          margin: 0;
+          background-color: transparent;
+          border: 0;
+        }
+        .main form>fieldset:nth-child(2n) {
           background-color: #f0f3f6;
         }
 
@@ -493,6 +488,7 @@ ul.bullets {
                   background-color: #ff0;/*highlight term*/
                 }
 
+/*translations by users shown*/
 form div.translations {
   margin: 0 auto 2em;
   border-bottom: 1px solid #888;
@@ -508,30 +504,45 @@ form .translations h2 {
   font-size: 1em;
 }
 
-/*inner fieldsets == translation in use labels/inputs*/
-#formTranslateDomain fieldset fieldset {
+/*inner fieldsets == translation in use labels/inputs,
+or in admin, settings*/
+.main form fieldset fieldset {
   margin-bottom: 2em;
   padding: 5px;
   background-color: #fff;
   border: 1px solid #277bbc;
 }
-        #formTranslateDomain fieldset fieldset legend span {
+        .main form fieldset fieldset legend span {
           margin-left: 7px;
           font-weight: bold;
           color: #222; /*IE*/
           text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff;
         }
           
-#formTranslateDomain label {
+.main form label {
   display: block;
 }
-        #formTranslateDomain label[for$="show"] {
-          display: inline-block;
-          margin-bottom: .6em;
-        }
 
-#formTranslateDomain input[type=text], 
-#formTranslateDomain textarea {
+#formPages label {
+  margin: .2em .2em 0;
+}
+
+#formTranslateDomain label[for$="show"] {
+  display: inline-block;
+  margin-bottom: .6em;
+}
+
+.main form img {
+  vertical-align: middle;
+}
+
+#formPages select {
+  margin-bottom: 1.5em;
+  padding: .2em;
+}
+
+.main form input:not([type=radio]):not([type=checkbox]):not([type=submit]), 
+.main form textarea {
   width: 90%;
   margin-bottom: .6em;
   background-color: #f0f3f6; 
@@ -539,24 +550,24 @@ form .translations h2 {
   border-radius: 5px;
   -moz-border-radius: 5px; /*temp*/
 }
-#formTranslateDomain input[type=text] {
+.main form input:not([type=radio]):not([type=checkbox]):not([type=submit]) {
   padding: .5em .2em;
 }
-#formTranslateDomain textarea {
+.main form textarea {
   font-size: 1.1em;
   color: #000;
 }
-        #formTranslateDomain input[type=text]:hover, 
-        #formTranslateDomain textarea:hover,
-        #formTranslateDomain input[type=text]:focus, 
-        #formTranslateDomain textarea:focus {
+        .main form input:not([type=radio]):not([type=checkbox]):not([type=submit]):hover, 
+        .main form textarea:hover,
+        .main form input:not([type=radio]):not([type=checkbox]):not([type=submit]):focus, 
+       .main form textarea:focus {
           background-color: #fff; 
          -webkit-box-shadow: 0 0 5px rgba(39,123,188,0.5), 0 0 5px rgba(39,123,188,0.5);
          -moz-box-shadow: 0 0 5px rgba(39,123,188,0.5), 0 0 5px rgba(39,123,188,0.5);/*temp*/
          box-shadow: 0 0 5px rgba(39,123,188,0.5), 0 0 5px rgba(39,123,188,0.5);
         }
   
-#formTranslateDomain input[type=submit] {
+.main form input[type=submit] {
   display: block;/*save and next page much too long text*/
   width: 90%;
   margin: .2em auto;
