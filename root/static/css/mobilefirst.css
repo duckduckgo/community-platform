@@ -479,6 +479,12 @@ th, td[scope] {
           background-color: #f0f3f6;
         }
 
+/*errors*/
+.error {
+  color: #c00;
+  font-size: 1.1em;
+}
+
 .main form {
   padding: 7px;
   text-align: left;

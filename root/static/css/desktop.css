@@ -375,6 +375,27 @@ table tr:hover td {
                   background-color: #dbe4ea;
                 }
 
+/*my/register*/
+/*my/login*/
+.main #formLogin, .main #formRegister {
+  width: 26em;
+  margin: 1em auto;
+}
+/*make register a link*/
+.main #formLogin+p a {
+  display: inline;
+  color: #277bbc;
+  text-decoration: underline;
+  background-color: transparent;
+  border: 0;
+}  
+                .main #formLogin+p a:focus, .main #formLogin+p a:hover {
+                  text-decoration: none;
+                  background-color: transparent;
+                }
+                .main #formLogin+p a:active {
+                  position: static;
+                }
 #formPages {
   float: left;
   width: 40%;
