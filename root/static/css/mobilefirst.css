@@ -377,6 +377,58 @@ ul.bullets {
                   font-style: italic;
                 } 
 
+/*admin interface*/
+ul.admin {
+  margin: 1em 0;
+  border-top: 1px solid #277bbc;
+}
+        .admin li {
+          display: inline;
+        }
+
+        .admin a {
+          display: block;
+          padding: 1.5em;
+          color: #222;
+          background-color: #dbe4ea;
+          border-bottom: 1px solid #277bbc;
+        }
+                .admin a:focus, .admin a:hover {
+                  color: #277bbc;
+                  background-color: #f0f3f6;
+                }
+
+/*admin:users page*/
+table {
+  width: 100%;
+  margin: 1em 0;
+  border-collapse: collapse;
+  border: 1px solid #277bbc;
+}
+
+/*thead, zebra striping*/
+thead th, tr:nth-child(2n) td {
+  background-color: #dbe4ea;
+}
+
+/*assumes 4 columns*/
+.tableUsers th {
+  width: 25%;
+}
+
+th, td {
+  padding: 5px;
+  border: 1px solid #277bbc;
+}
+
+td:nth-child(2) {
+  text-align: left;
+}
+
+th, td[scope] {
+  font-weight: bold;
+}
+
 /*translate snippets etc*/
 #languageBox {
   margin-bottom: 1em;
@@ -521,6 +573,7 @@ or in admin, settings*/
           
 .main form label {
   display: block;
+  margin-top: .6em;
 }
 
 #formPages label {

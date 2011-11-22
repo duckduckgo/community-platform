@@ -253,6 +253,40 @@ h3 {
   margin-bottom: 2em;
 }
 
+/*admin interface*/
+ul.admin {
+  border: 0;
+}
+        .admin li {
+          display: inline-block;
+          padding: 5px .6em 5px 0;
+          font-size: 1.2em;
+          text-align: center;
+        }
+        *+html .admin li{display:inline;}
+
+                .admin li:before {
+                  content: "|\0a";
+                }
+                .admin li:first-child:before {
+                  content: "";
+                }
+        .admin a {
+          display: inline;
+          padding: .5em;
+          color: #277bbc;
+          font-size: .9em;
+          background-color: transparent;
+          border-bottom: 0;
+        }
+                .admin a:hover {
+                  background-color: transparent;
+                }
+          
+table tr:hover td {
+  background-color: #eee;
+}
+
 /*myaccount*/
 .account div {
   width: 90%;
