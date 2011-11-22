@@ -564,7 +564,8 @@ or in admin, settings*/
   background-color: #fff;
   border: 1px solid #277bbc;
 }
-        .main form fieldset fieldset legend span {
+        /*all legends not hidden by .ac class*/
+        .main form fieldset legend span {
           margin-left: 7px;
           font-weight: bold;
           color: #222; /*IE*/
