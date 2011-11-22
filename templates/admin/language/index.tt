@@ -11,7 +11,7 @@
     <input type="submit" value="Update languages" name="save_languages">
   </fieldset>
   <fieldset>
-  <legend class="ac"><span>Add new language</span></legend>
+  <legend><span>Add new language</span></legend>
     <@ INCLUDE admin/language/form.tt @>
     <input type="submit" value="Save languages" name="save_languages">
   </fieldset>
