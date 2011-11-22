@@ -13,8 +13,8 @@
     <tr>
       <td scope="row">#<@ user.id @></td>
       <td><@ user.username @></td>
-      <td><@ IF user.public @>Public<ELSE>Private<@ END @></td>
-      <td><@ IF user.admin @>Admin<ELSE>Regular<@ END @></td>
+      <td><@ IF user.public @>Public<@ ELSE @> <@ END @></td>
+      <td><@ IF user.admin @>Admin<@ ELSE @> <@ END @></td>
     </tr>
   <@ END @>
   </tbody>
