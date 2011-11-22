@@ -547,7 +547,7 @@ th, td[scope] {
                 }
 
 /*translations by users shown*/
-form div.translations {
+form .translations {
   margin: 0 auto 2em;
   border-bottom: 1px solid #888;
 }
@@ -564,21 +564,21 @@ form .translations h2 {
 
 /*inner fieldsets == translation in use labels/inputs,
 or in admin, settings*/
-.main form fieldset fieldset {
+.main fieldset fieldset {
   margin-bottom: 2em;
   padding: 5px;
   background-color: #fff;
   border: 1px solid #277bbc;
 }
         /*all legends not hidden by .ac class*/
-        .main form fieldset legend span {
+        .main legend span {
           margin-left: 7px;
           font-weight: bold;
           color: #222; /*IE*/
           text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff;
         }
           
-.main form label {
+.main label {
   display: block;
   margin-top: .6em;
 }
@@ -603,7 +603,7 @@ form .flagSelect label {
   margin-right: .6em;
 }
 
-.main form select {
+.main select {
   margin-bottom: .6em;
 }
 
@@ -612,33 +612,33 @@ form .flagSelect label {
   padding: .2em;
 }
 
-.main form input:not([type=radio]):not([type=checkbox]):not([type=submit]), 
-.main form textarea {
+.main input:not([type=radio]):not([type=checkbox]):not([type=submit]), 
+.main textarea {
   width: 90%;
   margin-bottom: .6em;
+  padding: .5em .2em;
   background-color: #f0f3f6; 
   border: 1px solid #277bbc;
   border-radius: 5px;
   -moz-border-radius: 5px; /*temp*/
 }
-.main form input:not([type=radio]):not([type=checkbox]):not([type=submit]) {
-  padding: .5em .2em;
-}
-.main form textarea {
+
+.main textarea {
   font-size: 1.1em;
   color: #000;
 }
-        .main form input:not([type=radio]):not([type=checkbox]):not([type=submit]):hover, 
-        .main form textarea:hover,
-        .main form input:not([type=radio]):not([type=checkbox]):not([type=submit]):focus, 
-       .main form textarea:focus {
+
+        .main input:not([type=radio]):not([type=checkbox]):not([type=submit]):hover, 
+        .main textarea:hover,
+        .main input:not([type=radio]):not([type=checkbox]):not([type=submit]):focus, 
+       .main textarea:focus {
           background-color: #fff; 
          -webkit-box-shadow: 0 0 5px rgba(39,123,188,0.5), 0 0 5px rgba(39,123,188,0.5);
          -moz-box-shadow: 0 0 5px rgba(39,123,188,0.5), 0 0 5px rgba(39,123,188,0.5);/*temp*/
          box-shadow: 0 0 5px rgba(39,123,188,0.5), 0 0 5px rgba(39,123,188,0.5);
         }
   
-.main form input[type=submit] {
+.main input[type=submit] {
   display: block;/*save and next page much too long text*/
   width: 90%;
   margin: .2em auto;

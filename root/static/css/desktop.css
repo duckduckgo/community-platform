@@ -423,32 +423,32 @@ table tr:hover td {
   clear: both;
   overflow: hidden;
 }
-        .main form fieldset fieldset {
+        .main fieldset fieldset {
           padding: .5em 5px .5em 1em ;
         }
         .main form>fieldset:nth-child(2n) {
           background-color: #dbe4ea;
         }
 
-form div.translations {
+form .translations {
   display: inline-block;
   width: 28%;
   margin-left: 1em;
   padding: 7px;
   border-bottom: 0;
 }
-*+html form div.translations{display:inline;}
+*+html form .translations{display:inline;}
 
-        form div.translations:first-child {
+        form .translations:first-child {
           border: 0;
         }
 
-.main form input[type=submit] {
+.main input[type=submit] {
   float: left;
   width: auto;
 }
         /*any second submits*/
-        .main form input[type=submit]+input[type=submit] {
+        .main input[type=submit]+input[type=submit] {
           float: right;
         }
 
