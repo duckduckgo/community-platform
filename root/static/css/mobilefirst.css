@@ -141,22 +141,22 @@ body {
   font-size: .9em;
 }
 
-#logreg input[type=text],
-#logreg input[type=password] {
+/*:not() selector IE9+ */
+#logreg input:not([type=submit]) {
   width: 10em;
   margin-bottom: .5em;
   padding: .5em .2em;
-  background-color: #dbe4ea;
-  border: 1px solid #277bbc;
+  background-color: #fff;
+  border: 0;
+  box-shadow: inset 0 0 5px rgba(0,0,0,0.25);
   border-radius: 5px;
+  -moz-box-shadow: inset 0 0 5px rgba(0,0,0,0.25);
   -moz-border-radius: 5px; /*temp*/
 }
-        #logreg input[type=text]:hover,
-        #logreg input[type=password]:hover {
+        #logreg input:not([type=submit]):hover {
          background-color: #f0f3f6; 
         }
-        #logreg input[type=text]:focus,
-        #logreg input[type=password]:focus {
+        #logreg input:not([type=submit]):focus {
           background-color: #fff;
         }
 
@@ -266,6 +266,7 @@ p {
   background-color: #c00;
 }
 /*IE7 does not support nth-child*/
+/*this WILL break if more than 3 items exist on main page*/
 .getstarted li:first-child+li+li {
   background-color: #0f78be;
 }
@@ -378,6 +379,58 @@ ul.bullets {
                   font-style: italic;
                 } 
 
+/*admin interface*/
+ul.admin {
+  margin: 1em 0;
+  border-top: 1px solid #277bbc;
+}
+        .admin li {
+          display: inline;
+        }
+
+        .admin a {
+          display: block;
+          padding: 1.5em;
+          color: #222;
+          background-color: #dbe4ea;
+          border-bottom: 1px solid #277bbc;
+        }
+                .admin a:focus, .admin a:hover {
+                  color: #277bbc;
+                  background-color: #f0f3f6;
+                }
+
+/*admin:users page*/
+table {
+  width: 100%;
+  margin: 1em 0;
+  border-collapse: collapse;
+  border: 1px solid #277bbc;
+}
+
+/*thead, zebra striping*/
+thead th, tr:nth-child(2n) td {
+  background-color: #dbe4ea;
+}
+
+/*assumes 4 columns*/
+.tableUsers th {
+  width: 25%;
+}
+
+th, td {
+  padding: 5px;
+  border: 1px solid #277bbc;
+}
+
+td:nth-child(2) {
+  text-align: left;
+}
+
+th, td[scope] {
+  font-weight: bold;
+}
+
 /*translate snippets etc*/
 #languageBox {
   margin-bottom: 1em;
@@ -428,35 +481,37 @@ ul.bullets {
           background-color: #f0f3f6;
         }
 
-#formPages {
-  margin: 1em 5px;
-  padding: .5em 0;
-  border: solid #277bbc;
-  border-width: 1px 0;
+/*errors*/
+.error {
+  color: #c00;
+  font-size: 1.1em;
 }
 
-#formPages label {
-  display: block;
-  margin: .2em .2em 0;
-}
-
-#formPages select {
-  margin-bottom: 1.5em;
-  padding: .2em;
-}
-
-#formTranslateDomain {
+.main form {
   padding: 7px;
   text-align: left;
 }
 
-        #formTranslateDomain>fieldset {
+#formPages {
+  margin: 1em 5px;
+  padding: .5em 0;
+  text-align: center;/**/
+  border: solid #277bbc;
+  border-width: 1px 0;
+}
+
+        .main form>fieldset {
           margin: .5em 0 1em;
           padding: 5px;
           background-color: #dbe4ea;
           border: 1px solid #277bbc;
         }
-        #formTranslateDomain>fieldset:nth-child(2n) {
+        .main #formPages>fieldset {
+          margin: 0;
+          background-color: transparent;
+          border: 0;
+        }
+        .main form>fieldset:nth-child(2n) {
           background-color: #f0f3f6;
         }
 
@@ -493,7 +548,8 @@ ul.bullets {
                   background-color: #ff0;/*highlight term*/
                 }
 
-form div.translations {
+/*translations by users shown*/
+form .translations {
   margin: 0 auto 2em;
   border-bottom: 1px solid #888;
 }
@@ -508,59 +564,104 @@ form .translations h2 {
   font-size: 1em;
 }
 
-/*inner fieldsets == translation in use labels/inputs*/
-#formTranslateDomain fieldset fieldset {
+/*inner fieldsets == translation in use labels/inputs,
+or in admin, settings*/
+.main fieldset fieldset {
   margin-bottom: 2em;
   padding: 5px;
   background-color: #fff;
   border: 1px solid #277bbc;
 }
-        #formTranslateDomain fieldset fieldset legend span {
+        /*all legends not hidden by .ac class*/
+        .main legend span {
           margin-left: 7px;
           font-weight: bold;
           color: #222; /*IE*/
           text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff;
         }
           
-#formTranslateDomain label {
+.main label {
   display: block;
+  margin-top: .6em;
 }
-        #formTranslateDomain label[for$="show"] {
-          display: inline-block;
-          margin-bottom: .6em;
-        }
 
-#formTranslateDomain input[type=text], 
-#formTranslateDomain textarea {
+#formPages label {
+  margin: .2em .2em 0;
+}
+
+#formTranslateDomain label[for$="show"] {
+  display: inline-block;
+  margin-bottom: .6em;
+}
+
+.main form img {
+  margin: 0 .2em;
+  vertical-align: middle;
+}
+
+form img[alt="Captcha"] {
+  display: block;
+  margin-bottom: .6em;
+}
+
+/*admin languages form */
+form .flagSelect label {
+  display: inline-block;
+  margin-right: .6em;
+}
+
+.main select {
+  margin-bottom: .6em;
+}
+
+#formPages select {
+  margin-bottom: 1.5em;
+  padding: .2em;
+}
+
+.main input:not([type=radio]):not([type=checkbox]):not([type=submit]), 
+.main textarea {
   width: 90%;
   margin-bottom: .6em;
+  padding: .5em .2em;
   background-color: #f0f3f6; 
   border: 1px solid #277bbc;
   border-radius: 5px;
   -moz-border-radius: 5px; /*temp*/
 }
-#formTranslateDomain input[type=text] {
-  padding: .5em .2em;
-}
-#formTranslateDomain textarea {
+
+.main textarea {
   font-size: 1.1em;
   color: #000;
 }
-        #formTranslateDomain input[type=text]:hover, 
-        #formTranslateDomain textarea:hover,
-        #formTranslateDomain input[type=text]:focus, 
-        #formTranslateDomain textarea:focus {
+
+        .main input:not([type=radio]):not([type=checkbox]):not([type=submit]):hover, 
+        .main textarea:hover,
+        .main input:not([type=radio]):not([type=checkbox]):not([type=submit]):focus, 
+       .main textarea:focus {
           background-color: #fff; 
          -webkit-box-shadow: 0 0 5px rgba(39,123,188,0.5), 0 0 5px rgba(39,123,188,0.5);
          -moz-box-shadow: 0 0 5px rgba(39,123,188,0.5), 0 0 5px rgba(39,123,188,0.5);/*temp*/
          box-shadow: 0 0 5px rgba(39,123,188,0.5), 0 0 5px rgba(39,123,188,0.5);
         }
   
-#formTranslateDomain input[type=submit] {
+.main input[type=submit] {
   display: block;/*save and next page much too long text*/
   width: 90%;
   margin: .2em auto;
 }
+
+/*admin interface/language/flag list*/
+.flags {
+  width: 90%;
+  margin: 0 auto 1em;
+}
+
+.flags li {
+  display: inline-block;
+  padding: .2em;
+}
+*+html .flags li{display:inline;}
 
 #footer {
   min-height: 2em;

@@ -1,9 +1,21 @@
-<div class="mybox">
-
-	<@ FOREACH user IN users @>
-		<div>
-			#<@ user.id @> <@ user.username @> <@ IF user.public @>Public<@ END @> <@ IF user.admin @>Admin<@ END @>
-		</div>
-	<@ END @>
-
-</div>
+<h1 id="skip">User list</h1>
+<table class="tableUsers">
+  <thead>
+      <tr>
+        <th scope="col">User ID</th>
+        <th scope="col">Username</th>
+        <th scope="col">Status</th>
+        <th scope="col">Type</th>
+      </tr>
+  </thead>
+  <tbody>
+  <@ FOREACH user IN users @>
+    <tr>
+      <td scope="row">#<@ user.id @></td>
+      <td><@ user.username @></td>
+      <td><@ IF user.public @>Public<@ ELSE @> <@ END @></td>
+      <td><@ IF user.admin @>Admin<@ ELSE @> <@ END @></td>
+    </tr>
+  <@ END @>
+  </tbody>
+</table>

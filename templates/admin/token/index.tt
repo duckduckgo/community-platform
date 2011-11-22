@@ -1,15 +1,15 @@
-<form action="<@ u('Admin::Token','index') @>" method="post" name="tokendomainsform" id="tokendomainsform">
-	<div class="mybox">
-		<@ FOREACH list_token_domain IN token_domains @>
-			<p>#<@ list_token_domain.id @> [<@ list_token_domain.key @>] <@ list_token_domain.name @></p>
-			<@ INCLUDE admin/token/tokendomainform.tt token_domain=list_token_domain @>
-			<p><input type="submit" value="Delete" name="token_domain_<@ list_token_domain.id @>_delete" /></p>
-		<@ END @>
-	</div>
-	<div class="mybox">
-		<@ INCLUDE admin/token/tokendomainform.tt @>
-		<div>
-			<input type="submit" value="Save languages" name="save_languages" />
-		</div>
-	</div>
+<h1 id="skip">Tokens Settings</h1>
+<form action="<@ u('Admin::Token','index') @>" method="post" name="tokendomainsform" id="formTokendomains">
+  <@ FOREACH list_token_domain IN token_domains @>
+  <fieldset>
+  <legend><span>#<@ list_token_domain.id @> [<@ list_token_domain.key @>] <@ list_token_domain.name @></span></legend>
+    <@ INCLUDE admin/token/tokendomainform.tt token_domain=list_token_domain @>
+    <input type="submit" value="Delete" name="token_domain_<@ list_token_domain.id @>_delete">
+  </fieldset>
+  <@ END @>
+  <fieldset>
+  <legend><span>Save Languages</span></legend>
+    <@ INCLUDE admin/token/tokendomainform.tt @>
+    <input type="submit" value="Save languages" name="save_languages">
+  </fieldset>
 </form>

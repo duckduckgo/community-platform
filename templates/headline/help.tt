@@ -1,7 +1,3 @@
 <@ IF help @>
-	<div class="mybox">
-		<div class="menu">
-			<@ help.name @>
-		</div>
-	</div>
+  <@ help.name @>
 <@ END @>

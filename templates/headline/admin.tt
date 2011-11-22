@@ -1,8 +1,6 @@
-<div class="mybox">
-	<div class="menu">
-		<a href="<@ u('Admin::User','index') @>">Users</a> |
-		<a href="<@ u('Admin::Language','index') @>">Languages</a> |
-		<a href="<@ u('Admin::Token','index') @>">Translations</a> |
-		<a href="<@ u('Admin::Help','index') @>">Help</a>
-	</div>
-</div>
+<ul class="admin" role="navigation">
+  <li><a href="<@ u('Admin::User','index') @>">Users</a></li>
+  <li><a href="<@ u('Admin::Language','index') @>">Languages</a></li>
+  <li><a href="<@ u('Admin::Token','index') @>">Translations</a></li>
+  <li><a href="<@ u('Admin::Help','index') @>">Help</a></li>
+</ul>

@@ -1,10 +1,13 @@
 <div>
-	Help name: <input type="text" size="80" name="help_<@ help.id || 0 @>_key" value="<@ help.key @>" />
+  <label for="help_<@ help.id @>_key">Help name: </label>
+    <input type="text" id="help_<@ help.id @>_key" name="help_<@ help.id || 0 @>_key" value="<@ help.key @>">
 </div>
 <div>
-        Help title: <input type="text" size="80" name="help_<@ help.id || 0 @>_name" value="<@ help.name @>" />
+  <label for="help_<@ help.id @>_name">Help title: </label>
+    <input type="text" id="help_<@ help.id @>_name" name="help_<@ help.id || 0 @>_name" value="<@ help.name @>">
 </div>
 <div>
-	Description: <textarea name="help_<@ help.id || 0 @>_description" cols="80" rows="10"><@ help.description @></textarea>
+  <label for="help_<@ help.id @>_description">Description: </label>
+    <textarea id="help_<@ help.id @>_description" name="help_<@ help.id || 0 @>_description" cols="40" rows="10"><@ help.description @></textarea>
 </div>
 

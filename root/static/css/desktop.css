@@ -1,6 +1,7 @@
 /*ddg wider screens*/
 
 body {
+  min-width: 820px;
   padding: 0;
 }
 
@@ -74,8 +75,7 @@ body {
 }
 *+html  #logreg form div {display: inline;}
 
-#logreg input[type=text],
-#logreg input[type=password] {
+#logreg input:not([type=submit]) {
   padding: .3em .2em;
 }
 #logreg input[type=password] {
@@ -253,6 +253,40 @@ h3 {
   margin-bottom: 2em;
 }
 
+/*admin interface*/
+ul.admin {
+  border: 0;
+}
+        .admin li {
+          display: inline-block;
+          padding: 5px .6em 5px 0;
+          font-size: 1.2em;
+          text-align: center;
+        }
+        *+html .admin li{display:inline;}
+
+                .admin li:before {
+                  content: "|\0a";
+                }
+                .admin li:first-child:before {
+                  content: "";
+                }
+        .admin a {
+          display: inline;
+          padding: .5em;
+          color: #277bbc;
+          font-size: .9em;
+          background-color: transparent;
+          border-bottom: 0;
+        }
+                .admin a:hover {
+                  background-color: transparent;
+                }
+          
+table tr:hover td {
+  background-color: #eee;
+}
+
 /*myaccount*/
 .account div {
   width: 90%;
@@ -341,6 +375,27 @@ h3 {
                   background-color: #dbe4ea;
                 }
 
+/*my/register*/
+/*my/login*/
+.main #formLogin, .main #formRegister {
+  width: 26em;
+  margin: 1em auto;
+}
+/*make register a link*/
+.main #formLogin+p a {
+  display: inline;
+  color: #277bbc;
+  text-decoration: underline;
+  background-color: transparent;
+  border: 0;
+}  
+                .main #formLogin+p a:focus, .main #formLogin+p a:hover {
+                  text-decoration: none;
+                  background-color: transparent;
+                }
+                .main #formLogin+p a:active {
+                  position: static;
+                }
 #formPages {
   float: left;
   width: 40%;
@@ -368,31 +423,40 @@ h3 {
   clear: both;
   overflow: hidden;
 }
-        #formTranslateDomain fieldset fieldset {
+        .main fieldset fieldset {
           padding: .5em 5px .5em 1em ;
         }
-        #formTranslateDomain>fieldset:nth-child(2n) {
+        .main form>fieldset:nth-child(2n) {
           background-color: #dbe4ea;
         }
 
-form div.translations {
+form .translations {
   display: inline-block;
   width: 28%;
   margin-left: 1em;
   padding: 7px;
   border-bottom: 0;
 }
-*+html form div.translations{display:inline;}
+*+html form .translations{display:inline;}
 
-        form div.translations:first-child {
+        form .translations:first-child {
           border: 0;
         }
 
-#formTranslateDomain input[type=submit] {
+.main input[type=submit] {
   float: left;
   width: auto;
 }
-        #formTranslateDomain input[type=submit]+input[type=submit] {
+
+.main #formLogin input[type=submit],
+.main #formRegister input[type=submit] {
+  float: none;
+  width: 10em;
+  margin: .5em auto;
+}
+
+        /*any second submits*/
+        .main input[type=submit]+input[type=submit] {
           float: right;
         }
 
