@@ -597,6 +597,11 @@ or in admin, settings*/
   vertical-align: middle;
 }
 
+form img[alt="Captcha"] {
+  display: block;
+  margin-bottom: .6em;
+}
+
 /*admin languages form */
 form .flagSelect label {
   display: inline-block;

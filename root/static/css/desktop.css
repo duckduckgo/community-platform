@@ -447,6 +447,14 @@ form .translations {
   float: left;
   width: auto;
 }
+
+.main #formLogin input[type=submit],
+.main #formRegister input[type=submit] {
+  float: none;
+  width: 10em;
+  margin: .5em auto;
+}
+
         /*any second submits*/
         .main input[type=submit]+input[type=submit] {
           float: right;
