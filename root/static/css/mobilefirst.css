@@ -587,7 +587,18 @@ or in admin, settings*/
 }
 
 .main form img {
+  margin: 0 .2em;
   vertical-align: middle;
+}
+
+/*admin languages form */
+form .flagSelect label {
+  display: inline-block;
+  margin-right: .6em;
+}
+
+.main form select {
+  margin-bottom: .6em;
 }
 
 #formPages select {
@@ -626,6 +637,18 @@ or in admin, settings*/
   width: 90%;
   margin: .2em auto;
 }
+
+/*admin interface/language/flag list*/
+.flags {
+  width: 90%;
+  margin: 0 auto 1em;
+}
+
+.flags li {
+  display: inline-block;
+  padding: .2em;
+}
+*+html .flags li{display:inline;}
 
 #footer {
   min-height: 2em;
