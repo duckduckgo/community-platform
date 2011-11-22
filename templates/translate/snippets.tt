@@ -5,6 +5,7 @@
 <@ IF cant_speak @>
   <p><a href="<@ u('My','languages',{ locale => cur_language.locale }) @>"><@ l('You must add this language to your known languages for translating it') @></a></p>
 <@ ELSE @>
+<p class="ac"><@ l('Screen reader users: there is plain text information within the form') @>.</p>
 <form action="<@ u('Translate','snippets',token_domain.key,cur_language.locale) @>" method="post" id="formTranslateDomain">
 
   <@ FOR token_language IN token_languages.all @>
