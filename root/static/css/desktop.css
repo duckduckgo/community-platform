@@ -389,13 +389,14 @@ table tr:hover td {
   background-color: transparent;
   border: 0;
 }  
-                .main #formLogin+p a:focus, .main #formLogin+p a:hover {
-                  text-decoration: none;
-                  background-color: transparent;
-                }
-                .main #formLogin+p a:active {
-                  position: static;
-                }
+        .main #formLogin+p a:focus, .main #formLogin+p a:hover {
+          text-decoration: none;
+          background-color: transparent;
+        }
+        .main #formLogin+p a:active {
+          position: static;
+        }
+
 #formPages {
   float: left;
   width: 40%;
@@ -444,22 +445,18 @@ form .translations {
         }
 
 .main input[type=submit] {
-  float: left;
-  width: auto;
-}
-
-.main #formLogin input[type=submit],
-.main #formRegister input[type=submit] {
-  float: none;
-  width: 10em;
+  width: 12em;
   margin: .5em auto;
 }
 
+#formTranslateDomain input[type=submit] {
+  float: left;
+  width: auto;
+}
         /*any second submits*/
-        .main input[type=submit]+input[type=submit] {
+        #formTranslateDomain input[type=submit]+input[type=submit] {
           float: right;
         }
-
 
 #footer {
   clear: both;
