@@ -1,23 +1,23 @@
-<div class="email mybox">
-	<form action="<@ u('My','email') @>" method="post" name="emailform" id="emailform">
-		<a href="<@ u('My','account') @>">Go back to your account</a>
-		<@ IF wrong_captcha @>
-			<div class="error"><@ l('You entered the verification code incorrectly.') @></div>
-		<@ END @>
-		<div>
-			<img src="<@ u('Base','captcha') @>" alt="Captcha"/>
-		</div>
-		<div>
-			<label for="captcha"><@ l('Captcha') @></label>
-			<input type="text" name="captcha" id="captcha" />
-		</div>
-		<p><@ l('Your current email address:') @></p>
-		<p><@ c.user.data.email @></p>
-		<div>
-			New email address: <input type="text" size="80" name="emailaddress" />
-		</div>
-		<div>
-			<input type="submit" value="Save Email" name="save_email" />
-		</div>
-	</form>
-</div>
+<p><a href="<@ u('My','account') @>">Go back to your account</a></p>
+<form action="<@ u('My','email') @>" method="post" name="emailform" id="formEmail">
+  <fieldset>
+  <legend><span><@ l('Set or change your email address') @></span></legend>
+    <div>
+  <@ IF wrong_captcha @>
+      <p class="error" id="errorCaptcha"><@ l('You entered the verification code incorrectly.') @></p>
+  <@ END @>
+      <label for="captcha" aria-describedby="errorCaptcha"><@ l('Captcha') @>: </label>
+        <img src="<@ u('Base','captcha') @>" alt="Captcha">
+        <input type="text" name="captcha" id="captcha">
+    </div>
+    <div>
+      <label for="currentEmail"><@ l('Your current email address') @>: </label>
+        <input type="email" id="currentEmail" disabled="disabled" value="<@ c.user.data.email @>">
+    </div>
+    <div>
+      <label for="emailaddress"><@ l('New email address') @>: </label>
+        <input type="email" d="emailaddress" name="emailaddress">
+    </div>
+    <input type="submit" value="Save Email" name="save_email">
+  </fieldset>
+</form>
