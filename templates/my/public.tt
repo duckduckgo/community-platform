@@ -11,9 +11,9 @@
         <input type="text" name="captcha" id="captcha">
     </div>
     <@ IF c.user.public @>
-    <input type="submit" value="<@ l('Hide your profile again') @>" name="hide_profile">
+    <input type="submit" value="<@ l('Hide profile') @>" name="hide_profile">
     <@ ELSE @>
-    <input type="submit" value="<@ l('Make your profile public') @>" name="show_profile">
+    <input type="submit" value="<@ l('Make profile public') @>" name="show_profile">
     <@ END @>
   </fieldset>
 </form>
