@@ -9,7 +9,7 @@ fieldset, img {
   border: 0;
 }
 img {
-  vertical-align: bottom;
+  vertical-align: middle;
 }
 
 input, textarea {
@@ -243,6 +243,14 @@ p {
   margin-bottom: .6em;
 }
 
+.text p {
+  line-height: 1.6em;
+}
+
+.text ul {
+  margin-bottom: 1em;
+}
+
 .actions {
   margin-top: .5em;
 }
@@ -296,10 +304,6 @@ p {
   -moz-border-radius: 5px;/*temp*/
 }
 
-.text p {
-  line-height: 1.6em;
-}
-
 ul.bullets {
   padding-left: 22px;
 }
@@ -307,6 +311,43 @@ ul.bullets {
           display: list-item;
           list-style-type: circle;
         }
+
+dl {
+  margin: .2em auto 1em;
+  padding: 7px 7px 0;
+  background-color: #fff; /*long domains may extend beyond body*/
+  border: solid #ccc;
+  border-width: 1px 0;
+}
+        dt, dd {
+          text-align: left;
+        }
+
+        dd {
+          margin-bottom: 1em;
+        }
+
+
+table {
+  width: 100%;
+  margin: 1em 0;
+  border-collapse: collapse;
+  border: 1px solid #277bbc;
+}
+
+/*thead, zebra striping*/
+thead th, tr:nth-child(2n) td {
+  background-color: #dbe4ea;
+}
+
+th, td {
+  padding: 5px;
+  border: 1px solid #277bbc;
+}
+
+th {
+  font-weight: bold;
+}
 
 /*buttons*/
 .button {
@@ -353,31 +394,21 @@ ul.bullets {
   margin-bottom: 2em;
 }
 
-.text ul {
-  margin-bottom: 1em;
-}
-
-.text dl {
+dl.myAccount {
   width: 13em;
-  margin: .2em auto 1em;
-  padding: 7px 7px 0;
-  background-color: #fff; /*long domains may extend beyond body*/
-  border: solid #ccc;
-  border-width: 1px 0;
 }
-        .text dt, .text dd {
-          text-align: left;
-        }
-
-        .text dd {
-          margin-bottom: 1em;
+        .myAccount dd {
           font-weight: bold;
         }
                 /*no idea why this must be italic*/
-                .text dd.italic {
+                .myAccount dd.italic {
                   font-weight: normal;
                   font-style: italic;
                 } 
+/*edit my languages*/
+.tableMyLanguages td[scope] {
+  text-align: left;
+}
 
 /*admin interface*/
 ul.admin {
@@ -401,33 +432,16 @@ ul.admin {
                 }
 
 /*admin:users page*/
-table {
-  width: 100%;
-  margin: 1em 0;
-  border-collapse: collapse;
-  border: 1px solid #277bbc;
-}
-
-/*thead, zebra striping*/
-thead th, tr:nth-child(2n) td {
-  background-color: #dbe4ea;
-}
-
 /*assumes 4 columns*/
 .tableUsers th {
   width: 25%;
 }
 
-th, td {
-  padding: 5px;
-  border: 1px solid #277bbc;
-}
-
-td:nth-child(2) {
+.tableUsers td:nth-child(2) {
   text-align: left;
 }
 
-th, td[scope] {
+.tableUsers td[scope] {
   font-weight: bold;
 }
 
@@ -442,10 +456,6 @@ th, td[scope] {
   font-size: 1.2em;
 }
 
-/*flags*/
-#languageBox img {
-  vertical-align: middle;
-}
         #languageBox a {
           text-align: right;
         }
@@ -596,7 +606,6 @@ or in admin, settings*/
 
 .main form img {
   margin: 0 .2em;
-  vertical-align: middle;
 }
 
 form img[alt="Captcha"] {

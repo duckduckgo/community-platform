@@ -208,6 +208,23 @@ h3 {
   line-height: 1.2em;
 }
 
+dl {
+  margin: .2em 7px 1em;
+  padding: 7px;
+  background-color: transparent;
+  border: 0;
+}
+        dt, dd {
+          display: inline-block;
+          margin-bottom: .2em;
+          vertical-align: top;
+        }
+        *+html dt,*+html dd{display:inline;}
+
+table tr:hover td {
+  background-color: #eee;
+}
+
 .actions {
   text-align: center;
 }
@@ -221,7 +238,7 @@ h3 {
   vertical-align: top;
   text-align: left;
 }
-*+html .actions li {display: inline;}
+*+html .actions li{display: inline;}
 
 .getstarted li {
   width: 25%;
@@ -251,6 +268,31 @@ h3 {
   width: 45%;
   padding: 15px;
   margin-bottom: 2em;
+}
+
+/*myaccount*/
+.account div {
+  width: 90%;
+  margin: 0 auto 2em;
+  padding: 7px .8em;
+  background-color: #eee;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  -moz-border-radius: 5px; /*temp*/
+}
+
+dl.myAccount {
+  width: 24em;
+}
+        .myAccount dt {
+          width: 48%;
+          margin-right: 7px;
+        }
+
+/*edit my languages*/
+.tableMyLanguages {
+  max-width: 30em;
+  margin: 1em auto;
 }
 
 /*admin interface*/
@@ -283,40 +325,6 @@ ul.admin {
                   background-color: transparent;
                 }
           
-table tr:hover td {
-  background-color: #eee;
-}
-
-/*myaccount*/
-.account div {
-  width: 90%;
-  margin: 0 auto 2em;
-  padding: 7px .8em;
-  background-color: #eee;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  -moz-border-radius: 5px; /*temp*/
-}
-
-.text dl {
-  width: 24em;
-  margin: .2em 7px 1em;
-  padding: 7px;
-  background-color: transparent;
-  border: 0;
-}
-        .text dt, .text dd {
-          display: inline-block;
-          margin-bottom: .2em;
-          vertical-align: top;
-        }
-        *+html .text dt,*+html .text dd{display:inline;}
-
-        .text dt {
-          width: 48%;
-          margin-right: 7px;
-        }
-
 /*translate snippets etc*/
 #languageBox {
   position: relative;
