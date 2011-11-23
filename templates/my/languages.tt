@@ -1,17 +1,27 @@
 <@ IF languages @>
 <p>Now you can <a href="<@ u('translate','index') @>">start translating DuckDuckGo</a> :-). Have fun!</p> 
 <@ END @>
-<dl class="myLangs">
+<table class="tableMyLanguages">
+  <caption>Languages you speak</caption>
+  <thead>
+    <tr>
+      <th scope="col"> Language </th>
+      <th scope="col"> Grade </th>
+    </tr> 
+  </thead>
+  <tbody>
 <@ FOREACH user_language IN c.user.user_languages @>
-  <dt>Language: </dt>
-    <dd><img src="<@ user_language.language.flag_url @>" alt=""> <@ user_language.language.name_in_local @></dd>
-  <dt>Grade: </dt>
-    <dd><@ user_language.grade @></dd>
+    <tr>
+      <td scope="row"> <img src="<@ user_language.language.flag_url @>" alt=""> <@ user_language.language.name_in_local @> </td>
+      <td> <@ user_language.grade @> </td>
+    </tr>
 <@ END @>
-</dl>
+  </tbody>
+</table>
+
 <form action="<@ u('My','languages') @>" method="post" name="mylanguagesform" id="formMyLanguages">
   <fieldset>
-  <legend><span><@ l('Add a language') @></span></legend>
+  <legend><span><@ l('Add or edit a language') @></span></legend>
     <div>
       <label for="language_id"><@ l('Language') @>: </label>
         <select id="language_id "name="language_id">
