@@ -1,7 +1,7 @@
 <@ IF languages @>
 <p>Now you can <a href="<@ u('translate','index') @>">start translating DuckDuckGo</a> :-). Have fun!</p> 
 <@ END @>
-<dl class="mylangs">
+<dl class="myLangs">
 <@ FOREACH user_language IN c.user.user_languages @>
   <dt>Language: </dt>
     <dd><img src="<@ user_language.language.flag_url @>" alt=""> <@ user_language.language.name_in_local @></dd>
