@@ -638,22 +638,27 @@ form .flagSelect label {
   border-radius: 5px;
   -moz-border-radius: 5px; /*temp*/
 }
+#formEmail input[disabled] {
+  background-color: #eee;
+  border-color: #888;
+}
+  
 
 .main textarea {
   font-size: 1.1em;
   color: #000;
 }
 
-        .main input:not([type=radio]):not([type=checkbox]):not([type=submit]):hover, 
+        .main input:not([type=radio]):not([type=checkbox]):not([disabled]):not([type=submit]):hover, 
         .main textarea:hover,
-        .main input:not([type=radio]):not([type=checkbox]):not([type=submit]):focus, 
+        .main input:not([type=radio]):not([type=checkbox]):not([disabled]):not([type=submit]):focus, 
        .main textarea:focus {
           background-color: #fff; 
          -webkit-box-shadow: 0 0 5px rgba(39,123,188,0.5), 0 0 5px rgba(39,123,188,0.5);
          -moz-box-shadow: 0 0 5px rgba(39,123,188,0.5), 0 0 5px rgba(39,123,188,0.5);/*temp*/
          box-shadow: 0 0 5px rgba(39,123,188,0.5), 0 0 5px rgba(39,123,188,0.5);
         }
-  
+
 .main input[type=submit] {
   display: block;/*save and next page much too long text*/
   width: 90%;

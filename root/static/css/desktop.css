@@ -383,9 +383,9 @@ ul.admin {
                   background-color: #dbe4ea;
                 }
 
-/*my/register*/
-/*my/login*/
-.main #formLogin, .main #formRegister {
+/*my/register, login, email, public*/
+.main #formLogin, .main #formRegister,
+.main #formEmail, .main #formPublic {
   width: 26em;
   margin: 1em auto;
 }
