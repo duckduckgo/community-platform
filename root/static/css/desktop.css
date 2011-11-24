@@ -15,7 +15,7 @@ body {
         }
 
 .header {
-  min-height: 85px;
+  min-height: 90px;
 }
 
 #logo {
@@ -37,7 +37,7 @@ body {
 
 #logreg {
   float: right;
-  margin: 5px 5px .5em 0;
+  margin: 2px 2px .5em 0;
   width: 27em; /*login form*/
   padding: 5px;
   border: 1px solid transparent;
@@ -49,12 +49,6 @@ body {
           background-color: #fff;
           border-color: #666;
         }
-
-#logreg p:first-child, #logreg a.profile {
-  padding-bottom: 2px;
-  font-weight: normal;
-  border-bottom: 0;
-}
 
 /*temp, for JS*/
 #logreg p.view {
@@ -110,11 +104,12 @@ body {
   color: #277bbc;
   font-weight: normal;
   font-size: .9em;
+  text-decoration: underline;
   background-color: transparent;
   border: 0;
 }
         #logreg form+p a:focus, #logreg form+p a:hover {
-          text-decoration: underline;
+          text-decoration: none;
         }
 
 /*logged in*/
@@ -123,9 +118,12 @@ body {
   margin-bottom: 0;
   z-index: 15;
 }
+
         #logreg a.profile {
-          padding: .6em 12px .6em .6em;
+          padding: 1.2em 12px .6em .6em;
+          font-weight: normal;
           background: url(../images/triangle.png) 100% 80% no-repeat;
+          border-bottom: 0;
         }
 /*opera vert-align bug:
 http://www.css-lab.com/bug-test/opera-img-va-bug.html */
