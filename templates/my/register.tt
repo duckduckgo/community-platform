@@ -34,7 +34,7 @@
       <@ END @>
       <label for="captcha" aria-describedby="errorCaptcha"><@ l('Captcha') @>: </label>
       <img src="<@ u('Base','captcha') @>" alt="Captcha">
-      <input type="text" name="captcha" id="captcha" placeholder="<@ l('fill in from the CAPTCHA above') @>">
+      <input type="text" autocomplete="off"  id="captcha"name="captcha" placeholder="<@ l('fill in from the CAPTCHA above') @>">
     </div>
     <input type="submit" value="<@ l('Register') @>" name="register" id="register">
   </fieldset>
