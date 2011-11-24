@@ -555,7 +555,7 @@ ul.admin {
                 #formTranslateDomain dd span {
                   padding: 5px;
                   color: #000; 
-                  background-color: #ff0;/*highlight term*/
+                  background-color: #fff;/*highlight term*/
                 }
 
 /*translations by users shown*/
