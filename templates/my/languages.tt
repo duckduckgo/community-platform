@@ -19,6 +19,22 @@
   </tbody>
 </table>
 
+<h2>Language ability levels (Grade)</h2>
+<dl class="langGrades">
+  <dt><span>1</span> Basic ability </dt>
+    <dd>Enough to understand written material or simple questions in this language</dd>
+  <dt><span>2</span> Intermediate ability </dt>
+    <dd>Enough for editing or discussions</dd>
+  <dt><span>3</span> Advanced level </dt>
+    <dd>Though you can write in this language with no problem, some small errors might occur</dd>
+  <dt><span>4</span> 'Near-native' level </dt>
+    <dd>Although it's not your first language from birth, your ability is something like that of a native speaker</dd>
+  <dt><span>5</span> Native </dt>
+    <dd>You have grown up with this language in your environment</dd>
+  <dt><span>6</span> Professional proficiency </dt>
+    <dd>You are earning your money with work in this language (like writer, translator, ...)</dd>
+</dl>
+
 <form action="<@ u('My','languages') @>" method="post" name="mylanguagesform" id="formMyLanguages">
   <fieldset>
   <legend><span><@ l('Add or edit a language') @></span></legend>
@@ -33,12 +49,12 @@
     <div>
       <label for="grade"><@ l('Level') @>: </label>
         <select id="grade" name="grade">
-          <option value="1">1 - basic ability - enough to understand written material or simple questions in this language</option>
-          <option value="2">2 - intermediate ability - enough for editing or discussions</option>
-          <option value="3">3 - advanced level - though you can write in this language with no problem, some small errors might occur</option>
-          <option value="4">4 - 'near-native' level - although it's not your first language from birth, your ability is something like that of a native speaker</option>
-          <option value="5">5 - native - you have grown up with this language in your environment</option>
-          <option value="6">6 - professional proficiency - you are earning your money with work in this language (like writer, translator, ...)</option>
+          <option value="1">1 - Basic ability</option>
+          <option value="2">2 - Intermediate ability</option>
+          <option value="3">3 - Advanced level</option>
+          <option value="4">4 - 'Near-native' level</option>
+          <option value="5">5 - Native</option>
+          <option value="6">6 - Professional proficiency</option>
         </select>			
     </div>
     <input type="submit" value="Add Language" name="add_user_language">
