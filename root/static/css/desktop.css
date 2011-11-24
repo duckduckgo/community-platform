@@ -397,11 +397,11 @@ ul.admin {
                 }
 
 /*my/register, login, email, public*/
-.main #formLogin, .main #formRegister,
-.main #formEmail, .main #formPublic, .main #formMyLanguages {
+.main form.my {
   width: 26em;
   margin: 1em auto;
 }
+
 /*make register a link*/
 .main #formLogin+p a {
   display: inline;
@@ -466,7 +466,7 @@ form .translations {
         }
 
 .main input[type=submit] {
-  width: 12em;
+  width: 14em;
   margin: .5em auto;
 }
 
