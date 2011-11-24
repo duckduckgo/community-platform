@@ -1,16 +1,11 @@
-<div class="forgotpw_tokencheck mybox">
-	<form action="<@ u('My','forgotpw_tokencheck',check_username,check_token) @>" method="post" name="forgotpw_tokencheckform" id="forgotpw_tokencheckform">
-		<@ IF resetok @>
-			<div>
-				Your password has been reset.
-			</div>
-		<@ ELSE @>
-			<div>
-				I'm sure, reset my password.
-			</div>
-			<div>
-				<input type="submit" value="Reset" name="forgotpw_tokencheck" />
-			</div>
-		<@ END @>
-	</form>
-</div>
+<@ IF resetok @>
+<p>Your password has been reset.</p>
+<@ ELSE @>
+<form action="<@ u('My','forgotpw_tokencheck',check_username,check_token) @>" method="post" id="formForgotpw_tokencheck" class="my">
+  <fieldset>
+  <legend class="ac"><span>Reset Password?</span></legend>
+    <label for="reset">I'm sure, reset my password.</label>
+      <input type="submit" value="Reset" name="forgotpw_tokencheck" />
+  </fieldset>
+</form>
+<@ END @>

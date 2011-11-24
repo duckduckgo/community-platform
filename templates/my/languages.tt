@@ -35,7 +35,7 @@
     <dd>You are earning your money with work in this language (like writer, translator, ...)</dd>
 </dl>
 
-<form action="<@ u('My','languages') @>" method="post" name="mylanguagesform" id="formMyLanguages">
+<form action="<@ u('My','languages') @>" method="post" id="formMyLanguages" class="my">
   <fieldset>
   <legend><span><@ l('Add or edit a language') @></span></legend>
     <div>

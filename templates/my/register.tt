@@ -1,7 +1,7 @@
 <@ IF register_failed @>
 <p class="error"><@ l('Registration failed!') @></p>
 <@ END @>
-<form action="<@ u('My','register') @>" method="post" id="formRegister">
+<form action="<@ u('My','register') @>" method="post" id="formRegister" class="my">
   <fieldset>
   <legend><span><@ l('Register') @></span></legend>
     <div>

@@ -1,19 +1,18 @@
-<div class="forgotpw mybox">
-	<form action="<@ u('My','forgotpw') @>" method="post" name="forgotpwform" id="forgotpwform">
-		<@ IF sentok @>
-			<div>
-				An email has been sent to you in order to confirm.
-			</div>
-		<@ ELSE @>
-			<div>
-				Your username: <input type="text" size="80" name="username" />
-			</div>
-			<div>
-				Your email address: <input type="text" size="80" name="emailaddress" />
-			</div>
-			<div>
-				<input type="submit" value="Request new password" name="requestpw" />
-			</div>
-		<@ END @>
-	</form>
-</div>
+<@ IF sentok @>
+<p>An email has been sent to you in order to confirm.</p>
+<@ ELSE @>
+<form action="<@ u('My','forgotpw') @>" method="post" id="formForgotpw" class="my">
+  <fieldset>
+  <legend><span><@ l('Request new password') @></span></legend>
+    <div>
+      <label for="username">Your username: </label>
+        <input type="text" id="username" name="username">
+    </div>
+    <div>
+      <label for="emailaddress">Your email address: </label>
+        <input type="text" id="emailaddress" name="emailaddress">
+    </div>
+    <input type="submit" value="Request new password" name="requestpw" />
+  </fieldset>
+</form>
+<@ END @>

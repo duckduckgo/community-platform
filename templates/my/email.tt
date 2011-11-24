@@ -1,5 +1,5 @@
 <p><a href="<@ u('My','account') @>">Go back to your account</a></p>
-<form action="<@ u('My','email') @>" method="post" name="emailform" id="formEmail">
+<form action="<@ u('My','email') @>" method="post" id="formEmail" class="my">
   <fieldset>
   <legend><span><@ l('Set or change your email address') @></span></legend>
     <div>
