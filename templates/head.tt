@@ -4,7 +4,7 @@
   <@ FOREACH meta IN metas.pairs @>
           <meta name="<@ meta.key @>" content="<@ meta.value @>"> 
   <@ END @>
-  <meta name="viewport" content="width=device-width; initial-scale=1.0;">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" media="screen, projection, handheld" href="/static/css/mobilefirst.css">
   <link rel="stylesheet" media="screen and (min-width:600px), projection and (min-width:600px)" href="/static/css/desktop.css" title="large screen layout">
   <!--leaving these scripts in til I decide what to do with them-->
