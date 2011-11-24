@@ -82,6 +82,7 @@ body {
   margin-bottom: 0;
 }
 
+/*forgot password*/
 #logreg input+a {
   display: block;
   margin-left: 0;
@@ -97,7 +98,7 @@ body {
 }
 
 #logreg form+p {
-  margin-top: -1.4em;
+  margin-top: -1.3em;
   padding-right: .5em;
   text-align: right;
 }
@@ -295,6 +296,20 @@ dl.myAccount {
   margin: 1em auto;
 }
 
+.langGrades {
+  width: 30em;
+  margin: 0 auto 1em;
+  text-align: left;
+}
+
+.langGrades dt, .langGrades dd {
+  display: block;
+}
+.langGrades dd {
+  margin-bottom: 1.5em;
+}
+
+
 /*admin interface*/
 ul.admin {
   border: 0;
@@ -385,7 +400,7 @@ ul.admin {
 
 /*my/register, login, email, public*/
 .main #formLogin, .main #formRegister,
-.main #formEmail, .main #formPublic {
+.main #formEmail, .main #formPublic, .main #formMyLanguages {
   width: 26em;
   margin: 1em auto;
 }

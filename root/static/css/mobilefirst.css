@@ -410,6 +410,23 @@ dl.myAccount {
   text-align: left;
 }
 
+.langGrades dt {
+  color: #000;
+}
+
+.langGrades dt span {
+  margin: 0 .3em;
+  color: #000;
+  font-weight: bold;
+  font-size: 1.1em;
+}
+
+.langGrades dd {
+  margin-left: 1.5em;
+  margin-right: .5em;
+}
+
+
 /*admin interface*/
 ul.admin {
   margin: 1em 0;
