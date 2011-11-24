@@ -5,7 +5,7 @@
         <@ END @>
         <form action="<@ u('My','login') @>"  method="post" id="formLogin">
           <fieldset>
-          <legend><span>Log in</span></legend>
+          <legend class="ac"><span>Log in</span></legend>
 
           <input type="hidden" value="<@ IF c.req.params.from @><@ c.req.params.from @><@ ELSE @><@ c.req.uri @><@ END @>" name="from">
             <div>
