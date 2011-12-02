@@ -67,7 +67,7 @@
         </fieldset>
 
     <@ FOR translation IN other_translations @>
-      <@ INCLUDE translate/snippets/translation.tt text=l('Translation of %s',translation.user.username) @>
+      <@ INCLUDE translate/snippets/translation.tt text=l('Translation of %s',translation.user.public_username) @>
     <@ END @>
 
     <@ IF token_language.msgstr @>
