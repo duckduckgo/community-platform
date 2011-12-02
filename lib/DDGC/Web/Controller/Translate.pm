@@ -19,7 +19,7 @@ sub do :Chained('base') :CaptureArgs(0) {
     my ( $self, $c ) = @_;
 }
 
-sub index :Chained('base') :PathPart('') :Args(0) {
+sub index :Chained('do') :Args(0) {
     my ( $self, $c ) = @_;
 	$c->stash->{token_domains} = $c->d->rs('Token::Domain')->search({});
 }
