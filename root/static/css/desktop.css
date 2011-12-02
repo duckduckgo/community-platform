@@ -120,7 +120,7 @@ body {
 }
 
         #logreg a.profile {
-          padding: 1.2em 12px .6em .6em;
+          padding: .6em 12px .6em .6em;
           font-weight: normal;
           background: url(../images/triangle.png) 100% 80% no-repeat;
           border-bottom: 0;
@@ -128,7 +128,8 @@ body {
 /*opera vert-align bug:
 http://www.css-lab.com/bug-test/opera-img-va-bug.html */
         #logreg a img {
-          vertical-align: text-bottom;
+          vertical-align: middle;
+          padding-right: 4px;
         }
         #logreg a.profile:focus {
           background-color: #fff;
