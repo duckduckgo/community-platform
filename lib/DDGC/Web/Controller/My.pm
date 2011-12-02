@@ -49,13 +49,16 @@ sub account :Chained('logged_in') :Args(0) {
 sub languages :Chained('logged_in') :Args(0) {
     my ( $self, $c ) = @_;
 	$c->stash->{languages} = [$c->model('DB::Language')->search({})->all];
+	my $change = 0;
 	if ($c->req->params->{remove_user_language}) {
+		$change = 1;
 		for ($c->user->db->user_languages->search({})->all) {
 			if ($_->language->locale eq $c->req->params->{remove_user_language}) {
 				$_->delete;
 			}
 		}
 	} elsif ($c->req->params->{add_user_language}) {
+		$change = 1;
 		$c->user->db->update_or_create_related('user_languages',{
 			grade => $c->req->params->{grade},
 			language_id => $c->req->params->{language_id},
@@ -63,6 +66,7 @@ sub languages :Chained('logged_in') :Args(0) {
 			key => 'user_language_language_id_username',
 		});
 	}
+	delete $c->session->{cur_locale} if $change;
 }
 
 sub apps :Chained('logged_in') :Args(0) {
