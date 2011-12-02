@@ -1,12 +1,12 @@
-<@ IF languages @>
+<@ IF c.user.user_languages @>
 <p>Now you can <a href="<@ u('translate','index') @>">start translating DuckDuckGo</a> :-). Have fun!</p> 
-<@ END @>
 <table class="tableMyLanguages">
   <caption>Languages you speak</caption>
   <thead>
     <tr>
       <th scope="col"> Language </th>
       <th scope="col"> Grade </th>
+      <th scope="col">  </th>
     </tr> 
   </thead>
   <tbody>
@@ -14,26 +14,14 @@
     <tr>
       <td scope="row"> <img src="<@ user_language.language.flag_url @>" alt=""> <@ user_language.language.name_in_local @> </td>
       <td> <@ user_language.grade @> </td>
+      <td> <a href="<@ u('My','languages',{ remove_user_language => user_language.language.locale }) @>">Remove</a> </td>
     </tr>
 <@ END @>
   </tbody>
 </table>
-
-<h2>Language ability levels (Grade)</h2>
-<dl class="langGrades">
-  <dt><span>1</span> Basic ability </dt>
-    <dd>Enough to understand written material or simple questions in this language</dd>
-  <dt><span>2</span> Intermediate ability </dt>
-    <dd>Enough for editing or discussions</dd>
-  <dt><span>3</span> Advanced level </dt>
-    <dd>Though you can write in this language with no problem, some small errors might occur</dd>
-  <dt><span>4</span> 'Near-native' level </dt>
-    <dd>Although it's not your first language from birth, your ability is something like that of a native speaker</dd>
-  <dt><span>5</span> Native </dt>
-    <dd>You have grown up with this language in your environment</dd>
-  <dt><span>6</span> Professional proficiency </dt>
-    <dd>You are earning your money with work in this language (like writer, translator, ...)</dd>
-</dl>
+<@ ELSE @>
+<p>Before you can start translating DuckDuckGo, you need to give us the languages you can speak.</p>
+<@ END @>
 
 <form action="<@ u('My','languages') @>" method="post" id="formMyLanguages" class="my">
   <fieldset>
@@ -60,3 +48,19 @@
     <input type="submit" value="Add Language" name="add_user_language">
   </fieldset>
 </form>
+
+<h2>Language ability levels (Grade)</h2>
+<dl class="langGrades">
+  <dt><span>1</span> Basic ability </dt>
+    <dd>Enough to understand written material or simple questions in this language</dd>
+  <dt><span>2</span> Intermediate ability </dt>
+    <dd>Enough for editing or discussions</dd>
+  <dt><span>3</span> Advanced level </dt>
+    <dd>Though you can write in this language with no problem, some small errors might occur</dd>
+  <dt><span>4</span> 'Near-native' level </dt>
+    <dd>Although it's not your first language from birth, your ability is something like that of a native speaker</dd>
+  <dt><span>5</span> Native </dt>
+    <dd>You have grown up with this language in your environment</dd>
+  <dt><span>6</span> Professional proficiency </dt>
+    <dd>You are earning your money with work in this language (like writer, translator, ...)</dd>
+</dl>
