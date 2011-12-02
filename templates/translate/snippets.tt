@@ -32,7 +32,7 @@
     <@ FOR n IN [ 0..token_language.max_msgstr_index ] @>
       <@ SET func = 'msgstr' _ n @>
         <label for="token_language_<@ token_language.id @>_<@ func @>"><@ IF n == 0 @><@ l('Singular') @><@ ELSE @><@ n @>th Plural Form<@ END @>: </label>
-        <input type="text" id="token_language_<@ token_language.id @>_<@ func @>" name="token_language_<@ token_language.id @>_<@ func @>" value="<@ own_translation.$func @>">
+        <input type="text" id="token_language_<@ token_language.id @>_<@ func @>" name="token_language_<@ token_language.id @>_<@ func @>" value="<@ own_translation.$func @>" autocomplete="off" placeholder="Translate '<@ n == 0 ? token_language.token.msgid : token_language.token.msgid_plural @>' <@ IF token_language.token.msgctxt @> in context of '<@ token_language.token.msgctxt @>' <@ END @>into <@ token_language.token_domain_language.language.name_in_english @>">
     <@ END @>
       </fieldset>
 
