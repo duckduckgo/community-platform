@@ -1,5 +1,5 @@
 <@ IF register_failed @>
-<p class="error"><@ l('Registration failed!') @></p>
+  <p class="error"><@ l('Registration failed!') @></p>
 <@ END @>
 <p class="infobox">You can login with your XMPP/Jabber account at <b><@ xmpp_userhost @></b>, if you have one.</p>
 <form action="<@ u('My','register') @>" method="post" id="formRegister" class="my">
