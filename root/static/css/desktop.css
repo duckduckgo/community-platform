@@ -20,7 +20,9 @@ body {
 
 #logo {
   float: left;
-  margin: 5px 1em 0 5px;
+  margin: 15px 1em 0 5px;
+  vertical-align: middle;
+  height: 100%;
 }
 
 /*iframe*/
@@ -37,7 +39,7 @@ body {
 
 #logreg {
   float: right;
-  margin: 2px 2px .5em 0;
+  margin: 0px 2px .5em 0;
   width: 27em; /*login form*/
   padding: 5px;
   border: 1px solid transparent;
@@ -46,6 +48,10 @@ body {
   width: 16em;/*logged-in width*/
 }
         #logreg:hover {
+          background-color: rgba(100,100,100,0.3);
+          border: 1px solid #00A94E;
+        }
+        #logreg.user:hover {
           background-color: #fff;
           border-color: #666;
         }

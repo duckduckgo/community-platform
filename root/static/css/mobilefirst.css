@@ -83,7 +83,13 @@ body {
   -webkit-box-shadow: 0 3px 5px -3px rgba(51,51,51,0.2);
   -o-box-shadow: 0 3px 5px -3px rgba(51,51,51,0.2);
   box-shadow: 0 3px 5px -3px rgba(51,51,51,0.2);
+  color: #fff;
+  text-shadow: -1px -1px 1px rgba(0,0,0,0.15);
 } 
+
+.header a {
+  color: #fff;
+}
 
 /*iframe*/
 #hf {
@@ -128,11 +134,11 @@ body {
   margin-bottom: .5em;
   padding: .5em .2em;
   background-color: #fff;
-  border: 0;
-  box-shadow: inset 0 0 5px rgba(0,0,0,0.25);
-  border-radius: 5px;
-  -moz-box-shadow: inset 0 0 5px rgba(0,0,0,0.25);
-  -moz-border-radius: 5px; /*temp*/
+  border: 1px solid #00a94e;
+  box-shadow: inset 1px 1px 5px rgba(0,0,0,0.4);
+  border-radius: 3px;
+  -moz-box-shadow: inset 1px 1px 5px rgba(0,0,0,0.4);
+  -moz-border-radius: 3px; /*temp*/
 }
         #logreg input:not([type=submit]):hover {
          background-color: #f0f3f6; 
