@@ -91,6 +91,10 @@ body {
   color: #fff;
 }
 
+.header #logo {
+  
+}
+
 /*iframe*/
 #hf {
   margin-bottom: 1em;
@@ -257,13 +261,9 @@ p {
   width: 90%;
   margin: 0 auto 2em;
   padding: .5em;
-  border-radius: 5px;
+  background-color: #EEE;
+  border: 1px solid #DDD;
   -moz-border-radius: 5px; /*temp*/
-
-  -moz-box-shadow: 0 5px 5px -3px rgba(51,51,51,0.2);
-  -webkit-box-shadow: 0 5px 5px -3px rgba(51,51,51,0.2);
-  -o-box-shadow: 0 5px 5px -3px rgba(51,51,51,0.2);
-  box-shadow: 0 5px 5px -3px rgba(51,51,51,0.2);
 }
 .getstarted li {
   background-color: #23b64f;
