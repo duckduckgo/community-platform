@@ -20,15 +20,7 @@ sub welcome :Chained('base') :Args(0) {
 	my ($self, $c) = @_;
 }
 
-sub about :Chained('base') :Args(0) {
-	my ($self, $c) = @_;
-}
-
-sub privacy :Chained('base') :Args(0) {
-	my ($self, $c) = @_;
-}
-
-sub termsofuse :Chained('base') :Args(0) {
+sub feedback :Chained('base') :Args(0) {
 	my ($self, $c) = @_;
 }
 

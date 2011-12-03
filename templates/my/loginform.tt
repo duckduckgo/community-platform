@@ -1,20 +1,18 @@
 <@ IF login_failed @>
-<p class="error"><@ l('Login failed!') @></p>
+  <p class="error"><@ l('Login failed!') @></p>
 <@ END @>
 <form action="<@ u('My','login') @>" method="post" id="formLogin" class="my">
 <fieldset>
-<legend class="ac"><span>Log in</span></legend>
-
-<input type="hidden" value="<@ IF c.req.params.from @><@ c.req.params.from @><@ ELSE @><@ c.req.uri @><@ END @>" name="from">
+  <legend class="ac"><span>Log in</span></legend>
+  <input type="hidden" value="<@ IF c.req.params.from @><@ c.req.params.from @><@ ELSE @><@ c.req.uri @><@ END @>" name="from">
   <div>
     <label for="username"><@ l('Username') @>: </label>
-      <input type="text" id="username" name="username" value="<@ username @>">
+    <input type="text" id="username" name="username" value="<@ username @>">
   </div>
   <div>
     <label for="password"><@ l('Password') @>: </label>
-      <input type="password" id="password" name="password" value="">
-
-      <a href="<@ u('My','forgotpw') @>"><@ l('Forgot password?') @></a>
+    <input type="password" id="password" name="password" value="">
+    <a href="<@ u('My','forgotpw') @>"><@ l('Forgot password?') @></a>
   </div>
   <input type="submit" value="<@ l('Login') @>">
 </fieldset>

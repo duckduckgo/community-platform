@@ -1,5 +1,5 @@
 <div class="header">
-  <p id="logo"><a href="<@ u('Root','index') @>">DuckDuckGo Community Platform<span></span></a></p>
+  <p id="logo"><a href="<@ u('Root','index') @>">Home<span></span></a></p>
   <p id="access"><a href="#skip">skip to content</a></p>
   <@ INCLUDE userbox.tt @> 
 </div>

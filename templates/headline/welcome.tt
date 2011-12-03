@@ -1,6 +1,5 @@
-      <h1 id="skip"><@ l('Welcome to the DuckDuckGo community platform') @></h1>
-      <ul class="actions getstarted">
-        <li><a href="<@ u('Translate','index') @>">Help us translate DuckDuckGo and other projects.</a></li>
-        <li><a href="<@ u('Help','view','contribute') @>">Contribute to the Community Platform.</a></li>
-        <li><a href="<@ u('Help','view','screenupload') @>">Submit feedback.</a></li>
-      </ul>
+<ul class="actions getstarted">
+  <li><a href="<@ u('Translate','index') @>">Help us translate DuckDuckGo into your languages.</a></li>
+  <li><a href="<@ u('Help','view','contribute') @>">Develop this community platform.</a></li>
+  <li><a href="<@ u('Base','feedback') @>">Submit feedback.</a></li>
+</ul>
