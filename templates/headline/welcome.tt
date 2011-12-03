@@ -1,8 +1,3 @@
-<@ IF c.user @>
-  <p class="infobox">This site is under construction (in alpha testing). Please <a href="">report</a> problems and inconsistencies.</p>
-<@ ELSE @>
-  <p class="infobox">Tip: Use the short URL <a href="http://ddg.gg/">ddg.gg</a> for less typing.</p>
-<@ END @>
 <ul class="actions getstarted">
   <li><a href="<@ u('Translate','index') @>">Help us translate DuckDuckGo into your languages.</a></li>
   <li><a href="<@ u('Help','view','contribute') @>">Develop this community platform.</a></li>

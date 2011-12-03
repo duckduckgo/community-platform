@@ -1,3 +1,9 @@
+<@ IF c.user @>
+  <p class="infobox">This site is under construction.</p>
+<@ ELSE @>
+  <p class="infobox">Tip: Use the short URL <a href="http://ddg.gg/">ddg.gg</a> for less typing.</p>
+<@ END @>
+
 <div class="aboutddg">
   <h2>Welcome!</h2>
   <p><a href="https://duckduckgo.com/">DuckDuckGo</a> is a general purpose search engine.</p>
