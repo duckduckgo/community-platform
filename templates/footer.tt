@@ -2,6 +2,8 @@
   <li><a href="<@ u('Base','welcome') @>">Home</a></li>
   <li><a href="https://duckduckgo.com/privacy.html">Privacy</a></li>
   <li><a href="<@ u('Base','feedback') @>">Feedback</a></li>
+</ul>
+<ul>
   <li>Powered by <a href="http://www.perl.org/">Perl</a></li>
   <li>Delivered by <a href="http://nginx.org/">nginx</a></li>
   <li>Source at <a href="https://github.com/duckduckgo/community-platform">github</a></li>
