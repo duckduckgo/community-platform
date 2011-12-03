@@ -2,6 +2,13 @@
   <p class="error"><@ l('Registration failed!') @></p>
 <@ END @>
 <p class="infobox">You can login with your XMPP/Jabber account at <b><@ xmpp_userhost @></b>, if you have one.</p>
+<div><b>Please note:</b>
+  <ol>
+	<li>You do not need this DuckDuckGo community account to use the DuckDuckGo search engine.</li>
+	<li>You do not need to share personal information to create this DuckDuckGo community account (i.e. you can use an anonymous username).</li>
+	<li>We log as little as possible on this open source community platform (e.g. no IP addresses or user agents).</li>
+  </ol>
+</div>
 <form action="<@ u('My','register') @>" method="post" id="formRegister" class="my">
   <fieldset>
     <legend><span><@ l('Register') @></span></legend>
