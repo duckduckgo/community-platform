@@ -9,6 +9,10 @@ BEGIN {extends 'Catalyst::Controller'; }
 
 sub base :Chained('/base') :PathPart('translate') :CaptureArgs(0) {
     my ( $self, $c ) = @_;
+	if ($c->user && !$c->user->user_languages) {
+		$c->response->redirect($c->chained_uri('Translate','index'));
+		return $c->detach;
+	}
 }
 
 sub do :Chained('base') :CaptureArgs(0) {
@@ -41,8 +45,8 @@ sub domain :Chained('logged_in') :PathPart('') :CaptureArgs(1) {
 	for ($c->stash->{token_domain}->token_domain_languages) {
 		my $l = $_->language;
 		my $tcl = $_;
-		my @uloc = grep { $l->locale eq $_ } keys %{$c->user->locales};
-		my $u; $u = $c->user->locales->{$uloc[0]} if @uloc;
+		my $u;
+		$u = $c->user->locales->{$l->locale} if $c->user->locales->{$l->locale};
 		$c->stash->{locale} = $u->language->locale if $u && !$c->stash->{locale};
 		$c->stash->{locales}->{$l->locale} = {
 			l => $l,
@@ -55,7 +59,11 @@ sub domain :Chained('logged_in') :PathPart('') :CaptureArgs(1) {
 
 sub domainindex :Chained('domain') :PathPart('') :Args(0) {
     my ( $self, $c ) = @_;
-	$c->response->redirect($c->chained_uri('Translate','snippets',$c->stash->{token_domain}->key,$c->stash->{last_locale}));
+	if ($c->stash->{locale}) {
+		$c->response->redirect($c->chained_uri('Translate','snippets',$c->stash->{token_domain}->key,$c->stash->{locale}));
+	} else {
+		$c->response->redirect($c->chained_uri('Translate','index',{ cantspeak => 'any' }));
+	}
 	return $c->detach;
 }
 
@@ -63,7 +71,7 @@ sub locale :Chained('domain') :PathPart('') :CaptureArgs(1) {
     my ( $self, $c, $locale ) = @_;
 	$c->stash->{locale} = $locale;
 	if (!$c->stash->{locales}->{$c->stash->{locale}}->{u}) {
-		$c->response->redirect($c->chained_uri('Translate','domainindex',$c->stash->{token_domain}->key,{ cantspeak => $locale }));
+		$c->response->redirect($c->chained_uri('Translate','index',{ cantspeak => $locale }));
 		return $c->detach;
 	}
 	$c->stash->{cur_language} = $c->stash->{locales}->{$c->stash->{locale}}->{l};

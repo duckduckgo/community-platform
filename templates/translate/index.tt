@@ -1,5 +1,8 @@
 <h1 id="skip">Welcome to the translation interface!</h1>
 <div class="text">
+<@ IF c.req.param('cantspeak') == 'any' @>
+	<p>You can't speak any language of the project you have choosen.</p>
+<@ END @>
 <@ IF !c.user @>
     <p><@ l('You must be logged in for translating') @>: <a href="<@ u('My','login') @>"><@ l('Login') @></a> <@ l('or') @> <a href="<@ u('My','register') @>"><@ l('Register') @></a>.</p>
 <@ ELSE @>
@@ -8,10 +11,16 @@
   <!--p><a href="<@ u('Help','view','translate') @>"><@ l('Instructions for our translation system') @></a></p-->
     <ul class="actions">
   <@ FOR token_domain IN token_domains.all @>
-      <li><h2><a href="<@ u('Translate','domainindex',token_domain.key) @>"><@ token_domain.name @></a></h2>
-      <@ IF token_domain.description @>
-      <p><@ token_domain.description @></p>
-      <@ END @>
+      <li>
+        <h2><a href="<@ u('Translate','domainindex',token_domain.key) @>"><@ token_domain.name @></a></h2>
+        <@ IF token_domain.description @>
+		  <p><@ token_domain.description @></p>
+        <@ END @>
+        <@ FOREACH token_domain_language IN token_domain.token_domain_languages @>
+          <a href="<@ u('Translate','snippets',token_domain.key,token_domain_language.language.locale) @>">
+            <img src="<@ token_domain_language.language.flag_url @>" alt="<@ token_domain_language.language.name_in_english @>">
+          </a>
+        <@ END @>
       </li>
   <@ END @>
     </ul>

@@ -15,8 +15,8 @@ sub is {}
 
 sub deploy {
 	my ( $self ) = @_;
+	$self->d->deploy_fresh;
 	$self->add_languages;
-	$self->add_users;
 	$self->add_token_domains;
 }
 
@@ -26,51 +26,51 @@ sub deploy {
 # | |_| \__ \  __/ |  \__ \
 #  \__,_|___/\___|_|  |___/
 
-sub users {{
-	'yegg' => {
-		public => 1,
-		admin => 1,
-		languages => {
-			us => 5,
-		},
-	},
-	'getty' => {
-		public => 1,
-		admin => 1,
-		languages => {
-			de => 5,
-			us => 3,
-		},
-	},
-}}
+# sub users {{
+	# 'yegg' => {
+		# public => 1,
+		# admin => 1,
+		# languages => {
+			# us => 5,
+		# },
+	# },
+	# 'getty' => {
+		# public => 1,
+		# admin => 1,
+		# languages => {
+			# de => 5,
+			# us => 3,
+		# },
+	# },
+# }}
 
-sub add_users {
-	my ( $self ) = @_;
-	for (keys %{$self->users}) {
-		my $data = $self->users->{$_};
-		$self->update_user($_,$data);
-	}
-	for (keys %{$self->users}) {
-		my $user = $self->d->find_user($_);
-		$self->is($user->username,$_,'Checking username');
-		$self->isa_ok($user,'DDGC::User');
-	}
-}
+# sub add_users {
+	# my ( $self ) = @_;
+	# for (keys %{$self->users}) {
+		# my $data = $self->users->{$_};
+		# $self->update_user($_,$data);
+	# }
+	# for (keys %{$self->users}) {
+		# my $user = $self->d->find_user($_);
+		# $self->is($user->username,$_,'Checking username');
+		# $self->isa_ok($user,'DDGC::User');
+	# }
+# }
 
-sub update_user {
-	my ( $self, $username, $data ) = @_;
-	my $languages = delete $data->{languages};
-	my $user = $self->d->find_user($username);
-	$user->$_($data->{$_}) for (keys %{$data});
-	for (keys %{$languages}) {
-		$user->create_related('user_languages',{
-			language_id => $self->c->{languages}->{$_}->id,
-			grade => $languages->{$_},
-		});
-	}
-	$user->update;
-	$self->isa_ok($user,'DDGC::User');	
-}
+# sub update_user {
+	# my ( $self, $username, $data ) = @_;
+	# my $languages = delete $data->{languages};
+	# my $user = $self->d->find_user($username);
+	# $user->$_($data->{$_}) for (keys %{$data});
+	# for (keys %{$languages}) {
+		# $user->create_related('user_languages',{
+			# language_id => $self->c->{languages}->{$_}->id,
+			# grade => $languages->{$_},
+		# });
+	# }
+	# $user->update;
+	# $self->isa_ok($user,'DDGC::User');	
+# }
 
 ################################################################
 #  _        _                                _            _
@@ -588,19 +588,19 @@ sub token_domains {{
 				},
 		    },
 		],
-		tokens => [
+		texts => [
 		],
 	},
-	'duckduckgo-community' => {
-		name => 'DuckDuckGo Community',
-		base => 'us',
-		description => 'The translations for _THIS_ platform :-)',
-		languages => [qw( us de es br ru )],
-		snippets => [
-		],
-		tokens => [
-		],
-	},
+	# 'duckduckgo-community' => {
+		# name => 'DuckDuckGo Community',
+		# base => 'us',
+		# description => 'The translations for _THIS_ platform :-)',
+		# languages => [qw( us de es br ru )],
+		# snippets => [
+		# ],
+		# texts => [
+		# ],
+	# },
 	'test' => {
 		name => 'Test area, playfield for you',
 		base => 'us',
@@ -617,7 +617,7 @@ sub token_domains {{
 			'You have %s', {},
 			'%s message', '%s messages', {},
 		],
-		tokens => [
+		texts => [
 			'::test::something::1' => {
 				notes => {
 					token => 'The first paragraph should be about love'

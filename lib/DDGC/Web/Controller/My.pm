@@ -40,12 +40,25 @@ sub logged_out :Chained('base') :PathPart('') :CaptureArgs(0) {
 
 sub account :Chained('logged_in') :Args(0) {
     my ( $self, $c ) = @_;
+	if (!$c->user->db->user_languages->search({})->all) {
+		$c->response->redirect($c->chained_uri('My','languages'));
+		return $c->detach;
+	}
 }
 
 sub languages :Chained('logged_in') :Args(0) {
     my ( $self, $c ) = @_;
 	$c->stash->{languages} = [$c->model('DB::Language')->search({})->all];
-	if ($c->req->params->{add_user_language}) {
+	my $change = 0;
+	if ($c->req->params->{remove_user_language}) {
+		$change = 1;
+		for ($c->user->db->user_languages->search({})->all) {
+			if ($_->language->locale eq $c->req->params->{remove_user_language}) {
+				$_->delete;
+			}
+		}
+	} elsif ($c->req->params->{add_user_language}) {
+		$change = 1;
 		$c->user->db->update_or_create_related('user_languages',{
 			grade => $c->req->params->{grade},
 			language_id => $c->req->params->{language_id},
@@ -53,6 +66,7 @@ sub languages :Chained('logged_in') :Args(0) {
 			key => 'user_language_language_id_username',
 		});
 	}
+	delete $c->session->{cur_locale} if $change;
 }
 
 sub apps :Chained('logged_in') :Args(0) {
@@ -135,7 +149,7 @@ sub forgotpw_tokencheck :Chained('logged_out') :Args(2) {
 
 	$c->stash->{email} = {
 		to          => $found_userhash->data->{email},
-		from        => 'noreply@xxxxxx.de',
+		from        => 'noreply@dukgo.com',
 		subject     => '[DuckDuckGo Community] New Password',
 		template        => 'email/newpw.tt',
 		charset         => 'utf-8',
@@ -145,16 +159,6 @@ sub forgotpw_tokencheck :Chained('logged_out') :Args(2) {
 	$c->forward( $c->view('Email::TT') );
 
 	$c->stash->{resetok} = 1;
-
-
-	#
-	# You can link to here from inside the email: <@ u('My','forgotpw_tokencheck',the_user_object.username,token) @>
-	#
-	
-	#
-	# get the user, check if the token stored in him is the token we get
-	#
-
 }
 
 sub forgotpw :Chained('logged_out') :Args(0) {
@@ -172,12 +176,6 @@ sub forgotpw :Chained('logged_out') :Args(0) {
 		return;
 	}
 	
-	#
-	# generate a token, you can use rand() to get a random number and there is Digest::MD5 (already in dist.ini)
-	# which gives md5_hex, so you can make the random number look more cool
-	# save it on the user (->data->{forgotpw_token} ... ->update())
-	#
-
 	my $token = md5_hex(int(rand(99999999)));
 	$found_user->data->{token} = $token;
 	$found_user->update;
@@ -187,7 +185,7 @@ sub forgotpw :Chained('logged_out') :Args(0) {
 	
 	$c->stash->{email} = {
 		to          => $found_user->data->{email},
-		from        => 'noreply@xxxxxx.de',
+		from        => 'noreply@dukgo.com',
 		subject     => '[DuckDuckGo Community] Reset Password',
 		template	=> 'email/forgotpw.tt',
 		charset		=> 'utf-8',

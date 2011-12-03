@@ -65,7 +65,7 @@ sub public_username {
 	if ($self->public) {
 		return $self->username;
 	}
-	return;
+	return 'not public';
 }
 
 # For Catalyst
