@@ -1,0 +1,20 @@
+<@ IF thanks_for_feedback @>
+	<h2>Thanks for your feedback!</h2>
+<@ END @>
+<form action="<@ u('Base','feedback') @>" method="post" id="formFeedback" class="my">
+  <fieldset>
+    <legend><span><@ l('Feedback') @></span></legend>
+    <div>
+      <@ IF no_valid_email @>
+        <p class="error" id="errorInvalidEmail"><@ l('You must give a valid email.') @></p>
+      <@ END @>
+      <label for="email" aria-describedby="errorInvalidEmail"><@ l('Email') @>: </label>
+      <input type="text" name="email" id="email" value="<@ c.user.data.email || feedback_email @>">
+    </div>
+    <div>
+      <label for="feedback"><@ l('Feedback / Question / Suggestion / Problem') @>: </label>
+      <textarea rows="10" name="feedback" id="feedback"><@ feedback_feedback @></textarea>
+    </div>
+    <input type="submit" value="<@ l('Submit') @>" name="submit" id="submit">
+  </fieldset>
+</form>

@@ -1,36 +1,44 @@
 <@ IF register_failed @>
-<p class="error"><@ l('Registration failed!') @></p>
+  <p class="error"><@ l('Registration failed!') @></p>
 <@ END @>
+<p class="infobox">You can login with your XMPP/Jabber account at <b><@ xmpp_userhost @></b>, if you have one.</p>
+<div><b>Please note:</b>
+  <ol>
+	<li>You do not need this DuckDuckGo community account to use the DuckDuckGo search engine.</li>
+	<li>You do not need to share personal information to create this DuckDuckGo community account (i.e. you can use an anonymous username).</li>
+	<li>We log as little as possible on this open source community platform (e.g. no IP addresses or user agents).</li>
+  </ol>
+</div>
 <form action="<@ u('My','register') @>" method="post" id="formRegister" class="my">
   <fieldset>
-  <legend><span><@ l('Register') @></span></legend>
+    <legend><span><@ l('Register') @></span></legend>
     <div>
         <@ IF need_username @>
-        <p class="error" id="errorNeedUsername"><@ l('We need a username.') @></p>
+          <p class="error" id="errorNeedUsername"><@ l('We need a username.') @></p>
         <@ END @>
         <@ IF user_exist @>
-        <p class="error" id="errorUsernameTaken"><@ l('The user [_1] exists already.',user_exist) @></p>
+          <p class="error" id="errorUsernameTaken"><@ l('The user %s exists already.',user_exist) @></p>
         <@ END @>
-      <label for="username" aria-describedby="errorNeedUsername errorusernameTaken"><@ l('Username') @>: </label>
+        <label for="username" aria-describedby="errorNeedUsername errorusernameTaken"><@ l('Username') @>: </label>
         <input type="text" name="username" id="username" value="<@ username @>">
     </div>
     <div>
       <@ IF password_too_short @>
-      <p class="error" id="errorPasswordShort"><@ l('Password must be at least [_1] characters.',3) @></p>
+      <p class="error" id="errorPasswordShort"><@ l('Password must be at least %s characters.',3) @></p>
       <@ END @>
       <label for="password" aria-describedby="errorPasswordShort"><@ l('Password') @>: </label>
-        <input type="password" name="password" id="password">
+      <input type="password" name="password" id="password">
     </div>
     <div>
       <@ IF password_different @>
-      <p class="error" id="errorPasswordMismatch"><@ l('Both passwords must be identical.') @></p>
+        <p class="error" id="errorPasswordMismatch"><@ l('Both passwords must be identical.') @></p>
       <@ END @>
       <label for="repeat_password" aria-describedby="errorPasswordMismatch"><@ l('Repeat password') @>: </label>
-        <input type="password" name="repeat_password" id="repeat_password">
+      <input type="password" name="repeat_password" id="repeat_password">
     </div>
     <div>
       <@ IF wrong_captcha @>
-      <p class="error" id="errorCaptcha"><@ l('You entered the verification code incorrectly.') @></p>
+        <p class="error" id="errorCaptcha"><@ l('You entered the verification code incorrectly.') @></p>
       <@ END @>
       <label for="captcha" aria-describedby="errorCaptcha"><@ l('Captcha') @>: </label>
       <img src="<@ u('Base','captcha') @>" alt="Captcha">

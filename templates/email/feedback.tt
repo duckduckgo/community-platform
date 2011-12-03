@@ -1,0 +1,9 @@
+<@ IF c.req.params.email @>
+Email: <@ c.req.params.email @>
+<@ ELSE @>
+User has given no email	
+<@ END -@>
+
+Feedback:
+
+<@ c.req.params.feedback @>
