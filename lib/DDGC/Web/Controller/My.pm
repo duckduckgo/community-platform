@@ -263,7 +263,7 @@ sub register :Chained('logged_out') :Args(0) {
 		return $c->detach;
 	}
 
-		$c->response->redirect($c->chained_uri('My','login'));
+	$c->response->redirect($c->chained_uri('My','login',{ register_successful => 1 }));
 
 }
 

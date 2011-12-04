@@ -41,8 +41,7 @@ __PACKAGE__->config(
 			users => {
 				credential => {
 					class			=> 'Password',
-					password_field	=> 'password',
-					password_type	=> 'clear',
+					password_type	=> 'self_check',
 				},
 				store => {
 					class			=> '+DDGC::Web::Authentication::Store::DDGC',

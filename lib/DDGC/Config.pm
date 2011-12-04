@@ -1,6 +1,7 @@
 package DDGC::Config;
 
-use strict;
+use Moose;
+
 use File::Path qw( make_path );
 use File::Spec;
 use File::ShareDir::ProjectDistDir;

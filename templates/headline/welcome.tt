@@ -1,5 +1,5 @@
 <ul class="actions getstarted">
   <li><a href="<@ u('Translate','index') @>">Help us translate DuckDuckGo into your languages.</a></li>
-  <li><a href="<@ u('Help','view','contribute') @>">Develop this community platform.</a></li>
+  <li><a href="https://github.com/duckduckgo/community-platform">Develop this community platform.</a></li>
   <li><a href="<@ u('Base','feedback') @>">Submit feedback.</a></li>
 </ul>

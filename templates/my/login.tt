@@ -1,1 +1,4 @@
-  <@ INCLUDE my/loginform.tt @>
+<@ IF c.req.params.register_successful @>
+	<h2>Thanks for your registration, you can now login.</h2>
+<@ END @>
+<@ INCLUDE my/loginform.tt @>

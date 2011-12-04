@@ -9,6 +9,7 @@ use File::Copy;
 use IO::All;
 use File::Spec;
 use File::ShareDir::ProjectDistDir;
+use Prosody::Mod::Data::Access;
 
 # TESTING AND DEVELOPMENT, NOT FOR PRODUCTION
 sub deploy_fresh {
@@ -37,13 +38,20 @@ has xmpp => (
 );
 sub _build_xmpp { DDGC::XMPP->new }
 
+has config => (
+	isa => 'DDGC::Config',
+	is => 'ro',
+	lazy_build => 1,
+);
+sub _build_config { DDGC::Config->new }
+
 sub resultset { shift->db->resultset(@_) }
 sub rs { shift->resultset(@_) }
 
 sub update_password {
 	my ( $self, $username, $password ) = @_;
 	my $pwrow = $self->xmpp->_prosody->_db->resultset('Prosody')->search({
-		host => DDGC::Config::prosody_userhost(),
+		host => $self->config->prosody_userhost,
 		user => $username,
 		store => 'accounts',
 		key => 'password',
@@ -56,18 +64,18 @@ sub update_password {
 
 sub create_user {
 	my ( $self, $username, $password ) = @_;
-	
+
 	return unless $username and $password;
-	
+
 	my %xmpp_user_find = $self->xmpp->user($username);
-	
+
 	die "user exists" if %xmpp_user_find;
-	
+
 	my $prosody_user;
 	my $db_user;
 
 	$prosody_user = $self->xmpp->_prosody->_db->resultset('Prosody')->create({
-		host => DDGC::Config::prosody_userhost(),
+		host => $self->config->prosody_userhost,
 		user => $username,
 		store => 'accounts',
 		key => 'password',
@@ -76,10 +84,30 @@ sub create_user {
 	});
 
 	if ($prosody_user) {
-		$db_user = $self->db->resultset('User')->create({
-			username => $username,
-			notes => 'Created account',
-		});
+
+		my $xmpp_data_check;
+
+		$xmpp_data_check = Prosody::Mod::Data::Access->new(
+			jid => $username.'@'.$self->config->prosody_userhost,
+			password => $password,
+		);
+		
+		if ($xmpp_data_check) {
+
+			$db_user = $self->db->resultset('User')->create({
+				username => $username,
+				notes => 'Created account',
+			});
+
+		} else {
+
+			$self->xmpp->_prosody->_db->resultset('Prosody')->search({
+				host => $self->config->prosody_userhost,
+				user => $username,
+			})->delete;
+
+		}
+
 	}
 
 	return unless $db_user;
@@ -110,6 +138,7 @@ sub find_user {
 	return DDGC::User->new({
 		username => $username,
 		db => $db_user,
+		ddgc => $self,
 		xmpp => \%xmpp_user,
 	});
 }

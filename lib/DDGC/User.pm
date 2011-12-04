@@ -3,6 +3,14 @@ package DDGC::User;
 use Moose;
 use DDGC::XMPP;
 use DDGC::DB;
+use Prosody::Mod::Data::Access;
+
+has ddgc => (
+	isa => 'DDGC',
+	is => 'ro',
+	weak_ref => 1,
+	required => 1,
+);
 
 has username => (
 	isa => 'Str',
@@ -32,7 +40,6 @@ has db => (
 		update
 	)],
 );
-sub password { shift->xmpp->{accounts}->{password} }
 
 has locales => (
 	isa => 'HashRef[DDGC::DB::Result::User::Language]',
@@ -58,6 +65,19 @@ has xmpp => (
 sub BUILD {
 	my ( $self ) = @_;
 	die "username of database is not username of DDGC::User" if $self->username ne $self->db->username;
+}
+
+sub check_password {
+	my ( $self, $password ) = @_;
+	my $mod_data_access = Prosody::Mod::Data::Access->new(
+		jid => $self->username.'@'.$self->ddgc->config->prosody_userhost,
+		password => $password,
+	);
+	my $data;
+	eval {
+		$data = $mod_data_access->get($self->username);
+	};
+	return $data ? 1 : 0;
 }
 
 sub public_username {
