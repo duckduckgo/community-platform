@@ -44,13 +44,15 @@ sub account :Chained('logged_in') :Args(0) {
 		$c->response->redirect($c->chained_uri('My','languages'));
 		return $c->detach;
 	}
+	if ( $c->req->params->{unset_gravatar_email} ) {
+		my $data = $c->user->data || {};
+		delete $data->{gravatar_email};
+		delete $data->{gravatar_url};
+		$c->user->data($data);
+		$c->user->update;
+	}
 	if ($c->req->params->{set_gravatar_email}) {
-		if ( !$c->req->params->{gravatar_email} ) {
-			my $data = $c->user->data || {};
-			delete $data->{gravatar_email};
-			delete $data->{gravatar_url};
-			$c->user->data($data);
-		} elsif ( Email::Valid->address($c->req->params->{gravatar_email}) ) {
+		if ( Email::Valid->address($c->req->params->{gravatar_email}) ) {
 			my $data = $c->user->data || {};
 			$data->{gravatar_email} = $c->req->params->{gravatar_email};
 			$data->{gravatar_url} = gravatar_url(

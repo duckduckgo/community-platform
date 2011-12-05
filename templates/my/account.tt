@@ -75,7 +75,7 @@
         <input type="text" name="gravatar_email" id="gravatar_email" value="<@ c.user.data.gravatar_email || gravatar_email @>">
       </div>
       <@ IF c.user.data.gravatar_url @>
-        <img src="<@ c.user.data.gravatar_url @>">
+        <input type="submit" value="<@ l('Delete Gravatar email') @>" name="unset_gravatar_email" id="unset_gravatar_email">
       <@ END @>
       <input type="submit" value="<@ l('Set Gravatar email') @>" name="set_gravatar_email" id="set_gravatar_email">
       </fieldset>

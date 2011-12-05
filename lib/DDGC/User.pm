@@ -81,6 +81,14 @@ sub check_password {
 	return $data ? 1 : 0;
 }
 
+sub profile_picture {
+	my ( $self ) = @_;
+	if ($self->public && $self->data) {
+		return $self->data->{gravatar_url};
+	}
+	return;
+}
+
 sub public_username {
 	my ( $self ) = @_;
 	if ($self->public) {
