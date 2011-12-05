@@ -244,6 +244,11 @@ table tr:hover td {
   vertical-align: top;
   text-align: left;
 }
+
+.actions li a.flag {
+  text-decoration: none;
+}
+
 *+html .actions li{display: inline;}
 
 .getstarted li {
