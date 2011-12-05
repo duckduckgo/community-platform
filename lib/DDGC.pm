@@ -87,7 +87,7 @@ sub create_user {
 			password => $password,
 		);
 		
-		if ($xmpp_data_check) {
+		if ($xmpp_data_check || !$self->config->prosody_running) {
 
 			$db_user = $self->db->resultset('User')->create({
 				username => $username,
