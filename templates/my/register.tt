@@ -19,6 +19,9 @@
         <@ IF user_exist @>
           <p class="error" id="errorUsernameTaken"><@ l('The user %s exists already.',user_exist) @></p>
         <@ END @>
+		<@ IF not_valid_chars @>
+          <p class="error" id="errorUsernameNotValid"><@ l('The username may only contain standard latin letters (A-Z), numbers, "." and "_".') @></p>
+		<@ END @>
         <label for="username" aria-describedby="errorNeedUsername errorusernameTaken"><@ l('Username') @>: </label>
         <input type="text" name="username" id="username" value="<@ username @>">
     </div>

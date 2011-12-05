@@ -240,7 +240,7 @@ sub changepw :Chained('logged_in') :Args(0) {
 sub forgotpw :Chained('logged_out') :Args(0) {
 	my ( $self, $c ) = @_;
 	return $c->detach if !$c->req->params->{requestpw};
-	$c->stash->{forgotpw_username} = $c->req->params->{username};
+	$c->stash->{forgotpw_username} = lc($c->req->params->{username});
 	$c->stash->{forgotpw_email} = $c->req->params->{email};
 	my $user = $c->d->find_user($c->stash->{forgotpw_username});
 	if (!$user || $c->stash->{forgotpw_email} ne $user->data->{email}) {
@@ -273,7 +273,7 @@ sub login :Chained('logged_out') :Args(0) {
 
 	$c->stash->{no_userbox} = 1;
 	
-	if ( my $username = $c->req->params->{username} and my $password = $c->req->params->{password} ) {
+	if ( my $username = lc($c->req->params->{username}) and my $password = $c->req->params->{password} ) {
 		if ($c->authenticate({
 			username => $username,
 			password => $password,
@@ -291,6 +291,8 @@ sub register :Chained('logged_out') :Args(0) {
 	$c->stash->{no_login} = 1;
 
 	return $c->detach if !$c->req->params->{register};
+
+	$c->stash->{username} = $c->req->params->{username};
 
 	if (!$c->validate_captcha($c->req->params->{captcha})) {
 		$c->stash->{wrong_captcha} = 1;
@@ -314,9 +316,14 @@ sub register :Chained('logged_out') :Args(0) {
 		$error = 1;
 	}
 
-	my $username = $c->req->params->{username};
+	if ($c->req->params->{username} !~ /^[a-zA-Z0-9_\.]+$/) {
+		$c->stash->{not_valid_chars} = 1;
+		$error = 1;
+	}
+	
+	my $username = lc($c->req->params->{username});
 	my $password = $c->req->params->{password};
-
+	
 	my %xmpp = $c->model('DDGC')->xmpp->user($username);
 
 	if (%xmpp) {
