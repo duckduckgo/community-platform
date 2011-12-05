@@ -6,7 +6,7 @@ use DDGC::Config;
 use DDGC::User;
 use Email::Valid;
 use Digest::MD5 qw(md5_base64 md5_hex);
-
+use Gravatar::URL;
 
 BEGIN {extends 'Catalyst::Controller'; }
 
@@ -43,6 +43,26 @@ sub account :Chained('logged_in') :Args(0) {
 	if (!$c->user->db->user_languages->search({})->all) {
 		$c->response->redirect($c->chained_uri('My','languages'));
 		return $c->detach;
+	}
+	if ($c->req->params->{set_gravatar_email}) {
+		if ( !$c->req->params->{gravatar_email} ) {
+			my $data = $c->user->data || {};
+			delete $data->{gravatar_email};
+			delete $data->{gravatar_url};
+			$c->user->data($data);
+		} elsif ( Email::Valid->address($c->req->params->{gravatar_email}) ) {
+			my $data = $c->user->data || {};
+			$data->{gravatar_email} = $c->req->params->{gravatar_email};
+			$data->{gravatar_url} = gravatar_url(
+				email => $data->{gravatar_email},
+				rating => "g",
+				size => 48,
+			);
+			$c->user->data($data);
+			$c->user->update;
+		} else {
+			$c->stash->{no_valid_gravatar_email} = 1;
+		}
 	}
 }
 
@@ -98,7 +118,7 @@ sub email :Chained('logged_in') :Args(0) {
 	my $data = $c->user->data();
 	$data->{email} = $email;
 	$c->user->data($data);
-	$c->user->update();
+	$c->user->update;
 
 	$c->response->redirect($c->chained_uri('My','account'));
 	return $c->detach;

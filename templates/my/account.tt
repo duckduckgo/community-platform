@@ -27,7 +27,6 @@
       </div>
 
       <div>
-	<h3><@ l('Change password') @></h3>
 	<p class="button"><a href="<@ u('My','changepw') @>">Change my password</a></p>
       </div>
 
@@ -60,3 +59,26 @@
 	<@ END @>
       </div>
     </div>
+	
+<@ IF c.user.public @>
+  <div>
+    <form action="<@ u('My','account') @>" method="post" id="formGravatar" class="my">
+      <fieldset>
+      <legend><span><@ l('Set Gravatar') @></span></legend>
+      <div>
+        <@ IF no_valid_gravatar_email @>
+          <p class="error" id="errorInvalidGravatarEmail"><@ l('You must give a valid email.') @></p>
+        <@ END @>
+        <label for="gravatar_email" aria-describedby="errorInvalidEmail">
+          <@ l('Gravatar email') @>:
+        </label>
+        <input type="text" name="gravatar_email" id="gravatar_email" value="<@ c.user.data.gravatar_email || gravatar_email @>">
+      </div>
+      <@ IF c.user.data.gravatar_url @>
+        <img src="<@ c.user.data.gravatar_url @>">
+      <@ END @>
+      <input type="submit" value="<@ l('Set Gravatar email') @>" name="set_gravatar_email" id="set_gravatar_email">
+      </fieldset>
+    </form>
+  </div>
+<@ END @>

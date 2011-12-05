@@ -2,7 +2,7 @@
   <div id="logreg"<@ IF c.user @> class="user"<@ END @>>
     <@ IF c.user @>
       <ul>
-        <li><a class="profile" href="<@ u('my','account') @>"><img src="/static/images/profile.male.png" width="48" height="48" alt="profile image"> <@ l('Welcome %s!',c.user.username) @></a>
+        <li><a class="profile" href="<@ u('my','account') @>"><img src="<@ IF c.user.data.gravatar_url @><@ c.user.data.gravatar_url @><@ ELSE @>/static/images/profile.male.png<@ END @>" width="48" height="48" alt="profile image"> <@ l('Welcome %s!',c.user.username) @></a>
           <ul>
             <li><a href="<@ u('My','account') @>"><@ l('Account') @></a></li>
             <@ IF c.user.admin @>
