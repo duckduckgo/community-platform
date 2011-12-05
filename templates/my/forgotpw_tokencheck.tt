@@ -3,7 +3,7 @@
 <@ ELSE @>
   <form action="<@ u('My','forgotpw_tokencheck',check_username,check_token) @>" method="post" id="formForgotpw_tokencheck" class="my">
     <fieldset>
-      <legend><span>New Password</span></legend>
+      <legend><span>New password</span></legend>
       <div>
         <@ IF password_too_short @>
           <p class="error" id="errorPasswordShort"><@ l('Password must be at least %s characters.',3) @></p>

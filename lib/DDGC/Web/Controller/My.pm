@@ -158,7 +158,7 @@ sub forgotpw_tokencheck :Chained('logged_out') :Args(2) {
 	$c->stash->{email} = {
 		to          => $user->data->{email},
 		from        => 'noreply@dukgo.com',
-		subject     => '[DuckDuckGo Community] New Password',
+		subject     => '[DuckDuckGo Community] New password for '.$username,
 		template        => 'email/newpw.tt',
 		charset         => 'utf-8',
 		content_type => 'text/plain',
@@ -167,6 +167,49 @@ sub forgotpw_tokencheck :Chained('logged_out') :Args(2) {
 	$c->forward( $c->view('Email::TT') );
 
 	$c->stash->{resetok} = 1;
+}
+
+sub changepw :Chained('logged_in') :Args(0) {
+	my ( $self, $c ) = @_;
+
+	return if !$c->req->params->{changepw};
+	
+	my $error = 0;
+
+	if (!$c->user->check_password($c->req->params->{old_password})) {
+		$c->stash->{old_password_wrong} = 1;
+		$error = 1;
+	}
+
+	if ($c->req->params->{repeat_password} ne $c->req->params->{password}) {
+		$c->stash->{password_different} = 1;
+		$error = 1;
+	}
+
+	if (!defined $c->req->params->{password} or length($c->req->params->{password}) < 3) {
+		$c->stash->{password_too_short} = 1;
+		$error = 1;
+	}
+
+	return if $error;
+	
+	my $newpass = $c->req->params->{password};
+	$c->d->update_password($c->user->username,$newpass);
+
+	if ($c->user->data && $c->user->data->{email}) {
+		$c->stash->{email} = {
+			to          => $c->user->data->{email},
+			from        => 'noreply@dukgo.com',
+			subject     => '[DuckDuckGo Community] New password for '.$c->user->username,
+			template        => 'email/newpw.tt',
+			charset         => 'utf-8',
+			content_type => 'text/plain',
+		};
+
+		$c->forward( $c->view('Email::TT') );
+	}
+
+	$c->stash->{changeok} = 1;
 }
 
 sub forgotpw :Chained('logged_out') :Args(0) {
@@ -189,7 +232,7 @@ sub forgotpw :Chained('logged_out') :Args(0) {
 	$c->stash->{email} = {
 		to          => $user->data->{email},
 		from        => 'noreply@dukgo.com',
-		subject     => '[DuckDuckGo Community] Reset Password',
+		subject     => '[DuckDuckGo Community] Reset password for '.$user->username,
 		template	=> 'email/forgotpw.tt',
 		charset		=> 'utf-8',
 		content_type => 'text/plain',
