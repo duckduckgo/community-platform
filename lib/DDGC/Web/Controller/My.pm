@@ -47,7 +47,7 @@ sub account :Chained('logged_in') :Args(0) {
 	if ( $c->req->params->{unset_gravatar_email} ) {
 		my $data = $c->user->data || {};
 		delete $data->{gravatar_email};
-		delete $data->{gravatar_url};
+		delete $data->{gravatar_urls};
 		$c->user->data($data);
 		$c->user->update;
 	}
@@ -55,11 +55,14 @@ sub account :Chained('logged_in') :Args(0) {
 		if ( Email::Valid->address($c->req->params->{gravatar_email}) ) {
 			my $data = $c->user->data || {};
 			$data->{gravatar_email} = $c->req->params->{gravatar_email};
-			$data->{gravatar_url} = gravatar_url(
-				email => $data->{gravatar_email},
-				rating => "g",
-				size => 48,
-			);
+			$data->{gravatar_urls} = {};
+			for (qw/16 48 80/) {
+				$data->{gravatar_urls}->{$_} = gravatar_url(
+					email => $data->{gravatar_email},
+					rating => "g",
+					size => $_,
+				);
+			}
 			$c->user->data($data);
 			$c->user->update;
 		} else {

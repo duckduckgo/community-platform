@@ -82,9 +82,13 @@ sub check_password {
 }
 
 sub profile_picture {
-	my ( $self ) = @_;
-	if ($self->public && $self->data) {
-		return $self->data->{gravatar_url};
+	my ( $self, $size ) = @_;
+	if ($self->public && $self->data && $self->data->{gravatar_urls}) {
+		if ($size) {
+			return $self->data->{gravatar_urls}->{$size};
+		} else {
+			return $self->data->{gravatar_urls};
+		}
 	}
 	return;
 }
