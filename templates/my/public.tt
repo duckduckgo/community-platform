@@ -1,4 +1,3 @@
-<p class="button"><a href="<@ u('Help','view','public') @>"><@ l('Information about making your profile public') @></a></p>
 <form action="<@ u('My','public') @>" method="post" id="formPublic" class="my">
   <fieldset>
   <legend><span><@ l('Set profile visibility') @></span></legend>

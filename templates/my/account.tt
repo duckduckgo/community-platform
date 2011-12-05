@@ -1,8 +1,6 @@
     <div class="text account">
       <h2>Welcome to your DuckDuckGo community account!</h2>
 	  <h3>Please note: you do not need to share personal information to have or use this account.</h3>
-      <p>All you can do here so far is start to translate DuckDuckGo and its sites. Please add for this your languages and best also add your email here, so that you can start translating and also can recover your password via email if you forgot it. If you already did this, directly head to the <a href="<@ u('Translate','index') @>">translation interface</a>.</p>
-      <p>You also can find here the informations you need to use our XMPP/Jabber server with your account.</p>
 
       <div>
         <!--p class="button"><a href="<@ u('Help','view','mylanguages') @>"><@ l('Information') @></a></p-->
@@ -51,10 +49,10 @@
 	<!--p class="button"><a href="<@ u('Help','view','public') @>"><@ l('Information about making your profile public') @></a></p-->
 	<@ IF c.user.public @>
           <p><@ l('Your profile is publicly visible') @>.</p>
-          <p class="button"><a href="<@ u('My','public') @>"><@ l('Hide your profile again') @></a></p>
+          <p class="button"><a href="<@ u('My','public') @>"><@ l('Hide my profile again') @></a></p>
 	<@ ELSE @>
           <p><@ l('Your profile is not publicly visible yet') @>.</p>
-          <p class="button"><a href="<@ u('My','public') @>"><@ l('Make your profile public') @></a></p>
+          <p class="button"><a href="<@ u('My','public') @>"><@ l('Make my profile public') @></a></p>
 	<@ END @>
       </div>
     </div>
@@ -81,3 +79,7 @@
     </form>
   </div>
 <@ END @>
+
+      <div>
+	<p class="button"><a href="<@ u('My','delete') @>">Delete my account</a></p>
+      </div>

@@ -1,0 +1,16 @@
+<p class="infobox">Please logout from the XMPP/Jabber server BEFORE you delete your account!</p>
+<form action="<@ u('My','delete') @>" method="post" id="formPublic" class="my">
+  <fieldset>
+  <legend><span><@ l('Delete your profile') @></span></legend>
+    <div>
+    <@ IF wrong_captcha @>
+      <p class="error" id="errorCaptcha"><@ l('You entered the verification code incorrectly.') @></p>
+    <@ END @>
+      <label for="captcha" aria-describedby="errorCaptcha"><@ l('Captcha') @>: </label>
+        <img src="<@ u('Base','captcha') @>" alt="Captcha">
+        <input type="text"autocomplete="off" id="captcha" name="captcha">
+    </div>
+    <input type="submit" value="<@ l('Delete profile') @>" name="delete_profile">
+  </fieldset>
+</form>
+<p class="infobox">We can't recover deleted accounts! BE WARNED!</p>

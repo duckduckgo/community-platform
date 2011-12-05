@@ -57,6 +57,18 @@ sub update_password {
 	)->put($username,'accounts',{ password => $new_password });
 }
 
+sub delete_user {
+	my ( $self, $username ) = @_;
+	$self->xmpp->_prosody->_db->resultset('Prosody')->search({
+		host => $self->config->prosody_userhost,
+		user => $username,
+	})->delete;
+	$self->db->resultset('User')->search({
+		username => $username,
+	})->delete;
+	return 1;
+}
+
 sub create_user {
 	my ( $self, $username, $password ) = @_;
 

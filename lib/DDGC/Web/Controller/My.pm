@@ -129,6 +129,24 @@ sub email :Chained('logged_in') :Args(0) {
 	return $c->detach;
 }
 
+sub delete :Chained('logged_in') :Args(0) {
+    my ( $self, $c ) = @_;
+
+	return $c->detach unless $c->req->params->{delete_profile};
+	
+	if (!$c->validate_captcha($c->req->params->{captcha})) {
+		$c->stash->{wrong_captcha} = 1;
+		return $c->detach;
+	}
+
+	if ($c->req->params->{delete_profile}) {
+		my $username = $c->user->username;
+		$c->d->delete_user($username);
+		$c->logout;
+		$c->response->redirect($c->chained_uri('Base','welcome'));
+		return $c->detach;
+	}
+}
 
 sub public :Chained('logged_in') :Args(0) {
     my ( $self, $c ) = @_;
