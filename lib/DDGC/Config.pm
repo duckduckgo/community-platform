@@ -26,7 +26,10 @@ sub prosody_db_username { $ENV{'DDGC_PROSODY_DB_USERNAME'} if defined $ENV{'DDGC
 sub prosody_db_password { $ENV{'DDGC_PROSODY_DB_PASSWORD'} if defined $ENV{'DDGC_PROSODY_DB_PASSWORD'} }
 sub prosody_db_host { $ENV{'DDGC_PROSODY_DB_HOST'} if defined $ENV{'DDGC_PROSODY_DB_HOST'} }
 
-sub prosody_userhost { defined $ENV{'DDGC_PROSODY_USERHOST'} ? $ENV{'DDGC_PROSODY_USERHOST'} : "test.domain" }
+sub prosody_userhost { defined $ENV{'DDGC_PROSODY_USERHOST'} ? $ENV{'DDGC_PROSODY_USERHOST'} : 'test.domain' }
+
+sub prosody_admin_username { defined $ENV{'DDGC_PROSODY_ADMIN_USERNAME'} ? $ENV{'DDGC_PROSODY_ADMIN_USERNAME'} : 'testone' }
+sub prosody_admin_password { defined $ENV{'DDGC_PROSODY_ADMIN_PASSWORD'} ? $ENV{'DDGC_PROSODY_ADMIN_PASSWORD'} : 'testpass' }
 
 sub prosody_connect_info {
 	my %params = (

@@ -15,11 +15,11 @@ use Prosody::Mod::Data::Access;
 sub deploy_fresh {
 	my ( $self ) = @_;
 
-	DDGC::Config::rootdir();
-	DDGC::Config::filesdir();
-	DDGC::Config::cachedir();
+	$self->config->rootdir();
+	$self->config->filesdir();
+	$self->config->cachedir();
 
-	copy(DDGC::Config::prosody_db_samplefile,DDGC::Config::rootdir) or die "Copy failed: $!";
+	copy($self->config->prosody_db_samplefile,$self->config->rootdir) or die "Copy failed: $!";
 
 	$self->db->connect->deploy;
 }
@@ -49,17 +49,11 @@ sub resultset { shift->db->resultset(@_) }
 sub rs { shift->resultset(@_) }
 
 sub update_password {
-	my ( $self, $username, $password ) = @_;
-	my $pwrow = $self->xmpp->_prosody->_db->resultset('Prosody')->search({
-		host => $self->config->prosody_userhost,
-		user => $username,
-		store => 'accounts',
-		key => 'password',
-		type => 'string',
-	})->first;
-	die "unknown user" if !$pwrow;
-	$pwrow->value($password);
-	$pwrow->update;
+	my ( $self, $username, $new_password ) = @_;
+	Prosody::Mod::Data::Access->new(
+		jid => $self->config->prosody_admin_username.'@'.$self->config->prosody_userhost,
+		password => $self->config->prosody_admin_password,
+	)->put($username,'accounts',{ password => $new_password });
 }
 
 sub create_user {
@@ -118,6 +112,7 @@ sub create_user {
 		username => $username,
 		db => $db_user,
 		xmpp => \%xmpp_user,
+		ddgc => $self,
 	});
 }
 

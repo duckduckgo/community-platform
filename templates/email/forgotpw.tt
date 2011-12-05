@@ -6,4 +6,4 @@ Please click on the following link to confirm you want to reset your password:
 
 <@ u('My','forgotpw_tokencheck',c.stash.user,c.stash.token) @>
 
-Greetings from the DuckDuckGo Community team.
+<@ INCLUDE email/footer.tt @>

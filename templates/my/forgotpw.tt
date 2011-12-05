@@ -1,18 +1,21 @@
 <@ IF sentok @>
-<p>An email has been sent to you in order to confirm.</p>
+  <h2>An email has been sent to you in order to confirm.</h2>
 <@ ELSE @>
-<form action="<@ u('My','forgotpw') @>" method="post" id="formForgotpw" class="my">
-  <fieldset>
-  <legend><span><@ l('Request new password') @></span></legend>
-    <div>
-      <label for="username">Your username: </label>
-        <input type="text" id="username" name="username">
-    </div>
-    <div>
-      <label for="emailaddress">Your email address: </label>
-        <input type="text" id="emailaddress" name="emailaddress">
-    </div>
-    <input type="submit" value="Request new password" name="requestpw" />
-  </fieldset>
-</form>
+  <@ IF wrong_user_or_wrong_email @>
+    <h2>Unknown combination of username and email</h2>
+  <@ END @>
+  <form action="<@ u('My','forgotpw') @>" method="post" id="formForgotpw" class="my">
+    <fieldset>
+      <legend><span><@ l('Request new password') @></span></legend>
+      <div>
+        <label for="username">Your username: </label>
+        <input type="text" id="username" name="username" value="<@ forgotpw_username @>">
+      </div>
+      <div>
+        <label for="email">Your email address: </label>
+        <input type="text" id="email" name="email" value="<@ forgotpw_email @>">
+      </div>
+      <input type="submit" value="Request new password" name="requestpw" />
+    </fieldset>
+  </form>
 <@ END @>
