@@ -18,3 +18,6 @@
     <input type="submit" value="<@ l('Submit') @>" name="submit" id="submit">
   </fieldset>
 </form>
+<div>
+	If you have a GitHub account, please use our <a href="https://github.com/duckduckgo/community-platform/issues">issue tracking</a> there.
+</div>

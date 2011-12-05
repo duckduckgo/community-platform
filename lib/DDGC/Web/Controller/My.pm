@@ -57,7 +57,7 @@ sub languages :Chained('logged_in') :Args(0) {
 				$_->delete;
 			}
 		}
-	} elsif ($c->req->params->{add_user_language}) {
+	} elsif ($c->req->params->{language_id} && $c->req->params->{add_user_language}) {
 		$change = 1;
 		$c->user->db->update_or_create_related('user_languages',{
 			grade => $c->req->params->{grade},
