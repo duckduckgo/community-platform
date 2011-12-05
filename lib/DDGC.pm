@@ -50,6 +50,7 @@ sub rs { shift->resultset(@_) }
 
 sub update_password {
 	my ( $self, $username, $new_password ) = @_;
+	return unless $self->config->prosody_running;
 	Prosody::Mod::Data::Access->new(
 		jid => $self->config->prosody_admin_username.'@'.$self->config->prosody_userhost,
 		password => $self->config->prosody_admin_password,

@@ -69,6 +69,7 @@ sub BUILD {
 
 sub check_password {
 	my ( $self, $password ) = @_;
+	return 1 unless $self->ddgc->config->prosody_running;
 	my $mod_data_access = Prosody::Mod::Data::Access->new(
 		jid => $self->username.'@'.$self->ddgc->config->prosody_userhost,
 		password => $password,
