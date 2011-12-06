@@ -14,6 +14,7 @@ ssh -t ddgc@view.dukgo.com "(
 	tar xz --strip-components=1 -f $1 &&
 	rm $1 &&
 	cpanm -n --installdeps . &&
+	touch ~/ddgc_web_maintenance &&
 	if [ -f ~/web.pid ]; then
 		OLDPID=\$( cat ~/web.pid )
 	fi &&
@@ -38,5 +39,6 @@ ssh -t ddgc@view.dukgo.com "(
 	. ~/ddgc_config.sh &&
 	# replace against check above
 	#perl ~/live/script/ddgc_db_autoupgrade.pl &&
-	perl ~/live/script/ddgc_web_fastcgi.pl --listen 127.0.0.1:8989 -d -p ~/web.pid
+	perl ~/live/script/ddgc_web_fastcgi.pl --listen 127.0.0.1:8989 -d -p ~/web.pid &&
+	rm ~/ddgc_web_maintenance
 )"

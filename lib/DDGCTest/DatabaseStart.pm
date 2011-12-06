@@ -84,7 +84,7 @@ sub token_domains {{
 		name => 'DuckDuckGo Core',
 		base => 'us',
 		description => 'Snippets around the core pages of DuckDuckGo, the homepage, the resultpage, the settings and the ZeroClickInfo in there',
-		languages => [qw( us de es ru )],
+		languages => [qw( us de es br ru fr se in )],
 		snippets => [
 		    'Settings', {
 				notes => {
@@ -427,7 +427,7 @@ sub token_domains {{
 					token => 'Used if you enter nothing in the search box.'
 				},
 		    },
-		    'I\m feeling ducky', {
+		    'I\'m feeling ducky', {
 				notes => {
 					token => 'Used in the !bang dropdown.'
 				},
@@ -605,7 +605,7 @@ sub token_domains {{
 		name => 'Test area, playfield for you',
 		base => 'us',
 		description => 'Play around with the translation interface without doing any harm! :)',
-		languages => [qw( us de es br ru )],
+		languages => [qw( us de es br ru fr se in )],
 		snippets => [
 			'From %s to %s over %s', {},
 			'THIS IS SPARTA', {},

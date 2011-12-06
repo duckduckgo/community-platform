@@ -20,9 +20,15 @@
 </div>
 
 <div class="aboutddg">
+  <h2>DuckDuckGo Sites</h2>
+  <ul>
+    <li><a href="http://donttrack.us/">DontTrack.us</a></li>
+    <li><a href="http://dontbubble.us/">DontBubble.us</a></li>
+    <li><a href="http://help.duckduckgo.com/">Help</a></li>
+    <li><a href="http://duck.co/">Forum</a></li>
+  </ul>
   <h2>DuckDuckGo Social</h2>
   <ul>
-    <li><a href="http://duck.co/">Forum</a></li>
     <li><a href="http://twitter.com/duckduckgo">Twitter</a> (<a href="http://twitter.com/duckduckgo/team/members">Team</a>)</li>
     <li><a href="http://facebook.com/duckduckgo">Facebook</a></li>
     <li><a href="http://www.reddit.com/r/duckduckgo">/r/duckduckgo</a></li>

@@ -104,6 +104,18 @@ sub languages {{
 		locale => 'hi_IN',
 		flagicon => 'in',
 	},
+	'se' => {
+		name_in_english => 'Swedish in Sweden',
+		name_in_local => 'Svenska i Sverige',
+		locale => 'sv_SE',
+		flagicon => 'se',
+	},
+	'fr' => {
+		name_in_english => 'French in France',
+		name_in_local => 'Français en France',
+		locale => 'fr_FR',
+		flagicon => 'fr',
+	},
 }}
 
 sub add_languages {
@@ -204,7 +216,7 @@ sub token_domains {{
 		name => 'Test area, playfield for you',
 		base => 'us',
 		description => 'Play around with the translation interface without doing any harm! :)',
-		languages => [qw( us de es br ru )],
+		languages => [qw( us de es br ru fr se in )],
 		snippets => [
 			'From %s to %s over %s', {},
 			'THIS IS SPARTA', {},
@@ -238,7 +250,7 @@ sub token_domains {{
 		name => 'The domain of tests',
 		base => 'us',
 		description => 'Bla blub the test is dead the test is dead!',
-		languages => [qw( us de es br ru )],
+		languages => [qw( us de es br ru fr se in )],
 		snippets => [
 			'Hello %s', {
 				testone => {
@@ -317,7 +329,7 @@ sub token_domains {{
 		name => 'The domain of other tests wow!',
 		base => 'us',
 		description => 'PRAISE THE TEST!',
-		languages => [qw( us de br ru )],
+		languages => [qw( us de es br ru fr se in )],
 		snippets => [
 			'Yes dude %s %s %s', {
 				testone => {

@@ -1,0 +1,41 @@
+<@ IF thanks_for_languagerequest @>
+	<h2><@ l('Thanks for your language request!') @></h2>
+<@ END @>
+<form action="<@ u('Base','requestlanguage') @>" method="post" id="formRequestLanguage" class="my">
+  <fieldset>
+    <legend><span><@ l('Feedback') @></span></legend>
+    <div>
+      <@ IF no_valid_email @>
+        <p class="error" id="errorInvalidEmail"><@ l('You must give a valid email.') @></p>
+      <@ END @>
+      <label for="email" aria-describedby="errorInvalidEmail"><@ l('Email') @>: </label>
+      <input type="text" name="email" id="email" value="<@ c.user.data.email || requestlanguage_email @>">
+    </div>
+    <div>
+      <@ IF required_name_in_english @>
+        <p class="error" id="errorRequiredNameEnglish"><@ l('You must give the name of the language in english.') @></p>
+      <@ END @>
+      <label for="name_in_english" aria-describedby="errorRequiredNameEnglish"><@ l('Name in english') @>: </label>
+      <input type="text" name="name_in_english" id="name_in_english" value="<@ requestlanguage_name_in_english @>">
+		<span>Example: English in United States</span>
+    </div>
+    <div>
+      <@ IF required_name_in_local @>
+        <p class="error" id="errorRequiredNameLocal"><@ l('You must give the name of the language in the local language.') @></p>
+      <@ END @>
+      <label for="name_in_local" aria-describedby="errorRequiredNameLocal"><@ l('Name in local language') @>: </label>
+      <input type="text" name="name_in_local" id="name_in_local" value="<@ requestlanguage_name_in_local @>">
+		<span>Example: English in United States</span>
+    </div>
+    <div>
+      <label for="requestlanguage_locale"><@ l('Locale') @>: (<@ l('optional') @>)</label>
+      <input type="text" name="requestlanguage_locale" id="requestlanguage_locale" value="<@ requestlanguage_locale @>">
+		<span>Example: en_US</span>
+    </div>
+    <div>
+      <label for="flagurl"><@ l('URL of a reference picture of the flag of the country') @>: (<@ l('optional') @>)</label>
+      <input type="text" name="flagurl" id="flagurl" value="<@ requestlanguage_flagurl @>">
+    </div>
+    <input type="submit" value="<@ l('Submit request') @>" name="submit" id="submit">
+  </fieldset>
+</form>

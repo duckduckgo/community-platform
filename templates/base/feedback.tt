@@ -15,7 +15,7 @@
       <label for="feedback"><@ l('Feedback / Question / Suggestion / Problem') @>: </label>
       <textarea rows="10" name="feedback" id="feedback"><@ feedback_feedback @></textarea>
     </div>
-    <input type="submit" value="<@ l('Submit') @>" name="submit" id="submit">
+    <input type="submit" value="<@ l('Submit feedback') @>" name="submit" id="submit">
   </fieldset>
 </form>
 <div>
