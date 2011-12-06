@@ -49,6 +49,9 @@ __PACKAGE__->config(
 			},
 		},
 	},
+	'Plugin::Session' => {
+		expires => 1800,
+	},
 	'Plugin::Captcha' => {
 		session_name => 'captcha_string',
 		new => {

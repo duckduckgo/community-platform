@@ -524,3 +524,8 @@ form .translations {
         #footer li:last-child {
           text-align: left;
         }
+		
+
+/****************** pulse *****************/
+
+iframe#pulse { position:absolute; visibility:hidden; left:0; top:0 }

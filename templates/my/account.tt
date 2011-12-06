@@ -75,6 +75,7 @@
         <input type="submit" value="<@ l('Delete Gravatar email') @>" name="unset_gravatar_email" id="unset_gravatar_email">
       <@ END @>
       <input type="submit" value="<@ l('Set Gravatar email') @>" name="set_gravatar_email" id="set_gravatar_email">
+		<span><a href="http://gravatar.com/">More information about Gravatar</a></span>
       </fieldset>
     </form>
   </div>
