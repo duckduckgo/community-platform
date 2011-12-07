@@ -216,7 +216,7 @@ sub token_domains {{
 		name => 'Test area, playfield for you',
 		base => 'us',
 		description => 'Play around with the translation interface without doing any harm! :)',
-		languages => [qw( us de es br ru fr se in )],
+		languages => [qw( de es br ru fr se in )],
 		snippets => [
 			'From %s to %s over %s', {},
 			'THIS IS SPARTA', {},
@@ -250,7 +250,7 @@ sub token_domains {{
 		name => 'The domain of tests',
 		base => 'us',
 		description => 'Bla blub the test is dead the test is dead!',
-		languages => [qw( us de es br ru fr se in )],
+		languages => [qw( de es br ru fr se in )],
 		snippets => [
 			'Hello %s', {
 				testone => {
@@ -329,7 +329,7 @@ sub token_domains {{
 		name => 'The domain of other tests wow!',
 		base => 'us',
 		description => 'PRAISE THE TEST!',
-		languages => [qw( us de es br ru fr se in )],
+		languages => [qw( de es br ru fr se in )],
 		snippets => [
 			'Yes dude %s %s %s', {
 				testone => {
@@ -404,7 +404,7 @@ sub token_domains {{
 		name => 'taken from some list of feeling words',
 		base => 'us',
 		description => 'feelings.. nothing more then feelings!',
-		languages => [qw( us de ru )],
+		languages => [qw( de ru )],
 		snippets => [
 			'abominable',{},
 			'absorbed',{},
