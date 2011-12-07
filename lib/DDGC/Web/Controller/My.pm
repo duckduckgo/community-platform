@@ -56,7 +56,7 @@ sub account :Chained('logged_in') :Args(0) {
 			my $data = $c->user->data || {};
 			$data->{gravatar_email} = $c->req->params->{gravatar_email};
 			$data->{gravatar_urls} = {};
-			for (qw/16 48 80/) {
+			for (qw/16 32 48 64 80/) {
 				$data->{gravatar_urls}->{$_} = gravatar_url(
 					email => $data->{gravatar_email},
 					rating => "g",

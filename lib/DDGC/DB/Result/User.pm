@@ -55,6 +55,26 @@ has_many 'user_languages', 'DDGC::DB::Result::User::Language', { 'foreign.userna
 
 many_to_many 'languages', 'user_languages', 'language';
 
+sub profile_picture {
+	my ( $self, $size ) = @_;
+	if ($self->public && $self->data && $self->data->{gravatar_urls}) {
+		if ($size) {
+			return $self->data->{gravatar_urls}->{$size};
+		} else {
+			return $self->data->{gravatar_urls};
+		}
+	}
+	return;
+}
+
+sub public_username {
+	my ( $self ) = @_;
+	if ($self->public) {
+		return $self->username;
+	}
+	return;
+}
+
 use overload '""' => sub {
 	my $self = shift;
 	return 'User '.$self->username.' #'.$self->id;

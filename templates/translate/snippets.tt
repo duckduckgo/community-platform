@@ -66,12 +66,14 @@
       </fieldset>
     <@ END @>
 
-    <@ FOR translation IN other_translations @>
-      <fieldset>
-        <legend><span><@ l('Translations other users') @></span></legend>
-        <@ INCLUDE translate/snippets/translation.tt text=l('Translation of %s',translation.user.public_username) @>
-      </fieldset>
-    <@ END @>
+<fieldset>
+  <legend><span><@ l('Translations of other users') @></span></legend>
+  <@ FOR translation IN other_translations @>
+    <@ SET t_userpic = translation.user.profile_picture ? '<img src="' _ translation.user.profile_picture(32) _ '">' : '<img width="32" height="32" src="/static/images/profile.male.png">' @>
+    <@ SET t_username = translation.user.public_username || '&lt;anonymous&gt;'  @>
+    <@ INCLUDE translate/snippets/translation.tt text=l('Translation of %s',t_userpic _ t_username) @>
+  <@ END @>
+</fieldset>
 
     <fieldset>
       <legend><span><@ l('Translation in use') @></span></legend>

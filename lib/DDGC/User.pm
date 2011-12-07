@@ -34,6 +34,8 @@ has db => (
 		notes
 		data
 		token_language_translations
+		profile_picture
+		public_username
 	),qw(
 		create_related
 		find_related
@@ -79,26 +81,6 @@ sub check_password {
 		$data = $mod_data_access->get($self->username);
 	};
 	return $data ? 1 : 0;
-}
-
-sub profile_picture {
-	my ( $self, $size ) = @_;
-	if ($self->public && $self->data && $self->data->{gravatar_urls}) {
-		if ($size) {
-			return $self->data->{gravatar_urls}->{$size};
-		} else {
-			return $self->data->{gravatar_urls};
-		}
-	}
-	return;
-}
-
-sub public_username {
-	my ( $self ) = @_;
-	if ($self->public) {
-		return $self->username;
-	}
-	return 'not public';
 }
 
 # For Catalyst
