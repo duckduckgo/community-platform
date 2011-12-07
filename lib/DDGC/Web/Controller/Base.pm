@@ -42,7 +42,7 @@ sub feedback :Chained('base') :Args(0) {
 		
 		$c->stash->{email} = {
 			to          => 'getty@duckduckgo.com',
-			from        => $c->req->params->{email} ? $c->req->params->{email} : 'noreply@duckduckgo.com',
+			from        => 'noreply@dukgo.com',
 			subject     => '[DuckDuckGo Community] New feedback',
 			template	=> 'email/feedback.tt',
 			charset		=> 'utf-8',
@@ -92,7 +92,7 @@ sub requestlanguage :Chained('base') :Args(0) {
 
 			$c->stash->{email} = {
 				to          => 'getty@duckduckgo.com',
-				from        => $c->req->params->{email},
+				from        => 'noreply@dukgo.com',
 				subject     => '[DuckDuckGo Community] New request for language',
 				template	=> 'email/requestlanguage.tt',
 				charset		=> 'utf-8',

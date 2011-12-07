@@ -12,9 +12,6 @@
     <div id="footer" role="contentinfo">
       <@ INCLUDE footer.tt @>
     </div>
-	<@ IF c.user @>
-		<iframe src="<@ u('Base','pulse' ) @>" id="pulse"></iframe>
-	<@ END @>
   </body>
   <!-- <@ version @> -->
 </html>

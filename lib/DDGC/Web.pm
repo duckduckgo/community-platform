@@ -50,7 +50,7 @@ __PACKAGE__->config(
 		},
 	},
 	'Plugin::Session' => {
-		expires => 1800,
+		expires => 21600,
 	},
 	'Plugin::Captcha' => {
 		session_name => 'captcha_string',
