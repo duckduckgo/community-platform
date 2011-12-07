@@ -15,6 +15,8 @@ use Catalyst qw/
 	Authorization::Roles
 	ChainedURI
 	Captcha
+	StackTrace
+	ErrorCatcher
 /;
 
 extends 'Catalyst';
@@ -48,6 +50,15 @@ __PACKAGE__->config(
 				},
 			},
 		},
+	},
+	'Plugin::ErrorCatcher' => {
+		emit_module => 'Catalyst::Plugin::ErrorCatcher::Email',
+	},
+	'Plugin::ErrorCatcher::Email' => {
+		to => 'getty@duckduckgo.com',
+		from => 'noreply@dukgo.com',
+		use_tags => 1,
+		subject => '[%n %V] Report from %h; %F, line %l',
 	},
 	'Plugin::Session' => {
 		expires => 21600,

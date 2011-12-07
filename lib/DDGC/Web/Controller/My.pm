@@ -261,7 +261,7 @@ sub forgotpw :Chained('logged_out') :Args(0) {
 	$c->stash->{forgotpw_username} = lc($c->req->params->{username});
 	$c->stash->{forgotpw_email} = $c->req->params->{email};
 	my $user = $c->d->find_user($c->stash->{forgotpw_username});
-	if (!$user || $c->stash->{forgotpw_email} ne $user->data->{email}) {
+	if (!$user || !$user->data->{email} || $c->stash->{forgotpw_email} ne $user->data->{email}) {
 		$c->stash->{wrong_user_or_wrong_email} = 1;
 		return;
 	}
