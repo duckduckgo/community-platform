@@ -4,6 +4,7 @@ use Moose;
 
 extends 'Catalyst::View::TT';
 
+use DDGC::Web;
 use Template::Stash::XS;
 use HTML::EasyForm;
 
