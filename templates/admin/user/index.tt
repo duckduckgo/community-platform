@@ -12,7 +12,7 @@
   <@ FOREACH user IN users @>
     <tr>
       <td scope="row">#<@ user.id @></td>
-      <td><@ user.username @></td>
+      <td><img width="32" height="32" src="<@ user.profile_picture(32) || "/static/images/profile.male.png" @>"> <@ user.username @></td>
       <td><@ IF user.public @>Public<@ ELSE @> <@ END @></td>
       <td><@ IF user.admin @>Admin<@ ELSE @> <@ END @></td>
     </tr>
