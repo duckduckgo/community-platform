@@ -288,12 +288,12 @@ sub token_domains {{
 		    },
 		    'Map', {
 				notes => {
-					token => 'Used in 0-click box for local results, e.g. http://duckduckgo.com/?q=black+lab+bistro'
+					token => 'Used in 0-click box for local results, e.g. <a href="http://duckduckgo.com/?q=black+lab+bistro">http://duckduckgo.com/?q=black+lab+bistro</a>'
 				},
 		    },
 		    'Nearby', {
 				notes => {
-					token => 'Used in 0-click box for local results, e.g. http://duckduckgo.com/?q=black+lab+bistro'
+					token => 'Used in 0-click box for local results, e.g. <a href="http://duckduckgo.com/?q=black+lab+bistro">http://duckduckgo.com/?q=black+lab+bistro</a>'
 				},
 		    },
 		    'Computed by %s', {
@@ -303,63 +303,63 @@ sub token_domains {{
 		    },
 		    '%s is a zip code in %s', {
 				notes => {
-					token => 'Used in 0-click box for local results, e.g. https://duckduckgo.com/?q=19460'
+					token => 'Used in 0-click box for local results, e.g. <a href="https://duckduckgo.com/?q=19460">https://duckduckgo.com/?q=19460</a>'
 				},
 		    },
 
 		    '%s is a phone number in %s', {
 				notes => {
-					token => 'Used in 0-click box for local results, e.g. https://duckduckgo.com/?q=%28323%29+319-6185'
+					token => 'Used in 0-click box for local results, e.g. <a href="https://duckduckgo.com/?q=%28323%29+319-6185">https://duckduckgo.com/?q=%28323%29+319-6185</a>'
 				},
 		    },
 		    'shipment tracking', {
 				notes => {
-					token => 'Used in goodie results, e.g. https://duckduckgo.com/?q=1Z0884XV0399906189'
+					token => 'Used in goodie results, e.g. <a href="https://duckduckgo.com/?q=1Z0884XV0399906189">https://duckduckgo.com/?q=1Z0884XV0399906189</a>'
 				},
 		    },
 		    'Reverse search', {
 				notes => {
-					token => 'Used in goodie results, e.g. https://duckduckgo.com/?q=%28323%29+319-6185'
+					token => 'Used in goodie results, e.g. <a href="https://duckduckgo.com/?q=%28323%29+319-6185">https://duckduckgo.com/?q=%28323%29+319-6185</a>'
 				},
 		    },
 		    'pay', {
 				notes => {
-					token => 'Used in goodie results, e.g. https://duckduckgo.com/?q=%28323%29+319-6185'
+					token => 'Used in goodie results, e.g. <a href="https://duckduckgo.com/?q=%28323%29+319-6185">https://duckduckgo.com/?q=%28323%29+319-6185</a>'
 				},
 		    },
 		    'vehicle info', {
 				notes => {
-					token => 'Used in goodie results, e.g. https://duckduckgo.com/?q=1g8gg35m1g7123101'
+					token => 'Used in goodie results, e.g. <a href="https://duckduckgo.com/?q=1g8gg35m1g7123101">https://duckduckgo.com/?q=1g8gg35m1g7123101</a>'
 				},
 		    },
 		    'Reviews', {
 				notes => {
-					token => 'Used in 0-click box for product results, e.g. https://duckduckgo.com/?q=9780061353246'
+					token => 'Used in 0-click box for product results, e.g. <a href="https://duckduckgo.com/?q=9780061353246">https://duckduckgo.com/?q=9780061353246</a>'
 				},
 		    },
 		    'random number', {
 				notes => {
-					token => 'Used in 0-click box for goodies, e.g. https://duckduckgo.com/?q=random+number'
+					token => 'Used in 0-click box for goodies, e.g. <a href="https://duckduckgo.com/?q=random+number">https://duckduckgo.com/?q=random+number</a>'
 				},
 		    },
 		    'random password', {
 				notes => {
-					token => 'Used in 0-click box for goodies, e.g. https://duckduckgo.com/?q=random+password'
+					token => 'Used in 0-click box for goodies, e.g. <a href="https://duckduckgo.com/?q=random+password">https://duckduckgo.com/?q=random+password</a>'
 				},
 		    },
 		    'random', {
 				notes => {
-					token => 'Used in 0-click box for goodies, e.g. https://duckduckgo.com/?q=yes+or+no'
+					token => 'Used in 0-click box for goodies, e.g. <a href="https://duckduckgo.com/?q=yes+or+no">https://duckduckgo.com/?q=yes+or+no</a>'
 				},
 		    },
 		    '%s is in', {
 				notes => {
-					token => 'Used in 0-click box for local results, e.g. https://duckduckgo.com/?q=72.94.249.36'
+					token => 'Used in 0-click box for local results, e.g. <a href="https://duckduckgo.com/?q=72.94.249.36">https://duckduckgo.com/?q=72.94.249.36</a>'
 				},
 		    },
 		    'try to go there', {
 				notes => {
-					token => 'Used in goodie results, e.g. https://duckduckgo.com/?q=72.94.249.36'
+					token => 'Used in goodie results, e.g. <a href="https://duckduckgo.com/?q=72.94.249.36">https://duckduckgo.com/?q=72.94.249.36</a>'
 				},
 		    },
 		    '%s is a parked domain (last time we checked).', {
@@ -369,47 +369,47 @@ sub token_domains {{
 		    },
 		    'Try: %s', {
 				notes => {
-					token => 'Message displayed sometimes at top of results (for bang syntax), e.g. https://duckduckgo.com/?q=twitter+test'
+					token => 'Message displayed sometimes at top of results (for bang syntax), e.g. <a href="https://duckduckgo.com/?q=twitter+test">https://duckduckgo.com/?q=twitter+test</a>'
 				},
 		    },
 		    'Searches %s using our %s', {
 				notes => {
-					token => 'Message displayed sometimes at top of results (for bang syntax), e.g. https://duckduckgo.com/?q=twitter+test'
+					token => 'Message displayed sometimes at top of results (for bang syntax), e.g. <a href="https://duckduckgo.com/?q=twitter+test">https://duckduckgo.com/?q=twitter+test</a>'
 				},
 		    },
 		    'Offers', {
 				notes => {
-					token => 'Used in 0-click box for product results, e.g. https://duckduckgo.com/?q=9780061353246'
+					token => 'Used in 0-click box for product results, e.g. <a href="https://duckduckgo.com/?q=9780061353246">https://duckduckgo.com/?q=9780061353246</a>'
 				},
 		    },
 		    'Similar', {
 				notes => {
-					token => 'Used in 0-click box for product results, e.g. https://duckduckgo.com/?q=9780061353246'
+					token => 'Used in 0-click box for product results, e.g. <a href="https://duckduckgo.com/?q=9780061353246">https://duckduckgo.com/?q=9780061353246</a>'
 				},
 		    },
 		    'Library', {
 				notes => {
-					token => 'Used in 0-click box for product results, e.g. https://duckduckgo.com/?q=9780061353246'
+					token => 'Used in 0-click box for product results, e.g. <a href="https://duckduckgo.com/?q=9780061353246">https://duckduckgo.com/?q=9780061353246</a>'
 				},
 		    },
 		    'Top', {
 				notes => {
-					token => 'Used in headings on Category pages, e.g. https://duckduckgo.com/?q=simpsons+characters'
+					token => 'Used in headings on Category pages, e.g. <a href="https://duckduckgo.com/?q=simpsons+characters">https://duckduckgo.com/?q=simpsons+characters</a>'
 				},
 		    },
 		    'Web links', {
 				notes => {
-					token => 'Used in heading on bottom of Category pages, e.g. https://duckduckgo.com/?q=simpsons+characters'
+					token => 'Used in heading on bottom of Category pages, e.g. <a href="https://duckduckgo.com/?q=simpsons+characters">https://duckduckgo.com/?q=simpsons+characters</a>'
 				},
 		    },
 		    'No right topic? Try web links...', {
 				notes => {
-					token => 'Used at the bottom of Category pages, e.g. https://duckduckgo.com/?q=simpsons+characters'
+					token => 'Used at the bottom of Category pages, e.g. <a href="https://duckduckgo.com/?q=simpsons+characters">https://duckduckgo.com/?q=simpsons+characters</a>'
 				},
 		    },
 		    'DDG Topics List', {
 				notes => {
-					token => 'Used at the bottom of Category pages, e.g. https://duckduckgo.com/?q=simpsons+characters'
+					token => 'Used at the bottom of Category pages, e.g. <a href="https://duckduckgo.com/?q=simpsons+characters">https://duckduckgo.com/?q=simpsons+characters</a>'
 				},
 		    },
 		    'uses results from %s', {
@@ -489,62 +489,62 @@ sub token_domains {{
 		    },
 		    '%s is a %s', {
 				notes => {
-					token => 'Used in 0-click box for product results, e.g. https://duckduckgo.com/?q=9780061353246'
+					token => 'Used in 0-click box for product results, e.g. <a href="https://duckduckgo.com/?q=9780061353246">https://duckduckgo.com/?q=9780061353246</a>'
 				},
 		    },
 		    'by %s', {
 				notes => {
-					token => 'Used in 0-click box for product results, e.g. https://duckduckgo.com/?q=9780061353246'
+					token => 'Used in 0-click box for product results, e.g. <a href="https://duckduckgo.com/?q=9780061353246">https://duckduckgo.com/?q=9780061353246</a>'
 				},
 		    },
 		    'released %s', {
 				notes => {
-					token => 'Used in 0-click box for product results, e.g. https://duckduckgo.com/?q=9780061353246'
+					token => 'Used in 0-click box for product results, e.g. <a href="https://duckduckgo.com/?q=9780061353246">https://duckduckgo.com/?q=9780061353246</a>'
 				},
 		    },
 		    'from %s', {
 				notes => {
-					token => 'Used in 0-click box for product results, e.g. https://duckduckgo.com/?q=9780061353246'
+					token => 'Used in 0-click box for product results, e.g. <a href="https://duckduckgo.com/?q=9780061353246">https://duckduckgo.com/?q=9780061353246</a>'
 				},
 		    },
 		    'and %s', {
 				notes => {
-					token => 'Used in 0-click box for product results, e.g. https://duckduckgo.com/?q=superbad+dvd'
+					token => 'Used in 0-click box for product results, e.g. <a href="https://duckduckgo.com/?q=9780061353246">https://duckduckgo.com/?q=9780061353246</a>'
 				},
 		    },
 		    '%d pg', '%d pgs', {
 				notes => {
-					token => 'An abbreviation for pages. Used in 0-click box for product results, e.g. https://duckduckgo.com/?q=9780061353246'
+					token => 'An abbreviation for pages. Used in 0-click box for product results, e.g. https://duckduckgo.com/?q=9780061353246<a href="https://duckduckgo.com/?q=9780061353246">https://duckduckgo.com/?q=9780061353246</a>'
 				},
 		    },
 		    '%d disc', '%d discs', {
 				notes => {
-					token => 'Used in ads for products, e.g. https://duckduckgo.com/?q=the+graduate+dvd'
+					token => 'Used in ads for products, e.g. <a href="https://duckduckgo.com/?q=the+graduate+dvd">https://duckduckgo.com/?q=the+graduate+dvd</a>'
 				},
 		    },
 		    'book', {
 				notes => {
-					token => 'Used in 0-click box for product results, e.g. https://duckduckgo.com/?q=superbad+dvd'
+					token => 'Used in 0-click box for product results, e.g. <a href="https://duckduckgo.com/?q=superbad+dvd">https://duckduckgo.com/?q=superbad+dvd</a>'
 				},
 		    },
 		    'album', {
 				notes => {
-					token => 'Used in 0-click box for product results, e.g. https://duckduckgo.com/?q=superbad+dvd'
+					token => 'Used in 0-click box for product results, e.g. <a href="https://duckduckgo.com/?q=superbad+dvd">https://duckduckgo.com/?q=superbad+dvd</a>'
 				},
 		    },
 		    \'zci-product', 'track', {
 				notes => {
-					token => 'Used in 0-click box for product results, e.g. https://duckduckgo.com/?q=superbad+dvd'
+					token => 'Used in 0-click box for product results, e.g. <a href="https://duckduckgo.com/?q=superbad+dvd">https://duckduckgo.com/?q=superbad+dvd</a>'
 				},
 		    },
-		    'Did yo mean %s?', {
+		    'Did you mean %s?', {
 				notes => {
-					token => 'Used in spelling correction, e.g. https://duckduckgo.com/?q=testingg',
+					token => 'Used in spelling correction, e.g. <a href="https://duckduckgo.com/?q=testingg">https://duckduckgo.com/?q=testingg</a>',
 				},
 		    },
 		    'Listen', {
 				notes => {
-					token => 'Used in 0-click bot for video results, e.g. https://duckduckgo.com/?q=blink182+song',
+					token => 'Used in 0-click bot for video results, e.g. <a href="https://duckduckgo.com/?q=blink182+song">https://duckduckgo.com/?q=blink182+song</a>',
 				},
 		    },
 		    'Safe search filtered your search to %s', {
