@@ -1,12 +1,22 @@
 <h1><@ l('Translate text snippets for %s',token_domain.name) @></h1>
 <@ INCLUDE translate/languagebox.tt @>
 <@ INCLUDE translate/pageform.tt @>
-
+  
 <@ IF cant_speak @>
   <p><a href="<@ u('My','languages',{ locale => cur_language.locale }) @>"><@ l('You must add this language to your known languages for translating it') @></a></p>
 <@ ELSE @>
 <p class="ac"><@ l('Screen reader users: there is plain text information within the form') @>.</p>
 <form action="<@ u('Translate','snippets',token_domain.key,cur_language.locale) @>" method="post" id="formTranslateDomain">
+
+<div>
+  <p>Please note:</p>
+  <hr>
+  <p><@ l('%s is a placeholder and will get replaced on usage of your translation. You should generally leave it in your translation.') @></p>
+  <hr>
+  <p><@ l('If you need to change the order of the placeholders, you can use the %2$s syntax. Example: "From %s to %s" could go as "To %2$s from %1$s"') @></p>
+  <hr>
+  <p><@ l('You do not need to translate every snippet to be useful -- just do the ones you can do well!') @></p>
+</div>
 
   <@ FOR token_language IN token_languages.all @>
     <@ SET other_translations = token_language.translations(c.user,1) @>
@@ -28,12 +38,15 @@
       </dl>
 
       <fieldset>
-      <legend><span><@ l('Translation in use') @></span></legend>
+      <legend><span><@ l('Your suggested translation') @></span></legend>
     <@ FOR n IN [ 0..token_language.max_msgstr_index ] @>
       <@ SET func = 'msgstr' _ n @>
         <label for="token_language_<@ token_language.id @>_<@ func @>"><@ IF n == 0 @><@ l('Singular') @><@ ELSE @><@ n @>th Plural Form<@ END @>: </label>
         <input type="text" id="token_language_<@ token_language.id @>_<@ func @>" name="token_language_<@ token_language.id @>_<@ func @>" value="<@ own_translation.$func @>" autocomplete="off" placeholder="Translate '<@ n == 0 ? token_language.token.msgid : token_language.token.msgid_plural @>' <@ IF token_language.token.msgctxt @> in context of '<@ token_language.token.msgctxt @>' <@ END @>into <@ token_language.token_domain_language.language.name_in_english @>">
     <@ END @>
+	<@ IF other_translations @>
+      <div><@ l('Someone already translated this snippet. Only translate it if you think your translation fits better.') @></div>
+	<@ END @>
       </fieldset>
 
     <@ IF c.user.admin || token_language.token.notes || token_language.notes @>
@@ -66,14 +79,16 @@
       </fieldset>
     <@ END @>
 
-<fieldset>
-  <legend><span><@ l('Translations of other users') @></span></legend>
-  <@ FOR translation IN other_translations @>
-    <@ SET t_userpic = translation.user.profile_picture ? '<img src="' _ translation.user.profile_picture(32) _ '">' : '<img width="32" height="32" src="/static/images/profile.male.png">' @>
-    <@ SET t_username = translation.user.public_username || '&lt;anonymous&gt;'  @>
-    <@ INCLUDE translate/snippets/translation.tt text=t_userpic _ t_username @>
-  <@ END @>
-</fieldset>
+<@ IF other_translations @>
+  <fieldset>
+    <legend><span><@ l('Translations of other users') @></span></legend>
+    <@ FOR translation IN other_translations @>
+      <@ SET t_userpic = translation.user.profile_picture ? '<img src="' _ translation.user.profile_picture(32) _ '">' : '<img width="32" height="32" src="/static/images/profile.male.png">' @>
+      <@ SET t_username = translation.user.public_username || '&lt;anonymous&gt;'  @>
+      <@ INCLUDE translate/snippets/translation.tt text=t_userpic _ t_username @>
+    <@ END @>
+  </fieldset>
+<@ END @>
 
     <fieldset>
       <legend><span><@ l('Translation in use') @></span></legend>
