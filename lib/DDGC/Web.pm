@@ -17,6 +17,7 @@ use Catalyst qw/
 	Captcha
 	StackTrace
 	ErrorCatcher
+	CustomErrorMessage
 /;
 
 extends 'Catalyst';
@@ -59,6 +60,12 @@ __PACKAGE__->config(
 		from => 'noreply@dukgo.com',
 		use_tags => 1,
 		subject => '[%n %V] Report from %h; %F, line %l',
+	},
+	'custom-error-message' => {
+		'error-template' => 'error.tt',
+		'content-type' => 'text/html; charset=utf-8',
+		'view-name' => 'Error',
+		'response-status' => 500,
 	},
 	'Plugin::Session' => {
 		expires => 21600,
