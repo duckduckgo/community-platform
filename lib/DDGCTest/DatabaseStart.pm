@@ -84,7 +84,7 @@ sub token_domains {{
 		name => 'DuckDuckGo Core',
 		base => 'us',
 		description => 'Snippets around the core pages of DuckDuckGo, the homepage, the resultpage, the settings and the ZeroClickInfo in there',
-		languages => [qw( de es br ru fr se in )],
+		languages => [qw( de es br ru fr se in da )],
 		snippets => [
 		    'Settings', {
 				notes => {
@@ -605,7 +605,7 @@ sub token_domains {{
 		name => 'Test area, playfield for you',
 		base => 'us',
 		description => 'Play around with the translation interface without doing any harm! :)',
-		languages => [qw( de es br ru fr se in )],
+		languages => [qw( de es br ru fr se in da )],
 		snippets => [
 			'I\'m a little teapot', {},
 			'I will not buy this record; it is scratched.', {},

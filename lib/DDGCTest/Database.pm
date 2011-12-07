@@ -116,6 +116,12 @@ sub languages {{
 		locale => 'fr_FR',
 		flagicon => 'fr',
 	},
+	'da' => {
+		name_in_english => 'Danish in Denmark',
+		name_in_local => 'Dansk i Danmark',
+		locale => 'da_DK',
+		flagicon => 'dk',
+	},
 }}
 
 sub add_languages {
@@ -216,7 +222,7 @@ sub token_domains {{
 		name => 'Test area, playfield for you',
 		base => 'us',
 		description => 'Play around with the translation interface without doing any harm! :)',
-		languages => [qw( de es br ru fr se in )],
+		languages => [qw( de es br ru fr se in da )],
 		snippets => [
 			'From %s to %s over %s', {},
 			'THIS IS SPARTA', {},
@@ -250,7 +256,7 @@ sub token_domains {{
 		name => 'The domain of tests',
 		base => 'us',
 		description => 'Bla blub the test is dead the test is dead!',
-		languages => [qw( de es br ru fr se in )],
+		languages => [qw( de es br ru fr se in da )],
 		snippets => [
 			'Hello %s', {
 				testone => {
@@ -329,7 +335,7 @@ sub token_domains {{
 		name => 'The domain of other tests wow!',
 		base => 'us',
 		description => 'PRAISE THE TEST!',
-		languages => [qw( de es br ru fr se in )],
+		languages => [qw( de es br ru )],
 		snippets => [
 			'Yes dude %s %s %s', {
 				testone => {
