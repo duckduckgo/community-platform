@@ -1,0 +1,10 @@
+<@ IF user @>
+	<img width="32" height="32" src="<@ user.public ? user.profile_picture ? user.profile_picture(32) : '/static/images/profile.male.png' : '/static/images/profile.anonymous.png' @>">
+	<@ IF user.admin @><span style="color:green"><@ END @>
+	<@ IF c.user && c.user.admin @>
+		<@ user.username @>
+	<@ ELSE @>
+		<@ user.public_username || '&lt;anonymous&gt;' @>
+	<@ END @>
+	<@ IF user.admin @></span><@ END @>
+<@ END @>
