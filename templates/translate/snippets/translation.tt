@@ -1,5 +1,9 @@
 <div class="translations">
-  <h2><@ text @>:</h2>
+  <@ IF translation_headline @>
+	<@ translation_headline @>
+  <@ ELSE @>
+	<@ INCLUDE user/username32.tt user=translation.user @>
+  <@ END @>
   <dl>
     <@ FOR n IN [ 0..token_language.max_msgstr_index ] @>
       <@ SET func = 'msgstr' _ n @>

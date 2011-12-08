@@ -13,5 +13,4 @@
       <@ INCLUDE footer.tt @>
     </div>
   </body>
-  <!-- <@ version @> -->
 </html>

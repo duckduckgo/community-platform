@@ -55,6 +55,8 @@ has_many 'user_languages', 'DDGC::DB::Result::User::Language', { 'foreign.userna
 
 many_to_many 'languages', 'user_languages', 'language';
 
+sub translation_count { shift->token_language_translations->count(@_); }
+
 sub profile_picture {
 	my ( $self, $size ) = @_;
 	if ($self->public && $self->data && $self->data->{gravatar_urls}) {
