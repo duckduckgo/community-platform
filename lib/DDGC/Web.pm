@@ -16,7 +16,6 @@ use Catalyst qw/
 	ChainedURI
 	Captcha
 	StackTrace
-	ErrorCatcher
 	CustomErrorMessage
 /;
 
@@ -52,15 +51,16 @@ __PACKAGE__->config(
 			},
 		},
 	},
-	'Plugin::ErrorCatcher' => {
-		emit_module => 'Catalyst::Plugin::ErrorCatcher::Email',
-	},
-	'Plugin::ErrorCatcher::Email' => {
-		to => 'getty@duckduckgo.com',
-		from => 'noreply@dukgo.com',
-		use_tags => 1,
-		subject => '[%n %V] Report from %h; %F, line %l',
-	},
+	# doesnt work like supposed :(
+	# 'Plugin::ErrorCatcher' => {
+		# emit_module => 'Catalyst::Plugin::ErrorCatcher::Email',
+	# },
+	# 'Plugin::ErrorCatcher::Email' => {
+		# to => 'getty@duckduckgo.com',
+		# from => 'noreply@dukgo.com',
+		# use_tags => 1,
+		# subject => '[%n %V] Report from %h; %F, line %l',
+	# },
 	'custom-error-message' => {
 		'error-template' => 'error.tt',
 		'content-type' => 'text/html; charset=utf-8',
