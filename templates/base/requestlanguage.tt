@@ -3,7 +3,7 @@
 <@ END @>
 <form action="<@ u('Base','requestlanguage') @>" method="post" id="formRequestLanguage" class="my">
   <fieldset>
-    <legend><span><@ l('Feedback') @></span></legend>
+    <legend><span><@ l('Request a new language') @></span></legend>
     <div>
       <@ IF no_valid_email @>
         <p class="error" id="errorInvalidEmail"><@ l('You must give a valid email.') @></p>
