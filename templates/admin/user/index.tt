@@ -2,7 +2,7 @@
 <table class="tableUsers">
   <thead>
       <tr>
-        <th scope="col">User ID</th>
+        <th scope="col">ID & Email</th>
         <th scope="col">Username</th>
         <th scope="col">Languages</th>
         <th scope="col">Translations</th>
@@ -11,7 +11,7 @@
   <tbody>
   <@ FOREACH user IN users @>
     <tr>
-      <td scope="row" width="50">#<@ user.id @></td>
+      <td scope="row">#<@ user.id @><br/><@ IF user.data @><@ user.data.email @><@ END @></td>
       <td><@ INCLUDE user/username32.tt @></td>
       <td>
 		<@ FOR user_language IN user.user_languages @>
