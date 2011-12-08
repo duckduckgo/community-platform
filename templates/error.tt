@@ -78,8 +78,8 @@
 <body>
 <div id="content">
     <ul class="actions infobox">   
-	<li><a href="https://duckduckgo.com/">
-		<img style="padding-top:10px;" title="DuckDuckGo Community Platform" alt="DuckDuckGo Community Platform" src="../root/static/images/cduck.large.png" id="d">
+	<li><a href="/">
+		<img style="padding-top:10px;" title="DuckDuckGo Community Platform" alt="DuckDuckGo Community Platform" src="/static/images/cduck.large.png" id="d">
 	</a></li>
 	<li>
 		ERROR WHILE PROCESSING YOUR REQUEST
