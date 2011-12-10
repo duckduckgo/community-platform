@@ -252,15 +252,6 @@ header {
 	cursor: pointer;
 }
 
-.warn {
-        background-color: red;
-        border-radius: 4px; 
-        box-shadow: 0 1px 3px 0;
-        color: white;
-        padding: 4px;
-        width: 290px; 
-        display: none;
-}
 
 /****************** legacybox *****************/
 

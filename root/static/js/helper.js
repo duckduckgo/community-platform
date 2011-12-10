@@ -182,14 +182,21 @@ sprintf = sprintfWrapper.init;
 function placeholder_check(t, s)
 {
         var m = t.value.match(/%(?:\d\$)?s/g);
-        if (m === null) {
-                $(t).next('div').show();
+        var n = s.match(/%(?:\d\$)?s/g);
+        
+        if (m == null && n == null) {
+                $(t).next('div').hide();
         } else {
-                if (m.length >= s.match(/%(?:\d\$)?s/g).length) {
-                        $(t).next('div').hide();
-                } else {
+                if (m == null) {
                         $(t).next('div').show();
+                } else {
+                        if (m.length >= n.length) {
+                                $(t).next('div').hide();
+                        } else {
+                                $(t).next('div').show();
+                        }
                 }
+
         }
 }
 
