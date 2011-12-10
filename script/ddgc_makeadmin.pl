@@ -8,8 +8,6 @@ use lib $FindBin::Dir . "/../lib";
 use strict;
 use DDGC::DB;
 
-use Data::Printer;
-
 my $username = shift @ARGV;
 
 die "please give a username" unless $username;
