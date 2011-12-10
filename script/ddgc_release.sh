@@ -41,5 +41,5 @@ ssh -q -t ddgc@$DDGC_RELEASE_HOSTNAME "(
 	mkdir ~/cache &&
 	cp -ar ~/live/share/docroot/* ~/docroot/
 )" && \
-ssh -q -t root@view.dukgo.com "( svc -u /etc/service/ddgc && rm /home/ddgc/ddgc_web_maintenance )" && \
+ssh -q -t root@$DDGC_RELEASE_HOSTNAME "( svc -u /etc/service/ddgc && rm /home/ddgc/ddgc_web_maintenance )" && \
 echo "Release successful"
