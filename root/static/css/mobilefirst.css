@@ -518,7 +518,7 @@ ul.admin {
   box-shadow: 0 1px 3px 0;
   color: white;
   padding: 4px;
-  width: 20em;
+  max-width: 19em;
   font-size: 1em;
   display: none;
 }
