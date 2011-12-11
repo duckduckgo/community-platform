@@ -37,7 +37,7 @@ column flagicon => {
 	data_type => 'text',
 	is_nullable => 1,
 };
-sub flag_url { 'http://duckduckgo.com/f2/'.(shift->flagicon).'.png' }
+sub flag_url { 'https://duckduckgo.com/f2/'.(shift->flagicon).'.png' }
 
 column nplurals => {
 	data_type => 'tinyint',

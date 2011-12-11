@@ -14,7 +14,7 @@
     <li><a href="https://duck.co/topic/duckduckgo-s-new-public-xmpp-jabber-service-on-dukgo-com">Chat via XMPP/Jabber</a></li>
     <li><a href="https://github.com/duckduckgo/community-platform">Develop this site</a></li>
     <li><a href="https://github.com/duckduckgo/duckduckgo/wiki">Develop goodies</a></li>
-    <li><a href="http://duckduckgo.com/spread.html">Spread DuckDuckGo!</a></li>
+    <li><a href="https://duckduckgo.com/spread.html">Spread DuckDuckGo!</a></li>
     <li><a href="<@ u('Base','feedback') @>">Submit feedback</a></li>
   </ul>
 </div>
@@ -22,17 +22,17 @@
 <div class="aboutddg">
   <h2>DuckDuckGo Sites</h2>
   <ul>
-    <li><a href="http://donttrack.us/">DontTrack.us</a></li>
-    <li><a href="http://dontbubble.us/">DontBubble.us</a></li>
+    <li><a href="https://donttrack.us/">DontTrack.us</a></li>
+    <li><a href="https://dontbubble.us/">DontBubble.us</a></li>
     <li><a href="http://help.duckduckgo.com/">Help</a></li>
-    <li><a href="http://duck.co/">Forum</a></li>
+    <li><a href="https://duck.co/">Forum</a></li>
   </ul>
   <h2>DuckDuckGo Social</h2>
   <ul>
-    <li><a href="http://twitter.com/duckduckgo">Twitter</a> (<a href="http://twitter.com/duckduckgo/team/members">Team</a>)</li>
-    <li><a href="http://facebook.com/duckduckgo">Facebook</a></li>
+    <li><a href="https://twitter.com/duckduckgo">Twitter</a> (<a href="http://twitter.com/duckduckgo/team/members">Team</a>)</li>
+    <li><a href="https://facebook.com/duckduckgo">Facebook</a></li>
     <li><a href="http://www.reddit.com/r/duckduckgo">/r/duckduckgo</a></li>
-    <li><a href="http://identi.ca/duckduckgo">identi.ca</a></li>
+    <li><a href="https://identi.ca/duckduckgo">identi.ca</a></li>
     <li><a href="https://joindiaspora.com/u/duckduckgo">diaspora</a></li>
     <li><a href="http://webchat.freenode.net/?channels=duckduckgo">IRC Channel</a></li>
     <li><a href="https://github.com/duckduckgo">GitHub</a></li>
