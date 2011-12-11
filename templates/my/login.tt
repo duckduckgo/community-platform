@@ -1,3 +1,9 @@
+<@ IF not_valid_username @>
+  <p class="error">
+    <@ l('The username you have given is not valid!') @>
+	<@ l('Don\'t try to log in with your email or your jabber address, just use the username before the \'@\'.') @>
+  </p>
+<@ END @>
 <@ IF c.req.params.register_successful @>
 	<h2>Thanks for your registration, you can now login.</h2>
 <@ END @>

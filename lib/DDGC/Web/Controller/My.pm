@@ -261,7 +261,7 @@ sub forgotpw :Chained('logged_out') :Args(0) {
 	$c->stash->{forgotpw_username} = lc($c->req->params->{username});
 	$c->stash->{forgotpw_email} = $c->req->params->{email};
 	my $user = $c->d->find_user($c->stash->{forgotpw_username});
-	if (!$user || !$user->data->{email} || $c->stash->{forgotpw_email} ne $user->data->{email}) {
+	if (!$user || !$user->data || !$user->data->{email} || $c->stash->{forgotpw_email} ne $user->data->{email}) {
 		$c->stash->{wrong_user_or_wrong_email} = 1;
 		return;
 	}
@@ -290,15 +290,19 @@ sub login :Chained('logged_out') :Args(0) {
     my ( $self, $c ) = @_;
 
 	$c->stash->{no_userbox} = 1;
-	
-	if ( my $username = lc($c->req->params->{username}) and my $password = $c->req->params->{password} ) {
-		if ($c->authenticate({
-			username => $username,
-			password => $password,
-		}, 'users')) {
-			$c->response->redirect($c->chained_uri('My','account'));
-		} else {
-			$c->stash->{login_failed} = 1;
+
+	if ($c->req->params->{username} !~ /^[a-zA-Z0-9_\.]+$/) {
+		$c->stash->{not_valid_username} = 1;
+	} else {
+		if ( my $username = lc($c->req->params->{username}) and my $password = $c->req->params->{password} ) {
+			if ($c->authenticate({
+				username => $username,
+				password => $password,
+			}, 'users')) {
+				$c->response->redirect($c->chained_uri('My','account'));
+			} else {
+				$c->stash->{login_failed} = 1;
+			}
 		}
 	}
 }
