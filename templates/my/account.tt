@@ -1,6 +1,16 @@
     <div class="text account">
+	<div>
       <h2>Welcome to your DuckDuckGo community account!</h2>
 	  <h3>Please note: you do not need to share personal information to have or use this account.</h3>
+    </div>
+	  
+	<@ IF xmpp_userhost != 'dukgo.com' @>
+		<div>
+			<h1>This is a development system, no data is used for the production environment! All data you enter here is only for testing!</h1>
+			<h1>This account will not work on the live system <a href="https://dukgo.com/">https://dukgo.com/</a></h1>
+		</div>
+	<@ END @>
+	
 
       <div>
         <!--p class="button"><a href="<@ u('Help','view','mylanguages') @>"><@ l('Information') @></a></p-->

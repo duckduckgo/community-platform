@@ -4,8 +4,6 @@ use namespace::autoclean;
 
 BEGIN { extends 'Catalyst::Controller' }
 
-use DDGC::Config;
-
 __PACKAGE__->config(namespace => '');
 
 sub base :Chained('/') :PathPart('') :CaptureArgs(0) {
@@ -13,7 +11,8 @@ sub base :Chained('/') :PathPart('') :CaptureArgs(0) {
 	$c->stash->{template_layout} = [ 'base.tt' ];
 	$c->stash->{u} = sub { $c->chained_uri(@_) };
 	$c->stash->{l} = sub { $c->localize(@_) };
-	$c->stash->{xmpp_userhost} = DDGC::Config::prosody_userhost;
+	$c->stash->{ddgc_config} = $c->d->config;
+	$c->stash->{xmpp_userhost} = $c->d->config->prosody_userhost;
 }
 
 sub index :Chained('base') :PathPart('') :Args(0) {
