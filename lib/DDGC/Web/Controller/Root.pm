@@ -14,6 +14,7 @@ sub base :Chained('/') :PathPart('') :CaptureArgs(0) {
 	$c->stash->{ddgc_config} = $c->d->config;
 	$c->stash->{xmpp_userhost} = $c->d->config->prosody_userhost;
 	$c->stash->{prefix_title} = 'DuckDuckGo Community';
+	$c->stash->{user_counts} = $c->d->user_counts;
 }
 
 sub index :Chained('base') :PathPart('') :Args(0) {

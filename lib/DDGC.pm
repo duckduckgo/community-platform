@@ -151,7 +151,17 @@ sub find_user {
 	});
 }
 
-use Data::Printer;
+sub user_counts {
+	my ( $self ) = @_;
+	my %counts;
+	$counts{db} = $self->db->resultset('User')->count;
+	$counts{xmpp} = $self->xmpp->_prosody->_db->resultset('Prosody')->search({
+		host => $self->config->prosody_userhost,
+	},{
+		group_by => 'user',
+	})->count;
+	return \%counts;
+}
 
 sub flaglist { map { chomp; $_; } io( File::Spec->catfile(dist_dir('DDGC'), 'flaglist.txt') )->slurp }
 
