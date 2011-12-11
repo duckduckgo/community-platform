@@ -13,6 +13,7 @@ sub base :Chained('/') :PathPart('') :CaptureArgs(0) {
 	$c->stash->{l} = sub { $c->localize(@_) };
 	$c->stash->{ddgc_config} = $c->d->config;
 	$c->stash->{xmpp_userhost} = $c->d->config->prosody_userhost;
+	$c->stash->{prefix_title} = 'DuckDuckGo Community';
 }
 
 sub index :Chained('base') :PathPart('') :Args(0) {

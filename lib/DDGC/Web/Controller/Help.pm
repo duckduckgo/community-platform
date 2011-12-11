@@ -6,6 +6,7 @@ BEGIN {extends 'Catalyst::Controller'; }
 
 sub base :Chained('/base') :PathPart('help') :CaptureArgs(0) {
     my ( $self, $c ) = @_;
+	$c->stash->{title} = 'Help';
 	$c->stash->{headline_template} = 'headline/help.tt';
 }
 

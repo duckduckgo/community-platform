@@ -13,6 +13,7 @@ sub base :Chained('/base') :PathPart('translate') :CaptureArgs(0) {
 		$c->response->redirect($c->chained_uri('Translate','index'));
 		return $c->detach;
 	}
+	$c->stash->{title} = 'Translations';
 }
 
 sub do :Chained('base') :CaptureArgs(0) {

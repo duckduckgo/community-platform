@@ -25,10 +25,13 @@ sub captcha :Chained('base') :Args(0) {
 
 sub welcome :Chained('base') :Args(0) {
 	my ($self, $c) = @_;
+	$c->stash->{title} = 'Welcome';
 }
 
 sub feedback :Chained('base') :Args(0) {
 	my ($self, $c) = @_;
+	$c->stash->{title} = 'Feedback';
+
 	delete $c->stash->{headline_template};
 	
 	if ($c->req->params->{submit} && $c->req->params->{feedback}) {
@@ -59,6 +62,8 @@ sub feedback :Chained('base') :Args(0) {
 
 sub requestlanguage :Chained('base') :Args(0) {
 	my ($self, $c) = @_;
+	$c->stash->{title} = 'Request language';
+
 	delete $c->stash->{headline_template};
 	
 	if ($c->req->params->{submit}) {

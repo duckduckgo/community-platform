@@ -12,6 +12,7 @@ sub base :Chained('/base') :PathPart('admin') :CaptureArgs(0) {
 		$c->response->redirect($c->chained_uri('Base','welcome',{ admin_required => 1 }));
 		return $c->detach;
 	}
+	$c->stash->{title} = 'Admin area';
 	$c->stash->{headline_template} = 'headline/admin.tt';
 }
 
