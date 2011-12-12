@@ -33,6 +33,15 @@ sub logged_in :Chained('base') :PathPart('') :CaptureArgs(0) {
 	}
 }
 
+sub tokenlanguage :Chained('logged_in') :Args(1) {
+	my ( $self, $c, $token_language_id ) = @_;
+	$c->stash->{token_language} = $c->d->rs('Token::Language')->find({ id => $token_language_id });
+	if (!$c->stash->{token_language}) {
+		$c->response->redirect($c->chained_uri('Translate','index',{ no_token_language => 1 }));
+		return $c->detach;
+	}
+}
+
 sub domain :Chained('logged_in') :PathPart('') :CaptureArgs(1) {
     my ( $self, $c, $token_domain_key ) = @_;
 	$c->stash->{locale} = $c->req->params->{locale} ? $c->req->params->{locale} :
@@ -77,6 +86,16 @@ sub locale :Chained('domain') :PathPart('') :CaptureArgs(1) {
 	}
 	$c->stash->{cur_language} = $c->stash->{locales}->{$c->stash->{locale}}->{l};
 	$c->session->{cur_locale}->{$c->stash->{token_domain}->key} = $c->stash->{locale};
+}
+
+sub allsnippets :Chained('locale') :Args(0) {
+    my ( $self, $c ) = @_;
+	$c->stash->{token_languages} = $c->stash->{locales}->{$c->stash->{locale}}->{tcl}->token_languages->search({
+		'token.type' => 1,
+	},{
+		order_by => 'me.created',
+		prefetch => 'token',
+	});
 }
 
 sub snippets :Chained('locale') :Args(0) {

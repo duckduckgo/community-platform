@@ -1,0 +1,26 @@
+<h1>All snippets for <@ token_domain.name @></h1>
+<h2>Language: <@ cur_language.name_in_english @> <img src="<@ cur_language.flag_url @>"></h2>
+<div style="text-align:left">
+  <@ FOR token_language IN token_languages.all @>
+    <div>
+	  <div>
+	   <a href="<@ u('Translate','tokenlanguage',token_language.id) @>"><@ token_language.token.msgid @></a>
+   	  <@ IF token_language.msgstr @>
+	    (<@ l('A translation is in use') @>)
+	  <@ END @>
+	  </div>
+      <div>
+	  <@ IF token_language.token_language_translations @>
+		  <@ l('Translated by') @>:
+		  <@ FOR translation IN token_language.token_language_translations @>
+			<@ INCLUDE user/userpic.tt userpic_size=16 user=translation.user @>
+		  <@ END @>
+	  <@ ELSE @>
+	    <@ l('Not yet translated') @>
+	  <@ END @>
+      </div>
+    </div>
+  <@ END @>
+</div>
+<hr>
+<div><a href="<@ u('Translate','index') @>"><@ l('Back to all text domains') @></a></div>

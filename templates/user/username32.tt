@@ -1,5 +1,5 @@
 <@ IF user @>
-	<img width="32" height="32" src="<@ user.public ? user.profile_picture ? user.profile_picture(32) : '/static/images/profile.male.png' : '/static/images/profile.anonymous.png' @>">
+	<@ INCLUDE user/userpic.tt userpic_size=32 @>
 	<@ IF user.admin @><span style="color:green"><@ END @>
 	<@ IF c.user && c.user.admin @>
 		<@ user.username @>
