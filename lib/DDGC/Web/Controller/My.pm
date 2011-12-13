@@ -292,7 +292,7 @@ sub login :Chained('logged_out') :Args(0) {
 
 	$c->stash->{no_userbox} = 1;
 
-	if ($c->req->params->{username} !~ /^[a-zA-Z0-9_\.]+$/) {
+	if ($c->req->params->{username} && $c->req->params->{username} !~ /^[a-zA-Z0-9_\.]+$/) {
 		$c->stash->{not_valid_username} = 1;
 	} else {
 		if ( my $username = lc($c->req->params->{username}) and my $password = $c->req->params->{password} ) {
