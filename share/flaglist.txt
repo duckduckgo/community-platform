@@ -173,6 +173,7 @@ pe
 pf
 pg
 ph
+pirate
 pk
 pl
 pm
