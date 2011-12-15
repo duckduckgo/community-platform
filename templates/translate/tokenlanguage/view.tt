@@ -3,6 +3,8 @@
 
 <fieldset><!-- fieldset per term to translate-->
   <legend class="ac"><span><@ token_language.token.msgid @></span></legend>
+  <fieldset>
+  <legend><span><@ l('Token to translate') @></span></legend>
   <dl>
     <@ IF token_language.token.msgctxt @>
       <dt><@ l('Context') @>: </dt>
@@ -15,6 +17,7 @@
       <dd><span><@ token_language.token.msgid_plural @></span></dd>
     <@ END @>
   </dl>
+  </fieldset>
 
   <fieldset>
     <legend><span><@ l('Your suggested translation') @></span></legend>
@@ -32,9 +35,12 @@
   <@ IF other_translations @>
 	  <fieldset>
 		<legend><span><@ l('Translations of other users') @></span></legend>
+	    <span id="token_other_<@ token_language.id @>_show"><@ l('Click here to see translations of other people') @></span>
+        <div id="token_other_<@ token_language.id @>_toggle">
 		<@ FOR translation IN other_translations @>
 		  <@ INCLUDE translate/snippets/translation.tt show_translation_buttons=1 @>
 		<@ END @>
+		</div>
 	  </fieldset>
 	<@ END @>
 
@@ -64,6 +70,7 @@
     </fieldset>
  <@ END @>
 
+	<@ IF show_translation_in_use @>
     <fieldset>
       <legend><span><@ l('Translation in use') @></span></legend>
       <@ IF token_language.msgstr @>
@@ -72,9 +79,18 @@
         <p><@ l('Not yet any translation in use') @></p>
       <@ END @>
     </fieldset>
+	<@ END @>
   
     <script type="text/javascript">
       $(function() {
+          $('#token_other_<@ token_language.id @>_toggle').hide();
+          $('#token_other_<@ token_language.id @>_show').toggle(function(){
+              $('#token_other_<@ token_language.id @>_toggle').show();
+			  $('#token_other_<@ token_language.id @>_show').html('<@ l('Hide translations of other people') @>');
+          },function(){
+              $('#token_other_<@ token_language.id @>_toggle').hide();
+			  $('#token_other_<@ token_language.id @>_show').html('<@ l('Click here to see translations of other people') @>');
+          });
           $('#token_notes_<@ token_language.id @>_toggle').hide();
           $('#token_notes_<@ token_language.id @>_help').toggle(function(){
               $('#token_notes_<@ token_language.id @>_toggle').show();
@@ -87,7 +103,12 @@
     </script>
 
 <@ IF show_token_language_link @>
-  <div><a href="<@ u('Translate','tokenlanguage',token_language.id) @>">Page about this token for this language</a></div>
+  <div>
+	<a href="<@ u('Translate','tokenlanguage',token_language.id) @>">Page about this token for this language</a>
+    <@ IF !show_translation_in_use && token_language.msgstr @>
+      (<@ l('Here you can also see the translation which is in use') @>)
+    <@ END @>
+  </div>
 <@ END @>
   
 </fieldset>
