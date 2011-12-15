@@ -140,8 +140,7 @@ sub users {{
 	'testtwo' => {
 		pw => 'test1234',
 		public => 1,
-		admin => 1,
-		notes => 'Testuser, admin, public, es',
+		notes => 'Testuser, public, es',
 		languages => {
 			es => 6,
 		},
@@ -157,7 +156,8 @@ sub users {{
 	},
 	'testfour' => {
 		pw => '1234test',
-		notes => 'Testuser, de, es, us',
+		notes => 'Testuser, admin, de, es, us',
+		admin => 1,
 		languages => {
 			de => 3,
 			es => 3,
