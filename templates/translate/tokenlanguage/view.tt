@@ -70,7 +70,7 @@
     </fieldset>
  <@ END @>
 
-	<@ IF show_translation_in_use @>
+	<@ IF !show_token_language_link @>
     <fieldset>
       <legend><span><@ l('Translation in use') @></span></legend>
       <@ IF token_language.msgstr @>
@@ -105,8 +105,8 @@
 <@ IF show_token_language_link @>
   <div>
 	<a href="<@ u('Translate','tokenlanguage',token_language.id) @>">Page about this token for this language</a>
-    <@ IF !show_translation_in_use && token_language.msgstr @>
-      (<@ l('Here you can also see the translation which is in use') @>)
+    <@ IF token_language.msgstr @>
+      (<@ l('There you can also see the translation which is in use') @>)
     <@ END @>
   </div>
 <@ END @>

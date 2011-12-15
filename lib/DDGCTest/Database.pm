@@ -220,40 +220,6 @@ sub add_users {
 
 sub token_domains {{
 	'test' => {
-		name => 'Test area, playfield for you',
-		base => 'us',
-		description => 'Play around with the translation interface without doing any harm! :)',
-		languages => [qw( de es br ru fr se in da )],
-		snippets => [
-			'From %s to %s over %s', {},
-			'THIS IS SPARTA', {},
-			'You should duck %s', {},
-			'Around the world', {},
-			'I\'m a little teapot', {},
-			'Bird is the word', {},
-			'%s is the %s', {},
-			'You have %s', {},
-			'%s message', '%s messages', {},
-		],
-		texts => [
-			'::test::something::1' => {
-				notes => {
-					token => 'The first paragraph should be about love'
-				},
-			},
-			'::test::something::2' => {
-				notes => {
-					token => 'The second paragraph should be about war'
-				},
-			},
-			'::test::something::3' => {
-				notes => {
-					token => 'And the third paragraph should be about DuckDuckGo!'
-				},
-			},
-		],
-	},
-	'test-domain' => {
 		name => 'The domain of tests',
 		base => 'us',
 		description => 'Bla blub the test is dead the test is dead!',
@@ -285,59 +251,6 @@ sub token_domains {{
 					'us' => 'You ar %s from %s',
 				},
 			},
-			'You have %d message', 'You have %d messages', {
-				testone => {
-					'de' => [ 'Du hast %d Nachricht', 'Du hast %d Nachrichten' ],
-					'us' => [ 'Yu hav %d meage', 'Yuuu hve %d meages' ],
-				},
-				testthree => {
-					'us' => [ 'You have %d message', 'You have %d messages' ],
-				},
-				testfive => {
-					'ru' => [ 'У вас %d сообщение', 'У вас %d сообщения', 'У вас %d сообщений' ],					
-					'us' => [ 'You have %d mssage', 'You have %d messges' ],
-				},
-			},
-			'No idea', {},
-			'No clue', {},
-			'Wtf is that?', {},
-			'Come again?', {},
-			'Trying to be funny?', {},
-			'Umm, I gotta run, talk to you later!', {},
-			'Leave me alone', 'Leave me alone', {},
-			'Do I have to know that?', {},
-			'My dum-dum wants gum-gum', {},
-			'Pay me!', 'Pay me!', {},
-			'Hold on a sec... just wait...umm I\'ll be right back!!', {},
-			'Mooooooo-o-o', {},
-			'Huh?', {},
-			'Waddayawant?!', {},
-			'Yeah, right!! Keep on waiting!', {},
-			'*yawn*', {},
-			'Don\'t leave! I\'m coming!', {},
-			'Where is my sugar?', {},
-			'I\'m not that smart :(', {},
-			'lalalala-lala-lala', 'lalalala-lala-lala', {},
-			'me iz teh suck, ask some1 else', {},
-			'must.... eat... batteries..', {},
-			'Something tells me you are trying to fool me...', {},
-			'NO! I will NOT tell you that!', {},
-			'Stop picking on bots, you racist!!', {},
-			'Do you have to bug me so much just because I am a bot?', {},
-			'Not enough megahurts :(', {},
-			'Can\'t tell you, it\'s a secret!', {},
-			'Hrooop, something\'s broke!', {},
-			'If you don\'t know, why should I? >:O', {},
-		],
-		texts => [
-		],
-	},
-	'more-tests' => {
-		name => 'The domain of other tests wow!',
-		base => 'us',
-		description => 'PRAISE THE TEST!',
-		languages => [qw( de es br ru )],
-		snippets => [
 			'Yes dude %s %s %s', {
 				testone => {
 					'de' => 'Jawohl %s Der %s Herr %s',
@@ -403,11 +316,56 @@ sub token_domains {{
 					'us' => [ 'You have %d mssage', 'You have %d messges' ],
 				},
 			},
+			'No idea', {},
+			'No clue', {},
+			'Wtf is that?', {},
+			'Come again?', {},
+			'Trying to be funny?', {},
+			'Umm, I gotta run, talk to you later!', {},
+			'Leave me alone', 'Leave me alone', {},
+			'Do I have to know that?', {},
+			'My dum-dum wants gum-gum', {},
+			'Pay me!', 'Pay me!', {},
+			'Hold on a sec... just wait...umm I\'ll be right back!!', {},
+			'Mooooooo-o-o', {},
+			'Huh?', {},
+			'Waddayawant?!', {},
+			'Yeah, right!! Keep on waiting!', {},
+			'*yawn*', {},
+			'Don\'t leave! I\'m coming!', {},
+			'Where is my sugar?', {},
+			'I\'m not that smart :(', {},
+			'lalalala-lala-lala', 'lalalala-lala-lala', {},
+			'me iz teh suck, ask some1 else', {},
+			'must.... eat... batteries..', {},
+			'Something tells me you are trying to fool me...', {},
+			'NO! I will NOT tell you that!', {},
+			'Stop picking on bots, you racist!!', {},
+			'Do you have to bug me so much just because I am a bot?', {},
+			'Not enough megahurts :(', {},
+			'Can\'t tell you, it\'s a secret!', {},
+			'Hrooop, something\'s broke!', {},
+			'If you don\'t know, why should I? >:O', {},
 		],
 		texts => [
+			'::test::something::1' => {
+				notes => {
+					token => 'The first paragraph should be about love'
+				},
+			},
+			'::test::something::2' => {
+				notes => {
+					token => 'The second paragraph should be about war'
+				},
+			},
+			'::test::something::3' => {
+				notes => {
+					token => 'And the third paragraph should be about DuckDuckGo!'
+				},
+			},
 		],
 	},
-	'feeling-words' => {
+	'long-list-test' => {
 		name => 'taken from some list of feeling words',
 		base => 'us',
 		description => 'feelings.. nothing more then feelings!',
