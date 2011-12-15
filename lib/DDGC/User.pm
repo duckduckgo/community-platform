@@ -36,6 +36,8 @@ has db => (
 		token_language_translations
 		profile_picture
 		public_username
+		roles
+		translation_manager
 	),qw(
 		create_related
 		find_related

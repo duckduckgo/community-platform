@@ -41,8 +41,8 @@
       <!--div id="token_notes_<@ token_language.id @>" class="token_notes"-->
       <div class="toggle"><!--offscreen unless toggled by hasTokens above-->
         <@ IF c.user.admin @>
-	      <label for="token_notes_<@ token_language.id @>_edit">Token Notes </label>
-          <textarea cols="40" rows="5" id="token_notes_<@ token_language.id @>_edit" name="token_notes_<@ token_language.id @>_edit"><@ token_language.token.notes | html @></textarea>
+	      <label for="token_notes_<@ token_language.token.id @>_edit">Token Notes </label>
+          <textarea cols="40" rows="5" id="token_notes_<@ token_language.token.id @>_edit" name="token_notes_<@ token_language.token.id @>_edit"><@ token_language.token.notes | html @></textarea>
         <@ ELSE @>
 	      <p><@ token_language.token.notes @></p>
 	    <@ END @>

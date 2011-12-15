@@ -49,6 +49,22 @@ column updated => {
 	set_on_update => 1,
 };
 
+column roles => {
+	data_type => 'text',
+	is_nullable => 1,
+	default_value => '',
+};
+
+sub translation_manager { shift->is('translation_manager') }
+
+sub is {
+	my ( $self, $role ) = @_;
+	return 0 if !$role;
+	return 1 if $self->admin;
+	return 1 if $self->roles =~ m/$role/;
+	return 0;
+}
+
 has_many 'screens', 'DDGC::DB::Result::Screen', { 'foreign.username' => 'self.username' };
 has_many 'token_language_translations', 'DDGC::DB::Result::Token::Language::Translation', { 'foreign.username' => 'self.username' };
 has_many 'user_languages', 'DDGC::DB::Result::User::Language', { 'foreign.username' => 'self.username' };

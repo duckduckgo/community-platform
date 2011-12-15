@@ -114,6 +114,16 @@ sub gettext_snippet_formatter {
 	return $return;
 }
 
+sub set_user_translation {
+	my ( $self, $user, $translation ) = @_;
+	$self->update_or_create_related('token_language_translations',{
+		%{$translation},
+		user => $user->db,
+	},{
+		key => 'token_language_translation_token_language_id_username',
+	});
+}
+
 sub set_translation {
 	my ( $self, $translation ) = @_;
 	for (0..$self->msgstr_index_max) {

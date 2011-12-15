@@ -149,6 +149,7 @@ sub users {{
 	'testthree' => {
 		pw => '1234test',
 		public => 1,
+		roles => 'translation_manager',
 		notes => 'Testuser, public, us',
 		languages => {
 			us => 6,
