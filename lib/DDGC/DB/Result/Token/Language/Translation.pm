@@ -60,11 +60,6 @@ column token_language_id => {
 	is_nullable => 0,
 };
 
-# column users_id => {
-	# data_type => 'bigint',
-	# is_nullable => 0,
-# };
-
 column check_result => {
 	data_type => 'int',
 	is_nullable => 1,
@@ -81,6 +76,10 @@ column check_users_id => {
 };
 sub checked { shift->check_users_id ? 1 : 0 }
 
+# column users_id => {
+	# data_type => 'bigint',
+	# is_nullable => 0,
+# };
 column username => {
 	data_type => 'text',
 	is_nullable => 0,

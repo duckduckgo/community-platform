@@ -145,6 +145,15 @@ sub save_translate_params {
 
 sub snippets :Chained('locale') :Args(0) {
     my ( $self, $c ) = @_;
+	my $placeholder_notes = ( $c->user->data && defined $c->user->data->{placeholder_notes} ) ? $c->user->data->{placeholder_notes} : 1;
+	if (defined $c->req->params->{placeholder_notes}) {
+		$placeholder_notes = $c->req->params->{placeholder_notes};
+		my $data = $c->user->data || {};
+		$data->{placeholder_notes} = $placeholder_notes;
+		$c->user->data($data);
+		$c->user->update;
+	}
+	$c->stash->{placeholder_notes} = $placeholder_notes;
 	$c->pager_init($c->action.$c->stash->{token_domain}->key.$c->stash->{locale},20);
 	my $save_translations = $c->req->params->{save_translations} || $c->req->params->{save_translations_next_page} ? 1 : 0;
 	my $next_page = $c->req->params->{save_translations_next_page} ? 1 : 0;
