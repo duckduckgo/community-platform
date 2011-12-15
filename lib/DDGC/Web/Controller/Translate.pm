@@ -88,15 +88,12 @@ sub domain :Chained('logged_in') :PathPart('') :CaptureArgs(1) {
 		};
 		$c->stash->{last_locale} = $_->language->locale;
 	}
+	$c->stash->{locale} = $c->stash->{last_locale} if !$c->stash->{locale};
 }
 
 sub domainindex :Chained('domain') :PathPart('') :Args(0) {
     my ( $self, $c ) = @_;
-	if ($c->stash->{locale}) {
-		$c->response->redirect($c->chained_uri('Translate','snippets',$c->stash->{token_domain}->key,$c->stash->{locale}));
-	} else {
-		$c->response->redirect($c->chained_uri('Translate','index',{ cantspeak => 'any' }));
-	}
+	$c->response->redirect($c->chained_uri('Translate','snippets',$c->stash->{token_domain}->key,$c->stash->{locale}));
 	return $c->detach;
 }
 

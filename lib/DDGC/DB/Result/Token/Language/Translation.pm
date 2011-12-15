@@ -112,6 +112,8 @@ sub set_check {
 		$self->check_result($check ? 1 : 0);
 		$self->check_users_id($user->id);
 		$self->check_timestamp(DateTime->now);
+	} else {
+		die "you are not a translation manager, you cant check the translation!";
 	}
 }
 
