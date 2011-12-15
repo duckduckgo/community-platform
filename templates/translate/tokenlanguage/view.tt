@@ -98,6 +98,12 @@
               $('#token_notes_<@ token_language.id @>_toggle').hide();
 			  $('#token_notes_<@ token_language.id @>_help').html('<@ l('Click here to see extra informations about the token') @>');
           });
+		  <@ IF !show_token_language_link @>
+		    $('#token_other_<@ token_language.id @>_show').trigger('click');
+		    $('#token_notes_<@ token_language.id @>_help').trigger('click');
+		  <@ ELSIF !c.user.can_speak(token_language.language.locale) @>
+		    $('#token_other_<@ token_language.id @>_show').trigger('click');
+		  <@ END @>
       });
     </script>
 
