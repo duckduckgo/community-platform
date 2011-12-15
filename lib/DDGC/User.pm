@@ -38,6 +38,8 @@ has db => (
 		public_username
 		roles
 		translation_manager
+		can_speak
+		lul
 	),qw(
 		create_related
 		find_related

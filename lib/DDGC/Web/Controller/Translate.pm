@@ -75,18 +75,18 @@ sub domain :Chained('logged_in') :PathPart('') :CaptureArgs(1) {
 		},
 	});
 	$c->stash->{locales} = {};
-	for ($c->stash->{token_domain}->token_domain_languages) {
-		my $l = $_->language;
-		my $tcl = $_;
-		my $u;
-		$u = $c->user->locales->{$l->locale} if $c->user->locales->{$l->locale};
-		$c->stash->{locale} = $u->language->locale if $u && !$c->stash->{locale};
-		$c->stash->{locales}->{$l->locale} = {
-			l => $l,
-			u => $u,
-			tcl => $tcl,
+	$c->stash->{token_domain_languages} = [$c->stash->{token_domain}->token_domain_languages->search({},{
+		order_by => { -asc => 'locale' },
+	})->all];
+	for (@{$c->stash->{token_domain_languages}}) {
+		my $locale = $_->language->locale;
+		$c->stash->{locale} = $locale if !$c->stash->{locale} && $c->user->can_speak($locale);
+		$c->stash->{locales}->{$locale} = {
+			l => $_->language,
+			u => defined $c->user->lul->{$locale} ? $c->user->lul->{$locale} : undef,
+			tcl => $_,
 		};
-		$c->stash->{last_locale} = $l->locale;
+		$c->stash->{last_locale} = $_->language->locale;
 	}
 }
 
@@ -103,10 +103,6 @@ sub domainindex :Chained('domain') :PathPart('') :Args(0) {
 sub locale :Chained('domain') :PathPart('') :CaptureArgs(1) {
     my ( $self, $c, $locale ) = @_;
 	$c->stash->{locale} = $locale;
-	if (!$c->user->translation_manager && !$c->stash->{locales}->{$c->stash->{locale}}->{u}) {
-		$c->response->redirect($c->chained_uri('Translate','index',{ cantspeak => $locale }));
-		return $c->detach;
-	}
 	$c->stash->{cur_language} = $c->stash->{locales}->{$c->stash->{locale}}->{l};
 	$c->session->{cur_locale}->{$c->stash->{token_domain}->key} = $c->stash->{locale};
 }

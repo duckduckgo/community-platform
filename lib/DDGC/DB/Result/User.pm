@@ -1,6 +1,7 @@
 package DDGC::DB::Result::User;
 
 use DBIx::Class::Candy -components => [ 'TimeStamp', 'InflateColumn::DateTime', 'InflateColumn::Serializer', 'EncodedColumn', 'AlwaysUpdate' ];
+use Moose;
 
 table 'users';
 
@@ -63,6 +64,28 @@ sub is {
 	return 1 if $self->admin;
 	return 1 if $self->roles =~ m/$role/;
 	return 0;
+}
+
+has _locale_user_languages => (
+	isa => 'HashRef[DDGC::DB::Result::User::Language]',
+	is => 'ro',
+	lazy_build => 1,
+);
+sub lul { shift->_locale_user_languages }
+
+sub can_speak {
+	my ( $self, $locale ) = @_;
+	return defined $self->lul->{$locale};
+}
+
+sub _build__locale_user_languages {
+	my ( $self ) = @_;
+	my @user_languages = $self->user_languages;
+	my %lul;
+	for (@user_languages) {
+		$lul{$_->language->locale} = $_;
+	}
+	return \%lul;
 }
 
 has_many 'screens', 'DDGC::DB::Result::Screen', { 'foreign.username' => 'self.username' };
