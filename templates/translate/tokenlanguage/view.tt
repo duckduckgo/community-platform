@@ -39,7 +39,7 @@
   <@ IF other_translations @>
 	  <fieldset>
 		<legend><span><@ l('Translations of other users') @></span></legend>
-	    <span id="token_other_<@ token_language.id @>_show"><@ l('Click here to see translations of other people') @></span>
+	    <div id="token_other_<@ token_language.id @>_show"><@ l('Click here to see translations of other people') @></div>
         <div id="token_other_<@ token_language.id @>_toggle">
 		<@ FOR translation IN other_translations @>
 		  <@ INCLUDE translate/snippets/translation.tt show_translation_buttons=1 @>
@@ -51,12 +51,7 @@
   <@ IF c.user.translation_manager || token_language.token.notes || token_language.notes @>
     <fieldset>
 	  <legend><span><@ l('Token Notes') @></span></legend>
-	  <!--label for="token_notes_<@ token_language.id @>_show"><@ l('Show Token Notes?') @></label>
-	  <select id="token_notes_<@ token_language.id @>_show">
-	    <option value="no"><@ l('No') @></option>
-	    <option value="yes"><@ l('Yes') @></option>
-	  </select-->
-	  <span id="token_notes_<@ token_language.id @>_help" class="token_notes_help help"><@ l('Click here to see extra informations about the token') @></span>
+	  <div id="token_notes_<@ token_language.id @>_help" class="token_notes_help help"><@ l('Click here to see extra informations about the token') @></div>
       <div id="token_notes_<@ token_language.id @>_toggle" class="token_notes_toggle"><!--offscreen unless toggled by hasTokens above-->
         <@ IF c.user.translation_manager @>
 	      <label for="token_notes_<@ token_language.token.id @>_edit">Token Notes </label>
