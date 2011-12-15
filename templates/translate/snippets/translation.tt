@@ -1,4 +1,4 @@
-<div class="translations">
+<div>
   <@ IF translation_headline @>
 	<@ translation_headline @>
   <@ ELSE @>
@@ -11,4 +11,6 @@
       <dd><@ translation.$func @></dd>
     <@ END @>
   </dl>
+  <@ IF show_translation_buttons @>
+  <@ END @>
 </div>

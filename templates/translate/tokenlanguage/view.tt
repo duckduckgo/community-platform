@@ -29,7 +29,16 @@
     <@ END @>
   </fieldset>
 
-  <@ IF c.user.admin || token_language.token.notes || token_language.notes @>
+  <@ IF other_translations @>
+	  <fieldset>
+		<legend><span><@ l('Translations of other users') @></span></legend>
+		<@ FOR translation IN other_translations @>
+		  <@ INCLUDE translate/snippets/translation.tt show_translation_buttons=1 @>
+		<@ END @>
+	  </fieldset>
+	<@ END @>
+
+  <@ IF c.user.translation_manager || token_language.token.notes || token_language.notes @>
     <fieldset>
 	  <legend><span><@ l('Token Notes') @></span></legend>
 	  <!--label for="token_notes_<@ token_language.id @>_show"><@ l('Show Token Notes?') @></label>
@@ -37,17 +46,15 @@
 	    <option value="no"><@ l('No') @></option>
 	    <option value="yes"><@ l('Yes') @></option>
 	  </select-->
-	  <!--span id="token_notes_<@ token_language.id @>_help" class="token_notes_help help">?</span-->
-      <!--div id="token_notes_<@ token_language.id @>" class="token_notes"-->
-      <div class="toggle"><!--offscreen unless toggled by hasTokens above-->
-        <@ IF c.user.admin @>
+	  <span id="token_notes_<@ token_language.id @>_help" class="token_notes_help help"><@ l('Click here to see extra informations about the token') @></span>
+      <div id="token_notes_<@ token_language.id @>_toggle" class="token_notes_toggle"><!--offscreen unless toggled by hasTokens above-->
+        <@ IF c.user.translation_manager @>
 	      <label for="token_notes_<@ token_language.token.id @>_edit">Token Notes </label>
           <textarea cols="40" rows="5" id="token_notes_<@ token_language.token.id @>_edit" name="token_notes_<@ token_language.token.id @>_edit"><@ token_language.token.notes | html @></textarea>
         <@ ELSE @>
 	      <p><@ token_language.token.notes @></p>
 	    <@ END @>
-        <!--div id="token_language_notes_<@ token_language.id @>" class="token_language_notes"-->
-	    <@ IF c.user.admin @>
+	    <@ IF c.user.translation_manager @>
 	      <label for="token_language_notes_<@ token_language.id @>_edit">Token Language Notes </label> 
 	      <textarea cols="40" rows="5" id="token_language_notes_<@ token_language.id @>_edit" name="token_language_notes_<@ token_language.id  @>_edit"><@ token_language.notes | html @></textarea>
 	    <@ ELSE @>
@@ -55,16 +62,7 @@
 	    <@ END @>
 	  </div><!--toggle div-->
     </fieldset>
-<@ IF other_translations @>
-  <fieldset>
-    <legend><span><@ l('Translations of other users') @></span></legend>
-    <@ FOR translation IN other_translations @>
-      <@ SET t_userpic = translation.user.profile_picture ? '<img src="' _ translation.user.profile_picture(32) _ '">' : '<img width="32" height="32" src="/static/images/profile.anonymous.png">' @>
-      <@ SET t_username = translation.user.public_username || '&lt;anonymous&gt;'  @>
-      <@ INCLUDE translate/snippets/translation.tt @>
-    <@ END @>
-  </fieldset>
-<@ END @>
+ <@ END @>
 
     <fieldset>
       <legend><span><@ l('Translation in use') @></span></legend>
@@ -77,18 +75,16 @@
   
     <script type="text/javascript">
       $(function() {
-          $('#token_notes_<@ token_language.id @>').hide();
-          $('#token_language_notes_<@ token_language.id @>').hide();
+          $('#token_notes_<@ token_language.id @>_toggle').hide();
           $('#token_notes_<@ token_language.id @>_help').toggle(function(){
-              $('#token_notes_<@ token_language.id @>').show();
-              $('#token_language_notes_<@ token_language.id @>').show();
+              $('#token_notes_<@ token_language.id @>_toggle').show();
+			  $('#token_notes_<@ token_language.id @>_help').html('<@ l('Hide extra informations about the token') @>');
           },function(){
-              $('#token_notes_<@ token_language.id @>').hide();
-              $('#token_language_notes_<@ token_language.id @>').hide();
+              $('#token_notes_<@ token_language.id @>_toggle').hide();
+			  $('#token_notes_<@ token_language.id @>_help').html('<@ l('Click here to see extra informations about the token') @>');
           });
       });
     </script>
-<@ END @>
 
 <@ IF show_token_language_link @>
   <div><a href="<@ u('Translate','tokenlanguage',token_language.id) @>">Page about this token for this language</a></div>
