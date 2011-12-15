@@ -32,7 +32,9 @@
         <select id="language_id "name="language_id">
 		<option value="">Please choose a language</option>
         <@ FOREACH list_language IN languages @>
-          <option value="<@ list_language.id @>" <@ IF c.req.params.locale == list_language.locale @>selected="selected"<@ END @>><@ list_language.name_in_local @></option>
+          <option value="<@ list_language.id @>" <@ IF c.req.params.locale == list_language.locale @>selected="selected"<@ END @>>
+		  [<@ list_language.locale @>] <@ list_language.name_in_local @>
+		  </option>
         <@ END @>
         </select>
     </div>

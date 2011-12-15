@@ -74,7 +74,9 @@ sub account :Chained('logged_in') :Args(0) {
 
 sub languages :Chained('logged_in') :Args(0) {
     my ( $self, $c ) = @_;
-	$c->stash->{languages} = [$c->model('DB::Language')->search({})->all];
+	$c->stash->{languages} = [$c->model('DB::Language')->search({},{
+		order_by => { -asc => 'locale' },
+	})->all];
 	my $change = 0;
 	if ($c->req->params->{remove_user_language}) {
 		$change = 1;

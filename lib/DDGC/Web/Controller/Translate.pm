@@ -103,7 +103,7 @@ sub domainindex :Chained('domain') :PathPart('') :Args(0) {
 sub locale :Chained('domain') :PathPart('') :CaptureArgs(1) {
     my ( $self, $c, $locale ) = @_;
 	$c->stash->{locale} = $locale;
-	if (!$c->stash->{locales}->{$c->stash->{locale}}->{u}) {
+	if (!$c->user->translation_manager && !$c->stash->{locales}->{$c->stash->{locale}}->{u}) {
 		$c->response->redirect($c->chained_uri('Translate','index',{ cantspeak => $locale }));
 		return $c->detach;
 	}
