@@ -104,6 +104,19 @@ belongs_to 'token_language', 'DDGC::DB::Result::Token::Language', 'token_languag
 belongs_to 'check_user', 'DDGC::DB::Result::User', 'check_users_id', { join_type => 'left' };
 
 has_many 'token_language_translation_votes', 'DDGC::DB::Result::Token::Language::Translation::Vote', 'token_language_translation_id';
+sub votes { shift->token_language_translation_votes(@_) }
+
+sub user_voted {
+	my ( $self, $user ) = @_;
+	my $result = $self->search_related('token_language_translation_votes',{
+		users_id => $user->db->id,
+	})->all;
+}
+
+sub vote_count {
+	my ( $self ) = @_;
+	$self->token_language_translation_votes->count;
+}
 
 sub set_check {
 	my ( $self, $user, $check ) = @_;
@@ -118,15 +131,17 @@ sub set_check {
 
 sub set_user_vote {
 	my ( $self, $user, $vote ) = @_;
+	return if $user->id == $self->user->id;
+	return unless $user->can_speak($self->token_language->token_domain_language->language->locale);
 	if ($vote) {
 		$self->update_or_create_related('token_language_translation_votes',{
-			user => $user->db,
+			users_id => $user->db->id,
 		},{
-			key => 'token_language_translation_token_language_id_users_id',
+			key => 'token_language_translation_vote_token_language_translation_id_users_id',
 		});
 	} else {
 		$self->search_related('token_language_translation_votes',{
-			user => $user->db,
+			users_id => $user->db->id,
 		})->delete;
 	}
 }

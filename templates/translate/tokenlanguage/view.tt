@@ -20,12 +20,12 @@
   </fieldset>
 
   <fieldset>
-    <@ IF c.user.can_speak(token_language.language.locale) @>
+    <@ IF c.user.can_speak(token_language.token_domain_language.language.locale) @>
       <legend><span><@ l('Your suggested translation') @></span></legend>
       <@ FOR n IN [ 0..token_language.max_msgstr_index ] @>
         <@ SET func = 'msgstr' _ n @>
 	    <label for="token_language_<@ token_language.id @>_<@ func @>"><@ IF n == 0 @><@ l('Singular') @><@ ELSE @><@ n @>th Plural Form<@ END @>: </label>
-	    <input type="text" id="token_language_<@ token_language.id @>_<@ func @>" name="token_language_<@ token_language.id @>_<@ func @>" onkeyup="placeholder_check(this, '<@ n == 0 ? token_language.token.msgid : token_language.token.msgid_plural | replace("'", "\\'") @>');" value="<@ own_translation.$func @>" autocomplete="off" placeholder="Translate '<@ n == 0 ? token_language.token.msgid : token_language.token.msgid_plural @>' <@ IF token_language.token.msgctxt @> in context of '<@ token_language.token.msgctxt @>' <@ END @>into <@ token_language.token_domain_language.language.name_in_english @>">
+	    <input type="text" <@ IF token_language.token_domain_language.language.rtl @>dir="rtl" <@ END @>id="token_language_<@ token_language.id @>_<@ func @>" name="token_language_<@ token_language.id @>_<@ func @>" onkeyup="placeholder_check(this, '<@ n == 0 ? token_language.token.msgid : token_language.token.msgid_plural | replace("'", "\\'") @>');" value="<@ own_translation.$func @>" autocomplete="off" placeholder="Translate '<@ n == 0 ? token_language.token.msgid : token_language.token.msgid_plural @>' <@ IF token_language.token.msgctxt @> in context of '<@ token_language.token.msgctxt @>' <@ END @>into <@ token_language.token_domain_language.language.name_in_english @>">
 	    <div class="warn"> You haven't provided enough placeholders </div>
       <@ END @>
       <@ IF other_translations @>
@@ -101,7 +101,7 @@
 		  <@ IF !show_token_language_link @>
 		    $('#token_other_<@ token_language.id @>_show').trigger('click');
 		    $('#token_notes_<@ token_language.id @>_help').trigger('click');
-		  <@ ELSIF !c.user.can_speak(token_language.language.locale) @>
+		  <@ ELSIF !c.user.can_speak(token_language.token_domain_language.language.locale) @>
 		    $('#token_other_<@ token_language.id @>_show').trigger('click');
 		  <@ END @>
       });

@@ -7,7 +7,8 @@ package DDGCTest::Database;
 use Moose;
 use DDGC::DB;
 use Try::Tiny;
-use utf8;
+use utf8::all;
+
 use Data::Printer;
 
 has _ddgc => (
@@ -122,12 +123,21 @@ sub languages {{
 		locale => 'da_DK',
 		flagicon => 'dk',
 	},
+	'ar' => {
+		name_in_english => 'Arabic in Egypt',
+		name_in_local => 'العربية - مصر',
+		locale => 'ar_EG',
+		flagicon => 'eg',
+		rtl => 1,
+	},
 }}
 
 sub add_languages {
 	my ( $self ) = @_;
 	my $rs = $self->db->resultset('Language');
-	$self->c->{languages}->{$_} = $rs->create($self->languages->{$_}) for (keys %{$self->languages});
+	for (keys %{$self->languages}) {
+		$self->c->{languages}->{$_} = $rs->create($self->languages->{$_});
+	}
 }
 
 #############################
@@ -149,9 +159,10 @@ sub users {{
 		pw => '1234test',
 		public => 1,
 		roles => 'translation_manager',
-		notes => 'Testuser, public, us',
+		notes => 'Testuser, public, us, ar',
 		languages => {
 			us => 6,
+			ar => 5,
 		},
 	},
 	'testfour' => {
@@ -223,7 +234,7 @@ sub token_domains {{
 		name => 'The domain of tests',
 		base => 'us',
 		description => 'Bla blub the test is dead the test is dead!',
-		languages => [qw( de es br ru fr se in da )],
+		languages => [qw( de es br ru fr se in da ar )],
 		snippets => [
 			'Hello %s', {
 				testone => {
@@ -369,7 +380,7 @@ sub token_domains {{
 		name => 'taken from some list of feeling words',
 		base => 'us',
 		description => 'feelings.. nothing more then feelings!',
-		languages => [qw( de ru )],
+		languages => [qw( de ru ar )],
 		snippets => [
 			'abominable',{},
 			'absorbed',{},

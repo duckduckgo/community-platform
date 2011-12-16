@@ -4,7 +4,7 @@
 </div>
 <div>
   <label for="language_<@ language.id @>_name_in_local">Language name in the language: </label>
-    <input type="text" id="language_<@ language.id @>_name_in_local" name="language_<@ language.id || 0 @>_name_in_local" value="<@ language.name_in_local @>">
+    <input type="text" <@ IF language.rtl @>dir="rtl" <@ END @>id="language_<@ language.id @>_name_in_local" name="language_<@ language.id || 0 @>_name_in_local" value="<@ language.name_in_local @>">
 </div>
 <div>
   <label for="language_<@ language.id @>_locale">Locale: </label>
@@ -17,6 +17,10 @@
 <div>
   <label for="language_<@ language.id @>_nplurals">NPlurals: </label>
     <input type="text" id="language_<@ language.id @>_nplurals" name="language_<@ language.id || 0 @>_nplurals" value="<@ language.nplurals @>">
+</div>
+<div>
+  <label for="language_<@ language.id @>_rtl">Right To Left: </label>
+    <input type="text" id="language_<@ language.id @>_rtl" name="language_<@ language.id || 0 @>_rtl" value="<@ language.rtl @>">
 </div>
 <div class="flagSelect">
   <label for="language_<@ language.id @>_flagicon">Flagicon: </label> 

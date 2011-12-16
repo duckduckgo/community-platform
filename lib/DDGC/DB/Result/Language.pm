@@ -59,6 +59,13 @@ sub plural_forms {
 	'nplurals='.($self->nplurals).'; plural='.($self->plural).';';
 }
 
+column rtl => {
+	data_type => 'tinyint',
+	is_nullable => 0,
+	default_value => 0,
+};
+sub ltr { shift->rtl ? 0 : 1 }
+
 column data => {
 	data_type => 'text',
 	is_nullable => 1,

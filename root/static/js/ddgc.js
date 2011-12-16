@@ -26,4 +26,18 @@ $(function() {
 		$(this).parents('form').submit();
 	});
 
+	$('a.vote_link').live('click',function(e){
+		e.preventDefault();
+		var parent = $(this).parent();
+		$.ajax({
+			url: $(this).attr('href'),
+			beforeSend: function(xhr) {
+				parent.html('<img src="/static/images/ajax-loader.gif"/>');
+			},
+			success: function(data) {
+				parent.html(data);
+			}
+		});
+	});
+
 });

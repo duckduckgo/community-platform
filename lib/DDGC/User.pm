@@ -47,20 +47,7 @@ has db => (
 	)],
 );
 
-has locales => (
-	isa => 'HashRef[DDGC::DB::Result::User::Language]',
-	is => 'ro',
-	lazy_build => 1,
-);
-
-sub _build_locales {
-	my ( $self ) = @_;
-	my %locs;
-	for ($self->db->search_related('user_languages',{},{ prefetch => 'language' })->all) {
-		$locs{$_->language->locale} = $_;
-	}
-	return \%locs;
-}
+sub locales { shift->lul }
 
 has xmpp => (
 	isa => 'HashRef',

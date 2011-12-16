@@ -10,7 +10,7 @@
     <dt><@ IF n == 0 @><@ l('Singular') @><@ ELSE @><@ n @>th Plural Form<@ END @></dt>
       <dd><@ translation.$func @></dd>
     <@ END @>
+    <dt><@ l('Voting') @></dt>
+	<dd><@ INCLUDE translate/vote_view.tt @></dd>
   </dl>
-  <@ IF show_translation_buttons @>
-  <@ END @>
 </div>

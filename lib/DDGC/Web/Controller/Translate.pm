@@ -52,9 +52,20 @@ sub translation :Chained('logged_in') :CaptureArgs(1) {
 	}
 }
 
-sub vote :Chained('translation') :Args(1) {
+sub vote :Chained('translation') :CaptureArgs(1) {
 	my ( $self, $c, $vote ) = @_;
 	$c->stash->{translation}->set_user_vote($c->user,0+$vote);
+}
+
+sub vote_view :Chained('vote') :PathPart('') :Args(0) {
+	my ( $self, $c ) = @_;
+	$c->forward( $c->view('TT') );
+}
+
+sub vote_redirect :Chained('vote') :PathPart('redirect') :Args(0) {
+	my ( $self, $c ) = @_;
+	$c->response->redirect($c->chained_uri('Translate','tokenlanguage',$c->stash->{translation}->token_language->id));
+	return $c->detach;
 }
 
 sub check :Chained('translation') :Args(1) {

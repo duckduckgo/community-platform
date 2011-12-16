@@ -1,0 +1,8 @@
+<@ IF c.user.can_speak(translation.token_language.token_domain_language.language.locale) @>
+	<@ IF translation.user_voted(c.user) @>
+		<a class="vote_link" href="<@ u('Translate','vote_view',translation.id,0) @>">Revoke your vote</a>
+	<@ ELSE @>
+		<a class="vote_link" href="<@ u('Translate','vote_view',translation.id,1) @>">Vote for this translation</a>
+	<@ END @>
+<@ END @>
+<@ l('%d people voted for this translation',translation.vote_count) @>
