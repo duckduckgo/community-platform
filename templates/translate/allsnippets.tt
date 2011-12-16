@@ -4,16 +4,23 @@
   <@ FOR token_language IN token_languages.all @>
     <div>
 	  <div>
-	   <a href="<@ u('Translate','tokenlanguage',token_language.id) @>"><@ token_language.token.msgid @></a>
+       <a href="<@ u('Translate','tokenlanguage',token_language.id) @>">
+	   <@ token_language.token.msgctxt @>
+	   <@ IF token_language.token.msgctxt @>/<@ END @>
+       <@ token_language.token.msgid @>
+	   <@ IF token_language.token.msgid_plural @>/<@ END @>
+	   <@ token_language.token.msgid_plural @>
+	   </a>
    	  <@ IF token_language.msgstr @>
 	    (<@ l('A translation is in use') @>)
 	  <@ END @>
 	  </div>
       <div>
 	  <@ IF token_language.token_language_translations @>
-		  <@ l('Translated by') @>:
+		  <@ l('Translated by') @> (<@ l('Votes') @>):
 		  <@ FOR translation IN token_language.token_language_translations @>
 			<@ INCLUDE user/userpic.tt userpic_size=16 user=translation.user @>
+			(<@ translation.vote_count @>)
 		  <@ END @>
 	  <@ ELSE @>
 	    <@ l('Not yet translated') @>
