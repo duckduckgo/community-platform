@@ -91,6 +91,8 @@ sub _build__locale_user_languages {
 has_many 'screens', 'DDGC::DB::Result::Screen', { 'foreign.username' => 'self.username' };
 has_many 'token_language_translations', 'DDGC::DB::Result::Token::Language::Translation', { 'foreign.username' => 'self.username' };
 has_many 'user_languages', 'DDGC::DB::Result::User::Language', { 'foreign.username' => 'self.username' };
+has_many 'checked_translations', 'DDGC::DB::Result::Token::Language::Translation', 'check_users_id';
+has_many 'translation_votes', 'DDGC::DB::Result::Token::Language::Translation::Vote', 'users_id';
 
 many_to_many 'languages', 'user_languages', 'language';
 

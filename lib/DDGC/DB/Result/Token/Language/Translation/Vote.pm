@@ -31,7 +31,9 @@ column updated => {
 	set_on_update => 1,
 };
 
-unique_constraint [qw/ token_language_translation_id users_id /];
+unique_constraint(
+	token_language_users => [qw/ token_language_translation_id users_id /]
+);
 
 belongs_to 'user', 'DDGC::DB::Result::User', 'users_id';
 belongs_to 'token_language_translation', 'DDGC::DB::Result::Token::Language::Translation', 'token_language_translation_id';
