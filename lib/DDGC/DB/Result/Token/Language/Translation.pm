@@ -137,7 +137,7 @@ sub set_user_vote {
 		$self->update_or_create_related('token_language_translation_votes',{
 			users_id => $user->db->id,
 		},{
-			key => 'token_language_translation_vote_token_language_translation_id_users_id',
+			key => 'token_language_translation_users',
 		});
 	} else {
 		$self->search_related('token_language_translation_votes',{

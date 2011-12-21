@@ -32,7 +32,7 @@ column updated => {
 };
 
 unique_constraint(
-	token_language_users => [qw/ token_language_translation_id users_id /]
+	token_language_translation_users => [qw/ token_language_translation_id users_id /]
 );
 
 belongs_to 'user', 'DDGC::DB::Result::User', 'users_id';
