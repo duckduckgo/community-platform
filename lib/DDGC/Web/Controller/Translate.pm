@@ -87,7 +87,8 @@ sub domain :Chained('logged_in') :PathPart('') :CaptureArgs(1) {
 	});
 	$c->stash->{locales} = {};
 	$c->stash->{token_domain_languages} = [$c->stash->{token_domain}->token_domain_languages->search({},{
-		order_by => { -asc => 'locale' },
+		order_by => { -asc => 'language.locale' },
+		prefetch => 'language',
 	})->all];
 	for (@{$c->stash->{token_domain_languages}}) {
 		my $locale = $_->language->locale;
