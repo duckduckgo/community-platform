@@ -1,0 +1,15 @@
+<div class="comment">
+	<p class="comment_content"><@ comment.content @></p>
+	<div class="comment_user"><@ INCLUDE user/username32.tt user=comment.user @></div>
+	<div class="comment_info"><@ date.format(comment.created,"%D %T") @></div>
+	<@ IF c.user @>
+		<div class="comment_reply"><@ INCLUDE comment/add.tt context='DDGC::DB::Result::Comment' context_id=comment.id @></div>
+	<@ END @>
+	<@ IF comment.has_children @>
+		<div class="comment_children">
+			<@ FOREACH child IN comment.children @>
+				<@ INCLUDE comment/comment.tt comment=child @>
+			<@ END @>
+		</div>
+	<@ END @>
+</div>  

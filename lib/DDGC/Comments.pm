@@ -53,7 +53,6 @@ sub _build__all_comments {
 		}
 	}
 	$self->_comments_structure($self->_make_comments_structure(\%ac, \%children, @roots));
-	p($self->_comments_structure);
 	return \%ac;
 }
 

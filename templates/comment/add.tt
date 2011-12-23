@@ -1,0 +1,9 @@
+<@ IF c.user AND context AND context_id @>
+	<form method="POST" action="<@ u('Comment','add',context,context_id) @>">
+		<input type="hidden" name="from" value="<@ c.req.uri @>">
+		<div class="my_comment">
+			<textarea name="content"></textarea>
+		</div>
+		<input type="submit" name="add_comment" value="<@ l('Comment') @>">
+	</form>
+<@ END @>
