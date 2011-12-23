@@ -12,6 +12,11 @@
 	<@ END @>
 	
 
+	<div>
+      <h2><a href="<@ u('Translate','index') @>">Help translate DuckDuckGo or vote on the translations of others!</a></h2>
+    </div>
+
+	
       <div>
         <!--p class="button"><a href="<@ u('Help','view','mylanguages') @>"><@ l('Information') @></a></p-->
 	<h3><@ l('Your languages') @>:</h3>

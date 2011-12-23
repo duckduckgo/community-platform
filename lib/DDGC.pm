@@ -5,6 +5,7 @@ use Moose;
 use DDGC::Config;
 use DDGC::DB;
 use DDGC::User;
+use DDGC::Comments;
 use File::Copy;
 use IO::All;
 use File::Spec;
@@ -47,6 +48,10 @@ sub _build_config { DDGC::Config->new }
 
 sub resultset { shift->db->resultset(@_) }
 sub rs { shift->resultset(@_) }
+
+#
+# ======== User ====================
+#
 
 sub update_password {
 	my ( $self, $username, $new_password ) = @_;
@@ -162,6 +167,48 @@ sub user_counts {
 	})->count;
 	return \%counts;
 }
+
+#
+# ======== Comments ====================
+#
+
+sub add_comment {
+	my ( $self, $context, $context_id, $user, $content, @args ) = @_;
+	
+	if ( $context eq 'DDGC::DB::Result::Comment' ) {
+		my $comment = $self->rs('Comment')->find($context_id);
+		return $self->rs('Comment')->create({
+			context => $comment->context,
+			context_id => $comment->context_id,
+			parent_id => $context_id,
+			users_id => $user->id,
+			content => $content,
+			@args,
+		});
+	} else {
+		return $self->rs('Comment')->create({
+			context => $context,
+			context_id => $context_id,
+			users_id => $user->id,
+			content => $content,
+			@args,
+		});
+	}
+}
+
+sub comments {
+	my ( $self, $context, $context_id, @args ) = @_;
+	return DDGC::Comments->new(
+		context => $context,
+		context_id => $context_id,
+		ddgc => $self,
+		@args,
+	);
+}
+
+#
+# ======== Misc ====================
+#
 
 sub flaglist { map { chomp; $_; } io( File::Spec->catfile(dist_dir('DDGC'), 'flaglist.txt') )->slurp }
 

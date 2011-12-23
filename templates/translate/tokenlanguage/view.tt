@@ -32,7 +32,7 @@
         <div><@ l('Someone already translated this snippet. Only translate it if you think your translation fits better.') @></div>
       <@ END @>
 	<@ ELSE @>
-	  <div><@ l('You need to add the language for making translations') @></div>
+	  <div><a href="<@ u('My','languages',{ locale => token_language.token_domain_language.language.locale }) @>"><@ l('You need to add the language for making translations') @></a></div>
     <@ END @>
   </fieldset>
 
