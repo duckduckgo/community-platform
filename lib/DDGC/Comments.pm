@@ -1,6 +1,7 @@
 package DDGC::Comments;
 
 use Moose;
+use DDGC::Comments::Comment;
 
 has ddgc => (
 	isa => 'DDGC',
@@ -32,7 +33,7 @@ sub all_comments { shift->_all_comments }
 
 sub _build__all_comments {
 	my ( $self ) = @_;
-	$self->_clear_structure;
+	$self->_clear_comments_structure;
 	my @comments = $self->ddgc->rs('Comment')->search({
 		context => $self->context,
 		context_id => $self->context_id,
@@ -51,33 +52,33 @@ sub _build__all_comments {
 			push @roots, $_->id;
 		}
 	}
-	my @struct = $self->_make_structure(\%ac, \%children, @roots);
-	$self->_structure(\@struct);
+	$self->_comments_structure($self->_make_comments_structure(\%ac, \%children, @roots));
+	p($self->_comments_structure);
 	return \%ac;
 }
 
-sub _make_structure {
+sub _make_comments_structure {
 	my ( $self, $ac, $children, @ids ) = @_;
-	my @struct;
-	for (@ids) {
-		push @struct, $ac->{$_};
-		if ($children->{$_}) {
-			push @struct, $self->_make_structure($ac, $children,@{$children->{$_}});
-		}
-	}
+	my @struct = map { DDGC::Comments::Comment->new({
+		db => $ac->{$_},
+		comments_context => $self,
+		children => $children->{$_} ? $self->_make_comments_structure($ac, $children,@{$children->{$_}}) : [],
+	}) } @ids;
 	return \@struct;
 }
 
-has _structure => (
+has _comments_structure => (
 	isa => 'ArrayRef',
 	is => 'rw',
-	clearer => '_clear_structure',
+	clearer => '_clear_comments_structure',
 );
-sub structure {
+sub comments_structure {
 	my ( $self ) = @_;
 	$self->all_comments;
-	return $self->_structure;
+	return $self->_comments_structure;
 }
+
+sub list { @{shift->comments_structure} }
 
 sub count {
 	my ( $self ) = @_;
