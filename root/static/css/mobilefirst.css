@@ -554,32 +554,43 @@ ul.admin {
 
 /*terms to translate; context, singular, plural...*/
 /*results, what people translated*/
-#formTranslateDomain dl {
+#formTranslateDomain dl, #formTranslateTokenLanguage dl {
   margin-bottom: 1em;
 }
         #formTranslateDomain dt, 
-        #formTranslateDomain dd {
+        #formTranslateDomain dd,
+        #formTranslateTokenLanguage dt, 
+        #formTranslateTokenLanguage dd {
           display: inline-block;
           margin-bottom: .5em;
           vertical-align: top;
         } 
+
         *+html #formTranslateDomain dt,
-        *+html #formTranslateDomain dd {display:inline;}
+        *+html #formTranslateDomain dd 
+        *+html #formTranslateTokenLanguage dt
+        *+html #formTranslateTokenLanguage dd {display:inline;}
+
    
-        #formTranslateDomain dt {
+        #formTranslateDomain dt,
+        #formTranslateTokenLanguage dt {
           width: 25%;
           min-width: 6em;
           margin-right: 7px;
           font-weight: bold;
           font-size: 1.2em;
         }
-        #formTranslateDomain .translations dt {
+        #formTranslateDomain .translations dt,
+        #formTranslateTokenLanguage .translations dt {
           min-width: 8em;
         }
-        #formTranslateDomain dd {
+
+        #formTranslateDomain dd,
+        #formTranslateTokenLanguage dd {
           width: 60%;
         }
-                #formTranslateDomain dd span {
+                #formTranslateDomain dd span,
+                #formTranslateTokenLanguage dd span {
                   padding: 5px;
                   color: #000; 
                   background-color: #fff;/*highlight term*/
@@ -596,7 +607,8 @@ form .translations h2 {
   font-size: 1.1em;
 }
 
-#formTranslateDomain .translations dt {
+#formTranslateDomain .translations dt,
+#formTranslateTokenLanguage .translations dt{
   margin-bottom: .2em;
   font-size: 1em;
 }
@@ -626,7 +638,8 @@ or in admin, settings*/
   margin: .2em .2em 0;
 }
 
-#formTranslateDomain label[for$="show"] {
+#formTranslateDomain label[for$="show"],
+#formTranslateTokenLanguage label[for$="show"] {
   display: inline-block;
   margin-bottom: .6em;
 }
