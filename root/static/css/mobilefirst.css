@@ -745,3 +745,51 @@ form .flagSelect label {
       #footer a {
         color: #80c1d6;
       }
+
+.comment {
+    margin-left: 10px;
+    float: left;
+}
+
+.comment div {
+    float: left;
+}
+
+.comment_content {
+    text-align: left;
+}
+
+.comment_user {
+    height: 32px;
+    text-align: left;
+    float: left;
+    line-height: 32px;
+}
+
+.comment_info {
+    height: 32px;
+    text-align: left;
+    line-height: 32px;
+    margin-left: 3px;
+}
+        
+.comment_children {
+    margin: 5px 0px 5px 20px;
+    border-left: 2px dotted #ddd;
+}
+.comment_reply {
+    display: none;
+    width: 500px;
+}
+
+.my_comment {
+    width: 100%;
+}
+
+.comment_reply_cancel_link {
+    display: none;
+}
+
+.clear {
+    clear: both;
+}
