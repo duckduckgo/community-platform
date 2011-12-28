@@ -13,6 +13,10 @@ sub add :Chained('base') :Args(2) {
 	if ($c->req->params->{content}) {
 		$c->d->add_comment($context, $context_id, $c->user, $c->req->params->{content});
 	}
+	if ($c->req->params->{from}) {
+		$c->response->redirect($c->req->params->{from});
+		return $c->detach;
+	}
 }
 
 __PACKAGE__->meta->make_immutable;
