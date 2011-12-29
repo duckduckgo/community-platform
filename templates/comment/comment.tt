@@ -1,5 +1,10 @@
 <div class="comment">
-	<p class="comment_content"><@ comment.content | html @></p>
+	<p class="comment_content"><@ FILTER truncate(200) @><@ comment.content | html @><@ END @>
+		<@ IF comment.content.length > 200 @>
+			[ <a href="javascript:expand(<@ comment.content @>)">more</a> ]
+		<@ END @>
+		<span class="expanded_comment_content" style="display:none;"></span>
+	</p>
 	<div class="comment_user"><@ INCLUDE user/username32.tt user=comment.user @></div>
 	<div class="comment_info"> at <@ comment.created @><@ #date.format(comment.created,"%D %T") @>
                 <a href="javascript:;" class="comment_reply_link" ><@ l('Reply') @> </a>
