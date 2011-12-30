@@ -748,7 +748,7 @@ form .flagSelect label {
 
 .comment {
     float: left;
-    margin: 5px 0px 5px 10px;
+    margin: 10px 0px 5px 10px;
 }
 
 .comment div {
@@ -759,18 +759,13 @@ form .flagSelect label {
     text-align: left;
 }
 
-.comment_user {
-    height: 32px;
+.comment_user, .comment_info {
+    height: 16px;
     text-align: left;
     float: left;
-    line-height: 32px;
-}
-
-.comment_info {
-    height: 32px;
-    text-align: left;
-    line-height: 32px;
-    margin-left: 3px;
+    margin-right: 3px;
+    line-height: 16px;
+    font-size: small;
 }
         
 .comment_children {

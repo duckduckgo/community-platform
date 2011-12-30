@@ -1,0 +1,10 @@
+<@ IF user @>
+	<@ INCLUDE user/userpic.tt userpic_size=16 @>
+	<@ IF user.admin @><span style="color:green"><@ END @>
+	<@ IF c.user && c.user.admin @>
+		<@ user.username @>
+	<@ ELSE @>
+		<@ user.public_username || '&lt;anonymous&gt;' @>
+	<@ END @>
+	<@ IF user.admin @></span><@ END @>
+<@ END @>
