@@ -747,8 +747,8 @@ form .flagSelect label {
       }
 
 .comment {
-    margin-left: 10px;
     float: left;
+    margin: 5px 0px 5px 10px;
 }
 
 .comment div {
@@ -774,8 +774,9 @@ form .flagSelect label {
 }
         
 .comment_children {
-    margin: 5px 0px 5px 20px;
+    margin: 7px 0px 7px 20px;
     border-left: 2px dotted #ddd;
+    clear: left;
 }
 .comment_reply {
     display: none;

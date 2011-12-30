@@ -200,4 +200,3 @@ function placeholder_check(t, s)
         }
 }
 
-

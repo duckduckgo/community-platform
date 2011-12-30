@@ -53,6 +53,11 @@ $(function() {
                 $(this).parent().parent().children('.comment_reply').hide();
                 $(this).hide();
         });
+        
+        $('a.comment_expand_link').live('click', function(e){
+                e.preventDefault();
+                $(this).parent().html($(this).next('.comment_expanded_content').html());
+        });
 
 
 

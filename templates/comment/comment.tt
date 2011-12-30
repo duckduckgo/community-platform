@@ -1,9 +1,11 @@
 <div class="comment">
-	<p class="comment_content"><@ FILTER truncate(200) @><@ comment.content | html @><@ END @>
+	<p class="comment_content"><@ FILTER truncate(200) @><@ comment.content | html | replace("\n", "<br />") @><@ END @>
 		<@ IF comment.content.length > 200 @>
-			[ <a href="javascript:expand(<@ comment.content @>)">more</a> ]
+			[ <a class="comment_expand_link" href="javascript:;">more</a> ]
+                <span class="comment_expanded_content" style="display:none;">
+                        <@ comment.content | html | replace("\n", "<br />") @>
+                </span>
 		<@ END @>
-		<span class="expanded_comment_content" style="display:none;"></span>
 	</p>
 	<div class="comment_user"><@ INCLUDE user/username32.tt user=comment.user @></div>
 	<div class="comment_info"> at <@ comment.created @><@ #date.format(comment.created,"%D %T") @>
