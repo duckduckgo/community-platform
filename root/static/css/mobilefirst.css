@@ -746,6 +746,8 @@ form .flagSelect label {
         color: #80c1d6;
       }
 
+
+/* comments */
 .comment {
     float: left;
     margin: 10px 0px 5px 10px;
@@ -773,13 +775,20 @@ form .flagSelect label {
     border-left: 2px dotted #ddd;
     clear: left;
 }
+
 .comment_reply {
     display: none;
-    width: 500px;
+    width: 100%;
 }
 
 .my_comment {
     width: 100%;
+    margin: .5em auto;
+}
+
+.my_comment textarea {
+    margin: 0 auto;
+    display: block;
 }
 
 .comment_reply_cancel_link {

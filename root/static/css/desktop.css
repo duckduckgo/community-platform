@@ -529,3 +529,17 @@ form .translations {
 /****************** pulse *****************/
 
 iframe#pulse { position:absolute; visibility:hidden; left:0; top:0 }
+
+/* comments */
+.comment_reply {
+    display: none;
+    width: 28em;
+}
+
+.my_comment {
+    width: 100%;
+    margin: .5em auto;
+}
+
+
+
