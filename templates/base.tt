@@ -7,7 +7,7 @@
     <@ IF headline_template @>
       <@ INCLUDE headline.tt @>
     <@ END @>
-    <@ PROCESS $LAYOUTS.shift @>
+    <span id="skip"><@ PROCESS $LAYOUTS.shift @></skip>
     </div>
     <div id="footer" role="contentinfo">
       <@ INCLUDE footer.tt @>
