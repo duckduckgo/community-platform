@@ -64,6 +64,7 @@ ee
 eg
 eh
 england
+eo
 er
 es
 et
@@ -220,6 +221,7 @@ tl
 tm
 tn
 to
+tokipona
 tr
 tt
 tv
