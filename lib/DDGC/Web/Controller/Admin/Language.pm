@@ -29,7 +29,7 @@ sub index :Chained('base') :PathPart('') :Args(0) {
 	my %new;
 	if ($c->req->params->{save_languages}) {
 		for (@keys) {
-			$new{$_} = $c->req->params->{'language_0_'.$_} if $c->req->params->{'language_0_'.$_};
+			$new{$_} = $c->req->params->{'language_0_'.$_} if defined $c->req->params->{'language_0_'.$_};
 		}
 		push @{$c->stash->{languages}}, $c->model('DB::Language')->create(\%new) if (%new);
 	}
