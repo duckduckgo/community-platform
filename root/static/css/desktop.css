@@ -542,6 +542,12 @@ form .translations {
 iframe#pulse { position:absolute; visibility:hidden; left:0; top:0 }
 
 /* comments */
+.comment {
+    float: left;
+    margin: 10px 0px 5px 10px;
+    border: 0;
+}
+
 .comment_reply {
     display: none;
     width: 28em;
@@ -552,5 +558,10 @@ iframe#pulse { position:absolute; visibility:hidden; left:0; top:0 }
     margin: .5em auto;
 }
 
+.comment_children {
+    margin: 7px 0px 7px 20px;
+    border-left: 2px dotted #ddd;
+    clear: left;
+}
 
 
