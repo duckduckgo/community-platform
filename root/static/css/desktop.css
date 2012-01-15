@@ -243,8 +243,9 @@ table tr:hover td {
 
 .actions li {
   display: block;
-  width: 100%;
+  /*width: 100%;*/
   min-height: 8em;
+  width: auto;
   margin: 0 .2em 1.5em;
   padding: .5em;
   vertical-align: top;
