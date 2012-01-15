@@ -242,8 +242,8 @@ table tr:hover td {
 }
 
 .actions li {
-  display: inline-block;
-  width: 30%;
+  display: block;
+  width: 100%;
   min-height: 8em;
   margin: 0 .2em 1.5em;
   padding: .5em;
