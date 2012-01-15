@@ -242,14 +242,18 @@ table tr:hover td {
 }
 
 .actions li {
-  display: block;
-  /*width: 100%;*/
+  display: inline-block;
   min-height: 8em;
-  width: auto;
+  width: 30%;
   margin: 0 .2em 1.5em;
   padding: .5em;
   vertical-align: top;
   text-align: left;
+}
+
+#domainbox li {
+  display: block;
+  width: auto;
 }
 
 .actions li a.flag {

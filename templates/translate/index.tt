@@ -10,7 +10,7 @@
 	<p class="error">You can't speak the chosen language of the project.</p>
 <@ END @>
 
-    <ul class="actions">
+    <ul class="actions" id="domainbox">
   <@ FOR token_domain IN token_domains.all @>
       <li>
         <h2><a href="<@ u('Translate','domainindex',token_domain.key) @>"><@ token_domain.name @></a></h2>
