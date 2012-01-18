@@ -565,3 +565,19 @@ iframe#pulse { position:absolute; visibility:hidden; left:0; top:0 }
 }
 
 
+/*duckpan pod pages*/
+.pod {
+  text-align: left;
+}
+
+.pod ul a {
+  text-decoration: none;
+}
+
+.pod pre {
+  background-color: #eee;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding:2px;
+  margin-left: 4px;
+}
