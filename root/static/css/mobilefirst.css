@@ -262,6 +262,8 @@ p {
   background-color: #EEE;
   border: 1px solid #DDD;
   -moz-border-radius: 5px; /*temp*/
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
 }
 .getstarted li {
   background-color: #23b64f;
