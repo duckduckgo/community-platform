@@ -28,6 +28,16 @@ has test => (
 	required => 1,
 );
 
+has init => (
+	is => 'ro',
+	predicate => 'has_init',
+);
+
+has progress => (
+	is => 'ro',
+	predicate => 'has_progress',
+);
+
 # cache
 has c => (
 	isa => 'HashRef',
@@ -40,20 +50,61 @@ has c => (
 );
 
 sub BUILDARGS {
-    my ( $class, $ddgc, $test ) = @_;
+    my ( $class, $ddgc, $test, $init, $progress ) = @_;
 	my %options;
 	$options{_ddgc} = $ddgc;
 	$options{test} = $test;
+	$options{init} = $init if $init;
+	$options{progress} = $progress if $progress;
 	return \%options;
 }
 
 sub deploy {
 	my ( $self ) = @_;
 	$self->d->deploy_fresh;
+	$self->init->($self->step_count) if $self->has_init;
 	$self->add_languages;
 	$self->add_users;
 	$self->add_token_domains;
 	$self->add_distributions;
+	$self->next_step; # shouldnt be needed, something doesnt count up...
+}
+
+has current_step => (
+	is => 'rw',
+	default => sub { 0 },
+);
+
+sub next_step {
+	my ( $self ) = @_;
+	return unless $self->has_progress;
+	my $step = $self->current_step + 1;
+	$self->progress->($step);
+	$self->current_step($step);
+}
+
+sub step_count {
+	my ( $self ) = @_;
+	my $count = 0;
+	$count += scalar keys %{$self->languages};
+	$count += ( ( scalar keys %{$self->users} ) * 2 );
+	$count += scalar @{$self->distributions};
+	my $in_token = 0;
+	for (keys %{$self->token_domains}) {
+		$count += scalar @{$self->token_domains->{$_}->{languages}};
+		for (@{$self->token_domains->{$_}->{snippets}},@{$self->token_domains->{$_}->{texts}}) {
+			if (ref $_ eq 'HASH') {
+				for my $a (keys %{$_}) {
+					$count += scalar keys %{$_->{$a}};
+				}
+				$in_token = 0;
+			} else {
+				$count += 1 unless $in_token;
+				$in_token = 1;
+			}
+		}
+	}
+	return $count;
 }
 
 sub isa_ok { ::isa_ok(@_) if shift->test }
@@ -139,6 +190,7 @@ sub add_languages {
 	my $rs = $self->db->resultset('Language');
 	for (keys %{$self->languages}) {
 		$self->c->{languages}->{$_} = $rs->create($self->languages->{$_});
+		$self->next_step;
 	}
 }
 
@@ -216,11 +268,13 @@ sub add_users {
 		}
 		$user->update;
 		$self->isa_ok($user,'DDGC::User');
+		$self->next_step;
 	}
 	for (keys %{$self->users}) {
 		my $user = $self->d->find_user($_);
 		$self->is($user->username,$_,'Checking username');
 		$self->isa_ok($user,'DDGC::User');
+		$self->next_step;
 	}
 }
 
@@ -245,6 +299,7 @@ sub add_distributions {
 		my $sharedir = dist_dir('DDGC');
 		my $user = $self->d->find_user($username);
 		$self->d->duckpan->add_user_distribution($user,$sharedir.'/testdists/'.$filename);
+		$self->next_step;
 	}
 }
 
@@ -684,6 +739,7 @@ sub add_token_domains {
 				type => 1,
 			});
 			push @translations, [ $token, $tl ];
+			$self->next_step;
 		}
 		while (@{$texts}) {
 			my $sn = shift @{$texts};
@@ -699,6 +755,7 @@ sub add_token_domains {
 			$tcl{$_} = $tc->create_related('token_domain_languages',{
 				language_id => $self->c->{languages}->{$_}->id,
 			});
+			$self->next_step;
 		}
 		for (@translations) {
 			my $token = shift @{$_};
@@ -716,6 +773,7 @@ sub add_token_domains {
 							$tl->notes($trans->{$u}->{$_});
 							$tl->update;
 						}
+						$self->next_step;
 					}
 				} else {
 					for (keys %{$trans->{$u}}) {
@@ -736,6 +794,7 @@ sub add_token_domains {
 							username => $u,
 							%msgstr,
 						});
+						$self->next_step;
 					}
 				}
 			}
