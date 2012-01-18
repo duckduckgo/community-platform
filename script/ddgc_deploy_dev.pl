@@ -12,10 +12,11 @@ use warnings;
 
 use DDGC;
 use DDGCTest::Database;
-use DDGCTest::DatabaseStart;
 use File::Path qw( make_path remove_tree );
 
 use Getopt::Long;
+
+my $config = DDGC::Config->new;
 
 my $kill;
 my $start;
@@ -25,16 +26,14 @@ GetOptions (
 	"start" => \$start,
 );
 
-if (-d DDGC::Config::rootdir_path) {
-	$kill ? remove_tree(DDGC::Config::rootdir_path) : die "environment exist, use --kill to kill it!"
+if (-d $config->rootdir_path) {
+	$kill ? remove_tree($config->rootdir_path) : die "environment exist, use --kill to kill it!"
 }
 
 print "Generating database, this may take a while... ";
 
-if ($start) {
-	DDGCTest::DatabaseStart->new(DDGC->new)->deploy;
-} else {
-	DDGCTest::Database->new(DDGC->new)->deploy;
-}
+my $ddgc = DDGC->new({ config => $config });
+
+DDGCTest::Database->new($ddgc)->deploy;
 
 print "done\n";

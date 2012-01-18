@@ -5,6 +5,8 @@ use Moose;
 use DDGC::Config;
 use DDGC::DB;
 use DDGC::User;
+use DDGC::DuckPAN;
+use DDGC::XMPP;
 use DDGC::Comments;
 use File::Copy;
 use IO::All;
@@ -30,14 +32,34 @@ has db => (
 	is => 'ro',
 	lazy_build => 1,
 );
-sub _build_db { DDGC::DB->connect }
+sub _build_db {
+	my $self = shift;
+	DDGC::DB->connect($self);
+}
 
 has xmpp => (
 	isa => 'DDGC::XMPP',
 	is => 'ro',
 	lazy_build => 1,
 );
-sub _build_xmpp { DDGC::XMPP->new }
+sub _build_xmpp {
+	my $self = shift;
+	DDGC::XMPP->new({
+		ddgc => $self,
+	});
+}
+
+has duckpan => (
+	isa => 'DDGC::DuckPAN',
+	is => 'ro',
+	lazy_build => 1,
+);
+sub _build_duckpan {
+	my $self = shift;
+	DDGC::DuckPAN->new({
+		ddgc => $self,
+	});
+}
 
 has config => (
 	isa => 'DDGC::Config',

@@ -6,26 +6,33 @@ use DDGC::User;
 
 use Prosody::Storage::SQL;
 
+has ddgc => (
+	isa => 'DDGC',
+	is => 'ro',
+	required => 1,
+	weak_ref => 1,
+);
+
 has prosody_driver => (
 	isa => 'Str',
 	is => 'ro',
 	lazy_build => 1,
 );
-sub _build_prosody_driver { DDGC::Config::prosody_db_driver }
+sub _build_prosody_driver { shift->ddgc->config->prosody_db_driver }
 
 has prosody_database => (
 	isa => 'Str',
 	is => 'ro',
 	lazy_build => 1,
 );
-sub _build_prosody_database { DDGC::Config::prosody_db_database }
+sub _build_prosody_database { shift->ddgc->config->prosody_db_database }
 
 has prosody_userhost => (
 	isa => 'Str',
 	is => 'ro',
 	lazy_build => 1,
 );
-sub _build_prosody_userhost { DDGC::Config::prosody_userhost }
+sub _build_prosody_userhost { shift->ddgc->config->prosody_userhost }
 
 has _prosody => (
 	isa => 'Prosody::Storage::SQL',

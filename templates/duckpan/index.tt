@@ -1,0 +1,11 @@
+<h1>DuckPAN</h1>
+<hr>
+<div>
+	<h2>Modules in DuckPAN</h2>
+	<ul>
+		<@ FOR module IN duckpan.modules.keys.sort @>
+			<li><a href="<@ u('Duckpan','module_index',module) @>"><@ module @></a></li>
+		<@ END @>
+	</ul>
+</div>
+<hr>

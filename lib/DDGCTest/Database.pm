@@ -8,6 +8,7 @@ use Moose;
 use DDGC::DB;
 use Try::Tiny;
 use utf8::all;
+use File::ShareDir::ProjectDistDir;
 
 use Data::Printer;
 
@@ -52,6 +53,7 @@ sub deploy {
 	$self->add_languages;
 	$self->add_users;
 	$self->add_token_domains;
+	$self->add_distributions;
 }
 
 sub isa_ok { ::isa_ok(@_) if shift->test }
@@ -219,6 +221,30 @@ sub add_users {
 		my $user = $self->d->find_user($_);
 		$self->is($user->username,$_,'Checking username');
 		$self->isa_ok($user,'DDGC::User');
+	}
+}
+
+################################################################
+#  ____             _    ____   _    _   _
+# |  _ \ _   _  ___| | _|  _ \ / \  | \ | |
+# | | | | | | |/ __| |/ / |_) / _ \ |  \| |
+# | |_| | |_| | (__|   <|  __/ ___ \| |\  |
+# |____/ \__,_|\___|_|\_\_| /_/   \_\_| \_|
+
+sub distributions {[
+	[ testone => 'DDG-Something-0.001.tar.gz' ],
+	[ testtwo => 'DDG-Plugin-OtherThing-MoreTest-0.001.tar.gz' ],
+	[ testthree => 'DDG-Plugin-FatHead-Test-0.001.tar.gz' ],
+]}
+
+sub add_distributions {
+	my ( $self ) = @_;
+	for (@{$self->distributions}) {
+		my $username = $_->[0];
+		my $filename = $_->[1];
+		my $sharedir = dist_dir('DDGC');
+		my $user = $self->d->find_user($username);
+		$self->d->duckpan->add_user_distribution($user,$sharedir.'/testdists/'.$filename);
 	}
 }
 
