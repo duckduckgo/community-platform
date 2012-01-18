@@ -8,6 +8,11 @@ __PACKAGE__->config(namespace => '');
 
 sub base :Chained('/') :PathPart('') :CaptureArgs(0) {
     my ( $self, $c ) = @_;
+
+    if ( my ( $username, $password ) = $c->req->headers->authorization_basic ) {
+		$c->authenticate({ username => $username, password => $password, }, 'users');
+	}
+
 	$c->stash->{template_layout} = [ 'base.tt' ];
 	$c->stash->{u} = sub { $c->chained_uri(@_) };
 	$c->stash->{l} = sub { $c->localize(@_) };
