@@ -5,6 +5,7 @@ use DDGC::Config;
 use DDGC::User;
 
 use Prosody::Storage::SQL;
+use Prosody::Mod::Data::Access;
 
 has ddgc => (
 	isa => 'DDGC',
@@ -39,6 +40,19 @@ has _prosody => (
 	is => 'ro',
 	lazy_build => 1,
 );
+
+has admin_data_access => (
+	isa => 'Prosody::Mod::Data::Access',
+	is => 'ro',
+	lazy_build => 1,
+);
+sub _build_admin_data_access {
+	my $self = shift;
+	Prosody::Mod::Data::Access->new(
+		jid => $self->ddgc->config->prosody_admin_username.'@'.$self->ddgc->config->prosody_userhost,
+		password => $self->ddgc->config->prosody_admin_password,
+	);
+}
 
 sub _build__prosody {
 	my ( $self ) = @_;

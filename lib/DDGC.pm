@@ -12,7 +12,6 @@ use File::Copy;
 use IO::All;
 use File::Spec;
 use File::ShareDir::ProjectDistDir;
-use Prosody::Mod::Data::Access;
 
 # TESTING AND DEVELOPMENT, NOT FOR PRODUCTION
 sub deploy_fresh {
@@ -78,10 +77,7 @@ sub rs { shift->resultset(@_) }
 sub update_password {
 	my ( $self, $username, $new_password ) = @_;
 	return unless $self->config->prosody_running;
-	Prosody::Mod::Data::Access->new(
-		jid => $self->config->prosody_admin_username.'@'.$self->config->prosody_userhost,
-		password => $self->config->prosody_admin_password,
-	)->put($username,'accounts',{ password => $new_password });
+	$self->xmpp->admin_data_access->put($username,'accounts',{ password => $new_password });
 }
 
 sub delete_user {
