@@ -116,6 +116,7 @@ ke
 kg
 kh
 ki
+klingon
 km
 kn
 kp

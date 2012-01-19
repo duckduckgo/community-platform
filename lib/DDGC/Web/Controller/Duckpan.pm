@@ -35,12 +35,12 @@ sub module_index :Chained('module') :PathPart('') :Args(0) {
     my ( $self, $c ) = @_;
 	if ($c->stash->{duckpan_dist}) {
 		my $p = Pod::HTMLEmbed->new;
-		my $filename = $c->stash->{duckpan_dist}->packages->{$module}->{file};
+		my $filename = $c->stash->{duckpan_dist}->packages->{$c->stash->{duckpan_module}}->{file};
 		$c->stash->{module_pod} = $p->load($c->stash->{duckpan_dist}->file($filename));
 	}
 }
 
-sub logged_in :Chained('base') :PathPart('') :CaptureArgs(0) {
+sub logged_in :Chained('do') :PathPart('') :CaptureArgs(0) {
     my ( $self, $c ) = @_;
 	if (!$c->user) {
 		$c->response->redirect($c->chained_uri('My','login'));
@@ -50,6 +50,11 @@ sub logged_in :Chained('base') :PathPart('') :CaptureArgs(0) {
 
 sub upload :Chained('logged_in') :Args(0) {
     my ( $self, $c ) = @_;
+	my $uploader = $c->user->username;
+	my $upload = $c->req->upload('pause99_add_uri_httpupload');
+	my $filename = $c->d->config->cachedir.'/'.$upload->filename;
+	$upload->copy_to($filename);
+	$c->d->duckpan->add_user_distribution($c->user,$filename);
 }
 
 __PACKAGE__->meta->make_immutable;
