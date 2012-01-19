@@ -26,7 +26,7 @@ column users_id => {
 };
 
 column filename => {
-	data_type => 'str',
+	data_type => 'text',
 	is_nullable => 0,
 	default_value => 1,
 };

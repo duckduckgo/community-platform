@@ -1,0 +1,2 @@
+<div>Distname: <@ duckpan_release.name @></div>
+<div>Version: <@ duckpan_release.version @></div>

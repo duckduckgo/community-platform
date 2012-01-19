@@ -30,6 +30,15 @@ sub _build_cpan_repository {
 
 sub modules { shift->cpan_repository->modules }
 
+sub get_release {
+	my ( $self, $name, $version ) = @_;
+	my ( $release ) = $self->ddgc->db->resultset('DuckPAN::Release')->search({
+		name => $name,
+		version => $version,
+	})->all;
+	return $release;
+}
+
 sub add_user_distribution {
 	my ( $self, $user, $distribution_filename ) = @_;
 	my $dist_data = Dist::Data->new($distribution_filename);
@@ -52,7 +61,26 @@ sub add_user_distribution {
 		push @{$ret{namespaces}}, $_;
 	}
 	return \%ret if $ret{error};
+	my @releases = $self->ddgc->db->resultset('DuckPAN::Release')->search({
+		name => $dist_data->name,
+		version => $dist_data->version,
+	})->all;
+	if (@releases) {
+		$ret{error} = 'Distribution version already uploaded';
+		return \%ret;
+	}
 	my $distribution_filename_duckpan = $self->cpan_repository->add_author_distribution(uc($user->username),$distribution_filename);
+	return $self->add_release( $user, $dist_data->name, $dist_data->version, $distribution_filename_duckpan );
+}
+
+sub add_release {
+	my ( $self, $user, $release_name, $release_version, $filename ) = @_;
+	return $self->ddgc->db->resultset('DuckPAN::Release')->create({
+		name => $release_name,
+		version => $release_version,
+		users_id => $user->id,
+		filename => $filename,
+	});
 }
 
 sub add_permission {

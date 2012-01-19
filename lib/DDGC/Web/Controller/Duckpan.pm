@@ -54,8 +54,22 @@ sub upload :Chained('logged_in') :Args(0) {
 	my $upload = $c->req->upload('pause99_add_uri_httpupload');
 	my $filename = $c->d->config->cachedir.'/'.$upload->filename;
 	$upload->copy_to($filename);
-	$c->d->duckpan->add_user_distribution($c->user,$filename);
+	$c->stash->{duckpan_return} = $c->d->duckpan->add_user_distribution($c->user,$filename);
+	$c->res->code(403) if (ref $c->stash->{duckpan_return} eq 'HASH');
 }
+
+sub release :Chained('base') :CaptureArgs(2) {
+    my ( $self, $c, $name, $version ) = @_;
+	my ( $release ) = $c->d->db->resultset('DuckPAN::Release')->search({
+		name => $name,
+		version => $version,
+	})->all;
+	return unless $release;
+	$c->stash->{duckpan_release} = $release;
+	$c->stash->{duckpan_dist} = Dist::Data->new($c->d->config->duckpandir.'/'.$release->filename);
+}
+
+sub release_index :Chained('release') :PathPart('') :Args(0) {}
 
 __PACKAGE__->meta->make_immutable;
 
