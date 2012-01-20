@@ -13,7 +13,7 @@ sub base :Chained('/admin/base') :PathPart('language') :CaptureArgs(0) {
 sub index :Chained('base') :PathPart('') :Args(0) {
     my ( $self, $c ) = @_;
 	$c->stash->{flaglist} = [$c->d->flaglist];
-	$c->stash->{languages} = [$c->model('DB::Language')->search({})->all];
+	$c->stash->{languages} = [$c->d->rs('Language')->search({})->all];
 	my @keys = qw/ name_in_english name_in_local locale flagicon nplurals plural rtl/;
 	for my $l (@{$c->stash->{languages}}) {
 		my $p = 'language_'.$l->id.'_';
@@ -31,7 +31,7 @@ sub index :Chained('base') :PathPart('') :Args(0) {
 		for (@keys) {
 			$new{$_} = $c->req->params->{'language_0_'.$_} if defined $c->req->params->{'language_0_'.$_};
 		}
-		push @{$c->stash->{languages}}, $c->model('DB::Language')->create(\%new) if (%new);
+		push @{$c->stash->{languages}}, $c->d->rs('Language')->create(\%new) if (%new);
 	}
 }
 

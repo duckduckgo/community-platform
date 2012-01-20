@@ -113,6 +113,7 @@ sub locale :Chained('domain') :PathPart('') :CaptureArgs(1) {
     my ( $self, $c, $locale ) = @_;
 	$c->stash->{locale} = $locale;
 	$c->stash->{cur_language} = $c->stash->{locales}->{$c->stash->{locale}}->{l};
+	$c->stash->{token_domain_language} = $c->stash->{locales}->{$c->stash->{locale}}->{tcl};
 	$c->session->{cur_locale}->{$c->stash->{token_domain}->key} = $c->stash->{locale};
 }
 
@@ -155,6 +156,10 @@ sub save_translate_params {
 	}
 }
 
+sub locale_comments :Chained('locale') :PathPart('comments') :Args(0) {
+    my ( $self, $c ) = @_;
+}
+
 sub snippets :Chained('locale') :Args(0) {
     my ( $self, $c ) = @_;
 	my $placeholder_notes = ( $c->user->data && defined $c->user->data->{placeholder_notes} ) ? $c->user->data->{placeholder_notes} : 1;
@@ -169,21 +174,33 @@ sub snippets :Chained('locale') :Args(0) {
 	$c->pager_init($c->action.$c->stash->{token_domain}->key.$c->stash->{locale},20);
 	my $save_translations = $c->req->params->{save_translations} || $c->req->params->{save_translations_next_page} ? 1 : 0;
 	my $next_page = $c->req->params->{save_translations_next_page} ? 1 : 0;
-	if ($save_translations) {
-		$self->save_translate_params($c);
-		if ($next_page && $c->stash->{token_languages}->pager->next_page) {
-			$c->res->redirect($c->chained_uri('Translate','snippets',$c->stash->{token_domain}->key,$c->stash->{locale},{ page => $c->stash->{token_languages}->pager->next_page }));
-			return $c->detach;
-		}
+	$self->save_translate_params($c) if ($save_translations);
+	if ($c->req->params->{only_untranslated}) {
+		$c->stash->{only_untranslated} = 1;
+		$c->stash->{token_languages} = $c->stash->{locales}->{$c->stash->{locale}}->{tcl}->token_languages->search({
+			'token.type' => 1,
+			'token_language_translations.id' => undef,
+		},{
+			order_by => 'me.created',
+			page => $c->stash->{page},
+			rows => $c->stash->{pagesize},
+			prefetch => 'token',
+			join => 'token_language_translations',
+		});
+	} else {
+		$c->stash->{token_languages} = $c->stash->{locales}->{$c->stash->{locale}}->{tcl}->token_languages->search({
+			'token.type' => 1,
+		},{
+			order_by => 'me.created',
+			page => $c->stash->{page},
+			rows => $c->stash->{pagesize},
+			prefetch => 'token',
+		});
 	}
-	$c->stash->{token_languages} = $c->stash->{locales}->{$c->stash->{locale}}->{tcl}->token_languages->search({
-		'token.type' => 1,
-	},{
-		order_by => 'me.created',
-		page => $c->stash->{page},
-		rows => $c->stash->{pagesize},
-		prefetch => 'token',
-	});
+	if ($save_translations && $next_page && $c->stash->{token_languages}->pager->next_page) {
+		$c->res->redirect($c->chained_uri('Translate','snippets',$c->stash->{token_domain}->key,$c->stash->{locale},{ page => $c->stash->{token_languages}->pager->next_page }));
+		return $c->detach;
+	}
 }
 
 sub texts :Chained('locale') :Args(0) {

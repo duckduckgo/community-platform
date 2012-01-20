@@ -40,6 +40,7 @@ ssh -q -t ddgc@$DDGC_RELEASE_HOSTNAME "(
 	rm -rf ~/cache &&
 	mkdir ~/cache &&
 	cp -ar ~/live/share/docroot/* ~/docroot/
+	cp -ar ~/live/share/docroot_duckpan/* ~/ddgc/duckpan/
 )" && \
 ssh -q -t root@$DDGC_RELEASE_HOSTNAME "( svc -u /etc/service/ddgc && rm /home/ddgc/ddgc_web_maintenance )" && \
 echo "Release successful"

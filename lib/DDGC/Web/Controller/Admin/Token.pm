@@ -12,7 +12,7 @@ sub base :Chained('/admin/base') :PathPart('token') :CaptureArgs(0) {
 
 sub index :Chained('base') :PathPart('') :Args(0) {
     my ( $self, $c ) = @_;
-	$c->stash->{token_domains} = [$c->model('DB::Token::Domain')->search({})->all];
+	$c->stash->{token_domains} = [$c->d->rs('Token::Domain')->search({})->all];
 	for my $tc (@{$c->stash->{token_domains}}) {
 		my $p = 'token_domain_'.$tc->id.'_';
 		if ($c->req->params->{$p.'delete'}) {
@@ -25,7 +25,7 @@ sub index :Chained('base') :PathPart('') :Args(0) {
 	my %new;
 	if ($c->req->params->{save_token_domains}) {
 		$new{'name'} = $c->req->params->{'token_domain_0_name'} if $c->req->params->{'token_domain_0_name'};
-		push @{$c->stash->{token_domains}}, $c->model('DB::Token::Domain')->create(\%new) if (%new);
+		push @{$c->stash->{token_domains}}, $c->d->rs('Token::Domain')->create(\%new) if (%new);
 	}
 }
 

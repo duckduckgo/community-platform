@@ -12,7 +12,7 @@ sub base :Chained('/admin/base') :PathPart('user') :CaptureArgs(0) {
 
 sub index :Chained('base') :PathPart('') :Args(0) {
     my ( $self, $c ) = @_;
-	$c->stash->{users} = [$c->model('DB::User')->all];
+	$c->stash->{users} = [$c->d->rs('User')->all];
 }
 
 __PACKAGE__->meta->make_immutable;

@@ -12,7 +12,7 @@ sub base :Chained('/admin/base') :PathPart('help') :CaptureArgs(0) {
 
 sub index :Chained('base') :PathPart('') :Args(0) {
     my ( $self, $c ) = @_;
-	$c->stash->{help} = [$c->model('DB::Help')->search({})->all];
+	$c->stash->{help} = [$c->d->rs('DB::Help')->search({})->all];
         my @keys = qw/ key name description /;
         for my $l (@{$c->stash->{help}}) {
                 my $p = 'help_'.$l->id.'_';
@@ -30,7 +30,7 @@ sub index :Chained('base') :PathPart('') :Args(0) {
                 for (@keys) {
                         $new{$_} = $c->req->params->{'help_0_'.$_} if $c->req->params->{'help_0_'.$_};
                 }
-                push @{$c->stash->{help}}, $c->model('DB::Help')->create(\%new) if (%new);
+                push @{$c->stash->{help}}, $c->model('Help')->create(\%new) if (%new);
         }
 
 }

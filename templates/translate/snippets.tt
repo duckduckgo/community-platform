@@ -1,13 +1,23 @@
-<h1><@ l('Translate text snippets for %s',token_domain.name) @></h1>
+<h1><@ l('Translate %s into %s',token_domain.name,cur_language.name_in_english) @></h1>
 <@ INCLUDE translate/languagebox.tt @>
 <@ INCLUDE translate/pageform.tt @>
-  
 <p class="ac"><@ l('Screen reader users: there is plain text information within the form') @>.</p>
 <form action="<@ u('Translate','snippets',token_domain.key,cur_language.locale) @>" method="post" id="formTranslateDomain">
 <div>
-<a href="<@ u('Translate','allsnippets',token_domain.key,cur_language.locale) @>">
-  Snippets overview
-</a>
+	<div class="token_language_headmenu">
+		<a href="<@ u('Translate','allsnippets',token_domain.key,cur_language.locale) @>">
+		  Snippets overview
+		</a> |
+		<a href="<@ u('Translate','comments',token_domain.key,cur_language.locale) @>">
+		  <@ l('Discuss') @>
+		</a> |
+		<@ IF only_untranslated @>
+			<a href="<@ u('Translate','snippets',token_domain.key,cur_language.locale) @>"><@ l('Show all snippets again') @></a>
+			<input type="hidden" name="only_untranslated" value="1" />
+		<@ ELSE @>
+			<a href="<@ u('Translate','snippets',token_domain.key,cur_language.locale,{ only_untranslated => 1 }) @>"><@ l('Show only untranslated snippets') @></a>
+		<@ END @>
+	</div>
 </div>
  <fieldset>
   <@ IF placeholder_notes @>
@@ -37,5 +47,5 @@
   </div>
 </form>
 
-<@ INCLUDE pager.tt pager=token_languages.pager url=u('Translate','snippets',token_domain.key,cur_language.locale,{ page => 'PAGE_NO' }) @>
+<@ INCLUDE pager.tt pager=token_languages.pager url=u('Translate','snippets',token_domain.key,cur_language.locale,{ page => 'PAGE_NO', only_untranslated => ( only_untranslated ? 1 : 0 )}) @>
 <p><a href="<@ u('Translate','index') @>"><@ l('Back to all text domains') @></a></p>

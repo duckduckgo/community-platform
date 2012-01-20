@@ -1,0 +1,2 @@
+<h1><@ l('Discuss the translation of %s into %s',token_domain.name,cur_language.name_in_english) @></h1>
+<@ INCLUDE comment/comments.tt comments=c.d.comments('DDGC::DB::Result::Token::Domain::Language',token_domain_language.id) @>
