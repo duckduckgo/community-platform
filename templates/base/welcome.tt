@@ -43,6 +43,10 @@
   </ul>
 </div>
 
+<div class="latest_comments">
+	
+</div>
+
 <div class="usercount">
 	XMPP/Jabber usercount: <@ user_counts.xmpp @> | Website usercount: <@ user_counts.db @>
 </div>

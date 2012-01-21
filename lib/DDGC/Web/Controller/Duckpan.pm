@@ -22,24 +22,6 @@ sub index :Chained('do') :Args(0) {
     my ( $self, $c ) = @_;
 }
 
-sub module :Chained('base') :CaptureArgs(1) {
-    my ( $self, $c, $module ) = @_;
-	$c->stash->{duckpan_module} = $module;
-	$c->stash->{duckpan_dist_filename} = $c->stash->{duckpan}->modules->{$module};
-	if ($c->stash->{duckpan_dist_filename}) {
-		$c->stash->{duckpan_dist} = Dist::Data->new($c->stash->{duckpan_dist_filename});
-	}
-}
-
-sub module_index :Chained('module') :PathPart('') :Args(0) {
-    my ( $self, $c ) = @_;
-	if ($c->stash->{duckpan_dist}) {
-		my $p = Pod::HTMLEmbed->new;
-		my $filename = $c->stash->{duckpan_dist}->packages->{$c->stash->{duckpan_module}}->{file};
-		$c->stash->{module_pod} = $p->load($c->stash->{duckpan_dist}->file($filename));
-	}
-}
-
 sub logged_in :Chained('do') :PathPart('') :CaptureArgs(0) {
     my ( $self, $c ) = @_;
 	if (!$c->user) {
@@ -58,18 +40,40 @@ sub upload :Chained('logged_in') :Args(0) {
 	$c->res->code(403) if (ref $c->stash->{duckpan_return} eq 'HASH');
 }
 
-sub release :Chained('base') :CaptureArgs(2) {
-    my ( $self, $c, $name, $version ) = @_;
-	my ( $release ) = $c->d->db->resultset('DuckPAN::Release')->search({
-		name => $name,
-		version => $version,
-	})->all;
-	return unless $release;
-	$c->stash->{duckpan_release} = $release;
-	$c->stash->{duckpan_dist} = Dist::Data->new($c->d->config->duckpandir.'/'.$release->filename);
+sub module :Chained('base') :CaptureArgs(1) {
+    my ( $self, $c, $module ) = @_;
+	$c->stash->{duckpan_module} = $module;
+	$c->stash->{duckpan_dist_filename} = $c->stash->{duckpan}->modules->{$module};
+	return $c->go($c->controller('Root'),'default') unless $c->stash->{duckpan_dist_filename};
+	$c->stash->{duckpan_dist} = Dist::Data->new($c->stash->{duckpan_dist_filename});
 }
 
-sub release_index :Chained('release') :PathPart('') :Args(0) {}
+sub module_index :Chained('module') :PathPart('') :Args(0) {
+    my ( $self, $c ) = @_;
+}
+
+# TODO: Goes into a static generation procedure
+
+# sub module_index :Chained('module') :PathPart('') :Args(0) {
+    # my ( $self, $c ) = @_;
+	# if ($c->stash->{duckpan_dist}) {
+		# my $p = Pod::HTMLEmbed->new;
+		# my $filename = $c->stash->{duckpan_dist}->packages->{$c->stash->{duckpan_module}}->{file};
+		# $c->stash->{module_pod} = $p->load($c->stash->{duckpan_dist}->file($filename));
+	# }
+# }
+
+# sub release :Chained('base') :CaptureArgs(2) {
+    # my ( $self, $c, $name, $version ) = @_;
+	# my ( $release ) = $c->d->db->resultset('DuckPAN::Release')->search({
+		# name => $name,
+		# version => $version,
+	# })->all;
+	# return unless $release;
+	# $c->stash->{duckpan_release} = $release;
+	# $c->stash->{duckpan_dist} = Dist::Data->new($c->d->config->duckpandir.'/'.$release->filename);
+# }
+# sub release_index :Chained('release') :PathPart('') :Args(0) {}
 
 __PACKAGE__->meta->make_immutable;
 

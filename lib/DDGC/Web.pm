@@ -101,6 +101,7 @@ sub d {
 
 sub pager_init {
 	my ( $c, $key, $default_pagesize ) = @_;
+	$key = $c->action if !$key;
 	$default_pagesize = 20 if !$default_pagesize;
 	$c->session->{pager} = {} if !$c->session->{pager};
 	$c->session->{pager}->{$key} = {} if !$c->session->{pager}->{$key};

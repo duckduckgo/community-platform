@@ -1,4 +1,2 @@
-<div id="___pod" class="pod">
-	<@ module_pod.toc @>
-	<@ module_pod.body @>
-</div>
+<h1><@ l('Discuss DuckPAN module %s',duckpan_module) @></h1>
+<@ INCLUDE comment/comments.tt comments=c.d.comments(duckpan_module,1) @>

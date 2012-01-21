@@ -1,0 +1,4 @@
+<@ FOR comment IN latest_comments @>
+	<@ INCLUDE comment/teaser.tt @>
+<@ END @>
+<@ INCLUDE pager.tt pager=latest_comments.pager url=u('Comment','latest',{ page => 'PAGE_NO' }) @>

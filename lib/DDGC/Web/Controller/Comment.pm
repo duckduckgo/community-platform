@@ -8,6 +8,20 @@ sub base :Chained('/base') :PathPart('comment') :CaptureArgs(0) {
     my ( $self, $c ) = @_;
 }
 
+sub do :Chained('base') :Args(0) {
+    my ( $self, $c ) = @_;
+}
+
+sub latest :Chained('do') :Args(0) {
+    my ( $self, $c ) = @_;
+	$c->pager_init($c->action,20);
+	$c->stash->{latest_comments} = [@{$c->d->rs('Comment')->search({},{
+		order_by => 'me.created',
+		page => $c->stash->{page},
+		rows => $c->stash->{pagesize},
+	})}];
+}
+
 sub add :Chained('base') :Args(2) {
     my ( $self, $c, $context, $context_id ) = @_;
 	if ($c->req->params->{content}) {

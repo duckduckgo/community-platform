@@ -39,6 +39,7 @@ sub tokenlanguage :Chained('logged_in') :Args(1) {
 	$c->stash->{token_language} = $c->d->rs('Token::Language')->find({ id => $token_language_id });
 	if (!$c->stash->{token_language}) {
 		$c->response->redirect($c->chained_uri('Translate','index',{ no_token_language => 1 }));
+		$c->response->status(404);
 		return $c->detach;
 	}
 }
@@ -48,6 +49,7 @@ sub translation :Chained('logged_in') :CaptureArgs(1) {
 	$c->stash->{translation} = $c->d->rs('Token::Language::Translation')->find({ id => $translation_id });
 	if (!$c->stash->{translation}) {
 		$c->response->redirect($c->chained_uri('Translate','index',{ no_translation => 1 }));
+		$c->response->status(404);
 		return $c->detach;
 	}
 }
@@ -85,6 +87,7 @@ sub domain :Chained('logged_in') :PathPart('') :CaptureArgs(1) {
 			token_domain_languages => 'language',
 		},
 	});
+	return $c->go($c->controller('Root'),'default') unless $c->stash->{token_domain};
 	$c->stash->{locales} = {};
 	$c->stash->{token_domain_languages} = [$c->stash->{token_domain}->token_domain_languages->search({},{
 		order_by => { -asc => 'language.locale' },
@@ -113,6 +116,7 @@ sub locale :Chained('domain') :PathPart('') :CaptureArgs(1) {
     my ( $self, $c, $locale ) = @_;
 	$c->stash->{locale} = $locale;
 	$c->stash->{cur_language} = $c->stash->{locales}->{$c->stash->{locale}}->{l};
+	return $c->go($c->controller('Root'),'default') unless $c->stash->{cur_language};
 	$c->stash->{token_domain_language} = $c->stash->{locales}->{$c->stash->{locale}}->{tcl};
 	$c->session->{cur_locale}->{$c->stash->{token_domain}->key} = $c->stash->{locale};
 }

@@ -1,0 +1,9 @@
+<div class="comment">
+	<p class="comment_content"><@ FILTER truncate(200) @><@ comment.content | html | replace("\n", "<br />") @><@ END @>
+		<@ IF comment.content.length > 200 @>...<@ END @>
+	</p>
+	<a href="<@ INCLUDE comment/linkcontext.tt @>">Go to context</a>
+	<div class="comment_user"><@ INCLUDE user/username16.tt user=comment.user @></div>
+	<div class="comment_info"> at <@ comment.created @><@ #date.format(comment.created,"%D %T") @></div>
+</div>  
+<div class="clear"></div>

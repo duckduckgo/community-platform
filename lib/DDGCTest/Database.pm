@@ -1,4 +1,4 @@
-package DDGCTest::Database;
+﻿package DDGCTest::Database;
 #
 # BE SURE YOU SAVE THIS FILE AS UTF-8 WITHOUT BYTE ORDER MARK (BOM)
 #
@@ -9,7 +9,6 @@ use DDGC::DB;
 use Try::Tiny;
 use utf8::all;
 use File::ShareDir::ProjectDistDir;
-
 use Data::Printer;
 
 has _ddgc => (
@@ -67,6 +66,7 @@ sub deploy {
 	$self->add_users;
 	$self->add_token_domains;
 	$self->add_distributions;
+	$self->add_comments;
 	$self->next_step; # shouldnt be needed, something doesnt count up...
 }
 
@@ -279,11 +279,12 @@ sub add_users {
 }
 
 ################################################################
-#  ____             _    ____   _    _   _
-# |  _ \ _   _  ___| | _|  _ \ / \  | \ | |
-# | | | | | | |/ __| |/ / |_) / _ \ |  \| |
-# | |_| | |_| | (__|   <|  __/ ___ \| |\  |
-# |____/ \__,_|\___|_|\_\_| /_/   \_\_| \_|
+#      _ _     _        _ _           _   _
+#   __| (_)___| |_ _ __(_) |__  _   _| |_(_) ___  _ __  ___
+#  / _` | / __| __| '__| | '_ \| | | | __| |/ _ \| '_ \/ __|
+# | (_| | \__ \ |_| |  | | |_) | |_| | |_| | (_) | | | \__ \
+#  \__,_|_|___/\__|_|  |_|_.__/ \__,_|\__|_|\___/|_| |_|___/
+
 
 sub distributions {[
 	[ testone => 'DDG-Something-0.001.tar.gz' ],
@@ -301,6 +302,18 @@ sub add_distributions {
 		$self->d->duckpan->add_user_distribution($user,$sharedir.'/testdists/'.$filename);
 		$self->next_step;
 	}
+}
+
+#####################################################
+#                                          _
+#   ___ ___  _ __ ___  _ __ ___   ___ _ __ | |_ ___
+#  / __/ _ \| '_ ` _ \| '_ ` _ \ / _ \ '_ \| __/ __|
+# | (_| (_) | | | | | | | | | | |  __/ | | | |_\__ \
+#  \___\___/|_| |_| |_|_| |_| |_|\___|_| |_|\__|___/
+
+sub comments {[]}
+
+sub add_comments {
 }
 
 ################################################################

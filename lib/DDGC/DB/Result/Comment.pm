@@ -50,6 +50,14 @@ belongs_to 'user', 'DDGC::DB::Result::User', 'users_id';
 belongs_to 'parent', 'DDGC::DB::Result::Comment', 'parent_id', { join_type => 'left' };
 has_many 'children', 'DDGC::DB::Result::Comment', 'parent_id';
 
+sub get_context_obj {
+	my ( $self ) = @_;
+	if ( $self->context =~ m/^DDGC::DB::Result::(.*)$/ ) {
+		return $self->result_source->schema->resultset($1)->find($self->context_id);
+	}
+	die "dont know how to get object of ".$self->context;
+}
+
 use overload '""' => sub {
 	my $self = shift;
 	return 'Comment #'.$self->id;
