@@ -88,11 +88,16 @@ both `cpanm` commands, and you can see the errors more clear!  As mentioned
 above, it could be just a bad mirror.
 
 When all requirements are installed we can deploy a small test setup for the
-environment. The command will install the required data in ~/ddgc.
-
-If you get a newer version you should delete this directory and redo the command:
+environment.
 
       script/ddgc_deploy_dev.pl
+
+The command will install the required data in ~/ddgc.
+
+If you update to a newer version you can do this command, it will delete the
+old development environment and installs a fresh one:
+
+      script/ddgc_deploy_dev.pl --kill
 
 And now you can start the web application with:
 
