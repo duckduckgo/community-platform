@@ -8,7 +8,7 @@
 		<a href="<@ u('Translate','allsnippets',token_domain.key,cur_language.locale) @>">
 		  Snippets overview
 		</a> |
-		<a href="<@ u('Translate','comments',token_domain.key,cur_language.locale) @>">
+		<a href="<@ u('Translate','locale_comments',token_domain.key,cur_language.locale) @>">
 		  <@ l('Discuss') @>
 		</a> |
 		<@ IF only_untranslated @>

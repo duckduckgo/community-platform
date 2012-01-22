@@ -1,7 +1,7 @@
-<@- SWITCH comment.context -@>
+<a href="<@- SWITCH comment.context -@>
 <@-   CASE 'DDGC::DB::Result::Token::Domain::Language' -@>
 	<@- SET obj = comment.get_context_obj -@>
-	<@- u('Translate','comments',obj.key,obj.locale) -@>
+	<@- u('Translate','locale_comments',obj.token_domain.key,obj.language.locale) -@>
 <@-   CASE 'DDGC::DB::Result::Token::Language' -@>
 	<@- u('Translate','tokenlanguage',comment.context_id) -@>
-<@- END -@>
+<@- END -@>">Go to context</a>
