@@ -76,8 +76,8 @@ Now you can clone the repository of the platform:
 
       git clone git://github.com/duckduckgo/community-platform.git
 
-Then inside the repository you can install the requirements for authors and the requirements
-of the distribution itself:
+Then inside the repository you can install the requirements for authors and the
+requirements of the distribution itself:
 
       cd community-platform
       cpanm $( dzil authordeps --missing )
@@ -100,7 +100,17 @@ And now you can start the web application with:
 
 `-r` makes it reload on changes, and the `-d` activates debugging.
 
-The installed database includes a login "testone" with password "testpass"
+By default, the system will allow any login, so you can give every username and
+just type something as password. If the account doesnt exist already, he will
+automatically add this account (by concept it would be the same like 
+registering via XMPP on dukgo.com and then login to the web platform). We added
+some accounts by default:
+
+      testone - admin
+      testtwo - public profile
+      testthree - translation manager, public profile
+      testfour - admin, public profile
+      testfive
 
 If you want to make modification and help us on development, you should fork our
 repository and send us pull requests!
