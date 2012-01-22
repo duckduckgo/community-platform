@@ -5,19 +5,20 @@
   <fieldset>
     <legend><span><@ l('Feedback') @></span></legend>
     <div>
+      <label for="feedback"><@ l('Feedback / Question / Suggestion / Problem') @>: </label>
+      <textarea rows="10" name="feedback" id="feedback"><@ feedback_feedback @></textarea>
+    </div>
+    <div>
       <@ IF no_valid_email @>
         <p class="error" id="errorInvalidEmail"><@ l('You must give a valid email.') @></p>
       <@ END @>
       <label for="email" aria-describedby="errorInvalidEmail"><@ l('Email') @>: </label>
       <input type="text" name="email" id="email" value="<@ c.user.data.email || feedback_email @>">
     </div>
-    <div>
-      <label for="feedback"><@ l('Feedback / Question / Suggestion / Problem') @>: </label>
-      <textarea rows="10" name="feedback" id="feedback"><@ feedback_feedback @></textarea>
-    </div>
     <input type="submit" value="<@ l('Submit feedback') @>" name="submit" id="submit">
   </fieldset>
 </form>
+<p class="infobox"><@ l('Please use feedback form of DuckDuckGo at %s if you want to give feedback for the Search Engine itself','<a href="https://duckduckgo.com/feedback.html">https://duckduckgo.com/feedback.html</a>') @></p>
 <div>
 	If you have a GitHub account, please use our <a href="https://github.com/duckduckgo/community-platform/issues">issue tracking</a> there.
 </div>
