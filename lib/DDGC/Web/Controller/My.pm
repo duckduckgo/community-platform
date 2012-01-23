@@ -345,6 +345,8 @@ sub register :Chained('logged_out') :Args(0) {
 		$c->stash->{not_valid_chars} = 1;
 		$error = 1;
 	}
+
+	return $c->detach if $error;
 	
 	my $username = lc($c->req->params->{username});
 	my $password = $c->req->params->{password};
@@ -357,8 +359,6 @@ sub register :Chained('logged_out') :Args(0) {
 	} else {
 		$c->stash->{username} = $username;
 	}
-
-	return $c->detach if $error;
 
 	if (!$c->model('DDGC')->create_user($username,$password)) {
 		$c->stash->{register_failed} = 1;
