@@ -11,13 +11,13 @@
 <@ END @>
 
     <ul class="actions" id="domainbox">
-  <@ FOR token_domain IN token_domains.all @>
+  <@ FOR token_domain IN token_domains.sorted @>
       <li>
         <h2><a href="<@ u('Translate','domainindex',token_domain.key) @>"><@ token_domain.name @></a></h2>
         <@ IF token_domain.description @>
 		  <p><@ token_domain.description @></p>
         <@ END @>
-        <@ FOREACH token_domain_language IN token_domain.languages_locale_sorted @>
+        <@ FOREACH token_domain_language IN token_domain.token_domain_languages_locale_sorted @>
           <div><a href="<@ u('Translate','snippets',token_domain.key,token_domain_language.language.locale) @>" class="flag">
            <img src="<@ token_domain_language.language.flag_url @>" alt="<@ token_domain_language.language.name_in_english @>">
 		   <@ token_domain_language.language.name_in_english @> [<@ token_domain_language.language.locale @>]

@@ -31,6 +31,12 @@ column data => {
 	serializer_class => 'YAML',
 };
 
+column sorting => {
+	data_type => 'int',
+	is_nullable => 0,
+	default_value => 0,
+};
+
 column source_language_id => {
 	data_type => 'int',
 	is_nullable => 0,
@@ -59,7 +65,7 @@ belongs_to 'source_language', 'DDGC::DB::Result::Language', 'source_language_id'
 
 many_to_many 'languages', 'token_domain_languages', 'language';
 
-sub languages_locale_sorted {
+sub token_domain_languages_locale_sorted {
 	my ( $self ) = @_;
 	$self->token_domain_languages->search({},{
 		order_by => 'language.locale',

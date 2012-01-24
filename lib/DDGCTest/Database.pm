@@ -327,6 +327,7 @@ sub token_domains {{
 	'test' => {
 		name => 'The domain of tests',
 		base => 'us',
+		sorting => 200,
 		description => 'Bla blub the test is dead the test is dead!',
 		languages => [qw( de es br ru fr se in da ar )],
 		snippets => [
@@ -474,6 +475,7 @@ sub token_domains {{
 		name => 'taken from some list of feeling words',
 		base => 'us',
 		description => 'feelings.. nothing more then feelings!',
+		sorting => 100,
 		languages => [qw( de ru ar )],
 		snippets => [
 			'abominable',{},
