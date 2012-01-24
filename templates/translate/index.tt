@@ -17,10 +17,11 @@
         <@ IF token_domain.description @>
 		  <p><@ token_domain.description @></p>
         <@ END @>
-        <@ FOREACH token_domain_language IN token_domain.token_domain_languages @>
-          <a href="<@ u('Translate','snippets',token_domain.key,token_domain_language.language.locale) @>" class="flag">
+        <@ FOREACH token_domain_language IN token_domain.languages_locale_sorted @>
+          <div><a href="<@ u('Translate','snippets',token_domain.key,token_domain_language.language.locale) @>" class="flag">
            <img src="<@ token_domain_language.language.flag_url @>" alt="<@ token_domain_language.language.name_in_english @>">
-          </a>
+		   <@ token_domain_language.language.name_in_english @> [<@ token_domain_language.language.locale @>]
+          </a></div>
         <@ END @>
       </li>
   <@ END @>

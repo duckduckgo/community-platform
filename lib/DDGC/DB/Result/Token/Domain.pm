@@ -59,6 +59,14 @@ belongs_to 'source_language', 'DDGC::DB::Result::Language', 'source_language_id'
 
 many_to_many 'languages', 'token_domain_languages', 'language';
 
+sub languages_locale_sorted {
+	my ( $self ) = @_;
+	$self->token_domain_languages->search({},{
+		order_by => 'language.locale',
+		prefetch => 'language',
+	});
+}
+
 use overload '""' => sub {
 	my $self = shift;
 	return 'Token-Domain '.$self->name.' #'.$self->id;
