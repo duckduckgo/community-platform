@@ -223,6 +223,7 @@ tm
 tn
 to
 tokipona
+tpi
 tr
 tt
 tv
