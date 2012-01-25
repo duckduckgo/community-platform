@@ -14,7 +14,8 @@ use SQL::Translator;
 
 {
 	package DDGC::DBOld;
-	use base qw/DDGC::DB DBIx::Class::Schema::Loader/;
+	use base qw/DBIx::Class::Schema::Loader DDGC::DB/;
+	sub connect { DDGC::DB::connect(@_) }
 	__PACKAGE__->naming('old');
 }
 
