@@ -6,6 +6,7 @@ use FindBin;
 use lib $FindBin::Dir . "/../lib"; 
 
 use strict;
+use DDGC;
 use DDGC::DB;
 use SQL::Translator::Diff;
 use IO::All;
@@ -13,12 +14,14 @@ use SQL::Translator;
 
 {
 	package DDGC::DBOld;
-	use base qw/DBIx::Class::Schema::Loader DDGC::DB/;
+	use base qw/DDGC::DB DBIx::Class::Schema::Loader/;
 	__PACKAGE__->naming('old');
 }
 
-my $schema = DDGC::DB->connect;
-my $old_schema = DDGC::DBOld->connect;
+my $ddgc = DDGC->new;
+
+my $schema = DDGC::DB->connect($ddgc);
+my $old_schema = DDGC::DBOld->connect($ddgc);
 
 my $old_translator = SQL::Translator->new( parser => 'SQL::Translator::Parser::DBIx::Class', parser_args => { package => $old_schema, add_fk_index => 0 } );
 my $new_translator = SQL::Translator->new( parser => 'SQL::Translator::Parser::DBIx::Class', parser_args => { package => $schema, add_fk_index => 0 } );
