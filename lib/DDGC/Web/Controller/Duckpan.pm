@@ -4,7 +4,6 @@ use namespace::autoclean;
 
 use DDGC::Config;
 use Dist::Data;
-use Pod::HTMLEmbed;
 
 BEGIN {extends 'Catalyst::Controller'; }
 
