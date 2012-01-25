@@ -27,7 +27,7 @@ sub index :Chained('base') :PathPart('') :Args(0) {
 		}
 	}
 	my %new;
-	if ($c->req->params->{save_languages}) {
+	if ($c->req->params->{new_language}) {
 		for (@keys) {
 			$new{$_} = $c->req->params->{'language_0_'.$_} if defined $c->req->params->{'language_0_'.$_};
 		}
