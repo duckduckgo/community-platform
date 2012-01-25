@@ -6,13 +6,14 @@ use FindBin;
 use lib $FindBin::Dir . "/../lib"; 
 
 use strict;
-use DDGC::DB;
+use DDGC;
 
 my $username = shift @ARGV;
 
 die "please give a username" unless $username;
 
-my $schema = DDGC::DB->connect;
+my $ddgc = DDGC->new;
+my $schema = $ddgc->db;
 
 my $user = $schema->resultset('User')->find({ username => $username });
 

@@ -6,14 +6,15 @@ use warnings;
 
 use FindBin;
 use lib $FindBin::Dir . "/../lib"; 
-use DDGC::DB;
+use DDGC;
 
 my $locale = shift @ARGV;
 my $domain = shift @ARGV;
 
 die "You must give locale and domain (in this order) as parameter" if !$domain || !$locale;
 
-my $schema = DDGC::DB->connect;
+my $ddgc = DDGC->new;
+my $schema = $ddgc->db;
 
 my $td = $schema->resultset('Token::Domain')->search({ key => $domain })->next;
 
