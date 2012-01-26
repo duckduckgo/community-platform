@@ -29,8 +29,13 @@ sub logged_in :Chained('do') :PathPart('') :CaptureArgs(0) {
 	}
 }
 
-sub upload :Chained('logged_in') :Args(0) {
+sub upload :Chained('do') :Args(0) {
     my ( $self, $c ) = @_;
+	if (!$c->user) {
+		$c->res->code(403);
+		$c->stash->{no_user} = 1;
+		return $c->detach;
+	}
 	my $uploader = $c->user->username;
 	my $upload = $c->req->upload('pause99_add_uri_httpupload');
 	my $filename = $c->d->config->cachedir.'/'.$upload->filename;

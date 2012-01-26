@@ -1,6 +1,8 @@
 <div>Username: <@ c.user.username @></div>
-<@ IF duckpan_return.error @>
+<@ IF no_user @>
+	<div>Error: Not logged in / login failed</div>	
+<@ ELSIF duckpan_return.error @>
 	<div>Error: <@ duckpan_return.error @></div>
 <@ ELSE @>
-	<div>Accepted: <a href="<@ u('Duckpan','release',name,version) @>"><@ duckpan_return.filename @></a></div>
+	<div>Accepted: <@ duckpan_return.filename @></div>
 <@ END @>
