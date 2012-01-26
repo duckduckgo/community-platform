@@ -1,2 +1,2 @@
-<h1><@ l('Discuss DuckPAN module %s',duckpan_module) @></h1>
+<h1><@ l('Discuss DuckPAN module %s','<i>' _ duckpan_module _ '</i>') @></h1>
 <@ INCLUDE comment/comments.tt comments=c.d.comments(duckpan_module,1) @>
