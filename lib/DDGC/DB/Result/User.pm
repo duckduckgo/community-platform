@@ -95,6 +95,7 @@ has_many 'checked_translations', 'DDGC::DB::Result::Token::Language::Translation
 has_many 'translation_votes', 'DDGC::DB::Result::Token::Language::Translation::Vote', 'users_id';
 has_many 'comments', 'DDGC::DB::Result::Comment', 'users_id';
 has_many 'duckpan_releases', 'DDGC::DB::Result::DuckPAN::Release', 'users_id';
+has_many 'duckpan_permissions', 'DDGC::DB::Result::DuckPAN::Permission', 'users_id';
 
 many_to_many 'languages', 'user_languages', 'language';
 
