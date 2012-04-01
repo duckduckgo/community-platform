@@ -1,4 +1,3 @@
-
 # DuckDuckGo - Community Platform
 
 In order to test this application on your own machine you require Perl
@@ -37,35 +36,17 @@ On an Atom processor system with Linux the complete procedure could take 2+ hrs.
 
 After this, you will have nearly all modern Perl modules installed.
 
-We need to install local::lib, and the best route is through these instructions:
+For the base we need to get local::lib installed, which we can now do all very 
+easy with the DuckPAN installer we created for our other OpenSource Development.
 
-      wget http://cpan.cpantesters.org/authors/id/A/AP/APEIRON/local-lib-1.008004.tar.gz
-      tar xvzf local-lib-1.008004.tar.gz
-      cd local-lib-1.008004
-      perl Makefile.PL --bootstrap
-      make test && make install
+So you can do everything with one command (which will require you to relogin once
+and then redo it once more):
 
-After this you need to configure your shell to include the proper env. variables
-for local::lib, you can do this for bash with this command:
+      curl http://duckpan.org/install.pl | perl
 
-      echo 'eval $(perl -I$HOME/perl5/lib/perl5 -Mlocal::lib)' >>~/.bashrc
+After this (and the relogin) we still need one more package to install:
 
-Then re-login, and check that the environment variables are correctly set by:
-
-      set | grep PERL5
-
-If you see output with a variable, then you did something right, else double
-check that you followed the above steps correctly.  Then you can install the
-Perl modules in your local userspace.  Install this CPAN client for the modules:
-
-      cpan App::cpanminus
-
-After this you got the new command "cpanm" which is a much nicer way to install
-modules, we need a small bunch of base modules to get our stuff best done:
-
-      cpanm Dist::Zilla Catalyst::Devel
-
-To ensure these above (2) steps work properly, issue each of the commands again.
+      cpanm Catalyst::Devel
 
 If you still encounter issues, please contact us on IRC
 (irc.freenode.net #duckduckgo).  You can also [create a new Issue][4] here.
@@ -80,12 +61,11 @@ Then inside the repository you can install the requirements for authors and the
 requirements of the distribution itself:
 
       cd community-platform
-      cpanm $( dzil authordeps --missing )
-      cpanm $( dzil listdeps --missing )
+      duckpan installdeps
 
 **WARNING:** Check for errors! If you don't have the overview, just redo
-both `cpanm` commands, and you can see the errors more clear!  As mentioned
-above, it could be just a bad mirror.
+the command, and you can see the errors more clear! It could be just a bad 
+mirror or download error.
 
 When all requirements are installed we can deploy a small test setup for the
 environment.
