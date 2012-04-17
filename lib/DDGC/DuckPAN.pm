@@ -11,13 +11,7 @@ has ddgc => (
 	weak_ref => 1,
 );
 
-has cpan_repository => (
-	isa => 'CPAN::Repository',
-	is => 'ro',
-	lazy_build => 1,
-);
-
-sub _build_cpan_repository {
+sub cpan_repository {
 	my ( $self ) = @_;
 	my $repo = CPAN::Repository->new({
 		dir => $self->ddgc->config->duckpandir,
