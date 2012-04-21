@@ -10,7 +10,11 @@ sub base :Chained('/base') :PathPart('blog') :CaptureArgs(0) {
   my ( $self, $c ) = @_;
 }
 
-sub index :Chained('base') :PathPart('') :Args(0) {
+sub do :Chained('base') :CaptureArgs(0) {
+  my ( $self, $c ) = @_;
+}
+
+sub index :Chained('do') :Args(0) {
   my ( $self, $c ) = @_;
   $c->stash->{blog_entries} = $c->d->blog->list_entries;
 }
