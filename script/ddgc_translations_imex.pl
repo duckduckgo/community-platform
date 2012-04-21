@@ -10,6 +10,7 @@ use DDGC::DB;
 use Getopt::Long;
 use JSON;
 use IO::All -utf8;
+use DDGC;
 
 my $username;
 my $domain;
@@ -32,7 +33,7 @@ die 'you must give a --domain and a --locale' if !$domain || !$locale;
 # TODO also cover im/ex of used translations
 die 'we need a --user' if !$username;
 
-my $schema = DDGC::DB->connect;
+my $schema = DDGC::DB->connect(DDGC->new);
 
 my $td = $schema->resultset('Token::Domain')->search({ key => $domain },{ prefetch => 'token_domain_languages' })->next;
 
