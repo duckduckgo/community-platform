@@ -8,6 +8,7 @@ use DDGC::User;
 use DDGC::DuckPAN;
 use DDGC::XMPP;
 use DDGC::Comments;
+use DDGC::Blog;
 use File::Copy;
 use IO::All;
 use File::Spec;
@@ -66,6 +67,16 @@ has config => (
 	lazy_build => 1,
 );
 sub _build_config { DDGC::Config->new }
+
+has blog => (
+	isa => 'DDGC::Blog',
+	is => 'ro',
+	lazy_build => 1,
+);
+sub _build_blog {
+	my ( $self ) = @_;
+	DDGC::Blog->new( datadir => $self->config->blog_datadir );
+}
 
 sub resultset { shift->db->resultset(@_) }
 sub rs { shift->resultset(@_) }
