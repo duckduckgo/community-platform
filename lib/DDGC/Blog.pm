@@ -53,7 +53,7 @@ sub get_topical_entries {
   my @topical_blog_entries;
   foreach (@all_blog_entries) {
     if ($_->[0]->{'tags'} eq $topic) {
-      push @topical_blog_entries, shift($_);
+      push @topical_blog_entries, shift @{$_};
     }
   }
   foreach (@topical_blog_entries) {
