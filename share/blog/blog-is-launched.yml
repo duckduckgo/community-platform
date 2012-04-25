@@ -2,6 +2,5 @@
 - uri: blog-is-launched
   date: 21.04.2012
   title: The developer blog of DuckDuckGo launched!
-  p:
-    - >
-      Lallalalalalala
+  tags: launch
+

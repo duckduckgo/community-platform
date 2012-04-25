@@ -1,4 +1,6 @@
+<@ FOREACH entry IN entries @>
 <h2><@ entry.title @></h2>
 <@ entry.date @>
 <br><br><br>
 <@ entry.html @>
+<@ END @>
