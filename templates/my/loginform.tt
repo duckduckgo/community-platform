@@ -20,6 +20,3 @@
   <div class="form_column"><input type="submit" value="<@ l('Login') @>" class="BTN_submit"></div>
 </fieldset>
 </form>
-
-	  <strong>Welcome!</strong><br/>
-<a href="<@ u('My','login') @>"><@ l('Login') @></a> | <a href="<@ u('My','register') @>"><@ l('Register') @></a>
