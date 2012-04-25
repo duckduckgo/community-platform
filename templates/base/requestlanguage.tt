@@ -1,41 +1,54 @@
-<@ IF thanks_for_languagerequest @>
-	<h2><@ l('Thanks for your language request!') @></h2>
-<@ END @>
 <form action="<@ u('Base','requestlanguage') @>" method="post" id="formRequestLanguage" class="my">
   <fieldset>
-    <legend><span><@ l('Request a new language') @></span></legend>
-    <div>
-      <@ IF no_valid_email @>
-        <p class="error" id="errorInvalidEmail"><@ l('You must give a valid email.') @></p>
+    <h4><@ l('Request a new language') @></h4>
+	
+	<@ IF thanks_for_languagerequest @>
+	<div class="alert ok"><div class="close-ok"></div><@ l('Thanks for your submitting your language request!') @></div>
+	<@ END @>
+
+	  <@ IF no_valid_email @>
+       		<div class="alert wrong"><div class="close-wrong"></div><@ l('Please provide a valid email.') @></div>
       <@ END @>
-      <label for="email" aria-describedby="errorInvalidEmail"><@ l('Email') @>: </label>
-      <input type="text" name="email" id="email" value="<@ c.user.data.email || requestlanguage_email @>">
-    </div>
-    <div>
-      <@ IF required_name_in_english @>
-        <p class="error" id="errorRequiredNameEnglish"><@ l('You must give the name of the language in english.') @></p>
+	  
+	  <@ IF required_name_in_english @>
+        <div class="alert wrong"><div class="close-wrong"></div><@ l('Please provide the name of the language in english.') @></div>
       <@ END @>
-      <label for="name_in_english" aria-describedby="errorRequiredNameEnglish"><@ l('Name in english') @>: </label>
-      <input type="text" name="name_in_english" id="name_in_english" value="<@ requestlanguage_name_in_english @>">
-		<span>Example: English in United States</span>
-    </div>
-    <div>
-      <@ IF required_name_in_local @>
-        <p class="error" id="errorRequiredNameLocal"><@ l('You must give the name of the language in the local language.') @></p>
+	  
+	  <@ IF required_name_in_local @>
+       <div class="alert wrong"><div class="close-wrong"></div><@ l('Please provide the language in the local language.') @></div>
       <@ END @>
-      <label for="name_in_local" aria-describedby="errorRequiredNameLocal"><@ l('Name in local language') @>: </label>
-      <input type="text" name="name_in_local" id="name_in_local" value="<@ requestlanguage_name_in_local @>">
-		<span>Example: English in United States</span>
+	  
+    <div class="form_column">
+      <label for="email" class="form_input-label" aria-describedby="errorInvalidEmail"><@ l('Email') @></label>
+      <input type="text" name="email" id="email" value="<@ c.user.data.email || requestlanguage_email @>" class="form-input">
     </div>
-    <div>
-      <label for="requestlanguage_locale"><@ l('Locale') @>: (<@ l('optional') @>)</label>
-      <input type="text" name="requestlanguage_locale" id="requestlanguage_locale" value="<@ requestlanguage_locale @>">
-		<span>Example: en_US</span>
+	
+    <div class="form_column">
+      <label for="name_in_english" class="form_input-label" aria-describedby="errorRequiredNameEnglish"><@ l('Name in english') @></label>
+      <input type="text" name="name_in_english" id="name_in_english" value="<@ requestlanguage_name_in_english @>" class="form-input">
+		<!--<span>Example: English in United States</span>!-->
     </div>
-    <div>
-      <label for="flagurl"><@ l('URL of a reference picture of the flag of the country') @>: (<@ l('optional') @>)</label>
-      <input type="text" name="flagurl" id="flagurl" value="<@ requestlanguage_flagurl @>">
+	
+    <div class="form_column">
+      <label for="name_in_local" class="form_input-label" aria-describedby="errorRequiredNameLocal"><@ l('Name in local language') @></label>
+      <input type="text" name="name_in_local" id="name_in_local" value="<@ requestlanguage_name_in_local @>" class="form-input">
+		<!--<span>Example: English in United States</span>!-->
     </div>
-    <input type="submit" value="<@ l('Submit request') @>" name="submit" id="submit">
+	
+    <div class="form_column">
+      <label for="requestlanguage_locale" class="form_input-label"><@ l('Locale') @> (<@ l('optional') @>)</label>
+      <input type="text" name="requestlanguage_locale" id="requestlanguage_locale" value="<@ requestlanguage_locale @>" class="form-input">
+		<!--<span>Example: en_US</span>!-->
+    </div>
+	
+    <div class="form_column">
+      <label for="flagurl" class="form_input-label" lass="form_input-label"><@ l('Country flag URL reference') @> (<@ l('optional') @>)</label>
+      <input type="text" name="flagurl" id="flagurl" value="<@ requestlanguage_flagurl @>" class="form-input">
+    </div>
+	
+	<div class="form_column-submit">
+	<label for="" class="form_input-label">&nbsp;</label>
+    <input type="submit" value="<@ l('Submit') @>" name="submit" id="submit" class="BTN_submit">
+	</div>
   </fieldset>
 </form>

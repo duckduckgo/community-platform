@@ -1,18 +1,32 @@
 <form action="<@ u('My','public') @>" method="post" id="formPublic" class="my">
   <fieldset>
-  <legend><span><@ l('Set profile visibility') @></span></legend>
-    <div>
+  
+  <@ IF c.user.public @>
+	<h4><@ l('Make your profile private') @></h4>
+	<@ ELSE @>
+	<h4><@ l('Make your profile public') @></h4>
+	<@ END @>
+  
     <@ IF wrong_captcha @>
-      <p class="error" id="errorCaptcha"><@ l('You entered the verification code incorrectly.') @></p>
+     	<div class="alert wrong"><div class="close-wrong"></div><@ l('The captcha is incorrect. Please, try again.') @></div>
     <@ END @>
-      <label for="captcha" aria-describedby="errorCaptcha"><@ l('Captcha') @>: </label>
+	
+    <div class="form_column">
+      <label for="" class="form_input-label" ></label>
         <img src="<@ u('Base','captcha') @>" alt="Captcha">
-        <input type="text"autocomplete="off" id="captcha" name="captcha">
     </div>
+	<div class="form_column">
+	  <label for="captcha" class="form_input-label" aria-describedby="errorCaptcha"><@ l('Captcha') @></label>
+        <input type="text"autocomplete="off" id="captcha" name="captcha" class="form-input">
+    </div>
+	 <div class="form_column-submit">
     <@ IF c.user.public @>
-    <input type="submit" value="<@ l('Hide profile') @>" name="hide_profile">
+	<label for="" class="form_input-label">&nbsp;</label>
+    <input type="submit" value="<@ l('Submit') @>" name="hide_profile" class="BTN_submit">
     <@ ELSE @>
-    <input type="submit" value="<@ l('Make profile public') @>" name="show_profile">
+	<label for="" class="form_input-label">&nbsp;</label>
+    <input type="submit" value="<@ l('Submit') @>" name="show_profile" class="BTN_submit">
     <@ END @>
+	</div>
   </fieldset>
 </form>

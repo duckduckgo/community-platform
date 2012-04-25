@@ -1,0 +1,126 @@
+@charset "utf-8";
+/* CSS Document */
+
+
+.box, fieldset {
+	border:1px solid #CCC;
+	-moz-border-radius:4px;
+	border-radius:4px;
+	color:#333;
+	font-size:14px;
+	margin-bottom:20px;
+}
+
+.box-inner {
+	padding:15px;
+	padding-bottom:10px;
+}
+
+fieldset {
+	padding:20px;
+}
+
+legend {
+	color:#999;
+	font-size:14px;
+	font-weight:600;
+}
+
+.token-filter {
+	font-weight:600;
+	height:50px;
+}
+
+.token-filter label, .token-filter select {
+	margin-right:10px;
+}
+
+.token-filter_right {
+	float:right;
+}
+
+.token-table {
+	border:none;
+	margin-bottom:15px;
+	margin-top:10px;
+	width:100%;
+}
+
+.token-table td {
+	font-size:22px;
+	font-weight:600;
+}
+
+.token-table_left {
+	width:125px;
+}
+
+.token-table_votes {
+	width:85px;
+}
+
+.token-input_label {
+	color:#666;
+	display:block;
+	font-size:14px;
+	padding-bottom:7px;
+}
+
+.token-input {
+	border:1px solid #A6A6A6;
+	-moz-border-radius:4px;
+	border-radius:4px;
+	-webkit-box-shadow:-1px 1px 2px #999 inset; 
+    -moz-box-shadow:-1px 1px 2px #999 inset; 
+    box-shadow:-1px 1px 2px #999 inset; 
+	color:#999;
+	font-size:15px;
+	height:35px;
+	margin-bottom:10px;
+	outline:0 none;
+	text-indent:15px;
+	width:100%;
+}
+
+.token-input:focus {
+	border:1px solid #666;
+	color:#666;
+}
+
+.token-footer {
+	font-size:13px;
+	margin-top:15px;
+	margin-bottom:25px;
+	width:100%;
+}
+
+.token-footer_submit {
+	float:left;
+}
+
+.token-footer_link {
+	float:right;
+}
+
+.clear {
+	clear:both;
+}
+
+.token-translations {
+	border:1px solid #CCC;
+	-moz-border-radius:4px;
+	border-radius:4px;
+	margin-top:20px;
+	padding-left:15px;
+	padding-right:15px;
+
+}
+
+.token-translation {
+	border-bottom:2px solid #CCC;
+	margin-bottom:7px;
+}
+
+.last {
+	border-bottom:none;
+}

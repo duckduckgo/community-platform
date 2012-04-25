@@ -1,4 +1,4 @@
-<ul role="navigation">
+<!--<ul role="navigation">
   <li><a href="<@ u('Base','welcome') @>">Home</a></li>
   <li><a href="https://duckduckgo.com/privacy.html">Privacy</a></li>
   <li><a href="<@ u('Base','feedback') @>">Feedback</a></li>
@@ -8,4 +8,10 @@
   <li>Delivered by <a href="http://nginx.org/">nginx</a></li>
   <li>Source at <a href="https://github.com/duckduckgo/community-platform">github</a></li>
   <li>&#169; <@ USE date @><@ date.format(date.now, '%Y') @> <a href="http://duckduckgo.com">DuckDuckGo, Inc.</a></li>
-</ul>
+</ul>!-->
+
+<!--FOOTER!-->
+  	<div id="footer-left"><a href="<@ u('Base','welcome') @>">Home</a> | <a href="https://duckduckgo.com/privacy.html">Privacy</a> | <a href="<@ u('Base','feedback') @>">Feedback</a>
+	</div>
+  	<div id="footer-right">Powered by <a href="http://www.perl.org/">Perl</a> Delivered by <a href="http://nginx.org/">nginx</a> Source at <a href="https://github.com/duckduckgo/community-platform">github</a> &#169; <@ USE date @><@ date.format(date.now, '%Y') @> <a href="http://duckduckgo.com">DuckDuckGo, Inc.</a>
+	</div>

@@ -1,13 +1,13 @@
 <@ IF not_valid_username @>
-  <p class="error">
-    <@ l('The username you have given is not valid!') @>
-    <@ l('Don\'t try to log in with your email or your jabber address, just use the username before the \'@\'.') @>
-  </p>
+  	<div class="alert wrong"><div class="close-wrong"></div>The username is incorrect. Please, try again.</div>
+	<p class="note"><@ l('Don\'t try to log in with your email or your jabber address, just use the username before the \'@\'.') @></p>
 <@ END @>
 <@ IF c.req.params.register_successful @>
-  <h2>Thanks for your registration, you can now login.</h2>
+ <div class="alert ok"><div class="close-ok"></div>Thanks for your registration, you can now login.</div>
+<!--<h2>Thanks for your registration, you can now login.</h2>!-->
 <@ END @>
 <@ INCLUDE my/loginform.tt @>
 <@ IF xmpp_userhost == 'dukgo.com' @>
-  <p class="infobox">If you have registered at our beta system view.dukgo.com, your account will not work here!</p>
+ <div class="alert warning"><div class="close-warning"></div><strong>Tip: </strong>If you have registered at our beta system view.dukgo.com, your account will not work here!</div>
+  <!--<p class="infobox">If you have registered at our beta system view.dukgo.com, your account will not work here!</p>!-->
 <@ END @>

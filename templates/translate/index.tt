@@ -1,7 +1,7 @@
-<h1 id="skip">Welcome to the translation interface!</h1>
+<h1 id="skip">Welcome to the translation interface.</h1>
 <div class="text">
 <@ IF !c.user @>
-    <p><@ l('You must be logged in in order to translate') @>: <a href="<@ u('My','login') @>"><@ l('Login') @></a> <@ l('or') @> <a href="<@ u('My','register') @>"><@ l('Register') @></a>.</p>
+	 <div class="alert warning"><div class="close-warning"></div><@ l('You must be logged in in order to translate') @>. Please, <a href="<@ u('My','login') @>"><@ l('Login') @></a> <@ l('or') @> <a href="<@ u('My','register') @>"><@ l('Register') @></a>.</div>
 <@ ELSE @>
   <p>Here you can translate text snippets from sites. It's a very easy process: once you have chosen the part of the project you want to translate, you will be presented with a list of all existing text snippets, which you can translate step by step into your language. The language which you are translating into can be selected from the drop down menu on the top right. You can see existing translations on the right. If a text snippet has already been translated by a sentence which you feel is appropriate, there is no need for you to translate it again with the same sentence- only translate things which you feel could be translated in a better way. This will reduce your workload and maximise your productivity.</p>
 <@ IF c.req.param('cantspeak') == 'any' @>

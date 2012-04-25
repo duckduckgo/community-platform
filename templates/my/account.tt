@@ -1,13 +1,17 @@
     <div class="text account">
 	<div>
-      <h2>Welcome to your DuckDuckGo community account!</h2>
-	  <h3>Please note: you do not need to share personal information to have or use this account.</h3>
+      <!--<h2>Welcome to your DuckDuckGo community account!</h2>!-->
+	  <div class="alert warning"><div class="close-warning"></div><strongTip:</strong> You do not need to share personal information to have or use this account.</div>
     </div>
 	  
 	<@ IF xmpp_userhost != 'dukgo.com' @>
 		<div>
-			<h1>This is a development system, no data is used for the production environment! All data you enter here is only for testing!</h1>
-			<h1>This account will not work on the live system <a href="https://dukgo.com/">https://dukgo.com/</a></h1>
+			  <div class="alert warning"><div class="close-warning"></div>This account will not work on the live system <a href="https://dukgo.com/">https://dukgo.com/</a></div>
+			  
+			  <p class="note"><strong>Note: </strong>This is a development system, no data is used for the production environment! All data you enter here is only for testing!</div>
+
+			<!--<h1>This is a development system, no data is used for the production environment! All data you enter here is only for testing!</h1>
+			<h1>This account will not work on the live system <a href="https://dukgo.com/">https://dukgo.com/</a></h1>!-->
 		</div>
 	<@ END @>
 	
@@ -15,8 +19,89 @@
 	<div>
       <h2><a href="<@ u('Translate','index') @>">Help translate DuckDuckGo or vote on the translations of others!</a></h2>
     </div>
-
 	
+	
+<!-- LANGUAGES TABLE !-->
+<div class="box">
+<div class="box-inner">
+<table class="account-table" cellspacing="0" cellpadding="0">
+  <tr>
+    <th></th>
+    <th class="account-table_caption">Your Languages</th>
+    <th class="account-table_caption">Grade</th>
+    <th class="account-table_BTNadd"><a href="#" class="BTN_submitSmall">Add New Language</a></th>
+  </tr>
+    <colgroup>
+    <col class="account-table_flags" />
+    <col class=""/>
+    <col class="" />
+    <col class="account-table_BTNS" />
+    </colgroup>
+    <tbody>
+    <tr>
+      <td><img src="/static/images/ICN_italia.gif" alt="flag" width="16" height="11" /></td>
+        <td> La lingua italiana in Italia</td>
+        <td>
+          <select name="grade" id="grade">
+            <option>Basic ability</option>
+            <option selected="selected">Intermediate ability</option>
+            <option>Advanced level</option>
+            <option>&quot;Near Native&quot; level</option>
+            <option>Native</option>
+            <option>Professional proficiency</option>
+          </select> *
+        </td>
+        <td class="account-table_BTNS"><a href="#" class="BTN_delete">Remove</a></td>
+    </tr>
+    <tr>
+      <td><img src="/static/images/ICN_france.gif" width="16" height="11" alt="flag" /></td>
+        <td> Fran&ccedil;ais en France</td>
+        <td><select name="grade" id="grade">
+            <option selected="selected">Basic ability</option>
+            <option>Intermediate ability</option>
+            <option>Advanced level</option>
+            <option>&quot;Near Native&quot; level</option>
+            <option>Native</option>
+            <option>Professional proficiency</option>
+          </select> *</td>
+        <td class="account-table_BTNS"><a href="#" class="BTN_delete">Remove</a></td>
+    </tr>
+    <tr>
+      <td style="border:none"><img src="/static/images/ICN_argentina.gif" width="16" height="11" alt="flag" /></td>
+        <td style="border:none"> Espa&ntilde;ol de Argentina </td>
+        <td style="border:none"><select name="grade" id="grade">
+            <option>Basic ability</option>
+            <option>Intermediate ability</option>
+            <option>Advanced level</option>
+            <option>&quot;Near Native&quot; level</option>
+            <option selected="selected">Native</option>
+            <option>Professional proficiency</option>
+          </select> *</td>
+        <td class="account-table_BTNS" style="border:none"><a href="#" class="BTN_delete">Remove</a></td>
+    </tr>
+    </tbody>
+  </table>
+  <div id="account-table_ftr">
+<div id="accont-table_ftrRight">Are you trying to add a new language that is not listed? <a href="<@ u('Base','requestlanguage') @>"><strong>Request it over here</strong></a>!</div>
+<div id="account-table_ftrLeft">
+<!--TOOLTIP--!-->
+<div id="tooltip" style="visibility:hidden">
+<h7><strong>Languages Grade References</strong></h7>
+<ol>
+<li><strong>Basic ability:</strong> Enough to understand written material or simple questions in this language.</li>
+<li><strong>Intermediate ability:</strong> Enough for editing or discussions.</li>
+<li><strong>Advanced level:</strong> Though you can write in this language with no problem, some small errors might occur.</li>
+<li><strong>“Near-native” level:</strong> Although it’s not your first language from birth, your ability is something like that of a native speaker.</li>
+<li><strong>Native:</strong> You have grown up with this language in your environment.</li>
+<li><strong>Professional proficiency:</strong> You are earning your money with work in this language (like writer, translator, etc.)</ol>
+</div>
+<strong>*</strong> Show Grade references</div>
+</div>
+<div class="clear"></div>
+</div>
+</div>
+<!-- LANGUAGES TABLE EN!-->	
+
       <div>
         <!--p class="button"><a href="<@ u('Help','view','mylanguages') @>"><@ l('Information') @></a></p-->
 	<h3><@ l('Your languages') @>:</h3>
@@ -32,43 +117,96 @@
 	<p class="button"><a href="<@ u('My','languages') @>">Edit your languages</a></p>
       </div>
 
-      <div>
-	<h3><@ l('Your email') @> (optional)</h3>
-	<p>If you add your email then you can request a password change!</p>
-	<p><@ IF c.user.data.email @>Your email is: <@ c.user.data.email @><@ ELSE @>You have not added an email address to your account yet!<@ END @></p>
-	<p class="button"><a href="<@ u('My','email') @>">Change my email address</a></p>
-      </div>
+    <div class="box">
+	<div class="box-inner">
+		
+<!-- ACCOUNT TABLE !-->	
+	
+<table class="account-table" cellspacing="0" cellpadding="0">
+  		<tr>
+    		<th class="account-table_caption">Your Account</th>
+    		<th class="account-table_BTNadd"><a href="<@ u('My','delete') @>" class="BTN_delete">Delete your account</a></th>
+  		</tr>
+    		<colgroup>
+    		<col class=""/>
+    		<col class=""/>
+			<col class=""/>
+    		</colgroup>
+    <tbody>
+    	<tr>
+      		<td><@ l('Your email') @> (optional)
+			<@ IF c.user.data.email @>
+			: <@ c.user.data.email @>
+			<@ END @>
+			</td>
+        	<td class="account-table_BTNS">
+			<@ IF c.user.data.email @>
+			<a href="<@ u('My','email') @>" class="BTN_submitSmall">Change email</a>
+			<@ ELSE @>
+			<a href="<@ u('My','email') @>" class="BTN_submitSmall">Add email</a>
+			<@ END @>
+			</td>
+   		</tr>
+    	<tr>
+      		<td>Your password</td>
+        <td class="account-table_BTNS">
+		<a href="<@ u('My','changepw') @>" class="BTN_submitSmall">Change password</a>
+		</td>
+    	</tr>
+    	<tr>
+      		<td>
+			<@ IF c.user.public @>
+			<@ l('Your profile is publicly visible') @>
+  				<@ ELSE @>
+          	<@ l('Your profile is not publicly visible yet') @>
+            <@ END @>
+			</td>
+        <td class="account-table_BTNS">
+		<@ IF c.user.public @>
+			<a href="<@ u('My','public') @>" class="BTN_submitSmall"><@ l('Make it private') @></a>
+  				<@ ELSE @>
+			<a href="<@ u('My','public') @>" class="BTN_submitSmall"><@ l('Make it public') @></a>
+            <@ END @>
+		</td>
+   		</tr>
+		<tr>
+      		<td style="border:none">
+			Your <a href="https://www.gravatar.com">Gravatar</a> email
+			</td>
+        <td class="account-table_BTNS" style="border:none">
+		<a href="" class="BTN_submitSmall">Add email</a>
+		</td>
+   		</tr>
+    </tbody>
+ </table>
+	
+	
+	
+    </div>
+	</div>
 
       <div>
-	<p class="button"><a href="<@ u('My','changepw') @>">Change my password</a></p>
       </div>
 
-      <div>
-	<!--p class="button"><a  href="<@ u('Help','view','xmpp') @>"><@ l('Instructions for using the XMPP/Jabber server') @></a></p-->
-	<h3><@ l('Your chat (XMPP/Jabber)') @></h3>
-	<p>We provide a public XMPP/Jabber server bound to this account, which you can add to your prefered client. You can find a list of clients <a href="http://xmpp.org/xmpp-software/clients/">here</a>. XMPP is an open-standard instant communication protocol, like ICQ, MSN or Yahoo. More information you can find on the <a href="http://en.wikipedia.org/wiki/Jabber">Wikipedia Page</a>. You can see directions of how to get set up using the Pidgin client <a href="https://duck.co/topic/duckduckgo-s-new-public-xmpp-jabber-service-on-dukgo-com">here</a>.</p>
-	<dl class="myAccount">
-          <dt>Username: </dt>
-            <dd><@ c.user.username @></dd>
-          <dt>Domain: </dt>
-            <dd><@ xmpp_userhost @></dd>
-          <dt>Resource: </dt>
-            <dd class="italic"><@ l('whatever you want') @></dd>
-          <dt>XMPP/Jabber Address: </dt>
-            <dd><@ c.user.username @>@<@ xmpp_userhost @></dd>
-	</dl>
-      </div>
+      <div>	
+	<!-- CHAT !-->
+	<div class="box">
+		<div class="box-inner">
+			<h4><@ l('Your chat (XMPP/Jabber)') @></h4>
+			<p>We provide a public XMPP/Jabber server bound to this account, which you can add to your prefered client. You can find a list of clients <a href="http://xmpp.org/xmpp-software/clients/">here</a>. XMPP is an open-standard instant communication protocol, like ICQ, MSN or Yahoo. More information you can find on the <a href="http://en.wikipedia.org/wiki/Jabber">Wikipedia Page</a>. You can see directions of how to get set up using the Pidgin client <a href="https://duck.co/topic/duckduckgo-s-new-public-xmpp-jabber-service-on-dukgo-com">here</a>.</p>
+<p>
+			<strong>Username:</strong> <@ c.user.username @><br />
+			<strong>Domain:</strong> <@ xmpp_userhost @><br />
+			<strong>Resource:</strong> <@ l('whatever you want') @><br />
+			<strong>XMPP/Jabber Address</strong>: <@ c.user.username @>@<@ xmpp_userhost @>
+			</p>
+				<p class="button"><a  href="<@ u('Help','view','xmpp') @>"><@ l('Instructions for using the XMPP/Jabber server') @></a>
+		</div>
+	</div>
 
       <div>
-	<h3><@ l('Your public status') @></h3>
+	
 	<!--p class="button"><a href="<@ u('Help','view','public') @>"><@ l('Information about making your profile public') @></a></p-->
-	<@ IF c.user.public @>
-          <p><@ l('Your profile is publicly visible') @>.</p>
-          <p class="button"><a href="<@ u('My','public') @>"><@ l('Hide my profile again') @></a></p>
-	<@ ELSE @>
-          <p><@ l('Your profile is not publicly visible yet') @>.</p>
-          <p class="button"><a href="<@ u('My','public') @>"><@ l('Make my profile public') @></a></p>
-	<@ END @>
       </div>
     </div>
 	
@@ -97,5 +235,5 @@
 <@ END @>
 
       <div>
-	<p class="button"><a href="<@ u('My','delete') @>">Delete my account</a></p>
+	<!--<p class="button"><a href="<@ u('My','delete') @>">Delete my account</a></p>!-->
       </div>

@@ -1,5 +1,12 @@
-<div class="header">
+<!--HEADER!-->
+<div id="header">
+<div id="header-logo"><a href="<@ u('Root','index') @>"><img alt="DuckDuckGo Community Platform" src="/static/images/DDGcommunity_logo.<@ IF xmpp_userhost != 'dukgo.com' @><@ END @>png" /><span></span></a></div>
+<div id="header-right"><@ INCLUDE userbox.tt @></div>
+</div>
+
+
+<!--<div class="header">
   <p id="logo"><a href="<@ u('Root','index') @>"><img alt="DuckDuckGo Community Platform" src="/static/images/cduck.<@ IF xmpp_userhost != 'dukgo.com' @>dev.<@ END @>png" /><span></span></a></p>
   <p id="access"><a href="#skip">skip to content</a></p>
   <@ INCLUDE userbox.tt @> 
-</div>
+</div>!-->

@@ -5,8 +5,14 @@
           <meta name="<@ meta.key @>" content="<@ meta.value @>"> 
   <@ END @>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" media="screen, projection, handheld" href="/static/css/mobilefirst.css">
-  <link rel="stylesheet" media="screen and (min-width:600px), projection and (min-width:600px)" href="/static/css/desktop.css" title="large screen layout">
+  <!--<link rel="stylesheet" media="screen, projection, handheld" href="/static/css/mobilefirst.css">!-->
+  <!--<link rel="stylesheet" media="screen and (min-width:600px), projection and (min-width:600px)" href="/static/css/desktop.css" title="large screen layout">!-->
+  <link rel="stylesheet" media="screen, projection, handheld" href="/static/css/new/styles.css">
+  <link rel="stylesheet" media="screen, projection, handheld" href="/static/css/new/home.css">
+  <link rel="stylesheet" media="screen, projection, handheld" href="/static/css/new/forms.css">
+  <link rel="stylesheet" media="screen, projection, handheld" href="/static/css/new/token.css">
+  <link rel="stylesheet" media="screen, projection, handheld" href="/static/css/new/account.css">
+  <link rel="stylesheet" media="screen, projection, handheld" href="/static/css/new/alerts.css">
   <!--leaving these scripts in til I decide what to do with them-->
   <script type="text/javascript" src="/static/js/jquery.js"></script>
   <script type="text/javascript" src="/static/js/jquery-ui.js"></script>

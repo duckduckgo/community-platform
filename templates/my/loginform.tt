@@ -1,20 +1,25 @@
-<@ IF login_failed @>
-  <p class="error"><@ l('Login failed!') @></p>
-<@ END @>
 <form action="<@ u('My','login') @>" method="post" id="formLogin" class="my">
 <fieldset>
-  <legend class="ac"><span>Log in</span></legend>
+<h4>Login into your account</h4>
+<@ IF login_failed @>
+	 <div class="alert wrong"><div class="close-wrong"></div><@ l('<strong>Login failed.</strong> Please check your ID and password and try again.') @></div>
+<@ END @>
   <input type="hidden" value="<@ IF c.req.params.from @><@ c.req.params.from @><@ ELSE @><@ c.req.uri @><@ END @>" name="from">
   <div>
-    <label for="username"><@ l('Username') @>: </label>
-    <input type="text" id="username" name="username" value="<@ username @>">
+    <div class="form_column"><label for="username" class="form_input-label"><@ l('Username') @></label>
+    <input type="text" id="username" name="username" value="<@ username @>" class="form-input"></div>
   </div>
   <div>
-    <label for="password"><@ l('Password') @>: </label>
-    <input type="password" id="password" name="password" value="">
-    <a href="<@ u('My','forgotpw') @>"><@ l('Forgot password?') @></a>
+     <div class="form_column">
+	 <div style="float:right"><a href="<@ u('My','forgotpw') @>"><@ l('Forgot your password?') @></a>
+</div>
+	 <label for="password" class="form_input-label"><@ l('Password') @></label>
+    <input type="password" id="password" name="password" value="" class="form-input"></div>
   </div>
-  <input type="submit" value="<@ l('Login') @>">
+  <label for="" class="form_input-label">&nbsp;</label>
+  <div class="form_column"><input type="submit" value="<@ l('Login') @>" class="BTN_submit"></div>
 </fieldset>
 </form>
-<p class="button"><a href="<@ u('My','register') @>"><@ l('Register') @></a></p>
+
+	  <strong>Welcome!</strong><br/>
+<a href="<@ u('My','login') @>"><@ l('Login') @></a> | <a href="<@ u('My','register') @>"><@ l('Register') @></a>

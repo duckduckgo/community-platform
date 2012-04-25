@@ -4,11 +4,15 @@
   <body>
     <@ INCLUDE header.tt @>
     <div class="main" role="main">
+	<!--CONTAINER!-->
+<div id="container">
+<div id="container-inner">
     <@ IF headline_template @>
       <@ INCLUDE headline.tt @>
     <@ END @>
     <span id="skip"><@ PROCESS $LAYOUTS.shift @></skip>
     </div>
+	</div></div>
     <div id="footer" role="contentinfo">
       <@ INCLUDE footer.tt @>
     </div>

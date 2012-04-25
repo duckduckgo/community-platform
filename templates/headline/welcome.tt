@@ -1,5 +1,22 @@
-<ul class="actions getstarted">
+<!--<ul class="actions getstarted">
   <li><a href="<@ u('Translate','index') @>">Help us translate DuckDuckGo into your languages.</a></li>
   <li><a href="https://github.com/duckduckgo/community-platform">Develop this community platform.</a></li>
   <li><a href="<@ u('Base','feedback') @>">Submit feedback.</a></li>
-</ul>
+</ul>!-->
+
+<!-- HIGHLIGHT BOXES !-->
+<div id="boxes-highlight">
+
+<!--TRANSLATION!-->
+<div class="box-highlight translation"><p><a href="<@ u('Translate','index') @>">Help us translate <strong>DuckDuckGo</strong> into your languages.</a></p></div>
+
+<!--DEVELOPER!-->
+<div class="box-highlight developer"><p><a href="https://github.com/duckduckgo/community-platform"><strong>Develop</strong> this community platform.</a></p></div>
+
+<!--QUAK AND HACK!-->
+<div class="box-highlight hack">
+  <p><a href="<@ u('Base','feedback') @>">DDG Quack And Hack 2012.<br />
+    <strong>Join Us!</strong></a></p>
+</div>
+</div>
+<div class="clear" style="height:30px;"></div>

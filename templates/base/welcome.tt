@@ -1,52 +1,33 @@
 <@ IF c.user @>
-  <p class="infobox">This site is under construction.</p>
+  <!--<p class="infobox">This site is under construction.</p>!-->
+  <div class="alert wrong"><div class="close-wrong"></div>This site is under construction.</div>
 <@ ELSE @>
-  <p class="infobox">Tip: Use the short URL <a href="http://ddg.gg/">ddg.gg</a> for less typing.</p>
+  <!--<p class="infobox">Tip: Use the short URL <a href="http://ddg.gg/">ddg.gg</a> for less typing.</p>!-->
+  <div class="alert warning"><div class="close-warning"></div>Tip: Use the short URL <a href="http://ddg.gg/">ddg.gg</a> for less typing.</div>
 <@ END @>
 
-<div class="aboutddg">
-  <h2>Welcome!</h2>
-  <p><a href="https://duckduckgo.com/">DuckDuckGo</a> is a general purpose search engine.</p>
-  <p>Our search engine is very user driven. You can engage with us on a number of social platforms (see links on right). We created this open-source community platform to serve as a central hub for community activity.</p>
-  <h2>Things you can do</h2>
-  <ul>
-    <li><a href="<@ u('My','register') @>">Translate DuckDuckGo</a></li>
-    <li><a href="https://duck.co/topic/duckduckgo-s-new-public-xmpp-jabber-service-on-dukgo-com">Chat via XMPP/Jabber</a></li>
-    <li><a href="https://github.com/duckduckgo/community-platform">Develop this site</a></li>
-    <li><a href="https://github.com/duckduckgo/duckduckgo/wiki">Develop goodies</a></li>
-    <li><a href="https://duckduckgo.com/spread.html">Spread DuckDuckGo!</a></li>
-    <li><a href="<@ u('Base','feedback') @>">Submit feedback</a></li>
-  </ul>
-</div>
 
-<div class="aboutddg">
-  <h2>DuckDuckGo Sites</h2>
+  <h1>Welcome!</h1>
+  <p><a href="https://duckduckgo.com/">DuckDuckGo</a> is a general purpose search engine. Our search engine is very user driven. You can engage with us on a number of social platforms (see links on right). We created this open-source community platform to serve as a central hub for community activity.</p>
+  
+  <!-- THINGS YOU CAN DO BOX!-->
+
+<div class="box">
+<div class="box-inner">
+
   <ul>
-    <li><a href="https://duckduckgo.com/">Homepage</a></li>
-    <li><a href="http://donttrack.us/">DontTrack.us</a></li>
-    <li><a href="http://dontbubble.us/">DontBubble.us</a></li>
-    <li><a href="http://help.duckduckgo.com/">Help</a></li>
-    <li><a href="https://duck.co/">Forum</a></li>
-    <li><a href="http://cafepress.com/duckduckgo">Store</a></li>
-    <li><a href="http://www.stickermule.com/duckduckgo">Sticker Store</a></li>
-  </ul>
-  <h2>DuckDuckGo Social</h2>
-  <ul>
-    <li><a href="https://twitter.com/duckduckgo">Twitter</a> (<a href="http://twitter.com/duckduckgo/team/members">Team</a>)</li>
-    <li><a href="https://facebook.com/duckduckgo">Facebook</a></li>
-    <li><a href="http://www.reddit.com/r/duckduckgo">/r/duckduckgo</a></li>
-    <li><a href="https://identi.ca/duckduckgo">identi.ca</a></li>
-    <li><a href="https://joindiaspora.com/u/duckduckgo">diaspora</a></li>
-    <li><a href="http://webchat.freenode.net/?channels=duckduckgo">IRC Channel</a></li>
-    <li><a href="https://github.com/duckduckgo">GitHub</a></li>
-    <li><a href="http://duckpan.org">DuckPAN</a></li>
-  </ul>
-</div>
+    <li><strong>Things you can do: </strong><a href="<@ u('My','register') @>">Translate DuckDuckGo</a> -<a href="https://duck.co/topic/duckduckgo-s-new-public-xmpp-jabber-service-on-dukgo-com">Chat via XMPP/Jabber</a> - <a href="https://github.com/duckduckgo/community-platform">Develop this site</a> - <a href="https://github.com/duckduckgo/duckduckgo/wiki">Develop goodies</a> - <a href="https://duckduckgo.com/spread.html">Spread DuckDuckGo!</a> - <a href="<@ u('Base','feedback') @>">Submit feedback</a></li>
+
+    <li><strong>DuckDuckGo Sites: </strong><a href="https://duckduckgo.com/">Homepage</a> - <a href="http://donttrack.us/">DontTrack.us</a> - <a href="http://dontbubble.us/">DontBubble.us</a> - <a href="http://help.duckduckgo.com/">Help</a> - <a href="https://duck.co/">Forum</a> - <a href="http://cafepress.com/duckduckgo">Store</a> - <a href="http://www.stickermule.com/duckduckgo">Sticker Store</a></li>
+	
+    <li><strong>DuckDuckGo Social: </strong><a href="https://twitter.com/duckduckgo">Twitter</a> (<a href="http://twitter.com/duckduckgo/team/members">Team</a>) - <a href="https://facebook.com/duckduckgo">Facebook</a> - <a href="http://www.reddit.com/r/duckduckgo">/r/duckduckgo</a> - <a href="https://identi.ca/duckduckgo">identi.ca</a> - <a href="https://joindiaspora.com/u/duckduckgo">diaspora</a> - <a href="http://webchat.freenode.net/?channels=duckduckgo">IRC Channel</a> - <a href="https://github.com/duckduckgo">GitHub</a> - <a href="http://duckpan.org">DuckPAN</a></li>
+</ul>
+</div></div>
 
 <div class="latest_comments">
 	
 </div>
 
 <div class="usercount">
-	XMPP/Jabber usercount: <@ user_counts.xmpp @> | Website usercount: <@ user_counts.db @>
+	<strong>XMPP/Jabber usercount:</strong> <@ user_counts.xmpp @> | <strong>Website usercount:</strong> <@ user_counts.db @>
 </div>

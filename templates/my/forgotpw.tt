@@ -1,21 +1,24 @@
-<@ IF sentok @>
-  <h2>An email has been sent to you in order to confirm.</h2>
+<form action="<@ u('My','forgotpw') @>" method="post" id="formForgotpw" class="my">
+    <fieldset>
+<h4>Request new password</h4>
+	<@ IF sentok @>
+ <div class="alert ok"><div class="close-ok"></div>An email has been sent to you in order to confirm.</div>
 <@ ELSE @>
   <@ IF wrong_user_or_wrong_email @>
-    <h2>Unknown combination of username and email</h2>
+	<div class="alert wrong"><div class="close-wrong"></div>The username and/or email is incorrect. Please, try again.</div>
   <@ END @>
-  <form action="<@ u('My','forgotpw') @>" method="post" id="formForgotpw" class="my">
-    <fieldset>
-      <legend><span><@ l('Request new password') @></span></legend>
-      <div>
-        <label for="username">Your username: </label>
-        <input type="text" id="username" name="username" value="<@ forgotpw_username @>">
+      <div class="form_column">
+        <label for="username" class="form_input-label">Username</label>
+        <input type="text" id="username" name="username" class="form-input" value="<@ forgotpw_username @>">
       </div>
-      <div>
-        <label for="email">Your email address: </label>
-        <input type="text" id="email" name="email" value="<@ forgotpw_email @>">
+      <div class="form_column">
+        <label for="email" class="form_input-label">Email address</label>
+        <input type="text" id="email" name="email" class="form-input" value="<@ forgotpw_email @>">
       </div>
-      <input type="submit" value="Request new password" name="requestpw" />
+	  <div class="form_column-submit">
+	  <label for="" class="form_input-label">&nbsp;</label>
+      <input type="submit" value="Submit" name="requestpw" class="BTN_submit"/>
+	  </div>
     </fieldset>
   </form>
 <@ END @>
