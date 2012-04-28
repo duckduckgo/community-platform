@@ -359,37 +359,37 @@ sub token_domains {{
 			},
 			'Yes dude %s %s %s', {
 				testone => {
-					'de' => 'Jawohl %s Der %s Herr %s',
-					'us' => 'Yeah %s douche %s %s',
+					de => 'Jawohl %s Der %s Herr %s',
+					us => 'Yeah %s douche %s %s',
 				},
 				testthree => {
-					'us' => 'Yes dude %s %s %s',
+					us => 'Yes dude %s %s %s',
 				},
 				testfive => {
-					'ru' => 'Привет %s %s %s',
-					'us' => 'Welcomee %s %s %s',
+					ru => 'Привет %s %s %s',
+					us => 'Welcomee %s %s %s',
 				},
 			},
 			\'testarea','Yes dude %s %s %s', {
 				testone => {
-					'de' => "Jawohl %s \n Der %s Herr %s",
-					'us' => 'Yeah %s douche %s %s',
+					de => "Jawohl %s \n Der %s Herr %s",
+					us => 'Yeah %s douche %s %s',
 				},
 				testthree => {
-					'us' => 'Yes dude %s %s %s',
+					us => 'Yes dude %s %s %s',
 				},
 				testfive => {
-					'ru' => 'Привет %s %s %s',
-					'us' => 'Welcomee %s %s %s',
+					ru => 'Привет %s %s %s',
+					us => 'Welcomee %s %s %s',
 				},
 			},
 			\'email', 'You have %d message', 'You have %d messages', {
 				testone => {
-					'de' => [ 'Du hast %d Nachricht', 'Du hast %d Nachrichten' ],
-					'us' => [ 'Yu hav %d meage', 'Yuuu hve %d meages' ],
+					de => [ 'Du hast %d Nachricht', 'Du hast %d Nachrichten' ],
+					us => [ 'Yu hav %d meage', 'Yuuu hve %d meages' ],
 				},
 				testthree => {
-					'us' => [ 'You have %d message', 'You have %d messages' ],
+					us => [ 'You have %d message', 'You have %d messages' ],
 				},
 				testfive => {
 					'ru' => [ 'У вас %d сообщение', 'У вас %d сообщения', 'У вас %d сообщений' ],					

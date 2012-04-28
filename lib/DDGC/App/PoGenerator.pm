@@ -129,7 +129,7 @@ EOF
 	$intro > $po;
 	my %doublecheck;
 	for ($token_domain_language->search_related('token_languages')->all) {
-		$_->auto_use if ($self->auto && !$_->msgstr0);
+		$_->auto_use if $self->auto; # should be renamed
 		my $msgid = $_->token->msgid;
 		$msgid .= '||||msgctxt||||'.$_->token->msgctxt if $_->token->msgctxt;
 		my $tid = $_->token->id;
