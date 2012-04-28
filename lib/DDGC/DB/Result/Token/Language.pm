@@ -144,18 +144,23 @@ sub auto_use {
 	})->all;
 	my %first;
 	my %grade;
+	my %votes;
 	for (@translations) {
 		$first{$_->key} = $_ unless defined $first{$_->key};
-		my $translation_grade = $_->user->search_related('user_languages',{
+		my $translation_language = $_->user->search_related('user_languages',{
 			language_id => $self->token_domain_language->language->id,
-		})->first->grade;
+		})->first;
+		my $translation_grade = $translation_language ? $translation_language->grade : 0;
 		my $best_grade = defined $grade{$_->key} ? $grade{$_->key} : 0;
 		$grade{$_->key} = $translation_grade if $translation_grade > $best_grade;
+		$votes{$_->key} = $_->vote_count;
 	}
 	my $best;
 	for (keys %first) {
 		if ($best) {
-			$best = $first{$_} if $grade{$_} > $grade{$best->key}
+			$best = $first{$_} if $votes{$_} > $votes{$best->key};
+			$best = $first{$_} if $votes{$_} == $votes{$best->key}
+								&& $grade{$_} > $grade{$best->key};
 		} else {
 			$best = $first{$_};
 		}
