@@ -372,7 +372,7 @@ sub token_domains {{
 			},
 			\'testarea','Yes dude %s %s %s', {
 				testone => {
-					'de' => 'Jawohl %s Der %s Herr %s',
+					'de' => "Jawohl %s \n Der %s Herr %s",
 					'us' => 'Yeah %s douche %s %s',
 				},
 				testthree => {
@@ -398,7 +398,7 @@ sub token_domains {{
 			},
 			\'community', 'You have %d message', 'You have %d messages', {
 				testone => {
-					'de' => [ 'Du hast %d Nachricht', 'Du hast %d Nachrichten' ],
+					'de' => [ 'Du hast "%d" Nachricht', 'Du hast "%d" Nachrichten' ],
 					'us' => [ 'Yu hav %d meage', 'Yuuu hve %d meages' ],
 				},
 				testthree => {

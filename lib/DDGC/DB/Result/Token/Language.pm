@@ -90,23 +90,32 @@ sub gettext_snippet {
 		for (0..$msgstr_index_max) {
 			my $func = 'msgstr'.$_;
 			my $result = $self->$func;
-			$vars{'msgstr['.$_.']'} = $result if $result;
+			$vars{'msgstr['.$_.']'} = $self->gettext_escape($result) if $result;
 		}
 	} else {
-		$vars{'msgstr'} = $self->msgstr0 if $self->msgstr0;
+		$vars{'msgstr'} = $self->gettext_escape($self->msgstr0) if $self->msgstr0;
 	}
 	return unless %vars || $fallback;
-	$vars{msgid} = $self->token->msgid;
-	$vars{msgctxt} = $self->token->msgctxt if $self->token->msgctxt;
+	$vars{msgid} = $self->gettext_escape($self->token->msgid);
+	$vars{msgctxt} = $self->gettext_escape($self->token->msgctxt) if $self->token->msgctxt;
 	if ($self->token->msgid_plural) {
-		$vars{msgid_plural} = $self->token->msgid_plural;
+		$vars{msgid_plural} = $self->gettext_escape($self->token->msgid_plural);
 		for (0..$msgstr_index_max) {
-			$vars{'msgstr['.$_.']'} = $self->token->msgid_plural unless defined $vars{'msgstr['.$_.']'};
+			$vars{'msgstr['.$_.']'} = $self->gettext_escape($self->token->msgid_plural)
+				unless defined $vars{'msgstr['.$_.']'};
 		}
 	} else {
-		$vars{msgstr} = $self->token->msgid unless defined $vars{msgstr};
+		$vars{msgstr} = $self->gettext_escape($self->token->msgid)
+			unless defined $vars{msgstr};
 	}
 	return "\n".$self->gettext_snippet_formatter(%vars);
+}
+
+sub gettext_escape {
+	my ( $self, $content ) = @_;
+	$content =~ s/\n/\\n/g;
+	$content =~ s/"/\\"/g;
+	return $content;
 }
 
 sub gettext_snippet_formatter {
