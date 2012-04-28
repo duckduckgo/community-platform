@@ -383,19 +383,6 @@ sub token_domains {{
 					'us' => 'Welcomee %s %s %s',
 				},
 			},
-			'You are %s from %s', {
-				testone => {
-					'de' => 'Du bist %s aus %s',
-					'us' => 'You, ofda %2$s u %1$s',
-				},
-				testthree => {
-					'us' => 'You are %s from %s',
-				},
-				testfive => {
-					'ru' => 'Вы %s из %s',
-					'us' => 'You ar %s from %s',
-				},
-			},
 			\'email', 'You have %d message', 'You have %d messages', {
 				testone => {
 					'de' => [ 'Du hast %d Nachricht', 'Du hast %d Nachrichten' ],

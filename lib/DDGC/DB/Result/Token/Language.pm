@@ -85,8 +85,9 @@ unique_constraint [qw/ token_id token_domain_language_id /];
 sub gettext_snippet {
 	my ( $self, $fallback ) = @_;
 	my %vars;
+	my $msgstr_index_max = $self->token_domain_language->language->nplurals - 1;
 	if ($self->token->msgid_plural) {
-		for (0..$self->msgstr_index_max) {
+		for (0..$msgstr_index_max) {
 			my $func = 'msgstr'.$_;
 			my $result = $self->$func;
 			$vars{'msgstr['.$_.']'} = $result if $result;
@@ -96,16 +97,22 @@ sub gettext_snippet {
 	}
 	return unless %vars || $fallback;
 	$vars{msgid} = $self->token->msgid;
-	$vars{msgid_plural} = $self->token->msgid_plural if $self->token->msgid_plural;
 	$vars{msgctxt} = $self->token->msgctxt if $self->token->msgctxt;
-	#$str = $id unless $str;
+	if ($self->token->msgid_plural) {
+		$vars{msgid_plural} = $self->token->msgid_plural;
+		for (0..$msgstr_index_max) {
+			$vars{'msgstr['.$_.']'} = $self->token->msgid_plural unless defined $vars{'msgstr['.$_.']'};
+		}
+	} else {
+		$vars{msgstr} = $self->token->msgid unless defined $vars{msgstr};
+	}
 	return "\n".$self->gettext_snippet_formatter(%vars);
 }
 
 sub gettext_snippet_formatter {
 	my ( $self, %vars ) = @_;
 	my $return;
-	for (qw( msgid msgctxt msgid_plural )) {
+	for (qw( msgctxt msgid msgid_plural )) {
 		$return .= $_.' "'.(delete $vars{$_}).'"'."\n" if $vars{$_};
 	}
 	for (sort { $a cmp $b } keys %vars) {
