@@ -48,4 +48,4 @@ for (sort { $a cmp $b } keys %po_entries) {
 	};
 }
 
-io($export)->print(encode_json(\@entries));
+io($target)->print(encode_json(\@entries));
