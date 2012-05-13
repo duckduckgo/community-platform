@@ -1,4 +1,4 @@
-#!/usr/bin/perl
+#!/usr/bin/env perl
 
 use strict;
 use warnings;
@@ -39,6 +39,8 @@ my $td = $schema->resultset('Token::Domain')->search({ key => $domain },{ prefet
 
 die 'token domain "'.$domain.'" not found' if !$td;
 
+my @ts = $td->tokens;
+
 # IMPORT
 if ($import) {
 
@@ -76,6 +78,13 @@ if ($import) {
 	}
 
 	if ($overview) {
+		for (@ts) {
+			my $key = join('|||',
+				$_->msgid,
+				$_->msgid_plural ? $_->msgid_plural : (),
+				$_->msgctxt ? $_->msgctxt : ());
+			$entries{$key} = 1 unless defined $entries{$key};
+		}
 		print "\n============= OVERVIEW ================\n\n";
 		for (sort { lc($a) cmp lc($b) } keys %entries) {
 			print $_."\n";
@@ -86,7 +95,6 @@ if ($import) {
 } else {
 
 	my @ex;
-	my @ts = $td->tokens;
 
 	for (@ts) {
 		my %token;
