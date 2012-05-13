@@ -1,0 +1,4 @@
+<a href="<@ u('Forum','index') @>">Forum</a> &gt; <b><@ thread.title @></b><br/><br/>
+<div><@ thread.text @></div>
+<br/>
+<@ INCLUDE comment/comments.tt comments=c.d.comments('DDGC::DB::Result::Thread',thread.id) @>

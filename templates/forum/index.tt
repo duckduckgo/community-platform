@@ -1,0 +1,7 @@
+This is the Forum index.<br/>
+<a href="<@ u('Forum','loremthread') @>">Make a test thread</a><br/>
+<ul>
+<@ FOR thread IN threads @>
+    <li> - <a href="<@ u('Forum','thread',thread.url) @>"><@ thread.title @></a> <@ thread.foo @></li>
+<@ END @>
+</ul>
