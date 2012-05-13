@@ -1,4 +1,7 @@
+<div align=left>
 <a href="<@ u('Forum','index') @>">Forum</a> &gt; <b><@ thread.title @></b><br/><br/>
-<div><@ thread.text @></div>
-<br/>
+<div align='left'>
+<@ INCLUDE user/username32.tt user=thread.user @><br/>
+<@ thread.rendered_text @></div>
+<br/></div>
 <@ INCLUDE comment/comments.tt comments=c.d.comments('DDGC::DB::Result::Thread',thread.id) @>

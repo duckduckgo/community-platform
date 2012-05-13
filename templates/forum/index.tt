@@ -1,7 +1,7 @@
-This is the Forum index.<br/>
-<a href="<@ u('Forum','loremthread') @>">Make a test thread</a><br/>
+<div align=left>
+<a href="<@ u('Forum','newthread') @>">New Thread</a><br/>
 <ul>
 <@ FOR thread IN threads @>
-    <li> - <a href="<@ u('Forum','thread',thread.url) @>"><@ thread.title @></a> <@ thread.foo @></li>
+    <li><img src="/static/images/<@ thread.category @>.png"/>&nbsp;&nbsp;<a href="<@ u('Forum','thread',thread.url) @>"><@ thread.title @></a><br/>&nbsp;&nbsp;&nbsp;&nbsp;By <@ INCLUDE user/username16.tt user=thread.user @></li>
 <@ END @>
-</ul>
+</ul></div>

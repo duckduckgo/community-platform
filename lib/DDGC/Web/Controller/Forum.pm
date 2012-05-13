@@ -23,15 +23,15 @@ sub thread : Chained('base') Args(1) {
   my ( $self, $c, $id ) = @_;
   my @idstr = split('-',$id);
 
-  my $thread = $c->d->forum->get_thread($idstr[0]);
+  my %thread = $c->d->forum->get_thread($idstr[0]);
 
-  my $url = lc($thread->title);
+  my $url = lc($thread{title});
   $url =~ s/[^a-z0-9]+/-/g; $url =~ s/-$//;
   $url = "$idstr[0]-$url";
   print "$url, $id";
 
   $c->response->redirect($c->chained_uri('Forum','thread',$url)) if $url ne $id;
-  $c->stash->{thread} = $thread if $thread;
+  $c->stash->{thread} = \%thread if %thread;
 }
 
 sub loremthread : Chained('base') Args(0) {
@@ -44,6 +44,27 @@ sub loremthread : Chained('base') Args(0) {
   });
   $thread->insert;
   $c->d->db->txn_do(sub { $thread->update });
+}
+
+# /forum/newthread
+sub newthread : Chained('base') Args(0) {
+    my ( $self, $c ) = @_;
+}
+
+# /forum/makethread (actually create a thread)
+sub makethread : Chained('base') Args(0) {
+    my ( $self, $c ) = @_;
+    use DDP; p($c->req->params);
+    return unless $c->req->params->{title} && $c->req->params->{text} && $c->req->params->{type};
+    my $thread = $c->d->rs('Thread')->new({
+        title => $c->req->params->{title},
+        text => $c->req->params->{text},
+        category => $c->req->params->{type},
+        users_id => $c->user->id,
+    });
+    $thread->insert;
+    $c->d->db->txn_do(sub { $thread->update });
+    $c->response->redirect($c->chained_uri('Forum','thread',$thread->id));
 }
 
 1;

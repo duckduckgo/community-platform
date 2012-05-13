@@ -2,3 +2,4 @@ DDGC-*
 .build
 po-files/*
 *~
+*.sw*

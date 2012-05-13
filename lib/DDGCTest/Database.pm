@@ -316,6 +316,24 @@ sub comments {[]}
 sub add_comments {
 }
 
+############################################
+#
+# TTTTT H   H RRRR  EEEEE   A   DDDD   SSSS 
+#   T   H   H R   R E      A A  D   D S     
+#   T   HHHHH RRRR  EEEE  AAAAA D   D  SSS  
+#   T   H   H R  R  E     A   A D   D     S 
+#   T   H   H R   R EEEEE A   A DDDD  SSSS 
+
+sub threads {[
+    [ title => "Test thread", text => "Testing some BBCode\n[b]Bold[/b]\n[url=http://ddg.gg]URL[/url] / http://ddg.gg\nEtc.", category => 5 ],
+]}
+
+sub add_threads {
+    for (threads) {
+        ...
+    }
+}
+
 ################################################################
 #  _        _                                _            _
 # | |_ ___ | | _____ _ __     ___ ___  _ __ | |_ _____  _| |_

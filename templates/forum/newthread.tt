@@ -1,0 +1,18 @@
+<div align=left>
+<a href="<@ u('Forum','index') @>">Forum</a> &gt; <b>New Thread</b><br/><br/>
+<@ IF !c.user @>
+    <p><@ l('You must be logged in in order to create a thread') @>: <a href="<@ u('My','login') @>"><@ l('Login') @></a> <@ l('or') @> <a href="<@ u('My','register') @>"><@ l('Register') @></a>.</p>
+<@ ELSE @>
+<form action="makethread" method="POST">
+<input type="text" name="title" placeholder="Title"></input>
+<textarea name="text" placeholder="Body" style="font-size:12pt"></textarea>
+    <select name="type">
+        <option value="1" selected>Discussion</option>
+        <option value="2">Idea</option>
+        <option value="3">Problem</option>
+        <option value="4">Question</option>
+        <option value="5">Announcement</option>
+    </select>
+<input type="submit" value="Create thread"></input>
+</form></div>
+<@ END @>
