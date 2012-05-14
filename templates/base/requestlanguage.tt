@@ -1,3 +1,9 @@
+<!--BREADCRUM!-->
+<div id="breadcrumb">
+<div id="breadcrumb_left"><a href="#">Home</a> > <a href="#">My Account</a> > <strong>New Language Request</strong></div>
+<div id="breadcrumb_right"></div>
+</div>
+
 <form action="<@ u('Base','requestlanguage') @>" method="post" id="formRequestLanguage" class="my">
   <fieldset>
     <h4><@ l('Request a new language') @></h4>
@@ -7,7 +13,7 @@
 	<@ END @>
 
 	  <@ IF no_valid_email @>
-       		<div class="alert wrong"><div class="close-wrong"></div><@ l('Please provide a valid email.') @></div>
+       		<div class="alert wrong"><div class="close-wrong"></div><@ l('Please provide a valid email address.') @></div>
       <@ END @>
 	  
 	  <@ IF required_name_in_english @>

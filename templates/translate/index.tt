@@ -5,11 +5,28 @@
 <@ ELSE @>
   <p>Here you can translate text snippets from sites. It's a very easy process: once you have chosen the part of the project you want to translate, you will be presented with a list of all existing text snippets, which you can translate step by step into your language. The language which you are translating into can be selected from the drop down menu on the top right. You can see existing translations on the right. If a text snippet has already been translated by a sentence which you feel is appropriate, there is no need for you to translate it again with the same sentence- only translate things which you feel could be translated in a better way. This will reduce your workload and maximise your productivity.</p>
 <@ IF c.req.param('cantspeak') == 'any' @>
-	<p class="error">You can't speak any language of the project you have chosen.</p>
+    <div class="alert wrong"><div class="close-wrong"></div>You can't speak any language of the project you have chosen.</div>
 <@ ELSIF c.req.param('cantspeak') @>
-	<p class="error">You can't speak the chosen language of the project.</p>
+    <div class="alert wrong"><div class="close-wrong"></div>You can't speak the chosen language of the project.</div>
 <@ END @>
 
+<!--BOX!-->
+<div class="box">
+<div class="box-inner">
+<h4>DuckDuckGo Core</h4>
+<p>Snippets around the core pages of DuckDuckGo, the homepage, the resultpage, the settings and the ZeroClickInfo in there.</p>
+<p><a href="#" class="BTN_submitSmall"> Select Language</a></p></div>
+</div>
+
+<!--BOX!-->
+<div class="box">
+<div class="box-inner">
+<h4>Test Area</h4>
+<p>Play around with the translation interface without doing any harm! :)</p>
+<p><a href="#" class="BTN_submitSmall"> Select Language</a></p></div>
+</div>
+
+<div style ="">
     <ul class="actions" id="domainbox">
   <@ FOR token_domain IN token_domains.sorted @>
       <li>
@@ -27,4 +44,5 @@
   <@ END @>
     </ul>
   <@ END @>
+  </div>
 </div>

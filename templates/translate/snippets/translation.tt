@@ -1,4 +1,46 @@
-<div>
+<!-- TRANSLATION !-->
+<div class="token-translation">
+
+<table class="token-table" cellspacing="0" cellpadding="0">
+    <colgroup>
+    <col class="token-table_left"/>
+    <col class="" />
+    <col class="token-table_votes" />
+    </colgroup>
+    <tbody>
+	
+	<tr>
+    	<td><h6>User</h6></td>
+    	<td><h7><@ IF translation_headline @>
+			<@ translation_headline @>
+  			<@ ELSE @>
+			<@ INCLUDE user/username32.tt user=translation.user @>
+  			<@ END @></h7>
+		</td>
+    	<td rowspan="3"><@ INCLUDE translate/vote_view.tt @></td>
+    </tr>
+	
+	
+	<@ FOR n IN [ 0..token_language.max_msgstr_index ] @>
+      <@ SET func = 'msgstr' _ n @>
+    <@ IF n == 0 @>
+	<tr>
+	<td><h2><@ l('Singular') @></h2></td>
+	<td><@ translation.$func @></td>
+	</tr>
+	<@ ELSE @>
+	<tr>
+	<td width="200px"><h2><@ n @>th Plural Form</h2></td>
+	<td><@ translation.$func @></td>
+	</tr>
+	<@ END @>
+    <@ END @>   
+	
+	</tbody>
+</table>
+
+<!-- THIS DIV CAN BE DELETED SINCE IT WAS REPLACED BY THE TABLE !-->
+<div style="display:none">
   <@ IF translation_headline @>
 	<@ translation_headline @>
   <@ ELSE @>
@@ -13,4 +55,6 @@
     <dt><@ l('Voting') @></dt>
 	<dd><@ INCLUDE translate/vote_view.tt @></dd>
   </dl>
+</div>
+
 </div>

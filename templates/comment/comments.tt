@@ -1,13 +1,17 @@
 <div class="comment_table">
+<fieldset style="padding-top:0px">
+  <legend><@ l('Comments') @></legend>
 	<@ IF comments.count @>
 		<@ FOREACH comment IN comments.list @>
 			<@ INCLUDE comment/comment.tt @>
 		<@ END @>
 	<@ END @>
 	<@ IF c.user @>
-		<div class="comment_add_title"><@ l('Add a comment') @>:</div>
+		<div class="comment_add_title"><@ l('Add your comment')@></div>
 		<div class="comment_add"><@ INCLUDE comment/add.tt context=comments.context context_id=comments.context_id @></div>
+</fieldset>
 	<@ ELSE @>
-		<@ l('Please login to make comments') @>
+		<div class="alert warning"><div class="close-warning"></div><@ l('Please login to make comments') @></div>
+</fieldset>
 	<@ END @>
 </div>
