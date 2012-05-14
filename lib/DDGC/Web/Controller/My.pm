@@ -318,6 +318,7 @@ sub register :Chained('logged_out') :Args(0) {
 	return $c->detach if !$c->req->params->{register};
 
 	$c->stash->{username} = $c->req->params->{username};
+	$c->stash->{email} = $c->req->params->{email};
 
 	if (!$c->validate_captcha($c->req->params->{captcha})) {
 		$c->stash->{wrong_captcha} = 1;
@@ -341,6 +342,11 @@ sub register :Chained('logged_out') :Args(0) {
 		$error = 1;
 	}
 
+	if ( $c->req->params->{email} && !Email::Valid->address($c->req->params->{email}) ) {
+		$c->stash->{not_valid_email} = 1;
+		$error = 1;
+	}
+
 	if ($c->req->params->{username} !~ /^[a-zA-Z0-9_\.]+$/) {
 		$c->stash->{not_valid_chars} = 1;
 		$error = 1;
@@ -350,17 +356,26 @@ sub register :Chained('logged_out') :Args(0) {
 	
 	my $username = lc($c->req->params->{username});
 	my $password = $c->req->params->{password};
+	my $email = $c->req->params->{email};
 	
 	my %xmpp = $c->model('DDGC')->xmpp->user($username);
 
 	if (%xmpp) {
 		$c->stash->{user_exist} = $username;
 		$error = 1;
-	} else {
-		$c->stash->{username} = $username;
 	}
 
-	if (!$c->model('DDGC')->create_user($username,$password)) {
+	my $user = $c->model('DDGC')->create_user($username,$password);
+
+	if ($user) {
+		if ($email) {
+			$user->data({}) if !$user->data;
+			my $data = $user->data();
+			$data->{email} = $email;
+			$user->data($data);
+			$user->update;
+		}
+	} else {
 		$c->stash->{register_failed} = 1;
 		return $c->detach;
 	}

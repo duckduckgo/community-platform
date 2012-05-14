@@ -31,7 +31,7 @@ __PACKAGE__->config(
 	using_frontend_proxy => 1,
 	default_view => 'TT::Layouts',
 	encoding => 'utf8',
-	static => {
+	'Static::Simple' => {
 		dirs => [
 			'root'
 		],

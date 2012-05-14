@@ -91,6 +91,7 @@ sub generate_pos_for_domain {
 
 sub generate_po_for_locale {
 	my ( $self, $token_domain_language, $dir ) = @_;
+	my $name = $token_domain_language->token_domain->name;
 	my $locale = $token_domain_language->language->locale;
 	my $time = time;
 	my $ref = ref $self;
@@ -102,7 +103,7 @@ sub generate_po_for_locale {
 	my $basedir = dir($dir,$locale,'LC_MESSAGES');
 	my $po_filename = $basedir->file($token_domain_language->token_domain->key.'.po')->absolute;
 	my $mo_filename = $basedir->file($token_domain_language->token_domain->key.'.mo')->absolute;
-	my $json_filename = $basedir->file($token_domain_language->token_domain->key.'.json')->absolute;
+	my $js_filename = $basedir->file($token_domain_language->token_domain->key.'.js')->absolute;
 	my $po = io($po_filename);
 	my $intro = << "EOF";
 #
@@ -141,7 +142,9 @@ EOF
 		}
 	}
 	exit 1 if system("msgfmt -c ".$po_filename." -o ".$mo_filename);
-	exit 1 if system("po2json ".$po_filename." > ".$json_filename);
+	io($js_filename)->print("\nlocale_data['".$name."'] = ");
+	exit 1 if system("po2json ".$po_filename." >> ".$js_filename);
+	io($js_filename)->append(";\n");
 }
 
 sub error { die "[".(ref shift)."] ".shift }
