@@ -91,7 +91,7 @@ sub generate_pos_for_domain {
 
 sub generate_po_for_locale {
 	my ( $self, $token_domain_language, $dir ) = @_;
-	my $name = $token_domain_language->token_domain->name;
+	my $key = $token_domain_language->token_domain->key;
 	my $locale = $token_domain_language->language->locale;
 	my $time = time;
 	my $ref = ref $self;
@@ -142,7 +142,7 @@ EOF
 		}
 	}
 	exit 1 if system("msgfmt -c ".$po_filename." -o ".$mo_filename);
-	io($js_filename)->print("\nlocale_data['".$name."'] = ");
+	io($js_filename)->print("\nlocale_data['".$key."'] = ");
 	exit 1 if system("po2json ".$po_filename." >> ".$js_filename);
 	io($js_filename)->append(";\n");
 }
