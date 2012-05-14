@@ -1,8 +1,9 @@
 <@ IF c.user.can_speak(translation.token_language.token_domain_language.language.locale) @>
 	<@ IF translation.user_voted(c.user) @>
-		<a class="vote_link" href="<@ u('Translate','vote_view',translation.id,0) @>">Revoke your vote</a>
+		<a class="vote_link" href="<@ u('Translate','vote_view',translation.id,0) @>"><img src="../../../static/images/ICN_votesON.gif" alt="votes" width="34" height="30" align="absmiddle" title="Revoke your vote"/></a>
 	<@ ELSE @>
-		<a class="vote_link" href="<@ u('Translate','vote_view',translation.id,1) @>">Vote for this translation</a>
+		<a class="vote_link" href="<@ u('Translate','vote_view',translation.id,1) @>"><img src="../../../static/images/ICN_votesOFF.gif" alt="votes" width="34" height="30" align="absmiddle" title="Vote for this translation"/></a>
 	<@ END @>
 <@ END @>
-<@ l('%d people voted for this translation',translation.vote_count) @>
+<@ l(translation.vote_count) @>
+<!--<@ l('%d people voted for this translation',translation.vote_count) @>!-->

@@ -36,7 +36,30 @@
 	width:258px;
 }
 
+.form-textarea {
+	border:1px solid #A6A6A6;
+	-moz-border-radius:4px;
+	border-radius:4px;
+	-webkit-box-shadow:-1px 1px 2px #999 inset; 
+    -moz-box-shadow:-1px 1px 2px #999 inset; 
+    box-shadow:-1px 1px 2px #999 inset; 
+	color:#999;
+	font-family:segoe UI, Helvetica Neue, Helvetica;
+	font-size:15px;
+	height:150px;
+	margin-bottom:10px;
+	outline:0 none;
+	padding-top:10px;
+	text-indent:15px;
+	width:525px;
+}
+
 .form-input:focus {
+	border:1px solid #666;
+	color:#666;
+}
+
+.form-textarea:focus {
 	border:1px solid #666;
 	color:#666;
 }

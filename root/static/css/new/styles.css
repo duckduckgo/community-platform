@@ -3,7 +3,7 @@
 
 
 body {
-	font-family:segoe UI;
+	font-family:segoe UI, Helvetica Neue, Helvetica;
 	margin:0px;
 }
 
@@ -83,6 +83,14 @@ li {
 
 form {
 	margin-bottom:0px;
+}
+
+fieldset {
+	border:1px solid #A6A6A6;
+	-moz-border-radius:4px;
+	border-radius:4px;
+	margin-bottom:20px;
+	margin-top:10px;
 }
 
 select {
