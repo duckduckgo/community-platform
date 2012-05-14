@@ -69,11 +69,13 @@ sub get_thread {
     my $rendered_text = $self->bbcode->render($threaddb->text);
 
     my %thread = (
-        user => $threaddb->user,
-        title => $threaddb->title,
-        rendered_text => $rendered_text,
-        text => $threaddb->text,
-        id => $threaddb->id,
+        user            => $threaddb->user,
+        title           => $threaddb->title,
+        rendered_text   => $rendered_text,
+        text            => $threaddb->text,
+        id              => $threaddb->id,
+        category        => $categories{$threaddb->category},
+        created         => $threaddb->created,
     );
 
     %thread;

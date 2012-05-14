@@ -32,6 +32,7 @@ sub thread : Chained('base') Args(1) {
 
   $c->response->redirect($c->chained_uri('Forum','thread',$url)) if $url ne $id;
   $c->stash->{thread} = \%thread if %thread;
+  $c->stash->{is_owner} = ($c->user && ($c->user->admin || $c->user->id == $thread{user}->id)) ? 1 : 0;
 }
 
 sub loremthread : Chained('base') Args(0) {
@@ -51,10 +52,20 @@ sub newthread : Chained('base') Args(0) {
     my ( $self, $c ) = @_;
 }
 
+sub delete : Chained('base') Args(1) {
+    my ( $self, $c, $id ) = @_;
+    my $thread = $c->d->rs('Thread')->single({ id => $id });
+    return unless $thread;
+    return unless $c->user && ($c->user->admin || $c->user->id == $thread->user->id);
+    $c->d->rs('Comment')->search({ context => "DDGC::DB::Result::Thread", context_id => $id })->delete();
+    $thread->delete();
+    $c->response->redirect($c->chained_uri('Forum','index'));
+}
+
 # /forum/makethread (actually create a thread)
 sub makethread : Chained('base') Args(0) {
     my ( $self, $c ) = @_;
-    use DDP; p($c->req->params);
+    return unless $c->user;
     return unless $c->req->params->{title} && $c->req->params->{text} && $c->req->params->{type};
     my $thread = $c->d->rs('Thread')->new({
         title => $c->req->params->{title},

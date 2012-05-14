@@ -31,6 +31,17 @@ column category => {
     is_nullable => 0,
 };
 
+column created => {
+	data_type => 'timestamp with time zone',
+	set_on_create => 1,
+};
+
+column updated => {
+	data_type => 'timestamp with time zone',
+	set_on_create => 1,
+	set_on_update => 1,
+};
+
 belongs_to 'user', 'DDGC::DB::Result::User', 'users_id';
 
 use overload '""' => sub {

@@ -803,3 +803,13 @@ form .flagSelect label {
     clear: both;
 }
 
+
+/* BBCode styles */
+.bbcode_code_header {
+    font-size: small;
+    background-color: #DDD;
+}
+.bbcode_code_body {
+    font: small 'Droid Sans Mono','DejaVu Sans Mono',monospace;
+    padding-left: 1em;
+}
