@@ -85,27 +85,43 @@ unique_constraint [qw/ token_id token_domain_language_id /];
 sub gettext_snippet {
 	my ( $self, $fallback ) = @_;
 	my %vars;
+	my $msgstr_index_max = $self->token_domain_language->language->nplurals - 1;
 	if ($self->token->msgid_plural) {
-		for (0..$self->msgstr_index_max) {
+		for (0..$msgstr_index_max) {
 			my $func = 'msgstr'.$_;
 			my $result = $self->$func;
-			$vars{'msgstr['.$_.']'} = $result if $result;
+			$vars{'msgstr['.$_.']'} = $self->gettext_escape($result) if $result;
 		}
 	} else {
-		$vars{'msgstr'} = $self->msgstr0 if $self->msgstr0;
+		$vars{'msgstr'} = $self->gettext_escape($self->msgstr0) if $self->msgstr0;
 	}
 	return unless %vars || $fallback;
-	$vars{msgid} = $self->token->msgid;
-	$vars{msgid_plural} = $self->token->msgid_plural if $self->token->msgid_plural;
-	$vars{msgctxt} = $self->token->msgctxt if $self->token->msgctxt;
-	#$str = $id unless $str;
+	$vars{msgid} = $self->gettext_escape($self->token->msgid);
+	$vars{msgctxt} = $self->gettext_escape($self->token->msgctxt) if $self->token->msgctxt;
+	if ($self->token->msgid_plural) {
+		$vars{msgid_plural} = $self->gettext_escape($self->token->msgid_plural);
+		for (0..$msgstr_index_max) {
+			$vars{'msgstr['.$_.']'} = $self->gettext_escape($self->token->msgid_plural)
+				unless defined $vars{'msgstr['.$_.']'};
+		}
+	} else {
+		$vars{msgstr} = $self->gettext_escape($self->token->msgid)
+			unless defined $vars{msgstr};
+	}
 	return "\n".$self->gettext_snippet_formatter(%vars);
+}
+
+sub gettext_escape {
+	my ( $self, $content ) = @_;
+	$content =~ s/\n/\\n/g;
+	$content =~ s/"/\\"/g;
+	return $content;
 }
 
 sub gettext_snippet_formatter {
 	my ( $self, %vars ) = @_;
 	my $return;
-	for (qw( msgid msgctxt msgid_plural )) {
+	for (qw( msgctxt msgid msgid_plural )) {
 		$return .= $_.' "'.(delete $vars{$_}).'"'."\n" if $vars{$_};
 	}
 	for (sort { $a cmp $b } keys %vars) {
@@ -144,18 +160,23 @@ sub auto_use {
 	})->all;
 	my %first;
 	my %grade;
+	my %votes;
 	for (@translations) {
 		$first{$_->key} = $_ unless defined $first{$_->key};
-		my $translation_grade = $_->user->search_related('user_languages',{
+		my $translation_language = $_->user->search_related('user_languages',{
 			language_id => $self->token_domain_language->language->id,
-		})->first->grade;
+		})->first;
+		my $translation_grade = $translation_language ? $translation_language->grade : 0;
 		my $best_grade = defined $grade{$_->key} ? $grade{$_->key} : 0;
 		$grade{$_->key} = $translation_grade if $translation_grade > $best_grade;
+		$votes{$_->key} = $_->vote_count;
 	}
 	my $best;
 	for (keys %first) {
 		if ($best) {
-			$best = $first{$_} if $grade{$_} > $grade{$best->key}
+			$best = $first{$_} if $votes{$_} > $votes{$best->key};
+			$best = $first{$_} if $votes{$_} == $votes{$best->key}
+								&& $grade{$_} > $grade{$best->key};
 		} else {
 			$best = $first{$_};
 		}
