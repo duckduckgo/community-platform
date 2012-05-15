@@ -11,6 +11,7 @@ sub base :Chained('/base') :PathPart('duckpan') :CaptureArgs(0) {
     my ( $self, $c ) = @_;
 	$c->stash->{title} = 'DuckPAN';
 	$c->stash->{duckpan} = $c->d->duckpan;
+	$c->add_bc('DuckPAN', $c->chained_uri('duckpan','index'));
 }
 
 sub do :Chained('base') :CaptureArgs(0) {
@@ -50,10 +51,12 @@ sub module :Chained('base') :CaptureArgs(1) {
 	$c->stash->{duckpan_dist_filename} = $c->stash->{duckpan}->modules->{$module};
 	return $c->go($c->controller('Root'),'default') unless $c->stash->{duckpan_dist_filename};
 	$c->stash->{duckpan_dist} = Dist::Data->new($c->stash->{duckpan_dist_filename});
+	$c->add_bc($module, $c->chained_uri('Duckpan','module',$module));
 }
 
 sub module_index :Chained('module') :PathPart('') :Args(0) {
     my ( $self, $c ) = @_;
+	$c->add_bc('Module Index of DuckPAN', $c->chained_uri('Duckpan','module_index'));
 }
 
 # TODO: Goes into a static generation procedure

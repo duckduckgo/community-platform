@@ -13,7 +13,8 @@ BEGIN {extends 'Catalyst::Controller'; }
 sub base :Chained('/base') :PathPart('my') :CaptureArgs(0) {
     my ( $self, $c ) = @_;
 #	$c->stash->{headline_template} = 'headline/my.tt';
-	$c->stash->{title} = 'Account area';
+	$c->stash->{title} = 'My Account';
+	$c->add_bc($c->stash->{title}, $c->chained_uri('My','account'));
 }
 
 sub logout :Chained('base') :Args(0) {
@@ -41,10 +42,6 @@ sub logged_out :Chained('base') :PathPart('') :CaptureArgs(0) {
 
 sub account :Chained('logged_in') :Args(0) {
     my ( $self, $c ) = @_;
-	if (!$c->user->db->user_languages->search({})->all) {
-		$c->response->redirect($c->chained_uri('My','languages'));
-		return $c->detach;
-	}
 	if ( $c->req->params->{unset_gravatar_email} ) {
 		my $data = $c->user->data || {};
 		delete $data->{gravatar_email};
@@ -91,10 +88,6 @@ sub account :Chained('logged_in') :Args(0) {
 		});
 	}
 	delete $c->session->{cur_locale} if $change;
-}
-
-sub languages :Chained('logged_in') :Args(0) {
-    my ( $self, $c ) = @_;
 }
 
 sub apps :Chained('logged_in') :Args(0) {
@@ -260,6 +253,7 @@ sub changepw :Chained('logged_in') :Args(0) {
 
 sub forgotpw :Chained('logged_out') :Args(0) {
 	my ( $self, $c ) = @_;
+	$c->add_bc('Forgot password', $c->chained_uri('My','forgotpw'));
 	return $c->detach if !$c->req->params->{requestpw};
 	$c->stash->{forgotpw_username} = lc($c->req->params->{username});
 	$c->stash->{forgotpw_email} = $c->req->params->{email};
@@ -291,6 +285,7 @@ sub forgotpw :Chained('logged_out') :Args(0) {
 
 sub login :Chained('logged_out') :Args(0) {
     my ( $self, $c ) = @_;
+	$c->add_bc('Login', $c->chained_uri('My','login'));
 
 	$c->stash->{no_userbox} = 1;
 
@@ -312,6 +307,7 @@ sub login :Chained('logged_out') :Args(0) {
 
 sub register :Chained('logged_out') :Args(0) {
     my ( $self, $c ) = @_;
+	$c->add_bc('Register', $c->chained_uri('My','register'));
 
 	$c->stash->{no_login} = 1;
 

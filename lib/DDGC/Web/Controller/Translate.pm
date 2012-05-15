@@ -14,6 +14,7 @@ sub base :Chained('/base') :PathPart('translate') :CaptureArgs(0) {
 		return $c->detach;
 	}
 	$c->stash->{title} = 'Translations';
+	$c->add_bc('Translation Interface', $c->chained_uri('Translate','index'));
 }
 
 sub do :Chained('base') :CaptureArgs(0) {
@@ -31,6 +32,10 @@ sub logged_in :Chained('base') :PathPart('') :CaptureArgs(0) {
 		$c->response->redirect($c->chained_uri('Translate','index'));
 		return $c->detach;
 	}
+	if (!$c->user->db->user_languages->search({})->all) {
+		$c->response->redirect($c->chained_uri('My','account'));
+		return $c->detach;
+	}
 }
 
 sub tokenlanguage :Chained('logged_in') :Args(1) {
@@ -42,6 +47,7 @@ sub tokenlanguage :Chained('logged_in') :Args(1) {
 		$c->response->status(404);
 		return $c->detach;
 	}
+	$c->add_bc('Translate', $c->chained_uri('Translate','tokenlanguage',$token_language_id));
 }
 
 sub translation :Chained('logged_in') :CaptureArgs(1) {

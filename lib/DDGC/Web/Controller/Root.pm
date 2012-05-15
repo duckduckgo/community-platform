@@ -20,6 +20,7 @@ sub base :Chained('/') :PathPart('') :CaptureArgs(0) {
 	$c->stash->{xmpp_userhost} = $c->d->config->prosody_userhost;
 	$c->stash->{prefix_title} = 'DuckDuckGo Community';
 	$c->stash->{user_counts} = $c->d->user_counts;
+	$c->add_bc('Home', $c->chained_uri('Root','index'));
 }
 
 sub index :Chained('base') :PathPart('') :Args(0) {
@@ -27,14 +28,15 @@ sub index :Chained('base') :PathPart('') :Args(0) {
 #	if ($c->user) {
 #		return $c->detach('My','timeline');
 #	} else {
-		$c->response->redirect($c->chained_uri('Base','welcome'));
-		return $c->detach;
+	$c->response->redirect($c->chained_uri('Base','welcome'));
+	return $c->detach;
 #	}
 }
 
 sub default :Chained('base') :PathPart('') :Args {
     my ( $self, $c ) = @_;
     $c->response->status(404);
+    $c->add_bc('Not found', $c->chained_uri('Root','default'));
 }
 
 sub end : ActionClass('RenderView') {

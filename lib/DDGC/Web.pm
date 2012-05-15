@@ -1,6 +1,7 @@
 package DDGC::Web;
 use Moose;
 use namespace::autoclean;
+use Carp qw( croak );
 
 use Catalyst::Runtime 5.90;
 
@@ -116,6 +117,16 @@ sub pager_init {
 	$c->stash->{pagesize_options} = [qw( 10 20 40 50 100 )];
 	$c->session->{pager}->{$key}->{pagesize} = $c->stash->{pagesize};
 	$c->session->{pager}->{$key}->{page} = $c->stash->{page};
+}
+
+sub add_bc {
+	my ( $c, $text, $link ) = @_;
+	$c->stash->{breadcrumb} = [] unless $c->stash->{breadcrumb};
+	if (@{$c->stash->{breadcrumb}} % 2 == 1) {
+		croak "Breadcrumb already finished";
+	}
+	push @{$c->stash->{breadcrumb}}, $text;
+	push @{$c->stash->{breadcrumb}}, $link if $link;
 }
 
 # Start the application

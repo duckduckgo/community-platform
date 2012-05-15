@@ -58,6 +58,8 @@ sub feedback :Chained('base') :Args(0) {
 
 	}
 
+	$c->add_bc($c->stash->{title}, $c->chained_uri('Base','feedback'));
+
 }
 
 sub requestlanguage :Chained('base') :Args(0) {
@@ -109,6 +111,8 @@ sub requestlanguage :Chained('base') :Args(0) {
 
 		}
 	}
+
+	$c->add_bc($c->stash->{title}, $c->chained_uri('Base','requestlanguage'));
 
 }
 
