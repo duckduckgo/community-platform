@@ -12,5 +12,11 @@
 	<@ END @>
 
 	</div>
-	<!-- <div id="breadcrumb_right"><img src="<@ token_language.token_domain_language.language.flag_url @>">&nbsp;&nbsp;<@ token_language.token_domain_language.language.name_in_english @>&nbsp;&nbsp;<a href="" class="BTN_submitSmall" style="padding:7px; padding-bottom:2px; padding-top:2px">&#9660;</a></div> -->
+
+	<div id="breadcrumb_right">
+		<@ IF breadcrumb_right == 'language' @>
+			<!-- <img src="<@ token_language.token_domain_language.language.flag_url @>">&nbsp;&nbsp;<@ token_language.token_domain_language.language.name_in_english @>&nbsp;&nbsp;<a href="" class="BTN_submitSmall" style="padding:7px; padding-bottom:2px; padding-top:2px">&#9660;</a>
+		<@ END @>
+	</div>
+
 </div>
