@@ -8,11 +8,10 @@
 		    <a href="<@ u('My','account') @>"><@ l('Account') @> | <a href="<@ u('My','logout') @>"><@ l('Logout') @></a></a>
         <@ IF c.user.admin @>
           <!--
-          <li><a href="<@ u('My','apps') @>"><@ l('Applications') @></a></li>
-          <li><a href="<@ u('Admin','index') @>"><@ l('Admin interface') @></a></li>
+            <li><a href="<@ u('My','apps') @>"><@ l('Applications') @></a></li>
+            <li><a href="<@ u('Admin','index') @>"><@ l('Admin interface') @></a></li>
           !-->
         <@ END @>
-
     <@ ELSE @>
       <@ INCLUDE my/loginform.tt @>
     <@ END @>

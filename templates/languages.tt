@@ -49,7 +49,7 @@
           <option value="6">6 - Professional proficiency</option>
         </select>			
     </div>
-	<span><a href="<@ u('Base','requestlanguage') @>">Request a new language</a></span>
+    <span><a href="<@ u('Base','requestlanguage') @>">Request a new language</a></span>
     <input type="submit" value="Add Language" name="add_user_language">
   </fieldset>
 </form>
