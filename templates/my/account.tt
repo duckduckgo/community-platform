@@ -53,32 +53,6 @@
         </td>
         <td class="account-table_BTNS"><a href="#" class="BTN_delete">Remove</a></td>
     </tr>
-    <tr>
-      <td><img src="/static/images/ICN_france.gif" width="16" height="11" alt="flag" /></td>
-        <td> Fran&ccedil;ais en France</td>
-        <td><select name="grade" id="grade">
-            <option selected="selected">Basic ability</option>
-            <option>Intermediate ability</option>
-            <option>Advanced level</option>
-            <option>&quot;Near Native&quot; level</option>
-            <option>Native</option>
-            <option>Professional proficiency</option>
-          </select> *</td>
-        <td class="account-table_BTNS"><a href="#" class="BTN_delete">Remove</a></td>
-    </tr>
-    <tr>
-      <td style="border:none"><img src="/static/images/ICN_argentina.gif" width="16" height="11" alt="flag" /></td>
-        <td style="border:none"> Espa&ntilde;ol de Argentina </td>
-        <td style="border:none"><select name="grade" id="grade">
-            <option>Basic ability</option>
-            <option>Intermediate ability</option>
-            <option>Advanced level</option>
-            <option>&quot;Near Native&quot; level</option>
-            <option selected="selected">Native</option>
-            <option>Professional proficiency</option>
-          </select> *</td>
-        <td class="account-table_BTNS" style="border:none"><a href="#" class="BTN_delete">Remove</a></td>
-    </tr>
     </tbody>
   </table>
   <div id="account-table_ftr">
