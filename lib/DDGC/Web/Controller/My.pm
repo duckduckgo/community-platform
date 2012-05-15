@@ -70,10 +70,6 @@ sub account :Chained('logged_in') :Args(0) {
 			$c->stash->{no_valid_gravatar_email} = 1;
 		}
 	}
-}
-
-sub languages :Chained('logged_in') :Args(0) {
-    my ( $self, $c ) = @_;
 	$c->stash->{languages} = [$c->d->rs('Language')->search({},{
 		order_by => { -asc => 'locale' },
 	})->all];
@@ -95,6 +91,10 @@ sub languages :Chained('logged_in') :Args(0) {
 		});
 	}
 	delete $c->session->{cur_locale} if $change;
+}
+
+sub languages :Chained('logged_in') :Args(0) {
+    my ( $self, $c ) = @_;
 }
 
 sub apps :Chained('logged_in') :Args(0) {

@@ -38,21 +38,28 @@
     <col class="account-table_BTNS" />
     </colgroup>
     <tbody>
+	<@ IF c.user.languages @>
+    <@ FOR user_language IN c.user.user_languages @>
     <tr>
-      <td><img src="/static/images/ICN_italia.gif" alt="flag" width="16" height="11" /></td>
-        <td> La lingua italiana in Italia</td>
+        <td><img src="<@ user_language.language.flag_url @>" alt="flag" width="16" height="11" /></td>
+      <td><@ user_language.language.name_in_local @></td>
         <td>
           <select name="grade" id="grade">
-            <option>Basic ability</option>
-            <option selected="selected">Intermediate ability</option>
-            <option>Advanced level</option>
-            <option>&quot;Near Native&quot; level</option>
-            <option>Native</option>
-            <option>Professional proficiency</option>
-          </select>
+            <option <@ IF user_language.grade == 1 @>selected="selected"<@ END @>>Basic ability</option>
+            <option <@ IF user_language.grade == 2 @>selected="selected"<@ END @>>Intermediate ability</option>
+            <option <@ IF user_language.grade == 3 @>selected="selected"<@ END @>>Advanced level</option>
+            <option <@ IF user_language.grade == 4 @>selected="selected"<@ END @>>&quot;Near Native&quot; level</option>
+            <option <@ IF user_language.grade == 5 @>selected="selected"<@ END @>>Native</option>
+            <option <@ IF user_language.grade == 6 @>selected="selected"<@ END @>>Professional proficiency</option> </select>
         </td>
-        <td class="account-table_BTNS"><a href="#" class="BTN_delete">Remove</a></td>
+        <td class="account-table_BTNS">
+            <a href="?remove_user_language=<@ user_language.language.locale @>" class="BTN_delete">Remove</a>
+        </td>
     </tr>
+    <@ END @>
+    <@ ELSE @>
+    <h4><@ l('Before you can start translating DuckDuckGo, you need to give us the languages you can speak.') @></h4>
+    <@ END @>
     </tbody>
   </table>
   <div id="account-table_ftr">
@@ -73,22 +80,6 @@
 <div class="clear"></div>
 </div>
 </div>
-<!-- LANGUAGES TABLE EN!-->	
-
-      <div>
-        <!--p class="button"><a href="<@ u('Help','view','mylanguages') @>"><@ l('Information') @></a></p-->
-	<h3><@ l('Your languages') @>:</h3>
-	<@ IF c.user.languages @>
-        <ul class="bullets">
-          <@ FOR user_language IN c.user.user_languages @>
-            <li><@ user_language.language.name_in_local @></li>
-          <@ END @>
-        </ul>
-	<@ ELSE @>
-        <p><@ l('No languages defined for yourself') @>.</p>
-	<@ END @>
-	<p class="button"><a href="<@ u('My','languages') @>">Edit your languages</a></p>
-      </div>
 
     <div class="box">
 	<div class="box-inner">
