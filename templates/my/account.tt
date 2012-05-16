@@ -2,7 +2,7 @@
 	<div>
       <!--<h2>Welcome to your DuckDuckGo community account!</h2>!-->
 	  <div class="alert warning"><div class="close-warning"></div><strongTip:</strong> You do not need to share personal information to have or use this account.</div>
-    </div>
+</div>
 	  
 	<@ IF xmpp_userhost != 'dukgo.com' @>
 		<div>
@@ -26,9 +26,15 @@
 <div class="box-inner">
 <table class="account-table" cellspacing="0" cellpadding="0">
   <tr>
+    <@ IF c.user.languages @>
     <th></th>
     <th class="account-table_caption">Your Languages</th>
     <th class="account-table_caption">Grade</th>
+    <@ ELSE @>
+    <th class="account-table_caption">Your Languages</th>
+    <th></th>
+    <th class="account-table_caption">Grade</th>
+    <@ END @>
     <@ IF c.user.languages @>
     <th class="account-table_BTNadd"><a href="#" class="BTN_submitSmall">Add New Language</a></th>
     <@ END @>
@@ -43,9 +49,9 @@
 	<@ IF c.user.languages @>
     <@ FOR user_language IN c.user.user_languages @>
     <tr>
-        <td><img src="<@ user_language.language.flag_url @>" alt="flag" width="16" height="11" /></td>
+      <td><img src="<@ user_language.language.flag_url @>" alt="flag" width="16" height="11" /></td>
       <td><@ user_language.language.name_in_local @></td>
-        <td>
+      <td>
           <select name="grade" id="grade">
             <option <@ IF user_language.grade == 1 @>selected="selected"<@ END @>>Basic ability</option>
             <option <@ IF user_language.grade == 2 @>selected="selected"<@ END @>>Intermediate ability</option>
@@ -61,19 +67,29 @@
     <@ END @>
     <@ ELSE @>
     <tr>
-        <td><input type="text" name="language"></td>
-        <td>
-          <select name="grade" id="grade">
-            <option>Basic ability</option>
-            <option>Intermediate ability</option>
-            <option>Advanced level</option>
-            <option>&quot;Near Native&quot; level</option>
-            <option>Native</option>
-            <option>Professional proficiency</option> </select>
-        </td>
-        <td class="account-table_BTNS">
-            <a href="#" class="BTN_submitSmall">Add New Language</a>
-        </td>
+        <form action="<@ u('My','account') @>" method="post" id="formAddLanguage" class="my">
+            <td>
+                <select id="language_id "name="language_id">
+                <@ FOREACH list_language IN languages @>
+                  <option value="<@ list_language.id @>" <@ IF c.req.params.locale == list_language.locale @>selected="selected"<@ END @>>
+                  [<@ list_language.locale @>] <@ list_language.name_in_local @>
+                  </option>
+                <@ END @>
+                </select>
+            <td>
+            <td>
+              <select name="grade" id="grade">
+                <option>Basic ability</option>
+                <option>Intermediate ability</option>
+                <option>Advanced level</option>
+                <option>&quot;Near Native&quot; level</option>
+                <option>Native</option>
+                <option>Professional proficiency</option> </select>
+            </td>
+            <td class="account-table_BTNS">
+                <input type="submit" name="add_user_language" value="Add Language" class="BTN_submitSmall">
+            </td>
+        </form>
     </tr>
     <@ END @>
     </tbody>
