@@ -1,7 +1,9 @@
 $(document).ready(function(){
-  if (userHasLanguages) {
-    $('#btnAddNewLanguage').show();
-    $('#formAddUserLanguage').hide();
+  if (typeof(userHasLanguages) != "undefined") {
+      if (userHasLanguages) {
+        $('#btnAddNewLanguage').show();
+        $('#formAddUserLanguage').hide();
+      }
   }
 });
 
