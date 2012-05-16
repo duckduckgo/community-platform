@@ -47,6 +47,9 @@ sub tokenlanguage :Chained('logged_in') :Args(1) {
 		$c->response->status(404);
 		return $c->detach;
 	}
+	# TODO
+	# $c->stash->{breadcrumb_right_url} =	$c->chained_uri('Translate','tokenlanguage',$token_language_id,{ token_language_locale => 'LOCALE' });
+	# $c->stash->{breadcrumb_right} = 'language';
 	$c->add_bc('Translate', $c->chained_uri('Translate','tokenlanguage',$token_language_id));
 }
 
@@ -109,6 +112,7 @@ sub domain :Chained('logged_in') :PathPart('') :CaptureArgs(1) {
 		};
 		$c->stash->{last_locale} = $_->language->locale;
 	}
+	$c->add_bc($c->stash->{token_domain}->name, '');
 	$c->stash->{locale} = $c->stash->{last_locale} if !$c->stash->{locale};
 }
 
@@ -125,6 +129,7 @@ sub locale :Chained('domain') :PathPart('') :CaptureArgs(1) {
 	return $c->go($c->controller('Root'),'default') unless $c->stash->{cur_language};
 	$c->stash->{token_domain_language} = $c->stash->{locales}->{$c->stash->{locale}}->{tcl};
 	$c->session->{cur_locale}->{$c->stash->{token_domain}->key} = $c->stash->{locale};
+	$c->add_bc($c->stash->{cur_language}->name_in_english, '');
 }
 
 sub allsnippets :Chained('locale') :Args(0) {
@@ -135,6 +140,8 @@ sub allsnippets :Chained('locale') :Args(0) {
 		order_by => 'me.created',
 		prefetch => 'token',
 	});
+	$c->stash->{breadcrumb_right_url} =	$c->chained_uri('Translate','allsnippets',$c->stash->{token_domain}->key,'LOCALE');
+	$c->stash->{breadcrumb_right} = 'language';
 }
 
 sub save_translate_params {
@@ -211,6 +218,8 @@ sub snippets :Chained('locale') :Args(0) {
 		$c->res->redirect($c->chained_uri('Translate','snippets',$c->stash->{token_domain}->key,$c->stash->{locale},{ page => $c->stash->{token_languages}->pager->next_page }));
 		return $c->detach;
 	}
+	$c->stash->{breadcrumb_right_url} =	$c->chained_uri('Translate','snippets',$c->stash->{token_domain}->key,'LOCALE',{ page => $c->stash->{token_languages}->pager->current_page });
+	$c->stash->{breadcrumb_right} = 'language';
 }
 
 sub texts :Chained('locale') :Args(0) {

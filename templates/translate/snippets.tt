@@ -1,9 +1,3 @@
-<!--BREADCRUM!-->
-<div id="breadcrumb">
-<div id="breadcrumb_left"><a href="#">Home</a> > <a href="#">My Account</a> > <a href="#">Translate Interface</a> > <strong><@ token_domain.name @></strong></div>
-<div id="breadcrumb_right"><img src="<@ token_domain_language.language.flag_url @>">&nbsp;&nbsp;<@ cur_language.name_in_english @>&nbsp;&nbsp;<a href="" class="BTN_submitSmall" style="padding:7px; padding-bottom:2px; padding-top:2px">&#9660;</a></div>
-</div>
-
 <!-- THIS DIV CAN BE DELETED !-->
 <div style="display:none">
 <h1><@ l('Translate %s into %s',token_domain.name,cur_language.name_in_english) @></h1>

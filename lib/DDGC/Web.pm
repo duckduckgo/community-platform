@@ -126,7 +126,7 @@ sub add_bc {
 		croak "Breadcrumb already finished";
 	}
 	push @{$c->stash->{breadcrumb}}, $text;
-	push @{$c->stash->{breadcrumb}}, $link if $link;
+	push @{$c->stash->{breadcrumb}}, $link if defined $link;
 }
 
 # Start the application

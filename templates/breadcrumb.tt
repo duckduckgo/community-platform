@@ -5,7 +5,12 @@
 		<@ bc_title = breadcrumb.shift @>
 		<@ bc_link = breadcrumb.shift @>
 		<@ IF breadcrumb.size > 0 @>
-			<a href="<@ bc_link @>"><@ bc_title @></a> >
+			<@ IF bc_link @>
+				<a href="<@ bc_link @>"><@ bc_title @></a>
+			<@ ELSE @>
+				<@ bc_title @>
+			<@ END @>
+			>
 		<@ ELSE @>
 			<strong><@ bc_title @></strong>
 		<@ END @>
@@ -15,7 +20,8 @@
 
 	<div id="breadcrumb_right">
 		<@ IF breadcrumb_right == 'language' @>
-			<!-- <img src="<@ token_language.token_domain_language.language.flag_url @>">&nbsp;&nbsp;<@ token_language.token_domain_language.language.name_in_english @>&nbsp;&nbsp;<a href="" class="BTN_submitSmall" style="padding:7px; padding-bottom:2px; padding-top:2px">&#9660;</a>
+			<img src="<@ token_language.token_domain_language.language.flag_url @>">&nbsp;&nbsp;<@ token_language.token_domain_language.language.name_in_english @>&nbsp;&nbsp;<a href="" class="BTN_submitSmall" style="padding:7px; padding-bottom:2px; padding-top:2px">&#9660;</a>
+			<@ INCLUDE translate/languagebox.tt url=breadcrumb_right_url @>
 		<@ END @>
 	</div>
 
