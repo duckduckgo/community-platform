@@ -30,13 +30,11 @@
     <th></th>
     <th class="account-table_caption">Your Languages</th>
     <th class="account-table_caption">Grade</th>
+    <th class="account-table_BTNadd"><a href="#" class="BTN_submitSmall">Add New Language</a></th>
     <@ ELSE @>
     <th class="account-table_caption">Your Languages</th>
     <th></th>
-    <th class="account-table_caption">Grade</th>
-    <@ END @>
-    <@ IF c.user.languages @>
-    <th class="account-table_BTNadd"><a href="#" class="BTN_submitSmall">Add New Language</a></th>
+    <th class="account-table_caption" <@ IF NOT c.user.languages @> style="padding-left:50px;" <@ END @> >Grade</th>
     <@ END @>
   </tr>
     <colgroup>
@@ -51,7 +49,7 @@
     <tr>
       <td><img src="<@ user_language.language.flag_url @>" alt="flag" width="16" height="11" /></td>
       <td><@ user_language.language.name_in_local @></td>
-      <td>
+      <td >
           <select name="grade" id="grade">
             <option <@ IF user_language.grade == 1 @>selected="selected"<@ END @>>Basic ability</option>
             <option <@ IF user_language.grade == 2 @>selected="selected"<@ END @>>Intermediate ability</option>
@@ -77,7 +75,7 @@
                 <@ END @>
                 </select>
             <td>
-            <td>
+            <td <@ IF NOT c.user.languages @> style="padding-left:50px;" <@ END @> >
               <select name="grade" id="grade">
                 <option>Basic ability</option>
                 <option>Intermediate ability</option>
