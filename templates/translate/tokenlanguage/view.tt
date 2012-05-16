@@ -67,7 +67,7 @@
       <@ END @>
       
 	<@ ELSE @>
-	  <div class="alert wrong"><div class="close-wrong"></div>You need to <a href="<@ u('My','languages',{ locale => token_language.token_domain_language.language.locale }) @>"><@ l('add the language') @></a> for making translations</div>
+	  <div class="alert wrong"><div class="close-wrong"></div>You need to <a href="<@ u('My','account') @>"><@ l('add the language') @></a> for making translations</div>
     <@ END @>
 	
   <@ IF other_translations @>

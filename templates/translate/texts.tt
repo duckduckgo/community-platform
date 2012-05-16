@@ -5,7 +5,7 @@
 	<@ INCLUDE translate/languagebox.tt @>
 	<@ IF cant_speak @>
 		<div class="mybox">
-			<p><a href="<@ u('My','languages',{ locale => cur_language.locale }) @>"><@ l('You must add this language to your known languages for translating it') @></a></p>
+			<p><a href="<@ u('My','account') @>"><@ l('You must add this language to your known languages for translating it') @></a></p>
 		</div>
 	<@ ELSE @>
 		<@ FOR token_language IN token_languages.all @>
