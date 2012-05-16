@@ -17,7 +17,7 @@
 }
 
 .account-table td {
-	border-bottom:2px solid #CCC;
+	border-top:2px solid #CCC;
 	font-size:22px;
 	font-weight:400;
 	height:50px;
@@ -42,6 +42,7 @@
 	font-size:11px !important;
 	padding-top:10px;
 	padding-bottom:10px;
+    border-top: 2px solid #CCCCCC;
 }
 
 #accont-table_ftrLeft {
