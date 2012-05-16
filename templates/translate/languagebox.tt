@@ -1,4 +1,5 @@
-<h2 class="ac"><@ l('Choose your language') @></h2>
+<a href="javascript:void(0);" onclick="showLanguageBox();" class="BTN_submitSmall" id="btnChooseLanguage" style="padding:7px; padding-bottom:2px; padding-top:2px">&#9660;</a>
+<h2 class="ac" style="display:inline;"><@ l('Choose your language') @></h2>
 <ul id="languageBox">
   <li><@ l('Current language') @>: <img src="<@ cur_language.flag_url @>" alt=""> <@ cur_language.name_in_local @>
     <input type="hidden" name="locale" value="<@ locale @>">

@@ -20,7 +20,9 @@
 
 	<div id="breadcrumb_right">
 		<@ IF breadcrumb_right == 'language' @>
-			<img src="<@ token_language.token_domain_language.language.flag_url @>">&nbsp;&nbsp;<@ token_language.token_domain_language.language.name_in_english @>&nbsp;&nbsp;<a href="" class="BTN_submitSmall" style="padding:7px; padding-bottom:2px; padding-top:2px">&#9660;</a>
+            <script type="text/javascript">
+                var breadcrumb_right = 'language';
+            </script>
 			<@ INCLUDE translate/languagebox.tt url=breadcrumb_right_url @>
 		<@ END @>
 	</div>
