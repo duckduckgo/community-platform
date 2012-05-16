@@ -68,7 +68,7 @@
                   </option>
                 <@ END @>
                 </select>
-            <td>
+            </td>
             <td <@ IF NOT c.user.languages @> style="padding-left:50px;" <@ END @> >
               <select name="grade" id="grade">
                 <option>Basic ability</option>
