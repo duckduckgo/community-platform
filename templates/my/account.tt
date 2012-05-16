@@ -29,7 +29,9 @@
     <th></th>
     <th class="account-table_caption">Your Languages</th>
     <th class="account-table_caption">Grade</th>
+    <@ IF c.user.languages @>
     <th class="account-table_BTNadd"><a href="#" class="BTN_submitSmall">Add New Language</a></th>
+    <@ END @>
   </tr>
     <colgroup>
     <col class="account-table_flags" />
@@ -58,7 +60,21 @@
     </tr>
     <@ END @>
     <@ ELSE @>
-    <h4><@ l('Before you can start translating DuckDuckGo, you need to give us the languages you can speak.') @></h4>
+    <tr>
+        <td><input type="text" name="language"></td>
+        <td>
+          <select name="grade" id="grade">
+            <option>Basic ability</option>
+            <option>Intermediate ability</option>
+            <option>Advanced level</option>
+            <option>&quot;Near Native&quot; level</option>
+            <option>Native</option>
+            <option>Professional proficiency</option> </select>
+        </td>
+        <td class="account-table_BTNS">
+            <a href="#" class="BTN_submitSmall">Add New Language</a>
+        </td>
+    </tr>
     <@ END @>
     </tbody>
   </table>
