@@ -71,3 +71,7 @@
 	position:absolute;
 	z-index:999;
 }
+
+#btnAddNewLanguage {
+    display:none;
+}

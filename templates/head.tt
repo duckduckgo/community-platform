@@ -18,6 +18,7 @@
   <script type="text/javascript" src="/static/js/jquery-ui.js"></script>
   <script type="text/javascript" src="/static/js/console.js"></script>
   <script type="text/javascript" src="/static/js/helper.js"></script>
+  <script type="text/javascript" src="/static/js/account.js"></script>
   <script type="text/javascript" src="/static/js/ddgc.js"></script>
   <!--[if lt IE 9]>
   <link rel="stylesheet" media="screen" href="/static/css/desktop.css">

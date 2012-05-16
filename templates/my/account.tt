@@ -1,3 +1,6 @@
+<script type="text/javascript">
+  var userHasLanguages = <@ IF c.user.languages @> 1 <@ ELSE @> 0 <@ END @>;
+</script>
     <div class="text account">
 	<div>
       <!--<h2>Welcome to your DuckDuckGo community account!</h2>!-->
@@ -20,16 +23,10 @@
 <div class="box-inner">
 <table class="account-table" cellspacing="0" cellpadding="0">
   <tr>
-    <@ IF c.user.languages @>
     <th></th>
     <th class="account-table_caption">Your Languages</th>
     <th class="account-table_caption">Grade</th>
-    <th class="account-table_BTNadd"><a href="#" class="BTN_submitSmall">Add New Language</a></th>
-    <@ ELSE @>
-    <th class="account-table_caption">Your Languages</th>
-    <th></th>
-    <th class="account-table_caption" <@ IF NOT c.user.languages @> style="padding-left:50px;" <@ END @> >Grade</th>
-    <@ END @>
+    <th class="account-table_BTNadd" id="btnAddNewLanguage"><a href="#" class="BTN_submitSmall" onclick="showFormAddUserLanguage();">Add New Language</a></th>
   </tr>
     <colgroup>
     <col class="account-table_flags" />
@@ -57,33 +54,33 @@
         </td>
     </tr>
     <@ END @>
-    <@ ELSE @>
-    <tr>
-        <form action="<@ u('My','account') @>" method="post" id="formAddLanguage" class="my">
-            <td>
-                <select id="language_id "name="language_id">
-                <@ FOREACH list_language IN languages @>
-                  <option value="<@ list_language.id @>" <@ IF c.req.params.locale == list_language.locale @>selected="selected"<@ END @>>
-                  [<@ list_language.locale @>] <@ list_language.name_in_local @>
-                  </option>
-                <@ END @>
-                </select>
-            </td>
-            <td <@ IF NOT c.user.languages @> style="padding-left:50px;" <@ END @> >
-              <select name="grade" id="grade">
-                <option>Basic ability</option>
-                <option>Intermediate ability</option>
-                <option>Advanced level</option>
-                <option>&quot;Near Native&quot; level</option>
-                <option>Native</option>
-                <option>Professional proficiency</option> </select>
-            </td>
-            <td class="account-table_BTNS">
-                <input type="submit" name="add_user_language" value="Add Language" class="BTN_submitSmall">
-            </td>
-        </form>
-    </tr>
     <@ END @>
+    <tr id="formAddUserLanguage">
+      <form action="<@ u('My','account') @>" method="post" id="formAddLanguage" class="my">
+      <td></td>
+      <td>
+            <select id="language_id "name="language_id">
+            <@ FOREACH list_language IN languages @>
+              <option value="<@ list_language.id @>" <@ IF c.req.params.locale == list_language.locale @>selected="selected"<@ END @>>
+              [<@ list_language.locale @>] <@ list_language.name_in_local @>
+              </option>
+            <@ END @>
+            </select>
+      </td>
+      <td >
+          <select name="grade" id="grade">
+            <option <@ IF user_language.grade == 1 @>selected="selected"<@ END @>>Basic ability</option>
+            <option <@ IF user_language.grade == 2 @>selected="selected"<@ END @>>Intermediate ability</option>
+            <option <@ IF user_language.grade == 3 @>selected="selected"<@ END @>>Advanced level</option>
+            <option <@ IF user_language.grade == 4 @>selected="selected"<@ END @>>&quot;Near Native&quot; level</option>
+            <option <@ IF user_language.grade == 5 @>selected="selected"<@ END @>>Native</option>
+            <option <@ IF user_language.grade == 6 @>selected="selected"<@ END @>>Professional proficiency</option> </select>
+        </td>
+        <td class="account-table_BTNS">
+            <input type="submit" name="add_user_language" value="Add Language" class="BTN_submitSmall">
+        </td>
+      </form>
+    </tr>
     </tbody>
   </table>
   <div id="account-table_ftr">
