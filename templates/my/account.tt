@@ -15,12 +15,6 @@
 		</div>
 	<@ END @>
 	
-
-	<div>
-      <h2><a href="<@ u('Translate','index') @>">Help translate DuckDuckGo or vote on the translations of others!</a></h2>
-    </div>
-	
-	
 <!-- LANGUAGES TABLE !-->
 <div class="box">
 <div class="box-inner">
