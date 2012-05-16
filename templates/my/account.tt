@@ -1,5 +1,10 @@
 <script type="text/javascript">
   var userHasLanguages = <@ IF c.user.languages @> 1 <@ ELSE @> 0 <@ END @>;
+  var userLanguages = [
+  <@ FOR user_language IN c.user.user_languages @>
+    "<@ user_language.language.locale @>",
+  <@ END @>
+  ];
 </script>
     <div class="text account">
 	<div>
@@ -56,7 +61,7 @@
     <@ END @>
     <@ END @>
     <tr id="formAddUserLanguage">
-      <form action="<@ u('My','account') @>" method="post" id="formAddLanguage" class="my">
+      <form action="<@ u('My','account') @>" method="post" id="formAddLanguage" class="my" onsubmit="return validateFormAddUserLanguage();">
       <td></td>
       <td>
             <select id="language_id "name="language_id">
