@@ -1,9 +1,9 @@
 <div class="comment">
-	<p class="comment_content"><@ FILTER truncate(200) @><@ comment.content | html | replace("\n", "<br />") @><@ END @>
+	<p class="comment_content"><@ FILTER truncate(200) @><@ IF comment.users_id == 0 @><i><@ END @><@ comment.content | replace("\n", "<br />") @><@ IF comment.users_id == 0 @></i><@ END @><@ END @>
 		<@ IF comment.content.length > 200 @>
 			[ <a class="comment_expand_link" href="javascript:;">more</a> ]
                 <span class="comment_expanded_content" style="display:none;">
-                        <@ comment.content | html | replace("\n", "<br />") @>
+                        <@ comment.content | replace("\n", "<br />") @>
                 </span>
 		<@ END @>
 	</p>
@@ -11,6 +11,7 @@
 	<div class="comment_info"> at <@ comment.created @><@ #date.format(comment.created,"%D %T") @>
                 <a href="javascript:;" class="comment_reply_link" ><@ l('Reply') @> </a>
                 <a href="javascript:;" class="comment_reply_cancel_link" ><@ l('Cancel') @> </a>
+                <@ IF comment.users_id != 0 && (c.user.id == comment.users_id || c.user.admin) @>&nbsp;<a href="<@ u('Comment','delete',comment.id) @>"><@ l('Delete') @></a> <@ END @>
         </div>
         <div class="clear"></div>
 	<@ IF c.user @>

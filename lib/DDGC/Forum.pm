@@ -41,6 +41,14 @@ has ddgc => (
 	required => 1,
 );
 
+sub title_to_path { # construct a id-title-of-thread string from $id and $title
+    shift; # knock off $self, don't need it
+    my $url = lc($_[1]);
+    use DDP; p(@_);
+    $url =~ s/[^a-z0-9]+/-/g; $url =~ s/-$//;
+    return $_[0] . "-" . $url;
+}
+
 sub get_threads {
     my ( $self, $pagenum, $count ) = @_;
     $pagenum ||= 0;
@@ -49,10 +57,8 @@ sub get_threads {
     my @threadsdb = $self->ddgc->rs('Thread')->slice($pagenum*$count, $count-1);
     my @threads;
     for (@threadsdb) {
-        my $url = lc($_->title);
-        $url =~ s/[^a-z0-9]+/-/g; $url =~ s/-$//;
         my %thread = (
-            url     => $_->id . '-' . lc($url),
+            url     => $self->title_to_path($_->id, $_->title),
             title   => $_->title,
             user    => $_->user,
             category=> $categories{$_->category},
@@ -79,10 +85,6 @@ sub get_thread {
     );
 
     %thread;
-}
-
-sub new_thread {
-    ...
 }
 
 1;

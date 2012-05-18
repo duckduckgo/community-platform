@@ -25,10 +25,8 @@ sub thread : Chained('base') Args(1) {
 
   my %thread = $c->d->forum->get_thread($idstr[0]);
 
-  my $url = lc($thread{title});
-  $url =~ s/[^a-z0-9]+/-/g; $url =~ s/-$//;
-  $url = "$idstr[0]-$url";
-  print "$url, $id";
+  my $url = $c->d->forum->title_to_path($idstr[0], $thread{title});
+  print "$url\n";
 
   $c->response->redirect($c->chained_uri('Forum','thread',$url)) if $url ne $id;
   $c->stash->{thread} = \%thread if %thread;
