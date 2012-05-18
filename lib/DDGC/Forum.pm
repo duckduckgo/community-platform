@@ -44,7 +44,6 @@ has ddgc => (
 sub title_to_path { # construct a id-title-of-thread string from $id and $title
     shift; # knock off $self, don't need it
     my $url = lc($_[1]);
-    use DDP; p(@_);
     $url =~ s/[^a-z0-9]+/-/g; $url =~ s/-$//;
     return $_[0] . "-" . $url;
 }
