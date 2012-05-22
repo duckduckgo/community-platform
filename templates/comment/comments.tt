@@ -11,7 +11,7 @@
 		<div class="comment_add"><@ INCLUDE comment/add.tt context=comments.context context_id=comments.context_id @></div>
 </fieldset>
 	<@ ELSE @>
-		<div class="alert warning"><div class="close-warning"></div><@ l('Please login to make comments') @></div>
+		<div class="alert warning"><@ l('You must be logged in to comment') @>. Please, <a href="<@ u('My','login') @>"><@ l('Login') @></a> <@ l('or') @> <a href="<@ u('My','register') @>"><@ l('Register') @></a>.</div>
 </fieldset>
 	<@ END @>
 </div>
