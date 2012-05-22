@@ -3,4 +3,5 @@
 <@ entry.date @>
 <br><br><br>
 <@ entry.html @>
+<@ INCLUDE comment/comments.tt comments=c.d.comments(entry.uri,1) @>
 <@ END @>

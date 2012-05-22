@@ -6,9 +6,9 @@ use YAML qw( LoadFile );
 use IO::All;
 
 has datadir => (
-	is => 'ro',
-	isa => 'Str',
-	required => 1,
+    is => 'ro',
+    isa => 'Str',
+    required => 1,
 );
 
 sub list_entries {
@@ -61,6 +61,7 @@ sub get_topical_entries {
   }
   foreach (@topical_blog_entries) {
     $_->{'html'} = $self->get_entry_html($_->{'uri'});
+    $_->{'uri'} = $_->{'uri'};
   }
   return \@topical_blog_entries if @topical_blog_entries;
 }

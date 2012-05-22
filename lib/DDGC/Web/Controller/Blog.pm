@@ -13,7 +13,7 @@ sub do :Chained('base') :CaptureArgs(0) {
   my ( $self, $c ) = @_;
 }
 
-sub index :Chained('do') :Args(0) {
+sub index :Chained('do') :PathPart('index') :Args(0) {
   my ( $self, $c ) = @_;
   $c->stash->{entries} = $c->d->blog->list_entries;
 }
@@ -28,6 +28,7 @@ sub topic :Chained('base') :Args(1) {
 
 sub view :Chained('base') :PathPart('') :Args(1) {
   my ( $self, $c, $blog_entry_url ) = @_;
+  $c->stash->{url} = $blog_entry_url;
   $c->stash->{entry} = $c->d->blog->list_entry($blog_entry_url);
 }
 
