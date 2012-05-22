@@ -12,10 +12,13 @@ has datadir => (
 );
 
 sub list_entries {
-  my ( $self ) = @_;
+  my ( $self, $count ) = @_;
+  $count = $count || 5;
   my $datadir_io = io($self->datadir);
   my @all_blog_entries;
   for (keys %$datadir_io) {
+    $count -= 1;
+    if ($count <= 0) { last; }
     if ($_ =~ s/\.yml$// and not $_ =~ /^\./) {
         push @all_blog_entries, $self->list_entry($_);
     }
