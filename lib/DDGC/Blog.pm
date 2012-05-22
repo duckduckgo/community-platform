@@ -16,8 +16,8 @@ sub list_entries {
   my $datadir_io = io($self->datadir);
   my @all_blog_entries;
   for (keys %$datadir_io) {
-    if ($_ =~ /\.yml$/ and not $_ =~ /^\./) {
-        push @all_blog_entries, $self->get_file_entry($_);
+    if ($_ =~ s/\.yml$// and not $_ =~ /^\./) {
+        push @all_blog_entries, $self->list_entry($_);
     }
   }
   return \@all_blog_entries;
