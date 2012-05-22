@@ -13,8 +13,7 @@
     <@ INCLUDE breadcrumb.tt @>
     <span id="skip"><@ PROCESS $LAYOUTS.shift @></span>
     </div>
-	</div></div>
-    <div id="footer" role="contentinfo">
+    <div id="footer">
       <@ INCLUDE footer.tt @>
     </div>
   </body>

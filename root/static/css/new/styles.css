@@ -4,7 +4,7 @@
 
 body {
 	font-family:segoe UI, Helvetica Neue, Helvetica;
-	margin:0px;
+	margin:0px auto;
 }
 
 #container {
@@ -215,38 +215,31 @@ select {
 /* footer */
 
 #footer {
-	background:#FBFBFB;
-	border-top:1px solid #E5E5E5;
-	bottom:0px;
+	margin-bottom:10px;
 	color:#333;
-	font-size:13px;
-	height:27px;
+	font-size:12px;
 	left:0px;
-	margin-top:20px;
-	padding-top:7px;
-	position:fixed;
-	/*position:absolute;*/
-	width:100%;
+	width:945px;
+    margin: 0 auto;
 }
 
 #footer a {
-	color:#1168CC;
+    text-decoration:underline;
 }
 
 #footer-right {
 	float:right;
 	margin-right:10px;
+    text-align:right;
+	color:#747474;
 }
 
 #footer-right a {
-	color:#747474 !important;
-	text-decoration:none;
 }
 
 #footer-left
 {
 	float:left;
 	margin-left:10px
+	color:#656565;
 }
-
-
