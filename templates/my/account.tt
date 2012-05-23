@@ -64,7 +64,7 @@
       <form action="<@ u('My','account') @>" method="post" id="formAddLanguage" class="my" onsubmit="return validateFormAddUserLanguage();">
       <td></td>
       <td>
-            <select id="language_id "name="language_id">
+            <select id="language_id" name="language_id">
             <@ FOREACH list_language IN languages @>
               <option value="<@ list_language.id @>" <@ IF c.req.params.locale == list_language.locale @>selected="selected"<@ END @>>
               [<@ list_language.locale @>] <@ list_language.name_in_local @>
