@@ -1,10 +1,24 @@
 $(document).ready(function(){
-  if (typeof(userHasLanguages) != "undefined") {
-      if (userHasLanguages) {
-        $('#btnAddNewLanguage').show();
-        $('#formAddUserLanguage').hide();
-      }
-  }
+
+    if (typeof(userHasLanguages) != "undefined") {
+        if (userHasLanguages) {
+            $('#btnAddNewLanguage').show();
+            $('#formAddUserLanguage').hide();
+            $('table.account-table [id^=update_]').hide();
+        }
+    }
+
+    $('table.account-table select').each(function() {
+         $(this).change(function(){
+             grade = $('option:selected',this).val();
+             language = $(this).attr('id').substring(6);
+             href = '?add_user_language=' + language;
+             href += '&grade=' + grade;
+             $("#update_"+language).fadeIn();
+             $("#update_"+language).attr('href', href);
+         });
+    });
+
 });
 
 function showFormAddUserLanguage() {
@@ -15,7 +29,7 @@ function showFormAddUserLanguage() {
 function validateFormAddUserLanguage() {
     selectedLanguage=$('#language_id :selected').text().substring(16,21);
     if ($.inArray(selectedLanguage, userLanguages) != -1) {
-      return false;
+        return false;
     }
     return true;
 }

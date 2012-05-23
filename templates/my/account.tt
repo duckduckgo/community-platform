@@ -45,17 +45,18 @@
     <tr>
       <td><img src="<@ user_language.language.flag_url @>" alt="flag" width="16" height="11" /></td>
       <td><@ user_language.language.name_in_local @></td>
-      <td >
-          <select name="grade" id="grade">
-            <option <@ IF user_language.grade == 1 @>selected="selected"<@ END @>>Basic ability</option>
-            <option <@ IF user_language.grade == 2 @>selected="selected"<@ END @>>Intermediate ability</option>
-            <option <@ IF user_language.grade == 3 @>selected="selected"<@ END @>>Advanced level</option>
-            <option <@ IF user_language.grade == 4 @>selected="selected"<@ END @>>&quot;Near Native&quot; level</option>
-            <option <@ IF user_language.grade == 5 @>selected="selected"<@ END @>>Native</option>
-            <option <@ IF user_language.grade == 6 @>selected="selected"<@ END @>>Professional proficiency</option> </select>
+      <td>
+          <select id="grade_<@ user_language.language.locale @>">
+            <option value="1" <@ IF user_language.grade == 1 @>selected="selected"<@ END @>>Basic ability</option>
+            <option value="2" <@ IF user_language.grade == 2 @>selected="selected"<@ END @>>Intermediate ability</option>
+            <option value="3" <@ IF user_language.grade == 3 @>selected="selected"<@ END @>>Advanced level</option>
+            <option value="4" <@ IF user_language.grade == 4 @>selected="selected"<@ END @>>&quot;Near Native&quot; level</option>
+            <option value="5" <@ IF user_language.grade == 5 @>selected="selected"<@ END @>>Native</option>
+            <option value="6" <@ IF user_language.grade == 6 @>selected="selected"<@ END @>>Professional proficiency</option> </select>
         </td>
         <td class="account-table_BTNS">
-            <a href="?remove_user_language=<@ user_language.language.locale @>" class="BTN_delete">Remove</a>
+            <a href="?add_user_language=<@ user_language.language.locale @>&grade=3" id="update_<@ user_language.language.locale @>" class="BTN_submitSmall">Update</a>
+            <a href="?remove_user_language=<@ user_language.language.locale @>" class="BTN_delete">Remove</a><br>
         </td>
     </tr>
     <@ END @>
