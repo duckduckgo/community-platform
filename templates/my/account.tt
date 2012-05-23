@@ -90,11 +90,10 @@
     </tbody>
   </table>
   <div id="account-table_ftr">
-<div id="accont-table_ftrRight">Are you trying to add a new language that is not listed? <a href="<@ u('Base','requestlanguage') @>"><strong>Request it over here</strong></a>!</div>
+      <div id="account-table_ftrLeft">* <span style="text-decoration:underline">Grade references</span></div>
+<div id="account-table_ftrRight">Are you trying to add a new language that is not listed? <a href="<@ u('Base','requestlanguage') @>"><strong>Request it over here</strong></a>!</div>
 </div>
-<div id="account-table_ftrLeft">
-<!--TOOLTIP--!-->
-<div id="tooltip" style="visibility:hidden">
+<div class="tooltip" id="gradeReference">
 <h7><strong>Languages Grade References</strong></h7>
 <ol>
 <li><strong>Basic ability:</strong> Enough to understand written material or simple questions in this language.</li>
@@ -106,7 +105,6 @@
 </div>
 </div>
 <div class="clear"></div>
-</div>
 </div>
 
     <div class="box">

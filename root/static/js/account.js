@@ -19,6 +19,11 @@ $(document).ready(function(){
          });
     });
 
+    $('#account-table_ftrLeft').hover(function() {
+        $('#gradeReference').fadeIn();
+    }, function(){
+        $('#gradeReference').fadeOut();
+    });
 });
 
 function showFormAddUserLanguage() {

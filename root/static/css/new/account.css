@@ -45,15 +45,15 @@
     border-top: 2px solid #CCCCCC;
 }
 
-#accont-table_ftrLeft {
+#account-table_ftrLeft {
 	float:left;
 }
 
-#accont-table_ftrRight {
+#account-table_ftrRight {
 	float:right;
 }
 
-#tooltip {
+.tooltip {
 	background-color:#FFFFAF;
 	-moz-border-radius:4px;
 	border-radius:4px;
@@ -61,7 +61,8 @@
 	-webkit-box-shadow: 1px 1px 6px #000;
 	-moz-box-shadow: 1px 1px 6px #000;
 	color:#333;
-	/*display:none;*/
+    text-decoration: underline;
+	display:none;
 	font-size:12px;
 	margin-top:-170px;
 	padding:5px;
