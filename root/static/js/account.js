@@ -13,7 +13,8 @@ function showFormAddUserLanguage() {
 }
 
 function validateFormAddUserLanguage() {
-    if ($.inArray($('#language_id'), userLanguages)) {
+    selectedLanguage=$('#language_id :selected').text().substring(16,21);
+    if ($.inArray(selectedLanguage, userLanguages) != -1) {
       return false;
     }
     return true;
