@@ -146,14 +146,14 @@
 		</td>
     	</tr>
     	<tr>
-      		<td <@ IF NOT c.user.public @> style="border:none" <@ END @>>
+      		<td>
 			<@ IF c.user.public @>
 			<@ l('Your profile is publicly visible') @>
   				<@ ELSE @>
           	<@ l('Your profile is not publicly visible yet') @>
             <@ END @>
 			</td>
-        <td class="account-table_BTNS" <@ IF NOT c.user.public @> style="border:none" <@ END @>>
+        <td class="account-table_BTNS">
 		<@ IF c.user.public @>
 			<a href="<@ u('My','public') @>" class="BTN_submitSmall"><@ l('Make it private') @></a>
   				<@ ELSE @>
@@ -163,10 +163,10 @@
    		</tr>
 		<@ IF c.user.public @>
 		<tr>
-      		<td style="border:none">
+      		<td>
 			Your <a href="https://www.gravatar.com">Gravatar</a> email
 			</td>
-        <td class="account-table_BTNS" style="border:none">
+        <td class="account-table_BTNS">
 		<a href="" class="BTN_submitSmall">Add email</a>
 		</td>
    		</tr>
