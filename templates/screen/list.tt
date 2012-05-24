@@ -1,1 +1,1 @@
-<a href="<@ u('Help','view','screen') @>"><@ l('Instructions for uploading screenshots') @></a>
+<a href="<@ u('Help','view','screen') @>"><@ l('Instructions for uploading screenshots') @></a>
