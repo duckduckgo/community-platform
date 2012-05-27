@@ -76,10 +76,40 @@ sub distribution_file { shift->_distribution_file }
 
 sub BUILD {
 	my ( $self ) = @_;
+
 	my $dist = $self->token_domain->dist_name;
 	my $lib = $self->token_domain->lib_name;
 	my $version = $self->version;
 	my $year = $self->year;
+
+	my @lib_dir_parts = split('::',$lib);
+	my $lib_file = (pop @lib_dir_parts).".pm";
+	my $lib_dir = dir($self->build_dir,'lib',@lib_dir_parts);
+	my $testdir = dir($self->build_dir,'t');
+
+	my $tokencount = $self->token_domain->tokens->search()->count;
+	my $domainname = $self->token_domain->name;
+
+	my %locales;
+	for my $tcl ($self->token_domain->token_domain_languages->all) {
+		my $translation_count = 0;
+		for my $tl ($tcl->token_languages->all) {
+			$translation_count++ if $tl->gettext_snippet(0);
+		}
+		my $locale = $tcl->language->locale;
+		$locales{$locale} = {
+			translation_count => $translation_count,
+			percent => floor( ( $translation_count / $tokencount ) * 100 ),
+			locale => $locale,
+			name_in_english => $tcl->language->name_in_english,
+			name_in_local => $tcl->language->name_in_local,
+			flag_url => $tcl->language->flag_url,
+			flagicon => $tcl->language->flagicon,
+			nplurals => $tcl->language->nplurals,
+			rtl => $tcl->language->rtl ? 1 : 0,
+		};
+	}
+	my $localesstring = Dumper(\%locales);
 
 	io(file($self->build_dir,'dist.ini'))->print(<<"___END_OF_DIST_INI___");
 name = $dist
@@ -104,37 +134,10 @@ Test::More = 0.88
 
 ___END_OF_DIST_INI___
 
-	my @lib_dir_parts = split('::',$lib);
-	my $lib_file = (pop @lib_dir_parts).".pm";
-	my $lib_dir = dir($self->build_dir,'lib',@lib_dir_parts);
 	$lib_dir->mkpath(0,0755);
-
-	my $tokencount = $self->token_domain->tokens->search()->count;
-
-	my %locales;
-	for my $tcl ($self->token_domain->token_domain_languages->all) {
-		my $translation_count = 0;
-		for my $tl ($tcl->token_languages->all) {
-			$translation_count++ if $tl->gettext_snippet(0);
-		}
-		my $locale = $tcl->language->locale;
-		$locales{$locale} = {
-			translation_count => $translation_count,
-			percent => floor( ( $translation_count / $tokencount ) * 100 ),
-			locale => $locale,
-			name_in_english => $tcl->language->name_in_english,
-			name_in_local => $tcl->language->name_in_local,
-			flag_url => $tcl->language->flag_url,
-			flagicon => $tcl->language->flagicon,
-			nplurals => $tcl->language->nplurals,
-			rtl => $tcl->language->rtl ? 1 : 0,
-		};
-	}
-	my $localesstring = Dumper(\%locales);
-
 	io(file($lib_dir,$lib_file))->print(<<"___END_OF_LIB___");
 package $lib;
-# ABSTRACT: Translations for ....
+# ABSTRACT: Translations for $domainname
 
 use strict;
 use warnings;
@@ -150,8 +153,8 @@ return \$VAR1; }
 1;
 ___END_OF_LIB___
 
-	dir($self->build_dir,'t')->mkpath(0,0755);
-	io(file($self->build_dir,'t','00-load.t'))->print(<<"___END_OF_LOAD_T___");
+	$testdir->mkpath(0,0755);
+	io(file($testdir,'00-load.t'))->print(<<"___END_OF_LOAD_T___");
 #!/usr/bin/perl
 
 use strict;
