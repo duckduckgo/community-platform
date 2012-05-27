@@ -30,7 +30,7 @@ my $local_dist = DDGC::LocaleDist->new( token_domain => $td );
 my $user = $ddgc->find_user($ddgc->config->duckpan_locale_uploader);
 
 if ($target) {
-	print "\nCopying distribution to ".$target."\n";
+	print "\nCopying ".$local_dist->distribution_file->basename." to ".$target."\n";
 	copy($local_dist->distribution_file, file($target,$local_dist->distribution_file->basename));
 } else {
 	print "\nAdding to DuckPAN...\n";
