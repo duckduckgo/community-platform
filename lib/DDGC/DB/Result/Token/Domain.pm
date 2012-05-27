@@ -2,6 +2,9 @@ package DDGC::DB::Result::Token::Domain;
 
 use DBIx::Class::Candy -components => [ 'TimeStamp', 'InflateColumn::DateTime', 'InflateColumn::Serializer', 'EncodedColumn' ];
 
+use Moose;
+use Path::Class;
+
 table 'token_domain';
 
 column id => {
@@ -65,12 +68,55 @@ belongs_to 'source_language', 'DDGC::DB::Result::Language', 'source_language_id'
 
 many_to_many 'languages', 'token_domain_languages', 'language';
 
+has _name_parts => (
+	is => 'ro',
+	lazy_build => 1,
+);
+
+sub _build__name_parts {
+	my ( $self ) = @_;
+	my @parts = qw( DDGC Locale );
+	my $key = $self->key;
+	push @parts, join('',map { ucfirst($_) } split('-',$key));
+	return \@parts;
+}
+
+has dist_name => (
+	is => 'ro',
+	lazy_build => 1,
+);
+
+sub _build_dist_name {
+	my ( $self ) = @_;
+	return join('-',@{$self->_name_parts});
+}
+
+has lib_name => (
+	is => 'ro',
+	lazy_build => 1,
+);
+
+sub _build_lib_name {
+	my ( $self ) = @_;
+	return join('::',@{$self->_name_parts});
+}
+
 sub token_domain_languages_locale_sorted {
 	my ( $self ) = @_;
 	$self->token_domain_languages->search({},{
 		order_by => 'language.locale',
 		prefetch => 'language',
 	});
+}
+
+sub generate_pos {
+	my ( $self, $dir, $generator, $fallback ) = @_;
+	for my $tcl ($self->token_domain_languages->all) {
+		my $locale = $tcl->language->locale;
+		my $basedir = dir($dir,$locale,'LC_MESSAGES');
+		$basedir->mkpath(0,0755);
+		$tcl->generate_po_for_locale_in_dir_as_with_fallback($basedir, $generator, $fallback);
+	}
 }
 
 use overload '""' => sub {
