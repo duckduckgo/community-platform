@@ -1,5 +1,5 @@
 <div align=left>
-<a href="<@ u('Forum','index') @>">Forum</a> &gt; <b><@ thread.title @> <img src="/static/images/<@ thread.category_key @>.png"/></b><br/><br/>
+<a href="<@ u('Forum','index') @>">Forum</a> &gt; <b><@ thread.title | html @> <img src="/static/images/<@ thread.category_key @>.png"/></b><br/><br/>
 <div align='left'>
     <@ INCLUDE user/username32.tt user=thread.user @>
 

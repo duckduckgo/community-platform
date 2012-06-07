@@ -829,10 +829,10 @@ form .flagSelect label {
 span.synComment { color: #444; }
 span.synConstant { color: #444; }
 span.synIdentifier { color: green; }
-span.synStatement { color: darkorange; }
+span.synStatement { color: darkred; }
 span.synPreProc { color: #444; }
 span.synType { color: darkblue; }
-span.synSpecial { color: fuchsia;  }
+span.synSpecial { color: #55f;  }
 span.synUnderlined { color: fuchsia; text-decoration: underline; }
 span.synError { background-color: red; color: #000; font-weight: bold; }
 span.synTodo { background-color: yellow; color: black; }

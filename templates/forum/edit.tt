@@ -1,10 +1,10 @@
 <div align=left>
-<a href="<@ u('Forum','index') @>">Forum</a> &gt; <a href="<@ u('Forum','view',thread.url) @>">Thread <@ thread.id @></a> &gt; <b>Edit</b><br/><br/>
+<a href="<@ u('Forum','index') @>">Forum</a> &gt; <a href="<@ u('Forum','view',thread.url) @>"><@ thread.title | html @></a> &gt; <b>Edit</b><br/><br/>
 <@ IF !is_owner @>
     <p><@ l('You are not logged in or do not have permission to edit this thread') @></p>
 <@ ELSE @>
 <form action="update" method="POST">
-    <b><@ thread.title @></b>
+    <b><@ thread.title | html @></b>
     <textarea name="text" placeholder="Body" style="font-size:small" rows="15"><@ thread.text @></textarea>
     <input type="submit" value="Update thread"></input>
 </form></div>
