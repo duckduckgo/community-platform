@@ -1,6 +1,21 @@
 package DDGC::DB::Result::Thread;
 # ABSTRACT: Dukgo.com Forum thread
 
+use Parse::BBCode;
+my $_bbcode = Parse::BBCode->new({
+        close_open_tags => 1,
+        attribute_quote => q('"),
+        url_finder => {
+            max_length  => 200,
+            # sprintf format:
+            format      => '<a href="%s" rel="nofollow">%s</a>',
+        },
+        tags => {
+            Parse::BBCode::HTML->defaults,
+            url => 'url:<a href="%{link}A">%{parse}s</a>',
+        },
+});
+
 use DBIx::Class::Candy -components => [ 'TimeStamp', 'InflateColumn::DateTime', 'InflateColumn::Serializer', 'EncodedColumn' ];
 
 table 'post';
@@ -50,6 +65,8 @@ column updated => {
 
 belongs_to 'user', 'DDGC::DB::Result::User', 'users_id';
 
+sub _parse_bbcode {
+}
 use overload '""' => sub {
 	my $self = shift;
 	return $self->title;
@@ -94,7 +111,25 @@ sub _statuses {
         },
     );
     \%catstats;
-};
+}
+
+sub html {
+    $_bbcode->render(shift->text);
+}
+
+sub statuses {
+    my $self = shift;
+    my $category = $self->category_key;
+    my $statuses = $self->_statuses;
+    my $cat_stat = $$statuses{$category};
+    values %{$cat_stat};
+}
+
+sub is_closed {
+    my $self = shift;
+    my $category = $self->category_key;
+    $self->data->{"${category}_status_id"} == 0;
+}
 
 sub status_key {
     my $self = shift;
@@ -106,6 +141,20 @@ sub status_key {
     my $statuses = $self->_statuses;
     my $cat_stat = $$statuses{$category};
     $$cat_stat{$status_id};
+}
+
+sub title_to_path { # construct a id-title-of-thread string from $id and $title
+    shift; # knock off $self, don't need it
+    my $url = substr(lc($_[1]),0,50);
+    $url =~ s/[^a-z0-9]+/-/g; $url =~ s/-$//;
+    return $_[0] . "-" . $url;
+}
+
+sub url {
+    my $self = shift;
+    my $x = $self->title_to_path($self->id, $self->title);
+    print "$x\n";
+    $x;
 }
 
 sub category_key {

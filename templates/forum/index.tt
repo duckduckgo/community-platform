@@ -2,6 +2,6 @@
 <a href="<@ u('Forum','newthread') @>">New Thread</a><br/>
 <ul>
 <@ FOR thread IN threads @>
-    <li><img src="/static/images/<@ thread.category @>.png"/>&nbsp;&nbsp;<a href="<@ u('Forum','thread',thread.url) @>"><@ thread.title @></a><br/>&nbsp;&nbsp;&nbsp;&nbsp;<@ thread.started | ucfirst @> by <@ INCLUDE user/username16.tt user=thread.user @> at <@ thread.updated @><@ IF thread.status @> - <@ thread.status @><@ END @></li>
+    <li><img src="/static/images/<@ thread.category_key @>.png"/>&nbsp;&nbsp;<a href="<@ u('Forum','view',thread.url) @>"><@ thread.title @></a><br/>&nbsp;&nbsp;&nbsp;&nbsp;<@ thread.started_term | ucfirst @> by <@ INCLUDE user/username16.tt user=thread.user @> at <@ thread.updated @><@ IF thread.status @> - <@ thread.status @><@ END @></li>
 <@ END @>
 </ul></div>

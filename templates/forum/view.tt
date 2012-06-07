@@ -1,11 +1,12 @@
 <div align=left>
-<a href="<@ u('Forum','index') @>">Forum</a> &gt; <b><@ thread.title @> <img src="/static/images/<@ thread.category @>.png"/></b><br/><br/>
+<a href="<@ u('Forum','index') @>">Forum</a> &gt; <b><@ thread.title @> <img src="/static/images/<@ thread.category_key @>.png"/></b><br/><br/>
 <div align='left'>
     <@ INCLUDE user/username32.tt user=thread.user @>
 
-    Created at <@ thread.created @><br/>
+    Created at <@ thread.created @> <@ IF thread.updated != thread.created @>- Last updated at <@ thread.updated @><@ END @>
+    <br/>
 
-    <@ thread.rendered_text @></div>
+    <@ thread.html @></div>
 
     <@ IF is_owner @>
         <select name="status">
@@ -17,6 +18,7 @@
                     <option value="<@ key @>"><@ key | ucfirst @></option>
                 <@ END @> 
             <@ END @>
+            <option value="closed">Close</option>
 
         </select> <a href="<@ u('Forum','delete',thread.id) @>">Delete</a>
     <@ ELSE @>

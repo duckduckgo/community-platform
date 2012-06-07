@@ -19,18 +19,30 @@ sub index : Chained('base') Args(0) {
 }
 
 # /forum/thread/$id
-sub thread : Chained('base') Args(1) {
+sub thread : Chained('base') CaptureArgs(1) {
   my ( $self, $c, $id ) = @_;
   my @idstr = split('-',$id);
-
-  my %thread = $c->d->forum->get_thread($idstr[0]);
-
-  my $url = $c->d->forum->title_to_path($idstr[0], $thread{title});
-
-  $c->response->redirect($c->chained_uri('Forum','thread',$url)) if $url ne $id;
-  $c->stash->{thread} = \%thread if %thread;
-  $c->stash->{is_owner} = ($c->user && ($c->user->admin || $c->user->id == $thread{user}->id)) ? 1 : 0;
+  $c->stash->{thread} = $c->d->forum->get_thread($idstr[0]);
+  my $url = $c->stash->{thread}->url;
+#$c->response->redirect($c->chained_uri('Forum','thread',$url)) if $url ne $id; # TODO FIXME TODO : add the redirect back!
+  $c->stash->{is_owner} = ($c->user && ($c->user->admin || $c->user->id == $c->stash->{thread}{user}->id)) ? 1 : 0;
   $c->stash->{is_admin} = $c->user && $c->user->admin;
+}
+
+sub view : Chained('thread') PathPart('') Args(0) {
+  my ( $self, $c ) = @_;
+}
+
+# /forum/thread/edit/$id
+sub edit : Chained('thread') Args(0) {
+  my ( $self, $c ) = @_;
+}
+
+sub update : Chained('thread') Args(0) {
+  my ( $self, $c ) = @_;
+  return unless $c->stash->{is_owner};
+  $c->stash->{thread}->text($c->req->params->{text});
+  $c->stash->{thread}->update;
 }
 
 sub status : Chained('thread') Args(0) {

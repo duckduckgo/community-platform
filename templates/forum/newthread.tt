@@ -5,7 +5,7 @@
 <@ ELSE @>
 <form action="makethread" method="POST">
 <input type="text" name="title" placeholder="Title"></input>
-<textarea name="text" placeholder="Body" style="font-size:12pt"></textarea>
+<textarea name="text" placeholder="Body" style="font-size:small"></textarea>
     <select name="category_id">
         <option value="1" selected>Discussion</option>
         <option value="2">Idea</option>
