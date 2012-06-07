@@ -26,11 +26,15 @@ sub thread : Chained('base') Args(1) {
   my %thread = $c->d->forum->get_thread($idstr[0]);
 
   my $url = $c->d->forum->title_to_path($idstr[0], $thread{title});
-  print "$url\n";
 
   $c->response->redirect($c->chained_uri('Forum','thread',$url)) if $url ne $id;
   $c->stash->{thread} = \%thread if %thread;
   $c->stash->{is_owner} = ($c->user && ($c->user->admin || $c->user->id == $thread{user}->id)) ? 1 : 0;
+  $c->stash->{is_admin} = $c->user && $c->user->admin;
+}
+
+sub status : Chained('thread') Args(0) {
+  my ( $self, $c ) = @_;
 }
 
 sub loremthread : Chained('base') Args(0) {
@@ -39,7 +43,8 @@ sub loremthread : Chained('base') Args(0) {
       title => "Hello, World!",
       text => $text,
       users_id => 1,
-      category => "idea",
+      category_id => 2,
+      data => { idea_status_id => 2 },
   });
   $thread->insert;
   $c->d->db->txn_do(sub { $thread->update });
@@ -64,13 +69,17 @@ sub delete : Chained('base') Args(1) {
 sub makethread : Chained('base') Args(0) {
     my ( $self, $c ) = @_;
     return unless $c->user;
-    return unless $c->req->params->{title} && $c->req->params->{text} && $c->req->params->{type};
+    return unless $c->req->params->{title} && $c->req->params->{text} && $c->req->params->{category_id};
+
+    print "HELLO??\n";
     my $thread = $c->d->rs('Thread')->new({
         title => $c->req->params->{title},
         text => $c->req->params->{text},
-        category => $c->req->params->{type},
+        category_id => $c->req->params->{category_id},
         users_id => $c->user->id,
     });
+    my $category = $thread->category_key;
+    $thread->data({ "${category}_status_id" => 1 });
     $thread->insert;
     $c->d->db->txn_do(sub { $thread->update });
     $c->response->redirect($c->chained_uri('Forum','thread',$thread->id));

@@ -43,7 +43,7 @@ has ddgc => (
 
 sub title_to_path { # construct a id-title-of-thread string from $id and $title
     shift; # knock off $self, don't need it
-    my $url = lc($_[1]);
+    my $url = substr(lc($_[1]),0,50);
     $url =~ s/[^a-z0-9]+/-/g; $url =~ s/-$//;
     return $_[0] . "-" . $url;
 }
@@ -55,12 +55,16 @@ sub get_threads {
     
     my @threadsdb = $self->ddgc->rs('Thread')->slice($pagenum*$count, $count-1);
     my @threads;
+    use DDP;
     for (@threadsdb) {
         my %thread = (
             url     => $self->title_to_path($_->id, $_->title),
             title   => $_->title,
             user    => $_->user,
-            category=> $categories{$_->category},
+            category=> $_->category_key,
+            updated => $_->updated,
+            started => $_->started_term,
+            status  => $_->status_key,
         );
         push @threads, \%thread;
     }
@@ -73,17 +77,32 @@ sub get_thread {
     
     my $rendered_text = $self->bbcode->render($threaddb->text);
 
+    my $category = $threaddb->category_key;
+
+    use DDP;
+    my $statuses = $threaddb->_statuses;
+    p($statuses);
+    my $cat_stat = $$statuses{$category};
+    p($cat_stat);
+    my @status_keys = values %{$cat_stat};
+
+    p(@status_keys);
+
     my %thread = (
         user            => $threaddb->user,
         title           => $threaddb->title,
         rendered_text   => $rendered_text,
         text            => $threaddb->text,
         id              => $threaddb->id,
-        category        => $categories{$threaddb->category},
+        category        => $category,
         created         => $threaddb->created,
+        closed          => $threaddb->data->{"${category}_status_id"} == 0,
+        status          => $threaddb->status_key,
+        statuses        => \@status_keys,
     );
 
     %thread;
 }
+
 
 1;

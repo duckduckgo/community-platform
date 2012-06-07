@@ -1,9 +1,28 @@
 <div align=left>
 <a href="<@ u('Forum','index') @>">Forum</a> &gt; <b><@ thread.title @> <img src="/static/images/<@ thread.category @>.png"/></b><br/><br/>
 <div align='left'>
-<@ INCLUDE user/username32.tt user=thread.user @><br/>
-<@ thread.rendered_text @></div>
-<br/>
-<@ thread.created @><@ #date.format(thread.created,"%D %T") @> <@ IF is_owner @><a href="<@ u('Forum','delete',thread.id) @>">Delete</a><@ END @>
+    <@ INCLUDE user/username32.tt user=thread.user @>
+
+    Created at <@ thread.created @><br/>
+
+    <@ thread.rendered_text @></div>
+
+    <@ IF is_owner @>
+        <select name="status">
+            <option><@ thread.status | ucfirst @></option>
+            <@ IF thread.status @><option>Open</option><@ END @>
+
+            <@ FOR key IN thread.statuses @> 
+                <@ IF key != thread.status @>
+                    <option value="<@ key @>"><@ key | ucfirst @></option>
+                <@ END @> 
+            <@ END @>
+
+        </select> <a href="<@ u('Forum','delete',thread.id) @>">Delete</a>
+    <@ ELSE @>
+        <b><@ thread.status | ucfirst @></b>
+    <@ END @>
+
+    <br/>
 </div>
 <@ INCLUDE comment/comments.tt comments=c.d.comments('DDGC::DB::Result::Thread',thread.id) @>
