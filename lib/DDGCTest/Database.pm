@@ -1,4 +1,4 @@
-﻿package DDGCTest::Database;
+package DDGCTest::Database;
 #
 # BE SURE YOU SAVE THIS FILE AS UTF-8 WITHOUT BYTE ORDER MARK (BOM)
 #
