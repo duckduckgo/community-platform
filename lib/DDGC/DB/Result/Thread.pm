@@ -2,6 +2,9 @@ package DDGC::DB::Result::Thread;
 # ABSTRACT: Dukgo.com Forum thread
 
 use Parse::BBCode;
+use DateTime::Format::Human::Duration;
+use Text::VimColor;
+
 my $_bbcode = Parse::BBCode->new({
         close_open_tags => 1,
         attribute_quote => q('"),
@@ -13,6 +16,32 @@ my $_bbcode = Parse::BBCode->new({
         tags => {
             Parse::BBCode::HTML->defaults,
             url => 'url:<a href="%{link}A">%{parse}s</a>',
+            img => '<a href="%{link}A"><img src="%{link}A" alt="[%{html}s]" title="%{html}s"></a>',
+            code => {
+                code => sub {
+                    my ($parser, $attr, $content, $attribute_fallback) = @_;
+                    my $lang = "";
+                    if ($attr) {
+                        my $tvc = Text::VimColor->new( string => $$content, filetype => lc($attr) );
+                        $content = $tvc->html;
+                        $lang = ucfirst($attr)." ";
+                    } else {
+                        $content = Parse::BBCode::escape_html($$content);
+                    }
+                    "<div class='bbcode_code_header'>${lang}Code:<pre class='bbcode_code_body'>$content</pre></div>"
+                },
+                parse => 0,
+                class => 'block',
+            },
+            quote => {
+                parse => 0,
+                class => 'block',
+                code => sub {
+                    my ($parser, $attr, $content, $attribute_fallback) = @_;
+                    $content = $$content;
+                    "<div class='bbcode_quote_header'>Quote from {{#USER $attribute_fallback #}}:<pre class='bbcode_quote_body'>\" $content \"</pre></div>";
+                },
+            },
         },
 });
 
@@ -65,8 +94,6 @@ column updated => {
 
 belongs_to 'user', 'DDGC::DB::Result::User', 'users_id';
 
-sub _parse_bbcode {
-}
 use overload '""' => sub {
 	my $self = shift;
 	return $self->title;
@@ -113,8 +140,19 @@ sub _statuses {
     \%catstats;
 }
 
-sub html {
-    $_bbcode->render(shift->text);
+sub get_user {
+    my ( $self, $username, $d ) = @_;
+    my $user = $d->rs('User')->single({ username => lc($username) });
+    print $user->username."\n" if $user;
+    my $uname = $user && $user->public_username ? $user->public_username : Parse::BBCode::escape_html($username);
+    return "<a>\@${uname}</a>";
+}
+
+sub render_html {
+    my ($self, $db) = @_;
+    my $html = $_bbcode->render(shift->text);
+    $html =~ s/(?:{{#USER (\w+?) #}}|\@(\w+))/$self->get_user(($1?$1:$2), $db)/eg;
+    return $html;
 }
 
 sub statuses {
@@ -137,7 +175,7 @@ sub status_key {
     my $category = $self->category_key;
     my $status_id = $self->data->{"${category}_status_id"};
     return 'closed' if $status_id == 0;
-    return '' if $status_id == 1;
+    return 'open' if $status_id == 1;
     my $statuses = $self->_statuses;
     my $cat_stat = $$statuses{$category};
     $$cat_stat{$status_id};
@@ -153,13 +191,26 @@ sub title_to_path { # construct a id-title-of-thread string from $id and $title
 sub url {
     my $self = shift;
     my $x = $self->title_to_path($self->id, $self->title);
-    print "$x\n";
     $x;
 }
 
 sub category_key {
     my $self = shift;
     $self->_category($self->category_id);
+}
+
+sub updated_human {
+    my $span = DateTime::Format::Human::Duration->new();
+    my $now = DateTime->now;
+    my $delta = $now - shift->updated;
+    $span->format_duration($delta);
+}
+
+sub created_human {
+    my $span = DateTime::Format::Human::Duration->new();
+    my $now = DateTime->now;
+    my $delta = $now - shift->created;
+    $span->format_duration($delta);
 }
 
 1;

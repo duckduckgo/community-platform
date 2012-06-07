@@ -3,10 +3,10 @@
 <div align='left'>
     <@ INCLUDE user/username32.tt user=thread.user @>
 
-    Created at <@ thread.created @> <@ IF thread.updated != thread.created @>- Last updated at <@ thread.updated @><@ END @>
+    Created <@ thread.created_human @> ago <@ IF thread.updated != thread.created @>- Last updated <@ thread.updated_human @> ago<@ END @>
     <br/>
 
-    <@ thread.html @></div>
+    <span id="thread-body"><@ thread_html @></span></div>
 
     <@ IF is_owner @>
         <select name="status">
@@ -20,7 +20,9 @@
             <@ END @>
             <option value="closed">Close</option>
 
-        </select> <a href="<@ u('Forum','delete',thread.id) @>">Delete</a>
+        </select> 
+        <a href="<@ u('Forum','edit',thread.url) @>">Edit</a>
+        <a href="<@ u('Forum','delete',thread.id) @>">Delete</a>
     <@ ELSE @>
         <b><@ thread.status | ucfirst @></b>
     <@ END @>

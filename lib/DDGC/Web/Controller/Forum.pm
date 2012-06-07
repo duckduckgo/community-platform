@@ -23,6 +23,7 @@ sub thread : Chained('base') CaptureArgs(1) {
   my ( $self, $c, $id ) = @_;
   my @idstr = split('-',$id);
   $c->stash->{thread} = $c->d->forum->get_thread($idstr[0]);
+  $c->stash->{thread_html} = $c->stash->{thread}->render_html($c->d);
   my $url = $c->stash->{thread}->url;
 #$c->response->redirect($c->chained_uri('Forum','thread',$url)) if $url ne $id; # TODO FIXME TODO : add the redirect back!
   $c->stash->{is_owner} = ($c->user && ($c->user->admin || $c->user->id == $c->stash->{thread}{user}->id)) ? 1 : 0;
@@ -43,6 +44,7 @@ sub update : Chained('thread') Args(0) {
   return unless $c->stash->{is_owner};
   $c->stash->{thread}->text($c->req->params->{text});
   $c->stash->{thread}->update;
+  $c->response->redirect($c->chained_uri('Forum','view',$c->stash->{thread}->url));
 }
 
 sub status : Chained('thread') Args(0) {
@@ -94,7 +96,7 @@ sub makethread : Chained('base') Args(0) {
     $thread->data({ "${category}_status_id" => 1 });
     $thread->insert;
     $c->d->db->txn_do(sub { $thread->update });
-    $c->response->redirect($c->chained_uri('Forum','thread',$thread->id));
+    $c->response->redirect($c->chained_uri('Forum','view',$thread->id));
 }
 
 1;
