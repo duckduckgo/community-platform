@@ -21,7 +21,18 @@ my $_bbcode = Parse::BBCode->new({
                 code => sub {
                     my ($parser, $attr, $content, $attribute_fallback) = @_;
                     my $lang = "";
-                    if ($attr) {
+
+                    my $highlight_ok = 1;
+                    $highlight_ok = 0 if length($$content) > 50_000; # it can handle a lot
+
+                    for(split /\n/, $$content) {
+                        if (length($_) > 600) { # >80s just because of a long line? I think not.
+                            $highlight_ok = 0;
+                            break;
+                        }
+                    }
+                    if ($attr && $highlight_ok) {
+                        my @lines = split /\n/, $$content;
                         my $tvc = Text::VimColor->new( string => $$content, filetype => lc($attr) );
                         $content = $tvc->html;
                         $lang = ucfirst($attr)." ";
@@ -33,12 +44,13 @@ my $_bbcode = Parse::BBCode->new({
                 parse => 0,
                 class => 'block',
             },
+            # TODO: This doesn't handle embedded tags at all (eg [quote] within [quote]), and [quote=Multi Word] does not work
             quote => {
                 parse => 0,
                 class => 'block',
                 code => sub {
                     my ($parser, $attr, $content, $attribute_fallback) = @_;
-                    $content = $$content;
+                    $content = Parse::BBCode::escape_html($$content);
                     "<div class='bbcode_quote_header'>Quote from {{#USER $attribute_fallback #}}:<pre class='bbcode_quote_body'>\" $content \"</pre></div>";
                 },
             },
@@ -151,7 +163,7 @@ sub get_user {
 sub render_html {
     my ($self, $db) = @_;
     my $html = $_bbcode->render(shift->text);
-    $html =~ s/(?:{{#USER (\w+?) #}}|\@(\w+))/$self->get_user(($1?$1:$2), $db)/eg;
+    $html =~ s/(?:{{#USER (.+?) #}}|\@(\w+))/$self->get_user(($1?$1:$2), $db)/eg;
     return $html;
 }
 

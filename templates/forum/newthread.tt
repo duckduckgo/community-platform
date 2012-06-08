@@ -6,7 +6,7 @@
 <form action="makethread" method="POST">
 <input type="text" name="title" placeholder="Title"></input>
 <textarea name="text" placeholder="Body" style="font-size:small" rows="15"></textarea>
-<div style="display:inline" class="text account thread-body">
+<div style="display:inline" class="account thread-body">
     <select name="category_id">
         <option value="1" selected>Discussion</option>
         <option value="2">Idea</option>
@@ -14,22 +14,7 @@
         <option value="4">Question</option>
         <option value="5">Announcement</option>
     </select>
-    <a href="javascript:;" onclick="document.getElementById('forum_thread_formatting_help').style.display = 'block';" id="forum_thread_formatting">Formatting</a>
-    <div id="forum_thread_formatting_help" class="actions" style="display:none;text-align:left">
-        <pre><@ l('You may use BBCode to format your post') @>
-Examples:
-    [b]Bold[/b] : <b>Bold</b>
-    [i]Italic[/i] : <i>Italic</i>
-    [url]https://duckduckgo.com[/url] : <a href="https://duckduckgo.com">https://duckduckgo.com</a>
-    [url=https://duckduckgo.com]DuckDuckGo[/url] : <a href="https://duckduckgo.com">DuckDuckGo</a>
-    [img]http://duckduckgo.com/assets/logo_homepage.normal.png[/img]
-    [code]
-    #!/usr/bin/env perl
-    print "Hello, World!\n";
-    [/code]
-    
-    </pre>
-    </div>
+    <@ INCLUDE forum/bbcode.tt @>
 </div>
 <input type="submit" value="Create thread"></input>
 </form></div>

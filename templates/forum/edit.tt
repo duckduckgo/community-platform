@@ -5,7 +5,8 @@
 <@ ELSE @>
 <form action="update" method="POST">
     <b><@ thread.title | html @></b>
-    <textarea name="text" placeholder="Body" style="font-size:small" rows="15"><@ thread.text @></textarea>
+    <textarea name="text" placeholder="Body" style="font-size:small" rows="15"><@ thread.text | html @></textarea><br/>
+    <div style="display:inline" class="account"><@ INCLUDE forum/bbcode.tt @></div>
     <input type="submit" value="Update thread"></input>
 </form></div>
 <@ END @>

@@ -64,6 +64,7 @@ sub deploy {
 	$self->init->($self->step_count) if $self->has_init;
 	$self->add_languages;
 	$self->add_users;
+    $self->add_threads;
 	$self->add_token_domains;
 	$self->add_distributions;
 	$self->add_comments;
@@ -267,7 +268,8 @@ sub add_users {
 			});
 		}
 		$user->update;
-		$self->isa_ok($user,'DDGC::User');
+		
+        $self->isa_ok($user,'DDGC::User');
 		$self->next_step;
 	}
 	for (keys %{$self->users}) {
@@ -316,21 +318,32 @@ sub comments {[]}
 sub add_comments {
 }
 
-############################################
-#
-# TTTTT H   H RRRR  EEEEE   A   DDDD   SSSS 
-#   T   H   H R   R E      A A  D   D S     
-#   T   HHHHH RRRR  EEEE  AAAAA D   D  SSS  
-#   T   H   H R  R  E     A   A D   D     S 
-#   T   H   H R   R EEEEE A   A DDDD  SSSS 
+##############################################
+#  _____ _   _ ____  _____    _    ____  ____  
+# |_   _| | | |  _ \| ____|  / \  |  _ \/ ___| 
+#   | | | |_| | |_) |  _|   / _ \ | | | \___ \ 
+#   | | |  _  |  _ <| |___ / ___ \| |_| |___) |
+#   |_| |_| |_|_| \_\_____/_/   \_\____/|____/ 
 
 sub threads {[
-    [ title => "Test thread", text => "Testing some BBCode\n[b]Bold[/b]\n[url=http://ddg.gg]URL[/url] / http://ddg.gg\nEtc.", category => 5 ],
+    { title => "Test thread", text => "Testing some BBCode\n[b]Bold[/b]\n[url=http://ddg.gg]URL[/url] / http://ddg.gg\nEtc.", category_id => 5, users_id => 1, data => { announcement_status_id => 1 } },
+    { title => "Hello, World!", text => "Hello, World!\n[code=perl]#!/usr/bin/env perl\nprint \"Hello, World!\";[/code]\n[code=lua]print(\"Hello, World\")[/code]\n[code=javascript]alert('Hello, World!');[/code]\n[quote=testtwo]To be or not to be...[/quote]\n\@testtwo I love you!", category_id => 1, users_id => 1, data => { discussion_status_id => 1 }, 
+#comments => [ { user => 'testone', text => 'blabla', comments => ["omg, this is so cool"] }, { user => 'testtwo', text => 'blabla', comments => ["Hello, World!"] }, ] 
+    },
 ]}
 
 sub add_threads {
-    for (threads) {
-        ...
+    my $self = shift;
+    my $threads = threads;
+
+    for (@$threads) {
+        my %hash = %{$_};
+       #my %comments = (comments => pop %hash);
+#pop %hash;
+        my $thread = $self->d->rs('Thread')->new({%hash});
+        $thread->insert;
+        $self->d->db->txn_do(sub { $thread->update });
+        $self->next_step;
     }
 }
 

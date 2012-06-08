@@ -22,11 +22,10 @@ has ddgc => (
 
 sub get_threads {
     my ( $self, $pagenum, $count ) = @_;
-    $pagenum ||= 0;
+    $pagenum ||= 1;
     $count   ||= 20;
-    
-    my @threads = $self->ddgc->rs('Thread')->slice($pagenum*$count, $count-1);
-    @threads;
+
+    return $self->ddgc->rs('Thread')->page($pagenum);
 }
 
 sub get_thread {
