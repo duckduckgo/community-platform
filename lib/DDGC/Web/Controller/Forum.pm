@@ -21,9 +21,9 @@ sub index : Chained('base') Args(0) {
   $c->stash->{page} = $pagenum;
   $c->pager_init($c->action, 20);
   $c->stash->{threads} = $c->d->forum->get_threads($pagenum);
-#  unless () {
-#      $c->stash->{error} = "Cannot display page";
-#  }
+  unless ($c->stash->{threads}->count) {
+      $c->stash->{error} = "Cannot display page";
+  }
 }
 
 # /forum/thread/$id

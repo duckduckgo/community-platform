@@ -1,5 +1,4 @@
 <div align=left>
-<@ INCLUDE pager.tt pager=threads.pager url=u('Forum','index',{ page => 'PAGE_NO' }) @>
 <@ IF error @><span class="error" style="color:red;font-weight:bold"><@ error @></span>
 <@ ELSE @>
 <a href="<@ u('Forum','newthread') @>">New Thread</a><br/>
@@ -9,3 +8,4 @@
 <@ END @>
 </ul></div>
 <@ END @>
+<@ INCLUDE pager.tt pager=threads.pager url=u('Forum','index',{ page => 'PAGE_NO' }) @>
