@@ -25,7 +25,7 @@ sub get_threads {
     $pagenum ||= 1;
     $count   ||= 20;
 
-    return $self->ddgc->rs('Thread')->page($pagenum);
+    return $self->ddgc->rs('Thread')->search({},{ order_by => { -desc => 'updated' } })->page($pagenum);
 }
 
 sub get_thread {
