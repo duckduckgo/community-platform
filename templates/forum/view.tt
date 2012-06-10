@@ -9,20 +9,22 @@
     <span id="thread-body"><@ thread_html @></span></div>
 
     <@ IF is_owner @>
-        <select name="status">
-            <option><@ thread.status | ucfirst @></option>
-            <@ IF thread.status @><option>Open</option><@ END @>
+    <form action="<@ u('Forum','status',thread.url) @>" method="POST" name="sf">
+        <select name="status" onchange="sf.submit()">
+            <option><@ thread.status_key | ucfirst @></option>
+            <@ IF thread.status_key != 'open' @><option value="1">Open</option><@ END @>
 
             <@ FOR key IN thread.statuses @> 
-                <@ IF key != thread.status @>
+                <@ IF key != thread.status_key @>
                     <option value="<@ key @>"><@ key | ucfirst @></option>
                 <@ END @> 
             <@ END @>
-            <option value="closed">Close</option>
+            <@ IF thread.status_key != 'closed' @><option value="0">Close</option><@ END @>
 
         </select> 
         <a href="<@ u('Forum','edit',thread.url) @>">Edit</a>
         <a href="<@ u('Forum','delete',thread.id) @>">Delete</a>
+    </form>
     <@ ELSE @>
         <b><@ thread.status | ucfirst @></b>
     <@ END @>

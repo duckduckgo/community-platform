@@ -39,6 +39,7 @@ sub thread : Chained('base') CaptureArgs(1) {
 
 sub view : Chained('thread') PathPart('') Args(0) {
   my ( $self, $c ) = @_;
+  use DDP;p($c->stash->{thread});
 }
 
 # /forum/thread/edit/$id
@@ -48,7 +49,7 @@ sub edit : Chained('thread') Args(0) {
 
 sub update : Chained('thread') Args(0) {
   my ( $self, $c ) = @_;
-  return unless $c->stash->{is_owner};
+  return unless $c->stash->{is_owner} && $c->req->params->{text};
   $c->stash->{thread}->text($c->req->params->{text});
   $c->stash->{thread}->update;
   $c->response->redirect($c->chained_uri('Forum','view',$c->stash->{thread}->url));
@@ -56,6 +57,17 @@ sub update : Chained('thread') Args(0) {
 
 sub status : Chained('thread') Args(0) {
   my ( $self, $c ) = @_;
+  return unless $c->stash->{is_owner} && exists $c->req->params->{status};
+  my %statuses = reverse $c->stash->{thread}->statuses('hash');
+  return unless exists $statuses{lc($c->req->params->{status})} || $c->req->params->{status} == 0 || $c->req->params->{status} == 1;
+  my $category = $c->stash->{thread}->category_key;
+  my %data = $c->stash->{thread}->data ? %{$c->stash->{thread}->data} : ();
+
+  my $status = $statuses{lc($c->req->params->{status})} ? $statuses{lc($c->req->params->{status})} : $c->req->params->{status};
+
+  $data{"${category}_status_id"} = $status;
+  $c->stash->{thread}->data(\%data);
+  $c->stash->{thread}->update;
 }
 
 sub loremthread : Chained('base') Args(0) {

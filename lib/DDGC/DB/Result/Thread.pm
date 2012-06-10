@@ -155,7 +155,6 @@ sub _statuses {
 sub get_user {
     my ( $self, $username, $d ) = @_;
     my $user = $d->rs('User')->single({ username => lc($username) });
-    print $user->username."\n" if $user;
     my $uname = $user && $user->public_username ? $user->public_username : Parse::BBCode::escape_html($username);
     return "<a>\@${uname}</a>";
 }
@@ -171,8 +170,9 @@ sub statuses {
     my $self = shift;
     my $category = $self->category_key;
     my $statuses = $self->_statuses;
-    my $cat_stat = $$statuses{$category};
-    values %{$cat_stat};
+    my $cat_stat = $$statuses{$category} or return {};
+    return values %{$cat_stat} unless $_[0];
+    return %{$cat_stat};
 }
 
 sub is_closed {

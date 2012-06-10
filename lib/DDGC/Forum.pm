@@ -4,15 +4,6 @@ use Moose;
 use File::ShareDir::ProjectDistDir;
 use DDGC::Comments::Comment;
 
-my %categories = (
-    1 => "discussion",
-    2 => "idea",
-    3 => "problem",
-    4 => "question",
-    5 => "announcement",
-);
-
-
 has ddgc => (
 	isa => 'DDGC',
 	is => 'ro',
