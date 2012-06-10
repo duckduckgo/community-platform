@@ -815,7 +815,7 @@ form .flagSelect label {
     padding-left: 1em;
     background-color: #DDD;
     color: #000;
-    /*overflow-x: ;*/
+    overflow-x: auto;
 }
 .bbcode_quote_header {
     font-size: small;

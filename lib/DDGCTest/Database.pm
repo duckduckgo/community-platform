@@ -327,9 +327,29 @@ sub add_comments {
 
 sub threads {[
     { title => "Test thread", text => "Testing some BBCode\n[b]Bold[/b]\n[url=http://ddg.gg]URL[/url] / http://ddg.gg\nEtc.", category_id => 5, users_id => 1, data => { announcement_status_id => 1 } },
-    { title => "Hello, World!", text => "Hello, World!\n[code=perl]#!/usr/bin/env perl\nprint \"Hello, World!\";[/code]\n[code=lua]print(\"Hello, World\")[/code]\n[code=javascript]alert('Hello, World!');[/code]\n[quote=testtwo]To be or not to be...[/quote]\n\@testtwo I love you!", category_id => 1, users_id => 1, data => { discussion_status_id => 1 }, 
+    { title => "Hello, World!", text => "Hello, World!\n[code=perl]#!/usr/bin/env perl\nprint \"Hello, World!\";[/code]\n[code=lua]print(\"Hello, World\")[/code]\n[code=javascript]alert('Hello, World!');[/code]\n[quote=shakespeare](bb|[^b]{2})[/quote]\n\@testtwo I love you!", category_id => 1, users_id => 1, data => { discussion_status_id => 1 }, 
 #comments => [ { user => 'testone', text => 'blabla', comments => ["omg, this is so cool"] }, { user => 'testtwo', text => 'blabla', comments => ["Hello, World!"] }, ] 
     },
+    { title => "Syntax highlighting", text => '[code=perl]#!/usr/bin/env perl
+        use 5.014;
+        say "Hello, World!";[/code]
+        [code=javascript]document.write("Hello, World!");[/code]
+        [code=lua]print("Hello, World!")[/code]
+        [code=ada]with Text_IO;
+        procedure Hello_World is
+                begin
+                        Text_IO.Put_line("Hello World!");
+            end Hello_World;[/code]
+        [code=basic]10 REM I am awesome.
+        20 PRINT "Hello, World!"[/code]
+        [code=c]#include<stdio.h>
+        
+        int main(void) {
+                printf("Hello World\n");
+                    return 0;
+        }[/code]
+        [code=sql]SELECT \'Hello World\' as hello_message;[/code]
+        [code=yaml]text: Hello, World![/code]', category_id => 1, users_id => 2, data => { discussion_status => 1 }},
 ]}
 
 sub add_threads {
