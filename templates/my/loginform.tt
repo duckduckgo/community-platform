@@ -17,6 +17,10 @@
     <input type="password" id="password" name="password" value="" class="form-input"></div>
   </div>
   <label for="" class="form_input-label">&nbsp;</label>
-  <div class="form_column"><input type="submit" value="<@ l('Login') @>" class="BTN_submit"></div>
+  <div class="form_column">
+    <input type="submit" value="<@ l('Login') @>" class="BTN_submit" onclick="return validateFormLogin();">
+  </div>
+  <br><br><br>
+  <div id="invalidLoginForm" class="form_invalid"> * Please enter a username and password</div>
 </fieldset>
 </form>

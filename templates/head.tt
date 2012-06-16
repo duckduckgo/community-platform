@@ -21,6 +21,7 @@
   <script type="text/javascript" src="/static/js/account.js"></script>
   <script type="text/javascript" src="/static/js/translate.js"></script>
   <script type="text/javascript" src="/static/js/ddgc.js"></script>
+  <script type="text/javascript" src="/static/js/login.js"></script>
   <!--[if lt IE 9]>
   <link rel="stylesheet" media="screen" href="/static/css/desktop.css">
   <script>

@@ -67,3 +67,7 @@
 .note {
 	font-size:12px;
 }
+
+.form_invalid {
+    display:none;
+}
