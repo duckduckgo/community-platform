@@ -1,5 +1,3 @@
-<p><a href="<@ u('My','account') @>">Go back to your account</a></p>
-
 <form action="<@ u('My','changepw') @>" method="post" id="formChangepw_tokencheck" class="my">
     <fieldset>
 	<h4>Change your password</h4>
