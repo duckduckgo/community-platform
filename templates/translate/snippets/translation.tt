@@ -39,22 +39,4 @@
 	</tbody>
 </table>
 
-<!-- THIS DIV CAN BE DELETED SINCE IT WAS REPLACED BY THE TABLE !-->
-<div style="display:none">
-  <@ IF translation_headline @>
-	<@ translation_headline @>
-  <@ ELSE @>
-	<@ INCLUDE user/username32.tt user=translation.user @>
-  <@ END @>
-  <dl>
-    <@ FOR n IN [ 0..token_language.max_msgstr_index ] @>
-      <@ SET func = 'msgstr' _ n @>
-    <dt><@ IF n == 0 @><@ l('Singular') @><@ ELSE @><@ n @>th Plural Form<@ END @></dt>
-      <dd><@ translation.$func @></dd>
-    <@ END @>
-    <dt><@ l('Voting') @></dt>
-	<dd><@ INCLUDE translate/vote_view.tt @></dd>
-  </dl>
-</div>
-
 </div>
