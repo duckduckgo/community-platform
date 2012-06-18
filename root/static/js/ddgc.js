@@ -42,15 +42,15 @@ $(function() {
 
         $('a.comment_reply_link').live('click', function(e){
                 e.preventDefault();
-                $(this).next('.comment_reply_cancel_link').show();
-                $(this).parent().parent().children('.comment_reply').show();
+                $(this).next('.comment_reply_cancel_link').fadeIn();
+                $(this).parent().parent().children('.comment_reply').fadeIn();
                 $(this).hide();
         });
 
         $('a.comment_reply_cancel_link').live('click', function(e){
                 e.preventDefault();
-                $(this).prev('.comment_reply_link').show();
-                $(this).parent().parent().children('.comment_reply').hide();
+                $(this).prev('.comment_reply_link').fadeIn();
+                $(this).parent().parent().children('.comment_reply').fadeOut();
                 $(this).hide();
         });
         
