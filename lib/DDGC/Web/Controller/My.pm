@@ -147,6 +147,12 @@ sub delete :Chained('logged_in') :Args(0) {
 sub public :Chained('logged_in') :Args(0) {
     my ( $self, $c ) = @_;
 
+    if ($c->user->public) {
+	    $c->add_bc('Make Private', $c->chained_uri('My','public'));
+    } else {
+	    $c->add_bc('Make Public', $c->chained_uri('My','public'));
+    }
+
 	return $c->detach if !($c->req->params->{hide_profile} || $c->req->params->{show_profile});
 	
 	if (!$c->validate_captcha($c->req->params->{captcha})) {
