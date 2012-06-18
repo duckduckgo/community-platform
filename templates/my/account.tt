@@ -206,13 +206,17 @@
   <div class="box">
     <div class="box-inner">
       <form action="<@ u('My','account') @>" method="post" id="formGravatar" onsubmit="return validateFormGravatar();" class="my">
-        <h4><span><@ l('Set Gravatar') @></span></h4>
+        <@ IF c.user.data.gravatar_email != '' @>
+        <h4><@ gravatar_url @><span><@ l('Your Gravatar email') @></span></h4>
+        <@ ELSE @>
+          <h4><span><@ l('Set your Gravatar email') @></span></h4>
+        <@ END @>
         <label for="gravatar_email" aria-describedby="errorInvalidEmail" class="gravatar_label">
           <@ l('Gravatar email') @>:
         </label>
-        <input type="text" class="form-input" name="gravatar_email" id="gravatar_email" value="<@ c.user.data.gravatar_email || gravatar_email @>">
-        <@ IF c.user.data.gravatar_url @>
-          <input type="submit" value="<@ l('Delete Gravatar email') @>" name="unset_gravatar_email" id="unset_gravatar_email">
+        <input type="text" class="form-input" name="gravatar_email" id="gravatar_email" value="<@ c.user.data.gravatar_email @>">
+        <@ IF c.user.data.gravatar_email @>
+          <input type="submit" class="BTN_submitSmall" style="float:right;" value="<@ l('Delete Gravatar email') @>" name="unset_gravatar_email" id="unset_gravatar_email">
         <@ END @>
         <input type="submit" class="BTN_submitSmall" style="float:right;" value="<@ l('Set Gravatar email') @>" name="set_gravatar_email" id="set_gravatar_email">
         <div id="error_gravatar_invalid_email" class="error" id="errorInvalidGravatarEmail">
