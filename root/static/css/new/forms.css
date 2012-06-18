@@ -71,3 +71,8 @@
 .form_invalid {
     display:none;
 }
+
+.comment_reply {
+    display: none;
+}
+
