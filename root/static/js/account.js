@@ -38,3 +38,11 @@ function validateFormAddUserLanguage() {
     }
     return true;
 }
+
+function validateFormGravatar() {
+    if ($('#gravatar_email').val() == '') {
+        $('#error_gravatar_invalid_email').fadeIn();
+        return false;
+    }
+    return true;
+}

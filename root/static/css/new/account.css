@@ -82,3 +82,8 @@
 	font-weight:400;
 	height:50px;
 }
+
+.error {
+    display:none;
+    margin-top:20px;
+}
