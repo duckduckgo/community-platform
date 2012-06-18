@@ -76,3 +76,9 @@
 #btnAddNewLanguage {
     display:none;
 }
+
+.gravatar_label {
+	font-size:22px;
+	font-weight:400;
+	height:50px;
+}
