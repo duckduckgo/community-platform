@@ -1,6 +1,10 @@
 <form action="<@ u('My','email') @>" method="post" id="formEmail" class="my">
   <fieldset>
-  <h4>Add or change your email adddress</h4>
+  <@ IF c.user.data.email != '' @>
+    <h4>Change your email address</h4>
+  <@ ELSE @>
+    <h4>Add an email address</h4>
+  <@ END @>
   <@ IF wrong_captcha @>
   	<div class="alert wrong"><div class="close-wrong"></div><@ l('You entered the verification code incorrectly.') @></div>
   <@ END @>
