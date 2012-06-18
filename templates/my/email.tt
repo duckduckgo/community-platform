@@ -5,10 +5,12 @@
   <@ IF wrong_captcha @>
   	<div class="alert wrong"><div class="close-wrong"></div><@ l('You entered the verification code incorrectly.') @></div>
   <@ END @>
-    <div class="form_column">
-      <label for="currentEmail" class="form_input-label"><@ l('Your current email address') @></label>
+    <@ IF c.user.data.email != '' @>
+      <div class="form_column">
+        <label for="currentEmail" class="form_input-label"><@ l('Your current email address') @></label>
         <input type="email" id="currentEmail" disabled="disabled" value="<@ c.user.data.email @>" class="form-input">
-    </div>
+      </div>
+    <@ END @>
     <div class="form_column">
       <label for="emailaddress" class="form_input-label"><@ l('New email address') @></label>
         <input type="email" d="emailaddress" name="emailaddress" class="form-input">

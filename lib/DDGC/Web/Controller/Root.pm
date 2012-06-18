@@ -20,7 +20,7 @@ sub base :Chained('/') :PathPart('') :CaptureArgs(0) {
 	$c->stash->{xmpp_userhost} = $c->d->config->prosody_userhost;
 	$c->stash->{prefix_title} = 'DuckDuckGo Community';
 	$c->stash->{user_counts} = $c->d->user_counts;
-	$c->add_bc('Home', $c->chained_uri('Root','index'));
+    #$c->add_bc('Home', $c->chained_uri('Root','index'));
 }
 
 sub index :Chained('base') :PathPart('') :Args(0) {
