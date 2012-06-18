@@ -14,7 +14,7 @@
   <!-- RIGHT !-->
   <div class="token-filter_right">
   <strong>Show</strong>
-  	<a href="<@ u('Translate','snippets',token_domain.key,cur_language.locale) @>">Untraslated tokens</a> &nbsp;
+  	<a href="<@ u('Translate','snippets',token_domain.key,cur_language.locale) @>">Untranslated tokens</a> &nbsp;
 		<a href="<@ u('Translate','allsnippets',token_domain.key,cur_language.locale) @>"><@ l('All Tokens') @></a>
   </div>
 </form>
