@@ -59,7 +59,7 @@ $(function() {
                 $(this).parent().html($(this).next('.comment_expanded_content').html());
         });
 
-        $('.close-warning').live('click', function (e){
+        $('.close-warning, .close-wrong').live('click', function (e){
             console.log('success');
             $(this).parent().fadeOut();
         });
