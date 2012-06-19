@@ -73,6 +73,11 @@
 	z-index:999;
 }
 
+#languageBox {
+    margin-top:0;
+    text-decoration:none;
+}
+
 #btnAddNewLanguage {
     display:none;
 }
