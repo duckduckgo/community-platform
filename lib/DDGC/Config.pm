@@ -35,6 +35,8 @@ sub blog_datadir { defined $ENV{'DDGC_BLOG_DATADIR'} ? $ENV{'DDGC_BLOG_DATADIR'}
 
 sub duckpan_url { defined $ENV{'DDGC_DUCKPAN_URL'} ? $ENV{'DDGC_DUCKPAN_URL'} : 'http://duckpan.org/' }
 
+sub duckpan_locale_uploader { defined $ENV{'DDGC_DUCKPAN_LOCALE_UPLOADER'} ? $ENV{'DDGC_DUCKPAN_LOCALE_UPLOADER'} : 'testone' }
+
 # DANGER: DEACTIVATES PASSWORD CHECK FOR ALL USERACCOUNTS!!!!!!!!!!!!!!!!!!!!!!
 sub prosody_running { defined $ENV{'DDGC_PROSODY_RUNNING'} ? $ENV{'DDGC_PROSODY_RUNNING'} : 0 }
 

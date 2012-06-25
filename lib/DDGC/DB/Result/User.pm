@@ -56,6 +56,9 @@ column roles => {
 	default_value => '',
 };
 
+# WORKAROUND
+sub db { return shift; }
+
 sub translation_manager { shift->is('translation_manager') }
 
 sub is {

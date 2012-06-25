@@ -5,6 +5,8 @@ use namespace::autoclean;
 
 BEGIN {extends 'Catalyst::Controller'; }
 
+use Email::Valid;
+
 sub base :Chained('/base') :PathPart('blog') :CaptureArgs(0) {
   my ( $self, $c ) = @_;
 }

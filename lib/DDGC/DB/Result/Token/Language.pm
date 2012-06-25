@@ -56,6 +56,11 @@ column msgstr5 => {
 	is_nullable => 1,
 };
 
+column translator_users_id => {
+	data_type => 'bigint',
+	is_nullable => 1,
+};
+
 sub msgstr_index_max { 5 }
 
 column data => {
@@ -77,6 +82,8 @@ column updated => {
 
 belongs_to 'token', 'DDGC::DB::Result::Token', 'token_id';
 belongs_to 'token_domain_language', 'DDGC::DB::Result::Token::Domain::Language', 'token_domain_language_id';
+
+belongs_to 'translator_user', 'DDGC::DB::Result::User', 'translator_users_id', { join_type => 'left' };
 
 has_many 'token_language_translations', 'DDGC::DB::Result::Token::Language::Translation', 'token_language_id';
 
@@ -150,26 +157,45 @@ sub set_translation {
 		my $func = 'msgstr'.$_;
 		$self->$func($translation->$func);
 	}
+	$self->translator_users_id($translation->user->id) if $translation->user;
 }
 
 sub auto_use {
 	my ( $self ) = @_;
 	my @translations = $self->search_related('token_language_translations',{},{
-		order_by => 'me.updated',
+		order_by => [ 'me.updated', 'me.id' ],
 		prefetch => { user => 'user_languages' },
 	})->all;
 	my %first;
 	my %grade;
 	my %votes;
 	for (@translations) {
-		$first{$_->key} = $_ unless defined $first{$_->key};
-		my $translation_language = $_->user->search_related('user_languages',{
+		my $translation = $_;
+		if (defined ($first{$translation->key})) {
+			my $old = $first{$translation->key};
+			my $translator = $translation->user;
+			$old->set_user_vote($translator,1);
+			for my $vote ($translation->votes) {
+				$old->set_user_vote($vote->user,1);
+			}
+			$translation->delete;
+			$translation = $old;
+		} else {
+			$first{$translation->key} = $translation;
+		}
+		my $translator_translation_language = $translation->user->search_related('user_languages',{
 			language_id => $self->token_domain_language->language->id,
 		})->first;
-		my $translation_grade = $translation_language ? $translation_language->grade : 0;
-		my $best_grade = defined $grade{$_->key} ? $grade{$_->key} : 0;
-		$grade{$_->key} = $translation_grade if $translation_grade > $best_grade;
-		$votes{$_->key} = $_->vote_count;
+		$grade{$translation->key} = defined $translator_translation_language ? $translator_translation_language->grade : 0;
+		for my $vote ($translation->votes) {
+			my $translation_language = $vote->user->search_related('user_languages',{
+				language_id => $self->token_domain_language->language->id,
+			})->first;
+			my $translation_grade = $translation_language ? $translation_language->grade : 0;
+			my $best_grade = defined $grade{$translation->key} ? $grade{$translation->key} : 0;
+			$grade{$translation->key} = $translation_grade if $translation_grade > $best_grade;
+		}
+		$votes{$translation->key} = $translation->vote_count;
 	}
 	my $best;
 	for (keys %first) {

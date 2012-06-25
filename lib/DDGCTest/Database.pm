@@ -339,6 +339,9 @@ sub token_domains {{
 				testthree => {
 					'us' => 'Welcome %s',
 				},
+				testfour => {
+					'us' => 'Welcome %s',
+				},
 				testfive => {
 					'ru' => 'Привет %s',
 					'us' => 'Welcomee %s',
