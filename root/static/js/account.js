@@ -24,6 +24,10 @@ $(document).ready(function(){
     }, function(){
         $('#gradeReference').fadeOut();
     });
+
+    $('#removeLanguage').click(function() {
+        return confirm("Are you sure you want to remove this language?");
+    });
 });
 
 function showFormAddUserLanguage() {
