@@ -126,6 +126,9 @@ Test::More = 0.88
 [GatherDir]
 [PruneCruft]
 [ManifestSkip]
+[PodWeaver]
+[PkgVersion]
+[PkgDist]
 [MetaYAML]
 [License]
 [ShareDir]
@@ -143,8 +146,28 @@ use strict;
 use warnings;
 use utf8;
 
+=method version
+
+Gives back the version of this translation package. Strftime form: %Y%m%d.%H%M%S
+
+=cut
+
 sub version { '$version' }
+
+=method token_count
+
+Amount of token in the specific given domain.
+
+=cut
+
 sub token_count { $tokencount }
+
+=method locales
+
+Information about the included locales
+
+=cut
+
 sub locales {
 
 my $localesstring
