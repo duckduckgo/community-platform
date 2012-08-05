@@ -813,7 +813,6 @@ sub add_token_domains {
 				}
 			}
 		}
-		$_->auto_use for ($tc->token_domain_languages->search_related('token_languages')->all);
 	}
 }
 
