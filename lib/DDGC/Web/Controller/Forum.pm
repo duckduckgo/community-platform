@@ -65,6 +65,7 @@ sub status : Chained('thread') Args(0) {
   $data{"${category}_status_id"} = $status;
   $c->stash->{thread}->data(\%data);
   $c->stash->{thread}->update;
+  $c->response->redirect($c->chained_uri('Forum','view',$c->stash->{thread}->url));
 }
 
 # /forum/newthread
