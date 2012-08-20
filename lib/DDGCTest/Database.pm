@@ -238,6 +238,14 @@ sub users {{
 			us => 2,
 		},
 	},
+	'cpan' => {
+		pw => 'üöüöüöüöäöü',
+		notes => 'CPAN upload account for CPAN pinning',
+		admin => 1,
+		languages => {
+			us => 5,
+		},
+	},
 }}
 
 sub add_users {
@@ -292,14 +300,15 @@ sub distributions {[
 	[ testone => 'DDG-Something-0.001.tar.gz' ],
 	[ testtwo => 'DDG-Plugin-OtherThing-MoreTest-0.001.tar.gz' ],
 	[ testthree => 'DDG-Plugin-FatHead-Test-0.001.tar.gz' ],
+	[ cpan => 'My-Sample-Distribution-0.003.tar.gz' ],
 ]}
 
 sub add_distributions {
 	my ( $self ) = @_;
+	my $sharedir = dist_dir('DDGC');
 	for (@{$self->distributions}) {
 		my $username = $_->[0];
 		my $filename = $_->[1];
-		my $sharedir = dist_dir('DDGC');
 		my $user = $self->d->find_user($username);
 		$self->d->duckpan->add_user_distribution($user,$sharedir.'/testdists/'.$filename);
 		$self->next_step;
@@ -388,6 +397,9 @@ sub token_domains {{
 					'us' => 'Heeellloooo %s',
 				},
 				testthree => {
+					'us' => 'Welcome %s',
+				},
+				testfour => {
 					'us' => 'Welcome %s',
 				},
 				testfive => {

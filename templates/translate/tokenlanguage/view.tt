@@ -28,6 +28,9 @@
 	    <input type="text" <@ IF token_language.token_domain_language.language.rtl @>dir="rtl" <@ END @>id="token_language_<@ token_language.id @>_<@ func @>" name="token_language_<@ token_language.id @>_<@ func @>" onkeyup="placeholder_check(this, '<@ n == 0 ? token_language.token.msgid : token_language.token.msgid_plural | replace("'", "\\'") @>');" value="<@ own_translation.$func @>" autocomplete="off" placeholder="Translate '<@ n == 0 ? token_language.token.msgid : token_language.token.msgid_plural @>' <@ IF token_language.token.msgctxt @> in context of '<@ token_language.token.msgctxt @>' <@ END @>into <@ token_language.token_domain_language.language.name_in_english @>">
 	    <div class="warn"> You haven't provided enough placeholders </div>
       <@ END @>
+      <@ IF own_translation.vote_count @>
+        <div><@ l('%d users voted for your translation',own_translation.vote_count) @></div>
+      <@ END @>
       <@ IF other_translations @>
         <div><@ l('Someone already translated this snippet. Only translate it if you think your translation fits better.') @></div>
       <@ END @>
