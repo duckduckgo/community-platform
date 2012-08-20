@@ -1,12 +1,14 @@
 <div class="comment_table">
 	<@ IF comments.count @>
 		<@ FOREACH comment IN comments.list @>
-			<@ INCLUDE comment/comment.tt @>
+			<@ INCLUDE comment/comment.tt no_reply=no_reply @>
 		<@ END @>
 	<@ END @>
-	<@ IF c.user @>
+	<@ IF c.user && !no_reply @>
 		<div class="comment_add_title"><@ l('Add a comment') @>:</div>
 		<div class="comment_add"><@ INCLUDE comment/add.tt context=comments.context context_id=comments.context_id @></div>
+    <@ ELSIF no_reply @>
+		<@ l('Replying has been disabled.') @>
 	<@ ELSE @>
 		<@ l('Please login to make comments') @>
 	<@ END @>

@@ -31,14 +31,12 @@ sub thread : Chained('base') CaptureArgs(1) {
   $c->stash->{thread} = $c->d->forum->get_thread($idstr[0]);
   $c->stash->{thread_html} = $c->stash->{thread}->render_html($c->d);
   my $url = $c->stash->{thread}->url;
-  use DDP;p($url);
   $c->response->redirect($c->chained_uri('Forum','view',$url)) if $url ne $id;
   $c->stash->{is_owner} = ($c->user && ($c->user->admin || $c->user->id == $c->stash->{thread}->users_id)) ? 1 : 0;
 }
 
 sub view : Chained('thread') PathPart('') Args(0) {
   my ( $self, $c ) = @_;
-  use DDP;p($c->stash->{thread});
 }
 
 # /forum/thread/edit/$id

@@ -31,4 +31,8 @@
 
     <br/>
 </div>
+<@ IF thread.status_key == 'closed' @>
+<@ INCLUDE comment/comments.tt comments=c.d.comments('DDGC::DB::Result::Thread',thread.id) no_reply=1 @>
+<@ ELSE @>
 <@ INCLUDE comment/comments.tt comments=c.d.comments('DDGC::DB::Result::Thread',thread.id) @>
+<@ END @>

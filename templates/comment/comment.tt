@@ -9,12 +9,12 @@
 	</p>
 	<div class="comment_user"><@ INCLUDE user/username16.tt user=comment.user @></div>
 	<div class="comment_info"> at <@ comment.created @><@ #date.format(comment.created,"%D %T") @>
-                <a href="javascript:;" class="comment_reply_link" ><@ l('Reply') @> </a>
+                <@ IF !no_reply @><a href="javascript:;" class="comment_reply_link" ><@ l('Reply') @> </a><@ END @>
                 <a href="javascript:;" class="comment_reply_cancel_link" ><@ l('Cancel') @> </a>
                 <@ IF comment.users_id != 0 && (c.user.id == comment.users_id || c.user.admin) @>&nbsp;<a href="<@ u('Comment','delete',comment.id) @>"><@ l('Delete') @></a> <@ END @>
         </div>
         <div class="clear"></div>
-	<@ IF c.user @>
+	<@ IF c.user && !no_reply @>
 		<div class="comment_reply"><@ INCLUDE comment/add.tt context='DDGC::DB::Result::Comment' context_id=comment.id @></div>
 	<@ END @>
 	<@ IF comment.has_children @>
