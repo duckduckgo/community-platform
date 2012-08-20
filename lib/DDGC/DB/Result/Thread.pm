@@ -44,14 +44,12 @@ my $_bbcode = Parse::BBCode->new({
                 parse => 0,
                 class => 'block',
             },
-            # TODO: This doesn't handle embedded tags at all (eg [quote] within [quote]), and [quote=Multi Word] does not work
             quote => {
-                parse => 0,
+                parse => 1,
                 class => 'block',
                 code => sub {
                     my ($parser, $attr, $content, $attribute_fallback) = @_;
-                    $content = Parse::BBCode::escape_html($$content);
-                    "<div class='bbcode_quote_header'>Quote from {{#USER $attribute_fallback #}}:<pre class='bbcode_quote_body'>\" $content \"</pre></div>";
+                    "<div class='bbcode_quote_header'>Quote from {{#USER $attribute_fallback #}}:<div class='bbcode_quote_body'>$$content</div></div>";
                 },
             },
         },

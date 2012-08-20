@@ -16,10 +16,6 @@
         <div class="clear"></div>
 	<@ IF c.user @>
 		<div class="comment_reply"><@ INCLUDE comment/add.tt context='DDGC::DB::Result::Comment' context_id=comment.id @></div>
-        </div>
-        <div class="clear"></div>
-	<@ IF c.user @>
-		<div class="comment_reply"><@ INCLUDE comment/add.tt context='DDGC::DB::Result::Comment' context_id=comment.id @></div>
 	<@ END @>
 	<@ IF comment.has_children @>
 		<div class="comment_children">

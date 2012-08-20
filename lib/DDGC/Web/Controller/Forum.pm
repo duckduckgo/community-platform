@@ -10,8 +10,6 @@ sub base : Chained('/base') PathPart('forum') CaptureArgs(0) {
   $c->stash->{is_admin} = $c->user && $c->user->admin;
 }
 
-my $text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a diam lectus. Sed sit amet ipsum mauris. Maecenas congue ligula ac quam viverra nec consectetur ante hendrerit. Donec et mollis dolor. Praesent et diam eget libero egestas mattis sit amet vitae augue. Nam tincidunt congue enim, ut porta lorem lacinia consectetur. Donec ut libero sed arcu vehicula ultricies a non tortor. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean ut gravida lorem. Ut turpis felis, pulvinar a semper sed, adipiscing id dolor. Pellentesque auctor nisi id magna consequat sagittis. Curabitur dapibus enim sit amet elit pharetra tincidunt feugiat nisl imperdiet. Ut convallis libero in urna ultrices accumsan. Donec sed odio eros. Donec viverra mi quis quam pulvinar at malesuada arcu rhoncus. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. In rutrum accumsan ultricies. Mauris vitae nisi at sem facilisis semper ac in est.";
-
 # /forum/index/
 sub index : Chained('base') Args(0) {
   my ( $self, $c, $pagenum ) = @_;
@@ -33,7 +31,8 @@ sub thread : Chained('base') CaptureArgs(1) {
   $c->stash->{thread} = $c->d->forum->get_thread($idstr[0]);
   $c->stash->{thread_html} = $c->stash->{thread}->render_html($c->d);
   my $url = $c->stash->{thread}->url;
-#$c->response->redirect($c->chained_uri('Forum','thread',$url)) if $url ne $id; # TODO FIXME TODO : add the redirect back!
+  use DDP;p($url);
+  $c->response->redirect($c->chained_uri('Forum','view',$url)) if $url ne $id;
   $c->stash->{is_owner} = ($c->user && ($c->user->admin || $c->user->id == $c->stash->{thread}->users_id)) ? 1 : 0;
 }
 
@@ -68,19 +67,6 @@ sub status : Chained('thread') Args(0) {
   $data{"${category}_status_id"} = $status;
   $c->stash->{thread}->data(\%data);
   $c->stash->{thread}->update;
-}
-
-sub loremthread : Chained('base') Args(0) {
-  my ( $self, $c ) = @_;
-  my $thread = $c->d->rs('Thread')->new({
-      title => "Hello, World!",
-      text => $text,
-      users_id => 1,
-      category_id => 2,
-      data => { idea_status_id => 2 },
-  });
-  $thread->insert;
-  $c->d->db->txn_do(sub { $thread->update });
 }
 
 # /forum/newthread

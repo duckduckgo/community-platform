@@ -7,10 +7,9 @@ Examples:
 [url]https://duckduckgo.com[/url] : <a href="https://duckduckgo.com">https://duckduckgo.com</a>
 [url=https://duckduckgo.com]DuckDuckGo[/url] : <a href="https://duckduckgo.com">DuckDuckGo</a>
 [img]http://duckduckgo.com/assets/logo_homepage.normal.png[/img]
-[code]
+[code=perl]
 #!/usr/bin/env perl
 print "Hello, World!\n";
 [/code]
-
 </pre>
 </div>
