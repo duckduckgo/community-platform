@@ -1,0 +1,19 @@
+<div align="left">
+<a href="<@ u('Forum','index') @>">Forum</a> &gt; <b>Search</b><br/><br/>
+<form action="search" method="get">
+    <input name="q" placeholder="Search" value="<@ query @>"></input>
+    <input type="submit" value="Search" style="display:none"></input>
+</form>
+
+<@ FOR result IN results.results @>
+    <li><a href="<@ u('Forum','view',result.uri) @>"><@ result.title @></a><br/>
+    <@ result.text.0 @> </li>
+<@ END @>
+
+<@ IF results.total == 0 @>
+    <p class="error"><@ l('No results') @></p>
+<@ END @>
+<@ IF error @>
+    <p class="error"><@ error @></p>
+<@ END @>
+</div>

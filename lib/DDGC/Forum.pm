@@ -3,6 +3,10 @@ package DDGC::Forum;
 use Moose;
 use File::ShareDir::ProjectDistDir;
 use DDGC::Comments::Comment;
+use JSON;
+use LWP::Simple;
+use URL::Encode 'url_encode_utf8';
+use DDP;
 
 has ddgc => (
 	isa => 'DDGC',
@@ -10,6 +14,14 @@ has ddgc => (
 	weak_ref => 1,
 	required => 1,
 );
+
+sub search {
+    my ( $self, $query ) = @_;
+    my $json = get('http://localhost:5000/search?format=json&q='.url_encode_utf8($query));
+    my $results;
+    eval { $results = decode_json($json) };
+    return $results or 0;
+}
 
 sub get_threads {
     my ( $self, $pagenum, $count ) = @_;

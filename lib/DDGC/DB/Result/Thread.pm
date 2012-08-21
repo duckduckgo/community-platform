@@ -55,7 +55,9 @@ my $_bbcode = Parse::BBCode->new({
         },
 });
 
-use DBIx::Class::Candy -components => [ 'TimeStamp', 'InflateColumn::DateTime', 'InflateColumn::Serializer', 'EncodedColumn' ];
+use DBIx::Class::Candy -components => [ 'TimeStamp', 'InflateColumn::DateTime', 'InflateColumn::Serializer', 'EncodedColumn', 'Indexed' ];
+__PACKAGE__->set_indexer( 'WebService::Dezi',  { server => 'http://localhost:5000', content_type => 'application/json' } );
+
 
 table 'post';
 
@@ -65,14 +67,16 @@ column id => {
 };
 primary_key 'id';
 
-column title => {
+column thread_title => {
     data_type => 'text',
     is_nullable => 0,
+    indexed => 1,
 };
 
 column text => {
     data_type => 'text',
     is_nullable => 0,
+    indexed => 1,
 };
 
 column data => {
@@ -106,7 +110,7 @@ belongs_to 'user', 'DDGC::DB::Result::User', 'users_id';
 
 use overload '""' => sub {
 	my $self = shift;
-	return $self->title;
+	return $self->thread_title;
 }, fallback => 1;
 
 sub _category {
@@ -200,8 +204,12 @@ sub title_to_path { # construct a id-title-of-thread string from $id and $title
 
 sub url {
     my $self = shift;
-    my $x = $self->title_to_path($self->id, $self->title);
+    my $x = $self->title_to_path($self->id, $self->thread_title);
     $x;
+}
+
+sub title {
+    shift->thread_title;
 }
 
 sub category_key {
@@ -222,6 +230,8 @@ sub created_human {
     my $delta = $now - shift->created;
     $span->format_duration($delta);
 }
+
+
 
 1;
 

@@ -3,11 +3,28 @@ package DDGC::Web::Controller::Forum;
 use Moose;
 use namespace::autoclean;
 
+use DDP;
+
 BEGIN {extends 'Catalyst::Controller'; }
 
 sub base : Chained('/base') PathPart('forum') CaptureArgs(0) {
   my ( $self, $c ) = @_;
   $c->stash->{is_admin} = $c->user && $c->user->admin;
+  use DDP;p($c->request);
+  #$c->response->redirect('/'.$c->request->path);
+}
+
+sub search : Chained('base') Args(0) {
+  my ( $self, $c, $pagenum ) = @_;
+
+  $c->stash->{query} = $c->req->params->{q};
+  return unless $c->stash->{query};
+
+  $c->stash->{results} = $c->d->forum->search($c->req->params->{q});
+  unless ($c->stash->{results}) {
+    $c->stash->{error} = "Unable to connect to search server. Please try again, and if this problem persists, please contact <a href='mailto:ops\@duckduckgo.com'>ops\@duckduckgo.com</a>";
+    return;
+  }
 }
 
 # /forum/index/
@@ -86,16 +103,23 @@ sub delete : Chained('base') Args(1) {
 # /forum/makethread (actually create a thread)
 sub makethread : Chained('base') Args(0) {
     my ( $self, $c ) = @_;
-    return unless $c->user;
-    return unless $c->req->params->{title} && $c->req->params->{text} && $c->req->params->{category_id};
 
-    print "HELLO??\n";
+    unless ($c->user) {
+        $c->stash->{error} = 'You are not logged in.';
+        return;
+    }
+    unless ($c->req->params->{title} && $c->req->params->{text} && $c->req->params->{category_id}) {
+        $c->stash->{error} = 'One or more fields were empty.';
+        return
+    }
+
     my $thread = $c->d->rs('Thread')->new({
-        title => $c->req->params->{title},
+        thread_title => $c->req->params->{title},
         text => $c->req->params->{text},
         category_id => $c->req->params->{category_id},
         users_id => $c->user->id,
     });
+
     my $category = $thread->category_key;
     $thread->data({ "${category}_status_id" => 1 });
     $thread->insert;
