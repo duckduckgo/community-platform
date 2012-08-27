@@ -126,12 +126,9 @@ Test::More = 0.88
 [GatherDir]
 [PruneCruft]
 [ManifestSkip]
-<<<<<<< HEAD
-=======
 [PodWeaver]
 [PkgVersion]
 [PkgDist]
->>>>>>> master
 [MetaYAML]
 [License]
 [ShareDir]
