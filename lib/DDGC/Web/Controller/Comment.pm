@@ -20,7 +20,10 @@ sub latest :Chained('do') :Args(0) {
 		page => $c->stash->{page},
 		rows => $c->stash->{pagesize},
 	}))];
+<<<<<<< HEAD
 	$c->add_bc('Latest comments', $c->chained_uri('Comment','latest'));
+=======
+>>>>>>> master
 }
 
 sub add :Chained('base') :Args(2) {
