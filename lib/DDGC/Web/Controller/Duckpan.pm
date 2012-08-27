@@ -9,9 +9,9 @@ BEGIN {extends 'Catalyst::Controller'; }
 
 sub base :Chained('/base') :PathPart('duckpan') :CaptureArgs(0) {
     my ( $self, $c ) = @_;
-	$c->stash->{title} = 'DuckPAN';
-	$c->stash->{duckpan} = $c->d->duckpan;
-	$c->add_bc('DuckPAN', $c->chained_uri('duckpan','index'));
+    $c->stash->{title} = 'DuckPAN';
+    $c->stash->{duckpan} = $c->d->duckpan;
+    $c->add_bc('DuckPAN', $c->chained_uri('duckpan','index'));
 }
 
 sub do :Chained('base') :CaptureArgs(0) {
@@ -24,10 +24,10 @@ sub index :Chained('do') :Args(0) {
 
 sub logged_in :Chained('do') :PathPart('') :CaptureArgs(0) {
     my ( $self, $c ) = @_;
-	if (!$c->user) {
-		$c->response->redirect($c->chained_uri('My','login'));
-		return $c->detach;
-	}
+    if (!$c->user) {
+        $c->response->redirect($c->chained_uri('My','login'));
+        return $c->detach;
+    }
 }
 
 sub upload :Chained('do') :Args(0) {
@@ -56,7 +56,7 @@ sub module :Chained('base') :CaptureArgs(1) {
 
 sub module_index :Chained('module') :PathPart('') :Args(0) {
     my ( $self, $c ) = @_;
-	$c->add_bc('Module Index of DuckPAN', $c->chained_uri('Duckpan','module_index'));
+    $c->add_bc('Module Index of DuckPAN', $c->chained_uri('Duckpan','module_index'));
 }
 
 # TODO: Goes into a static generation procedure
