@@ -1,16 +1,22 @@
-<p class="infobox">Please logout from the XMPP/Jabber server BEFORE you delete your account!</p>
+<div class="alert warning"><div class="close-warning"></div>Please, logout from the XMPP/Jabber server before you delete your account!</div>
+<div class="alert warning"><div class="close-warning"></div><strong>Important: </strong>Please notice that we can't recover deleted accounts!</div>
 <form action="<@ u('My','delete') @>" method="post" id="formPublic" class="my">
   <fieldset>
-  <legend><span><@ l('Delete your profile') @></span></legend>
+  <h4><span><@ l('Delete your profile') @></span></h4>
     <div>
     <@ IF wrong_captcha @>
-      <p class="error" id="errorCaptcha"><@ l('You entered the verification code incorrectly.') @></p>
+      <div class="alert wrong" ><div class="close-wrong"></div><@ l('You entered the verification code incorrectly.') @></div></div>
     <@ END @>
-      <label for="captcha" aria-describedby="errorCaptcha"><@ l('Captcha') @>: </label>
+	<div class="form_column">
+	<div class="form_column">
         <img src="<@ u('Base','captcha') @>" alt="Captcha">
-        <input type="text"autocomplete="off" id="captcha" name="captcha">
+	</div>
+	<div class="form_column">
+	  <label for="captcha" class="form_input-label" aria-describedby="errorCaptcha"><@ l('Captcha') @></label>
+      <input type="text"autocomplete="off" id="captcha" name="captcha" class="form-input">
     </div>
-    <input type="submit" value="<@ l('Delete profile') @>" name="delete_profile">
+	<div class="form_column-submit">
+	  <label for="" class="form_input-label">&nbsp;</label>
+    <input type="submit" value="<@ l('Delete profile') @>" name="delete_profile" class="BTN_submit"></div>
   </fieldset>
 </form>
-<p class="infobox">We can't recover deleted accounts! BE WARNED!</p>

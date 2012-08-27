@@ -215,31 +215,35 @@ select {
 /* footer */
 
 #footer {
-	margin-bottom:10px;
-	color:#333;
-	font-size:12px;
+	background:#FBFBFB;
+	border-top:1px solid #E5E5E5;
+	bottom:0px;
+	color:#747474;
+	font-size:13px;
+	height:27px;
 	left:0px;
-	width:945px;
-    margin: 0 auto;
+	margin-top:20px;
+	padding-top:7px;
+	position:fixed;
+	width:100%;
+	
 }
 
-#footer a {
-    text-decoration:underline;
+#footer a:link {
+	color:#1168CC;
+}
+
+#footer a:visited {
+	color:#1168CC;
 }
 
 #footer-right {
 	float:right;
 	margin-right:10px;
     text-align:right;
-	color:#747474;
 }
 
-#footer-right a {
-}
-
-#footer-left
-{
+#footer-left {
 	float:left;
 	margin-left:10px
-	color:#656565;
 }

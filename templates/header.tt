@@ -2,7 +2,7 @@
 <div id="header">
 	<div id="header-logo">
 		<a href="<@ u('Root','index') @>">
-			<img alt="DuckDuckGo Community Platform" src="/static/images/DDGcommunity_logo.<@ IF xmpp_userhost != 'dukgo.com' @>dev.<@ END @>png" />
+			<img alt="DuckDuckGo Community Platform" src="/static/images/cduck.<@ IF xmpp_userhost != 'dukgo.com' @>dev.<@ END @>png" />
 		</a>
 	</div>
 	<div id="header-right"><@ INCLUDE userbox.tt @></div>

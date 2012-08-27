@@ -4,9 +4,8 @@
   <a href="<@ u('Base','feedback') @>">Feedback</a>
 </div>
 <div id="footer-right">
-  Powered by <a href="http://www.perl.org/">Perl</a><br>
-  Delivered by <a href="http://nginx.org/">nginx</a><br>
-  Source at <a href="https://github.com/duckduckgo/community-platform">github</a><br><br>
-  <span style="color:#000">&#169; <@ USE date @><@ date.format(date.now, '%Y') @> <a href="http://duckduckgo.com">DuckDuckGo, Inc.</a></span>
-  <br><br><br><br>
+  Powered by <a href="http://www.perl.org/">Perl</a>
+  Delivered by <a href="http://nginx.org/">nginx</a>
+  Source at <a href="https://github.com/duckduckgo/community-platform">github</a>
+  <strong>&#169; <@ USE date @><@ date.format(date.now, '%Y') @> <a href="http://duckduckgo.com">DuckDuckGo, Inc.</a></strong>
 </div>
