@@ -15,6 +15,9 @@
 	<!--<h2>Thanks for your registration, you can now login.</h2>!-->
 <@ END @>
 <@ INCLUDE my/loginform.tt @>
+<div>
+	<a href="<@ u('My','register') @>"><@ l('Register') @></a></a>
+</div>
 <@ IF xmpp_userhost == 'dukgo.com' @>
 	<div class="alert warning">
 		<div class="close-warning"></div>
