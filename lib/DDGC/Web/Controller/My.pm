@@ -42,52 +42,78 @@ sub logged_out :Chained('base') :PathPart('') :CaptureArgs(0) {
 
 sub account :Chained('logged_in') :Args(0) {
     my ( $self, $c ) = @_;
-	if ( $c->req->params->{unset_gravatar_email} ) {
-		my $data = $c->user->data || {};
-		delete $data->{gravatar_email};
-		delete $data->{gravatar_urls};
-		$c->user->data($data);
-		$c->user->update;
-	}
-	if ($c->req->params->{set_gravatar_email}) {
-		if ( Email::Valid->address($c->req->params->{gravatar_email}) ) {
-			my $data = $c->user->data || {};
-			$data->{gravatar_email} = $c->req->params->{gravatar_email};
-			$data->{gravatar_urls} = {};
-			for (qw/16 32 48 64 80/) {
-				$data->{gravatar_urls}->{$_} = gravatar_url(
-					email => $data->{gravatar_email},
-					rating => "g",
-					size => $_,
-				);
+
+    my $saved = 0;
+
+    for (keys %{$c->req->params}) {
+
+    	if ($_ =~ m/^update_language_(\d+)/) {
+    		my $grade = $c->req->param('language_grade_'.$1);
+    		if ($grade) {
+	    		my ( $user_language ) = $c->user->db->user_languages->search({ language_id => $1 })->all;
+	    		if ($user_language) {
+	    			$user_language->grade($grade);
+	    			$user_language->update;
+					$saved = 1;
+	    		}
+    		}
+    	}
+
+		if ($_ eq 'add_language') {
+			my $language_id = $c->req->params->{language_id};
+			my $grade = $c->req->params->{language_grade};
+			if ($grade and $language_id) {
+				$c->user->db->update_or_create_related('user_languages',{
+					grade => $grade,
+					language_id => $language_id,
+				},{
+					key => 'user_language_language_id_username',
+				});
+				$saved = 1;
 			}
+		}
+
+		if ($_ eq 'remove_language') {
+			my $language_id = $c->req->params->{$_};
+			$c->user->db->user_languages->search({ language_id => $language_id })->delete;
+			$saved = 1;
+		}
+
+		if ($_ eq 'set_gravatar_email') {
+			if ( Email::Valid->address($c->req->params->{gravatar_email}) ) {
+				my $data = $c->user->data || {};
+				$data->{gravatar_email} = $c->req->params->{gravatar_email};
+				$data->{gravatar_urls} = {};
+				for (qw/16 32 48 64 80/) {
+					$data->{gravatar_urls}->{$_} = gravatar_url(
+						email => $data->{gravatar_email},
+						rating => "g",
+						size => $_,
+					);
+				}
+				$c->user->data($data);
+				$c->user->update;
+				$saved = 1;
+			} else {
+				$c->stash->{no_valid_gravatar_email} = 1;
+			}
+		}
+
+		if ($_ eq 'unset_gravatar_email') {
+			my $data = $c->user->data || {};
+			delete $data->{gravatar_email};
+			delete $data->{gravatar_urls};
 			$c->user->data($data);
 			$c->user->update;
-		} else {
-			$c->stash->{no_valid_gravatar_email} = 1;
 		}
-	}
+
+    }
+
+    $c->stash->{saved} = $saved;
+
 	$c->stash->{languages} = [$c->d->rs('Language')->search({},{
 		order_by => { -asc => 'locale' },
 	})->all];
-	my $change = 0;
-	if ($c->req->params->{remove_user_language}) {
-		$change = 1;
-		for ($c->user->db->user_languages->search({})->all) {
-			if ($_->language->locale eq $c->req->params->{remove_user_language}) {
-				$_->delete;
-			}
-		}
-	} elsif ($c->req->params->{language_id} && $c->req->params->{add_user_language}) {
-		$change = 1;
-		$c->user->db->update_or_create_related('user_languages',{
-			grade => $c->req->params->{grade},
-			language_id => $c->req->params->{language_id},
-		},{
-			key => 'user_language_language_id_username',
-		});
-	}
-	delete $c->session->{cur_locale} if $change;
 }
 
 sub apps :Chained('logged_in') :Args(0) {

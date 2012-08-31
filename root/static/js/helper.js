@@ -1,3 +1,4 @@
+try { console.debug(); } catch(e) { console = { debug: function(){}, log: function(){} } }
 
 function dump(arr,level) {
 	var dumped_text = "";
