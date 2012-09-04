@@ -10,38 +10,26 @@
     <div class="alert wrong"><div class="close-wrong"></div>You can't speak the chosen language of the project.</div>
 <@ END @>
 
-<!--BOX!-->
-<div class="box">
-<div class="box-inner">
-<h4>DuckDuckGo Core</h4>
-<p>Snippets around the core pages of DuckDuckGo, the homepage, the resultpage, the settings and the ZeroClickInfo in there.</p>
-<p><a href="#" class="BTN_submitSmall"> Select Language</a></p></div>
-</div>
-
-<!--BOX!-->
-<div class="box">
-<div class="box-inner">
-<h4>Test Area</h4>
-<p>Play around with the translation interface without doing any harm! :)</p>
-<p><a href="#" class="BTN_submitSmall"> Select Language</a></p></div>
-</div>
-
 <div style ="">
     <ul class="actions" id="domainbox">
-  <@ FOR token_domain IN token_domains.sorted @>
-      <li>
-        <h2><a href="<@ u('Translate','domainindex',token_domain.key) @>"><@ token_domain.name @></a></h2>
-        <@ IF token_domain.description @>
-		  <p><@ token_domain.description @></p>
-        <@ END @>
-        <@ FOREACH token_domain_language IN token_domain.token_domain_languages_locale_sorted @>
-          <div><a href="<@ u('Translate','snippets',token_domain.key,token_domain_language.language.locale) @>" class="flag">
-           <img src="<@ token_domain_language.language.flag_url @>" alt="<@ token_domain_language.language.name_in_english @>">
-		   <@ token_domain_language.language.name_in_english @> [<@ token_domain_language.language.locale @>]
-          </a></div>
-        <@ END @>
-      </li>
-  <@ END @>
+            <@ FOR token_domain IN token_domains.sorted @>
+                <li>
+                    <div class="box box-inner">
+                      <h4><a href="<@ u('Translate','domainindex',token_domain.key) @>"><@ token_domain.name @></a></h4>
+                      <@ IF token_domain.description @>
+                        <p><@ token_domain.description @></p>
+                      <@ END @>
+                      <@ FOREACH token_domain_language IN token_domain.token_domain_languages_locale_sorted @>
+                        <@ IF token_domain_language.is_speakable_by(c.user) @>
+                            <div><a href="<@ u('Translate','snippets',token_domain.key,token_domain_language.language.locale) @>" class="flag">
+                             <img src="<@ token_domain_language.language.flag_url @>" alt="<@ token_domain_language.language.name_in_english @>">
+                             <@ token_domain_language.language.name_in_english @> [<@ token_domain_language.language.locale @>]
+                            </a></div>
+                        <@ END @>
+                      <@ END @>
+                </li>
+                    </div>
+            <@ END @>
     </ul>
   <@ END @>
   </div>

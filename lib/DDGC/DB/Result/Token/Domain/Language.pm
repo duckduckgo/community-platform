@@ -116,6 +116,11 @@ EOF
 	io($js_filename)->append(";\n");
 }
 
+sub is_speakable_by {
+    my ($self, $user) = @_;
+    return $user->can_speak($self->language->locale);
+}
+
 use overload '""' => sub {
 	my $self = shift;
 	return 'Token-Domain-Language for '.$self->token_domain->key.' with locale '.$self->language->locale;

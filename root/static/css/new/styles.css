@@ -208,6 +208,11 @@ select {
 	text-decoration:none;
 }
 
+#header a:hover,a:focus {
+    text-decoration: underline;
+    color:#dfd;
+}
+
 #header form {
 	display:none;
 }

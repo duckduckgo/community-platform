@@ -23,6 +23,7 @@ sub do :Chained('base') :CaptureArgs(0) {
 
 sub index :Chained('do') :Args(0) {
     my ( $self, $c ) = @_;
+    p($_->name) for $c->d->rs('Token::Domain')->search({});
 	$c->stash->{token_domains} = $c->d->rs('Token::Domain')->search({});
 }
 

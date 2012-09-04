@@ -3,11 +3,11 @@
     <@ IF c.user @>
       <a class="profile" href="<@ u('my','account') @>">
         <img src="<@ IF c.user.profile_picture @><@ c.user.profile_picture(48) @><@ ELSE @>/static/images/profile.male.png<@ END @>" width="48" height="48" alt="profile image" style="float:left; margin-right:15px">
-        <strong><@ l(c.user.username) @></a></strong>
+        <strong><@ c.user.username @></a></strong>
         <br/>
-		    <a href="<@ u('My','account') @>"><@ l('Account') @> | <a href="<@ u('My','logout') @>"><@ l('Logout') @></a></a>
+		    <a href="<@ u('My','account') @>"><@ l('Account') @></a> | <a href="<@ u('My','logout') @>"><@ l('Logout') @></a>
     <@ ELSE @>
-      <a href="<@ u('My','login') @>"><@ l('Login') @> | <a href="<@ u('My','register') @>"><@ l('Register') @></a></a>
+      <a href="<@ u('My','login') @>"><@ l('Login') @></a> | <a href="<@ u('My','register') @>"><@ l('Register') @></a>
     <@ END @>
   </div>
 <@ END @>

@@ -162,7 +162,7 @@
                 Your <a href="https://www.gravatar.com">Gravatar</a> email
               </td>
               <td class="account-table_BTNS">
-                <a href="#" id="add_gravatar_email" class="BTN_submitSmall">Change Gravatar email</a>
+                <a href="javascript:" id="add_gravatar_email" class="BTN_submitSmall">Change Gravatar email</a>
               </td>
             </tr>
           <@ END @>
