@@ -14,8 +14,10 @@
   <!-- RIGHT !-->
   <div class="token-filter_right">
   <strong>Show</strong>
-  <input type="radio" name="showUntranslatedTokens" checked=true>Untranslated Tokens
-  <input type="radio" name="showAllTokens">All Tokens
+      <input type="radio" name="only_untranslated"<@ IF only_untranslated @> checked="true"<@ END @> value="1" id="untrans-tokens" onChange="this.form.submit()"></input>
+      <label for="untrans-tokens">Untranslated tokens</label>
+      <input type="radio" name="only_untranslated"<@ IF !only_untranslated @> checked="true"<@ END @> value="0" id="all-tokens" onChange="this.form.submit()"></input>
+      <label for="all-tokens">All tokens</label>
   </div>
 </form>
 </div>
