@@ -1,0 +1,15 @@
+<a href="javascript:;" onclick="document.getElementById('forum_thread_formatting_help').style.display = 'block';" id="forum_thread_formatting">Formatting</a>
+<div id="forum_thread_formatting_help" class="actions" style="display:none;text-align:left">
+    <pre><@ l('You may use BBCode to format your post') @>
+Examples:
+[b]Bold[/b] : <b>Bold</b>
+[i]Italic[/i] : <i>Italic</i>
+[url]https://duckduckgo.com[/url] : <a href="https://duckduckgo.com">https://duckduckgo.com</a>
+[url=https://duckduckgo.com]DuckDuckGo[/url] : <a href="https://duckduckgo.com">DuckDuckGo</a>
+[img]http://duckduckgo.com/assets/logo_homepage.normal.png[/img]
+[code=perl]
+#!/usr/bin/env perl
+print "Hello, World!\n";
+[/code]
+</pre>
+</div>

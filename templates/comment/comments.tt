@@ -3,15 +3,17 @@
   <legend><@ l('Comments') @></legend>
 	<@ IF comments.count @>
 		<@ FOREACH comment IN comments.list @>
-			<@ INCLUDE comment/comment.tt @>
+			<@ INCLUDE comment/comment.tt no_reply=no_reply @>
 		<@ END @>
 	<@ END @>
-	<@ IF c.user @>
-		<div class="comment_add_title"><@ l('Add your comment')@></div>
+	<@ IF c.user && !no_reply @>
+		<div class="comment_add_title"><@ l('Add your comment') @></div>
 		<div class="comment_add"><@ INCLUDE comment/add.tt context=comments.context context_id=comments.context_id @></div>
-</fieldset>
+    <@ ELSIF no_reply @>
+		<@ l('Replying has been disabled.') @>
 	<@ ELSE @>
 		<div class="alert warning"><@ l('You must be logged in to comment') @>. Please, <a href="<@ u('My','login') @>"><@ l('Login') @></a> <@ l('or') @> <a href="<@ u('My','register') @>"><@ l('Register') @></a>.</div>
 </fieldset>
 	<@ END @>
+    </fieldset>
 </div>

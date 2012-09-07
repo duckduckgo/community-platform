@@ -1,6 +1,7 @@
 package DDGC::Comments::Comment;
 
 use Moose;
+use URI::Find::Simple 'change_uris';
 
 has db => (
 	isa => 'DDGC::DB::Result::Comment',
@@ -12,7 +13,6 @@ has db => (
 		users_id
 		context
 		context_id
-		content
 		created
 		updated
 		parent_id
@@ -31,6 +31,12 @@ has children => (
 sub has_children {
 	my ( $self ) = @_;
 	return @{$self->children} ? 1 : 0;
+}
+
+sub content {
+    my $content = shift->db->content;
+    $content =~ s/&/&amp;/g; $content =~ s/>/&gt;/g; $content =~ s/</&lt;/g;
+    $content = change_uris($content, sub { "<a href=\"$_[0]\">$_[0]</a>" } );
 }
 
 has comments_context => (

@@ -1,5 +1,5 @@
 <div class="comment">
-	<p class="comment_content"><@ FILTER truncate(200) @><@ comment.content | html | replace("\n", "<br />") @><@ END @>
+	<p class="comment_content"><@ FILTER truncate(200) @>"<@ comment.content | html | replace("\n", "<br />") @><@ END @>"
 		<@ IF comment.content.length > 200 @>
 			[ <a class="comment_expand_link" href="javascript:;">more</a> ]
                 <span class="comment_expanded_content" style="display:none;">
@@ -9,9 +9,13 @@
 	</p>
 	<div class="comment_user"><@ INCLUDE user/username16.tt user=comment.user @></div>
 	<div class="comment_info"> at <@ comment.created @><@ #date.format(comment.created,"%D %T") @>
-                <@ IF !no_reply @><a href="javascript:;" class="comment_reply_link BTN_submitall" style="float:right"><@ l('Reply') @> </a><@ END @>
+<<<<<<< HEAD
+                <a href="javascript:;" class="comment_reply_link BTN_submitSmall" style="float:right"><@ l('Reply') @> </a>
+=======
+                <@ IF !no_reply @><a href="javascript:;" class="comment_reply_link" ><@ l('Reply') @> </a><@ END @>
                 <a href="javascript:;" class="comment_reply_cancel_link" ><@ l('Cancel') @> </a>
                 <@ IF comment.users_id != 0 && (c.user.id == comment.users_id || c.user.admin) @>&nbsp;<a href="<@ u('Comment','delete',comment.id) @>"><@ l('Delete') @></a> <@ END @>
+>>>>>>> forum
         </div>
         <div class="clear"></div>
 	<@ IF c.user && !no_reply @>

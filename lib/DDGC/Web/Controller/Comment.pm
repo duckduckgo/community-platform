@@ -23,8 +23,22 @@ sub latest :Chained('do') :Args(0) {
 	$c->add_bc('Latest comments', $c->chained_uri('Comment','latest'));
 }
 
+sub delete : Chained('do') Args(1) {
+    my ( $self, $c, $id ) = @_;
+    my $comment = $c->d->rs('Comment')->single({ id => $id });
+    return unless $comment;
+    return unless $c->user && ($c->user->admin || $c->user->id == $comment->user->id);
+    $comment->content('This comment has been deleted.');
+    $comment->users_id(0);
+    $comment->update;
+    
+    my $redirect = $c->req->headers->referrer || '/';
+    $c->response->redirect($redirect);
+}
+
 sub add :Chained('base') :Args(2) {
     my ( $self, $c, $context, $context_id ) = @_;
+    return unless $c->user || ! $c->stash->{no_reply};
 	if ($c->req->params->{content}) {
 		$c->d->add_comment($context, $context_id, $c->user, $c->req->params->{content});
 	}

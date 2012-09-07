@@ -1,5 +1,5 @@
 <@ IF user @>
-	<!--<@ INCLUDE user/userpic.tt userpic_size=32 @>!-->
+	<@ INCLUDE user/userpic.tt userpic_size=32 @>
 	<@ IF user.admin @><span style="color:green"><@ END @>
 	<@ IF c.user && c.user.admin @>
 		<@ user.username @>

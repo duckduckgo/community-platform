@@ -9,6 +9,7 @@ use DDGC::DuckPAN;
 use DDGC::XMPP;
 use DDGC::Comments;
 use DDGC::Blog;
+use DDGC::Forum;
 use File::Copy;
 use IO::All;
 use File::Spec;
@@ -76,6 +77,16 @@ has blog => (
 sub _build_blog {
 	my ( $self ) = @_;
 	DDGC::Blog->new( datadir => $self->config->blog_datadir );
+}
+
+has forum => (
+    isa => 'DDGC::Forum',
+    is => 'ro',
+    lazy_build => 1,
+);
+sub _build_forum {
+    my ( $self ) = @_;
+    DDGC::Forum->new(ddgc=>$self);
 }
 
 sub resultset { shift->db->resultset(@_) }

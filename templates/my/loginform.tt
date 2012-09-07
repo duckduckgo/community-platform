@@ -11,14 +11,14 @@
   </div>
   <div>
      <div class="form_column">
-	 <div style="float:right"><a href="<@ u('My','forgotpw') @>"><@ l('Forgot your password?') @></a>
-</div>
-	 <label for="password" class="form_input-label"><@ l('Password') @></label>
-    <input type="password" id="password" name="password" value="" class="form-input"></div>
+         <label for="password" class="form_input-label"><@ l('Password') @></label>
+         <input type="password" id="password" name="password" value="" class="form-input"></input>
+         <div style="float:left"><a href="<@ u('My','forgotpw') @>"><@ l('Forgot your password?') @></a></div>
+     </div>
   </div>
   <label for="" class="form_input-label">&nbsp;</label>
   <div class="form_column">
-    <input type="submit" value="<@ l('Login') @>" class="BTN_submit" onclick="return validateFormLogin();">
+    <input type="submit" value="<@ l('Log in') @>" class="BTN_submit" onclick="return validateFormLogin();">
   </div>
   <br><br><br>
   <div id="invalidLoginForm" class="form_invalid"> * Please enter a username and password</div>

@@ -1,0 +1,64 @@
+input[type="text"],input[type="password"] {
+    width: 100%;
+    height: 1.5em;
+    padding: 4px;
+    border: thin solid gray;
+    border-radius: 4px;
+    font-size: large;
+    display: block;
+}
+textarea {
+    width: 100%;
+    display: block;
+    padding: 4px;
+    border: thin solid gray;
+    border-radius: 4px;
+    font-size: large;
+}
+input#forum-search:focus {
+    border-color: lightblue;
+}
+div#forum-thread * {
+    vertical-align: top;
+}
+
+/* BBCode styles */
+.bbcode_code_header {
+    font-size: small;
+    background-color: #DDD;
+}
+.bbcode_code_body {
+    font: small 'Droid Sans Mono','DejaVu Sans Mono',monospace;
+    margin-top: 0px;
+    padding-left: 1em;
+    background-color: #DDD;
+    color: #000;
+    overflow-x: auto;
+}
+.bbcode_quote_header {
+    font-size: small;
+    background-color: #DDD;
+}
+.bbcode_quote_body {
+    margin-top: 0px;
+    padding-left: 1em;
+}
+
+/* [code] syntax highlighting */
+span.synComment { color: #444; }
+span.synConstant { color: #444; }
+span.synIdentifier { color: green; }
+span.synStatement { color: darkred; }
+span.synPreProc { color: #444; }
+span.synType { color: darkblue; }
+span.synSpecial { color: #55f;  }
+span.synUnderlined { color: fuchsia; text-decoration: underline; }
+span.synError { background-color: red; color: #000; font-weight: bold; }
+span.synTodo { background-color: yellow; color: black; }
+span.Linenum { color: yellow; }
+
+/* Other forum things */
+span#thread-body img, div.thread-body img {
+    max-width: 200px;
+    max-height: 200px;
+}

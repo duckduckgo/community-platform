@@ -33,10 +33,10 @@
 	margin-bottom:10px;
 	outline:0 none;
 	text-indent:15px;
-	width:258px;
+	width:258px!important;
 }
 
-.form-textarea {
+textarea {
 	border:1px solid #A6A6A6;
 	-moz-border-radius:4px;
 	border-radius:4px;
@@ -46,12 +46,11 @@
 	color:#999;
 	font-family:segoe UI, Helvetica Neue, Helvetica;
 	font-size:15px;
-	height:150px;
 	margin-bottom:10px;
 	outline:0 none;
 	padding-top:10px;
 	text-indent:15px;
-	width:525px;
+	width:100%;
 }
 
 .form-input:focus {
