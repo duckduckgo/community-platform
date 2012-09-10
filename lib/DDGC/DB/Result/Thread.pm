@@ -1,6 +1,9 @@
 package DDGC::DB::Result::Thread;
 # ABSTRACT: Dukgo.com Forum thread
 
+use DBIx::Class::Candy -components => [ 'TimeStamp', 'InflateColumn::DateTime', 'InflateColumn::Serializer', 'EncodedColumn' ]; #, 'Indexed'
+#__PACKAGE__->set_indexer( 'WebService::Dezi',  { server => 'http://localhost:5000', content_type => 'application/json' } );
+
 use Parse::BBCode;
 use Moose;
 use DateTime::Format::Human::Duration;
@@ -56,11 +59,7 @@ my $_bbcode = Parse::BBCode->new({
         },
 });
 
-use DBIx::Class::Candy -components => [ 'TimeStamp', 'InflateColumn::DateTime', 'InflateColumn::Serializer', 'EncodedColumn', 'Indexed' ];
-__PACKAGE__->set_indexer( 'WebService::Dezi',  { server => 'http://localhost:5000', content_type => 'application/json' } );
-
-
-table 'post';
+table 'thread';
 
 column id => {
 	data_type => 'bigint',
