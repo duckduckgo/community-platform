@@ -120,6 +120,19 @@ has categories => (
     lazy_build => 1, 
 );
 
+has dezi_enabled => (
+    is => 'ro',
+    default => sub { shift->result_source->schema->ddgc->config->dezi_enabled },
+);
+
+around new => sub {
+    my $new = shift;
+    my $obj = $new->(@_);
+    __PACKAGE__->load_components('Indexed');
+    __PACKAGE__->set_indexer( 'WebService::Dezi',  { server => 'http://localhost:5000', content_type => 'application/json', disabled => $self->dezi_enabled } );
+    return $obj;
+};
+
 sub _build_categories {
         {  
           1 => "discussion",
