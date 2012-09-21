@@ -107,7 +107,6 @@ sub cachedir {
 }
 
 sub dezi_enabled {
-    use DDP;p($ENV{DDGC_DEZI_ENABLED});
     defined $ENV{DDGC_DEZI_ENABLED} ? $ENV{DDGC_DEZI_ENABLED} : 0;
 }
 

@@ -6,7 +6,6 @@ use DDGC::Comments::Comment;
 use JSON;
 use LWP::Simple;
 use URL::Encode 'url_encode_utf8';
-use DDP;
 
 has ddgc => (
 	isa => 'DDGC',
