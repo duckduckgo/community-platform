@@ -129,7 +129,7 @@ around new => sub {
     my $new = shift;
     my $obj = $new->(@_);
     __PACKAGE__->load_components('Indexed');
-    __PACKAGE__->set_indexer( 'WebService::Dezi',  { server => 'http://localhost:5000', content_type => 'application/json', disabled => $self->dezi_enabled } );
+    __PACKAGE__->set_indexer( 'WebService::Dezi',  { server => 'http://localhost:5000', content_type => 'application/json', disabled => $obj->dezi_enabled } );
     return $obj;
 };
 
