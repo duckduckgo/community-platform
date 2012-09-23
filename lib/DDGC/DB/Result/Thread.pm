@@ -1,8 +1,8 @@
 package DDGC::DB::Result::Thread;
 # ABSTRACT: Dukgo.com Forum thread
 
-use DBIx::Class::Candy -components => [ 'TimeStamp', 'InflateColumn::DateTime', 'InflateColumn::Serializer', 'EncodedColumn' ]; #, 'Indexed'
-#__PACKAGE__->set_indexer( 'WebService::Dezi',  { server => 'http://localhost:5000', content_type => 'application/json' } );
+use DBIx::Class::Candy -components => [ 'TimeStamp', 'InflateColumn::DateTime', 'InflateColumn::Serializer', 'EncodedColumn', 'Indexed' ];
+__PACKAGE__->set_indexer( 'WebService::Dezi',  { server => 'http://localhost:5000', content_type => 'application/json', disabled => 1 } );
 
 use Parse::BBCode;
 use Moose;
@@ -119,19 +119,6 @@ has categories => (
     auto_deref => 1, 
     lazy_build => 1, 
 );
-
-has dezi_enabled => (
-    is => 'ro',
-    default => sub { shift->result_source->schema->ddgc->config->dezi_enabled },
-);
-
-around new => sub {
-    my $new = shift;
-    my $obj = $new->(@_);
-    __PACKAGE__->load_components('Indexed');
-    __PACKAGE__->set_indexer( 'WebService::Dezi',  { server => 'http://localhost:5000', content_type => 'application/json', disabled => $obj->dezi_enabled } );
-    return $obj;
-};
 
 sub _build_categories {
         {  
