@@ -252,3 +252,7 @@ select {
 	float:left;
 	margin-left:10px
 }
+
+#domainbox li {
+    list-style: none;
+}
