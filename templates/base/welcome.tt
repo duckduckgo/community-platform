@@ -16,7 +16,7 @@
 <div class="box-inner">
 
   <ul>
-    <li><strong>Things you can do: </strong><a href="<@ u('My','register') @>">Translate DuckDuckGo</a> -<a href="https://duck.co/topic/duckduckgo-s-new-public-xmpp-jabber-service-on-dukgo-com">Chat via XMPP/Jabber</a> - <a href="https://github.com/duckduckgo/community-platform">Develop this site</a> - <a href="https://github.com/duckduckgo/duckduckgo/wiki">Develop goodies</a> - <a href="https://duckduckgo.com/spread.html">Spread DuckDuckGo!</a> - <a href="<@ u('Base','feedback') @>">Submit feedback</a></li>
+    <li><strong>Things you can do: </strong><a href="<@ u('My','register') @>">Translate DuckDuckGo</a> - <a href="<@ u('Forum','index') @>">Join our Forums</a> - <a href="<@ u('Blog','index') @>">Browse our Blog</a> - <a href="https://duck.co/topic/duckduckgo-s-new-public-xmpp-jabber-service-on-dukgo-com">Chat via XMPP/Jabber</a> - <a href="https://github.com/duckduckgo/community-platform">Develop this site</a> - <a href="https://github.com/duckduckgo/duckduckgo/wiki">Develop goodies</a> - <a href="https://duckduckgo.com/spread.html">Spread DuckDuckGo!</a> - <a href="<@ u('Base','feedback') @>">Submit feedback</a></li>
 
     <li><strong>DuckDuckGo Sites: </strong><a href="https://duckduckgo.com/">Homepage</a> - <a href="http://donttrack.us/">DontTrack.us</a> - <a href="http://dontbubble.us/">DontBubble.us</a> - <a href="http://help.duckduckgo.com/">Help</a> - <a href="https://duck.co/">Forum</a> - <a href="http://cafepress.com/duckduckgo">Store</a> - <a href="http://www.stickermule.com/duckduckgo">Sticker Store</a></li>
 	
