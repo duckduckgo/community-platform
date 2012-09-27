@@ -1,5 +1,5 @@
 <div class="comment">
-	<p class="comment_content"><@ FILTER truncate(200) @><@ comment.content | html | replace("\n", "<br />") @><@ END @>
+	<p class="comment_content"><@ FILTER truncate(200) @><@ comment.content @><@ END @>
 		<@ IF comment.content.length > 200 @>
 			[ <a class="comment_expand_link" href="javascript:;">more</a> ]
                 <span class="comment_expanded_content" style="display:none;">
