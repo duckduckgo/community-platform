@@ -131,7 +131,8 @@ sub _build_categories {
 }
 
 sub _category {
-    shift->categories->{$_[1]};
+    my ( $self, $category ) = @_;
+    $self->categories->{$category};
 }
 
 sub started_term {
