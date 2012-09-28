@@ -120,6 +120,13 @@ has categories => (
     lazy_build => 1, 
 );
 
+sub _humanify {
+    my ( undef, $time ) = @_;
+    my $span = DateTime::Format::Human::Duration->new();
+    my $result = $span->format_duration(DateTime->now - $time);
+    return (split /,/, $result)[0];
+}
+
 sub _build_categories {
         {  
           1 => "discussion",
@@ -228,17 +235,13 @@ sub category_key {
 }
 
 sub updated_human {
-    my $span = DateTime::Format::Human::Duration->new();
-    my $now = DateTime->now;
-    my $delta = $now - shift->updated;
-    $span->format_duration($delta);
+    my $self = shift;
+    $self->_humanify($self->updated);
 }
 
 sub created_human {
-    my $span = DateTime::Format::Human::Duration->new();
-    my $now = DateTime->now;
-    my $delta = $now - shift->created;
-    $span->format_duration($delta);
+    my $self = shift;
+    $self->_humanify($self->created);
 }
 
 
