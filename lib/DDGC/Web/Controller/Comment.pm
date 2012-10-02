@@ -29,7 +29,7 @@ sub delete : Chained('do') Args(1) {
     return unless $comment;
     return unless $c->user && ($c->user->admin || $c->user->id == $comment->user->id);
     $comment->content('This comment has been deleted.');
-    $comment->users_id(0);
+    $comment->users_id(undef);
     $comment->update;
     
     my $redirect = $c->req->headers->referrer || '/';

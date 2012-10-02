@@ -75,3 +75,7 @@ textarea {
     display: none;
 }
 
+
+.comment_reply_cancel_link {
+    display: none;
+}

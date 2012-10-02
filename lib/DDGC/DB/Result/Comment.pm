@@ -12,7 +12,7 @@ primary_key 'id';
 
 column users_id => {
 	data_type => 'bigint',
-	is_nullable => 0,
+	is_nullable => 1,
 };
 
 column context => {
@@ -46,7 +46,7 @@ column parent_id => {
 	is_nullable => 1,
 };
 
-belongs_to 'user', 'DDGC::DB::Result::User', 'users_id';
+belongs_to 'user', 'DDGC::DB::Result::User', 'users_id', { join_type => 'left' };
 belongs_to 'parent', 'DDGC::DB::Result::Comment', 'parent_id', { join_type => 'left' };
 has_many 'children', 'DDGC::DB::Result::Comment', 'parent_id';
 
