@@ -146,27 +146,27 @@ use strict;
 use warnings;
 use utf8;
 
-=method version
+\=method version
 
 Gives back the version of this translation package. Strftime form: %Y%m%d.%H%M%S
 
-=cut
+\=cut
 
 sub version { '$version' }
 
-=method token_count
+\=method token_count
 
 Amount of token in the specific given domain.
 
-=cut
+\=cut
 
 sub token_count { $tokencount }
 
-=method locales
+\=method locales
 
 Information about the included locales
 
-=cut
+\=cut
 
 sub locales {
 
