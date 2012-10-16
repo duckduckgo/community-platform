@@ -154,12 +154,13 @@ sub save_translate_params {
 			$k{$1}->{'msgstr'.$2} = $c->req->params->{$_} ;
 		}
 		if ($c->user->translation_manager) {
-			if ($_ =~ m/token_notes_(\d+)_edit'/) {
+			if ($_ =~ m/token_notes_(\d+)_edit/) {
+				use DDP; p($c->req->params->{$_});
 				my $token = $c->d->rs('Token')->find($1);
 				$token->notes($c->req->params->{$_});
 				$token->update;
 			}
-			if ($_ =~ m/token_language_notes_(\d+)_edit'/) {
+			if ($_ =~ m/token_language_notes_(\d+)_edit/) {
 				my $token_language = $c->d->rs('Token::Language')->find($1);
 				$token_language->notes($c->req->params->{$_});
 				$token_language->update;
