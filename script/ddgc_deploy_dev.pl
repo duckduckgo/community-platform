@@ -2,8 +2,6 @@
 
 $|=1;
 
-use utf8::all;
-
 use FindBin;
 use lib $FindBin::Dir . "/../lib"; 
 

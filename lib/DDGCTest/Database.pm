@@ -7,7 +7,7 @@ package DDGCTest::Database;
 use Moose;
 use DDGC::DB;
 use Try::Tiny;
-use utf8::all;
+use utf8;
 use File::ShareDir::ProjectDistDir;
 use Data::Printer;
 
