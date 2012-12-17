@@ -1,0 +1,609 @@
+<mockup version="1.0" skin="sketch" fontFace="Balsamiq Sans" measuredW="1793" measuredH="1024" mockupW="1793" mockupH="1024">
+  <controls>
+    <control controlID="4" controlTypeID="com.balsamiq.mockups::BrowserWindow" x="0" y="0" w="1280" h="1024" measuredW="450" measuredH="400" zOrder="0" locked="true" isInGroup="-1">
+      <controlProperties>
+        <text>DuckDuckGo%20Community%20-%20Translations%0Ahttp%3A//dukgo.com/translate/</text>
+      </controlProperties>
+    </control>
+    <control controlID="5" controlTypeID="com.balsamiq.mockups::LinkBar" x="15" y="978" w="-1" h="-1" measuredW="183" measuredH="21" zOrder="1" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Home%2C%20Privacy%2C%20Feedback</text>
+      </controlProperties>
+    </control>
+    <control controlID="12" controlTypeID="com.balsamiq.mockups::BreadCrumbs" x="20" y="149" w="-1" h="-1" measuredW="393" measuredH="24" zOrder="3" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Translation%20Interface%2C%20Package%20name%2C%20%3CLanguage%3E%20in%20%3CLocale%3E</text>
+      </controlProperties>
+    </control>
+    <control controlID="23" controlTypeID="__group__" x="0" y="75" w="1271" h="59" measuredW="1271" measuredH="59" zOrder="2" locked="true" isInGroup="-1">
+      <groupChildrenDescriptors>
+        <control controlID="0" controlTypeID="com.balsamiq.mockups::HRule" x="0" y="49" w="1271" h="-1" measuredW="100" measuredH="10" zOrder="0" locked="false" isInGroup="23"/>
+        <control controlID="1" controlTypeID="com.balsamiq.mockups::IconLabel" x="19" y="0" w="303" h="-1" measuredW="244" measuredH="48" zOrder="1" locked="false" isInGroup="23">
+          <controlProperties>
+            <labelPosition>right</labelPosition>
+            <text>DuckDuckGo%20Community%20Platform</text>
+          </controlProperties>
+        </control>
+        <control controlID="2" controlTypeID="com.balsamiq.mockups::IconLabel" x="1098" y="0" w="154" h="-1" measuredW="118" measuredH="48" zOrder="2" locked="false" isInGroup="23">
+          <controlProperties>
+            <icon>EmoticonIcon%7Clarge</icon>
+            <labelPosition>right</labelPosition>
+            <text>User%20name</text>
+          </controlProperties>
+        </control>
+      </groupChildrenDescriptors>
+    </control>
+    <control controlID="37" controlTypeID="__group__" x="1231" y="83" w="436" h="157" measuredW="436" measuredH="157" zOrder="27" locked="false" isInGroup="-1">
+      <controlProperties>
+        <markup>true</markup>
+      </controlProperties>
+      <groupChildrenDescriptors>
+        <control controlID="0" controlTypeID="com.balsamiq.mockups::TextArea" x="188" y="0" w="248" h="157" measuredW="200" measuredH="140" zOrder="0" locked="false" isInGroup="37">
+          <controlProperties>
+            <markup>true</markup>
+            <text>Searches%20both%20original%20%26%20translated%20strings%20by%20default.%20Should%20not%20be%20changeable%20as%20it%20will%20force%20translators%20to%20make%20their%20translations%20consistent.%0A%20%0AMust%20appear%20prevalent%20in%20the%20box%20%28or%20wherever%20it%20is%29%2C%20hence%20why%20I%20put%20it%20on%20a%20separate%20level%2C%20though%20feel%20free%20to%20lay%20it%20out%20as%20you%20wish.</text>
+            <verticalScrollbar>false</verticalScrollbar>
+          </controlProperties>
+        </control>
+        <control controlID="1" controlTypeID="com.balsamiq.mockups::Arrow" x="0" y="124" w="179" h="18" measuredW="150" measuredH="100" zOrder="1" locked="false" isInGroup="37">
+          <controlProperties>
+            <curvature>-1</curvature>
+            <direction>top</direction>
+            <text>search%20box</text>
+          </controlProperties>
+        </control>
+      </groupChildrenDescriptors>
+    </control>
+    <control controlID="41" controlTypeID="com.balsamiq.mockups::VRule" x="635" y="270" w="-1" h="597" measuredW="10" measuredH="100" zOrder="4" locked="false" isInGroup="-1"/>
+    <control controlID="44" controlTypeID="com.balsamiq.mockups::TextArea" x="35" y="316" w="600" h="27" measuredW="200" measuredH="140" zOrder="7" locked="false" isInGroup="-1">
+      <controlProperties>
+        <align>left</align>
+        <backgroundAlpha>1</backgroundAlpha>
+        <borderColor>3355443</borderColor>
+        <color>15658734</color>
+        <text>Translate%20me%21</text>
+      </controlProperties>
+    </control>
+    <control controlID="45" controlTypeID="com.balsamiq.mockups::TextArea" x="643" y="316" w="600" h="27" measuredW="200" measuredH="140" zOrder="8" locked="false" isInGroup="-1">
+      <controlProperties>
+        <borderColor>11982760</borderColor>
+        <color>15658734</color>
+        <text>Lorem%20ipsum.</text>
+      </controlProperties>
+    </control>
+    <control controlID="47" controlTypeID="com.balsamiq.mockups::TextArea" x="35" y="353" w="600" h="45" measuredW="200" measuredH="140" zOrder="9" locked="false" isInGroup="-1">
+      <controlProperties>
+        <align>left</align>
+        <text>Translate%20me%20too%21%0AI%27m%20a%20two-line%20token%2C%20don%27t%20be%20scared%20kids%21</text>
+      </controlProperties>
+    </control>
+    <control controlID="48" controlTypeID="com.balsamiq.mockups::TextArea" x="643" y="353" w="600" h="45" measuredW="200" measuredH="140" zOrder="10" locked="false" isInGroup="-1">
+      <controlProperties>
+        <align>left</align>
+        <borderColor>11982760</borderColor>
+        <text>%5Cn%0AThis%20box%20should%20automatically%20be%20larger%20to%20accomodate%20the%20box%20on%20the%20left.</text>
+      </controlProperties>
+    </control>
+    <control controlID="50" controlTypeID="com.balsamiq.mockups::TextArea" x="645" y="268" w="598" h="39" measuredW="200" measuredH="140" zOrder="11" locked="false" isInGroup="-1">
+      <controlProperties>
+        <bold>true</bold>
+        <size>20</size>
+        <text>Translations</text>
+      </controlProperties>
+    </control>
+    <control controlID="51" controlTypeID="com.balsamiq.mockups::TextArea" x="35" y="268" w="598" h="39" measuredW="200" measuredH="140" zOrder="12" locked="false" isInGroup="-1">
+      <controlProperties>
+        <bold>true</bold>
+        <size>20</size>
+        <text>Originals</text>
+      </controlProperties>
+    </control>
+    <control controlID="57" controlTypeID="com.balsamiq.mockups::TextArea" x="643" y="408" w="600" h="27" measuredW="200" measuredH="140" zOrder="13" locked="false" isInGroup="-1">
+      <controlProperties>
+        <borderColor>11982760</borderColor>
+        <color>15658734</color>
+        <text>Shading%20should%20alternate%20from%20token%20to%20token.%20The%20two%20sides%20should%20have%20slightly%20different%20shading.</text>
+      </controlProperties>
+    </control>
+    <control controlID="60" controlTypeID="__group__" x="1271" y="293" w="402" h="57" measuredW="402" measuredH="57" zOrder="14" locked="false" isInGroup="-1">
+      <controlProperties>
+        <markup>true</markup>
+      </controlProperties>
+      <groupChildrenDescriptors>
+        <control controlID="0" controlTypeID="com.balsamiq.mockups::Arrow" x="0" y="29" w="195" h="18" measuredW="150" measuredH="100" zOrder="0" locked="false" isInGroup="60">
+          <controlProperties>
+            <curvature>-1</curvature>
+            <text>boundary%20colour</text>
+          </controlProperties>
+        </control>
+        <control controlID="1" controlTypeID="com.balsamiq.mockups::TextArea" x="202" y="0" w="200" h="57" measuredW="200" measuredH="140" zOrder="1" locked="false" isInGroup="60">
+          <controlProperties>
+            <markup>true</markup>
+            <text>This%20token%20has%20been%20translated%2C%20hence%20the%20border%20is%20green%2C%20to%20reflect%20success.</text>
+          </controlProperties>
+        </control>
+      </groupChildrenDescriptors>
+    </control>
+    <control controlID="61" controlTypeID="com.balsamiq.mockups::TextArea" x="35" y="408" w="600" h="27" measuredW="200" measuredH="140" zOrder="15" locked="false" isInGroup="-1">
+      <controlProperties>
+        <align>left</align>
+        <backgroundAlpha>1</backgroundAlpha>
+        <borderColor>3355443</borderColor>
+        <color>15658734</color>
+        <text>Me%20three%21</text>
+      </controlProperties>
+    </control>
+    <control controlID="62" controlTypeID="com.balsamiq.mockups::StickyNote" x="104" y="222" w="126" h="107" measuredW="109" measuredH="123" zOrder="61" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>A%20comma-separated%20list%20of%20pages%20would%20also%20be%20acceptable.</text>
+      </controlProperties>
+    </control>
+    <control controlID="63" controlTypeID="com.balsamiq.mockups::StickyNote" x="454" y="268" w="218" h="106" measuredW="109" measuredH="123" zOrder="16" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>This%20is%20meant%20to%20be%20a%20table.%20See%20Transifex%27s%20translation%20interface%20for%20inspiration%2C%20though%20ensure%20the%20DDG%20house%20style%20is%20retained.</text>
+      </controlProperties>
+    </control>
+    <control controlID="64" controlTypeID="com.balsamiq.mockups::Button" x="1047" y="708" w="188" h="27" measuredW="116" measuredH="27" zOrder="20" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Save%20translation</text>
+      </controlProperties>
+    </control>
+    <control controlID="65" controlTypeID="com.balsamiq.mockups::TextArea" x="643" y="444" w="600" h="51" measuredW="200" measuredH="140" zOrder="19" locked="false" isInGroup="-1">
+      <controlProperties>
+        <align>left</align>
+        <bold>true</bold>
+        <borderColor>9684093</borderColor>
+        <text>Currently%20used%20translation%3A</text>
+      </controlProperties>
+    </control>
+    <control controlID="66" controlTypeID="com.balsamiq.mockups::TextArea" x="35" y="444" w="600" h="350" measuredW="200" measuredH="140" zOrder="17" locked="false" isInGroup="-1">
+      <controlProperties>
+        <align>left</align>
+        <text>Hey%2C%20don%27t%20forget%20about%20me%21</text>
+      </controlProperties>
+    </control>
+    <control controlID="67" controlTypeID="com.balsamiq.mockups::Canvas" x="643" y="444" w="600" h="350" measuredW="100" measuredH="70" zOrder="18" locked="false" isInGroup="-1"/>
+    <control controlID="69" controlTypeID="com.balsamiq.mockups::StickyNote" x="1150" y="722" w="129" h="112" measuredW="109" measuredH="123" zOrder="60" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Could%20also%20be%20%22add%20translation%20to%20list%22%20or%20something%20along%20those%20lines.</text>
+      </controlProperties>
+    </control>
+    <control controlID="74" controlTypeID="com.balsamiq.mockups::TextInput" x="667" y="708" w="366" h="-1" measuredW="79" measuredH="27" zOrder="21" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text/>
+      </controlProperties>
+    </control>
+    <control controlID="76" controlTypeID="com.balsamiq.mockups::Icon" x="1219" y="367" w="-1" h="-1" measuredW="16" measuredH="16" zOrder="22" locked="false" isInGroup="-1">
+      <controlProperties>
+        <icon>DownFillTriangleIcon%7Cxsmall</icon>
+      </controlProperties>
+    </control>
+    <control controlID="77" controlTypeID="com.balsamiq.mockups::Icon" x="1219" y="321" w="-1" h="-1" measuredW="16" measuredH="16" zOrder="23" locked="false" isInGroup="-1">
+      <controlProperties>
+        <icon>DownFillTriangleIcon%7Cxsmall</icon>
+      </controlProperties>
+    </control>
+    <control controlID="78" controlTypeID="com.balsamiq.mockups::Icon" x="1219" y="413" w="-1" h="-1" measuredW="16" measuredH="16" zOrder="24" locked="false" isInGroup="-1">
+      <controlProperties>
+        <icon>DownFillTriangleIcon%7Cxsmall</icon>
+      </controlProperties>
+    </control>
+    <control controlID="80" controlTypeID="com.balsamiq.mockups::Icon" x="1219" y="458" w="-1" h="-1" measuredW="16" measuredH="16" zOrder="25" locked="false" isInGroup="-1">
+      <controlProperties>
+        <icon>UpFillTriangleIcon%7Cxsmall</icon>
+      </controlProperties>
+    </control>
+    <control controlID="87" controlTypeID="com.balsamiq.mockups::StickyNote" x="293" y="908" w="100" h="106" measuredW="109" measuredH="123" zOrder="26" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>10%2C%20the%20current%20default%2C%20is%20far%20too%20small.</text>
+      </controlProperties>
+    </control>
+    <control controlID="92" controlTypeID="__group__" x="54" y="872" w="1173" h="66" measuredW="1173" measuredH="66" zOrder="5" locked="false" isInGroup="-1">
+      <groupChildrenDescriptors>
+        <control controlID="0" controlTypeID="com.balsamiq.mockups::Canvas" x="0" y="0" w="1173" h="66" measuredW="100" measuredH="70" zOrder="0" locked="false" isInGroup="92"/>
+        <control controlID="1" controlTypeID="com.balsamiq.mockups::SearchBox" x="914" y="8" w="237" h="-1" measuredW="120" measuredH="25" zOrder="1" locked="false" isInGroup="92">
+          <controlProperties>
+            <text>Search%20tokens</text>
+          </controlProperties>
+        </control>
+        <control controlID="2" controlTypeID="__group__" x="13" y="22" w="286" h="23" measuredW="286" measuredH="23" zOrder="2" locked="false" isInGroup="92">
+          <groupChildrenDescriptors>
+            <control controlID="0" controlTypeID="com.balsamiq.mockups::Label" x="0" y="1" w="53" h="21" measuredW="35" measuredH="21" zOrder="0" locked="false" isInGroup="2">
+              <controlProperties>
+                <text>Page</text>
+              </controlProperties>
+            </control>
+            <control controlID="1" controlTypeID="com.balsamiq.mockups::ComboBox" x="38" y="0" w="58" h="-1" measuredW="39" measuredH="23" zOrder="1" locked="false" isInGroup="2">
+              <controlProperties>
+                <text>1</text>
+              </controlProperties>
+            </control>
+            <control controlID="2" controlTypeID="com.balsamiq.mockups::ComboBox" x="226" y="0" w="60" h="-1" measuredW="48" measuredH="23" zOrder="2" locked="false" isInGroup="2">
+              <controlProperties>
+                <text>20</text>
+              </controlProperties>
+            </control>
+            <control controlID="3" controlTypeID="com.balsamiq.mockups::Label" x="110" y="1" w="109" h="21" measuredW="104" measuredH="21" zOrder="3" locked="false" isInGroup="2">
+              <controlProperties>
+                <text>Tokens%20per%20page</text>
+              </controlProperties>
+            </control>
+          </groupChildrenDescriptors>
+        </control>
+        <control controlID="3" controlTypeID="__group__" x="841" y="36" w="306" h="27" measuredW="306" measuredH="27" zOrder="3" locked="false" isInGroup="92">
+          <groupChildrenDescriptors>
+            <control controlID="0" controlTypeID="com.balsamiq.mockups::Label" x="0" y="3" w="50" h="21" measuredW="48" measuredH="21" zOrder="0" locked="false" isInGroup="3">
+              <controlProperties>
+                <bold>true</bold>
+                <text>Display</text>
+              </controlProperties>
+            </control>
+            <control controlID="1" controlTypeID="com.balsamiq.mockups::Button" x="74" y="0" w="-1" h="-1" measuredW="79" measuredH="27" zOrder="1" locked="false" isInGroup="3">
+              <controlProperties>
+                <color>14540253</color>
+                <text>All%20tokens</text>
+              </controlProperties>
+            </control>
+            <control controlID="2" controlTypeID="com.balsamiq.mockups::Button" x="168" y="0" w="-1" h="-1" measuredW="138" measuredH="27" zOrder="2" locked="false" isInGroup="3">
+              <controlProperties>
+                <text>Untranslated%20tokens</text>
+              </controlProperties>
+            </control>
+          </groupChildrenDescriptors>
+        </control>
+      </groupChildrenDescriptors>
+    </control>
+    <control controlID="94" controlTypeID="com.balsamiq.mockups::Icon" x="1173" y="547" w="-1" h="-1" measuredW="32" measuredH="32" zOrder="42" locked="false" isInGroup="-1">
+      <controlProperties>
+        <color>40463</color>
+        <icon>ThumbsUpIcon%7Cmedium</icon>
+      </controlProperties>
+    </control>
+    <control controlID="95" controlTypeID="com.balsamiq.mockups::Label" x="1150" y="554" w="21" h="23" measuredW="17" measuredH="26" zOrder="43" locked="false" isInGroup="-1">
+      <controlProperties>
+        <size>18</size>
+        <text>2</text>
+      </controlProperties>
+    </control>
+    <control controlID="102" controlTypeID="__group__" x="678" y="658" w="530" h="36" measuredW="530" measuredH="36" zOrder="28" locked="false" isInGroup="-1">
+      <groupChildrenDescriptors>
+        <control controlID="0" controlTypeID="com.balsamiq.mockups::Canvas" x="0" y="0" w="530" h="36" measuredW="100" measuredH="70" zOrder="0" locked="false" isInGroup="102">
+          <controlProperties>
+            <borderColor>15110456</borderColor>
+            <borderStyle>square</borderStyle>
+            <color>16767334</color>
+          </controlProperties>
+        </control>
+        <control controlID="1" controlTypeID="com.balsamiq.mockups::Label" x="37" y="8" w="486" h="20" measuredW="484" measuredH="18" zOrder="1" locked="false" isInGroup="102">
+          <controlProperties>
+            <size>11</size>
+            <text>Someone%20has%20already%20translated%20this%20token.%20Only%20translate%20it%20if%20you%20think%20your%20translation%20fits%20better.</text>
+          </controlProperties>
+        </control>
+        <control controlID="2" controlTypeID="com.balsamiq.mockups::Icon" x="4" y="6" w="-1" h="-1" measuredW="24" measuredH="24" zOrder="2" locked="false" isInGroup="102">
+          <controlProperties>
+            <color>7880452</color>
+            <icon>AlertIcon%7Csmall</icon>
+          </controlProperties>
+        </control>
+      </groupChildrenDescriptors>
+    </control>
+    <control controlID="105" controlTypeID="__group__" x="1224" y="510" w="361" h="74" measuredW="361" measuredH="74" zOrder="44" locked="false" isInGroup="-1">
+      <controlProperties>
+        <markup>true</markup>
+      </controlProperties>
+      <groupChildrenDescriptors>
+        <control controlID="0" controlTypeID="com.balsamiq.mockups::Arrow" x="0" y="34" w="172" h="25" measuredW="150" measuredH="100" zOrder="0" locked="false" isInGroup="105">
+          <controlProperties>
+            <curvature>1</curvature>
+            <text>translation%20voting</text>
+          </controlProperties>
+        </control>
+        <control controlID="1" controlTypeID="com.balsamiq.mockups::TextArea" x="179" y="0" w="182" h="74" measuredW="200" measuredH="140" zOrder="1" locked="false" isInGroup="105">
+          <controlProperties>
+            <markup>true</markup>
+            <text>Becomes%20a%20prevalent%20green%20upon%20voting%2C%20as%20it%20is%20now.%20Normally%20greyed-out.%20Number%20of%20votes%20displayed%20to%20its%20left.</text>
+          </controlProperties>
+        </control>
+      </groupChildrenDescriptors>
+    </control>
+    <control controlID="106" controlTypeID="__group__" x="1243" y="694" w="405" h="76" measuredW="405" measuredH="76" zOrder="29" locked="false" isInGroup="-1">
+      <controlProperties>
+        <markup>true</markup>
+      </controlProperties>
+      <groupChildrenDescriptors>
+        <control controlID="0" controlTypeID="com.balsamiq.mockups::Arrow" x="0" y="33" w="201" h="22" measuredW="150" measuredH="100" zOrder="0" locked="false" isInGroup="106">
+          <controlProperties>
+            <curvature>-1</curvature>
+            <text>on%20click</text>
+          </controlProperties>
+        </control>
+        <control controlID="1" controlTypeID="com.balsamiq.mockups::TextArea" x="215" y="0" w="190" h="76" measuredW="200" measuredH="140" zOrder="1" locked="false" isInGroup="106">
+          <controlProperties>
+            <markup>true</markup>
+            <text>May%20want%20to%20add%20a%20pop-up%20dialog%20to%20deter%20users%20from%20creating%20more%20translations.%20This%20will%20likely%20raise%20the%20quality%20bar.</text>
+          </controlProperties>
+        </control>
+      </groupChildrenDescriptors>
+    </control>
+    <control controlID="108" controlTypeID="com.balsamiq.mockups::Link" x="1105" y="504" w="-1" h="-1" measuredW="119" measuredH="16" zOrder="30" locked="false" isInGroup="-1">
+      <controlProperties>
+        <size>9</size>
+        <text>Go%20to%20the%20page%20of%20this%20token</text>
+      </controlProperties>
+    </control>
+    <control controlID="109" controlTypeID="com.balsamiq.mockups::Button" x="653" y="502" w="141" h="21" measuredW="116" measuredH="27" zOrder="31" locked="false" isInGroup="-1">
+      <controlProperties>
+        <size>11</size>
+        <text>Hide%20all%20translations</text>
+      </controlProperties>
+    </control>
+    <control controlID="110" controlTypeID="com.balsamiq.mockups::Arrow" x="672" y="359" w="10" h="77" measuredW="150" measuredH="100" zOrder="32" locked="false" isInGroup="-1">
+      <controlProperties>
+        <curvature>0</curvature>
+        <direction>bottom</direction>
+        <leftArrow>true</leftArrow>
+        <text>%27Currently%20used%20translation%27%20appears%20only%20on%20expansion</text>
+      </controlProperties>
+    </control>
+    <control controlID="111" controlTypeID="com.balsamiq.mockups::Label" x="653" y="468" w="-1" h="-1" measuredW="79" measuredH="21" zOrder="33" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Lorem%20ipsum</text>
+      </controlProperties>
+    </control>
+    <control controlID="112" controlTypeID="com.balsamiq.mockups::Canvas" x="667" y="539" w="552" h="111" measuredW="100" measuredH="70" zOrder="34" locked="false" isInGroup="-1">
+      <controlProperties>
+        <borderColor>13421772</borderColor>
+      </controlProperties>
+    </control>
+    <control controlID="113" controlTypeID="com.balsamiq.mockups::HRule" x="678" y="588" w="534" h="-1" measuredW="100" measuredH="10" zOrder="35" locked="false" isInGroup="-1">
+      <controlProperties>
+        <color>13421772</color>
+      </controlProperties>
+    </control>
+    <control controlID="114" controlTypeID="__group__" x="1224" y="923" w="449" h="79" measuredW="449" measuredH="79" zOrder="6" locked="false" isInGroup="-1">
+      <controlProperties>
+        <markup>true</markup>
+      </controlProperties>
+      <groupChildrenDescriptors>
+        <control controlID="0" controlTypeID="com.balsamiq.mockups::Arrow" x="0" y="0" w="186" h="40" measuredW="150" measuredH="100" zOrder="0" locked="false" isInGroup="114">
+          <controlProperties>
+            <text>Views%20as%20buttons</text>
+          </controlProperties>
+        </control>
+        <control controlID="1" controlTypeID="com.balsamiq.mockups::TextArea" x="194" y="21" w="255" h="58" measuredW="200" measuredH="140" zOrder="1" locked="false" isInGroup="114">
+          <controlProperties>
+            <markup>true</markup>
+            <text>This%20looks%20better%20and%20is%20more%20user-friendly.%20See%20lichess.org%27s%20translation%20interface.%20Currently%20selected%20option%20is%20grey.</text>
+          </controlProperties>
+        </control>
+      </groupChildrenDescriptors>
+    </control>
+    <control controlID="115" controlTypeID="com.balsamiq.mockups::Icon" x="711" y="547" w="-1" h="-1" measuredW="24" measuredH="24" zOrder="36" locked="false" isInGroup="-1">
+      <controlProperties>
+        <icon>EmoticonIcon%7Csmall</icon>
+      </controlProperties>
+    </control>
+    <control controlID="116" controlTypeID="com.balsamiq.mockups::Label" x="735" y="549" w="-1" h="-1" measuredW="70" measuredH="21" zOrder="37" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Translator1</text>
+      </controlProperties>
+    </control>
+    <control controlID="117" controlTypeID="com.balsamiq.mockups::Label" x="735" y="570" w="-1" h="-1" measuredW="84" measuredH="22" zOrder="38" locked="false" isInGroup="-1">
+      <controlProperties>
+        <size>14</size>
+        <text>Lorem%20ipsum</text>
+      </controlProperties>
+    </control>
+    <control controlID="118" controlTypeID="com.balsamiq.mockups::Icon" x="711" y="601" w="-1" h="-1" measuredW="24" measuredH="24" zOrder="39" locked="false" isInGroup="-1">
+      <controlProperties>
+        <icon>SadFaceIcon%7Csmall</icon>
+      </controlProperties>
+    </control>
+    <control controlID="119" controlTypeID="com.balsamiq.mockups::Label" x="735" y="603" w="-1" h="-1" measuredW="73" measuredH="21" zOrder="40" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Translator2</text>
+      </controlProperties>
+    </control>
+    <control controlID="120" controlTypeID="com.balsamiq.mockups::Label" x="735" y="624" w="-1" h="-1" measuredW="80" measuredH="22" zOrder="41" locked="false" isInGroup="-1">
+      <controlProperties>
+        <size>14</size>
+        <text>Ipsum%20lorem</text>
+      </controlProperties>
+    </control>
+    <control controlID="121" controlTypeID="com.balsamiq.mockups::Icon" x="1173" y="603" w="-1" h="-1" measuredW="32" measuredH="32" zOrder="45" locked="false" isInGroup="-1">
+      <controlProperties>
+        <color>13421772</color>
+        <icon>ThumbsUpIcon%7Cmedium</icon>
+      </controlProperties>
+    </control>
+    <control controlID="122" controlTypeID="com.balsamiq.mockups::Label" x="1150" y="608" w="21" h="23" measuredW="17" measuredH="26" zOrder="46" locked="false" isInGroup="-1">
+      <controlProperties>
+        <size>18</size>
+        <text>0</text>
+      </controlProperties>
+    </control>
+    <control controlID="123" controlTypeID="com.balsamiq.mockups::Icon" x="678" y="556" w="-1" h="-1" measuredW="24" measuredH="24" zOrder="47" locked="false" isInGroup="-1">
+      <controlProperties>
+        <icon>CheckMarkIcon%7Csmall</icon>
+      </controlProperties>
+    </control>
+    <control controlID="126" controlTypeID="com.balsamiq.mockups::TextArea" x="35" y="806" w="600" h="42" measuredW="200" measuredH="140" zOrder="48" locked="false" isInGroup="-1">
+      <controlProperties>
+        <align>left</align>
+        <backgroundAlpha>1</backgroundAlpha>
+        <borderColor>3355443</borderColor>
+        <color>15658734</color>
+        <text>Room%20for%20one%20more%3F</text>
+      </controlProperties>
+    </control>
+    <control controlID="132" controlTypeID="__group__" x="1254" y="819" w="539" h="102" measuredW="539" measuredH="102" zOrder="50" locked="false" isInGroup="-1">
+      <controlProperties>
+        <markup>true</markup>
+      </controlProperties>
+      <groupChildrenDescriptors>
+        <control controlID="0" controlTypeID="com.balsamiq.mockups::Arrow" x="0" y="0" w="188" h="40" measuredW="150" measuredH="100" zOrder="0" locked="false" isInGroup="132">
+          <controlProperties>
+            <text>untranslated%20token</text>
+          </controlProperties>
+        </control>
+        <control controlID="1" controlTypeID="com.balsamiq.mockups::TextArea" x="203" y="0" w="336" h="102" measuredW="200" measuredH="140" zOrder="1" locked="false" isInGroup="132">
+          <controlProperties>
+            <markup>true</markup>
+            <text>This%20could%20be%20controversial.%20Tokens%20without%20translations%20should%20have%20automatically%20expanded%20translation%20interfaces%2C%20which%2C%20however%2C%20are%20more%20compact%20so%20they%20don%27t%20clog%20up%20the%20list.%20Transifex%27s%20auto-save%20approach%20is%20best%20avoided%20due%20to%20its%20overhead%20on%20the%20user.</text>
+          </controlProperties>
+        </control>
+      </groupChildrenDescriptors>
+    </control>
+    <control controlID="133" controlTypeID="com.balsamiq.mockups::Paragraph" x="809" y="978" w="471" h="21" measuredW="200" measuredH="80" zOrder="51" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Powered%20by%20Perl.%20Delivered%20by%20nginx.%20Source%20at%20github.%20%A9%202012%20DuckDuckGo%20Inc.</text>
+      </controlProperties>
+    </control>
+    <control controlID="134" controlTypeID="__group__" x="54" y="182" w="1173" h="66" measuredW="1173" measuredH="66" zOrder="52" locked="false" isInGroup="-1">
+      <groupChildrenDescriptors>
+        <control controlID="0" controlTypeID="com.balsamiq.mockups::Canvas" x="0" y="0" w="1173" h="66" measuredW="100" measuredH="70" zOrder="0" locked="false" isInGroup="134"/>
+        <control controlID="1" controlTypeID="com.balsamiq.mockups::SearchBox" x="914" y="8" w="237" h="-1" measuredW="120" measuredH="25" zOrder="1" locked="false" isInGroup="134">
+          <controlProperties>
+            <text>Search%20tokens</text>
+          </controlProperties>
+        </control>
+        <control controlID="2" controlTypeID="__group__" x="13" y="22" w="286" h="23" measuredW="286" measuredH="23" zOrder="2" locked="false" isInGroup="134">
+          <groupChildrenDescriptors>
+            <control controlID="0" controlTypeID="com.balsamiq.mockups::Label" x="0" y="1" w="53" h="21" measuredW="35" measuredH="21" zOrder="0" locked="false" isInGroup="2">
+              <controlProperties>
+                <text>Page</text>
+              </controlProperties>
+            </control>
+            <control controlID="1" controlTypeID="com.balsamiq.mockups::ComboBox" x="38" y="0" w="58" h="-1" measuredW="39" measuredH="23" zOrder="1" locked="false" isInGroup="2">
+              <controlProperties>
+                <text>1</text>
+              </controlProperties>
+            </control>
+            <control controlID="2" controlTypeID="com.balsamiq.mockups::ComboBox" x="226" y="0" w="60" h="-1" measuredW="48" measuredH="23" zOrder="2" locked="false" isInGroup="2">
+              <controlProperties>
+                <text>20</text>
+              </controlProperties>
+            </control>
+            <control controlID="3" controlTypeID="com.balsamiq.mockups::Label" x="110" y="1" w="109" h="21" measuredW="104" measuredH="21" zOrder="3" locked="false" isInGroup="2">
+              <controlProperties>
+                <text>Tokens%20per%20page</text>
+              </controlProperties>
+            </control>
+          </groupChildrenDescriptors>
+        </control>
+        <control controlID="3" controlTypeID="__group__" x="841" y="36" w="306" h="27" measuredW="306" measuredH="27" zOrder="3" locked="false" isInGroup="134">
+          <groupChildrenDescriptors>
+            <control controlID="0" controlTypeID="com.balsamiq.mockups::Label" x="0" y="3" w="50" h="21" measuredW="48" measuredH="21" zOrder="0" locked="false" isInGroup="3">
+              <controlProperties>
+                <bold>true</bold>
+                <text>Display</text>
+              </controlProperties>
+            </control>
+            <control controlID="1" controlTypeID="com.balsamiq.mockups::Button" x="74" y="0" w="-1" h="-1" measuredW="79" measuredH="27" zOrder="1" locked="false" isInGroup="3">
+              <controlProperties>
+                <color>14540253</color>
+                <text>All%20tokens</text>
+              </controlProperties>
+            </control>
+            <control controlID="2" controlTypeID="com.balsamiq.mockups::Button" x="168" y="0" w="-1" h="-1" measuredW="138" measuredH="27" zOrder="2" locked="false" isInGroup="3">
+              <controlProperties>
+                <text>Untranslated%20tokens</text>
+              </controlProperties>
+            </control>
+          </groupChildrenDescriptors>
+        </control>
+      </groupChildrenDescriptors>
+    </control>
+    <control controlID="135" controlTypeID="com.balsamiq.mockups::Label" x="1158" y="105" w="-1" h="-1" measuredW="101" measuredH="21" zOrder="53" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Account%20%7C%20Logout</text>
+      </controlProperties>
+    </control>
+    <control controlID="136" controlTypeID="__group__" x="645" y="806" w="598" h="42" measuredW="598" measuredH="42" zOrder="49" locked="false" isInGroup="-1">
+      <groupChildrenDescriptors>
+        <control controlID="0" controlTypeID="com.balsamiq.mockups::TextArea" x="0" y="0" w="598" h="42" measuredW="200" measuredH="140" zOrder="0" locked="false" isInGroup="136">
+          <controlProperties>
+            <borderColor>14706278</borderColor>
+            <color>15658734</color>
+            <text/>
+          </controlProperties>
+        </control>
+        <control controlID="1" controlTypeID="com.balsamiq.mockups::TextInput" x="22" y="8" w="481" h="-1" measuredW="79" measuredH="27" zOrder="1" locked="false" isInGroup="136">
+          <controlProperties>
+            <text/>
+          </controlProperties>
+        </control>
+        <control controlID="2" controlTypeID="com.balsamiq.mockups::Button" x="526" y="8" w="54" h="27" measuredW="54" measuredH="27" zOrder="2" locked="false" isInGroup="136">
+          <controlProperties>
+            <text>Save</text>
+          </controlProperties>
+        </control>
+      </groupChildrenDescriptors>
+    </control>
+    <control controlID="139" controlTypeID="__group__" x="386" y="662" w="277" h="76" measuredW="277" measuredH="76" zOrder="54" locked="false" isInGroup="-1">
+      <controlProperties>
+        <markup>true</markup>
+      </controlProperties>
+      <groupChildrenDescriptors>
+        <control controlID="0" controlTypeID="com.balsamiq.mockups::Arrow" x="180" y="17" w="97" h="43" measuredW="150" measuredH="100" zOrder="0" locked="false" isInGroup="139">
+          <controlProperties>
+            <text/>
+          </controlProperties>
+        </control>
+        <control controlID="1" controlTypeID="com.balsamiq.mockups::TextArea" x="0" y="0" w="173" h="76" measuredW="200" measuredH="140" zOrder="1" locked="false" isInGroup="139">
+          <controlProperties>
+            <text>This%20box%20to%20insert%20translations%20ONLY%20appears%20after%20clicking%20on%20%22Hide%20translations%20of%20other%20people%22</text>
+          </controlProperties>
+        </control>
+      </groupChildrenDescriptors>
+    </control>
+    <control controlID="141" controlTypeID="com.balsamiq.mockups::StickyNote" x="734" y="510" w="109" h="110" measuredW="109" measuredH="123" zOrder="55" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>%22Hide%20translations%20of%20other%20people%22%20is%20inaccurrate.</text>
+      </controlProperties>
+    </control>
+    <control controlID="143" controlTypeID="__group__" x="459" y="494" w="213" h="78" measuredW="213" measuredH="78" zOrder="56" locked="false" isInGroup="-1">
+      <controlProperties>
+        <markup>true</markup>
+      </controlProperties>
+      <groupChildrenDescriptors>
+        <control controlID="0" controlTypeID="com.balsamiq.mockups::Arrow" x="91" y="47" w="122" h="31" measuredW="150" measuredH="100" zOrder="0" locked="false" isInGroup="143">
+          <controlProperties>
+            <curvature>0</curvature>
+            <leftArrow>false</leftArrow>
+            <text/>
+          </controlProperties>
+        </control>
+        <control controlID="1" controlTypeID="com.balsamiq.mockups::TextArea" x="0" y="0" w="158" h="44" measuredW="200" measuredH="140" zOrder="1" locked="false" isInGroup="143">
+          <controlProperties>
+            <text>Tick%20indicates%20it%27s%20the%20currently%20used%20translation.</text>
+          </controlProperties>
+        </control>
+      </groupChildrenDescriptors>
+    </control>
+    <control controlID="144" controlTypeID="com.balsamiq.mockups::Canvas" x="668" y="743" w="551" h="42" measuredW="100" measuredH="70" zOrder="57" locked="false" isInGroup="-1">
+      <controlProperties>
+        <borderColor>13421772</borderColor>
+        <color>16777215</color>
+      </controlProperties>
+    </control>
+    <control controlID="145" controlTypeID="com.balsamiq.mockups::Label" x="678" y="754" w="-1" h="-1" measuredW="99" measuredH="22" zOrder="58" locked="false" isInGroup="-1">
+      <controlProperties>
+        <bold>true</bold>
+        <size>14</size>
+        <text>Token%20notes%20%20%20%7C</text>
+      </controlProperties>
+    </control>
+    <control controlID="146" controlTypeID="com.balsamiq.mockups::Label" x="788" y="755" w="-1" h="-1" measuredW="418" measuredH="21" zOrder="59" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>You%20should%20not%20have%20to%20expand%20this.%20%22Context%22%20at%20the%20top%20should%20not%20exist.</text>
+      </controlProperties>
+    </control>
+    <control controlID="147" controlTypeID="com.balsamiq.mockups::StickyNote" x="230" y="565" w="143" h="96" measuredW="109" measuredH="123" zOrder="62" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Notice%20how%20this%20box%20has%20expanded%20to%20maintain%20sexiness.</text>
+      </controlProperties>
+    </control>
+  </controls>
+</mockup>
