@@ -7,16 +7,17 @@
 <table class="tableUsers" style="width:100%" name="user_table" id="user_table">
   <thead>
       <tr>
-        <th scope="col">ID & Email</th>
+        <th scope="col" style="width:40px">ID</th>
+        <th scope="col">Email</th>
         <th scope="col" style="width:300px">Username</th>
         <th scope="col" style="width:300px">Languages</th>
-        <th scope="col" style="width:60px">Translations</th>
       </tr>
   </thead>
   <tbody>
   <@ FOREACH user IN users.all @>
     <tr>
-      <td scope="row">#<@ user.id @><br/><@ IF user.data @><@ user.data.email @><@ END @></td>
+      <td scope="row">#<@ user.id @></td>
+      <td><@ IF user.data @><@ user.data.email @><@ END @></td>
       <td><@ INCLUDE user/username32.tt @></td>
       <td>
 		<@ FOR user_language IN user.user_languages @>
@@ -25,7 +26,6 @@
       <@ user_language.grade @>
 		<@ END @>
 	  </td>
-      <td><@ user.translation_count @></td>
     </tr>
   <@ END @>
   </tbody>
