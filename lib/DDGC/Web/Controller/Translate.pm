@@ -212,7 +212,7 @@ sub snippets :Chained('locale') :Args(0) {
 		$c->res->redirect($c->chained_uri('Translate','snippets',$c->stash->{token_domain}->key,$c->stash->{locale},{ page => $c->stash->{token_languages}->pager->next_page }));
 		return $c->detach;
 	}
-	$c->stash->{breadcrumb_right_url} =	$c->chained_uri('Translate','snippets',$c->stash->{token_domain}->key,'LOCALE',{ page => $c->stash->{token_languages}->pager->current_page });
+	$c->stash->{breadcrumb_right_url} =	$c->chained_uri('Translate','snippets',$c->stash->{token_domain}->key,'LOCALE',{ page => $c->stash->{token_languages}->pager->current_page, only_untranslated => $c->stash->{only_untranslated} });
 	$c->stash->{breadcrumb_right} = 'language';
 }
 
