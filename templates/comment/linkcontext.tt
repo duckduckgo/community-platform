@@ -6,4 +6,4 @@
 	<@- u('Translate','tokenlanguage',comment.context_id) -@>
 <@-   CASE -@>
 	<@- comment.context -@>
-<@- END -@>">Go to context</a>
+<@- END -@>#comment_<@ comment.id @>">Go to thread</a>

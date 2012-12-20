@@ -1,0 +1,9 @@
+<h1>Latest comments over all languages</h2>
+<@ FOR comment IN latest_comments.all @>
+	<img src="<@ comment.get_context_obj.token_domain_language.language.flag_url @>" />
+	<@ comment.get_context_obj.token_domain_language.language.name_in_english @>
+	<@ INCLUDE comment/teaser.tt @>
+<@ END @>
+<div class="box" style="text-align:center">
+	<@ INCLUDE pager.tt pager=latest_comments.pager url=u('Translate','admin',token_domain.key,{ page => 'PAGE_NO' }) @>
+</div>

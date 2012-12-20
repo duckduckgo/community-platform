@@ -58,6 +58,8 @@ sub get_context_obj {
 	die "dont know how to get object of ".$self->context;
 }
 
+###############################
+
 use overload '""' => sub {
 	my $self = shift;
 	return 'Comment #'.$self->id;

@@ -101,6 +101,21 @@ sub _build_lib_name {
 	return join('::',@{$self->_name_parts});
 }
 
+sub comments {
+	my ( $self, $page, $pagesize ) = @_;
+	$self->result_source->schema->resultset('Comment')->search({
+		context => 'DDGC::DB::Result::Token::Language',
+		context_id => { -in => $self->token_domain_languages->search_related('token_languages')->get_column('id')->as_query },
+	},{
+		order_by => { -desc => 'me.updated' },
+		( ( defined $page and defined $pagesize ) ? (
+			page => $page,
+			rows => $pagesize,
+		) : () ),
+		prefetch => 'user',
+	});
+}
+
 sub token_domain_languages_locale_sorted {
 	my ( $self ) = @_;
 	$self->token_domain_languages->search({},{

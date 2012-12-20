@@ -2,8 +2,10 @@
 	<p class="comment_content"><@ FILTER truncate(200) @><@ comment.content | html | replace("\n", "<br />") @><@ END @>
 		<@ IF comment.content.length > 200 @>...<@ END @>
 	</p>
-	<@ INCLUDE comment/linkcontext.tt @>
-	<div class="comment_user"><@ INCLUDE user/username16.tt user=comment.user @></div>
-	<div class="comment_info"> at <@ comment.created @><@ #date.format(comment.created,"%D %T") @></div>
+	<div style="display:inline-block">
+		<div class="comment_user"><@ INCLUDE user/username16.tt user=comment.user @></div>
+		<div class="comment_info"> at <@ comment.created @><@ #date.format(comment.created,"%D %T") @></div>
+		<div><@ INCLUDE comment/linkcontext.tt @></div>
+	</div>
 </div>  
 <div class="clear"></div>
