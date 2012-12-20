@@ -1,22 +1,28 @@
-<h1 id="skip">User list</h1>
-<table class="tableUsers">
+<form action="<@ u('Admin::User','index') @>" method="post" id="formAdminUsers">
+
+<@ INCLUDE admin/user/pager.tt @>
+
+<div class="box">
+
+<table class="tableUsers" style="width:100%">
   <thead>
       <tr>
         <th scope="col">ID & Email</th>
-        <th scope="col">Username</th>
-        <th scope="col">Languages</th>
-        <th scope="col">Translations</th>
+        <th scope="col" style="width:300px">Username</th>
+        <th scope="col" style="width:300px">Languages</th>
+        <th scope="col" style="width:60px">Translations</th>
       </tr>
   </thead>
   <tbody>
-  <@ FOREACH user IN users @>
+  <@ FOREACH user IN users.all @>
     <tr>
       <td scope="row">#<@ user.id @><br/><@ IF user.data @><@ user.data.email @><@ END @></td>
       <td><@ INCLUDE user/username32.tt @></td>
       <td>
 		<@ FOR user_language IN user.user_languages @>
-			<img src="<@ user_language.language.flag_url @>">
-			<@ user_language.grade @> 
+      <img src="<@ user_language.language.flag_url @>">
+      <@ user_language.language.locale @>
+      <@ user_language.grade @>
 		<@ END @>
 	  </td>
       <td><@ user.translation_count @></td>
@@ -24,3 +30,7 @@
   <@ END @>
   </tbody>
 </table>
+
+</div>
+
+</form>

@@ -8,13 +8,21 @@
       <strong>Tip:</strong> You do not need to share personal information to have or use this account.
     </div>
   </div>
-  	  
+ 	  
   <@ IF xmpp_userhost != 'dukgo.com' @>
     <div>
       <div class="alert warning"><div class="close-warning"></div>This account will not work on the live system <a href="https://dukgo.com/">https://dukgo.com/</a>.</div>
       <p class="note"><strong>Note: </strong>This is a development system, no data is used for the production environment! All data you enter here is only for testing!</div>
     </div>
   <@ END @>
+
+
+<@ IF c.user.admin @>
+<div>
+  <a href="<@ u('Admin','index') @>"><div style="width:100%;height:64px" class="box-highlight developer"><p style="width:100%"><strong>Admin area</strong></p></div></a>
+    <div class="clear"></div><br/>
+  </div>
+<@ END @>
   	
   <!-- LANGUAGES TABLE !-->
   <div class="box">
@@ -102,14 +110,20 @@
           <li><strong>Basic ability:</strong> Enough to understand written material or simple questions in this language.</li>
           <li><strong>Intermediate ability:</strong> Enough for editing or discussions.</li>
           <li><strong>Advanced level:</strong> Though you can write in this language with no problem, some small errors might occur.</li>
-          <li><strong>“Near-native” level:</strong> Although it’s not your first language from birth, your ability is something like that of a native speaker.</li>
+          <li><strong>"Near-native" level:</strong> Although it's not your first language from birth, your ability is something like that of a native speaker.</li>
           <li><strong>Native:</strong> You have grown up with this language in your environment.</li>
           <li><strong>Professional proficiency:</strong> You are earning your money with work in this language (like writer, translator, etc.)
         </ol>
       </div>
     </div>
+
+<@ IF c.user.languages @>
+  <a href="<@ u('Translate','index') @>"><div style="width:100%;height:64px" class="box-highlight translation"><p style="width:100%">Help us translate <strong>DuckDuckGo</strong> into your languages.</p></div></a>
+<@ END @>
+
     <div class="clear"></div>
   </div>
+
   <div class="box">
   	<div class="box-inner">
       <!-- ACCOUNT TABLE !-->	

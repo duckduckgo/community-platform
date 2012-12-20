@@ -246,6 +246,12 @@ sub users {{
 			us => 5,
 		},
 	},
+	map {
+		'test'.$_ => {
+			pw => $_.$_,
+			notes => 'Massuser',
+		}
+	} 1..100,
 }}
 
 sub add_users {

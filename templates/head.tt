@@ -14,6 +14,7 @@
   <link rel="stylesheet" media="screen, projection, handheld" href="/static/css/new/token.css">
   <link rel="stylesheet" media="screen, projection, handheld" href="/static/css/new/account.css">
   <link rel="stylesheet" media="screen, projection, handheld" href="/static/css/new/alerts.css">
+  <link rel="stylesheet" media="screen, projection, handheld" href="/static/css/new/progress.css">
   <!--leaving these scripts in til I decide what to do with them-->
   <script type="text/javascript" src="/static/js/jquery.js"></script>
   <script type="text/javascript" src="/static/js/jquery-ui.js"></script>

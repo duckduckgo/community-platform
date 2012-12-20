@@ -13,11 +13,25 @@
   
   <!-- RIGHT !-->
   <div class="token-filter_right">
-  <strong>Show</strong>
-      <input type="radio" name="only_untranslated"<@ IF only_untranslated @> checked="true"<@ END @> value="1" id="untrans-tokens" onChange="this.form.submit()"></input>
-      <label for="untrans-tokens">Untranslated tokens</label>
-      <input type="radio" name="only_untranslated"<@ IF !only_untranslated @> checked="true"<@ END @> value="0" id="all-tokens" onChange="this.form.submit()"></input>
-      <label for="all-tokens">All tokens</label>
+    <div class="token_menu">
+      <a href="#" class="token_search_toggle">
+        Search
+      </a> |
+      <a href="<@ u('Translate','allsnippets',token_domain.key,cur_language.locale) @>">
+        Snippets overview
+      </a> |
+      <a href="<@ u('Translate','locale_comments',token_domain.key,cur_language.locale) @>">
+        <@ l('Discuss') @>
+      </a> |
+      <@ IF only_untranslated || token_search @>
+        <a href="<@ u('Translate','snippets',token_domain.key,cur_language.locale) @>"><@ l('Show all snippets again') @></a>
+        <@ IF only_untranslated @>
+          <input type="hidden" name="only_untranslated" value="1" />
+        <@ END @>
+      <@ ELSE @>
+        <a href="<@ u('Translate','snippets',token_domain.key,cur_language.locale,{ only_untranslated => 1 }) @>"><@ l('Show only untranslated snippets') @></a>
+      <@ END @>
+    </div>
   </div>
 </form>
 </div>

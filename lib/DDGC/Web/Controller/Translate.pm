@@ -23,7 +23,7 @@ sub do :Chained('base') :CaptureArgs(0) {
 
 sub index :Chained('do') :Args(0) {
     my ( $self, $c ) = @_;
-    p($_->name) for $c->d->rs('Token::Domain')->search({});
+	$c->stash->{headline_template} = 'headline/translate.tt';
 	$c->stash->{token_domains} = $c->d->rs('Token::Domain')->search({});
 }
 
@@ -194,27 +194,14 @@ sub snippets :Chained('locale') :Args(0) {
 	my $save_translations = $c->req->params->{save_translations} || $c->req->params->{save_translations_next_page} ? 1 : 0;
 	my $next_page = $c->req->params->{save_translations_next_page} ? 1 : 0;
 	$self->save_translate_params($c) if ($save_translations);
-	if ($c->req->params->{only_untranslated}) {
+	if ($c->req->params->{token_search}) {
+		$c->stash->{token_search} = $c->req->params->{token_search};
+		$c->stash->{token_languages} = $c->stash->{locales}->{$c->stash->{locale}}->{tcl}->search_tokens($c->stash->{page},$c->stash->{pagesize},$c->stash->{token_search});
+	} elsif ($c->req->params->{only_untranslated}) {
 		$c->stash->{only_untranslated} = 1;
-		$c->stash->{token_languages} = $c->stash->{locales}->{$c->stash->{locale}}->{tcl}->token_languages->search({
-			'token.type' => 1,
-			'token_language_translations.id' => undef,
-		},{
-			order_by => 'me.created',
-			page => $c->stash->{page},
-			rows => $c->stash->{pagesize},
-			prefetch => 'token',
-			join => 'token_language_translations',
-		});
+		$c->stash->{token_languages} = $c->stash->{locales}->{$c->stash->{locale}}->{tcl}->untranslated_tokens($c->stash->{page},$c->stash->{pagesize});
 	} else {
-		$c->stash->{token_languages} = $c->stash->{locales}->{$c->stash->{locale}}->{tcl}->token_languages->search({
-			'token.type' => 1,
-		},{
-			order_by => 'me.created',
-			page => $c->stash->{page},
-			rows => $c->stash->{pagesize},
-			prefetch => 'token',
-		});
+		$c->stash->{token_languages} = $c->stash->{locales}->{$c->stash->{locale}}->{tcl}->all_tokens($c->stash->{page},$c->stash->{pagesize});
 	}
 	if ($save_translations && $next_page && $c->stash->{token_languages}->pager->next_page) {
 		$c->res->redirect($c->chained_uri('Translate','snippets',$c->stash->{token_domain}->key,$c->stash->{locale},{ page => $c->stash->{token_languages}->pager->next_page }));

@@ -1,7 +1,7 @@
 <div id="footer-left">
   <a href="<@ u('Base','welcome') @>">Home</a> |
   <a href="https://duckduckgo.com/privacy.html">Privacy</a> |
-  <a href="<@ u('Base','feedback') @>">Feedback</a>
+  <a href="https://duckduckgo.com/feedback.html">Feedback</a>
 </div>
 <div id="footer-right">
   Powered by <a href="http://www.perl.org/">Perl</a>

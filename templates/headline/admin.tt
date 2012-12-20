@@ -1,6 +1,22 @@
-<ul class="admin" role="navigation">
-  <li><a href="<@ u('Admin::User','index') @>">Users</a></li>
-  <li><a href="<@ u('Admin::Language','index') @>">Languages</a></li>
-  <li><a href="<@ u('Admin::Token','index') @>">Translations</a></li>
-  <li><a href="<@ u('Admin::Help','index') @>">Help</a></li>
-</ul>
+<!-- HIGHLIGHT BOXES !-->
+<div id="boxes-highlight">
+
+<a href="<@ u('Admin::Language','index') @>">
+	<div class="box-highlight translation" style="height:64px">
+		<p style="width:100%">Languages</p>
+	</div>
+</a>
+
+<a href="#">
+	<div class="box-highlight developer" style="height:64px">
+		<p style="width:100%">&nbsp;</p>
+	</div>
+</a>
+
+<a href="<@ u('Admin::User','index') @>">
+	<div class="box-highlight hack" style="height:64px">
+		<p style="width:100%">Users</p>
+	</div>
+</a>
+<div class="clear"></div>
+</div>

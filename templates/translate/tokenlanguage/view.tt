@@ -4,94 +4,85 @@
 <fieldset><!-- fieldset per term to translate-->
   <legend class="ac">Token to translate</legend>
   
-  <@ IF other_translations @>
+<!--   <@ IF other_translations @>
         <div class="alert warning"><div class="close-warning"></div><@ l('Someone already translated this snippet. Only translate it if you think your translation fits better.') @></div>
       <@ END @>
-	  
+ -->	  
+
 	  <!-- TOKEN TABLE !-->
 	  
-	  <table class="token-table" cellspacing="0" cellpadding="0">
+  <table class="token-table" cellspacing="0" cellpadding="0">
     <colgroup>
-    <col class="token-table_left"/>
-    <col class="" />
-    <col class="" />
+      <col class="token-table_left"/>
+      <col class="" />
+      <col class="" />
     </colgroup>
     <tbody>
-	
-	<@ IF token_language.token.msgctxt @>
-	<tr>
-      <td><@ l('<h2>Context</h2>') @></td>	
-      <td><@ token_language.token.msgctxt @></td>
-	  <td>&nbsp;</td>
-	</tr>
-    <@ END @>
-	
-    <tr>
+      <@ IF token_language.token.msgctxt @>
+        <tr>
+          <td><h2><@ l('Context') @></h2></td>	
+          <td><@ token_language.token.msgctxt @> (Ignore this, do not translate)</td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td colspan="3"><hr/></td>  
+        </tr>
+      <@ END @>
+      <tr>
         <td><h2><@ l('Singular') @></h2></td>
         <td><@ token_language.token.msgid @></td>
         <td>&nbsp;</td>
-    </tr>
-	
-    <@ IF token_language.token.msgid_plural @>
-	<tr>
-      <td><@ l('<h2>Plural</h2>') @></td>	
-      <td><@ token_language.token.msgid_plural @></td>
-	  <td>&nbsp;</td>
-	</tr>
-    <@ END @>
-	
+      </tr>
+
+      <@ IF token_language.token.msgid_plural @>
+        <tr>
+          <td><h2><@ l('Plural') @></h2></td>	
+          <td><@ token_language.token.msgid_plural @></td>
+          <td>&nbsp;</td>
+        </tr>
+      <@ END @>
     </tbody>
   </table>
-  
-  
-  <div style="display:none"><dl>
-    <@ IF token_language.token.msgctxt @>
-      <dt><@ l('Context') @>: </dt>
-      <dd><span><@ token_language.token.msgctxt @></span></dd>
-    <@ END @>
-    <dt><@ l('Singular') @>: </dt>
-    <dd><span><@ token_language.token.msgid @></span></dd>
-    <@ IF token_language.token.msgid_plural @>
-      <dt><@ l('Plural') @>: </dt>
-      <dd><span><@ token_language.token.msgid_plural @></span></dd>
-    <@ END @>
-  </dl></div>
 
-    <@ IF c.user.can_speak(token_language.token_domain_language.language.locale) @>
+  <@ IF other_translations @>
+    <div class="token-footer">
+      <div class="token-footer_submit">
+        <div class="BTN_submitSmall token-BTNtranslations" id="token_other_<@ token_language.id @>_show"><@ l('Show translations of other people') @></div>
+      </div>
+		
+      <@ IF show_token_language_link @>
+      <div class="token-footer_link">
+        <a href="<@ u('Translate','tokenlanguage',token_language.id) @>"><@ l('Discuss') @></a>
+      </div>
+      <@ END @>
+	
+    </div>
+    <div class="clear"></div>
+    <div id="token_other_<@ token_language.id @>_toggle">
+      <div class="token-translations">
+        <@ FOR translation IN other_translations @>
+          <@ INCLUDE translate/snippets/translation.tt show_translation_buttons=1 @>
+        <@ END @>
+      </div>
+    </div>
+	<@ END @>
 
+  <@ IF c.user.can_speak(token_language.token_domain_language.language.locale) @>
+
+    <div id="token_own_<@ token_language.id @>_toggle">
       <@ FOR n IN [ 0..token_language.max_msgstr_index ] @>
         <@ SET func = 'msgstr' _ n @>
-	    <label class="form_input-label" for="token_language_<@ token_language.id @>_<@ func @>"><@ IF n == 0 @><@ l('Singular') @><@ ELSE @><@ n @>th Plural Form<@ END @></label>
-	    <input type="text" class="token-input" <@ IF token_language.token_domain_language.language.rtl @>dir="rtl" <@ END @>id="token_language_<@ token_language.id @>_<@ func @>" name="token_language_<@ token_language.id @>_<@ func @>" onkeyup="placeholder_check(this, '<@ n == 0 ? token_language.token.msgid : token_language.token.msgid_plural | replace("'", "\\'") @>');" value="<@ own_translation.$func @>" autocomplete="off" placeholder="Translate '<@ n == 0 ? token_language.token.msgid : token_language.token.msgid_plural @>' <@ IF token_language.token.msgctxt @> in context of '<@ token_language.token.msgctxt @>' <@ END @>into <@ token_language.token_domain_language.language.name_in_english @>">
-	    <!--<p class="note">You haven't provided enough placeholders</p>!-->
+        <label class="form_input-label" for="token_language_<@ token_language.id @>_<@ func @>">
+          <@ IF n == 0 @><@ l('Singular') @><@ ELSE @><@ n @>th Plural Form<@ END @>
+        </label>
+        <input type="text" class="token-input" <@ IF token_language.token_domain_language.language.rtl @>dir="rtl" <@ END @>id="token_language_<@ token_language.id @>_<@ func @>" name="token_language_<@ token_language.id @>_<@ func @>" onkeyup="placeholder_check(this, '<@ n == 0 ? token_language.token.msgid : token_language.token.msgid_plural | replace("'", "\\'") @>');" value="<@ own_translation.$func @>" autocomplete="off" placeholder="Translate '<@ n == 0 ? token_language.token.msgid : token_language.token.msgid_plural @>' <@ IF token_language.token.msgctxt @> in context of '<@ token_language.token.msgctxt @>' <@ END @>into <@ token_language.token_domain_language.language.name_in_english @>">
+        <!--<p class="note">You haven't provided enough placeholders</p>!-->
       <@ END @>
-      
-	<@ ELSE @>
-	  <div class="alert wrong"><div class="close-wrong"></div>You need to <a href="<@ u('My','account') @>"><@ l('add the language') @></a> for making translations</div>
-    <@ END @>
-	
-  <@ IF other_translations @>
-  <div class="token-footer">
-  	<div class="token-footer_submit">
-	<div class="BTN_submitSmall token-BTNtranslations" id="token_other_<@ token_language.id @>_show"><@ l('Show translations of other people') @></div>
-	</div>
-		
-  <@ IF show_token_language_link @>
-    <div class="token-footer_link">
-		<a href="<@ u('Translate','tokenlanguage',token_language.id) @>">Go to page of this token</a></div>
-	<@ END @>
-	
-  </div>
-<div class="clear"></div>
-        <div id="token_other_<@ token_language.id @>_toggle">
-		
-	  <div class="token-translations">
-		<@ FOR translation IN other_translations @>
-		  <@ INCLUDE translate/snippets/translation.tt show_translation_buttons=1 @>
-		<@ END @>
-		</div>
-		</div>
-	<@ END @>
+    </div>
+
+  <@ ELSE @>
+    <div class="alert wrong"><div class="close-wrong"></div>You need to <a href="<@ u('My','account') @>"><@ l('add the language') @></a> for making translations</div>
+  <@ END @>
 
   <@ IF c.user.translation_manager || token_language.token.notes || token_language.notes @>
     <fieldset>
@@ -130,28 +121,28 @@
   
     <script type="text/javascript">
       $(function() {
+        $('#token_other_<@ token_language.id @>_toggle').hide();
+        $('#token_other_<@ token_language.id @>_show').toggle(function(){
+          $('#token_other_<@ token_language.id @>_toggle').show();
+          $('#token_own_<@ token_language.id @>_toggle').hide();
+          $('#token_other_<@ token_language.id @>_show').html('<@ l('Hide translations of other people') @>');
+        },function(){
           $('#token_other_<@ token_language.id @>_toggle').hide();
-          $('#token_other_<@ token_language.id @>_show').toggle(function(){
-              $('#token_other_<@ token_language.id @>_toggle').show();
-			  $('#token_other_<@ token_language.id @>_show').html('<@ l('Hide translations of other people') @>');
-          },function(){
-              $('#token_other_<@ token_language.id @>_toggle').hide();
-			  $('#token_other_<@ token_language.id @>_show').html('<@ l('Show translations of other people') @>');
-          });
+          $('#token_own_<@ token_language.id @>_toggle').show();
+          $('#token_other_<@ token_language.id @>_show').html('<@ l('Show translations of other people') @>');
+        });
+        $('#token_notes_<@ token_language.id @>_toggle').hide();
+        $('#token_notes_<@ token_language.id @>_help').toggle(function(){
+          $('#token_notes_<@ token_language.id @>_toggle').show();
+          $('#token_notes_<@ token_language.id @>_help').html('<@ l('Hide extra informations about the token') @>');
+        },function(){
           $('#token_notes_<@ token_language.id @>_toggle').hide();
-          $('#token_notes_<@ token_language.id @>_help').toggle(function(){
-              $('#token_notes_<@ token_language.id @>_toggle').show();
-			  $('#token_notes_<@ token_language.id @>_help').html('<@ l('Hide extra informations about the token') @>');
-          },function(){
-              $('#token_notes_<@ token_language.id @>_toggle').hide();
-			  $('#token_notes_<@ token_language.id @>_help').html('<@ l('Click here to see extra informations about the token') @>');
-          });
-		  <@ IF !show_token_language_link @>
-		    $('#token_other_<@ token_language.id @>_show').trigger('click');
-		    $('#token_notes_<@ token_language.id @>_help').trigger('click');
-		  <@ ELSIF !c.user.can_speak(token_language.token_domain_language.language.locale) @>
-		    $('#token_other_<@ token_language.id @>_show').trigger('click');
-		  <@ END @>
+          $('#token_notes_<@ token_language.id @>_help').html('<@ l('Click here to see extra informations about the token') @>');
+        });
+        $('#token_notes_<@ token_language.id @>_help').trigger('click');
+        <@ IF other_translations || !c.user.can_speak(token_language.token_domain_language.language.locale) @>
+          $('#token_other_<@ token_language.id @>_show').trigger('click');
+        <@ END @>
       });
     </script>
 </fieldset>

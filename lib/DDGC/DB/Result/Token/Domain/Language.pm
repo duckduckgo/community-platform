@@ -8,6 +8,7 @@ use Path::Class;
 use Carp;
 use DateTime;
 use DateTime::Format::Strptime;
+use POSIX qw( floor );
 
 table 'token_domain_language';
 
@@ -119,6 +120,62 @@ EOF
 sub is_speakable_by {
     my ($self, $user) = @_;
     return $user->can_speak($self->language->locale);
+}
+
+sub done_percentage {
+	my ( $self ) = @_;
+	my $untranslated_count = $self->untranslated_tokens->count;
+	my $max_token_count = $self->token_domain->tokens->count;
+	return floor(100 * ( ( $max_token_count - $untranslated_count ) / $max_token_count ));
+}
+
+sub search_tokens {
+	my ( $self, $page, $pagesize, $search ) = @_;
+	$self->token_languages->search({
+		'token.type' => 1,
+		'token.msgid' => { -like => '%'.$search.'%'},
+		'token.msgid_plural' => { -like => '%'.$search.'%'},
+		'token.msgctxt' => { -like => '%'.$search.'%'},
+		'token.notes' => { -like => '%'.$search.'%'},
+	},{
+		order_by => 'me.created',
+		defined $page and defined $pagesize ? (
+			page => $page,
+			rows => $pagesize,
+		) : (),
+		prefetch => 'token',
+		join => 'token_language_translations',
+	});
+}
+
+sub untranslated_tokens {
+	my ( $self, $page, $pagesize ) = @_;
+	$self->token_languages->search({
+		'token.type' => 1,
+		'token_language_translations.id' => undef,
+	},{
+		order_by => 'me.created',
+		( ( defined $page and defined $pagesize ) ? (
+			page => $page,
+			rows => $pagesize,
+		) : () ),
+		prefetch => 'token',
+		join => 'token_language_translations',
+	});
+}
+
+sub all_tokens {
+	my ( $self, $page, $pagesize ) = @_;
+	$self->token_languages->search({
+		'token.type' => 1,
+	},{
+		order_by => 'me.created',
+		defined $page and defined $pagesize ? (
+			page => $page,
+			rows => $pagesize,
+		) : (),
+		prefetch => 'token',
+	});
 }
 
 use overload '""' => sub {

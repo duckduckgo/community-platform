@@ -1,5 +1,9 @@
-<h1>All snippets for <@ token_domain.name @></h1>
+<h1>
+	All snippets for <@ token_domain.name @>
+	<a href="<@ u('Translate','snippets',token_domain.key,cur_language.locale,{ only_untranslated => 1 }) @>"><@ l('Back to snippets') @></a>
+</h1>
 <h2>Language: <@ cur_language.name_in_english @> <img src="<@ cur_language.flag_url @>"></h2>
+<br/>
 <div style="text-align:left">
   <@ FOR token_language IN token_languages.all @>
     <div>
@@ -15,17 +19,19 @@
 	    (<@ l('A translation is in use') @>)
 	  <@ END @>
 	  </div>
-      <div>
 	  <@ IF token_language.token_language_translations @>
+	  	<div style="background-color:#66FF66">
 		  <@ l('Translated by') @> (<@ l('Votes') @>):
 		  <@ FOR translation IN token_language.token_language_translations @>
 			<@ INCLUDE user/userpic.tt userpic_size=16 user=translation.user @>
 			(<@ translation.vote_count @>)
 		  <@ END @>
+		</div>
 	  <@ ELSE @>
-	    <@ l('Not yet translated') @>
+	  	<div style="background-color:#FF6666">
+		    <@ l('Not yet translated') @>
+	  	</div>
 	  <@ END @>
-      </div>
     </div>
   <@ END @>
 </div>

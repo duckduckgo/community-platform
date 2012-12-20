@@ -5,5 +5,4 @@
 		<a class="vote_link" href="<@ u('Translate','vote_view',translation.id,1) @>"><img src="../../../static/images/ICN_votesOFF.gif" alt="votes" width="34" height="30" align="absmiddle" title="Vote for this translation"/></a>
 	<@ END @>
 <@ END @>
-<@ l(translation.vote_count) @>
-<!--<@ l('%d people voted for this translation',translation.vote_count) @>!-->
+<@ translation.vote_count @>

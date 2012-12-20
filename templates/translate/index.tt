@@ -1,36 +1,42 @@
-<h1 id="skip">Welcome to the translation interface.</h1>
 <div class="text">
-    <@ IF !c.user @>
-         <div class="alert warning"><div class="close-warning"></div><@ l('You must be logged in in order to translate') @>. Please, <a href="<@ u('My','login') @>"><@ l('Login') @></a> <@ l('or') @> <a href="<@ u('My','register') @>"><@ l('Register') @></a>.</div>
-    <@ ELSE @>
-             <p>Here you can translate text snippets from sites. It's a very easy process: once you have chosen the part of the project you want to translate, you will be presented with a list of all existing text snippets, which you can translate step by step into your language. The language which you are translating into can be selected from the drop down menu on the top right. You can see existing translations on the right. If a text snippet has already been translated by a sentence which you feel is appropriate, there is no need for you to translate it again with the same sentence- only translate things which you feel could be translated in a better way. This will reduce your workload and maximise your productivity.</p>
-        <@ IF c.req.param('cantspeak') == 'any' @>
-             <div class="alert wrong"><div class="close-wrong"></div>You can't speak any language of the project you have chosen.</div>
-        <@ ELSIF c.req.param('cantspeak') @>
-             <div class="alert wrong"><div class="close-wrong"></div>You can't speak the chosen language of the project.</div>
-        <@ END @>
 
-        <div style ="">
-            <ul class="actions" id="domainbox">
-                    <@ FOR token_domain IN token_domains.sorted @>
-                        <li>
-                            <div class="box box-inner">
-                                <h4><a href="<@ u('Translate','domainindex',token_domain.key) @>"><@ token_domain.name @></a></h4>
-                                <@ IF token_domain.description @>
-                                    <p><@ token_domain.description @></p>
-                                <@ END @>
-                                <@ FOREACH token_domain_language IN token_domain.token_domain_languages_locale_sorted @>
-                                    <@ IF token_domain_language.is_speakable_by(c.user) @>
-                                        <div><a href="<@ u('Translate','snippets',token_domain.key,token_domain_language.language.locale) @>" class="flag">
-                                        <img src="<@ token_domain_language.language.flag_url @>" alt="<@ token_domain_language.language.name_in_english @>">
-                                        <@ token_domain_language.language.name_in_english @> [<@ token_domain_language.language.locale @>]
-                                        </a></div>
-                                    <@ END @>
-                                <@ END @>
-                            </div>
-                        </li>
-                    <@ END @>
-              </ul>
-          </div>
+<ul class="actions" id="domainbox">
+  <@ FOR token_domain IN token_domains.sorted @>
+    <li>
+      <div class="box box-inner">
+        <h4><a href="<@ u('Translate','domainindex',token_domain.key) @>"><@ token_domain.name @></a></h4>
+        <@ IF token_domain.description @>
+          <p><@ token_domain.description @></p>
+        <@ END @>
+        <table style="width:100%">
+          <@ FOREACH token_domain_language IN token_domain.token_domain_languages_locale_sorted @>
+            <@ SET per = token_domain_language.done_percentage @>
+            <@ SET link = u('Translate','snippets',token_domain.key,token_domain_language.language.locale,{ only_untranslated => 1 }) @>
+            <@ IF token_domain_language.is_speakable_by(c.user) || c.user.translation_manager @>
+              <tr>
+                <td style="width:300px">
+                  <div><a href="<@ link @>" class="flag">
+                  <img src="<@ token_domain_language.language.flag_url @>" alt="<@ token_domain_language.language.name_in_english @>">
+                  <@ token_domain_language.language.name_in_english @> [<@ token_domain_language.language.locale @>]
+                  </a></div>
+                </td>
+                <td style="width:400px">
+                  <a href="<@ link @>">
+                  <div class="progress <@ IF per < 60 @>low<@ ELSIF per < 80 @>med<@ ELSIF per < 100 @>high<@ ELSE @>done<@ END @>">
+                    <span class="percentage" style="width:<@ per @>%;"></span>
+                  </div></a><@ per @>%
+                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td colspan="3">&nbsp;</td>
+              </tr>
+            <@ END @>
           <@ END @>
+        </table>
+      </div>
+    </li>
+  <@ END @>
+</ul>
+
 </div>
