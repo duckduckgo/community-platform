@@ -1,3 +1,4 @@
+<div class="alert wrong"><em>This is not the forum you are looking for.</em> Please use <a href="https://duck.co/">duck.co</a> for real topics -- this is for testing only.</div>
 <div align=left>
 <a href="<@ u('Forum','newthread') @>">New Thread</a> <a href="<@ u('Forum','search') @>">Search</a><br/>
 <@ IF error @><span class="error" style="color:red;font-weight:bold"><@ error @></span>
