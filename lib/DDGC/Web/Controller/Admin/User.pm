@@ -23,7 +23,7 @@ sub index :Chained('base') :PathPart('') :Args(0) {
     		@user_search_fields
     	];
     }
-    $c->pager_init($c->action.$c->stash->{user_search},100);
+    $c->pager_init($c->action.$c->stash->{user_search},20);
     $c->stash->{page} = 1 if $c->req->param('user_search_submit');
 	$c->stash->{users} = $c->d->rs('User')->search({
 		@search_attrs

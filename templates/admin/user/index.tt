@@ -4,7 +4,7 @@
 
 <div class="box">
 
-<table class="tableUsers" style="width:100%">
+<table class="tableUsers" style="width:100%" name="user_table" id="user_table">
   <thead>
       <tr>
         <th scope="col">ID & Email</th>
@@ -31,6 +31,10 @@
   </tbody>
 </table>
 
+</div>
+
+<div class="box" style="text-align:center">
+  <@ INCLUDE pager.tt pager=users.pager url=u('Admin::User','index',{ page => 'PAGE_NO' }) _ "#user_table" @>
 </div>
 
 </form>

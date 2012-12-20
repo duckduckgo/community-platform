@@ -3,7 +3,10 @@
 <h2>
 Language <@ token_language.token_domain_language.language.name_in_english @>
 <img src="<@ token_language.token_domain_language.language.flag_url @>">
-<a href="<@ u('Translate','snippets',token_language.token.token_domain.key,token_language.token_domain_language.language.locale,{ only_untranslated => 1 }) @>"><@ l('Back to snippets') @></a>
+
+<a href="<@ u('Translate','snippets',token_language.token.token_domain.key,token_language.token_domain_language.language.locale,{ only_untranslated => 1 }) @>"><@ l('Back to snippets') @></a> | <a href="<@ u('Translate','allsnippets',token_language.token.token_domain.key,token_language.token_domain_language.language.locale) @>">
+Snippets overview
+</a>
 </h2>
 </div>
 

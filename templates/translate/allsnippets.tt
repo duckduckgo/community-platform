@@ -32,6 +32,20 @@
 		    <@ l('Not yet translated') @>
 	  	</div>
 	  <@ END @>
+	  <@ IF c.user.translation_manager @>
+		  <@ IF token_language.token.notes @>
+		  	<div style="background-color:#66FF66">
+			  Has comment of <@ token_language.token.notes.length @> chars.
+			  <@ IF token_language.token.notes.match('https+://') @>
+			  	It seems to include an URL.
+			  <@ END @>
+			</div>
+		  <@ ELSE @>
+		  	<div style="background-color:#FF6666">
+		  		No comment found!
+		  	</div>
+		  <@ END @>
+		<@ END @>
     </div>
   <@ END @>
 </div>
