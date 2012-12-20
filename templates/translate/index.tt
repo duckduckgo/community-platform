@@ -34,6 +34,9 @@
             <@ END @>
           <@ END @>
         </table>
+        <@ IF c.user.translation_manager @>
+          <h4><a href="<@ u('Translate','admin',token_domain.key) @>">Token management for <@ token_domain.name @></a></h4>
+        <@ END @>
       </div>
     </li>
   <@ END @>
