@@ -3,7 +3,7 @@
 
 <fieldset><!-- fieldset per term to translate-->
   <legend class="ac">Token to translate</legend>
-  
+
 <!--   <@ IF other_translations @>
         <div class="alert warning"><div class="close-warning"></div><@ l('Someone already translated this snippet. Only translate it if you think your translation fits better.') @></div>
       <@ END @>
@@ -81,7 +81,7 @@
     </div>
 
   <@ ELSE @>
-    <div class="alert wrong"><div class="close-wrong"></div>You need to <a href="<@ u('My','account') @>"><@ l('add the language') @></a> for making translations</div>
+    <div class="alert wrong"><div class="close-wrong"></div>You need to <a href="<@ u('My','account') @>">add the language</a> for making translations</div>
   <@ END @>
 
   <@ IF c.user.translation_manager || token_language.token.notes || token_language.notes @>
@@ -118,7 +118,17 @@
       <@ END @>
     </fieldset></div>
 	<@ END @>
+
+  <@ IF own_translation @>
+    <img src="/static/images/ICN_votesOFF.gif" />
+  <@ END @>
   
+  <@ IF !hide_tokenlanguage_discuss @>
+  <a href="<@ u('Translate','tokenlanguage',token_language.id) @>">
+    <div style="float:right" class="BTN_submit">Discuss</div><br/>
+  </a>
+  <@ END @>
+
     <script type="text/javascript">
       $(function() {
         $('#token_other_<@ token_language.id @>_toggle').hide();
@@ -139,7 +149,9 @@
           $('#token_notes_<@ token_language.id @>_toggle').hide();
           $('#token_notes_<@ token_language.id @>_help').html('<@ l('Click here to see extra informations about the token') @>');
         });
-        $('#token_notes_<@ token_language.id @>_help').trigger('click');
+        <@ IF !own_translation @>
+          $('#token_notes_<@ token_language.id @>_help').trigger('click');
+        <@ END @>
         <@ IF other_translations || !c.user.can_speak(token_language.token_domain_language.language.locale) @>
           $('#token_other_<@ token_language.id @>_show').trigger('click');
         <@ END @>

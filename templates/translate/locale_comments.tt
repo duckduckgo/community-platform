@@ -2,6 +2,8 @@
 	<@ l('Discuss the translation of %s into %s',token_domain.name,cur_language.name_in_english) @>
 </h1>
 <h4>
+	<a href="<@ u('Translate','snippets_comments',token_domain.key,cur_language.locale) @>"><@ l('Latest snippets comments') @></a> | 
+	<a href="<@ u('Translate','index') @>"><@ l('Back to all text domains') @></a> | 
 	<a href="<@ u('Translate','snippets',token_domain.key,cur_language.locale,{ only_untranslated => 1 }) @>"><@ l('Back to snippets') @></a>
 </h4>
 

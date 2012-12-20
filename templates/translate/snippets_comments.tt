@@ -1,0 +1,16 @@
+<h1>
+	<@ l('Latest comments on snippets of %s in %s',token_domain.name,cur_language.name_in_english) @>
+</h1>
+<h4>
+	<a href="<@ u('Translate','index') @>"><@ l('Back to all text domains') @></a> | 
+	<a href="<@ u('Translate','snippets',token_domain.key,cur_language.locale,{ only_untranslated => 1 }) @>"><@ l('Back to snippets') @></a>
+</h4>
+
+<@ IF latest_comments.count @>
+	<@ FOR comment IN latest_comments.all @>
+		<@ INCLUDE comment/teaser.tt @>
+	<@ END @>
+	<@ INCLUDE pager.tt pager=latest_comments.pager url=u('Comment','latest',{ page => 'PAGE_NO' }) @>
+<@ ELSE @>
+	No comments yet.
+<@ END @>

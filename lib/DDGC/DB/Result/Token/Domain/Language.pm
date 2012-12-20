@@ -129,6 +129,21 @@ sub done_percentage {
 	return floor(100 * ( ( $max_token_count - $untranslated_count ) / $max_token_count ));
 }
 
+sub comments {
+	my ( $self, $page, $pagesize ) = @_;
+	$self->result_source->schema->resultset('Comment')->search({
+		context => 'DDGC::DB::Result::Token::Language',
+		context_id => { -in => $self->token_languages->get_column('id')->as_query },
+	},{
+		order_by => { -desc => 'me.updated' },
+		( ( defined $page and defined $pagesize ) ? (
+			page => $page,
+			rows => $pagesize,
+		) : () ),
+		prefetch => 'user',
+	});
+}
+
 sub search_tokens {
 	my ( $self, $page, $pagesize, $search ) = @_;
 	$self->token_languages->search({
@@ -139,10 +154,10 @@ sub search_tokens {
 		'token.notes' => { -like => '%'.$search.'%'},
 	},{
 		order_by => 'me.created',
-		defined $page and defined $pagesize ? (
+		( ( defined $page and defined $pagesize ) ? (
 			page => $page,
 			rows => $pagesize,
-		) : (),
+		) : () ),
 		prefetch => 'token',
 		join => 'token_language_translations',
 	});
@@ -170,10 +185,10 @@ sub all_tokens {
 		'token.type' => 1,
 	},{
 		order_by => 'me.created',
-		defined $page and defined $pagesize ? (
+		( ( defined $page and defined $pagesize ) ? (
 			page => $page,
 			rows => $pagesize,
-		) : (),
+		) : () ),
 		prefetch => 'token',
 	});
 }

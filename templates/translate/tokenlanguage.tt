@@ -1,11 +1,13 @@
 <!-- THIS DIV CAN BE DELETED !-->
-<div style="display:none">
-<h1>Token Domain <a href="<@ u('Translate','snippets',token_language.token.token_domain.key,token_language.token_domain_language.language.locale) @>"><@ token_language.token.token_domain.name @></a></h1>
-<h2>Language <@ token_language.token_domain_language.language.name_in_english @> <img src="<@ token_language.token_domain_language.language.flag_url @>"></h2>
-<form action="<@ u('Translate','tokenlanguage',token_language.id) @>" method="post" id="formTranslateTokenLanguage">
+<div>
+<h2>
+Language <@ token_language.token_domain_language.language.name_in_english @>
+<img src="<@ token_language.token_domain_language.language.flag_url @>">
+<a href="<@ u('Translate','snippets',token_language.token.token_domain.key,token_language.token_domain_language.language.locale,{ only_untranslated => 1 }) @>"><@ l('Back to snippets') @></a>
+</h2>
 </div>
 
-
+<form action="<@ u('Translate','tokenlanguage',token_language.id) @>" method="post" id="formTranslateTokenLanguage">
   <div>
     <@ INCLUDE translate/tokenlanguage/view.tt @>
   </div>

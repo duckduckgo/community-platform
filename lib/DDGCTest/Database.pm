@@ -91,7 +91,7 @@ sub step_count {
 	$count += ( ( scalar keys %{$self->users} ) * 2 );
 	$count += scalar @{$self->distributions};
 	my $in_token = 0;
-	for (keys %{$self->token_domains}) {
+	for (sort keys %{$self->token_domains}) {
 		$count += scalar @{$self->token_domains->{$_}->{languages}};
 		for (@{$self->token_domains->{$_}->{snippets}},@{$self->token_domains->{$_}->{texts}}) {
 			if (ref $_ eq 'HASH') {
@@ -189,7 +189,7 @@ sub languages {{
 sub add_languages {
 	my ( $self ) = @_;
 	my $rs = $self->db->resultset('Language');
-	for (keys %{$self->languages}) {
+	for (sort keys %{$self->languages}) {
 		$self->c->{languages}->{$_} = $rs->create($self->languages->{$_});
 		$self->next_step;
 	}
@@ -269,7 +269,7 @@ sub add_users {
 		grade => 3,
 	});
 	$testone->update;
-	for (keys %{$self->users}) {
+	for (sort keys %{$self->users}) {
 		my $data = $self->users->{$_};
 		my $pw = delete $data->{pw};
 		my $languages = delete $data->{languages};
@@ -286,7 +286,7 @@ sub add_users {
         $self->isa_ok($user,'DDGC::User');
 		$self->next_step;
 	}
-	for (keys %{$self->users}) {
+	for (sort keys %{$self->users}) {
 		my $user = $self->d->find_user($_);
 		$self->is($user->username,$_,'Checking username');
 		$self->isa_ok($user,'DDGC::User');
@@ -798,7 +798,7 @@ sub token_domains {{
 sub add_token_domains {
 	my ( $self ) = @_;
 	my $rs = $self->db->resultset('Token::Domain');
-	for (keys %{$self->token_domains}) {
+	for (sort keys %{$self->token_domains}) {
 		my $data = $self->token_domains->{$_};
 		my $base = delete $data->{base};
 		my $languages = delete $data->{languages};

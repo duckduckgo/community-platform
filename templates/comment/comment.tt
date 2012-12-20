@@ -1,4 +1,4 @@
-<div class="comment">
+<div class="comment" name="comment_<@ comment.id @>" id="comment_<@ comment.id @>">
 	<p class="comment_content"><@ FILTER truncate(200) @><@ comment.content @><@ END @>
 		<@ IF comment.content.length > 200 @>
 			[ <a class="comment_expand_link" href="javascript:;">more</a> ]

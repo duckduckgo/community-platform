@@ -24,7 +24,7 @@
         <@ l('Discuss') @>
       </a> |
       <@ IF only_untranslated || token_search @>
-        <a href="<@ u('Translate','snippets',token_domain.key,cur_language.locale) @>"><@ l('Show all snippets again') @></a>
+        <a href="<@ u('Translate','snippets',token_domain.key,cur_language.locale) @>"><@ l('Show all snippets') @></a>
         <@ IF only_untranslated @>
           <input type="hidden" name="only_untranslated" value="1" />
         <@ END @>

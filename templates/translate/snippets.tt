@@ -9,7 +9,7 @@
 <@ INCLUDE translate/pageform.tt @>
 
 <!-- <div class="alert warning"><div class="close-warning"></div><@ l('Screen reader users: there is plain text information within the form') @>.</div> -->
-<form action="<@ u('Translate','snippets',token_domain.key,cur_language.locale) @>" method="post" id="formTranslateDomain">
+<form action="<@ u('Translate','snippets',token_domain.key,cur_language.locale,{ only_untranslated => only_untranslated }) @>" method="post" id="formTranslateDomain">
 
 <!-- NOTE !-->
   <@ IF placeholder_notes @>
@@ -23,6 +23,15 @@
     <p><a href="<@ u('Translate','snippets',token_domain.key,cur_language.locale,{ placeholder_notes => 1 }) @>"><@ l('Show notes about %%s placeholders') @></a></p>
   <@ END @>
   
+  <@ IF !token_languages.count AND only_untranslated @>
+    <h1>No untranslated snippets left!</h2>
+    <div class="clear">&nbsp;</div>
+    <a href="<@ u('Translate','snippets',token_domain.key,cur_language.locale) @>" style="width:100%">
+      <div class="BTN_submit">Vote on the other translations!</div>
+    </a>
+    <div class="clear">&nbsp;</div>
+  <@ END @>
+
   <@ FOR token_language IN token_languages.all @>
 
     <@ INCLUDE translate/tokenlanguage/view.tt show_token_language_link=1 @>

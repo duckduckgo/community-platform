@@ -51,6 +51,7 @@ sub tokenlanguage :Chained('logged_in') :Args(1) {
 	# TODO
 	# $c->stash->{breadcrumb_right_url} =	$c->chained_uri('Translate','tokenlanguage',$token_language_id,{ token_language_locale => 'LOCALE' });
 	# $c->stash->{breadcrumb_right} = 'language';
+	$c->stash->{hide_tokenlanguage_discuss} = 1;
 	$c->add_bc('Translate', $c->chained_uri('Translate','tokenlanguage',$token_language_id));
 }
 
@@ -180,8 +181,20 @@ sub save_translate_params {
 	}
 }
 
-sub locale_comments :Chained('locale') :PathPart('comments') :Args(0) {
+sub discuss :Chained('locale') :PathPart('') :CaptureArgs(0) {
     my ( $self, $c ) = @_;
+    $c->add_bc('Discuss', '');	
+}
+
+sub locale_comments :Chained('discuss') :PathPart('comments') :Args(0) {
+    my ( $self, $c ) = @_;
+}
+
+sub snippets_comments :Chained('discuss') :Args(0) {
+    my ( $self, $c ) = @_;
+    $c->pager_init($c->action.$c->stash->{token_domain_language}->id,20);
+    $c->stash->{latest_comments} = $c->stash->{token_domain_language}->comments($c->stash->{page},$c->stash->{pagesize});
+    $c->add_bc('Latest comments', '');
 }
 
 sub snippets :Chained('locale') :Args(0) {

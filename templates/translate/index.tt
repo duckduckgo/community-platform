@@ -17,19 +17,20 @@
                 <td style="width:300px">
                   <div><a href="<@ link @>" class="flag">
                   <img src="<@ token_domain_language.language.flag_url @>" alt="<@ token_domain_language.language.name_in_english @>">
-                  <@ token_domain_language.language.name_in_english @> [<@ token_domain_language.language.locale @>]
-                  </a></div>
+                  <@ token_domain_language.language.name_in_english @> [<@ token_domain_language.language.locale @>] 
+                  </a><@ per @>%</div>
                 </td>
-                <td style="width:400px">
+                <td>
                   <a href="<@ link @>">
                   <div class="progress <@ IF per < 60 @>low<@ ELSIF per < 80 @>med<@ ELSIF per < 100 @>high<@ ELSE @>done<@ END @>">
                     <span class="percentage" style="width:<@ per @>%;"></span>
-                  </div></a><@ per @>%
+                  </div></a>
                 </td>
-                <td></td>
-              </tr>
-              <tr>
-                <td colspan="3">&nbsp;</td>
+                <td style="width:100px;vertical-align:top">
+                  <a href="<@ u('Translate','locale_comments',token_domain.key,token_domain_language.language.locale) @>">
+                    <div class="BTN_submit" style="float:right">Discuss</div><br/>
+                  </a>
+                </td>
               </tr>
             <@ END @>
           <@ END @>
