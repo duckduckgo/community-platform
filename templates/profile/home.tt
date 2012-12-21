@@ -11,3 +11,34 @@
 		<@ END @>
 	</fieldset>
 <@ END @>
+
+<@ SET translation_count = user.token_language_translations.size @>
+<@ SET vote_count = user.translation_votes.size @>
+
+<@ IF translation_count || vote_count @>
+	<fieldset>
+		<legend class="ac">Helping on translation</legend>
+		<table>
+			<@ IF translation_count @>
+				<tr>
+					<th>Translations:</th>
+					<td><@ translation_count @></td>
+				</tr>
+			<@ END @>
+			<@ IF vote_count @>
+				<tr>
+					<th>Votes on translations:</th>
+					<td><@ vote_count @></td>
+				</tr>
+			<@ END @>
+			<tr>
+				<th>Languages:</th>
+				<td><ul>
+					<@ FOR ul IN user.user_languages @>
+						<li><@ ul.language.name_in_english @></li>
+					<@ END @>
+				</ul></td>
+			</tr>
+		</table>
+	</fieldset>
+<@ END @>
