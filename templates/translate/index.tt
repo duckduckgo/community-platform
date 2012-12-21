@@ -12,7 +12,7 @@
           <@ FOREACH token_domain_language IN token_domain.token_domain_languages_locale_sorted @>
             <@ SET per = token_domain_language.done_percentage @>
             <@ SET link = u('Translate','snippets',token_domain.key,token_domain_language.language.locale,{ only_untranslated => 1 }) @>
-            <@ IF token_domain_language.is_speakable_by(c.user) || c.user.translation_manager @>
+            <@ IF c.user && ( token_domain_language.is_speakable_by(c.user) || c.user.translation_manager ) @>
               <tr>
                 <td style="width:300px">
                   <div><a href="<@ link @>" class="flag">

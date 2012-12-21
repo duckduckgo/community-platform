@@ -314,6 +314,14 @@ sub login :Chained('logged_out') :Args(0) {
     my ( $self, $c ) = @_;
 	$c->add_bc('Login', $c->chained_uri('My','login'));
 
+	my $referer = $c->req->headers->referer;
+	my $base = $c->req->base;
+	my $uri = $c->req->uri;
+
+	if ($referer =~ /^$base/ && $referer ne $uri) {
+		$c->session->{login_from} = $referer;
+	}
+
 	$c->stash->{no_userbox} = 1;
 
 	if ($c->req->params->{username} && $c->req->params->{username} !~ /^[a-zA-Z0-9_\.]+$/) {
@@ -324,7 +332,10 @@ sub login :Chained('logged_out') :Args(0) {
 				username => $username,
 				password => $password,
 			}, 'users')) {
-				$c->response->redirect($c->chained_uri('My','account'));
+				my $new_url;
+				$new_url = delete $c->session->{login_from} if (defined $c->session->{login_from});
+				$new_url = $c->chained_uri('My','account') unless defined $new_url;
+				$c->response->redirect($new_url);
 			} else {
 				$c->stash->{login_failed} = 1;
 			}

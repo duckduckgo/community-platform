@@ -1,11 +1,3 @@
-<@ IF c.user @>
-  <!--<p class="infobox">This site is under construction.</p>!-->
-  <div class="alert wrong"><div class="close-wrong"></div>This site is under construction.</div>
-<@ ELSE @>
-  <!--<p class="infobox">Tip: Use the short URL <a href="http://ddg.gg/">ddg.gg</a> for less typing.</p>!-->
-  <div class="alert warning"><div class="close-warning"></div>Tip: Use the short URL <a href="http://ddg.gg/">ddg.gg</a> for less typing.</div>
-<@ END @>
-
 
   <h1>Welcome!</h1>
   <p><a href="https://duckduckgo.com/">DuckDuckGo</a> is a general purpose search engine. Our search engine is very user driven. You can engage with us on a number of social platforms (see links on right). We created this open-source community platform to serve as a central hub for community activity.</p>
@@ -16,7 +8,7 @@
 <div class="box-inner">
 
   <ul>
-    <li><strong>Things you can do: </strong><a href="<@ u('My','register') @>">Translate DuckDuckGo</a> - <a href="<@ u('Forum','index') @>">Join our Forums</a> - <a href="<@ u('Blog','index') @>">Browse our Blog</a> - <a href="https://duck.co/topic/duckduckgo-s-new-public-xmpp-jabber-service-on-dukgo-com">Chat via XMPP/Jabber</a> - <a href="https://github.com/duckduckgo/community-platform">Develop this site</a> - <a href="https://github.com/duckduckgo/duckduckgo/wiki">Develop goodies</a> - <a href="https://duckduckgo.com/spread.html">Spread DuckDuckGo!</a> - <a href="<@ u('Base','feedback') @>">Submit feedback</a></li>
+    <li><strong>Things you can do: </strong><a href="<@ u('My','register') @>">Translate DuckDuckGo</a> - <a href="<@ u('Forum','index') @>">Join our Forums</a> - <a href="<@ u('Blog','index') @>">Browse our Blog</a> - <a href="https://duck.co/topic/duckduckgo-s-new-public-xmpp-jabber-service-on-dukgo-com">Chat via XMPP/Jabber</a> - <a href="https://github.com/duckduckgo/community-platform">Develop this site</a> - <a href="https://github.com/duckduckgo/duckduckgo/wiki">Develop goodies</a> - <a href="https://duckduckgo.com/spread.html">Spread DuckDuckGo!</a> - <a href="https://duckduckgo.com/feedback.html">Submit feedback</a></li>
 
     <li><strong>DuckDuckGo Sites: </strong><a href="https://duckduckgo.com/">Homepage</a> - <a href="http://donttrack.us/">DontTrack.us</a> - <a href="http://dontbubble.us/">DontBubble.us</a> - <a href="http://help.duckduckgo.com/">Help</a> - <a href="https://duck.co/">Forum</a> - <a href="http://cafepress.com/duckduckgo">Store</a> - <a href="http://www.stickermule.com/duckduckgo">Sticker Store</a></li>
 	

@@ -30,35 +30,39 @@ sub welcome :Chained('base') :Args(0) {
 
 sub feedback :Chained('base') :Args(0) {
 	my ($self, $c) = @_;
-	$c->stash->{title} = 'Feedback';
 
-	delete $c->stash->{headline_template};
+	$c->response->redirect('https://duckduckgo.com/feedback.html');
+	return $c->detach;
+
+	# $c->stash->{title} = 'Feedback';
+
+	# delete $c->stash->{headline_template};
 	
-	if ($c->req->params->{submit} && $c->req->params->{feedback}) {
+	# if ($c->req->params->{submit} && $c->req->params->{feedback}) {
 
-		if ( $c->req->params->{email} && !Email::Valid->address($c->req->params->{email}) ) {
-			$c->stash->{no_valid_email} = 1;
-			$c->stash->{feedback_email} = $c->req->params->{email};
-			$c->stash->{feedback_feedback} = $c->req->params->{feedback};
-			return;
-		}
+	# 	if ( $c->req->params->{email} && !Email::Valid->address($c->req->params->{email}) ) {
+	# 		$c->stash->{no_valid_email} = 1;
+	# 		$c->stash->{feedback_email} = $c->req->params->{email};
+	# 		$c->stash->{feedback_feedback} = $c->req->params->{feedback};
+	# 		return;
+	# 	}
 		
-		$c->stash->{email} = {
-			to          => 'getty@duckduckgo.com',
-			from        => 'noreply@dukgo.com',
-			subject     => '[DuckDuckGo Community] New feedback',
-			template	=> 'email/feedback.tt',
-			charset		=> 'utf-8',
-			content_type => 'text/plain',
-		};
+	# 	$c->stash->{email} = {
+	# 		to          => 'getty@duckduckgo.com',
+	# 		from        => 'noreply@dukgo.com',
+	# 		subject     => '[DuckDuckGo Community] New feedback',
+	# 		template	=> 'email/feedback.tt',
+	# 		charset		=> 'utf-8',
+	# 		content_type => 'text/plain',
+	# 	};
 
-		$c->stash->{thanks_for_feedback} = 1;
+	# 	$c->stash->{thanks_for_feedback} = 1;
 
-		$c->forward( $c->view('Email::TT') );
+	# 	$c->forward( $c->view('Email::TT') );
 
-	}
+	# }
 
-	$c->add_bc($c->stash->{title}, $c->chained_uri('Base','feedback'));
+	# $c->add_bc($c->stash->{title}, $c->chained_uri('Base','feedback'));
 
 }
 
