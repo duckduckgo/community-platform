@@ -130,12 +130,11 @@
       <table class="account-table" cellspacing="0" cellpadding="0">
         <tr>
           <th class="account-table_caption">Your Account</th>
-          <th class="account-table_BTNadd"><a href="<@ u('My','delete') @>" class="BTN_delete">Delete your account</a></th>
+          <th style="width:200px" class="account-table_BTNadd"><a href="<@ u('My','delete') @>" class="BTN_delete">Delete your account</a></th>
         </tr>
         <colgroup>
-          <col class=""/>
-          <col class=""/>
-          <col class=""/>
+          <col />
+          <col />
         </colgroup>
         <tbody>
           <tr>
