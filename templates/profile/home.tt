@@ -1,3 +1,13 @@
-<div class="box" style="padding-left:16px;">
-	<h1><@ INCLUDE user/userpic.tt userpic_size=64 @><@ user.username @></h1>
-</div>
+<fieldset>
+  <legend class="ac">User Informations</legend>
+  <h1><@ INCLUDE user/userpic.tt userpic_size=64 @><@ user.username @></h1>
+</fieldset>
+
+<@ IF last_comments.count @>
+	<fieldset>
+		<legend class="ac">Latest comments</legend>
+		<@ FOR comment IN last_comments.all @>
+			<@ INCLUDE comment/teaser.tt @>
+		<@ END @>
+	</fieldset>
+<@ END @>

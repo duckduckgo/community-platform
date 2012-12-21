@@ -24,6 +24,7 @@ sub user :Chained('base') :PathPart('') :CaptureArgs(1) {
 
 sub home :Chained('user') :PathPart('') :Args(0) {
     my ( $self, $c ) = @_;
+    $c->stash->{last_comments} = $c->user->last_comments(1,5);
 }
 
 __PACKAGE__->meta->make_immutable;

@@ -125,6 +125,18 @@ sub public_username {
 	return;
 }
 
+sub last_comments {
+	my ( $self, $page, $pagesize ) = @_;
+	$self->comments->search({},{
+		order_by => { -desc => [ 'me.updated', 'me.created' ] },
+		( ( defined $page and defined $pagesize ) ? (
+			page => $page,
+			rows => $pagesize,
+		) : () ),
+		prefetch => 'user',
+	});
+}
+
 use overload '""' => sub {
 	my $self = shift;
 	return 'User '.$self->username.' #'.$self->id;

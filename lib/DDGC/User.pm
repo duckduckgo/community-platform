@@ -40,6 +40,7 @@ has db => (
 		translation_manager
 		can_speak
 		lul
+		last_comments
 	),qw(
 		create_related
 		find_related
