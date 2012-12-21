@@ -7,7 +7,7 @@
                 </span>
 		<@ END @>
 	</p>
-	<div class="comment_user"><@ INCLUDE user/username16.tt user=comment.user @></div>
+	<div class="comment_user"><@ INCLUDE user/username.tt userpic_size=16 user=comment.user @></div>
 	<div class="comment_info"> at <@ comment.created @><@ #date.format(comment.created,"%D %T") @>
                 <@ IF !no_reply @><a href="javascript:;" class="comment_reply_link BTN_submitall" style="float:right"><@ l('Reply') @> </a><@ END @>
                 <a href="javascript:;" class="comment_reply_cancel_link" ><@ l('Cancel') @> </a>

@@ -5,7 +5,7 @@
 <@ ELSE @>
 <ul>
 <@ FOR thread IN threads.all @>
-    <li><img src="/static/images/<@ thread.category_key @>.png"/>&nbsp;&nbsp;<a href="<@ u('Forum','view',thread.url) @>"><@ thread.title | html @></a><br/>&nbsp;&nbsp;&nbsp;&nbsp;<@ thread.started_term | ucfirst @> by <@ INCLUDE user/username16.tt user=thread.user @> at <@ thread.created @><@ IF thread.updated != thread.created @>, Last updated <@ thread.updated @><@ END @> <@ IF thread.status @>- <@ thread.status @><@ END @></li>
+    <li><img src="/static/images/<@ thread.category_key @>.png"/>&nbsp;&nbsp;<a href="<@ u('Forum','view',thread.url) @>"><@ thread.title | html @></a><br/>&nbsp;&nbsp;&nbsp;&nbsp;<@ thread.started_term | ucfirst @> by <@ INCLUDE user/username.tt userpic_size=16 user=thread.user @> at <@ thread.created @><@ IF thread.updated != thread.created @>, Last updated <@ thread.updated @><@ END @> <@ IF thread.status @>- <@ thread.status @><@ END @></li>
 <@ END @>
 </ul></div>
 <@ END @>

@@ -18,7 +18,7 @@
     <tr>
       <td scope="row">#<@ user.id @></td>
       <td><@ IF user.data @><@ user.data.email @><@ END @></td>
-      <td><@ INCLUDE user/username32.tt @></td>
+      <td><@ INCLUDE user/username.tt @></td>
       <td>
 		<@ FOR user_language IN user.user_languages @>
       <img src="<@ user_language.language.flag_url @>">

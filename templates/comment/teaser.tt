@@ -3,7 +3,7 @@
 		<@ IF comment.content.length > 200 @>...<@ END @>
 	</p>
 	<div style="display:inline-block">
-		<div class="comment_user"><@ INCLUDE user/username16.tt user=comment.user @></div>
+		<div class="comment_user"><@ INCLUDE user/username.tt userpic_size=16 user=comment.user @></div>
 		<div class="comment_info"> at <@ comment.created @><@ #date.format(comment.created,"%D %T") @></div>
 		<div><@ INCLUDE comment/linkcontext.tt @></div>
 	</div>

@@ -14,7 +14,7 @@
     	<td><h7><@ IF translation_headline @>
 			<@ translation_headline @>
   			<@ ELSE @>
-			<@ INCLUDE user/username32.tt user=translation.user @>
+			<@ INCLUDE user/username.tt userpic_size=16 user=translation.user @>
   			<@ END @></h7>
 		</td>
     	<td rowspan="3"><@ INCLUDE translate/vote_view.tt @></td>

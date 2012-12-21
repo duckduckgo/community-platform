@@ -1,6 +1,6 @@
 <div align=left>
 <div align='left' id="forum-thread">
-    <@ INCLUDE user/username32.tt user=thread.user @>
+    <@ INCLUDE user/username.tt userpic_size=32 user=thread.user @>
 
     Created <@ thread.created_human @> ago <@ IF thread.updated != thread.created @>- Last updated <@ thread.updated_human @> ago<@ END @>
     <br/>

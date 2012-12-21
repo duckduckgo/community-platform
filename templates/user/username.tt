@@ -1,0 +1,16 @@
+<@ IF user @>
+	<@ INCLUDE user/userpic.tt userpic_size=userpic_size || 16 @>
+	<@ IF user.public @>
+		<a href="<@ u('Profile','home',user.username) @>">
+	<@ END @>
+	<@ IF user.admin @><span style="color:green"><@ END @>
+	<@ IF c.user && c.user.admin @>
+		<@ user.username @>
+	<@ ELSE @>
+		<@ user.public_username || '&lt;anonymous&gt;' @>
+	<@ END @>
+	<@ IF user.admin @></span><@ END @>
+	<@ IF user.public @>
+		</a>
+	<@ END @>
+<@ END @>
