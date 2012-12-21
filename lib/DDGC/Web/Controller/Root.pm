@@ -36,7 +36,7 @@ sub index :Chained('base') :PathPart('') :Args(0) {
 sub default :Chained('base') :PathPart('') :Args {
     my ( $self, $c ) = @_;
     $c->response->status(404);
-    $c->add_bc('Not found', $c->chained_uri('Root','default'));
+    $c->add_bc('Not found', '');
 }
 
 sub end : ActionClass('RenderView') {

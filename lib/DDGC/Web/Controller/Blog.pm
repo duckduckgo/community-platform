@@ -23,9 +23,7 @@ sub index :Chained('do') :PathPart('index') :Args(0) {
 sub topic :Chained('base') :Args(1) {
   my ( $self, $c, $topic ) = @_;
   $c->stash->{entries} = $c->d->blog->get_topical_entries($topic);
-  if (not $c->stash->{entries}) {
-      $c->response->redirect($c->uri_for('Root','notfound'));
-  }
+  return $c->go('/default') unless $c->stash->{entries};
 }
 
 sub view :Chained('base') :PathPart('') :Args(1) {
