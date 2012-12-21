@@ -158,7 +158,7 @@
           <tr>
             <td>
               <@ IF c.user.public @>
-                <@ l('Your profile is publicly visible') @>
+                <@ l('Your %s is publicly visible','<a href="'_ u('Profile','home',c.user.username) _'">' _ l('profile') _ '</a>') @>
               <@ ELSE @>
                 <@ l('Your profile is not publicly visible yet') @>
               <@ END @>
