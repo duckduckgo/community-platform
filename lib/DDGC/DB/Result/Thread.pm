@@ -176,7 +176,7 @@ sub get_user {
     my ( $self, $username, $d ) = @_;
     my $user = $d->rs('User')->single({ username => lc($username) });
     my $uname = $user && $user->public_username ? $user->public_username : Parse::BBCode::escape_html($username);
-    return "<a href='/${uname}'>\@${uname}</a>";
+    return "<a href='/${uname}' class='atmention'>\@${uname}</a>";
 }
 
 sub render_html {
