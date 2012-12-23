@@ -5,7 +5,7 @@
 <@-   CASE 'DDGC::DB::Result::Token::Language' -@>
 	<@- u('Translate','tokenlanguage',comment.context_id) -@>
 <@-   CASE 'DDGC::DB::Result::Thread' -@>
-	<@- u('Forum','view',comment.context_id) -@>
+	<@- u('Forum','view',comment.get_context_obj.url) -@>
 <@-   CASE -@>
 	<@- comment.context -@>
 <@- END -@>#comment_<@ comment.id @>">Go to thread</a>
