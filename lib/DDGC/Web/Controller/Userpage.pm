@@ -1,4 +1,4 @@
-package DDGC::Web::Controller::Profile;
+package DDGC::Web::Controller::Userpage;
 use Moose;
 use namespace::autoclean;
 
@@ -9,7 +9,6 @@ BEGIN {extends 'Catalyst::Controller'; }
 
 sub base :Chained('/base') :PathPart('') :CaptureArgs(0) {
     my ( $self, $c ) = @_;
-    $c->stash->{title} = 'Profile';
 }
 
 sub user :Chained('base') :PathPart('') :CaptureArgs(1) {
@@ -18,8 +17,9 @@ sub user :Chained('base') :PathPart('') :CaptureArgs(1) {
     unless ($c->stash->{user} && $c->stash->{user}->public) {
     	return $c->go('/default');
     }
-    $c->add_bc('User Profile', '');
+    $c->add_bc('User Page', '');
     $c->add_bc($username, '');
+    $c->stash->{title} = $username." User Page";
 }
 
 sub home :Chained('user') :PathPart('') :Args(0) {
