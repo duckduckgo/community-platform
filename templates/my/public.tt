@@ -2,9 +2,9 @@
   <fieldset>
   
   <@ IF c.user.public @>
-	<h4><@ l('Make your profile private') @></h4>
+	<h4><@ l('Make your account private') @></h4>
 	<@ ELSE @>
-	<h4><@ l('Make your profile public') @></h4>
+	<h4><@ l('Make your account public') @></h4>
 	<@ END @>
   
     <@ IF wrong_captcha @>

@@ -120,6 +120,15 @@ sub domain :Chained('logged_in') :PathPart('') :CaptureArgs(1) {
 
 sub admin :Chained('domain') :Args(0) {
     my ( $self, $c ) = @_;
+
+   	if ($c->req->params->{search_token_comments}) {
+   		$c->stash->{search_token_comments_result} = $c->stash->{token_domain}->tokens->search({
+   			notes => { -like => '%'.$c->req->params->{search_token_comments}.'%' },
+   		},{
+   			group_by => 'notes',
+   		});
+   	}
+
     $c->pager_init($c->action.$c->stash->{token_domain}->id,20);
     $c->stash->{latest_comments} = $c->stash->{token_domain}->comments($c->stash->{page},$c->stash->{pagesize});
     $c->add_bc('Token management', '');

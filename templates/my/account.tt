@@ -158,9 +158,9 @@
           <tr>
             <td>
               <@ IF c.user.public @>
-                <@ l('Your %s is publicly visible','<a href="'_ u('Profile','home',c.user.username) _'">' _ l('profile') _ '</a>') @>
+                <@ l('Your %s is publicly visible','<a href="'_ u('Userpage','home',c.user.username) _'">' _ l('account') _ '</a>') @>
               <@ ELSE @>
-                <@ l('Your profile is not publicly visible yet') @>
+                <@ l('Your account is not publicly visible yet') @>
               <@ END @>
             </td>
             <td class="account-table_BTNS">
