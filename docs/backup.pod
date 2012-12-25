@@ -1,10 +1,10 @@
-= Backup =
+=head1 Backup
 
-== Database ==
+=head2 Database
 
 PostgreSQL database ddgc and prosody
 
-== Config ==
+=head2 Config
 
 /etc/prosody/*
 /etc/postgresql/8.4/main/pg_hba.conf
