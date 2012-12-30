@@ -1,0 +1,64 @@
+=head1 NAME
+
+Duck Duck Go translation interface - Translation guidelines (draft)
+
+=head1 SYNOPSIS
+
+I'm a Duck Duck Go fan and want to help on the translation work.
+How can I do that? 
+
+=head1 DESCRIPTION
+
+This is some rules you can use to help us making a better work during the 
+translation process. It will teach you how to :
+
+=over
+
+=item * Translate 
+
+=item * Vote 
+
+=back 
+
+=head1 BASICS
+
+=head2 What is i18n?
+
+=head2 What is i10n?
+
+Go to https://dukgo.com and create an account.
+
+=head2 Context
+
+Why it's important to understand where tokens are?
+
+=head1 TRANSLATING
+
+=head2 VOTING
+
+What is important on the voting about the translations? 
+
+=head1 REFERENCES GUIDES THAT WE COULD BE INSPIRED BY
+
+=over
+
+=item * https://en.wikipedia.org/wiki/Internationalization_and_localization
+
+=item * http://wiki.musicbrainz.org/User:Ianmcorvidae/Translation_Process
+
+=item * http://www.debian.org/doc/manuals/intro-i18n/
+
+=item * http://guides.rubyonrails.org/i18n.html
+
+=item * https://wiki.ubuntu.com/Translations/KnowledgeBase
+
+=item * https://www.oignon.net/getinvolved/translation-overview.html.en
+
+=item * https://help.launchpad.net/Translations/Guidelines
+
+=item * https://fedoraproject.org/wiki/I18N / https://fedoraproject.org/wiki/L10N
+
+=item * http://www-archive.mozilla.org/docs/refList/i18n/
+
+=back 
+
