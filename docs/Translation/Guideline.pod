@@ -44,10 +44,12 @@ to vote for the translation alternative to translate the token yourself.
 By default we only show you totally untranslated tokens (if there exist some), 
 but you got a button there to see all tokens.
 
+Go to https://dukgo.com and create an account.
+
 =head3 Set your language skills
 
 In your L<account preferences|http://dukgo.com/my/account>, you have to choose 
-for, at least, one language you want to translate to. You have to select both of the :
+for, at least, one language you want to translate to. Then select both of :
 
 =over
 
@@ -74,17 +76,43 @@ for, at least, one language you want to translate to. You have to select both of
 =back  
 
 If you are trying to add a language that is not listed, 
-you L<make a request fo it!|https://dukgo.com/base/requestlanguage> 
+you can L<make a request fo it!|https://dukgo.com/base/requestlanguage> 
 
 =head2 What is i18n?
 
+TODO
+
 =head2 What is i10n?
 
-Go to https://dukgo.com and create an account.
+TODO
 
 =head2 Context
 
-Why it's important to understand where tokens are?
+
+=head3 Why it's important to understand where tokens are?
+
+Lots of text tokens are split up into several small tokens into the translation 
+interface. This means that many I<single words> are running around with tokens, 
+and without context, it's impossible to give an accurate translation. 
+
+When you whant to translate a token, it would be useful to have an idea of the
+place where it is precisely used. It will produce better translations because
+as most of the tokens will be assembled into paragraphes or elements to produce a 
+general meaning, it's important that it makes sense for you first.
+
+If you don't care about context, we will obtain unusable data and a huge energy loss
+for everybody.
+
+=head3 How-to find informations about context ? 
+
+We try to provide context information for each tokens so that the translator can 
+understand in which context things are being translated. These informations are
+displayed just below of the translation field, in a special B<Token Notes> field.
+It should give you special informations that are useful to understand what the token 
+is used for, and eventually explain you how to find it (which page, which bloc, how to 
+reveal it when it's hidden and much more stuff).
+
+If you take some time to B<read> these  and B<understand> it, it will be B<really> valuable. 
 
 =head1 TRANSLATING
 
