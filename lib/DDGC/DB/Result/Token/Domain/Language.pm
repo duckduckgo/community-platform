@@ -144,14 +144,13 @@ sub comments {
 	});
 }
 
-sub search_tokens {
-	my ( $self, $page, $pagesize, $search ) = @_;
+sub _get_token_languages {
+	my ( $self, $type, $page, $pagesize, $vars, $extra ) = @_;
+	$vars = {} unless defined $vars;
+	$extra = {} unless defined $extra;	
 	$self->token_languages->search({
-		'token.type' => 1,
-		'token.msgid' => { -like => '%'.$search.'%'},
-		'token.msgid_plural' => { -like => '%'.$search.'%'},
-		'token.msgctxt' => { -like => '%'.$search.'%'},
-		'token.notes' => { -like => '%'.$search.'%'},
+		'token.type' => $type,
+		%{$vars},
 	},{
 		order_by => 'me.created',
 		( ( defined $page and defined $pagesize ) ? (
@@ -159,38 +158,43 @@ sub search_tokens {
 			rows => $pagesize,
 		) : () ),
 		prefetch => 'token',
+		%{$extra},
+	});
+}
+
+sub search_tokens {
+	my ( $self, $page, $pagesize, $search ) = @_;
+	$self->_get_token_languages(1, $page, $pagesize, {
+		'token.msgid' => { -like => '%'.$search.'%'},
+		'token.msgid_plural' => { -like => '%'.$search.'%'},
+		'token.msgctxt' => { -like => '%'.$search.'%'},
+		'token.notes' => { -like => '%'.$search.'%'},
+	},{
 		join => 'token_language_translations',
 	});
 }
 
 sub untranslated_tokens {
 	my ( $self, $page, $pagesize ) = @_;
-	$self->token_languages->search({
-		'token.type' => 1,
+	$self->_get_token_languages(1, $page, $pagesize, {
 		'token_language_translations.id' => undef,
 	},{
-		order_by => 'me.created',
-		( ( defined $page and defined $pagesize ) ? (
-			page => $page,
-			rows => $pagesize,
-		) : () ),
-		prefetch => 'token',
+		join => 'token_language_translations',
+	});
+}
+
+sub msgctxt_tokens {
+	my ( $self, $page, $pagesize, $msgctxt ) = @_;
+	$self->_get_token_languages(1, $page, $pagesize, {
+		'token.msgctxt' => $msgctxt,
+	},{
 		join => 'token_language_translations',
 	});
 }
 
 sub all_tokens {
 	my ( $self, $page, $pagesize ) = @_;
-	$self->token_languages->search({
-		'token.type' => 1,
-	},{
-		order_by => 'me.created',
-		( ( defined $page and defined $pagesize ) ? (
-			page => $page,
-			rows => $pagesize,
-		) : () ),
-		prefetch => 'token',
-	});
+	$self->_get_token_languages(1, $page, $pagesize);
 }
 
 use overload '""' => sub {

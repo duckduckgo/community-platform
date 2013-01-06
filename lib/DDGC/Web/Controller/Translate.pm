@@ -219,7 +219,13 @@ sub snippets :Chained('locale') :Args(0) {
 		$c->user->update;
 	}
 	$c->stash->{placeholder_notes} = $placeholder_notes;
-	$c->pager_init($c->action.$c->stash->{token_domain}->key.$c->stash->{locale},20);
+	$c->pager_init(
+		$c->action.
+		$c->stash->{token_domain}->key.
+		$c->stash->{locale}.
+		( $c->req->params->{only_untranslated} ? "1" : "0" ).
+		( defined $c->req->params->{only_msgctxt} ? '"'.$c->req->params->{only_msgctxt}.'"' : "undef" )
+	,20);
 	my $save_translations = $c->req->params->{save_translations} || $c->req->params->{save_translations_next_page} ? 1 : 0;
 	my $next_page = $c->req->params->{save_translations_next_page} ? 1 : 0;
 	$self->save_translate_params($c) if ($save_translations);
@@ -229,6 +235,9 @@ sub snippets :Chained('locale') :Args(0) {
 	} elsif ($c->req->params->{only_untranslated}) {
 		$c->stash->{only_untranslated} = 1;
 		$c->stash->{token_languages} = $c->stash->{locales}->{$c->stash->{locale}}->{tcl}->untranslated_tokens($c->stash->{page},$c->stash->{pagesize});
+	} elsif (defined $c->req->params->{only_msgctxt}) {
+		$c->stash->{only_msgctxt} = $c->req->params->{only_msgctxt};
+		$c->stash->{token_languages} = $c->stash->{locales}->{$c->stash->{locale}}->{tcl}->msgctxt_tokens($c->stash->{page},$c->stash->{pagesize},$c->stash->{only_msgctxt});
 	} else {
 		$c->stash->{token_languages} = $c->stash->{locales}->{$c->stash->{locale}}->{tcl}->all_tokens($c->stash->{page},$c->stash->{pagesize});
 	}

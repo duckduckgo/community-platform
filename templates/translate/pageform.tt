@@ -14,20 +14,22 @@
   <!-- RIGHT !-->
   <div class="token-filter_right">
     <div class="token_menu">
-      <a href="#" class="token_search_toggle">
-        Search
-      </a> |
-      <a href="<@ u('Translate','allsnippets',token_domain.key,cur_language.locale) @>">
-        Snippets overview
-      </a> |
-      <a href="<@ u('Translate','locale_comments',token_domain.key,cur_language.locale) @>">
-        <@ l('Discuss') @>
-      </a> |
+      <@ UNLESS only_msgctxt @>
+        <a href="<@ u('Translate','allsnippets',token_domain.key,cur_language.locale) @>">
+          Snippets overview
+        </a> |
+        <a href="<@ u('Translate','locale_comments',token_domain.key,cur_language.locale) @>">
+          <@ l('Discuss') @>
+        </a> |
+      <@ END @>
       <@ IF only_untranslated || token_search @>
         <a href="<@ u('Translate','snippets',token_domain.key,cur_language.locale) @>"><@ l('Show all snippets') @></a>
         <@ IF only_untranslated @>
           <input type="hidden" name="only_untranslated" value="1" />
         <@ END @>
+      <@ ELSIF only_msgctxt @>
+        Only tokens of context <b>"<@ only_msgctxt @>"</b>
+        <input type="hidden" name="only_msgctxt" value="<@ only_msgctxt @>" />
       <@ ELSE @>
         <a href="<@ u('Translate','snippets',token_domain.key,cur_language.locale,{ only_untranslated => 1 }) @>"><@ l('Show only untranslated snippets') @></a>
       <@ END @>

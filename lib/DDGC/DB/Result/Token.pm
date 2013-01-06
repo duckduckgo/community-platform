@@ -71,6 +71,36 @@ belongs_to 'token_domain', 'DDGC::DB::Result::Token::Domain', 'token_domain_id';
 has_many 'token_screens', 'DDGC::DB::Result::Token::Screen', 'token_id';
 has_many 'token_languages', 'DDGC::DB::Result::Token::Language', 'token_id';
 
+sub has_placeholders {
+	my ( $self ) = @_;
+	my @all_placeholders;
+	my %placeholders = %{$self->placeholders};
+	push @all_placeholders, @{$placeholders{msgid}};
+	push @all_placeholders, @{$placeholders{msgid_plural}} if defined $placeholders{msgid_plural};
+	return scalar @all_placeholders;
+}
+
+my $placeholders_regexp = qr/%(\d+\$)?([-+\'#0 ]*)(\*\d+\$|\*|\d+)?(\.(\*\d+\$|\*|\d+))?([scboxXuidfegEG])/;
+
+sub _parse_placeholders {
+	my ( $self, $string ) = @_;
+	my @matches = $string =~ /$placeholders_regexp/g;
+	my @placeholders;
+	for (@matches) {
+		push @placeholders, $_ if $_;
+	}
+	return @placeholders;
+}
+
+sub placeholders {
+	my ( $self ) = @_;
+	my %placeholders = (
+		msgid => [$self->_parse_placeholders($self->msgid)],
+	);
+	$placeholders{msgid_plural} = [$self->_parse_placeholders($self->msgid_plural)] if $self->msgid_plural;
+	return \%placeholders;
+}
+
 sub insert {
 	my $self = shift;
 	my $guard = $self->result_source->schema->txn_scope_guard;

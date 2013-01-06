@@ -8,11 +8,12 @@
   <@ FOR token_language IN token_languages.all @>
     <div>
 	  <div>
-       <a href="<@ u('Translate','tokenlanguage',token_language.id) @>">
-	   <@ token_language.token.msgctxt @>
-	   <@ IF token_language.token.msgctxt @>/<@ END @>
+       <a href="<@ u('Translate','tokenlanguage',token_language.id) @>"> 
+	   <@ IF token_language.token.msgctxt @>
+	   	[<@ token_language.token.msgctxt @>]
+	   <@ END @>
        <@ token_language.token.msgid @>
-	   <@ IF token_language.token.msgid_plural @>/<@ END @>
+	   <@ IF token_language.token.msgid_plural @>|<@ END @>
 	   <@ token_language.token.msgid_plural @>
 	   </a>
    	  <@ IF token_language.msgstr @>
