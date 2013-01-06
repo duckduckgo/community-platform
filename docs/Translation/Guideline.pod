@@ -7,8 +7,6 @@ Duck Duck Go translation interface - Translation guidelines (draft)
 I'm a Duck Duck Go fan and want to help on the translation work.
 How can I do that? 
 
-
-
 =head1 DESCRIPTION
 
 Duck Duck Go got it's own translation interface at L<http://dukgo.com/>.
@@ -87,7 +85,6 @@ TODO
 TODO
 
 =head2 Context
-
 
 =head3 Why it's important to understand where tokens are?
 
