@@ -19,21 +19,26 @@ fi
 
 echo "Releasing to $DDGC_RELEASE_HOSTNAME..."
 
+echo "*** Empty deploy directory..."
 ssh -q -t ddgc@$DDGC_RELEASE_HOSTNAME "(
 	rm -rf ~/deploy &&
 	mkdir ~/deploy
 )" && \
+echo "*** Transfer release file $2..." && \
 scp $2 ddgc@$DDGC_RELEASE_HOSTNAME:~/deploy && \
+echo "*** Preparig release on remote site..." && \
 ssh -q -t ddgc@$DDGC_RELEASE_HOSTNAME "(
-	eval \$(perl -I\$HOME/perl5/lib/perl5 -Mlocal::lib) &&
-	. ~/ddgc_config.sh &&
+	. /home/ddgc/perl5/perlbrew/etc/bashrc &&
+	. /home/ddgc/ddgc_config.sh &&
 	cd ~/deploy &&
 	tar xz --strip-components=1 -f $2 &&
 	rm $2 &&
 	cpanm -n --installdeps . &&
 	touch ~/ddgc_web_maintenance
 )" && \
-ssh -q -t root@$DDGC_RELEASE_HOSTNAME "( svc -d /etc/service/ddgc )" && \
+echo "*** Stopping current system..." && \
+ssh -q -t root@$DDGC_RELEASE_HOSTNAME "( ~/stop_ddgc.sh )" && \
+echo "*** Copying new files in place..." && \
 ssh -q -t ddgc@$DDGC_RELEASE_HOSTNAME "(
 	mv ~/live ~/backup/$CURRENT_DATE_FILENAME &&
 	mv ~/deploy ~/live &&
@@ -42,5 +47,6 @@ ssh -q -t ddgc@$DDGC_RELEASE_HOSTNAME "(
 	cp -ar ~/live/share/docroot/* ~/docroot/
 	cp -ar ~/live/share/docroot_duckpan/* ~/ddgc/duckpan/
 )" && \
-ssh -q -t root@$DDGC_RELEASE_HOSTNAME "( svc -u /etc/service/ddgc && rm /home/ddgc/ddgc_web_maintenance )" && \
-echo "Release successful"
+echo "*** Starting new system..." && \
+ssh -q -t root@$DDGC_RELEASE_HOSTNAME "( svc -u /etc/service/ddgc && sleep 1 && rm /home/ddgc/ddgc_web_maintenance )" && \
+echo "*** Release successful"

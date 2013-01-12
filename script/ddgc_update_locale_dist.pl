@@ -1,5 +1,7 @@
 #!/usr/bin/env perl
 
+$|=1;
+
 use strict;
 use warnings;
 
