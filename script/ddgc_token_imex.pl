@@ -18,6 +18,7 @@ my $import;
 my $export;
 my $dry;
 my $overview;
+my $missing;
 
 GetOptions(
 	"domain=s" => \$domain,
@@ -25,13 +26,14 @@ GetOptions(
 	"export=s" => \$export,
 	"dry" => \$dry,
 	"overview" => \$overview,
+	"missing" => \$missing,
 );
 
 die 'you must do one: --import from a file or --export to a file' if ( ( $import && $export ) || ( !$import && !$export ) );
 
-die 'export doesnt support dry or overview' if $export && ( $dry || $overview );
+die 'export doesnt support dry, overview or missing' if $export && ( $dry || $overview || $missing );
 
-$dry = 1 if $overview;
+$dry = 1 if $overview || $missing;
 
 die 'you must give a --domain' if !$domain;
 
@@ -49,6 +51,7 @@ if ($import) {
 	my %entries;
 
 	my @im = @{decode_json(io($import)->slurp)};
+	my @missing;
 
 	for (@im) {
 
@@ -64,10 +67,16 @@ if ($import) {
 		})->next;
 
 		if ($t) {
-			print "\nFollowing Token already exist:\n\n";
-			p(%{$_});
+			unless ($missing) {
+				print "\nFollowing Token already exist:\n\n";
+				p(%{$_});
+			}
 		} else {
-			if ($dry) {
+			if ($missing) {
+				print "\nToken not found:\n\n";
+				p(%{$_});
+				push @missing, $_;
+			} elsif ($dry) {
 				print "\nDRY RUN, WOULD ADD:\n\n";
 				p(%{$_});
 			} else {
@@ -80,7 +89,7 @@ if ($import) {
 	}
 
 	if ($overview) {
-		for (@ts) {
+		for (@missing || @ts) {
 			my $key = join('|||',
 				$_->msgid,
 				$_->msgid_plural ? $_->msgid_plural : (),
@@ -111,3 +120,4 @@ if ($import) {
 	io($export)->print(encode_json(\@ex));
 
 }
+
