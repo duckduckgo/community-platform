@@ -9,6 +9,8 @@ use IO::All -utf8;
 use Cwd;
 use Data::Dumper;
 use POSIX;
+use MIME::Base64;
+use Encode qw(encode);
 
 our $VERSION ||= '0.0development';
 
@@ -98,12 +100,14 @@ sub BUILD {
 			$translation_count++ if $tl->gettext_snippet(0);
 		}
 		my $locale = $tcl->language->locale;
-		$localesstring .= $locale." => {\n";
+		my $lname = $tcl->language->name_in_local;
+		my $ename = $tcl->language->name_in_english;
+		$localesstring .= "'".$locale."' => {\n";
 		$localesstring .= "\ttranslation_count => ".$translation_count.",\n";
 		$localesstring .= "\tpercent => ".floor( ( $translation_count / $tokencount ) * 100 ).",\n";
 		$localesstring .= "\tlocale => '".$locale."',\n";
-		$localesstring .= "\tname_in_english => '".$tcl->language->name_in_english."',\n";
-		$localesstring .= "\tname_in_local => '".$tcl->language->name_in_local."',\n";
+		$localesstring .= "\tname_in_english => decode_base64('".encode_base64(encode("UTF-8", $ename))."'),\n";
+		$localesstring .= "\tname_in_local => decode_base64('".encode_base64(encode("UTF-8",$lname))."'),\n";
 		$localesstring .= "\tflag_url => '".$tcl->language->flag_url."',\n";
 		$localesstring .= "\tflagicon => '".$tcl->language->flagicon."',\n";
 		$localesstring .= "\tnplurals => ".$tcl->language->nplurals.",\n";
@@ -145,7 +149,7 @@ package $lib;
 
 use strict;
 use warnings;
-use utf8;
+use MIME::Base64;
 
 \=method version
 
