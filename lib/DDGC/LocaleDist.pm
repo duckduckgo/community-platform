@@ -91,25 +91,26 @@ sub BUILD {
 	my $domainname = $self->token_domain->name;
 
 	my %locales;
+	my $localesstring = "{\n";
 	for my $tcl ($self->token_domain->token_domain_languages->all) {
 		my $translation_count = 0;
 		for my $tl ($tcl->token_languages->all) {
 			$translation_count++ if $tl->gettext_snippet(0);
 		}
 		my $locale = $tcl->language->locale;
-		$locales{$locale} = {
-			translation_count => $translation_count,
-			percent => floor( ( $translation_count / $tokencount ) * 100 ),
-			locale => $locale,
-			name_in_english => $tcl->language->name_in_english,
-			name_in_local => $tcl->language->name_in_local,
-			flag_url => $tcl->language->flag_url,
-			flagicon => $tcl->language->flagicon,
-			nplurals => $tcl->language->nplurals,
-			rtl => $tcl->language->rtl ? 1 : 0,
-		};
+		$localesstring .= $locale." => {\n";
+		$localesstring .= "\ttranslation_count => ".$translation_count.",\n";
+		$localesstring .= "\tpercent => ".floor( ( $translation_count / $tokencount ) * 100 ).",\n";
+		$localesstring .= "\tlocale => '".$locale."',\n";
+		$localesstring .= "\tname_in_english => '".$tcl->language->name_in_english."',\n";
+		$localesstring .= "\tname_in_local => '".$tcl->language->name_in_local."',\n";
+		$localesstring .= "\tflag_url => '".$tcl->language->flag_url."',\n";
+		$localesstring .= "\tflagicon => '".$tcl->language->flagicon."',\n";
+		$localesstring .= "\tnplurals => ".$tcl->language->nplurals.",\n";
+		$localesstring .= "\trtl => ".($tcl->language->rtl ? 1 : 0).",\n";
+		$localesstring .= "},\n";
 	}
-	my $localesstring = Dumper(\%locales);
+	$localesstring .= "}\n";
 
 	io(file($self->build_dir,'dist.ini'))->print(<<"___END_OF_DIST_INI___");
 name = $dist
@@ -168,10 +169,7 @@ Information about the included locales
 
 \=cut
 
-sub locales {
-
-my $localesstring
-return \$VAR1; }
+sub locales {$localesstring}
 
 1;
 ___END_OF_LIB___
