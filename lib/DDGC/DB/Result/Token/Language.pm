@@ -170,6 +170,7 @@ sub auto_use {
 	my %grade;
 	my %votes;
 	for (@translations) {
+		next if $_->checked && !$_->check_result;
 		my $translation = $_;
 		if (defined ($first{$translation->key})) {
 			my $old = $first{$translation->key};

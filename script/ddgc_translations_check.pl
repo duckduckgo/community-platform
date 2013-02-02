@@ -12,6 +12,7 @@ use Getopt::Long;
 use JSON;
 use DDGC;
 use Locale::Simple;
+use utf8;
 
 my $domain;
 
@@ -35,19 +36,25 @@ for (@tdls) {
 		my $msgid = $_->token_language->token->msgid;
 		my $msgid_plural = $_->token_language->token->msgid_plural;
 		unless (Locale::Simple::sprintf_compare(
-			$_->token_language->token->msgid,
+			$msgid,
 			$_->msgstr0
 		)) {
-			print "INVALID TOKEN\n";
+			print "'".$msgid."' => '".$_->msgstr0."'\n";
+			$_->check_timestamp(DateTime->now);
+			$_->check_result(0);
+			$_->update;
 		}
 		for my $keyno (1..$_->msgstr_index_max) {
 			my $key = 'msgstr'.$keyno;
 			next unless $_->$key;
 			unless (Locale::Simple::sprintf_compare(
-				$_->token_language->token->msgid_plural,
+				$msgid_plural,
 				$_->$key
 			)) {
-				print "INVALID TOKEN\n";
+				print "'".$msgid_plural."' => '".$_->$key."'\n";
+				$_->check_timestamp(DateTime->now);
+				$_->check_result(0);
+				$_->update;
 			}
 		}
 	}

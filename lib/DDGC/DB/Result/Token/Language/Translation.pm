@@ -69,12 +69,12 @@ column check_timestamp => {
 	data_type => 'timestamp with time zone',
 	is_nullable => 1,
 };
+sub checked { shift->check_timestamp ? 1 : 0 }
 
 column check_users_id => {
 	data_type => 'bigint',
 	is_nullable => 1,
 };
-sub checked { shift->check_users_id ? 1 : 0 }
 
 # column users_id => {
 	# data_type => 'bigint',
