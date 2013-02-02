@@ -120,7 +120,8 @@ sub gettext_snippet {
 
 sub gettext_escape {
 	my ( $self, $content ) = @_;
-	$content =~ s/\n/\\n/g;
+	$content =~ s/\\/\\\\/g;
+#	$content =~ s/\n/\\n/g;
 	$content =~ s/"/\\"/g;
 	return $content;
 }
