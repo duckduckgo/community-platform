@@ -4,6 +4,7 @@ use namespace::autoclean;
 
 use DDGC::Config;
 use Dist::Data;
+use Path::Class;
 
 BEGIN {extends 'Catalyst::Controller'; }
 
@@ -50,13 +51,41 @@ sub module :Chained('base') :CaptureArgs(1) {
 	$c->stash->{duckpan_module} = $module;
 	$c->stash->{duckpan_dist_filename} = $c->stash->{duckpan}->modules->{$module};
 	return $c->go($c->controller('Root'),'default') unless $c->stash->{duckpan_dist_filename};
-	$c->stash->{duckpan_dist} = Dist::Data->new($c->stash->{duckpan_dist_filename});
-	$c->add_bc($module, $c->chained_uri('Duckpan','module',$module));
+	my $f = file($c->stash->{duckpan_dist_filename});
+	$c->stash->{duckpan_dist} = Dist::Data->new(
+		dir => dir($c->d->config->duckpandir,'x',$f->basename)->stringify,
+		filename => $c->stash->{duckpan_dist_filename},
+	);
+	$c->add_bc($module, $c->chained_uri('Duckpan','module_index',$module));
+}
+
+has pod_parser => (
+	isa => 'Pod::Simple::XHTML',
+	is => 'ro',
+	lazy_build => 1,
+);
+
+sub _build_pod_parser {
+	my $psx = Pod::Simple::XHTML->new();
+	$psx->html_charset('UTF-8');
+	$psx->html_header("");
+	$psx->html_footer("");
+	$psx->index(1);
+	return $psx;
+}
+
+sub get_html_from_pod {
+	my ( $self, $file ) = @_;
+	$self->pod_parser->output_string(\my $html);
+	$self->pod_parser->parse_file($file);
+	return $html;
 }
 
 sub module_index :Chained('module') :PathPart('') :Args(0) {
     my ( $self, $c ) = @_;
-    $c->add_bc('Module Index of DuckPAN', $c->chained_uri('Duckpan','module_index'));
+	$c->stash->{duckpan_module_pod} = $self->get_html_from_pod(
+		$c->stash->{duckpan_dist}->file($c->stash->{duckpan_dist}->packages->{$c->stash->{duckpan_module}}->{file})
+	);
 }
 
 # TODO: Goes into a static generation procedure
