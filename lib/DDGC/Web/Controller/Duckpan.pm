@@ -5,6 +5,7 @@ use namespace::autoclean;
 use DDGC::Config;
 use Dist::Data;
 use Path::Class;
+use Pod::Simple::XHTML;
 
 BEGIN {extends 'Catalyst::Controller'; }
 
@@ -56,6 +57,7 @@ sub module :Chained('base') :CaptureArgs(1) {
 		dir => dir($c->d->config->duckpandir,'x',$f->basename)->stringify,
 		filename => $c->stash->{duckpan_dist_filename},
 	);
+	$c->stash->{duckpan_dist}->extract_distribution;
 	$c->add_bc($module, $c->chained_uri('Duckpan','module_index',$module));
 }
 
