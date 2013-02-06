@@ -3,7 +3,6 @@ package DDGC::DuckPAN;
 use Moose;
 use CPAN::Repository;
 use Dist::Data;
-use Pod::Simple::XHTML;
 
 has ddgc => (
 	isa => 'DDGC',
