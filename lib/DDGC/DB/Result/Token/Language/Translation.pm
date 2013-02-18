@@ -1,7 +1,9 @@
 package DDGC::DB::Result::Token::Language::Translation;
 
+use Moose;
 use DBIx::Class::Candy -components => [ 'TimeStamp', 'InflateColumn::DateTime', 'InflateColumn::Serializer', 'EncodedColumn' ];
 use DateTime;
+use Locale::Simple;
 
 table 'token_language_translation';
 
@@ -76,6 +78,13 @@ column check_users_id => {
 	is_nullable => 1,
 };
 
+sub invalid {
+	my ( $self ) = @_;
+	return ( $self->checked && !$self->check_result )
+		? 1
+		: 0;
+}
+
 # column users_id => {
 	# data_type => 'bigint',
 	# is_nullable => 0,
@@ -96,7 +105,7 @@ column updated => {
 	set_on_update => 1,
 };
 
-unique_constraint [qw/ token_language_id username /];
+#unique_constraint [qw/ token_language_id username /];
 
 #belongs_to 'user', 'DDGC::DB::Result::User', 'users_id';
 belongs_to 'user', 'DDGC::DB::Result::User', { 'foreign.username' => 'self.username' };
@@ -106,11 +115,44 @@ belongs_to 'check_user', 'DDGC::DB::Result::User', 'check_users_id', { join_type
 has_many 'token_language_translation_votes', 'DDGC::DB::Result::Token::Language::Translation::Vote', 'token_language_translation_id';
 sub votes { shift->token_language_translation_votes(@_) }
 
+before update => insert => sub {
+	my ( $self ) = @_;
+	$self->sprintf_check;
+};
+
 sub user_voted {
 	my ( $self, $user ) = @_;
 	my $result = $self->search_related('token_language_translation_votes',{
 		users_id => $user->db->id,
 	})->all;
+}
+
+sub sprintf_check {
+	my ( $self ) = @_;
+	my $msgid = $self->token_language->token->msgid;
+	my $msgid_plural = $self->token_language->token->msgid_plural;
+	unless (Locale::Simple::sprintf_compare(
+		$msgid,
+		$self->msgstr0
+	)) {
+		print "'".$msgid."' => '".$self->msgstr0."'\n";
+		$self->check_timestamp(DateTime->now);
+		$self->check_result(0);
+	}
+	if ($msgid_plural) {
+		for my $keyno (1..$self->msgstr_index_max) {
+			my $key = 'msgstr'.$keyno;
+			next unless $self->$key;
+			unless (Locale::Simple::sprintf_compare(
+				$msgid_plural,
+				$self->$key
+			)) {
+				print "'".$msgid_plural."' => '".$self->$key."'\n";
+				$self->check_timestamp(DateTime->now);
+				$self->check_result(0);
+			}
+		}
+	}
 }
 
 sub vote_count {

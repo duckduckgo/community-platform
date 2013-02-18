@@ -104,7 +104,7 @@ sub BUILD {
 		my $ename = $tcl->language->name_in_english;
 		$localesstring .= "'".$locale."' => {\n";
 		$localesstring .= "\ttranslation_count => ".$translation_count.",\n";
-		$localesstring .= "\tpercent => ".floor( ( $translation_count / $tokencount ) * 100 ).",\n";
+		$localesstring .= "\tpercent => ".floor( ($tokencount ? ($translation_count / $tokencount) : (0)) * 100 ).",\n";
 		$localesstring .= "\tlocale => '".$locale."',\n";
 		$localesstring .= "\tname_in_english => decode_base64('".encode_base64(encode("UTF-8", $ename))."'),\n";
 		$localesstring .= "\tname_in_local => decode_base64('".encode_base64(encode("UTF-8",$lname))."'),\n";

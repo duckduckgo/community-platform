@@ -172,7 +172,6 @@ sub save_translate_params {
 		}
 		if ($c->user->translation_manager) {
 			if ($_ =~ m/token_notes_(\d+)_edit/) {
-				use DDP; p($c->req->params->{$_});
 				my $token = $c->d->rs('Token')->find($1);
 				$token->notes($c->req->params->{$_});
 				$token->update;
@@ -187,7 +186,7 @@ sub save_translate_params {
 	if ($c->user) {
 		for (keys %k) {
 			my $token_language = $c->d->rs('Token::Language')->find($_);
-			$token_language->set_user_translation($c->user,$k{$_});
+			$token_language->add_user_translation($c->user,$k{$_});
 		}
 	}
 }

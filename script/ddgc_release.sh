@@ -48,5 +48,5 @@ ssh -q -t ddgc@$DDGC_RELEASE_HOSTNAME "(
 	cp -ar ~/live/share/docroot_duckpan/* ~/ddgc/duckpan/
 )" && \
 echo "*** Starting new system..." && \
-ssh -q -t root@$DDGC_RELEASE_HOSTNAME "( svc -u /etc/service/ddgc && sleep 1 && rm /home/ddgc/ddgc_web_maintenance )" && \
+ssh -q -t root@$DDGC_RELEASE_HOSTNAME "( svc -u /etc/service/ddgc && sleep 3 && rm /home/ddgc/ddgc_web_maintenance )" && \
 echo "*** Release successful"

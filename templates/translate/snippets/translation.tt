@@ -17,23 +17,27 @@
 			<@ INCLUDE user/username.tt userpic_size=16 user=translation.user @>
   			<@ END @></h7>
 		</td>
-    	<td rowspan="3"><@ INCLUDE translate/vote_view.tt @></td>
+    	<td rowspan="3">
+    		<@ IF translation.invalid @>
+    			INVALID
+    		<@ ELSE @>
+    			<@ INCLUDE translate/vote_view.tt @>
+    		<@ END @>
+    	</td>
     </tr>
 	
 	
 	<@ FOR n IN [ 0..token_language.max_msgstr_index ] @>
       <@ SET func = 'msgstr' _ n @>
+  	<tr<@ IF translation.invalid @> style="background-color:red"<@ END @>>
     <@ IF n == 0 @>
-	<tr>
 	<td><h2><@ l('Singular') @></h2></td>
 	<td><@ translation.$func @></td>
-	</tr>
 	<@ ELSE @>
-	<tr>
 	<td width="200px"><h2><@ n @>th Plural Form</h2></td>
 	<td><@ translation.$func @></td>
-	</tr>
 	<@ END @>
+	</tr>
     <@ END @>   
 	
 	</tbody>

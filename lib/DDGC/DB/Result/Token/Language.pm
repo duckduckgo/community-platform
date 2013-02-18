@@ -138,7 +138,7 @@ sub gettext_snippet_formatter {
 	return $return;
 }
 
-sub set_user_translation {
+sub add_user_translation {
 	my ( $self, $user, $translation ) = @_;
 	if ($user->can_speak($self->token_domain_language->language->locale)) {
 		$self->update_or_create_related('token_language_translations',{
@@ -171,7 +171,7 @@ sub auto_use {
 	my %grade;
 	my %votes;
 	for (@translations) {
-		next if $_->checked && !$_->check_result;
+		next if $_->invalid;
 		my $translation = $_;
 		if (defined ($first{$translation->key})) {
 			my $old = $first{$translation->key};

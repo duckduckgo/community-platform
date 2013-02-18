@@ -4,8 +4,6 @@
 <@ INCLUDE translate/languagebox.tt @>
 </div>
 
-
-
 <@ INCLUDE translate/pageform.tt @>
 
 <!-- <div class="alert warning"><div class="close-warning"></div><@ l('Screen reader users: there is plain text information within the form') @>.</div> -->
