@@ -126,6 +126,7 @@ sub done_percentage {
 	my ( $self ) = @_;
 	my $untranslated_count = $self->untranslated_tokens->count;
 	my $max_token_count = $self->token_domain->tokens->count;
+	return 0 unless $max_token_count;
 	return floor(100 * ( ( $max_token_count - $untranslated_count ) / $max_token_count ));
 }
 
