@@ -8,3 +8,6 @@
   <p>Please also vote on the translation for your language! You have the option to vote for the translation alternative to translate the token yourself. By default we only show you totally untranslated tokens (if there exist some), but you got a button there to see all tokens.</p>
 <@ END @>
 </div>
+<div class="text">
+	For more information about our translation system, please read this <a href="https://github.com/duckduckgo/duckduckgo/blob/master/lib/DDG/Manual/Translation.pod">Manual</a>.
+</div>

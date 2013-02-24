@@ -31,32 +31,9 @@ die 'token domain "'.$domain.'" not found' if !$td;
 my @tdls = $td->token_domain_languages;
 
 for (@tdls) {
-	my @translations = $_->token_languages->search_related('token_language_translations');
-	for (@translations) {
-		my $msgid = $_->token_language->token->msgid;
-		my $msgid_plural = $_->token_language->token->msgid_plural;
-		unless (Locale::Simple::sprintf_compare(
-			$msgid,
-			$_->msgstr0
-		)) {
-			print "'".$msgid."' => '".$_->msgstr0."'\n";
-			$_->check_timestamp(DateTime->now);
-			$_->check_result(0);
-			$_->update;
-		}
-		for my $keyno (1..$_->msgstr_index_max) {
-			my $key = 'msgstr'.$keyno;
-			next unless $_->$key;
-			unless (Locale::Simple::sprintf_compare(
-				$msgid_plural,
-				$_->$key
-			)) {
-				print "'".$msgid_plural."' => '".$_->$key."'\n";
-				$_->check_timestamp(DateTime->now);
-				$_->check_result(0);
-				$_->update;
-			}
-		}
-	}
+	my @translations = $_->token_languages->search_related('token_language_translations',{
+		check_timestamp => undef,
+	});
+	$_->update for (@translations);
 }
 

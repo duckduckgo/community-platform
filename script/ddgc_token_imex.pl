@@ -89,16 +89,23 @@ if ($import) {
 	}
 
 	if ($overview) {
-		for (@missing || @ts) {
+		for (@missing) {
 			my $key = join('|||',
 				$_->{msgid},
 				$_->{msgid_plural} ? $_->{msgid_plural} : (),
 				$_->{msgctxt} ? $_->{msgctxt} : ());
 			$entries{$key} = 1 unless defined $entries{$key};
 		}
+		for (@ts) {
+			my $key = join('|||',
+				$_->msgid,
+				$_->msgid_plural ? $_->msgid_plural : (),
+				$_->msgctxt ? $_->msgctxt : ());
+			$entries{$key} = 1 unless defined $entries{$key};
+		}
 		print "\n============= OVERVIEW ================\n\n";
 		for (sort { lc($a) cmp lc($b) } keys %entries) {
-			print $_."\n";
+			print "'".$_."'\n";
 		}
 	}
 

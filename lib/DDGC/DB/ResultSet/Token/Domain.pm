@@ -6,7 +6,7 @@ extends 'DBIx::Class::ResultSet';
 sub sorted {
 	my ( $self ) = @_;
 	$self->search({}, {
-		order_by => { -desc => 'me.sorting' },
+		order_by => { -asc => 'me.sorting' },
 	});
 }
  

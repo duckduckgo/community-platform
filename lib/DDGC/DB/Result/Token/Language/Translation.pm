@@ -117,7 +117,7 @@ sub votes { shift->token_language_translation_votes(@_) }
 
 before update => insert => sub {
 	my ( $self ) = @_;
-	$self->sprintf_check;
+	$self->sprintf_check if $self->is_changed;
 };
 
 sub user_voted {
@@ -131,26 +131,19 @@ sub sprintf_check {
 	my ( $self ) = @_;
 	my $msgid = $self->token_language->token->msgid;
 	my $msgid_plural = $self->token_language->token->msgid_plural;
-	unless (Locale::Simple::sprintf_compare(
+	$self->check_timestamp(DateTime->now);
+	$self->check_result(Locale::Simple::sprintf_compare(
 		$msgid,
 		$self->msgstr0
-	)) {
-		print "'".$msgid."' => '".$self->msgstr0."'\n";
-		$self->check_timestamp(DateTime->now);
-		$self->check_result(0);
-	}
+	));
 	if ($msgid_plural) {
 		for my $keyno (1..$self->msgstr_index_max) {
 			my $key = 'msgstr'.$keyno;
 			next unless $self->$key;
-			unless (Locale::Simple::sprintf_compare(
+			$self->check_result(Locale::Simple::sprintf_compare(
 				$msgid_plural,
 				$self->$key
-			)) {
-				print "'".$msgid_plural."' => '".$self->$key."'\n";
-				$self->check_timestamp(DateTime->now);
-				$self->check_result(0);
-			}
+			));
 		}
 	}
 }

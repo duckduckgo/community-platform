@@ -24,7 +24,7 @@ sub do :Chained('base') :CaptureArgs(0) {
 sub index :Chained('do') :Args(0) {
     my ( $self, $c ) = @_;
 	$c->stash->{headline_template} = 'headline/translate.tt';
-	$c->stash->{token_domains} = $c->d->rs('Token::Domain')->search({});
+	$c->stash->{token_domains} = $c->d->rs('Token::Domain');
 }
 
 sub logged_in :Chained('base') :PathPart('') :CaptureArgs(0) {
