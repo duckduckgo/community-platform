@@ -91,9 +91,9 @@ if ($import) {
 	if ($overview) {
 		for (@missing || @ts) {
 			my $key = join('|||',
-				$_->msgid,
-				$_->msgid_plural ? $_->msgid_plural : (),
-				$_->msgctxt ? $_->msgctxt : ());
+				$_->{msgid},
+				$_->{msgid_plural} ? $_->{msgid_plural} : (),
+				$_->{msgctxt} ? $_->{msgctxt} : ());
 			$entries{$key} = 1 unless defined $entries{$key};
 		}
 		print "\n============= OVERVIEW ================\n\n";
