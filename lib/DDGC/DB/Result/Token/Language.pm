@@ -141,12 +141,16 @@ sub gettext_snippet_formatter {
 sub add_user_translation {
 	my ( $self, $user, $translation ) = @_;
 	if ($user->can_speak($self->token_domain_language->language->locale)) {
-		$self->update_or_create_related('token_language_translations',{
+		my ( $found ) = $self->search_related('token_language_translations',{
 			%{$translation},
-			user => $user->db,
-		},{
-			key => 'token_language_translation_token_language_id_username',
+			username => $user->username,
 		});
+		unless ($found) {
+			$self->create_related('token_language_translations',{
+				%{$translation},
+				username => $user->username,
+			});
+		}
 	} else {
 		die "you dont speak the language you are going to translate!";
 	}

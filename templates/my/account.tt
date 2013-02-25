@@ -1,21 +1,32 @@
 <form action="<@ u('My','account') @>" method="post" id="formMyAccount">
-
-  <div class="text account">
-    <div>
+<div class="text account">
+  <div>
     <!--<h2>Welcome to your DuckDuckGo community account!</h2>!-->
     <div class="alert warning">
       <div class="close-warning"></div>
       <strong>Tip:</strong> You do not need to share personal information to have or use this account.
     </div>
   </div>
- 	  
-  <@ IF xmpp_userhost != 'dukgo.com' @>
-    <div>
-      <div class="alert warning"><div class="close-warning"></div>This account will not work on the live system <a href="https://dukgo.com/">https://dukgo.com/</a>.</div>
-      <p class="note"><strong>Note: </strong>This is a development system, no data is used for the production environment! All data you enter here is only for testing!</div>
+
+  <@ IF !c.user.data.email @>
+  <div>
+    <!--<h2>Welcome to your DuckDuckGo community account!</h2>!-->
+    <div class="alert warning">
+      <div class="close-warning"></div>
+      <strong>Tip:</strong> If you want to be informed, if there are new tokens for translation or new translations for voting in your language, then <a href="https://dukgo.com/my/email">please add an email</a>!
     </div>
+  </div>
   <@ END @>
 
+  <@ IF xmpp_userhost != 'dukgo.com' @>
+    <div>
+      <div class="alert warning">
+        <div class="close-warning"></div>
+        This account will not work on the live system <a href="https://dukgo.com/">https://dukgo.com/</a>.
+      </div>
+      <p class="note"><strong>Note:</strong>This is a development system, no data is used for the production environment! All data you enter here is only for testing!</p>
+    </div>
+  <@ END @>
 
 <@ IF c.user.admin @>
 <div>
@@ -228,6 +239,6 @@
       </div>
     </div>
     <div></div>
-  </div>
 
+</div>
 </form>

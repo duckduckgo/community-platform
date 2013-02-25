@@ -876,6 +876,7 @@ sub add_token_domains {
 						} else {
 							$msgstr{msgstr0} = $trans->{$u}->{$_},
 						}
+						use DDP; p($tl);
 						$tl->create_related('token_language_translations',{
 							username => $u,
 							%msgstr,
