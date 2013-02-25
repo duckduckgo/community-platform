@@ -17,16 +17,16 @@ then
 	exit 1
 fi
 
-echo "Releasing to $DDGC_RELEASE_HOSTNAME..."
+echo "\n*** Releasing to $DDGC_RELEASE_HOSTNAME...\n"
 
-echo "*** Empty deploy directory..."
+echo "***\n*** Empty deploy directory...\n***"
 ssh -q -t ddgc@$DDGC_RELEASE_HOSTNAME "(
 	rm -rf ~/deploy &&
 	mkdir ~/deploy
 )" && \
-echo "*** Transfer release file $2..." && \
+echo "***\n*** Transfer release file $2...\n***" && \
 scp $2 ddgc@$DDGC_RELEASE_HOSTNAME:~/deploy && \
-echo "*** Preparig release on remote site..." && \
+echo "***\n*** Preparig release on remote site...\n***" && \
 ssh -q -t ddgc@$DDGC_RELEASE_HOSTNAME "(
 	. /home/ddgc/perl5/perlbrew/etc/bashrc &&
 	. /home/ddgc/ddgc_config.sh &&
@@ -36,9 +36,9 @@ ssh -q -t ddgc@$DDGC_RELEASE_HOSTNAME "(
 	cpanm -n --installdeps . &&
 	touch ~/ddgc_web_maintenance
 )" && \
-echo "*** Stopping current system..." && \
+echo "***\n*** Stopping current system...\n***" && \
 ssh -q -t root@$DDGC_RELEASE_HOSTNAME "( ~/stop_ddgc.sh )" && \
-echo "*** Copying new files in place..." && \
+echo "***\n*** Copying new files in place...\n***" && \
 ssh -q -t ddgc@$DDGC_RELEASE_HOSTNAME "(
 	mv ~/live ~/backup/$CURRENT_DATE_FILENAME &&
 	mv ~/deploy ~/live &&
@@ -47,6 +47,10 @@ ssh -q -t ddgc@$DDGC_RELEASE_HOSTNAME "(
 	cp -ar ~/live/share/docroot/* ~/docroot/
 	cp -ar ~/live/share/docroot_duckpan/* ~/ddgc/duckpan/
 )" && \
-echo "*** Starting new system..." && \
-ssh -q -t root@$DDGC_RELEASE_HOSTNAME "( svc -u /etc/service/ddgc && sleep 3 && rm /home/ddgc/ddgc_web_maintenance )" && \
-echo "*** Release successful"
+echo "***\n*** Starting new system...\n***" && \
+ssh -q -t root@$DDGC_RELEASE_HOSTNAME "(
+	svc -u /etc/service/ddgc &&
+	sleep 3 &&
+	rm /home/ddgc/ddgc_web_maintenance
+)" && \
+echo "***\n*** Release successful\n***"
