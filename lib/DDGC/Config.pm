@@ -76,6 +76,7 @@ sub db_params {
 	);
 	if (db_dsn =~ m/:SQLite:/) {
 		$vars{sqlite_unicode} = 1;
+		$vars{on_connect_do} = 'PRAGMA SYNCHRONOUS = OFF';
 	} elsif (db_dsn =~ m/:Pg:/) {
 		$vars{pg_enable_utf8} = 1;
 	}

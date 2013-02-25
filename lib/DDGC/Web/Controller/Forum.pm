@@ -3,15 +3,12 @@ package DDGC::Web::Controller::Forum;
 use Moose;
 use namespace::autoclean;
 
-use DDP;
-
 BEGIN {extends 'Catalyst::Controller'; }
 
 sub base : Chained('/base') PathPart('forum') CaptureArgs(0) {
   my ( $self, $c ) = @_;
   $c->stash->{breadcrumb} = ['Forum', '/forum/index'];
   $c->stash->{is_admin} = $c->user && $c->user->admin;
-  use DDP;p($c->request);
   #$c->response->redirect('/'.$c->request->path);
 }
 

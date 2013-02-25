@@ -1,7 +1,8 @@
 package DDGC::DB::Result::Token::Language::Translation;
 
-use Moose;
 use DBIx::Class::Candy -components => [ 'TimeStamp', 'InflateColumn::DateTime', 'InflateColumn::Serializer', 'EncodedColumn' ];
+use Moose;
+
 use DateTime;
 use Locale::Simple;
 
@@ -115,10 +116,10 @@ belongs_to 'check_user', 'DDGC::DB::Result::User', 'check_users_id', { join_type
 has_many 'token_language_translation_votes', 'DDGC::DB::Result::Token::Language::Translation::Vote', 'token_language_translation_id';
 sub votes { shift->token_language_translation_votes(@_) }
 
-# before update => insert => sub {
-# 	my ( $self ) = @_;
-# 	$self->sprintf_check if ($self->is_changed && !$self->is_column_changed('check_result'));
-# };
+before update => insert => sub {
+	my ( $self ) = @_;
+	$self->sprintf_check if ($self->is_changed && !$self->is_column_changed('check_result'));
+};
 
 sub user_voted {
 	my ( $self, $user ) = @_;

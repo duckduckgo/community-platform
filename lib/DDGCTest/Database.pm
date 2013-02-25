@@ -6,7 +6,6 @@ package DDGCTest::Database;
 
 use Moose;
 use DDGC::DB;
-use Try::Tiny;
 use utf8;
 use File::ShareDir::ProjectDistDir;
 use Data::Printer;
@@ -876,7 +875,6 @@ sub add_token_domains {
 						} else {
 							$msgstr{msgstr0} = $trans->{$u}->{$_},
 						}
-						use DDP; p($tl);
 						$tl->create_related('token_language_translations',{
 							username => $u,
 							%msgstr,

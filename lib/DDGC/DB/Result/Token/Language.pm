@@ -141,11 +141,15 @@ sub gettext_snippet_formatter {
 sub add_user_translation {
 	my ( $self, $user, $translation ) = @_;
 	if ($user->can_speak($self->token_domain_language->language->locale)) {
-		my ( $found ) = $self->search_related('token_language_translations',{
+		my $found = $self->search_related('token_language_translations',{
 			%{$translation},
 			username => $user->username,
-		});
+		})->first;
 		unless ($found) {
+			my @tr = $self->search_related('token_language_translations',{
+				username => $user->username,
+				token_language_translation_votes => undef,
+			});
 			$self->create_related('token_language_translations',{
 				%{$translation},
 				username => $user->username,
