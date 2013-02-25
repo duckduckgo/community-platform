@@ -31,9 +31,7 @@ die 'token domain "'.$domain.'" not found' if !$td;
 my @tdls = $td->token_domain_languages;
 
 for (@tdls) {
-	my @translations = $_->token_languages->search_related('token_language_translations',{
-		check_timestamp => undef,
-	});
+	my @translations = $_->token_languages->search_related('token_language_translations',{});
 	$_->force_check for (@translations);
 }
 
