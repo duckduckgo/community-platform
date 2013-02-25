@@ -34,6 +34,6 @@ for (@tdls) {
 	my @translations = $_->token_languages->search_related('token_language_translations',{
 		check_timestamp => undef,
 	});
-	$_->update for (@translations);
+	$_->force_check for (@translations);
 }
 
