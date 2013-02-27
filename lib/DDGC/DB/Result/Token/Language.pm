@@ -146,10 +146,6 @@ sub add_user_translation {
 			username => $user->username,
 		})->first;
 		unless ($found) {
-			my @tr = $self->search_related('token_language_translations',{
-				username => $user->username,
-				token_language_translation_votes => undef,
-			});
 			$self->create_related('token_language_translations',{
 				%{$translation},
 				username => $user->username,

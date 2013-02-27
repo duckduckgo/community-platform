@@ -1,8 +1,10 @@
 Email: <@ c.req.params.email @>
 
-Name in English: '<@ c.req.params.name_in_english @>'
+Name and location in english: '<@ c.req.params.name_in_english @>'
 
-Name in Local: '<@ c.req.params.name_in_local @>'
+Name and location in local language: '<@ c.req.params.name_in_local @>'
+
+Language in Local: '<@ c.req.params.lang_in_local @>'
 
 Locale: '<@ c.req.params.requestlanguage_locale @>'
 

@@ -12,49 +12,121 @@
 	<div class="alert ok"><div class="close-ok"></div><@ l('Thanks for your submitting your language request!') @></div>
 	<@ END @>
 
-	  <@ IF no_valid_email @>
-       		<div class="alert wrong"><div class="close-wrong"></div><@ l('Please provide a valid email address.') @></div>
-      <@ END @>
-	  
-	  <@ IF required_name_in_english @>
-        <div class="alert wrong"><div class="close-wrong"></div><@ l('Please provide the name of the language in english.') @></div>
-      <@ END @>
-	  
-	  <@ IF required_name_in_local @>
-       <div class="alert wrong"><div class="close-wrong"></div><@ l('Please provide the language in the local language.') @></div>
+
+    <@ IF no_valid_email @>
+          <div class="alert wrong"><div class="close-wrong"></div><@ l('Please provide a valid email address.') @></div>
       <@ END @>
 	  
     <div class="form_column">
-      <label for="email" class="form_input-label" aria-describedby="errorInvalidEmail"><@ l('Email') @></label>
+      <label for="email" class="form_input-label" aria-describedby="errorInvalidEmail"><@ l('Your email') @></label>
       <input type="text" name="email" id="email" value="<@ c.user.data.email || requestlanguage_email @>" class="form-input">
     </div>
 	
+    <p><br/><br/></p>
+
+    <br/><hr/>
+
+    <@ IF required_name_in_english @>
+        <div class="alert wrong"><div class="close-wrong"></div><@ l('Please provide the name of the language and country in english.') @></div>
+      <@ END @>
+
     <div class="form_column">
-      <label for="name_in_english" class="form_input-label" aria-describedby="errorRequiredNameEnglish"><@ l('Name in english') @></label>
+      <label for="name_in_english" class="form_input-label" aria-describedby="errorRequiredNameEnglish"><@ l('Name and location in english') @></label>
       <input type="text" name="name_in_english" id="name_in_english" value="<@ requestlanguage_name_in_english @>" class="form-input">
 		<!--<span>Example: English in United States</span>!-->
     </div>
+
+    <p>
 	
+Good Examples: "English in United States", "German in Germany", "Japanese in Japan"<hr/>
+
+IMPORTANT: We NEED the specification of the country, even if the language is (so far) only spoken in this specific country, there are more parameters which rely on this (for example, currency). Because we analyzed many cases of "this language is only spoken here" we found out that many people also dont know about the history and spreading of their own language :)
+
+    </p>
+
+    <br/><hr/>
+
+    <@ IF required_name_in_local @>
+       <div class="alert wrong"><div class="close-wrong"></div><@ l('Please provide the language and country in the local language.') @></div>
+      <@ END @>
+
     <div class="form_column">
-      <label for="name_in_local" class="form_input-label" aria-describedby="errorRequiredNameLocal"><@ l('Name in local language') @></label>
+      <label for="name_in_local" class="form_input-label" aria-describedby="errorRequiredNameLocal"><@ l('Name and location in local language') @></label>
       <input type="text" name="name_in_local" id="name_in_local" value="<@ requestlanguage_name_in_local @>" class="form-input">
 		<!--<span>Example: English in United States</span>!-->
     </div>
+
+    <p>
+  
+Good Examples: "English in United States", "Deutsch in Deutschland", "日本の日本語"<hr/>
+
+Here we need the 1:1 translation of the Name in English, in that specific language. You CAN vary here in the way you say it. Some languages dont say "X in Y", so it can be different but it should be understood as "the language X spoken in Y"
+
+    </p>
+
+    <br/><hr/>
+
+    <@ IF required_lang_in_local @>
+       <div class="alert wrong"><div class="close-wrong"></div><@ l('Please provide the language name alone in the local language.') @></div>
+      <@ END @>
+
+    <div class="form_column">
+      <label for="lang_in_local" class="form_input-label" aria-describedby="errorRequiredNameLocal"><@ l('Name alone in local language') @></label>
+      <input type="text" name="lang_in_local" id="lang_in_local" value="<@ requestlanguage_name_in_local @>" class="form-input">
+    <!--<span>Example: English</span>!-->
+    </div>
 	
+      <p>
+  
+Good Examples: "English", "Deutsch", "日本語"<hr/>
+
+Here we need only the language name, which we use for short labels of the language. Don't worry about including the country. It gets added via another visualization.
+
+    </p>
+
+    <br/><hr/>
+
     <div class="form_column">
       <label for="requestlanguage_locale" class="form_input-label"><@ l('Locale') @> (<@ l('optional') @>)</label>
       <input type="text" name="requestlanguage_locale" id="requestlanguage_locale" value="<@ requestlanguage_locale @>" class="form-input">
 		<!--<span>Example: en_US</span>!-->
     </div>
-	
+
+    <p>
+  
+Good Examples: "en_US", "de_DE", "ja_JP"<hr/>
+
+For the locale definition, we use the ISO code of the language (not all languages are defined in all iso codes so we try to be flexible here) and the ISO code of the country/area it is spoken in. We try to be flexible here (Virtual languages or non-country specific languages (pirate, klingon, esperanto) are getting XX as this part).
+
+    </p>
+
+    <br/><hr/>
+
     <div class="form_column">
       <label for="flagurl" class="form_input-label" lass="form_input-label"><@ l('Country flag URL reference') @> (<@ l('optional') @>)</label>
       <input type="text" name="flagurl" id="flagurl" value="<@ requestlanguage_flagurl @>" class="form-input">
     </div>
-	
+
+    <p>&nbsp;</p>
+
+    <br/><hr/>
+
 	<div class="form_column-submit">
 	<label for="" class="form_input-label">&nbsp;</label>
-    <input type="submit" value="<@ l('Submit') @>" name="submit" id="submit" class="BTN_submit">
+    <input type="submit" value="<@ l('Request new language') @>" name="submit" id="submit" class="BTN_submit">
 	</div>
+
+    <p>&nbsp;</p>
+
+    <br/><hr/>
+
+<p>
+
+After we have the above information, we will determine if the language is written [left to right] or [right to left]. Also, check out the "nplural-form" (see information here <a href="http://translate.sourceforge.net/wiki/l10n/pluralforms">http://translate.sourceforge.net/wiki/l10n/pluralforms</a>). After this, the language will get added, and we will inform you :)
+
+</p>
+
   </fieldset>
 </form>
+
+
