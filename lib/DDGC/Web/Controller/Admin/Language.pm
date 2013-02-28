@@ -14,7 +14,7 @@ sub index :Chained('base') :PathPart('') :Args(0) {
     my ( $self, $c ) = @_;
 	$c->stash->{flaglist} = [$c->d->flaglist];
 	$c->stash->{languages} = [$c->d->rs('Language')->search({})->all];
-	my @keys = qw/ name_in_english name_in_local locale flagicon nplurals plural rtl/;
+	my @keys = qw/ name_in_english name_in_local lang_in_local locale flagicon nplurals plural rtl/;
 	for my $l (@{$c->stash->{languages}}) {
 		my $p = 'language_'.$l->id.'_';
 		if ($c->req->params->{$p.'delete'}) {

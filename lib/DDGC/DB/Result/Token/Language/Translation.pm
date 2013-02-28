@@ -106,8 +106,6 @@ column updated => {
 	set_on_update => 1,
 };
 
-#unique_constraint [qw/ token_language_id username /];
-
 #belongs_to 'user', 'DDGC::DB::Result::User', 'users_id';
 belongs_to 'user', 'DDGC::DB::Result::User', { 'foreign.username' => 'self.username' };
 belongs_to 'token_language', 'DDGC::DB::Result::Token::Language', 'token_language_id';
@@ -118,7 +116,14 @@ sub votes { shift->token_language_translation_votes(@_) }
 
 before update => insert => sub {
 	my ( $self ) = @_;
-	$self->sprintf_check if ($self->is_changed && !$self->is_column_changed('check_result'));
+	$self->sprintf_check if ($self->is_changed && (
+		$self->is_column_changed('msgstr0') ||
+		$self->is_column_changed('msgstr1') ||
+		$self->is_column_changed('msgstr2') ||
+		$self->is_column_changed('msgstr3') ||
+		$self->is_column_changed('msgstr4') ||
+		$self->is_column_changed('msgstr5')
+	));
 };
 
 sub user_voted {

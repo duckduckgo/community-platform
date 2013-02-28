@@ -27,6 +27,12 @@ column name_in_local => {
 	is_nullable => 0,
 };
 
+# Deutsch
+column lang_in_local => {
+	data_type => 'text',
+	is_nullable => 1,
+};
+
 # de_DE
 unique_column locale => {
 	data_type => 'text',

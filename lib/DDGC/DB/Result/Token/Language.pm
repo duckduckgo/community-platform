@@ -146,6 +146,12 @@ sub add_user_translation {
 			username => $user->username,
 		})->first;
 		unless ($found) {
+			my @votes = $self->search_related('token_language_translations',{
+				'token_language_translation_vote.id' => undef,
+			},{
+				join => [qw( token_language_translation_vote )]
+			})->all;
+			use DDP; p(@votes);
 			$self->create_related('token_language_translations',{
 				%{$translation},
 				username => $user->username,
