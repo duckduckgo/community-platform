@@ -83,29 +83,7 @@ sub next_step {
 	$self->current_step($step);
 }
 
-sub step_count {
-	my ( $self ) = @_;
-	my $count = 0;
-	$count += scalar keys %{$self->languages};
-	$count += ( ( scalar keys %{$self->users} ) * 2 );
-	$count += scalar @{$self->distributions};
-	my $in_token = 0;
-	for (sort keys %{$self->token_domains}) {
-		$count += scalar @{$self->token_domains->{$_}->{languages}};
-		for (@{$self->token_domains->{$_}->{snippets}},@{$self->token_domains->{$_}->{texts}}) {
-			if (ref $_ eq 'HASH') {
-				for my $a (keys %{$_}) {
-					$count += scalar keys %{$_->{$a}};
-				}
-				$in_token = 0;
-			} else {
-				$count += 1 unless $in_token;
-				$in_token = 1;
-			}
-		}
-	}
-	return $count;
-}
+sub step_count { 550 }
 
 sub isa_ok { ::isa_ok(@_) if shift->test }
 sub is { ::is(@_) if shift->test }
@@ -269,6 +247,7 @@ sub add_users {
 	});
 	$testone->update;
 	$self->c->{users}->{testone} = $testone;
+	$self->next_step;
 	for (sort keys %{$self->users}) {
 		my $data = $self->users->{$_};
 		my $username = $_;
@@ -817,7 +796,7 @@ sub add_token_domains {
 			}
 			$msgid{msgid} = shift @{$snippets};
 			my $tl = shift @{$snippets};
-			if (ref $tl ne 'HASH') {
+			if (ref $tl ne 'ARRAY') {
 				$msgid{msgid_plural} = $tl;
 				$tl = shift @{$snippets};
 			}
@@ -825,8 +804,8 @@ sub add_token_domains {
 				%msgid,
 				type => 1,
 			});
-			push @translations, [ $token, $tl ];
 			$self->next_step;
+			push @translations, [ $token, $tl ];
 		}
 		while (@{$texts}) {
 			my $sn = shift @{$texts};
@@ -835,6 +814,7 @@ sub add_token_domains {
 				msgid => $sn,
 				type => 2,
 			});
+			$self->next_step;
 			push @translations, [ $token, $tl ];
 		}
 		my %tcl;
@@ -848,8 +828,8 @@ sub add_token_domains {
 			my $token = $_->[0];
 			my @user_trans = @{$_->[1]};
 			while (@user_trans) {
-				my $user_or_notes = $_->[0];
-				my $data = $_->[1];
+				my $user_or_notes = shift @user_trans;
+				my $data = shift @user_trans;
 				if ($user_or_notes eq 'notes') {
 					for (keys %{$data}) {
 						if ($_ eq 'token') {
@@ -862,7 +842,6 @@ sub add_token_domains {
 							$tl->notes($data->{$_});
 							$tl->update;
 						}
-						$self->next_step;
 					}
 				} else {
 					my $user = $self->c->{users}->{$user_or_notes};
@@ -876,10 +855,10 @@ sub add_token_domains {
 						my @votes;
 						my %msgstr;
 						while (@trans_or_votes) {
-							die "translations after votes" if @votes;
 							my $next = shift @trans_or_votes;
 							if (ref $next eq 'ARRAY') {
 								@votes = @{$next};
+								last;
 							} else {
 								my $key = 'msgstr'.$i;
 								$msgstr{$key} = $next;
@@ -893,10 +872,11 @@ sub add_token_domains {
 						for (@votes) {
 							my $voteuser = $self->c->{users}->{$_};
 							$tlt->user_voted($voteuser);
+							$self->next_step;
 						}
-						$self->next_step;
 					}
 				}
+				$self->next_step;
 			}
 		}
 	}
