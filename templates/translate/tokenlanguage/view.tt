@@ -1,5 +1,5 @@
 <@ SET other_translations = token_language.translations_sorted @>
-<@ SET own_translation = other_translations.latest_own_translation @>
+<@ SET own_translation = other_translations.latest_own_translation(c.user) @>
 
 <fieldset><!-- fieldset per term to translate-->
   <legend class="ac">Token to translate</legend>
