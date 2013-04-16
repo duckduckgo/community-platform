@@ -43,10 +43,8 @@ sub tokenlanguage :Chained('logged_in') :Args(1) {
 	my ( $self, $c, $token_language_id ) = @_;
 	$self->save_translate_params($c) if ($c->req->params->{save_translation});
 	$c->stash->{token_language} = $c->d->rs('Token::Language')->find({ id => $token_language_id });
-	if (!$c->stash->{token_language}) {
-		$c->response->redirect($c->chained_uri('Translate','index',{ no_token_language => 1 }));
-		$c->response->status(404);
-		return $c->detach;
+	if (!defined $c->stash->{token_language} or !$c->stash->{token_language}) {
+            return $c->go('/default');
 	}
 	# TODO
 	# $c->stash->{breadcrumb_right_url} =	$c->chained_uri('Translate','tokenlanguage',$token_language_id,{ token_language_locale => 'LOCALE' });
