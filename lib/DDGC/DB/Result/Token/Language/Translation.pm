@@ -114,16 +114,9 @@ belongs_to 'check_user', 'DDGC::DB::Result::User', 'check_users_id', { join_type
 has_many 'token_language_translation_votes', 'DDGC::DB::Result::Token::Language::Translation::Vote', 'token_language_translation_id';
 sub votes { shift->token_language_translation_votes(@_) }
 
-before update => insert => sub {
+before insert => sub {
 	my ( $self ) = @_;
-	$self->sprintf_check if ($self->is_changed && (
-		$self->is_column_changed('msgstr0') ||
-		$self->is_column_changed('msgstr1') ||
-		$self->is_column_changed('msgstr2') ||
-		$self->is_column_changed('msgstr3') ||
-		$self->is_column_changed('msgstr4') ||
-		$self->is_column_changed('msgstr5')
-	));
+	$self->sprintf_check;
 };
 
 sub user_voted {

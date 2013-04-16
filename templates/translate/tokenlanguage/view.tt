@@ -1,5 +1,5 @@
-<@ SET other_translations = token_language.translations(c.user,1) @>
-<@ SET own_translation = token_language.translations(c.user) @>
+<@ SET other_translations = token_language.translations(c.user) @>
+<@ SET own_translation = other_translations.shift @>
 
 <fieldset><!-- fieldset per term to translate-->
   <legend class="ac">Token to translate</legend>
@@ -146,7 +146,10 @@
 	<@ END @>
 
   <@ IF own_translation @>
+  <div style="float:left">
     <img src="/static/images/ICN_votesOFF.gif" />
+    <@ own_translation.vote_count @>
+  </div>
   <@ END @>
   
   <@ IF !hide_tokenlanguage_discuss @>

@@ -866,12 +866,12 @@ sub add_token_domains {
 							}
 						}
 						my $tlt = $tl->create_related('token_language_translations',{
-							username => $user,
+							username => $user->username,
 							%msgstr,
 						});
 						for (@votes) {
 							my $voteuser = $self->c->{users}->{$_};
-							$tlt->user_voted($voteuser);
+							$tlt->set_user_vote($voteuser,1);
 							$self->next_step;
 						}
 					}

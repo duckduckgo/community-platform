@@ -147,9 +147,9 @@ sub add_user_translation {
 		})->first;
 		unless ($found) {
 			my @votes = $self->search_related('token_language_translations',{
-				'token_language_translation_vote.id' => undef,
+				'token_language_translation_votes.id' => undef,
 			},{
-				join => [qw( token_language_translation_vote )]
+				join => [qw( token_language_translation_votes )]
 			})->all;
 			use DDP; p(@votes);
 			$self->create_related('token_language_translations',{
@@ -235,13 +235,22 @@ sub max_msgstr_index {
 }
 
 sub translations {
-    my ( $self, $user, $for_other ) = @_;
-    return $self->token_language_translations unless $user;
-    my $is_user = sub { $_->username eq $user->username };
-    my @tokens = $self->token_language_translations;
-
-    return grep { $is_user->($_) } @tokens unless ($for_other);
-    return grep { !$is_user->($_) } @tokens;
+	my ( $self, $user ) = @_;
+	return sort { $a->vote_count <=> $b->vote_count } @{$self->token_language_translations} unless $user;
+	my @translations = $self->token_language_translations->all;
+	my @own_translations;
+	my @other_translations;
+	for (@translations) {
+		if ( $_->username eq $user->username ) {
+			push @own_translations, $_;
+		} else {
+			push @other_translations, $_;
+		}
+	}
+	@own_translations = sort { $b->created <=> $a->created } @own_translations;
+	my $own_main_translation = shift @own_translations;
+	my @final_translations = sort { $a->vote_count <=> $b->vote_count } (@own_translations, @other_translations);
+	return $own_main_translation, @final_translations;
 }
 
 # the same code, just different written (for people who have no clue of CODEREF)
