@@ -1,6 +1,7 @@
 package DDGC::DB::Result::Token::Language;
 
 use DBIx::Class::Candy -components => [ 'TimeStamp', 'InflateColumn::DateTime', 'InflateColumn::Serializer', 'EncodedColumn' ];
+use Moose;
 
 table 'token_language';
 
@@ -151,7 +152,6 @@ sub add_user_translation {
 			},{
 				join => [qw( token_language_translation_votes )]
 			})->all;
-			use DDP; p(@votes);
 			$self->create_related('token_language_translations',{
 				%{$translation},
 				username => $user->username,
@@ -234,24 +234,32 @@ sub max_msgstr_index {
 	}
 }
 
-sub translations {
+sub own_translations {
 	my ( $self, $user ) = @_;
-	return sort { $a->vote_count <=> $b->vote_count } @{$self->token_language_translations} unless $user;
-	my @translations = $self->token_language_translations->all;
 	my @own_translations;
-	my @other_translations;
-	for (@translations) {
-		if ( $_->username eq $user->username ) {
-			push @own_translations, $_;
-		} else {
-			push @other_translations, $_;
-		}
+	for (@{$self->translations}) {
+		push @own_translations, $_ if $_->username eq $user->username;
 	}
-	@own_translations = sort { $b->created <=> $a->created } @own_translations;
-	my $own_main_translation = shift @own_translations;
-	my @final_translations = sort { $a->vote_count <=> $b->vote_count } (@own_translations, @other_translations);
-	return $own_main_translation, @final_translations;
+	return [sort { $b->created <=> $a->created } @own_translations];
 }
+
+sub latest_own_translation {
+	my ( $self, $user ) = @_;
+	my $own_translation = shift @{$self->own_translations};
+	return $own_translation ? $own_translation : ();
+}
+
+sub translations_sorted {
+	my ( $self ) = @_;
+	return [sort { $a->vote_count <=> $b->vote_count } @{$self->translations}];
+}
+
+has translations => (
+	is => 'ro',
+	lazy_build => 1,
+);
+
+sub _build_translations { [shift->token_language_translations->all] }
 
 # the same code, just different written (for people who have no clue of CODEREF)
 # sub translations {
