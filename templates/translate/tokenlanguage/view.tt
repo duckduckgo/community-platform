@@ -1,13 +1,13 @@
-<@ SET other_translations = token_language.translations_sorted @>
-<@ SET own_translation = other_translations.latest_own_translation(c.user) @>
+<@ SET translations = token_language.translations @>
+<@ SET own_translation = token_language.latest_own_translation(c.user) @>
+
+<@ SET user_can_speak = c.user.can_speak(token_language.token_domain_language.language.locale) @>
+
+<@ SET hide_field = "Hide translation field" @>
+<@ SET show_field = "Add your own translation" @>
 
 <fieldset><!-- fieldset per term to translate-->
   <legend class="ac">Token to translate</legend>
-
-<!--   <@ IF other_translations @>
-        <div class="alert warning"><div class="close-warning"></div><@ l('Someone already translated this snippet. Only translate it if you think your translation fits better.') @></div>
-      <@ END @>
- -->	  
 
 	  <!-- TOKEN TABLE !-->
 	  
@@ -49,30 +49,27 @@
     </tbody>
   </table>
 
-  <@ IF other_translations @>
+  <@ IF translations @>
     <div class="token-footer">
+      <@ IF user_can_speak @>
       <div class="token-footer_submit">
-        <div class="BTN_submitSmall token-BTNtranslations" id="token_other_<@ token_language.id @>_show"><@ l('Show translations of other people') @></div>
-      </div>
-		
-      <@ IF show_token_language_link @>
-      <div class="token-footer_link">
-        <a href="<@ u('Translate','tokenlanguage',token_language.id) @>"><@ l('Discuss') @></a>
+        <div class="BTN_submitSmall token-BTNtranslations" id="token_other_<@ token_language.id @>_show"><@ l(show_field) @></div>
       </div>
       <@ END @>
-	
+		
     </div>
     <div class="clear"></div>
     <div id="token_other_<@ token_language.id @>_toggle">
       <div class="token-translations">
-        <@ FOR translation IN other_translations @>
+        <@ FOR translation IN translations @>
           <@ INCLUDE translate/snippets/translation.tt show_translation_buttons=1 @>
         <@ END @>
       </div>
     </div>
 	<@ END @>
 
-  <@ IF c.user.can_speak(token_language.token_domain_language.language.locale) @>
+  <@ IF user_can_speak @>
+
     <@ IF token_language.token.msgctxt || token_language.token.has_placeholders @>
       <div class="note"><strong>Note!</strong> This token has 
         <@- IF token_language.token.msgctxt -@>
@@ -145,13 +142,6 @@
     </fieldset></div>
 	<@ END @>
 
-  <@ IF own_translation @>
-  <div style="float:left">
-    <img src="/static/images/ICN_votesOFF.gif" />
-    <@ own_translation.vote_count @>
-  </div>
-  <@ END @>
-  
   <@ IF !hide_tokenlanguage_discuss @>
   <a href="<@ u('Translate','tokenlanguage',token_language.id) @>">
     <div style="float:right" class="BTN_submit">Discuss</div><br/>
@@ -160,15 +150,15 @@
 
     <script type="text/javascript">
       $(function() {
-        $('#token_other_<@ token_language.id @>_toggle').hide();
+        $('#token_own_<@ token_language.id @>_toggle').hide();
         $('#token_other_<@ token_language.id @>_show').toggle(function(){
-          $('#token_other_<@ token_language.id @>_toggle').show();
-          $('#token_own_<@ token_language.id @>_toggle').hide();
-          $('#token_other_<@ token_language.id @>_show').html('<@ l('Hide translations of other people') @>');
-        },function(){
           $('#token_other_<@ token_language.id @>_toggle').hide();
           $('#token_own_<@ token_language.id @>_toggle').show();
-          $('#token_other_<@ token_language.id @>_show').html('<@ l('Show translations of other people') @>');
+          $('#token_other_<@ token_language.id @>_show').html('<@ l(hide_field) @>');
+        },function(){
+          $('#token_other_<@ token_language.id @>_toggle').show();
+          $('#token_own_<@ token_language.id @>_toggle').hide();
+          $('#token_other_<@ token_language.id @>_show').html('<@ l(show_field) @>');
         });
         $('#token_notes_<@ token_language.id @>_toggle').hide();
         $('#token_notes_<@ token_language.id @>_help').toggle(function(){
@@ -178,11 +168,8 @@
           $('#token_notes_<@ token_language.id @>_toggle').hide();
           $('#token_notes_<@ token_language.id @>_help').html('<@ l('Click here to see extra informations about the token') @>');
         });
-        <@ IF !own_translation @>
+        <@ IF !translations @>
           $('#token_notes_<@ token_language.id @>_help').trigger('click');
-        <@ END @>
-        <@ IF other_translations || !c.user.can_speak(token_language.token_domain_language.language.locale) @>
-          $('#token_other_<@ token_language.id @>_show').trigger('click');
         <@ END @>
       });
     </script>

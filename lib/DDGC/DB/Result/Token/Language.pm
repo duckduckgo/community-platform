@@ -141,6 +141,7 @@ sub gettext_snippet_formatter {
 
 sub add_user_translation {
 	my ( $self, $user, $translation ) = @_;
+	use DDP; p($user->username); p($translation);
 	if ($user->can_speak($self->token_domain_language->language->locale)) {
 		my $found = $self->search_related('token_language_translations',{
 			%{$translation},
@@ -245,13 +246,9 @@ sub own_translations {
 
 sub latest_own_translation {
 	my ( $self, $user ) = @_;
-	my $own_translation = shift @{$self->own_translations};
+	my @own_translations = @{$self->own_translations($user)};
+	my $own_translation = shift @own_translations;
 	return $own_translation ? $own_translation : ();
-}
-
-sub translations_sorted {
-	my ( $self ) = @_;
-	return [sort { $a->vote_count <=> $b->vote_count } @{$self->translations}];
 }
 
 has translations => (
@@ -259,7 +256,7 @@ has translations => (
 	lazy_build => 1,
 );
 
-sub _build_translations { [shift->token_language_translations->all] }
+sub _build_translations { [sort { $a->vote_count <=> $b->vote_count } shift->token_language_translations->all] }
 
 # the same code, just different written (for people who have no clue of CODEREF)
 # sub translations {

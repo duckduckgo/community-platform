@@ -15,7 +15,7 @@
 			<@ translation_headline @>
   			<@ ELSE @>
 			<@ INCLUDE user/username.tt userpic_size=16 user=translation.user @>
-  			<@ END @></h7>
+  			<@ END @> <@ IF translation.user.id == c.user.id @>(your own translation)<@ END @></h7>
 		</td>
     	<td rowspan="3">
     		<@ IF translation.invalid @>
