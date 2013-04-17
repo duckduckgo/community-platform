@@ -70,29 +70,32 @@
 
   <@ IF user_can_speak @>
 
-    <@ IF token_language.token.msgctxt || token_language.token.has_placeholders @>
-      <div class="note"><strong>Note!</strong> This token has 
-        <@- IF token_language.token.msgctxt -@>
-          <a href="https://github.com/duckduckgo/duckduckgo/blob/master/lib/DDG/Manual/Translation.pod#token-with-context">context</a>
-        <@- END -@>
-        <@- IF token_language.token.msgctxt && token_language.token.has_placeholders -@>
-          &nbsp;and&nbsp;
-        <@- END -@>
-        <@- IF token_language.token.has_placeholders -@>
-          <a href="https://github.com/duckduckgo/duckduckgo/blob/master/lib/DDG/Manual/Translation.pod#placeholders-in-tokens">placeholders</a>
-        <@- END -@>.
-        Only translate it, if you are 100% sure in which way it is used!
-        <@ IF token_language.token.has_placeholders @>
-          A wrong translation can destroy <a href="https://github.com/duckduckgo/duckduckgo/blob/master/lib/DDG/Manual/Translation.pod#combined-tokens">combined tokens</a> very easily! Also be sure the same amount of placeholders is in your translation as in the token!
-        <@ END @>
-        <@ IF token_language.token.notes || token_language.notes @>
-          Please assure to read the notes before translating!
-        <@ ELSE @>
-          Please do not hesitate to <a href="https://duckduckgo.com/feedback">contact us</a>, if you require any further information for this token.
-        <@ END @>
-        </div><br/>
-    <@ END @>
     <div id="token_own_<@ token_language.id @>_toggle">
+
+      <@ IF token_language.token.msgctxt || token_language.token.has_placeholders @>
+       <br/>
+        <div class="note"><strong>Note!</strong> This token has 
+          <@- IF token_language.token.msgctxt -@>
+            <a href="https://github.com/duckduckgo/duckduckgo/blob/master/lib/DDG/Manual/Translation.pod#token-with-context">context</a>
+          <@- END -@>
+          <@- IF token_language.token.msgctxt && token_language.token.has_placeholders -@>
+            &nbsp;and&nbsp;
+          <@- END -@>
+          <@- IF token_language.token.has_placeholders -@>
+            <a href="https://github.com/duckduckgo/duckduckgo/blob/master/lib/DDG/Manual/Translation.pod#placeholders-in-tokens">placeholders</a>
+          <@- END -@>.
+          Only translate it, if you are 100% sure in which way it is used!
+          <@ IF token_language.token.has_placeholders @>
+            A wrong translation can destroy <a href="https://github.com/duckduckgo/duckduckgo/blob/master/lib/DDG/Manual/Translation.pod#combined-tokens">combined tokens</a> very easily! Also be sure the same amount of placeholders is in your translation as in the token!
+          <@ END @>
+          <@ IF token_language.token.notes || token_language.notes @>
+            Please assure to read the notes before translating!
+          <@ ELSE @>
+            Please do not hesitate to <a href="https://duckduckgo.com/feedback">contact us</a>, if you require any further information for this token.
+          <@ END @>
+          </div><br/>
+      <@ END @>
+
       <@ FOR n IN [ 0..token_language.max_msgstr_index ] @>
         <@ SET func = 'msgstr' _ n @>
         <label class="form_input-label" for="token_language_<@ token_language.id @>_<@ func @>">
@@ -168,8 +171,11 @@
           $('#token_notes_<@ token_language.id @>_toggle').hide();
           $('#token_notes_<@ token_language.id @>_help').html('<@ l('Click here to see extra informations about the token') @>');
         });
-        <@ IF !translations @>
+        <@ IF !own_translation @>
           $('#token_notes_<@ token_language.id @>_help').trigger('click');
+        <@ END @>
+        <@ IF !translations.size @>
+          $('#token_other_<@ token_language.id @>_show').trigger('click');
         <@ END @>
       });
     </script>
