@@ -222,7 +222,7 @@ sub snippets :Chained('locale') :Args(0) {
 		$c->stash->{locale}.
 		( $c->req->params->{only_untranslated} ? "1" : "0" ).
 		( defined $c->req->params->{only_msgctxt} ? '"'.$c->req->params->{only_msgctxt}.'"' : "undef" )
-	,20);
+	,5);
 	my $save_translations = $c->req->params->{save_translations} || $c->req->params->{save_translations_next_page} ? 1 : 0;
 	my $next_page = $c->req->params->{save_translations_next_page} ? 1 : 0;
 	$self->save_translate_params($c) if ($save_translations);

@@ -114,7 +114,7 @@ sub pager_init {
 	}
 	$c->stash->{pagesize} = $c->req->params->{pagesize} ? $c->req->params->{pagesize} :
 		$c->session->{pager}->{$key}->{pagesize} ? $c->session->{pager}->{$key}->{pagesize} : $default_pagesize;
-	$c->stash->{pagesize_options} = [qw( 10 20 40 50 100 )];
+	$c->stash->{pagesize_options} = [qw( 5 10 20 40 50 100 )];
 	$c->session->{pager}->{$key}->{pagesize} = $c->stash->{pagesize};
 	$c->session->{pager}->{$key}->{page} = $c->stash->{page};
 }

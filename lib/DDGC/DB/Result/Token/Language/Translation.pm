@@ -140,7 +140,7 @@ sub sprintf_check {
 	$self->check_result(Locale::Simple::sprintf_compare(
 		$msgid,
 		$self->msgstr0
-	));
+	) ? 1 : 0);
 	my $msgid_plural = $self->token_language->token->msgid_plural;
 	if ($msgid_plural) {
 		for my $keyno (1..$self->msgstr_index_max) {
@@ -149,7 +149,7 @@ sub sprintf_check {
 			$self->check_result(Locale::Simple::sprintf_compare(
 				$msgid_plural,
 				$self->$key
-			));
+			) ? 1 : 0);
 		}
 	}
 }

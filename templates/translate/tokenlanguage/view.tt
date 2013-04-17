@@ -51,7 +51,7 @@
 
   <@ IF translations @>
     <div class="token-footer">
-      <@ IF user_can_speak @>
+      <@ IF user_can_speak && translations.size @>
       <div class="token-footer_submit">
         <div class="BTN_submitSmall token-BTNtranslations" id="token_other_<@ token_language.id @>_show"><@ l(show_field) @></div>
       </div>
@@ -153,7 +153,6 @@
 
     <script type="text/javascript">
       $(function() {
-        $('#token_own_<@ token_language.id @>_toggle').hide();
         $('#token_other_<@ token_language.id @>_show').toggle(function(){
           $('#token_other_<@ token_language.id @>_toggle').hide();
           $('#token_own_<@ token_language.id @>_toggle').show();
@@ -174,7 +173,9 @@
         <@ IF !own_translation @>
           $('#token_notes_<@ token_language.id @>_help').trigger('click');
         <@ END @>
-        <@ IF !translations.size @>
+        <@ IF translations.size @>
+          $('#token_own_<@ token_language.id @>_toggle').hide();
+        <@ ELSE @>
           $('#token_other_<@ token_language.id @>_show').trigger('click');
         <@ END @>
       });
