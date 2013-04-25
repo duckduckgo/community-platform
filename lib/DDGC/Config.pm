@@ -19,6 +19,13 @@ sub rootdir {
 
 sub prosody_db_samplefile { File::Spec->rel2abs( File::Spec->catfile( dist_dir('DDGC'), 'ddgc.prosody.sqlite' ) ) }
 
+sub duckpan_cdh_template { File::Spec->rel2abs( File::Spec->catfile( dist_dir('DDGC'), 'perldoc', 'duckpan.html' ) ) }
+
+sub duckpan_cdh_assets {{
+	'duckpan.css' => File::Spec->rel2abs( File::Spec->catfile( dist_dir('DDGC'), 'perldoc', 'duckpan.css' ) ),
+	'duckpan.png' => File::Spec->rel2abs( File::Spec->catfile( dist_dir('DDGC'), 'perldoc', 'duckpan.png' ) ),
+}}
+
 sub prosody_db_driver { defined $ENV{'DDGC_PROSODY_DB_DRIVER'} ? $ENV{'DDGC_PROSODY_DB_DRIVER'} : 'SQLite3' }
 sub prosody_db_database { defined $ENV{'DDGC_PROSODY_DB_DATABASE'} ? $ENV{'DDGC_PROSODY_DB_DATABASE'} : rootdir().'/ddgc.prosody.sqlite' }
 
