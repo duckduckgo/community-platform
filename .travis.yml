@@ -17,4 +17,4 @@ perl:
   - 5.12
   - 5.10
 script:
-  - dzil test --release --all
+  - dzil test --release --author
