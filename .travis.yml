@@ -17,4 +17,5 @@ perl:
   - 5.12
   - 5.10
 script:
+  - export AUTOMATED_TESTING=0
   - dzil smoke --release --author
