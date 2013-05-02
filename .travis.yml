@@ -1,12 +1,11 @@
 ---
 before_install:
-  - export AUTOMATED_TESTING=1
-  - export HARNESS_OPTIONS=j10:c
-  - export HARNESS_TIMER=1
-  - git config --global user.name "TravisCI"
+  - export AUTOMATED_TESTING=1 HARNESS_OPTIONS=j10:c HARNESS_TIMER=1
+  - rm .travis.yml
+  - sudo apt-get install -qq libgd2-xpm-dev libssl-dev libxml2-dev
+  - git config --global user.name "Dist Zilla Plugin TravisCI"
   - git config --global user.email $HOSTNAME":not-for-mail@travis-ci.org"
 install:
-  - sudo apt-get install -qq libgd2-xpm-dev
   - cpanm  --quiet  --notest --skip-satisfied Dist::Zilla
   - "dzil authordeps | grep -vP '[^\\w:]' | xargs -n 5 -P 10 cpanm  --quiet   --notest  --skip-satisfied"
   - "dzil listdeps | grep -vP '[^\\w:]' | cpanm  --quiet   --notest  --skip-satisfied"
@@ -14,7 +13,5 @@ language: perl
 perl:
   - 5.16
   - 5.14
-  - 5.12
-  - 5.10
 script:
-  - dzil test --release --author
+  - dzil smoke --release --author
