@@ -85,8 +85,8 @@ sub next_step {
 
 sub step_count { 550 }
 
-sub isa_ok { ::isa_ok(@_) if shift->test }
-sub is { ::is(@_) if shift->test }
+sub isa_ok { ::isa_ok($_[0],$_[1]) if shift->test }
+sub is { ::is($_[0],$_[1],$_[2]) if shift->test }
 
 #####################################################
 #  _
@@ -168,6 +168,7 @@ sub add_languages {
 	my $rs = $self->db->resultset('Language');
 	for (sort keys %{$self->languages}) {
 		$self->c->{languages}->{$_} = $rs->create($self->languages->{$_});
+		$self->isa_ok($self->c->{languages}->{$_},'DDGC::DB::Result::Language');
 		$self->next_step;
 	}
 }
