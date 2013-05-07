@@ -39,16 +39,8 @@ sub next_template {
 	return $return;
 }
 
-sub u {
-    my $self = shift;
-	my $c = shift;
-	$c->chained_uri(@_);
-}
+sub u { shift; shift->chained_uri(@_) }
 
-sub l {
-    my $self = shift;
-	my $c = shift;
-	$c->localize(@_);
-}
+sub l { shift; shift->localize(@_) }
 
 1;
