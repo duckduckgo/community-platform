@@ -1,0 +1,8 @@
+<div class="header-nav">
+	<ul>
+		<li class="nav-home"><a href="#">Home</a></li>
+		<li class="nav-search"><a href="https://duckduckgo.com/">Search DDG</a></li>
+		<li class="nav-forums"><a href="#">Forums</a></li>
+		<li class="nav-blog"><a href="#">Blog</a></li>
+	</ul>
+</div>

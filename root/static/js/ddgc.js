@@ -1,5 +1,34 @@
-$(function() {
-
+$(document).ready(function() {
+	$('.no-js').addClass('js').removeClass('no-js');
+	
+	$('.js-remove').remove();
+	
+	$('.text').addPlaceholder(); 
+	
+	$('select.language_grade').select2({
+		placeholder: $(this).data('placeholder')
+	});
+	$('select.language_select').select2({
+		placeholder: $(this).data('placeholder')
+	});
+	$('.paging-menu select').select2({
+		minimumResultsForSearch: 99
+	});
+	
+	$('.hide-translations').click(function(e) {
+		$(this).parent().addClass('hide').siblings('.current-translations-min').removeClass('hide');		
+		e.preventDefault();
+	});
+	$('.show-translations').click(function(e) {
+		$(this).parent().addClass('hide').siblings('.current-translations').removeClass('hide');		
+		e.preventDefault();
+	});
+	// Nested Comment toggle
+	$('.comment-toggle').click(function(e) {
+		$(this).closest('.comment').toggleClass("min").toggleClass("max");
+		e.preventDefault();
+	});
+	
 	// All external links in new window
 	$("a[href^='http']").each(function(){
 		if(this.href.indexOf(location.hostname) == -1) {
@@ -17,21 +46,17 @@ $(function() {
 	//
 
 	// TODO make this a real widget and being part of the HTML code, there cant be text in the JavaScript lib
+	/*
 	$('a.removeLanguage').click(function() {
 		return confirm("Are you sure you want to remove this language?");
 	});
-
+	// this is depreciated, and can now be done with a modal box
+	*/
 	// Gravatar
 	$('div#set_gravatar_email').hide();
 	$('a#add_gravatar_email').click(function() {
 		$('div#set_gravatar_email').show();
 	});
-
-
-
-
-
-
 
 	$('a.vote_link').live('click',function(e){
 		e.preventDefault();
@@ -50,14 +75,14 @@ $(function() {
 	$('a.comment_reply_link').live('click', function(e){
 		e.preventDefault();
 		$(this).next('.comment_reply_cancel_link').fadeIn();
-		$(this).parent().parent().children('.comment_reply').fadeIn();
+		$(this).parents().children('.comment_reply').addClass('hide').removeClass('js-hide').fadeIn();
 		$(this).hide();
 	});
 
 	$('a.comment_reply_cancel_link').live('click', function(e){
 		e.preventDefault();
 		$(this).prev('.comment_reply_link').fadeIn();
-		$(this).parent().parent().children('.comment_reply').fadeOut();
+		$(this).parents().children('.comment_reply').fadeOut();
 		$(this).hide();
 	});
 
@@ -66,8 +91,8 @@ $(function() {
 		$(this).parent().html($(this).next('.comment_expanded_content').html());
 	});
 
-	$('.close-warning, .close-wrong').live('click', function (e){
-		console.log('success');
+	$('.notice .close').live('click', function (e){
+		// console.log('success');
 		$(this).parent().fadeOut();
 	});
 
@@ -90,18 +115,11 @@ $(function() {
 		});
 	});
 
-	$('#account-table_ftrLeft').hover(function() {
-		$('#gradeReference').fadeIn();
-	}, function(){
-		$('#gradeReference').fadeOut();
-	});
-
 	if(typeof(breadcrumb_right) != "undefined") {
 		if (breadcrumb_right == 'language') {
 			$('#languageBox').hide();
 		}
 	}
-
 });
 
 function showFormAddUserLanguage() {
@@ -126,7 +144,7 @@ function validateFormGravatar() {
 }
 
 function validateFormLogin() {
-	console.log($('#username'));
+	//console.log($('#username'));
 	if ($('#username').val() === '' || $('#password').val() === '') {
 		$('#invalidForm').fadeIn();
 		return false;
@@ -144,3 +162,4 @@ function showLanguageBox() {
 	}
 	return false;
 }
+

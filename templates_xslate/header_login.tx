@@ -1,0 +1,3 @@
+<div class="header-login">
+	<span class="account-actions"><a href="signup.html" class="first nav-signup">Sign up</a> <a href="login.html" class="nav-login" data-reveal-id="login-box">Login</a></span>
+</div>

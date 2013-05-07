@@ -1,0 +1,59 @@
+<h1>Welcome to the DuckDuckGo Community Platform!</h1>
+<p class="intro-message">DuckDuckGo is a general purpose search engine. Our search engine is very user driven. You can engage with us on a number of social platforms. We created this open-source community platform to serve as a central hub for community activity.</p>
+
+<div class="callout">
+	<div class="third">
+		<div class="callout-box yellow">
+			<div class="head">
+				<i class="icon-globe"></i> 
+				<h2>Help Translate</h2>				
+			</div>
+			<div class="body">
+				<h3>Help us translate DuckDuckGo into your languages.</h3>
+				<!-- <ul> 
+					<li>Nunc diam velit, adipiscing ut tristique</li>
+					<li>Maecenas convallis ullamcorper ultricies</li>
+					<li>Curabitur ornare, ligula semper consectetur sagittis, nisi diam iaculis velit, id fringilla sem nunc vel mi.</li>
+					<li>Nam dictum, odio nec pretium volutpat, arcu ante placerat erat, non tristique elit urna et turpis.</li>
+				</ul> --> 
+				<a href="<: $u('Translate','index') :>" class="cta"><i class="icon-circle-arrow-right"></i>Help Translate DuckDuckGo</a>
+			</div>
+		</div>
+	</div>
+	<div class="third">
+		<div class="callout-box blue">
+			<div class="head">
+				<i class="icon-tools"></i> 
+				<h2>Develop the Community</h2>				
+			</div>
+			<div class="body">
+				<h3>Pitch in and help us improve this community platform.</h3>
+				<!-- <ul>
+					<li>Nunc diam velit, adipiscing ut tristique</li>
+					<li>Maecenas convallis ullamcorper ultricies</li>
+					<li>Curabitur ornare, ligula semper consectetur sagittis, nisi diam iaculis velit, id fringilla sem nunc vel mi.</li>
+					<li>Nam dictum, odio nec pretium volutpat, arcu ante placerat erat, non tristique elit urna et turpis.</li>
+				</ul> --> 
+				<a href="https://github.com/duckduckgo/community-platform" class="cta"><i class="icon-circle-arrow-right"></i>Developing this community platform</a>
+			</div>
+		</div>
+	</div>
+	<div class="third">
+		<div class="callout-box green">
+			<div class="head">
+				<i class="icon-browser-window"></i> 
+				<h2>Develop DuckDuckGo</h2>				
+			</div>
+			<div class="body">
+				<h3>Develop on DuckDuckGo.<br/>Hack with us!</h3>
+				<!-- <ul>
+					<li>Nunc diam velit, adipiscing ut tristique</li>
+					<li>Maecenas convallis ullamcorper ultricies</li>
+					<li>Curabitur ornare, ligula semper consectetur sagittis, nisi diam iaculis velit, id fringilla sem nunc vel mi.</li>
+					<li>Nam dictum, odio nec pretium volutpat, arcu ante placerat erat, non tristique elit urna et turpis.</li>
+				</ul> -->
+				<a href="http://duckduckhack.com/" class="cta"><i class="icon-circle-arrow-right"></i>Develop on DuckDuckGo</a>
+			</div>
+		</div>
+	</div>
+</div>

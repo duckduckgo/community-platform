@@ -1,0 +1,15 @@
+<div id="login-box" class="reveal-modal modal-form account-form">
+	<h4>Login</h4>
+	<form action="login.html">
+		<div class="input-wrap"><input type="text" placeholder="Your Username" name="username" class="text"/></div>
+		<div class="input-wrap"><input type="password" placeholder="Your Password" name="password" class="text password" /></div>
+		<fieldset class="buttons">
+			<span class="half"><input type="button" value="Cancel" class="button close-modal"/></span>
+			<span class="half"><input type="submit" value="Login" class="button blue submit" /></span>	
+		</fieldset>	
+		<div class="account-links clear">
+			<p class="half"><a href="#">Forgot your password?</a></p>
+			<p class="half">Don't have an account? <a href="signup.html">Sign up</a></p>
+		</div>
+	</form>
+</div>

@@ -1,0 +1,13 @@
+<div id="grades-tooltip" class="reveal-modal xlarge modal-tooltip">
+	<h4>Languages Grade References</h4>
+	<ol>
+	  <li><strong>Basic ability:</strong> Enough to understand written material or simple questions in this language.</li>
+	  <li><strong>Intermediate ability:</strong> Enough for editing or discussions.</li>
+	  <li><strong>Advanced level:</strong> Though you can write in this language with no problem, some small errors might occur.</li>
+	  <li><strong>"Near-native" level:</strong> Although it's not your first language from birth, your ability is something like that of a native speaker.</li>
+	  <li><strong>Native:</strong> You have grown up with this language in your environment.</li>
+	  <li><strong>Professional proficiency:</strong> You are earning your money with work in this language (like writer, translator, etc.)
+	  </li>
+	</ol>
+	<i class="close-modal icon-remove"></i>
+</div>

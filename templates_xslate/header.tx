@@ -1,0 +1,23 @@
+<div class="site-header">
+	<div class="content-wrap">
+		<: if $duckpan { :>
+			<div class="header-logo wide">			
+				<div class="logo"><img src="/static/img/logo_ddg_duckpan.png" alt="DuckPAN Perl Archive Network" /></div>
+				<h2>Duck<i>PAN</i></h2>
+				<h3>DuckDuckGo Perl Archive Network</h3>
+			</div>
+		<: } else { :>
+			<div class="header-logo">
+				<div class="logo"><img src="/static/img/logo_ddg_community.png" alt="DuckDuckGo Community Platform" /></div>
+				<h2>DuckDuck<i>Go</i></h2>
+				<h3>Community Platform</h3>			
+			</div>	
+		<: } :>
+		<: include "header_nav.tx" :>
+		<: if $c.user { :>
+			<: include "header_accountinfo.tx" :>
+		<: } else { :>
+			<: include "header_login.tx" :>
+		<: } :>
+	</div>
+</div>

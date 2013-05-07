@@ -1,0 +1,126 @@
+<h1>Welcome to the DuckDuckGo Translation Interface!</h1>
+<p class="intro-message">Here you can translate the different text snippets of our sites.  Choose the project part you want to translate to see a list of existing text snippits, which you can translate step by step into your language. You can also vote on the translation of your language!  By default we only display completely untranslated tokens (if they exist).  To see all tokens, select the "see all" button.</p>
+
+<div class="notice warning clickaway"><i class="icn icon-warning-sign"></i>You must be logged in for translating <span class="account-actions"><a href="<: $u('My','register') :>" class="first nav-signup">Sign up</a><a href="<: $u('My','login') :>" class="nav-login" data-reveal-id="login-box">Login</a></span><i class="close icon-remove"></i></div>
+
+<div class="content-box translate-overview">	
+	<div class="head">		
+		<h2>Translation Interface</h2>
+	</div>
+	<div class="body">
+		<div class="row">
+			<h3>DuckDuckGo Core</h3>
+			<p>Snippits around the core pages of DuckDuckGo, the homepage, the resultpage, the settings and the ZeroClickInfo.</p>
+			<div class="row">
+				<div class="third">
+					<a href="translate_snippets.html">
+						<img src="https://duckduckgo.com/f2/us.png" class="flag" alt="English of United States" />
+						<label>English (United States) [en US]</label>
+					</a>
+				</div>
+				<div class="half progress done"> 
+					<div class="numeral">
+						100%
+					</div>				
+					<div class="bar">
+						<span class="percentage" style="width:100%;"></span>
+					</div>				
+				</div>
+				<div class="eighth"><a href="#" class="button">Discuss</a></div>			
+			</div>
+			<div class="row">
+				<div class="third">
+					<a href="translate_snippets.html">
+						<img src="https://duckduckgo.com/f2/ph.png" class="flag" alt="Tagalog in the Philippines" />
+						<label>Tagalog in the Philippines [tl_PH]</label>
+					</a>
+				</div>
+				<div class="half progress"> 
+					<div class="numeral">
+						28%
+					</div>				
+					<div class="bar">
+						<span class="percentage" style="width:28%;"></span>
+					</div>				
+				</div>
+				<div class="eighth"><a href="#" class="button">Discuss</a></div>			
+			</div>
+		</div>
+		<div class="row">
+			<h3>Test Area</h3>
+			<p>Play around with the translation interface without doing any harm! :)</p>
+			<div class="row">
+				<div class="third">
+					<a href="translate_snippets.html">
+						<img src="https://duckduckgo.com/f2/us.png" class="flag" alt="English of United States" />
+						<label>English (United States) [en US]</label>
+					</a>
+				</div>
+				<div class="half progress done"> 
+					<div class="numeral">
+						100%
+					</div>				
+					<div class="bar">
+						<span class="percentage" style="width:100%;"></span>
+					</div>				
+				</div>
+				<div class="eighth"><a href="#" class="button">Discuss</a></div>			
+			</div>
+			<div class="row">
+				<div class="third">
+					<a href="translate_snippets.html">
+						<img src="https://duckduckgo.com/f2/ph.png" class="flag" alt="Tagalog in the Philippines" />
+						<label>Tagalog in the Philippines [tl_PH]</label>
+					</a>
+				</div>
+				<div class="half progress"> 
+					<div class="numeral">
+						56%
+					</div>				
+					<div class="bar">
+						<span class="percentage" style="width:56%;"></span>
+					</div>				
+				</div>
+				<div class="eighth"><a href="#" class="button">Discuss</a></div>			
+			</div>
+		</div>	
+		<div class="row">
+			<h3>DontBubble.Us</h3>
+			<p>Tokens for our microsite http://dontbubble.us/</p>
+			<div class="row">
+				<div class="third">
+					<a href="translate_snippets.html">
+						<img src="https://duckduckgo.com/f2/us.png" class="flag" alt="English of United States" />
+						<label>English (United States) [en US]</label>
+					</a>
+				</div>
+				<div class="half progress done"> 
+					<div class="numeral">
+						100%
+					</div>				
+					<div class="bar">
+						<span class="percentage" style="width:100%;"></span>
+					</div>				
+				</div>
+				<div class="eighth"><a href="#" class="button">Discuss</a></div>			
+			</div>
+			<div class="row">
+				<div class="third">
+					<a href="translate_snippets.html">
+						<img src="https://duckduckgo.com/f2/ph.png" class="flag" alt="Tagalog in the Philippines" />
+						<label>Tagalog in the Philippines [tl_PH]</label>
+					</a>
+				</div>
+				<div class="half progress"> 
+					<div class="numeral">
+						92%
+					</div>				
+					<div class="bar">
+						<span class="percentage" style="width:92%;"></span>
+					</div>				
+				</div>
+				<div class="eighth"><a href="#" class="button">Discuss</a></div>			
+			</div>
+		</div>	
+	</div> 
+</div>

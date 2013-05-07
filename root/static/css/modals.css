@@ -1,0 +1,205 @@
+/*--------------------------------------------------
+Motices
+-------------------------------------------------- */
+.notice {
+	position: relative;
+	border: 1px solid #666;
+	background: #eee;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;	
+	padding: 8px 30px 9px 47px;
+	margin: 0 auto 21px;
+	font-size: 1.1em;	
+}
+	.notice.warning { 		
+		border-color: #feeabe;
+		color: #f0a300;
+		background: #fdf5d5;
+	}
+	.notice.error {
+		border-color: #E5BFBF;
+		background: #F6D4D4;
+		color: #C01300;
+	}
+	
+	.notice .icn, .notice .close {
+		position: absolute;
+		top: 0;
+		display: block;		
+		height: 43px;
+		line-height: 43px;
+		text-align: center;
+	}
+	.notice .icn {		
+		left: 0;
+		width: 47px;
+		font-size: 1.1em;
+	}
+		.notice.warning .icn {
+			color: #fcd269;
+		}
+	.notice .close {
+		position: absolute;
+		cursor: pointer;
+		top: 0;
+		right: 0;		
+		background-repeat: no-repeat;		
+		opacity: 0.4;
+		filter: alpha(opacity=40);
+		width: 35px;
+		font-size: 1em;
+		
+	}
+		.notice .close:hover { 
+			opacity: 1;
+			filter: alpha(opacity=100);
+		}
+		
+		.notice .account-actions { padding-left: 1em; }
+			.notice .account-actions a { 
+				padding: 0 10px;
+				line-height: 1;
+				display: inline-block;				
+				border-left: 1px solid #d6d0b1; 
+				border-color: rgba(155,155,155,0.3);
+			}
+				.notice .account-actions a.first { border-left: none; }
+
+/*--------------------------------------------------
+Top Message
+-------------------------------------------------- */
+
+.topmsg {
+	font-size: 14px;
+	width: 165px;	
+	padding: 13px 55px;
+	line-height: 1.1;
+	color: #2d2d2d;
+	font-weight: bold;
+	text-transform: uppercase;
+	text-align: center;	
+	display: block;
+	position: absolute;			
+	top: 38px;
+	right:-64px;	
+	z-index: 100;
+	text-shadow: 1px 1px 0 rgba(255,255,255,0.7);
+	background: #fecd57;	
+	background: -moz-linear-gradient(left,  #fecd57 0%, #fcd767 50%, #fecd57 100%);
+	background: -webkit-gradient(linear, left top, right top, color-stop(0%,#fecd57), color-stop(50%,#fcd767), color-stop(100%,#fecd57));
+	background: -webkit-linear-gradient(left,  #fecd57 0%,#fcd767 50%,#fecd57 100%);
+	background: -o-linear-gradient(left,  #fecd57 0%,#fcd767 50%,#fecd57 100%);
+	background: -ms-linear-gradient(left,  #fecd57 0%,#fcd767 50%,#fecd57 100%);
+	
+	background: linear-gradient(to right,  #fecd57 0%,#fcd767 50%,#fecd57 100%);	
+	
+	-webkit-box-shadow: 0px 2px 3px rgba(0,0,0,0.3);
+	-moz-box-shadow:    0px 2px 3px rgba(0,0,0,0.3);
+	box-shadow:         0px 2px 3px rgba(0,0,0,0.3);
+	
+	-ms-transform:rotate(45deg); /* IE9 */
+	-moz-transform: rotate(45deg);  /* FF3.5/3.6 */
+	-o-transform: rotate(45deg);  /* Opera 10.5 */
+	-webkit-transform: rotate(45deg);  /* Saf3.1+ */
+	transform: rotate(45deg);  /* Newer browsers */
+}							
+.lt-ie9  .topmsg { 
+	top: -44px; 
+	right: -86px; 
+	border-bottom: 2px solid #BEBEBE;
+	-ms-filter: "progid:DXImageTransform.Microsoft.Matrix(SizingMethod='auto expand', M11=0.7071067811865476, M12=-0.7071067811865475, M21=0.7071067811865475, M22=0.7071067811865476)"; /* IE8 */	}
+.lt-ie8 .topmsg { display: none; }
+
+/*--------------------------------------------------
+Tooltip
+-------------------------------------------------- */
+
+.tooltip{
+	position: absolute;
+	top: 0;
+	left: 0;
+	background-color: #FFFFAF;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+	-webkit-box-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+	-moz-box-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+	box-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+	color: #333;
+	display: none;
+	font-size: 12px;	
+	padding: 5px;
+	padding-top: 10px;
+	padding-left: 20px;
+	padding-right: 20px;	
+	z-index: 55;
+}
+	.tooltip h6 { margin-bottom: 16px; }
+	
+	.content-box .tooltip { top: 35px; margin: 0 8px; }
+	
+.modal-tooltip.reveal-modal { background-color: #FFFFAF; border-color: #ffde85; }
+	.modal-tooltip.reveal-modal .close-modal { color: #ffde85; }
+	.modal-tooltip h4 { text-align: center; margin-bottom: 30px; }
+
+/*--------------------------------------------------
+Reveal Modals
+-------------------------------------------------- */
+	
+.reveal-modal-bg { 
+	position: fixed; 
+	zoom: 1;
+	height: 100%;
+	width: 100%;	
+	background: rgba(49,54,66,.6);
+	-pie-background: rgba(49,54,66,.6);
+	z-index: 100;
+	display: none;
+	top: 0;
+	left: 0; 
+}
+
+.reveal-modal {
+	visibility: hidden;
+	line-height: 1.5;
+	top: -100%; 
+	left: 50%;
+	margin-left: -187px;
+	width: 330px;
+	background: #fff;
+	border: 4px solid #dcdcdc;
+	position: fixed;
+	z-index: 101;
+	padding: 26px 22px 30px;
+	-moz-border-radius: 12px;
+	-webkit-border-radius: 12px;
+	border-radius: 12px;
+	-moz-box-shadow: 0 0 10px rgba(0,0,0,.4);
+	-webkit-box-shadow: 0 0 10px rgba(0,0,0,.4);
+	box-shadow: 0 0 10px rgba(0,0,0,.4);
+}
+	
+.reveal-modal.small 		{ width: 200px; margin-left: -140px;}
+.reveal-modal.medium 		{ width: 400px; margin-left: -240px;}
+.reveal-modal.large 		{ width: 600px; margin-left: -340px;}
+.reveal-modal.xlarge 		{ 
+	width: 95%; 
+	margin-left: -47.5%; 
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-ms-box-sizing: border-box;
+	-o-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+.reveal-modal i.close-modal {
+	font-size: 22px;
+	line-height: .5;
+	position: absolute;
+	top: 12px;
+	right: 12px;
+	color: #aaa;
+	text-shadow: 0 -1px 1px rbga(0,0,0,.6);
+	font-weight: bold;
+	cursor: pointer;
+} 

@@ -1,0 +1,9 @@
+<title><: $title :></title>
+<: for ['reset','modals','forms-n-buttons','select2','progress','homepage','account','translate','blog','comments','main','font-face','font-awesome'] -> $css { :>
+	<link rel="stylesheet" media="screen, projection, handheld" href="/static/css/<: $css :>.css">
+<: } :>
+<meta name="viewport" content="width=100%, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+<!--[if lte IE 9]><style>.callout-box, .reveal-modal, .reveal-modal-bg, .date-box, .pie { behavior: url(PIE.htc);} </style><![endif]-->
+<!--[if lt IE 9]>
+<script src="/static/js/html5shiv.js"></script>
+<![endif]-->

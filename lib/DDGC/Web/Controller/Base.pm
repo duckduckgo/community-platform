@@ -13,11 +13,6 @@ sub base :Chained('/base') :PathPart('base') :CaptureArgs(0) {
 	$c->stash->{headline_template} = $headline_template.'.tt';
 }
 
-sub pulse :Chained('base') :Args(0) {
-	my ($self, $c) = @_;
-	$c->forward( $c->view('TT') );
-}
-
 sub captcha :Chained('base') :Args(0) {
 	my ($self, $c) = @_;
 	$c->create_captcha();

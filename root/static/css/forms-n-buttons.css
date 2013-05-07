@@ -1,0 +1,293 @@
+/*--------------------------------------------------
+Default Form Styling
+-------------------------------------------------- */
+form .input-wrap { 
+	width: 100%; 
+	display: block; 
+	background: #f2f2f2; 
+	padding: 5px 6px 5px 5px; 
+	position: relative; 
+	left: -5px; 
+	margin: 0 auto 8px;
+	-webkit-border-radius: 8px;
+	border-radius: 8px;
+}	
+form input[type="password"], form input[type="email"], form input[type="text"], form textarea { 
+	width: 100%;
+	display: block;
+	padding: 7px 9px; 
+	background: #fff; 
+	border: 1px solid #cccccc; 
+	position: relative; 
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-ms-box-sizing: border-box;
+	-o-box-sizing: border-box;
+	box-sizing: border-box;	
+}
+	form input[type="password"]:focus, form input[type="email"]:focus, form input[type="text"]:focus  {
+		background: #fff;
+		outline: medium none;
+		border: 1px solid #59a1ed; 
+		-moz-box-shadow: 0 0 5px #59a1ed;
+		-webkit-box-shadow: 0 0 5px #59a1ed;
+		box-shadow: 0 0 5px #59a1ed;
+	}
+	
+	select {
+		color: #61646d;
+		background: #fafafa;
+		border: 1px solid #c6c6c6;
+		-webkit-border-radius: 3px;
+		border-radius: 3px;
+	}
+	.no-js select { padding: 3px; }
+
+/*--------------------------------------------------
+Login/Signup Forms
+-------------------------------------------------- */
+
+.account-form h2, .account-form h4 { font-weight: bold; }
+
+.account-items { margin-bottom: -8px; }
+.account-links p { margin: 10px 0 5px; }
+.agree-terms { font-size: 80%; line-height: 1; padding-top: 9px; }
+	.agree-terms input { margin-right: 6px; }
+
+.account-form form input[type="password"], .account-form form input[type="email"], .account-form form input[type="text"] { 	
+	color: #bbb;
+	padding: 6px 2.5%; 
+	background: #fff; 
+	border: 1px solid #cccccc; 
+	position: relative; 
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+}
+	.account-form form input[type="password"]:focus, .account-form form input[type="email"]:focus, .account-form form input[type="text"]:focus  {		
+		color: #000;
+		background: #fff;
+		outline: medium none;
+		border: 1px solid #59a1ed; 
+		-moz-box-shadow: 0 0 5px #59a1ed;
+		-webkit-box-shadow: 0 0 5px #59a1ed;
+		box-shadow: 0 0 5px #59a1ed;
+	}
+		
+	.account-form form .half .input-wrap { width: 95%; left: -10px; }
+	.account-form form .third .input-wrap { width: 93%; left: -10px; }
+		.account-form form .half .half .input-wrap { left: -5px; }
+	
+	.robo-blaster-wrap { 
+		background: #f5f5f5;
+		border: 1px solid #e0e0e0;
+		-moz-border-radius: 8px;
+		-webkit-border-radius: 8px;
+		border-radius: 8px;
+		padding: 19px 15px 18px;
+		width: 90%;
+		position: relative;
+		left: -5px;
+	}
+		.robo-blaster-wrap .input-wrap { background: #ececec; }
+		.captcha { float: left; width: 34%; margin-right: 6%; }
+			.captcha img { display: block; margin: 0 auto; }
+		.captcha-validate { float: left; width: 60%; }
+			.account-form form .captcha-validate .input-wrap { margin: 0 auto; width: 101%;}
+	
+	.account-form .placeholder { color: #bbb; padding-top: 5px;}
+	
+	.account-form .button, .account-form a.button, .account-form input.button {
+		-moz-border-radius: 5px;
+		-webkit-border-radius: 5px;
+		border-radius: 5px;
+	}
+	
+/*--------------------------------------------------
+Static Forms
+-------------------------------------------------- */
+
+.form-border {	
+	background: #e1e1e1; 
+	padding: 5px 6px 5px 5px; 
+	-moz-border-radius: 8px;
+	-webkit-border-radius: 8px;
+	border-radius: 8px;
+	margin: 0 auto 21px;
+}
+.form-wrap {
+	overflow: hidden;
+	padding: 20px 25px;
+	position: relative; 
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;	
+	background: #fff;
+	outline: medium none;
+	border: 1px solid #59a1ed; 
+	-moz-box-shadow: 0 0 5px #59a1ed;
+	-webkit-box-shadow: 0 0 5px #59a1ed;
+	box-shadow: 0 0 5px #59a1ed;
+}
+	.form-wrap.halves { padding: 20px 5px 20px 25px; }
+	.form-wrap h2 { color: #4c5461; font-size: 20px; margin: 0; padding-bottom: 20px; }
+	.form-wrap hr { width: 150%; margin-left: -25%; }
+	.form-wrap .button { height: 31px; line-height: 20px; }
+	
+/*--------------------------------------------------
+Modal Forms
+-------------------------------------------------- */
+
+.modal-form h4 { margin: 0 0 20px; line-height: 1; text-align: center; font-size: 20px; letter-spacing: -0.07em; }
+.modal-form form { width: 97%; margin: 0 auto; }
+.modal-form form .buttons { margin: 40px auto 0; position: relative; }	
+	
+	.modal-form .buttons .button { height: 34px; line-height: 20px; }
+	.modal-form .buttons .half .button { width: 140px; float: left; font-size: 16px; margin: 0; }
+	.modal-form .buttons .half + .half .button { float: right; }
+	
+	.modal-form .account-links .half { font-size: 70%; margin: 30px 0 0;}
+	.modal-form .account-links .half + .half { text-align: right;}
+
+/*--------------------------------------------------
+One-Fielded Functiion Forms
+-------------------------------------------------- */
+.one-field { position: relative; }
+
+.one-field input.text, .one-field .button { height: 31px; }
+.one-field input.text { 
+	padding-right: 32px;
+	box-shadow: inset 0 1px 1px rgba(0,0,0,.1);
+}
+.one-field .button {
+	-webkit-border-radius: 0 5px 5px 0;
+	border-radius: 0 5px 5px 0;
+	min-width: 32px;
+	line-height: 31px; 	
+	color: #606166;
+	position: absolute;
+	top: 0;
+	right: 0;	
+	background-color: #eaeaea;	
+}
+	.one-field .button.icon-search { line-height: 1; }
+
+/*--------------------------------------------------
+Comment Forms
+-------------------------------------------------- */	
+.comment_reply textarea {
+	max-width: 100%;
+	margin-bottom: 0.5em;
+}
+.comment_reply input[type="submit"]{
+	float: right;
+	font-weight: normal;
+	height: 28px;
+	line-height: 28px;
+	padding: 0 8px;
+}
+
+	
+/*--------------------------------------------------
+Buttons
+-------------------------------------------------- */	
+	
+.button, a.button, input.button {
+	text-align: center; 
+	padding: 0;
+	display: block; 
+	position: relative;
+	border: 1px solid #babec9;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+	text-shadow: 0 1px 1px #fff;
+	background-color: #f8f8f8;
+	font-weight: bold;
+	color: #474747;
+	cursor: pointer;
+	box-shadow: inset 0 1px 0 rgba(255,255,255,0.1), 0 1px 1px rgba(0,0,0,0.1);
+}
+	.half .button, .third  .button, .twothird  .button, .quarter .bntton, .sixth .button { 
+		width: 95%; margin: 0 2.5%; 
+	}	
+		.input-wrap .button { width: 100%; margin: 0 auto;}		
+	
+	.button:hover {
+		background-color: #fff;
+	}	
+		.input-wrap .button:hover {
+			border: 1px solid #59a1ed; 
+			-moz-box-shadow: 0 0 5px #59a1ed;
+			-webkit-box-shadow: 0 0 5px #59a1ed;
+			box-shadow: 0 0 5px #59a1ed;
+		}
+	.button:active {		
+		background-color: #eee;		
+	}	
+	.button.fb-like {
+		background: #ebedf4;
+		border-color: #cbd3e7;
+		color: #485599;
+		font-weight: normal;
+	}
+	.button.red {
+		color: #fff;
+		background-color: #d84736;
+		border-color: #ae2419;
+		text-shadow: 0 -1px 0 rgba(0,0,0,0.1);
+	}
+		.button.red:hover { background-color: #c43429; }
+		
+	.button.darkblue {
+		color: #fff;
+		background-color: #6b7b94;
+		border-color: #395c72;
+		text-shadow: 0 -1px 1px #3d4751;
+	}
+	.button.blue {
+		color: #fff;
+		background-color: #4b8df8; 
+		border-color: #2c478f;
+		text-shadow: 0 1px 1px #3769b8;
+	}
+	.button.blue.fb {
+		background-color: #3e5499;
+	}
+	.button.blue.tw {
+		background-color: #2fa9ef;
+		border-color: #1c8ac9;
+	}
+	.button.blue:hover, .button.darkblue:hover { 
+		background-color: #277adb; 	
+		border-color: #2c478f;		
+	}
+		.input-wrap .button.blue:hover, .input-wrap .button.darkblue:hover{
+			border-color: #2c478f;
+			-moz-box-shadow: 0 0 5px #666;
+			-webkit-box-shadow: 0 0 5px #666;
+			box-shadow: 0 0 5px #666;
+		}
+		
+/* 
+	Media Queries
+*/		
+@media only screen and (max-width: 600px) {
+/* Same width as when the grid is broken up in main.css */
+
+.form-wrap.halves { padding: 20px 25px; }
+.form-wrap .third { margin-right: auto; }
+
+.account-form form .half .input-wrap, .account-form form .third .input-wrap, .robo-blaster-wrap  { 
+	width: 100%; left: -5px; 
+}
+.agree-terms { padding-top: 15px;}
+	.agree-terms input { float: left; margin-bottom: 14px; }
+.robo-blaster-wrap { 	
+	padding: 10px 5px;
+}
+	.captcha { width: 75%; float: none; margin: 0 auto 14px; }
+	.captcha-validate { width: 90%; margin: 0 auto; float: none; }
+}

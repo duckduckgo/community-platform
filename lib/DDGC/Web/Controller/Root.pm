@@ -13,7 +13,7 @@ sub base :Chained('/') :PathPart('') :CaptureArgs(0) {
 		$c->authenticate({ username => $username, password => $password, }, 'users');
 	}
 
-	$c->stash->{template_layout} = [ 'base.tt' ];
+	$c->stash->{template_layout} = [ 'base.tx' ];
 	$c->stash->{u} = sub { $c->chained_uri(@_) };
 	$c->stash->{l} = sub { $c->localize(@_) };
 	$c->stash->{ddgc_config} = $c->d->config;
@@ -41,7 +41,7 @@ sub default :Chained('base') :PathPart('') :Args {
 
 sub end : ActionClass('RenderView') {
     my ( $self, $c ) = @_;
-	my $template = $c->action.".tt";
+	my $template = $c->action.'.tx';
 	push @{$c->stash->{template_layout}}, $template;
 }
 

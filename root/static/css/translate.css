@@ -1,0 +1,140 @@
+.translate-overview .flag { padding: 11px 12px 13px 0; float: left;}
+.translate-overview label { font-size: 17px; padding: 7px 0; line-height: 1; display: inline-block; float: left; }
+.translate-overview .button { width: 90px; }	
+
+.translate-overview .body h3 { color: #454336; font-size: 18px; margin: 0; padding-top: 16px; }
+.translate-overview p { margin: 0; padding: 5px 0 8px; color: #818489; }
+
+.translate-overview .half.progress { padding: 0 11px 0 4em; width: 54.2%; }
+	.translate-overview .progress .numeral { 
+		position: absolute; 
+		left: 0; 
+		top: 0; 
+		text-align: right; 
+		width: 2.9em;
+	}
+
+.translate-snippets .button, .translate-comments .button { 
+	color: #686868;
+	font-weight: normal; 
+	padding: 0 11px; 
+	font-size: 0.9em; 
+	display: inline-block; 
+	margin-left: 3px;
+	height: 27px;
+	line-height: 26px;	
+}	
+	.translate-snippets .button.big { 
+		font-size: 1.1em; 
+		font-weight: bold;
+		padding: 0 19px;
+		height: 35px;
+		line-height: 34px;
+	}
+	.translate-snippets .button.blue {
+		color: white;
+		text-shadow: none;		
+	}
+		.translate-snippets .button.blue:hover { background-color: #3e7ee9; }
+		
+.translate-snippets label, .paging-menu label { 
+	color: #8f8f8f; 	
+}
+	.translate-snippets .row.snippet { padding-right: 26px; }
+	.translate-snippets label { line-height: 30px; }
+	.translate-snippets .label { float: left; width: 131px; }
+	.translate-snippets .label + div { padding-left: 131px; }
+	.snippet .row strong { display: inline-block; font-size: 1.4em; line-height: 1; font-weight: bold; }
+	.snippet .row p, .snippet .row ul { margin-bottom: 0; line-height: 1.2; }
+	.snippet .row p { margin-top: 4px; }
+		.snippet .row p + p { margin-top: 0; }
+	.snippet .row .translation-notes li { margin: 6px 0 0 18px; }
+	.snippet .row input.text { height: 30px; line-height: 30px; }
+	.snippet .row .button { float: right; }
+	
+	ul.user-translations, ul.translation-details { list-style: none; }
+	
+	.user-translations li { margin-bottom: 10px; }
+	.user-translations .user-info { padding: 6px 0 9px; letter-spacing: -0.07em; height: 26px; }
+		.user-translations .user-info img { width: 26px; display: block; float: left; margin-right: 11px; }
+		.user-translations .user-info label { display: inline-block; height: 26px; line-height: 26px; }
+	.translation-details { 
+		background: #f7f7f7; 
+		padding: 12px 13px; 
+		-moz-border-radius: 6px;
+		-webkit-border-radius: 6px;
+		border-radius: 6px;
+	}
+		.translation-details li { margin-bottom: 0; }
+		.translation-details label { min-width: 77px; display: inline-block; line-height: 1.4em; }
+		.snippet .row .translation-details strong { font-size: 1.2em; }		
+	.translation-vote { 		
+		float: right; 
+		border: 1px solid #c6c6c6;
+		-moz-border-radius: 3px;
+		-webkit-border-radius: 3px;
+		border-radius: 3px;
+		height: 28px;
+		background: #fdfdfd;
+	}
+		.snippet .row .translation-vote .button { 
+			float: none; 
+			border: none;
+			height: 28px;
+			color: #2d76dd;
+			margin: 0;
+			padding: 0 3px;
+			border-right: 1px solid #c6c6c6;
+			-moz-border-radius: 3px 0 0 3px;
+			-webkit-border-radius: 3px 0 0 3px;
+			border-radius: 3px 0 0 3px;
+		}
+		.translation-vote .check { font-size: 1.5em; position: relative; top: 2px; }
+		.translation-vote .vote-tally {			
+			color: #464541;
+			height: 28px;
+			line-height: 28px;
+			font-size: 1.2em;
+			padding-right: 9px;
+			min-width: 26px;
+			text-align: right;
+			display: inline-block;
+		}
+	
+.paging-menu { float: left; }
+	.paging-menu label { font-size: 0.9em; line-height: 30px; }
+	.page-select, .page-size { float: left; }	
+	.page-select { padding-right: 47px; }
+	.paging-menu .button { float: left; margin: 1px 0 0 20px;}
+	.paging-menu .select2-container .select2-choice { height: 27px; line-height: 27px; }
+	.paging-menu .select2-container .select2-choice span { margin-right: 21px; min-width: 1.4em; text-align: right;}
+	.paging-menu .select2-container .select2-choice div { width: 14px; }
+
+@media only screen and (max-width: 900px) {
+	.translate-overview label { 
+		width: 80%;
+		font-size: 16px; 
+		overflow: hidden;				
+		white-space: nowrap;
+		word-wrap: break-word;
+		text-overflow: ellipsis;		
+	}
+}
+	
+@media only screen and (max-width: 600px) {		
+	.translate-overview .half.progress { width: 100%; clear: both; }
+		.translate-overview .half.progress + .eighth { position: static; }
+			.translate-overview .half.progress + .eighth .button { position: absolute; top: 8px; right: 12px; }
+	.translate-snippets .label {	float: none; width: auto; }
+		.translate-snippets .label + div { padding-left: 0; }
+	
+	.paging-menu { float: none; text-align: center; }
+		.page-select, .page-size, .paging-menu .button { float: none; display: inline-block; }
+		.page-select { padding-right: 23x; }		
+	.row.nav .right { float: none; clear: both; text-align: center; padding-top: 6px; }
+		.translate-snippets .button, .translate-comments .button { margin-left: 0; }
+
+}
+@media only screen and (max-width: 500px) {	
+	.translate-comments.content-box .row { padding-left: 8px; }
+}

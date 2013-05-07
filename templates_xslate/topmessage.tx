@@ -1,0 +1,3 @@
+<: if $topmessage { :>
+	<span class="topmsg allcaps"><: $topmessage :></span>
+<: } :>

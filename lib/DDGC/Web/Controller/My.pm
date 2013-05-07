@@ -28,7 +28,7 @@ sub logged_in :Chained('base') :PathPart('') :CaptureArgs(0) {
 		$c->response->redirect($c->chained_uri('My','login'));
 		return $c->detach;
 	}
-	push @{$c->stash->{template_layout}}, 'my/base.tt';
+#	push @{$c->stash->{template_layout}}, 'my/base.tt';
 }
 
 sub logged_out :Chained('base') :PathPart('') :CaptureArgs(0) {

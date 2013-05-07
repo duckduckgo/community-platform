@@ -1,0 +1,9 @@
+<: if $warnings { :>
+	<: for $warnings -> $warning { :>
+		<div class="notice warning clickaway">
+			<i class="icn icon-warning-sign"></i>
+				<: $warning :>
+			<i class="close icon-remove"></i>
+		</div>
+	<: } :>
+<: } :>

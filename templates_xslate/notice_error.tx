@@ -1,0 +1,9 @@
+<: if $errors { :>
+	<: for $errors -> $error { :>
+		<div class="notice error clickaway">
+			<i class="icn icon-warning-sign"></i>
+			<: $error :>
+			<i class="close icon-remove"></i>
+		</div>
+	<: } :>
+<: } :>

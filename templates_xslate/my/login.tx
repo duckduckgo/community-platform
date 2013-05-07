@@ -1,0 +1,21 @@
+<div class="form-border">
+	<div class="form-wrap account-form">
+		
+		<h2>Login to your account</h2>
+		<form action="<: $u('My','login') :>" class="group">
+			<div class="third">
+				<div class="input-wrap"><input type="text" placeholder="Your Username" name="username" class="text"/></div>
+			</div>
+			<div class="third">
+				<div class="input-wrap"><input type="password" placeholder="Your Password" name="password" class="text password" /></div>
+			</div>
+			<div class="sixth">
+				<div class="input-wrap"><input type="submit" value="Login" class="button submit" /></div>
+			</div>		
+		</form>
+		<div class="account-links clear">
+			<p><a href="<: $u('My','forgotpw') :>">Forgot your password?</a></p>
+			<p>Don't have an account? <a href="<: $u('My','register') :>">Sign up</a></p>
+		</div>
+	</div>
+</div>
