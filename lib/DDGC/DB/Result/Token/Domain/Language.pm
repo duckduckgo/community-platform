@@ -127,6 +127,7 @@ has done_percentage => (
 	is => 'ro',
 	isa => 'Int',
 	lazy_build => 1,
+	clearer => 'clear_done_percentage',
 );
 
 sub _build_done_percentage {

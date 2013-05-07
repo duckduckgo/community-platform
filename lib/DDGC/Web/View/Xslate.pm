@@ -39,6 +39,11 @@ sub next_template {
 	return $return;
 }
 
+sub link {
+	my ( $self, $c, $object, @args ) = @_;
+	return $c->chained_uri($object->u, @args);
+}
+
 sub u { shift; shift->chained_uri(@_) }
 
 sub l { shift; shift->localize(@_) }

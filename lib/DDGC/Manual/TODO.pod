@@ -1,0 +1,10 @@
+# PODNAME: DDGC::Manual::TODO
+# ABSTRACT: TODO Tasks
+
+=encoding utf-8
+
+=head1 Design
+
+Making the token domain language overview on translate/index hidden, load it
+via ajax on request. Clicking on token domain leads then to language overview
+instead of direct translation.

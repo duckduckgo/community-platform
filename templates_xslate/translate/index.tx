@@ -10,7 +10,7 @@
 	<div class="body">
 		<: for results($token_domains.sorted) -> $token_domain { :>
 			<div class="row">
-				<h3><a href="<: $u('Translate','domainindex',$token_domain.key) :>">
+				<h3><a href="<: link($token_domain) :>">
 					<: $token_domain.name :>
 				</a></h3>
 				<p><: $token_domain.description :></p>

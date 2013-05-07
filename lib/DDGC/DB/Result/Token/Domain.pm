@@ -139,4 +139,6 @@ use overload '""' => sub {
 	return 'Token-Domain '.$self->name.' #'.$self->id;
 }, fallback => 1;
 
+sub u { 'Translate','domainindex', shift->key }
+
 1;
