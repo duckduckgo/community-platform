@@ -1,0 +1,18 @@
+<div class="form-border">
+	<div class="form-wrap account-form">
+
+		<h2>Request new password</h2>
+		<form action="<: $u('My','changepw') :>" class="group">
+			<div class="third">
+				<div class="input-wrap"><input type="text" placeholder="Your Username" name="username" class="text"/></div>
+			</div>
+			<div class="third">
+				<div class="input-wrap"><input type="email" placeholder="Your Email Address" name="email" class="text" /></div>
+			</div>
+			<div class="sixth">
+				<div class="input-wrap"><input type="submit" value="Submit" class="button submit" /></div>
+			</div>		
+		</form>
+		
+	</div>
+</div>

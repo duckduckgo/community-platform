@@ -8,119 +8,32 @@
 		<h2>Translation Interface</h2>
 	</div>
 	<div class="body">
-		<div class="row">
-			<h3>DuckDuckGo Core</h3>
-			<p>Snippits around the core pages of DuckDuckGo, the homepage, the resultpage, the settings and the ZeroClickInfo.</p>
+		<: for results($token_domains.sorted) -> $token_domain { :>
 			<div class="row">
-				<div class="third">
-					<a href="translate_snippets.html">
-						<img src="https://duckduckgo.com/f2/us.png" class="flag" alt="English of United States" />
-						<label>English (United States) [en US]</label>
-					</a>
-				</div>
-				<div class="half progress done"> 
-					<div class="numeral">
-						100%
-					</div>				
-					<div class="bar">
-						<span class="percentage" style="width:100%;"></span>
-					</div>				
-				</div>
-				<div class="eighth"><a href="#" class="button">Discuss</a></div>			
+				<h3><a href="<: $u('Translate','domainindex',$token_domain.key) :>">
+					<: $token_domain.name :>
+				</a></h3>
+				<p><: $token_domain.description :></p>
+				<: for results($token_domain.token_domain_languages_locale_sorted) -> $token_domain_language { :>
+					<div class="row">
+						<div class="third">
+							<a href="translate_snippets.html">
+								<img src="<: $token_domain_language.language.flag_url :>" class="flag" alt="<: $token_domain_language.language.name_in_english :>" />
+								<label><: $token_domain_language.language.name_in_english :> [<: $token_domain_language.language.locale :>]</label>
+							</a>
+						</div>
+						<div class="half progress <: if $token_domain_language.done_percentage < 60 { :>low<: } elsif $token_domain_language.done_percentage < 80 { :>med<: } elsif $token_domain_language.done_percentage < 100 { :>high<: } else { :>done<: } :>"> 
+							<div class="numeral">
+								<: $token_domain_language.done_percentage :>%
+							</div>				
+							<div class="bar">
+								<span class="percentage" style="width:<: $token_domain_language.done_percentage :>%;"></span>
+							</div>				
+						</div>
+						<div class="eighth"><a href="#" class="button">Discuss</a></div>			
+					</div>
+				<: } :>
 			</div>
-			<div class="row">
-				<div class="third">
-					<a href="translate_snippets.html">
-						<img src="https://duckduckgo.com/f2/ph.png" class="flag" alt="Tagalog in the Philippines" />
-						<label>Tagalog in the Philippines [tl_PH]</label>
-					</a>
-				</div>
-				<div class="half progress"> 
-					<div class="numeral">
-						28%
-					</div>				
-					<div class="bar">
-						<span class="percentage" style="width:28%;"></span>
-					</div>				
-				</div>
-				<div class="eighth"><a href="#" class="button">Discuss</a></div>			
-			</div>
-		</div>
-		<div class="row">
-			<h3>Test Area</h3>
-			<p>Play around with the translation interface without doing any harm! :)</p>
-			<div class="row">
-				<div class="third">
-					<a href="translate_snippets.html">
-						<img src="https://duckduckgo.com/f2/us.png" class="flag" alt="English of United States" />
-						<label>English (United States) [en US]</label>
-					</a>
-				</div>
-				<div class="half progress done"> 
-					<div class="numeral">
-						100%
-					</div>				
-					<div class="bar">
-						<span class="percentage" style="width:100%;"></span>
-					</div>				
-				</div>
-				<div class="eighth"><a href="#" class="button">Discuss</a></div>			
-			</div>
-			<div class="row">
-				<div class="third">
-					<a href="translate_snippets.html">
-						<img src="https://duckduckgo.com/f2/ph.png" class="flag" alt="Tagalog in the Philippines" />
-						<label>Tagalog in the Philippines [tl_PH]</label>
-					</a>
-				</div>
-				<div class="half progress"> 
-					<div class="numeral">
-						56%
-					</div>				
-					<div class="bar">
-						<span class="percentage" style="width:56%;"></span>
-					</div>				
-				</div>
-				<div class="eighth"><a href="#" class="button">Discuss</a></div>			
-			</div>
-		</div>	
-		<div class="row">
-			<h3>DontBubble.Us</h3>
-			<p>Tokens for our microsite http://dontbubble.us/</p>
-			<div class="row">
-				<div class="third">
-					<a href="translate_snippets.html">
-						<img src="https://duckduckgo.com/f2/us.png" class="flag" alt="English of United States" />
-						<label>English (United States) [en US]</label>
-					</a>
-				</div>
-				<div class="half progress done"> 
-					<div class="numeral">
-						100%
-					</div>				
-					<div class="bar">
-						<span class="percentage" style="width:100%;"></span>
-					</div>				
-				</div>
-				<div class="eighth"><a href="#" class="button">Discuss</a></div>			
-			</div>
-			<div class="row">
-				<div class="third">
-					<a href="translate_snippets.html">
-						<img src="https://duckduckgo.com/f2/ph.png" class="flag" alt="Tagalog in the Philippines" />
-						<label>Tagalog in the Philippines [tl_PH]</label>
-					</a>
-				</div>
-				<div class="half progress"> 
-					<div class="numeral">
-						92%
-					</div>				
-					<div class="bar">
-						<span class="percentage" style="width:92%;"></span>
-					</div>				
-				</div>
-				<div class="eighth"><a href="#" class="button">Discuss</a></div>			
-			</div>
-		</div>	
+		<: } :>
 	</div> 
 </div>

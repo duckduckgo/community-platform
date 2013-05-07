@@ -12,6 +12,7 @@ __PACKAGE__->config(
 	],
 	function => {
 		r => sub { mark_raw(join"",@_) },
+        results => sub { [ shift->all ] },
 	},
 	expose_methods => [qw(
 		next_template

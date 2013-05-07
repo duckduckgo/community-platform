@@ -56,7 +56,7 @@
 <div class="content-box account-box">	
 	<div class="head">
 		<h2>Your Account</h2>
-		<a href="delete.html" class="button red">Delete Account</a>
+		<a href="<: $u('My','delete') :>" class="button red">Delete Account</a>
 	</div>
 	<div class="body">
 		<div class="row">
@@ -64,7 +64,7 @@
 				<label>Your Email: <span class="fakelink">doug@duckduckgo.com</span></label>
 			</div>
 			<div class="third">
-				<a href="#" class="button">Change Email</a>
+				<a href="<: $u('My','email') :>" class="button">Change Email</a>
 			</div>
 		</div>
 		<div class="row">
@@ -72,7 +72,7 @@
 				<label>Your Password:</label>
 			</div>
 			<div class="third">
-				<a href="#" class="button">Change Password</a>
+				<a href="<: $u('My','changepw') :>" class="button">Change Password</a>
 			</div>
 		</div>
 		<div class="row">
@@ -80,7 +80,7 @@
 				<label>Your account is not publicly visible yet</label>
 			</div>
 			<div class="third">
-				<a href="#" class="button">Make it Public</a>
+				<a href="<: $u('My','public') :>" class="button">Make it Public</a>
 			</div>
 		</div>
 	</div>
@@ -94,10 +94,10 @@
 		<div class="row">			
 			<p>We provide a public XMPP/Jabber server bound to this account, which you can add to your prefered client. You can find a list of clients <a href="http://xmpp.org/xmpp-software/clients/" target="_blank">here</a>. XMPP is an open-standard instant communication protocol, like ICQ, MSN or Yahoo. More information you can find on the <a href="http://en.wikipedia.org/wiki/Jabber" target="_blank">Wikipedia Page</a>. You can see directions of how to get set up using the Pidgin client <a href="https://duck.co/topic/duckduckgo-s-new-public-xmpp-jabber-service-on-dukgo-com" target="_blank">here</a>.</p>
 			<p>
-			  <strong>Username:</strong> sdougbrown<br/>
-			  <strong>Domain:</strong> dukgo.com<br/>
+			  <strong>Username:</strong> <: $c.user.username :><br/>
+			  <strong>Domain:</strong> <: $xmpp_userhost :><br/>
 			  <strong>Resource:</strong> whatever you want<br/>
-			  <strong>XMPP/Jabber Address</strong>: sdougbrown@dukgo.com
+			  <strong>XMPP/Jabber Address:</strong> <: $c.user.username :>@<: $xmpp_userhost :>
 			</p>			
 		</div>
 	</div>

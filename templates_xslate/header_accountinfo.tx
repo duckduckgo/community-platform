@@ -1,5 +1,8 @@
 <div class="header-account-info">
 	<div class="user-avatar icon-user m"></div>
-	<span class="user-name">Dax the Duck</span>
-	<span class="account-actions"><a href="my_account.html" class="first">My Account</a> <a href="login.html" data-reveal-id="login-box">Login</a></span>
+	<span class="user-name"><: $c.user.username :></span>
+	<span class="account-actions">
+		<a href="<: $u('My','account') :>" class="first">My Account</a>
+		<a href="<: $u('My','logout') :>">Logout</a>
+	</span>
 </div>

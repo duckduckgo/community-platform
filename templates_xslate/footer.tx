@@ -53,7 +53,7 @@
 		</div>
 		<div class="twothird">
 			<p>Powered by <a href="http://www.perl.org/" target="_perl">Perl</a> Delivered by <a href="http://nginx.org/" target="_nginx">nginx</a> Source at <a href="https://github.com/duckduckgo/community-platform" target="_github">github</a> &copy; <a href="https://duckduckgo.com">DuckDuckGo, Inc.</a></p>
-			<p>XMPP/Jabber usercount: TODO | Website usercount: TODO</p>
+			<p>XMPP/Jabber usercount: <: $user_counts.xmpp :> | Website usercount: <: $user_counts.db :></p>
 		</div>
 	</div>
 </div>

@@ -1,6 +1,7 @@
 package DDGC::DB::Result::Token::Domain::Language;
 
 use DBIx::Class::Candy -components => [ 'TimeStamp', 'InflateColumn::DateTime', 'InflateColumn::Serializer', 'EncodedColumn' ];
+use Moose;
 use File::Spec;
 use File::Which;
 use IO::All -utf8;
@@ -122,7 +123,13 @@ sub is_speakable_by {
     return $user->can_speak($self->language->locale);
 }
 
-sub done_percentage {
+has done_percentage => (
+	is => 'ro',
+	isa => 'Int',
+	lazy_build => 1,
+);
+
+sub _build_done_percentage {
 	my ( $self ) = @_;
 	my $untranslated_count = $self->untranslated_tokens->count;
 	my $max_token_count = $self->token_domain->tokens->count;
