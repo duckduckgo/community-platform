@@ -10,12 +10,14 @@ __PACKAGE__->config(
 	path => [
 		DDGC::Web->path_to('templates_xslate'),
 	],
+	encode_body => 0,
 	function => {
 		r => sub { mark_raw(join"",@_) },
         results => sub { [ shift->all ] },
 	},
 	expose_methods => [qw(
 		next_template
+		link
 		u
 		l
 	)],
@@ -41,7 +43,7 @@ sub next_template {
 
 sub link {
 	my ( $self, $c, $object, @args ) = @_;
-	return $c->chained_uri($object->u, @args);
+	return $c->chained_uri($object->u,@args);
 }
 
 sub u { shift; shift->chained_uri(@_) }

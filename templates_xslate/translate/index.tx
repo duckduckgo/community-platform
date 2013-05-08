@@ -10,25 +10,27 @@
 	<div class="body">
 		<: for results($token_domains.sorted) -> $token_domain { :>
 			<div class="row">
-				<h3><a href="<: link($token_domain) :>">
+				<h3><a href="<: $link($token_domain) :>">
 					<: $token_domain.name :>
 				</a></h3>
 				<p><: $token_domain.description :></p>
 				<: for results($token_domain.token_domain_languages_locale_sorted) -> $token_domain_language { :>
 					<div class="row">
 						<div class="third">
-							<a href="translate_snippets.html">
+							<a href="<: $link($token_domain_language, { only_untranslated => 1 }) :>">
 								<img src="<: $token_domain_language.language.flag_url :>" class="flag" alt="<: $token_domain_language.language.name_in_english :>" />
 								<label><: $token_domain_language.language.name_in_english :> [<: $token_domain_language.language.locale :>]</label>
 							</a>
 						</div>
 						<div class="half progress <: if $token_domain_language.done_percentage < 60 { :>low<: } elsif $token_domain_language.done_percentage < 80 { :>med<: } elsif $token_domain_language.done_percentage < 100 { :>high<: } else { :>done<: } :>"> 
-							<div class="numeral">
-								<: $token_domain_language.done_percentage :>%
-							</div>				
-							<div class="bar">
-								<span class="percentage" style="width:<: $token_domain_language.done_percentage :>%;"></span>
-							</div>				
+							<a href="<: $link($token_domain_language, { only_untranslated => 1 }) :>">
+								<div class="numeral">
+									<: $token_domain_language.done_percentage :>%
+								</div>				
+								<div class="bar">
+									<span class="percentage" style="width:<: $token_domain_language.done_percentage :>%;"></span>
+								</div>
+							</a>
 						</div>
 						<div class="eighth"><a href="#" class="button">Discuss</a></div>			
 					</div>

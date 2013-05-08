@@ -1,0 +1,10 @@
+<select id="language_id" name="language_id" class="language_select autosubmit" data-placeholder="Choose Your Language">
+    <option class="js-remove" value="">Choose Your Language</option>
+    <: for $locales.values() -> $loc { :>
+        <: if $cur_language.locale != $loc.l.locale { :>
+            <option value="<: $url :>">
+                <: $loc.l.name_in_local :> / <: $loc.l.name_in_english :> [<: $loc.l.locale :>]
+            </option>
+        <: } :>
+    <: } :>
+</select>

@@ -1,0 +1,37 @@
+<form>
+
+<div class="breadcrumb-nav">
+	<div class="breadcrumbs"><a href="<: $u('Translate','index') :>">Translation Interface</a> &gt; <a href="<: $link($token_domain) :>"><: $token_domain.name :></a> &gt; <: $token_domain_language.language.name_in_english :></div>
+	<input type="submit" value="Go" class="button js-hide" /><: include "translate/tokens_nav_language.tx" :>
+</div>
+ 
+<div class="content-box translate-snippets">	
+	<div class="head">		
+		<h2><: $token_domain_language.language.name_in_english :></h2>
+	</div>
+	<div class="body">
+		<: if !$token_languages.count && $only_untranslated { :>
+			<div class="row nav">
+				<h1>No untranslated snippets left!</h2>
+				<div class="clear">&nbsp;</div>
+				<a href="<: $u('Translate','snippets',$token_domain.key,$cur_language.locale) :>">
+					<div>Vote on the other translations!</div>
+				</a>
+			</div>
+		<: } else { :>
+			<div class="row nav">
+				<: include "translate/tokens_nav_paging.tx" :>
+				<: include "translate/tokens_nav.tx" :>
+			</div>
+			<: for results($token_languages) -> $token_language { :>
+				<: include "translate/token_language.tx" { show_token_language_link => 1 } :>
+			<: } :>
+			<div class="row nav">			
+				<: include "translate/tokens_nav_paging.tx" :>
+				<: include "translate/tokens_nav.tx" :>
+			</div>
+		<: } :>
+	</div>
+</div>
+
+</form>

@@ -211,4 +211,9 @@ use overload '""' => sub {
 	return 'Token-Domain-Language for '.$self->token_domain->key.' with locale '.$self->language->locale;
 }, fallback => 1;
 
+sub u { 
+	my ( $self, $page ) = @_;
+	'Translate', 'tokens', $self->token_domain->key, $self->language->locale
+}
+
 1;

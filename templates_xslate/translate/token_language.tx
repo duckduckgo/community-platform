@@ -1,0 +1,80 @@
+<fieldset class="row snippet">	
+	<a href="translate_snippet_comments.html" class="button">Discuss</a>
+	<: if $token_language.token.msgctxt { :>
+		<div class="row">
+			<div class="label"><label>Context:</label></div>				
+			<div>
+				<strong><a href="<: $link($token_domain_language,{ only_msgctxt => token_language.token.msgctxt }) :>"><: $token_language.token.msgctxt :></a></strong>
+				<p>This is the context, do not translate it!</p>
+			</div>
+		</div>
+	<: } :>
+	<div class="row">
+		<div class="label"><label>Term (Singular):</label></div>
+		<div>
+			<strong><: $token_language.token.msgid :></strong>
+		</div>
+	</div>
+	<: if $token_language.token.msgid_plural { :>
+		<div class="row">
+			<div class="label"><label>Term (Plural):</label></div>
+			<div>
+				<strong><: $token_language.token.msgid_plural :></strong>
+				<p>This token has <a href="https://duckpan.org/perldoc/DDG::Manual::Translation#token-with-context">context</a>.  Only translate it if you are 100% sure in which way it is used!</p>
+				<p>Please read the notes before translating.</p>
+			</div>
+		</div>
+	<: } :>
+	<div class="row">
+		<div class="label"><label>Translation:</label></div>
+		<div><input type="text" class="text" placeholder="Translate this singular term into Indonesian (Indonesia)." /></div>
+	</div>
+	<div class="row">
+		<div class="label"><label>Translation Plural:</label></div>
+		<div><input type="text" class="text" placeholder="Translate this plural term into Indonesian (Indonesia)." /></div>
+	</div>
+	<div class="row">
+		<div class="label"><label>Translation Plural:</label></div>
+		<div><input type="text" class="text" placeholder="Translate this additional plural term into Indonesian (Indonesia)." /></div>
+	</div>
+	<div class="row">
+		<div class="label"><label>Notes:</label></div>
+		<div>
+			<ul class="translation-notes">
+				<li>Self informative Cloud Save FAQ title for the FAQ about how your settings data can be stored anonymously.</li>
+			</ul>
+		</div>
+	</div>
+	<section class="row">
+		<div class="label"><label>Translations:</label></div>
+		<div>
+			<div class="current-translations-min no-js-hide hide">
+				<strong>2 Translations</strong>
+				<a href="#" class="button show-translations">Show Translations</a>
+			</div>
+			<div class="current-translations">
+				<a href="#" class="button hide-translations">Hide Translations</a>
+				<ul class="user-translations"> 
+					<li>
+						<div class="user-info"><img src="img/profile-generic.png" alt="user profile image" /><label>&lt;anonymous&gt;</label></div>
+						<ul class="translation-details">
+							<span class="translation-vote group"><a href="#" class="button"><i class="check icon-ok"></i></a><span class="vote-tally">6</span></span>
+							<li><label>Singular:</label><strong>Lorem ipsum</strong></li>
+							<li><label>1st Plural:</label><strong>Lorem ipsums</strong></li>
+							<li><label>2nd Plural:</label><strong>Lorem ipsem</strong></li>
+						</ul>
+					</li>      
+					<li>  
+						<div class="user-info"><img src="img/profile-generic.png" alt="user profile image" /><label>&lt;anonymous&gt;</label></div>
+						<ul class="translation-details">
+							<span class="translation-vote group"><a href="#" class="button"><i class="check icon-ok"></i></a><span class="vote-tally">0</span></span>
+							<li><label>Singular:</label><strong>Lorem ipsum</strong></li>
+							<li><label>1st Plural:</label><strong>Lorem ipsums</strong></li>
+							<li><label>2nd Plural:</label><strong>Lorem ipsem</strong></li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</section>
+</fieldset>

@@ -14,12 +14,11 @@ sub base :Chained('/') :PathPart('') :CaptureArgs(0) {
 	}
 
 	$c->stash->{template_layout} = [ 'base.tx' ];
-	$c->stash->{u} = sub { $c->chained_uri(@_) };
-	$c->stash->{l} = sub { $c->localize(@_) };
 	$c->stash->{ddgc_config} = $c->d->config;
 	$c->stash->{xmpp_userhost} = $c->d->config->prosody_userhost;
 	$c->stash->{prefix_title} = 'DuckDuckGo Community';
 	$c->stash->{user_counts} = $c->d->user_counts;
+	$c->stash->{page_class} = "page-home texture";
     #$c->add_bc('Home', $c->chained_uri('Root','index'));
 }
 
