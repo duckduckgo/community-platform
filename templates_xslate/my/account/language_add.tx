@@ -1,0 +1,6 @@
+<select id="language_id" name="language_id" class="language_select autosubmit" data-placeholder="Choose Your Language">
+    <option class="js-remove" value="0">Choose Your Language</option>
+    <: for $languages -> $language { :>
+        <option value="<: $language.id :>">[<: $language.locale :>] <: $language.name_in_local :></option>
+    <: } :>
+</select>

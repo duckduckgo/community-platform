@@ -1,0 +1,13 @@
+<: if !$user_language { :>
+	<option value="">Please select your grade of the language</option>
+<: } :>
+<: for [
+		["1","Basic ability"],
+		["2","Intermediate ability"],
+		["3","Advanced level"],
+		["4",'"Near Native" level'],
+		["5","Native"],
+		["6","Professional proficiency"],
+	] -> $grade { :>
+	<option value="<: $grade[0] :>"<: if $user_language.grade == $grade[0] { :> selected="selected"<: } :>><: $grade[1] :></option>
+<: } :>
