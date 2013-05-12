@@ -1,0 +1,36 @@
+<div class="disclaimer">
+	<h6>Please note:</h6>
+	<p>You do not need this DuckDuckGo community account to use the DuckDuckGo search engine. You do not need to share personal information to create this DuckDuckGo community account (i.e. you can use an anonymous username). We log as little as possible on this open source community platform (e.g. no IP addresses or user agents).</p>
+</div>
+<div class="form-border">
+	<div class="form-wrap account-form halves">
+		<h2>Create a new account</h2>
+		<form action="signup.html" class="group">
+			<div class="account-items group">
+				<div class="half">
+					<div class="input-wrap"><input type="text" placeholder="Your Username" name="username" class="text"/></div>
+				</div>
+				<div class="half">
+					<div class="input-wrap"><input type="password" placeholder="Your Email (Optional)" name="email" class="text" /></div>
+				</div>
+				<div class="half">
+					<div class="input-wrap"><input type="password" placeholder="Create Password" name="password" class="text password" /></div>
+				</div>			
+				<div class="half">
+					<div class="input-wrap"><input type="password" placeholder="Confirm Password" name="password-confirm" class="text password" /></div>
+				</div>
+			</div>
+			<hr class="clear" />
+			<div class="half">
+				<div class="robo-blaster-wrap group">
+					<div class="captcha"><img src="/img/captcha-placeholder.jpg" alt="nice try robot!" /></div>
+					<div class="captcha-validate"><div class="input-wrap"><input type="text" placeholder="Enter the phrase" name="captcha" class="text"/></div></div>
+				</div>
+			</div>
+			<div class="half">
+				<p class="agree-terms"><input type="checkbox" name="agree-terms" /> I agree to the DuckDuckGo Community Platform <a href="#">Terms of Use</a></p>
+				<div class="half"><div class="input-wrap"><input type="submit" value="Create my account" class="button blue submit" /></div></div>
+			</div>		
+		</form>		
+	</div>
+</div>
