@@ -135,7 +135,7 @@ sub admin :Chained('domain') :Args(0) {
 
 sub domainindex :Chained('domain') :PathPart('') :Args(0) {
     my ( $self, $c ) = @_;
-	$c->response->redirect($c->chained_uri('Translate','snippets',$c->stash->{token_domain}->key,$c->stash->{locale}));
+	$c->response->redirect($c->chained_uri('Translate','tokens',$c->stash->{token_domain}->key,$c->stash->{locale}));
 	return $c->detach;
 }
 
@@ -192,7 +192,7 @@ sub save_translate_params {
 
 sub discuss :Chained('locale') :PathPart('') :CaptureArgs(0) {
     my ( $self, $c ) = @_;
-    $c->add_bc('Discuss', '');	
+    $c->add_bc('Discuss', '');
 }
 
 sub locale_comments :Chained('discuss') :PathPart('comments') :Args(0) {

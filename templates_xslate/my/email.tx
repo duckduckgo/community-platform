@@ -1,0 +1,39 @@
+<div class="form-border">
+	<div class="form-wrap account-form">
+		<form action="<: $u('My','email') :>" method="post" id="formEmail">
+			<h2>
+				<: if $c.user.data.email { :>
+					Change your email address
+  				<: } else { :>
+				    Add an email address
+  				<: } :>
+			</h2>
+			<div class="account-items group">
+				<div class="half">
+					<: if $c.user.data.email { :>
+						<div class="input-wrap">
+							Current email: <input type="text" disabled="disabled" class="text" value="<: $c.user.data.email :>" />
+						</div>
+					<: } else { :>
+						No email set yet.
+					<: } :>
+				</div>
+				<div class="half">
+					<div class="input-wrap"><input type="text" placeholder="New Email" name="emailaddress" class="text" /></div>
+				</div>
+			</div>
+			<hr class="clear" />
+			<div class="robo-blaster-wrap group half">
+				<div class="half">
+					<img src="<: $u('Base','captcha') :>" alt="nice try robot!" />
+				</div>
+				<div class="half">
+					<div class="input-wrap"><input type="text" name="captcha" placeholder="Captcha here" class="text" /></div>
+				</div>
+			</div>
+			<div class="half">
+				<div class="input-wrap"><input type="submit" value="Submit" class="button blue submit" name="save_email" /></div>
+			</div>
+		</form>
+	</div>
+</div>

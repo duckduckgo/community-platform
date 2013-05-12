@@ -1,0 +1,5 @@
+<: if $errors { :>
+	<: for $errors -> $error { :>
+		<: include "notice_errors.tx" :>
+	<: } :>
+<: } :>

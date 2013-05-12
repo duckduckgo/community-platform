@@ -1,0 +1,7 @@
+<select class="autosubmit pagenum" name="page" id="page">
+	<: for [1..$pager.last_page] -> $no { :>
+		<option value="<: $no :>"<: if $page == $no { :> selected="selected"<: } :>>
+			<: $no :>
+		</option>
+	<: } :>
+</select>

@@ -20,6 +20,7 @@ sub logout :Chained('base') :Args(0) {
     my ( $self, $c ) = @_;
 	$c->logout;
 	$c->response->redirect($c->chained_uri('Base','welcome'));
+	return $c->detach;
 }
 
 sub logged_in :Chained('base') :PathPart('') :CaptureArgs(0) {
@@ -109,14 +110,6 @@ sub account :Chained('logged_in') :Args(0) {
 	$c->stash->{languages} = [$c->d->rs('Language')->search({},{
 		order_by => { -asc => 'locale' },
 	})->all];
-}
-
-sub apps :Chained('logged_in') :Args(0) {
-    my ( $self, $c ) = @_;
-}
-
-sub timeline :Chained('logged_in') :Args(0) {
-    my ( $self, $c ) = @_;
 }
 
 sub email :Chained('logged_in') :Args(0) {

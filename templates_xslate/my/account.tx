@@ -7,50 +7,55 @@
 			<h2>Level <a href="#" data-reveal-id="grades-tooltip"><i class="icon-question-sign m" id="trig-level-tooltip"></i></a></h2>
 		</div>
 	</div>
-	<div class="body">
-		<div class="row">
-			<div class="third">
-				<img src="https://duckduckgo.com/f2/us.png" alt="flag" class="flag" width="16" height="11">
-				<label>English (United States) [en US]</label>
+	<: if results($c.user.languages) { :>
+		<div class="body">
+			<: for results($c.user.languages) -> $user_language { :>
+			<: } :>
+			<div class="row">
+				<div class="third">
+					<img src="https://duckduckgo.com/f2/us.png" alt="flag" class="flag" width="16" height="11">
+					<label>English (United States) [en US]</label>
+				</div>
+				<div class="third"> 
+					  <select class="language_grade" name="language_grade_69">
+	                    <option value="1">Basic ability</option>
+	                    <option value="2">Intermediate ability</option>
+	                    <option value="3">Advanced level</option>
+	                    <option value="4">"Near Native" level</option>
+	                    <option value="5" selected="selected">Native</option>
+	                    <option value="6">Professional proficiency</option>
+	                  </select>
+				</div>
+				<div class="third multi"><a href="#" class="button red" data-reveal-id="confirm-dialog">Remove</a><a href="#" class="button">Update</a></div>			
 			</div>
-			<div class="third"> 
-				  <select class="language_grade" name="language_grade_69">
-                    <option value="1">Basic ability</option>
-                    <option value="2">Intermediate ability</option>
-                    <option value="3">Advanced level</option>
-                    <option value="4">"Near Native" level</option>
-                    <option value="5" selected="selected">Native</option>
-                    <option value="6">Professional proficiency</option>
-                  </select>
+			<form class="row">
+				<div class="third"> 
+					{% include page_element_languages.tx %}
+				</div>
+				<div class="third">
+					<select data-placeholder="Please select language level" class="language_grade" name="language_grade" id="grade" >
+						<option></option>
+						<option value="1">Basic ability</option>
+						<option value="2">Intermediate ability</option>
+						<option value="3">Advanced level</option>
+						<option value="4">"Near Native" level</option>
+						<option value="5">Native</option>
+						<option value="6">Professional proficiency</option>
+					  </select>
+				</div>
+				<div class="third">
+					<input type="submit" class="button" value="Add Language" />
+				</div>
+			</form>
+			<div class="row">
+				<p>Trying to add a language that's not on the list? <a href="https://dukgo.com/base/requestlanguage">Request it here!</a></p>
 			</div>
-			<div class="third multi"><a href="#" class="button red" data-reveal-id="confirm-dialog">Remove</a><a href="#" class="button">Update</a></div>			
+			<div class="row callout-row">
+				<i class="icon-circle-arrow-right right"></i><h3 class="icon"><i class="icon-globe"></i> Help us translate DuckDuckGo into your languages.</h3>
+			</div>
 		</div>
-		<form class="row">
-			<div class="third"> 
-				{% include page_element_languages.tx %}
-			</div>
-			<div class="third">
-				<select data-placeholder="Please select language level" class="language_grade" name="language_grade" id="grade" >
-					<option></option>
-					<option value="1">Basic ability</option>
-					<option value="2">Intermediate ability</option>
-					<option value="3">Advanced level</option>
-					<option value="4">"Near Native" level</option>
-					<option value="5">Native</option>
-					<option value="6">Professional proficiency</option>
-				  </select>
-			</div>
-			<div class="third">
-				<input type="submit" class="button" value="Add Language" />
-			</div>
-		</form>
-		<div class="row">
-			<p>Trying to add a language that's not on the list? <a href="https://dukgo.com/base/requestlanguage">Request it here!</a></p>
-		</div>
-		<div class="row callout-row">
-			<i class="icon-circle-arrow-right right"></i><h3 class="icon"><i class="icon-globe"></i> Help us translate DuckDuckGo into your languages.</h3>
-		</div>
-	</div> 
+	<: } else { :>
+	<: } :>
 </div>
 
 <div class="content-box account-box">	
@@ -61,7 +66,11 @@
 	<div class="body">
 		<div class="row">
 			<div class="twothird">
-				<label>Your Email: <span class="fakelink">doug@duckduckgo.com</span></label>
+				<: if $c.user().data().email { :>
+					<label>Current Email: <span class="fakelink"><: $c.user().data().email :></span></label>
+				<: } else { :>
+					<label>No email</label>
+				<: } :>
 			</div>
 			<div class="third">
 				<a href="<: $u('My','email') :>" class="button">Change Email</a>

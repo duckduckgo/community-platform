@@ -24,7 +24,7 @@
 				<: include "translate/tokens_nav.tx" :>
 			</div>
 			<: for results($token_languages) -> $token_language { :>
-				<: include "translate/token_language.tx" { show_token_language_link => 1 } :>
+				<: include "translate/tokens/token_language.tx" { token_language => $token_language } :>
 			<: } :>
 			<div class="row nav">			
 				<: include "translate/tokens_nav_paging.tx" :>
