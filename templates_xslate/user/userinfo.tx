@@ -1,0 +1,6 @@
+<: if $user { :>
+	<div class="user-info">
+		<: include "user/userpic.tx" { user => $user, userpic_size => ( $userpic_size || 16 ) } :>
+		<label><: include "user/username.tx" { user => $user } :></label>
+	</div>
+<: } :>

@@ -27,7 +27,7 @@ sub index :Chained('base') :PathPart('') :Args(0) {
 sub logged_in :Chained('base') :PathPart('') :CaptureArgs(0) {
     my ( $self, $c ) = @_;
 	if (!$c->user) {
-		$c->response->redirect($c->chained_uri('Translate','index'));
+		$c->response->redirect($c->chained_uri('My','login'));
 		return $c->detach;
 	}
 	if (!$c->user->db->user_languages->search({})->all) {

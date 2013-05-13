@@ -1,0 +1,2 @@
+<: my $size = $userpic_size || 32 :>
+<img width="<: $size :>" src="<: $user.public ? $user.profile_picture ? $user.profile_picture($size) : '/static/images/profile.male.png' : '/static/images/profile.anonymous.png' :>" alt="<: $user.public_username :>" title="<: $user.public_username :>">

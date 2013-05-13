@@ -1,5 +1,11 @@
+<: my $translations = results($token_language.translations) :>
+<: my $own_translation = results($token_language.latest_own_translation($c.user)) :>
+<: my $user_can_speak = $c.user.can_speak($token_language.token_domain_language.language.locale) :>
+<: my $hide_field = "Hide translation field" :>
+<: my $show_field = "Add your own translation" :>
+
 <fieldset class="row snippet">	
-	<a href="translate_snippet_comments.html" class="button">Discuss</a>
+	<a href="<: $u('Translate','tokenlanguage',$token_language.id) :>" class="button">Discuss</a>
 	<: if $token_language.token.msgctxt { :>
 		<div class="row">
 			<div class="label"><label>Context:</label></div>				
@@ -20,31 +26,60 @@
 			<div class="label"><label>Term (Plural):</label></div>
 			<div>
 				<strong><: $token_language.token.msgid_plural :></strong>
-				<p>This token has <a href="https://duckpan.org/perldoc/DDG::Manual::Translation#token-with-context">context</a>.  Only translate it if you are 100% sure in which way it is used!</p>
-				<p>Please read the notes before translating.</p>
 			</div>
 		</div>
 	<: } :>
-	<div class="row">
-		<div class="label"><label>Translation:</label></div>
-		<div><input type="text" class="text" placeholder="Translate this singular term into Indonesian (Indonesia)." /></div>
-	</div>
-	<div class="row">
-		<div class="label"><label>Translation Plural:</label></div>
-		<div><input type="text" class="text" placeholder="Translate this plural term into Indonesian (Indonesia)." /></div>
-	</div>
-	<div class="row">
-		<div class="label"><label>Translation Plural:</label></div>
-		<div><input type="text" class="text" placeholder="Translate this additional plural term into Indonesian (Indonesia)." /></div>
-	</div>
-	<div class="row">
-		<div class="label"><label>Notes:</label></div>
-		<div>
-			<ul class="translation-notes">
-				<li>Self informative Cloud Save FAQ title for the FAQ about how your settings data can be stored anonymously.</li>
-			</ul>
+	<: if $user_can_speak { :>
+		<: if $token_language.token.msgctxt || $token_language.token.has_placeholders { :>
+			<div class="notice warning clickaway">
+				<strong>Note!</strong> This token has
+				<: if $token_language.token.msgctxt { :>
+					<a href="https://github.com/duckduckgo/duckduckgo/blob/master/lib/DDG/Manual/Translation.pod#token-with-context">context</a>
+					<: if $token_language.token.has_placeholders { :>
+						&nbsp;and&nbsp;
+					<: } :>
+				<: } :>
+				<: if $token_language.token.has_placeholders { :>
+					<a href="https://github.com/duckduckgo/duckduckgo/blob/master/lib/DDG/Manual/Translation.pod#placeholders-in-tokens">placeholders</a>
+				<: } :>.
+				Only translate it, if you are 100% sure in which way it is used!
+				<: if $token_language.token.has_placeholders { :>
+					A wrong translation can destroy <a href="https://github.com/duckduckgo/duckduckgo/blob/master/lib/DDG/Manual/Translation.pod#combined-tokens">combined tokens</a> very easily! Also be sure the same amount of placeholders is in your translation as in the token!
+				<: } :>
+			</div>
+		<: } :>
+		<div class="notice warning clickaway">
+			<: if $token_language.token.notes || $token_language.notes { :>
+				Please assure to read the notes before translating!
+			<: } else { :>
+				Please do not hesitate to <a href="https://duckduckgo.com/feedback">contact us</a>, if you require any further information for this token.
+			<: } :>
 		</div>
-	</div>
+		<: for [ 0..$token_language.max_msgstr_index ] -> $n { :>
+			<: my $func = "msgstr" ~ $n :>
+			<label class="form_input-label" for="token_language_<: $token_language.id :>_<: $func :>">
+				<: if $n == 0 { :>Singular<: } else { $n :>th Plural Form<: } :>
+			</label>
+			<input type="text" class="token-input" <: if $token_language.token_domain_language.language.rtl { :>dir="rtl" <: } :>id="token_language_<: $token_language.id :>_<: $func :>" name="token_language_<: $token_language.id :>_<: $func :>" onkeyup="placeholder_check(this, '<: $n == 0 ? $token_language.token.msgid : $token_language.token.msgid_plural.replace("'", "\\'") :>');" value="<: $own_translation.$func :>" autocomplete="off" placeholder="Translate '<: $n == 0 ? $token_language.token.msgid : $token_language.token.msgid_plural :>' <: if $token_language.token.msgctxt { :> in context of '<: $token_language.token.msgctxt :>' <: } :>into <: $token_language.token_domain_language.language.name_in_english :>">
+		<: } :>
+	<: } :>
+
+	<: if $token_language.token.notes || $token_language.notes { :>
+		<div class="row">
+			<div class="label"><label>Notes:</label></div>
+			<div class="translation-notes">
+				<: if $token_language.token.notes { :>
+					<: $token_language.token.notes :>
+					<: if $token_language.notes { :>
+						<br/>
+					<: } :>
+				<: } :>
+				<: if $token_language.notes { :>
+					<: $token_language.notes :>
+				<: } :>
+			</div>
+		</div>
+	<: } :>
 	<section class="row">
 		<div class="label"><label>Translations:</label></div>
 		<div>
@@ -56,7 +91,7 @@
 				<a href="#" class="button hide-translations">Hide Translations</a>
 				<ul class="user-translations"> 
 					<li>
-						<div class="user-info"><img src="img/profile-generic.png" alt="user profile image" /><label>&lt;anonymous&gt;</label></div>
+						<div><: include "user/userinfo.tx" { user => $c.user, userpic_size => 32 } :></div>
 						<ul class="translation-details">
 							<span class="translation-vote group"><a href="#" class="button"><i class="check icon-ok"></i></a><span class="vote-tally">6</span></span>
 							<li><label>Singular:</label><strong>Lorem ipsum</strong></li>

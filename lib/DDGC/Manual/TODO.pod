@@ -21,4 +21,3 @@ token list.
 
 Account tooltips for the language are not shown 
 * these were in modal_tooltip.tx in provided files
-
