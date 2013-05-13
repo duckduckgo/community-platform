@@ -1,0 +1,18 @@
+<div class="blog-content">	
+	<section class="daily-posts">
+		<div class="date-box">
+			<span class="num">06</span>
+			<span class="month">SEP</span>
+		</div>
+		<: include "blog/posts_post.tx" :>
+		<: include "blog/posts_post.tx" :>
+	</section>
+	<section class="daily-posts">
+		<div class="date-box">
+			<span class="num">02</span>
+			<span class="month">SEP</span>
+		</div>
+		<: include "blog/posts_post.tx" :>
+		<: include "blog/posts_post.tx" :>
+	</section>
+</div>
