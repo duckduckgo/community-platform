@@ -1,11 +1,13 @@
-<div class="page-select">
-	<label for="page">Page</label>
-	<: include "pager/page.tx" :>
+<div class="paging-menu">
+	<div class="page-select">
+		<label for="page">Page</label>
+		<: include "pager/page.tx" :>
+	</div>
+	<div class="page-size">
+		<label for="pagesize">Show</label> 
+		<: include "pager/pagesize.tx" :>
+		<label for="pagesize">per page</label> 
+	</div>
+	<input type="hidden" name="only_untranslated" value="1">
+	<input type="submit" value="Go" class="button js-hide" />
 </div>
-<div class="page-size">
-	<label for="pagesize">Show</label> 
-	<: include "pager/pagesize.tx" :>
-	<label for="pagesize">per page</label> 
-</div>
-<input type="hidden" name="only_untranslated" value="1">
-<input type="submit" value="Go" class="button js-hide" />

@@ -1,12 +1,12 @@
 .account-box .row.callout-row {		
-	background: #f5f5f5;
-	color: #5b5f68;
+	background: #f5f5f5;	
 	padding: 15px 10px;
 	-webkit-border-radius: 0 0 5px 5px;
 	border-radius: 0 0 5px 5px;
 	-webkit-background-clip: padding-box; 
 	background-clip: padding-box;	
 }
+	.account-box .callout-row a, .account-box .callout-row h3 { color: #5b5f68; }
 	.account-box .callout-row h3 { color: inherit; margin: 0; font-size: 18px; font-weight: bold; }
 		.callout-row h3.icon { position: relative; padding-left: 2em; }
 		.callout-row .icon i[class*='icon'] { font-size: 140%; position: absolute; top: -2px; left: 0; }
@@ -17,14 +17,20 @@
 			margin-right: 5px;
 		}
 	
-.account-box .flag { padding: 12px 25px 12px 0; float: left;}
+.account-box .flag { padding: 12px 12px 12px 0; position: absolute; top: 0; left: 0; }
 .account-box label { 
-	font-size: 18px; 
-	padding: 7px 0; 
+	font-size: 18px;
+	height: 1em;
+	padding: 7px; 
+	width: 85%; 
 	line-height: 1; 
 	display: inline-block; 
-	float: left; 
+	overflow: hidden;
+	white-space: nowrap;
+	word-wrap: break-word;
+	text-overflow: ellipsis;	
 }
+	.account-box .flag + label { padding-left: 28px; }
 .account-box p { margin: 0; padding: 8px 0; }
 .account-box .button { float: right; width: 140px; margin: 0 0 0 10px; }
 	.account-box .multi .button { width: 90px; }		
@@ -35,7 +41,7 @@
 	left: -8px;
 }	
 .account-box .select2-container .select2-choice div b { color: #60636a; }
-
+.account-box .select2-container { height: 29px; }
 .no-js .account-box select { 
 	padding: 5px 3px 4px 8px; 
 	font-size: 0.8em;
@@ -46,10 +52,6 @@
 	.account-box label { 
 		width: 80%;
 		font-size: 16px; 
-		overflow: hidden;				
-		white-space: nowrap;
-		word-wrap: break-word;
-		text-overflow: ellipsis;		
 	}
 }
 	

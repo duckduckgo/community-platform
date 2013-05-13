@@ -221,7 +221,7 @@ blockquote { padding: 0 0 0 28px; position: relative; }
 	
 		.header-account-info {
 			padding-top: 11px; 
-			width: 12em;
+			width: 15em;
 			line-height: 1;
 			float: left;
 			padding-left: 22px;
@@ -378,10 +378,9 @@ blockquote { padding: 0 0 0 28px; position: relative; }
 	.breadcrumbs a { border-bottom: 1px solid #3262b4; }
 	.language_nav { float: right; margin-top: -5px; }
 		.language_nav .button { float: right; padding: 4px; margin-left:4px; font-weight: normal; }
+		.language_nav .select2-container, .language_nav select { height: 29px; }
 		.language_nav .select2-container { font-size: 0.9em; min-width: 200px; }
-		.language_nav .select2-default span { color: #3364b3; font-weight: bold; }
-
-		
+		.language_nav .select2-default span { color: #3364b3; font-weight: bold; }		
 .content-box {
 	position: relative;
 	margin: 0 auto 18px;

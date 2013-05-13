@@ -106,7 +106,8 @@
 	.page-select, .page-size { float: left; }	
 	.page-select { padding-right: 47px; }
 	.paging-menu .button { float: left; margin: 1px 0 0 20px;}
-	.paging-menu .select2-container .select2-choice { height: 27px; line-height: 27px; }
+	.paging-menu .select2-container { max-width: 50px; }
+	.paging-menu .select2-container, .paging-menu .select2-container .select2-choice { height: 27px; line-height: 27px; }
 	.paging-menu .select2-container .select2-choice span { margin-right: 21px; min-width: 1.4em; text-align: right;}
 	.paging-menu .select2-container .select2-choice div { width: 14px; }
 

@@ -8,6 +8,7 @@ Version: 3.2 Timestamp: Mon Sep 10 10:38:04 PDT 2012
     zoom: 1;
     *display: inline;
     vertical-align: top;
+	height: 29px; /* default height */
 }
 
 .select2-container,

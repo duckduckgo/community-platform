@@ -8,31 +8,32 @@
 				    Add an email address
   				<: } :>
 			</h2>
-			<div class="account-items group">
-				<div class="half">
-					<: if $c.user.data.email { :>
-						<div class="input-wrap">
-							Current email: <input type="text" disabled="disabled" class="text" value="<: $c.user.data.email :>" />
-						</div>
-					<: } else { :>
-						No email set yet.
-					<: } :>
-				</div>
-				<div class="half">
-					<div class="input-wrap"><input type="text" placeholder="New Email" name="emailaddress" class="text" /></div>
-				</div>
+			<div class="account-items group">				
+				<: if $c.user.data.email { :>					
+					<p>Current email: </p>
+					<div class="half">
+						<div class="input-wrap"><input type="text" disabled="disabled" class="text" value="<: $c.user.data.email :>" /></div>
+					</div>
+				<: } else { :>
+					<p>No email set yet.</p>
+				<: } :>
 			</div>
 			<hr class="clear" />
-			<div class="robo-blaster-wrap group half">
-				<div class="half">
-					<img src="<: $u('Base','captcha') :>" alt="nice try robot!" />
-				</div>
-				<div class="half">
-					<div class="input-wrap"><input type="text" name="captcha" placeholder="Captcha here" class="text" /></div>
+			<div class="half">
+				<div class="robo-blaster-wrap group">
+					<div class="captcha">
+						<img src="<: $u('Base','captcha') :>" alt="nice try robot!" />
+					</div>
+					<div class="captcha-validate">
+						<div class="input-wrap"><input type="text" name="captcha" placeholder="Captcha here" class="text" /></div>
+					</div>
 				</div>
 			</div>
 			<div class="half">
-				<div class="input-wrap"><input type="submit" value="Submit" class="button blue submit" name="save_email" /></div>
+				<div class="input-wrap"><input type="text" placeholder="New Email" name="emailaddress" class="text" /></div>
+				<div class="half">
+					<div class="input-wrap"><input type="submit" value="Submit" class="button blue submit" name="save_email" /></div>
+				</div>
 			</div>
 		</form>
 	</div>

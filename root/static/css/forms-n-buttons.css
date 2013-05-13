@@ -35,6 +35,9 @@ form input[type="password"], form input[type="email"], form input[type="text"], 
 		-webkit-box-shadow: 0 0 5px #59a1ed;
 		box-shadow: 0 0 5px #59a1ed;
 	}
+	form input[type="password"][disabled="disabled"], form input[type="email"][disabled="disabled"], form input[type="text"][disabled="disabled"]  {
+		background: #f5f5f5;
+	}
 	
 	select {
 		color: #61646d;
@@ -74,6 +77,9 @@ Login/Signup Forms
 		-moz-box-shadow: 0 0 5px #59a1ed;
 		-webkit-box-shadow: 0 0 5px #59a1ed;
 		box-shadow: 0 0 5px #59a1ed;
+	}
+	.account-form form input[type="password"][disabled="disabled"], .account-form form input[type="email"][disabled="disabled"], .account-form form input[type="text"][disabled="disabled"]  {
+		background: #f9f9f9;
 	}
 		
 	.account-form form .half .input-wrap { width: 95%; left: -10px; }

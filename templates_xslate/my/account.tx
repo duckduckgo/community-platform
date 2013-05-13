@@ -23,7 +23,7 @@
 					<div class="third multi"><a href="<: $u('My','account',{ remove_language => $user_language.language.id }) :>" class="button red" data-reveal-id="confirm-dialog">Remove</a><input type="submit" name="update_language_<: $user_language.language.id :>" class="button" value="Update" /></div>			
 				</div>
 			<: } :>
-			<form class="row">
+			<div class="row">				
 				<div class="third"> 
 					<: include "my/account/language_add.tx" :> 
 				</div>
@@ -34,8 +34,8 @@
 				</div>
 				<div class="third">
 					<input type="submit" class="button" name="add_language" value="Add Language" />
-				</div>
-			</form>
+				</div>				
+			</div>
 			<div class="row">
 				<p>Trying to add a language that's not on the list? <a href="<: $u('Base','requestlanguage') :>">Request it here!</a></p>
 			</div>
@@ -100,7 +100,7 @@
 			</div>
 		</div>
 	</div>
-</div>
+</form>
 
 <: include "my/account/language_remove.tx" :> 
 <: include "my/account/language_tip.tx" :>

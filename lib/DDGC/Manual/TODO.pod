@@ -14,17 +14,11 @@ user doesnt speak. In favour of "hey lets look at other languages" i dont
 wanted it limited to only the languages the user speaks. Also prevent display
 of english language name on english languages ;).
 
-Change Email page needs tuning
-
 =head1 Design Errors
-
-Linebreak on the userinfo box topleft.
 
 Tokenpage has space between the language dropdown/breadcrumb and the actual
 token list.
 
-Account tooltips for the language are not shown
-
-Account language picker too wide
-
+Account tooltips for the language are not shown 
+* these were in modal_tooltip.tx in provided files
 
