@@ -58,7 +58,7 @@ Login/Signup Forms
 
 .account-form form input[type="password"], .account-form form input[type="email"], .account-form form input[type="text"] { 	
 	color: #bbb;
-	padding: 6px 2.5%; 
+	padding: 6px 9px; 
 	background: #fff; 
 	border: 1px solid #cccccc; 
 	position: relative; 
@@ -152,7 +152,7 @@ Modal Forms
 	.modal-form .account-links .half + .half { text-align: right;}
 
 /*--------------------------------------------------
-One-Fielded Functiion Forms
+One-Fielded Function Forms
 -------------------------------------------------- */
 .one-field { position: relative; }
 

@@ -203,7 +203,7 @@
 		width: 31px;
 		height: 31px;
 		margin: 0 6px;
-		background: url('/static/img/social-sketch-icons.png') 0 0 no-repeat;
+		background: url('../img/social-sketch-icons.png') 0 0 no-repeat;
 		text-indent: -9999px;
 		opacity: 0.9;
 	}

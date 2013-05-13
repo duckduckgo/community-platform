@@ -1,7 +1,7 @@
 /* Global Fonts & Colours */
 body, select, input, textarea, button { font-size: 0.9em; }
 body { color: #444; background: #fff; }
-	body.texture { background: #fefefe url('/static/img/bg-body-texture.jpg'); }
+	body.texture { background: #fefefe url('../img/bg-body-texture.jpg'); }
 body, select, input, textarea, button, .sans, .account-form h2, .account-form h4, .site-header h2, .site-header h3, .callout-box h2, .content-box .head h2, .callout-row h3, .duckpan h1, .duckpan h2, .blog-content  h2, .blog-content h3, .blog-content h4, .blog-content h5, .sidebar h5  { 
 	font-family: "Helvetica Neue","HelveticaNeueLT Std","Segoe UI","Nimbus Sans L","Liberation Sans","Open Sans",FreeSans,Helvetica,Arial,sans-serif; 
 }
@@ -448,7 +448,7 @@ blockquote { padding: 0 0 0 28px; position: relative; }
 	Site Bottom
 */
 .site-bottom {
-	background: #f4f4f4 url('/static/img/bg-site-bottom-texture.jpg');
+	background: #f4f4f4 url('../img/bg-site-bottom-texture.jpg');
 	border-top: 1px solid #d4d4d4;
 	box-shadow: inset 0 1px 0 (255,255,255,0.3);
 	padding: 25px 0;

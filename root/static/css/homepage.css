@@ -33,7 +33,7 @@
 				padding-left: 25px;
 				list-style: none; 
 				margin-bottom: 10px; 
-				background: url('/static/img/bullet-check.png') 3px 3px no-repeat;
+				background: url('../img/bullet-check.png') 3px 3px no-repeat;
 			}
 			.callout-box .cta { padding-left: 28px; display: block; height: 20px; position: relative; }
 				.callout-box .cta i[class*='icon'] { 
