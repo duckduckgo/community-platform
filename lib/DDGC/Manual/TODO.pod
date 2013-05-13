@@ -14,6 +14,9 @@ user doesnt speak. In favour of "hey lets look at other languages" i dont
 wanted it limited to only the languages the user speaks. Also prevent display
 of english language name on english languages ;).
 
+Missing table design for admin area and general use for lists (sortable buttons
+please).
+
 =head1 Design Errors
 
 Tokenpage has space between the language dropdown/breadcrumb and the actual
