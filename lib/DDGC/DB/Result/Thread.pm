@@ -1,7 +1,7 @@
 package DDGC::DB::Result::Thread;
 # ABSTRACT: Dukgo.com Forum thread
 
-use DBIx::Class::Candy -components => [ 'TimeStamp', 'InflateColumn::DateTime', 'InflateColumn::Serializer', 'EncodedColumn', 'Indexed' ];
+use DBIx::Class::Candy -components => [ 'TimeStamp', 'InflateColumn::DateTime', 'InflateColumn::Serializer', 'EncodedColumn' ];
 
 use Parse::BBCode;
 use Moose;
