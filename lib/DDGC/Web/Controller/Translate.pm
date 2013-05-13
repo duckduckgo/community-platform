@@ -18,11 +18,7 @@ sub base :Chained('/base') :PathPart('translate') :CaptureArgs(0) {
 	$c->add_bc('Translation Interface', $c->chained_uri('Translate','index'));
 }
 
-sub do :Chained('base') :CaptureArgs(0) {
-    my ( $self, $c ) = @_;
-}
-
-sub index :Chained('do') :Args(0) {
+sub index :Chained('base') :PathPart('') :Args(0) {
     my ( $self, $c ) = @_;
 	$c->stash->{headline_template} = 'headline/translate.tt';
 	$c->stash->{token_domains} = $c->d->rs('Token::Domain');

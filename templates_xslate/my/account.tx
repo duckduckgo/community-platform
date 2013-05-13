@@ -37,7 +37,7 @@
 				</div>
 			</form>
 			<div class="row">
-				<p>Trying to add a language that's not on the list? <a href="<: $u('Base','requestlanguage') :>">Request it here!</a></p>
+				<p>Trying to add a language that's not on the list? <a href="<: $u('My','requestlanguage') :>">Request it here!</a></p>
 			</div>
 			<div class="row callout-row">
 				<a href="<: $u('Translate','index') :>">

@@ -22,14 +22,14 @@ sub base :Chained('/') :PathPart('') :CaptureArgs(0) {
     #$c->add_bc('Home', $c->chained_uri('Root','index'));
 }
 
+sub captcha :Chained('base') :Args(0) {
+	my ($self, $c) = @_;
+	$c->create_captcha();
+}
+
 sub index :Chained('base') :PathPart('') :Args(0) {
-    my ( $self, $c ) = @_;
-#	if ($c->user) {
-#		return $c->detach('My','timeline');
-#	} else {
-	$c->response->redirect($c->chained_uri('Base','welcome'));
-	return $c->detach;
-#	}
+	my ($self, $c) = @_;
+	$c->stash->{title} = 'Welcome';
 }
 
 sub default :Chained('base') :PathPart('') :Args {

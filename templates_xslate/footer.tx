@@ -6,7 +6,7 @@
 				<ul>
 					<li><a href="translate_index.html">Translate DuckDuckGo</a></li>
 					<li><a href="http://duck.co/">Join our Forums</a></li>
-					<li><a href="#">Browse our Blog</a></li>
+					<li><a href="<: $u('Blog','index') :>">Browse our Blog</a></li>
 					<li><a href="https://duck.co/topic/duckduckgo-s-new-public-xmpp-jabber-service-on-dukgo-com">Chat via XMPP/Jabber</a></li>
 					<li><a href="https://github.com/duckduckgo/community-platform">Develop this site</a></li>
 					<li><a href="https://github.com/duckduckgo/duckduckgo/wiki">Develop goodies</a></li>
@@ -49,7 +49,7 @@
 <div class="site-footer">
 	<div class="content-wrap">
 		<div class="third">
-			<p class="footer-nav"><a href="https://dukgo.com/base/welcome">Home</a> <a href="https://duckduckgo.com/privacy">Privacy</a> <a href="https://duckduckgo.com/feedback">Feedback</a></p>
+			<p class="footer-nav"><a href="<: $u('Root','index') :>">Home</a> <a href="https://duckduckgo.com/privacy">Privacy</a> <a href="https://duckduckgo.com/feedback">Feedback</a></p>
 		</div>
 		<div class="twothird">
 			<p>Powered by <a href="http://www.perl.org/" target="_perl">Perl</a> Delivered by <a href="http://nginx.org/" target="_nginx">nginx</a> Source at <a href="https://github.com/duckduckgo/community-platform" target="_github">github</a> &copy; <a href="https://duckduckgo.com">DuckDuckGo, Inc.</a></p>
