@@ -19,7 +19,7 @@ sub base :Chained('/base') :PathPart('my') :CaptureArgs(0) {
 sub logout :Chained('base') :Args(0) {
     my ( $self, $c ) = @_;
 	$c->logout;
-	$c->response->redirect($c->chained_uri('Base','welcome'));
+	$c->response->redirect($c->chained_uri('Root','index'));
 	return $c->detach;
 }
 
@@ -153,7 +153,7 @@ sub delete :Chained('logged_in') :Args(0) {
 		my $username = $c->user->username;
 		$c->d->delete_user($username);
 		$c->logout;
-		$c->response->redirect($c->chained_uri('Base','welcome'));
+		$c->response->redirect($c->chained_uri('Root','index'));
 		return $c->detach;
 	}
 }
@@ -408,6 +408,66 @@ sub register :Chained('logged_out') :Args(0) {
 	}
 
 	$c->response->redirect($c->chained_uri('My','login',{ register_successful => 1 }));
+
+}
+
+sub requestlanguage :Chained('logged_out') :Args(0) {
+	my ($self, $c) = @_;
+	$c->stash->{title} = 'Request language';
+
+	delete $c->stash->{headline_template};
+	
+	if ($c->req->params->{submit}) {
+
+		my $error = 0;
+	
+		if ( !$c->req->params->{email} or !Email::Valid->address($c->req->params->{email}) ) {
+			$c->stash->{no_valid_email} = 1;
+			$error = 1;
+		}
+
+		if ( !$c->req->params->{lang_in_local} ) {
+			$c->stash->{required_lang_in_local} = 1;
+			$error = 1;
+		}
+
+		if ( !$c->req->params->{name_in_english} ) {
+			$c->stash->{required_name_in_english} = 1;
+			$error = 1;
+		}
+
+		if ( !$c->req->params->{name_in_local} ) {
+			$c->stash->{required_name_in_local} = 1;
+			$error = 1;
+		}
+		
+		if ($error) {
+
+			$c->stash->{requestlanguage_email} = $c->req->params->{email};
+			$c->stash->{requestlanguage_lang_in_local} = $c->req->params->{lang_in_local};
+			$c->stash->{requestlanguage_name_in_english} = $c->req->params->{name_in_english};
+			$c->stash->{requestlanguage_name_in_local} = $c->req->params->{name_in_local};
+			$c->stash->{requestlanguage_locale} = $c->req->params->{requestlanguage_locale};
+			$c->stash->{requestlanguage_flagurl} = $c->req->params->{flagurl};
+
+		} else {
+
+			$c->stash->{email} = {
+				to          => 'help@duckduckgo.com',
+				from        => $c->req->params->{email},
+				subject     => '[DuckDuckGo Community] New request for language',
+				template	=> 'email/requestlanguage.tt',
+				charset		=> 'utf-8',
+				content_type => 'text/plain',
+			};
+
+			$c->stash->{thanks_for_languagerequest} = 1;
+			$c->forward( $c->view('Email::TT') );
+
+		}
+	}
+
+	$c->add_bc($c->stash->{title}, $c->chained_uri('My','requestlanguage'));
 
 }
 

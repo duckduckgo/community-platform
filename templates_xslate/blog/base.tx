@@ -1,0 +1,7 @@
+<div class="breadcrumb-nav">
+	<div class="breadcrumbs"><a href="blog.html">Blog</a> &gt; <a href="blog_category.html">DDG News</a> &gt; DDG hits 2,000,000 queries a day</div>	
+</div>
+
+<: include $next_template() :>
+
+<: include "blog/sidebar.tx" :>

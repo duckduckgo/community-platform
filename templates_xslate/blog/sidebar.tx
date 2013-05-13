@@ -1,0 +1,63 @@
+<aside class="sidebar">
+	<div class="sidebar-contents group">
+		<section class="search">
+			<form class="one-field">				
+				<input type="text" class="text" placeholder="Search Blog" />
+				<button type="submit" class="button icon-search"></button>
+			</form>
+		</section>
+		<section class="menu-list tab-third">
+			<h5>Categories</h5>
+			<ul>
+				<li><a href="#"><abbr title="DuckDuckGo">DDG</abbr> News</a></li>
+				<li><a href="#">Careers</a></li>
+				<li><a href="#">Duck Culture</a></li>
+			</ul>
+		</section>
+		<section class="menu-list tab-third">
+			<h5>Archives</h5>
+			<ul>
+				<li><a href="#">September</a></li>
+				<li><a href="#">August</a></li>
+				<li><a href="#">July</a></li>
+				<li><a href="#">June</a></li>
+				<li><a href="#">May</a></li>
+			</ul>
+		</section>
+		<section class="menu-list tab-third">
+			<h5>Contribute to <abbr title="DuckDuckGo">DDG</abbr></h5>
+			<ul>
+				<li><a href="https://github.com/duckduckgo">Github <i class="icon-github"></i></a></li>
+				<li><a href="http://dukgo.com">Community Platform</a></li>
+				<li><a href="https://duckduckgo.com/feedback">Feedback</a></li>
+				<li><a href="https://duckduckgo.com/spread">Spread <abbr title="DuckDuckGo">DDG</abbr></a></li>
+			</ul>
+		</section>
+		<section class="clear tab-half">
+			<h5>Some things you should know&hellip;</h5>
+			<a href="http://donttrack.us"><img src="http://donttrack.us/images/dont-track-us.png" alt="DONT TRACK US" /></a>
+		</section>
+		<section class="sidebar-social tab-half">
+			<h5>Feeds</h5>
+			<div class="icons">
+				<a class="icon fb" href="https://facebook.com/duckduckgo" title="DuckDuckGo on Facebook">facebook</a>
+				<a class="icon rss" href="#" title="DuckDuckGo Blog RSS feed">RSS</a>
+				<a class="icon re" href="http://www.reddit.com/r/duckduckgo" title="DuckDuckGo on reddit">reddit /r/duckduckgo</a>
+				<a class="icon tw" href="https://twitter.com/duckduckgo" title="DuckDuckGo on twitter">twitter</a>
+			</div>
+		</section>
+		<section class="clear tab-mid">
+			<h5>Monthly Newsletter</h5>
+			<form class="one-field">				
+				<input type="email" class="text" placeholder="email" />
+				<button type="submit" class="button">GO</button>
+			</form>
+		</section>
+		<!--
+		<section>
+			<h5></h5>
+			
+		</section>
+		-->
+	</div>
+</aside>
