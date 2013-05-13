@@ -69,13 +69,13 @@
 			<div class="label"><label>Notes:</label></div>
 			<div class="translation-notes">
 				<: if $token_language.token.notes { :>
-					<: $token_language.token.notes :>
+					<: r($token_language.token.notes) :>
 					<: if $token_language.notes { :>
 						<br/>
 					<: } :>
 				<: } :>
 				<: if $token_language.notes { :>
-					<: $token_language.notes :>
+					<: r($token_language.notes) :>
 				<: } :>
 			</div>
 		</div>

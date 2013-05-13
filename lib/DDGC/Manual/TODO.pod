@@ -17,6 +17,8 @@ of english language name on english languages ;).
 Missing table design for admin area and general use for lists (sortable buttons
 please).
 
+Missing Error / Not Found page (default.tx, error.tx, error.tx must be independent, more simple HTML variant)
+
 =head1 Design Errors
 
 Tokenpage has space between the language dropdown/breadcrumb and the actual

@@ -36,7 +36,7 @@ __PACKAGE__->config(
 		dirs => [
 			'root'
 		],
-		ignore_extensions => [ qw/tmpl tt tt2/ ],
+		ignore_extensions => [ qw/tmpl tt tt2 tx/ ],
 	},
 	authentication => {
 		default_realm => 'users',
@@ -63,9 +63,9 @@ __PACKAGE__->config(
 		# subject => '[%n %V] Report from %h; %F, line %l',
 	# },
 	'custom-error-message' => {
-		'error-template' => 'error.tt',
+		'error-template' => 'error.tx',
 		'content-type' => 'text/html; charset=utf-8',
-		'view-name' => 'Error',
+		'view-name' => 'Xslate',
 		'response-status' => 500,
 	},
 	'Plugin::Session' => {
