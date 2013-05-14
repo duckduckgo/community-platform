@@ -2,15 +2,23 @@
 	<div class="form-wrap account-form">
 
 		<h2>Request new password</h2>
-		<form action="<: $u('My','changepw') :>" class="group">
+		<form action="<: $u('My','changepw') :>" class="group" method="post">
+			<p>
+			<: if $changeok { 'Your password has been changed correctly.' } :>
+			<: if $old_password_wrong { 'Your old password is not correct. Please, try again.' } :>
+			<: if $password_too_short { 'Password must be at least 3 characters.' } :>
+			<: if $password_different { 'The passwords do not match. Please, try again.' } :>
+			</p>
 			<div class="third">
-				<div class="input-wrap"><input type="text" placeholder="Your Username" name="username" class="text"/></div>
+				<div class="input-wrap"><input type="password" placeholder="Current Password" name="old_password" class="text"/></div>
 			</div>
 			<div class="third">
-				<div class="input-wrap"><input type="email" placeholder="Your Email Address" name="email" class="text" /></div>
+				<div class="input-wrap"><input type="password" placeholder="New Password" name="password" class="text" />
+				<br/>
+				<input type="password" placeholder="Confirm Password" name="repeat_password" class="text" /></div>
 			</div>
 			<div class="sixth">
-				<div class="input-wrap"><input type="submit" value="Submit" class="button submit" /></div>
+				<div class="input-wrap"><input type="submit" value="Submit" class="button submit" name="changepw" /></div>
 			</div>		
 		</form>
 		

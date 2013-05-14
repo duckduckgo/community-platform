@@ -10,10 +10,11 @@
 				<p>
 					<: if $wrong_captcha      { 'The captcha is incorrect. Please, try again.' } :>
 					<: if $need_username      { 'Please, enter a username.' } :>
-					<: if $user_exist         { 'The username %s exists already. Please, try again.' } :>
+					<: # This is not currently used, but TODO: Fix it before it is used. # :>
+					<: if $user_exist         { 'The username $user exists already. Please, try again.' } :> 
 					<: if $not_valid_chars    { 'The username may only contain standard latin letters (A-Z), numbers, "." and "_".' } :>
 					<: if $not_valid_email    { 'The email you have given is not proper, please give a valid email address' } :>
-					<: if $password_too_short { 'The password must be at least 3 characters.' } :>
+					<: if $password_too_short { 'The password must be at least 3 characters.' } # with l(), this should be l($string,3) :>
 					<: if $password_different { 'The passwords do not match. Please, try again.' } :>
 				</p>
 				<div class="half">
