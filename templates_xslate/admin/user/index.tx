@@ -1,0 +1,40 @@
+<form action="<: $u('Admin::User','index') :>" method="post" id="formAdminUsers">
+
+<: include admin::user::pager :>
+
+<div class="box">
+
+<table class="tableUsers" style="width:100%" name="user_table" id="user_table">
+  <thead>
+      <tr>
+        <th scope="col" style="width:40px">ID</th>
+        <th scope="col">Email</th>
+        <th scope="col" style="width:300px">Username</th>
+        <th scope="col" style="width:300px">Languages</th>
+      </tr>
+  </thead>
+  <tbody>
+  <: for results($users) -> $user { :>
+    <tr>
+      <td scope="row">#<: $user.id :></td>
+      <td><: if $user.data { :><: $user.data.email :><: } :></td>
+      <td><: # include user::username :></td>
+      <td>
+		<: for results($user.user_languages) -> $user_language { :>
+			<img src="<: $user_language.language.flag_url :>">
+			<: $user_language.language.locale :>
+			<: $user_language.grade :>
+		<: } :>
+	  </td>
+    </tr>
+  <: } :>
+  </tbody>
+</table>
+
+</div>
+
+<div class="box" style="text-align:center">
+  <: include pager { pager => $users.pager, url => $u('Admin::User','index',{ page => 'PAGE_NO' }) ~ "#user_table" } :>
+</div>
+
+</form>

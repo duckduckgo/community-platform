@@ -1,0 +1,23 @@
+<div class="box token-filter">
+  <div class="box-inner">
+    <form action="#" method="get" id="formPages"> 
+      <: if $users_count { :>
+        <label for="page"><strong><: $l('Page') :></strong></label>
+        <: include pager::dropdown { pager => $users.pager } :>
+        <: if not $no_pagesize { :>
+          <label for="pagesize"><strong><: $l('Items per page') :></strong></label> 
+          <: include pager::pagesize :>
+        <: } :>
+      <: } else { :>
+        <a href="<: $u('Admin::User','index') :>">Show all users again</a>
+      <: } :>
+      <div class="token-filter_right">
+        <div class="token_menu" style="overflow:hidden">
+          <input type="submit" name="user_search_submit" style="float:right;padding:3px" value="Search users">
+          <input type="text" style="height:30px;float:right;width:200px;padding:0px" name="user_search" value="<: $user_search :>">
+          <div style="float:right">User list &gt;</div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
