@@ -1,6 +1,6 @@
 <h1 id="skip">Tokens Settings</h1>
 <form action="<: $u('Admin::Token','index') :>" method="post" name="tokendomainsform" id="formTokendomains">
-  <: for $results($list_token_domain) -> $token_domains { :>
+  <: for results($list_token_domain) -> $token_domains { :>
   <fieldset>
   <legend><span>#<: $list_token_domain.id :> [<: $list_token_domain.key :>] <: $list_token_domain.name :></span></legend>
     <: include admin::token::tokendomainform { token_domain => $list_token_domain } :>
