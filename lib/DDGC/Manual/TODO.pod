@@ -40,4 +40,8 @@ next to it. Probably a bit of color would be cool.. like green arrow up
 and red arrow down, or at least one example of both, so that i can set it
 to visualize for the user what he voted on this already. Also the box need
 some dropdown to pick the sorting algorythm, like sort by relevance, sort
-by newest and so on.
+by newest and so on. The "posted by" and the "about" should be removed, and
+we need some "points" in that line for the voting result (or whatever place
+if you have a better idea).
+
+
