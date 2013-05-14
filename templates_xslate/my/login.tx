@@ -1,10 +1,16 @@
 <div class="form-border">
 	<div class="form-wrap account-form">
+
+		<: if $register_successful { :>
+			<div class="notice warning"><i class="icn icon-warning-sign"></i>
+				Your registration was successful, you can now login!
+			</div>
+		<: } :>
 		
 		<h2>Login to your account</h2>
 		<form action="<: $u('My','login') :>" class="group">
 			<div class="third">
-				<div class="input-wrap"><input type="text" placeholder="Your Username" name="username" class="text"/></div>
+				<div class="input-wrap"><input type="text" placeholder="Your Username" name="username" class="text" value="<: $username :>"/></div>
 			</div>
 			<div class="third">
 				<div class="input-wrap"><input type="password" placeholder="Your Password" name="password" class="text password" /></div>

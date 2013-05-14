@@ -22,18 +22,58 @@ sub logout :Chained('base') :Args(0) {
 	return $c->detach;
 }
 
-sub logged_in :Chained('base') :PathPart('') :CaptureArgs(0) {
-    my ( $self, $c ) = @_;
-	if (!$c->user) {
-		$c->response->redirect($c->chained_uri('My','login'));
-		return $c->detach;
-	}
-}
-
 sub logged_out :Chained('base') :PathPart('') :CaptureArgs(0) {
     my ( $self, $c ) = @_;
 	if ($c->user) {
 		$c->response->redirect($c->chained_uri('My','account'));
+		return $c->detach;
+	}
+}
+
+sub login :Chained('logged_out') :Args(0) {
+	my ( $self, $c ) = @_;
+	$c->add_bc('Login', $c->chained_uri('My','login'));
+
+	$c->stash->{no_userbox} = 1;
+
+	if ($c->req->params->{username}) {
+		if ($c->req->params->{username} !~ /^[a-zA-Z0-9_\.]+$/) {
+			$c->stash->{not_valid_username} = 1;
+		} else {
+			if ( my $username = lc($c->req->params->{username}) and my $password = $c->req->params->{password} ) {
+				if ($c->authenticate({
+					username => $username,
+					password => $password,
+				}, 'users')) {
+					my $new_url;
+					$new_url = delete $c->session->{login_from} if (defined $c->session->{login_from});
+					$new_url = $c->chained_uri('My','account') unless defined $new_url;
+					$c->response->redirect($new_url);
+					return $c->detach;
+				} else {
+					$c->stash->{login_failed} = 1;
+				}
+			}
+			$c->stash->{username} = $c->req->params->{username};
+		}
+
+	} else {
+
+		my $last_url = $c->session->{last_url};
+		my $login_url = $c->chained_uri('My','login');
+		my $register_url = $c->chained_uri('My','register');
+
+		if ($last_url !~ /^$login_url/ && $last_url !~ /^$register_url/) {
+			$c->session->{login_from} = $last_url;
+		}
+
+	}
+}
+
+sub logged_in :Chained('base') :PathPart('') :CaptureArgs(0) {
+	my ( $self, $c ) = @_;
+	if (!$c->user) {
+		$c->response->redirect($c->chained_uri('My','login'));
 		return $c->detach;
 	}
 }
@@ -301,39 +341,6 @@ sub forgotpw :Chained('logged_out') :Args(0) {
 	$c->stash->{sentok} = 1;
 }
 
-sub login :Chained('logged_out') :Args(0) {
-    my ( $self, $c ) = @_;
-	$c->add_bc('Login', $c->chained_uri('My','login'));
-
-	my $referer = $c->req->headers->referer;
-	my $base = $c->req->base;
-	my $uri = $c->req->uri;
-
-	if ($referer =~ /^$base/ && $referer ne $uri) {
-		$c->session->{login_from} = $referer;
-	}
-
-	$c->stash->{no_userbox} = 1;
-
-	if ($c->req->params->{username} && $c->req->params->{username} !~ /^[a-zA-Z0-9_\.]+$/) {
-		$c->stash->{not_valid_username} = 1;
-	} else {
-		if ( my $username = lc($c->req->params->{username}) and my $password = $c->req->params->{password} ) {
-			if ($c->authenticate({
-				username => $username,
-				password => $password,
-			}, 'users')) {
-				my $new_url;
-				$new_url = delete $c->session->{login_from} if (defined $c->session->{login_from});
-				$new_url = $c->chained_uri('My','account') unless defined $new_url;
-				$c->response->redirect($new_url);
-			} else {
-				$c->stash->{login_failed} = 1;
-			}
-		}
-	}
-}
-
 sub register :Chained('logged_out') :Args(0) {
     my ( $self, $c ) = @_;
 	$c->add_bc('Register', $c->chained_uri('My','register'));
@@ -405,7 +412,7 @@ sub register :Chained('logged_out') :Args(0) {
 		return $c->detach;
 	}
 
-	$c->response->redirect($c->chained_uri('My','login',{ register_successful => 1 }));
+	$c->response->redirect($c->chained_uri('My','login',{ register_successful => 1, username => $username }));
 
 }
 

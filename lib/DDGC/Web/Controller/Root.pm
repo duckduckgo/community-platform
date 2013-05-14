@@ -43,6 +43,7 @@ sub end : ActionClass('RenderView') {
     my ( $self, $c ) = @_;
 	my $template = $c->action.'.tx';
 	push @{$c->stash->{template_layout}}, $template;
+	$c->session->{last_url} = $c->req->uri;
 }
 
 __PACKAGE__->meta->make_immutable;
