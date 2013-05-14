@@ -1,4 +1,4 @@
-<form target="<: $u('Translate','snippets',$token_domain.key,$cur_language.locale,{ only_untranslated => $only_untranslated }) :>" method="post" id="formTranslateDomain">
+<form target="<: $u('Translate','tokens',$token_domain.key,$cur_language.locale,{ only_untranslated => $only_untranslated }) :>" method="post" id="formTranslateDomain">
 
 <div class="breadcrumb-nav">
 	<div class="breadcrumbs"><a href="<: $u('Translate','index') :>">Translation Interface</a> &gt; <a href="<: $link($token_domain) :>"><: $token_domain.name :></a> &gt; <: $token_domain_language.language.name_in_english :></div>
@@ -16,7 +16,7 @@
 			<div class="row nav">
 				<h1>No untranslated snippets left!</h2>
 				<div class="clear">&nbsp;</div>
-				<a href="<: $u('Translate','snippets',$token_domain.key,$cur_language.locale) :>">
+				<a href="<: $u('Translate','tokens',$token_domain.key,$cur_language.locale) :>">
 					<div>Vote on the other translations!</div>
 				</a>
 			</div>
@@ -33,6 +33,19 @@
 				<: include "translate/tokens/nav.tx" :>
 			</div>
 		<: } :>
+
+		<: if !$show_token_language_link { :>
+			<div class="token-translation_inUse">
+			<fieldset>
+			<legend>Translation in use</legend>
+			<: if $token_language.msgstr { :>
+				<: include "translate/tokens/token_language_translation.tx" {translation_headline => 'Translation in use', translation => $token_language } :>
+			<: } else { :>
+				<p>Not yet any translation in use</p>
+			<: } :>
+			</fieldset></div>
+		<: } :>
+
 	</div>
 </div>
 

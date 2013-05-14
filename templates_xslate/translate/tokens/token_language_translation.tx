@@ -1,0 +1,46 @@
+<li>
+	<div>
+		<: if $translation_headline { :>
+			<: $translation_headline :>
+		<: } else { :>
+			<: include "user/userinfo.tx" { user => $translation.user, userpic_size => 16 } :>
+			<: if $translation.user.id == $c.user.id { :>
+				(your own translation)
+			<: } :>
+		<: } :>
+	</div>
+	<ul class="translation-details">
+		<: if $translation.invalid { :>
+			<span class="translation-invalid group">INVALID!</span>
+		<: } else { :>
+			<span class="translation-vote group">
+				<a href="#" class="button">
+					<: if $translation.user_voted($c.user) { :>
+						<i class="check icon-ok"></i>
+					<: } else { :>
+						<i class="check icon-ok"></i>
+					<: } :>
+				</a>
+				<span class="vote-tally"><: $translation.vote_count :></span>
+			</span>
+		<: } :>
+		<: for [ 0..$token_language.max_msgstr_index ] -> $n { :>
+			<: my $func = 'msgstr' ~ $n :>
+			<li><label>
+				<: if $n == 0 { :>
+					Singular
+				<: } elsif $n == 1 { :>
+					1st plural form
+				<: } elsif $n == 2 { :>
+					2nd plural form
+				<: } elsif $n == 3 { :>
+					3rd plural form
+				<: } else { :>
+					<: $n :>th plural form
+				<: } :>
+			</label><strong>
+				<: call($translation,$func) :>
+			</strong></li>
+		<: } :>
+	</ul>
+</li>

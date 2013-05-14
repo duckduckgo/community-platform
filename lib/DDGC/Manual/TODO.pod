@@ -30,3 +30,6 @@ Account tooltips for the language are not shown
 
 On the userinfo inside a translation for example, there is still a "clickable"
 arrow shown, even tho, that is not clickable (sometimes, sometimes it is).
+
+The complete show off from the other translations should be tuned a bit in
+display.

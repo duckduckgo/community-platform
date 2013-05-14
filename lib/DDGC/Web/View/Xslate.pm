@@ -14,6 +14,18 @@ __PACKAGE__->config(
 	function => {
 		r => sub { mark_raw(join"",@_) },
         results => sub { [ shift->all ] },
+        call => sub {
+        	my $thing = shift;
+        	my $func = shift;
+        	$thing->$func;
+        },
+        replace => sub {
+        	my $source = shift;
+        	my $from = shift;
+        	my $to = shift;
+        	my $source =~ s/$from/$to/g;
+        	return $source;
+        },
 	},
 	expose_methods => [qw(
 		next_template
