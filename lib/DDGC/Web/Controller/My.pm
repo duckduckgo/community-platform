@@ -11,7 +11,6 @@ BEGIN {extends 'Catalyst::Controller'; }
 
 sub base :Chained('/base') :PathPart('my') :CaptureArgs(0) {
     my ( $self, $c ) = @_;
-#	$c->stash->{headline_template} = 'headline/my.tt';
 	$c->stash->{title} = 'My Account';
 	$c->add_bc($c->stash->{title}, $c->chained_uri('My','account'));
 }
@@ -29,7 +28,6 @@ sub logged_in :Chained('base') :PathPart('') :CaptureArgs(0) {
 		$c->response->redirect($c->chained_uri('My','login'));
 		return $c->detach;
 	}
-#	push @{$c->stash->{template_layout}}, 'my/base.tt';
 }
 
 sub logged_out :Chained('base') :PathPart('') :CaptureArgs(0) {
@@ -218,12 +216,12 @@ sub forgotpw_tokencheck :Chained('logged_out') :Args(2) {
 		to          => $user->data->{email},
 		from        => 'noreply@dukgo.com',
 		subject     => '[DuckDuckGo Community] New password for '.$username,
-		template        => 'email/newpw.tt',
+		template        => 'email/newpw.tx',
 		charset         => 'utf-8',
 		content_type => 'text/plain',
 	};
 
-	$c->forward( $c->view('Email::TT') );
+	$c->forward( $c->view('Email::Xslate') );
 
 	$c->stash->{resetok} = 1;
 }
@@ -260,12 +258,12 @@ sub changepw :Chained('logged_in') :Args(0) {
 			to          => $c->user->data->{email},
 			from        => 'noreply@dukgo.com',
 			subject     => '[DuckDuckGo Community] New password for '.$c->user->username,
-			template        => 'email/newpw.tt',
+			template        => 'email/newpw.tx',
 			charset         => 'utf-8',
 			content_type => 'text/plain',
 		};
 
-		$c->forward( $c->view('Email::TT') );
+		$c->forward( $c->view('Email::Xslate') );
 	}
 
 	$c->stash->{changeok} = 1;
@@ -293,12 +291,12 @@ sub forgotpw :Chained('logged_out') :Args(0) {
 		to          => $user->data->{email},
 		from        => 'noreply@dukgo.com',
 		subject     => '[DuckDuckGo Community] Reset password for '.$user->username,
-		template	=> 'email/forgotpw.tt',
+		template	=> 'email/forgotpw.tx',
 		charset		=> 'utf-8',
 		content_type => 'text/plain',
 	};
 
-	$c->forward( $c->view('Email::TT') );
+	$c->forward( $c->view('Email::Xslate') );
 	
 	$c->stash->{sentok} = 1;
 }
@@ -456,13 +454,13 @@ sub requestlanguage :Chained('logged_out') :Args(0) {
 				to          => 'help@duckduckgo.com',
 				from        => $c->req->params->{email},
 				subject     => '[DuckDuckGo Community] New request for language',
-				template	=> 'email/requestlanguage.tt',
+				template	=> 'email/requestlanguage.tx',
 				charset		=> 'utf-8',
 				content_type => 'text/plain',
 			};
 
 			$c->stash->{thanks_for_languagerequest} = 1;
-			$c->forward( $c->view('Email::TT') );
+			$c->forward( $c->view('Email::Xslate') );
 
 		}
 	}

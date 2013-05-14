@@ -1,4 +1,4 @@
-package DDGC::Web::View::Email::TT;
+package DDGC::Web::View::Email::Xslate;
 
 use Moose;
 extends 'Catalyst::View::Email::Template';
@@ -8,7 +8,7 @@ __PACKAGE__->config(
 		content_type => 'text/plain',
 		charset => 'utf-8'
 	},
-	view => 'TT',
+	view => 'Xslate',
 	# sender => {
 		# mailer => 'Test',
 	# },

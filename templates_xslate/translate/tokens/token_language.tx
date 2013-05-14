@@ -60,7 +60,7 @@
 			<label class="form_input-label" for="token_language_<: $token_language.id :>_<: $func :>">
 				<: if $n == 0 { :>Singular<: } else { $n :>th Plural Form<: } :>
 			</label>
-			<input type="text" class="token-input" <: if $token_language.token_domain_language.language.rtl { :>dir="rtl" <: } :>id="token_language_<: $token_language.id :>_<: $func :>" name="token_language_<: $token_language.id :>_<: $func :>" onkeyup="placeholder_check(this, '<: $n == 0 ? $token_language.token.msgid : replace($token_language.token.msgid_plural, "'", "\\'") :>');" value="<: call($own_translation,$func) :>" autocomplete="off" placeholder="Translate '<: $n == 0 ? $token_language.token.msgid : $token_language.token.msgid_plural :>' <: if $token_language.token.msgctxt { :> in context of '<: $token_language.token.msgctxt :>' <: } :>into <: $token_language.token_domain_language.language.name_in_english :>">
+			<input type="text" class="token-input" <: if $token_language.token_domain_language.language.rtl { :>dir="rtl" <: } :>id="token_language_<: $token_language.id :>_<: $func :>" name="token_language_<: $token_language.id :>_<: $func :>" onkeyup="placeholder_check(this, '<: $n == 0 ? $token_language.token.msgid : replace($token_language.token.msgid_plural, "'", "\\'") :>');" value="<: call_if($own_translation,$func) :>" autocomplete="off" placeholder="Translate '<: $n == 0 ? $token_language.token.msgid : $token_language.token.msgid_plural :>' <: if $token_language.token.msgctxt { :> in context of '<: $token_language.token.msgctxt :>' <: } :>into <: $token_language.token_domain_language.language.name_in_english :>">
 		<: } :>
 	<: } :>
 
