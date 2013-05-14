@@ -5,8 +5,17 @@
 <div class="form-border">
 	<div class="form-wrap account-form halves">
 		<h2>Create a new account</h2>
-		<form action="signup.html" class="group">
+		<form action="<: $u('My', 'register') :>" class="group" method="post">
 			<div class="account-items group">
+				<p>
+					<: if $wrong_captcha      { 'The captcha is incorrect. Please, try again.' } :>
+					<: if $need_username      { 'Please, enter a username.' } :>
+					<: if $user_exist         { 'The username %s exists already. Please, try again.' } :>
+					<: if $not_valid_chars    { 'The username may only contain standard latin letters (A-Z), numbers, "." and "_".' } :>
+					<: if $not_valid_email    { 'The email you have given is not proper, please give a valid email address' } :>
+					<: if $password_too_short { 'The password must be at least 3 characters.' } :>
+					<: if $password_different { 'The passwords do not match. Please, try again.' } :>
+				</p>
 				<div class="half">
 					<div class="input-wrap"><input type="text" placeholder="Your Username" name="username" class="text"/></div>
 				</div>
@@ -17,19 +26,19 @@
 					<div class="input-wrap"><input type="password" placeholder="Create Password" name="password" class="text password" /></div>
 				</div>			
 				<div class="half">
-					<div class="input-wrap"><input type="password" placeholder="Confirm Password" name="password-confirm" class="text password" /></div>
+					<div class="input-wrap"><input type="password" placeholder="Confirm Password" name="repeat_password" class="text password" /></div>
 				</div>
 			</div>
 			<hr class="clear" />
 			<div class="half">
 				<div class="robo-blaster-wrap group">
-					<div class="captcha"><img src="/img/captcha-placeholder.jpg" alt="nice try robot!" /></div>
+					<div class="captcha"><img src="<: $u('Root','captcha') :>" alt="nice try robot!" /></div>
 					<div class="captcha-validate"><div class="input-wrap"><input type="text" placeholder="Enter the phrase" name="captcha" class="text"/></div></div>
 				</div>
 			</div>
 			<div class="half">
 				<p class="agree-terms"><input type="checkbox" name="agree-terms" /> I agree to the DuckDuckGo Community Platform <a href="#">Terms of Use</a></p>
-				<div class="half"><div class="input-wrap"><input type="submit" value="Create my account" class="button blue submit" /></div></div>
+				<div class="half"><div class="input-wrap"><input type="submit" value="Create my account" class="button blue submit" name="register" /></div></div>
 			</div>		
 		</form>		
 	</div>

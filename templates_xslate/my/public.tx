@@ -1,0 +1,34 @@
+<div class="form-border">
+	<div class="form-wrap account-form">
+		<form action="<: $u('My','public') :>" method="post" id="formPublic">
+			<h2>
+				<: if $c.user.public { :>
+					<: $l('Make your account private') :>
+				<: } else { :>
+					<: $l('Make your account public') :>
+				<: } :>
+			</h2>
+			<div class="account-items group">
+				<: if $wrong_captcha { :>
+					<p>The captcha is incorrect. Please, try again.</p>
+				<: } :>
+			</div>
+			<hr class="clear" />
+			<div class="half">
+				<div class="robo-blaster-wrap group">
+					<div class="captcha">
+						<img src="<: $u('Root','captcha') :>" alt="nice try robot!" />
+					</div>
+					<div class="captcha-validate">
+						<div class="input-wrap"><input type="text" name="captcha" placeholder="Captcha here" class="text" /></div>
+					</div>
+				</div>
+			</div>
+			<div class="half">
+				<div class="half">
+					<div class="input-wrap"><input type="submit" value="Submit" class="button blue submit" name="<: if $c.user.public { 'hide' } else { 'show' } :>_profile" /></div>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
