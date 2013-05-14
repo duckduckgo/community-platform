@@ -26,7 +26,7 @@
 			</div>
 			<div class="half">
 				<div class="half">
-					<div class="input-wrap"><input type="submit" value="Submit" class="button blue submit" name="<: if $c.user.public { 'hide' } else { 'show' } :>_profile" /></div>
+					<div class="input-wrap"><input type="submit" value="Submit" class="button blue submit" name="<: $c.user.public ? 'hide' : 'show' :>_profile" /></div>
 				</div>
 			</div>
 		</form>

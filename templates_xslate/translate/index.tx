@@ -1,7 +1,7 @@
 <h1>Welcome to the DuckDuckGo Translation Interface!</h1>
 <p class="intro-message">Here you can translate the different text snippets (so called tokens) of our sites.  Choose the project part you want to translate to see a list of existing text snippits, which you can translate step by step into your language. You can also vote on the translation of your language!  By default we only display completely untranslated tokens (if they exist). To see all tokens, select the "see all" button.</p>
 
-<div class="notice warning clickaway"><i class="icn icon-warning-sign"></i>You must be logged in for translating <span class="account-actions"><a href="<: $u('My','register') :>" class="first nav-signup">Sign up</a><a href="<: $u('My','login') :>" class="nav-login" data-reveal-id="login-box">Login</a></span><i class="close icon-remove"></i></div>
+<: if !$c.user { :><div class="notice warning clickaway"><i class="icn icon-warning-sign"></i>You must be logged in for translating <span class="account-actions"><a href="<: $u('My','register') :>" class="first nav-signup">Sign up</a><a href="<: $u('My','login') :>" class="nav-login" data-reveal-id="login-box">Login</a></span><i class="close icon-remove"></i></div><: } :>
 
 <div class="content-box translate-overview">	
 	<div class="head">		

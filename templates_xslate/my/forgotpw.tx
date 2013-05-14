@@ -1,13 +1,13 @@
 <div class="form-border">
 	<div class="form-wrap account-form">
-		<form action="<@ u('My','forgotpw') @>" method="post" id="formForgotpw" class="my">
+		<form action="<: $u('My','forgotpw') :>" method="post" id="formForgotpw" class="my">
 			<h2>Request new password</h2>
 			<: if $sentok { :>
 				<div class="account-items group">
 					<p>An email has been sent to you in order to confirm.</p>
 				</div>
 			<: } else { :>
-				<: if $wrong_username_or_wrong_email { :>
+				<: if $wrong_user_or_wrong_email { :>
 					<div class="account-items group"><p>The username and/or email is incorrect. Please, try again.</p></div>
 				<: } :>
 				<div class="third">
