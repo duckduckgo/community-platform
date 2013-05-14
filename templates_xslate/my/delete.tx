@@ -1,0 +1,22 @@
+<div class="form-border">
+	<div class="form-wrap account-form">
+
+		<h2>Delete account</h2>
+
+		<form action="<: $u('My','delete') :>" class="group" method="post">
+			<p>Please, log out from the XMPP/Jabber server before you delete your account!<br/>
+			<strong>Important: </strong>Please notice that we can't recover deleted accounts!</p>
+
+			<div class="half">
+				<div class="robo-blaster-wrap group">
+					<div class="captcha"><img src="<: $u('Root','captcha') :>" alt="nice try robot!" /></div>
+					<div class="captcha-validate"><div class="input-wrap"><input type="text" placeholder="Enter the phrase" name="captcha" class="text"/></div></div>
+				</div>
+			</div>
+			<div class="third">
+				<div class="input-wrap">
+					<input type="submit" value="Delete profile" name="delete_profile" class="button submit"></div>
+				</div>
+			</div>
+	</div>
+</div>
