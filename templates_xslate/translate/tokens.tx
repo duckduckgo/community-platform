@@ -3,7 +3,7 @@
 <div class="breadcrumb-nav">
 	<div class="breadcrumbs"><a href="<: $u('Translate','index') :>">Translation Interface</a> &gt; <a href="<: $link($token_domain) :>"><: $token_domain.name :></a> &gt; <: $token_domain_language.language.name_in_english :></div>
 	<div class="language_nav">
-		<input type="submit" value="Go" class="button js-hide" /><: include "translate/tokens_nav_language.tx" :>
+		<input type="submit" value="Go" class="button js-hide" /><: include "translate/tokens/nav_language.tx" :>
 	</div>
 </div>
  
@@ -22,15 +22,15 @@
 			</div>
 		<: } else { :>
 			<div class="row nav">
-				<: include "translate/tokens_nav_paging.tx" :>
-				<: include "translate/tokens_nav.tx" :>
+				<: include "translate/tokens/nav_paging.tx" :>
+				<: include "translate/tokens/nav.tx" :>
 			</div>
 			<: for results($token_languages) -> $token_language { :>
 				<: include "translate/tokens/token_language.tx" { token_language => $token_language } :>
 			<: } :>
 			<div class="row nav">			
-				<: include "translate/tokens_nav_paging.tx" :>
-				<: include "translate/tokens_nav.tx" :>
+				<: include "translate/tokens/nav_paging.tx" :>
+				<: include "translate/tokens/nav.tx" :>
 			</div>
 		<: } :>
 	</div>
