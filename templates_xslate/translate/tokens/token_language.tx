@@ -10,8 +10,8 @@
 		<div class="row">
 			<div class="label"><label>Context:</label></div>				
 			<div>
-				<strong><a href="<: $link($token_domain_language,{ only_msgctxt => token_language.token.msgctxt }) :>"><: $token_language.token.msgctxt :></a></strong>
-				<p>This is the context, do not translate it!</p>
+				<strong><a href="<: $link($token_domain_language,{ only_msgctxt => $token_language.token.msgctxt }) :>"><: $token_language.token.msgctxt :></a></strong>
+				<p>This is the <a href="https://github.com/duckduckgo/duckduckgo/blob/master/lib/DDG/Manual/Translation.pod#token-with-context">context</a>, do not translate it!</p>
 			</div>
 		</div>
 	<: } :>

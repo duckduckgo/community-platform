@@ -425,6 +425,7 @@ sub token_domains {{
 			'Yes dude %s %s %s', [
 				testone => [
 					de => 'Jawohl %s Der %s Herr %s', [],
+					de => 'Auch ja ne %s %s %s', [],
 					us => 'Yeah %s douche %s %s', [],
 				],
 				testthree => [
@@ -461,7 +462,7 @@ sub token_domains {{
 					us => 'You have %d mssage', 'You have %d messges', [],
 				],
 			],
-			\'community', 'You have %d message', 'You have %d messages', [
+			'You have %d message', 'You have %d messages', [
 				testone => [
 					de => 'Du hast "%d" Nachricht', 'Du hast "%d" Nachrichten', [],
 					us => 'Yu hav %d meage', 'Yuuu hve %d meages', [],
@@ -474,6 +475,7 @@ sub token_domains {{
 					us => 'You have %d mssage', 'You have %d messges', [],
 				],
 			],
+			\'instantmessage', 'You have %d instant message', 'You have %d instant messages', [],
 			'No idea', [],
 			'No clue', [],
 			'Wtf is that?', [],

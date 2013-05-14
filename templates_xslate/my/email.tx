@@ -22,7 +22,7 @@
 			<div class="half">
 				<div class="robo-blaster-wrap group">
 					<div class="captcha">
-						<img src="<: $u('Base','captcha') :>" alt="nice try robot!" />
+						<img src="<: $u('Root','captcha') :>" alt="nice try robot!" />
 					</div>
 					<div class="captcha-validate">
 						<div class="input-wrap"><input type="text" name="captcha" placeholder="Captcha here" class="text" /></div>

@@ -17,7 +17,8 @@ of english language name on english languages ;).
 Missing table design for admin area and general use for lists (sortable buttons
 please).
 
-Missing Error / Not Found page (default.tx, error.tx, error.tx must be independent, more simple HTML variant)
+Missing Error / Not Found page (default.tx, error.tx, error.tx must be
+independent, more simple HTML variant)
 
 =head1 Design Errors
 
@@ -26,3 +27,6 @@ token list.
 
 Account tooltips for the language are not shown 
 * these were in modal_tooltip.tx in provided files
+
+On the userinfo inside a translation for example, there is still a "clickable"
+arrow shown, even tho, that is not clickable (sometimes, sometimes it is).

@@ -1,3 +1,7 @@
+<!--
+
+TODO, so far laid back
+
 <select id="language_id" name="language_id" class="language_select autosubmit" data-placeholder="Choose Your Language">
     <option class="js-remove" value="">Choose Your Language</option>
     <: for $locales.values() -> $loc { :>
@@ -8,3 +12,5 @@
         <: } :>
     <: } :>
 </select>
+
+-->
