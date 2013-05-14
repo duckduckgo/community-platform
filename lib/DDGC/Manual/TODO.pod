@@ -33,3 +33,11 @@ arrow shown, even tho, that is not clickable (sometimes, sometimes it is).
 
 The complete show off from the other translations should be tuned a bit in
 display.
+
+In the comment html (templates_xslate/blog/post_comments.tx) the arrows to
+vote for the comment, should be inside the box of the comment, instead of
+next to it. Probably a bit of color would be cool.. like green arrow up
+and red arrow down, or at least one example of both, so that i can set it
+to visualize for the user what he voted on this already. Also the box need
+some dropdown to pick the sorting algorythm, like sort by relevance, sort
+by newest and so on.
