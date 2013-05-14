@@ -412,6 +412,7 @@ sub token_domains {{
 			'You are %s from %s', [
 				testone => [
 					de => 'Du bist %s aus %s', [],
+					de => 'Der %s isse aus %s', [],
 					us => 'You, ofda %2$s u %1$s', [],
 				],
 				testthree => [
@@ -420,20 +421,6 @@ sub token_domains {{
 				testfive => [
 					ru => 'Вы %s из %s', [],
 					us => 'You ar %s from %s', [],
-				],
-			],
-			'Yes dude %s %s %s', [
-				testone => [
-					de => 'Jawohl %s Der %s Herr %s', [],
-					de => 'Auch ja ne %s %s %s', [],
-					us => 'Yeah %s douche %s %s', [],
-				],
-				testthree => [
-					us => 'Yes dude %s %s %s', [],
-				],
-				testfive => [
-					ru => 'Привет %s %s %s', [],
-					us => 'Welcomee %s %s %s', [],
 				],
 			],
 			\'testarea','Yes dude %s %s %s', [
@@ -475,37 +462,11 @@ sub token_domains {{
 					us => 'You have %d mssage', 'You have %d messges', [],
 				],
 			],
-			\'instantmessage', 'You have %d instant message', 'You have %d instant messages', [],
 			'No idea', [],
-			'No clue', [],
+			'Leave me alone', 'Leave me alone', [],
+			\'instantmessage', 'You have %d instant message', 'You have %d instant messages', [],
 			'Wtf is that?', [],
 			'Come again?', [],
-			'Trying to be funny?', [],
-			'Umm, I gotta run, talk to you later!', [],
-			'Leave me alone', 'Leave me alone', [],
-			'Do I have to know that?', [],
-			'My dum-dum wants gum-gum', [],
-			'Pay me!', 'Pay me!', [],
-			'Hold on a sec... just wait...umm I\'ll be right back!!', [],
-			'Mooooooo-o-o', [],
-			'Huh?', [],
-			'Waddayawant?!', [],
-			'Yeah, right!! Keep on waiting!', [],
-			'*yawn*', [],
-			'Don\'t leave! I\'m coming!', [],
-			'Where is my sugar?', [],
-			'I\'m not that smart :(', [],
-			'lalalala-lala-lala', 'lalalala-lala-lala', [],
-			'me iz teh suck, ask some1 else', [],
-			'must.... eat... batteries..', [],
-			'Something tells me you are trying to fool me...', [],
-			'NO! I will NOT tell you that!', [],
-			'Stop picking on bots, you racist!!', [],
-			'Do you have to bug me so much just because I am a bot?', [],
-			'Not enough megahurts :(', [],
-			'Can\'t tell you, it\'s a secret!', [],
-			'Hrooop, something\'s broke!', [],
-			'If you don\'t know, why should I? >:O', [],
 		],
 		texts => [
 			'::test::something::1' => [
