@@ -21,7 +21,7 @@
 					<div class="input-wrap"><input type="text" placeholder="Your Username" name="username" class="text"/></div>
 				</div>
 				<div class="half">
-					<div class="input-wrap"><input type="password" placeholder="Your Email (Optional)" name="email" class="text" /></div>
+					<div class="input-wrap"><input type="text" placeholder="Your Email (Optional)" name="email" class="text" /></div>
 				</div>
 				<div class="half">
 					<div class="input-wrap"><input type="password" placeholder="Create Password" name="password" class="text password" /></div>

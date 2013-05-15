@@ -14,6 +14,7 @@ use File::Copy;
 use IO::All;
 use File::Spec;
 use File::ShareDir::ProjectDistDir;
+use Net::AIML;
 
 # TESTING AND DEVELOPMENT, NOT FOR PRODUCTION
 sub deploy_fresh {
@@ -87,6 +88,16 @@ has forum => (
 sub _build_forum {
     my ( $self ) = @_;
     DDGC::Forum->new(ddgc=>$self);
+}
+
+has roboduck => (
+    isa => 'Net::AIML',
+    is => 'ro',
+    lazy_build => 1,
+);
+sub _build_roboduck {
+    my ( $self ) = @_;
+    Net::AIML->new( botid => $self->config->roboduck_aiml_botid );
 }
 
 sub resultset { shift->db->resultset(@_) }

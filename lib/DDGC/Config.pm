@@ -44,6 +44,8 @@ sub duckpan_url { defined $ENV{'DDGC_DUCKPAN_URL'} ? $ENV{'DDGC_DUCKPAN_URL'} : 
 
 sub duckpan_locale_uploader { defined $ENV{'DDGC_DUCKPAN_LOCALE_UPLOADER'} ? $ENV{'DDGC_DUCKPAN_LOCALE_UPLOADER'} : 'testone' }
 
+sub roboduck_aiml_botid { defined $ENV{'ROBODUCK_AIML_BOTID'} ? $ENV{'ROBODUCK_AIML_BOTID'} : 'ab83497d9e345b6b' }
+
 # DANGER: DEACTIVATES PASSWORD CHECK FOR ALL USERACCOUNTS!!!!!!!!!!!!!!!!!!!!!!
 sub prosody_running { defined $ENV{'DDGC_PROSODY_RUNNING'} ? $ENV{'DDGC_PROSODY_RUNNING'} : 0 }
 sub fallback_user { 'testtwo' }

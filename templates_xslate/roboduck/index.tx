@@ -1,0 +1,13 @@
+<form target="<: $u() :>" method="post">
+	<div class="input-wrap">
+		<input type="text" placeholder="Talk with RoboDuck" name="q" class="text" />
+	</div>
+	<div class="input-wrap">
+		<input type="submit" name="send" value="Say to Roboduck" class="text" />
+	</div>
+	<: if $answer { :>
+		<div>
+			<: $answer :>
+		</div>
+	<: } :>
+</form>
