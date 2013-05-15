@@ -419,7 +419,7 @@ sub register :Chained('logged_out') :Args(0) {
 
 }
 
-sub requestlanguage :Chained('logged_out') :Args(0) {
+sub requestlanguage :Chained('logged_in') :Args(0) {
 	my ($self, $c) = @_;
 	$c->stash->{title} = 'Request language';
 
