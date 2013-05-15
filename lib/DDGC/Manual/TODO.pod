@@ -27,6 +27,7 @@ token list.
 
 Account tooltips for the language are not shown 
 * these were in modal_tooltip.tx in provided files
+** the modal trigger elements lost their "data-reveal-id" info that tells JS which modal to open.  also, there is a javascript error in jquery.reveal - could be a compatibility thing.  I think we should go back to my modified version. -D
 
 On the userinfo inside a translation for example, there is still a "clickable"
 arrow shown, even tho, that is not clickable (sometimes, sometimes it is).
@@ -43,5 +44,5 @@ some dropdown to pick the sorting algorythm, like sort by relevance, sort
 by newest and so on. The "posted by" and the "about" should be removed, and
 we need some "points" in that line for the voting result (or whatever place
 if you have a better idea).
-
+* green/red on hover, and if selected green/red permanently?
 

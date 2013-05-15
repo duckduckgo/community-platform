@@ -16,7 +16,7 @@
 			<span class="translation-vote group">
 				<a href="#" class="button">
 					<: if $translation.user_voted($c.user) { :>
-						<i class="check icon-ok"></i>
+						<i class="check checked icon-ok"></i>
 					<: } else { :>
 						<i class="check icon-ok"></i>
 					<: } :>
