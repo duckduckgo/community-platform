@@ -14,20 +14,28 @@ user doesnt speak. In favour of "hey lets look at other languages" i dont
 wanted it limited to only the languages the user speaks. Also prevent display
 of english language name on english languages ;).
 
-Missing table design for admin area and general use for lists (sortable buttons
-please).
+[PRIORITY 1!!!] Missing table design for admin area and general use for lists
+(sortable buttons please).
 
 Missing Error / Not Found page (default.tx, error.tx, error.tx must be
 independent, more simple HTML variant)
+
+The new Roboduck feature under /roboduck (roboduck/index.tx) needs a bit cooler
+HTML. I will probably ask Valentin to make a special logo for that one, like
+a dax with robocop helmet and a speech bubble giving the answer.
 
 =head1 Design Errors
 
 Tokenpage has space between the language dropdown/breadcrumb and the actual
 token list.
 
-Account tooltips for the language are not shown 
-* these were in modal_tooltip.tx in provided files
-** the modal trigger elements lost their "data-reveal-id" info that tells JS which modal to open.  also, there is a javascript error in jquery.reveal - could be a compatibility thing.  I think we should go back to my modified version. -D
+[LOW PRIORITY!!! IGNORE FOR NOW] Account tooltips for the language are not
+shown 
+* the modal trigger elements lost their "data-reveal-id" info that tells JS
+which modal to open.  also, there is a javascript error in jquery.reveal - 
+could be a compatibility thing.  I think we should go back to my modified
+version. -D - Cant we just use something else for them? or something more
+simple? I dont like to "start" with a patched solution ;).....
 
 On the userinfo inside a translation for example, there is still a "clickable"
 arrow shown, even tho, that is not clickable (sometimes, sometimes it is).
@@ -44,5 +52,9 @@ some dropdown to pick the sorting algorythm, like sort by relevance, sort
 by newest and so on. The "posted by" and the "about" should be removed, and
 we need some "points" in that line for the voting result (or whatever place
 if you have a better idea).
-* green/red on hover, and if selected green/red permanently?
+* green/red on hover, and if selected green/red permanently? - yes
+
+The blog is ready and needs now tuning cause of several little changes, 2 
+sample posts are in.
+
 
