@@ -54,6 +54,12 @@ sub _build_topics {
 	return [sort { $topics{$a} <=> $topics{$b} } keys %topics];
 }
 
+sub get_post {
+	my ( $self, $uri ) = @_;
+	my ( $post ) = grep { $_->uri eq $uri } @{$self->posts};
+	return $post;
+}
+
 sub posts_by_day {
 	my ( $self, $page, $pagesize, $filter ) = @_;
 	my @all_posts = @{$self->posts};

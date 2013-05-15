@@ -1,8 +1,5 @@
 <article class="post-snippet">
-	<h2><a href="<: $u('Blog','post',$post.uri) :>"><: $post.title :></a></h2>
-	<span class="post-meta">
-		<: $post.date_ago :> posted by <: include "user/userinfo.tx" { user => $c.d.find_user($post.author) } :>
-	</span>
+	<: include "blog/post_header.tx" { post => $post } :>
 	<: r($post.content_abstract) :>
 	<span class="post-readmore">
 		<a class="more-link" href="<: $u('Blog','post',$post.uri) :>">Read the full story</a>

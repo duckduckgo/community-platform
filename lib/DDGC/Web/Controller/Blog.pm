@@ -35,14 +35,16 @@ sub topic :Chained('base') :Args(1) {
 }
 
 sub post_base :Chained('base') :PathPart('') :CaptureArgs(1) {
-	my ( $self, $c, $post ) = @_;
-	#$c->stash->{post} = $c->d->blog->list_entry($post);
+	my ( $self, $c, $uri ) = @_;
+	$c->stash->{post} = $c->d->blog->get_post($uri);
+	unless ($c->stash->{post})  {
+		$c->response->redirect($c->chained_uri('Blog','index'));
+		return $c->detach;
+	}
 }
 
 sub post :Chained('post_base') :PathPart('') :Args(0) {
-	my ( $self, $c, $blog_entry_url ) = @_;
-	#$c->stash->{url} = $blog_entry_url;
-	#$c->stash->{entry} = $c->d->blog->list_entry($blog_entry_url);
+	my ( $self, $c ) = @_;
 }
 
 1;

@@ -1,13 +1,12 @@
 <article class="blog-content post">
 	<div class="date-box">
-		<span class="num">06</span>
-		<span class="month">SEP</span>
+		<span class="num"><: $post.date.strftime('%d') :></span>
+		<span class="month"><: $post.date.strftime('%b') :></span>
 	</div>
 	<section class="post-body">
-		<h2>DDG hits 2,000,000 queries a day</h2>
-		<span class="post-meta">Posted in: <a href="blog_category.html">DDG News</a> by: <a href="blog_author.html">Caine</a></span>
+		<: include "blog/post_header.tx" { post => $post } :>
 		
-		<: $post.content :>
+		<: r($post.content) :>
 		
 		<div class="post-actions">
 			<span class="action-item">
@@ -20,6 +19,7 @@
 				<a href="#" class="button blue tw"><i class="icon-twitter"></i> Tweet</a>
 			</span>
 		</div>
+
 	</section>		
 	
 	<: include "blog/post_comments.tx" :>
