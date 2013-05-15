@@ -1,69 +1,86 @@
 package DDGC::Blog;
 
 use Moose;
-use File::ShareDir::ProjectDistDir;
 use YAML qw( LoadFile );
 use IO::All;
+use DDGC::Blog::Post;
+use Path::Class;
 
-has datadir => (
-    is => 'ro',
-    isa => 'Str',
-    required => 1,
+has posts_dir => (
+	is => 'ro',
+	isa => 'Str',
+	required => 1,
 );
 
-sub list_entries {
-  my ( $self, $count ) = @_;
-  $count = $count || 5;
-  my $datadir_io = io($self->datadir);
-  my @all_blog_entries;
-  for (keys %$datadir_io) {
-    $count -= 1;
-    if ($count <= 0) { last; }
-    if ($_ =~ s/\.yml$// and not $_ =~ /^\./) {
-        push @all_blog_entries, $self->list_entry($_);
-    }
-  }
-  return \@all_blog_entries;
+has posts => (
+	is => 'ro',
+	isa => 'ArrayRef[DDGC::Blog::Post]',
+	lazy_build => 1,
+);
+
+sub _build_posts {
+	my ( $self ) = @_;
+	my $dir = io(dir($self->posts_dir)->stringify);
+	my @posts;
+	for (keys %$dir) {
+		if ($_ =~ s/\.yml$// and not $_ =~ /^\./) {
+			push @posts,
+				DDGC::Blog::Post->new(
+					%{LoadFile(file($self->posts_dir,$_.'.yml')->stringify)},
+					content_file => file($self->posts_dir,$_.'.html')->stringify,
+					uri => $_,
+				);
+		}
+	}
+	@posts = sort { $b->date <=> $a->date } @posts;
+	return \@posts;
 }
 
-sub list_entry {
-  my ( $self, $uri ) = @_;
-  my $entry = $self->get_entry_metadata($uri);
-  $entry->{'html'} = $self->get_entry_html($uri);
-  return $entry;
+has topics => (
+	is => 'ro',
+	isa => 'ArrayRef[Str]',
+	lazy_build => 1,
+);
+
+sub _build_topics {
+	my ( $self ) = @_;
+	my %topics;
+	for (@{$self->posts}) {
+		for (@{$_->topics}) {
+			$topics{$_} = 0 unless defined $topics{$_};
+			$topics{$_}++;
+		}
+	}
+	return [sort { $topics{$a} <=> $topics{$b} } keys %topics];
 }
 
-sub get_file_entry {
-  my ( $self, $filename ) = @_;
-  my $data = LoadFile($self->datadir.'/'.$filename);
-  return shift @{$data};
+sub posts_by_day {
+	my ( $self, $page, $pagesize, $filter ) = @_;
+	my @all_posts = @{$self->posts};
+	if ($filter) {
+		@all_posts = $filter->(@all_posts);
+	}
+	my $max = scalar @all_posts;
+	my $start = ($page-1)*$pagesize;
+	my $end = ($page*$pagesize)-1;
+	$end = $max-1 if $end > $max-1;
+	my @posts = @all_posts[$start..$end];
+	my %days;
+	for (@posts) {
+		my $day = $_->date->strftime('%d');
+		my $month = $_->date->strftime('%m');
+		my $id = $month.$day + 0;
+		$days{$id} = [] unless defined $days{$id};
+		push @{$days{$id}}, $_;
+	}
+	return [map { $days{$_} } sort { $b <=> $a } keys %days ];
 }
 
-sub get_entry_metadata {
-  my ( $self, $entry ) = @_;
-  return $self->get_file_entry($entry.'.yml');
-}
-
-sub get_entry_html {
-  my ( $self, $entry ) = @_;
-   my $entry_io = io $self->datadir . '/' . $entry . '.html';
-  return $entry_io->slurp;
-}
-
-sub get_topical_entries {
-  my ( $self, $topic ) = @_;
-  my @all_blog_entries = $self->list_entries();
-  my @topical_blog_entries;
-  foreach (@all_blog_entries) {
-    if ($_->[0]->{'tags'} eq $topic) {
-      push @topical_blog_entries, shift @{$_};
-    }
-  }
-  foreach (@topical_blog_entries) {
-    $_->{'html'} = $self->get_entry_html($_->{'uri'});
-    $_->{'uri'} = $_->{'uri'};
-  }
-  return \@topical_blog_entries if @topical_blog_entries;
+sub topic_posts_by_day {
+	my ( $self, $topic, $page, $pagesize, $filter ) = @_;
+	return $self->posts_by_day($page, $pagesize, sub {
+		grep { grep { lc(join('-',split(/\s+/,$_))) eq $topic } @{$_->topics} } @_
+	});
 }
 
 1;

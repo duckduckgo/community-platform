@@ -38,7 +38,7 @@ sub prosody_userhost { defined $ENV{'DDGC_PROSODY_USERHOST'} ? $ENV{'DDGC_PROSOD
 sub prosody_admin_username { defined $ENV{'DDGC_PROSODY_ADMIN_USERNAME'} ? $ENV{'DDGC_PROSODY_ADMIN_USERNAME'} : 'testone' }
 sub prosody_admin_password { defined $ENV{'DDGC_PROSODY_ADMIN_PASSWORD'} ? $ENV{'DDGC_PROSODY_ADMIN_PASSWORD'} : 'testpass' }
 
-sub blog_datadir { defined $ENV{'DDGC_BLOG_DATADIR'} ? $ENV{'DDGC_BLOG_DATADIR'} : dist_dir('DDGC').'/blog' }
+sub blog_posts_dir { defined $ENV{'DDGC_BLOG_POSTS_DIR'} ? $ENV{'DDGC_BLOG_POSTS_DIR'} : dist_dir('DDGC').'/blog' }
 
 sub duckpan_url { defined $ENV{'DDGC_DUCKPAN_URL'} ? $ENV{'DDGC_DUCKPAN_URL'} : 'http://duckpan.org/' }
 
@@ -46,6 +46,7 @@ sub duckpan_locale_uploader { defined $ENV{'DDGC_DUCKPAN_LOCALE_UPLOADER'} ? $EN
 
 # DANGER: DEACTIVATES PASSWORD CHECK FOR ALL USERACCOUNTS!!!!!!!!!!!!!!!!!!!!!!
 sub prosody_running { defined $ENV{'DDGC_PROSODY_RUNNING'} ? $ENV{'DDGC_PROSODY_RUNNING'} : 0 }
+sub fallback_user { 'testtwo' }
 
 sub prosody_connect_info {
 	my %params = (
@@ -112,10 +113,6 @@ sub cachedir {
 	my $dir = defined $ENV{'DDGC_CACHEDIR'} ? $ENV{'DDGC_CACHEDIR'} : rootdir().'/cache/';
 	make_path($dir) if !-d $dir;
 	return File::Spec->rel2abs( $dir );
-}
-
-sub dezi_enabled {
-    defined $ENV{DDGC_DEZI_ENABLED} ? $ENV{DDGC_DEZI_ENABLED} : 0;
 }
 
 1;

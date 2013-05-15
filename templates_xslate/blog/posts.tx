@@ -1,18 +1,13 @@
-<div class="blog-content">	
-	<section class="daily-posts">
-		<div class="date-box">
-			<span class="num">06</span>
-			<span class="month">SEP</span>
-		</div>
-		<: include "blog/posts_post.tx" :>
-		<: include "blog/posts_post.tx" :>
-	</section>
-	<section class="daily-posts">
-		<div class="date-box">
-			<span class="num">02</span>
-			<span class="month">SEP</span>
-		</div>
-		<: include "blog/posts_post.tx" :>
-		<: include "blog/posts_post.tx" :>
-	</section>
+<div class="blog-content">
+	<: for $posts_days -> $day_posts { :>
+		<section class="daily-posts">
+			<div class="date-box">
+				<span class="num"><: $day_posts[0].date.strftime('%d') :></span>
+				<span class="month"><: $day_posts[0].date.strftime('%b') :></span>
+			</div>
+			<: for $day_posts -> $post { :>
+				<: include "blog/posts_post.tx" { post => $post } :>
+			<: } :>
+		</section>
+	<: } :>
 </div>

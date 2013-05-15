@@ -1,11 +1,15 @@
 <article class="post-snippet">
-	<h2><a href="<: $u('Blog','post','testpost') :>">Lorem Ipsum Dolor Sit Amet</a></h2>
-	<span class="post-meta">Posted in: <a href="blog_category.html">Culture</a> by: <a href="blog_author.html">Yegg</a></span>
-	<p>Fusce sed turpis et enim commodo suscipit a a massa. Vivamus et lorem quis elit hendrerit congue eu ut mi. Phasellus imperdiet pulvinar erat, non lobortis erat fermentum id. Integer pretium dignissim venenatis. Maecenas porta, est sit amet cursus bibendum, mi lorem malesuada augue, sit amet...</p>
-	<a class="more-link" href="<: $u('Blog','post','testpost') :>">Read the full story</a>
+	<h2><a href="<: $u('Blog','post',$post.uri) :>"><: $post.title :></a></h2>
+	<span class="post-meta">
+		<: $post.date_ago :> posted by <: include "user/userinfo.tx" { user => $c.d.find_user($post.author) } :>
+	</span>
+	<: r($post.content_abstract) :>
+	<span class="post-readmore">
+		<a class="more-link" href="<: $u('Blog','post',$post.uri) :>">Read the full story</a>
+	</span>
 	<div class="post-actions">
 		<span class="action-item">
-			<a href="blog_comments.html" class="comments-link"><i class="icon-bubble"></i> 5</a>
+			<a href="<: $u('Blog','post',$post.uri) :>#comments" class="comments-link"><i class="icon-bubble"></i> 5</a>
 		</span>
 		<span class="action-item">
 			<a href="#" class="button blue fb"><i class="icon-facebook"></i> Share</a>

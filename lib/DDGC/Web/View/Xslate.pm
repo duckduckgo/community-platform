@@ -12,7 +12,7 @@ __PACKAGE__->config(
 	],
 	encode_body => 0,
 	function => {
-		r => sub { mark_raw(join"",@_) },
+		r => sub { mark_raw(join("",@_)) },
 		results => sub { [ shift->all ] },
 		call => sub {
 			my $thing = shift;
@@ -31,6 +31,7 @@ __PACKAGE__->config(
 			$source =~ s/$from/$to/g;
 			return $source;
 		},
+		urify => sub { lc(join('-',split(/\s+/,join(' ',@_)))) },
 	},
 	expose_methods => [qw(
 		next_template

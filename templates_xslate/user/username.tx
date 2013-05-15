@@ -5,7 +5,7 @@
 <: if $c.user || $c.user.admin { :>
 	<: $user.username :>
 <: } else { :>
-	<: $user.public_username || '&lt;anonymous&gt;' :>
+	<: $user.public_username || '<anonymous>' :>
 <: } :>
 <: if $user.admin { :></span><: } :>
 <: if $user.public { :>

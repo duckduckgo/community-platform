@@ -76,7 +76,7 @@ has blog => (
 );
 sub _build_blog {
 	my ( $self ) = @_;
-	DDGC::Blog->new( datadir => $self->config->blog_datadir );
+	DDGC::Blog->new( posts_dir => $self->config->blog_posts_dir );
 }
 
 has forum => (
@@ -175,13 +175,19 @@ sub create_user {
 }
 
 sub find_user {
-	my ( $self, $username ) = @_;
+	my ( $self, $username, $no_fallback ) = @_;
 
 	return unless $username;
 
 	my %xmpp_user = $self->xmpp->user($username);
 
-	return unless %xmpp_user;
+	unless (%xmpp_user) {
+		if ($self->config->prosody_running || $no_fallback) {
+			return unless %xmpp_user;
+		} else {
+			return $self->find_user($self->config->fallback_user);
+		}
+	}
 
 	my $db_user = $self->db->resultset('User')->find_or_create({
 		username => $username,

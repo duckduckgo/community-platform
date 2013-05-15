@@ -37,6 +37,7 @@ sub login :Chained('logged_out') :Args(0) {
 	$c->stash->{no_userbox} = 1;
 
 	if ($c->req->params->{username}) {
+
 		if ($c->req->params->{username} !~ /^[a-zA-Z0-9_\.]+$/) {
 			$c->stash->{not_valid_username} = 1;
 		} else {
@@ -62,8 +63,10 @@ sub login :Chained('logged_out') :Args(0) {
 		my $last_url = $c->session->{last_url};
 		my $login_url = $c->chained_uri('My','login');
 		my $register_url = $c->chained_uri('My','register');
+		my $captcha_url = $c->chained_uri('Root','captcha');
 
-		if ($last_url !~ /^$login_url/ && $last_url !~ /^$register_url/) {
+		if ($last_url !~ /^$login_url/ && $last_url !~ /^$register_url/ &&
+			$last_url !~ /^$captcha_url/) {
 			$c->session->{login_from} = $last_url;
 		}
 
