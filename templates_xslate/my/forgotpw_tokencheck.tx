@@ -1,0 +1,26 @@
+<div class="form-border">
+	<div class="form-wrap account-form">
+		<form action="<: $u('My','forgotpw_tokencheck',$check_username,$check_token) :>" method="post" id="formForgotpw_tokencheck">
+			<h2>Reset password</h2>
+			<hr class="clear" />
+			<div class="account-items group">
+			<: if $resetok { :>
+				<p><strong>Your password has been reset.</strong></p>
+			</div>
+			<: } else { :>
+				<: if $password_too_short { :><p>Password must be at least 3 characters.</p><: } :>
+				<: if $password_different { :><p>Both passwords must be identical.</p><: } :>
+			</div>
+			<div class="third">
+				<div class="input-wrap"><input placeholder="New Password" type="password" name="password" /></div>
+			</div>
+			<div class="third">
+				<div class="input-wrap"><input placeholder="Repeat Password" type="password" name="repeat_password" /></div>
+			</div>
+			<div class="sixth">
+				<div class="input-wrap"><input type="submit" name="forgotpw_tokencheck" class="button submit" value="Change Password" /></div>
+			</div>
+			<: } :>
+		</form>
+	</div>
+</div>
