@@ -1,4 +1,4 @@
-<form target="<: $u() :>" method="post">
+<form target="<: $u('Roboduck','index') :>" method="post">
 	<div class="input-wrap">
 		<input type="text" placeholder="Talk with RoboDuck" name="q" class="text" />
 	</div>
