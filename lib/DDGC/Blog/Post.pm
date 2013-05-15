@@ -4,7 +4,6 @@ use Moose;
 use Moose::Util::TypeConstraints;
 use DateTime;
 use DateTime::Format::Flexible;
-use DateTime::Format::Human::Duration;
 use IO::All;
 
 has uri => (
@@ -66,23 +65,6 @@ sub content_abstract {
 		$abstract .= $_;
 	}
 	return $abstract;
-}
-
-has date_ago => (
-	is => 'ro',
-	isa => 'Str',
-	lazy_build => 1,
-);
-
-sub _build_date_ago {
-	my ( $self ) = @_;
-	return DateTime::Format::Human::Duration->new->format_duration(
-		DateTime->now - $self->date,
-		'units' => [qw/years months days/],
-		'past' => '%s ago',
-		'future' => 'in %s will be',
-		'no_time' => 'today',
-	);
 }
 
 1;

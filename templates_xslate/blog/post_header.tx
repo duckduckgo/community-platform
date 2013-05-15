@@ -1,4 +1,4 @@
 <h2><a href="<: $u('Blog','post',$post.uri) :>"><: $post.title :></a></h2>
 <span class="post-meta">
-	<: $post.date_ago :> posted by <: include "user/userinfo.tx" { user => $c.d.find_user($post.author) } :>
+	<: $dur($post.date) :> posted by <: include "user/userinfo.tx" { user => $c.d.find_user($post.author) } :>
 </span>

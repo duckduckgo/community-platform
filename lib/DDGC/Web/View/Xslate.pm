@@ -6,6 +6,9 @@ extends 'Catalyst::View::Xslate';
 use DDGC::Web;
 use Text::Xslate qw( mark_raw );
 
+use DateTime;
+use DateTime::Format::Human::Duration;
+
 __PACKAGE__->config(
 	path => [
 		DDGC::Web->path_to('templates_xslate'),
@@ -38,6 +41,7 @@ __PACKAGE__->config(
 		link
 		u
 		l
+		dur
 	)],
 );
 
@@ -67,5 +71,16 @@ sub link {
 sub u { shift; shift->chained_uri(@_) }
 
 sub l { shift; shift->localize(@_) }
+
+sub dur {
+	my ( $self, $c, $date ) = @_;
+	return DateTime::Format::Human::Duration->new->format_duration(
+		DateTime->now - $date,
+		'units' => [qw/years months days/],
+		'past' => '%s ago',
+		'future' => 'in %s will be',
+		'no_time' => 'today',
+	);
+}
 
 1;
