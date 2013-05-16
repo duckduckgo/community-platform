@@ -57,4 +57,4 @@ if you have a better idea).
 The blog is ready and needs now tuning cause of several little changes, 2 
 sample posts are in.
 
-
+The translations need a bigger split up

@@ -1,6 +1,19 @@
-<div class="breadcrumb-nav">
-	<div class="breadcrumbs"><a href="<: $u('Translate','index') :>">Translation Interface</a> &gt; <a href="<: $link($token_domain) :>"><: $token_domain.name :></a> &gt; <: $token_domain_language.language.name_in_english :></div>
-	<div class="language_nav">
-		<input type="submit" value="Go" class="button js-hide" /><: include "translate/tokens_nav_language.tx" :>
+
+<div class="content-box translate-snippets">	
+	<div class="head">		
+		<h2><: $token_language.token_domain_language.language.name_in_english :></h2>
+	</div>
+	<div class="body">
+		<: include "translate/tokens/token_language.tx" :>
+		<div class="token-translation_inUse">
+			<fieldset>
+				<legend>Translation in use</legend>
+				<: if $token_language.msgstr { :>
+					<: include "translate/tokens/token_language_translation.tx" {translation_headline => 'Translation in use', translation => $token_language } :>
+				<: } else { :>
+					<p>Not yet any translation in use</p>
+				<: } :>
+			</fieldset>
+		</div>
 	</div>
 </div>

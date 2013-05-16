@@ -10,7 +10,7 @@
 		<div class="row">
 			<div class="label"><label>Context:</label></div>				
 			<div>				
-				<strong><a href="<: $link($token_domain_language,{ only_msgctxt => $token_language.token.msgctxt }) :>"><: $token_language.token.msgctxt :></a></strong>
+				<strong><a href="<: $link($token_language.token_domain_language,{ only_msgctxt => $token_language.token.msgctxt }) :>"><: $token_language.token.msgctxt :></a></strong>
 				<p>This is the <a href="https://github.com/duckduckgo/duckduckgo/blob/master/lib/DDG/Manual/Translation.pod#token-with-context">context</a>, do not translate it!</p>
 			</div>
 		</div>
@@ -93,10 +93,10 @@
 							<: include "user/userpic.tx" { userpic_size => 16, user => $translation.user } :>
 						<: } :>
 					</strong>
-					<a href="javascript:" class="button show-translations">Show Translations</a>
+					<a href="javascript:" class="button show-translations">Show other translations</a>
 				</div>
 				<div class="current-translations">
-					<a href="javascript:" class="button hide-translations">Hide Translations</a>
+					<a href="javascript:" class="button hide-translations">Add your own translation</a>
 					<ul class="user-translations"> 
 						<: for $token_language.translations -> $translation { :>
 							<: include "translate/tokens/token_language_translation.tx" { translation => $translation } :>
