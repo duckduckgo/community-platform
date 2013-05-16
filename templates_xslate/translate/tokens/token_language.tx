@@ -31,38 +31,40 @@
 		</div>
 	<: } :>
 	<: if $user_can_speak { :>
-		<: if $token_language.token.msgctxt || $token_language.token.has_placeholders { :>
-			<div class="notice warning clickaway">
-				<strong>Note!</strong> This token has
-				<: if $token_language.token.msgctxt { :>
-					<a href="https://github.com/duckduckgo/duckduckgo/blob/master/lib/DDG/Manual/Translation.pod#token-with-context">context</a>
-					<: if $token_language.token.has_placeholders { :>
-						&nbsp;and&nbsp;
+		<div class="user-translation<: if $token_language.translations.size() { :> hide<: } :>">
+			<: if $token_language.token.msgctxt || $token_language.token.has_placeholders { :>
+				<div class="notice warning clickaway">
+					<strong>Note!</strong> This token has
+					<: if $token_language.token.msgctxt { :>
+						<a href="https://github.com/duckduckgo/duckduckgo/blob/master/lib/DDG/Manual/Translation.pod#token-with-context">context</a>
+						<: if $token_language.token.has_placeholders { :>
+							&nbsp;and&nbsp;
+						<: } :>
 					<: } :>
-				<: } :>
-				<: if $token_language.token.has_placeholders { :>
-					<a href="https://github.com/duckduckgo/duckduckgo/blob/master/lib/DDG/Manual/Translation.pod#placeholders-in-tokens">placeholders</a>
-				<: } :>.
-				Only translate it, if you are 100% sure in which way it is used!
-				<: if $token_language.token.has_placeholders { :>
-					A wrong translation can destroy <a href="https://github.com/duckduckgo/duckduckgo/blob/master/lib/DDG/Manual/Translation.pod#combined-tokens">combined tokens</a> very easily! Also be sure the same amount of placeholders is in your translation as in the token!
+					<: if $token_language.token.has_placeholders { :>
+						<a href="https://github.com/duckduckgo/duckduckgo/blob/master/lib/DDG/Manual/Translation.pod#placeholders-in-tokens">placeholders</a>
+					<: } :>.
+					Only translate it, if you are 100% sure in which way it is used!
+					<: if $token_language.token.has_placeholders { :>
+						A wrong translation can destroy <a href="https://github.com/duckduckgo/duckduckgo/blob/master/lib/DDG/Manual/Translation.pod#combined-tokens">combined tokens</a> very easily! Also be sure the same amount of placeholders is in your translation as in the token!
+					<: } :>
+				</div>
+			<: } :>
+			<div class="notice warning clickaway">
+				<: if $token_language.token.notes || $token_language.notes { :>
+					Please assure to read the notes before translating!
+				<: } else { :>
+					Please do not hesitate to <a href="https://duckduckgo.com/feedback">contact us</a>, if you require any further information for this token.
 				<: } :>
 			</div>
-		<: } :>
-		<div class="notice warning clickaway">
-			<: if $token_language.token.notes || $token_language.notes { :>
-				Please assure to read the notes before translating!
-			<: } else { :>
-				Please do not hesitate to <a href="https://duckduckgo.com/feedback">contact us</a>, if you require any further information for this token.
+			<: for [ 0..$token_language.max_msgstr_index ] -> $n { :>
+				<: my $func = "msgstr" ~ $n :>
+				<label class="form_input-label" for="token_language_<: $token_language.id :>_<: $func :>">
+					<: if $n == 0 { :>Singular<: } else { $n :>th Plural Form<: } :>
+				</label>
+				<input type="text" class="token-input" <: if $token_language.token_domain_language.language.rtl { :>dir="rtl" <: } :>id="token_language_<: $token_language.id :>_<: $func :>" name="token_language_<: $token_language.id :>_<: $func :>" onkeyup="placeholder_check(this, '<: $n == 0 ? $token_language.token.msgid : replace($token_language.token.msgid_plural, "'", "\\'") :>');" value="<: call_if($own_translation,$func) :>" autocomplete="off" placeholder="Translate '<: $n == 0 ? $token_language.token.msgid : $token_language.token.msgid_plural :>' <: if $token_language.token.msgctxt { :> in context of '<: $token_language.token.msgctxt :>' <: } :>into <: $token_language.token_domain_language.language.name_in_english :>">
 			<: } :>
 		</div>
-		<: for [ 0..$token_language.max_msgstr_index ] -> $n { :>
-			<: my $func = "msgstr" ~ $n :>
-			<label class="form_input-label" for="token_language_<: $token_language.id :>_<: $func :>">
-				<: if $n == 0 { :>Singular<: } else { $n :>th Plural Form<: } :>
-			</label>
-			<input type="text" class="token-input" <: if $token_language.token_domain_language.language.rtl { :>dir="rtl" <: } :>id="token_language_<: $token_language.id :>_<: $func :>" name="token_language_<: $token_language.id :>_<: $func :>" onkeyup="placeholder_check(this, '<: $n == 0 ? $token_language.token.msgid : replace($token_language.token.msgid_plural, "'", "\\'") :>');" value="<: call_if($own_translation,$func) :>" autocomplete="off" placeholder="Translate '<: $n == 0 ? $token_language.token.msgid : $token_language.token.msgid_plural :>' <: if $token_language.token.msgctxt { :> in context of '<: $token_language.token.msgctxt :>' <: } :>into <: $token_language.token_domain_language.language.name_in_english :>">
-		<: } :>
 	<: } :>
 
 	<: if $token_language.token.notes || $token_language.notes { :>
@@ -81,21 +83,27 @@
 			</div>
 		</div>
 	<: } :>
-	<section class="row">
-		<div class="label"><label>Translatcvxgfgfions:</label></div>
-		<div>
-			<div class="current-translations-min no-js-hide hide">
-				<strong>2 Transgddffgdlations</strong>
-				<a href="#" class="button show-translations">Show Translations</a>
+	<: if $token_language.translations.size() { :>
+		<section class="row">
+			<div class="label"><label>Translations:</label></div>
+			<div>
+				<div class="current-translations-min no-js-hide hide">
+					<strong>
+						<: for $token_language.translations -> $translation { :>
+							<: include "user/userpic.tx" { userpic_size => 16, user => $translation.user } :>
+						<: } :>
+					</strong>
+					<a href="javascript:" class="button show-translations">Show Translations</a>
+				</div>
+				<div class="current-translations">
+					<a href="javascript:" class="button hide-translations">Hide Translations</a>
+					<ul class="user-translations"> 
+						<: for $token_language.translations -> $translation { :>
+							<: include "translate/tokens/token_language_translation.tx" { translation => $translation } :>
+						<: } :>
+					</ul>
+				</div>
 			</div>
-			<div class="current-translations">
-				<a href="#" class="button hide-translations">Hide Translations</a>
-				<ul class="user-translations"> 
-					<: for $token_language.translations -> $translation { :>
-						<: include "translate/tokens/token_language_translation.tx" { translation => $translation } :>
-					<: } :>
-				</ul>
-			</div>
-		</div>
-	</section>
+		</section>
+	<: } :>
 </fieldset>

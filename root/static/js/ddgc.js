@@ -1,4 +1,5 @@
 $(document).ready(function() {
+
 	$('.no-js').addClass('js').removeClass('no-js');
 	
 	$('.js-remove').remove();
@@ -16,11 +17,11 @@ $(document).ready(function() {
 	});
 	
 	$('.hide-translations').click(function(e) {
-		$(this).parent().addClass('hide').siblings('.current-translations-min').removeClass('hide');		
+		$(this).parent().addClass('hide').siblings('.current-translations-min').removeClass('hide');
 		e.preventDefault();
 	});
 	$('.show-translations').click(function(e) {
-		$(this).parent().addClass('hide').siblings('.current-translations').removeClass('hide');		
+		$(this).parent().addClass('hide').siblings('.current-translations').removeClass('hide');
 		e.preventDefault();
 	});
 	// Nested Comment toggle
@@ -120,6 +121,7 @@ $(document).ready(function() {
 			$('#languageBox').hide();
 		}
 	}
+
 });
 
 function showFormAddUserLanguage() {
