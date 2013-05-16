@@ -68,7 +68,7 @@ sub vote :Chained('translation') :CaptureArgs(1) {
 sub vote_view :Chained('vote') :PathPart('') :Args(0) {
 	my ( $self, $c ) = @_;
 	$c->stash->{x} = {
-		vote_count => $c->stash->{translation}->token_language->token_language_translations->count
+		vote_count => $c->stash->{translation}->votes->count
 	};
 	$c->forward( $c->view('JSON') );
 }
