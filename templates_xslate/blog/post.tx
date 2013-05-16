@@ -10,7 +10,7 @@
 		
 		<div class="post-actions">
 			<span class="action-item">
-				<a href="blog_comments.html" class="comments-link"><i class="icon-bubble"></i> 12</a>
+				<a href="blog_comments.html" class="comments-link"><i class="icon-bubble"></i> <: $c.d.comments('Blog-' ~ $post.uri, 1).count :></a>
 			</span>
 			<span class="action-item">
 				<a href="#" class="button blue fb"><i class="icon-facebook"></i> Share</a>
