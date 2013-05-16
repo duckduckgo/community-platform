@@ -96,7 +96,7 @@
 					<a href="javascript:" class="button show-translations">Show other translations</a>
 				</div>
 				<div class="current-translations">
-					<a href="javascript:" class="button hide-translations">Add your own translation</a>
+					<a href="javascript:" class="button hide-translations">Hide other translations</a>
 					<ul class="user-translations"> 
 						<: for $token_language.translations -> $translation { :>
 							<: include "translate/tokens/token_language_translation.tx" { translation => $translation } :>
