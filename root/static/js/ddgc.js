@@ -44,7 +44,7 @@ $(document).ready(function() {
 	});
 
 	// general autosubmit class
-	$('select.autosubmit,input.autosubmit').live('change',function(){
+	$('select,input').on('change', '.autosubmit', function(){
 		$(this).parents('form').submit();
 	});
 
@@ -80,25 +80,27 @@ $(document).ready(function() {
 	});
 
 	$('a.comment_reply_link').live('click', function(e){
+
+	$('a').on('click', '.comment_reply_link', function(e){
 		e.preventDefault();
 		$(this).next('.comment_reply_cancel_link').fadeIn();
 		$(this).parents().children('.comment_reply').addClass('hide').removeClass('js-hide').fadeIn();
 		$(this).hide();
 	});
 
-	$('a.comment_reply_cancel_link').live('click', function(e){
+	$('a').on('click', '.comment_reply_cancel_link', function(e){
 		e.preventDefault();
 		$(this).prev('.comment_reply_link').fadeIn();
 		$(this).parents().children('.comment_reply').fadeOut();
 		$(this).hide();
 	});
 
-	$('a.comment_expand_link').live('click', function(e){
+	$('a').on('click', '.comment_expand_link', function(e){
 		e.preventDefault();
 		$(this).parent().html($(this).next('.comment_expanded_content').html());
 	});
 
-	$('.notice .close').live('click', function (e){
+	$('div').on('click', '.notice .close', function (e){
 		// console.log('success');
 		$(this).parent().fadeOut();
 	});
@@ -111,8 +113,8 @@ $(document).ready(function() {
 		}
 	}
 
-	$('table.account-table select').each(function() {
-		$(this).live('change',function(){
+	$('table.account-table').each(function() {
+		$(this).on('change', 'select', function(){
 			grade = $('option:selected',this).val();
 			language = $(this).attr('id').substring(6);
 			href = '?add_user_language=' + language;
