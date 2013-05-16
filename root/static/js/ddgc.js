@@ -20,8 +20,14 @@ $(document).ready(function() {
 		$(this).parent().addClass('hide').siblings('.current-translations-min').removeClass('hide');
 		e.preventDefault();
 	});
+	$('.add-translations').click(function(e) {
+		$(this).parent().addClass('hide').siblings('.current-translations-min').removeClass('hide');
+		$(this).parents('fieldset.row').children('.user-translation').removeClass('hide');
+		e.preventDefault();
+	});
 	$('.show-translations').click(function(e) {
 		$(this).parent().addClass('hide').siblings('.current-translations').removeClass('hide');
+		$(this).parents('fieldset.row').children('.user-translation').addClass('hide');
 		e.preventDefault();
 	});
 	// Nested Comment toggle
