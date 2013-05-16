@@ -77,7 +77,7 @@ sub comments_structure {
 	return $self->_comments_structure;
 }
 
-sub list { @{shift->comments_structure} }
+sub list { shift->comments_structure }
 
 sub count {
 	my ( $self ) = @_;
