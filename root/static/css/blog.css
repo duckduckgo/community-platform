@@ -34,6 +34,13 @@
 		line-height: 1;
 		margin: 14px 0 20px;
 	}
+		.post-meta .user-info, .author-meta .user-info {
+			display: inline-block;
+		}
+			.post-meta .user-info img, .author-meta .user-info img{
+				display: inline-block;
+				margin-bottom: -3px;
+			}
 	.blog-content ul, .blog-content ol {
 		font-size: 13px;
 		line-height: 1.54;		
@@ -214,6 +221,8 @@
 		.sidebar-social .icon:hover { opacity: 1; }
 		
 .blog-home .blog-content, .blog-home .sidebar { margin-top: 25px; }
+
+.blog-content .comment_add_title { margin-bottom: 0; }
 	
 @media only screen and (max-width: 1100px) {
 	.page-blog .topmsg {	zoom: 0.8; }

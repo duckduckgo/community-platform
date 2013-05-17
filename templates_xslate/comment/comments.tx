@@ -5,8 +5,8 @@
 		<: } :>
 	<: } :>
 	<: if $c.user and !$no_reply { :>
-		<div class="comment_add_title">Add your comment</div>
-		<div class="comment_add"><: include "comment/add.tx" {context=>$comments.context,context_id=>$comments.context_id} :></div>
+		<h5 class="comment_add_title">Add your comment</h5>
+		<: include "comment/add.tx" {context=>$comments.context,context_id=>$comments.context_id} :>
 	<: } elsif $no_reply { :>
 		<p>Replying has been disabled.</p>
 	<: } else { :>

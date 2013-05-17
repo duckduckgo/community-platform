@@ -70,8 +70,8 @@ ol { list-style-type: decimal; }
 nav ul, nav li { margin: 0; list-style:none; list-style-image: none; }
 
 small { font-size: 85%; }
-strong, th { font-weight: bold; }
-em { font-style: italic; }
+strong, th, b { font-weight: bold; }
+em, i { font-style: italic; }
 
 td { vertical-align: top; }
 

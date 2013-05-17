@@ -41,13 +41,14 @@
 	color: #8f8f8f; 	
 }
 	.translate-snippets .row.snippet { padding-right: 26px; }
+		.translate-snippets .snippet .row.user-translation { padding-top: 0; }
 	.translate-snippets label { line-height: 30px; }
 	.translate-snippets .label { float: left; width: 131px; }
 	.translate-snippets .label + div { padding-left: 131px; }
 	.snippet .row strong { display: inline-block; font-size: 1.4em; font-weight: bold; }
 	.snippet .row p, .snippet .row ul { margin-bottom: 0; line-height: 1.2; }
-	.snippet .row p { margin-top: 4px; }
-		.snippet .row p + p { margin-top: 0; }
+	.snippet .row p { margin-top: 0; }
+		.snippet .row p + p { margin-top: 8px; }
 	.snippet .row .translation-notes li { margin: 6px 0 0 18px; }
 	.snippet .row input.text { height: 30px; line-height: 30px; }
 	.snippet .row .button { float: right; }
@@ -55,7 +56,8 @@
 	ul.user-translations, ul.translation-details { list-style: none; }
 	
 	.user-translations li { margin-bottom: 10px; }
-	.user-translations .user-info { padding: 6px 0 9px; letter-spacing: -0.07em; height: 26px; }
+	.user-translations .user-info { padding: 6px 0 9px; letter-spacing: -0.07em; height: 26px; display: inline-block; }
+		.user-translations .user-info + label { font-size: 0.8em; }
 		.user-translations .user-info img { width: 26px; display: block; float: left; margin-right: 11px; }
 		.user-translations .user-info label { display: inline-block; height: 26px; line-height: 26px; }
 	.translation-details { 
@@ -65,8 +67,8 @@
 		-webkit-border-radius: 6px;
 		border-radius: 6px;
 	}
-		.translation-details li { margin-bottom: 0; }
-		.translation-details label { min-width: 77px; display: inline-block; line-height: 1.4em; }
+		.translation-details li { margin-bottom: 0; line-height: 1.6em; }
+		.translation-details label { min-width: 97px; display: inline-block; line-height: 1.4em; }
 		.snippet .row .translation-details strong { font-size: 1.2em; }		
 	.translation-vote { 		
 		float: right; 
@@ -76,19 +78,24 @@
 		border-radius: 3px;
 		height: 28px;
 		background: #fdfdfd;
+		margin-top: -4px;
 	}
 		.snippet .row .translation-vote .button { 
 			float: none; 
 			border: none;
-			height: 28px;
-			color: #2d76dd;
+			height: 28px;			
 			margin: 0;
 			padding: 0 3px;
 			border-right: 1px solid #c6c6c6;
 			-moz-border-radius: 3px 0 0 3px;
 			-webkit-border-radius: 3px 0 0 3px;
 			border-radius: 3px 0 0 3px;
+			position: relative;
+			top: -2px;
 		}
+			.translation-vote .button { color: #999; }
+			.translation-vote .button:hover, .translation-vote.voted .button { color: #2d76dd; }
+			
 		.translation-vote .check { font-size: 1.5em; position: relative; top: 2px; }
 		.translation-vote .vote-tally {			
 			color: #464541;

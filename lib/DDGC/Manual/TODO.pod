@@ -16,6 +16,7 @@ of english language name on english languages ;).
 
 [PRIORITY 1!!!] Missing table design for admin area and general use for lists
 (sortable buttons please).
+* added table styling
 
 Missing Error / Not Found page (default.tx, error.tx, error.tx must be
 independent, more simple HTML variant)
@@ -23,11 +24,13 @@ independent, more simple HTML variant)
 The new Roboduck feature under /roboduck (roboduck/index.tx) needs a bit cooler
 HTML. I will probably ask Valentin to make a special logo for that one, like
 a dax with robocop helmet and a speech bubble giving the answer.
+* made it look a bit nicer
 
 =head1 Design Errors
 
 Tokenpage has space between the language dropdown/breadcrumb and the actual
 token list.
+* not seeing this
 
 [LOW PRIORITY!!! IGNORE FOR NOW] Account tooltips for the language are not
 shown 
@@ -53,8 +56,10 @@ by newest and so on. The "posted by" and the "about" should be removed, and
 we need some "points" in that line for the voting result (or whatever place
 if you have a better idea).
 * green/red on hover, and if selected green/red permanently? - yes
+** ok added .upvote and .downvote.  now if the user has voted you can add class 'voted' to the .voting wrapper, and .voted to the upvote or downvote
 
 The blog is ready and needs now tuning cause of several little changes, 2 
 sample posts are in.
+* comments look and work better now.  was there anything else?
 
 The translations need a bigger split up

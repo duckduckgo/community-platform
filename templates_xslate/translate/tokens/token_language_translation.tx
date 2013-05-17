@@ -5,7 +5,7 @@
 		<: } else { :>
 			<: include "user/userinfo.tx" { user => $translation.user, userpic_size => 16 } :>
 			<: if $translation.user.id == $c.user.id { :>
-				(your own translation)
+				<label>(your own translation)</label>
 			<: } :>
 		<: } :>
 	</div>

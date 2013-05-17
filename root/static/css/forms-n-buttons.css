@@ -47,6 +47,17 @@ form input[type="password"], form input[type="email"], form input[type="text"], 
 		border-radius: 3px;
 	}
 	.no-js select { padding: 3px; }
+	
+	.half .input-wrap { width: 95%; left: -10px; }
+	.third .input-wrap { width: 93%; left: -10px; }
+	.twothird .input-wrap{ width: 95%; left: -10px; }
+		.half .half .input-wrap { left: -5px; }
+	
+	.input-wrap .button, .input-wrap a.button, .input-wrap input.button {
+		-moz-border-radius: 5px;
+		-webkit-border-radius: 5px;
+		border-radius: 5px;
+	}
 
 /*--------------------------------------------------
 Login/Signup Forms
@@ -59,7 +70,8 @@ Login/Signup Forms
 .agree-terms { font-size: 80%; line-height: 1; padding-top: 9px; }
 	.agree-terms input { margin-right: 6px; }
 
-.account-form form input[type="password"], .account-form form input[type="email"], .account-form form input[type="text"] { 	
+.account-form form input[type="password"], .account-form form input[type="email"], .account-form form input[type="text"], 
+.form-wrap form input[type="password"], .form-wrap form input[type="email"], .form-wrap form input[type="text"] { 	
 	color: #bbb;
 	padding: 6px 9px; 
 	background: #fff; 
@@ -69,7 +81,8 @@ Login/Signup Forms
 	-webkit-border-radius: 5px;
 	border-radius: 5px;
 }
-	.account-form form input[type="password"]:focus, .account-form form input[type="email"]:focus, .account-form form input[type="text"]:focus  {		
+	.account-form form input[type="password"]:focus, .account-form form input[type="email"]:focus, .account-form form input[type="text"]:focus,
+	.form-wrap form input[type="password"]:focus, .form-wrap form input[type="email"]:focus, .form-wrap form input[type="text"]:focus  	{		
 		color: #000;
 		background: #fff;
 		outline: medium none;
@@ -81,10 +94,6 @@ Login/Signup Forms
 	.account-form form input[type="password"][disabled="disabled"], .account-form form input[type="email"][disabled="disabled"], .account-form form input[type="text"][disabled="disabled"]  {
 		background: #f9f9f9;
 	}
-		
-	.account-form form .half .input-wrap { width: 95%; left: -10px; }
-	.account-form form .third .input-wrap { width: 93%; left: -10px; }
-		.account-form form .half .half .input-wrap { left: -5px; }
 	
 	.robo-blaster-wrap { 
 		background: #f5f5f5;
@@ -99,17 +108,11 @@ Login/Signup Forms
 	}
 		.robo-blaster-wrap .input-wrap { background: #ececec; }
 		.captcha { float: left; width: 34%; margin-right: 6%; }
-			.captcha img { display: block; margin: 0 auto; }
+			.captcha img { display: block; margin: 0 auto; max-height: 42px;}
 		.captcha-validate { float: left; width: 60%; }
 			.account-form form .captcha-validate .input-wrap { margin: 0 auto; width: 101%;}
 	
 	.account-form .placeholder { color: #bbb; padding-top: 5px;}
-	
-	.account-form .button, .account-form a.button, .account-form input.button {
-		-moz-border-radius: 5px;
-		-webkit-border-radius: 5px;
-		border-radius: 5px;
-	}
 	
 /*--------------------------------------------------
 Static Forms
@@ -162,7 +165,14 @@ One-Fielded Function Forms
 -------------------------------------------------- */
 .one-field { position: relative; }
 
-.one-field input.text, .one-field .button { height: 31px; }
+.one-field input.text, .one-field .button { 
+	height: 31px; 
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-ms-box-sizing: border-box;
+	-o-box-sizing: border-box;
+	box-sizing: border-box;
+}
 .one-field input.text { 
 	padding-right: 32px;
 	box-shadow: inset 0 1px 1px rgba(0,0,0,.1);
@@ -177,6 +187,7 @@ One-Fielded Function Forms
 	top: 0;
 	right: 0;	
 	background-color: #eaeaea;	
+	padding: 0;
 }
 	.one-field .button.icon-search { line-height: 1; }
 
@@ -202,7 +213,7 @@ Buttons
 	
 .button, a.button, input.button {
 	text-align: center; 
-	padding: 0;
+	padding: 4px 12px;
 	display: block; 
 	position: relative;
 	border: 1px solid #babec9;
@@ -215,11 +226,16 @@ Buttons
 	color: #474747;
 	cursor: pointer;
 	box-shadow: inset 0 1px 0 rgba(255,255,255,0.1), 0 1px 1px rgba(0,0,0,0.1);
+	-webkit-box-sizing: content-box;
+	-moz-box-sizing: content-box;
+	-ms-box-sizing: content-box;
+	-o-box-sizing: content-box;
+	box-sizing: content-box;
 }
 	.half .button, .third  .button, .twothird  .button, .quarter .bntton, .sixth .button { 
 		width: 95%; margin: 0 2.5%; 
 	}	
-		.input-wrap .button { width: 100%; margin: 0 auto;}		
+		.input-wrap .button { width: 100%; margin: 0 auto; padding: 0; }		
 	
 	.button:hover {
 		background-color: #fff;
@@ -286,7 +302,7 @@ Buttons
 .form-wrap.halves { padding: 20px 25px; }
 .form-wrap .third { margin-right: auto; }
 
-.account-form form .half .input-wrap, .account-form form .third .input-wrap, .robo-blaster-wrap  { 
+.half .input-wrap, .third .input-wrap, .twothird .input-wrap, .robo-blaster-wrap  { 
 	width: 100%; left: -5px; 
 }
 .agree-terms { padding-top: 15px;}
@@ -295,5 +311,6 @@ Buttons
 	padding: 10px 5px;
 }
 	.captcha { width: 75%; float: none; margin: 0 auto 14px; }
+		.captcha img { max-height: auto; }
 	.captcha-validate { width: 90%; margin: 0 auto; float: none; }
 }

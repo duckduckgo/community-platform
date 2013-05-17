@@ -1,13 +1,28 @@
-<form target="<: $u('Roboduck','index') :>" method="post">
-	<div class="input-wrap">
-		<input type="text" placeholder="Talk with RoboDuck" name="q" class="text" />
+
+<: if $answer { :>
+	<h2 class="mid header-pad">
+		<: $answer :>
+	</h2>
+<: } else { :>
+    <h1>Speak to Roboduck!</h1>
+<: } :>
+<div class="form-border">
+	<div class="form-wrap">
+		<h2>What's on your mind?</h2>
+		<form action="<: $u('Roboduck','index') :>" method="post" class="group">
+			<div class="twothird">
+				<div class="input-wrap">
+					<input type="text" placeholder="Talk with RoboDuck" name="q" class="text" />
+				</div>
+			</div>
+			<div class="third">
+				<div class="half">
+					<div class="input-wrap">
+						<input type="submit" name="send" value="Say to Roboduck" class="button" />
+					</div>
+				</div>
+			</div>			
+		</form>
 	</div>
-	<div class="input-wrap">
-		<input type="submit" name="send" value="Say to Roboduck" class="text" />
-	</div>
-	<: if $answer { :>
-		<div>
-			<: $answer :>
-		</div>
-	<: } :>
-</form>
+</div>
+

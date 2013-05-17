@@ -32,7 +32,7 @@
 }
 	.account-box .flag + label { padding-left: 28px; }
 .account-box p { margin: 0; padding: 8px 0; }
-.account-box .button { float: right; width: 140px; margin: 0 0 0 10px; }
+.account-box .button { float: right; width: 140px; margin: 0 0 0 10px; padding: 0; }
 	.account-box .multi .button { width: 90px; }		
 
 .account-box .third .select2-container { 

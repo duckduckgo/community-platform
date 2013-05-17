@@ -1,8 +1,9 @@
 $(document).ready(function() {
-
 	$('.no-js').addClass('js').removeClass('no-js');
 	
 	$('.js-remove').remove();
+	
+	$('.comment_add_title + .comment_reply').removeClass('js-hide');
 	
 	$('.text').addPlaceholder(); 
 	
@@ -65,7 +66,7 @@ $(document).ready(function() {
 		$('div#set_gravatar_email').show();
 	});
 
-	$('a.vote_link').live('click',function(e){
+	$('a.vote_link').click(function(e){
 		e.preventDefault();
 		var parent = $(this).parent();
 		$.ajax({
@@ -79,29 +80,27 @@ $(document).ready(function() {
 		});
 	});
 
-	$('a.comment_reply_link').live('click', function(e){
-
-	$('a').on('click', '.comment_reply_link', function(e){
+	$('a.comment_reply_link').click(function(e){
 		e.preventDefault();
 		$(this).next('.comment_reply_cancel_link').fadeIn();
 		$(this).parents().children('.comment_reply').addClass('hide').removeClass('js-hide').fadeIn();
 		$(this).hide();
 	});
 
-	$('a').on('click', '.comment_reply_cancel_link', function(e){
+	$('a.comment_reply_cancel_link').click(function(e){
 		e.preventDefault();
 		$(this).prev('.comment_reply_link').fadeIn();
 		$(this).parents().children('.comment_reply').fadeOut();
 		$(this).hide();
 	});
 
-	$('a').on('click', '.comment_expand_link', function(e){
+	$('a.comment_expand_link').click(function(e){
 		e.preventDefault();
 		$(this).parent().html($(this).next('.comment_expanded_content').html());
 	});
 
-	$('div').on('click', '.notice .close', function (e){
-		// console.log('success');
+
+	$('div').on('click', '.notice .close', function (e){		
 		$(this).parent().fadeOut();
 	});
 
@@ -129,28 +128,27 @@ $(document).ready(function() {
 			$('#languageBox').hide();
 		}
 	}
-
 });
 
 function showFormAddUserLanguage() {
-    $('#formAddUserLanguage').fadeIn();
-    $('#btnAddNewLanguage').fadeOut();
+	$('#formAddUserLanguage').fadeIn();
+	$('#btnAddNewLanguage').fadeOut();
 }
 
 function validateFormAddUserLanguage() {
-    selectedLanguage=$('#language_id :selected').text().substring(16,21);
-    if ($.inArray(selectedLanguage, userLanguages) != -1) {
-        return false;
-    }
-    return true;
+	selectedLanguage=$('#language_id :selected').text().substring(16,21);
+	if ($.inArray(selectedLanguage, userLanguages) != -1) {
+		return false;
+	}
+	return true;
 }
 
 function validateFormGravatar() {
-    if ($('#gravatar_email').val() == '') {
-        $('#error_gravatar_invalid_email').fadeIn();
-        return false;
-    }
-    return true;
+	if ($('#gravatar_email').val() == '') {
+		$('#error_gravatar_invalid_email').fadeIn();
+		return false;
+	}
+	return true;
 }
 
 function validateFormLogin() {
@@ -172,4 +170,3 @@ function showLanguageBox() {
 	}
 	return false;
 }
-

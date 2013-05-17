@@ -33,9 +33,10 @@
 			margin: 7px auto 11px;
 		}
 		.comment-meta .comment-toggle {
-			color: #b8b8b8;
-			float: right;
+			color: #b8b8b8;			
 			font-size: 1.5em;
+			position: relative;			
+			left: 6px;
 		}
 		.voting + .comment-body .comment-meta { padding-right: 5px; }
 	.comment-foot {
@@ -76,6 +77,7 @@
 		border: 1px solid #cacaca;
 		position: relative;		
 		z-index: 1;
+		background: #fff;
 		-moz-border-radius: 5px;
 		border-radius: 5px;
 		-webkit-box-shadow: 0 1px 1px rgba(0,0,0,0.1);
@@ -106,6 +108,11 @@
 			left: -8px;
 			border-right: 9px solid #fff; 
 		  }
+		  .tier4 .comment-body:after, .tier4 .comment-body:before {
+			display: none;
+		  }
+		  .comment-body .tier4 .comment-body { margin-left: 0;}
+		  .tier4 .user-avatar { display: none; }
 
 .comment .voting {
 	position: absolute;
@@ -119,13 +126,41 @@
 		width: 26px;
 		height: 25px;
 		line-height: 25px;
-		padding: 0;
-		color: #9c9c9c;
+		padding: 0;		
 		margin: 0 auto 5px;
 		font-size: 0.7em;
 	}
-		  
-/* simple control of comment tiers - broken up to be easier to read and comprehend*/
+	
+.voting .button {
+	color: #9c9c9c;
+}	
+	.voting .upvote:hover, .voted .upvote.voted { color: #64bb36; }
+	.voting .downvote:hover, .voted .downvote.voted { color: #c6210e; }
+	.voted .button:before { opacity: 0.1; }	
+	.voted .button.voted:before, .voted .button:hover:before { opacity: 1; }	
+
+.comment .voting .votes	{ 
+	font-size: 1em; 	
+	position: absolute;	
+	right: 34px;
+	text-align: right;
+	height: 25px;
+	line-height: 25px;
+}
+	.comment .voting .votes.positive	{ color: #d0efbf; top: 3px; }
+	.comment .voting .votes.negative	{ color: #f1d1cd; top: 35px; }
+	
+/* the original design had the voting buttons outside the comment body 
+   - this moves them inside (same as media query below) */
+.comment .voting { top: 5px; right: -1px; }
+	.comment .comment .voting { top: 13px; }
+	.voting + .comment-body { margin-right: 0; }
+		.voting + .comment-body p { padding-right: 13px; }
+		.voting + .comment-body .comment-meta { padding-right: 16px; }	
+		
+.comment_add_title { margin: 18px 0 0; }
+	
+/* simple control of comment tiers - broken up to be easier to read and comprehend */
 .min.tier1 .comment.tier2, .min.tier1 .max-msg, .max.tier1 .min-msg, .min.tier1 .comment-meta .comment-toggle { display: none; }
 .max.tier1 .comment.tier2 { display: block; }
 .max.tier1 .max-msg, .min.tier1 .min-msg { display: inline; }
@@ -135,7 +170,17 @@
 		.min.tier3 .max-msg, .max.tier3 .min-msg, .min.tier3 .comment-meta .comment-toggle { display: none; }
 		.max.tier3 .comment.tier2 { display: block; }
 		.max.tier3 .max-msg, .min.tier3 .min-msg  { display: inline; }
+		
+/* generic child selectors to do the same thing */
+.min.comment > .comment-body > .comment, 
+.min.comment > .comment-body > .comment-foot > .comment-toggle > .max-msg,
+.max.comment > .comment-body > .comment-foot > .comment-toggle > .min-msg,
+.min.comment > .comment-body > .comment-meta > .comment-toggle { display: none; }
 
+.max.comment > .comment-body > .comment { display: block; }
+
+.min.comment > .comment-body > .comment-foot > .comment-toggle > .min-msg,
+.max.comment > .comment-body > .comment-foot > .comment-toggle > .max-msg{ display: inline; }
 
 @media only screen and (max-width: 600px) {		
 	.comment .user-avatar { 
