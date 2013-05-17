@@ -67,7 +67,10 @@ sub vote :Chained('translation') :CaptureArgs(1) {
 
 sub vote_view :Chained('vote') :PathPart('') :Args(0) {
 	my ( $self, $c ) = @_;
-	$c->forward( $c->view('TT') );
+	$c->stash->{x} = {
+		vote_count => $c->stash->{translation}->votes->count
+	};
+	$c->forward( $c->view('JSON') );
 }
 
 sub vote_redirect :Chained('vote') :PathPart('redirect') :Args(0) {

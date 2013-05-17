@@ -66,19 +66,27 @@ $(document).ready(function() {
 		$('div#set_gravatar_email').show();
 	});
 
+
 	$('a.vote_link').click(function(e){
 		e.preventDefault();
+		var vote_count = $(this).siblings().first();
 		var parent = $(this).parent();
 		$.ajax({
 			url: $(this).attr('href'),
 			beforeSend: function(xhr) {
-				parent.html('<img src="/static/images/ajax-loader.gif"/>');
+				parent.hide();
+				parent.parent().append(
+					'<img class="loading-image"' +
+					'src="/static/images/ajax-loader.gif"/>');
 			},
 			success: function(data) {
-				parent.html(data);
+				parent.show();
+				parent.siblings('.loading-image').hide();
+				vote_count.html(data.vote_count);
 			}
 		});
 	});
+
 
 	$('a.comment_reply_link').click(function(e){
 		e.preventDefault();
