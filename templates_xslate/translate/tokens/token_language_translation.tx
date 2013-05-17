@@ -14,12 +14,13 @@
 			<span class="translation-invalid group">INVALID!</span>
 		<: } else { :>
 			<span class="translation-vote group">
-				<a href="#" class="button">
-					<: if $translation.user_voted($c.user) { :>
-						<i class="check checked icon-ok"></i>
-					<: } else { :>
-						<i class="check icon-ok"></i>
-					<: } :>
+				<a href="<: $u('Translate', 'vote_view', $translation.id, 1):>"
+					class="vote_link button">
+						<: if $translation.user_voted($c.user) { :>
+							<i class="check checked icon-ok"></i>
+						<: } else { :>
+							<i class="check icon-ok"></i>
+						<: } :>
 				</a>
 				<span class="vote-tally"><: $translation.vote_count :></span>
 			</span>
