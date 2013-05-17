@@ -39,6 +39,7 @@
 	    duckreq.open('GET', '/roboduck/query?q='+encodeURIComponent(query), true);
 	    duckreq.send(null);
 	    duckfield.value = "";
+	    add_line('user', query);
 	}
 	document.body.onload = duck_power;
 </script>
