@@ -72,18 +72,18 @@ $(document).ready(function() {
 		e.preventDefault();
 		var vote_count = $(this).siblings().first();
 		var parent = $(this).parent();
+		var checkmark = $(this)
 		$.ajax({
 			url: $(this).attr('href'),
-			beforeSend: function(xhr) {
-				parent.hide();
-				parent.parent().append(
+			beforeSend: function(xhr) {				
+				parent.append(
 					'<img class="loading-image"' +
 					'src="/static/images/ajax-loader.gif"/>');
 			},
-			success: function(data) {
-				parent.show();
-				parent.siblings('.loading-image').hide();
-				vote_count.html(data.vote_count);
+			success: function(data) {				
+				parent.children('.loading-image').hide();
+				parent.addClass('voted');
+				vote_count.html(data.vote_count);				
 			}
 		});
 	});

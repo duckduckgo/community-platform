@@ -79,6 +79,7 @@
 		height: 28px;
 		background: #fdfdfd;
 		margin-top: -4px;
+		position: relative;
 	}
 		.snippet .row .translation-vote .button { 
 			float: none; 
@@ -94,7 +95,8 @@
 			top: -2px;
 		}
 			.translation-vote .button { color: #999; }
-			.translation-vote .button:hover, .translation-vote.voted .button { color: #2d76dd; }
+			.translation-vote .button:hover, .translation-vote.voted .button, .translation-vote .button .checked { color: #2d76dd; }	
+				.translation-vote .button[disabled="disabled"], .translation-vote .button[disabled="disabled"]:hover, .translation-vote .button[disabled="disabled"] .checked { color: #ccc; }
 			
 		.translation-vote .check { font-size: 1.5em; position: relative; top: 2px; }
 		.translation-vote .vote-tally {			
@@ -106,6 +108,14 @@
 			min-width: 26px;
 			text-align: right;
 			display: inline-block;
+		}
+		.translation-vote .loading-image {
+			position: absolute;
+			top: 50%;
+			right: 10px;
+			padding: 7px 0;
+			margin-top: -12px;
+			background: #fff;
 		}
 	
 .paging-menu { float: left; }

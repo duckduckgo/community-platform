@@ -15,7 +15,8 @@
 		<: } else { :>
 			<span class="translation-vote group">
 				<a href="<: $u('Translate', 'vote_view', $translation.id, 1):>"
-					class="vote_link button">
+					class="vote_link button" 
+					<: if !$user_can_speak { :>disabled="disabled" title="You are not allowed to vote because you do not speak this language."<: } :> >
 						<: if $translation.user_voted($c.user) { :>
 							<i class="check checked icon-ok"></i>
 						<: } else { :>

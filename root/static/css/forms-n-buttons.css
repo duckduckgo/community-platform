@@ -249,6 +249,10 @@ Buttons
 	.button:active {		
 		background-color: #eee;		
 	}	
+	.button[disabled="disabled"], .button[disabled="disabled"]:hover, .button[disabled="disabled"]:active {
+		background-color: #f8f8f8;
+		cursor: default;
+	}
 	.button.fb-like {
 		background: #ebedf4;
 		border-color: #cbd3e7;
