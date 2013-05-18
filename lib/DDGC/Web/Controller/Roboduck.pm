@@ -17,6 +17,7 @@ sub base :Chained('/base') :PathPart('roboduck') :CaptureArgs(0) {
 
 sub index :Chained('base') :PathPart('') :Args(0) {
 	my ( $self, $c ) = @_;
+	$c->add_bc('RoboDuck', '');
 }
 
 sub json :Chained('base') :Args(0) {
