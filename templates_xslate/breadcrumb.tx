@@ -1,0 +1,15 @@
+<: if !$no_breadcrumb && $breadcrumb { :>
+	<div class="breadcrumb-nav">
+		<div class="breadcrumbs">
+			<: for $breadcrumb -> $crumb { :>
+				<: if $crumb.link { :>
+					<a href="<: $crumb.link :>">
+				<: } :>
+					<: $crumb.text :>
+				<: if $crumb.link { :>
+					</a> &gt;
+				<: } :>
+			<: } :>
+		</div>
+	</div>
+<: } :>

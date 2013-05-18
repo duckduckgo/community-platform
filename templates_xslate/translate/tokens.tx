@@ -1,10 +1,7 @@
 <form target="<: $u('Translate','tokens',$token_domain.key,$cur_language.locale,{ only_untranslated => $only_untranslated }) :>" method="post" id="formTranslateDomain">
 
-<div class="breadcrumb-nav">
-	<div class="breadcrumbs"><a href="<: $u('Translate','index') :>">Translation Interface</a> &gt; <a href="<: $link($token_domain) :>"><: $token_domain.name :></a> &gt; <: $token_domain_language.language.name_in_english :></div>
-	<div class="language_nav">
-		<input type="submit" value="Go" class="button js-hide" /><: include "translate/tokens/nav_language.tx" :>
-	</div>
+<div class="language_nav">
+	<input type="submit" value="Go" class="button js-hide" /><: include "translate/tokens/nav_language.tx" :>
 </div>
  
 <div class="content-box translate-snippets">	

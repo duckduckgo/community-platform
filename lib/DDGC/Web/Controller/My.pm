@@ -11,8 +11,6 @@ BEGIN {extends 'Catalyst::Controller'; }
 
 sub base :Chained('/base') :PathPart('my') :CaptureArgs(0) {
     my ( $self, $c ) = @_;
-	$c->stash->{title} = 'My Account';
-	$c->add_bc($c->stash->{title}, $c->chained_uri('My','account'));
 }
 
 sub logout :Chained('base') :Args(0) {
@@ -32,7 +30,8 @@ sub logged_out :Chained('base') :PathPart('') :CaptureArgs(0) {
 
 sub login :Chained('logged_out') :Args(0) {
 	my ( $self, $c ) = @_;
-	$c->add_bc('Login', $c->chained_uri('My','login'));
+	$c->stash->{title} = 'Login';
+	$c->add_bc($c->stash->{title}, '');
 
 	$c->stash->{no_userbox} = 1;
 
@@ -75,6 +74,8 @@ sub login :Chained('logged_out') :Args(0) {
 
 sub logged_in :Chained('base') :PathPart('') :CaptureArgs(0) {
 	my ( $self, $c ) = @_;
+	$c->stash->{title} = 'My Account';
+	$c->add_bc($c->stash->{title}, $c->chained_uri('My','account'));
 	if (!$c->user) {
 		$c->response->redirect($c->chained_uri('My','login'));
 		return $c->detach;
@@ -83,6 +84,8 @@ sub logged_in :Chained('base') :PathPart('') :CaptureArgs(0) {
 
 sub account :Chained('logged_in') :Args(0) {
     my ( $self, $c ) = @_;
+
+	$c->bc_index;
 
     my $saved = 0;
 
@@ -156,6 +159,9 @@ sub account :Chained('logged_in') :Args(0) {
 sub email :Chained('logged_in') :Args(0) {
 	my ( $self, $c, ) = @_;
 
+	$c->stash->{title} = 'Email';
+	$c->add_bc($c->stash->{title}, '');
+
 	return $c->detach if !$c->req->params->{save_email};
 
 	if (!$c->validate_captcha($c->req->params->{captcha})) {
@@ -183,6 +189,9 @@ sub email :Chained('logged_in') :Args(0) {
 sub delete :Chained('logged_in') :Args(0) {
     my ( $self, $c ) = @_;
 
+	$c->stash->{title} = 'Delete your account';
+	$c->add_bc($c->stash->{title}, '');
+
 	return $c->detach unless $c->req->params->{delete_profile};
 	
 	if (!$c->validate_captcha($c->req->params->{captcha})) {
@@ -203,9 +212,11 @@ sub public :Chained('logged_in') :Args(0) {
     my ( $self, $c ) = @_;
 
     if ($c->user->public) {
-	    $c->add_bc('Make Private', $c->chained_uri('My','public'));
+    	$c->stash->{title} = 'Make account private';
+	    $c->add_bc($c->stash->{title}, '');
     } else {
-	    $c->add_bc('Make Public', $c->chained_uri('My','public'));
+    	$c->stash->{title} = 'Make account public';
+	    $c->add_bc($c->stash->{title}, '');
     }
 
 	return $c->detach if !($c->req->params->{hide_profile} || $c->req->params->{show_profile});
@@ -229,6 +240,9 @@ sub public :Chained('logged_in') :Args(0) {
 
 sub forgotpw_tokencheck :Chained('logged_out') :Args(2) {
 	my ( $self, $c, $username, $token ) = @_;
+
+	$c->stash->{title} = 'Forgot password token check';
+    $c->add_bc($c->stash->{title}, '');
 
 	$c->stash->{check_username} = $username;
 	$c->stash->{check_token} = $token;
@@ -272,6 +286,9 @@ sub forgotpw_tokencheck :Chained('logged_out') :Args(2) {
 sub changepw :Chained('logged_in') :Args(0) {
 	my ( $self, $c ) = @_;
 
+	$c->stash->{title} = 'Change password';
+    $c->add_bc($c->stash->{title}, '');
+
 	return if !$c->req->params->{changepw};
 	
 	my $error = 0;
@@ -314,7 +331,10 @@ sub changepw :Chained('logged_in') :Args(0) {
 
 sub forgotpw :Chained('logged_out') :Args(0) {
 	my ( $self, $c ) = @_;
-	$c->add_bc('Forgot password', $c->chained_uri('My','forgotpw'));
+
+	$c->stash->{title} = 'Forgot password';
+    $c->add_bc($c->stash->{title}, '');
+
 	return $c->detach if !$c->req->params->{requestpw};
 	$c->stash->{forgotpw_username} = lc($c->req->params->{username});
 	$c->stash->{forgotpw_email} = $c->req->params->{email};
@@ -346,7 +366,9 @@ sub forgotpw :Chained('logged_out') :Args(0) {
 
 sub register :Chained('logged_out') :Args(0) {
     my ( $self, $c ) = @_;
-	$c->add_bc('Register', $c->chained_uri('My','register'));
+
+	$c->stash->{title} = 'Create a new account';
+    $c->add_bc($c->stash->{title}, '');
 
 	$c->stash->{no_login} = 1;
 
@@ -421,9 +443,9 @@ sub register :Chained('logged_out') :Args(0) {
 
 sub requestlanguage :Chained('logged_in') :Args(0) {
 	my ($self, $c) = @_;
-	$c->stash->{title} = 'Request language';
 
-	delete $c->stash->{headline_template};
+	$c->stash->{title} = 'Request language';
+    $c->add_bc($c->stash->{title}, '');
 	
 	if ($c->req->params->{submit}) {
 
@@ -474,8 +496,6 @@ sub requestlanguage :Chained('logged_in') :Args(0) {
 
 		}
 	}
-
-	$c->add_bc($c->stash->{title}, $c->chained_uri('My','requestlanguage'));
 
 }
 

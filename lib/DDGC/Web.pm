@@ -122,11 +122,24 @@ sub pager_init {
 sub add_bc {
 	my ( $c, $text, $link ) = @_;
 	$c->stash->{breadcrumb} = [] unless $c->stash->{breadcrumb};
-	if (@{$c->stash->{breadcrumb}} % 2 == 1) {
-		croak "Breadcrumb already finished";
+	my @bc = @{$c->stash->{breadcrumb}};
+	if (@bc) {
+		my $last_index = (scalar @bc)-1;
+		croak "Breadcrumb already finished" unless $bc[$last_index]->{link};
 	}
-	push @{$c->stash->{breadcrumb}}, $text;
-	push @{$c->stash->{breadcrumb}}, $link if defined $link;
+	push @{$c->stash->{breadcrumb}}, {
+		text => $text,
+		link => $link,
+	};
+}
+
+sub bc_index {
+	my ( $c ) = @_;
+	croak "No breadcrumb" unless $c->stash->{breadcrumb};
+	my @bc = @{$c->stash->{breadcrumb}};
+	my $last_index = (scalar @bc)-1;
+	croak "Breadcrumb already finished" unless $bc[$last_index]->{link};
+	$c->stash->{breadcrumb}[$last_index]->{link} = undef;
 }
 
 # Start the application

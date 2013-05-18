@@ -20,7 +20,7 @@ sub base :Chained('/') :PathPart('') :CaptureArgs(0) {
 	$c->stash->{user_counts} = $c->d->user_counts;
 	$c->stash->{page_class} = "page-home texture";
 
-    #$c->add_bc('Home', $c->chained_uri('Root','index'));
+    $c->add_bc('Home', $c->chained_uri('Root','index'));
 }
 
 sub captcha :Chained('base') :Args(0) {
@@ -30,7 +30,8 @@ sub captcha :Chained('base') :Args(0) {
 
 sub index :Chained('base') :PathPart('') :Args(0) {
 	my ($self, $c) = @_;
-	$c->stash->{title} = 'Welcome';
+	$c->stash->{no_breadcrumb} = 1;
+	$c->stash->{title} = 'Welcome to the DuckDuckGo Community Platform';
 }
 
 sub default :Chained('base') :PathPart('') :Args {

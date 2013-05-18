@@ -14,6 +14,7 @@
 	<div class="site-main">
 		<: include "topmessage.tx" :>
 		<div class="content-wrap">
+			<: include "breadcrumb.tx" :>
 			<: include "notice_warnings.tx" :>
 			<: include $next_template() :>
 		</div>
