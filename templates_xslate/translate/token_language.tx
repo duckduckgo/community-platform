@@ -13,8 +13,7 @@
 		<div class="label"><label>Term (Singular):</label></div>
 		<div>
 			<strong><: $token_language.token.msgid :></strong>
-		</div>
-	</div>
+		</div>	
 	<: if $token_language.token.msgid_plural { :>
 		<div class="row">
 			<div class="label"><label>Term (Plural):</label></div>
@@ -25,6 +24,7 @@
 			</div>
 		</div>
 	<: } :>
+	</div>
 	<div class="row">
 		<div class="label"><label>Translation:</label></div>
 		<div><input type="text" class="text" placeholder="Translate this singular term into Indonesian (Indonesia)." /></div>

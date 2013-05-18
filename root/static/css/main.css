@@ -651,11 +651,11 @@ table th[class*="span"],
 			border-right: 1px solid #d5d5d5;
 			box-shadow: 1px 0 0 #f3f3f3;
 		}
-			.header-nav .nav-home a { border-left: 1px solid #d5d5d5; }
+			.header-nav .nav-home a, .header-nav ul li:first-child a { border-left: 1px solid #d5d5d5; }
 			
-		.header-nav .active a, .header-nav a:hover, .page-home .nav-home a, .page-blog .nav-blog a  { 
+		.header-nav .active a, .header-nav a:hover, .header-nav ul li:first-child a:hover, .page-home .nav-home a, .page-blog .nav-blog a  { 
 			color: black; 
-			background: #cdcdcd; 			
+			background: #cdcdcd;
 			border-left-color: #bbb;
 			border-right-color: #bbb;
 			text-shadow: 0 1px 0 rgba(255,255,255,0.5);

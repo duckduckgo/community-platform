@@ -20,8 +20,7 @@
 		<div>			
 			<strong><: $token_language.token.msgid :></strong>
 			<a href="<: $u('Translate','tokenlanguage',$token_language.id) :>" class="button">Discuss</a>
-		</div>
-	</div>
+		</div>	
 	<: if $token_language.token.msgid_plural { :>
 		<div class="row">
 			<div class="label"><label>Term (Plural):</label></div>
@@ -30,6 +29,7 @@
 			</div>
 		</div>
 	<: } :>
+	</div>
 	<: if $user_can_speak { :>
 		<div class="row user-translation<: if $token_language.translations.size() { :> hide<: } :>">
 			<div class="label"></div>

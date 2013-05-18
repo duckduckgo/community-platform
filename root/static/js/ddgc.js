@@ -6,6 +6,7 @@ $(document).ready(function() {
 	$('.comment_add_title + .comment_reply').removeClass('js-hide');
 	
 	$('.text').addPlaceholder(); 
+	$('.token-input').addPlaceholder(); 
 	
 	$('select.language_grade').select2({
 		placeholder: $(this).data('placeholder')
