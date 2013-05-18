@@ -70,6 +70,7 @@
 		.translation-details li { margin-bottom: 0; line-height: 1.6em; }
 		.translation-details label { min-width: 97px; display: inline-block; line-height: 1.4em; }
 		.snippet .row .translation-details strong { font-size: 1.2em; }		
+	.translation-invalid { float: right; font-weight: bold; color: red;}
 	.translation-vote { 		
 		float: right; 
 		border: 1px solid #c6c6c6;
