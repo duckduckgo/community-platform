@@ -520,7 +520,7 @@ table th[class*="span"],
 	
 		.header-account-info {
 			padding-top: 11px; 
-			width: 15em;
+			width: 13em;
 			line-height: 1;
 			float: left;
 			padding-left: 22px;
@@ -649,9 +649,11 @@ table th[class*="span"],
 			text-shadow: 0 1px 0 #fff;
 			border-left: 1px solid transparent;
 			border-right: 1px solid #d5d5d5;
-			box-shadow: 1px 0 0 #f3f3f3;
+			box-shadow: inset 1px 0 0 #f3f3f3, 1px 0 0 #f3f3f3;
 		}
-			.header-nav .nav-home a, .header-nav ul li:first-child a { border-left: 1px solid #d5d5d5; }
+			.header-nav .nav-home a, .header-nav ul li:first-child a { 
+				border-left: 1px solid #d5d5d5; 				
+			}
 			
 		.header-nav .active a, .header-nav a:hover, .header-nav ul li:first-child a:hover, .page-home .nav-home a, .page-blog .nav-blog a  { 
 			color: black; 
@@ -659,6 +661,7 @@ table th[class*="span"],
 			border-left-color: #bbb;
 			border-right-color: #bbb;
 			text-shadow: 0 1px 0 rgba(255,255,255,0.5);
+			box-shadow: 1px 0 0 #f3f3f3;
 		}
 			.page-home .header-nav ul { border-left-color: #c3c3c3; }
 			
@@ -793,15 +796,19 @@ table th[class*="span"],
 @media only screen and (max-width: 1060px) {
 	.topmsg + .content-wrap h1 { max-width: 85%; }
 }
-@media only screen and (max-width: 887px) {
+@media only screen and (max-width: 930px) {
 	.header-logo { width: 220px; }
 		.header-logo.wide { width: 300px; }
 	.header-account-info { position: absolute; top: 0; right: 0; }	
+}
+@media only screen and (max-width: 830px) {
+	.site-header .user-avatar { visibility:hidden; }
 }
 @media only screen and (max-width: 788px) {
 	.site-main .content-wrap { width: 98%; }	
 	.topmsg { zoom: 0.85; }
 	.header-login { position: absolute; right: 0; }	
+	.site-header .user-avatar { visibility: visible; }
 	.header-nav { clear: both; float: none; padding-top: 4px;}
 		.header-nav ul { float: none; }
 		.header-nav li { 
@@ -845,7 +852,7 @@ table th[class*="span"],
 	.half { width: 95%; }
 	.header-nav ul { border: none; border-top: 1px solid #d5d5d5;}
 	.header-nav li { width: 100%; float: none; clear: both; }
-	.header-nav ul li a { 
+	.header-nav ul li a, .header-nav ul li:first-child a  { 
 		border-left: none; 
 		border-right: none; 
 		padding: 11px 0; 

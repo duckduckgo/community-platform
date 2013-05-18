@@ -4,10 +4,10 @@
 <div class="callout">
 	<div class="third">
 		<div class="callout-box yellow">
-			<div class="head">
+			<a class="head" href="<: $u('Translate','index') :>">
 				<i class="icon-globe"></i> 
 				<h2>Help Translate</h2>				
-			</div>
+			</a>
 			<div class="body">
 				<h3>Help us translate DuckDuckGo into your languages.</h3>
 				<!-- <ul> 
