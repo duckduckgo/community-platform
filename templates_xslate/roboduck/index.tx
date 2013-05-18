@@ -31,12 +31,12 @@
 	function process_response(duckreq) {
 	    if (duckreq.readyState != 4) return;
 	    var duckdata = JSON.parse(duckreq.responseText);
-	    add_line('roboduck', duckdata.response);
+	    add_line('roboduck', duckdata.answer);
 	}
 	function fetch_response(query) {
 	    var duckreq = new XMLHttpRequest();
 	    duckreq.onreadystatechange = function(){process_response(duckreq)};
-	    duckreq.open('GET', '/roboduck/query?q='+encodeURIComponent(query), true);
+	    duckreq.open('GET', '/roboduck/json?q='+encodeURIComponent(query), true);
 	    duckreq.send(null);
 	    duckfield.value = "";
 	    add_line('user', query);
@@ -50,7 +50,7 @@
 		<form action="javascript:;" onSubmit="fetch_response(duckfield.value)">
 			<div class="twothird">
 				<div class="input-wrap">
-					<input type="text" placeholder="Talk with RoboDuck" name="q" class="text" />
+					<input type="text" placeholder="Talk with RoboDuck" name="q" class="text" id="duckfield" />
 				</div>
 			</div>
 			<div class="third">
