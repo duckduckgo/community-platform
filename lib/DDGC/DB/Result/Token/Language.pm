@@ -141,20 +141,17 @@ sub gettext_snippet_formatter {
 
 sub add_user_translation {
 	my ( $self, $user, $translation ) = @_;
-	use DDP; p($user->username); p($translation);
 	if ($user->can_speak($self->token_domain_language->language->locale)) {
 		my $found = $self->search_related('token_language_translations',{
 			%{$translation},
 			username => $user->username,
 		})->first;
 		unless ($found) {
-			my @votes = $self->search_related('token_language_translations',{
+			$self->search_related('token_language_translations',{
 				'token_language_translation_votes.id' => undef,
 			},{
 				join => [qw( token_language_translation_votes )]
-			})->all;
-			my $count = scalar @votes;
-			p($count);
+			})->delete;
 			$self->create_related('token_language_translations',{
 				%{$translation},
 				username => $user->username,

@@ -1,7 +1,8 @@
+<form target="<: $u('Translate','tokenlanguage',$token_language.id) :>" method="post">
 
 <div class="content-box translate-snippets">	
 	<div class="head">		
-		<h2><: $token_language.token_domain_language.language.name_in_english :></h2>
+		<h2><: $token_language.token_domain_language.token_domain.name :> in <: $token_language.token_domain_language.language.name_in_english :></h2>
 	</div>
 	<div class="body">
 		<: include "translate/tokens/token_language.tx" :>
@@ -15,5 +16,10 @@
 				<: } :>
 			</fieldset>
 		</div>
+		<div class="row mid">
+			<input type="submit" class="button blue big" name="save_translation" value="Submit translation" />
+		</div>
 	</div>
 </div>
+
+</form>
