@@ -1,0 +1,23 @@
+
+<div class="language_nav">
+	<input type="submit" value="Go" class="button js-hide" /><: include "translate/tokens/nav_language.tx" :>
+</div>
+ 
+<div class="content-box translate-snippets">	
+	<div class="head">		
+		<h2>Token Overview for <: $token_domain_language.language.name_in_english :></h2>
+	</div>
+	<div class="body">
+		<div class="row nav">
+			<: include "translate/tokens/nav_paging.tx" :>
+			<: include "translate/tokens/nav.tx" :>
+		</div>
+		<: for results($token_languages) -> $token_language { :>
+			<: include "translate/tokens/token_overview.tx" { token_language => $token_language } :>
+		<: } :>
+		<div class="row nav">
+			<: include "translate/tokens/nav_paging.tx" :>
+			<: include "translate/tokens/nav.tx" :>
+		</div>
+	</div>
+</div>

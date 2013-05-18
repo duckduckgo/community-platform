@@ -103,7 +103,7 @@
 					<a href="javascript:" class="button add-translations">Add your own translation</a>
 					<ul class="user-translations"> 
 						<: for $token_language.translations -> $translation { :>
-							<: include "translate/tokens/token_language_translation.tx" { translation => $translation } :>
+							<: include "translate/tokens/token_language_translation.tx" { translation => $translation, user_can_speak => $user_can_speak } :>
 						<: } :>
 					</ul>
 				</div>

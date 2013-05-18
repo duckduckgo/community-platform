@@ -1,0 +1,52 @@
+
+<fieldset class="row snippet">	
+	<div class="row">
+		<div class="label"><label>Term:</label></div>
+		<div>
+			<a href="<: $u('Translate','tokenlanguage',$token_language.id) :>"><strong><: $token_language.token.msgid :></strong></a>			
+			<a href="<: $u('Translate','tokenlanguage',$token_language.id) :>" class="button">Discuss</a>
+			<: if $token_language.translations.size() { :>
+				<p>(<: $l('A translation is in use') :>)</p>
+			<: } :>			
+		</div>
+	</div>
+	<: if $token_language.token.msgctxt { :>
+		<div class="row">
+			<div class="label"><label>Context:</label></div>				
+			<div>				
+				<p class="context"><: $token_language.token.msgctxt :></p>	
+			</div>
+		</div>
+	<: } :>
+	<: if $token_language.translations.size() { :>
+		<div class="row">
+			<div class="label"><label>Translations:</label></div>
+			<div>
+				<div class="current-translations-min">
+					<strong>
+						<: for $token_language.translations -> $translation { :>
+							<: include "user/userpic.tx" { userpic_size => 16, user => $translation.user } :>
+						<: } :>
+					</strong>
+				</div>
+			</div>
+		</div>
+	<: } :>
+	<: if $token_language.token.notes || $token_language.notes { :>
+		<div class="row">
+			<div class="label"><label>Notes:</label></div>
+			<div class="translation-notes">
+				<: if $token_language.token.notes { :>
+					<: r($token_language.token.notes) :>
+					<: if $token_language.notes { :>
+						<br/>
+					<: } :>
+				<: } :>
+				<: if $token_language.notes { :>
+					<: r($token_language.notes) :>
+				<: } :>
+			</div>
+		</div>
+	<: } :>
+	
+</fieldset>
