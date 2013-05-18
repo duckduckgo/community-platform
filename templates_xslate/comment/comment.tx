@@ -1,11 +1,11 @@
 <div class="user-avatar icon-user"><: include "user/userpic.tx" {userpic_size=>$comment_userpic_size?$comment_userpic_size:32,user=>$comment.user} :></div>
-<div class="voting">
+<!--div class="voting">
 	<button href="#" class="button upvote icon-arrow-up"></button>
 	<button href="#" class="button downvote icon-arrow-down"></button>
 	<: # make these count votes :>
 	<span class="votes positive">0</span>
 	<span class="votes negative">0</span>
-</div>
+</div-->
 <div class="comment-body" id="comment_<: $comment.id :>">	
 	<div class="row">
 		<p><: r($comment.content) :></p>
