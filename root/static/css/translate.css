@@ -83,9 +83,8 @@
 		margin-top: -4px;
 		position: relative;
 	}
-		.snippet .row .translation-vote .button { 
-			float: none; 
-			border: none;
+		.translation-details .translation-vote .button { 
+			float: none; 			
 			height: 28px;			
 			margin: 0;
 			padding: 0 3px;
@@ -95,6 +94,7 @@
 			border-radius: 3px 0 0 3px;
 			position: relative;
 			top: -2px;
+			left: -1px;
 		}
 			.translation-vote .button { color: #999; }
 			.translation-vote .button:hover, .translation-vote.voted .button, .translation-vote .button .checked { color: #2d76dd; }	
@@ -119,6 +119,11 @@
 			margin-top: -12px;
 			background: #fff;
 		}
+	
+	.translation-use .user-translations { margin-top: -8px; }
+	.translation-use .translation-vote { padding-left: 30px; display: none; /* it's styled correctly but shouldn't show */ }
+		.translation-use .translation-details .translation-vote .button { position: absolute; top: -1px; left: -1px; }
+	.translation-use strong { display: inline-block; font-size: 1.2em; font-weight: bold; line-height: 30px; }
 	
 .paging-menu { float: left; }
 	.paging-menu label { font-size: 0.9em; line-height: 30px; }

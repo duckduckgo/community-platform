@@ -4,17 +4,8 @@
 <: my $hide_field = "Hide translation field" :>
 <: my $show_field = "Add your own translation" :>
 
-<fieldset class="row snippet">	
+<fieldset class="row snippet">		
 	
-	<: if $token_language.token.msgctxt { :>
-		<div class="row">
-			<div class="label"><label>Context:</label></div>				
-			<div>				
-				<strong><a href="<: $link($token_language.token_domain_language,{ only_msgctxt => $token_language.token.msgctxt }) :>"><: $token_language.token.msgctxt :></a></strong>
-				<p>This is the <a href="https://github.com/duckduckgo/duckduckgo/blob/master/lib/DDG/Manual/Translation.pod#token-with-context">context</a>, do not translate it!</p>
-			</div>
-		</div>
-	<: } :>
 	<div class="row">
 		<div class="label"><label>Term (Singular):</label></div>
 		<div>			
@@ -29,7 +20,16 @@
 			</div>
 		</div>
 	<: } :>
-	</div>
+	<: if $token_language.token.msgctxt { :>
+		<div class="row">
+			<div class="label"><label>Context:</label></div>				
+			<div>				
+				<strong><a href="<: $link($token_language.token_domain_language,{ only_msgctxt => $token_language.token.msgctxt }) :>"><: $token_language.token.msgctxt :></a></strong>
+				<p>This is the <a href="https://github.com/duckduckgo/duckduckgo/blob/master/lib/DDG/Manual/Translation.pod#token-with-context">context</a>, do not translate it!</p>
+			</div>
+		</div>
+	<: } :>
+	</div>	
 	<: if $user_can_speak { :>
 		<div class="row user-translation<: if $token_language.translations.size() { :> hide<: } :>">
 			<div class="label"></div>

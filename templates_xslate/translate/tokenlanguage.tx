@@ -5,15 +5,20 @@
 		<h2><: $token_language.token_domain_language.token_domain.name :> in <: $token_language.token_domain_language.language.name_in_english :></h2>
 	</div>
 	<div class="body">
-		<: include "translate/tokens/token_language.tx" :>
-		<div class="token-translation_inUse">
-			<fieldset>
-				<legend>Translation in use</legend>
+		<div class="row">
+			<: include "translate/tokens/token_language.tx" :>
+			
+			<fieldset class="row translation-use">
+				<div class="label"><label>Translation in use:</label></div>				
+				<div>
 				<: if $token_language.msgstr { :>
-					<: include "translate/tokens/token_language_translation.tx" {translation_headline => 'Translation in use', translation => $token_language } :>
+					<ul class="user-translations">
+						<: include "translate/tokens/token_language_translation.tx" {translation => $token_language } :>
+					</ul>
 				<: } else { :>
-					<p>Not yet any translation in use</p>
+					<strong>No translation in use</strong>
 				<: } :>
+				</div>
 			</fieldset>
 		</div>
 		<div class="row mid">
