@@ -739,6 +739,9 @@ table th[class*="span"],
 			padding: 8px 0;
 			border: none;
 		}
+		.content-box .row.half {
+			clear: none;
+		}
 		
 	.content-box .button {
 		height: 28px; 
