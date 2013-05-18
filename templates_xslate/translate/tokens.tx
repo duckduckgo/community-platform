@@ -30,6 +30,9 @@
 				<: include "translate/tokens/nav.tx" :>
 			</div>
 		<: } :>
+		<div>
+			<input type="submit" name="save_translations" value="Save all your translations">
+		</div>
 	</div>
 </div>
 
