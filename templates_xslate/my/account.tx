@@ -75,10 +75,22 @@
 			</div>
 			<div class="row">
 				<div class="twothird">
-					<label>Your account is not publicly visible yet</label>
+					<label>
+					<: if $c.user.public { :>
+						<: $l('Your account is publicly visible') :>
+					<: } else { :>
+						<: $l('Your account is not publicly visible yet') :>
+					<: } :>
+					</label>
 				</div>
 				<div class="third">
-					<a href="<: $u('My','public') :>" class="button">Make it Public</a>
+					<a href="<: $u('My','public') :>" class="button">						
+						<: if $c.user.public { :>
+							<: $l('Make it Private') :>
+						<: } else { :>
+							<: $l('Make it Public') :>
+						<: } :>
+					</a>
 				</div>
 			</div>
 		</div>
