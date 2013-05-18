@@ -57,7 +57,7 @@
 	
 	.user-translations li { margin-bottom: 10px; }
 	.user-translations .user-info { padding: 6px 0 9px; letter-spacing: -0.07em; height: 26px; display: inline-block; }
-		.user-translations .user-info + label { font-size: 0.8em; }
+		.user-translations .user-info + label, .user-translations .own-translation { font-size: 0.8em; display: block; line-height: 1; }
 		.user-translations .user-info img { width: 26px; display: block; float: left; margin-right: 11px; }
 		.user-translations .user-info label { display: inline-block; height: 26px; line-height: 26px; }
 	.translation-details { 

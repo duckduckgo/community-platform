@@ -63,3 +63,4 @@ sample posts are in.
 * comments look and work better now.  was there anything else?
 
 The translations need a bigger split up
+* done - added more padding
