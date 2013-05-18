@@ -667,12 +667,13 @@ table th[class*="span"],
 */
 
 .site-main { position: relative; overflow: hidden; padding: 15px 0; }		
-	.intro-message { max-width: 90%; line-height: 1.38; margin: -30px auto 40px; }
+	.intro-message { max-width: 95%; line-height: 1.38; margin: -30px auto 40px; }
 		.page-home .intro-message { max-width: 85%; }		
 	.disclaimer{ padding: 0 17px; margin: 28px auto; }
 		.disclaimer h6, .disclaimer p{ font-size: 0.8em; line-height: 1.52; margin: 0; }
 
 .breadcrumb-nav { padding-bottom: 10px; min-height: 26px;}	
+	.breadcrumb-nav + h1 { margin-top: 0; }
 	.breadcrumbs { float: left; font-size: 0.9em; }
 	.breadcrumbs a { border-bottom: 1px solid #3262b4; }
 	.language_nav { float: right; margin-top: -5px; }

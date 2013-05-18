@@ -2,7 +2,7 @@
 	<form method="post" class="comment_reply js-hide" action="<: $u('Comment','add',$context,$context_id) :>">
 		<input type="hidden" name="from" value="<: $c.req.uri :>" />
 		<div class="my_comment">
-			<textarea rows="3" name="content" class="form-textarea" style="width:100%; margin-top:10px"></textarea>
+			<textarea rows="3" name="content" class="form-textarea"></textarea>
 		</div>
                 <div class="clear"></div>
 	        <input type="submit" name="add_comment" class="button submit" value="Submit" />

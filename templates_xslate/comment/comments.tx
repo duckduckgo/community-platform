@@ -1,15 +1,17 @@
-<section class="row comment tier1 max">
-	<: if $comments.count { :>
-		<: for $comments.list -> $comment { :>
-			<: include "comment/comment.tx" {no_reply=>$no_reply,comment_userpic_size=>48,comment=>$comment} :>
-		<: } :>
+
+<: if $comments.count { :>
+	<: for $comments.list -> $comment { :>
+	<section class="row comment tier1 max">
+		<: include "comment/comment.tx" {no_reply=>$no_reply,comment_userpic_size=>48,comment=>$comment} :>
+	</section>
 	<: } :>
-	<: if $c.user and !$no_reply { :>
-		<h5 class="comment_add_title">Add your comment</h5>
-		<: include "comment/add.tx" {context=>$comments.context,context_id=>$comments.context_id} :>
-	<: } elsif $no_reply { :>
-		<p>Replying has been disabled.</p>
-	<: } else { :>
-		<div class="alert warning">You must be logged in to comment. Please, <a href="<: $u('My','login') :>">Log in</a> or <a href="<: $u('My','register') :>">Register</a>.</div>
-	<: } :>
-</section>
+<: } :>
+<: if $c.user and !$no_reply { :>
+	<h5 class="comment_add_title">Add your comment</h5>
+	<: include "comment/add.tx" {context=>$comments.context,context_id=>$comments.context_id} :>
+<: } elsif $no_reply { :>
+	<p>Replying has been disabled.</p>
+<: } else { :>
+	<div class="notice alert warning">You must be logged in to comment. Please, <a href="<: $u('My','login') :>">Log in</a> or <a href="<: $u('My','register') :>">Register</a>.</div>
+<: } :>
+

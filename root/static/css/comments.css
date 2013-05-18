@@ -37,6 +37,10 @@
 			font-size: 1.5em;
 			position: relative;			
 			left: 6px;
+			top: 0;
+			display: inline-block;
+			height: 12px;
+			overflow:visible;
 		}
 		.voting + .comment-body .comment-meta { padding-right: 5px; }
 	.comment-foot {

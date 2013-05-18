@@ -92,14 +92,14 @@ $(document).ready(function() {
 	$('a.comment_reply_link').click(function(e){
 		e.preventDefault();
 		$(this).next('.comment_reply_cancel_link').fadeIn();
-		$(this).parents().children('.comment_reply').addClass('hide').removeClass('js-hide').fadeIn();
+		$(this).parents().children('.comment-body .comment_reply').addClass('hide').removeClass('js-hide').fadeIn();
 		$(this).hide();
 	});
 
 	$('a.comment_reply_cancel_link').click(function(e){
 		e.preventDefault();
 		$(this).prev('.comment_reply_link').fadeIn();
-		$(this).parents().children('.comment_reply').fadeOut();
+		$(this).parents().children('.comment-body .comment_reply').fadeOut();
 		$(this).hide();
 	});
 

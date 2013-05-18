@@ -2,13 +2,13 @@
 	<div class="content-wrap">
 		<: if $duckpan { :>
 			<div class="header-logo wide">			
-				<div class="logo"><img src="/static/img/logo_ddg_duckpan.png" alt="DuckPAN Perl Archive Network" /></div>
+				<div class="logo"><a href="<: $u('Root','index') :>"><img src="/static/img/logo_ddg_duckpan.png" alt="DuckPAN Perl Archive Network" /></a></div>
 				<h2>Duck<i>PAN</i></h2>
 				<h3>DuckDuckGo Perl Archive Network</h3>
 			</div>
 		<: } else { :>
 			<div class="header-logo">
-				<div class="logo"><img src="/static/img/logo_ddg_community.png" alt="DuckDuckGo Community Platform" /></div>
+				<div class="logo"><a href="<: $u('Root','index') :>"><img src="/static/img/logo_ddg_community.png" alt="DuckDuckGo Community Platform" /></a></div>
 				<h2>DuckDuck<i>Go</i></h2>
 				<h3>Community Platform</h3>			
 			</div>	
