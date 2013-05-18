@@ -153,6 +153,8 @@ sub add_user_translation {
 			},{
 				join => [qw( token_language_translation_votes )]
 			})->all;
+			my $count = scalar @votes;
+			p($count);
 			$self->create_related('token_language_translations',{
 				%{$translation},
 				username => $user->username,
