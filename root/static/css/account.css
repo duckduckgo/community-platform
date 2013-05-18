@@ -41,6 +41,8 @@
 	left: -8px;
 }	
 .account-box .select2-container .select2-choice div b { color: #60636a; }
+	.account-box .select2-container .select2-choice div b:after { border-top-color: #60636a; }
+	.account-box .select2-container .select2-choice div b:before  { border-bottom-color: #60636a; }
 .account-box .select2-container { height: 29px; }
 .no-js .account-box select { 
 	padding: 5px 3px 4px 8px; 

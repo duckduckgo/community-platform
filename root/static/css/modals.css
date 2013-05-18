@@ -3,7 +3,7 @@ Motices
 -------------------------------------------------- */
 .notice {
 	position: relative;
-	border: 1px solid #666;
+	border: 1px solid #999;
 	background: #eee;
 	-moz-border-radius: 5px;
 	-webkit-border-radius: 5px;
@@ -21,6 +21,16 @@ Motices
 		border-color: #E5BFBF;
 		background: #F6D4D4;
 		color: #C01300;
+	}
+	.notice.success {
+		border-color: #cdf2a8;
+		background: #e8fcd4;
+		color: #9fd06d;
+	}
+	.notice.info {
+		border-color: #b4e3f2;
+		background: #d4f2fc;
+		color: #6eb3ca;
 	}
 	
 	.notice .icn, .notice .close {
