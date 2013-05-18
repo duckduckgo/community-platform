@@ -9,7 +9,8 @@ sub base :Chained('/base') :PathPart('roboduck') :CaptureArgs(0) {
 	my $query = $c->req->param('q');
 	if ($query) {
 		my ( $answer, $id ) = $c->d->roboduck->tell(
-			$query, $c->user ? $c->user->username : 'Stranger'
+			$query,
+			$c->user ? $c->user->username : $c->sessionid
 		);
 		$c->stash->{answer} = $answer;
 	}
