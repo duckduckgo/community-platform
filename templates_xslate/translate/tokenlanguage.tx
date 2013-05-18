@@ -1,4 +1,3 @@
-
 <div class="content-box translate-snippets">	
 	<div class="head">		
 		<h2><: $token_language.token_domain_language.language.name_in_english :></h2>
@@ -14,6 +13,9 @@
 					<p>Not yet any translation in use</p>
 				<: } :>
 			</fieldset>
+		</div>
+		<div class="row mid">
+			<input type="submit" class="button blue big" name="save_translations" value="Submit translation" />
 		</div>
 	</div>
 </div>
