@@ -38,7 +38,7 @@
 				</div>
 			</div>
 			<div class="half">
-				<p class="agree-terms"><input type="checkbox" name="agree-terms" /> I agree to the DuckDuckGo Community Platform <a href="#">Terms of Use</a></p>
+				<p class="agree-terms"><input type="checkbox" name="agree-terms" /> I agree to the DuckDuckGo Community Platform <a href="https://duckduckgo.com/privacy" target="ddg-policy" title="DuckDuckGo Terms of use and Privacy Policy">Terms of Use</a></p>
 				<div class="half"><div class="input-wrap"><input type="submit" value="Create my account" class="button blue submit" name="register" /></div></div>
 			</div>		
 		</form>		
