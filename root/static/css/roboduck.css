@@ -1,3 +1,4 @@
+
 /*Classes*/
 /* MENU IN MOBILE MODE */
 .menu{
@@ -12,6 +13,12 @@
   box-shadow: 0px 1px 0px #ebebeb;
   transition-duration:0.4s;
 }
+.roboduck-input {
+	margin: 16px auto;
+	max-width: 600px;
+}
+	.roboduck-input .button { padding: 0 12px; }
+	
 /* TALK */
 .roboduck, .user{
   display:block;
@@ -34,7 +41,8 @@
   float:left;
   margin: 0 1em 1em 80px;
 }
-
+	.user:first-child, .roboduck:first-child { margin-top: 25px; }
+	
 .user:before{
   content:"";
   background:url("/static/img/darrow.png") no-repeat;
@@ -97,6 +105,7 @@
 }
 /* RESPONSIVE DESIGN */
 @media screen and (max-width:550px){
+  .roboduck, .user { min-width: auto; }
   .robicon{
     left: -50px;
     transition-duration:0.6s;

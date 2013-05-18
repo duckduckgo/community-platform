@@ -47,23 +47,12 @@
 <h1>Speak to Roboduck!</h1>
 <div class="form-border">
 	<div class="form-wrap">
-		<form action="javascript:;" onSubmit="fetch_response(duckfield.value)">
-			<div class="twothird">
-				<div class="input-wrap">
-					<input type="text" placeholder="Talk with RoboDuck" name="q" class="text" id="duckfield" />
-				</div>
-			</div>
-			<div class="third">
-				<div class="half">
-					<div class="input-wrap">
-						<input type="submit" name="send" value="Say to Roboduck" class="button" />
-					</div>
-				</div>
-			</div>
-			<div id="duckzone-user-avatar" class="usericon"><: include "user/userpic.tx" {user=>$c.user,userpic_size=>46} :></div>
-			<div id="duckzone">
-			</div>
+		<form action="javascript:;" onSubmit="fetch_response(duckfield.value)" class="one-field roboduck-input">			
+			<input type="text" placeholder="Talk with RoboDuck" name="q" class="text" id="duckfield" />		
+			<input type="submit" name="send" value="Say to Roboduck" class="button" />
 		</form>
+		<div id="duckzone-user-avatar" class="usericon"><: include "user/userpic.tx" {user=>$c.user,userpic_size=>46} :></div>
+		<div id="duckzone"></div>		
 	</div>
 </div>
 

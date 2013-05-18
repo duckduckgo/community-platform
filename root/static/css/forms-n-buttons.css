@@ -187,7 +187,7 @@ One-Fielded Function Forms
 	top: 0;
 	right: 0;	
 	background-color: #eaeaea;	
-	padding: 0;
+	padding: 0 4px;
 }
 	.one-field .button.icon-search { line-height: 1; }
 
