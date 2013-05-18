@@ -48,8 +48,9 @@
 		</section>
 		<section class="clear tab-mid">
 			<h5>Monthly Newsletter</h5>
-			<form class="one-field">				
-				<input type="email" class="text" placeholder="email" />
+			<form class="one-field" action="https://flash.duckduckgo.com/e.js" method="post">				
+				<input type="hidden" name="add" value="1">
+				<input type="email" class="text" placeholder="email" name="from" />
 				<button type="submit" class="button">GO</button>
 			</form>
 		</section>
