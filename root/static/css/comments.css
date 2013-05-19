@@ -160,9 +160,12 @@
 	.comment .comment .voting { top: 13px; }
 	.voting + .comment-body { margin-right: 0; }
 		.voting + .comment-body p { padding-right: 13px; }
-		.voting + .comment-body .comment-meta { padding-right: 16px; }	
+		.voting + .comment-body .comment-meta { padding-right: 16px; }
 		
 .comment_add_title { margin: 18px 0 0; }
+	/* for display on the translation page */
+	.row.comments .comment_add_title { margin: 0 0 8px; color: #8f8f8f; font-size: 1em; float: left; width: 131px; }
+	.row.comments .tier1-new { margin-right: 13px; }
 	
 /* simple control of comment tiers - broken up to be easier to read and comprehend */
 .min.tier1 .comment.tier2, .min.tier1 .max-msg, .max.tier1 .min-msg, .min.tier1 .comment-meta .comment-toggle { display: none; }
@@ -202,7 +205,7 @@
 	.voting + .comment-body { margin-right: 0; }
 		.voting + .comment-body p { padding-right: 13px; }
 		.voting + .comment-body .comment-meta { padding-right: 16px; }	
-	.comment-body, .comment-body .comment-body { margin: 0; }
+	.comment-body, .comment-body .comment-body, .row.comments .tier1-new { margin: 0; }
 		.comment .user-avatar { display: none; }
 		.comment-body:after, .comment-body:before { 
 			display: none;

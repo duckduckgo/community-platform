@@ -1,10 +1,11 @@
-<form action="<: $u('Translate','tokenlanguage',$token_language.id) :>" method="post">
+
 
 <div class="content-box translate-snippets">	
 	<div class="head">		
 		<h2><: $token_language.token_domain_language.token_domain.name :> in <: $token_language.token_domain_language.language.name_in_english :></h2>
 	</div>
 	<div class="body">
+	  <form action="<: $u('Translate','tokenlanguage',$token_language.id) :>" method="post">
 		<div class="row">
 			<: include "translate/tokens/token_language.tx" :>
 			
@@ -26,8 +27,10 @@
 				<input type="submit" class="button blue big" name="save_translation" value="Submit translation" />
 			</div>
 		<: } :>
-		<: include "comment/comments.tx" { comments => $c.d.comments('DDGC::DB::Result::Token::Language', $token_language.id) } :>
+	  </form>
+		<div class="row comments">
+			<: include "comment/comments.tx" { comments => $c.d.comments('DDGC::DB::Result::Token::Language', $token_language.id) } :>
+		</div>
 	</div>
 </div>
 
-</form>
