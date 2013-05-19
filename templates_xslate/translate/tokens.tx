@@ -25,9 +25,11 @@
 			<: for results($token_languages) -> $token_language { :>
 				<: include "translate/tokens/token_language.tx" { token_language => $token_language } :>
 			<: } :>
-			<div class="row mid">
-				<input type="submit" class="button blue big" name="save_translations" value="Submit All Translations" />
-			</div>
+			<: if $user_can_speak { :>
+				<div class="row mid">
+					<input type="submit" class="button blue big" name="save_translations" value="Submit All Translations" />
+				</div>
+			<: } :>
 			<div class="row nav">			
 				<: include "translate/tokens/nav_paging.tx" :>
 				<: include "translate/tokens/nav.tx" :>
