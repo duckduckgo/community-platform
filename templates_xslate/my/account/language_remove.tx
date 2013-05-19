@@ -1,7 +1,7 @@
-<div id="confirm-dialog" class="reveal-modal modal-dialog modal-form">
+<div id="confirm-dialog<: $lang_id :>" class="reveal-modal modal-dialog modal-form">
 	<h4>Are you sure you want to remove this language?</h4>
 	<fieldset class="buttons">
 		<span class="half"><input type="button" value="Nevermind" class="button close-modal"/></span>
-		<span class="half"><input type="submit" value="Yes, Remove" class="button blue submit close-modal" /></span>	
+		<span class="half"><a class="button blue submit" href="<: $u('My','account',{ remove_language => $lang_id }) :>">Yes, Remove</a></span>	
 	</fieldset>		
 </div>
