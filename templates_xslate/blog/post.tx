@@ -21,7 +21,7 @@
 		</div>
 
 	</section>		
-	
+	<a name="comments"></a>
 	<: include "comment/comments.tx" { comments => $c.d.comments('dukgo.com-blog-' ~ $post.uri, 1) } :>
 
 </article>	
