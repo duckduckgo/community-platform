@@ -21,7 +21,9 @@
 	</div> <!--.site-main-->
 	<: include "footer.tx" :>
   </div> <!--wrapper-->
-  <: # include "modal_login.tx" # Why is there a broken login form hidden in the base template? :>
+  <: if !$c.user { :>
+  <: include "modal_login.tx" :>
+  <: } :>
   <: include "scripts.tx" :>
 </body>
 </html>

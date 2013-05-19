@@ -57,10 +57,11 @@
 	ul.user-translations, ul.translation-details { list-style: none; }
 	
 	.user-translations li { margin-bottom: 10px; }
-	.user-translations .user-info { padding: 6px 0 9px; letter-spacing: -0.07em; height: 26px; display: inline-block; }
-		.user-translations .user-info + label, .user-translations .own-translation { font-size: 0.8em; display: block; line-height: 1; }
-		.user-translations .user-info img { width: 26px; display: block; float: left; margin-right: 11px; }
-		.user-translations .user-info label { display: inline-block; height: 26px; line-height: 26px; }
+	.user-translations .user-info, .user-translations .user-info + label, .user-translations .own-translation { padding: 1px 0 9px; height: 26px; display: inline-block; }		
+		.user-translations .user-info + label, .user-translations .own-translation { font-size: 0.8em; }
+		.user-translations .user-info { letter-spacing: -0.07em; padding-left: 37px; position: relative; }	
+			.user-translations .user-info img { width: 26px; display: block; margin-right: 11px; position: absolute; top: 1px; left: 0; }
+			.user-translations .user-info label { display: inline-block; height: 26px; line-height: 26px; }
 	.translation-details { 
 		background: #f7f7f7; 
 		padding: 12px 13px; 

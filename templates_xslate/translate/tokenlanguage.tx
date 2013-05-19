@@ -1,4 +1,4 @@
-<form target="<: $u('Translate','tokenlanguage',$token_language.id) :>" method="post">
+<form action="<: $u('Translate','tokenlanguage',$token_language.id) :>" method="post">
 
 <div class="content-box translate-snippets">	
 	<div class="head">		
@@ -21,7 +21,7 @@
 				</div>
 			</fieldset>
 		</div>
-		<div class="row mid">
+		<div class="row mid token-submit <: if $token_language.translations.size() { :>js-hide<: } :>">
 			<input type="submit" class="button blue big" name="save_translation" value="Submit translation" />
 		</div>
 		<: include "comment/comments.tx" { comments => $c.d.comments('DDGC::DB::Result::Token::Language', $token_language.id) } :>

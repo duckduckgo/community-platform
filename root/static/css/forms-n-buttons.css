@@ -153,7 +153,8 @@ Modal Forms
 .modal-form form { width: 97%; margin: 0 auto; }
 .modal-form form .buttons { margin: 40px auto 0; position: relative; }	
 	
-	.modal-form .buttons .button { height: 34px; line-height: 20px; }
+	.modal-form .buttons .button { height: 34px; line-height: 20px; padding: 0; }
+		.modal-form .buttons a.button { line-height: 34px; }
 	.modal-form .buttons .half .button { width: 140px; float: left; font-size: 16px; margin: 0; }
 	.modal-form .buttons .half + .half .button { float: right; }
 	
