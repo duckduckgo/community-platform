@@ -10,13 +10,13 @@
 		
 		<div class="post-actions">
 			<span class="action-item">
-				<a href="blog_comments.html" class="comments-link"><i class="icon-bubble"></i> <: $c.d.comments('Blog-' ~ $post.uri, 1).count :></a>
+				<a href="<: $u('Blog','post',$post.uri) :>#comments" class="comments-link"><i class="icon-bubble"></i> <: $c.d.comments('Blog-' ~ $post.uri, 1).count :></a>
 			</span>
 			<span class="action-item">
-				<a href="#" class="button blue fb"><i class="icon-facebook"></i> Share</a>
+				<a href="https://facebook.com/sharer.php?u=<: $u('Blog','post',$post.uri) :>" class="button blue fb" target="_facebook-share"><i class="icon-facebook"></i> Share</a>
 			</span>
 			<span class="action-item">
-				<a href="#" class="button blue tw"><i class="icon-twitter"></i> Tweet</a>
+				<a href="https://twitter.com/?status=<: $u('Blog','post',$post.uri) :>" class="button blue tw" target="_twitter-share"><i class="icon-twitter"></i> Tweet</a>
 			</span>
 		</div>
 
