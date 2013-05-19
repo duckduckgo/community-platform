@@ -1,6 +1,5 @@
 <: my $translations = $token_language.translations :>
 <: my $own_translation = $token_language.latest_own_translation($c.user) :>
-<: my $user_can_speak = $c.user.can_speak($token_language.token_domain_language.language.locale) :>
 <: my $hide_field = "Hide translation field" :>
 <: my $show_field = "Add your own translation" :>
 
@@ -103,7 +102,7 @@
 					<a href="javascript:" class="button add-translations">Add your own translation</a>
 					<ul class="user-translations"> 
 						<: for $token_language.translations -> $translation { :>
-							<: include "translate/tokens/token_language_translation.tx" { translation => $translation, user_can_speak => $user_can_speak } :>
+							<: include "translate/tokens/token_language_translation.tx" { translation => $translation } :>
 						<: } :>
 					</ul>
 				</div>

@@ -24,6 +24,7 @@
 		<div class="row mid">
 			<input type="submit" class="button blue big" name="save_translation" value="Submit translation" />
 		</div>
+		<: include "comment/comments.tx" { comments => $c.d.comments('DDGC::DB::Result::Token::Language', $token_language.id) } :>
 	</div>
 </div>
 

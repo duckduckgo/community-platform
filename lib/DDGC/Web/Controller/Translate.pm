@@ -47,6 +47,7 @@ sub tokenlanguage :Chained('logged_in') :Args(1) {
 		$c->response->redirect($c->chained_uri('Translate','index'));
 		return $c->detach;
 	}
+	$c->stash->{user_can_speak} = $c->user->can_speak($c->stash->{token_language}->token_domain_language->language->locale);
 	$c->stash->{hide_tokenlanguage_discuss} = 1;
 	$c->add_bc(
 		'Token #'.$c->stash->{token_language}
@@ -157,6 +158,7 @@ sub locale :Chained('domain') :PathPart('') :CaptureArgs(1) {
 	return $c->go($c->controller('Root'),'default') unless $c->stash->{cur_language};
 	$c->stash->{token_domain_language} = $c->stash->{locales}->{$c->stash->{locale}}->{tcl};
 	$c->session->{cur_locale}->{$c->stash->{token_domain}->key} = $c->stash->{locale};
+	$c->stash->{user_can_speak} = $c->user->can_speak($c->stash->{locale});
 	$c->add_bc($c->stash->{cur_language}->name_in_english, $c->chained_uri('Translate','tokens',$c->stash->{token_domain}->key,$c->stash->{locale}));
 }
 
