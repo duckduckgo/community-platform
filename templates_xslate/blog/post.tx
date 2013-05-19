@@ -22,6 +22,6 @@
 
 	</section>		
 	
-	<: include "comment/comments.tx" { comments => $c.d.comments('https://dukgo.com/blog/' ~ $post.uri, 1) } :>
+	<: include "comment/comments.tx" { comments => $c.d.comments('dukgo.com-blog-' ~ $post.uri, 1) } :>
 
 </article>	
