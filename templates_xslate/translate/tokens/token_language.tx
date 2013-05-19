@@ -31,7 +31,7 @@
 	<: } :>
 	</div>	
 	<: if $user_can_speak { :>
-		<div class="row user-translation<: if $token_language.translations.size() { :> hide<: } :>">
+		<div class="row user-translation <: if $token_language.translations.size() { :>js-hide<: } :>">
 			<div class="label"></div>
 			<div>
 			<: if $token_language.token.msgctxt || $token_language.token.has_placeholders { :>
@@ -62,13 +62,14 @@
 			</div>
 		</div>
 			<: for [ 0..$token_language.max_msgstr_index ] -> $n { :>
-		<div class="row">
+		<div class="row user-translation <: if $token_language.translations.size() { :>js-hide<: } :>">
 				<: my $func = "msgstr" ~ $n :>
 			<div class="label"><label class="form_input-label" for="token_language_<: $token_language.id :>_<: $func :>">
 					<: if $n == 0 { :>Singular<: } else if $n == 1 { $n :>st Plural Form<: } else if $n == 2 { $n :>nd Plural Form<: } else { $n :>th Plural Form<: } :>
 				</label></div>
 			<div><input type="text" class="token-input" <: if $token_language.token_domain_language.language.rtl { :>dir="rtl" <: } :>id="token_language_<: $token_language.id :>_<: $func :>" name="token_language_<: $token_language.id :>_<: $func :>" onkeyup="placeholder_check(this, '<: $n == 0 ? $token_language.token.msgid : replace($token_language.token.msgid_plural, "'", "\\'") :>');" value="<: call_if($own_translation,$func) :>" autocomplete="off" placeholder="Translate '<: $n == 0 ? $token_language.token.msgid : $token_language.token.msgid_plural :>' <: if $token_language.token.msgctxt { :> in context of '<: $token_language.token.msgctxt :>' <: } :>into <: $token_language.token_domain_language.language.name_in_english :>"></div>
-			<: } :>
+		</div>
+			<: } :>		
 	<: } :>
 
 	<: if $token_language.token.notes || $token_language.notes { :>

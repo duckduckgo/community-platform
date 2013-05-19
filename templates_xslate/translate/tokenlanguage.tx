@@ -21,7 +21,7 @@
 				</div>
 			</fieldset>
 		</div>
-		<div class="row mid">
+		<div class="row mid js-hide token-submit">
 			<input type="submit" class="button blue big" name="save_translation" value="Submit translation" />
 		</div>
 	</div>
