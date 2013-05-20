@@ -192,10 +192,11 @@ sub users {{
 		pw => '1234test',
 		public => 1,
 		roles => 'translation_manager',
-		notes => 'Testuser, public, us, ar',
+		notes => 'Testuser, public, us, ar, de',
 		languages => {
 			us => 6,
 			ar => 5,
+			de => 4,
 		},
 	},
 	'testfour' => {
@@ -395,10 +396,10 @@ sub token_domains {{
 		snippets => [
 			'Hello %s', [
 				testone => [
-					de => 'Hallo %s', [qw( testthree testfour )],
 					us => 'Heeellloooo %s', [],
 				],
 				testthree => [
+					de => 'Hallo %s', [qw( testthree testfour )],
 					us => 'Welcome %s', [],
 				],
 				testfour => [
@@ -411,11 +412,11 @@ sub token_domains {{
 			],
 			'You are %s from %s', [
 				testone => [
-					de => 'Du bist %s aus %s', [],
-					de => 'Der %s isse aus %s', [],
 					us => 'You, ofda %2$s u %1$s', [],
 				],
 				testthree => [
+					de => 'Du bist %s aus %s', [],
+					de => 'Der %s isse aus %s', [],
 					us => 'You are %s from %s', [],
 				],
 				testfive => [
@@ -425,10 +426,10 @@ sub token_domains {{
 			],
 			\'testarea','Yes dude %s %s %s', [
 				testone => [
-					de => "Jawohl %s \n Der %s Herr %s", [],
 					us => 'Yeah %s douche %s %s', [],
 				],
 				testthree => [
+					de => "Jawohl %s \n Der %s Herr %s", [],
 					us => 'Yes dude %s %s %s', [],
 				],
 				testfive => [
@@ -438,10 +439,10 @@ sub token_domains {{
 			],
 			\'email', 'You have %d message', 'You have %d messages', [
 				testone => [
-					de => 'Du hast %d Nachricht', 'Du hast %d Nachrichten', [],
 					us => 'Yu hav %d meage', 'Yuuu hve %d meages', [],
 				],
 				testthree => [
+					de => 'Du hast %d Nachricht', 'Du hast %d Nachrichten', [],
 					us => 'You have %d message', 'You have %d messages', [],
 				],
 				testfive => [
@@ -451,10 +452,10 @@ sub token_domains {{
 			],
 			'You have %d message', 'You have %d messages', [
 				testone => [
-					de => 'Du hast "%d" Nachricht', 'Du hast "%d" Nachrichten', [],
 					us => 'Yu hav %d meage', 'Yuuu hve %d meages', [],
 				],
 				testthree => [
+					de => 'Du hast "%d" Nachricht', 'Du hast "%d" Nachrichten', [],
 					us => 'You have %d message', 'You have %d messages', [],
 				],
 				testfive => [

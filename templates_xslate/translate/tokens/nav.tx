@@ -1,6 +1,6 @@
 <div class="right token-filter">		
 	<a href="<: $u('Translate','alltokens',$token_domain.key,$cur_language.locale) :>" class="button">Token Overview</a>
-	<a href="<: $u('Translate','locale_comments',$token_domain.key,$cur_language.locale) :>" class="button">Discuss</a>
+	<a href="<: $u('Translate','localecomments',$token_domain.key,$cur_language.locale) :>" class="button">Discuss</a>
 	<: if $only_untranslated { :>
 		<a href="<: $u('Translate','tokens',$token_domain.key,$cur_language.locale) :>" class="button">Show All Tokens</a>
 	<: } else { :>
