@@ -205,7 +205,9 @@
 				}
 	.sidebar ul a { color: #474747; text-decoration: none; }
 		.sidebar ul a:hover { color: #979797; }
-	
+		.sidebar ul a.rss { color: #ec8547; }
+			.sidebar ul a.rss:hover { color: #fb965a; }
+			
 	.sidebar-social .icons { text-align: center; }
 	.sidebar-social .icon {
 		display: inline-block;
