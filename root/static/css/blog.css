@@ -102,6 +102,8 @@
 .post-snippet, .post-body {
 	margin: 0 88px 48px 75px;
 }
+	.blog-content .notice { margin-right: 88px; }
+	
 	.post-snippet .more-link { 
 		display: block; 
 		color: #771700;
@@ -248,6 +250,7 @@
 		.sidebar .tab-half h5, .tab-mid h5 { text-align: left; }
 	.blog-content { width: auto; margin: 0 8px 10px; }
 	.post-snippet, .post-body { margin: 0 auto 48px; }
+		.blog-content .notice { margin-right: auto; }
 	.date-box { display: none; }
 	.blog-content h2 { font-size: 1.8em; }
 	.author-photo img { width: 100px; }
