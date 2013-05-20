@@ -14,16 +14,20 @@
 			<span class="translation-invalid group">INVALID!</span>
 		<: } else { :>
 			<span class="translation-vote group">
-				<a href="<: $u('Translate', 'vote_view', $translation.id, 1):>"
-					class="vote_link button" 
-					<: if !$user_can_speak { :>disabled="disabled" title="You are not allowed to vote because you do not speak this language."<: } :>
-					<: if $c.user.id == $translation.users_id { :>disabled="disabled" title="You can't vote on your own translations."<: } :> >
-						<: if $translation.user_voted($c.user) { :>
-							<i class="check checked icon-ok"></i>
-						<: } else { :>
-							<i class="check icon-ok"></i>
-						<: } :>
-				</a>
+				<: if $translation.user.id != $c.user.id { :>
+					<a href="<: $u('Translate', 'vote_view', $translation.id, 1):>"
+						class="vote_link button" 
+						<: if !$user_can_speak { :>disabled="disabled" title="You are not allowed to vote because you do not speak this language."<: } :>
+						<: if $c.user.id == $translation.users_id { :>disabled="disabled" title="You can't vote on your own translations."<: } :>
+							<: if $translation.user_voted($c.user) { :>
+								href="<: $u('Translate', 'vote_view', $translation.id, 0):>">
+								<i class="check checked icon-ok"></i>
+							<: } else { :>
+								href="<: $u('Translate', 'vote_view', $translation.id, 1):>">
+								<i class="check icon-ok"></i>
+							<: } :>
+					</a>
+				<: } :>
 				<span class="vote-tally"><: $translation.vote_count :></span>
 			</span>
 		<: } :>
