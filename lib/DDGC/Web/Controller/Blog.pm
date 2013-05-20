@@ -8,6 +8,7 @@ BEGIN {extends 'Catalyst::Controller'; }
 
 sub base :Chained('/base') :PathPart('blog') :CaptureArgs(0) {
 	my ( $self, $c ) = @_;
+	$c->stash->{page_class} = "page-blog texture";
 	push @{$c->stash->{template_layout}}, 'blog/base.tx';
 	$c->stash->{topics} = $c->d->blog->topics;
 	$c->add_bc("Blog", $c->chained_uri('Blog', 'index'));
