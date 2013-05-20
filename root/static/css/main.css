@@ -705,6 +705,7 @@ table th[class*="span"],
 		-webkit-background-clip: padding-box; 
 		background-clip: padding-box;
 		margin-bottom: -1px;
+		position: relative;
 	}
 		.content-box .head h2, .content-box .head h3, .content-box .head h4, .content-box .head h5 { 
 			display: inline-block;
@@ -713,6 +714,10 @@ table th[class*="span"],
 			font-weight: normal; 
 			font-size: 20px; 
 		}
+			.content-box .head h2 a, .content-box .head h3 a, .content-box .head h4 a, .content-box .head h5 a {
+				color: inherit;
+			}
+			
 		.content-box .head i[class*='icon'] { 
 			color: #be9c43; 
 			text-shadow: -1px 0 1px rgba(255,255,255,0.1);
@@ -721,6 +726,12 @@ table th[class*="span"],
 			position: relative;
 			top: -2px;
 		}
+		.content-box .head .userpic {
+			position: absolute; 
+			top: 7px;
+			left: 9px;
+		}
+			.content-box .head .userpic + h2 { padding-left: 42px; }
 		
 	.content-box .body {
 		color: #color: #48505b;
