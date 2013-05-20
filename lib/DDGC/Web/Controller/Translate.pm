@@ -245,7 +245,7 @@ sub tokens :Chained('locale') :Args(0) {
 	if ($c->req->params->{token_search}) {
 		$c->stash->{token_search} = $c->req->params->{token_search};
 		$c->stash->{token_languages} = $c->stash->{locales}->{$c->stash->{locale}}->{tcl}->search_tokens($c->stash->{page},$c->stash->{pagesize},$c->stash->{token_search});
-	} elsif ($c->req->params->{only_untranslated}) {
+	} elsif ($c->req->params->{only_untranslated}+0) {
 		$c->stash->{only_untranslated} = 1;
 		$c->stash->{token_languages} = $c->stash->{locales}->{$c->stash->{locale}}->{tcl}->untranslated_tokens($c->stash->{page},$c->stash->{pagesize});
 	} elsif (defined $c->req->params->{only_msgctxt}) {

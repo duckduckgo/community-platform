@@ -1,5 +1,5 @@
 <select class="autosubmit pagenum" name="pagesize" id="pagesize">
 	<: for $pagesize_options -> $pagesize_option { :>
-		<option value="<@ pagesize_option @>"<: if $pagesize_option == $pagesize { :> selected="selected"<: } :>><: $pagesize_option :></option>
+		<option value="<: $pagesize_option :>"<: if $pagesize_option == $pagesize { :> selected="selected"<: } :>><: $pagesize_option :></option>
 	<: } :>
 </select>

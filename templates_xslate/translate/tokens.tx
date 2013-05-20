@@ -33,7 +33,7 @@
 				</div>
 			<: } :>
 			<div class="row nav">			
-				<: include "translate/tokens/nav_paging.tx" :>
+				<!-- Doesn't work 2 times in the form - TODO <: include "translate/tokens/nav_paging.tx" :> -->
 				<: include "translate/tokens/nav.tx" :>
 			</div>
 		<: } :>		

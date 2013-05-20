@@ -8,6 +8,5 @@
 		<: include "pager/pagesize.tx" { pager => $token_languages.pager } :>
 		<label for="pagesize">per page</label> 
 	</div>
-	<input type="hidden" name="only_untranslated" value="1">
 	<input type="submit" value="Go" class="button js-hide" />
 </div>
