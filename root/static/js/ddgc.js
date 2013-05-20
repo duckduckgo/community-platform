@@ -74,7 +74,7 @@ $(document).ready(function() {
 		e.preventDefault();
 		var vote_count = $(this).siblings().first();
 		var parent = $(this).parent();
-		var checkmark = $(this)
+		var checkmark = $(this);
 		$.ajax({
 			url: $(this).attr('href'),
 			beforeSend: function(xhr) {				
@@ -84,7 +84,12 @@ $(document).ready(function() {
 			},
 			success: function(data) {				
 				parent.children('.loading-image').hide();
-				parent.addClass('voted');
+				parent.toggleClass('voted');
+				checkmark.children(":first").toggleClass('checked');
+				if (checkmark.attr('href').match(/1$/))
+					checkmark.attr('href', checkmark.attr('href').replace(/1$/, '0'));
+				else if (checkmark.attr('href').match(/0$/))
+					checkmark.attr('href', checkmark.attr('href').replace(/0$/, '1'));
 				vote_count.html(data.vote_count);				
 			}
 		});
