@@ -1,0 +1,16 @@
+<p>The redesign for this platform had a few very specific requirements, and a clear goal. Here's how I identified and attempted to meet those goals&hellip;</p>
+<!-- break -->
+<h3>&ldquo;No F***ing Workarounds&rdquo;</h3>
+<p>Rule number 1 for rebuilding the front-end of this platform was that we're not living with anything sub-standard.  If something wasn't working quite right re-do it correctly.  As a result I scrapped all of the old CSS in favour of a complete re-write.</p>
+<h5>&ldquo;HTML structure that makes it easy to reuse and combine elements&rdquo;</h5>
+<p>Another key to this development was to make the markup make sense.  It may not be perfect SMACSS, but the classes and functions are predictable, and require minimal markup to realize new features while still retaining a crisp and polished look without too much "style bleed" from more generic class names. (e.g. <tt>.half</tt> for grid sizing, <tt>.button</tt> for buttons).</p>
+<p>This also </p>
+<h5>&ldquo;The code should at least 'work' without Javascript&rdquo;</h5>
+<p>This was a bit of an interesting case.  Given DuckDuckGo's audience, it's easy to assume that many users prefer to browse with JavaScript turned off.  This means that some thought had to go into user flow and functionality for both JS-enabled users as well as those without.  "Sorry you need to turn JavaScript on" wasn't acceptable.</p>
+<p>I took a page out of modernizr by using <tt>.no-js</tt> on the <tt>&lt;html&gt;</tt> element, and replacing it with <tt>.js</tt>.  This allowed me to selectively hide and show required elements (like submit buttons on JS autosubmit forms) with <tt>.js-hide</tt> and <tt>.no-js-hide</tt>.  It's a little detail, but required some extra thought.</p>
+<h5>Flexible and mobile friendly</h5>
+<p>This wasn't built "mobile-first" like you may have seen before, but it wasn't meant to still work on smaller screens.  This was done by hand, just looking for break points and adding media queries where necessary.  Nothing fancy here. :)</p>
+<h5>Open Source and Accessible</h5>
+<p>Because this entire platform is open source, it was also determined that we'd eschew a CSS preprocessor.  This would allow others to contribute and tweak without having to know how SASS or LESS or stylus works.  This was actually pretty interesting because it forced me to really think about how classes are used, when to include parent selectors, and 'manually @extend' to keep the code maintainable as times goes on.</p>
+<h5>A Happy Medium?</h5>
+<p>I tried to find a good balance between having a rock-solid CSS platform and staying loose enough to make it <em>easy</em> for others to write in new features that look great.  I'd really appreciate your input on how you think it all came out.  There are probably a few bone-headed moves in there somewhere, but hopefully it's easy enough to understand that you'll be able to spot where it went wrong.</p>
