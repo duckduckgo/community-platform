@@ -409,6 +409,11 @@ sub token_domains {{
 					ru => 'Привет %s', [qw( testthree testfour )],
 					us => 'Welcomee %s', [],
 				],
+				notes => {
+					token => 'This is a token note',
+					de => 'Das ist eine deutsche Information',
+					us => 'Thats an american information',
+				},
 			],
 			'You are %s from %s', [
 				testone => [
@@ -436,6 +441,11 @@ sub token_domains {{
 					ru => 'Привет %s %s %s', [],
 					us => 'Welcomee %s %s %s', [],
 				],
+				notes => {
+					token => 'This is a token note',
+					de => 'Das ist eine deutsche Information',
+					us => 'Thats an american information',
+				},
 			],
 			\'email', 'You have %d message', 'You have %d messages', [
 				testone => [
@@ -449,6 +459,10 @@ sub token_domains {{
 					ru => 'У вас %d сообщение', 'У вас %d сообщения', 'У вас %d сообщений', [],
 					us => 'You have %d mssage', 'You have %d messges', [],
 				],
+				notes => {
+					de => 'Das ist eine deutsche Information',
+					us => 'Thats an american information',
+				},
 			],
 			'You have %d message', 'You have %d messages', [
 				testone => [
@@ -462,6 +476,9 @@ sub token_domains {{
 					ru => 'У вас %d сообщение', 'У вас %d сообщения', 'У вас %d сообщений', [],
 					us => 'You have %d mssage', 'You have %d messges', [],
 				],
+				notes => {
+					token => 'This is a token note',
+				},
 			],
 			'No idea', [],
 			'Leave me alone', 'Leave me alone', [],
