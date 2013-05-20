@@ -10,12 +10,11 @@
 			</a>
 			<div class="body">
 				<h3>Help us translate DuckDuckGo into your languages.</h3>
-				<!-- <ul> 
-					<li>Nunc diam velit, adipiscing ut tristique</li>
-					<li>Maecenas convallis ullamcorper ultricies</li>
-					<li>Curabitur ornare, ligula semper consectetur sagittis, nisi diam iaculis velit, id fringilla sem nunc vel mi.</li>
-					<li>Nam dictum, odio nec pretium volutpat, arcu ante placerat erat, non tristique elit urna et turpis.</li>
-				</ul> --> 
+				<ul> 
+					<li>Use this platform to translate DuckDuckGo into your language.</li>
+					<li>Your contributions are attributed to you!</li>
+					<li>Discuss the translation of tricky terms with others in the community.</li>					
+				</ul>
 				<a href="<: $u('Translate','index') :>" class="cta"><i class="icon-circle-arrow-right"></i>Help Translate DuckDuckGo</a>
 			</div>
 		</div>
@@ -28,12 +27,12 @@
 			</div>
 			<div class="body">
 				<h3>Pitch in and help us improve this community platform.</h3>
-				<!-- <ul>
-					<li>Nunc diam velit, adipiscing ut tristique</li>
-					<li>Maecenas convallis ullamcorper ultricies</li>
-					<li>Curabitur ornare, ligula semper consectetur sagittis, nisi diam iaculis velit, id fringilla sem nunc vel mi.</li>
-					<li>Nam dictum, odio nec pretium volutpat, arcu ante placerat erat, non tristique elit urna et turpis.</li>
-				</ul> --> 
+				<ul>					
+					<li>Completely Open Source platform powered by the Perl programming language</li>
+					<li>Extend and improve user flow.</li>
+					<li>Runs locally on any linux machine</li>
+					<li></li>
+				</ul>
 				<a href="https://github.com/duckduckgo/community-platform" class="cta"><i class="icon-circle-arrow-right"></i>Developing this community platform</a>
 			</div>
 		</div>
@@ -46,12 +45,11 @@
 			</div>
 			<div class="body">
 				<h3>Develop on DuckDuckGo.<br/>Hack with us!</h3>
-				<!-- <ul>
-					<li>Nunc diam velit, adipiscing ut tristique</li>
-					<li>Maecenas convallis ullamcorper ultricies</li>
-					<li>Curabitur ornare, ligula semper consectetur sagittis, nisi diam iaculis velit, id fringilla sem nunc vel mi.</li>
-					<li>Nam dictum, odio nec pretium volutpat, arcu ante placerat erat, non tristique elit urna et turpis.</li>
-				</ul> -->
+				<ul>
+					<li>A great way to get started with open-source.</li>
+					<li>Improve search results for things <em>you</em> care about.</li>	
+					<li>Use open data and APIs, even yours.</li>
+				</ul>
 				<a href="http://duckduckhack.com/" class="cta"><i class="icon-circle-arrow-right"></i>Develop on DuckDuckGo</a>
 			</div>
 		</div>
