@@ -233,8 +233,8 @@ Buttons
 	-o-box-sizing: content-box;
 	box-sizing: content-box;
 }
-	.half .button, .third  .button, .twothird  .button, .quarter .bntton, .sixth .button { 
-		width: 95%; margin: 0 2.5%; 
+	.half > .button, .third  > .button, .twothird  > .button, .quarter > .button, .sixth > .button { 
+		width: 95%; margin: 0 2.5%; padding: 4px 0;
 	}	
 		.input-wrap .button { width: 100%; margin: 0 auto; padding: 0; }		
 	
