@@ -1,7 +1,0 @@
-<@ FOREACH entry IN entries @>
-<h2><@ entry.title @></h2>
-<@ entry.date @>
-<br><br><br>
-<@ entry.html @>
-<@ INCLUDE comment/comments.tt comments=c.d.comments(entry.uri,1) @>
-<@ END @>

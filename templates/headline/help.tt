@@ -1,3 +1,0 @@
-<@ IF help @>
-  <@ help.name @>
-<@ END @>

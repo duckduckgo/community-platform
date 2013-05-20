@@ -83,7 +83,7 @@ sub next_step {
 	$self->current_step($step);
 }
 
-sub step_count { 550 }
+sub step_count { 525 }
 
 sub isa_ok { ::isa_ok($_[0],$_[1]) if shift->test }
 sub is { ::is($_[0],$_[1],$_[2]) if shift->test }

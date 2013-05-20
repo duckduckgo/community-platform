@@ -93,6 +93,13 @@
 					</a>
 				</div>
 			</div>
+			<: if $c.user.public { :>
+				<div class="row callout-row">
+					<a href="<: $u('Userpage','home',$c.user.username) :>">
+						<i class="icon-circle-arrow-right right"></i><h3 class="icon"><i class="icon-globe"></i> Check out your userpage. (Soon more)</h3>
+					</a>
+				</div>
+			<: } :>
 		</div>
 	</div>
 
@@ -102,7 +109,7 @@
 		</div>
 		<div class="body">
 			<div class="row">			
-				<p>We provide a public XMPP/Jabber server bound to this account, which you can add to your prefered client. You can find a list of clients <a href="http://xmpp.org/xmpp-software/clients/" target="_blank">here</a>. XMPP is an open-standard instant communication protocol, like ICQ, MSN or Yahoo. More information you can find on the <a href="http://en.wikipedia.org/wiki/Jabber" target="_blank">Wikipedia Page</a>. You can see directions of how to get set up using the Pidgin client <a href="https://duck.co/topic/duckduckgo-s-new-public-xmpp-jabber-service-on-dukgo-com" target="_blank">here</a>.</p>
+				<p>We provide a public XMPP/Jabber server bound to this account, which you can add to your prefered client. You can find a list of clients <a href="http://xmpp.org/xmpp-software/clients/">here</a>. XMPP is an open-standard instant communication protocol, like ICQ, MSN or Yahoo. More information you can find on the <a href="http://en.wikipedia.org/wiki/Jabber">Wikipedia Page</a>. You can see directions of how to get set up using the Pidgin client <a href="<: $u('Blog','post','using-pidgin-with-xmpp-jabber') :>">here</a>.</p>
 				<p>
 				  <strong>Username:</strong> <: $c.user.username :><br/>
 				  <strong>Domain:</strong> <: $xmpp_userhost :><br/>

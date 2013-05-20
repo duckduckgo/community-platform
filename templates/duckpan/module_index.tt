@@ -1,2 +1,0 @@
-<@ duckpan_module_pod @>
-<@ INCLUDE comment/comments.tt comments=c.d.comments(duckpan_module,1) @>

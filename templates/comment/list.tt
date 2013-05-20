@@ -1,3 +1,0 @@
-<@ FOR comment IN latest_comments @>
-	<@ INCLUDE comment/teaser.tt @>
-<@ END @>

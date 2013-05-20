@@ -1,5 +1,0 @@
-<h2><@ entry.title @></h2>
-<@ entry.date @>
-<br><br><br>
-<@ entry.html @>
-<@ INCLUDE comment/comments.tt comments=c.d.comments(url,1) @>
