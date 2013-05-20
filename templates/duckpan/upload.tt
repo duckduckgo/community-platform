@@ -1,8 +1,0 @@
-<div>Username: <@ c.user.username @></div>
-<@ IF no_user @>
-	<div>Error: Not logged in / login failed</div>	
-<@ ELSIF duckpan_return.error @>
-	<div>Error: <@ duckpan_return.error @></div>
-<@ ELSE @>
-	<div>Accepted: <@ duckpan_return.filename @></div>
-<@ END @>

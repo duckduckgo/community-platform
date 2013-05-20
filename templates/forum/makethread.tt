@@ -1,4 +1,0 @@
-<p class="error">
-    <@ l('Error creating the thread') @>: <@ l(error) @>
-</p>
-<a href="javascript:history.go(-1)">Go Back</a>

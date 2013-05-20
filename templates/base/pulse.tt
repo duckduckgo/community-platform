@@ -1,3 +1,0 @@
-<html><head><meta http-equiv="refresh" content="600; url=<@ u('Base','pulse') @>"></head><body>
-<@- IF c.user @><div id="username"><@ c.user.username @></div><@ END -@>
-<div id="session_expires"><@ c.session_expires @></div></body></html>

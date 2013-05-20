@@ -1,7 +1,0 @@
-<div class="pagerbox">
-	<@ INCLUDE pager/entry.tt no_string="&#171;" no=pager.previous_page @> |
-	<@ FOR no IN [ 1..pager.last_page ] @>
-		<@ INCLUDE pager/entry.tt @> |
-	<@ END @>
-	<@ INCLUDE pager/entry.tt no_string="&#187;" no=pager.next_page @>
-</div>

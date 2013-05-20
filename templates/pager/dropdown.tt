@@ -1,5 +1,0 @@
-<select class="autosubmit" name="page" id="page">
-<@ FOR no IN [ 1..pager.last_page ] @>
-  <option value="<@ no @>"<@ IF page == no @> selected="selected"<@ END @>><@ no @></option>
-<@ END @>
-</select>
