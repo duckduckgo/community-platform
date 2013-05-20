@@ -75,9 +75,9 @@ __PACKAGE__->config(
 		session_name => 'captcha_string',
 		new => {
 			font       => __PACKAGE__->path_to('share','annifont.ttf'),
-			width      => 150,
-			height     => 70,
-			ptsize     => 34,
+			width      => 200,
+			height     => 90,
+			ptsize     => 45,
 			lines      => 2,
 			thickness  => 3,
 			rndmax     => 3,
