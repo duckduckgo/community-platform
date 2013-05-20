@@ -67,7 +67,7 @@
 			</div>
 			<div class="row">
 				<div class="twothird">
-					<label>Your Password:</label>
+					<label>Your Password</label>
 				</div>
 				<div class="third">
 					<a href="<: $u('My','changepw') :>" class="button">Change Password</a>
