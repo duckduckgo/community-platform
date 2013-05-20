@@ -32,7 +32,7 @@
 								</div>
 							</a>
 						</div>
-						<div class="eighth"><a href="#" class="button">Discuss</a></div>			
+						<div class="eighth"><a href="<: $u('Translate','localecomments',$token_domain.key,$token_domain_language.language.locale) :>" class="button">Discuss</a></div>			
 					</div>
 				<: } :>
 			</div>

@@ -18,6 +18,12 @@ has title => (
 	required => 1,
 );
 
+has description => (
+	is => 'ro',
+	isa => 'Str',
+	required => 1,
+);
+
 has author => (
 	is => 'ro',
 	isa => 'Str',

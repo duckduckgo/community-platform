@@ -17,8 +17,7 @@ sub user :Chained('base') :PathPart('') :CaptureArgs(1) {
     unless ($c->stash->{user} && $c->stash->{user}->public) {
     	return $c->go('/default');
     }
-    $c->add_bc('User Page', '');
-    $c->add_bc($username, '');
+    $c->add_bc('User page of '.$username, '');
     $c->stash->{title} = $username." User Page";
 }
 

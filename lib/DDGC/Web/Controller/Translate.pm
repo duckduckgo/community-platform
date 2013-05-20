@@ -209,11 +209,11 @@ sub discuss :Chained('locale') :PathPart('') :CaptureArgs(0) {
     $c->add_bc('Discuss', '');
 }
 
-sub locale_comments :Chained('discuss') :PathPart('comments') :Args(0) {
+sub localecomments :Chained('discuss') :PathPart('comments') :Args(0) {
     my ( $self, $c ) = @_;
 }
 
-sub tokens_comments :Chained('discuss') :Args(0) {
+sub tokenscomments :Chained('discuss') :Args(0) {
     my ( $self, $c ) = @_;
     $c->pager_init($c->action.$c->stash->{token_domain_language}->id,20);
     $c->stash->{latest_comments} = $c->stash->{token_domain_language}->comments($c->stash->{page},$c->stash->{pagesize});
