@@ -75,18 +75,21 @@ hr { border: none; background: #e8e8e8; display: block; height: 1px; margin: 18p
 
 h1 a, h2 a, h3 a, h4 a, h5 a, h6 a { text-decoration: none; }
 
-pre {	
-	margin: 0 10px 18px 0; 
-	overflow: auto;
+pre, tt { 
 	color: #fafafa;
 	background: #333;
-	padding: 0;		
-    -webkit-border-radius: 4px;
+	-webkit-border-radius: 4px;
     border-radius: 4px;
 	background-clip: padding-box;
 	-webkit-box-shadow: inset 1px 1px 2px rgba(0,0,0,0.5);
     box-shadow: inset 1px 1px 2px rgba(0,0,0,0.5);
 	text-shadow: 0 -1px 0 #000;
+}
+tt { padding: 1px 3px; }
+pre {	
+	margin: 0 10px 18px 0; 
+	overflow: auto;	
+	padding: 0;		    
 	-moz-tab-size: 1;
 	-o-tab-size: 1;
 	tab-size: 1;
