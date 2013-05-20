@@ -7,6 +7,8 @@
 		<h2>Discuss <: $token_domain_language.token_domain.name :> in <: $token_domain_language.language.name_in_english :></h2>
 	</div>
 	<div class="body">
-		<: include "comment/comments.tx" { comments => $c.d.comments('DDGC::DB::Result::Token::Domain::Language',$token_domain_language.id) } :>
+		<div class="row">
+			<: include "comment/comments.tx" { comments => $c.d.comments('DDGC::DB::Result::Token::Domain::Language',$token_domain_language.id) } :>
+		</div>
 	</div>
 </div>
