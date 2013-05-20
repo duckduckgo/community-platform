@@ -11,7 +11,7 @@ use DateTime::Format::Human::Duration;
 
 __PACKAGE__->config(
 	path => [
-		DDGC::Web->path_to('templates_xslate'),
+		DDGC::Web->path_to('templates'),
 	],
 	encode_body => 0,
 	function => {
