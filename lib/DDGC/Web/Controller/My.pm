@@ -11,6 +11,7 @@ BEGIN {extends 'Catalyst::Controller'; }
 
 sub base :Chained('/base') :PathPart('my') :CaptureArgs(0) {
     my ( $self, $c ) = @_;
+	$c->stash->{page_class} = "page-account";
 }
 
 sub logout :Chained('base') :Args(0) {
@@ -366,6 +367,8 @@ sub forgotpw :Chained('logged_out') :Args(0) {
 
 sub register :Chained('logged_out') :Args(0) {
     my ( $self, $c ) = @_;
+
+	$c->stash->{page_class} = "page-signup";
 
 	$c->stash->{title} = 'Create a new account';
     $c->add_bc($c->stash->{title}, '');
