@@ -65,7 +65,7 @@ sub topic_rss :Chained('topic_base') :PathPart('rss') :Args(0) {
 sub posts_to_feed {
 	my ( $self, $c, @posts ) = @_;
 	$c->stash->{feed} = {
-		format      => 'RSS 2.0',
+		format      => 'Atom',
 		id          => $c->req->base,
 		title       => $c->stash->{title},
 		#description => $description,
