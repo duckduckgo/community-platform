@@ -207,6 +207,18 @@ Comment Forms
 	padding: 0 8px;
 }
 
+/*--------------------------------------------------
+Column Forms
+-------------------------------------------------- */
+
+.column-form label { 
+	color: #8f8f8f; 
+	display: inline-block;
+	padding-top: 6px;
+}
+.column-form p {
+	margin: 8px 0 0;
+}
 	
 /*--------------------------------------------------
 Buttons
@@ -215,7 +227,7 @@ Buttons
 .button, a.button, input.button {
 	text-align: center; 
 	padding: 4px 12px;
-	display: block; 
+	display: inline-block; 
 	position: relative;
 	border: 1px solid #babec9;
 	-moz-border-radius: 3px;
@@ -253,6 +265,13 @@ Buttons
 	.button[disabled="disabled"], .button[disabled="disabled"]:hover, .button[disabled="disabled"]:active {
 		background-color: #f8f8f8;
 		cursor: default;
+	}
+	.button.big {
+		font-size: 1.1em; 
+		font-weight: bold;
+		padding: 0 19px;
+		height: 35px;
+		line-height: 34px;
 	}
 	.button.fb-like {
 		background: #ebedf4;
