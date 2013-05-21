@@ -96,7 +96,7 @@
 			<: if $c.user.public { :>
 				<div class="row callout-row">
 					<a href="<: $u('Userpage','home',$c.user.username) :>">
-						<i class="icon-circle-arrow-right right"></i><h3 class="icon"><i class="icon-globe"></i> Check out your userpage. (Soon more)</h3>
+						<i class="icon-circle-arrow-right right"></i><h3 class="icon"><i class="icon-user"></i> Check out your userpage. (More Coming Soon)</h3>
 					</a>
 				</div>
 			<: } :>
