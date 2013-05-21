@@ -3,8 +3,9 @@ Motices
 -------------------------------------------------- */
 .notice {
 	position: relative;
-	border: 1px solid #999;
+	border: 1px solid #ddd;
 	background: #eee;
+	color: #bbb;
 	-moz-border-radius: 5px;
 	-webkit-border-radius: 5px;
 	border-radius: 5px;	
