@@ -1,5 +1,28 @@
-.translate-overview .flag { padding: 11px 12px 13px 0; float: left;}
-.translate-overview label { font-size: 17px; padding: 7px 0; line-height: 1; display: inline-block; float: left; }
+.locale-label { position: relative; }
+	.locale-label .flag { 
+		padding: 11px 12px 13px 0; 		
+		position: absolute;
+		top: 0;
+		left: 0;
+	}
+	.locale-label label { 
+		font-size: 17px; 
+		padding: 7px 0 7px 28px;
+		line-height: 1; 
+		display: inline-block; 		
+		height: 2em;
+		width: 100%;
+		overflow: hidden;
+		white-space: nowrap;
+		word-wrap: break-word;
+		text-overflow: ellipsis;		
+		-webkit-box-sizing: border-box;
+		-moz-box-sizing: border-box;
+		-ms-box-sizing: border-box;
+		-o-box-sizing: border-box;
+		box-sizing: border-box;
+	}
+		
 .translate-overview .button { width: 90px; }	
 
 .translate-overview .body h3 { color: #454336; font-size: 18px; margin: 0; padding-top: 16px; }
