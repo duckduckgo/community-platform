@@ -7,6 +7,14 @@
 			</div>
 		<: } :>
 		
+		<: if $login_failed { :>
+			<div class="notice error"><i class="icn icon-warning-sign"></i>The login failed, wrong username or wrong password.</div>
+		<: } :>
+
+		<: if $not_valid_username { :>
+			<div class="notice error"><i class="icn icon-warning-sign"></i>The given username is not valid on our platform.</div>
+		<: } :>
+
 		<h2>Login to your account</h2>
 		<form action="<: $u('My','login') :>" class="group">
 			<div class="third">
