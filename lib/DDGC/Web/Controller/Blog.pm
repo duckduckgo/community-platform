@@ -23,13 +23,16 @@ sub index_base :Chained('base') :PathPart('') :CaptureArgs(0) {
 	$c->stash->{posts} = \@posts;
 	$c->stash->{pagecount} = ceil(scalar @posts / $pagesize);
 	$c->bc_index;
+	$c->stash->{title} = 'Latest blog posts';
 }
 
-sub index :Chained('index_base') :PathPart('') :Args(0) {}
+sub index :Chained('index_base') :PathPart('') :Args(0) {
+	my ( $self, $c ) = @_;
+}
 
 sub index_rss :Chained('index_base') :PathPart('rss') :Args(0) {
 	my ( $self, $c ) = @_;
-	$c->stash->{feed} = $self->posts_to_feed($c,"","",@{$c->stash->{posts}});
+	$c->stash->{feed} = $self->posts_to_feed($c,@{$c->stash->{posts}});
 	$c->forward('View::Feed');
 	$c->forward( $c->view('Feed') );
 }
@@ -46,6 +49,7 @@ sub topic_base :Chained('base') :PathPart('topic') :CaptureArgs(1) {
 	my @posts = map { @{$_} } @{$c->stash->{posts_days}};
 	$c->stash->{posts} = \@posts;
 	$c->stash->{pagecount} = ceil(scalar @posts / $pagesize);
+	$c->stash->{title} = 'All topic related blog posts';
 }
 
 sub topic :Chained('topic_base') :Args(0) {
@@ -54,17 +58,17 @@ sub topic :Chained('topic_base') :Args(0) {
 
 sub topic_rss :Chained('topic_base') :PathPart('rss') :Args(0) {
 	my ( $self, $c ) = @_;
-	$c->stash->{feed} = $self->posts_to_feed($c,"","",@{$c->stash->{posts}});
+	$c->stash->{feed} = $self->posts_to_feed($c,@{$c->stash->{posts}});
 	$c->forward( $c->view('Feed') );
 }
 
 sub posts_to_feed {
-	my ( $self, $c, $title, $description, @posts ) = @_;
+	my ( $self, $c, @posts ) = @_;
 	$c->stash->{feed} = {
 		format      => 'RSS 2.0',
 		id          => $c->req->base,
-		title       => $title,
-		description => $description,
+		title       => $c->stash->{title},
+		#description => $description,
 		link        => $c->req->base,
 		modified    => DateTime->now,
 		entries => [
@@ -91,6 +95,7 @@ sub post_base :Chained('base') :PathPart('') :CaptureArgs(1) {
 
 sub post :Chained('post_base') :PathPart('') :Args(0) {
 	my ( $self, $c ) = @_;
+	$c->stash->{title} = $c->stash->{post}->title;
 }
 
 1;
