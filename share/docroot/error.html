@@ -4,51 +4,66 @@
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
 <style type="text/css">
 
+
 	body {
+		background: #fdfdfd;
 		font-size: 105%;
+		font-family: "Helvetica Neue","HelveticaNeueLT Std","Segoe UI","Nimbus Sans L","Liberation Sans","Open Sans",FreeSans,Helvetica,Arial,sans-serif; 
 	}
 
 	#content {
 		margin: auto;
 		padding-top: 20px;
 		text-align: center;
-		width: 600px;
+		max-width: 600px;
 	}
+	#d { display: block; margin: 0 auto 10px; max-width: 100%;}
 	
-	.infobox {
-		margin-top: 50px;
-		padding: 10px;
-		background:#fef9cd;
-		border:#e1d980 1px solid;
-		font-family: "Segoe UI","Arial",sans-serif;
-		font: 20px arial,helvetica,clean,sans-serif;
-		color: #222222;
+	.notice {
+		position: relative;
+		border: 1px solid #ddd;
+		background: #eee;
+		color: #bbb;
+		-moz-border-radius: 5px;
+		-webkit-border-radius: 5px;
+		border-radius: 5px;	
+		padding: 8px 0 9px;
+		margin: 0 auto 21px;
+		font-size: 1.1em;	
+		text-align: center;
 	}
-
-	.errorbox {
-		margin-top: 50px;
-		padding: 10px;
-		background:#ff8888;
-		border:#ff0000 1px solid;
-		font-family: "Segoe UI","Arial",sans-serif;
-		font: 20px arial,helvetica,clean,sans-serif;
-		color: #222222;
-	}
+		.notice.warning { 		
+			border-color: #feeabe;
+			color: #f0a300;
+			background: #fdf5d5;
+		}
+		.notice.error {
+			border-color: #E5BFBF;
+			background: #F6D4D4;
+			color: #C01300;
+		}
+		.notice.success {
+			border-color: #cdf2a8;
+			background: #e8fcd4;
+			color: #9fd06d;
+		}
+		.notice.info {
+			border-color: #b4e3f2;
+			background: #d4f2fc;
+			color: #6eb3ca;
+		}
 
 </style>
 </head>
 <body>
 <div id="content">
 	<p><a href="https://duckduckgo.com/">
-		<img style="padding-top:10px;" title="Duck Duck Go" alt="Duck Duck Go" src="https://duckduckgo.com/nduck.v105.png" id="d">
-	</a></p>
-	<p class="infobox">
-		Please use <a href="http://ddg.gg/">http://ddg.gg/</a> for your short URL!&nbsp; It's shorter :)
-	</p>
-	<p class="errorbox">
+		<img style="padding-top:10px;" title="Duck Duck Go" alt="Duck Duck Go" src="https://duckduckgo.com/assets/logo_homepage_mobile.retina.v101.png" id="d">
+	</a></p>	
+	<p class="notice error">
 		ERROR
 	</p>
-	<div class="infobox">
+	<div class="notice warning">
 		<p>(en) Please come back later</p>
 		<p>(fr) SVP veuillez revenir plus tard</p>
 		<p>(de) Bitte versuchen sie es später nocheinmal</p>
@@ -60,6 +75,9 @@
 		<p>(ru) Попробуйте еще раз позже</p>
 		<p>(ua) Спробуйте ще раз пізніше</p>
 	</div>
+	<p class="notice">
+		Please use <a href="http://ddg.gg/">http://ddg.gg/</a> for your short URL!&nbsp; It's shorter :)
+	</p>
 </div>
 </body>
 </html>
