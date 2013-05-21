@@ -21,10 +21,10 @@
 	</div>
 	<div class="third">
 		<div class="callout-box blue">
-			<div class="head">
+			<a class="head" href="https://github.com/duckduckgo/community-platform">
 				<i class="icon-tools"></i> 
 				<h2>Develop the Community</h2>				
-			</div>
+			</a>
 			<div class="body">
 				<h3>Pitch in and help us improve this community platform.</h3>
 				<ul>					
@@ -39,10 +39,10 @@
 	</div>
 	<div class="third">
 		<div class="callout-box green">
-			<div class="head">
+			<a class="head" href="http://duckduckhack.com/">
 				<i class="icon-browser-window"></i> 
 				<h2>Develop DuckDuckGo</h2>				
-			</div>
+			</a>
 			<div class="body">
 				<h3>Develop on DuckDuckGo.<br/>Hack with us!</h3>
 				<ul>
