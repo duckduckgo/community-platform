@@ -25,7 +25,10 @@ sub index_base :Chained('base') :PathPart('') :CaptureArgs(0) {
 	$c->bc_index;
 }
 
-sub index :Chained('index_base') :PathPart('') :Args(0) {}
+sub index :Chained('index_base') :PathPart('') :Args(0) {
+	my ( $self, $c ) = @_;
+	$c->stash->{title} = 'Latest blog posts';
+}
 
 sub index_rss :Chained('index_base') :PathPart('rss') :Args(0) {
 	my ( $self, $c ) = @_;
@@ -50,6 +53,7 @@ sub topic_base :Chained('base') :PathPart('topic') :CaptureArgs(1) {
 
 sub topic :Chained('topic_base') :Args(0) {
 	my ( $self, $c ) = @_;
+	$c->stash->{title} = 'All topic related blog posts';
 }
 
 sub topic_rss :Chained('topic_base') :PathPart('rss') :Args(0) {
@@ -91,6 +95,7 @@ sub post_base :Chained('base') :PathPart('') :CaptureArgs(1) {
 
 sub post :Chained('post_base') :PathPart('') :Args(0) {
 	my ( $self, $c ) = @_;
+	$c->stash->{title} = $c->stash->{post}->title;
 }
 
 1;
