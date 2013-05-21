@@ -14,6 +14,6 @@
 <: } elsif $no_reply { :>
 	<p>Replying has been disabled.</p>
 <: } else { :>
-	<div class="notice alert warning"><i class="icn icon-warning-sign"></i> You must be logged in to comment. Please, <a href="<: $u('My','login') :>">Log in</a> or <a href="<: $u('My','register') :>">Register</a>.</div>
+	<div class="notice alert warning"><i class="icn icon-warning-sign"></i> You must be logged in to comment. Please, <a href="<: $u('My','login') :>" data-reveal-id="login-box">Log in</a> or <a href="<: $u('My','register') :>">Register</a>.</div>
 <: } :>
 
