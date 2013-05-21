@@ -16,7 +16,7 @@
 				<p><: $token_domain.description :></p>
 				<: for results($token_domain.token_domain_languages_locale_sorted) -> $token_domain_language { :>
 					<div class="row">
-						<div class="third">
+						<div class="third locale-label">
 							<a href="<: $link($token_domain_language, { only_untranslated => 1 }) :>">
 								<img src="<: $token_domain_language.language.flag_url :>" class="flag" alt="<: $token_domain_language.language.name_in_english :>" />
 								<label><: $token_domain_language.language.name_in_english :> [<: $token_domain_language.language.locale :>]</label>

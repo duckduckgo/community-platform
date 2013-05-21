@@ -20,15 +20,20 @@
 .account-box .flag { padding: 12px 12px 12px 0; position: absolute; top: 0; left: 0; }
 .account-box label { 
 	font-size: 18px;
-	height: 1em;
+	height: 2em;
 	padding: 7px; 
-	width: 85%; 
+	width: 95%; 
 	line-height: 1; 
 	display: inline-block; 
 	overflow: hidden;
 	white-space: nowrap;
 	word-wrap: break-word;
-	text-overflow: ellipsis;	
+	text-overflow: ellipsis;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-ms-box-sizing: border-box;
+	-o-box-sizing: border-box;
+	box-sizing: border-box;
 }
 	.account-box .flag + label { padding-left: 28px; }
 .account-box p { margin: 0; padding: 8px 0; }
