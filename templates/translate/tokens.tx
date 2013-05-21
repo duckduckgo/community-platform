@@ -1,4 +1,4 @@
-<: if !$user_can_speak { :><div class="notice warning clickaway"><i class="icn icon-warning-sign"></i>You can't speak this language! You can add it to <span class="account-actions"><a href="<: $u('My','account') :>" class="first nav-signup">your account</a></span><i class="close icon-remove"></i></div><: } :>
+<: if !$user_can_speak { :><div class="notice warning clickaway"><i class="icn icon-warning-sign"></i>You can't speak this language! You can add it to <a href="<: $u('My','account') :>" class="first nav-signup">your account</a><i class="close icon-remove"></i></div><: } :>
 
 <form action="<: $u('Translate','tokens',$token_domain.key,$cur_language.locale,{ only_untranslated => $only_untranslated ? 1 : 0 }) :>" method="post" id="formTranslateDomain">
 
