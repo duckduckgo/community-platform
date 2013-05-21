@@ -52,7 +52,7 @@ sub topic_base :Chained('base') :PathPart('topic') :CaptureArgs(1) {
 	$c->stash->{title} = 'All topic related blog posts';
 }
 
-sub topic :Chained('topic_base') :Args(0) {
+sub topic :Chained('topic_base') :PathPart('') :Args(0) {
 	my ( $self, $c ) = @_;
 }
 
