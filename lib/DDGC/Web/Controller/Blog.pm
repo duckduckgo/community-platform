@@ -66,10 +66,10 @@ sub posts_to_feed {
 	my ( $self, $c, @posts ) = @_;
 	$c->stash->{feed} = {
 		format      => 'Atom',
-		id          => $c->req->base,
+		id          => $c->req->uri,
 		title       => $c->stash->{title},
 		#description => $description,
-		link        => $c->req->base,
+		link        => $c->req->uri,
 		modified    => DateTime->now,
 		entries => [
 			map {{
