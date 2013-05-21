@@ -38,7 +38,7 @@
 		.translate-snippets .button.blue:hover { background-color: #3e7ee9; }
 		
 .translate-snippets label, .paging-menu label, .comments .comment_add_title { 
-	color: #8f8f8f; 	
+	color: #8f8f8f;
 }
 	.translate-snippets .row.snippet { padding: 16px 26px 16px 18px; }
 		.translate-snippets .snippet .row.user-translation { padding-top: 0; }
