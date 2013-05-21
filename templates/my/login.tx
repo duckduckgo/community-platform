@@ -2,17 +2,17 @@
 	<div class="form-wrap account-form">
 
 		<: if $register_successful { :>
-			<div class="notice warning"><i class="icn icon-warning-sign"></i>
+			<div class="notice success"><i class="icn icon-ok"></i>
 				Your registration was successful, you can now login!
 			</div>
 		<: } :>
 		
 		<: if $login_failed { :>
-			<div class="notice error"><i class="icn icon-warning-sign"></i>The login failed, wrong username or wrong password.</div>
+			<div class="notice error"><i class="icn icon-warning-sign"></i>Login failed. Your username or password is incorrect.</div>
 		<: } :>
 
 		<: if $not_valid_username { :>
-			<div class="notice error"><i class="icn icon-warning-sign"></i>The given username is not valid on our platform.</div>
+			<div class="notice error"><i class="icn icon-warning-sign"></i>Your username contains invalid characters.</div>
 		<: } :>
 
 		<h2>Login to your account</h2>
