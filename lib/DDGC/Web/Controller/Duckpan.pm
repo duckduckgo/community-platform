@@ -28,7 +28,11 @@ sub logged_in :Chained('base') :PathPart('') :CaptureArgs(0) {
     }
 }
 
-sub upload :Chained('logged_in') :Args(0) {
+sub do :Chained('logged_in') :Args(0) {
+    my ( $self, $c ) = @_;
+}
+
+sub upload :Chained('do') :Args(0) {
     my ( $self, $c ) = @_;
 	if (!$c->user) {
 		$c->res->code(403);
