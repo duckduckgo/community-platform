@@ -39,12 +39,27 @@ sub upload :Chained('do') :Args(0) {
 		$c->stash->{no_user} = 1;
 		return $c->detach;
 	}
-	my $uploader = $c->user->username;
-	my $upload = $c->req->upload('pause99_add_uri_httpupload');
-	my $filename = $c->d->config->cachedir.'/'.$upload->filename;
-	$upload->copy_to($filename);
-	$c->stash->{duckpan_return} = $c->d->duckpan->add_user_distribution($c->user,$filename);
-	$c->res->code(403) if (ref $c->stash->{duckpan_return} eq 'HASH');
+	eval {
+		my $uploader = $c->user->username;
+		my $upload = $c->req->upload('pause99_add_uri_httpupload');
+		my $filename = $c->d->config->cachedir.'/'.$upload->filename;
+		$upload->copy_to($filename);
+		$c->stash->{duckpan_return} = $c->d->duckpan->add_user_distribution($c->user,$filename);
+		$c->res->code(403) if (ref $c->stash->{duckpan_return} eq 'HASH');
+	};
+	if ($@) {
+		$c->stash->{upload_error} = $@;
+		$c->stash->{email} = {
+			to          => 'getty@duckduckgo.com',
+			from        => 'noreply@dukgo.com',
+			subject     => '[DuckPAN] Failed upload!',
+			template        => 'email/failedupload.tx',
+			charset         => 'utf-8',
+			content_type => 'text/plain',
+		};
+
+		$c->forward( $c->view('Email::Xslate') );
+	}
 }
 
 __PACKAGE__->meta->make_immutable;
