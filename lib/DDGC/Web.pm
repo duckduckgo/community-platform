@@ -17,6 +17,7 @@ use Catalyst qw/
 	ChainedURI
 	Captcha
 	StackTrace
+	ErrorCatcher
 	CustomErrorMessage
 /;
 
@@ -32,6 +33,19 @@ __PACKAGE__->config(
 	using_frontend_proxy => 1,
 	default_view => 'Xslate',
 	encoding => 'utf8',
+	stacktrace => {
+		enable => $ENV{DDGC_ACTIVATE_ERRORCATCHING} ? 1 : 0,,
+	},
+	'Plugin::ErrorCatcher' => {
+		enable => $ENV{DDGC_ACTIVATE_ERRORCATCHING} ? 1 : 0,
+		emit_module => 'Catalyst::Plugin::ErrorCatcher::Email',
+	},
+	'Plugin::ErrorCatcher::Email' => {
+		to => 'getty@duckduckgo.com',
+		from => 'noreply@dukgo.com',
+		subject => '[DuckDuckGo Community] %p %l CRASH!!!',
+		use_tags => 1,
+	},
 	'Plugin::Static::Simple' => {
 		dirs => [
 			'root'
