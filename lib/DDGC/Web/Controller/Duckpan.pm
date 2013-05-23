@@ -28,7 +28,7 @@ sub logged_in :Chained('base') :PathPart('') :CaptureArgs(0) {
     }
 }
 
-sub do :Chained('logged_in') :Args(0) {
+sub do :Chained('logged_in') :CaptureArgs(0) {
     my ( $self, $c ) = @_;
 }
 
