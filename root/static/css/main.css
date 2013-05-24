@@ -137,10 +137,7 @@ blockquote { padding: 0 0 0 28px; position: relative; }
 
 .left { float: left; }
 .right { float: right; }
-.clear { clear: both; }
 .mid, .intro-message { text-align: center; }
-.hide { display: none; }
-.allcaps { text-transform: uppercase; }
 .no-js .no-js-hide, .js .js-hide { display: none !important; }
 .header-pad { padding: 18px 0; }
 
@@ -162,37 +159,6 @@ a.sortby {
 		border-bottom-color: transparent;
 	}
 		a.sortby:hover:after { border-top-color: #444; }
-
-/* 
-	'Grids' & Sizes 
-*/
-
-.half, .third, .twothird, .quarter, .threequarter, .sixth, .eighth { 
-	float: left; 
-	position: relative; 
-	/* Just in case someone tries to get cute and add padding to grid elements... */
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	-ms-box-sizing: border-box;
-	-o-box-sizing: border-box;
-	box-sizing: border-box;
-}
-.half { width: 50%; }
-.third { width: 33.3%; }
-.twothird { width: 66.6%; }
-.quarter { width: 25%; }
-.threequarter { width: 75%; }
-.sixth { width: 16.6%; }
-.eighth { width: 12.5%; }
-
-.grid-pad { 
-	/* for when you *intentionally* want to break the grid with padding */
-	-webkit-box-sizing: content-box;
-	-moz-box-sizing: content-box;
-	-ms-box-sizing: content-box;
-	-o-box-sizing: content-box;
-	box-sizing: content-box;
-}
 
 .content-wrap {
 	width: 100%;
@@ -843,14 +809,10 @@ table th[class*="span"],
 			width: 100%;
 		}
 }
-@media only screen and (max-width: 600px) {	
-	.palm-hide { display: none; }	
+@media only screen and (max-width: 600px) {		
 	body, .content-wrap {
 		min-width: 320px;
-	}		
-	.wrap, .half, .third, .twothird, .quarter, .threequarter, .sixth  { width: 100%; float: none; margin: 0 auto;}	
-		.half.palm-half { width: 50%; float: left; }
-		.half .half { width: 100%; }	
+	}
 	
 	.language_nav { margin-top: 6px; }
 	
