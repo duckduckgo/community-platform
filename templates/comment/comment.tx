@@ -9,7 +9,7 @@
 <div class="comment-body" id="comment_<: $comment.id :>">	
 	<div class="row">
 		<p><: r($comment.content) :></p>
-		<span class="comment-meta">posted by <: include "user/username.tx" {user=>$comment.user} :> &bull; <: $dur($comment.created) :> &bull; <a class="comment_reply_link no-js-hide" href="#">Reply</a><a class="comment_reply_cancel_link no-js-hide hide" href="#">Cancel</a><: if $comment.has_children { :><a href="#" class="comment-toggle"><i class="icon-minus-sign"></i></a><: } :></span>
+		<span class="comment-meta">posted by <: include "user/username.tx" {user=>$comment.user} :> &bull; <: $dur($comment.created) :> <: if $c.user and !$no_reply { :> &bull; <a class="comment_reply_link no-js-hide" href="#">Reply</a><a class="comment_reply_cancel_link no-js-hide hide" href="#">Cancel</a><: } if $comment.has_children { :><a href="#" class="comment-toggle"><i class="icon-minus-sign"></i></a><: } :></span>
 		<div class="clear"></div>
 		<: if $c.user and !$no_reply { :>
 			<: include "comment/add.tx" {context=>"DDGC::DB::Result::Comment",context_id=>$comment.id} :>
