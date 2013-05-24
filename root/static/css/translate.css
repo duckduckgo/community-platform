@@ -28,13 +28,18 @@
 .translate-overview .body h3 { color: #454336; font-size: 18px; margin: 0; padding-top: 16px; }
 .translate-overview p { margin: 0; padding: 5px 0 8px; color: #818489; }
 
-.translate-overview .half.progress { padding: 0 11px 0 4em; width: 54.2%; }
+.translate-overview .half.progress { padding: 0 11px 0 0; width: 54.2%; }
 	.translate-overview .progress .numeral { 
-		position: absolute; 
+		position: relative; 
 		left: 0; 
 		top: 0; 
 		text-align: right; 
-		width: 2.9em;
+		width: 12.5%;
+		float: left;
+	}
+	.translate-overview .progress .numeral + .bar {
+		float: right;
+		width: 85%;
 	}
 
 .translate-snippets .button, .translate-comments .button { 
@@ -167,6 +172,9 @@
 		white-space: nowrap;
 		word-wrap: break-word;
 		text-overflow: ellipsis;		
+	}
+	.translate-overview .button {
+		width: auto;
 	}
 }
 	
