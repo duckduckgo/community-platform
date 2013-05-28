@@ -35,3 +35,24 @@ bar with additional request informations, and also shows you much more
 informations on the terminal. If you don't want those, you can just deactivate
 it. For work on HTML/CSS or the blog it might disturb.
 
+=head3 ACCOUNTS
+
+We prepared some accounts for testing in the default setup, those can all be
+accessed with random passwords (yes, you can't test wrong password yet, sorry).
+
+The following account exist:
+
+ * B<testone> An admin, who is native german, but also speaks english.
+
+ * B<testtwo> A normal user who speaks spanish, with public profile.
+
+ * B<testthree> A translation_manager who speaks english, arabic and german.
+
+ * B<testfour> An admin, who speaks german, spain and english.
+
+ * B<testfive> A normal user without public profile, who speaks russian and
+   english.
+
+ * Additionally there exist B<test1> till B<test100> all without any setup.
+
+
