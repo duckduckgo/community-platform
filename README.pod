@@ -7,3 +7,31 @@ B<New documentation in work! Please only try if you know what you do>
 Requires perl 5.14.2< and:
 
   apt-get install build-essential libgd2-xpm-dev libssl-dev git wget libxml2-dev
+
+=head2 INSTALLATION
+
+When you checked out the repository you must once run this command to get a
+base database installed in your home:
+
+  script/ddgc_deploy_dev.pl
+
+You might need to use the B<--kill> switch if you already have one, or want to
+reset it:
+
+  script/ddgc_deploy_dev.pl --kill
+
+=head2 DEVELOPING
+
+You can start the web server, if you are inside the repository with:
+
+  script/ddgc_web_server.pl -r -d
+
+The B<-r> switch assures that it reloads itself, if some of the codefiles are
+changed. For changes on templates he will not restart. (If you work on the blog
+you sadly have to restart by hand if you change the data file).
+
+The B<-d> switch sets the web server into debugging mode. This activates a side
+bar with additional request informations, and also shows you much more
+informations on the terminal. If you don't want those, you can just deactivate
+it. For work on HTML/CSS or the blog it might disturb.
+
