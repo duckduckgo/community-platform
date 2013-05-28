@@ -42,17 +42,17 @@ accessed with random passwords (yes, you can't test wrong password yet, sorry).
 
 The following account exist:
 
- * B<testone> An admin, who is native german, but also speaks english.
+* B<testone> An admin, who is native german, but also speaks english.
 
- * B<testtwo> A normal user who speaks spanish, with public profile.
+* B<testtwo> A normal user who speaks spanish, with public profile.
 
- * B<testthree> A translation_manager who speaks english, arabic and german.
+* B<testthree> A translation_manager who speaks english, arabic and german.
 
- * B<testfour> An admin, who speaks german, spain and english.
+* B<testfour> An admin, who speaks german, spain and english.
 
- * B<testfive> A normal user without public profile, who speaks russian and
+* B<testfive> A normal user without public profile, who speaks russian and
    english.
 
- * Additionally there exist B<test1> till B<test100> all without any setup.
+* Additionally there exist B<test1> till B<test100> all without any setup.
 
 
