@@ -10,6 +10,13 @@ Requires perl 5.14.2< and:
 
 =head2 INSTALLATION
 
+After checking out, you require to install the requirements. You must have
+installed B<Dist::Zilla>, then you can do the following to install the base
+Perl requirements:
+
+  dzil authordeps --missing | cpanm
+  dzil listdeps --missing | cpanm
+
 When you checked out the repository you must once run this command to get a
 base database installed in your home:
 
