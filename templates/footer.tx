@@ -4,7 +4,7 @@
 			<div class="nav-col">
 				<h4>Things you can do:</h4>
 				<ul>
-					<li><a href="translate_index.html">Translate DuckDuckGo</a></li>
+					<li><a href="<: $u('Translate', 'index') :>">Translate DuckDuckGo</a></li>
 					<li><a href="http://duck.co/">Join our Forums</a></li>
 					<li><a href="<: $u('Blog','index') :>">Browse our Blog</a></li>
 					<li><a href="<: $u('Blog','post','using-pidgin-with-xmpp-jabber') :>">Chat via XMPP/Jabber</a></li>
