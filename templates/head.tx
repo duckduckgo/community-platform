@@ -1,5 +1,5 @@
 <title><: $title :></title>
-<: for ['reset','modals','forms-n-buttons','select2','progress','homepage','account','translate','blog','comments','main','font-face','font-awesome'] -> $css { :>
+<: for ['reset','litestrap','modals','forms-n-buttons','select2','progress','homepage','account','translate','blog','comments','main','font-face','font-awesome'] -> $css { :>
 	<link rel="stylesheet" media="screen, projection, handheld" href="/static/css/<: $css :>.css">
 <: } :>
 <meta name="viewport" content="width=100%, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>

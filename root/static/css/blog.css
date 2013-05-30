@@ -103,6 +103,9 @@
 	margin: 0 88px 48px 75px;
 }
 	.blog-content .notice { margin-right: 88px; }
+		.blog-content .comment + .notice { 
+			margin-top: 16px; margin-right: 16px; 
+		}
 	
 	.post-snippet .more-link { 
 		display: block; 
