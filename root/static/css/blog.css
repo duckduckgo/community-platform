@@ -41,6 +41,9 @@
 				display: inline-block;
 				margin-bottom: -3px;
 			}
+			.lt-ie9 .post-meta .user-info, .lt-ie9 .author-meta .user-info {
+				display: inline; 
+			}
 	.blog-content ul, .blog-content ol {
 		font-size: 13px;
 		line-height: 1.54;		

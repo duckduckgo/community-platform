@@ -19,7 +19,7 @@
 						<div class="third locale-label">
 							<a href="<: $link($token_domain_language, { only_untranslated => 1 }) :>">
 								<img src="<: $token_domain_language.language.flag_url :>" class="flag" alt="<: $token_domain_language.language.name_in_english :>" />
-								<label><: $token_domain_language.language.name_in_english :> [<: $token_domain_language.language.locale :>]</label>
+								<span class="label"><: $token_domain_language.language.name_in_english :> [<: $token_domain_language.language.locale :>]</span>
 							</a>
 						</div>
 						<div class="half progress <: if $token_domain_language.done_percentage < 60 { :>low<: } elsif $token_domain_language.done_percentage < 80 { :>med<: } elsif $token_domain_language.done_percentage < 100 { :>high<: } else { :>done<: } :>"> 

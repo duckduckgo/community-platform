@@ -474,6 +474,7 @@ table th[class*="span"],
 	background: -ms-linear-gradient(top,  #f3f3f3 0%,#e2e2e2 100%);
 	background: linear-gradient(to bottom,  #f3f3f3 0%,#e2e2e2 100%);
 }
+	.lt-ie9 .site-header { background: #e2e2e2;}
 	.site-header .content-wrap { overflow: hidden; }
 	.header-logo { width: 300px; float: left; }
 		.header-logo .logo { 

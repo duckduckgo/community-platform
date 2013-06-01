@@ -1,11 +1,12 @@
 .locale-label { position: relative; }
+	.locale-label a { display: block; }
 	.locale-label .flag { 
 		padding: 11px 12px 13px 0; 		
 		position: absolute;
 		top: 0;
 		left: 0;
 	}
-	.locale-label label { 
+	.locale-label .label { 
 		font-size: 17px; 
 		padding: 7px 0 7px 28px;
 		line-height: 1; 
