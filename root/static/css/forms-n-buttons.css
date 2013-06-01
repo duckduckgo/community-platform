@@ -197,14 +197,31 @@ Comment Forms
 -------------------------------------------------- */	
 .comment_reply textarea {
 	max-width: 100%;
-	margin-bottom: 0.5em;
+	border: none;
+	padding: 1.8em 19px 8px;
+	height: 4.5em;
 }
-.comment_reply input[type="submit"]{
+/*
+	.comment_reply textarea::-webkit-input-placeholder { color:#444; }
+	.comment_reply textarea::-moz-placeholder { color:#444; }
+	.comment_reply textarea:-ms-input-placeholder { color:#444; }
+	.comment_reply textarea:-moz-placeholder { color:#444; }
+*/
+	.comment_reply textarea:focus { 
+		color: #000;
+		outline: medium none;		
+		-moz-box-shadow: 0 0 5px #fff;
+		-webkit-box-shadow: 0 0 5px #fff;
+		box-shadow: 0 0 5px #fff;
+	}
+
+.comment_reply .submit{
 	float: right;
 	font-weight: normal;
 	height: 28px;
 	line-height: 28px;
 	padding: 0 8px;
+	margin-top: 0.5em;
 }
 
 /*--------------------------------------------------

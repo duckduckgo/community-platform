@@ -1,10 +1,10 @@
-<: if $context and $context_id { :>
+<: if $context and $context_id { :>	
 	<form method="post" class="comment_reply js-hide" action="<: $u('Comment','add',$context,$context_id) :>">		
-		<div class="my_comment">
-			<textarea rows="3" name="content" class="form-textarea"></textarea>
+		<div class="user-avatar icon-user"><: include "user/userpic.tx" {userpic_size=>$comment_userpic_size?$comment_userpic_size:48,user => $user} :></div>
+		<div class="my_comment comment-body">
+			<textarea rows="3" name="content" class="form-textarea text" placeholder="Add your Comment"></textarea>
 		</div>
-		<input type="hidden" name="from" value="<: $c.req.uri :>" />
-        <div class="clear"></div>
-	    <input type="submit" name="add_comment" class="button submit" value="Submit" />
-	</form>
+		<input type="hidden" name="from" value="<: $c.req.uri :>" />		
+		<input type="submit" name="add_comment" class="button submit" value="Submit" />
+	</form>	
 <: } :>

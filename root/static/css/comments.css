@@ -1,9 +1,9 @@
 
 .comment { position: relative; }
 .comment.row { margin: 8px auto; }
-	.blog-content .comment.tier1 { margin-right: 4px; }
+	/*.blog-content .comment.tier1 { margin-right: 4px; }*/
 	.comment.row .comment.row { margin: 0 auto 2px; }
-	.comment .user-avatar { 
+	.comment .user-avatar, .comment_reply .user-avatar{ 
 		width: 48px;
 		height: 48px;
 		line-height: 48px;
@@ -13,14 +13,15 @@
 		left: 0;
 		float: none; 
 	}
-		.comment .comment .user-avatar { 
+		.comment .comment .user-avatar, .comment .comment-body .comment_reply .user-avatar { 
 			width: 32px; 
 			height: 32px; 
 			line-height: 32px; 
 			font-size: 150%; 
 			left: 14px;
-			top: 18px;
+			top: 9px;
 		}
+		.lt-ie9 .comment .comment .user-avatar img, .lt-ie9 .comment .comment-body .comment_reply .user-avatar img { height: 32px; }
 		
 	.comment-meta, .comment-foot a { 		
 		color: #7a7b80;
@@ -99,11 +100,14 @@
 			content: ""; 
 			width: 0; 
 			height: 0;     
-			top: 19px;
+			top: 21px;
 			border-bottom: 9px solid transparent; 
 			border-top: 9px solid transparent;        
 			border-left: 0;
 		}  
+		 .comment-body .comment-body:after, .comment-body .comment-body:before {
+			top: 17px; 
+		 }
 		  .comment-body:before {    
 			left: -10px; 
 			border-right: 9px solid #cacaca;     
@@ -118,6 +122,12 @@
 		  .comment-body .tier4 .comment-body { margin-left: 0;}
 		  .tier4 .user-avatar { display: none; }
 
+.row.tier1-new { margin-bottom: 24px; }
+.comment_reply { position: relative; }
+	.comment_reply .user-avatar, .comment .comment-body .comment_reply .user-avatar { left: 0; }
+	.lt-ie9 .comment .comment-body .comment_reply .user-avatar { position: absolute; top: 24px; }
+	  
+		  
 /* for display on the translation page */
 .row.comments .comment_add_title { margin: 0 0 8px; color: #8f8f8f; font-size: 1em; }
 .row.comments .tier1-new { margin-right: 13px; }	  
