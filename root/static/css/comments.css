@@ -2,8 +2,7 @@
 .comment { position: relative; }
 .comment.row { margin: 8px auto; }
 	.blog-content .comment.tier1 { margin-right: 4px; }
-	.comment.row .comment.row { margin: 0 auto 16px; }
-		.comment.row .comment.row + .comment.row { margin-top: -8px; }
+	.comment.row .comment.row { margin: 0 auto 2px; }
 	.comment .user-avatar { 
 		width: 48px;
 		height: 48px;
@@ -19,7 +18,7 @@
 			height: 32px; 
 			line-height: 32px; 
 			font-size: 150%; 
-			left: 18px;
+			left: 14px;
 			top: 18px;
 		}
 		
@@ -30,7 +29,7 @@
 		.comment-meta {
 			display: block; 
 			line-height: 1;
-			margin: 7px auto 11px;
+			margin: 4px auto 8px;
 		}
 		.comment-meta .comment-toggle {
 			color: #b8b8b8;			
@@ -77,7 +76,7 @@
 			line-height: 34px;
 		}
 	.comment-body { 
-		margin: 0 13px 0 71px; 
+		margin: 0 0 0 71px; 
 		border: 1px solid #cacaca;
 		position: relative;		
 		z-index: 1;
@@ -89,9 +88,10 @@
 		box-shadow: 0 1px 1px rgba(0,0,0,0.1);
 	}
 		.voting + .comment-body { margin-right: 34px; }
-		.comment-body .comment-body { margin-left: 53px; }
-		.comment.row .comment-body .row { padding: 8px 10px 8px 17px; }
-		.comment-body p { margin: 4px auto; color: #464749; font-size: 1.2em; }		
+		.comment-body .comment-body { margin-left: 49px; }
+		.comment.row .comment-body .row { padding: 8px 10px 8px 13px; }
+		.comment.row .comment-body .comment.row { padding-top: 0; }
+		.comment-body p { margin: 0 auto 4px; color: #464749; font-size: 1.05em; }		
 		.comment-body:after, .comment-body:before { 
 			display: block; 
 			position: absolute; 
