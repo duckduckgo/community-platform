@@ -5,6 +5,7 @@ use Moose::Util::TypeConstraints;
 use DateTime;
 use DateTime::Format::Flexible;
 use IO::All;
+use HTML::Restrict;
 
 has uri => (
 	is => 'ro',
@@ -60,6 +61,11 @@ sub content {
 	return join("\n",io($self->content_file)->slurp);
 }
 
+sub content_text {
+	my ( $self ) = @_;
+	HTML::Restrict->new->process($self->content);
+}
+
 sub content_abstract {
 	my ( $self ) = @_;
 	my @lines = io($self->content_file)->slurp;
@@ -71,6 +77,11 @@ sub content_abstract {
 		$abstract .= $_;
 	}
 	return $abstract;
+}
+
+sub content_abstract_text {
+	my ( $self ) = @_;
+	HTML::Restrict->new->process($self->content_abstract);
 }
 
 1;
