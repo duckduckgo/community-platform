@@ -10,6 +10,19 @@
 		<: } :>
 	</div>
 	<ul class="translation-details">
+		<: if $c.user.translation_manager { :>
+			<div id="translation_check_<: $translation.id :>">
+				<: if $translation.check_result { :>
+					<a href="<: $u('Translate', 'translation_check', $translation.id, 0) :>" class="checkfalse_link button">
+						SET INVALID
+					</a>
+				<: } else { :>
+					<a href="<: $u('Translate', 'translation_check', $translation.id, 1) :>" class="checkfalse_link button">
+						SET VALID
+					</a>
+				<: } :>
+			</div>
+		<: } :>
 		<: if $translation.invalid { :>
 			<span class="translation-invalid group">INVALID!</span>
 		<: } else { :>

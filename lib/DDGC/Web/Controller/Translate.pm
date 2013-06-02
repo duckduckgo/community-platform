@@ -71,6 +71,16 @@ sub translation :Chained('logged_in') :CaptureArgs(1) {
 	}
 }
 
+sub translation_check :Chained('translation') :PathPart('check') :Args(1) {
+	my ( $self, $c, $check ) = @_;
+	$c->stash->{translation}->set_check($c->user,$check);
+	$c->stash->{translation}->update;
+	$c->stash->{x} = {
+		check_result => $c->stash->{translation}->check_result,
+	};
+	$c->forward( $c->view('JSON') );
+}
+
 sub vote :Chained('translation') :CaptureArgs(1) {
 	my ( $self, $c, $vote ) = @_;
 	$c->stash->{translation}->set_user_vote($c->user,0+$vote);
@@ -88,14 +98,6 @@ sub vote_redirect :Chained('vote') :PathPart('redirect') :Args(0) {
 	my ( $self, $c ) = @_;
 	$c->response->redirect($c->chained_uri('Translate','tokenlanguage',$c->stash->{translation}->token_language->id));
 	return $c->detach;
-}
-
-sub check :Chained('translation') :Args(1) {
-	my ( $self, $c, $checked ) = @_;
-	if ($c->user->translation_manager) {
-		$c->stash->{translation}->set_check($c->user,$checked);
-		$c->stash->{translation}->update;
-	}
 }
 
 sub domain :Chained('logged_in') :PathPart('') :CaptureArgs(1) {

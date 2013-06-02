@@ -95,6 +95,25 @@ $(document).ready(function() {
 		});
 	});
 
+	$('a.checkfalse_link').click(function(e){
+		e.preventDefault();
+		var parent = $(this).parent();
+		$.ajax({
+			url: $(this).attr('href'),
+			beforeSend: function(xhr) {				
+				parent.html(
+					'<img class="loading-image"' +
+					'src="/static/images/ajax-loader.gif"/>');
+			},
+			success: function(data) {				
+				var text = data.check_result
+					? 'VALID'
+					: 'INVALID';
+				parent.html('<div class="button">'+text+'</div>');
+			}
+		});
+	});
+
 
 	$('a.comment_reply_link').click(function(e){
 		e.preventDefault();
