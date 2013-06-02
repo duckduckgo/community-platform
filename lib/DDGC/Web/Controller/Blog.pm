@@ -77,8 +77,8 @@ sub posts_to_feed {
 				link     => $c->chained_uri('Blog', 'post', $_->uri),
 				title    => $_->title,
 				modified => $_->date,
-				description => $_->content_abstract_text,
-				content => $_->content_text,
+				description => $_->content_abstract,
+				content => $_->content,
 			}} @posts
 		],
 	};
