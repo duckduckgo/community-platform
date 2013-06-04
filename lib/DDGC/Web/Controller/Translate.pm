@@ -4,6 +4,11 @@ use namespace::autoclean;
 
 use DDGC::Config;
 use Data::Printer;
+use Path::Class;
+use DDGC::Util::Po;
+use JSON;
+use IO::All;
+use DateTime;
 
 BEGIN {extends 'Catalyst::Controller'; }
 
@@ -25,6 +30,49 @@ sub index :Chained('base') :PathPart('') :Args(0) {
 	$c->stash->{headline_template} = 'headline/translate.tt';
 	$c->stash->{token_domains} = $c->d->rs('Token::Domain');
 	$c->bc_index;
+}
+
+sub po_upload :Chained('base') :Args(0) {
+    my ( $self, $c ) = @_;
+	if (!$c->user) {
+		$c->res->code(403);
+		$c->stash->{no_user} = 1;
+		return $c->detach;
+	}
+	if (!$c->user->translation_manager) {
+		$c->res->code(403);
+		$c->stash->{no_translation_manager} = 1;
+		return $c->detach;
+	}
+	my $uploader = $c->user->username;
+	my $upload = $c->req->upload('po_upload');
+	my $domain = $c->req->param('token_domain');
+	my @entries;
+	eval {
+		my $entries_ref = read_po_file($upload->tempname);
+		@entries = @{$entries_ref};
+	};
+	if ($@) {
+		$c->res->code(403);
+		$c->stash->{po_upload_error} = $@;
+		return $c->detach;
+	}
+	unless (@entries) {
+		$c->res->code(403);
+		$c->stash->{no_entries} = 1;
+		return $c->detach;
+	}
+	my $dir = dir($c->d->config->cachedir,'po');
+	$dir->mkpath unless -d $dir;
+	my %data = (
+		tokens => \@entries,
+		uploader => $uploader,
+		created => DateTime->now->epoch,
+		filename => $upload->filename,
+		$domain ? ( domain => $domain ) : (),
+	);
+	my $filename = $data{created}.'.'.$data{uploader}.( $domain ? '.'.$domain : '' ).'.json';
+	io($dir->file($filename))->print(encode_json(\%data));
 }
 
 sub logged_in :Chained('base') :PathPart('') :CaptureArgs(0) {
