@@ -64,8 +64,9 @@ sub po_upload :Chained('base') :Args(0) {
 	}
 	my $dir = dir($c->d->config->cachedir,'po');
 	$dir->mkpath unless -d $dir;
+	my $i = 0;
 	my %data = (
-		tokens => \@entries,
+		tokens => { map { $i++, $_ } @entries },
 		uploader => $uploader,
 		created => DateTime->now->epoch,
 		filename => $upload->filename,
@@ -73,6 +74,78 @@ sub po_upload :Chained('base') :Args(0) {
 	);
 	my $filename = $data{created}.'.'.$data{uploader}.( $domain ? '.'.$domain : '' ).'.json';
 	io($dir->file($filename))->print(encode_json(\%data));
+}
+
+sub po_manager :Chained('base') :CaptureArgs(0) {
+    my ( $self, $c ) = @_;
+	if (!$c->user) {
+		$c->response->redirect($c->chained_uri('My','login'));
+		return $c->detach;
+	}
+	if (!$c->user || !$c->user->admin) {
+		$c->response->redirect($c->chained_uri('Root','index',{ admin_required => 1 }));
+		return $c->detach;
+	}
+	$c->add_bc('Po Manager', $c->chained_uri('Translate','po_manager_index'));
+}
+
+sub po_manager_index :Chained('po_manager') :PathPart('') :Args(0) {
+    my ( $self, $c ) = @_;
+    $c->bc_index;
+	my $dir = io(dir($c->d->config->cachedir,'po')->stringify);
+	my @pos;
+	for (keys %$dir) {
+		next if $_ =~ /^\./;
+		my $link = $_;
+		push @pos, {
+			%{decode_json(io($dir->{$_})->slurp)},
+			link => $link,
+		};
+	}
+	@pos = sort { $a->{created} <=> $b->{created} } @pos;
+	$c->stash->{po_list} = \@pos;
+}
+
+sub po_manager_po :Chained('po_manager') :PathPart('') :CaptureArgs(1) {
+    my ( $self, $c, $po ) = @_;
+	$c->stash->{po_filename} = $po;
+	$c->stash->{po} = decode_json(io(file($c->d->config->cachedir,'po',$po)->stringify)->slurp);
+	$c->add_bc($po);
+}
+
+sub po_manager_po_view :Chained('po_manager_po') :PathPart('') :Args(0) {
+    my ( $self, $c ) = @_;
+    if ($c->req->param('token_domain')) {
+		$c->response->redirect(
+			$c->chained_uri(
+				'Translate',
+				'po_manager_po_domain',
+				$c->stash->{po_filename},
+				$c->req->param('token_domain')
+			)
+		);
+		return $c->detach;
+	}
+    $c->stash->{token_domains} = [$c->d->rs('Token::Domain')->search()->all];
+}
+
+sub po_manager_po_domain_capture :Chained('po_manager_po') :PathPart('') :CaptureArgs(1) {
+	my ( $self, $c, $domain ) = @_;
+	$c->stash->{token_domain} = $c->d->rs('Token::Domain')->find({ key => $domain });
+	if (!$c->stash->{token_domain}) {
+		$c->response->redirect($c->chained_uri('Translate','po_manager_index'));
+		return $c->detach;
+	}
+}
+
+sub po_manager_po_domain :Chained('po_manager_po_domain_capture') :PathPart('') :Args(0) {
+	my ( $self, $c ) = @_;
+	$c->stash->{po_analyze_result} = $c->stash->{token_domain}->analyze_tokens(values %{$c->stash->{po}->{tokens}});
+}
+
+sub po_manager_po_domain_migrate :Chained('po_manager_po_domain_capture') :PathPart('migrate') :Args(0) {
+	my ( $self, $c ) = @_;
+	$c->stash->{po_migrate_result} = $c->stash->{token_domain}->migrate_tokens(values %{$c->stash->{po}->{tokens}});
 }
 
 sub logged_in :Chained('base') :PathPart('') :CaptureArgs(0) {

@@ -134,6 +134,16 @@ sub generate_pos {
 	}
 }
 
+sub analyze_tokens {
+	my ( $self, @tokens ) = @_;
+	use DDP; p(@tokens);
+}
+
+sub migrate_tokens {
+	my ( $self, @tokens ) = @_;
+	use DDP; p(@tokens);
+}
+
 use overload '""' => sub {
 	my $self = shift;
 	return 'Token-Domain '.$self->name.' #'.$self->id;

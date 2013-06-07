@@ -13,8 +13,7 @@ sub read_po_file {
 	my %po_entries;
 	my $lpc = Locale::PO::Callback->new(sub {
 		my ( $po ) = @_;
-		return if defined $po->{type} && $po->{type} eq 'header';
-		use DDP; p($po);
+		return unless defined $po->{msgid};
 		my @key_parts = ($po->{msgid});
 		push @key_parts, $po->{msgid_plural} if defined $po->{msgid_plural};
 		push @key_parts, 'msgctxt___'.$po->{msgctxt} if defined $po->{msgctxt};

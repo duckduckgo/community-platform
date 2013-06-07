@@ -4,13 +4,17 @@
 		<div class="label"><label>Term:</label></div>
 		<div>
 			<a href="<: $u('Translate','tokenlanguage',$token_language.id) :>"><strong><: $token_language.token.msgid :></strong></a>
-			<: if $token_language.token.msgctxt { :>
-				<small>[<: $token_language.token.msgctxt :>]</small>
+			<: if $token_language.token.msgid_plural { :>
+				<a href="<: $u('Translate','tokenlanguage',$token_language.id) :>"><strong><: $token_language.token.msgid_plural :></strong></a>
 			<: } :>
-			<!--a href="<: $u('Translate','tokenlanguage',$token_language.id) :>" class="button">Discuss</a-->
-			<: if $token_language.translations.size() { :>
-				<p>(<: $l('A translation is in use') :>)</p>
-			<: } :>			
+			<p>
+				<: if $token_language.token.msgctxt { :>
+					[<: $token_language.token.msgctxt :>]
+				<: } :>
+				<: if $token_language.translations.size() { :>
+					(<: $l('A translation is in use') :>)
+				<: } :>			
+			</p>
 		</div>
 	</div>	
 	<: if $token_language.translations.size() { :>

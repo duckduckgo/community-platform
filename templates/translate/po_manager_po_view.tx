@@ -1,0 +1,32 @@
+<div class="content-box">
+	<div class="head">
+		<p><: include "translate/po_manager_poname.tx" { po_file => $po } :></p>
+	</div>
+	<div class="body">
+		<div class="row">
+			<form action="<: $u('Translate','po_manager_po_view',$po_filename) :>" method="get">
+				<strong>Compare with token domain</strong>
+				<select name="token_domain">
+					<: if !$po.domain { :>
+						<option value="">No domain associated... please pick</option>
+					<: } :>
+					<: for $token_domains -> $token_domain { :>
+						<option value="<: $token_domain.key :>"<: if $po.domain == $token_domain.key { :> selected="selected"<: } :>><: $token_domain.name :> [<: $token_domain.key :>]</option>
+					<: } :>
+				</select>
+				<input type="submit" value="Do it">
+			</form>
+		</div>
+		<: for $po.tokens.kv() -> $t { :>
+			<div class="row">
+				<: if $t.value.msgctxt { :>
+					msgctxt: <div class="button"><: $t.value.msgctxt :></div>
+				<: } :>
+				msgid: <div class="button"><: $t.value.msgid :></div>
+				<: if $t.value.msgid_plural { :>
+					msgid_plural: <div class="button"><: $t.value.msgid_plural :></div>
+				<: } :>
+			</div>
+		<: } :>
+	</div>
+</div>

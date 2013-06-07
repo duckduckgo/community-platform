@@ -1,0 +1,11 @@
+<: if $po_link { :>
+	<a href="<: $u('Translate','po_manager_po_view',$po_file.link) :>">
+<: } :>
+		<: $po_file.filename :>
+<: if $po_link { :>
+	</a>
+<: } :>
+uploaded by <: $po_file.uploader :> <: $dur_precise($po_file.created) :>
+<: if $po_file.domain { :>
+	for domain <: $po_file.domain :>
+<: } :>

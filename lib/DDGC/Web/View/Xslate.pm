@@ -42,6 +42,7 @@ __PACKAGE__->config(
 		u
 		l
 		dur
+		dur_precise
 	)],
 );
 
@@ -74,9 +75,22 @@ sub l { shift; shift->localize(@_) }
 
 sub dur {
 	my ( $self, $c, $date ) = @_;
+	$date = DateTime->from_epoch( epoch => $date ) unless ref $date;
 	return DateTime::Format::Human::Duration->new->format_duration(
 		DateTime->now - $date,
 		'units' => [qw/years months days/],
+		'past' => '%s ago',
+		'future' => 'in %s will be',
+		'no_time' => 'today',
+	);
+}
+
+sub dur_precise {
+	my ( $self, $c, $date ) = @_;
+	$date = DateTime->from_epoch( epoch => $date ) unless ref $date;
+	return DateTime::Format::Human::Duration->new->format_duration(
+		DateTime->now - $date,
+		'units' => [qw/years months days hours minutes/],
 		'past' => '%s ago',
 		'future' => 'in %s will be',
 		'no_time' => 'today',
