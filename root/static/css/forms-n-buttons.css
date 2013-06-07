@@ -267,6 +267,11 @@ Buttons
 	}	
 		.input-wrap .button { width: 100%; margin: 0 auto; padding: 0; }		
 	
+	.button.disabled, a.button.disabled, input.button.disabled {
+		cursor: default;
+	}
+		.button.disabled:hover, .button.disabled:active { background-color: #f8f8f8; }
+		
 	.button:hover {
 		background-color: #fff;
 	}	
@@ -290,6 +295,10 @@ Buttons
 		height: 35px;
 		line-height: 34px;
 	}
+	.button.full {
+		display: block;
+	}	
+	
 	.button.fb-like {
 		background: #ebedf4;
 		border-color: #cbd3e7;
