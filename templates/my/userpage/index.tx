@@ -1,0 +1,40 @@
+<: if $userpage_saved { :>
+	<div class="notice warning">
+		Changes saved
+	</div>
+<: } :>
+</div>
+<form action="<: $u('My::Userpage','index') :>" method="post">
+<div class="content-box">
+	<div class="head">
+		General public informations
+	</div>
+	<div class="body">
+		<: include "my/userpage/field.tx" { field => $fields.headline } :>
+		<: include "my/userpage/field.tx" { field => $fields.about } :>
+		<: include "my/userpage/field.tx" { field => $fields.whyddg } :>
+	</div>
+</div>
+
+<div class="content-box">
+	<div class="head">
+		Links
+	</div>
+	<div class="body">
+		<: include "my/userpage/field.tx" { field => $fields.email } :>
+		<: include "my/userpage/field.tx" { field => $fields.web } :>
+		<: include "my/userpage/field.tx" { field => $fields.twitter } :>
+		<: include "my/userpage/field.tx" { field => $fields.facebook } :>
+	</div>
+</div>
+
+<div class="content-box">
+	<div class="body">
+		<div class="row mid">
+			<input type="submit" class="big blue button" name="save_userpage" value="Save changes" />
+			<a class="big blue button" href="<: $u('Userpage','home',$c.user.username) :>">Go to your userpage</a>
+		</div>
+	</div>
+</div>
+
+</form>

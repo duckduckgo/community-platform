@@ -1,7 +1,14 @@
 <div class="content-box translate-overview">	
 	<div class="head">
-		<h2>Translation Management</h2>
+		<h2>Translation Management for <: $token_domain.name :></h2>
 	</div>
 	<div class="body">
+		<: for results($latest_comments) -> $comment { :>
+			<div class="row">
+				<img src="<: $comment.get_context_obj.token_domain_language.language.flag_url :>" />
+				<: $comment.get_context_obj.token_domain_language.language.name_in_english :>
+				<: include "comment/teaser.tx" { comment => $comment } :>
+			</div>
+		<: } :>
 	</div> 
 </div>

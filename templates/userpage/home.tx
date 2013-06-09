@@ -1,10 +1,34 @@
-<div class="content-box">
+<div class="content-box twothird">
 	<div class="head">		
 		<: include "user/userpic.tx" { user => $user } :>
-		<h2><: include "user/username.tx" { user => $user } :></h2>
+		<h2>
+			<: if $fields.headline.value { :>
+				<: $fields.headline.value :>
+			<: } else { :>
+				<: include "user/username.tx" { user => $user } :>
+			<: } :>
+		</h2>
 	</div>
 	<div class="body">
 		<div class="row">
+			<: include 'userpage/twothird/field.tx' { field => $fields.about,
+				description => "About"
+			} :>
+			<: include 'userpage/twothird/field.tx' { field => $fields.whyddg,
+				description => "Why DuckDuckGo?"
+			} :>
 		</div>
+	</div>
+</div>
+
+<div class="content-box third">
+	<div class="head">
+		Links
+	</div>
+	<div class="body">
+		<: include 'userpage/third/field.tx' { field => $fields.email } :>
+		<: include 'userpage/third/field.tx' { field => $fields.web } :>
+		<: include 'userpage/third/field.tx' { field => $fields.facebook } :>
+		<: include 'userpage/third/field.tx' { field => $fields.twitter } :>
 	</div>
 </div>

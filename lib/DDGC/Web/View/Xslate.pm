@@ -35,6 +35,10 @@ __PACKAGE__->config(
 			return $source;
 		},
 		urify => sub { lc(join('-',split(/\s+/,join(' ',@_)))) },
+		# user page field view template
+		upf_view => sub { 'userpage/'.$_[1].'/'.$_[0]->view.'.tx' },
+		# user page field edit template
+		upf_edit => sub { 'my/userpage/field/'.$_[0]->edit.'.tx' },
 	},
 	expose_methods => [qw(
 		next_template
@@ -69,8 +73,10 @@ sub link {
 	return $c->chained_uri($object->u,@args);
 }
 
+# url
 sub u { shift; shift->chained_uri(@_) }
 
+# localize
 sub l { shift; shift->localize(@_) }
 
 sub dur {

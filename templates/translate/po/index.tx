@@ -7,6 +7,10 @@
 			<div class="row">
 				<: include "translate/po/poname.tx" { po_file => $po_file, po_link => 1 } :>
 			</div>
+		<: } else { :>
+			<div class="row mid">
+				No uploads...
+			</div>
 		<: } :>
 	</div>
 </div>

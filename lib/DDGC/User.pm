@@ -32,7 +32,6 @@ has db => (
 		languages
 		screens
 		notes
-		data
 		token_language_translations
 		profile_picture
 		public_username
@@ -47,6 +46,19 @@ has db => (
 		update
 	)],
 );
+
+sub data {
+	my ( $self, $args ) = @_;
+	if (defined $args) {
+		return $self->db->data($args);
+	}
+	if ($self->db->data) {
+		#return {} unless ref $self->db->data eq 'HASH';
+		return $self->db->data;
+	} else {
+		return {};
+	}
+}
 
 sub locales { shift->lul }
 
