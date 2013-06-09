@@ -11,9 +11,9 @@
 			Contains <: $compare_result.new.size() :> new tokens and <: $compare_result.old.size() :> old ones...
 		</div>
 		<: if $compare_result.old.size() == 0 { :>
-			<div class="row mid">
-				<div class="button red">
-					WARNING! NO MATCHING TOKENS! MIGHT BE WRONG DOMAIN TO MATCH!
+			<div class="row">
+				<div class="notice supererror">
+					<i class="icn icon-warning-sign"></i>WARNING! NO MATCHING TOKENS! MIGHT BE WRONG DOMAIN TO MATCH!
 				</div>
 			</div>
 		<: } :>
@@ -29,11 +29,11 @@
 			<: for $po_entry.similar -> $po_entry { :>
 				<div class="row">
 					<: if $po_entry.msgctxt { :>
-						<span style="color:#ffffff;background-color:#d84736;padding:5px"><: $po_entry.msgctxt :></span>
+						<span class="tag red"><: $po_entry.msgctxt :></span>
 					<: } :>
-					<span style="color:#ffffff;background-color:#2c478f;padding:5px"><: $po_entry.msgid :></span>
+					<span class="tag blue fb"><: $po_entry.msgid :></span>
 					<: if $po_entry.msgid_plural { :>
-						<span style="color:#ffffff;background-color:#2fa9ef;padding:5px"><: $po_entry.msgid_plural :></span>
+						<span class="tag blue tw"><: $po_entry.msgid_plural :></span>
 					<: } :>
 				</div>
 			<: } :>
@@ -59,10 +59,10 @@
 	<div class="body">
 		<: if $compare_result.new.size() == 0 { :>
 			<div class="row mid">
-				<div class="button red">
-					NO NEW TOKENS! NOTHING TO MIGRATE
+				<div class="notice supererror">
+					<i class="icn icon-warning-sign"></i>NO NEW TOKENS! NOTHING TO MIGRATE
 				</div>
-				<a class="button blue" href="<: $u('Translate::Po','view',$po_filename) :>">
+				<a class="button" href="<: $u('Translate::Po','view',$po_filename) :>">
 					Back to view of po file content
 				</a>
 			</div>

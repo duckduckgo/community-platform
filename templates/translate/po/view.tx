@@ -6,7 +6,7 @@
 		<div class="row">
 			<form action="<: $u('Translate::Po','view',$po_filename) :>" method="get">
 				<strong>Compare with token domain</strong>
-				<select name="token_domain">
+				<select name="token_domain" class="language_select autosubmit"<: if !$po.domain { :> data-placeholder="No domain associated... please pick"<: } :>>
 					<: if !$po.domain { :>
 						<option value="">No domain associated... please pick</option>
 					<: } :>
@@ -14,7 +14,7 @@
 						<option value="<: $token_domain.key :>"<: if $po.domain == $token_domain.key { :> selected="selected"<: } :>><: $token_domain.name :> [<: $token_domain.key :>]</option>
 					<: } :>
 				</select>
-				<input type="submit" value="Do it">
+				<input type="submit" value="Do it" class="button js-hide" />
 			</form>
 		</div>
 		<div class="row mid">
@@ -23,9 +23,9 @@
 		<: for $po.tokens.values() -> $po_entry { :>
 			<: include "translate/po/poentry.tx" { po_entry => $po_entry } :>
 		<: } :>
-		<div class="row">
+		<div class="row mid">
 			<: if $c.user && $c.user.translation_manager { :>
-				<a class="big blue button" style="width:300px" href="<: $u('Translate::Po','view',$po_filename, { delete => 1 }) :>">Delete this po file!</a>
+				<a class="big blue button" href="<: $u('Translate::Po','view',$po_filename, { delete => 1 }) :>">Delete this po file!</a>
 			<: } :>
 		</div>
 	</div>
