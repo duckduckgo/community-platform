@@ -1,0 +1,8 @@
+<h1>
+	<: if $upload_filename { :>
+		Upload successful as <: $upload_filename :>
+	<: } :>
+	<: if $po_upload_error { :>
+		Error while upload: <: $po_upload_error :>
+	<: } :>
+</h1>

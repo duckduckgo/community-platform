@@ -4,6 +4,8 @@ use DBIx::Class::Candy -components => [ 'TimeStamp', 'InflateColumn::DateTime', 
 
 use Moose;
 use Path::Class;
+use DDGC::Util::Po;
+use Text::Fuzzy;
 
 table 'token_domain';
 
@@ -134,14 +136,80 @@ sub generate_pos {
 	}
 }
 
-sub analyze_tokens {
-	my ( $self, @tokens ) = @_;
-	use DDP; p(@tokens);
+sub get_po_entries {
+	my ( $self ) = @_;
+	my @token_results = $self->tokens->all;
+	my @pos;
+	for (@token_results) {
+		my %po;
+		$po{msgid} = $_->msgid;
+		$po{msgid_plural} = $_->msgid_plural if $_->msgid_plural;
+		$po{msgctxt} = $_->msgctxt if $_->msgctxt;
+		push @pos, \%po;
+	}
+	return @pos;
 }
 
-sub migrate_tokens {
+sub analyze_po_entries {
 	my ( $self, @tokens ) = @_;
-	use DDP; p(@tokens);
+	my ( $new, $old ) = $self->intersect_po_entries(@tokens);
+	for (@{$new}) {
+		my @similar = $self->similar_po_entries($_);
+		$_->{similar} = \@similar;
+	}
+	return {
+		new => $new,
+		old => $old,
+	}
+}
+
+sub migrate_po_entries {
+	my ( $self, @tokens ) = @_;
+	my ( $new, $old ) = $self->intersect_po_entries(@tokens);
+	my @new_tokens;
+	for (@{$new}) {
+		push @new_tokens, $self->create_related('tokens',{
+			msgid => $_->{msgid},
+			defined $_->{msgid_plural} ? ( msgid_plural => $_->{msgid_plural} ) : (),
+			defined $_->{msgctxt} ? ( msgctxt => $_->{msgctxt} ) : (),
+		});
+	}
+	return @new_tokens;
+}
+
+sub similar_po_entries {
+	my ( $self, $po ) = @_;
+	my $tf = Text::Fuzzy->new($po->{msgid});
+	$tf->transpositions_ok(1);
+	$tf->set_max_distance(100);
+	my %by_msgid;
+	for ($self->get_po_entries) {
+		$by_msgid{$_->{msgid}} = [] unless defined $by_msgid{$_->{msgid}};
+		push @{$by_msgid{$_->{msgid}}}, $_;
+	}
+	return unless %by_msgid;
+	my $keys = [keys %by_msgid];
+	my @similar = map { @{$by_msgid{$keys->[$_]}} } $tf->nearest($keys);
+	my $size = scalar @similar;
+	my $max_index = $size >= 5 ? 4 : $size-1;
+	return @similar[0..$max_index];
+}
+
+sub intersect_po_entries {
+	my ( $self, @tokens ) = @_;
+	my %new_token = %{token_hash(@tokens)};
+	my %has_token = %{token_hash($self->get_po_entries)};
+	my @new;
+	my @old;
+	for (keys %new_token) {
+		my $val = $new_token{$_};
+		if (defined $has_token{$_}) {
+			push @old, $val;
+		} else {
+			push @new, $val;
+		}
+	}
+	return \@new, \@old;
 }
 
 use overload '""' => sub {

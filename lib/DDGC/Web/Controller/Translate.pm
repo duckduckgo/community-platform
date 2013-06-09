@@ -32,122 +32,6 @@ sub index :Chained('base') :PathPart('') :Args(0) {
 	$c->bc_index;
 }
 
-sub po_upload :Chained('base') :Args(0) {
-    my ( $self, $c ) = @_;
-	if (!$c->user) {
-		$c->res->code(403);
-		$c->stash->{no_user} = 1;
-		return $c->detach;
-	}
-	if (!$c->user->translation_manager) {
-		$c->res->code(403);
-		$c->stash->{no_translation_manager} = 1;
-		return $c->detach;
-	}
-	my $uploader = $c->user->username;
-	my $upload = $c->req->upload('po_upload');
-	my $domain = $c->req->param('token_domain');
-	my @entries;
-	eval {
-		my $entries_ref = read_po_file($upload->tempname);
-		@entries = @{$entries_ref};
-	};
-	if ($@) {
-		$c->res->code(403);
-		$c->stash->{po_upload_error} = $@;
-		return $c->detach;
-	}
-	unless (@entries) {
-		$c->res->code(403);
-		$c->stash->{no_entries} = 1;
-		return $c->detach;
-	}
-	my $dir = dir($c->d->config->cachedir,'po');
-	$dir->mkpath unless -d $dir;
-	my $i = 0;
-	my %data = (
-		tokens => { map { $i++, $_ } @entries },
-		uploader => $uploader,
-		created => DateTime->now->epoch,
-		filename => $upload->filename,
-		$domain ? ( domain => $domain ) : (),
-	);
-	my $filename = $data{created}.'.'.$data{uploader}.( $domain ? '.'.$domain : '' ).'.json';
-	io($dir->file($filename))->print(encode_json(\%data));
-}
-
-sub po_manager :Chained('base') :CaptureArgs(0) {
-    my ( $self, $c ) = @_;
-	if (!$c->user) {
-		$c->response->redirect($c->chained_uri('My','login'));
-		return $c->detach;
-	}
-	if (!$c->user || !$c->user->admin) {
-		$c->response->redirect($c->chained_uri('Root','index',{ admin_required => 1 }));
-		return $c->detach;
-	}
-	$c->add_bc('Po Manager', $c->chained_uri('Translate','po_manager_index'));
-}
-
-sub po_manager_index :Chained('po_manager') :PathPart('') :Args(0) {
-    my ( $self, $c ) = @_;
-    $c->bc_index;
-	my $dir = io(dir($c->d->config->cachedir,'po')->stringify);
-	my @pos;
-	for (keys %$dir) {
-		next if $_ =~ /^\./;
-		my $link = $_;
-		push @pos, {
-			%{decode_json(io($dir->{$_})->slurp)},
-			link => $link,
-		};
-	}
-	@pos = sort { $a->{created} <=> $b->{created} } @pos;
-	$c->stash->{po_list} = \@pos;
-}
-
-sub po_manager_po :Chained('po_manager') :PathPart('') :CaptureArgs(1) {
-    my ( $self, $c, $po ) = @_;
-	$c->stash->{po_filename} = $po;
-	$c->stash->{po} = decode_json(io(file($c->d->config->cachedir,'po',$po)->stringify)->slurp);
-	$c->add_bc($po);
-}
-
-sub po_manager_po_view :Chained('po_manager_po') :PathPart('') :Args(0) {
-    my ( $self, $c ) = @_;
-    if ($c->req->param('token_domain')) {
-		$c->response->redirect(
-			$c->chained_uri(
-				'Translate',
-				'po_manager_po_domain',
-				$c->stash->{po_filename},
-				$c->req->param('token_domain')
-			)
-		);
-		return $c->detach;
-	}
-    $c->stash->{token_domains} = [$c->d->rs('Token::Domain')->search()->all];
-}
-
-sub po_manager_po_domain_capture :Chained('po_manager_po') :PathPart('') :CaptureArgs(1) {
-	my ( $self, $c, $domain ) = @_;
-	$c->stash->{token_domain} = $c->d->rs('Token::Domain')->find({ key => $domain });
-	if (!$c->stash->{token_domain}) {
-		$c->response->redirect($c->chained_uri('Translate','po_manager_index'));
-		return $c->detach;
-	}
-}
-
-sub po_manager_po_domain :Chained('po_manager_po_domain_capture') :PathPart('') :Args(0) {
-	my ( $self, $c ) = @_;
-	$c->stash->{po_analyze_result} = $c->stash->{token_domain}->analyze_tokens(values %{$c->stash->{po}->{tokens}});
-}
-
-sub po_manager_po_domain_migrate :Chained('po_manager_po_domain_capture') :PathPart('migrate') :Args(0) {
-	my ( $self, $c ) = @_;
-	$c->stash->{po_migrate_result} = $c->stash->{token_domain}->migrate_tokens(values %{$c->stash->{po}->{tokens}});
-}
-
 sub logged_in :Chained('base') :PathPart('') :CaptureArgs(0) {
     my ( $self, $c ) = @_;
 	if (!$c->user) {
@@ -254,7 +138,7 @@ sub domain :Chained('logged_in') :PathPart('') :CaptureArgs(1) {
 sub admin :Chained('domain') :Args(0) {
     my ( $self, $c ) = @_;
 
-    $c->add_bc('Token management', '');
+    $c->add_bc('Translation Administration', '');
 
    	if ($c->req->params->{search_token_comments}) {
    		$c->stash->{search_token_comments_result} = $c->stash->{token_domain}->tokens->search({

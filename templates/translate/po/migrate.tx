@@ -1,0 +1,18 @@
+<div class="content-box">
+	<div class="head">
+		<: include "translate/po/poname.tx" { po_file => $po } :>
+	</div>
+	<div class="body">
+		<div class="row mid">
+			<h2>Migrating with "<: $token_domain.name :>"</h2>
+		</div>
+		<: for $new_tokens -> $po_entry { :>
+			<div class="row">
+				<: include "translate/po/poentry.tx" { po_entry => $po_entry } :>
+			</div>
+		<: } :>
+		<div class="button blue">
+			DONE!
+		</div>
+	</div>
+</div>

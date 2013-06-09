@@ -1,0 +1,9 @@
+<div class="row">
+	<: if $po_entry.msgctxt { :>
+		<div class="red button"><: $po_entry.msgctxt :></div>
+	<: } :>
+	<div class="blue fb button"><: $po_entry.msgid :></div>
+	<: if $po_entry.msgid_plural { :>
+		<div class="blue tw button"><: $po_entry.msgid_plural :></div>
+	<: } :>
+</div>

@@ -1,5 +1,5 @@
 <: if $po_link { :>
-	<a href="<: $u('Translate','po_manager_po_view',$po_file.link) :>">
+	<a href="<: $u('Translate::Po','view',$po_file.link) :>">
 <: } :>
 		<: $po_file.filename :>
 <: if $po_link { :>

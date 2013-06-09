@@ -1,10 +1,10 @@
 <div class="content-box">
 	<div class="head">
-		<p><: include "translate/po_manager_poname.tx" { po_file => $po } :></p>
+		<p><: include "translate/po/poname.tx" { po_file => $po } :></p>
 	</div>
 	<div class="body">
 		<div class="row">
-			<form action="<: $u('Translate','po_manager_po_view',$po_filename) :>" method="get">
+			<form action="<: $u('Translate::Po','view',$po_filename) :>" method="get">
 				<strong>Compare with token domain</strong>
 				<select name="token_domain">
 					<: if !$po.domain { :>
@@ -17,16 +17,16 @@
 				<input type="submit" value="Do it">
 			</form>
 		</div>
-		<: for $po.tokens.kv() -> $t { :>
-			<div class="row">
-				<: if $t.value.msgctxt { :>
-					msgctxt: <div class="button"><: $t.value.msgctxt :></div>
-				<: } :>
-				msgid: <div class="button"><: $t.value.msgid :></div>
-				<: if $t.value.msgid_plural { :>
-					msgid_plural: <div class="button"><: $t.value.msgid_plural :></div>
-				<: } :>
-			</div>
+		<div class="row mid">
+			<: include "translate/po/poentrydesc.tx" :>
+		</div>
+		<: for $po.tokens.values() -> $po_entry { :>
+			<: include "translate/po/poentry.tx" { po_entry => $po_entry } :>
 		<: } :>
+		<div class="row">
+			<: if $c.user && $c.user.translation_manager { :>
+				<a class="big blue button" style="width:300px" href="<: $u('Translate::Po','view',$po_filename, { delete => 1 }) :>">Delete this po file!</a>
+			<: } :>
+		</div>
 	</div>
 </div>

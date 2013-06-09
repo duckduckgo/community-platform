@@ -3,6 +3,12 @@
 
 <: if !$c.user { :><div class="notice warning clickaway"><i class="icn icon-warning-sign"></i>You must be logged in for translating <span class="account-actions"><a href="<: $u('My','register') :>" class="first nav-signup">Sign up</a><a href="<: $u('My','login') :>" class="nav-login" data-reveal-id="login-box">Login</a></span><i class="close icon-remove"></i></div><: } :>
 
+<: if $c.user.admin { :>
+	<div class="content-box">
+			<a class="big blue button" href="<: $u('Translate::Po','index') :>">Po Manager</a>
+	</div>
+<: } :>
+
 <div class="content-box translate-overview">	
 	<div class="head">		
 		<h2>Translation Interface</h2>
@@ -34,6 +40,11 @@
 						</div>
 						<div class="eighth"><a href="<: $u('Translate','localecomments',$token_domain.key,$token_domain_language.language.locale) :>" class="button">Discuss</a></div>			
 					</div>
+				<: } :>
+			</div>
+			<div class="row">
+				<: if $c.user && $c.user.translation_manager { :>
+					<a class="big blue button" style="width:300px" href="<: $u('Translate','admin',$token_domain.key) :>">Translation Management</a>
 				<: } :>
 			</div>
 		<: } :>

@@ -5,7 +5,7 @@
 	<div class="body">
 		<: for $po_list -> $po_file { :>
 			<div class="row">
-				<: include "translate/po_manager_poname.tx" { po_file => $po_file, po_link => 1 } :>
+				<: include "translate/po/poname.tx" { po_file => $po_file, po_link => 1 } :>
 			</div>
 		<: } :>
 	</div>
