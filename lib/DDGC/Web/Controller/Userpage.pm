@@ -13,14 +13,21 @@ sub base :Chained('/base') :PathPart('') :CaptureArgs(0) {
 
 sub user :Chained('base') :PathPart('') :CaptureArgs(1) {
     my ( $self, $c, $username ) = @_;
+    my $json = 0;
+    if ($username =~ m/^(.*)\.json$/) {
+        $username = $1;
+        $json = 1;
+    }
     $c->stash->{user} = $c->d->find_user($username);
     $c->stash->{up} = DDGC::User::Page->new_from_user($c->stash->{user});
     $c->stash->{fields} = $c->stash->{up}->attribute_fields;
     unless ($c->stash->{user} && $c->stash->{user}->public) {
     	return $c->go('/default');
     }
+    $c->stash->{x} = $c->stash->{up}->data;
     $c->add_bc('User page of '.$username, '');
     $c->stash->{title} = $username." User Page";
+    $c->forward('View::JSON') if $json;
 }
 
 sub home :Chained('user') :PathPart('') :Args(0) {
