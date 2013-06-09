@@ -24,7 +24,7 @@
 		box-sizing: border-box;
 	}
 		
-.translate-overview .button { width: 90px; }	
+.translate-overview .button--discuss { width: 90px; }	
 
 .translate-overview .body h3 { color: #454336; font-size: 18px; margin: 0; padding-top: 16px; }
 .translate-overview p { margin: 0; padding: 5px 0 8px; color: #818489; }
