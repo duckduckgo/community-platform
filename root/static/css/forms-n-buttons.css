@@ -238,10 +238,10 @@ Column Forms
 }
 	
 /*--------------------------------------------------
-Buttons
+Buttons/Tags
 -------------------------------------------------- */	
 	
-.button, a.button, input.button {
+.button, .tag, a.button, input.button {
 	text-align: center; 
 	padding: 4px 12px;
 	display: inline-block; 
@@ -251,10 +251,8 @@ Buttons
 	-webkit-border-radius: 3px;
 	border-radius: 3px;
 	text-shadow: 0 1px 1px #fff;
-	background-color: #f8f8f8;
-	font-weight: bold;
-	color: #474747;
-	cursor: pointer;
+	background-color: #f8f8f8;	
+	color: #474747;	
 	box-shadow: inset 0 1px 0 rgba(255,255,255,0.1), 0 1px 1px rgba(0,0,0,0.1);
 	-webkit-box-sizing: content-box;
 	-moz-box-sizing: content-box;
@@ -262,6 +260,13 @@ Buttons
 	-o-box-sizing: content-box;
 	box-sizing: content-box;
 }
+	.button {
+		cursor: pointer;
+		font-weight: bold;
+	}
+	.tag {
+		margin-bottom: 4px; 
+	}
 	.half > .button, .third  > .button, .twothird  > .button, .quarter > .button, .sixth > .button { 
 		width: 95%; margin: 0 2.5%; padding: 4px 0;
 	}	
@@ -288,24 +293,39 @@ Buttons
 		background-color: #f8f8f8;
 		cursor: default;
 	}
-	.button.big {
+	.button.big, .tag.big {
 		font-size: 1.1em; 
 		font-weight: bold;
 		padding: 0 19px;
 		height: 35px;
 		line-height: 34px;
 	}
-	.button.full {
+	.button.full, .tag.full {
 		display: block;
 	}	
-	
-	.button.fb-like {
-		background: #ebedf4;
-		border-color: #cbd3e7;
-		color: #485599;
-		font-weight: normal;
+		
+	.button.black, .tag.black {
+		color: #fff;
+		background-color: #444;
+		border-color: #000;
 	}
-	.button.red {
+		.button.black:hover { background-color: #000; }
+	
+	.button.yellow, .tag.yellow {
+		color: #484438;
+		background-color: #ffde85;		
+		border-color: #d8be74;
+	}
+		.button.yellow:hover { background-color: #f7d26c; }
+	
+	.button.green, .tag.green {
+		color: #fff;
+		background-color: #48af04;
+		border-color: #3b9202;
+	}
+		.button.green:hover { background-color: #51c207; }
+		
+	.button.red, .tag.red {
 		color: #fff;
 		background-color: #d84736;
 		border-color: #ae2419;
@@ -313,22 +333,22 @@ Buttons
 	}
 		.button.red:hover { background-color: #c43429; }
 		
-	.button.darkblue {
+	.button.darkblue, .tag.darkblue {
 		color: #fff;
 		background-color: #6b7b94;
 		border-color: #395c72;
 		text-shadow: 0 -1px 1px #3d4751;
 	}
-	.button.blue {
+	.button.blue, .tag.blue {
 		color: #fff;
 		background-color: #4b8df8; 
 		border-color: #2c478f;
 		text-shadow: 0 1px 1px #3769b8;
 	}
-	.button.blue.fb {
+	.button.blue.fb, .tag.blue.fb {
 		background-color: #3e5499;
 	}
-	.button.blue.tw {
+	.button.blue.tw, .tag.blue.tw {
 		background-color: #2fa9ef;
 		border-color: #1c8ac9;
 	}
@@ -342,7 +362,12 @@ Buttons
 			-webkit-box-shadow: 0 0 5px #666;
 			box-shadow: 0 0 5px #666;
 		}
-		
+	.button.fb-like, .tag.fb-like {
+		background: #ebedf4;
+		border-color: #cbd3e7;
+		color: #485599;
+		font-weight: normal;
+	}	
 /* 
 	Media Queries
 */		
