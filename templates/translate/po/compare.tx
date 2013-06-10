@@ -8,6 +8,9 @@
 		</div>
 		<div class="row mid">
 			Contains <: $compare_result.new.size() :> new tokens and <: $compare_result.old.size() :> old ones...
+			<a class="button" href="<: $u('Translate::Po','view',$po_filename) :>">
+				Back to view of po file content
+			</a>
 		</div>
 		<: if $compare_result.old.size() == 0 { :>
 			<div class="row">
@@ -57,27 +60,29 @@
 	</div>
 </div>
 
-<div class="content-box">
-	<div class="head">
-		<: include "translate/po/poname.tx" { po_file => $po } :>
-	</div>
-	<div class="body">
-		<: if $compare_result.new.size() == 0 { :>
-			<div class="row mid">
-				<div class="notice supererror">
-					<i class="icn icon-warning-sign"></i>NO NEW TOKENS! NOTHING TO MIGRATE
+<: if $c.user.admin { :>
+	<div class="content-box">
+		<div class="head">
+			<: include "translate/po/poname.tx" { po_file => $po } :>
+		</div>
+		<div class="body">
+			<: if $compare_result.new.size() == 0 { :>
+				<div class="row mid">
+					<div class="notice supererror">
+						<i class="icn icon-warning-sign"></i>NO NEW TOKENS! NOTHING TO MIGRATE
+					</div>
+					<a class="button" href="<: $u('Translate::Po','view',$po_filename) :>">
+						Back to view of po file content
+					</a>
 				</div>
-				<a class="button" href="<: $u('Translate::Po','view',$po_filename) :>">
-					Back to view of po file content
-				</a>
-			</div>
-		<: } else { :>
-			<div class="row mid">
-				Will add <: $compare_result.new.size() :> new tokens!
-			</div>
-			<div class="row mid">
-				<a class="big blue button" href="<: $u('Translate::Po','migrate',$po_filename,$token_domain.key) :>">Migrate this po into the domain <: $token_domain.key :></a>
-			</div>
-		<: } :>
+			<: } else { :>
+				<div class="row mid">
+					Will add <: $compare_result.new.size() :> new tokens!
+				</div>
+				<div class="row mid">
+					<a class="big blue button" href="<: $u('Translate::Po','migrate',$po_filename,$token_domain.key) :>">Migrate this po into the domain <: $token_domain.key :></a>
+				</div>
+			<: } :>
+		</div>
 	</div>
-</div>
+<: } :>

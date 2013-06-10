@@ -3,7 +3,6 @@ use Moose;
 use namespace::autoclean;
 
 use DDGC::Config;
-use Dist::Data;
 
 BEGIN {extends 'Catalyst::Controller'; }
 
@@ -17,7 +16,7 @@ sub user :Chained('base') :PathPart('') :CaptureArgs(1) {
 	unless ($c->stash->{user} && $c->stash->{user}->public) {
 		return $c->go('/default');
 	}
-	$c->stash->{up} = DDGC::User::Page->new_from_user($c->stash->{user});
+	$c->stash->{up} = $c->stash->{user}->userpage;
 	$c->stash->{fields} = $c->stash->{up}->attribute_fields;
 	$c->stash->{x} = $c->stash->{up}->export;
 	$c->stash->{x}->{username} = $username;

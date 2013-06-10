@@ -18,7 +18,7 @@ sub base :Chained('/translate/base') :PathPart('po') :CaptureArgs(0) {
 		$c->response->redirect($c->chained_uri('My','login'));
 		return $c->detach;
 	}
-	if (!$c->user || !$c->user->admin) {
+	if (!$c->user || !$c->user->translation_manager) {
 		$c->response->redirect($c->chained_uri('Root','index',{ admin_required => 1 }));
 		return $c->detach;
 	}
@@ -136,6 +136,15 @@ sub compare :Chained('domain') :PathPart('') :Args(0) {
 
 sub migrate :Chained('domain') :PathPart('migrate') :Args(0) {
 	my ( $self, $c ) = @_;
+	if (!$c->user || !$c->user->admin) {
+		$c->response->redirect($c->chained_uri(
+			'Translate::Po',
+			'compare',
+			$c->stash->{po_filename},
+			$c->req->param('token_domain'),
+		));
+		return $c->detach;
+	}
 	$c->stash->{new_tokens} = [$c->stash->{token_domain}->migrate_po_entries(values %{$c->stash->{po}->{tokens}})];
 	file($c->d->config->cachedir,'po',$c->stash->{po_filename})->remove;
 }

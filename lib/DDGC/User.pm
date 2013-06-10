@@ -4,6 +4,7 @@ use Moose;
 use DDGC::XMPP;
 use DDGC::DB;
 use Prosody::Mod::Data::Access;
+use DDGC::User::Page;
 
 has ddgc => (
 	isa => 'DDGC',
@@ -46,6 +47,11 @@ has db => (
 		update
 	)],
 );
+
+sub userpage {
+	my ( $self ) = @_;
+	return DDGC::User::Page->new_from_user($self);
+}
 
 sub data {
 	my ( $self, $args ) = @_;
