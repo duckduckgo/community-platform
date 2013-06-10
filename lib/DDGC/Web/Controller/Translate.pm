@@ -154,8 +154,6 @@ sub admin :Chained('domain') :Args(0) {
 
 sub domainindex :Chained('domain') :PathPart('') :Args(0) {
     my ( $self, $c ) = @_;
-	$c->response->redirect($c->chained_uri('Translate','tokens',$c->stash->{token_domain}->key,$c->stash->{locale}));
-	return $c->detach;
 }
 
 sub locale :Chained('domain') :PathPart('') :CaptureArgs(1) {
