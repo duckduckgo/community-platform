@@ -37,7 +37,6 @@ sub index :Chained('base') :PathPart('') :Args(0) {
 sub default :Chained('base') :PathPart('') :Args {
 	my ( $self, $c ) = @_;
 	$c->response->status(404);
-        warn "\nBEEP BEEP MOTHERFUCKING BEEP\n";
 	$c->add_bc('Not found', '');
 }
 
