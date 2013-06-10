@@ -3,14 +3,23 @@ package DDGC::User::Page;
 use Moose;
 use DDGC::User::Page::Field;
 use URI;
-use Locale::Country;
 
 # default type = text
 
 my @attributes = (
+
+############################ About
+
 	headline => 'Userpage headline, instead of username' => {},
 	about => 'About you' => { type => 'textarea' },
 	whyddg => 'Why DuckDuckGo?' => { type => 'textarea' },
+	realname => 'If you want to make your real name public, do it here:' => {},
+	country => 'Living in country' => { type => 'country' },
+	city => 'Living in city/town' => {},
+	birth_country => 'Born in country' => { type => 'country' },
+
+########################### Links
+
 	email => 'Your public email' => { type => 'email' },
 	web => 'Your website' => { type => 'url' },
 	twitter => 'Your Twitter username' => {
@@ -55,15 +64,15 @@ my @attributes = (
 			user_suffix => ' on reddit',
 		},
 	},
-	deviantart => 'Your deviantart username' => {
+	deviantart => 'Your deviantART username' => {
 		type => 'remote',
 		validators => [sub {
-			m/^[\w\.]+$/ ? () : ("Invalid deviantart username")
+			m/^[\w\.]+$/ ? () : ("Invalid deviantART username")
 		}],
 		params => {
 			url_prefix => 'http://',
 			url_suffix => '.deviantart.com/',
-			user_suffix => ' on deviantart',
+			user_suffix => ' on deviantART',
 		},
 	},
 	imgur => 'Your imgur username' => {
@@ -77,6 +86,29 @@ my @attributes = (
 			user_suffix => ' on imgur',
 		},
 	},
+	youtube => 'Your YouTube channel' => {
+		type => 'remote',
+		validators => [sub {
+			m/^[\w\.]+$/ ? () : ("Invalid YouTube username")
+		}],
+		params => {
+			url_prefix => 'https://youtube.com/user/',
+			user_suffix => ' on YouTube',
+		},
+	},
+	flickr => 'Your flickr username' => {
+		type => 'remote',
+		validators => [sub {
+			m/^[\w\.]+$/ ? () : ("Invalid flickr username")
+		}],
+		params => {
+			url_prefix => 'http://www.flickr.com/photos/',
+			user_suffix => ' on flickr',
+		},
+	},
+
+############ Other widgets
+
 	languages => 'Show your languages and translation counts public?' => { type => 'noyes',
 		view => 'languages',
 		export => sub {
@@ -180,6 +212,14 @@ sub update {
 	$data->{userpage} = $self->data;
 	$self->user->data($data);
 	$self->user->update;
+}
+
+sub has_value_for {
+	my ( $self, @fields ) = @_;
+	for (@fields) {
+		return 1 if $self->field($_)->value;
+	}
+	return 0;
 }
 
 1;

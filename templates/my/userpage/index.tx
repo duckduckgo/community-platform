@@ -4,15 +4,15 @@
 	</div>
 <: } :>
 <form action="<: $u('My::Userpage','index') :>" method="post">
+
 <div class="content-box">
 	<div class="head">
 		General public informations
 	</div>
 	<div class="body">
-		<: include "my/userpage/field.tx" { field => $fields.headline } :>
-		<: include "my/userpage/field.tx" { field => $fields.about } :>
-		<: include "my/userpage/field.tx" { field => $fields.whyddg } :>
-		<: include "my/userpage/field.tx" { field => $fields.languages } :>
+		<: for ['headline','about','whyddg'] -> $remote { :>
+			<: include "my/userpage/field.tx" { field => $fields[$remote] } :>
+		<: } :>
 	</div>
 </div>
 
@@ -21,14 +21,20 @@
 		Links
 	</div>
 	<div class="body">
-		<: include "my/userpage/field.tx" { field => $fields.email } :>
-		<: include "my/userpage/field.tx" { field => $fields.web } :>
-		<: include "my/userpage/field.tx" { field => $fields.github } :>
-		<: include "my/userpage/field.tx" { field => $fields.twitter } :>
-		<: include "my/userpage/field.tx" { field => $fields.facebook } :>
-		<: include "my/userpage/field.tx" { field => $fields.reddit } :>
-		<: include "my/userpage/field.tx" { field => $fields.deviantart } :>
-		<: include "my/userpage/field.tx" { field => $fields.imgur } :>
+		<: for ['email','web','github','twitter','facebook','reddit','deviantart','imgur','youtube','flickr'] -> $remote { :>
+			<: include "my/userpage/field.tx" { field => $fields[$remote] } :>
+		<: } :>
+	</div>
+</div>
+
+<div class="content-box">
+	<div class="head">
+		About (not yet displayed)
+	</div>
+	<div class="body">
+		<: for ['realname','country','city','birth_country'] -> $remote { :>
+			<: include "my/userpage/field.tx" { field => $fields[$remote] } :>
+		<: } :>
 	</div>
 </div>
 

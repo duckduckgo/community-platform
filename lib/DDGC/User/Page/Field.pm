@@ -3,6 +3,7 @@ package DDGC::User::Page::Field;
 use Moose;
 use Email::Valid;
 use Data::Validate::URI qw(is_uri);
+use Locale::Country;
 
 #######################################################
 
@@ -24,6 +25,18 @@ my %types = (
 		view => 'select',
 		edit => 'select',
 		validators => ['select'],
+		export => 'select',
+	},
+	country => {
+		view => 'select',
+		edit => 'select',
+		validators => ['select'],
+		params => {
+			options => [
+				'' => 'Pick a country',
+				map { country2code($_) => $_ } all_country_names(),
+			],
+		},
 		export => 'select',
 	},
 	noyes => {

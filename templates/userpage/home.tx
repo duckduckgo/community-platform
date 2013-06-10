@@ -56,14 +56,9 @@
 			Links
 		</div>
 		<div class="body">
-			<: include 'userpage/third/field.tx' { field => $fields.email } :>
-			<: include 'userpage/third/field.tx' { field => $fields.web } :>
-			<: include 'userpage/third/field.tx' { field => $fields.github } :>
-			<: include 'userpage/third/field.tx' { field => $fields.twitter } :>
-			<: include 'userpage/third/field.tx' { field => $fields.facebook } :>
-			<: include 'userpage/third/field.tx' { field => $fields.reddit } :>
-			<: include 'userpage/third/field.tx' { field => $fields.deviantart } :>
-			<: include 'userpage/third/field.tx' { field => $fields.imgur } :>
+			<: for ['email','web','github','twitter','facebook','reddit','deviantart','imgur','youtube','flickr'] -> $remote { :>
+				<: include 'userpage/third/field.tx' { field => $fields[$remote] } :>
+			<: } :>
 		</div>
 	</div>
 
