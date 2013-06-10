@@ -7,8 +7,6 @@ use Locale::Country;
 
 # default type = text
 
-use DDP; p(all_country_names());
-
 my @attributes = (
 	headline => 'Userpage headline, instead of username' => {},
 	about => 'About you' => { type => 'textarea' },
@@ -42,9 +40,12 @@ has data => (
 sub export {
 	my ( $self ) = @_;
 	my %export;
+	my %errors;
 	for (keys %{$self->attribute_fields}) {
 		$export{$_} = $self->field($_)->export_value;
+		$errors{$_} = $self->field($_)->errors if $self->field($_)->error_count;
 	}
+	$export{errors} = \%errors if %errors;
 	return \%export;
 }
 
