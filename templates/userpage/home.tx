@@ -1,6 +1,7 @@
-<div class="twothird">
+<div class="gw">
+<div class="g twothird gw">
 
-	<div class="content-box whole">
+	<div class="g content-box whole">
 		<div class="head">		
 			<: include "user/userpic.tx" { user => $user } :>
 			<h2>
@@ -25,7 +26,7 @@
 
 	<!-- Following 2 columns will be filled later by system weighted out or user can drag & drop.. i don't know yet -->
 
-	<div class="half">
+	<div class="g half">
 		<: if $fields.languages.value { :>
 			<div class="content-box">
 				<div class="head">
@@ -38,14 +39,14 @@
 		<: } :>
 	</div>
 
-	<div class="half">
+	<div class="g half">
 	</div>
 
 </div>
 
-<div class="third">
+<div class="g third gw">
 
-	<div class="content-box whole">
+	<div class="g content-box whole">
 		<div class="head">
 			Links
 		</div>
@@ -58,4 +59,5 @@
 		</div>
 	</div>
 
+</div>
 </div>

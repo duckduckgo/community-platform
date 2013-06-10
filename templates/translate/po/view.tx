@@ -6,7 +6,7 @@
 		<div class="row">
 			<form action="<: $u('Translate::Po','view',$po_filename) :>" method="get">
 				<strong>Compare with token domain</strong>
-				<select name="token_domain" class="language_select autosubmit"<: if !$po.domain { :> data-placeholder="No domain associated... please pick"<: } :>>
+				<select name="token_domain" class="language_select"<: if !$po.domain { :> data-placeholder="No domain associated... please pick"<: } :>>
 					<: if !$po.domain { :>
 						<option value="">No domain associated... please pick</option>
 					<: } :>
@@ -14,7 +14,7 @@
 						<option value="<: $token_domain.key :>"<: if $po.domain == $token_domain.key { :> selected="selected"<: } :>><: $token_domain.name :> [<: $token_domain.key :>]</option>
 					<: } :>
 				</select>
-				<input type="submit" value="Do it" class="button js-hide" />
+				<input type="submit" value="Do it" class="button" />
 			</form>
 		</div>
 		<div class="row mid">
