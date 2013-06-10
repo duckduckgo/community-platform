@@ -1,3 +1,8 @@
+<: if $no_languages { :>
+	<div class="notice error">
+		Please add a list of languages you can speak, before trying to use the translation interface!
+	</div>
+<: } :>
 <form action="<: $u('My','account') :>" method="post" id="formAccount">
 	<div class="content-box account-box">
 		<div class="head">
@@ -39,11 +44,13 @@
 			<div class="row">
 				<p>Trying to add a language that's not on the list? <a href="<: $u('My','requestlanguage') :>">Request it here!</a></p>
 			</div>
-			<div class="row callout-row">
-				<a href="<: $u('Translate','index') :>">
-					<i class="icon-circle-arrow-right right"></i><h3 class="icon"><i class="icon-globe"></i> Help us translate DuckDuckGo into your languages.</h3>
-				</a>
-			</div>
+			<: if my $size = results($c.user.user_languages).size() { :>
+				<div class="row callout-row">
+					<a href="<: $u('Translate','index') :>">
+						<i class="icon-circle-arrow-right right"></i><h3 class="icon"><i class="icon-globe"></i>Help us translate DuckDuckGo into your languages.</h3>
+					</a>
+				</div>
+			<: } :>
 		</div>
 	</div>
 

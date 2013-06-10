@@ -1,6 +1,9 @@
-<div class="disclaimer">
+<div class="disclaimer notice warning">
 	<h6>Please note:</h6>
 	<p>You do not need this DuckDuckGo community account to use the DuckDuckGo search engine. You do not need to share personal information to create this DuckDuckGo community account (i.e. you can use an anonymous username). We log as little as possible on this open source community platform (e.g. no IP addresses or user agents).</p>
+</div>
+<div class="disclaimer notice warning">
+	<h6>You don't need to register if you already have a XMPP account on dukgo.com! Just <a href="<: $u('My','login') :>">login</a> with those credentials.</h6>
 </div>
 <: if $wrong_captcha { :>
 	<p class="notice error">

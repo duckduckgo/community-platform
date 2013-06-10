@@ -39,7 +39,7 @@ sub logged_in :Chained('base') :PathPart('') :CaptureArgs(0) {
 		return $c->detach;
 	}
 	if (!$c->user->db->user_languages->search({})->all) {
-		$c->response->redirect($c->chained_uri('My','account'));
+		$c->response->redirect($c->chained_uri('My','account',{ no_languages => 1 }));
 		return $c->detach;
 	}
 }
