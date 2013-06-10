@@ -64,7 +64,7 @@ my @attributes = (
 			$val ? 'http://www.reddit.com/user/'.$val : ''
 		},
 	},
-	languages => 'Show your languages public?' => { type => 'noyes',
+	languages => 'Show your languages and translation counts public?' => { type => 'noyes',
 		view => 'languages',
 		export => sub {
 			my ( $self ) = @_;

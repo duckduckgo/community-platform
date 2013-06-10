@@ -3,6 +3,24 @@
 
 <: if !$c.user { :><div class="notice warning clickaway"><i class="icn icon-warning-sign"></i>You must be logged in for translating <span class="account-actions"><a href="<: $u('My','register') :>" class="first nav-signup">Sign up</a><a href="<: $u('My','login') :>" class="nav-login" data-reveal-id="login-box">Login</a></span><i class="close icon-remove"></i></div><: } :>
 
+<: for results($token_domains.sorted) -> $token_domain { :>
+	<div class="content-box translate-overview">	
+		<div class="head">		
+			<h2><: $token_domain.name :></h2>
+		</div>
+		<div class="body">
+			<div class="row">
+				<p><: $token_domain.description :></p>
+			</div>
+			<div class="row mid">
+				<a class="big blue button" href="<: $link($token_domain) :>">
+					Help translating <: $token_domain.name :>!
+				</a>
+			</div>
+		</div> 
+	</div>
+<: } :>
+
 <: if $c.user && $c.user.translation_manager { :>
 	<div class="content-box">
 		<div class="head">
@@ -13,28 +31,5 @@
 				<a class="red button" href="<: $u('Translate::Po','index') :>">Po Manager</a>	
 			</div>
 		</div>
-	</div>
-<: } :>
-
-<: for results($token_domains.sorted) -> $token_domain { :>
-	<div class="content-box translate-overview">	
-		<div class="head">		
-			<a href="<: $link($token_domain) :>">
-				<h2><: $token_domain.name :></h2>
-			</a>
-		</div>
-		<div class="body">
-				<div class="row">
-					<p><: $token_domain.description :></p>
-				</div>
-				<div class="row">
-					<a class="big blue button" href="<: $link($token_domain) :>">
-						Help translating <: $token_domain.name :>!
-					</a>
-					<: if $c.user && $c.user.translation_manager { :>
-						<a class="big blue button" href="<: $u('Translate','admin',$token_domain.key) :>">Management</a>
-					<: } :>
-				</div>
-		</div> 
 	</div>
 <: } :>

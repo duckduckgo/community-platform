@@ -2,8 +2,8 @@
 <div class="g twothird gw">
 
 	<div class="g content-box whole">
-		<div class="head">		
-			<: include "user/userpic.tx" { user => $user } :>
+		<div class="head">
+			<: include "user/userpic.tx" { user => $user, userpic_size => 32 } :>
 			<h2>
 				<: if $fields.headline.value { :>
 					<: $fields.headline.value :>
@@ -11,6 +11,11 @@
 					<: include "user/username.tx" { user => $user } :>
 				<: } :>
 			</h2>
+			<: if $user.admin { :>
+				<div class="pull-right">
+					<img src="/static/images/duckduckgo-icon.png" width="32" height="32" title="Admin of Community Platform" />
+				</div>
+			<: } :>
 		</div>
 		<div class="body">
 			<div class="row">

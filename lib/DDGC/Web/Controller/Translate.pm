@@ -136,24 +136,25 @@ sub domain :Chained('logged_in') :PathPart('') :CaptureArgs(1) {
 }
 
 sub admin :Chained('domain') :Args(0) {
-    my ( $self, $c ) = @_;
+	my ( $self, $c ) = @_;
 
-    $c->add_bc('Translation Administration', '');
+	$c->add_bc('Translation Administration', '');
 
-   	if ($c->req->params->{search_token_comments}) {
-   		$c->stash->{search_token_comments_result} = $c->stash->{token_domain}->tokens->search({
-   			notes => { -like => '%'.$c->req->params->{search_token_comments}.'%' },
-   		},{
-   			group_by => 'notes',
-   		});
-   	}
+	if ($c->req->params->{search_token_comments}) {
+		$c->stash->{search_token_comments_result} = $c->stash->{token_domain}->tokens->search({
+			notes => { -like => '%'.$c->req->params->{search_token_comments}.'%' },
+		},{
+			group_by => 'notes',
+		});
+	}
 
-    $c->pager_init($c->action.$c->stash->{token_domain}->id,20);
-    $c->stash->{latest_comments} = $c->stash->{token_domain}->comments($c->stash->{page},$c->stash->{pagesize});
+	$c->pager_init($c->action.$c->stash->{token_domain}->id,20);
+	$c->stash->{latest_comments} = $c->stash->{token_domain}->comments($c->stash->{page},$c->stash->{pagesize});
 }
 
 sub domainindex :Chained('domain') :PathPart('') :Args(0) {
     my ( $self, $c ) = @_;
+	$c->bc_index;
 }
 
 sub locale :Chained('domain') :PathPart('') :CaptureArgs(1) {
