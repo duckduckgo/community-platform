@@ -157,7 +157,7 @@ sub domainindex :Chained('domain') :PathPart('') :Args(0) {
 sub admin :Chained('domain') :Args(0) {
 	my ( $self, $c ) = @_;
 
-	$c->add_bc('Translation Administration', '');
+	$c->add_bc('Translation Management', '');
 
 	if ($c->req->params->{search_token_comments}) {
 		$c->stash->{search_token_comments_result} = $c->stash->{token_domain}->tokens->search({

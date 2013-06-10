@@ -1,0 +1,12 @@
+: given $comment.context {
+:	when 'DDGC::DB::Result::Token::Domain::Language' {
+:		my $obj = $comment.get_context_obj
+        <a href="<: $u('Translate','locale_comments',$obj.token_domain.key,$obj.language.locale) :>">Go to token domain discussion</a>
+:	}
+:	when 'DDGC::DB::Result::Token::Language' {
+        <a href="<: $u('Translate','tokenlanguage',$comment.context_id) :>">Go to token discussion</a>
+:	}
+:	default {
+        <a href="<: $comment.context :>">Go to other website</a>
+:	}
+: }

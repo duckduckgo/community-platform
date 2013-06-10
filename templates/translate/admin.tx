@@ -2,6 +2,12 @@
 	<div class="head">
 		<h2>Translation Management for <: $token_domain.name :></h2>
 	</div>
+</div>
+
+<div class="content-box">
+	<div class="head">
+		<h2>Latest comments on <: $token_domain.name :></h2>
+	</div>
 	<div class="body">
 		<: for results($latest_comments) -> $comment { :>
 			<div class="row">
