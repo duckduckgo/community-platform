@@ -135,6 +135,11 @@ sub domain :Chained('logged_in') :PathPart('') :CaptureArgs(1) {
 	$c->add_bc($c->stash->{token_domain}->name, $c->chained_uri('Translate','tokens',$c->stash->{token_domain}->key,$c->stash->{locale}));
 }
 
+sub domainindex :Chained('domain') :PathPart('') :Args(0) {
+	my ( $self, $c ) = @_;
+	$c->bc_index;
+}
+
 sub admin :Chained('domain') :Args(0) {
 	my ( $self, $c ) = @_;
 
@@ -152,10 +157,6 @@ sub admin :Chained('domain') :Args(0) {
 	$c->stash->{latest_comments} = $c->stash->{token_domain}->comments($c->stash->{page},$c->stash->{pagesize});
 }
 
-sub domainindex :Chained('domain') :PathPart('') :Args(0) {
-    my ( $self, $c ) = @_;
-	$c->bc_index;
-}
 
 sub locale :Chained('domain') :PathPart('') :CaptureArgs(1) {
     my ( $self, $c, $locale ) = @_;
