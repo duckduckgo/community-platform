@@ -141,6 +141,10 @@ blockquote { padding: 0 0 0 28px; position: relative; }
 .no-js .no-js-hide, .js .js-hide { display: none !important; }
 .header-pad { padding: 18px 0; }
 
+/* grid spacing classes */
+.gw, .grid-wrap { margin-left: -18px; }
+	.g, .grid { padding-left: 18px; }
+
 a.sortby {
 	display: block;
 	position: relative;
