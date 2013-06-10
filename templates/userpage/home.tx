@@ -23,16 +23,23 @@
 		</div>
 	</div>
 
-	<: if $fields.languages.value { :>
-		<div class="content-box half">
-			<div class="head">
-				Languages
+	<!-- Following 2 columns will be filled later by system weighted out or user can drag & drop.. i don't know yet -->
+
+	<div class="half">
+		<: if $fields.languages.value { :>
+			<div class="content-box">
+				<div class="head">
+					Languages
+				</div>
+				<div class="body">
+					<: include 'userpage/third/languages.tx' { field => $fields.languages } :>
+				</div>
 			</div>
-			<div class="body">
-				<: include 'userpage/third/languages.tx' { field => $fields.languages } :>
-			</div>
-		</div>
-	<: } :>
+		<: } :>
+	</div>
+
+	<div class="half">
+	</div>
 
 </div>
 
