@@ -1,0 +1,5 @@
+<select class="upedit" name="<: $field.name :>" id="upf_<: $field.name :>">
+	<: for $field.options -> $option { :>
+		<option <: if $field.value == $option.value { :>selected="selected" <: } :>value="<: $option.value :>"><: $option.name :></option>
+	<: } :>
+</select>

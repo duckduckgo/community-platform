@@ -3,7 +3,6 @@
 		Changes saved
 	</div>
 <: } :>
-</div>
 <form action="<: $u('My::Userpage','index') :>" method="post">
 <div class="content-box">
 	<div class="head">
@@ -13,6 +12,7 @@
 		<: include "my/userpage/field.tx" { field => $fields.headline } :>
 		<: include "my/userpage/field.tx" { field => $fields.about } :>
 		<: include "my/userpage/field.tx" { field => $fields.whyddg } :>
+		<: include "my/userpage/field.tx" { field => $fields.languages } :>
 	</div>
 </div>
 

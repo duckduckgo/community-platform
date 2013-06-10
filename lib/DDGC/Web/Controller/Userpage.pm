@@ -19,7 +19,7 @@ sub user :Chained('base') :PathPart('') :CaptureArgs(1) {
 	unless ($c->stash->{user} && $c->stash->{user}->public) {
 		return $c->go('/default');
 	}
-	$c->stash->{x} = $c->stash->{up}->data;
+	$c->stash->{x} = $c->stash->{up}->export;
 	$c->stash->{x}->{username} = $username;
 	$c->add_bc('User page of '.$username, '');
 	$c->stash->{title} = $username." User Page";
@@ -27,7 +27,6 @@ sub user :Chained('base') :PathPart('') :CaptureArgs(1) {
 
 sub home :Chained('user') :PathPart('') :Args(0) {
 	my ( $self, $c ) = @_;
-	$c->stash->{last_comments} = $c->stash->{user}->last_comments(1,3);
 }
 
 sub json :Chained('user') :Args(0) {

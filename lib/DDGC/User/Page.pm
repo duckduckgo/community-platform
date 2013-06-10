@@ -3,8 +3,11 @@ package DDGC::User::Page;
 use Moose;
 use DDGC::User::Page::Field;
 use URI;
+use Locale::Country;
 
 # default type = text
+
+use DDP; p(all_country_names());
 
 my @attributes = (
 	headline => 'Userpage headline, instead of username' => {},
@@ -23,9 +26,10 @@ my @attributes = (
 		view => 'facebook',
 		edit => 'facebook',
 		validators => [sub {
-			m/^[\w\/]+$/ ? () : ("Invalid url")
+			m/^[\w\.\/]+$/ ? () : ("Invalid url")
 		}],
 	},
+	languages => 'Show your languages public?' => { type => 'noyes' },
 );
 
 has data => (
@@ -34,6 +38,15 @@ has data => (
 	lazy => 1,
 	default => sub {{}},
 );
+
+sub export {
+	my ( $self ) = @_;
+	my %export;
+	for (keys %{$self->attribute_fields}) {
+		$export{$_} = $self->field($_)->export_value;
+	}
+	return \%export;
+}
 
 has user => (
 	is => 'ro',

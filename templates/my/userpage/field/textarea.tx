@@ -1,1 +1,1 @@
-<textarea class="upedit" rows="8" name="<: $field.name :>" id="<: $field.name :>"><: $field.value :></textarea>
+<textarea class="upedit" rows="8" name="<: $field.name :>" id="upf_<: $field.name :>"><: $field.value :></textarea>
