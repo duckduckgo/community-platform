@@ -1,6 +1,6 @@
 <div class="row">
 	<div class="third">
-		<: $field.description :>
+		<label><: $field.description :></label>
 	</div>
 	<div class="twothird">
 		<: include upf_edit($field) { field => $field } :>
@@ -11,7 +11,7 @@
 		<div class="third">&nbsp;</div>
 		<div class="twothird">
 			<: for $field.errors -> $error { :>
-				<div class="notice error"><: $error :></div>
+				<div class="notice error"><i class="icn icon-warning-sign"></i><: $error :></div>
 			<: } :>
 		</div>
 	</div>

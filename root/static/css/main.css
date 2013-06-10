@@ -2,7 +2,7 @@
 body, select, input, textarea, button { font-size: 0.9em; }
 body { color: #444; background: #fff; }
 	body.texture { background: #fefefe url('../img/bg-body-texture.jpg'); }
-body, select, input, textarea, button, .sans, .account-form h2, .account-form h4, .site-header h2, .site-header h3, .callout-box h2, .content-box .head h2, .callout-row h3, .duckpan h1, .duckpan h2, .blog-content  h2, .blog-content h3, .blog-content h4, .blog-content h5, .sidebar h5, h5.comment_add_title  { 
+body, select, input, textarea, button, .sans, .account-form h2, .account-form h4, .site-header h2, .site-header h3, .callout-box h2, .content-box h2, .content-box h3, .content-box h4, .content-box h5, .callout-row h3, .duckpan h1, .duckpan h2, .blog-content  h2, .blog-content h3, .blog-content h4, .blog-content h5, .sidebar h5, h5.comment_add_title  { 
 	font-family: "Helvetica Neue","HelveticaNeueLT Std","Segoe UI","Nimbus Sans L","Liberation Sans","Open Sans",FreeSans,Helvetica,Arial,sans-serif; 
 }
 .topmsg { font-family: 'Arial Black', sans-serif;}
@@ -703,6 +703,13 @@ table th[class*="span"],
 			left: 9px;
 		}
 			.content-box .head .userpic + h2 { padding-left: 42px; }
+			.content-box .head .button { margin: -2px auto; }
+				.content-box .head .button + .button { margin-left: 4px; }
+			.content-box .head .admin-badge {
+				margin: -6px auto;
+				position: relative;
+				top: 3px;
+			}
 		
 	.content-box .body {
 		color: #color: #48505b;
@@ -735,6 +742,13 @@ table th[class*="span"],
 		padding-bottom: 0;
 	}
 		.content-box input.button { line-height: 18px; }
+	
+	.user-info-box .icn, .user-info-box .flag {
+		margin-left: -10px;
+		margin-right: 5px;
+		color: #bbb;
+	}
+
 	
 /*
 	Site Bottom
