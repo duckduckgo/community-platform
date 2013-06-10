@@ -1,0 +1,1 @@
+<a href="http://www.reddit.com/user/<: $field.value :>"><: $field.value :> on reddit</a>

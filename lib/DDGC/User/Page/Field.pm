@@ -10,6 +10,7 @@ my %types = (
 	email => {
 		view => 'email',
 		validators => ['email'],
+		export => 'email',
 	},
 	url => {
 		view => 'url',
@@ -216,6 +217,13 @@ sub export_select {
 		return $_->{name} if $_->{value} eq $self->value;
 	}
 	return $self->value;
+}
+
+sub export_email {
+	my ( $self ) = @_;
+	my $val = $self->value;
+	$val =~ s/@/ at /g;
+	return $val;
 }
 
 sub export_function {

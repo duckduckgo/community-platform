@@ -13,19 +13,56 @@ my @attributes = (
 	whyddg => 'Why you use DuckDuckGo?' => { type => 'textarea' },
 	email => 'Your public email' => { type => 'email' },
 	web => 'Your website' => { type => 'url' },
-	twitter => 'Your twitter username' => {
+	twitter => 'Your Twitter username' => {
 		view => 'twitter',
-		edit => 'twitter',
 		validators => [sub {
-			m/^\w{1,15}$/ ? () : ("Invalid twitter username")
+			m/^\w{1,15}$/ ? () : ("Invalid Twitter username")
 		}],
+		params => {
+			text_prefix => 'https://twitter.com/',
+		},
+		export => sub {
+			'https://twitter.com/'.(shift->value)
+		},
 	},
-	facebook => 'Your facebook profile url' => {
+	facebook => 'Your Facebook profile url' => {
 		view => 'facebook',
-		edit => 'facebook',
 		validators => [sub {
 			m/^[\w\.\/]+$/ ? () : ("Invalid url")
 		}],
+		params => {
+			text_prefix => 'https://facebook.com/',
+		},
+		export => sub {
+			my $val = shift->value;
+			$val ? 'https://facebook.com/'.$val : ''
+		},
+	},
+	github => 'Your GitHub username' => {
+		view => 'github',
+		validators => [sub {
+			m/^[\w\.]+$/ ? () : ("Invalid GitHub username")
+		}],
+		params => {
+			text_prefix => 'https://github.com/',
+		},
+		export => sub {
+			my $val = shift->value;
+			$val ? 'https://github.com/'.$val : ''
+		},
+	},
+	reddit => 'Your reddit username' => {
+		view => 'reddit',
+		validators => [sub {
+			m/^[\w\.]+$/ ? () : ("Invalid reddit username")
+		}],
+		params => {
+			text_prefix => 'http://www.reddit.com/user/',
+		},
+		export => sub {
+			my $val = shift->value;
+			$val ? 'http://www.reddit.com/user/'.$val : ''
+		},
 	},
 	languages => 'Show your languages public?' => { type => 'noyes',
 		view => 'languages',

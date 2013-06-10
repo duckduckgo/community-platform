@@ -23,6 +23,7 @@
 	<div class="body">
 		<: include "my/userpage/field.tx" { field => $fields.email } :>
 		<: include "my/userpage/field.tx" { field => $fields.web } :>
+		<: include "my/userpage/field.tx" { field => $fields.github } :>
 		<: include "my/userpage/field.tx" { field => $fields.twitter } :>
 		<: include "my/userpage/field.tx" { field => $fields.facebook } :>
 	</div>

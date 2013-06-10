@@ -45,8 +45,9 @@
 		<div class="body">
 			<: include 'userpage/third/field.tx' { field => $fields.email } :>
 			<: include 'userpage/third/field.tx' { field => $fields.web } :>
-			<: include 'userpage/third/field.tx' { field => $fields.facebook } :>
+			<: include 'userpage/third/field.tx' { field => $fields.github } :>
 			<: include 'userpage/third/field.tx' { field => $fields.twitter } :>
+			<: include 'userpage/third/field.tx' { field => $fields.facebook } :>
 		</div>
 	</div>
 
