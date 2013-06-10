@@ -14,11 +14,11 @@ sub base :Chained('/base') :PathPart('') :CaptureArgs(0) {
 sub user :Chained('base') :PathPart('') :CaptureArgs(1) {
 	my ( $self, $c, $username ) = @_;
 	$c->stash->{user} = $c->d->find_user($username);
-	$c->stash->{up} = DDGC::User::Page->new_from_user($c->stash->{user});
-	$c->stash->{fields} = $c->stash->{up}->attribute_fields;
 	unless ($c->stash->{user} && $c->stash->{user}->public) {
 		return $c->go('/default');
 	}
+	$c->stash->{up} = DDGC::User::Page->new_from_user($c->stash->{user});
+	$c->stash->{fields} = $c->stash->{up}->attribute_fields;
 	$c->stash->{x} = $c->stash->{up}->export;
 	$c->stash->{x}->{username} = $username;
 	$c->add_bc('User page of '.$username, '');
