@@ -7,6 +7,11 @@
 	<div class="content-box translate-overview">	
 		<div class="head">		
 			<h2><: $token_domain.name :></h2>
+			<: if $token_domain.is_duckduckgo { :>
+				<div class="pull-right">
+					<img src="/static/images/duckduckgo-icon.png" width="32" height="32" title="Official DuckDuckGo Token Domain" />
+				</div>
+			<: } :>
 		</div>
 		<div class="body">
 			<div class="row">

@@ -93,6 +93,12 @@ sub _build_dist_name {
 	return join('-',@{$self->_name_parts});
 }
 
+sub is_duckduckgo {
+	my ( $self ) = @_;
+	my @parts = split('-',$self->key);
+	return $parts[0] eq 'duckduckgo' ? 1 : 0;
+}
+
 has lib_name => (
 	is => 'ro',
 	lazy_build => 1,
