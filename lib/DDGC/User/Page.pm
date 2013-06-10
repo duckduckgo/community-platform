@@ -27,7 +27,13 @@ my @attributes = (
 			m/^[\w\.\/]+$/ ? () : ("Invalid url")
 		}],
 	},
-	languages => 'Show your languages public?' => { type => 'noyes' },
+	languages => 'Show your languages public?' => { type => 'noyes',
+		view => 'languages',
+		export => sub {
+			my ( $self ) = @_;
+			return { map { $_->language->locale => $_->grade } $self->page->user->user_languages };
+		},
+	},
 );
 
 has data => (
@@ -52,7 +58,7 @@ sub export {
 has user => (
 	is => 'ro',
 	isa => 'DDGC::User',
-	predicate => 'has_user',
+	required => 1,
 );
 
 has attribute_fields => (
@@ -120,7 +126,6 @@ sub new_from_user {
 
 sub update {
 	my ( $self ) = @_;
-	die __PACKAGE__." need a user to save" unless $self->has_user;
 	my $data = $self->user->data;
 	$data->{userpage} = $self->data;
 	$self->user->data($data);
