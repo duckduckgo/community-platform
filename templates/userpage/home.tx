@@ -1,6 +1,6 @@
-<div class="whole">
+<div class="twothird">
 
-	<div class="content-box twothird">
+	<div class="content-box whole">
 		<div class="head">		
 			<: include "user/userpic.tx" { user => $user } :>
 			<h2>
@@ -23,7 +23,22 @@
 		</div>
 	</div>
 
-	<div class="content-box third">
+	<: if $fields.languages.value { :>
+		<div class="content-box half">
+			<div class="head">
+				Languages
+			</div>
+			<div class="body">
+				<: include 'userpage/third/languages.tx' { field => $fields.languages } :>
+			</div>
+		</div>
+	<: } :>
+
+</div>
+
+<div class="third">
+
+	<div class="content-box whole">
 		<div class="head">
 			Links
 		</div>
@@ -36,14 +51,3 @@
 	</div>
 
 </div>
-
-<: if $fields.languages.value { :>
-	<div class="content-box third">
-		<div class="head">
-			Languages
-		</div>
-		<div class="body">
-			<: include 'userpage/third/languages.tx' { field => $fields.languages } :>
-		</div>
-	</div>
-<: } :>
