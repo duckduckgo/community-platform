@@ -1,4 +1,4 @@
-<: if $user.public { :>
+<: if $user.public && !$no_user_link { :>
 	<a href="<: $u('Userpage','home',$user.username) :>">
 <: } :>
 <: if $user.admin { :><span style="color:green"><: } :>
@@ -8,6 +8,6 @@
 	<: $user.public_username || '<anonymous>' :>
 <: } :>
 <: if $user.admin { :></span><: } :>
-<: if $user.public { :>
+<: if $user.public && !$no_user_link { :>
 	</a>
 <: } :>

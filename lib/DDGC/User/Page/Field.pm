@@ -41,6 +41,7 @@ my %types = (
 	remote => {
 		view => 'remote',
 		edit => 'remote',
+		export => 'remote',
 	},
 );
 
@@ -228,6 +229,16 @@ sub export_email {
 	my $val = $self->value;
 	$val =~ s/@/ at /g;
 	return $val;
+}
+
+sub export_remote {
+	my ( $self ) = @_;
+	return "" unless $self->value;
+	my $url_prefix = defined $self->params->{url_prefix}
+		? $self->params->{url_prefix} : '';
+	my $url_suffix = defined $self->params->{url_suffix}
+		? $self->params->{url_suffix} : '';
+	return $url_prefix.$self->value.$url_suffix;
 }
 
 sub export_function {

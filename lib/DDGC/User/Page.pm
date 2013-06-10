@@ -10,58 +10,71 @@ use Locale::Country;
 my @attributes = (
 	headline => 'Userpage headline, instead of username' => {},
 	about => 'About you' => { type => 'textarea' },
-	whyddg => 'Why you use DuckDuckGo?' => { type => 'textarea' },
+	whyddg => 'Why DuckDuckGo?' => { type => 'textarea' },
 	email => 'Your public email' => { type => 'email' },
 	web => 'Your website' => { type => 'url' },
 	twitter => 'Your Twitter username' => {
-		view => 'twitter',
+		type => 'remote',
 		validators => [sub {
 			m/^\w{1,15}$/ ? () : ("Invalid Twitter username")
 		}],
 		params => {
-			text_prefix => 'https://twitter.com/',
-		},
-		export => sub {
-			'https://twitter.com/'.(shift->value)
+			url_prefix => 'https://twitter.com/',
+			icon => 'twitter',
+			user_prefix => '@',
 		},
 	},
 	facebook => 'Your Facebook profile url' => {
-		view => 'facebook',
+		type => 'remote',
 		validators => [sub {
-			m/^[\w\.\/]+$/ ? () : ("Invalid url")
+			m/^[\w\.\/]+$/ ? () : ("Invalid facebook url")
 		}],
 		params => {
-			text_prefix => 'https://facebook.com/',
-		},
-		export => sub {
-			my $val = shift->value;
-			$val ? 'https://facebook.com/'.$val : ''
+			url_prefix => 'https://facebook.com/',
+			icon => 'facebook',
+			user => 'Facebook profile',
 		},
 	},
 	github => 'Your GitHub username' => {
-		view => 'github',
+		type => 'remote',
 		validators => [sub {
 			m/^[\w\.]+$/ ? () : ("Invalid GitHub username")
 		}],
 		params => {
-			text_prefix => 'https://github.com/',
-		},
-		export => sub {
-			my $val = shift->value;
-			$val ? 'https://github.com/'.$val : ''
+			url_prefix => 'https://github.com/',
+			icon => 'github',
 		},
 	},
 	reddit => 'Your reddit username' => {
-		view => 'reddit',
+		type => 'remote',
 		validators => [sub {
 			m/^[\w\.]+$/ ? () : ("Invalid reddit username")
 		}],
 		params => {
-			text_prefix => 'http://www.reddit.com/user/',
+			url_prefix => 'http://www.reddit.com/user/',
+			user_suffix => ' on reddit',
 		},
-		export => sub {
-			my $val = shift->value;
-			$val ? 'http://www.reddit.com/user/'.$val : ''
+	},
+	deviantart => 'Your deviantart username' => {
+		type => 'remote',
+		validators => [sub {
+			m/^[\w\.]+$/ ? () : ("Invalid deviantart username")
+		}],
+		params => {
+			url_prefix => 'http://',
+			url_suffix => '.deviantart.com/',
+			user_suffix => ' on deviantart',
+		},
+	},
+	imgur => 'Your imgur username' => {
+		type => 'remote',
+		validators => [sub {
+			m/^[\w\.]+$/ ? () : ("Invalid imgur username")
+		}],
+		params => {
+			url_prefix => 'http://',
+			url_suffix => '.imgur.com/',
+			user_suffix => ' on imgur',
 		},
 	},
 	languages => 'Show your languages and translation counts public?' => { type => 'noyes',

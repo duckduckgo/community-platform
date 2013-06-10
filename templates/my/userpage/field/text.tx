@@ -1,1 +1,1 @@
-<: $field.params.text_prefix :><input class="upedit" type="text" name="<: $field.name :>" id="upf_<: $field.name :>" value="<: $field.value :>" /><: $field.params.text_suffix :>
+<input class="upedit" type="text" name="<: $field.name :>" id="upf_<: $field.name :>" value="<: $field.value :>" />

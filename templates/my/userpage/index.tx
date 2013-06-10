@@ -26,6 +26,9 @@
 		<: include "my/userpage/field.tx" { field => $fields.github } :>
 		<: include "my/userpage/field.tx" { field => $fields.twitter } :>
 		<: include "my/userpage/field.tx" { field => $fields.facebook } :>
+		<: include "my/userpage/field.tx" { field => $fields.reddit } :>
+		<: include "my/userpage/field.tx" { field => $fields.deviantart } :>
+		<: include "my/userpage/field.tx" { field => $fields.imgur } :>
 	</div>
 </div>
 
