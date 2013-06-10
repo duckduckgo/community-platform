@@ -138,6 +138,20 @@ sub domain :Chained('logged_in') :PathPart('') :CaptureArgs(1) {
 sub domainindex :Chained('domain') :PathPart('') :Args(0) {
 	my ( $self, $c ) = @_;
 	$c->bc_index;
+
+	my @can_speak;
+	my @not_speak;
+
+	for (@{$c->stash->{token_domain_languages}}) {
+		if ($c->user->can_speak($_->language->locale)) {
+			push @can_speak, $_;
+		} else {
+			push @not_speak, $_;
+		}
+	}
+
+	$c->stash->{can_speak} = \@can_speak;
+	$c->stash->{not_speak} = \@not_speak;
 }
 
 sub admin :Chained('domain') :Args(0) {
