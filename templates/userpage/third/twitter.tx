@@ -1,1 +1,1 @@
-<a href="https://twitter.com/<: $field.value :>">@<: $field.value :> on Twitter</a>
+<i class="icn icon-twitter"></i> <a href="https://twitter.com/<: $field.value :>">@<: $field.value :></a>

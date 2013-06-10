@@ -1,1 +1,1 @@
-<a href="<: $field.value :>"><: $field.value :></a>
+<i class="icn icon-globe"></i> <a href="<: $field.value :>"><: $field.value :></a>

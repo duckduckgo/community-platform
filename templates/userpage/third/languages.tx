@@ -2,5 +2,8 @@
 	<div class="row">
 		<img src="<: $user_language.language.flag_url :>" alt="flag" class="flag" width="16" height="11">
 		<: $user_language.language.name_in_local :>
+		<div class="pull-right">
+			<span class="tag green circle"><: $user_language.grade :></span>
+		</div>
 	</div>
 <: } :>

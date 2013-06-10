@@ -1,1 +1,1 @@
-<a href="https://github.com/<: $field.value :>"><: $field.value :> on GitHub</a>
+<i class="icn icon-github"></i> <a href="https://github.com/<: $field.value :>"><: $field.value :></a>
