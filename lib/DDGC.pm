@@ -9,6 +9,7 @@ use DDGC::DuckPAN;
 use DDGC::XMPP;
 use DDGC::Comments;
 use DDGC::Blog;
+use DDGC::Markup;
 use DDGC::Forum;
 use File::Copy;
 use IO::All;
@@ -47,6 +48,18 @@ has xmpp => (
 sub _build_xmpp {
 	my $self = shift;
 	DDGC::XMPP->new({
+		ddgc => $self,
+	});
+}
+
+has markup => (
+	isa => 'DDGC::Markup',
+	is => 'ro',
+	lazy_build => 1,
+);
+sub _build_markup {
+	my $self = shift;
+	DDGC::Markup->new({
 		ddgc => $self,
 	});
 }
