@@ -14,7 +14,7 @@ column id => {
 };
 primary_key 'id';
 
-column thread_title => {
+column title => {
     data_type => 'text',
     is_nullable => 0,
     indexed => 1,
@@ -57,7 +57,7 @@ belongs_to 'user', 'DDGC::DB::Result::User', 'users_id';
 
 use overload '""' => sub {
 	my $self = shift;
-	return $self->thread_title;
+	return 'Thread #'.$self->id;
 }, fallback => 1;
 
 has categories => (
@@ -66,13 +66,6 @@ has categories => (
     auto_deref => 1, 
     lazy_build => 1, 
 );
-
-sub _humanify {
-    my ( undef, $time ) = @_;
-    my $span = DateTime::Format::Human::Duration->new();
-    my $result = $span->format_duration(DateTime->now - $time);
-    return (split /,/, $result)[0];
-}
 
 sub _build_categories {
         {  
@@ -117,20 +110,6 @@ sub _statuses {
         },
     );
     \%catstats;
-}
-
-sub get_user {
-    my ( $self, $username, $d ) = @_;
-    my $user = $d->rs('User')->single({ username => lc($username) });
-    my $uname = $user && $user->public_username ? $user->public_username : Parse::BBCode::escape_html($username);
-    return "<a href='/${uname}' class='atmention'>\@${uname}</a>";
-}
-
-sub render_html {
-    my ($self, $db) = @_;
-    my $html = $_bbcode->render(shift->text);
-    $html =~ s/(?:{{#USER (.+?) #}}|\@(\w+))/$self->get_user(($1?$1:$2), $db)/eg;
-    return $html;
 }
 
 sub statuses {
@@ -191,8 +170,6 @@ sub created_human {
     my $self = shift;
     $self->_humanify($self->created);
 }
-
-
 
 1;
 

@@ -107,12 +107,18 @@ my @attributes = (
 		},
 	},
 
+############ Meta
+
+	openid_server => 'OpenID server meta tag for your userpage' => { type => 'url' },
+	openid_delegate => 'OpenID delegate meta tag for your userpage' => { type => 'url' },
+
 ############ Other widgets
 
 	languages => 'Show your languages and translation counts public?' => { type => 'noyes',
 		view => 'languages',
 		export => sub {
 			my ( $self ) = @_;
+			return "" unless $self->value;
 			return { map { $_->language->locale => $_->grade } $self->page->user->user_languages };
 		},
 	},

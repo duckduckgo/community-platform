@@ -10,8 +10,8 @@
 		<h3>General Public Information</h3>
 	</div>
 	<div class="body">
-		<: for ['headline','about','whyddg'] -> $remote { :>
-			<: include "my/userpage/field.tx" { field => $fields[$remote] } :>
+		<: for ['headline','about','whyddg'] -> $field { :>
+			<: include "my/userpage/field.tx" { field => $fields[$field] } :>
 		<: } :>
 	</div>
 </div>
@@ -21,8 +21,19 @@
 		<h3>Links</h3>
 	</div>
 	<div class="body">
-		<: for ['email','web','github','twitter','facebook','reddit','deviantart','imgur','youtube','flickr'] -> $remote { :>
-			<: include "my/userpage/field.tx" { field => $fields[$remote] } :>
+		<: for ['email','web','github','twitter','facebook','reddit','deviantart','imgur','youtube','flickr'] -> $field { :>
+			<: include "my/userpage/field.tx" { field => $fields[$field] } :>
+		<: } :>
+	</div>
+</div>
+
+<div class="content-box">
+	<div class="head">
+		<h3>Meta</h3>
+	</div>
+	<div class="body">
+		<: for ['openid_server','openid_delegate'] -> $field { :>
+			<: include "my/userpage/field.tx" { field => $fields[$field] } :>
 		<: } :>
 	</div>
 </div>
@@ -32,8 +43,8 @@
 		<h3>About (not yet displayed)</h3>
 	</div>
 	<div class="body">
-		<: for ['realname','country','city','birth_country'] -> $remote { :>
-			<: include "my/userpage/field.tx" { field => $fields[$remote] } :>
+		<: for ['realname','country','city','birth_country'] -> $field { :>
+			<: include "my/userpage/field.tx" { field => $fields[$field] } :>
 		<: } :>
 	</div>
 </div>

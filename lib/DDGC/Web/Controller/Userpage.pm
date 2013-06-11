@@ -17,6 +17,7 @@ sub user :Chained('base') :PathPart('') :CaptureArgs(1) {
 		return $c->go('/default');
 	}
 	$c->stash->{up} = $c->stash->{user}->userpage;
+	$c->stash->{userpage_home} = 1;
 	$c->stash->{fields} = $c->stash->{up}->attribute_fields;
 	$c->stash->{x} = $c->stash->{up}->export;
 	$c->stash->{x}->{username} = $username;

@@ -231,6 +231,7 @@ sub error_count {
 
 sub export_select {
 	my ( $self ) = @_;
+	return "" unless $self->value;
 	for (@{$self->options}) {
 		return $_->{name} if $_->{value} eq $self->value;
 	}
@@ -240,7 +241,7 @@ sub export_select {
 sub export_email {
 	my ( $self ) = @_;
 	my $val = $self->value;
-	$val =~ s/@/ at /g;
+	$val =~ s/@/ at /;
 	return $val;
 }
 
