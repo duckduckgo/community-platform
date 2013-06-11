@@ -1,8 +1,8 @@
 package DDGC::Web::View::JSON;
 # ABSTRACT: 
 
-use strict;
-use base 'Catalyst::View::JSON';
+use Moose;
+extends 'Catalyst::View::JSON';
 
 __PACKAGE__->config(
 	expose_stash    => 'x',
