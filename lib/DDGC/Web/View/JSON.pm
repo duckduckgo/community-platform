@@ -1,4 +1,5 @@
 package DDGC::Web::View::JSON;
+# ABSTRACT: 
 
 use strict;
 use base 'Catalyst::View::JSON';

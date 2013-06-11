@@ -1,4 +1,5 @@
 package DDGC::Web::View::Email::Xslate;
+# ABSTRACT: 
 
 use Moose;
 extends 'Catalyst::View::Email::Template';

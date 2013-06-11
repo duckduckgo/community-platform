@@ -1,4 +1,5 @@
 package DDGC::User;
+# ABSTRACT: 
 
 use Moose;
 use DDGC::XMPP;

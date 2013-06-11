@@ -1,4 +1,5 @@
 package DDGC::Comments;
+# ABSTRACT: 
 
 use Moose;
 use DDGC::Comments::Comment;

@@ -1,4 +1,5 @@
 package DDGC::Web::Model::DDGC;
+# ABSTRACT: 
 
 use base 'Catalyst::Model::Adaptor';
 

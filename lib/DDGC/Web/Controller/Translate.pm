@@ -1,4 +1,6 @@
 package DDGC::Web::Controller::Translate;
+# ABSTRACT: Translation pages web controller class
+
 use Moose;
 use namespace::autoclean;
 

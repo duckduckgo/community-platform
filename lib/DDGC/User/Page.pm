@@ -106,6 +106,16 @@ my @attributes = (
 			user_suffix => ' on flickr',
 		},
 	},
+	linkedin => 'Your LinkedIn username' => {
+		type => 'remote',
+		validators => [sub {
+			m/^[\w\.]+$/ ? () : ("Invalid LinkedIn username")
+		}],
+		params => {
+			url_prefix => 'http://linkedin.com/in/',
+			user_suffix => ' on LinkedIn',
+		},
+	},
 
 ############ Meta
 

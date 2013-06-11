@@ -1,4 +1,6 @@
 package DDGC::Web::Controller::My;
+# ABSTRACT: User related functions web controller class
+
 use Moose;
 use namespace::autoclean;
 

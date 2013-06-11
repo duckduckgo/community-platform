@@ -1,4 +1,6 @@
 package DDGC::Web::Controller::Userpage;
+# ABSTRACT: Userpage web controller class
+
 use Moose;
 use namespace::autoclean;
 

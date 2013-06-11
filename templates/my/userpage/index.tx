@@ -21,7 +21,7 @@
 		<h3>Links</h3>
 	</div>
 	<div class="body">
-		<: for ['email','web','github','twitter','facebook','reddit','deviantart','imgur','youtube','flickr'] -> $field { :>
+		<: for ['email','web','github','twitter','facebook','reddit','deviantart','imgur','youtube','flickr','linkedin'] -> $field { :>
 			<: include "my/userpage/field.tx" { field => $fields[$field] } :>
 		<: } :>
 	</div>

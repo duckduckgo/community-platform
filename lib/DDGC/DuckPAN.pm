@@ -1,4 +1,5 @@
 package DDGC::DuckPAN;
+# ABSTRACT: 
 
 use Moose;
 use CPAN::Repository;

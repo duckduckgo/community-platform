@@ -1,4 +1,6 @@
 package DDGC::Web::Controller::Roboduck;
+# ABSTRACT: RoboDuck web controller class
+
 use Moose;
 use namespace::autoclean;
 

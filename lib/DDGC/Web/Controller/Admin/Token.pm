@@ -1,4 +1,6 @@
 package DDGC::Web::Controller::Admin::Token;
+# ABSTRACT: REMOVE ME
+
 use Moose;
 use namespace::autoclean;
 

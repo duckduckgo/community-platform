@@ -1,4 +1,5 @@
 package DDGC::Markup;
+# ABSTRACT: 
 
 use Moose;
 use Text::VimColor;

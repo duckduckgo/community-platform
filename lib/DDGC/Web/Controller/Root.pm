@@ -1,4 +1,6 @@
 package DDGC::Web::Controller::Root;
+# ABSTRACT: Main web controller class
+
 use Moose;
 use namespace::autoclean;
 

@@ -1,4 +1,5 @@
 package DDGC::Config;
+# ABSTRACT: 
 
 use Moose;
 
