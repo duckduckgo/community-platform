@@ -15,8 +15,30 @@ column users_id => {
 	is_nullable => 0,
 };
 
-column notification_key => {
+# Context	ContextID	SubContext	Target
+#-------------------------------------------------
+# Y			X			Z			Changed/New Z on Y #X
+# Y			X						Changes on Y #X
+# Y									Changes on any Y or Changed/New Y
+# Y						Z			New Z on any Y
+
+column context => {
 	data_type => 'text',
+	is_nullable => 0,
+};
+
+column context_id => {
+	data_type => 'bigint',
+	is_nullable => 1,
+};
+
+column sub_context => {
+	data_type => 'text',
+	is_nullable => 1,
+};
+
+column cycle => {
+	data_type => 'int',
 	is_nullable => 0,
 };
 

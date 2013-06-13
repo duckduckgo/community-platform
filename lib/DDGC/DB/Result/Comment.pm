@@ -50,17 +50,12 @@ belongs_to 'user', 'DDGC::DB::Result::User', 'users_id', { join_type => 'left' }
 belongs_to 'parent', 'DDGC::DB::Result::Comment', 'parent_id', { join_type => 'left' };
 has_many 'children', 'DDGC::DB::Result::Comment', 'parent_id';
 
-sub notification_key {
-	my ( $self ) = @_;
-	return join('|',$self->context,$self->context_id);
-}
-
 sub get_context_obj {
 	my ( $self ) = @_;
 	if ( $self->context =~ m/^DDGC::DB::Result::(.*)$/ ) {
 		return $self->result_source->schema->resultset($1)->find($self->context_id);
 	}
-	die "dont know how to get object of ".$self->context;
+	return;
 }
 
 ###############################
