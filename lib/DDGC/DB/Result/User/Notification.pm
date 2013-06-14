@@ -42,6 +42,11 @@ column cycle => {
 	is_nullable => 0,
 };
 
+column cycle_time => {
+	data_type => 'int',
+	is_nullable => 1,
+};
+
 column last_check => {
 	data_type => 'timestamp with time zone',
 };
