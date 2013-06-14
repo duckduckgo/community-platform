@@ -36,6 +36,16 @@ sub login :Chained('logged_out') :Args(0) {
 
 	$c->stash->{no_userbox} = 1;
 
+	my $last_url = $c->session->{last_url};
+	my $login_url = $c->chained_uri('My','login');
+	my $register_url = $c->chained_uri('My','register');
+	my $captcha_url = $c->chained_uri('Root','captcha');
+
+	if ($last_url !~ /^$login_url/ && $last_url !~ /^$register_url/ &&
+		$last_url !~ /^$captcha_url/) {
+		$c->session->{login_from} = $last_url;
+	}
+
 	if ($c->req->params->{username}) {
 
 		if ($c->req->params->{username} !~ /^[a-zA-Z0-9_\.]+$/) {
@@ -58,18 +68,6 @@ sub login :Chained('logged_out') :Args(0) {
 			$c->stash->{username} = $c->req->params->{username};
 		}
 
-	} else {
-
-		my $last_url = $c->session->{last_url};
-		my $login_url = $c->chained_uri('My','login');
-		my $register_url = $c->chained_uri('My','register');
-		my $captcha_url = $c->chained_uri('Root','captcha');
-
-		if ($last_url !~ /^$login_url/ && $last_url !~ /^$register_url/ &&
-			$last_url !~ /^$captcha_url/) {
-			$c->session->{login_from} = $last_url;
-		}
-
 	}
 }
 
@@ -87,6 +85,9 @@ sub account :Chained('logged_in') :Args(0) {
     my ( $self, $c ) = @_;
 
 	$c->bc_index;
+
+	$c->stash->{no_languages} = $c->req->params->{no_languages}
+		unless defined $c->stash->{no_languages};
 
     my $saved = 0;
 

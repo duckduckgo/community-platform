@@ -32,49 +32,6 @@ sub index :Chained('base') :PathPart('') :Args(0) {
 	$c->bc_index;
 }
 
-sub po_upload :Chained('base') :Args(0) {
-    my ( $self, $c ) = @_;
-	if (!$c->user) {
-		$c->res->code(403);
-		$c->stash->{no_user} = 1;
-		return $c->detach;
-	}
-	if (!$c->user->translation_manager) {
-		$c->res->code(403);
-		$c->stash->{no_translation_manager} = 1;
-		return $c->detach;
-	}
-	my $uploader = $c->user->username;
-	my $upload = $c->req->upload('po_upload');
-	my $domain = $c->req->param('token_domain');
-	my @entries;
-	eval {
-		my $entries_ref = read_po_file($upload->tempname);
-		@entries = @{$entries_ref};
-	};
-	if ($@) {
-		$c->res->code(403);
-		$c->stash->{po_upload_error} = $@;
-		return $c->detach;
-	}
-	unless (@entries) {
-		$c->res->code(403);
-		$c->stash->{no_entries} = 1;
-		return $c->detach;
-	}
-	my $dir = dir($c->d->config->cachedir,'po');
-	$dir->mkpath unless -d $dir;
-	my %data = (
-		tokens => \@entries,
-		uploader => $uploader,
-		created => DateTime->now->epoch,
-		filename => $upload->filename,
-		$domain ? ( domain => $domain ) : (),
-	);
-	my $filename = $data{created}.'.'.$data{uploader}.( $domain ? '.'.$domain : '' ).'.json';
-	io($dir->file($filename))->print(encode_json(\%data));
-}
-
 sub logged_in :Chained('base') :PathPart('') :CaptureArgs(0) {
     my ( $self, $c ) = @_;
 	if (!$c->user) {
@@ -82,7 +39,7 @@ sub logged_in :Chained('base') :PathPart('') :CaptureArgs(0) {
 		return $c->detach;
 	}
 	if (!$c->user->db->user_languages->search({})->all) {
-		$c->response->redirect($c->chained_uri('My','account'));
+		$c->response->redirect($c->chained_uri('My','account',{ no_languages => 1 }));
 		return $c->detach;
 	}
 }
@@ -178,28 +135,42 @@ sub domain :Chained('logged_in') :PathPart('') :CaptureArgs(1) {
 	$c->add_bc($c->stash->{token_domain}->name, $c->chained_uri('Translate','tokens',$c->stash->{token_domain}->key,$c->stash->{locale}));
 }
 
-sub admin :Chained('domain') :Args(0) {
-    my ( $self, $c ) = @_;
-
-    $c->add_bc('Token management', '');
-
-   	if ($c->req->params->{search_token_comments}) {
-   		$c->stash->{search_token_comments_result} = $c->stash->{token_domain}->tokens->search({
-   			notes => { -like => '%'.$c->req->params->{search_token_comments}.'%' },
-   		},{
-   			group_by => 'notes',
-   		});
-   	}
-
-    $c->pager_init($c->action.$c->stash->{token_domain}->id,20);
-    $c->stash->{latest_comments} = $c->stash->{token_domain}->comments($c->stash->{page},$c->stash->{pagesize});
-}
-
 sub domainindex :Chained('domain') :PathPart('') :Args(0) {
-    my ( $self, $c ) = @_;
-	$c->response->redirect($c->chained_uri('Translate','tokens',$c->stash->{token_domain}->key,$c->stash->{locale}));
-	return $c->detach;
+	my ( $self, $c ) = @_;
+	$c->bc_index;
+
+	my @can_speak;
+	my @not_speak;
+
+	for (@{$c->stash->{token_domain_languages}}) {
+		if ($c->user->can_speak($_->language->locale)) {
+			push @can_speak, $_;
+		} else {
+			push @not_speak, $_;
+		}
+	}
+
+	$c->stash->{can_speak} = \@can_speak;
+	$c->stash->{not_speak} = \@not_speak;
 }
+
+sub admin :Chained('domain') :Args(0) {
+	my ( $self, $c ) = @_;
+
+	$c->add_bc('Translation Management', '');
+
+	if ($c->req->params->{search_token_comments}) {
+		$c->stash->{search_token_comments_result} = $c->stash->{token_domain}->tokens->search({
+			notes => { -like => '%'.$c->req->params->{search_token_comments}.'%' },
+		},{
+			group_by => 'notes',
+		});
+	}
+
+	$c->pager_init($c->action.$c->stash->{token_domain}->id,20);
+	$c->stash->{latest_comments} = $c->stash->{token_domain}->comments($c->stash->{page},$c->stash->{pagesize});
+}
+
 
 sub locale :Chained('domain') :PathPart('') :CaptureArgs(1) {
     my ( $self, $c, $locale ) = @_;

@@ -5,7 +5,29 @@ use warnings;
 use Exporter 'import';
 use Locale::PO::Callback;
 
-our @EXPORT = qw( read_po_file );
+our @EXPORT = qw(
+	read_po_file
+	token_key
+	token_hash
+);
+
+sub token_key {
+	my ( $po ) = @_;
+	die __PACKAGE__.': No msgid found in hash' unless defined $po->{msgid};
+	my @key_parts = ('msgid:'.$po->{msgid});
+	push @key_parts, 'msgid_plural:'.$po->{msgid_plural} if defined $po->{msgid_plural};
+	push @key_parts, 'msgctxt:'.$po->{msgctxt} if defined $po->{msgctxt};
+	return join('|||',@key_parts);
+}
+
+sub token_hash {
+	my ( @tokens ) = @_;
+	my %hash;
+	for (@tokens) {
+		$hash{token_key($_)} = $_;
+	}
+	return \%hash;
+}
 
 sub read_po_file {
 	my ( $po_file ) = @_;
@@ -13,14 +35,14 @@ sub read_po_file {
 	my %po_entries;
 	my $lpc = Locale::PO::Callback->new(sub {
 		my ( $po ) = @_;
-		return if defined $po->{type} && $po->{type} eq 'header';
-		use DDP; p($po);
-		my @key_parts = ($po->{msgid});
-		push @key_parts, $po->{msgid_plural} if defined $po->{msgid_plural};
-		push @key_parts, 'msgctxt___'.$po->{msgctxt} if defined $po->{msgctxt};
-		my $key = join('|||',@key_parts);
-		unless(defined $po_entries{$key}) {
-			$po_entries{$key} = $po;
+		return unless defined $po->{msgid};
+		if (defined $po_entries{token_key($po)}) {
+			if (defined $po->{locations}) {
+				$po_entries{token_key($po)}->{locations} = [] unless defined $po_entries{token_key($po)}->{locations};
+				push @{$po_entries{token_key($po)}->{locations}}, @{$po->{locations}};
+			}
+		} else {
+			$po_entries{token_key($po)} = $po;
 		}
 	});
 	$lpc->read($po_file);

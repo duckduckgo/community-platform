@@ -1,0 +1,16 @@
+<div class="content-box">
+	<div class="head">
+		<h2>Uploaded Po File Administration</h2>
+	</div>
+	<div class="body">
+		<: for $po_list -> $po_file { :>
+			<div class="row">
+				<: include "translate/po/poname.tx" { po_file => $po_file, po_link => 1 } :>
+			</div>
+		<: } else { :>
+			<div class="row mid">
+				No uploads...
+			</div>
+		<: } :>
+	</div>
+</div>

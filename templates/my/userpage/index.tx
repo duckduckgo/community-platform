@@ -1,0 +1,50 @@
+<: if $userpage_saved { :>
+	<div class="notice success">
+		<i class="icn icon-ok"></i>Changes saved
+	</div>
+<: } :>
+<form action="<: $u('My::Userpage','index') :>" method="post" class="column-form">
+
+<div class="content-box">
+	<div class="head">
+		<h3>General Public Information</h3>
+	</div>
+	<div class="body">
+		<: for ['headline','about','whyddg'] -> $remote { :>
+			<: include "my/userpage/field.tx" { field => $fields[$remote] } :>
+		<: } :>
+	</div>
+</div>
+
+<div class="content-box">
+	<div class="head">
+		<h3>Links</h3>
+	</div>
+	<div class="body">
+		<: for ['email','web','github','twitter','facebook','reddit','deviantart','imgur','youtube','flickr'] -> $remote { :>
+			<: include "my/userpage/field.tx" { field => $fields[$remote] } :>
+		<: } :>
+	</div>
+</div>
+
+<div class="content-box">
+	<div class="head">
+		<h3>About (not yet displayed)</h3>
+	</div>
+	<div class="body">
+		<: for ['realname','country','city','birth_country'] -> $remote { :>
+			<: include "my/userpage/field.tx" { field => $fields[$remote] } :>
+		<: } :>
+	</div>
+</div>
+
+<div class="content-box">
+	<div class="body">
+		<div class="row mid">
+			<input type="submit" class="big blue button" name="save_userpage" value="Save changes" />
+			<a class="big red button" href="<: $u('Userpage','home',$c.user.username) :>" style="top: 3px;">Go to your userpage</a>
+		</div>
+	</div>
+</div>
+
+</form>

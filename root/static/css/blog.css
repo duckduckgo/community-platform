@@ -107,7 +107,7 @@
 }
 	.blog-content .notice { margin-right: 88px; }
 		.blog-content .comment + .notice { 
-			margin-top: 16px; margin-right: 16px; 
+			margin-top: 16px;
 		}
 	
 	.post-snippet .more-link { 

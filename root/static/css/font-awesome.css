@@ -1259,8 +1259,7 @@ ul.icons-ul > li .icon-li {
 }
 
 /* dukgo custom icons from icomoon - they go last to override the fontawesome ones */
-
-.icon-search, .icon-browser-window, .icon-globe, .icon-tools, .icon-bubble, .icon-bubbles, .icon-bubbles-2, .icon-spam, .icon-close, .icon-globe-2, .icon-earth, .icon-cog, .icon-github, .icon-facebook, .icon-twitter, .icon-reddit, .icon-feed, .icon-console, .icon-info, .icon-cancel-circle, .icon-user, .icon-users, .icon-tag, .icon-tags, .icon-bullhorn, .icon-share, .icon-arrow-up, .icon-arrow-down, .icon-rocket, .icon-lab, .icon-spinner, .icon-spinner-2 {
+.icon-search, .icon-browser-window, .icon-globe, .icon-tools, .icon-bubble, .icon-bubbles, .icon-bubbles-2, .icon-spam, .icon-close, .icon-globe-2, .icon-earth, .icon-cog, .icon-github, .icon-facebook, .icon-twitter, .icon-reddit, .icon-feed, .icon-console, .icon-info, .icon-cancel-circle, .icon-user, .icon-users, .icon-tag, .icon-tags, .icon-bullhorn, .icon-share, .icon-arrow-up, .icon-arrow-down, .icon-rocket, .icon-lab, .icon-spinner, .icon-spinner-2, .icon-deviantart, .icon-steam, .icon-wordpress, .icon-picassa, .icon-dribbble, .icon-forrst, .icon-flickr, .icon-flickr-2, .icon-lanyrd, .icon-blogger, .icon-tumblr, .icon-yahoo, .icon-soundcloud, .icon-skype, .icon-lastfm, .icon-delicious, .icon-stumbleupon, .icon-pinterest, .icon-xing, .icon-flattr, .icon-foursquare, .icon-yelp, .icon-instagram, .icon-settings, .icon-paperclip, .icon-comment, .icon-email, .icon-camera, .icon-calendar, .icon-book, .icon-enter, .icon-atom, .icon-syringe, .icon-health, .icon-pill, .icon-bones, .icon-lab-2, .icon-graph, .icon-image, .icon-cube, .icon-chart, .icon-vectortuts-pirate-panda, .icon-ian-yates-y-fronts, .icon-justin-burns-skull, .icon-ilias-ismanalijev-batman, .icon-joshua-barker-landscape, .icon-quin-robinson-casual-shoe, .icon-danis-lou-joystick, .icon-matt-hakes-moustache, .icon-jj-moi-kneel, .icon-aleks-dorohovich-triforce, .icon-patrik-larsson-pokemon, .icon-michael-howarth-tardis, .icon-rdio, .icon-qq, .icon-dropbox, .icon-evernote, .icon-renren, .icon-sina-weibo, .icon-mixi, .icon-behance, .icon-vk, .icon-circles, .icon-network {
 	font-family: 'dukgo-icons';
 	speak: none;
 	font-style: normal;
@@ -1366,4 +1365,195 @@ ul.icons-ul > li .icon-li {
 .icon-spinner-2:before {
 	content: "\e01f";
 }
-
+.icon-deviantart:before {
+	content: "\e020";
+}
+.icon-steam:before {
+	content: "\e021";
+}
+.icon-wordpress:before {
+	content: "\e022";
+}
+.icon-picassa:before {
+	content: "\e023";
+}
+.icon-dribbble:before {
+	content: "\e024";
+}
+.icon-forrst:before {
+	content: "\e025";
+}
+.icon-flickr:before {
+	content: "\e026";
+}
+.icon-flickr-2:before {
+	content: "\e027";
+}
+.icon-lanyrd:before {
+	content: "\e028";
+}
+.icon-blogger:before {
+	content: "\e029";
+}
+.icon-tumblr:before {
+	content: "\e02a";
+}
+.icon-yahoo:before {
+	content: "\e02b";
+}
+.icon-soundcloud:before {
+	content: "\e02c";
+}
+.icon-skype:before {
+	content: "\e02d";
+}
+.icon-lastfm:before {
+	content: "\e02e";
+}
+.icon-delicious:before {
+	content: "\e02f";
+}
+.icon-stumbleupon:before {
+	content: "\e032";
+}
+.icon-pinterest:before {
+	content: "\e030";
+}
+.icon-xing:before {
+	content: "\e031";
+}
+.icon-flattr:before {
+	content: "\e033";
+}
+.icon-foursquare:before {
+	content: "\e034";
+}
+.icon-yelp:before {
+	content: "\e035";
+}
+.icon-instagram:before {
+	content: "\e036";
+}
+.icon-settings:before {
+	content: "\e037";
+}
+.icon-paperclip:before {
+	content: "\e038";
+}
+.icon-comment:before {
+	content: "\e039";
+}
+.icon-email:before {
+	content: "\e03a";
+}
+.icon-camera:before {
+	content: "\e03b";
+}
+.icon-calendar:before {
+	content: "\e03c";
+}
+.icon-book:before {
+	content: "\e03d";
+}
+.icon-enter:before {
+	content: "\e03e";
+}
+.icon-atom:before {
+	content: "\e03f";
+}
+.icon-syringe:before {
+	content: "\e040";
+}
+.icon-health:before {
+	content: "\e041";
+}
+.icon-pill:before {
+	content: "\e042";
+}
+.icon-bones:before {
+	content: "\e043";
+}
+.icon-lab-2:before {
+	content: "\e044";
+}
+.icon-graph:before {
+	content: "\e045";
+}
+.icon-image:before {
+	content: "\e046";
+}
+.icon-cube:before {
+	content: "\e047";
+}
+.icon-chart:before {
+	content: "\e048";
+}
+.icon-vectortuts-pirate-panda:before {
+	content: "\e049";
+}
+.icon-ian-yates-y-fronts:before {
+	content: "\e04a";
+}
+.icon-justin-burns-skull:before {
+	content: "\e04b";
+}
+.icon-ilias-ismanalijev-batman:before {
+	content: "\e04c";
+}
+.icon-joshua-barker-landscape:before {
+	content: "\e04d";
+}
+.icon-quin-robinson-casual-shoe:before {
+	content: "\e04e";
+}
+.icon-danis-lou-joystick:before {
+	content: "\e04f";
+}
+.icon-matt-hakes-moustache:before {
+	content: "\e050";
+}
+.icon-jj-moi-kneel:before {
+	content: "\e051";
+}
+.icon-aleks-dorohovich-triforce:before {
+	content: "\e052";
+}
+.icon-patrik-larsson-pokemon:before {
+	content: "\e053";
+}
+.icon-michael-howarth-tardis:before {
+	content: "\e054";
+}
+.icon-rdio:before {
+	content: "\e055";
+}
+.icon-qq:before {
+	content: "\e056";
+}
+.icon-dropbox:before {
+	content: "\e057";
+}
+.icon-evernote:before {
+	content: "\e058";
+}
+.icon-renren:before {
+	content: "\e059";
+}
+.icon-sina-weibo:before {
+	content: "\e05a";
+}
+.icon-mixi:before {
+	content: "\e05b";
+}
+.icon-behance:before {
+	content: "\e05c";
+}
+.icon-vk:before {
+	content: "\e05d";
+}
+.icon-circles:before {
+	content: "\e05e";
+}
+.icon-network:before {
+	content: "\e05f";
+}

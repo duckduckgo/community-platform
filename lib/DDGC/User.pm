@@ -4,6 +4,7 @@ use Moose;
 use DDGC::XMPP;
 use DDGC::DB;
 use Prosody::Mod::Data::Access;
+use DDGC::User::Page;
 
 has ddgc => (
 	isa => 'DDGC',
@@ -32,7 +33,6 @@ has db => (
 		languages
 		screens
 		notes
-		data
 		token_language_translations
 		profile_picture
 		public_username
@@ -47,6 +47,24 @@ has db => (
 		update
 	)],
 );
+
+sub userpage {
+	my ( $self ) = @_;
+	return DDGC::User::Page->new_from_user($self);
+}
+
+sub data {
+	my ( $self, $args ) = @_;
+	if (defined $args) {
+		return $self->db->data($args);
+	}
+	if ($self->db->data) {
+		#return {} unless ref $self->db->data eq 'HASH';
+		return $self->db->data;
+	} else {
+		return {};
+	}
+}
 
 sub locales { shift->lul }
 

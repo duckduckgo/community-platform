@@ -33,6 +33,13 @@ Motices
 		background: #d4f2fc;
 		color: #6eb3ca;
 	}
+	.notice.supererror {
+		border-color: #951102;
+		background: #C01300;
+		color: #fff;
+		font-weight: bold;
+		font-size: 1.4em;
+	}
 	
 	.notice .icn, .notice .close {
 		position: absolute;

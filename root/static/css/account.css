@@ -40,7 +40,7 @@
 .account-box .button { float: right; width: 140px; margin: 0 0 0 10px; padding: 0; }
 	.account-box .multi .button { width: 90px; }		
 
-.account-box .third .select2-container { 
+.account-box .third .select2-container, .account-box .forty .select2-container  { 
 	width: 95%; 
 	position: relative; 
 	left: -8px;
@@ -57,14 +57,15 @@
 @media only screen and (max-width: 900px) {
 	.account-box .flag { padding-right: 12px; }
 	.account-box label { 
-		width: 80%;
+		width: 95%;
 		font-size: 16px; 
 	}
 }
 	
 @media only screen and (max-width: 600px) {
-	.no-js .account-box select, .account-box .third .select2-container { 
+	.no-js .account-box select, .account-box .third .select2-container, .account-box .forty .select2-container { 
 		width: 102.5%;
 		margin-bottom: 8px;
 	}
+	.account-box label { widtH: auto; }
 }

@@ -1,7 +1,12 @@
+<: if $no_languages { :>
+	<div class="notice error">
+		Please add a list of languages you can speak, before trying to use the translation interface!
+	</div>
+<: } :>
 <form action="<: $u('My','account') :>" method="post" id="formAccount">
 	<div class="content-box account-box">
 		<div class="head">
-			<div class="third">
+			<div class="forty">
 				<h2>Your Languages</h2>
 			</div>
 			<div class="third palm-hide">
@@ -11,7 +16,7 @@
 		<div class="body">
 			<: for results($c.user.user_languages) -> $user_language { :>
 				<div class="row">
-					<div class="third">
+					<div class="forty">
 						<img src="<: $user_language.language.flag_url :>" alt="flag" class="flag" width="16" height="11">
 						<label><: $user_language.language.name_in_local :> [<: $user_language.language.locale :>]</label>
 					</div>
@@ -20,11 +25,11 @@
 							<: include "my/account/language_grade_options.tx" { user_language => $user_language } :>
 						</select>
 					</div>
-					<div class="third multi"><a href="<: $u('My','account',{ remove_language => $user_language.language.id }) :>" class="button red" data-reveal-id="confirm-dialog<: $user_language.language.id :>">Remove</a><input type="submit" name="update_language_<: $user_language.language.id :>" class="button" value="Update" /></div>			
+					<div class="pull-right multi"><a href="<: $u('My','account',{ remove_language => $user_language.language.id }) :>" class="button red" data-reveal-id="confirm-dialog<: $user_language.language.id :>">Remove</a><input type="submit" name="update_language_<: $user_language.language.id :>" class="button" value="Update" /></div>			
 				</div>
 			<: } :>
 			<div class="row">
-				<div class="third">
+				<div class="forty">
 					<: include "my/account/language_add.tx" :> 
 				</div>
 				<div class="third">
@@ -32,18 +37,20 @@
 						<: include "my/account/language_grade_options.tx" :>
 					</select>
 				</div>
-				<div class="third">
+				<div class="pull-right">
 					<input type="submit" class="button" name="add_language" value="Add Language" />
 				</div>
 			</div>
 			<div class="row">
 				<p>Trying to add a language that's not on the list? <a href="<: $u('My','requestlanguage') :>">Request it here!</a></p>
 			</div>
-			<div class="row callout-row">
-				<a href="<: $u('Translate','index') :>">
-					<i class="icon-circle-arrow-right right"></i><h3 class="icon"><i class="icon-globe"></i> Help us translate DuckDuckGo into your languages.</h3>
-				</a>
-			</div>
+			<: if my $size = results($c.user.user_languages).size() { :>
+				<div class="row callout-row">
+					<a href="<: $u('Translate','index') :>">
+						<i class="icon-circle-arrow-right right"></i><h3 class="icon"><i class="icon-globe"></i>Help us translate DuckDuckGo into your languages.</h3>
+					</a>
+				</div>
+			<: } :>
 		</div>
 	</div>
 
@@ -56,21 +63,21 @@
 			<div class="row">
 				<div class="twothird">
 					<: if $c.user().data().email { :>
-						<label>Current Email: <span class="fakelink"><: $c.user().data().email :></span></label>
+						<label>Current email: <span class="fakelink"><: $c.user().data().email :></span></label>
 					<: } else { :>
 						<label>No email</label>
 					<: } :>
 				</div>
 				<div class="third">
-					<a href="<: $u('My','email') :>" class="button">Change Email</a>
+					<a href="<: $u('My','email') :>" class="button">Change email</a>
 				</div>
 			</div>
 			<div class="row">
 				<div class="twothird">
-					<label>Your Password</label>
+					<label>Your password</label>
 				</div>
 				<div class="third">
-					<a href="<: $u('My','changepw') :>" class="button">Change Password</a>
+					<a href="<: $u('My','changepw') :>" class="button">Change password</a>
 				</div>
 			</div>
 			<div class="row">
@@ -84,20 +91,27 @@
 					</label>
 				</div>
 				<div class="third">
-					<a href="<: $u('My','public') :>" class="button">				
+					<a href="<: $u('My','public') :>" class="button">
 						<: if $c.user.public { :>
-							<: $l('Make it Private') :>
+							<: $l('Make it private') :>
 						<: } else { :>
-							<: $l('Make it Public') :>
+							<: $l('Make it public') :>
 						<: } :>
 					</a>
 				</div>
 			</div>
 			<: if $c.user.public { :>
-				<div class="row callout-row">
-					<a href="<: $u('Userpage','home',$c.user.username) :>">
-						<i class="icon-circle-arrow-right right"></i><h3 class="icon"><i class="icon-user"></i> Check out your userpage. (More Coming Soon)</h3>
-					</a>
+				<div class="row">
+					<div class="twothird">
+						<label>
+							Your <a href="<: $u('Userpage','home',$c.user.username) :>">userpage</a> (<a href="<: $u('Userpage','json',$c.user.username) :>">JSON</a>)
+						</label>
+					</div>
+					<div class="third">
+						<a href="<: $u('My::Userpage','index') :>" class="button">
+							Edit userpage
+						</a>
+					</div>
 				</div>
 			<: } :>
 		</div>

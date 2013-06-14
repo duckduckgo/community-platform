@@ -1,10 +1,64 @@
-<div class="content-box">
-	<div class="head">		
-		<: include "user/userpic.tx" { user => $user } :>
-		<h2><: include "user/username.tx" { user => $user } :></h2>
-	</div>
-	<div class="body">
-		<div class="row">
+<div class="gw">
+<div class="g twothird gw">
+
+	<div class="g content-box whole user-info-box">
+		<div class="head">
+			<: include "user/userpic.tx" { user => $user, userpic_size => 32 } :>
+			<h2>
+				<: if $fields.headline.value { :>
+					<: $fields.headline.value :>
+				<: } else { :>
+					<: include "user/username.tx" { user => $user, no_user_link => 1 } :>
+				<: } :>
+			</h2>
+			<: if $user.admin { :>
+				<div class="pull-right">
+					<img src="/static/images/duckduckgo-icon.png" width="32" height="32" class="admin-badge" title="Admin of Community Platform" />
+				</div>
+			<: } :>
+		</div>
+		<div class="body">			
+			<: include 'userpage/twothird/field.tx' { field => $fields.about,
+				description => "About"
+			} :>
+			<: include 'userpage/twothird/field.tx' { field => $fields.whyddg,
+				description => "Why DuckDuckGo?"
+			} :>			
 		</div>
 	</div>
+
+	<!-- Following 2 columns will be filled later by system weighted out or user can drag & drop.. i don't know yet -->
+
+	<div class="g half">
+		<: if $fields.languages.value { :>
+			<div class="content-box user-info-box">
+				<div class="head">
+					<h3>Languages</h3>
+				</div>
+				<div class="body">
+					<: include 'userpage/third/languages.tx' { field => $fields.languages } :>
+				</div>
+			</div>
+		<: } :>
+	</div>
+
+	<div class="g half">
+	</div>
+
+</div>
+
+<div class="g third gw">
+
+	<div class="g content-box whole user-info-box">
+		<div class="head">
+			<h3>Links</h3>
+		</div>
+		<div class="body">
+			<: for ['email','web','github','twitter','facebook','reddit','deviantart','imgur','youtube','flickr'] -> $remote { :>
+				<: include 'userpage/third/field.tx' { field => $fields[$remote] } :>
+			<: } :>
+		</div>
+	</div>
+
+</div>
 </div>

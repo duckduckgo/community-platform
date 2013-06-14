@@ -1,0 +1,88 @@
+<div class="content-box">
+	<div class="head">
+		<: include "translate/po/poname.tx" { po_file => $po } :>
+	</div>
+	<div class="body">
+		<div class="row mid">
+			<h2>Compare with "<: $token_domain.name :>"</h2>
+		</div>
+		<div class="row mid">
+			Contains <: $compare_result.new.size() :> new tokens and <: $compare_result.old.size() :> old ones...
+			<a class="button" href="<: $u('Translate::Po','view',$po_filename) :>">
+				Back to view of po file content
+			</a>
+		</div>
+		<: if $compare_result.old.size() == 0 { :>
+			<div class="row">
+				<div class="notice supererror">
+					<i class="icn icon-warning-sign"></i>WARNING! NO MATCHING TOKENS! MIGHT BE WRONG DOMAIN TO MATCH!
+				</div>
+			</div>
+		<: } :>
+	</div>
+</div>
+
+<: for $compare_result.new -> $po_entry { :>
+	<div class="content-box">
+		<div class="head">
+			<: include "translate/po/poentry.tx" { po_entry => $po_entry } :>
+		</div>
+		<div class="body">
+			<: for $po_entry.similar -> $po_entry { :>
+				<div class="row">
+					<: if $po_entry.msgctxt { :>
+						<span class="tag red"><: $po_entry.msgctxt :></span>
+					<: } :>
+					<span class="tag blue fb"><: $po_entry.msgid :></span>
+					<: if $po_entry.msgid_plural { :>
+						<span class="tag blue tw"><: $po_entry.msgid_plural :></span>
+					<: } :>
+				</div>
+			<: } :>
+		</div>
+	</div>
+<: } :>
+
+<div class="content-box">
+	<div class="head">
+		<h2>Old entries (<: $compare_result.old.size() :>)</h2>
+	</div>
+	<div class="body">
+		<: for $compare_result.old -> $po_entry { :>
+			<: include "translate/po/poentry.tx" { po_entry => $po_entry } :>
+		<: } else { :>
+			<div class="row mid">
+				<div class="button blue">
+					No tokens match with this domain
+				</div>
+			</div>
+		<: } :>
+	</div>
+</div>
+
+<: if $c.user.admin { :>
+	<div class="content-box">
+		<div class="head">
+			<: include "translate/po/poname.tx" { po_file => $po } :>
+		</div>
+		<div class="body">
+			<: if $compare_result.new.size() == 0 { :>
+				<div class="row mid">
+					<div class="notice supererror">
+						<i class="icn icon-warning-sign"></i>NO NEW TOKENS! NOTHING TO MIGRATE
+					</div>
+					<a class="button" href="<: $u('Translate::Po','view',$po_filename) :>">
+						Back to view of po file content
+					</a>
+				</div>
+			<: } else { :>
+				<div class="row mid">
+					Will add <: $compare_result.new.size() :> new tokens!
+				</div>
+				<div class="row mid">
+					<a class="big blue button" href="<: $u('Translate::Po','migrate',$po_filename,$token_domain.key) :>">Migrate this po into the domain <: $token_domain.key :></a>
+				</div>
+			<: } :>
+		</div>
+	</div>
+<: } :>

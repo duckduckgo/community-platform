@@ -35,6 +35,10 @@ __PACKAGE__->config(
 			return $source;
 		},
 		urify => sub { lc(join('-',split(/\s+/,join(' ',@_)))) },
+		# user page field view template
+		upf_view => sub { 'userpage/'.$_[1].'/'.$_[0]->view.'.tx' },
+		# user page field edit template
+		upf_edit => sub { 'my/userpage/field/'.$_[0]->edit.'.tx' },
 	},
 	expose_methods => [qw(
 		next_template
@@ -42,6 +46,7 @@ __PACKAGE__->config(
 		u
 		l
 		dur
+		dur_precise
 	)],
 );
 
@@ -68,15 +73,30 @@ sub link {
 	return $c->chained_uri($object->u,@args);
 }
 
+# url
 sub u { shift; shift->chained_uri(@_) }
 
+# localize
 sub l { shift; shift->localize(@_) }
 
 sub dur {
 	my ( $self, $c, $date ) = @_;
+	$date = DateTime->from_epoch( epoch => $date ) unless ref $date;
 	return DateTime::Format::Human::Duration->new->format_duration(
 		DateTime->now - $date,
 		'units' => [qw/years months days/],
+		'past' => '%s ago',
+		'future' => 'in %s will be',
+		'no_time' => 'today',
+	);
+}
+
+sub dur_precise {
+	my ( $self, $c, $date ) = @_;
+	$date = DateTime->from_epoch( epoch => $date ) unless ref $date;
+	return DateTime::Format::Human::Duration->new->format_duration(
+		DateTime->now - $date,
+		'units' => [qw/years months days hours minutes/],
 		'past' => '%s ago',
 		'future' => 'in %s will be',
 		'no_time' => 'today',

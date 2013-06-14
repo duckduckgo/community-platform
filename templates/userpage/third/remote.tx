@@ -1,0 +1,10 @@
+<: if $field.params.icon { :>
+	<i class="icn icon-<: $field.params.icon :>"></i>
+<: } :>
+<a href="<: $field.params.url_prefix ~ $field.value ~ $field.params.url_suffix :>">
+	<: if $field.params.user { :>
+		<: $field.params.user :>
+	<: } else { :>
+		<: $field.params.user_prefix :><: $field.value :><: $field.params.user_suffix :>
+	<: } :>
+</a>

@@ -187,6 +187,14 @@ sub users {{
 		languages => {
 			es => 6,
 		},
+		data => {
+			userpage => {
+				twitter => 'duckduckgo',
+				web => 'https://duckduckgo.com/',
+				about => 'about duckduckgo on twitter',
+				whyddg => 'because it\'s awesome!',
+			}
+		},
 	},
 	'testthree' => {
 		pw => '1234test',
@@ -197,6 +205,11 @@ sub users {{
 			us => 6,
 			ar => 5,
 			de => 4,
+		},
+		data => {
+			userpage => {
+				web => 'https://test.de/',
+			}
 		},
 	},
 	'testfour' => {
@@ -238,6 +251,7 @@ sub add_users {
 	my $testone = $self->d->find_user('testone');
 	$self->isa_ok($testone,'DDGC::User');
 	$testone->admin(1);
+	$testone->public(1);
 	$testone->notes('Testuser, admin');
 	$testone->create_related('user_languages',{
 		language_id => $self->c->{languages}->{'de'}->id,
@@ -246,6 +260,14 @@ sub add_users {
 	$testone->create_related('user_languages',{
 		language_id => $self->c->{languages}->{'us'}->id,
 		grade => 3,
+	});
+	$testone->data({
+		userpage => {
+			github => 'duckduckgo',
+			web => 'https://duckduckgo.com/',
+			about => 'about me',
+			whyddg => 'because it\'s awesome!',
+		},
 	});
 	$testone->update;
 	$self->c->{users}->{testone} = $testone;

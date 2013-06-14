@@ -1,0 +1,18 @@
+<div class="row">
+	<div class="third">
+		<label><: $field.description :></label>
+	</div>
+	<div class="twothird">
+		<: include upf_edit($field) { field => $field } :>
+	</div>
+</div>
+<: if $field.error_count { :>
+	<div class="row">
+		<div class="third">&nbsp;</div>
+		<div class="twothird">
+			<: for $field.errors -> $error { :>
+				<div class="notice error"><i class="icn icon-warning-sign"></i><: $error :></div>
+			<: } :>
+		</div>
+	</div>
+<: } :>
