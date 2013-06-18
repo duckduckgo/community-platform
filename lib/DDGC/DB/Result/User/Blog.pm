@@ -1,6 +1,9 @@
 package DDGC::DB::Result::User::Blog;
 
-use DBIx::Class::Candy -components => [ 'TimeStamp', 'InflateColumn::DateTime', 'InflateColumn::Serializer', 'EncodedColumn' ];
+use Moose;
+extends 'DDGC::DB::Base::Result';
+use DBIx::Class::Candy;
+use namespace::autoclean;
 
 table 'user_blog';
 
@@ -75,9 +78,5 @@ sub human_duration_updated {
 	return (split /,/, $result)[0];
 }
 
-use overload '""' => sub {
-	my $self = shift;
-	return 'User-Blog #'.$self->id;
-}, fallback => 1;
-
-1;
+no Moose;
+__PACKAGE__->meta->make_immutable;

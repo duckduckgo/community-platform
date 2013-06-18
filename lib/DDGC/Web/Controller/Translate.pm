@@ -283,6 +283,5 @@ sub tokens :Chained('locale') :Args(0) {
 	}
 }
 
+no Moose;
 __PACKAGE__->meta->make_immutable;
-
-1;

@@ -1,6 +1,9 @@
 package DDGC::DB::Result::Token::Language::Translation::Vote;
 
-use DBIx::Class::Candy -components => [ 'TimeStamp', 'InflateColumn::DateTime', 'InflateColumn::Serializer', 'EncodedColumn' ];
+use Moose;
+extends 'DDGC::DB::Base::Result';
+use DBIx::Class::Candy;
+use namespace::autoclean;
 
 table 'token_language_translation_vote';
 
@@ -38,9 +41,5 @@ unique_constraint(
 belongs_to 'user', 'DDGC::DB::Result::User', 'users_id';
 belongs_to 'token_language_translation', 'DDGC::DB::Result::Token::Language::Translation', 'token_language_translation_id';
 
-use overload '""' => sub {
-	my $self = shift;
-	return 'Token-Language-Translation-Vote #'.$self->id;
-}, fallback => 1;
-
-1;
+no Moose;
+__PACKAGE__->meta->make_immutable;

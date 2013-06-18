@@ -1,6 +1,9 @@
 package DDGC::DB::Result::Token;
 
-use DBIx::Class::Candy -components => [ 'TimeStamp', 'InflateColumn::DateTime', 'InflateColumn::Serializer', 'EncodedColumn' ];
+use Moose;
+extends 'DDGC::DB::Base::Result';
+use DBIx::Class::Candy;
+use namespace::autoclean;
 
 table 'token';
 
@@ -114,9 +117,5 @@ sub insert {
 	return $self;
 }
 
-use overload '""' => sub {
-	my $self = shift;
-	return 'Token #'.$self->id;
-}, fallback => 1;
-
-1;
+no Moose;
+__PACKAGE__->meta->make_immutable;

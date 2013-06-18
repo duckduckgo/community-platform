@@ -1,6 +1,9 @@
 package DDGC::DB::Result::Screen;
 
-use DBIx::Class::Candy -components => [ 'TimeStamp', 'InflateColumn::DateTime', 'InflateColumn::Serializer', 'EncodedColumn' ];
+use Moose;
+extends 'DDGC::DB::Base::Result';
+use DBIx::Class::Candy;
+use namespace::autoclean;
 
 table 'screen';
 
@@ -58,9 +61,5 @@ belongs_to 'user', 'DDGC::DB::Result::User', { 'foreign.username' => 'self.usern
 
 has_many 'token_screens', 'DDGC::DB::Result::Token::Screen', 'screen_id';
 
-use overload '""' => sub {
-	my $self = shift;
-	return 'Screen #'.$self->id;
-}, fallback => 1;
-
-1;
+no Moose;
+__PACKAGE__->meta->make_immutable;

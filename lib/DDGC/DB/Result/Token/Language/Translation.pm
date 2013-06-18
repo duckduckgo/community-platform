@@ -1,10 +1,13 @@
 package DDGC::DB::Result::Token::Language::Translation;
 
-use DBIx::Class::Candy -components => [ 'TimeStamp', 'InflateColumn::DateTime', 'InflateColumn::Serializer', 'EncodedColumn' ];
 use Moose;
+extends 'DDGC::DB::Base::Result';
+use DBIx::Class::Candy;
 
 use DateTime;
 use Locale::Simple;
+
+use namespace::autoclean;
 
 table 'token_language_translation';
 
@@ -197,9 +200,5 @@ sub key {
 	return $key;
 }
 
-use overload '""' => sub {
-	my $self = shift;
-	return 'Token-Language-Translation #'.$self->id;
-}, fallback => 1;
-
-1;
+no Moose;
+__PACKAGE__->meta->make_immutable;

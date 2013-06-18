@@ -36,6 +36,5 @@ sub json :Chained('user') :Args(0) {
 	$c->forward('View::JSON');
 }
 
+no Moose;
 __PACKAGE__->meta->make_immutable;
-
-1;

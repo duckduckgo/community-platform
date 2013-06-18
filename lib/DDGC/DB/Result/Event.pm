@@ -1,6 +1,9 @@
 package DDGC::DB::Result::Event;
 
-use DBIx::Class::Candy -components => [ 'TimeStamp', 'InflateColumn::DateTime', 'InflateColumn::Serializer', 'EncodedColumn' ];
+use Moose;
+extends 'DDGC::DB::Base::Result';
+use DBIx::Class::Candy;
+use namespace::autoclean;
 
 table 'event';
 
@@ -52,9 +55,5 @@ sub get_context_obj {
 	return;
 }
 
-use overload '""' => sub {
-	my $self = shift;
-	return 'Event #'.$self->id;
-}, fallback => 1;
-
-1;
+no Moose;
+__PACKAGE__->meta->make_immutable;

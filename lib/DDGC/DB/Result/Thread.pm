@@ -1,10 +1,11 @@
 package DDGC::DB::Result::Thread;
 # ABSTRACT: Dukgo.com Forum thread
 
-use DBIx::Class::Candy -components => [ 'TimeStamp', 'InflateColumn::DateTime', 'InflateColumn::Serializer', 'EncodedColumn' ];
-
 use Moose;
+extends 'DDGC::DB::Base::Result';
+use DBIx::Class::Candy;
 use DateTime::Format::Human::Duration;
+use namespace::autoclean;
 
 table 'thread';
 
@@ -54,11 +55,6 @@ column updated => {
 };
 
 belongs_to 'user', 'DDGC::DB::Result::User', 'users_id';
-
-use overload '""' => sub {
-	my $self = shift;
-	return 'Thread #'.$self->id;
-}, fallback => 1;
 
 has categories => (
     is => 'ro',
@@ -171,5 +167,5 @@ sub created_human {
     $self->_humanify($self->created);
 }
 
-1;
-
+no Moose;
+__PACKAGE__->meta->make_immutable;

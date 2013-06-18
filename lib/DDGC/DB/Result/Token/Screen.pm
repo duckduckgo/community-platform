@@ -1,6 +1,9 @@
 package DDGC::DB::Result::Token::Screen;
 
-use DBIx::Class::Candy -components => [ 'TimeStamp', 'InflateColumn::DateTime', 'InflateColumn::Serializer', 'EncodedColumn' ];
+use Moose;
+extends 'DDGC::DB::Base::Result';
+use DBIx::Class::Candy;
+use namespace::autoclean;
 
 table 'token_screen';
 
@@ -44,9 +47,5 @@ column updated => {
 belongs_to 'token', 'DDGC::DB::Result::Token', 'token_id';
 belongs_to 'screen', 'DDGC::DB::Result::Screen', 'screen_id';
 
-use overload '""' => sub {
-	my $self = shift;
-	return 'Token-Screen #'.$self->id;
-}, fallback => 1;
-
-1;
+no Moose;
+__PACKAGE__->meta->make_immutable;

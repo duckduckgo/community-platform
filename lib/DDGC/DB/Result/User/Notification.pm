@@ -1,6 +1,9 @@
 package DDGC::DB::Result::User::Notification;
 
-use DBIx::Class::Candy -components => [ 'TimeStamp', 'InflateColumn::DateTime', 'InflateColumn::Serializer', 'EncodedColumn' ];
+use Moose;
+extends 'DDGC::DB::Base::Result';
+use DBIx::Class::Candy;
+use namespace::autoclean;
 
 table 'user_notification';
 
@@ -66,9 +69,5 @@ belongs_to 'user', 'DDGC::DB::Result::User', 'users_id';
 
 ###############################
 
-use overload '""' => sub {
-	my $self = shift;
-	return 'User-Notification #'.$self->id;
-}, fallback => 1;
-
-1;
+no Moose;
+__PACKAGE__->meta->make_immutable;

@@ -49,6 +49,5 @@ sub end : ActionClass('RenderView') {
 	$c->session->{last_url} = $c->req->uri;
 }
 
+no Moose;
 __PACKAGE__->meta->make_immutable;
-
-1;

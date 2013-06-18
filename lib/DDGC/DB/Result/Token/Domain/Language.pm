@@ -1,7 +1,9 @@
 package DDGC::DB::Result::Token::Domain::Language;
 
-use DBIx::Class::Candy -components => [ 'TimeStamp', 'InflateColumn::DateTime', 'InflateColumn::Serializer', 'EncodedColumn' ];
 use Moose;
+extends 'DDGC::DB::Base::Result';
+use DBIx::Class::Candy;
+
 use File::Spec;
 use File::Which;
 use IO::All -utf8;
@@ -10,6 +12,8 @@ use Carp;
 use DateTime;
 use DateTime::Format::Strptime;
 use POSIX qw( floor );
+
+use namespace::autoclean;
 
 table 'token_domain_language';
 
@@ -206,14 +210,10 @@ sub all_tokens {
 	$self->_get_token_languages(1, $page, $pagesize);
 }
 
-use overload '""' => sub {
-	my $self = shift;
-	return 'Token-Domain-Language for '.$self->token_domain->key.' with locale '.$self->language->locale;
-}, fallback => 1;
-
 sub u { 
 	my ( $self, $page ) = @_;
 	'Translate', 'tokens', $self->token_domain->key, $self->language->locale
 }
 
-1;
+no Moose;
+__PACKAGE__->meta->make_immutable;

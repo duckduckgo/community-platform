@@ -1,6 +1,9 @@
 package DDGC::DB::Result::Comment;
 
-use DBIx::Class::Candy -components => [ 'TimeStamp', 'InflateColumn::DateTime', 'InflateColumn::Serializer', 'EncodedColumn' ];
+use Moose;
+extends 'DDGC::DB::Base::Result';
+use DBIx::Class::Candy;
+use namespace::autoclean;
 
 table 'comment';
 
@@ -60,9 +63,5 @@ sub get_context_obj {
 
 ###############################
 
-use overload '""' => sub {
-	my $self = shift;
-	return 'Comment #'.$self->id;
-}, fallback => 1;
-
-1;
+no Moose;
+__PACKAGE__->meta->make_immutable;

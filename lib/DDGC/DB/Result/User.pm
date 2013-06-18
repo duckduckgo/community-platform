@@ -1,7 +1,9 @@
 package DDGC::DB::Result::User;
 
-use DBIx::Class::Candy -components => [ 'TimeStamp', 'InflateColumn::DateTime', 'InflateColumn::Serializer', 'EncodedColumn' ];
 use Moose;
+extends 'DDGC::DB::Base::Result';
+use DBIx::Class::Candy;
+use namespace::autoclean;
 
 table 'users';
 
@@ -137,9 +139,5 @@ sub last_comments {
 	});
 }
 
-use overload '""' => sub {
-	my $self = shift;
-	return 'User '.$self->username.' #'.$self->id;
-}, fallback => 1;
-
-1;
+no Moose;
+__PACKAGE__->meta->make_immutable;

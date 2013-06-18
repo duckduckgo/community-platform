@@ -1,6 +1,9 @@
 package DDGC::DB::Result::Language;
 
-use DBIx::Class::Candy -components => [ 'TimeStamp', 'InflateColumn::DateTime', 'InflateColumn::Serializer', 'EncodedColumn' ];
+use Moose;
+extends 'DDGC::DB::Base::Result';
+use DBIx::Class::Candy;
+use namespace::autoclean;
 
 table 'language';
 
@@ -100,9 +103,5 @@ has_many 'token_domain_languages', 'DDGC::DB::Result::Token::Domain::Language', 
 
 many_to_many 'users', 'user_languages', 'user';
 
-use overload '""' => sub {
-	my $self = shift;
-	return 'Language '.$self->name_in_english.' with locale '.$self->locale.' #'.$self->id;
-}, fallback => 1;
-
-1;
+no Moose;
+__PACKAGE__->meta->make_immutable;

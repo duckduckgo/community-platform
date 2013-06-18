@@ -1,7 +1,9 @@
 package DDGC::DB::Result::Token::Language;
 
-use DBIx::Class::Candy -components => [ 'TimeStamp', 'InflateColumn::DateTime', 'InflateColumn::Serializer', 'EncodedColumn' ];
 use Moose;
+extends 'DDGC::DB::Base::Result';
+use DBIx::Class::Candy;
+use namespace::autoclean;
 
 table 'token_language';
 
@@ -270,9 +272,5 @@ sub _build_translations { [sort { $a->vote_count <=> $b->vote_count } shift->tok
 	# return @results;
 # }
 
-use overload '""' => sub {
-	my $self = shift;
-	return 'Token-Language #'.$self->id;
-}, fallback => 1;
-
-1;
+no Moose;
+__PACKAGE__->meta->make_immutable;
