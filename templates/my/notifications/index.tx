@@ -1,0 +1,31 @@
+<: if $notifications_saved { :>
+	<div class="notice success">
+		<i class="icn icon-ok"></i>Notifications saved
+	</div>
+<: } :>
+
+<form action="<: $u('My::Notifications','index') :>" method="post" class="column-form">
+
+<div class="content-box">
+	<div class="head">
+		<h3>Activate notifications for ...</h3>
+	</div>
+	<div class="body">
+		<: for $base_notifications -> $notification { :>
+			<: include my::notifications::notification {
+				notification => $notification,
+				notification_text => '...' ~ $notification.description,
+			} :>
+		<: } :>
+	</div>
+</div>
+
+<div class="content-box">
+	<div class="body">
+		<div class="row mid">
+			<input type="submit" class="big blue button" name="save_notifications" value="Save changes" />
+		</div>
+	</div>
+</div>
+
+</form>

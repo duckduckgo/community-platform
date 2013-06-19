@@ -65,13 +65,23 @@
 					<: if $c.user().data().email { :>
 						<label>Current email: <span class="fakelink"><: $c.user().data().email :></span></label>
 					<: } else { :>
-						<label>No email</label>
+						<label>No email (required for notifications)</label>
 					<: } :>
 				</div>
 				<div class="third">
 					<a href="<: $u('My','email') :>" class="button">Change email</a>
 				</div>
 			</div>
+			<: if $c.user().data().email { :>
+				<div class="row">
+					<div class="twothird">
+						<label>Configure notifications</label>
+					</div>
+					<div class="third">
+						<a href="<: $u('My::Notifications','index') :>" class="button">Edit notifications</a>
+					</div>
+				</div>
+			<: } :>
 			<div class="row">
 				<div class="twothird">
 					<label>Your password</label>

@@ -40,29 +40,37 @@ column sub_context => {
 	is_nullable => 1,
 };
 
+# not yet supported
+column action => {
+	data_type => 'text',
+	is_nullable => 1,
+};
+
+# 1 = Instant (Not yet implemented)
+# 2 = Hourly
+# 3 = Daily
+# 4 = Weekly
+
 column cycle => {
 	data_type => 'int',
 	is_nullable => 0,
 };
 
+# not yet supported
 column cycle_time => {
-	data_type => 'int',
+	data_type => 'timestamp with time zone',
 	is_nullable => 1,
 };
 
+# not yet supported
 column last_check => {
 	data_type => 'timestamp with time zone',
+	set_on_create => 1,
 };
 
 column created => {
 	data_type => 'timestamp with time zone',
 	set_on_create => 1,
-};
-
-column updated => {
-	data_type => 'timestamp with time zone',
-	set_on_create => 1,
-	set_on_update => 1,
 };
 
 belongs_to 'user', 'DDGC::DB::Result::User', 'users_id';

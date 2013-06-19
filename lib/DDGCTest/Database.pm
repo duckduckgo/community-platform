@@ -88,9 +88,8 @@ sub next_step {
 
 sub step_count {
 	my ( $self ) = @_;
-	my $base = 524;
+	my $base = 404;
 	return $base unless $self->test;
-
 }
 
 sub isa_ok { ::isa_ok($_[0],$_[1]) if shift->test }
@@ -923,4 +922,5 @@ sub add_token_domains {
 	}
 }
 
-1;
+no Moose;
+__PACKAGE__->meta->make_immutable;

@@ -73,4 +73,5 @@ sub html {
 	return $self->bbcode->render(join(' ',@code_parts));
 }
 
-1;
+no Moose;
+__PACKAGE__->meta->make_immutable;

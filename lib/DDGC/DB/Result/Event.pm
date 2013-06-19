@@ -18,6 +18,11 @@ column users_id => {
 	is_nullable => 1,
 };
 
+column action => {
+	data_type => 'text',
+	is_nullable => 0,
+};
+
 column context => {
 	data_type => 'text',
 	is_nullable => 0,
@@ -28,10 +33,22 @@ column context_id => {
 	is_nullable => 1,
 };
 
+column related => {
+	data_type => 'text',
+	is_nullable => 1,
+	serializer_class => 'JSON',
+};
+
+column notified => {
+	data_type => 'int',
+	is_nullable => 0,
+	default_value => 0,
+};
+
 column data => {
 	data_type => 'text',
 	is_nullable => 1,
-	serializer_class => 'YAML',
+	serializer_class => 'JSON',
 };
 
 column created => {
@@ -46,6 +63,7 @@ column updated => {
 };
 
 belongs_to 'user', 'DDGC::DB::Result::User', 'users_id', { join_type => 'left' };
+has_many 'event_notifications', 'DDGC::DB::Result::Event::Notification', 'event_id';
 
 sub get_context_obj {
 	my ( $self ) = @_;
@@ -53,6 +71,12 @@ sub get_context_obj {
 		return $self->result_source->schema->resultset($1)->find($self->context_id);
 	}
 	return;
+}
+
+sub language_ids {
+	my ( $self ) = @_;
+	my @language_ids;
+
 }
 
 no Moose;

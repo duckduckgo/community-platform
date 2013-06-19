@@ -10,6 +10,8 @@ use DDGC::XMPP;
 use DDGC::Comments;
 use DDGC::Blog;
 use DDGC::Markup;
+use DDGC::Envoy;
+use DDGC::Postman;
 use DDGC::Forum;
 use File::Copy;
 use IO::All;
@@ -60,6 +62,33 @@ has markup => (
 sub _build_markup {
 	my $self = shift;
 	DDGC::Markup->new({
+		ddgc => $self,
+	});
+}
+
+has envoy => (
+	isa => 'DDGC::Envoy',
+	is => 'ro',
+	lazy_build => 1,
+);
+sub _build_envoy {
+	my $self = shift;
+	DDGC::Envoy->new({
+		ddgc => $self,
+	});
+}
+
+has postman => (
+	isa => 'DDGC::Postman',
+	is => 'ro',
+	lazy_build => 1,
+	handles => [qw(
+		mail
+	)],
+);
+sub _build_postman {
+	my $self = shift;
+	DDGC::Postman->new({
 		ddgc => $self,
 	});
 }
@@ -282,4 +311,5 @@ sub comments {
 
 sub flaglist { map { chomp; $_; } io( File::Spec->catfile(dist_dir('DDGC'), 'flaglist.txt') )->slurp }
 
-1;
+no Moose;
+__PACKAGE__->meta->make_immutable;

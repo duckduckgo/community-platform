@@ -30,7 +30,6 @@ has db => (
 		created
 		updated
 		admin
-		user_languages
 		languages
 		screens
 		notes
@@ -42,9 +41,14 @@ has db => (
 		can_speak
 		lul
 		last_comments
+		user_languages
+		user_notifications
+		user_blogs
+		save_notifications
 	),qw(
 		create_related
 		find_related
+		search_related
 		update
 	)],
 );

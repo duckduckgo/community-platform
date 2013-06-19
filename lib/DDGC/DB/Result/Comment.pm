@@ -55,10 +55,28 @@ has_many 'children', 'DDGC::DB::Result::Comment', 'parent_id';
 
 sub get_context_obj {
 	my ( $self ) = @_;
-	if ( $self->context =~ m/^DDGC::DB::Result::(.*)$/ ) {
+	if ( $self->has_context_obj ) {
 		return $self->result_source->schema->resultset($1)->find($self->context_id);
 	}
 	return;
+}
+
+sub has_context_obj {
+	my ( $self ) = @_;
+	return $self->context =~ m/^DDGC::DB::Result::(.*)$/ ? 1 : 0;
+}
+
+sub event_related {
+	my ( $self ) = @_;
+	my @related;
+	if ( $self->parent_id ) {
+		push @related, [(ref $self), $self->parent_id];
+	}
+	if ( $self->has_context_obj ) {
+		push @related, [$self->context, $self->context_id];
+		push @related, [$self->get_context_obj->event_related] if $self->get_context_obj->can('event_related');
+	}
+	return @related;
 }
 
 ###############################

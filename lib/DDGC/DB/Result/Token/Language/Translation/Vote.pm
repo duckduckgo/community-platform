@@ -41,5 +41,12 @@ unique_constraint(
 belongs_to 'user', 'DDGC::DB::Result::User', 'users_id';
 belongs_to 'token_language_translation', 'DDGC::DB::Result::Token::Language::Translation', 'token_language_translation_id';
 
+sub event_related {
+	my ( $self ) = @_;
+	my @related = $self->token_language_translation->event_related;
+	push @related, ['DDGC::DB::Result::Token::Language::Translation', $self->token_language_translation_id];
+	return @related;
+}
+
 no Moose;
 __PACKAGE__->meta->make_immutable;

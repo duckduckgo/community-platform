@@ -2,11 +2,10 @@ package DDGC::Web::Controller::My::Userpage;
 # ABSTRACT: Userpage editor
 
 use Moose;
-use namespace::autoclean;
+BEGIN {extends 'Catalyst::Controller'; }
 
 use DateTime;
-
-BEGIN {extends 'Catalyst::Controller'; }
+use namespace::autoclean;
 
 sub base :Chained('/my/base') :PathPart('userpage') :CaptureArgs(0) {
 	my ( $self, $c ) = @_;

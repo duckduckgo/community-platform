@@ -117,5 +117,10 @@ sub insert {
 	return $self;
 }
 
+sub event_related {
+	my ( $self ) = @_;
+	['DDGC::DB::Result::Token::Domain', $self->token_domain_id]
+}
+
 no Moose;
 __PACKAGE__->meta->make_immutable;
