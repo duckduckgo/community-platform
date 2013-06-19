@@ -3,9 +3,11 @@
 		<: include "user/userpic.tx" { user => $c.user, userpic_size => 32 } :>		
 	</div>
 	<div class="user-notifications">
-		<!-- if statement goes here -->
-		<a class="user-notifications__num" href="#">1</a>
-		<!-- endif -->
+		<: if $user_notification_count { :>
+			<a class="user-notifications__num" href="<: $u('My::Notifications','index') :>">
+				<: $user_notification_count :>
+			</a>
+		<: } :>
 	</div>
 	<span class="user-name"><: $c.user.username :></span>
 	<span class="account-actions">

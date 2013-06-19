@@ -1,31 +1,27 @@
-<: if $notifications_saved { :>
-	<div class="notice success">
-		<i class="icn icon-ok"></i>Notifications saved
-	</div>
-<: } :>
-
-<form action="<: $u('My::Notifications','index') :>" method="post" class="column-form">
-
 <div class="content-box">
 	<div class="head">
-		<h3>Activate notifications for ...</h3>
+		<h3>Your last notifications</h3>
+		<a class="button" href="<: $u('My::Notifications','index', { alldone => 1 }) :>">
+			Mark all done (You don't get any email then)
+		</a>
 	</div>
 	<div class="body">
-		<: for $base_notifications -> $notification { :>
+		<: for results($event_notifications) -> $notification { :>
 			<: include my::notifications::notification {
 				notification => $notification,
-				notification_text => '...' ~ $notification.description,
 			} :>
 		<: } :>
-	</div>
-</div>
-
-<div class="content-box">
-	<div class="body">
 		<div class="row mid">
-			<input type="submit" class="big blue button" name="save_notifications" value="Save changes" />
+			<: include pager {
+				pager => $event_notifications.pager,
+				url => $u('My::Notifications','index', { page => 'PAGE_NO' }).as_string,
+			} :>
 		</div>
 	</div>
 </div>
 
-</form>
+<div class="content-box">
+	<div class="head mid">
+		<a class="button" href="<: $u('My::Notifications','edit') :>">Edit your notification settings</a>
+	</div>
+</div>

@@ -54,6 +54,21 @@
 		</div>
 	</div>
 
+	<: if $c.user().data().email { :>
+		<div class="content-box account-box">	
+			<div class="head">
+				<h2><: if $user_notification_count { :>
+					You have <: $user_notification_count :> notifications waiting
+				<: } else { :>
+					No notifications for you
+				<: } :></h2>
+				<a class="button <: if $user_notification_count { :>red<: } :>" href="<: $u('My::Notifications','index') :>">
+					Go to notifications
+				</a>
+			</div>
+		</div>
+	<: } :>
+
 	<div class="content-box account-box">	
 		<div class="head">
 			<h2>Your Account</h2>
@@ -78,7 +93,7 @@
 						<label>Configure notifications</label>
 					</div>
 					<div class="third">
-						<a href="<: $u('My::Notifications','index') :>" class="button">Edit notifications</a>
+						<a href="<: $u('My::Notifications','edit') :>" class="button">Edit notifications</a>
 					</div>
 				</div>
 			<: } :>

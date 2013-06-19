@@ -43,6 +43,8 @@ has db => (
 		last_comments
 		user_languages
 		user_notifications
+		event_notifications_undone_count
+		event_notifications
 		user_blogs
 		save_notifications
 	),qw(

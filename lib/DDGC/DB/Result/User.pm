@@ -111,6 +111,9 @@ has_many 'user_blogs', 'DDGC::DB::Result::User::Blog', 'users_id';
 many_to_many 'languages', 'user_languages', 'language';
 
 sub translation_count { shift->token_language_translations->count(@_); }
+sub event_notifications_undone_count { shift->event_notifications->search({
+	done => 0,
+})->count(@_); }
 
 sub profile_picture {
 	my ( $self, $size ) = @_;

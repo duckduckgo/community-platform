@@ -7,7 +7,7 @@ BEGIN {extends 'Catalyst::Controller'; }
 use DateTime;
 use namespace::autoclean;
 
-sub base :Chained('/my/base') :PathPart('userpage') :CaptureArgs(0) {
+sub base :Chained('/my/logged_in') :PathPart('userpage') :CaptureArgs(0) {
 	my ( $self, $c ) = @_;
 	$c->add_bc('Userpage Editor', $c->chained_uri('My::Userpage','index'));
 	$c->stash->{up} = $c->user->userpage;

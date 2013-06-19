@@ -7,9 +7,9 @@ BEGIN {extends 'Catalyst::Controller'; }
 use DateTime;
 use namespace::autoclean;
 
-sub base :Chained('/my/base') :PathPart('notifications') :CaptureArgs(0) {
+sub base :Chained('/my/logged_in') :PathPart('notifications') :CaptureArgs(0) {
 	my ( $self, $c ) = @_;
-	$c->add_bc('Notifications Editor', $c->chained_uri('My::Notifications','index'));
+	$c->add_bc('Notifications', $c->chained_uri('My::Notifications','index'));
 	if ($c->req->param('save_notifications')) {
 		my @context = $c->req->param('context');
 		my @context_id = $c->req->param('context_id');
@@ -29,6 +29,12 @@ sub base :Chained('/my/base') :PathPart('notifications') :CaptureArgs(0) {
 		}
 		$c->user->save_notifications(@notifications);
 	}
+	$c->stash->{user_notifications} = [$c->user->user_notifications];
+}
+
+sub edit :Chained('base') :Args(0) {
+	my ( $self, $c ) = @_;
+	$c->add_bc('Editor');
 	$c->stash->{notification_cycle_options} = [
 		{
 			value => 0,
@@ -67,7 +73,6 @@ sub base :Chained('/my/base') :PathPart('notifications') :CaptureArgs(0) {
 			sub_context => undef,
 		},
 	)];
-	$c->stash->{user_notifications} = [$c->user->user_notifications];
 }
 
 sub add_user_cycle_and_cycle_time {
@@ -91,6 +96,23 @@ sub add_user_cycle_and_cycle_time {
 sub index :Chained('base') :PathPart('') :Args(0) {
 	my ( $self, $c ) = @_;
 	$c->bc_index;
+    $c->pager_init($c->action,20);
+	my $rs = $c->user->search_related('event_notifications');
+	if ($c->req->param('alldone')) {
+		$rs->update({ done => 1 });
+	}
+	if (my $done = $c->req->param('done')) {
+		my ( $first ) = $rs->search({ id => $done });
+		if ($first && $first->users_id eq $c->user->id && $first->id eq $done) {
+			$first->done(1);
+			$first->update;
+		}
+	}
+	$c->stash->{event_notifications} = $rs->search({},{
+		order_by => 'me.created',
+		page => $c->stash->{page},
+		rows => $c->stash->{pagesize},
+	});
 }
 
 # sub json :Chained('base') :Args(0) {
