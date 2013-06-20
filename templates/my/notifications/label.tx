@@ -29,3 +29,4 @@
 <: } else { :>
 	I don't know what this is... <: $notification.event.context :> <: $notification.event.context_id :>
 <: } :>
+<: $dur_precise($notification.event.created) :>
