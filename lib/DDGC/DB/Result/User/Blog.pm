@@ -55,7 +55,13 @@ column company_blog => {
 };
 
 column raw_html => {
-	data_type => 'int',
+	data_type => 'int', # bool
+	is_nullable => 0,
+	default_value => 0,
+};
+
+column live => {
+	data_type => 'int', # bool
 	is_nullable => 0,
 	default_value => 0,
 };
@@ -81,6 +87,16 @@ belongs_to 'language', 'DDGC::DB::Result::Language', 'language_id', { join_type 
 belongs_to 'translation_of', 'DDGC::DB::Result::User::Blog', 'translation_of_id', { join_type => 'left' };
 
 ###############################
+
+after insert => sub {
+	my ( $self ) = @_;
+	$self->add_event('insert');
+};
+
+after update => sub {
+	my ( $self ) = @_;
+	$self->add_event('update');
+};
 
 sub html {
 	my ( $self ) = @_;

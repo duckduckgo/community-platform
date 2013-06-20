@@ -41,6 +41,11 @@ unique_constraint(
 belongs_to 'user', 'DDGC::DB::Result::User', 'users_id';
 belongs_to 'token_language_translation', 'DDGC::DB::Result::Token::Language::Translation', 'token_language_translation_id';
 
+after insert => sub {
+	my ( $self ) = @_;
+	$self->add_event('insert');
+};
+
 sub event_related {
 	my ( $self ) = @_;
 	my @related = $self->token_language_translation->event_related;

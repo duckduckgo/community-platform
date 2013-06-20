@@ -61,6 +61,16 @@ sub get_context_obj {
 	return;
 }
 
+after insert => sub {
+	my ( $self ) = @_;
+	$self->add_event('insert');
+};
+
+after update => sub {
+	my ( $self ) = @_;
+	$self->add_event('update');
+};
+
 sub has_context_obj {
 	my ( $self ) = @_;
 	return $self->context =~ m/^DDGC::DB::Result::(.*)$/ ? 1 : 0;

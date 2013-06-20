@@ -1,3 +1,4 @@
+<: include my::notifications::noemail :>
 <div class="content-box">
 	<div class="head">
 		<h3>Your last notifications</h3>

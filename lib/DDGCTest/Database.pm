@@ -70,6 +70,7 @@ sub deploy {
     $self->add_threads;
     if ($self->test) {
     	$self->test_userpage;
+    	$self->test_event;
     }
 }
 
@@ -201,7 +202,8 @@ sub users {{
 				web => 'https://duckduckgo.com/',
 				about => 'about duckduckgo on twitter',
 				whyddg => 'because it\'s awesome!',
-			}
+			},
+			email => 'testtwo@localhost',
 		},
 	},
 	'testthree' => {
@@ -217,7 +219,8 @@ sub users {{
 		data => {
 			userpage => {
 				web => 'https://test.de/',
-			}
+			},
+			email => 'testthree@localhost',
 		},
 	},
 	'testfour' => {
@@ -276,8 +279,19 @@ sub add_users {
 			about => 'about me',
 			whyddg => 'because it\'s awesome!',
 		},
+		email => 'testone@localhost',
 	});
 	$testone->update;
+	for (qw(
+		DDGC::DB::Result::Comment
+		DDGC::DB::Result::Token::Language::Translation
+		DDGC::DB::Result::Token
+	)) {
+		$testone->create_related('user_notifications',{
+			context => $_,
+			cycle => 2,
+		});
+	}
 	$self->c->{users}->{testone} = $testone;
 	$self->next_step;
 	for (sort keys %{$self->users}) {
@@ -326,6 +340,17 @@ sub test_userpage {
 			}
 		}
 	}
+}
+
+sub test_event {
+	my ( $self ) = @_;
+	my @events = $self->d->resultset('Event')->search({})->all;
+	$self->is(scalar @events, 29, "Checking amount of events gathered");
+
+	$self->d->envoy->update_notifications;
+
+	my @enos = $self->d->resultset('Event::Notification')->search({})->all;
+	$self->is(scalar @enos, 22, "Checking amount of event notifications gathered");
 }
 
 sub _replace_email {

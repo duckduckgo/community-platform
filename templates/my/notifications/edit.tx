@@ -3,6 +3,7 @@
 		<i class="icn icon-ok"></i>Notifications saved
 	</div>
 <: } :>
+<: include my::notifications::noemail :>
 
 <form action="<: $u('My::Notifications','index') :>" method="post" class="column-form">
 

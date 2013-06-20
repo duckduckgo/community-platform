@@ -54,20 +54,18 @@
 		</div>
 	</div>
 
-	<: if $c.user().data().email { :>
-		<div class="content-box account-box">	
-			<div class="head">
-				<h2><: if $user_notification_count { :>
-					You have <: $user_notification_count :> notifications waiting
-				<: } else { :>
-					No notifications for you
-				<: } :></h2>
-				<a class="button <: if $user_notification_count { :>red<: } :>" href="<: $u('My::Notifications','index') :>">
-					Go to notifications
-				</a>
-			</div>
+	<div class="content-box account-box">	
+		<div class="head">
+			<h2><: if $user_notification_count { :>
+				You have <: $user_notification_count :> notifications waiting
+			<: } else { :>
+				No notifications for you
+			<: } :></h2>
+			<a class="button <: if $user_notification_count { :>red<: } :>" href="<: $u('My::Notifications','index') :>">
+				Go to notifications
+			</a>
 		</div>
-	<: } :>
+	</div>
 
 	<div class="content-box account-box">	
 		<div class="head">
@@ -80,23 +78,21 @@
 					<: if $c.user().data().email { :>
 						<label>Current email: <span class="fakelink"><: $c.user().data().email :></span></label>
 					<: } else { :>
-						<label>No email (required for notifications)</label>
+						<label>No email</label>
 					<: } :>
 				</div>
 				<div class="third">
 					<a href="<: $u('My','email') :>" class="button">Change email</a>
 				</div>
 			</div>
-			<: if $c.user().data().email { :>
-				<div class="row">
-					<div class="twothird">
-						<label>Configure notifications</label>
-					</div>
-					<div class="third">
-						<a href="<: $u('My::Notifications','edit') :>" class="button">Edit notifications</a>
-					</div>
+			<div class="row">
+				<div class="twothird">
+					<label>Configure notifications</label>
 				</div>
-			<: } :>
+				<div class="third">
+					<a href="<: $u('My::Notifications','edit') :>" class="button">Edit notifications</a>
+				</div>
+			</div>
 			<div class="row">
 				<div class="twothird">
 					<label>Your password</label>
