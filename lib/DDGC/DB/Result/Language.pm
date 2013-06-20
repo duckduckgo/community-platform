@@ -98,6 +98,7 @@ column updated => {
 };
 
 has_many 'user_languages', 'DDGC::DB::Result::User::Language', 'language_id';
+has_many 'user_blogs', 'DDGC::DB::Result::User::Blog', 'language_id';
 has_many 'token_domains', 'DDGC::DB::Result::Token::Domain', 'source_language_id';
 has_many 'token_domain_languages', 'DDGC::DB::Result::Token::Domain::Language', 'language_id';
 

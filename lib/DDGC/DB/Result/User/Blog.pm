@@ -18,12 +18,22 @@ column users_id => {
 	is_nullable => 0,
 };
 
+column translation_of_id => {
+	data_type => 'bigint',
+	is_nullable => 1,
+};
+
 column title => {
 	data_type => 'text',
 	is_nullable => 0,
 };
 
 column uri => {
+	data_type => 'text',
+	is_nullable => 0,
+};
+
+column teaser => {
 	data_type => 'text',
 	is_nullable => 0,
 };
@@ -50,6 +60,11 @@ column raw_html => {
 	default_value => 0,
 };
 
+column language_id => {
+	data_type => 'bigint',
+	is_nullable => 1,
+};
+
 column created => {
 	data_type => 'timestamp with time zone',
 	set_on_create => 1,
@@ -62,6 +77,8 @@ column updated => {
 };
 
 belongs_to 'user', 'DDGC::DB::Result::User', 'users_id';
+belongs_to 'language', 'DDGC::DB::Result::Language', 'language_id', { join_type => 'left' };
+belongs_to 'translation_of', 'DDGC::DB::Result::User::Blog', 'translation_of_id', { join_type => 'left' };
 
 ###############################
 
