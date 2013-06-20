@@ -7,8 +7,8 @@ use namespace::autoclean;
 
 table 'language';
 
-sub description_list { "The language", "'".shift->name_in_english."'", "." }
-sub sub_description_list { "the language", "'".shift->name_in_english."'" }
+# sub description_list { "The language", "'".shift->name_in_english."'", "." }
+# sub sub_description_list { "the language", "'".shift->name_in_english."'" }
 
 column id => {
 	data_type => 'bigint',

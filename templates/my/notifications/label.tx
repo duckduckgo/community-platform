@@ -1,0 +1,31 @@
+<: my $context_obj = $notification.event.get_context_obj :>
+<: if $notification.event.context == 'DDGC::DB::Result::Token::Language::Translation' { :>
+	User
+	<: include "user/userinfo.tx" { user => $notification.event.user } :>
+	made a translation for token domain
+	<: $context_obj.token_language.token_domain_language.token_domain.name :>
+	into the language
+	<: $context_obj.token_language.token_domain_language.language.name_in_english :>
+<: } elsif $notification.event.context == 'DDGC::DB::Result::Comment' { :>
+	<: my $comment_context_obj = $context_obj.get_context_obj :>
+	User
+	<: include "user/userinfo.tx" { user => $notification.event.user } :>
+	commented on
+	<: if $comment_context_obj { :>
+		<: if $context_obj.context == 'DDGC::DB::Result::Token::Language' { :>
+			a token for the language
+			<: $comment_context_obj.token_domain_language.language.name_in_english :>
+			on the token domain
+			<: $comment_context_obj.token_domain_language.token_domain.name :>
+		<: } elsif $context_obj.context == 'DDGC::DB::Result::Token::Domain::Language' { :>
+			for language
+			<: $comment_context_obj.language.name_in_english :>
+			on the token domain
+			<: $comment_context_obj.token_domain.name :>
+		<: } :>
+	<: } else { :>
+		something I don't know... <: $context_obj.context :> <: $context_obj.context_id :> 
+	<: } :>
+<: } else { :>
+	I don't know what this is... <: $notification.event.context :> <: $notification.event.context_id :>
+<: } :>
