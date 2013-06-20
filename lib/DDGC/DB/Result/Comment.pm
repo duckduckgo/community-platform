@@ -5,6 +5,24 @@ extends 'DDGC::DB::Base::Result';
 use DBIx::Class::Candy;
 use namespace::autoclean;
 
+sub description_list {
+	my ( $self ) = @_;
+	if ($self->context_resultset) {
+		$self->user, "commented on", $self->get_context_obj;
+	} else {
+		"A comment from", $self->user, ".";
+	}
+}
+
+sub sub_description_list { 
+	my ( $self ) = @_;
+	if ($self->context_resultset) {
+		"a comment from", $self->user, "on", $self->get_context_obj;
+	} else {
+		"a comment from", $self->user;
+	}
+}
+
 table 'comment';
 
 column id => {
@@ -18,15 +36,17 @@ column users_id => {
 	is_nullable => 1,
 };
 
+###########
 column context => {
 	data_type => 'text',
 	is_nullable => 0,
 };
-
 column context_id => {
 	data_type => 'bigint',
 	is_nullable => 0,
 };
+with 'DDGC::DB::Role::HasContext';
+###########
 
 column content => {
 	data_type => 'text',
@@ -53,14 +73,6 @@ belongs_to 'user', 'DDGC::DB::Result::User', 'users_id', { join_type => 'left' }
 belongs_to 'parent', 'DDGC::DB::Result::Comment', 'parent_id', { join_type => 'left' };
 has_many 'children', 'DDGC::DB::Result::Comment', 'parent_id';
 
-sub get_context_obj {
-	my ( $self ) = @_;
-	if ( $self->has_context_obj ) {
-		return $self->result_source->schema->resultset($1)->find($self->context_id);
-	}
-	return;
-}
-
 after insert => sub {
 	my ( $self ) = @_;
 	$self->add_event('insert');
@@ -71,18 +83,13 @@ after update => sub {
 	$self->add_event('update');
 };
 
-sub has_context_obj {
-	my ( $self ) = @_;
-	return $self->context =~ m/^DDGC::DB::Result::(.*)$/ ? 1 : 0;
-}
-
 sub event_related {
 	my ( $self ) = @_;
 	my @related;
 	if ( $self->parent_id ) {
 		push @related, [(ref $self), $self->parent_id];
 	}
-	if ( $self->has_context_obj ) {
+	if ( $self->context_resultset ) {
 		push @related, [$self->context, $self->context_id];
 		push @related, [$self->get_context_obj->event_related] if $self->get_context_obj->can('event_related');
 	}
@@ -93,3 +100,5 @@ sub event_related {
 
 no Moose;
 __PACKAGE__->meta->make_immutable;
+
+1;

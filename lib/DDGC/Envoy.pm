@@ -42,6 +42,7 @@ sub update_notifications {
 				cycle_time => $un->cycle_time,
 			});
 		}
+		$event->language_ids(\@language_ids);
 		$event->notified(1);
 		$event->update;
 	}
@@ -53,7 +54,9 @@ sub notify_cycle {
 		cycle => $cycle,
 		done => 0,
 	})->all;
-	use DDP; p(@event_notifications);
+	for (@event_notifications) {
+
+	}
 }
 
 no Moose;

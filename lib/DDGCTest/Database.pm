@@ -67,11 +67,12 @@ sub deploy {
 	$self->add_token_domains;
 	$self->add_distributions;
 	$self->add_comments;
-    $self->add_threads;
-    if ($self->test) {
-    	$self->test_userpage;
-    	$self->test_event;
-    }
+	$self->add_threads;
+	$self->d->envoy->update_notifications;
+	if ($self->test) {
+		$self->test_userpage;
+		$self->test_event;
+	}
 }
 
 has current_step => (

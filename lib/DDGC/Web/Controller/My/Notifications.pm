@@ -109,7 +109,7 @@ sub index :Chained('base') :PathPart('') :Args(0) {
 		}
 	}
 	$c->stash->{event_notifications} = $rs->search({},{
-		order_by => 'me.created',
+		order_by => { -desc => 'me.created' },
 		page => $c->stash->{page},
 		rows => $c->stash->{pagesize},
 	});

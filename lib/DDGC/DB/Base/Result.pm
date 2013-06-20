@@ -10,7 +10,7 @@ __PACKAGE__->load_components(qw/
     InflateColumn::DateTime
     InflateColumn::Serializer
     EncodedColumn
-  /);
+/);
 
 sub default_result_namespace { 'DDGC::DB::Result' }
 
@@ -36,6 +36,42 @@ sub add_event {
 	$event{data} = \%args if %args;
 	$self->result_source->schema->resultset('Event')->create({ %event });
 }
+
+sub has_context {
+	my ( $self ) = @_;
+	return $self->does('DDGC::DB::Role::HasContext');
+}
+
+sub description {
+	my ( $self ) = @_;
+	join(" ",map { $self->text_description_list($_) } $self->description_list);
+}
+
+sub sub_description {
+	my ( $self ) = @_;
+	join(" ",map { $self->text_description_list($_) } $self->sub_description_list);
+}
+
+sub text_description_list {
+	my ( $self, $item ) = @_;
+	my $ref = ref $item;
+	if ($ref eq 'HASH') {
+		die (ref $self)." hashref in description list, not supported yet";
+	} elsif ($ref eq 'HASH') {
+		die (ref $self)." arrayref in description list, not supported yet";
+	} elsif ($ref) {
+		return $item->sub_description_list;
+	} else {
+		return $item;
+	}
+}
+
+sub description_list {
+	my ( $self ) = @_;
+	return ("$self");
+}
+
+sub sub_description_list { shift->description_list }
 
 use overload '""' => sub {
 	my $self = shift;

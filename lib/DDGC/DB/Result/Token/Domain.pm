@@ -12,6 +12,9 @@ use namespace::autoclean;
 
 table 'token_domain';
 
+sub description_list { "The token domain", shift->name }
+sub sub_description_list { "the token domain", shift->name }
+
 column id => {
 	data_type => 'bigint',
 	is_auto_increment => 1,

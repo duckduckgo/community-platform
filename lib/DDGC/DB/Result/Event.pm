@@ -23,17 +23,26 @@ column action => {
 	is_nullable => 0,
 };
 
+###########
 column context => {
 	data_type => 'text',
 	is_nullable => 0,
 };
-
 column context_id => {
 	data_type => 'bigint',
-	is_nullable => 1,
+	is_nullable => 0,
 };
+with 'DDGC::DB::Role::HasContext';
+###########
 
 column related => {
+	data_type => 'text',
+	is_nullable => 1,
+	serializer_class => 'JSON',
+};
+
+# pure visual used data, cache storage here
+column language_ids => {
 	data_type => 'text',
 	is_nullable => 1,
 	serializer_class => 'JSON',
@@ -64,20 +73,6 @@ column updated => {
 
 belongs_to 'user', 'DDGC::DB::Result::User', 'users_id', { join_type => 'left' };
 has_many 'event_notifications', 'DDGC::DB::Result::Event::Notification', 'event_id';
-
-sub get_context_obj {
-	my ( $self ) = @_;
-	if ( $self->context =~ m/^DDGC::DB::Result::(.*)$/ ) {
-		return $self->result_source->schema->resultset($1)->find($self->context_id);
-	}
-	return;
-}
-
-sub language_ids {
-	my ( $self ) = @_;
-	my @language_ids;
-
-}
 
 no Moose;
 __PACKAGE__->meta->make_immutable;

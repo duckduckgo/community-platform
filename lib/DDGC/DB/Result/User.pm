@@ -7,6 +7,9 @@ use namespace::autoclean;
 
 table 'users';
 
+sub description_list { "The user", shift->username }
+sub sub_description_list { shift->username }
+
 column id => {
 	data_type => 'bigint',
 	is_auto_increment => 1,
