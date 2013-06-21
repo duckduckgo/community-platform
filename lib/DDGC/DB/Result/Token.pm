@@ -74,6 +74,11 @@ belongs_to 'token_domain', 'DDGC::DB::Result::Token::Domain', 'token_domain_id';
 has_many 'token_screens', 'DDGC::DB::Result::Token::Screen', 'token_id';
 has_many 'token_languages', 'DDGC::DB::Result::Token::Language', 'token_id';
 
+after insert => sub {
+	my ( $self ) = @_;
+	$self->add_event('insert');
+};
+
 sub has_placeholders {
 	my ( $self ) = @_;
 	my @all_placeholders;

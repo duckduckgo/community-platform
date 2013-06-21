@@ -1,32 +1,51 @@
 <: my $context_obj = $notification.event.get_context_obj :>
 <: if $notification.event.context == 'DDGC::DB::Result::Token::Language::Translation' { :>
 	User
-	<: include "user/userinfo.tx" { user => $notification.event.user } :>
-	made a translation for token domain
+	<: include "user/username.tx" { user => $notification.event.user, no_user_link => 1 } :>
+	made
+	<: my $has_link = 1 :>
+	<: if !$no_notification_link { :><a href="<: $u('Translate','tokenlanguage',$context_obj.token_language_id) :>"><: } :>
+	a translation for token domain
 	<: $context_obj.token_language.token_domain_language.token_domain.name :>
 	into the language
 	<: $context_obj.token_language.token_domain_language.language.name_in_english :>
+<: } elsif $notification.event.context == 'DDGC::DB::Result::Token' { :>
+	<: my $has_link = 1 :>
+	<: if !$no_notification_link { :><a href="<: $u('Translate','domainindex',$context_obj.token_domain.key) :>"><: } :>
+	There is a new token on the token domain
+	<: $comment_context_obj.token_domain.name :>
 <: } elsif $notification.event.context == 'DDGC::DB::Result::Comment' { :>
 	<: my $comment_context_obj = $context_obj.get_context_obj :>
 	User
-	<: include "user/userinfo.tx" { user => $notification.event.user } :>
+	<: include "user/username.tx" { user => $notification.event.user, no_user_link => 1 } :>
 	commented on
 	<: if $comment_context_obj { :>
 		<: if $context_obj.context == 'DDGC::DB::Result::Token::Language' { :>
+			<: my $has_link = 1 :>
+			<: if !$no_notification_link { :><a href="<: $u('Translate','tokenlanguage',$comment_context_obj.id) :>"><: } :>
 			a token for the language
 			<: $comment_context_obj.token_domain_language.language.name_in_english :>
 			on the token domain
 			<: $comment_context_obj.token_domain_language.token_domain.name :>
 		<: } elsif $context_obj.context == 'DDGC::DB::Result::Token::Domain::Language' { :>
-			for language
-			<: $comment_context_obj.language.name_in_english :>
-			on the token domain
+			<: my $has_link = 1 :>
+			<: if !$no_notification_link { :><a href="<: $u('Translate','localecomments',$comment_context_obj.token_domain.key,$comment_context_obj.language.locale) :>"><: } :>
+			the token domain
 			<: $comment_context_obj.token_domain.name :>
+			for the language
+			<: $comment_context_obj.language.name_in_english :>
 		<: } :>
 	<: } else { :>
-		something I don't know... <: $context_obj.context :> <: $context_obj.context_id :> 
+		something I don't know...
+		<: $context_obj.context :> <: $context_obj.context_id :>
+		by User
+		<: include "user/username.tx" { user => $notification.event.user, no_user_link => 1 } :>
 	<: } :>
 <: } else { :>
-	I don't know what this is... <: $notification.event.context :> <: $notification.event.context_id :>
+	I don't know what this is...
+	<: $notification.event.context :> <: $notification.event.context_id :>
+	by User
+	<: include "user/username.tx" { user => $notification.event.user, no_user_link => 1 } :>
 <: } :>
 <: $dur_precise($notification.event.created) :>
+<: if $has_link && !$no_notification_link { :></a><: } :>

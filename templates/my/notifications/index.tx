@@ -1,28 +1,27 @@
 <: include my::notifications::noemail :>
 <div class="content-box">
 	<div class="head">
-		<h3>Your last notifications</h3>
-		<a class="button" href="<: $u('My::Notifications','index', { alldone => 1 }) :>">
-			Mark all done (You don't get any email then)
+		<a class="button" href="<: $u('My::Notifications', 'index', { all_event_notifications_done => 1 }) :>">
+			Mark all notifications as done
 		</a>
 	</div>
 	<div class="body">
-		<: for results($event_notifications) -> $notification { :>
-			<: include my::notifications::notification {
-				notification => $notification,
-			} :>
-		<: } :>
 		<div class="row mid">
-			<: include pager {
-				pager => $event_notifications.pager,
-				url => $u('My::Notifications','index', { page => 'PAGE_NO' }).as_string,
-			} :>
+			<a class="button" href="<: $u('My::Notifications', 'comments') :>">
+				All comment notifications
+			</a>
+		</div>
+		<div class="row mid">
+			<a class="button" href="<: $u('My::Notifications', 'tokens') :>">
+				All token notifications
+			</a>
+		</div>
+		<div class="row mid">
+			<a class="button" href="<: $u('My::Notifications', 'translations') :>">
+				All translation notifications
+			</a>
 		</div>
 	</div>
 </div>
 
-<div class="content-box">
-	<div class="head mid">
-		<a class="button" href="<: $u('My::Notifications','edit') :>">Edit your notification settings</a>
-	</div>
-</div>
+<: include my::notifications::editteaser :>

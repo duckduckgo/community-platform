@@ -10,11 +10,16 @@ has ddgc => (
 	weak_ref => 1,
 );
 
+sub update_notifications_of_event {
+	my ( $self, $event ) = @_;
+}
+
 sub update_notifications {
 	my ( $self ) = @_;
 	my @events = $self->ddgc->rs('Event')->search({
 		notified => 0,
 	})->all;
+	return unless @events;
 	my %languages = map { $_->id => $_->locale } $self->ddgc->rs('Language')->search({})->all;
 	for my $event (@events) {
 		my $own_context = $event->context;
@@ -48,13 +53,39 @@ sub update_notifications {
 	}
 }
 
+my %templates = (
+	'comments' => {
+		template => 'email/notifications/comments.tx',
+		subject => 'New comments for you',
+	},
+	'translations' => {
+		template => 'email/notifications/translations.tx',
+		subject => 'New translations to vote on in your languages',
+	},
+	'tokens' => {
+		template => 'email/notifications/tokens.tx',
+		subject => 'New tokens for translation in your languages',
+	},
+);
+
+my %mapping = (
+
+);
+
 sub notify_cycle {
 	my ( $self, $cycle ) = @_;
 	my @event_notifications = $self->ddgc->db->resultset('Event::Notification')->search({
 		cycle => $cycle,
 		done => 0,
 	})->all;
+	my %users;
 	for (@event_notifications) {
+		$users{$_->user->id} = [] unless defined $users{$_->user->id};
+		push @{$users{$_->user->id}}, $_;
+	}
+	for (keys %users) {
+		my @notifications = @{$users{$_}};
+		my $user = $notifications[0]->user;
 
 	}
 }

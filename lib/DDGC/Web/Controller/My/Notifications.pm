@@ -97,16 +97,51 @@ sub index :Chained('base') :PathPart('') :Args(0) {
 	my ( $self, $c ) = @_;
 	$c->bc_index;
     $c->pager_init($c->action,20);
-	my $rs = $c->user->search_related('event_notifications');
-	if ($c->req->param('alldone')) {
-		$rs->update({ done => 1 });
+	if ($c->req->param('all_event_notifications_done')) {
+		$c->user->search_related('event_notifications')->update({ done => 1, sent => 1 });
 	}
-	if (my $done = $c->req->param('done')) {
-		my ( $first ) = $rs->search({ id => $done });
+}
+
+sub comments :Chained('base') :Args(0) {
+	my ( $self, $c ) = @_;
+	$c->add_bc('Comments');
+	$self->notifications($c,'comments','DDGC::DB::Result::Comment');
+}
+
+sub tokens :Chained('base') :Args(0) {
+	my ( $self, $c ) = @_;
+	$c->add_bc('Tokens');
+	$self->notifications($c,'tokens','DDGC::DB::Result::Token');
+}
+
+sub translations :Chained('base') :Args(0) {
+	my ( $self, $c ) = @_;
+	$c->add_bc('Translations');
+	$self->notifications($c,'translations','DDGC::DB::Result::Token::Language::Translation');
+}
+
+sub notifications {
+	my ( $self, $c, $action, $result ) = @_;
+	$c->stash->{notification_action} = $action;
+	my $rs = $c->user->search_related('event_notifications',{
+		"event.context" => $result,
+	},{
+		join => 'event',
+	});
+    $c->pager_init($c->action,10);
+	if (my $done = $c->req->param('event_notification_done')) {
+		my ( $first ) = $rs->search({ "me.id" => $done });
 		if ($first && $first->users_id eq $c->user->id && $first->id eq $done) {
 			$first->done(1);
+			$first->sent(1);
 			$first->update;
 		}
+	}
+	if ($c->req->param('these_event_notifications_done')) {
+		$rs->update({
+			"me.done" => 1,
+			"me.sent" => 1,
+		});
 	}
 	$c->stash->{event_notifications} = $rs->search({},{
 		order_by => { -desc => 'me.created' },

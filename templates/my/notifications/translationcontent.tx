@@ -1,0 +1,8 @@
+<div class="row">
+	<: for [0..$translation.msgstr_index_max] -> $index { :>
+		<: my $func = 'msgstr' ~ $index :>
+		<: if $translation.$func { :>
+			<div class="blue fb button"><: $translation.$func :></div>
+		<: } :>
+	<: } :>
+</div>
