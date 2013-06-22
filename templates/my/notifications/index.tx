@@ -1,12 +1,12 @@
 <: include my::notifications::noemail :>
 <div class="content-box">
 	<div class="head">
-		<: if $undone_notifications_comments
-			+ $undone_notifications_tokens
-			+ $undone_notifications_translations { :>
+		<: if $event_notifications_undone_count { :>
 			<a class="button red" href="<: $u('My::Notifications', 'index', { all_event_notifications_done => 1 }) :>">
 				Mark all notifications as done
 			</a>
+		<: } else { :>
+			All notifications done
 		<: } :>
 	</div>
 	<div class="body">

@@ -4,11 +4,8 @@ package DDGC::Web::View::Xslate;
 use Moose;
 extends 'Catalyst::View::Xslate';
 
-use DDGC::Web;
+use DDGC::Util::DateTime ();
 use Text::Xslate qw( mark_raw );
-
-use DateTime;
-use DateTime::Format::Human::Duration;
 
 #
 # WARNING: Configuration of Text::Xslate itself happens in DDGC->xslate
@@ -27,9 +24,11 @@ __PACKAGE__->config(
 	)],
 );
 
+sub ddgc { shift->_app->d }
+
 sub _build_xslate {
 	my ( $self ) = @_;
-	$self->_app->ddgc->xslate; # using central xslate system
+	$self->ddgc->xslate; # using central xslate system
 }
 
 sub process {
@@ -61,28 +60,8 @@ sub u { shift; shift->chained_uri(@_) }
 # localize
 sub l { shift; shift->localize(@_) }
 
-sub dur {
-	my ( $self, $c, $date ) = @_;
-	$date = DateTime->from_epoch( epoch => $date ) unless ref $date;
-	return DateTime::Format::Human::Duration->new->format_duration(
-		DateTime->now - $date,
-		'units' => [qw/years months days/],
-		'past' => '%s ago',
-		'future' => 'in %s will be',
-		'no_time' => 'today',
-	);
-}
-
-sub dur_precise {
-	my ( $self, $c, $date ) = @_;
-	$date = DateTime->from_epoch( epoch => $date ) unless ref $date;
-	return DateTime::Format::Human::Duration->new->format_duration(
-		DateTime->now - $date,
-		'units' => [qw/years months days hours minutes/],
-		'past' => '%s ago',
-		'future' => 'in %s will be',
-		'no_time' => 'today',
-	);
-}
+# legacy, use dur() in template not $dur()
+sub dur { my ( $self, $c, $date ) = @_; DDGC::Util::DateTime::dur($date); }
+sub dur_precise { my ( $self, $c, $date ) = @_; DDGC::Util::DateTime::dur_precise($date); }
 
 1;

@@ -106,6 +106,7 @@ sub index :Chained('base') :PathPart('') :Args(0) {
     for (qw( comments tokens translations )) {
 		$c->stash->{'undone_notifications_'.$_} = $c->user->search_related('event_notifications',{
 			"event.context" => $context_map{$_},
+			"me.done" => 0,
 		},{
 			join => 'event',
 		})->count;

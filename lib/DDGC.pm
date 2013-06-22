@@ -19,6 +19,7 @@ use File::Spec;
 use File::ShareDir::ProjectDistDir;
 use Net::AIML;
 use Text::Xslate;
+use DDGC::Util::DateTime;
 
 # TESTING AND DEVELOPMENT, NOT FOR PRODUCTION
 sub deploy_fresh {
@@ -99,6 +100,8 @@ sub _build_xslate {
 			upf_view => sub { 'userpage/'.$_[1].'/'.$_[0]->view.'.tx' },
 			# user page field edit template
 			upf_edit => sub { 'my/userpage/field/'.$_[0]->edit.'.tx' },
+			dur => sub { dur(@_) },
+			dur_precise => sub { dur_precise(@_) },
 		},
 	});
 }
