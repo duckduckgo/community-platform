@@ -49,6 +49,7 @@ sub smtp_sasl_username { $ENV{'DDGC_SMTP_SASL_USERNAME'} if defined $ENV{'DDGC_S
 sub smtp_sasl_password { $ENV{'DDGC_SMTP_SASL_PASSWORD'} if defined $ENV{'DDGC_SMTP_SASL_PASSWORD'} }
 
 sub blog_posts_dir { defined $ENV{'DDGC_BLOG_POSTS_DIR'} ? $ENV{'DDGC_BLOG_POSTS_DIR'} : dist_dir('DDGC').'/blog' }
+sub templatedir { defined $ENV{'DDGC_TEMPLATEDIR'} ? $ENV{'DDGC_TEMPLATEDIR'} : File::Spec->rel2abs( File::Spec->catfile( __FILE__, '..', '..', 'templates' ) ) }
 
 sub duckpan_url { defined $ENV{'DDGC_DUCKPAN_URL'} ? $ENV{'DDGC_DUCKPAN_URL'} : 'http://duckpan.org/' }
 

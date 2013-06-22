@@ -60,7 +60,7 @@ sub _resultset_update_notifications {
 			if (@language_ids) {
 				next unless grep { $un->user->can_speak($languages{$_}) } @language_ids;
 			}
-			next unless $un->users_id != $event->users_id;
+			next unless !$event->users_id || $un->users_id != $event->users_id;
 			$event->create_related('event_notifications',{
 				users_id => $un->users_id,
 				cycle => $un->cycle,

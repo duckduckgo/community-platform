@@ -68,7 +68,7 @@ sub deploy {
 	$self->add_distributions;
 	$self->add_comments;
 	$self->add_threads;
-	$self->d->envoy->update_notifications;
+	$self->d->envoy->update_own_notifications;
 	if ($self->test) {
 		$self->test_userpage;
 		$self->test_event;
@@ -351,7 +351,7 @@ sub test_event {
 	$self->d->envoy->update_notifications;
 
 	my @enos = $self->d->resultset('Event::Notification')->search({})->all;
-	$self->is(scalar @enos, 275, "Checking amount of event notifications gathered");
+	$self->is(scalar @enos, 270, "Checking amount of event notifications gathered");
 }
 
 sub _replace_email {
