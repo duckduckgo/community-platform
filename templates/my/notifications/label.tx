@@ -47,5 +47,5 @@
 	by User
 	<: include "user/username.tx" { user => $notification.event.user, no_user_link => 1 } :>
 <: } :>
-<: $dur_precise($notification.event.created) :>
+<: dur_precise($notification.event.created) :>
 <: if $has_link && !$no_notification_link { :></a><: } :>

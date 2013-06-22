@@ -99,6 +99,8 @@ sub notify_cycle {
 	my @event_notifications = $self->ddgc->db->resultset('Event::Notification')->search({
 		cycle => $cycle,
 		done => 0,
+	},{
+		join => 'event',
 	})->all;
 	my %users;
 	for (@event_notifications) {
@@ -108,15 +110,39 @@ sub notify_cycle {
 	for (keys %users) {
 		my @notifications = @{$users{$_}};
 		my $user = $notifications[0]->user;
+		next unless defined $user->data->{email};
 		my %store;
 		for (@notifications) {
-			if (defined $mapping{$_->context}) {
-				my $type = $mapping{$_->context};
+			if (defined $mapping{$_->event->context}) {
+				my $type = $mapping{$_->event->context};
 				$store{$type} = [] unless defined $store{$type};
 				push @{$store{$type}}, $_;
 			}
 		}
 		for (keys %store) {
+			my $type = $_;
+			my @type_notifications = @{$store{$type}};
+			my $text = $self->ddgc->xslate->render($templates{$type}->{template},{
+				notifications => \@type_notifications,
+				count => (scalar @type_notifications),
+				user => $user,
+			});
+			eval {
+				$self->ddgc->postman->mail(
+					$user->username.' <'.$user->data->{email}.'>',
+					'DuckDuckGo Community Envoy <envoy@dukgo.com>',
+					'[DuckDuckGo Community] '.$templates{$type}->{subject},
+					$text,
+				);
+			};
+			if ($@) {
+				# ... TODO ...
+			} else {
+				for (@type_notifications) {
+					$_->sent(1);
+					$_->update;
+				}
+			}
 		}
 	}
 }
