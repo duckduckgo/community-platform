@@ -18,6 +18,7 @@ use IO::All;
 use File::Spec;
 use File::ShareDir::ProjectDistDir;
 use Net::AIML;
+use Text::Xslate;
 
 # TESTING AND DEVELOPMENT, NOT FOR PRODUCTION
 sub deploy_fresh {
@@ -53,6 +54,56 @@ sub _build_xmpp {
 		ddgc => $self,
 	});
 }
+
+#############################################
+# __  __    _       _
+# \ \/ /___| | __ _| |_ ___
+#  \  // __| |/ _` | __/ _ \
+#  /  \\__ \ | (_| | ||  __/
+# /_/\_\___/_|\__,_|\__\___|
+#
+
+has xslate => (
+	isa => 'Text::Xslate',
+	is => 'ro',
+	lazy_build => 1,
+);
+sub _build_xslate {
+	my $self = shift;
+	Text::Xslate->new({
+		path => [$self->config->templatedir],
+		cache_dir => $self->config->xslate_cachedir,
+		suffix => '.tx',
+		function => {
+			r => sub { mark_raw(join("",@_)) },
+			results => sub { [ shift->all ] },
+			call => sub {
+				my $thing = shift;
+				my $func = shift;
+				$thing->$func;
+			},
+			call_if => sub {
+				my $thing = shift;
+				my $func = shift;
+				$thing->$func if $thing;
+			},
+			replace => sub {
+				my $source = shift;
+				my $from = shift;
+				my $to = shift;
+				$source =~ s/$from/$to/g;
+				return $source;
+			},
+			urify => sub { lc(join('-',split(/\s+/,join(' ',@_)))) },
+			# user page field view template
+			upf_view => sub { 'userpage/'.$_[1].'/'.$_[0]->view.'.tx' },
+			# user page field edit template
+			upf_edit => sub { 'my/userpage/field/'.$_[0]->edit.'.tx' },
+		},
+	});
+}
+
+#############################################
 
 has markup => (
 	isa => 'DDGC::Markup',

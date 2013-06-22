@@ -10,37 +10,13 @@ use Text::Xslate qw( mark_raw );
 use DateTime;
 use DateTime::Format::Human::Duration;
 
+#
+# WARNING: Configuration of Text::Xslate itself happens in DDGC->xslate
+#
+#########################################################################
+
 __PACKAGE__->config(
-	path => [
-		DDGC::Web->path_to('templates'),
-	],
 	encode_body => 0,
-	function => {
-		r => sub { mark_raw(join("",@_)) },
-		results => sub { [ shift->all ] },
-		call => sub {
-			my $thing = shift;
-			my $func = shift;
-			$thing->$func;
-		},
-		call_if => sub {
-			my $thing = shift;
-			my $func = shift;
-			$thing->$func if $thing;
-		},
-		replace => sub {
-			my $source = shift;
-			my $from = shift;
-			my $to = shift;
-			$source =~ s/$from/$to/g;
-			return $source;
-		},
-		urify => sub { lc(join('-',split(/\s+/,join(' ',@_)))) },
-		# user page field view template
-		upf_view => sub { 'userpage/'.$_[1].'/'.$_[0]->view.'.tx' },
-		# user page field edit template
-		upf_edit => sub { 'my/userpage/field/'.$_[0]->edit.'.tx' },
-	},
 	expose_methods => [qw(
 		next_template
 		link
@@ -51,11 +27,9 @@ __PACKAGE__->config(
 	)],
 );
 
-sub COMPONENT {
-	my ($class, $app, $args) = @_;
-	$args = $class->merge_config_hashes($class->config, $args);
-	$args->{cache_dir} = $app->d->config->xslate_cachedir;
-	return $class->new($args);
+sub _build_xslate {
+	my ( $self ) = @_;
+	$self->_app->ddgc->xslate; # using central xslate system
 }
 
 sub process {
