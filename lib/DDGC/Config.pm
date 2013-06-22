@@ -45,6 +45,7 @@ sub prosody_userhost { defined $ENV{'DDGC_PROSODY_USERHOST'} ? $ENV{'DDGC_PROSOD
 sub prosody_admin_username { defined $ENV{'DDGC_PROSODY_ADMIN_USERNAME'} ? $ENV{'DDGC_PROSODY_ADMIN_USERNAME'} : 'testone' }
 sub prosody_admin_password { defined $ENV{'DDGC_PROSODY_ADMIN_PASSWORD'} ? $ENV{'DDGC_PROSODY_ADMIN_PASSWORD'} : 'testpass' }
 
+sub mail_test { defined $ENV{'DDGC_MAIL_TEST'} ? $ENV{'DDGC_MAIL_TEST'} : 0 }
 sub smtp_host { $ENV{'DDGC_SMTP_HOST'} if defined $ENV{'DDGC_SMTP_HOST'} }
 sub smtp_ssl { defined $ENV{'DDGC_SMTP_SSL'} ? $ENV{'DDGC_SMTP_SSL'} : 0 }
 sub smtp_sasl_username { $ENV{'DDGC_SMTP_SASL_USERNAME'} if defined $ENV{'DDGC_SMTP_SASL_USERNAME'} }
