@@ -76,7 +76,7 @@ sub _resultset_update_notifications {
 my %templates = (
 	'comments' => {
 		template => 'email/notifications/comments.tx',
-		subject => 'New comments for you',
+		subject => 'New comments on the platform',
 	},
 	'translations' => {
 		template => 'email/notifications/translations.tx',
@@ -89,7 +89,9 @@ my %templates = (
 );
 
 my %mapping = (
-
+	'DDGC::DB::Result::Comment' => 'comments',
+	'DDGC::DB::Result::Token' => 'tokens',
+	'DDGC::DB::Result::Token::Language::Translation' => 'translations',
 );
 
 sub notify_cycle {
@@ -106,7 +108,16 @@ sub notify_cycle {
 	for (keys %users) {
 		my @notifications = @{$users{$_}};
 		my $user = $notifications[0]->user;
-
+		my %store;
+		for (@notifications) {
+			if (defined $mapping{$_->context}) {
+				my $type = $mapping{$_->context};
+				$store{$type} = [] unless defined $store{$type};
+				push @{$store{$type}}, $_;
+			}
+		}
+		for (keys %store) {
+		}
 	}
 }
 
