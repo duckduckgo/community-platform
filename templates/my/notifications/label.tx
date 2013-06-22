@@ -13,7 +13,7 @@
 	<: my $has_link = 1 :>
 	<: if !$no_notification_link { :><a href="<: $u('Translate','domainindex',$context_obj.token_domain.key) :>"><: } :>
 	There is a new token on the token domain
-	<: $comment_context_obj.token_domain.name :>
+	<: $context_obj.token_domain.name :>
 <: } elsif $notification.event.context == 'DDGC::DB::Result::Comment' { :>
 	<: my $comment_context_obj = $context_obj.get_context_obj :>
 	User

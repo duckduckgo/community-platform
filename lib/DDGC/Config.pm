@@ -9,6 +9,9 @@ use File::ShareDir::ProjectDistDir;
 
 use namespace::autoclean;
 
+sub nid { defined $ENV{'DDGC_NID'} ? $ENV{'DDGC_NID'} : 1 }
+sub pid { defined $ENV{'DDGC_PID'} ? $ENV{'DDGC_PID'} : $$ }
+
 sub rootdir_path {
 	my $dir = defined $ENV{'DDGC_ROOTDIR'} ? $ENV{'DDGC_ROOTDIR'} : $ENV{HOME}.'/ddgc/';
 	return $dir;
@@ -120,6 +123,12 @@ sub screen_filesdir {
 
 sub cachedir {
 	my $dir = defined $ENV{'DDGC_CACHEDIR'} ? $ENV{'DDGC_CACHEDIR'} : rootdir().'/cache/';
+	make_path($dir) if !-d $dir;
+	return File::Spec->rel2abs( $dir );
+}
+
+sub xslate_cachedir {
+	my $dir = defined $ENV{'DDGC_CACHEDIR_XSLATE'} ? $ENV{'DDGC_CACHEDIR_XSLATE'} : cachedir().'/xslate/';
 	make_path($dir) if !-d $dir;
 	return File::Spec->rel2abs( $dir );
 }

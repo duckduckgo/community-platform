@@ -93,10 +93,23 @@ sub add_user_cycle_and_cycle_time {
 	return @notifications;
 }
 
+our %context_map = (
+	comments => 'DDGC::DB::Result::Comment',
+	tokens => 'DDGC::DB::Result::Token',
+	translations => 'DDGC::DB::Result::Token::Language::Translation',
+);
+
 sub index :Chained('base') :PathPart('') :Args(0) {
 	my ( $self, $c ) = @_;
 	$c->bc_index;
     $c->pager_init($c->action,20);
+    for (qw( comments tokens translations )) {
+		$c->stash->{'undone_notifications_'.$_} = $c->user->search_related('event_notifications',{
+			"event.context" => $context_map{$_},
+		},{
+			join => 'event',
+		})->count;
+    }
 	if ($c->req->param('all_event_notifications_done')) {
 		$c->user->search_related('event_notifications')->update({ done => 1, sent => 1 });
 	}
@@ -105,30 +118,31 @@ sub index :Chained('base') :PathPart('') :Args(0) {
 sub comments :Chained('base') :Args(0) {
 	my ( $self, $c ) = @_;
 	$c->add_bc('Comments');
-	$self->notifications($c,'comments','DDGC::DB::Result::Comment');
+	$self->notifications($c,'comments');
 }
 
 sub tokens :Chained('base') :Args(0) {
 	my ( $self, $c ) = @_;
 	$c->add_bc('Tokens');
-	$self->notifications($c,'tokens','DDGC::DB::Result::Token');
+	$self->notifications($c,'tokens');
 }
 
 sub translations :Chained('base') :Args(0) {
 	my ( $self, $c ) = @_;
 	$c->add_bc('Translations');
-	$self->notifications($c,'translations','DDGC::DB::Result::Token::Language::Translation');
+	$self->notifications($c,'translations');
 }
 
 sub notifications {
-	my ( $self, $c, $action, $result ) = @_;
+	my ( $self, $c, $action ) = @_;
+	my $result = $context_map{$action};
 	$c->stash->{notification_action} = $action;
 	my $rs = $c->user->search_related('event_notifications',{
 		"event.context" => $result,
 	},{
 		join => 'event',
 	});
-    $c->pager_init($c->action,10);
+	$c->pager_init($c->action,10);
 	if (my $done = $c->req->param('event_notification_done')) {
 		my ( $first ) = $rs->search({ "me.id" => $done });
 		if ($first && $first->users_id eq $c->user->id && $first->id eq $done) {
@@ -139,8 +153,8 @@ sub notifications {
 	}
 	if ($c->req->param('these_event_notifications_done')) {
 		$rs->update({
-			"me.done" => 1,
-			"me.sent" => 1,
+			"done" => 1,
+			"sent" => 1,
 		});
 	}
 	$c->stash->{event_notifications} = $rs->search({},{

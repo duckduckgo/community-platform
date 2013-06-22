@@ -50,5 +50,17 @@ column updated => {
 	set_on_update => 1,
 };
 
+# node id
+column nid => {
+	data_type => 'int',
+	is_nullable => 1,
+};
+
+# process id on node
+column pid => {
+	data_type => 'int',
+	is_nullable => 1,
+};
+
 no Moose;
 __PACKAGE__->meta->make_immutable;

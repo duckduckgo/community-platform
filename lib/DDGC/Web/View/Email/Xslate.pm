@@ -18,10 +18,10 @@ has ddgc => (
 );
 
 sub COMPONENT {
-    my ($class, $app, $args) = @_;
-    $args = $class->merge_config_hashes($class->config, $args);
-    $args->{ddgc} = $app->d;
-    return $class->new($args);
+	my ($class, $app, $args) = @_;
+	$args = $class->merge_config_hashes($class->config, $args);
+	$args->{ddgc} = $app->d;
+	return $class->new($args);
 }
 
 sub _build_mailer_obj {

@@ -21,6 +21,7 @@ use Catalyst qw/
 	StackTrace
 	ErrorCatcher
 	CustomErrorMessage
+	RunAfterRequest
 /;
 
 extends 'Catalyst';

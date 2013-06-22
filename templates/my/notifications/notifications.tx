@@ -2,10 +2,12 @@
 <div class="content-box">
 	<div class="head">
 		<h3><: $notification_title :></h3>
-		<a class="button" href="<: $u('My::Notifications', $notification_action, { these_event_notifications_done => 1 }) :>">
-			Mark all these notifications as done
-		</a>
-		<a class="button" href="<: $u('My::Notifications', 'index') :>">
+		<: if $event_notifications.pager.entries_on_this_page > 0 { :>
+			<a class="button red" href="<: $u('My::Notifications', $notification_action, { these_event_notifications_done => 1 }) :>">
+				Mark all these notifications as done
+			</a>
+		<: } :>
+		<a class="button pull-right" href="<: $u('My::Notifications', 'index') :>">
 			Back to notification overview
 		</a>
 	</div>
@@ -15,12 +17,14 @@
 				notification => $notification,
 			} :>
 		<: } :>
-		<div class="row mid">
-			<: include pager {
-				pager => $event_notifications.pager,
-				url => $u('My::Notifications', $notification_action, { page => 'PAGE_NO' }).as_string,
-			} :>
-		</div>
+		<: if $event_notifications.pager.entries_on_this_page { :>
+			<div class="row mid">
+				<: include pager {
+					pager => $event_notifications.pager,
+					url => $u('My::Notifications', $notification_action, { page => 'PAGE_NO' }).as_string,
+				} :>
+			</div>
+		<: } :>
 	</div>
 </div>
 

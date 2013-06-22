@@ -51,6 +51,13 @@ __PACKAGE__->config(
 	)],
 );
 
+sub COMPONENT {
+	my ($class, $app, $args) = @_;
+	$args = $class->merge_config_hashes($class->config, $args);
+	$args->{cache_dir} = $app->d->config->xslate_cachedir;
+	return $class->new($args);
+}
+
 sub process {
     my $self = shift;
 	my $c = shift;

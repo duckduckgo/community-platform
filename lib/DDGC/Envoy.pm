@@ -2,6 +2,8 @@ package DDGC::Envoy;
 # ABSTRACT: Notification functions
 
 use Moose;
+use DateTime;
+use DateTime::Duration;
 
 has ddgc => (
 	isa => 'DDGC',
@@ -10,15 +12,32 @@ has ddgc => (
 	weak_ref => 1,
 );
 
-sub update_notifications_of_event {
-	my ( $self, $event ) = @_;
+sub format_datetime { shift->ddgc->db->storage->datetime_parser->format_datetime(shift) }
+
+sub update_own_notifications {
+	my ( $self ) = @_;
+	$self->_resultset_update_notifications($self->ddgc->rs('Event')->search({
+		notified => 0,
+		pid => $self->ddgc->config->pid,
+		nid => $self->ddgc->config->nid,
+		created => { ">=" => $self->format_datetime(
+			DateTime->now - DateTime::Duration->new( minutes => 2 )
+		) },
+	})->all);
 }
 
 sub update_notifications {
 	my ( $self ) = @_;
-	my @events = $self->ddgc->rs('Event')->search({
+	$self->_resultset_update_notifications($self->ddgc->rs('Event')->search({
 		notified => 0,
-	})->all;
+		created => { "<" => $self->format_datetime(
+			DateTime->now - DateTime::Duration->new( minutes => 2 )
+		) },
+	})->all);
+}
+
+sub _resultset_update_notifications {
+	my ( $self, @events ) = @_;
 	return unless @events;
 	my %languages = map { $_->id => $_->locale } $self->ddgc->rs('Language')->search({})->all;
 	for my $event (@events) {
@@ -41,6 +60,7 @@ sub update_notifications {
 			if (@language_ids) {
 				next unless grep { $un->user->can_speak($languages{$_}) } @language_ids;
 			}
+			next unless $un->users_id != $event->users_id;
 			$event->create_related('event_notifications',{
 				users_id => $un->users_id,
 				cycle => $un->cycle,
