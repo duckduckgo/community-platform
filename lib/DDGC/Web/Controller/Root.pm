@@ -49,6 +49,7 @@ sub end : ActionClass('RenderView') {
 	$c->session->{last_url} = $c->req->uri;
 	if ($c->user) {
 		$c->stash->{user_notification_count} = $c->user->event_notifications_undone_count;
+		$c->run_after_request(sub { $c->d->envoy->update_own_notifications });
 	}
 }
 

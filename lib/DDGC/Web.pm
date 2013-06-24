@@ -21,6 +21,7 @@ use Catalyst qw/
 	StackTrace
 	ErrorCatcher
 	CustomErrorMessage
+	RunAfterRequest
 /;
 
 extends 'Catalyst';
@@ -115,6 +116,7 @@ sub d {
 	return $c->model('DDGC') if !@args;
 	return $c->model('DDGC::'.join('::',@args));
 }
+sub ddgc { shift->d(@_) }
 
 sub pager_init {
 	my ( $c, $key, $default_pagesize ) = @_;

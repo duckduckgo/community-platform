@@ -32,7 +32,6 @@ ssh -q -t ddgc@$DDGC_RELEASE_HOSTNAME "(
 	. /home/ddgc/ddgc_config.sh &&
 	cd ~/deploy &&
 	tar xz --strip-components=1 -f $2 &&
-	rm $2 &&
 	cpanm -n --installdeps . &&
 	touch ~/ddgc_web_maintenance
 )" && \
@@ -44,13 +43,14 @@ ssh -q -t ddgc@$DDGC_RELEASE_HOSTNAME "(
 	mv ~/deploy ~/live &&
 	rm -rf ~/cache &&
 	mkdir ~/cache &&
-	cp -ar ~/live/share/docroot/* ~/docroot/
-	cp -ar ~/live/share/docroot_duckpan/* ~/ddgc/duckpan/
+	cp -ar ~/live/share/docroot/* ~/docroot/ &&
+	cp -ar ~/live/share/docroot_duckpan/* ~/ddgc/duckpan/ &&
+	rm $2
 )" && \
 echo "***\n*** Starting new system...\n***" && \
 ssh -q -t root@$DDGC_RELEASE_HOSTNAME "(
 	svc -u /etc/service/ddgc &&
-	sleep 3 &&
+	sleep 10 &&
 	rm /home/ddgc/ddgc_web_maintenance
 )" && \
 echo "***\n*** Release successful\n***"

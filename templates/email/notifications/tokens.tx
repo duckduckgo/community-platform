@@ -1,0 +1,10 @@
+Hello <: $user.username :>!
+
+There are <: $count :> new tokens on the community platform for you to translate:
+
+<: for $notifications -> $notification { :>
+	<: include my::notifications::label {
+		notification => $notification,
+		no_notification_link => 1,
+	} :>
+<: } :>

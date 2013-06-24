@@ -1,12 +1,10 @@
 <: my $context_obj = $notification.event.get_context_obj :>
 <: if $notification.event.context == 'DDGC::DB::Result::Token::Language::Translation' { :>
-	<div class="row">
-		<: include translate::po::poentry { po_entry => $context_obj.token_language.token } :>
-	</div>
-	<div class="row">
-		<: include translate::po::poentry { po_entry => $context_obj } :>
-	</div>
+	<: include my::notifications::content::translation { translation => $context_obj } :>
 <: } elsif $notification.event.context == 'DDGC::DB::Result::Token' { :>
+	<: include my::notifications::content::token { token => $context_obj } :>
 <: } elsif $notification.event.context == 'DDGC::DB::Result::Comment' { :>
+	<: include my::notifications::content::comment { comment => $context_obj } :>
 <: } else { :>
+	<!-- nothing to display -->
 <: } :>

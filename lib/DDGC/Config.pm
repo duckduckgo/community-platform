@@ -6,8 +6,13 @@ use Moose;
 use File::Path qw( make_path );
 use File::Spec;
 use File::ShareDir::ProjectDistDir;
+use Path::Class;
+use Catalyst::Utils;
 
 use namespace::autoclean;
+
+sub nid { defined $ENV{'DDGC_NID'} ? $ENV{'DDGC_NID'} : 1 }
+sub pid { defined $ENV{'DDGC_PID'} ? $ENV{'DDGC_PID'} : $$ }
 
 sub rootdir_path {
 	my $dir = defined $ENV{'DDGC_ROOTDIR'} ? $ENV{'DDGC_ROOTDIR'} : $ENV{HOME}.'/ddgc/';
@@ -40,12 +45,14 @@ sub prosody_userhost { defined $ENV{'DDGC_PROSODY_USERHOST'} ? $ENV{'DDGC_PROSOD
 sub prosody_admin_username { defined $ENV{'DDGC_PROSODY_ADMIN_USERNAME'} ? $ENV{'DDGC_PROSODY_ADMIN_USERNAME'} : 'testone' }
 sub prosody_admin_password { defined $ENV{'DDGC_PROSODY_ADMIN_PASSWORD'} ? $ENV{'DDGC_PROSODY_ADMIN_PASSWORD'} : 'testpass' }
 
+sub mail_test { defined $ENV{'DDGC_MAIL_TEST'} ? $ENV{'DDGC_MAIL_TEST'} : 0 }
 sub smtp_host { $ENV{'DDGC_SMTP_HOST'} if defined $ENV{'DDGC_SMTP_HOST'} }
 sub smtp_ssl { defined $ENV{'DDGC_SMTP_SSL'} ? $ENV{'DDGC_SMTP_SSL'} : 0 }
 sub smtp_sasl_username { $ENV{'DDGC_SMTP_SASL_USERNAME'} if defined $ENV{'DDGC_SMTP_SASL_USERNAME'} }
 sub smtp_sasl_password { $ENV{'DDGC_SMTP_SASL_PASSWORD'} if defined $ENV{'DDGC_SMTP_SASL_PASSWORD'} }
 
 sub blog_posts_dir { defined $ENV{'DDGC_BLOG_POSTS_DIR'} ? $ENV{'DDGC_BLOG_POSTS_DIR'} : dist_dir('DDGC').'/blog' }
+sub templatedir { defined $ENV{'DDGC_TEMPLATEDIR'} ? $ENV{'DDGC_TEMPLATEDIR'} : dir( Catalyst::Utils::home('DDGC'), 'templates' )->resolve->absolute->stringify }
 
 sub duckpan_url { defined $ENV{'DDGC_DUCKPAN_URL'} ? $ENV{'DDGC_DUCKPAN_URL'} : 'http://duckpan.org/' }
 
@@ -120,6 +127,12 @@ sub screen_filesdir {
 
 sub cachedir {
 	my $dir = defined $ENV{'DDGC_CACHEDIR'} ? $ENV{'DDGC_CACHEDIR'} : rootdir().'/cache/';
+	make_path($dir) if !-d $dir;
+	return File::Spec->rel2abs( $dir );
+}
+
+sub xslate_cachedir {
+	my $dir = defined $ENV{'DDGC_CACHEDIR_XSLATE'} ? $ENV{'DDGC_CACHEDIR_XSLATE'} : cachedir().'/xslate/';
 	make_path($dir) if !-d $dir;
 	return File::Spec->rel2abs( $dir );
 }

@@ -7,6 +7,7 @@ use Email::Simple;
 use Email::Simple::Creator;
 use Email::Sender::Transport::SMTP;
 use Email::Sender::Transport::Sendmail;
+use Email::Sender::Transport::Test;
 
 has ddgc => (
 	isa => 'DDGC',
@@ -23,6 +24,7 @@ has transport => (
 
 sub _build_transport {
 	my ( $self ) = @_;
+	return Email::Sender::Transport::Test->new if $self->ddgc->config->mail_test;
 	return Email::Sender::Transport::Sendmail->new unless $self->ddgc->config->smtp_host;
 	my %smtp_args;
 	$smtp_args{host} = $self->ddgc->config->smtp_host;

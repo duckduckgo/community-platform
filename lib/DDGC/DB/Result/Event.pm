@@ -71,6 +71,24 @@ column updated => {
 	set_on_update => 1,
 };
 
+# node id
+column nid => {
+	data_type => 'int',
+	is_nullable => 0,
+};
+
+# process id on node
+column pid => {
+	data_type => 'int',
+	is_nullable => 0,
+};
+
+before insert => sub {
+	my ( $self ) = @_;
+	$self->nid($self->result_source->schema->ddgc->config->nid);
+	$self->pid($self->result_source->schema->ddgc->config->pid);
+};
+
 belongs_to 'user', 'DDGC::DB::Result::User', 'users_id', { join_type => 'left' };
 has_many 'event_notifications', 'DDGC::DB::Result::Event::Notification', 'event_id';
 

@@ -1,27 +1,33 @@
 <: include my::notifications::noemail :>
 <div class="content-box">
 	<div class="head">
-		<a class="button" href="<: $u('My::Notifications', 'index', { all_event_notifications_done => 1 }) :>">
-			Mark all notifications as done
-		</a>
+		<: if $event_notifications_undone_count { :>
+			<a class="button red" href="<: $u('My::Notifications', 'index', { all_event_notifications_done => 1 }) :>">
+				Mark all notifications as done
+			</a>
+		<: } else { :>
+			All notifications done
+		<: } :>
 	</div>
 	<div class="body">
-		<div class="row mid">
-			<a class="button" href="<: $u('My::Notifications', 'comments') :>">
-				All comment notifications
+		<div class="row">
+			<h3><: $undone_notifications_comments :> comments unnoticed</h3>
+			<a class="pull-right <: if $undone_notifications_comments > 0 { :>red<: } :> button" href="<: $u('My::Notifications', 'comments') :>">
+				All comments notifications
 			</a>
 		</div>
-		<div class="row mid">
-			<a class="button" href="<: $u('My::Notifications', 'tokens') :>">
-				All token notifications
+		<div class="row">
+			<h3><: $undone_notifications_tokens :> new tokens unnoticed</h3>
+			<a class="pull-right <: if $undone_notifications_tokens > 0 { :>red<: } :> button" href="<: $u('My::Notifications', 'tokens') :>">
+				All new tokens notifications
 			</a>
 		</div>
-		<div class="row mid">
-			<a class="button" href="<: $u('My::Notifications', 'translations') :>">
-				All translation notifications
+		<div class="row">
+			<h3><: $undone_notifications_translations :> translations unnoticed</h3>
+			<a class="pull-right <: if $undone_notifications_translations > 0 { :>red<: } :> button" href="<: $u('My::Notifications', 'translations') :>">
+				All translations notifications
 			</a>
 		</div>
 	</div>
 </div>
-
 <: include my::notifications::editteaser :>

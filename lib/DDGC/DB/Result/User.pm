@@ -33,6 +33,17 @@ column admin => {
 	default_value => 0,
 };
 
+column email => {
+	data_type => 'text',
+	is_nullable => 1,
+};
+
+column userpage => {
+	data_type => 'text',
+	is_nullable => 1,
+	serializer_class => 'JSON',
+};
+
 column data => {
 	data_type => 'text',
 	is_nullable => 1,
@@ -116,7 +127,7 @@ many_to_many 'languages', 'user_languages', 'language';
 sub translation_count { shift->token_language_translations->count(@_); }
 sub event_notifications_undone_count { shift->event_notifications->search({
 	done => 0,
-})->count(@_); }
+})->count; }
 
 sub profile_picture {
 	my ( $self, $size ) = @_;
