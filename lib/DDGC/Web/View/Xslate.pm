@@ -5,7 +5,6 @@ use Moose;
 extends 'Catalyst::View::Xslate';
 
 use DDGC::Util::DateTime ();
-use Text::Xslate qw( mark_raw );
 
 #
 # WARNING: Configuration of Text::Xslate itself happens in DDGC->xslate
