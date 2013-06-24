@@ -1,4 +1,6 @@
 package DDGC::Web::Controller::Root;
+# ABSTRACT: Main web controller class
+
 use Moose;
 use namespace::autoclean;
 
@@ -45,8 +47,10 @@ sub end : ActionClass('RenderView') {
 	my $template = $c->action.'.tx';
 	push @{$c->stash->{template_layout}}, $template;
 	$c->session->{last_url} = $c->req->uri;
+	if ($c->user) {
+		$c->stash->{user_notification_count} = $c->user->event_notifications_undone_count;
+	}
 }
 
+no Moose;
 __PACKAGE__->meta->make_immutable;
-
-1;

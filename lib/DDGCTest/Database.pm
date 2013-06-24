@@ -1,4 +1,5 @@
 package DDGCTest::Database;
+# ABSTRACT: 
 #
 # BE SURE YOU SAVE THIS FILE AS UTF-8 WITHOUT BYTE ORDER MARK (BOM)
 #
@@ -66,8 +67,12 @@ sub deploy {
 	$self->add_token_domains;
 	$self->add_distributions;
 	$self->add_comments;
-    $self->add_threads;
-	$self->next_step; # shouldnt be needed, something doesnt count up...
+	$self->add_threads;
+	$self->d->envoy->update_notifications;
+	if ($self->test) {
+		$self->test_userpage;
+		$self->test_event;
+	}
 }
 
 has current_step => (
@@ -83,7 +88,11 @@ sub next_step {
 	$self->current_step($step);
 }
 
-sub step_count { 525 }
+sub step_count {
+	my ( $self ) = @_;
+	my $base = 404;
+	return $base unless $self->test;
+}
 
 sub isa_ok { ::isa_ok($_[0],$_[1]) if shift->test }
 sub is { ::is($_[0],$_[1],$_[2]) if shift->test }
@@ -190,10 +199,12 @@ sub users {{
 		data => {
 			userpage => {
 				twitter => 'duckduckgo',
+				email => 'some@universe.org',
 				web => 'https://duckduckgo.com/',
 				about => 'about duckduckgo on twitter',
 				whyddg => 'because it\'s awesome!',
-			}
+			},
+			email => 'testtwo@localhost',
 		},
 	},
 	'testthree' => {
@@ -209,7 +220,8 @@ sub users {{
 		data => {
 			userpage => {
 				web => 'https://test.de/',
-			}
+			},
+			email => 'testthree@localhost',
 		},
 	},
 	'testfour' => {
@@ -243,7 +255,7 @@ sub users {{
 			pw => $_.$_,
 			notes => 'Massuser',
 		}
-	} 1..100,
+	} 1..40,
 }}
 
 sub add_users {
@@ -268,8 +280,19 @@ sub add_users {
 			about => 'about me',
 			whyddg => 'because it\'s awesome!',
 		},
+		email => 'testone@localhost',
 	});
 	$testone->update;
+	for (qw(
+		DDGC::DB::Result::Comment
+		DDGC::DB::Result::Token::Language::Translation
+		DDGC::DB::Result::Token
+	)) {
+		$testone->create_related('user_notifications',{
+			context => $_,
+			cycle => 2,
+		});
+	}
 	$self->c->{users}->{testone} = $testone;
 	$self->next_step;
 	for (sort keys %{$self->users}) {
@@ -292,10 +315,49 @@ sub add_users {
 	}
 	for (sort keys %{$self->users}) {
 		my $user = $self->d->find_user($_);
-		$self->is($user->username,$_,'Checking username');
+		$self->is($user->username,$_,'Checking username of '.$_);
 		$self->isa_ok($user,'DDGC::User');
 		$self->next_step;
 	}
+}
+
+sub test_userpage {
+	my ( $self ) = @_;
+	for (sort keys %{$self->users}) {
+		my $data = defined $self->users->{$_}->{data}->{userpage}
+			? $self->users->{$_}->{data}->{userpage}
+			: {};
+		my $username = $_;
+		my $userpage = $self->d->find_user($_)->userpage->export;
+		if (%{$data}) {
+			for (qw( about whyddg web )) {
+				$self->is($userpage->{$_},defined $data->{$_} ? $data->{$_} : '','Checking '.$username.' userpage export value of '.$_);
+			}
+			$self->is($userpage->{github},defined $data->{github} ? 'https://github.com/'.$data->{github} : '','Checking '.$username.' userpage export value of github');
+			$self->is($userpage->{email},defined $data->{email} ? _replace_email($data->{email}) : '','Checking '.$username.' userpage export value of github');
+		} else {
+			for (keys %{$userpage}) {
+				$self->is($userpage->{$_},'','Checking '.$username.' userpage export value of '.$_.' being empty');
+			}
+		}
+	}
+}
+
+sub test_event {
+	my ( $self ) = @_;
+	my @events = $self->d->resultset('Event')->search({})->all;
+	$self->is(scalar @events, 282, "Checking amount of events gathered");
+
+	$self->d->envoy->update_notifications;
+
+	my @enos = $self->d->resultset('Event::Notification')->search({})->all;
+	$self->is(scalar @enos, 275, "Checking amount of event notifications gathered");
+}
+
+sub _replace_email {
+	my $email = $_[0];
+	$email =~ s/@/ at /;
+	return $email;
 }
 
 ################################################################
@@ -346,19 +408,19 @@ sub add_comments {
 
 sub threads {
     testone => { 
-    	thread_title => "Test thread",
+    	title => "Test thread",
     	text => "Testing some BBCode\n[b]Bold[/b]\n[url=http://ddg.gg]URL[/url] / http://ddg.gg\nEtc.",
     	category_id => 5,
     	data => { announcement_status_id => 1 }
     },
     testtwo => {
-    	thread_title => "Hello, World!",
+    	title => "Hello, World!",
     	text => "Hello, World!\n[code=perl]#!/usr/bin/env perl\nprint \"Hello, World!\";[/code]\n[code=lua]print(\"Hello, World\")[/code]\n[code=javascript]alert('Hello, World!');[/code]\n[quote=shakespeare](bb|[^b]{2})[/quote]\n\@testtwo I love you!",
     	category_id => 1,
     	data => { discussion_status_id => 1 },
     },
     testthree => {
-    	thread_title => "Syntax highlighting",
+    	title => "Syntax highlighting",
     	text => '[code=perl]#!/usr/bin/env perl
         use 5.014;
         say "Hello, World!";[/code]
@@ -886,4 +948,5 @@ sub add_token_domains {
 	}
 }
 
-1;
+no Moose;
+__PACKAGE__->meta->make_immutable;

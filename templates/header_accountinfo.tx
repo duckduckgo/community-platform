@@ -1,5 +1,14 @@
 <div class="header-account-info">
-	<div class="user-avatar"><: include "user/userpic.tx" { user => $c.user, userpic_size => 32 } :></div>
+	<div class="user-avatar">
+		<: include "user/userpic.tx" { user => $c.user, userpic_size => 32 } :>		
+	</div>
+	<div class="user-notifications">
+		<: if $user_notification_count { :>
+			<a class="user-notifications__num" href="<: $u('My::Notifications','index') :>">
+				<: $user_notification_count :>
+			</a>
+		<: } :>
+	</div>
 	<span class="user-name"><: $c.user.username :></span>
 	<span class="account-actions">
 		<a href="<: $u('My','account') :>" class="first">My Account</a>

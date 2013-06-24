@@ -1,4 +1,6 @@
 package DDGC::Web::Controller::Translate;
+# ABSTRACT: Translation pages web controller class
+
 use Moose;
 use namespace::autoclean;
 
@@ -281,6 +283,5 @@ sub tokens :Chained('locale') :Args(0) {
 	}
 }
 
+no Moose;
 __PACKAGE__->meta->make_immutable;
-
-1;

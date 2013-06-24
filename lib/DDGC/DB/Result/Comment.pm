@@ -1,6 +1,27 @@
 package DDGC::DB::Result::Comment;
 
-use DBIx::Class::Candy -components => [ 'TimeStamp', 'InflateColumn::DateTime', 'InflateColumn::Serializer', 'EncodedColumn' ];
+use Moose;
+extends 'DDGC::DB::Base::Result';
+use DBIx::Class::Candy;
+use namespace::autoclean;
+
+# sub description_list {
+# 	my ( $self ) = @_;
+# 	if ($self->context_resultset) {
+# 		$self->user, "commented on", $self->get_context_obj;
+# 	} else {
+# 		"A comment from", $self->user, ".";
+# 	}
+# }
+
+# sub sub_description_list { 
+# 	my ( $self ) = @_;
+# 	if ($self->context_resultset) {
+# 		"a comment from", $self->user, "on", $self->get_context_obj;
+# 	} else {
+# 		"a comment from", $self->user;
+# 	}
+# }
 
 table 'comment';
 
@@ -15,15 +36,17 @@ column users_id => {
 	is_nullable => 1,
 };
 
+###########
 column context => {
 	data_type => 'text',
 	is_nullable => 0,
 };
-
 column context_id => {
 	data_type => 'bigint',
 	is_nullable => 0,
 };
+with 'DDGC::DB::Role::HasContext';
+###########
 
 column content => {
 	data_type => 'text',
@@ -50,19 +73,32 @@ belongs_to 'user', 'DDGC::DB::Result::User', 'users_id', { join_type => 'left' }
 belongs_to 'parent', 'DDGC::DB::Result::Comment', 'parent_id', { join_type => 'left' };
 has_many 'children', 'DDGC::DB::Result::Comment', 'parent_id';
 
-sub get_context_obj {
+after insert => sub {
 	my ( $self ) = @_;
-	if ( $self->context =~ m/^DDGC::DB::Result::(.*)$/ ) {
-		return $self->result_source->schema->resultset($1)->find($self->context_id);
+	$self->add_event('insert');
+};
+
+after update => sub {
+	my ( $self ) = @_;
+	$self->add_event('update');
+};
+
+sub event_related {
+	my ( $self ) = @_;
+	my @related;
+	if ( $self->parent_id ) {
+		push @related, [(ref $self), $self->parent_id];
 	}
-	die "dont know how to get object of ".$self->context;
+	if ( $self->context_resultset ) {
+		push @related, [$self->context, $self->context_id];
+		push @related, [$self->get_context_obj->event_related] if $self->get_context_obj->can('event_related');
+	}
+	return @related;
 }
 
 ###############################
 
-use overload '""' => sub {
-	my $self = shift;
-	return 'Comment #'.$self->id;
-}, fallback => 1;
+no Moose;
+__PACKAGE__->meta->make_immutable;
 
 1;

@@ -1,4 +1,6 @@
 package DDGC::Web::Controller::Roboduck;
+# ABSTRACT: RoboDuck web controller class
+
 use Moose;
 use namespace::autoclean;
 
@@ -29,6 +31,5 @@ sub json :Chained('base') :Args(0) {
 	$c->forward( $c->view('JSON') );
 }
 
+no Moose;
 __PACKAGE__->meta->make_immutable;
-
-1;

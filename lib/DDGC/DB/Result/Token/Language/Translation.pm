@@ -1,10 +1,13 @@
 package DDGC::DB::Result::Token::Language::Translation;
 
-use DBIx::Class::Candy -components => [ 'TimeStamp', 'InflateColumn::DateTime', 'InflateColumn::Serializer', 'EncodedColumn' ];
 use Moose;
+extends 'DDGC::DB::Base::Result';
+use DBIx::Class::Candy;
 
 use DateTime;
 use Locale::Simple;
+
+use namespace::autoclean;
 
 table 'token_language_translation';
 
@@ -119,6 +122,11 @@ before insert => sub {
 	$self->sprintf_check;
 };
 
+after insert => sub {
+	my ( $self ) = @_;
+	$self->add_event('insert');
+};
+
 sub user_voted {
 	my ( $self, $user ) = @_;
 	my $result = $self->search_related('token_language_translation_votes',{
@@ -197,9 +205,13 @@ sub key {
 	return $key;
 }
 
-use overload '""' => sub {
-	my $self = shift;
-	return 'Token-Language-Translation #'.$self->id;
-}, fallback => 1;
+sub event_related {
+	my ( $self ) = @_;
+	my @related;
+	push @related, ['DDGC::DB::Result::Token::Domain', $self->token_language->token_domain_language->token_domain_id];
+	push @related, ['DDGC::DB::Result::Language', $self->token_language->token_domain_language->language_id];
+	return @related;
+}
 
-1;
+no Moose;
+__PACKAGE__->meta->make_immutable;

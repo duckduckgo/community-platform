@@ -1,10 +1,13 @@
 package DDGC::Config;
+# ABSTRACT: 
 
 use Moose;
 
 use File::Path qw( make_path );
 use File::Spec;
 use File::ShareDir::ProjectDistDir;
+
+use namespace::autoclean;
 
 sub rootdir_path {
 	my $dir = defined $ENV{'DDGC_ROOTDIR'} ? $ENV{'DDGC_ROOTDIR'} : $ENV{HOME}.'/ddgc/';
@@ -20,7 +23,6 @@ sub rootdir {
 sub prosody_db_samplefile { File::Spec->rel2abs( File::Spec->catfile( dist_dir('DDGC'), 'ddgc.prosody.sqlite' ) ) }
 
 sub duckpan_cdh_template { File::Spec->rel2abs( File::Spec->catfile( dist_dir('DDGC'), 'perldoc', 'duckpan.html' ) ) }
-
 sub duckpan_cdh_assets {{
 	'duckpan.css' => File::Spec->rel2abs( File::Spec->catfile( dist_dir('DDGC'), 'perldoc', 'duckpan.css' ) ),
 	'duckpan.png' => File::Spec->rel2abs( File::Spec->catfile( dist_dir('DDGC'), 'perldoc', 'duckpan.png' ) ),
@@ -37,6 +39,11 @@ sub prosody_userhost { defined $ENV{'DDGC_PROSODY_USERHOST'} ? $ENV{'DDGC_PROSOD
 
 sub prosody_admin_username { defined $ENV{'DDGC_PROSODY_ADMIN_USERNAME'} ? $ENV{'DDGC_PROSODY_ADMIN_USERNAME'} : 'testone' }
 sub prosody_admin_password { defined $ENV{'DDGC_PROSODY_ADMIN_PASSWORD'} ? $ENV{'DDGC_PROSODY_ADMIN_PASSWORD'} : 'testpass' }
+
+sub smtp_host { $ENV{'DDGC_SMTP_HOST'} if defined $ENV{'DDGC_SMTP_HOST'} }
+sub smtp_ssl { defined $ENV{'DDGC_SMTP_SSL'} ? $ENV{'DDGC_SMTP_SSL'} : 0 }
+sub smtp_sasl_username { $ENV{'DDGC_SMTP_SASL_USERNAME'} if defined $ENV{'DDGC_SMTP_SASL_USERNAME'} }
+sub smtp_sasl_password { $ENV{'DDGC_SMTP_SASL_PASSWORD'} if defined $ENV{'DDGC_SMTP_SASL_PASSWORD'} }
 
 sub blog_posts_dir { defined $ENV{'DDGC_BLOG_POSTS_DIR'} ? $ENV{'DDGC_BLOG_POSTS_DIR'} : dist_dir('DDGC').'/blog' }
 
@@ -117,4 +124,5 @@ sub cachedir {
 	return File::Spec->rel2abs( $dir );
 }
 
-1;
+no Moose;
+__PACKAGE__->meta->make_immutable;

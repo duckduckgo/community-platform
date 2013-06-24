@@ -9,4 +9,11 @@
 <![endif]-->
 <meta name="twitter:site" value="@duckco" />
 <meta property="og:site_name" content="DuckDuckGo Community Platform" />
-<meta name="Description" content="Community Platform of DuckDuckGo - Translate DuckDuckGo, use our XMPP or make your own user page!" />
+<meta name="description" content="Community Platform of DuckDuckGo - Translate DuckDuckGo, use our XMPP or make your own user page!" />
+<: if $userpage_home { :>
+	<: if $up.field('openid_server').value && $up.field('openid_delegate').value { :>
+		<link rel="openid.server" href="<: $up.field('openid_server').value :>">
+		<link rel="openid.delegate" href="<: $up.field('openid_delegate').value :>">
+	<: } :>
+<: } else { :>
+<: } :>

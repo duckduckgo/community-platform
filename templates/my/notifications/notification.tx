@@ -1,0 +1,15 @@
+<div class="row" style="<: if !$notification.done { :>background-color:#d8be74<: } :>">
+	<div class="twothird">
+		<label>
+			<: include my::notifications::label { notification => $notification } :>
+		</label>
+	</div>
+	<div class="third">
+		<: if !$notification.done { :>
+			<a href="<: $u('My::Notifications',$notification_action,{ event_notification_done => $notification.id }) :>" class="button">
+				Mark as done
+			</a>
+		<: } :>
+	</div>
+</div>
+<: include my::notifications::content { notification => $notification } :>

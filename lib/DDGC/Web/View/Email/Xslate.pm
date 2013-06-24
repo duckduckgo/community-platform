@@ -1,4 +1,5 @@
 package DDGC::Web::View::Email::Xslate;
+# ABSTRACT: 
 
 use Moose;
 extends 'Catalyst::View::Email::Template';
@@ -9,10 +10,24 @@ __PACKAGE__->config(
 		charset => 'utf-8'
 	},
 	view => 'Xslate',
-	# sender => {
-		# mailer => 'Test',
-	# },
 );
+
+has ddgc => (
+	is => 'ro',
+	required => 1,
+);
+
+sub COMPONENT {
+    my ($class, $app, $args) = @_;
+    $args = $class->merge_config_hashes($class->config, $args);
+    $args->{ddgc} = $app->d;
+    return $class->new($args);
+}
+
+sub _build_mailer_obj {
+	my ($self) = @_;
+	return $self->ddgc->postman->transport;
+}
 
 no Moose;
 __PACKAGE__->meta->make_immutable;

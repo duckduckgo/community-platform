@@ -1,4 +1,5 @@
 package DDGC::DB;
+# ABSTRACT: 
 
 use Moose;
 extends 'DBIx::Class::Schema';

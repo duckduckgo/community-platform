@@ -1,4 +1,6 @@
 package DDGC::Web::Controller::Admin::User;
+# ABSTRACT: User administration web controller class
+
 use Moose;
 use namespace::autoclean;
 

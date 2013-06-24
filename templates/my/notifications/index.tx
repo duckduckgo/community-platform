@@ -1,0 +1,27 @@
+<: include my::notifications::noemail :>
+<div class="content-box">
+	<div class="head">
+		<a class="button" href="<: $u('My::Notifications', 'index', { all_event_notifications_done => 1 }) :>">
+			Mark all notifications as done
+		</a>
+	</div>
+	<div class="body">
+		<div class="row mid">
+			<a class="button" href="<: $u('My::Notifications', 'comments') :>">
+				All comment notifications
+			</a>
+		</div>
+		<div class="row mid">
+			<a class="button" href="<: $u('My::Notifications', 'tokens') :>">
+				All token notifications
+			</a>
+		</div>
+		<div class="row mid">
+			<a class="button" href="<: $u('My::Notifications', 'translations') :>">
+				All translation notifications
+			</a>
+		</div>
+	</div>
+</div>
+
+<: include my::notifications::editteaser :>

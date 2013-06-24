@@ -1,4 +1,5 @@
 package DDGC::Forum;
+# ABSTRACT: 
 
 use Moose;
 use File::ShareDir::ProjectDistDir;

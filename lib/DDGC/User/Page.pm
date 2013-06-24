@@ -106,6 +106,21 @@ my @attributes = (
 			user_suffix => ' on flickr',
 		},
 	},
+	linkedin => 'Your LinkedIn username' => {
+		type => 'remote',
+		validators => [sub {
+			m/^[\w\.]+$/ ? () : ("Invalid LinkedIn username")
+		}],
+		params => {
+			url_prefix => 'http://linkedin.com/in/',
+			user_suffix => ' on LinkedIn',
+		},
+	},
+
+############ Meta
+
+	openid_server => 'OpenID server meta tag for your userpage' => { type => 'url' },
+	openid_delegate => 'OpenID delegate meta tag for your userpage' => { type => 'url' },
 
 ############ Other widgets
 
@@ -113,6 +128,7 @@ my @attributes = (
 		view => 'languages',
 		export => sub {
 			my ( $self ) = @_;
+			return "" unless $self->value;
 			return { map { $_->language->locale => $_->grade } $self->page->user->user_languages };
 		},
 	},

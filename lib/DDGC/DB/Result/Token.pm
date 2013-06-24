@@ -1,6 +1,9 @@
 package DDGC::DB::Result::Token;
 
-use DBIx::Class::Candy -components => [ 'TimeStamp', 'InflateColumn::DateTime', 'InflateColumn::Serializer', 'EncodedColumn' ];
+use Moose;
+extends 'DDGC::DB::Base::Result';
+use DBIx::Class::Candy;
+use namespace::autoclean;
 
 table 'token';
 
@@ -71,6 +74,11 @@ belongs_to 'token_domain', 'DDGC::DB::Result::Token::Domain', 'token_domain_id';
 has_many 'token_screens', 'DDGC::DB::Result::Token::Screen', 'token_id';
 has_many 'token_languages', 'DDGC::DB::Result::Token::Language', 'token_id';
 
+after insert => sub {
+	my ( $self ) = @_;
+	$self->add_event('insert');
+};
+
 sub has_placeholders {
 	my ( $self ) = @_;
 	my @all_placeholders;
@@ -114,9 +122,10 @@ sub insert {
 	return $self;
 }
 
-use overload '""' => sub {
-	my $self = shift;
-	return 'Token #'.$self->id;
-}, fallback => 1;
+sub event_related {
+	my ( $self ) = @_;
+	['DDGC::DB::Result::Token::Domain', $self->token_domain_id]
+}
 
-1;
+no Moose;
+__PACKAGE__->meta->make_immutable;

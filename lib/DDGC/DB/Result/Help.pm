@@ -1,6 +1,9 @@
 package DDGC::DB::Result::Help;
 
-use DBIx::Class::Candy -components => [ 'TimeStamp', 'InflateColumn::DateTime', 'InflateColumn::Serializer', 'EncodedColumn' ];
+use Moose;
+extends 'DDGC::DB::Base::Result';
+use DBIx::Class::Candy;
+use namespace::autoclean;
 
 table 'help';
 
@@ -47,9 +50,5 @@ column updated => {
 	set_on_update => 1,
 };
 
-use overload '""' => sub {
-	my $self = shift;
-	return 'Help '.$self->key.' as #'.$self->id;
-}, fallback => 1;
-
-1;
+no Moose;
+__PACKAGE__->meta->make_immutable;

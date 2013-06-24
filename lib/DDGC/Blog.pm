@@ -1,4 +1,5 @@
 package DDGC::Blog;
+# ABSTRACT: 
 
 use Moose;
 use YAML qw( LoadFile );

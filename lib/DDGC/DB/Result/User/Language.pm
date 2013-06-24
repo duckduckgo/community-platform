@@ -1,6 +1,9 @@
 package DDGC::DB::Result::User::Language;
 
-use DBIx::Class::Candy -components => [ 'TimeStamp', 'InflateColumn::DateTime', 'InflateColumn::Serializer', 'EncodedColumn' ];
+use Moose;
+extends 'DDGC::DB::Base::Result';
+use DBIx::Class::Candy;
+use namespace::autoclean;
 
 table 'user_language';
 
@@ -55,9 +58,5 @@ belongs_to 'language', 'DDGC::DB::Result::Language', 'language_id';
 
 unique_constraint [qw/ language_id username /];
 
-use overload '""' => sub {
-	my $self = shift;
-	return 'User-Language #'.$self->id;
-}, fallback => 1;
-
-1;
+no Moose;
+__PACKAGE__->meta->make_immutable;

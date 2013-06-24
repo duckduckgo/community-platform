@@ -1,12 +1,13 @@
 package DDGC::Web::Controller::My::Userpage;
+# ABSTRACT: Userpage editor
+
 use Moose;
-use namespace::autoclean;
-
-use DateTime;
-
 BEGIN {extends 'Catalyst::Controller'; }
 
-sub base :Chained('/my/base') :PathPart('userpage') :CaptureArgs(0) {
+use DateTime;
+use namespace::autoclean;
+
+sub base :Chained('/my/logged_in') :PathPart('userpage') :CaptureArgs(0) {
 	my ( $self, $c ) = @_;
 	$c->add_bc('Userpage Editor', $c->chained_uri('My::Userpage','index'));
 	$c->stash->{up} = $c->user->userpage;

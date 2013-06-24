@@ -1,4 +1,6 @@
 package DDGC::Web::Controller::Admin::Language;
+# ABSTRACT: Language administration web controller class
+
 use Moose;
 use namespace::autoclean;
 

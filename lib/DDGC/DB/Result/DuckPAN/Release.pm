@@ -1,6 +1,9 @@
 package DDGC::DB::Result::DuckPAN::Release;
 
-use DBIx::Class::Candy -components => [ 'TimeStamp', 'InflateColumn::DateTime', 'InflateColumn::Serializer', 'EncodedColumn' ];
+use Moose;
+extends 'DDGC::DB::Base::Result';
+use DBIx::Class::Candy;
+use namespace::autoclean;
 
 table 'duckpan_release';
 
@@ -46,9 +49,5 @@ belongs_to 'user', 'DDGC::DB::Result::User', 'users_id';
 
 unique_constraint [qw/ name version /];
 
-use overload '""' => sub {
-	my $self = shift;
-	return 'DuckPAN-Permission #'.$self->id;
-}, fallback => 1;
-
-1;
+no Moose;
+__PACKAGE__->meta->make_immutable;

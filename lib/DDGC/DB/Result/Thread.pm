@@ -1,62 +1,11 @@
 package DDGC::DB::Result::Thread;
 # ABSTRACT: Dukgo.com Forum thread
 
-use DBIx::Class::Candy -components => [ 'TimeStamp', 'InflateColumn::DateTime', 'InflateColumn::Serializer', 'EncodedColumn' ];
-
-use Parse::BBCode;
 use Moose;
+extends 'DDGC::DB::Base::Result';
+use DBIx::Class::Candy;
 use DateTime::Format::Human::Duration;
-use Text::VimColor;
-
-my $_bbcode = Parse::BBCode->new({
-        close_open_tags => 1,
-        attribute_quote => q('"),
-        url_finder => {
-            max_length  => 200,
-            # sprintf format:
-            format      => '<a href="%s" rel="nofollow">%s</a>',
-        },
-        tags => {
-            Parse::BBCode::HTML->defaults,
-            url => 'url:<a href="%{link}A">%{parse}s</a>',
-            img => '<a href="%{link}A"><img src="%{link}A" alt="[%{html}s]" title="%{html}s"></a>',
-            code => {
-                code => sub {
-                    my ($parser, $attr, $content, $attribute_fallback) = @_;
-                    my $lang = "";
-
-                    my $highlight_ok = 1;
-                    $highlight_ok = 0 if length($$content) > 50_000; # it can handle a lot
-
-                    for(split /\n/, $$content) {
-                        if (length($_) > 600) { # >80s just because of a long line? I think not.
-                            $highlight_ok = 0;
-                            break();
-                        }
-                    }
-                    if ($attr && $highlight_ok) {
-                        my @lines = split /\n/, $$content;
-                        my $tvc = Text::VimColor->new( string => $$content, filetype => lc($attr) );
-                        $content = $tvc->html;
-                        $lang = ucfirst($attr)." ";
-                    } else {
-                        $content = Parse::BBCode::escape_html($$content);
-                    }
-                    "<div class='bbcode_code_header'>${lang}Code:<pre class='bbcode_code_body'>$content</pre></div>"
-                },
-                parse => 0,
-                class => 'block',
-            },
-            quote => {
-                parse => 1,
-                slass => 'block',
-                code => sub {
-                    my ($parser, $attr, $content, $attribute_fallback) = @_;
-                    "<div class='bbcode_quote_header'>Quote from {{#USER $attribute_fallback #}}:<div class='bbcode_quote_body'>$$content</div></div>";
-                },
-            },
-        },
-});
+use namespace::autoclean;
 
 table 'thread';
 
@@ -66,7 +15,7 @@ column id => {
 };
 primary_key 'id';
 
-column thread_title => {
+column title => {
     data_type => 'text',
     is_nullable => 0,
     indexed => 1,
@@ -107,24 +56,12 @@ column updated => {
 
 belongs_to 'user', 'DDGC::DB::Result::User', 'users_id';
 
-use overload '""' => sub {
-	my $self = shift;
-	return $self->thread_title;
-}, fallback => 1;
-
 has categories => (
     is => 'ro',
     isa => 'HashRef',
     auto_deref => 1, 
     lazy_build => 1, 
 );
-
-sub _humanify {
-    my ( undef, $time ) = @_;
-    my $span = DateTime::Format::Human::Duration->new();
-    my $result = $span->format_duration(DateTime->now - $time);
-    return (split /,/, $result)[0];
-}
 
 sub _build_categories {
         {  
@@ -169,20 +106,6 @@ sub _statuses {
         },
     );
     \%catstats;
-}
-
-sub get_user {
-    my ( $self, $username, $d ) = @_;
-    my $user = $d->rs('User')->single({ username => lc($username) });
-    my $uname = $user && $user->public_username ? $user->public_username : Parse::BBCode::escape_html($username);
-    return "<a href='/${uname}' class='atmention'>\@${uname}</a>";
-}
-
-sub render_html {
-    my ($self, $db) = @_;
-    my $html = $_bbcode->render(shift->text);
-    $html =~ s/(?:{{#USER (.+?) #}}|\@(\w+))/$self->get_user(($1?$1:$2), $db)/eg;
-    return $html;
 }
 
 sub statuses {
@@ -244,7 +167,5 @@ sub created_human {
     $self->_humanify($self->created);
 }
 
-
-
-1;
-
+no Moose;
+__PACKAGE__->meta->make_immutable;

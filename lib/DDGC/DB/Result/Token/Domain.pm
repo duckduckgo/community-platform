@@ -1,13 +1,19 @@
 package DDGC::DB::Result::Token::Domain;
 
-use DBIx::Class::Candy -components => [ 'TimeStamp', 'InflateColumn::DateTime', 'InflateColumn::Serializer', 'EncodedColumn' ];
-
 use Moose;
+extends 'DDGC::DB::Base::Result';
+use DBIx::Class::Candy;
+
 use Path::Class;
 use DDGC::Util::Po;
 use Text::Fuzzy;
 
+use namespace::autoclean;
+
 table 'token_domain';
+
+# sub description_list { "The token domain", shift->name }
+# sub sub_description_list { "the token domain", shift->name }
 
 column id => {
 	data_type => 'bigint',
@@ -218,11 +224,7 @@ sub intersect_po_entries {
 	return \@new, \@old;
 }
 
-use overload '""' => sub {
-	my $self = shift;
-	return 'Token-Domain '.$self->name.' #'.$self->id;
-}, fallback => 1;
-
 sub u { 'Translate', 'domainindex', shift->key }
 
-1;
+no Moose;
+__PACKAGE__->meta->make_immutable;

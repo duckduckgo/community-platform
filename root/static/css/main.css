@@ -498,7 +498,59 @@ table th[class*="span"],
 			line-height: 1;
 			float: left;
 			padding-left: 22px;
+			position: relative;
 		}
+			.header-account-info .user-notifications {
+				position: absolute;
+				top: 11px; left: 22px;
+			}
+			.user-notifications {
+				position: relative;
+				overflow: hidden;
+			}
+				.user-notifications__num {
+					display: block;
+					position: relative;
+					font-weight: bold;
+					background: #CB2202;
+					color: #fff;
+					text-align: center;
+					z-index: 5;
+				
+				    -moz-animation-name: dropNotice;
+					-moz-animation-iteration-count: once;
+					-moz-animation-timing-function: ease-in;
+					-moz-animation-duration: 0.5s;
+
+					-webkit-animation-name: dropNotice;
+					-webkit-animation-iteration-count: once;
+					-webkit-animation-timing-function: ease-in;
+					-webkit-animation-duration: 0.5s;
+				}
+				/* animate notification numbers... because it's fun! */
+				@-moz-keyframes dropNotice {
+					0% {
+						top: -40px;
+					}
+					100% {
+						top: 0;
+					}
+				}
+				@-webkit-keyframes dropNotice {
+					0% {
+						top: -40px;
+					}
+					100% {
+						top: 0;
+					}
+				}
+				
+			
+			.user-avatar, .user-notifications, .user-notifications__num {
+				-webkit-border-radius: 3px;
+				border-radius: 3px;
+				
+			}
 			.user-avatar {				
 				float: left; 
 				position: relative;
@@ -507,9 +559,7 @@ table th[class*="span"],
 				background: #f1f1f1; 
 				color: #64656a;				
 				text-shadow: 0 -1px 0 #555459;
-				border: 1px solid #c5c5c5;
-				-webkit-border-radius: 3px;
-				border-radius: 3px;
+				border: 1px solid #c5c5c5;				
 				-moz-box-shadow: -1px 0 0 #fff inset, 0 1px 0 rgba(0,0,0,0.1);
 				-webkit-box-shadow: -1px 0 0 #fff inset, 0 1px 0 rgba(0,0,0,0.1);
 				box-shadow: -1px 0 0 #fff inset, 0 1px 0 rgba(0,0,0,0.1);
@@ -521,14 +571,19 @@ table th[class*="span"],
 					border: 1px solid #fff;
 					-webkit-border-radius: 3px;
 					border-radius: 3px;
+					z-index: 2;
 				}
+			
+			.header-account-info .user-notifications {				
+				width: 33px; height: 33px; line-height: 33px;
+			}
 			.header-account-info .user-avatar {
 				margin: 0 11px 0 0;		
 				width: 31px;
 				height: 31px;
 				line-height: 36px;
 				font-size: 140%;
-			}			
+			}		
 			.header-account-info .user-name { 
 				color: #474747; 
 				padding: 2px 0; 
@@ -552,7 +607,7 @@ table th[class*="span"],
 			}	
 				.header-account-info .account-actiona a:hover { color: black; }
 				.header-account-info .account-actions a.first { border-left: none; padding-left: 0; }
-
+	
 		.header-login { 
 			float: right; 
 			position: relative; 
@@ -864,7 +919,7 @@ table th[class*="span"],
 }
 @media only screen and (max-width: 375px) {
 	.header-account-info { margin-right: -5px; }
-	.header-account-info .user-avatar {
+	.header-account-info .user-avatar, .header-account-info .user-notifications {
 		visibility: hidden;		
 	}
 }

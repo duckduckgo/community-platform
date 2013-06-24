@@ -1,9 +1,14 @@
 package DDGC::DB::Result::User;
 
-use DBIx::Class::Candy -components => [ 'TimeStamp', 'InflateColumn::DateTime', 'InflateColumn::Serializer', 'EncodedColumn', 'AlwaysUpdate' ];
 use Moose;
+extends 'DDGC::DB::Base::Result';
+use DBIx::Class::Candy;
+use namespace::autoclean;
 
 table 'users';
+
+sub description_list { "The user", shift->username }
+sub sub_description_list { shift->username }
 
 column id => {
 	data_type => 'bigint',
@@ -93,7 +98,6 @@ sub _build__locale_user_languages {
 
 has_many 'screens', 'DDGC::DB::Result::Screen', { 'foreign.username' => 'self.username' };
 has_many 'token_language_translations', 'DDGC::DB::Result::Token::Language::Translation', { 'foreign.username' => 'self.username' };
-has_many 'user_languages', 'DDGC::DB::Result::User::Language', { 'foreign.username' => 'self.username' };
 has_many 'token_languages', 'DDGC::DB::Result::Token::Language', 'translator_users_id';
 has_many 'checked_translations', 'DDGC::DB::Result::Token::Language::Translation', 'check_users_id';
 has_many 'translation_votes', 'DDGC::DB::Result::Token::Language::Translation::Vote', 'users_id';
@@ -101,9 +105,18 @@ has_many 'comments', 'DDGC::DB::Result::Comment', 'users_id';
 has_many 'duckpan_releases', 'DDGC::DB::Result::DuckPAN::Release', 'users_id';
 has_many 'threads', 'DDGC::DB::Result::Thread', 'users_id';
 
+has_many 'event_notifications', 'DDGC::DB::Result::Event::Notification', 'users_id';
+
+has_many 'user_languages', 'DDGC::DB::Result::User::Language', { 'foreign.username' => 'self.username' };
+has_many 'user_notifications', 'DDGC::DB::Result::User::Notification', 'users_id';
+has_many 'user_blogs', 'DDGC::DB::Result::User::Blog', 'users_id';
+
 many_to_many 'languages', 'user_languages', 'language';
 
 sub translation_count { shift->token_language_translations->count(@_); }
+sub event_notifications_undone_count { shift->event_notifications->search({
+	done => 0,
+})->count(@_); }
 
 sub profile_picture {
 	my ( $self, $size ) = @_;
@@ -137,9 +150,18 @@ sub last_comments {
 	});
 }
 
-use overload '""' => sub {
-	my $self = shift;
-	return 'User '.$self->username.' #'.$self->id;
-}, fallback => 1;
+sub save_notifications {
+	my ( $self, @notifications ) = @_;
+	for my $notification (@notifications) {
+		my %query = (
+			context => $notification->{context},
+			context_id => $notification->{context_id},
+			sub_context => $notification->{sub_context},
+		);
+		$self->search_related('user_notifications',{ %query })->delete;
+		$self->create_related('user_notifications',$notification);
+	}
+}
 
-1;
+no Moose;
+__PACKAGE__->meta->make_immutable;

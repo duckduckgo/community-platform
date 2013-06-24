@@ -1,0 +1,31 @@
+<: include my::notifications::noemail :>
+<div class="content-box">
+	<div class="head">
+		<h3><: $notification_title :></h3>
+		<a class="button" href="<: $u('My::Notifications', $notification_action, { these_event_notifications_done => 1 }) :>">
+			Mark all these notifications as done
+		</a>
+		<a class="button" href="<: $u('My::Notifications', 'index') :>">
+			Back to notification overview
+		</a>
+	</div>
+	<div class="body">
+		<: for results($event_notifications) -> $notification { :>
+			<: include my::notifications::notification {
+				notification => $notification,
+			} :>
+		<: } :>
+		<div class="row mid">
+			<: include pager {
+				pager => $event_notifications.pager,
+				url => $u('My::Notifications', $notification_action, { page => 'PAGE_NO' }).as_string,
+			} :>
+		</div>
+	</div>
+</div>
+
+<div class="content-box">
+	<div class="head mid">
+		<a class="button" href="<: $u('My::Notifications','edit') :>">Edit your notification settings</a>
+	</div>
+</div>

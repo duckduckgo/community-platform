@@ -1,8 +1,14 @@
 package DDGC::DB::Result::Language;
 
-use DBIx::Class::Candy -components => [ 'TimeStamp', 'InflateColumn::DateTime', 'InflateColumn::Serializer', 'EncodedColumn' ];
+use Moose;
+extends 'DDGC::DB::Base::Result';
+use DBIx::Class::Candy;
+use namespace::autoclean;
 
 table 'language';
+
+# sub description_list { "The language", "'".shift->name_in_english."'", "." }
+# sub sub_description_list { "the language", "'".shift->name_in_english."'" }
 
 column id => {
 	data_type => 'bigint',
@@ -95,14 +101,11 @@ column updated => {
 };
 
 has_many 'user_languages', 'DDGC::DB::Result::User::Language', 'language_id';
+has_many 'user_blogs', 'DDGC::DB::Result::User::Blog', 'language_id';
 has_many 'token_domains', 'DDGC::DB::Result::Token::Domain', 'source_language_id';
 has_many 'token_domain_languages', 'DDGC::DB::Result::Token::Domain::Language', 'language_id';
 
 many_to_many 'users', 'user_languages', 'user';
 
-use overload '""' => sub {
-	my $self = shift;
-	return 'Language '.$self->name_in_english.' with locale '.$self->locale.' #'.$self->id;
-}, fallback => 1;
-
-1;
+no Moose;
+__PACKAGE__->meta->make_immutable;

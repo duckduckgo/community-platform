@@ -1,4 +1,6 @@
 package DDGC::Web::Controller::My;
+# ABSTRACT: User related functions web controller class
+
 use Moose;
 use namespace::autoclean;
 
@@ -503,6 +505,5 @@ sub requestlanguage :Chained('logged_in') :Args(0) {
 
 }
 
+no Moose;
 __PACKAGE__->meta->make_immutable;
-
-1;

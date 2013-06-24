@@ -1,4 +1,5 @@
 package DDGC::LocaleDist;
+# ABSTRACT: 
 
 use Moose;
 use DateTime;

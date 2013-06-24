@@ -1,0 +1,5 @@
+<: if !$c.user().data().email { :>
+	<div class="notice error">
+		You have not set an email, please do so, to actually get notifications via email. <a href="<: $u('My','email') :>">Click here to set it.</a>
+	</div>
+<: } :>
