@@ -1,5 +1,7 @@
 #!/usr/bin/env perl
 
+die "getty dont want me to start this";
+
 use utf8;
 
 use FindBin;
@@ -35,6 +37,9 @@ my @diff = SQL::Translator::Diff::schema_diff(
 
 for (@diff) {
 	next if m/^-- /;
+	next if m/ALTER TABLE token_language DROP CONSTRAINT token_language_fk_translator_users_id/;
+	next if m/ALTER TABLE token_language_translation DROP CONSTRAINT token_language_translation_token_language_id_username/;
+	next if m/ALTER TABLE token_domain_language DROP CONSTRAINT token_domain_language_fk_language_id/;
 	$schema->storage->dbh_do(sub {
 		my ( $self, $dbh ) = @_;
 		$dbh->do($_);
