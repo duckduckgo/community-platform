@@ -44,8 +44,7 @@ ssh -q -t ddgc@$DDGC_RELEASE_HOSTNAME "(
 	rm -rf ~/cache &&
 	mkdir ~/cache &&
 	cp -ar ~/live/share/docroot/* ~/docroot/ &&
-	cp -ar ~/live/share/docroot_duckpan/* ~/ddgc/duckpan/ &&
-	rm $2
+	cp -ar ~/live/share/docroot_duckpan/* ~/ddgc/duckpan/
 )" && \
 echo "***\n*** Starting new system...\n***" && \
 ssh -q -t root@$DDGC_RELEASE_HOSTNAME "(
