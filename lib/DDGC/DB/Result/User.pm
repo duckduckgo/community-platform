@@ -33,6 +33,17 @@ column admin => {
 	default_value => 0,
 };
 
+column email => {
+	data_type => 'text',
+	is_nullable => 1,
+};
+
+column userpage => {
+	data_type => 'text',
+	is_nullable => 1,
+	serializer_class => 'JSON',
+};
+
 column data => {
 	data_type => 'text',
 	is_nullable => 1,
