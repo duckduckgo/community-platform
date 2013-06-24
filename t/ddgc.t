@@ -31,11 +31,11 @@ like( $root->content, qr!/my/register!, 'There is a link to register' );
 my $testone_userpage = request('/testone');
 like($testone_userpage->decoded_content, qr!User page of testone!, 'Userpage of testone works' );
 
-$ddgc->envoy->notify_cycle(2);
+# $ddgc->envoy->notify_cycle(2);
 
-for (@{$ddgc->postman->transport->deliveries}) {
-	print $_->{envelope}->{to}->[0]."\n";
-	print $_->{envelope}->{from}."\n";
-}
+# for (@{$ddgc->postman->transport->deliveries}) {
+# 	print $_->{envelope}->{to}->[0]."\n";
+# 	print $_->{envelope}->{from}."\n";
+# }
 
 done_testing();
