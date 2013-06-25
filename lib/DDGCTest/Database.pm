@@ -206,6 +206,11 @@ sub users {{
 			},
 			email => 'testtwo@localhost',
 		},
+		notifications => [
+			[ 2, 'DDGC::DB::Result::Comment' ],
+			[ 2, 'DDGC::DB::Result::Token::Language::Translation' ],
+			[ 2, 'DDGC::DB::Result::Token' ],
+		],
 	},
 	'testthree' => {
 		pw => '1234test',
@@ -300,6 +305,8 @@ sub add_users {
 		my $username = $_;
 		my $pw = delete $data->{pw};
 		my $languages = delete $data->{languages};
+		my @notifications = defined $data->{notifications} ?
+			(@{delete $data->{notifications}}) : ();
 		my $user = $self->d->create_user($username,$pw);
 		$user->$_($data->{$_}) for (keys %{$data});
 		for (keys %{$languages}) {
@@ -310,6 +317,14 @@ sub add_users {
 		}
 		$user->update;
 		$self->c->{users}->{$username} = $user;
+		for (@notifications) {
+			$user->create_related('user_notifications',{
+				cycle => $_->[0],
+				context => $_->[1],
+				context_id => $_->[2],
+				sub_context => $_->[3],
+			});
+		}
         $self->isa_ok($user,'DDGC::User');
 		$self->next_step;
 	}

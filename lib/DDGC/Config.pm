@@ -1,7 +1,8 @@
 package DDGC::Config;
 # ABSTRACT: 
 
-use Moose;
+use strict;
+use warnings;
 
 use File::Path qw( make_path );
 use File::Spec;
@@ -10,6 +11,8 @@ use Path::Class;
 use Catalyst::Utils;
 
 use namespace::autoclean;
+
+sub new { bless {}, shift }
 
 sub nid { defined $ENV{'DDGC_NID'} ? $ENV{'DDGC_NID'} : 1 }
 sub pid { defined $ENV{'DDGC_PID'} ? $ENV{'DDGC_PID'} : $$ }
@@ -24,6 +27,8 @@ sub rootdir {
 	make_path($dir) if !-d $dir;
 	return File::Spec->rel2abs( $dir );
 }
+
+sub web_base { defined $ENV{'DDGC_WEB_BASE'} ? $ENV{'DDGC_WEB_BASE'} : 'https://dukgo.com' }
 
 sub prosody_db_samplefile { File::Spec->rel2abs( File::Spec->catfile( dist_dir('DDGC'), 'ddgc.prosody.sqlite' ) ) }
 
@@ -137,5 +142,4 @@ sub xslate_cachedir {
 	return File::Spec->rel2abs( $dir );
 }
 
-no Moose;
-__PACKAGE__->meta->make_immutable;
+1;

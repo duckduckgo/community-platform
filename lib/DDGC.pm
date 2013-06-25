@@ -2,6 +2,7 @@ package DDGC;
 # ABSTRACT: DuckDuckGo Community Platform
 
 use Moose;
+
 use DDGC::Config;
 use DDGC::DB;
 use DDGC::User;
@@ -13,14 +14,17 @@ use DDGC::Markup;
 use DDGC::Envoy;
 use DDGC::Postman;
 use DDGC::Forum;
+use DDGC::Util::DateTime;
+
 use File::Copy;
 use IO::All;
 use File::Spec;
 use File::ShareDir::ProjectDistDir;
 use Net::AIML;
 use Text::Xslate qw( mark_raw );
-use DDGC::Util::DateTime;
+use Class::Load qw( load_class );
 
+##############################################
 # TESTING AND DEVELOPMENT, NOT FOR PRODUCTION
 sub deploy_fresh {
 	my ( $self ) = @_;
@@ -33,35 +37,92 @@ sub deploy_fresh {
 
 	$self->db->connect->deploy;
 }
+##############################################
 
+####################################################################
+#   ____             __ _                       _   _
+#  / ___|___  _ __  / _(_) __ _ _   _ _ __ __ _| |_(_) ___  _ __
+# | |   / _ \| '_ \| |_| |/ _` | | | | '__/ _` | __| |/ _ \| '_ \
+# | |__| (_) | | | |  _| | (_| | |_| | | | (_| | |_| | (_) | | | |
+#  \____\___/|_| |_|_| |_|\__, |\__,_|_|  \__,_|\__|_|\___/|_| |_|
+#                         |___/
+
+has config => (
+	isa => 'DDGC::Config',
+	is => 'ro',
+	lazy_build => 1,
+);
+sub _build_config { DDGC::Config->new }
+####################################################################
+
+############################################################
+#  ____        _    ____            _
+# / ___| _   _| |__/ ___| _   _ ___| |_ ___ _ __ ___  ___
+# \___ \| | | | '_ \___ \| | | / __| __/ _ \ '_ ` _ \/ __|
+#  ___) | |_| | |_) |__) | |_| \__ \ ||  __/ | | | | \__ \
+# |____/ \__,_|_.__/____/ \__, |___/\__\___|_| |_| |_|___/
+#                         |___/
+
+# Database (DBIx::Class)
 has db => (
 	isa => 'DDGC::DB',
 	is => 'ro',
 	lazy_build => 1,
 );
-sub _build_db {
-	my $self = shift;
-	DDGC::DB->connect($self);
-}
+sub _build_db { DDGC::DB->connect(shift) }
+sub resultset { shift->db->resultset(@_) }
+sub rs { shift->resultset(@_) }
 
+# XMPP access interface
 has xmpp => (
 	isa => 'DDGC::XMPP',
 	is => 'ro',
 	lazy_build => 1,
 );
-sub _build_xmpp {
-	my $self = shift;
-	DDGC::XMPP->new({
-		ddgc => $self,
-	});
-}
+sub _build_xmpp { DDGC::XMPP->new({ ddgc => shift }) }
 
-#############################################
+# Markup Text parsing
+has markup => (
+	isa => 'DDGC::Markup',
+	is => 'ro',
+	lazy_build => 1,
+);
+sub _build_markup { DDGC::Markup->new({ ddgc => shift }) }
+
+# Notification System
+has envoy => (
+	isa => 'DDGC::Envoy',
+	is => 'ro',
+	lazy_build => 1,
+);
+sub _build_envoy { DDGC::Envoy->new({ ddgc => shift }) }
+
+# Mail System
+has postman => (
+	isa => 'DDGC::Postman',
+	is => 'ro',
+	lazy_build => 1,
+	handles => [qw(
+		mail
+	)],
+);
+sub _build_postman { DDGC::Postman->new({ ddgc => shift }) }
+
+# Access to the DuckPAN infrastructures (Distribution Management)
+has duckpan => (
+	isa => 'DDGC::DuckPAN',
+	is => 'ro',
+	lazy_build => 1,
+);
+sub _build_duckpan { DDGC::DuckPAN->new({ ddgc => shift }) }
+
+##############################
 # __  __    _       _
 # \ \/ /___| | __ _| |_ ___
 #  \  // __| |/ _` | __/ _ \
 #  /  \\__ \ | (_| | ||  __/
 # /_/\_\___/_|\__,_|\__\___|
+# (Templating SubSystem)
 #
 
 has xslate => (
@@ -76,8 +137,17 @@ sub _build_xslate {
 		cache_dir => $self->config->xslate_cachedir,
 		suffix => '.tx',
 		function => {
+
+			# Functions to access the main model and some functions specific
+			d => sub { $self },
+
+			# Mark text as raw HTML
 			r => sub { mark_raw(join("",@_)) },
+
+			# trick function for DBIx::Class::ResultSet
 			results => sub { [ shift->all ] },
+
+			# general functions avoiding xslates problems
 			call => sub {
 				my $thing = shift;
 				my $func = shift;
@@ -96,75 +166,40 @@ sub _build_xslate {
 				return $source;
 			},
 			urify => sub { lc(join('-',split(/\s+/,join(' ',@_)))) },
-			# user page field view template
+
+			# simple helper for userpage form management
 			upf_view => sub { 'userpage/'.$_[1].'/'.$_[0]->view.'.tx' },
-			# user page field edit template
 			upf_edit => sub { 'my/userpage/field/'.$_[0]->edit.'.tx' },
+			#############################################
+
+			# Duration display helper mapped, see DDGC::Util::DateTime
 			dur => sub { dur(@_) },
 			dur_precise => sub { dur_precise(@_) },
+			#############################################
+
 		},
 	});
 }
 
-#############################################
+##############################
 
-has markup => (
-	isa => 'DDGC::Markup',
-	is => 'ro',
-	lazy_build => 1,
+##################################################
+#  ____       _           ____             _
+# |  _ \ ___ | |__   ___ |  _ \ _   _  ___| | __
+# | |_) / _ \| '_ \ / _ \| | | | | | |/ __| |/ /
+# |  _ < (_) | |_) | (_) | |_| | |_| | (__|   <
+# |_| \_\___/|_.__/ \___/|____/ \__,_|\___|_|\_\
+
+has roboduck => (
+    isa => 'Net::AIML',
+    is => 'ro',
+    lazy_build => 1,
 );
-sub _build_markup {
-	my $self = shift;
-	DDGC::Markup->new({
-		ddgc => $self,
-	});
+sub _build_roboduck {
+    my ( $self ) = @_;
+    Net::AIML->new( botid => $self->config->roboduck_aiml_botid );
 }
-
-has envoy => (
-	isa => 'DDGC::Envoy',
-	is => 'ro',
-	lazy_build => 1,
-);
-sub _build_envoy {
-	my $self = shift;
-	DDGC::Envoy->new({
-		ddgc => $self,
-	});
-}
-
-has postman => (
-	isa => 'DDGC::Postman',
-	is => 'ro',
-	lazy_build => 1,
-	handles => [qw(
-		mail
-	)],
-);
-sub _build_postman {
-	my $self = shift;
-	DDGC::Postman->new({
-		ddgc => $self,
-	});
-}
-
-has duckpan => (
-	isa => 'DDGC::DuckPAN',
-	is => 'ro',
-	lazy_build => 1,
-);
-sub _build_duckpan {
-	my $self = shift;
-	DDGC::DuckPAN->new({
-		ddgc => $self,
-	});
-}
-
-has config => (
-	isa => 'DDGC::Config',
-	is => 'ro',
-	lazy_build => 1,
-);
-sub _build_config { DDGC::Config->new }
+##################################################
 
 has blog => (
 	isa => 'DDGC::Blog',
@@ -181,23 +216,7 @@ has forum => (
     is => 'ro',
     lazy_build => 1,
 );
-sub _build_forum {
-    my ( $self ) = @_;
-    DDGC::Forum->new(ddgc=>$self);
-}
-
-has roboduck => (
-    isa => 'Net::AIML',
-    is => 'ro',
-    lazy_build => 1,
-);
-sub _build_roboduck {
-    my ( $self ) = @_;
-    Net::AIML->new( botid => $self->config->roboduck_aiml_botid );
-}
-
-sub resultset { shift->db->resultset(@_) }
-sub rs { shift->resultset(@_) }
+sub _build_forum { DDGC::Forum->new( ddgc => shift ) }
 
 #
 # ======== User ====================
