@@ -1,0 +1,7 @@
+<: if $event_notification.event.get_context_obj { :>
+	<: i([ $event_notification.event.get_context_obj, $event_notification ], 'label_notification') :>
+<: } else { :>
+	This notification is related to a context we can't display
+	[<: $event_notification.event.context :>:<: $event_notification.event.context_id :>]
+<: } :>
+<: dur_precise($event_notification.event.created) :>

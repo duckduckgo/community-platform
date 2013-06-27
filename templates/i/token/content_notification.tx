@@ -1,0 +1,3 @@
+<div class="row">
+	<: include "i/msgctxtid.tx" { msgctxtid => $token } :>
+</div>

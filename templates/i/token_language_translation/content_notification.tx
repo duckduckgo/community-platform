@@ -1,0 +1,12 @@
+<div class="row">
+	<: include "i/msgctxtid.tx" { msgctxtid => $token_language_translation.token_language.token } :>
+</div>
+<div class="row">
+	<img src="<: $token_language_translation.token_language.token_domain_language.language.flag_url :>" />
+	<: for [0..$token_language_translation.msgstr_index_max] -> $index { :>
+		<: my $func = 'msgstr' ~ $index :>
+		<: if call($token_language_translation,$func) { :>
+			<div class="blue fb button"><: call($token_language_translation,$func) :></div>
+		<: } :>
+	<: } :>
+</div>

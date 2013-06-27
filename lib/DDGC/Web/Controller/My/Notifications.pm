@@ -32,6 +32,17 @@ sub base :Chained('/my/logged_in') :PathPart('notifications') :CaptureArgs(0) {
 	$c->stash->{user_notifications} = [$c->user->user_notifications];
 }
 
+sub goto_and_done :Chained('base') :Args(1) {
+	my ( $self, $c, $event_notification_id ) = @_;
+	my $first = $c->user->search_related('event_notifications')->search({ "me.id" => $event_notification_id })->first;
+	if ($first && $first->users_id eq $c->user->id && $first->id eq $event_notification_id) {
+		$first->done(1);
+		$first->sent(1);
+		$first->update;
+		# Redirect TODO
+	}	
+}
+
 sub edit :Chained('base') :Args(0) {
 	my ( $self, $c ) = @_;
 	$c->add_bc('Editor');

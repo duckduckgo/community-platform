@@ -66,8 +66,8 @@ sub deploy {
 	$self->add_users;
 	$self->add_token_domains;
 	$self->add_distributions;
-	$self->add_comments;
 	$self->add_threads;
+	$self->add_comments;
 	$self->d->envoy->update_own_notifications;
 	if ($self->test) {
 		$self->test_userpage;
@@ -406,9 +406,17 @@ sub add_distributions {
 # | (_| (_) | | | | | | | | | | |  __/ | | | |_\__ \
 #  \___\___/|_| |_| |_|_| |_| |_|\___|_| |_|\__|___/
 
-sub comments {[]}
+sub comments {
+	my ($self) = @_;
+	[
+		testone => [
+			
+		],
+	]
+}
 
 sub add_comments {
+	my ( $self ) = @_;
 }
 
 ##############################################

@@ -1,17 +1,31 @@
 <div class="row" style="<: if $notification.done { :>background-color:#d8be74<: } :>">
 	<div class="twothird">
 		<label>
-			<: include my::notifications::label { notification => $notification } :>
+			<: i($notification, 'label') :>
 		</label>
 	</div>
 	<div class="third">
 		<: if !$notification.done { :>
-			<a href="<: $u('My::Notifications',$notification_action,{ event_notification_done => $notification.id }) :>" class="red button">
-				Mark as done
-			</a>
+			<: if $notification.event.get_context_obj &&
+				$notification.event.get_context_obj.u_notification { :>
+				<a href="<: $u('My::Notifications','goto_and_done',$notification.id) :>" class="red button">
+					Goto and mark as read
+				</a>
+			<: } else { :>
+				<a href="<: $u('My::Notifications',$notification_action,{ event_notification_done => $notification.id }) :>" class="red button">
+					Mark as read
+				</a>
+			<: } :>
+		<: } else { :>
+			<: if $notification.event.get_context_obj &&
+				$notification.event.get_context_obj.u_notification { :>
+				<a href="<: $u($notification.event.get_context_obj.u_notification) :>" class="red button">
+					Goto
+				</a>
+			<: } :>
 		<: } :>
 	</div>
 </div>
 <: if !$notification.done { :>
-	<: include my::notifications::content { notification => $notification } :>
+	<: i($notification,'content') :>
 <: } :>
