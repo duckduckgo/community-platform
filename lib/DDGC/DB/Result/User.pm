@@ -7,9 +7,6 @@ use namespace::autoclean;
 
 table 'users';
 
-sub description_list { "The user", shift->username }
-sub sub_description_list { shift->username }
-
 column id => {
 	data_type => 'bigint',
 	is_auto_increment => 1,
@@ -128,6 +125,8 @@ sub translation_count { shift->token_language_translations->count(@_); }
 sub event_notifications_undone_count { shift->event_notifications->search({
 	done => 0,
 })->count; }
+
+sub blog { shift->user_blogs_rs }
 
 sub profile_picture {
 	my ( $self, $size ) = @_;

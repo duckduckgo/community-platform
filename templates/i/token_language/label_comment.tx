@@ -1,4 +1,4 @@
 a token for the language
-<: $token_language.token_domain_language.language.name_in_english :>
+<b><: $token_language.token_domain_language.language.name_in_english :></b>
 on the token domain
-<: $token_language.token_domain_language.token_domain.name :>
+<b><: $token_language.token_domain_language.token_domain.name :></b>

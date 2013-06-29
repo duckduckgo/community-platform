@@ -1,0 +1,2 @@
+the blog post
+<b><: $user_blog.title :></b>

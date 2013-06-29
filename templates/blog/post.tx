@@ -1,13 +1,1 @@
-<article class="blog-content post">
-	<div class="date-box">
-		<span class="num"><: $post.date.strftime('%d') :></span>
-		<span class="month"><: $post.date.strftime('%b') :></span>
-	</div>
-	<section class="post-body">
-		<: include "blog/post_header.tx" { post => $post } :>
-		<: r($post.content) :>
-		<: include "blog/post_actions.tx" { post => $post } :>
-	</section>		
-	<a name="comments"></a>
-	<: include "comment/comments.tx" { comments => $c.d.comments('dukgo.com-blog-' ~ $post.uri, 1) } :>
-</article>	
+<: i($post,'content') :>

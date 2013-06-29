@@ -7,6 +7,15 @@ use namespace::autoclean;
 
 table 'user_blog';
 
+sub u {
+	my ( $self ) = @_;
+	if ($self->company_blog) {
+		return ['Blog', 'post', $self->uri];
+	} else {
+		return ['Userpage::Blog', 'post', $self->user->username, $self->uri]
+	}
+}
+
 column id => {
 	data_type => 'bigint',
 	is_auto_increment => 1,
@@ -46,10 +55,11 @@ column content => {
 column topics => {
 	data_type => 'text',
 	is_nullable => 1,
+	serializer_class => 'JSON',
 };
 
 column company_blog => {
-	data_type => 'int',
+	data_type => 'int', # bool
 	is_nullable => 0,
 	default_value => 0,
 };
@@ -98,10 +108,39 @@ after update => sub {
 	$self->add_event('update');
 };
 
+sub form_values {
+	my ( $self ) = @_;
+	{
+		title => $self->title,
+		uri => lc($self->uri),
+		teaser => $self->teaser,
+		content => $self->content,
+		topics => join(', ',@{$self->topics}),
+		raw_html => $self->raw_html,
+		live => $self->live,
+		company_blog => $self->company_blog,
+	}
+}
+
+sub update_via_form {
+	my ( $self, $values ) = @_;
+	my %val = %{$self->result_source->resultset->values_via_form($values)};
+	for (keys %val) {
+		$self->$_($val{$_});
+	}
+	return $self->update;
+}
+
 sub html {
 	my ( $self ) = @_;
 	return $self->content if $self->raw_html;
 	return $self->result_source->schema->ddgc->markup->html($self->content);
+}
+
+sub html_teaser {
+	my ( $self ) = @_;
+	return $self->teaser if $self->raw_html;
+	return $self->result_source->schema->ddgc->markup->html($self->teaser);
 }
 
 sub human_duration_updated {

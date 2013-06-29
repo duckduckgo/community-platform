@@ -6,17 +6,7 @@
 				<button type="submit" class="button icon-search"></button>
 			</form>
 		</section> -->
-		<section class="menu-list tab-third">
-			<h5>Topics</h5>
-			<ul>
-				<: for $topics -> $topic { :>
-					<li>
-						<a href="<: $u('Blog','topic',urify($topic)) :>"><: $topic :>
-						<a class="icon rss" href="<: $u('Blog','topic_rss',urify($topic)) :>" title="DuckDuckGo Blog RSS feed about topic <: $topic :>"><i class="icon-rss-sign"></i></a>
-					</li>
-				<: } :>
-			</ul>
-		</section>
+		<: include "blog/sidebar_topics.tx" :>
 		<!-- <section class="menu-list tab-third">
 			<h5>Archives</h5>
 			<ul>

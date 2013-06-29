@@ -1,0 +1,13 @@
+<article class="blog-content post">
+	<div class="date-box">
+		<span class="num"><: $user_blog.updated.strftime('%d') :></span>
+		<span class="month"><: $user_blog.updated.strftime('%b') :></span>
+	</div>
+	<section class="post-body">
+		<: i($user_blog, "header") :>
+		<: r($user_blog.html) :>
+		<: i($user_blog, "actions") :>
+	</section>
+	<a name="comments"></a>
+	<: include "comment/comments.tx" { comments => $c.d.comments('DDGC::DB::Result::User::Blog', $user_blog.id) } :>
+</article>	

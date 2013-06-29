@@ -1,0 +1,22 @@
+<div class="content-box">
+	<div class="head">
+		<h3>Your blog posts</h3>
+	</div>
+	<div class="body">
+		<div class="row">
+			<: for results($blog) -> $post { :>
+				<h3><: $post.title :></h3>
+				<: if $post.company_blog { :>
+					<img src="/static/images/duckduckgo-icon.png" width="32" height="32" title="Official DuckDuckGo" class="admin-badge" />	
+				<: } :>
+				<a href="<: $u('My::Blog','edit',$post.id) :>" class="pull-right button red">Edit</a>
+			<: } :>
+		</div>
+	</div>
+</div>
+
+<div class="content-box">
+	<div class="head mid">
+		<a class="blue button" href="<: $u('My::Blog','edit','new') :>">Add a new blog post</a>
+	</div>
+</div>

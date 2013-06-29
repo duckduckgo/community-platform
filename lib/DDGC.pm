@@ -9,7 +9,6 @@ use DDGC::User;
 use DDGC::DuckPAN;
 use DDGC::XMPP;
 use DDGC::Comments;
-use DDGC::Blog;
 use DDGC::Markup;
 use DDGC::Envoy;
 use DDGC::Postman;
@@ -143,7 +142,7 @@ sub _build_xslate {
 			d => sub { $self },
 
 			# Mark text as raw HTML
-			r => sub { mark_raw(join("",@_)) },
+			r => sub { mark_raw(@_) },
 
 			# trick function for DBIx::Class::ResultSet
 			results => sub { [ shift->all ] },
@@ -188,6 +187,11 @@ sub _build_xslate {
 						$return =~ s/::/_/g;
 						return $return;
 					}
+					if ($class =~ m/^DDGC::DB::ResultSet::(.*)$/) {
+						my $return = lc($1);
+						$return =~ s/::/_/g;
+						return $return.'_rs';
+					}
 					die "cant include ".$class." with i-function";
 				};
 
@@ -203,6 +207,7 @@ sub _build_xslate {
 					$main_object = $object;
 				}
 				my %current_vars = %{$xslate->current_vars};
+				$current_vars{_} = $main_object;
 				my @template = ('i');
 				my $dir = $obj2dir->($main_object);
 				push @template, $dir;
@@ -257,16 +262,6 @@ sub _build_roboduck {
     Net::AIML->new( botid => $self->config->roboduck_aiml_botid );
 }
 ##################################################
-
-has blog => (
-	isa => 'DDGC::Blog',
-	is => 'ro',
-	lazy_build => 1,
-);
-sub _build_blog {
-	my ( $self ) = @_;
-	DDGC::Blog->new( posts_dir => $self->config->blog_posts_dir );
-}
 
 has forum => (
     isa => 'DDGC::Forum',

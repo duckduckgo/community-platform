@@ -21,7 +21,7 @@ my $base = DDGC::Config->new->web_base;
 
 use Catalyst::Test qw( DDGC::Web );
 
-my $response = request('https://dukgo.com/cronjob/notify_cycle/'.$cycle);
+my $response = request($base.'/cronjob/notify_cycle/'.$cycle);
 
 print $response->content;
 

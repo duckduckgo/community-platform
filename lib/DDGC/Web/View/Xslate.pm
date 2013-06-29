@@ -54,7 +54,19 @@ sub link {
 }
 
 # url
-sub u { shift; shift->chained_uri(@_) }
+sub u {
+	my $self = shift;
+	my $c = shift;
+	my @args;
+	for (@_) {
+		if (ref $_ eq 'ARRAY') {
+			push @args, @{$_};
+		} else {
+			push @args, $_;
+		}
+	}
+	return $c->chained_uri(@args);
+}
 
 # localize
 sub l { shift; shift->localize(@_) }

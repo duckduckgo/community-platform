@@ -1,4 +1,2 @@
-
 <: include $next_template() :>
-
 <: include "blog/sidebar.tx" :>

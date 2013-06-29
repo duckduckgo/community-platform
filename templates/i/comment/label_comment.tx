@@ -1,0 +1,2 @@
+a comment made by
+<: include "user/username.tx" { user => $comment.user, no_user_link => 1 } :>

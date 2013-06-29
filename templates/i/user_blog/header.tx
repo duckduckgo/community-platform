@@ -1,0 +1,4 @@
+<h2><a href="<: $u($user_blog.u) :>"><: $user_blog.title :></a></h2>
+<span class="post-meta">
+	<: $dur($user_blog.updated) :> posted by <: include "user/userinfo.tx" { user => $user_blog.user } :>
+</span>

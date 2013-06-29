@@ -1,6 +1,9 @@
 User
 <: include "user/username.tx" { user => $user, no_user_link => 1 } :>
 commented on
+<: if $comment.parent_id { :>
+	a comment at
+<: } :>
 <: if $comment.get_context_obj { :>
 	<: i $comment.context_obj, 'label_comment' } :>
 <: } else { :>

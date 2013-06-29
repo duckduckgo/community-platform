@@ -1,0 +1,106 @@
+<: if $not_ok { :>
+	<div class="notice supererror">
+		<i class="icn icon-warning-sign"></i>There was an error on save!
+	</div>
+<: } :>
+
+<form action="<: $u('My::Blog','edit',$id) :>" method="post" class="column-form">
+
+<div class="twothird">
+	<div class="content-box">
+		<div class="head">
+			<h3>
+				<: if $id == 'new' { :>
+					A new blog post
+				<: } else { :>
+					<: $post.title :>
+				<: } :>
+			</h3>
+			<: if $post.company_blog { :>
+				<img src="/static/images/duckduckgo-icon.png" width="32" height="32" title="Official DuckDuckGo" class="admin-badge pull-right" />				
+			<: } :>
+		</div>
+		<div class="body">
+			<div class="row">
+				<div class="third">
+					Title
+				</div>
+				<div class="twothird">
+					<input type="text" name="title" size="50" value="<: $post.title :>" />
+				</div>
+			</div>
+			<div class="row">
+				<div class="third">
+					URL
+				</div>
+				<div class="twothird">
+					<input type="text" name="uri" size="50" value="<: $post.uri :>" />
+				</div>
+			</div>
+			<: if $error_uri_invalid { :>
+				<div class="row">
+					<i class="icn icon-warning-sign"></i>The URL may only contain letters, numbers and dashes!
+				</div>
+			<: } :>
+			<div class="row">
+				<div class="third">
+					Topics
+				</div>
+				<div class="twothird">
+					<input type="text" name="topics" size="50" value="<: $post.topics :>" />
+				</div>
+			</div>
+			<: if $error_topics_invalid { :>
+				<div class="row">
+					<i class="icn icon-warning-sign"></i>The topics must be a comma separated list only with letters, numbers and dashes!
+				</div>
+			<: } :>
+			<: if $c.user.admin { :>
+				<div class="row">
+					<div class="third">
+						Raw HTML post
+					</div>
+					<div class="twothird mid">
+						<input type="checkbox" name="raw_html" value="1" <: if $post.raw_html { :>checked="checked"<: } :>/>
+					</div>
+				</div>
+				<div class="row">
+					<div class="third">
+						Company Blog
+					</div>
+					<div class="twothird mid">
+						<input type="checkbox" name="company_blog" value="1" <: if $post.company_blog { :>checked="checked"<: } :>/>
+					</div>
+				</div>
+			<: } :>
+			<div class="row mid">
+				Teaser
+			</div>
+			<div class="row mid">
+				<textarea rows="5" cols="80" name="teaser" id="teaser"><: $post.teaser :></textarea>
+			</div>
+			<div class="row mid">
+				Blogtext
+			</div>
+			<div class="row mid">
+				<textarea rows="30" cols="80" name="content" id="content"><: $post.content :></textarea>
+			</div>
+			<div class="row">
+				<div class="third">
+					Make this post LIVE
+				</div>
+				<div class="twothird mid">
+					<input type="checkbox" name="live" value="1" <: if $post.live { :>checked="checked"<: } :>/>
+				</div>
+			</div>
+			<div class="row mid">
+				<input type="submit" class="big blue button" name="save_blog" value="Save and goto blog post" />
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="third">
+</div>
+
+</form>

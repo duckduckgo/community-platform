@@ -1,8 +1,0 @@
-<article class="post-snippet">
-	<: include "blog/post_header.tx" { post => $post } :>
-	<: r($post.content_abstract) :>
-	<span class="post-readmore">
-		<a class="more-link" href="<: $u('Blog','post',$post.uri) :>">Read the full story</a>
-	</span>
-	<: include "blog/post_actions.tx" { post => $post } :>
-</article>

@@ -46,6 +46,8 @@ has db => (
 		event_notifications_undone_count
 		event_notifications
 		user_blogs
+		user_blogs_rs
+		blog
 		save_notifications
 	),qw(
 		create_related

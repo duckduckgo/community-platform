@@ -1,0 +1,11 @@
+<div class="post-actions">
+	<span class="action-item">
+		<a href="<: $u($user_blog.u) :>#comments" class="comments-link"><i class="icon-bubble"></i> <: $c.d.comments('DDGC::DB::Result::User::Blog', $user_blog.id).count :></a>
+	</span>
+	<span class="action-item">
+		<a href="https://facebook.com/sharer.php?s=100&u=<: $u($user_blog.u) | uri :>&p[url]=<: $u($user_blog.u) | uri :>&p[title]=<: $user_blog.title | uri :>" class="button blue fb" target="_facebook-share"><i class="icon-facebook"></i> Share</a>
+	</span>
+	<span class="action-item">
+		<a href="https://twitter.com/?status=<: $user_blog.title ~ ' ' ~ $u($user_blog.u) | uri :>" class="button blue tw" target="_twitter-share"><i class="icon-twitter"></i> Tweet</a>
+	</span>
+</div>

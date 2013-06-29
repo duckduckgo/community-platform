@@ -1,12 +1,12 @@
 <div class="blog-content">
-	<: for $posts_days -> $day_posts { :>
+	<: for $posts -> $day_posts { :>
 		<section class="daily-posts">
 			<div class="date-box">
-				<span class="num"><: $day_posts[0].date.strftime('%d') :></span>
-				<span class="month"><: $day_posts[0].date.strftime('%b') :></span>
+				<span class="num"><: $day_posts[0].updated.strftime('%d') :></span>
+				<span class="month"><: $day_posts[0].updated.strftime('%b') :></span>
 			</div>
 			<: for $day_posts -> $post { :>
-				<: include "blog/posts_post.tx" { post => $post } :>
+				<: i($post, 'teaser') :>
 			<: } :>
 		</section>
 	<: } :>

@@ -1,6 +1,6 @@
 User
 <: include "user/username.tx" { user => $event_notification.event.user, no_user_link => 1 } :>
 made a translation for token domain
-<: $token_domain_translation.token_language.token_domain_language.token_domain.name :>
+<b><: $token_domain_translation.token_language.token_domain_language.token_domain.name :></b>
 into the language
-<: $token_domain_translation.token_language.token_domain_language.language.name_in_english :>
+<b><: $token_domain_translation.token_language.token_domain_language.language.name_in_english :></b>

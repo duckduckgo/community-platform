@@ -1,5 +1,5 @@
 package DDGC::Blog;
-# ABSTRACT: 
+# ABSTRACT: A blog of a user or the company blog
 
 use Moose;
 use YAML qw( LoadFile );
@@ -7,34 +7,27 @@ use IO::All;
 use DDGC::Blog::Post;
 use Path::Class;
 
-has posts_dir => (
+has ddgc => (
+	isa => 'DDGC',
 	is => 'ro',
-	isa => 'Str',
+	required => 1,
+	weak_ref => 1,
+);
+
+has resultset => (
+	isa => 'DDGC::DB::ResultSet::User::Blog',
+	is => 'ro',
 	required => 1,
 );
 
 has posts => (
 	is => 'ro',
-	isa => 'ArrayRef[DDGC::Blog::Post]',
+	isa => 'ArrayRef[DDGC::DB::Result::User::Blog]',
 	lazy_build => 1,
 );
 
 sub _build_posts {
-	my ( $self ) = @_;
-	my $dir = io(dir($self->posts_dir)->stringify);
-	my @posts;
-	for (keys %$dir) {
-		if ($_ =~ s/\.yml$// and not $_ =~ /^\./) {
-			push @posts,
-				DDGC::Blog::Post->new(
-					%{LoadFile(file($self->posts_dir,$_.'.yml')->stringify)},
-					content_file => file($self->posts_dir,$_.'.html')->stringify,
-					uri => $_,
-				);
-		}
-	}
-	@posts = sort { $b->date <=> $a->date } @posts;
-	return \@posts;
+	[shift->resultset->sorted->all]
 }
 
 has topics => (
@@ -57,8 +50,7 @@ sub _build_topics {
 
 sub get_post {
 	my ( $self, $uri ) = @_;
-	my ( $post ) = grep { $_->uri eq $uri } @{$self->posts};
-	return $post;
+	return $self->resultset->find({ uri => $uri });
 }
 
 sub posts_by_day {
