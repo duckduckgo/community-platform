@@ -7,7 +7,7 @@
 	</div>
 	<div class="row">
 		<div>
-			<: $user_blog.html_teaser :>
+			<: r($user_blog.html_teaser) :>
 		</div>
 		<span class="post-readmore">
 			<a class="more-link" href="<: $u($user_blog.u) :>">Read the full story</a>
