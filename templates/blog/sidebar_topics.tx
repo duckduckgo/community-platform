@@ -4,7 +4,7 @@
 		<: for $blog_topics -> $topic { :>
 			<li>
 				<a href="<: $u('Blog','topic',urify($topic)) :>"><: $topic :>
-				<a class="icon rss" href="<: $u('Blog','topic_rss',urify($topic)) :>" title="DuckDuckGo Blog RSS feed about topic <: $topic :>"><i class="icon-rss-sign"></i></a>
+				<a class="icon rss" href="<: $u('Blog','topic_rss',$topic) :>" title="DuckDuckGo Blog RSS feed about topic <: $topic :>"><i class="icon-rss-sign"></i></a>
 			</li>
 		<: } :>
 	</ul>

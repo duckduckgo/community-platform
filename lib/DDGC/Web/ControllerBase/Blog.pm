@@ -71,8 +71,9 @@ sub topic_base :Chained('postlist_base') :PathPart('topic') :CaptureArgs(1) {
 	$c->stash->{current_topic} = $topic;
 	$c->stash->{title} = 'All topic related blog posts';
 	$c->add_bc($c->stash->{title});
+	my $json = json_string($topic);
 	$c->stash->{blog_resultset} = $c->stash->{blog_resultset}->search({
-		topics => { -like => "%".$topic."%" }
+		topics => { -like => "%".$json."%" }
 	});
 }
 
@@ -122,7 +123,7 @@ sub posts_to_feed {
 	};
 }
 
-# sub json_string { JSON->new->allow_nonref(1)->encode(shift) }
+sub json_string { JSON->new->allow_nonref(1)->encode(shift) }
 
 __PACKAGE__->meta->make_immutable;
 
