@@ -1,6 +1,6 @@
 <article class="post-snippet">
 	<: i($user_blog, "header") :>
-	<: $user_blog.html_teaser :>
+	<: r($user_blog.html_teaser) :>
 	<span class="post-readmore">
 		<a class="more-link" href="<: $u($user_blog.u) :>">Read the full story</a>
 	</span>
