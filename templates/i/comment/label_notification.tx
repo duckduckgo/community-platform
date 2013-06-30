@@ -5,7 +5,7 @@ commented on
 	a comment at
 <: } :>
 <: if $comment.get_context_obj { :>
-	<: i $comment.context_obj, 'label_comment' } :>
+	<: i($comment.get_context_obj, 'label_comment') :>
 <: } else { :>
 	a context we can't display
 	[<: $comment.context :>:<: $comment.context_id :>]

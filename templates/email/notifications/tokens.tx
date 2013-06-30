@@ -2,9 +2,17 @@ Hello <: $user.username :>!
 
 There are <: $count :> new tokens on the community platform for you to translate:
 
-<: for $notifications -> $notification { :>
-	<: include my::notifications::label {
-		notification => $notification,
-		no_notification_link => 1,
-	} :>
+=======================================================
+<: for $related_token_domains -> $entry { :>
+These tokens are new in "<: $entry.domain.name :>":
+
+<: for $entry.tokens -> $token { -:>
+<: i($token,'email_notification') :>
 <: } :>
+
+Translate them at <: $link($entry.domain) :>
+
+=======================================================
+<: } -:>
+
+Thanks for your support!

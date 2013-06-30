@@ -1,10 +1,5 @@
 Hello <: $user.username :>!
 
-There are <: $count :> new translations on the community platform for you to vote on:
+There are <: $count :> new translations on the community platform for you to vote on.
 
-<: for $notifications -> $notification { :>
-	<: include my::notifications::label {
-		notification => $notification,
-		no_notification_link => 1,
-	} :>
-<: } :>
+Thanks for your support!

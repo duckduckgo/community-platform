@@ -1,10 +1,12 @@
 Hello <: $user.username :>!
 
-There are <: $count :> new comments on the community platform for you to read:
+There are <: $count :> new comments on the community platform:
 
-<: for $notifications -> $notification { :>
-	<: include my::notifications::label {
-		notification => $notification,
-		no_notification_link => 1,
-	} :>
-<: } :>
+---
+<: for $notifications -> $entry { :>
+<: i($entry.event.get_context_obj,'email_notification') :>
+
+---
+<: } -:>
+
+We hope there is something interesting for you! :)

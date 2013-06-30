@@ -47,9 +47,32 @@ my %mapping = (
 	'DDGC::DB::Result::Token::Language::Translation' => 'translations',
 );
 
+sub notify_tokens {
+	my ( $self, $c, $user, @event_notifications ) = @_;
+	my %td;
+	for my $en (@event_notifications) {
+		if ($en->event->related) {
+			for (@{$en->event->related}) {
+				my ( $related_context, $related_context_id ) = @{$_};
+				if ($related_context eq 'DDGC::DB::Result::Token::Domain') {
+					$td{$related_context_id} = {}
+						unless defined $td{$related_context_id};
+					my $token = $en->event->get_context_obj;
+					$td{$related_context_id}->{$token->id} = $token;
+					last;
+				}
+			}
+		}
+	}
+	return
+		related_token_domains => [map {{
+			domain => $c->d->resultset('Token::Domain')->find($_),
+			tokens => [values $td{$_}],
+		}} keys %td],
+}
+
 sub notify_cycle {
 	my ( $self, $c, $cycle ) = @_;
-	return; # TODO
 	my @event_notifications = $c->d->resultset('Event::Notification')->search({
 		cycle => $cycle,
 		done => 0,
@@ -76,19 +99,35 @@ sub notify_cycle {
 		for (keys %store) {
 			my $type = $_;
 			my @type_notifications = @{$store{$type}};
-			my $text = $self->ddgc->xslate->render($templates{$type}->{template},{
+			my %vars = (
 				notifications => \@type_notifications,
 				count => (scalar @type_notifications),
 				user => $user,
-			});
+			);
+			my $func = 'notify_'.$type;
+			if ($self->can($func)) {
+				my %extra_vars = $self->$func($c,$user,@type_notifications);
+				$vars{$_} = $extra_vars{$_} for keys %extra_vars;
+			}
+			$c->stash->{$_} = $vars{$_} for keys %vars;
+
+			# Send email
 			eval {
-				$self->ddgc->postman->mail(
-					$user->username.' <'.$user->data->{email}.'>',
-					'DuckDuckGo Community Envoy <envoy@dukgo.com>',
-					'[DuckDuckGo Community] '.$templates{$type}->{subject},
-					$text,
-				);
+
+				$c->stash->{email} = {
+					to				=> $user->data->{email},
+					from			=> 'DuckDuckGo Community Envoy <envoy@dukgo.com>',
+					subject			=> '[DuckDuckGo Community] '.$templates{$type}->{subject},
+					template		=> $templates{$type}->{template},
+					charset			=> 'utf-8',
+					content_type	=> 'text/plain',
+				};
+
+				$c->forward( $c->view('Email::Xslate') );
+
 			};
+			delete $c->stash->{$_} for keys %vars;
+			delete $c->stash->{email};
 			if ($@) {
 				# ... TODO ...
 			} else {

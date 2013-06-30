@@ -1,2 +1,3 @@
 the blog post
-<b><: $user_blog.title :></b>
+<b><: $_.title :></b>
+of user <b><: $_.user.username :></b>
