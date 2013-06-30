@@ -3,6 +3,7 @@ package DDGC::DB::Result::User::Blog;
 use Moose;
 extends 'DDGC::DB::Base::Result';
 use DBIx::Class::Candy;
+use DateTime::Format::RSS;
 use namespace::autoclean;
 
 table 'user_blog';
@@ -81,6 +82,17 @@ column language_id => {
 	is_nullable => 1,
 };
 
+column data => {
+	data_type => 'text',
+	is_nullable => 1,
+	serializer_class => 'JSON',
+};
+
+column fixed_date => {
+	data_type => 'timestamp with time zone',
+	is_nullable => 1,
+};
+
 column created => {
 	data_type => 'timestamp with time zone',
 	set_on_create => 1,
@@ -108,6 +120,12 @@ after update => sub {
 	$self->add_event('update');
 };
 
+sub date {
+	my ( $self ) = @_;
+	return $self->fixed_date if $self->fixed_date;
+	return $self->updated;
+}
+
 sub form_values {
 	my ( $self ) = @_;
 	{
@@ -117,6 +135,7 @@ sub form_values {
 		content => $self->content,
 		topics => join(', ',@{$self->topics}),
 		raw_html => $self->raw_html,
+		$self->fixed_date ? ( fixed_date => DateTime::Format::RSS->new->format_datetime($self->fixed_date) ) : (),
 		live => $self->live,
 		company_blog => $self->company_blog,
 	}

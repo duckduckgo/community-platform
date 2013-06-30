@@ -16,7 +16,7 @@ sub blog_base :Chained('base') :PathPart('') :CaptureArgs(0) {
 	my @all_posts = $c->stash->{blog_resultset}->all;
 	my @topics;
 	for (@all_posts) {
-		push @topics, @{$_->topics} if $_->topics;
+		push @topics, @{$_->topics} if @{$_->topics};
 	}
 	$c->stash->{blog_topics} = [sort { lc($a) cmp lc($b) } uniq @topics];
 }
@@ -46,7 +46,8 @@ sub postlist_view {
 sub postlist_rss {
 	my ( $self, $c ) = @_;
 	$self->postlist_resultset($c);
-	$c->stash->{feed} = $self->posts_to_feed($c,@{$c->stash->{posts_resultset}->all});
+	my @posts = $c->stash->{posts_resultset}->all;
+	$c->stash->{feed} = $self->posts_to_feed($c,@posts);
 	$c->forward('View::Feed');
 	$c->forward( $c->view('Feed') );
 }
@@ -104,14 +105,14 @@ sub posts_to_feed {
 	my ( $self, $c, @posts ) = @_;
 	$c->stash->{feed} = {
 		format      => 'Atom',
-		id          => $_->id,
+		id          => 'dukgo.com/'.$c->action,
 		title       => $c->stash->{title},
 		#description => $description,
 		link        => $c->req->uri,
 		modified    => DateTime->now,
 		entries => [
 			map {{
-				id       => $c->chained_uri($_->u),
+				id       => $_->id,
 				link     => $c->chained_uri($_->u),
 				title    => $_->title,
 				modified => $_->updated,

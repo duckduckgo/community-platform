@@ -44,6 +44,19 @@
 			<: } :>
 			<div class="row">
 				<div class="third">
+					Date of post (like 'Dec 21 2003 18:00') (or leave empty for automatic update)
+				</div>
+				<div class="twothird">
+					<input type="text" name="fixed_date" size="50" value="<: $post.fixed_date :>" />
+				</div>
+			</div>
+			<: if $error_fixed_date_invalid { :>
+				<div class="row">
+					<i class="icn icon-warning-sign"></i>This is not a valid date!
+				</div>
+			<: } :>
+			<div class="row">
+				<div class="third">
 					Topics
 				</div>
 				<div class="twothird">

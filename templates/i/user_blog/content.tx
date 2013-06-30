@@ -1,7 +1,7 @@
 <article class="blog-content post">
 	<div class="date-box">
-		<span class="num"><: $_.updated.strftime('%d') :></span>
-		<span class="month"><: $_.updated.strftime('%b') :></span>
+		<span class="num"><: $_.date.strftime('%d') :></span>
+		<span class="month"><: $_.date.strftime('%b') :></span>
 	</div>
 	<section class="post-body">
 		<: i($_, "header") :>

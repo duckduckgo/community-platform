@@ -5,6 +5,7 @@ use Moose;
 BEGIN {extends 'Catalyst::Controller'; }
 
 use DateTime;
+use DateTime::Format::RSS;
 use namespace::autoclean;
 
 sub base :Chained('/my/logged_in') :PathPart('blog') :CaptureArgs(0) {
@@ -43,7 +44,7 @@ sub edit :Chained('base') :Args(1) {
 
 		my %values;
 
-		for (qw( title uri topics teaser content live )) {
+		for (qw( title uri topics teaser content live fixed_date )) {
 			$values{$_} = $c->req->param($_);
 		}
 
@@ -55,11 +56,17 @@ sub edit :Chained('base') :Args(1) {
 
 		my $ok = 1;
 
+		if ($values{fixed_date}) {
+			unless (DateTime::Format::RSS->new->parse_datetime($values{fixed_date})) {
+				$c->stash->{error_fixed_date_invalid} = 1; $ok = 0; $ok = 0;
+			}
+		}
+
 		if ($values{uri} !~ m/^[\w-]+$/g) {
 			$c->stash->{error_uri_invalid} = 1; $ok = 0;
 		}
 
-		if ($values{topics} !~ m/^[\w\- ,]+$/g) {
+		if ($values{topics} && $values{topics} !~ m/^[\w\- ,]+$/g) {
 			$c->stash->{error_topics_invalid} = 1; $ok = 0;
 		}
 
