@@ -1,7 +1,7 @@
 <div class="gw">
-<div class="g twothird gw">
+<div class="g twothird">
 
-	<div class="g content-box whole user-info-box">
+	<div class="content-box whole user-info-box">
 		<div class="head">
 			<: include "user/userpic.tx" { user => $user, userpic_size => 32 } :>
 			<h2>
@@ -27,29 +27,24 @@
 		</div>
 	</div>
 
-	<!-- Following 2 columns will be filled later by system weighted out or user can drag & drop.. i don't know yet -->
+	<: if $fields.languages.value { :>
 
-	<div class="g half">
-		<: if $fields.languages.value { :>
-			<div class="content-box user-info-box">
-				<div class="head">
-					<h3>Languages</h3>
-				</div>
-				<div class="body">
-					<: include 'userpage/third/languages.tx' { field => $fields.languages } :>
-				</div>
+		<div class="content-box whole user-info-box">
+			<div class="head">
+				Blog posts
 			</div>
-		<: } :>
-	</div>
+			<div class="body">
+				<: include 'userpage/twothird/blog.tx' { field => $fields.about } :>
+			</div>
+		</div>
 
-	<div class="g half">
-	</div>
+	<: } :>
 
 </div>
 
-<div class="g third gw">
+<div class="g third">
 
-	<div class="g content-box whole user-info-box">
+	<div class="content-box user-info-box">
 		<div class="head">
 			<h3>Links</h3>
 		</div>
@@ -59,6 +54,17 @@
 			<: } :>
 		</div>
 	</div>
+
+	<: if $fields.languages.value { :>
+		<div class="content-box user-info-box">
+			<div class="head">
+				<h3>Languages</h3>
+			</div>
+			<div class="body">
+				<: include 'userpage/third/languages.tx' { field => $fields.languages } :>
+			</div>
+		</div>
+	<: } :>
 
 </div>
 </div>

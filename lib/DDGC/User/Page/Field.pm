@@ -97,6 +97,13 @@ has export => (
 	},
 );
 
+has no_export => (
+	is => 'ro',
+	isa => 'Bool',
+	lazy => 1,
+	default => sub { 0 },
+);
+
 has params => (
 	is => 'ro',
 	isa => 'HashRef',

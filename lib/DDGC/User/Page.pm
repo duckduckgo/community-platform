@@ -132,6 +132,12 @@ my @attributes = (
 			return { map { $_->language->locale => $_->grade } $self->page->user->user_languages };
 		},
 	},
+
+	blog => 'Show your blog posts on the userpage?' => { type => 'noyes',
+		view => 'blog',
+		no_export => 1,
+	},
+
 );
 
 has data => (
@@ -146,6 +152,7 @@ sub export {
 	my %export;
 	my %errors;
 	for (keys %{$self->attribute_fields}) {
+		next if $self->field($_)->no_export;
 		$export{$_} = $self->field($_)->export_value;
 		$errors{$_} = $self->field($_)->errors if $self->field($_)->error_count;
 	}
