@@ -29,7 +29,7 @@ like( $root->content, qr!/my/register!, 'There is a link to register' );
 #ok( $login->is_success, 'Login should succeed' );
 
 my $testone_userpage = request('/testone');
-like($testone_userpage->decoded_content, qr!User page of testone!, 'Userpage of testone works' );
+like($testone_userpage->decoded_content, qr!testone!, 'Userpage of testone works' );
 
 # $ddgc->envoy->notify_cycle(2);
 
