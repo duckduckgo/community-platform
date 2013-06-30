@@ -303,11 +303,6 @@ sub delete_user {
 			$_->username($deleted_user->username);
 			$_->update;
 		}
-		my @translations = $user->token_language_translations->search({})->all;
-		for (@translations) {
-			$_->username($deleted_user->username);
-			$_->update;
-		}
 		my @translated_token_languages = $user->token_languages->search({})->all;
 		for (@translated_token_languages) {
 			$_->translator_users_id($deleted_user->id);
