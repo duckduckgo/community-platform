@@ -60,7 +60,7 @@
 				You have <: $user_notification_count :> notifications waiting
 			<: } else { :>
 				No notifications for you
-			<: } :> [BETA]</h2>
+			<: } :></h2>
 			<a class="button <: if $user_notification_count { :>red<: } :>" href="<: $u('My::Notifications','index') :>">
 				Go to notifications
 			</a>
@@ -87,7 +87,7 @@
 			</div>
 			<div class="row">
 				<div class="twothird">
-					<label>Configure notifications [BETA]</label>
+					<label>Configure notifications</label>
 				</div>
 				<div class="third">
 					<a href="<: $u('My::Notifications','edit') :>" class="button">Edit notifications</a>
@@ -124,7 +124,7 @@
 			<: if $c.user.public { :>
 				<div class="row">
 					<div class="twothird">
-						<label>Your blog</label>
+						<label>Your blog [BETA]</label>
 					</div>
 					<div class="third">
 						<a href="<: $u('My::Blog','index') :>" class="button">Edit posts</a>

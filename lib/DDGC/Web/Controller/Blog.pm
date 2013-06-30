@@ -14,6 +14,7 @@ sub base :Chained('/base') :PathPart('blog') :CaptureArgs(0) {
 		company_blog => 1,
 		($c->user && $c->user->admin) ? () : ( live => 1 ),
 	});
+	$c->stash->{blog_controller} = 'Blog';
     $c->add_bc('DuckDuckGo Blog posts', $c->chained_uri('Blog', 'index'));
 }
 
