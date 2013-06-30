@@ -2,7 +2,9 @@
 	<: if $c.user.id == $_.user.id || $c.user.admin { :>
 		<a class="button red" href="<: $u('My::Blog','edit',$_.id):>">Edit</a>
 	<: } :>
-	<img src="/static/images/duckduckgo-icon.png" width="32" height="32" title="Official DuckDuckGo Blog Post" class="admin-badge" />
+	<: if $_.company_blog { :>
+		<img src="/static/images/duckduckgo-icon.png" width="32" height="32" title="Official DuckDuckGo Blog Post" class="admin-badge" />
+	<: } :>
 </div>
 <h2><a href="<: $u($_.u) :>"><: $_.title :></a></h2>
 <span class="post-meta">
