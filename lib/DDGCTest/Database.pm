@@ -363,7 +363,7 @@ sub test_event {
 	my @events = $self->d->resultset('Event')->search({})->all;
 	$self->is(scalar @events, 282, "Checking amount of events gathered");
 	my @enos = $self->d->resultset('Event::Notification')->search({})->all;
-	$self->is(scalar @enos, 270, "Checking amount of event notifications gathered");
+	$self->is(scalar @enos, 523, "Checking amount of event notifications gathered");
 }
 
 sub _replace_email {
