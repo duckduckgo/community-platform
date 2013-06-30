@@ -69,7 +69,7 @@ sub edit :Chained('base') :Args(1) {
 			} else {
 				$post = $c->user->user_blogs_rs->create_via_form(\%values);
 			}
-			$c->response->redirect($c->chained_uri($post->u));
+			$c->response->redirect($c->chained_uri(@{$post->u}));
 			return $c->detach;
 		} else {
 			$c->stash->{not_ok} = 1;
