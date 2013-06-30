@@ -122,16 +122,14 @@
 				</div>
 			</div>
 			<: if $c.user.public { :>
-				<: if $c.user.admin { :>
-					<div class="row">
-						<div class="twothird">
-							<label>Your blog</label>
-						</div>
-						<div class="third">
-							<a href="<: $u('My::Blog','index') :>" class="button">Edit posts</a>
-						</div>
+				<div class="row">
+					<div class="twothird">
+						<label>Your blog</label>
 					</div>
-				<: } :>
+					<div class="third">
+						<a href="<: $u('My::Blog','index') :>" class="button">Edit posts</a>
+					</div>
+				</div>
 				<div class="row">
 					<div class="twothird">
 						<label>
