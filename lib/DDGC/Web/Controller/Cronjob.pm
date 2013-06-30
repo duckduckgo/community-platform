@@ -67,7 +67,7 @@ sub notify_tokens {
 	return
 		related_token_domains => [map {{
 			domain => $c->d->resultset('Token::Domain')->find($_),
-			tokens => [values $td{$_}],
+			tokens => [values %{$td{$_}}],
 		}} keys %td],
 }
 
