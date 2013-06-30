@@ -17,7 +17,7 @@
 		<: for $blog_topics -> $topic { :>
 			<li>
 				<a href="<: $u('Userpage::Blog','topic',$user.username,$topic) :>"><: $topic :>
-				<a class="icon rss" href="<: $u('Userpage::Blog','topic_rss',$user.username,$topic) :>" title="DuckDuckGo Blog RSS feed about topic <: $topic :>"><i class="icon-rss-sign"></i></a>
+				<a class="icon rss" href="<: $u('Userpage::Blog','topic_rss',$user.username,$topic) :>" title="<: $user.username :> Blog RSS feed about topic <: $topic :>"><i class="icon-rss-sign"></i></a>
 			</li>
 		<: } :>
 	</ul>
