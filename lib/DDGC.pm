@@ -282,13 +282,50 @@ sub update_password {
 
 sub delete_user {
 	my ( $self, $username ) = @_;
-	$self->xmpp->_prosody->_db->resultset('Prosody')->search({
-		host => $self->config->prosody_userhost,
-		user => $username,
-	})->delete;
-	$self->db->resultset('User')->search({
+	my $user = $self->db->resultset('User')->single({
 		username => $username,
-	})->delete;
+	});
+	if ($user) {
+		my $deleted_user = $self->db->resultset('User')->single({
+			username => $self->config->deleted_account,
+		});
+		die "Deleted user account doesn't exist!" unless $deleted_user;
+		die "You can't delete the deleted account!" if $deleted_user->username eq $user->username;
+		my $guard = $self->db->txn_scope_guard;
+		if ($self->config->prosody_running) {
+			$self->xmpp->_prosody->_db->resultset('Prosody')->search({
+				host => $self->config->prosody_userhost,
+				user => $username,
+			})->delete;
+		}
+		my @translations = $user->token_language_translations->search({})->all;
+		for (@translations) {
+			$_->username($deleted_user->username);
+			$_->update;
+		}
+		my @translations = $user->token_language_translations->search({})->all;
+		for (@translations) {
+			$_->username($deleted_user->username);
+			$_->update;
+		}
+		my @translated_token_languages = $user->token_languages->search({})->all;
+		for (@translated_token_languages) {
+			$_->translator_users_id($deleted_user->id);
+			$_->update;
+		}
+		my @checked_translations = $user->checked_translations->search({})->all;
+		for (@checked_translations) {
+			$_->check_users_id($deleted_user->id);
+			$_->update;
+		}
+		my @comments = $user->comments->search({})->all;
+		for (@comments) {
+			$_->content("This user account has been deleted.");
+			$_->users_id($deleted_user->id);
+			$_->update;
+		}
+		$guard->commit;
+	}
 	return 1;
 }
 
