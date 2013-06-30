@@ -3,7 +3,7 @@
 		<section class="menu-list tab-third">
 			<h5><: $user.username :> Blog</h5>
 			<ul>
-				<: for ['email','web','github','twitter','facebook','reddit','deviantart','imgur','youtube','flickr','linkedin'] -> $remote { :>
+				<: for ['web','github','twitter','facebook','reddit','deviantart','imgur','youtube','flickr','linkedin'] -> $remote { :>
 					<: if $user.userpage.field($remote).value { :>
 						<li><: include 'userpage/third/remote.tx' { field => $user.userpage.field($remote) } :></li>
 					<: } :>

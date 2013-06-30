@@ -1,6 +1,6 @@
 <: for results($user.user_blogs.sorted.live) -> $user_blog { :>
 	<div class="row">
-		<: if $_.company_blog { :>
+		<: if $user_blog.company_blog { :>
 			<img src="/static/images/duckduckgo-icon.png" width="32" height="32" title="Official DuckDuckGo Blog Post" class="admin-badge pull-right" />
 		<: } :>
 		<a href="<: $u($user_blog.u) :>">
