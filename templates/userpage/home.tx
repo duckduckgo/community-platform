@@ -31,7 +31,7 @@
 
 		<div class="content-box whole user-info-box">
 			<div class="head">
-				Blog posts
+				<h2><a href="<: $u('Userpage::Blog','index',$user.username) :>"><: $user.username :> Blog</a></h2>
 			</div>
 			<div class="body">
 				<: include 'userpage/twothird/blog.tx' { field => $fields.about } :>

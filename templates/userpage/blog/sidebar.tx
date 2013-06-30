@@ -1,0 +1,21 @@
+<aside class="sidebar">
+	<div class="sidebar-contents group">
+		<section class="menu-list tab-third">
+			<h5><: $user.username :> Blog</h5>
+			<ul>
+				<: for ['email','web','github','twitter','facebook','reddit','deviantart','imgur','youtube','flickr','linkedin'] -> $remote { :>
+					<: if $user.userpage.field($remote).value { :>
+						<li><: include 'userpage/third/remote.tx' { field => $user.userpage.field($remote) } :></li>
+					<: } :>
+				<: } :>
+			</ul>
+		</section>
+		<: include "blog/sidebar_topics.tx" :>
+		<section class="sidebar-social tab-half">
+			<h5>Feeds</h5>
+			<div class="icons">
+				<a class="icon rss" href="<: $u('Userpage::Blog','index_rss',$user.username) :>" title="<: $user.username :> Blog RSS feed">RSS</a>
+			</div>
+		</section>
+	</div>
+</aside>

@@ -54,7 +54,6 @@ sub postlist_rss {
 
 sub index_base :Chained('postlist_base') :PathPart('') :CaptureArgs(0) {
 	my ( $self, $c ) = @_;
-	$c->stash->{title} = $self->index_title;
 	$c->bc_index;
 }
 

@@ -13,7 +13,7 @@ sub base :Chained('/userpage/base') :PathPart('blog') :CaptureArgs(0) {
 	$c->stash->{blog_resultset} = $c->stash->{user}->search_related('user_blogs',{
 		($c->user && $c->user->id == $c->stash->{user}->id) ? () : ( live => 1 ),
 	});
-    $c->add_bc($self->index_title, $c->chained_uri('Blog', 'index'));
+	$c->add_bc($c->stash->{user}->username.' Blog', $c->chained_uri('Userpage::Blog', 'index',$c->stash->{user}->username));
 }
 
 1;
