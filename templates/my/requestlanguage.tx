@@ -1,7 +1,6 @@
 <: if $thanks_for_languagerequest { :>
-	<div class="notice success"><i class="icn icon-ok"><: $l('Thanks for your submitting your language request!') :></div>
+	<div class="notice success"><i class="icn icon-ok"></i>Thanks for your language request!</div>
 <: } :>
-
 
 <form action="<: $u('My','requestlanguage') :>" method="post" id="formRequestLanguage" class="content-box column-form">
     <div class="head">		

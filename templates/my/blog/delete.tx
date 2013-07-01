@@ -1,0 +1,23 @@
+
+<div class="whole">
+	<div class="content-box">
+		<div class="head">
+			<h3>
+				<: $post.title :>
+			</h3>
+		</div>
+		<div class="body">
+			<div class="row">
+				<: r($post.html_teaser) :>
+			</div>
+			<div class="row">
+				<div class="twothird">
+					<h3>Delete this post?</h3>
+				</div>
+				<div class="third">
+					<a class="button red" href="<: $u('My::Blog','delete',$id,{ iamsure => 'yes' }) :>" class="column-form">Yes, I'm sure</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

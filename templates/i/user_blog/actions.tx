@@ -17,5 +17,13 @@
 				Edit
 			</a>
 		</span>
+		<span class="action-item">
+			<a class="button red" href="<: $u('My::Blog','delete',$_.id):>">
+				<: if $c.user.id != $_.user.id && $c.user.admin { :>
+					Admin
+				<: } :>
+				Delete
+			</a>
+		</span>
 	<: } :>
 </div>

@@ -27,7 +27,7 @@
 		</div>
 	</div>
 
-	<: if $fields.languages.value { :>
+	<: if $fields.blog.value { :>
 
 		<div class="content-box whole user-info-box">
 			<div class="head">

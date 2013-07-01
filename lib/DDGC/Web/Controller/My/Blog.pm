@@ -19,6 +19,24 @@ sub index :Chained('base') :PathPart('') :Args(0) {
 	$c->bc_index;
 }
 
+sub delete :Chained('base') :Args(1) {
+	my ( $self, $c, $id ) = @_;
+
+	$c->stash->{id} = $id;
+	$c->stash->{post} = $c->d->rs('User::Blog')->find($id+0);
+
+	unless ($c->user->admin || $c->stash->{post}->users_id eq $c->user->id) {
+		$c->response->redirect($c->chained_uri('My::Blog','index'));
+		return $c->detach;
+	}
+
+	if ($c->req->param('iamsure')) {
+		$c->stash->{post}->delete;
+		$c->response->redirect($c->chained_uri('My::Blog','index'));
+		return $c->detach;
+	}
+}
+
 sub edit :Chained('base') :Args(1) {
 	my ( $self, $c, $id_or_new ) = @_;
 
