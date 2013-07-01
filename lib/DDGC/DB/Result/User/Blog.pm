@@ -13,7 +13,7 @@ sub u {
 	if ($self->company_blog) {
 		return ['Blog', 'post', $self->uri];
 	} else {
-		return ['Userpage::Blog', 'post', $self->user->username, $self->uri]
+		return ['Userpage::Blog', 'post', $self->user->username, $self->uri];
 	}
 }
 

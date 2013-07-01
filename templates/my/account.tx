@@ -124,7 +124,7 @@
 			<: if $c.user.public { :>
 				<div class="row">
 					<div class="twothird">
-						<label>Your blog [BETA]</label>
+						<label>Your <a href="<: $u('Userpage::Blog','index',$c.user.username) :>">blog</a> [BETA]</label>
 					</div>
 					<div class="third">
 						<a href="<: $u('My::Blog','index') :>" class="button">Edit posts</a>

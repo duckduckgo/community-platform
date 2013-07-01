@@ -25,6 +25,21 @@ use namespace::autoclean;
 
 table 'comment';
 
+sub u { 
+	my ( $self ) = @_;
+	if ( my $context_obj = $self->get_context_obj ) {
+		if ($context_obj->can('u_comments')) {
+			my $u = $context_obj->u_comments;
+			return $u if $u;
+		}
+		if ($context_obj->can('u')) {
+			my $u = $context_obj->u;
+			return $u if $u;
+		}
+	}
+	return;
+}
+
 column id => {
 	data_type => 'bigint',
 	is_auto_increment => 1,

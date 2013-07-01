@@ -17,6 +17,17 @@ use namespace::autoclean;
 
 table 'token_domain_language';
 
+sub u { 
+	my ( $self ) = @_;
+	[ 'Translate', 'tokens', $self->token_domain->key, $self->language->locale ]
+}
+
+sub u_comments {
+	my ( $self ) = @_;
+	[ 'Translate', 'localecomments', $self->token_domain->key, $self->language->locale ]
+}
+
+
 column id => {
 	data_type => 'bigint',
 	is_auto_increment => 1,
@@ -208,11 +219,6 @@ sub msgctxt_tokens {
 sub all_tokens {
 	my ( $self, $page, $pagesize ) = @_;
 	$self->_get_token_languages(1, $page, $pagesize);
-}
-
-sub u { 
-	my ( $self, $page ) = @_;
-	'Translate', 'tokens', $self->token_domain->key, $self->language->locale
 }
 
 no Moose;

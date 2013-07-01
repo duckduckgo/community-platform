@@ -39,8 +39,19 @@ sub goto_and_done :Chained('base') :Args(1) {
 		$first->done(1);
 		$first->sent(1);
 		$first->update;
-		# Redirect TODO
+		my $event = $first->event;
+		if (my $obj = $event->get_context_obj) {
+			if ($obj->can('u')) {
+				my $u = $obj->u;
+				if ($u) {
+					$c->response->redirect($c->chained_uri(@{$obj->u}));
+					return $c->detach;
+				}
+			}
+		}
 	}	
+	$c->response->redirect($c->chained_uri('My::Notifications','index'));
+	return $c->detach;
 }
 
 sub edit :Chained('base') :Args(0) {

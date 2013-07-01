@@ -17,6 +17,7 @@
 
 <div class="content-box">
 	<div class="head mid">
-		<a class="blue button" href="<: $u('My::Blog','edit','new') :>">Add a new blog post</a>
+		<a class="red button" href="<: $u('My::Blog','edit','new') :>">Add a new blog post</a>
+		<a class="blue button" href="<: $u('Userpage::Blog','index',$c.user.username) :>">Goto blog</a>
 	</div>
 </div>
