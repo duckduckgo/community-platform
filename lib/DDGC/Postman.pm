@@ -8,6 +8,8 @@ use Email::Simple::Creator;
 use Email::Sender::Transport::SMTP;
 use Email::Sender::Transport::Sendmail;
 use Email::Sender::Transport::Test;
+use Data::Dumper;
+use IO::All;
 
 has ddgc => (
 	isa => 'DDGC',
@@ -47,7 +49,12 @@ sub mail {
 		],
 		body => $body,
 	);
-	return sendmail($email, { transport => $self->transport });
+	my @return = sendmail($email, { transport => $self->transport });
+	if ($self->ddgc->config->mail_test && $self->ddgc->config->mail_test_log) {
+		my @deliveries = $self->transport->deliveries;
+		io($self->ddgc->config->mail_test_log)->append(Dumper \@deliveries);
+	}
+	return @return;
 }
 
 no Moose;

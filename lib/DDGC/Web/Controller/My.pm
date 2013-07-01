@@ -490,8 +490,11 @@ sub requestlanguage :Chained('logged_in') :Args(0) {
 
 			$c->stash->{email} = {
 				to          => 'help@duckduckgo.com',
-				from        => $c->req->params->{email},
-				subject     => '[DuckDuckGo Community] New request for language',
+				from        => 'noreply@dukgo.com',
+				header		=> [
+					"Reply-To" =>  $c->req->params->{email},
+				],
+				subject     => '[DuckDuckGo Community] New request for language by ',
 				template	=> 'email/requestlanguage.tx',
 				charset		=> 'utf-8',
 				content_type => 'text/plain',

@@ -3,7 +3,7 @@
 <: } :>
 
 
-<form action="<: $u('Base','requestlanguage') :>" method="post" id="formRequestLanguage" class="content-box column-form">
+<form action="<: $u('My','requestlanguage') :>" method="post" id="formRequestLanguage" class="content-box column-form">
     <div class="head">		
 		<h2><: $l('Request a new language') :></h2>
 	</div>	
