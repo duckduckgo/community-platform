@@ -7,6 +7,11 @@ use namespace::autoclean;
 
 table 'token_language';
 
+sub u { 
+	my ( $self ) = @_;
+	[ 'Translate', 'tokenlanguage', $self->id ]
+}
+
 column id => {
 	data_type => 'bigint',
 	is_auto_increment => 1,
