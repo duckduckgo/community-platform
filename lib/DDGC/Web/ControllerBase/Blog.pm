@@ -16,7 +16,9 @@ sub blog_base :Chained('base') :PathPart('') :CaptureArgs(0) {
 	my @all_posts = $c->stash->{blog_resultset}->all;
 	my @topics;
 	for (@all_posts) {
-		push @topics, @{$_->topics} if @{$_->topics};
+		if ($_->topics) {
+			push @topics, @{$_->topics} if @{$_->topics};
+		}
 	}
 	$c->stash->{blog_topics} = [sort { lc($a) cmp lc($b) } uniq @topics];
 }
