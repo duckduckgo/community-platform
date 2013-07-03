@@ -12,8 +12,7 @@ use namespace::autoclean;
 
 table 'token_domain';
 
-# sub description_list { "The token domain", shift->name }
-# sub sub_description_list { "the token domain", shift->name }
+sub u { [ 'Translate', 'domainindex', shift->key ] }
 
 column id => {
 	data_type => 'bigint',
@@ -223,8 +222,6 @@ sub intersect_po_entries {
 	}
 	return \@new, \@old;
 }
-
-sub u { 'Translate', 'domainindex', shift->key }
 
 no Moose;
 __PACKAGE__->meta->make_immutable;

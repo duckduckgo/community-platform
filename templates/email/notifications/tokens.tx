@@ -10,7 +10,7 @@ These tokens are new in "<: $entry.domain.name :>":
 <: i($token,'email_notification') :>
 <: } :>
 
-Translate them at <: $link($entry.domain) :>
+Translate them at <: $u($entry.domain.u) :>
 
 =======================================================
 <: } -:>

@@ -71,6 +71,30 @@ sub notify_tokens {
 		}} keys %td],
 }
 
+sub notify_translations {
+	my ( $self, $c, $user, @event_notifications ) = @_;
+	my %translations;
+	for my $en (@event_notifications) {
+		if ($en->event->related) {
+			for (@{$en->event->related}) {
+				my ( $related_context, $related_context_id ) = @{$_};
+				if ($related_context eq 'DDGC::DB::Result::Token::Domain') {
+					$translations{$related_context_id} = {}
+						unless defined $translations{$related_context_id};
+					my $translation = $en->event->get_context_obj;
+					$translations{$related_context_id}->{$translation->id} = $translation;
+					last;
+				}
+			}
+		}
+	}
+	return
+		related_token_domains => [map {{
+			domain => $c->d->resultset('Token::Domain')->find($_),
+			translations => [values %{$translations{$_}}],
+		}} keys %translations],
+}
+
 sub notify_cycle {
 	my ( $self, $c, $cycle ) = @_;
 	my @event_notifications = $c->d->resultset('Event::Notification')->search({

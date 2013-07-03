@@ -11,6 +11,16 @@ use namespace::autoclean;
 
 table 'token_language_translation';
 
+sub u { shift->token_language->u }
+
+sub event_related {
+	my ( $self ) = @_;
+	my @related;
+	push @related, ['DDGC::DB::Result::Token::Domain', $self->token_language->token_domain_language->token_domain_id];
+	push @related, ['DDGC::DB::Result::Language', $self->token_language->token_domain_language->language_id];
+	return @related;
+}
+
 column id => {
 	data_type => 'bigint',
 	is_auto_increment => 1,
@@ -205,13 +215,7 @@ sub key {
 	return $key;
 }
 
-sub event_related {
-	my ( $self ) = @_;
-	my @related;
-	push @related, ['DDGC::DB::Result::Token::Domain', $self->token_language->token_domain_language->token_domain_id];
-	push @related, ['DDGC::DB::Result::Language', $self->token_language->token_domain_language->language_id];
-	return @related;
-}
+
 
 no Moose;
 __PACKAGE__->meta->make_immutable;
