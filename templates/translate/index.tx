@@ -16,7 +16,7 @@
 				<p><: $token_domain.description :></p>
 			</div>
 			<div class="row mid">
-				<a class="big blue button" href="<: $link($token_domain) :>">
+				<a class="big blue button" href="<: $u($token_domain.u) :>">
 					Help translating <: $token_domain.name :>!
 				</a>
 			</div>
