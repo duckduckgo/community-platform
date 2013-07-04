@@ -1,6 +1,6 @@
 <div id="login-box" class="reveal-modal modal-form account-form">
 	<h4>Login</h4>
-	<form action="<: $u('My','login') :>">
+	<form action="<: $u('My','login') :>" method="post">
 		<div class="input-wrap"><input type="text" placeholder="Your Username" name="username" class="text" value="<: $username :>" /></div>
 		<div class="input-wrap"><input type="password" placeholder="Your Password" name="password" class="text password" /></div>
 		<fieldset class="buttons">
