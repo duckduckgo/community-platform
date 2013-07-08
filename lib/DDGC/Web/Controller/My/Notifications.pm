@@ -19,12 +19,14 @@ sub base :Chained('/my/logged_in') :PathPart('notifications') :CaptureArgs(0) {
 		my $i = 0;
 		my @notifications;
 		while ($i < $count) {
-			push @notifications, {
-				context => $context[$i],
-				context_id => $context_id[$i] || undef,
-				sub_context => $sub_context[$i] || undef,
-				cycle => $cycle[$i],
-			};
+			if ($cycle[$i] > 0) {
+				push @notifications, {
+					context => $context[$i],
+					context_id => $context_id[$i] || undef,
+					sub_context => $sub_context[$i] || undef,
+					cycle => $cycle[$i],
+				};
+			}
 			$i++;
 		}
 		$c->user->save_notifications(@notifications);

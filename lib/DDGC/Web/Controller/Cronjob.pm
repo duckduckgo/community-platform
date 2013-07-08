@@ -82,7 +82,9 @@ sub notify_translations {
 					$translations{$related_context_id} = {}
 						unless defined $translations{$related_context_id};
 					my $translation = $en->event->get_context_obj;
-					$translations{$related_context_id}->{$translation->id} = $translation;
+					if ($translation) {
+						$translations{$related_context_id}->{$translation->id} = $translation;
+					}
 					last;
 				}
 			}
