@@ -1,6 +1,7 @@
 package DDGC::DB::Result::Token::Language;
 
 use Moose;
+use MooseX::NonMoose;
 extends 'DDGC::DB::Base::Result';
 use DBIx::Class::Candy;
 use namespace::autoclean;

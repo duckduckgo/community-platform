@@ -1,6 +1,7 @@
 package DDGC::DB::Result::User::Blog;
 
 use Moose;
+use MooseX::NonMoose;
 extends 'DDGC::DB::Base::Result';
 use DBIx::Class::Candy;
 use DateTime::Format::RSS;

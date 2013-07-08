@@ -2,6 +2,7 @@ package DDGC::DB::Result::Thread;
 # ABSTRACT: Dukgo.com Forum thread
 
 use Moose;
+use MooseX::NonMoose;
 extends 'DDGC::DB::Base::Result';
 use DBIx::Class::Candy;
 use DateTime::Format::Human::Duration;

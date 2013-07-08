@@ -1,6 +1,7 @@
 package DDGC::DB::Result::Comment;
 
 use Moose;
+use MooseX::NonMoose;
 extends 'DDGC::DB::Base::Result';
 use DBIx::Class::Candy;
 use namespace::autoclean;
