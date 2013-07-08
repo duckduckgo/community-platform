@@ -23,7 +23,7 @@
 		<div class="row">
 			<div class="label"><label>Context:</label></div>				
 			<div>				
-				<strong><a href="<: $u('Translate','tokens',$token_domain.key,$cur_language.locale,{ only_msgctxt => $token_language.token.msgctxt }) :>"><: $token_language.token.msgctxt :></a></strong>
+				<strong><a href="<: $u('Translate','tokens',$token_language.token.token_domain.key,$cur_language.locale,{ only_msgctxt => $token_language.token.msgctxt }) :>"><: $token_language.token.msgctxt :></a></strong>
 				<p>This is the <a href="https://github.com/duckduckgo/duckduckgo/blob/master/lib/DDG/Manual/Translation.pod#token-with-context">context</a>, do not translate it!</p>
 			</div>
 		</div>
