@@ -1,1 +1,1 @@
-There is a new token on the token domain <b><: $token.token_domain.name :></b>
+There is a new token on the token domain <a href="<: $u($token.token_domain.u) :>"><: $token.token_domain.name :></a>

@@ -49,8 +49,10 @@ sub next_template {
 }
 
 sub link {
-	my ( $self, $c, $object, @args ) = @_;
-	return $c->chained_uri($object->u,@args);
+	my $self = shift;
+	my $c = shift;
+	my $object = shift;
+	$self->u($c,$object->u,@_);
 }
 
 # url
