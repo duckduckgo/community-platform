@@ -33,24 +33,24 @@
 		<div class="row user-translation">
 			<div class="label"></div>
 			<div>
-			<: if $token_language.token.msgctxt || $token_language.token.has_placeholders { :>
-				<p>
-					<b>Note!</b> This token has
-					<: if $token_language.token.msgctxt { :>
-						<a href="https://github.com/duckduckgo/duckduckgo/blob/master/lib/DDG/Manual/Translation.pod#token-with-context">context</a>
-						<: if $token_language.token.has_placeholders { :>
-							&nbsp;and&nbsp;
+				<: if $token_language.token.msgctxt || $token_language.token.has_placeholders { :>
+					<p>
+						<b>Note!</b> This token has
+						<: if $token_language.token.msgctxt { :>
+							<a href="https://github.com/duckduckgo/duckduckgo/blob/master/lib/DDG/Manual/Translation.pod#token-with-context">context</a>
+							<: if $token_language.token.has_placeholders { :>
+								&nbsp;and&nbsp;
+							<: } :>
 						<: } :>
-					<: } :>
-					<: if $token_language.token.has_placeholders { :>
-						<a href="https://github.com/duckduckgo/duckduckgo/blob/master/lib/DDG/Manual/Translation.pod#placeholders-in-tokens">placeholders</a>
-					<: } :>.
-					Only translate it, if you are 100% sure in which way it is used!
-					<: if $token_language.token.has_placeholders { :>
-						A wrong translation can destroy <a href="https://github.com/duckduckgo/duckduckgo/blob/master/lib/DDG/Manual/Translation.pod#combined-tokens">combined tokens</a> very easily! Also be sure the same amount of placeholders is in your translation as in the token!
-					<: } :>
-				</p>
-			<: } :>
+						<: if $token_language.token.has_placeholders { :>
+							<a href="https://github.com/duckduckgo/duckduckgo/blob/master/lib/DDG/Manual/Translation.pod#placeholders-in-tokens">placeholders</a>
+						<: } :>.
+						Only translate it, if you are 100% sure in which way it is used!
+						<: if $token_language.token.has_placeholders { :>
+							A wrong translation can destroy <a href="https://github.com/duckduckgo/duckduckgo/blob/master/lib/DDG/Manual/Translation.pod#combined-tokens">combined tokens</a> very easily! Also be sure the same amount of placeholders is in your translation as in the token!
+						<: } :>
+					</p>
+				<: } :>
 				<p>
 				<: if $token_language.token.notes || $token_language.notes { :>
 					Please assure to read the notes before translating!
