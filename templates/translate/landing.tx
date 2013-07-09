@@ -1,5 +1,5 @@
 <h1>Choose your own Adventure!</h1>
-<div class="seventy block-mid">
+<div class="seventy block-mid mg-bottom">
 	<div class="row gw">
 		<div class="g third">
 			<p><a class="button  full  tall  h1  disabled  blue" href="#"><i class="icon-pencil"></i></a></p>
@@ -12,7 +12,7 @@
 	<hr class="mg-top--none" />
 	<div class="row gw">
 		<div class="g third">
-			<p><a class="button  full  tall  h1  disabled  green" href="#"><i class="icon-check"></i></a></p>
+			<p><a class="button  full  tall  h1  green" href="#"><i class="icon-check"></i></a></p>
 		</div>
 		<div class="g twothirds">
 			<h3 class="mg-top--small">Vote on translated tokens</h3>
@@ -22,7 +22,7 @@
 	<hr class="mg-top--none" />
 	<div class="row gw">
 		<div class="g third">
-			<p><a class="button  full  tall  h1  disabled  red" href="#"><i class="icon-list"></i></a></p>
+			<p><a class="button  full  tall  h1  yellow" href="#"><i class="icon-list"></i></a></p>
 		</div>
 		<div class="g twothirds">
 			<h3 class="mg-top--small">Browse tokens</h3>
@@ -32,7 +32,7 @@
 	<hr class="mg-top--none" />
 	<div class="row gw">
 		<div class="g third">
-			<p><a class="button  full  tall  h1  disabled" href="#"><i class="icon-eye-open"></i></a></p>
+			<p><a class="button  full  tall  h1" href="#"><i class="icon-eye-open"></i></a></p>
 		</div>
 		<div class="g twothirds">
 			<h3 class="mg-top--small">Show everything!</h3>
