@@ -1,17 +1,42 @@
-<div class="row gw">
-	<div class="g half">
-		<p><a class="button  full  x-tall  disabled" href="#">Translate untranslated tokens</a></p>
+<h1>Choose your own Adventure!</h1>
+<div class="seventy block-mid">
+	<div class="row gw">
+		<div class="g third">
+			<p><a class="button  full  tall  h1  disabled  blue" href="#"><i class="icon-pencil"></i></a></p>
+		</div>
+		<div class="g twothirds">
+			<h3 class="mg-top--small">Translate untranslated tokens</h3>
+			<p>Start translating tokens that nobody else has been brave enough to tackle.  Are you up to the job?</p>
+		</div>
 	</div>
-	<div class="g half">
-		<p><a class="button  full  x-tall  disabled" href="#">Vote on already translated tokens</a></p>
+	<hr class="mg-top--none" />
+	<div class="row gw">
+		<div class="g third">
+			<p><a class="button  full  tall  h1  disabled  green" href="#"><i class="icon-check"></i></a></p>
+		</div>
+		<div class="g twothirds">
+			<h3 class="mg-top--small">Vote on translated tokens</h3>
+			<p>Feeling judgemental?  Assess the language skills of the community and cast your vote for the best translations.</p>
+		</div>
 	</div>
-	<div class="g third">
-		<p><a class="button  full  x-tall  disabled" href="#">Duck some ducks</a></p>
+	<hr class="mg-top--none" />
+	<div class="row gw">
+		<div class="g third">
+			<p><a class="button  full  tall  h1  disabled  red" href="#"><i class="icon-list"></i></a></p>
+		</div>
+		<div class="g twothirds">
+			<h3 class="mg-top--small">Browse tokens</h3>
+			<p>Take a close look at all the tokens in this domain.  You can see available translations, voting results, and variations.</p>
+		</div>
 	</div>
-	<div class="g third">
-		<p><a class="button  full  x-tall  disabled" href="#">Duck some ducks</a></p>
-	</div>	
-	<div class="g third">
-		<p><a class="button  full  x-tall  disabled" href="#">Duck some ducks</a></p>
+	<hr class="mg-top--none" />
+	<div class="row gw">
+		<div class="g third">
+			<p><a class="button  full  tall  h1  disabled" href="#"><i class="icon-eye-open"></i></a></p>
+		</div>
+		<div class="g twothirds">
+			<h3 class="mg-top--small">Show everything!</h3>
+			<p>An eagle-eye look at the entire domain.  Shows tokens, translations, and activty at a glance.  One day this will all be yours...</p>
+		</div>
 	</div>
 </div>
