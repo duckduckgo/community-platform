@@ -268,12 +268,13 @@ Buttons/Tags
 		margin-bottom: 4px; 
 	}
 	.half > .button, .third  > .button, .twothird  > .button, .quarter > .button, .sixth > .button { 
-		width: 95%; margin: 0 2.5%; padding: 4px 0;
+		width: 100%; margin: 0 auto; padding: 4px 0;
 	}	
 		.input-wrap .button { width: 100%; margin: 0 auto; padding: 0; }		
 	
 	.button.disabled, a.button.disabled, input.button.disabled {
 		cursor: default;
+		opacity: 0.5;
 	}
 		.button.disabled:hover, .button.disabled:active { background-color: #f8f8f8; }
 		
@@ -303,6 +304,14 @@ Buttons/Tags
 	.button.full, .tag.full {
 		display: block;
 	}	
+	.button.tall, .tag.tall {
+		padding-top: 12px;
+		padding-bottom: 12px;
+	}
+	.button.x-tall, .tag.x-tall {
+		padding-top: 24px;
+		padding-bottom: 24px;
+	}
 		
 	.button.black, .tag.black {
 		color: #fff;

@@ -902,7 +902,6 @@ table th[class*="span"],
 		.header-account-info { width: 13em; }
 			.header-account-info .user-avatar { margin-right: 19px; }
 */	
-	.half { width: 95%; }
 	.header-nav ul { border: none; border-top: 1px solid #d5d5d5;}
 	.header-nav li { width: 100%; float: none; clear: both; }
 	.header-nav ul li a, .header-nav ul li:first-child a  { 

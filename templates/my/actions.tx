@@ -1,0 +1,17 @@
+<div class="row gw">
+	<div class="g half">
+		<p><a class="button  full  x-tall  disabled" href="#">Translate untranslated tokens</a></p>
+	</div>
+	<div class="g half">
+		<p><a class="button  full  x-tall  disabled" href="#">Vote on already translated tokens</a></p>
+	</div>
+	<div class="g third">
+		<p><a class="button  full  x-tall  disabled" href="#">Duck some ducks</a></p>
+	</div>
+	<div class="g third">
+		<p><a class="button  full  x-tall  disabled" href="#">Duck some ducks</a></p>
+	</div>	
+	<div class="g third">
+		<p><a class="button  full  x-tall  disabled" href="#">Duck some ducks</a></p>
+	</div>
+</div>
