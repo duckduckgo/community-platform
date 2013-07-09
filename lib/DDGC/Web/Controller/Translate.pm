@@ -185,6 +185,13 @@ sub locale :Chained('domain') :PathPart('') :CaptureArgs(1) {
 	$c->add_bc($c->stash->{cur_language}->name_in_english, $c->chained_uri('Translate','tokens',$c->stash->{token_domain}->key,$c->stash->{locale}));
 }
 
+sub landing :Chained('locale') :Args(0) {
+    my ( $self, $c ) = @_;
+    $c->add_bc('Landing page', '');
+	$c->stash->{breadcrumb_right_url} =	$c->chained_uri('Translate','alltokens',$c->stash->{token_domain}->key,'LOCALE');
+	$c->stash->{breadcrumb_right} = 'language';
+}
+
 sub alltokens :Chained('locale') :Args(0) {
     my ( $self, $c ) = @_;
     $c->add_bc('All tokens', '');

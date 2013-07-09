@@ -6,24 +6,6 @@ extends 'DDGC::DB::Base::Result';
 use DBIx::Class::Candy;
 use namespace::autoclean;
 
-# sub description_list {
-# 	my ( $self ) = @_;
-# 	if ($self->context_resultset) {
-# 		$self->user, "commented on", $self->get_context_obj;
-# 	} else {
-# 		"A comment from", $self->user, ".";
-# 	}
-# }
-
-# sub sub_description_list { 
-# 	my ( $self ) = @_;
-# 	if ($self->context_resultset) {
-# 		"a comment from", $self->user, "on", $self->get_context_obj;
-# 	} else {
-# 		"a comment from", $self->user;
-# 	}
-# }
-
 table 'comment';
 
 sub u { 
