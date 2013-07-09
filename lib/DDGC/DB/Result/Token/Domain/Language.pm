@@ -148,8 +148,15 @@ has done_percentage => (
 
 sub _build_done_percentage {
 	my ( $self ) = @_;
-	my $untranslated_count = $self->untranslated_tokens->count;
-	my $max_token_count = $self->token_domain->tokens->count;
+	my $untranslated_count;
+	my $max_token_count;
+	if ($self->has_column_loaded('token_languages_undone_count') && $self->has_column_loaded('token_total_count')) {
+		$untranslated_count = $self->get_column('token_languages_undone_count');
+		$max_token_count = $self->get_column('token_total_count');
+	} else {
+		$untranslated_count = $self->untranslated_tokens->count;
+		$max_token_count = $self->token_domain->tokens->count;
+	}
 	return 0 unless $max_token_count;
 	return floor(100 * ( ( $max_token_count - $untranslated_count ) / $max_token_count ));
 }

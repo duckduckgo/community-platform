@@ -111,16 +111,26 @@ sub domain :Chained('logged_in') :PathPart('') :CaptureArgs(1) {
     my ( $self, $c, $token_domain_key ) = @_;
 	$c->stash->{locale} = $c->req->params->{locale} ? $c->req->params->{locale} :
 		$c->session->{cur_locale}->{$token_domain_key} ? $c->session->{cur_locale}->{$token_domain_key} : undef;
-	$c->stash->{token_domain} = $c->d->rs('Token::Domain')->find({ key => $token_domain_key },{
-		prefetch => {
-			token_domain_languages => 'language',
-		},
-	});
+	$c->stash->{token_domain} = $c->d->rs('Token::Domain')->find({ key => $token_domain_key });
 	return $c->go($c->controller('Root'),'default') unless $c->stash->{token_domain};
 	$c->stash->{locales} = {};
-	$c->stash->{token_domain_languages} = [$c->stash->{token_domain}->token_domain_languages->search({},{
+	my $token_domain_language_rs = $c->stash->{token_domain}->token_domain_languages->search({});
+	$c->stash->{token_domain_languages} = [$token_domain_language_rs->search({},{
+		'+columns' => {
+			token_languages_undone_count => $c->d->rs('Token::Language')->search({
+				'token_language_translations.id' => undef,
+				'undone_count.token_domain_language_id' => { -ident => 'me.id' },
+			},{
+				join => 'token_language_translations', alias => 'undone_count'
+			})->count_rs->as_query,
+			token_total_count => $c->d->rs('Token')->search({
+				'total_count.token_domain_id' => { -ident => 'me.token_domain_id' },
+			},{
+				join => 'token_domain', alias => 'total_count'
+			})->count_rs->as_query,
+		},
 		order_by => { -asc => 'language.locale' },
-		prefetch => 'language',
+		prefetch => [ 'language' ],
 	})->all];
 	for (@{$c->stash->{token_domain_languages}}) {
 		my $locale = $_->language->locale;
