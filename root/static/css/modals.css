@@ -221,3 +221,40 @@ Reveal Modals
 	font-weight: bold;
 	cursor: pointer;
 } 
+
+/*--------------------------------------------------
+'Wizard' Arrows
+-------------------------------------------------- */
+.wiz-arrow {
+	position: relative;
+	z-index: 10;
+}
+	.wiz-arrow:after {
+		content: "";
+		display: block;
+		position: absolute;
+		width: 51px;
+		height: 77px;
+		z-index: 10;
+		/* top right by default */
+		right: 0;
+		top: -87px;	
+		background: url('../img/arrow-top-r.png') 0 0 no-repeat;
+	}
+	.wiz-arrow--top-l:after {
+		right: auto;
+		left: 0;
+		background-image: url('../img/arrow-top-l.png');
+	}
+	.wiz-arrow--bot-r:after {
+		top: auto;
+		bottom: -87px;
+		background-image: url('../img/arrow-bot-r.png');
+	}
+	.wiz-arrow--bot-l:after {
+		right: auto;
+		top: auto;
+		left: 0;
+		bottom: -87px;
+		background-image: url('../img/arrow-bot-l.png');
+	}
