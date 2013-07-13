@@ -238,23 +238,23 @@ Reveal Modals
 		z-index: 10;
 		/* top right by default */
 		right: 0;
-		top: -87px;	
+		top: -80px;	
 		background: url('../img/arrow-top-r.png') 0 0 no-repeat;
 	}
-	.wiz-arrow--top-l:after {
+	.wiz-arrow-top-left:after {
 		right: auto;
 		left: 0;
 		background-image: url('../img/arrow-top-l.png');
 	}
-	.wiz-arrow--bot-r:after {
+	.wiz-arrow-bottom-right:after {
 		top: auto;
-		bottom: -87px;
+		bottom: -80px;
 		background-image: url('../img/arrow-bot-r.png');
 	}
-	.wiz-arrow--bot-l:after {
+	.wiz-arrow-bottom-left:after {
 		right: auto;
 		top: auto;
 		left: 0;
-		bottom: -87px;
+		bottom: -80px;
 		background-image: url('../img/arrow-bot-l.png');
 	}
