@@ -22,7 +22,7 @@
 </div>
 
 <div class="content-box">
-	<div class="head mid">
+	<div class="head head--round mid">
 		<input type="submit" class="big blue button" name="save_notifications" value="Save changes" />
 	</div>
 </div>

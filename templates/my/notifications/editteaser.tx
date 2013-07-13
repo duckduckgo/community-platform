@@ -1,5 +1,5 @@
 <div class="content-box">
-	<div class="head mid">
+	<div class="head head--round mid">
 		<a class="button" href="<: $u('My::Notifications','edit') :>">Edit your notification settings</a>
 	</div>
 </div>

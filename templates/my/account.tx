@@ -55,7 +55,7 @@
 	</div>
 
 	<div class="content-box account-box">	
-		<div class="head">
+		<div class="head head--round">
 			<h2><: if $user_notification_count { :>
 				You have <: $user_notification_count :> notifications waiting
 			<: } else { :>
