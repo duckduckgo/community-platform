@@ -19,8 +19,8 @@ sub untranslated {
 }
 
 sub unvoted {
-	my ( $self, $token_domain_id, $language_id, $user_id, $ignore_ids ) = @_;
-	my @ignore_ids = $ignore_ids ? @{$ignore_ids} : ();
+	my ( $self, $token_domain_id, $language_id, $user_id, $scalar_ignore_ids ) = @_;
+	my @ignore_ids = $scalar_ignore_ids ? @{$scalar_ignore_ids} : ();
 	$self->search({
 		'token_domain_id' => $token_domain_id,
 		'language_id' => $language_id,

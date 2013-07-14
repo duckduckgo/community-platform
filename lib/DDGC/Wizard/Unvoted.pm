@@ -37,6 +37,7 @@ sub next {
 	my $next_rs = $c->d->rs('Token::Language')->unvoted(
 		$self->token_domain_id,
 		$self->language_id,
+		$c->user->id,
 		$self->unwanted_ids,
 	);
 	$self->count($next_rs->count);
