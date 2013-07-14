@@ -149,7 +149,7 @@ sub domain :Chained('logged_in') :PathPart('') :CaptureArgs(1) {
 	}
 	$c->stash->{locale} = $c->stash->{last_locale} if !$c->stash->{locale};
 
-	$c->add_bc($c->stash->{token_domain}->name, $c->chained_uri('Translate','tokens',$c->stash->{token_domain}->key,$c->stash->{locale}));
+	$c->add_bc($c->stash->{token_domain}->name, $c->chained_uri('Translate','domainindex',$c->stash->{token_domain}->key));
 }
 
 sub domainindex :Chained('domain') :PathPart('') :Args(0) {
@@ -197,12 +197,14 @@ sub locale :Chained('domain') :PathPart('') :CaptureArgs(1) {
 	$c->stash->{token_domain_language} = $c->stash->{locales}->{$c->stash->{locale}}->{tcl};
 	$c->session->{cur_locale}->{$c->stash->{token_domain}->key} = $c->stash->{locale};
 	$c->stash->{user_can_speak} = $c->user->can_speak($c->stash->{locale});
-	$c->add_bc($c->stash->{cur_language}->name_in_english, $c->chained_uri('Translate','tokens',$c->stash->{token_domain}->key,$c->stash->{locale}));
+	$c->add_bc($c->stash->{cur_language}->name_in_english, $c->chained_uri('Translate','landing',$c->stash->{token_domain}->key,$c->stash->{locale}));
 }
 
 sub landing :Chained('locale') :Args(0) {
     my ( $self, $c ) = @_;
-    $c->add_bc('Landing page', '');
+    $c->bc_index;
+    $c->stash->{untranslated_count} = $c->d->rs('Token::Language')->untranslated($c->stash->{token_domain}->id,$c->stash->{cur_language}->id);
+    #$c->stash->{unvoted_count} = $c->d->rs('Token::Language')->untranslated($c->stash->{token_domain}->id,$c->stash->{cur_language}->id,$c->user->id);
 	$c->stash->{breadcrumb_right_url} =	$c->chained_uri('Translate','alltokens',$c->stash->{token_domain}->key,'LOCALE');
 	$c->stash->{breadcrumb_right} = 'language';
 }
@@ -225,7 +227,7 @@ sub unvoted :Chained('locale') :Args(0) {
 
 sub alltokens :Chained('locale') :Args(0) {
     my ( $self, $c ) = @_;
-    $c->add_bc('All tokens', '');
+    $c->add_bc('Token overview', '');
 	$c->stash->{token_languages} = $c->stash->{locales}->{$c->stash->{locale}}->{tcl}->token_languages->search({
 		'token.type' => 1,
 	},{
@@ -285,7 +287,7 @@ sub tokenscomments :Chained('discuss') :Args(0) {
 
 sub tokens :Chained('locale') :Args(0) {
     my ( $self, $c ) = @_;
-    $c->bc_index;
+    $c->add_bc('Token browser', '');
 	my $placeholder_notes = ( $c->user->data && defined $c->user->data->{placeholder_notes} ) ? $c->user->data->{placeholder_notes} : 1;
 	if (defined $c->req->params->{placeholder_notes}) {
 		$placeholder_notes = $c->req->params->{placeholder_notes};

@@ -13,7 +13,11 @@
 		<: } :>
 	</div> 
 </div>
-				
+
+<div class="mid">
+	<a class="button blue" href="<: $u(['Translate','index']) :>">Back to list of token domains</a>
+</div>
+
 <div class="content-box translate-overview">	
 	<div class="head">		
 		<h2>other languages ...</h2>

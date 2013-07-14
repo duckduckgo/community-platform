@@ -1,12 +1,21 @@
-<h1>Choose your own Adventure!</h1>
+<h1>Choose your way to help!</h1>
+<div class="mid">
+For token domain <b><: $token_domain_language.token_domain.name :></b> in <b><: $token_domain_language.language.name_in_english :></b></h2>
+</div>
 <div class="seventy block-mid mg-bottom">
 	<div class="row gw">
 		<div class="g third">
-			<p><a class="button  full  tall  h1  disabled  blue" href="<: $u($token_domain_language.u_untranslated) :>"><i class="icon-pencil"></i></a></p>
+			<p><<: if $untranslated_count == 0 { :>div<:} else {:>a<:}:> class="button full tall h1 blue <: if $untranslated_count == 0 { :>disabled<: } :>" href="<: $u($token_domain_language.u_untranslated) :>"><i class="icon-pencil"></i></<: if $untranslated_count == 0 { :>div<:} else {:>a<:}:>></p>
 		</div>
 		<div class="g twothirds">
 			<h3 class="mg-top--small">Translate untranslated tokens</h3>
-			<p>Start translating tokens that nobody else has been brave enough to tackle.  Are you up to the job?</p>
+			<p>
+				<: if $untranslated_count == 0 { :>
+					There are no untranslated tokens left for this domain in this language.
+				<: } else { :>
+					Start translating tokens that nobody else has been brave enough to tackle. Are you up to the job?
+				<: } :>
+			</p>
 		</div>
 	</div>
 	<hr class="mg-top--none" />
@@ -37,6 +46,26 @@
 		<div class="g twothirds">
 			<h3 class="mg-top--small">Show everything!</h3>
 			<p>An eagle-eye look at the entire domain.  Shows tokens, translations, and activty at a glance.  One day this will all be yours...</p>
+		</div>
+	</div>
+	<hr class="mg-top--none" />
+	<div class="row gw">
+		<div class="g third">
+			<p><a class="button  full  tall  h1" href="<: $u($token_domain_language.token_domain.u) :>"><i class="icon-eye-open"></i></a></p>
+		</div>
+		<div class="g twothirds">
+			<h3 class="mg-top--small">Choose another language for this token domain</h3>
+			<p>TODO TODO TODO</p>
+		</div>
+	</div>
+	<hr class="mg-top--none" />
+	<div class="row gw">
+		<div class="g third">
+			<p><a class="button  full  tall  h1" href="<: $u(['Translate','index']) :>"><i class="icon-eye-open"></i></a></p>
+		</div>
+		<div class="g twothirds">
+			<h3 class="mg-top--small">Go back to list of token domains</h3>
+			<p>TODO TODO TODO</p>
 		</div>
 	</div>
 </div>
