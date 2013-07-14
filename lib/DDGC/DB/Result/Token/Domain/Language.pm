@@ -20,7 +20,27 @@ table 'token_domain_language';
 
 sub u { 
 	my ( $self ) = @_;
+	[ 'Translate', 'landing', $self->token_domain->key, $self->language->locale ]
+}
+
+sub u_untranslated { 
+	my ( $self ) = @_;
+	[ 'Translate', 'untranslated', $self->token_domain->key, $self->language->locale ]
+}
+
+sub u_unvoted { 
+	my ( $self ) = @_;
+	[ 'Translate', 'unvoted', $self->token_domain->key, $self->language->locale ]
+}
+
+sub u_tokens { 
+	my ( $self ) = @_;
 	[ 'Translate', 'tokens', $self->token_domain->key, $self->language->locale ]
+}
+
+sub u_overview { 
+	my ( $self ) = @_;
+	[ 'Translate', 'alltokens', $self->token_domain->key, $self->language->locale ]
 }
 
 sub u_comments {

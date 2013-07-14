@@ -2,6 +2,7 @@ package DDGC::DB::ResultSet::User::Blog;
 
 use Moose;
 extends 'DBIx::Class::ResultSet';
+use namespace::autoclean;
 
 use DateTime::Format::RSS;
 
@@ -63,4 +64,5 @@ sub posts_by_day {
 	return [map { $days{$_} } sort { $b <=> $a } keys %days ];
 }
 
-1;
+no Moose;
+__PACKAGE__->meta->make_immutable( inline_constructor => 0 );

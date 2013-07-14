@@ -19,7 +19,17 @@ sub base :Chained('/base') :PathPart('my') :CaptureArgs(0) {
 sub logout :Chained('base') :Args(0) {
     my ( $self, $c ) = @_;
 	$c->logout;
+	$c->delete_session;
 	$c->response->redirect($c->chained_uri('Root','index'));
+	return $c->detach;
+}
+
+sub finishwizard :Chained('base') :Args(0) {
+    my ( $self, $c ) = @_;
+	$c->wiz_finished;
+	delete $c->session->{wizard_finished};
+	$c->stash->{x} = { ok => 1 };
+	$c->forward( $c->view('JSON') );
 	return $c->detach;
 }
 

@@ -22,6 +22,8 @@ sub base :Chained('/') :PathPart('') :CaptureArgs(0) {
 	$c->stash->{user_counts} = $c->d->user_counts;
 	$c->stash->{page_class} = "page-home texture";
 
+	$c->wiz_check;
+
 	$c->add_bc('Home', $c->chained_uri('Root','index'));
 }
 
@@ -46,11 +48,14 @@ sub end : ActionClass('RenderView') {
 	my ( $self, $c ) = @_;
 	my $template = $c->action.'.tx';
 	push @{$c->stash->{template_layout}}, $template;
+
 	$c->session->{last_url} = $c->req->uri;
 	if ($c->user) {
 		$c->stash->{user_notification_count} = $c->user->event_notifications_undone_count;
 		$c->run_after_request(sub { $c->d->envoy->update_own_notifications });
 	}
+
+	$c->wiz_post_check;
 }
 
 no Moose;

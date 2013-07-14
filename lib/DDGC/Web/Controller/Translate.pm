@@ -49,23 +49,28 @@ sub logged_in :Chained('base') :PathPart('') :CaptureArgs(0) {
 sub tokenlanguage :Chained('logged_in') :Args(1) {
 	my ( $self, $c, $token_language_id ) = @_;
 	$self->save_translate_params($c) if ($c->req->params->{save_translation});
-	$c->stash->{token_language} = $c->d->rs('Token::Language')->find({ id => $token_language_id });
-	if (!defined $c->stash->{token_language} or !$c->stash->{token_language}) {
-		$c->response->redirect($c->chained_uri('Translate','index'));
-		return $c->detach;
+	if ($c->wiz_inside && $c->req->params->{wizard_skip}) {
+		push @{$c->wiz->unwanted_ids}, $token_language_id;
+		$c->wiz_step;
+	} else {
+		$c->stash->{token_language} = $c->d->rs('Token::Language')->find({ id => $token_language_id });
+		if (!defined $c->stash->{token_language} or !$c->stash->{token_language}) {
+			$c->response->redirect($c->chained_uri('Translate','index'));
+			return $c->detach;
+		}
+		$c->stash->{user_can_speak} = $c->user->can_speak($c->stash->{token_language}->token_domain_language->language->locale);
+		$c->stash->{hide_tokenlanguage_discuss} = 1;
+		$c->add_bc(
+			'Token #'.$c->stash->{token_language}
+				->token->id.
+			' at '.$c->stash->{token_language}
+				->token_domain_language
+					->token_domain->name.
+			' in '.$c->stash->{token_language}
+				->token_domain_language
+					->language->name_in_english,
+		'');
 	}
-	$c->stash->{user_can_speak} = $c->user->can_speak($c->stash->{token_language}->token_domain_language->language->locale);
-	$c->stash->{hide_tokenlanguage_discuss} = 1;
-	$c->add_bc(
-		'Token #'.$c->stash->{token_language}
-			->token->id.
-		' at '.$c->stash->{token_language}
-			->token_domain_language
-				->token_domain->name.
-		' in '.$c->stash->{token_language}
-			->token_domain_language
-				->language->name_in_english,
-	'');
 }
 
 sub translation :Chained('logged_in') :CaptureArgs(1) {
@@ -202,6 +207,22 @@ sub landing :Chained('locale') :Args(0) {
 	$c->stash->{breadcrumb_right} = 'language';
 }
 
+sub untranslated :Chained('locale') :Args(0) {
+	my ( $self, $c ) = @_;
+	$c->wiz_start( Untranslated =>
+		token_domain_id => $c->stash->{token_domain}->id,
+		language_id => $c->stash->{cur_language}->id,
+	);
+}
+
+sub unvoted :Chained('locale') :Args(0) {
+	my ( $self, $c ) = @_;
+	$c->wiz_start( Unvoted =>
+		token_domain_id => $c->stash->{token_domain}->id,
+		language_id => $c->stash->{cur_language}->id,
+	);
+}
+
 sub alltokens :Chained('locale') :Args(0) {
     my ( $self, $c ) = @_;
     $c->add_bc('All tokens', '');
@@ -239,7 +260,9 @@ sub save_translate_params {
 	if ($c->user) {
 		for (keys %k) {
 			my $token_language = $c->d->rs('Token::Language')->find($_);
-			$token_language->add_user_translation($c->user,$k{$_});
+			if ($token_language->add_user_translation($c->user,$k{$_})) {
+				$c->wiz_step;
+			}
 		}
 	}
 }

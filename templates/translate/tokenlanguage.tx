@@ -1,30 +1,40 @@
-
-
 <div class="content-box translate-snippets">	
 	<div class="head">		
-		<h2><: $token_language.token_domain_language.token_domain.name :> in <: $token_language.token_domain_language.language.name_in_english :></h2>
+		<h2><: $token_language.token_domain_language.token_domain.name :> in <: $token_language.token_domain_language.language.name_in_english :> &nbsp;&nbsp;<img src="<: $token_language.token_domain_language.language.flag_url :>" /></h2>
 	</div>
 	<div class="body">
 	  <form action="<: $u('Translate','tokenlanguage',$token_language.id) :>" method="post">
 		<div class="row">
-			<: include "translate/tokens/token_language.tx" :>
-			
+			<: include "translate/tokens/token_language.tx" { token_language_page => 1 } :>
 			<fieldset class="row translation-use">
-				<div class="label"><label>Translation in use:</label></div>				
+				<div class="label"><label>Translation in use:</label></div>
 				<div>
-				<: if $token_language.msgstr { :>
-					<ul class="user-translations">
-						<: include "translate/tokens/token_language_translation.tx" {translation => $token_language } :>
-					</ul>
-				<: } else { :>
-					<strong>No translation in use</strong>
-				<: } :>
+					<: if $token_language.msgstr { :>
+						<ul class="user-translations">
+							<: include "translate/tokens/token_language_translation.tx" {translation => $token_language } :>
+						</ul>
+					<: } else { :>
+						<strong>No translation in use</strong>
+					<: } :>
 				</div>
 			</fieldset>
 		</div>
 		<: if $user_can_speak { :>
-			<div class="row mid token-submit <: if $token_language.translations.size() { :>js-hide<: } :>">
-				<input type="submit" class="button blue big" name="save_translation" value="Submit translation" />
+			<div class="row mid">
+				<div id="submit_token_language_<: $token_language.id :>" class="token-submit js-hide">
+					<: if $c.wiz_inside { :>
+						<div class="wiz-arrow wiz-arrow-bottom-left">
+							<input type="submit" class="button red big" name="save_translation" value="Submit translation and goto next" />
+						</div>
+					<: } else { :>
+						<input type="submit" class="button blue big" name="save_translation" value="Submit translation" />
+					<: } :>
+				</div>
+				<: if $c.wiz_inside { :>
+					<div class="wiz-arrow wiz-arrow-bottom-right">
+						<input type="submit" class="button red big" name="wizard_skip" value="Skip this token" />
+					</div>
+				<: } :>
 			</div>
 		<: } :>
 	  </form>		

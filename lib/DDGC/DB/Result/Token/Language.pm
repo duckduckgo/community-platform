@@ -164,6 +164,7 @@ sub add_user_translation {
 				%{$translation},
 				username => $user->username,
 			});
+			return 1;
 		}
 	} else {
 		die "you dont speak the language you are going to translate!";

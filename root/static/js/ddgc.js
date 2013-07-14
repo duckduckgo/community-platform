@@ -69,7 +69,6 @@ $(document).ready(function() {
 		$('div#set_gravatar_email').show();
 	});
 
-
 	$('a.vote_link').click(function(e){
 		e.preventDefault();
 		var vote_count = $(this).siblings().first();
@@ -91,6 +90,23 @@ $(document).ready(function() {
 				else if (checkmark.attr('href').match(/0$/))
 					checkmark.attr('href', checkmark.attr('href').replace(/0$/, '1'));
 				vote_count.html(data.vote_count);				
+			}
+		});
+	});
+
+	$('a.finishwizard').click(function(e){
+		e.preventDefault();
+		var me = $(this);
+		$.ajax({
+			url: me.attr('href'),
+			beforeSend: function(xhr) {				
+				me.replaceWith(
+					'<img class="loading-image"' +
+					'src="/static/images/ajax-loader.gif"/>'
+				);
+			},
+			success: function(data) {
+				$('#wizard_running_info').remove();
 			}
 		});
 	});

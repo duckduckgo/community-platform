@@ -1,3 +1,25 @@
+<: if $wizard_finished { :>
+	<div class="notice warning clickaway">
+		<img src="/static/img/duck-wizard.png" />
+		You finished the wizard!
+	</div>
+<: } :>
+<: if $c.wiz_running { :>
+	<div id="wizard_running_info" class="notice warning clickaway">
+		<img src="/static/img/duck-wizard.png" />
+		<: if $c.wiz_inside  { :>
+			<: if $wiz_info { :>
+				<: $wiz_info :>
+			<: } else { :>
+				You are right now using a wizard! Follow the arrows and hit the red buttons for the next steps!
+			<: } :>
+		<: } else { :>
+			You left your wizard!
+			<a class="button blue" href="<: $c.wiz.current_url :>">Back to wizard!</a>
+			<a class="button red finishwizard" href="<: $u(['My','finishwizard']) :>">End wizard!</a>
+		<: } :>
+	</div>
+<: } :>
 <: if $warnings { :>
 	<: for $warnings -> $warning { :>
 		<div class="notice warning clickaway">

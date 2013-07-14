@@ -7,23 +7,23 @@
 <!--[if (gte IE 9)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
 	<: include "head.tx" :>
+	<: include "scripts.tx" :>
 </head>
 <body class="<: $page_class :><: if $c.user { :> loggedin<: } :>">
-  <div id="wrapper">
-	<: include "header.tx" :>
-	<div class="site-main">
-		<: include "topmessage.tx" :>
-		<div class="content-wrap">
-			<: include "breadcrumb.tx" :>
-			<: include "notice_warnings.tx" :>
-			<: include $next_template() :>
-		</div>
-	</div> <!--.site-main-->
-	<: include "footer.tx" :>
-  </div> <!--wrapper-->
-  <: if !$c.user { :>
-  <: include "modal_login.tx" :>
-  <: } :>
-  <: include "scripts.tx" :>
+	<div id="wrapper">
+		<: include "header.tx" :>
+		<div class="site-main">
+			<: include "topmessage.tx" :>
+			<div class="content-wrap">
+				<: include "breadcrumb.tx" :>
+				<: include "notice_warnings.tx" :>
+				<: include $next_template() :>
+			</div>
+		</div> <!--.site-main-->
+		<: include "footer.tx" :>
+	</div> <!--wrapper-->
+	<: if !$c.user { :>
+		<: include "modal_login.tx" :>
+	<: } :>
 </body>
 </html>

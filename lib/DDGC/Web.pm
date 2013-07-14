@@ -13,7 +13,6 @@ use Catalyst qw/
 	Session
 	Session::Store::File
 	Session::State::Cookie
-	Unicode::Encoding
 	Authentication
 	Authorization::Roles
 	ChainedURI
@@ -27,6 +26,7 @@ use Catalyst qw/
 extends 'Catalyst';
 
 use DDGC::Config;
+use Class::Load ':all';
 
 our $VERSION ||= '0.0development';
 
@@ -157,6 +157,73 @@ sub bc_index {
 	my $last_index = (scalar @bc)-1;
 	croak "Breadcrumb already finished" unless $bc[$last_index]->{link};
 	$c->stash->{breadcrumb}[$last_index]->{link} = undef;
+}
+
+sub done {
+	my ( $c ) = @_;
+	$c->wiz_done;
+}
+
+sub wiz_die { die "Wizard is running" unless shift->wiz_running }
+
+sub wiz_start {
+	my ( $c, $wizard, %options ) = @_;
+	$c->log->debug('Wizard has wiz_start') if $c->debug;
+	my $class = 'DDGC::Wizard::'.$wizard;
+	load_class($class);
+	$c->session->{'wizard'} = $class->new(%options);
+	return $c->wiz->next($c);
+}
+
+sub wiz {
+	my $c = shift;
+	return unless $c->wiz_running;
+	return $c->session->{'wizard'};
+}
+
+sub wiz_check {
+	my $c = shift;
+	if ($c->session->{wizard_finished}) {
+		$c->stash->{wizard_finished} = 1;
+		delete $c->session->{wizard_finished};
+	}
+	return unless $c->wiz_running;
+	return unless $c->wiz->can('check');
+	return $c->wiz->check($c);
+}
+
+sub wiz_post_check {
+	my $c = shift;
+	return unless $c->wiz_running;
+	return unless $c->wiz->can('post_check');
+	return $c->wiz->post_check($c);
+}
+
+sub wiz_running { defined shift->session->{'wizard'} }
+
+sub wiz_inside {
+	my $c = shift;
+	return 0 unless $c->wiz_running;
+	return $c->wiz->inside;
+}
+
+sub wiz_outside {
+	my $c = shift;
+	return 0 unless $c->wiz_running;
+	return $c->wiz->inside ? 0 : 1;
+}
+
+sub wiz_step {
+	my $c = shift;
+	return unless $c->wiz_running;
+	return $c->wiz->next_step(1);
+}
+
+sub wiz_finished {
+	my $c = shift;
+	$c->wiz_die;
+	$c->session->{wizard_finished} = 1;
+	delete $c->session->{'wizard'};
 }
 
 # Start the application
