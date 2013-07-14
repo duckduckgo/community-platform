@@ -171,6 +171,48 @@ a.sortby {
 	margin: auto;	
 	position: relative;
 }
+
+/* 
+	faux tables for image/text display 
+	- the 'flag' object with a different name: 
+	   http://csswizardry.com/2013/05/the-flag-object/ 
+*/
+.faux {
+    display: table;
+    width: 100%;
+}
+    .faux__image,
+    .faux__body {
+        display: table-cell;
+        vertical-align: middle;
+	}
+        .faux--top .faux__image, 
+		.faux--top  .faux__body {
+            vertical-align: top;
+        }
+
+        .faux--bottom .faux__image, 
+		.faux--bottom  .faux__body {
+            vertical-align: bottom;
+        }
+  
+    .faux__image {
+        padding-right: 10px;
+	}
+        .faux__image > img {
+            display: block;
+            max-width: none;
+        }
+
+        .faux--rev .faux__image {
+            padding-right: 0;
+            padding-left: 10px;
+        }
+
+    .faux__body {
+        width: 100%;
+    }
+
 /* table styling, stolen from bootstrap :) */
 table {
   max-width: 100%;
