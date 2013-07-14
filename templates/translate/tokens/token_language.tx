@@ -116,7 +116,7 @@
 				</div>
 				<div class="current-translations">
 				<: if $user_can_speak { :>
-					<a href="javascript:" class="button light add-translations">Add your own translation</a>
+					<a href="javascript:" class="button light add-translations <: if $c.wiz_inside { :> wiz-arrow  wiz-arrow-top-left<: } :>">Add your own translation</a>
 				<: } else { :>
 					<a href="javascript:" class="button iight hide-translations">Hide translations</a>
 				<: } :>

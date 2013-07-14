@@ -1,11 +1,17 @@
 <: if $wizard_finished { :>
-	<div class="notice warning clickaway">
-		<img src="/static/img/duck-wizard.png" />
-		You finished the wizard!
+	<div class="notice  notice--wizard  success  clickaway">
+		<div class="faux  notice__content">
+			<div class="faux__image">
+				<img src="/static/img/duck-wizard.png" />
+			</div>
+			<div class="faux__body">
+				You finished the wizard!
+			</div>
+		</div>
 	</div>
 <: } :>
 <: if $c.wiz_running { :>
-	<div id="wizard_running_info" class="notice  clickaway">	
+	<div id="wizard_running_info" class="notice  notice--wizard <: if $c.wiz_inside  { :> info <: } else { :> error <: } :> clickaway">	
 		<div class="faux  notice__content">
 			<div class="faux__image">
 				<img src="/static/img/duck-wizard.png" />
@@ -18,9 +24,11 @@
 						You are in Wizard mode! Follow the arrows and hit the buttons for the next steps!
 					<: } :>
 				<: } else { :>
-					You left your wizard!
-					<a class="button blue" href="<: $c.wiz.current_url :>">Back to wizard!</a>
-					<a class="button red finishwizard" href="<: $u(['My','finishwizard']) :>">End wizard!</a>
+					You left your wizard!  He is lonely!  
+					<div class="notice__buttons">
+						<a class="button blue" href="<: $c.wiz.current_url :>">Back to wizard!</a>
+						<a class="button red finishwizard" href="<: $u(['My','finishwizard']) :>">End wizard!</a>
+					</div>
 				<: } :>
 			</div>
 		</div>

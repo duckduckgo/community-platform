@@ -13,9 +13,24 @@ Motices
 	margin: 0 auto 21px;
 	font-size: 1.1em;	
 }
+.notice--pad-v-none, 
+.notice--wizard { 
+	padding-top: 0;
+	padding-bottom: 0;
+}
 	.notice__content {
 		margin-left: -40px;
 	}
+	.notice__buttons {
+		margin-top: -10px;
+		margin-right: -30px;
+		float: right;
+		position: relative;
+		top: 5px;
+	}
+		.notice__content .notice__buttons {
+			margin-right: -60px;
+		}
 	.notice.warning { 		
 		border-color: #feeabe;
 		color: #f0a300;

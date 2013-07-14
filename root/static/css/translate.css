@@ -104,15 +104,18 @@
 		.translation-details label { min-width: 97px; display: inline-block; line-height: 1.4em; }
 		.snippet .row .translation-details strong { font-size: 1.2em; }		
 	.translation-invalid { float: right; font-weight: bold; color: red;}
-	.translation-vote { 		
+	.translation-vote,
+	.translation-validate {
+		margin-top: -4px;
 		float: right; 
+	}
+	.translation-vote { 			
 		border: 1px solid #c6c6c6;
 		-moz-border-radius: 3px;
 		-webkit-border-radius: 3px;
 		border-radius: 3px;
 		height: 28px;
-		background: #fdfdfd;
-		margin-top: -4px;
+		background: #fdfdfd;		
 		position: relative;
 	}
 		.translation-details .translation-vote .button { 
