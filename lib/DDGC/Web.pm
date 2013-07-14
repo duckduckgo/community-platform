@@ -35,7 +35,7 @@ __PACKAGE__->config(
     disable_component_resolution_regex_fallback => 1,
 	using_frontend_proxy => 1,
 	default_view => 'Xslate',
-	encoding => 'utf8',
+	encoding => 'UTF-8',
 	stacktrace => {
 		enable => $ENV{DDGC_ACTIVATE_ERRORCATCHING} ? 1 : 0,,
 	},
