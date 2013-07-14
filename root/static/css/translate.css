@@ -44,7 +44,6 @@
 	}
 
 .translate-snippets .button, .translate-comments .button { 
-	color: #686868;
 	font-weight: normal; 
 	padding: 0 11px; 
 	font-size: 0.9em; 
@@ -59,6 +58,9 @@
 		padding: 0 19px;
 		height: 35px;
 		line-height: 34px;
+	}
+	.translate-snippets .button.light {
+		color: #686868;
 	}
 	.translate-snippets .button.blue {
 		color: white;

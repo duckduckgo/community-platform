@@ -9,7 +9,7 @@
 		<div class="label"><label>Term (Singular):</label></div>
 		<div>			
 			<strong><: $token_language.token.msgid :></strong>
-			<: if !$token_language_page { :><a href="<: $u('Translate','tokenlanguage',$token_language.id) :>" class="button">Discuss</a><: } :>
+			<: if !$token_language_page { :><a href="<: $u('Translate','tokenlanguage',$token_language.id) :>" class="button light">Discuss</a><: } :>
 		</div>	
 	<: if $token_language.token.msgid_plural { :>
 		<div class="row">
@@ -112,13 +112,13 @@
 							<: include "user/userpic.tx" { userpic_size => 16, user => $translation.user } :>
 						<: } :>
 					</strong>
-					<a href="javascript:" class="button show-translations">Show <: if $user_can_speak { :>other<: } :> translations</a>
+					<a href="javascript:" class="button light show-translations">Show <: if $user_can_speak { :>other<: } :> translations</a>
 				</div>
 				<div class="current-translations">
 				<: if $user_can_speak { :>
-					<a href="javascript:" class="button add-translations">Add your own translation</a>
+					<a href="javascript:" class="button light add-translations">Add your own translation</a>
 				<: } else { :>
-					<a href="javascript:" class="button hide-translations">Hide translations</a>
+					<a href="javascript:" class="button iight hide-translations">Hide translations</a>
 				<: } :>
 					<ul class="user-translations"> 
 						<: for $token_language.translations -> $translation { :>
