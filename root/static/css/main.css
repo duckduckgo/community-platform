@@ -505,10 +505,14 @@ table th[class*="span"],
 	Margin Helpers
 */
 .mg-top { margin-top: 10px; }
+.mg-top--big { margin-top: 30px; }
+.mg-top--double { margin-top: 20px; }
 .mg-top--small { margin-top: 5px; }
 .mg-top--none { margin-top: 0; }
 
 .mg-bottom { margin-bottom: 10px; }
+.mg-bottom--big { margin-bottom: 30px; }
+.mg-bottom--double { margin-bottom: 20px; }
 .mg-bottom--small { margin-bottom: 5px; }
 .mg-bottom--none { margin-bottom: 0; }
 

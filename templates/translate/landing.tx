@@ -1,8 +1,8 @@
-<h1>Choose your way to help!</h1>
-<div class="mid">
-<p>For token domain <b><: $token_domain_language.token_domain.name :></b> in <b><: $token_domain_language.language.name_in_english :></b></p>
+<h2 class="mg-top mg-bottom--big h1 text-center">Choose your way to help!</h2>
+<div class="notice  info  mid">
+<span class="h3">For token domain <b><: $token_domain_language.token_domain.name :></b> in <b><: $token_domain_language.language.name_in_english :></b></span>
 </div>
-<div class="seventy block-mid mg-bottom">
+<div class="seventy block-mid mg-top--big mg-bottom">
 	<: if $user_can_speak { :>
 		<div class="row gw">
 			<div class="g third">
@@ -30,7 +30,7 @@
 			</div>
 		</div>
 	<: } else { :>
-		<div class="row gw">
+		<div class="row">
 			<div class="notice warning">
 				<i class="icn icon-warning-sign"></i>You don't speak this language, you have limited options.
 			</div>
@@ -49,7 +49,7 @@
 	<hr class="mg-top--none" />
 	<div class="row gw">
 		<div class="g third">
-			<p><a class="button  full  tall  h1" href="<: $u($token_domain_language.u_overview) :>"><i class="icon-eye-open"></i></a></p>
+			<p><a class="button  full  tall  h1  paleblue" href="<: $u($token_domain_language.u_overview) :>"><i class="icon-eye-open"></i></a></p>
 		</div>
 		<div class="g twothirds">
 			<h3 class="mg-top--small">Show everything!</h3>
@@ -59,21 +59,21 @@
 	<hr class="mg-top--none" />
 	<div class="row gw">
 		<div class="g third">
-			<p><a class="button  full  tall  h1" href="<: $u($token_domain_language.token_domain.u) :>"><i class="icon-earth"></i></a></p>
+			<p><a class="button  full  tall  h1  darkblue" href="<: $u($token_domain_language.token_domain.u) :>"><i class="icon-globe"></i></a></p>
 		</div>
 		<div class="g twothirds">
-			<h3 class="mg-top--small">Choose another language for this token domain</h3>
-			<p>TODO TODO TODO</p>
+			<h3 class="mg-top--small">Choose another language</h3>
+			<p>Go back and pick a different language for this domain.  There are plenty to choose from!</p>
 		</div>
 	</div>
 	<hr class="mg-top--none" />
 	<div class="row gw">
 		<div class="g third">
-			<p><a class="button  full  tall  h1" href="<: $u(['Translate','index']) :>"><i class="icon-fast-backward"></i></a></p>
+			<p><a class="button  full  tall  h1  red" href="<: $u(['Translate','index']) :>"><i class="icon-fast-backward"></i></a></p>
 		</div>
 		<div class="g twothirds">
-			<h3 class="mg-top--small">Go back to list of token domains</h3>
-			<p>TODO TODO TODO</p>
+			<h3 class="mg-top--small">Return to Domain List</h3>
+			<p>Choose a different domain to browse translations.</p>
 		</div>
 	</div>
 </div>
