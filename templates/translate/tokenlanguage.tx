@@ -23,13 +23,13 @@
 			<div class="row mid">
 				<span id="submit_token_language_<: $token_language.id :>" class="token-submit js-hide">
 					<: if $c.wiz_inside { :>
-						<button type="submit" class="button  red  big  wiz-arrow  wiz-arrow-bottom-left" name="save_translation" value="">Submit translation and go to the next</button>						
+						<span class="wiz-arrow  wiz-arrow-bottom-left"><input type="submit" class="button  red  big" name="save_translation" value="Submit translation and go to the next"/></span>					
 					<: } else { :>
 						<input type="submit" class="button blue big" name="save_translation" value="Submit translation" />
 					<: } :>
 				</span>
 				<: if $c.wiz_inside { :>					
-						<button type="submit" class="button  big  wiz-arrow  wiz-arrow-bottom-right" name="wizard_skip">Skip this token</button>					
+						<span class="wiz-arrow  wiz-arrow-bottom-right"><input type="submit" class="button  big" name="wizard_skip" value="Skip this token"/></span>			
 				<: } :>
 			</div>
 		<: } :>
