@@ -13,6 +13,9 @@ Motices
 	margin: 0 auto 21px;
 	font-size: 1.1em;	
 }
+	.notice__content {
+		margin-left: -40px;
+	}
 	.notice.warning { 		
 		border-color: #feeabe;
 		color: #f0a300;
