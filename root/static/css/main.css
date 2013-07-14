@@ -759,7 +759,7 @@ table th[class*="span"],
 				color: inherit;
 			}
 			
-		.content-box .head i[class*='icon'] { 
+		.content-box .head .icn--sup { 
 			color: #be9c43; 
 			text-shadow: -1px 0 1px rgba(255,255,255,0.1);
 			padding-left: 8px;

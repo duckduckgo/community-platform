@@ -10,7 +10,7 @@
 				<h2>Your Languages</h2>
 			</div>
 			<div class="third palm-hide">
-				<h2>Level <a href="#" data-reveal-id="grades-tooltip"><i class="icon-question-sign m" id="trig-level-tooltip"></i></a></h2>
+				<h2>Level <a href="#" data-reveal-id="grades-tooltip"><i class="icon-question-sign icn--sup" id="trig-level-tooltip"></i></a></h2>
 			</div>
 		</div>
 		<div class="body">

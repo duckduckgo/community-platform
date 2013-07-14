@@ -1,6 +1,7 @@
 <div class="content-box translate-overview">	
 	<div class="head">		
 		<h2>Translate <: $token_domain.name :> into ...</h2>
+		<a class="button pull-right" title="Back to list of token domains" href="<: $u(['Translate','index']) :>"><i class="icon-fast-backward"></i></a>
 	</div>
 	<div class="body">
 		<: for $can_speak -> $token_domain_language { :>
@@ -12,10 +13,6 @@
 			</div>
 		<: } :>
 	</div> 
-</div>
-
-<div class="mid">
-	<a class="button blue" href="<: $u(['Translate','index']) :>">Back to list of token domains</a>
 </div>
 
 <div class="content-box translate-overview">	
