@@ -26,8 +26,8 @@ sub unvoted {
 		'language_id' => $language_id,
 		-and => [
 			'me.id' => { -not_in => \@ignore_ids },
-			'me.id' => { -not_in => \$self->search({
-				'token_language_translations_votes.users_id' => $user_id,
+			'me.id' => { -not_in => $self->search({
+				'token_language_translation_votes.users_id' => $user_id,
 				'token_domain_id' => $token_domain_id,
 				'language_id' => $language_id,
 			},{

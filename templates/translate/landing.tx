@@ -3,31 +3,39 @@
 For token domain <b><: $token_domain_language.token_domain.name :></b> in <b><: $token_domain_language.language.name_in_english :></b></h2>
 </div>
 <div class="seventy block-mid mg-bottom">
-	<div class="row gw">
-		<div class="g third">
-			<p><<: if $untranslated_count == 0 { :>div<:} else {:>a<:}:> class="button full tall h1 blue <: if $untranslated_count == 0 { :>disabled<: } :>" href="<: $u($token_domain_language.u_untranslated) :>"><i class="icon-pencil"></i></<: if $untranslated_count == 0 { :>div<:} else {:>a<:}:>></p>
+	<: if $user_can_speak { :>
+		<div class="row gw">
+			<div class="g third">
+				<p><<: if $untranslated_count == 0 { :>div<:} else {:>a<:}:> class="button full tall h1 blue <: if $untranslated_count == 0 { :>disabled<: } :>" href="<: $u($token_domain_language.u_untranslated) :>"><i class="icon-pencil"></i></<: if $untranslated_count == 0 { :>div<:} else {:>a<:}:>></p>
+			</div>
+			<div class="g twothirds">
+				<h3 class="mg-top--small">Translate untranslated tokens</h3>
+				<p>
+					<: if $untranslated_count == 0 { :>
+						There are no untranslated tokens left for this domain in this language.
+					<: } else { :>
+						Start translating tokens that nobody else has been brave enough to tackle. Are you up to the job?
+					<: } :>
+				</p>
+			</div>
 		</div>
-		<div class="g twothirds">
-			<h3 class="mg-top--small">Translate untranslated tokens</h3>
-			<p>
-				<: if $untranslated_count == 0 { :>
-					There are no untranslated tokens left for this domain in this language.
-				<: } else { :>
-					Start translating tokens that nobody else has been brave enough to tackle. Are you up to the job?
-				<: } :>
-			</p>
+		<hr class="mg-top--none" />
+		<div class="row gw">
+			<div class="g third">
+				<p><a class="button  full  tall  h1  green" href="<: $u($token_domain_language.u_unvoted) :>"><i class="icon-check"></i></a></p>
+			</div>
+			<div class="g twothirds">
+				<h3 class="mg-top--small">Vote on translated tokens</h3>
+				<p>Feeling judgemental?  Assess the language skills of the community and cast your vote for the best translations.</p>
+			</div>
 		</div>
-	</div>
-	<hr class="mg-top--none" />
-	<div class="row gw">
-		<div class="g third">
-			<p><a class="button  full  tall  h1  green" href="<: $u($token_domain_language.u_unvoted) :>"><i class="icon-check"></i></a></p>
+	<: } else { :>
+		<div class="row gw">
+			<div class="notice warning">
+				You don't speak this language, you have limited options.
+			</div>
 		</div>
-		<div class="g twothirds">
-			<h3 class="mg-top--small">Vote on translated tokens</h3>
-			<p>Feeling judgemental?  Assess the language skills of the community and cast your vote for the best translations.</p>
-		</div>
-	</div>
+	<: } :>
 	<hr class="mg-top--none" />
 	<div class="row gw">
 		<div class="g third">
