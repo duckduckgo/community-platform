@@ -102,6 +102,7 @@ sub notify_cycle {
 	my @event_notifications = $c->d->resultset('Event::Notification')->search({
 		cycle => $cycle,
 		done => 0,
+		sent => 0,
 	},{
 		join => 'event',
 	})->all;
