@@ -276,3 +276,12 @@ Reveal Modals
 		bottom: -80px;
 		background-image: url('../img/arrow-bot-l.png');
 	}
+	.wiz-arrow-vote:after {
+		right: auto;
+		top: auto;
+		left: -50px;
+		bottom: -43px;
+		width: 65px;
+		height: 40px;
+		background-image: url('../img/arrow-vote.png');
+	}
