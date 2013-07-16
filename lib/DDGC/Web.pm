@@ -29,6 +29,9 @@ extends 'Catalyst';
 use DDGC::Config;
 use Class::Load ':all';
 
+use DDGC::Wizard::Unvoted;
+use DDGC::Wizard::Untranslated;
+
 our $VERSION ||= '0.0development';
 
 __PACKAGE__->config(
@@ -88,6 +91,7 @@ __PACKAGE__->config(
 	},
 	'Plugin::Session' => {
 		expires => 21600,
+		dbic_class => 'DDGC::Session',
 	},
 	'Plugin::Captcha' => {
 		session_name => 'captcha_string',
@@ -171,7 +175,6 @@ sub wiz_start {
 	my ( $c, $wizard, %options ) = @_;
 	$c->log->debug('Wizard has wiz_start') if $c->debug;
 	my $class = 'DDGC::Wizard::'.$wizard;
-	load_class($class);
 	$c->session->{'wizard'} = $class->new(%options);
 	return $c->wiz->next($c);
 }

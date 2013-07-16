@@ -1,6 +1,8 @@
 package DDGC::Wizard;
 
 use Moose;
+use MooseX::Storage;
+with Storage('format' => 'Storable');
 
 has name => (
 	is => 'ro',

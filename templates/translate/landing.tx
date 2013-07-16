@@ -3,7 +3,7 @@
 <span class="h3">For token domain <b><: $token_domain_language.token_domain.name :></b> in <b><: $token_domain_language.language.name_in_english :></b></span>
 </div>
 <div class="seventy block-mid mg-top--big mg-bottom">
-	<: if $c.user.admin && $user_can_speak { :>
+	<: if $user_can_speak { :>
 		<div class="row gw">
 			<div class="g third">
 				<p><<: if $untranslated_count == 0 { :>div<:} else {:>a<:}:> class="button full tall h1 blue <: if $untranslated_count == 0 { :>disabled<: } :>" href="<: $u($token_domain_language.u_untranslated) :>"><i class="icon-pencil"></i></<: if $untranslated_count == 0 { :>div<:} else {:>a<:}:>></p>
