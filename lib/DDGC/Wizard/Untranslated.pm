@@ -3,6 +3,8 @@ package DDGC::Wizard::Untranslated;
 use Moose;
 extends 'DDGC::Wizard';
 
+with Storage('format' => 'Storable');
+
 has token_domain_id => (
 	is => 'ro',
 	required => 1,

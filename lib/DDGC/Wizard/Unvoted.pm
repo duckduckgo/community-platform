@@ -1,7 +1,10 @@
 package DDGC::Wizard::Unvoted;
 
 use Moose;
+use MooseX::Storage;
 extends 'DDGC::Wizard';
+
+with Storage('format' => 'Storable');
 
 has token_domain_id => (
 	is => 'ro',
