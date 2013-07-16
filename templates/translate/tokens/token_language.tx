@@ -116,13 +116,13 @@
 				</div>
 				<div class="current-translations">
 				<: if $user_can_speak { :>
-					<a href="javascript:" class="button light add-translations <: if $c.wiz_inside { :> wiz-arrow  wiz-arrow-top-left<: } :>">Add your own translation</a>
+					<a href="javascript:" class="button light add-translations <: if $c.wiz_inside { :> wiz-arrow<: } :>">Add your own translation</a>
 				<: } else { :>
 					<a href="javascript:" class="button iight hide-translations">Hide translations</a>
 				<: } :>
 					<ul class="user-translations"> 
 						<: for $token_language.translations -> $translation { :>
-							<: include "translate/tokens/token_language_translation.tx" { translation => $translation } :>
+							<: include "translate/tokens/token_language_translation.tx" { translation => $translation, first => $~translation.is_first, last => $~translation.is_last } :>
 						<: } :>
 					</ul>
 				</div>

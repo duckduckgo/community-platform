@@ -52,6 +52,16 @@ column flagicon => {
 };
 sub flag_url { 'https://duckduckgo.com/f2/'.(shift->flagicon).'.png' }
 
+column svg1 => {
+	data_type => 'text',
+	is_nullable => 1,
+};
+
+column svg2 => {
+	data_type => 'text',
+	is_nullable => 1,
+};
+
 column nplurals => {
 	data_type => 'tinyint',
 	is_nullable => 0,
@@ -100,6 +110,13 @@ column updated => {
 	set_on_create => 1,
 	set_on_update => 1,
 };
+
+column parent_id => {
+	data_type => 'bigint',
+	is_nullable => 1,
+};
+
+belongs_to 'parent', 'DDGC::DB::Result::Language', 'parent_id', { join_type => 'left' };
 
 has_many 'user_languages', 'DDGC::DB::Result::User::Language', 'language_id';
 has_many 'user_blogs', 'DDGC::DB::Result::User::Blog', 'language_id';

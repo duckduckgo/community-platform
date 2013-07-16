@@ -36,6 +36,11 @@ column email => {
 	is_nullable => 1,
 };
 
+column gravatar_email => {
+	data_type => 'text',
+	is_nullable => 1,
+};
+
 column userpage => {
 	data_type => 'text',
 	is_nullable => 1,
@@ -77,7 +82,7 @@ sub translation_manager { shift->is('translation_manager') }
 
 sub is {
 	my ( $self, $role ) = @_;
-	return 0 if !$role;
+	return 0 unless $role;
 	return 1 if $self->admin;
 	return 1 if $self->roles =~ m/$role/;
 	return 0;
