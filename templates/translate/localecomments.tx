@@ -1,3 +1,9 @@
+<div class="notice warning clickaway">
+	<i class="icn icon-warning-sign"></i>
+		This page is only for discussion, 
+		<a href="<: $u('Translate','landing',$token_domain.key) :>">Click here for making translations!</a>
+</div>
+
 <div class="language_nav">
 	<input type="submit" value="Go" class="button js-hide" /><: include "translate/tokens/nav_language.tx" :>
 </div>

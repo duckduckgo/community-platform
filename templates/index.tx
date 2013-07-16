@@ -33,7 +33,7 @@
 					<li>Runs locally on any linux machine</li>
 					<li></li>
 				</ul>
-				<a href="https://github.com/duckduckgo/community-platform" class="cta"><i class="icon-circle-arrow-right"></i>Developing this community platform</a>
+				<a href="https://github.com/duckduckgo/community-platform" class="cta"><i class="icon-circle-arrow-right"></i>Develop this community platform</a>
 			</div>
 		</div>
 	</div>
@@ -44,7 +44,7 @@
 				<h2>Develop DuckDuckGo</h2>				
 			</a>
 			<div class="body">
-				<h3>Develop on DuckDuckGo.<br/>Hack with us!</h3>
+				<h3>Develop for DuckDuckGo.<br/>Hack with us!</h3>
 				<ul>
 					<li>A great way to get started with open-source.</li>
 					<li>Improve search results for things <em>you</em> care about.</li>	
