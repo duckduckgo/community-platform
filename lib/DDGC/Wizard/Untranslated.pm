@@ -1,6 +1,7 @@
 package DDGC::Wizard::Untranslated;
 
 use Moose;
+use MooseX::Storage;
 extends 'DDGC::Wizard';
 
 with Storage('format' => 'Storable');
