@@ -60,6 +60,11 @@ just follow these steps:</p>
 	</div>
 <: } :>
 
+<div class="notice warning mid">
+	<i class="icn icon-warning-sign"></i>
+	<a class="button red" href="<: $u('Blog','post','help-managing-translations') :>">Or help us even more and get a Translation manager!</a>
+</div>
+
 <: if $c.user && $c.user.translation_manager { :>
 	<div class="content-box">
 		<div class="head">
