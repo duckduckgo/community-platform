@@ -175,7 +175,9 @@ sub save_notifications {
 			sub_context => $notification->{sub_context},
 		);
 		$self->search_related('user_notifications',{ %query })->delete;
-		$self->create_related('user_notifications',$notification);
+		if ($notification->{cycle} > 0) {
+			$self->create_related('user_notifications',$notification);
+		}
 	}
 }
 

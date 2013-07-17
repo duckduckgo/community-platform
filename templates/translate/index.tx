@@ -1,14 +1,43 @@
 <h1>Welcome to DuckDuckGo Translations!</h1>
 <p class="intro-message">Here, you can translate text (also called, “tokens”) from our sites. To get started, 
 just follow these steps:</p>
-<ul>
-	<li>Choose the domain you’d like to translate for.</li>
-	<li>Choose the language you’d like to translate into.</li>
-	<li>Start Translating!</li>
-</ul>
-<p>You can submit translations, discuss, or even vote on current translations!</p>
+<p class="intro-message">Choose the domain you’d like to translate for.</p>
+<p class="intro-message">Choose the language you’d like to translate into.</p>
+<p class="intro-message">Start Translating!</p>
+<p class="intro-message">You can submit translations, discuss, or even vote on current translations!</p>
 
 <: if !$c.user { :><div class="notice warning clickaway"><i class="icn icon-warning-sign"></i>You must be logged in for translating <span class="account-actions"><a href="<: $u('My','register') :>" class="first nav-signup">Sign up</a><a href="<: $u('My','login') :>" class="nav-login" data-reveal-id="login-box">Login</a></span><i class="close icon-remove"></i></div><: } :>
+
+<: if $c.user { :>
+	<: if $user_has_languages { :>
+		<: if $c.user && !$c.wiz_running { :>
+			<div class="notice notice--wizard clickaway">	
+				<div class="faux  notice__content">
+					<div class="faux__image">
+						<img src="/static/img/duck-wizard.png" />
+					</div>
+					<div class="mid">
+						<h4>You can also directly go to ...</h4>
+						<div>
+							<a class="button red" href="<: $u('Translate','untranslated_all') :>">
+								... next untranslated token ...
+							</a>
+							<a class="button red" href="<: $u('Translate','unvoted_all') :>">
+								... next unvoted translation ...
+							</a>
+						</div>
+						<h4>... in your languages</h4>
+					</div>
+				</div>
+			</div>
+		<: } :>
+	<: } else { :>
+		<div class="notice error mid">
+			<i class="icn icon-warning-sign"></i>
+			<a class="button red" href="<: $u('My','account') :>">Please add a language first</a>
+		</div>
+	<: } :>
+<: } :>
 
 <: for results($token_domains.sorted) -> $token_domain { :>
 	<div class="content-box translate-overview">	

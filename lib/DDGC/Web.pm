@@ -31,6 +31,8 @@ use Class::Load ':all';
 
 use DDGC::Wizard::Unvoted;
 use DDGC::Wizard::Untranslated;
+use DDGC::Wizard::UnvotedAll;
+use DDGC::Wizard::UntranslatedAll;
 
 our $VERSION ||= '0.0development';
 

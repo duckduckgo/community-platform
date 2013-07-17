@@ -165,6 +165,8 @@ sub account :Chained('logged_in') :Args(0) {
 
     $c->stash->{saved} = $saved;
 
+	$c->stash->{user_has_languages} = $c->user ? $c->user->user_languages->count : 0;
+
 	$c->stash->{languages} = [$c->d->rs('Language')->search({},{
 		order_by => { -asc => 'locale' },
 	})->all];

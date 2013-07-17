@@ -29,15 +29,15 @@
 				</div>
 			<: } :>
 			<div class="row">
-				<div class="forty">
+				<div class="forty <: if !$user_has_languages { :>wiz-arrow wiz-arrow-top-right<: } :>">
 					<: include "my/account/language_add.tx" :> 
 				</div>
-				<div class="third">
+				<div class="third <: if !$user_has_languages { :>wiz-arrow wiz-arrow-bottom-right<: } :>">
 					<select data-placeholder="Please select language level" class="language_grade" name="language_grade" id="grade" >
 						<: include "my/account/language_grade_options.tx" :>
 					</select>
 				</div>
-				<div class="pull-right">
+				<div class="pull-right <: if !$user_has_languages { :>wiz-arrow wiz-arrow-bottom-left<: } :>">
 					<input type="submit" class="button" name="add_language" value="Add Language" />
 				</div>
 			</div>

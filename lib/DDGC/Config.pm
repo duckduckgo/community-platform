@@ -47,6 +47,8 @@ sub prosody_db_host { $ENV{'DDGC_PROSODY_DB_HOST'} if defined $ENV{'DDGC_PROSODY
 
 sub prosody_userhost { defined $ENV{'DDGC_PROSODY_USERHOST'} ? $ENV{'DDGC_PROSODY_USERHOST'} : 'test.domain' }
 
+sub is_live { prosody_userhost() eq 'dukgo.com' ? 1 : 0 }
+
 sub prosody_admin_username { defined $ENV{'DDGC_PROSODY_ADMIN_USERNAME'} ? $ENV{'DDGC_PROSODY_ADMIN_USERNAME'} : 'testone' }
 sub prosody_admin_password { defined $ENV{'DDGC_PROSODY_ADMIN_PASSWORD'} ? $ENV{'DDGC_PROSODY_ADMIN_PASSWORD'} : 'testpass' }
 

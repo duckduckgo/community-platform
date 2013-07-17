@@ -52,6 +52,7 @@ has config => (
 	lazy_build => 1,
 );
 sub _build_config { DDGC::Config->new }
+sub is_live { shift->config->is_live }
 ####################################################################
 
 ############################################################
@@ -385,17 +386,15 @@ sub create_user {
 }
 
 sub find_user {
-	my ( $self, $username, $no_fallback ) = @_;
+	my ( $self, $username ) = @_;
 
 	return unless $username;
 
 	my %xmpp_user = $self->xmpp->user($username);
 
 	unless (%xmpp_user) {
-		if ($self->config->prosody_running || $no_fallback) {
+		if ($self->config->prosody_running) {
 			return unless %xmpp_user;
-		} else {
-			return $self->find_user($self->config->fallback_user);
 		}
 	}
 
