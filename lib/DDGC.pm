@@ -390,18 +390,22 @@ sub find_user {
 
 	return unless $username;
 
-	my %xmpp_user = $self->xmpp->user($username);
+	my %xmpp_user;
+	my $db_user;
 
-	unless (%xmpp_user) {
-		if ($self->config->prosody_running) {
-			return unless %xmpp_user;
-		}
+	if ($self->config->prosody_running) {
+		%xmpp_user = $self->xmpp->user($username);
+		return unless %xmpp_user;
+		$db_user = $self->db->resultset('User')->find_or_create({
+			username => $username,
+			notes => 'Generated automatically based on prosody account',
+		});
+	} else {
+		$db_user = $self->db->resultset('User')->find({
+			username => $username,
+		});
+		return unless $db_user;
 	}
-
-	my $db_user = $self->db->resultset('User')->find_or_create({
-		username => $username,
-		notes => 'Generated automatically based on prosody account',
-	});
 
 	return DDGC::User->new({
 		username => $username,

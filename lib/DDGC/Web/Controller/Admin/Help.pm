@@ -2,11 +2,9 @@ package DDGC::Web::Controller::Admin::Help;
 # ABSTRACT: Help administration web controller class
 
 use Moose;
+BEGIN { extends 'Catalyst::Controller'; }
+
 use namespace::autoclean;
-
-use DDGC::Config;
-
-BEGIN {extends 'Catalyst::Controller'; }
 
 sub base :Chained('/admin/base') :PathPart('help') :CaptureArgs(0) {
     my ( $self, $c ) = @_;
@@ -37,6 +35,5 @@ sub index :Chained('base') :PathPart('') :Args(0) {
 
 }
 
+no Moose;
 __PACKAGE__->meta->make_immutable;
-
-1;

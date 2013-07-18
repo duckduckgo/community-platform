@@ -2,18 +2,18 @@ package DDGC::Web::Controller::Admin::User;
 # ABSTRACT: User administration web controller class
 
 use Moose;
+BEGIN { extends 'Catalyst::Controller'; }
+
 use namespace::autoclean;
-
-use DDGC::Config;
-
-BEGIN {extends 'Catalyst::Controller'; }
 
 sub base :Chained('/admin/base') :PathPart('user') :CaptureArgs(0) {
     my ( $self, $c ) = @_;
+    $c->add_bc('User management', $c->chained_uri('Admin::User','index'));
 }
 
 sub index :Chained('base') :PathPart('') :Args(0) {
     my ( $self, $c ) = @_;
+    $c->bc_index;
     my @search_attrs;
     $c->stash->{user_search} = $c->req->param('user_search');
     if ($c->stash->{user_search}) {
@@ -37,6 +37,16 @@ sub index :Chained('base') :PathPart('') :Args(0) {
 	$c->stash->{users_count} = $c->stash->{users}->count;
 }
 
-__PACKAGE__->meta->make_immutable;
+sub user_base :Chained('base') :PathPart('view') :CaptureArgs(1) {
+    my ( $self, $c, $username ) = @_;
+    $c->stash->{user} = $c->d->find_user($username);
+    unless ($c->stash->{user}) {
+        $c->response->redirect($c->chained_uri('Admin::User','index',{ user_not_found => 1 }));
+        return $c->detach;
+    }
+}
 
-1;
+sub user :Chained('user_base') :PathPart('') :Args(0) {}
+
+no Moose;
+__PACKAGE__->meta->make_immutable;

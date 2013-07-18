@@ -12,6 +12,9 @@
 			<div class="third palm-hide">
 				<h2>Level <a href="#" data-reveal-id="grades-tooltip"><i class="icon-question-sign icn--sup" id="trig-level-tooltip"></i></a></h2>
 			</div>
+			<: if $c.user.admin { :>
+				<a class="pull-right button big green" href="<: $u('Admin','index') :>">Admin area</a>
+			<: } :>
 		</div>
 		<div class="body">
 			<: for results($c.user.user_languages) -> $user_language { :>

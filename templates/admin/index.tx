@@ -1,1 +1,51 @@
-<h1>Admin Area</h1>
+<h2 class="mg-top mg-bottom--big h1 text-center">Welcome, oh almighty, <: $c.user.username :></h2>
+<div class="seventy block-mid mg-top--big mg-bottom">
+	<hr class="mg-top--none" />
+	<div class="row gw">
+		<div class="g third">
+			<p><a class="button  full  tall  h1  yellow" href="<: $u('Admin::User','index') :>"><i class="icon-list"></i></a></p>
+		</div>
+		<div class="g twothirds">
+			<h3 class="mg-top--small">User management</h3>
+			<p>Latest updates:
+				<: for results($latest_updated_users) -> $user { :>
+					<a href="<: $u('Admin::User','user',$user.username) :>">
+						<: $user.username :>
+					</a>
+				<: } :><br/>
+				We had <: $day_registrations_count :> registrations on the web platform in the last 24 hours.
+			</p>
+		</div>
+	</div>
+	<hr class="mg-top--none" />
+	<div class="row gw">
+		<div class="g third">
+			<p><a class="button  full  tall  h1  darkblue" href="<: $u('Admin::Language','index') :>"><i class="icon-globe"></i></a></p>
+		</div>
+		<div class="g twothirds">
+			<h3 class="mg-top--small">Language editor</h3>
+			<p>Currently supporting <: $languages_count :> languages, supplying <: $translations_count :> translations with <: $votes_count :> votes.</p>
+		</div>
+	</div>
+	<hr class="mg-top--none" />
+	<div class="row gw">
+		<div class="g third">
+			<p><a class="button full tall h1 blue" href="<: $u('Admin::Token','index') :>"><i class="icon-pencil"></i></a></p>
+		</div>
+		<div class="g twothirds">
+			<h3 class="mg-top--small">Token domain management</h3>
+			<p>There are <: $token_domains_count :> domains with <: $tokens_count :> tokens.</p>
+		</div>
+	</div>
+	<hr class="mg-top--none" />
+	<div class="row gw">
+		<div class="g third">
+			<p><a class="button  full  tall  h1  paleblue" href=""><i class="icon-eye-open"></i></a></p>
+		</div>
+		<div class="g twothirds">
+			<h3 class="mg-top--small">View system log</h3>
+			<p></p>
+		</div>
+	</div>
+	<hr class="mg-top--none" />
+</div>

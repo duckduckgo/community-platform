@@ -1,9 +1,9 @@
 package DDGC::Web::Controller::Forum;
 
 use Moose;
-use namespace::autoclean;
-
 BEGIN {extends 'Catalyst::Controller'; }
+
+use namespace::autoclean;
 
 sub base : Chained('/base') PathPart('forum') CaptureArgs(0) {
   my ( $self, $c ) = @_;

@@ -13,13 +13,28 @@ sub base :Chained('/base') :PathPart('admin') :CaptureArgs(0) {
 		return $c->detach;
 	}
 	$c->stash->{title} = 'Admin area';
-	$c->stash->{headline_template} = 'headline/admin.tt';
+	$c->add_bc('Admin area', $c->chained_uri('Admin','index'));
 }
 
 sub index :Chained('base') :Args(0) {
     my ( $self, $c ) = @_;
+	$c->bc_index;
+	$c->stash->{latest_updated_users} = $c->d->rs('User')->search({},{
+		order_by => { -desc => 'me.updated' },
+		rows => 5,
+		page => 1,
+	});
+	$c->stash->{day_registrations_count} = $c->d->rs('User')->search({
+		created => { ">" => $c->d->db->storage->datetime_parser->format_datetime(
+			DateTime->now - DateTime::Duration->new( days => 1 )
+		) },
+	},{})->count;
+	$c->stash->{languages_count} = $c->d->rs('Language')->count;
+	$c->stash->{translations_count} = $c->d->rs('Token::Language::Translation')->count;
+	$c->stash->{votes_count} = $c->d->rs('Token::Language::Translation::Vote')->count;
+	$c->stash->{token_domains_count} = $c->d->rs('Token::Domain')->count;
+	$c->stash->{tokens_count} = $c->d->rs('Token')->count;
 }
 
+no Moose;
 __PACKAGE__->meta->make_immutable;
-
-1;

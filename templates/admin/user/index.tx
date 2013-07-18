@@ -1,3 +1,11 @@
+<: if $c.req.params.user_not_found { :>
+	<div class="notice error clickaway">
+		<i class="icn icon-warning-sign"></i>
+		The requested user doesn't exist, the user might have deleted his account.
+		<i class="close icon-remove"></i>
+	</div>
+<: } :>
+
 <form action="<: $u('Admin::User','index') :>" method="post" id="formAdminUsers">
 
 <: include admin::user::pager :>

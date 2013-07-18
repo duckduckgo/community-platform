@@ -16,7 +16,7 @@
 	</div>
 	<div class="body">
 		<: for $not_speak -> $token_domain_language { :>
-			<: include "translate/domainindex/token_domain_language.tx" { token_domain_language => $token_domain_language } :>
+			<: include "translate/domainindex/token_domain_language.tx" { token_domain_language => $token_domain_language, no_discuss => 1 } :>
 		<: } :>
 	</div> 
 </div>

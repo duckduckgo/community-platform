@@ -2,18 +2,18 @@ package DDGC::Web::Controller::Admin::Token;
 # ABSTRACT: REMOVE ME
 
 use Moose;
+BEGIN { extends 'Catalyst::Controller'; }
+
 use namespace::autoclean;
-
-use DDGC::Config;
-
-BEGIN {extends 'Catalyst::Controller'; }
 
 sub base :Chained('/admin/base') :PathPart('token') :CaptureArgs(0) {
     my ( $self, $c ) = @_;
+    $c->add_bc('Token domain management', $c->chained_uri('Admin::Token','index'));
 }
 
 sub index :Chained('base') :PathPart('') :Args(0) {
     my ( $self, $c ) = @_;
+    $c->bc_index;
 	$c->stash->{token_domains} = [$c->d->rs('Token::Domain')->search({})->all];
 	for my $tc (@{$c->stash->{token_domains}}) {
 		my $p = 'token_domain_'.$tc->id.'_';
@@ -31,6 +31,5 @@ sub index :Chained('base') :PathPart('') :Args(0) {
 	}
 }
 
+no Moose;
 __PACKAGE__->meta->make_immutable;
-
-1;

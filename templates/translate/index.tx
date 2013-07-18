@@ -49,7 +49,7 @@ just follow these steps:</p>
 		</div>
 		<div class="body">
 			<div class="row">
-				<p><: $token_domain.description :></p>
+				<p><: r($token_domain.description) :></p>
 			</div>
 			<div class="row mid">
 				<a class="big blue button" href="<: $u($token_domain.u) :>">

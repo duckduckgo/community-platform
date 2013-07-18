@@ -2,21 +2,31 @@ package DDGC::Web::Controller::Admin::Language;
 # ABSTRACT: Language administration web controller class
 
 use Moose;
+BEGIN { extends 'Catalyst::Controller'; }
+
 use namespace::autoclean;
-
-use DDGC::Config;
-
-BEGIN {extends 'Catalyst::Controller'; }
 
 sub base :Chained('/admin/base') :PathPart('language') :CaptureArgs(0) {
     my ( $self, $c ) = @_;
+    $c->add_bc('Language editor', $c->chained_uri('Admin::Language','index'));
 }
 
 sub index :Chained('base') :PathPart('') :Args(0) {
     my ( $self, $c ) = @_;
-	$c->stash->{flaglist} = [$c->d->flaglist];
+    $c->bc_index;
 	$c->stash->{languages} = [$c->d->rs('Language')->search({})->all];
-	my @keys = qw/ name_in_english name_in_local lang_in_local locale flagicon nplurals plural rtl/;
+	my @keys = qw/
+		name_in_english
+		name_in_local
+		lang_in_local
+		locale
+		svg1
+		svg2
+		nplurals
+		plural
+		rtl
+	/;
+	$c->stash->{language_keys} = \@keys;
 	for my $l (@{$c->stash->{languages}}) {
 		my $p = 'language_'.$l->id.'_';
 		if ($c->req->params->{$p.'delete'}) {
@@ -37,6 +47,5 @@ sub index :Chained('base') :PathPart('') :Args(0) {
 	}
 }
 
+no Moose;
 __PACKAGE__->meta->make_immutable;
-
-1;
