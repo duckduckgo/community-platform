@@ -16,7 +16,7 @@
 		<: } :>
 
 		<h2>Login to your account</h2>
-		<form action="<: $u('My','login') :>" class="group">
+		<form action="<: $u('My','login') :>" class="group" method="post">
 			<div class="third">
 				<div class="input-wrap"><input type="text" placeholder="Your Username" name="username" class="text" value="<: $username :>"/></div>
 			</div>
