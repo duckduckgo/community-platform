@@ -1,4 +1,5 @@
 package DDGC::Wizard::Untranslated;
+# ABSTRACT: Untranslated tokens of a token domain in a language
 
 use Moose;
 extends 'DDGC::Wizard';

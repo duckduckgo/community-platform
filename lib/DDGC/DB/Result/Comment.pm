@@ -1,4 +1,5 @@
 package DDGC::DB::Result::Comment;
+# ABSTRACT: Comment result class
 
 use Moose;
 use MooseX::NonMoose;

@@ -1,5 +1,5 @@
 package DDGC::Web::Model::DDGC;
-# ABSTRACT: 
+# ABSTRACT: Adaptor model to connect DDGC to Catalyst
 
 use Moose;
 extends 'Catalyst::Model::Adaptor';

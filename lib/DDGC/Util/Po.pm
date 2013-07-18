@@ -1,4 +1,5 @@
 package DDGC::Util::Po;
+# ABSTRACT: Utility functions for working with po files
 
 use strict;
 use warnings;

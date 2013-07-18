@@ -1,8 +1,9 @@
 package DDGC::Web::Controller::Blog;
 
 use Moose;
-use namespace::autoclean;
 BEGIN {extends 'DDGC::Web::ControllerBase::Blog'; }
+
+use namespace::autoclean;
 
 sub index_title { 'Latest DuckDuckGo Blog posts' }
 

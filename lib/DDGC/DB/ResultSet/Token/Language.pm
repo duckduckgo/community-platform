@@ -1,4 +1,5 @@
 package DDGC::DB::ResultSet::Token::Language;
+# ABSTRACT: Resultset class for the tokens for the languages
 
 use Moose;
 extends 'DBIx::Class::ResultSet';

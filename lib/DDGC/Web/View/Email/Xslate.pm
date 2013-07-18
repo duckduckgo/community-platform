@@ -1,5 +1,5 @@
 package DDGC::Web::View::Email::Xslate;
-# ABSTRACT: 
+# ABSTRACT: View to send out emails via Catalst (legacy, use DDGC::Postman)
 
 use Moose;
 extends 'Catalyst::View::Email::Template';

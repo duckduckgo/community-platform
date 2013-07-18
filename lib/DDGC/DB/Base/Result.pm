@@ -1,4 +1,5 @@
 package DDGC::DB::Base::Result;
+# ABSTRACT: Base class for all DBIx::Class Result base classes of the project
 
 use Moose;
 use MooseX::NonMoose;

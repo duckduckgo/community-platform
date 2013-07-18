@@ -1,4 +1,5 @@
 package DDGC::DB::Result::Help;
+# ABSTRACT: TODO Help information system
 
 use Moose;
 use MooseX::NonMoose;
@@ -34,6 +35,10 @@ column data => {
 	is_nullable => 1,
 	serializer_class => 'YAML',
 };
+
+#
+# TODO add relation to language
+#
 
 column notes => {
 	data_type => 'text',

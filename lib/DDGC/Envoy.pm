@@ -1,5 +1,5 @@
 package DDGC::Envoy;
-# ABSTRACT: Notification functions
+# ABSTRACT: Notification component
 
 use Moose;
 use DateTime;

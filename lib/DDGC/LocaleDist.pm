@@ -1,5 +1,5 @@
 package DDGC::LocaleDist;
-# ABSTRACT: 
+# ABSTRACT: Generating a distribution of the translations of a token domain for DuckPAN
 
 use Moose;
 use DateTime;

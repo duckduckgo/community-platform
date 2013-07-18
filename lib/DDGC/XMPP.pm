@@ -1,4 +1,5 @@
 package DDGC::XMPP;
+# ABSTRACT: Access to the XMPP server
 
 use Moose;
 use DDGC::Config;

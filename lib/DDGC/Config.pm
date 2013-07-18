@@ -1,5 +1,5 @@
 package DDGC::Config;
-# ABSTRACT: 
+# ABSTRACT: DDGC main configuration file 
 
 use strict;
 use warnings;

@@ -1,4 +1,5 @@
 package DDGC::DB::Result::Language;
+# ABSTRACT: Result class for a language
 
 use Moose;
 use MooseX::NonMoose;

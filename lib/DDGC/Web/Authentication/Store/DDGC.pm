@@ -1,4 +1,5 @@
 package DDGC::Web::Authentication::Store::DDGC;
+# ABSTRACT: Using a DDGC class as authentication store on Catalyst
 
 use Moose;
 use Scalar::Util qw( blessed );

@@ -1,5 +1,5 @@
 package DDGC::Web::View::Xslate;
-# ABSTRACT: 
+# ABSTRACT: Using the DDGC Xslate component as view
 
 use Moose;
 extends 'Catalyst::View::Xslate';

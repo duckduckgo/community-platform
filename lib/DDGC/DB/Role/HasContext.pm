@@ -1,4 +1,5 @@
 package DDGC::DB::Role::HasContext;
+# ABSTRACT: A role for classes which uses the context / context_id concept
 
 use Moose::Role;
 

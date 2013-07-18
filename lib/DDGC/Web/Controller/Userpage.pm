@@ -2,11 +2,9 @@ package DDGC::Web::Controller::Userpage;
 # ABSTRACT: Userpage web controller class
 
 use Moose;
-use namespace::autoclean;
-
-use DDGC::Config;
-
 BEGIN {extends 'Catalyst::Controller'; }
+
+use namespace::autoclean;
 
 sub base :Chained('/base') :PathPart('') :CaptureArgs(1) {
 	my ( $self, $c, $username ) = @_;

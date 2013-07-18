@@ -1,4 +1,5 @@
 package DDGC::DB::Result::Screen;
+# ABSTRACT: TODO Screenshot result class
 
 use Moose;
 use MooseX::NonMoose;

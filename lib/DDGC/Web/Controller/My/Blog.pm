@@ -1,8 +1,8 @@
 package DDGC::Web::Controller::My::Blog;
-# ABSTRACT: Userpage editor
+# ABSTRACT: Blog editor
 
 use Moose;
-BEGIN {extends 'Catalyst::Controller'; }
+BEGIN { extends 'Catalyst::Controller'; }
 
 use DateTime;
 use DateTime::Format::RSS;

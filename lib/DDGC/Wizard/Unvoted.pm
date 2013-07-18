@@ -1,4 +1,5 @@
 package DDGC::Wizard::Unvoted;
+# ABSTRACT: Unvoted tokens of a token domain in a language of a user
 
 use Moose;
 extends 'DDGC::Wizard';

@@ -1,4 +1,5 @@
 package DDGC::Wizard;
+# ABSTRACT: Wizard base class
 
 use Moose;
 use MooseX::Storage;

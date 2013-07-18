@@ -1,4 +1,5 @@
 package DDGC::DB::Result::Token::Domain::Language;
+# ABSTRACT: A Token::Domain::Language exist for every language of a token domain
 
 use Moose;
 use MooseX::NonMoose;

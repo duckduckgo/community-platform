@@ -1,6 +1,7 @@
 package DDGC::Web::Controller::Translate::Po;
+
 use Moose;
-use namespace::autoclean;
+BEGIN { extends 'Catalyst::Controller'; }
 
 use DDGC::Config;
 use Data::Printer;
@@ -9,8 +10,7 @@ use DDGC::Util::Po;
 use JSON;
 use IO::All;
 use DateTime;
-
-BEGIN {extends 'Catalyst::Controller'; }
+use namespace::autoclean;
 
 sub base :Chained('/translate/base') :PathPart('po') :CaptureArgs(0) {
     my ( $self, $c ) = @_;

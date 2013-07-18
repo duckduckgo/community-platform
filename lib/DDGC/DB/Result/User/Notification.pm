@@ -1,4 +1,5 @@
 package DDGC::DB::Result::User::Notification;
+# ABSTRACT: User notification setting result class
 
 use Moose;
 use MooseX::NonMoose;

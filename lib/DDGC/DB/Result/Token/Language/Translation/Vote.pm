@@ -1,4 +1,5 @@
 package DDGC::DB::Result::Token::Language::Translation::Vote;
+# ABSTRACT: A vote of a user on a translation
 
 use Moose;
 use MooseX::NonMoose;

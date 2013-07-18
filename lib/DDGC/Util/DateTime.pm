@@ -1,4 +1,5 @@
 package DDGC::Util::DateTime;
+# ABSTRACT: Utility functions for DateTime visualization
 
 use strict;
 use warnings;

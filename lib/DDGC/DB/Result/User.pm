@@ -1,4 +1,5 @@
 package DDGC::DB::Result::User;
+# ABSTRACT: Result class of a user in the DB
 
 use Moose;
 use MooseX::NonMoose;

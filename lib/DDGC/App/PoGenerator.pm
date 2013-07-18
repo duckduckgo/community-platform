@@ -1,4 +1,5 @@
 package DDGC::App::PoGenerator;
+# ABSTRACT: Application for generating po files for a token domain
 
 use Moose;
 use DDGC;

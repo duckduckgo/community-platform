@@ -1,4 +1,5 @@
 package DDGC::DB::Result::Token::Language;
+# ABSTRACT: A token in a specific language
 
 use Moose;
 use MooseX::NonMoose;

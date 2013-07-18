@@ -1,5 +1,5 @@
 package DDGC::DuckPAN;
-# ABSTRACT: 
+# ABSTRACT: Functions to access http://duckpan.org/ CPAN repository
 
 use Moose;
 use CPAN::Repository;

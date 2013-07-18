@@ -1,4 +1,5 @@
 package DDGC::DB::ResultSet::User::Blog;
+# ABSTRACT: Resultset class for blog posts
 
 use Moose;
 extends 'DBIx::Class::ResultSet';

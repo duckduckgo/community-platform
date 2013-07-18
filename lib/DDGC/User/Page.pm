@@ -1,4 +1,5 @@
 package DDGC::User::Page;
+# ABSTRACT: Class for the user page information
 
 use Moose;
 use DDGC::User::Page::Field;

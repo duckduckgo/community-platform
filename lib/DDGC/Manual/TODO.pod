@@ -5,21 +5,9 @@
 
 =head1 Design
 
-Making the token domain language overview on translate/index hidden, load it
-via ajax on request. Clicking on token domain leads then to language overview
-instead of direct translation.
-
-There is no visual difference between language the user speaks and the ones the
-user doesnt speak. In favour of "hey lets look at other languages" i dont
-wanted it limited to only the languages the user speaks. Also prevent display
-of english language name on english languages ;).
-
 [PRIORITY 1!!!] Missing table design for admin area and general use for lists
 (sortable buttons please).
 * added table styling
-
-Missing Error / Not Found page (default.tx, error.tx, error.tx must be
-independent, more simple HTML variant)
 
 The new Roboduck feature under /roboduck (roboduck/index.tx) needs a bit cooler
 HTML. I will probably ask Valentin to make a special logo for that one, like
@@ -27,10 +15,6 @@ a dax with robocop helmet and a speech bubble giving the answer.
 * made it look a bit nicer
 
 =head1 Design Errors
-
-Tokenpage has space between the language dropdown/breadcrumb and the actual
-token list.
-* not seeing this
 
 [LOW PRIORITY!!! IGNORE FOR NOW] Account tooltips for the language are not
 shown 

@@ -1,4 +1,5 @@
 package DDGC::User::Page::Field;
+# ABSTRACT: One field of the user page
 
 use Moose;
 use Email::Valid;

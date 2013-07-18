@@ -1,4 +1,5 @@
 package DDGC::Wizard::UntranslatedAll;
+# ABSTRACT: All untranslated tokens of the languages of a user
 
 use Moose;
 extends 'DDGC::Wizard';

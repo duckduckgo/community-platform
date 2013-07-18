@@ -1,4 +1,5 @@
 package DDGC::DB::Result::Event::Notification;
+# ABSTRACT: Notification of a specific user for a specific event
 
 use Moose;
 use MooseX::NonMoose;

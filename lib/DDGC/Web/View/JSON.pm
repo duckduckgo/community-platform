@@ -1,5 +1,5 @@
 package DDGC::Web::View::JSON;
-# ABSTRACT: 
+# ABSTRACT: Standard Catalyst JSON view
 
 use Moose;
 extends 'Catalyst::View::JSON';

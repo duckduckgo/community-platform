@@ -1,4 +1,5 @@
 package DDGC::DB::Result::User::Language;
+# ABSTRACT: Result class of the relation between a user and a language
 
 use Moose;
 use MooseX::NonMoose;

@@ -1,4 +1,5 @@
 package DDGC::DB::Result::Event;
+# ABSTRACT: Result class of an event
 
 use Moose;
 use MooseX::NonMoose;

@@ -1,4 +1,5 @@
 package DDGC::DB::Result::Token::Language::Translation;
+# ABSTRACT: A translation
 
 use Moose;
 use MooseX::NonMoose;

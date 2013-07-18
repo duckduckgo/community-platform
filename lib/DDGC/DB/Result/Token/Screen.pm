@@ -1,4 +1,5 @@
 package DDGC::DB::Result::Token::Screen;
+# ABSTRACT: TODO Screenshot of the token in the webpage
 
 use Moose;
 use MooseX::NonMoose;

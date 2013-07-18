@@ -1,4 +1,5 @@
 package DDGC::DB::Result::User::Blog;
+# ABSTRACT: Result class of blog posts
 
 use Moose;
 use MooseX::NonMoose;

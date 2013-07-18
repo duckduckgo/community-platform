@@ -1,4 +1,5 @@
 package DDGC::DB::Result::Token::Domain;
+# ABSTRACT: A token domain
 
 use Moose;
 use MooseX::NonMoose;

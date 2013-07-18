@@ -1,4 +1,5 @@
 package DDGC::Wizard::UnvotedAll;
+# ABSTRACT: All unvoted translations of the languages of a user
 
 use Moose;
 extends 'DDGC::Wizard';

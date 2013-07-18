@@ -1,4 +1,5 @@
 package DDGC::DB::Result::DuckPAN::Release;
+# ABSTRACT: Releases made on DuckPAN
 
 use Moose;
 use MooseX::NonMoose;

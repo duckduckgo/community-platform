@@ -1,4 +1,5 @@
 package DDGC::DB::ResultSet::Token::Domain;
+# ABSTRACT: Resultset class for the token domains
 
 use Moose;
 extends 'DBIx::Class::ResultSet';
