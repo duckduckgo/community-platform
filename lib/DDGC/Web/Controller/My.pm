@@ -137,30 +137,6 @@ sub account :Chained('logged_in') :Args(0) {
 			$saved = 1;
 		}
 
-		if ($_ eq 'set_gravatar_email') {
-			if ( Email::Valid->address($c->req->params->{gravatar_email}) ) {
-				my $data = $c->user->data || {};
-				$data->{gravatar_email} = $c->req->params->{gravatar_email};
-				$data->{gravatar_urls} = {};
-				for (qw/16 32 48 64 80/) {
-					$data->{gravatar_urls}->{$_} = "//www.gravatar.com/avatar/".md5_hex($data->{gravatar_email})."?r=g&s=$_";
-				}
-				$c->user->data($data);
-				$c->user->update;
-				$saved = 1;
-			} else {
-				$c->stash->{no_valid_gravatar_email} = 1;
-			}
-		}
-
-		if ($_ eq 'unset_gravatar_email') {
-			my $data = $c->user->data || {};
-			delete $data->{gravatar_email};
-			delete $data->{gravatar_urls};
-			$c->user->data($data);
-			$c->user->update;
-		}
-
     }
 
     $c->stash->{saved} = $saved;
