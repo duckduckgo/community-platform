@@ -14,14 +14,14 @@
 	</p>
 <: } :>
 <: if $need_username { :>
-	<p class="notice warning">
+	<p class="notice error">
 		<i class="icn icon-warning-sign"></i>Please enter a username.
 	</p>				
 <:  } :>
 <: # This is not currently used, but TODO: Fix it before it is used. # :>
 <: if $user_exist { :>
-	<p class="notice warning">
-		<i class="icn icon-warning-sign"></i>The username $user exists already. Please try again.
+	<p class="notice error">
+		<i class="icn icon-warning-sign"></i>The username <: $username :> exists already. Please try again.
 	</p>				
 <:  } :> 
 <: if $not_valid_chars { :>
@@ -35,7 +35,7 @@
 	</p>
 <: } :>	
 <: if $password_too_short {  :> 
-	<p class="notice warning">
+	<p class="notice error">
 		<i class="icn icon-warning-sign"></i>Password must be at least 3 characters.
 	</p>
 <: } # with l(), this should be l($string,3) :>

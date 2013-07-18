@@ -416,6 +416,8 @@ sub register :Chained('logged_out') :Args(0) {
 		$error = 1;
 	}
 
+	return $c->detach if $error;
+
 	my $user = $c->model('DDGC')->create_user($username,$password);
 
 	if ($user) {
