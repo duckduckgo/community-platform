@@ -1,7 +1,7 @@
-<div class="notice warning clickaway">
+<div class="notice error">
 	<i class="icn icon-warning-sign"></i>
-		This page is only for discussion, 
-		<a href="<: $u('Translate','landing',$token_domain.key) :>">Click here for making translations!</a>
+		This page is only for discussion!&nbsp;&nbsp;
+		<a class="button red" href="<: $u('Translate','landing',$token_domain.key) :>">Click here to start translating!</a>
 </div>
 
 <div class="language_nav">
@@ -11,6 +11,7 @@
 <div class="content-box translate-snippets">	
 	<div class="head">		
 		<h2>Discuss <: $token_domain_language.token_domain.name :> in <: $token_domain_language.language.name_in_english :></h2>
+		<img src="<: $token_domain_language.language.flag_url :>" />
 	</div>
 	<div class="body">
 		<div class="row">

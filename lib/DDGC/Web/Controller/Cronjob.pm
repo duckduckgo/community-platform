@@ -114,7 +114,7 @@ sub notify_cycle {
 	for (keys %users) {
 		my @notifications = @{$users{$_}};
 		my $user = $notifications[0]->user;
-		next unless defined $user->data->{email};
+		next unless $user->data && defined $user->data->{email};
 		my %store;
 		for (@notifications) {
 			if (defined $mapping{$_->event->context}) {

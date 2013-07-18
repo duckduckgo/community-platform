@@ -72,7 +72,7 @@ just follow these steps:</p>
 		</div>
 		<div class="body">
 			<div class="row">
-				<a class="red button" href="<: $u('Translate::Po','index') :>">Po Manager</a>	
+				<a class="button" href="<: $u('Translate::Po','index') :>">Po Manager</a>	
 			</div>
 		</div>
 	</div>

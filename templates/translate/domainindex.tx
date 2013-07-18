@@ -7,11 +7,6 @@
 		<: for $can_speak -> $token_domain_language { :>
 			<: include "translate/domainindex/token_domain_language.tx" { token_domain_language => $token_domain_language } :>
 		<: } :>
-		<: if $c.user && $c.user.translation_manager { :>
-			<div class="row mid">
-				<a class="big blue button" href="<: $u('Translate','admin',$token_domain.key) :>">Token Domain Management</a>
-			</div>
-		<: } :>
 	</div> 
 </div>
 
