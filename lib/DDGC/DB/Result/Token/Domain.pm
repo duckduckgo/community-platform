@@ -16,6 +16,9 @@ table 'token_domain';
 
 sub u { [ 'Translate', 'domainindex', shift->key ] }
 
+sub u_untranslated { [ 'Translate', 'domainuntranslated', shift->key ] }
+sub u_unvoted { [ 'Translate', 'domainunvoted', shift->key ] }
+
 column id => {
 	data_type => 'bigint',
 	is_auto_increment => 1,

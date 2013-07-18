@@ -182,6 +182,16 @@ sub domainindex :Chained('domain') :PathPart('') :Args(0) {
 	$c->stash->{not_speak} = \@not_speak;
 }
 
+sub domainuntranslated :Chained('domain') :Args(0) {
+	my ( $self, $c ) = @_;
+	$c->wiz_start( 'UntranslatedAllDomain', token_domain_id => $c->stash->{token_domain}->id );
+}
+
+sub domainunvoted :Chained('domain') :Args(0) {
+	my ( $self, $c ) = @_;
+	$c->wiz_start( 'UnvotedAllDomain', token_domain_id => $c->stash->{token_domain}->id );
+}
+
 sub admin :Chained('domain') :Args(0) {
 	my ( $self, $c ) = @_;
 

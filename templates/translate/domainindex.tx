@@ -1,3 +1,25 @@
+<: if !$c.wiz_running { :>
+	<div class="notice notice--wizard clickaway">	
+		<div class="faux  notice__content">
+			<div class="faux__image">
+				<img src="/static/img/duck-wizard.png" />
+			</div>
+			<div class="mid">
+				<h4>You can also directly go to ...</h4>
+				<div>
+					<a class="button red" href="<: $u('Translate','untranslated_all') :>">
+						... next untranslated token ...
+					</a>
+					<a class="button red" href="<: $u('Translate','unvoted_all') :>">
+						... next unvoted translation ...
+					</a>
+				</div>
+				<h4>... on this token domain in your languages</h4>
+			</div>
+		</div>
+	</div>
+<: } :>
+
 <div class="content-box translate-overview">	
 	<div class="head">		
 		<h2>Translate <: $token_domain.name :> into ...</h2>
