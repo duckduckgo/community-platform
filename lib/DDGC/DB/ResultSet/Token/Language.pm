@@ -74,15 +74,15 @@ sub unvoted_all {
 		join => [ {
 			token_language_translations => 'token_language_translation_votes'
 		}, { token_domain_language => 'token_domain' } ],
-		order_by => { -desc => 'token_language_votes' },
-		'+columns' => {
-			token_language_votes => $schema->resultset('Token::Language::Translation::Vote')->search({
-				'token_language_translation.token_language_id' => { -ident => 'me.id' },
-			},{
-				join => 'token_language_translation',
-				alias => 'votes',
-			})->count_rs->as_query,
-		},
+		order_by => { -desc => 'me.created' },
+		# '+columns' => {
+		# 	token_language_votes => $schema->resultset('Token::Language::Translation::Vote')->search({
+		# 		'token_language_translation.token_language_id' => { -ident => 'me.id' },
+		# 	},{
+		# 		join => 'token_language_translation',
+		# 		alias => 'votes',
+		# 	})->count_rs->as_query,
+		# },
 	});
 }
 
@@ -113,15 +113,15 @@ sub unvoted {
 		join => [ {
 			token_language_translations => 'token_language_translation_votes'
 		}, 'token_domain_language' ],
-		order_by => { -desc => 'token_language_votes' },
-		'+columns' => {
-			token_language_votes => $schema->resultset('Token::Language::Translation::Vote')->search({
-				'token_language_translation.token_language_id' => { -ident => 'me.id' },
-			},{
-				join => 'token_language_translation',
-				alias => 'votes',
-			})->count_rs->as_query,
-		},
+		order_by => { -desc => 'me.created' },
+		# '+columns' => {
+		# 	token_language_votes => $schema->resultset('Token::Language::Translation::Vote')->search({
+		# 		'token_language_translation.token_language_id' => { -ident => 'me.id' },
+		# 	},{
+		# 		join => 'token_language_translation',
+		# 		alias => 'votes',
+		# 	})->count_rs->as_query,
+		# },
 	});
 }
 

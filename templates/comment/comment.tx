@@ -8,7 +8,7 @@
 </div-->
 <div class="comment-body" id="comment_<: $comment.id :>">	
 	<div class="row">
-		<p><: if !$comment.user { :><em class="comment-deleted"><: } :><: $comment.content :><: if !$comment.user { :></em><: } :></p>
+		<p><: if !$comment.user { :><em class="comment-deleted"><: } :><: r($comment.content) :><: if !$comment.user { :></em><: } :></p>
 		<span class="comment-meta">posted by <: if $comment.user { include "user/username.tx" {user=>$comment.user} } else { 'someone' } :> &bull; <: $dur($comment.created) :> <: if $c.user and !$no_reply { :> &bull; <a class="comment_reply_link no-js-hide" href="#">Reply</a><a class="comment_reply_cancel_link no-js-hide hide" href="#">Cancel</a><: if ($c.user.admin or $c.user.id == $comment.user.id) and $comment.user { :> &bull; <a href="<: $u('Comment','delete',$comment.id) :>">Delete</a><: } :>
 		<: } if $comment.has_children { :><a href="#" class="comment-toggle"><i class="icon-minus-sign"></i></a><: } :></span>
 		<: if $c.user and !$no_reply { :>

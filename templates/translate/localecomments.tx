@@ -1,7 +1,7 @@
 <div class="notice error">
 	<i class="icn icon-warning-sign"></i>
 		This page is only for discussion!&nbsp;&nbsp;
-		<a class="button red" href="<: $u('Translate','landing',$token_domain.key) :>">Click here to start translating!</a>
+		<a class="button red" href="<: $u('Translate','landing',$token_domain.key,$token_domain_language.language.locale) :>">Click here to start translating!</a>
 </div>
 
 <div class="language_nav">
