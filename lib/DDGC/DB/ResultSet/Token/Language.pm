@@ -72,9 +72,7 @@ sub unvoted_all {
 		join => [ {
 			token_language_translations => 'token_language_translation_votes'
 		}, { token_domain_language => 'token_domain' } ],
-		'+select' => [ { count => 'token_language_translation_votes.id', -as => 'num_vote_count' } ],
-		'+as' => [ 'vote_count' ],
-		order_by => { -asc => 'num_vote_count' },
+		order_by => { -desc => 'me.created' },
 	});
 }
 
@@ -104,9 +102,7 @@ sub unvoted {
 		join => [ {
 			token_language_translations => 'token_language_translation_votes'
 		}, 'token_domain_language' ],
-		'+select' => [ { count => 'token_language_translation_votes.id', -as => 'num_vote_count' } ],
-		'+as' => [ 'vote_count' ],
-		order_by => { -asc => 'num_vote_count' },
+		order_by => { -desc => 'me.created' },
 	});
 }
 
