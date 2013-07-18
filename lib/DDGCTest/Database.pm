@@ -265,7 +265,7 @@ sub users {{
 
 sub add_users {
 	my ( $self ) = @_;
-	my $testone = $self->d->find_user('testone');
+	my $testone = $self->d->create_user('testone','blabla');
 	$self->isa_ok($testone,'DDGC::User');
 	$testone->admin(1);
 	$testone->public(1);

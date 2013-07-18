@@ -330,6 +330,21 @@ sub create_user {
 
 	return unless $username and $password;
 
+	unless ($self->config->prosody_running) {
+		my $user = $self->find_user($username);
+		die "user exists" if $user;
+		my $db_user = $self->db->resultset('User')->create({
+			username => $username,
+			notes => 'Created account',
+		});
+		return DDGC::User->new({
+			username => $username,
+			db => $db_user,
+			xmpp => {},
+			ddgc => $self,
+		});
+	}
+
 	my %xmpp_user_find = $self->xmpp->user($username);
 
 	die "user exists" if %xmpp_user_find;
