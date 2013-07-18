@@ -7,7 +7,7 @@ use namespace::autoclean;
 use DDGC::Config;
 use DDGC::User;
 use Email::Valid;
-use Digest::MD5 qw(md5_base64 md5_hex);
+use Digest::MD5 qw( md5_hex );
 
 BEGIN {extends 'Catalyst::Controller'; }
 

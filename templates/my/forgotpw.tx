@@ -1,3 +1,8 @@
+<div class="notice error">
+	<i class="icn icon-warning-sign"></i>
+	You will receive the new password instructions from <b>noreply@dukgo.com</b>. Please add this email to your contact list of your email account, to assure the email is not landing in the spam folder.
+</div>
+
 <div class="form-border">
 	<div class="form-wrap account-form">
 		<form action="<: $u('My','forgotpw') :>" method="post" id="formForgotpw" class="my">

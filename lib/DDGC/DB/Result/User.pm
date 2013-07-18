@@ -4,6 +4,7 @@ use Moose;
 use MooseX::NonMoose;
 extends 'DDGC::DB::Base::Result';
 use DBIx::Class::Candy;
+use Digest::MD5 qw( md5_hex );
 use namespace::autoclean;
 
 table 'users';
@@ -136,14 +137,37 @@ sub blog { shift->user_blogs_rs }
 
 sub profile_picture {
 	my ( $self, $size ) = @_;
-	if ($self->public && $self->data && $self->data->{gravatar_urls}) {
-		if ($size) {
-			return $self->data->{gravatar_urls}->{$size};
-		} else {
-			return $self->data->{gravatar_urls};
-		}
+
+	return unless $self->public;
+
+	my $gravatar_email;
+
+	if ($self->data && defined $self->data->{gravatar_email}) {
+		$gravatar_email = $self->data->{gravatar_email};
 	}
-	return;
+
+	if ($self->data && defined $self->data->{userpage} && defined $self->data->{userpage}->{gravatar_email}) {
+		$gravatar_email = $self->data->{userpage}->{gravatar_email};
+	}
+
+	if ($self->userpage && defined $self->userpage->{gravatar_email}) {
+		$gravatar_email = $self->userpage->{gravatar_email};
+	}
+
+	return unless $gravatar_email;
+
+	my $md5 = md5_hex($gravatar_email);
+
+	my %return;
+	for (qw/16 32 48 64 80/) {
+		$return{$_} = "//www.gravatar.com/avatar/".$md5."?r=g&s=$_";
+	}
+
+	if ($size) {
+		return $return{$size};
+	} else {
+		return \%return;
+	}
 }
 
 sub public_username {

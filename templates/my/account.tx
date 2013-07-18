@@ -65,6 +65,16 @@
 				Go to notifications
 			</a>
 		</div>
+		<div class="body">
+			<div class="row">
+				<div class="twothird">
+					<label>Configure notifications</label>
+				</div>
+				<div class="third">
+					<a href="<: $u('My::Notifications','edit') :>" class="button">Edit notifications</a>
+				</div>
+			</div>
+		</div>
 	</div>
 
 	<div class="content-box account-box">	
@@ -83,14 +93,6 @@
 				</div>
 				<div class="third">
 					<a href="<: $u('My','email') :>" class="button">Change email</a>
-				</div>
-			</div>
-			<div class="row">
-				<div class="twothird">
-					<label>Configure notifications</label>
-				</div>
-				<div class="third">
-					<a href="<: $u('My::Notifications','edit') :>" class="button">Edit notifications</a>
 				</div>
 			</div>
 			<div class="row">
@@ -124,7 +126,7 @@
 			<: if $c.user.public { :>
 				<div class="row">
 					<div class="twothird">
-						<label>Your <a href="<: $u('Userpage::Blog','index',$c.user.username) :>">blog</a> [BETA]</label>
+						<label>Your <a href="<: $u('Userpage::Blog','index',$c.user.username) :>">blog</a> [BETA] <a href="<: $u('Blog','post','blog-for-everybody') :>">More information here on our blog...</a></label>
 					</div>
 					<div class="third">
 						<a href="<: $u('My::Blog','index') :>" class="button">Edit posts</a>
@@ -148,17 +150,22 @@
 
 	<div class="content-box account-box">	
 		<div class="head">
-			<h2>Your chat (XMPP/Jabber)</h2>
+			<h2>Your chat (XMPP)</h2>
 		</div>
 		<div class="body">
 			<div class="row">			
-				<p>We provide a public XMPP/Jabber server bound to this account, which you can add to your prefered client. You can find a list of clients <a href="http://xmpp.org/xmpp-software/clients/">here</a>. XMPP is an open-standard instant communication protocol, like ICQ, MSN or Yahoo. More information you can find on the <a href="http://en.wikipedia.org/wiki/Jabber">Wikipedia Page</a>. You can see directions of how to get set up using the Pidgin client <a href="<: $u('Blog','post','using-pidgin-with-xmpp-jabber') :>">here</a>.</p>
+				<p>We provide a public XMPP server bound to this account, which you can add to your prefered client. You can find a list of clients <a href="http://xmpp.org/xmpp-software/clients/">here</a>. XMPP is an open-standard instant communication protocol, like ICQ, MSN or Yahoo. More information you can find on the <a href="http://wikipedia.org/wiki/XMPP">Wikipedia Page</a>. You can see directions of how to get set up using the Pidgin client <a href="<: $u('Blog','post','using-pidgin-with-xmpp-jabber') :>">here</a>.</p>
 				<p>
 				  <strong>Username:</strong> <: $c.user.username :><br/>
 				  <strong>Domain:</strong> <: $xmpp_userhost :><br/>
 				  <strong>Resource:</strong> whatever you want<br/>
-				  <strong>XMPP/Jabber Address:</strong> <: $c.user.username :>@<: $xmpp_userhost :>
+				  <strong>XMPP Address:</strong> <: $c.user.username :>@<: $xmpp_userhost :>
 				</p>			
+			</div>
+			<div class="row callout-row">
+				<a href="<: $u('Blog','post','xmpp-services-at-duckduckgo') :>">
+					<i class="icon-circle-arrow-right right"></i><h3 class="icon"><i class="icon-globe"></i>Click here for more information about our XMPP service.</h3>
+				</a>
 			</div>
 		</div>
 	</div>
