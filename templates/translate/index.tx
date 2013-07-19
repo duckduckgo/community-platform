@@ -11,22 +11,13 @@ just follow these steps:</p>
 <: if $c.user { :>
 	<: if $user_has_languages { :>
 		<: if $c.user && !$c.wiz_running { :>
-			<div class="notice notice--wizard clickaway">	
+			<div class="notice  info  notice--wizard  clickaway">	
 				<div class="faux  notice__content">
 					<div class="faux__image">
 						<img src="/static/img/duck-wizard.png" />
 					</div>
-					<div class="mid">
-						<h4>You can also directly go to ...</h4>
-						<div>
-							<a class="button red" href="<: $u('Translate','untranslated_all') :>">
-								... next untranslated token ...
-							</a>
-							<a class="button red" href="<: $u('Translate','unvoted_all') :>">
-								... next unvoted translation ...
-							</a>
-						</div>
-						<h4>... in your languages</h4>
+					<div class="faux__body  mid">
+						You can also directly go to the	<a href="<: $u('Translate','untranslated_all') :>">next untranslated token </a> or the <a href="<: $u('Translate','unvoted_all') :>">next unvoted translation</a> in your languages.
 					</div>
 				</div>
 			</div>
@@ -53,18 +44,18 @@ just follow these steps:</p>
 			</div>
 			<div class="row mid">
 				<a class="big blue button" href="<: $u($token_domain.u) :>">
-					Help translating <: $token_domain.name :>!
+					Help us translate <: $token_domain.name :>!
 				</a>
 			</div>
 		</div> 
 	</div>
 <: } :>
-
-<div class="notice warning mid">
-	<i class="icn icon-warning-sign"></i>
-	<a class="button red" href="<: $u('Blog','post','help-managing-translations') :>">Or help us even more and get a Translation manager!</a>
-</div>
-
+	
+	
+<a class="notice contrast" href="<: $u('Blog','post','help-managing-translations') :>">
+	<i class="icn icn--large icon-globe"></i><h3>Become a Translation Manager!</h3>
+</a>
+	
 <: if $c.user && $c.user.translation_manager { :>
 	<div class="content-box">
 		<div class="head">

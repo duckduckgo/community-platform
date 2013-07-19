@@ -1,4 +1,4 @@
-.account-box .row.callout-row {		
+.account-box .row.callout-row, .callout-row {		
 	background: #f5f5f5;	
 	padding: 15px 10px;
 	-webkit-border-radius: 0 0 5px 5px;
@@ -6,8 +6,12 @@
 	-webkit-background-clip: padding-box; 
 	background-clip: padding-box;	
 }
-	.account-box .callout-row a, .account-box .callout-row h3 { color: #5b5f68; }
-	.account-box .callout-row h3 { color: inherit; margin: 0; font-size: 18px; font-weight: bold; }
+.callout-row--round {
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+}
+	.account-box .callout-row a, .account-box .callout-row h3, .callout-row a, .callout-row h3 { color: #5b5f68; }
+	.account-box .callout-row h3, .callout-row h3 { color: inherit; margin: 0; font-size: 18px; font-weight: bold; }
 		.callout-row h3.icon { position: relative; padding-left: 2em; }
 		.callout-row .icon i[class*='icon'] { font-size: 140%; position: absolute; top: -2px; left: 0; }
 		.callout-row i.right { 
