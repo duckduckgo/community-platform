@@ -1,23 +1,39 @@
 <h1>Welcome to DuckDuckGo Translations!</h1>
-<p class="intro-message">Here, you can translate text (also called, “tokens”) from our sites. To get started, 
-just follow these steps:</p>
-<p class="intro-message">Choose the domain you’d like to translate for.</p>
-<p class="intro-message">Choose the language you’d like to translate into.</p>
-<p class="intro-message">Start Translating!</p>
-<p class="intro-message">You can submit translations, discuss, or even vote on current translations!</p>
+<p class="intro-message">You can translate text ("tokens") from our sites.</p>
 
+<div class="row gw">	
+	<div class="g twothirds">
+		<div class="notice  contrast  intro--m">	
+			<i class="icn icon-paperclip"></i>
+			<h4>To get started, just follow these steps:</h4>
+			<ul class="checks">
+				<li>Choose the domain you’d like to translate for.</li>
+				<li>Choose the language you’d like to translate into.</li>
+				<li>Start Translating!</li>
+			</ul>
+			<p class="h5">You can submit translations, discuss, or even vote on current translations!</p>
+		</div>
+	</div>
+	<div class="palm-hide  g  third  text-center">
+		<i class="icn  text-enormous  text-light  icon-earth"></i>
+	</div>
+</div>
 <: if !$c.user { :><div class="notice warning clickaway"><i class="icn icon-warning-sign"></i>You must be logged in for translating <span class="account-actions"><a href="<: $u('My','register') :>" class="first nav-signup">Sign up</a><a href="<: $u('My','login') :>" class="nav-login" data-reveal-id="login-box">Login</a></span><i class="close icon-remove"></i></div><: } :>
 
 <: if $c.user { :>
 	<: if $user_has_languages { :>
 		<: if $c.user && !$c.wiz_running { :>
-			<div class="notice  info  notice--wizard  clickaway">	
+			<div class="notice  contrast  notice--wizard  clickaway">	
 				<div class="faux  notice__content">
 					<div class="faux__image">
 						<img src="/static/img/duck-wizard.png" />
 					</div>
-					<div class="faux__body  mid">
-						You can also directly go to the	<a href="<: $u('Translate','untranslated_all') :>">next untranslated token </a> or the <a href="<: $u('Translate','unvoted_all') :>">next unvoted translation</a> in your languages.
+					<div class="faux__body">
+						Here are some shortcuts!	
+						<div class="notice__buttons">
+							<a class="button red" href="<: $u('Translate','untranslated_all') :>"><i class="icon-pencil"></i> Next untranslated token</a>
+							<a class="button red" href="<: $u('Translate','unvoted_all') :>"><i class="icon-check"></i> Next unvoted translation</a>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -40,13 +56,11 @@ just follow these steps:</p>
 		</div>
 		<div class="body">
 			<div class="row">
-				<p><: r($token_domain.description) :></p>
-			</div>
-			<div class="row mid">
-				<a class="big blue button" href="<: $u($token_domain.u) :>">
+				<a class="button pull-right" href="<: $u($token_domain.u) :>">
 					Help us translate <: $token_domain.name :>!
 				</a>
-			</div>
+				<p><: r($token_domain.description) :></p>
+			</div>			
 		</div> 
 	</div>
 <: } :>

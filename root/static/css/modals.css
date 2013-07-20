@@ -25,9 +25,23 @@ Motices
 		font-weight: bold;
 		display: inline-block;
 	}
+		.notice h2 + h3, .notice h2 + h4, .notice h3 + h4 {
+			display: block;
+		}
+	.notice p, .notice ul {
+		margin-bottom: 0;
+	}
 	.notice__content {
 		margin-left: -40px;
 	}
+	.notice .checks { margin-top: 10px; }
+	.notice__list {
+		margin-left: -25px; 
+		padding-top: 0.5em;
+	}
+		.notice__list li {
+			margin-right: 5px;
+		}
 	.notice__buttons {
 		margin-top: -10px;
 		margin-right: -30px;

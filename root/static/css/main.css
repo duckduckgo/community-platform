@@ -141,16 +141,28 @@ blockquote { padding: 0 0 0 28px; position: relative; }
 .no-js .no-js-hide, .js .js-hide { display: none !important; }
 .header-pad { padding: 18px 0; }
 
+.text-light { color: #e9e9e9; }
+.text-enormous { font-size: 12em; }
+
+.banner-list li {
+	display: inline-block;
+}
+
+a.fill {
+	display: block;
+	height: 100%;
+}
+
 /* grid spacing classes */
 .gw, .grid-wrap { margin-left: -18px; }
 	.g, .grid { padding-left: 18px; }
 
-a.sortby {
+.sortby {
 	display: block;
 	position: relative;
 	color: inherit;
 }
-	a.sortby:after {
+	.sortby:after {
 		content: "";
 		display: block;
 		width: 0;
@@ -162,7 +174,7 @@ a.sortby {
 		border: 5px solid transparent;		
 		border-bottom-color: transparent;
 	}
-		a.sortby:hover:after { border-top-color: #444; }
+		.sortby:hover:after { border-top-color: #444; }
 
 .content-wrap {
 	width: 100%;
@@ -757,6 +769,7 @@ table th[class*="span"],
 
 .site-main { position: relative; overflow: hidden; padding: 15px 0; }		
 	.intro-message { max-width: 95%; line-height: 1.38; margin: -30px auto 40px; }
+	h1 + .intro, .intro--mg { margin-top: -20px; }
 		.page-home .intro-message { max-width: 85%; }		
 	.disclaimer{ padding: 0 17px; margin: 28px auto; }
 		.disclaimer h6, .disclaimer p{ font-size: 0.8em; line-height: 1.52; margin: 0; }

@@ -23,10 +23,12 @@
 		}
 		.callout-box h3 { font-size: 17px; line-height: 1.2; padding: 20px 0 25px; }
 		.callout-box ul, ul.checks { 				
-			list-style: none; 
-			margin-bottom: 28px; 
+			list-style: none; 			
 			padding-right: 6px; 
 			line-height: 1.42;
+		}
+		.callout-box ul {
+			margin-bottom: 28px; 
 		}
 		.callout-box li, .callout-box .cta { color: #1b1e2d; }
 			.callout-box li, .checks li { 
