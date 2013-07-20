@@ -1,3 +1,5 @@
+<h1><: $token_domain.name :></h1>
+
 <: if !$c.wiz_running { :>
 	<: include "translate/wiz_shortcuts.tx" :>
 <: } :>
