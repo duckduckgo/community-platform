@@ -23,20 +23,7 @@
 <: if $c.user { :>
 	<: if $user_has_languages { :>
 		<: if $c.user && !$c.wiz_running { :>
-			<div class="notice  contrast  notice--wizard  clickaway">	
-				<div class="faux  notice__content">
-					<div class="faux__image">
-						<img src="/static/img/duck-wizard.png" />
-					</div>
-					<div class="faux__body">
-						Here are some shortcuts!	
-						<div class="notice__buttons">
-							<a class="button red" href="<: $u('Translate','untranslated_all') :>"><i class="icon-pencil"></i> Next untranslated token</a>
-							<a class="button red" href="<: $u('Translate','unvoted_all') :>"><i class="icon-check"></i> Next unvoted translation</a>
-						</div>
-					</div>
-				</div>
-			</div>
+			<: include "translate/wiz_shortcuts.tx" :>
 		<: } :>
 	<: } else { :>
 		<div class="notice error mid">
