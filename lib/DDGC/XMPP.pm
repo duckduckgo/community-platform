@@ -73,4 +73,5 @@ sub user {
 	return %{$data};
 }
 
-1;
+no Moose;
+__PACKAGE__->meta->make_immutable;

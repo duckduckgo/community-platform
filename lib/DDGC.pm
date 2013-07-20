@@ -193,6 +193,11 @@ sub _build_xslate {
 						$return =~ s/::/_/g;
 						return $return.'_rs';
 					}
+					if ($class =~ m/^DDGC::Web::(.*)/) {
+						my $return = lc($1);
+						$return =~ s/::/_/g;
+						return $return;
+					}
 					die "cant include ".$class." with i-function";
 				};
 
@@ -483,8 +488,6 @@ sub comments {
 #
 # ======== Misc ====================
 #
-
-sub flaglist { map { chomp; $_; } io( File::Spec->catfile(dist_dir('DDGC'), 'flaglist.txt') )->slurp }
 
 no Moose;
 __PACKAGE__->meta->make_immutable;

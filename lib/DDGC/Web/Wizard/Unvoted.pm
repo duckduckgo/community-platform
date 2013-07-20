@@ -1,8 +1,8 @@
-package DDGC::Wizard::Untranslated;
-# ABSTRACT: Untranslated tokens of a token domain in a language
+package DDGC::Web::Wizard::Unvoted;
+# ABSTRACT: Unvoted tokens of a token domain in a language of a user
 
 use Moose;
-extends 'DDGC::Wizard::Base::ID';
+extends 'DDGC::Web::Wizard::Base::ID';
 
 has token_domain_id => (
 	is => 'ro',
@@ -18,9 +18,10 @@ has language_id => (
 
 sub next_rs {
 	my ( $self, $c ) = @_;
-	$c->d->rs('Token::Language')->untranslated(
+	$c->d->rs('Token::Language')->unvoted(
 		$self->token_domain_id,
 		$self->language_id,
+		$c->user,
 		$self->unwanted_ids,
 	);
 }
@@ -34,4 +35,5 @@ sub done_wizard {
 	$c->res->redirect($c->chained_uri(@{$tdl->u}));
 }
 
-1;
+no Moose;
+__PACKAGE__->meta->make_immutable;

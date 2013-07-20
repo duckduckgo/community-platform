@@ -1,4 +1,4 @@
-package DDGC::Wizard;
+package DDGC::Web::Wizard;
 # ABSTRACT: Wizard base class
 
 use Moose;

@@ -28,8 +28,8 @@ sub delete : Chained('do') Args(1) {
     my $comment = $c->d->rs('Comment')->single({ id => $id });
     return unless $comment;
     return unless $c->user && ($c->user->admin || $c->user->id == $comment->user->id);
-	my $deleted_user = $self->db->resultset('User')->single({
-		username => $self->config->deleted_account,
+	my $deleted_user = $c->d->db->resultset('User')->single({
+		username => $c->d->config->deleted_account,
 	});
     $comment->content('This comment has been deleted.');
     $comment->users_id(defined $deleted_user ? $deleted_user->id : undef);

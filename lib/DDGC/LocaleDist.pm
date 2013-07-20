@@ -208,4 +208,5 @@ ___END_OF_LOAD_T___
 
 }
 
-1;
+no Moose;
+__PACKAGE__->meta->make_immutable;

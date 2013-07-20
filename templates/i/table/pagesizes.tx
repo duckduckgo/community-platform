@@ -1,0 +1,8 @@
+[<: for $_.pagesizes -> $pagesize { :>
+	<: if $_.pagesize == $pagesize { :>
+		<: $pagesize :>
+	<: } else { :>
+		<a href="<: $u($_.u_pagesize($pagesize)) :>"><: $pagesize :></a>
+	<: } :>
+	<: if !$~pagesize.is_last { :>|<: } :>
+<: } :>]

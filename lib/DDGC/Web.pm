@@ -2,7 +2,6 @@ package DDGC::Web;
 # ABSTRACT: 
 
 use Moose;
-use namespace::autoclean;
 use Carp qw( croak );
 
 use Catalyst::Runtime 5.90;
@@ -29,10 +28,13 @@ extends 'Catalyst';
 use DDGC::Config;
 use Class::Load ':all';
 
-use DDGC::Wizard::Unvoted;
-use DDGC::Wizard::Untranslated;
-use DDGC::Wizard::UnvotedAll;
-use DDGC::Wizard::UntranslatedAll;
+use DDGC::Web::Wizard::Unvoted;
+use DDGC::Web::Wizard::Untranslated;
+use DDGC::Web::Wizard::UnvotedAll;
+use DDGC::Web::Wizard::UntranslatedAll;
+use DDGC::Web::Table;
+
+use namespace::autoclean;
 
 our $VERSION ||= '0.0development';
 
@@ -171,12 +173,26 @@ sub done {
 	$c->wiz_done;
 }
 
+sub table {
+	my ( $c, $resultset, $u, $fields, %args ) = @_;
+	my $class = defined $args{class}
+		? delete $args{class}
+		: "DDGC::Web::Table";
+	return $class->new(
+		c => $c,
+		u => $u,
+		resultset => $resultset,
+		fields => $fields,
+		%args,
+	);
+}
+
 sub wiz_die { die "Wizard is running" unless shift->wiz_running }
 
 sub wiz_start {
 	my ( $c, $wizard, %options ) = @_;
 	$c->log->debug('Wizard has wiz_start') if $c->debug;
-	my $class = 'DDGC::Wizard::'.$wizard;
+	my $class = 'DDGC::Web::Wizard::'.$wizard;
 	$c->session->{'wizard'} = $class->new(%options);
 	return $c->wiz->next($c);
 }
@@ -262,4 +278,5 @@ it under the same terms as Perl itself.
 
 =cut
 
-1;
+no Moose;
+__PACKAGE__->meta->make_immutable( replace_constructor => 1 );

@@ -1,0 +1,12 @@
+<table class="table">
+	<: for $_.fields_labels -> $label { :>
+		<th><: $label :></th>
+	<: } :>
+	<: for results($_.paged_rs) -> $row { :>
+		<tr>
+			<: for $_.row_values($row) -> $value { :>
+				<td><: r($value) :></td>
+			<: } :>
+		</tr>
+	<: } :>
+</table>

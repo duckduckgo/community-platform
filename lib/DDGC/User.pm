@@ -141,4 +141,5 @@ sub get {
 }
 ### END
 
-1;
+no Moose;
+__PACKAGE__->meta->make_immutable;

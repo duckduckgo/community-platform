@@ -3,7 +3,7 @@ package DDGC::Web::ControllerBase::Blog;
 
 use Moose;
 use namespace::autoclean;
-BEGIN {extends 'Catalyst::Controller'; }
+BEGIN { extends 'Catalyst::Controller'; }
 
 use JSON;
 use List::MoreUtils qw( uniq );
@@ -125,7 +125,5 @@ sub posts_to_feed {
 }
 
 sub json_string { JSON->new->allow_nonref(1)->encode(shift) }
-
-__PACKAGE__->meta->make_immutable;
 
 1;

@@ -4,4 +4,5 @@ package DDGC::Web::View::Feed;
 use Moose;
 extends qw( Catalyst::View::XML::Feed );
 
-1;
+no Moose;
+__PACKAGE__->meta->make_immutable;

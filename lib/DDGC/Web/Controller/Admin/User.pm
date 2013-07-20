@@ -7,34 +7,22 @@ BEGIN { extends 'Catalyst::Controller'; }
 use namespace::autoclean;
 
 sub base :Chained('/admin/base') :PathPart('user') :CaptureArgs(0) {
-    my ( $self, $c ) = @_;
-    $c->add_bc('User management', $c->chained_uri('Admin::User','index'));
+	my ( $self, $c ) = @_;
+	$c->add_bc('User management', $c->chained_uri('Admin::User','index'));
 }
 
 sub index :Chained('base') :PathPart('') :Args(0) {
-    my ( $self, $c ) = @_;
-    $c->bc_index;
-    my @search_attrs;
-    $c->stash->{user_search} = $c->req->param('user_search');
-    if ($c->stash->{user_search}) {
-    	my @user_search_fields;
-    	for (qw( username data notes )) {
-    		push @user_search_fields, $_, { -like => '%'.$c->stash->{user_search}.'%' };
-    	}
-    	push @search_attrs, -or => [
-    		@user_search_fields
-    	];
-    }
-    $c->pager_init($c->action.$c->stash->{user_search},20);
-    $c->stash->{page} = 1 if $c->req->param('user_search_submit');
-	$c->stash->{users} = $c->d->rs('User')->search({
-		@search_attrs
-	},{
+	my ( $self, $c ) = @_;
+	$c->bc_index;
+
+	my $rs = $c->d->rs('User')->search({},{
 		order_by => 'me.created',
-		page => $c->stash->{page},
-		rows => $c->stash->{pagesize},
 	});
-	$c->stash->{users_count} = $c->stash->{users}->count;
+
+	$c->stash->{user_table} = $c->table($rs,['Admin::User','index'],[
+		username => 'Username',
+		admin => 'Is Admin',
+	], default_pagesize => 10);
 }
 
 sub user_base :Chained('base') :PathPart('view') :CaptureArgs(1) {

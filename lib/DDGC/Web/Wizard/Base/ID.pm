@@ -1,7 +1,7 @@
-package DDGC::Wizard::Base::ID;
+package DDGC::Web::Wizard::Base::ID;
 
 use Moose;
-extends 'DDGC::Wizard';
+extends 'DDGC::Web::Wizard';
 
 has current_id => (
 	is => 'rw',

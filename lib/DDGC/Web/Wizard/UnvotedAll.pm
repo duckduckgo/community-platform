@@ -1,8 +1,8 @@
-package DDGC::Wizard::UnvotedAll;
+package DDGC::Web::Wizard::UnvotedAll;
 # ABSTRACT: All unvoted translations of the languages of a user
 
 use Moose;
-extends 'DDGC::Wizard::Base::ID';
+extends 'DDGC::Web::Wizard::Base::ID';
 
 sub next_rs {
 	my ( $self, $c ) = @_;
@@ -17,4 +17,5 @@ sub done_wizard {
 	$c->res->redirect($c->chained_uri('Translate','index'));
 }
 
-1;
+no Moose;
+__PACKAGE__->meta->make_immutable;

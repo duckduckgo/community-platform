@@ -77,4 +77,5 @@ sub l { shift; shift->localize(@_) }
 sub dur { my ( $self, $c, $date ) = @_; DDGC::Util::DateTime::dur($date); }
 sub dur_precise { my ( $self, $c, $date ) = @_; DDGC::Util::DateTime::dur_precise($date); }
 
-1;
+no Moose;
+__PACKAGE__->meta->make_immutable;

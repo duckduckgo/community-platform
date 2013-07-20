@@ -6,4 +6,5 @@ extends 'Catalyst::Model::Adaptor';
 
 __PACKAGE__->config( class => 'DDGC' );
 
-1;
+no Moose;
+__PACKAGE__->meta->make_immutable;

@@ -1,8 +1,8 @@
-package DDGC::Wizard::UntranslatedAllDomain;
+package DDGC::Web::Wizard::UntranslatedAllDomain;
 # ABSTRACT: All untranslated tokens of a domain of the languages of a user
 
 use Moose;
-extends 'DDGC::Wizard::Base::ID';
+extends 'DDGC::Web::Wizard::Base::ID';
 
 has token_domain_id => (
 	is => 'ro',
@@ -24,4 +24,5 @@ sub done_wizard {
 	$c->res->redirect($c->chained_uri('Translate','index'));
 }
 
-1;
+no Moose;
+__PACKAGE__->meta->make_immutable;

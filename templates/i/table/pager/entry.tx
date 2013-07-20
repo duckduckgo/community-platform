@@ -1,0 +1,7 @@
+<: if $_.current_page == $no { :>
+	<: $no_string ? $no_string : $no :>
+<: } else if !$no { :>
+	<: $no_string ? $no_string : "..." :>
+<: } else { :>
+	<a href="<: $u($_.u_page($no)) :>"><: $no_string ? $no_string : $no :></a>
+<: } :>

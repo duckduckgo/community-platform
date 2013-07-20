@@ -1,0 +1,6 @@
+<: i($_, 'table') :>
+<div class="whole mid">
+  <: i($_, 'pager') :>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  <: i($_, 'pagesizes') :>
+</div>
