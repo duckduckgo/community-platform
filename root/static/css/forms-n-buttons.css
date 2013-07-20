@@ -346,6 +346,7 @@ Buttons/Tags
 	/* colors with dark text */
 	.button.lime, .tag.lime,
 	.button.yellow, .tag.yellow,
+	.button.paleyellow, .tag.paleyellow,
 	.button.rose, .tag.rose,
 	.button.cyan, .tag.cyan,
 	.button.violet, .tag.violet,
@@ -381,6 +382,12 @@ Buttons/Tags
 		border-color: #d8be74;
 	}
 		.button.yellow:hover { background-color: #f7d26c; }
+		
+	.button.paleyellow, .tag.paleyellow {
+		background-color: #feebb9;
+		border-color: #ffde85;		
+	}
+		.button.paleyellow:hover { background-color: #fff6dd; }
 	
 	/* colors with white text */	
 	.button.black, .tag.black,
