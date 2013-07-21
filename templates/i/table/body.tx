@@ -1,0 +1,7 @@
+<: for $_.rows -> $row { :>
+	<tr>
+		<: for $row.cells -> $cell { :>
+			<td><: i($_,'cell', { cell => $cell }) :></td>
+		<: } :>
+	</tr>
+<: } :>

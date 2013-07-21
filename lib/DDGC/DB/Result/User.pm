@@ -10,6 +10,12 @@ use namespace::autoclean;
 
 table 'users';
 
+sub u_userpage {
+	my ( $self ) = @_;
+	return ['Root','default'] unless $self->public_username;
+	return ['Userpage','home',$self->public_username];
+}
+
 column id => {
 	data_type => 'bigint',
 	is_auto_increment => 1,

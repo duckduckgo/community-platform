@@ -1,0 +1,9 @@
+<: if $cell.has_template { :>
+	<: include $cell.template { cell => $cell } :>
+<: } else { :>
+	<: if $cell.has_value { :>
+		<: r($cell.value) :>
+	<: } else { :>
+		&nbsp;
+	<: } :>
+<: } :>

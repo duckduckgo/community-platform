@@ -1,0 +1,3 @@
+<: for $_.cols -> $col { :>
+	<th><: $col.label :></th>
+<: } :>

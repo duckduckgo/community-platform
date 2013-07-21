@@ -20,9 +20,16 @@ sub index :Chained('base') :PathPart('') :Args(0) {
 	});
 
 	$c->stash->{user_table} = $c->table($rs,['Admin::User','index'],[
-		username => 'Username',
-		admin => 'Is Admin',
-	], default_pagesize => 10);
+			Username => 'username',
+			Email => sub { $_->data && $_->data->{email} },
+			'Has Userpage' => sub {
+				( $_->userpage || ( $_->data && $_->data->{userpage} ) )
+					? '<a href="'.$c->chained_uri(@{$_->u_userpage}).'">Yes</a>' : 'No'
+			},
+		],
+		default_pagesize => 10,
+		u_row => sub { [ 'Admin::User','user',$_->username ] },
+	);
 }
 
 sub user_base :Chained('base') :PathPart('view') :CaptureArgs(1) {

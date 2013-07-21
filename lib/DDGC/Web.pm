@@ -174,7 +174,7 @@ sub done {
 }
 
 sub table {
-	my ( $c, $resultset, $u, $fields, %args ) = @_;
+	my ( $c, $resultset, $u, $columns, %args ) = @_;
 	my $class = defined $args{class}
 		? delete $args{class}
 		: "DDGC::Web::Table";
@@ -182,7 +182,7 @@ sub table {
 		c => $c,
 		u => $u,
 		resultset => $resultset,
-		fields => $fields,
+		columns => $columns,
 		%args,
 	);
 }

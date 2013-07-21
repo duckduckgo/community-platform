@@ -1,9 +1,12 @@
 package DDGC::Web::Table;
-# ABSTRACT: Class with helping functions for managing a table inside a session
+# ABSTRACT: Class holding the functionality for a web table over a resultset
 
 use Moose;
 use Digest::MD5 qw( md5_hex );
 use List::MoreUtils qw( natatime );
+
+use DDGC::Web::Table::Column;
+use DDGC::Web::Table::Row;
 
 has c => (
 	is => 'ro',
@@ -16,6 +19,7 @@ has u => (
 	isa => 'ArrayRef',
 	required => 1,
 );
+
 sub u_page {
 	my ( $self, $page ) = @_;
 	my @u = @{$self->u};
@@ -38,6 +42,29 @@ sub u_pagesize {
 	return \@u;
 }
 
+sub u_sort {
+	my ( $self, $sort ) = @_;
+	my @u = @{$self->u};
+	if (ref $u[-1] eq 'HASH') {
+		$u[-1]->{$self->key_sort} = $sort;
+	} else {
+		push @u, { $self->key_sort, $sort };
+	}
+	return \@u;
+}
+
+has u_row => (
+	is => 'ro',
+	isa => 'CodeRef',
+	predicate => 'has_u_row',
+);
+
+has class => (
+	is => 'ro',
+	isa => 'Str',
+	predicate => 'has_class',
+);
+
 has resultset => (
 	is => 'ro',
 	isa => 'DBIx::Class::ResultSet',
@@ -45,51 +72,74 @@ has resultset => (
 );
 sub resultset_search { shift->resultset->search({}) }
 
-has fields_keys => (
+has columns_config => (
 	is => 'ro',
-	isa => 'ArrayRef[Str|CodeRef]',
+	isa => 'ArrayRef[Str|Undef|HashRef|ArrayRef|CodeRef]',
+	required => 1,
+	init_arg => 'columns',
+);
+
+has cols => (
+	is => 'ro',
+	isa => 'ArrayRef',
 	lazy => 1,
 	default => sub {
-		my @keys;
-		my $it = natatime 2, @{shift->fields};
-		while (my @field_label = $it->()) {
-			push @keys, $field_label[0];
+		my ( $self ) = @_;
+		my @cc = @{$self->columns_config};
+		my $it = natatime 2, @cc;
+		my @cols;
+		while (my ( $label, $def ) = $it->()) {
+			if (!ref $def) {
+				push @cols,
+					$self->_new_col( $label, db_col => $def );
+			} elsif (ref $def eq 'HASH') {
+				push @cols,
+					$self->_new_col( $label, %{$def} );
+			} elsif (ref $def eq 'CODE') {
+				push @cols,
+					$self->_new_col( $label, value_code => $def );
+			} elsif (ref $def eq 'ARRAY') {
+				my $size = scalar @{$def};
+				if ($size == 2) {
+					push @cols, $self->_new_col( $label,
+						db_col => $def->[0],
+						value_code => $def->[1],
+					);
+				} else {
+					die __PACKAGE__." unknown column def array size";
+				}
+			} elsif (ref $def eq 'DDGC::Web::Table::Column') {
+				push @cols, $def;
+			} else {
+				die __PACKAGE__." cant handle column def";
+			}
 		}
-		return \@keys;
+		return \@cols;
 	},
 );
 
-sub row_values {
-	my ( $self, $row ) = @_;
-	my @values;
-	for my $key (@{$self->fields_keys}) {
-		if (ref $key eq 'CODE') {
-			for ($row) { push @values, $_->($self, $self->c) }
-		} else {
-			push @values, $row->get_column($key);
-		}
-	}
-	return \@values;
+sub _new_col {
+	my ( $self, $label, %args ) = @_;
+	return DDGC::Web::Table::Column->new(
+		table => $self,
+		defined $label ? ( label => $label ) : (),
+		%args,
+	);
 }
 
-has fields_labels => (
+has rows => (
 	is => 'ro',
-	isa => 'ArrayRef[Str]',
+	isa => 'ArrayRef[DDGC::Web::Table::Row]',
 	lazy => 1,
 	default => sub {
-		my @labels;
-		my $it = natatime 2, @{shift->fields};
-		while (my @field_label = $it->()) {
-			push @labels, $field_label[1];
-		}
-		return \@labels;
+		my ( $self ) = @_;
+		[map {
+			DDGC::Web::Table::Row->new(
+				table => $self,
+				db => $_,
+			);
+		} $self->paged_rs->all]
 	},
-);
-
-has fields => (
-	is => 'ro',
-	isa => 'ArrayRef[Str|CodeRef]',
-	required => 1,
 );
 
 has page => (
@@ -104,6 +154,13 @@ has page => (
 		$self->c->session->{$self->key_page} = $page;
 		return $self->c->session->{$self->key_page};
 	},
+);
+
+has sorting => (
+	is => 'ro',
+	isa => 'ArrayRef[Str]',
+	lazy => 1,
+	default => sub {[]},
 );
 
 has default_pagesize => (
@@ -152,28 +209,35 @@ has paged_rs => (
 	},
 );
 
-has key_page => (
+has key_sort => (
 	is => 'ro',
 	isa => 'Str',
 	lazy => 1,
 	default => sub {
 		my ( $self ) = @_;
-		$self->key.'_page_'.$self->pagesize;
+		$self->key.'_sort';
 	},
+);
+
+has key_page => (
+	is => 'ro',
+	isa => 'Str',
+	lazy => 1,
+	default => sub { $_[0]->key.'_page_'.$_[0]->pagesize },
 );
 
 has key_pagesize => (
 	is => 'ro',
 	isa => 'Str',
 	lazy => 1,
-	default => sub { 'tablepagesize_'.md5_hex(shift->id_pagesize) },
+	default => sub { 'tablepagesize_'.md5_hex($_[0]->id_pagesize) },
 );
 
 has key => (
 	is => 'ro',
 	isa => 'Str',
 	lazy => 1,
-	default => sub { 'table_'.md5_hex(shift->id) },
+	default => sub { 'table_'.md5_hex($_[0]->id) },
 );
 
 has id_pagesize => (

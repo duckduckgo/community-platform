@@ -30,16 +30,6 @@
 				<p>Feeling judgemental?  Assess the language skills of the community and cast your vote for the best translations.</p>
 			</div>
 		</div>
-		<hr class="mg-top--none" />
-		<div class="row gw">
-			<div class="g third">
-				<p><a class="button  full  tall  h1  green" href="<: $u($token_domain_language.u_unvoted) :>"><i class="icon-comment"></i></a></p>
-			</div>
-			<div class="g twothirds">
-				<h3 class="mg-top--small">Comment on tokens</h3>
-				<p>Just want to talk it out?  You can discuss all of the translations.  Try to be nice.</p>
-			</div>
-		</div>
 	<: } else { :>
 		<div class="row">
 			<div class="notice warning">
@@ -65,6 +55,16 @@
 		<div class="g twothirds">
 			<h3 class="mg-top--small">Show everything!</h3>
 			<p>An eagle-eye look at the entire domain.  Shows tokens, translations, and activty at a glance.  One day this will all be yours...</p>
+		</div>
+	</div>
+	<hr class="mg-top--none" />
+	<div class="row gw">
+		<div class="g third">
+			<p><a class="button  full  tall  h1  green" href="<: $u($token_domain_language.u_comments) :>"><i class="icon-comment"></i></a></p>
+		</div>
+		<div class="g twothirds">
+			<h3 class="mg-top--small">Discuss the token domain in this language</h3>
+			<p>Here you can talk general about how to handle the tokens in this domain in this language, or other linguistic problems you encounter here.</p>
 		</div>
 	</div>
 	<hr class="mg-top--none" />
