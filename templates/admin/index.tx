@@ -3,7 +3,7 @@
 	<hr class="mg-top--none" />
 	<div class="row gw">
 		<div class="g third">
-			<p><a class="button  full  tall  h1  yellow" href="<: $u('Admin::User','index') :>"><i class="icon-list"></i></a></p>
+			<p><a class="button  full  tall  h1  red" href="<: $u('Admin::User','index') :>"><i class="icon-users"></i></a></p>
 		</div>
 		<div class="g twothirds">
 			<h3 class="mg-top--small">User management</h3>
@@ -20,7 +20,7 @@
 	<hr class="mg-top--none" />
 	<div class="row gw">
 		<div class="g third">
-			<p><a class="button  full  tall  h1  darkblue" href="<: $u('Admin::Language','index') :>"><i class="icon-globe"></i></a></p>
+			<p><a class="button  full  tall  h1  blue" href="<: $u('Admin::Language','index') :>"><i class="icon-globe"></i></a></p>
 		</div>
 		<div class="g twothirds">
 			<h3 class="mg-top--small">Language editor</h3>
@@ -30,7 +30,7 @@
 	<hr class="mg-top--none" />
 	<div class="row gw">
 		<div class="g third">
-			<p><a class="button full tall h1 blue" href="<: $u('Admin::Token','index') :>"><i class="icon-pencil"></i></a></p>
+			<p><a class="button full tall h1 green" href="<: $u('Admin::Token','index') :>"><i class="icon-earth"></i></a></p>
 		</div>
 		<div class="g twothirds">
 			<h3 class="mg-top--small">Token domain management</h3>
@@ -40,7 +40,7 @@
 	<hr class="mg-top--none" />
 	<div class="row gw">
 		<div class="g third">
-			<p><a class="button  full  tall  h1  paleblue" href=""><i class="icon-eye-open"></i></a></p>
+			<p><a class="button  full  tall  h1  darkblue" href=""><i class="icon-info-sign"></i></a></p>
 		</div>
 		<div class="g twothirds">
 			<h3 class="mg-top--small">View event log</h3>
