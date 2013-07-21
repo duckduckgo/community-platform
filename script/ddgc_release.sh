@@ -49,7 +49,12 @@ ssh -q -t ddgc@$DDGC_RELEASE_HOSTNAME "(
 echo "***\n*** Starting new system...\n***" && \
 ssh -q -t root@$DDGC_RELEASE_HOSTNAME "(
 	svc -u /etc/service/ddgc &&
-	sleep 10 &&
+	sleep 20 &&
 	rm /home/ddgc/ddgc_web_maintenance
+)" && \
+echo "***\n*** Uploading DDGC Distribution to DuckPAN...\n***" && \
+ssh -q -t ddgc@$DDGC_RELEASE_HOSTNAME "(
+	cd ~/live &&
+	script/ddgc_add_duckpan_dist.pl ddgc $2
 )" && \
 echo "***\n*** Release successful\n***"

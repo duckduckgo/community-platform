@@ -3,19 +3,6 @@
 
 =encoding utf-8
 
-=head1 Design
-
-[PRIORITY 1!!!] Missing table design for admin area and general use for lists
-(sortable buttons please).
-* added table styling
-
-The new Roboduck feature under /roboduck (roboduck/index.tx) needs a bit cooler
-HTML. I will probably ask Valentin to make a special logo for that one, like
-a dax with robocop helmet and a speech bubble giving the answer.
-* made it look a bit nicer
-
-=head1 Design Errors
-
 [LOW PRIORITY!!! IGNORE FOR NOW] Account tooltips for the language are not
 shown 
 * the modal trigger elements lost their "data-reveal-id" info that tells JS
@@ -26,9 +13,6 @@ simple? I dont like to "start" with a patched solution ;).....
 
 On the userinfo inside a translation for example, there is still a "clickable"
 arrow shown, even tho, that is not clickable (sometimes, sometimes it is).
-
-The complete show off from the other translations should be tuned a bit in
-display.
 
 In the comment html (templates_xslate/blog/post_comments.tx) the arrows to
 vote for the comment, should be inside the box of the comment, instead of
@@ -41,10 +25,3 @@ we need some "points" in that line for the voting result (or whatever place
 if you have a better idea).
 * green/red on hover, and if selected green/red permanently? - yes
 ** ok added .upvote and .downvote.  now if the user has voted you can add class 'voted' to the .voting wrapper, and .voted to the upvote or downvote
-
-The blog is ready and needs now tuning cause of several little changes, 2 
-sample posts are in.
-* comments look and work better now.  was there anything else?
-
-The translations need a bigger split up
-* done - added more padding

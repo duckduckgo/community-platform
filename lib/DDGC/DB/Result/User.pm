@@ -126,6 +126,7 @@ has_many 'translation_votes', 'DDGC::DB::Result::Token::Language::Translation::V
 has_many 'comments', 'DDGC::DB::Result::Comment', 'users_id';
 has_many 'duckpan_releases', 'DDGC::DB::Result::DuckPAN::Release', 'users_id';
 has_many 'threads', 'DDGC::DB::Result::Thread', 'users_id';
+has_many 'events', 'DDGC::DB::Result::Event', 'users_id';
 
 has_many 'event_notifications', 'DDGC::DB::Result::Event::Notification', 'users_id';
 

@@ -1,0 +1,23 @@
+# PODNAME: DDGC::Manual
+# ABSTRACT: Documentation to work on and contribute to the community platform
+
+=encoding utf-8
+
+=head1 WORKING ON THE COMMUNITY PLATFORM
+
+=head2 AS DESIGNER, HTML OR CSS EXPERT
+
+L<DDGC::Manual::Interface>
+
+=head2 AS SOFTWARE DEVELOPER
+
+L<DDGC::Manual::Development>
+
+=head2 AS TRANSLATION MANAGER
+
+L<DDGC::Manual::Translation>
+
+=head2 AS QUALITY ASSURANCE
+
+L<DDGC::Manual::QA>
+
