@@ -13,7 +13,7 @@
 						<: $user.username :>
 					</a>
 				<: } :><br/>
-				We had <: $day_registrations_count :> registrations on the web platform in the last 24 hours.
+				We got new <: $day_registrations_count :> users on the web platform in the last 24 hours.
 			</p>
 		</div>
 	</div>
