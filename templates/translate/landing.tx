@@ -50,7 +50,7 @@
 	<hr class="mg-top--none" />
 	<div class="row gw">
 		<div class="g third">
-			<p><a class="button  full  tall  h1  paleyellow" href="<: $u($token_domain_language.u_overview) :>"><i class="icon-eye-open"></i></a></p>
+			<p><a class="button  full  tall  h1  paleblue" href="<: $u($token_domain_language.u_overview) :>"><i class="icon-eye-open"></i></a></p>
 		</div>
 		<div class="g twothirds">
 			<h3 class="mg-top--small">Show everything!</h3>

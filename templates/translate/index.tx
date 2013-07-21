@@ -43,7 +43,7 @@
 		</div>
 		<div class="body">
 			<div class="row">
-				<a class="button  paleyellow  pull-right" href="<: $u($token_domain.u) :>">
+				<a class="button  paleblue  pull-right" href="<: $u($token_domain.u) :>">
 					Help us translate <: $token_domain.name :>!
 				</a>
 				<p><: r($token_domain.description) :></p>

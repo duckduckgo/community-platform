@@ -1,5 +1,7 @@
-<: i($_,'pager/entry',{ no_string => r("&#171;"), no => $_.previous_page }) :> |
+<span class="button-group">
+<: i($_,'pager/entry',{ no_string => r("&#171;"), no => $_.previous_page }) :>
 <: for $_.pager_pages -> $no { :>
-	<: i($_,'pager/entry',{ no => $no }) :> |
+	<: i($_,'pager/entry',{ no => $no }) :>
 <: } :>
 <: i($_,'pager/entry',{ no_string => r("&#187;"), no => $_.next_page }) :>
+</span>

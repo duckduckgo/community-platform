@@ -1,7 +1,7 @@
 <: if $_.current_page == $no { :>
-	<: $no_string ? $no_string : $no :>
+	<span class="button charcoal disabled"><: $no_string ? $no_string : $no :></span>
 <: } else if !$no { :>
-	<: $no_string ? $no_string : "..." :>
+	<span class="button disabled"><: $no_string ? $no_string : "..." :></span>
 <: } else { :>
-	<a href="<: $u($_.u_page($no)) :>"><: $no_string ? $no_string : $no :></a>
+	<a class="button" href="<: $u($_.u_page($no)) :>"><: $no_string ? $no_string : $no :></a>
 <: } :>

@@ -240,6 +240,14 @@ Column Forms
 /*--------------------------------------------------
 Buttons/Tags
 -------------------------------------------------- */	
+
+.button-group {
+	position: relative;
+	display: inline-block;
+	font-size: 0;
+	white-space: nowrap;
+	vertical-align: middle;
+}
 	
 .button, .tag, a.button, input.button {
 	text-align: center; 
@@ -271,7 +279,35 @@ Buttons/Tags
 		width: 100%; margin: 0 auto; padding: 4px 0;
 	}	
 		.input-wrap .button { width: 100%; margin: 0 auto; padding: 0; }		
-	
+
+.button-group > .button {
+	font-size: 14px;
+	position: relative;
+	-webkit-border-radius: 0;
+	-moz-border-radius: 0;
+	border-radius: 0;
+}	
+	.button-group > .button + .button {
+		margin-left: -1px;
+	}	
+.button-group > .button:first-child {
+	margin-left: 0;
+	-webkit-border-bottom-left-radius: 3px;
+	border-bottom-left-radius: 3px;
+	-webkit-border-top-left-radius: 3px;
+	border-top-left-radius: 3px;
+	-moz-border-radius-bottomleft: 3px;
+	-moz-border-radius-topleft: 3px;
+}
+.button-group > .button:last-child {
+	-webkit-border-top-right-radius: 3px;
+	border-top-right-radius: 3px;
+	-webkit-border-bottom-right-radius: 3px;
+	border-bottom-right-radius: 3px;
+	-moz-border-radius-topright: 3px;
+	-moz-border-radius-bottomright: 3px;
+}
+		
 	.button.disabled, a.button.disabled, input.button.disabled {
 		cursor: default;
 		opacity: 0.5;
@@ -347,16 +383,21 @@ Buttons/Tags
 	.button.lime, .tag.lime,
 	.button.yellow, .tag.yellow,
 	.button.paleyellow, .tag.paleyellow,
+	.button.ghostyellow, .tag.ghostyellow,
 	.button.rose, .tag.rose,
 	.button.cyan, .tag.cyan,
 	.button.violet, .tag.violet,
-	.button.teal, .tag.teal 	{
+	.button.teal, .tag.teal,
+	.button.peach, .tag.peach,
+	.button.tangerine, .tag.tangerine,
+	.button.paleblue, .tag.paleblue,
+	.button.ghostblue, .tag.ghostblue {
 		color: #484438;
 		text-shadow: 0 1px 1px rgba(255,255,255,0.25);
 	}
 	
 	.button.lime, .tag.lime {		
-		background-color: #d5ff85;
+		background-color: #E3FF85;
 		border-color: #b5d774;
 	}
 	
@@ -366,16 +407,36 @@ Buttons/Tags
 	}
 	
 	.button.violet, .tag.violet {
-		background-color: #9c85ff;
+		background-color: #E8ABFF;
 	}
 	
 	.button.teal, .tag.teal {
-		background-color: #85ffc7;
+		background-color: #ABFFE8;
 	}
 	
 	.button.rose, .tag.rose {
 		background-color: #ff85b3;
 	}
+	
+	.button.peach, .tag.peach {
+		background-color: #FFCA85;
+	}
+	
+	.button.tangerine, .tag.tangerine {
+		background-color: #FFA185;
+	}
+	
+	.button.paleblue, .tag.paleblue {
+		background-color: #D2DEFF;
+		border-color: #ABC2FF;
+	}
+		.button.paleblue:hover { background-color: #F8FAFF; }
+	
+	.button.ghostblue, .tag.ghostblue {
+		background-color: #F8FAFF;
+		border-color: #D2DEFF;
+	}
+		.button.ghostblue:hover { background-color: #fff; }
 	
 	.button.yellow, .tag.yellow {		
 		background-color: #ffde85;		
@@ -384,30 +445,41 @@ Buttons/Tags
 		.button.yellow:hover { background-color: #f7d26c; }
 		
 	.button.paleyellow, .tag.paleyellow {
-		background-color: #feebb9;
+		background-color: #FFF3D2;
 		border-color: #ffde85;		
 	}
 		.button.paleyellow:hover { background-color: #fff6dd; }
+	
+	.button.ghostyellow, .tag.ghostyellow {
+		background-color: #fff6dd;
+		border-color: #ffde85;		
+	}
+		.button.ghostyellow:hover { background-color: #FFF3D2; }
 	
 	/* colors with white text */	
 	.button.black, .tag.black,
 	.button.green, .tag.green,
 	.button.red, .tag.red,
 	.button.darkblue, .tag.darkblue,
-	.button.blue, .tag.blue {
+	.button.blue, .tag.blue,
+	.button.charcoal, .tag.charcoal {
 		color: #fff;
 		text-shadow: 0 -1px 0 rgba(0,0,0,0.1);
 	}
 	
-	.button.black, .tag.black {
-		
+	.button.black, .tag.black {		
 		background-color: #444;
 		border-color: #000;
 	}
 		.button.black:hover { background-color: #000; }		
 	
-	.button.green, .tag.green {
-		color: #fff;
+	.button.charcoal, .tag.charcoal {
+		background-color: #5b5f68;
+		border-color: #444;
+	}
+		.button.charcoal:hover { background-color: #42464d; }
+		
+	.button.green, .tag.green {		
 		background-color: #48af04;
 		border-color: #3b9202;
 	}
@@ -448,16 +520,13 @@ Buttons/Tags
 		}
 	
 	/* pale colors */
-	.button.fb-like, .tag.fb-like,
-	.button.paleblue, .tag.paleblue {
+	.button.fb-like, .tag.fb-like {
 		background-color: #ebedf4;
 		border-color: #cbd3e7;
 		color: #485599;
 		font-weight: normal;
 	}	
-		.button.paleblue:hover {
-			background-color: #f6f8ff;
-		}
+	
 /* 
 	Media Queries
 */		
