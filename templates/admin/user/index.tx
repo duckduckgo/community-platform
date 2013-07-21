@@ -6,8 +6,4 @@
 	</div>
 <: } :>
 
-<form action="<: $u('Admin::User','index') :>" method="post" id="form-admin-user-index">
-
 <: i($user_table,'full') :>
-
-</form>

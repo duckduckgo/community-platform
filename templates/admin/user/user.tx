@@ -1,0 +1,7 @@
+<h1><: $user.username :></h1>
+<h2>Data:</h2>
+<pre>
+</pre>
+<h2>Userpage:</h2>
+<pre>
+</pre>

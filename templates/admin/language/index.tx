@@ -1,25 +1,3 @@
-<h1 id="skip">Language Settings</h1>
-<form action="<: $u('Admin::Language','index') :>" method="post" name="languagesform" id="formLanguages">
-  <fieldset>
-  <legend class="ac"><span>Edit languages</span></legend>
-  <: for results($list_language) -> $languages { :>
-    <fieldset>
-    <legend><span>#<: $list_language.id :></span></legend>
-      <: include admin::language::form { language => $list_language } :>
-    </fieldset>
-    <: } :>
-    <input type="submit" value="Update languages" name="save_languages">
-  </fieldset>
-  <fieldset>
-  <legend><span>Add new language</span></legend>
-    <: include admin::language::form :>
-    <input type="submit" value="Save languages" name="new_language">
-  </fieldset>
-</form>
-
-<h2 class="ac">Flag list</h2>
-<ul class="flags">
-<: for results($flagicon) -> $flaglist { :>
-  <li style="float:left;padding:5px"><img src="https://duckduckgo.com/f2/<: $flagicon :>.png" width="16" height="11" title="<: $flagicon :>" alt="<: $flagicon :>"></li>
+<: for results($languages) -> $language { :>
+	<: i($language,'form') :>
 <: } :>
-</ul>

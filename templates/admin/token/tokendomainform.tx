@@ -1,4 +1,0 @@
-<div>
-  <label for="token_domain_<: $token_domain.id :>_name">Name: </label>
-    <input type="text" size="80" id="token_domain_<: $token_domain.id :>_name" name="token_domain_<: $token_domain.id || 0 :>_name" value="<: $token_domain.name :>">
-</div>

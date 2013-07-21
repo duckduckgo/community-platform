@@ -1,9 +1,17 @@
 <: if $cell.has_template { :>
-	<: include $cell.template { cell => $cell } :>
+	<: include $cell.template { _ => $cell.db, cell => $cell } :>
+<: } elsif $cell.has_i { :>
+	<: i($cell.db,$cell.i,$cell.i_args) :>
 <: } else { :>
+	<: if $cell.has_link { :>
+		<a class="fill" href="<: $u($cell.link) :>">
+	<: } :>
 	<: if $cell.has_value { :>
 		<: r($cell.value) :>
 	<: } else { :>
 		&nbsp;
+	<: } :>
+	<: if $cell.has_link { :>
+		</a>
 	<: } :>
 <: } :>

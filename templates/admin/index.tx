@@ -43,7 +43,7 @@
 			<p><a class="button  full  tall  h1  paleblue" href=""><i class="icon-eye-open"></i></a></p>
 		</div>
 		<div class="g twothirds">
-			<h3 class="mg-top--small">View system log</h3>
+			<h3 class="mg-top--small">View event log</h3>
 			<p></p>
 		</div>
 	</div>

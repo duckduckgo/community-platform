@@ -1,0 +1,24 @@
+<div>
+	<label for="language_<: $_.id :>_name_in_english">Language name in english: </label>
+	<input type="text" id="language_<: $_.id :>_name_in_english" name="language_<: $_.id || 0 :>_name_in_english" value="<: $_.name_in_english :>">
+</div>
+<div>
+	<label for="language_<: $_.id :>_name_in_local">Language name in the language: </label>
+	<input type="text" <: if $_.rtl { :>dir="rtl" <: } :>id="language_<: $_.id :>_name_in_local" name="language_<: $_.id || 0 :>_name_in_local" value="<: $_.name_in_local :>">
+</div>
+<div>
+	<label for="language_<: $_.id :>_locale">Locale: </label>
+	<input type="text" id="language_<: $_.id :>_locale" name="language_<: $_.id || 0 :>_locale" value="<: $_.locale :>">
+</div>
+<div>
+	<label for="language_<: $_.id :>_plural">Plural: </label>
+	<input type="text" id="language_<: $_.id :>_plural" name="language_<: $_.id || 0 :>_plural" value="<: $_.plural :>">
+</div>
+<div>
+	<label for="language_<: $_.id :>_nplurals">NPlurals: </label>
+	<input type="text" id="language_<: $_.id :>_nplurals" name="language_<: $_.id || 0 :>_nplurals" value="<: $_.nplurals :>">
+</div>
+<div>
+	<label for="language_<: $_.id :>_rtl">Right To Left: </label>
+	<input type="text" id="language_<: $_.id :>_rtl" name="language_<: $_.id || 0 :>_rtl" value="<: $_.rtl :>">
+</div>

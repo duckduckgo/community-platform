@@ -24,7 +24,12 @@ sub index :Chained('base') :PathPart('') :Args(0) {
 			Email => sub { $_->data && $_->data->{email} },
 			'Has Userpage' => sub {
 				( $_->userpage || ( $_->data && $_->data->{userpage} ) )
-					? '<a href="'.$c->chained_uri(@{$_->u_userpage}).'">Yes</a>' : 'No'
+					? 'Yes' : 'No'
+			},
+			'Languages' => sub { $_->user_languages->count },
+			'Pic' => {
+				i => 'userpic',
+				i_args => { userpic_size => 16 },
 			},
 		],
 		default_pagesize => 10,

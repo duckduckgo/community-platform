@@ -7,6 +7,9 @@ has row => (
 	is => 'ro',
 	isa => 'DDGC::Web::Table::Row',
 	required => 1,
+	handles => [qw(
+		db
+	)]
 );
 
 has value => (
@@ -15,6 +18,11 @@ has value => (
 );
 
 sub has_value { defined $_[0]->value ? 1 : 0 }
+
+has link => (
+	is => 'ro',
+	predicate => 'has_link',
+);
 
 has column => (
 	is => 'ro',
@@ -30,6 +38,9 @@ has column => (
 		has_value_code
 		template
 		has_template
+		i
+		has_i
+		i_args
 	)],
 );
 

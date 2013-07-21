@@ -5,7 +5,7 @@
 			<span class="label"><: $token_domain_language.language.name_in_english :> [<: $token_domain_language.language.locale :>]</span>
 		</a>
 	</div>
-	<div class="<: if !$no_discuss { :>half <: } else { :> twothirds <: } :> progress <: if $token_domain_language.done_percentage < 60 { :> low <: } elsif $token_domain_language.done_percentage < 80 { :>med<: } elsif $token_domain_language.done_percentage < 100 { :>high<: } else { :>done<: } :>"> 
+	<div class="twothirds progress <: if $token_domain_language.done_percentage < 60 { :> low <: } elsif $token_domain_language.done_percentage < 80 { :>med<: } elsif $token_domain_language.done_percentage < 100 { :>high<: } else { :>done<: } :>"> 
 		<a href="<: $link($token_domain_language, { only_untranslated => 1 }) :>">
 			<div class="numeral">
 				<: $token_domain_language.done_percentage :>%
@@ -15,9 +15,4 @@
 			</div>
 		</a>
 	</div>
-	<: if !$no_discuss { :>
-	<div class="eighth">		
-		<a href="<: $u('Translate','localecomments',$token_domain.key,$token_domain_language.language.locale) :>" class="button button--discuss">Discuss</a>		
-	</div>
-	<: } :>
 </div>
