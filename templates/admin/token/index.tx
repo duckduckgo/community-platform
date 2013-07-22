@@ -1,37 +1,40 @@
 <: for results($token_domains) -> $token_domain { :>
-  <form method="POST" action="<: $u('Admin::Token','index') :>">
-    <div class="content-box content-box-toggleclick only">
-      <div id="token_domain_<: $token_domain.id :>_clicker" class="head">
-        <h2>#<: $token_domain.id :> <: $token_domain.name :> [<: $token_domain.key :>]</h2>
-      </div>
-      <div class="body">
-        <: i($token_domain,'form') :>
-        <div class="row">
-          <input type="submit" class="button blue" name="save_token_domain" value="Save changes (changes to other token domains are lost)" />
-        </div>
-      </div>
-    </div>
-  </form>
+	<form method="POST" action="<: $u('Admin::Token','index') :>">
+		<div class="content-box content-box-toggleclick only">
+			<div id="token_domain_<: $token_domain.id :>_clicker" class="head">
+				<h2>#<: $token_domain.id :> <: $token_domain.name :> [<: $token_domain.key :>]</h2>
+			</div>
+			<div class="body">
+				<: i($token_domain,'form') :>
+				<div class="row">
+					<h3>The token domain has <: $token_domain.get_column('translation_count') :> translations with <: $token_domain.get_column('vote_count') :> votes on its <: $token_domain.get_column('token_count') :> tokens.</h3>
+				</div>
+				<div class="row">
+					<input type="submit" class="button blue" name="save_token_domain" value="Save changes (changes to other token domains are lost)" />
+				</div>
+			</div>
+		</div>
+	</form>
 <: } :>
 <form method="POST" action="<: $u('Admin::Token','index') :>">
-  <div class="content-box content-box-toggleclick only">
-    <div class="head">
-      <h2>New token domain...</h2>
-    </div>
-    <div class="body">
-      <: include 'i/token_domain/form.tx' :>
-      <div class="row">
-        <input type="submit" class="button blue" name="save_token_domain" value="Add new token domain" />
-      </div>
-    </div>
-  </div>
+	<div class="content-box content-box-toggleclick only">
+		<div class="head">
+			<h2>New token domain...</h2>
+		</div>
+		<div class="body">
+			<: include 'i/token_domain/form.tx' :>
+			<div class="row">
+				<input type="submit" class="button blue" name="save_token_domain" value="Add new token domain" />
+			</div>
+		</div>
+	</div>
 </form>
 <: if $changed_token_domain_id { :>
-  <script type="text/javascript">
+	<script type="text/javascript">
 
-  $(function(){
-    $('#token_domain_<: $changed_token_domain_id :>_clicker').click();
-  });
+	$(function(){
+		$('#token_domain_<: $changed_token_domain_id :>_clicker').click();
+	});
 
-  </script>
+	</script>
 <: } :>

@@ -47,6 +47,11 @@ sub index :Chained('base') :PathPart('') :Args(0) {
 
 	$c->stash->{token_domains} = $c->d->rs('Token::Domain')->search({},{
 		'+columns' => {
+			token_count => $c->d->rs('Token')->search({
+				'token_domain_id' => { -ident => 'me.id' },
+			},{
+				alias => 'token_count_col',
+			})->count_rs->as_query,
 			translation_count => $c->d->rs('Token::Language::Translation')->search({
 				'token_domain_id' => { -ident => 'me.id' },
 			},{

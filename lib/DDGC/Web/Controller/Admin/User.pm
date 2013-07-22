@@ -44,9 +44,13 @@ sub user_base :Chained('base') :PathPart('view') :CaptureArgs(1) {
 		$c->response->redirect($c->chained_uri('Admin::User','index',{ user_not_found => 1 }));
 		return $c->detach;
 	}
+	$c->add_bc($c->stash->{user}->username, $c->chained_uri('Admin::User','index'));
 }
 
-sub user :Chained('user_base') :PathPart('') :Args(0) {}
+sub user :Chained('user_base') :PathPart('') :Args(0) {
+	my ( $self, $c ) = @_;
+	$c->bc_index;
+}
 
 no Moose;
 __PACKAGE__->meta->make_immutable;

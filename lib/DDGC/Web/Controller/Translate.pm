@@ -31,7 +31,15 @@ sub base :Chained('/base') :PathPart('translate') :CaptureArgs(0) {
 sub index :Chained('base') :PathPart('') :Args(0) {
     my ( $self, $c ) = @_;
 	$c->stash->{headline_template} = 'headline/translate.tt';
-	$c->stash->{token_domains} = $c->d->rs('Token::Domain');
+	$c->stash->{token_domains} = $c->d->rs('Token::Domain')->search({},{
+		'+columns' => {
+			token_count => $c->d->rs('Token')->search({
+				'token_domain_id' => { -ident => 'me.id' },
+			},{
+				alias => 'token_count_col',
+			})->count_rs->as_query,
+		},
+	});
 	$c->bc_index;
 }
 
