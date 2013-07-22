@@ -439,38 +439,38 @@ sub add_comments {
 sub threads {
     testone => { 
     	title => "Test thread",
-    	text => "Testing some BBCode\n[b]Bold[/b]\n[url=http://ddg.gg]URL[/url] / http://ddg.gg\nEtc.",
+#    	text => "Testing some BBCode\n[b]Bold[/b]\n[url=http://ddg.gg]URL[/url] / http://ddg.gg\nEtc.",
     	category_id => 5,
     	data => { announcement_status_id => 1 }
     },
     testtwo => {
     	title => "Hello, World!",
-    	text => "Hello, World!\n[code=perl]#!/usr/bin/env perl\nprint \"Hello, World!\";[/code]\n[code=lua]print(\"Hello, World\")[/code]\n[code=javascript]alert('Hello, World!');[/code]\n[quote=shakespeare](bb|[^b]{2})[/quote]\n\@testtwo I love you!",
+#    	text => "Hello, World!\n[code=perl]#!/usr/bin/env perl\nprint \"Hello, World!\";[/code]\n[code=lua]print(\"Hello, World\")[/code]\n[code=javascript]alert('Hello, World!');[/code]\n[quote=shakespeare](bb|[^b]{2})[/quote]\n\@testtwo I love you!",
     	category_id => 1,
     	data => { discussion_status_id => 1 },
     },
     testthree => {
     	title => "Syntax highlighting",
-    	text => '[code=perl]#!/usr/bin/env perl
-        use 5.014;
-        say "Hello, World!";[/code]
-        [code=javascript]document.write("Hello, World!");[/code]
-        [code=lua]print("Hello, World!")[/code]
-        [code=ada]with Text_IO;
-        procedure Hello_World is
-                begin
-                        Text_IO.Put_line("Hello World!");
-            end Hello_World;[/code]
-        [code=basic]10 REM I am awesome.
-        20 PRINT "Hello, World!"[/code]
-        [code=c]#include<stdio.h>
-        
-        int main(void) {
-                printf("Hello World\n");
-                    return 0;
-        }[/code]
-        [code=sql]SELECT \'Hello World\' as hello_message;[/code]
-        [code=yaml]text: Hello, World![/code]',
+#    	text => '[code=perl]#!/usr/bin/env perl
+#        use 5.014;
+#        say "Hello, World!";[/code]
+#        [code=javascript]document.write("Hello, World!");[/code]
+#        [code=lua]print("Hello, World!")[/code]
+#        [code=ada]with Text_IO;
+#        procedure Hello_World is
+#                begin
+#                        Text_IO.Put_line("Hello World!");
+#            end Hello_World;[/code]
+#        [code=basic]10 REM I am awesome.
+#        20 PRINT "Hello, World!"[/code]
+#        [code=c]#include<stdio.h>
+#        
+#        int main(void) {
+#                printf("Hello World\n");
+#                    return 0;
+#        }[/code]
+#        [code=sql]SELECT \'Hello World\' as hello_message;[/code]
+#        [code=yaml]text: Hello, World![/code]',
         category_id => 1,
         data => { discussion_status => 1 }
 	},

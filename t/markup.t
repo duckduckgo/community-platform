@@ -11,12 +11,12 @@ my %tests = (
 
 plan tests => int keys(%tests)+1; # TODO: Kill +1 once @mentions are implemented
 
-use DDGC::BBCode;
-my $parser = DDGC::BBCode->new;
+use DDGC;
+my $ddgc = DDGC->new;
 
 my $counter = 0;
 for my $bbcode (keys %tests) {
-    is $parser->html($bbcode), $tests{$bbcode}, "bbcode parse #$counter";
+    is $ddgc->markup->html($bbcode), $tests{$bbcode}, "bbcode parse #$counter";
 
     $counter++;
 }
@@ -25,7 +25,7 @@ for my $bbcode (keys %tests) {
 TODO: {
     local $TODO = "Waiting implementation of \@mentions";
 
-    is(DDGC::BBCode->new->html('@somebody'), "<a href='/somebody'>\@somebody</a>", '@mention test');
+    is($ddgc->markup->html('@somebody'), "<a href='/somebody'>\@somebody</a>", '@mention test');
 };
 
 done_testing;

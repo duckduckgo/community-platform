@@ -22,12 +22,6 @@ column title => {
     indexed => 1,
 };
 
-column text => {
-    data_type => 'text',
-    is_nullable => 0,
-    indexed => 1,
-};
-
 column data => {
 	data_type => 'text',
 	is_nullable => 1,
@@ -63,6 +57,7 @@ has categories => (
     auto_deref => 1, 
     lazy_build => 1, 
 );
+
 
 sub _build_categories {
         {  
@@ -156,16 +151,6 @@ sub title {
 sub category_key {
     my $self = shift;
     $self->_category($self->category_id);
-}
-
-sub updated_human {
-    my $self = shift;
-    $self->_humanify($self->updated);
-}
-
-sub created_human {
-    my $self = shift;
-    $self->_humanify($self->created);
 }
 
 no Moose;
