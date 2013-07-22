@@ -10,6 +10,12 @@ has table => (
 	required => 1,
 );
 
+has u_cell => (
+	is => 'ro',
+	isa => 'CodeRef',
+	predicate => 'has_u_cell',
+);
+
 has label => (
 	is => 'ro',
 	isa => 'Str',
@@ -49,11 +55,16 @@ has db_col => (
 sub get_cell_from_row {
 	my ( $self, $row ) = @_;
 	my $link;
-	if ($self->table->has_u_row) {
+	if ($self->has_u_cell) {
+		for ($row->db) {
+			$link = $self->u_cell->($self,$row);
+		}
+	}
+	if (!$link && $self->table->has_u_row) {
 		for ($row->db) {
 			$link = $self->table->u_row->($self,$row);
-		}		
-	}
+		}
+	}	
 	my %args = (
 		$link ? ( link => $link ) : (),
 		column => $self,

@@ -1,1 +1,37 @@
-form for <: $_.name :> ... todo
+<: include form::row {
+  form_row_id => 'token_domain_' ~ ( $_.id || 0 ) ~ '_key',
+  form_row_label => 'Key (dont change!):',
+  form_row_left => 'third',
+  form_row_right => 'twothird',
+  form_row_value => $_.key,
+} :>
+<: include form::row {
+  form_row_id => 'token_domain_' ~ ( $_.id || 0 ) ~ '_name',
+  form_row_label => 'Name/Title:',
+  form_row_left => 'third',
+  form_row_right => 'twothird',
+  form_row_value => $_.name,
+} :>
+<: include form::row {
+  form_row_id => 'token_domain_' ~ ( $_.id || 0 ) ~ '_description',
+  form_row_label => 'Description box:',
+  form_row_left => 'third',
+  form_row_right => 'twothird',
+  form_row_type => 'textarea',
+  form_row_value => $_.description,
+} :>
+<: include form::row {
+  form_row_id => 'token_domain_' ~ ( $_.id || 0 ) ~ '_sorting',
+  form_row_label => 'Sort value:',
+  form_row_left => 'third',
+  form_row_right => 'twothird',
+  form_row_value => $_.sorting,
+} :>
+<: include form::row {
+  form_row_id => 'token_domain_' ~ ( $_.id || 0 ) ~ '_notes',
+  form_row_label => 'Notes (not public accessable):',
+  form_row_left => 'third',
+  form_row_right => 'twothird',
+  form_row_type => 'textarea',
+  form_row_value => $_.notes,
+} :>

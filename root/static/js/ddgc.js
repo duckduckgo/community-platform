@@ -52,6 +52,22 @@ $(document).ready(function() {
 		$(this).parents('form').submit();
 	});
 
+
+	$('.content-box-toggleclick').each(function(){
+		var cb = $(this);
+		var body = $(this).children('.body').hide();
+		$(this).children('.head').click(function(){
+			if (cb.hasClass('only')) {
+				$('.content-box-toggleclick').each(function(){
+					if (!$(this).is(cb)) {
+						$(this).children('.body').hide('fast');
+					}
+				});
+			}
+			body.toggle('fast');
+		});
+	});
+
 	//
 	// account page
 	//

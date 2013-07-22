@@ -1,24 +1,66 @@
-<div>
-	<label for="language_<: $_.id :>_name_in_english">Language name in english: </label>
-	<input type="text" id="language_<: $_.id :>_name_in_english" name="language_<: $_.id || 0 :>_name_in_english" value="<: $_.name_in_english :>">
-</div>
-<div>
-	<label for="language_<: $_.id :>_name_in_local">Language name in the language: </label>
-	<input type="text" <: if $_.rtl { :>dir="rtl" <: } :>id="language_<: $_.id :>_name_in_local" name="language_<: $_.id || 0 :>_name_in_local" value="<: $_.name_in_local :>">
-</div>
-<div>
-	<label for="language_<: $_.id :>_locale">Locale: </label>
-	<input type="text" id="language_<: $_.id :>_locale" name="language_<: $_.id || 0 :>_locale" value="<: $_.locale :>">
-</div>
-<div>
-	<label for="language_<: $_.id :>_plural">Plural: </label>
-	<input type="text" id="language_<: $_.id :>_plural" name="language_<: $_.id || 0 :>_plural" value="<: $_.plural :>">
-</div>
-<div>
-	<label for="language_<: $_.id :>_nplurals">NPlurals: </label>
-	<input type="text" id="language_<: $_.id :>_nplurals" name="language_<: $_.id || 0 :>_nplurals" value="<: $_.nplurals :>">
-</div>
-<div>
-	<label for="language_<: $_.id :>_rtl">Right To Left: </label>
-	<input type="text" id="language_<: $_.id :>_rtl" name="language_<: $_.id || 0 :>_rtl" value="<: $_.rtl :>">
-</div>
+<: include form::row {
+	form_row_id => 'language_' ~ ( $_.id || 0 ) ~ '_name_in_english',
+	form_row_label => 'Language name in english:',
+	form_row_left => 'third',
+	form_row_right => 'twothird',
+	form_row_value => $_.name_in_english,
+} :>
+<: include form::row {
+	form_row_id => 'language_' ~ ( $_.id || 0 ) ~ '_rtl',
+	form_row_label => 'Right to left:',
+	form_row_left => 'third',
+	form_row_right => 'twothird',
+	form_row_type => 'yesno',
+	form_row_value => $_.rtl,
+} :>
+<: include form::row {
+	form_row_id => 'language_' ~ ( $_.id || 0 ) ~ '_name_in_local',
+	form_row_label => 'Language and country name in local language:',
+	form_row_left => 'third',
+	form_row_right => 'twothird',
+	form_row_value => $_.name_in_local,
+	form_row_rtl => $_.rtl,
+} :>
+<: include form::row {
+	form_row_id => 'language_' ~ ( $_.id || 0 ) ~ '_lang_in_local',
+	form_row_label => 'Language only in local language:',
+	form_row_left => 'third',
+	form_row_right => 'twothird',
+	form_row_value => $_.lang_in_local,
+	form_row_rtl => $_.rtl,
+} :>
+<: include form::row {
+	form_row_id => 'language_' ~ ( $_.id || 0 ) ~ '_locale',
+	form_row_label => 'Locale:',
+	form_row_value => $_.locale,
+	form_row_left => 'third',
+	form_row_right => 'twothird',
+} :>
+<: include form::row {
+	form_row_id => 'language_' ~ ( $_.id || 0 ) ~ '_svg1',
+	form_row_label => 'Primary SVG:',
+	form_row_value => $_.svg1,
+	form_row_left => 'third',
+	form_row_right => 'twothird',
+} :>
+<: include form::row {
+	form_row_id => 'language_' ~ ( $_.id || 0 ) ~ '_svg2',
+	form_row_label => 'Secondary SVG:',
+	form_row_value => $_.svg2,
+	form_row_left => 'third',
+	form_row_right => 'twothird',
+} :>
+<: include form::row {
+	form_row_id => 'language_' ~ ( $_.id || 0 ) ~ '_nplurals',
+	form_row_label => 'nplurals:',
+	form_row_left => 'third',
+	form_row_value => $_.nplurals,
+	form_row_right => 'twothird',
+} :>
+<: include form::row {
+	form_row_id => 'language_' ~ ( $_.id || 0 ) ~ '_plural',
+	form_row_label => 'Plural:',
+	form_row_value => $_.plural,
+	form_row_left => 'third',
+	form_row_right => 'twothird',
+} :>

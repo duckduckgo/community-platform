@@ -1,0 +1,17 @@
+<div class="row">
+	<div class="<: $form_row_left :>">
+		<label for="<: $form_row_id :>"><: $form_row_label :></label>
+	</div>
+	<div class="<: $form_row_right :>">
+		<: if $form_row_type == 'yesno' { :>
+			<select id="<: $form_row_id :>" name="<: $form_row_name || $form_row_id :>">
+				<option value="">No</option>
+				<option value="1"<: if $form_row_value { :> selected="selected"<: } :>>Yes</option>
+			</select>
+		<: } elsif $form_row_type == 'textarea' { :>
+			<textarea rows="<: $form_row_textarea_rows || 5 :>" id="<: $form_row_id :>" name="<: $form_row_name || $form_row_id :>"><: $form_row_value :></textarea>
+		<: } else { :>
+			<input type="text" id="<: $form_row_id :>" name="<: $form_row_name || $form_row_id :>" value="<: $form_row_value :>"<: if $form_row_rtl { :> dir="rtl"<: }:>>
+		<: } :>
+	</div>
+</div>

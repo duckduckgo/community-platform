@@ -38,12 +38,12 @@ sub index :Chained('base') :PathPart('') :Args(0) {
 }
 
 sub user_base :Chained('base') :PathPart('view') :CaptureArgs(1) {
-    my ( $self, $c, $username ) = @_;
-    $c->stash->{user} = $c->d->find_user($username);
-    unless ($c->stash->{user}) {
-        $c->response->redirect($c->chained_uri('Admin::User','index',{ user_not_found => 1 }));
-        return $c->detach;
-    }
+	my ( $self, $c, $username ) = @_;
+	$c->stash->{user} = $c->d->find_user($username);
+	unless ($c->stash->{user}) {
+		$c->response->redirect($c->chained_uri('Admin::User','index',{ user_not_found => 1 }));
+		return $c->detach;
+	}
 }
 
 sub user :Chained('user_base') :PathPart('') :Args(0) {}
