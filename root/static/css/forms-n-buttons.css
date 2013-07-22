@@ -275,6 +275,8 @@ Buttons/Tags
 	.tag {
 		margin-bottom: 4px; 
 	}
+	.button .icon, .tag .icon { padding-right: 6px; }
+	
 	.half > .button, .third  > .button, .twothird  > .button, .quarter > .button, .sixth > .button { 
 		width: 100%; margin: 0 auto; padding: 4px 0;
 	}	
@@ -350,6 +352,17 @@ Buttons/Tags
 	}
 	
 	/* light/pastel colors */
+	.button.lightyellow, .tag.lightyellow,
+	.button.lightblue, .tag.lightblue,
+	.button.lightteal, .tag.lightteal,
+	.button.lightgreen, .tag.lightgreen,	
+	.button.pink, .tag.pink,
+	.button.lightred, .tag.lightred ,
+	.button.teal, .tag.teal,
+	.button.purple, .tag.purple {
+	text-shadow: 1px 0 0 rgba(255,255,255,0.1);
+	}
+	
 	.button.lightyellow, .tag.lightyellow {
 		border-color: #feeabe;
 		color: #f0a300;
@@ -357,12 +370,12 @@ Buttons/Tags
 	}
 		.button.lightyellow:hover { background-color:#fcf7e3; }
 	
-	.button.lightblue, .tag.lightblue {
+	.button.lightteal, .tag.lightteal {
 		border-color: #b4e3f2;
 		background-color: #d4f2fc;
 		color: #6eb3ca;
 	}
-		.button.lightblue:hover { background-color: #edfafe; }
+		.button.lightteal:hover { background-color: #edfafe; }
 	
 	.button.lightgreen, .tag.lightgreen {
 		border-color: #cdf2a8;
@@ -379,17 +392,37 @@ Buttons/Tags
 	}
 		.button.pink:hover, .button.lightred:hover { background-color: #f4e6e6; }	
 	
+	.button.lightblue, .tag.lightblue {
+		border-color: #ABC2FF;
+		background-color: #D2DEFF;
+		color: #5175D9;
+	}
+		.button.lightblue:hover { background-color: #e3eafd; }
+	
+	.button.teal, .tag.teal {
+		background-color: #ABFFE8;
+		border-color: #85FFDE;		
+		color: #0ebe8e;
+	}
+		.button.teal:hover { background-color: #d6fdf2; }
+		
+	.button.purple, .tag.purple {
+		background-color: #E8ABFF;
+		border-color: #DE85FF;		
+		color: #B451D9;
+	}
+		.button.purple:hover { background-color: #f4dcfd; }
+	
 	/* colors with dark text */
 	.button.lime, .tag.lime,
+	.button.neon, .tag.neon,
 	.button.yellow, .tag.yellow,
 	.button.paleyellow, .tag.paleyellow,
 	.button.ghostyellow, .tag.ghostyellow,
 	.button.rose, .tag.rose,
 	.button.cyan, .tag.cyan,
-	.button.violet, .tag.violet,
-	.button.teal, .tag.teal,
-	.button.peach, .tag.peach,
-	.button.tangerine, .tag.tangerine,
+	.button.violet, .tag.violet,	
+	.button.peach, .tag.peach,	
 	.button.paleblue, .tag.paleblue,
 	.button.ghostblue, .tag.ghostblue {
 		color: #484438;
@@ -398,21 +431,28 @@ Buttons/Tags
 	
 	.button.lime, .tag.lime {		
 		background-color: #E3FF85;
-		border-color: #b5d774;
+		border-color: #CFFF85;
 	}
+		.button.lime:hover { background-color: #efffbb; }
+	
+	.button.neon, .tag.neon {		
+		background-color: #F7FF85;
+		border-color: #E3FF85;
+	}
+		.button.neon:hover { background-color: #fcffd1; }
 	
 	.button.cyan, .tag.cyan {
 		background-color: #c5e6f7;
 		border-color: #a6c2d0;
 	}
+		.button.cyan:hover { background-color: #e0eff7; }
 	
 	.button.violet, .tag.violet {
-		background-color: #E8ABFF;
+		background-color: #F2D1FF;
+		border-color: #E8ABFF;
 	}
-	
-	.button.teal, .tag.teal {
-		background-color: #ABFFE8;
-	}
+		.button.violet:hover { background-color: #f7e6fd;}
+		
 	
 	.button.rose, .tag.rose {
 		background-color: #ff85b3;
@@ -420,11 +460,9 @@ Buttons/Tags
 	
 	.button.peach, .tag.peach {
 		background-color: #FFCA85;
+		border-color: #FFB5A5;
 	}
-	
-	.button.tangerine, .tag.tangerine {
-		background-color: #FFA185;
-	}
+		.button.peach:hover { background-color: #fed49c; }
 	
 	.button.paleblue, .tag.paleblue {
 		background-color: #D2DEFF;
@@ -461,7 +499,7 @@ Buttons/Tags
 	.button.green, .tag.green,
 	.button.red, .tag.red,
 	.button.darkblue, .tag.darkblue,
-	.button.blue, .tag.blue,
+	.button.blue, .tag.blue,	
 	.button.charcoal, .tag.charcoal {
 		color: #fff;
 		text-shadow: 0 -1px 0 rgba(0,0,0,0.1);
@@ -490,7 +528,7 @@ Buttons/Tags
 		border-color: #ae2419;		
 	}
 		.button.red:hover { background-color: #c43429; }	
-	
+		
 	.button.darkblue, .tag.darkblue {		
 		background-color: #6b7b94;
 		border-color: #395c72;		

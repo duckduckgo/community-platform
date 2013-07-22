@@ -38,7 +38,7 @@
 		<div class="account-box"> <!-- That shouldnt be necessary TODO -->
 		<div class="row callout-row">
 			<a href="<: $u('Blog','post','openid-delegation') :>">
-				<i class="icon-circle-arrow-right right"></i><h3 class="icon"><i class="icon-globe"></i>Click here for more information about OpenID delegation.</h3>
+				<i class="icon-circle-arrow-right right"></i><h3 class="icon"><i class="icon-info"></i>Click here for more information about OpenID delegation.</h3>
 			</a>
 		</div>
 		</div>
@@ -69,9 +69,9 @@
 
 <div class="content-box">
 	<div class="body">
-		<div class="row mid">
-			<input type="submit" class="big blue button" name="save_userpage" value="Save changes" />
-			<a class="big red button" href="<: $u('Userpage','home',$c.user.username) :>" style="top: 3px;">Go to your userpage (changes get lost)</a>
+		<div class="row">
+			<a class="pull-right" href="<: $u('Userpage','home',$c.user.username) :>" style="top: 3px;">Go to your userpage (changes will be lost)</a>
+			<input type="submit" class="big blue button" name="save_userpage" value="Save changes" />			
 		</div>
 	</div>
 </div>

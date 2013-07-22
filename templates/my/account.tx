@@ -13,7 +13,7 @@
 				<h2>Level <a href="#" data-reveal-id="grades-tooltip"><i class="icon-question-sign icn--sup" id="trig-level-tooltip"></i></a></h2>
 			</div>
 			<: if $c.user.admin { :>
-				<a class="pull-right button big green" href="<: $u('Admin','index') :>">Admin area</a>
+				<a class="pull-right  button  big  lime" href="<: $u('Admin','index') :>">Admin area</a>
 			<: } :>
 		</div>
 		<div class="body">
@@ -167,7 +167,7 @@
 			</div>
 			<div class="row callout-row">
 				<a href="<: $u('Blog','post','xmpp-services-at-duckduckgo') :>">
-					<i class="icon-circle-arrow-right right"></i><h3 class="icon"><i class="icon-globe"></i>Click here for more information about our XMPP service.</h3>
+					<i class="icon-circle-arrow-right right"></i><h3 class="icon"><i class="icon-bubbles"></i>Click here for more information about our XMPP service.</h3>
 				</a>
 			</div>
 		</div>

@@ -29,7 +29,7 @@
 					<: } :>
 				</span>
 				<: if $c.wiz_inside { :>					
-						<span class="wiz-arrow  wiz-arrow-bottom-right"><input type="submit" class="button  big" name="wizard_skip" value="Go to next token"/></span>			
+						<span class="wiz-arrow  wiz-arrow-bottom-right"><input type="submit" class="button  big  lightteal" name="wizard_skip" value="Go to next token"/></span>			
 				<: } :>
 			</div>
 		<: } :>

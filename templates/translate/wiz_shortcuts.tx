@@ -6,8 +6,8 @@
 		<div class="faux__body">
 			Here are some shortcuts! &nbsp;You can go directly to:   	
 			<div class="notice__buttons">				
-				<a class="button red" href="<: $u('Translate','untranslated_all') :>"><i class="icon-pencil"></i> Next untranslated token</a>
-				<a class="button red" href="<: $u('Translate','unvoted_all') :>"><i class="icon-check"></i> Next unvoted translation</a>
+				<a class="button  red" href="<: $u('Translate','untranslated_all') :>"><i class="icon icon-pencil"></i> Next untranslated token</a>
+				<a class="button  red" href="<: $u('Translate','unvoted_all') :>"><i class="icon icon-check"></i> Next unvoted translation</a>
 			</div>
 		</div>
 	</div>
