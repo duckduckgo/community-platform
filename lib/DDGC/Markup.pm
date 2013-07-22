@@ -70,7 +70,7 @@ sub code_parse {
     } else {
         $content = Parse::BBCode::escape_html($$content);
     }
-    "<div class='bbcode_code_header'>${lang}Code:<pre class='bbcode_code_body'>$content</pre></div>"
+    "<div class='bbcode_code_header'>${lang}Code:<pre class='bbcode_code_body'><code>$content</code></pre></div>"
 }
 
 sub quote_parse {

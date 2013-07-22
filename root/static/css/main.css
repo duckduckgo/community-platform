@@ -113,6 +113,19 @@ pre code {
 	display: block;
 }
 
+/* For syntax hilighting in code blocks */
+code > .synComment { color: lightblue; }
+code > .synConstant { color: lightgreen; }
+code > .synIdentifier { color: aqua; }
+code > .synStatement { color: yellow; }
+code > .synPreProc { color: #f8f; }
+code > .synType { color: lime; }
+code > .synSpecial { color: #f8f;  }
+code > .synUnderlined { color: #f8f; text-decoration: underline; }
+code > .synError { background-color: red; color: white; font-weight: bold; }
+code > .synTodo { background-color: yellow; color: black; }
+code > .Linenum { color: yellow; }
+
 blockquote { padding: 0 0 0 28px; position: relative; }	
 	blockquote p { color: #828487; position: relative; z-index: 1;}
 	blockquote:before { 
