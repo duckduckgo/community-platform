@@ -71,6 +71,7 @@ sub index :Chained('base') :PathPart('') :Args(0) {
 				alias => 'vote_count_col',
 			})->count_rs->as_query,
 		},
+		order_by => { -asc => 'sorting' },
 	});
 
 }
