@@ -113,7 +113,7 @@ pre code {
 	display: block;
 }
 
-/* For syntax hilighting in code blocks */
+/* For syntax highlighting in code blocks */
 code > .synComment { color: lightblue; }
 code > .synConstant { color: lightgreen; }
 code > .synIdentifier { color: aqua; }
