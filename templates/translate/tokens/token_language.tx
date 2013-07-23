@@ -52,7 +52,7 @@
 					</p>
 				<: } :>
 				<p>
-				<: if $token_language.token.notes || $token_language.notes { :>
+				<: if $token_language.token.notes { :>
 					Please assure to read the notes before translating!
 				<: } else { :>
 					Please do not hesitate to <a href="https://duckduckgo.com/feedback">contact us</a>, if you require any further information for this token.
@@ -86,17 +86,12 @@
 					<label for="token_notes_<: $token_language.token.id :>_edit">Token Notes</label>
           			<textarea style="resize: none;" cols="40" rows="5" id="token_notes_<: $token_language.token.id :>_edit" name="token_notes_<: $token_language.token.id :>_edit"><: $token_language.token.notes :></textarea>
           			<br/>
-					<label for="token_language_notes_<: $token_language.id :>_edit">Token Language Notes</label> 
-	      			<textarea style="resize: none;" cols="40" rows="5" id="token_language_notes_<: $token_language.id :>_edit" name="token_language_notes_<: $token_language.id :>_edit"><: $token_language.notes :></textarea>
 				<: } else { :>
 					<: if $token_language.token.notes { :>
 						<: r($token_language.token.notes) :>
 						<: if $token_language.notes { :>
 							<br/>
 						<: } :>
-					<: } :>
-					<: if $token_language.notes { :>
-						<: r($token_language.notes) :>
 					<: } :>
 				<: } :>
 			</div>
