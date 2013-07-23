@@ -53,7 +53,7 @@
 				<: } :>
 				<p>
 				<: if $token_language.token.notes || $token_language.notes { :>
-					Please assure to read the notes before translating!
+					Please make sure you read the notes before translating!
 				<: } else { :>
 					Please do not hesitate to <a href="https://duckduckgo.com/feedback">contact us</a>, if you require any further information for this token.
 				<: } :>
