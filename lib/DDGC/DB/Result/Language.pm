@@ -9,9 +9,6 @@ use namespace::autoclean;
 
 table 'language';
 
-# sub description_list { "The language", "'".shift->name_in_english."'", "." }
-# sub sub_description_list { "the language", "'".shift->name_in_english."'" }
-
 column id => {
 	data_type => 'bigint',
 	is_auto_increment => 1,
@@ -47,6 +44,12 @@ unique_column locale => {
 	is_nullable => 0,
 };
 
+column country_id => {
+	data_type => 'bigint',
+	is_nullable => 1,
+};
+
+############################ LEGACY
 column flagicon => {
 	data_type => 'text',
 	is_nullable => 1,
@@ -62,6 +65,7 @@ column svg2 => {
 	data_type => 'text',
 	is_nullable => 1,
 };
+##############################################################
 
 column nplurals => {
 	data_type => 'tinyint',
@@ -118,6 +122,7 @@ column parent_id => {
 };
 
 belongs_to 'parent', 'DDGC::DB::Result::Language', 'parent_id', { join_type => 'left' };
+belongs_to 'country', 'DDGC::DB::Result::Country', 'country_id', { join_type => 'left' };
 
 has_many 'user_languages', 'DDGC::DB::Result::User::Language', 'language_id';
 has_many 'user_blogs', 'DDGC::DB::Result::User::Blog', 'language_id';

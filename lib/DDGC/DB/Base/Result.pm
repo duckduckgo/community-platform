@@ -15,6 +15,9 @@ __PACKAGE__->load_components(qw/
 
 sub default_result_namespace { 'DDGC::DB::Result' }
 
+sub ddgc { shift->result_source->schema->ddgc }
+sub schema { shift->schema }
+
 sub add_event {
 	my ( $self, $action, %args ) = @_;
 	my %event;

@@ -12,7 +12,7 @@ has _app => (
 sub c { shift->_app }
 
 sub BUILDARGS {
-    my ( $class, $config, $app, $realm ) = @_;
+	my ( $class, $config, $app, $realm ) = @_;
 
 	my %options;
 	
@@ -22,20 +22,20 @@ sub BUILDARGS {
 }
 
 sub from_session {
-    my ( $self, $c, $username ) = @_;
+	my ( $self, $c, $username ) = @_;
 
-    return $username if ref $username;
+	return $username if ref $username;
 
-    $self->find_user({
+	$self->find_user({
 		username => $username
 	});
 }
 
 sub find_user {
-    my ( $self, $userinfo ) = @_;
+	my ( $self, $userinfo ) = @_;
 
-    my $username = delete $userinfo->{'username'};
-	
+	my $username = delete $userinfo->{'username'};
+
 	warn "can't handle other user attributes so far" if %{$userinfo};
 	
 	return unless $username;
@@ -44,8 +44,8 @@ sub find_user {
 }
 
 sub get_user {
-    my ( $self, $username ) = @_;
-    $self->find_user({ username => $username });
+	my ( $self, $username ) = @_;
+	$self->find_user({ username => $username });
 }
 
 1;

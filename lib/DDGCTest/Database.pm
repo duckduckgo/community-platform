@@ -487,8 +487,7 @@ sub add_threads {
     	my %hash = %{shift @threads};
     	my $user = $self->c->{users}->{$username};
         my $thread = $user->create_related('threads',\%hash);
-        #$thread->update;
-        #$self->d->db->txn_do(sub { $thread->update });
+        $self->d->add_comment('DDGC::DB::Result::Thread', $thread->id, $user, "Testing testing");
         $self->next_step;
     }
 }

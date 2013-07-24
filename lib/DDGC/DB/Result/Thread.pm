@@ -140,7 +140,7 @@ sub title_to_path { # construct a id-title-of-thread string from $id and $title
 
 sub url {
     my $self = shift;
-    my $x = $self->title_to_path($self->id, $self->thread_title);
+    my $x = $self->title_to_path($self->id, $self->title);
     $x;
 }
 

@@ -49,9 +49,15 @@
 			</div>
 			<: if my $size = results($c.user.user_languages).size() { :>
 				<div class="row callout-row">
-					<a href="<: $u('Translate','index') :>">
-						<i class="icon-circle-arrow-right right"></i><h3 class="icon"><i class="icon-globe"></i>Help us translate DuckDuckGo into your languages.</h3>
-					</a>
+					<: if $c.user.translation_manager { :>
+						<a href="http://duckpan.org/perldoc/DDG::Manual::Translation">
+							<i class="icon-circle-arrow-right right"></i><h3 class="icon"><i class="icon-globe"></i>You are a translation manager! Click here for translation documentation.</h3>
+						</a>
+					<: } else { :>
+						<a href="<: $u('Translate','index') :>">
+							<i class="icon-circle-arrow-right right"></i><h3 class="icon"><i class="icon-globe"></i>Help us translate DuckDuckGo into your languages.</h3>
+						</a>
+					<: } :>
 				</div>
 			<: } :>
 		</div>
