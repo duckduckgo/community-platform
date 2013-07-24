@@ -25,3 +25,18 @@ we need some "points" in that line for the voting result (or whatever place
 if you have a better idea).
 * green/red on hover, and if selected green/red permanently? - yes
 ** ok added .upvote and .downvote.  now if the user has voted you can add class 'voted' to the .voting wrapper, and .voted to the upvote or downvote
+
+=head3 DB Query stuff for Forum
+
+=over 4
+=item * Order threads by last created comment in index
+=item * Reuse that ^ in index.tx rather than creating $comments in there
+=item * Find creation date of first and last comment for a thread (see TODO in index.tx)
+=back
+
+=head3 Styles
+=over 4
+=item * Maybe look into putting username under userpic in forum comments
+=item * Make thread details look nice (and make userinfo inline!)
+=item * forum/index.tx styling! yeah! broad topic.
+=back
