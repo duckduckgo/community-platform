@@ -1,0 +1,34 @@
+<div class="content-box">
+    <div class="twothirds">
+        <div class="head">
+            <h2>Recent Topics</h2>
+            <a class="button right" href="<: $u('Forum','newthread') :>">New Thread</a>
+        </div>
+        <div class="body">
+            <: for results($thread_table.paged_rs) -> $thread { :>
+                <: # TODO: Get this out of the damn template
+                   my $comments = $c.d.comments('DDGC::DB::Result::Thread',$thread.id) :>
+
+                <div class="row">
+                    <div class="third"><a href="<: $u('Forum','view',$thread.url) :>"><: $thread.title :></a></div>
+                    <div class="sixth"><: $thread.category_key :></div>
+                    <div class="sixth"><: $comments.count :></div>
+                    <: #TODO: Drop these nasty things, add first and last comments' datetimes. :>
+                    <div class="eighth"><: $dur($comments.list[0].created) :></div>
+                    <div class="eighth"><: $dur($comments.list[-1].created) :></div>
+                </div>
+            <: } :>
+        </div>
+        <br/>
+    </div>
+    <aside class="right sidebar">
+        <div class="sidebar-contents group">
+            <section class="menu-list tab-third">
+                <h5>Sidebar</h5>
+                <p>This thing is a sidebar</p>
+            </section>
+        </div>
+    </aside>
+    <br/>
+    <div style="clear:both"><: i($thread_table,'pager') :></div>
+</div>

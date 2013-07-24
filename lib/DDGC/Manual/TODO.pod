@@ -27,7 +27,6 @@ if you have a better idea).
 ** ok added .upvote and .downvote.  now if the user has voted you can add class 'voted' to the .voting wrapper, and .voted to the upvote or downvote
 
 =head3 DB Query stuff for Forum
-
 =over 4
 
 =item * Order threads by last created comment in index

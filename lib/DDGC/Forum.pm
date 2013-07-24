@@ -31,6 +31,24 @@ sub get_threads {
     return $self->ddgc->rs('Thread')->search({},{ order_by => { -desc => 'updated' } });#->page($pagenum);
 }
 
+sub new_thread {
+    my ( $self, %params ) = @_;
+
+    my $thread = $self->ddgc->rs('Thread')->new({
+        title => $params{title},
+        category_id => $params{category_id},
+        users_id => $params{user}->id,
+    });
+
+    my $category = $thread->category_key;
+    $thread->data({ "${category}_status_id" => 1 });
+    $thread->insert;
+
+    $self->ddgc->add_comment('DDGC::DB::Result::Thread', $thread->id, $params{user}, $params{content});
+
+    $self->ddgc->db->txn_do(sub { $thread->update });
+}
+
 sub get_thread {
     my ( $self, $id ) = @_;
     $self->ddgc->rs('Thread')->single({ id => $id });

@@ -93,6 +93,7 @@ sub status : Chained('thread') Args(0) {
 # /forum/newthread
 sub newthread : Chained('base') Args(0) {
     my ( $self, $c ) = @_;
+    $c->add_bc("New Thread");
 }
 
 sub delete : Chained('base') Args(1) {
@@ -117,18 +118,14 @@ sub makethread : Chained('base') Args(0) {
         $c->stash->{error} = 'One or more fields were empty.';
         return
     }
-
-    my $thread = $c->d->rs('Thread')->new({
-        thread_title => $c->req->params->{title},
-        text => $c->req->params->{text},
+    
+    my $thread = $c->d->forum->new_thread(
+        user => $c->user,
+        title => $c->req->params->{title},
         category_id => $c->req->params->{category_id},
-        users_id => $c->user->id,
-    });
+        content => $c->req->params->{text},
+    );
 
-    my $category = $thread->category_key;
-    $thread->data({ "${category}_status_id" => 1 });
-    $thread->insert;
-    $c->d->db->txn_do(sub { $thread->update });
     $c->response->redirect($c->chained_uri('Forum','view',$thread->url));
 }
 
