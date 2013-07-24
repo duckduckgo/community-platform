@@ -29,14 +29,24 @@ if you have a better idea).
 =head3 DB Query stuff for Forum
 
 =over 4
+
 =item * Order threads by last created comment in index
+
 =item * Reuse that ^ in index.tx rather than creating $comments in there
+
 =item * Find creation date of first and last comment for a thread (see TODO in index.tx)
+
+
 =back
 
 =head3 Styles
+
 =over 4
+
 =item * Maybe look into putting username under userpic in forum comments
+
 =item * Make thread details look nice (and make userinfo inline!)
+
 =item * forum/index.tx styling! yeah! broad topic.
+
 =back
