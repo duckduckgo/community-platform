@@ -7,15 +7,29 @@ use namespace::autoclean;
 
 sub base : Chained('/base') PathPart('forum') CaptureArgs(0) {
   my ( $self, $c ) = @_;
-  $c->stash->{breadcrumb} = ['Forum', '/forum/index'];
+  $c->add_bc("Forum", $c->chained_uri('Forum', 'index'));
   $c->stash->{is_admin} = $c->user && $c->user->admin;
   #$c->response->redirect('/'.$c->request->path);
 }
 
+# /forum/index/
+sub index : Chained('base') Args(0) {
+  my ( $self, $c ) = @_;
+  $c->bc_index;
+
+  my $rs = $c->d->forum->get_threads;
+  $c->stash->{thread_table} = $c->table($rs,['Forum','index'],[], default_pagesize => 20);
+
+  # TODO: Move this to the template
+  #unless ($c->stash->{threads}->count && $pagenum == 1) {
+  #    $c->stash->{error} = "Cannot display page";
+  #}
+}
+
+# /forum/search/
 sub search : Chained('base') Args(0) {
   my ( $self, $c, $pagenum ) = @_;
 
-  push @{$c->stash->{breadcrumb}}, ('Search', '/forum/search');
   $c->stash->{query} = $c->req->params->{q};
   return unless $c->stash->{query};
 
@@ -26,29 +40,19 @@ sub search : Chained('base') Args(0) {
   }
 }
 
-# /forum/index/
-sub index : Chained('base') Args(0) {
-  my ( $self, $c, $pagenum ) = @_;
-  $pagenum = $c->req->params->{page} ? $c->req->params->{page} : 1;
-  return unless $pagenum=~/^\d+$/;
-
-  $c->stash->{page} = $pagenum;
-  $c->pager_init($c->action, 20);
-  $c->stash->{threads} = $c->d->forum->get_threads($pagenum);
-  unless ($c->stash->{threads}->count && $pagenum == 1) {
-      $c->stash->{error} = "Cannot display page";
-  }
-}
-
 # /forum/thread/$id
 sub thread : Chained('base') CaptureArgs(1) {
   my ( $self, $c, $id ) = @_;
   my @idstr = split('-',$id);
   $c->stash->{thread} = $c->d->forum->get_thread($idstr[0]);
-  $c->stash->{thread_html} = $c->stash->{thread}->render_html($c->d);
   my $url = $c->stash->{thread}->url;
   $c->response->redirect($c->chained_uri('Forum','view',$url)) if $url ne $id;
-  push @{$c->stash->{breadcrumb}}, ($c->stash->{thread}->thread_title, '/forum/thread/'.$url);
+
+  $c->stash->{thread_comments} = $c->d->comments('DDGC::DB::Result::Thread', $c->stash->{thread}->id);
+
+  $c->add_bc($c->stash->{thread}->title, $c->stash->{thread}->url);
+  $c->bc_index;
+
   $c->stash->{is_owner} = ($c->user && ($c->user->admin || $c->user->id == $c->stash->{thread}->users_id)) ? 1 : 0;
 }
 
