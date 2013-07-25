@@ -370,9 +370,9 @@ sub test_userpage {
 sub test_event {
 	my ( $self ) = @_;
 	my @events = $self->d->resultset('Event')->search({})->all;
-	$self->is(scalar @events, 282, "Checking amount of events gathered");
+	$self->is(scalar @events, 285, "Checking amount of events gathered");
 	my @enos = $self->d->resultset('Event::Notification')->search({})->all;
-	$self->is(scalar @enos, 523, "Checking amount of event notifications gathered");
+	$self->is(scalar @enos, 527, "Checking amount of event notifications gathered");
 }
 
 sub _replace_email {
