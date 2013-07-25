@@ -1,0 +1,63 @@
+<: include form::row {
+  form_row_id => 'country_' ~ ( $_.id || 0 ) ~ '_name_in_english',
+  form_row_label => 'Country name in english:',
+  form_row_left => 'third',
+  form_row_right => 'twothird',
+  form_row_value => $_.name_in_english,
+} :>
+<: include form::row {
+  form_row_id => 'country_' ~ ( $_.id || 0 ) ~ '_name_in_local',
+  form_row_label => 'Country name in local language:',
+  form_row_left => 'third',
+  form_row_right => 'twothird',
+  form_row_value => $_.name_in_local,
+  form_row_rtl => ( $_.primary_language_id ? $_.primary_language.rtl : 0 ),
+} :>
+<: include form::row {
+  form_row_id => 'country_' ~ ( $_.id || 0 ) ~ '_virtual',
+  form_row_label => 'Virtual Country:',
+  form_row_left => 'third',
+  form_row_right => 'twothird',
+  form_row_type => 'yesno',
+  form_row_value => $_.virtual,
+} :>
+<: include form::row {
+  form_row_id => 'country_' ~ ( $_.id || 0 ) ~ '_country_code',
+  form_row_label => '2 letter Country Code:',
+  form_row_value => $_.country_code,
+  form_row_left => 'third',
+  form_row_right => 'twothird',
+} :>
+<: include form::row {
+  form_row_id => 'country_' ~ ( $_.id || 0 ) ~ '_flag_svg',
+  form_row_label => 'Primary SVG:',
+  form_row_value => $_.flag_svg,
+  form_row_left => 'third',
+  form_row_right => 'twothird',
+} :>
+<!--
+<: include form::row {
+  form_row_id => 'country_' ~ ( $_.id || 0 ) ~ '_subflag_svg',
+  form_row_label => 'Secondary SVG:',
+  form_row_value => $_.subflag_svg,
+  form_row_left => 'third',
+  form_row_right => 'twothird',
+} :>
+-->
+<: include form::row {
+  form_row_id => 'country_' ~ ( $_.id || 0 ) ~ '_notes',
+  form_row_label => 'Notes:',
+  form_row_left => 'third',
+  form_row_type => 'textarea',
+  form_row_value => $_.notes,
+  form_row_right => 'twothird',
+} :>
+<: include form::row {
+  form_row_id => 'country_' ~ ( $_.id || 0 ) ~ '_primary_language_id',
+  form_row_label => 'Primary Language:',
+  form_row_value => $_.primary_language_id,
+  form_row_type => 'select',
+  form_row_options => $language_options,
+  form_row_left => 'third',
+  form_row_right => 'twothird',
+} :>

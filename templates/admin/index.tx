@@ -23,8 +23,8 @@
 			<p><a class="button  full  tall  h1  blue" href="<: $u('Admin::Language','index') :>"><i class="icon-globe"></i></a></p>
 		</div>
 		<div class="g twothirds">
-			<h3 class="mg-top--small">Language editor</h3>
-			<p>Currently supporting <: $languages_count :> languages, supplying <: $translations_count :> translations with <: $votes_count :> votes.</p>
+			<h3 class="mg-top--small">Language & Country editor</h3>
+			<p>Currently supporting <: $languages_count :> languages in <: $country_count :> countries, supplying <: $translations_count :> translations with <: $votes_count :> votes.</p>
 		</div>
 	</div>
 	<hr class="mg-top--none" />

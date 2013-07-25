@@ -10,6 +10,15 @@
 			</select>
 		<: } elsif $form_row_type == 'textarea' { :>
 			<textarea rows="<: $form_row_textarea_rows || 5 :>" id="<: $form_row_id :>" name="<: $form_row_name || $form_row_id :>"><: $form_row_value :></textarea>
+		<: } elsif $form_row_type == 'select' { :>
+			<select id="<: $form_row_id :>" name="<: $form_row_name || $form_row_id :>">
+				<option value="">-</option>
+				<: for $form_row_options -> $option { :>
+					<option value="<: $option.value :>"<: if $option.value == $form_row_value { :> selected="selected"<: } :>>
+						<: r($option.text) :>
+					</option>
+				<: } :>
+			</select>
 		<: } else { :>
 			<input type="text" id="<: $form_row_id :>" name="<: $form_row_name || $form_row_id :>" value="<: $form_row_value :>"<: if $form_row_rtl { :> dir="rtl"<: }:>>
 		<: } :>

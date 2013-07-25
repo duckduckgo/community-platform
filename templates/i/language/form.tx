@@ -30,23 +30,27 @@
 	form_row_rtl => $_.rtl,
 } :>
 <: include form::row {
+  form_row_id => 'language_' ~ ( $_.id || 0 ) ~ '_parent_id',
+  form_row_label => 'Parent language:',
+  form_row_value => $_.parent_id,
+  form_row_type => 'select',
+  form_row_options => $language_options,
+  form_row_left => 'third',
+  form_row_right => 'twothird',
+} :>
+<: include form::row {
+  form_row_id => 'language_' ~ ( $_.id || 0 ) ~ '_country_id',
+  form_row_label => 'Country:',
+  form_row_value => $_.country_id,
+  form_row_type => 'select',
+  form_row_options => $country_options,
+  form_row_left => 'third',
+  form_row_right => 'twothird',
+} :>
+<: include form::row {
 	form_row_id => 'language_' ~ ( $_.id || 0 ) ~ '_locale',
 	form_row_label => 'Locale:',
 	form_row_value => $_.locale,
-	form_row_left => 'third',
-	form_row_right => 'twothird',
-} :>
-<: include form::row {
-	form_row_id => 'language_' ~ ( $_.id || 0 ) ~ '_svg1',
-	form_row_label => 'Primary SVG:',
-	form_row_value => $_.svg1,
-	form_row_left => 'third',
-	form_row_right => 'twothird',
-} :>
-<: include form::row {
-	form_row_id => 'language_' ~ ( $_.id || 0 ) ~ '_svg2',
-	form_row_label => 'Secondary SVG:',
-	form_row_value => $_.svg2,
 	form_row_left => 'third',
 	form_row_right => 'twothird',
 } :>
@@ -63,4 +67,12 @@
 	form_row_value => $_.plural,
 	form_row_left => 'third',
 	form_row_right => 'twothird',
+} :>
+<: include form::row {
+  form_row_id => 'language_' ~ ( $_.id || 0 ) ~ '_notes',
+  form_row_label => 'Notes:',
+  form_row_left => 'third',
+  form_row_type => 'textarea',
+  form_row_value => $_.notes,
+  form_row_right => 'twothird',
 } :>

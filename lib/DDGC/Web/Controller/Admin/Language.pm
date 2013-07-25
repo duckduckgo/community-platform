@@ -9,6 +9,11 @@ use namespace::autoclean;
 sub base :Chained('/admin/base') :PathPart('language') :CaptureArgs(0) {
 	my ( $self, $c ) = @_;
 	$c->add_bc('Language editor', $c->chained_uri('Admin::Language','index'));
+	$c->stash->{language_options} = [map {
+		{ value => $_->id, text => $_->name_in_english }
+	} $c->d->rs('Language')->search({},{
+		order_by => { -asc => 'me.locale' },
+	})->all]
 }
 
 sub index :Chained('base') :PathPart('') :Args(0) {
@@ -42,7 +47,50 @@ sub index :Chained('base') :PathPart('') :Args(0) {
 		}
 	}
 
+	$c->stash->{country_options} = [map {
+		{ value => $_->id, text => $_->name_in_english }
+	} $c->d->rs('Country')->search({},{
+		order_by => { -asc => 'me.name_in_english' },
+	})->all];
+
 	$c->stash->{languages} = $c->d->rs('Language')->search({},{
+		order_by => { -desc => 'me.updated' },
+	});
+
+}
+
+sub countries :Chained('base') :Args(0) {
+	my ( $self, $c ) = @_;
+	$c->add_bc('Country editor');
+
+	if ($c->req->param('save_country')) {
+		my %data;
+		for (keys %{$c->req->params}) {
+			if ($_ =~ m/^country_(\d+)_(.+)$/) {
+				my $id = $1;
+				my $key = $2;
+				$data{$id} = {} unless defined $data{$id};
+				$data{$id}->{$key} = $c->req->param($_);
+			}
+		}
+		for my $id (keys %data) {
+			my $values = $data{$id};
+			if ($id > 0) {
+				my $country = $c->d->rs('Country')->find($id);
+				die "country id ".$_." not found" unless $country;
+				for (keys %{$values}) {
+					$country->$_($values->{$_});
+				}
+				$country->update;
+				$c->stash->{changed_country_id} = $id;
+			} else {
+				my $new_language = $c->d->rs('Country')->create($values);
+				$c->stash->{changed_country_id} = $new_language->id;
+			}
+		}
+	}
+
+	$c->stash->{countries} = $c->d->rs('Country')->search({},{
 		order_by => { -desc => 'me.updated' },
 	});
 

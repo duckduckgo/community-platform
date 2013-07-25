@@ -30,6 +30,7 @@ sub index :Chained('base') :Args(0) {
 		) },
 	},{})->count;
 	$c->stash->{languages_count} = $c->d->rs('Language')->count;
+	$c->stash->{countries_count} = $c->d->rs('Country')->count;
 	$c->stash->{translations_count} = $c->d->rs('Token::Language::Translation')->count;
 	$c->stash->{votes_count} = $c->d->rs('Token::Language::Translation::Vote')->count;
 	$c->stash->{token_domains_count} = $c->d->rs('Token::Domain')->count;

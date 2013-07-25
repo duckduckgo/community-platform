@@ -1,0 +1,37 @@
+<: include admin::language::menu :>
+<: for results($countries) -> $country { :>
+  <form method="POST" action="<: $u('Admin::Language','countries') :>">
+    <div class="content-box content-box-toggleclick only">
+      <div id="country_<: $country.id :>_clicker" class="head">
+        <h2>#<: $country.id :> <: $country.name_in_english :></h2>
+        &nbsp;&nbsp;&nbsp;<img src="<: $country.flag_url :>" />
+      </div>
+      <div class="body">
+        <: i($country,'form') :>
+        <div class="row">
+          <input type="submit" class="button blue" name="save_country" value="Save changes (changes to other countries are lost)" />
+        </div>
+      </div>
+    </div>
+  </form>
+<: } :>
+<form method="POST" action="<: $u('Admin::Language','countries') :>">
+  <div class="content-box content-box-toggleclick only">
+    <div class="head">
+      <h2>New country...</h2>
+    </div>
+    <div class="body">
+      <: include 'i/country/form.tx' :>
+      <div class="row">
+        <input type="submit" class="button blue" name="save_country" value="Add new country" />
+      </div>
+    </div>
+  </div>
+</form>
+<: if $changed_country_id { :>
+  <script type="text/javascript">
+    $(function(){
+      $('#country_<: $changed_country_id :>_clicker').click();
+    });
+  </script>
+<: } :>

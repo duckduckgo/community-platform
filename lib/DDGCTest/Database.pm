@@ -129,7 +129,6 @@ sub languages {{
 		name_in_english => 'Portuguese of Brazil',
 		name_in_local => 'Português do Brasil',
 		locale => 'pt_BR',
-		flagicon => 'br',
 		plural => '(n > 1)',
 		svg1 => 'http://upload.wikimedia.org/wikipedia/commons/5/5c/Flag_of_Portugal.svg',
 		svg2 => 'http://upload.wikimedia.org/wikipedia/commons/0/05/Flag_of_Brazil.svg',
