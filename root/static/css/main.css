@@ -1,13 +1,13 @@
 /* Global Fonts & Colours */
 body, select, input, textarea, button { font-size: 0.9em; }
 body { color: #444; background: #fff; }
-	body.texture { background: #fefefe url('../img/bg-body-texture.jpg'); }
+	body.texture, body.texture-nohighlight, body.texture-ducksymbol { background: #fefefe url('../img/bg-body-texture.jpg'); }
 body, select, input, textarea, button, .sans, .account-form h2, .account-form h4, .site-header h2, .site-header h3, .notice h2, .notice h3, .notice h4, .callout-box h2, .content-box h2, .content-box h3, .content-box h4, .content-box h5, .callout-row h3, .duckpan h1, .duckpan h2, .blog-content  h2, .blog-content h3, .blog-content h4, .blog-content h5, .sidebar h5, h5.comment_add_title  { 
 	font-family: "Helvetica Neue","HelveticaNeueLT Std","Segoe UI","Nimbus Sans L","Liberation Sans","Open Sans",FreeSans,Helvetica,Arial,sans-serif; 
 }
 .topmsg { font-family: 'Arial Black', sans-serif;}
 
-body.texture:before, body.texture:after {
+body.texture:before, body.texture:after, body.texture-ducksymbol:before {
 	display: block; 
 	position: absolute; 
 	width: 100%; 
@@ -35,6 +35,15 @@ body.texture:after {
 	background: -o-linear-gradient(top,  rgba(255,255,255,1) 0%,rgba(255,255,255,0) 100%);
 	background: -ms-linear-gradient(top,  rgba(255,255,255,1) 0%,rgba(255,255,255,0) 100%);
 	background: linear-gradient(to bottom,  rgba(255,255,255,1) 0%,rgba(255,255,255,0) 100%);
+}
+
+.ducksymbol, body.texture-ducksymbol:before {
+	/* The hero that DukGo deserves... but not the one it needs right now. */
+	background: url('../img/ducksymbol-spotlight.png') 100% 0 no-repeat;
+}
+
+body.texture-ducksymbol:before {
+	top: 25px;
 }
 
 a, .fakelink { color: #3363b3; text-decoration: none; }
@@ -165,6 +174,7 @@ a.fill {
 	display: block;
 	height: 100%;
 }
+
 
 /* grid spacing classes */
 .gw, .grid-wrap { margin-left: -18px; }
