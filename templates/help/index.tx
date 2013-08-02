@@ -1,0 +1,14 @@
+<div class="callout">
+  <: for results($help_categories) -> $category { :>
+    <div class="third">
+      <div class="callout-box blue">
+        <a class="head" href="<: $u('Help','category',$help_language.locale,$category.key) :>">
+          <h2><: $category.content_by_language_id($help_language_id).title :></h2>       
+        </a>
+        <div class="body">
+          <h3><: $category.content_by_language_id($help_language_id).description :></h3>
+        </div>
+      </div>
+    </div>
+  <: } :>
+</div>

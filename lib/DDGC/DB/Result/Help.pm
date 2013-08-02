@@ -20,12 +20,13 @@ unique_column key => {
 	is_nullable => 0,
 };
 
-column category_id => {
+column help_category_id => {
 	data_type => 'text',
 	is_nullable => 0,
 };
 
-belongs_to 'category', 'DDGC::DB::Result::Help::Category', 'category_id';
+belongs_to 'help_category', 'DDGC::DB::Result::Help::Category', 'help_category_id';
+sub cateogry { shift->help_category(@_) }
 
 column data => {
 	data_type => 'text',

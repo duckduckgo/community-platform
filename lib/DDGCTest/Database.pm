@@ -63,6 +63,7 @@ sub deploy {
 	$self->d->deploy_fresh;
 	$self->init->($self->step_count) if $self->has_init;
 	$self->add_languages;
+	$self->add_helps;
 	$self->add_users;
 	$self->add_token_domains;
 	$self->add_distributions;
@@ -188,6 +189,135 @@ sub add_languages {
 		$self->c->{languages}->{$_} = $rs->create($self->languages->{$_});
 		$self->isa_ok($self->c->{languages}->{$_},'DDGC::DB::Result::Language');
 		$self->next_step;
+	}
+}
+
+#####################################################
+#  _
+# | | __ _ _ __   __ _ _   _  __ _  __ _  ___  ___
+# | |/ _` | '_ \ / _` | | | |/ _` |/ _` |/ _ \/ __|
+# | | (_| | | | | (_| | |_| | (_| | (_| |  __/\__ \
+# |_|\__,_|_| |_|\__, |\__,_|\__,_|\__, |\___||___/
+#                |___/             |___/
+
+sub helps {{
+	'company' => {
+		sort => 10,
+		title => "Company",
+		description => "Praesent sit amet quam non massa blandit.",
+		helps => {
+			'test' => {
+				sort => 0,
+				title => "Suspendisse potenti. Maecenas ultricies diam vitae eleifend vestibulum.",
+				teaser => "Sed elementum, diam at dapibus tincidunt, leo dui pretium leo, vel pretium tortor mi at diam.",
+				content => "In nisi lorem, faucibus at dictum id, feugiat quis diam. Vivamus velit lectus, facilisis vitae nisl at, laoreet mollis erat. Integer blandit, lectus id consequat laoreet, est ante dictum velit, ut imperdiet odio nunc vel est. Nam in laoreet risus, nec tincidunt mi. In hac habitasse platea dictumst. Vestibulum auctor viverra orci eget viverra. In vel dolor ut enim scelerisque varius. Aliquam erat volutpat. Aliquam malesuada gravida eros a ullamcorper.",
+				raw_html => 1,
+			},
+		},
+	},
+	'results' => {
+		sort => 20,
+		title => "Results",
+		description => "Suspendisse potenti. Maecenas ultricies diam vitae eleifend vestibulum.",
+		helps => {
+			'test-blub' => {
+				sort => 10,
+				title => "In nisi lorem, faucibus at dictum id.",
+				teaser => "Sed elementum, diam at dapibus tincidunt, leo dui pretium leo, vel pretium tortor mi at diam.",
+				content => "In nisi lorem, faucibus at dictum id, feugiat quis diam. Vivamus velit lectus, facilisis vitae nisl at, laoreet mollis erat. Integer blandit, lectus id consequat laoreet, est ante dictum velit, ut imperdiet odio nunc vel est. Nam in laoreet risus, nec tincidunt mi. In hac habitasse platea dictumst. Vestibulum auctor viverra orci eget viverra. In vel dolor ut enim scelerisque varius. Aliquam erat volutpat. Aliquam malesuada gravida eros a ullamcorper.",
+				raw_html => 1,
+			},
+			'xxxxx-blub' => {
+				sort => 20,
+				title => "Sed elementum, diam at dapibus tincidunt.",
+				teaser => "Sed elementum, diam at dapibus tincidunt, leo dui pretium leo, vel pretium tortor mi at diam.",
+				content => "In nisi lorem, faucibus at dictum id, feugiat quis diam. Vivamus velit lectus, facilisis vitae nisl at, laoreet mollis erat. Integer blandit, lectus id consequat laoreet, est ante dictum velit, ut imperdiet odio nunc vel est. Nam in laoreet risus, nec tincidunt mi. In hac habitasse platea dictumst. Vestibulum auctor viverra orci eget viverra. In vel dolor ut enim scelerisque varius. Aliquam erat volutpat. Aliquam malesuada gravida eros a ullamcorper.",
+				raw_html => 1,
+			},
+		},
+	},
+	'features' => {
+		sort => 30,
+		title => "Features",
+		description => "Vestibulum varius, nisl a faucibus varius, diam est sollicitudin dui, at dapibus felis elit consequat lorem.",
+		helps => {
+			'test-blabalbal' => {
+				sort => 10,
+				title => "Zxiam vitae eleifend vestibulum.",
+				teaser => "Sed elementum, diam at dapibus tincidunt, leo dui pretium leo, vel pretium tortor mi at diam.",
+				content => "In nisi lorem, faucibus at dictum id, feugiat quis diam. Vivamus velit lectus, facilisis vitae nisl at, laoreet mollis erat. Integer blandit, lectus id consequat laoreet, est ante dictum velit, ut imperdiet odio nunc vel est. Nam in laoreet risus, nec tincidunt mi. In hac habitasse platea dictumst. Vestibulum auctor viverra orci eget viverra. In vel dolor ut enim scelerisque varius. Aliquam erat volutpat. Aliquam malesuada gravida eros a ullamcorper.",
+				raw_html => 1,
+			},
+			'test-xxxxx' => {
+				sort => 20,
+				title => "Suspendisse potenti.",
+				teaser => "Sed elementum, diam at dapibus tincidunt, leo dui pretium leo, vel pretium tortor mi at diam.",
+				content => "In nisi lorem, faucibus at dictum id, feugiat quis diam. Vivamus velit lectus, facilisis vitae nisl at, laoreet mollis erat. Integer blandit, lectus id consequat laoreet, est ante dictum velit, ut imperdiet odio nunc vel est. Nam in laoreet risus, nec tincidunt mi. In hac habitasse platea dictumst. Vestibulum auctor viverra orci eget viverra. In vel dolor ut enim scelerisque varius. Aliquam erat volutpat. Aliquam malesuada gravida eros a ullamcorper.",
+				raw_html => 1,
+			},
+		},
+	},
+	'settings' => {
+		sort => 40,
+		title => "Settings",
+		description => "In nisi lorem, faucibus at dictum id, feugiat quis diam.",
+		helps => {
+			'test-afhifad' => {
+				sort => 10,
+				title => "Suspendisse potenti. Maecenas ultricies diam vitae eleifend vestibulum.",
+				teaser => "Leo dui pretium leo, vel pretium tortor mi at diam.",
+				content => "In nisi lorem, faucibus at dictum id, feugiat quis diam. Vivamus velit lectus, facilisis vitae nisl at, laoreet mollis erat. Integer blandit, lectus id consequat laoreet, est ante dictum velit, ut imperdiet odio nunc vel est. Nam in laoreet risus, nec tincidunt mi. In hac habitasse platea dictumst. Vestibulum auctor viverra orci eget viverra. In vel dolor ut enim scelerisque varius. Aliquam erat volutpat. Aliquam malesuada gravida eros a ullamcorper.",
+				raw_html => 1,
+			},
+			'test-yyyyyy' => {
+				sort => 20,
+				title => "Maecenas ultricies diam vitae eleifend vestibulum.",
+				teaser => "Tincidunt, leo dui pretium leo, vel pretium tortor mi at diam.",
+				content => "In nisi lorem, faucibus at dictum id, feugiat quis diam. Vivamus velit lectus, facilisis vitae nisl at, laoreet mollis erat. Integer blandit, lectus id consequat laoreet, est ante dictum velit, ut imperdiet odio nunc vel est. Nam in laoreet risus, nec tincidunt mi. In hac habitasse platea dictumst. Vestibulum auctor viverra orci eget viverra. In vel dolor ut enim scelerisque varius. Aliquam erat volutpat. Aliquam malesuada gravida eros a ullamcorper.",
+				raw_html => 1,
+			},
+		},
+	},
+}}
+
+use Devel::Dwarn;
+
+sub add_helps {
+	my ( $self ) = @_;
+	$self->c->{help_categories} = {};
+	my $rs = $self->db->resultset('Help::Category');
+	for (sort keys %{$self->helps}) {
+		my $key = $_;
+		my %cat = %{$self->helps->{$key}};
+		$cat{key} = $key;
+		my %cat_con;
+		for (qw( title description )) {
+			$cat_con{$_} = delete $cat{$_};
+		}
+		my $ref_helps = delete $cat{'helps'};
+		my %helps = %{$ref_helps};
+		$self->c->{help_categories}->{$key} = $rs->create(\%cat);
+		use DDP; p(%cat_con);
+		$self->c->{help_categories}->{$key}->create_related('help_category_contents',{
+			language_id => $self->c->{languages}->{us}->id,
+			%cat_con,
+		});
+		for my $help_key (keys %helps) {
+			my %help_data = %{$helps{$help_key}};
+			$help_data{key} = $help_key;
+			my %help_con_data;
+			for (qw( title teaser content raw_html )) {
+				$help_con_data{$_} = delete $help_data{$_};
+			}
+			my $help = $self->c->{help_categories}->{$key}->create_related('helps',{
+				%help_data
+			});
+			$help->create_related('help_category_contents',{
+				language_id => $self->c->{languages}->{us}->id,
+				%help_con_data
+			});
+			$self->c->{help_categories}->{$key}->{$help_key} = $help;
+		}
 	}
 }
 

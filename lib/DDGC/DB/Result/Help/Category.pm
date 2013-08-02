@@ -48,6 +48,7 @@ column updated => {
 };
 
 has_many 'help_category_contents', 'DDGC::DB::Result::Help::Category::Content', 'help_category_id';
+has_many 'helps', 'DDGC::DB::Result::Help', 'help_category_id';
 
 sub content_by_language_id {
   my ( $self, $language_id ) = @_;

@@ -6,11 +6,11 @@
   form_row_value => $_.key,
 } :>
 <: include form::row {
-  form_row_id => 'help_' ~ ( $_.id || 0 ) ~ '_category_id',
+  form_row_id => 'help_' ~ ( $_.id || 0 ) ~ '_help_category_id',
   form_row_label => 'Category:',
   form_row_left => 'third',
   form_row_right => 'twothird',
-  form_row_value => $_.category_id,
+  form_row_value => $_.help_category_id,
   form_row_type => 'select',
   form_row_options => $category_options,
 } :>
@@ -33,6 +33,7 @@
   form_row_label => 'Teaser (text only):',
   form_row_left => 'third',
   form_row_right => 'twothird',
+  form_row_type => 'textarea',
   form_row_value => $_.content_by_language_id($help_language_id).teaser,
 } :>
 <: include form::row {
