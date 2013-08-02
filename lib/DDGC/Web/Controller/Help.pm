@@ -51,7 +51,7 @@ sub category :Chained('category_base') :PathPart('') :Args(0) {
   $c->bc_index;
 }
 
-sub help_base :Chained('category_base') :PathPart('article') :CaptureArgs(1) {
+sub help_base :Chained('category_base') :PathPart('') :CaptureArgs(1) {
   my ( $self, $c, $key ) = @_;
 	$c->stash->{help} = $c->stash->{help_category}->search_related('helps',{
     'me.key' => $key

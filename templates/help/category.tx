@@ -14,3 +14,6 @@
     </div>
   <: } :>
 </div>
+<div class="row mid">
+  <a class="button blue" href="<: $u('Help','index',$help_language.locale) :>">Back to help index</a>
+</div>

@@ -6,5 +6,9 @@
     <div class="row">
       <: r($help_content.content) :>
     </div>
+    <div class="row mid">
+      <a class="button blue" href="<: $u('Help','index',$help_language.locale) :>">Back to help index</a>
+      <a class="button blue" href="<: $u('Help','category',$help_language.locale,$help_category.key) :>">Back to category</a>
+    </div>
   </div>
 </div>
