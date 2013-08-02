@@ -210,7 +210,7 @@ sub helps {{
 				sort => 0,
 				title => "Suspendisse potenti. Maecenas ultricies diam vitae eleifend vestibulum.",
 				teaser => "Sed elementum, diam at dapibus tincidunt, leo dui pretium leo, vel pretium tortor mi at diam.",
-				content => "In nisi lorem, faucibus at dictum id, feugiat quis diam. Vivamus velit lectus, facilisis vitae nisl at, laoreet mollis erat. Integer blandit, lectus id consequat laoreet, est ante dictum velit, ut imperdiet odio nunc vel est. Nam in laoreet risus, nec tincidunt mi. In hac habitasse platea dictumst. Vestibulum auctor viverra orci eget viverra. In vel dolor ut enim scelerisque varius. Aliquam erat volutpat. Aliquam malesuada gravida eros a ullamcorper.",
+				content => "In nisi lorem, <b>faucibus at dictum id</b>, feugiat quis diam. Vivamus velit lectus, facilisis vitae nisl at, laoreet mollis erat. Integer blandit, lectus id consequat laoreet, est ante dictum velit, ut imperdiet odio nunc vel est. Nam in laoreet risus, nec tincidunt mi. In hac habitasse platea dictumst. Vestibulum auctor viverra orci eget viverra. In vel dolor ut enim scelerisque varius. Aliquam erat volutpat. Aliquam malesuada gravida eros a ullamcorper.",
 				raw_html => 1,
 			},
 		},
@@ -224,14 +224,14 @@ sub helps {{
 				sort => 10,
 				title => "In nisi lorem, faucibus at dictum id.",
 				teaser => "Sed elementum, diam at dapibus tincidunt, leo dui pretium leo, vel pretium tortor mi at diam.",
-				content => "In nisi lorem, faucibus at dictum id, feugiat quis diam. Vivamus velit lectus, facilisis vitae nisl at, laoreet mollis erat. Integer blandit, lectus id consequat laoreet, est ante dictum velit, ut imperdiet odio nunc vel est. Nam in laoreet risus, nec tincidunt mi. In hac habitasse platea dictumst. Vestibulum auctor viverra orci eget viverra. In vel dolor ut enim scelerisque varius. Aliquam erat volutpat. Aliquam malesuada gravida eros a ullamcorper.",
+				content => "In nisi lorem, faucibus at dictum id, <b>feugiat quis diam</b>. Vivamus velit lectus, facilisis vitae nisl at, laoreet mollis erat. Integer blandit, lectus id consequat laoreet, est ante dictum velit, ut imperdiet odio nunc vel est. Nam in laoreet risus, nec tincidunt mi. In hac habitasse platea dictumst. Vestibulum auctor viverra orci eget viverra. In vel dolor ut enim scelerisque varius. Aliquam erat volutpat. Aliquam malesuada gravida eros a ullamcorper.",
 				raw_html => 1,
 			},
 			'xxxxx-blub' => {
 				sort => 20,
 				title => "Sed elementum, diam at dapibus tincidunt.",
 				teaser => "Sed elementum, diam at dapibus tincidunt, leo dui pretium leo, vel pretium tortor mi at diam.",
-				content => "In nisi lorem, faucibus at dictum id, feugiat quis diam. Vivamus velit lectus, facilisis vitae nisl at, laoreet mollis erat. Integer blandit, lectus id consequat laoreet, est ante dictum velit, ut imperdiet odio nunc vel est. Nam in laoreet risus, nec tincidunt mi. In hac habitasse platea dictumst. Vestibulum auctor viverra orci eget viverra. In vel dolor ut enim scelerisque varius. Aliquam erat volutpat. Aliquam malesuada gravida eros a ullamcorper.",
+				content => "In nisi lorem, faucibus at dictum id, <b>feugiat quis diam</b>. Vivamus velit lectus, facilisis vitae nisl at, laoreet mollis erat. Integer blandit, lectus id consequat laoreet, est ante dictum velit, ut imperdiet odio nunc vel est. Nam in laoreet risus, nec tincidunt mi. In hac habitasse platea dictumst. Vestibulum auctor viverra orci eget viverra. In vel dolor ut enim scelerisque varius. Aliquam erat volutpat. Aliquam malesuada gravida eros a ullamcorper.",
 				raw_html => 1,
 			},
 		},
@@ -245,14 +245,14 @@ sub helps {{
 				sort => 10,
 				title => "Zxiam vitae eleifend vestibulum.",
 				teaser => "Sed elementum, diam at dapibus tincidunt, leo dui pretium leo, vel pretium tortor mi at diam.",
-				content => "In nisi lorem, faucibus at dictum id, feugiat quis diam. Vivamus velit lectus, facilisis vitae nisl at, laoreet mollis erat. Integer blandit, lectus id consequat laoreet, est ante dictum velit, ut imperdiet odio nunc vel est. Nam in laoreet risus, nec tincidunt mi. In hac habitasse platea dictumst. Vestibulum auctor viverra orci eget viverra. In vel dolor ut enim scelerisque varius. Aliquam erat volutpat. Aliquam malesuada gravida eros a ullamcorper.",
+				content => "In nisi lorem, faucibus at dictum id, feugiat quis diam. <b>Vivamus velit lectus</b>, facilisis vitae nisl at, laoreet mollis erat. Integer blandit, lectus id consequat laoreet, est ante dictum velit, ut imperdiet odio nunc vel est. Nam in laoreet risus, nec tincidunt mi. In hac habitasse platea dictumst. Vestibulum auctor viverra orci eget viverra. In vel dolor ut enim scelerisque varius. Aliquam erat volutpat. Aliquam malesuada gravida eros a ullamcorper.",
 				raw_html => 1,
 			},
 			'test-xxxxx' => {
 				sort => 20,
 				title => "Suspendisse potenti.",
 				teaser => "Sed elementum, diam at dapibus tincidunt, leo dui pretium leo, vel pretium tortor mi at diam.",
-				content => "In nisi lorem, faucibus at dictum id, feugiat quis diam. Vivamus velit lectus, facilisis vitae nisl at, laoreet mollis erat. Integer blandit, lectus id consequat laoreet, est ante dictum velit, ut imperdiet odio nunc vel est. Nam in laoreet risus, nec tincidunt mi. In hac habitasse platea dictumst. Vestibulum auctor viverra orci eget viverra. In vel dolor ut enim scelerisque varius. Aliquam erat volutpat. Aliquam malesuada gravida eros a ullamcorper.",
+				content => "In nisi lorem, faucibus at dictum id, feugiat quis diam. Vivamus velit lectus, facilisis vitae nisl at, laoreet mollis erat. Integer blandit, lectus id consequat laoreet, est ante dictum velit, ut imperdiet odio nunc vel est. Nam in laoreet risus, nec tincidunt mi. In hac habitasse platea dictumst. Vestibulum auctor viverra orci eget viverra. In vel dolor ut enim scelerisque varius. <b>Aliquam erat volutpat</b>. Aliquam malesuada gravida eros a ullamcorper.",
 				raw_html => 1,
 			},
 		},
@@ -266,21 +266,19 @@ sub helps {{
 				sort => 10,
 				title => "Suspendisse potenti. Maecenas ultricies diam vitae eleifend vestibulum.",
 				teaser => "Leo dui pretium leo, vel pretium tortor mi at diam.",
-				content => "In nisi lorem, faucibus at dictum id, feugiat quis diam. Vivamus velit lectus, facilisis vitae nisl at, laoreet mollis erat. Integer blandit, lectus id consequat laoreet, est ante dictum velit, ut imperdiet odio nunc vel est. Nam in laoreet risus, nec tincidunt mi. In hac habitasse platea dictumst. Vestibulum auctor viverra orci eget viverra. In vel dolor ut enim scelerisque varius. Aliquam erat volutpat. Aliquam malesuada gravida eros a ullamcorper.",
+				content => "In nisi lorem, faucibus at dictum id, feugiat quis diam. Vivamus velit lectus, facilisis vitae nisl at, laoreet mollis erat. Integer blandit, lectus id consequat laoreet, est ante dictum velit, ut imperdiet odio nunc vel est. Nam in laoreet risus, nec tincidunt mi. In hac habitasse platea dictumst. Vestibulum auctor viverra orci eget viverra. <b>In vel dolor ut enim scelerisque varius</b>. Aliquam erat volutpat. Aliquam malesuada gravida eros a ullamcorper.",
 				raw_html => 1,
 			},
 			'test-yyyyyy' => {
 				sort => 20,
 				title => "Maecenas ultricies diam vitae eleifend vestibulum.",
 				teaser => "Tincidunt, leo dui pretium leo, vel pretium tortor mi at diam.",
-				content => "In nisi lorem, faucibus at dictum id, feugiat quis diam. Vivamus velit lectus, facilisis vitae nisl at, laoreet mollis erat. Integer blandit, lectus id consequat laoreet, est ante dictum velit, ut imperdiet odio nunc vel est. Nam in laoreet risus, nec tincidunt mi. In hac habitasse platea dictumst. Vestibulum auctor viverra orci eget viverra. In vel dolor ut enim scelerisque varius. Aliquam erat volutpat. Aliquam malesuada gravida eros a ullamcorper.",
-				raw_html => 1,
+				content => "In nisi lorem, [b]faucibus at dictum id, feugiat quis diam. Vivamus velit lectus, facilisis vitae nisl at, laoreet[/b] mollis erat. Integer blandit, lectus id consequat laoreet, est ante dictum velit, ut imperdiet odio nunc vel est. Nam in laoreet risus, nec tincidunt mi. In hac habitasse platea dictumst. Vestibulum auctor viverra orci eget viverra. In vel dolor ut enim scelerisque varius. Aliquam erat volutpat. Aliquam malesuada gravida eros a ullamcorper.",
+				raw_html => 0,
 			},
 		},
 	},
 }}
-
-use Devel::Dwarn;
 
 sub add_helps {
 	my ( $self ) = @_;
@@ -301,7 +299,6 @@ sub add_helps {
 			language_id => $self->c->{languages}->{us}->id,
 			%cat_con,
 		});
-		use DDP; p($self->c->{help_categories}->{$key});
 		for my $help_key (keys %helps) {
 			my %help_data = %{$helps{$help_key}};
 			$help_data{key} = $help_key;
@@ -312,7 +309,7 @@ sub add_helps {
 			my $help = $self->c->{help_categories}->{$key}->create_related('helps',{
 				%help_data
 			});
-			$help->create_related('help_category_contents',{
+			$help->create_related('help_contents',{
 				language_id => $self->c->{languages}->{us}->id,
 				%help_con_data
 			});

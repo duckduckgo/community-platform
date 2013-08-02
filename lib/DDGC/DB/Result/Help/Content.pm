@@ -20,14 +20,14 @@ column help_id => {
   is_nullable => 0,
 };
 
-belongs_to 'help', 'DDGC::DB::Result::Help', 'help_id', { join_type => 'left' };
+belongs_to 'help', 'DDGC::DB::Result::Help', 'help_id';
 
 column language_id => {
   data_type => 'bigint',
   is_nullable => 0,
 };
 
-belongs_to 'language', 'DDGC::DB::Result::Language', 'language_id', { join_type => 'left' };
+belongs_to 'language', 'DDGC::DB::Result::Language', 'language_id';
 
 column title => {
   data_type => 'text',

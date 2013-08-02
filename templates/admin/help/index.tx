@@ -3,7 +3,7 @@
   <form method="POST" action="<: $u('Admin::Help','index') :>">
     <div class="content-box content-box-toggleclick only">
       <div id="help_<: $help.id :>_clicker" class="head">
-        <h2>#<: $help.id :> <: $help.key :></h2>
+        <h2>#<: $help.id :> [<: $help.category.key :>] <: $help.key :></h2>
       </div>
       <div class="body">
         <: i($help,'form') :>

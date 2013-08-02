@@ -77,7 +77,8 @@ sub index :Chained('base') :PathPart('') :Args(0) {
     })->all];
 
     $c->stash->{helps} = $c->d->rs('Help')->search({},{
-        order_by => { -asc => 'me.sort' },
+        order_by => [ { -asc => 'help_category.sort' }, { -asc => 'me.sort' } ],
+        prefetch => [ 'help_contents', { help_category => [ 'help_category_contents','helps' ] } ],
     });
 
 }

@@ -13,7 +13,7 @@ sub base :Chained('/admin/base') :PathPart('language') :CaptureArgs(0) {
 		{ value => $_->id, text => $_->name_in_english }
 	} $c->d->rs('Language')->search({},{
 		order_by => { -asc => 'me.locale' },
-	})->all]
+	})->all];
 	$c->stash->{country_options} = [map {
 		{ value => $_->id, text => $_->name_in_english }
 	} $c->d->rs('Country')->search({},{

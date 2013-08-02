@@ -1,0 +1,10 @@
+<div class="content-box">
+  <div class="head">
+    <h2><: $help_content.title :></h2>
+  </div>
+  <div class="body">
+    <div class="row">
+      <: r($help_content.content) :>
+    </div>
+  </div>
+</div>
