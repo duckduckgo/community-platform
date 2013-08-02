@@ -297,11 +297,11 @@ sub add_helps {
 		my $ref_helps = delete $cat{'helps'};
 		my %helps = %{$ref_helps};
 		$self->c->{help_categories}->{$key} = $rs->create(\%cat);
-		use DDP; p(%cat_con);
 		$self->c->{help_categories}->{$key}->create_related('help_category_contents',{
 			language_id => $self->c->{languages}->{us}->id,
 			%cat_con,
 		});
+		use DDP; p($self->c->{help_categories}->{$key});
 		for my $help_key (keys %helps) {
 			my %help_data = %{$helps{$help_key}};
 			$help_data{key} = $help_key;

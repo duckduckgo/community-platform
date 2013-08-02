@@ -26,7 +26,7 @@ column help_category_id => {
 };
 
 belongs_to 'help_category', 'DDGC::DB::Result::Help::Category', 'help_category_id';
-sub cateogry { shift->help_category(@_) }
+sub category { shift->help_category(@_) }
 
 column data => {
 	data_type => 'text',

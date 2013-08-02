@@ -61,3 +61,12 @@
   form_row_left => 'third',
   form_row_right => 'twothird',
 } :>
+<: include form::row {
+  form_row_id => 'country_' ~ ( $_.id || 0 ) ~ '_inside_country_id',
+  form_row_label => 'Is inside country:',
+  form_row_value => $_.inside_country_id,
+  form_row_type => 'select',
+  form_row_options => $country_options,
+  form_row_left => 'third',
+  form_row_right => 'twothird',
+} :>

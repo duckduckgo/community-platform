@@ -14,6 +14,11 @@ sub base :Chained('/admin/base') :PathPart('language') :CaptureArgs(0) {
 	} $c->d->rs('Language')->search({},{
 		order_by => { -asc => 'me.locale' },
 	})->all]
+	$c->stash->{country_options} = [map {
+		{ value => $_->id, text => $_->name_in_english }
+	} $c->d->rs('Country')->search({},{
+		order_by => { -asc => 'me.name_in_english' },
+	})->all];
 }
 
 sub index :Chained('base') :PathPart('') :Args(0) {
@@ -46,12 +51,6 @@ sub index :Chained('base') :PathPart('') :Args(0) {
 			}
 		}
 	}
-
-	$c->stash->{country_options} = [map {
-		{ value => $_->id, text => $_->name_in_english }
-	} $c->d->rs('Country')->search({},{
-		order_by => { -asc => 'me.name_in_english' },
-	})->all];
 
 	$c->stash->{languages} = $c->d->rs('Language')->search({},{
 		order_by => { -desc => 'me.updated' },

@@ -79,6 +79,15 @@ column primary_language_id => {
 
 belongs_to 'primary_language', 'DDGC::DB::Result::Language', 'primary_language_id', { join_type => 'left' };
 
+column inside_country_id => {
+	data_type => 'bigint',
+	is_nullable => 1,
+};
+
+belongs_to 'inside_country', 'DDGC::DB::Result::Country', 'inside_country_id', { join_type => 'left' };
+
+has_many 'languages', 'DDGC::DB::Result::Language', 'country_id';
+
 sub write_flag_to {
 	my ( $self, $filename ) = @_;
 	return 0 unless $self->flag_svg;
