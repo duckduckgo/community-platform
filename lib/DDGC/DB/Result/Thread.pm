@@ -153,5 +153,12 @@ sub category_key {
     $self->_category($self->category_id);
 }
 
+
+# TEMPORARY (TODO: get rid of this and replace it with something sane?)
+sub first_comment {
+    my $self = shift;
+    return $self->result_source->schema->ddgc->comments(__PACKAGE__, $self->id)->list->[0];
+}
+
 no Moose;
 __PACKAGE__->meta->make_immutable;
