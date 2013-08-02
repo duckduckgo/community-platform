@@ -5,37 +5,50 @@ use namespace::autoclean;
 BEGIN {extends 'Catalyst::Controller'; }
 
 sub base :Chained('/base') :PathPart('help') :CaptureArgs(0) {
-    my ( $self, $c ) = @_;
-	$c->stash->{title} = 'Help';
-	$c->stash->{headline_template} = 'headline/help.tt';
-	$c->add_bc('Help', $c->chained_uri('Help','base'));
+  my ( $self, $c ) = @_;
 }
 
-sub help :Chained('base') :PathPart('') :CaptureArgs(1) {
-    my ( $self, $c, $key ) = @_;
-	$c->stash->{help} = $c->model('DB::Help')->search({ key => $key })->first;
+sub index :Chained('base') :PathPart('') :Args(0) {
+  my ( $self, $c ) = @_;
+}
+
+sub category :Chained('base') :Args(1) {
+  my ( $self, $c, $category ) = @_;
+}
+
+sub help :Chained('base') :PathPart('article') :CaptureArgs(1) {
+  my ( $self, $c, $key ) = @_;
+	$c->stash->{help} = $c->d->rs('Help')->search({ key => $key })->first;
 	if (!$c->stash->{help}) {
-		$c->response->redirect($c->chained_uri('Help','list'));
+		$c->response->redirect($c->chained_uri('Help','index',{ help_notfound => 1 }));
 		return $c->detach;
 	}
-	$c->add_bc($key, $c->chained_uri('Help','view',$key));
 }
 
-sub view :Chained('help') :Args(0) {
-    my ( $self, $c ) = @_;
+sub help_redirect :Chained('base') :PathPart('') :Args(0) {
+  my ( $self, $c ) = @_;
+  $c->response->redirect($c->chained_uri('Help','view',$c->stash->{help}->key,'en_US'));
+  return $c->detach;
 }
 
-sub do :Chained('base') :CaptureArgs(0) {
-    my ( $self, $c ) = @_;
+sub language :Chained('help') :PathPart('') :CaptureArgs(1) {
+  my ( $self, $c, $locale ) = @_;
+  $c->stash->{help_language} = $c->d->rs('Language')->search({ locale => $locale })->first;
+  if (!$c->stash->{help_language}) {
+    $c->response->redirect($c->chained_uri('Help','index',{ language_notfound => 1 }));
+    return $c->detach;
+  }
+  $c->stash->{help_content} = $c->stash->{help}->search_related('help_content',{
+    language_id => $c->stash->{help_language}->id
+  })->first;
+  if (!$c->stash->{help_content}) {
+    $c->response->redirect($c->chained_uri('Help','index',{ help_content_notfound => 1 }));
+    return $c->detach;
+  }
 }
 
-sub list :Chained('do') :Args(0) {
-    my ( $self, $c ) = @_;
-	$c->pager_init($c->action,20);
-	$c->stash->{helps} = [$c->model('DB::Help')->search({},{
-		page => $c->stash->{page},
-		rows => $c->stash->{pagesize},
-	})->all];
+sub view :Chained('language') :Args(0) {
+  my ( $self, $c ) = @_;
 }
 
 no Moose;

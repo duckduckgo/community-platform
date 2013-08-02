@@ -40,7 +40,17 @@
 	<hr class="mg-top--none" />
 	<div class="row gw">
 		<div class="g third">
-			<p><a class="button  full  tall  h1  darkblue" href=""><i class="icon-info-sign"></i></a></p>
+			<p><a class="button  full  tall  h1  black" href="<: $u('Admin::Help','index') :>"><i class="icon-ambulance"></i></a></p>
+		</div>
+		<div class="g twothirds">
+			<h3 class="mg-top--small">Help pages editor</h3>
+			<p><a href="<: $u('Admin::Help','categories') :>">Help Categories Editor</a></p>
+		</div>
+	</div>
+	<hr class="mg-top--none" />
+	<div class="row gw">
+		<div class="g third">
+			<p><a class="button  full  tall  h1  darkblue" href="<: $u('Admin::Event','index') :>"><i class="icon-info-sign"></i></a></p>
 		</div>
 		<div class="g twothirds">
 			<h3 class="mg-top--small">View event log</h3>

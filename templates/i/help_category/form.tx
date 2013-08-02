@@ -1,0 +1,36 @@
+<: include form::row {
+  form_row_id => 'category_' ~ ( $_.id || 0 ) ~ '_key',
+  form_row_label => 'URL for the category (DONT CHANGE):',
+  form_row_left => 'third',
+  form_row_right => 'twothird',
+  form_row_value => $_.key,
+} :>
+<: include form::row {
+  form_row_id => 'category_' ~ ( $_.id || 0 ) ~ '_sort',
+  form_row_label => 'Sorting value:',
+  form_row_left => 'third',
+  form_row_right => 'twothird',
+  form_row_value => $_.sort,
+} :>
+<: include form::row {
+  form_row_id => 'category_' ~ ( $_.id || 0 ) ~ '_content_title',
+  form_row_label => 'Title (text only):',
+  form_row_left => 'third',
+  form_row_right => 'twothird',
+  form_row_value => $_.content_by_language_id($help_language_id).title,
+} :>
+<: include form::row {
+  form_row_id => 'category_' ~ ( $_.id || 0 ) ~ '_content_description',
+  form_row_label => 'Description (raw html):',
+  form_row_left => 'third',
+  form_row_right => 'twothird',
+  form_row_value => $_.content_by_language_id($help_language_id).description,
+} :>
+<: include form::row {
+  form_row_id => 'category_' ~ ( $_.id || 0 ) ~ '_notes',
+  form_row_label => 'Internal notes:',
+  form_row_left => 'third',
+  form_row_type => 'textarea',
+  form_row_right => 'twothird',
+  form_row_value => $_.notes,
+} :>

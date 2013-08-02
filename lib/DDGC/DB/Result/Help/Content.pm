@@ -1,0 +1,65 @@
+package DDGC::DB::Result::Help::Content;
+# ABSTRACT: Help category
+
+use Moose;
+use MooseX::NonMoose;
+extends 'DDGC::DB::Base::Result';
+use DBIx::Class::Candy;
+use namespace::autoclean;
+
+table 'help_content';
+
+column id => {
+  data_type => 'bigint',
+  is_auto_increment => 1,
+};
+primary_key 'id';
+
+column help_id => {
+  data_type => 'bigint',
+  is_nullable => 0,
+};
+
+belongs_to 'help', 'DDGC::DB::Result::Help', 'help_id', { join_type => 'left' };
+
+column language_id => {
+  data_type => 'bigint',
+  is_nullable => 0,
+};
+
+belongs_to 'language', 'DDGC::DB::Result::Language', 'language_id', { join_type => 'left' };
+
+column title => {
+  data_type => 'text',
+  is_nullable => 0,
+};
+
+column teaser => {
+  data_type => 'text',
+  is_nullable => 0,
+};
+
+column content => {
+  data_type => 'text',
+  is_nullable => 0,
+};
+
+column raw_html => {
+  data_type => 'int',
+  is_nullable => 0,
+  default => 0,
+};
+
+column created => {
+  data_type => 'timestamp with time zone',
+  set_on_create => 1,
+};
+
+column updated => {
+  data_type => 'timestamp with time zone',
+  set_on_create => 1,
+  set_on_update => 1,
+};
+
+no Moose;
+__PACKAGE__->meta->make_immutable;

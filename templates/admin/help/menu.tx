@@ -1,0 +1,5 @@
+<div>
+  <a class="button blue" href="<: $u('Admin::Help','index') :>">Help editor</a>
+  <a class="button blue" href="<: $u('Admin::Help','categories') :>">Category editor</a>
+</div>
+<hr/>

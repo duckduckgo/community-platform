@@ -31,7 +31,7 @@
 <: if $changed_language_id { :>
 	<script type="text/javascript">
 		$(function(){
-			$('#language_<: $changed_language_id :>_clicker').click();
+			$('#language_<: $changed_language_id :>_clicker').click().focus();
 		});
 	</script>
 <: } :>

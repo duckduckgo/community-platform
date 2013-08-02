@@ -33,7 +33,7 @@
 	<script type="text/javascript">
 
 	$(function(){
-		$('#token_domain_<: $changed_token_domain_id :>_clicker').click();
+		$('#token_domain_<: $changed_token_domain_id :>_clicker').click().focus();
 	});
 
 	</script>

@@ -16,7 +16,7 @@ sub base :Chained('/base') :PathPart('admin') :CaptureArgs(0) {
 	$c->add_bc('Admin area', $c->chained_uri('Admin','index'));
 }
 
-sub index :Chained('base') :Args(0) {
+sub index :Chained('base') :PathPart('') :Args(0) {
     my ( $self, $c ) = @_;
 	$c->bc_index;
 	$c->stash->{latest_updated_users} = $c->d->rs('User')->search({},{

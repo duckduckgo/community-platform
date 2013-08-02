@@ -1,0 +1,36 @@
+<: include admin::help::menu :>
+<: for results($categories) -> $category { :>
+  <form method="POST" action="<: $u('Admin::Help','categories') :>">
+    <div class="content-box content-box-toggleclick only">
+      <div id="help_<: $category.id :>_clicker" class="head">
+        <h2>#<: $category.id :> <: $category.key :></h2>
+      </div>
+      <div class="body">
+        <: i($category,'form') :>
+        <div class="row">
+          <input type="submit" class="button blue" name="save_category" value="Save changes (changes to other categories are lost)" />
+        </div>
+      </div>
+    </div>
+  </form>
+<: } :>
+<form method="POST" action="<: $u('Admin::Help','categories') :>">
+  <div class="content-box content-box-toggleclick only">
+    <div class="head">
+      <h2>New help category...</h2>
+    </div>
+    <div class="body">
+      <: include 'i/help_category/form.tx' :>
+      <div class="row">
+        <input type="submit" class="button blue" name="save_category" value="Add new help category" />
+      </div>
+    </div>
+  </div>
+</form>
+<: if $changed_help_id { :>
+  <script type="text/javascript">
+    $(function(){
+      $('#help_<: $changed_help_id :>_clicker').click().focus();
+    });
+  </script>
+<: } :>

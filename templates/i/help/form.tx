@@ -1,0 +1,63 @@
+<: include form::row {
+  form_row_id => 'help_' ~ ( $_.id || 0 ) ~ '_key',
+  form_row_label => 'URL for the help (DONT CHANGE):',
+  form_row_left => 'third',
+  form_row_right => 'twothird',
+  form_row_value => $_.key,
+} :>
+<: include form::row {
+  form_row_id => 'help_' ~ ( $_.id || 0 ) ~ '_category_id',
+  form_row_label => 'Category:',
+  form_row_left => 'third',
+  form_row_right => 'twothird',
+  form_row_value => $_.category_id,
+  form_row_type => 'select',
+  form_row_options => $category_options,
+} :>
+<: include form::row {
+  form_row_id => 'help_' ~ ( $_.id || 0 ) ~ '_sort',
+  form_row_label => 'Sorting value:',
+  form_row_left => 'third',
+  form_row_right => 'twothird',
+  form_row_value => $_.sort,
+} :>
+<: include form::row {
+  form_row_id => 'help_' ~ ( $_.id || 0 ) ~ '_content_title',
+  form_row_label => 'Title (text only):',
+  form_row_left => 'third',
+  form_row_right => 'twothird',
+  form_row_value => $_.content_by_language_id($help_language_id).title,
+} :>
+<: include form::row {
+  form_row_id => 'help_' ~ ( $_.id || 0 ) ~ '_content_teaser',
+  form_row_label => 'Teaser (text only):',
+  form_row_left => 'third',
+  form_row_right => 'twothird',
+  form_row_value => $_.content_by_language_id($help_language_id).teaser,
+} :>
+<: include form::row {
+  form_row_id => 'help_' ~ ( $_.id || 0 ) ~ '_content_raw_html',
+  form_row_label => 'Content is raw HTML:',
+  form_row_left => 'third',
+  form_row_right => 'twothird',
+  form_row_type => 'yesno',
+  form_row_value => $_.content_by_language_id($help_language_id).raw_html,
+} :>
+<: include form::row {
+  form_row_id => 'help_' ~ ( $_.id || 0 ) ~ '_content_content',
+  form_row_label => 'Content:',
+  form_row_left => 'third',
+  form_row_type => 'textarea',
+  form_row_textarea_rows => 30,
+  form_row_right => 'twothird',
+  form_row_value => $_.content_by_language_id($help_language_id).content,
+} :>
+<: include form::row {
+  form_row_id => 'help_' ~ ( $_.id || 0 ) ~ '_notes',
+  form_row_label => 'Internal notes:',
+  form_row_left => 'third',
+  form_row_type => 'textarea',
+  form_row_right => 'twothird',
+  form_row_value => $_.notes,
+} :>
+

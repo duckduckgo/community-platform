@@ -1,0 +1,36 @@
+<: include admin::help::menu :>
+<: for results($helps) -> $help { :>
+  <form method="POST" action="<: $u('Admin::Help','index') :>">
+    <div class="content-box content-box-toggleclick only">
+      <div id="help_<: $help.id :>_clicker" class="head">
+        <h2>#<: $help.id :> <: $help.key :></h2>
+      </div>
+      <div class="body">
+        <: i($help,'form') :>
+        <div class="row">
+          <input type="submit" class="button blue" name="save_help" value="Save changes (changes to other help articles are lost)" />
+        </div>
+      </div>
+    </div>
+  </form>
+<: } :>
+<form method="POST" action="<: $u('Admin::Help','index') :>">
+  <div class="content-box content-box-toggleclick only">
+    <div class="head">
+      <h2>New help...</h2>
+    </div>
+    <div class="body">
+      <: include 'i/help/form.tx' :>
+      <div class="row">
+        <input type="submit" class="button blue" name="save_help" value="Add new help article" />
+      </div>
+    </div>
+  </div>
+</form>
+<: if $changed_help_id { :>
+  <script type="text/javascript">
+    $(function(){
+      $('#help_<: $changed_help_id :>_clicker').click().focus();
+    });
+  </script>
+<: } :>

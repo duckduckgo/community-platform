@@ -1,5 +1,5 @@
 package DDGC::DB::Result::Help;
-# ABSTRACT: TODO Help information system
+# ABSTRACT: Help information system
 
 use Moose;
 use MooseX::NonMoose;
@@ -20,29 +20,27 @@ unique_column key => {
 	is_nullable => 0,
 };
 
-column name => {
+column category_id => {
 	data_type => 'text',
 	is_nullable => 0,
 };
 
-column description => {
-	data_type => 'text',
-	is_nullable => 0,
-};
+belongs_to 'category', 'DDGC::DB::Result::Help::Category', 'category_id';
 
 column data => {
 	data_type => 'text',
 	is_nullable => 1,
-	serializer_class => 'YAML',
+	serializer_class => 'JSON',
 };
-
-#
-# TODO add relation to language
-#
 
 column notes => {
 	data_type => 'text',
 	is_nullable => 1,
+};
+
+column sort => {
+  data_type => 'int',
+  is_nullable => 0,
 };
 
 column created => {
@@ -55,6 +53,15 @@ column updated => {
 	set_on_create => 1,
 	set_on_update => 1,
 };
+
+has_many 'help_contents', 'DDGC::DB::Result::Help::Content', 'help_id';
+
+sub content_by_language_id {
+	my ( $self, $language_id ) = @_;
+	$self->search_related('help_contents',{
+		language_id => $language_id
+	})->first;
+}
 
 no Moose;
 __PACKAGE__->meta->make_immutable;
