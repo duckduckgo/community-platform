@@ -2,7 +2,7 @@
 before_install:
   - export AUTOMATED_TESTING=1 HARNESS_OPTIONS=j10:c HARNESS_TIMER=1
   - rm .travis.yml
-  - sudo apt-get install -qq libgd2-xpm-dev libssl-dev libxml2-dev
+  - sudo apt-get install -qq build-essential libgd2-xpm-dev libssl-dev git wget libxml2-dev libpango1.0-dev imagemagick
   - git config --global user.name "Dist Zilla Plugin TravisCI"
   - git config --global user.email $HOSTNAME":not-for-mail@travis-ci.org"
 install:
@@ -11,6 +11,7 @@ install:
   - "dzil listdeps | grep -vP '[^\\w:]' | cpanm  --quiet   --notest  --skip-satisfied"
 language: perl
 perl:
+  - 5.18
   - 5.16
   - 5.14
   - 5.12
