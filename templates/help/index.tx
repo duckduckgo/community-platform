@@ -1,5 +1,7 @@
 <h1>Welcome to the DuckDuckGo Help pages!</h1>
-<p class="intro-message">In hac habitasse platea dictumst. Donec molestie, nisi at convallis feugiat, ipsum mi tincidunt dui, ultricies blandit est felis sit amet elit. Proin metus magna, ornare a mollis ut, feugiat at ante. Phasellus ac urna augue. Nullam fermentum eros sit amet tellus eleifend gravida. Morbi facilisis, nibh nec pulvinar bibendum, ipsum urna tristique est, sit amet fermentum neque ligula id mi. Donec varius arcu vel ligula congue, nec congue nibh volutpat. Donec vestibulum sodales sem, eu accumsan urna pellentesque quis. Fusce egestas justo ipsum, eget pellentesque arcu commodo sed. Phasellus ipsum diam, auctor ut semper quis, mollis et mi. Proin hendrerit consequat neque, nec vestibulum nunc pulvinar non. Nullam a orci sit amet dolor egestas sollicitudin. Maecenas nec mauris ac tortor congue pulvinar. Nulla sollicitudin sem eget pharetra cursus.</p>
+<p class="intro-message">In hac habitasse platea dictumst. Donec molestie, nisi at convallis feugiat, ipsum mi tincidunt dui, ultricies blandit est felis sit amet elit. Proin metus magna, ornare a mollis ut, feugiat at ante.</p>
+
+<: include help::searchbox :>
 
 <div class="callout">
   <: for results($help_categories) -> $category { :>

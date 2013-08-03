@@ -247,6 +247,7 @@ sub helps {{
 				teaser => "Sed elementum, diam at dapibus tincidunt, leo dui pretium leo, vel pretium tortor mi at diam.",
 				content => "In nisi lorem, faucibus at dictum id, feugiat quis diam. <b>Vivamus velit lectus</b>, facilisis vitae nisl at, laoreet mollis erat. Integer blandit, lectus id consequat laoreet, est ante dictum velit, ut imperdiet odio nunc vel est. Nam in laoreet risus, nec tincidunt mi. In hac habitasse platea dictumst. Vestibulum auctor viverra orci eget viverra. In vel dolor ut enim scelerisque varius. Aliquam erat volutpat. Aliquam malesuada gravida eros a ullamcorper.",
 				raw_html => 1,
+				related => ['results/xxxxx-blub','settings/test-yyyyyy'],
 			},
 			'test-xxxxx' => {
 				sort => 20,
@@ -254,6 +255,7 @@ sub helps {{
 				teaser => "Sed elementum, diam at dapibus tincidunt, leo dui pretium leo, vel pretium tortor mi at diam.",
 				content => "In nisi lorem, faucibus at dictum id, feugiat quis diam. Vivamus velit lectus, facilisis vitae nisl at, laoreet mollis erat. Integer blandit, lectus id consequat laoreet, est ante dictum velit, ut imperdiet odio nunc vel est. Nam in laoreet risus, nec tincidunt mi. In hac habitasse platea dictumst. Vestibulum auctor viverra orci eget viverra. In vel dolor ut enim scelerisque varius. <b>Aliquam erat volutpat</b>. Aliquam malesuada gravida eros a ullamcorper.",
 				raw_html => 1,
+				related => ['results/xxxxx-blub','settings/test-yyyyyy'],
 			},
 		},
 	},
@@ -284,6 +286,7 @@ sub add_helps {
 	my ( $self ) = @_;
 	$self->c->{help_categories} = {};
 	my $rs = $self->db->resultset('Help::Category');
+	my %rel; # relation storage
 	for (sort keys %{$self->helps}) {
 		my $key = $_;
 		my %cat = %{$self->helps->{$key}};
@@ -306,14 +309,32 @@ sub add_helps {
 			for (qw( title teaser content raw_html )) {
 				$help_con_data{$_} = delete $help_data{$_};
 			}
+			my @relations;
+			if (defined $help_data{related}) {
+				my $ref_rel = delete $help_data{related};
+				@relations = @{$ref_rel};
+			}
 			my $help = $self->c->{help_categories}->{$key}->create_related('helps',{
 				%help_data
 			});
+			if (@relations) {
+				$rel{$help->id} = \@relations;
+			}
 			$help->create_related('help_contents',{
 				language_id => $self->c->{languages}->{us}->id,
 				%help_con_data
 			});
 			$self->c->{help_categories}->{$key}->{$help_key} = $help;
+		}
+	}
+	for my $on_id (keys %rel) {
+		for (@{$rel{$on_id}}) {
+			my @rel_parts = split(/\//,$_);
+			my $show_id = $self->c->{help_categories}->{$rel_parts[0]}->{$rel_parts[1]}->id;
+			$self->db->resultset('Help::Relate')->create({
+				on_help_id => $on_id,
+				show_help_id => $show_id,
+			});
 		}
 	}
 }

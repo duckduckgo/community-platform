@@ -1,0 +1,32 @@
+<h1>Search results</h1>
+
+<: include help::searchbox :>
+
+<br/><br/> <br/> <!-- else i cant USE the searchbox :( -->
+
+<: if $help_search { :>
+  <: if $search_helps.count { :>
+    <div class="callout">
+      <: for results($search_helps) -> $help { :>
+        <div class="third">
+          <div class="callout-box blue">
+            <a class="head" href="<: $u('Help','help',$help_language.locale,$help_category.key,$help.key) :>">
+              <h2><: $help.content_by_language_id($help_language_id).title :></h2>
+            </a>
+            <div class="body">
+              <h3><: $help.content_by_language_id($help_language_id).teaser :></h3>
+            </div>
+          </div>
+        </div>
+      <: } :>
+    </div>
+  <: } else { :>
+    <h2>No search results!</h2>
+  <: } :>
+<: } else { :>
+  <h2>Please enter a search term!</h2>
+<: } :>
+
+<div class="row mid">
+  <a class="button blue" href="<: $u('Help','index',$help_language.locale) :>">Back to help index</a>
+</div>

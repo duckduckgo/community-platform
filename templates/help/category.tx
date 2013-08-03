@@ -1,5 +1,8 @@
 <h1><: $help_category.content_by_language_id($help_language_id).title :></h1>
 <p class="intro-message"><: $help_category.content_by_language_id($help_language_id).description :></p>
+
+<: include help::searchbox :>
+
 <div class="callout">
   <: for results($help_category.helps) -> $help { :>
     <div class="third">

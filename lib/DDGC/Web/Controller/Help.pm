@@ -33,6 +33,19 @@ sub index :Chained('language') :PathPart('') :Args(0) {
   });
 }
 
+sub search :Chained('language') :Args(0) {
+  my ( $self, $c ) = @_;
+  $c->add_bc('Search');
+  $c->stash->{help_search} = $c->req->param('help_search');
+  return unless $c->stash->{help_search};
+  $c->stash->{search_helps} = $c->d->rs('Help')->search({
+    content => { -like => '%'.$c->stash->{help_search}.'%' },
+  },{
+    order_by => { -asc => 'me.sort' },
+    prefetch => [ 'help_contents', { help_category => 'help_category_contents' } ],
+  });
+}
+
 sub category_base :Chained('language') :PathPart('') :CaptureArgs(1) {
   my ( $self, $c, $category ) = @_;
   $c->stash->{help_category} = $c->d->rs('Help::Category')->search({ 'me.key' => $category },{

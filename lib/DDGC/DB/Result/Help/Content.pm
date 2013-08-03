@@ -61,5 +61,14 @@ column updated => {
   set_on_update => 1,
 };
 
+sub content_html {
+  my ( $self ) = @_;
+  if ($self->raw_html) {
+    return $self->content;
+  } else {
+    return $self->ddgc->markup->html($self->content);
+  }
+}
+
 no Moose;
 __PACKAGE__->meta->make_immutable;

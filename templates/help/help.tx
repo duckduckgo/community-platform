@@ -1,10 +1,14 @@
+<: include help::searchbox :>
+
+<br/><br/> <br/> <!-- else i cant see the searchbox :( -->
+
 <div class="content-box">
   <div class="head">
     <h2><: $help_content.title :></h2>
   </div>
   <div class="body">
     <div class="row">
-      <: r($help_content.content) :>
+      <: r($help_content.content_html) :>
     </div>
     <div class="row mid">
       <a class="button blue" href="<: $u('Help','index',$help_language.locale) :>">Back to help index</a>
@@ -12,3 +16,20 @@
     </div>
   </div>
 </div>
+
+<: if $help.related_helps.count { :>
+  <div class="content-box">
+    <div class="head">
+      <h2>Related help</h2>
+    </div>
+    <div class="body">
+      <: for results($help.related_helps) -> $related_help { :>
+        <div class="row">
+          <a href="<: $u('Help','help',$help_language.locale,$related_help.category.key,$related_help.key) :>">
+            <: $related_help.content_by_language_id($help_language_id).title :>
+          </a>
+        </div>
+      <: } :>
+    </div>
+  </div>
+<: } :>

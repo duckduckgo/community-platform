@@ -1,0 +1,6 @@
+<form method="POST" action="<: $u('Help','search',$help_language.locale) :>">
+  <div class="row mid whole">
+    <input type="text" name="help_search" placeholder="Search help pages..." value="<: $help_search :>" />
+    <input type="submit" name="do_help_search" value="Search" />
+  </div>
+</form>
