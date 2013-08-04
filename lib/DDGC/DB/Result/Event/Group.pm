@@ -15,6 +15,22 @@ column id => {
 };
 primary_key 'id';
 
+unique_column key => {
+  data_type => 'text',
+  is_nullable => 0,
+};
+
+column data => {
+  data_type => 'text',
+  is_nullable => 1,
+  serializer_class => 'JSON',
+};
+
+column notes => {
+  data_type => 'text',
+  is_nullable => 1,
+};
+
 column created => {
   data_type => 'timestamp with time zone',
   set_on_create => 1,
