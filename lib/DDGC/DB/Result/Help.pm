@@ -21,7 +21,7 @@ unique_column key => {
 };
 
 column help_category_id => {
-	data_type => 'text',
+	data_type => 'bigint',
 	is_nullable => 0,
 };
 

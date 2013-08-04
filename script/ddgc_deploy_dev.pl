@@ -26,7 +26,20 @@ GetOptions (
 );
 
 if (-d $config->rootdir_path) {
-	$kill ? remove_tree($config->rootdir_path) : die "environment exist, use --kill to kill it!"
+  if ($kill) {
+    remove_tree($config->rootdir_path);
+    if ($ENV{DDGC_DB_DSN} =~ m/^dbi:Pg:/) {
+      if ($ENV{DDGC_DB_DSN} =~ m/database=([\w\d]+)/) {
+        my $db = $1;
+        system("dropdb ".$db);
+        system("createdb ".$db);
+      } else {
+        die "Can't find out your db name from DSN";
+      }
+    }
+  } else {
+    die "environment exist, use --kill to kill it!";
+  }
 }
 
 print "\n";
