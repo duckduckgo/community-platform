@@ -42,12 +42,14 @@ column context_id => {
 with 'DDGC::DB::Role::HasContext';
 ###########
 
+# replaced by ::Result::Event::Relate
 column related => {
 	data_type => 'text',
 	is_nullable => 1,
 	serializer_class => 'JSON',
 };
 
+# replaced by ::Result::Event::Relate
 # pure visual used data, cache storage here
 column language_ids => {
 	data_type => 'text',
@@ -92,13 +94,15 @@ column pid => {
 
 before insert => sub {
 	my ( $self ) = @_;
-	$self->nid($self->result_source->schema->ddgc->config->nid);
-	$self->pid($self->result_source->schema->ddgc->config->pid);
+	$self->nid($self->ddgc->config->nid);
+	$self->pid($self->ddgc->config->pid);
 };
 
 belongs_to 'user', 'DDGC::DB::Result::User', 'users_id', { join_type => 'left' };
 belongs_to 'event_group', 'DDGC::DB::Result::Event::Group', 'event_group_id', { join_type => 'left' };
+
 has_many 'event_notifications', 'DDGC::DB::Result::Event::Notification', 'event_id';
+has_many 'event_relates', 'DDGC::DB::Result::Event::Relate', 'event_id';
 
 no Moose;
 __PACKAGE__->meta->make_immutable;

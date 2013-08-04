@@ -32,6 +32,19 @@ sub captcha :Chained('base') :Args(0) {
 	$c->create_captcha();
 }
 
+sub country_flag :Chained('base') :Args(2) {
+	my ( $self, $c, $size, $country_code ) = @_;
+	if ($country_code =~ m/(\w+)\.png$/) {
+		$country_code = $1;
+	}
+	my $country = $c->d->rs('Country')->find({ country_code => $country_code });
+	unless ($country) {
+		$c->response->status(404);
+		return $c->detach;
+	}
+	$c->serve_static_file($country->flag($size));
+}
+
 sub index :Chained('base') :PathPart('') :Args(0) {
 	my ($self, $c) = @_;
 	$c->stash->{no_breadcrumb} = 1;

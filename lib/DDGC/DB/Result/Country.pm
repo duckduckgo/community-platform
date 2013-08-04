@@ -7,6 +7,7 @@ extends 'DDGC::DB::Base::Result';
 use DBIx::Class::Candy;
 use IPC::Run qw{run timeout};
 use File::Temp qw/ tempfile /;
+use Path::Class;
 use namespace::autoclean;
 
 table 'country';
@@ -16,6 +17,12 @@ column id => {
 	is_auto_increment => 1,
 };
 primary_key 'id';
+
+# Alpha2 code or fake 3< letter
+unique_column country_code => {
+	data_type => 'text',
+	is_nullable => 0,
+};
 
 unique_column name_in_english => {
 	data_type => 'text',
@@ -27,21 +34,15 @@ column name_in_local => {
 	is_nullable => 0,
 };
 
-column country_code => {
-	data_type => 'text',
-	is_nullable => 0,
-};
-
-column flag_svg => {
+column flag_source => {
 	data_type => 'text',
 	is_nullable => 1,
 };
 
-column subflag_svg => {
+column subflag_source => {
 	data_type => 'text',
 	is_nullable => 1,
 };
-sub flag_url {}
 
 column virtual => {
 	data_type => 'tinyint',
@@ -90,21 +91,21 @@ has_many 'languages', 'DDGC::DB::Result::Language', 'country_id';
 
 sub write_flag_to {
 	my ( $self, $filename ) = @_;
-	return 0 unless $self->flag_svg;
+	return 0 unless $self->flag_source;
 	my ( $in, $out, $err );
 	my ( $fh1, $tempflag1 ) = tempfile;
 	run [ convert => (
-		$self->flag_svg,
+		$self->flag_source,
 		'-resize','512x320^',
 		'-gravity','NorthWest','-extent','512x320',
 		'-bordercolor','black','-border','2x2',
-		$self->subflag_svg ? $tempflag1 : $filename
+		$self->subflag_source ? $tempflag1 : $filename
 	) ], \$in, \$out, \$err, timeout(10) or die "$err (error $?)";
-	return 1 unless $self->subflag_svg;
+	return 1 unless $self->subflag_source;
 	#die "No subflag support yet!";
 	my ( $fh2, $tempflag2 ) = tempfile;
 	run [ convert => (
-		$self->subflag_svg,
+		$self->subflag_source,
 		'-resize','320x200',
 		'-bordercolor','black','-border','2x2',
 		$tempflag2
@@ -114,6 +115,35 @@ sub write_flag_to {
 		$tempflag2, $tempflag1, $filename
 	) ], \$in, \$out, \$err, timeout(10) or die "$err (error $?)";
 	return 1;
+}
+
+sub flag_filename {
+	my ( $self ) = @_;
+	return file($self->ddgc->config->cachedir,'flag_'.$self->country_code.'.png')->stringify;
+}
+
+sub flag_url {
+	my ( $self, $size ) = @_;
+	$size = 16 unless $size;
+	'/country_flag/'.$size.'/'.$self->country_code.'.png';
+}
+
+sub flag {
+	my ( $self, $size ) = @_;
+	unless (-f $self->flag_filename) {
+		$self->write_flag_to($self->flag_filename);
+	}
+	my $filename = file($self->ddgc->config->cachedir,'flag_'.$self->country_code.'.'.$size.'.png')->stringify;
+	$size = $size - 2;
+	return unless $size > 0;
+	my ( $in, $out, $err );
+	run [ convert => (
+		$self->flag_filename,
+		'-resize','x'.$size,
+		'-bordercolor','black','-border','1x1',
+		$filename
+	) ], \$in, \$out, \$err, timeout(10) or die "$err (error $?)";
+	return $filename;
 }
 
 no Moose;

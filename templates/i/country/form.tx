@@ -29,17 +29,17 @@
   form_row_right => 'twothird',
 } :>
 <: include form::row {
-  form_row_id => 'country_' ~ ( $_.id || 0 ) ~ '_flag_svg',
-  form_row_label => 'Primary SVG:',
-  form_row_value => $_.flag_svg,
+  form_row_id => 'country_' ~ ( $_.id || 0 ) ~ '_flag_source',
+  form_row_label => 'Primary Flag:',
+  form_row_value => $_.flag_source,
   form_row_left => 'third',
   form_row_right => 'twothird',
 } :>
 <!--
 <: include form::row {
-  form_row_id => 'country_' ~ ( $_.id || 0 ) ~ '_subflag_svg',
-  form_row_label => 'Secondary SVG:',
-  form_row_value => $_.subflag_svg,
+  form_row_id => 'country_' ~ ( $_.id || 0 ) ~ '_subflag_source',
+  form_row_label => 'Secondary Flag:',
+  form_row_value => $_.subflag_source,
   form_row_left => 'third',
   form_row_right => 'twothird',
 } :>

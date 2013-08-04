@@ -78,7 +78,15 @@ sub countries :Chained('base') :Args(0) {
 				my $country = $c->d->rs('Country')->find($id);
 				die "country id ".$_." not found" unless $country;
 				for (keys %{$values}) {
-					$country->$_($values->{$_});
+					if ($_ =~ m/_id$/) {
+						if ($values->{$_}) {
+							$country->$_($values->{$_});
+						} else {
+							$country->$_(undef);
+						}
+					} else {
+						$country->$_($values->{$_});
+					}
 				}
 				$country->update;
 				$c->stash->{changed_country_id} = $id;

@@ -4,7 +4,7 @@
 		<div class="content-box content-box-toggleclick only">
 			<div id="language_<: $language.id :>_clicker" class="head">
 				<h2>#<: $language.id :> <: $language.name_in_english :></h2>
-				&nbsp;&nbsp;&nbsp;<img src="<: $language.flag_url :>" />
+				&nbsp;&nbsp;&nbsp;<img src="<: $language.country.flag_url :>" />
 			</div>
 			<div class="body">
 				<: i($language,'form') :>

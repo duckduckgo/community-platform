@@ -1,5 +1,5 @@
-package DDGC::DB::Result::Event::Group;
-# ABSTRACT: A visual group for an event
+package DDGC::DB::Result::Event::Relate;
+# ABSTRACT: A context relation of an event
 
 use Moose;
 use MooseX::NonMoose;
@@ -7,7 +7,7 @@ extends 'DDGC::DB::Base::Result';
 use DBIx::Class::Candy;
 use namespace::autoclean;
 
-table 'event_group';
+table 'event_relate';
 
 column id => {
   data_type => 'bigint',
@@ -15,33 +15,28 @@ column id => {
 };
 primary_key 'id';
 
-unique_column key => {
+column event_id => {
+  data_type => 'bigint',
+  is_nullable => 0,
+};
+belongs_to 'event', 'DDGC::DB::Result::Event', 'event_id';
+
+###########
+column context => {
   data_type => 'text',
   is_nullable => 0,
 };
-
-column type => {
-  data_type => 'text',
+column context_id => {
+  data_type => 'bigint',
   is_nullable => 0,
 };
-
-column data => {
-  data_type => 'text',
-  is_nullable => 1,
-  serializer_class => 'JSON',
-};
-
-column notes => {
-  data_type => 'text',
-  is_nullable => 1,
-};
+with 'DDGC::DB::Role::HasContext';
+###########
 
 column created => {
   data_type => 'timestamp with time zone',
   set_on_create => 1,
 };
-
-has_many 'events', 'DDGC::DB::Result::Event', 'event_group_id';
 
 ###############################
 

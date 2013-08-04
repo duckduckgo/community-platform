@@ -37,8 +37,19 @@ sub add_event {
 	if ($self->can('event_related')) {
 		$event{related} = [$self->event_related, defined $args{related} ? @{delete $args{related}} : ()];
 	}
+	if ($args{related}) {
+		$event{related} = [] unless defined $event{related};
+		my $related = delete $args{related};
+		push @{$event{related}}, @{$related};
+	}
 	$event{data} = \%args if %args;
-	$self->result_source->schema->resultset('Event')->create({ %event });
+	my $event_result = $self->result_source->schema->resultset('Event')->create({ %event });
+	for (@{$event{related}}) {
+		$event_result->create_related('event_relates',{
+			context => $_->[0],
+			context_id => $_->[1],
+		});
+	}
 }
 
 sub has_context {

@@ -106,33 +106,89 @@ sub is { ::is($_[0],$_[1],$_[2]) if shift->test }
 # |_|\__,_|_| |_|\__, |\__,_|\__,_|\__, |\___||___/
 #                |___/             |___/
 
+sub countries {{
+	'us' => {
+		name_in_english => 'United States',
+		name_in_local => 'United States',
+		flag_source => 'http://upload.wikimedia.org/wikipedia/en/a/a4/Flag_of_the_United_States.svg',
+	},
+	'de' => {
+		name_in_english => 'Germany',
+		name_in_local => 'Deutschland',
+		flag_source => 'http://upload.wikimedia.org/wikipedia/en/b/ba/Flag_of_Germany.svg',
+	},
+	'es' => {
+		name_in_english => 'Spain',
+		name_in_local => 'España',
+		flag_source => 'http://upload.wikimedia.org/wikipedia/en/9/9a/Flag_of_Spain.svg',
+	},
+	'br' => {
+		name_in_english => 'Brazil',
+		name_in_local => 'Brasil',
+		flag_source => 'http://upload.wikimedia.org/wikipedia/commons/0/05/Flag_of_Brazil.svg',
+	},
+	'ru' => {
+		name_in_english => 'Russia',
+		name_in_local => 'России',
+		flag_source => 'http://upload.wikimedia.org/wikipedia/commons/f/f3/Flag_of_Russia.svg',
+	},
+	'gb' => {
+		name_in_english => 'United Kingdom',
+		name_in_local => 'United Kingdom',
+		flag_source => 'https://upload.wikimedia.org/wikipedia/en/thumb/a/ae/Flag_of_the_United_Kingdom.svg/2000px-Flag_of_the_United_Kingdom.svg.png',
+	},
+	'in' => {
+		name_in_english => 'India',
+		name_in_local => 'इंडिया का हिन्दी',
+		flag_source => 'https://upload.wikimedia.org/wikipedia/en/thumb/4/41/Flag_of_India.svg/2000px-Flag_of_India.svg.png',
+	},
+	'se' => {
+		name_in_english => 'Sweden',
+		name_in_local => 'Sverige',
+		flag_source => 'http://upload.wikimedia.org/wikipedia/en/4/4c/Flag_of_Sweden.svg',
+	},
+	'fr' => {
+		name_in_english => 'France',
+		name_in_local => 'France',
+		flag_source => 'http://upload.wikimedia.org/wikipedia/en/c/c3/Flag_of_France.svg',
+	},
+	'da' => {
+		name_in_english => 'Denmark',
+		name_in_local => 'Danmark',
+		flag_source => 'https://upload.wikimedia.org/wikipedia/commons/9/9c/Flag_of_Denmark.svg',
+	},
+	'eg' => {
+		name_in_english => 'Egypt',
+		name_in_local => 'العربية - مصر',
+		flag_source => 'https://upload.wikimedia.org/wikipedia/commons/f/fe/Flag_of_Egypt.svg',
+	},
+}}
+
 sub languages {{
 	'us' => {
 		name_in_english => 'English of United States',
 		name_in_local => 'English of United States',
 		locale => 'en_US',
-		svg1 => 'http://upload.wikimedia.org/wikipedia/en/b/be/Flag_of_England.svg',
-		svg2 => 'http://upload.wikimedia.org/wikipedia/en/a/a4/Flag_of_the_United_States.svg',
+		country => 'us',
 	},
 	'de' => {
 		name_in_english => 'German of Germany',
 		name_in_local => 'Deutsch von Deutschland',
 		locale => 'de_DE',
-		svg1 => 'http://upload.wikimedia.org/wikipedia/en/b/ba/Flag_of_Germany.svg',
+		country => 'de',
 	},
 	'es' => {
 		name_in_english => 'Spanish of Spain',
 		name_in_local => 'Español de España',
 		locale => 'es_ES',
-		svg1 => 'http://upload.wikimedia.org/wikipedia/en/9/9a/Flag_of_Spain.svg',
+		country => 'es',
 	},
 	'br' => {
 		name_in_english => 'Portuguese of Brazil',
 		name_in_local => 'Português do Brasil',
 		locale => 'pt_BR',
 		plural => '(n > 1)',
-		svg1 => 'http://upload.wikimedia.org/wikipedia/commons/5/5c/Flag_of_Portugal.svg',
-		svg2 => 'http://upload.wikimedia.org/wikipedia/commons/0/05/Flag_of_Brazil.svg',
+		country => 'br',
 	},
 	'ru' => {
 		name_in_english => 'Russian of Russia',
@@ -140,53 +196,70 @@ sub languages {{
 		locale => 'ru_RU',
 		nplurals => '3',
 		plural => 'n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2',
-		svg1 => 'http://upload.wikimedia.org/wikipedia/commons/f/f3/Flag_of_Russia.svg',
+		country => 'ru',
 	},
-	'uk' => {
+	'gb' => {
 		name_in_english => 'English of United Kingdom',
 		name_in_local => 'English of United Kingdom',
 		locale => 'en_UK',
-		svg1 => 'http://upload.wikimedia.org/wikipedia/en/b/be/Flag_of_England.svg',
-		svg2 => 'http://upload.wikimedia.org/wikipedia/en/a/ae/Flag_of_the_United_Kingdom.svg',
+		country => 'gb',
 	},
 	'in' => {
 		name_in_english => 'Hindi of India',
 		name_in_local => 'इंडिया का हिन्दी',
 		locale => 'hi_IN',
-		svg1 => 'http://upload.wikimedia.org/wikipedia/en/4/41/Flag_of_India.svg',
+		country => 'in',
 	},
 	'se' => {
 		name_in_english => 'Swedish in Sweden',
 		name_in_local => 'Svenska i Sverige',
 		locale => 'sv_SE',
-		svg1 => 'http://upload.wikimedia.org/wikipedia/en/4/4c/Flag_of_Sweden.svg',
+		country => 'se',
 	},
 	'fr' => {
 		name_in_english => 'French in France',
 		name_in_local => 'Français en France',
 		locale => 'fr_FR',
-		svg1 => 'http://upload.wikimedia.org/wikipedia/en/c/c3/Flag_of_France.svg',
+		country => 'fr',
 	},
 	'da' => {
 		name_in_english => 'Danish in Denmark',
 		name_in_local => 'Dansk i Danmark',
 		locale => 'da_DK',
-		svg1 => 'https://upload.wikimedia.org/wikipedia/commons/9/9c/Flag_of_Denmark.svg',
+		country => 'da',
 	},
 	'ar' => {
 		name_in_english => 'Arabic in Egypt',
 		name_in_local => 'العربية - مصر',
 		locale => 'ar_EG',
-		svg1 => 'https://upload.wikimedia.org/wikipedia/commons/f/fe/Flag_of_Egypt.svg',
 		rtl => 1,
+		country => 'eg',
 	},
 }}
 
 sub add_languages {
 	my ( $self ) = @_;
-	my $rs = $self->db->resultset('Language');
+	my $country_rs = $self->db->resultset('Country');
+	for (sort keys %{$self->countries}) {
+		my %values = %{$self->countries->{$_}};
+		$values{country_code} = $_;
+		$self->c->{countries}->{$_} = $country_rs->create(\%values);
+		$self->isa_ok($self->c->{countries}->{$_},'DDGC::DB::Result::Country');
+		$self->next_step;
+	}
+	my $language_rs = $self->db->resultset('Language');
 	for (sort keys %{$self->languages}) {
-		$self->c->{languages}->{$_} = $rs->create($self->languages->{$_});
+		my %values = %{$self->languages->{$_}};
+		my $country = delete $values{country};
+		$values{country_id} = $self->c->{countries}->{$country}->id;
+		my $primary_language = defined $values{primary_language}
+			? delete $values{primary_language}
+			: 1;
+		$self->c->{languages}->{$_} = $language_rs->create(\%values);
+		if ($primary_language) {
+			$self->c->{countries}->{$country}->primary_language_id($self->c->{languages}->{$_}->id);
+			$self->c->{countries}->{$country}->update;
+		}
 		$self->isa_ok($self->c->{languages}->{$_},'DDGC::DB::Result::Language');
 		$self->next_step;
 	}

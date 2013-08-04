@@ -55,16 +55,6 @@ column flagicon => {
 	is_nullable => 1,
 };
 sub flag_url { 'https://duckduckgo.com/f2/'.(shift->flagicon).'.png' }
-
-column svg1 => {
-	data_type => 'text',
-	is_nullable => 1,
-};
-
-column svg2 => {
-	data_type => 'text',
-	is_nullable => 1,
-};
 ##############################################################
 
 column nplurals => {
