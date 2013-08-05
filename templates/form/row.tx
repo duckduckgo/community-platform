@@ -5,7 +5,7 @@
 	<div class="<: $form_row_right :>">
 		<: if $form_row_type == 'yesno' { :>
 			<select id="<: $form_row_id :>" name="<: $form_row_name || $form_row_id :>">
-				<option value="">No</option>
+				<option value="0">No</option>
 				<option value="1"<: if $form_row_value { :> selected="selected"<: } :>>Yes</option>
 			</select>
 		<: } elsif $form_row_type == 'textarea' { :>
