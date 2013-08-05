@@ -75,9 +75,7 @@ sub countries :Chained('base') :Args(0) {
 		for my $id (keys %data) {
 			my $values = $data{$id};
 			for (keys %{$values}) {
-				if ($_ =~ m/_id$/) {
-					$values->{$_} = $values->{$_} > 0 ? $values->{$_} : undef;
-				}
+				$values->{$_} = undef unless length($values->{$_});
 			}
 			if ($id > 0) {
 				my $country = $c->d->rs('Country')->find($id);
@@ -88,6 +86,9 @@ sub countries :Chained('base') :Args(0) {
 				$country->update;
 				$c->stash->{changed_country_id} = $id;
 			} else {
+				for (keys %{$values}) {
+					delete $values->{$_} unless defined $values->{$_};
+				}
 				my $new_language = $c->d->rs('Country')->create($values);
 				$c->stash->{changed_country_id} = $new_language->id;
 			}
