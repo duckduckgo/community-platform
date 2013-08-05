@@ -6,10 +6,13 @@ package DDGCTest::Database;
 ######################################################################
 
 use Moose;
-use DDGC::DB;
 use utf8;
 use File::ShareDir::ProjectDistDir;
 use Data::Printer;
+
+use DDGC;
+use DDGC::DB;
+use DDGC::Config;
 
 has _ddgc => (
 	is => 'ro',
@@ -56,6 +59,16 @@ sub BUILDARGS {
 	$options{init} = $init if $init;
 	$options{progress} = $progress if $progress;
 	return \%options;
+}
+
+sub for_test {
+	my ( $class, $tempdir ) = @_;
+	my $ddgc = DDGC->new({ config => DDGC::Config->new(
+		always_use_default => 1,
+		rootdir_path => $tempdir,
+		mail_test => 1,
+	) });
+	return $class->new($ddgc,1);
 }
 
 sub deploy {

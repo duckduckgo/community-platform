@@ -5,15 +5,10 @@ use Test::More;
 use File::Temp qw/ tempdir /;
 use DDGCTest::Database;
 
-use_ok('DDGC');
-use_ok('DDGC::Web');
-
-my $tempdir = tempdir;
-$ENV{DDGC_ROOTDIR} = "$tempdir";
-$ENV{DDGC_MAIL_TEST} = 1;
+$ENV{DDGC_TESTING} = tempdir;
 
 # generate test database and run tests while doing so
-my $test = DDGCTest::Database->new(DDGC->new({ config => DDGC::Config->new }),1);
+my $test = DDGCTest::Database->for_test($ENV{DDGC_TESTING});
 $test->deploy;
 
 my $ddgc = $test->d;

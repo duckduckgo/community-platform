@@ -28,7 +28,7 @@ GetOptions (
 if (-d $config->rootdir_path) {
   if ($kill) {
     remove_tree($config->rootdir_path);
-    if ($ENV{DDGC_DB_DSN} =~ m/^dbi:Pg:/) {
+    if (defined $ENV{DDGC_DB_DSN} && $ENV{DDGC_DB_DSN} =~ m/^dbi:Pg:/) {
       if ($ENV{DDGC_DB_DSN} =~ m/database=([\w\d]+)/) {
         my $db = $1;
         system("dropdb ".$db);
