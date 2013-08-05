@@ -5,15 +5,17 @@ use Test::More;
 use File::Temp qw/ tempdir /;
 use DDGCTest::Database;
 
-$ENV{DDGC_TESTING} = tempdir;
+my $testdir = tempdir;
+$ENV{DDGC_TESTING} = $testdir;
 
 # generate test database and run tests while doing so
-my $test = DDGCTest::Database->for_test($ENV{DDGC_TESTING});
+my $test = DDGCTest::Database->for_test($testdir);
 $test->deploy;
 
 my $ddgc = $test->d;
 
-use Catalyst::Test 'DDGC::Web';
+require Catalyst::Test;
+Catalyst::Test->import('DDGC::Web');
 
 my $root = request('/');
 ok( $root->is_success, 'Homepage should succeed' );

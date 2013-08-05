@@ -139,20 +139,24 @@ has_conf db_dsn => DDGC_DB_DSN => sub {
 has_conf db_user => DDGC_DB_USER => '';
 has_conf db_password => DDGC_DB_PASSWORD => '';
 
-sub db_params {
-	my ( $self ) = @_;
-	my %vars = (
-		quote_char		=> '"',
-		name_sep		=> '.',
-	);
-	if ($self->db_dsn =~ m/:SQLite:/) {
-		$vars{sqlite_unicode} = 1;
-		$vars{on_connect_do} = 'PRAGMA SYNCHRONOUS = OFF';
-	} elsif ($self->db_dsn =~ m/:Pg:/) {
-		$vars{pg_enable_utf8} = 1;
-	}
-	return \%vars;
-}
+has db_params => (
+	is => 'ro',
+	lazy => 1,
+	default => sub {
+		my ( $self ) = @_;
+		my %vars = (
+			quote_char		=> '"',
+			name_sep		=> '.',
+		);
+		if ($self->db_dsn =~ m/:SQLite:/) {
+			$vars{sqlite_unicode} = 1;
+			$vars{on_connect_do} = 'PRAGMA SYNCHRONOUS = OFF';
+		} elsif ($self->db_dsn =~ m/:Pg:/) {
+			$vars{pg_enable_utf8} = 1;
+		}
+		return \%vars;
+	},
+);
 
 sub duckpandir {
 	my ( $self ) = @_;

@@ -8,6 +8,8 @@ use Catalyst::Utils;
 
 __PACKAGE__->config( class => 'DDGC' );
 
+my $ddgc_test;
+
 sub _create_instance {
     my ($self, $app, $rest) = @_;
 
