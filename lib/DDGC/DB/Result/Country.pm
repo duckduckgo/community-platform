@@ -8,6 +8,8 @@ use DBIx::Class::Candy;
 use IPC::Run qw{run timeout};
 use File::Temp qw/ tempfile /;
 use Path::Class;
+use File::stat;
+use DateTime;
 use namespace::autoclean;
 
 table 'country';
@@ -130,7 +132,12 @@ sub flag_url {
 
 sub flag {
 	my ( $self, $size ) = @_;
-	unless (-f $self->flag_filename) {
+	if (-f $self->flag_filename) {
+		my $stat = stat($self->flag_filename);
+		if (DateTime->from_epoch( epoch => $stat->mtime ) < $self->updated) {
+			$self->write_flag_to($self->flag_filename);
+		}
+	} else {
 		$self->write_flag_to($self->flag_filename);
 	}
 	my $filename = file($self->ddgc->config->cachedir,'flag_'.$self->country_code.'.'.$size.'.png')->stringify;
