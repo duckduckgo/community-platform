@@ -37,6 +37,9 @@ sub index :Chained('base') :PathPart('') :Args(0) {
 		}
 		for my $id (keys %data) {
 			my $values = $data{$id};
+			for (keys %{$values}) {
+				$values->{$_} = undef unless length($values->{$_});
+			}
 			if ($id > 0) {
 				my $language = $c->d->rs('Language')->find($id);
 				die "language id ".$_." not found" unless $language;
@@ -46,6 +49,9 @@ sub index :Chained('base') :PathPart('') :Args(0) {
 				$language->update;
 				$c->stash->{changed_language_id} = $id;
 			} else {
+				for (keys %{$values}) {
+					delete $values->{$_} unless defined $values->{$_};
+				}
 				my $new_language = $c->d->rs('Language')->create($values);
 				$c->stash->{changed_language_id} = $new_language->id;
 			}
