@@ -46,12 +46,18 @@ print "\n";
 print "Generating development environment, this may take a while...\n";
 print "============================================================\n";
 print "\n";
+print "Deploying fresh environment into ".$config->rootdir_path."\n";
+print "Deploying database structure to dsn '".$config->db_dsn."'\n";
+print "\n";
 
 my $ddgc = DDGC->new({ config => $config });
 
 my $pr; 
 
 DDGCTest::Database->new($ddgc,0,sub {
+  print "\n";
+  print "Filling database with test data\n";
+  print "\n";
 	$pr = String::ProgressBar->new(
     max => shift,
     length => 60,
@@ -66,4 +72,6 @@ DDGCTest::Database->new($ddgc,0,sub {
 })->deploy;
 
 print "\n\n";
-print "done\n";
+print "done... You can start the development webserver with:\n\n";
+print "script/ddgc_web_server.pl -r -d\n";
+print "\n";
