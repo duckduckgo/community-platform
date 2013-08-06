@@ -9,6 +9,7 @@
         <: i($help,'form') :>
         <div class="row">
           <input type="submit" class="button blue" name="save_help" value="Save changes (changes to other help articles are lost)" />
+          <a href="<: $u('Admin::Help','media',$help.help_category.key,$help.key) :>" class="button blue">Integrate used media (Changes get lost!)</a>
         </div>
       </div>
     </div>

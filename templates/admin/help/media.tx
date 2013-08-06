@@ -1,0 +1,9 @@
+<h2><: $help.content_by_language_id($help_language_id).title :></h2>
+
+<: if $no_raw_html { :>
+  <h3>Can't work on non-raw-html yet.</h3>
+<: } :>
+
+<: for $media_files.kv() -> $file { :>
+  <h3>Moved <: $file.key :> to <: $file.value :></h3>
+<: } :>

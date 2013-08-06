@@ -4,6 +4,8 @@ package DDGC::Web::Controller::Admin::Help;
 use Moose;
 BEGIN { extends 'Catalyst::Controller'; }
 
+use HTML::TokeParser;
+
 use namespace::autoclean;
 
 sub base :Chained('/admin/base') :PathPart('help') :CaptureArgs(0) {
@@ -142,6 +144,35 @@ sub categories :Chained('base') :Args(0) {
         order_by => { -asc => 'me.sort' },
     });
 
+}
+
+sub media :Chained('base') :Args(2) {
+  my ( $self, $c, $category_key, $help_key ) = @_;
+  $c->stash->{help_category} = $c->d->rs('Help::Category')->find({ key => $category_key });
+  $c->stash->{help} = $c->stash->{help_category}->search_related('helps',{
+    key => $help_key,
+  })->first;
+  if (!$c->stash->{help}->content_by_language_id($c->stash->{help_language_id})->raw_html) {
+    $c->stash->{no_raw_html} = 1;
+    return $c->detach;
+  }
+  my $html = $c->stash->{help}->content_by_language_id($c->stash->{help_language_id})->content;
+  my $p = HTML::TokeParser->new(\$html);
+  my %files;
+  my $help_user = $c->d->find_user($c->d->is_live ? 'help' : 'testone')->db;
+  while (my $img = $p->get_tag("img")) {
+    my $src = $img->[1]->{src};
+    if ($src =~ m!^/customer/portal/attachments/!) {
+        my $url = 'http://help.dukgo.com'.$src;
+        my $file = $c->d->resultset('Media')->create_via_url($help_user,$url);
+        $files{$src} = '/media/'.$file->filename;
+        $html =~ s/$src/$files{$src}/g;
+    }
+  }
+  my $help_content = $c->stash->{help}->content_by_language_id($c->stash->{help_language_id});
+  $help_content->content($html);
+  $help_content->update;
+  $c->stash->{media_files} = \%files;
 }
 
 no Moose;
