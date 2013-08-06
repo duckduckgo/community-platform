@@ -4,7 +4,6 @@ package DDGC::DuckPAN;
 use Moose;
 use CPAN::Repository;
 use Dist::Data;
-use CPAN::Documentation::HTML;
 
 has ddgc => (
 	isa => 'DDGC',
@@ -22,15 +21,6 @@ sub cpan_repository {
 	});
 	$repo->initialize unless $repo->is_initialized;
 	return $repo;
-}
-
-sub cpan_documentation_html {
-	my ( $self ) = @_;
-	my $cdh = CPAN::Documentation::HTML->new({
-		root => $self->ddgc->config->duckpandir,
-		#template => $self->ddgc->config->duckpan_cdh_template,
-		#assets => $self->ddgc->config->duckpan_cdh_assets,
-	});
 }
 
 sub modules { shift->cpan_repository->modules }
@@ -59,9 +49,6 @@ sub add_user_distribution {
 		return \%ret;
 	}
 	my $distribution_filename_duckpan = $self->cpan_repository->add_author_distribution(uc($user->username),$distribution_filename);
-	my $cdh = $self->cpan_documentation_html;
-	$cdh->add_dist($distribution_filename);
-	$cdh->save_cache; $cdh->save_index;
 	return $self->add_release( $user, $dist_data->name, $dist_data->version, $distribution_filename_duckpan );
 }
 
