@@ -12,8 +12,8 @@ sub base : Chained('/base') PathPart('forum') CaptureArgs(0) {
   #$c->response->redirect('/'.$c->request->path);
 }
 
-# /forum/index/
-sub index : Chained('base') Args(0) {
+# /forum
+sub index : Chained('base') PathPart('') Args(0) {
   my ( $self, $c ) = @_;
   $c->bc_index;
 
@@ -45,8 +45,15 @@ sub thread : Chained('base') CaptureArgs(1) {
   my ( $self, $c, $id ) = @_;
   my @idstr = split('-',$id);
   $c->stash->{thread} = $c->d->forum->get_thread($idstr[0]);
+  unless ($c->stash->{thread}) {
+    $c->response->redirect($c->chained_uri('Forum','index',{ thread_notfound => 1 }));
+    return $c->detach;
+  }
   my $url = $c->stash->{thread}->url;
-  $c->response->redirect($c->chained_uri('Forum','view',$url)) if $url ne $id;
+  if ($url ne $id) {
+    $c->response->redirect($c->chained_uri('Forum','view',$url));
+    return $c->detach;
+  }
 
   $c->stash->{thread_comments} = $c->d->comments('DDGC::DB::Result::Thread', $c->stash->{thread}->id);
 

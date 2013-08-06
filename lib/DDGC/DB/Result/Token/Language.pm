@@ -90,12 +90,19 @@ column updated => {
 	set_on_update => 1,
 };
 
-belongs_to 'token', 'DDGC::DB::Result::Token', 'token_id';
-belongs_to 'token_domain_language', 'DDGC::DB::Result::Token::Domain::Language', 'token_domain_language_id';
+belongs_to 'token', 'DDGC::DB::Result::Token', 'token_id', {
+	on_delete => 'cascade',
+};
+
+belongs_to 'token_domain_language', 'DDGC::DB::Result::Token::Domain::Language', 'token_domain_language_id', {
+	on_delete => 'cascade',
+};
 
 belongs_to 'translator_user', 'DDGC::DB::Result::User', 'translator_users_id', { join_type => 'left' };
 
-has_many 'token_language_translations', 'DDGC::DB::Result::Token::Language::Translation', 'token_language_id';
+has_many 'token_language_translations', 'DDGC::DB::Result::Token::Language::Translation', 'token_language_id', {
+	cascade_delete => 1,
+};
 
 unique_constraint [qw/ token_id token_domain_language_id /];
 

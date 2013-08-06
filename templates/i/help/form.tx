@@ -22,6 +22,13 @@
   form_row_value => $_.sort,
 } :>
 <: include form::row {
+  form_row_id => 'help_' ~ ( $_.id || 0 ) ~ '_old_url',
+  form_row_label => 'Old Desk.com URL:',
+  form_row_left => 'third',
+  form_row_right => 'twothird',
+  form_row_value => $_.old_url,
+} :>
+<: include form::row {
   form_row_id => 'help_' ~ ( $_.id || 0 ) ~ '_content_title',
   form_row_label => 'Title (text only):',
   form_row_left => 'third',

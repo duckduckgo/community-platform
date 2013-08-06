@@ -41,7 +41,10 @@ unique_constraint(
 );
 
 belongs_to 'user', 'DDGC::DB::Result::User', 'users_id';
-belongs_to 'token_language_translation', 'DDGC::DB::Result::Token::Language::Translation', 'token_language_translation_id';
+
+belongs_to 'token_language_translation', 'DDGC::DB::Result::Token::Language::Translation', 'token_language_translation_id', {
+	on_delete => 'cascade',
+};
 
 after insert => sub {
 	my ( $self ) = @_;

@@ -2,6 +2,7 @@ package DDGC::Web::Controller::Root;
 # ABSTRACT: Main web controller class
 
 use Moose;
+use Path::Class;
 use namespace::autoclean;
 
 BEGIN { extends 'Catalyst::Controller' }
@@ -40,9 +41,23 @@ sub country_flag :Chained('base') :Args(2) {
 	my $country = $c->d->rs('Country')->find({ country_code => $country_code });
 	unless ($country) {
 		$c->response->status(404);
+		$c->response->body("Not found");
 		return $c->detach;
 	}
 	$c->serve_static_file($country->flag($size));
+}
+
+sub media :Chained('base') :Args {
+	my ( $self, $c, @args ) = @_;
+	my $filename = join("/",@args);
+	my $mediadir = $c->d->config->mediadir;
+	my $file = file($mediadir,$filename);
+	unless (-f $file) {
+		$c->response->status(404);
+		$c->response->body("Not found");
+		return $c->detach;
+	}
+	$c->serve_static_file($file);
 }
 
 sub index :Chained('base') :PathPart('') :Args(0) {

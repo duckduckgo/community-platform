@@ -39,6 +39,11 @@ column notes => {
 	is_nullable => 1,
 };
 
+column old_url => {
+	data_type => 'text',
+	is_nullable => 1,
+};
+
 column sort => {
   data_type => 'int',
   is_nullable => 0,

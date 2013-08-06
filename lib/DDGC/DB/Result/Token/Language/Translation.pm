@@ -123,10 +123,15 @@ column updated => {
 
 #belongs_to 'user', 'DDGC::DB::Result::User', 'users_id';
 belongs_to 'user', 'DDGC::DB::Result::User', { 'foreign.username' => 'self.username' };
-belongs_to 'token_language', 'DDGC::DB::Result::Token::Language', 'token_language_id';
 belongs_to 'check_user', 'DDGC::DB::Result::User', 'check_users_id', { join_type => 'left' };
 
-has_many 'token_language_translation_votes', 'DDGC::DB::Result::Token::Language::Translation::Vote', 'token_language_translation_id';
+belongs_to 'token_language', 'DDGC::DB::Result::Token::Language', 'token_language_id', {
+	on_delete => 'cascade',
+};
+
+has_many 'token_language_translation_votes', 'DDGC::DB::Result::Token::Language::Translation::Vote', 'token_language_translation_id', {
+	cascade_delete => 1,
+};
 sub votes { shift->token_language_translation_votes(@_) }
 
 before insert => sub {

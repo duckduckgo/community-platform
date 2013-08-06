@@ -780,7 +780,7 @@ sub token_domains {{
 					us => 'Yeah %s douche %s %s', [],
 				],
 				testthree => [
-					de => "Jawohl %s \n Der %s Herr %s", [],
+					de => "Jawohl %s Der %s Herr %s", [],
 					us => 'Yes dude %s %s %s', [],
 				],
 				testfive => [

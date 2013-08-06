@@ -73,8 +73,13 @@ column updated => {
 	set_on_update => 1,
 };
 
-has_many 'tokens', 'DDGC::DB::Result::Token', 'token_domain_id';
-has_many 'token_domain_languages', 'DDGC::DB::Result::Token::Domain::Language', 'token_domain_id';
+has_many 'tokens', 'DDGC::DB::Result::Token', 'token_domain_id', {
+	cascade_delete => 1,
+};
+
+has_many 'token_domain_languages', 'DDGC::DB::Result::Token::Domain::Language', 'token_domain_id', {
+	cascade_delete => 1,
+};
 
 belongs_to 'source_language', 'DDGC::DB::Result::Language', 'source_language_id';
 

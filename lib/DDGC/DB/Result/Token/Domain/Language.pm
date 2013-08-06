@@ -77,10 +77,17 @@ column updated => {
 	set_on_update => 1,
 };
 
-belongs_to 'token_domain', 'DDGC::DB::Result::Token::Domain', 'token_domain_id';
-belongs_to 'language', 'DDGC::DB::Result::Language', 'language_id';
+belongs_to 'token_domain', 'DDGC::DB::Result::Token::Domain', 'token_domain_id', {
+	on_delete => 'cascade',
+};
 
-has_many 'token_languages', 'DDGC::DB::Result::Token::Language', 'token_domain_language_id';
+belongs_to 'language', 'DDGC::DB::Result::Language', 'language_id', {
+	on_delete => 'cascade',
+};
+
+has_many 'token_languages', 'DDGC::DB::Result::Token::Language', 'token_domain_language_id', {
+	cascade_delete => 1,
+};
 
 sub insert {
 	my $self = shift;

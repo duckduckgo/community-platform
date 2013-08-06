@@ -101,18 +101,30 @@ sub BUILD {
 			$translation_count++ if $tl->gettext_snippet(0);
 		}
 		my $locale = $tcl->language->locale;
-		my $lname = $tcl->language->name_in_local;
-		my $ename = $tcl->language->name_in_english;
 		$localesstring .= "'".$locale."' => {\n";
 		$localesstring .= "\ttranslation_count => ".$translation_count.",\n";
 		$localesstring .= "\tpercent => ".floor( ($tokencount ? ($translation_count / $tokencount) : (0)) * 100 ).",\n";
 		$localesstring .= "\tlocale => '".$locale."',\n";
-		$localesstring .= "\tname_in_english => decode_base64('".encode_base64(encode("UTF-8", $ename))."'),\n";
-		$localesstring .= "\tname_in_local => decode_base64('".encode_base64(encode("UTF-8",$lname))."'),\n";
+		my $eb64ename = encode_base64(encode("UTF-8", $tcl->language->name_in_english)); chomp($eb64ename);
+		$localesstring .= "\tname_in_english => decode_base64('".$eb64ename."'),\n";
+		my $eb64lname = encode_base64(encode("UTF-8", $tcl->language->name_in_local)); chomp($eb64lname);
+		$localesstring .= "\tname_in_local => decode_base64('".$eb64lname."'),\n";
 		$localesstring .= "\tflag_url => '".$tcl->language->flag_url."',\n";
-		$localesstring .= "\tflagicon => '".$tcl->language->flagicon."',\n";
+		$localesstring .= "\tflagicon => '".$tcl->language->flagicon."',\n" if $tcl->language->flagicon;
 		$localesstring .= "\tnplurals => ".$tcl->language->nplurals.",\n";
 		$localesstring .= "\trtl => ".($tcl->language->rtl ? 1 : 0).",\n";
+		if ($tcl->language->country) {
+			$localesstring .= "\tcountry_flag_url => 'https://dukgo.com".$tcl->language->country->flag_url."',\n";
+			$localesstring .= "\tcountry_code => '".$tcl->language->country->country_code."',\n";
+			$localesstring .= "\tvirtual_country => '".($tcl->language->country->virtual ? 1 : 0)."',\n";
+			my $eb64cename = encode_base64(encode("UTF-8", $tcl->language->country->name_in_english)); chomp($eb64cename);
+			$localesstring .= "\tcountry_name_in_english => decode_base64('".$eb64cename."'),\n";
+  		my $eb64clname = encode_base64(encode("UTF-8", $tcl->language->country->name_in_local)); chomp($eb64clname);
+			$localesstring .= "\tcountry_name_in_local => decode_base64('".$eb64clname."'),\n";
+		}
+		if ($tcl->language->parent) {
+			$localesstring .= "\tparent_locale => '".$tcl->language->parent->locale."',\n";
+		}
 		$localesstring .= "},\n";
 	}
 	$localesstring .= "}\n";
