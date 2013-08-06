@@ -52,7 +52,13 @@ my $ddgc = DDGC->new({ config => $config });
 my $pr; 
 
 DDGCTest::Database->new($ddgc,0,sub {
-	$pr = String::ProgressBar->new( max => shift );
+	$pr = String::ProgressBar->new(
+    max => shift,
+    length => 60,
+    bar => '#',
+    show_rotation => 1,
+    print_return => 0,
+  );
 	$pr->write;
 },sub {
 	$pr->update(shift);

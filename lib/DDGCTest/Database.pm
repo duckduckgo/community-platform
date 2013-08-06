@@ -98,13 +98,15 @@ sub next_step {
 	my ( $self ) = @_;
 	return unless $self->has_progress;
 	my $step = $self->current_step + 1;
+	warn "Step no. ".$step." is higher as step_count ".$self->step_count
+		if $step > $self->step_count;
 	$self->progress->($step);
 	$self->current_step($step);
 }
 
 sub step_count {
 	my ( $self ) = @_;
-	my $base = 404;
+	my $base = 513;
 	return $base unless $self->test;
 }
 
@@ -139,6 +141,11 @@ sub countries {{
 		name_in_english => 'Brazil',
 		name_in_local => 'Brasil',
 		flag_source => 'http://upload.wikimedia.org/wikipedia/commons/0/05/Flag_of_Brazil.svg',
+	},
+	'pt' => {
+		name_in_english => 'Portugal',
+		name_in_local => 'República Portuguesa',
+		flag_source => 'http://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Flag_of_Portugal.svg/2000px-Flag_of_Portugal.svg.png',
 	},
 	'ru' => {
 		name_in_english => 'Russia',
@@ -202,6 +209,14 @@ sub languages {{
 		locale => 'pt_BR',
 		plural => '(n > 1)',
 		country => 'br',
+		parent_language => 'pt',
+	},
+	'pt' => {
+		name_in_english => 'Portuguese of Portugal',
+		name_in_local => 'Português de Portugal',
+		locale => 'pt_PT',
+		plural => 'n != 1',
+		country => 'pt',
 	},
 	'ru' => {
 		name_in_english => 'Russian of Russia',
@@ -261,9 +276,11 @@ sub add_languages {
 		$self->next_step;
 	}
 	my $language_rs = $self->db->resultset('Language');
+	my %parents;
 	for (sort keys %{$self->languages}) {
 		my %values = %{$self->languages->{$_}};
 		my $country = delete $values{country};
+		my $parent_language = delete $values{parent_language};
 		$values{country_id} = $self->c->{countries}->{$country}->id;
 		my $primary_language = defined $values{primary_language}
 			? delete $values{primary_language}
@@ -273,7 +290,15 @@ sub add_languages {
 			$self->c->{countries}->{$country}->primary_language_id($self->c->{languages}->{$_}->id);
 			$self->c->{countries}->{$country}->update;
 		}
+		if ($parent_language) {
+			$parents{$_} = $parent_language;
+		}
 		$self->isa_ok($self->c->{languages}->{$_},'DDGC::DB::Result::Language');
+		$self->next_step;
+	}
+	for (sort keys %parents) {
+		$self->c->{languages}->{$_}->parent($self->c->{languages}->{$parents{$_}});
+		$self->c->{languages}->{$_}->update;
 		$self->next_step;
 	}
 }
@@ -298,6 +323,7 @@ sub helps {{
 				teaser => "Sed elementum, diam at dapibus tincidunt, leo dui pretium leo, vel pretium tortor mi at diam.",
 				content => "In nisi lorem, <b>faucibus at dictum id</b>, feugiat quis diam. Vivamus velit lectus, facilisis vitae nisl at, laoreet mollis erat. Integer blandit, lectus id consequat laoreet, est ante dictum velit, ut imperdiet odio nunc vel est. Nam in laoreet risus, nec tincidunt mi. In hac habitasse platea dictumst. Vestibulum auctor viverra orci eget viverra. In vel dolor ut enim scelerisque varius. Aliquam erat volutpat. Aliquam malesuada gravida eros a ullamcorper.",
 				raw_html => 1,
+				related => ['community/wallpapers'],
 			},
 		},
 	},
@@ -312,6 +338,7 @@ sub helps {{
 				teaser => "Sed elementum, diam at dapibus tincidunt, leo dui pretium leo, vel pretium tortor mi at diam.",
 				content => "In nisi lorem, faucibus at dictum id, <b>feugiat quis diam</b>. Vivamus velit lectus, facilisis vitae nisl at, laoreet mollis erat. Integer blandit, lectus id consequat laoreet, est ante dictum velit, ut imperdiet odio nunc vel est. Nam in laoreet risus, nec tincidunt mi. In hac habitasse platea dictumst. Vestibulum auctor viverra orci eget viverra. In vel dolor ut enim scelerisque varius. Aliquam erat volutpat. Aliquam malesuada gravida eros a ullamcorper.",
 				raw_html => 1,
+				related => ['community/wallpapers'],
 			},
 			'xxxxx-blub' => {
 				sort => 20,
@@ -322,11 +349,19 @@ sub helps {{
 			},
 		},
 	},
-	'features' => {
+	'community' => {
 		sort => 30,
 		title => "Features",
 		description => "Vestibulum varius, nisl a faucibus varius, diam est sollicitudin dui, at dapibus felis elit consequat lorem.",
 		helps => {
+			'wallpapers' => {
+				sort => 5,
+				title => 'Wallpapers',
+				teaser => 'DuckDuckGo wallpapers for your enjoyment!',
+				content => 'Show your love for DuckDuckGo with these wallpapers for your desktop or mobile device. Each .zip file contains a wallpaper design at the desktop resolutions 800x600, 1024x768, 1280x1024, 1366x768, 1600x900, 1900x1200, and 2560x1600; as well as the mobile resolutions 240x320, 320x480, 480x320, 480x680, 480x800, 640x960, and 800x980. All wallpapers on this page are distributed under the <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/">CC BY-NC-SA license</a>.<br /><br /><a href="http://duckduckgo.com/assets/wallpaper/red.zip"><img alt="" src="/customer/portal/attachments/36476" style="width: 400px; height: 300px;" /></a><br /><br /><a href="http://duckduckgo.com/assets/wallpaper/red.zip">Download this wallpaper</a><br /><br /><a href="http://duckduckgo.com/assets/wallpaper/tall_white.zip"><img alt="" src="/customer/portal/attachments/36477" /></a><br /><br /><a href="http://duckduckgo.com/assets/wallpaper/tall_white.zip">Download this wallpaper</a><br /><br /><a href="http://duckduckgo.com/assets/wallpaper/tall_texture.zip"><img alt="" src="/customer/portal/attachments/36478" /></a><br /><br /><a href="http://duckduckgo.com/assets/wallpaper/tall_texture.zip">Download this wallpaper</a><br /><br /><a href="http://duckduckgo.com/assets/wallpaper/tall_texture2.zip"><img alt="" src="/customer/portal/attachments/36479" /></a><br /><br /><a href="http://duckduckgo.com/assets/wallpaper/tall_texture2.zip">Download this wallpaper</a><br /><br /><a href="http://duckduckgo.com/assets/wallpaper/wide_white.zip"><img alt="" src="/customer/portal/attachments/36480" /></a><br /><br /><a href="http://duckduckgo.com/assets/wallpaper/wide_white.zip">Download this wallpaper</a><br /><br /><a href="http://duckduckgo.com/assets/wallpaper/black.zip"><img alt="" src="/customer/portal/attachments/40789" style="width: 400px; height: 300px;" /><br /><br />Download this wallpaper</a>',
+				raw_html => 1,
+				notes => 'Test for auto media import',
+			},
 			'test-blabalbal' => {
 				sort => 10,
 				title => "Zxiam vitae eleifend vestibulum.",
@@ -384,10 +419,12 @@ sub add_helps {
 		my $ref_helps = delete $cat{'helps'};
 		my %helps = %{$ref_helps};
 		$self->c->{help_categories}->{$key} = $rs->create(\%cat);
+		$self->next_step;
 		$self->c->{help_categories}->{$key}->create_related('help_category_contents',{
 			language_id => $self->c->{languages}->{us}->id,
 			%cat_con,
 		});
+		$self->next_step;
 		for my $help_key (keys %helps) {
 			my %help_data = %{$helps{$help_key}};
 			$help_data{key} = $help_key;
@@ -403,6 +440,7 @@ sub add_helps {
 			my $help = $self->c->{help_categories}->{$key}->create_related('helps',{
 				%help_data
 			});
+			$self->next_step;
 			if (@relations) {
 				$rel{$help->id} = \@relations;
 			}
@@ -411,6 +449,7 @@ sub add_helps {
 				%help_con_data
 			});
 			$self->c->{help_categories}->{$key}->{$help_key} = $help;
+			$self->next_step;
 		}
 	}
 	for my $on_id (keys %rel) {
@@ -421,6 +460,7 @@ sub add_helps {
 				on_help_id => $on_id,
 				show_help_id => $show_id,
 			});
+			$self->next_step;
 		}
 	}
 }
@@ -517,10 +557,12 @@ sub add_users {
 		language_id => $self->c->{languages}->{'de'}->id,
 		grade => 5,
 	});
+	$self->next_step;
 	$testone->create_related('user_languages',{
 		language_id => $self->c->{languages}->{'us'}->id,
 		grade => 3,
 	});
+	$self->next_step;
 	$testone->data({
 		userpage => {
 			github => 'duckduckgo',
@@ -531,6 +573,7 @@ sub add_users {
 		email => 'testone@localhost',
 	});
 	$testone->update;
+	$self->next_step;
 	for (qw(
 		DDGC::DB::Result::Comment
 		DDGC::DB::Result::Token::Language::Translation
@@ -540,6 +583,7 @@ sub add_users {
 			context => $_,
 			cycle => 2,
 		});
+		$self->next_step;
 	}
 	$self->c->{users}->{testone} = $testone;
 	$self->next_step;
@@ -551,12 +595,14 @@ sub add_users {
 		my @notifications = defined $data->{notifications} ?
 			(@{delete $data->{notifications}}) : ();
 		my $user = $self->d->create_user($username,$pw);
+		$self->next_step;
 		$user->$_($data->{$_}) for (keys %{$data});
 		for (keys %{$languages}) {
 			$user->create_related('user_languages',{
 				language_id => $self->c->{languages}->{$_}->id,
 				grade => $languages->{$_},
 			});
+			$self->next_step;
 		}
 		$user->update;
 		$self->c->{users}->{$username} = $user;
@@ -567,8 +613,9 @@ sub add_users {
 				context_id => $_->[2],
 				sub_context => $_->[3],
 			});
+			$self->next_step;
 		}
-        $self->isa_ok($user,'DDGC::User');
+    $self->isa_ok($user,'DDGC::User');
 		$self->next_step;
 	}
 	for (sort keys %{$self->users}) {
