@@ -49,6 +49,11 @@ column updated => {
 	set_on_update => 1,
 };
 
+column sticky => {
+    data_type => 'bool',
+    default_value => 0,
+};
+
 belongs_to 'user', 'DDGC::DB::Result::User', 'users_id';
 
 has categories => (

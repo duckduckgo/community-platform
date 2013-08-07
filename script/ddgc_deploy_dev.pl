@@ -31,8 +31,9 @@ if (-d $config->rootdir_path) {
     if ($config->db_dsn =~ m/^dbi:Pg:/) {
       if ($config->db_dsn =~ m/database=([\w\d]+)/) {
         my $db = $1;
-        system("dropdb ".$db);
-        system("createdb ".$db);
+        my $userarg = length($config->db_user) ? "-U ".$config->db_user : "";
+        system("dropdb $userarg ".$db);
+        system("createdb $userarg ".$db);
       } else {
         die "Can't find out your db name from DSN";
       }
