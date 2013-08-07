@@ -57,6 +57,11 @@ column source_language_id => {
 	is_nullable => 0,
 };
 
+column sticky_notes => {
+	data_type => 'text',
+	is_nullable => 1,
+};
+
 column notes => {
 	data_type => 'text',
 	is_nullable => 1,

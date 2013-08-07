@@ -49,6 +49,11 @@ column country_id => {
 	is_nullable => 1,
 };
 
+column sticky_notes => {
+	data_type => 'text',
+	is_nullable => 1,
+};
+
 ############################ LEGACY
 column flagicon => {
 	data_type => 'text',
