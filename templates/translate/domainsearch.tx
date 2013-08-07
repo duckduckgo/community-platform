@@ -1,0 +1,41 @@
+<h1><: $token_domain.name :></h1>
+
+<form method="POST" action="<: $u('Translate','domainsearch',$token_domain.key) :>">
+  <div class="content-box translate-overview">  
+    <div class="head">
+      <h2>Search through tokens and translations:</h2>
+    </div>
+    <div class="body">
+      <div class="row">
+        <input type="text" name="search" value="<: $search :>" />
+        <input class="pull-right button" type="submit" name="submit_search" value="Search" />
+      </div>
+    </div> 
+  </div>
+</form>
+
+<: if $token_results.count { :>
+  <div class="content-box translate-overview content-box-toggleclick content-box-click">
+    <div class="head">
+      <h2>Found the following tokens: (click here to hide)</h2>
+    </div>
+    <div class="body">
+      <: for results($token_results) -> $token { :>
+        <: i($token,'search') :>
+      <: } :>
+    </div>
+  </div>
+<: } :>
+
+<: if $token_language_translation_results.count { :>
+  <div class="content-box translate-overview content-box-toggleclick content-box-click">
+    <div class="head">
+      <h2>Found the following translations: (click here to hide)</h2>
+    </div>
+    <div class="body">
+      <: for results($token_language_translation_results) -> $token_language_translation { :>
+        <: i($token_language_translation,'search') :>
+      <: } :>
+    </div>
+  </div>
+<: } :>

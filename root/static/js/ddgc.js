@@ -68,6 +68,8 @@ $(document).ready(function() {
 		});
 	});
 
+	$('.content-box-click').children('.body').toggle();
+
 	//
 	// account page
 	//

@@ -1,0 +1,37 @@
+<h1><: $token.token_domain.name :></h1>
+<div class="content-box translate-overview">  
+  <div class="head">
+    <h2>Token #<: $token.id :></h2>
+  </div>
+  <div class="body">
+    <div class="row">
+      <: include "i/msgctxtid.tx" { msgctxtid => $token } :>
+    </div>
+  </div> 
+</div>
+
+<: if $token_languages_can.size() { :>
+  <div class="content-box translate-overview">
+    <div class="head">
+      <h2>Translate this token into ...</h2>
+    </div>
+    <div class="body">
+      <: for $token_languages_can -> $token_language { :>
+        <: i($token_language, 'language_row') :>
+      <: } :>
+    </div> 
+  </div>
+<: } :>
+
+<: if $token_languages_not.size() { :>
+  <div class="content-box translate-overview">
+    <div class="head">
+      <h2>other languages ...</h2>
+    </div>
+    <div class="body">
+      <: for $token_languages_not -> $token_language { :>
+        <: i($token_language, 'language_row') :>
+      <: } :>
+    </div> 
+  </div>
+<: } :>

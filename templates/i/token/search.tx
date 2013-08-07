@@ -1,0 +1,4 @@
+<div class="row">
+  <: include "i/msgctxtid.tx" { msgctxtid => $token } :>
+  <a href="<: $u('Translate','token',$_.id) :>" class="button pull-right">Go to</a>
+</div>

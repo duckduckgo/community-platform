@@ -65,6 +65,42 @@ sub unvoted_all :Chained('logged_in') :Args(0) {
 	$c->wiz_start( 'UnvotedAll' );
 }
 
+sub token :Chained('logged_in') :Args(1) {
+	my ( $self, $c, $token_id ) = @_;
+	$c->stash->{token} = $c->d->rs('Token')->find({ id => $token_id });
+	unless ($c->stash->{token}) {
+		$c->response->redirect($c->chained_uri('Translate','index'));
+		return $c->detach;
+	}
+	$c->add_bc('Token #'.$c->stash->{token}->id);
+
+	$c->stash->{token_languages} = $c->stash->{token}->token_languages->search({},{
+		prefetch => [
+			{
+				token_domain_language => [ 'token_domain', 'language' ],
+			},
+			'token',
+		],
+	});
+
+	my @token_languages_can;
+	my @token_languages_not;
+
+	my @token_languages = $c->stash->{token_languages}->all;
+
+	for my $token_language (@token_languages) {
+		if ($c->user->can_speak($token_language->token_domain_language->language->locale)) {
+			push @token_languages_can, $token_language;
+		} else {
+			push @token_languages_not, $token_language;
+		}
+	}
+
+	$c->stash->{token_languages_can} = \@token_languages_can;
+	$c->stash->{token_languages_not} = \@token_languages_not;
+
+}
+
 sub tokenlanguage :Chained('logged_in') :Args(1) {
 	my ( $self, $c, $token_language_id ) = @_;
 	$self->save_translate_params($c) if ($c->req->params->{save_translation});
@@ -139,7 +175,7 @@ sub domain :Chained('logged_in') :PathPart('') :CaptureArgs(1) {
 	return $c->go($c->controller('Root'),'default') unless $c->stash->{token_domain};
 	$c->stash->{locales} = {};
 	my $token_domain_language_rs = $c->stash->{token_domain}->token_domain_languages->search({});
-	$c->stash->{token_domain_languages} = [$token_domain_language_rs->search({},{
+	$c->stash->{token_domain_languages_rs} = $token_domain_language_rs->search({},{
 		'+columns' => {
 			token_languages_undone_count => $c->d->rs('Token::Language')->search({
 				'token_language_translations.id' => undef,
@@ -155,7 +191,8 @@ sub domain :Chained('logged_in') :PathPart('') :CaptureArgs(1) {
 		},
 		order_by => { -asc => 'language.locale' },
 		prefetch => [ 'language' ],
-	})->all];
+	});
+	$c->stash->{token_domain_languages} = [$c->stash->{token_domain_languages_rs}->all];
 	for (@{$c->stash->{token_domain_languages}}) {
 		my $locale = $_->language->locale;
 		$c->stash->{locale} = $locale if !$c->stash->{locale} && $c->user->can_speak($locale);
@@ -169,6 +206,23 @@ sub domain :Chained('logged_in') :PathPart('') :CaptureArgs(1) {
 	$c->stash->{locale} = $c->stash->{last_locale} if !$c->stash->{locale};
 
 	$c->add_bc($c->stash->{token_domain}->name, $c->chained_uri('Translate','domainindex',$c->stash->{token_domain}->key));
+}
+
+sub domainsearch :Chained('domain') :PathPart('search') :Args(0) {
+	my ( $self, $c ) = @_;
+	$c->add_bc('Search');
+	$c->stash->{search} = $c->req->param('search');
+	if ($c->req->param('submit_search')) {
+		$c->stash->{token_results} = $c->stash->{token_domain}->tokens->search([
+			msgid => { -like => '%'.$c->stash->{search}.'%' },
+			msgid_plural => { -like => '%'.$c->stash->{search}.'%' },
+		]);
+		$c->stash->{token_language_translation_results} = $c->d->rs('Token::Language::Translation')->search([
+			map {
+				'msgstr'.$_ => { -like => '%'.$c->stash->{search}.'%' },
+			} (0..5)
+		]),
+	}
 }
 
 sub domainindex :Chained('domain') :PathPart('') :Args(0) {
