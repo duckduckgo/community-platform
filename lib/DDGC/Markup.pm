@@ -84,7 +84,13 @@ sub quote_parse {
 #
 sub html {
 	my ( $self, @code_parts ) = @_;
-	return $self->bbcode->render(join(' ',@code_parts));
+	my $markup = join ' ', @code_parts;
+        my $html = $self->bbcode->render($markup);
+
+        # Let's try to handle @mentions!
+        $html =~ s#(^|\W)\@([\w-]+?)\b#'uh, do some notification thing here?';"$1<a href='/$2'>\@$2</a>"#ge;
+
+        return $html;
 }
 
 no Moose;
