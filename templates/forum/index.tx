@@ -27,6 +27,26 @@
                 <h5>Sidebar</h5>
                 <p>This thing is a sidebar</p>
             </section>
+            <section class="clear tab-mid">
+                <form class="one-field" onsubmit="alert('search doesn\'t exist! :D')">
+                    <input type="text" class="text" name="q" placeholder="Search"></input>
+                    <button class="button" type="submit">GO</button>
+                </form>
+            </section>
+            <section class="clear tab-mid">
+                <h5>Check here first!</h5>
+                <a class="blue button" href="<: $u('Help','index',$help_language.locale) :>">Help Pages</a>
+            </section>
+            <section class="menu-list tab-third">
+                <h5>Sticky threads</h5>
+                <ul>
+                    <: for results($sticky_threads) -> $thread { :>
+                        <li><a href="<: $u('Forum','view',$thread.url) :>"><: $thread.title :></a></li>
+                    <: } else { :>
+                        Nothing here yet!
+                    <: } :>
+                </ul>
+            </section>
         </div>
     </aside>
     <br/>

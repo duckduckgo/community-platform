@@ -18,6 +18,8 @@ sub index : Chained('base') PathPart('') Args(0) {
   $c->bc_index;
 
   my $rs = $c->d->forum->get_threads;
+  $c->stash->{threads} = $rs;
+  $c->stash->{sticky_threads} = $rs->search({sticky=>1});
   $c->stash->{thread_table} = $c->table($rs,['Forum','index'],[], default_pagesize => 20);
 
   # TODO: Move this to the template

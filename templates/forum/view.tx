@@ -1,5 +1,15 @@
-<h2><: $thread.title :></h2>
-<span class="post-meta">
-    Created <: $dur($thread_comments.list.0.created) :> by <: include "user/userinfo.tx" {user => $thread.user} :>- <: $thread_comments.count - 1 :> Replies
-</span>
-<: include "comment/comments.tx" {comments => $thread_comments} :>
+<div class="twothirds">
+    <h2 class="r-iblock"><: $thread.title :></h2>
+    <div class="post-meta pull-right palm-killfloat">
+        Created <: $dur($thread_comments.list.0.created) :> by <: include "user/userinfo.tx" {user => $thread.user} :>- <: $thread_comments.count - 1 :> Replies
+    </div>
+    <: include "comment/comments.tx" {comments => $thread_comments} :>
+</div>
+<aside class="right sidebar">
+    <div class="sidebar-contents group">
+        <section class="menu-list tab-third">
+            <h5>Sidebar</h5>
+            <p>This thing is a sidebar</p>
+        </section>
+    </div>
+</aside>
