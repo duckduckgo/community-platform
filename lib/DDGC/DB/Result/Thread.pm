@@ -65,13 +65,10 @@ has categories => (
 
 
 sub _build_categories {
-        {  
-          1 => "discussion",
-          2 => "idea",
-          3 => "problem",
-          4 => "question",
-          5 => "announcement",
-        }  
+    {  
+      1 => "dev",
+      2 => "discussion",
+    }  
 }
 
 sub _category {
@@ -79,34 +76,22 @@ sub _category {
     $self->categories->{$category};
 }
 
-sub started_term {
-    my %started = (
-        1 => "started",
-        2 => "proposed",
-        3 => "reported",
-        4 => "asked",
-        5 => "announced",
-    );
-    $started{shift->category_id};
-}
-
 sub _statuses {
     # 1 is the default status
-    my %catstats = (
-        idea => {
-            2 => "declined",
-            3 => "in progress",
+    {
+        dev => {
+            2 => "needs developer",
+            3 => "needs more information",
+            4 => "in development",
+            5 => "under review",
+            6 => "invalid", # not an instant answer ...?
+            7 => "improvement idea",
         },
-        problem => {
+        discussion => {
             2 => "need more information",
-            3 => "not a problem",
-            4 => "solved",
+            3 => "resolved",
         },
-        question => {
-            2 => "answered",
-        },
-    );
-    \%catstats;
+    }
 }
 
 sub statuses {
@@ -115,7 +100,7 @@ sub statuses {
     my $statuses = $self->_statuses;
     my $cat_stat = $$statuses{$category} or return {};
     return values %{$cat_stat} unless $_[0];
-    return %{$cat_stat};
+    return $cat_stat;
 }
 
 sub is_closed {

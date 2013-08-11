@@ -2,6 +2,7 @@ package DDGC::Markup;
 # ABSTRACT: DDGC BBCode parser using Parse::BBCode
 
 use Moose;
+use warnings; use strict;
 use Text::VimColor;
 use Parse::BBCode;
 
@@ -88,7 +89,12 @@ sub html {
         my $html = $self->bbcode->render($markup);
 
         # Let's try to handle @mentions!
-        $html =~ s#(^|\W)\@([\w-]+?)\b#'uh, do some notification thing here?';"$1<a href='/$2'>\@$2</a>"#ge;
+        my @captures;
+        $html =~ s#(?<!\w)\@(-|\w+)#push @captures, $1;"<a href='/$1'>\@$1</a>"#ge;
+        
+        for (@captures) {
+            "...";
+        }
 
         return $html;
 }
