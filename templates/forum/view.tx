@@ -1,8 +1,10 @@
-<div class="twothirds">
-    <h2 class="r-iblock"><: $thread.title :></h2>
-    <div class="post-meta pull-right palm-killfloat">
-        Created <: $dur($thread_comments.list.0.created) :> by <: include "user/userinfo.tx" {user => $thread.user} :>- <: $thread_comments.count - 1 :> Replies
-    </div>
+<div class="twothirds  forum-body  content">
+	<div class="forum-title">
+		<h2 class="r-iblock"><: $thread.title :></h2>
+		<div class="post-meta pull-right palm-killfloat">
+			Created <: $dur($thread_comments.list.0.created) :> by <: include "user/userinfo.tx" {user => $thread.user} :>- <: $thread_comments.count - 1 :> Replies
+		</div>
+	</div>
     <: if $c.user.admin { :>
         <div class="notice warning" id="status" name="status">
             <form action="./status" method="GET">

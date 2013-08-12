@@ -1,5 +1,5 @@
-<div class="content-box">
-    <div class="twothirds">
+<div class="twothirds">
+	<div class="content-box">    
         <div class="head">
             <form action="" method="GET" class="r-iblock">
                 <select name="c"> <!-- This looks pretty stupid. -->
@@ -31,8 +31,8 @@
                 </div>
             <: } :>
         </div>
-        <br/>
-    </div>
+	</div>
+</div>
     <: include "forum/sidebar.tx" :>
     <br/>
     <div style="clear:both"><: i($thread_table,'pager') :></div>
