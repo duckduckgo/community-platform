@@ -1,0 +1,5 @@
+<: if $c.user && $c.user.data && $c.user.data.email { :>
+  <: $option.description :>: <b><: $c.user.data.email :></b><input type="hidden" name="<: $option.name :>" value="<: $c.user.data.email :>" />
+<: } else { :> 
+  <: include "feedback/option/text.tx" { option => $option, index => $index } :>
+<: } :>
