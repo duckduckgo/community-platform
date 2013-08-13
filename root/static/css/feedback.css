@@ -214,10 +214,9 @@ you can use the generic selector below, but it's slower:
 	
 .fb-step--active {
 	color: #7e7e7e;
-	background-color: #fff;
+	background-color: #fefefe;	
 }
-	.fb-step--active:hover {
-		background-color: #fefefe;		
+	.fb-step--active:hover {		
 		-webkit-box-shadow: inset 1px 1px 0px 0px #ffffff, 0px 0px 5px 0px rgba(0,0,0,0.3);
         box-shadow: inset 1px 1px 0px 0px #ffffff, 0px 0px 5px 0px rgba(0,0,0,0.3);
 	}
@@ -230,7 +229,8 @@ you can use the generic selector below, but it's slower:
 		position: absolute;
 		top: 0;
 		bottom: 0;	
-		
+		z-index: 3;
+		pointer-events: none;
 	}		
 		.fb-step__icon { 
 			right: auto;
@@ -269,11 +269,13 @@ you can use the generic selector below, but it's slower:
 		border: none;
 		background: none;
 	}
-	.fb-step__body--btn {
+	.fb-step__body--btn {		
 		font-size: 17px;
 		color: inherit;
 		padding-top: 17px;
 		padding-bottom: 17px;
-		white-space: normal;
+		white-space: normal;		
 	}
+		.fb-step--active .fb-step__body--btn{ background-color: #fff; }
+		.fb-step--active .fb-step__body--btn:hover { background-color: transparent; }
 	

@@ -8,7 +8,7 @@
   <: } :>
   <: if $step.has_options { :>
     <: for $step.options -> $option { :>
-      <div class="fb-step  fb-step--active">
+      <div class="fb-step  fb-step--active  js-fb-step">
 	    <i class="fb-step__icon  ddgi-user"></i>
         <: my $template = "feedback/option/" ~ $option.type ~ ".tx" :>
         <: include $template { option => $option, index => $~option.index } :>		

@@ -1,5 +1,10 @@
 <div class="fb-step__body">
 	<label for="<: $option.name :>" class=""><: $option.description :>:</label> 
-	<textarea name="<: $option.name :>" class="text" <: if $option.has_placeholder { :> placeholder="<: $option.placeholder :>"<: } :>></textarea>	
+	<div class="js-fb-step__toggle">		
+		<textarea name="<: $option.name :>" class="text  js-fb-step__input" <: if $option.has_placeholder { :> placeholder="<: $option.placeholder :>"<: } :>></textarea>	
+	</div>
+	<div class="hide  js-fb-step__toggle">
+		<i class="js-fb-step__output"></i>
+	</div>
 </div>
-<i class="fb-step__arrow  ddgi-arrow-left"></i>
+<i class="fb-step__arrow  ddgi-arrow-left js-fb-step__arrow"></i>
