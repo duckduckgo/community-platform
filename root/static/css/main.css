@@ -938,6 +938,37 @@ table th[class*="span"],
 		
 	.site-footer p { margin-bottom: 0; padding-left: 25px; }
 	.footer-nav a { display: inline-block; padding-right: 16px; }
+
+/* 
+	Fun fun Rotation!
+*/
+
+.rotate {	
+  -webkit-transform: rotate(90deg); 
+     -moz-transform: rotate(90deg); 
+      -ms-transform: rotate(90deg); 
+       -o-transform: rotate(90deg); 
+          transform: rotate(90deg); 
+filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=1);		  
+}
+
+.rotate--ccw {
+  -webkit-transform: rotate(-90deg); 
+     -moz-transform: rotate(-90deg); 
+      -ms-transform: rotate(-90deg); 
+       -o-transform: rotate(-90deg); 
+          transform: rotate(-90deg);
+filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+}
+
+.rotate--180 {
+  -webkit-transform: rotate(180deg); 
+     -moz-transform: rotate(180deg); 
+      -ms-transform: rotate(180deg); 
+       -o-transform: rotate(180deg); 
+          transform: rotate(180deg); 
+filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=2);
+}
 	
 /* 
 	Media Queries
