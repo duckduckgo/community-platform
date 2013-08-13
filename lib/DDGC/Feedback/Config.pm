@@ -65,15 +65,15 @@ sub bug_desktop_addon {[
 sub include_bug {
   { name => 'bug', description => "The bug is", type => "textarea", },
   { name => 'bug_email', description => "Your email", type => "email", },
-  { name => 'bug_steps', description => "The steps to reproduce the bug are", type => "textarea", optional => 1, },
-  { name => 'bug_other', description => $_[0] || "Other helpful info", type => "textarea", optional => 1, },
+  { name => 'bug_steps', description => "You can reproduce it by", type => "textarea", optional => 1, placeholder => "Step-by-step instructions please"},
+  { name => 'bug_other', description => $_[0] || "Other helpful info", type => "textarea", optional => 1, placeholder => 'e.g. only happens when the moon is waxing and you have underwear on your head.', },
   "Submit bugreport",
 }
 
 #-----------------------------------------------------------------
 
 sub include_bug_app {
-  { name => 'bug_app', description => "The app with the bug is called", type => "text", },
+  { name => 'bug_app', description => "The app with the bug is called", type => "text", placeholder => "e.g. Upset Ducks"},
 }
 
 sub bug_mobile_thirdparty_android {[

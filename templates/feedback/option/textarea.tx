@@ -1,1 +1,5 @@
-<: $option.description :>: <textarea name="<: $option.name :>"></textarea>
+<div class="fb-step__body">
+	<label for="<: $option.name :>" class=""><: $option.description :>:</label> 
+	<textarea name="<: $option.name :>" class="text" <: if $option.has_placeholder { :> placeholder="<: $option.placeholder :>"<: } :>></textarea>	
+</div>
+<i class="fb-step__arrow  ddgi-arrow-left"></i>

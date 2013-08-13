@@ -1,1 +1,5 @@
-<: $option.description :>: <input type="text" name="<: $option.name :>" value=""<: if $option.has_placeholder { :> placeholder="<: $option.placeholder :>"<: } :>/>
+<div class="fb-step__body">
+	<label for="<: $option.name :>" class=""><: $option.description :>:</label> 
+	<input type="text" class="text" name="<: $option.name :>" value=""<: if $option.has_placeholder { :> placeholder="<: $option.placeholder :>"<: } :>/>
+	<i class="fb-step__arrow  ddgi-arrow-left"></i>
+</div>

@@ -113,6 +113,16 @@ Login/Signup Forms
 			.account-form form .captcha-validate .input-wrap { margin: 0 auto; width: 101%;}
 	
 	.account-form .placeholder { color: #bbb; padding-top: 5px;}
+
+/*--------------------------------------------------
+Feedback Form Elements
+-------------------------------------------------- */
+.fb-step input[type="password"], .fb-step input[type="email"], .fb-step input[type="text"], .fb-step textarea { 
+	padding-top: 6px;
+	padding-bottom: 6px;
+	-webkit-border-radius: 2px;
+	border-radius: 2px;
+}
 	
 /*--------------------------------------------------
 Static Forms
