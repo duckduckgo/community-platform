@@ -211,6 +211,7 @@ you can use the generic selector below, but it's slower:
 	-webkit-border-radius: 2px;
 	border-radius: 2px;
 }
+	.fb-step:active { top: 1px; }
 	
 .fb-step--active {
 	color: #7e7e7e;
@@ -278,4 +279,6 @@ you can use the generic selector below, but it's slower:
 	}
 		.fb-step--active .fb-step__body--btn{ background-color: #fff; }
 		.fb-step--active .fb-step__body--btn:hover { background-color: transparent; }
+	
+	.fb-step__body b { font-size: 17px;}
 	

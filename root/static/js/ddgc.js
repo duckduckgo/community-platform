@@ -71,6 +71,34 @@ $(document).ready(function() {
 	$('.content-box-click').children('.body').toggle();
 
 	//
+	// Feedback page
+	//
+	$('.js-fb-step--decativate').parent().removeClass('fb-step--active');
+	
+	// input binding
+	$('.js-fb-step').click(function () {
+		$(this).children('.js-fb-step__input').focus();
+	});
+	$('.js-fb-step__input').change(function () {
+		var str = "";
+		str = $(this).val();		
+		$(this).parents('.js-fb-step').find('.js-fb-step__output').html(str);
+	});
+	$('.js-fb-step__input').blur(function() {	
+		if ($(this).val() != '') {
+			$(this).parents('.js-fb-step').removeClass('fb-step--active');
+			$(this).parents('.js-fb-step').find('.js-fb-step__toggle').toggleClass('hide');
+			$(this).parents('.js-fb-step').find('.js-fb-step__arrow').toggleClass('ddgi-arrow-left').toggleClass('ddgi-arrow-up');
+		}
+	});
+	$('.js-fb-step__toggle--click').click(function() {
+		$(this).parents('.js-fb-step').addClass('fb-step--active');
+		$(this).parents('.js-fb-step').find('.js-fb-step__toggle').toggleClass('hide');
+		$(this).parents('.js-fb-step').find('.js-fb-step__input').focus();
+		$(this).parents('.js-fb-step').find('.js-fb-step__arrow').toggleClass('ddgi-arrow-left').toggleClass('ddgi-arrow-up');
+	});
+	
+	//
 	// account page
 	//
 
