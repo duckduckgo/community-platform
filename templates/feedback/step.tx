@@ -1,0 +1,20 @@
+<form method="POST" action="<: $u('Feedback','step',$feedback_name,$steps_arg) :>">
+  <: if $step_count > 0 { :>
+    <div>
+      <input type="submit" name="step_back" value="Back to previous step" />
+    </div>
+  <: } :>
+  <: if $step.has_options { :>
+    <: for $step.options -> $option { :>
+      <div>
+        <: my $template = "feedback/option/" ~ $option.type ~ ".tx" :>
+        <: include $template { option => $option, index => $~option.index } :>
+      </div>
+    <: } :>
+  <: } :>
+  <: if $step.has_end { :>
+    <div>
+      <: r($step.end) :>
+    </div>  
+  <: } :>
+</form>

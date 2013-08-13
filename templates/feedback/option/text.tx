@@ -1,0 +1,1 @@
+<: $option.description :>: <input type="text" name="<: $option.name :>" value=""<: if $option.has_placeholder { :> placeholder="<: $option.placeholder :>"<: } :>/>
