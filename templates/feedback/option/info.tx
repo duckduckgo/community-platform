@@ -1,0 +1,6 @@
+<div class="fb-step__body">
+  <div class="js-fb-step__toggle">
+    <: $option.description :>
+  </div>
+  <i class="fb-step__arrow  ddgi-arrow-left  js-fb-step__arrow"></i>
+</div>

@@ -3,6 +3,7 @@ use Moose;
 use DDGC::Feedback::Step;
 
 use DDGC::Feedback::Config::Bug;
+use DDGC::Feedback::Config::Relevancy;
 
 use namespace::autoclean;
 
@@ -27,6 +28,9 @@ sub feedback :Chained('base') :PathPart('') :CaptureArgs(1) {
   if ($feedback eq 'bug') {
     $c->stash->{feedback_config} = DDGC::Feedback::Config::Bug->feedback;
     $c->stash->{feedback_title} = DDGC::Feedback::Config::Bug->feedback_title;
+  } elsif ($feedback eq 'relevancy') {
+    $c->stash->{feedback_config} = DDGC::Feedback::Config::Relevancy->feedback;
+    $c->stash->{feedback_title} = DDGC::Feedback::Config::Relevancy->feedback_title;
   } else {
     $c->response->redirect('https://duckduckgo.com/feedback');
     return $c->detach;
