@@ -28,8 +28,21 @@ has placeholder => (
   predicate => 'has_placeholder',
 );
 
+has icon => (
+  is => 'ro',
+  isa => 'Str',
+  default => sub { 'arrow-right' },
+);
+
 has optional => (
   is => 'ro',
+  isa => 'Bool',
+  default => sub { 0 },
+);
+sub required { !shift->optional }
+
+has missing => (
+  is => 'rw',
   isa => 'Bool',
   default => sub { 0 },
 );
@@ -46,6 +59,8 @@ sub new_from_config {
   my $ref = ref $config_value;
   if ($ref eq 'HASH') {
     $values = $config_value;
+    $values->{icon} = 'user' unless defined $values->{icon} ||
+      ( defined $values->{type} && $values->{type} eq 'next' );
   } elsif (!$ref) {
     $values = { description => $config_value };
   } else {

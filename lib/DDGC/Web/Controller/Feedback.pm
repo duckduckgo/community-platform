@@ -1,7 +1,9 @@
 package DDGC::Web::Controller::Feedback;
 use Moose;
 use DDGC::Feedback::Step;
-use DDGC::Feedback::Config;
+
+use DDGC::Feedback::Config::Bug;
+
 use namespace::autoclean;
 
 BEGIN {extends 'Catalyst::Controller'; }
@@ -22,12 +24,14 @@ sub index_redirect :Chained('base') :PathPart('') :Args(0) {
 sub feedback :Chained('base') :PathPart('') :CaptureArgs(1) {
   my ( $self, $c, $feedback ) = @_;
   $c->stash->{feedback_name} = $feedback;
-  unless (DDGC::Feedback::Config->can($feedback)) {
+  if ($feedback eq 'bug') {
+    $c->stash->{feedback_config} = DDGC::Feedback::Config::Bug->feedback;
+    $c->stash->{feedback_title} = DDGC::Feedback::Config::Bug->feedback_title;
+  } else {
     $c->response->redirect('https://duckduckgo.com/feedback');
     return $c->detach;
   }
-  my $feedback_config = DDGC::Feedback::Config->$feedback;
-  $c->stash->{feedback} = DDGC::Feedback::Step->new_from_config(@{$feedback_config});
+  $c->stash->{feedback} = DDGC::Feedback::Step->new_from_config(@{$c->stash->{feedback_config}});
 }
 
 sub feedback_redirect :Chained('feedback') :PathPart('') :Args(0) {
@@ -46,17 +50,10 @@ sub step :Chained('feedback') :PathPart('') :Args(1) {
   }
   my $session_key = $c->stash->{feedback_name}.'/'.join('-',@steps);
   my $submit;
+  my $next_step_index;
   for (keys %{$c->req->params}) {
     if ($_ =~ m/^option_(\d+)$/) {
-      my $next_step_index = $1;
-      $previous_step = $current_step;
-      my $next_option = $current_step->options->[$next_step_index];
-      if ($next_option->type eq 'submit') {
-        $submit = 1;
-      } else {
-        $current_step = $next_option->target;
-        push @steps, $next_step_index;
-      }
+      $next_step_index = $1;
     } elsif ($_ =~ m/^step_back$/) {
       $current_step = $previous_step;
       pop @steps;
@@ -66,6 +63,25 @@ sub step :Chained('feedback') :PathPart('') :Args(1) {
       $c->session->{feedback}->{$session_key}->{$_} = $c->req->param($_);
     }
   }
+  if (defined $next_step_index) {
+    my $missing;
+    for (@{$current_step->options}) {
+      next unless $_->type eq 'text' || $_->type eq 'textarea';
+      if ($_->required && !$c->req->param($_)) {
+        $_->missing(1); $missing = 1;
+      }
+    }
+    unless ($missing) {
+      $previous_step = $current_step;
+      my $next_option = $current_step->options->[$next_step_index];
+      if ($next_option->type eq 'submit') {
+        $submit = 1;
+      } else {
+        $current_step = $next_option->target;
+        push @steps, $next_step_index;
+      }
+    }
+  }
   $c->stash->{step_count} = scalar @steps;
   $c->stash->{steps_arg} = '-'.join('-',@steps);
   $c->stash->{steps} = \@steps;
@@ -73,7 +89,6 @@ sub step :Chained('feedback') :PathPart('') :Args(1) {
   if ($submit) {
     my %data;
     my $data_step = $c->stash->{feedback};
-
     my @data_steps;
     my $i = 1;
     for (@steps) {

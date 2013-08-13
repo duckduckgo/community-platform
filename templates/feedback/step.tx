@@ -1,3 +1,4 @@
+<h1><: $feedback_title :></h1>
 <form method="POST" class="feedback-wrap" action="<: $u('Feedback','step',$feedback_name,$steps_arg) :>">
   <: if $step_count > 0 { :>
     <div class="fb-step">
@@ -9,9 +10,10 @@
   <: if $step.has_options { :>
     <: for $step.options -> $option { :>
       <div class="fb-step  fb-step--active  js-fb-step">
-	    <i class="fb-step__icon  ddgi-user"></i>
+	    <i class="fb-step__icon  ddgi-<: $option.icon :>"></i>
         <: my $template = "feedback/option/" ~ $option.type ~ ".tx" :>
         <: include $template { option => $option, index => $~option.index } :>		
+        <: if $option.missing { :><: } :>
       </div>
     <: } :>
   <: } :>
@@ -28,3 +30,6 @@
 	  </div>
   <: } :>
 </form>
+<div class="notice">
+  <b>Note:</b> Submitting feedback from this form will send anonymous information about your web browser, like version and language information. To see this, click here: <a href="https://duckduckgo.com/?q=user+agent">https://duckduckgo.com/?q=user+agent</a>
+</div>

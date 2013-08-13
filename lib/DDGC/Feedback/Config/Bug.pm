@@ -1,9 +1,11 @@
-package DDGC::Feedback::Config;
+package DDGC::Feedback::Config::Bug;
 
 use strict;
 use warnings;
 
-sub bug {[
+sub feedback_title { 'I need to report a bug!' }
+
+sub feedback {[
   "It's a bug on mobile (e.g. phone, tablet, media device)",
       bug_mobile(),
   "It's a bug on Desktop (good ole' fashion computers)",
