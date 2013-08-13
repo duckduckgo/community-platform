@@ -17,13 +17,13 @@ sub index : Chained('base') PathPart('') Args(0) {
   my ( $self, $c ) = @_;
   $c->bc_index;
 
-  my $rs = $c->d->forum->get_threads;
-  $c->stash->{thread_table} = $c->table($rs,['Forum','index'],[], default_pagesize => 20);
+  # category to display
+  $c->stash->{category} = $c->req->params->{c} // 'discussion';
 
-  # TODO: Move this to the template
-  #unless ($c->stash->{threads}->count && $pagenum == 1) {
-  #    $c->stash->{error} = "Cannot display page";
-  #}
+  my $rs = $c->d->forum->get_threads;
+  $c->stash->{threads} = $rs;
+  $c->stash->{sticky_threads} = $rs->search({sticky=>1});
+  $c->stash->{thread_table} = $c->table($rs,['Forum','index'],[], default_pagesize => 20);
 }
 
 # /forum/search/

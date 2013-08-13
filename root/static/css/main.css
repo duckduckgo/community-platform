@@ -2,7 +2,7 @@
 body, select, input, textarea, button { font-size: 0.9em; }
 body { color: #444; background: #fff; }
 	body.texture, body.texture-nohighlight, body.texture-ducksymbol { background: #fefefe url('../img/bg-body-texture.jpg'); }
-body, select, input, textarea, button, .sans, .account-form h2, .account-form h4, .site-header h2, .site-header h3, .notice h2, .notice h3, .notice h4, .callout-box h2, .content-box h2, .content-box h3, .content-box h4, .content-box h5, .callout-row h3, .duckpan h1, .duckpan h2, .blog-content  h2, .blog-content h3, .blog-content h4, .blog-content h5, .sidebar h5, h5.comment_add_title  { 
+body, h2, h3, h4, h5, h6, select, input, textarea, button, .sans  { 
 	font-family: "Helvetica Neue","HelveticaNeueLT Std","Segoe UI","Nimbus Sans L","Liberation Sans","Open Sans",FreeSans,Helvetica,Arial,sans-serif; 
 }
 .topmsg { font-family: 'Arial Black', sans-serif;}
@@ -57,7 +57,7 @@ a, .fakelink { color: #3363b3; text-decoration: none; }
 
 #wrapper { width: 100%; overflow: hidden; position: relative; }
 
-h1, h2, h3, h4, h5, h6, .headfont { 
+h1, .headfont { 
 	font-family: "Proxima Nova",ProximaNova,nevis,'nevis',Segoe,Segoe UI,Frutiger,"Frutiger Linotype","Myriad Pro",Myriad,Univers,Tahoma,"Gill Sans","Gill Sans MT","DejaVu Sans Condensed","Liberation Sans","Nimbus Sans L",Geneva,"Helvetica Neue",Helvetica,Arial,sans-serif;	
 }
 
@@ -918,7 +918,7 @@ table th[class*="span"],
 	overflow: hidden;
 }
 	.site-bottom .nav-col { padding-left: 25px; }
-		.site-bottom h4 { margin: 0 0 16px; color: #565656; font-size: 1em; }
+		.site-bottom h4 { margin: 0 0 16px; color: #565656; font-size: 1em; font-weight: bold; }
 		.site-bottom ul { list-style: none; padding: 0; margin: 0; font-size: 0.95em; }
 		.site-bottom li { list-style: none; margin: 0 0 6px; padding: 0; line-height: 1; }
 		.site-bottom a { color: #3363b3; text-decoration: none; }

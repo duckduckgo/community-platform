@@ -1,5 +1,30 @@
-<h2><: $thread.title :></h2>
-<span class="post-meta">
-    Created <: $dur($thread_comments.list.0.created) :> by <: include "user/userinfo.tx" {user => $thread.user} :>- <: $thread_comments.count - 1 :> Replies
-</span>
-<: include "comment/comments.tx" {comments => $thread_comments} :>
+<div class="twothirds  forum-body  content">
+	<div class="forum-title">
+		<h2 class="r-iblock"><: $thread.title :></h2>
+		<div class="post-meta pull-right palm-killfloat">
+			Created <: $dur($thread_comments.list.0.created) :> by <: include "user/userinfo.tx" {user => $thread.user} :>- <: $thread_comments.count - 1 :> Replies
+		</div>
+	</div>
+    <: if $c.user.admin { :>
+        <div class="notice warning" id="status" name="status">
+            <form action="./status" method="GET">
+                <label for="category">Category:</label>
+                <select name="category" id="category" class="r-iline">
+                    <: for $thread.categories.kv() -> $category { :>
+                        <option value="<: $category.key :>" <: if $thread.category_id == $category.key { 'selected' } :>><: $category.value :></option>
+                    <: } :>
+                </select>
+                <label for="status">&nbsp;&ndash;&nbsp; Status:</label>
+                <select name="status" id="status" class="r-iline">
+                    <option value="0" <: if $thread.status_key == 'closed' { 'selected' } :>>closed</option>
+                    <option value="1" <: if $thread.status_key == 'open' { 'selected' } :>>open</option>
+                    <: for $thread.statuses(1).kv() -> $status { :>
+                        <option value="<: $status.key :>" <: if $thread.status_key == $status.value { 'selected' } :>><: $status.value :></option>
+                    <: } :>
+                </select>
+            </form>
+        </div>
+    <: } :>
+    <: include "comment/comments.tx" {comments => $thread_comments} :>
+</div>
+<: include "forum/sidebar.tx" :>

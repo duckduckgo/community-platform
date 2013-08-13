@@ -1,4 +1,4 @@
-<div class="blog-content">
+<div class="blog-content  content">
 	<: for $posts -> $day_posts { :>
 		<section class="daily-posts">
 			<div class="date-box">

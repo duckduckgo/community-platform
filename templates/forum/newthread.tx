@@ -12,11 +12,8 @@
                     <div class="twothirds">
                         <label for="category_id">Category: </label>
                         <select name="category_id" class="language_grade">
-                            <option value="1" selected>Discussion</option>
-                            <option value="2">Idea</option>
-                            <option value="3">Problem</option>
-                            <option value="4">Question</option>
-                            <option value="5">Announcement</option>
+                            <option value="1">General Discussion</option>
+                            <option value="2">Instant Answers</option>
                         </select>
                     </div>
                     <div class="right"><input type="submit" value="Post" class="big blue button"></input></div>

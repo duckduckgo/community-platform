@@ -1,3 +1,5 @@
+/* styling for the DuckDuckGo Blog, and some styling for the forums */
+
 .blog-content { 
 	width: 72%;
 	float: left;
@@ -9,31 +11,32 @@
 		font-size: 2.3em; 
 		line-height: 1.05;
 	}
-	.blog-content h3, .blog-content h4, .blog-content h5, .blog-content blockquote, .blog-content .block, .blog-content p, .blog-content ul, .blog-content ol {
+	.content h3, .content h4, .content h5, .content blockquote, .content .block, .content p, .content ul, .content ol {
 		margin-bottom: 1.4em;
 	}
-	.blog-content p { 
+	.content p { 
 		font-size: 1.05em;
 		line-height: 1.55;		
 	}	
-	.blog-content .block { 
+	.content .block { 
 		display: block; 		
 		padding: 7px;
 		border: 1px solid #d7d7d7;
 		-webkit-border-radius: 4px;
 		border-radius: 4px;
 	}
-	.blog-content img.mid {
+	.content img.mid {
 		display: block;
 		margin-left: auto;
 		margin-right: auto;
 	}
-	.blog-content .post-meta, .author-meta { 
+	.blog-content .post-meta, .post-meta, .author-meta { 
 		display: block;
 		color: #727b88;
 		line-height: 1;
 		margin: 14px 0 20px;
 	}
+	.forum-title .post-meta { margin-top: 6px; }
 		.post-meta .user-info, .author-meta .user-info {
 			display: inline-block;
 		}
@@ -44,16 +47,16 @@
 			.lt-ie9 .post-meta .user-info, .lt-ie9 .author-meta .user-info {
 				display: inline; 
 			}
-	.blog-content ul, .blog-content ol {
+	.content ul, .content ol {
 		font-size: 13px;
 		line-height: 1.54;		
 	}
-		.blog-content li {			
+		.content li {			
 			padding-left: 16px;
 			position: relative;
 		}
-		.blog-content ul li { list-style: none;	}
-			.blog-content ul li:before {
+		.content ul li { list-style: none;	}
+			.content ul li:before  {
 				position: absolute;
 				top: 50%;
 				left: 2px;
@@ -167,10 +170,10 @@
 	margin: 0 88px 0 177px;
 }
 		
-.sidebar { 
+.sidebar--blog { 
 	float: left; 	
 	margin: 0 auto 25px;
-	width: 28%;
+	width: 28%; 
 }
 	.sidebar-contents { padding: 0 48px 0 6px; }
 	.sidebar section { margin-bottom: 20px;}
