@@ -30,7 +30,7 @@ sub new_from_config {
     if (defined $config_options[0]) {
       my $target_ref = ref $config_options[0];
       my $target;
-      if (!$target_ref) {
+      if (!$target_ref && defined $config_options[1]) {
         $target = $class->new({ end => (shift @config_options) });
       } elsif ($target_ref eq 'ARRAY') {
         my $target_options = shift @config_options;
