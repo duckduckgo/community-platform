@@ -6,7 +6,7 @@ use warnings;
 sub feedback_title { 'I need to report a bug!' }
 
 sub feedback {[
-  "It's a bug on mobile (e.g. phone, tablet, media device)",
+  { description => "It's a bug on mobile (e.g. phone, tablet, media device)", icon => "phone" },
       bug_mobile(),
   "It's a bug on Desktop (good ole' fashion computers)",
       bug_desktop(),
@@ -20,13 +20,13 @@ sub bug_mobile {[
 ]}
 
 sub bug_mobile_thirdparty {[
-  "I have an Android device",
+  { description => "I have an Android device", icon => "phone" },
       bug_mobile_thirdparty_android(),
-  "I have an iOS device",
+  { description => "I have an iOS device", icon => "phone" },
       bug_mobile_thirdparty_ios(),
-  "I have a Windows mobile device",
+  { description => "I have a Windows mobile device", icon => "phone" },
       bug_mobile_thirdparty_windows(),
-  "I have a different type of mobile device than those listed above",
+  { description => "I have a different type of mobile device than those listed above", icon => "phone" },
       bug_mobile_thirdparty_other(),
 ]}
 

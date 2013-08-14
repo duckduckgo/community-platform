@@ -34,6 +34,12 @@ has icon => (
   default => sub { 'arrow-right' },
 );
 
+has cssclass => (
+  is => 'ro',
+  isa => 'Str',
+  default => sub { '' },
+);
+
 has optional => (
   is => 'ro',
   isa => 'Bool',

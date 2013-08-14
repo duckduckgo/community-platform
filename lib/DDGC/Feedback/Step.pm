@@ -27,26 +27,21 @@ sub new_from_config {
   my @options;
   while (@config_options) {
     my $option = shift @config_options;
-    if (ref $option eq 'HASH') {
-      push @options, DDGC::Feedback::Option->new_from_config($option);
-    } else {
-      my $target = shift @config_options;
-      if (defined $target) {
-        my $target_ref = ref $target;
-        if (!$target_ref) {
-          $target = $class->new({ end => $target });
-        } elsif ($target_ref eq 'ARRAY') {
-          $target = $class->new_from_config(@{$target});
-        } else {
-          die __PACKAGE__."->new_from_config don't know how to handle ".$target_ref;
-        }
-        push @options, DDGC::Feedback::Option->new_from_config($option,$target);
-      } else {
-        push @options, DDGC::Feedback::Option->new_from_config({
-          type => 'submit',
-          description => $option,
-        });
+    if (defined $config_options[0]) {
+      my $target_ref = ref $config_options[0];
+      my $target;
+      if (!$target_ref) {
+        $target = $class->new({ end => (shift @config_options) });
+      } elsif ($target_ref eq 'ARRAY') {
+        my $target_options = shift @config_options;
+        $target = $class->new_from_config(@{$target_options});
       }
+      push @options, DDGC::Feedback::Option->new_from_config($option,$target);
+    } else {
+      push @options, DDGC::Feedback::Option->new_from_config({
+        type => 'submit',
+        description => $option,
+      });
     }
   }
   return $class->new({ options => \@options });
