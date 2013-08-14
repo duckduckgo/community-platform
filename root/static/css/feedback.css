@@ -196,7 +196,7 @@ you can use the generic selector below, but it's slower:
 
 .fb-step, .fb-answer {
 	margin: 0 auto 10px;
-	max-width: 655px;	
+
 }
 .fb-step {
 	display: table;
