@@ -76,7 +76,7 @@ $(document).ready(function() {
 	$('.js-fb-step--decativate').parent().removeClass('fb-step--active');
 	
 	// input binding
-	$('.js-fb-step').click(function () {
+	$('.js-fb-step').on("change, click", function () {
 		$(this).children('.js-fb-step__input').focus();
 	});
 	$('.js-fb-step__input').change(function () {
@@ -86,17 +86,20 @@ $(document).ready(function() {
 	});
 	$('.js-fb-step__input').blur(function() {	
 		if ($(this).val() != '') {
-			$(this).parents('.js-fb-step').removeClass('fb-step--active');
-			$(this).parents('.js-fb-step').removeClass('fb-step--error');
-			$(this).parents('.js-fb-step').find('.js-fb-step__toggle').toggleClass('hide');
-			$(this).parents('.js-fb-step').find('.js-fb-step__arrow').toggleClass('ddgi-arrow-left').toggleClass('ddgi-arrow-up');
+			var parent = $(this).parents('.js-fb-step');
+			parent.removeClass('fb-step--active');
+			parent.removeClass('fb-step--error');
+			parent.find('.js-fb-step__toggle').toggleClass('fb-step__toggle--hide');			
+			parent.find('.js-fb-step__arrow').toggleClass('ddgi-arrow-left').toggleClass('ddgi-arrow-up');
+			parent.bind('click', function() {
+				var my = $(this);
+				my.addClass('fb-step--active');
+				my.find('.js-fb-step__toggle').toggleClass('fb-step__toggle--hide');
+				my.find('.js-fb-step__input').focus();
+				my.find('.js-fb-step__arrow').toggleClass('ddgi-arrow-left').toggleClass('ddgi-arrow-up');
+				my.unbind('click');
+			});
 		}
-	});
-	$('.js-fb-step__toggle--click').click(function() {
-		$(this).parents('.js-fb-step').addClass('fb-step--active');
-		$(this).parents('.js-fb-step').find('.js-fb-step__toggle').toggleClass('hide');
-		$(this).parents('.js-fb-step').find('.js-fb-step__input').focus();
-		$(this).parents('.js-fb-step').find('.js-fb-step__arrow').toggleClass('ddgi-arrow-left').toggleClass('ddgi-arrow-up');
 	});
 	
 	//

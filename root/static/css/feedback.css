@@ -347,8 +347,24 @@ you can use the generic selector below, but it's slower:
 	.fb-step__body p, .fb-step__body label {
 		color: #7e7e7e;
 	}
+	.fb-step__body p { margin-bottom: 0; }
 	
 	.fb-step__textarea { height: 76px; }
+	
+	.fb-step__toggle {
+	  max-height: 1000px;
+	  overflow: hidden;
+	  transition-property: max-height;
+	  -webkit-transition-delay: 0.1s; 
+	  -moz-transition-delay: 0.1s; 
+      -o-transition-delay: 0.1s;
+	  transition-delay: 0.1s;
+	  transition-duration: 0.1s;
+	}
+	.fb-step__toggle--hide {		
+		max-height: 0;
+		visibility: hidden;
+	}
 	
 /* 
  * experimental css-only optional field hiding 

@@ -1,9 +1,9 @@
 <div class="fb-step__body">
-	<div class="js-fb-step__toggle">
+	<div class="fb-step__toggle  js-fb-step__toggle">
 		<label for="<: $option.name :>" class=""><: $option.description :>:</label> 
 		<input type="text" class="text js-fb-step__input" name="<: $option.name :>" <: if $option.has_value { :>value="<: $option.value :>" <: } :><: if $option.has_placeholder { :> placeholder="<: $option.placeholder :>"<: } :>/>
 	</div>
-	<div class="hide  js-fb-step__toggle  js-fb-step__toggle--click">
+	<div class="fb-step__toggle  fb-step__toggle--hide  js-fb-step__toggle  js-fb-step__toggle--click">
 		<: $option.description :>: <b class="js-fb-step__output"></b>
 	</div>
 	
