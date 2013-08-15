@@ -134,10 +134,6 @@ sub step :Chained('feedback') :PathPart('') :Args(1) {
       }
     }
 
-    use DDP; p(@steps);
-    use DDP; p($c->session->{feedback});
-    use DDP; p(%data);
-
     $c->stash->{feedback_data} = \%data;
     my @header_field_names = $c->req->headers->header_field_names();
     $c->stash->{header_field_names} = [grep { $_ ne 'COOKIE' } @header_field_names];
