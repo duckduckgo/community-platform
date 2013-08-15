@@ -1,9 +1,24 @@
-<div class="notice success">
-	<i class="icn icon-ok"></i>
-		Message received!
-	<i class="close icon-remove"></i>
+<div class="feedback-wrap">
+	<div class="notice success">
+		<i class="icn icon-ok"></i>
+			Message received!
+		<i class="close icon-remove"></i>
+	</div>
+	<div class="fb-step  fb-step--answer">
+		<i class="fb-step__icon  ddgi-dax"></i>
+		<div class="fb-step__body  fb-step__body--info"> 
+			<h2>Thanks for the feedback!</h2>
+
+			<p>We'd love for you to join the rest of the community in helping DuckDuckGo get better. Check out the other ways <a href="https://dukgo.com/">you can improve DuckDuckGo</a> or <a href="https://duck.co/forum/">see what others are suggesting</a></p>			
+			<i class="fb-step__arrow  ddgi-newspaper"></i>
+		</div>  	  
+	</div>
+	<section class="sidebar-social">				
+		<div class="icons">
+			<a class="icon tw" href="https://twitter.com/duckduckgo" title="DuckDuckGo on twitter">Twitter</a>
+			<a class="icon fb" href="https://facebook.com/duckduckgo" title="DuckDuckGo on Facebook">Facebook</a>
+			<a class="icon re" href="http://www.reddit.com/r/duckduckgo" title="DuckDuckGo on reddit">reddit /r/duckduckgo</a>
+			<a class="icon rss" href="<: $u('Blog','index_rss') :>" title="DuckDuckGo Blog RSS feed">RSS</a>
+		</div>
+	</section>
 </div>
-
-<h2>Thanks for the feedback!</h2>
-
-<p>We'd love for you to join the rest of the community in helping DuckDuckGo get better. Check out the other ways <a href="https://duck.co/">you can improve DuckDuckGo</a> or <a href="https://duck.co/forum/">see what others are suggesting</a></p>
