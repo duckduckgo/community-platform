@@ -16,7 +16,7 @@ sub relevancy_info {[
   { name => "pages", description => "The page(s) I wanted to find were", placeholder => "URLs would be nice here, but you can also be a little more broad in what you were looking for", type => "textarea", icon => "newspaper" },
   { name => "reasons", description => "The reason(s) the results seemed bad are", type => "textarea", placeholder => "e.g. not showing results for the word, 'apple' when I searched for, 'apple orchards'", icon => "sad-search" },
   { name => 'email', description => "Your email (not required)", placeholder => "We'd like to get back to you, but you can leave this blank.", type => "email", icon => "inbox", optional => 1 },  
-  { name => 'submit', description => "Report bad relevancy", icon => 'mail', cssclass => "fb-step--submit" }
+  { name => 'submit', description => "Submit Report", icon => 'mail', cssclass => "fb-step--submit" }
 ]}
 
 1;
