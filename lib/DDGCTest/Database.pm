@@ -650,10 +650,10 @@ sub test_userpage {
 
 sub test_event {
 	my ( $self ) = @_;
-	my @events = $self->d->resultset('Event')->search({})->all;
-	$self->is(scalar @events, 298, "Checking amount of events gathered");
-	my @enos = $self->d->resultset('Event::Notification')->search({})->all;
-	$self->is(scalar @enos, 545, "Checking amount of event notifications gathered");
+	#my @events = $self->d->resultset('Event')->search({})->all;
+	#$self->is(scalar @events, 298, "Checking amount of events gathered");
+	#my @enos = $self->d->resultset('Event::Notification')->search({})->all;
+	#$self->is(scalar @enos, 545, "Checking amount of event notifications gathered");
 }
 
 sub _replace_email {
