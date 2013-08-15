@@ -106,7 +106,7 @@ sub next_step {
 
 sub step_count {
 	my ( $self ) = @_;
-	my $base = 513;
+	my $base = 542;
 	return $base unless $self->test;
 }
 
@@ -690,23 +690,29 @@ sub add_distributions {
 }
 
 #####################################################
-#                                          _
+#                                           _
 #   ___ ___  _ __ ___  _ __ ___   ___ _ __ | |_ ___
 #  / __/ _ \| '_ ` _ \| '_ ` _ \ / _ \ '_ \| __/ __|
 # | (_| (_) | | | | | | | | | | |  __/ | | | |_\__ \
 #  \___\___/|_| |_| |_|_| |_| |_|\___|_| |_|\__|___/
 
-sub comments {
-	my ($self) = @_;
-	[
-		testone => [
-			
-		],
-	]
-}
-
 sub add_comments {
-	my ( $self ) = @_;
+	my ( $self, $context, $context_id, @comments ) = @_;
+	while (@comments) {
+		my $username = shift @comments;
+		my $text = shift @comments;
+		my @sub_comments;
+		if (ref $text eq 'ARRAY') {
+			@sub_comments = @{$text};
+			$text = shift @sub_comments;
+		}
+		my $user = $self->c->{users}->{$username};
+		my $comment = $self->d->add_comment($context, $context_id, $user, $text);
+		$self->next_step;
+		if (scalar @sub_comments > 0) {
+			$self->add_comments('DDGC::DB::Result::Comment',$comment->id, @sub_comments);
+		}
+	}
 }
 
 ##############################################
@@ -716,60 +722,76 @@ sub add_comments {
 #   | | |  _  |  _ <| |___ / ___ \| |_| |___) |
 #   |_| |_| |_|_| \_\_____/_/   \_\____/|____/ 
 
-sub threads {
-    testone => { 
-    	title => "Test thread",
-#    	text => "Testing some BBCode\n[b]Bold[/b]\n[url=http://ddg.gg]URL[/url] / http://ddg.gg\nEtc.",
-    	category_id => 5,
-    	data => { announcement_status_id => 1 }
-    },
-    testtwo => {
-    	title => "Hello, World!",
-#    	text => "Hello, World!\n[code=perl]#!/usr/bin/env perl\nprint \"Hello, World!\";[/code]\n[code=lua]print(\"Hello, World\")[/code]\n[code=javascript]alert('Hello, World!');[/code]\n[quote=shakespeare](bb|[^b]{2})[/quote]\n\@testtwo I love you!",
-    	category_id => 1,
-    	data => { discussion_status_id => 1 },
-    },
-    testthree => {
-    	title => "Syntax highlighting",
-#    	text => '[code=perl]#!/usr/bin/env perl
-#        use 5.014;
-#        say "Hello, World!";[/code]
-#        [code=javascript]document.write("Hello, World!");[/code]
-#        [code=lua]print("Hello, World!")[/code]
-#        [code=ada]with Text_IO;
-#        procedure Hello_World is
-#                begin
-#                        Text_IO.Put_line("Hello World!");
-#            end Hello_World;[/code]
-#        [code=basic]10 REM I am awesome.
-#        20 PRINT "Hello, World!"[/code]
-#        [code=c]#include<stdio.h>
-#        
-#        int main(void) {
-#                printf("Hello World\n");
-#                    return 0;
-#        }[/code]
-#        [code=sql]SELECT \'Hello World\' as hello_message;[/code]
-#        [code=yaml]text: Hello, World![/code]',
-        category_id => 1,
-        data => { discussion_status => 1 }
+sub threads {[
+	testone => { 
+		title => "Test thread",
+		text => "Testing some BBCode\n[b]Bold[/b]\n[url=http://ddg.gg]URL[/url] / http://ddg.gg\nEtc.",
+		category_id => 5,
+		data => { announcement_status_id => 1 },
+		comments => [
+			testtwo => "ah ha!",
+		],
 	},
-}
+	testtwo => {
+		title => "Hello, World!",
+		text => "Hello, World!\n[code=perl]#!/usr/bin/env perl\nprint \"Hello, World!\";[/code]\n[code=lua]print(\"Hello, World\")[/code]\n[code=javascript]alert('Hello, World!');[/code]\n[quote=shakespeare](bb|[^b]{2})[/quote]\n\@testtwo I love you!",
+		category_id => 1,
+		data => { discussion_status_id => 1 },
+		comments => [
+			testone => "Now you got me....",
+		],
+	},
+	testthree => {
+		title => "Syntax highlighting",
+   	text => '[code=perl]#!/usr/bin/env perl
+       use 5.014;
+       say "Hello, World!";[/code]
+       [code=javascript]document.write("Hello, World!");[/code]
+       [code=lua]print("Hello, World!")[/code]
+       [code=ada]with Text_IO;
+       procedure Hello_World is
+               begin
+                       Text_IO.Put_line("Hello World!");
+           end Hello_World;[/code]
+       [code=basic]10 REM I am awesome.
+       20 PRINT "Hello, World!"[/code]
+       [code=c]#include<stdio.h>
+       
+       int main(void) {
+               printf("Hello World\n");
+                   return 0;
+       }[/code]
+       [code=sql]SELECT \'Hello World\' as hello_message;[/code]
+       [code=yaml]text: Hello, World![/code]',
+		category_id => 1,
+		data => { discussion_status => 1 },
+		comments => [
+			testone => [ "He is soooo lame",
+				testtwo => "totally agree here....",
+			],
+		],
+	},
+]}
 
 sub add_threads {
-    my $self = shift;
-    my @threads = threads;
-
+	my $self = shift;
 	my $rs = $self->db->resultset('Thread');
-
-    while (@threads) {
-    	my $username = shift @threads;
-    	my %hash = %{shift @threads};
-    	my $user = $self->c->{users}->{$username};
-        my $thread = $user->create_related('threads',\%hash);
-        $self->d->add_comment('DDGC::DB::Result::Thread', $thread->id, $user, "Testing testing");
-        $self->next_step;
-    }
+	my @threads = @{$self->threads};
+	while (@threads) {
+		my $username = shift @threads;
+		my %hash = %{shift @threads};
+		my $text = delete $hash{text};
+		my @comments = defined $hash{comments}
+			? @{delete $hash{comments}}
+			: ();
+		my $user = $self->c->{users}->{$username};
+		my $thread = $user->create_related('threads',\%hash);
+		my $comment = $self->d->add_comment('DDGC::DB::Result::Thread', $thread->id, $user, $text);
+		if (scalar @comments > 0) {
+			$self->add_comments('DDGC::DB::Result::Comment', $comment->id, @comments);
+		}
+		$self->next_step;
+	}
 }
 
 ################################################################
@@ -806,6 +828,25 @@ sub token_domains {{
 					token => 'This is a token note',
 					de => 'Das ist eine deutsche Information',
 					us => 'Thats an american information',
+				},
+				comments => {
+					us => [
+						testone => "This is lame",
+						testtwo => [ "This is awesome!",
+							testone => 'Ok, you are right',
+							testthree => "Ugh ugh!",
+							testfour => [ "Comment on me!",
+								testone => 'oookkk',
+							],
+						],
+					],
+					de => [
+						testthree => [ "Das ist total geil!",
+							testfour => [ "Kommentier!",
+								testthree => 'Jawohl!',
+							],
+						],
+					],
 				},
 			],
 			'You are %s from %s', [
@@ -1217,6 +1258,15 @@ sub add_token_domains {
 							$tl->notes($data->{$_});
 							$tl->update;
 						}
+						$self->next_step;
+					}
+				} elsif ($user_or_notes eq 'comments') {
+					for my $lang (keys %{$data}) {
+						my $tl = $token->search_related('token_languages',{
+							token_domain_language_id => $tcl{$lang}->id,
+						})->first;
+						my @comments = @{$data->{$lang}};
+						$self->add_comments('DDGC::DB::Result::Token::Language', $tl->id, @comments);
 					}
 				} else {
 					my $user = $self->c->{users}->{$user_or_notes};
@@ -1244,6 +1294,7 @@ sub add_token_domains {
 							username => $user->username,
 							%msgstr,
 						});
+						$self->next_step;
 						for (@votes) {
 							my $voteuser = $self->c->{users}->{$_};
 							$tlt->set_user_vote($voteuser,1);
@@ -1251,7 +1302,6 @@ sub add_token_domains {
 						}
 					}
 				}
-				$self->next_step;
 			}
 		}
 	}

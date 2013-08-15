@@ -63,13 +63,10 @@ has categories => (
     lazy_build => 1, 
 );
 
-
-sub _build_categories {
-    {  
-      1 => "dev",
-      2 => "discussion",
-    }  
-}
+sub _build_categories {{  
+    1 => "dev",
+    2 => "discussion",
+}}
 
 sub _category {
     my ( $self, $category ) = @_;
@@ -111,7 +108,6 @@ sub is_closed {
 
 sub status_key {
     my $self = shift;
-
     my $category = $self->category_key;
     my $status_id = $self->data->{"${category}_status_id"};
     return 'closed' if $status_id == 0;
@@ -142,7 +138,6 @@ sub category_key {
     my $self = shift;
     $self->_category($self->category_id);
 }
-
 
 # TEMPORARY (TODO: get rid of this and replace it with something sane?)
 sub first_comment {
