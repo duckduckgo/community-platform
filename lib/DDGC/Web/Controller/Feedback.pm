@@ -4,6 +4,10 @@ use DDGC::Feedback::Step;
 
 use DDGC::Feedback::Config::Bug;
 use DDGC::Feedback::Config::Relevancy;
+use DDGC::Feedback::Config::Bang;
+use DDGC::Feedback::Config::Feature;
+use DDGC::Feedback::Config::Love;
+use DDGC::Feedback::Config::NoLove;
 
 use namespace::autoclean;
 
@@ -31,6 +35,18 @@ sub feedback :Chained('base') :PathPart('') :CaptureArgs(1) {
   } elsif ($feedback eq 'relevancy') {
     $c->stash->{feedback_config} = DDGC::Feedback::Config::Relevancy->feedback;
     $c->stash->{feedback_title} = DDGC::Feedback::Config::Relevancy->feedback_title;
+  } elsif ($feedback eq 'bang') {
+    $c->stash->{feedback_config} = DDGC::Feedback::Config::Bang->feedback;
+    $c->stash->{feedback_title} = DDGC::Feedback::Config::Bang->feedback_title;
+  } elsif ($feedback eq 'feature') {
+    $c->stash->{feedback_config} = DDGC::Feedback::Config::Feature->feedback;
+    $c->stash->{feedback_title} = DDGC::Feedback::Config::Feature->feedback_title;
+  } elsif ($feedback eq 'love') {
+    $c->stash->{feedback_config} = DDGC::Feedback::Config::Love->feedback;
+    $c->stash->{feedback_title} = DDGC::Feedback::Config::Love->feedback_title;
+  } elsif ($feedback eq 'nolove') {
+    $c->stash->{feedback_config} = DDGC::Feedback::Config::NoLove->feedback;
+    $c->stash->{feedback_title} = DDGC::Feedback::Config::NoLove->feedback_title;
   } else {
     $c->response->redirect('https://duckduckgo.com/feedback');
     return $c->detach;

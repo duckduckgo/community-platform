@@ -24,7 +24,7 @@
 		</div>
 		<div class="g twothirds">
 			<h3 class="mg-top--small">Language &amp; Country editor</h3>
-			<p>Currently supporting <: $languages_count :> languages in <: $country_count :> countries, supplying <: $translations_count :> translations with <: $votes_count :> votes. <a href="<: $u('Admin::Language','countries') :>">Country Editor</a></p>
+			<p>Currently supporting <: $languages_count :> languages in <: $countries_count :> countries, supplying <: $translations_count :> translations with <: $votes_count :> votes. <a href="<: $u('Admin::Language','countries') :>">Country Editor</a></p>
 		</div>
 	</div>
 	<hr class="mg-top--none" />
