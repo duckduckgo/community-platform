@@ -10,7 +10,7 @@
 	  <: } :>
 	  <: if $step.has_options { :>
 		<: for $step.options -> $option { :>
-		  <div class="fb-step  js-fb-step  <: if $option.cssclass || $option.optional == 1 { $option.cssclass } else {:>fb-step--active<: } :>  <: if $option.missing { :>fb-step--error<: } :>">
+		  <div class="fb-step  js-fb-step  <: if $option.cssclass || $option.optional == 1 { $option.cssclass } else {:>fb-step--active<: } :>  <: if $option.optional == 1 { :>fb-step--optional<: } :>  <: if $option.missing { :>fb-step--error<: } :>">
 			<i class="fb-step__icon  ddgi-<: $option.icon :>"></i>
 			<: my $template = "feedback/option/" ~ $option.type ~ ".tx" :>
 			<: include $template { option => $option, index => $~option.index } :>		

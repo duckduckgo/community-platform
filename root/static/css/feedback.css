@@ -221,15 +221,21 @@ you can use the generic selector below, but it's slower:
 	width: 100%;
 	position: relative;
 	color: #b0b0b0;
-	background-color: #f7f7f7;
+	background-color: #f5f5f5;
 	border: 1px solid #d6d6d6;
 	-webkit-box-shadow: inset 1px 1px 0px 0px rgba(255,255,255,0.9);
     box-shadow: inset 1px 1px 0px 0px rgba(255,255,255,0.9);
 	-webkit-border-radius: 2px;
 	border-radius: 2px;
+	
+  -webkit-transition: all 0.3s ease-out; 
+     -moz-transition: all 0.3s ease-out; 
+       -o-transition: all 0.3s ease-out; 
+          transition: all 0.3s ease-out; 
+
 }
 	.fb-step:active { top: 1px; }
-	
+
 .fb-step--active {
 	color: #7e7e7e;
 	background-color: #fefefe;	
@@ -239,6 +245,7 @@ you can use the generic selector below, but it's slower:
 	background-color: #f9ede9;
 }
 .fb-step--submit {
+	font-weight: bold;
 	color: #fff; 
 	background-color: #0e7290;
 	-webkit-box-shadow: inset 1px 1px 0px 0px rgba(255,255,255,0.1);
@@ -314,6 +321,7 @@ you can use the generic selector below, but it's slower:
 	}
 	.fb-step__body--btn {		
 		font-size: 17px;
+		font-weight: inherit;
 		color: inherit;
 		padding-top: 17px;
 		padding-bottom: 17px;
@@ -323,5 +331,24 @@ you can use the generic selector below, but it's slower:
 		.fb-step--active .fb-step__body--btn:hover { background-color: transparent; }
 	
 	.fb-step__body b { font-size: 17px;}
+	.fb-step__body p, .fb-step__body label {
+		color: #7e7e7e;
+	}
 	
 	.fb-step__textarea { height: 76px; }
+	
+/* 
+ * experimental css-only optional field hiding 
+ * this should trigger all optional fields to hide when in the presence of a required (active) field
+ * only set to trigger if javascript is active
+ */ 
+ 
+ /* not due to bad UX - cool idea though
+ .js .fb-step--active ~ .fb-step--optional {
+	height: 0;
+	display: block;
+	overflow: hidden;
+	margin-top: -10px;
+	visibility: hidden;
+ }
+ */

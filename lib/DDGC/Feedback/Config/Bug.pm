@@ -67,7 +67,7 @@ sub bug_desktop_addon {[
 sub include_bug {
   { name => 'bug', description => "The bug is", placeholder => "Please describe the bug as best you can!", type => "textarea", icon => "bug",},
   { name => 'email', description => "Your email (not required)", type => "email", icon => "inbox", cssclass => ' '},
-  { name => 'bug_steps', description => "You can reproduce it by", type => "textarea", optional => 1, placeholder => "Step-by-step instructions please", icon => "coffee", cssclass => ' '},
+  { name => 'bug_steps', description => "You can reproduce it by", type => "textarea", optional => 1, placeholder => "Step-by-step instructions please", icon => "coffee", cssclass => 'fb-step--optional'},
   { name => 'bug_other', description => $_[0] || "Other helpful info", type => "textarea", optional => 1, placeholder => 'e.g. only happens when the moon is waxing and you have underwear on your head.', icon => "folder", cssclass => ' '},
   { name => 'submitreport', description => "Submit Bug Report", type => "submit", icon => "mail", cssclass => "fb-step--submit"},
 }
@@ -105,22 +105,24 @@ sub bug_mobile_thirdparty_other {[
 #-----------------------------------------------------------------
 
 sub include_os {
-  { name => $_[0].'_os', description => 'My operating system is', type => "text", placeholder => $_[1], $_[2] => $_[3] },
+  my ( $name, $placeholder, %args ) = @_;
+  { name => $name.'_os', description => 'My operating system is', type => "text", placeholder => $placeholder, %args },
 }
 
-sub include_os_windows { include_os( windows => "e.g. Windows XP, Windows 8", icon => "windows8" ) }
-sub include_os_mac { include_os( mac => "e.g. Mac OSX 10.7.5", icon => "finder" ) }
-sub include_os_linux { include_os( linux => "e.g. Ubuntu 13.0.4, Linux Mint", icon => "tux" ) }
-sub include_os_other { include_os( other => "" ) }
+sub include_os_windows { include_os( name => "windows", placeholder => "e.g. Windows XP, Windows 8", icon => "windows8" ) }
+sub include_os_mac { include_os( name => "mac", placeholder => "e.g. Mac OSX 10.7.5", icon => "finder" ) }
+sub include_os_linux { include_os( name => "linux", placeholder => "e.g. Ubuntu 13.0.4, Linux Mint", icon => "tux" ) }
+sub include_os_other { include_os( name => "other", placeholder => "e.g. EROS, LEGO Mindstorms brickOS", icon => "windows" ) }
 
 sub include_browser {
-  { name => $_[0].'_browser', description => 'The browser I use is', type => "text", placeholder => $_[1], $_[2] => $_[3] },
+  my ( $name, $placeholder, %args ) = @_;
+  { name => $name.'_browser', description => 'The browser I use is', type => "text", placeholder => $placeholder, %args },
 }
 
-sub include_browser_windows { include_browser( windows => "e.g. Internet Explorer 8, Firefox 23, Chrome 28", icon => "IE" ) }
-sub include_browser_mac { include_browser( mac => "e.g. Safari 6.0.5, Firefox, Chrome", icon => "safari" ) }
-sub include_browser_linux { include_browser( linux => "e.g. Firefox 23, Epiphany 3.8.2", icon => "firefox" ) }
-sub include_browser_other { include_browser( other => "" ) }
+sub include_browser_windows { include_browser( name => "windows", placeholder => "e.g. Internet Explorer 8, Firefox 23, Chrome 28", icon => "IE" ) }
+sub include_browser_mac { include_browser( name => "mac", placeholder => "e.g. Safari 6.0.5, Firefox, Chrome", icon => "safari" ) }
+sub include_browser_linux { include_browser( name => "linux", placeholder => "e.g. Firefox 23, Epiphany 3.8.2", icon => "firefox" ) }
+sub include_browser_other { include_browser( name => "other", placeholder => "e.g. Nintendo DS Browser", icon => "browser" ) }
 
 sub include_bug_desktop {
   include_bug("Other helpful info (e.g. Do you use any custom DuckDuckGo settings? Do you have any other addons installed to your browser?)");
@@ -155,36 +157,37 @@ sub include_addon_os {
 }
 
 sub include_addon_version {
-  { name => $_[0].'_version', description => "My browser version is", type => "text", placeholder => $_[1], $_[2] => $_[3], optional => 1 }
+  my ( $name, $placeholder, %args ) = @_;
+  { name => $name.'_version', description => "My browser version is", type => "text", placeholder => $placeholder, optional => 1, %args }
 }
 
 sub bug_desktop_addon_firefox {[
   include_addon_os(),
-  include_addon_version( firefox => "e.g. 21, 22, 23", icon => "firefox" ),
+  include_addon_version( name => "firefox", placeholder => "e.g. 21, 22, 23", icon => "firefox" ),
   include_bug_desktop(),
 ]}
 
 sub bug_desktop_addon_chrome {[
   include_addon_os(),
-  include_addon_version( chrome => "e.g. 28.0.1500.95", icon => "chrome" ),
+  include_addon_version( name => "chrome", placeholder => "e.g. 28.0.1500.95", icon => "chrome" ),
   include_bug_desktop(),
 ]}
 
 sub bug_desktop_addon_safari {[
   include_addon_os(),
-  include_addon_version( safari => "e.g. 6.0.5", icon => "safari" ),
+  include_addon_version( name => "safari", placeholder => "e.g. 6.0.5", icon => "safari" ),
   include_bug_desktop(),
 ]}
 
 sub bug_desktop_addon_ie {[
   include_addon_os(),
-  include_addon_version( firefox => "e.g. 7, 8, 9", icon => "IE" ),
+  include_addon_version( name => "firefox", placeholder => "e.g. 7, 8, 9", icon => "IE" ),
   include_bug_desktop(),
 ]}
 
 sub bug_desktop_addon_opera {[ 
   include_addon_os(),
-  include_addon_version( opera => "", icon => "opera" ),
+  include_addon_version( name => "opera", placeholder => "e.g. 12, 15, Next", icon => "opera" ),
   include_bug_desktop(),  
 ]}
 
