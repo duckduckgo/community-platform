@@ -51,6 +51,7 @@ column content => {
 	data_type => 'text',
 	is_nullable => 0,
 };
+sub html { $_[0]->ddgc->markup->html($_[0]->content) }
 
 column created => {
 	data_type => 'timestamp with time zone',

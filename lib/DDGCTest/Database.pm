@@ -651,9 +651,9 @@ sub test_userpage {
 sub test_event {
 	my ( $self ) = @_;
 	my @events = $self->d->resultset('Event')->search({})->all;
-	$self->is(scalar @events, 285, "Checking amount of events gathered");
+	$self->is(scalar @events, 298, "Checking amount of events gathered");
 	my @enos = $self->d->resultset('Event::Notification')->search({})->all;
-	$self->is(scalar @enos, 527, "Checking amount of event notifications gathered");
+	$self->is(scalar @enos, 545, "Checking amount of event notifications gathered");
 }
 
 sub _replace_email {
@@ -725,7 +725,7 @@ sub add_comments {
 sub threads {[
 	testone => { 
 		title => "Test thread",
-		text => "Testing some BBCode\n[b]Bold[/b]\n[url=http://ddg.gg]URL[/url] / http://ddg.gg\nEtc.",
+		content => "Testing some BBCode\n[b]Bold[/b]\n[url=http://ddg.gg]URL[/url] / http://ddg.gg\nEtc.",
 		category_id => 5,
 		data => { announcement_status_id => 1 },
 		comments => [
@@ -734,7 +734,7 @@ sub threads {[
 	},
 	testtwo => {
 		title => "Hello, World!",
-		text => "Hello, World!\n[code=perl]#!/usr/bin/env perl\nprint \"Hello, World!\";[/code]\n[code=lua]print(\"Hello, World\")[/code]\n[code=javascript]alert('Hello, World!');[/code]\n[quote=shakespeare](bb|[^b]{2})[/quote]\n\@testtwo I love you!",
+		content => "Hello, World!\n[code=perl]#!/usr/bin/env perl\nprint \"Hello, World!\";[/code]\n[code=lua]print(\"Hello, World\")[/code]\n[code=javascript]alert('Hello, World!');[/code]\n[quote=shakespeare](bb|[^b]{2})[/quote]\n\@testtwo I love you!",
 		category_id => 1,
 		data => { discussion_status_id => 1 },
 		comments => [
@@ -743,7 +743,7 @@ sub threads {[
 	},
 	testthree => {
 		title => "Syntax highlighting",
-   	text => '[code=perl]#!/usr/bin/env perl
+   	content => '[code=perl]#!/usr/bin/env perl
        use 5.014;
        say "Hello, World!";[/code]
        [code=javascript]document.write("Hello, World!");[/code]
@@ -780,16 +780,10 @@ sub add_threads {
 	while (@threads) {
 		my $username = shift @threads;
 		my %hash = %{shift @threads};
-		my $text = delete $hash{text};
-		my @comments = defined $hash{comments}
-			? @{delete $hash{comments}}
-			: ();
+		my @comments = defined $hash{comments} ? @{delete $hash{comments}} : ();
 		my $user = $self->c->{users}->{$username};
 		my $thread = $user->create_related('threads',\%hash);
-		my $comment = $self->d->add_comment('DDGC::DB::Result::Thread', $thread->id, $user, $text);
-		if (scalar @comments > 0) {
-			$self->add_comments('DDGC::DB::Result::Comment', $comment->id, @comments);
-		}
+		$self->add_comments('DDGC::DB::Result::Thread', $thread->id, @comments);
 		$self->next_step;
 	}
 }

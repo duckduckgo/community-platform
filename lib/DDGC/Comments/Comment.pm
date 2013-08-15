@@ -17,6 +17,8 @@ has db => (
 		parent_id
 		user
 		parent
+		html
+		content
 	)],
 	# DOES NOT HANDLE 'children'!!!! CAUSE WE HANDLE THAT ON OUR OWN!!!
 );
@@ -30,10 +32,6 @@ has children => (
 sub has_children {
 	my ( $self ) = @_;
 	return @{$self->children} ? 1 : 0;
-}
-
-sub content {
-    my $content = shift->db->content;
 }
 
 has comments_context => (

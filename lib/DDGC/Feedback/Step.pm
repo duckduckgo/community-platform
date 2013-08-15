@@ -39,6 +39,7 @@ sub new_from_config {
       push @options, DDGC::Feedback::Option->new_from_config($option,$target);
     } else {
       if (ref $option eq 'HASH') {
+        $option->{type} = "submit" unless defined $option->{type};
         push @options, DDGC::Feedback::Option->new_from_config($option);
       } elsif ($option eq "") {
         # explicit does nothing

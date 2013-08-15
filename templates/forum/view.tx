@@ -25,6 +25,9 @@
             </form>
         </div>
     <: } :>
-    <: include "comment/comments.tx" {comments => $thread_comments} :>
+    <div class="forum-thread-content">
+        <: r($thread.html) :>
+    </div>
+    <: include "comment/comments.tx" { comments => $thread_comments } :>
 </div>
 <: include "forum/sidebar.tx" :>

@@ -54,6 +54,11 @@ column content => {
 	data_type => 'text',
 	is_nullable => 0,
 };
+sub html {
+	my ( $self ) = @_;
+	return $self->content if $self->raw_html;
+	return $self->ddgc->markup->html($self->content);
+}
 
 column topics => {
 	data_type => 'text',
@@ -150,12 +155,6 @@ sub update_via_form {
 		$self->$_($val{$_});
 	}
 	return $self->update;
-}
-
-sub html {
-	my ( $self ) = @_;
-	return $self->content if $self->raw_html;
-	return $self->result_source->schema->ddgc->markup->html($self->content);
 }
 
 sub html_teaser {
