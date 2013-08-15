@@ -87,7 +87,7 @@ sub step :Chained('feedback') :PathPart('') :Args(1) {
     my $missing;
     for (@{$current_step->options}) {
       next unless $_->type eq 'text' || $_->type eq 'textarea';
-      if ($_->required && !$c->req->param($_)) {
+      if ($_->required && !$c->req->param($_->name)) {
         $_->missing(1); $missing = 1;
       }
     }
