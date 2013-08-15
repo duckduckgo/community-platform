@@ -22,6 +22,12 @@ has name => (
   predicate => 'has_name',
 );
 
+has value => (
+  is => 'rw',
+  isa => 'Str',
+  predicate => 'has_value',
+);
+
 has placeholder => (
   is => 'ro',
   isa => 'Str',

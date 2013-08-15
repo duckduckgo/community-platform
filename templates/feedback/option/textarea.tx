@@ -1,7 +1,7 @@
 <div class="fb-step__body">
 	<label for="<: $option.name :>" class=""><: $option.description :>:</label> 
 	<div class="js-fb-step__toggle">		
-		<textarea name="<: $option.name :>" class="text  fb-step__textarea  js-fb-step__input" <: if $option.has_placeholder { :> placeholder="<: $option.placeholder :>"<: } :>></textarea>	
+		<textarea name="<: $option.name :>" class="text  fb-step__textarea  js-fb-step__input" <: if $option.has_placeholder { :> placeholder="<: $option.placeholder :>"<: } :>><: if $option.has_value { $option.value } :></textarea>	
 	</div>
 	<div class="hide  js-fb-step__toggle  js-fb-step__toggle--click">
 		<i class="js-fb-step__output"></i>
