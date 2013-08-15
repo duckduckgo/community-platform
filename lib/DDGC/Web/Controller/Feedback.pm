@@ -107,13 +107,16 @@ sub step :Chained('feedback') :PathPart('') :Args(1) {
   $c->stash->{steps} = \@steps;
   $c->stash->{step} = $current_step;
   if ($submit) {
-    my %data;
+    my $step_session_key_base = $c->stash->{feedback_name}.'/';
+    my %data = defined $c->session->{feedback}->{$step_session_key_base}
+      ? %{$c->session->{feedback}->{$step_session_key_base}}
+      : ();
     my $data_step = $c->stash->{feedback};
     my @data_steps;
     my $i = 1;
     for (@steps) {
       push @data_steps, $_;
-      my $step_session_key = $c->stash->{feedback_name}.'/'.join('-',@data_steps);
+      my $step_session_key = $step_session_key_base.join('-',@data_steps);
       if (defined $c->session->{feedback}->{$step_session_key}) {
         my %step_data = %{$c->session->{feedback}->{$step_session_key}};
         for (keys %step_data) {
@@ -130,6 +133,10 @@ sub step :Chained('feedback') :PathPart('') :Args(1) {
         $data_step = $next_option->target;
       }
     }
+
+    use DDP; p(@steps);
+    use DDP; p($c->session->{feedback});
+    use DDP; p(%data);
 
     $c->stash->{feedback_data} = \%data;
     my @header_field_names = $c->req->headers->header_field_names();
