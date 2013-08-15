@@ -66,9 +66,9 @@ sub bug_desktop_addon {[
 
 sub include_bug {
   { name => 'bug', description => "The bug is", placeholder => "Please describe the bug as best you can!", type => "textarea", icon => "bug",},
-  { name => 'email', description => "Your email (not required)", type => "email", icon => "inbox", cssclass => ' '},
-  { name => 'bug_steps', description => "You can reproduce it by", type => "textarea", optional => 1, placeholder => "Step-by-step instructions please", icon => "coffee", cssclass => 'fb-step--optional'},
-  { name => 'bug_other', description => $_[0] || "Other helpful info", type => "textarea", optional => 1, placeholder => 'e.g. only happens when the moon is waxing and you have underwear on your head.', icon => "folder", cssclass => ' '},
+  { name => 'email', description => "Your email (not required)", , placeholder => "We'd like to get back to you, but you can leave this blank.", type => "email", icon => "inbox", optional => 1 },
+  { name => 'bug_steps', description => "You can reproduce it by", type => "textarea", optional => 1, placeholder => "Step-by-step instructions please", icon => "coffee" },
+  { name => 'bug_other', description => $_[0] || "Other helpful info", type => "textarea", optional => 1, placeholder => 'e.g. only happens when the moon is waxing and you have underwear on your head.', icon => "folder",},
   { name => 'submitreport', description => "Submit Bug Report", type => "submit", icon => "mail", cssclass => "fb-step--submit"},
 }
 
