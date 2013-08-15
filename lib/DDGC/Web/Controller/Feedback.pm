@@ -103,10 +103,12 @@ sub step :Chained('feedback') :PathPart('') :Args(1) {
       $session_key = $c->stash->{feedback_name}.'/'.join('-',@steps);
     }
   }
-  for (@{$current_step->options}) {
-    my $name = $_->name;
-    my $value = $c->req->param($name) || $c->session->{feedback}->{$session_key}->{$name};
-    $_->value($value) if $value;
+  if ($current_step->has_options) {
+    for (@{$current_step->options}) {
+      my $name = $_->name;
+      my $value = $c->req->param($name) || $c->session->{feedback}->{$session_key}->{$name};
+      $_->value($value) if $value;
+    }
   }
   $c->stash->{step_count} = scalar @steps;
   $c->stash->{steps_arg} = '-'.join('-',@steps);

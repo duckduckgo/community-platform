@@ -4,7 +4,7 @@
 		<textarea name="<: $option.name :>" class="text  fb-step__textarea  js-fb-step__input" <: if $option.has_placeholder { :> placeholder="<: $option.placeholder :>"<: } :>><: if $option.has_value { $option.value } :></textarea>	
 	</div>
 	<div class="fb-step__toggle  <: if !$option.has_value { :> fb-step__toggle--hide <: } :>  js-fb-step__toggle">
-		<i class="js-fb-step__output"></i>
+		<i class="js-fb-step__output"><: if $option.has_value { :><: $option.value :><: } :></i>
 	</div>
 </div>
 <i class="fb-step__arrow  ddgi-arrow-left js-fb-step__arrow"></i>
