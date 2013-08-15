@@ -38,10 +38,14 @@ sub new_from_config {
       }
       push @options, DDGC::Feedback::Option->new_from_config($option,$target);
     } else {
-      push @options, DDGC::Feedback::Option->new_from_config({
-        type => 'submit',
-        description => $option,
-      });
+      if (ref $option eq 'HASH') {
+        push @options, DDGC::Feedback::Option->new_from_config($option);
+      } else {
+        push @options, DDGC::Feedback::Option->new_from_config({
+          type => 'submit',
+          description => $option,
+        });
+      }
     }
   }
   return $class->new({ options => \@options });
