@@ -10,7 +10,7 @@
 	  <: } :>
 	  <: if $step.has_options { :>
 		<: for $step.options -> $option { :>
-		  <div class="fb-step  js-fb-step  <: if $option.cssclass || $option.optional == 1 { $option.cssclass } else {:>fb-step--active<: } :>  <: if $option.optional == 1 { :>fb-step--optional<: } :>  <: if $option.missing { :>fb-step--error<: } :>">
+		  <div class="fb-step  js-fb-step  <: if $option.cssclass || $option.optional == 1 || $option.type == 'info' { $option.cssclass } else {:> fb-step--active <: } if $option.optional == 1 { :> fb-step--optional <: } if $option.type == 'info' { :> fb-step--info <: } if $option.missing { :> fb-step--error <: } :>">
 			<i class="fb-step__icon  ddgi-<: $option.icon :>"></i>
 			<: my $template = "feedback/option/" ~ $option.type ~ ".tx" :>
 			<: include $template { option => $option, index => $~option.index } :>		
@@ -21,14 +21,11 @@
 		<: } :>
 	  <: } :>
 	  <: if $step.has_end { :>
-		  <div class="content-box  fb-answer">
-			<div class="head">
-				<h2>Instant Answer :)</h2>
-			</div>
-			<div class="body  content">
-			   <div class="row">
+		  <div class="fb-step  fb-step--answer">
+		    <i class="fb-step__icon  ddgi-dax"></i>
+			<div class="fb-step__body  fb-step__body--info"> 
 				 <: r($step.end) :>
-			   </div>
+			     <i class="fb-step__arrow  ddgi-newspaper"></i>
 			</div>  
 		  </div>
 	  <: } :>

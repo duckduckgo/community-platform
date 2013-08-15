@@ -244,6 +244,12 @@ you can use the generic selector below, but it's slower:
 	color: #e16843;
 	background-color: #f9ede9;
 }
+.fb-step--info {
+	border-color: #aeaeae;
+}
+.fb-step--answer {
+	background-color: #fff;
+}
 .fb-step--submit {
 	font-weight: bold;
 	color: #fff; 
@@ -306,6 +312,7 @@ you can use the generic selector below, but it's slower:
 		
 		.fb-step--active:hover .fb-step__icon { color: #e16843; }
 		.fb-step--active:hover .fb-step__arrow { color: #7e7e7e; }
+		
 	
 	.fb-step__body {
 		position: relative;
@@ -326,6 +333,12 @@ you can use the generic selector below, but it's slower:
 		padding-top: 17px;
 		padding-bottom: 17px;
 		white-space: normal;		
+	}
+	.fb-step__body--info {		
+		color: #494949;
+		font-size: 16px;
+		padding-top: 26px;
+		padding-bottom: 26px;
 	}
 		.fb-step--active .fb-step__body--btn{ background-color: #fff; }
 		.fb-step--active .fb-step__body--btn:hover { background-color: transparent; }

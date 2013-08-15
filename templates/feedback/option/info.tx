@@ -1,4 +1,4 @@
-<div class="fb-step__body">  
+<div class="fb-step__body  fb-step__body--info">  
   <: r($option.description) :>
-  <i class="fb-step__arrow  ddgi-<: $option.icon :>  js-fb-step__arrow"></i>
+  <i class="fb-step__arrow  ddgi-<: $option.icon :>"></i>
 </div>
