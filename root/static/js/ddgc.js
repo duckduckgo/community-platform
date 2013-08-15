@@ -93,14 +93,22 @@ $(document).ready(function() {
 			parent.find('.js-fb-step__arrow').toggleClass('ddgi-arrow-left').toggleClass('ddgi-arrow-up');
 			parent.bind('click', function() {
 				var my = $(this);
-				my.addClass('fb-step--active');
-				my.find('.js-fb-step__toggle').toggleClass('fb-step__toggle--hide');
-				my.find('.js-fb-step__input').focus();
-				my.find('.js-fb-step__arrow').toggleClass('ddgi-arrow-left').toggleClass('ddgi-arrow-up');
-				my.unbind('click');
+				feedback_edit_toggle(my);
 			});
 		}
 	});
+	$('.js-fb-step--toggle').click(function() {	
+		var my = $(this);
+		feedback_edit_toggle(my);
+	});
+	
+	function feedback_edit_toggle(my) {	
+		my.addClass('fb-step--active');
+		my.find('.js-fb-step__toggle').toggleClass('fb-step__toggle--hide');
+		my.find('.js-fb-step__input').focus();
+		my.find('.js-fb-step__arrow').toggleClass('ddgi-arrow-left').toggleClass('ddgi-arrow-up');	
+		my.unbind('click');		
+	}
 	
 	//
 	// account page

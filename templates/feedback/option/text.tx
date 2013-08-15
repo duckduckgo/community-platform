@@ -1,10 +1,10 @@
 <div class="fb-step__body">
-	<div class="fb-step__toggle  js-fb-step__toggle">
+	<div class="fb-step__toggle <: if $option.has_value { :> fb-step__toggle--hide <: } :> js-fb-step__toggle">
 		<label for="<: $option.name :>" class=""><: $option.description :>:</label> 
 		<input type="text" class="text js-fb-step__input" name="<: $option.name :>" <: if $option.has_value { :>value="<: $option.value :>" <: } :><: if $option.has_placeholder { :> placeholder="<: $option.placeholder :>"<: } :>/>
 	</div>
-	<div class="fb-step__toggle  fb-step__toggle--hide  js-fb-step__toggle  js-fb-step__toggle--click">
-		<: $option.description :>: <b class="js-fb-step__output"></b>
+	<div class="fb-step__toggle <: if !$option.has_value { :> fb-step__toggle--hide <: } :> js-fb-step__toggle">
+		<: $option.description :>: <b class="js-fb-step__output"><: if $option.has_value { :><: $option.value :><: } :></b>
 	</div>
 	
 	<i class="fb-step__arrow  ddgi-arrow-left  js-fb-step__arrow"></i>
