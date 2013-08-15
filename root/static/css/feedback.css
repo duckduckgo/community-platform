@@ -1,4 +1,8 @@
-
+/* 
+ * DuckDuckGo Feedback Guide
+ * Styling for the DuckDuckGo Feedback System
+ */
+ 
 @font-face {
 	font-family: 'ddg-feedback';
 	src:url('../font/ddg-feedback.eot');
@@ -9,6 +13,7 @@
 	font-weight: normal;
 	font-style: normal;
 }
+
 
 /* Use the following CSS code if you want to use data attributes for inserting your icons */
 [data-icon]:before {
@@ -22,14 +27,13 @@
 	-webkit-font-smoothing: antialiased;
 }
 
-
 /* Use the following CSS code if you want to have a class per icon */
 /*
 Instead of a list of all class selectors,
 you can use the generic selector below, but it's slower:
 [class*="ddgi-"] {
 */
-.ddgi-tools, .ddgi-search, .ddgi-sad-search, .ddgi-bang, .ddgi-windows, .ddgi-user, .ddgi-trash, .ddgi-sun, .ddgi-print, .ddgi-phone, .ddgi-newspaper, .ddgi-map, .ddgi-mail, .ddgi-inbox, .ddgi-home, .ddgi-heart, .ddgi-globe, .ddgi-folder, .ddgi-convo, .ddgi-coffee, .ddgi-cloud, .ddgi-clock, .ddgi-chat, .ddgi-camera, .ddgi-calendar, .ddgi-browser, .ddgi-arrow, .ddgi-bug, .ddgi-embed, .ddgi-code, .ddgi-tux, .ddgi-apple, .ddgi-finder, .ddgi-android, .ddgi-windows-2, .ddgi-windows8, .ddgi-chrome, .ddgi-firefox, .ddgi-IE, .ddgi-opera, .ddgi-safari, .ddgi-spinner, .ddgi-ddg-browser, .ddgi-arrow-up, .ddgi-arrow-right, .ddgi-arrow-left, .ddgi-arrow-down, .ddgi-dax, .ddgi-browser-window, .ddgi-globe-2 {
+.ddgi-tools, .ddgi-search, .ddgi-sad-search, .ddgi-bang, .ddgi-windows, .ddgi-user, .ddgi-trash, .ddgi-sun, .ddgi-print, .ddgi-phone, .ddgi-newspaper, .ddgi-map, .ddgi-mail, .ddgi-inbox, .ddgi-home, .ddgi-heart, .ddgi-globe, .ddgi-folder, .ddgi-convo, .ddgi-coffee, .ddgi-cloud, .ddgi-clock, .ddgi-chat, .ddgi-camera, .ddgi-calendar, .ddgi-browser, .ddgi-arrow, .ddgi-bug, .ddgi-embed, .ddgi-code, .ddgi-tux, .ddgi-apple, .ddgi-finder, .ddgi-android, .ddgi-windows-2, .ddgi-windows8, .ddgi-chrome, .ddgi-firefox, .ddgi-IE, .ddgi-opera, .ddgi-safari, .ddgi-spinner, .ddgi-arrow-up, .ddgi-arrow-right, .ddgi-arrow-left, .ddgi-arrow-down, .ddgi-browser-window, .ddgi-globe-2, .ddgi-ddg-phone, .ddgi-dax, .ddgi-ddg-browser, .ddgi-history {
 	font-family: 'ddg-feedback';
 	speak: none;
 	font-style: normal;
@@ -165,9 +169,6 @@ you can use the generic selector below, but it's slower:
 .ddgi-spinner:before {
 	content: "\e02c";
 }
-.ddgi-ddg-browser:before {
-	content: "\e000";
-}
 .ddgi-arrow-up:before {
 	content: "\e001";
 }
@@ -180,23 +181,39 @@ you can use the generic selector below, but it's slower:
 .ddgi-arrow-down:before {
 	content: "\e02e";
 }
-.ddgi-dax:before {
-	content: "\e02f";
-}
 .ddgi-browser-window:before {
 	content: "\e030";
 }
 .ddgi-globe-2:before {
 	content: "\e031";
 }
+.ddgi-ddg-phone:before {
+	content: "\e032";
+}
+.ddgi-dax:before {
+	content: "\e000";
+}
+.ddgi-ddg-browser:before {
+	content: "\e02f";
+}
+.ddgi-history:before {
+	content: "\e033";
+}
+
+/* end font icons */
+
+/* interaction styling starts here */
 
 .feedback-wrap {
-	margin-bottom: 30px;
+	max-width: 655px;
+}
+
+.feedback-wrap, .feedback-form {
+	margin: 0 auto 30px;	
 }
 
 .fb-step, .fb-answer {
 	margin: 0 auto 10px;
-
 }
 .fb-step {
 	display: table;
@@ -206,8 +223,8 @@ you can use the generic selector below, but it's slower:
 	color: #b0b0b0;
 	background-color: #f7f7f7;
 	border: 1px solid #d6d6d6;
-	-webkit-box-shadow: inset 1px 1px 0px 0px #ffffff;
-    box-shadow: inset 1px 1px 0px 0px #ffffff;
+	-webkit-box-shadow: inset 1px 1px 0px 0px rgba(255,255,255,0.9);
+    box-shadow: inset 1px 1px 0px 0px rgba(255,255,255,0.9);
 	-webkit-border-radius: 2px;
 	border-radius: 2px;
 }
@@ -217,12 +234,35 @@ you can use the generic selector below, but it's slower:
 	color: #7e7e7e;
 	background-color: #fefefe;	
 }
+.fb-step--error {	
+	color: #e16843;
+	background-color: #f9ede9;
+}
+.fb-step--submit {
+	color: #fff; 
+	background-color: #0e7290;
+	-webkit-box-shadow: inset 1px 1px 0px 0px rgba(255,255,255,0.1);
+    box-shadow: inset 1px 1px 0px 0px rgba(255,255,255,0.1);
+}
+	.fb-step--submit:hover {		
+		background-color: #1184a6;
+		-webkit-box-shadow: inset 1px 1px 0px 0px rgba(255,255,255,0.1), 0px 0px 5px 0px rgba(0,0,0,0.3);
+        box-shadow: inset 1px 1px 0px 0px rgba(255,255,255,0.1), 0px 0px 5px 0px rgba(0,0,0,0.3);
+	}
+	.fb-step--submit .fb-step__icon, .fb-step--submit .fb-step__arrow {
+		color: inherit; 
+	}
+	
+	.fb-step--error .fb-step__warning { display: block; }
+	.fb-step--error .fb-step__arrow { display: none; } 
+	.fb-step--error .fb-step__icon, .fb-step--error .fb-step__warning { color: inherit !important; }
+	
 	.fb-step--active:hover {		
-		-webkit-box-shadow: inset 1px 1px 0px 0px #ffffff, 0px 0px 5px 0px rgba(0,0,0,0.3);
-        box-shadow: inset 1px 1px 0px 0px #ffffff, 0px 0px 5px 0px rgba(0,0,0,0.3);
+		-webkit-box-shadow: inset 1px 1px 0px 0px rgba(255,255,255,0.9), 0px 0px 5px 0px rgba(0,0,0,0.3);
+        box-shadow: inset 1px 1px 0px 0px rgba(255,255,255,0.9), 0px 0px 5px 0px rgba(0,0,0,0.3);
 	}
 
-	.fb-step__icon, .fb-step__arrow {		
+	.fb-step__icon, .fb-step__arrow, .fb-step__warning {		
 		display: block;
 		text-align: center;
 		vertical-align: middle;
@@ -245,16 +285,18 @@ you can use the generic selector below, but it's slower:
 			left: 0;
 			margin-top: -0.5em;
 		}
-		.fb-step__arrow {
+		.fb-step__arrow, .fb-step__warning {
 			left: auto;
 			right: 24px;
 			font-size: 1.25em;
 		}
-		.fb-step__arrow:before {
+		.fb-step__warning { display: none; }
+		.fb-step__arrow:before, .fb-step__warning:before {
 			position: absolute;
 			bottom: 17px;
-			right: -4px;
+			right: -4px;			
 		}
+		
 		.fb-step--active:hover .fb-step__icon { color: #e16843; }
 		.fb-step--active:hover .fb-step__arrow { color: #7e7e7e; }
 	
@@ -282,3 +324,4 @@ you can use the generic selector below, but it's slower:
 	
 	.fb-step__body b { font-size: 17px;}
 	
+	.fb-step__textarea { height: 76px; }

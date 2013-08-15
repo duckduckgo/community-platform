@@ -15,7 +15,7 @@ sub feedback {[
 sub bug_mobile {[
   { description => "The bug is in the DuckDuckGo app", icon => "dax" },
       "Please report the bug through the DuckDuckGo app by going to the Settings menu --&gt; Give Feedback. That way you don't have to type out your app version and details!",
-  { description => "The bug is with DuckDuckGo in a 3rd party app or mobile browser (e.g. Safari, iCab, Dolphin)", icon => "ddg-browser" },
+  { description => "The bug is with DuckDuckGo in a 3rd party app or mobile browser (e.g. Safari, iCab, Dolphin)", icon => "ddg-phone" },
       bug_mobile_thirdparty(),
 ]}
 
@@ -65,11 +65,11 @@ sub bug_desktop_addon {[
 #-----------------------------------------------------------------
 
 sub include_bug {
-  { name => 'bug', description => "The bug is", type => "textarea", icon => "bug",},
-  { name => 'email', description => "Your email (not required)", type => "email", icon => "inbox",},
-  { name => 'bug_steps', description => "You can reproduce it by", type => "textarea", optional => 1, placeholder => "Step-by-step instructions please", icon => "coffee"},
-  { name => 'bug_other', description => $_[0] || "Other helpful info", type => "textarea", optional => 1, placeholder => 'e.g. only happens when the moon is waxing and you have underwear on your head.', icon => "folder",},
-  "Submit Bug Report",
+  { name => 'bug', description => "The bug is", placeholder => "Please describe the bug as best you can!", type => "textarea", icon => "bug",},
+  { name => 'email', description => "Your email (not required)", type => "email", icon => "inbox", cssclass => ' '},
+  { name => 'bug_steps', description => "You can reproduce it by", type => "textarea", optional => 1, placeholder => "Step-by-step instructions please", icon => "coffee", cssclass => ' '},
+  { name => 'bug_other', description => $_[0] || "Other helpful info", type => "textarea", optional => 1, placeholder => 'e.g. only happens when the moon is waxing and you have underwear on your head.', icon => "folder", cssclass => ' '},
+  { name => 'submitreport', description => "Submit Bug Report", type => "submit", icon => "mail", cssclass => "fb-step--submit"},
 }
 
 #-----------------------------------------------------------------
@@ -105,21 +105,21 @@ sub bug_mobile_thirdparty_other {[
 #-----------------------------------------------------------------
 
 sub include_os {
-  { name => $_[0].'_os', description => 'My operating system is', type => "text", placeholder => $_[1] },
+  { name => $_[0].'_os', description => 'My operating system is', type => "text", placeholder => $_[1], $_[2] => $_[3] },
 }
 
-sub include_os_windows { include_os( windows => "e.g. Windows XP, Windows 8" ) }
-sub include_os_mac { include_os( mac => "e.g. Mac OSX 10.7.5" ) }
-sub include_os_linux { include_os( linux => "e.g. Ubuntu 13.0.4, Linux Mint" ) }
+sub include_os_windows { include_os( windows => "e.g. Windows XP, Windows 8", icon => "windows8" ) }
+sub include_os_mac { include_os( mac => "e.g. Mac OSX 10.7.5", icon => "finder" ) }
+sub include_os_linux { include_os( linux => "e.g. Ubuntu 13.0.4, Linux Mint", icon => "tux" ) }
 sub include_os_other { include_os( other => "" ) }
 
 sub include_browser {
-  { name => $_[0].'_browser', description => 'The browser I use is', type => "text", placeholder => $_[1] },
+  { name => $_[0].'_browser', description => 'The browser I use is', type => "text", placeholder => $_[1], $_[2] => $_[3] },
 }
 
-sub include_browser_windows { include_browser( windows => "e.g. Internet Explorer 8, Firefox 23, Chrome 28" ) }
-sub include_browser_mac { include_browser( mac => "e.g. Safari 6.0.5, Firefox, Chrome" ) }
-sub include_browser_linux { include_browser( linux => "e.g. Firefox 23, Epiphany 3.8.2" ) }
+sub include_browser_windows { include_browser( windows => "e.g. Internet Explorer 8, Firefox 23, Chrome 28", icon => "IE" ) }
+sub include_browser_mac { include_browser( mac => "e.g. Safari 6.0.5, Firefox, Chrome", icon => "safari" ) }
+sub include_browser_linux { include_browser( linux => "e.g. Firefox 23, Epiphany 3.8.2", icon => "firefox" ) }
 sub include_browser_other { include_browser( other => "" ) }
 
 sub include_bug_desktop {
@@ -139,7 +139,7 @@ sub bug_desktop_site_mac {[
 ]}
 
 sub bug_desktop_site_linux {[
-  include_os_windows(),
+  include_os_linux(),
   include_browser_linux(),
   include_bug_desktop(),
 ]}
@@ -151,7 +151,7 @@ sub bug_desktop_site_other {[
 ]}
 
 sub include_addon_os {
-  include_os( addon => "e.g. Windows 8, MacOSX 10.7.5" )
+  include_os( addon => "e.g. Windows 8, MacOSX 10.7.5", icon => "browser" )
 }
 
 sub include_addon_version {

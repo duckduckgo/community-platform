@@ -1,36 +1,41 @@
 <h1><: $feedback_title :></h1>
-<form method="POST" class="feedback-wrap" action="<: $u('Feedback','step',$feedback_name,$steps_arg) :>">
-  <: if $step_count > 0 { :>
-    <div class="fb-step">
-	  <i class="fb-step__icon  ddgi-clock"></i>
-      <input type="submit" name="step_back" value="Back to previous step" class="fb-step__body  fb-step__body--btn" />
-	  <i class="fb-step__arrow  ddgi-arrow-up"></i>
-    </div>
-  <: } :>
-  <: if $step.has_options { :>
-    <: for $step.options -> $option { :>
-      <div class="fb-step  fb-step--active  js-fb-step">
-	    <i class="fb-step__icon  ddgi-<: $option.icon :>"></i>
-        <: my $template = "feedback/option/" ~ $option.type ~ ".tx" :>
-        <: include $template { option => $option, index => $~option.index } :>		
-        <: if $option.missing { :><: } :>
-      </div>
-    <: } :>
-  <: } :>
-  <: if $step.has_end { :>
-	  <div class="content-box  fb-answer">
-		<div class="head">
-			<h2>Instant Answer :)</h2>
+<div class="feedback-wrap">
+	<form method="POST" class="feedback-form" action="<: $u('Feedback','step',$feedback_name,$steps_arg) :>">
+	  <: if $step_count > 0 { :>
+		<div class="fb-step">
+		  <i class="fb-step__icon  ddgi-history"></i>
+		  <input type="submit" name="step_back" value="Back to previous step" class="fb-step__body  fb-step__body--btn" />
+		  <i class="fb-step__arrow  ddgi-arrow-up"></i>
 		</div>
-		<div class="body  content">
-		   <div class="row">
-			 <: r($step.end) :>
-		   </div>
-		</div>  
-	  </div>
-  <: } :>
-</form>
-<div class="notice  contrast">
-  <i class="icn icon-info-sign"></i>
-  <b>Note:</b> Submitting feedback from this form will send anonymous information about your web browser, like version and language information. To see this, click here: <a href="https://duckduckgo.com/?q=user+agent">https://duckduckgo.com/?q=user+agent</a>
+	  <: } :>
+	  <: if $step.has_options { :>
+		<: for $step.options -> $option { :>
+		  <div class="fb-step  js-fb-step  <: if $option.cssclass || $option.optional == 1 { $option.cssclass } else {:>fb-step--active<: } :>  <: if $option.missing { :>fb-step--error<: } :>">
+			<i class="fb-step__icon  ddgi-<: $option.icon :>"></i>
+			<: my $template = "feedback/option/" ~ $option.type ~ ".tx" :>
+			<: include $template { option => $option, index => $~option.index } :>		
+			<: if $option.missing { :>				
+				<i class="fb-step__warning icon-warning-sign" title="This field is required"></i>
+			<: } :>
+		  </div>
+		<: } :>
+	  <: } :>
+	  <: if $step.has_end { :>
+		  <div class="content-box  fb-answer">
+			<div class="head">
+				<h2>Instant Answer :)</h2>
+			</div>
+			<div class="body  content">
+			   <div class="row">
+				 <: r($step.end) :>
+			   </div>
+			</div>  
+		  </div>
+	  <: } :>
+	</form>
+	<div class="notice  contrast">
+	  <i class="icn icon-info-sign"></i>
+	  <b>Note:</b> Submitting feedback from this form will send anonymous information about your web browser, like version and language information. To see this, click here: <a href="https://duckduckgo.com/?q=user+agent">https://duckduckgo.com/?q=user+agent</a>
+	  <i class="close icon-remove"></i>
+	</div>
 </div>

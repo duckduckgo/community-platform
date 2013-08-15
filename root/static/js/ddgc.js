@@ -87,6 +87,7 @@ $(document).ready(function() {
 	$('.js-fb-step__input').blur(function() {	
 		if ($(this).val() != '') {
 			$(this).parents('.js-fb-step').removeClass('fb-step--active');
+			$(this).parents('.js-fb-step').removeClass('fb-step--error');
 			$(this).parents('.js-fb-step').find('.js-fb-step__toggle').toggleClass('hide');
 			$(this).parents('.js-fb-step').find('.js-fb-step__arrow').toggleClass('ddgi-arrow-left').toggleClass('ddgi-arrow-up');
 		}

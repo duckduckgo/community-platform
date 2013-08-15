@@ -1,1 +1,9 @@
-<h1>Thanks for your feedback!</h1>
+<div class="notice success">
+	<i class="icn icon-ok"></i>
+		Message received!
+	<i class="close icon-remove"></i>
+</div>
+
+<h2>Thanks for the feedback!</h2>
+
+<p>We'd love for you to join the rest of the community in helping DuckDuckGo get better. Check out the other ways <a href="https://duck.co/">you can improve DuckDuckGo</a> or <a href="https://duck.co/forum/">see what others are suggesting</a></p>
