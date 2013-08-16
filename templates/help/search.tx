@@ -1,32 +1,28 @@
 <h1>Search results</h1>
 
-<: include help::searchbox :>
-
-<br/><br/> <br/> <!-- else i cant USE the searchbox :( -->
-
+<div class="twothird  block-mid  mg-bottom--big">
+	<: include help::searchbox :>
+</div>
+<div class="help-search-results  twothird  block-mid">
 <: if $help_search { :>
-  <: if $search_helps.count { :>
-    <div class="callout">
-      <: for results($search_helps) -> $help { :>
-        <div class="third">
-          <div class="callout-box blue">
-            <a class="head" href="<: $u('Help','help',$help_language.locale,$help_category.key,$help.key) :>">
-              <h2><: $help.content_by_language_id($help_language_id).title :></h2>
-            </a>
-            <div class="body">
-              <h3><: $help.content_by_language_id($help_language_id).teaser :></h3>
-            </div>
-          </div>
-        </div>
-      <: } :>
-    </div>
+  <: if $search_helps.count { :>    
+      <: for results($search_helps) -> $help { :>        
+		<a class="linkbox  linkbox--result" href="<: $u('Help','help',$help_language.locale,$help_category.key,$help.key) :>">
+			<i class="linkbox__icon  icon-question-sign"></i>
+			<div class="linkbox__body">
+				<h2 class="linkbox__title"><: $help.content_by_language_id($help_language_id).title :></h2>
+				<: $help.content_by_language_id($help_language_id).teaser :>
+			</div>
+		</a>
+      <: } :>    
   <: } else { :>
     <h2>No search results!</h2>
   <: } :>
 <: } else { :>
   <h2>Please enter a search term!</h2>
 <: } :>
-
-<div class="row clear">
-  <a class="button" href="<: $u('Help','index',$help_language.locale) :>"><i class="icon-fast-backward"></i> Back to help index</a>
+	<div class="row   clear   mg-bottom--big">
+	  <a class="button" href="<: $u('Help','index',$help_language.locale) :>"><i class="icon-fast-backward"></i> Back to help index</a>
+	</div>
 </div>
+

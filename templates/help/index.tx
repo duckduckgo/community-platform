@@ -1,19 +1,20 @@
 <h1>Welcome to the DuckDuckGo Help pages!</h1>
 <p class="intro-message">In hac habitasse platea dictumst. Donec molestie, nisi at convallis feugiat, ipsum mi tincidunt dui, ultricies blandit est felis sit amet elit. Proin metus magna, ornare a mollis ut, feugiat at ante.</p>
 
-<: include help::searchbox :>
+<div class="twothird  block-mid  mg-bottom--big">
+	<: include help::searchbox :>
+</div>
 
-<div class="callout">
-  <: for results($help_categories) -> $category { :>
-    <div class="third">
-      <div class="callout-box blue">
-        <a class="head" href="<: $u('Help','category',$help_language.locale,$category.key) :>">
-          <h2><: $category.content_by_language_id($help_language_id).title :></h2>       
-        </a>
-        <div class="body">
-          <h3><: $category.content_by_language_id($help_language_id).description :></h3>
-        </div>
-      </div>
-    </div>
+<div class="gw">
+  <: for results($help_categories) -> $category { :>    
+	<div class="g half">	  
+		<a class="linkbox  linkbox--category" href="<: $u('Help','category',$help_language.locale,$category.key) :>">
+			<i class="linkbox__icon  icon-question-sign"></i>
+			<div class="linkbox__body">
+				<h2 class="linkbox__title"><: $category.content_by_language_id($help_language_id).title :></h2>
+				<: $category.content_by_language_id($help_language_id).description :>
+			</div>
+		</a>
+	</div> 	
   <: } :>
 </div>
