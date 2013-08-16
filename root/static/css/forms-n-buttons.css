@@ -188,6 +188,10 @@ One-Fielded Function Forms
 	padding-right: 32px;
 	box-shadow: inset 0 1px 1px rgba(0,0,0,.1);
 }
+	.one-field--leftbtn input.text {
+		padding-left: 36px;
+		padding-right: 6px;
+	}
 .one-field .button {
 	-webkit-border-radius: 0 5px 5px 0;
 	border-radius: 0 5px 5px 0;
@@ -200,6 +204,12 @@ One-Fielded Function Forms
 	background-color: #eaeaea;	
 	padding: 0 4px;
 }
+	.one-field--leftbtn .button { 
+		right: auto; 
+		left: 0; 
+		-webkit-border-radius: 5px 0 0 5px;
+		border-radius: 5px 0 0 5px;
+	}
 	.one-field .button.icon-search { line-height: 1; }
 
 /*--------------------------------------------------
