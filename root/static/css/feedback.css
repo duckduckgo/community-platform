@@ -204,6 +204,10 @@ you can use the generic selector below, but it's slower:
 
 /* interaction styling starts here */
 
+.feedback-title {
+	font-size: 2em;
+}
+
 .feedback-wrap {
 	max-width: 655px;
 }

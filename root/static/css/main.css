@@ -2,7 +2,7 @@
 body, select, input, textarea, button { font-size: 0.9em; }
 body { color: #444; background: #fff; }
 	body.texture, body.texture-nohighlight, body.texture-ducksymbol { background: #fefefe url('../img/bg-body-texture.jpg'); }
-body, h2, h3, h4, h5, h6, select, input, textarea, button, .sans  { 
+body, h2, h3, h4, h5, h6, select, input, textarea, button, .sans, .feedback-title  { 
 	font-family: "Helvetica Neue","HelveticaNeueLT Std","Segoe UI","Nimbus Sans L","Liberation Sans","Open Sans",FreeSans,Helvetica,Arial,sans-serif; 
 }
 .topmsg { font-family: 'Arial Black', sans-serif;}

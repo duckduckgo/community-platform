@@ -1,22 +1,28 @@
 <h1><: $help_category.content_by_language_id($help_language_id).title :></h1>
 <p class="intro-message"><: $help_category.content_by_language_id($help_language_id).description :></p>
 
-<: include help::searchbox :>
 
-<div class="callout">
-  <: for results($help_category.helps) -> $help { :>
-    <div class="third">
-      <div class="callout-box blue">
-        <a class="head" href="<: $u('Help','help',$help_language.locale,$help_category.key,$help.key) :>">
-          <h2><: $help.content_by_language_id($help_language_id).title :></h2>
-        </a>
-        <div class="body">
-          <h3><: $help.content_by_language_id($help_language_id).teaser :></h3>
-        </div>
-      </div>
-    </div>
-  <: } :>
-</div>
-<div class="row mid">
-  <a class="button blue" href="<: $u('Help','index',$help_language.locale) :>">Back to help index</a>
+
+<div class="gw">
+	<div class="g  twothird">		
+	  <: for results($help_category.helps) -> $help { :>
+		<div class="half">
+		  <div class="callout-box blue">
+			<a class="head" href="<: $u('Help','help',$help_language.locale,$help_category.key,$help.key) :>">
+			  <h2><: $help.content_by_language_id($help_language_id).title :></h2>
+			</a>
+			<div class="body">
+			  <h3><: $help.content_by_language_id($help_language_id).teaser :></h3>
+			</div>
+		  </div>
+		</div>
+	  <: } :>
+		
+	  <div class="row clear">
+	    <a class="button" href="<: $u('Help','index',$help_language.locale) :>"><i class="icon-fast-backward"></i> Back to help index</a>
+	  </div>
+	</div>
+	<div class="g  third">
+		<: include help::searchbox :>
+	</div>
 </div>

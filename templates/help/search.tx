@@ -27,6 +27,6 @@
   <h2>Please enter a search term!</h2>
 <: } :>
 
-<div class="row mid">
-  <a class="button blue" href="<: $u('Help','index',$help_language.locale) :>">Back to help index</a>
+<div class="row clear">
+  <a class="button" href="<: $u('Help','index',$help_language.locale) :>"><i class="icon-fast-backward"></i> Back to help index</a>
 </div>

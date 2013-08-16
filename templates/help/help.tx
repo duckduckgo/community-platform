@@ -1,35 +1,38 @@
-<: include help::searchbox :>
 
-<br/><br/> <br/> <!-- else i cant see the searchbox :( -->
-
-<div class="content-box">
-  <div class="head">
-    <h2><: $help_content.title :></h2>
-  </div>
-  <div class="body">
-    <div class="row">
-      <: r($help_content.content_html) :>
-    </div>
-    <div class="row mid">
-      <a class="button blue" href="<: $u('Help','index',$help_language.locale) :>">Back to help index</a>
-      <a class="button blue" href="<: $u('Help','category',$help_language.locale,$help_category.key) :>">Back to category</a>
-    </div>
-  </div>
+<div class="gw">
+	<div class="g  twothird">
+		<div class="content-box">
+		  <div class="head">
+			<h2><: $help_content.title :></h2>
+		  </div>
+		  <div class="body  content">
+			<div class="row">
+			  <: r($help_content.content_html) :>
+			</div>
+			<div class="row">
+			  <a class="button" href="<: $u('Help','index',$help_language.locale) :>"><i class="icon-fast-backward"></i> Back to help index</a>
+			  <a class="button" href="<: $u('Help','category',$help_language.locale,$help_category.key) :>"><i class="icon-step-backward"></i> Back to category</a>
+			</div>
+		  </div>
+		</div>
+	</div>
+	<div class="g  third">
+		<: include help::searchbox :>
+		<: if $help.related_helps.count { :>
+		  <div class="content-box">
+			<div class="head">
+			  <h2>Related help</h2>
+			</div>
+			<div class="body">
+			  <: for results($help.related_helps) -> $related_help { :>
+				<div class="row">
+				  <a href="<: $u('Help','help',$help_language.locale,$related_help.category.key,$related_help.key) :>">
+					<: $related_help.content_by_language_id($help_language_id).title :>
+				  </a>
+				</div>
+			  <: } :>
+			</div>
+		  </div>
+		<: } :>
+	</div>
 </div>
-
-<: if $help.related_helps.count { :>
-  <div class="content-box">
-    <div class="head">
-      <h2>Related help</h2>
-    </div>
-    <div class="body">
-      <: for results($help.related_helps) -> $related_help { :>
-        <div class="row">
-          <a href="<: $u('Help','help',$help_language.locale,$related_help.category.key,$related_help.key) :>">
-            <: $related_help.content_by_language_id($help_language_id).title :>
-          </a>
-        </div>
-      <: } :>
-    </div>
-  </div>
-<: } :>
