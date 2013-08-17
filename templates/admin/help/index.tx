@@ -2,8 +2,9 @@
 <: for results($helps) -> $help { :>
   <form method="POST" action="<: $u('Admin::Help','index') :>">
     <div class="content-box content-box-toggleclick only">
-      <div id="help_<: $help.id :>_clicker" class="head">
+      <div id="help_<: $help.id :>_clicker" class="head  head--grey">
         <h2>#<: $help.id :> [<: $help.category.key :>] <: $help.key :></h2>
+		<: include 'i/help/head_icons.tx' :>
       </div>
       <div class="body">
         <: i($help,'form') :>
@@ -19,6 +20,7 @@
   <div class="content-box content-box-toggleclick only">
     <div class="head">
       <h2>New help...</h2>
+	  <: include 'i/help/head_icons.tx' :>
     </div>
     <div class="body">
       <: include 'i/help/form.tx' :>

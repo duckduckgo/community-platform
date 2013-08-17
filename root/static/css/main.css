@@ -816,6 +816,7 @@ table th[class*="span"],
 	-webkit-background-clip: padding-box; 
 	background-clip: padding-box;		
 }
+	.content-box-toggleclick { cursor: pointer; }
 	.content-box .head { 
 		background: #ffde85;
 		color: #484438;

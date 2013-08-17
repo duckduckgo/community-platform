@@ -55,16 +55,19 @@ $(document).ready(function() {
 
 	$('.content-box-toggleclick').each(function(){
 		var cb = $(this);
+		var head = $(this).children('.head').addClass('head--round');
 		var body = $(this).children('.body').hide();
+		
 		$(this).children('.head').click(function(){
 			if (cb.hasClass('only')) {
 				$('.content-box-toggleclick').each(function(){
-					if (!$(this).is(cb)) {
+					if (!$(this).is(cb)) {							
 						$(this).children('.body').hide('fast');
 					}
 				});
 			}
 			body.toggle('fast');
+			head.toggleClass('head--round');
 		});
 	});
 

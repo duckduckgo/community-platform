@@ -2,8 +2,9 @@
 <: for results($categories) -> $category { :>
   <form method="POST" action="<: $u('Admin::Help','categories') :>">
     <div class="content-box content-box-toggleclick only">
-      <div id="help_<: $category.id :>_clicker" class="head">
+      <div id="help_<: $category.id :>_clicker" class="head  head--grey">
         <h2>#<: $category.id :> <: $category.key :></h2>
+		<: include 'i/help/head_icons.tx' :>
       </div>
       <div class="body">
         <: i($category,'form') :>
@@ -18,6 +19,7 @@
   <div class="content-box content-box-toggleclick only">
     <div class="head">
       <h2>New help category...</h2>
+	  <: include 'i/help/head_icons.tx' :>
     </div>
     <div class="body">
       <: include 'i/help_category/form.tx' :>
