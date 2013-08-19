@@ -54,13 +54,14 @@ $(document).ready(function() {
 
 
 	$('.content-box-toggleclick').each(function(){
-		var cb = $(this).addClass('is-closed');		
+		var cb = $(this).addClass('is-open');		
 		var body = $(this).children('.body').hide();
 		
 		$(this).children('.head').click(function(){
 			if (cb.hasClass('only')) {
 				$('.content-box-toggleclick').each(function(){
-					if (!$(this).is(cb)) {							
+					if (!$(this).is(cb)) {		
+						$(this).toggleClass('is-closed').addClass('is-closed')
 						$(this).children('.body').hide('fast');
 					}
 				});

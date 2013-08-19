@@ -48,7 +48,7 @@
 			</div>
 			<div class="body">
 				<div class="row">
-					<a class="button  lightblue  pull-right" href="<: $u($token_domain.u) :>">
+					<a class="button  ghostblue  pull-right" href="<: $u($token_domain.u) :>">
 						<i class="icon icon-pencil"></i> Help us translate <: $token_domain.name :>!
 					</a>
 					<p><: r($token_domain.description) :></p>

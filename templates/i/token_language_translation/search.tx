@@ -3,7 +3,7 @@
   <: for [0..$token_language_translation.msgstr_index_max] -> $index { :>
     <: my $func = 'msgstr' ~ $index :>
     <: if call($token_language_translation,$func) { :>
-      <div class="blue fb button"><: call($token_language_translation,$func) :></div>
+      <div class="blue fb tag"><: call($token_language_translation,$func) :></div>
     <: } :>
   <: } :>
   <a href="<: $u('Translate','tokenlanguage',$_.token_language.id) :>" class="pull-right button">Go to</a>

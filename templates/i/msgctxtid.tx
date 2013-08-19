@@ -1,7 +1,7 @@
 <: if $msgctxtid.msgctxt { :>
 	<div class="red tag"><: $msgctxtid.msgctxt :></div>
 <: } :>
-<div class="blue fb button"><: $msgctxtid.msgid :></div>
+<div class="blue fb tag"><: $msgctxtid.msgid :></div>
 <: if $msgctxtid.msgid_plural { :>
 	<div class="blue tw tag"><: $msgctxtid.msgid_plural :></div>
 <: } :>

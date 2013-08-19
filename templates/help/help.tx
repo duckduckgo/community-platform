@@ -1,4 +1,7 @@
-
+<div class="breadcrumb-right">
+    <a class="button" href="<: $u('Help','index',$help_language.locale) :>"><i class="icon-fast-backward" title="Back to help index"></i></a>
+    <a class="button" href="<: $u('Help','category',$help_language.locale,$help_category.key) :>"><i class="icon-step-backward" title="Back to category"></i></a>
+</div>
 <div class="gw">
 	<div class="g  twothird">
 		<div class="content-box">
@@ -21,7 +24,7 @@
 		<: if $help.related_helps.count { :>
 		  <div class="content-box">
 			<div class="head">
-			  <h2>Related help</h2>
+			  <h5>Related Help Articles</h5>
 			</div>
 			<div class="body">
 			  <: for results($help.related_helps) -> $related_help { :>

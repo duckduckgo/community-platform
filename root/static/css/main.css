@@ -800,7 +800,7 @@ table th[class*="span"],
 		.disclaimer h6, .disclaimer p{ font-size: 0.8em; line-height: 1.52; margin: 0; }
 
 .breadcrumb-nav { padding-bottom: 10px; min-height: 26px;}	
-	.breadcrumb-nav + h1 { margin-top: 0; }
+	.breadcrumb-nav + h1, .breadcrumb-right + h1 { margin-top: 0; }
 	.breadcrumbs { float: left; font-size: 0.9em; }
 	.breadcrumbs a { border-bottom: 1px solid #3262b4; }
 	.language_nav { float: right; margin-top: -5px; }
@@ -811,8 +811,8 @@ table th[class*="span"],
 
 .breadcrumb-right {
 	float: right;
-	padding-bottom: 20px;
-	margin-top: -40px;
+	padding-bottom: 10px;
+	margin-top: -42px;
 }
 
 .content-box {
@@ -823,7 +823,7 @@ table th[class*="span"],
 	-webkit-background-clip: padding-box; 
 	background-clip: padding-box;		
 }
-	.content-box-toggleclick { cursor: pointer; }
+	.content-box-toggleclick .head{ cursor: pointer; }
 	.content-box .head { 
 		background: #ffde85;
 		color: #484438;
@@ -847,9 +847,12 @@ table th[class*="span"],
 			display: inline-block;
 			padding: 3px 0 2px 10px; 
 			margin: 0; 
-			font-weight: normal; 
-			font-size: 20px; 
+			font-weight: normal; 			
 		}
+			.content-box .head h2 { font-size: 20px; }
+			.content-box .head h3 { font-size: 18px; }
+			.content-box .head h4 { font-size: 16px; }
+			.content-box .head h5 { font-size: 14px; }
 			.content-box .head h2 a, .content-box .head h3 a, .content-box .head h4 a, .content-box .head h5 a {
 				color: inherit;
 			}

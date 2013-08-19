@@ -1,4 +1,8 @@
-<h1><: $help_category.content_by_language_id($help_language_id).title :></h1>
+<div class="breadcrumb-right">
+    <a class="button" href="<: $u('Help','index',$help_language.locale) :>"><i class="icon-fast-backward" title="Back to help index"></i></a>    
+</div>
+
+<h1 class="clear"><: $help_category.content_by_language_id($help_language_id).title :></h1>
 <p class="intro-message"><: $help_category.content_by_language_id($help_language_id).description :></p>
 
 <div class="twothird  block-mid  mg-bottom--big">
