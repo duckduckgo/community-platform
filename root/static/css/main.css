@@ -5,7 +5,7 @@ body { color: #444; background: #fff; }
 body, h2, h3, h4, h5, h6, select, input, textarea, button, .sans, .feedback-title  { 
 	font-family: "Helvetica Neue","HelveticaNeueLT Std","Segoe UI","Nimbus Sans L","Liberation Sans","Open Sans",FreeSans,Helvetica,Arial,sans-serif; 
 }
-.topmsg { font-family: 'Arial Black', sans-serif;}
+.topmsg { font-family: 'Arial Black', sans-serif;} 
 
 body.texture:before, body.texture:after, body.texture-ducksymbol:before {
 	display: block; 
@@ -829,7 +829,7 @@ table th[class*="span"],
 		margin-bottom: -1px;
 		position: relative;
 	}
-	.content-box .head--round {
+	.content-box .head--round, .content-box.is-closed .head {
 		-webkit-border-radius: 5px;
 		border-radius: 5px;
 	}
@@ -868,6 +868,19 @@ table th[class*="span"],
 				position: relative;
 				top: 3px;
 			}
+		.content-box .head .toggle-icons {
+			font-size: 18px;
+			padding-right: 8px;
+		}		
+		.toggle-icon { display: none; opacity: 0.3; }
+			.toggle-icon:hover { opacity: 0.4; }
+			.toggle-icon:active { opacity: 0.5;	}
+			
+			.is-open .toggle-icon--closed,
+			.is-closed .toggle-icon--opened { display: none !important; }
+			.is-open .toggle-icon--opened { display: inline-block; }
+			.is-closed .toggle-icon--closed { display: inline-block; }
+			
 		
 	.content-box .body {
 		color: #color: #48505b;
