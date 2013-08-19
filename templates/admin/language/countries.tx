@@ -6,10 +6,10 @@
         <h2>#<: $country.id :> <: $country.name_in_english :></h2>
         &nbsp;&nbsp;&nbsp;<img src="<: $country.flag_url :>" />
       </div>
-      <div class="body">
+      <div class="body  column-form">
         <: i($country,'form') :>
         <div class="row">
-          <input type="submit" class="button blue" name="save_country" value="Save changes (changes to other countries are lost)" />
+          <input type="submit" class="button" name="save_country" value="Save changes (changes to other countries are lost)" />
         </div>
       </div>
     </div>
@@ -20,10 +20,10 @@
     <div class="head">
       <h2>New country...</h2>
     </div>
-    <div class="body">
+    <div class="body  column-form">
       <: include 'i/country/form.tx' :>
       <div class="row">
-        <input type="submit" class="button blue" name="save_country" value="Add new country" />
+        <input type="submit" class="button" name="save_country" value="Add new country" />
       </div>
     </div>
   </div>

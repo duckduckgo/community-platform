@@ -1,5 +1,5 @@
-<div>
+<div class="breadcrumb-right">
   <a class="button" href="<: $u('Admin::Help','index') :>"><i class="icon-question-sign"></i> Help Article Editor</a>
   <a class="button" href="<: $u('Admin::Help','categories') :>"><i class="icon-bookmark"></i> Category Editor</a>
 </div>
-<hr/>
+<br class="clear" />

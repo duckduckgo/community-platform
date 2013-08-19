@@ -1,16 +1,19 @@
 <: include admin::help::menu :>
+<h2>Help Articles</h2>
+<hr/>
+
 <: for results($helps) -> $help { :>
   <form method="POST" action="<: $u('Admin::Help','index') :>">
     <div class="content-box content-box-toggleclick only">
-      <div id="help_<: $help.id :>_clicker" class="head  head--grey">
+      <div id="help_<: $help.id :>_clicker" class="head">
         <h2>#<: $help.id :> [<: $help.category.key :>] <: $help.key :></h2>
 		<: include 'i/help/head_icons.tx' :>
       </div>
-      <div class="body">
+      <div class="body  column-form">
         <: i($help,'form') :>
-        <div class="row">
-          <input type="submit" class="button blue" name="save_help" value="Save changes (changes to other help articles are lost)" />
-          <a href="<: $u('Admin::Help','media',$help.help_category.key,$help.key) :>" class="button blue">Integrate used media (Changes get lost!)</a>
+        <div class="row  button-floaters">
+          <input type="submit" class="button" name="save_help" value="Save changes (changes to other help articles are lost)" />
+          <a href="<: $u('Admin::Help','media',$help.help_category.key,$help.key) :>" class="button"><i class="icon-copy"></i>  Integrate Media <small>(Changes will be lost!)</small></a>
         </div>
       </div>
     </div>
@@ -22,10 +25,10 @@
       <h2>New help...</h2>
 	  <: include 'i/help/head_icons.tx' :>
     </div>
-    <div class="body">
+    <div class="body  column-form">
       <: include 'i/help/form.tx' :>
       <div class="row">
-        <input type="submit" class="button blue" name="save_help" value="Add new help article" />
+        <input type="submit" class="button" name="save_help" value="Add new help article" />
       </div>
     </div>
   </div>

@@ -1,5 +1,5 @@
-<div>
-  <a class="button blue" href="<: $u('Admin::Language','index') :>">Language editor</a>
-  <a class="button blue" href="<: $u('Admin::Language','countries') :>">Country editor</a>
+<div class="breadcrumb-right">
+  <a class="button" href="<: $u('Admin::Language','index') :>"><i class="icon-globe"></i> Language editor</a>
+  <a class="button" href="<: $u('Admin::Language','countries') :>"><i class="icon-flag"></i> Country editor</a>
 </div>
-<hr/>
+<br class="clear" />

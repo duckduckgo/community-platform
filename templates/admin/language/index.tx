@@ -6,10 +6,10 @@
 				<h2>#<: $language.id :> <: $language.name_in_english :></h2>
 				&nbsp;&nbsp;&nbsp;<img src="<: $language.country.flag_url :>" />
 			</div>
-			<div class="body">
+			<div class="body  column-form">
 				<: i($language,'form') :>
 				<div class="row">
-					<input type="submit" class="button blue" name="save_language" value="Save changes (changes to other languages are lost)" />
+					<input type="submit" class="button" name="save_language" value="Save changes (changes to other languages are lost)" />
 				</div>
 			</div>
 		</div>
@@ -20,10 +20,10 @@
 		<div class="head">
 			<h2>New language...</h2>
 		</div>
-		<div class="body">
+		<div class="body  column-form">
 			<: include 'i/language/form.tx' :>
 			<div class="row">
-				<input type="submit" class="button blue" name="save_language" value="Add new language" />
+				<input type="submit" class="button" name="save_language" value="Add new language" />
 			</div>
 		</div>
 	</div>

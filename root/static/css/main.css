@@ -807,7 +807,14 @@ table th[class*="span"],
 		.language_nav .button { float: right; padding: 4px; margin-left:4px; font-weight: normal; }
 		.language_nav .select2-container, .language_nav select { height: 29px; }
 		.language_nav .select2-container { font-size: 0.9em; min-width: 200px; }
-		.language_nav .select2-default span { color: #3364b3; font-weight: bold; }		
+		.language_nav .select2-default span { color: #3364b3; font-weight: bold; }
+
+.breadcrumb-right {
+	float: right;
+	padding-bottom: 20px;
+	margin-top: -40px;
+}
+
 .content-box {
 	position: relative;
 	margin: 0 auto 18px;
@@ -1036,6 +1043,8 @@ filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=2);
 	}
 	
 	.language_nav { margin-top: 6px; }
+	.breadcrumb-right { float: none; margin-top: 0; }
+	
 	
 	.site-bottom .nav-col { padding-left: 0; text-align: center; }
 		.nav-col h4 { font-size: 17px; padding-top: 14px; }

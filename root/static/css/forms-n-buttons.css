@@ -268,7 +268,7 @@ Buttons/Tags
 	white-space: nowrap;
 	vertical-align: middle;
 }
-	
+
 .button, .tag, a.button, input.button {
 	text-align: center; 
 	padding: 4px 12px;
@@ -302,6 +302,12 @@ Buttons/Tags
 	}	
 		.input-wrap .button { width: 100%; margin: 0 auto; padding: 0; }		
 
+.button-floaters > .button{
+  float: left;
+  margin-right: 6px;
+}
+			
+		
 .button-group > .button {
 	font-size: 14px;
 	position: relative;

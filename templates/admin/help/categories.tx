@@ -1,15 +1,17 @@
 <: include admin::help::menu :>
+<h2>Help Categories</h2>
+<hr/>
 <: for results($categories) -> $category { :>
   <form method="POST" action="<: $u('Admin::Help','categories') :>">
     <div class="content-box content-box-toggleclick only">
-      <div id="help_<: $category.id :>_clicker" class="head  head--grey">
+      <div id="help_<: $category.id :>_clicker" class="head">
         <h2>#<: $category.id :> <: $category.key :></h2>
 		<: include 'i/help/head_icons.tx' :>
       </div>
-      <div class="body">
+      <div class="body  column-form">
         <: i($category,'form') :>
         <div class="row">
-          <input type="submit" class="button blue" name="save_category" value="Save changes (changes to other categories are lost)" />
+          <input type="submit" class="button" name="save_category" value="Save changes (changes to other categories are lost)" />
         </div>
       </div>
     </div>
@@ -21,10 +23,10 @@
       <h2>New help category...</h2>
 	  <: include 'i/help/head_icons.tx' :>
     </div>
-    <div class="body">
+    <div class="body  column-form">
       <: include 'i/help_category/form.tx' :>
       <div class="row">
-        <input type="submit" class="button blue" name="save_category" value="Add new help category" />
+        <input type="submit" class="button" name="save_category" value="Add new help category" />
       </div>
     </div>
   </div>
