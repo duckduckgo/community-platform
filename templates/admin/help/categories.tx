@@ -5,7 +5,7 @@
   <form method="POST" action="<: $u('Admin::Help','categories') :>">
     <div class="content-box content-box-toggleclick only">
       <div id="help_<: $category.id :>_clicker" class="head">
-        <h2>#<: $category.id :> <: $category.key :></h2>
+        <h4>#<: $category.id :> <: $category.key :></h4>
 		<: include 'i/head_icons.tx' :>
       </div>
       <div class="body  column-form">
@@ -19,8 +19,8 @@
 <: } :>
 <form method="POST" action="<: $u('Admin::Help','categories') :>">
   <div class="content-box content-box-toggleclick only">
-    <div class="head">
-      <h2>New help category...</h2>
+    <div class="head  head--grey">
+      <h2>New Help Category...</h2>
 	  <: include 'i/head_icons.tx' :>
     </div>
     <div class="body  column-form">

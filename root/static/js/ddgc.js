@@ -54,30 +54,32 @@ $(document).ready(function() {
 
 
 	$('.content-box-toggleclick').each(function(){
-		var cb = $(this).addClass('is-open');		
+		var cb = $(this).toggleClass('is-closed');		
 		var body = $(this).children('.body').hide();
 		
 		$(this).children('.head').click(function(){
 			if (cb.hasClass('only')) {
 				$('.content-box-toggleclick').each(function(){
-					if (!$(this).is(cb)) {		
-						$(this).toggleClass('is-closed').addClass('is-closed')
+					if (!$(this).is(cb)) {
+						$(this).removeClass('is-open').addClass('is-closed')
 						$(this).children('.body').hide('fast');
 					}
 				});
 			}
 			body.toggle('fast');
 			cb.toggleClass('is-closed');
-			cb.toggleClass('is-open')
+			cb.toggleClass('is-open');
 		});
 	});
-
+	
+	$('.content-box-click').addClass('is-open').toggleClass('is-closed');
 	$('.content-box-click').children('.body').toggle();
 
 	//
 	// Feedback page
 	//
 	$('.js-fb-step--decativate').parent().removeClass('fb-step--active');
+	// lol I misspelled it
 	
 	// input binding
 	$('.js-fb-step').on("change, click", function () {

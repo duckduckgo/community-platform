@@ -845,9 +845,10 @@ table th[class*="span"],
 	}
 		.content-box .head h2, .content-box .head h3, .content-box .head h4, .content-box .head h5 { 
 			display: inline-block;
-			padding: 3px 0 2px 10px; 
 			margin: 0; 
-			font-weight: normal; 			
+			padding: 3px 0 2px 10px; 			
+			font-weight: normal; 	
+			line-height: 20px; 
 		}
 			.content-box .head h2 { font-size: 20px; }
 			.content-box .head h3 { font-size: 18px; }
