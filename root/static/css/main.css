@@ -179,6 +179,9 @@ a.fill {
 /* grid spacing classes */
 .gw, .grid-wrap { margin-left: -18px; }
 	.g, .grid { padding-left: 18px; }
+	
+	.gw--sm { margin-left: -10px; }
+		.gw--sm .g { padding-left: 10px; }
 
 .sortby {
 	display: block;
@@ -248,28 +251,72 @@ a.fill {
         width: 100%;
     }
 
+/* 
+	nav stylin' 
+*/	
+.nav {
+	/* navs are usually 'ul's, so we're going to reset them sum-bitches */
+	margin: 0;
+	list-style: none;
+	/* and that's pretty much all we need for now */
+}
+		.nav-item { display: block; }
+		.nav-item__link, .nav-item__title { display: block;  cursor: pointer; }
+	
+.nav--panels {
+	/* ok now we know what kind of nav this is, so we're going to go ahead and style it */
+	background-color: #f5f5f5;
+	border: 1px solid #d7d7d7;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+}
+	.nav--panels .nav-item { 
+		border-top: 1px solid #d7d7d7; 		
+	}
+		.nav--panels .nav-item:first-child { border-top: none; }
+	.nav--panels .nav-item:first-child .nav-item__title   {		
+		-webkit-border-radius: 5px 5px 0 0;
+		border-radius: 5px 5px 0 0;
+	}
+	.nav--panels .nav-item:last-child  .nav-item__title  {
+		-webkit-border-radius: 0 0 5px 5px;
+		border-radius: 0 0 5px 5px;
+	}
+	.nav--panels .nav-item__title {
+		padding: 0.5em 1em;
+		background-color: #fff;
+		position: relative;
+	}
+	.nav--panels .nav--sub {
+		border-top: 1px solid #d7d7d7;		
+		overflow: hidden;
+	}
+		.nav--panels .sub-item:first-child {
+			padding-top: 0.5em;
+		}
+		.nav--panels .sub-item:last-child {
+			padding-bottom: 0.5em;
+		}
+		.nav--panels .sub-item__title {
+			padding: 0.25em 1em; 
+		}
+		
+		.nav--sub.is-open {
+			max-height: 1000em;
+			margin-top: 0;
+		}
+		.nav--sub.is-closed {
+			max-height: 0px;
+			margin-top: -1px;			
+		}
+	
 /* clearfix */
 .group:after, .wrap:after, .breadcrumb-nav:after, .content-box .head:after, .comment_reply:after,
-.content-box .row:after, .one-field:after, .author-info:after, .comment-foot:after  {
+.content-box .row:after, .one-field:after, .author-info:after, .comment-foot:after, .nav:after, .nav-item:after  {
   content: "";
   display: table;
   clear: both;
 }
-
-/* 
-	Margin Helpers
-*/
-.mg-top { margin-top: 10px; }
-.mg-top--big { margin-top: 30px; }
-.mg-top--double { margin-top: 20px; }
-.mg-top--small { margin-top: 5px; }
-.mg-top--none { margin-top: 0; }
-
-.mg-bottom { margin-bottom: 10px; }
-.mg-bottom--big { margin-bottom: 30px; }
-.mg-bottom--double { margin-bottom: 20px; }
-.mg-bottom--small { margin-bottom: 5px; }
-.mg-bottom--none { margin-bottom: 0; }
 
 /* 
 	Header
@@ -523,6 +570,7 @@ a.fill {
 	.breadcrumb-nav + h1, .breadcrumb-right + h1 { margin-top: 0; }
 	.breadcrumbs { float: left; font-size: 0.9em; }
 	.breadcrumbs a { border-bottom: 1px solid #3262b4; }
+		.breadcrumbs a:hover { border-bottom-color: transparent; }
 	.language_nav { float: right; margin-top: -5px; }
 		.language_nav .button { float: right; padding: 4px; margin-left:4px; font-weight: normal; }
 		.language_nav .select2-container, .language_nav select { height: 29px; }
@@ -684,6 +732,25 @@ a.fill {
 	.site-footer p { margin-bottom: 0; padding-left: 25px; }
 	.footer-nav a { display: inline-block; padding-right: 16px; }
 
+
+/* 
+	Margin Helpers
+	At the bottom of this file to be more helpful :)
+*/
+.mg-top { margin-top: 10px; }
+.mg-top--base { margin-top: 18px; }
+.mg-top--big { margin-top: 30px; }
+.mg-top--double { margin-top: 20px; }
+.mg-top--small { margin-top: 5px; }
+.mg-top--none { margin-top: 0; }
+
+.mg-bottom { margin-bottom: 10px; }
+.mg-bottom--base { margin-bottom: 18px; }
+.mg-bottom--big { margin-bottom: 30px; }
+.mg-bottom--double { margin-bottom: 20px; }
+.mg-bottom--small { margin-bottom: 5px; }
+.mg-bottom--none { margin-bottom: 0; }	
+	
 /* 
 	Fun fun Rotation!
 */

@@ -6,6 +6,7 @@ BEGIN {extends 'Catalyst::Controller'; }
 
 sub base :Chained('/base') :PathPart('help') :CaptureArgs(0) {
   my ( $self, $c ) = @_;
+  $c->stash->{page_class} = "page-help  texture-ducksymbol";
 }
 
 sub index_redirect :Chained('base') :PathPart('') :Args(0) {

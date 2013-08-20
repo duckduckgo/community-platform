@@ -1,0 +1,35 @@
+	  
+	<ul class="nav  nav--panels">
+		<li class="nav-item">
+			<a href="" class="nav-item__title  nav-item__link  js-toggle-subnav">Lorem ipsum</a>
+			<ul class="nav  nav--sub  is-closed">
+				<li class="sub-item"><a href="" class="sub-item__title  sub-item__link">Vestibulum</a></li>
+				<li class="sub-item"><a href="" class="sub-item__title  sub-item__link">Nam in laoreet</a></li>
+				<li class="sub-item"><a href="" class="sub-item__title  sub-item__link">In hac habitasse</a></li>
+			</ul>
+		</li>
+		<li class="nav-item  nav-item--active">
+			<span class="nav-item__title  js-toggle-subnav">Integer blandit</span>
+			<ul class="nav  nav--sub  is-open">
+				<li class="sub-item"><a href="" class="sub-item__title  sub-item__link">Vestibulum</a></li>
+				<li class="sub-item"><span href="" class="sub-item__title">Nam in laoreet</span></li>
+				<li class="sub-item"><a href="" class="sub-item__title  sub-item__link">In hac habitasse</a></li>
+			</ul>
+		</li>
+		<li class="nav-item">
+			<a href="" class="nav-item__title  nav-item__link  js-toggle-subnav">In vel dolor</a>
+			<ul class="nav  nav--sub  is-closed">
+				<li class="sub-item"><a href="" class="sub-item__title  sub-item__link">Vestibulum</a></li>
+				<li class="sub-item"><a href="" class="sub-item__title  sub-item__link">Nam in laoreet</a></li>
+				<li class="sub-item"><a href="" class="sub-item__title  sub-item__link">In hac habitasse</a></li>
+			</ul>
+		</li>
+		<li class="nav-item">
+			<a href="" class="nav-item__title  nav-item__link  js-toggle-subnav">Aliquam erat</a>
+			<ul class="nav  nav--sub  is-closed">
+				<li class="sub-item"><a href="" class="sub-item__title  sub-item__link">Vestibulum</a></li>
+				<li class="sub-item"><a href="" class="sub-item__title  sub-item__link">Nam in laoreet</a></li>
+				<li class="sub-item"><a href="" class="sub-item__title  sub-item__link">In hac habitasse</a></li>
+			</ul>
+		</li>
+	</ul>

@@ -2,8 +2,8 @@
     <a class="button" href="<: $u('Help','index',$help_language.locale) :>"><i class="icon-fast-backward" title="Back to help index"></i></a>
     <a class="button" href="<: $u('Help','category',$help_language.locale,$help_category.key) :>"><i class="icon-step-backward" title="Back to category"></i></a>
 </div>
-<div class="gw">
-	<div class="g  twothird">
+<div class="gw  gw--sm  mg-bottom">
+	<div class="g  threequarter  pull-right">
 		<div class="content-box">
 		  <div class="head">
 			<h2><: $help_content.title :></h2>
@@ -19,10 +19,10 @@
 		  </div>
 		</div>
 	</div>
-	<div class="g  third">
+	<div class="g  quarter">
 		<: include help::searchbox :>
 		<: if $help.related_helps.count { :>
-		  <div class="content-box">
+		  <div class="content-box  mg-bottom">
 			<div class="head">
 			  <h5>Related Help Articles</h5>
 			</div>
@@ -37,5 +37,7 @@
 			</div>
 		  </div>
 		<: } :>
+		<: include help::sidenav :>
+		
 	</div>
 </div>
