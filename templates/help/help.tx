@@ -36,8 +36,25 @@
 			  <: } :>
 			</div>
 		  </div>
-		<: } :>
-		<: include help::sidenav :>
+		<: } :>		
+		<ul class="nav  nav--panels">
+		  <: for results($help_categories) -> $category { :>
+			<li class="nav-item <: if $category.key == $help_category.key { :> nav-item--active<:}:>">
+			  <: if $category.key != $help_category.key { :>
+				<a href="<: $u('Help','category',$help_language.locale,$category.key) :>" class="nav-item__title  nav-item__link  js-toggle-sibling"><: $category.content_by_language_id($help_language_id).title :></a>
+			  <: } else { :>				
+				<span class="nav-item__title  js-toggle-sibling"><: $category.content_by_language_id($help_language_id).title :></span>
+			  <: } :>
+				<ul class="nav  nav--sub <: if $category.key == $help_category.key { :> is-open <: } else {:> is-closed <:}:>">
+					<: for results($category.helps) -> $help_nav { :>
+					  <li class="sub-item">
+						<a href="<: $u('Help','help',$help_language.locale,$category.key,$help_nav.key) :>" class="sub-item__title  sub-item__link"><: $help_nav.content_by_language_id($help_language_id).title :></a>
+					</li>
+					<: } :>
+				</ul>
+			</li>			
+		  <: } :>	
+		</ul>
 		
 	</div>
 </div>

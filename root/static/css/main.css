@@ -286,7 +286,7 @@ a.fill {
 		-webkit-border-radius: 0 0 5px 5px;
 		border-radius: 0 0 5px 5px;
 	}
-	.nav--panels .nav-item__title {
+	.nav-item__title {
 		color: inherit; 
 		font-weight: bold; 
 		padding: 0.75em 1.25em;
@@ -295,37 +295,36 @@ a.fill {
 		border-bottom: 1px solid #d7d7d7;
 		margin-bottom: -1px;
 	}
-		.nav--panels .nav-item__link:hover { 
+		.nav-item__link:hover { 
 			background-color: #fefefe;  			
 		}
-			.nav--panels .nav-item__link:active { background-color: #f7f7f7; }
-		.nav--panels .nav-item--active .nav-item__title { 			
+			.nav-item__link:active { background-color: #f7f7f7; }
+		.nav-item--active .nav-item__title { 			
 			color: #fff;
-			background-color: #6b7b94; 
-			border: 1px solid #2d4a5c; 
+			background-color: #6b7b94; 			
 			text-shadow: 0 -1px 0 rgba(0,0,0,0.9);
-			margin: -1px;
-		}		
+		}
+			.nav-item--active .nav-item__title:active { background-color: #277adb; }
 		
-	.nav--panels .nav--sub {		
+	.nav--sub {		
 		overflow: hidden;
 	}
-		.nav--panels .sub-item:first-child {
+		.sub-item:first-child {
 			padding-top: 0.75em;
 		}
-		.nav--panels .sub-item:last-child {
+		.sub-item:last-child {
 			padding-bottom: 0.75em;
 		}
-		.nav--panels .sub-item__title {
+		.sub-item__title {
 			display: block;
 			padding: 0.5em 1.5em; 
 		}
 		
-		.nav--panels .sub-item--active {
+		.sub-item--active {
 			font-weight: bold; 
 		}
-			.nav--panels .sub-item--active .sub-item__title, 
-			.nav--panels .sub-item__link:hover {
+			.sub-item--active .sub-item__title, 
+			.sub-item__link:hover {
 				background-color: #fff;
 				color: inherit;
 			}

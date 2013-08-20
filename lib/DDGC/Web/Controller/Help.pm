@@ -7,6 +7,10 @@ BEGIN {extends 'Catalyst::Controller'; }
 sub base :Chained('/base') :PathPart('help') :CaptureArgs(0) {
   my ( $self, $c ) = @_;
   $c->stash->{page_class} = "page-help  texture-ducksymbol";
+  $c->stash->{help_categories} = $c->d->rs('Help::Category')->search({},{
+    order_by => { -asc => 'me.sort' },
+    prefetch => [ 'help_category_contents', { helps => 'help_contents' } ],
+  });
 }
 
 sub index_redirect :Chained('base') :PathPart('') :Args(0) {
@@ -28,10 +32,7 @@ sub language :Chained('base') :PathPart('') :CaptureArgs(1) {
 sub index :Chained('language') :PathPart('') :Args(0) {
   my ( $self, $c ) = @_;
   $c->bc_index;
-  $c->stash->{help_categories} = $c->d->rs('Help::Category')->search({},{
-    order_by => { -asc => 'me.sort' },
-    prefetch => [ 'help_category_contents', { helps => 'help_contents' } ],
-  });
+
 }
 
 sub search :Chained('language') :Args(0) {
