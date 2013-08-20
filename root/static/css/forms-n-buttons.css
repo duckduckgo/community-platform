@@ -210,8 +210,9 @@ One-Fielded Function Forms
 		-webkit-border-radius: 5px 0 0 5px;
 		border-radius: 5px 0 0 5px;
 	}
+		.lt-ie9 .one-field--leftbtn .button { padding-left: 0; padding-right: 0; }
 	.one-field .button.icon-search { line-height: 1; }
-
+	
 /*--------------------------------------------------
 Comment Forms
 -------------------------------------------------- */	

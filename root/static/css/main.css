@@ -261,7 +261,7 @@ a.fill {
 	/* and that's pretty much all we need for now */
 }
 		.nav-item { display: block; }
-		.nav-item__link, .nav-item__title { display: block;  cursor: pointer; }
+		.nav-item__link, .nav-item__title { display: block; }
 	
 .nav--panels {
 	/* ok now we know what kind of nav this is, so we're going to go ahead and style it */
@@ -269,11 +269,15 @@ a.fill {
 	border: 1px solid #d7d7d7;
 	-webkit-border-radius: 5px;
 	border-radius: 5px;
+	margin-bottom: 10px;
 }
 	.nav--panels .nav-item { 
-		border-top: 1px solid #d7d7d7; 		
+		border-top: 1px solid #d7d7d7; 	
+		min-height: 2.9em;
+		overflow: hidden; 
 	}
 		.nav--panels .nav-item:first-child { border-top: none; }
+		
 	.nav--panels .nav-item:first-child .nav-item__title   {		
 		-webkit-border-radius: 5px 5px 0 0;
 		border-radius: 5px 5px 0 0;
@@ -283,31 +287,62 @@ a.fill {
 		border-radius: 0 0 5px 5px;
 	}
 	.nav--panels .nav-item__title {
-		padding: 0.5em 1em;
+		color: inherit; 
+		font-weight: bold; 
+		padding: 0.75em 1.25em;
 		background-color: #fff;
 		position: relative;
+		border-bottom: 1px solid #d7d7d7;
+		margin-bottom: -1px;
 	}
-	.nav--panels .nav--sub {
-		border-top: 1px solid #d7d7d7;		
+		.nav--panels .nav-item__link:hover { 
+			background-color: #fefefe;  			
+		}
+			.nav--panels .nav-item__link:active { background-color: #f7f7f7; }
+		.nav--panels .nav-item--active .nav-item__title { 			
+			color: #fff;
+			background-color: #6b7b94; 
+			border: 1px solid #2d4a5c; 
+			text-shadow: 0 -1px 0 rgba(0,0,0,0.9);
+			margin: -1px;
+		}		
+		
+	.nav--panels .nav--sub {		
 		overflow: hidden;
 	}
 		.nav--panels .sub-item:first-child {
-			padding-top: 0.5em;
+			padding-top: 0.75em;
 		}
 		.nav--panels .sub-item:last-child {
-			padding-bottom: 0.5em;
+			padding-bottom: 0.75em;
 		}
 		.nav--panels .sub-item__title {
-			padding: 0.25em 1em; 
+			display: block;
+			padding: 0.5em 1.5em; 
 		}
 		
-		.nav--sub.is-open {
-			max-height: 1000em;
-			margin-top: 0;
+		.nav--panels .sub-item--active {
+			font-weight: bold; 
 		}
-		.nav--sub.is-closed {
-			max-height: 0px;
-			margin-top: -1px;			
+			.nav--panels .sub-item--active .sub-item__title, 
+			.nav--panels .sub-item__link:hover {
+				background-color: #fff;
+				color: inherit;
+			}
+		
+		.nav--sub.is-open {
+			margin-top: 0;				
+			-webkit-transition: margin-top 1s ease-in-out; 
+			-moz-transition: margin-top 1s ease-in-out; 
+			-o-transition: margin-top 1s ease-in-out; 
+			transition: margin-top 1s ease-in-out; 
+		}
+		.nav--sub.is-closed {			
+			margin-top: -100%;				
+			-webkit-transition: margin-top 1s ease-in-out; 
+			-moz-transition: margin-top 1s ease-in-out; 
+			-o-transition: margin-top 1s ease-in-out; 
+			transition: margin-top 1s ease-in-out; 
 		}
 	
 /* clearfix */
@@ -611,10 +646,13 @@ a.fill {
 	.content-box .head.head--grey {
 		border-color: #bdbdbd;
 	}
-		.content-box .head h2, .content-box .head h3, .content-box .head h4, .content-box .head h5 { 
+		.content-box .head h2, 
+		.content-box .head h3, 
+		.content-box .head h4, 
+		.content-box .head h5 { 
 			display: inline-block;
 			margin: 0; 
-			padding: 3px 0 2px 10px; 			
+			padding: 3px 0 2px 10px;		
 			font-weight: normal; 	
 			line-height: 20px; 
 		}

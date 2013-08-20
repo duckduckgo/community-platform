@@ -52,6 +52,12 @@ $(document).ready(function() {
 		$(this).parents('form').submit();
 	});
 
+	
+	$('.js-toggle-sibling').click(function(e){
+		e.preventDefault();
+		var target = $(this).parent().find('.is-closed, .is-open');
+		target.toggleClass('is-closed').toggleClass('is-open');		
+	});
 
 	$('.content-box-toggleclick').each(function(){
 		var cb = $(this).toggleClass('is-closed');		

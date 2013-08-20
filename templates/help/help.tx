@@ -24,12 +24,12 @@
 		<: if $help.related_helps.count { :>
 		  <div class="content-box  mg-bottom">
 			<div class="head">
-			  <h5>Related Help Articles</h5>
+			  <h5><strong>Related Help Articles</strong></h5>
 			</div>
 			<div class="body">
 			  <: for results($help.related_helps) -> $related_help { :>
 				<div class="row">
-				  <a href="<: $u('Help','help',$help_language.locale,$related_help.category.key,$related_help.key) :>">
+				  <a href="<: $u('Help','help',$help_language.locale,$related_help.category.key,$related_help.key) :>" class="fill">
 					<: $related_help.content_by_language_id($help_language_id).title :>
 				  </a>
 				</div>
