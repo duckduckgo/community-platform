@@ -12,15 +12,11 @@ img { max-width: 100%; }
 
 /* here are the classes... */
 .site-wrapper { width: 100%; overflow: hidden; }
-.content-wrap { max-width: 960px; margin: 0 auto; position: relative; }
+.content-wrap, .cw { max-width: 960px; margin: 0 auto; position: relative; }
 
 .text-center, .text-mid { text-align: center; }
 .text-left { text-align: left; }
 .text-right { text-align: right; }
-
-.pull-left { float: left; }
-.pull-right { float: right; }
-.pull-none { float: none; }
 
 /* .r- rules */
 .r-block { display: block; }
@@ -41,10 +37,6 @@ img { max-width: 100%; }
     -o-box-sizing: content-box;
     box-sizing: content-box;
 }
-
-.clear { clear: both; }
-.hide { display: none; }
-.allcaps { text-transform: uppercase; }
 
 /* grid sizes */
 .whole, .half, .third, .twothird, .twothirds, .quarter, .threequarter, .threequarters, .sixth, .eighth, .ninety, .eighty, .seventy, .sixty, .fifty, .forty, .thirty, .twenty, .ten { 
@@ -79,8 +71,17 @@ img { max-width: 100%; }
 .twenty       { width: 20%; }
 .ten             { width: 10%; }
 
-/* after grids so that you can apply it and it should kill the float */
+/* after grids so that you can apply it and it should kill/apply the float */
 .block-mid { margin-left: auto; margin-right: auto; display: block; float: none; }
+
+.pull-left, .fl, .float--left { float: left; }
+.pull-right, .fr, .float--right { float: right; }
+.pull-none { float: none; }
+
+.clear { clear: both; }
+.hide { display: none; }
+	.hide--important { display: none !important; } /* now I'm f'ing serious!! */
+.allcaps { text-transform: uppercase; }
 
 /* basic clearfix - comes in many flavours! */
 .clearfix:after, .fix:after, .group:after, .row:after, .gw:after {
@@ -89,23 +90,32 @@ img { max-width: 100%; }
     clear: both;
 }
 
+/* responsive stuff.  snip here if you don't want to go down this rabbit hole */
+@media only screen and (max-width: 800px) {    
+	/* 'portrait mode' trigger classes */
+	.port-hide { display: none; }
+	.port-block { display: block; }
+    .port-clear { clear: both; }
+    .port-killfloat, .port-pull-none, .port-float--none { float: none; }   
+	.port-half { width: 50%; float: left; clear: none; }
+}
 @media only screen and (max-width: 600px) {    
     /* automatically mobile-ready!  leave this stuff out if you want */
 	html { min-width: auto; }
-    body, .content-wrap {
-        min-width: 320px;
+	body { min-width: 320px; }
+    body, .content-wrap, .cw {        
         width: 100%;
     }
 	
 	/* mobile-only trigger classes */
 	.palm-hide { display: none; }
+	.palm-block { display: block; }
     .palm-clear { clear: both; }
-    .palm-killfloat, .palm-pull-none { float: none; }    
+    .palm-killfloat, .palm-pull-none, .palm-float--none { float: none; }
     
 	/* death to floating columns on mobile! */
     .whole, .half, .third, .twothird, .twothirds, .quarter, .threequarter, .threequarters, .sixth, .eighth, .ninety, .eighty, .seventy, .sixty, .fifty, .forty, .thirty, .twenty, .ten  { width: 100%; float: none; clear: both; margin: 0 auto;}    
         /* just in-case silly people apply the grids to images and it breaks things... */
 		img.half, img.third, img.twothird, img.quarter, img.threequarter, img.sixth { width: auto; }
-        .half.palm-half { width: 50%; float: left; clear: none; }
-        .half .half { width: 100%; }
+        .palm-half, .half.palm-half { width: 50%; float: left; clear: none; }
 }
