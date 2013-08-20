@@ -41,17 +41,19 @@
 		top: 0;
 		bottom: 0;
 		right: auto;
-		left: 15px;		
+		left: 0;		
 		z-index: 3;
 		pointer-events: none;
 		font-size: 1em;
+		width: 1.65em;
 	}
 		.linkbox__icon:before {
 			display: block;	
 			position: absolute;
 			top: 50%;			
-			left: 0;
+			left: 50%;
 			margin-top: -0.5em;
+			margin-left: -0.45em;
 		}
 		
 	.linkbox__body {
@@ -62,7 +64,7 @@
 		width: 100%;
 		max-width: 100%;
 		text-align: left;
-		padding: 13px 18px 13px 67px;
+		padding: 13px 18px 13px 1.65em;
 		border: none;
 		background: none;
 		line-height: 1.1;
@@ -84,7 +86,7 @@
 			border-color: #afcdff;
 		}
 		.linkbox--category .linkbox__icon {
-			font-size: 2.5em;
+			font-size: 42px;
 		}
 		.linkbox--category .linkbox__title {
 			font-size: 30px;
@@ -93,6 +95,7 @@
 			font-size: 17px;
 			padding-top: 30px;
 			padding-bottom: 30px;
+			padding-left: 67px; 
 		}
 	
 	/* 'Result' Linkboxes */
@@ -106,12 +109,12 @@
 		}
 		.linkbox--result .linkbox__icon {
 			font-size: 1.25em;
-			left: 12px;
+			left: 6px;
 		}
 		.linkbox--result .linkbox__title {
 			font-size: 21px;
 		}
 		.linkbox--result .linkbox__body {			
-			padding: 17px 20px 17px 40px;
+			padding: 17px 20px 17px 2.5em;
 			font-size: 15px;
 		}
