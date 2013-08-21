@@ -14,6 +14,8 @@ has ddgc => (
 	required => 1,
 );
 
+sub i { 'DDGC::DB::Result::User' }
+
 has username => (
 	isa => 'Str',
 	is => 'ro',

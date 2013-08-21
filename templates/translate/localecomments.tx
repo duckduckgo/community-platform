@@ -15,7 +15,7 @@
 	</div>
 	<div class="body">
 		<div class="row">
-			<: include "comment/comments.tx" { comments => $c.d.comments('DDGC::DB::Result::Token::Domain::Language',$token_domain_language.id) } :>
+			<: i('comments',$token_domain_language) :>
 		</div>
 	</div>
 </div>

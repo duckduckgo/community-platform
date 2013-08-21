@@ -16,7 +16,7 @@ __PACKAGE__->load_components(qw/
 sub default_result_namespace { 'DDGC::DB::Result' }
 
 sub ddgc { shift->result_source->schema->ddgc }
-sub schema { shift->schema }
+sub schema { shift->result_source->schema }
 
 sub add_event {
 	my ( $self, $action, %args ) = @_;
@@ -55,6 +55,26 @@ sub add_event {
 sub has_context {
 	my ( $self ) = @_;
 	return $self->does('DDGC::DB::Role::HasContext');
+}
+
+sub comments {
+	my ( $self ) = @_;
+	return $self->schema->resultset('Comment')->search({
+		context => $self->i_context,
+		context_id => $self->i_context_id,
+		parent_id => undef,
+	});
+}
+
+sub i_context {
+	my ( $self ) = @_;
+	my $ref = ref $self;
+	return $ref;
+}
+
+sub i_context_id {
+	my ( $self ) = @_;
+	return $self->id;
 }
 
 sub belongs_to {

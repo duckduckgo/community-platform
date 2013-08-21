@@ -15,44 +15,54 @@ has ddgc => (
 	required => 1,
 );
 
-sub search {
-    my ( $self, $query ) = @_;
-    my $json = get('http://localhost:5000/search?format=json&q='.url_encode_utf8($query));
-    my $results;
-    eval { $results = decode_json($json) };
-    return $results or 0;
-}
+sub add_thread {
+    my ( $self, $user, $content, %params ) = @_;
 
-sub get_threads {
-    my ( $self, $pagenum, $count ) = @_;
-    $pagenum ||= 1;
-    $count   ||= 20;
-
-    return $self->ddgc->rs('Thread')->search({},{ order_by => { -desc => 'updated' } });#->page($pagenum);
-}
-
-sub new_thread {
-    my ( $self, %params ) = @_;
-
-    my $thread = $self->ddgc->rs('Thread')->new({
-        title => $params{title},
-        category_id => $params{category_id},
-        users_id => $params{user}->id,
+    $self->ddgc->db->txn_do(sub {
+        my $thread = $self->ddgc->rs('Thread')->create({
+            users_id => $user->id,
+            %params,
+        });
+        my $thread_comment = $self->ddgc->add_comment(
+            'DDGC::DB::Result::Thread',
+            $thread->id,
+            $user,
+            $content,
+        );
+        $thread->comment_id($thread_comment->id);
+        $thread->update;
     });
-
-    my $category = $thread->category_key;
-    $thread->data({ "${category}_status_id" => 1 });
-    $thread->insert;
-
-    $self->ddgc->add_comment('DDGC::DB::Result::Thread', $thread->id, $params{user}, $params{content});
-
-    $self->ddgc->db->txn_do(sub { $thread->update });
 }
 
-sub get_thread {
-    my ( $self, $id ) = @_;
-    $self->ddgc->rs('Thread')->single({ id => $id });
+sub add_comment_on {
+    my ( $self, $object, @args ) = @_;
+    my $ref = ref $object;
+    die $ref." doesn't support add_comment_on" unless $self->can('id');
+    $self->add_comment($ref, $object->id, @args);
 }
 
+sub add_comment {
+    my ( $self, $context, $context_id, $user, $content, @args ) = @_;
+    
+    if ( $context eq 'DDGC::DB::Result::Comment' ) {
+        my $comment = $self->ddgc->rs('Comment')->find($context_id);
+        return $self->ddgc->rs('Comment')->create({
+            context => $comment->context,
+            context_id => $comment->context_id,
+            parent_id => $context_id,
+            users_id => $user->id,
+            content => $content,
+            @args,
+        });
+    } else {
+        return $self->ddgc->rs('Comment')->create({
+            context => $context,
+            context_id => $context_id,
+            users_id => $user->id,
+            content => $content,
+            @args,
+        });
+    }
+}
 
 1;

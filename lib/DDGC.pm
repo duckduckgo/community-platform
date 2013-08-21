@@ -22,6 +22,8 @@ use File::ShareDir::ProjectDistDir;
 use Net::AIML;
 use Text::Xslate qw( mark_raw );
 use Class::Load qw( load_class );
+use Package::Stash;
+use namespace::autoclean;
 
 ##############################################
 # TESTING AND DEVELOPMENT, NOT FOR PRODUCTION
@@ -182,7 +184,7 @@ sub _build_xslate {
 
 				my $obj2dir = sub {
 					my $obj = shift;
-					my $class = ref $obj;
+					my $class = $obj->can('i') ? $obj->i : ref $obj;
 					if ($class =~ m/^DDGC::DB::Result::(.*)$/) {
 						my $return = lc($1);
 						$return =~ s/::/_/g;
@@ -202,10 +204,27 @@ sub _build_xslate {
 				};
 
 				my $object = shift;
-				my $subtemplate = shift;
-				my $vars = shift;
+				my $subtemplate;
+				my $no_templatedir;
+				my $vars;
+				if (ref $object) {
+					$subtemplate = shift;
+					$vars = shift;
+				} else {
+					$no_templatedir = 1;
+					$subtemplate = $object;
+					my $next = shift;
+					if (ref $next eq 'HASH') {
+						$object = undef;
+						$vars = $next;
+					} else {
+						$object = $next;
+						$vars = shift;
+					}
+				}
 				my $main_object;
-				my @objects = ( $object );
+				my @objects;
+				push @objects, $object if $object;
 				if (ref $object eq 'ARRAY') {
 					$main_object = $object->[0];
 					@objects = @{$object};
@@ -214,9 +233,22 @@ sub _build_xslate {
 				}
 				my %current_vars = %{$xslate->current_vars};
 				$current_vars{_} = $main_object;
+				if ($main_object && ref $main_object) {
+					my $pstash = Package::Stash->new(ref $main_object);
+					my @functions = $pstash->list_all_symbols('CODE');
+					for (@functions) {
+						if (m/^&i_(.*)$/) {
+							my $name = $1;
+							my $var_name = '_'.$name;
+							my $func = 'i_'.$name;
+							$current_vars{$var_name} = $main_object->$func;
+						}
+					}
+				}
 				my @template = ('i');
-				my $dir = $obj2dir->($main_object);
-				push @template, $dir;
+				unless ($no_templatedir) {
+					push @template, $obj2dir->($main_object);
+				}
 				push @template, $subtemplate ? $subtemplate : 'label';
 				my %new_vars;
 				for (@objects) {
@@ -451,29 +483,7 @@ sub user_counts {
 # ======== Comments ====================
 #
 
-sub add_comment {
-	my ( $self, $context, $context_id, $user, $content, @args ) = @_;
-	
-	if ( $context eq 'DDGC::DB::Result::Comment' ) {
-		my $comment = $self->rs('Comment')->find($context_id);
-		return $self->rs('Comment')->create({
-			context => $comment->context,
-			context_id => $comment->context_id,
-			parent_id => $context_id,
-			users_id => $user->id,
-			content => $content,
-			@args,
-		});
-	} else {
-		return $self->rs('Comment')->create({
-			context => $context,
-			context_id => $context_id,
-			users_id => $user->id,
-			content => $content,
-			@args,
-		});
-	}
-}
+sub add_comment { shift->forum->add_comment(@_) }
 
 sub comments {
 	my ( $self, $context, $context_id, @args ) = @_;

@@ -53,6 +53,11 @@ column content => {
 };
 sub html { $_[0]->ddgc->markup->html($_[0]->content) }
 
+column deleted => {
+	data_type => 'int',
+	default_value => 0,
+};
+
 column created => {
 	data_type => 'timestamp with time zone',
 	set_on_create => 1,
@@ -69,7 +74,7 @@ column parent_id => {
 	is_nullable => 1,
 };
 
-belongs_to 'user', 'DDGC::DB::Result::User', 'users_id', { join_type => 'left' };
+belongs_to 'user', 'DDGC::DB::Result::User', 'users_id';
 belongs_to 'parent', 'DDGC::DB::Result::Comment', 'parent_id', { join_type => 'left' };
 has_many 'children', 'DDGC::DB::Result::Comment', 'parent_id';
 

@@ -1,0 +1,11 @@
+<: if $context and $context_id and $c.user { :> 
+	<form method="post" class="comment_reply js-hide" action="<: $u('Comment','add',$context,$context_id) :>">    
+		<div class="user-avatar icon-user">
+			<: i($c.user,'userpic') :>
+		<div class="my_comment comment-body">
+		<textarea rows="3" name="content" class="form-textarea text" placeholder="Add your Comment"></textarea>
+		</div>
+		<input type="hidden" name="from" value="<: $c.req.uri :>" />    
+		<input type="submit" name="add_comment" class="button submit" value="Submit" />
+	</form> 
+<: } :>

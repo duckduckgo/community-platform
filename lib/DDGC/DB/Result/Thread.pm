@@ -16,17 +16,24 @@ column id => {
 };
 primary_key 'id';
 
+column users_id => {
+    data_type => 'bigint',
+    is_nullable => 0,
+};
+
+# cotent source comment
+column comment_id => {
+    data_type => 'bigint',
+    is_nullable => 1,
+};
+sub content { $_[0]->comment->content }
+sub html { $_[0]->comment->html }
+
 column title => {
     data_type => 'text',
     is_nullable => 0,
     indexed => 1,
 };
-
-column content => {
-    data_type => 'text',
-    is_nullable => 0,
-};
-sub html { $_[0]->ddgc->markup->html($_[0]->content) }
 
 column data => {
 	data_type => 'text',
@@ -34,13 +41,8 @@ column data => {
 	serializer_class => 'YAML',
 };
 
-column users_id => {
-	data_type => 'bigint',
-	is_nullable => 0,
-};
-
 column category_id => {
-    data_type => 'int',
+    data_type => 'Int',
     is_nullable => 0,
 };
 
@@ -61,18 +63,7 @@ column sticky => {
 };
 
 belongs_to 'user', 'DDGC::DB::Result::User', 'users_id';
-
-has categories => (
-    is => 'ro',
-    isa => 'HashRef',
-    auto_deref => 1, 
-    lazy_build => 1, 
-);
-
-sub _build_categories {{  
-    1 => "dev",
-    2 => "discussion",
-}}
+belongs_to 'comment', 'DDGC::DB::Result::Comment', 'comment_id', { join_type => 'left' };
 
 sub _category {
     my ( $self, $category ) = @_;

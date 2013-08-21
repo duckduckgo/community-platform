@@ -194,7 +194,7 @@ sub _build_done_percentage {
 	return floor(100 * ( ( $max_token_count - $untranslated_count ) / $max_token_count ));
 }
 
-sub comments {
+sub token_language_comments {
 	my ( $self, $page, $pagesize ) = @_;
 	$self->result_source->schema->resultset('Comment')->search({
 		context => 'DDGC::DB::Result::Token::Language',

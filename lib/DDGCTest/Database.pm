@@ -782,8 +782,9 @@ sub add_threads {
 		my %hash = %{shift @threads};
 		my @comments = defined $hash{comments} ? @{delete $hash{comments}} : ();
 		my $user = $self->c->{users}->{$username};
-		my $thread = $user->create_related('threads',\%hash);
-		$self->add_comments('DDGC::DB::Result::Thread', $thread->id, @comments);
+		my $content = delete $hash{content};
+		my $thread = $self->d->forum->add_thread($user,$content,%hash);
+		$self->add_comments('DDGC::DB::Result::Comment', $thread->comment->id, @comments);
 		$self->next_step;
 	}
 }

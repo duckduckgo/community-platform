@@ -5,15 +5,15 @@ use namespace::autoclean;
 BEGIN {extends 'Catalyst::Controller'; }
 
 sub base :Chained('/base') :PathPart('comment') :CaptureArgs(0) {
-    my ( $self, $c ) = @_;
+	my ( $self, $c ) = @_;
 }
 
 sub do :Chained('base') :CaptureArgs(0) {
-    my ( $self, $c ) = @_;
+	my ( $self, $c ) = @_;
 }
 
 sub latest :Chained('do') :Args(0) {
-    my ( $self, $c ) = @_;
+	my ( $self, $c ) = @_;
 	$c->pager_init($c->action,20);
 	$c->stash->{latest_comments} = [($c->d->rs('Comment')->search({},{
 		order_by => 'me.created',
@@ -24,24 +24,23 @@ sub latest :Chained('do') :Args(0) {
 }
 
 sub delete : Chained('do') Args(1) {
-    my ( $self, $c, $id ) = @_;
-    my $comment = $c->d->rs('Comment')->single({ id => $id });
-    return unless $comment;
-    return unless $c->user && ($c->user->admin || $c->user->id == $comment->user->id);
+	my ( $self, $c, $id ) = @_;
+	my $comment = $c->d->rs('Comment')->single({ id => $id });
+	return unless $comment;
+	return unless $c->user && ($c->user->admin || $c->user->id == $comment->user->id);
 	my $deleted_user = $c->d->db->resultset('User')->single({
 		username => $c->d->config->deleted_account,
 	});
-    $comment->content('This comment has been deleted.');
-    $comment->users_id(defined $deleted_user ? $deleted_user->id : undef);
-    $comment->update;
-    
-    my $redirect = $c->req->headers->referrer || '/';
-    $c->response->redirect($redirect);
+	$comment->content('This comment has been deleted.');
+	$comment->users_id( defined $deleted_user ? $deleted_user->id : undef );
+	$comment->update;
+	my $redirect = $c->req->headers->referrer || '/';
+	$c->response->redirect($redirect);
 }
 
 sub add :Chained('base') :Args(2) {
-    my ( $self, $c, $context, $context_id ) = @_;
-    return unless $c->user || ! $c->stash->{no_reply};
+	my ( $self, $c, $context, $context_id ) = @_;
+	return unless $c->user || ! $c->stash->{no_reply};
 	unless ($c->user) {
 		$c->response->redirect($c->chained_uri('My','login'));
 		return $c->detach;
