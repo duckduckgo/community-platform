@@ -1,9 +1,7 @@
-<: if $_.count { :>
-	<section class="row comment tier1 max">
-		<: for results($_) -> $comment { :>
-			<: i($comment,'view', { userpic_size => 48 }) :>
-		<: } :>
-	</section>
+<: if $_.count { :>	
+	<: for results($_) -> $comment { :>
+		<: i($comment,'view', { userpic_size => 48 }) :>
+	<: } :>	
 <: } :>
 <: if $c.user and !$no_reply { :>
 	<div class="row comment tier1-new">

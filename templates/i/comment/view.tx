@@ -1,48 +1,48 @@
 <: my $children_count = $_.children.count :>
 <: my $tier_level = $tier || 1 :>
-<div class="user-avatar icon-user">
-	<: i($_.user,'userpic', { userpic_size => $userpic_size }) :>
-</div>
-<!--div class="voting">
-<button href="#" class="button upvote icon-arrow-up"></button>
-<button href="#" class="button downvote icon-arrow-down"></button>
-<: # make these count votes :>
-<span class="votes positive">0</span>
-<span class="votes negative">0</span>
-</div-->
-<div class="comment-body" id="comment_<: $_.id :>"> 
-	<div class="row">
-		<p>
-			<: if $_.deleted { :><em class="comment-deleted"><: } :>
-				<: r($_.html) :>
-			<: if $_.deleted { :></em><: } :>
-		</p>
-		<span class="comment-meta">
-			posted by <: i($_.user,'username') :> &bull; <: $dur($_.created) :>
-			<: if !$no_reply { :>
-				&bull;
-				<a class="comment_reply_link no-js-hide" href="#">Reply</a>
-				<a class="comment_reply_cancel_link no-js-hide hide" href="#">Cancel</a>
-				<: if ($c.user.admin or $c.user.id == $_.user.id) { :>
-					&bull; <a href="<: $u('Comment','delete',$_.id) :>">Delete</a>
-				<: } :>
-			<: } :>
-			<: if $children_count { :>
-				<a href="#" class="comment-toggle"><i class="icon-minus-sign"></i></a>
-			<: } :>
-		</span>
-		<: if $c.user and !$no_reply { :>
-			<: i('comment_add',{ context => $_context, context_id => $_context_id }) :>
-		<: } :>
+<div class="row comment tier<: $tier_level :> max">
+	<div class="user-avatar icon-user">
+		<: i($_.user,'userpic', { userpic_size => $userpic_size }) :>
 	</div>
-	<: if $children_count { :>
-		<: for results($_.children) -> $child { :>
-			<div class="row comment tier<: $tier_level :> max">
-				<: i($child,'view') :>
+	<!--div class="voting">
+	<button href="#" class="button upvote icon-arrow-up"></button>
+	<button href="#" class="button downvote icon-arrow-down"></button>
+	<: # make these count votes :>
+	<span class="votes positive">0</span>
+	<span class="votes negative">0</span>
+	</div-->
+	<div class="comment-body" id="comment_<: $_.id :>"> 
+		<div class="row">
+			<p>
+				<: if $_.deleted { :><em class="comment-deleted"><: } :>
+					<: r($_.html) :>
+				<: if $_.deleted { :></em><: } :>
+			</p>
+			<span class="comment-meta">
+				posted by <: i($_.user,'username') :> &bull; <: $dur($_.created) :>
+				<: if !$no_reply { :>
+					&bull;
+					<a class="comment_reply_link no-js-hide" href="#">Reply</a>
+					<a class="comment_reply_cancel_link no-js-hide hide" href="#">Cancel</a>
+					<: if ($c.user.admin or $c.user.id == $_.user.id) { :>
+						&bull; <a href="<: $u('Comment','delete',$_.id) :>">Delete</a>
+					<: } :>
+				<: } :>
+				<: if $children_count { :>
+					<a href="#" class="comment-toggle"><i class="icon-minus-sign"></i></a>
+				<: } :>
+			</span>
+			<: if $c.user and !$no_reply { :>
+				<: i('comment_add',{ context => $_context, context_id => $_context_id }) :>
+			<: } :>
+		</div>
+		<: if $children_count { :>
+			<: for results($_.children) -> $child { :>				
+				<: i($child,'view', {$tier => $tier_level+1}) :>				
+			<: } :>
+			<div class="row comment-foot">
+				<a href="#" class="comment-toggle"><i class="icon-bubble"></i> <span class="max-msg">Hide Comments</span><span class="min-msg">Show <: $children_count :> Comments</span></a>
 			</div>
 		<: } :>
-		<div class="row comment-foot">
-			<a href="#" class="comment-toggle"><i class="icon-bubble"></i> <span class="max-msg">Hide Comments</span><span class="min-msg">Show <: $children_count :> Comments</span></a>
-		</div>
-	<: } :>
+	</div>
 </div>
