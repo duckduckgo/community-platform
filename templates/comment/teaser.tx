@@ -1,5 +1,0 @@
-<div class="comment">
-	<p class="comment_content"><: $comment.content :></p>
-	<: include "comment/linkcontext.tx" :>
-	<div><: $dur_precise($comment.created) :> posted by <: include "user/userinfo.tx" { user => $c.d.find_user($comment.user) } :></div>
-</div>

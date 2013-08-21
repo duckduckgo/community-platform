@@ -9,5 +9,5 @@
 		<: i($_, "actions") :>
 	</section>
 	<a name="comments"></a>
-	<: include "comment/comments.tx" { comments => $c.d.comments('DDGC::DB::Result::User::Blog', $_.id) } :>
+	<: i('comments',$_) :>
 </article>	
