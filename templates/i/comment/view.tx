@@ -32,7 +32,7 @@
 			<: } :>
 		</span>
 		<: if $c.user and !$no_reply { :>
-			<: i($_,'add',{ tier => $tier_level+1 }) :>
+			<: i('comment_add',{ context => $_context, context_id => $_context_id }) :>
 		<: } :>
 	</div>
 	<: if $children_count { :>

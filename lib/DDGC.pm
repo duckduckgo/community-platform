@@ -22,7 +22,6 @@ use File::ShareDir::ProjectDistDir;
 use Net::AIML;
 use Text::Xslate qw( mark_raw );
 use Class::Load qw( load_class );
-use Package::Stash;
 use namespace::autoclean;
 
 ##############################################
@@ -233,16 +232,17 @@ sub _build_xslate {
 				}
 				my %current_vars = %{$xslate->current_vars};
 				$current_vars{_} = $main_object;
-				if ($main_object && ref $main_object) {
-					my $pstash = Package::Stash->new(ref $main_object);
-					my @functions = $pstash->list_all_symbols('CODE');
-					for (@functions) {
-						if (m/^&i_(.*)$/) {
-							my $name = $1;
-							my $var_name = '_'.$name;
-							my $func = 'i_'.$name;
-							$current_vars{$var_name} = $main_object->$func;
-						}
+				my $ref_main_object = ref $main_object;
+				if ($main_object && $ref_main_object) {
+					if ($main_object->can('meta')) {
+						for my $method ( $main_object->meta->get_all_methods ) {
+							if ($method->name =~ m/^i_(.*)$/) {
+								my $name = $1;
+								my $var_name = '_'.$name;
+								my $func = 'i_'.$name;
+								$current_vars{$var_name} = $main_object->$func;
+							}
+  					}
 					}
 				}
 				my @template = ('i');
