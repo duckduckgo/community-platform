@@ -84,12 +84,11 @@ $(document).ready(function() {
 	//
 	// Feedback page
 	//
-	$('.js-fb-step--decativate').parent().removeClass('fb-step--active');
-	// lol I misspelled it
-	
+	$('.js-fb-step--deactivate').parent().removeClass('fb-step--active');
+		
 	// input binding
 	$('.js-fb-step').on("change, click", function () {
-		$(this).children('.js-fb-step__input').focus();
+		$(this).find('.js-fb-step__input').focus();
 	});
 	$('.js-fb-step__input').change(function () {
 		var str = "";
@@ -115,7 +114,7 @@ $(document).ready(function() {
 	});
 	
 	function feedback_edit_toggle(my) {	
-		my.addClass('fb-step--active');
+		my.not('.fb-step--optional').addClass('fb-step--active');
 		my.find('.js-fb-step__toggle').toggleClass('fb-step__toggle--hide');
 		my.find('.js-fb-step__input').focus();
 		my.find('.js-fb-step__arrow').toggleClass('ddgi-arrow-left').toggleClass('ddgi-arrow-up');	

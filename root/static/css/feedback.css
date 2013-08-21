@@ -238,7 +238,10 @@ you can use the generic selector below, but it's slower:
           transition: all 0.3s ease-out; 
 
 }
-	.fb-step:active { top: 1px; }
+	.fb-step--back:active, 
+	.fb-step--active:active,
+	.fb-step--text:active,
+	.fb-step--submit:active { top: 1px; }
 
 .fb-step--active {
 	color: #7e7e7e;
@@ -274,7 +277,7 @@ you can use the generic selector below, but it's slower:
 	.fb-step--error .fb-step__arrow { display: none; } 
 	.fb-step--error .fb-step__icon, .fb-step--error .fb-step__warning { color: inherit !important; }
 	
-	.fb-step--active:hover {		
+	.fb-step--active:hover, .fb-step--text:hover {		
 		-webkit-box-shadow: inset 1px 1px 0px 0px rgba(255,255,255,0.9), 0px 0px 5px 0px rgba(0,0,0,0.3);
         box-shadow: inset 1px 1px 0px 0px rgba(255,255,255,0.9), 0px 0px 5px 0px rgba(0,0,0,0.3);
 	}
@@ -314,9 +317,11 @@ you can use the generic selector below, but it's slower:
 			right: -4px;			
 		}
 		
-		.fb-step--active:hover .fb-step__icon { color: #e16843; }
-		.fb-step--active:hover .fb-step__arrow { color: #7e7e7e; }
+		.fb-step--active:hover .fb-step__arrow,
+		.fb-step--text:hover .fb-step__arrow,
+		.fb-step--text:hover .fb-step__icon { color: #7e7e7e; }
 		
+		.fb-step--active:hover .fb-step__icon { color: #e16843; }
 	
 	.fb-step__body {
 		position: relative;

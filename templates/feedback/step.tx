@@ -2,7 +2,7 @@
 <div class="feedback-wrap">
 	<form method="POST" class="feedback-form" action="<: $u('Feedback','step',$feedback_name,$steps_arg) :>">
 	  <: if $step_count > 0 { :>
-		<div class="fb-step">
+		<div class="fb-step  fb-step--back">
 		  <i class="fb-step__icon  ddgi-history"></i>
 		  <input type="submit" name="step_back" value="Back to previous step" class="fb-step__body  fb-step__body--btn" />
 		  <i class="fb-step__arrow  ddgi-arrow-up"></i>
@@ -10,7 +10,7 @@
 	  <: } :>
 	  <: if $step.has_options { :>
 		<: for $step.options -> $option { :>
-		  <div class="fb-step  js-fb-step  <: if $option.cssclass || $option.optional == 1 || $option.type == 'info' || $option.has_value { $option.cssclass } else {:> fb-step--active <: } if $option.optional == 1 { :> fb-step--optional <: } if $option.type == 'info' { :> fb-step--info <: } if $option.missing { :> fb-step--error <: } if $option.has_value {:> js-fb-step--toggle <: } :>">
+		  <div class="fb-step  js-fb-step  <: if $option.cssclass || $option.optional == 1 || $option.type == 'info' || $option.has_value { $option.cssclass } else {:> fb-step--active <: } if $option.optional == 1 { :> fb-step--optional <: } if $option.type == 'info' { :> fb-step--info <: } if $option.type == 'text' || $option.type == 'textarea' || $option.type == 'email' { :> fb-step--text <: } if $option.missing { :> fb-step--error <: } if $option.has_value {:> js-fb-step--toggle <: } :>">
 			<i class="fb-step__icon  ddgi-<: $option.icon :>"></i>
 			<: my $template = "feedback/option/" ~ $option.type ~ ".tx" :>
 			<: include $template { option => $option, index => $~option.index } :>		
