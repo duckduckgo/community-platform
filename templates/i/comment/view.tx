@@ -38,7 +38,7 @@
 		</div>
 		<: if $children_count { :>
 			<: for results($_.children) -> $child { :>				
-				<: i($child,'view', {$tier => $tier_level+1}) :>				
+				<: i($child,'view', {tier => $tier_level+1}) :>				
 			<: } :>
 			<div class="row comment-foot">
 				<a href="#" class="comment-toggle"><i class="icon-bubble"></i> <span class="max-msg">Hide Comments</span><span class="min-msg">Show <: $children_count :> Comments</span></a>
