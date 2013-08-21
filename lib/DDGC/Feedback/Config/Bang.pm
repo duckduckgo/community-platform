@@ -15,7 +15,7 @@ sub broken_bang {[
   { name => "bang", description => "The !bang that doesn’t work is", type => "text", placeholder => "e.g. !wikipedia, !so, !ebay", icon => "bang" },
   { name => "issue", description => "The issue is that", type => "textarea", placeholder => "e.g. the site returns an error, the site no longer exists", icon => "bug" },
   { name => 'email', description => "Your email (not required)", placeholder => "We'd like to get back to you, but you can leave this blank.", type => "email", icon => "inbox", optional => 1},
-  { name => 'submit', description => "Submit Report", cssclass => "fb-step--submit", icon => "mail" }
+  { name => 'submit', description => "Send", cssclass => "fb-step--submit", icon => "mail" }
 ]}
 
 1;
