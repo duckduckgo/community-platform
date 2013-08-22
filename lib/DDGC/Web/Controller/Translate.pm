@@ -347,6 +347,8 @@ sub save_translate_params {
 			my $token_language = $c->d->rs('Token::Language')->find($_);
 			if ($token_language->add_user_translation($c->user,$k{$_})) {
 				$c->wiz_step;
+			} else {
+				push @{$c->stash{errors}}, "This could be because not all fields are filled in";
 			}
 		}
 	}

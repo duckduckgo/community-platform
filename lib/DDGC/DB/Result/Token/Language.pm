@@ -168,6 +168,10 @@ sub add_user_translation {
 			},{
 				join => [qw( token_language_translation_votes )]
 			})->delete;
+			my $plurals=$self->max_msgstr_index;
+			for (my $i = $plurals; $i > -1; $i--) {
+				return 0 unless $translation->{'msgstr'.$i};
+			}
 			$self->create_related('token_language_translations',{
 				%{$translation},
 				username => $user->username,
