@@ -3,7 +3,6 @@ package DDGC::Forum;
 
 use Moose;
 use File::ShareDir::ProjectDistDir;
-use DDGC::Comments::Comment;
 use JSON;
 use LWP::Simple;
 use URL::Encode 'url_encode_utf8';

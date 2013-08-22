@@ -8,7 +8,6 @@ use DDGC::DB;
 use DDGC::User;
 use DDGC::DuckPAN;
 use DDGC::XMPP;
-use DDGC::Comments;
 use DDGC::Markup;
 use DDGC::Envoy;
 use DDGC::Postman;
@@ -484,16 +483,6 @@ sub user_counts {
 #
 
 sub add_comment { shift->forum->add_comment(@_) }
-
-sub comments {
-	my ( $self, $context, $context_id, @args ) = @_;
-	return DDGC::Comments->new(
-		context => $context,
-		context_id => $context_id,
-		ddgc => $self,
-		@args,
-	);
-}
 
 #
 # ======== Misc ====================

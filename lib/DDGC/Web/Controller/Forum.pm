@@ -20,9 +20,7 @@ sub index : Chained('base') PathPart('') Args(0) {
   $c->stash->{comments} = $c->d->rs('Comment')->grouped_by_context->search({},{
     rows => 20,
     page => 1,
-    order_by => [qw( latest_comment_date )],
   });
-# $c->stash->{comments_table} = $c->table($rs,['Forum','index'],[], default_pagesize => 20);
 }
 
 # /forum/search/

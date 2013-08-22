@@ -1,32 +1,27 @@
 <div class="twothirds">
-	<div class="content-box">    
-        <div class="head">
-            Latest comments
-        </div>
-        <div class="body">
-            <div class="row">
-                <div class="third">Title</div>
-                <div class="sixth">Status</div>
-                <div class="eighth">Replies</div>
-                <div class="sixth">Created</div>
-                <div class="eighth">Last reply</div>
-            </div>
-            <: for results($thread_table.paged_rs) -> $thread { :>
-                <: # TODO: Get this out of the damn template
-                   my $comments = $c.d.comments('DDGC::DB::Result::Thread',$thread.id) :>
-
-                <div class="row">
-                    <div class="third"><a href="<: $u('Forum','view',$thread.url) :>"><: $thread.title :></a></div>
-                    <div class="sixth"><: $thread.status_key :></div>
-                    <div class="eighth"><: $comments.count :></div>
-                    <div class="sixth"><: $dur($comments.list[0].created) :></div>
-                    <div class="eighth"><: $dur($comments.list[-1].created) :></div>
-                </div>
-            <: } :>
-        </div>
+	<div class="content-box">
+		<div class="head">
+			Latest comments on...
+		</div>
+		<div class="body">
+			<: for results($comments) -> $comment { :>
+				<div class="row">
+					<div class="row">
+						<: i($comment.get_context_obj,'label_thread') :>
+					</div>
+					<div class="row">
+						<span class="pull-right comment-meta">
+							latest comment by
+							<: i($comment.user,'username') :>
+							&bull; <: $dur_precise($comment.created) :>
+						</span>
+					</div>
+				</div>
+			<: } :>
+		</div>
 	</div>
 </div>
-    <: include "forum/sidebar.tx" :>
-    <br/>
-    <div style="clear:both"><: i($thread_table,'pager') :></div>
+	<: include "forum/sidebar.tx" :>
+	<br/>
+	<div style="clear:both"><: i($thread_table,'pager') :></div>
 </div>
