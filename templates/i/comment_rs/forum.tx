@@ -1,0 +1,26 @@
+<div class="twothirds">
+  <div class="content-box">
+    <div class="head">
+      Latest comments on...
+    </div>
+    <div class="body">
+      <: for results($_) -> $comment { :>
+        <: my $context_obj = $comment.get_context_obj :>
+        <div class="row">
+          <div class="row">
+            <a href="<: $u($comment.u) :>">
+              <: i($context_obj,'label_thread') :>
+            </a>
+          </div>
+          <div class="row">
+            <span class="pull-right comment-meta">
+              latest comment by
+              <: i($comment.user,'username') :>
+              &bull; <: $dur_precise($comment.created) :>
+            </span>
+          </div>
+        </div>
+      <: } :>
+    </div>
+  </div>
+</div>

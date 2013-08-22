@@ -23,6 +23,22 @@ sub index : Chained('base') PathPart('') Args(0) {
   });
 }
 
+# /forum/translation
+sub translation : Chained('base') Args(0) {
+  my ( $self, $c ) = @_;
+  $c->bc_index;
+
+  $c->stash->{comments} = $c->d->rs('Comment')->grouped_by_context->search({
+    context => { -in => [qw(
+      DDGC::DB::Result::Token::Language
+      DDGC::DB::Result::Token::Domain::Language
+    )] },
+  },{
+    rows => 20,
+    page => 1,
+  });
+}
+
 # /forum/search/
 sub search : Chained('base') Args(0) {
   my ( $self, $c, $pagenum ) = @_;

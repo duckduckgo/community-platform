@@ -13,6 +13,7 @@ use Data::Printer;
 use DDGC;
 use DDGC::DB;
 use DDGC::Config;
+use DateTime::Format::RSS;
 
 has _ddgc => (
 	is => 'ro',
@@ -52,7 +53,7 @@ has c => (
 );
 
 sub BUILDARGS {
-    my ( $class, $ddgc, $test, $init, $progress ) = @_;
+	my ( $class, $ddgc, $test, $init, $progress ) = @_;
 	my %options;
 	$options{_ddgc} = $ddgc;
 	$options{test} = $test;
@@ -82,6 +83,7 @@ sub deploy {
 	$self->add_distributions;
 	$self->add_threads;
 	$self->add_comments;
+	$self->add_blogs;
 	$self->d->envoy->update_own_notifications;
 	if ($self->test) {
 		$self->test_userpage;
@@ -106,7 +108,7 @@ sub next_step {
 
 sub step_count {
 	my ( $self ) = @_;
-	my $base = 542;
+	my $base = 557;
 	return $base unless $self->test;
 }
 
@@ -709,6 +711,7 @@ sub add_comments {
 		my $user = $self->c->{users}->{$username};
 		my $comment = $self->d->add_comment($context, $context_id, $user, $text);
 		$self->next_step;
+		$self->isa_ok($comment,'DDGC::DB::Result::Comment');
 		if (scalar @sub_comments > 0) {
 			$self->add_comments('DDGC::DB::Result::Comment',$comment->id, @sub_comments);
 		}
@@ -1298,6 +1301,79 @@ sub add_token_domains {
 					}
 				}
 			}
+		}
+	}
+}
+
+########################
+#  ____  _
+# | __ )| | ___   __ _
+# |  _ \| |/ _ \ / _` |
+# | |_) | | (_) | (_| |
+# |____/|_|\___/ \__, |
+#                |___/
+
+sub blogs {{
+	testone => [
+		'test-one' => {
+			title => 'Test One',
+			teaser => 'This is a teaser',
+			content => 'This is a content',
+			topics => ['Topic','Another Topic'],
+			company_blog => 1,
+			comments => [
+				testtwo => [ "This is another awesome!",
+					testone => 'Ok, you are another right',
+					testthree => "Ugh another ugh!",
+					testfour => [ "Comment on another me!",
+						testone => 'another oookkk',
+					],
+				],
+			],
+		},
+		'my-other-test-one' => {
+			title => 'Ohter Test One',
+			teaser => 'Ohter This is a teaser',
+			content => 'Ohter This is a content',
+			topics => ['Another Topic'],
+			company_blog => 1,
+			comments => [
+				testtwo => [ "Deep This is another awesome!",
+					testone => 'Deep Ok, you are another right',
+					testthree => "Deep Ugh another ugh!",
+					testfour => [ "Deep Comment on another me!",
+						testone => [ 'Deeeeper',
+							testone => "Deeeeeeeper",
+						],
+						testtwo => [ 'Deeeeeeeeeper',
+							testtwo => "Deeeeeeeeeeeeper",
+						],
+					],
+				],
+			],
+		},
+	],
+}}
+
+sub add_blogs {
+	my ( $self ) = @_;
+	$self->c->{blogs} = {};
+	for my $username (keys %{$self->blogs}) {
+		my $user = $self->c->{users}->{$username};
+		my @posts = @{$self->blogs->{$username}};
+		$self->c->{blogs}->{$username} = {};
+		while (@posts) {
+			my $uri = shift @posts;
+			my $post = shift @posts;
+			$post->{uri} = $uri;
+			$post->{live} = 1 unless defined $post->{live};
+			my @comments = defined $post->{comments} ? @{delete $post->{comments}} : ();
+			$post->{fixed_date} = DateTime::Format::RSS->new->format_datetime($post->{fixed_date}) if defined $post->{fixed_date};
+			my $blog = $user->create_related( user_blogs => $post );
+			$self->isa_ok($blog,'DDGC::DB::Result::User::Blog');
+			$self->next_step;
+			$self->add_comments('DDGC::DB::Result::User::Blog', $blog->id, @comments);
+			$self->c->{blogs}->{$username}->{$uri} = $blog;
 		}
 	}
 }
