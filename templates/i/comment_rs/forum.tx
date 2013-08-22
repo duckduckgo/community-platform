@@ -14,7 +14,7 @@
           </div>
           <div class="row">
             <span class="pull-right comment-meta">
-              latest comment by
+              <a href="<: $u($comment.u) :>#comment_<: $comment.id :>">latest comment</a> by
               <: i($comment.user,'username') :>
               &bull; <: $dur_precise($comment.created) :>
             </span>

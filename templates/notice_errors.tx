@@ -1,5 +1,5 @@
-<: if $errors { :>
+<: if $errors.size() { :>
 	<: for $errors -> $error { :>
-		<: include "notice_errors.tx" :>
+		<: include "notice_error.tx" { error => $error } :>
 	<: } :>
 <: } :>

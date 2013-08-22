@@ -22,6 +22,7 @@ sub base :Chained('/') :PathPart('') :CaptureArgs(0) {
 	$c->stash->{prefix_title} = 'DuckDuckGo Community';
 	$c->stash->{user_counts} = $c->d->user_counts;
 	$c->stash->{page_class} = "page-home texture";
+	$c->stash->{errors} = [];
 
 	$c->wiz_check;
 
