@@ -90,7 +90,7 @@
 	<: } :>
 
 
-	<: if $token_language.token.notes || $token_language.notes || $c.user.translation_manager { :>
+	<: if $token_language.token.notes || $c.user.translation_manager { :>
 		<div class="row">
 			<div class="label"><label>Notes:</label></div>
 			<div class="translation-notes">
@@ -101,9 +101,6 @@
 				<: } else { :>
 					<: if $token_language.token.notes { :>
 						<: r($token_language.token.notes) :>
-						<: if $token_language.notes { :>
-							<br/>
-						<: } :>
 					<: } :>
 				<: } :>
 			</div>

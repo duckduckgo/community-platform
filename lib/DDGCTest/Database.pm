@@ -108,7 +108,7 @@ sub next_step {
 
 sub step_count {
 	my ( $self ) = @_;
-	my $base = 557;
+	my $base = 599;
 	return $base unless $self->test;
 }
 
@@ -184,6 +184,16 @@ sub countries {{
 		name_in_local => 'العربية - مصر',
 		flag_source => 'https://upload.wikimedia.org/wikipedia/commons/f/fe/Flag_of_Egypt.svg',
 	},
+	'be' => {
+		name_in_english => 'Belgium',
+		name_in_local => 'België',
+		flag_source => 'http://upload.wikimedia.org/wikipedia/commons/thumb/6/65/Flag_of_Belgium.svg/2000px-Flag_of_Belgium.svg.png',
+	},
+	'nl' => {
+		name_in_english => 'The Netherlands',
+		name_in_local => 'Nederland',
+		flag_source => 'http://upload.wikimedia.org/wikipedia/commons/thumb/2/20/Flag_of_the_Netherlands.svg/2000px-Flag_of_the_Netherlands.svg.png',
+	},
 }}
 
 sub languages {{
@@ -252,6 +262,12 @@ sub languages {{
 		locale => 'fr_FR',
 		country => 'fr',
 	},
+	'fr_be' => {
+		name_in_english => 'French in Belgium',
+		name_in_local => 'Français en Belgique',
+		locale => 'fr_BE',
+		country => 'be',
+	},
 	'da' => {
 		name_in_english => 'Danish in Denmark',
 		name_in_local => 'Dansk i Danmark',
@@ -265,6 +281,18 @@ sub languages {{
 		rtl => 1,
 		country => 'eg',
 	},
+	'nl_be' => {
+		name_in_english => 'Dutch in Belgium',
+		name_in_local => 'Nederlands in België',
+		locale => 'nl_BE',
+		country => 'be',
+	},
+	'nl' => {
+		name_in_english => 'Dutch in The Netherlands',
+		name_in_local => 'Nederlands in Nederland',
+		locale => 'nl_NL',
+		country => 'nl',
+	}
 }}
 
 sub add_languages {
@@ -501,11 +529,15 @@ sub users {{
 		pw => '1234test',
 		public => 1,
 		roles => 'translation_manager',
-		notes => 'Testuser, public, us, ar, de',
+		notes => 'Testuser, public, us, ar, de, nl_be, nl, fr_be, fr',
 		languages => {
 			us => 6,
 			ar => 5,
 			de => 4,
+			nl_be => 5,
+			nl => 5,
+			fr_be => 5,
+			fr => 5,
 		},
 		data => {
 			userpage => {
@@ -814,6 +846,10 @@ sub token_domains {{
 				testthree => [
 					de => 'Hallo %s', [qw( testthree testfour )],
 					us => 'Welcome %s', [],
+					nl_be => 'Rot op %s', [],
+					nl => 'Zout op %s', [],
+					fr_be => 'Ta geulle %s', [],
+					fr => 'Fils de putte %s', [],
 				],
 				testfour => [
 					us => 'Welcome %s', [qw( testthree testfour )],
@@ -824,8 +860,6 @@ sub token_domains {{
 				],
 				notes => {
 					token => 'This is a token note',
-					de => 'Das ist eine deutsche Information',
-					us => 'Thats an american information',
 				},
 				comments => {
 					us => [
@@ -855,6 +889,8 @@ sub token_domains {{
 					de => 'Du bist %s aus %s', [],
 					de => 'Der %s isse aus %s', [],
 					us => 'You are %s from %s', [],
+					nl_be => 'Gij %2$s vannen %1$s', [],
+					nl => 'Jij bent een %s van een %s', [],
 				],
 				testfive => [
 					ru => 'Вы %s из %s', [],
@@ -875,8 +911,6 @@ sub token_domains {{
 				],
 				notes => {
 					token => 'This is a token note',
-					de => 'Das ist eine deutsche Information',
-					us => 'Thats an american information',
 				},
 			],
 			\'email', 'You have %d message', 'You have %d messages', [
@@ -886,14 +920,14 @@ sub token_domains {{
 				testthree => [
 					de => 'Du hast %d Nachricht', 'Du hast %d Nachrichten', [],
 					us => 'You have %d message', 'You have %d messages', [],
+					fr_be => 'Vous avez %d message', 'Vous avez %d messages', [],
+					fr => 'T\'as %d message', 'T\'as %d messages putte', [],
 				],
 				testfive => [
 					ru => 'У вас %d сообщение', 'У вас %d сообщения', 'У вас %d сообщений', [],
 					us => 'You have %d mssage', 'You have %d messges', [],
 				],
 				notes => {
-					de => 'Das ist eine deutsche Information',
-					us => 'Thats an american information',
 				},
 			],
 			'You have %d message', 'You have %d messages', [
@@ -903,6 +937,8 @@ sub token_domains {{
 				testthree => [
 					de => 'Du hast "%d" Nachricht', 'Du hast "%d" Nachrichten', [],
 					us => 'You have %d message', 'You have %d messages', [],
+					fr_be => 'Vous avez %d message', 'Vous avez %d messages', [],
+					fr => 'T\'as %d message', 'T\'as %d messages putte', [],
 				],
 				testfive => [
 					ru => 'У вас %d сообщение', 'У вас %d сообщения', 'У вас %d сообщений', [],
@@ -1245,19 +1281,11 @@ sub add_token_domains {
 				my $user_or_notes = shift @user_trans;
 				my $data = shift @user_trans;
 				if ($user_or_notes eq 'notes') {
-					for (keys %{$data}) {
-						if ($_ eq 'token') {
-							$token->notes($data->{$_});
-							$token->update;
-						} else {
-							my $tl = $token->search_related('token_languages',{
-								token_domain_language_id => $tcl{$_}->id,
-							})->first;
-							$tl->notes($data->{$_});
-							$tl->update;
-						}
-						$self->next_step;
+					if ($_ eq 'token') {
+						$token->notes($data->{$_});
+						$token->update;
 					}
+					$self->next_step;
 				} elsif ($user_or_notes eq 'comments') {
 					for my $lang (keys %{$data}) {
 						my $tl = $token->search_related('token_languages',{
