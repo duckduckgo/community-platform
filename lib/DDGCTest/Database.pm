@@ -292,7 +292,7 @@ sub languages {{
 		name_in_local => 'Nederlands in Nederland',
 		locale => 'nl_NL',
 		country => 'nl',
-	}
+	},
 }}
 
 sub add_languages {
@@ -837,7 +837,7 @@ sub token_domains {{
 		base => 'us',
 		sorting => 200,
 		description => 'Bla blub the test is dead the test is dead!',
-		languages => [qw( de es br ru fr se in da ar )],
+		languages => [qw( de es br ru fr se in da ar fr_be nl nl_be )],
 		snippets => [
 			'Hello %s', [
 				testone => [
