@@ -9,22 +9,20 @@
 	<: include help::searchbox :>
 </div>
 
-<div class="gw">
+<div class="twothird  block-mid  mg-bottom--big">
 		
-  <: for results($help_category.helps) -> $help { :>
-	<div class="g half">	  
-		<a class="linkbox  linkbox--category" href="<: $u('Help','help',$help_language.locale,$help_category.key,$help.key) :>">
-			<i class="linkbox__icon  icon-question-sign"></i>
-			<div class="linkbox__body">
-				<h2 class="linkbox__title"><: $help.content_by_language_id($help_language_id).title :></h2>
-				<: $help.content_by_language_id($help_language_id).teaser :>
-			</div>
-		</a>
-	</div> 	
+  <: for results($help_category.helps) -> $help { :>	
+	<a class="linkbox  linkbox--category" href="<: $u('Help','help',$help_language.locale,$help_category.key,$help.key) :>">
+		<i class="linkbox__icon  icon-question-sign"></i>
+		<div class="linkbox__body">
+			<h2 class="linkbox__title"><: $help.content_by_language_id($help_language_id).title :></h2>
+			<: $help.content_by_language_id($help_language_id).teaser :>
+		</div>
+	</a>	
   <: } :>
-</div>	
-<div class="row clear">
+  <div class="row clear">
 	<a class="button" href="<: $u('Help','index',$help_language.locale) :>"><i class="icon-fast-backward"></i> Back to help index</a>
-</div>
-	
+  </div>	
+</div>	
+
 
