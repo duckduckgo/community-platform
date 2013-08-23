@@ -348,7 +348,7 @@ sub save_translate_params {
 			if ($token_language->add_user_translation($c->user,$k{$_})) {
 				$c->wiz_step;
 			} else {
-				push @{$c->stash{errors}}, "This could be because not all fields are filled in";
+				push @{$c->stash->{errors}}, "This could be because not all fields are filled in";
 			}
 		}
 	}

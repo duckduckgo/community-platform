@@ -70,13 +70,25 @@
 			<: if $token_language_page { :>
 				<script type="text/javascript">
 					$('#token_language_<: $token_language.id :>_<: $func :>').keyup(function(){
-						$('#submit_token_language_<: $token_language.id :>').removeClass('js-hide');
+ 						var empty = 0;
+						<: for [ 0..$token_language.max_msgstr_index ] -> $m { :>
+							<: my $inner_func = "msgstr" ~ $m :>
+							if (!$('#token_language_<: $token_language.id :>_<: $inner_func :>').val()) {
+								empty = 1;
+							}
+						<: } :>
+						if(!empty) {
+							$('#submit_token_language_<: $token_language.id :>').removeClass('js-hide');
+						} else {
+							$('#submit_token_language_<: $token_language.id :>').addClass('js-hide');
+						}
 					})
 				</script>
 			<: } :>
 		</div>
 			<: } :>		
 	<: } :>
+
 
 	<: if $token_language.token.notes || $token_language.notes || $c.user.translation_manager { :>
 		<div class="row">
