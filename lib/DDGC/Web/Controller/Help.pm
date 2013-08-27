@@ -52,6 +52,7 @@ sub category_base :Chained('language') :PathPart('') :CaptureArgs(1) {
   my ( $self, $c, $category ) = @_;
   $c->stash->{help_category} = $c->d->rs('Help::Category')->search({ 'me.key' => $category },{
     prefetch => [ 'help_category_contents', { helps => 'help_contents' } ],
+    order_by => { -asc => 'helps.sort' },
   })->first;
   if (!$c->stash->{help_category}) {
     $c->response->redirect($c->chained_uri('Help','index',$c->stash->{help_language}->locale,{ category_notfound => 1 }));
@@ -70,6 +71,8 @@ sub help_base :Chained('category_base') :PathPart('') :CaptureArgs(1) {
   my ( $self, $c, $key ) = @_;
 	$c->stash->{help} = $c->stash->{help_category}->search_related('helps',{
     'me.key' => $key
+  },{
+    order_by => { -asc => 'me.sort' },
   })->first;
 	if (!$c->stash->{help}) {
 		$c->response->redirect($c->chained_uri('Help','index',$c->stash->{help_language}->locale,{ help_notfound => 1 }));
