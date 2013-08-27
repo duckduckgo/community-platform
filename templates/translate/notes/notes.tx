@@ -1,25 +1,14 @@
-<: my $current = -1 :>
 <: for results($token_domains) -> $token_domain { :>
-	<: for results($token_domain.tokens) -> $token { :>
-		<div class="row">
-			<a href="<: $u('Translate','token', $token.id) :>"><: include "i/msgctxtid.tx" { msgctxtid => $token } :>
-		</div>
-	<: } :>
-<: } :>
-
-
-<: if 0 { :>
-	<: if $token.token_domain_id > $current { :>
-		<: if $current > -1 { :>
-			</div>
-		<: } :>
-		<div class="content-box translate-overview">
-			<h2><: $token.token_domain.name :></h2>
+	<div class="content-box translate-overview">
+		<div class="head">
+			<h2><: $token_domain.name :></h2>
 		</div>
 		<div class="body">
-	<: } :>
-	<div class="row">
-		<a href="<: $u('Translate','token', $token.id) :>"><: include "i/msgctxtid.tx" { msgctxtid => $token } :>
+			<: for results($token_domain.tokens) -> $token { :>
+				<div class="row">
+					<a href="<: $u('Translate','token', $token.id) :>"><: include "i/msgctxtid.tx" { msgctxtid => $token } :>
+				</div>
+			<: } :>
+		</div>
 	</div>
 <: } :>
-</div>
