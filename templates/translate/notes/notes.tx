@@ -7,6 +7,11 @@
 			<: for results($token_domain.tokens) -> $token { :>
 				<div class="row">
 					<a href="<: $u('Translate','token', $token.id) :>"><: include "i/msgctxtid.tx" { msgctxtid => $token } :>
+					<: for results($token.token_languages) -> $token_language { :>
+						<: for results($token_language.token_language_translations) -> $token_language_translation { :>
+							<: i($token_language_translation.user,'userpic',{ userpic_size => 16 }) :>
+						<: } :>
+					<: } :>
 				</div>
 			<: } :>
 		</div>

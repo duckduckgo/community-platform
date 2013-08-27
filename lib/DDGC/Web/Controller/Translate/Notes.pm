@@ -30,7 +30,13 @@ sub index :Chained('base') :PathPart('') :Args(0) {
 	$c->stash->{token_domains} = $c->d->resultset('Token::Domain')->search({
 		'tokens.notes' => [ undef, "" ],
 	},{
-		prefetch => [qw( tokens )],
+		prefetch => {
+			tokens => {
+				token_languages => {
+					token_language_translations => [qw( user )],
+				},
+			},
+		},
 	});
 }
 
