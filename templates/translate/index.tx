@@ -65,7 +65,8 @@
 		</div>
 		<div class="body">
 			<div class="row">
-				<a class="button" href="<: $u('Translate::Po','index') :>">Po Manager</a>	
+				<a class="button" href="<: $u('Translate::Po','index') :>">Po Manager</a>
+				<a class="button" href="<: $u('Translate::Notes','index') :>">Notes Manager</a>
 			</div>
 		</div>
 	</div>

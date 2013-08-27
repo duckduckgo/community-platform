@@ -1,0 +1,17 @@
+<: my $current = -1 :>
+<: for results($tokens) -> $token { :>
+	<: if $token.token_domain_id > $current { :>
+		<: if $current > -1 { :>
+			</div>
+		<: } :>
+		<: $current = $token.token_domain_id :>
+		<div class="content-box translate-overview">
+			<h2><: $token.token_domain.name :></h2>
+		</div>
+		<div class="body">
+	<: } :>
+	<div class="row">
+		<a href="<: $u('Translate','token', $token.id) :>"><: include "i/msgctxtid.tx" { msgctxtid => $token } :>
+	</div>
+<: } :>
+</div>

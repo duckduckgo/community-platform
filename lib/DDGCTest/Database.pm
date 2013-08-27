@@ -979,7 +979,10 @@ sub token_domains {{
 		sorting => 100,
 		languages => [qw( de ru ar )],
 		snippets => [
-			'abominable',[],
+			'abominable',[
+				notes => {
+					token => 'This is a token note',
+					}],
 			'absorbed',[],
 			'accepting',[],
 			'aching',[],

@@ -1,0 +1,8 @@
+<: include form::row {
+  form_row_id => 'token_' ~ ( $_.id || 0 ) ~ '_notes',
+  form_row_label => 'Notes (not public accessable):',
+  form_row_left => 'third',
+  form_row_right => 'twothird',
+  form_row_type => 'textarea',
+  form_row_value => $_.notes,
+} :>

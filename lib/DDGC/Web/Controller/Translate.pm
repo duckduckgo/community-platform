@@ -67,6 +67,17 @@ sub unvoted_all :Chained('logged_in') :Args(0) {
 
 sub token :Chained('logged_in') :Args(1) {
 	my ( $self, $c, $token_id ) = @_;
+	if ($c->req->params->{save_token_note}) {
+
+		for (keys %{$c->req->params}) {
+			if ($_ =~ m/token_notes_(\d+)_edit$/) {
+				my $token = $c->d->resultset('Token')->find({ id => $token_id });
+				$token->notes($c->req->params->{$_});
+				$token->update;
+			}
+		}
+	}
+
 	$c->stash->{token} = $c->d->rs('Token')->find({ id => $token_id });
 	unless ($c->stash->{token}) {
 		$c->response->redirect($c->chained_uri('Translate','index'));
