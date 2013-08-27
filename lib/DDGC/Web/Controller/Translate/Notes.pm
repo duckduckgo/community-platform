@@ -12,7 +12,7 @@ use DateTime;
 use namespace::autoclean;
 
 sub base :Chained('/translate/base') :PathPart('notes') :CaptureArgs(0) {
-    my ( $self, $c ) = @_;
+	my ( $self, $c ) = @_;
 	if (!$c->user) {
 		$c->response->redirect($c->chained_uri('My','login'));
 		return $c->detach;
@@ -25,11 +25,13 @@ sub base :Chained('/translate/base') :PathPart('notes') :CaptureArgs(0) {
 }
 
 sub index :Chained('base') :PathPart('') :Args(0) {
-    my ( $self, $c ) = @_;
-    $c->bc_index;
-    my $domains = $c->d->resultset('Token::Domain');
-    $c->stash->{domains} = $domains;
-    	$c->stash->{tokens} = $c->d->resultset('Token')->search({ notes => [ undef, "" ], }, { order_by => [ qw( me.token_domain_id )], });
+	my ( $self, $c ) = @_;
+	$c->bc_index;
+	$c->stash->{token_domains} = $c->d->resultset('Token::Domain')->search({
+		'tokens.notes' => [ undef, "" ],
+	},{
+		prefetch => [qw( tokens )],
+	});
 }
 
 __PACKAGE__->meta->make_immutable;
