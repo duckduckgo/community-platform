@@ -147,7 +147,7 @@ sub step :Chained('feedback') :PathPart('') :Args(1) {
     $c->stash->{header_field_names} = [grep { $_ ne 'COOKIE' } @header_field_names];
 
     $c->stash->{email} = {
-      to          => 'communitytest@duckduckgo.com',
+      to          => 'help@duckduckgo.com',
       from        => 'noreply@dukgo.com',
       subject     => '[DDG Feedback '.$c->stash->{feedback_name}.'] '.$data{'1'},
       template        => 'email/feedback.tx',
