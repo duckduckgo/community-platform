@@ -329,6 +329,28 @@ a.fill {
 				color: inherit;
 			}
 		
+		/* 
+		 * this animation could work one of two ways.  
+		 * either it's slow to open, or it's slow to close.
+		 * I've decided that the lesser of two evils is to make it slow to close.
+		 */		
+		.nav--sub.is-open {			
+			max-height: 1000px;				
+			-webkit-transition: max-height 1s ease-in-out; 
+			-moz-transition: max-height 1s ease-in-out; 
+			-o-transition: max-height 1s ease-in-out; 
+			transition: max-height 1s ease-in-out; 
+		}
+		.nav--sub.is-closed {				
+			max-height: 0px;				
+			-webkit-transition: max-height 1s ease-in-out; 
+			-moz-transition: max-height 1s ease-in-out; 
+			-o-transition: max-height 1s ease-in-out; 
+			transition: max-height 1s ease-in-out; 
+		}
+			.lt-ie8 .nav--sub.is-open { display: block; }
+			.lt-ie8 .nav--sub.is-closed { display: none; }
+		/*		
 		.nav--sub.is-open {
 			margin-top: 0;				
 			-webkit-transition: margin-top 1s ease-in-out; 
@@ -337,13 +359,14 @@ a.fill {
 			transition: margin-top 1s ease-in-out; 
 		}
 		.nav--sub.is-closed {			
-			margin-top: -100%;				
+			margin-top: -1000%;				
 			-webkit-transition: margin-top 1s ease-in-out; 
 			-moz-transition: margin-top 1s ease-in-out; 
 			-o-transition: margin-top 1s ease-in-out; 
 			transition: margin-top 1s ease-in-out; 
 		}
-	
+		*/
+		
 /* clearfix */
 .group:after, .wrap:after, .breadcrumb-nav:after, .content-box .head:after, .comment_reply:after,
 .content-box .row:after, .one-field:after, .author-info:after, .comment-foot:after, .nav:after, .nav-item:after  {
