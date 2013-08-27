@@ -1,11 +1,11 @@
 <h1>Welcome to the DuckDuckGo Help pages!</h1>
-<p class="intro-message">In hac habitasse platea dictumst. Donec molestie, nisi at convallis feugiat, ipsum mi tincidunt dui, ultricies blandit est felis sit amet elit. Proin metus magna, ornare a mollis ut, feugiat at ante.</p>
+<p class="twothird  block-mid  intro-message">Here, you can find answers to almost any DuckDuckGo questions. If you don't see the information you're looking for, try asking the <a href="http://duck.co/">community</a>!</p>
 
 <div class="twothird  block-mid  mg-bottom--big">
 	<: include help::searchbox :>
 </div>
 
-<div class="gw">
+<div class="gw  mg-bottom--big">
   <: for results($help_categories) -> $category { :>    
 	<div class="g half">	  
 		<a class="linkbox  linkbox--category" href="<: $u('Help','category',$help_language.locale,$category.key) :>">
