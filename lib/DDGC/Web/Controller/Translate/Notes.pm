@@ -37,7 +37,8 @@ sub index :Chained('base') :PathPart('') :Args(0) {
 				},
 			},
 		},
-	});
+		order_by => [ qw( tokens.msgid )],
+	})->sorted;
 }
 
 __PACKAGE__->meta->make_immutable;
