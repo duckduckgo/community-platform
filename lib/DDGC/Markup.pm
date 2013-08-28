@@ -47,6 +47,32 @@ sub _build_bbcode {
 	});
 }
 
+# Helper for plaintext rendering (i.e. stripping)
+has plain_bbcode => (
+	is => 'ro',
+	isa => 'Parse::BBCode',
+	lazy_build => 1,
+);
+
+sub _build_plain_bbcode {
+	my $self = shift;
+	my @keys = keys %{$self->bbcode->{tags}};
+	my %tags = ();
+
+	$tags{$_} = '%{parse}s' for @keys;
+
+	my $parser = Parse::BBCode->new({
+		close_open_tags => 1,
+		url_finder => {
+		    format => '%s',
+		    max_length => 200,
+		},
+		tags => \%tags,
+	    });
+
+	return $parser;
+}
+
 #
 # Specific sub-parser functions
 #
@@ -97,6 +123,16 @@ sub html {
 	}
 
 	return $html;
+}
+
+#
+# For returning a stripped plain-text version
+#
+sub plain {
+	my ($self, @code_parts) = @_;
+	$self->plain_bbcode;
+	my $markup = join ' ', @code_parts;
+	return $self->plain_bbcode->render($markup);
 }
 
 no Moose;
