@@ -9,7 +9,7 @@
 		<div class="label"><label>Term (Singular):</label></div>
 		<div>			
 			<strong><: $token_language.token.msgid :></strong>
-			<: if !$token_language_page { :><a href="<: $u('Translate','tokenlanguage',$token_language.id) :>" class="button light">Discuss</a><: } :>
+			<: if !$token_language_page { :><a href="<: $u('Translate','tokenlanguage',$token_language.id) :>" class="button  light  pull-right">Discuss</a><: } :>
 		</div>	
 	<: if $token_language.token.msgid_plural { :>
 		<div class="row">
@@ -96,7 +96,7 @@
 			<div class="translation-notes">
 				<: if $c.user.translation_manager { :>
 					<label for="token_notes_<: $token_language.token.id :>_edit">Token Notes</label>
-          			<textarea style="resize: none;" cols="40" rows="5" id="token_notes_<: $token_language.token.id :>_edit" name="token_notes_<: $token_language.token.id :>_edit"><: $token_language.token.notes :></textarea>
+          			<textarea style="resize: none;" cols="40" class="has-button" rows="5" id="token_notes_<: $token_language.token.id :>_edit" name="token_notes_<: $token_language.token.id :>_edit"><: $token_language.token.notes :></textarea>
           			<input type="submit" class="button  pull-right" name="save_translation" value="Save notes" />
 				<: } else { :>
 					<: if $token_language.token.notes { :>

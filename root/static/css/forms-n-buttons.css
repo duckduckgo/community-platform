@@ -222,15 +222,6 @@ Comment Forms
 	padding: 1.8em 19px 8px;
 	height: 4.5em;
 }
-	.has-bbcode {
-		-moz-border-radius-bottomright: 0px;
-		-webkit-border-bottom-right-radius: 0px;
-		border-bottom-right-radius: 0px;
-	}
-		.has-bbcode + .comment-controls { 
-			margin-top: -1px; 
-		}
-
 /*
 	.comment_reply textarea::-webkit-input-placeholder { color:#444; }
 	.comment_reply textarea::-moz-placeholder { color:#444; }
@@ -248,7 +239,7 @@ Comment Forms
 .comment_reply .submit{
 	float: right;
 	font-weight: normal;	
-	padding: 0 8px;	
+	padding: 5px 8px 4px;	
 }
 	.comment_reply .button-group { margin-top: -1px; }
 		
@@ -284,6 +275,27 @@ Comment Forms
 		-moz-border-radius-bottomright: 0px;
 		-webkit-border-bottom-right-radius: 0px;
 		border-bottom-right-radius: 0px;			
+	}
+
+/*--------------------------------------------------
+Crazy Combinations
+-------------------------------------------------- */
+	
+.has-bbcode, .has-button {
+	-moz-border-radius-bottomright: 0px;
+	-webkit-border-bottom-right-radius: 0px;
+	border-bottom-right-radius: 0px;
+}
+	.has-bbcode + .comment-controls, .has-button + .button { 
+		margin-top: -1px; 
+	}
+	.has-button + .button {
+		-moz-border-radius-topright: 0px;
+		-webkit-border-top-right-radius: 0px;
+		border-top-right-radius: 0px;
+		-moz-border-radius-topleft: 0px;
+		-webkit-border-top-left-radius: 0px;
+		border-top-left-radius: 0px;
 	}
 	
 /*--------------------------------------------------
