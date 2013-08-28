@@ -133,6 +133,101 @@ has xslate => (
 sub _build_xslate {
 	my $self = shift;
 	my $xslate;
+	my $obj2dir = sub {
+		my $obj = shift;
+		my $class = $obj->can('i') ? $obj->i : ref $obj;
+		if ($class =~ m/^DDGC::DB::Result::(.*)$/) {
+			my $return = lc($1);
+			$return =~ s/::/_/g;
+			return $return;
+		}
+		if ($class =~ m/^DDGC::DB::ResultSet::(.*)$/) {
+			my $return = lc($1);
+			$return =~ s/::/_/g;
+			return $return.'_rs';
+		}
+		if ($class =~ m/^DDGC::Web::(.*)/) {
+			my $return = lc($1);
+			$return =~ s/::/_/g;
+			return $return;
+		}
+		die "cant include ".$class." with i-function";
+	};
+	my $i_template_and_vars = sub {
+
+		my $object = shift;
+		my $subtemplate;
+		my $no_templatedir;
+		my $vars;
+		if (ref $object) {
+			$subtemplate = shift;
+			$vars = shift;
+		} else {
+			$no_templatedir = 1;
+			$subtemplate = $object;
+			my $next = shift;
+			if (ref $next eq 'HASH') {
+				$object = undef;
+				$vars = $next;
+			} else {
+				$object = $next;
+				$vars = shift;
+			}
+		}
+		my $main_object;
+		my @objects;
+		push @objects, $object if $object;
+		if (ref $object eq 'ARRAY') {
+			$main_object = $object->[0];
+			@objects = @{$object};
+		} else {
+			$main_object = $object;
+		}
+		my %current_vars = %{$xslate->current_vars};
+		$current_vars{_} = $main_object;
+		my $ref_main_object = ref $main_object;
+		if ($main_object && $ref_main_object) {
+			if ($main_object->can('meta')) {
+				for my $method ( $main_object->meta->get_all_methods ) {
+					if ($method->name =~ m/^i_(.*)$/) {
+						my $name = $1;
+						my $var_name = '_'.$name;
+						my $func = 'i_'.$name;
+						$current_vars{$var_name} = $main_object->$func;
+					}
+				}
+			}
+		}
+		my @template = ('i');
+		unless ($no_templatedir) {
+			push @template, $obj2dir->($main_object);
+		}
+		push @template, $subtemplate ? $subtemplate : 'label';
+		my %new_vars;
+		for (@objects) {
+			my $obj_dir = $obj2dir->($_);
+			if (defined $new_vars{$obj_dir}) {
+				if (ref $new_vars{$obj_dir} eq 'ARRAY') {
+					push @{$new_vars{$obj_dir}}, $_;
+				} else {
+					$new_vars{$obj_dir} = [
+						$new_vars{$obj_dir}, $_,
+					];
+				}
+			} else {
+				$new_vars{$obj_dir} = $_;
+			}
+		}
+		for (keys %new_vars) {
+			$current_vars{$_} = $new_vars{$_};
+		}
+		if ($vars) {
+			for (keys %{$vars}) {
+				$current_vars{$_} = $vars->{$_};
+			}
+		}
+		return join('/',@template).".tx",\%current_vars;
+	};
 	$xslate = Text::Xslate->new({
 		path => [$self->config->templatedir],
 		cache_dir => $self->config->xslate_cachedir,
@@ -178,101 +273,11 @@ sub _build_xslate {
 			dur_precise => sub { dur_precise(@_) },
 			#############################################
 
-			i => sub {
-
-				my $obj2dir = sub {
-					my $obj = shift;
-					my $class = $obj->can('i') ? $obj->i : ref $obj;
-					if ($class =~ m/^DDGC::DB::Result::(.*)$/) {
-						my $return = lc($1);
-						$return =~ s/::/_/g;
-						return $return;
-					}
-					if ($class =~ m/^DDGC::DB::ResultSet::(.*)$/) {
-						my $return = lc($1);
-						$return =~ s/::/_/g;
-						return $return.'_rs';
-					}
-					if ($class =~ m/^DDGC::Web::(.*)/) {
-						my $return = lc($1);
-						$return =~ s/::/_/g;
-						return $return;
-					}
-					die "cant include ".$class." with i-function";
-				};
-
-				my $object = shift;
-				my $subtemplate;
-				my $no_templatedir;
-				my $vars;
-				if (ref $object) {
-					$subtemplate = shift;
-					$vars = shift;
-				} else {
-					$no_templatedir = 1;
-					$subtemplate = $object;
-					my $next = shift;
-					if (ref $next eq 'HASH') {
-						$object = undef;
-						$vars = $next;
-					} else {
-						$object = $next;
-						$vars = shift;
-					}
-				}
-				my $main_object;
-				my @objects;
-				push @objects, $object if $object;
-				if (ref $object eq 'ARRAY') {
-					$main_object = $object->[0];
-					@objects = @{$object};
-				} else {
-					$main_object = $object;
-				}
-				my %current_vars = %{$xslate->current_vars};
-				$current_vars{_} = $main_object;
-				my $ref_main_object = ref $main_object;
-				if ($main_object && $ref_main_object) {
-					if ($main_object->can('meta')) {
-						for my $method ( $main_object->meta->get_all_methods ) {
-							if ($method->name =~ m/^i_(.*)$/) {
-								my $name = $1;
-								my $var_name = '_'.$name;
-								my $func = 'i_'.$name;
-								$current_vars{$var_name} = $main_object->$func;
-							}
-  					}
-					}
-				}
-				my @template = ('i');
-				unless ($no_templatedir) {
-					push @template, $obj2dir->($main_object);
-				}
-				push @template, $subtemplate ? $subtemplate : 'label';
-				my %new_vars;
-				for (@objects) {
-					my $obj_dir = $obj2dir->($_);
-					if (defined $new_vars{$obj_dir}) {
-						if (ref $new_vars{$obj_dir} eq 'ARRAY') {
-							push @{$new_vars{$obj_dir}}, $_;
-						} else {
-							$new_vars{$obj_dir} = [
-								$new_vars{$obj_dir}, $_,
-							];
-						}
-					} else {
-						$new_vars{$obj_dir} = $_;
-					}
-				}
-				for (keys %new_vars) {
-					$current_vars{$_} = $new_vars{$_};
-				}
-				if ($vars) {
-					for (keys %{$vars}) {
-						$current_vars{$_} = $vars->{$_};
-					}
-				}
-				return mark_raw($xslate->render(join('/',@template).".tx",\%current_vars));
+			i_template_and_vars => $i_template_and_vars,
+			i => sub { mark_raw($xslate->render($i_template_and_vars->(@_))) },
+			i_template => sub {
+				my ( $template, $vars ) = $i_template_and_vars->(@_);
+				return $template
 			},
 
 		},
