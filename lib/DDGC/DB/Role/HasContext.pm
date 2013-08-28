@@ -15,6 +15,11 @@ sub context_resultset {
 
 sub get_context_obj {
 	my ( $self ) = @_;
+  my $context_config = $self->context_config;
+  if (defined $self->context_config->{$self->context}->{relation}) {
+    my $function = $self->context_config->{$self->context}->{relation};
+    return $self->$function;
+  }
 	if ( $self->context_resultset ) {
 		return $self->result_source->schema->resultset($self->context_resultset)->find($self->context_id);
 	}

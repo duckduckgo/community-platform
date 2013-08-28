@@ -47,6 +47,8 @@ column context_id => {
 with 'DDGC::DB::Role::HasContext';
 ###########
 
+__PACKAGE__->add_context_relations;
+
 column content => {
 	data_type => 'text',
 	is_nullable => 0,
@@ -73,6 +75,7 @@ column parent_id => {
 	data_type => 'bigint',
 	is_nullable => 1,
 };
+sub root_comment { $_[0]->parent_id ? 0 : 1 }
 
 belongs_to 'user', 'DDGC::DB::Result::User', 'users_id';
 belongs_to 'parent', 'DDGC::DB::Result::Comment', 'parent_id', { join_type => 'left' };

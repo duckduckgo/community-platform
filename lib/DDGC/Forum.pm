@@ -14,10 +14,10 @@ has ddgc => (
 	required => 1,
 );
 
-sub comments_grouped { shift->ddgc->rs('Comment')->grouped_by_context }
+sub comments_grouped { shift->ddgc->rs('Comment')->grouped_by_context->prefetch_all }
 
 sub comments_grouped_in { shift->comments_grouped->search_rs({
-	context => { -in => [@_] },
+	'me.context' => { -in => [@_] },
 }) }
 
 sub context_threads {qw(
@@ -43,7 +43,7 @@ sub comments_grouped_blog { $_[0]->comments_grouped_in(
 ) }
 
 sub comments_grouped_not_in { shift->comments_grouped->search_rs({
-	context => { -not_in => [@_] },
+	'me.context' => { -not_in => [@_] },
 }) }
 sub comments_grouped_other { $_[0]->comments_grouped_not_in(
 	$_[0]->context_blog,

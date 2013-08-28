@@ -13,6 +13,66 @@ __PACKAGE__->load_components(qw/
     EncodedColumn
 /);
 
+sub context_config {{
+	'DDGC::DB::Result::Comment' => {
+		relation => 'comment',
+		prefetch => [qw( user )],
+	},
+	'DDGC::DB::Result::Event' => {
+		relation => 'event',	
+	},
+	'DDGC::DB::Result::Thread' => {
+		relation => 'thread',
+		prefetch => [qw( user comment )],
+	},
+	'DDGC::DB::Result::Token' => {
+		relation => 'token',
+		prefetch => [qw( token_domain )],
+	},
+	'DDGC::DB::Result::Token::Language' => {
+		relation => 'token_language',
+		prefetch => [{
+      token => [qw( token_domain )],
+      token_domain_language => [qw( token_domain language )],
+    }],
+	},
+	'DDGC::DB::Result::Token::Domain::Language' => {
+		relation => 'token_domain_language',
+		prefetch => [qw( token_domain language )],
+	},
+	'DDGC::DB::Result::User::Blog' => {
+		relation => 'user_blog',
+		prefetch => [qw( user )],
+	},
+	'DDGC::DB::Result::Token::Language::Translation::Vote' => {
+		relation => 'token_language_translation_vote',
+		prefetch => [qw( user ),{
+			token_language_translation => [qw( user ),{
+				token_language => {
+		      token => [qw( token_domain )],
+		      token_domain_language => [qw( token_domain language )],
+		    }
+			}]
+		}],
+	},
+}}
+
+sub add_context_relations {
+  my ( $class ) = @_;
+  die $class." doesnt have context and context_id"
+  	unless $class->can('context') && $class->can('context_id');
+  for my $context_class (keys %{$class->context_config}) {
+  	next if $context_class eq $class;
+  	my $config = $class->context_config->{$context_class};
+	  $class->belongs_to($config->{relation}, $context_class, sub {{
+	    "$_[0]->{foreign_alias}.id" => { -ident => "$_[0]->{self_alias}.context_id" },
+	    "$_[0]->{self_alias}.context" => $context_class,
+	  }}, {
+	    join_type => 'left',
+	  });
+  }
+}
+
 sub default_result_namespace { 'DDGC::DB::Result' }
 
 sub ddgc { shift->result_source->schema->ddgc }
@@ -60,9 +120,9 @@ sub has_context {
 sub comments {
 	my ( $self ) = @_;
 	return $self->schema->resultset('Comment')->search({
-		context => $self->i_context,
-		context_id => $self->i_context_id,
-		parent_id => undef,
+		'me.context' => $self->i_context,
+		'me.context_id' => $self->i_context_id,
+		'me.parent_id' => undef,
 	});
 }
 
