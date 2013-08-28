@@ -54,7 +54,11 @@ $(document).ready(function() {
 
 	
 	$('.js-toggle-sibling').click(function(e){
-		e.preventDefault();
+		e.preventDefault();		
+		if ($(this).hasClass('is-exclusive')) {
+			$(this).parent().parent().find('.is-open')
+			  .addClass('is-closed').removeClass('is-open');
+		}
 		var target = $(this).parent().find('.is-closed, .is-open');
 		target.toggleClass('is-closed').toggleClass('is-open');		
 	});
