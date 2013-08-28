@@ -8,6 +8,8 @@
 		<: r($_.html) :>
 		<: i($_, "actions") :>
 	</section>
-	<a name="comments"></a>
-	<: i('comments',$_) :>
+	<section class="post-comments">
+		<a name="comments"></a>
+		<: i('comments',$_) :>
+	</section>
 </article>	

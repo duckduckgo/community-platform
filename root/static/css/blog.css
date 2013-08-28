@@ -108,6 +108,8 @@
 .post-snippet, .post-body {
 	margin: 0 88px 48px 75px;
 }
+.post-comments { margin-right: 24px; }
+
 	.blog-content .notice { margin-right: 88px; }
 		.blog-content .comment + .notice { 
 			margin-top: 16px; margin-right: 0;
