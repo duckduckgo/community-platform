@@ -688,7 +688,11 @@ a.fill {
 		}
 			.content-box .head .userpic + h2 { padding-left: 42px; }
 			.content-box .head .button { margin: -2px auto; }
-				.content-box .head .button + .button { margin-left: 4px; }
+				.content-box .head .button + .button { margin-left: 4px; }				
+				/* oh my god specificity nightmare - don't try this at home */
+				.content-box .head .button-group .button + .button { margin-left: -1px; }
+				.content-box .head .button.disabled { opacity: 1; }
+				
 			.content-box .head .admin-badge {
 				margin: -6px auto;
 				position: relative;

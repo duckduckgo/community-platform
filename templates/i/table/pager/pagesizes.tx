@@ -1,4 +1,4 @@
-<span class="button-group">
+<span class="button-group  button-group--paging">
 <: for $_.pagesizes -> $pagesize { :>
 	<: if $_.pagesize == $pagesize { :>
 		<span class="button charcoal disabled"><: $pagesize :></span>

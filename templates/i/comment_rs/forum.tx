@@ -1,6 +1,9 @@
 <div class="content-box">
   <div class="head">
-    Latest comment on...
+    <h2>Latest comments on...</h2>
+	<div class="pull-right">
+		<: i($grouped_comments,'pager') :>
+	</div>
   </div>
   <div class="body">
     <: for results($_) -> $comment { :>

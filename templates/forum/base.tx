@@ -1,6 +1,8 @@
-<div class="twothirds">
-  <: include $next_template() :>
-</div>
-<div class="third">
-  <: include "forum/sidebar.tx" :>
+<div class="gw  gw--10  mg-bottom--big">
+	<div class="g  threequarter">
+	  <: include $next_template() :>
+	</div>
+	<div class="g  quarter">
+	  <: include "forum/sidebar.tx" :>
+	</div>
 </div>
