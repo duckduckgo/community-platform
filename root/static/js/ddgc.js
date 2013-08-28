@@ -54,13 +54,18 @@ $(document).ready(function() {
 
 	
 	$('.js-toggle-sibling').click(function(e){
-		e.preventDefault();		
-		if ($(this).hasClass('is-exclusive')) {
-			$(this).parent().parent().find('.is-open')
-			  .addClass('is-closed').removeClass('is-open');
-		}
+		e.preventDefault();			
 		var target = $(this).parent().find('.is-closed, .is-open');
-		target.toggleClass('is-closed').toggleClass('is-open');		
+		if ($(target).hasClass('is-open')) {
+			target.addClass('is-closed').removeClass('is-open');		
+		}
+		else {
+			if ($(this).hasClass('is-exclusive')) {
+				$(this).parent().parent().find('.is-open')
+				  .addClass('is-closed').removeClass('is-open');
+			}
+			target.toggleClass('is-closed').toggleClass('is-open');	
+		}
 	});
 
 	$('.content-box-toggleclick').each(function(){
