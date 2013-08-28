@@ -20,7 +20,7 @@
 			</p>
 			<span class="comment-meta">
 				posted by <: i($_.user,'username') :> &bull; <: $dur($_.created) :>
-				<: if !$no_reply { :>
+				<: if !$no_reply && $c.user { :>
 					&bull;
 					<a class="comment_reply_link no-js-hide" href="#">Reply</a>
 					<a class="comment_reply_cancel_link no-js-hide hide" href="#">Cancel</a>
