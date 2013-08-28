@@ -11,6 +11,7 @@ sub base :Chained('/base') :PathPart('help') :CaptureArgs(0) {
     order_by => { -asc => 'me.sort' },
     prefetch => [ 'help_category_contents', { helps => 'help_contents' } ],
   });
+  $c->stash->{title} = 'Help pages';
 }
 
 sub index_redirect :Chained('base') :PathPart('') :Args(0) {
@@ -50,6 +51,7 @@ sub search :Chained('language') :Args(0) {
     order_by => { -asc => 'me.sort' },
     prefetch => [ 'help_contents', { help_category => 'help_category_contents' } ],
   });
+  $c->stash->{title} = 'Search help pages';
 }
 
 sub category_base :Chained('language') :PathPart('') :CaptureArgs(1) {
@@ -64,6 +66,7 @@ sub category_base :Chained('language') :PathPart('') :CaptureArgs(1) {
   }
   $c->stash->{help_category_content} = $c->stash->{help_category}->content_by_language_id($c->stash->{help_language_id});
   $c->add_bc($c->stash->{help_category_content}->title, $c->chained_uri('Help','category',$c->stash->{help_language}->locale,$c->stash->{help_category}->key));
+  $c->stash->{title} = $c->stash->{help_category_content}->title;
 }
 
 sub category :Chained('category_base') :PathPart('') :Args(0) {
@@ -86,6 +89,7 @@ sub help_base :Chained('category_base') :PathPart('') :CaptureArgs(1) {
     language_id => $c->stash->{help_language}->id
   })->first;
   $c->add_bc($c->stash->{help_content}->title, $c->chained_uri('Help','help',$c->stash->{help_language}->locale,$c->stash->{help_category}->key,$c->stash->{help}->key));
+  $c->stash->{title} = $c->stash->{help_content}->title;
 }
 
 sub help :Chained('help_base') :PathPart('') :Args(0) {

@@ -52,6 +52,7 @@ sub feedback :Chained('base') :PathPart('') :CaptureArgs(1) {
     return $c->detach;
   }
   $c->stash->{feedback} = DDGC::Feedback::Step->new_from_config(@{$c->stash->{feedback_config}});
+  $c->stash->{title} = $c->stash->{feedback_title};
 }
 
 sub feedback_redirect :Chained('feedback') :PathPart('') :Args(0) {
