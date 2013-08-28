@@ -20,8 +20,8 @@
 			</fieldset>
 		</div>
 		<: if $user_can_speak { :>
-			<div class="row mid">
-				<span id="submit_token_language_<: $token_language.id :>" class="token-submit js-hide">
+			<div class="row  mid <: if !$c.wiz_inside { :> token-submit  js-hide<:}:>">
+				<span id="submit_token_language_<: $token_language.id :>" class="<: if $c.wiz_inside { :> token-submit  js-hide<:}:>">
 					<: if $c.wiz_inside { :>
 						<span class="wiz-arrow  wiz-arrow-bottom-left"><input type="submit" class="button  red  big" name="save_translation" value="Submit translation and go to the next"/></span>					
 					<: } else { :>

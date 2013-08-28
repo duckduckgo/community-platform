@@ -86,7 +86,6 @@
 		.snippet .row p + p { margin-top: 8px; }
 	.snippet .row .translation-notes li { margin: 6px 0 0 18px; }
 	.snippet .row input.text { height: 30px; line-height: 30px; }
-	.snippet .row .button { float: right; }
 	
 	ul.user-translations, ul.translation-details { list-style: none; }
 	

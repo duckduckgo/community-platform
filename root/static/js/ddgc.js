@@ -7,6 +7,11 @@ $(document).ready(function() {
 	
 	$('.text').addPlaceholder(); 
 	$('.token-input').addPlaceholder();
+	$('.token-input').change(function(){
+		$('.token-submit').removeClass('js-hide');
+	});
+	
+	$('.js-bbcode').bbcode();
 	
 	$('select.language_grade').select2({
 		placeholder: $(this).data('placeholder')
@@ -257,7 +262,142 @@ $(document).ready(function() {
 			$('#languageBox').hide();
 		}
 	}
+	
+	/*
+	 * BBCode Insertion Plugin
+	 */	
+	function insertbb(start, end, element) {		
+		var elementvalue = element.val();		
+		if (document.selection) {		   
+		   element.focus();
+		   sel = document.selection.createRange();
+		   sel.text = start + sel.text + end;
+		} else if (element[0].selectionStart || element[0].selectionStart == '0') {		  
+		   element.focus();
+		   var startPos = element[0].selectionStart;
+		   var endPos = element[0].selectionEnd;
+		   elementvalue = elementvalue.substring(0, startPos) + start + elementvalue.substring(startPos, endPos) + end + elementvalue.substring(endPos, elementvalue.length);		   
+		} else {		  
+		  elementvalue += start + end;	
+		}		
+		element.val(elementvalue);
+		element.focus();
+	}
+	 
+	$('*[data-bbcode]').click(function(e) {
+		e.preventDefault();
+		var target = $(this).parent().parent().find('textarea');
+		var tagtype = $(this).attr("data-bbcode");
+		var start = '['+tagtype+']';
+		var end = '[/'+tagtype+']';
+
+		var param="";
+		if (tagtype=='img')
+		{
+		 param=prompt("Enter image URL","http://");
+		 if (param)
+			start+=param;
+		 }
+		else if (tagtype=='url')
+		{
+			param=prompt("Enter URL","http://");
+			if (param) 
+				start = '[url href=' + param + ']';
+		 }
+		insertbb(start, end, target);
+	});
+	 
+	// hotkeys 
+	
+	$('.has-bbcode').keyup(function (e){ if(e.which == 17) isCtrl=false; }).keydown(function (e) { 
+		if(e.which == 17) isCtrl=true; 
+		if (e.which == 66 && isCtrl == true) { 
+			// CTRL + B, bold			
+			insertbb("[b]","[/b]",$(this));
+			return false;
+		} 
+		else if (e.which == 73 && isCtrl == true) { 
+			// CTRL + I, italic			
+			insertbb("[i]","[/i]",$(this));
+			return false;
+		} 
+		else if (e.which == 85 && isCtrl == true) { 
+			// CTRL + U, underline			
+			insertbb("[u]","[/u]",$(this));
+			return false;
+		}
+	});
+	
 });
+
+	
+(function($){
+	$.fn.bbcode = function(options){
+		// default settings
+		var options = $.extend({
+		  tag_bold: true,
+		  tag_italic: true,
+		  tag_underline: true,
+		  tag_link: true,
+		  tag_image: false,
+		  button_icon: true
+		},options||{});
+		//  panel 
+		var text = '<div class="comment-controls  button-group  pull-right">'
+		if(options.tag_bold){
+		  text = text + '<button class="button" title="Bold Text (Ctrl+B)" data-bbcode="b">';
+		  if(options.button_icon){
+			text = text + '<i class="icon-bold"></i>';
+		  }else{
+			text = text + 'Bold';
+		  }
+		  text = text + '</button>';
+		}
+		if(options.tag_italic){
+		  text = text + '<button class="button" title="Italic Text (Ctrl+I)" data-bbcode="i">';
+		  if(options.button_icon){
+			text = text + '<i class="icon-italic"></i>';
+		  }else{
+			text = text + 'Italic';
+		  }
+		  text = text + '</button>';
+		}
+		if(options.tag_underline){
+		  text = text + '<button class="button" title="Underline Text (Ctrl+U)" data-bbcode="u">';
+		  if(options.button_icon){
+			text = text + '<i class="icon-underline"></i>';
+		  }else{
+			text = text + 'Undescore';
+		  }
+		  text = text + '</button>';
+		}
+		if(options.tag_link){
+		  text = text + '<button class="button" title="Add a Link" data-bbcode="url">';
+		  if(options.button_icon){
+			text = text + '<i class="icon-link"></i>';
+		  }else{
+			text = text + 'Link';
+		  }
+		  text = text + '</button>';
+		}
+		if(options.tag_image){
+		  text = text + '<button class="button" title="Add an Image" data-bbcode="img">';
+		  if(options.button_icon){
+			text = text + '<i class="icon-picture"></i>';
+		  }else{
+			text = text + 'Image';
+		  }
+		  text = text + '</button>';
+		}
+		text = text + '</div>';
+		
+		$(this).addClass('has-bbcode');
+		$(this).after(text);
+	}
+})(jQuery);
+
+
+/* random functions gogo */
 
 function showFormAddUserLanguage() {
 	$('#formAddUserLanguage').fadeIn();
@@ -299,6 +439,8 @@ function showLanguageBox() {
 	}
 	return false;
 }
+
+
 
 /*
  * Modified jQuery Reveal Plugin

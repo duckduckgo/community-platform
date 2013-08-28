@@ -4,15 +4,17 @@
 			<: i($c.user,'userpic', { userpic_size => 48 }) :>
 		</div>
 		<div class="my_comment comment-body">
-		<textarea rows="3" name="content" class="form-textarea text" placeholder="Add your Comment"></textarea>
+		<textarea rows="3" name="content" class="form-textarea  text  has-bbcode" placeholder="Add your Comment"></textarea>
 		</div>
 		<input type="hidden" name="from" value="<: $c.req.uri :>" />
 		<div class="comment-controls  button-group  pull-right">			    
 			<input type="submit" name="add_comment" class="button submit" value="Submit" />
-			<button class="button"><i class="icon-bold"></i></button>
-			<button class="button"><i class="icon-italic"></i></button>
-			<button class="button"><i class="icon-list-ul"></i></button>
-			<button class="button"><i class="icon-list-ol"></i></button>
+			<button class="button  nojs-hide" title="Bold Text (Ctrl+B)" data-bbcode="b"><i class="icon-bold"></i></button>
+			<button class="button  nojs-hide" title="Italic Text (Ctrl+I)" data-bbcode="i"><i class="icon-italic"></i></button>
+			<button class="button  nojs-hide" title="Underline Text (Ctrl+U)" data-bbcode="u"><i class="icon-underline"></i></button>
+			<button class="button  nojs-hide" title="Add an Image" data-bbcode="img"><i class="icon-picture"></i></button>
+			<button class="button  nojs-hide" title="Add a Link" data-bbcode="url"><i class="icon-link"></i></button>
+			<button class="button  nojs-hide" title="Add Example Code" data-bbcode="code"><i class="icon-code"></i></button>
 		</div>
 	</form> 
 <: } :>

@@ -221,10 +221,16 @@ Comment Forms
 	border: none;
 	padding: 1.8em 19px 8px;
 	height: 4.5em;
-	-moz-border-radius-bottomright: 0px;
-	-webkit-border-bottom-right-radius: 0px;
-	border-bottom-right-radius: 0px;
 }
+	.has-bbcode {
+		-moz-border-radius-bottomright: 0px;
+		-webkit-border-bottom-right-radius: 0px;
+		border-bottom-right-radius: 0px;
+	}
+		.has-bbcode + .comment-controls { 
+			margin-top: -1px; 
+		}
+
 /*
 	.comment_reply textarea::-webkit-input-placeholder { color:#444; }
 	.comment_reply textarea::-moz-placeholder { color:#444; }
@@ -245,6 +251,7 @@ Comment Forms
 	padding: 0 8px;	
 }
 	.comment_reply .button-group { margin-top: -1px; }
+		
 	/* re-ordering and re-styling on purpose so that the tab control doesn't get screwed-up */
 	.comment_reply .button-group .button.submit {
 		margin-left: -1px; 	
@@ -278,7 +285,7 @@ Comment Forms
 		-webkit-border-bottom-right-radius: 0px;
 		border-bottom-right-radius: 0px;			
 	}
-
+	
 /*--------------------------------------------------
 Column Forms
 -------------------------------------------------- */
