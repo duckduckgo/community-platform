@@ -1,0 +1,6 @@
+<div class="row">
+  <: i($grouped_comments.paged_rs,'forum') :>
+</div>
+<div class="row mid">
+  <: i($grouped_comments,'pager') :>
+</div>

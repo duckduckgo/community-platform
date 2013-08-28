@@ -279,6 +279,8 @@ has id => (
 				}
 			} elsif (ref $qp eq '') {
 				$id .= "$qp";
+			} elsif (ref $qp eq 'ARRAY') {
+				push @as_query, @{$qp};
 			} else {
 				die __PACKAGE__." cant use a specific part of as_query for this resultset (it is a ".(ref $qp).")";
 			}

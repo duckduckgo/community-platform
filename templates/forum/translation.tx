@@ -1,4 +1,1 @@
-<: i($comments,'forum') :>
-<: include "forum/sidebar.tx" :>
-<br/>
-<div style="clear:both"><: i($thread_table,'pager') :></div>
+<: include 'forum/threadlist.tx' :>

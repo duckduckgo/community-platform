@@ -16,7 +16,7 @@ has ddgc => (
 
 sub comments_grouped { shift->ddgc->rs('Comment')->grouped_by_context }
 
-sub comments_grouped_in { shift->comments_grouped->search({
+sub comments_grouped_in { shift->comments_grouped->search_rs({
 	context => { -in => [@_] },
 }) }
 
@@ -40,6 +40,15 @@ sub context_blog {qw(
 )}
 sub comments_grouped_blog { $_[0]->comments_grouped_in(
 	$_[0]->context_blog
+) }
+
+sub comments_grouped_not_in { shift->comments_grouped->search_rs({
+	context => { -not_in => [@_] },
+}) }
+sub comments_grouped_other { $_[0]->comments_grouped_not_in(
+	$_[0]->context_blog,
+	$_[0]->context_translation,
+	$_[0]->context_threads,
 ) }
 
 sub add_thread {

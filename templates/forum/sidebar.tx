@@ -1,18 +1,21 @@
 <aside class="right sidebar">
     <div class="sidebar-contents group">
-        <section class="menu-list tab-third">
-            <h5>Sidebar</h5>
-            <p>This thing is a sidebar</p>
-        </section>
-        <section class="clear tab-mid">
+        <!-- <section class="clear tab-mid">
             <form class="one-field" onsubmit="alert('search doesn\'t exist! :D')">
                 <input type="text" class="text" name="q" placeholder="Search"></input>
                 <button class="button" type="submit">GO</button>
             </form>
+        </section> -->
+        <section class="menu-list tab-third">
+            <h5>Latest comments on ...</h5>
+            <ul>
+                <li><a href="<: $u('Forum','blog') :>">Blog</a></li>
+                <li><a href="<: $u('Forum','translation') :>">Translation</a></li>
+                <li><a href="<: $u('Forum','all') :>">All</a></li>
+            </ul>
         </section>
         <section class="clear tab-mid">
-            <h5>Check here first!</h5>
-            <a class="blue button" href="<: $u('Help','index',$help_language.locale) :>">Help Pages</a>
+            <a class="blue button" href="<: $u('Help','index','en_US') :>">Check Help Pages first!</a>
         </section>
         <section class="menu-list tab-third">
             <h5>Sticky threads</h5>

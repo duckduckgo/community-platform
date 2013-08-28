@@ -7,42 +7,43 @@ use namespace::autoclean;
 
 sub base : Chained('/base') PathPart('forum') CaptureArgs(0) {
   my ( $self, $c ) = @_;
+  push @{$c->stash->{template_layout}}, 'forum/base.tx';
   $c->add_bc("Forum", $c->chained_uri('Forum', 'index'));
   $c->stash->{is_admin} = $c->user && $c->user->admin;
   #$c->response->redirect('/'.$c->request->path);
-  $c->pager_init($c->action,20);
-  $c->stash->{latest_blog} = $c->d->forum->comments_grouped_blog->search({},{
-    page => 1,
-    rows => 5,
-    order_by => { -desc => 'me.created' },
-  });
+}
+
+sub set_grouped_comments {
+  my ( $self, $c, $action, $rs ) = @_;
+  $c->stash->{grouped_comments} = $c->table(
+    $rs->search_rs({},{
+      order_by => { -desc => 'me.created' },
+    }),['Forum',$action],[],default_pagesize => 15,
+  );
 }
 
 sub index : Chained('base') PathPart('') Args(0) {
   my ( $self, $c ) = @_;
   $c->bc_index;
-  $c->stash->{grouped_comments} = $c->d->forum->comments_grouped_threads;
+  $self->set_grouped_comments($c,'index',$c->d->forum->comments_grouped_threads);
 }
 
 sub all : Chained('base') Args(0) {
   my ( $self, $c ) = @_;
-  $c->bc_index;
-  $c->pager_init($c->action,20);
-  $c->stash->{grouped_comments} = $c->d->forum->comments_grouped;
+  $c->add_bc("Latest comments");
+  $self->set_grouped_comments($c,'all',$c->d->forum->comments_grouped);
 }
 
 sub blog : Chained('base') Args(0) {
   my ( $self, $c ) = @_;
-  $c->bc_index;
-  $c->pager_init($c->action,20);
-  $c->stash->{grouped_comments} = $c->d->forum->comments_grouped_blog;
+  $c->add_bc("Latest blog comments");
+  $self->set_grouped_comments($c,'blog',$c->d->forum->comments_grouped_blog);
 }
 
-sub blog : Chained('base') Args(0) {
+sub translation : Chained('base') Args(0) {
   my ( $self, $c ) = @_;
-  $c->bc_index;
-  $c->pager_init($c->action,20);
-  $c->stash->{grouped_comments} = $c->d->forum->comments_grouped_translation;
+  $c->add_bc("Latest translation comments");
+  $self->set_grouped_comments($c,'translation',$c->d->forum->comments_grouped_translation);
 }
 
 # /forum/search/

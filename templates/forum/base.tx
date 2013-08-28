@@ -1,0 +1,6 @@
+<div class="twothirds">
+  <: include $next_template() :>
+</div>
+<div class="third">
+  <: include "forum/sidebar.tx" :>
+</div>

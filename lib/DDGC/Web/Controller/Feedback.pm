@@ -154,7 +154,6 @@ sub step :Chained('feedback') :PathPart('') :Args(1) {
     $c->stash->{email} = {
       header => [
         To => 'help@duckduckgo.com',
-        Cc => 'getty@duckduckgo.com',
         From => 'noreply@dukgo.com',
         Subject => '[DDG Feedback '.$c->stash->{feedback_name}.'] '.$data{'1'},
         ( map {

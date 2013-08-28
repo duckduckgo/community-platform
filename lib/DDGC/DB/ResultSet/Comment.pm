@@ -11,7 +11,7 @@ sub grouped_by_context {
     select => [qw( latest_comment_id )],
     alias => 'comment_context',
   });
-	$self->search({
+	$self->search_rs({
     id => { -in => $comment_context_rs->as_query },
   });
 }
