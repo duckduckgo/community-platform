@@ -6,7 +6,13 @@
 		<div class="my_comment comment-body">
 		<textarea rows="3" name="content" class="form-textarea text" placeholder="Add your Comment"></textarea>
 		</div>
-		<input type="hidden" name="from" value="<: $c.req.uri :>" />    
-		<input type="submit" name="add_comment" class="button submit" value="Submit" />
+		<input type="hidden" name="from" value="<: $c.req.uri :>" />
+		<div class="comment-controls  button-group  pull-right">			    
+			<input type="submit" name="add_comment" class="button submit" value="Submit" />
+			<button class="button"><i class="icon-bold"></i></button>
+			<button class="button"><i class="icon-italic"></i></button>
+			<button class="button"><i class="icon-list-ul"></i></button>
+			<button class="button"><i class="icon-list-ol"></i></button>
+		</div>
 	</form> 
 <: } :>

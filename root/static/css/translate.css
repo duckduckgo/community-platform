@@ -52,6 +52,9 @@
 	height: 27px;
 	line-height: 26px;	
 }	
+	.translate-snippets .button-group .button {
+		font-size: 14px;
+	}
 	.translate-snippets .button.big { 
 		font-size: 1.1em; 
 		font-weight: bold;
