@@ -10,33 +10,39 @@ sub base : Chained('/base') PathPart('forum') CaptureArgs(0) {
   $c->add_bc("Forum", $c->chained_uri('Forum', 'index'));
   $c->stash->{is_admin} = $c->user && $c->user->admin;
   #$c->response->redirect('/'.$c->request->path);
+  $c->pager_init($c->action,20);
+  $c->stash->{latest_blog} = $c->d->forum->comments_grouped_blog->search({},{
+    page => 1,
+    rows => 5,
+    order_by => { -desc => 'me.created' },
+  });
 }
 
-# /forum
 sub index : Chained('base') PathPart('') Args(0) {
   my ( $self, $c ) = @_;
   $c->bc_index;
-
-  $c->stash->{comments} = $c->d->rs('Comment')->grouped_by_context->search({},{
-    rows => 20,
-    page => 1,
-  });
+  $c->stash->{grouped_comments} = $c->d->forum->comments_grouped_threads;
 }
 
-# /forum/translation
-sub translation : Chained('base') Args(0) {
+sub all : Chained('base') Args(0) {
   my ( $self, $c ) = @_;
   $c->bc_index;
+  $c->pager_init($c->action,20);
+  $c->stash->{grouped_comments} = $c->d->forum->comments_grouped;
+}
 
-  $c->stash->{comments} = $c->d->rs('Comment')->grouped_by_context->search({
-    context => { -in => [qw(
-      DDGC::DB::Result::Token::Language
-      DDGC::DB::Result::Token::Domain::Language
-    )] },
-  },{
-    rows => 20,
-    page => 1,
-  });
+sub blog : Chained('base') Args(0) {
+  my ( $self, $c ) = @_;
+  $c->bc_index;
+  $c->pager_init($c->action,20);
+  $c->stash->{grouped_comments} = $c->d->forum->comments_grouped_blog;
+}
+
+sub blog : Chained('base') Args(0) {
+  my ( $self, $c ) = @_;
+  $c->bc_index;
+  $c->pager_init($c->action,20);
+  $c->stash->{grouped_comments} = $c->d->forum->comments_grouped_translation;
 }
 
 # /forum/search/

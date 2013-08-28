@@ -1,24 +1,26 @@
-<html>
-<body>
-<h1>Feedback Data</h1>
+Feedback Data
+=============
 <: for $feedback_data.kv() -> $kv { :>
-  <hr/>
-  <div><b><: $kv.key :></b></div>
-  <div><: $kv.value :></div>
-<: } :>
-<hr/>
-<: if $c.user { :>
-  <h2>Community User Information</h2>
-  <hr/>
-  <div><b>Community Username:</b></div>
-  <div><: $c.user.username :></div>
-  <hr/>
-<: } :>
-<h2>Request Headers</h2>
+<: $kv.key :>
+-------------
+<: $kv.value :>
+=============
+<:- } :>
+
+<: if $c.user { -:>
+Community User Information
+=============
+Community Username:
+-------------
+<: $c.user.username :>
+=============
+<:- } :>
+
+Request Headers
+=============
 <: for $header_field_names -> $field { :>
-  <div>
-    <b><: $field :> :</b> <: $c.req.header($field) :>
-  </div>
-<: } :>
-</body>
-</html>
+<: $field :>
+-------------
+<: $c.req.header($field) :>
+=============
+<:- } :>

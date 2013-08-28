@@ -106,6 +106,7 @@ sub step :Chained('feedback') :PathPart('') :Args(1) {
   if ($current_step->has_options) {
     for (@{$current_step->options}) {
       my $name = $_->name;
+      next unless $name;
       my $value = $c->req->param($name) || $c->session->{feedback}->{$session_key}->{$name};
       $_->value($value) if $value;
     }
@@ -142,20 +143,31 @@ sub step :Chained('feedback') :PathPart('') :Args(1) {
       }
     }
 
+    for (keys %data) {
+      delete $data{$_} unless $data{$_};
+    }
+
     $c->stash->{feedback_data} = \%data;
     my @header_field_names = $c->req->headers->header_field_names();
     $c->stash->{header_field_names} = [grep { $_ ne 'COOKIE' } @header_field_names];
 
     $c->stash->{email} = {
       header => [
-        map { 'X-Feedback-'.ucfirst($_) => $data{$_} } keys %data
+        To => 'help@duckduckgo.com',
+        Cc => 'getty@duckduckgo.com',
+        From => 'noreply@dukgo.com',
+        Subject => '[DDG Feedback '.$c->stash->{feedback_name}.'] '.$data{'1'},
+        ( map {
+          my $key = $_;
+          my $val = $data{$key};
+          $val =~ s/\R/|/g;
+          'X-Feedback-'.ucfirst($_) => $val
+        } keys %data ),
+        'X-End' => '1',
       ],
-      to          => 'help@duckduckgo.com',
-      from        => 'noreply@dukgo.com',
-      subject     => '[DDG Feedback '.$c->stash->{feedback_name}.'] '.$data{'1'},
       template        => 'email/feedback.tx',
       charset         => 'utf-8',
-      content_type => 'text/html',
+      content_type => 'text/plain',
     };
 
     $c->forward( $c->view('Email::Xslate') );
