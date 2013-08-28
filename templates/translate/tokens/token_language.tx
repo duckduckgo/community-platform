@@ -116,13 +116,13 @@
 							<: include "user/userpic.tx" { userpic_size => 16, user => $translation.user } :>
 						<: } :>
 					</strong>
-					<a href="javascript:" class="button light show-translations">Show <: if $user_can_speak { :>other<: } :> translations</a>
+					<a href="javascript:" class="button light pull-right show-translations">Show <: if $user_can_speak { :>other<: } :> translations</a>
 				</div>
 				<div class="current-translations">
 				<: if $user_can_speak { :>
-					<a href="javascript:" class="button light add-translations <: if $c.wiz_inside { :> wiz-arrow<: } :>">Add your own translation</a>
+					<a href="javascript:" class="button light pull-right add-translations <: if $c.wiz_inside { :> wiz-arrow<: } :>">Add your own translation</a>
 				<: } else { :>
-					<a href="javascript:" class="button iight hide-translations">Hide translations</a>
+					<a href="javascript:" class="button iight pull-right hide-translations">Hide translations</a>
 				<: } :>
 					<ul class="user-translations"> 
 						<: for $token_language.translations -> $translation { :>
