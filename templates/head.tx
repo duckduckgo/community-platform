@@ -4,7 +4,7 @@
 <: } :>
 <meta name="viewport" content="width=100, initial-scale=1.0" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-<!--[if lte IE 9]><style>.callout-box, .reveal-modal, .reveal-modal-bg, .date-box, .pie { behavior: url(PIE.htc);} </style><![endif]-->
+
 <!--[if lt IE 9]>
 <script src="/static/js/html5shiv.js"></script>
 <![endif]-->
