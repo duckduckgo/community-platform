@@ -1,0 +1,174 @@
+/* Eric Meyer's Reset Reloaded */
+/* http://meyerweb.com/eric/thoughts/2007/05/01/reset-reloaded/ */
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, a, abbr, acronym, address, big, cite, code,del, dfn, em, 
+font, img, ins, kbd, q, s, samp,small, strike, strong, sub, 
+sup, tt, var,b, u, i, center,dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,table, caption, tbody, tfoot, 
+thead, tr, th, td {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	outline: 0;
+	font-size: 100%;
+	vertical-align: baseline;
+	background: transparent;
+}
+ol, ul {list-style: none;}
+blockquote, q {quotes: none;}
+table {border-collapse: collapse;border-spacing: 0;}
+
+.clearfix:after {content: ".";display: block;height: 0;clear: both;visibility: hidden;}
+/* IE6 */ 
+* html .clearfix {height: 1%;}
+/* IE7 */
+*:first-child+html .clearfix {min-height: 1px;}
+
+
+body {
+	background: #282828 url(../images/bg.png) repeat-x;
+	color: #999999;
+	font-size: 12px;
+	line-height: 20px;
+	font-family: Arial, helvetica;
+}
+
+a,
+a:link,
+a:visited {
+	color: #FEC92C;
+	text-decoration: none;
+	
+} 
+
+a:hover,
+a:active,
+a:focus {
+	text-decoration: underline;
+}
+
+
+a.exampleTip {
+	color: #FEC92C;
+}
+
+a.exampleTip:hover{
+	text-decoration: underline;
+}
+
+.section {
+	text-align: left;
+	padding-bottom: 18px;
+	border-bottom: 1px solid #333;
+	margin-bottom: 18px;
+}
+
+p {
+	margin: 0 0 18px;
+}
+
+h2 {
+	color: #fff;
+	font-size: 22px;
+	line-height: 24px;
+	margin: 0 0 24px;
+	padding: 0;
+	font-weight: normal;
+}
+
+h3{
+	color: #ddd;
+	font-size: 14px;
+	line-height: 18px;
+	margin: 0 0 18px;
+}
+
+
+h1.logo {
+	display: block;
+	height: 80px;
+	width: 260px;
+	margin: 40px auto 0;
+}
+
+	h1.logo a{
+		display: block;
+		height: 80px;
+		width: 260px;
+		text-indent: -9999px;
+		background: url(../images/logo.png) no-repeat;
+	}
+
+
+ul.demos {
+	list-style-type: none;
+
+}
+
+ul.demos li{
+	margin: 0 0 10px 0;
+}
+
+
+.primaryWrapper {
+	margin: 0 auto;
+	width: 960px;
+	text-align: center;
+}
+
+.branding{
+	text-align: center;
+	display: block;
+	height: 120px;
+}
+
+
+.ctaBtns {border: none; text-align: center;}
+
+.ctaBtns p {
+	width: 263px;
+	margin: 0 auto;
+}
+
+
+.ctaBtns a{
+	display: block;
+	height: 37px;
+	width: 122px;
+	text-indent: -9999px;
+}
+
+a.dloadBtn {
+	background: url(../images/dload-btn.png) no-repeat top left;
+	float: left;
+	margin-right: 18px;
+}
+
+a.demoBtn {
+	background: url(../images/demo-btn.png) no-repeat top left;
+	float: left;
+}
+
+a.dloadBtn:hover,
+a.demoBtn:hover {
+	background-position: bottom left;
+}
+
+
+
+.usage p {
+	margin-bottom: 2px;
+}
+
+ul.quickFacts {
+	list-style-position: inside;
+	list-style-type: disc;
+}
+
+p.license,
+p.copyright {
+	font-size: 11px;
+}
+
+
+
