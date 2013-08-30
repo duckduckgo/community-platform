@@ -23,7 +23,7 @@
 				<div class="current-translations-min">
 					<strong>
 						<: for $token_language.translations -> $translation { :>
-							<: include "user/userpic.tx" { userpic_size => 16, user => $translation.user } :>
+							<: i($translation.user,'userpic') :>
 						<: } :>
 					</strong>
 				</div>

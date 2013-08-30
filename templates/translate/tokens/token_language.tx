@@ -113,7 +113,7 @@
 				<div class="current-translations-min no-js-hide hide">
 					<strong>
 						<: for $token_language.translations -> $translation { :>
-							<: include "user/userpic.tx" { userpic_size => 16, user => $translation.user } :>
+							<: i($translation.user,'userpic') :>
 						<: } :>
 					</strong>
 					<a href="javascript:" class="button light pull-right show-translations">Show <: if $user_can_speak { :>other<: } :> translations</a>

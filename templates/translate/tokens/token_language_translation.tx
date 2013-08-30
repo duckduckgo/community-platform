@@ -3,7 +3,7 @@
 		<: if $translation_headline { :>
 			<: $translation_headline :>
 		<: } else { :>
-			<: include "user/userinfo.tx" { user => $translation.user, userpic_size => 16 } :>
+			<: i($translation.user,'userinfo') :>
 			<: if $translation.user.id == $c.user.id { :>
 				<label class="own-translation">(your own translation)</label>
 			<: } :>

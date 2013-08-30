@@ -3,12 +3,12 @@
 
 	<div class="content-box whole user-info-box">
 		<div class="head">
-			<: include "user/userpic.tx" { user => $user, userpic_size => 32 } :>
+			<: i($user,'userpic',{ userpic_size => 32 }) :>
 			<h2>
 				<: if $fields.headline.value { :>
 					<: $fields.headline.value :>
 				<: } else { :>
-					<: include "user/username.tx" { user => $user, no_user_link => 1 } :>
+					<: i($user,'username',{ no_user_link => 1 }) :>
 				<: } :>
 			</h2>
 			<: if $user.admin { :>

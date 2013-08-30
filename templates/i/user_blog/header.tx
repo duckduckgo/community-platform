@@ -5,5 +5,5 @@
 </div>
 <h2><a href="<: $u($_.u) :>"><: $_.title :></a></h2>
 <span class="post-meta">
-	<: $dur($_.date) :> posted by <: include "user/userinfo.tx" { user => $_.user } :>
+	<: $dur($_.date) :> posted by <: i($_.user,'userinfo') :>
 </span>

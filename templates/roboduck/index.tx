@@ -51,7 +51,9 @@
 			<input type="text" placeholder="Talk with RoboDuck" name="q" class="text" id="duckfield" />		
 			<input type="submit" name="send" value="Say to Roboduck" class="button" />
 		</form>
-		<div id="duckzone-user-avatar" class="usericon"><: include "user/userpic.tx" {user=>$c.user,userpic_size=>46} :></div>
+		<div id="duckzone-user-avatar" class="usericon">
+			<: i($c.user,'userinfo',{ userpic_size => 46 }) :>
+		</div>
 		<div id="duckzone"></div>		
 	</div>
 </div>

@@ -1,12 +1,12 @@
 User
-<: include "user/username.tx" { user => $user, no_user_link => 1 } :>
+<: i($_.user,'username',{ no_user_link => 1 }) :>
 commented on
-<: if $comment.parent_id { :>
+<: if $_.parent_id { :>
 	a comment at
 <: } :>
-<: if $comment.get_context_obj { :>
-	<: i($comment.get_context_obj, 'label_comment') :>
+<: if $_.get_context_obj { :>
+	<: i($_.get_context_obj, 'label_comment') :>
 <: } else { :>
 	a context we can't display
-	[<: $comment.context :>:<: $comment.context_id :>]
+	[<: $_.context :>:<: $_.context_id :>]
 <: } :>

@@ -1,6 +1,6 @@
 <div class="header-account-info">
 	<div class="user-avatar">
-		<: include "user/userpic.tx" { user => $c.user, userpic_size => 32 } :>		
+		<: i($c.user,'userpic',{ userpic_size => 32 }) :>
 	</div>
 	<div class="user-notifications">
 		<: if $user_notification_count { :>
