@@ -77,7 +77,7 @@ sub thread_id : Chained('thread_view') PathPart('thread') CaptureArgs(1) {
     $c->stash->{thread}->id,$c->stash->{thread}->key));
 }
 
-sub thread_redirect : Chained('thread_id') Args(0) {
+sub thread_redirect : Chained('thread_id') PathPart('') Args(0) {
   my ( $self, $c ) = @_;
   $c->response->redirect($c->chained_uri('Forum','thread',
     $c->stash->{thread}->id,$c->stash->{thread}->key));
