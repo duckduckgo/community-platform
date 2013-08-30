@@ -213,6 +213,7 @@
 			margin: 0 0 0 16px;			
 			line-height: 34px;
 		}	
+    .comment-deleted  { font-style: italic; }
     .comment-body { margin: 0 0 0 71px; }
 		.voting + .comment-body { margin-right: 34px; }
 		.comment-body .comment-body { margin-left: 49px; }

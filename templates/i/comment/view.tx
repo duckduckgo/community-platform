@@ -41,7 +41,8 @@
 				<: i($child,'view', {tier => $tier_level+1}) :>				
 			<: } :>
 			<div class="row comment-foot">
-				<a href="#" class="comment-toggle"><i class="icon-bubble"></i> <span class="max-msg">Hide Comments</span><span class="min-msg">Show <: $children_count :> Comments</span></a>
+				<a href="#" class="comment-toggle"><i class="icon-bubble"></i> <span class="max-msg">Hide Comments</span><span class="min-msg">Show <: $children_count :> Comment<: if $children_count != 1 { :>s<: } :></span></a>
+                <a href="<: $u('Forum','comment', $_.id ) :>" class="pull-right"><b class="comment-foot__icon">#</b>permalink</a>
 			</div>
 		<: } :>
 	</div>
