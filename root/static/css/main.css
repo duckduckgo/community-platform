@@ -315,7 +315,7 @@ a.fill {
 		
 /* clearfix */
 .group:after, .wrap:after, .breadcrumb-nav:after, .content-box .head:after, .comment_reply:after,
-.content-box .row:after, .one-field:after, .author-info:after, .comment-foot:after, .nav:after, .nav-item:after  {
+.content-box .row:after, .one-field:after, .author-info:after, .comment-foot:after, .nav:after, .nav-item:after, .forum-item:after  {
   content: "";
   display: table;
   clear: both;

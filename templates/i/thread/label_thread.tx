@@ -1,1 +1,1 @@
-<b><: $_.title :></b>
+<i class="icon  icon-bubbles" title="Forum Post"></i><b class="hv"><: $_.title :></b>

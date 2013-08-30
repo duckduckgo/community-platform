@@ -1,1 +1,1 @@
-<b><: $_.title :></b>
+<i class="icon  icon-pencil" title="Blog Comment"></i><b class="hv"><: $_.title :></b>
