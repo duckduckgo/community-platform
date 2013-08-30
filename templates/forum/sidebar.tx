@@ -6,6 +6,7 @@
                 <button class="button" type="submit">GO</button>
             </form>
         </section> -->
+        <p><a class="button full--l" href="#"><i class="icon icon-bubbles"></i>Post New Topic</a></p>
         <section class="menu-list tab-third">
             <h5>Latest comments on ...</h5>
             <ul>
@@ -14,10 +15,11 @@
                 <li><a href="<: $u('Forum','all') :>">All</a></li>
             </ul>
         </section>
-        <section class="clear tab-mid">
-            <a class="blue button" href="<: $u('Help','index','en_US') :>">Check Help Pages first!</a>
+        <section class="menu-list  clear  tab-mid">
+            <h5><a href="<: $u('Help','index','en_US') :>">Problem?  Try /help!</a></h5>            
+            <a class="button blue full--l" href="<: $u('Help','index','en_US') :>"><i class="icon icon-question"></i>Check Help Pages</a>
         </section>
-        <section class="menu-list tab-third">
+        <section class="menu-list tab-mid">
             <h5>Sticky threads</h5>
             <ul>
                 <: for results($sticky_threads) -> $thread { :>

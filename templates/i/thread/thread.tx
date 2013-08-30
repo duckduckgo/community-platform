@@ -1,6 +1,6 @@
 <div class="thread-wrap  group">
     <div class="thread-header">
-        <h1 class="thread-title"><: $_.title :></h1>
+        <div class="thread-title  media"><i class="thread-title__icon  icon-bubbles  media__img"></i> <h1 class="media__body"><: $_.title :></h1></div>
         <span class="thread-icons">
         <: if $_.readonly { :><i class="thread-icon  icon-lock" title="This thread is read-only"></i><: }:>
         <: if $_.done { :><i class="thread-icon--good  icon-ok" title="This thread is complete"></i><: }:>

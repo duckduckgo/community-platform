@@ -11,10 +11,10 @@
 		font-size: 2.3em; 
 		line-height: 1.05;
 	}
-	.content h3, .content h4, .content h5, .content blockquote, .content .block, .content p, .content ul, .content ol {
+	.content h3, .content h4, .content h5, .content blockquote, .content .block, .content .p, .content p, .content ul, .content ol {
 		margin-bottom: 1.4em;
 	}
-	.content p { 
+	.content p, .content .p { 
 		font-size: 1.05em;
 		line-height: 1.55;		
 	}	
@@ -121,6 +121,7 @@
 		margin-bottom: 13px;
 		line-height: 1;
 	}
+        .post-readmore { display: block; margin-top: 1em; }
 		.post-snippet .more-link:hover { color: #9f1e00; }
 	.post-actions, .author-contacts { 
 		padding: 12px 0; 
@@ -128,6 +129,9 @@
 		border-bottom: 1px solid #d7d7d7;
 		line-height: 1em;
 	}
+    .post-actions {
+        margin-top: 13px; 
+    }
 		.action-item {
 			display: inline-block;
 			margin-right: 25px;			

@@ -4,6 +4,7 @@ $(document).ready(function() {
 	$('.js-remove').remove();
 	
 	$('.comment_add_title + .comment_reply').removeClass('js-hide');
+    $('.comment_reply').removeClass('js-hide').toggleClass('hide')
 	
 	$('.text').addPlaceholder(); 
 	$('.token-input').addPlaceholder();
@@ -213,7 +214,22 @@ $(document).ready(function() {
 		});
 	});
 
-
+/* TODO - these next four are way too similar - they should be abstracted to a function/plugin */
+    
+    $('.js-thread-reply').click(function(e){
+        e.preventDefault();
+        $(this).siblings('.js-thread-cancel').toggleClass('hide');
+        $(this).parents('.thread').parent().children('.comment_reply').removeClass('hide');
+		$(this).toggleClass('hide');
+    });
+    
+    $('.js-thread-cancel').click(function(e){
+        e.preventDefault();
+		$(this).siblings('.js-thread-reply').toggleClass('hide');
+		$(this).parents('.thread').parent().children('.comment_reply').addClass('hide');
+		$(this).toggleClass('hide');
+    });
+    
 	$('a.comment_reply_link').click(function(e){
 		e.preventDefault();
 		$(this).next('.comment_reply_cancel_link').fadeIn();

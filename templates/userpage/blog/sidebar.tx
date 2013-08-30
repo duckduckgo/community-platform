@@ -1,4 +1,4 @@
-<aside class="sidebar">
+<aside class="sidebar  sidebar--blog">
 	<div class="sidebar-contents group">
 		<section class="menu-list tab-third">
 			<h5><: $user.username :> Blog</h5>

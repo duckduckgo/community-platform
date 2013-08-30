@@ -1,13 +1,31 @@
 <div class="thread  group">
     <div class="thread__user">
-        <: i($_.user,'userpic',{ userpic_size => 48 }) :>
         <span class="user-name"><: i($_.user,'username') :></span>
+        <: i($_.user,'userpic',{ userpic_size => 48 }) :>
     </div>    
-    <div class="thread__body">        
-        <span class="comment-meta">Created: <: $dur_precise($_.created) :>,
-        Updated: <: $dur_precise($_.updated) :></span>
+    <div class="thread__body"> 
         <div class="thread-content  content">
-          <: r($_.html) :>
+          <span class="comment-meta  text-right">
+            Created: <: $dur($_.created) :> <: if $dur($_.created) != $dur($_.updated) { :>&bull;
+            Updated: <: $dur($_.updated) } :></span>
+          <div class="p"><: r($_.html) :></div>
         </div>
     </div>
+    <div class="thread__foot  group">
+        
+        <: if !$no_reply && $c.user { :>
+            <a class="pull-right  js-thread-reply  no-js-hide" href="#"><i class="thread__foot__icon  icon-reply"></i>Reply</a>
+            <a class="pull-right  js-thread-cancel  no-js-hide  hide" href="#"><i class="thread__foot__icon  icon-remove"></i>Cancel</a>
+        <: } :>
+        <: if ($c.user.admin or $c.user.id == $_.user.id) { :>
+            <a class="pull-right" href="#"><i class="thread__foot__icon  icon-lock"></i> Close</a>
+        <: } :>
+        <: if ($c.user.admin or $c.user.id == $_.user.id) { :>
+            <a class="pull-right" href="<: $u('Comment','delete',$_.id) :>"><i class="thread__foot__icon  icon-trash"></i> Delete</a>
+        <: } :>
+    </div>
 </div>
+
+<: if $c.user and !$no_reply { :>
+    <: i('comment_add',{ context => $_context, context_id => $_context_id }) :>
+<: } :>

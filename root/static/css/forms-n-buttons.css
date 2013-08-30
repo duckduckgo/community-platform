@@ -419,9 +419,17 @@ Buttons/Tags
 		height: 35px;
 		line-height: 34px;
 	}
-	.button.full, .tag.full {
+	.button.full, .tag.full,
+    .button.full--l, .tag.full--l, 
+    .button.full--r, .tag.full--r  {
 		display: block;
 	}	
+        .button.full--l, .tag.full--l  {
+            text-align: left;
+        }
+        .button.full--r, .tag.full--r  {
+            text-align: right;
+        }
 	.button.tall, .tag.tall {
 		padding-top: 12px;
 		padding-bottom: 12px;
