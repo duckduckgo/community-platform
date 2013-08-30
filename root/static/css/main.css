@@ -589,7 +589,7 @@ a.fill {
 				border-left: 1px solid #d5d5d5;
 			}
 			
-		.header-nav .active a, .header-nav a:hover, .header-nav ul li:first-child a:hover, .page-home li.nav-home a, .page-blog li.nav-blog a, .page-translate li.nav-translate a  { 
+		.header-nav .active a, .header-nav a:hover, .header-nav ul li:first-child a:hover, .page-home li.nav-home a, .page-blog li.nav-blog a, .page-translate li.nav-translate a, .page-forums li.nav-forums a  { 
 			color: black; 
 			background: #cdcdcd;
 			border-left-color: #bbb;

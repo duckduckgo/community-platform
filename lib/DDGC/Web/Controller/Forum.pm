@@ -9,6 +9,8 @@ sub base : Chained('/base') PathPart('forum') CaptureArgs(0) {
   my ( $self, $c ) = @_;
   push @{$c->stash->{template_layout}}, 'forum/base.tx';
   $c->add_bc("Forum", $c->chained_uri('Forum', 'index'));
+  $c->stash->{page_class} = "page-forums  texture";
+  $c->stash->{title} = 'DuckDuckGo Forums';
   $c->stash->{is_admin} = $c->user && $c->user->admin;
   #$c->response->redirect('/'.$c->request->path);
 }

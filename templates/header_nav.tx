@@ -3,7 +3,7 @@
 		<!-- <li class="nav-home"><a href="<: $u('Root','index') :>">Home</a></li> -->
 		<li class="nav-translate"><a href="<: $u('Translate','index') :>">Translate</a></li>
 		<li class="nav-search"><a href="https://duckduckgo.com/">Search DDG</a></li>
-		<li class="nav-forums"><a href="https://duck.co/">Forums</a></li>
+		<li class="nav-forums"><a href="<: $u('Forum','index') :>">Forums</a></li>
 		<li class="nav-blog"><a href="<: $u('Blog','index') :>">Blog</a></li>
 	</ul>
 </div>
