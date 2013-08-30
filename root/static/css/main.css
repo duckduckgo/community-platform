@@ -2,7 +2,7 @@
 body, select, input, textarea, button { font-size: 0.9em; }
 body { color: #444; background: #fff; }
 	body.texture, body.texture-nohighlight, body.texture-ducksymbol { background: #fefefe url('../img/bg-body-texture.jpg'); }
-body, h2, h3, h4, h5, h6, select, input, textarea, button, .sans, .feedback-title  { 
+body, h2, h3, h4, h5, h6, select, input, textarea, button, .sans, .feedback-title, .thread-title  { 
 	font-family: "Helvetica Neue","HelveticaNeueLT Std","Segoe UI","Nimbus Sans L","Liberation Sans","Open Sans",FreeSans,Helvetica,Arial,sans-serif; 
 }
 .topmsg { font-family: 'Arial Black', sans-serif;} 
@@ -209,47 +209,6 @@ a.fill {
 	margin: auto;	
 	position: relative;
 }
-
-/* 
-	faux tables for image/text display 
-	- the 'flag' object with a different name: 
-	   http://csswizardry.com/2013/05/the-flag-object/ 
-*/
-.faux {
-    display: table;
-    width: 100%;
-}
-    .faux__image,
-    .faux__body {
-        display: table-cell;
-        vertical-align: middle;
-	}
-        .faux--top .faux__image, 
-		.faux--top  .faux__body {
-            vertical-align: top;
-        }
-
-        .faux--bottom .faux__image, 
-		.faux--bottom  .faux__body {
-            vertical-align: bottom;
-        }
-  
-    .faux__image {
-        padding-right: 10px;
-	}
-        .faux__image > img {
-            display: block;
-            max-width: none;
-        }
-
-        .faux--rev .faux__image {
-            padding-right: 0;
-            padding-left: 10px;
-        }
-
-    .faux__body {
-        width: 100%;
-    }
 
 /* 
 	nav stylin' 
@@ -782,7 +741,6 @@ a.fill {
 		
 	.site-footer p { margin-bottom: 0; padding-left: 25px; }
 	.footer-nav a { display: inline-block; padding-right: 16px; }
-
 
 /* 
 	Margin Helpers

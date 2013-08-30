@@ -1,5 +1,12 @@
-<h1><: $_.title :></h2>
-<: if $_.readonly { :>Thread is readonly<: }:>
-<: if $_.done { :>Thread is done<: }:>
-<: if $_.sticky { :>Thread is sticky.. might be visual irrelevant<: }:>
-<: i($_.comment,'thread') :>
+<div class="thread-wrap  group">
+    <div class="thread-header">
+        <h1 class="thread-title"><: $_.title :></h1>
+        <span class="thread-icons">
+        <: if $_.readonly { :><i class="thread-icon  icon-lock" title="This thread is read-only"></i><: }:>
+        <: if $_.done { :><i class="thread-icon--good  icon-ok" title="This thread is complete"></i><: }:>
+        <: if $_.sticky { :><i class="thread-icon--stuck  icon-pushpin" title="Stuck Thread"></i><: } :>
+        </span>
+    </div>
+    <: i($_.comment,'thread') :>
+</div>
+<hr class="thread-rule" />

@@ -1,3 +1,59 @@
+/*
+    Forum Stylin'
+*/
+.thread-wrap {
+    position: relative;   
+}
+.thread {
+    margin-bottom: 18px;
+}
+.thread-rule {
+    margin-top: 10px;
+}
+.thread-header, .thread__body {
+    margin-left: 81px;
+}
+.thread-title {
+    text-align: left;
+    font-size: 24px;
+    margin: 0 1.5em 0 0;
+    padding-bottom: 0.25em;
+}
+.thread-icons {
+    position: absolute;
+    top: 0.25em;
+    right: 0;
+    font-size: 1.3em;
+}
+    .thread-icon { color: #b1b2b6; }
+    .thread-icon--good { color: #48af04; }    
+    .thread-icon--stuck { color: #4b8df8;}
+    
+.thread__user {
+    float: left;
+    max-width: 71px;
+}
+    .thread__user img { display: block; }
+    .thread__user .user-name { 
+        display: block;
+        width: 100%;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+    .thread-wrap  .thread__user {
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+
+.thread-content {
+    padding: 18px 13px 18px 0;
+}
+
+/*
+    Comments
+*/
 
 .comment { position: relative; }
 .comment.row { margin: 8px auto; }
@@ -76,9 +132,9 @@
 			margin: 0 0 0 16px;			
 			line-height: 34px;
 		}
-	.comment-body { 
-		margin: 0 0 0 71px; 
-		border: 1px solid #cacaca;
+	.comment-body {
+        margin: 0 0 0 71px; 
+        border: 1px solid #cacaca;
 		position: relative;		
 		z-index: 1;
 		background: #fff;
@@ -87,7 +143,7 @@
 		-webkit-box-shadow: 0 1px 1px rgba(0,0,0,0.1);
 		-moz-box-shadow: 0 1px 1px rgba(0,0,0,0.1);
 		box-shadow: 0 1px 1px rgba(0,0,0,0.1);
-	}
+    }
 		.voting + .comment-body { margin-right: 34px; }
 		.comment-body .comment-body { margin-left: 49px; }
 		.comment.row .comment-body .row { padding: 8px 10px 8px 13px; }

@@ -1,6 +1,13 @@
-<: i($_.user,'userinfo',{ userpic_size => 64 }) :>
-<h2>Created: <: $dur_precise($_.created) :></h2>
-<h2>Updated: <: $dur_precise($_.updated) :></h2>
-<div class="thread_content">
-  <: r($_.html) :>
+<div class="thread  group">
+    <div class="thread__user">
+        <: i($_.user,'userpic',{ userpic_size => 48 }) :>
+        <span class="user-name"><: i($_.user,'username') :></span>
+    </div>    
+    <div class="thread__body">        
+        <span class="comment-meta">Created: <: $dur_precise($_.created) :>,
+        Updated: <: $dur_precise($_.updated) :></span>
+        <div class="thread-content  content">
+          <: r($_.html) :>
+        </div>
+    </div>
 </div>
