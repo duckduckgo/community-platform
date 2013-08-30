@@ -10,6 +10,8 @@ use namespace::autoclean;
 
 table 'thread';
 
+sub u { [ 'Forum', 'thread', $_[0]->id, $_[0]->key ] }
+
 column id => {
 	data_type => 'bigint',
 	is_auto_increment => 1,
@@ -17,22 +19,27 @@ column id => {
 primary_key 'id';
 
 column users_id => {
-    data_type => 'bigint',
-    is_nullable => 0,
+	data_type => 'bigint',
+	is_nullable => 0,
 };
 
 # cotent source comment
 column comment_id => {
-    data_type => 'bigint',
-    is_nullable => 1,
+	data_type => 'bigint',
+	is_nullable => 1,
 };
 sub content { $_[0]->comment->content }
 sub html { $_[0]->comment->html }
 
+column key => {
+	data_type => 'text',
+	is_nullable => 0,
+	indexed => 1,
+};
+
 column title => {
-    data_type => 'text',
-    is_nullable => 0,
-    indexed => 1,
+	data_type => 'text',
+	is_nullable => 0,
 };
 
 column data => {
@@ -41,9 +48,25 @@ column data => {
 	serializer_class => 'YAML',
 };
 
-column category_id => {
-    data_type => 'Int',
-    is_nullable => 0,
+
+column sticky => {
+	data_type => 'int',
+	default_value => 0,
+};
+
+column readonly => {
+	data_type => 'int',
+	default_value => 0,
+};
+
+column done => {
+	data_type => 'int',
+	default_value => 0,
+};
+
+column deleted => {
+	data_type => 'int',
+	default_value => 0,
 };
 
 column created => {
@@ -57,89 +80,33 @@ column updated => {
 	set_on_update => 1,
 };
 
-column sticky => {
-    data_type => 'bool',
-    default_value => 0,
-};
-
 belongs_to 'user', 'DDGC::DB::Result::User', 'users_id';
 belongs_to 'comment', 'DDGC::DB::Result::Comment', 'comment_id', { join_type => 'left' };
 
-sub _category {
-    my ( $self, $category ) = @_;
-    $self->categories->{$category};
+before insert => sub {
+	my ( $self ) = @_;
+	unless ($self->key) {
+		$self->key($self->get_url);
+	}
+};
+
+sub comments {
+	my ( $self ) = @_;
+	return $self->schema->resultset('Comment')->search_rs({
+		'me.context' => $self->i_context,
+		'me.context_id' => $self->i_context_id,
+		'me.parent_id' => $self->comment_id,
+	});
 }
 
-sub _statuses {
-    # 1 is the default status
-    {
-        dev => {
-            2 => "needs developer",
-            3 => "needs more information",
-            4 => "in development",
-            5 => "under review",
-            6 => "invalid", # not an instant answer ...?
-            7 => "improvement idea",
-        },
-        discussion => {
-            2 => "need more information",
-            3 => "resolved",
-        },
-    }
-}
-
-sub statuses {
-    my $self = shift;
-    my $category = $self->category_key;
-    my $statuses = $self->_statuses;
-    my $cat_stat = $$statuses{$category} or return {};
-    return values %{$cat_stat} unless $_[0];
-    return $cat_stat;
-}
-
-sub is_closed {
-    my $self = shift;
-    my $category = $self->category_key;
-    $self->data->{"${category}_status_id"} == 0;
-}
-
-sub status_key {
-    my $self = shift;
-    my $category = $self->category_key;
-    my $status_id = $self->data->{"${category}_status_id"};
-    return 'closed' if $status_id == 0;
-    return 'open' if $status_id == 1;
-    my $statuses = $self->_statuses;
-    my $cat_stat = $$statuses{$category};
-    $$cat_stat{$status_id};
-}
-
-sub title_to_path { # construct a id-title-of-thread string from $id and $title
-    shift; # knock off $self, don't need it
-    my $url = substr(lc($_[1]),0,50);
-    $url =~ s/[^a-z0-9]+/-/g; $url =~ s/-$//;
-    return $_[0] . "-" . $url;
-}
-
-sub url {
-    my $self = shift;
-    my $x = $self->title_to_path($self->id, $self->title);
-    $x;
-}
-
-sub title {
-    shift->thread_title;
-}
-
-sub category_key {
-    my $self = shift;
-    $self->_category($self->category_id);
-}
-
-# TEMPORARY (TODO: get rid of this and replace it with something sane?)
-sub first_comment {
-    my $self = shift;
-    return $self->result_source->schema->ddgc->comments(__PACKAGE__, $self->id)->list->[0];
+sub get_url {
+	my $self = shift;
+	my $key = substr(lc($self->title),0,50);
+	$key =~ s/[^a-z0-9]+/-/g;
+	$key =~ s/-+/-/g;
+	$key =~ s/-$//;
+	$key =~ s/^-//;
+	return $key;
 }
 
 no Moose;

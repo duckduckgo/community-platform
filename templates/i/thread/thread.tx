@@ -1,0 +1,5 @@
+<h1><: $_.title :></h2>
+<: if $_.readonly { :>Thread is readonly<: }:>
+<: if $_.done { :>Thread is done<: }:>
+<: if $_.sticky { :>Thread is sticky.. might be visual irrelevant<: }:>
+<: i($_.comment,'thread') :>

@@ -24,6 +24,8 @@ sub u {
 	return;
 }
 
+sub u_comments { [ 'Forum', 'comment', $_[0]->id ] }
+
 column id => {
 	data_type => 'bigint',
 	is_auto_increment => 1,
@@ -39,10 +41,12 @@ column users_id => {
 column context => {
 	data_type => 'text',
 	is_nullable => 0,
+  indexed => 1,
 };
 column context_id => {
 	data_type => 'bigint',
 	is_nullable => 0,
+	indexed => 1,
 };
 with 'DDGC::DB::Role::HasContext';
 ###########
@@ -80,6 +84,8 @@ sub root_comment { $_[0]->parent_id ? 0 : 1 }
 belongs_to 'user', 'DDGC::DB::Result::User', 'users_id';
 belongs_to 'parent', 'DDGC::DB::Result::Comment', 'parent_id', { join_type => 'left' };
 has_many 'children', 'DDGC::DB::Result::Comment', 'parent_id';
+
+sub comments { shift->children_rs }
 
 after insert => sub {
 	my ( $self ) = @_;

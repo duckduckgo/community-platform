@@ -51,6 +51,19 @@ sub comments_grouped_other { $_[0]->comments_grouped_not_in(
 	$_[0]->context_threads,
 ) }
 
+sub comments {
+	my ( $self, $context, $context_id ) = @_;
+	if (ref $context) {
+		$context_id = $context->id;
+		$context = ref $context;
+	}
+	$self->ddgc->rs('Comment')->search_rs({
+		context => $context,
+		context_id => $context_id,
+		parent_id => 0,
+	})->prefetch_tree;
+}
+
 sub add_thread {
 	my ( $self, $user, $content, %params ) = @_;
 
@@ -73,7 +86,7 @@ sub add_thread {
 sub add_comment_on {
 	my ( $self, $object, @args ) = @_;
 	my $ref = ref $object;
-	die $ref." doesn't support add_comment_on" unless $self->can('id');
+	die $ref." doesn't support add_comment_on" unless $object->can('id');
 	$self->add_comment($ref, $object->id, @args);
 }
 
@@ -91,6 +104,22 @@ sub add_comment {
 			@args,
 		});
 	} else {
+		if ($context eq 'DDGC::DB::Result::Thread') {
+			my $thread_comment = $self->ddgc->rs('Comment')->search_rs({
+				context => 'DDGC::DB::Result::Thread',
+				context_id => $context_id,
+				parent_id => undef,
+			})->first;
+			if ($thread_comment) {
+				return $self->add_comment(
+					'DDGC::DB::Result::Comment',
+					$thread_comment->id,
+					$user,
+					$content,
+					@args
+				);
+			}
+		}
 		return $self->ddgc->rs('Comment')->create({
 			context => $context,
 			context_id => $context_id,

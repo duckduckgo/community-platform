@@ -108,7 +108,7 @@ sub next_step {
 
 sub step_count {
 	my ( $self ) = @_;
-	my $base = 1338;
+	my $base = 1538;
 	return $base unless $self->test;
 }
 
@@ -761,8 +761,6 @@ sub threads {[
 	testone => { 
 		title => "Test thread",
 		content => "Testing some BBCode\n[b]Bold[/b]\n[url=http://ddg.gg]URL[/url] / http://ddg.gg\nEtc.",
-		category_id => 5,
-		data => { announcement_status_id => 1 },
 		comments => [
 			testtwo => "ah ha!",
 		],
@@ -770,12 +768,20 @@ sub threads {[
 	testtwo => {
 		title => "Hello, World!",
 		content => "Hello, World!\n[code=perl]#!/usr/bin/env perl\nprint \"Hello, World!\";[/code]\n[code=lua]print(\"Hello, World\")[/code]\n[code=javascript]alert('Hello, World!');[/code]\n[quote=shakespeare](bb|[^b]{2})[/quote]\n\@testtwo I love you!",
-		category_id => 1,
-		data => { discussion_status_id => 1 },
 		comments => [
 			testone => "Now you got me....",
 		],
 	},
+	(map {( testtwo => {
+		title => "I, ".$_.", will spam you all!",
+		content => "Hello, World!",
+		comments => [
+			testone => [ "Now you got me ".$_."....",
+				testtwo => "You're welcome! - ".$_,
+			],
+			testthree => "What the hell is ".$_." talking about?",
+		],
+	} )} 1..50),
 	testthree => {
 		title => "Syntax highlighting",
    	content => '[code=perl]#!/usr/bin/env perl
@@ -798,8 +804,6 @@ sub threads {[
        }[/code]
        [code=sql]SELECT \'Hello World\' as hello_message;[/code]
        [code=yaml]text: Hello, World![/code]',
-		category_id => 1,
-		data => { discussion_status => 1 },
 		comments => [
 			testone => [ "He is soooo lame",
 				testtwo => "totally agree here....",

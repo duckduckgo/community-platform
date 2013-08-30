@@ -60,31 +60,54 @@ sub search : Chained('base') Args(0) {
   }
 }
 
+sub thread_view : Chained('base') PathPart('') CaptureArgs(0) {
+  my ( $self, $c ) = @_;
+  push @{$c->stash->{template_layout}}, 'forum/thread.tx';
+}
+
 # /forum/thread/$id
-sub thread : Chained('base') CaptureArgs(1) {
+sub thread_id : Chained('thread_view') PathPart('thread') CaptureArgs(1) {
   my ( $self, $c, $id ) = @_;
-  my @idstr = split('-',$id);
-  $c->stash->{thread} = $c->d->forum->get_thread($idstr[0]);
+  $c->stash->{thread} = $c->d->rs('Thread')->find($id);
   unless ($c->stash->{thread}) {
     $c->response->redirect($c->chained_uri('Forum','index',{ thread_notfound => 1 }));
     return $c->detach;
   }
-  my $url = $c->stash->{thread}->url;
-  if ($url ne $id) {
-    $c->response->redirect($c->chained_uri('Forum','view',$url));
-    return $c->detach;
-  }
-
-  $c->stash->{thread_comments} = $c->d->comments('DDGC::DB::Result::Thread', $c->stash->{thread}->id);
-
-  $c->add_bc($c->stash->{thread}->title, $c->stash->{thread}->url);
-  $c->bc_index;
-
-  $c->stash->{is_owner} = ($c->user && ($c->user->admin || $c->user->id == $c->stash->{thread}->users_id)) ? 1 : 0;
+  $c->add_bc($c->stash->{thread}->title,$c->chained_uri('Forum','thread',
+    $c->stash->{thread}->id,$c->stash->{thread}->key));
 }
 
-sub view : Chained('thread') PathPart('') Args(0) {
+sub thread_redirect : Chained('thread_id') Args(0) {
   my ( $self, $c ) = @_;
+  $c->response->redirect($c->chained_uri('Forum','thread',
+    $c->stash->{thread}->id,$c->stash->{thread}->key));
+  return $c->detach;
+}
+
+sub thread : Chained('thread_id') PathPart('') Args(1) {
+  my ( $self, $c, $key ) = @_;
+  $c->bc_index;
+  unless ($c->stash->{thread}->key eq $key) {
+    $c->response->redirect($c->chained_uri('Forum','thread',
+      $c->stash->{thread}->id,$c->stash->{thread}->key));
+  }
+}
+
+# /forum/comment/$id
+sub comment_id : Chained('thread_view') PathPart('comment') CaptureArgs(1) {
+  my ( $self, $c, $id ) = @_;
+  $c->stash->{thread} = $c->d->rs('Comment')->find($id);
+  unless ($c->stash->{thread}) {
+    $c->response->redirect($c->chained_uri('Forum','index',{ comment_notfound => 1 }));
+    return $c->detach;
+  }
+  $c->add_bc('Comment #'.$c->stash->{thread}->id,$c->chained_uri('Forum','comment',
+    $c->stash->{thread}->id));
+}
+
+sub comment : Chained('comment_id') PathPart('') Args(0) {
+  my ( $self, $c ) = @_;
+  $c->bc_index;
 }
 
 # /forum/thread/edit/$id

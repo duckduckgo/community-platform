@@ -34,10 +34,12 @@ column action => {
 column context => {
 	data_type => 'text',
 	is_nullable => 0,
+  indexed => 1,
 };
 column context_id => {
 	data_type => 'bigint',
 	is_nullable => 0,
+  indexed => 1,
 };
 with 'DDGC::DB::Role::HasContext';
 ###########

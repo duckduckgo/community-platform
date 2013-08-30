@@ -1,0 +1,6 @@
+<: i($_.user,'userinfo',{ userpic_size => 64 }) :>
+<h2>Created: <: $dur_precise($_.created) :></h2>
+<h2>Updated: <: $dur_precise($_.updated) :></h2>
+<div class="thread_content">
+  <: r($_.html) :>
+</div>

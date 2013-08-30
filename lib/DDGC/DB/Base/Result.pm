@@ -34,6 +34,7 @@ sub context_config {{
 		prefetch => [{
       token => [qw( token_domain )],
       token_domain_language => [qw( token_domain language )],
+      token_language_translations => [qw( user )]
     }],
 	},
 	'DDGC::DB::Result::Token::Domain::Language' => {
@@ -119,7 +120,7 @@ sub has_context {
 
 sub comments {
 	my ( $self ) = @_;
-	return $self->schema->resultset('Comment')->search({
+	return $self->schema->resultset('Comment')->search_rs({
 		'me.context' => $self->i_context,
 		'me.context_id' => $self->i_context_id,
 		'me.parent_id' => undef,
