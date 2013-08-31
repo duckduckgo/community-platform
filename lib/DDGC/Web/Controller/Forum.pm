@@ -147,18 +147,21 @@ sub newthread : Chained('base') Args(0) {
     my ( $self, $c ) = @_;
     $c->add_bc("New Thread");
 
-    unless ($c->req->params->{title} && $c->req->params->{text}) {
+    use DDP; p $c->req->method;
+    if ($c->req->method eq 'POST' && (!$c->req->params->{title} || !$c->req->params->{text})) {
         $c->stash->{error} = 'One or more fields were empty.';
         return $c->detach;
     }
-    
-    my $thread = $c->d->forum->add_thread(
-        $c->user,
-        $c->req->params->{text},
-        title => $c->req->params->{title},
-    );
 
-    $c->response->redirect($c->chained_uri('Forum','thread',$thread->id,$thread->get_url));
+    elsif ($c->req->method eq 'POST') {
+        my $thread = $c->d->forum->add_thread(
+            $c->user,
+            $c->req->params->{text},
+            title => $c->req->params->{title},
+        );
+
+        $c->response->redirect($c->chained_uri('Forum','thread',$thread->id,$thread->get_url));
+    }
 }
 
 sub delete : Chained('base') Args(1) {
