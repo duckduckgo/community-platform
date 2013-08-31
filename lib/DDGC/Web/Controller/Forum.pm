@@ -146,6 +146,19 @@ sub status : Chained('thread') Args(0) {
 sub newthread : Chained('base') Args(0) {
     my ( $self, $c ) = @_;
     $c->add_bc("New Thread");
+
+    unless ($c->req->params->{title} && $c->req->params->{text}) {
+        $c->stash->{error} = 'One or more fields were empty.';
+        return $c->detach;
+    }
+    
+    my $thread = $c->d->forum->add_thread(
+        $c->user,
+        $c->req->params->{text},
+        title => $c->req->params->{title},
+    );
+
+    $c->response->redirect($c->chained_uri('Forum','thread',$thread->id,$thread->get_url));
 }
 
 sub delete : Chained('base') Args(1) {
@@ -156,29 +169,6 @@ sub delete : Chained('base') Args(1) {
     $c->d->rs('Comment')->search({ context => "DDGC::DB::Result::Thread", context_id => $id })->delete();
     $thread->delete();
     $c->response->redirect($c->chained_uri('Forum','index'));
-}
-
-# /forum/makethread (actually create a thread)
-sub makethread : Chained('base') Args(0) {
-    my ( $self, $c ) = @_;
-
-    unless ($c->user) {
-        $c->stash->{error} = 'You are not logged in.';
-        return;
-    }
-    unless ($c->req->params->{title} && $c->req->params->{text} && $c->req->params->{category_id}) {
-        $c->stash->{error} = 'One or more fields were empty.';
-        return
-    }
-    
-    my $thread = $c->d->forum->new_thread(
-        user => $c->user,
-        title => $c->req->params->{title},
-        category_id => $c->req->params->{category_id},
-        content => $c->req->params->{text},
-    );
-
-    $c->response->redirect($c->chained_uri('Forum','view',$thread->url));
 }
 
 1;

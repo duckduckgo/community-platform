@@ -6,7 +6,7 @@
                 <button class="button" type="submit">GO</button>
             </form>
         </section> -->
-        <p><a class="button full--l" href="#"><i class="icon icon-bubbles"></i>Post New Topic</a></p>
+        <p><a class="button full--l" href="<: $u('Forum','newthread') :>"><i class="icon icon-bubbles"></i>Post New Topic</a></p>
         <section class="menu-list tab-third">
             <h5>Latest comments on ...</h5>
             <ul>
