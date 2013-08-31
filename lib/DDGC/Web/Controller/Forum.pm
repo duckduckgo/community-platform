@@ -147,7 +147,6 @@ sub newthread : Chained('base') Args(0) {
     my ( $self, $c ) = @_;
     $c->add_bc("New Thread");
 
-    use DDP; p $c->req->method;
     if ($c->req->method eq 'POST' && (!$c->req->params->{title} || !$c->req->params->{text})) {
         $c->stash->{error} = 'One or more fields were empty.';
         return $c->detach;
