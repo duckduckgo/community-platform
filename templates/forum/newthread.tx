@@ -3,8 +3,11 @@
         <h3>Create Thread</h3>
         <hr/>
         <div class="body">
+            <: if $error { :>
+                <div class="notice error"><i class="icn icon-warning-sign"></i> <: $error :></div>
+            <: } :>
             <: if !$c.user { :>
-                <div class="notice alert warning"><i class="icn icon-warning-sign"></i> You must be logged in to create a thread. Please, <a href="<: $u('My','login') :>" data-reveal-id="login-box">Log in</a> or <a href="<: $u('My','register') :>">Register</a>.</div>
+                <div class="notice error"><i class="icn icon-warning-sign"></i> You must be logged in to create a thread. Please, <a href="<: $u('My','login') :>" data-reveal-id="login-box">Log in</a> or <a href="<: $u('My','register') :>">Register</a>.</div>
             <: } else { :>
                 <form action="<: $u('Forum','newthread') :>" method="POST">
                     <div class="input-wrap"><input type="text" name="title" placeholder="Title" autofocus></input></div>
