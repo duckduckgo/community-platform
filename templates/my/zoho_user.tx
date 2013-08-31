@@ -3,7 +3,7 @@
         <h3>Verify your duck.co (Zoho) username</h3>
         <hr/>
         <p>We will soon migrate all topics from <a href="https://duck.co">duck.co</a> (Zoho Discussions) to our <a href="<: $u('Forum','index') :>">new forum</a>. Until that time, we are asking anyone who has previously posted as a registered user on duck.co to complete this username verification.</p>
-        <p>This will allow us to attach any of your old posts to your Community Platform account. Any posts whose author has not completed this verification will display under a generic 'import' username, and we will no longer be able to acredit them to their authors.</p>
+        <p>This will allow us to attach any of your old posts to your Community Platform account. Any posts whose author has not completed this verification will display under a generic 'import' username, and we will no longer be able to accredit them to their authors.</p>
         <p>Please check out <a href="#duck.co-topic">this thread</a> for the other step in the verification process. We need both submissions to verify -- completing only one will do nothing.</p>
         <: if $success { :>
             <h1>You're done!</h1>
