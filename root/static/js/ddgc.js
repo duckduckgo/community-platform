@@ -355,11 +355,11 @@ $(document).ready(function() {
 		  tag_italic: true,
 		  tag_underline: true,
 		  tag_link: true,
-		  tag_image: false,
+		  tag_image: true,
 		  button_icon: true
 		},options||{});
 		//  panel 
-		var text = '<div class="comment-controls  button-group  pull-right">'
+		var text = '<div class="comment-controls  button-group">'
 		if(options.tag_bold){
 		  text = text + '<button class="button" title="Bold Text (Ctrl+B)" data-bbcode="b">';
 		  if(options.button_icon){

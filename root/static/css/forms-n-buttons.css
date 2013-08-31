@@ -58,6 +58,7 @@ form input[type="password"], form input[type="email"], form input[type="text"], 
 		-webkit-border-radius: 5px;
 		border-radius: 5px;
 	}
+    .input-wrap .button-group .button { width: auto; }
 
 /*--------------------------------------------------
 Login/Signup Forms
@@ -242,7 +243,15 @@ Comment Forms
 	padding: 5px 8px 4px;	
 }
 	.comment_reply .button-group { margin-top: -1px; }
-		
+    .comment-controls.button-group { 
+        display: block; 
+        text-align: right;
+    }
+        .form-wrap .comment-controls .button { 
+            padding-left: 12px; 
+            padding-right: 12px;
+        }
+	
 	/* re-ordering and re-styling on purpose so that the tab control doesn't get screwed-up */
 	.comment_reply .button-group .button.submit {
 		margin-left: -1px; 	
