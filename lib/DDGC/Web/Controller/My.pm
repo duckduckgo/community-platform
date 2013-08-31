@@ -495,7 +495,15 @@ sub requestlanguage :Chained('logged_in') :Args(0) {
 
 		}
 	}
+}
 
+
+# Temporary Zoho import verification stuff
+sub zoho_user :Chained('logged_in') :Args(0) {
+    my ($self, $c) = @_;
+    if (defined $c->req->params->{u} && $c->req->params->{u}) {
+        ...;
+    }
 }
 
 no Moose;
