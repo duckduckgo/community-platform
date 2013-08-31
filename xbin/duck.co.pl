@@ -82,7 +82,7 @@ while (1) {
             $topic->{posts}->[1]->{content},
             title => $li->{title},
             data => { discussion_status_id => 1 },
-            category_id => 2,
+            readonly => 1,
             created => $datetime, updated => $datetime,
         );
 

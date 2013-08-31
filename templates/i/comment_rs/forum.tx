@@ -15,9 +15,9 @@
             <: i($context_obj,'label_thread') :>
           </a>
           <span class="thread-icons">
-            <: #if $context_obj.readonly { :><i class="thread-icon  icon-lock" title="This thread is read-only"></i><: #} :>
-            <:# if $context_obj.done { :><i class="thread-icon--good  icon-ok" title="This thread is complete"></i><:# } :>
-            <: #if $context_obj.sticky { :><i class="thread-icon--stuck  icon-pushpin" title="Stuck Thread"></i><: #} :>
+            <: if $context_obj.readonly { :><i class="thread-icon  icon-lock" title="This thread is read-only"></i><: } :>
+            <: if $context_obj.done { :><i class="thread-icon--good  icon-ok" title="This thread is complete"></i><: } :>
+            <: if $context_obj.sticky { :><i class="thread-icon--stuck  icon-pushpin" title="Stuck Thread"></i><: } :>
           </span>
         
           <div class="gw">
