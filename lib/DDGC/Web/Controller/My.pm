@@ -501,8 +501,22 @@ sub requestlanguage :Chained('logged_in') :Args(0) {
 # Temporary Zoho import verification stuff
 sub zoho_user :Chained('logged_in') :Args(0) {
     my ($self, $c) = @_;
+
+    $c->stash->{title} = "Zoho Username";
+    $c->add_bc($c->stash->{title}, '');
+
+    if (defined $c->user->data->{unapproved_zoho_username}) {
+        $c->stash->{success} = 1;
+        return $c->detach;
+    }
+
     if (defined $c->req->params->{u} && $c->req->params->{u}) {
-        ...;
+	$c->user->data({}) if !$c->user->data;
+	my $data = $c->user->data;
+	$data->{unapproved_zoho_username} = $c->req->params->{u};
+	$c->user->data($data);
+	$c->user->update;
+        $c->stash->{success} = 1;
     }
 }
 

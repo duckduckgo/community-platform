@@ -5,15 +5,21 @@
         <p>We will soon migrate all topics from <a href="https://duck.co">duck.co</a> (Zoho Discussions) to our <a href="<: $u('Forum','index') :>">new forum</a>. Until that time, we are asking anyone who has previously posted as a registered user on duck.co to complete this username verification.</p>
         <p>This will allow us to attach any of your old posts to your Community Platform account. Any posts whose author has not completed this verification will display under a generic 'import' username, and we will no longer be able to acredit them to their authors.</p>
         <p>Please check out <a href="#duck.co-topic">this thread</a> for the other step in the verification process. We need both submissions to verify -- completing only one will do nothing.</p>
-        <form action="<: $u('My','zoho_user') :>" class="group" method="post">
-            <div class="twothird">
-                <div class="input-wrap">
-                    <input type="text" name="u" placeholder="Zoho Username" />
+        <: if $success { :>
+            <h1>You're done!</h1>
+            <p>Your submitted username is: <b><: $c.user.data.unapproved_zoho_username :></b></p>
+            <p>Thanks for your help!</p>
+        <: } else { :>
+            <form action="<: $u('My','zoho_user') :>" class="group" method="post">
+                <div class="twothird">
+                    <div class="input-wrap">
+                        <input type="text" name="u" placeholder="Zoho Username" />
+                    </div>
                 </div>
-            </div>
-            <div class="third">
-                <div class="input-wrap"><input class="blue submit button" type="submit" name="submit" value="Submit" /></div>
-            </div>
-        </form>
+                <div class="third">
+                    <div class="input-wrap"><input class="blue submit button" type="submit" name="submit" value="Submit" /></div>
+                </div>
+            </form>
+        <: } :>
     </div>
 </div>
