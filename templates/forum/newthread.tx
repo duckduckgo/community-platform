@@ -12,14 +12,7 @@
                 <form action="<: $u('Forum','newthread') :>" method="POST">
                     <div class="input-wrap"><input type="text" name="title" placeholder="Title" autofocus></input></div>
                     <div class="input-wrap"><textarea name="text" class="js-bbcode" placeholder="Body" rows="15"></textarea></div>
-                    <div class="twothirds">
-                        <label for="category_id">Category: </label>
-                        <select name="category_id" class="language_grade">
-                            <option value="1">General Discussion</option>
-                            <option value="2">Instant Answers</option>
-                        </select>
-                    </div>
-                    <div class="right"><input type="submit" value="Post" class="big blue button"></input></div>
+                    <div class="right"><input type="submit" value="Post" class="big blue button" name="post_thread"></input></div>
                 </form>
             <: } :>
         </div>

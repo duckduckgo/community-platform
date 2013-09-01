@@ -10,6 +10,7 @@
         <section class="menu-list tab-third">
             <h5>Latest comments on ...</h5>
             <ul>
+                <li><a href="<: $u('Forum','index') :>">Forum</a></li>
                 <li><a href="<: $u('Forum','blog') :>">Blog</a></li>
                 <li><a href="<: $u('Forum','translation') :>">Translation</a></li>
                 <li><a href="<: $u('Forum','all') :>">All</a></li>
@@ -23,7 +24,7 @@
             <h5>Sticky threads</h5>
             <ul>
                 <: for results($sticky_threads) -> $thread { :>
-                    <li><a href="<: $u('Forum','view',$thread.url) :>"><: $thread.title :></a></li>
+                    <li><a href="<: $u($thread.u) :>"><: $thread.title :></a></li>
                 <: } else { :>
                     Nothing here yet!
                 <: } :>

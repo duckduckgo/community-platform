@@ -21,7 +21,7 @@ sub grouped_by_context {
       },{
         alias => 'comments_count',
       })->count_rs->as_query
-    }
+    },
   });
 }
 

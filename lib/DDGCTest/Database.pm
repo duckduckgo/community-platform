@@ -108,7 +108,7 @@ sub next_step {
 
 sub step_count {
 	my ( $self ) = @_;
-	my $base = 1538;
+	my $base = 1542;
 	return $base unless $self->test;
 }
 
@@ -764,6 +764,23 @@ sub threads {[
 		comments => [
 			testtwo => "ah ha!",
 		],
+		sticky => 1,
+	},
+	testone => { 
+		title => "Test more thread",
+		content => "Testing more some",
+		comments => [
+			testtwo => "ah ha 2!",
+		],
+		sticky => 1,
+	},
+	testone => { 
+		title => "Test more more thread",
+		content => "Testing more more some",
+		comments => [
+			testtwo => "ah ha 3!",
+		],
+		sticky => 1,
 	},
 	testtwo => {
 		title => "Hello, World!",

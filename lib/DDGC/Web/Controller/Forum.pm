@@ -12,7 +12,9 @@ sub base : Chained('/base') PathPart('forum') CaptureArgs(0) {
   $c->stash->{page_class} = "page-forums  texture";
   $c->stash->{title} = 'DuckDuckGo Forums';
   $c->stash->{is_admin} = $c->user && $c->user->admin;
-  #$c->response->redirect('/'.$c->request->path);
+  $c->stash->{sticky_threads} = $c->d->rs('Thread')->search_rs({
+    sticky => 1,
+  });
 }
 
 sub set_grouped_comments {
@@ -149,19 +151,16 @@ sub newthread : Chained('base') Args(0) {
     my ( $self, $c ) = @_;
     $c->add_bc("New Thread");
 
-    if ($c->req->method eq 'POST' && (!$c->req->params->{title} || !$c->req->params->{text})) {
+    if ($c->req->params->{post_thread} && (!$c->req->params->{title} || !$c->req->params->{text})) {
         $c->stash->{error} = 'One or more fields were empty.';
-        return $c->detach;
-    }
-
-    elsif ($c->req->method eq 'POST') {
+    } elsif ($c->req->params->{post_thread}) {
         my $thread = $c->d->forum->add_thread(
             $c->user,
             $c->req->params->{text},
             title => $c->req->params->{title},
         );
-
-        $c->response->redirect($c->chained_uri('Forum','thread',$thread->id,$thread->get_url));
+        $c->response->redirect($c->chained_uri(@{$thread->u}));
+        return $c->detach;
     }
 }
 

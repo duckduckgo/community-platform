@@ -48,7 +48,6 @@ column data => {
 	serializer_class => 'YAML',
 };
 
-
 column sticky => {
 	data_type => 'int',
 	default_value => 0,
