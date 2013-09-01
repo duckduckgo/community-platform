@@ -11,9 +11,9 @@
       <: # my $children_count = $context_obj.comment.children.count :>
       <div class="row">
         <div class="forum-item">
-          <a class="forum-item__title" href="<: $u($comment.u) :>">
+          <a class="forum-item__title  group" href="<: $u($comment.u) :>">
             <: i($context_obj,'label_thread') :>
-            (<: $comment.get_column('comments_count') :> Comments)
+            <span class="forum-item__replycount">[<: $comment.get_column('comments_count') :> Comment<: if $comment.get_column('comments_count') != 1 { :>s<: } :>]</span>
           </a>
           <span class="thread-icons">
             <: if $context_obj.readonly { :><i class="thread-icon  icon-lock" title="This thread is read-only"></i><: } :>
