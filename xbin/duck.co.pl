@@ -56,7 +56,6 @@ sub get_user {
 
 # Let's... get sticky
 my $stickies = $list_page->scrape(URI->new('https://duck.co/filter/sticky'))->{topics};
-p $stickies;
 
 while (1) {
     my $page = $list_page->scrape(URI->new($next_page));
@@ -85,7 +84,6 @@ while (1) {
 
         grep { $sticky = 1 if $_->{link} eq $li->{link} } @$stickies;
 
-        p $sticky;
         my $thread = $ddgc->forum->add_thread(
             $user,
             $topic->{posts}->[1]->{content},
