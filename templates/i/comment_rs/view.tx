@@ -1,6 +1,6 @@
 <: if $c.user and !$no_reply { :>
   <div class="row comment tier1-new">
-    <h5 class="comment_add_title">&nbsp;</h5>
+    <!--h5 class="comment_add_title">&nbsp;</h5-->
     <: i('comment_add',{ context => $context, context_id => $context_id }) :>
   </div>
 <: } elsif $no_reply { :>

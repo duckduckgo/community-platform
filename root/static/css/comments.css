@@ -37,6 +37,10 @@
         top: 4px;
         right: 5px;
     }
+    .forum-item__replycount { 
+        color: #d9d9d9; 
+        float: right;
+    }
 
 /*
     Thread View
@@ -52,6 +56,7 @@
 }
 .thread-rule {
     margin-top: 10px;
+    margin-bottom: 5px;
 }
 .thread-header {
     padding-top: 13px;
@@ -275,7 +280,7 @@
 		  .comment-body .tier4 .comment-body { margin-left: 0;}
 		  .tier4 .user-avatar { display: none; }
 
-.row.tier1-new { margin-bottom: 24px; }
+.row.tier1-new { margin-bottom: 13px; }
 .comment_reply { position: relative; }
 	.comment_reply .user-avatar, .comment .comment-body .comment_reply .user-avatar { left: 0; }
 	.lt-ie9 .comment .comment-body .comment_reply .user-avatar { position: absolute; top: 24px; }
@@ -283,7 +288,7 @@
 		  
 /* for display on the translation page */
 .row.comments .comment_add_title { margin: 0 0 8px; color: #8f8f8f; font-size: 1em; }
-.row.comments .tier1-new { margin-right: 13px; }	  
+/*.row.comments .tier1-new { margin-right: 13px; }	  */
 		  
 .comment .voting {
 	position: absolute;

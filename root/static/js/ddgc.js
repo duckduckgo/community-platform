@@ -3,8 +3,8 @@ $(document).ready(function() {
 	
 	$('.js-remove').remove();
 	
-	$('.comment_add_title + .comment_reply').removeClass('js-hide');
-    $('.comment_reply').removeClass('js-hide').toggleClass('hide')
+	$('.comment.tier1-new .comment_reply, .thread-wrap .comment_reply').removeClass('js-hide');
+    $('.thread-wrap .comment_reply').toggleClass('hide');
 	
 	$('.text').addPlaceholder(); 
 	$('.token-input').addPlaceholder();
