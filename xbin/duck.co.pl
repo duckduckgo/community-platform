@@ -54,6 +54,10 @@ sub get_user {
         $import_user;
 }
 
+# Let's... get sticky
+my $stickies = $list_page->scrape(URI->new('https://duck.co/filter/sticky'))->{topics};
+p $stickies;
+
 while (1) {
     my $page = $list_page->scrape(URI->new($next_page));
 
@@ -77,6 +81,11 @@ while (1) {
 
         my $datetime = $dt->parse_datetime($topic->{posts}->[1]->{datetime});
 
+        my $sticky = 0;
+
+        grep { $sticky = 1 if $_->{link} eq $li->{link} } @$stickies;
+
+        p $sticky;
         my $thread = $ddgc->forum->add_thread(
             $user,
             $topic->{posts}->[1]->{content},
@@ -84,6 +93,7 @@ while (1) {
             data => { discussion_status_id => 1 },
             readonly => 1,
             created => $datetime, updated => $datetime,
+            sticky => $sticky,
         );
 
         $ddgc->add_comment(
