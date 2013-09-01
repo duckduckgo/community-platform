@@ -1,7 +1,7 @@
 <div class="row">
 	<div class="third locale-label">
 		<a href="<: $u($token_domain_language.u, { only_untranslated => 1 }) :>">
-			<img src="<: $token_domain_language.language.flag_url :>" class="flag" />
+			<: i($token_domain_language.language.country,'flag') :>
 			<span class="label"><: $token_domain_language.language.name_in_english :> [<: $token_domain_language.language.locale :>]</span>
 		</a>
 	</div>

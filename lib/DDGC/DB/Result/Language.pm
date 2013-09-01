@@ -44,6 +44,11 @@ unique_column locale => {
 	is_nullable => 0,
 };
 
+column alternative_locales => {
+	data_type => 'text',
+	is_nullable => 1,
+};
+
 column country_id => {
 	data_type => 'bigint',
 	is_nullable => 1,

@@ -39,6 +39,7 @@ sub country_flag :Chained('base') :Args(2) {
 	if ($country_code =~ m/(\w+)\.png$/) {
 		$country_code = $1;
 	}
+	use DDP; ($country_code);
 	my $country = $c->d->rs('Country')->find({ country_code => $country_code });
 	unless ($country) {
 		$c->response->status(404);

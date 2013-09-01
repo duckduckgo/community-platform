@@ -20,7 +20,7 @@
 			<: for results($c.user.user_languages) -> $user_language { :>
 				<div class="row">
 					<div class="forty">
-						<img src="<: $user_language.language.flag_url :>" alt="flag" class="flag" width="16" height="11">
+						<: i($user_language.language.country,'flag') :>
 						<label><: $user_language.language.name_in_local :> [<: $user_language.language.locale :>]</label>
 					</div>
 					<div class="third"> 

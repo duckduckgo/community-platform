@@ -21,6 +21,7 @@ use File::ShareDir::ProjectDistDir;
 use Net::AIML;
 use Text::Xslate qw( mark_raw );
 use Class::Load qw( load_class );
+use POSIX;
 use namespace::autoclean;
 
 ##############################################
@@ -262,6 +263,9 @@ sub _build_xslate {
 				return $source;
 			},
 			urify => sub { lc(join('-',split(/\s+/,join(' ',@_)))) },
+
+			floor => sub { floor($_[0]) },
+			ceil => sub { ceil($_[0]) },
 
 			# simple helper for userpage form management
 			upf_view => sub { 'userpage/'.$_[1].'/'.$_[0]->view.'.tx' },
