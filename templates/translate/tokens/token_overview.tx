@@ -1,7 +1,7 @@
 <fieldset class="row snippet clear">	
 	<div class="row half">
-		<div class="label"><label>Term:</label></div>
-		<div>
+		<div class="token__label"><label>Term:</label></div>
+		<div class="token__content">
 			<a href="<: $u('Translate','tokenlanguage',$token_language.id) :>"><strong><: $token_language.token.msgid :></strong></a>
 			<: if $token_language.token.msgid_plural { :>
 				<a href="<: $u('Translate','tokenlanguage',$token_language.id) :>"><strong><: $token_language.token.msgid_plural :></strong></a>
@@ -11,29 +11,29 @@
 					[<: $token_language.token.msgctxt :>]
 				<: } :>
 				<: if $token_language.translations.size() { :>
-					(<: $l('A translation is in use') :>)
+					<em>(<: $l('A translation is in use') :>)</em>
 				<: } :>			
 			</p>
 		</div>
 	</div>	
 	<: if $token_language.translations.size() { :>
 		<div class="row half clear">
-			<div class="label"><label>Translations:</label></div>
-			<div>
+			<div class="token__label"><label>Translations:</label></div>
+			<div class="token__content">
 				<div class="current-translations-min">
-					<strong>
+					<span class="token__user-list">
 						<: for $token_language.translations -> $translation { :>
 							<: i($translation.user,'userpic') :>
 						<: } :>
-					</strong>
+					</span>
 				</div>
 			</div>
 		</div>
 	<: } :>
 	<: if $token_language.token.notes || $token_language.notes { :>
 		<div class="row half">
-			<div class="label"><label>Notes:</label></div>
-			<div class="translation-notes">
+			<div class="token__label"><label>Notes:</label></div>
+			<div class="token__content  translation-notes">
 				<: if $token_language.token.notes { :>
 					<: r($token_language.token.notes) :>
 					<: if $token_language.notes { :>

@@ -34,14 +34,14 @@
 						<: if $c.user.username == $translation.username { :>disabled="disabled" title="You can't vote on your own translations."<: } :>
 							<: if $translation.user_voted($c.user) { :>
 								href="<: $u('Translate', 'vote_view', $translation.id, 0):>">
-								<i class="check checked icon-ok"></i>
+								<i class="translation-vote__check checked icon-ok"></i>
 							<: } else { :>
 								href="<: $u('Translate', 'vote_view', $translation.id, 1):>">
-								<i class="check icon-ok"></i>
+								<i class="translation-vote__check icon-ok"></i>
 							<: } :>
 					</a>
 				<: } :>
-				<span class="vote-tally"><: $translation.vote_count :></span>
+				<span class="translation-vote__tally"><: $translation.vote_count :></span>
 			</span>
 		<: } :>
 		<: for [ 0..$token_language.max_msgstr_index ] -> $n { :>
@@ -58,7 +58,7 @@
 				<: } else { :>
 					<: $n :>th plural form
 				<: } :>
-			</label><strong>
+			</label><strong class="translation-details__content">
 				<: call($translation,$func) :>
 			</strong></li>
 		<: } :>

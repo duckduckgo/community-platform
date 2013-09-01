@@ -77,9 +77,14 @@
 	.translate-snippets .row.snippet { padding: 16px 26px 16px 18px; }
 		.translate-snippets .snippet .row.user-translation { padding-top: 0; }
 	.translate-snippets label { line-height: 30px; }
-	.translate-snippets .label { float: left; width: 131px; }
-	.translate-snippets .label + div { padding-left: 131px; }
-	.snippet .row strong { display: inline-block; font-size: 1.4em; font-weight: bold; }
+	.translate-snippets .label, .token__label { float: left; width: 131px; }
+	.translate-snippets .label + div, .token__content { padding-left: 131px; }
+	/*.snippet .row strong, */
+    .snippet__heading { 
+        display: inline-block; 
+        font-size: 1.4em; 
+        font-weight: bold; 
+    }
 		.snippet .row .context { display: inline-block; font-size: 1.4em; }
 	.snippet .row p, .snippet .row ul { margin-bottom: 0; line-height: 1.2; }
 	.snippet .row p { margin-top: 0; }
@@ -87,6 +92,8 @@
 	.snippet .row .translation-notes li { margin: 6px 0 0 18px; }
 	.snippet .row input.text { height: 30px; line-height: 30px; }
 	
+    .token__user-list { font-size: 1.4em; }
+    
 	ul.user-translations, ul.translation-details { list-style: none; }
 	
 	.user-translations li { margin-bottom: 10px; }
@@ -104,7 +111,12 @@
 	}
 		.translation-details li { margin-bottom: 0; line-height: 1.6em; }
 		.translation-details label { min-width: 97px; display: inline-block; line-height: 1.4em; }
-		.snippet .row .translation-details strong { font-size: 1.2em; }		
+		
+        /*.snippet .row .translation-details strong, */
+        .translation-details__content { 
+            font-weight: bold;
+            font-size: 1.2em; 
+        }		
 	.translation-invalid { float: right; font-weight: bold; color: red;}
 	.translation-vote,
 	.translation-validate {
@@ -134,11 +146,21 @@
 			left: -1px;
 		}
 			.translation-vote .button { color: #999; }
-			.translation-vote .button:hover, .translation-vote.voted .button, .translation-vote .button .checked { color: #2d76dd; }	
-				.translation-vote .button[disabled="disabled"], .translation-vote .button[disabled="disabled"]:hover, .translation-vote .button[disabled="disabled"] .checked { color: #ccc; }
+			.translation-vote .button:hover, 
+            .translation-vote.voted .button, 
+            .translation-vote .button .checked { color: #2d76dd; }	
+				.translation-vote .button[disabled="disabled"], 
+                .translation-vote .button[disabled="disabled"]:hover, 
+                .translation-vote .button[disabled="disabled"] .checked { color: #ccc; }
 			
-		.translation-vote .check { font-size: 1.5em; position: relative; top: 2px; }
-		.translation-vote .vote-tally {			
+		.translation-vote .check,
+        .translation-vote__check  { 
+            font-size: 1.5em; 
+            position: relative; 
+            top: 2px; 
+         }
+		.translation-vote .vote-tally,
+        .translation-vote__tally{			
 			color: #464541;
 			height: 28px;
 			line-height: 28px;
@@ -190,8 +212,8 @@
 	.translate-overview .half.progress { width: 100%; clear: both; }
 		.translate-overview .half.progress + .eighth { position: static; }
 			.translate-overview .half.progress + .eighth .button { position: absolute; top: 8px; right: 12px; }
-	.translate-snippets .label {	float: none; width: auto; }
-		.translate-snippets .label + div { padding-left: 0; }
+	.translate-snippets .label, .token__label {	float: none; width: auto; }
+		.translate-snippets .label + div, .token__content { padding-left: 0; }
 	
 	.paging-menu { float: none; text-align: center; }
 		.page-select, .page-size, .paging-menu .button { float: none; display: inline-block; }

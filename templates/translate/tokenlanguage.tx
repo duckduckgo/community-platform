@@ -7,14 +7,14 @@
 		<div class="row">
 			<: include "translate/tokens/token_language.tx" { token_language_page => 1 } :>
 			<fieldset class="row translation-use">
-				<div class="label"><label>Translation in use:</label></div>
-				<div>
+				<div class="token__label"><label>Translation in use:</label></div>
+				<div class="token__content">
 					<: if $token_language.msgstr { :>
 						<ul class="user-translations">
 							<: include "translate/tokens/token_language_translation.tx" {translation => $token_language } :>
 						</ul>
 					<: } else { :>
-						<strong>No translation in use</strong>
+						<strong class="snippet__heading">No translation in use</strong>
 					<: } :>
 				</div>
 			</fieldset>
