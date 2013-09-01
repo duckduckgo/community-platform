@@ -4,7 +4,7 @@
     <div class="content-box content-box-toggleclick only">
       <div id="country_<: $country.id :>_clicker" class="head">
         <h2>#<: $country.id :> <: $country.name_in_english :></h2>
-        &nbsp;&nbsp;&nbsp;<img src="<: $country.flag_url :>" />
+        &nbsp;&nbsp;&nbsp;<: i($country,'flag') :>
       </div>
       <div class="body  column-form">
         <: i($country,'form') :>

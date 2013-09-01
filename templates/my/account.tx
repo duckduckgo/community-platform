@@ -20,7 +20,7 @@
 			<: for results($c.user.user_languages) -> $user_language { :>
 				<div class="row">
 					<div class="forty">
-						<: i($user_language.language.country,'flag') :>
+						<: i($user_language.language,'flag') :>
 						<label><: $user_language.language.name_in_local :> [<: $user_language.language.locale :>]</label>
 					</div>
 					<div class="third"> 

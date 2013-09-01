@@ -59,16 +59,12 @@ column sticky_notes => {
 	is_nullable => 1,
 };
 
-############################ LEGACY
-column flagicon => {
-	data_type => 'text',
-	is_nullable => 1,
-};
 sub flag_url {
-	my ( $self ) = @_;
-	$self->flagicon
-		? 'https://duckduckgo.com/f2/'.($self->flagicon).'.png'
-		: ''
+	my ( $self, $size ) = @_;
+	if ($self->country_id) {
+		return $self->country->flag_url($size);
+	}
+	return '';
 }
 ##############################################################
 

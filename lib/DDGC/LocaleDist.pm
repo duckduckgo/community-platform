@@ -109,7 +109,7 @@ sub BUILD {
 		$localesstring .= "\tname_in_english => decode_base64('".$eb64ename."'),\n";
 		my $eb64lname = encode_base64(encode("UTF-8", $tcl->language->name_in_local)); chomp($eb64lname);
 		$localesstring .= "\tname_in_local => decode_base64('".$eb64lname."'),\n";
-		$localesstring .= "\tflag_url => '".$tcl->language->flag_url."',\n";
+		$localesstring .= "\tflag_url => 'https://dukgo.com".$tcl->language->flag_url."',\n";
 		$localesstring .= "\tflagicon => '".$tcl->language->flagicon."',\n" if $tcl->language->flagicon;
 		$localesstring .= "\tnplurals => ".$tcl->language->nplurals.",\n";
 		$localesstring .= "\trtl => ".($tcl->language->rtl ? 1 : 0).",\n";

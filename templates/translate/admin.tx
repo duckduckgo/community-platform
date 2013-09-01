@@ -11,7 +11,7 @@
 	<div class="body">
 		<: for results($latest_comments) -> $comment { :>
 			<div class="row">
-				<img src="<: $comment.get_context_obj.token_domain_language.language.flag_url :>" />
+				<: i($comment.get_context_obj.token_domain_language.language,'flag') :>
 				<: $comment.get_context_obj.token_domain_language.language.name_in_english :>
 				<: include "comment/teaser.tx" { comment => $comment } :>
 			</div>

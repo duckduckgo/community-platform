@@ -126,7 +126,7 @@ sub flag_filename {
 
 sub flag_url {
 	my ( $self, $size ) = @_;
-	$size = 16 unless $size;
+	$size = 24 unless $size;
 	'/country_flag/'.$size.'/'.$self->country_code.'.png';
 }
 

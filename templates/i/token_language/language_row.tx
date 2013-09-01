@@ -1,6 +1,6 @@
 <div class="row mid">
   <a href="<: $u('Translate','tokenlanguage',$_.id) :>">
-      <img src="<: $_.token_domain_language.language.flag_url :>" class="flag" />
+      <: i($_.token_domain_language.language,'flag') :>
       <span class="label"><: $_.token_domain_language.language.name_in_english :> [<: $_.token_domain_language.language.locale :>]</span>
   </a>
 </div>
