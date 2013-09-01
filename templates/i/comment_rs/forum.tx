@@ -13,6 +13,7 @@
         <div class="forum-item">
           <a class="forum-item__title" href="<: $u($comment.u) :>">
             <: i($context_obj,'label_thread') :>
+            (<: $comment.get_column('comments_count') :> Comments)
           </a>
           <span class="thread-icons">
             <: if $context_obj.readonly { :><i class="thread-icon  icon-lock" title="This thread is read-only"></i><: } :>

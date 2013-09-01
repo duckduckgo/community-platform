@@ -51,6 +51,8 @@ has db => (
 		user_blogs_rs
 		blog
 		save_notifications
+		defaultcycle_comments
+		defaultcycle_blogthreads
 	),qw(
 		create_related
 		find_related

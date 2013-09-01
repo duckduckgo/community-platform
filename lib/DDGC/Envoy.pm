@@ -39,21 +39,38 @@ sub update_notifications {
 sub _resultset_update_notifications {
 	my ( $self, @events ) = @_;
 	return unless @events;
-	my %languages = map { $_->id => $_->locale } $self->ddgc->rs('Language')->search({})->all;
+	my @language_results = $self->ddgc->rs('Language')->search_rs({})->all;
+	my ( $english ) = grep { $_->locale eq 'en_US'} @language_results;
+	my %languages = map { $_->id => $_->locale } @language_results;
 	for my $event (@events) {
 		my $own_context = $event->context;
 		my $own_context_id = $event->context_id;
 		my @related = $event->related ? @{$event->related} : ();
 		my @language_ids;
 		my @queries = (
-			{ context => $own_context, context_id => { '=' => [ $own_context_id, undef ] }, sub_context => undef },
+			{
+				'me.context' => $own_context,
+				'me.context_id' => { '=' => [ $own_context_id, undef ] },
+				'me.sub_context' => undef
+			},
 			map {
 				my ( $context, $context_id ) = @{$_};
-				push @language_ids, $context_id if $context eq 'DDGC::DB::Result::Language';
-				{ context => $context, context_id => { '=' => [ $context_id, undef ] }, sub_context => $own_context },
+				if ($context eq 'DDGC::DB::Result::Language') {
+					push @language_ids, $context_id unless $context_id != $english->id;
+				}
+				{
+					'me.context' => $context,
+					'me.context_id' => { '=' => [ $context_id, undef ] },
+					'me.sub_context' => $own_context
+				},
+				{
+					'me.context' => $context,
+					'me.context_id' => { '=' => [ $context_id, undef ] },
+					'me.sub_context' => undef
+				},
 			} @related
 		);
-		my @user_notifications = $self->ddgc->db->resultset('User::Notification')->search({
+		my @user_notifications = $self->ddgc->db->resultset('User::Notification')->search_rs({
 			-or => [@queries],
 		})->all;
 		for my $un (@user_notifications) {

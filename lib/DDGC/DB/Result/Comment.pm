@@ -89,6 +89,13 @@ sub comments { shift->children_rs }
 
 after insert => sub {
 	my ( $self ) = @_;
+	if ($self->user->defaultcycle_comments > 0) {
+		$self->user->create_related('user_notifications',{
+			context => 'DDGC::DB::Result::Comment',
+			context_id => $self->id,
+			cycle => $self->user->defaultcycle_comments,
+		});
+	}
 	$self->add_event('insert');
 };
 

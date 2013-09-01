@@ -33,6 +33,8 @@ column context_id => {
 with 'DDGC::DB::Role::HasContext';
 ###########
 
+__PACKAGE__->add_context_relations;
+
 column created => {
   data_type => 'timestamp with time zone',
   set_on_create => 1,

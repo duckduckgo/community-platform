@@ -62,7 +62,7 @@ sub add_context_relations {
   my ( $class ) = @_;
   die $class." doesnt have context and context_id"
   	unless $class->can('context') && $class->can('context_id');
-  for my $context_class (keys %{$class->context_config}) {
+  for my $context_class (sort { $a cmp $b } keys %{$class->context_config}) {
   	next if $context_class eq $class;
   	my $config = $class->context_config->{$context_class};
 	  $class->belongs_to($config->{relation}, $context_class, sub {{
@@ -104,13 +104,15 @@ sub add_event {
 		push @{$event{related}}, @{$related};
 	}
 	$event{data} = \%args if %args;
-	my $event_result = $self->result_source->schema->resultset('Event')->create({ %event });
-	for (@{$event{related}}) {
-		$event_result->create_related('event_relates',{
-			context => $_->[0],
-			context_id => $_->[1],
-		});
-	}
+	$self->ddgc->db->txn_do(sub {
+		my $event_result = $self->result_source->schema->resultset('Event')->create({ %event });
+		for (@{$event{related}}) {
+			$event_result->create_related('event_relates',{
+				context => $_->[0],
+				context_id => $_->[1],
+			});
+		}
+	});
 }
 
 sub has_context {
@@ -124,7 +126,9 @@ sub comments {
 		'me.context' => $self->i_context,
 		'me.context_id' => $self->i_context_id,
 		'me.parent_id' => undef,
-	});
+	},{
+		order_by => { -desc => [qw( me.updated )] },
+	})->prefetch_tree;
 }
 
 sub i_context {

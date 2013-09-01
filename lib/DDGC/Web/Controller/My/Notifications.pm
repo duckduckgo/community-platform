@@ -27,8 +27,12 @@ sub base :Chained('/my/logged_in') :PathPart('notifications') :CaptureArgs(0) {
 			};
 			$i++;
 		}
+		$c->user->defaultcycle_comments($c->req->param('defaultcycle_comments')) if defined $c->req->param('defaultcycle_comments');
+		$c->user->defaultcycle_blogthreads($c->req->param('defaultcycle_blogthreads')) if defined $c->req->param('defaultcycle_blogthreads');
 		$c->user->save_notifications(@notifications);
 	}
+	$c->stash->{defaultcycle_comments} = $c->user->defaultcycle_comments;
+	$c->stash->{defaultcycle_blogthreads} = $c->user->defaultcycle_blogthreads;
 	$c->stash->{user_notifications} = [$c->user->user_notifications];
 }
 

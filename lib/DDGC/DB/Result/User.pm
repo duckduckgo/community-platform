@@ -83,6 +83,13 @@ column roles => {
 	default_value => '',
 };
 
+around data => sub {
+	my ( $orig, $self, @args ) = @_;
+	my $data = $orig->($self,@args);
+	$data = {} unless $data;
+	return $data;
+};
+
 # WORKAROUND
 sub db { return shift; }
 
@@ -196,6 +203,22 @@ sub last_comments {
 		) : () ),
 		prefetch => 'user',
 	});
+}
+
+sub defaultcycle_comments {
+	my ( $self, $value ) = @_;
+	$self->data->{defaultcycle_comments} = $value if defined $value;
+	defined $self->data->{defaultcycle_comments}
+		? $self->data->{defaultcycle_comments}
+		: 2
+}
+
+sub defaultcycle_blogthreads {
+	my ( $self, $value ) = @_;
+	$self->data->{defaultcycle_blogthreads} = $value if defined $value;
+	defined $self->data->{defaultcycle_blogthreads}
+		? $self->data->{defaultcycle_blogthreads}
+		: 3
 }
 
 sub save_notifications {

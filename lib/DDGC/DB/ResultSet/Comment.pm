@@ -7,12 +7,21 @@ use namespace::autoclean;
 
 sub grouped_by_context {
 	my ( $self ) = @_;
-  my $comment_context_rs = $self->schema->resultset('Comment::Context')->search({},{
+  my $comment_context_rs = $self->schema->resultset('Comment::Context')->search_rs({},{
     select => [qw( latest_comment_id )],
     alias => 'comment_context',
   });
 	$self->search_rs({
     'me.id' => { -in => $comment_context_rs->as_query },
+  },{
+    '+columns' => {
+      comments_count => $self->schema->resultset('Comment')->search_rs({
+        'comments_count.context' => { -ident => 'me.context' },
+        'comments_count.context_id' => { -ident => 'me.context_id' },
+      },{
+        alias => 'comments_count',
+      })->count_rs->as_query
+    }
   });
 }
 

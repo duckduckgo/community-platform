@@ -44,6 +44,8 @@ column context_id => {
 with 'DDGC::DB::Role::HasContext';
 ###########
 
+__PACKAGE__->add_context_relations;
+
 # replaced by ::Result::Event::Relate
 column related => {
 	data_type => 'text',
