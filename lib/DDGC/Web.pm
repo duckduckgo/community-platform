@@ -178,6 +178,7 @@ sub table {
 	my $class = defined $args{class}
 		? delete $args{class}
 		: "DDGC::Web::Table";
+	use DDP; p(%args);
 	return $class->new(
 		c => $c,
 		u => $u,

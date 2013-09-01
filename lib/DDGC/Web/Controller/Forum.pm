@@ -20,7 +20,9 @@ sub set_grouped_comments {
   $c->stash->{grouped_comments} = $c->table(
     $rs->search_rs({},{
       order_by => { -desc => 'me.created' },
-    }),['Forum',$action],[],default_pagesize => 15,
+    }),['Forum',$action],[],
+    default_pagesize => 15,
+    id => 'forum_threadlist_'.$action,
   );
 }
 
