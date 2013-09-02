@@ -14,18 +14,20 @@
           <a class="forum-item__title  group" href="<: $u($comment.u) :>">
             <: i($context_obj,'label_thread') :>
           </a>
-          <span class="thread-icons">
-            <: if $context_obj.readonly { :><i class="thread-icon  icon-lock" title="This thread is read-only"></i><: } :>
-            <: if $context_obj.done { :><i class="thread-icon--good  icon-ok" title="This thread is complete"></i><: } :>
-            <: if $context_obj.sticky { :><i class="thread-icon--stuck  icon-pushpin" title="Stuck Thread"></i><: } :>
-          </span>
+          <: if $comment.context == 'DDGC::DB::Result::Thread' { :>
+            <span class="thread-icons">
+              <: if $context_obj.readonly { :><i class="thread-icon  icon-lock" title="This thread is read-only"></i><: } :>
+              <: if $context_obj.done { :><i class="thread-icon--good  icon-ok" title="This thread is complete"></i><: } :>
+              <: if $context_obj.sticky { :><i class="thread-icon--stuck  icon-pushpin" title="Stuck Thread"></i><: } :>
+            </span>
+          <: } :>
         
           <div class="gw">
             <div class="g third">
                 <span class="comment-meta">
-                    <: if $context_obj.user { :>
+                    <: if $context_obj.can('user') && $context_obj.user { :>
                       by <: i($context_obj.user,'username') :> &bull; <: $dur($context_obj.created) :>
-                    <: } else if $context_obj.token{ :> 
+                    <: } elsif $context_obj.can('token') && $context_obj.token { :> 
                        <i>Translation</i>
                     <: } :>
                     &bull; <: $comment.get_column('comments_count') :> Comment<: if $comment.get_column('comments_count') != 1 { :>s<: } :>

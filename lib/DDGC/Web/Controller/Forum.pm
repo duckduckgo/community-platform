@@ -34,6 +34,12 @@ sub index : Chained('base') PathPart('') Args(0) {
   $self->set_grouped_comments($c,'index',$c->d->forum->comments_grouped_threads);
 }
 
+sub ideas : Chained('base') Args(0) {
+  my ( $self, $c ) = @_;
+  $c->add_bc("Latest idea comments");
+  $self->set_grouped_comments($c,'ideas',$c->d->forum->comments_grouped_ideas);
+}
+
 sub all : Chained('base') Args(0) {
   my ( $self, $c ) = @_;
   $c->add_bc("Latest comments");
@@ -42,8 +48,14 @@ sub all : Chained('base') Args(0) {
 
 sub blog : Chained('base') Args(0) {
   my ( $self, $c ) = @_;
-  $c->add_bc("Latest blog comments");
-  $self->set_grouped_comments($c,'blog',$c->d->forum->comments_grouped_blog);
+  $c->add_bc("Latest company blog comments");
+  $self->set_grouped_comments($c,'blog',$c->d->forum->comments_grouped_company_blog);
+}
+
+sub user_blog : Chained('base') Args(0) {
+  my ( $self, $c ) = @_;
+  $c->add_bc("Latest user blog comments");
+  $self->set_grouped_comments($c,'user_blog',$c->d->forum->comments_grouped_user_blog);
 }
 
 sub translation : Chained('base') Args(0) {
@@ -79,21 +91,17 @@ sub thread_id : Chained('thread_view') PathPart('thread') CaptureArgs(1) {
     $c->response->redirect($c->chained_uri('Forum','index',{ thread_notfound => 1 }));
     return $c->detach;
   }
-  $c->add_bc($c->stash->{thread}->title,$c->chained_uri('Forum','thread',
-    $c->stash->{thread}->id,$c->stash->{thread}->key));
+  $c->add_bc($c->stash->{thread}->title,$c->chained_uri(@{$c->stash->{thread}->u}));
 }
 
 sub thread_redirect : Chained('thread_id') PathPart('') Args(0) {
   my ( $self, $c ) = @_;
-  $c->response->redirect($c->chained_uri('Forum','thread',
-    $c->stash->{thread}->id,$c->stash->{thread}->key));
+  $c->response->redirect($c->chained_uri(@{$c->stash->{thread}->u}));
   return $c->detach;
 }
 
 sub thread : Chained('thread_id') PathPart('') Args(1) {
   my ( $self, $c, $key ) = @_;
-  $c->bc_index;
-
   if (defined $c->req->params->{close} && $c->user->admin) {
     $c->stash->{thread}->readonly($c->req->params->{close});
     $c->stash->{thread}->update;
@@ -102,11 +110,11 @@ sub thread : Chained('thread_id') PathPart('') Args(1) {
     $c->stash->{thread}->sticky($c->req->params->{sticky});
     $c->stash->{thread}->update;
   }
-
   unless ($c->stash->{thread}->key eq $key) {
-    $c->response->redirect($c->chained_uri('Forum','thread',
-      $c->stash->{thread}->id,$c->stash->{thread}->key));
+    $c->response->redirect($c->chained_uri(@{$c->stash->{thread}->u}));
+    return $c->detach;
   }
+  $c->bc_index;
   $c->stash->{no_reply} = 1 if $c->stash->{thread}->readonly;
 }
 
@@ -125,64 +133,6 @@ sub comment_id : Chained('thread_view') PathPart('comment') CaptureArgs(1) {
 sub comment : Chained('comment_id') PathPart('') Args(0) {
   my ( $self, $c ) = @_;
   $c->bc_index;
-}
-
-# /forum/thread/edit/$id
-sub edit : Chained('thread') Args(0) {
-  my ( $self, $c ) = @_;
-  push @{$c->stash->{breadcrumb}}, ('Edit');
-}
-
-sub update : Chained('thread') Args(0) {
-  my ( $self, $c ) = @_;
-  return unless $c->stash->{is_owner} && $c->req->params->{text};
-  $c->stash->{thread}->text($c->req->params->{text});
-  $c->stash->{thread}->update;
-  $c->response->redirect($c->chained_uri('Forum','view',$c->stash->{thread}->url));
-}
-
-sub status : Chained('thread') Args(0) {
-  my ( $self, $c ) = @_;
-  return unless $c->stash->{is_owner} && exists $c->req->params->{status};
-  my %statuses = reverse $c->stash->{thread}->statuses('hash');
-  return unless exists $statuses{lc($c->req->params->{status})} || $c->req->params->{status} == 0 || $c->req->params->{status} == 1;
-  my $category = $c->stash->{thread}->category_key;
-  my %data = $c->stash->{thread}->data ? %{$c->stash->{thread}->data} : ();
-
-  my $status = $statuses{lc($c->req->params->{status})} ? $statuses{lc($c->req->params->{status})} : $c->req->params->{status};
-
-  $data{"${category}_status_id"} = $status;
-  $c->stash->{thread}->data(\%data);
-  $c->stash->{thread}->update;
-  $c->response->redirect($c->chained_uri('Forum','view',$c->stash->{thread}->url));
-}
-
-# /forum/newthread
-sub newthread : Chained('base') Args(0) {
-    my ( $self, $c ) = @_;
-    $c->add_bc("New Thread");
-
-    if ($c->req->params->{post_thread} && (!$c->req->params->{title} || !$c->req->params->{text})) {
-        $c->stash->{error} = 'One or more fields were empty.';
-    } elsif ($c->req->params->{post_thread}) {
-        my $thread = $c->d->forum->add_thread(
-            $c->user,
-            $c->req->params->{text},
-            title => $c->req->params->{title},
-        );
-        $c->response->redirect($c->chained_uri(@{$thread->u}));
-        return $c->detach;
-    }
-}
-
-sub delete : Chained('base') Args(1) {
-    my ( $self, $c, $id ) = @_;
-    my $thread = $c->d->rs('Thread')->single({ id => $id });
-    return unless $thread;
-    return unless $c->user && ($c->user->admin || $c->user->id == $thread->user->id);
-    $c->d->rs('Comment')->search({ context => "DDGC::DB::Result::Thread", context_id => $id })->delete();
-    $thread->delete();
-    $c->response->redirect($c->chained_uri('Forum','index'));
 }
 
 1;

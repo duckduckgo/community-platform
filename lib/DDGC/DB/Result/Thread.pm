@@ -11,6 +11,8 @@ use namespace::autoclean;
 table 'thread';
 
 sub u { [ 'Forum', 'thread', $_[0]->id, $_[0]->key ] }
+sub u_edit { [ 'Forum::My', 'edit', $_[0]->id ] }
+sub u_delete { [ 'Forum::My', 'delete', $_[0]->id ] }
 
 column id => {
 	data_type => 'bigint',
@@ -45,7 +47,7 @@ column title => {
 column data => {
 	data_type => 'text',
 	is_nullable => 1,
-	serializer_class => 'YAML',
+	serializer_class => 'JSON',
 };
 
 column sticky => {
@@ -80,13 +82,26 @@ column updated => {
 };
 
 belongs_to 'user', 'DDGC::DB::Result::User', 'users_id';
-belongs_to 'comment', 'DDGC::DB::Result::Comment', 'comment_id', { join_type => 'left' };
+belongs_to 'comment', 'DDGC::DB::Result::Comment', 'comment_id', { 
+	on_delete => 'no action',
+	join_type => 'left'
+};
 
 before insert => sub {
 	my ( $self ) = @_;
 	unless ($self->key) {
 		$self->key($self->get_url);
 	}
+};
+
+after insert => sub {
+	my ( $self ) = @_;
+	$self->add_event('insert');
+};
+
+after update => sub {
+	my ( $self ) = @_;
+	$self->add_event('update');
 };
 
 sub comments {

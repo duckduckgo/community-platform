@@ -47,6 +47,7 @@ sub login :Chained('logged_out') :Args(0) {
 	$c->add_bc($c->stash->{title}, '');
 
 	$c->stash->{no_userbox} = 1;
+	$c->stash->{register_successful} = $c->req->params->{register_successful};
 
 	my $last_url = $c->session->{last_url};
 	my $login_url = $c->chained_uri('My','login');

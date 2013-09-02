@@ -19,7 +19,7 @@
             <a class="right  js-thread-reply  no-js-hide" href="#"><i class="thread__foot__icon  icon-reply"></i>Reply</a>
             <a class="right  js-thread-cancel  no-js-hide  hide" href="#"><i class="thread__foot__icon  icon-remove"></i>Cancel</a>
         <: } :>
-        <: if $c.user.admin { :>
+        <: if $c.user.admin and $_.context == 'DDGC::DB::Result::Thread' { :>
             <: if !$_.get_context_obj.readonly { :>
                 <a class="right" href="<: $u($_.u) :>?close=1"><i class="thread__foot__icon  icon-lock"></i> Close</a>
             <: } else { :>
@@ -32,7 +32,10 @@
             <: } :>
         <: } :>
         <: if ($c.user.admin or $c.user.id == $_.user.id) { :>
-            <a class="right" href="<: $u('Comment','delete',$_.id) :>"><i class="thread__foot__icon  icon-trash"></i> Delete</a>
+            <a class="right" href="<: $u('Comment','delete',$_.id) :>"><i class="thread__foot__icon  icon-remove"></i> Delete</a>
+            <: if $_.context == 'DDGC::DB::Result::Thread' && !$_.parent_id { :>
+                <a class="right" href="<: $u($_.get_context_obj.u_edit) :>"><i class="thread__foot__icon  icon-edit"></i> Edit</a>
+            <: } :>
         <: } :>
        </div>
     </div>

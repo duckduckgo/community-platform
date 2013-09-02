@@ -1,0 +1,1 @@
+<: include "forum/my/thread_form.tx" { form_title => "Edit Thread" } :>

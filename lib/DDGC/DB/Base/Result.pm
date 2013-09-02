@@ -70,6 +70,7 @@ sub add_context_relations {
 	    "$_[0]->{self_alias}.context" => $context_class,
 	  }}, {
 	    join_type => 'left',
+	    on_delete => 'no action',
 	  });
   }
 }

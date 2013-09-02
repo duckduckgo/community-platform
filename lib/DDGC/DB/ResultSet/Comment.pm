@@ -42,7 +42,7 @@ sub prefetch_all {
 sub prefetch_tree {
   my ( $self ) = @_;
   my $next = my $start = {}; for (1..9) { my $children = ['user', {}]; $next->{children} = $children; $next = $children->[1] } $next->{children} = $next->{children}->[0];
-  $self->search_rs({},{ prefetch => $start });
+  $self->search_rs({},{ prefetch => ['parent',$start] });
 }
 
 sub schema { shift->result_source->schema }

@@ -36,11 +36,17 @@ sub comments_grouped_translation { $_[0]->comments_grouped_in(
 ) }
 
 sub context_blog {qw(
-	DDGC::DB::Result::Blog
+	DDGC::DB::Result::User::Blog
 )}
 sub comments_grouped_blog { $_[0]->comments_grouped_in(
 	$_[0]->context_blog
 ) }
+sub comments_grouped_company_blog {
+	$_[0]->comments_grouped_blog->search_rs({ 'user_blog.company_blog' => 1 })
+}
+sub comments_grouped_user_blog {
+	$_[0]->comments_grouped_blog->search_rs({ 'user_blog.company_blog' => 0 })
+}
 
 sub comments_grouped_not_in { shift->comments_grouped->search_rs({
 	'me.context' => { -not_in => [@_] },

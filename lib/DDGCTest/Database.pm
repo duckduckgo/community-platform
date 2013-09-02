@@ -108,7 +108,7 @@ sub next_step {
 
 sub step_count {
 	my ( $self ) = @_;
-	my $base = 1542;
+	my $base = 1557;
 	return $base unless $self->test;
 }
 
@@ -1153,6 +1153,43 @@ sub blogs {{
 			content => 'Ohter This is a content',
 			topics => ['Another Topic'],
 			company_blog => 1,
+			comments => [
+				testtwo => [ "Deep This is another awesome!",
+					testone => 'Deep Ok, you are another right',
+					testthree => "Deep Ugh another ugh!",
+					testfour => [ "Deep Comment on another me!",
+						testone => [ 'Deeeeper',
+							testone => "Deeeeeeeper",
+						],
+						testtwo => [ 'Deeeeeeeeeper',
+							testtwo => "Deeeeeeeeeeeeper",
+						],
+					],
+				],
+			],
+		},
+	],
+	testthree => [
+		'test-three' => {
+			title => 'Test One',
+			teaser => 'This is a three',
+			content => 'This is a three',
+			topics => ['Topic','Another Topic'],
+			comments => [
+				testtwo => [ "This is another awesome!",
+					testone => 'Ok, you are another right',
+					testthree => "Ugh another ugh!",
+					testfour => [ "Comment on another me!",
+						testone => 'another oookkk',
+					],
+				],
+			],
+		},
+		'my-other-test-three' => {
+			title => 'Ohter Test three',
+			teaser => 'Ohter This is a three',
+			content => 'Ohter This is a three',
+			topics => ['Another Topic'],
 			comments => [
 				testtwo => [ "Deep This is another awesome!",
 					testone => 'Deep Ok, you are another right',
