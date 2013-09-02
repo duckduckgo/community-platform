@@ -7,13 +7,29 @@ BEGIN { extends 'Catalyst::Controller'; }
 sub base :Chained('/base') :PathPart('idea') :CaptureArgs(0) {
   my ( $self, $c ) = @_;
   $self->add_bc('Instant Answer Ideas',$c->chained_uri('Forum::Idea','index'));
+  $c->stash->{ideas} = $c->d->rs('Idea')->search_rs({},{
+    order_by => { -desc => 'me.created' },
+  });
 }
 
 sub index :Chained('base') :PathPart('') :Args(0) {
-  my ( $self, $c ) = @_;  
+  my ( $self, $c ) = @_;
 }
 
-# /forum/idea/$id
+sub type :Chained('base') :Args(1) {
+  my ( $self, $c, $type ) = @_;
+  $c->stash->{ideas} = $c->stash->{ideas}->search_rs({
+    type => $type,
+  });
+}
+
+sub status :Chained('base') :Args(1) {
+  my ( $self, $c, $status ) = @_;
+  $c->stash->{ideas} = $c->stash->{ideas}->search_rs({
+    status => $status
+  });
+}
+
 sub idea_id : Chained('base') PathPart('idea') CaptureArgs(1) {
   my ( $self, $c, $id ) = @_;
   $c->stash->{idea} = $c->d->rs('Idea')->find($id);
@@ -35,13 +51,12 @@ sub idea : Chained('idea_id') PathPart('') Args(1) {
   $c->bc_index;
   unless ($c->stash->{idea}->key eq $key) {
     $c->response->redirect($c->chained_uri(@{$c->stash->{idea}->u}));
+    return $c->detach;
   }
 }
 
-# /forum/thread/edit/$id
 sub idea_edit : Chained('idea_id') Args(0) {
   my ( $self, $c ) = @_;
-  push @{$c->stash->{breadcrumb}}, ('Edit');
 }
 
 sub idea_vote :Chained('idea_id') :CaptureArgs(1) {
@@ -49,7 +64,7 @@ sub idea_vote :Chained('idea_id') :CaptureArgs(1) {
   $c->stash->{idea}->set_user_vote($c->user,0+$vote);
 }
 
-sub idea_vote_view :Chained('vote') :PathPart('') :Args(0) {
+sub idea_vote_view :Chained('idea_vote') :PathPart('') :Args(0) {
   my ( $self, $c ) = @_;
   $c->stash->{x} = {
     vote_count => $c->stash->{idea}->vote_count

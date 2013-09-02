@@ -43,18 +43,19 @@ sub html { $_[0]->ddgc->markup->html($_[0]->content) }
 column data => {
   data_type => 'text',
   is_nullable => 1,
-  serializer_class => 'YAML',
+  serializer_class => 'JSON',
 };
 
-sub zci_types {{
+sub types {{
   0 => "I don't know...",
   1 => "Fathead (keyword data)",
   2 => "Goodie (Perl functions)",
   3 => "Spice (API calls)",
   4 => "Longtail (full-text data)",
+  5 => "Internal",
 }}
 
-column zci_type => {
+column type => {
   data_type => 'int',
   default_value => 0,
 };
@@ -119,6 +120,16 @@ sub vote_count {
   my ( $self ) = @_;
   return $self->old_vote_count + $self->idea_votes->count
 }
+
+after insert => sub {
+  my ( $self ) = @_;
+  $self->add_event('insert');
+};
+
+after update => sub {
+  my ( $self ) = @_;
+  $self->add_event('update');
+};
 
 before insert => sub {
   my ( $self ) = @_;

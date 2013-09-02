@@ -84,6 +84,7 @@ sub deploy {
 	$self->add_threads;
 	$self->add_comments;
 	$self->add_blogs;
+	$self->add_ideas;
 	$self->d->envoy->update_own_notifications;
 	if ($self->test) {
 		$self->test_userpage;
@@ -108,7 +109,7 @@ sub next_step {
 
 sub step_count {
 	my ( $self ) = @_;
-	my $base = 1557;
+	my $base = 1549;
 	return $base unless $self->test;
 }
 
@@ -1137,15 +1138,7 @@ sub blogs {{
 			content => 'This is a content',
 			topics => ['Topic','Another Topic'],
 			company_blog => 1,
-			comments => [
-				testtwo => [ "This is another awesome!",
-					testone => 'Ok, you are another right',
-					testthree => "Ugh another ugh!",
-					testfour => [ "Comment on another me!",
-						testone => 'another oookkk',
-					],
-				],
-			],
+			comments => [],
 		},
 		'my-other-test-one' => {
 			title => 'Ohter Test One',
@@ -1175,15 +1168,7 @@ sub blogs {{
 			teaser => 'This is a three',
 			content => 'This is a three',
 			topics => ['Topic','Another Topic'],
-			comments => [
-				testtwo => [ "This is another awesome!",
-					testone => 'Ok, you are another right',
-					testthree => "Ugh another ugh!",
-					testfour => [ "Comment on another me!",
-						testone => 'another oookkk',
-					],
-				],
-			],
+			comments => [],
 		},
 		'my-other-test-three' => {
 			title => 'Ohter Test three',
@@ -1211,7 +1196,7 @@ sub blogs {{
 sub add_blogs {
 	my ( $self ) = @_;
 	$self->c->{blogs} = {};
-	for my $username (keys %{$self->blogs}) {
+	for my $username (sort { $a cmp $b } keys %{$self->blogs}) {
 		my $user = $self->c->{users}->{$username};
 		my @posts = @{$self->blogs->{$username}};
 		$self->c->{blogs}->{$username} = {};
@@ -1228,6 +1213,52 @@ sub add_blogs {
 			$self->add_comments('DDGC::DB::Result::User::Blog', $blog->id, @comments);
 			$self->c->{blogs}->{$username}->{$uri} = $blog;
 		}
+	}
+}
+
+#############################
+#  ___    _
+# |_ _|__| | ___  __ _ ___
+#  | |/ _` |/ _ \/ _` / __|
+#  | | (_| |  __/ (_| \__ \
+# |___\__,_|\___|\__,_|___/
+#
+
+sub ideas {{
+	testone => [{
+			title => 'I Have A Dreamy Idea',
+			content => "Lalalalala",
+			type => 1,
+		},{
+			title => 'I Have Another Dreamy Idea',
+			content => "Lalalalala 2",
+			type => 2,
+			status => 3,
+			comments => [
+				testtwo => "Blabla",
+				testthree => "blub",
+			],
+		},
+	],
+}}
+
+sub add_ideas {
+	my ( $self ) = @_;
+	$self->c->{ideas} = {};
+	for my $username (sort { $a cmp $b } keys %{$self->ideas}) {
+		my $user = $self->c->{users}->{$username};
+		my @ideas = @{$self->ideas->{$username}};
+		my @results;
+		for my $idea (@ideas) {
+			my @comments = defined $idea->{comments}
+				? @{delete $idea->{comments}}
+				: ();
+			my $result_idea = $user->create_related( ideas => $idea );
+			$self->isa_ok($result_idea,'DDGC::DB::Result::Idea');
+			$self->next_step;
+			push @results, $result_idea;
+		}
+		$self->c->{ideas}->{$username} = \@results;
 	}
 }
 
