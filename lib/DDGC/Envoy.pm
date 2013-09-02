@@ -36,6 +36,11 @@ sub update_notifications {
 	})->all);
 }
 
+sub update_all_notifications {
+	my ( $self ) = @_;
+	$self->_resultset_update_notifications($self->ddgc->rs('Event')->search({})->all);
+}
+
 sub _resultset_update_notifications {
 	my ( $self, @events ) = @_;
 	return unless @events;

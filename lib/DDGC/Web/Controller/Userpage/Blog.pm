@@ -5,7 +5,7 @@ BEGIN { extends 'DDGC::Web::ControllerBase::Blog'; }
 
 use namespace::autoclean;
 
-sub index_title { 'Latest DuckDuckGo Blog posts' }
+sub index_title { 'Latest User Blog posts' }
 
 sub base :Chained('/userpage/user') :PathPart('blog') :CaptureArgs(0) {
 	my ( $self, $c ) = @_;

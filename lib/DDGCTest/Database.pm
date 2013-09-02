@@ -85,11 +85,16 @@ sub deploy {
 	$self->add_comments;
 	$self->add_blogs;
 	$self->add_ideas;
-	$self->d->envoy->update_own_notifications;
 	if ($self->test) {
+		$self->update_notifications;
 		$self->test_userpage;
 		$self->test_event;
 	}
+}
+
+sub update_notifications {
+	my ( $self ) = @_;
+	$self->d->envoy->update_all_notifications;
 }
 
 has current_step => (
@@ -109,7 +114,7 @@ sub next_step {
 
 sub step_count {
 	my ( $self ) = @_;
-	my $base = 1549;
+	my $base = 1557;
 	return $base unless $self->test;
 }
 
@@ -1229,6 +1234,7 @@ sub ideas {{
 			title => 'I Have A Dreamy Idea',
 			content => "Lalalalala",
 			type => 1,
+			votes => [qw( testtwo testthree test5 test6 test8 )],
 		},{
 			title => 'I Have Another Dreamy Idea',
 			content => "Lalalalala 2",
@@ -1238,6 +1244,7 @@ sub ideas {{
 				testtwo => "Blabla",
 				testthree => "blub",
 			],
+			votes => [qw( test5 test6 test8 )],
 		},
 	],
 }}
@@ -1253,10 +1260,18 @@ sub add_ideas {
 			my @comments = defined $idea->{comments}
 				? @{delete $idea->{comments}}
 				: ();
+			my @votes = defined $idea->{votes}
+				? @{delete $idea->{votes}}
+				: ();
 			my $result_idea = $user->create_related( ideas => $idea );
 			$self->isa_ok($result_idea,'DDGC::DB::Result::Idea');
 			$self->next_step;
 			push @results, $result_idea;
+			for (@votes) {
+				my $voteuser = $self->c->{users}->{$_};
+				$result_idea->set_user_vote($voteuser,1);
+				$self->next_step;
+			}
 		}
 		$self->c->{ideas}->{$username} = \@results;
 	}

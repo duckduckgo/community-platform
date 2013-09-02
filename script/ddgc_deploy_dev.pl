@@ -55,7 +55,7 @@ my $ddgc = DDGC->new({ config => $config });
 
 my $pr; 
 
-DDGCTest::Database->new($ddgc,0,sub {
+my $ddgc_test = DDGCTest::Database->new($ddgc,0,sub {
   print "\n";
   print "Filling database with test data\n";
   print "\n";
@@ -70,9 +70,14 @@ DDGCTest::Database->new($ddgc,0,sub {
 },sub {
 	$pr->update(shift);
 	$pr->write;
-})->deploy;
+});
+$ddgc_test->deploy;
 
 print "\n\n";
-print "done... You can start the development webserver with:\n\n";
+print "Updating notifications... (will take a while) ";
+$ddgc_test->update_notifications;
+print "done\n";
+print "\n";
+print "everything done... You can start the development webserver with:\n\n";
 print "script/ddgc_web_server.pl -r -d\n";
 print "\n";
