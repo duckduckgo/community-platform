@@ -93,10 +93,21 @@ sub thread_redirect : Chained('thread_id') PathPart('') Args(0) {
 sub thread : Chained('thread_id') PathPart('') Args(1) {
   my ( $self, $c, $key ) = @_;
   $c->bc_index;
+
+  if (defined $c->req->params->{close} && $c->user->admin) {
+    $c->stash->{thread}->readonly($c->req->params->{close});
+    $c->stash->{thread}->update;
+  }
+  if (defined $c->req->params->{sticky} && $c->user->admin) {
+    $c->stash->{thread}->sticky($c->req->params->{sticky});
+    $c->stash->{thread}->update;
+  }
+
   unless ($c->stash->{thread}->key eq $key) {
     $c->response->redirect($c->chained_uri('Forum','thread',
       $c->stash->{thread}->id,$c->stash->{thread}->key));
   }
+  $c->stash->{no_reply} = 1 if $c->stash->{thread}->readonly;
 }
 
 # /forum/comment/$id

@@ -19,8 +19,17 @@
             <a class="right  js-thread-reply  no-js-hide" href="#"><i class="thread__foot__icon  icon-reply"></i>Reply</a>
             <a class="right  js-thread-cancel  no-js-hide  hide" href="#"><i class="thread__foot__icon  icon-remove"></i>Cancel</a>
         <: } :>
-        <: if ($c.user.admin or $c.user.id == $_.user.id) { :>
-            <a class="right" href="#"><i class="thread__foot__icon  icon-lock"></i> Close</a>
+        <: if $c.user.admin { :>
+            <: if !$_.get_context_obj.readonly { :>
+                <a class="right" href="<: $u($_.u) :>?close=1"><i class="thread__foot__icon  icon-lock"></i> Close</a>
+            <: } else { :>
+                <a class="right" href="<: $u($_.u) :>?close=0"><i class="thread__foot__icon  icon-unlock"></i> Open</a>
+            <: } :>
+            <: if !$_.get_context_obj.sticky { :>
+                <a class="right" href="<: $u($_.u) :>?sticky=1"><i class="thread__foot__icon  icon-pushpin"></i> Sticky</a>
+            <: } else { :>
+                <a class="right" href="<: $u($_.u) :>?sticky=0"><i class="thread__foot__icon  icon-pushpin"></i> Un-stick</a>
+            <: } :>
         <: } :>
         <: if ($c.user.admin or $c.user.id == $_.user.id) { :>
             <a class="right" href="<: $u('Comment','delete',$_.id) :>"><i class="thread__foot__icon  icon-trash"></i> Delete</a>
