@@ -6,7 +6,7 @@ BEGIN { extends 'Catalyst::Controller'; }
 
 sub base :Chained('/base') :PathPart('idea') :CaptureArgs(0) {
   my ( $self, $c ) = @_;
-  $self->add_bc('Instant Answer Ideas',$c->chained_uri('Forum::Idea','index'));
+  $self->add_bc('Instant Answer Ideas',$c->chained_uri('Idea','index'));
   $c->stash->{ideas} = $c->d->rs('Idea')->search_rs({},{
     order_by => { -desc => 'me.created' },
   });
@@ -34,7 +34,7 @@ sub idea_id : Chained('base') PathPart('idea') CaptureArgs(1) {
   my ( $self, $c, $id ) = @_;
   $c->stash->{idea} = $c->d->rs('Idea')->find($id);
   unless ($c->stash->{idea}) {
-    $c->response->redirect($c->chained_uri('Forum','ideas',{ idea_notfound => 1 }));
+    $c->response->redirect($c->chained_uri('Idea','index',{ idea_notfound => 1 }));
     return $c->detach;
   }
   $c->add_bc($c->stash->{idea}->title,$c->chained_uri(@{$c->stash->{idea}->u}));

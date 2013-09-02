@@ -48,6 +48,30 @@ sub country_flag :Chained('base') :Args(2) {
 	$c->serve_static_file($country->flag($size));
 }
 
+sub generated_css :Chained('base') :Args(1) {
+	my ( $self, $c, $filename ) = @_;
+	my $file = file($c->d->config->cachedir,'generated_css',$filename)->stringify;
+	if (-f $file) {
+		$c->serve_static_file($file);
+		return;
+	}
+	$c->response->status(404);
+	$c->response->body("Not found");
+	return $c->detach;
+}
+
+sub generated_images :Chained('base') :Args(1) {
+	my ( $self, $c, $filename ) = @_;
+	my $file = file($c->d->config->cachedir,'generated_images',$filename)->stringify;
+	if (-f $file) {
+		$c->serve_static_file($file);
+		return;
+	}
+	$c->response->status(404);
+	$c->response->body("Not found");
+	return $c->detach;
+}
+
 sub media :Chained('base') :Args {
 	my ( $self, $c, @args ) = @_;
 	my $filename = join("/",@args);
