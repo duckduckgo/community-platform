@@ -1,3 +1,2 @@
-<: my $size = $flag_size || 24 :>
-<: my $height = floor($size * 0.68) :>
-<img src="<: $u('Root','country_flag',$size,$_.country_code ~ '.png') :>" alt="flag" class="flag" width="<: $size :>" height="<: $height :>">
+<: my $size = $flag_size || 16 :>
+<i class="flag-<: $size :>--<: $_.country_code :>"></i>
