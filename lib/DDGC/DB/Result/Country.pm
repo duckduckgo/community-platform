@@ -133,10 +133,10 @@ sub flag_url {
 sub flag {
 	my ( $self, $size ) = @_;
 	if (-f $self->flag_filename) {
-		my $stat = stat($self->flag_filename);
-		if (DateTime->from_epoch( epoch => $stat->mtime ) < $self->updated) {
-			$self->write_flag_to($self->flag_filename);
-		}
+		# my $stat = stat($self->flag_filename);
+		# if (DateTime->from_epoch( epoch => $stat->mtime ) < $self->updated) {
+		# 	$self->write_flag_to($self->flag_filename);
+		# }
 	} else {
 		$self->write_flag_to($self->flag_filename);
 	}
