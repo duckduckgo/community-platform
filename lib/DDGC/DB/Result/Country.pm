@@ -133,16 +133,23 @@ sub flag_url {
 sub flag {
 	my ( $self, $size ) = @_;
 	if (-f $self->flag_filename) {
-		# my $stat = stat($self->flag_filename);
-		# if (DateTime->from_epoch( epoch => $stat->mtime ) < $self->updated) {
-		# 	$self->write_flag_to($self->flag_filename);
-		# }
+		my $stat = stat($self->flag_filename);
+		if (DateTime->from_epoch( epoch => $stat->mtime ) < $self->updated) {
+			$self->write_flag_to($self->flag_filename);
+		}
 	} else {
 		$self->write_flag_to($self->flag_filename);
 	}
 	my $filename = file($self->ddgc->config->cachedir,'flag_'.$self->country_code.'.'.$size.'.png')->stringify;
 	$size = $size - 2;
 	return unless $size > 0;
+	if (-f $filename) {
+		my $sized_stat = stat($filename);
+		if (DateTime->from_epoch( epoch => $sized_stat->mtime ) < $self->updated) {
+			unlink($filename);
+		}
+	}
+	return $filename if -f $filename;
 	my ( $in, $out, $err );
 	run [ convert => (
 		$self->flag_filename,
