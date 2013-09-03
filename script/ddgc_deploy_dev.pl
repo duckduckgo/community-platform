@@ -79,5 +79,6 @@ $ddgc_test->update_notifications;
 print "done\n";
 print "\n";
 print "everything done... You can start the development webserver with:\n\n";
-print "script/ddgc_web_server.pl -r -d\n";
-print "\n";
+print "  script/ddgc_web_server.pl -r -d\n\n";
+print "or generate new flag sprites with:\n\n";
+print "  script/ddgc_generate_flag_sprites.pl\n\n";

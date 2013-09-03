@@ -32,13 +32,14 @@ sub index :Chained('base') :PathPart('') :Args(0) {
 	},{
 		prefetch => {
 			tokens => {
-				token_languages => {
+				token_languages => [qw( token ),{
+					token_domain_language => [qw( token_domain language )],
 					token_language_translations => [qw( user )],
-				},
+				}],
 			},
 		},
 		order_by => [ qw( tokens.msgid )],
-	})->sorted;
+	});
 }
 
 __PACKAGE__->meta->make_immutable;

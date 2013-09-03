@@ -27,11 +27,21 @@ reset it:
 
   script/ddgc_deploy_dev.pl --kill
 
+For the flags to work you need to generate the sprites used for the flags. This
+process has to be repeated everytime the country flags are changing.
+
+  script/ddgc_generate_flag_sprites.pl
+
 =head2 DEVELOPING
 
 You can start the web server, if you are inside the repository with:
 
   script/ddgc_web_server.pl -r -d
+
+If you want todo any of the above activities with intense debug logging you can
+use the following ENV variables before the command, like in this example:
+
+  DBIC_TRACE_PROFILE=console DBIC_TRACE=1 script/ddgc_web_server.pl -r -d
 
 The B<-r> switch assures that it reloads itself, if some of the codefiles are
 changed. For changes on templates he will not restart. (If you work on the blog
