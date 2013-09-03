@@ -12,6 +12,11 @@
     <div class="row">
       <: r($_.html) :> 
     </div>
+    <: if $_.source { :>
+      <div class="row">
+        <b>Source:</b><: $_.source :> 
+      </div>
+    <: } :>
     <div class="row">
       <: i($_,'status') :>
       <: i($_,'type') :>

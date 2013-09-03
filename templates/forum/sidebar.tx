@@ -1,23 +1,12 @@
 <aside class="sidebar">
     <div class="sidebar-contents group">
-        <!-- <section class="clear tab-mid">
-            <form class="one-field" onsubmit="alert('search doesn\'t exist! :D')">
-                <input type="text" class="text" name="q" placeholder="Search"></input>
-                <button class="button" type="submit">GO</button>
-            </form>
-        </section> -->
-        <: if $c.user { :>
-            <p><a class="button full--l" href="<: $u('Forum::My','newthread') :>"><i class="icon icon-bubbles"></i>Post New Topic</a></p>
-            <p><a class="button full--l" href="<: $u('Ideas','new') :>"><i class="icon icon-lightbulb"></i>Post New DuckDuckHack Idea</a></p>
-        <: } else { :>
-            <a class="button" href="<: $u('My','login') :>">
-                Login or register to add thread or a DuckDuckHack Idea
-            </a>
-        <: } :>
+        <: include "forum/share_suggestion.tx" :>
+        <p><a class="button full--l" href="<: $u('Ideas','index') :>"><i class="icon icon-bubbles"></i>Go to Instant Answer ideas</a></p>
         <section class="menu-list tab-third">
             <h5>Latest comments on ...</h5>
             <ul>
                 <li><a href="<: $u('Forum','index') :>">Forum</a></li>
+                <li><a href="<: $u('Forum','ideas') :>">Ideas</a></li>
                 <li><a href="<: $u('Forum','blog') :>">Company Blog</a></li>
                 <li><a href="<: $u('Forum','user_blog') :>">User Blogs</a></li>
                 <li><a href="<: $u('Forum','translation') :>">Translation</a></li>

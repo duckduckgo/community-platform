@@ -8,6 +8,7 @@ use DDGC::Feedback::Config::Bang;
 use DDGC::Feedback::Config::Feature;
 use DDGC::Feedback::Config::Love;
 use DDGC::Feedback::Config::NoLove;
+use DDGC::Feedback::Config::Suggest;
 
 use namespace::autoclean;
 
@@ -47,6 +48,13 @@ sub feedback :Chained('base') :PathPart('') :CaptureArgs(1) {
   } elsif ($feedback eq 'nolove') {
     $c->stash->{feedback_config} = DDGC::Feedback::Config::NoLove->feedback;
     $c->stash->{feedback_title} = DDGC::Feedback::Config::NoLove->feedback_title;
+  } elsif ($feedback eq 'suggest') {
+    if (!$c->user) {
+      $c->response->redirect($c->chained_uri('My','login'));
+      return $c->detach;
+    }
+    $c->stash->{feedback_config} = DDGC::Feedback::Config::Suggest->feedback;
+    $c->stash->{feedback_title} = DDGC::Feedback::Config::Suggest->feedback_title;
   } else {
     $c->response->redirect('https://duckduckgo.com/feedback');
     return $c->detach;

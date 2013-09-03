@@ -49,6 +49,7 @@ sub newidea : Chained('base') Args(0) {
     my $idea = $c->user->create_related('ideas',{
       title => $c->req->params->{title},
       content => $c->req->params->{content},
+      source => $c->req->params->{source},
       type => $c->req->params->{type},
     });
     $c->response->redirect($c->chained_uri(@{$idea->u}));
@@ -130,6 +131,7 @@ sub edit : Chained('idea_id') Args(0) {
     push @{$c->stash->{idea}->data->{revisions}}, {
       title => $c->stash->{idea}->title,
       content => $c->stash->{idea}->content,
+      source => $c->stash->{idea}->source,
       updated => $c->stash->{idea}->updated,
     };
     if ($c->user->is('idea_manager')) {
@@ -137,6 +139,7 @@ sub edit : Chained('idea_id') Args(0) {
     }
     $c->stash->{idea}->title($c->req->params->{title});
     $c->stash->{idea}->content($c->req->params->{content});
+    $c->stash->{idea}->source($c->req->params->{source});
     $c->stash->{idea}->update;
     $c->response->redirect($c->chained_uri(@{$c->stash->{idea}->u}));
     return $c->detach;

@@ -27,6 +27,13 @@ sub comments_grouped_threads { $_[0]->comments_grouped_in(
 	$_[0]->context_threads
 ) }
 
+sub context_ideas {qw(
+	DDGC::DB::Result::Idea
+)}
+sub comments_grouped_ideas { $_[0]->comments_grouped_in(
+	$_[0]->context_ideas
+) }
+
 sub context_translation {qw(
 	DDGC::DB::Result::Token::Language
 	DDGC::DB::Result::Token::Domain::Language

@@ -40,6 +40,12 @@ has icon => (
   default => sub { 'arrow-right' },
 );
 
+has link => (
+  is => 'ro',
+  isa => 'Str|ArrayRef',
+  predicate => 'has_link',
+);
+
 has cssclass => (
   is => 'ro',
   isa => 'Str',

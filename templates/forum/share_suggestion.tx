@@ -1,0 +1,7 @@
+<: if $c.user { :>
+    <p><a class="button full--l" href="<: $u('Feedback','feedback_redirect','suggest') :>"><i class="icon icon-bubbles"></i>Share your suggestion</a></p>
+<: } else { :>
+    <a class="button" href="<: $u('My','login') :>">
+        Login or register to share your own suggestion
+    </a>
+<: } :>

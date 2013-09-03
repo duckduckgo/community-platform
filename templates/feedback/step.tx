@@ -1,38 +1,38 @@
 <h1 class="feedback-title"><: $feedback_title :></h1>
 <div class="feedback-wrap">
 	<form method="POST" class="feedback-form" action="<: $u('Feedback','step',$feedback_name,$steps_arg) :>">
-	  <: if $step_count > 0 { :>
+		<: if $step_count > 0 { :>
 		<div class="fb-step  fb-step--back">
-		  <i class="fb-step__icon  ddgi-history"></i>
-		  <input type="submit" name="step_back" value="Back to previous step" class="fb-step__body  fb-step__body--btn" />
-		  <i class="fb-step__arrow  ddgi-arrow-up"></i>
+			<i class="fb-step__icon  ddgi-history"></i>
+			<input type="submit" name="step_back" value="Back to previous step" class="fb-step__body  fb-step__body--btn" />
+			<i class="fb-step__arrow  ddgi-arrow-up"></i>
 		</div>
-	  <: } :>
-	  <: if $step.has_options { :>
-		<: for $step.options -> $option { :>
-		  <div class="fb-step  js-fb-step  <: if $option.cssclass || $option.optional == 1 || $option.type == 'info' || $option.has_value { $option.cssclass } else {:> fb-step--active <: } if $option.optional == 1 { :> fb-step--optional <: } if $option.type == 'info' { :> fb-step--info <: } if $option.type == 'text' || $option.type == 'textarea' || $option.type == 'email' { :> fb-step--text <: } if $option.missing { :> fb-step--error <: } if $option.has_value {:> js-fb-step--toggle <: } :>">
-			<i class="fb-step__icon  ddgi-<: $option.icon :>"></i>
-			<: my $template = "feedback/option/" ~ $option.type ~ ".tx" :>
-			<: include $template { option => $option, index => $~option.index } :>		
-			<: if $option.missing { :>				
-				<i class="fb-step__warning icon-warning-sign" title="This field is required"></i>
-			<: } :>
-		  </div>
 		<: } :>
-	  <: } :>
-	  <: if $step.has_end { :>
-		  <div class="fb-step  fb-step--answer">
-		    <i class="fb-step__icon  ddgi-dax"></i>
-			<div class="fb-step__body  fb-step__body--info"> 
-				 <: r($step.end) :>
-			     <i class="fb-step__arrow  ddgi-newspaper"></i>
-			</div>  
-		  </div>
-	  <: } :>
+		<: if $step.has_options { :>
+			<: for $step.options -> $option { :>
+				<div class="fb-step  js-fb-step  <: if $option.cssclass || $option.optional == 1 || $option.type == 'info' || $option.has_value { $option.cssclass } else {:> fb-step--active <: } if $option.optional == 1 { :> fb-step--optional <: } if $option.type == 'info' { :> fb-step--info <: } if $option.type == 'text' || $option.type == 'textarea' || $option.type == 'email' { :> fb-step--text <: } if $option.missing { :> fb-step--error <: } if $option.has_value {:> js-fb-step--toggle <: } :>">
+				<i class="fb-step__icon  ddgi-<: $option.icon :>"></i>
+				<: my $template = "feedback/option/" ~ $option.type ~ ".tx" :>
+				<: include $template { option => $option, index => $~option.index } :>		
+				<: if $option.missing { :>				
+					<i class="fb-step__warning icon-warning-sign" title="This field is required"></i>
+				<: } :>
+				</div>
+			<: } :>
+		<: } :>
+		<: if $step.has_end { :>
+			<div class="fb-step  fb-step--answer">
+				<i class="fb-step__icon  ddgi-dax"></i>
+				<div class="fb-step__body  fb-step__body--info"> 
+					 <: r($step.end) :>
+						 <i class="fb-step__arrow  ddgi-newspaper"></i>
+				</div>  
+			</div>
+		<: } :>
 	</form>
 	<div class="notice  contrast">
-	  <i class="icn icon-info-sign"></i>
-	  <b>Note:</b> Submitting feedback from this form will send anonymous information about your web browser, like version and language information. To see this, click here: <a href="https://duckduckgo.com/?q=user+agent">https://duckduckgo.com/?q=user+agent</a>
-	  <i class="close icon-remove"></i>
+		<i class="icn icon-info-sign"></i>
+		<b>Note:</b> Submitting feedback from this form will send anonymous information about your web browser, like version and language information. To see this, click here: <a href="https://duckduckgo.com/?q=user+agent">https://duckduckgo.com/?q=user+agent</a>
+		<i class="close icon-remove"></i>
 	</div>
 </div>

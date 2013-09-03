@@ -1,1 +1,1 @@
-<: include "forum/my/thread_form.tx" { form_title => "Create Thread" } :>
+<: include "forum/my/thread_form.tx" { form_title => "New discussion" } :>

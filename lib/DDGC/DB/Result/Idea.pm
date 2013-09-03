@@ -40,6 +40,11 @@ column content => {
 };
 sub html { $_[0]->ddgc->markup->html($_[0]->content) }
 
+column source => {
+  data_type => 'text',
+  is_nullable => 1,
+};
+
 column data => {
   data_type => 'text',
   is_nullable => 1,
