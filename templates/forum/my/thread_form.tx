@@ -7,8 +7,8 @@
                 <div class="notice error"><i class="icn icon-warning-sign"></i><: $error :></div>
             <: } :>
             <form action="<: if $thread.id { $u('Forum::My','edit',$thread.id) } else { $u('Forum::My','newthread') } :>" method="POST">
-                <div class="input-wrap"><input value="<: $thread.title :>" type="text" name="title" placeholder="Title" autofocus></input></div>
-                <div class="input-wrap"><textarea name="content" class="js-bbcode" placeholder="Body" rows="15"><: $thread.comment.content :></textarea></div>
+                <div class="input-wrap"><input value="<: $thread.title || $c.req.params.title :>" type="text" name="title" placeholder="Title" autofocus></input></div>
+                <div class="input-wrap"><textarea name="content" class="js-bbcode" placeholder="Body" rows="15"><: $thread.comment.content || $c.req.params.content :></textarea></div>
                 <div class="right"><input type="submit" value="Post" class="big blue button" name="post_thread"></input></div>
             </form>
         </div>

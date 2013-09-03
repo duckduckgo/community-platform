@@ -1,0 +1,31 @@
+<aside class="sidebar">
+	<div class="sidebar-contents group">
+		<: if $c.user { :>
+			<p><a class="button full--l" href="<: $u('Ideas','newidea') :>"><i class="icon icon-lightbulb"></i>Post New DuckDuckHack Idea</a></p>
+		<: } else { :>
+			<a class="button" href="<: $u('My','login') :>">
+				Login or to add a DuckDuckHack Idea
+			</a>
+		<: } :>
+		<: if $latest_ideas { :>
+			<section class="menu-list tab-mid">
+				<h5>Latest ideas</h5>
+				<ul>
+					<: for results($latest_ideas) -> $idea { :>
+						<li><a href="<: $u($idea.u) :>"><: $idea.title :></a></li>
+					<: } else { :>
+						Nothing here yet!
+					<: } :>
+				</ul>
+			</section>
+		<: } :>
+		<section class="menu-list tab-third">
+			<h5>Latest ideas ...</h5>
+			<ul>
+				<li><a href="<: $u('Ideas','status',3) :>">needing a Developer</a></li>
+				<li><a href="<: $u('Ideas','status',8) :>">Live!</a></li>
+				<li><a href="<: $u('Ideas','type',3) :>">for Spice!</a></li>
+			</ul>
+		</section>
+	</div>
+</aside>

@@ -1,0 +1,5 @@
+<: if $_.status { :>
+  <a href="<: $u('Ideas','status',$_.status) :>" class="button" style="background-color: <: $_.status_color :>">
+    <: $_.status_name :>
+  </a>
+<: } :>

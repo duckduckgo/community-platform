@@ -1,0 +1,38 @@
+<div class="gw">
+  <div class="g quarter">
+    <: i($_,'votes') :>
+  </div>
+  <div class="g threequarter">
+    <div class="row">
+      <h2><: $_.title :></h2>
+    </div>
+    <div class="row">
+      <: i($_.user,'userinfo') :>
+    </div>
+    <div class="row">
+      <: r($_.html) :> 
+    </div>
+    <div class="row">
+      <: i($_,'status') :>
+      <: i($_,'type') :>
+      <: if $c.user.is('idea_manager') || $c.user.id == $_.user.id { :>
+        <a href="<: $u('Ideas','edit',$_.id) :>" class="button red">Edit</a>
+      <: } :>
+    </div>
+    <: if $c.user.is('idea_manager') { :>
+      <div class="row">
+        <form> 
+          New status:
+          <select name="status">
+            <: for $idea_statuses -> $idea_status { :>
+                <option value="<: $idea_status.0 :>"<: if $idea_status.0 == $_.type || $idea_status.0 == $c.req.params.status { :>selected="selected"<: } :>>
+                    <: $idea_status.1 :>
+                </option>
+            <: } :>
+          </select>
+          <input type="submit" name="change_status" value="Update status" />
+        </form>
+      </div>
+    <: } :>
+  </div>
+</div>

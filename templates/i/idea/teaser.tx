@@ -1,0 +1,17 @@
+<div class="gw">
+  <div class="g quarter">
+    <: i($_,'votes') :>
+  </div>
+  <div class="g threequarter">
+    <div class="row">
+      <h2><a href="<: $u($_.u) :>"><: $_.title :></a></h2>
+    </div>
+    <div class="row">
+      <: i($_.user,'userinfo') :>
+    </div>
+    <div class="row">
+      <: i($_,'status') :>
+      <: i($_,'type') :>
+    </div>
+  </div>
+</div>

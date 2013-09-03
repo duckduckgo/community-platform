@@ -1,0 +1,4 @@
+<div class="row">
+  <: i($idea,'view') :>
+</div>
+<: i('comments',$idea) :>

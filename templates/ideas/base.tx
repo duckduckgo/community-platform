@@ -1,0 +1,8 @@
+<div class="gw  gw--10  mg-bottom--big">
+  <div class="g  threequarter">
+    <: include $next_template() :>
+  </div>
+  <div class="g  quarter">
+    <: include "ideas/sidebar.tx" :>
+  </div>
+</div>

@@ -1,0 +1,1 @@
+<: include "ideas/idea_form.tx" { form_title => "Edit suggestion" } :>

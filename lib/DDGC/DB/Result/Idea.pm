@@ -10,7 +10,7 @@ use namespace::autoclean;
 
 table 'idea';
 
-sub u { [ 'Forum', 'idea', $_[0]->id, $_[0]->key ] }
+sub u { [ 'Ideas', 'idea', $_[0]->id, $_[0]->key ] }
 
 column id => {
   data_type => 'bigint',
@@ -55,6 +55,8 @@ sub types {{
   5 => "Internal",
 }}
 
+sub type_name { $_[0]->types->{$_[0]->type} }
+
 column type => {
   data_type => 'int',
   default_value => 0,
@@ -75,6 +77,8 @@ sub statuses {{
   11 => "Declined",
 }}
 
+sub status_name { $_[0]->statuses->{$_[0]->status} }
+
 sub status_colors {{
   1 => "#000000",
   2 => "#f06f05",
@@ -88,6 +92,8 @@ sub status_colors {{
   10 => "#a100a1",
   11 => "#bbbbbb",
 }}
+
+sub status_color { $_[0]->status_colors->{$_[0]->status} }
 
 column status => {
   data_type => 'int',
@@ -119,6 +125,13 @@ has_many 'idea_votes', 'DDGC::DB::Result::Idea::Vote', 'idea_id', {
 sub vote_count {
   my ( $self ) = @_;
   return $self->old_vote_count + $self->idea_votes->count
+}
+
+sub user_voted {
+  my ( $self, $user ) = @_;
+  return $self->search_related('idea_votes',{
+    users_id => $user->db->id,
+  })->count;
 }
 
 after insert => sub {

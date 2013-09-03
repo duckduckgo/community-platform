@@ -28,8 +28,7 @@
 		<: } else { :>
 			<span class="translation-vote group">
 				<: if $translation.user.id != $c.user.id { :>
-					<a href="<: $u('Translate', 'vote_view', $translation.id, 1):>"
-						class="vote_link button<: if $c.wiz_inside { :> wiz-arrow wiz-arrow-vote<: } :>" 
+					<a class="vote_link button<: if $c.wiz_inside { :> wiz-arrow wiz-arrow-vote<: } :>" 
 						<: if !$user_can_speak { :>disabled="disabled" title="You are not allowed to vote because you do not speak this language."<: } :>
 						<: if $c.user.username == $translation.username { :>disabled="disabled" title="You can't vote on your own translations."<: } :>
 							<: if $translation.user_voted($c.user) { :>

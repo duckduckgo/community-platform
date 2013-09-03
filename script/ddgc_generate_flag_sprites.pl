@@ -9,6 +9,7 @@ use DDGC;
 use IPC::Run qw{run timeout};
 use Path::Class;
 use IO::All;
+use POSIX qw( floor );
 
 my $ddgc = DDGC->new;
 my $schema = $ddgc->db;
@@ -32,7 +33,7 @@ my $css = "";
 print "\nGenerating flag sprite images:\n==============================\n";
 
 for my $s (@sizes) {
-  my $width = $s * $factor;
+  my $width = floor($s * $factor)-1;
   print "\n- Size: ".$s."\n";
   my $sprite_filename = 'flags_sprite_'.$s.'.png';
   $css .= "\n".join(", ",map { '.flag-'.$s.'--'.$_->country_code } @countries)." {\n";

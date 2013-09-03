@@ -1,0 +1,5 @@
+<: if $_.type { :>
+  <a href="<: $u('Ideas','type',$_.type) :>" class="button">
+    <: $_.type_name :>
+  </a>
+<: } :>

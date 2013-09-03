@@ -1,0 +1,12 @@
+<: if $c.user && $_.users_id != $c.user.id { :>
+  <a class="vote_link button<: if $c.wiz_inside { :> wiz-arrow wiz-arrow-vote<: } :>" 
+    <: if $_.user_voted($c.user) { :>
+      href="<: $u('Ideas', 'vote_view', $_.id, 0):>">
+      <i class="translation-vote__check checked icon-ok"></i>
+    <: } else { :>
+      href="<: $u('Ideas', 'vote_view', $_.id, 1):>">
+      <i class="translation-vote__check icon-ok"></i>
+    <: } :>
+  </a>
+<: } :>
+<span class="translation-vote__tally"><: $_.vote_count :></span>

@@ -1,0 +1,15 @@
+<div class="content-box">
+  <div class="head">
+    <h2><: $ideas_title || "Ideas" :></h2>
+    <div class="pull-right">
+      <: i($_,'pager') :>
+    </div>
+  </div>
+  <div class="body">
+    <: for results($_.paged_rs) -> $idea { :>
+      <div class="row">
+        <: i($idea,'teaser') :>
+      </div>
+    <: } :>
+  </div>
+</div>

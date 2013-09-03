@@ -53,6 +53,8 @@ has db => (
 		save_notifications
 		defaultcycle_comments
 		defaultcycle_blogthreads
+		is
+		data
 	),qw(
 		create_related
 		find_related
@@ -66,18 +68,18 @@ sub userpage {
 	return DDGC::User::Page->new_from_user($self);
 }
 
-sub data {
-	my ( $self, $args ) = @_;
-	if (defined $args) {
-		return $self->db->data($args);
-	}
-	if ($self->db->data) {
-		#return {} unless ref $self->db->data eq 'HASH';
-		return $self->db->data;
-	} else {
-		return {};
-	}
-}
+# sub data {
+# 	my ( $self, $args ) = @_;
+# 	if (defined $args) {
+# 		return $self->db->data($args);
+# 	}
+# 	if ($self->db->data) {
+# 		#return {} unless ref $self->db->data eq 'HASH';
+# 		return $self->db->data;
+# 	} else {
+# 		return {};
+# 	}
+# }
 
 sub locales { shift->lul }
 

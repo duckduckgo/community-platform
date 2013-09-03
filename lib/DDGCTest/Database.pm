@@ -114,7 +114,7 @@ sub next_step {
 
 sub step_count {
 	my ( $self ) = @_;
-	my $base = 1557;
+	my $base = 1569;
 	return $base unless $self->test;
 }
 
@@ -1231,22 +1231,37 @@ sub add_blogs {
 
 sub ideas {{
 	testone => [{
-			title => 'I Have A Dreamy Idea',
-			content => "Lalalalala",
-			type => 1,
-			votes => [qw( testtwo testthree test5 test6 test8 )],
-		},{
-			title => 'I Have Another Dreamy Idea',
-			content => "Lalalalala 2",
-			type => 2,
-			status => 3,
-			comments => [
-				testtwo => "Blabla",
-				testthree => "blub",
-			],
-			votes => [qw( test5 test6 test8 )],
-		},
-	],
+		title => 'I Have A Dreamy Idea',
+		content => "Lalalalala",
+		type => 1,
+		votes => [qw( testtwo testthree test5 test6 test8 )],
+	},{
+		title => 'I Have Another Dreamy Idea',
+		content => "Lalalalala 2",
+		type => 2,
+		status => 3,
+		comments => [
+			testtwo => "Blabla",
+			testthree => "blub",
+		],
+		votes => [qw( test5 test6 test8 )],
+	}],
+	testtwo => [{
+		title => 'I, also, Have A Dreamy Idea',
+		content => "Lalalalala testtwo",
+		type => 1,
+		votes => [qw( test10 testone test2 test23 test12 )],
+	},{
+		title => 'I Have Another Dreamy Idea, too',
+		content => "Lalalalala testtwo 2",
+		type => 2,
+		status => 3,
+		comments => [
+			testone => "Blabla",
+			testtwo => "blub",
+		],
+		votes => [qw( test10 testone test2 test23 test12 )],
+	}],
 }}
 
 sub add_ideas {

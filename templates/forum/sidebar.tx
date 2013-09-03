@@ -8,7 +8,7 @@
         </section> -->
         <: if $c.user { :>
             <p><a class="button full--l" href="<: $u('Forum::My','newthread') :>"><i class="icon icon-bubbles"></i>Post New Topic</a></p>
-            <p><a class="button full--l" href="<: $u('Idea','new') :>"><i class="icon icon-lightbulb"></i>Post New DuckDuckHack Idea</a></p>
+            <p><a class="button full--l" href="<: $u('Ideas','new') :>"><i class="icon icon-lightbulb"></i>Post New DuckDuckHack Idea</a></p>
         <: } else { :>
             <a class="button" href="<: $u('My','login') :>">
                 Login or register to add thread or a DuckDuckHack Idea
