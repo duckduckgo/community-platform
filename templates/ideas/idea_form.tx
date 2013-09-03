@@ -7,7 +7,7 @@
                 <div class="notice error"><i class="icn icon-warning-sign"></i><: $error :></div>
             <: } :>
             <form action="<: if $idea.id { $u('Ideas','edit',$idea.id) } else { $u('Ideas','newidea') } :>" method="POST">
-                <: if !$idea.id { :>
+                <: if !$idea.id || $c.user.is('idea_manager') { :>
                     <div>Instant answer type (if known):</div>
                     <select name="type">
                         <: for $idea_types -> $idea_type { :>

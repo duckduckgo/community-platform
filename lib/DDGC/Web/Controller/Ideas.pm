@@ -102,6 +102,10 @@ sub idea_redirect : Chained('idea_id') PathPart('') Args(0) {
 sub idea : Chained('idea_id') PathPart('') Args(1) {
   my ( $self, $c, $key ) = @_;
   $c->bc_index;
+  if ($c->user->is('idea_manager') && $c->req->params->{change_status}) {
+    $c->stash->{idea}->status($c->req->params->{status});
+    $c->stash->{idea}->update;
+  }
   unless ($c->stash->{idea}->key eq $key) {
     $c->response->redirect($c->chained_uri(@{$c->stash->{idea}->u}));
     return $c->detach;
@@ -128,6 +132,9 @@ sub edit : Chained('idea_id') Args(0) {
       content => $c->stash->{idea}->content,
       updated => $c->stash->{idea}->updated,
     };
+    if ($c->user->is('idea_manager')) {
+      $c->stash->{idea}->type($c->req->params->{type});
+    }
     $c->stash->{idea}->title($c->req->params->{title});
     $c->stash->{idea}->content($c->req->params->{content});
     $c->stash->{idea}->update;
