@@ -21,7 +21,7 @@ sub base :Chained('/translate/base') :PathPart('notes') :CaptureArgs(0) {
 		$c->response->redirect($c->chained_uri('Root','index',{ admin_required => 1 }));
 		return $c->detach;
 	}
-	$c->add_bc('Notes Manager', $c->chained_uri('Translate::Notes','index'));
+	$c->add_bc('Empty Notes Manager', $c->chained_uri('Translate::Notes','index'));
 }
 
 sub index :Chained('base') :PathPart('') :Args(0) {
@@ -30,14 +30,7 @@ sub index :Chained('base') :PathPart('') :Args(0) {
 	$c->stash->{token_domains} = $c->d->resultset('Token::Domain')->search({
 		'tokens.notes' => [ undef, "" ],
 	},{
-		prefetch => {
-			tokens => {
-				token_languages => [qw( token ),{
-					token_domain_language => [qw( token_domain language )],
-					token_language_translations => [qw( user )],
-				}],
-			},
-		},
+		prefetch => [qw( tokens )],
 		order_by => [ qw( tokens.msgid )],
 	});
 }

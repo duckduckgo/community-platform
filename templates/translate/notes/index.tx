@@ -1,2 +1,2 @@
-<h1>Notes Administration</h1>
+<h1>Empty Notes Administration</h1>
 <: include "translate/notes/notes.tx" :>

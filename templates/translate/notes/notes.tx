@@ -1,9 +1,3 @@
-<link type="text/css" href="/static/css/atooltip.css" rel="stylesheet"  media="screen" />
-<script type="text/javascript">
-	$(function(){ 
-		$('a.normalTip').aToolTip();
-	}
-</script>
 <: for results($token_domains) -> $token_domain { :>
 	<div class="content-box translate-overview">
 		<div class="head">
@@ -13,20 +7,6 @@
 			<: for results($token_domain.tokens) -> $token { :>
 				<div class="row">		
 					<a href="<: $u('Translate','token', $token.id) :>"><: include "i/msgctxtid.tx" { msgctxtid => $token } :></a>
-          <: for results($token.token_languages) -> $token_language { :>
-            <: for results($token_language.token_language_translations) -> $token_language_translation { :>
-              <span id="token_language_translation_<: $token_language_translation.id :>">
-                <: i($token_language_translation.user,'userpic',{ userpic_size => 16 }) :>
-              </span>
-              <script type="text/javascript">
-                $(function(){ 
-                  $('#token_language_translation_<: $token_language_translation.id :>').aToolTip({
-                  tipContent: "<: for [ 0..$token_language.max_msgstr_index]-> $n { if $n == 0 { $token_language_translation.msgstr0 :><br/><: } else if $n == 1 { $token_language_translation.msgstr1 :>\n<: } else if $n == 2 { $token_language_translation.msgstr2 :>\n<: } else { $token_language_translation.msgstr3 } }:>"
-                  });
-                });
-              </script>
-            <: } :>
-          <: } :>
 				</div>
 			<: } :>
 		</div>
