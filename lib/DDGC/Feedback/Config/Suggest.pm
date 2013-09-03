@@ -36,7 +36,7 @@ sub suggest_idea {[
   {
     description => "Please view, if there is not already a help article on our help at https://dukgo.com/help about your idea",
     icon => "dax", type => "link",
-    link => ['Help','index'],
+    link => ['Help','index','en_US'],
   },
   {
     description => "Check our forum at https://dukgo.com/forum, if someone is currently discussing your idea",

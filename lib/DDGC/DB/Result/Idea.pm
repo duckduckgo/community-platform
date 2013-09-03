@@ -44,6 +44,7 @@ column source => {
   data_type => 'text',
   is_nullable => 1,
 };
+sub source_html { $_[0]->source ? $_[0]->ddgc->markup->html($_[0]->source) : "" }
 
 column data => {
   data_type => 'text',

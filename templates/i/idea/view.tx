@@ -14,7 +14,10 @@
     </div>
     <: if $_.source { :>
       <div class="row">
-        <b>Source:</b><: $_.source :> 
+        <b>Source</b>
+      </div>
+      <div class="row">
+        <b><: $_.source_html :></b>
       </div>
     <: } :>
     <div class="row">

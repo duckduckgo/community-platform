@@ -53,6 +53,7 @@ sub feedback :Chained('base') :PathPart('') :CaptureArgs(1) {
       $c->response->redirect($c->chained_uri('My','login'));
       return $c->detach;
     }
+    $c->stash->{no_useragent_warning} = 1;
     $c->stash->{feedback_config} = DDGC::Feedback::Config::Suggest->feedback;
     $c->stash->{feedback_title} = DDGC::Feedback::Config::Suggest->feedback_title;
   } else {

@@ -1,4 +1,4 @@
 <a href="<: $option.link :>" class="fb-step__body  fb-step__body--btn">
   <: $option.description :>
-  <i class="fb-step__arrow  ddgi-<: $option.icon :>"></i>
+  <i class="fb-step__arrow  ddgi-arrow-right"></i>
 </a>

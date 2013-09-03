@@ -30,9 +30,11 @@
 			</div>
 		<: } :>
 	</form>
-	<div class="notice  contrast">
-		<i class="icn icon-info-sign"></i>
-		<b>Note:</b> Submitting feedback from this form will send anonymous information about your web browser, like version and language information. To see this, click here: <a href="https://duckduckgo.com/?q=user+agent">https://duckduckgo.com/?q=user+agent</a>
-		<i class="close icon-remove"></i>
-	</div>
+	<: if !$no_useragent_warning { :>
+		<div class="notice  contrast">
+			<i class="icn icon-info-sign"></i>
+			<b>Note:</b> Submitting feedback from this form will send anonymous information about your web browser, like version and language information. To see this, click here: <a href="https://duckduckgo.com/?q=user+agent">https://duckduckgo.com/?q=user+agent</a>
+			<i class="close icon-remove"></i>
+		</div>
+	<: } :>
 </div>
