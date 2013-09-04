@@ -103,7 +103,7 @@ sub idea_redirect : Chained('idea_id') PathPart('') Args(0) {
 sub idea : Chained('idea_id') PathPart('') Args(1) {
   my ( $self, $c, $key ) = @_;
   $c->bc_index;
-  if ($c->user->is('idea_manager') && $c->req->params->{change_status}) {
+  if ($c->user && $c->user->is('idea_manager') && $c->req->params->{change_status}) {
     $c->stash->{idea}->status($c->req->params->{status});
     $c->stash->{idea}->update;
   }
