@@ -1,46 +1,68 @@
-<div class="gw">
-  <div class="g quarter">
-    <: i($_,'votes') :>
+<: my $reply_count = $_.all_comments.count :>
+
+<div class="idea-header  idea-header--title"><div class="idea-title  media"><i class="idea-title__icon  icon-lightbulb"></i> <h1 class="idea-title__text"><: $_.title :></h1></div></div>
+
+<div class="media  idea  idea--has-title  mg-bottom">
+  <div class="idea__votes  idea__votes--rev  text-mid">	
+	<small><em>
+		<: if $c.user { :>Rock the Vote<: } else { :><a href="<: $u('My','login') :>">Log in</a> to Vote<: } :>
+	</em></small>
+	<div class="vote-wrap mg-top--small">
+		<: i($_,'votes') :>	
+	</div>
   </div>
-  <div class="g threequarter">
-    <div class="row">
-      <h2><: $_.title :></h2>
-    </div>
-    <div class="row">
-      <: i($_.user,'userinfo') :>
-    </div>
-    <div class="row">
-      <: r($_.html) :> 
+  <div class="idea-preview__body">
+	  <span class="comment-meta">	   
+		<: $_.vote_count :> Vote<: if $_.vote_count != 1 {:>s<: } :>
+		&bull; <: $reply_count :> Comment<: if $reply_count != 1 {:>s<:}:>		 
+	  </span>
+    <div class="content">
+		<div class="p"><: r($_.html) :></div>
     </div>
     <: if $_.source { :>
-      <div class="row">
-        <b>Source</b>
-      </div>
-      <div class="row">
-        <b><: $_.source_html :></b>
-      </div>
+	  <div class="idea__label">
+		<b>Source:</b>
+	  </div>
+	  <div class="row--floated  content">
+		<div class="p"><: $_.source_html :></div>
+	  </div>
+		
     <: } :>
     <div class="row">
-      <: i($_,'status') :>
-      <: i($_,'type') :>
+      <span class="comment-meta">
+		<: i($_.user,'userinfo',{userpic_size => 32}) :> &bull; posted <: $dur($_.created) :> <: i($_,'type') :>
+	  </span>
+	  <: i($_,'status') :>
+      
       <: if $c.user.is('idea_manager') || $c.user.id == $_.user.id { :>
-        <a href="<: $u('Ideas','edit',$_.id) :>" class="button red">Edit</a>
+        <a href="<: $u('Ideas','edit',$_.id) :>" class="pull-right button"><i class="icon icon-edit"></i> Edit</a>
       <: } :>
     </div>
-    <: if $c.user.is('idea_manager') { :>
-      <div class="row">
-        <form> 
-          New status:
-          <select name="status">
-            <: for $idea_statuses -> $idea_status { :>
-                <option value="<: $idea_status.0 :>"<: if $idea_status.0 == $_.type || $idea_status.0 == $c.req.params.status { :>selected="selected"<: } :>>
-                    <: $idea_status.1 :>
-                </option>
-            <: } :>
-          </select>
-          <input type="submit" name="change_status" value="Update status" />
-        </form>
-      </div>
-    <: } :>
+    
   </div>
 </div>
+<: if $c.user.is('idea_manager') { :>
+  <div class="idea-header  idea-header--controls  mg-bottom--big">
+	<form class=""> 	  
+	  <label for="status" class="idea-header__form-label"><i class="icon-tools thread-title__icon"></i> Change Status:</label>
+	  <div class="row row--floated ">
+		<div class="gw">
+			<div class="g twothird">
+				<select name="status" class="whole js-select">
+				<: for $idea_statuses -> $idea_status { :>
+					<option value="<: $idea_status.0 :>"<: if $idea_status.0 == $_.type || $idea_status.0 == $c.req.params.status { :>selected="selected"<: } :>>
+						<: $idea_status.1 :>
+					</option>
+				<: } :>
+				</select>
+			  </div>
+			  <div class="g thirty">
+				<input type="submit" name="change_status" value="Update" class="button full inline-form" />
+			  </div>
+		  </div>
+		</div>
+	</form>
+  </div>
+<: } :>
+
+<hr class="mg-top--big"/>

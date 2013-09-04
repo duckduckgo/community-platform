@@ -50,6 +50,7 @@ form input[type="password"], form input[type="email"], form input[type="text"], 
 	.no-js select {  padding: 3px; }
 	
     .form-label { line-height: 29px; }
+    .button.inline-form { height: 29px; padding-top: 0; padding-bottom: 0; }
     
 	.half .input-wrap { width: 95%; left: -10px; }
 	.third .input-wrap { width: 93%; left: -10px; }
@@ -364,7 +365,7 @@ Buttons/Tags
 	.button .icon, .tag .icon { padding-right: 6px; }
 	
 	.half > .button, .third  > .button, .twothird  > .button, .quarter > .button, .sixth > .button { 
-		width: 100%; margin: 0 auto; padding: 4px 0;
+		width: 100%; margin: 0 auto; padding-left: 0; padding-right: 0;
 	}	
 		.input-wrap .button { width: 100%; margin: 0 auto; padding: 0; }		
 
@@ -673,11 +674,12 @@ Buttons/Tags
 /*
     Voting
 */
-	.vote {
-		display: block;
+	.vote-wrap {
+		display: block;        
 	}
-	.vote-wrap { 			
-		border: 1px solid #c6c6c6;
+	.vote { 			
+		display: inline-block;
+        border: 1px solid #c6c6c6;
 		-moz-border-radius: 3px;
 		-webkit-border-radius: 3px;
 		border-radius: 3px;
@@ -690,20 +692,25 @@ Buttons/Tags
 			height: 28px;
 			margin: 0;
 			padding: 0 3px;
-			border-right: 1px solid #c6c6c6;
-			-moz-border-radius: 3px 0 0 3px;
-			-webkit-border-radius: 3px 0 0 3px;
-			border-radius: 3px 0 0 3px;
+			border-right: 1px solid #c6c6c6;			
 			position: relative;
 			top: -1px;
 			left: -1px;
+            -moz-border-radius: 0;
+			-webkit-border-radius: 0;
+			border-radius: 0;
 		}
+        .vote__button--first {
+            -moz-border-radius: 3px 0 0 3px;
+			-webkit-border-radius: 3px 0 0 3px;
+			border-radius: 3px 0 0 3px;
+        }
 			.vote__button, .vote__icon { color: #999; }
 			.vote__button:hover, 
             .vote__check:hover,
             .vote__button:hover .vote__check,
             .vote__check.checked { color: #2d76dd; }	          
-				.vote__button[disabled="disabled"] .vote__check, .vote__check--disabled { color: #ccc !important; }
+				.vote__button[disabled="disabled"] .vote__check, .vote__check--disabled { color: #eee !important; }
 			
 		.vote__check  { 
             font-size: 1.5em; 

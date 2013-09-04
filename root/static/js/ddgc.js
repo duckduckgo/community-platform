@@ -354,6 +354,7 @@ $(document).ready(function() {
 		  tag_underline: true,
 		  tag_link: true,
 		  tag_image: true,
+		  tag_code: true,
 		  button_icon: true
 		},options||{});
 		//  panel 
@@ -385,6 +386,15 @@ $(document).ready(function() {
 		  }
 		  text = text + '</button>';
 		}
+		if(options.tag_image){
+		  text = text + '<button class="button" title="Add an Image" data-bbcode="img">';
+		  if(options.button_icon){
+			text = text + '<i class="icon-picture"></i>';
+		  }else{
+			text = text + 'Image';
+		  }
+		  text = text + '</button>';
+		}
 		if(options.tag_link){
 		  text = text + '<button class="button" title="Add a Link" data-bbcode="url">';
 		  if(options.button_icon){
@@ -394,12 +404,12 @@ $(document).ready(function() {
 		  }
 		  text = text + '</button>';
 		}
-		if(options.tag_image){
-		  text = text + '<button class="button" title="Add an Image" data-bbcode="img">';
+		if(options.tag_code){
+		  text = text + '<button class="button" title="Add Example Code (Ctrl+ALT+DEL) --haha just hidding" data-bbcode="code">';
 		  if(options.button_icon){
-			text = text + '<i class="icon-picture"></i>';
+			text = text + '<i class="icon-code"></i>';
 		  }else{
-			text = text + 'Image';
+			text = text + 'Code';
 		  }
 		  text = text + '</button>';
 		}

@@ -1,5 +1,5 @@
 /* girl lookit' that body */
-.comment-body, .thread-header, .thread {       
+.comment-body, .thread-header, .thread, .idea, .idea-header, .idea__votes {       
     border: 1px solid #cacaca;
     position: relative;		
     z-index: 1;
@@ -58,7 +58,7 @@
     margin-top: 10px;
     margin-bottom: 5px;
 }
-.thread-header {
+.thread-header, .idea-header {
     padding-top: 13px;
     padding-bottom: 13px;
     padding-left: 10px;
@@ -82,7 +82,7 @@
         font-size: 14px;
         margin: 0;
     }
-    .thread-title__icon { color: #b1b2b6; }
+    .thread-title__icon, .idea-title__icon { color: #b1b2b6; }
 .thread-icons {
     position: absolute;
     top: 0.45em;
@@ -156,10 +156,18 @@
 .idea {
     display: block;
     position: relative;
+    padding: 13px 13px 13px 30px;
 }
 .idea--preview {
     padding-left: 13px;
+    position: relative;
 }
+.idea--has-title {
+    -moz-border-radius: 0 0 5px 5px;
+    -webkit-border-radius: 0 0 5px 5px;
+    border-radius: 0 0 5px 5px;
+}
+
     .idea--preview__title {
         font-weight: bold;
         font-size: 16px;
@@ -170,12 +178,76 @@
     .idea--preview__votes {
         padding-top: 8px;
     }
+    .idea__label {
+        float: left;
+        margin-right: 0.5em;
+        color: #7a7b80;
+    }
     .idea__icon {
         position: absolute;
         top: 12px;
         left: -8px;
         color: #d9d9d9;
         font-size: 18px;
+    }
+    .idea-header--controls {
+        padding-right: 10px;
+    }
+        .idea-header__form-label { 
+            line-height: 32px; 
+            float: left;
+            padding-right: 13px;
+        }
+    
+    .idea__votes {
+        background-color: #f7f7f7;
+        padding: 13px;
+        float: left;
+        margin-right: 18px;
+    }
+        .idea__votes--rev {
+            float: right;
+            margin-right: 0;
+            margin-left: 18px;
+        }
+    
+    .idea-header {
+        padding-top: 5px;
+        padding-bottom: 5px;
+    }
+        .idea-header--title {
+            margin-bottom: -1px;
+            -moz-border-radius: 5px 5px 0 0;
+            -webkit-border-radius: 5px 5px 0 0;
+            border-radius: 5px 5px 0 0;
+        }
+    .idea-title__text, .idea-title__icon { padding-top: 5px; padding-bottom: 5px; }
+    
+    .idea-title h1 {
+        text-align: left;
+        font-size: 20px;
+        font-weight: bold;
+        margin: 0;
+    }
+    .idea-title h2 {
+        font-size: 16px;
+        margin: 0;   
+    }
+        .idea-title__icon { 
+            font-size: 20px; 
+            margin-right: 0.5em;
+            float: left;
+        }
+        .idea-title__text {
+            display: block;
+            overflow: hidden;
+        }
+    
+    /* idea status tag */
+    .tag.idea-status {
+        border: none;
+        -webkit-box-shadow: inset 1px 1px 0 rgba(255,255,255,0.5), inset -1px -1px 0 rgba(0,0,0,0.5);
+         box-shadow: inset 1px 1px 0 rgba(255,255,255,0.2), inset -1px -1px 0 rgba(0,0,0,0.2);
     }
 
 /*
@@ -278,7 +350,7 @@
 		.comment-body .comment-body { margin-left: 49px; }
 		.comment.row .comment-body .row { padding: 8px 10px 8px 13px; }
 		.comment.row .comment-body .comment.row { padding-top: 0; }
-		.comment-body p { margin: 0 auto 4px; color: #464749; font-size: 1.05em; }		
+		.comment-body p { margin: 4px auto; color: #464749; font-size: 1.05em; }		
 		.comment-body:after, .comment-body:before { 
 			display: block; 
 			position: absolute; 

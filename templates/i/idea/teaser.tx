@@ -1,7 +1,7 @@
 <: my $reply_count = $_.all_comments.count :>
-<div class="media  idea  idea--preview">
+<div class="media  idea--preview">
   <i class="idea__icon  icon-lightbulb"></i>
-  <div class="idea--preview__votes  media__img--rev  text-mid">
+  <div class="idea--preview__votes  media__img--rev">
     <: i($_,'votes') :>	
   </div>
   <div class="media__body  idea-preview__body">

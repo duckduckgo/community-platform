@@ -1,16 +1,16 @@
-<div class="vote vote-wrap">
+<div class="vote">
 	<: if $c.user && $_.users_id != $c.user.id { :>
-	  <a class="button  vote__button  js-vote-link" 
+	  <a class="button  vote__button  vote__button--first  js-vote-link" 
 		<: if $_.user_voted($c.user) { :>
 		  href="<: $u('Ideas', 'vote_view', $_.id, 0):>">
-		  <i class="vote__icon  vote__check checked icon-ok"></i>
+		  <i class="vote__icon  vote__check  checked icon-ok"></i>
 		<: } else { :>
 		  href="<: $u('Ideas', 'vote_view', $_.id, 1):>">
 		  <i class="vote__icon  vote__check icon-ok"></i>
 		<: } :>
 	  </a>
 	<: } else { :>
-		<span class="tag  vote__button"><i class="vote__icon  vote__check  vote__check--disabled  icon-ok"></i></span>
+		<span class="tag  vote__button  vote__button--first"><i class="vote__icon  vote__check  vote__check--disabled  icon-ok"></i></span>
 	<: } :>
 	<span class="vote__tally"><: $_.vote_count :></span>
 </div>

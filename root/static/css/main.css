@@ -2,7 +2,7 @@
 body, select, input, textarea, button { font-size: 0.9em; }
 body { color: #444; background: #fff; }
 	body.texture, body.texture-nohighlight, body.texture-ducksymbol { background: #fefefe url('../img/bg-body-texture.jpg'); }
-body, h2, h3, h4, h5, h6, select, input, textarea, button, .sans, .feedback-title, .thread-title h1  { 
+body, h2, h3, h4, h5, h6, select, input, textarea, button, .sans, .feedback-title, .thread-title h1, .idea-title h1  { 
 	font-family: "Helvetica Neue","HelveticaNeueLT Std","Segoe UI","Nimbus Sans L","Liberation Sans","Open Sans",FreeSans,Helvetica,Arial,sans-serif; 
 }
 .topmsg { font-family: 'Arial Black', sans-serif;} 
@@ -166,6 +166,12 @@ blockquote { padding: 0 0 0 28px; position: relative; }
 .text-light { color: #e9e9e9; }
 .text-enormous { font-size: 12em; }
 
+.row--floated {
+    /* a row that needs to play nice with a neighboring float */
+    display: table-cell;
+    width: 10000px;
+}
+
 .banner-list li {
 	display: inline-block;
 }
@@ -315,7 +321,7 @@ a.fill {
 		
 /* clearfix */
 .group:after, .wrap:after, .breadcrumb-nav:after, .content-box .head:after, .comment_reply:after,
-.content-box .row:after, .one-field:after, .author-info:after, .comment-foot:after, .nav:after, .nav-item:after, .forum-item:after, .account-actions:after  {
+.row:after, .one-field:after, .author-info:after, .comment-foot:after, .nav:after, .nav-item:after, .forum-item:after, .account-actions:after  {
   content: "";
   display: table;
   clear: both;
@@ -712,6 +718,8 @@ a.fill {
 		color: #bbb;
 	}
 
+    .comment-meta .user-info { display: inline-block; }
+    .userpic { vertical-align: middle; }
 	
 /*
 	Site Bottom
