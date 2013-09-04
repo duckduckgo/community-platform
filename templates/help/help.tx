@@ -18,6 +18,9 @@
 			</div>
 		  </div>
 		</div>
+		<div class="text-mid">
+			<a href="http://duckduckgo.com/feedback">Not helpful?  Try our Feedback Page.</a>
+		</div>
 	</div>
 	<div class="g  quarter">
 		<: include help::searchbox :>
