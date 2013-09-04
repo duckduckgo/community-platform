@@ -92,6 +92,7 @@ while (1) {
             readonly => 1,
             created => $datetime, updated => $datetime,
             sticky => $sticky,
+            old_url => $li->{link},
         );
 
         $ddgc->add_comment(

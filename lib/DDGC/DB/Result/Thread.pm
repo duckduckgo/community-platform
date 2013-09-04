@@ -81,6 +81,12 @@ column updated => {
 	set_on_update => 1,
 };
 
+column old_url => {
+	data_type => 'text',
+	is_nullable => 1,
+};
+
+
 belongs_to 'user', 'DDGC::DB::Result::User', 'users_id';
 belongs_to 'comment', 'DDGC::DB::Result::Comment', 'comment_id', { 
 	on_delete => 'no action',
