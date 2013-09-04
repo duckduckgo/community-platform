@@ -8,7 +8,7 @@ BEGIN { extends 'Catalyst::Controller'; }
 use JSON;
 use List::MoreUtils qw( uniq );
 
-sub pagesize { 10 }
+sub pagesize { 20 }
 
 sub blog_base :Chained('base') :PathPart('') :CaptureArgs(0) {
 	my ( $self, $c ) = @_;
