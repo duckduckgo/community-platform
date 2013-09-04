@@ -151,6 +151,34 @@
 }
 
 /*
+    Ideas Forum
+*/
+.idea {
+    display: block;
+    position: relative;
+}
+.idea--preview {
+    padding-left: 13px;
+}
+    .idea--preview__title {
+        font-weight: bold;
+        font-size: 16px;
+        padding-top: 0.5em;
+        padding-bottom: 0.25em;
+        margin: 0;
+    }
+    .idea--preview__votes {
+        padding-top: 8px;
+    }
+    .idea__icon {
+        position: absolute;
+        top: 12px;
+        left: -8px;
+        color: #d9d9d9;
+        font-size: 18px;
+    }
+
+/*
     Comments
 */
 

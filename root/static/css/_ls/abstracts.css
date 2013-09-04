@@ -35,6 +35,7 @@
         }
     .media__body {
         overflow: hidden;
+        display: block;
     }        
  
 /* 

@@ -1,29 +1,27 @@
-<aside class="sidebar">
-	<div class="sidebar-contents group">
-		<: include "forum/share_suggestion.tx" :>
-		<p><a class="button full--l" href="<: $u('Forum','index') :>"><i class="icon icon-bubbles"></i>Go to Forum</a></p>
-		<: if $latest_ideas { :>
-			<section class="menu-list tab-mid">
-				<h5>Latest ideas</h5>
-				<ul>
-					<: for results($latest_ideas) -> $idea { :>
-						<li><a href="<: $u($idea.u) :>"><: $idea.title :></a></li>
-					<: } else { :>
-						Nothing here yet!
-					<: } :>
-				</ul>
-			</section>
-		<: } :>
-		<section class="menu-list tab-third">
-			<h5>Latest ideas ...</h5>
+<aside class="sidebar group">
+	<: include "forum/share_suggestion.tx" :>
+	<p><a class="button media tall full--l" href="<: $u('Forum','index') :>"><i class="icon icon-bubbles"></i>View Forum Posts</a></p>
+	<: if $latest_ideas { :>
+		<section class="menu-list tab-mid">
+			<h5>Latest ideas</h5>
 			<ul>
-				<li><a href="<: $u('Ideas','status',3) :>">needing a Developer</a></li>
-				<li><a href="<: $u('Ideas','status',8) :>">Live!</a></li>
-				<li><a href="<: $u('Ideas','type',3) :>">for Spice!</a></li>
+				<: for results($latest_ideas) -> $idea { :>
+					<li><a href="<: $u($idea.u) :>"><: $idea.title :></a></li>
+				<: } else { :>
+					Nothing here yet!
+				<: } :>
 			</ul>
 		</section>
-		<section class="menu-list tab-third">
-			<h5><a href="<: $u('Forum','ideas') :>">Latest comments on ideas</a></h5>
-		</section>
-	</div>
+	<: } :>
+	<section class="menu-list tab-third">
+		<h5>Latest ideas ...</h5>
+		<ul>
+			<li><a href="<: $u('Ideas','status',3) :>">needing a Developer</a></li>
+			<li><a href="<: $u('Ideas','status',8) :>">Live!</a></li>
+			<li><a href="<: $u('Ideas','type',3) :>">for Spice!</a></li>
+		</ul>
+	</section>
+	<section class="menu-list tab-third">
+		<h5><a href="<: $u('Forum','ideas') :>">Latest comments on ideas</a></h5>
+	</section>	
 </aside>

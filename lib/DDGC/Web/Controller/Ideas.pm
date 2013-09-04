@@ -11,6 +11,7 @@ sub base :Chained('/base') :PathPart('ideas') :CaptureArgs(0) {
   $c->add_bc('Instant Answer Ideas',$c->chained_uri('Ideas','index'));
   my $idea_types = $c->d->rs('Idea')->result_class->types;
   my $idea_statuses = $c->d->rs('Idea')->result_class->statuses;
+  $c->stash->{page_class} = "page-ideas texture";
   $c->stash->{idea_types} = [map { [ $_, $idea_types->{$_} ] } sort { $a <=> $b } keys %{$idea_types}];
   $c->stash->{idea_statuses} = [map { [ $_, $idea_statuses->{$_} ] } sort { $a <=> $b } keys %{$idea_statuses}];
   $c->stash->{ideas_rs} = $c->d->rs('Idea')->search_rs({},{

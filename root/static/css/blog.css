@@ -182,9 +182,9 @@
 	width: 28%; 
 }
 	.sidebar-contents { padding: 0 48px 0 6px; }
-	.sidebar section { margin-bottom: 20px;}
-	.sidebar section.search { margin-bottom: 36px; }	
-	.sidebar section.menu-list { margin-bottom: 25px; }	
+	.sidebar section, .sidebar__section { margin-bottom: 20px;}
+	.sidebar section.search, .sidebar__section--search { margin-bottom: 36px; }	
+	.sidebar section.menu-list, .sidebar__section--menu-list { margin-bottom: 25px; }	
 	.sidebar h5 { 
 		color: #979797; 
 		font-size: 13px;
@@ -204,8 +204,11 @@
 		}
 			.sidebar .menu-list li {
 				list-style: none;
-				padding-left: 16px;
+				padding-left: 20px;
+                text-indent: -4px;
 				position: relative;
+                line-height: 1.3;
+                margin-bottom: 0.5em;
 			}
 				.sidebar .menu-list li:before {
 					position: absolute;

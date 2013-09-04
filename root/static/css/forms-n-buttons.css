@@ -42,12 +42,15 @@ form input[type="password"], form input[type="email"], form input[type="text"], 
 	select {
 		color: #61646d;
 		background: #fafafa;
-		border: 1px solid #c6c6c6;
+		border: 1px solid #c6c6c6;    
+        height: 29px;
 		-webkit-border-radius: 3px;
 		border-radius: 3px;
 	}
-	.no-js select { padding: 3px; }
+	.no-js select {  padding: 3px; }
 	
+    .form-label { line-height: 29px; }
+    
 	.half .input-wrap { width: 95%; left: -10px; }
 	.third .input-wrap { width: 93%; left: -10px; }
 	.twothird .input-wrap{ width: 95%; left: -10px; }
@@ -332,7 +335,7 @@ Buttons/Tags
 	vertical-align: middle;
 }
 
-.button, .tag, a.button, input.button {
+.button, .tag, input.button {
 	text-align: center; 
 	padding: 4px 12px;
 	display: inline-block; 
@@ -365,11 +368,16 @@ Buttons/Tags
 	}	
 		.input-wrap .button { width: 100%; margin: 0 auto; padding: 0; }		
 
+    .button.media {
+        /* the media block means we're going to have icons or images in the button, so kill the line height */
+        display: block;
+        line-height: 1;
+    }    
+        
 .button-floaters > .button{
   float: left;
   margin-right: 6px;
 }
-			
 		
 .button-group > .button {
 	font-size: 14px;
@@ -661,6 +669,65 @@ Buttons/Tags
 		color: #485599;
 		font-weight: normal;
 	}	
+
+/*
+    Voting
+*/
+	.vote {
+		display: block;
+	}
+	.vote-wrap { 			
+		border: 1px solid #c6c6c6;
+		-moz-border-radius: 3px;
+		-webkit-border-radius: 3px;
+		border-radius: 3px;
+		height: 28px;
+		background: #fdfdfd;		
+		position: relative;
+	}
+		.vote__button { 
+			float: none; 	
+			height: 28px;
+			margin: 0;
+			padding: 0 3px;
+			border-right: 1px solid #c6c6c6;
+			-moz-border-radius: 3px 0 0 3px;
+			-webkit-border-radius: 3px 0 0 3px;
+			border-radius: 3px 0 0 3px;
+			position: relative;
+			top: -1px;
+			left: -1px;
+		}
+			.vote__button, .vote__icon { color: #999; }
+			.vote__button:hover, 
+            .vote__check:hover,
+            .vote__button:hover .vote__check,
+            .vote__check.checked { color: #2d76dd; }	          
+				.vote__button[disabled="disabled"] .vote__check, .vote__check--disabled { color: #ccc !important; }
+			
+		.vote__check  { 
+            font-size: 1.5em; 
+            position: relative; 
+            top: 2px; 
+         }
+		.vote__tally {			
+			color: #464541;
+			height: 28px;
+			line-height: 28px;
+			font-size: 1.2em;
+			padding-right: 9px;
+			min-width: 26px;
+			text-align: right;
+			display: inline-block;
+		}
+		.vote-wrap .loading-image {
+			position: absolute;
+			top: 50%;
+			right: 10px;
+			padding: 7px 0;
+			margin-top: -12px;
+			background: #fff;
+		}
 	
 /* 
 	Media Queries

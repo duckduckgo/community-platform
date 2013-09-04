@@ -1,17 +1,17 @@
-<div class="gw">
-  <div class="g quarter">
-    <: i($_,'votes') :>
+<: my $reply_count = $_.all_comments.count :>
+<div class="media  idea  idea--preview">
+  <i class="idea__icon  icon-lightbulb"></i>
+  <div class="idea--preview__votes  media__img--rev  text-mid">
+    <: i($_,'votes') :>	
   </div>
-  <div class="g threequarter">
-    <div class="row">
-      <h2><a href="<: $u($_.u) :>"><: $_.title :></a></h2>
-    </div>
-    <div class="row">
-      <: i($_.user,'userinfo') :>
-    </div>
-    <div class="row">
-      <: i($_,'status') :>
-      <: i($_,'type') :>
-    </div>
+  <div class="media__body  idea-preview__body">
+      <h3 class="idea--preview__title"><a href="<: $u($_.u) :>"><: $_.title :></a></h3>
+   
+      <span class="comment-meta">
+		<: $reply_count :> Comment<: if $reply_count != 1 {:>s<:}:>
+		&bull; shared by <: i($_.user,'username') :>      
+		<: i($_,'type') :> 
+	  </span>
+	  <span class="comment-meta"><: i($_,'status') :></span>
   </div>
 </div>

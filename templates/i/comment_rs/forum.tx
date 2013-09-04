@@ -8,6 +8,7 @@
   <div class="body">
     <: for results($_) -> $comment { :>
       <: my $context_obj = $comment.get_context_obj :>
+	  <: my $reply_count = $comment.get_column('comments_count') - 1 :>
       <: # my $children_count = $context_obj.comment.children.count :>
       <div class="row">
         <div class="forum-item">
@@ -30,7 +31,7 @@
                     <: } elsif $context_obj.can('token') && $context_obj.token { :> 
                        <i>Translation</i>
                     <: } :>
-                    &bull; <: $comment.get_column('comments_count') :> Comment<: if $comment.get_column('comments_count') != 1 { :>s<: } :>
+                    &bull; [ <: $reply_count :> <: if $reply_count != 1 { :>Replies<: } else if $reply_count == 1 { :>Reply<: } :> ]
                 </span>
             </div>
             <div class="g twothird">

@@ -21,7 +21,7 @@ sub base :Chained('/') :PathPart('') :CaptureArgs(0) {
 	$c->stash->{xmpp_userhost} = $c->d->config->prosody_userhost;
 	$c->stash->{prefix_title} = 'DuckDuckGo Community';
 	$c->stash->{user_counts} = $c->d->user_counts;
-	$c->stash->{page_class} = "page-home texture";
+	$c->stash->{page_class} = "texture";
 	$c->stash->{errors} = [];
 
 	$c->wiz_check;
@@ -95,6 +95,7 @@ sub index :Chained('base') :PathPart('') :Args(0) {
 	$c->stash->{not_last_url} = 1;
 	$c->stash->{no_breadcrumb} = 1;
 	$c->stash->{title} = 'Welcome to the DuckDuckGo Community Platform';
+	$c->stash->{page_class} = "page-home texture";
 }
 
 sub default :Chained('base') :PathPart('') :Args {

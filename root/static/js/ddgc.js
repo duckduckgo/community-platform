@@ -14,12 +14,10 @@ $(document).ready(function() {
 	
 	$('.js-bbcode').bbcode();
 	
-	$('select.language_grade').select2({
+	$('select.language_grade, select.language_select, select.js-select').select2({
 		placeholder: $(this).data('placeholder')
 	});
-	$('select.language_select').select2({
-		placeholder: $(this).data('placeholder')
-	});
+	
 	$('.paging-menu select').select2({
 		minimumResultsForSearch: 99
 	});
@@ -153,7 +151,7 @@ $(document).ready(function() {
 		$('div#set_gravatar_email').show();
 	});
 
-	$('a.vote_link').click(function(e){
+	$('a.vote_link, .js-vote-link').click(function(e){
 		e.preventDefault();
 		var vote_count = $(this).siblings().first();
 		var parent = $(this).parent();

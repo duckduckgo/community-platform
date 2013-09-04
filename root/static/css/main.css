@@ -180,8 +180,8 @@ a.fill {
 .gw, .grid-wrap { margin-left: -18px; }
 	.g, .grid { padding-left: 18px; }
 	
-	.gw--sm { margin-left: -10px; }
-		.gw--sm .g { padding-left: 10px; }
+	.gw--sm, .gw--10 { margin-left: -10px; }
+		.gw--sm > .g, .gw--10 > .g { padding-left: 10px; }
 
 .sortby {
 	display: block;
