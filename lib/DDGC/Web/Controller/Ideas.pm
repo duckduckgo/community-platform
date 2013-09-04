@@ -7,6 +7,7 @@ BEGIN { extends 'Catalyst::Controller'; }
 sub base :Chained('/base') :PathPart('ideas') :CaptureArgs(0) {
   my ( $self, $c ) = @_;
   push @{$c->stash->{template_layout}}, 'ideas/base.tx';
+  $c->stash->{title} = 'Instant Answer Ideas';
   $c->add_bc('Instant Answer Ideas',$c->chained_uri('Ideas','index'));
   my $idea_types = $c->d->rs('Idea')->result_class->types;
   my $idea_statuses = $c->d->rs('Idea')->result_class->statuses;
@@ -42,6 +43,7 @@ sub add_ideas_table {
 sub newidea : Chained('base') Args(0) {
   my ( $self, $c ) = @_;
   $self->add_latest_ideas($c);
+  $c->stash->{title} = 'New Suggestion';
   $c->add_bc('New Suggestion');
   if ($c->req->params->{save_idea} && (!$c->req->params->{title} || !$c->req->params->{content})) {
     $c->stash->{error} = 'One or more fields were empty.';
@@ -111,6 +113,7 @@ sub idea : Chained('idea_id') PathPart('') Args(1) {
     $c->response->redirect($c->chained_uri(@{$c->stash->{idea}->u}));
     return $c->detach;
   }
+  $c->stash->{title} = $c->stash->{idea}->title;
 }
 
 sub edit : Chained('idea_id') Args(0) {
@@ -144,6 +147,7 @@ sub edit : Chained('idea_id') Args(0) {
     $c->response->redirect($c->chained_uri(@{$c->stash->{idea}->u}));
     return $c->detach;
   }
+  $c->stash->{title} = 'Edit '.$c->stash->{idea}->title;
   $c->add_bc('Edit');
 }
 

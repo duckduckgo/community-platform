@@ -92,6 +92,7 @@ sub thread_id : Chained('thread_view') PathPart('thread') CaptureArgs(1) {
     return $c->detach;
   }
   $c->add_bc($c->stash->{thread}->title,$c->chained_uri(@{$c->stash->{thread}->u}));
+  $c->stash->{title} = $c->stash->{thread}->title;
 }
 
 sub thread_redirect : Chained('thread_id') PathPart('') Args(0) {
