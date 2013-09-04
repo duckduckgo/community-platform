@@ -25,6 +25,7 @@ sub index :Chained('base') :PathPart('') :Args(0) {
 
 sub json :Chained('base') :Args(0) {
 	my ( $self, $c ) = @_;
+	$c->stash->{not_last_url} = 1;
 	$c->stash->{x} = {
 		answer => $c->stash->{answer},
 	};

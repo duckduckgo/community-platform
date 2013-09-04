@@ -31,11 +31,13 @@ sub base :Chained('/') :PathPart('') :CaptureArgs(0) {
 
 sub captcha :Chained('base') :Args(0) {
 	my ($self, $c) = @_;
+	$c->stash->{not_last_url} = 1;
 	$c->create_captcha();
 }
 
 sub country_flag :Chained('base') :Args(2) {
 	my ( $self, $c, $size, $country_code ) = @_;
+	$c->stash->{not_last_url} = 1;
 	if ($country_code =~ m/(\w+)\.png$/) {
 		$country_code = $1;
 	}
@@ -50,6 +52,7 @@ sub country_flag :Chained('base') :Args(2) {
 
 sub generated_css :Chained('base') :Args(1) {
 	my ( $self, $c, $filename ) = @_;
+	$c->stash->{not_last_url} = 1;
 	my $file = file($c->d->config->cachedir,'generated_css',$filename)->stringify;
 	if (-f $file) {
 		$c->serve_static_file($file);
@@ -62,6 +65,7 @@ sub generated_css :Chained('base') :Args(1) {
 
 sub generated_images :Chained('base') :Args(1) {
 	my ( $self, $c, $filename ) = @_;
+	$c->stash->{not_last_url} = 1;
 	my $file = file($c->d->config->cachedir,'generated_images',$filename)->stringify;
 	if (-f $file) {
 		$c->serve_static_file($file);
@@ -74,6 +78,7 @@ sub generated_images :Chained('base') :Args(1) {
 
 sub media :Chained('base') :Args {
 	my ( $self, $c, @args ) = @_;
+	$c->stash->{not_last_url} = 1;
 	my $filename = join("/",@args);
 	my $mediadir = $c->d->config->mediadir;
 	my $file = file($mediadir,$filename);
@@ -87,12 +92,14 @@ sub media :Chained('base') :Args {
 
 sub index :Chained('base') :PathPart('') :Args(0) {
 	my ($self, $c) = @_;
+	$c->stash->{not_last_url} = 1;
 	$c->stash->{no_breadcrumb} = 1;
 	$c->stash->{title} = 'Welcome to the DuckDuckGo Community Platform';
 }
 
 sub default :Chained('base') :PathPart('') :Args {
 	my ( $self, $c ) = @_;
+	$c->stash->{not_last_url} = 1;
 	$c->response->status(404);
 	$c->add_bc('Not found', '');
 }
@@ -102,7 +109,8 @@ sub end : ActionClass('RenderView') {
 	my $template = $c->action.'.tx';
 	push @{$c->stash->{template_layout}}, $template;
 
-	$c->session->{last_url} = $c->req->uri;
+	$c->session->{last_url} = $c->req->uri unless $c->stash->{not_last_url};
+
 	if ($c->user) {
 		$c->stash->{user_notification_count} = $c->user->event_notifications_undone_count;
 		$c->run_after_request(sub { $c->d->envoy->update_own_notifications });

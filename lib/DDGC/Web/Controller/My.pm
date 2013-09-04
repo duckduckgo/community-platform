@@ -12,12 +12,13 @@ use Digest::MD5 qw( md5_hex );
 BEGIN {extends 'Catalyst::Controller'; }
 
 sub base :Chained('/base') :PathPart('my') :CaptureArgs(0) {
-    my ( $self, $c ) = @_;
+  my ( $self, $c ) = @_;
 	$c->stash->{page_class} = "page-account";
 }
 
 sub logout :Chained('base') :Args(0) {
-    my ( $self, $c ) = @_;
+  my ( $self, $c ) = @_;
+	$c->stash->{not_last_url} = 1;
 	$c->logout;
 	$c->delete_session;
 	$c->response->redirect($c->chained_uri('Root','index'));
@@ -25,7 +26,8 @@ sub logout :Chained('base') :Args(0) {
 }
 
 sub finishwizard :Chained('base') :Args(0) {
-    my ( $self, $c ) = @_;
+  my ( $self, $c ) = @_;
+	$c->stash->{not_last_url} = 1;
 	$c->wiz_finished;
 	delete $c->session->{wizard_finished};
 	$c->stash->{x} = { ok => 1 };
@@ -34,7 +36,7 @@ sub finishwizard :Chained('base') :Args(0) {
 }
 
 sub logged_out :Chained('base') :PathPart('') :CaptureArgs(0) {
-    my ( $self, $c ) = @_;
+  my ( $self, $c ) = @_;
 	if ($c->user) {
 		$c->response->redirect($c->chained_uri('My','account'));
 		return $c->detach;
@@ -43,6 +45,7 @@ sub logged_out :Chained('base') :PathPart('') :CaptureArgs(0) {
 
 sub login :Chained('logged_out') :Args(0) {
 	my ( $self, $c ) = @_;
+	$c->stash->{not_last_url} = 1;
 	$c->stash->{title} = 'Login';
 	$c->add_bc($c->stash->{title}, '');
 
@@ -50,14 +53,6 @@ sub login :Chained('logged_out') :Args(0) {
 	$c->stash->{register_successful} = $c->req->params->{register_successful};
 
 	my $last_url = $c->session->{last_url};
-	my $login_url = $c->chained_uri('My','login');
-	my $register_url = $c->chained_uri('My','register');
-	my $captcha_url = $c->chained_uri('Root','captcha');
-
-	if ($last_url !~ /^$login_url/ && $last_url !~ /^$register_url/ &&
-		$last_url !~ /^$captcha_url/) {
-		$c->session->{login_from} = $last_url;
-	}
 
 	if ($c->req->params->{username}) {
 
@@ -95,7 +90,7 @@ sub logged_in :Chained('base') :PathPart('') :CaptureArgs(0) {
 }
 
 sub account :Chained('logged_in') :Args(0) {
-    my ( $self, $c ) = @_;
+  my ( $self, $c ) = @_;
 
 	$c->bc_index;
 
@@ -180,7 +175,7 @@ sub email :Chained('logged_in') :Args(0) {
 }
 
 sub delete :Chained('logged_in') :Args(0) {
-    my ( $self, $c ) = @_;
+  my ( $self, $c ) = @_;
 
 	$c->stash->{title} = 'Delete your account';
 	$c->add_bc($c->stash->{title}, '');
@@ -359,6 +354,7 @@ sub forgotpw :Chained('logged_out') :Args(0) {
 
 sub register :Chained('logged_out') :Args(0) {
     my ( $self, $c ) = @_;
+	$c->stash->{not_last_url} = 1;
 
 	$c->stash->{page_class} = "page-signup";
 
@@ -440,6 +436,7 @@ sub register :Chained('logged_out') :Args(0) {
 
 sub requestlanguage :Chained('logged_in') :Args(0) {
 	my ($self, $c) = @_;
+	$c->stash->{not_last_url} = 1;
 
 	$c->stash->{title} = 'Request language';
     $c->add_bc($c->stash->{title}, '');

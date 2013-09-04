@@ -32,7 +32,8 @@ sub home :Chained('user') :PathPart('') :Args(0) {
 }
 
 sub json :Chained('user') :Args(0) {
-    my ( $self, $c ) = @_;
+  my ( $self, $c ) = @_;
+	$c->stash->{not_last_url} = 1;
 	$c->forward('View::JSON');
 }
 
