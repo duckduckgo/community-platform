@@ -315,7 +315,7 @@ a.fill {
 		
 /* clearfix */
 .group:after, .wrap:after, .breadcrumb-nav:after, .content-box .head:after, .comment_reply:after,
-.content-box .row:after, .one-field:after, .author-info:after, .comment-foot:after, .nav:after, .nav-item:after, .forum-item:after  {
+.content-box .row:after, .one-field:after, .author-info:after, .comment-foot:after, .nav:after, .nav-item:after, .forum-item:after, .account-actions:after  {
   content: "";
   display: table;
   clear: both;
@@ -460,28 +460,31 @@ a.fill {
 				word-wrap: break-word;
 				text-overflow: ellipsis;				
 			}
-			.header-account-info .account-actions {  }
-			.header-account-info .account-actions { display: block; text-shadow: 0 1px 0 #fff; padding-top: 6px; }
-			.header-account-info .account-actions a { 
+			.header-account-info .account-links {  }
+			.header-account-info .account-links { display: block; text-shadow: 0 1px 0 #fff; padding-top: 6px; }
+			.header-account-info .account-links a { 
 				border-left: 1px solid #c1c1c1; 
 				padding: 0 10px; 
 				font-size: 12px;
 				display: block;
 				float: left;
 			}	
-				.header-account-info .account-actiona a:hover { color: black; }
-				.header-account-info .account-actions a.first { border-left: none; padding-left: 0; }
+				.header-account-info .account-links a:hover { color: black; }
+				.header-account-info .account-links a.first { border-left: none; padding-left: 0; }
 	
 		.header-login { 
 			float: right; 
 			position: relative; 
 			top: 9px; 
-			border: 1px solid #bcbcbc; 
-			-webkit-border-radius: 5px;
-			border-radius: 5px;			
 		}			
-			.header-login .account-actions { display: block; text-shadow: 0 1px 0 #fff; }			
-			.header-login .account-actions a { 			
+			.account-actions { 
+                display: inline-block; 
+                text-shadow: 0 1px 0 #fff; 
+                border: 1px solid #bcbcbc; 
+                -webkit-border-radius: 5px;
+                border-radius: 5px;	
+            }			
+			.account-actions__btn { 			
 				padding: 8px 22px 9px; 
 				font-size: 12px;
 				display: block;
@@ -501,15 +504,15 @@ a.fill {
 				background: linear-gradient(to bottom,  #ffffff 0%,#f0f0f0 100%);
 				-pie-background: linear-gradient(to bottom,  #ffffff 0%,#f0f0f0 100%);
 			}	
-			.header-login .account-actions a:hover { background: #f0f0f0; }
-			.header-login .account-actions a:active { background: #fff; }
-				.header-login .account-actions a.first { 
+			.account-actions__btn:hover { background: #f0f0f0; }
+			.account-actions__btn:active { background: #fff; }
+				.account-actions__btn--first { 
 					border-right: 1px solid #bfbfbf; 
 					-webkit-border-radius: 5px 0 0 5px;
 					border-radius: 5px 0 0 5px;
 				}
 			.page-signup .header-login .nav-signup { display: none; }
-				.page-signup .header-login .nav-signup.first + a { 
+				.page-signup .header-login .nav-login { 
 					-webkit-border-radius: 5px;
 					border-radius: 5px;
 				}
