@@ -121,6 +121,16 @@ sub has_context {
 	return $self->does('DDGC::DB::Role::HasContext');
 }
 
+sub all_comments {
+	my ( $self ) = @_;
+	return $self->schema->resultset('Comment')->search_rs({
+		'me.context' => $self->i_context,
+		'me.context_id' => $self->i_context_id,
+	},{
+		order_by => { -desc => [qw( me.updated )] },
+	});
+}
+
 sub comments {
 	my ( $self ) = @_;
 	return $self->schema->resultset('Comment')->search_rs({
