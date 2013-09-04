@@ -8,7 +8,7 @@ BEGIN { extends 'Catalyst::Controller'; }
 use JSON;
 use List::MoreUtils qw( uniq );
 
-sub pagesize { 10 }
+sub pagesize { 20 }
 
 sub blog_base :Chained('base') :PathPart('') :CaptureArgs(0) {
 	my ( $self, $c ) = @_;
@@ -31,7 +31,7 @@ sub postlist_base :Chained('blog_base') :PathPart('') :CaptureArgs(0) {
 
 sub postlist_resultset {
 	my ( $self, $c ) = @_;
-	$c->stash->{posts_resultset} = $c->stash->{blog_resultset}->search({},{
+	$c->stash->{posts_resultset} = $c->stash->{blog_resultset}->search_rs({},{
 		order_by => { -desc => 'me.updated' },
 		page => $c->stash->{page},
 		rows => $c->stash->{pagesize},
