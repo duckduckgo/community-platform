@@ -27,7 +27,7 @@ my @attributes = (
 	twitter => 'Your Twitter username' => {
 		type => 'remote',
 		validators => [sub {
-			m/^\w{1,15}$/ ? () : ("Invalid Twitter username")
+			m/^[\w-_]{1,15}$/ ? () : ("Invalid Twitter username")
 		}],
 		params => {
 			url_prefix => 'https://twitter.com/',
@@ -38,7 +38,7 @@ my @attributes = (
 	facebook => 'Your Facebook profile url' => {
 		type => 'remote',
 		validators => [sub {
-			m/^[\w\.\/]+$/ ? () : ("Invalid facebook url")
+			m/^[\w\.\/-_]+$/ ? () : ("Invalid facebook url")
 		}],
 		params => {
 			url_prefix => 'https://facebook.com/',
@@ -59,7 +59,7 @@ my @attributes = (
 	reddit => 'Your reddit username' => {
 		type => 'remote',
 		validators => [sub {
-			m/^[\w\.]+$/ ? () : ("Invalid reddit username")
+			m/^[\w\.-_]+$/ ? () : ("Invalid reddit username")
 		}],
 		params => {
 			url_prefix => 'http://www.reddit.com/user/',
@@ -69,7 +69,7 @@ my @attributes = (
 	deviantart => 'Your deviantART username' => {
 		type => 'remote',
 		validators => [sub {
-			m/^[\w\.]+$/ ? () : ("Invalid deviantART username")
+			m/^[\w\.-_]+$/ ? () : ("Invalid deviantART username")
 		}],
 		params => {
 			url_prefix => 'http://',
@@ -80,7 +80,7 @@ my @attributes = (
 	imgur => 'Your imgur username' => {
 		type => 'remote',
 		validators => [sub {
-			m/^[\w\.]+$/ ? () : ("Invalid imgur username")
+			m/^[\w\.-_]+$/ ? () : ("Invalid imgur username")
 		}],
 		params => {
 			url_prefix => 'http://',
@@ -91,7 +91,7 @@ my @attributes = (
 	youtube => 'Your YouTube channel' => {
 		type => 'remote',
 		validators => [sub {
-			m/^[\w\.]+$/ ? () : ("Invalid YouTube username")
+			m/^[\w\.-_]+$/ ? () : ("Invalid YouTube username")
 		}],
 		params => {
 			url_prefix => 'https://youtube.com/user/',
@@ -101,7 +101,7 @@ my @attributes = (
 	flickr => 'Your flickr username' => {
 		type => 'remote',
 		validators => [sub {
-			m/^[\w\.]+$/ ? () : ("Invalid flickr username")
+			m/^[\w\.-_]+$/ ? () : ("Invalid flickr username")
 		}],
 		params => {
 			url_prefix => 'http://www.flickr.com/photos/',
@@ -111,7 +111,7 @@ my @attributes = (
 	linkedin => 'Your LinkedIn username' => {
 		type => 'remote',
 		validators => [sub {
-			m/^[\w\.]+$/ ? () : ("Invalid LinkedIn username")
+			m/^[\w\.-_]+$/ ? () : ("Invalid LinkedIn username")
 		}],
 		params => {
 			url_prefix => 'http://linkedin.com/in/',
