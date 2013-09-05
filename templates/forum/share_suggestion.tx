@@ -1,8 +1,8 @@
 <: if $c.user { :>
-    <p class="mg-bottom--small">
-		<a class="button tall media full--l" href="<: $u('Feedback','feedback_redirect','suggest') :>"><i class="media__img icon-bubble"></i><span class="media__body">Share Your Ideas</span></a>
+    <p class="mg-bottom--big">
+		<a class="button blue text-big tall media full--l" href="<: $u('Feedback','feedback_redirect','suggest') :>"><i class="media__img icon-bubbles"></i><span class="media__body">New Idea</span></a>
 	</p>
 <: } else { :>
     <p class="mg-bottom--small">Share your ideas:</p>	
-	<p class="mg-bottom--small"><span class="account-actions"><a href="<: $u('My','login') :>" class="account-actions__btn account-actions__btn--first  nav-login" data-reveal-id="login-box">Login</a> <a href="<: $u('My','register') :>" class="account-actions__btn  nav-signup">Sign up</a> </span></p>
+	<p class="mg-bottom--big"><span class="account-actions"><a href="<: $u('My','login') :>" class="account-actions__btn account-actions__btn--first  nav-login" data-reveal-id="login-box">Login</a> <a href="<: $u('My','register') :>" class="account-actions__btn  nav-signup">Sign up</a> </span></p>
 <: } :>

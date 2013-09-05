@@ -1,6 +1,12 @@
 <div class="content-box">
-  <div class="head">
-    <h2>Latest comments on...</h2>
+  <div class="head group">
+    <div class="pull-left">
+		<: if $forum_index { :>
+		  <: include "forum/nav.tx" { current_page => 'general' } :>
+		<: } else { :>
+		  <: include "forum/nav.tx" { current_page => 'other' } :>
+		<: } :>
+	</div>
 	<div class="pull-right">
 		<: i($grouped_comments,'pager') :>
 	</div>

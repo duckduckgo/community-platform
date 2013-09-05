@@ -1,7 +1,7 @@
 <span class="button-group  button-group--paging">
 <: for $_.pagesizes -> $pagesize { :>
 	<: if $_.pagesize == $pagesize { :>
-		<span class="button charcoal disabled"><: $pagesize :></span>
+		<span class="button button-nav-current disabled"><: $pagesize :></span>
 	<: } else { :>
 		<a class="button" href="<: $u($_.u_pagesize($pagesize)) :>"><: $pagesize :></a>
 	<: } :>

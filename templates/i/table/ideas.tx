@@ -1,6 +1,6 @@
 <div class="content-box">
   <div class="head">
-    <h2><: $ideas_title || "Ideas" :></h2>
+    <: include "forum/nav.tx" { current_page => 'ideas' } :>
     <div class="pull-right">
       <: i($_,'pager') :>
     </div>

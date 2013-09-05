@@ -1,5 +1,5 @@
 <: if $_.current_page == $no { :>
-	<span class="button charcoal disabled"><: $no_string ? $no_string : $no :></span>
+	<span class="button button-nav-current disabled"><: $no_string ? $no_string : $no :></span>
 <: } else if !$no { :>
 	<span class="button disabled"><: $no_string ? $no_string : "..." :></span>
 <: } else { :>

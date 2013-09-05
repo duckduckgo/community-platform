@@ -1,21 +1,6 @@
 <aside class="sidebar group">
 	<: include "forum/share_suggestion.tx" :>
-	<p><a class="button tall media full--l" href="<: $u('Ideas','index') :>"><i class="media__img icon-lightbulb"></i><span class="media__body">View Instant Answer Ideas</span></a></p>
-	<section class="menu-list tab-third">
-		<h5>Latest comments on ...</h5>
-		<ul>
-			<li><a href="<: $u('Forum','index') :>">Forum</a></li>
-			<li><a href="<: $u('Forum','ideas') :>">Ideas</a></li>
-			<li><a href="<: $u('Forum','blog') :>">Company Blog</a></li>
-			<li><a href="<: $u('Forum','user_blog') :>">User Blogs</a></li>
-			<li><a href="<: $u('Forum','translation') :>">Translation</a></li>
-			<li><a href="<: $u('Forum','all') :>">All</a></li>
-		</ul>
-	</section>
-	<section class="menu-list  clear  tab-mid">
-		<h5><a href="<: $u('Help','index','en_US') :>">Problem?  Try /help!</a></h5>
-		<a class="button blue full--l" href="<: $u('Help','index','en_US') :>"><i class="icon icon-question"></i>Check Help Pages</a>
-	</section>
+	
 	<section class="menu-list tab-mid">
 		<h5>Sticky threads</h5>
 		<ul>
@@ -25,5 +10,15 @@
 				Nothing here yet!
 			<: } :>
 		</ul>
-	</section>    
+	</section>
+	<section class="menu-list tab-third">
+		<h5>Latest comments on ...</h5>
+		<ul>
+			<li><a href="<: $u('Forum','index') :>">Forum</a></li>
+			<li><a href="<: $u('Forum','ideas') :>">Ideas</a></li>
+			<li><a href="<: $u('Forum','blog') :>">Company Blog</a></li>
+			<li><a href="<: $u('Forum','translation') :>">Translation</a></li>
+			<li><a href="<: $u('Forum','all') :>">All</a></li>
+		</ul>
+	</section>
 </aside>

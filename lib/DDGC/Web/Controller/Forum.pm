@@ -32,6 +32,7 @@ sub index : Chained('base') PathPart('') Args(0) {
   my ( $self, $c ) = @_;
   $c->bc_index;
   $self->set_grouped_comments($c,'index',$c->d->forum->comments_grouped_threads);
+  $c->stash->{forum_index} = 1;
 }
 
 sub ideas : Chained('base') Args(0) {

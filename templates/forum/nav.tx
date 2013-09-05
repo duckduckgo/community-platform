@@ -1,0 +1,20 @@
+<: # TODO - perhaps turn this into a for loop so that it's less repetitive :>
+
+<: my $general_name = "General Ramblings" :>
+<: my $ideas_name = "Instant Answers" :>
+
+<: if $current_page { :>
+	<span class="button-group button-group--nav">
+		<: if $current_page == 'ideas' { :>
+			<span class="button  disabled  button-nav-current"><: $ideas_name :></span>
+		<: } else { :>
+			<a href="<: $u('Ideas','index') :>" class="button"><: $ideas_name :></a>		
+		<: } if $current_page == 'general' { :>
+			<span class="button  disabled  button-nav-current"><: $general_name :></span>
+		<: } else { :>
+			<a href="<: $u('Forum','index') :>" class="button"><: $general_name :></a>
+		<: } :>
+	</span>
+<: } else { :>
+	<h2>Forum</h2>
+<: } :>

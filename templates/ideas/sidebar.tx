@@ -1,6 +1,6 @@
 <aside class="sidebar group">
 	<: include "forum/share_suggestion.tx" :>
-	<p><a class="button media tall full--l" href="<: $u('Forum','index') :>"><i class="icon icon-bubbles"></i>View Forum Posts</a></p>
+	
 	<: if $latest_ideas { :>
 		<section class="menu-list tab-mid">
 			<h5>Latest ideas</h5>
