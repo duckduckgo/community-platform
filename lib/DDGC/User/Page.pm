@@ -27,7 +27,7 @@ my @attributes = (
 	twitter => 'Your Twitter username' => {
 		type => 'remote',
 		validators => [sub {
-			m/^[\w-_]{1,15}$/ ? () : ("Invalid Twitter username")
+			m/^[\w_-]{1,15}$/ ? () : ("Invalid Twitter username")
 		}],
 		params => {
 			url_prefix => 'https://twitter.com/',
