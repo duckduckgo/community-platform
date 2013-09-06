@@ -1,8 +1,8 @@
 <div class="row">
-	<div class="third locale-label">
-		<a href="<: $u($token_domain_language.u, { only_untranslated => 1 }) :>">
+	<div class="third">
+		<a class="locale" href="<: $u($token_domain_language.u, { only_untranslated => 1 }) :>">
 			<: i($token_domain_language.language,'flag') :>
-			<span class="label"><: $token_domain_language.language.name_in_english :> [<: $token_domain_language.language.locale :>]</span>
+			<span class="locale__label"><: $token_domain_language.language.name_in_english :> [<: $token_domain_language.language.locale :>]</span>
 		</a>
 	</div>
 	<div class="twothirds progress <: if $token_domain_language.done_percentage < 60 { :> low <: } elsif $token_domain_language.done_percentage < 80 { :>med<: } elsif $token_domain_language.done_percentage < 100 { :>high<: } else { :>done<: } :>"> 

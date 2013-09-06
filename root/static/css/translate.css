@@ -1,28 +1,35 @@
-.locale-label { position: relative; }
-	.locale-label a { display: block; }
-	.locale-label .flag { 
-		padding: 11px 12px 13px 0; 		
-		position: absolute;
-		top: 0;
-		left: 0;
+
+.locale { 
+    display: block;
+    position: relative; 
+    margin-left: -6px;
+    padding: 0;
+    height: 2em;
+    line-height: 2em;     
+    width: 100%;    
+    overflow: hidden;
+    white-space: nowrap;
+    word-wrap: break-word;
+    text-overflow: ellipsis;
+}
+	.locale .flag { 
+		margin-right: 6px;  
+        margin-top: -3px;
+		display: inline-block;
+        vertical-align: middle;
 	}
-	.locale-label .label { 
-		font-size: 17px; 
-		padding: 7px 0 7px 28px;
-		line-height: 1; 
-		display: inline-block; 		
-		height: 2em;
-		width: 100%;
-		overflow: hidden;
-		white-space: nowrap;
-		word-wrap: break-word;
-		text-overflow: ellipsis;		
-		-webkit-box-sizing: border-box;
-		-moz-box-sizing: border-box;
-		-ms-box-sizing: border-box;
-		-o-box-sizing: border-box;
-		box-sizing: border-box;
+	.locale__label { 
+		font-size: 17px;
+        display: inline;
 	}
+    .locale--account {
+        height: 2.2em;
+        line-height: 2.2em;
+    }        
+    .locale__label--account  { 
+        font-size: 18px; 
+        display: inline;
+    }
 		
 .translate-overview .button--discuss { width: 90px; }	
 
@@ -205,6 +212,9 @@
 	}
 	.translate-overview .button {
 		width: auto;
+	}
+    .locale__label--account{ 
+		font-size: 16px; 
 	}
 }
 	
