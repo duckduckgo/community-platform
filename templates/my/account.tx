@@ -20,8 +20,10 @@
 			<: for results($c.user.user_languages) -> $user_language { :>
 				<div class="row">
 					<div class="forty">
-						<: i($user_language.language,'flag') :>
-						<label><: $user_language.language.name_in_local :> [<: $user_language.language.locale :>]</label>
+						<span class="locale locale--account">
+							<: i($user_language.language,'flag') :>
+							<span class="locale__label--account"><: $user_language.language.name_in_local :> [<: $user_language.language.locale :>]</span>
+						</span>
 					</div>
 					<div class="third"> 
 						<select class="language_grade" name="language_grade_<: $user_language.language.id :>">

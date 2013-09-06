@@ -1,2 +1,2 @@
 <: my $size = $flag_size || 16 :>
-<i class="flag-<: $size :>--<: $_.country_code :>"></i>
+<i class="flag  flag-<: $size :>--<: $_.country_code :>"></i>

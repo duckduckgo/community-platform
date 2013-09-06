@@ -41,6 +41,7 @@ for my $s (@sizes) {
   $css .= "  height: ".$s."px;\n";
   $css .= "  width: ".$width."px;\n";
   $css .= "  display: inline-block;\n";
+  $css .= "  padding: 0 !important;\n";
   $css .= "}\n\n";
   my $pos = 0;
   my @files;

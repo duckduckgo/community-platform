@@ -20,8 +20,7 @@
 			font-size: 1.3em; 
 			margin-right: 5px;
 		}
-	
-.account-box .flag { padding: 12px 12px 12px 0; position: absolute; top: 0; left: 0; }
+
 .account-box label { 
 	font-size: 18px;
 	height: 2em;
@@ -39,7 +38,7 @@
 	-o-box-sizing: border-box;
 	box-sizing: border-box;
 }
-	.account-box .flag + label { padding-left: 28px; }
+
 .account-box p { margin: 0; padding: 8px 0; }
 .account-box .button { float: right; width: 140px; margin: 0 0 0 10px; padding: 0; }
 	.account-box .multi .button { width: 90px; }		
@@ -59,7 +58,6 @@
 }
 
 @media only screen and (max-width: 900px) {
-	.account-box .flag { padding-right: 12px; }
 	.account-box label { 
 		width: 95%;
 		font-size: 16px; 
