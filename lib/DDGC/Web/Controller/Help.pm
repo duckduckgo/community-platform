@@ -21,17 +21,17 @@ sub index_redirect :Chained('base') :PathPart('') :Args(0) {
 
 sub language :Chained('base') :PathPart('') :CaptureArgs(1) {
   my ( $self, $c, $locale ) = @_;
+  my $oldurl_help = $c->d->rs('Help')->search({ old_url => 'http://help.dukgo.com/customer/portal/articles/'.$locale })->first;
+  if ($oldurl_help) {
+    $c->response->redirect($c->chained_uri('Help','help','en_US',$oldurl_help->help_category->key,$oldurl_help->key));
+    return $c->detach;
+  }
   unless ($locale eq 'en_US') {
     $c->response->redirect($c->chained_uri('Root','index',{ help_language_notfound => 1 }));
     return $c->detach;
   }
   $c->stash->{help_language} = $c->d->rs('Language')->search({ locale => $locale })->first;
   if (!$c->stash->{help_language}) {
-    my $oldurl_help = $c->d->rs('Help')->search({ old_url => 'http://help.dukgo.com/customer/portal/articles/'.$locale })->first;
-    if ($oldurl_help) {
-      $c->response->redirect($c->chained_uri('Help','help','en_US',$oldurl_help->help_category->key,$oldurl_help->key));
-      return $c->detach;
-    }
     $c->response->redirect($c->chained_uri('Root','index',{ help_language_notfound => 1 }));
     return $c->detach;
   }
