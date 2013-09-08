@@ -135,7 +135,7 @@ sub url_parse {
 
     return "$content" unless defined $url;
 
-    $content //= $url;
+    $content ||= $url;
     return sprintf('<a href="%s" rel="nofollow" alt="%s">%s</a>', $url, $alt, $content // $attr);
 }
 
