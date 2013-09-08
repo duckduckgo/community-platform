@@ -121,8 +121,6 @@ sub url_parse {
     my ($self, $parser, $attr, $content, $attribute_fallback, $tag) = @_;
     $content = Parse::BBCode::escape_html($$content) if ref $content;
 
-    use DDP;p $attr; p $content; p $tag->get_attr;
-
     my $url = $attribute_fallback;
     my $alt = $content;
 
