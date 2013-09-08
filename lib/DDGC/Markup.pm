@@ -134,6 +134,8 @@ sub url_parse {
     $url = $self->escapes->{link}->($parser,$tag,$url); # URL validation sort of thing.
 
     return "$content" unless defined $url;
+
+    $content //= $url;
     return sprintf('<a href="%s" rel="nofollow" alt="%s">%s</a>', $url, $alt, $content // $attr);
 }
 
