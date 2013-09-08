@@ -19,6 +19,13 @@ has bbcode => (
 	lazy_build => 1,
 );
 
+has escapes => (
+    is => 'ro',
+    isa => 'HashRef',
+    default => sub { my %e = shift->bbcode->default_escapes; \%e },
+    lazy => 1,
+);
+
 sub _build_bbcode {
 	my $self = shift;
 	Parse::BBCode->new({
@@ -31,7 +38,11 @@ sub _build_bbcode {
 		},
 		tags => {
 			Parse::BBCode::HTML->defaults,
-			url => 'url:<a href="%{link}A">%{parse}s</a>',
+			url => {
+                            code => sub { $self->url_parse(@_) },
+                            parse => 0,
+                            class => 'url',
+                        },
 			img => '<a href="%{link}A"><img src="%{link}A" alt="[%{html}s]" title="%{html}s"></a>',
 			code => {
 				code  => sub { $self->code_parse(@_) },
@@ -40,7 +51,7 @@ sub _build_bbcode {
 			},
 			quote => {
 				parse => 1,
-				slass => 'block',
+				class => 'block',
 				code  => sub { $self->quote_parse(@_) },
 			},
 		},
@@ -93,7 +104,7 @@ sub code_parse {
 		my @lines = split /\n/, $$content;
 		my $tvc = Text::VimColor->new( string => $$content, filetype => lc($attr) );
 		$content = $tvc->html;
-		$lang = ucfirst($attr)." ";
+		$lang = Parse::BBCode::escape_html(ucfirst($attr))." ";
 	} else {
 		$content = Parse::BBCode::escape_html($$content);
 	}
@@ -102,8 +113,30 @@ sub code_parse {
 
 sub quote_parse {
 	my ($self, $parser, $attr, $content, $attribute_fallback) = @_;
-	my $username = $attribute_fallback =~ m{^[^/\s?+]+$} ? $attribute_fallback : '';
+	my $username = $attribute_fallback =~ m{^[^/\s?+]+$} ? Parse::BBCode::escape_html($attribute_fallback) : '';
 	"<div class='bbcode_quote_header'>Quote". ($username ? " from <a href='/$username'>$username</a>" : "") . ":<div class='bbcode_quote_body'>$$content</div></div>";
+}
+
+sub url_parse {
+    my ($self, $parser, $attr, $content, $attribute_fallback, $tag) = @_;
+    $content = Parse::BBCode::escape_html($$content) if ref $content;
+
+    use DDP;p $attr; p $content; p $tag->get_attr;
+
+    my $url = $attribute_fallback;
+    my $alt = $content;
+
+    for (@{$tag->get_attr}) {
+        my @attr = @$_;
+        next if @attr < 1 or !defined $attr[1];
+        $url = $attr[1] if $attr[0] eq "href";
+        $alt = Parse::BBCode::escape_html($attr[1]) if $attr[0] eq "alt";
+    }
+
+    $url = $self->escapes->{link}->($parser,$tag,$url); # URL validation sort of thing.
+
+    return "$content" unless defined $url;
+    return sprintf('<a href="%s" rel="nofollow" alt="%s">%s</a>', $url, $alt, $content // $attr);
 }
 
 #
