@@ -33,7 +33,7 @@
             <div class="g third">
                 <span class="comment-meta">
                     <: if $context_obj.can('user') && $context_obj.user { :>
-                      by <: i($context_obj.user,'username') :> &bull; <: $dur($context_obj.created) :>
+                      by <: i($context_obj.user,'username') :> &bull; <: $dur_precise($context_obj.created) :>
                     <: } elsif $context_obj.can('token') && $context_obj.token { :> 
                        <i>Translation</i>
                     <: } :>

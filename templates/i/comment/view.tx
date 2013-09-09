@@ -19,7 +19,7 @@
 				<: if $_.deleted { :></em><: } :>
 			</p>
 			<span class="comment-meta">
-				posted by <: i($_.user,'username') :> &bull; <: $dur($_.created) :>
+				posted by <: i($_.user,'username') :> &bull; <: $dur_precise($_.created) :>
 				<: if !$no_reply && $c.user { :>
 					&bull;
 					<a class="comment_reply_link no-js-hide" href="#">Reply</a>
