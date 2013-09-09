@@ -96,7 +96,8 @@ pre, tt {
 }
 tt { padding: 0 3px 1px; }
 pre {	
-	margin: 0 10px 18px 0; 
+	position: relative;
+    margin: 0 0 18px 0; 
 	overflow: auto;	
 	padding: 0;		    
 	-moz-tab-size: 1;
@@ -108,10 +109,7 @@ pre {
 	-webkit-hyphens: none;
 	-moz-hyphens: none;
 	-ms-hyphens: none;
-	hyphens: none;
-	position: relative;
-	display: table;
-	width: 100%;
+	hyphens: none;	
 }
 
 pre code {
@@ -492,6 +490,8 @@ a.fill {
                 border: 1px solid #bcbcbc; 
                 -webkit-border-radius: 5px;
                 border-radius: 5px;	
+                white-space: nowrap;
+                word-wrap: break-word; 
             }			
 			.account-actions__btn { 			
 				padding: 8px 22px 9px; 

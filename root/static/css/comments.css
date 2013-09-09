@@ -52,7 +52,7 @@
     margin-bottom: 18px;
     display: table;
     width: 100%;
-    padding-right: 16px;
+    padding-right: 21px;
 }
 .thread-rule {
     margin-top: 10px;
@@ -66,7 +66,7 @@
     margin-bottom: 13px;    
 }
 .thread-header, .thread {
-    margin-left: -16px;    
+    margin-left: -22px;    
 }
 
 .thread-title {    
@@ -96,8 +96,7 @@
 .thread__user {
     display: table-cell;
     vertical-align: top;
-    padding-right: 7px;
-    width: 80px;
+    width: 92px;
     background-color: #f3f3f3;
     border-right: 1px solid #d9d9d9;
     -webkit-box-shadow: inset -1px 0 0 #fff;
@@ -134,8 +133,8 @@
     
 .thread__foot {
     position: relative; 
-    left: 16px;
-    margin-left: -16px;
+    left: 21px;
+    margin-left: -21px;
     border-top: 1px solid #d9d9d9;
     -moz-border-radius: 0 0 5px 0;
     -webkit-border-radius: 0 0 5px 0;
@@ -458,7 +457,35 @@
 .min.comment > .comment-body > .comment-foot > .comment-toggle > .min-msg,
 .max.comment > .comment-body > .comment-foot > .comment-toggle > .max-msg{ display: inline; }
 
+@media only screen and (max-width: 1020px) {	
+
+.thread-header, .thread {
+	margin-left: 0;
+}
+.thread {
+	padding-right: 0;
+}
+	.thread__body {
+		padding-right: 10px;
+	}
+    .thread__foot {
+        left: 0;
+        margin-left: 0;
+    }
+ 
+}
+
 @media only screen and (max-width: 600px) {		
+	.thread, .thread__body {
+		display: block;
+	}
+	.thread__user {
+		display: block;    
+		width: auto;    
+		border-right: none;
+		border-bottom: 1px solid #d9d9d9;
+	}
+	
 	.comment .user-avatar { 
 		width: 32px; 
 		height: 32px; 
