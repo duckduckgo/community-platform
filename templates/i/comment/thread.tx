@@ -7,8 +7,8 @@
     <div class="thread__body"> 
         <div class="thread-content  content">
           <span class="comment-meta  text-right">
-            Created: <: $dur($_.created) :> <: if $dur($_.created) != $dur($_.updated) { :>&bull;
-            Updated: <: $dur($_.updated) } :></span>
+            Created: <: $dur_precise($_.created) :> <: if $dur($_.created) != $dur($_.updated) { :>&bull;
+            Updated: <: $dur_precise($_.updated) } :></span>
           <div class="p"><: r($_.html) :></div>
         </div>
     </div>
