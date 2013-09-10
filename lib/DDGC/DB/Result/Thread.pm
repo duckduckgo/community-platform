@@ -86,11 +86,10 @@ column old_url => {
 	is_nullable => 1,
 };
 
-
 belongs_to 'user', 'DDGC::DB::Result::User', 'users_id';
 belongs_to 'comment', 'DDGC::DB::Result::Comment', 'comment_id', { 
 	on_delete => 'no action',
-	join_type => 'left'
+	join_type => 'left',
 };
 
 before insert => sub {

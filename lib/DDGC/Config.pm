@@ -5,6 +5,7 @@ use Moose;
 use File::Path qw( make_path );
 use File::Spec;
 use File::ShareDir::ProjectDistDir;
+use DDGC::Static;
 use Path::Class;
 use Catalyst::Utils;
 
@@ -49,6 +50,7 @@ has_conf nid => DDGC_NID => 1;
 has_conf pid => DDGC_PID => $$;
 
 has_conf rootdir_path => DDGC_ROOTDIR => $ENV{HOME}.'/ddgc/';
+has_conf ddgc_static_path => DDGC_STATIC => DDGC::Static->sharedir;
 
 sub rootdir {
 	my ( $self ) = @_;

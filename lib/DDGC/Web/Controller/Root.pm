@@ -63,6 +63,19 @@ sub generated_css :Chained('base') :Args(1) {
 	return $c->detach;
 }
 
+sub ddgc_static :Chained('base') :Args {
+	my ( $self, $c, @args ) = @_;
+	$c->stash->{not_last_url} = 1;
+	my $file = file($c->d->config->ddgc_static_path,@args)->stringify;
+	if (-f $file) {
+		$c->serve_static_file($file);
+		return;
+	}
+	$c->response->status(404);
+	$c->response->body("Not found");
+	return $c->detach;
+}
+
 sub generated_images :Chained('base') :Args(1) {
 	my ( $self, $c, $filename ) = @_;
 	$c->stash->{not_last_url} = 1;

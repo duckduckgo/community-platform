@@ -1,5 +1,5 @@
-package DDGC::DB::Result::Media;
-# ABSTRACT: Media meta data
+package DDGC::DB::Result::Screenshot;
+# ABSTRACT: Screenshot
 
 use Moose;
 use MooseX::NonMoose;
@@ -7,7 +7,7 @@ extends 'DDGC::DB::Base::Result';
 use DBIx::Class::Candy;
 use namespace::autoclean;
 
-table 'media';
+table 'screenshot';
 
 column id => {
   data_type => 'bigint',
@@ -15,27 +15,12 @@ column id => {
 };
 primary_key 'id';
 
-column filename => {
-  data_type => 'text',
-  is_nullable => 0,
-};
-
-column upload_filename => {
+column user_agent => {
   data_type => 'text',
   is_nullable => 1,
 };
 
-column source_url => {
-  data_type => 'text',
-  is_nullable => 1,
-};
-
-column content_type => {
-  data_type => 'text',
-  is_nullable => 1,
-};
-
-column title => {
+column url => {
   data_type => 'text',
   is_nullable => 1,
 };
@@ -45,7 +30,7 @@ column description => {
   is_nullable => 1,
 };
 
-column users_id => {
+column media_id => {
   data_type => 'bigint',
   is_nullable => 0,
 };
@@ -67,9 +52,9 @@ column updated => {
   set_on_update => 1,
 };
 
-unique_constraint [qw/ users_id filename /];
-
-belongs_to 'user', 'DDGC::DB::Result::User', 'users_id';
+belongs_to 'media', 'DDGC::DB::Result::Media', 'media_id', {
+  on_delete => 'cascade',
+};
 
 no Moose;
 __PACKAGE__->meta->make_immutable;
