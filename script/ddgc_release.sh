@@ -33,6 +33,7 @@ ssh -q -t ddgc@$DDGC_RELEASE_HOSTNAME "(
 	cd ~/deploy &&
 	tar xz --strip-components=1 -f $2 &&
 	cpanm -n --installdeps . &&
+	duckpan DDGC::Static &&
 	touch ~/ddgc_web_maintenance
 )" && \
 echo "***\n*** Stopping current system...\n***" && \
