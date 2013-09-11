@@ -1,4 +1,5 @@
 package DDGC::Web::Controller::Translate::Notes;
+# ABSTRACT:
 
 use Moose;
 BEGIN { extends 'Catalyst::Controller'; }

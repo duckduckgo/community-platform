@@ -1,4 +1,5 @@
 package DDGC::Web::Controller::Userpage::Blog;
+# ABSTRACT:
 
 use Moose;
 BEGIN { extends 'DDGC::Web::ControllerBase::Blog'; }

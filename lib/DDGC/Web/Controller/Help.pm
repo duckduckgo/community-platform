@@ -1,4 +1,6 @@
 package DDGC::Web::Controller::Help;
+# ABSTRACT:
+
 use Moose;
 use namespace::autoclean;
 

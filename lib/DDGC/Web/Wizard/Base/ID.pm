@@ -1,4 +1,5 @@
 package DDGC::Web::Wizard::Base::ID;
+# ABSTRACT:
 
 use Moose;
 extends 'DDGC::Web::Wizard';

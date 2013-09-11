@@ -1,4 +1,6 @@
 package DDGC::Web::Controller::Comment;
+# ABSTRACT:
+
 use Moose;
 use namespace::autoclean;
 

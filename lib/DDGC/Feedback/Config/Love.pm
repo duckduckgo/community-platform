@@ -1,4 +1,5 @@
 package DDGC::Feedback::Config::Love;
+# ABSTRACT:
 
 use strict;
 use warnings;

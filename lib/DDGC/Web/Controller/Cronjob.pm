@@ -1,4 +1,6 @@
 package DDGC::Web::Controller::Cronjob;
+# ABSTRACT:
+
 use Moose;
 use namespace::autoclean;
 

@@ -1,4 +1,5 @@
 package DDGC::DB::Result::Token;
+# ABSTRACT:
 
 use Moose;
 use MooseX::NonMoose;

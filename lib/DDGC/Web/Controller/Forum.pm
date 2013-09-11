@@ -1,4 +1,5 @@
 package DDGC::Web::Controller::Forum;
+# ABSTRACT: 
 
 use Moose;
 BEGIN {extends 'Catalyst::Controller'; }

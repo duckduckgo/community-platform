@@ -1,4 +1,6 @@
 package DDGC::Web::Controller::Feedback;
+# ABSTRACT:
+
 use Moose;
 use DDGC::Feedback::Step;
 

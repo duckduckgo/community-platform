@@ -1,4 +1,5 @@
 package DDGC::Feedback::Config::Bang;
+# ABSTRACT:
 
 use strict;
 use warnings;

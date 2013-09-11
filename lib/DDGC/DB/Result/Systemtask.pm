@@ -1,4 +1,5 @@
 package DDGC::DB::Result::Systemtask;
+# ABSTRACT:
 
 use Moose;
 use MooseX::NonMoose;

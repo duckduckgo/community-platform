@@ -1,4 +1,5 @@
 package DDGC::Feedback::Config::Relevancy;
+# ABSTRACT:
 
 use strict;
 use warnings;

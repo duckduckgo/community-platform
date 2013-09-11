@@ -1,4 +1,5 @@
 package DDGC::Feedback::Option;
+# ABSTRACT:
 
 use Moose;
 use MooseX::Storage;

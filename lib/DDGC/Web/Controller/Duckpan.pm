@@ -1,4 +1,6 @@
 package DDGC::Web::Controller::Duckpan;
+# ABSTRACT:
+
 use Moose;
 use namespace::autoclean;
 
