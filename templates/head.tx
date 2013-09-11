@@ -1,6 +1,6 @@
 <title><: $title :></title>
-<: for ['reset','litestrap','_ls/abstracts','font-face','font-awesome','modals','tables','forms-n-buttons','select2','progress','homepage','account','translate','blog','comments','feedback','help','main'] -> $css { :>
-	<link rel="stylesheet" media="screen, projection, handheld" href="/static/css/<: $css :>.css" />
+<: for ['/ddgc_static/css/reset','/ddgc_static/css/litestrap','/ddgc_static/css/_ls/abstracts','/ddgc_static/css/font-face','/ddgc_static/css/font-awesome','/ddgc_static/css/linkbox','/ddgc_static/css/modals','/ddgc_static/css/forms-n-buttons','/ddgc_static/css/feedback','/ddgc_static/css/content','/static/css/tables','/static/css/select2','/static/css/progress','/static/css/homepage','/static/css/account','/static/css/translate','/static/css/blog','/static/css/comments','/static/css/help','/ddgc_static/css/main'] -> $css { :>
+	<link rel="stylesheet" media="screen, projection, handheld" href="<: $css :>.css" />
 <: } :>
 <link rel="stylesheet" media="screen, projection, handheld" href="/generated_css/flags.css" />
 <meta name="viewport" content="width=100, initial-scale=1.0" />

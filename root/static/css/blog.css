@@ -11,63 +11,7 @@
 		font-size: 2.3em; 
 		line-height: 1.05;
 	}
-	.content h3, .content h4, .content h5, .content blockquote, .content .block, .content .p, .content p, .content ul, .content ol {
-		margin-bottom: 1.4em;
-	}
-	.content p, .content .p { 
-		font-size: 1.05em;
-		line-height: 1.55;		
-	}	
-	.content .block { 
-		display: block; 		
-		padding: 7px;
-		border: 1px solid #d7d7d7;
-		-webkit-border-radius: 4px;
-		border-radius: 4px;
-	}
-	.content img.mid {
-		display: block;
-		margin-left: auto;
-		margin-right: auto;
-	}
-	.blog-content .post-meta, .post-meta, .author-meta { 
-		display: block;
-		color: #727b88;
-		line-height: 1;
-		margin: 14px 0 20px;
-	}
-	.forum-title .post-meta { margin-top: 6px; }
-		.post-meta .user-info, .author-meta .user-info {
-			display: inline-block;
-		}
-			.post-meta .user-info img, .author-meta .user-info img{
-				display: inline-block;
-				margin-bottom: -3px;
-			}
-			.lt-ie9 .post-meta .user-info, .lt-ie9 .author-meta .user-info {
-				display: inline; 
-			}
-	.content ul, .content ol {
-		font-size: 13px;
-		line-height: 1.54;		
-	}
-		.content li {			
-			padding-left: 16px;
-			position: relative;
-		}
-		.content ul li { list-style: none;	}
-			.content ul li:before  {
-				position: absolute;
-				top: 50%;
-				left: 2px;
-				content: "";
-				display: block;
-				border: 4px solid transparent;
-				border-left: 5px solid #d9d9d9;
-				border-right: none;
-				margin-top: -5px;
-			}
-	
+
 .daily-posts, .author-info { 
 	position: relative; 
 	margin: 0 0 25px;

@@ -2,7 +2,7 @@
 	<div class="g  threequarter">
 	  <: include $next_template() :>
 	</div>
-	<div class="g  quarter">
+	<div class="g  quarter  pull-right">
 	  <: include "forum/sidebar.tx" :>
 	</div>
 </div>
