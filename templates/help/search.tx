@@ -25,8 +25,7 @@
 <: } else { :>
   <h2>Please enter a search term!</h2>
 <: } :>
-	<div class="row   clear   mg-bottom--big">
+	<div class="row   clear   mg-top--double  mg-bottom--big">
 	  <a class="button" href="<: $u('Help','index',$help_language.locale) :>"><i class="icon-fast-backward"></i> Back to help index</a>
 	</div>
 </div>
-
