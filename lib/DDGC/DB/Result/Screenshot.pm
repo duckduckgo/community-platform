@@ -5,6 +5,10 @@ use Moose;
 use MooseX::NonMoose;
 extends 'DDGC::DB::Base::Result';
 use DBIx::Class::Candy;
+use DDGC::Web::Form::Maker;
+
+use DDP; p(__PACKAGE__->meta);
+
 use namespace::autoclean;
 
 table 'screenshot';
@@ -14,21 +18,25 @@ column id => {
   is_auto_increment => 1,
 };
 primary_key 'id';
+f_hidden 'id';
 
 column user_agent => {
   data_type => 'text',
   is_nullable => 1,
 };
+f_text 'user_agent', label => "User agent used";
 
 column url => {
   data_type => 'text',
   is_nullable => 1,
 };
+f_text 'url', label => "URL";
 
 column description => {
   data_type => 'text',
   is_nullable => 1,
 };
+f_textarea 'description', label => "Description";
 
 column media_id => {
   data_type => 'bigint',
