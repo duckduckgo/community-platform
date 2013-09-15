@@ -117,6 +117,25 @@ sub idea : Chained('idea_id') PathPart('') Args(1) {
   $c->stash->{title} = $c->stash->{idea}->title;
 }
 
+sub delete : Chained('idea_id') Args(0) {
+  my ( $self, $c ) = @_;
+  unless ($c->user) {
+    $c->response->redirect($c->chained_uri('My','login'));
+    return $c->detach;
+  }
+  unless ($c->user->id == $c->stash->{idea}->users_id || $c->user->is('idea_manager')) {
+    $c->response->redirect($c->chained_uri(@{$c->stash->{idea}->u}));
+    return $c->detach;
+  }
+  my $id = $c->stash->{idea}->id;
+  $c->d->db->txn_do(sub {
+    $c->stash->{idea}->delete();
+    $c->d->rs('Comment')->search({ context => "DDGC::DB::Result::Idea", context_id => $id })->delete();
+  });
+  $c->response->redirect($c->chained_uri('Ideas','index'));
+  return $c->detach;
+}
+
 sub edit : Chained('idea_id') Args(0) {
   my ( $self, $c ) = @_;
   unless ($c->user) {
