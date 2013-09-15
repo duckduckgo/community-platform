@@ -24,7 +24,7 @@
 		<b>Source:</b>
 	  </div>
 	  <div class="row--floated  content">
-		<div class="p"><: $_.source_html :></div>
+		<div class="p"><: r($_.source_html) :></div>
 	  </div>
 		
     <: } :>
@@ -58,6 +58,7 @@
 			  </div>
 			  <div class="g thirty">
 				<input type="submit" name="change_status" value="Update" class="button full inline-form" />
+                                <a class="red button" href="<: $u('Ideas','delete',$_.id) :>">Delete</a>
 			  </div>
 		  </div>
 		</div>
