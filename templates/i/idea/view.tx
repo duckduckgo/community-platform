@@ -57,8 +57,8 @@
 				</select>
 			  </div>
 			  <div class="g thirty">
-				<input type="submit" name="change_status" value="Update" class="button full inline-form" />
-                                <a class="red button" href="<: $u('Ideas','delete',$_.id) :>">Delete</a>
+				<input type="submit" name="change_status" value="Update" class="button  inline-form" />
+                                <a class="button  red" href="<: $u('Ideas','delete',$_.id) :>">Delete</a>
 			  </div>
 		  </div>
 		</div>
