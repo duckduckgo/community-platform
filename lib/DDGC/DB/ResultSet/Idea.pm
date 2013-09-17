@@ -5,8 +5,6 @@ use Moose;
 extends 'DBIx::Class::ResultSet';
 use namespace::autoclean;
 
-
-
 sub schema { shift->result_source->schema }
 
 no Moose;

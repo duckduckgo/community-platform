@@ -24,6 +24,8 @@ sub base :Chained('/') :PathPart('') :CaptureArgs(0) {
 	$c->stash->{page_class} = "texture";
 	$c->stash->{errors} = [];
 
+	$c->set_new_action_token unless defined $c->session->{action_token};
+	$c->check_action_token;
 	$c->wiz_check;
 
 	$c->add_bc('Home', $c->chained_uri('Root','index'));

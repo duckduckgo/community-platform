@@ -6,10 +6,8 @@ use Class::Load;
 has form_name => (
   is => 'rw',
   isa => 'Str',
+  lazy => 1,
   default => sub {
-    use DDP; p($_[0]);
-    p($_[0]->linearized_isa);
-    exit 1;
     my $form_name = $_[0]->name;
     $form_name =~ s/::/_/g;
     return lc($form_name);
@@ -19,19 +17,22 @@ has form_name => (
 has form_class => (
   is => 'rw',
   isa => 'Str',
+  lazy => 1,
   default => sub { 'DDGC::Web::Form' },
 );
 
 has default_form_field_class => (
   is => 'rw',
   isa => 'Str',
-  default => sub { 'Text' },
+  lazy => 1,
+  default => sub { 'DDGC::Web::Form::Field' },
 );
 
 has form_field_definitions => (
   traits  => ['Array'],
   is => 'ro',
   isa => 'ArrayRef[HashRef]',
+  lazy => 1,
   default => sub { [] },
   handles => {
     add_form_field_definition => 'push',

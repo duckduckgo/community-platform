@@ -28,9 +28,9 @@ sub newthread : Chained('base') Args(0) {
     return $c->detach;
   }
 
-
   $c->stash->{form} = $c->d->rs('Screenshot')->result_source->result_class->get_form($c);
   use DDP; p($c->stash->{form});
+  1;
 }
 
 sub thread : Chained('base') CaptureArgs(1) {

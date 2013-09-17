@@ -5,9 +5,9 @@ use Moose;
 use MooseX::NonMoose;
 extends 'DDGC::DB::Base::Result';
 use DBIx::Class::Candy;
-use DDGC::Web::Form::Maker;
 
-use DDP; p(__PACKAGE__->meta);
+use DDGC::Web::Form::Maker;
+with qw( DDGC::Web::Role::Formable );
 
 use namespace::autoclean;
 
@@ -30,7 +30,7 @@ column url => {
   data_type => 'text',
   is_nullable => 1,
 };
-f_text 'url', label => "URL";
+f_text 'url', label => "URL", notempty => 1;
 
 column description => {
   data_type => 'text',
@@ -40,8 +40,9 @@ f_textarea 'description', label => "Description";
 
 column media_id => {
   data_type => 'bigint',
-  is_nullable => 0,
+  is_nullable => 1,
 };
+#f_upload 'media', label => "Screenshot upload";
 
 column data => {
   data_type => 'text',
@@ -64,5 +65,6 @@ belongs_to 'media', 'DDGC::DB::Result::Media', 'media_id', {
   on_delete => 'cascade',
 };
 
-no Moose;
-__PACKAGE__->meta->make_immutable;
+1;
+# no Moose;
+# __PACKAGE__->meta->make_immutable;

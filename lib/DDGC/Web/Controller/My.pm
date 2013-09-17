@@ -64,10 +64,9 @@ sub login :Chained('logged_out') :Args(0) {
 					username => $username,
 					password => $password,
 				}, 'users')) {
-					my $new_url;
-					$new_url = delete $c->session->{login_from} if (defined $c->session->{login_from});
-					$new_url = $c->chained_uri('My','account') unless defined $new_url;
-					$c->response->redirect($new_url);
+					$c->set_new_action_token;
+					$last_url = $c->chained_uri('My','account') unless defined $last_url;
+					$c->response->redirect($last_url);
 					return $c->detach;
 				} else {
 					$c->stash->{login_failed} = 1;

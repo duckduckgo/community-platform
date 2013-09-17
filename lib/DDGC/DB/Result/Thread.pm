@@ -6,6 +6,10 @@ use MooseX::NonMoose;
 extends 'DDGC::DB::Base::Result';
 use DBIx::Class::Candy;
 use DateTime::Format::Human::Duration;
+
+use DDGC::Web::Form::Maker;
+with qw( DDGC::Web::Role::Formable );
+
 use namespace::autoclean;
 
 table 'thread';
@@ -19,6 +23,7 @@ column id => {
 	is_auto_increment => 1,
 };
 primary_key 'id';
+f_hidden 'id';
 
 column users_id => {
 	data_type => 'bigint',

@@ -27,6 +27,7 @@ extends 'Catalyst';
 
 use DDGC::Config;
 use Class::Load ':all';
+use Digest::MD5 qw( md5_hex );
 
 use DDGC::Web::Wizard::Unvoted;
 use DDGC::Web::Wizard::Untranslated;
@@ -126,6 +127,24 @@ sub d {
 	return $c->model('DDGC::'.join('::',@args));
 }
 sub ddgc { shift->d(@_) }
+
+sub set_new_action_token {
+	my ( $c ) = @_;
+	$c->session->{action_token} = md5_hex(int(rand(1_000_000)));
+}
+
+sub check_action_token {
+	my ( $c ) = @_;
+	return $c->stash->{action_token_checked} if defined $c->stash->{action_token_checked};
+	return 0 unless defined $c->req->params->{action_token};
+	if ($c->session->{action_token} eq $c->req->params->{action_token}) {
+		$c->stash->{action_token_checked} = 1;
+	} else {
+		$c->stash->{action_token_checked} = 0;
+	}
+	$c->set_new_action_token;
+	return $c->stash->{action_token_checked};
+}
 
 sub pager_init {
 	my ( $c, $key, $default_pagesize ) = @_;

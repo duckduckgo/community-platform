@@ -47,10 +47,10 @@ sub field {
   return $name;
 }
 
-sub f_text { field(shift,shift, class => 'Text', @_) }
-sub f_textarea { field(shift,shift, class => 'Textarea', @_) }
-sub f_upload { field(shift,shift, class => 'Upload', @_) }
-sub f_select { field(shift,shift, class => 'Select', @_) }
-sub f_hidden { field(shift,shift, class => 'Hidden', @_) }
+sub f_text { field(shift,shift, class => 'DDGC::Web::Form::Field', type => 'text', @_) }
+sub f_textarea { field(shift,shift, class => 'DDGC::Web::Form::Field', type => 'textarea', @_) }
+sub f_upload { field(shift,shift, class => 'DDGC::Web::Form::Field::Upload', @_) }
+sub f_select { field(shift,shift, class => 'DDGC::Web::Form::Field::Select', @_) }
+sub f_hidden { field(shift,shift, class => 'DDGC::Web::Form::Field', hidden => 1, @_) }
 
 1;
