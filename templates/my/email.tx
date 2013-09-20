@@ -1,6 +1,7 @@
 <div class="form-border">
 	<div class="form-wrap account-form">
 		<form action="<: $u('My','email') :>" method="post" id="formEmail">
+			<input type="hidden" name="action_token" value="<: $action_token :>">
 			<h2>
 				<: if $c.user.data.email { :>
 					Change your email address

@@ -149,7 +149,9 @@ sub email :Chained('logged_in') :Args(0) {
 	$c->stash->{title} = 'Email';
 	$c->add_bc($c->stash->{title}, '');
 
-	return $c->detach if !$c->req->params->{save_email};
+	return $c->detach unless $c->req->params->{save_email};
+
+	$c->require_action_token;
 
 	if (!$c->validate_captcha($c->req->params->{captcha})) {
 		$c->stash->{wrong_captcha} = 1;
@@ -209,6 +211,8 @@ sub public :Chained('logged_in') :Args(0) {
     }
 
 	return $c->detach if !($c->req->params->{hide_profile} || $c->req->params->{show_profile});
+
+	$c->require_action_token;
 	
 	if (!$c->validate_captcha($c->req->params->{captcha})) {
 		$c->stash->{wrong_captcha} = 1;

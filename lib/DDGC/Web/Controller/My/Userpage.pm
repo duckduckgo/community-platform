@@ -12,6 +12,7 @@ sub base :Chained('/my/logged_in') :PathPart('userpage') :CaptureArgs(0) {
 	$c->add_bc('Userpage Editor', $c->chained_uri('My::Userpage','index'));
 	$c->stash->{up} = $c->user->userpage;
 	if ($c->req->param('save_userpage')) {
+		$c->require_action_token;
 		my @errors = $c->stash->{up}->update_data($c->req->params);
 		$c->stash->{userpage_save_errors} = @errors ? 1 : 0;
 		$c->stash->{userpage_saved} = 1;

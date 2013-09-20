@@ -1,6 +1,7 @@
 <div class="form-border">
 	<div class="form-wrap account-form">
 		<form action="<: $u('My','public') :>" method="post" id="formPublic">
+			<input type="hidden" name="action_token" value="<: $action_token :>">
 			<h2>
 				<: if $c.user.public { :>
 					<: $l('Make your account private') :>
