@@ -43,8 +43,6 @@ my $exit = 0;
 
 for (@diff) {
 	print $_;
-	next if m/ DROP CONSTRAINT /;
-	next if m/ ADD CONSTRAINT /;
 	if ($doupgrade) {
 		$schema->storage->dbh_do(sub {
 			my ( $self, $dbh ) = @_;
