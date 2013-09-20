@@ -5,18 +5,27 @@
         <div class="body">
             <: if $error { :>
                 <div class="notice error"><i class="icn icon-warning-sign"></i><: $error :></div>
-            <: } :>
+            <: } :>			
             <form action="<: if $thread.id { $u('Forum::My','edit',$thread.id) } else { $u('Forum::My','newthread') } :>" method="POST">
                 <input type="hidden" name="action_token" value="<: $action_token :>">
                 <input type="hidden" name="thread_form_id" value="<: $thread_form_id :>"/>
                 <div class="input-wrap"><input value="<: $thread.title || $c.req.params.title :>" type="text" name="title" placeholder="Title" autofocus></input></div>
-                <div class="input-wrap"><textarea name="content" class="js-bbcode" placeholder="Body" rows="15"><: $thread.comment.content || $c.req.params.content :></textarea></div>
-                <div class="input-wrap">
-                    <div id="screenshots">
-                        Drop screenshots here to upload
-                    </div>
-                </div>
-                <div class="right"><input type="submit" value="Post" class="big blue button" name="post_thread"></input></div>
+                <div class="input-wrap"><textarea name="content" class="js-bbcode" placeholder="Body" rows="15"><: $thread.comment.content || $c.req.params.content :></textarea></div>      
+				<div class="gw">
+					<div class="g seventy">
+						<div class="input-wrap">
+							<div id="screenshots" class="dropzone">
+								<div class="dz-message">
+									<span class="dz-message__icon"><i class="icon-camera"></i></span>
+									<span class="dz-message__text">(Upload a screenshot)</span>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="g quarter pull-right">
+						<div class="input-wrap"><input type="submit" value="Post" class="button  text-big  blue  h-tall" name="post_thread"></input></div>
+					</div>
+				</div>
             </form>
         </div>
     </div>
