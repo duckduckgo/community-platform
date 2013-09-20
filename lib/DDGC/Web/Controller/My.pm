@@ -278,8 +278,10 @@ sub changepw :Chained('logged_in') :Args(0) {
 	$c->stash->{title} = 'Change password';
     $c->add_bc($c->stash->{title}, '');
 
-	return if !$c->req->params->{changepw};
+	return unless $c->req->params->{changepw};
 	
+	$c->require_action_token;
+
 	my $error = 0;
 
 	if (!$c->user->check_password($c->req->params->{old_password})) {

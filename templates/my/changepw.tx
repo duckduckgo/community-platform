@@ -7,7 +7,8 @@
 	<div class="form-wrap account-form">
 
 		<h2>Change your password</h2>
-		<form action="<: $u('My','changepw') :>" class="group" method="post">			
+		<form action="<: $u('My','changepw') :>" class="group" method="post">
+		<input type="hidden" name="action_token" value="<: $action_token :>">			
 			<: if $changeok { :> <p class="notice success"><i class="icn icon-ok"></i>Your password has been changed correctly.</p> <: } :>
 			<: if $old_password_wrong {  :> <p class="notice error"><i class="icn icon-warning-sign"></i>Your old password is not correct. Please try again.<: } :>
 			<: if $password_too_short {  :> <p class="notice warning"><i class="icn icon-warning-sign"></i>Password must be at least 3 characters.<: } :>
