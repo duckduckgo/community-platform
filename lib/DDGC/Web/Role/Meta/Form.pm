@@ -21,6 +21,12 @@ has form_class => (
   default => sub { 'DDGC::Web::Form' },
 );
 
+has form_finish_code => (
+  is => 'rw',
+  isa => 'CodeRef',
+  predicate => 'has_form_finish_code',
+);
+
 has default_form_field_class => (
   is => 'rw',
   isa => 'Str',
@@ -46,8 +52,8 @@ sub get_form {
   my @field_definitions;
   for my $field_definition (@{$self->form_field_definitions}) {
     my $add = 1;
-    if (defined $field_definition->{condition}) {
-      my $cond = delete $field_definition->{condition};
+    if (defined $field_definition->{cond}) {
+      my $cond = delete $field_definition->{cond};
       $add = $cond->($c,$with,%args) for ($field_definition);
     }
     if ($add) {
@@ -63,7 +69,9 @@ sub get_form {
     ? delete $args{form_class}
     : $self->form_class;
   Class::Load::load_class($form_class);
-  $form_class->new_via_definitions($c, $form_name, \@field_definitions);
+  $form_class->new_via_definitions($c, $form_name, \@field_definitions,
+    $self->has_form_finish_code ? ( finish_code => $self->form_finish_code ) : (),
+  );
 }
 
 1;

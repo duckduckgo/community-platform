@@ -10,6 +10,7 @@
 </div>
 
 <form action="<: $u('My::Notifications','index') :>" method="post" class="column-form">
+<input type="hidden" name="action_token" value="<: $action_token :>">
 
 <div class="content-box">
 	<div class="head">

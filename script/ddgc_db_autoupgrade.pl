@@ -1,6 +1,6 @@
 #!/usr/bin/env perl
 
-die "getty dont want me to start this";
+#die "getty dont want me to start this";
 
 use FindBin;
 use lib $FindBin::Dir . "/../lib"; 
@@ -42,9 +42,9 @@ my @diff = SQL::Translator::Diff::schema_diff(
 my $exit = 0;
 
 for (@diff) {
+	print $_;
 	next if m/ DROP CONSTRAINT /;
 	next if m/ ADD CONSTRAINT /;
-	print $_;
 	if ($doupgrade) {
 		$schema->storage->dbh_do(sub {
 			my ( $self, $dbh ) = @_;

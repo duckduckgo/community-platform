@@ -2,7 +2,7 @@ package DDGC::DB::ResultSet::Comment;
 # ABSTRACT: Resultset class for comment entries
 
 use Moose;
-extends 'DBIx::Class::ResultSet';
+extends 'DDGC::DB::Base::ResultSet';
 use namespace::autoclean;
 
 sub grouped_by_context {

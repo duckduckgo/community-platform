@@ -149,6 +149,12 @@ has has_obj_value => (
   },
 );
 
+sub session {
+  my ( $self ) = @_;
+  $self->form->session->{$self->id} = {} unless defined $self->form->session->{$self->id};
+  return $self->form->session->{$self->id};
+}
+
 has obj_value => (
   is => 'ro',
   lazy => 1,

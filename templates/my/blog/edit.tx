@@ -5,7 +5,7 @@
 <: } :>
 
 <form action="<: $u('My::Blog','edit',$id) :>" method="post" class="column-form">
-
+<input type="hidden" name="action_token" value="<: $action_token :>">
 <div class="g twothird">
 	<div class="content-box">
 		<div class="head">

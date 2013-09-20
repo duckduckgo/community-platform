@@ -2,7 +2,7 @@ package DDGC::DB::ResultSet::Token::Language;
 # ABSTRACT: Resultset class for the tokens for the languages
 
 use Moose;
-extends 'DBIx::Class::ResultSet';
+extends 'DDGC::DB::Base::ResultSet';
 use namespace::autoclean;
 
 # Get all untranslated tokens of the given token domain and language

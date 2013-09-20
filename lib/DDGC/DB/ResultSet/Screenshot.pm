@@ -1,5 +1,5 @@
-package DDGC::DB::ResultSet::Idea;
-# ABSTRACT: Resultset class for idea entries
+package DDGC::DB::ResultSet::Screenshot;
+# ABSTRACT: Resultset class for screenshot entries
 
 use Moose;
 extends 'DDGC::DB::Base::ResultSet';

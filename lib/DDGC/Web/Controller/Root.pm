@@ -28,6 +28,8 @@ sub base :Chained('/') :PathPart('') :CaptureArgs(0) {
 	$c->check_action_token;
 	$c->wiz_check;
 
+	$c->stash->{action_token} = $c->session->{action_token};
+
 	$c->add_bc('Home', $c->chained_uri('Root','index'));
 }
 
@@ -103,6 +105,34 @@ sub media :Chained('base') :Args {
 		return $c->detach;
 	}
 	$c->serve_static_file($file);
+}
+
+sub thumbnail :Chained('base') :Args {
+	my ( $self, $c, @args ) = @_;
+	$c->stash->{not_last_url} = 1;
+	my $filename = join("/",@args);
+	my $mediadir = $c->d->config->mediadir;
+	my $file = file($mediadir,$filename);
+	unless (-f $file) {
+		$c->response->status(404);
+		$c->response->body("Not found");
+		return $c->detach;
+	}
+	my $thumbnail_dir = dir($c->d->config->mediadir,'thumbnail');
+	my $thumbnail = file($thumbnail_dir,$filename);
+	unless (-f $thumbnail) {
+		my $media = $c->d->rs('Media')->find({ filename => $filename });
+		if ($media) {
+			my $dir = $thumbnail->dir;
+			$dir->mkpath;
+			$media->generate_thumbnail("100x100",$thumbnail);
+		} else {
+			$c->response->status(404);
+			$c->response->body("Not found");
+			return $c->detach;
+		}
+	}
+	$c->serve_static_file($thumbnail);
 }
 
 sub index :Chained('base') :PathPart('') :Args(0) {

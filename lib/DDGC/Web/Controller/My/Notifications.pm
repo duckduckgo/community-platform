@@ -11,6 +11,7 @@ sub base :Chained('/my/logged_in') :PathPart('notifications') :CaptureArgs(0) {
 	my ( $self, $c ) = @_;
 	$c->add_bc('Notifications', $c->chained_uri('My::Notifications','index'));
 	if ($c->req->param('save_notifications')) {
+		$c->require_action_token;
 		my @context = $c->req->param('context');
 		my @context_id = $c->req->param('context_id');
 		my @sub_context = $c->req->param('sub_context');

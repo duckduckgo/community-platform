@@ -2,7 +2,7 @@ package DDGC::DB::ResultSet::Media;
 # ABSTRACT: Resultset class for media entries
 
 use Moose;
-extends 'DBIx::Class::ResultSet';
+extends 'DDGC::DB::Base::ResultSet';
 use Digest::MD5 qw( md5_hex );
 use Path::Class;
 use File::Copy;

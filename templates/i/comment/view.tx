@@ -25,7 +25,7 @@
 					<a class="comment_reply_link no-js-hide" href="#">Reply</a>
 					<a class="comment_reply_cancel_link no-js-hide hide" href="#">Cancel</a>
 					<: if ($c.user.admin or $c.user.id == $_.user.id) { :>
-						&bull; <a href="<: $u('Comment','delete',$_.id) :>">Delete</a>
+						&bull; <a href="<: $u('Comment','delete',$_.id, { action_token => $action_token }) :>">Delete</a>
 					<: } :>
 				<: } :>
 				<: if $children_count { :>

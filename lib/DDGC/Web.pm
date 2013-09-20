@@ -128,6 +128,14 @@ sub d {
 }
 sub ddgc { shift->d(@_) }
 
+sub next_form_id {
+	my ( $c ) = @_;
+	my $last_id = $c->session->{last_form_id} || int(rand(1_000_000));
+	my $next_id = $last_id + int(rand(1_000));
+	$c->session->{last_form_id} = $next_id;
+	return $next_id;
+}
+
 sub set_new_action_token {
 	my ( $c ) = @_;
 	$c->session->{action_token} = md5_hex(int(rand(1_000_000)));
@@ -144,6 +152,12 @@ sub check_action_token {
 	}
 	$c->set_new_action_token;
 	return $c->stash->{action_token_checked};
+}
+
+sub require_action_token {
+	my ( $c ) = @_;
+	die "No action token on submit" unless defined $c->stash->{action_token_checked};
+	die "Invalid action token" unless $c->stash->{action_token_checked};
 }
 
 sub pager_init {

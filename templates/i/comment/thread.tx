@@ -41,6 +41,11 @@
     </div>
 </div>
 
+<: for results($_.get_context_obj.sorted_screenshots) -> $screenshot { :>
+    <img src="<: $screenshot.media.url_thumbnail :>">
+    <: $screenshot.media.url :>
+<: } :>
+
 <: if $c.user and !$no_reply { :>
     <: i('comment_add',{ context => $_context, context_id => $_context_id }) :>
 <: } :>

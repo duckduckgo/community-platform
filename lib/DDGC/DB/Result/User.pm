@@ -66,6 +66,11 @@ column notes => {
 	is_nullable => 1,
 };
 
+column profile_media_id => {
+	data_type => 'bigint',
+	is_nullable => 1,
+};
+
 column created => {
 	data_type => 'timestamp with time zone',
 	set_on_create => 1,
@@ -143,6 +148,8 @@ has_many 'user_notifications', 'DDGC::DB::Result::User::Notification', 'users_id
 has_many 'user_blogs', 'DDGC::DB::Result::User::Blog', 'users_id';
 
 many_to_many 'languages', 'user_languages', 'language';
+
+belongs_to 'profile_media', 'DDGC::DB::Result::Media', 'profile_media_id', { join_type => 'left' };
 
 sub translation_count { shift->token_language_translations->count(@_); }
 sub event_notifications_undone_count { shift->event_notifications->search({

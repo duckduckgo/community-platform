@@ -6,10 +6,6 @@ use MooseX::NonMoose;
 extends 'DDGC::DB::Base::Result';
 use DBIx::Class::Candy;
 use DateTime::Format::Human::Duration;
-
-use DDGC::Web::Form::Maker;
-with qw( DDGC::Web::Role::Formable );
-
 use namespace::autoclean;
 
 table 'thread';
@@ -23,7 +19,6 @@ column id => {
 	is_auto_increment => 1,
 };
 primary_key 'id';
-f_hidden 'id';
 
 column users_id => {
 	data_type => 'bigint',
@@ -91,6 +86,8 @@ column old_url => {
 	is_nullable => 1,
 };
 
+has_many 'screenshot_threads', 'DDGC::DB::Result::Screenshot::Thread', 'thread_id';
+
 belongs_to 'user', 'DDGC::DB::Result::User', 'users_id';
 belongs_to 'comment', 'DDGC::DB::Result::Comment', 'comment_id', { 
 	on_delete => 'no action',
@@ -113,6 +110,13 @@ after update => sub {
 	my ( $self ) = @_;
 	$self->add_event('update');
 };
+
+sub sorted_screenshots {
+	my ( $self ) = @_;
+	$self->screenshot_threads->search_related('screenshot',{},{
+		sorted_by => [qw( me.created )],
+	});
+}
 
 sub comments {
 	my ( $self ) = @_;

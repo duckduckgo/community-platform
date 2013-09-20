@@ -34,6 +34,7 @@ sub delete : Chained('do') Args(1) {
 		$c->response->redirect($c->chained_uri(@{$comment->get_context_obj->u_delete}));
 		return $c->detach;
 	}
+	$c->require_action_token;
 	$c->d->db->txn_do(sub {
 		my $deleted_user = $c->d->db->resultset('User')->single({
 			username => $c->d->config->deleted_account,

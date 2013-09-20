@@ -17,10 +17,10 @@ has obj => (
   predicate => 'has_obj',
 );
 
-has before_update => (
+has finish_code => (
   is => 'ro',
   isa => 'CodeRef',
-  predicate => 'has_before_update',
+  predicate => 'has_finish_code',
 );
 
 has errors => (
@@ -35,6 +35,19 @@ sub error {
   my ( $self, $error_string ) = @_;
   push @{$self->errors}, $error_string;
   return 0;
+}
+
+sub session {
+  my ( $self ) = @_;
+  $self->c->session->{web_forms} = {} unless defined $self->form->session->{web_forms};
+  $self->c->session->{web_forms}->{$self->id} = {} unless defined $self->c->session->{web_forms}->{$self->id};
+  return $self->c->session->{web_forms}->{$self->id};
+}
+
+sub clear_session {
+  my ( $self ) = @_;
+  return unless defined $self->form->session->{web_forms};
+  delete $self->c->session->{web_forms}->{$self->id} if defined $self->c->session->{web_forms}->{$self->id};
 }
 
 has id => (
@@ -165,32 +178,36 @@ sub submitted {
   return 0;
 }
 
-sub update {
+sub update_obj {
   my ( $self ) = @_;
   die "can't update without an obj" unless $self->has_obj;
-  return unless $self->valid;
+  return 0 unless $self->valid;
+  return 0 if $self->no_update;
+  my $i = 0;
   for (@{$self->fields}) {
     $_->update_obj;
+    $i++;
   }
-  return 1 if ref $_->obj eq 'HASH';
-  return $_->obj->update if $_->obj->can('update');
-  return 1;
+  return $i;
 }
 
-sub result {
+sub finish {
   my ( $self ) = @_;
+  return undef unless $self->submitted;
   return undef unless $self->valid;
-  if ($self->has_obj) {
-    if ($self->has_before_update) {
-      $self->update;
-      return $self->obj;
-    }
+  if ($self->has_obj && !$self->has_finish_code) {
+    $self->update_obj;
+    return $self->obj;
   } else {
     my %values;
     for (@{$self->fields}) {
       $values{$_->name} = $_->new_value if $_->has_new_value;
     }
-    return \%values;
+    if ($self->has_finish_code) {
+      return $self->finish_code->($self,\%values);
+    } else {
+      return \%values;
+    }
   }
 }
 

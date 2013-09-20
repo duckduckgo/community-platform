@@ -31,6 +31,7 @@ sub delete :Chained('base') :Args(1) {
 	}
 
 	if ($c->req->param('iamsure')) {
+		$c->require_action_token;
 		$c->stash->{post}->delete;
 		$c->response->redirect($c->chained_uri('My::Blog','index'));
 		return $c->detach;
@@ -59,6 +60,7 @@ sub edit :Chained('base') :Args(1) {
 	}
 
 	if ($c->req->param('save_blog')) {
+		$c->require_action_token;
 
 		my %values;
 

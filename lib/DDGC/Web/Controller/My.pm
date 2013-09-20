@@ -180,7 +180,9 @@ sub delete :Chained('logged_in') :Args(0) {
 	$c->add_bc($c->stash->{title}, '');
 
 	return $c->detach unless $c->req->params->{delete_profile};
-	
+
+	$c->require_action_token;
+
 	if (!$c->validate_captcha($c->req->params->{captcha})) {
 		$c->stash->{wrong_captcha} = 1;
 		return $c->detach;

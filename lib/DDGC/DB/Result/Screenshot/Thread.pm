@@ -33,8 +33,14 @@ column created => {
   set_on_create => 1,
 };
 
-belongs_to 'thread', 'DDGC::DB::Result::Thread', 'thread_id';
-belongs_to 'screenshot', 'DDGC::DB::Result::Screenshot', 'screenshot_id';
+unique_constraint [qw/ thread_id screenshot_id /];
+
+belongs_to 'thread', 'DDGC::DB::Result::Thread', 'thread_id', {
+  on_delete => 'cascade',
+};
+belongs_to 'screenshot', 'DDGC::DB::Result::Screenshot', 'screenshot_id', {
+  on_delete => 'cascade',
+};
 
 ###############################
 

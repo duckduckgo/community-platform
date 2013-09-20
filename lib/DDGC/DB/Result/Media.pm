@@ -5,6 +5,8 @@ use Moose;
 use MooseX::NonMoose;
 extends 'DDGC::DB::Base::Result';
 use DBIx::Class::Candy;
+use IPC::Run qw{run timeout};
+use Path::Class;
 use namespace::autoclean;
 
 table 'media';
@@ -67,9 +69,24 @@ column updated => {
   set_on_update => 1,
 };
 
+sub url { '/media/'.$_[0]->filename }
+sub url_thumbnail { '/thumbnail/'.$_[0]->filename }
+
 unique_constraint [qw/ users_id filename /];
 
 belongs_to 'user', 'DDGC::DB::Result::User', 'users_id';
+
+sub generate_thumbnail {
+  my ( $self, $size, $target ) = @_;
+  my $source = file($self->ddgc->config->mediadir,$self->filename)->stringify;
+  my ( $in, $out, $err );
+  return run [ convert => ( $source,
+    '-resize', $size."^",
+    '-gravity', 'center',
+    '-crop', $size."+0+0",
+    '+repage', $target
+  )], \$in, \$out, \$err, timeout(60) or die "$err (error $?) $out";
+}
 
 no Moose;
 __PACKAGE__->meta->make_immutable;

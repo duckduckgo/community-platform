@@ -81,10 +81,17 @@ sub add_thread {
 	my ( $self, $user, $content, %params ) = @_;
 
 	$self->ddgc->db->txn_do(sub {
+		my @screenshot_ids;
+		push @screenshot_ids, @{delete $params{screenshot_ids}} if defined $params{screenshot_ids};
 		my $thread = $self->ddgc->rs('Thread')->create({
 			users_id => $user->id,
 			%params,
 		});
+		for (@screenshot_ids) {
+			$thread->create_related('screenshot_threads',{
+				screenshot_id => $_
+			});
+		}
 		my $thread_comment = $self->ddgc->add_comment(
 			'DDGC::DB::Result::Thread',
 			$thread->id,

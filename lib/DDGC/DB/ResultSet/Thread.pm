@@ -1,5 +1,5 @@
-package DDGC::DB::ResultSet::Idea;
-# ABSTRACT: Resultset class for idea entries
+package DDGC::DB::ResultSet::Thread;
+# ABSTRACT: Resultset class for thread entries
 
 use Moose;
 extends 'DDGC::DB::Base::ResultSet';

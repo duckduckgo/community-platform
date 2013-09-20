@@ -2,7 +2,7 @@ package DDGC::DB::ResultSet::User::Blog;
 # ABSTRACT: Resultset class for blog posts
 
 use Moose;
-extends 'DBIx::Class::ResultSet';
+extends 'DDGC::DB::Base::ResultSet';
 use namespace::autoclean;
 
 use DateTime::Format::RSS;
