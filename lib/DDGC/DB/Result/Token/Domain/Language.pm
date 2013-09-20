@@ -149,16 +149,22 @@ msgstr ""
 EOF
 	$intro > $po;
 	my %doublecheck;
-	for ($self->search_related('token_languages')->all) {
-		$_->auto_use; # should be renamed
-		my $msgid = $_->token->msgid;
-		$msgid .= '||||msgctxt||||'.$_->token->msgctxt if $_->token->msgctxt;
-		my $tid = $_->token->id;
+	for my $tl ($self->search_related('token_languages',{},{
+		prefetch => ['token',{ 
+			token_domain_language => [qw( language token_domain )],
+			token_language_translations => [{ user => { user_languages => 'language' }, token_language_translation_votes => 'user' }],
+		}],
+		order_by => [ 'token_language_translations.updated', 'token_language_translations.id' ],
+	})->all) {
+		$tl->auto_use; # should be renamed
+		my $msgid = $tl->token->msgid;
+		$msgid .= '||||msgctxt||||'.$tl->token->msgctxt if $tl->token->msgctxt;
+		my $tid = $tl->token->id;
 		if (defined $doublecheck{$msgid}) {
 			warn 'Token #'.$tid.' is a double of Token #'.$doublecheck{$msgid}.', I will ignore it';
 		} else {
 			$doublecheck{$msgid} = $tid;
-			$_->gettext_snippet($fallback) >> $po;
+			$tl->gettext_snippet($fallback) >> $po;
 		}
 	}
 	die "msgfmt failed" if system("msgfmt -c ".$po_filename." -o ".$mo_filename);

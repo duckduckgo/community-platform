@@ -194,10 +194,11 @@ sub set_translation {
 
 sub auto_use {
 	my ( $self ) = @_;
-	my @translations = $self->search_related('token_language_translations',{},{
-		order_by => [ 'me.updated', 'me.id' ],
-		prefetch => { user => 'user_languages' },
-	})->all;
+	my @translations = $self->search_related('token_language_translations',{});
+	# my @translations = $self->search_related('token_language_translations',{},{
+	# 	order_by => [ 'me.updated', 'me.id' ],
+	# 	prefetch => [{ user => 'user_languages', token_language_translation_votes => 'user' }],
+	# })->all;
 	my %first;
 	my %grade;
 	my %votes;
