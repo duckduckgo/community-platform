@@ -155,16 +155,22 @@
 .uploaded {
 	background-color: #f3f3f3;
 	overflow: hidden;
+	padding: 5px 0;
 	margin-bottom: 10px;
+	text-align: center;
 }
-	.uploaded__link, .uploaded__thumb, .uploaded__name {
+	.uploaded__link, .uploaded__thumb, .uploaded__name, .uploaded__icon {
 		display: block;
+		-webkit-transition: all 0.25s;
+		-moz-transition: all 0.25s;
+		-o-transition: all 0.25s;
+		transition: all 0.25s;
 	}
 	.uploaded__link {
+		display: inline-block;
 		color: #515358;
 		padding: 5px;
-		margin: 10px;
-		float: left;
+		margin: 5px;		
 		position: relative;
 	}
 		.uploaded__name,
