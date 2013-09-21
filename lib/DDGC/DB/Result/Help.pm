@@ -77,5 +77,14 @@ sub content_by_language_id {
 	})->first;
 }
 
+sub content_by_language_id_cached {
+	my ( $self, $language_id ) = @_;
+	$self->search_related('help_contents',{
+		language_id => $language_id
+	},{
+		cache_for => 600
+	})->first;
+}
+
 no Moose;
 __PACKAGE__->meta->make_immutable;

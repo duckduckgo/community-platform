@@ -12,7 +12,7 @@ sub base :Chained('/base') :PathPart('help') :CaptureArgs(0) {
   $c->stash->{help_categories} = $c->d->rs('Help::Category')->search({},{
     order_by => { -asc => 'me.sort' },
     prefetch => [ 'help_category_contents', { helps => 'help_contents' } ],
-    cache_for => 3600,
+    cache_for => 600,
   });
   $c->stash->{title} = 'Help pages';
 }
@@ -24,7 +24,11 @@ sub index_redirect :Chained('base') :PathPart('') :Args(0) {
 
 sub language :Chained('base') :PathPart('') :CaptureArgs(1) {
   my ( $self, $c, $locale ) = @_;
-  my $oldurl_help = $c->d->rs('Help')->search({ old_url => { -like => 'http://help.dukgo.com/customer/portal/articles/'.$locale.'%' }})->first;
+  my $oldurl_help = $c->d->rs('Help')->search({
+    old_url => { -like => 'http://help.dukgo.com/customer/portal/articles/'.$locale.'%' }
+  },{
+    cache_for => 86400,
+  })->first;
   if ($oldurl_help) {
     $c->response->redirect($c->chained_uri('Help','help','en_US',$oldurl_help->help_category->key,$oldurl_help->key));
     return $c->detach;
@@ -66,13 +70,13 @@ sub category_base :Chained('language') :PathPart('') :CaptureArgs(1) {
   $c->stash->{help_category} = $c->d->rs('Help::Category')->search({ 'me.key' => $category },{
     prefetch => [ 'help_category_contents', { helps => 'help_contents' } ],
     order_by => { -asc => 'helps.sort' },
-    cache_for => 3600,
+    cache_for => 600,
   })->first;
   if (!$c->stash->{help_category}) {
     $c->response->redirect($c->chained_uri('Help','index',$c->stash->{help_language}->locale,{ category_notfound => 1 }));
     return $c->detach;
   }
-  $c->stash->{help_category_content} = $c->stash->{help_category}->content_by_language_id($c->stash->{help_language_id});
+  $c->stash->{help_category_content} = $c->stash->{help_category}->content_by_language_id_cached($c->stash->{help_language_id});
   $c->add_bc($c->stash->{help_category_content}->title, $c->chained_uri('Help','category',$c->stash->{help_language}->locale,$c->stash->{help_category}->key));
   $c->stash->{title} = $c->stash->{help_category_content}->title;
 }
@@ -88,7 +92,7 @@ sub help_base :Chained('category_base') :PathPart('') :CaptureArgs(1) {
     'me.key' => $key,
   },{
     order_by => { -asc => 'me.sort' },
-    cache_for => 3600,
+    cache_for => 600,
   })->first;
 	if (!$c->stash->{help}) {
 		$c->response->redirect($c->chained_uri('Help','index',$c->stash->{help_language}->locale,{ help_notfound => 1 }));
@@ -96,6 +100,8 @@ sub help_base :Chained('category_base') :PathPart('') :CaptureArgs(1) {
 	}
   $c->stash->{help_content} = $c->stash->{help}->search_related('help_contents',{
     language_id => $c->stash->{help_language}->id
+  },{
+    cache_for => 600,
   })->first;
   $c->add_bc($c->stash->{help_content}->title, $c->chained_uri('Help','help',$c->stash->{help_language}->locale,$c->stash->{help_category}->key,$c->stash->{help}->key));
   $c->stash->{title} = $c->stash->{help_content}->title;
