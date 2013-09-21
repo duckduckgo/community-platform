@@ -1,3 +1,7 @@
+.user-info {
+	display: inline-block;
+}
+
 .account-box .row.callout-row, .callout-row {		
 	background: #f5f5f5;	
 	padding: 15px 10px;

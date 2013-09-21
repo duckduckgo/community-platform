@@ -12,6 +12,24 @@
 		line-height: 1.05;
 	}
 
+	.blog-content .post-meta, .post-meta, .author-meta { 
+		display: block;
+		color: #727b88;
+		line-height: 1;
+		margin: 14px 0 20px;
+	}
+	.forum-title .post-meta { margin-top: 6px; }
+		.post-meta .user-info, .author-meta .user-info {
+			display: inline-block;
+		}
+			.post-meta .user-info img, .author-meta .user-info img{
+				display: inline-block;
+				margin-bottom: -3px;
+			}
+			.lt-ie9 .post-meta .user-info, .lt-ie9 .author-meta .user-info {
+				display: inline; 
+			}	
+	
 .daily-posts, .author-info { 
 	position: relative; 
 	margin: 0 0 25px;
