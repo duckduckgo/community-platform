@@ -478,12 +478,15 @@ sub find_user {
 sub user_counts {
 	my ( $self ) = @_;
 	my %counts;
-	$counts{db} = $self->db->resultset('User')->count;
-	$counts{xmpp} = $self->xmpp->_prosody->_db->resultset('Prosody')->search({
+	$counts{db} = $self->db->resultset('User')->search({},{
+		cache_for => 3600,
+	})->count;
+	$counts{xmpp} = scalar ($self->xmpp->_prosody->_db->resultset('Prosody')->search({
 		host => $self->config->prosody_userhost,
 	},{
 		group_by => 'user',
-	})->count;
+		cache_for => 3600,
+	})->all);
 	return \%counts;
 }
 

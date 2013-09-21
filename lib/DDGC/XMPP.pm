@@ -6,7 +6,9 @@ use DDGC::Config;
 use DDGC::User;
 
 use Prosody::Storage::SQL;
+use Prosody::Storage::SQL::DB;
 use Prosody::Mod::Data::Access;
+use Cache::FileCache;
 
 has ddgc => (
 	isa => 'DDGC',
@@ -55,15 +57,28 @@ sub _build_admin_data_access {
 	);
 }
 
+sub prosody_dsn {
+	my ( $self ) = @_;
+	my $driver;
+	$driver = 'SQLite' if $self->ddgc->config->prosody_db_driver eq "SQLite3";
+	$driver = 'mysql' if $self->ddgc->config->prosody_db_driver eq "MySQL";
+	$driver = 'Pg' if $self->ddgc->config->prosody_db_driver eq "PostgreSQL";
+	return 'dbi:'.$driver.':dbname='.$self->ddgc->config->prosody_database.( $self->ddgc->config->prosody_host ? ';host='.$self->ddgc->config->prosody_host : '' )
+}
+
 sub _build__prosody {
 	my ( $self ) = @_;
-	my %options;
-	$options{driver} = $self->prosody_driver;
-	$options{database} = $self->prosody_database;
-#	$options{username} = $self->username if $self->has_username;
-#	$options{password} = $self->password if $self->has_password;
-#	$options{host} = $self->host if $self->has_host;
-	Prosody::Storage::SQL->new(\%options);
+	my $prosody_storage = Prosody::Storage::SQL->new({
+		database => $self->ddgc->config->prosody_db_database,
+		driver => $self->ddgc->config->prosody_db_driver,
+		_db => Prosody::Storage::SQL::DB->connect(@{$self->ddgc->config->prosody_connect_info}),
+	});
+	$prosody_storage->_db->default_resultset_attributes({
+		cache_object => Cache::FileCache->new({
+			namespace => __PACKAGE__
+		})
+	});
+	return $prosody_storage;
 }
 
 sub user {

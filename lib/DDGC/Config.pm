@@ -109,8 +109,9 @@ sub fallback_user { 'testtwo' }
 sub prosody_connect_info {
 	my ( $self ) = @_;
 	my %params = (
-		quote_char              => '"',
-		name_sep                => '.',
+		quote_char => '"',
+		name_sep => '.',
+		cursor_class => 'DBIx::Class::Cursor::Cached',
 	);
 	my $driver;
 	if ($self->prosody_db_driver eq 'SQLite3') {
@@ -135,6 +136,7 @@ sub prosody_connect_info {
 has_conf db_dsn => DDGC_DB_DSN => sub {
 	my ( $self ) = @_;
 	my $rootdir = $self->rootdir();
+	warn "DANGER, using SQLite as driver for DDGC will be deprecated soon";
 	return 'dbi:SQLite:'.$rootdir.'/ddgc.db.sqlite';
 };
 
@@ -147,8 +149,9 @@ has db_params => (
 	default => sub {
 		my ( $self ) = @_;
 		my %vars = (
-			quote_char		=> '"',
-			name_sep		=> '.',
+			quote_char => '"',
+			name_sep => '.',
+			cursor_class => 'DBIx::Class::Cursor::Cached',
 		);
 		if ($self->db_dsn =~ m/:SQLite:/) {
 			$vars{sqlite_unicode} = 1;

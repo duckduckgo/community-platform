@@ -39,6 +39,7 @@ sub index :Chained('base') :PathPart('') :Args(0) {
 				alias => 'token_count_col',
 			})->count_rs->as_query,
 		},
+		cache_for => 3600,
 	});
 	$c->bc_index;
 }
@@ -202,6 +203,7 @@ sub domain :Chained('logged_in') :PathPart('') :CaptureArgs(1) {
 		},
 		order_by => { -asc => 'language.locale' },
 		prefetch => [ 'language' ],
+		cache_for => 3600,
 	});
 	$c->stash->{token_domain_languages} = [$c->stash->{token_domain_languages_rs}->all];
 	for (@{$c->stash->{token_domain_languages}}) {

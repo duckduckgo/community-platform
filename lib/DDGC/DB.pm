@@ -5,6 +5,7 @@ use Moose;
 use MooseX::NonMoose;
 extends 'DBIx::Class::Schema';
 __PACKAGE__->load_namespaces();
+use Cache::FileCache;
 
 use namespace::autoclean;
 
@@ -24,6 +25,11 @@ sub connect {
 		$ddgc->config->db_params(),
 	);
 	$schema->_ddgc($ddgc);
+	$schema->default_resultset_attributes({
+		cache_object => Cache::FileCache->new({
+			namespace => __PACKAGE__
+		})
+	});
 	return $schema;
 }
 

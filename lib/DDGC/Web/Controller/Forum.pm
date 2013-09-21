@@ -15,6 +15,8 @@ sub base : Chained('/base') PathPart('forum') CaptureArgs(0) {
   $c->stash->{is_admin} = $c->user && $c->user->admin;
   $c->stash->{sticky_threads} = $c->d->rs('Thread')->search_rs({
     sticky => 1,
+  },{
+    cache_for => 3600,
   });
 }
 
