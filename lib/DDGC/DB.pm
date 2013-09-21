@@ -26,9 +26,7 @@ sub connect {
 	);
 	$schema->_ddgc($ddgc);
 	$schema->default_resultset_attributes({
-		cache_object => Cache::FileCache->new({
-			namespace => __PACKAGE__
-		})
+		cache_object => $ddgc->cache,
 	});
 	return $schema;
 }

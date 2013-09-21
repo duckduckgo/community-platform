@@ -154,6 +154,8 @@ belongs_to 'profile_media', 'DDGC::DB::Result::Media', 'profile_media_id', { joi
 sub translation_count { shift->token_language_translations->count(@_); }
 sub event_notifications_undone_count { shift->event_notifications->search({
 	done => 0,
+},{
+	cache_for => 30,
 })->count; }
 
 sub blog { shift->user_blogs_rs }

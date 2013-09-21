@@ -22,6 +22,7 @@ use Net::AIML;
 use Text::Xslate qw( mark_raw );
 use Class::Load qw( load_class );
 use POSIX;
+use Cache::FileCache;
 use namespace::autoclean;
 
 ##############################################
@@ -116,6 +117,13 @@ has duckpan => (
 	lazy_build => 1,
 );
 sub _build_duckpan { DDGC::DuckPAN->new({ ddgc => shift }) }
+
+has cache => (
+	isa => 'Cache::FileCache',
+	is => 'ro',
+	lazy_build => 1,
+);
+sub _build_cache { Cache::FileCache->new({ namespace => 'DDGC' }) }
 
 ##############################
 # __  __    _       _
@@ -477,15 +485,19 @@ sub find_user {
 
 sub user_counts {
 	my ( $self ) = @_;
+
+  return $self->cache->get('ddgc_user_counts') if defined $self->cache->get('ddgc_user_counts');
+
 	my %counts;
-	$counts{db} = $self->db->resultset('User')->search({},{
-		cache_for => 3600,
-	})->count;
+	$counts{db} = $self->db->resultset('User')->search({})->count;
 	$counts{xmpp} = $self->xmpp->_prosody->_db->resultset('Prosody')->search({
 		host => $self->config->prosody_userhost,
 	},{
 		group_by => 'user',
 	})->count;
+
+	$self->cache->set('ddgc_user_counts',\%counts,"1 hour");
+
 	return \%counts;
 }
 

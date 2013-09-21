@@ -8,7 +8,6 @@ use DDGC::User;
 use Prosody::Storage::SQL;
 use Prosody::Storage::SQL::DB;
 use Prosody::Mod::Data::Access;
-use Cache::FileCache;
 
 has ddgc => (
 	isa => 'DDGC',
@@ -74,9 +73,7 @@ sub _build__prosody {
 		_db => Prosody::Storage::SQL::DB->connect(@{$self->ddgc->config->prosody_connect_info}),
 	});
 	$prosody_storage->_db->default_resultset_attributes({
-		cache_object => Cache::FileCache->new({
-			namespace => __PACKAGE__
-		})
+		cache_object => $self->ddgc->cache,
 	});
 	return $prosody_storage;
 }
