@@ -23,6 +23,7 @@ use Text::Xslate qw( mark_raw );
 use Class::Load qw( load_class );
 use POSIX;
 use Cache::FileCache;
+use Cache::NullCache;
 use namespace::autoclean;
 
 ##############################################
@@ -119,11 +120,18 @@ has duckpan => (
 sub _build_duckpan { DDGC::DuckPAN->new({ ddgc => shift }) }
 
 has cache => (
-	isa => 'Cache::FileCache',
+	isa => 'Cache::Cache',
 	is => 'ro',
 	lazy_build => 1,
 );
-sub _build_cache { Cache::FileCache->new({ namespace => 'DDGC' }) }
+sub _build_cache {
+	return $_[0]->config->no_cache
+		? Cache::NullCache->new
+		: Cache::FileCache->new({
+				namespace => 'DDGC',
+				cache_root => $_[0]->config->cachedir,
+			});
+}
 
 ##############################
 # __  __    _       _
