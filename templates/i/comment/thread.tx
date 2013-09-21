@@ -40,12 +40,18 @@
        </div>
     </div>
 </div>
-
-<: for results($_.get_context_obj.sorted_screenshots) -> $screenshot { :>
-    <img src="<: $screenshot.media.url_thumbnail :>">
-    <: $screenshot.media.url :>
+<: if $_.get_context_obj.sorted_screenshots { :>
+	<h6 class="uploaded--title"><em>Attached Files:</em></h6>
+	<div class="uploaded">
+	<: for results($_.get_context_obj.sorted_screenshots) -> $screenshot { :>
+		<a class="uploaded__link" href="<: $screenshot.media.url :>" target="ddgc_screenshot">
+			<img src="<: $screenshot.media.url_thumbnail :>" title="<: $screenshot.media.upload_filename :>" alt="<: $screenshot.media.upload_filename :>" class="uploaded__file">
+			<i class="uploaded__icon  icon-camera"></i>
+			<span class="uploaded__name"><: $screenshot.media.upload_filename :></span>
+		</a>
+	<: } :>
+	</div>
 <: } :>
-
 <: if $c.user and !$no_reply { :>
     <: i('comment_add',{ context => $_context, context_id => $_context_id }) :>
 <: } :>

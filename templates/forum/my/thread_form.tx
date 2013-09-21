@@ -14,7 +14,7 @@
 				<div class="gw">
 					<div class="g seventy">
 						<div class="input-wrap">
-							<div id="screenshots" class="dropzone">
+							<div id="screenshots" class="dropzone <: if $screenshots { :> dz-started<: } :>">
 								<div class="dz-message">
 									<span class="dz-message__icon"><i class="icon-camera"></i></span>
 									<span class="dz-message__text">(Upload a screenshot)</span>
@@ -30,6 +30,12 @@
         </div>
     </div>
 </div>
+<div class="notice  contrast">
+	<i class="icn icon-info-sign"></i>
+	<b>Note:</b> Please be aware that along with any uploaded screenshots, we store information about your web browser, like version and language information. To see this, click here: <a href="https://duckduckgo.com/?q=user+agent">https://duckduckgo.com/?q=user+agent</a>
+	<i class="close icon-remove"></i>
+</div>
+
 <script type="text/javascript">
 
     $(function(){
