@@ -14,7 +14,7 @@
 				<div class="gw">
 					<div class="g seventy">
 						<div class="input-wrap">
-							<div id="screenshots" class="dropzone <: if $screenshots { :> dz-started<: } :>">
+							<div id="screenshots" class="dropzone <: if $screenshots.count { :> dz-started<: } :>">
 								<div class="dz-message">
 									<span class="dz-message__icon"><i class="icon-camera"></i></span>
 									<span class="dz-message__text">(Upload a screenshot)</span>
