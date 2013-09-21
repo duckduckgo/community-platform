@@ -41,16 +41,21 @@
     </div>
 </div>
 <: if $_.get_context_obj.sorted_screenshots { :>
-	<h6 class="uploaded--title"><em>Attached Files:</em></h6>
+	<h6 class="uploaded--title"><em>Attached Files: <: $_.get_context_obj.sorted_screenshots.count :></em></h6>
 	<div class="uploaded">
 	<: for results($_.get_context_obj.sorted_screenshots) -> $screenshot { :>
-		<a class="uploaded__link" href="<: $screenshot.media.url :>" target="ddgc_screenshot">
-			<img src="<: $screenshot.media.url_thumbnail :>" title="<: $screenshot.media.upload_filename :>" alt="<: $screenshot.media.upload_filename :>" class="uploaded__file">
+		<:# loop through the thumbs for each item :>		
+		<a class="uploaded__link" href="<: $screenshot.media.url :>" target="ddgc_screenshot" data-reveal-id="img-<: $screenshot.media.id:>" data-animation="popDown" data-lazyload="true">
+			<img src="<: $screenshot.media.url_thumbnail :>" title="<: $screenshot.media.upload_filename :>" alt="<: $screenshot.media.upload_filename :>" class="uploaded__thumb">
 			<i class="uploaded__icon  icon-camera"></i>
 			<span class="uploaded__name"><: $screenshot.media.upload_filename :></span>
 		</a>
 	<: } :>
 	</div>
+	<: for results($_.get_context_obj.sorted_screenshots) -> $screenshot { :>
+		<:# create a modal for each item :>
+		<img id="img-<: $screenshot.media.id:>" src="/static/img/spinner.gif" data-src="<: $screenshot.media.url :>" alt="<: $screenshot.media.upload_filename :> - Full" class="reveal-modal reveal-modal--img" />
+	<: } :>
 <: } :>
 <: if $c.user and !$no_reply { :>
     <: i('comment_add',{ context => $_context, context_id => $_context_id }) :>

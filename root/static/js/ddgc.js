@@ -350,8 +350,7 @@ $(document).ready(function() {
 	(function($) {
 	/* Listener for data-reveal-id attributes */
 		$('.js-reveal, a[data-reveal-id]').on('click', function(e) {		
-			e.preventDefault();
-			console.log('hi');
+			e.preventDefault();			
 			if ($(this).attr('data-reveal-id')){
 				var modalLocation = $(this).attr('data-reveal-id');
 				$('#'+modalLocation).reveal($(this).data());
@@ -380,7 +379,7 @@ $(document).ready(function() {
 	/* Create Modal BG */
 				if(modalBG.length == 0) {
 					modalBG = $('<div class="reveal-modal-bg" />').insertAfter(modal);
-				}     
+				}
 	/* Open & Close Animations */
 				//Entrance Animations
 				modal.bind('reveal:open', function () {
@@ -388,14 +387,18 @@ $(document).ready(function() {
 					$('.' + options.dismissmodalclass).unbind('click.modalEvent');
 					if(!locked) {
 						lockModal();
-						if(options.animation == "fadeAndPop") {
+						if(options.animation == "fadeAndPop" || options.animation == "popDown") {
+							if (options.animation == "fadeAndPop")
+								top_amnt = "20%";
+							else
+								top_amnt = 0;
 							modal.css({'opacity' : 0, 'visibility' : 'visible'});
 							modalBG.fadeIn(options.animationspeed/2);
 							modal.delay(options.animationspeed/2).animate({
-								"top": '20%',
+								"top": top_amnt,
 								"opacity" : 1
 							}, options.animationspeed,unlockModal());					
-						}
+						}						
 						if(options.animation == "fade") {
 							modal.css({'opacity' : 0, 'visibility' : 'visible'});
 							modalBG.fadeIn(options.animationspeed/2);
@@ -410,15 +413,22 @@ $(document).ready(function() {
 						}
 					}
 					modal.unbind('reveal:open');
+					if(options.lazyload) {
+						modal.attr('src', modal.data('src'));
+					}
 				}); 	
 				//Closing Animation
 				modal.bind('reveal:close', function () {
 				  if(!locked) {
 						lockModal();
-						if(options.animation == "fadeAndPop") {
+						if(options.animation == "fadeAndPop" || options.animation == "popDown") {
 							modalBG.delay(options.animationspeed).fadeOut(options.animationspeed);
+							if (options.animation == "fadeAndPop")
+								top_amnt = "-100%";
+							else
+								top_amnt = "-200%";
 							modal.animate({
-								"top":  '-1000px',
+								"top":  top_amnt,
 								"opacity" : 0
 							}, options.animationspeed/2, function() {
 								modal.css({'top':topMeasure, 'opacity' : 1, 'visibility' : 'hidden'});

@@ -157,7 +157,7 @@
 	overflow: hidden;
 	margin-bottom: 10px;
 }
-	.uploaded__link, .uploaded__file, .uploaded__name {
+	.uploaded__link, .uploaded__thumb, .uploaded__name {
 		display: block;
 	}
 	.uploaded__link {
@@ -191,7 +191,7 @@
 			opacity: 0.7;
 			visibility: visible;
 		}
-		.uploaded__link:hover .uploaded__file {
+		.uploaded__link:hover .uploaded__thumb {
 			opacity: 0.1;
 		}
 
