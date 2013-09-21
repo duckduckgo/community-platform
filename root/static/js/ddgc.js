@@ -341,12 +341,12 @@ $(document).ready(function() {
 			return false;
 		}
 	});
+	
 
 	/*
 	 * Modified jQuery Reveal Plugin
 	 * Changted from ZURB's original code to use fixed positioning and the newer 'click' function as the trigger
 	*/
-
 	(function($) {
 	/* Listener for data-reveal-id attributes */
 		$('.js-reveal, a[data-reveal-id]').on('click', function(e) {		

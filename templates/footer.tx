@@ -23,7 +23,7 @@
 					<li><a href="https://duckduckgo.com/">Homepage</a></li>
 					<li><a href="http://donttrack.us/">DontTrack.us</a></li>
 					<li><a href="http://dontbubble.us/">DontBubble.us</a></li>
-					<li><a href="http://help.duckduckgo.com/">Help</a></li>
+					<li><a href="<: $u('Help','index','en_US') :>">Help</a></li>
 					<li><a href="https://duck.co/">Forum</a></li>
 					<li><a href="http://cafepress.com/duckduckgo">Store</a></li>
 					<li><a href="http://www.stickermule.com/duckduckgo">Sticker Store</a></li>
