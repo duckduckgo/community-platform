@@ -1,3 +1,7 @@
+#!/usr/bin/env perl
+
+use strict;
+use warnings;
 use URI;
 use Web::Scraper;
 use DDP;

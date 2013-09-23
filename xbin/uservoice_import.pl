@@ -1,3 +1,7 @@
+#!/usr/bin/env perl
+
+use strict;
+use warnings;
 use DDP;
 use Text::CSV;
 use DDGC;
