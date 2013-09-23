@@ -16,7 +16,9 @@
       <h2>Notes</h2>
     </div>
     <div class="body">
-      <: $token.notes :>
+      <div class="row">
+        <: $token.notes :>
+      </div>
     </div>
   </div>
 <: } :>
@@ -34,6 +36,24 @@
   </div>
 <: } :>
 
+<: if $c.user.translation_manager { :>
+  <form method="POST" action="<: $u('Translate','token', $token.id) :>">
+    <div class="content-box translate-overview">
+      <div class="head">
+        <h2>Notes Editor</h2>
+      </div>
+      <div class="body">
+        <div class="row">
+          <textarea style="resize: none;" cols="40" rows="5" id="token_notes_<: $token.id :>_edit" name="token_notes_<: $token.id :>_edit"><: $token.notes :></textarea>
+         </div>
+        <div class="row">
+          <input type="submit" class="button" name="save_token_note" value="Save notes" />
+        </div>
+      </div>
+    </div>
+  </form>
+<: } :>
+
 <: if $token_languages_not.size() { :>
   <div class="content-box translate-overview">
     <div class="head">
@@ -47,16 +67,3 @@
   </div>
 <: } :>
 
-<: if $c.user.translation_manager { :>
-  <form method="POST" action="<: $u('Translate','token', $token.id) :>">
-    <div class="content-box translate-overview">
-      <div class="head">
-        <h2>Notes Editor</h2>
-      </div>
-      <div class="body">
-        <textarea style="resize: none;" cols="40" rows="5" id="token_notes_<: $token.id :>_edit" name="token_notes_<: $token.id :>_edit"><: $token.notes :></textarea>
-        <br/><input type="submit" class="button" name="save_token_note" value="Save notes" />
-      </div>
-    </div>
-  </form>
-<: } :>
