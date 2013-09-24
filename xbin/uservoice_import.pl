@@ -63,7 +63,7 @@ sub suggestion {
             updated => $sug{'Updated At'},
             old_vote_count => $sug{Votes},
             old_url => "https://duckduckhack.uservoice.com/forums/$sug{'Forum ID'}/suggestions/$sug{Id}",
-            data => {$comment{'User Email'} ? (uservoice_email => $comment{'User Email'}) : ()},
+            data => {$sug{'User Email'} ? (uservoice_email => $sug{'User Email'}) : ()},
         });
     $sug_id{$sug{Id}} = $idea->id;
 }
