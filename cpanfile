@@ -37,6 +37,7 @@ requires 'DBD::Pg', '0';
 requires 'DBIx::Class', '0.08250';
 requires 'DBIx::Class::AlwaysUpdate', '0.001';
 requires 'DBIx::Class::Candy', '0.002000';
+requires 'DBIx::Class::Cursor::Cached', '1.001002';
 requires 'DBIx::Class::EncodedColumn', '0.00011';
 requires 'DBIx::Class::InflateColumn::DateTime', '0';
 requires 'DBIx::Class::InflateColumn::Serializer', '0.03';
