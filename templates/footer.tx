@@ -9,7 +9,7 @@
 					<li><a href="<: $u('Blog','index') :>">Browse our Blog</a></li>
 					<li><a href="<: $u('Blog','post','using-pidgin-with-xmpp-jabber') :>">Chat via XMPP/Jabber</a></li>
 					<li><a href="https://github.com/duckduckgo/community-platform">Develop this site</a></li>
-					<li><a href="https://github.com/duckduckgo/duckduckgo/wiki">Develop goodies</a></li>
+					<li><a href="https://github.com/duckduckgo/duckduckgo/wiki">Develop instant answers</a></li>
 					<li><a href="https://duckduckgo.com/spread">Spread DuckDuckGo!</a></li>
 					<li><a href="https://duckduckgo.com/feedback">Submit feedback</a></li>
 					<li><a href="<: $u('Roboduck','index') :>">Talk with RoboDuck</a></li>
