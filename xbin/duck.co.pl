@@ -41,6 +41,7 @@ my $topic_page = scraper {
         process 'div.dimText em.ndboldem', datetime => '@title';
         process 'div.responseHeight', content => 'HTML';
         process 'div.sppostAuthor span a', author => 'TEXT';
+        process '.', class => '@class';
     };
 };
 
@@ -76,7 +77,9 @@ while (1) {
                 map { [
                     get_user($_->{author}),
                     $_->{content},
-                    $dt->parse_datetime($_->{datetime})
+                    $dt->parse_datetime($_->{datetime}),
+                    $_->{author},
+                    $_->{class} =~ /\bthread\b/, # If this is a sub-comment
                     ] if $_->{content} 
                 } (@{$topic->{posts}}[2..$#{$topic->{posts}}])
 
@@ -90,7 +93,8 @@ while (1) {
 
         my $thread = $ddgc->forum->add_thread(
             $user,
-            $topic->{posts}->[1]->{content},
+            "[Imported - original user: ".$topic->{posts}->[1]->{author}."]<br/>".
+                $topic->{posts}->[1]->{content},
             title => $li->{title},
             data => { discussion_status_id => 1 },
             readonly => 1,
@@ -99,11 +103,21 @@ while (1) {
             old_url => $li->{link},
         );
 
-        $ddgc->add_comment(
-            'DDGC::DB::Result::Comment',
-            $thread->comment->id,
-            $_->[0], $_->[1], created => $_->[2], updated => $_->[2] # user, text, created
-        ) for @comments;
+        my $last_comment;
+        for (@comments) {
+            my $c = $ddgc->add_comment(
+                'DDGC::DB::Result::Comment',
+                defined $_->[4] ? $last_comment->id : $thread->comment->id,
+
+                $_->[0], #user
+                "[Imported - original user: $_->[3]]<br/>".
+                    $_->[1], #text
+                 created => $_->[2],
+                 updated => $_->[2]
+            );
+            $last_comment = $c unless defined $_->[4];
+        }
+
     }
 
     exit unless defined $page->{next};
