@@ -40,7 +40,7 @@
        </div>
     </div>
 </div>
-<: if $_.get_context_obj.sorted_screenshots { :>
+<: if $_.get_context_obj.sorted_screenshots.count { # added .count to ensure there's at least 1 :>
 	<h6 class="uploaded--title"><em>Attached Files: <: $_.get_context_obj.sorted_screenshots.count :></em></h6>
 	<div class="uploaded">
 	<: for results($_.get_context_obj.sorted_screenshots) -> $screenshot { :>
