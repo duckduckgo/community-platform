@@ -5,7 +5,7 @@
 <div class="media  idea  idea--has-title  mg-bottom">
   <div class="idea__votes  idea__votes--rev  text-mid">	
 	<small><em>
-		<: if $c.user { :>Rock the Vote<: } else { :><a href="<: $u('My','login') :>">Log in</a> to Vote<: } :>
+		<: if $c.user { :>Vote for Me!<: } else { :><a href="<: $u('My','login') :>">Log in</a> to Vote<: } :>
 	</em></small>
 	<div class="vote-wrap mg-top--small">
 		<: i($_,'votes') :>	
