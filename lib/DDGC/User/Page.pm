@@ -101,7 +101,7 @@ my @attributes = (
 	flickr => 'Your flickr username' => {
 		type => 'remote',
 		validators => [sub {
-			m/^[\w\.-_]+$/ ? () : ("Invalid flickr username")
+			m/^[\w\.\-_]+$/ ? () : ("Invalid flickr username")
 		}],
 		params => {
 			url_prefix => 'http://www.flickr.com/photos/',
