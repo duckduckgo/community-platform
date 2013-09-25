@@ -40,7 +40,7 @@ my $topic_page = scraper {
     process "div.postContainer, div.spsingleReplyContainer", 'posts[]' => scraper {
         process 'div.dimText em.ndboldem', datetime => '@title';
         process 'div.responseHeight', content => 'HTML';
-        process 'div.sppostAuthor span a', author => 'TEXT';
+        process 'div.sppostAuthor span a', author => '@authorname';
         process '.', class => '@class';
     };
 };
