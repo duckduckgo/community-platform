@@ -52,7 +52,7 @@
 			<input type="submit" name="send" value="Say to Roboduck" class="button" />
 		</form>
 		<div id="duckzone-user-avatar" class="usericon">
-			<: i($c.user,'userinfo',{ userpic_size => 46 }) :>
+			<: i($c.user,'userpic',{ userpic_size => 46 }) :>
 		</div>
 		<div id="duckzone"></div>		
 	</div>
