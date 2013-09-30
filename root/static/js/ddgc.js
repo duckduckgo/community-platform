@@ -212,7 +212,7 @@ $(document).ready(function() {
 		});
 	});
 
-/* TODO - these next four are way too similar - they should be abstracted to a function/plugin */
+/* TODO - these next six are way too similar - they should be abstracted to a function/plugin */
     
     $('.js-thread-reply').click(function(e){
         e.preventDefault();
@@ -227,18 +227,33 @@ $(document).ready(function() {
 		$(this).parents('.thread').parent().children('.comment_reply').addClass('hide');
 		$(this).toggleClass('hide');
     });
+	
+	$('.js-comment-reply').click(function(e){
+        e.preventDefault();
+        $(this).siblings('.js-comment-cancel').toggleClass('hide');		
+        $(this).parents('.comment-foot').siblings('.comment_reply').removeClass('js-hide')
+			.children('.comment_reply').removeClass('js-hide');
+		$(this).toggleClass('hide');
+    });
+    
+    $('.js-comment-cancel').click(function(e){
+        e.preventDefault();
+		$(this).siblings('.js-comment-reply').toggleClass('hide');
+		$(this).parents('.comment-foot').siblings('.comment_reply').addClass('js-hide');
+		$(this).toggleClass('hide');
+    });
     
 	$('a.comment_reply_link').click(function(e){
 		e.preventDefault();
 		$(this).next('.comment_reply_cancel_link').fadeIn();
-		$(this).parents().children('.comment-body .comment_reply').addClass('hide').removeClass('js-hide').fadeIn();
+		$(this).parents('.comment-meta').siblings('.comment_reply').addClass('hide').removeClass('js-hide').fadeIn();
 		$(this).hide();
 	});
 
 	$('a.comment_reply_cancel_link').click(function(e){
 		e.preventDefault();
 		$(this).prev('.comment_reply_link').fadeIn();
-		$(this).parents().children('.comment-body .comment_reply').fadeOut();
+		$(this).parents('.comment-meta').siblings('.comment_reply').fadeOut();
 		$(this).hide();
 	});
 
