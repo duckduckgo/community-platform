@@ -59,12 +59,24 @@
     margin-bottom: 5px;
 }
 .thread-header, .idea-header {
-    padding-top: 13px;
-    padding-bottom: 13px;
+    padding-top: 10px;
+    padding-bottom: 10px;
     padding-left: 10px;
     background-color: #f3f3f3;
     margin-bottom: 13px;    
 }
+	.thread-title h1,
+	.thread-title h2,
+	.idea-title h1,
+	.idea-title h2{
+		line-height: 1.2;
+	}
+	.thread-title__icon, 
+	.idea-title__icon { 
+		margin-top: 2px;
+		color: #b1b2b6; 
+	}
+	
 .thread-header, .thread, .uploaded, .uploaded--title {
     margin-left: -22px;    
 }
@@ -72,17 +84,17 @@
 .thread-title {    
     margin: 0 60px 0 0;
 }
-    .thread-title h1 {
+	.thread-title h1 {
         text-align: left;
         font-size: 16px;
         font-weight: bold;
-        margin: 0;
+        margin: 0;		
     }
     .thread-title h2 {
         font-size: 14px;
         margin: 0;
     }
-    .thread-title__icon, .idea-title__icon { color: #b1b2b6; }
+    
 .thread-icons {
     position: absolute;
     top: 0.45em;
