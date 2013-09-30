@@ -1,141 +1,149 @@
 <: if $not_ok { :>
 	<div class="notice supererror">
-		<i class="icn icon-warning-sign"></i>There was an error on save!
+		<i class="icn icon-warning-sign"></i> Red Alert!!!  There was an error!!!
 	</div>
 <: } :>
 
 <form action="<: $u('My::Blog','edit',$id) :>" method="post" class="column-form">
 <input type="hidden" name="action_token" value="<: $action_token :>">
-<div class="g twothird">
-	<div class="content-box">
-		<div class="head">
-			<h3>
-				<: if $id == 'new' { :>
-					A new blog post
-				<: } else { :>
-					<: $post.title :>
+<div class="gw">
+	<div class="g twothird">
+		<div class="content-box">
+			<div class="head">
+				<h3>
+					<: if $id == 'new' { :>
+						A new blog post
+					<: } else { :>
+						<: $post.title :>
+					<: } :>
+				</h3>
+				<: if $post.company_blog { :>
+					<img src="/static/images/duckduckgo-icon.png" width="32" height="32" title="Official DuckDuckGo" class="admin-badge pull-right" />				
 				<: } :>
-			</h3>
-			<: if $post.company_blog { :>
-				<img src="/static/images/duckduckgo-icon.png" width="32" height="32" title="Official DuckDuckGo" class="admin-badge pull-right" />				
-			<: } :>
+			</div>
+			<div class="body">
+				<div class="row">
+					<div class="third">
+						<label for="name">Title</label>
+					</div>
+					<div class="twothird">
+						<input type="text" name="title" size="50" value="<: $post.title :>" />
+					</div>
+				</div>
+				<div class="row">
+					<div class="third">
+						<label for="url">URL</label>
+					</div>
+					<div class="twothird">
+						<input type="text" name="uri" size="50" value="<: $post.uri :>" />
+					</div>
+					<: if $error_uri_invalid { :>
+					<div class="row">
+						<div class="notice error">
+							<i class="icn icon-warning-sign"></i> The URL may only contain letters, numbers and dashes!
+						</div>
+					</div>
+					<: } :>
+				</div>				
+				<div class="row">
+					<div class="third">
+						<label for="fixed_date">Date of Post <br/><small>(like 'Dec 21 2003 18:00')</small><label>
+					</div>
+					<div class="twothird">
+						<input type="text" name="fixed_date" size="50" value="<: $post.fixed_date :>" placeholder="(leave empty for automatic update)" />
+					</div>
+					<: if $error_fixed_date_invalid { :>
+					<div class="row">
+						<div class="notice error">
+							<i class="icn icon-warning-sign"></i> This is not a valid date!
+						</div>
+					</div>
+					<: } :>
+				</div>				
+				<div class="row">
+					<div class="third">
+						<label for="topics">Topics</label>
+					</div>
+					<div class="twothird">
+						<input type="text" name="topics" size="50" value="<: $post.topics :>" />
+					</div>
+					<: if $error_topics_invalid { :>
+					<div class="row">
+						<div class="notice error">
+							<i class="icn icon-warning-sign"></i> The topics must be a comma separated list only with letters, numbers and dashes!
+						</div>
+					</div>
+					<: } :>
+				</div>
+				
+				<: if $c.user.admin { :>
+					<div class="row">
+						<div class="third">
+							<label for="raw_html">Raw HTML post</label>
+						</div>
+						<div class="twothird">
+							<input type="checkbox" name="raw_html" value="1" <: if $post.raw_html { :>checked="checked"<: } :>/>
+						</div>
+					</div>
+					<div class="row">
+						<div class="third">
+							<label for="company_blog">Company Blog</label>
+						</div>
+						<div class="twothird">
+							<input type="checkbox" name="company_blog" value="1" <: if $post.company_blog { :>checked="checked"<: } :>/>
+						</div>
+					</div>
+				<: } :>
+				<div class="row mid">
+					<label for="teaser">Teaser</label>
+				</div>
+				<div class="row mid">
+					<textarea rows="5" cols="80" name="teaser" id="teaser"><: $post.teaser :></textarea>
+				</div>
+				<div class="row mid">
+					<label for="content">Blog text</label>
+				</div>
+				<div class="row mid">
+					<textarea rows="30" cols="80" name="content" id="content"><: $post.content :></textarea>
+				</div>
+				<div class="row">
+					<div class="third">
+						<label for="live">Make this post LIVE</label>
+					</div>
+					<div class="twothird">
+						<input type="checkbox" name="live" value="1" <: if $post.live { :>checked="checked"<: } :>/>
+					</div>
+				</div>
+				<div class="row mid">
+					<input type="submit" class="big blue button" name="save_blog" value="Save and goto blog post" />
+				</div>
+			</div>
 		</div>
-		<div class="body">
-			<div class="row">
-				<div class="third">
-					Title
-				</div>
-				<div class="twothird">
-					<input type="text" name="title" size="50" value="<: $post.title :>" />
-				</div>
+	</div>
+	<div class="g third">
+		<div class="sidebar-content content-box">
+			<div class="head">
+				<h3>Markup guide</h3>
 			</div>
-			<div class="row">
-				<div class="third">
-					URL
-				</div>
-				<div class="twothird">
-					<input type="text" name="uri" size="50" value="<: $post.uri :>" />
-				</div>
-			</div>
-			<: if $error_uri_invalid { :>
+			<div class="body">
 				<div class="row">
-					<i class="icn icon-warning-sign"></i>The URL may only contain letters, numbers and dashes!
+					<p>You can use <a href="https://en.wikipedia.org/wiki/BBCode">BBCode</a> to format your post.</p>
+					<p>Quick examples:<br/>
+						<tt>[b]Hello[/b]</tt> : <b>Hello</b><br/>
+						<tt>[i]Hello[/b]</tt> : <i>Hello</i><br/>
+						<tt>[u]Hello[/u]</tt> : <u>Hello</u><br/>
+						<tt>[img]http://ddg.gg/favicon.ico[/img]</tt>: <img src="https://duckduckgo.com/favicon.ico" alt="https://duckduckgo.com/favicon.ico"></img><br/>
+						<tt>[quote=superman]Look at me![/quote]</tt>: <div class='bbcode_quote_header'>Quote from <a href='/superman'>superman</a>:<div class='bbcode_quote_body'>Look at me!</div></div>
+						<tt>[code=perl]say "Hello, World";[/code]</tt>: <div class='bbcode_code_header'>Perl Code:<pre class='bbcode_code_body'><code><span class="synStatement">say</span> <span class="synConstant">"Hello, World"</span>;</code></pre></div>
+						<tt>[noparse][b]test[/b][/noparse]</tt>: [b]test[/b]<br/>
+						<tt>[size=5pt]test[/size]</tt>: <span style="font-size: 5">test</span>
+						<tt>[color=red]test[/color]</tt>: <span style="color: red">test</span>
+					</p>
 				</div>
-			<: } :>
-			<div class="row">
-				<div class="third">
-					Date of post (like 'Dec 21 2003 18:00') (or leave empty for automatic update)
-				</div>
-				<div class="twothird">
-					<input type="text" name="fixed_date" size="50" value="<: $post.fixed_date :>" />
-				</div>
-			</div>
-			<: if $error_fixed_date_invalid { :>
-				<div class="row">
-					<i class="icn icon-warning-sign"></i>This is not a valid date!
-				</div>
-			<: } :>
-			<div class="row">
-				<div class="third">
-					Topics
-				</div>
-				<div class="twothird">
-					<input type="text" name="topics" size="50" value="<: $post.topics :>" />
-				</div>
-			</div>
-			<: if $error_topics_invalid { :>
-				<div class="row">
-					<i class="icn icon-warning-sign"></i>The topics must be a comma separated list only with letters, numbers and dashes!
-				</div>
-			<: } :>
-			<: if $c.user.admin { :>
-				<div class="row">
-					<div class="third">
-						Raw HTML post
-					</div>
-					<div class="twothird mid">
-						<input type="checkbox" name="raw_html" value="1" <: if $post.raw_html { :>checked="checked"<: } :>/>
-					</div>
-				</div>
-				<div class="row">
-					<div class="third">
-						Company Blog
-					</div>
-					<div class="twothird mid">
-						<input type="checkbox" name="company_blog" value="1" <: if $post.company_blog { :>checked="checked"<: } :>/>
-					</div>
-				</div>
-			<: } :>
-			<div class="row mid">
-				Teaser
-			</div>
-			<div class="row mid">
-				<textarea rows="5" cols="80" name="teaser" id="teaser"><: $post.teaser :></textarea>
-			</div>
-			<div class="row mid">
-				Blog text
-			</div>
-			<div class="row mid">
-				<textarea rows="30" cols="80" name="content" id="content"><: $post.content :></textarea>
-			</div>
-			<div class="row">
-				<div class="third">
-					Make this post LIVE
-				</div>
-				<div class="twothird mid">
-					<input type="checkbox" name="live" value="1" <: if $post.live { :>checked="checked"<: } :>/>
-				</div>
-			</div>
-			<div class="row mid">
-				<input type="submit" class="big blue button" name="save_blog" value="Save and goto blog post" />
 			</div>
 		</div>
 	</div>
 </div>
-<div class="g third">
-    <div class="sidebar-content content-box">
-        <div class="head">
-            <h3>Markup guide</h3>
-        </div>
-        <div class="body">
-            <div class="row">
-                <p>You can use <a href="https://en.wikipedia.org/wiki/BBCode">BBCode</a> to format your post.</p>
-                <p>Quick examples:<br/>
-                    <tt>[b]Hello[/b]</tt> : <b>Hello</b><br/>
-                    <tt>[i]Hello[/b]</tt> : <i>Hello</i><br/>
-                    <tt>[u]Hello[/u]</tt> : <u>Hello</u><br/>
-                    <tt>[img]http://ddg.gg/favicon.ico[/img]</tt>: <img src="https://duckduckgo.com/favicon.ico" alt="https://duckduckgo.com/favicon.ico"></img><br/>
-                    <tt>[quote=superman]Look at me![/quote]</tt>: <div class='bbcode_quote_header'>Quote from <a href='/superman'>superman</a>:<div class='bbcode_quote_body'>Look at me!</div></div>
-                    <tt>[code=perl]say "Hello, World";[/code]</tt>: <div class='bbcode_code_header'>Perl Code:<pre class='bbcode_code_body'><code><span class="synStatement">say</span> <span class="synConstant">"Hello, World"</span>;</code></pre></div>
-                    <tt>[noparse][b]test[/b][/noparse]</tt>: [b]test[/b]<br/>
-                    <tt>[size=5pt]test[/size]</tt>: <span style="font-size: 5">test</span>
-                    <tt>[color=red]test[/color]</tt>: <span style="color: red">test</span>
-                </p>
-            </div>
-        </div>
-    </div>
-</div>
-
 <div class="third">
 </div>
 
