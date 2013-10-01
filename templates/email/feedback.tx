@@ -3,7 +3,7 @@ Feedback Data
 <: for $feedback_data.kv() -> $kv { :>
 <: $kv.key :>
 -------------
-<: $kv.value :>
+<: r($kv.value) :>
 =============
 <:- } :>
 
