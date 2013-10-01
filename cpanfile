@@ -86,5 +86,6 @@ requires 'Text::VimColor', '0.20';
 requires 'Text::Fuzzy', '0.14';
 requires 'URI::Find::Simple', '1.03';
 requires 'URL::Encode', '0.01';
+requires 'Web::Scraper', '0.37';
 requires 'YAML', '0.73';
 requires 'YAML::XS', '0.35';

@@ -25,6 +25,9 @@ use POSIX;
 use Cache::FileCache;
 use Cache::NullCache;
 use namespace::autoclean;
+use LWP::UserAgent;
+
+our $VERSION ||= '0.000';
 
 ##############################################
 # TESTING AND DEVELOPMENT, NOT FOR PRODUCTION
@@ -57,6 +60,19 @@ has config => (
 sub _build_config { DDGC::Config->new }
 sub is_live { shift->config->is_live }
 ####################################################################
+
+has http => (
+    isa => 'LWP::UserAgent',
+    is => 'ro',
+    lazy_build => 1,
+);
+sub _build_http {
+    my $ua = LWP::UserAgent->new;
+    $ua->timeout(5);
+    my $agent = (ref $_[0] ? ref $_[0] : $_[0]).'/'.$VERSION;
+    $ua->agent($agent);
+    return $ua;
+}
 
 ############################################################
 #  ____        _    ____            _
