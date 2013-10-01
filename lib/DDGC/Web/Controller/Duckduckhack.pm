@@ -14,7 +14,8 @@ sub base :Chained('/base') :PathPart('duckduckhack') :CaptureArgs(0) {
 
 sub index :Chained('base') :PathPart('') :Args(0) {
   my ( $self, $c ) = @_;
-  $c->stash->{doc} = $self->fetch_doc($c,'ddh-intro');
+  $c->response->redirect($c->chained_uri('Duckduckhack','doc','ddh-intro'));
+  return $c->detach;
 }
 
 sub doc :Chained('base') :PathPart('') :Args(1) {
