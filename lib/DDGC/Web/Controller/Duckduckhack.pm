@@ -14,17 +14,12 @@ sub base :Chained('/base') :PathPart('duckduckhack') :CaptureArgs(0) {
 
 sub index :Chained('base') :PathPart('') :Args(0) {
   my ( $self, $c ) = @_;
-  $c->stash->{doc} = $self->get_doc($c,'ddh-intro');
+  $c->stash->{doc} = $self->fetch_doc($c,'ddh-intro');
 }
 
 sub doc :Chained('base') :PathPart('') :Args(1) {
   my ( $self, $c, $doc ) = @_;
-  $c->stash->{doc} = $self->get_doc($c,$doc);
-}
-
-sub get_doc {
-  my ( $self, $c, $doc ) = @_;
-  return $self->fetch_doc($c,$doc);
+  $c->stash->{doc} = $self->fetch_doc($c,$doc);
 }
 
 sub fetch_doc {
@@ -40,7 +35,7 @@ sub fetch_doc {
   if ($response->is_success) {
     my $http_content = $response->decoded_content;
     my $scraper = scraper {
-      process "#duckduckhack-body", doc => "TEXT";
+      process "#duckduckhack-body", doc => "HTML";
     };
     my $res = $scraper->scrape($http_content);
     $content = $res->{doc};
