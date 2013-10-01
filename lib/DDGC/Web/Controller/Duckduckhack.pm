@@ -9,34 +9,22 @@ BEGIN {extends 'Catalyst::Controller'; }
 
 sub base :Chained('/base') :PathPart('duckduckhack') :CaptureArgs(0) {
   my ( $self, $c ) = @_;
-  $c->add_bc('DuckDuckHack', $c->chained_uri('Duckduckhack','index'));
+  $c->stash->{no_breadcrumb} = 1;
 }
 
 sub index :Chained('base') :PathPart('') :Args(0) {
   my ( $self, $c ) = @_;
   $c->stash->{doc} = $self->get_doc($c,'ddh-intro');
-  $c->bc_index;
 }
 
 sub doc :Chained('base') :PathPart('') :Args(1) {
   my ( $self, $c, $doc ) = @_;
   $c->stash->{doc} = $self->get_doc($c,$doc);
-  $c->add_bc('Documentation');
 }
 
 sub get_doc {
   my ( $self, $c, $doc ) = @_;
-  my $content = $self->fetch_doc($c,$doc);
-
-  my $scraper = scraper {
-    process "#duckduckhack-body", doc => "TEXT";
-  };
-
-  use DDP; p($content);
-
-  my $res = $scraper->scrape($content);
-
-  return $res->{doc};
+  return $self->fetch_doc($c,$doc);
 }
 
 sub fetch_doc {
@@ -50,8 +38,15 @@ sub fetch_doc {
   my $content;
 
   if ($response->is_success) {
-    $content = $response->decoded_content;
-  } else {
+    my $http_content = $response->decoded_content;
+    my $scraper = scraper {
+      process "#duckduckhack-body", doc => "TEXT";
+    };
+    my $res = $scraper->scrape($http_content);
+    $content = $res->{doc};
+  }
+
+  unless ($content) {
     if ($content = $c->d->cache->get('permcache:'.$url)) {
       $c->d->cache->set($url,$content,"5 minutes");
       return $content;
