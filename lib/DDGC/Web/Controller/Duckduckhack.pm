@@ -35,7 +35,7 @@ sub fetch_doc {
   if ($response->is_success) {
     my $http_content = $response->decoded_content;
     my $scraper = scraper {
-      process "#duckduckhack-body", doc => "TEXT";
+      process "#duckduckhack-body", doc => "HTML";
     };
     my $res = $scraper->scrape($http_content);
     $content = $res->{doc};
