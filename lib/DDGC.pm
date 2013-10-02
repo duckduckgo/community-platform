@@ -217,6 +217,10 @@ sub _build_xslate {
 			$main_object = $object;
 		}
 		my %current_vars = %{$xslate->current_vars};
+		my $no_caller = delete $vars->{no_caller} ? 1 : 0;
+		if (defined $current_vars{_} && !$no_caller) {
+			$current_vars{caller} = $current_vars{_};
+		}
 		$current_vars{_} = $main_object;
 		my $ref_main_object = ref $main_object;
 		if ($main_object && $ref_main_object) {

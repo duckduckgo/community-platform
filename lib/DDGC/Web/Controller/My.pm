@@ -12,12 +12,12 @@ use Digest::MD5 qw( md5_hex );
 BEGIN {extends 'Catalyst::Controller'; }
 
 sub base :Chained('/base') :PathPart('my') :CaptureArgs(0) {
-  my ( $self, $c ) = @_;
+	my ( $self, $c ) = @_;
 	$c->stash->{page_class} = "page-account";
 }
 
 sub logout :Chained('base') :Args(0) {
-  my ( $self, $c ) = @_;
+	my ( $self, $c ) = @_;
 	$c->stash->{not_last_url} = 1;
 	$c->logout;
 	$c->delete_session;
@@ -26,7 +26,7 @@ sub logout :Chained('base') :Args(0) {
 }
 
 sub finishwizard :Chained('base') :Args(0) {
-  my ( $self, $c ) = @_;
+	my ( $self, $c ) = @_;
 	$c->stash->{not_last_url} = 1;
 	$c->wiz_finished;
 	delete $c->session->{wizard_finished};
@@ -36,7 +36,7 @@ sub finishwizard :Chained('base') :Args(0) {
 }
 
 sub logged_out :Chained('base') :PathPart('') :CaptureArgs(0) {
-  my ( $self, $c ) = @_;
+	my ( $self, $c ) = @_;
 	if ($c->user) {
 		$c->response->redirect($c->chained_uri('My','account'));
 		return $c->detach;
@@ -89,28 +89,28 @@ sub logged_in :Chained('base') :PathPart('') :CaptureArgs(0) {
 }
 
 sub account :Chained('logged_in') :Args(0) {
-  my ( $self, $c ) = @_;
+	my ( $self, $c ) = @_;
 
 	$c->bc_index;
 
 	$c->stash->{no_languages} = $c->req->params->{no_languages}
 		unless defined $c->stash->{no_languages};
 
-    my $saved = 0;
+		my $saved = 0;
 
-    for (keys %{$c->req->params}) {
+		for (keys %{$c->req->params}) {
 
-    	if ($_ =~ m/^update_language_(\d+)/) {
-    		my $grade = $c->req->param('language_grade_'.$1);
-    		if ($grade) {
-	    		my ( $user_language ) = $c->user->db->user_languages->search({ language_id => $1 })->all;
-	    		if ($user_language) {
-	    			$user_language->grade($grade);
-	    			$user_language->update;
+			if ($_ =~ m/^update_language_(\d+)/) {
+				my $grade = $c->req->param('language_grade_'.$1);
+				if ($grade) {
+					my ( $user_language ) = $c->user->db->user_languages->search({ language_id => $1 })->all;
+					if ($user_language) {
+						$user_language->grade($grade);
+						$user_language->update;
 					$saved = 1;
-	    		}
-    		}
-    	}
+					}
+				}
+			}
 
 		if ($_ eq 'add_language') {
 			my $language_id = $c->req->params->{language_id};
@@ -132,9 +132,9 @@ sub account :Chained('logged_in') :Args(0) {
 			$saved = 1;
 		}
 
-    }
+		}
 
-    $c->stash->{saved} = $saved;
+		$c->stash->{saved} = $saved;
 
 	$c->stash->{user_has_languages} = $c->user ? $c->user->user_languages->count : 0;
 
@@ -176,7 +176,7 @@ sub email :Chained('logged_in') :Args(0) {
 }
 
 sub delete :Chained('logged_in') :Args(0) {
-  my ( $self, $c ) = @_;
+	my ( $self, $c ) = @_;
 
 	$c->stash->{title} = 'Delete your account';
 	$c->add_bc($c->stash->{title}, '');
@@ -200,15 +200,15 @@ sub delete :Chained('logged_in') :Args(0) {
 }
 
 sub public :Chained('logged_in') :Args(0) {
-    my ( $self, $c ) = @_;
+		my ( $self, $c ) = @_;
 
-    if ($c->user->public) {
-    	$c->stash->{title} = 'Make account private';
-	    $c->add_bc($c->stash->{title}, '');
-    } else {
-    	$c->stash->{title} = 'Make account public';
-	    $c->add_bc($c->stash->{title}, '');
-    }
+		if ($c->user->public) {
+			$c->stash->{title} = 'Make account private';
+			$c->add_bc($c->stash->{title}, '');
+		} else {
+			$c->stash->{title} = 'Make account public';
+			$c->add_bc($c->stash->{title}, '');
+		}
 
 	return $c->detach if !($c->req->params->{hide_profile} || $c->req->params->{show_profile});
 
@@ -235,7 +235,7 @@ sub forgotpw_tokencheck :Chained('logged_out') :Args(2) {
 	my ( $self, $c, $username, $token ) = @_;
 
 	$c->stash->{title} = 'Forgot password token check';
-    $c->add_bc($c->stash->{title}, '');
+		$c->add_bc($c->stash->{title}, '');
 
 	$c->stash->{check_username} = $username;
 	$c->stash->{check_token} = $token;
@@ -280,7 +280,7 @@ sub changepw :Chained('logged_in') :Args(0) {
 	my ( $self, $c ) = @_;
 
 	$c->stash->{title} = 'Change password';
-    $c->add_bc($c->stash->{title}, '');
+		$c->add_bc($c->stash->{title}, '');
 
 	return unless $c->req->params->{changepw};
 	
@@ -328,7 +328,7 @@ sub forgotpw :Chained('logged_out') :Args(0) {
 	my ( $self, $c ) = @_;
 
 	$c->stash->{title} = 'Forgot password';
-    $c->add_bc($c->stash->{title}, '');
+		$c->add_bc($c->stash->{title}, '');
 
 	return $c->detach if !$c->req->params->{requestpw};
 	$c->stash->{forgotpw_username} = lc($c->req->params->{username});
@@ -360,13 +360,13 @@ sub forgotpw :Chained('logged_out') :Args(0) {
 }
 
 sub register :Chained('logged_out') :Args(0) {
-    my ( $self, $c ) = @_;
+		my ( $self, $c ) = @_;
 	$c->stash->{not_last_url} = 1;
 
 	$c->stash->{page_class} = "page-signup";
 
 	$c->stash->{title} = 'Create a new account';
-    $c->add_bc($c->stash->{title}, '');
+		$c->add_bc($c->stash->{title}, '');
 
 	$c->stash->{no_login} = 1;
 
@@ -446,7 +446,7 @@ sub requestlanguage :Chained('logged_in') :Args(0) {
 	$c->stash->{not_last_url} = 1;
 
 	$c->stash->{title} = 'Request language';
-    $c->add_bc($c->stash->{title}, '');
+		$c->add_bc($c->stash->{title}, '');
 	
 	if ($c->req->params->{submit}) {
 
@@ -502,27 +502,84 @@ sub requestlanguage :Chained('logged_in') :Args(0) {
 	}
 }
 
-
 # Temporary Zoho import verification stuff
 sub zoho_user :Chained('logged_in') :Args(0) {
-    my ($self, $c) = @_;
+	my ($self, $c) = @_;
 
-    $c->stash->{title} = "Zoho Username";
-    $c->add_bc($c->stash->{title}, '');
+	$c->stash->{title} = "Zoho Username";
+	$c->add_bc($c->stash->{title}, '');
 
-    if (defined $c->user->data->{unapproved_zoho_username}) {
-        $c->stash->{success} = 1;
-        return $c->detach;
-    }
+	if (defined $c->user->data->{unapproved_zoho_username}) {
+		$c->stash->{success} = 1;
+		return $c->detach;
+	}
 
-    if (defined $c->req->params->{u} && $c->req->params->{u}) {
-	$c->user->data({}) if !$c->user->data;
-	my $data = $c->user->data;
-	$data->{unapproved_zoho_username} = $c->req->params->{u};
-	$c->user->data($data);
-	$c->user->update;
-        $c->stash->{success} = 1;
-    }
+	if (defined $c->req->params->{u} && $c->req->params->{u}) {
+		$c->user->data({}) if !$c->user->data;
+		my $data = $c->user->data;
+		$data->{unapproved_zoho_username} = $c->req->params->{u};
+		$c->user->data($data);
+		$c->user->update;
+		$c->stash->{success} = 1;
+	}
+}
+
+# Temporary Uservoice claiming point
+sub uservoice_claim :Chained('logged_in') :Args(2) {
+	my ($self, $c, $claim_ref, $claim ) = @_;
+
+	if ($claim_ref =~ m/(\w)(\d+)/) {
+		my $type = $1;
+		my $id = $2;
+		my $obj;
+		if ($type eq 'i') {
+			$obj = $c->d->rs('Idea')->find($id);
+		} else {
+			$obj = $c->d->rs('Comment')->find($id);			
+		}
+		if ($obj) {
+			if ($obj->data->{uservoice_claim} eq $claim) {
+				my $email = $obj->data->{uservoice_email};
+				my @ideas = $c->d->rs('Idea')->search({
+				  data => { -like => '%uservoice_claim%' },
+				})->all;
+				my %claims;
+				for my $idea (@ideas) {
+					if (defined $idea->data->{uservoice_email} && $idea->data->{uservoice_email} eq $email) {
+						$idea->users_id($c->user->id);
+						delete $idea->data->{uservoice_email};
+						delete $idea->data->{uservoice_claim};
+						delete $idea->data->{uservoice_user};
+						delete $idea->data->{import};
+						delete $idea->data->{import_user};
+						$idea->data($idea->data);
+						$idea->update;
+						my $url = $c->chained_uri(@{$idea->u});
+						$claims{$url} = $idea unless defined $claims{$url};
+					}
+				}
+				my @comments = $c->d->rs('Comment')->search({
+				  data => { -like => '%uservoice_claim%' },
+				})->all;
+				for my $comment (@comments) {
+					if (defined $comment->data->{uservoice_email} && $comment->data->{uservoice_email} eq $email) {
+						$comment->users_id($c->user->id);
+						delete $comment->data->{uservoice_email};
+						delete $comment->data->{uservoice_claim};
+						delete $comment->data->{uservoice_user};
+						delete $comment->data->{import};
+						delete $comment->data->{import_user};
+						$comment->data($comment->data);
+						$comment->update;
+						my $url = $c->chained_uri(@{$comment->u});
+						$claims{$url} = $comment unless defined $claims{$url};
+					}
+				}
+				$c->stash->{claims} = [values %claims];
+			}
+		}
+	}
+
 }
 
 no Moose;

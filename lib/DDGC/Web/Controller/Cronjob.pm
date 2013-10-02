@@ -1,5 +1,5 @@
 package DDGC::Web::Controller::Cronjob;
-# ABSTRACT:
+# ABSTRACT: Trick controller todo cronjobs through web framework
 
 use Moose;
 use namespace::autoclean;
@@ -9,7 +9,7 @@ use DDGC::Config;
 BEGIN {extends 'Catalyst::Controller'; }
 
 sub base :Chained('/base') :PathPart('cronjob') :CaptureArgs(0) {
-    my ( $self, $c ) = @_;
+	my ( $self, $c ) = @_;
 	if (defined $ENV{DDGC_EXECUTE_CRONJOBS}
 			&& $ENV{DDGC_EXECUTE_CRONJOBS} eq 'YES'
 			&& $c->req->address eq '127.0.0.1') {
@@ -21,10 +21,10 @@ sub base :Chained('/base') :PathPart('cronjob') :CaptureArgs(0) {
 }
 
 sub index :Chained('base') :PathPart('') :Args {
-    my ( $self, $c, @args ) = @_;
-    if ($args[0] eq 'notify_cycle') {
-    	$self->notify_cycle($c,$args[1]);
-    }
+	my ( $self, $c, @args ) = @_;
+	if ($args[0] eq 'notify_cycle') {
+		$self->notify_cycle($c,$args[1]);
+	}
 	$c->response->body('OK');
 }
 
@@ -66,11 +66,10 @@ sub notify_tokens {
 			}
 		}
 	}
-	return
-		related_token_domains => [map {{
-			domain => $c->d->resultset('Token::Domain')->find($_),
-			tokens => [values %{$td{$_}}],
-		}} keys %td],
+	return related_token_domains => [map {{
+		domain => $c->d->resultset('Token::Domain')->find($_),
+		tokens => [values %{$td{$_}}],
+	}} keys %td],
 }
 
 sub notify_translations {
@@ -92,11 +91,10 @@ sub notify_translations {
 			}
 		}
 	}
-	return
-		related_token_domains => [map {{
-			domain => $c->d->resultset('Token::Domain')->find($_),
-			translations => [values %{$translations{$_}}],
-		}} keys %translations],
+	return related_token_domains => [map {{
+		domain => $c->d->resultset('Token::Domain')->find($_),
+		translations => [values %{$translations{$_}}],
+	}} keys %translations],
 }
 
 sub notify_cycle {
@@ -145,7 +143,7 @@ sub notify_cycle {
 
 				$c->stash->{email} = {
 					to				=> $user->data->{email},
-					from			=> 'DuckDuckGo Community Envoy <envoy@dukgo.com>',
+					from			=> '"DuckDuckGo Community Envoy" <envoy@dukgo.com>',
 					subject			=> '[DuckDuckGo Community] '.$templates{$type}->{subject},
 					template		=> $templates{$type}->{template},
 					charset			=> 'utf-8',

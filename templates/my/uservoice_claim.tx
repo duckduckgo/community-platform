@@ -1,0 +1,23 @@
+<div class="form-border">
+	<div class="form-wrap">
+		<h3>Claiming your uservoice data</h3>
+		<hr/>
+		<: if $claims { :>
+			<div class="row">
+				Success! All of your ideas and comments can be found behind the magical links below:
+			</div>
+			<hr/>
+			<: for $claims -> $claim { :>
+				<div class="row">
+					<a href="<: $u($claim.u) :>"><: $u($claim.u) :></a>
+				</div>
+			<: } :>		
+		<: } else { :>
+			<div class="notice error clickaway">
+				<i class="icn icon-warning-sign"></i>
+					Claim failed. Please make sure you tried the right link. If unsuccessful again, please email inbound@duckduckgo.com with the link you tried.
+				<i class="close icon-remove"></i>
+			</div>
+		<: } :>
+	</div>
+</div>

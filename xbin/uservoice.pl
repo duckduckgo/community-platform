@@ -1,7 +1,13 @@
 #!/usr/bin/env perl
 
+$|=1;
+
 use strict;
 use warnings;
+
+use FindBin;
+use lib $FindBin::Dir . "/../lib"; 
+
 use URI;
 use Web::Scraper;
 use DDP;

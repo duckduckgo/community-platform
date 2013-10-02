@@ -1,7 +1,13 @@
 #!/usr/bin/env perl
 
+$|=1;
+
 use strict;
 use warnings;
+
+use FindBin;
+use lib $FindBin::Dir . "/../lib"; 
+
 use URI;
 use Web::Scraper;
 use DDP;
@@ -93,7 +99,7 @@ while (1) {
 
         my $thread = $ddgc->forum->add_thread(
             $user,
-            "[Imported - original user: ".$topic->{posts}->[1]->{author}."]<br/>".
+            "[Imported - original user: ".$topic->{posts}->[1]->{author}."]\n".
                 $topic->{posts}->[1]->{content},
             title => $li->{title},
             data => { discussion_status_id => 1 },
