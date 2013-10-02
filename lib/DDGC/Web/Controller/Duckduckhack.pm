@@ -22,7 +22,9 @@ sub index :Chained('base') :PathPart('') :Args(0) {
 
 sub doc :Chained('base') :PathPart('') :Args(1) {
   my ( $self, $c, $doc ) = @_;
-  $c->stash->{doc} = $self->fetch_doc($c,$doc);
+  my ( $title, $content ) = @{$self->fetch_doc($c,$doc)};
+  $c->stash->{doc} = $content;
+  $c->stash->{title} = $title;
 }
 
 sub fetch_doc {
@@ -34,29 +36,33 @@ sub fetch_doc {
   my $response = $c->d->http->get($url);
 
   my $content;
+  my $title;
 
   if ($response->is_success) {
     my $http_content = $response->decoded_content;
     my $scraper = scraper {
       process "#duckduckhack-body", doc => "HTML";
+      process "title", title => "HTML";
     };
     my $res = $scraper->scrape($http_content);
     $content = $res->{doc};
+    $title = $res->{title};
   }
 
   unless ($content) {
-    if ($content = $c->d->cache->get('permcache:'.$url)) {
-      $c->d->cache->set($url,$content,"5 minutes");
+    if ($c->d->cache->get('permcache:'.$url)) {
+      ( $title, $content ) = @{$c->d->cache->get('permcache:'.$url)};
+      $c->d->cache->set($url,[$title,$content],"5 minutes");
       return $content;
     } else {
       die "can't fetch documentation";
     }
   }
 
-  $c->d->cache->set($url,$content,"1 hour");
-  $c->d->cache->set('permcache:'.$url,$content);
+  $c->d->cache->set($url,[$title,$content],"1 hour");
+  $c->d->cache->set('permcache:'.$url,[$title,$content]);
 
-  return $content;
+  return [$title,$content];
 }
 
 no Moose;
