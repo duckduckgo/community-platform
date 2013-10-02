@@ -9,7 +9,9 @@ BEGIN {extends 'Catalyst::Controller'; }
 
 sub base :Chained('/base') :PathPart('duckduckhack') :CaptureArgs(0) {
   my ( $self, $c ) = @_;
+  $c->stash->{duckduckhack} = 1;
   $c->stash->{no_breadcrumb} = 1;
+  $c->stash->{title} = 'DuckDuckHack Documentation';
 }
 
 sub index :Chained('base') :PathPart('') :Args(0) {
