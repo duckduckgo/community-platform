@@ -1,5 +1,12 @@
-#!/usr/bin/env perl -Ilib
-# Quick markup rendering script
+#!/usr/bin/env perl
+
+$|=1;
+
+use strict;
+use warnings;
+
+use FindBin;
+use lib $FindBin::Dir . "/../lib"; 
 
 use DDGC;
 use DDGC::Markup;

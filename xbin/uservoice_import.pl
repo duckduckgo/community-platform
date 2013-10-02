@@ -1,13 +1,18 @@
 #!/usr/bin/env perl
 
+$|=1;
+
 use strict;
 use warnings;
+
+use FindBin;
+use lib $FindBin::Dir . "/../lib"; 
+
 use DDP;
 use Text::CSV;
 use DDGC;
 use DateTime::Format::Strptime;
-use DDGC::DB::Result::Idea;
-STDOUT->autoflush(1);
+use Digest::MD5 qw( md5_hex );
 
 my $types = DDGC::DB::Result::Idea::types;
 delete $$types{0};
@@ -22,6 +27,8 @@ my $ddgc = DDGC->new;
 my $csv = Text::CSV->new({binary => 1});
 
 my $import_user = $ddgc->find_user($ENV{DDGC_IMPORT_USERNAME} // 'import');
+
+die "didnt found import user" unless $import_user;
 
 sub parse_file {
     my ($filename, $callback) = @_;
@@ -63,7 +70,13 @@ sub suggestion {
             updated => $sug{'Updated At'},
             old_vote_count => $sug{Votes},
             old_url => "https://duckduckhack.uservoice.com/forums/$sug{'Forum ID'}/suggestions/$sug{Id}",
-            data => {$sug{'User Email'} ? (uservoice_email => $sug{'User Email'}) : ()},
+            data => {
+                $sug{'User Email'} ? (uservoice_email => $sug{'User Email'}) : (),
+                $sug{'User Name'} ? (uservoice_user => $sug{'User Name'}) : (),
+                $sug{'User Email'} ? (uservoice_claim => md5_hex(int(rand(1_000_000_000)))) : (),
+                import => 'UserVoice',
+                import_user => $sug{'User Name'} ? $sug{'User Name'} : 'no name',
+            },
         });
     $sug_id{$sug{Id}} = $idea->id;
 }
@@ -82,14 +95,16 @@ sub comment {
             $sug_id{ $comment{'Suggestion ID'} },
             $import_user,
             $comment{Text},
+            data => {
+                $comment{'User Email'} ? (uservoice_email => $comment{'User Email'}) : (),
+                $comment{'User Name'} ? (uservoice_user => $comment{'User Name'}) : (),
+                $comment{'User Email'} ? (uservoice_claim => md5_hex(int(rand(1_000_000_000)))) : (),
+                import => 'UserVoice',
+                import_user => $comment{'User Name'} ? $comment{'User Name'} : 'no name',
+            },
         );
-    }
-    else {
-        push @missed, \%comment;
     }
 }
 
 parse_file 'suggestions_4458_export_20130901205259.csv' => \&suggestion;
 parse_file 'comments_4458_export_20130901205315.csv' => \&comment;
-print "\nMissed comments:\n";
-p @missed;

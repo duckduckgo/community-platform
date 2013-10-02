@@ -1,13 +1,15 @@
-<: if $user.public && !$no_user_link { :>
-  <a href="<: $u('Userpage','home',$user.username) :>">
+<: if $_.public && !$no_user_link { :>
+  <a href="<: $u('Userpage','home',$_.username) :>">
 <: } :>
-<: if $user.admin { :><span style="color:green"><: } :>
-<: if $c.user || $c.user.admin { :>
-  <: $user.username :>
+<: if $_.admin { :><span style="color:green"><: } :>
+<: if $caller && $caller.data && $caller.data.import { :>
+  [<: $caller.data.import :> <: $caller.data.import_user :>]
+<: } elsif $c.user || $c.user.admin { :>
+  <: $_.username :>
 <: } else { :>
-  <: $user.public_username || '<anonymous>' :>
+  <: $_.public_username || '<anonymous>' :>
 <: } :>
-<: if $user.admin { :></span><: } :>
-<: if $user.public && !$no_user_link { :>
+<: if $_.admin { :></span><: } :>
+<: if $_.public && !$no_user_link { :>
   </a>
 <: } :>

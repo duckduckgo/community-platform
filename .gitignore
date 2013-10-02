@@ -3,3 +3,4 @@ DDGC-*
 po-files/*
 *~
 *.sw*
+*.csv

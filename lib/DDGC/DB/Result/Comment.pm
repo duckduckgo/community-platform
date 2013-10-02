@@ -64,6 +64,13 @@ column deleted => {
 	default_value => 0,
 };
 
+column data => {
+	data_type => 'text',
+	is_nullable => 0,
+	serializer_class => 'JSON',
+	default_value => '{}',
+};
+
 column created => {
 	data_type => 'timestamp with time zone',
 	set_on_create => 1,
