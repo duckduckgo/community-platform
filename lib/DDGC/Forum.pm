@@ -83,6 +83,9 @@ sub add_thread {
 	$self->ddgc->db->txn_do(sub {
 		my @screenshot_ids;
 		push @screenshot_ids, @{delete $params{screenshot_ids}} if defined $params{screenshot_ids};
+		my %comment_params = defined $params{comment_params}
+			? (%{delete $params{comment_params}})
+			: ();
 		my $thread = $self->ddgc->rs('Thread')->create({
 			users_id => $user->id,
 			%params,
@@ -97,6 +100,7 @@ sub add_thread {
 			$thread->id,
 			$user,
 			$content,
+			%comment_params,
 		);
 		$thread->comment_id($thread_comment->id);
 		$thread->update;

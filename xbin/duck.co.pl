@@ -23,10 +23,10 @@ my $dt = DateTime::Format::Strptime->new(pattern => '%d-%b-%Y %I:%M %p');
 my $ddgc = DDGC->new;
 
 my %user_map = (
-    yegg13       => 'yegg',
-    bizarre      => 'crazedpsyc',
-    gettygermany => 'getty',
-    zacbrannigan => 'zac',
+    # yegg13       => 'yegg',
+    # bizarre      => 'crazedpsyc',
+    # gettygermany => 'getty',
+    # zacbrannigan => 'zac',
 );
 
 my $import_user = $ddgc->find_user($ENV{DDGC_IMPORT_USERNAME} // 'duckco');
@@ -59,10 +59,9 @@ my $topic_count = 0;
 sub get_user {
     my ($username) = @_;
 
-    return
-        defined $user_map{$username} ? 
-        $ddgc->find_user($user_map{$username}) // $import_user :
-        $import_user;
+    return defined $user_map{$username}
+        ? $ddgc->find_user($user_map{$username})
+        : $import_user;
 }
 
 # Let's... get sticky
@@ -99,28 +98,49 @@ while (1) {
 
         my $thread = $ddgc->forum->add_thread(
             $user,
-            "[Imported - original user: ".$topic->{posts}->[1]->{author}."]\n".
-                $topic->{posts}->[1]->{content},
+            $topic->{posts}->[1]->{content},
             title => $li->{title},
-            data => { discussion_status_id => 1 },
+            data => {
+                $user->id == $import_user->id
+                    ? (
+                        import => "Old Forum",
+                        import_user => $topic->{posts}->[1]->{author},
+                    ) : (),
+            },
             readonly => 1,
             created => $datetime, updated => $datetime,
             sticky => $sticky,
             old_url => $li->{link},
+            comment_params => {
+                data => {
+                    $user->id == $import_user->id
+                        ? (
+                            import => "Old Forum",
+                            import_user => $topic->{posts}->[1]->{author},
+                        ) : (),
+                },
+            },
         );
+        print "#";
 
         my $last_comment;
         for (@comments) {
             my $c = $ddgc->add_comment(
                 'DDGC::DB::Result::Comment',
                 defined $_->[4] ? $last_comment->id : $thread->comment->id,
-
-                $_->[0], #user
-                "[Imported - original user: $_->[3]]<br/>".
-                    $_->[1], #text
-                 created => $_->[2],
-                 updated => $_->[2]
+                $_->[0], # user
+                $_->[1], # content
+                created => $_->[2],
+                updated => $_->[2],
+                data => {
+                    $_->[0]->id == $import_user->id
+                        ? (
+                            import => "Old Forum",
+                            import_user => $_->[3],
+                        ) : (),
+                },
             );
+            print ".";
             $last_comment = $c unless defined $_->[4];
         }
 
