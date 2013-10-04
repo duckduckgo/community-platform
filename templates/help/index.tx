@@ -8,7 +8,7 @@
 <div class="gw  mg-bottom--big">
   <: for results($help_categories) -> $category { :>    
 	<div class="g half">	  
-		<a class="linkbox  linkbox--category" href="<: $u('Help','category',$help_language.locale,$category.key) :>">
+		<a class="linkbox  linkbox--category" href="<: $u('Help','category',$category.key) :>">
 			<i class="linkbox__icon  icon-question-sign"></i>
 			<div class="linkbox__body">
 				<h2 class="linkbox__title"><: $category.content_by_language_id($help_language_id).title :></h2>

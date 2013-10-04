@@ -1,4 +1,4 @@
-<form method="POST" class="one-field  one-field--leftbtn  mg-bottom" action="<: $u('Help','search',$help_language.locale) :>">
+<form method="POST" class="one-field  one-field--leftbtn  mg-bottom" action="<: $u('Help','search') :>">
   <div class="row mid whole">
     <input type="text" class="text" name="help_search" placeholder="Search help pages..." value="<: $help_search :>" />
     <button type="submit" name="do_help_search" class="button  icon-search" value=""></button>
