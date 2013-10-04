@@ -23,11 +23,11 @@ my $dt = DateTime::Format::Strptime->new(pattern => '%d-%b-%Y %I:%M %p');
 
 my $ddgc = DDGC->new;
 
-my %user_map = (
-    # yegg13       => 'yegg',
-    # bizarre      => 'crazedpsyc',
-    # gettygermany => 'getty',
-    # zacbrannigan => 'zac',
+my %user_map = $ENV{DDGC_IMPORT_USERNAME} ? () : (
+    yegg13       => 'yegg',
+    bizarre      => 'crazedpsyc',
+    gettygermany => 'getty',
+    zacbrannigan => 'zac',
 );
 
 my $import_user = $ddgc->find_user($ENV{DDGC_IMPORT_USERNAME} // 'import');
@@ -82,7 +82,6 @@ while (1) {
 
         if (defined $page->{next}) {
             $page->{next} =~ /='(.+)'$/; # damn thing is document.location.href='...'
-            use DDP; p($page->{next});
             $next_page = $1;
         } else {
             $pm->wait_all_children;
