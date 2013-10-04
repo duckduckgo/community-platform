@@ -40,6 +40,11 @@ column created => {
   set_on_create => 1,
 };
 
+__PACKAGE__->indices(
+  event_related_context_idx => 'context',
+  event_related_context_id_idx => 'context_id',
+);
+
 ###############################
 
 no Moose;

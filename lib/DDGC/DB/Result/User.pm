@@ -95,6 +95,28 @@ around data => sub {
 	return $data;
 };
 
+has_many 'token_language_translations', 'DDGC::DB::Result::Token::Language::Translation', { 'foreign.username' => 'self.username' };
+has_many 'token_languages', 'DDGC::DB::Result::Token::Language', 'translator_users_id';
+has_many 'checked_translations', 'DDGC::DB::Result::Token::Language::Translation', 'check_users_id';
+has_many 'translation_votes', 'DDGC::DB::Result::Token::Language::Translation::Vote', 'users_id';
+has_many 'comments', 'DDGC::DB::Result::Comment', 'users_id';
+has_many 'duckpan_releases', 'DDGC::DB::Result::DuckPAN::Release', 'users_id';
+has_many 'threads', 'DDGC::DB::Result::Thread', 'users_id';
+has_many 'ideas', 'DDGC::DB::Result::Idea', 'users_id';
+has_many 'events', 'DDGC::DB::Result::Event', 'users_id';
+has_many 'medias', 'DDGC::DB::Result::Media', 'users_id';
+
+has_many 'event_notifications', 'DDGC::DB::Result::Event::Notification', 'users_id';
+
+has_many 'user_languages', 'DDGC::DB::Result::User::Language', { 'foreign.username' => 'self.username' };
+has_many 'user_notifications', 'DDGC::DB::Result::User::Notification', 'users_id';
+has_many 'user_blogs', 'DDGC::DB::Result::User::Blog', 'users_id';
+
+many_to_many 'languages', 'user_languages', 'language';
+
+belongs_to 'profile_media', 'DDGC::DB::Result::Media', 'profile_media_id', { join_type => 'left' };
+
+
 # WORKAROUND
 sub db { return shift; }
 
@@ -129,27 +151,6 @@ sub _build__locale_user_languages {
 	}
 	return \%lul;
 }
-
-has_many 'token_language_translations', 'DDGC::DB::Result::Token::Language::Translation', { 'foreign.username' => 'self.username' };
-has_many 'token_languages', 'DDGC::DB::Result::Token::Language', 'translator_users_id';
-has_many 'checked_translations', 'DDGC::DB::Result::Token::Language::Translation', 'check_users_id';
-has_many 'translation_votes', 'DDGC::DB::Result::Token::Language::Translation::Vote', 'users_id';
-has_many 'comments', 'DDGC::DB::Result::Comment', 'users_id';
-has_many 'duckpan_releases', 'DDGC::DB::Result::DuckPAN::Release', 'users_id';
-has_many 'threads', 'DDGC::DB::Result::Thread', 'users_id';
-has_many 'ideas', 'DDGC::DB::Result::Idea', 'users_id';
-has_many 'events', 'DDGC::DB::Result::Event', 'users_id';
-has_many 'medias', 'DDGC::DB::Result::Media', 'users_id';
-
-has_many 'event_notifications', 'DDGC::DB::Result::Event::Notification', 'users_id';
-
-has_many 'user_languages', 'DDGC::DB::Result::User::Language', { 'foreign.username' => 'self.username' };
-has_many 'user_notifications', 'DDGC::DB::Result::User::Notification', 'users_id';
-has_many 'user_blogs', 'DDGC::DB::Result::User::Blog', 'users_id';
-
-many_to_many 'languages', 'user_languages', 'language';
-
-belongs_to 'profile_media', 'DDGC::DB::Result::Media', 'profile_media_id', { join_type => 'left' };
 
 sub translation_count { shift->token_language_translations->count(@_); }
 sub event_notifications_undone_count { shift->event_notifications->search({

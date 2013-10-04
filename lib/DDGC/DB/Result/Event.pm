@@ -34,12 +34,10 @@ column action => {
 column context => {
 	data_type => 'text',
 	is_nullable => 0,
-  indexed => 1,
 };
 column context_id => {
 	data_type => 'bigint',
 	is_nullable => 0,
-  indexed => 1,
 };
 with 'DDGC::DB::Role::HasContext';
 ###########
@@ -96,17 +94,24 @@ column pid => {
 	is_nullable => 0,
 };
 
-before insert => sub {
-	my ( $self ) = @_;
-	$self->nid($self->ddgc->config->nid);
-	$self->pid($self->ddgc->config->pid);
-};
-
 belongs_to 'user', 'DDGC::DB::Result::User', 'users_id', { join_type => 'left' };
 belongs_to 'event_group', 'DDGC::DB::Result::Event::Group', 'event_group_id', { join_type => 'left' };
 
 has_many 'event_notifications', 'DDGC::DB::Result::Event::Notification', 'event_id';
 has_many 'event_relates', 'DDGC::DB::Result::Event::Relate', 'event_id';
+
+__PACKAGE__->indices(
+	event_context_idx => 'context',
+	event_context_id_idx => 'context_id',
+	event_created_idx => 'created',
+	event_pid_idx => 'pid',
+);
+
+before insert => sub {
+	my ( $self ) = @_;
+	$self->nid($self->ddgc->config->nid);
+	$self->pid($self->ddgc->config->pid);
+};
 
 no Moose;
 __PACKAGE__->meta->make_immutable;

@@ -41,12 +41,10 @@ column users_id => {
 column context => {
 	data_type => 'text',
 	is_nullable => 0,
-  indexed => 1,
 };
 column context_id => {
 	data_type => 'bigint',
 	is_nullable => 0,
-	indexed => 1,
 };
 with 'DDGC::DB::Role::HasContext';
 ###########
@@ -101,6 +99,13 @@ sub root_comment { $_[0]->parent_id ? 0 : 1 }
 belongs_to 'user', 'DDGC::DB::Result::User', 'users_id';
 belongs_to 'parent', 'DDGC::DB::Result::Comment', 'parent_id', { join_type => 'left' };
 has_many 'children', 'DDGC::DB::Result::Comment', 'parent_id';
+
+__PACKAGE__->indices(
+	comment_context_idx => 'context',
+	comment_context_id_idx => 'context_id',
+	comment_created_idx => 'created',
+	comment_updated_idx => 'updated',
+);
 
 sub comments { shift->children_rs }
 

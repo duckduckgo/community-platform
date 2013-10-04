@@ -55,6 +55,10 @@ column created => {
 belongs_to 'user', 'DDGC::DB::Result::User', 'users_id';
 belongs_to 'event', 'DDGC::DB::Result::Event', 'event_id';
 
+__PACKAGE__->indices(
+	cycle_idx => 'cycle',
+);
+
 ###############################
 
 no Moose;

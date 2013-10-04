@@ -36,7 +36,6 @@ sub html { $_[0]->comment->html }
 column key => {
 	data_type => 'text',
 	is_nullable => 0,
-	indexed => 1,
 };
 
 column title => {

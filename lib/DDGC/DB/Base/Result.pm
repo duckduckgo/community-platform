@@ -11,6 +11,7 @@ __PACKAGE__->load_components(qw/
     InflateColumn::DateTime
     InflateColumn::Serializer
     EncodedColumn
+    +DBICx::Indexing
 /);
 
 sub context_config {{
