@@ -64,6 +64,16 @@ column deleted => {
 	default_value => 0,
 };
 
+column readonly => {
+	data_type => 'int',
+	default_value => 0,
+};
+
+column html => {
+	data_type => 'int',
+	default_value => 0,
+};
+
 column data => {
 	data_type => 'text',
 	is_nullable => 0,

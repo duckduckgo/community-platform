@@ -75,6 +75,7 @@ requires 'MooseX::NonMoose', '0.22';
 requires 'MooseX::Storage', '0.34';
 requires 'namespace::autoclean', '0.13';
 requires 'Net::AIML', '0.0.5';
+requires 'Parallel::ForkManager', '1.05';
 requires 'Parse::BBCode', '0.14';
 requires 'Path::Class', '0.25';
 requires 'Plack', '0.9982';

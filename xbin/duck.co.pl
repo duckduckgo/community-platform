@@ -13,6 +13,7 @@ use Web::Scraper;
 use DDP;
 use DDGC;
 use DateTime::Format::Strptime;
+use Parallel::ForkManager;
 
 # Stream flushing for progress
 use IO::Handle; STDOUT->autoflush(1);
@@ -29,7 +30,7 @@ my %user_map = (
     # zacbrannigan => 'zac',
 );
 
-my $import_user = $ddgc->find_user($ENV{DDGC_IMPORT_USERNAME} // 'duckco');
+my $import_user = $ddgc->find_user($ENV{DDGC_IMPORT_USERNAME} // 'import');
 
 
 my $list_page = scraper {
@@ -67,87 +68,123 @@ sub get_user {
 # Let's... get sticky
 my $stickies = $list_page->scrape(URI->new('https://duck.co/filter/sticky'))->{topics};
 
+my $pm = Parallel::ForkManager->new(25);
+
+my $no = 1;
+
 while (1) {
+
     my $page = $list_page->scrape(URI->new($next_page));
 
-    for my $li (@{$page->{topics}}) {
-        my $topic = $topic_page->scrape(URI->new($li->{link}));
+    if ($pm->start) {
 
-        print "\rTopics: ", ++$topic_count, " ($topic->{posts}->[-1]->{datetime})";
+        print "[".$no."]"; $no++;
 
-        my $user = get_user $topic->{posts}->[1]->{author};
-
-        my @comments = (
-
-                map { [
-                    get_user($_->{author}),
-                    $_->{content},
-                    $dt->parse_datetime($_->{datetime}),
-                    $_->{author},
-                    $_->{class} =~ /\bthread\b/, # If this is a sub-comment
-                    ] if $_->{content} 
-                } (@{$topic->{posts}}[2..$#{$topic->{posts}}])
-
-        ) if @{$topic->{posts}} > 2;
-
-        my $datetime = $dt->parse_datetime($topic->{posts}->[1]->{datetime});
-
-        my $sticky = 0;
-
-        grep { $sticky = 1 if $_->{link} eq $li->{link} } @$stickies;
-
-        my $thread = $ddgc->forum->add_thread(
-            $user,
-            $topic->{posts}->[1]->{content},
-            title => $li->{title},
-            data => {
-                $user->id == $import_user->id
-                    ? (
-                        import => "Old Forum",
-                        import_user => $topic->{posts}->[1]->{author},
-                    ) : (),
-            },
-            readonly => 1,
-            created => $datetime, updated => $datetime,
-            sticky => $sticky,
-            old_url => $li->{link},
-            comment_params => {
-                data => {
-                    $user->id == $import_user->id
-                        ? (
-                            import => "Old Forum",
-                            import_user => $topic->{posts}->[1]->{author},
-                        ) : (),
-                },
-            },
-        );
-        print "#";
-
-        my $last_comment;
-        for (@comments) {
-            my $c = $ddgc->add_comment(
-                'DDGC::DB::Result::Comment',
-                defined $_->[4] ? $last_comment->id : $thread->comment->id,
-                $_->[0], # user
-                $_->[1], # content
-                created => $_->[2],
-                updated => $_->[2],
-                data => {
-                    $_->[0]->id == $import_user->id
-                        ? (
-                            import => "Old Forum",
-                            import_user => $_->[3],
-                        ) : (),
-                },
-            );
-            print ".";
-            $last_comment = $c unless defined $_->[4];
+        if (defined $page->{next}) {
+            $page->{next} =~ /='(.+)'$/; # damn thing is document.location.href='...'
+            use DDP; p($page->{next});
+            $next_page = $1;
+        } else {
+            $pm->wait_all_children;
+            exit;
         }
+
+    } else {
+
+        for my $li (@{$page->{topics}}) {
+
+            eval {
+
+                my $topic = $topic_page->scrape(URI->new($li->{link}));
+
+                #print "\rTopics: ", ++$topic_count, " ($topic->{posts}->[-1]->{datetime})";
+
+                my $user = get_user $topic->{posts}->[1]->{author};
+
+                my @comments = (
+
+                        map { [
+                            get_user($_->{author}),
+                            $_->{content},
+                            $dt->parse_datetime($_->{datetime}),
+                            $_->{author},
+                            $_->{class} ? ($_->{class} =~ /\bthread\b/) : (), # If this is a sub-comment
+                        ] if $_->{content} } (@{$topic->{posts}}[2..$#{$topic->{posts}}])
+
+                ) if @{$topic->{posts}} > 2;
+
+                my $datetime = $dt->parse_datetime($topic->{posts}->[1]->{datetime});
+
+                my $sticky = 0;
+
+                grep { $sticky = 1 if $_->{link} eq $li->{link} } @$stickies;
+
+                my $thread = $ddgc->forum->add_thread(
+                    $user,
+                    $topic->{posts}->[1]->{content},
+                    title => $li->{title},
+                    data => {
+                        $user->id == $import_user->id
+                            ? (
+                                import => "Old Forum",
+                                import_user => $topic->{posts}->[1]->{author},
+                            ) : (),
+                    },
+                    created => $datetime, updated => $datetime,
+                    sticky => $sticky,
+                    old_url => $li->{link},
+                    comment_params => {
+                        html => 1,
+                        readonly => 1,
+                        data => {
+                            $user->id == $import_user->id
+                                ? (
+                                    import => "Old Forum",
+                                    import_user => $topic->{posts}->[1]->{author},
+                                ) : (),
+                        },
+                    },
+                );
+                print "#";
+
+                my $last_comment;
+                for my $comment (@comments) {
+                    my $next = 0;
+                    $next = 1 unless ref $comment eq 'ARRAY';
+                    $next = 1 if $next == 0 && defined $comment->[4] && !defined $last_comment;
+                    if ($next) {
+                        print "!";
+                    } else {
+                        my $c = $ddgc->add_comment(
+                            'DDGC::DB::Result::Comment',
+                            defined $comment->[4] ? $last_comment->id : $thread->comment->id,
+                            $comment->[0], # user
+                            $comment->[1], # content
+                            created => $comment->[2],
+                            updated => $comment->[2],
+                            data => {
+                                html => 1,
+                                readonly => 1,
+                                $comment->[0]->id == $import_user->id
+                                    ? (
+                                        import => "Old Forum",
+                                        import_user => $comment->[3],
+                                    ) : (),
+                            },
+                        );
+                        print ".";
+                        $last_comment = $c unless defined $comment->[4];
+                    }
+                }
+
+            };
+
+            print "\n".$@."\n" if $@;
+
+        }
+
+        $pm->finish;
 
     }
 
-    exit unless defined $page->{next};
-
-    $page->{next} =~ /='(.+)'$/; # damn thing is document.location.href='...'
-    $next_page = $1;
 }

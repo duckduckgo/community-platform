@@ -2,7 +2,7 @@
   <a href="<: $u('Userpage','home',$_.username) :>">
 <: } :>
 <: if $_.admin { :><span style="color:green"><: } :>
-<: if $caller && $caller.data && $caller.data.import { :>
+<: if $caller && $caller.can('data') && $caller.data && $caller.data.import { :>
   [<: $caller.data.import :> <: $caller.data.import_user :>]
 <: } elsif $c.user || $c.user.admin { :>
   <: $_.username :>
