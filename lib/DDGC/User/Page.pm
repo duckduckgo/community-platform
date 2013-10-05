@@ -126,7 +126,7 @@ my @attributes = (
 
 ############ Other widgets
 
-	languages => 'Show your languages and translation counts public?' => { type => 'noyes',
+	languages => 'Show your languages and translation counts publicly?' => { type => 'noyes',
 		view => 'languages',
 		export => sub {
 			my ( $self ) = @_;
