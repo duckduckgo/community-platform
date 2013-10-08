@@ -163,9 +163,9 @@ while (1) {
 							$comment->[1], # content
 							created => $comment->[2],
 							updated => $comment->[2],
+							is_html => 1,
+							readonly => 1,
 							data => {
-								is_html => 1,
-								readonly => 1,
 								$comment->[0]->id == $import_user->id
 									? (
 										import => "Old Forum",
