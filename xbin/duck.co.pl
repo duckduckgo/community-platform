@@ -134,7 +134,7 @@ while (1) {
 					sticky => $sticky,
 					old_url => $li->{link},
 					comment_params => {
-						html => 1,
+						is_html => 1,
 						readonly => 1,
 						data => {
 							$user->id == $import_user->id
@@ -164,7 +164,7 @@ while (1) {
 							created => $comment->[2],
 							updated => $comment->[2],
 							data => {
-								html => 1,
+								is_html => 1,
 								readonly => 1,
 								$comment->[0]->id == $import_user->id
 									? (

@@ -1,4 +1,4 @@
-package DDGC::DB::Result::Event::Group;
+package DDGC::DB::Result::Event::Notification::Group;
 # ABSTRACT: A visual group for an event
 
 use Moose;
@@ -7,7 +7,7 @@ extends 'DDGC::DB::Base::Result';
 use DBIx::Class::Candy;
 use namespace::autoclean;
 
-table 'event_group';
+table 'event_notification_group';
 
 column id => {
   data_type => 'bigint',
@@ -41,7 +41,7 @@ column created => {
   set_on_create => 1,
 };
 
-has_many 'events', 'DDGC::DB::Result::Event', 'event_group_id';
+has_many 'event_notifications', 'DDGC::DB::Result::Event::Notification', 'event_notification_group_id';
 
 ###############################
 

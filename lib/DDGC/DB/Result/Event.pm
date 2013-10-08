@@ -20,11 +20,6 @@ column users_id => {
 	is_nullable => 1,
 };
 
-column event_group_id => {
-	data_type => 'bigint',
-	is_nullable => 1,
-};
-
 column action => {
 	data_type => 'text',
 	is_nullable => 0,
@@ -95,7 +90,6 @@ column pid => {
 };
 
 belongs_to 'user', 'DDGC::DB::Result::User', 'users_id', { join_type => 'left' };
-belongs_to 'event_group', 'DDGC::DB::Result::Event::Group', 'event_group_id', { join_type => 'left' };
 
 has_many 'event_notifications', 'DDGC::DB::Result::Event::Notification', 'event_id';
 has_many 'event_relates', 'DDGC::DB::Result::Event::Relate', 'event_id';

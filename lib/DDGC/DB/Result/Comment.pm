@@ -55,7 +55,7 @@ column content => {
 	data_type => 'text',
 	is_nullable => 0,
 };
-sub html { $_[0]->ddgc->markup->html($_[0]->content) }
+sub html { $_[0]->is_html ? $_[0]->content : $_[0]->ddgc->markup->html($_[0]->content) }
 
 column deleted => {
 	data_type => 'int',
@@ -67,7 +67,7 @@ column readonly => {
 	default_value => 0,
 };
 
-column html => {
+column is_html => {
 	data_type => 'int',
 	default_value => 0,
 };
