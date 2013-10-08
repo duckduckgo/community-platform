@@ -320,19 +320,21 @@ $(document).ready(function() {
 		var start = '['+tagtype+']';
 		var end = '[/'+tagtype+']';
 
-		var param="";
-		if (tagtype=='img')
-		{
-		 param=prompt("Enter image URL","http://");
-		 if (param)
-			start+=param;
-		 }
-		else if (tagtype=='url')
-		{
-			param=prompt("Enter URL","http://");
-			if (param) 
+		var param = "";
+		if (tagtype=='img') {
+			param=prompt("Enter image URL","http://");
+			if (param)
+				start += param;
+			else
+				return;
+		}
+		else if (tagtype=='url') {
+			param = prompt("Enter URL","http://");
+			if (param)
 				start = '[url href=' + param + ']';
-		 }
+			else
+				return;
+		}
 		insertbb(start, end, target);
 	});
 	 
