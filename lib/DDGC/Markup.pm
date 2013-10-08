@@ -28,6 +28,11 @@ has escapes => (
 
 sub _build_bbcode {
 	my $self = shift;
+	my %shorttags = (
+		github  => '<a href="https://github.com/%{uri}A">%s</a>',
+		twitter => '<a href="https://metacpan.org/module/%{uri}A">%s</a>',
+		cpanm   => '<a href="http://twitter.com/%{uri}A">%s</a>',
+	);
 	Parse::BBCode->new({
 		close_open_tags => 1,
 		attribute_quote => q('"),
@@ -54,6 +59,13 @@ sub _build_bbcode {
 				class => 'block',
 				code  => sub { $self->quote_parse(@_) },
 			},
+			(map {
+				$_ => {
+					output => $shorttags{$_},
+					class => 'block',
+					short => 1,
+				}
+			} keys %shorttags),
 		},
 	});
 }
