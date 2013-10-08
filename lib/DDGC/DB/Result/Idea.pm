@@ -147,7 +147,7 @@ sub user_voted {
 
 after insert => sub {
   my ( $self ) = @_;
-  $self->add_event('insert');
+  $self->add_event('create');
 };
 
 after update => sub {

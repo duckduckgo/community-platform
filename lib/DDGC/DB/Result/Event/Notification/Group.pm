@@ -27,13 +27,9 @@ column type => {
 
 column data => {
   data_type => 'text',
-  is_nullable => 1,
+  is_nullable => 0,
   serializer_class => 'JSON',
-};
-
-column notes => {
-  data_type => 'text',
-  is_nullable => 1,
+  default_value => '{}',
 };
 
 column created => {

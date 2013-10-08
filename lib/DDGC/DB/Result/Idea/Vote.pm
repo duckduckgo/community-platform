@@ -47,7 +47,7 @@ belongs_to 'idea', 'DDGC::DB::Result::Idea', 'idea_id', {
 
 after insert => sub {
   my ( $self ) = @_;
-  $self->add_event('insert');
+  $self->add_event('create');
 };
 
 sub event_related {

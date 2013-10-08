@@ -65,6 +65,16 @@ has_many 'help_contents', 'DDGC::DB::Result::Help::Content', 'help_id';
 has_many 'help_relate_ons', 'DDGC::DB::Result::Help::Relate', 'on_help_id';
 has_many 'help_relate_shows', 'DDGC::DB::Result::Help::Relate', 'show_help_id';
 
+after insert => sub {
+  my ( $self ) = @_;
+  $self->add_event('create');
+};
+
+after update => sub {
+  my ( $self ) = @_;
+  $self->add_event('update');
+};
+
 sub related_helps {
 	my ( $self ) = @_;
 	$self->help_relate_ons_rs->search_related('show_help',{});

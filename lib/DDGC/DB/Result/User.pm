@@ -116,7 +116,6 @@ many_to_many 'languages', 'user_languages', 'language';
 
 belongs_to 'profile_media', 'DDGC::DB::Result::Media', 'profile_media_id', { join_type => 'left' };
 
-
 # WORKAROUND
 sub db { return shift; }
 

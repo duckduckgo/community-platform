@@ -76,8 +76,8 @@ belongs_to 'token_domain', 'DDGC::DB::Result::Token::Domain', 'token_domain_id';
 has_many 'token_languages', 'DDGC::DB::Result::Token::Language', 'token_id';
 
 after insert => sub {
-	my ( $self ) = @_;
-	$self->add_event('insert');
+  my ( $self ) = @_;
+  $self->add_event('create');
 };
 
 sub has_placeholders {

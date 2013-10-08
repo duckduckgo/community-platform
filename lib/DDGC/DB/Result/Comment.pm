@@ -118,7 +118,7 @@ after insert => sub {
 			cycle => $self->user->defaultcycle_comments,
 		});
 	}
-	$self->add_event('insert');
+	$self->add_event('create');
 };
 
 after update => sub {

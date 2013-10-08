@@ -101,13 +101,13 @@ before insert => sub {
 };
 
 after insert => sub {
-	my ( $self ) = @_;
-	$self->add_event('insert');
+  my ( $self ) = @_;
+  $self->add_event('create');
 };
 
 after update => sub {
-	my ( $self ) = @_;
-	$self->add_event('update');
+  my ( $self ) = @_;
+  $self->add_event('update');
 };
 
 sub sorted_screenshots {
