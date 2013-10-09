@@ -28,8 +28,9 @@ GetOptions (
 if (-d $config->rootdir_path) {
   if ($kill) {
     remove_tree($config->rootdir_path);
+    # TODO: replace parsing of dsn using regex with some CPAN module, DRY
     if ($config->db_dsn =~ m/^dbi:Pg:/) {
-      if ($config->db_dsn =~ m/database=([\w\d]+)/) {
+      if ($config->db_dsn =~ m/(?:database|dbname)=([\w\d]+)/) {
         my $db = $1;
         my $userarg = length($config->db_user) ? "-U ".$config->db_user : "";
         system("dropdb $userarg ".$db);
