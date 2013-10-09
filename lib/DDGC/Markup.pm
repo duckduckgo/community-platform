@@ -32,7 +32,6 @@ sub _build_bbcode {
 		github  => '<a href="https://github.com/%{uri}A">%s</a>',
 		twitter => '<a href="https://metacpan.org/module/%{uri}A">%s</a>',
 		cpanm   => '<a href="http://twitter.com/%{uri}A">%s</a>',
-		youtube => '<iframe width="560" height="315" src="https://www.youtube.com/embed/%{uri}A" frameborder="0" allowfullscreen></iframe>',
 	);
 	Parse::BBCode->new({
 		close_open_tags => 1,
@@ -59,6 +58,11 @@ sub _build_bbcode {
 				parse => 1,
 				class => 'block',
 				code  => sub { $self->quote_parse(@_) },
+			},
+			youtube => {
+				class => 'block',
+				short => 1,
+				code  => sub { $self->youtube_parse(@_) },
 			},
 			(map {
 				$_ => {
@@ -151,6 +155,14 @@ sub url_parse {
 
     $content ||= $url;
     return sprintf('<a href="%s" rel="nofollow" alt="%s">%s</a>', $url, $alt, $content // $attr);
+}
+
+sub youtube_parse {
+	my ($self, $parser, $attr, $content, $attribute_fallback, $tag, $info) = @_;
+	$attr =~ s/.*(?:watch\?v=|youtu\.be\/)([[:alnum:]]+).*/$1/ if $attr =~ m/youtu\.?be/;
+	$attr =~ m/^[[:alnum:]]+$/ ?
+		"<iframe width='560' height='315' src='https://www.youtube.com/embed/$attr'"
+			. "frameborder='0' allowfullscreen></iframe>" : Parse::BBCode::escape_html($attr);
 }
 
 #
