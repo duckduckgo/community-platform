@@ -64,6 +64,11 @@ sub _build_bbcode {
 				short => 1,
 				code  => sub { $self->youtube_parse(@_) },
 			},
+			vimeo => {
+				class => 'block',
+				short => 1,
+				code  => sub { $self->vimeo_parse(@_) },
+			},
 			(map {
 				$_ => {
 					output => $shorttags{$_},
@@ -163,6 +168,15 @@ sub youtube_parse {
 	$attr =~ m/^[[:alnum:]]+$/ ?
 		"<iframe width='560' height='315' src='https://www.youtube.com/embed/$attr'"
 			. "frameborder='0' allowfullscreen></iframe>" : Parse::BBCode::escape_html($attr);
+}
+
+sub vimeo_parse {
+	my ($self, $parser, $attr, $content, $attribute_fallback, $tag, $info) = @_;
+	$attr =~ s/.*vimeo\.com\/(?:video\/)?([[:alnum:]]+).*/$1/ if $attr =~ m/vimeo/;
+	$attr =~ m/^[[:alnum:]]+$/ ?
+		"<iframe src='//player.vimeo.com/video/$attr' width='560' height='315' "
+			. "frameborder='0' webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>"
+		: Parse::BBCode::escape_html($attr);
 }
 
 #
