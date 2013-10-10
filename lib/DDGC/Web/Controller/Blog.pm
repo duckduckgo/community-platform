@@ -13,10 +13,9 @@ sub base :Chained('/base') :PathPart('blog') :CaptureArgs(0) {
   $c->stash->{title} = 'DuckDuckGo Blog';
 	push @{$c->stash->{template_layout}}, 'blog/base.tx';
 	$c->stash->{page_class} = "page-blog texture";
-	$c->stash->{blog_resultset} = $c->d->rs('User::Blog')->search_rs({
-		company_blog => 1,
-		($c->user && $c->user->admin) ? () : ( live => 1 ),
-	});
+	$c->stash->{blog_resultset} = $c->d->rs('User::Blog')->company_blog(
+	    $c->user_exists ? $c->user : undef
+	);
 	$c->add_bc('DuckDuckGo Blog posts', $c->chained_uri('Blog', 'index'));
 }
 
