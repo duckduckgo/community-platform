@@ -91,3 +91,4 @@ requires 'URL::Encode', '0.01';
 requires 'Web::Scraper', '0.37';
 requires 'YAML', '0.73';
 requires 'YAML::XS', '0.35';
+requires 'DBIx::Class::Helpers', '0';
