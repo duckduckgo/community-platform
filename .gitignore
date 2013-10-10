@@ -4,3 +4,4 @@ po-files/*
 *~
 *.sw*
 *.csv
+local-lib

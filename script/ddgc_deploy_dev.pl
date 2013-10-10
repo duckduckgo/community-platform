@@ -12,6 +12,8 @@ use DDGC;
 use DDGCTest::Database;
 use File::Path qw( make_path remove_tree );
 use String::ProgressBar;
+use POSIX;
+use DBI;
 
 use Getopt::Long;
 
@@ -25,23 +27,34 @@ GetOptions (
 	"start" => \$start,
 );
 
-if (-d $config->rootdir_path) {
   if ($kill) {
     remove_tree($config->rootdir_path);
+    # TODO: replace parsing of dsn using regex with some CPAN module, DRY
     if ($config->db_dsn =~ m/^dbi:Pg:/) {
-      if ($config->db_dsn =~ m/database=([\w\d]+)/) {
+      if ($config->db_dsn =~ m/(?:database|dbname)=([\w\d]+)/) {
         my $db = $1;
         my $userarg = length($config->db_user) ? "-U ".$config->db_user : "";
+	print "Truncating database...\n";
         system("dropdb $userarg ".$db);
-        system("createdb $userarg ".$db);
+	if ( !WIFEXITED(${^CHILD_ERROR_NATIVE}) ) {
+	    my $dsn = $config->db_dsn;
+	    $dsn =~ s/(database|dbname)=[\w\d]+/$1=postgres/;
+	    my $dbh = DBI->connect(
+		$dsn, $config->db_user, $config->db_password
+	    );
+	    $dbh->do("DROP DATABASE $db") or die $dbh->errstr;
+	    $dbh->do("CREATE DATABASE $db") or die $dbh->errstr;
+        }
+        else {
+	    system("createdb $userarg ".$db);
+	}
       } else {
         die "Can't find out your db name from DSN";
       }
     }
-  } else {
+  } elsif (-d $config->rootdir_path) {
     die "environment exist, use --kill to kill it!";
   }
-}
 
 print "\n";
 print "Generating development environment, this may take a while...\n";
