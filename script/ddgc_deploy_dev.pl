@@ -27,7 +27,6 @@ GetOptions (
 	"start" => \$start,
 );
 
-if (-d $config->rootdir_path) {
   if ($kill) {
     remove_tree($config->rootdir_path);
     # TODO: replace parsing of dsn using regex with some CPAN module, DRY
@@ -53,10 +52,9 @@ if (-d $config->rootdir_path) {
         die "Can't find out your db name from DSN";
       }
     }
-  } else {
+  } elsif (-d $config->rootdir_path) {
     die "environment exist, use --kill to kill it!";
   }
-}
 
 print "\n";
 print "Generating development environment, this may take a while...\n";
