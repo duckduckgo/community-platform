@@ -1,4 +1,11 @@
+<: macro include_blog_pager {
+  include pager {
+    pager => $posts_resultset.pager,
+    url => $u('Blog', 'index', { page => 'PAGE_NO' }),
+  }
+} :>
 <div class="blog-content  content">
+  <div class="row mid"><: include_blog_pager() :></div>
 	<: for $posts -> $day_posts { :>
 		<section class="daily-posts">
 			<div class="date-box">
@@ -10,4 +17,5 @@
 			<: } :>
 		</section>
 	<: } :>
+  <div class="row mid"><: include_blog_pager() :></div>
 </div>
