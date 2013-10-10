@@ -79,14 +79,10 @@ sub company_blog {
 
 sub topics {
   my $self = shift;
-  my @all_posts = $self->all;
-  my @topics;
-  for (@all_posts) {
-    if ($_->topics) {
-      push @topics, @{$_->topics} if @{$_->topics};
-    }
-  }
-  return [ sort { lc($a) cmp lc($b) } uniq @topics ];
+  return [
+      sort { lc($a) cmp lc($b) }
+        uniq map { @{$_->topics||[]} } $self->all
+  ];
 }
 
 no Moose;
