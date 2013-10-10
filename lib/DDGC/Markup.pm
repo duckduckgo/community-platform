@@ -32,6 +32,8 @@ sub _build_bbcode {
 		github  => '<a href="https://github.com/%{uri}A">%s</a>',
 		twitter => '<a href="https://metacpan.org/module/%{uri}A">%s</a>',
 		cpanm   => '<a href="http://twitter.com/%{uri}A">%s</a>',
+		youtube => sub { $self->youtube_parse(@_) },
+		vimeo   => sub { $self->vimeo_parse(@_) },
 	);
 	Parse::BBCode->new({
 		close_open_tags => 1,
@@ -59,22 +61,13 @@ sub _build_bbcode {
 				class => 'block',
 				code  => sub { $self->quote_parse(@_) },
 			},
-			youtube => {
-				class => 'block',
-				short => 1,
-				code  => sub { $self->youtube_parse(@_) },
-			},
-			vimeo => {
-				class => 'block',
-				short => 1,
-				code  => sub { $self->vimeo_parse(@_) },
-			},
 			(map {
 				$_ => {
-					output => $shorttags{$_},
 					class => 'block',
 					short => 1,
 					classic => 0,
+					ref $shorttags{$_} eq 'CODE' ?
+						(code => $shorttags{$_}) : (output => $shorttags{$_}),
 				}
 			} keys %shorttags),
 		},
