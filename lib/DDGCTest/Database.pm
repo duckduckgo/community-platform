@@ -114,7 +114,7 @@ sub next_step {
 
 sub step_count {
 	my ( $self ) = @_;
-	my $base = 1525;
+	my $base = 2015;
 	return $base unless $self->test;
 }
 
@@ -1135,37 +1135,43 @@ sub add_token_domains {
 # |____/|_|\___/ \__, |
 #                |___/
 
-sub blogs {{
+sub blogs {
+	my $idx;
+	{
 	testone => [
-		'test-one' => {
-			title => 'Test One',
-			teaser => 'This is a teaser',
-			content => 'This is a content',
-			topics => ['Topic','Another Topic'],
-			company_blog => 1,
-			comments => [],
-		},
-		'my-other-test-one' => {
-			title => 'Ohter Test One',
-			teaser => 'Ohter This is a teaser',
-			content => 'Ohter This is a content',
-			topics => ['Another Topic'],
-			company_blog => 1,
-			comments => [
-				testtwo => [ "Deep This is another awesome!",
-					testone => 'Deep Ok, you are another right',
-					testthree => "Deep Ugh another ugh!",
-					testfour => [ "Deep Comment on another me!",
-						testone => [ 'Deeeeper',
-							testone => "Deeeeeeeper",
-						],
-						testtwo => [ 'Deeeeeeeeeper',
-							testtwo => "Deeeeeeeeeeeeper",
+		map {
+			$idx = $_++;
+			(
+			"test-one-$idx" => {
+				title => "Test One $idx",
+				teaser => 'This is a teaser',
+				content => 'This is a content',
+				topics => ['Topic','Another Topic'],
+				company_blog => 1,
+				comments => [],
+			},
+			"my-other-test-one-$idx" => {
+				title => "Other Test One $idx",
+				teaser => 'Other This is a teaser',
+				content => 'Other This is a content',
+				topics => ['Another Topic'],
+				company_blog => 1,
+				comments => [
+					testtwo => [ "Deep This is another awesome!",
+						testone => 'Deep Ok, you are another right',
+						testthree => "Deep Ugh another ugh!",
+						testfour => [ "Deep Comment on another me!",
+							testone => [ 'Deeeeper',
+								testone => "Deeeeeeeper",
+							],
+							testtwo => [ 'Deeeeeeeeeper',
+								testtwo => "Deeeeeeeeeeeeper",
+							],
 						],
 					],
 				],
-			],
-		},
+			},
+		) } (1..50)
 	],
 	testthree => [
 		'test-three' => {
