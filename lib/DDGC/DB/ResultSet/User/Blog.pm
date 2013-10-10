@@ -67,5 +67,13 @@ sub posts_by_day {
 	return [map { $days{$_} } sort { $b <=> $a } keys %days ];
 }
 
+sub company_blog {
+  my ( $self, $user ) = @_;
+  return $self->search({
+    $self->me . 'company_blog' => 1,
+    $user && $user->admin ? () : ( $self->me . 'live' => 1 ),
+  });
+}
+
 no Moose;
 __PACKAGE__->meta->make_immutable( inline_constructor => 0 );
