@@ -1125,7 +1125,7 @@ sub blogs {
 				title => "Test One $idx",
 				teaser => 'This is a teaser',
 				content => 'This is a content',
-				topics => ['Topic','Another Topic'],
+				topics => ['Topic','Another Topic', 'Topic ' . $idx % 2],
 				company_blog => 1,
 				comments => [],
 			},
