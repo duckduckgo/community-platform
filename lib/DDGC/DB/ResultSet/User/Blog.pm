@@ -4,6 +4,7 @@ package DDGC::DB::ResultSet::User::Blog;
 use Moose;
 use namespace::autoclean;
 use DateTime::Format::RSS;
+use List::MoreUtils qw( uniq );
 
 extends qw(
   DDGC::DB::Base::ResultSet
@@ -73,6 +74,18 @@ sub company_blog {
     $self->me . 'company_blog' => 1,
     $user && $user->admin ? () : ( $self->me . 'live' => 1 ),
   });
+}
+
+sub topics {
+  my $self = shift;
+  my @all_posts = $self->all;
+  my @topics;
+  for (@all_posts) {
+    if ($_->topics) {
+      push @topics, @{$_->topics} if @{$_->topics};
+    }
+  }
+  return [ sort { lc($a) cmp lc($b) } uniq @topics ];
 }
 
 no Moose;

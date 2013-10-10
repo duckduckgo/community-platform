@@ -6,21 +6,14 @@ use namespace::autoclean;
 BEGIN { extends 'Catalyst::Controller'; }
 
 use JSON;
-use List::MoreUtils qw( uniq );
 
 sub pagesize { 20 }
 
 sub blog_base :Chained('base') :PathPart('') :CaptureArgs(0) {
 	my ( $self, $c ) = @_;
-	die "require blog_resultset in stash" unless defined $c->stash->{blog_resultset};
-	my @all_posts = $c->stash->{blog_resultset}->all;
-	my @topics;
-	for (@all_posts) {
-		if ($_->topics) {
-			push @topics, @{$_->topics} if @{$_->topics};
-		}
-	}
-	$c->stash->{blog_topics} = [sort { lc($a) cmp lc($b) } uniq @topics];
+	my $blog_rs = $c->stash->{blog_resultset};
+	die "require blog_resultset in stash" unless defined $blog_rs;
+	$c->stash->{blog_topics} = $blog_rs->topics;
 }
 
 sub postlist_base :Chained('blog_base') :PathPart('') :CaptureArgs(0) {
