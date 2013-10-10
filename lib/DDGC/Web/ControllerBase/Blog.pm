@@ -24,12 +24,10 @@ sub postlist_base :Chained('blog_base') :PathPart('') :CaptureArgs(0) {
 
 sub postlist_resultset {
 	my ( $self, $c ) = @_;
-	$c->stash->{posts_resultset} = $c->stash->{blog_resultset}->most_recent_updated
-	    ->search_rs({},{
-		page => $c->stash->{page},
-		rows => $c->stash->{pagesize},
-		prefetch => 'user',
-	});
+	$c->stash->{posts_resultset} = $c->stash->{blog_resultset}
+	    ->most_recent_updated
+	    ->paging($c->stash->{page}, $c->stash->{pagesize})
+	    ->prefetch('user');
 }
 
 sub postlist_view {

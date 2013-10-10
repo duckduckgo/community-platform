@@ -10,6 +10,7 @@ extends qw(
   DDGC::DB::Base::ResultSet
   DBIx::Class::Helper::ResultSet::Me
   DBIx::Class::Helper::ResultSet::Shortcut::OrderBy
+  DBIx::Class::Helper::ResultSet::Shortcut::Prefetch
 );
 
 sub create_via_form {
