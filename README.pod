@@ -17,6 +17,10 @@ Perl requirements:
   dzil authordeps --missing | cpanm
   dzil listdeps --missing | cpanm
 
+Addtionally, you require to install DDGC deps from duckpan:
+
+  duckpan DDGC::Static
+
 When you checked out the repository you must once run this command to get a
 base database installed in your home:
 
