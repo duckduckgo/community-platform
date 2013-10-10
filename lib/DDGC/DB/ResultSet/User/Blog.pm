@@ -2,10 +2,14 @@ package DDGC::DB::ResultSet::User::Blog;
 # ABSTRACT: Resultset class for blog posts
 
 use Moose;
-extends 'DDGC::DB::Base::ResultSet';
 use namespace::autoclean;
-
 use DateTime::Format::RSS;
+
+extends qw(
+  DDGC::DB::Base::ResultSet
+  DBIx::Class::Helper::ResultSet::Me
+  DBIx::Class::Helper::ResultSet::Shortcut::OrderBy
+);
 
 sub create_via_form {
 	my ( $self, $values ) = @_;
@@ -37,11 +41,9 @@ sub values_via_form {
 	return $values;
 }
 
-sub sorted {
-	my ( $self ) = @_;
-	$self->search({},{
-		order_by => { -desc => 'me.updated' },
-	});
+sub most_recent_updated {
+  my $self = shift;
+  return $self->order_by({ -desc => $self->me . 'updated' });
 }
 
 sub live {
