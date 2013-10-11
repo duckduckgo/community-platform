@@ -113,5 +113,17 @@ sub posts_to_feed {
 	};
 }
 
+sub archive_base :Chained('postlist_base') :PathPart('archive') :CaptureArgs(1) {
+	my ( $self, $c, $ym ) = @_;
+	$c->stash->{current_topic} = $ym;
+	$c->stash->{title} = 'Archived blog posts';
+	$c->add_bc($c->stash->{title});
+	$c->stash->{blog_resultset} = $c->stash->{blog_resultset}
+	         ->filter_by_date($ym);
+}
+
+sub archive :Chained('archive_base') :PathPart('') :Args(0) {
+	shift->postlist_view(shift);
+}
 
 1;
