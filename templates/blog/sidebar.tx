@@ -7,16 +7,14 @@
 			</form>
 		</section> -->
 		<: include "blog/sidebar_topics.tx" :>
-		<!-- <section class="menu-list tab-third">
+		<section class="menu-list tab-third">
 			<h5>Archives</h5>
 			<ul>
-				<li><a href="#">September</a></li>
-				<li><a href="#">August</a></li>
-				<li><a href="#">July</a></li>
-				<li><a href="#">June</a></li>
-				<li><a href="#">May</a></li>
+			<: for $blog_archives.keys().sort() -> $m { :>
+			   <li><a href="<: $u('Blog','archive',$m) :>"><: $blog_archives[$m].strftime('%B-%Y') :></li>
+			<: } :>
 			</ul>
-		</section> -->
+		</section>
 		<section class="menu-list tab-third">
 			<h5>Contribute to <abbr title="DuckDuckGo">DDG</abbr></h5>
 			<ul>

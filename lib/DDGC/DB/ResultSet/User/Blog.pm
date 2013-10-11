@@ -6,6 +6,7 @@ use namespace::autoclean;
 use DateTime::Format::RSS;
 use List::MoreUtils qw( uniq );
 use JSON;
+use DateTime;
 
 extends qw(
   DDGC::DB::Base::ResultSet
@@ -90,6 +91,23 @@ sub metadata {
     topics => [ sort { lc($a) cmp lc($b) } uniq @topics ],
     archives => $archives,
   };
+}
+
+sub filter_by_date {
+  my ( $self, $dt ) = @_;
+  my ( $year, $month ) = split(/\-/, $dt);
+  $dt = DateTime->new(year => $year, month => $month);
+  my $dt_parser = $self->schema->storage->datetime_parser;
+  return $self->search({
+    ($self->me . 'created') => {
+      -between => [
+        $dt_parser->format_datetime($dt),
+        $dt_parser->format_datetime(
+          $dt->clone->add(months => 1)->subtract(days => 1)
+        ),
+      ],
+    },
+  });
 }
 
 sub util_json_string { JSON->new->allow_nonref(1)->encode(shift) }
