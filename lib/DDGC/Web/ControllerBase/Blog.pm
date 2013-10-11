@@ -5,8 +5,6 @@ use Moose;
 use namespace::autoclean;
 BEGIN { extends 'Catalyst::Controller'; }
 
-use JSON;
-
 sub pagesize { 20 }
 
 sub blog_base :Chained('base') :PathPart('') :CaptureArgs(0) {
@@ -65,10 +63,8 @@ sub topic_base :Chained('postlist_base') :PathPart('topic') :CaptureArgs(1) {
 	$c->stash->{current_topic} = $topic;
 	$c->stash->{title} = 'All topic related blog posts';
 	$c->add_bc($c->stash->{title});
-	my $json = json_string($topic);
-	$c->stash->{blog_resultset} = $c->stash->{blog_resultset}->search({
-		topics => { -like => "%".$json."%" }
-	});
+	$c->stash->{blog_resultset} = $c->stash->{blog_resultset}
+	         ->filter_by_topic($topic);
 }
 
 sub topic :Chained('topic_base') :PathPart('') :Args(0) {
@@ -117,6 +113,5 @@ sub posts_to_feed {
 	};
 }
 
-sub json_string { JSON->new->allow_nonref(1)->encode(shift) }
 
 1;
