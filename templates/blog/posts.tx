@@ -4,8 +4,7 @@
     url => $u('Blog', 'index', { page => 'PAGE_NO' }),
   }
 } :>
-<div class="blog-content  content">
-  <div class="row mid"><: include_blog_pager() :></div>
+<div class="blog-content  content">  
 	<: for $posts -> $day_posts { :>
 		<section class="daily-posts">
 			<div class="date-box">
@@ -17,5 +16,5 @@
 			<: } :>
 		</section>
 	<: } :>
-  <div class="row mid"><: include_blog_pager() :></div>
+    <div class="post-snippet text-right"><: include_blog_pager() :></div>
 </div>
