@@ -17,7 +17,7 @@ requires 'Catalyst::Plugin::StackTrace', '0.11';
 requires 'Catalyst::Plugin::Static::Simple', '0.29';
 requires 'Catalyst::Plugin::ErrorCatcher', '0.0.8.13';
 requires 'Catalyst::Plugin::Unicode::Encoding', '1.1';
-requires 'Catalyst::Runtime', '5.90030';
+requires 'Catalyst::Runtime', '5.90042';
 requires 'Catalyst::View::Email::Template', '0.31';
 requires 'Catalyst::View::JSON', '0.31';
 requires 'Catalyst::View::Xslate', '0.00017';

@@ -20,7 +20,6 @@ use Catalyst qw/
 	ErrorCatcher
 	CustomErrorMessage
 	RunAfterRequest
-	Unicode::Encoding
 /;
 
 extends 'Catalyst';
