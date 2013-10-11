@@ -1149,6 +1149,7 @@ sub blogs {
 				topics => ['Topic','Another Topic', 'Topic ' . $idx % 2],
 				company_blog => 1,
 				comments => [],
+				created => '2013-' . ($idx >= 12 ? '12' : $idx) . '-10',
 			},
 			"my-other-test-one-$idx" => {
 				title => "Other Test One $idx",

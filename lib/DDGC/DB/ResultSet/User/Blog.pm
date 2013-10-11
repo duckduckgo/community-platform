@@ -77,12 +77,18 @@ sub company_blog {
   });
 }
 
-sub topics {
+sub metadata {
   my $self = shift;
-  return [
-      sort { lc($a) cmp lc($b) }
-        uniq map { @{$_->topics||[]} } $self->all
-  ];
+  my (@topics,$archives);
+  for ($self->all) {
+    push @topics, @{$_->topics||{}};
+    my $created = $_->created;
+    $archives->{$created->strftime('%Y-%m')} = $created;
+  }
+  return {
+    topics => [ sort { lc($a) cmp lc($b) } uniq @topics ],
+    archives => $archives,
+  };
 }
 
 no Moose;

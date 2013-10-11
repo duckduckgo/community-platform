@@ -13,7 +13,9 @@ sub blog_base :Chained('base') :PathPart('') :CaptureArgs(0) {
 	my ( $self, $c ) = @_;
 	my $blog_rs = $c->stash->{blog_resultset};
 	die "require blog_resultset in stash" unless defined $blog_rs;
-	$c->stash->{blog_topics} = $blog_rs->topics;
+	my $metadata = $blog_rs->metadata;
+	$c->stash->{blog_topics} = $metadata->{'topics'};
+	$c->stash->{blog_archives} = $metadata->{'archives'};
 }
 
 sub postlist_base :Chained('blog_base') :PathPart('') :CaptureArgs(0) {
