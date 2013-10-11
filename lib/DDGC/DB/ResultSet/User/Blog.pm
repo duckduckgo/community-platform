@@ -5,6 +5,7 @@ use Moose;
 use namespace::autoclean;
 use DateTime::Format::RSS;
 use List::MoreUtils qw( uniq );
+use JSON;
 
 extends qw(
   DDGC::DB::Base::ResultSet
@@ -89,6 +90,16 @@ sub metadata {
     topics => [ sort { lc($a) cmp lc($b) } uniq @topics ],
     archives => $archives,
   };
+}
+
+sub util_json_string { JSON->new->allow_nonref(1)->encode(shift) }
+
+sub filter_by_topic {
+  my ( $self, $topic ) = @_;
+  $topic = util_json_string($topic);
+  return $self->search({
+      $self->me . 'topics' => { like => sprintf('%%%s%%', $topic) }
+  });
 }
 
 no Moose;
