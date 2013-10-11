@@ -1,7 +1,7 @@
 <: if $page == $no { :>
-	<: $no_string ? $no_string : $no :>
+	<span class="button button-nav-current disabled"><: $no_string ? $no_string : $no :></span>
 <: } else if !$no { :>
-	<: $no_string :>
+	<span class="button button-nav-current disabled"><: $no_string :></span>
 <: } else { :>
-	<a href="<: replace($url, 'PAGE_NO', $no) :>"><: $no_string ? $no_string : $no :></a>
+	<a class="button" href="<: replace($url, 'PAGE_NO', $no) :>"><: $no_string ? $no_string : $no :></a>
 <: } :>

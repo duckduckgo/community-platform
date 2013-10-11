@@ -1,7 +1,7 @@
-<div class="pagerbox">
-	<: include pager::entry { url => $url, no_string => r("&#171;"), no => $pager.previous_page } :> |
+<span class="button-group  button-group--paging">
+	<: include pager::entry { url => $url, no_string => r("&#171;"), no => $pager.previous_page } :>
 	<: for [ 1..$pager.last_page ] -> $no { :>
-		<: include pager::entry { url => $url, no => $no } :> |
+		<: include pager::entry { url => $url, no => $no } :>
 	<: } :>
 	<: include pager::entry { url => $url, no_string => r("&#187;"), no => $pager.next_page } :>
-</div>
+</span>
