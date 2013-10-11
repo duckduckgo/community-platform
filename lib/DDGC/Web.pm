@@ -45,10 +45,10 @@ __PACKAGE__->config(
 	default_view => 'Xslate',
 	encoding => 'UTF-8',
 	stacktrace => {
-		enable => $ENV{DDGC_ACTIVATE_ERRORCATCHING} ? 1 : 0,,
+		enable => $ENV{DDGC_ACTIVATE_ERRORCATCHING}||0,
 	},
 	'Plugin::ErrorCatcher' => {
-		enable => $ENV{DDGC_ACTIVATE_ERRORCATCHING} ? 1 : 0,
+		enable => $ENV{DDGC_ACTIVATE_ERRORCATCHING}||0,
 		emit_module => 'Catalyst::Plugin::ErrorCatcher::Email',
 	},
 	'Plugin::ErrorCatcher::Email' => {
@@ -77,16 +77,6 @@ __PACKAGE__->config(
 			},
 		},
 	},
-	# doesnt work like supposed :(
-	# 'Plugin::ErrorCatcher' => {
-		# emit_module => 'Catalyst::Plugin::ErrorCatcher::Email',
-	# },
-	# 'Plugin::ErrorCatcher::Email' => {
-		# to => 'getty@duckduckgo.com',
-		# from => 'noreply@dukgo.com',
-		# use_tags => 1,
-		# subject => '[%n %V] Report from %h; %F, line %l',
-	# },
 	'custom-error-message' => {
 		'error-template' => 'error.tx',
 		'content-type' => 'text/html; charset=utf-8',
