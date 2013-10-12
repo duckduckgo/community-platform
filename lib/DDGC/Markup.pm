@@ -30,8 +30,8 @@ sub _build_bbcode {
 	my $self = shift;
 	my %shorttags = (
 		github  => '<a href="https://github.com/%{uri}A">%s</a>',
-		twitter => '<a href="https://metacpan.org/module/%{uri}A">%s</a>',
-		cpanm   => '<a href="http://twitter.com/%{uri}A">%s</a>',
+		twitter => '<a href="http://twitter.com/%{uri}A">%s</a>',
+		cpanm   => '<a href="https://metacpan.org/module/%{uri}A">%s</a>',
 		youtube => sub { $self->youtube_parse(@_) },
 		vimeo   => sub { $self->vimeo_parse(@_) },
 	);
