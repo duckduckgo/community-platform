@@ -49,7 +49,7 @@
 		</div>
 	</div>
 	<div class="row">
-		<div class="content-wrap">
+		<div class="<: # content-wrap :>">
 			<h2 class="headfont">What is an Instant Answer made of?</h2>
 			<p class="h4 ddhi__title">Great Sources Suggested by You!</p>
 			<p><span class="hr">e.g.</span></p>
@@ -57,19 +57,19 @@
 				<div class="third  source">
 					<div class="source__logo"><img src="<: $img_path :>logos/yelp.png" title="yelp"  alt="yelp" /></div>
 					<div class="source__screen-wrap">
-						<img class="source__screen" src="<: $img_path :>screens/yelp.jpg" alt="yelp Instant Answer on DuckDuckGo" />
+						<img class="source__screen" src="<: $img_path :>screens/yelp-cropped.jpg" alt="yelp Instant Answer on DuckDuckGo" />
 					</div>
 				</div>
 				<div class="third  source">
 					<div class="source__logo"><img src="<: $img_path :>logos/wiki.png" title="Wikipedia"  alt="Wikipedia" /></div>
 					<div class="source__screen-wrap">
-						<img class="source__screen" src="<: $img_path :>screens/wiki.jpg" alt="Wikipedia Instant Answer on DuckDuckGo" />
+						<img class="source__screen" src="<: $img_path :>screens/wiki-cropped.jpg" alt="Wikipedia Instant Answer on DuckDuckGo" />
 					</div>					
 				</div>
 				<div class="third  source">
 					<div class="source__logo"><img src="<: $img_path :>logos/wa.png" title="Wolfram|Alpha" alt="Wolfram|Alpha" /></div>
 					<div class="source__screen-wrap">
-						<img class="source__screen" src="<: $img_path :>screens/wa.jpg" alt="Wolfram|Alpha Instant Answer on DuckDuckGo" />
+						<img class="source__screen" src="<: $img_path :>screens/wa-cropped.jpg" alt="Wolfram|Alpha Instant Answer on DuckDuckGo" />
 					</div>
 				</div>
 			</div>

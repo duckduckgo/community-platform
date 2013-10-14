@@ -45,6 +45,8 @@
 		//border: 1px solid #bdbdbd;		
 		-webkit-box-shadow: 0px 0px 4px 0px #bdbdbd;
         box-shadow: 0px 0px 4px 0px #bdbdbd;
+		-webkit-border-radius: 3px;
+        border-radius: 3px;
 	}
 	.ddhi__intro-screen__icon {
 		position: absolute;
@@ -141,7 +143,9 @@
 		right: 0;
 		margin: auto;
 		-webkit-box-shadow: 0px 0px 4px 0px #bdbdbd;
-        box-shadow: 0px 0px 4px 0px #bdbdbd;
+        box-shadow: 0px 0px 4px 0px #bdbdbd;		
+		-webkit-border-radius: 3px;
+        border-radius: 3px;
 	}
 
 .ddhi__community {
