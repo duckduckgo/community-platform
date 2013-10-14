@@ -143,11 +143,13 @@ sub comments {
 	})->prefetch_tree;
 }
 
-sub i_context {
+sub context_name {
 	my ( $self ) = @_;
 	my $ref = ref $self;
 	return $ref;
 }
+
+sub i_context { shift->context_name(@_) }
 
 sub i_context_id {
 	my ( $self ) = @_;

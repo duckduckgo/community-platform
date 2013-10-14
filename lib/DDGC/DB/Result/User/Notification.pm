@@ -20,32 +20,14 @@ column users_id => {
 	is_nullable => 0,
 };
 
-# Context	ContextID	SubContext	Target
-#-------------------------------------------------
-# Y			X			Z			Changed/New Z on Y #X
-# Y			X						Changes on Y #X
-# Y									Changes on any Y or Changed/New Y
-# Y						Z			New Z on any Y
-
-column context => {
-	data_type => 'text',
+column user_notification_group_id => {
+	data_type => 'bigint',
 	is_nullable => 0,
 };
-
+	
 column context_id => {
-	data_type => 'bigint',
-	is_nullable => 1,
-};
-
-column sub_context => {
-	data_type => 'text',
-	is_nullable => 1,
-};
-
-# not yet supported
-column action => {
-	data_type => 'text',
-	is_nullable => 1,
+  data_type => 'int',
+  is_nullable => 1,
 };
 
 # 1 = Instant (Not yet implemented)
@@ -56,6 +38,11 @@ column action => {
 column cycle => {
 	data_type => 'int',
 	is_nullable => 0,
+};
+
+column xmpp => {
+	data_type => 'int',
+	default_value => 0,
 };
 
 # not yet supported
@@ -76,6 +63,9 @@ column created => {
 };
 
 belongs_to 'user', 'DDGC::DB::Result::User', 'users_id';
+belongs_to 'user_notification_group', 'DDGC::DB::Result::User::Notification::Group', 'user_notification_group_id';
+
+has_many 'event_notifications', 'DDGC::DB::Result::Event::Notification', 'user_notification_id';
 
 ###############################
 

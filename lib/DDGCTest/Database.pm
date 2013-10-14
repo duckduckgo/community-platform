@@ -525,11 +525,6 @@ sub users {{
 			},
 			email => 'testtwo@localhost',
 		},
-		notifications => [
-			[ 2, 'DDGC::DB::Result::Comment' ],
-			[ 2, 'DDGC::DB::Result::Token::Language::Translation' ],
-			[ 2, 'DDGC::DB::Result::Token' ],
-		],
 	},
 	'testthree' => {
 		pw => '1234test',
@@ -614,17 +609,6 @@ sub add_users {
 	});
 	$testone->update;
 	$self->next_step;
-	for (qw(
-		DDGC::DB::Result::Comment
-		DDGC::DB::Result::Token::Language::Translation
-		DDGC::DB::Result::Token
-	)) {
-		$testone->create_related('user_notifications',{
-			context => $_,
-			cycle => 2,
-		});
-		$self->next_step;
-	}
 	$self->c->{users}->{testone} = $testone;
 	$self->next_step;
 	for (sort keys %{$self->users}) {
@@ -647,12 +631,7 @@ sub add_users {
 		$user->update;
 		$self->c->{users}->{$username} = $user;
 		for (@notifications) {
-			$user->create_related('user_notifications',{
-				cycle => $_->[0],
-				context => $_->[1],
-				context_id => $_->[2],
-				sub_context => $_->[3],
-			});
+			# TODO
 			$self->next_step;
 		}
     $self->isa_ok($user,'DDGC::User');

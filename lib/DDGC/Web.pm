@@ -85,7 +85,7 @@ __PACKAGE__->config(
 	},
 	'Plugin::Session' => {
 		expires => 21600,
-		dbic_class => 'DDGC::Session',
+		storage => '/mnt/md0/tmp/data',
 	},
 	'Plugin::Captcha' => {
 		session_name => 'captcha_string',
