@@ -16,6 +16,7 @@ sub format_datetime { shift->ddgc->db->storage->datetime_parser->format_datetime
 
 sub update_own_notifications {
 	my ( $self ) = @_;
+	return;
 	$self->_resultset_update_notifications($self->ddgc->rs('Event')->search({
 		notified => 0,
 		pid => $self->ddgc->config->pid,

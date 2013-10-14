@@ -49,7 +49,12 @@ column sent => {
 
 column event_notification_group_id => {
 	data_type => 'bigint',
-	is_nullable => 1,
+	is_nullable => 0,
+};
+
+column user_notification_id => {
+	data_type => 'bigint',
+	is_nullable => 0,
 };
 
 column created => {
@@ -59,7 +64,8 @@ column created => {
 
 belongs_to 'user', 'DDGC::DB::Result::User', 'users_id';
 belongs_to 'event', 'DDGC::DB::Result::Event', 'event_id';
-belongs_to 'event_notification_group', 'DDGC::DB::Result::Event::Notification::Group', 'event_notification_group_id', { join_type => 'left' };
+belongs_to 'event_notification_group', 'DDGC::DB::Result::Event::Notification::Group', 'event_notification_group_id';
+belongs_to 'user_notification', 'DDGC::DB::Result::User::Notification', 'user_notification_id';
 
 __PACKAGE__->indices(
 	cycle_cycle_idx => 'cycle',

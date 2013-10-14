@@ -34,13 +34,16 @@ our $VERSION ||= '0.000';
 sub deploy_fresh {
 	my ( $self ) = @_;
 
+	die "ARE YOU INSANE????? KILLING LIVE???? GO FUCK YOURSELF!!!" if $self->is_live;
+
 	$self->config->rootdir();
 	$self->config->filesdir();
 	$self->config->cachedir();
 
 	copy($self->config->prosody_db_samplefile,$self->config->rootdir) or die "Copy failed: $!";
 
-	$self->db->connect->deploy;
+	$self->db->deploy;
+	$self->db->resultset('User::Notification::Group')->deploy_group_types;
 }
 ##############################################
 
