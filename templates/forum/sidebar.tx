@@ -1,7 +1,7 @@
 <aside class="sidebar group">
 	<: include "forum/share_suggestion.tx" :>
 	
-	<section class="menu-list tab-mid">
+	<section class="menu-list">
 		<h5>Sticky threads</h5>
 		<ul>
 			<: for results($sticky_threads) -> $thread { :>
@@ -11,7 +11,7 @@
 			<: } :>
 		</ul>
 	</section>
-	<section class="menu-list tab-third">
+	<section class="menu-list">
 		<h5>Latest comments on ...</h5>
 		<ul>
 			<li><a href="<: $u('Forum','index') :>">General Ramblings</a></li>
