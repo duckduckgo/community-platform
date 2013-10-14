@@ -13,7 +13,7 @@
 			</ul>
 		</section>
 	<: } :>
-	<section class="menu-list tab-third">
+	<section class="menu-list">
 		<h5>View by Status:</h5>
 		<ul>
 			<li><a href="<: $u('Ideas','status',3) :>">Needs a Developer</a></li>
@@ -24,7 +24,7 @@
 			<li><a href="<: $u('Ideas','status',8) :>">Live</a></li>	
 		</ul>
 	</section>
-	<section class="menu-list tab-third">
+	<section class="menu-list">
 		<a href="<: $u('Forum','ideas') :>" class="button tall media full--l">
 			<i class="media__img icon-comments"></i>
 			<span class="media__body">View Latest Comments</span>

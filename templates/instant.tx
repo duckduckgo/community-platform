@@ -1,0 +1,106 @@
+<: my $img_path = "/static/img/duckduckhack/" :>
+
+<h1>Create a Better Search Experience</h1>
+<p class="intro-message">Help make <strong><em>Instant Answers</em></strong> for the searches you care about, using the sites you love!</p>
+<div class="ddhi">
+	<div class="row row--standout">
+		<div class="content-wrap">
+			<div class="half">
+				<div class="ddhi__intro">
+					<h2 class="headfont">What is an Instant Answer?</h2>
+					<p>Instant Answers give searchers useful information about what they're looking for, above any ads or regular links. (<a href="https://duckduckgo.com/goodies" target="ddg_goodies">See Examples</a>)</p>
+					<div class="ddhi__legend">
+						<div class="half  media">
+							<span class="ddhi__legend__icon  icon-stack">
+							  <i class="icon-circle  icon-stack-base  primary"></i>
+							  <i class="icon-asterisk icon-light"></i>
+							</span>
+							<div class="media__body">
+								<h6 class="headfont">Instant Answer</h6>
+								<p class="caption">These are cool</p>
+							</div>
+						</div>
+						<div class="half  media">
+							<span class="ddhi__legend__icon  icon-stack">
+							  <i class="icon-circle  icon-stack-base"></i>
+							  <i class="icon-asterisk icon-light"></i>
+							</span>
+							<div class="media__body">
+								<h6 class="headfont">Traditional Results</h6>
+								<p class="caption">These are not cool</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="half">
+				<div class="ddhi__intro-screen">
+					<img src="<: $img_path :>screens/yummly-cropped.jpg" alt="Instant Answer Screenshot" class="ddhi__intro-screen__img" />
+					<span class="ddhi__intro-screen__icon  icon-stack  ddhi__intro-screen__icon--primary">
+					  <i class="icon-circle  icon-stack-base  primary"></i>
+					  <i class="icon-asterisk icon-light"></i>
+					</span>
+					<span class="ddhi__intro-screen__icon  icon-stack">
+					  <i class="icon-circle  icon-stack-base"></i>
+					  <i class="icon-asterisk icon-light"></i>
+					</span>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="<: # content-wrap :>">
+			<h2 class="headfont">What is an Instant Answer made of?</h2>
+			<p class="h4 ddhi__title">Great Sources Suggested by You!</p>
+			<p><span class="hr">e.g.</span></p>
+			<div class="ddhi__sources">
+				<div class="third  source">
+					<div class="source__logo"><img src="<: $img_path :>logos/yelp.png" title="yelp"  alt="yelp" /></div>
+					<div class="source__screen-wrap">
+						<img class="source__screen" src="<: $img_path :>screens/yelp-cropped.jpg" alt="yelp Instant Answer on DuckDuckGo" />
+					</div>
+				</div>
+				<div class="third  source">
+					<div class="source__logo"><img src="<: $img_path :>logos/wiki.png" title="Wikipedia"  alt="Wikipedia" /></div>
+					<div class="source__screen-wrap">
+						<img class="source__screen" src="<: $img_path :>screens/wiki-cropped.jpg" alt="Wikipedia Instant Answer on DuckDuckGo" />
+					</div>					
+				</div>
+				<div class="third  source">
+					<div class="source__logo"><img src="<: $img_path :>logos/wa.png" title="Wolfram|Alpha" alt="Wolfram|Alpha" /></div>
+					<div class="source__screen-wrap">
+						<img class="source__screen" src="<: $img_path :>screens/wa-cropped.jpg" alt="Wolfram|Alpha Instant Answer on DuckDuckGo" />
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row row--standout">
+		<div class="content-wrap">
+			<h2 class="headfont  ddhi__community--title">Where do Instant Answers Come From?</h2>
+			<div class="ddhi__community">
+				<div class="third">
+					<i class="ddhi-community-icon"></i>
+					<h5 class="headfont">Community Members</h5>
+					<p class="caption">(That's You!)</p>
+				</div>
+				<div class="third">
+					<i class="ddhi-source-icon" ></i>
+					<h5 class="headfont">Nominate Ideas and Sources</h5>
+				</div>
+				<div class="third">
+					<i class="ddhi-develop-icon" ></i>
+					<h5 class="headfont">Then Discuss and Develop</h5>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="content-wrap">
+			<h2 class="headfont">Get Started</h2>
+			<p>Join our community in helping us put an Instant Answer in every search.</p>
+			<p><a class="big red button" href="<: $u('duckduckhack','index') :>">Join the Community</a></p>
+			<i class="ddhi-small-icons" ></i>
+		</div>
+	</div>
+</div>
