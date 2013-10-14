@@ -22,7 +22,7 @@ unique_column key => {
 
 column type => {
   data_type => 'text',
-  is_nullable => 0,
+  is_nullable => 1,
 };
 
 column data => {
