@@ -4,6 +4,7 @@
 
 .ddhi {
 	text-align: center;
+	overflow: hidden;
 }
 	.ddhi .row {
 		padding-top: 40px;
@@ -33,7 +34,8 @@
 	.ddhi__intro-screen {
 		margin: -30px auto 0;	
 		position: relative;	
-		width: 380px;
+		width: 450px;
+		
 	}
 	.ddhi__intro-screen__img {		
 		position: absolute;
@@ -50,11 +52,11 @@
 	}
 	.ddhi__intro-screen__icon {
 		position: absolute;
-		top: 210px;
-		left: 6px;
+		top: 245px;
+		left: 10px;
 	}
 		.ddhi__intro-screen__icon--primary {
-			top: 40px;
+			top: 50px;
 		}
 
 	@media only screen and (max-width: 40em) {
@@ -73,7 +75,7 @@
 	}
 		.ddhi__legend__icon {
 			float: left;
-			margin-right: 2em;			
+			margin-right: 1.5em;			
 		}
 		.ddhi__legend .caption {
 			margin-bottom: 0;
@@ -83,7 +85,7 @@
 		}
 		
 		.icon-stack {
-			font-size: 11px;
+			font-size: 13px;
 		}
 		.icon-stack-base {
 			color: #a0a0a0;
@@ -156,6 +158,20 @@
 	.ddhi__community--title {
 		margin-top: -10px;
 	}
+	.ddhi__community__flow {
+		color: #f0f1f3;
+		color: rgba(81,89,99,0.1);
+		font-size: 120px;
+		position: absolute;
+		top: 30px;
+		right: 0;
+		margin-right: -0.35em;
+	}
+		@media only screen and (max-width: 40em) {
+			.ddhi__community__flow {
+				display: none;
+			}
+		}
 	
 	.ddhi__community .headfont {
 		margin-bottom: 0;
