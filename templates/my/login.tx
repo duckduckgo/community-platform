@@ -12,7 +12,7 @@
 		<: } :>
 
 		<: if $not_valid_username { :>
-			<div class="notice error"><i class="icn icon-warning-sign"></i>Your username contains invalid characters.</div>
+			<div class="notice error"><i class="icn icon-warning-sign"></i>Your username contains invalid characters. Use only your username to login.</div>
 		<: } :>
 
 		<h2>Login to your account</h2>

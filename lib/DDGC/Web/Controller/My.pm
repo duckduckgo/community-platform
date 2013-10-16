@@ -331,6 +331,12 @@ sub forgotpw :Chained('logged_out') :Args(0) {
 		$c->add_bc($c->stash->{title}, '');
 
 	return $c->detach if !$c->req->params->{requestpw};
+
+	if ($c->req->params->{username} !~ /^[a-zA-Z0-9_\.]+$/) {
+		$c->stash->{not_valid_username} = 1;
+		return $c->detach;
+	}
+
 	$c->stash->{forgotpw_username} = lc($c->req->params->{username});
 	$c->stash->{forgotpw_email} = $c->req->params->{email};
 	my $user = $c->d->find_user($c->stash->{forgotpw_username});
