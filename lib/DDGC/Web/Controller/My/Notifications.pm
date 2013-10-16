@@ -18,8 +18,8 @@ sub base :Chained('/my/logged_in') :PathPart('notifications') :CaptureArgs(0) {
 
 sub goto_and_done :Chained('base') :Args(1) {
 	my ( $self, $c, $event_notification_group_id ) = @_;
-	my $first = $c->user->search_related('event_notifications')->search({ "me.id" => $event_notification_id })->first;
-	if ($first && $first->users_id eq $c->user->id && $first->id eq $event_notification_id) {
+	my $first = $c->user->search_related('event_notifications')->search({ "me.id" => $event_notification_group_id })->first;
+	if ($first && $first->users_id eq $c->user->id && $first->id eq $event_notification_group_id) {
 		$first->done(1);
 		$first->sent(1);
 		$first->update;
