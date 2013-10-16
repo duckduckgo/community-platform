@@ -37,25 +37,13 @@ column users_id => {
 	is_nullable => 1,
 };
 
-###########
-column context => {
-	data_type => 'text',
-	is_nullable => 0,
-};
-column context_id => {
-	data_type => 'bigint',
-	is_nullable => 0,
-};
-with 'DDGC::DB::Role::HasContext';
-###########
-
-__PACKAGE__->add_context_relations;
-
 column content => {
 	data_type => 'text',
 	is_nullable => 0,
 };
 sub html { $_[0]->is_html ? $_[0]->content : $_[0]->ddgc->markup->html($_[0]->content) }
+
+__PACKAGE__->add_context_relations;
 
 column deleted => {
 	data_type => 'int',
