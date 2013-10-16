@@ -162,16 +162,20 @@ sub media :Chained('base') :Args(2) {
 	my $help_user = $c->d->find_user($c->d->is_live ? 'help' : 'testone')->db;
 	while (my $img = $p->get_tag("img")) {
 		my $src = $img->[1]->{src};
+		my $file;
 		if ($src =~ m!^/customer/portal/attachments/!) {
-			my $url = 'http://help.dukgo.com'.$src;
-			my $file = $c->d->resultset('Media')->create_via_url($help_user,$url);
+			$file = $c->d->resultset('Media')->create_via_url($help_user,'http://help.dukgo.com'.$src);
+		} elsif ($src =~ m!^https{0,1}://!) {
+			$file = $c->d->resultset('Media')->create_via_url($help_user,$src);
+		}
+		if ($file) {
 			$files{$src} = '/media/'.$file->filename;
-			$html =~ s/$src/$files{$src}/g;
+			$html =~ s/{\Q$src\E}/$files{$src}/g;
 			my $help_content = $c->stash->{help}->content_by_language_id($c->stash->{help_language_id});
 			$help_content->content($html);
 			$help_content->update;
 		}
-  	}
+  }
 	$c->stash->{media_files} = \%files;
 }
 

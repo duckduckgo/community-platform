@@ -17,9 +17,8 @@ sub u { shift->token_language->u }
 
 sub event_related {
 	my ( $self ) = @_;
-	my @related;
-	push @related, ['DDGC::DB::Result::Token::Domain', $self->token_language->token_domain_language->token_domain_id];
-	push @related, ['DDGC::DB::Result::Language', $self->token_language->token_domain_language->language_id];
+	my @related = $self->token_language->event_related;
+	push @related, ['DDGC::DB::Result::Token::Language', $self->token_language_id];
 	return @related;
 }
 

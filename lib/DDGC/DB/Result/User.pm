@@ -234,15 +234,15 @@ sub defaultcycle_blogthreads {
 sub save_notifications {
 	my ( $self, @notifications ) = @_;
 	for my $notification (@notifications) {
-		my %query = (
-			context => $notification->{context},
-			context_id => $notification->{context_id},
-			sub_context => $notification->{sub_context},
-		);
-		$self->search_related('user_notifications',{ %query })->delete;
-		if ($notification->{cycle} > 0) {
-			$self->create_related('user_notifications',$notification);
-		}
+		# my %query = (
+		# 	context => $notification->{context},
+		# 	context_id => $notification->{context_id},
+		# 	sub_context => $notification->{sub_context},
+		# );
+		# $self->search_related('user_notifications',{ %query })->delete;
+		# if ($notification->{cycle} > 0) {
+		# 	$self->create_related('user_notifications',$notification);
+		# }
 	}
 }
 
