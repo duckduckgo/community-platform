@@ -111,13 +111,6 @@ sub comments { shift->children_rs }
 
 after insert => sub {
 	my ( $self ) = @_;
-	if ($self->user->defaultcycle_comments > 0) {
-		$self->user->create_related('user_notifications',{
-			context => 'DDGC::DB::Result::Comment',
-			context_id => $self->id,
-			cycle => $self->user->defaultcycle_comments,
-		});
-	}
 	$self->add_event('create');
 };
 
@@ -130,11 +123,11 @@ sub event_related {
 	my ( $self ) = @_;
 	my @related;
 	if ( $self->parent_id ) {
-		push @related, [(ref $self), $self->parent_id];
+		push @related, ['DDGC::DB::Result::Comment', $self->parent_id];
 	}
 	if ( $self->context_resultset ) {
 		push @related, [$self->context, $self->context_id];
-		push @related, [$self->get_context_obj->event_related] if $self->get_context_obj->can('event_related');
+		push @related, $self->get_context_obj->event_related if $self->get_context_obj->can('event_related');
 	}
 	return @related;
 }

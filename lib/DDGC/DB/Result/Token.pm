@@ -9,6 +9,16 @@ use namespace::autoclean;
 
 table 'token';
 
+sub u { 
+	my ( $self ) = @_;
+	[ 'Translate', 'token', $self->id ]
+}
+
+sub event_related {
+	my ( $self ) = @_;
+	['DDGC::DB::Result::Token::Domain', $self->token_domain_id]
+}
+
 column id => {
 	data_type => 'bigint',
 	is_auto_increment => 1,
@@ -121,11 +131,6 @@ sub insert {
 	}
 	$guard->commit;
 	return $self;
-}
-
-sub event_related {
-	my ( $self ) = @_;
-	['DDGC::DB::Result::Token::Domain', $self->token_domain_id]
 }
 
 no Moose;

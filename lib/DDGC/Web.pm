@@ -85,7 +85,7 @@ __PACKAGE__->config(
 	},
 	'Plugin::Session' => {
 		expires => 21600,
-		storage => '/mnt/md0/tmp/data',
+		defined $ENV{DDGC_TMP} ? ( storage => $ENV{DDGC_TMP} ) : (),
 	},
 	'Plugin::Captcha' => {
 		session_name => 'captcha_string',

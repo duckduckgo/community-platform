@@ -94,6 +94,14 @@ has_many 'token_languages', 'DDGC::DB::Result::Token::Language', 'token_domain_l
 	cascade_delete => 1,
 };
 
+sub event_related {
+	my ( $self ) = @_;
+	my @related;
+	push @related, ['DDGC::DB::Result::Token::Domain',$self->token_domain_id];
+	push @related, ['DDGC::DB::Result::Language',$self->language_id];
+	return @related;
+}
+
 sub insert {
 	my $self = shift;
 	my $guard = $self->result_source->schema->txn_scope_guard;
