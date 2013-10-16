@@ -2,35 +2,66 @@
 	display: inline-block;
 }
 
-.account-box .row.callout-row, .callout-row {		
+.account-box .row.callout-row, 
+.callout-row {		
 	background: #f5f5f5;	
-	padding: 15px 10px;
+	padding-left: 10px;
+	padding-right: 10px;
 	-webkit-border-radius: 0 0 5px 5px;
 	border-radius: 0 0 5px 5px;
 	-webkit-background-clip: padding-box; 
 	background-clip: padding-box;	
-}
+}	
 .callout-row--round {
 	-webkit-border-radius: 5px;
 	border-radius: 5px;
 }
-	.account-box .callout-row a, .account-box .callout-row h3, .callout-row a, .callout-row h3 { color: #5b5f68; }
-	.account-box .callout-row h3, .callout-row h3 { color: inherit; margin: 0; font-size: 18px; font-weight: bold; }
-		.callout-row h3.icon { position: relative; padding-left: 2em; }
-		.callout-row .icon i[class*='icon'] { font-size: 140%; position: absolute; top: -2px; left: 0; }
-		.callout-row i.right { 
-			color: #cacaca; 
+	.callout-link {
+		display: block;
+	}
+	.callout-row__text {
+		font-weight: bold;
+		overflow:hidden;
+		line-height:30px;
+		margin: 0;		
+	}	
+	.account-box .callout-row a,
+	.account-box .callout-row h3, 	
+	.callout-row h3,
+	.callout-row__text { 
+		color: #5b5f68; 
+	}
+	.account-box .callout-row h3 {	
+		font-size: 18px; 		
+	}		
+		.callout-row__text.has-icon { 
+			position: relative; 
+			padding-left: 36px; 
+		}		
+		.callout-row__icn--left { 
+			font-size: 25px; 
+			position: absolute; 
+			top: -2px; 
+			left: 0; 
+		}
+		.callout-row__icn--left {
+			left: 10px;
+			top: 10px;
+		}		
+		.callout-row__icn--right { 
 			text-shadow: 0 0 1px rgba(0,0,0,0.5); 
+			float: right;
+			color: #cacaca; 			
 			font-size: 1.3em; 
 			margin-right: 5px;
+			line-height: 30px;
 		}
 
 .account-box label { 
 	font-size: 18px;
-	height: 2em;
-	padding: 7px; 
 	width: 95%; 
-	line-height: 1; 
+	padding-top: 4px;
+	line-height: 1.25; 
 	display: inline-block; 
 	overflow: hidden;
 	white-space: nowrap;
