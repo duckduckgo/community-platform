@@ -30,7 +30,7 @@
 							<: include "my/account/language_grade_options.tx" { user_language => $user_language } :>
 						</select>
 					</div>
-					<div class="pull-right multi"><a href="<: $u('My','account',{ remove_language => $user_language.language.id }) :>" class="button red" data-reveal-id="confirm-dialog<: $user_language.language.id :>">Remove</a><input type="submit" name="update_language_<: $user_language.language.id :>" class="button ghostblue" value="Update" /></div>			
+					<div class="pull-right multi"><a href="<: $u('My','account',{ remove_language => $user_language.language.id }) :>" class="button red" data-reveal-id="confirm-dialog<: $user_language.language.id :>">Remove</a><input type="submit" name="update_language_<: $user_language.language.id :>" class="button " value="Update" /></div>			
 				</div>
 			<: } :>
 			<div class="row">
@@ -43,7 +43,7 @@
 					</select>
 				</div>
 				<div class="pull-right <: if !$user_has_languages { :>wiz-arrow wiz-arrow-bottom-left<: } :>">
-					<input type="submit" class="button ghostblue" name="add_language" value="Add Language" />
+					<input type="submit" class="button " name="add_language" value="Add Language" />
 				</div>
 			</div>
 			<div class="row">
@@ -52,12 +52,16 @@
 			<: if my $size = results($c.user.user_languages).size() { :>
 				<div class="row callout-row">
 					<: if $c.user.translation_manager { :>
-						<a href="http://duckpan.org/perldoc/DDG::Manual::Translation">
-							<i class="icon-circle-arrow-right right"></i><h3 class="icon"><i class="icon-globe"></i>You are a translation manager! Click here for translation documentation.</h3>
+						<a class="callout-link" href="http://duckpan.org/perldoc/DDG::Manual::Translation">
+							<i class="icon-circle-arrow-right  callout-row__icn--right"></i>
+							<i class="callout-row__icn--left  icon-globe"></i>
+							<h3 class="callout-row__text  has-icon">You are a translation manager! Click here for translation documentation.</h3>
 						</a>
 					<: } else { :>
-						<a href="<: $u('Translate','index') :>">
-							<i class="icon-circle-arrow-right right"></i><h3 class="icon"><i class="icon-globe"></i>Help us translate DuckDuckGo into your languages.</h3>
+						<a class="callout-link" href="<: $u('Translate','index') :>">
+							<i class="icon-circle-arrow-right  callout-row__icn--right"></i>
+							<i class="callout-row__icn--left  icon-globe"></i>
+							<h3 class="callout-row__text  has-icon">Help us translate DuckDuckGo into your languages.</h3>
 						</a>
 					<: } :>
 				</div>
@@ -66,14 +70,14 @@
 	</div>
 
 	<div class="content-box account-box">	
-		<div class="head head--round">
+		<div class="head">
 			<h2><: if $user_notification_count { :>
 				You have <: $user_notification_count :> notifications waiting
 			<: } else { :>
 				No notifications for you
 			<: } :></h2>
-			<a class="button <: if $user_notification_count { :>red<: } else { :>ghostblue<: } :>" href="<: $u('My::Notifications','index') :>">
-				Go to notifications
+			<a class="button <: if $user_notification_count { :>red<: } :>" href="<: $u('My::Notifications','index') :>">
+				View Notifications
 			</a>
 		</div>
 		<div class="body">
@@ -82,7 +86,7 @@
 					<label>Configure notifications</label>
 				</div>
 				<div class="third">
-					<a href="<: $u('My::Notifications','edit') :>" class="button ghostblue">Edit notifications</a>
+					<a href="<: $u('My::Notifications','edit') :>" class="button ">Edit Notifications</a>
 				</div>
 			</div>
 		</div>
@@ -103,7 +107,7 @@
 					<: } :>
 				</div>
 				<div class="third">
-					<a href="<: $u('My','email') :>" class="button ghostblue">Change email</a>
+					<a href="<: $u('My','email') :>" class="button ">Change email</a>
 				</div>
 			</div>
 			<div class="row">
@@ -111,7 +115,7 @@
 					<label>Your password</label>
 				</div>
 				<div class="third">
-					<a href="<: $u('My','changepw') :>" class="button ghostblue">Change password</a>
+					<a href="<: $u('My','changepw') :>" class="button ">Change password</a>
 				</div>
 			</div>
 			<div class="row">
@@ -125,7 +129,7 @@
 					</label>
 				</div>
 				<div class="third">
-					<a href="<: $u('My','public') :>" class="button ghostblue">
+					<a href="<: $u('My','public') :>" class="button ">
 						<: if $c.user.public { :>
 							<: $l('Make it private') :>
 						<: } else { :>
@@ -140,7 +144,7 @@
 						<label>Your <a href="<: $u('Userpage::Blog','index',$c.user.username) :>">blog</a> [BETA] <a href="<: $u('Blog','post','blog-for-everybody') :>">More information here on our blog...</a></label>
 					</div>
 					<div class="third">
-						<a href="<: $u('My::Blog','index') :>" class="button ghostblue">Edit posts</a>
+						<a href="<: $u('My::Blog','index') :>" class="button ">Edit posts</a>
 					</div>
 				</div>
 				<div class="row">
@@ -150,7 +154,7 @@
 						</label>
 					</div>
 					<div class="third">
-						<a href="<: $u('My::Userpage','index') :>" class="button ghostblue">
+						<a href="<: $u('My::Userpage','index') :>" class="button ">
 							Edit userpage
 						</a>
 					</div>
@@ -174,8 +178,10 @@
 				</p>			
 			</div>
 			<div class="row callout-row">
-				<a href="<: $u('Blog','post','xmpp-services-at-duckduckgo') :>">
-					<i class="icon-circle-arrow-right right"></i><h3 class="icon"><i class="icon-bubbles"></i>Click here for more information about our XMPP service.</h3>
+				<a class="callout-link" href="<: $u('Blog','post','xmpp-services-at-duckduckgo') :>">
+					<i class="icon-circle-arrow-right  callout-row__icn--right"></i>
+					<i class="callout-row__icn--left  icon-bubbles"></i>
+					<h3 class="callout-row__text  has-icon">Click here for more information about our XMPP service.</h3>
 				</a>
 			</div>
 		</div>
