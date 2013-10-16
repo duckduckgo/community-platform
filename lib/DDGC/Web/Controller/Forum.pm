@@ -90,7 +90,7 @@ sub thread_view : Chained('base') PathPart('') CaptureArgs(0) {
 # /forum/thread/$id
 sub thread_id : Chained('thread_view') PathPart('thread') CaptureArgs(1) {
   my ( $self, $c, $id ) = @_;
-  $c->stash->{thread} = $c->d->rs('Thread')->find($id);
+  $c->stash->{thread} = $c->d->rs('Thread')->find($id+0);
   unless ($c->stash->{thread}) {
     $c->response->redirect($c->chained_uri('Forum','index',{ thread_notfound => 1 }));
     return $c->detach;
