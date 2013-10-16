@@ -12,33 +12,12 @@ sub base :Chained('/my/logged_in') :PathPart('notifications') :CaptureArgs(0) {
 	$c->add_bc('Notifications', $c->chained_uri('My::Notifications','index'));
 	if ($c->req->param('save_notifications')) {
 		$c->require_action_token;
-		my @context = $c->req->param('context');
-		my @context_id = $c->req->param('context_id');
-		my @sub_context = $c->req->param('sub_context');
-		my @cycle = $c->req->param('cycle');
-		my $count = (scalar @context);
-		my $i = 0;
-		my @notifications;
-		while ($i < $count) {
-			push @notifications, {
-				context => $context[$i],
-				context_id => $context_id[$i] || undef,
-				sub_context => $sub_context[$i] || undef,
-				cycle => $cycle[$i],
-			};
-			$i++;
-		}
-		$c->user->defaultcycle_comments($c->req->param('defaultcycle_comments')) if defined $c->req->param('defaultcycle_comments');
-		$c->user->defaultcycle_blogthreads($c->req->param('defaultcycle_blogthreads')) if defined $c->req->param('defaultcycle_blogthreads');
-		$c->user->save_notifications(@notifications);
 	}
-	$c->stash->{defaultcycle_comments} = $c->user->defaultcycle_comments;
-	$c->stash->{defaultcycle_blogthreads} = $c->user->defaultcycle_blogthreads;
 	$c->stash->{user_notifications} = [$c->user->user_notifications];
 }
 
 sub goto_and_done :Chained('base') :Args(1) {
-	my ( $self, $c, $event_notification_id ) = @_;
+	my ( $self, $c, $event_notification_group_id ) = @_;
 	my $first = $c->user->search_related('event_notifications')->search({ "me.id" => $event_notification_id })->first;
 	if ($first && $first->users_id eq $c->user->id && $first->id eq $event_notification_id) {
 		$first->done(1);

@@ -6,6 +6,8 @@ use MooseX::NonMoose;
 extends 'DBIx::Class::Core';
 use namespace::autoclean;
 
+use Moose::Util qw/ apply_all_roles /;
+
 __PACKAGE__->load_components(qw/
     TimeStamp
     InflateColumn::DateTime
@@ -61,6 +63,15 @@ sub context_config {{
 
 sub add_context_relations {
   my ( $class ) = @_;
+	$class->add_column(context => {
+		data_type => 'text',
+		is_nullable => 0,
+	});
+	$class->add_column(context_id => {
+		data_type => 'bigint',
+		is_nullable => 0,
+	});
+  apply_all_roles($class,'DDGC::DB::Role::HasContext');
   die $class." doesnt have context and context_id"
   	unless $class->can('context') && $class->can('context_id');
   for my $context_class (sort { $a cmp $b } keys %{$class->context_config}) {
