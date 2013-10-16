@@ -57,6 +57,7 @@ belongs_to 'media', 'DDGC::DB::Result::Media', 'media_id', {
 };
 
 has_many 'screenshot_threads', 'DDGC::DB::Result::Screenshot::Thread', 'screenshot_id';
+has_many 'screenshot_tokens', 'DDGC::DB::Result::Screenshot::Token', 'screenshot_id';
 
 1;
 # no Moose;

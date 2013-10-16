@@ -106,6 +106,13 @@ has_many 'token_language_translations', 'DDGC::DB::Result::Token::Language::Tran
 
 unique_constraint [qw/ token_id token_domain_language_id /];
 
+sub event_related {
+	my ( $self ) = @_;
+	my @related = $self->token_domain_language->event_related;
+	push @related, ['DDGC::DB::Result::Token',$self->token_id];
+	return @related;
+}
+
 sub gettext_snippet {
 	my ( $self, $fallback ) = @_;
 	my %vars;

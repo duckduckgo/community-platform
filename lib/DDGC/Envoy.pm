@@ -29,6 +29,7 @@ sub update_own_notifications {
 
 sub update_notifications {
 	my ( $self ) = @_;
+	return;
 	$self->_resultset_update_notifications($self->ddgc->rs('Event')->search({
 		notified => 0,
 		created => { "<" => $self->format_datetime(
@@ -39,6 +40,7 @@ sub update_notifications {
 
 sub update_all_notifications {
 	my ( $self ) = @_;
+	return;
 	$self->_resultset_update_notifications($self->ddgc->rs('Event')->search({})->all);
 }
 
