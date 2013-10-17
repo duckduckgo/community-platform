@@ -91,7 +91,6 @@ has xmpp => (
 
 sub BUILD {
 	my ( $self ) = @_;
-	die "username of database is not username of DDGC::User" if $self->username ne $self->db->username;
 }
 
 sub check_password {

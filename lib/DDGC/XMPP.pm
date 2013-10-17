@@ -81,7 +81,8 @@ sub _build__prosody {
 sub user {
 	my ( $self, $username ) = @_;
 	return unless $username;
-	my $data = $self->_prosody->user($username.'@'.$self->prosody_userhost);
+	die "Do not use @, only give your username" if $username =~ m/@/g;
+	my $data = $self->_prosody->user(lc($username).'@'.$self->prosody_userhost);
 	return %{$data};
 }
 

@@ -438,7 +438,7 @@ sub create_user {
 
 	$prosody_user = $self->xmpp->_prosody->_db->resultset('Prosody')->create({
 		host => $self->config->prosody_userhost,
-		user => $username,
+		user => lc($username),
 		store => 'accounts',
 		key => 'password',
 		type => 'string',
@@ -450,7 +450,7 @@ sub create_user {
 		my $xmpp_data_check;
 
 		$xmpp_data_check = Prosody::Mod::Data::Access->new(
-			jid => $username.'@'.$self->config->prosody_userhost,
+			jid => lc($username).'@'.$self->config->prosody_userhost,
 			password => $password,
 		);
 		
@@ -465,7 +465,7 @@ sub create_user {
 
 			$self->xmpp->_prosody->_db->resultset('Prosody')->search({
 				host => $self->config->prosody_userhost,
-				user => $username,
+				user => lc($username),
 			})->delete;
 
 		}
@@ -477,7 +477,7 @@ sub create_user {
 	my %xmpp_user = $self->xmpp->user($username);
 	
 	return DDGC::User->new({
-		username => $username,
+		username => $db_user->username,
 		db => $db_user,
 		xmpp => \%xmpp_user,
 		ddgc => $self,
@@ -495,19 +495,20 @@ sub find_user {
 	if ($self->config->prosody_running) {
 		%xmpp_user = $self->xmpp->user($username);
 		return unless %xmpp_user;
-		$db_user = $self->db->resultset('User')->find_or_create({
-			username => $username,
-			notes => 'Generated automatically based on prosody account',
-		});
-	} else {
 		$db_user = $self->db->resultset('User')->find({
-			username => $username,
+			username => { -lower => lc($username) },
 		});
+
+#			notes => 'Generated automatically based on prosody account',
+	} else {
+		$db_user = $self->db->resultset('User')->search(\[
+			'LOWER(me.username) LIKE ?',[ plain_value => lc($username)]
+		])->first;
 		return unless $db_user;
 	}
 
 	return DDGC::User->new({
-		username => $username,
+		username => $db_user->username,
 		db => $db_user,
 		ddgc => $self,
 		xmpp => \%xmpp_user,
