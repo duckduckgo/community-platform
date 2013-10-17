@@ -26,7 +26,7 @@ column user_notification_group_id => {
 };
 
 column context_id => {
-  data_type => 'int',
+  data_type => 'bigint',
   is_nullable => 1,
 };
 

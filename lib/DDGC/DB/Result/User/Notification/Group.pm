@@ -85,7 +85,7 @@ sub default_types_def {{
     context_id => '*',
     sub_context => 'DDGC::DB::Result::Comment',
     action => 'create',
-    priority => 10,
+    priority => 100,
   },
 
   # follow all comments on normal types (thread, idea, userblog)
@@ -240,14 +240,19 @@ sub default_types {
       ? (@{$def{context_id}})
       : ($def{context_id});
       for my $context_id (@context_ids) {
+        my $with_context_id = $context_id eq '*' ? 1 : 0;
         push @types, {
           type => $type,
           context => $context,
           sub_context => $def{sub_context},
-          with_context_id => $context_id eq '*' ? 1 : 0,
+          with_context_id => $with_context_id,
           action => $def{action},
           filter_by_language => $def{filter_by_language} ? 1 : 0,
-          priority => $def{priority} ? $def{priority} : 0,
+          priority => $def{priority}
+            ? $def{priority}
+            : $with_context_id
+              ? 0
+              : 1,
         };
       }
     }

@@ -10,172 +10,76 @@ use namespace::autoclean;
 sub base :Chained('/my/logged_in') :PathPart('notifications') :CaptureArgs(0) {
 	my ( $self, $c ) = @_;
 	$c->add_bc('Notifications', $c->chained_uri('My::Notifications','index'));
-	if ($c->req->param('save_notifications')) {
-		$c->require_action_token;
-	}
 	$c->stash->{user_notifications} = [$c->user->user_notifications];
 }
 
-sub goto_and_done :Chained('base') :Args(1) {
-	my ( $self, $c, $event_notification_group_id ) = @_;
-	my $first = $c->user->search_related('event_notifications')->search({ "me.id" => $event_notification_group_id })->first;
-	if ($first && $first->users_id eq $c->user->id && $first->id eq $event_notification_group_id) {
-		$first->done(1);
-		$first->sent(1);
-		$first->update;
-		my $event = $first->event;
-		if (my $obj = $event->get_context_obj) {
-			if ($obj->can('u')) {
-				my $u = $obj->u;
-				if ($u) {
-					$c->response->redirect($c->chained_uri(@{$obj->u}));
-					return $c->detach;
-				}
-			}
-		}
-	}	
-	$c->response->redirect($c->chained_uri('My::Notifications','index'));
-	return $c->detach;
+sub index :Chained('base') :PathPart('') :Args(0) {
+	my ( $self, $c ) = @_;
+	unless ($c->user->search_related('user_notifications')->count) {
+    $c->response->redirect($c->chained_uri('My::Notifications','edit',{ first_time => 1 }));
+    return $c->detach;
+	}
+	$c->bc_index;
 }
 
 sub edit :Chained('base') :Args(0) {
 	my ( $self, $c ) = @_;
-	$c->add_bc('Editor');
+	$c->add_bc('Configuration');
 	$c->stash->{notification_cycle_options} = [
-		{
-			value => 0,
-			name => "Not activated",
-		},
-		{
-			value => 2,
-			name => "Hourly",
-		},
-		{
-			value => 3,
-			name => "Daily",
-		},
-		{
-			value => 4,
-			name => "Weekly",
-		},
+		{ value => 0, name => "Not activated" },
+		{ value => 2, name => "Hourly" },
+		{ value => 3, name => "Daily" },
+		{ value => 4, name => "Weekly" },
 	];
-	$c->stash->{base_notifications} = [$self->add_user_cycle_and_cycle_time($c,
-		{
-			description => 'new tokens',
-			context => 'DDGC::DB::Result::Token',
-			context_id => undef,
-			sub_context => undef,
-		},
-		{
-			description => 'new comments related to my languages',
-			context => 'DDGC::DB::Result::Comment',
-			context_id => undef,
-			sub_context => undef,
-		},
-		{
-			description => 'new translations in my languages',
-			context => 'DDGC::DB::Result::Token::Language::Translation',
-			context_id => undef,
-			sub_context => undef,
-		},
-	)];
-}
-
-sub add_user_cycle_and_cycle_time {
-	my ( $self, $c, @notifications ) = @_;
-	for my $notification (@notifications) {
-		my %query = (
-			context => $notification->{context},
-			context_id => $notification->{context_id},
-			sub_context => $notification->{sub_context},
-		);
-		my $result = $c->user->search_related('user_notifications',{ %query })->first;
-		if ($result) {
-			$notification->{cycle} = $result->cycle;
-			$notification->{cycle_time} = $result->cycle_time;
-			$notification->{id} = $result->id;
+	if ($c->req->param('save_notifications')) {
+		$c->require_action_token;
+		my @types = $c->req->param('type');
+		my @cycles = $c->req->param('cycle');
+		my @context_ids = $c->req->param('context_id');
+		while (@types) {
+			my $type = shift @types;
+			my $cycle = shift @cycles;
+			my $context_id = shift @context_ids;
+			my @user_notification_groups = $c->d->rs('User::Notification::Group')->search({
+				with_context_id => $context_id eq '*' ? 1 : 0,
+				type => $type,
+			})->all;
+			for my $user_notification_group (@user_notification_groups) {
+				$c->d->rs('User::Notification')->update_or_create({
+					users_id => $c->user->id,
+					user_notification_group_id => $user_notification_group->id,
+					context_id => undef,
+					cycle => $cycle,
+				},{
+					key => 'user_notification_user_notification_group_id_context_id_users_id',
+				});
+				if ($context_id eq '*') {
+					$c->d->rs('User::Notification')->search({
+						users_id => $c->user->id,
+						user_notification_group_id => $user_notification_group->id,
+						context_id => { '!=' => undef },
+					})->update({
+						cycle => $cycle,
+					});
+				}
+			}
 		}
 	}
-	return @notifications;
-}
-
-our %context_map = (
-	comments => 'DDGC::DB::Result::Comment',
-	tokens => 'DDGC::DB::Result::Token',
-	translations => 'DDGC::DB::Result::Token::Language::Translation',
-);
-
-sub index :Chained('base') :PathPart('') :Args(0) {
-	my ( $self, $c ) = @_;
-	$c->bc_index;
-    $c->pager_init($c->action,20);
-    for (qw( comments tokens translations )) {
-		$c->stash->{'undone_notifications_'.$_} = $c->user->search_related('event_notifications',{
-			"event.context" => $context_map{$_},
-			"me.done" => 0,
-		},{
-			join => 'event',
-		})->count;
-    }
-	if ($c->req->param('all_event_notifications_done')) {
-		$c->user->search_related('event_notifications')->update({ done => 1, sent => 1 });
-	}
-}
-
-sub comments :Chained('base') :Args(0) {
-	my ( $self, $c ) = @_;
-	$c->add_bc('Comments');
-	$self->notifications($c,'comments');
-}
-
-sub tokens :Chained('base') :Args(0) {
-	my ( $self, $c ) = @_;
-	$c->add_bc('Tokens');
-	$self->notifications($c,'tokens');
-}
-
-sub translations :Chained('base') :Args(0) {
-	my ( $self, $c ) = @_;
-	$c->add_bc('Translations');
-	$self->notifications($c,'translations');
-}
-
-sub notifications {
-	my ( $self, $c, $action ) = @_;
-	my $result = $context_map{$action};
-	$c->stash->{notification_action} = $action;
-	my $rs = $c->user->search_related('event_notifications',{
-		"event.context" => $result,
+	my %user_notification_group_values;
+	for ($c->user->search_related('user_notifications',{
+		context_id => undef,
 	},{
-		join => 'event',
-	});
-	$c->pager_init($c->action,10);
-	if (my $done = $c->req->param('event_notification_done')) {
-		my ( $first ) = $rs->search({ "me.id" => $done });
-		if ($first && $first->users_id eq $c->user->id && $first->id eq $done) {
-			$first->done(1);
-			$first->sent(1);
-			$first->update;
-		}
+		join => [qw( user_notification_group )],
+	})->all) {
+		$user_notification_group_values{$_->user_notification_group->type} = {}
+			unless defined $user_notification_group_values{$_->user_notification_group->type};
+		my $context_id_key = $_->user_notification_group->with_context_id
+			? '*' : '';
+		$user_notification_group_values{$_->user_notification_group->type}->{$context_id_key}
+			= { cycle => $_->cycle, xmpp => $_->xmpp };
 	}
-	if ($c->req->param('these_event_notifications_done')) {
-		$rs->update({
-			"done" => 1,
-			"sent" => 1,
-		});
-	}
-	$c->stash->{event_notifications} = $rs->search({},{
-		order_by => { -desc => 'me.created' },
-		page => $c->stash->{page},
-		rows => $c->stash->{pagesize},
-	});
+	$c->stash->{user_notification_group_values} = \%user_notification_group_values;
 }
-
-# sub json :Chained('base') :Args(0) {
-# 	my ( $self, $c ) = @_;
-# 	$c->stash->{x} = map { $_->export } $c->stash->{user_notifications};
-# 	$c->forward('View::JSON');
-# }
 
 no Moose;
 __PACKAGE__->meta->make_immutable;
