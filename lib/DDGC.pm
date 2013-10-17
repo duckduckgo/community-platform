@@ -495,11 +495,15 @@ sub find_user {
 	if ($self->config->prosody_running) {
 		%xmpp_user = $self->xmpp->user($username);
 		return unless %xmpp_user;
-		$db_user = $self->db->resultset('User')->find({
-			username => { -lower => lc($username) },
-		});
-
-#			notes => 'Generated automatically based on prosody account',
+		$db_user = $self->db->resultset('User')->search(\[
+			'LOWER(me.username) LIKE ?',[ plain_value => lc($username)]
+		])->first;
+		unless ($db_user) {
+			$db_user = $self->db->resultset('User')->create({
+				username => $username,
+				notes => 'Generated automatically based on prosody account',
+			});
+		}
 	} else {
 		$db_user = $self->db->resultset('User')->search(\[
 			'LOWER(me.username) LIKE ?',[ plain_value => lc($username)]
