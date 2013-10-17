@@ -9,52 +9,60 @@
 	You will receive the notifications from <b>envoy@dukgo.com</b>. Please add this email to your contact list of your email account, to assure they are not landing in the spam folder.
 </div>
 
-<form action="<: $u('My::Notifications','index') :>" method="post" class="column-form">
+<form action="<: $u('My::Notifications','edit') :>" method="post" class="column-form">
 <input type="hidden" name="action_token" value="<: $action_token :>">
 
 <div class="content-box">
 	<div class="head">
-		<h3>Activate notifications for ...</h3>
-	</div>
-	<div class="body">
-		<: for $base_notifications -> $notification { :>
-			<: include my::notifications::edit::notification {
-				notification => $notification,
-				notification_text => '... ' ~ $notification.description,
-			} :>
-		<: } :>
+		<h3>Configuration for your notifications</h3>
 	</div>
 </div>
 
 <div class="content-box">
 	<div class="head">
-		<h3>Default notification cycle for ...</h3>
+		<h3>When do you want to get notified about ...</h3>
 	</div>
 	<div class="body">
-		<div class="row">
-			<div class="half">
-				<label>... comments on your own blog and threads</label>
-			</div>
-			<div class="half">
-				<select class="upedit language_select" name="defaultcycle_blogthreads">
-					<: for $notification_cycle_options -> $option { :>
-						<option <: if $defaultcycle_blogthreads == $option.value { :>selected="selected" <: } :>value="<: $option.value :>"><: $option.name :></option>
-					<: } :>
-				</select>
-			</div>
-		</div>
-		<div class="row">
-			<div class="half">
-				<label>... comments on your comments</label>
-			</div>
-			<div class="half">
-				<select class="upedit language_select" name="defaultcycle_comments">
-					<: for $notification_cycle_options -> $option { :>
-						<option <: if $defaultcycle_comments == $option.value { :>selected="selected" <: } :>value="<: $option.value :>"><: $option.name :></option>
-					<: } :>
-				</select>
-			</div>
-		</div>
+		<: include my::notifications::option {
+			type => 'replies',
+			context_id => '*',
+			label => '... replies to your comments?',
+		} :>
+		<: include my::notifications::option {
+			type => 'forum_comments',
+			context_id => '*',
+			label => '... comments on your forum activity?',
+		} :>
+		<: include my::notifications::option {
+			type => 'forum_comments',
+			context_id => '',
+			label => '... all comments on the forum?',
+		} :>
+		<: include my::notifications::option {
+			type => 'company_blog_comments',
+			context_id => '',
+			label => '... comments on our company blog?',
+		} :>
+		<: include my::notifications::option {
+			type => 'translation_comments',
+			context_id => '',
+			label => '... comments made on translation related topics in your languages?',
+		} :>
+		<: include my::notifications::option {
+			type => 'tokens',
+			context_id => '',
+			label => '... new tokens that needs translation?',
+		} :>
+		<: include my::notifications::option {
+			type => 'translations',
+			context_id => '',
+			label => '... new translations in your languages to vote on?',
+		} :>
+		<: include my::notifications::option {
+			type => 'translation_votes',
+			context_id => '*',
+			label => '... new votes on your translations?',
+		} :>
 	</div>
 </div>
 
