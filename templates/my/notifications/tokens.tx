@@ -1,3 +1,0 @@
-<: include my::notifications::notifications {
-	notification_title => 'Latest tokens',
-} :>

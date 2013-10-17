@@ -21,6 +21,7 @@
 <div class="content-box">
 	<div class="head">
 		<h3>When do you want to get notified about ...</h3>
+		<a class="pull-right  button  big  lime" href="<: $u('My::Notifications','following') :>">See what you follow</a>
 	</div>
 	<div class="body">
 		<: include my::notifications::option {

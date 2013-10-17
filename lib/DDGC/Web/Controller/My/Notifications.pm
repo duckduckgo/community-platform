@@ -81,5 +81,9 @@ sub edit :Chained('base') :Args(0) {
 	$c->stash->{user_notification_group_values} = \%user_notification_group_values;
 }
 
+sub following :Chained('base') :Args(0) {
+	my ( $self, $c ) = @_;
+}
+
 no Moose;
 __PACKAGE__->meta->make_immutable;
