@@ -276,6 +276,25 @@ sub forgotpw_tokencheck :Chained('logged_out') :Args(2) {
 	$c->stash->{resetok} = 1;
 }
 
+sub capitalize :Chained('logged_in') :Args(0) {
+	my ( $self, $c ) = @_;
+
+	return unless $c->req->params->{capitalize};
+
+	$c->require_action_token;
+
+	if (lc($c->req->params->{new_username}) ne lc($c->user->username)) {
+		$c->stash->{changed_error} = 1;
+		return;
+	}
+
+	$c->user->db->username($c->req->params->{new_username});
+	$c->user->db->update;
+
+	$c->response->redirect($c->chained_uri('My','account',{ username_changed => 1 }));
+	return $c->detach;
+}
+
 sub changepw :Chained('logged_in') :Args(0) {
 	my ( $self, $c ) = @_;
 
@@ -415,7 +434,7 @@ sub register :Chained('logged_out') :Args(0) {
 
 	return $c->detach if $error;
 	
-	my $username = lc($c->req->params->{username});
+	my $username = $c->req->params->{username};
 	my $password = $c->req->params->{password};
 	my $email = $c->req->params->{email};
 	

@@ -3,6 +3,11 @@
 		Please add a list of languages you can speak, before trying to use the translation interface!
 	</div>
 <: } :>
+<: if $c.req.params.username_changed { :>
+	<div class="notice success">
+		<i class="icn icon-ok"></i>Your username has been updated.
+	</div>
+<: } :>
 <form action="<: $u('My','account') :>" method="post" id="formAccount">
 	<div class="content-box account-box">
 		<div class="head">
@@ -12,9 +17,11 @@
 			<div class="third palm-hide">
 				<h2>Level <a href="#" class="js-reveal" data-reveal-id="grades-tooltip"><i class="icon-question-sign icn--sup" id="trig-level-tooltip"></i></a></h2>
 			</div>
-			<: if $c.user.admin { :>
-				<a class="pull-right  button  big  lime" href="<: $u('Admin','index') :>">Admin area</a>
-			<: } :>
+			<div class="pull-right">
+				<: if $c.user.admin { :>
+					<a class="button  big  lime" href="<: $u('Admin','index') :>">Admin area</a>
+				<: } :>
+			</div>
 		</div>
 		<div class="body">
 			<: for results($c.user.user_languages) -> $user_language { :>
@@ -112,7 +119,16 @@
 			</div>
 			<div class="row">
 				<div class="twothird">
-					<label>Your password</label>
+					<label>Do you want to change the capitalization of your username?</label>
+				</div>
+				<div class="third">
+					<a href="<: $u('My','capitalize') :>" class="button ghostblue">Capitalize</a>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="twothird">
+					<label>Do you want to change your password?</label>
 				</div>
 				<div class="third">
 					<a href="<: $u('My','changepw') :>" class="button ">Change password</a>

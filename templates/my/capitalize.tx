@@ -1,0 +1,23 @@
+<div class="form-border">
+  <div class="form-wrap account-form">
+
+    <h2>Change the capitalization of your username</h2>
+    <form action="<: $u('My','capitalize') :>" class="group" method="post">
+      <input type="hidden" name="action_token" value="<: $action_token :>">
+      <: if $changed_error {  :> <p class="notice error"><i class="icn icon-warning-sign"></i>You can't change your username through this interface.<: } :>
+      
+      <div class="account-items group">
+        <div class="full">
+          <div class="input-wrap"><input type="text" value="<: $c.user.username :>" name="new_username" class="text"/></div>
+        </div>      
+      </div>  
+      <hr class="clear" />
+      <div class="half">
+      </div>
+      <div class="half">
+        <div class="input-wrap"><input type="submit" value="Submit" class="button blue submit" name="capitalize" /></div>
+      </div>
+    </form>
+    
+  </div>
+</div>
