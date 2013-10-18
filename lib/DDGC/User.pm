@@ -50,11 +50,10 @@ has db => (
 		user_blogs
 		user_blogs_rs
 		blog
-		save_notifications
-		defaultcycle_comments
-		defaultcycle_blogthreads
 		is
 		data
+		user_notification_group_values
+		add_context_notification
 	),qw(
 		create_related
 		find_related

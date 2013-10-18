@@ -215,20 +215,42 @@ sub last_comments {
 	});
 }
 
-sub defaultcycle_comments {
-	my ( $self, $value ) = @_;
-	$self->data->{defaultcycle_comments} = $value if defined $value;
-	defined $self->data->{defaultcycle_comments}
-		? $self->data->{defaultcycle_comments}
-		: 2
+has user_notification_group_values => (
+	isa => 'HashRef',
+	is => 'ro',
+	lazy_build => 1,
+	clearer => 'clear_user_notification_group_values',
+);
+
+sub _build_user_notification_group_values {
+	my ( $self ) = @_;
+	my %user_notification_group_values;
+	for ($self->search_related('user_notifications',{
+		context_id => undef,
+	},{
+		join => [qw( user_notification_group )],
+	})->all) {
+		$user_notification_group_values{$_->user_notification_group->type} = {}
+			unless defined $user_notification_group_values{$_->user_notification_group->type};
+		my $context_id_key = $_->user_notification_group->with_context_id
+			? '*' : '';
+		$user_notification_group_values{$_->user_notification_group->type}->{$context_id_key}
+			= { cycle => $_->cycle, xmpp => $_->xmpp, user_notification_group_id => $_->user_notification_group_id };
+	}
+	return \%user_notification_group_values;
 }
 
-sub defaultcycle_blogthreads {
-	my ( $self, $value ) = @_;
-	$self->data->{defaultcycle_blogthreads} = $value if defined $value;
-	defined $self->data->{defaultcycle_blogthreads}
-		? $self->data->{defaultcycle_blogthreads}
-		: 3
+sub add_context_notification {
+	my ( $self, $type, $context_obj ) = @_;
+	my $group_info = $self->user_notification_group_values->{$type}->{'*'};
+	if ($group_info->{cycle}) {
+		return $self->create_related('user_notifications',{
+			user_notification_group_id => $group_info->{user_notification_group_id},
+			xmpp => $group_info->{xmpp} ? 1 : 0,
+			cycle => $group_info->{cycle},
+			context_id => $context_obj->id,
+		});
+	}
 }
 
 sub save_notifications {

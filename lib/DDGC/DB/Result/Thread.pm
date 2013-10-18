@@ -103,6 +103,7 @@ before insert => sub {
 after insert => sub {
   my ( $self ) = @_;
   $self->add_event('create');
+  $self->user->add_context_notification('forum_comments',$self);
 };
 
 after update => sub {

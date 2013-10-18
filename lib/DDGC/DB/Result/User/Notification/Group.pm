@@ -106,6 +106,7 @@ sub default_types_def {{
     context_id => '',
     sub_context => 'DDGC::DB::Result::Comment',
     action => 'create',
+    priority => 50,
   },
 
   'company_blogs' => {
@@ -132,7 +133,7 @@ sub default_types_def {{
       DDGC::DB::Result::Token::Language
       DDGC::DB::Result::Token::Domain::Language
     )],
-    context_id => ['*',''],
+    context_id => '',
     sub_context => 'DDGC::DB::Result::Comment',
     action => 'create',
     filter_by_language => 1,

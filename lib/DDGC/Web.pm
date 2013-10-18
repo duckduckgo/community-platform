@@ -158,9 +158,9 @@ sub pager_init {
 	if ($c->req->params->{pagesize} && $c->req->params->{pagesize} != $c->session->{pager}->{$key}->{pagesize}) {
 		$c->stash->{page} = 1;
 	} else {
-		$c->stash->{page} = $c->req->params->{page}+0 ? $c->req->params->{page}+0 : 1;
+		$c->stash->{page} = $c->req->params->{page} ? $c->req->params->{page}+0 : 1;
 	}
-	$c->stash->{pagesize} = $c->req->params->{pagesize}+0 ? $c->req->params->{pagesize}+0 :
+	$c->stash->{pagesize} = $c->req->params->{pagesize} ? $c->req->params->{pagesize}+0 :
 		$c->session->{pager}->{$key}->{pagesize} ? $c->session->{pager}->{$key}->{pagesize} : $default_pagesize;
 	$c->stash->{pagesize_options} = [qw( 1 5 10 20 40 50 100 )];
 	$c->session->{pager}->{$key}->{pagesize} = $c->stash->{pagesize};
