@@ -139,8 +139,9 @@ before insert => sub {
 };
 
 after insert => sub {
-	my ( $self ) = @_;
-	$self->add_event('create');
+  my ( $self ) = @_;
+  $self->add_event('create');
+  $self->user->add_context_notification('translation_votes',$self);
 };
 
 sub user_voted {

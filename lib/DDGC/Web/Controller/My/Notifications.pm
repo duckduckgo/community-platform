@@ -26,7 +26,7 @@ sub edit :Chained('base') :Args(0) {
 	my ( $self, $c ) = @_;
 	$c->add_bc('Configuration');
 	$c->stash->{notification_cycle_options} = [
-		{ value => 0, name => "Not activated" },
+		{ value => 0, name => "No, thanks!" },
 		{ value => 2, name => "Hourly" },
 		{ value => 3, name => "Daily" },
 		{ value => 4, name => "Weekly" },
@@ -65,20 +65,7 @@ sub edit :Chained('base') :Args(0) {
 			}
 		}
 	}
-	my %user_notification_group_values;
-	for ($c->user->search_related('user_notifications',{
-		context_id => undef,
-	},{
-		join => [qw( user_notification_group )],
-	})->all) {
-		$user_notification_group_values{$_->user_notification_group->type} = {}
-			unless defined $user_notification_group_values{$_->user_notification_group->type};
-		my $context_id_key = $_->user_notification_group->with_context_id
-			? '*' : '';
-		$user_notification_group_values{$_->user_notification_group->type}->{$context_id_key}
-			= { cycle => $_->cycle, xmpp => $_->xmpp };
-	}
-	$c->stash->{user_notification_group_values} = \%user_notification_group_values;
+	$c->stash->{user_notification_group_values} = $c->user->user_notification_group_values;
 }
 
 sub following :Chained('base') :Args(0) {

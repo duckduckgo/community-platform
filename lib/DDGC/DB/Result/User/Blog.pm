@@ -118,15 +118,9 @@ belongs_to 'translation_of', 'DDGC::DB::Result::User::Blog', 'translation_of_id'
 ###############################
 
 after insert => sub {
-	my ( $self ) = @_;
-	if ($self->user->defaultcycle_blogthreads > 0) {
-		# $self->user->create_related('user_notifications',{
-		# 	context => 'DDGC::DB::Result::User::Blog',
-		# 	context_id => $self->id,
-		# 	cycle => $self->user->defaultcycle_blogthreads,
-		# });
-	}
-	$self->add_event('create');
+  my ( $self ) = @_;
+  $self->add_event('create');
+  $self->user->add_context_notification('blog_comments',$self);
 };
 
 after update => sub {

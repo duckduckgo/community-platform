@@ -148,6 +148,8 @@ sub user_voted {
 after insert => sub {
   my ( $self ) = @_;
   $self->add_event('create');
+  $self->user->add_context_notification('forum_comments',$self);
+  $self->user->add_context_notification('idea_votes',$self);
 };
 
 after update => sub {
