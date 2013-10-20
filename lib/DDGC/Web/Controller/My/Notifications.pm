@@ -10,7 +10,12 @@ use namespace::autoclean;
 sub base :Chained('/my/logged_in') :PathPart('notifications') :CaptureArgs(0) {
 	my ( $self, $c ) = @_;
 	$c->add_bc('Notifications', $c->chained_uri('My::Notifications','index'));
-	$c->stash->{user_notifications} = [$c->user->user_notifications];
+	$c->stash->{notification_cycle_options} = [
+		{ value => 0, name => "No, thanks!" },
+		{ value => 2, name => "Hourly" },
+		{ value => 3, name => "Daily" },
+		{ value => 4, name => "Weekly" },
+	];
 }
 
 sub index :Chained('base') :PathPart('') :Args(0) {
@@ -25,12 +30,6 @@ sub index :Chained('base') :PathPart('') :Args(0) {
 sub edit :Chained('base') :Args(0) {
 	my ( $self, $c ) = @_;
 	$c->add_bc('Configuration');
-	$c->stash->{notification_cycle_options} = [
-		{ value => 0, name => "No, thanks!" },
-		{ value => 2, name => "Hourly" },
-		{ value => 3, name => "Daily" },
-		{ value => 4, name => "Weekly" },
-	];
 	if ($c->req->param('save_notifications')) {
 		$c->require_action_token;
 		my @types = $c->req->param('type');
@@ -40,29 +39,8 @@ sub edit :Chained('base') :Args(0) {
 			my $type = shift @types;
 			my $cycle = shift @cycles;
 			my $context_id = shift @context_ids;
-			my @user_notification_groups = $c->d->rs('User::Notification::Group')->search({
-				with_context_id => $context_id eq '*' ? 1 : 0,
-				type => $type,
-			})->all;
-			for my $user_notification_group (@user_notification_groups) {
-				$c->d->rs('User::Notification')->update_or_create({
-					users_id => $c->user->id,
-					user_notification_group_id => $user_notification_group->id,
-					context_id => undef,
-					cycle => $cycle,
-				},{
-					key => 'user_notification_user_notification_group_id_context_id_users_id',
-				});
-				if ($context_id eq '*') {
-					$c->d->rs('User::Notification')->search({
-						users_id => $c->user->id,
-						user_notification_group_id => $user_notification_group->id,
-						context_id => { '!=' => undef },
-					})->update({
-						cycle => $cycle,
-					});
-				}
-			}
+			my $with_context_id = $context_id eq '*' ? 1 : 0;
+			$c->user->add_type_notification($type,$cycle,$with_context_id);
 		}
 	}
 	$c->stash->{user_notification_group_values} = $c->user->user_notification_group_values;
@@ -70,6 +48,24 @@ sub edit :Chained('base') :Args(0) {
 
 sub following :Chained('base') :Args(0) {
 	my ( $self, $c ) = @_;
+	$c->add_bc('Following');
+	$c->stash->{user_notifications} = $c->user->search_related('user_notifications',{
+		context_id => { '!=' => undef },
+	},{
+		join => [qw( user_notification_group )],
+	});
+}
+
+sub unfollow :Chained('base') :Args(1) {
+	my ( $self, $c, $id ) = @_;
+	my $user_notification = $c->user->search_related('user_notifications',{
+		id => $id
+	})->first;
+	if ($user_notification) {
+		$user_notification->delete;
+	}
+  $c->response->redirect($c->chained_uri('My::Notifications','following'));
+  return $c->detach;
 }
 
 no Moose;

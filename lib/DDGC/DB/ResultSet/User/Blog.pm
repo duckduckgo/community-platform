@@ -83,7 +83,7 @@ sub metadata {
   my $self = shift;
   my (@topics,$archives);
   for ($self->all) {
-    push @topics, @{$_->topics||{}};
+    push @topics, @{$_->topics||[]};
     my $created = $_->created;
     $archives->{$created->strftime('%Y-%m')} = $created;
   }

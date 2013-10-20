@@ -10,4 +10,4 @@ use warnings;
 
 use DDGC;
 
-DDGC->new->envoy->update_notifications;
+DDGC->new->envoy->update_all_notifications;

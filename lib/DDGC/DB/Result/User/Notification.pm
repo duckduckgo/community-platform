@@ -69,6 +69,10 @@ has_many 'event_notifications', 'DDGC::DB::Result::Event::Notification', 'user_n
 
 unique_constraint [qw/ user_notification_group_id context_id users_id /];
 
+__PACKAGE__->indices(
+	user_notification_cycle_idx => 'cycle',
+);
+
 ###############################
 
 no Moose;

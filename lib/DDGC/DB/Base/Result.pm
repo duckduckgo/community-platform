@@ -116,10 +116,13 @@ sub add_event {
 		my $related = delete $args{related};
 		push @{$event{related}}, @{$related};
 	}
+	my @related = defined $event{related}
+		? (@{delete $event{related}})
+		: ();
 	$event{data} = \%args if %args;
 	$self->ddgc->db->txn_do(sub {
 		my $event_result = $self->result_source->schema->resultset('Event')->create({ %event });
-		for (@{$event{related}}) {
+		for (@related) {
 			$event_result->create_related('event_relates',{
 				context => $_->[0],
 				context_id => $_->[1],

@@ -1,0 +1,29 @@
+<: if $unfollowed { :>
+  <div class="notice success">
+    <i class="icn icon-ok"></i>Successfully unfollowed
+  </div>
+<: } :>
+
+<input type="hidden" name="action_token" value="<: $action_token :>">
+
+<div class="content-box">
+  <div class="head">
+    <h3>Things you follow ...</h3>
+    <a class="pull-right  button  big  blue" href="<: $u('My::Notifications','edit') :>">Edit notifications</a>
+  </div>
+  <div class="body">
+    <: for results($user_notifications) -> $user_notification { :>
+      <div class="row">
+        <: $user_notification.user_notification_group.context :>
+        <: $user_notification.context_id :>
+        <a href="<: $u('My::Notifications','unfollow',$user_notification.id) :>" class="pull-right button red">
+          Unfollow
+        </a>
+      </div>
+    <: } :>
+  </div>
+</div>
+
+<div class="notice warning mid">
+  <a class="button" href="<: $u('Blog','post','notification-system') :>">Here you get more information about the notification system!</a>
+</div>

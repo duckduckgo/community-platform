@@ -54,6 +54,7 @@ has db => (
 		data
 		user_notification_group_values
 		add_context_notification
+		add_type_notification
 	),qw(
 		create_related
 		find_related

@@ -525,6 +525,16 @@ sub users {{
 			},
 			email => 'testtwo@localhost',
 		},
+		notifications => [
+			[qw( replies 3 1 )],
+			[qw( forum_comments 3 0 )],
+			[qw( forum_comments 3 1 )],
+			[qw( blog_comments 3 1 )],
+			[qw( translation_comments 3 0 )],
+			[qw( tokens 3 0 )],
+			[qw( translations 3 0 )],
+			[qw( translation_votes 3 1 )],
+		],
 	},
 	'testthree' => {
 		pw => '1234test',
@@ -546,6 +556,9 @@ sub users {{
 			},
 			email => 'testthree@localhost',
 		},
+		notifications => [
+			[qw( replies 2 1 )],
+		],
 	},
 	'testfour' => {
 		pw => '1234test',
@@ -556,6 +569,9 @@ sub users {{
 			es => 3,
 			us => 5,
 		},
+		notifications => [
+			[qw( replies 4 1 )],
+		],
 	},
 	'testfive' => {
 		pw => '1-2-3-4-5',
@@ -609,6 +625,17 @@ sub add_users {
 	});
 	$testone->update;
 	$self->next_step;
+	for ([qw( replies 2 1 )],
+		[qw( forum_comments 2 0 )],
+		[qw( forum_comments 2 1 )],
+		[qw( blog_comments 2 1 )],
+		[qw( translation_comments 2 0 )],
+		[qw( tokens 2 0 )],
+		[qw( translations 2 0 )],
+		[qw( translation_votes 2 1 )]) {
+		$testone->add_type_notification(@{$_});
+		$self->next_step;
+	}
 	$self->c->{users}->{testone} = $testone;
 	$self->next_step;
 	for (sort keys %{$self->users}) {
@@ -631,7 +658,7 @@ sub add_users {
 		$user->update;
 		$self->c->{users}->{$username} = $user;
 		for (@notifications) {
-			# TODO
+			$user->add_type_notification(@{$_});
 			$self->next_step;
 		}
     $self->isa_ok($user,'DDGC::User');

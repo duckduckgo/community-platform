@@ -15,14 +15,14 @@ column id => {
 };
 primary_key 'id';
 
-unique_column key => {
-  data_type => 'text',
+column user_notification_group_id => {
+  data_type => 'bigint',
   is_nullable => 0,
 };
 
-column type => {
-  data_type => 'text',
-  is_nullable => 1,
+column group_context_id => {
+  data_type => 'bigint',
+  is_nullable => 0,
 };
 
 column data => {
@@ -38,6 +38,8 @@ column created => {
 };
 
 has_many 'event_notifications', 'DDGC::DB::Result::Event::Notification', 'event_notification_group_id';
+
+unique_constraint [qw/ user_notification_group_id group_context_id /];
 
 ###############################
 

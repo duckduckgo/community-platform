@@ -28,15 +28,8 @@ sub grouped_by_context {
 
 sub prefetch_all {
   my ( $self ) = @_;
-  my $result_class = $self->result_class;
-  my %prefetch = map {
-    defined $result_class->context_config->{$_}->{prefetch} && $_ ne $result_class
-      ? (
-        $result_class->context_config->{$_}->{relation} => $result_class->context_config->{$_}->{prefetch}
-      ) : ()
-  } keys %{$self->result_class->context_config};
   $self->search_rs({},{
-    prefetch => [qw( user ), \%prefetch],
+    prefetch => [qw( user ), $self->prefetch_context_config],
   });
 }
 

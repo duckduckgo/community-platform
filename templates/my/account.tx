@@ -90,7 +90,7 @@
 		<div class="body">
 			<div class="row">
 				<div class="twothird">
-					<label>Configure notifications</label>
+					<label>Do you want to configure your email notifications?</label>
 				</div>
 				<div class="third">
 					<a href="<: $u('My::Notifications','edit') :>" class="button ">Edit Notifications</a>
