@@ -27,34 +27,33 @@ GetOptions (
 	"start" => \$start,
 );
 
-  if ($kill) {
-    remove_tree($config->rootdir_path);
-    # TODO: replace parsing of dsn using regex with some CPAN module, DRY
-    if ($config->db_dsn =~ m/^dbi:Pg:/) {
-      if ($config->db_dsn =~ m/(?:database|dbname)=([\w\d]+)/) {
-        my $db = $1;
-        my $userarg = length($config->db_user) ? "-U ".$config->db_user : "";
-	print "Truncating database...\n";
-        system("dropdb $userarg ".$db);
-	if ( !WIFEXITED(${^CHILD_ERROR_NATIVE}) ) {
-	    my $dsn = $config->db_dsn;
-	    $dsn =~ s/(database|dbname)=[\w\d]+/$1=postgres/;
-	    my $dbh = DBI->connect(
-		$dsn, $config->db_user, $config->db_password
-	    );
-	    $dbh->do("DROP DATABASE $db") or die $dbh->errstr;
-	    $dbh->do("CREATE DATABASE $db") or die $dbh->errstr;
-        }
-        else {
-	    system("createdb $userarg ".$db);
+if ($kill) {
+	remove_tree($config->rootdir_path);
+	# TODO: replace parsing of dsn using regex with some CPAN module, DRY
+	if ($config->db_dsn =~ m/^dbi:Pg:/) {
+		if ($config->db_dsn =~ m/(?:database|dbname)=([\w\d]+)/) {
+			my $db = $1;
+			my $userarg = length($config->db_user) ? "-U ".$config->db_user : "";
+			print "Truncating database...\n";
+			system("dropdb $userarg ".$db);
+			if ( !WIFEXITED(${^CHILD_ERROR_NATIVE}) ) {
+				my $dsn = $config->db_dsn;
+				$dsn =~ s/(database|dbname)=[\w\d]+/$1=postgres/;
+				my $dbh = DBI->connect(
+					$dsn, $config->db_user, $config->db_password
+				);
+				$dbh->do("DROP DATABASE $db") or die $dbh->errstr;
+				$dbh->do("CREATE DATABASE $db") or die $dbh->errstr;
+			} else {
+				system("createdb $userarg ".$db);
+			}
+		} else {
+			die "Can't find out your db name from DSN";
+		}
 	}
-      } else {
-        die "Can't find out your db name from DSN";
-      }
-    }
-  } elsif (-d $config->rootdir_path) {
-    die "environment exist, use --kill to kill it!";
-  }
+} elsif (-d $config->rootdir_path) {
+	die "environment exist, use --kill to kill it!";
+}
 
 print "\n";
 print "Generating development environment, this may take a while...\n";
@@ -69,16 +68,17 @@ my $ddgc = DDGC->new({ config => $config });
 my $pr; 
 
 my $ddgc_test = DDGCTest::Database->new($ddgc,0,sub {
-  print "\n";
-  print "Filling database with test data\n";
-  print "\n";
+	print "\n";
+	print "Filling database with test data and updating notifications...\n";
+	print "(It will halt for a bit in the middle to gather all events)\n";
+	print "\n";
 	$pr = String::ProgressBar->new(
-    max => shift,
-    length => 60,
-    bar => '#',
-    show_rotation => 1,
-    print_return => 0,
-  );
+		max => shift,
+		length => 60,
+		bar => '#',
+		show_rotation => 1,
+		print_return => 0,
+	);
 	$pr->write;
 },sub {
 	$pr->update(shift);
@@ -86,9 +86,7 @@ my $ddgc_test = DDGCTest::Database->new($ddgc,0,sub {
 });
 $ddgc_test->deploy;
 
-print "\n\n";
-print "Updating notifications... (will take a while) ";
-$ddgc_test->update_notifications;
+print "\n";
 print "done\n";
 print "\n";
 print "everything done... You can start the development webserver with:\n\n";

@@ -85,15 +85,17 @@ sub deploy {
 	$self->add_comments;
 	$self->add_blogs;
 	$self->add_ideas;
+	$self->update_notifications;
 	if ($self->test) {
-		$self->update_notifications;
 		$self->test_userpage;
-		$self->test_event;
 	}
 }
 
 sub update_notifications {
 	my ( $self ) = @_;
+	$self->d->rs('Event')->result_class->meta->add_after_method_modifier('notify', sub {
+		$self->next_step;
+	});
 	$self->d->envoy->update_all_notifications;
 }
 
@@ -114,7 +116,7 @@ sub next_step {
 
 sub step_count {
 	my ( $self ) = @_;
-	my $base = 2009;
+	my $base = 3911;
 	return $base unless $self->test;
 }
 
@@ -692,14 +694,6 @@ sub test_userpage {
 			}
 		}
 	}
-}
-
-sub test_event {
-	my ( $self ) = @_;
-	#my @events = $self->d->resultset('Event')->search({})->all;
-	#$self->is(scalar @events, 298, "Checking amount of events gathered");
-	#my @enos = $self->d->resultset('Event::Notification')->search({})->all;
-	#$self->is(scalar @enos, 545, "Checking amount of event notifications gathered");
 }
 
 sub _replace_email {

@@ -235,7 +235,7 @@ sub _build_user_notification_group_values {
 		my $context_id_key = $_->user_notification_group->with_context_id
 			? '*' : '';
 		$user_notification_group_values{$_->user_notification_group->type}->{$context_id_key}
-			= { cycle => $_->cycle, xmpp => $_->xmpp, user_notification_group_id => $_->user_notification_group_id };
+			= { cycle => $_->cycle, xmpp => $_->xmpp };
 	}
 	return \%user_notification_group_values;
 }
@@ -244,8 +244,16 @@ sub add_context_notification {
 	my ( $self, $type, $context_obj ) = @_;
 	my $group_info = $self->user_notification_group_values->{$type}->{'*'};
 	if ($group_info->{cycle}) {
+		my @user_notification_groups = $self->schema->resultset('User::Notification::Group')->search({
+			context => $context_obj->context_name,
+			with_context_id => 1,
+			type => $type,
+		})->all;
+		die "Several notification groups found, cant be..." if scalar @user_notification_groups > 1;
+		die "No notification group found!" if scalar @user_notification_groups < 1;
+		my $user_notification_group = $user_notification_groups[0];
 		return $self->create_related('user_notifications',{
-			user_notification_group_id => $group_info->{user_notification_group_id},
+			user_notification_group_id => $user_notification_group->id,
 			xmpp => $group_info->{xmpp} ? 1 : 0,
 			cycle => $group_info->{cycle},
 			context_id => $context_obj->id,
@@ -259,6 +267,7 @@ sub add_type_notification {
 		with_context_id => $with_context_id ? 1 : 0,
 		type => $type,
 	})->all;
+	die "No notification group found!" if scalar @user_notification_groups < 1;
 	for my $user_notification_group (@user_notification_groups) {
 		$self->update_or_create_related('user_notifications',{
 			user_notification_group_id => $user_notification_group->id,
