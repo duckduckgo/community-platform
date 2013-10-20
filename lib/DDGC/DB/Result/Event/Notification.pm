@@ -25,16 +25,6 @@ column event_id => {
 	is_nullable => 0,
 };
 
-column cycle => {
-	data_type => 'int',
-	is_nullable => 0,
-};
-
-column cycle_time => {
-	data_type => 'timestamp with time zone',
-	is_nullable => 1,
-};
-
 column done => {
 	data_type => 'int',
 	is_nullable => 0,
@@ -66,10 +56,6 @@ belongs_to 'user', 'DDGC::DB::Result::User', 'users_id';
 belongs_to 'event', 'DDGC::DB::Result::Event', 'event_id';
 belongs_to 'event_notification_group', 'DDGC::DB::Result::Event::Notification::Group', 'event_notification_group_id';
 belongs_to 'user_notification', 'DDGC::DB::Result::User::Notification', 'user_notification_id';
-
-__PACKAGE__->indices(
-	cycle_cycle_idx => 'cycle',
-);
 
 ###############################
 

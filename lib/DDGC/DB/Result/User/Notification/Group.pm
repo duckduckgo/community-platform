@@ -107,6 +107,7 @@ sub default_types_def {{
     sub_context => 'DDGC::DB::Result::Comment',
     action => 'create',
     priority => 50,
+    filter => sub { $_[0]->company_blog eq 1 },
   },
 
   'company_blogs' => {
@@ -116,6 +117,7 @@ sub default_types_def {{
     context_id => '',
     sub_context => '',
     action => 'create',
+    filter => sub { $_[0]->company_blog eq 1 },
   },
 
   'blog_comments' => {
@@ -186,6 +188,8 @@ sub default_types_def {{
     sub_context => '',
     action => 'create',
     filter_by_language => 1,
+    group_context_id => sub { $_[0]->token_language->token_domain_language->id },
+    u => sub { $_[0]->token_language->token_domain_language->u_unvoted },
   },
 
   # follow votes on translations
@@ -194,36 +198,27 @@ sub default_types_def {{
     context_id => '*',
     sub_context => 'DDGC::DB::Result::Token::Language::Translation::Vote',
     action => 'create',
+    group_context_id => sub { $_[0]->token_language->id },
   },
 
 }}
 
-sub company_blogs_where {{
-  company_blog => 1
-}}
-
-sub company_blog_comments_where {{
-  company_blog => 1
-}}
-
-sub translations_key {
-  my ( $self, $context ) = @_;
-  join('|','translations','DDGC::DB::Result::Token::Domain::Language',$_[0]->token_language->token_domain_language->id)  
+sub filter {
+  my ( $self ) = @_;
+  return $self->default_types_def->{$self->type}->{filter}
+    if defined $self->default_types_def->{$self->type}->{filter};
 }
 
-sub translations_u {
-  my ( $self, $context, $sub_context ) = @_;
-  $context->token_language->u;
+sub group_context_id {
+  my ( $self ) = @_;
+  return $self->default_types_def->{$self->type}->{group_context_id}
+    if defined $self->default_types_def->{$self->type}->{group_context_id};
 }
 
-sub translation_votes_key {
-  my ( $self, $context, $sub_context ) = @_;
-  join('|','translation_votes','DDGC::DB::Result::Token::Language',$context->token_language->id);
-}
-
-sub translation_votes_u {
-  my ( $self, $context, $sub_context ) = @_;
-  $context->token_language->token_domain_language->u_unvoted;
+sub u {
+  my ( $self ) = @_;
+  return $self->default_types_def->{$self->type}->{u}
+    if defined $self->default_types_def->{$self->type}->{u};
 }
 
 sub default_types {

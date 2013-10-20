@@ -21,18 +21,6 @@ column event_id => {
 };
 belongs_to 'event', 'DDGC::DB::Result::Event', 'event_id';
 
-###########
-column context => {
-  data_type => 'text',
-  is_nullable => 0,
-};
-column context_id => {
-  data_type => 'bigint',
-  is_nullable => 0,
-};
-with 'DDGC::DB::Role::HasContext';
-###########
-
 __PACKAGE__->add_context_relations;
 
 column created => {

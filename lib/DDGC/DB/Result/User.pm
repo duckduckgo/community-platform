@@ -253,18 +253,28 @@ sub add_context_notification {
 	}
 }
 
-sub save_notifications {
-	my ( $self, @notifications ) = @_;
-	for my $notification (@notifications) {
-		# my %query = (
-		# 	context => $notification->{context},
-		# 	context_id => $notification->{context_id},
-		# 	sub_context => $notification->{sub_context},
-		# );
-		# $self->search_related('user_notifications',{ %query })->delete;
-		# if ($notification->{cycle} > 0) {
-		# 	$self->create_related('user_notifications',$notification);
-		# }
+sub add_type_notification {
+	my ( $self, $type, $cycle, $with_context_id ) = @_;
+	my @user_notification_groups = $self->schema->resultset('User::Notification::Group')->search({
+		with_context_id => $with_context_id ? 1 : 0,
+		type => $type,
+	})->all;
+	for my $user_notification_group (@user_notification_groups) {
+		$self->update_or_create_related('user_notifications',{
+			user_notification_group_id => $user_notification_group->id,
+			context_id => undef,
+			cycle => $cycle,
+		},{
+			key => 'user_notification_user_notification_group_id_context_id_users_id',
+		});
+		if ($with_context_id) {
+			$self->search_related('user_notifications',{
+				user_notification_group_id => $user_notification_group->id,
+				context_id => { '!=' => undef },
+			})->update({
+				cycle => $cycle,
+			});
+		}
 	}
 }
 

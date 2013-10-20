@@ -25,4 +25,16 @@ sub paging {
   })->limit($rows);
 }
 
+sub prefetch_context_config {
+  my ( $self, $result_class ) = @_;
+  $result_class = $self->result_class unless defined $result_class;
+  my %prefetch = map {
+    defined $result_class->context_config->{$_}->{prefetch} && $_ ne $result_class
+      ? (
+        $result_class->context_config->{$_}->{relation} => $result_class->context_config->{$_}->{prefetch}
+      ) : ()
+  } keys %{$self->result_class->context_config};
+  return \%prefetch;
+}
+
 1;
