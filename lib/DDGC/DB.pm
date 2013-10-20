@@ -9,6 +9,8 @@ use Cache::FileCache;
 
 use namespace::autoclean;
 
+$ENV{DBIC_NULLABLE_KEY_NOWARN} = 1;
+
 has _ddgc => (
 	isa => 'DDGC',
 	is => 'rw',

@@ -231,4 +231,6 @@ sub notify {
 	# }
 
 no Moose;
-__PACKAGE__->meta->make_immutable;
+1;
+# will get method modified in deploy case
+#__PACKAGE__->meta->make_immutable;
