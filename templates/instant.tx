@@ -83,10 +83,12 @@
 					<i class="ddhi-community-icon"></i>
 					<h5 class="headfont">Community Members</h5>
 					<p class="caption">(That's You!)</p>
+					<i class="ddhi__community__flow  icon-chevron-right"></i>
 				</div>
 				<div class="third">
 					<i class="ddhi-source-icon" ></i>
 					<h5 class="headfont">Nominate Ideas and Sources</h5>
+					<i class="ddhi__community__flow  icon-chevron-right"></i>
 				</div>
 				<div class="third">
 					<i class="ddhi-develop-icon" ></i>
