@@ -15,11 +15,6 @@ column id => {
 };
 primary_key 'id';
 
-column users_id => {
-	data_type => 'bigint',
-	is_nullable => 0,
-};
-
 column event_id => {
 	data_type => 'bigint',
 	is_nullable => 0,
@@ -52,7 +47,6 @@ column created => {
 	set_on_create => 1,
 };
 
-belongs_to 'user', 'DDGC::DB::Result::User', 'users_id';
 belongs_to 'event', 'DDGC::DB::Result::Event', 'event_id';
 belongs_to 'event_notification_group', 'DDGC::DB::Result::Event::Notification::Group', 'event_notification_group_id';
 belongs_to 'user_notification', 'DDGC::DB::Result::User::Notification', 'user_notification_id';

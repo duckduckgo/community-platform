@@ -510,7 +510,7 @@ sub add_helps {
 #  \__,_|___/\___|_|  |___/
 
 sub users {{
-	'testtwo' => {
+	'TestTwo' => {
 		pw => 'test1234',
 		public => 1,
 		notes => 'Testuser, public, es',
@@ -538,7 +538,7 @@ sub users {{
 			[qw( translation_votes 3 1 )],
 		],
 	},
-	'testthree' => {
+	'TestThree' => {
 		pw => '1234test',
 		public => 1,
 		roles => 'translation_manager',
@@ -562,7 +562,7 @@ sub users {{
 			[qw( replies 2 1 )],
 		],
 	},
-	'testfour' => {
+	'tEStfOUr' => {
 		pw => '1234test',
 		notes => 'Testuser, admin, de, es, us',
 		admin => 1,
@@ -601,7 +601,7 @@ sub users {{
 
 sub add_users {
 	my ( $self ) = @_;
-	my $testone = $self->d->create_user('testone','blabla');
+	my $testone = $self->d->create_user('TestOne','blabla');
 	$self->isa_ok($testone,'DDGC::User');
 	$testone->admin(1);
 	$testone->public(1);
@@ -658,7 +658,8 @@ sub add_users {
 			$self->next_step;
 		}
 		$user->update;
-		$self->c->{users}->{$username} = $user;
+		my $lowercase_username = lc($username);
+		$self->c->{users}->{$lowercase_username} = $user;
 		for (@notifications) {
 			$user->add_type_notification(@{$_});
 			$self->next_step;

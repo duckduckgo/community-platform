@@ -49,54 +49,6 @@ my %mapping = (
 	'DDGC::DB::Result::Token::Language::Translation' => 'translations',
 );
 
-sub notify_tokens {
-	my ( $self, $c, $user, @event_notifications ) = @_;
-	my %td;
-	for my $en (@event_notifications) {
-		if ($en->event->related) {
-			for (@{$en->event->related}) {
-				my ( $related_context, $related_context_id ) = @{$_};
-				if ($related_context eq 'DDGC::DB::Result::Token::Domain') {
-					$td{$related_context_id} = {}
-						unless defined $td{$related_context_id};
-					my $token = $en->event->get_context_obj;
-					$td{$related_context_id}->{$token->id} = $token;
-					last;
-				}
-			}
-		}
-	}
-	return related_token_domains => [map {{
-		domain => $c->d->resultset('Token::Domain')->find($_),
-		tokens => [values %{$td{$_}}],
-	}} keys %td],
-}
-
-sub notify_translations {
-	my ( $self, $c, $user, @event_notifications ) = @_;
-	my %translations;
-	for my $en (@event_notifications) {
-		if ($en->event->related) {
-			for (@{$en->event->related}) {
-				my ( $related_context, $related_context_id ) = @{$_};
-				if ($related_context eq 'DDGC::DB::Result::Token::Domain') {
-					$translations{$related_context_id} = {}
-						unless defined $translations{$related_context_id};
-					my $translation = $en->event->get_context_obj;
-					if ($translation) {
-						$translations{$related_context_id}->{$translation->id} = $translation;
-					}
-					last;
-				}
-			}
-		}
-	}
-	return related_token_domains => [map {{
-		domain => $c->d->resultset('Token::Domain')->find($_),
-		translations => [values %{$translations{$_}}],
-	}} keys %translations],
-}
-
 sub notify_cycle {
 	my ( $self, $c, $cycle ) = @_;
 	my @event_notifications = $c->d->resultset('Event::Notification')->search({
