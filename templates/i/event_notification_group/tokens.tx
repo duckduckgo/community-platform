@@ -1,0 +1,1 @@
+There are <b><: $_.event_notifications.count :> new tokens</b> to translate at <: i($_.group_object.token_domain,'label_notification') :>.

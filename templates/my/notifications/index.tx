@@ -10,17 +10,8 @@
 		<: } :>
 	</div>
 	<div class="body">
-		<: for results($undone_notifications) -> $notification { :>
-			<div class="row">
-				<: $notification.user_notification_group.type :>
-				<: $notification.user_notification_group.context :>
-				<: for results($notification.event_notifications) -> $event_notification { :>
-					<: $event_notification.event.user.username :>
-					<: $event_notification.user_notification.context_id :>
-				<: } :>
-				<a class="button blue" href="<: $u($notification.u) :>">Goto</a>
-				<a class="button red" href="<: $u('My::Notifications','done',$notification.id) :>">Mark as done</a>
-			</div>
+		<: for results($undone_notifications) -> $event_notification_group { :>
+			<: i($event_notification_group,'view') :>
 		<: } :>
 		<div class="row mid">
 			<: include pager {

@@ -1,0 +1,3 @@
+the idea
+<b><: $_.title :></b>
+of user <b><: $_.user.username :></b>

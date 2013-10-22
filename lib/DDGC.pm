@@ -40,8 +40,6 @@ sub deploy_fresh {
 	$self->config->filesdir();
 	$self->config->cachedir();
 
-	copy($self->config->prosody_db_samplefile,$self->config->rootdir) or die "Copy failed: $!";
-
 	$self->db->deploy;
 	$self->db->resultset('User::Notification::Group')->deploy_group_types;
 }
@@ -321,6 +319,18 @@ sub _build_xslate {
 			i_template => sub {
 				my ( $template, $vars ) = $i_template_and_vars->(@_);
 				return $template
+			},
+
+			results_event_userlist => sub {
+				my %users;
+				for ($_[0]->all) {
+					if ($_->event->users_id) {
+						unless (defined $users{$_->event->users_id}) {
+							$users{$_->event->users_id} = $_->event->user;
+						}
+					}
+				}
+				return [values %users];
 			},
 
 		},

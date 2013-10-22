@@ -42,7 +42,24 @@ belongs_to 'user_notification_group', 'DDGC::DB::Result::User::Notification::Gro
 
 unique_constraint [qw/ user_notification_group_id group_context_id /];
 
-sub u {}
+sub u {
+  my ( $self ) = @_;
+  my $group_object = $self->group_object;
+  if ($group_object) {
+    return $group_object->u;
+  }
+}
+
+sub group_object {
+  my ( $self ) = @_;
+  my $context = $self->user_notification_group->context;
+  my $event_notification = $self->event_notifications->first;
+  if ($event_notification->event->context eq $context) {
+    return $event_notification->event->get_context_obj;
+  } else {
+    return $event_notification->event->get_related($context);
+  }
+}
 
 ###############################
 
