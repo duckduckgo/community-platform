@@ -19,8 +19,6 @@ sub base :Chained('/my/logged_in') :PathPart('notifications') :CaptureArgs(0) {
 	];
 }
 
-
-
 sub index :Chained('base') :PathPart('') :Args(0) {
 	my ( $self, $c ) = @_;
 	unless ($c->user->search_related('user_notifications')->count) {

@@ -115,15 +115,6 @@
 			</div>
 			<div class="row">
 				<div class="twothird">
-					<label>Do you want to change the capitalization of your username?</label>
-				</div>
-				<div class="third">
-					<a href="<: $u('My','capitalize') :>" class="button ghostblue">Capitalize</a>
-				</div>
-			</div>
-
-			<div class="row">
-				<div class="twothird">
 					<label>Do you want to change your password?</label>
 				</div>
 				<div class="third">
@@ -151,6 +142,14 @@
 				</div>
 			</div>
 			<: if $c.user.public { :>
+				<div class="row">
+					<div class="twothird">
+						<label>Do you want to change the capitalization of your username?</label>
+					</div>
+					<div class="third">
+						<a href="<: $u('My','capitalize') :>" class="button ghostblue">Capitalize</a>
+					</div>
+				</div>
 				<div class="row">
 					<div class="twothird">
 						<label>Your <a href="<: $u('Userpage::Blog','index',$c.user.username) :>">blog</a> [BETA] <a href="<: $u('Blog','post','blog-for-everybody') :>">More information here on our blog...</a></label>

@@ -1,0 +1,5 @@
+<div class="row">
+  <: i($_,$_.user_notification_group.type) :>
+  <a class="button blue" href="<: $u($_.u) :>">Goto</a>
+  <a class="button red" href="<: $u('My::Notifications','done',$_.id) :>">Mark as done</a>
+</div>
