@@ -46,6 +46,8 @@ has db => (
 		user_languages
 		user_notifications
 		event_notifications_undone_count
+		undone_notifications_count
+		undone_notifications
 		event_notifications
 		user_blogs
 		user_blogs_rs

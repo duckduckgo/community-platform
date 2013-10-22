@@ -10,23 +10,23 @@
 		<: } :>
 	</div>
 	<div class="body">
-		<div class="row">
-			<h3><: $undone_notifications_comments :> comments unnoticed</h3>
-			<a class="pull-right <: if $undone_notifications_comments > 0 { :>red<: } :> button" href="<: $u('My::Notifications', 'comments') :>">
-				All comments notifications
-			</a>
-		</div>
-		<div class="row">
-			<h3><: $undone_notifications_tokens :> new tokens unnoticed</h3>
-			<a class="pull-right <: if $undone_notifications_tokens > 0 { :>red<: } :> button" href="<: $u('My::Notifications', 'tokens') :>">
-				All new tokens notifications
-			</a>
-		</div>
-		<div class="row">
-			<h3><: $undone_notifications_translations :> translations unnoticed</h3>
-			<a class="pull-right <: if $undone_notifications_translations > 0 { :>red<: } :> button" href="<: $u('My::Notifications', 'translations') :>">
-				All translations notifications
-			</a>
+		<: for results($undone_notifications) -> $notification { :>
+			<div class="row">
+				<: $notification.user_notification_group.type :>
+				<: $notification.user_notification_group.context :>
+				<: for results($notification.event_notifications) -> $event_notification { :>
+					<: $event_notification.event.user.username :>
+					<: $event_notification.user_notification.context_id :>
+				<: } :>
+				<a class="button blue" href="<: $u($notification.u) :>">Goto</a>
+				<a class="button red" href="<: $u('My::Notifications','done',$notification.id) :>">Mark as done</a>
+			</div>
+		<: } :>
+		<div class="row mid">
+			<: include pager {
+				pager => $undone_notifications.pager,
+				url => $u('My::Notifications', 'index', { page => 'PAGE_NO' }),
+			} :>
 		</div>
 	</div>
 </div>

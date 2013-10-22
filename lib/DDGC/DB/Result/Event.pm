@@ -139,6 +139,7 @@ sub notify {
 			my %notified_user_ids;
 			for my $user_notification (@user_notifications) {
 				next if defined $notified_user_ids{$user_notification->users_id};
+				next if $self->users_id && $user_notification->users_id eq $self->users_id;
 				if ($user_notification->user_notification_group->filter) {
 					next unless $user_notification->user_notification_group->filter->(
 						$self->get_related($user_notification->user_notification_group->context),
@@ -165,7 +166,6 @@ sub notify {
 					key => 'event_notification_group_user_notification_group_id_group_context_id',
 				});
 				$self->create_related('event_notifications',{
-					users_id => $user_notification->users_id,
 					event_notification_group_id => $event_notification_group->id,
 					user_notification_id => $user_notification->id,
 				});

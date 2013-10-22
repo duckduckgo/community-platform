@@ -8,6 +8,7 @@ use namespace::autoclean;
 
 sub base :Chained('/base') :PathPart('') :CaptureArgs(1) {
 	my ( $self, $c, $username ) = @_;
+	$c->stash->{userpage_given_user} = $username;
 	$c->stash->{user} = $c->d->find_user($username);
 	unless ($c->stash->{user} && $c->stash->{user}->public) {
 		return $c->go('/default');
@@ -29,6 +30,10 @@ sub user :Chained('base') :PathPart('') :CaptureArgs(0) {
 sub home :Chained('user') :PathPart('') :Args(0) {
 	my ( $self, $c ) = @_;
 	$c->bc_index;
+	unless ($c->stash->{user}->username eq $c->stash->{userpage_given_user}) {
+		$c->response->redirect($c->chained_uri('Userpage','home',$c->stash->{user}->username));
+		return $c->detach;
+	}
 }
 
 sub json :Chained('user') :Args(0) {

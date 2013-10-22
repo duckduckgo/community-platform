@@ -3,9 +3,10 @@
 		<: i($c.user,'userpic',{ userpic_size => 32 }) :>
 	</div>
 	<div class="user-notifications">
-		<: if $user_notification_count { :>
+		<: my $notification_count = $undone_notifications_count || $c.user.undone_notifications_count :>
+		<: if $notification_count { :>
 			<a class="user-notifications__num" href="<: $u('My::Notifications','index') :>">
-				<: $user_notification_count :>
+				<: $notification_count :>
 			</a>
 		<: } :>
 	</div>

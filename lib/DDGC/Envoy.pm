@@ -14,13 +14,25 @@ has ddgc => (
 
 sub format_datetime { shift->ddgc->db->storage->datetime_parser->format_datetime(shift) }
 
+has last_update => (
+	isa => 'DateTime',
+	is => 'rw',
+	clearer => 'clear_last_update',
+	predicate => 'has_last_update',
+);
+
 sub update_own_notifications {
 	my ( $self ) = @_;
+	if ($self->has_last_update) {
+		return unless $self->last_update <
+			( DateTime->now - DateTime::Duration->new( seconds => 30 ) );
+	}
+	$self->last_update(DateTime->now);
 	return $self->update_notifications_where(
 		pid => $self->ddgc->config->pid,
 		nid => $self->ddgc->config->nid,
 		'me.created' => { ">=" => $self->format_datetime(
-			DateTime->now - DateTime::Duration->new( minutes => 5 )
+			DateTime->now - DateTime::Duration->new( minutes => 2 )
 		) },
 	);
 }
@@ -30,7 +42,7 @@ sub update_node_notifications {
 	return $self->update_notifications_where(
 		nid => $self->ddgc->config->nid,
 		'me.created' => { "<" => $self->format_datetime(
-			DateTime->now - DateTime::Duration->new( minutes => 5 )
+			DateTime->now - DateTime::Duration->new( minutes => 2 )
 		) }
 	);
 }

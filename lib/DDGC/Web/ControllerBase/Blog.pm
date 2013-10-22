@@ -19,15 +19,15 @@ sub blog_base :Chained('base') :PathPart('') :CaptureArgs(0) {
 sub postlist_base :Chained('blog_base') :PathPart('') :CaptureArgs(0) {
 	my ( $self, $c ) = @_;
 	push @{$c->stash->{template_layout}}, 'blog/posts.tx';
-    $c->pager_init($c->action,$self->pagesize);
+	$c->pager_init($c->action,$self->pagesize);
 }
 
 sub postlist_resultset {
 	my ( $self, $c ) = @_;
 	$c->stash->{posts_resultset} = $c->stash->{blog_resultset}
-	    ->most_recent_updated
-	    ->paging($c->stash->{page}, $c->stash->{pagesize})
-	    ->prefetch('user');
+			->most_recent_updated
+			->paging($c->stash->{page}, $c->stash->{pagesize})
+			->prefetch('user');
 }
 
 sub postlist_view {

@@ -12,11 +12,14 @@ sub base :Chained('/my/logged_in') :PathPart('notifications') :CaptureArgs(0) {
 	$c->add_bc('Notifications', $c->chained_uri('My::Notifications','index'));
 	$c->stash->{notification_cycle_options} = [
 		{ value => 0, name => "No, thanks!" },
+		{ value => 1, name => "Instant" },
 		{ value => 2, name => "Hourly" },
 		{ value => 3, name => "Daily" },
 		{ value => 4, name => "Weekly" },
 	];
 }
+
+
 
 sub index :Chained('base') :PathPart('') :Args(0) {
 	my ( $self, $c ) = @_;
@@ -24,6 +27,9 @@ sub index :Chained('base') :PathPart('') :Args(0) {
     $c->response->redirect($c->chained_uri('My::Notifications','edit',{ first_time => 1 }));
     return $c->detach;
 	}
+	$c->pager_init($c->action,20);
+	$c->stash->{undone_notifications} = $c->user->undone_notifications($c->stash->{page},$c->stash->{pagesize});
+	$c->stash->{undone_notifications_count} = $c->user->undone_notifications_count;
 	$c->bc_index;
 }
 
@@ -54,6 +60,10 @@ sub following :Chained('base') :Args(0) {
 	},{
 		join => [qw( user_notification_group )],
 	});
+}
+
+sub done :Chained('base') :Args(1) {
+	my ( $self, $c, $id ) = @_;
 }
 
 sub unfollow :Chained('base') :Args(1) {
