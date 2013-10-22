@@ -106,8 +106,6 @@ has_many 'ideas', 'DDGC::DB::Result::Idea', 'users_id';
 has_many 'events', 'DDGC::DB::Result::Event', 'users_id';
 has_many 'medias', 'DDGC::DB::Result::Media', 'users_id';
 
-has_many 'event_notifications', 'DDGC::DB::Result::Event::Notification', 'users_id';
-
 has_many 'user_languages', 'DDGC::DB::Result::User::Language', { 'foreign.username' => 'self.username' };
 has_many 'user_notifications', 'DDGC::DB::Result::User::Notification', 'users_id';
 has_many 'user_blogs', 'DDGC::DB::Result::User::Blog', 'users_id';

@@ -55,11 +55,15 @@ ssh -q -t root@$DDGC_RELEASE_HOSTNAME "(
 	sleep 20 &&
 	rm /home/ddgc/ddgc_web_maintenance
 )" && \
-echo "***\n*** Uploading DDGC Distribution to DuckPAN...\n***" && \
-ssh -q -t ddgc@$DDGC_RELEASE_HOSTNAME "(
-	. /home/ddgc/perl5/perlbrew/etc/bashrc &&
-	. /home/ddgc/ddgc_config.sh &&
-	cd ~/live &&
-	script/ddgc_add_duckpan_dist.pl ddgc $2
-)" && \
-echo "***\n*** Release successful\n***"
+
+if [ "$1" = "prod" ];
+then
+	echo "***\n*** Uploading DDGC Distribution to DuckPAN...\n***" && \
+	ssh -q -t ddgc@$DDGC_RELEASE_HOSTNAME "(
+		. /home/ddgc/perl5/perlbrew/etc/bashrc &&
+		. /home/ddgc/ddgc_config.sh &&
+		cd ~/live &&
+		script/ddgc_add_duckpan_dist.pl ddgc $2
+	)" && \
+	echo "***\n*** Release successful\n***"
+fi
