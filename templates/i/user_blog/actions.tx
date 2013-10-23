@@ -1,6 +1,6 @@
 <div class="post-actions">
 	<span class="action-item">
-		<a href="<: $u($user_blog.u) :>#comments" class="comments-link"><i class="icon-bubble"></i> <: $_.comments.count :></a>
+		<a href="<: $u($user_blog.u) :>#comments" class="comments-link"><i class="icon-bubble"></i> <: $_.all_comments.count :></a>
 	</span>
 	<span class="action-item">
 		<a href="https://facebook.com/sharer.php?s=100&u=<: $u($user_blog.u) | uri :>&p[url]=<: $u($user_blog.u) | uri :>&p[title]=<: $user_blog.title | uri :>" class="button blue fb" target="_facebook-share"><i class="icon-facebook"></i> Share</a>

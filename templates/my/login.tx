@@ -1,3 +1,5 @@
+<: include "view_disclaimer.tx" :>
+
 <div class="form-border">
 	<div class="form-wrap account-form">
 
@@ -12,7 +14,7 @@
 		<: } :>
 
 		<: if $not_valid_username { :>
-			<div class="notice error"><i class="icn icon-warning-sign"></i>Your username contains invalid characters. Use only your username to login.</div>
+			<div class="notice error"><i class="icn icon-warning-sign"></i>Your username contains invalid characters. Reminder: user names cannot contain special characters or <b>&#64;<: $xmpp_userhost :></b>.</div>
 		<: } :>
 
 		<h2>Login to your account</h2>

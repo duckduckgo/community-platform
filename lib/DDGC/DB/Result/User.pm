@@ -26,6 +26,7 @@ unique_column username => {
 	data_type => 'text',
 	is_nullable => 0,
 };
+sub lowercase_username { lc(shift->username) }
 
 column public => {
 	data_type => 'int',

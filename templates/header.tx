@@ -20,8 +20,22 @@
 			<div class="header-logo">
 				<div class="header-logo__logo"><a href="<: $u('Root','index') :>"><img src="/static/img/logo_ddg_community.png" alt="DuckDuckGo Community Platform" /></a></div>
 				<div class="header-logo__text">
-					<h2>DuckDuck<i>Go</i></h2>
-					<h3>Community Platform</h3>		
+					<h2>
+						<: if $c.user { :>
+							<: username_gimmick($c.user.username) :>
+						<: } else { :>
+							DuckDuck<i>Go</i>
+						<: } :>
+					</h2>
+					<h3>
+						<: if $xmpp_host == 'dukgo.com' { :>
+							Community Platform
+						<: } elsif $xmpp_host == 'view.dukgo.com' { :>
+							Preview community platform
+						<: } else { :>
+							Your development platform
+						<: } :>
+					</h3>
 				</div>
 			</div>	
 		<: } :>
