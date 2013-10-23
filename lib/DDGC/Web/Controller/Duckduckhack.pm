@@ -22,9 +22,17 @@ sub index :Chained('base') :PathPart('') :Args(0) {
 
 sub doc :Chained('base') :PathPart('') :Args(1) {
   my ( $self, $c, $doc ) = @_;
-  my ( $title, $content ) = @{$self->fetch_doc($c,$doc)};
-  $c->stash->{doc} = $content;
-  $c->stash->{title} = $title;
+  eval {
+    my ( $title, $content ) = @{$self->fetch_doc($c,$doc)};
+    $c->stash->{doc} = $content;
+    $c->stash->{title} = $title;
+  };
+  if ($@) {
+    $c->response->redirect($c->chained_uri('Duckduckhack','doc','ddh-intro',{
+      error => $@,
+    }));
+    return $c->detach;
+  }
 }
 
 sub fetch_doc {
