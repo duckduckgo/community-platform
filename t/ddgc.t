@@ -24,8 +24,12 @@ like( $root->content, qr!/my/register!, 'There is a link to register' );
 #my $login = request('/my/login?username=testone&password=ficken');
 #ok( $login->is_success, 'Login should succeed' );
 
-my $testone_userpage = request('/testone');
-like($testone_userpage->decoded_content, qr!testone!, 'Userpage of testone works' );
+# test redirect?
+#my $testone_userpage = request('/testone');
+#like($testone_userpage->decoded_content, qr!TestOne!, '' );
+
+my $testone_userpage = request('/TestOne');
+like($testone_userpage->decoded_content, qr!TestOne!, 'Userpage of testone works' );
 
 # $ddgc->envoy->notify_cycle(2);
 
