@@ -1,1 +1,2 @@
-<: i($_,'userlist') :> commented at <: i($_.group_object,'label_comment') :>.
+<span class="notification__primary"><: i($_.group_object,'label_comment') :></span>
+<: i($_,'userlist') :> commented.

@@ -1,1 +1,1 @@
-<: i($_,'userlist') :> replied on a comment you follow.
+<: i($_,'userlist') :> replied to a comment you follow.

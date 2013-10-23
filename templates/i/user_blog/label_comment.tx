@@ -1,3 +1,1 @@
-the blog post
-<b><: $_.title :></b>
-of user <b><: $_.user.username :></b>
+Blog Post: <b><: $_.title :></b> <span class="notification__primary__by">by <: $_.user.username :></span>

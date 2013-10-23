@@ -2,6 +2,5 @@
   <: if $~user.is_last && $~user.count > 1 { :>
     and
   <: } :>
-  <b><: i($user,'username') -:></b>
-  <:- if !$~user.is_last && $~user.count > 1 { :>,<: } :>
+  <b><: i($user,'username') -:></b><:- if !$~user.is_last && $~user.count > 1 { :>,<: } :>  
 <: } :>

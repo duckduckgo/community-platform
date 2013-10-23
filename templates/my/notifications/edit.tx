@@ -13,15 +13,15 @@
 <input type="hidden" name="action_token" value="<: $action_token :>">
 
 <div class="content-box">
-	<div class="head">
-		<h3>Configuration for your notifications</h3>
+	<div class="head  head--round  head--grey">
+		<h3>Notification Config</h3>
 	</div>
 </div>
 
 <div class="content-box">
 	<div class="head">
-		<h3>When do you want to get notified about ...</h3>
-		<a class="pull-right  button  big  blue" href="<: $u('My::Notifications','following') :>">See what you follow</a>
+		<h3>How often would you like to be notified about ...<a class="icn icn--sup" href="<: $u('Blog','post','notification-system') :>" title="Get more information about the notification system"><i class="icon-question-sign"></i></a></h3>
+		<a class="pull-right  button  big" href="<: $u('My::Notifications','following') :>" title="Check what you're following"><i class="icon-refresh"></i></a>
 	</div>
 	<div class="body">
 		<: include my::notifications::option {
@@ -68,18 +68,14 @@
 			type => 'translation_votes',
 			context_id => '*',
 			label => '... new votes on your translations?',
-		} :>
-	</div>
-</div>
-
-<div class="content-box">
-	<div class="head head--round mid">
-		<input type="submit" class="big blue button" name="save_notifications" value="Save changes" />
+		} :>	
+		<div class="row callout-row">
+			<i class="callout-row__icn--left icon-cloud-upload"></i>
+			<span class="callout-row__text  has-icon">Remember to save your changes!</span>
+			<input type="submit" class="big red button pull-right" name="save_notifications" value="Save Changes" />	
+		</div>
 	</div>
 </div>
 
 </form>
 
-<div class="notice warning mid">
-	<a class="button" href="<: $u('Blog','post','notification-system') :>">Here you get more information about the notification system!</a>
-</div>
