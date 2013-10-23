@@ -333,10 +333,27 @@ sub _build_xslate {
 				return [values %users];
 			},
 
+			style => sub {
+				my %style;
+				my @styles = @_;
+				while (@styles) {
+					my $t_style = $self->template_styles->{shift @styles};
+					if (ref $t_style eq 'HASH') {
+						$style{$_} = $t_style->{$_} for keys %{$t_style};
+					} elsif (ref $t_style eq 'ARRAY') {
+						unshift @styles, @{$t_style};
+					}
+				}
+			}
+
 		},
 	});
 	return $xslate;
 }
+
+sub template_styles {{
+
+}}
 
 ##############################
 
@@ -536,11 +553,11 @@ sub user_counts {
 
 	my %counts;
 	$counts{db} = $self->db->resultset('User')->search({})->count;
-	$counts{xmpp} = $self->xmpp->_prosody->_db->resultset('Prosody')->search({
+	$counts{xmpp} = $self->config->prosody_running ? $self->xmpp->_prosody->_db->resultset('Prosody')->search({
 		host => $self->config->prosody_userhost,
 	},{
 		group_by => 'user',
-	})->count;
+	})->count : 0;
 
 	$self->cache->set('ddgc_user_counts',\%counts,"1 hour");
 
