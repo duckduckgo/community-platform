@@ -57,6 +57,7 @@ has db => (
 		user_notification_group_values
 		add_context_notification
 		add_type_notification
+		lowercase_username
 	),qw(
 		create_related
 		find_related
