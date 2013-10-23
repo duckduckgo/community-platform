@@ -58,12 +58,43 @@ sub mail {
 	return @return;
 }
 
+sub template_mail {
+	my ( $self, $to, $from, $subject, $template, $stash, %extra ) = @_;
+	$stash->{email_template} = "email/".$template.".tx";
+	my $body = $self->ddgc->xslate->render('email/base.tx',$stash);
+	return $self->html_mail($to, $from, $subject, $body, %extra);
+}
+
 sub html_mail {
 	my ( $self, $to, $from, $subject, $body, %extra ) = @_;
 	die __PACKAGE__."->mail needs to, from, subject, body" unless $body && $subject && $to && $from;
 
+	my @parts = defined $extra{parts}
+		? (@{delete $extra{parts}})
+		: ();
 
+	my $email = Email::MIME->create(
+		attributes => {
+			content_type => 'multipart/alternative',
+		},
+		header_str => [
+			To      => $to,
+			From    => $from,
+			Subject => $subject,
+			%extra,
+		],
+		parts => [
+			Email::MIME->create(
+				attributes => { content_type => 'text/html' },
+				body => $body,
+			),
+			map {
+				Email::MIME->create(%{$_});
+			} @parts
+		],
+	);
 
+	my @return = sendmail($email, { transport => $self->transport });
 	if ($self->ddgc->config->mail_test && $self->ddgc->config->mail_test_log) {
 		my @deliveries = $self->transport->deliveries;
 		io($self->ddgc->config->mail_test_log)->append(Dumper \@deliveries);

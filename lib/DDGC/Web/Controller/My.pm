@@ -367,19 +367,19 @@ sub forgotpw :Chained('logged_out') :Args(0) {
 	my $token = md5_hex(int(rand(99999999)));
 	$user->data->{token} = $token;
 	$user->update;
-	$c->stash->{token} = $token;
 	$c->stash->{user} = $user->username;
-	
-	$c->stash->{email} = {
-		to          => $user->data->{email},
-		from        => 'noreply@dukgo.com',
-		subject     => '[DuckDuckGo Community] Reset password for '.$user->username,
-		template	=> 'email/forgotpw.tx',
-		charset		=> 'utf-8',
-		content_type => 'text/plain',
-	};
 
-	$c->forward( $c->view('Email::Xslate') );
+	$c->stash->{forgotpw_link} = $c->chained_uri('My','forgotpw_tokencheck',$user,$token);
+
+	$c->d->postman->template_mail(
+		$user->data->{email},
+		'noreply@dukgo.com',
+		'[DuckDuckGo Community] Reset password for '.$user->username,
+		'forgotpw',
+		$c->stash,
+	);
+
+	#$c->forward( $c->view('Email::Xslate') );
 	
 	$c->stash->{sentok} = 1;
 }
