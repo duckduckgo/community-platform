@@ -5,6 +5,7 @@ use Moose;
 use Email::Sender::Simple qw( sendmail );
 use Email::Simple;
 use Email::Simple::Creator;
+use Email::MIME;
 use Email::Sender::Transport::SMTP;
 use Email::Sender::Transport::Sendmail;
 use Email::Sender::Transport::Test;
@@ -50,6 +51,19 @@ sub mail {
 		body => $body,
 	);
 	my @return = sendmail($email, { transport => $self->transport });
+	if ($self->ddgc->config->mail_test && $self->ddgc->config->mail_test_log) {
+		my @deliveries = $self->transport->deliveries;
+		io($self->ddgc->config->mail_test_log)->append(Dumper \@deliveries);
+	}
+	return @return;
+}
+
+sub html_mail {
+	my ( $self, $to, $from, $subject, $body, %extra ) = @_;
+	die __PACKAGE__."->mail needs to, from, subject, body" unless $body && $subject && $to && $from;
+
+
+
 	if ($self->ddgc->config->mail_test && $self->ddgc->config->mail_test_log) {
 		my @deliveries = $self->transport->deliveries;
 		io($self->ddgc->config->mail_test_log)->append(Dumper \@deliveries);
