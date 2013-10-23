@@ -60,8 +60,33 @@ sub following :Chained('base') :Args(0) {
 	});
 }
 
-sub done :Chained('base') :Args(1) {
+sub done_base :Chained('base') :CaptureArgs(1) {
 	my ( $self, $c, $id ) = @_;
+	my $event_notifications = $c->d->rs('Event::Notification')->search({
+		'user_notification.users_id' => $c->user->id,
+		'event_notification_group.id' => $id,
+	},{
+		prefetch => [qw( user_notification event_notification_group )],
+	});
+	$c->stash->{update_count} = $event_notifications->update({ done => 1, sent => 1 });
+}
+
+sub done :Chained('done_base') :Args(0) {
+	my ( $self, $c ) = @_;
+	my $redirect = $c->req->param('from')
+		? $c->req->param('from')
+		: $c->chained_uri('My::Notifications','index');
+  $c->response->redirect($redirect);
+  return $c->detach;
+}
+
+sub done_goto :Chained('done_base') :Args(0) {
+	my ( $self, $c ) = @_;
+	my $redirect = $c->req->param('from')
+		? $c->req->param('from')
+		: $c->chained_uri('My::Notifications','index');
+  $c->response->redirect($redirect);
+  return $c->detach;
 }
 
 sub unfollow :Chained('base') :Args(1) {

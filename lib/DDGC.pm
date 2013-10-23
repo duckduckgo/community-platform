@@ -344,7 +344,15 @@ sub _build_xslate {
 						unshift @styles, @{$t_style};
 					}
 				}
-			}
+				my $return = 'style="';
+				$return .= $_.'='.$style{$_}.';' for (keys %style);
+				$return .= '"';
+				return $return;
+			},
+
+			username_gimmick => sub {
+				mark_raw(substr($_[0],0,-2).'<i>'.substr($_[0],-2).'</i>')
+			},
 
 		},
 	});
@@ -352,7 +360,15 @@ sub _build_xslate {
 }
 
 sub template_styles {{
-
+	'sample' => {
+		sample => 'sample',
+		key => 'value',
+	},
+	'other' => {
+		other => 'other',
+		key => 'value2',
+	},
+	'sample_other' => [qw( sample other )],
 }}
 
 ##############################

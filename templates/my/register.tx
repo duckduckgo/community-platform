@@ -1,7 +1,9 @@
 <div class="notice warning">
 	<i class="icn icon-warning-sign"></i>
-	You don't need to register if you already have a XMPP account on dukgo.com! Just <a href="<: $u('My','login') :>">login</a> with those credentials.
+	You don't need to register if you already have a XMPP account on <: $xmpp_userhost :>! Just <a href="<: $u('My','login') :>">login</a> with those credentials.
 </div>
+
+<: include "view_disclaimer.tx" :>
 
 <div class="disclaimer ">
 	<h6>Please note:</h6>

@@ -37,6 +37,11 @@ column with_context_id => {
   is_nullable => 0,
 };
 
+column group_context => {
+  data_type => 'text',
+  is_nullable => 1,
+};
+
 column sub_context => {
   data_type => 'text',
   is_nullable => 0,
@@ -185,6 +190,7 @@ sub default_types_def {{
   'translations' => {
     context => 'DDGC::DB::Result::Token::Language::Translation',
     context_id => '',
+    group_context => 'DDGC::DB::Result::Token::Domain::Language',
     sub_context => '',
     action => 'create',
     filter_by_language => 1,
@@ -240,6 +246,9 @@ sub default_types {
         push @types, {
           type => $type,
           context => $context,
+          group_context => defined $def{group_context}
+            ? $def{group_context}
+            : $context,
           sub_context => $def{sub_context},
           with_context_id => $with_context_id,
           action => $def{action},

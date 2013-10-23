@@ -1,0 +1,12 @@
+<: if $xmpp_userhost == 'view.dukgo.com' { :>
+	<div class="notice error clickaway">
+		<i class="icn icon-warning-sign"></i>
+		Welcome to view.dukgo.com --our testing site for upcoming changes to the community platform.
+		<b>
+			Please note, as this site is constantly updated and can be accessed by members of the community, we ask that you use a disposable email for registration. If you need help finding one, we like
+			<a href="http://mailinator.com/">http://mailinator.com/</a> and
+			<a href="http://getairmail.com/">http://getairmail.com/</a>.
+		</b>
+		<i class="close icon-remove"></i>
+	</div>
+<: } :>
