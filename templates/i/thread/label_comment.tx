@@ -1,3 +1,1 @@
-the suggestion
-<b><: $_.title :></b>
-of user <b><: $_.user.username :></b>
+Post: <b><: $_.title :></b> <span class="notification__primary__by">by <b><: $_.user.username :></b></span>

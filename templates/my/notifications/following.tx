@@ -8,22 +8,22 @@
 
 <div class="content-box">
   <div class="head">
-    <h3>Things you follow ...</h3>
-    <a class="pull-right  button  big  blue" href="<: $u('My::Notifications','edit') :>">Edit notifications</a>
+    <h3>Currently Receiving Notifications For ...<a class="icn icn--sup" href="<: $u('Blog','post','notification-system') :>" title="Get more information about the notification system"><i class="icon-question-sign"></i></a></h3>
+    <a class="pull-right  button  big" href="<: $u('My::Notifications','edit') :>" title="Edit Notification Settings"><i class="icon-gear"></i></a>
   </div>
   <div class="body">
     <: for results($user_notifications) -> $user_notification { :>
-      <div class="row">
-        <: $user_notification.user_notification_group.context :>
-        <: $user_notification.context_id :>
-        <a href="<: $u('My::Notifications','unfollow',$user_notification.id) :>" class="pull-right button red">
-          Unfollow
+      <div class="row notification">
+		<a href="<: $u('My::Notifications','unfollow',$user_notification.id) :>" title="Stop following this item" class="notification__following  icon-stack">
+           <i class="notification__following__passive  icon-eye-open"></i>
+		   <i class="notification__following__active  icon-eye-close"></i>
         </a>
+		<a href="<: $u('My::Notifications','unfollow',$user_notification.id) :>" title="Stop following this item" class="notification__unfollow  button">Unfollow</a>
+		<span class="notification__body">
+			<: $user_notification.user_notification_group.context :>
+			<: $user_notification.context_id :>
+        </span>
       </div>
     <: } :>
   </div>
-</div>
-
-<div class="notice warning mid">
-  <a class="button" href="<: $u('Blog','post','notification-system') :>">Here you get more information about the notification system!</a>
 </div>

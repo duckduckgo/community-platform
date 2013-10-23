@@ -1,6 +1,6 @@
 <div class="row">
   <div class="half">
-    <: $label :>
+    <label><: $label :></label>
     <input type="hidden" name="type" value="<: $type :>" />
     <input type="hidden" name="context_id" value="<: $context_id :>" />
   </div>
@@ -8,7 +8,7 @@
     &nbsp;<!-- reserved space for xmpp checkbox, can be moved, but shouldnt be forgotten -->
   </div>
   <div class="quarter">
-    <select name="cycle">
+    <select name="cycle" class="pull-right js-select">
       <: for $notification_cycle_options -> $option { :>
         <option <: if $user_notification_group_values[$type][$context_id]['cycle'] == $option.value { :>selected="selected" <: } :>value="<: $option.value :>"><: $option.name :></option>
       <: } :>

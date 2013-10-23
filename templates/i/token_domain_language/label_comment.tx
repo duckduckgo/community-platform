@@ -1,4 +1,8 @@
-the token domain
-<b><: $token_domain_language.token_domain.name :></b>
-for the language
-<b><: $token_domain_language.language.name_in_english :></b>
+<span class="notification__primary">
+	Domain:
+	<b><: $token_domain_language.token_domain.name :></b>
+	<span class="notification__primary__by">
+		Language:
+		<b><: $token_domain_language.language.name_in_english :></b>
+	</span>
+</span>
