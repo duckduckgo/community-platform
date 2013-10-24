@@ -1,2 +1,0 @@
-The token "<: i($_.token_language.token,'email_notification') :>" into "<: $_.token_language.token_domain_language.language.name_in_english :>":
-<: for [ 0..$_.token_language.max_msgstr_index ] -> $n { :><: my $func = 'msgstr' ~ $n :>"<: call($_,$func) :>" <: } :>

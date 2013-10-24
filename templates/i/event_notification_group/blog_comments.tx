@@ -1,2 +1,1 @@
-<span class="notification__primary"><: i($_.group_object,'label_comment') :></span>
-<: i($_,'userlist') :> commented on this blog post.
+<: i($_,'base_comments') :>

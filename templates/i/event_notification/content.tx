@@ -1,3 +1,0 @@
-<: if $event_notification.event.get_context_obj { :>
-	<: i([ $event_notification.event.get_context_obj, $event_notification ], 'content_notification') :>
-<: } :>

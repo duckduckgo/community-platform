@@ -227,6 +227,13 @@ sub u {
     if defined $self->default_types_def->{$self->type}->{u};
 }
 
+sub icon {
+  my ( $self ) = @_;
+  return defined $self->default_types_def->{$self->type}->{icon}
+    ? $self->default_types_def->{$self->type}->{icon}
+    : 'default';
+}
+
 sub default_types {
   my ( $self ) = @_;
 

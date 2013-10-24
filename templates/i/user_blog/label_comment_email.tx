@@ -1,1 +1,0 @@
-the blog post "<: $_.title :>" of user "<: $_.user.username :>"

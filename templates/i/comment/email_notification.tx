@@ -1,3 +1,0 @@
-User <: $_.user.username :> commented on<: if $_.parent_id { :> a comment at<: } :> <: if $_.get_context_obj { i($_.get_context_obj, 'label_comment_email') } else { :> a context we can't display [<: $_.context :>:<: $_.context_id :>]<: } :>:
-
-<: $_.content :>
