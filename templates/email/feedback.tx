@@ -1,26 +1,41 @@
-Feedback Data
-=============
-<: for $feedback_data.kv() -> $kv { :>
-<: $kv.key :>
--------------
-<: r($kv.value) :>
-=============
-<:- } :>
-
-<: if $c.user { -:>
-Community User Information
-=============
-Community Username:
--------------
-<: $c.user.username :>
-=============
-<:- } :>
-
-Request Headers
-=============
-<: for $header_field_names -> $field { :>
-<: $field :>
--------------
-<: $c.req.header($field) :>
-=============
-<:- } :>
+<table>
+  <tr>
+    <th>Feedback Data</th>
+  </tr>
+  <: for $feedback_data.kv() -> $kv { :>
+    <tr>
+      <td><: $kv.key :></td>
+    </tr>
+    <tr>
+      <th><: $kv.value :></th>
+    </tr>
+  <: } :>
+  <: if $c.user { :>
+    <tr>
+      <th><hr/></th>
+    </tr>
+    <tr>
+      <th>Community User Information</th>
+    </tr>
+    <tr>
+      <td>Username</td>
+    </tr>
+    <tr>
+      <th><: $c.user.username :></th>
+    </tr>
+  <: } :>
+  <tr>
+    <th><hr/></th>
+  </tr>
+  <tr>
+    <th>Request Headers</th>
+  </tr>
+  <: for $header_field_names -> $field { :>
+    <tr>
+      <td><: $field :></td>
+    </tr>
+    <tr>
+      <th><: $c.req.header($field) :>
+    </tr>
+  <: } :>
+</table>
