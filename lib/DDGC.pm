@@ -348,7 +348,7 @@ sub _build_xslate {
 					}
 				}
 				my $return = 'style="';
-				$return .= $_.'='.$style{$_}.';' for (keys %style);
+				$return .= $_.':'.$style{$_}.';' for (keys %style);
 				$return .= '"';
 				return $return;
 			},
