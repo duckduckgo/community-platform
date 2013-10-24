@@ -1,11 +1,38 @@
-Email: <: $c.req.params.email :>
-
-Name and location in english: '<: $c.req.params.name_in_english :>'
-
-Name and location in local language: '<: $c.req.params.name_in_local :>'
-
-Language in Local: '<: $c.req.params.lang_in_local :>'
-
-Locale: '<: $c.req.params.requestlanguage_locale :>'
-
-FlagURL: <: $c.req.params.flagurl :>
+<table>
+  <tr>
+    <td>Email</td>
+  </tr>
+  <tr>
+    <th><: $c.req.params.email :></th>
+  </tr>
+  <tr>
+    <td>Name and location in english</td>
+  </tr>
+  <tr>
+    <th><: $c.req.params.name_in_english :></th>
+  </tr>
+  <tr>
+    <td>Name and location in local language</td>
+  </tr>
+  <tr>
+    <th><: $c.req.params.name_in_local :></th>
+  </tr>
+  <tr>
+    <td>Language in Local</td>
+  </tr>
+  <tr>
+    <th><: $c.req.params.lang_in_local :></th>
+  </tr>
+  <tr>
+    <td>Locale</td>
+  </tr>
+  <tr>
+    <th><: $c.req.params.requestlanguage_locale :></th>
+  </tr>
+  <tr>
+    <td>FlagURL</td>
+  </tr>
+  <tr>
+    <th><: $c.req.params.flagurl :></th>
+  </tr>
+</table>

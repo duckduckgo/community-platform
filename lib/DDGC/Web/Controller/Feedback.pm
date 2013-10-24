@@ -163,25 +163,21 @@ sub step :Chained('feedback') :PathPart('') :Args(1) {
     my @header_field_names = $c->req->headers->header_field_names();
     $c->stash->{header_field_names} = [grep { $_ ne 'COOKIE' } @header_field_names];
 
-    $c->stash->{email} = {
-      header => [
-        To => 'help@duckduckgo.com',
-        From => 'noreply@dukgo.com',
-        Subject => '[DDG Feedback '.$c->stash->{feedback_name}.'] '.$data{'1'},
-        ( map {
-          my $key = $_;
-          my $val = $data{$key};
-          $val =~ s/\R/|/g;
-          'X-Feedback-'.ucfirst($_) => $val
-        } keys %data ),
-        'X-End' => '1',
-      ],
-      template        => 'email/feedback.tx',
-      charset         => 'utf-8',
-      content_type => 'text/plain',
-    };
-
-    $c->forward( $c->view('Email::Xslate') );
+    $c->stash->{c} = $c;
+    $c->d->postman->template_mail(
+      'getty@duckduckgo.com',
+      '"DuckDuckGo Community" <noreply@dukgo.com>',
+      '[DDG Feedback '.$c->stash->{feedback_name}.'] '.$data{'1'},
+      'feedback',
+      $c->stash,
+      ( map {
+        my $key = $_;
+        my $val = $data{$key};
+        $val =~ s/\R/|/g;
+        'X-Feedback-'.ucfirst($_) => $val
+      } keys %data ),
+      'X-End' => '1',
+    );
 
     delete $c->session->{feedback};
 

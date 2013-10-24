@@ -408,7 +408,7 @@ sub _build_forum { DDGC::Forum->new( ddgc => shift ) }
 sub update_password {
 	my ( $self, $username, $new_password ) = @_;
 	return unless $self->config->prosody_running;
-	$self->xmpp->admin_data_access->put($username,'accounts',{ password => $new_password });
+	$self->xmpp->admin_data_access->put(lc($username),'accounts',{ password => $new_password });
 }
 
 sub delete_user {

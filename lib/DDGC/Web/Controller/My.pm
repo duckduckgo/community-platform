@@ -516,20 +516,16 @@ sub requestlanguage :Chained('logged_in') :Args(0) {
 
 		} else {
 
-			$c->stash->{email} = {
-				to          => 'help@duckduckgo.com',
-				from        => 'noreply@dukgo.com',
-				header		=> [
-					"Reply-To" =>  $c->req->params->{email},
-				],
-				subject     => '[DuckDuckGo Community] New request for language by ',
-				template	=> 'email/requestlanguage.tx',
-				charset		=> 'utf-8',
-				content_type => 'text/plain',
-			};
+			$c->stash->{c} = $c;
+			$c->d->postman->template_mail(
+				'help@duckduckgo.com',
+				'"DuckDuckGo Community" <noreply@dukgo.com>',
+				'[DDG Language Request] New request',
+				'requestlanguage',
+				$c->stash,
+			);
 
 			$c->stash->{thanks_for_languagerequest} = 1;
-			$c->forward( $c->view('Email::Xslate') );
 
 		}
 	}
