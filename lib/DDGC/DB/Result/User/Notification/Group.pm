@@ -112,7 +112,7 @@ sub default_types_def {{
     sub_context => 'DDGC::DB::Result::Comment',
     action => 'create',
     priority => 50,
-    filter => sub { $_[0]->company_blog eq 1 },
+    filter => sub { $_[0]->company_blog ? 1 : 0 },
   },
 
   'company_blogs' => {
@@ -122,7 +122,7 @@ sub default_types_def {{
     context_id => '',
     sub_context => '',
     action => 'create',
-    filter => sub { $_[0]->company_blog eq 1 },
+    filter => sub { $_[0]->company_blog ? 1 : 0 },
   },
 
   'blog_comments' => {
