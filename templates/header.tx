@@ -28,9 +28,9 @@
 						<: } :>
 					</h2>
 					<h3>
-						<: if $xmpp_userhost == 'dukgo.com' { :>
+						<: if $is_live { :>
 							Community Platform
-						<: } elsif $xmpp_userhost == 'view.dukgo.com' { :>
+						<: } elsif $is_view { :>
 							Preview community platform
 						<: } else { :>
 							Your development platform

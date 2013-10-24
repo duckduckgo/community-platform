@@ -1,4 +1,4 @@
-<: if $xmpp_userhost == 'view.dukgo.com' { :>
+<: if $is_view { :>
 	<div class="notice error clickaway">
 		<i class="icn icon-warning-sign"></i>
 		Welcome to view.dukgo.com --our testing site for upcoming changes to the community platform.

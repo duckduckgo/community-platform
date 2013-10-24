@@ -242,7 +242,12 @@ sub forgotpw_tokencheck :Chained('logged_out') :Args(2) {
 
 	my $user = $c->d->find_user($username);
 
-	return unless $user && $user->username eq $username;
+	return unless $user && $user->lowercase_username eq lc($username);
+	return unless $user->data;
+	unless ($c->stash->{check_token} eq $user->data->{token}) {
+		$c->stash->{invalid_token} = 1;
+		return $c->detach;
+	}
 	return if !$c->req->params->{forgotpw_tokencheck};
 	
 	my $error = 0;
@@ -260,18 +265,21 @@ sub forgotpw_tokencheck :Chained('logged_out') :Args(2) {
 	return if $error;
 	
 	my $newpass = $c->req->params->{password};
+	my $data = $user->data;
+	delete $data->{token};
+	$user->data($data);
+	$user->update;
 	$c->d->update_password($username,$newpass);
 
-	$c->stash->{email} = {
-		to          => $user->data->{email},
-		from        => 'noreply@dukgo.com',
-		subject     => '[DuckDuckGo Community] New password for '.$username,
-		template        => 'email/newpw.tx',
-		charset         => 'utf-8',
-		content_type => 'text/plain',
-	};
+	$c->stash->{newpw_username} = $username;
 
-	$c->forward( $c->view('Email::Xslate') );
+	$c->d->postman->template_mail(
+		$user->data->{email},
+		'"DuckDuckGo Community" <noreply@dukgo.com>',
+		'[DuckDuckGo Community] New password for '.$username,
+		'newpw',
+		$c->stash,
+	);
 
 	$c->stash->{resetok} = 1;
 }
@@ -328,16 +336,14 @@ sub changepw :Chained('logged_in') :Args(0) {
 	$c->d->update_password($c->user->username,$newpass);
 
 	if ($c->user->data && $c->user->data->{email}) {
-		$c->stash->{email} = {
-			to          => $c->user->data->{email},
-			from        => 'noreply@dukgo.com',
-			subject     => '[DuckDuckGo Community] New password for '.$c->user->username,
-			template        => 'email/newpw.tx',
-			charset         => 'utf-8',
-			content_type => 'text/plain',
-		};
-
-		$c->forward( $c->view('Email::Xslate') );
+		$c->stash->{newpw_username} = $c->user->username;
+		$c->d->postman->template_mail(
+			$c->user->data->{email},
+			'"DuckDuckGo Community" <noreply@dukgo.com>',
+			'[DuckDuckGo Community] New password for '.$c->user->username,
+			'newpw',
+			$c->stash,
+		);
 	}
 
 	$c->stash->{changeok} = 1;
@@ -365,15 +371,17 @@ sub forgotpw :Chained('logged_out') :Args(0) {
 	}
 	
 	my $token = md5_hex(int(rand(99999999)));
-	$user->data->{token} = $token;
+	my $data = $user->data;
+	$data->{token} = $token;
+	$user->data($data);
 	$user->update;
 	$c->stash->{user} = $user->username;
 
-	$c->stash->{forgotpw_link} = $c->chained_uri('My','forgotpw_tokencheck',$user,$token);
+	$c->stash->{forgotpw_link} = $c->chained_uri('My','forgotpw_tokencheck',$user->lowercase_username,$token);
 
 	$c->d->postman->template_mail(
 		$user->data->{email},
-		'noreply@dukgo.com',
+		'"DuckDuckGo Community" <noreply@dukgo.com>',
 		'[DuckDuckGo Community] Reset password for '.$user->username,
 		'forgotpw',
 		$c->stash,
