@@ -85,6 +85,11 @@ sub is_live {
 	$self->prosody_userhost() eq 'dukgo.com' ? 1 : 0
 }
 
+sub is_view {
+	my $self = shift;
+	$self->prosody_userhost() eq 'view.dukgo.com' ? 1 : 0
+}
+
 has_conf prosody_admin_username => DDGC_PROSODY_ADMIN_USERNAME => 'testone';
 has_conf prosody_admin_password => DDGC_PROSODY_ADMIN_PASSWORD => 'testpass';
 

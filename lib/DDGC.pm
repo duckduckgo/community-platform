@@ -57,9 +57,12 @@ has config => (
 	isa => 'DDGC::Config',
 	is => 'ro',
 	lazy_build => 1,
+	handles => [qw(
+		is_live
+		is_view
+	)],
 );
 sub _build_config { DDGC::Config->new }
-sub is_live { shift->config->is_live }
 ####################################################################
 
 has http => (

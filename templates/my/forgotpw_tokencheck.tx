@@ -1,3 +1,9 @@
+<: if $invalid_token { :>
+	<div class="notice error">
+		<i class="icn icon-warning-sign"></i>
+		This token is invalid
+	</div>
+<: } :>
 <div class="form-border">
 	<div class="form-wrap account-form">
 		<form action="<: $u('My','forgotpw_tokencheck',$check_username,$check_token) :>" method="post" id="formForgotpw_tokencheck">
