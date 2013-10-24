@@ -1,9 +1,0 @@
-<span class="notification__primary">
-	<a href="<: $u($_.u) :>"><b><: i($_.token,'label') :></b></a>
-</span>
-<span class="notification__secondary">
-	Domain:
-	<b><: $token_language.token_domain_language.token_domain.name :></b>	
-	Language:
-	<b><: $token_language.token_domain_language.language.name_in_english :></b>	
-</span>

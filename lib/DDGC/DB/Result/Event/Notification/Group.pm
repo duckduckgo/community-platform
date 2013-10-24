@@ -42,6 +42,8 @@ belongs_to 'user_notification_group', 'DDGC::DB::Result::User::Notification::Gro
 
 unique_constraint [qw/ user_notification_group_id group_context_id /];
 
+sub icon { shift->user_notification_group->icon }
+
 sub u {
   my ( $self ) = @_;
   my $group_object = $self->group_object;

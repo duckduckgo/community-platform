@@ -1,2 +1,1 @@
-<: i($_.group_object.token_language.token_domain_language,'label_comment') :>
-There are <: $_.event_notifications.count :> new translations.
+There are <: $_.event_notifications.count :> new translations on <: i($_.group_object.token_language.token_domain_language) :>.

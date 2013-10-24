@@ -1,0 +1,4 @@
+a translation for the token on token domain
+<b><: $_.token_language.token_domain_language.token_domain.name :></b>
+into the language
+<b><: $_.token_language.token_domain_language.language.name_in_english :></b>

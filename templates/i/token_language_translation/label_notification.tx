@@ -1,6 +1,0 @@
-User
-<: i($event_notification.event.user,'username',{ no_user_link => 1 }) :>
-made a translation for token domain
-<b><: $token_domain_translation.token_language.token_domain_language.token_domain.name :></b>
-into the language
-<b><: $token_domain_translation.token_language.token_domain_language.language.name_in_english :></b>

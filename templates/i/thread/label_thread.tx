@@ -1,1 +1,1 @@
-<i class="icon  icon-bubbles" title="Forum Post"></i><b class="hv"><: $_.title :></b>
+<i class="icon  icon-bubbles" title="Forum Post"></i><b class="hv"><: i($_,'name') :></b>

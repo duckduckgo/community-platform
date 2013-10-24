@@ -1,0 +1,7 @@
+<: if $caller && $caller.can('data') && $caller.data && $caller.data.import { :>
+  [<: $caller.data.import :> <: $caller.data.import_user :>]
+<: } elsif $c.user || $c.user.admin { :>
+  <: $_.username :>
+<: } else { :>
+  <: $_.public_username || '<anonymous>' :>
+<: } :>

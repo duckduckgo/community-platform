@@ -1,4 +1,4 @@
 <div class="user-info">
   <: i($_,'userpic',{ userpic_size => ( $userpic_size || 16 ), no_caller => 1 }) :>
-  <label><: i($_,'username',{ no_caller => 1 }) :></label>
+  <label><: i($_,'label',{ no_caller => 1 }) :></label>
 </div>

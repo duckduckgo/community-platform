@@ -1,2 +1,2 @@
 <: my $size = $userpic_size || 32 :>
-<img class="userpic" width="<: $size :>" src="<: $_.public ? $_.profile_picture ? $_.profile_picture($size) : '/static/images/profile.male.png' : '/static/images/profile.anonymous.png' :>" alt="<: $_.public_username :>" title="<: $_.public_username :>" />
+<img class="userpic" width="<: $size :>" src="<: $_.public ? $_.profile_picture ? $_.profile_picture($size) : '/static/images/profile.male.png' : '/static/images/profile.anonymous.png' :>" alt="<: $_.public_username || 'anonymous' :>" title="<: $_.public_username || 'anonymous' :>" />
