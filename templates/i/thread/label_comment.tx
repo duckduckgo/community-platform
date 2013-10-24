@@ -1,1 +1,1 @@
-Post: <b><: $_.title :></b> <span class="notification__primary__by">by <b><: $_.user.username :></b></span>
+<a href="<: $u($_.u) :>"><b><: $_.title :></b></a> <span class="notification__primary__by">by <b><: $_.user.username :></b></span>

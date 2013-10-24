@@ -1,1 +1,1 @@
-<: i($_,'userlist') :> replied to a comment you follow.
+<: i($_,'userlist') :> replied to <a href="<: $u($_.u) :>"><b>a comment you follow</b></a>.

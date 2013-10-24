@@ -1,2 +1,2 @@
-<span class="notification__primary"><: i($_.group_object,'label_comment') :></span>
-<: i($_,'userlist') :> commented.
+<span class="notification__primary"><: i($_.group_object,'label_comment_part1') :>&mdash; <: i($_,'userlist') :> commented on this token.
+<: i($_.group_object,'label_comment_part2') :>

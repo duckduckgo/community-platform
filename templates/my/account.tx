@@ -75,15 +75,15 @@
 			<: } :>
 		</div>
 	</div>
-
+	<: my $notification_count = $undone_notifications_count || $c.user.undone_notifications_count :>
 	<div class="content-box account-box">	
 		<div class="head">
-			<h2><: if $user_notification_count { :>
-				You have <: $user_notification_count :> notifications waiting
+			<h2><: if $notification_count { :>
+				You have <: $notification_count :> notifications waiting
 			<: } else { :>
 				No notifications for you
 			<: } :></h2>
-			<a class="button <: if $user_notification_count { :>red<: } :>" href="<: $u('My::Notifications','index') :>">
+			<a class="button <: if $notification_count { :>red<: } else { :> hide--important <: } :>" href="<: $u('My::Notifications','index') :>">
 				View Notifications
 			</a>
 		</div>
@@ -151,7 +151,7 @@
 						<label>Do you want to change the capitalization of your username?</label>
 					</div>
 					<div class="third">
-						<a href="<: $u('My','capitalize') :>" class="button ghostblue">Capitalize</a>
+						<a href="<: $u('My','capitalize') :>" class="button">Capitalize</a>
 					</div>
 				</div>
 				<div class="row">

@@ -18,21 +18,24 @@
 		margin-right: 0;
 	}
 	
-	.notification__view,
+	.notification__icon,
 	.notification__following {
 		float: left;
 		margin-right: 8px;
 		margin-left: -8px;
 	}
 	.notification__following,
+	.notification__view,
 	.notification__close {
 		color: #d7d7d7;
 	}
 		.notification__following:hover,
+		.notification__view:hover,
 		.notification__close:hover {
 			color: #a7a7a7;
 		}
 		.notification__following:active,
+		.notification__view:hover,
 		.notification__close:active {
 			color: #676767;
 		}		
@@ -58,6 +61,7 @@
 			visibility: visible;
 		}
 	
+	.notification__view,
 	.notification__close {
 		font-size: 12px;		
 		float: right;		
@@ -70,7 +74,7 @@
 	.notification__primary {
 		font-size: 17px;
 		display: block;
-		margin-top: -4px;
+		margin-top: -8px;
 	}
 		.notification__primary__by {
 			font-size: 12px;
@@ -79,7 +83,15 @@
 	.notification__secondary {
 		font-size: 15px;
 		display: block;
+		color: #999;
 	}
+	.notification__user {
+		font-weight: bold;
+		color: #7a7f88;
+	}
+		.notification__user a {
+			color: inherit;
+		}
 
 /*
 	Pager Override
