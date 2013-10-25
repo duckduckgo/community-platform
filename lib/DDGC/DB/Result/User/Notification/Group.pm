@@ -91,6 +91,7 @@ sub default_types_def {{
     sub_context => 'DDGC::DB::Result::Comment',
     action => 'create',
     priority => 100,
+	icon => 'bubble',
   },
 
   # follow all comments on normal types (thread, idea, userblog)
@@ -102,6 +103,7 @@ sub default_types_def {{
     context_id => ['*',''],
     sub_context => 'DDGC::DB::Result::Comment',
     action => 'create',
+	icon => 'bubbles',
   },
 
   'company_blog_comments' => {
@@ -113,6 +115,7 @@ sub default_types_def {{
     action => 'create',
     priority => 50,
     filter => sub { $_[0]->company_blog ? 1 : 0 },
+	icon => 'pencil',
   },
 
   'company_blogs' => {
@@ -123,6 +126,7 @@ sub default_types_def {{
     sub_context => '',
     action => 'create',
     filter => sub { $_[0]->company_blog ? 1 : 0 },
+	icon => 'pencil',
   },
 
   'blog_comments' => {
@@ -132,6 +136,7 @@ sub default_types_def {{
     context_id => '*',
     sub_context => 'DDGC::DB::Result::Comment',
     action => 'create',
+	icon => 'pencil',
   },
 
   # follow all comments on language related context
@@ -144,6 +149,7 @@ sub default_types_def {{
     sub_context => 'DDGC::DB::Result::Comment',
     action => 'create',
     filter_by_language => 1,
+	icon => 'globe',
   },
 
   # follow ideas
@@ -152,6 +158,7 @@ sub default_types_def {{
     context_id => '',
     sub_context => '',
     action => 'create',
+	icon => 'lightbulb',
   },
 
   # follow ideas
@@ -160,6 +167,7 @@ sub default_types_def {{
     context_id => ['*',''],
     sub_context => '',
     action => 'update',
+	icon => 'lightbulb',
   },
 
   # follow idea votes
@@ -168,6 +176,7 @@ sub default_types_def {{
     context_id => ['*',''],
     sub_context => 'DDGC::DB::Result::Idea::Vote',
     action => 'create',
+	icon => 'check-sign',
   },
 
   # follow threads
@@ -176,6 +185,7 @@ sub default_types_def {{
     context_id => '',
     sub_context => '',
     action => 'create',
+	icon => 'bubbles',
   },
 
   # follow tokens
@@ -184,6 +194,7 @@ sub default_types_def {{
     context_id => '',
     sub_context => '',
     action => 'create',
+	icon => 'globe',
   },
 
   # follow translations
@@ -196,6 +207,7 @@ sub default_types_def {{
     filter_by_language => 1,
     group_context_id => sub { $_[0]->token_language->token_domain_language->id },
     u => sub { $_[0]->token_language->token_domain_language->u_unvoted },
+	icon => 'globe',
   },
 
   # follow votes on translations
@@ -205,6 +217,7 @@ sub default_types_def {{
     sub_context => 'DDGC::DB::Result::Token::Language::Translation::Vote',
     action => 'create',
     group_context_id => sub { $_[0]->token_language->id },
+	icon => 'check-sign',
   },
 
 }}
