@@ -363,13 +363,58 @@ sub _build_xslate {
 }
 
 sub template_styles {{
-	'sample' => {
-		sample => 'sample',
-		key => 'value',
+	'default' => {
+		'font-family' => 'sans-serif',		
 	},
-	'other' => {
-		other => 'other',
-		key => 'value2',
+	'sub_text' => {
+		'font-family' => 'sans-serif',
+		'font-size' => '12px', 
+	},
+	'signoff' => {
+		'color' => '#999999',
+	},
+	'warning' => {
+		'font-family' => 'sans-serif',
+		'font-style' => 'italic',
+		'font-size' => '12px', 
+		'color' => '#999999',
+	},
+	'site_title' => {
+		'font-family' => 'sans-serif',
+		'position' => 'relative',
+		'text-align' => 'left',		
+		'line-height' => '1',
+		'margin' => '0',
+	},
+	'site_maintitle' => {
+		'font-weight' => 'bold',
+		'font-size' => '21px',
+		'padding-top' => '10px',
+		'left' => '-1px',		
+	},
+	'green' => {
+		'font-style' => 'normal',
+		'color' => '#48af04',
+	},
+	'site_subtitle' => {
+		'font-weight' => 'normal',
+		'color' => '#a2a2a2',		
+		'padding-top' => '4px',
+		'font-size' => '12px',		
+	},
+	'msg_title' => {
+		'font-family' => 'sans-serif',
+		'font-size' => '28px',
+		'color' => '#a2a2a2',	
+		'margin' => '0 0 18px',
+		'padding-top' => '7px',
+	},
+	'msg_content' => {
+		'font-family' => 'sans-serif',
+		'padding' => '10px', 
+		'border' => '1px solid #d2d2d2',	
+		'background-color' => '#ffffff',
+		'border-radius' => '5px',
 	},
 	'sample_other' => [qw( sample other )],
 }}

@@ -3,11 +3,15 @@
 <tr>
 	<td width="10"></td>
 	<td align="center" colspan="2">
-		<table cellpadding="0" cellspacing="5" border="0" bgcolor="#fff" style="padding: 10px; border: 1px solid #d2d2d2;">
-			<tr><td colspan="2"><h4 style="font-family:sans-serif;">Please click on the following link to confirm you want to reset your password:</h4></td></tr>
-			<tr><td colspan="2"><a href="<: $forgotpw_link :>" style="font-family:sans-serif;">Yes Please!  Reset me right now!</a></td></tr>    
-			<tr><td height="30" colspan=2  valign="middle"><p style="font-family:sans-serif;font-size: 80%;">If you did not initiate this passsord reset request, please ignore this email.  Better yet, burn it with fire.</p></td></tr>         
-			<tr><td colspan="2" valign="middle"><p style="font-family:sans-serif;font-size: 80%;">Regards, <br/><i style="color: #999999;">The DuckDuckGo Community team.</i></p></td></tr>
+		<table cellpadding="0" cellspacing="5" border="0" bgcolor="#fff" <: style("msg_content") :>>
+			<tr>
+				<td colspan="2" valign="middle">
+					<h4 <: style("default") :>>Please click on the following link to confirm you want to reset your password:</h4>
+					<p <: style("default") :>><a href="<: $forgotpw_link :>">Yes Please!  Reset me right now!</a></p>
+					<p <: style("sub_text") :>>If you did not initiate this passsord reset request, please ignore this email.  Better yet, burn it with fire.</p>  
+					<p <: style("sub_text") :>>Regards, <br/><i <: style("signoff") :>>The DuckDuckGo Community team.</i></p>
+				</td>
+			</tr>
 		</table>
 	</td>
 	<td width="10"></td>

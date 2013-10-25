@@ -3,14 +3,18 @@
 <tr>
 	<td width="10"></td>
 	<td align="center" colspan="2">
-		<table cellpadding="0" cellspacing="5" border="0" bgcolor="#fff" style="padding: 10px; border: 1px solid #d2d2d2;">
-			<tr><td colspan="2"><h4 style="font-family:sans-serif;">
-			  If you did not request a password reset, you're probably a bit surprised. Tell us if so!
-			</h4></td></tr>
-			<tr><td colspan="2"><a href="mailto:inbound@duckduckgo.com?subject=%5BDuckDuckGo%20Community%5D%20No%2C%20I%20didn%27t%20request%20a%20password%20reset!%20My%20username%20is%20<: $newpw_username :>." style="font-family:sans-serif;">
-			  No, I didn't request a password reset!
-			</a></td></tr>    
-			<tr><td colspan="2" valign="middle"><p style="font-family:sans-serif;font-size: 80%;">Regards, <br/><i style="color: #999999;">The DuckDuckGo Community team.</i></p></td></tr>
+		<table cellpadding="0" cellspacing="5" border="0" bgcolor="#fff" <: style("msg_content") :>>
+			<tr>
+				<td colspan="2" valign="middle">
+					<h4 <: style("default") :>>
+						If you did not request a password reset, you're probably a bit surprised. Tell us if so!
+					</h4>
+					<p <: style("default") :>><a href="mailto:inbound@duckduckgo.com?subject=%5BDuckDuckGo%20Community%5D%20No%2C%20I%20didn%27t%20request%20a%20password%20reset!%20My%20username%20is%20<: $newpw_username :>.">
+						No, I didn't request a password reset!
+					</a></p>
+					<p <: style("sub_text") :>>Regards, <br/><i <: style("signoff") :>>The DuckDuckGo Community team.</i></p>
+				</td>
+			</tr>
 		</table>
 	</td>
 	<td width="10"></td>
