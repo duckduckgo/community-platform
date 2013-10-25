@@ -17,7 +17,7 @@ Perl requirements:
   dzil authordeps --missing | cpanm
   dzil listdeps --missing | cpanm
 
-Addtionally, you require to install DDGC deps from duckpan:
+Additionally, you require to install DDGC deps from duckpan:
 
   duckpan DDGC::Static
 
@@ -42,7 +42,7 @@ You can start the web server, if you are inside the repository with:
 
   script/ddgc_web_server.pl -r -d
 
-If you want todo any of the above activities with intense debug logging you can
+If you want to do any of the above activities with intense debug logging you can
 use the following ENV variables before the command, like in this example:
 
   DBIC_TRACE_PROFILE=console DBIC_TRACE=1 script/ddgc_web_server.pl -r -d
