@@ -1,6 +1,4 @@
-<aside class="sidebar group">
-	<: include "forum/share_suggestion.tx" :>
-	
+<aside class="sidebar group  mg-top--double">	
 	<: if $latest_ideas { :>
 		<section class="menu-list tab-mid">
 			<h5>Newest Ideas:</h5>

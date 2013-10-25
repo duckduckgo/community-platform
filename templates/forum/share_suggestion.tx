@@ -1,5 +1,5 @@
 <: if $c.user { :>
-    <p class="mg-bottom--big">
+    <p class="mg-bottom">
 		<a class="button blue text-big tall media full--l" href="<: $u('Feedback','feedback_redirect','suggest') :>"><i class="media__img icon-bubbles"></i><span class="media__body">New Idea</span></a>
 	</p>
 <: } else { :>

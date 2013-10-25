@@ -99,10 +99,13 @@
 	}
 }
 	
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 60em) {
 	.no-js .account-box select, .account-box .third .select2-container, .account-box .forty .select2-container { 
 		width: 102.5%;
 		margin-bottom: 8px;
 	}
-	.account-box label { widtH: auto; }
+	.account-box label { 
+		white-space: normal;
+		widtH: auto; 
+	}
 }

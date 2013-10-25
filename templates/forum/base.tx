@@ -1,8 +1,11 @@
 <div class="gw  mg-bottom--big">
-	<div class="g  threequarter">
-	  <: include $next_template() :>
+	<div class="g  quarter  pull-right">
+		<: include "forum/share_suggestion.tx" :>
+	</div>
+	<div class="g  threequarter  pull-left">
+		<: include $next_template() :>
 	</div>
 	<div class="g  quarter">
-	  <: include "forum/sidebar.tx" :>
+		<: include "forum/sidebar.tx" :>
 	</div>
 </div>

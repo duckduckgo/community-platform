@@ -1,6 +1,4 @@
-<aside class="sidebar group">
-	<: include "forum/share_suggestion.tx" :>
-	
+<aside class="sidebar group  mg-top--double">
 	<section class="menu-list">
 		<h5>Sticky threads</h5>
 		<ul>

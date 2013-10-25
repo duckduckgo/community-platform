@@ -629,7 +629,8 @@ Comment Forms
 		border-bottom: 1px solid #d9d9d9;
 	}
 	
-	.comment .user-avatar { 
+	.comment .user-avatar,
+	.comment_reply .user-avatar{ 
 		width: 32px; 
 		height: 32px; 
 		line-height: 32px; 
@@ -645,7 +646,7 @@ Comment Forms
 		.voting + .comment-body p { padding-right: 13px; }
 		.voting + .comment-body .comment-meta { padding-right: 16px; }	
 	.comment-body, .comment-body .comment-body, .row.comments .tier1-new { margin: 0; }
-		.comment .user-avatar { display: none; }
+		.comment .user-avatar, .comment_reply .user-avatar { display: none; }
 		.comment-body:after, .comment-body:before { 
 			display: none;
 		}

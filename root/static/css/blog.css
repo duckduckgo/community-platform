@@ -217,10 +217,12 @@
 }
 @media only screen and (max-width: 990px) {	
 	.page-blog .topmsg {	display: none; }
+	.post-body { margin-right: 24px; }
 }
 @media only screen and (max-width: 788px) {
 	.page-blog .topmsg {	display: block; zoom: 0.9;}
 	.blog-content { float: none; width: 100%; margin: 0 auto 10px; }
+	.post-comments { margin-right: 0; }
 	.sidebar { width: 100%; }
 		.sidebar-contents { padding: 0 6px; }
 	.tab-half { float: left; width: 50%; }
@@ -238,4 +240,9 @@
 	.author-photo img { width: 100px; }
 	.author-details { margin: 0 18px 0 120px; }
 	.action-item { margin-right: 15px; }
+	
+	.page-blog .breadcrumb-nav {
+		padding-left: 7px;
+		padding-right: 7px;
+	}
 }
