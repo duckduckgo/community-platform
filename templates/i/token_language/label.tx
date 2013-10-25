@@ -1,1 +1,1 @@
-the token <b><: i($_.token,'name') :></b> on <: i($_.token_domain_language) :>
+the token <a href="<: $u($_.u) :>"><b><: i($_.token,'name') :></b></a> on <: i($_.token_domain_language) :>

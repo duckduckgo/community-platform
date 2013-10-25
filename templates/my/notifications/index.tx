@@ -5,7 +5,7 @@
 		<span class="button-group pull-right">
 			<a class="button" href="<: $u('My::Notifications','edit') :>" title="Edit Notification Settings"><i class="icon-gear"></i><span class="button__label">Notification Settings</span></a>
 			<a class="button" href="<: $u('My::Notifications','following') :>" title="Check what you're following"><i class="icon-refresh"></i><span class="button__label">Following</span></a>		
-		<: if $event_notifications_undone_count { :>
+		<: if $undone_notifications.count { :>
 			<a class="button red" href="<: $u('My::Notifications', 'index', { all_event_notifications_done => 1 }) :>">
 				Mark All Complete
 			</a>	

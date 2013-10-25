@@ -1,1 +1,1 @@
-the token domain <b><: $_.token_domain.name :><b> for the language <b><: $_.language.name_in_english :></b>
+the token domain <b><: $_.token_domain.name :></b> for the language <b><: $_.language.name_in_english :></b>

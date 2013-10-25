@@ -1,1 +1,1 @@
-On <: i($_.group_object) :>, there are new comments of <: i($_,'userlist') :>.
+On <: i($_.group_object) :>, there are new comments from <: i($_,'userlist') :>.

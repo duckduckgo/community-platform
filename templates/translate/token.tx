@@ -1,69 +1,48 @@
 <h1><: $token.token_domain.name :></h1>
-<div class="content-box translate-overview">  
+<div class="content-box  translate-overview  column-form">  
   <div class="head">
     <h2>Token #<: $token.id :></h2>
   </div>
   <div class="body">
     <div class="row">
-      <: include "i/msgctxtid.tx" { msgctxtid => $token } :>
+      <div class="token__label"><label>Token:</label></div>
+	  <div class="token__content"><: include "i/msgctxtid.tx" { msgctxtid => $token } :></div>
     </div>
+	<: if $token.notes { :>
+	<div class="row">
+        <div class="token__label"><label>Notes:</label></div>
+		<div class="token__content"><p><: $token.notes :></p></div>
+	</div>
+	<: } :>
+	<: if $token_languages_can.size() { :>
+	<div class="row">
+		<div class="token__label"><label>Translate Into&hellip;</label></div>
+		<div class="token__content">
+			<: for $token_languages_can -> $token_language { :>
+				<: i($token_language, 'language_row') :>
+			<: } :>
+		</div>
+	</div>
+	<: } :>
+	<: if $c.user.translation_manager { :>
+	<div class="row">
+		<div class="token__label"><label>Notes Editor:</label></div>
+		<form class="token__content"  method="POST" action="<: $u('Translate','token', $token.id) :>">
+			<textarea class="has-button" style="resize: none;" cols="40" rows="5" id="token_notes_<: $token.id :>_edit" name="token_notes_<: $token.id :>_edit"><: $token.notes :></textarea>        
+			<input type="submit" class="button  pull-right" name="save_token_note" value="Save notes" />
+		</form>
+	</div>
+	<: } :>
+	<: if $token_languages_not.size() { :>
+	<div class="row">
+		<div class="token__label"><label>Other Languages&hellip;</label></div>
+		<div class="token__content">
+			<: for $token_languages_not -> $token_language { :>
+				<: i($token_language, 'language_row') :>
+			<: } :>
+		</div>
+	</div>
+	<: } :>
   </div> 
 </div>
-
-<: if $token.notes { :>
-  <div class="content-box translate-overview">
-    <div class="head">
-      <h2>Notes</h2>
-    </div>
-    <div class="body">
-      <div class="row">
-        <: $token.notes :>
-      </div>
-    </div>
-  </div>
-<: } :>
-
-<: if $token_languages_can.size() { :>
-  <div class="content-box translate-overview">
-    <div class="head">
-      <h2>Translate this token into ...</h2>
-    </div>
-    <div class="body">
-      <: for $token_languages_can -> $token_language { :>
-        <: i($token_language, 'language_row') :>
-      <: } :>
-    </div> 
-  </div>
-<: } :>
-
-<: if $c.user.translation_manager { :>
-  <form method="POST" action="<: $u('Translate','token', $token.id) :>">
-    <div class="content-box translate-overview">
-      <div class="head">
-        <h2>Notes Editor</h2>
-      </div>
-      <div class="body">
-        <div class="row">
-          <textarea style="resize: none;" cols="40" rows="5" id="token_notes_<: $token.id :>_edit" name="token_notes_<: $token.id :>_edit"><: $token.notes :></textarea>
-         </div>
-        <div class="row">
-          <input type="submit" class="button" name="save_token_note" value="Save notes" />
-        </div>
-      </div>
-    </div>
-  </form>
-<: } :>
-
-<: if $token_languages_not.size() { :>
-  <div class="content-box translate-overview">
-    <div class="head">
-      <h2>other languages ...</h2>
-    </div>
-    <div class="body">
-      <: for $token_languages_not -> $token_language { :>
-        <: i($token_language, 'language_row') :>
-      <: } :>
-    </div> 
-  </div>
-<: } :>
 

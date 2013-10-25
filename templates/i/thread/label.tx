@@ -1,1 +1,1 @@
-the general suggestion <b><: i($_,'name') :></b>
+the general suggestion <a href="<: $u($_.u) :>"><b><: i($_,'name') :></b></a>
