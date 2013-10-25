@@ -446,16 +446,16 @@ sub register :Chained('logged_out') :Args(0) {
 	my $password = $c->req->params->{password};
 	my $email = $c->req->params->{email};
 	
-	my %xmpp = $c->model('DDGC')->xmpp->user($username);
+	my $find_user = $c->d->find_user($username);
 
-	if (%xmpp) {
+	if ($find_user) {
 		$c->stash->{user_exist} = $username;
 		$error = 1;
 	}
 
 	return $c->detach if $error;
 
-	my $user = $c->model('DDGC')->create_user($username,$password);
+	my $user = $c->d->create_user($username,$password);
 
 	if ($user) {
 		if ($email) {
