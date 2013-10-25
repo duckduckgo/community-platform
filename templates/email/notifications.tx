@@ -1,4 +1,13 @@
-<: include "email/heading.tx" { $title => "New notifications for you" } :>
-<: for $unsent_notifications -> $event_notification_group { :>
-	<: i($event_notification_group,'email') :>
-<: } :>
+
+<: include "email/heading.tx" { title => "New notifications for you" } :>
+<tr>
+	<td width="10"></td>
+	<td align="center" colspan="2">
+		<table cellpadding="0" cellspacing="0" border="0" bgcolor="#fff" <: style("msg_notification") :>>
+			<: for $unsent_notifications -> $event_notification_group { :>
+				<: i($event_notification_group,'email') :>
+			<: } :>
+		</table>
+	</td>
+	<td width="10"></td>
+</tr>

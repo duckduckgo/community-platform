@@ -1,14 +1,16 @@
   <tr>    
 	<td align="center" colspan="4">
-      <table cellpadding="0" cellspacing="5" border="0">
+      <table cellpadding="0" cellspacing="5" border="0" style="width: 100%;">
         <tr>
-          <td valign="top">
+          <td width="10"></td>
+		  <td valign="top">
             <h2 <: style("site_title","site_maintitle") :>>DuckDuck<i <: style("green") :>>Go</i></h2>
-			<h3 <: style("site_subtitle","site_subtitle") :>>Community Platform</h3>
+			<h3 <: style("site_title","site_subtitle") :>>Community Platform</h3>
           </td>
           <td align="right" valign="top">
             <h1 <: style("msg_title") :>><: $title :></h1>
           </td>
+		  <td width="10"></td>
         </tr>
       </table>
     </td>	

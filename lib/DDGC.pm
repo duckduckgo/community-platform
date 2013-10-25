@@ -416,7 +416,37 @@ sub template_styles {{
 		'background-color' => '#ffffff',
 		'border-radius' => '5px',
 	},
-	'sample_other' => [qw( sample other )],
+	'msg_notification' => {
+		'font-family' => 'sans-serif',
+		'padding' => '10px 0', 
+		'border' => '1px solid #d2d2d2',	
+		'background-color' => '#ffffff',
+		'border-radius' => '5px',
+	},
+	'notification' => {
+		'font-family' => 'sans-serif',
+		'width' => '100%',
+		'border-bottom' => '1px solid #d2d2d2',	
+	},
+	'button' => {
+		'font-family' => 'sans-serif',
+		'font-size' => '14px',
+		'border-radius' => '3px',
+		'display' => 'block',		
+		'padding' => '0 12px',
+		'height' => '28px',
+		'line-height' => '28px',		
+		'text-align' => 'center',
+		'text-decoration' => 'none',
+		'color' => '#474747',
+		'background-color' => '#f8f8f8',
+		'border' => '1px solid #babec9',
+	},
+	'button_blue' => {
+		'color' => '#ffffff',
+		'background-color' => '#4b8df8',
+		'border-color' => '#2c478f',
+	},
 }}
 
 ##############################

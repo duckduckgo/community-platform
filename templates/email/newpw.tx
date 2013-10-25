@@ -1,5 +1,5 @@
   
-<: include email/heading.tx { $title => "Your password has been reset." } :>
+<: include "email/heading.tx" { title => "Your password has been reset." } :>
 <tr>
 	<td width="10"></td>
 	<td align="center" colspan="2">
