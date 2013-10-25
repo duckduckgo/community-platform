@@ -115,7 +115,7 @@ sub default_types_def {{
     action => 'create',
     priority => 50,
     filter => sub { $_[0]->company_blog ? 1 : 0 },
-	icon => 'pencil',
+	icon => 'comment-alt',
   },
 
   'company_blogs' => {
@@ -136,7 +136,7 @@ sub default_types_def {{
     context_id => '*',
     sub_context => 'DDGC::DB::Result::Comment',
     action => 'create',
-	icon => 'pencil',
+	icon => 'comment',
   },
 
   # follow all comments on language related context
@@ -149,7 +149,7 @@ sub default_types_def {{
     sub_context => 'DDGC::DB::Result::Comment',
     action => 'create',
     filter_by_language => 1,
-	icon => 'globe',
+	icon => 'comments',
   },
 
   # follow ideas

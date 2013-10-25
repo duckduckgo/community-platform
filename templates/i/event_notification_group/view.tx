@@ -1,8 +1,9 @@
 <div class="row  notification">  
+  <a href="<: $u($_.u) :>" title="Go to this item"><i class="notification__icon icon-<:$_.icon:>"></i></a>
   <a class="notification__close" href="<: $u('My::Notifications','done',$_.id,{
     from => $c.req.uri
   }) :>" title="Mark Complete"><i class="icon-close"></i></a>
-  <a class="notification__view" href="<: $u($_.u) :>" title="View"><i class="icon-folder-open"></i></a>
+  <a class="notification__view" href="<: $u($_.u) :>" title="View & Mark Complete"><i class="icon-folder-open"></i></a>
   <div class="notification__body">
 	 <: i($_,$_.user_notification_group.type) :>
   </div>

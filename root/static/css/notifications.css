@@ -7,10 +7,14 @@
 .notification {
 	display: block;
 }
+	.notification:nth-child(even) {
+		background-color: #fafafa;
+	}
 	.notification__body {
 		display: block;
 		overflow: hidden;
-		padding-top: 4px;
+		padding: 2px 0 2px 30px;
+		line-height: 1.33;
 	}
 	.notification__unfollow {
 		float: right;
@@ -18,12 +22,15 @@
 		margin-right: 0;
 	}
 	
-	.notification__icon,
-	.notification__following {
-		float: left;
-		margin-right: 8px;
-		margin-left: -8px;
+	.notification__icon {
+		color: #a7a7a7;
+		font-size: 24px;
+		position: absolute;
+		top: 50%;
+		margin-top: -0.5em;
+		left: 11px;
 	}
+	
 	.notification__following,
 	.notification__view,
 	.notification__close {
@@ -41,6 +48,9 @@
 		}		
 	
 	.notification__following {
+		float: left;
+		margin-right: 8px;
+		margin-left: -8px;
 		font-size: 17px;
 		height: 20px;
 		line-height: 20px;
