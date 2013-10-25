@@ -27,12 +27,12 @@
 		<: include my::notifications::option {
 			type => 'replies',
 			context_id => '*',
-			label => '... replies to your comments?',
+			label => '... replies to comments you follow?',
 		} :>
 		<: include my::notifications::option {
 			type => 'forum_comments',
 			context_id => '*',
-			label => '... comments on your forum activity?',
+			label => '... comments on forum activity you follow (like your own suggestions)?',
 		} :>
 		<: include my::notifications::option {
 			type => 'forum_comments',
@@ -47,7 +47,7 @@
 		<: include my::notifications::option {
 			type => 'blog_comments',
 			context_id => '*',
-			label => '... comments on your own blog posts?',
+			label => '... comments on blog posts you follow (like your own blog posts)?',
 		} :>
 		<: include my::notifications::option {
 			type => 'translation_comments',

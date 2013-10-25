@@ -115,6 +115,20 @@ many_to_many 'languages', 'user_languages', 'language';
 
 belongs_to 'profile_media', 'DDGC::DB::Result::Media', 'profile_media_id', { join_type => 'left' };
 
+after insert => sub {
+	my ( $self ) = @_;
+	$self->add_default_notifications;
+};
+
+sub add_default_notifications {
+	my ( $self ) = @_;
+	return if $self->search_related('user_notifications')->count;
+	$self->add_type_notification(qw( replies 2 1 ));
+	$self->add_type_notification(qw( forum_comments 2 1 ));
+	$self->add_type_notification(qw( blog_comments 2 1 ));
+	$self->add_type_notification(qw( translation_votes 3 1 ));
+}
+
 # WORKAROUND
 sub db { return shift; }
 
