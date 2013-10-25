@@ -10,6 +10,7 @@
 			</a>
 		<: } :>
 	</div>
+	<span class="user-name"><: $c.user.username :></span>
 	<span class="account-links">
 		<a href="<: $u('My','account') :>" class="first">My Account</a>
 		<a href="<: $u('My','logout') :>">Logout</a>

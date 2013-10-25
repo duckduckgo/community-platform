@@ -1,0 +1,32 @@
+<tr>
+	<td width="10"></td>
+	<td align="center" colspan="2">
+		<table cellpadding="0" cellspacing="5" border="0" bgcolor="#fff" <: style("msg_content") :>>
+			<tr>
+				<td colspan="2" valign="middle">
+					<a class="notification__close" href="<: $u('My::Notifications','done',$_.id,{
+						from => $c.req.uri
+					}) :>" title="Mark Complete"><i class="icon-close"></i></a>
+					<a class="notification__view" href="<: $u($_.u) :>" title="View"><i class="icon-folder-open"></i></a>
+					<div class="notification__body">
+					 <: i($_,$_.user_notification_group.type) :>
+					</div>
+				</td>
+			</tr>
+		</table>
+	</td>
+	<td width="10"></td>
+</tr>
+<tr>
+	<td width="10"></td>
+	<td align="center" colspan="2">
+		<table cellpadding="0" cellspacing="5" border="0" bgcolor="#fff" <: style("msg_content") :>>
+			<tr>
+				<td colspan="2" valign="middle">
+					<: i($_,'content/' ~ $_.user_notification_group.type) :>
+				</td>
+			</tr>
+		</table>
+	</td>
+	<td width="10"></td>
+</tr>

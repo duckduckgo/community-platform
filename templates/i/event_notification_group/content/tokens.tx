@@ -1,0 +1,3 @@
+<: for results($_.event_notifications) -> $event_notification { :>
+  <: i('msgctxtid',$event_notification.event.get_context_obj) :>
+<: } :>

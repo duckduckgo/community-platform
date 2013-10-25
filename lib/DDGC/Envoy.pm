@@ -64,7 +64,7 @@ sub update_notifications_where {
 
 sub unsent_notifications_cycle {
 	my ( $self, $cycle ) = @_;
-	$self->schema->resultset('Event::Notification::Group')->prefetch_all->search_rs({
+	$self->ddgc->rs('Event::Notification::Group')->prefetch_all->search_rs({
 		'event_notifications.sent' => 0,
 		'user_notification.cycle' => $cycle,
 	},{});

@@ -1,0 +1,4 @@
+<: include "email/heading.tx" { $title => "New notifications for you" } :>
+<: for $unsent_notifications -> $event_notification_group { :>
+	<: i($event_notification_group,'email') :>
+<: } :>
