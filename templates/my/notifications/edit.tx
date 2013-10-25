@@ -27,7 +27,7 @@
 		<: include my::notifications::option {
 			type => 'replies',
 			context_id => '*',
-			label => '... replies to comments you follow?',
+			label => '... replies to comments you follow (like your own comments)?',
 		} :>
 		<: include my::notifications::option {
 			type => 'forum_comments',

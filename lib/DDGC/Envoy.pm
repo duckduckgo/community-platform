@@ -62,6 +62,14 @@ sub update_notifications_where {
 	);
 }
 
+sub unsent_notifications_cycle {
+	my ( $self, $cycle ) = @_;
+	$self->schema->resultset('Event::Notification::Group')->prefetch_all->search_rs({
+		'event_notifications.sent' => 0,
+		'user_notification.cycle' => $cycle,
+	},{});
+}
+
 sub notify_events {
 	my ( $self, @events ) = @_;
 	for my $ev (@events) {

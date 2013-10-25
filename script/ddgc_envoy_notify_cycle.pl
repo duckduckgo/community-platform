@@ -13,7 +13,7 @@ use DDGC::Config;
 my $cycle = shift @ARGV;
 
 die "Need cycle!" unless $cycle;
-die "Unknown cycle!" unless $cycle >= 2 && $cycle <= 4;
+die "Unknown cycle!" unless $cycle >= 1 && $cycle <= 4;
 
 $ENV{DDGC_EXECUTE_CRONJOBS} = 'YES';
 
