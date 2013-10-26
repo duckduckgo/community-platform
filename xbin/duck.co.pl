@@ -23,11 +23,29 @@ my $dt = DateTime::Format::Strptime->new(pattern => '%d-%b-%Y %I:%M %p');
 
 my $ddgc = DDGC->new;
 
+# Commenting out the ones who failed to post on the forums
 my %user_map = $ENV{DDGC_IMPORT_USERNAME} ? () : (
 	yegg13       => 'yegg',
-	bizarre      => 'crazedpsyc',
-	gettygermany => 'getty',
-	zacbrannigan => 'zac',
+        'dashesy' => 'dashesy'
+        'zacbrannigan' => 'zac'
+        'jaryd' => 'jaryd'
+        'bizarre' => 'crazedpsyc'
+        'AGreenEarth' => 'david_mascio'
+        'x.15a2' => 'x.15a2'
+        'yegg13' => 'yegg'
+        #'aiwlian' => 'aiwlian'
+        'moollaza' => 'moollaza'
+        #'babarv' => 'babarv'
+        #'aprilusa' => 'april'
+        #'classicwoody42' => 'classicwoody42'
+        'ScreapDK' => 'screapdk'
+        'mrshux' => 'mrshu'
+        'mithrandiragain' => 'mithrandiragain'
+        'msyano' => 'msyano'
+        'goom' => 'goom'
+        #'akerbeltzalba' => 'akerbeltz'
+        'cainetighe' => 'caine'
+
 );
 
 my $import_user = $ddgc->find_user($ENV{DDGC_IMPORT_USERNAME} // 'import');
