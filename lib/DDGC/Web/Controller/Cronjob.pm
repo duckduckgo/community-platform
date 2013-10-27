@@ -30,7 +30,6 @@ sub index :Chained('base') :PathPart('') :Args {
 
 sub notify_cycle {
 	my ( $self, $c, $cycle ) = @_;
-	$c->stash->{unsent_notifications} = [$c->d->envoy->unsent_notifications_cycle($cycle)->all];
 	$c->stash->{c} = $c;
 	$c->stash->{u} = sub {
 		my @args;
@@ -43,15 +42,23 @@ sub notify_cycle {
 		}
 		return $c->chained_uri(@args);
 	};
+
+
+	$c->stash->{unsent_notifications} = [$c->d->envoy->unsent_notifications_cycle($cycle)->all];
 	$c->stash->{dur} = sub { DDGC::Util::DateTime::dur($_[0]) };
 	$c->stash->{dur_precise} = sub { DDGC::Util::DateTime::dur_precise($_[0]) };
-	$c->d->postman->template_mail(
-		'torsten@raudss.us',
-		'"DuckDuckGo Community Envoy" <envoy@dukgo.com>',
-		'[DuckDuckGo Community] New notifications for you',
-		'notifications',
-		$c->stash,
-	);
+	eval {
+		$c->d->postman->template_mail(
+			'torsten@raudss.us',
+			'"DuckDuckGo Community Envoy" <envoy@dukgo.com>',
+			'[DuckDuckGo Community] New notifications for you',
+			'notifications',
+			$c->stash,
+		);
+	};
+	unless ($@) {
+
+	}
 }
 
 __PACKAGE__->meta->make_immutable;

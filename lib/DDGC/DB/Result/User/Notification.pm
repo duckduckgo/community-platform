@@ -71,6 +71,7 @@ unique_constraint [qw/ user_notification_group_id context_id users_id /];
 
 __PACKAGE__->indices(
 	user_notification_cycle_idx => 'cycle',
+	user_notification_context_id_idx => 'context_id',
 );
 
 ###############################

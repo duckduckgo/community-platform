@@ -71,6 +71,7 @@ __PACKAGE__->indices(
 	event_context_idx => 'context',
 	event_context_id_idx => 'context_id',
 	event_created_idx => 'created',
+	event_nid_idx => 'nid',
 	event_pid_idx => 'pid',
 );
 
@@ -139,6 +140,7 @@ sub notify {
 			for my $user_notification (@user_notifications) {
 				next if defined $notified_user_ids{$user_notification->users_id};
 				next if $self->users_id && $user_notification->users_id eq $self->users_id;
+				my $current_user = $user_notification->user;
 				if ($user_notification->user_notification_group->filter) {
 					next unless $user_notification->user_notification_group->filter->(
 						$user_notification->user_notification_group->sub_context eq ''
@@ -147,10 +149,11 @@ sub notify {
 						$self
 					);
 				}
-				if ($user_notification->user_notification_group->filter_by_language) {
+				if ($user_notification->user_notification_group->filter_by_language
+					&& !$current_user->translation_manager) {
 					next unless $language_id;
 					my $has_language = 0;
-					for ($user_notification->user->user_languages) {
+					for ($current_user->user_languages) {
 						$has_language = 1 if $_->language_id eq $language_id;
 					}
 					next unless $has_language;

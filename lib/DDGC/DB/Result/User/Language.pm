@@ -58,6 +58,10 @@ column updated => {
 belongs_to 'user', 'DDGC::DB::Result::User', { 'foreign.username' => 'self.username' };
 belongs_to 'language', 'DDGC::DB::Result::Language', 'language_id';
 
+__PACKAGE__->indices(
+	user_language_username_idx => 'username',
+);
+
 unique_constraint [qw/ language_id username /];
 
 no Moose;

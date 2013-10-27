@@ -26,7 +26,9 @@ sub index :Chained('base') :PathPart('') :Args(0) {
     $c->response->redirect($c->chained_uri('My::Notifications','edit',{ first_time => 1 }));
     return $c->detach;
 	}
-	$c->stash->{undone_notifications} = $c->user->undone_notifications;
+	my $limit = $c->req->param('all') && $c->user->admin
+		? undef : 25;
+	$c->stash->{undone_notifications} = $c->user->undone_notifications($limit);
 	$c->stash->{undone_notifications_count} = $c->user->undone_notifications_count;
 	$c->bc_index;
 }

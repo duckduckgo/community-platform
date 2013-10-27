@@ -76,6 +76,16 @@ column created => {
 
 has_many 'user_notifications', 'DDGC::DB::Result::User::Notification', 'users_id';
 
+__PACKAGE__->indices(
+	user_notification_group_context_idx => 'context',
+	user_notification_group_with_context_id_idx => 'with_context_id',
+	user_notification_group_group_context_idx => 'group_context',
+	user_notification_group_sub_context_idx => 'sub_context',
+	user_notification_group_action_idx => 'action',
+	user_notification_group_priority_idx => 'priority',
+	user_notification_group_filter_by_language_idx => 'filter_by_language',
+);
+
 ###############################
 
 sub default_types_def {{
