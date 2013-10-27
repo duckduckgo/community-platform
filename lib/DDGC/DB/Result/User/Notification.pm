@@ -65,7 +65,9 @@ column created => {
 belongs_to 'user', 'DDGC::DB::Result::User', 'users_id';
 belongs_to 'user_notification_group', 'DDGC::DB::Result::User::Notification::Group', 'user_notification_group_id';
 
-has_many 'event_notifications', 'DDGC::DB::Result::Event::Notification', 'user_notification_id';
+has_many 'event_notifications', 'DDGC::DB::Result::Event::Notification', 'user_notification_id', {
+	cascade_delete => 1,
+};
 
 unique_constraint [qw/ user_notification_group_id context_id users_id /];
 

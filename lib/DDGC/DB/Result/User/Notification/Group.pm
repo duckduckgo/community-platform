@@ -74,7 +74,9 @@ column created => {
 	set_on_create => 1,
 };
 
-has_many 'user_notifications', 'DDGC::DB::Result::User::Notification', 'users_id';
+has_many 'user_notifications', 'DDGC::DB::Result::User::Notification', 'users_id', {
+	cascade_delete => 1,
+};
 
 __PACKAGE__->indices(
 	user_notification_group_context_idx => 'context',

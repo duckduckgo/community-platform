@@ -13,7 +13,9 @@ sub update_group_types {
       key => 'user_notification_group_unique_key',
     })->id;
   }
-  return @ids;
+  return $self->search({
+    id => { -not_in => \@ids },
+  })->delete;
 }
 
 no Moose;
