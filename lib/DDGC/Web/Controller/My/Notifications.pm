@@ -12,7 +12,7 @@ sub base :Chained('/my/logged_in') :PathPart('notifications') :CaptureArgs(0) {
 	$c->add_bc('Notifications', $c->chained_uri('My::Notifications','index'));
 	$c->stash->{notification_cycle_options} = [
 		{ value => 0, name => "No, thanks!" },
-		{ value => 1, name => "Instant" },
+		#{ value => 1, name => "Instant" },
 		{ value => 2, name => "Hourly" },
 		{ value => 3, name => "Daily" },
 		{ value => 4, name => "Weekly" },

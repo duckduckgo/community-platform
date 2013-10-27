@@ -20,12 +20,6 @@ column event_id => {
 	is_nullable => 0,
 };
 
-column done => {
-	data_type => 'int',
-	is_nullable => 0,
-	default_value => 0,
-};
-
 column sent => {
 	data_type => 'int',
 	is_nullable => 0,
@@ -52,7 +46,6 @@ belongs_to 'event_notification_group', 'DDGC::DB::Result::Event::Notification::G
 belongs_to 'user_notification', 'DDGC::DB::Result::User::Notification', 'user_notification_id';
 
 __PACKAGE__->indices(
-	event_notification_done_idx => 'done',
 	event_notification_sent_idx => 'sent',
 );
 
