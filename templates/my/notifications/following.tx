@@ -20,8 +20,8 @@
         </a>
 		<a href="<: $u('My::Notifications','unfollow',$user_notification.id) :>" title="Stop following this item" class="notification__unfollow  button">Unfollow</a>
 		<span class="notification__body">
-			<: $user_notification.user_notification_group.context :>
-			<: $user_notification.context_id :>
+			... <: $user_notification.user_notification_group.context :>
+			#<: $user_notification.context_id :>
         </span>
       </div>
     <: } :>

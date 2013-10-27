@@ -117,9 +117,24 @@ belongs_to 'translation_of', 'DDGC::DB::Result::User::Blog', 'translation_of_id'
 
 ###############################
 
+__PACKAGE__->after_column_change(
+	live => {
+		method   => 'live_change',
+		txn_wrap => 1,
+	}
+);
+
+sub live_change {
+	my ( $self, $old_value, $new_value ) = @_;
+	if ($old_value == 0 && $new_value == 1) {
+		$self->add_event('live');
+	}
+}
+
 after insert => sub {
   my ( $self ) = @_;
   $self->add_event('create');
+  $self->add_event('live') if $self->live;
   $self->user->add_context_notification('blog_comments',$self);
 };
 

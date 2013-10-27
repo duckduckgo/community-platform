@@ -1,11 +1,13 @@
 =head1 Live to View
 
-Live: wing.dukgo.com (Linode US)
-View: donald.dukgo.com (Linode UK)
+Live: wing.dukgo.com
+View: darkwing.dukgo.com
 
 =head2 System
 
 Updating the state of the view to the state of the live system.
+
+B<OUTDATED. WILL BE UPDATED>
 
 =head3 First time
 

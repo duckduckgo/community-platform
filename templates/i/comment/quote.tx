@@ -1,0 +1,6 @@
+<div class="quote">
+  <div class="quote_content">
+    <: r($_.html) :>
+  </div>
+  <div class="quote_from">by <: i($_.user,'username') :></div>
+</div>

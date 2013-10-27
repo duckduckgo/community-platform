@@ -1,0 +1,1 @@
+There are <b><: $_.event_notifications.count :></b> new votes on <: $_.group_object :>.

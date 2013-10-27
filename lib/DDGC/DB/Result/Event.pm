@@ -82,7 +82,6 @@ before insert => sub {
 
 sub get_related {
 	my ( $self, $context ) = @_;
-	return $self->get_context_obj if $context eq $self->get_context_obj->context_name;
 	for ($self->event_relates) {
 		if ($_->context eq $context) {
 			return $_->get_context_obj;
@@ -142,7 +141,9 @@ sub notify {
 				next if $self->users_id && $user_notification->users_id eq $self->users_id;
 				if ($user_notification->user_notification_group->filter) {
 					next unless $user_notification->user_notification_group->filter->(
-						$self->get_related($user_notification->user_notification_group->context),
+						$user_notification->user_notification_group->sub_context eq ''
+							? $self->get_context_obj
+							: $self->get_related($user_notification->user_notification_group->context),
 						$self
 					);
 				}
@@ -156,9 +157,12 @@ sub notify {
 				}
 				my $group_context_id = $user_notification->user_notification_group->group_context_id
 					? $user_notification->user_notification_group->group_context_id->(
-						$self->get_related($user_notification->user_notification_group->context),
-						$self
-					) : $self->get_related($user_notification->user_notification_group->context)->id;
+							$self->get_context_obj,
+							$self
+						)
+					: $user_notification->user_notification_group->sub_context eq ''
+						?	$self->get_context_obj->id
+						: $self->get_related($user_notification->user_notification_group->context)->id;
 				my $event_notification_group = $self->schema->resultset('Event::Notification::Group')->find_or_create({
 					user_notification_group_id => $user_notification->user_notification_group->id,
 					group_context_id => $group_context_id,

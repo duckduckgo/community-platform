@@ -1,0 +1,10 @@
+=head1 Git
+
+=head3 Branches
+
+=head2 Rebase
+
+  git checkout new-feature
+  git rebase master
+  git checkout master
+  git merge new-feature

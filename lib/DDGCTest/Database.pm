@@ -116,7 +116,7 @@ sub next_step {
 
 sub step_count {
 	my ( $self ) = @_;
-	my $base = 3911;
+	my $base = 4021;
 	return $base unless $self->test;
 }
 
@@ -528,11 +528,11 @@ sub users {{
 			email => 'testtwo@localhost',
 		},
 		notifications => [
-			[qw( replies 3 1 )],
-			[qw( forum_comments 3 0 )],
-			[qw( forum_comments 3 1 )],
-			[qw( blog_comments 3 1 )],
-			[qw( translation_comments 3 0 )],
+			[qw( replies 1 1 )],
+			[qw( forum_comments 1 0 )],
+			[qw( forum_comments 1 1 )],
+			[qw( blog_comments 1 1 )],
+			[qw( translation_comments 1 0 )],
 			[qw( tokens 3 0 )],
 			[qw( translations 3 0 )],
 			[qw( translation_votes 3 1 )],
@@ -559,7 +559,10 @@ sub users {{
 			email => 'testthree@localhost',
 		},
 		notifications => [
-			[qw( replies 2 1 )],
+			[qw( replies 4 1 )],
+			[qw( company_blog_comments 4 0 )],
+			[qw( translation_comments 4 0 )],
+			[qw( tokens 4 0 )],
 		],
 	},
 	'tEStfOUr' => {
@@ -572,7 +575,8 @@ sub users {{
 			us => 5,
 		},
 		notifications => [
-			[qw( replies 4 1 )],
+			[qw( replies 1 1 )],
+			[qw( company_blogs 1 0 )],
 		],
 	},
 	'testfive' => {
@@ -631,9 +635,13 @@ sub add_users {
 		[qw( forum_comments 2 0 )],
 		[qw( forum_comments 2 1 )],
 		[qw( blog_comments 2 1 )],
+		[qw( company_blog_comments 2 0 )],
 		[qw( translation_comments 2 0 )],
 		[qw( tokens 2 0 )],
 		[qw( translations 2 0 )],
+		[qw( ideas 3 0 )],
+		[qw( company_blogs 3 0 )],
+		[qw( threads 3 0 )],
 		[qw( translation_votes 2 1 )]) {
 		$testone->add_type_notification(@{$_});
 		$self->next_step;
@@ -1157,7 +1165,7 @@ sub blogs {
 				teaser => 'Other This is a teaser',
 				content => 'Other This is a content',
 				topics => ['Another Topic'],
-				company_blog => 1,
+				company_blog => $_ % 2,
 				comments => [
 					testtwo => [ "Deep This is another awesome!",
 						testone => 'Deep Ok, you are another right',

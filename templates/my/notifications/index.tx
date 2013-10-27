@@ -6,7 +6,7 @@
 			<a class="button" href="<: $u('My::Notifications','edit') :>" title="Edit Notification Settings"><i class="icon-gear"></i><span class="button__label">Notification Settings</span></a>
 			<a class="button" href="<: $u('My::Notifications','following') :>" title="Check what you're following"><i class="icon-refresh"></i><span class="button__label">Following</span></a>		
 		<: if $undone_notifications.count { :>
-			<a class="button red" href="<: $u('My::Notifications', 'index', { all_event_notifications_done => 1 }) :>">
+			<a class="button red" href="<: $u('My::Notifications','all_done') :>">
 				Mark All Complete
 			</a>	
 		<: } :>
@@ -16,12 +16,6 @@
 		<: for results($undone_notifications) -> $event_notification_group { :>
 			<: i($event_notification_group,'view') :>
 		<: } :>
-		<div class="row mid notifications--pager">
-			<: include pager {
-				pager => $undone_notifications.pager,
-				url => $u('My::Notifications', 'index', { page => 'PAGE_NO' }),
-			} :>
-		</div>
 		<: include my::notifications::editteaser :>
 	</div>
 </div>

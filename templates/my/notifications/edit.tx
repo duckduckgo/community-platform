@@ -45,6 +45,21 @@
 			label => '... comments on our company blog?',
 		} :>
 		<: include my::notifications::option {
+			type => 'company_blogs',
+			context_id => '',
+			label => '... new company blog posts?',
+		} :>
+		<: include my::notifications::option {
+			type => 'ideas',
+			context_id => '',
+			label => '... new instant answer suggestions?',
+		} :>
+		<: include my::notifications::option {
+			type => 'threads',
+			context_id => '',
+			label => '... new general suggestions?',
+		} :>
+		<: include my::notifications::option {
 			type => 'blog_comments',
 			context_id => '*',
 			label => '... comments on blog posts you follow (like your own blog posts)?',

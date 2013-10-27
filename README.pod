@@ -75,5 +75,3 @@ The following account exist:
    english.
 
 * Additionally there exist B<test1> till B<test100> all without any setup.
-
-

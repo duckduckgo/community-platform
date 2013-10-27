@@ -201,7 +201,7 @@ $(document).ready(function() {
 			beforeSend: function(xhr) {				
 				parent.html(
 					'<img class="loading-image"' +
-					'src="/static/images/ajax-loader.gif"/>');
+					'src="/static/img/ajax-loader.gif"/>');
 			},
 			success: function(data) {				
 				var text = data.check_result
@@ -211,6 +211,26 @@ $(document).ready(function() {
 			}
 		});
 	});
+
+	/*
+	 *
+	 * Notifications
+	 *
+	 */
+
+		$('a.notification__close').click(function(e){
+			e.preventDefault();
+			var parent = $(this).parent().parent();
+			$.ajax({
+				url: $(this).attr('href'),
+				beforeSend: function(xhr) {				
+					parent.find('div.notification').css('background-color','#d84736');
+				},
+				success: function(data) {
+					parent.hide('slow', function(){ parent.remove(); });
+				}
+			});
+		});
 
 /* TODO - these next six are way too similar - they should be abstracted to a function/plugin */
     

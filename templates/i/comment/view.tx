@@ -50,13 +50,12 @@
 				<a href="<: $u('Forum','comment', $_.id ) :>"><b class="comment-foot__icon">#</b>permalink</a>
 				<div class="pull-right">
 				  <: if !$no_reply && $c.user { :>
-					<a class="right  js-comment-reply  no-js-hide" href="#"><i class="thread__foot__icon  icon-reply"></i>Reply</a>
-					<a class="right  js-comment-cancel  no-js-hide  hide" href="#"><i class="thread__foot__icon  icon-remove"></i>Cancel</a>
+						<a class="right  js-comment-reply  no-js-hide" href="#"><i class="thread__foot__icon  icon-reply"></i>Reply</a>
+						<a class="right  js-comment-cancel  no-js-hide  hide" href="#"><i class="thread__foot__icon  icon-remove"></i>Cancel</a>
 				  <: } :>
 				  <: if ($c.user.admin or $c.user.id == $_.user.id) { :>
-					<a class="right" href="<: $u('Comment','delete',$_.id) :>"><i class="thread__foot__icon  icon-remove"></i> Delete</a>
+						<a class="right" href="<: $u('Comment','delete',$_.id) :>"><i class="thread__foot__icon  icon-remove"></i> Delete</a>
 				  <: } :>
-					
 				</div>
 			</div>
 		<: } :>

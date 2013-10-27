@@ -176,21 +176,21 @@ sub undone_notifications_count {
 	$self->schema->resultset('Event::Notification::Group')->search_rs({
 		'user_notification.users_id' => $self->id,
 	},{
-		prefetch => {
+		prefetch => [qw( user_notification_group ),{
 			event_notifications => [qw( user_notification )],
-		},
+		}],
 	})->count;
 }
 
 sub undone_notifications {
-	my ( $self, $page, $pagesize ) = @_;
+	my ( $self ) = @_;
 	$self->schema->resultset('Event::Notification::Group')->prefetch_all->search_rs({
 		'event_notifications.done' => 0,
 		'user_notification.users_id' => $self->id,
 	},{
 		order_by => { -desc => 'event_notifications.created' },
-		page => ( $page || 1 ),
-		rows => ( $pagesize || 20 ),
+		# page => ( $page || 1 ),
+		#rows => 3,
 	});
 }
 

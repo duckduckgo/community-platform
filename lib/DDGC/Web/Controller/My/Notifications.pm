@@ -17,6 +17,7 @@ sub base :Chained('/my/logged_in') :PathPart('notifications') :CaptureArgs(0) {
 		{ value => 3, name => "Daily" },
 		{ value => 4, name => "Weekly" },
 	];
+	$c->stash->{default_types_def} = $c->d->rs('User::Notification::Group')->result_class->default_types_def;
 }
 
 sub index :Chained('base') :PathPart('') :Args(0) {
@@ -25,8 +26,7 @@ sub index :Chained('base') :PathPart('') :Args(0) {
     $c->response->redirect($c->chained_uri('My::Notifications','edit',{ first_time => 1 }));
     return $c->detach;
 	}
-	$c->pager_init($c->action,20);
-	$c->stash->{undone_notifications} = $c->user->undone_notifications($c->stash->{page},$c->stash->{pagesize});
+	$c->stash->{undone_notifications} = $c->user->undone_notifications;
 	$c->stash->{undone_notifications_count} = $c->user->undone_notifications_count;
 	$c->bc_index;
 }
@@ -60,31 +60,46 @@ sub following :Chained('base') :Args(0) {
 	});
 }
 
-sub done_base :Chained('base') :CaptureArgs(1) {
-	my ( $self, $c, $id ) = @_;
-	my $event_notifications = $c->d->rs('Event::Notification')->search({
+sub all_done :Chained('base') :Args(0) {
+	my ( $self, $c ) = @_;
+	$c->stash->{event_notifications} = $c->d->rs('Event::Notification')->search({
 		'user_notification.users_id' => $c->user->id,
-		'event_notification_group.id' => $id,
 	},{
 		prefetch => [qw( user_notification event_notification_group )],
 	});
-	$c->stash->{update_count} = $event_notifications->update({ done => 1, sent => 1 });
+	$c->stash->{update_count} = $c->stash->{event_notifications}->update({ done => 1, sent => 1 });
+  $c->response->redirect($c->chained_uri('My::Notifications','index',{
+  	all_notifications_done => 1,
+  }));
+  return $c->detach;
+}
+
+sub done_base :Chained('base') :PathPart("") :CaptureArgs(1) {
+	my ( $self, $c, $id ) = @_;
+	$c->stash->{event_notification_group_id} = $id+0;
+	return $c->detach unless $c->stash->{event_notification_group_id};
+	$c->stash->{event_notifications} = $c->d->rs('Event::Notification')->search({
+		'user_notification.users_id' => $c->user->id,
+		'event_notification_group.id' => $c->stash->{event_notification_group_id},
+	},{
+		prefetch => [qw( user_notification event_notification_group )],
+	});
+	$c->stash->{update_count} = $c->stash->{event_notifications}->update({ done => 1, sent => 1 });
 }
 
 sub done :Chained('done_base') :Args(0) {
 	my ( $self, $c ) = @_;
-	my $redirect = $c->req->param('from')
-		? $c->req->param('from')
-		: $c->chained_uri('My::Notifications','index');
-  $c->response->redirect($redirect);
+	$c->response->body('OK');
   return $c->detach;
 }
 
 sub done_goto :Chained('done_base') :Args(0) {
 	my ( $self, $c ) = @_;
-	my $redirect = $c->req->param('from')
-		? $c->req->param('from')
-		: $c->chained_uri('My::Notifications','index');
+	my $event_notification_group = $c->d->rs('Event::Notification::Group')->find($c->stash->{event_notification_group_id});
+
+	my $redirect = $event_notification_group->u
+		? $c->chained_uri(@{$event_notification_group->u})
+		: $c->chained_uri('My::Notification','index');
   $c->response->redirect($redirect);
   return $c->detach;
 }

@@ -13,13 +13,14 @@ __PACKAGE__->load_components(qw/
     InflateColumn::DateTime
     InflateColumn::Serializer
     EncodedColumn
+    Helper::Row::OnColumnChange
     +DBICx::Indexing
 /);
 
 sub context_config {{
 	'DDGC::DB::Result::Comment' => {
 		relation => 'comment',
-		prefetch => [qw( user )],
+		prefetch => [qw( user parent )],
 	},
 	'DDGC::DB::Result::Event' => {
 		relation => 'event',	
@@ -63,6 +64,13 @@ sub context_config {{
 
 sub add_context_relations {
   my ( $class ) = @_;
+  $class->add_context_relations_column;
+  $class->add_context_relations_role;
+  $class->add_context_relations_belongs_to;
+}
+
+sub add_context_relations_column {
+	my ( $class ) = @_;
 	$class->add_column(context => {
 		data_type => 'text',
 		is_nullable => 0,
@@ -71,9 +79,15 @@ sub add_context_relations {
 		data_type => 'bigint',
 		is_nullable => 0,
 	});
+}
+
+sub add_context_relations_role {
+	my ( $class ) = @_;
   apply_all_roles($class,'DDGC::DB::Role::HasContext');
-  die $class." doesnt have context and context_id"
-  	unless $class->can('context') && $class->can('context_id');
+}
+
+sub add_context_relations_belongs_to {
+	my ( $class ) = @_;
   for my $context_class (sort { $a cmp $b } keys %{$class->context_config}) {
   	next if $context_class eq $class;
   	my $config = $class->context_config->{$context_class};

@@ -10,31 +10,33 @@ use namespace::autoclean;
 table 'event_notification_group';
 
 column id => {
-  data_type => 'bigint',
-  is_auto_increment => 1,
+	data_type => 'bigint',
+	is_auto_increment => 1,
 };
 primary_key 'id';
 
 column user_notification_group_id => {
-  data_type => 'bigint',
-  is_nullable => 0,
+	data_type => 'bigint',
+	is_nullable => 0,
 };
 
+sub group_context { $_[0]->user_notification_group->group_context }
+
 column group_context_id => {
-  data_type => 'bigint',
-  is_nullable => 0,
+	data_type => 'bigint',
+	is_nullable => 0,
 };
 
 column data => {
-  data_type => 'text',
-  is_nullable => 0,
-  serializer_class => 'JSON',
-  default_value => '{}',
+	data_type => 'text',
+	is_nullable => 0,
+	serializer_class => 'JSON',
+	default_value => '{}',
 };
 
 column created => {
-  data_type => 'timestamp with time zone',
-  set_on_create => 1,
+	data_type => 'timestamp with time zone',
+	set_on_create => 1,
 };
 
 has_many 'event_notifications', 'DDGC::DB::Result::Event::Notification', 'event_notification_group_id';
@@ -42,25 +44,24 @@ belongs_to 'user_notification_group', 'DDGC::DB::Result::User::Notification::Gro
 
 unique_constraint [qw/ user_notification_group_id group_context_id /];
 
-sub icon { shift->user_notification_group->icon }
+sub icon { $_[0]->user_notification_group->icon }
 
 sub u {
-  my ( $self ) = @_;
-  my $group_object = $self->group_object;
-  if ($group_object) {
-    return $group_object->u;
-  }
+	my ( $self ) = @_;
+	my $group_object = $self->group_object;
+	if ($group_object) {
+		return $group_object->u;
+	}
+	return ['Root','index',{ notification_link_error => 1 }]
 }
 
 sub group_object {
-  my ( $self ) = @_;
-  my $context = $self->user_notification_group->context;
-  my $event_notification = $self->event_notifications->first;
-  if ($event_notification->event->context eq $context) {
-    return $event_notification->event->get_context_obj;
-  } else {
-    return $event_notification->event->get_related($context);
-  }
+	my ( $self ) = @_;
+	my $event_notification = $self->event_notifications->first;
+	if ($self->user_notification_group->sub_context eq '') {
+		return $event_notification->event->get_context_obj;
+	}
+	return $event_notification->event->get_related($self->group_context);
 }
 
 ###############################

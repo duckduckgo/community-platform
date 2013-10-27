@@ -1,6 +1,9 @@
 <div class="row">
   <div class="half">
-    <label><: $label :></label>
+    <i class="icon-<: $default_types_def[$type]['icon'] :>"></i>
+    <label>
+      <: $label :>
+    </label>
     <input type="hidden" name="type" value="<: $type :>" />
     <input type="hidden" name="context_id" value="<: $context_id :>" />
   </div>

@@ -1,1 +1,1 @@
-<: i($_,'userlist') :> replied to <a href="<: $u($_.u) :>"><b>a comment you follow</b></a>.
+<: i($_,'userlist') :> replied to a comment you follow on <: i($_.group_object.get_context_obj) :>.
