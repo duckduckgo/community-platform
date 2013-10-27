@@ -127,6 +127,7 @@ sub add_default_notifications {
 	$self->add_type_notification(qw( forum_comments 2 1 ));
 	$self->add_type_notification(qw( blog_comments 2 1 ));
 	$self->add_type_notification(qw( translation_votes 3 1 ));
+	$self->add_type_notification(qw( idea_votes 3 1 ));
 }
 
 # WORKAROUND

@@ -51,6 +51,11 @@ belongs_to 'event', 'DDGC::DB::Result::Event', 'event_id';
 belongs_to 'event_notification_group', 'DDGC::DB::Result::Event::Notification::Group', 'event_notification_group_id';
 belongs_to 'user_notification', 'DDGC::DB::Result::User::Notification', 'user_notification_id';
 
+__PACKAGE__->indices(
+	event_notification_done_idx => 'done',
+	event_notification_sent_idx => 'sent',
+);
+
 ###############################
 
 no Moose;

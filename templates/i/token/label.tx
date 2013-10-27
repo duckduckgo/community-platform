@@ -1,1 +1,1 @@
-the token <b><: i($_,'name') :></b>
+the token <b><: i('link',$_) :></b>

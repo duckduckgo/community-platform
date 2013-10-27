@@ -55,6 +55,11 @@
 			label => '... new instant answer suggestions?',
 		} :>
 		<: include my::notifications::option {
+			type => 'idea_votes',
+			context_id => '*',
+			label => '... new votes on your ideas?',
+		} :>
+		<: include my::notifications::option {
 			type => 'threads',
 			context_id => '',
 			label => '... new general suggestions?',

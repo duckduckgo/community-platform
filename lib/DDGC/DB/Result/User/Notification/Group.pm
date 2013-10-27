@@ -230,8 +230,6 @@ sub default_types_def {{
 		context_id => '*',
 		sub_context => 'DDGC::DB::Result::Token::Language::Translation::Vote',
 		action => 'create',
-		group_context => 'DDGC::DB::Result::Token::Language',
-		group_context_id => sub { $_[0]->token_language_translation->token_language->id },
 		icon => 'check-sign',
 	},
 

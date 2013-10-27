@@ -44,6 +44,10 @@ belongs_to 'user_notification_group', 'DDGC::DB::Result::User::Notification::Gro
 
 unique_constraint [qw/ user_notification_group_id group_context_id /];
 
+__PACKAGE__->indices(
+	event_notification_group_group_context_id_idx => 'group_context_id',
+);
+
 sub icon { $_[0]->user_notification_group->icon }
 
 sub u {

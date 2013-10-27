@@ -200,11 +200,14 @@ sub set_user_vote {
 	return if $user->id == $self->user->id;
 	return unless $user->can_speak($self->token_language->token_domain_language->language->locale);
 	if ($vote) {
-		$self->update_or_create_related('token_language_translation_votes',{
+		my $voted = $self->search_related('token_language_translation_votes',{
 			users_id => $user->db->id,
-		},{
-			key => 'token_language_translation_users',
-		});
+		})->first;
+		unless ($voted) {
+			$self->create_related('token_language_translation_votes',{
+				users_id => $user->db->id,
+			});
+		}
 	} else {
 		$self->search_related('token_language_translation_votes',{
 			users_id => $user->db->id,

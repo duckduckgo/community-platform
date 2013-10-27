@@ -2,5 +2,5 @@
   <: if $~user.is_last && $~user.count > 1 { :>
     and
   <: } :>
-  <span class="notification__user"><: i($user,'username') -:></span><:- if !$~user.is_last && $~user.count > 1 { :>,<: } :>  
+  <span class="notification__user"><: i($user) -:></span><:- if !$~user.is_last && $~user.count > 1 { :>,<: } :>  
 <: } :>

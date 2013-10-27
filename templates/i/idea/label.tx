@@ -1,1 +1,1 @@
-the instant answer suggestion <b><: i($_,'name') :></b>
+the instant answer suggestion <b><: i('link',$_) :></b>

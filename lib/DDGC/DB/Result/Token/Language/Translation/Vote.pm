@@ -48,7 +48,7 @@ belongs_to 'token_language_translation', 'DDGC::DB::Result::Token::Language::Tra
 
 after insert => sub {
 	my ( $self ) = @_;
-	$self->add_event('create');
+	$self->add_event('create');	
 };
 
 sub event_related {

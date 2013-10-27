@@ -116,7 +116,7 @@ sub next_step {
 
 sub step_count {
 	my ( $self ) = @_;
-	my $base = 4021;
+	my $base = 4039;
 	return $base unless $self->test;
 }
 
@@ -516,6 +516,7 @@ sub users {{
 		notes => 'Testuser, public, es',
 		languages => {
 			es => 6,
+			us => 1,
 		},
 		data => {
 			userpage => {
@@ -536,6 +537,7 @@ sub users {{
 			[qw( tokens 3 0 )],
 			[qw( translations 3 0 )],
 			[qw( translation_votes 3 1 )],
+			[qw( idea_votes 3 1 )],
 		],
 	},
 	'TestThree' => {
@@ -640,7 +642,9 @@ sub add_users {
 		[qw( tokens 2 0 )],
 		[qw( translations 2 0 )],
 		[qw( ideas 3 0 )],
+		[qw( idea_votes 2 1 )],
 		[qw( company_blogs 3 0 )],
+		[qw( user_blogs 3 0 )],
 		[qw( threads 3 0 )],
 		[qw( translation_votes 2 1 )]) {
 		$testone->add_type_notification(@{$_});
@@ -877,10 +881,10 @@ sub token_domains {{
 		snippets => [
 			'Hello %s', [
 				testone => [
-					us => 'Heeellloooo %s', [],
+					us => 'Heeellloooo %s', [qw( testthree testfour )],
 				],
 				testthree => [
-					de => 'Hallo %s', [qw( testthree testfour )],
+					de => 'Hallo %s', [qw( testfour )],
 					us => 'Welcome %s', [],
 					nl_be => 'Rot op %s', [],
 					nl => 'Zout op %s', [],
@@ -888,7 +892,7 @@ sub token_domains {{
 					fr => 'Fils de putte %s', [],
 				],
 				testfour => [
-					us => 'Welcome %s', [qw( testthree testfour )],
+					us => 'Welcome %s', [qw( testthree )],
 				],
 				testfive => [
 					ru => 'Привет %s', [qw( testthree testfour )],
@@ -919,7 +923,7 @@ sub token_domains {{
 			],
 			'You are %s from %s', [
 				testone => [
-					us => 'You, ofda %2$s u %1$s', [],
+					us => 'You, ofda %2$s u %1$s', [qw( testthree testtwo )],
 				],
 				testthree => [
 					de => 'Du bist %s aus %s', [],
@@ -935,7 +939,7 @@ sub token_domains {{
 			],
 			\'testarea','Yes dude %s %s %s', [
 				testone => [
-					us => 'Yeah %s douche %s %s', [],
+					us => 'Yeah %s douche %s %s', [qw( testtwo )],
 				],
 				testthree => [
 					de => "Jawohl %s Der %s Herr %s", [],
@@ -954,10 +958,10 @@ sub token_domains {{
 					us => 'Yu hav %d meage', 'Yuuu hve %d meages', [],
 				],
 				testthree => [
-					de => 'Du hast %d Nachricht', 'Du hast %d Nachrichten', [],
-					us => 'You have %d message', 'You have %d messages', [],
+					de => 'Du hast %d Nachricht', 'Du hast %d Nachrichten', [qw( testtwo )],
+					us => 'You have %d message', 'You have %d messages', [qw( testtwo )],
 					fr_be => 'Vous avez %d message', 'Vous avez %d messages', [],
-					fr => 'T\'as %d message', 'T\'as %d messages putte', [],
+					fr => 'T\'as %d message', 'T\'as %d messages putte', [qw( testtwo )],
 				],
 				testfive => [
 					ru => 'У вас %d сообщение', 'У вас %d сообщения', 'У вас %d сообщений', [],
@@ -968,7 +972,7 @@ sub token_domains {{
 			],
 			'You have %d message', 'You have %d messages', [
 				testone => [
-					us => 'Yu hav %d meage', 'Yuuu hve %d meages', [],
+					us => 'Yu hav %d meage', 'Yuuu hve %d meages', [qw( testtwo )],
 				],
 				testthree => [
 					de => 'Du hast "%d" Nachricht', 'Du hast "%d" Nachrichten', [],
