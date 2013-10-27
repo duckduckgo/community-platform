@@ -5,12 +5,15 @@ use Moose;
 extends 'DDGC::DB::Base::ResultSet';
 use namespace::autoclean;
 
-sub deploy_group_types {
+sub update_group_types {
   my ( $self ) = @_;
-  die "You can't redeploy group types (yet)" if $self->search({})->count;
+  my @ids;
   for ($self->result_class->default_types) {
-    $self->create($_);
+    push @ids, $self->update_or_create($_,{
+      key => 'user_notification_group_unique_key',
+    })->id;
   }
+  return @ids;
 }
 
 no Moose;

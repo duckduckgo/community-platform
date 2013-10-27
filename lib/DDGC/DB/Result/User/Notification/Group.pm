@@ -86,6 +86,12 @@ __PACKAGE__->indices(
 	user_notification_group_filter_by_language_idx => 'filter_by_language',
 );
 
+unique_constraint(
+	user_notification_group_unique_key => [qw/
+		type context with_context_id sub_context action
+	/]
+);
+
 ###############################
 
 sub default_types_def {{

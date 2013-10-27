@@ -16,7 +16,7 @@
 		<: for results($undone_notifications) -> $event_notification_group { :>
 			<: i($event_notification_group,'view') :>
 		<: } :>
-		<: if $undone_notifications_count > 25 { :>
+		<: if $undone_notifications_count > 40 { :>
 			<div class="row mid">
 				<a class="button red" href="<: $u('My::Notifications','index') :>">
 					Too many notifications, please mark some complete and reload with this button

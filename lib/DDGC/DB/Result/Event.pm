@@ -93,49 +93,49 @@ sub get_related {
 sub notify {
 	my ( $self ) = @_;
 	return if $self->notified;
-	my $own_context = $self->context;
-	my $own_context_id = $self->context_id;
-	my $action = $self->action;
-	my @related;
-	my $language_id;
-	for ($self->event_relates) {
-		push @related, [ $_->context, $_->context_id ];
-		$language_id = $_->context_id if $_->context eq 'DDGC::DB::Result::Language';
-	}
-	my @queries = ({
-		'user_notification_group.context' => $own_context,
-		'me.context_id' => $own_context_id,
-		'user_notification_group.sub_context' => '',
-		'user_notification_group.action' => $action,
-		'user_notification_group.with_context_id' => 1,
-	},{
-		'user_notification_group.context' => $own_context,
-		'user_notification_group.sub_context' => '',
-		'user_notification_group.action' => $action,
-		'user_notification_group.with_context_id' => 0,
-	});
-	push @queries, map {{
-		'user_notification_group.context' => $_->[0],
-		'me.context_id' => $_->[1],
-		'user_notification_group.sub_context' => $own_context,
-		'user_notification_group.action' => $action,
-		'user_notification_group.with_context_id' => 1,
-	},{
-		'user_notification_group.context' => $_->[0],
-		'user_notification_group.sub_context' => $own_context,
-		'user_notification_group.action' => $action,
-		'user_notification_group.with_context_id' => 0,
-	}} @related;
-	my @user_notifications = $self->schema->resultset('User::Notification')->search({
-		-or => \@queries,
-	},{
-		prefetch => [qw( user_notification_group ),{
-			user => [qw( user_languages )],
-		}],
-		order_by => { -desc => 'user_notification_group.priority' },
-	})->all;
-	if (@user_notifications) {
-		$self->schema->txn_do(sub {
+	$self->schema->txn_do(sub {
+		my $own_context = $self->context;
+		my $own_context_id = $self->context_id;
+		my $action = $self->action;
+		my @related;
+		my $language_id;
+		for ($self->event_relates) {
+			push @related, [ $_->context, $_->context_id ];
+			$language_id = $_->context_id if $_->context eq 'DDGC::DB::Result::Language';
+		}
+		my @queries = ({
+			'user_notification_group.context' => $own_context,
+			'me.context_id' => $own_context_id,
+			'user_notification_group.sub_context' => '',
+			'user_notification_group.action' => $action,
+			'user_notification_group.with_context_id' => 1,
+		},{
+			'user_notification_group.context' => $own_context,
+			'user_notification_group.sub_context' => '',
+			'user_notification_group.action' => $action,
+			'user_notification_group.with_context_id' => 0,
+		});
+		push @queries, map {{
+			'user_notification_group.context' => $_->[0],
+			'me.context_id' => $_->[1],
+			'user_notification_group.sub_context' => $own_context,
+			'user_notification_group.action' => $action,
+			'user_notification_group.with_context_id' => 1,
+		},{
+			'user_notification_group.context' => $_->[0],
+			'user_notification_group.sub_context' => $own_context,
+			'user_notification_group.action' => $action,
+			'user_notification_group.with_context_id' => 0,
+		}} @related;
+		my @user_notifications = $self->schema->resultset('User::Notification')->search({
+			-or => \@queries,
+		},{
+			prefetch => [qw( user_notification_group ),{
+				user => [qw( user_languages )],
+			}],
+			order_by => { -desc => 'user_notification_group.priority' },
+		})->all;
+		if (@user_notifications) {
 			my %notified_user_ids;
 			for my $user_notification (@user_notifications) {
 				next if defined $notified_user_ids{$user_notification->users_id};
@@ -178,13 +178,14 @@ sub notify {
 				});
 				$notified_user_ids{$user_notification->users_id} = 1;
 			}
+		}
+		if ($self->result_source->resultset->find($self->id)->notified) {
+			$self->schema->txn_rollback;
+		} else {
 			$self->notified(1);
 			$self->update;
-		});
-	} else {
-		$self->notified(1);
-		$self->update;
-	}
+		}
+	});
 }
 
 	# my @language_results = $self->ddgc->rs('Language')->search_rs({})->all;

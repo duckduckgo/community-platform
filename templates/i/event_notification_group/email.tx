@@ -5,7 +5,7 @@
 				<td width="30">&nbsp;</td>
 				<td valign="middle">					
 					<div class="notification__body">
-					 <: i($_,$_.user_notification_group.type) :>
+					 <: i($_,$_.user_notification_group.type ~ '/label') :>
 					</div>
 				</td>
 				<td>
@@ -30,7 +30,7 @@
 			<tr>				
 				<td width="30">&nbsp;</td>
 				<td colspan="3" valign="middle">
-					<: i($_,'content/' ~ $_.user_notification_group.type) :>
+					<: i($_,$_.user_notification_group.type ~ '/email') :>
 				</td>
 			</tr>
 		</table>
