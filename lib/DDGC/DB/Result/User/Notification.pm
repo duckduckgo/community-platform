@@ -62,9 +62,12 @@ column created => {
 	set_on_create => 1,
 };
 
-belongs_to 'user', 'DDGC::DB::Result::User', 'users_id';
-belongs_to 'user_notification_group', 'DDGC::DB::Result::User::Notification::Group', 'user_notification_group_id';
-
+belongs_to 'user', 'DDGC::DB::Result::User', 'users_id', {
+	on_delete => 'cascade',	
+};
+belongs_to 'user_notification_group', 'DDGC::DB::Result::User::Notification::Group', 'user_notification_group_id', {
+	on_delete => 'cascade',	
+};
 has_many 'event_notifications', 'DDGC::DB::Result::Event::Notification', 'user_notification_id', {
 	cascade_delete => 1,
 };

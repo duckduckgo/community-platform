@@ -74,7 +74,10 @@ column created => {
 	set_on_create => 1,
 };
 
-has_many 'user_notifications', 'DDGC::DB::Result::User::Notification', 'users_id', {
+has_many 'user_notifications', 'DDGC::DB::Result::User::Notification', 'user_notification_group_id', {
+	cascade_delete => 1,
+};
+has_many 'event_notification_groups', 'DDGC::DB::Result::Event::Notification::Group', 'user_notification_group_id', {
 	cascade_delete => 1,
 };
 

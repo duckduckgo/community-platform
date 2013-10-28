@@ -50,7 +50,6 @@ sub update_node_notifications {
 sub update_outdated_notifications {
 	my ( $self ) = @_;
 	return $self->update_notifications_where(
-		nid => $self->ddgc->config->nid,
 		'me.created' => { "<" => $self->format_datetime(
 			DateTime->now - DateTime::Duration->new( minutes => 4 )
 		) }

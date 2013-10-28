@@ -46,6 +46,8 @@ sub notify_cycle {
 	$c->stash->{dur} = sub { DDGC::Util::DateTime::dur($_[0]) };
 	$c->stash->{dur_precise} = sub { DDGC::Util::DateTime::dur_precise($_[0]) };
 
+	$c->d->envoy->update_outdated_notifications if $cycle == 2;
+
 	my $users_ids_rs = $c->d->envoy->unsent_notifications_cycle_users($cycle);
 
 	my @results = $users_ids_rs->all;
@@ -56,11 +58,12 @@ sub notify_cycle {
 		if ($user->data && $user->data->{email}) {
 			$c->stash->{current_user} = $user;
 			$c->stash->{unsent_notifications_results} = [$user->unsent_notifications_cycle($cycle)->all];
+			$c->stash->{unsent_notifications_count} = scalar @{$c->stash->{unsent_notifications_results}};
 			eval {
 				$c->d->postman->template_mail(
 					$user->data->{email},
 					'"DuckDuckGo Community Envoy" <envoy@dukgo.com>',
-					'[DuckDuckGo Community] New notifications for you',
+					'[DuckDuckGo Community] '.$c->stash->{unsent_notifications_count}.' new notifications for you',
 					'notifications',
 					$c->stash,
 				);

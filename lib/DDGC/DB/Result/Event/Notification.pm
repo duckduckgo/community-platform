@@ -41,9 +41,15 @@ column created => {
 	set_on_create => 1,
 };
 
-belongs_to 'event', 'DDGC::DB::Result::Event', 'event_id';
-belongs_to 'event_notification_group', 'DDGC::DB::Result::Event::Notification::Group', 'event_notification_group_id';
-belongs_to 'user_notification', 'DDGC::DB::Result::User::Notification', 'user_notification_id';
+belongs_to 'event', 'DDGC::DB::Result::Event', 'event_id', {
+	on_cascade => 'delete',
+};
+belongs_to 'event_notification_group', 'DDGC::DB::Result::Event::Notification::Group', 'event_notification_group_id', {
+	on_cascade => 'delete',
+};
+belongs_to 'user_notification', 'DDGC::DB::Result::User::Notification', 'user_notification_id', {
+	on_cascade => 'delete',
+};
 
 __PACKAGE__->indices(
 	event_notification_sent_idx => 'sent',
