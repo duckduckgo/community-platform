@@ -33,7 +33,7 @@ sub create_via_file {
   die $file." not found!" unless -f $file;
   die __PACKAGE__."->create_via_file needs need user"
     unless $user->isa('DDGC::DB::Result::User');
-  my $username = $user->username;
+  my $username = $user->lowercase_username;
   my @username_parts = split(//,$username);
   my @dirparts = (shift @username_parts);
   my $next = shift @username_parts;

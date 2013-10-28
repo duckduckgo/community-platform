@@ -14,9 +14,7 @@
 					</a>
 				</td>
 				<td>
-					<a class="notification__close" href="<: $u('My::Notifications','done',$_.id,{
-						from => $c.req.uri
-					}) :>" title="Mark Complete" <: style("button") :>>
+					<a class="notification__close" href="<: $u('My::Notifications','done',$_.id) :>" title="Mark Complete" <: style("button") :>>
 						Complete
 					</a>					
 				</td>
