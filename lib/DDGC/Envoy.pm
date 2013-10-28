@@ -47,6 +47,16 @@ sub update_node_notifications {
 	);
 }
 
+sub update_outdated_notifications {
+	my ( $self ) = @_;
+	return $self->update_notifications_where(
+		nid => $self->ddgc->config->nid,
+		'me.created' => { "<" => $self->format_datetime(
+			DateTime->now - DateTime::Duration->new( minutes => 4 )
+		) }
+	);
+}
+
 # shortcut for deploy and test runs
 sub update_all_notifications {
 	my ( $self ) = @_;
@@ -62,12 +72,16 @@ sub update_notifications_where {
 	);
 }
 
-sub unsent_notifications_cycle {
+sub unsent_notifications_cycle_users {
 	my ( $self, $cycle ) = @_;
-	$self->ddgc->rs('Event::Notification::Group')->prefetch_all->search_rs({
-		'event_notifications.sent' => 0,
+	$self->ddgc->rs('Event::Notification')->search_rs({
+		'me.sent' => 0,
 		'user_notification.cycle' => $cycle,
-	},{});
+	},{
+		select => [{ distinct => 'user_notification.users_id' }],
+		as => [qw( users_id )],
+		join => [qw( user_notification )],
+	});
 }
 
 sub notify_events {

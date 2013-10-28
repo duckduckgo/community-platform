@@ -166,11 +166,6 @@ sub _build__locale_user_languages {
 }
 
 sub translation_count { shift->token_language_translations->count(@_); }
-sub event_notifications_undone_count { shift->event_notifications->search({
-	done => 0,
-},{
-	cache_for => 30,
-})->count; }
 
 sub undone_notifications_count {
 	my ( $self ) = @_;
@@ -180,6 +175,7 @@ sub undone_notifications_count {
 		prefetch => [qw( user_notification_group ),{
 			event_notifications => [qw( user_notification )],
 		}],
+		cache_for => 30,
 	})->count;
 }
 
@@ -191,6 +187,17 @@ sub undone_notifications {
 		order_by => { -desc => 'event_notifications.created' },
 		$limit ? ( rows => $limit ) : (),
 	});
+}
+
+sub unsent_notifications_cycle {
+	my ( $self, $cycle ) = @_;
+	$self->schema->resultset('Event::Notification::Group')->prefetch_all->search_rs({
+		'event_notifications.sent' => 0,
+		'user_notification.cycle' => $cycle,
+		'user_notification.users_id' => $self->id,
+	},{
+		order_by => { -desc => 'event_notifications.created' },
+	});	
 }
 
 sub blog { shift->user_blogs_rs }

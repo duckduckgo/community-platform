@@ -79,17 +79,22 @@ sub done_base :Chained('base') :PathPart("") :CaptureArgs(1) {
 	my ( $self, $c, $id ) = @_;
 	$c->stash->{event_notification_group_id} = $id+0;
 	return $c->detach unless $c->stash->{event_notification_group_id};
-	$c->stash->{delete_count} = $c->d->rs('Event::Notification')->search({
+}
+
+sub done_resultset {
+	my ( $self, $c, $event_notification_group_id ) = @_;
+	$c->d->rs('Event::Notification')->search_rs({
 		'user_notification.users_id' => $c->user->id,
-		'event_notification_group.id' => $c->stash->{event_notification_group_id},
+		'event_notification_group.id' => $event_notification_group_id,
 	},{
 		prefetch => [qw( user_notification event_notification_group )],
-	})->delete;
+	});
 }
 
 sub done :Chained('done_base') :Args(0) {
 	my ( $self, $c ) = @_;
-	$c->response->body('OK '.$c->stash->{delete_count});
+	my $count = $self->done_resultset($c,$c->stash->{event_notification_group_id})->delete;
+	$c->response->body('OK '.$count);
   return $c->detach;
 }
 
@@ -99,6 +104,7 @@ sub done_goto :Chained('done_base') :Args(0) {
 	my $redirect = $event_notification_group->u
 		? $c->chained_uri(@{$event_notification_group->u})
 		: $c->chained_uri('My::Notification','index');
+	$self->done_resultset($c,$c->stash->{event_notification_group_id})->delete;
   $c->response->redirect($redirect);
   return $c->detach;
 }

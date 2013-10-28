@@ -31,6 +31,8 @@ sub base :Chained('/') :PathPart('') :CaptureArgs(0) {
 	$c->check_action_token;
 	$c->wiz_check;
 
+	$c->response->headers->header( 'X-Frame-Options' => 'DENY' );
+
 	$c->stash->{action_token} = $c->session->{action_token};
 
 	$c->add_bc('Home', $c->chained_uri('Root','index'));

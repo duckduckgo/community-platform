@@ -30,7 +30,7 @@
 			<tr>				
 				<td width="30">&nbsp;</td>
 				<td colspan="3" valign="middle">
-					<: i($_,$_.user_notification_group.type ~ '/email') :>
+					
 				</td>
 			</tr>
 		</table>
