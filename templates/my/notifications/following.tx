@@ -9,7 +9,7 @@
 <div class="content-box">
   <div class="head">
     <h3>Currently Receiving Notifications For ...<a class="icn icn--sup" href="<: $u('Blog','post','notification-system') :>" title="Get more information about the notification system"><i class="icon-question-sign"></i></a></h3>
-    <a class="pull-right  button  big" href="<: $u('My::Notifications','edit') :>" title="Edit Notification Settings"><i class="icon-gear"></i><span class="button__label">Notification Settings</span></a>
+    <a class="pull-right  button" href="<: $u('My::Notifications','edit') :>" title="Edit Notification Settings"><i class="icon-gear"></i><span class="button__label">Notification Settings</span></a>
   </div>
   <div class="body">
     <: for results($user_notifications) -> $user_notification { :>
@@ -19,7 +19,7 @@
 		   <i class="notification__following__active  icon-eye-close"></i>
         </a>
 		<a href="<: $u('My::Notifications','unfollow',$user_notification.id) :>" title="Stop following this item" class="notification__unfollow  button">Unfollow</a>
-		<span class="notification__body">
+		<span class="notification__body--following">
 			... <: $user_notification.user_notification_group.context :>
 			#<: $user_notification.context_id :>
         </span>

@@ -224,7 +224,7 @@ $(document).ready(function() {
 			$.ajax({
 				url: $(this).attr('href'),
 				beforeSend: function(xhr) {				
-					parent.find('div.notification').css('background-color','#d84736');
+					parent.find('div.notification').addClass('notification--close');
 				},
 				success: function(data) {
 					parent.hide('slow', function(){ parent.remove(); });

@@ -17,15 +17,21 @@
 			<: i($event_notification_group,'view') :>
 		<: } :>
 		<: if $undone_notifications_count > 40 { :>
-			<div class="row mid">
-				<a class="button red" href="<: $u('My::Notifications','index') :>">
-					Too many notifications, please mark some complete and reload with this button
-				</a>
-				<: if $c.user.admin { :>
-					<a class="button red" href="<: $u('My::Notifications','index',{ all => 1 }) :>">
-						I am admin, gimme all!
-					</a>
-				<: } :>
+			<div class="row group media  notification--too-many">
+				<div class="media__img--rev button-group">
+					<: if $c.user.admin { :>
+						<a class="button" href="<: $u('My::Notifications','index',{ all => 1 }) :>">
+							Show All
+						</a>
+					<: } :>
+					<a class="button  black" href="<: $u('My::Notifications','index') :>">
+						Reload
+					</a>					
+				</div>
+				<div class="media__body">
+					<h4 class="notification--too-many__header">Too many notifications!</h4>
+					<p class="notification--too-many__msg">We've got lots more to show you, but it's too much to display all at once.  Please mark some complete and hit 'reload'.</p>
+				</div>
 			</div>
 		<: } :>
 		<: include my::notifications::editteaser :>

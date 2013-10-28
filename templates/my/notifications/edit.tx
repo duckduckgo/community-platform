@@ -21,7 +21,7 @@
 <div class="content-box">
 	<div class="head">
 		<h3>How often would you like to be notified about ...<a class="icn icn--sup" href="<: $u('Blog','post','notification-system') :>" title="Get more information about the notification system"><i class="icon-question-sign"></i></a></h3>
-		<a class="pull-right  button  big" href="<: $u('My::Notifications','following') :>" title="Check what you're following"><i class="icon-refresh"></i><span class="button__label">Following</span></a>
+		<a class="pull-right  button" href="<: $u('My::Notifications','following') :>" title="Check what you're following"><i class="icon-refresh"></i><span class="button__label">Following</span></a>
 	</div>
 	<div class="body">
 		<: include my::notifications::option {

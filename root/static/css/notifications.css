@@ -7,15 +7,26 @@
 .notification {
 	display: block;
 }
-	.notification:nth-child(even) {
+.notification--close {
+	color: #C01300;
+	background-color: #F6D4D4;
+}
+	.notification:nth-child(even),
+	.notification_group:nth-child(even) {
 		background-color: #fafafa;
 	}
-	.notification__body {
+	.notification__body,
+	.notification__body--following{
 		display: block;
 		overflow: hidden;
 		padding: 2px 0 2px 30px;
 		line-height: 1.33;
 	}
+		.notification__body--following {
+			padding-left: 5px;
+			padding-top: 7px;
+		}
+	
 	.notification__unfollow {
 		float: right;
 		margin-left: 8px;
@@ -24,12 +35,23 @@
 	
 	.notification__icon {
 		color: #a7a7a7;
+		display: block;
+		text-align: center;
+		width: 1em;
 		font-size: 24px;
-		position: absolute;
+		
+		position: absolute;				
 		top: 50%;
-		margin-top: -0.5em;
 		left: 11px;
-	}
+		margin-top: -0.75em;
+	}		
+		.notification--edit__icon {
+			color: #a7a7a7;
+		}
+		.notification--close .notification__icon {
+			color: #C01300;
+		}
+			
 	
 	.notification__following,
 	.notification__view,
@@ -45,10 +67,18 @@
 		.notification__view:hover,
 		.notification__close:active {
 			color: #676767;
-		}		
+		}
+		.notification--close .notification__view,
+		.notification--close .notification__close {
+			color: #E5BFBF;
+		}	
 	
-	.notification__following {
+	.notification__following,
+	.notification--edit__icon {
 		float: left;
+		display: block;
+		width: 1em;
+		text-align: center;
 		margin-right: 8px;
 		margin-left: -8px;
 		font-size: 17px;
@@ -56,6 +86,9 @@
 		line-height: 20px;
 		position: relative;
 		top: 3px;
+	}
+	.notification__following {
+		top: 6px;
 	}
 	.notification__following__passive {
 		visibility: visible;
@@ -103,6 +136,21 @@
 			color: inherit;
 		}
 
+.notification--too-many	{
+	
+}	
+	.notification--too-many__header {
+		font-weight: bold;
+		padding-top: 4px;
+	}
+	.notification--too-many__msg {		
+		margin-bottom: 0;
+	}
+
+.notification--edit .select2-container {
+	margin-top: -2px;
+}
+	
 /*
 	Pager Override
 	
