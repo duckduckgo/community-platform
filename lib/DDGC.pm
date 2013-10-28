@@ -442,6 +442,12 @@ sub template_styles {{
 		'font-family' => 'sans-serif',
 		'font-size' => '14px',
 	},
+	'notification_icon' => {
+		'width' => '40px',
+		'height' => '40px',
+		'outline' => 'none',
+		'border' => 'none',
+	},
 	'notification_count' => {
 		'padding' => '5px 0',
 		'background-color' => '#fbfbfb',
@@ -455,7 +461,7 @@ sub template_styles {{
 		'color' => '#a0a0a0',
 		'font-weight' => 'bold',
 		'font-size', => '16px',
-	},
+	},	
 	'button' => {
 		'font-family' => 'sans-serif',
 		'font-size' => '14px',
@@ -487,7 +493,7 @@ sub template_styles {{
 		'text-decoration' => 'none',
 		'line-height' => '35px',
 		'height' => '40px',
-		'overflow' => 'visible',
+		'overflow' => 'visible',	
 	},
 }}
 

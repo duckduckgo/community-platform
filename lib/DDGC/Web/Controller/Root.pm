@@ -16,6 +16,7 @@ sub base :Chained('/') :PathPart('') :CaptureArgs(0) {
 		$c->authenticate({ username => $username, password => $password, }, 'users');
 	}
 
+	$c->stash->{web_base} = $c->d->config->web_base;
 	$c->stash->{template_layout} = [ 'base.tx' ];
 	$c->stash->{ddgc_config} = $c->d->config;
 	$c->stash->{xmpp_userhost} = $c->d->config->prosody_userhost;
