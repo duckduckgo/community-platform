@@ -3,15 +3,22 @@
   <head>
   <meta charset="utf-8">  
   </head>
-  <body style="padding:0; margin:0; background-color: #e9e9e9">
-	<table cellpadding="5" cellspacing="0" border="0" width="100%" bgcolor="#e9e9e9">
+  <body style="padding:0; margin:0; background-color: #ffffff">
+	<table cellpadding="5" cellspacing="0" border="0" width="100%" bgcolor="#ffffff">
 		<tr>
-			<td height="20" <: style("warning") :> align="center" valign="top" colspan="4">
+			<td height="20" align="center" valign="top" colspan="3" <: style("warning") :>>
 			  This is an automated email from DuckDuckGo's Community platform. <b>DO NOT REPLY</b>.
 			</td>       
 		</tr>
-		<: include $email_template :>
-		
+		<tr>
+			<td width="5">&nbsp;</td>
+			<td>
+				<table cellpadding="0" cellspacing="0" border="0" width="100%" bgcolor="#ffffff" <: style("msg_body") :>>
+					<: include $email_template :>
+				</table>	
+			</td>
+			<td width="5">&nbsp;</td>
+		</tr>		
 	</table>
   </body>
 </html>

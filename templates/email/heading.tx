@@ -1,6 +1,6 @@
   <tr>    
 	<td align="center" colspan="4">
-      <table cellpadding="0" cellspacing="5" border="0" style="width: 100%;">
+      <table cellpadding="0" cellspacing="5" border="0" <: style("msg_header") :>>
         <tr>
           <td width="10"></td>
 		  <td valign="top">
