@@ -2,7 +2,7 @@
     <a class="button" href="<: $u('Help','index') :>"><i class="icon-fast-backward" title="Back to help index"></i></a>
     <a class="button" href="<: $u('Help','category',$help_category.key) :>"><i class="icon-step-backward" title="Back to category"></i></a>
 </div>
-<div class="gw  gw--sm  mg-bottom">
+<div class="gw  gw--sm  mg-bottom  clear">
 	<div class="g  threequarter  pull-right">
 		<div class="content-box">
 		  <div class="head">
@@ -40,7 +40,8 @@
 			</div>
 		  </div>
 		<: } :>		
-		<ul class="nav  nav--panels  ">
+		<a href="javascript;" class="button  hide  palm-block  js-palm-toggle"><i class="icon  icon-list-ul"></i> Show More Links</a>
+		<ul class="nav  nav--panels  palm-hide">
 		  <: for results($help_categories) -> $category { :>
 			<li class="nav-item <: if $category.key == $help_category.key { :> nav-item--active<:}:>">
 			  <: if $category.key != $help_category.key { :>

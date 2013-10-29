@@ -56,6 +56,12 @@ $(document).ready(function() {
 		$(this).parents('form').submit();
 	});
 
+	$('.js-palm-toggle').click(function(e){
+		// quick 'n dirty togglin' for siblings with .palm-hide
+		e.preventDefault();
+		$(this).siblings('.palm-hide').toggle();
+		$(this).toggle();
+	});
 	
 	$('.js-toggle-sibling').click(function(e){
 		e.preventDefault();			

@@ -1,31 +1,34 @@
 <aside class="sidebar group  mg-top--double">	
-	<: if $latest_ideas { :>
-		<section class="menu-list tab-mid">
-			<h5>Newest Ideas:</h5>
+	<a href="javascript;" class="button  hide  palm-block  js-palm-toggle"><i class="icon  icon-list-ul"></i> Show More Links</a>
+	<div class="palm-hide">
+		<: if $latest_ideas { :>
+			<section class="menu-list tab-mid">
+				<h5>Newest Ideas:</h5>
+				<ul>
+					<: for results($latest_ideas) -> $idea { :>
+						<li><a href="<: $u($idea.u) :>"><: $idea.title :></a></li>
+					<: } else { :>
+						Nothing here yet!
+					<: } :>
+				</ul>
+			</section>
+		<: } :>
+		<section class="menu-list">
+			<h5>View by Status:</h5>
 			<ul>
-				<: for results($latest_ideas) -> $idea { :>
-					<li><a href="<: $u($idea.u) :>"><: $idea.title :></a></li>
-				<: } else { :>
-					Nothing here yet!
-				<: } :>
+				<li><a href="<: $u('Ideas','status',3) :>">Needs a Developer</a></li>
+				<li><a href="<: $u('Ideas','status',2) :>">Needs Source</a></li>
+				<li><a href="<: $u('Ideas','status',1) :>">Needs Definition</a></li>
+				<li><a href="<: $u('Ideas','status',5) :>">Under Review</a></li>
+				<li><a href="<: $u('Ideas','status',4) :>">In Development</a></li>
+				<li><a href="<: $u('Ideas','status',8) :>">Live</a></li>	
 			</ul>
 		</section>
-	<: } :>
-	<section class="menu-list">
-		<h5>View by Status:</h5>
-		<ul>
-			<li><a href="<: $u('Ideas','status',3) :>">Needs a Developer</a></li>
-			<li><a href="<: $u('Ideas','status',2) :>">Needs Source</a></li>
-			<li><a href="<: $u('Ideas','status',1) :>">Needs Definition</a></li>
-			<li><a href="<: $u('Ideas','status',5) :>">Under Review</a></li>
-			<li><a href="<: $u('Ideas','status',4) :>">In Development</a></li>
-			<li><a href="<: $u('Ideas','status',8) :>">Live</a></li>	
-		</ul>
-	</section>
-	<section class="menu-list">
-		<a href="<: $u('Forum','ideas') :>" class="button tall media full--l">
-			<i class="media__img icon-comments"></i>
-			<span class="media__body">View Latest Comments</span>
-		</a>
-	</section>	
+		<section class="menu-list">
+			<a href="<: $u('Forum','ideas') :>" class="button tall media full--l">
+				<i class="media__img icon-comments"></i>
+				<span class="media__body">View Latest Comments</span>
+			</a>
+		</section>	
+	</div>
 </aside>

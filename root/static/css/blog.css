@@ -70,11 +70,13 @@
 .post-snippet, .post-body {
 	margin: 0 88px 48px 75px;
 }
-.post-comments { margin-right: 24px; }
+.post-comments { 
+	margin-right: 88px; 
+	margin-bottom: 48px;
+}
 
-	.blog-content .notice { margin-right: 88px; }
 		.blog-content .comment + .notice { 
-			margin-top: 16px; margin-right: 0;
+			margin-top: 16px; 
 		}
 	
 	.post-snippet .more-link { 
@@ -183,6 +185,9 @@
 					border-right: none;
 					margin-top: -5px;
 				}
+				.sidebar .menu-list li .icon {
+					margin-left: 4px;
+				}
 	.sidebar ul a { color: #474747; text-decoration: none; }
 		.sidebar ul a:hover { color: #979797; }
 		.sidebar ul a.rss { color: #ec8547; }
@@ -217,9 +222,9 @@
 }
 @media only screen and (max-width: 990px) {	
 	.page-blog .topmsg {	display: none; }
-	.post-body { margin-right: 24px; }
+	.post-body, .post-comments  { margin-right: 24px; }
 }
-@media only screen and (max-width: 788px) {
+@media only screen and (max-width: 50em) {
 	.page-blog .topmsg {	display: block; zoom: 0.9;}
 	.blog-content { float: none; width: 100%; margin: 0 auto 10px; }
 	.post-comments { margin-right: 0; }
@@ -229,7 +234,7 @@
 	.tab-third { float: left; width: 33%; }
 		.sidebar .tab-half h5, .tab-mid h5 { text-align: center; }
 }
-@media only screen and (max-width: 500px) {
+@media only screen and (max-width: 40em) {
 	.tab-half, .tab-third { float: none; width: auto; }
 		.sidebar .tab-half h5, .tab-mid h5 { text-align: left; }
 	.blog-content { width: auto; margin: 0 8px 10px; }
