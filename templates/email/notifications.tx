@@ -10,7 +10,7 @@
 							<td width="10">&nbsp;</td>
 							<td>
 								<h4 <: style("notification_count_text") :>>
-									You have 2 new notifications.
+									You have <: $unsent_notifications_count :> new notifications.
 								</h4>
 							</td>
 							<td width="146">
