@@ -13,7 +13,7 @@
 	<div class="body">
 		<: if !$token_languages.count && $only_untranslated { :>
 			<div class="row nav">
-				<h1>No untranslated snippets left!</h2>
+				<h1 class="text-left">No untranslated tokens left!</h1>
 				<div class="clear">&nbsp;</div>
 				<a href="<: $u('Translate','tokens',$token_domain.key,$cur_language.locale) :>">
 					<div>Vote on the other translations!</div>

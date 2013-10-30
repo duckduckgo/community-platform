@@ -55,7 +55,7 @@
 				<: if $token_language.token.notes { :>
 					Please assure to read the notes before translating!
 				<: } else { :>
-					Please do not hesitate to <a href="https://duckduckgo.com/feedback">contact us</a>, if you require any further information for this token.
+					Please do not hesitate to <a href="<: $u('Forum','index') :>">contact us</a>, if you require any further information for this token.
 				<: } :>
 				</p>
 			</div>

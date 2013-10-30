@@ -1,5 +1,5 @@
-<h1>Welcome to the DuckDuckGo Help pages!</h1>
-<p class="twothird  block-mid  intro-message">Here, you can find answers to almost any DuckDuckGo questions. If you don't see the information you're looking for, try asking the <a href="http://duck.co/">community</a>!</p>
+<h1>Welcome to the DuckDuckGo Help library!</h1>
+<p class="twothird  block-mid  intro-message">If you can't find an answer to your DuckDuckGo question, <a href="<: $u('Forum','index') :>">ask the community</a>!</p>
 
 <div class="twothird  block-mid  mg-bottom--big">
 	<: include help::searchbox :>

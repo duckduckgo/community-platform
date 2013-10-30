@@ -17,7 +17,7 @@
 		</div>
 	</div>	
 	<: if $token_language.translations.size() { :>
-		<div class="row half clear">
+		<div class="row half">
 			<div class="token__label"><label>Translations:</label></div>
 			<div class="token__content">
 				<div class="current-translations-min">
@@ -31,10 +31,10 @@
 		</div>
 	<: } :>
 	<: if $token_language.token.notes || $token_language.notes { :>
-		<div class="row half">
+		<div class="row clear">
 			<div class="token__label"><label>Notes:</label></div>
 			<div class="token__content  translation-notes">
-				<: if $token_language.token.notes { :>
+				<p><: if $token_language.token.notes { :>
 					<: r($token_language.token.notes) :>
 					<: if $token_language.notes { :>
 						<br/>
@@ -42,7 +42,7 @@
 				<: } :>
 				<: if $token_language.notes { :>
 					<: r($token_language.notes) :>
-				<: } :>
+				<: } :></p>
 			</div>
 		</div>
 	<: } :>

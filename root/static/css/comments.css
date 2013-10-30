@@ -195,6 +195,9 @@
 			bottom: 20%;
 			left: 0;
 		}
+		.uploaded__thumb {
+			min-height: 100px;
+		}
 		.uploaded__icon {
 			/* assuming we also have an icon class attached */
 			font-size: 3em;
