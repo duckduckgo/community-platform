@@ -45,7 +45,7 @@ ssh -q -t ddgc@$DDGC_RELEASE_HOSTNAME "(
 	rm -rf ~/cache &&
 	mkdir ~/cache &&
 	cp -ar ~/live/share/docroot/* ~/docroot/ &&
-	cp -ar ~/live/share/docroot_duckpan/* ~/ddgc/duckpan/
+	cp -ar ~/live/share/docroot_duckpan/* ~/ddgc/duckpan/ &&
 	echo Starting new system... && 
 	sudo /usr/local/sbin/start_ddgc.sh &&
 	. /home/ddgc/perl5/perlbrew/etc/bashrc &&
