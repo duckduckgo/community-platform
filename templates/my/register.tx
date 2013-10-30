@@ -7,7 +7,7 @@
 
 <div class="disclaimer ">
 	<h6>Please note:</h6>
-	<p>You do not need this DuckDuckGo community account to use the DuckDuckGo search engine. You do not need to share personal information to create this DuckDuckGo community account (i.e. you can use an anonymous username). We log as little as possible on this open source community platform (e.g. no IP addresses or user agents).</p>
+	<p>You do not need this DuckDuckGo community account to use the DuckDuckGo search engine. You do not need to share personal information to create this DuckDuckGo community account (i.e. you can use an anonymous username and no email address). This code is also <a href="https://github.com/duckduckgo/community-platform" target="github">open source for your enjoyment</a>.</p>
 </div>
 
 <: if $wrong_captcha { :>
@@ -52,27 +52,32 @@
 		<form action="<: $u('My', 'register') :>" class="group" method="post">
 			<div class="account-items group">
 				<div class="half">
-					<div class="input-wrap"><input type="text" placeholder="Your Username" name="username" class="text"/></div>
+					<label for="username" class="hide palm-block">Username</label>
+					<div class="input-wrap"><input type="text" placeholder="Your Username" title="Your Username" name="username" class="text"/></div>
 				</div>
 				<div class="half">
-					<div class="input-wrap"><input type="text" placeholder="Your Email (Optional)" name="email" class="text" /></div>
+					<label for="email" class="hide palm-block">Email</label>
+					<div class="input-wrap"><input type="text" placeholder="Your Email (Optional)" title="Your Email (Optional)" name="email" class="text" /></div>
 				</div>
 				<div class="half">
-					<div class="input-wrap"><input type="password" placeholder="Create Password" name="password" class="text password" /></div>
+					<label for="password" class="hide palm-block">Password</label>
+					<div class="input-wrap"><input type="password" placeholder="Create Password" title="Create Password" name="password" class="text password" /></div>
 				</div>			
 				<div class="half">
-					<div class="input-wrap"><input type="password" placeholder="Confirm Password" name="repeat_password" class="text password" /></div>
+					<label for="repeat_password" class="hide palm-block">Repeat Password</label>
+					<div class="input-wrap"><input type="password" placeholder="Confirm Password" title="Confirm Password" name="repeat_password" class="text password" /></div>
 				</div>
 			</div>
 			<hr class="clear" />
 			<div class="half">
 				<div class="robo-blaster-wrap group">
 					<div class="captcha"><img src="<: $u('Root','captcha') :>" alt="nice try robot!" /></div>
-					<div class="captcha-validate"><div class="input-wrap"><input type="text" placeholder="Enter the phrase" name="captcha" class="text"/></div></div>
+					<div class="captcha-validate"><div class="input-wrap"><input type="text" placeholder="Enter the phrase" title="r u real?" name="captcha" class="text"/></div></div>
 				</div>
 			</div>
 			<div class="half">
-				<p class="agree-terms"><input type="checkbox" name="agree-terms" /> I agree to the DuckDuckGo Community Platform <a href="https://duckduckgo.com/privacy" target="ddg-policy" title="DuckDuckGo Terms of use and Privacy Policy">Terms of Use</a></p>
+				: # <p class="agree-terms"><input type="checkbox" name="agree-terms" /> I agree to the DuckDuckGo Community Platform <a href="https://duckduckgo.com/privacy" target="ddg-policy" title="DuckDuckGo Terms of use and Privacy Policy">Terms of Use</a></p>
+				<p class="agree-terms">A magical world awaits you&hellip;</p>
 				<div class="half"><div class="input-wrap"><input type="submit" value="Create my account" class="button blue submit" name="register" /></div></div>
 			</div>		
 		</form>		
