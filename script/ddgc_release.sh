@@ -37,7 +37,7 @@ ssh -q -t ddgc@$DDGC_RELEASE_HOSTNAME "(
 	touch ~/ddgc_web_maintenance
 )" && \
 echo "***\n*** Stopping current system...\n***" && \
-ssh -q -t root@$DDGC_RELEASE_HOSTNAME "( ~/stop_ddgc.sh )" && \
+ssh -q -t ddgc@$DDGC_RELEASE_HOSTNAME "( ~/stop_ddgc.sh )" && \
 echo "***\n*** Copying new files in place...\n***" && \
 ssh -q -t ddgc@$DDGC_RELEASE_HOSTNAME "(
 	. /home/ddgc/perl5/perlbrew/etc/bashrc &&
@@ -50,11 +50,7 @@ ssh -q -t ddgc@$DDGC_RELEASE_HOSTNAME "(
 	cp -ar ~/live/share/docroot_duckpan/* ~/ddgc/duckpan/
 )" && \
 echo "***\n*** Starting new system...\n***" && \
-ssh -q -t root@$DDGC_RELEASE_HOSTNAME "(
-	svc -u /etc/service/ddgc &&
-	sleep 20 &&
-	rm /home/ddgc/ddgc_web_maintenance
-)" && \
+ssh -q -t ddgc@$DDGC_RELEASE_HOSTNAME "( ~/start_ddgc.sh )" && \
 
 if [ "$1" = "prod" ];
 then
