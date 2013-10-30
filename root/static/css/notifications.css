@@ -151,26 +151,3 @@
 	margin-top: -2px;
 }
 	
-/*
-	Pager Override
-	
-	A really nasty, hacky solution to having too many paging buttons.
-	
-	Basically the only thing this does is prevents the overall view 
-	from breaking - it doesn't really solve the root issue.
-*/
-.notifications--pager .button-group--paging {
-	max-width: 100%;
-	overflow: hidden;
-	padding-right: 31px;
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	-ms-box-sizing: border-box;
-	-o-box-sizing: border-box;
-	box-sizing: border-box;
-}
-	.notifications--pager .button-group--paging .button:last-child {
-		position: absolute;
-		top: 0;
-		right: 0;
-	}

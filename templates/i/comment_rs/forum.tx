@@ -1,14 +1,14 @@
 <div class="content-box">
-  <div class="head group">
+  <div class="content-box__head  group  head--forum">
     <div class="pull-left">
 		<: if $forum_index { :>
 		  <: include "forum/nav.tx" { current_page => 'general' } :>
 		<: } else { :>
 		  <: include "forum/nav.tx" { current_page => 'other' } :>
 		<: } :>
-	</div>
-	<div class="pull-right">
-		<: i($grouped_comments,'pager') :>
+	</div>	
+	<div class="pager-wrap">
+		<: i($grouped_comments,'pager') :>	
 	</div>
   </div>
   <div class="body">
