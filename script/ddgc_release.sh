@@ -34,12 +34,10 @@ ssh -q -t ddgc@$DDGC_RELEASE_HOSTNAME "(
 	tar xz --strip-components=1 -f $2 &&
 	cpanm -n --installdeps . &&
 	duckpan DDGC::Static &&
-	touch ~/ddgc_web_maintenance
-)" && \
-echo "***\n*** Stopping current system...\n***" && \
-ssh -q -t ddgc@$DDGC_RELEASE_HOSTNAME "( ~/stop_ddgc.sh )" && \
-echo "***\n*** Copying new files in place...\n***" && \
-ssh -q -t ddgc@$DDGC_RELEASE_HOSTNAME "(
+	touch ~/ddgc_web_maintenance &&
+	echo Stopping current system... && 
+	sudo /usr/local/sbin/stop_ddgc.sh && 
+	echo Copying new files in place... && 
 	. /home/ddgc/perl5/perlbrew/etc/bashrc &&
 	. /home/ddgc/ddgc_config.sh &&
 	mv ~/live ~/backup/$CURRENT_DATE_FILENAME &&
@@ -48,18 +46,10 @@ ssh -q -t ddgc@$DDGC_RELEASE_HOSTNAME "(
 	mkdir ~/cache &&
 	cp -ar ~/live/share/docroot/* ~/docroot/ &&
 	cp -ar ~/live/share/docroot_duckpan/* ~/ddgc/duckpan/
-)" && \
-echo "***\n*** Starting new system...\n***" && \
-ssh -q -t ddgc@$DDGC_RELEASE_HOSTNAME "( ~/start_ddgc.sh )" && \
-
-if [ "$1" = "prod" ];
-then
-	echo "***\n*** Uploading DDGC Distribution to DuckPAN...\n***" && \
-	ssh -q -t ddgc@$DDGC_RELEASE_HOSTNAME "(
-		. /home/ddgc/perl5/perlbrew/etc/bashrc &&
-		. /home/ddgc/ddgc_config.sh &&
-		cd ~/live &&
-		script/ddgc_add_duckpan_dist.pl ddgc $2
-	)" && \
-	echo "***\n*** Release successful\n***"
-fi
+	echo Starting new system... && 
+	sudo /usr/local/sbin/start_ddgc.sh &&
+	. /home/ddgc/perl5/perlbrew/etc/bashrc &&
+	. /home/ddgc/ddgc_config.sh &&
+	cd ~/live &&
+	script/ddgc_add_duckpan_dist.pl ddgc $2
+)"
