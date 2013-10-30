@@ -25,6 +25,7 @@
 			.post-meta .user-info img, .author-meta .user-info img{
 				display: inline-block;
 				margin-bottom: -3px;
+				margin-top: -6px;
 			}
 			.lt-ie9 .post-meta .user-info, .lt-ie9 .author-meta .user-info {
 				display: inline; 

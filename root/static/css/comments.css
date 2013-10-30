@@ -71,7 +71,14 @@
     padding-left: 16px; 
     padding-bottom: 4px;
 }
-    .forum-item__title { display: block; }
+    .forum-item__title-wrap,
+	.forum-item__title{
+		position: static !important; /* so that the icon can escape */
+	}
+	
+	.forum-item__title { 
+		display: block; 		
+	}
         .forum-item__title:visited { color: #5433b3; }
     .forum-item__title .icon {
         position: absolute;
@@ -86,11 +93,32 @@
         top: 4px;
         right: 5px;
     }
-    .forum-item__replycount { 
+    .forum-item__reply-count { 
         color: #7a7b80; 
         float: right;
     }
-
+	.reply-count {
+		display: block;
+		line-height: 1.2;
+		font-size: 13px;
+		padding-top: 4px;		
+	}
+		.reply-count__icon {
+			font-size: 80%;
+			color: #d9d9d9;
+		}
+	
+	.reply-count,
+	.reply-info {
+		text-align: right;
+	}	
+	@media only screen and (max-width: 40em) {	
+		.reply-count,
+		.reply-info {
+			text-align: left;
+		}
+	}
+	
 /*
     Thread View
 */

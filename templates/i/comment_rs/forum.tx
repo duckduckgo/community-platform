@@ -18,32 +18,40 @@
       <: # my $children_count = $context_obj.comment.children.count :>
       <div class="row">
         <div class="forum-item">
-          <a class="forum-item__title  group" href="<: $u($comment.u) :>">
-            <: i($context_obj,'label_thread') :>
-          </a>
-          <: if $comment.context == 'DDGC::DB::Result::Thread' { :>
-            <span class="thread-icons">
-              <: if $context_obj.readonly { :><i class="thread-icon  icon-lock" title="This thread is read-only"></i><: } :>
-              <: if $context_obj.done { :><i class="thread-icon--good  icon-ok" title="This thread is complete"></i><: } :>
-              <: if $context_obj.sticky { :><i class="thread-icon--stuck  icon-pushpin" title="Stuck Thread"></i><: } :>
-            </span>
-          <: } :>
-        
-          <div class="gw">
-            <div class="g third">
+			<div class="forum-item__top  group">
+				<div class="forum-item__title-wrap  eighty">
+				  <a class="forum-item__title  group" href="<: $u($comment.u) :>">
+					<: i($context_obj,'label_thread') :>
+				  </a>
+				  <: if $comment.context == 'DDGC::DB::Result::Thread' { :>
+					<span class="thread-icons">
+					  <: if $context_obj.readonly { :><i class="thread-icon  icon-lock" title="This thread is read-only"></i><: } :>
+					  <: if $context_obj.done { :><i class="thread-icon--good  icon-ok" title="This thread is complete"></i><: } :>
+					  <: if $context_obj.sticky { :><i class="thread-icon--stuck  icon-pushpin" title="Stuck Thread"></i><: } :>
+					</span>
+				  <: } :>
+				</div>
+				<div class="forum-item__reply-count  twenty">
+					 <span class="reply-count">
+						<i class="reply-count__icon  icon-bubble"></i> [ <a href="<: $u($comment.u) :>#comments"><: $reply_count :> <: if $reply_count != 1 { :>Replies<: } else if $reply_count == 1 { :>Reply<: } :></a> ]
+					</span>
+				</div>
+		  </div>
+          <div class="group">
+            <div class="forty">
                 <span class="comment-meta">
                     <: if $context_obj.can('user') && $context_obj.user { :>
-                      by <: i($context_obj.user,'username') :> &bull; <: $dur_precise($context_obj.created) :>
+                      by <: i($context_obj.user) :> &bull; <: $dur($context_obj.created) :>
                     <: } elsif $context_obj.can('token') && $context_obj.token { :> 
                        <i>Translation</i>
-                    <: } :>
-                    &bull; [ <: $reply_count :> <: if $reply_count != 1 { :>Replies<: } else if $reply_count == 1 { :>Reply<: } :> ]
+                    <: } :>                    
                 </span>
             </div>
-            <div class="g twothird">
-                <span class="comment-meta  text-right">
+            <div class="sixty">
+               
+				<span class="comment-meta  reply-info">
                   <a href="<: $u($comment.u) :>#comment_<: $comment.id :>">latest comment</a> by
-                  <: i($comment.user,'username') :>
+                  <: i($comment.user) :>
                   &bull; <: $dur_precise($comment.created) :>
                 </span>
             </div>
