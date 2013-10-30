@@ -7,11 +7,27 @@ use warnings;
 sub feedback_title { "I have something to share." }
 
 sub feedback {[
-  { description => "DuckDuckGo discussions come in 2 forms: <b>Instant Answer Ideas</b> and <b>General Ramblings</b>. Please let us know what you'd like to talk about!", type => 'info', icon => "dax" },
-  { description => "It's a suggestion for an instant answer", icon => "sun" },
-    suggest_instant(),
-  { description => "It's a general topic (or click here if you are unsure)", icon => "convo" },
-    suggest_idea(),
+  { 
+	description => "DuckDuckGo discussions come in 2 forms: <b>Instant Answer Ideas</b> and <b>General Ramblings</b>. Please let us know what you'd like to talk about!", 
+	type => 'info', 
+	icon => "dax" 
+  },
+  { 
+	description => "It's a suggestion for an instant answer", 
+	icon => "sun", 
+	type => "link",
+	link => ['Ideas','newidea'],
+  },
+    # suggest_instant(),
+  { 
+	description => "It's a general topic (or click here if you are unsure)", 
+	icon => "convo",
+	type => "link",
+	link => ['Forum::My','newthread'],
+  },
+    # suggest_idea(),
+  "" # workaround for non submittable ending points like this here.
+  # cutting this flow short to get a user to the 'new post' page sooner
 ]}
 
 sub suggest_instant {[

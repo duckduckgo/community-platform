@@ -1,7 +1,9 @@
+<div class="notice warning"><i class="icn icon-warning-sign"></i>Please check if your post has been <a href="<: $u('Help','index') :>">answered</a> or is <a href="<: $u('Forum','index') :>">currently being discussed</a>.</div>
 <div class="form-border">
     <div class="form-wrap">
         <h3><: $form_title :></h3>
         <hr/>
+		
         <div class="body">
             <: if $error { :>
                 <div class="notice error"><i class="icn icon-warning-sign"></i><: $error :></div>

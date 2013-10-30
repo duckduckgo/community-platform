@@ -1,3 +1,5 @@
+<div class="notice warning"><i class="icn icon-warning-sign"></i>Please check if your idea has been <a href="<: $u('Ideas','index') :>">suggested</a> or is <a href="https://duckduckgo.com/goodies">created already</a>.</div>
+
 <div class="form-border">
     <div class="form-wrap">
         <h3><: $form_title :></h3>
