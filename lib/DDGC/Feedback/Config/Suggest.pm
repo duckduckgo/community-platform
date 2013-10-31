@@ -13,7 +13,7 @@ sub feedback {[
 	icon => "dax" 
   },
   { 
-	description => "It's a suggestion for an instant answer", 
+	description => "It's an idea for an instant answer", 
 	icon => "sun", 
 	type => "link",
 	link => ['Ideas','newidea'],
@@ -37,7 +37,7 @@ sub suggest_instant {[
     link => "https://duckduckgo.com/goodies",
   },
   {
-    description => "Check if someone already has suggested your idea at our instant answer suggestion page.",
+    description => "Check if someone already has suggested your idea at our instant answer ideas page.",
     icon => "sun", type => "link",
     link => ['Ideas','index'],
   },
