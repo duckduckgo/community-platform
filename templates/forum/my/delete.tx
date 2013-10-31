@@ -1,1 +1,1 @@
-<a class="button" href="<: $u('Forum::My','delete',$thread.id,{ i_am_sure => 1, action_token => $action_token }) :>">Yes, really delete the thread <b><: $thread.title :></b> and all comments to it?</a>
+<a class="button" href="<: $u('Forum::My','delete',$thread.id,{ i_am_sure => 1, action_token => $action_token }) :>">Are you sure you want to delete the thread and comments for:  <b><: $thread.title :></b>? Click this box to confirm.</a>
