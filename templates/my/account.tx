@@ -10,24 +10,7 @@
 <: } :>
 <form action="<: $u('My','account') :>" method="post" id="formAccount">
 
-	<: my $notification_count = $undone_notifications_count || $c.user.undone_notifications_count :>
-	<div class="content-box">
-		<div class="head  head--round  head--grey">
-			<h2><: if $notification_count { :>
-				You have <b><: $notification_count :></b> notifications waiting
-			<: } else { :>
-				No notifications for you
-			<: } :></h2>
-			<span class="button-group pull-right">
-				<: if $notification_count { :>
-					<a class="button  charcoal" href="<: $u('My::Notifications','index') :>">
-						<i class="icon-bullhorn"></i><span class="button__label">View Notifications</span>
-					</a>
-				<: } :>
-				<a href="<: $u('My::Notifications','edit') :>" class="button "><i class="icon-gear"></i><span class="button__label">Settings</span></a>
-			</span>
-		</div>		
-	</div>
+	<: include my::notifications::header { highlight_view => 1 }:>
 
 	<div class="content-box account-box">
 		<div class="head">

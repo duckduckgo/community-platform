@@ -6,24 +6,12 @@
 
 <input type="hidden" name="action_token" value="<: $action_token :>">
 
-<div class="content-box">
-	<div class="head  head--round  head--grey">
-		<h3>Notification Config</h3>
-	</div>
-</div>
+<: include my::notifications::header { active_follow => 1 } :>
 
 <: my $notification_count = $undone_notifications_count || $c.user.undone_notifications_count :>
 <div class="content-box">
   <div class="head">
     <h3>Currently Receiving Notifications For ...<a class="icn icn--sup" href="<: $u('Blog','post','notification-system') :>" title="Get more information about the notification system"><i class="icon-question-sign"></i></a></h3>
-	<span class="button-group pull-right">
-		<: if $notification_count { :>
-				<a class="button  charcoal" href="<: $u('My::Notifications','index') :>">
-					<i class="icon-bullhorn"></i><span class="button__label">View Notifications</span>
-				</a>
-			<: } :>
-		<a class="button" href="<: $u('My::Notifications','edit') :>" title="Edit Notification Settings"><i class="icon-gear"></i><span class="button__label">Settings</span></a>
-	</span>
   </div>
   <div class="body">
     <: for results($user_notifications) -> $user_notification { :>

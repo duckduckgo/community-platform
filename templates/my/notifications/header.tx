@@ -1,0 +1,20 @@
+<: my $notification_count = $undone_notifications_count || $c.user.undone_notifications_count :>
+<div class="content-box">
+	<div class="head  head--round  head--grey">
+		<h2><: if $notification_count { :>
+			You have <b><: $notification_count :></b> notifications
+		<: } else { :>
+			No notifications for you
+		<: } :></h2>
+		<span class="button-group pull-right">
+			<: if $notification_count && !$hide_view { :>
+				<a class="button  <: if $highlight_view { :>blue<: } if $active_view { :> button-nav-current<: } :>" href="<: $u('My::Notifications','index') :>">
+					<i class="icon-bullhorn"></i><span class="button__label">View Notifications</span>
+				</a>
+			<: } :>
+			<a class="button <: if $active_edit { :>button-nav-current<: } :>" href="<: $u('My::Notifications','edit') :>" title="Edit Notification Settings"><i class="icon-gear"></i><span class="button__label">Settings</span></a>
+			
+			<a class="button <: if $active_follow { :>button-nav-current<: } :>" href="<: $u('My::Notifications','following') :>" title="Check what you're following"><i class="icon-eye-open"></i><span class="button__label">Following</span></a>
+		</span>
+	</div>
+</div>

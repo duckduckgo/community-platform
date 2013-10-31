@@ -1,13 +1,14 @@
 <: include my::notifications::noemail :>
+
+<: include my::notifications::header { active_view => 1 } :>
+
 <div class="content-box">
 	<div class="head">
 		<h2>Your Notifications</h2>
-		<span class="button-group pull-right">
-			<a class="button" href="<: $u('My::Notifications','edit') :>" title="Edit Notification Settings"><i class="icon-gear"></i><span class="button__label">Settings</span></a>
-			<a class="button" href="<: $u('My::Notifications','following') :>" title="Check what you're following"><i class="icon-eye-open"></i><span class="button__label">Following</span></a>		
+		<span class="button-group pull-right">			
 		<: if $undone_notifications.count { :>
 			<a class="button red" href="<: $u('My::Notifications','all_done') :>">
-				<i class="icon-folder-open"></i><span class="button__label">Mark All Complete</span>
+				<i class="icon-folder-open"></i><span class="button__label">Mark All Read</span>
 			</a>	
 		<: } :>
 		</span>
