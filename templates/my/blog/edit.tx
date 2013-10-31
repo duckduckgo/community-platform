@@ -94,16 +94,16 @@
 						</div>
 					</div>
 				<: } :>
-				<div class="row mid">
-					<label for="teaser">Teaser</label>
+				<div class="row callout-row">
+					<label class="callout-row__text" for="teaser">Teaser</label>
 				</div>
-				<div class="row mid">
+				<div class="row">
 					<textarea rows="5" cols="80" name="teaser" id="teaser"><: $post.teaser :></textarea>
 				</div>
-				<div class="row mid">
-					<label for="content">Blog text</label>
+				<div class="row callout-row">
+					<label class="callout-row__text" for="content">Blog text</label>
 				</div>
-				<div class="row mid">
+				<div class="row">
 					<textarea rows="30" cols="80" name="content" id="content"><: $post.content :></textarea>
 				</div>
 				<div class="row">
@@ -114,8 +114,8 @@
 						<input type="checkbox" name="live" value="1" <: if $post.live { :>checked="checked"<: } :>/>
 					</div>
 				</div>
-				<div class="row mid">
-					<input type="submit" class="big blue button" name="save_blog" value="Save and goto blog post" />
+				<div class="row">
+					<input type="submit" class="big blue button" name="save_blog" value="Save and View" />
 				</div>
 			</div>
 		</div>

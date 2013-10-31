@@ -1,23 +1,20 @@
 <div class="content-box">
 	<div class="head">
-		<h3>Your blog posts</h3>
+		<h2>Your Blog Posts</h2>
+		<span class="button-group pull-right">
+			<a class="button" href="<: $u('My::Blog','edit','new') :>"><i class="icon-pencil"></i><span class="button__label">New Blog Post</span></a>
+			<a class="button" href="<: $u('Userpage::Blog','index',$c.user.username) :>"><i class="icon-eye-open"></i><span class="button__label">View Blog</span></a>
+		</span>
 	</div>
-	<div class="body">
-		<div class="row">
-			<: for results($blog) -> $post { :>
-				<h3><: $post.title :></h3>
+	<div class="body">		
+		<: for results($blog) -> $post { :>
+			<div class="row  blog-list">
+				<h4 class="blog-list__title"><: $post.title :></h4>				
 				<: if $post.company_blog { :>
-					<img src="/static/images/duckduckgo-icon.png" width="32" height="32" title="Official DuckDuckGo" class="admin-badge" />	
+					<img src="/static/images/duckduckgo-icon.png" width="32" height="32" title="Official DuckDuckGo" class="admin-badge  blog-list__badge" />	
 				<: } :>
-				<a href="<: $u('My::Blog','edit',$post.id) :>" class="pull-right button red">Edit</a>
-			<: } :>
-		</div>
-	</div>
-</div>
-
-<div class="content-box">
-	<div class="head mid">
-		<a class="red button" href="<: $u('My::Blog','edit','new') :>">Add a new blog post</a>
-		<a class="blue button" href="<: $u('Userpage::Blog','index',$c.user.username) :>">Goto blog</a>
+				<a href="<: $u('My::Blog','edit',$post.id) :>" class="button pull-right"><i class="icon  icon-pencil"></i>  Edit</a>
+			</div>
+		<: } :>		
 	</div>
 </div>

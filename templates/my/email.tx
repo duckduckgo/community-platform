@@ -2,37 +2,38 @@
 	<div class="form-wrap account-form">
 		<form action="<: $u('My','email') :>" method="post" id="formEmail">
 			<input type="hidden" name="action_token" value="<: $action_token :>">
-			<h2>
+			<h3><b>
 				<: if $c.user.data.email { :>
 					Change your email address
   				<: } else { :>
 				    Add an email address
   				<: } :>
-			</h2>
-			<div class="account-items group">				
-				<: if $c.user.data.email { :>					
-					<p>Current email: </p>
-					<div class="half">
-						<div class="input-wrap"><input type="text" disabled="disabled" class="text" value="<: $c.user.data.email :>" /></div>
-					</div>
-				<: } else { :>
-					<p>No email set yet.</p>
-				<: } :>
+			</b></h3>
+			<hr class="clear" />			
+			<: if $c.user.data.email { :>					
+				<p>Current email: <b><: $c.user.data.email :></b></p>					
+			<: } else { :>
+				<p>No email set yet.</p>
+			<: } :>
+			<div class="account-items group">
+				<div class="half">
+					<div class="input-wrap"><input type="text" placeholder="New Email" name="emailaddress" class="text" title="Enter your new email address here" /></div>
+				</div>
 			</div>
-			<hr class="clear" />
+			<hr class="clear" />	
 			<div class="half">
 				<div class="robo-blaster-wrap group">
 					<div class="captcha">
 						<img src="<: $u('Root','captcha') :>" alt="nice try robot!" />
 					</div>
 					<div class="captcha-validate">
-						<div class="input-wrap"><input type="text" name="captcha" placeholder="Captcha here" class="text" /></div>
+						<div class="input-wrap"><input type="text" name="captcha" placeholder="Enter the phrase" class="text" title="r u a robot" /></div>
 					</div>
 				</div>
 			</div>
-			<div class="half">
-				<div class="input-wrap"><input type="text" placeholder="New Email" name="emailaddress" class="text" /></div>
-				<div class="half">
+			<div class="half">	
+				<p class="agree-terms"><input type="checkbox" /> This checkbox does nothing.  It just looks cool.</p>
+				<div class="half">					
 					<div class="input-wrap"><input type="submit" value="Submit" class="button blue submit" name="save_email" /></div>
 				</div>
 			</div>

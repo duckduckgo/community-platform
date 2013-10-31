@@ -1,6 +1,6 @@
 <div class="notice error">
 	<i class="icn icon-warning-sign"></i>
-	You will receive a notification about the password change from <b>noreply@dukgo.com</b>. Please add this email to your contact list of your email account, to assure the email is not landing in the spam folder.
+	You will receive a notification about the password change from <b>envoy@dukgo.com</b>. Please add this email to your contact list, or update your "safe senders" list in your email account. Otherwise, check your spam folder.
 </div>
 
 <div class="form-border">
@@ -32,7 +32,7 @@
 						<img src="<: $u('Root','captcha') :>" alt="nice try robot!" />
 					</div>
 					<div class="captcha-validate">
-						<div class="input-wrap"><input type="text" name="captcha" placeholder="Captcha here" class="text" /></div>
+						<div class="input-wrap"><input type="text" name="captcha" placeholder="Enter the phrase" class="text" /></div>
 					</div>
 				</div>
 			</div>

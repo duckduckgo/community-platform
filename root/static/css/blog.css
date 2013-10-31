@@ -214,6 +214,16 @@
 
 .blog-content .comment_add_title { margin-bottom: 10px; }
 .comment-body .my_comment { margin-top: 16px; }
+
+.blog-list__title {
+	display: inline-block;
+	margin: 0 8px 0 0;
+	line-height: 32px;
+}
+.blog-list__badge {
+	vertical-align: middle;
+	margin-top: -6px;
+}
 	
 @media only screen and (max-width: 1100px) {
 	.page-blog .topmsg {	zoom: 0.8; }
