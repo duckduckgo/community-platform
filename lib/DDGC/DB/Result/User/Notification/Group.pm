@@ -124,7 +124,7 @@ sub default_types_def {{
 		context_id => ['*',''],
 		sub_context => 'DDGC::DB::Result::Comment',
 		action => 'create',
-		icon => 'bubbles',
+		icon => 'bubble',
 	},
 
 	'company_blog_comments' => {
@@ -136,7 +136,7 @@ sub default_types_def {{
 		action => 'create',
 		priority => 50,
 		filter => sub { $_[0]->company_blog ? 1 : 0 },
-		icon => 'comment-alt',
+		icon => 'comments',
 	},
 
 	'company_blogs' => {
@@ -169,7 +169,7 @@ sub default_types_def {{
 		context_id => '*',
 		sub_context => 'DDGC::DB::Result::Comment',
 		action => 'create',
-		icon => 'comment',
+		icon => 'bubble',
 	},
 
 	# follow all comments on language related context
@@ -209,7 +209,7 @@ sub default_types_def {{
 		context_id => ['*',''],
 		sub_context => 'DDGC::DB::Result::Idea::Vote',
 		action => 'create',
-		icon => 'check-sign',
+		icon => 'check',
 	},
 
 	# follow threads
@@ -251,7 +251,7 @@ sub default_types_def {{
 		context_id => '*',
 		sub_context => 'DDGC::DB::Result::Token::Language::Translation::Vote',
 		action => 'create',
-		icon => 'check-sign',
+		icon => 'check',
 	},
 
 }}

@@ -1,5 +1,5 @@
 <div class="row  notification--edit"> 
-	<div class="half">   
+	<div class="seventy">   
 		<i class="notification--edit__icon  icon-<: $default_types_def[$type]['icon'] :>"></i>
 		<div class="media__body">
 			<label>
@@ -9,10 +9,10 @@
 			<input type="hidden" name="context_id" value="<: $context_id :>" />
 		</div>
 	</div>
-	<div class="quarter">
+	<div class="ten">
 		&nbsp;<!-- reserved space for xmpp checkbox, can be moved, but shouldnt be forgotten -->
 	</div>
-	<div class="quarter">
+	<div class="twenty">
 		<select name="cycle" class="pull-right js-select">
 		  <: for $notification_cycle_options -> $option { :>
 			<option <: if $user_notification_group_values[$type][$context_id]['cycle'] == $option.value { :>selected="selected" <: } :>value="<: $option.value :>"><: $option.name :></option>

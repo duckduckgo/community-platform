@@ -3,11 +3,11 @@
 	<div class="head">
 		<h2>Your Notifications</h2>
 		<span class="button-group pull-right">
-			<a class="button" href="<: $u('My::Notifications','edit') :>" title="Edit Notification Settings"><i class="icon-gear"></i><span class="button__label">Notification Settings</span></a>
-			<a class="button" href="<: $u('My::Notifications','following') :>" title="Check what you're following"><i class="icon-refresh"></i><span class="button__label">Following</span></a>		
+			<a class="button" href="<: $u('My::Notifications','edit') :>" title="Edit Notification Settings"><i class="icon-gear"></i><span class="button__label">Settings</span></a>
+			<a class="button" href="<: $u('My::Notifications','following') :>" title="Check what you're following"><i class="icon-eye-open"></i><span class="button__label">Following</span></a>		
 		<: if $undone_notifications.count { :>
 			<a class="button red" href="<: $u('My::Notifications','all_done') :>">
-				Mark All Complete
+				<i class="icon-folder-open"></i><span class="button__label">Mark All Complete</span>
 			</a>	
 		<: } :>
 		</span>

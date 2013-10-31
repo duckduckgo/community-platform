@@ -15,10 +15,11 @@ $(document).ready(function() {
 	$('.js-bbcode').bbcode();
 	
 	$('select.language_grade, select.language_select, select.js-select').select2({
-		placeholder: $(this).data('placeholder')
+		placeholder: $(this).data('placeholder'),
+		minimumResultsForSearch: 10
 	});
 	
-	$('.paging-menu select').select2({
+	$('.paging-menu select, .js-select-simple').select2({
 		minimumResultsForSearch: 99
 	});
 	

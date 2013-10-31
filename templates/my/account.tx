@@ -11,27 +11,22 @@
 <form action="<: $u('My','account') :>" method="post" id="formAccount">
 
 	<: my $notification_count = $undone_notifications_count || $c.user.undone_notifications_count :>
-	<div class="content-box account-box">	
-		<div class="head">
+	<div class="content-box">
+		<div class="head  head--round  head--grey">
 			<h2><: if $notification_count { :>
-				You have <: $notification_count :> notifications waiting
+				You have <b><: $notification_count :></b> notifications waiting
 			<: } else { :>
 				No notifications for you
 			<: } :></h2>
-			<a class="button <: if $notification_count { :>red<: } else { :> hide--important <: } :>" href="<: $u('My::Notifications','index') :>">
-				View Notifications
-			</a>
-		</div>
-		<div class="body">
-			<div class="row">
-				<div class="twothird">
-					<label>Do you want to configure your email notifications?</label>
-				</div>
-				<div class="third">
-					<a href="<: $u('My::Notifications','edit') :>" class="button ">Edit Notifications</a>
-				</div>
-			</div>
-		</div>
+			<span class="button-group pull-right">
+				<: if $notification_count { :>
+					<a class="button  charcoal" href="<: $u('My::Notifications','index') :>">
+						<i class="icon-bullhorn"></i><span class="button__label">View Notifications</span>
+					</a>
+				<: } :>
+				<a href="<: $u('My::Notifications','edit') :>" class="button "><i class="icon-gear"></i><span class="button__label">Settings</span></a>
+			</span>
+		</div>		
 	</div>
 
 	<div class="content-box account-box">

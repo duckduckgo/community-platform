@@ -1,7 +1,9 @@
 <div class="content-box">
-  <div class="head">
-    <: include "forum/nav.tx" { current_page => 'ideas' } :>
-    <div class="pull-right">
+  <div class="content-box__head  group  head--forum">
+	<div class="pull-left">
+		<: include "forum/nav.tx" { current_page => 'ideas' } :>
+	</div>
+    <div class="pager-wrap">
       <: i($_,'pager') :>
     </div>
   </div>
