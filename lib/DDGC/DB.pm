@@ -6,6 +6,7 @@ use MooseX::NonMoose;
 extends 'DBIx::Class::Schema';
 __PACKAGE__->load_namespaces();
 use Cache::FileCache;
+use Carp;
 
 use namespace::autoclean;
 
@@ -31,6 +32,24 @@ sub connect {
 		cache_object => $ddgc->cache,
 	});
 	return $schema;
+}
+
+has no_events => (
+	isa => 'Bool',
+	is => 'rw',
+	default => sub { 0 },
+);
+
+sub without_events {
+	my ( $self, $code ) = @_;
+	die "without_events need coderef" unless ref $code eq 'CODE';
+	$self->no_events(1);
+	eval {
+		$code->();
+	};
+	$self->no_events(0);
+	croak $@ if $@;
+	return;
 }
 
 no Moose;
