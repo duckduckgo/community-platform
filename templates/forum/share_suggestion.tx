@@ -1,5 +1,5 @@
 
-<p class="mg-bottom">
+<p class="mg-bottom--double">
 	<a class="button blue text-big tall media full--l" href="<: $u('Feedback','feedback_redirect','suggest') :>"><i class="media__img icon-bubbles"></i><span class="media__body">New Post</span></a>
 </p>
 

@@ -560,7 +560,7 @@ $(document).ready(function() {
 		  text = text + '</button>';
 		}
 		if(options.tag_underline){
-		  text = text + '<button class="button" title="Underline Text (Ctrl+U)" data-bbcode="u">';
+		  text = text + '<button class="button  palm-hide" title="Underline Text (Ctrl+U)" data-bbcode="u">';
 		  if(options.button_icon){
 			text = text + '<i class="icon-underline"></i>';
 		  }else{
@@ -569,7 +569,7 @@ $(document).ready(function() {
 		  text = text + '</button>';
 		}
 		if(options.tag_image){
-		  text = text + '<button class="button" title="Add an Image" data-bbcode="img">';
+		  text = text + '<button class="button  palm-hide" title="Add an Image" data-bbcode="img">';
 		  if(options.button_icon){
 			text = text + '<i class="icon-picture"></i>';
 		  }else{
@@ -587,7 +587,7 @@ $(document).ready(function() {
 		  text = text + '</button>';
 		}
 		if(options.tag_code){
-		  text = text + '<button class="button" title="Add Example Code (Ctrl+ALT+DEL) --haha just hidding" data-bbcode="code">';
+		  text = text + '<button class="button  palm-hide" title="Add Example Code (Ctrl+ALT+DEL) --haha just hidding" data-bbcode="code">';
 		  if(options.button_icon){
 			text = text + '<i class="icon-code"></i>';
 		  }else{

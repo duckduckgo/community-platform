@@ -1,6 +1,6 @@
 <div class="content-box">
   <div class="content-box__head  group  head--forum">
-	<div class="pull-left">
+	<div class="forum-nav">
 		<: include "forum/nav.tx" { current_page => 'ideas' } :>
 	</div>
     <div class="pager-wrap">

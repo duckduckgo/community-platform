@@ -36,6 +36,7 @@
 	float: right;
 	padding-left: 31px;
 	padding-right: 31px;
+	display: inline-block;
 }
 .head--forum .button-group--paging {		
 	position: static;
@@ -56,9 +57,13 @@
     Forum Stylin'
 */
 
+.forum-nav {
+	float: left;
+}
 .content-box .head--forum {
 	padding-top: 3px;
 	padding-bottom: 3px;
+	text-align: center;
 }
 	.head--forum .button-group--nav, .head--forum .pager-wrap {
 		margin: 3px 0;
@@ -700,7 +705,13 @@ Comment Forms
  
 }
 
-@media only screen and (max-width: 600px) {		
+@media only screen and (max-width: 40em) {		
+	.forum-nav,
+	.head--forum .pager-wrap {
+		float: none;
+		text-align: center;
+	}
+	
 	.thread, .thread__body {
 		display: block;
 	}
@@ -709,7 +720,23 @@ Comment Forms
 		width: auto;    
 		border-right: none;
 		border-bottom: 1px solid #d9d9d9;
+		padding-bottom: 5px;
+		-moz-border-radius: 5px 5px 0 0;
+		-webkit-border-radius: 5px 5px 0 0;
+		border-radius: 5px 5px 0 0;
 	}
+		.thread__user .user-name {
+			text-align: left;
+			padding-left: 30px;
+			padding-top: 10px;
+			font-weight: bold;
+		}
+		.thread__user .userpic {
+			width: 16px;
+			position: absolute; 
+			top: 10px;
+			left: 8px;			
+		}
 	
 	.comment .user-avatar,
 	.comment_reply .user-avatar{ 
@@ -720,9 +747,12 @@ Comment Forms
 		top: 16px;
 	}
 	.comment-body { margin-left: 52px; }
+	.thread-content .comment-meta {
+		margin-top: -6px;
+	}
 }
 
-@media only screen and (max-width: 500px) {	
+@media only screen and (max-width: 30em) {	
 	.comment .voting { top: 13px; right: -1px; }
 	.voting + .comment-body { margin-right: 0; }
 		.voting + .comment-body p { padding-right: 13px; }

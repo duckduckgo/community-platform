@@ -52,8 +52,8 @@
 						<: include "my/account/language_grade_options.tx" :>
 					</select>
 				</div>
-				<div class="pull-right <: if !$user_has_languages { :>wiz-arrow wiz-arrow-bottom-left<: } :>">
-					<input type="submit" class="button " name="add_language" value="Add Language" />
+				<div class="pull-right  palm-pull-none<: if !$user_has_languages { :>wiz-arrow wiz-arrow-bottom-left<: } :>">
+					<input type="submit" class="button  button--right  button--language-add" name="add_language" value="Add Language" />
 				</div>
 			</div>
 			<div class="row">
@@ -82,7 +82,9 @@
 	<div class="content-box account-box">	
 		<div class="head">
 			<h2>Your Account</h2>
-			<a href="<: $u('My','delete') :>" class="button red">Delete Account</a>
+			<span class="pull-right">
+				<a href="<: $u('My','delete') :>" class="button red">Delete Account</a>
+			</span>
 		</div>
 		<div class="body">
 			<div class="row">
@@ -94,7 +96,7 @@
 					<: } :>
 				</div>
 				<div class="third">
-					<a href="<: $u('My','email') :>" class="button ">Change email</a>
+					<a href="<: $u('My','email') :>" class="button button--right">Change email</a>
 				</div>
 			</div>
 			<div class="row">
@@ -102,7 +104,7 @@
 					<label>Your Password:</label>
 				</div>
 				<div class="third">
-					<a href="<: $u('My','changepw') :>" class="button ">Change password</a>
+					<a href="<: $u('My','changepw') :>" class="button button--right">Change password</a>
 				</div>
 			</div>
 			<div class="row">
@@ -116,7 +118,7 @@
 					</label>
 				</div>
 				<div class="third">
-					<a href="<: $u('My','public') :>" class="button ">
+					<a href="<: $u('My','public') :>" class="button button--right">
 						<: if $c.user.public { :>
 							<: $l('Make it private') :>
 						<: } else { :>
@@ -131,7 +133,7 @@
 						<label>Your Username:</label>
 					</div>
 					<div class="third">
-						<a href="<: $u('My','capitalize') :>" class="button">Capitalize</a>
+						<a href="<: $u('My','capitalize') :>" class="button button--right">Capitalize</a>
 					</div>
 				</div>
 				<div class="row">
@@ -139,7 +141,7 @@
 						<label>Your <a href="<: $u('Userpage::Blog','index',$c.user.username) :>">blog</a> [BETA] <a href="<: $u('Blog','post','blog-for-everybody') :>">More information here on our blog...</a></label>
 					</div>
 					<div class="third">
-						<a href="<: $u('My::Blog','index') :>" class="button ">Edit posts</a>
+						<a href="<: $u('My::Blog','index') :>" class="button button--right">Edit posts</a>
 					</div>
 				</div>
 				<div class="row">
@@ -149,7 +151,7 @@
 						</label>
 					</div>
 					<div class="third">
-						<a href="<: $u('My::Userpage','index') :>" class="button ">
+						<a href="<: $u('My::Userpage','index') :>" class="button button--right">
 							Edit userpage
 						</a>
 					</div>

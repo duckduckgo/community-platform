@@ -75,7 +75,8 @@
 }
 
 .account-box p { margin: 0; padding: 8px 0; }
-.account-box .button { float: right; width: 140px; margin: 0 0 0 10px; padding: 0; }
+.account-box .button { width: 140px; margin: 0 0 0 10px; padding: 0; }
+	.account-box .button--right { float: right; }
 	.account-box .multi .button { width: 90px; }		
 
 .account-box .third .select2-container, .account-box .forty .select2-container  { 
@@ -107,5 +108,16 @@
 	.account-box label { 
 		white-space: normal;
 		widtH: auto; 
+	}
+}
+@media only screen and (max-width: 40em) {	
+	.account-box  .button--right {
+		float: none;
+		margin-left: 0;
+		margin-top: 2px;
+	}	
+	.account-box  .button--language-add {
+		margin-left: -8px;
+		float: none;		
 	}
 }

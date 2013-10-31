@@ -1,4 +1,4 @@
-<div class="breadcrumb-right">
+<div class="breadcrumb-right  palm-hide">
     <a class="button" href="<: $u('Help','index') :>"><i class="icon-fast-backward" title="Back to help index"></i></a>    
 </div>
 
