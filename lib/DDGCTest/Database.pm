@@ -116,7 +116,7 @@ sub next_step {
 
 sub step_count {
 	my ( $self ) = @_;
-	my $base = 4039;
+	my $base = 3929;
 	return $base unless $self->test;
 }
 

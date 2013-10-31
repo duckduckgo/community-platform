@@ -91,6 +91,9 @@ has db => (
 	isa => 'DDGC::DB',
 	is => 'ro',
 	lazy_build => 1,
+	handles => [qw(
+		without_events
+	)],
 );
 sub _build_db { DDGC::DB->connect(shift) }
 sub resultset { shift->db->resultset(@_) }

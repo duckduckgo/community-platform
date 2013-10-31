@@ -108,6 +108,7 @@ sub schema { shift->result_source->schema }
 
 sub add_event {
 	my ( $self, $action, %args ) = @_;
+	return if $self->schema->no_events;
 	my %event;
 	$event{context} = ref $self;
 	$event{context_id} = $self->id;
