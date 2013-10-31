@@ -44,8 +44,8 @@ sub add_ideas_table {
 sub newidea : Chained('base') Args(0) {
   my ( $self, $c ) = @_;
   $self->add_latest_ideas($c);
-  $c->stash->{title} = 'New Suggestion';
-  $c->add_bc('New Suggestion');
+  $c->stash->{title} = 'New Instant Answer Idea';
+  $c->add_bc('New Instant Answer Idea');
   if ($c->req->params->{save_idea} && (!$c->req->params->{title} || !$c->req->params->{content})) {
     $c->stash->{error} = 'One or more fields were empty.';
   } elsif ($c->req->params->{save_idea}) {
