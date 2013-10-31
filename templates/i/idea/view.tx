@@ -33,10 +33,20 @@
 		<: i($_.user,'userinfo',{userpic_size => 32}) :> &bull; posted <: $dur($_.created) :> <: i($_,'type') :>
 	  </span>
 	  <: i($_,'status') :>
-      
-      <: if $c.user.is('idea_manager') || $c.user.id == $_.user.id { :>
-        <a href="<: $u('Ideas','edit',$_.id) :>" class="pull-right button"><i class="icon icon-edit"></i> Edit</a>
-      <: } :>
+	  <: if $c.user { :>
+		  <span class="button-group  pull-right">
+			  <: if !$no_reply { :>
+				<: if $watching { :>
+				  <a class="button" href="#"><i class="icon  icon-eye-close"></i>Don't Follow</a>
+				<: } else { :>          
+				  <a class="button" href="#"><i class="icon  icon-eye-open"></i>Follow</a>
+				<: } :>
+			  <: } :>
+			  <: if $c.user.is('idea_manager') || $c.user.id == $_.user.id { :>
+				<a href="<: $u('Ideas','edit',$_.id) :>" class="button"><i class="icon icon-edit"></i> Edit</a>
+			  <: } :>
+		  </span>
+	  <: } :>
     </div>
     
   </div>
