@@ -76,8 +76,9 @@
 
 .account-box p { margin: 0; padding: 8px 0; }
 .account-box .button { width: 140px; margin: 0 0 0 10px; padding: 0; }
-	.account-box .button--right { float: right; }
-	.account-box .multi .button { width: 90px; }		
+	.account-box .button--right, .locale-buttons { float: right; }
+	.account-box .multi .button { width: 90px; }	
+	.account-box .locale-buttons  .button:first-child { margin-left: 0; }
 
 .account-box .third .select2-container, .account-box .forty .select2-container  { 
 	width: 95%; 
@@ -93,7 +94,7 @@
 	font-size: 0.8em;
 }
 
-@media only screen and (max-width: 900px) {
+@media only screen and (max-width: 80em) {
 	.account-box label { 
 		width: 95%;
 		font-size: 16px; 
@@ -102,22 +103,36 @@
 	
 @media only screen and (max-width: 60em) {
 	.no-js .account-box select, .account-box .third .select2-container, .account-box .forty .select2-container { 
-		width: 102.5%;
+		width: 97%;
 		margin-bottom: 8px;
 	}
 	.account-box label { 
 		white-space: normal;
 		widtH: auto; 
 	}
+	.account-box .multi .button {
+		width: 80px;
+	}
+}
+@media only screen and (max-width: 50em) {
+	.account-box .multi .button {
+		width: 70px;
+	}
 }
 @media only screen and (max-width: 40em) {	
+	.no-js .account-box select, .account-box .third .select2-container, .account-box .forty .select2-container {
+		width: 101%;
+	}
 	.account-box  .button--right {
 		float: none;
 		margin-left: 0;
 		margin-top: 2px;
 	}	
-	.account-box  .button--language-add {
+	.account-box  .button--language-add, .locale-buttons {
 		margin-left: -8px;
 		float: none;		
+	}
+	.account-box .multi .button {
+		width: 90px;
 	}
 }

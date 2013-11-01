@@ -687,7 +687,7 @@ Comment Forms
 	}
 
 
-@media only screen and (max-width: 1020px) {	
+@media only screen and (max-width: 65em) {	
 
 .thread-header, .thread, .uploaded, .uploaded--title  {
 	margin-left: 0;

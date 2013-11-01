@@ -40,7 +40,7 @@
 							<: include "my/account/language_grade_options.tx" { user_language => $user_language } :>
 						</select>
 					</div>
-					<div class="pull-right multi"><a href="<: $u('My','account',{ remove_language => $user_language.language.id }) :>" class="button red" data-reveal-id="confirm-dialog<: $user_language.language.id :>">Remove</a><input type="submit" name="update_language_<: $user_language.language.id :>" class="button " value="Update" /></div>			
+					<div class="locale-buttons multi"><a href="<: $u('My','account',{ remove_language => $user_language.language.id }) :>" class="button red" data-reveal-id="confirm-dialog<: $user_language.language.id :>">Remove</a><input type="submit" name="update_language_<: $user_language.language.id :>" class="button " value="Update" /></div>			
 				</div>
 			<: } :>
 			<div class="row">

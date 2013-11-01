@@ -202,7 +202,7 @@
 	.paging-menu .select2-container .select2-choice span { margin-right: 21px; min-width: 1.4em; text-align: right;}
 	.paging-menu .select2-container .select2-choice div { width: 14px; }
 
-@media only screen and (max-width: 900px) {
+@media only screen and (max-width: 60em) {
 	.translate-overview label { 
 		width: 80%;
 		font-size: 16px; 
@@ -219,7 +219,7 @@
 	}
 }
 	
-@media only screen and (max-width: 600px) {		
+@media only screen and (max-width: 40em) {		
 	.translate-overview .half.progress { width: 100%; clear: both; }
 		.translate-overview .half.progress + .eighth { position: static; }
 			.translate-overview .half.progress + .eighth .button { position: absolute; top: 8px; right: 12px; }
@@ -233,6 +233,6 @@
 		.translate-snippets .button, .translate-comments .button { margin-left: 0; }
 
 }
-@media only screen and (max-width: 500px) {	
+@media only screen and (max-width: 30em) {	
 	.translate-comments.content-box .row { padding-left: 8px; }
 }
