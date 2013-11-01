@@ -108,5 +108,7 @@ sub comment {
 	}
 }
 
-parse_file 'suggestions_4458_export_20130901205259.csv' => \&suggestion;
-parse_file 'comments_4458_export_20130901205315.csv' => \&comment;
+$ddgc->without_events(sub {
+	parse_file 'suggestions_4458_export_20130901205259.csv' => \&suggestion;
+	parse_file 'comments_4458_export_20130901205315.csv' => \&comment;
+});

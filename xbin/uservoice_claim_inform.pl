@@ -39,38 +39,23 @@ for (@ideas,@comments) {
   }
 }
 
-#for my $email (keys %claim_link) {
+for (keys %claim_link) {
+  p($_);
   my $email = 'getty@duckduckgo.com';
-  my ( $user, $claim_ref, $claim ) = @{$claim_link{$email}};
+  my ( $user, $claim_ref, $claim ) = @{$claim_link{$_}};
+  ####
   my $username = $user eq 'Anonymous'
     ? "anonymous user"
     : $user;
   my $subject = "[DuckDuckGo Community] Claiming your uservoice data";
-  my $text = <<"__EOT__";
-
-Hello $username,
-
-If you haven't already heard, we're moving off of UserVoice to our own open
-source platform at https://dukgo.com/. We'll be migrating the currently
-submitted ideas from http://ideas.duckduckhack.com/ to the new forum but we'd
-like to make sure that users who have submitted ideas or comments can claim
-them for their new community account.
-  
-To claim your old uservoice data, please click on the following link and login
-with your community platform account (or register a new one):
-
-https://dukgo.com/my/uservoice_claim/i175/597b27f9a35851de97921e175a1939d4
-
-If, after login or registration, you don't get a screen informing you that your
-ideas and comments are claimed, please be sure you are logged in and then retry
-the link.
-
-That's all for now but stay tuned for more updates on our way to Community 2.0.
-
-Cheers, 
-
--the DuckDuckGo Staff
-
-__EOT__
-  $ddgc->postman->mail($email,'"DuckDuckGo Community Envoy" <envoy@dukgo.com>',$subject,$text);
-#}
+  my %stash;
+  $stash{email_username} = $username;
+  $stash{email_claimlink} = $ddgc->config->web_base.'/my/uservoice_claim/'.$claim_ref.'/'.$claim;
+  $c->d->postman->template_mail(
+    $email,
+    '"DuckDuckGo Community" <noreply@dukgo.com>',
+    $subject,
+    'uservoiceclaim',
+    $c->stash,
+  );
+}
