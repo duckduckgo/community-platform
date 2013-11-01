@@ -5,7 +5,32 @@
     <hr class="clear" />
 	<form action="<: $u('My','capitalize') :>" class="group" method="post">
       <input type="hidden" name="action_token" value="<: $action_token :>">
-      <: if $changed_error {  :> <p class="notice error"><i class="icn icon-warning-sign"></i>You can't change your username through this interface.  Silly goose.<: } :>
+      <: if $changed_error_count { :>
+	  <input type="hidden" name="changed_error_count" value="<: $changed_error_count :>">
+	  <: } :>
+	  <: if $changed_error {  :> 
+	    <: if $changed_error_count == 1 { :>
+			<p class="notice warning"><i class="icn icon-warning-sign"></i>You can't change your username here. You can change how it's displayed:  e.g. duck <i class="icon-long-arrow-right"></i> DuCk</p>
+		<: } if $changed_error_count == 2 { :>
+			<p class="notice error"><i class="icn icon-warning-sign"></i>No, seriously.  You can't change your username here. You can change how it's displayed:  e.g. duck <i class="icon-long-arrow-right"></i> DuCk</p>		
+		<: } if $changed_error_count == 3 { :>
+			<p class="notice error"><i class="icn icon-warning-sign"></i>Please stop trying to change your username here.  It's making me upset.</p>		
+		<: } if $changed_error_count == 4 { :>
+			<div class="notice  notice--wizard  error">
+				<div class="faux  notice__content">
+					<div class="faux__image">
+						<img src="/static/img/duck-wizard.png" />
+					</div>
+					<div class="faux__body">
+						You have summoned a wizard!  
+					</div>
+				</div>
+			</div>		
+		<: } if $changed_error_count > 4 { :>
+		   <p class="notice success"><i class="icn icon-ok"></i> Persistence pays off!  You have changed your username!</p>
+		   <p class="notice info"><i class="icn icon-info"></i> The above message is a lie.  You can't change your username here.</p>
+		<: } :>
+	  <: } :>
       
       <div class="account-items group">
 		<div class="half">
