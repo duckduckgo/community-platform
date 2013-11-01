@@ -69,11 +69,14 @@
 	  }
 	  
 .post-snippet, .post-body {
-	margin: 0 88px 48px 75px;
+	margin: 0 48px 48px 75px;
 }
 .post-comments { 
-	margin-right: 88px; 
+	margin-right: 48px; 
 	margin-bottom: 48px;
+}
+.post-snippet {
+	margin-right: 88px;
 }
 
 		.blog-content .comment + .notice { 
@@ -101,28 +104,34 @@
 			display: inline-block;
 			margin-right: 25px;			
 		}
+			.button-group .action-item { margin-right: 0; }			
+			
 		.comments-link { 
 			font-weight: bold; 
 		}
-			.comments-link .icon-bubble {
+			.comments-link__icon {
 				color: #c2c2c2;
 				text-shadow: -1px 0 0 #a7a7a7;
 				font-size: 1.1em;
 				margin: -5px 0;
-			}
-		.action-item .button { 
-			font-weight: normal; 
-			padding: 2px 8px 3px;
-			height: 1.1em;
-			line-height: 1.1em;
-		}
-			.action-item .button.fb { padding-left: 4px; }
-			.action-item .button.tw { padding-left: 6px; }
-			.action-item .button i[class^="icon-"] { 
 				position: relative;
-				top: 2px; 
+				top: 1px;
 			}
-			
+		.action-item .button, .action-item.button { 
+			font-weight: normal; 
+			padding: 2px 8px 3px;			
+			line-height: 1.2em;
+		}
+			.action-item  .button__label {
+				padding-left: 3px;
+			}
+		
+			.action-item .button.fb { padding-left: 4px; }
+			.action-item .button.tw { padding-left: 6px; }			
+			.action-item__icon {
+				position: relative;
+				top: 2px;			
+			}
 		.action-item .icon-twitter { color: #2fa9ef; }
 			.action-item .tw .icon-twitter { color: #fff; }
 		.action-item .icon-facebook-sign { color: #3f569b; }

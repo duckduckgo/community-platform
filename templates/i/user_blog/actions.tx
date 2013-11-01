@@ -1,28 +1,32 @@
 <div class="post-actions">
 	<span class="action-item">
-		<a href="<: $u($user_blog.u) :>#comments" class="comments-link"><i class="icon-bubble"></i> <: $_.all_comments.count :></a>
+		<a href="<: $u($user_blog.u) :>#comments" class="comments-link"><i class="comments-link__icon  icon-bubble"></i> <: $_.all_comments.count :></a>
 	</span>
 	<span class="action-item">
-		<a href="https://facebook.com/sharer.php?s=100&u=<: $u($user_blog.u) | uri :>&p[url]=<: $u($user_blog.u) | uri :>&p[title]=<: $user_blog.title | uri :>" class="button blue fb" target="_facebook-share"><i class="icon-facebook"></i> Share</a>
+		<a href="https://facebook.com/sharer.php?s=100&u=<: $u($user_blog.u) | uri :>&p[url]=<: $u($user_blog.u) | uri :>&p[title]=<: $user_blog.title | uri :>" class="button blue fb" target="_facebook-share"><i class="action-item__icon icon-facebook"></i> Share</a>
 	</span>
 	<span class="action-item">
-		<a href="https://twitter.com/?status=<: $user_blog.title ~ ' ' ~ $u($user_blog.u) | uri :>" class="button blue tw" target="_twitter-share"><i class="icon-twitter"></i> Tweet</a>
+		<a href="https://twitter.com/?status=<: $user_blog.title ~ ' ' ~ $u($user_blog.u) | uri :>" class="button blue tw" target="_twitter-share"><i class="action-item__icon icon-twitter"></i> Tweet</a>
 	</span>
 	<: if $c.user.id == $_.user.id || $c.user.admin { :>
-		<span class="action-item">
-			<a class="button red" href="<: $u('My::Blog','edit',$_.id):>">
+		<span class="pull-right button-group">
+			<a class="button  action-item" href="<: $u('My::Blog','edit',$_.id):>">
+				<i class="icon-pencil"></i>
+				<span class="button__label">
 				<: if $c.user.id != $_.user.id && $c.user.admin { :>
 					Admin
 				<: } :>
 				Edit
+				</span>
 			</a>
-		</span>
-		<span class="action-item">
-			<a class="button red" href="<: $u('My::Blog','delete',$_.id):>">
+			<a class="button  action-item" href="<: $u('My::Blog','delete',$_.id):>">
+				<i class="action-item__icon  icon-cancel-circle"></i>
+				<span class="button__label">
 				<: if $c.user.id != $_.user.id && $c.user.admin { :>
 					Admin
 				<: } :>
 				Delete
+				</span>
 			</a>
 		</span>
 	<: } :>
