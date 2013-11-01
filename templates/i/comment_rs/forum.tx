@@ -22,19 +22,19 @@
 				<div class="forum-item__title-wrap  eighty">
 				  <a class="forum-item__title  group" href="<: $u($comment.u) :>">
 					<: i($context_obj,'label_thread') :>
-				  </a>
-				  <: if $comment.context == 'DDGC::DB::Result::Thread' { :>
-					<span class="thread-icons">
-					  <: if $context_obj.readonly { :><i class="thread-icon  icon-lock" title="This thread is read-only"></i><: } :>
-					  <: if $context_obj.done { :><i class="thread-icon--good  icon-ok" title="This thread is complete"></i><: } :>
-					  <: if $context_obj.sticky { :><i class="thread-icon--stuck  icon-pushpin" title="Stuck Thread"></i><: } :>
-					</span>
-				  <: } :>
+				  </a>				  
 				</div>
 				<div class="forum-item__reply-count  twenty">
+					 <: if $comment.context == 'DDGC::DB::Result::Thread' { :>
+						<span class="thread-icons">
+						  <: if $context_obj.readonly { :><i class="thread-icon  icon-lock" title="This thread is read-only"></i><: } :>
+						  <: if $context_obj.done { :><i class="thread-icon--good  icon-ok" title="This thread is complete"></i><: } :>
+						  <: if $context_obj.sticky { :><i class="thread-icon--stuck  icon-pushpin" title="Stuck Thread"></i><: } :>
+						</span>
+					  <: } :>
 					 <span class="reply-count">
 						<i class="reply-count__icon  icon-bubble"></i> [ <a href="<: $u($comment.u) :>#comments"><: $reply_count :> <: if $reply_count != 1 { :>Replies<: } else if $reply_count == 1 { :>Reply<: } :></a> ]
-					</span>
+					</span>					
 				</div>
 		  </div>
           <div class="group">

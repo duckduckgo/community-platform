@@ -110,8 +110,11 @@
             text-decoration: underline;
         }
     .forum-item .thread-icons {
-        top: 4px;
-        right: 5px;
+        float: right;
+		position: relative;
+		top: -2px;
+        right: 0;		
+		margin-left: 5px;
     }
     .forum-item__reply-count { 
         color: #7a7b80; 
@@ -194,7 +197,7 @@
     
 .thread-icons {
     position: absolute;
-    top: 0.45em;
+    top: 0.35em;
     right: 10px;
     font-size: 1.3em;
 }
