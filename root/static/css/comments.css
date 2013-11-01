@@ -1,5 +1,14 @@
 /* girl lookit' that body */
-.comment-body, .thread-header, .thread, .idea, .idea-header, .idea__votes, .uploaded, .uploaded__link {
+.comment-body, 
+.thread-header, 
+.thread, 
+.idea, 
+.idea-header, 
+.idea__votes, 
+.uploaded, 
+.uploaded__link,
+.comment .my_comment.comment-body,
+.comment--deep > .comment-body > .row.content {
     border: 1px solid #cacaca;
     position: relative;		
     z-index: 1;
@@ -435,18 +444,30 @@
 			display: block; 
 			line-height: 1;
 			margin: 4px auto 8px;
+			position: relative;
 		}
+			.comment-meta__link {
+				display: inline-block;
+			}
 		.comment-meta .comment-toggle {
-			color: #b8b8b8;			
-			font-size: 1.5em;
-			position: relative;			
-			left: 6px;
-			top: 3px;
+			color: #d8d8d8;			
+			font-size: 1.5em;			
 			margin-top: -6px;
 			display: inline-block;
 			height: 12px;
 			overflow:visible;
+			
+			position: relative;			
+			left: 6px;
+			top: 3px;
+				
 		}
+			.comment-meta .comment-toggle:hover {
+				color: #b8b8b8;	
+			}
+			.comment-meta .comment-toggle:active {
+				color: #a8a8a8;	
+			}
 		.voting + .comment-body .comment-meta { padding-right: 5px; }
 	.comment-foot {
         -moz-border-radius: 0 0 5px 5px;
@@ -525,12 +546,7 @@
 			left: -8px;
 			border-right: 9px solid #fff; 
 		  }
-		  .tier4 .comment-body:after, .tier4 .comment-body:before {
-			display: none;
-		  }
-		  .comment-body .tier4 .comment-body { margin-left: 0;}
-		  .tier4 .user-avatar { display: none; }
-
+		 
 .row.tier1-new { margin-bottom: 13px; }
 .comment_reply { position: relative; }
 	.comment_reply .comment_reply { margin-top: -18px; }
@@ -589,13 +605,13 @@
 .comment_add_title { margin: 18px 0 0; }
 	
 /* simple control of comment tiers - broken up to be easier to read and comprehend */
-.min.tier1 .comment.tier2, .min.tier1 .max-msg, .max.tier1 .min-msg, .min.tier1 .comment-meta .comment-toggle { display: none; }
+.min.tier1 .comment.tier2, .min.tier1 .max-msg, .max.tier1 .min-msg { display: none; }
 .max.tier1 .comment.tier2 { display: block; }
 .max.tier1 .max-msg, .min.tier1 .min-msg { display: inline; }
-	.min.tier2 .comment.tier3, .min.tier2 .max-msg, .max.tier2 .min-msg, .min.tier2 .comment-meta .comment-toggle { display: none; }
+	.min.tier2 .comment.tier3, .min.tier2 .max-msg, .max.tier2 .min-msg { display: none; }
 	.max.tier2 .comment.tier3 { display: block; }
 	.max.tier2 .max-msg, .min.tier2 .min-msg { display: inline; }
-		.min.tier3 .max-msg, .max.tier3 .min-msg, .min.tier3 .comment-meta .comment-toggle { display: none; }
+		.min.tier3 .max-msg, .max.tier3 .min-msg { display: none; }
 		.max.tier3 .comment.tier2 { display: block; }
 		.max.tier3 .max-msg, .min.tier3 .min-msg  { display: inline; }
 		
@@ -610,6 +626,61 @@
 .min.comment > .comment-body > .comment-foot > .comment-toggle > .min-msg,
 .max.comment > .comment-body > .comment-foot > .comment-toggle > .max-msg{ display: inline; }
 
+
+/* deep comments.  this is a specificity nightmare! :) */
+
+/* this is where everything changes ... */
+.tier3 .comment-body:after, .tier3 .comment-body:before {
+	z-index: 2;
+}
+	.tier3 .comment-body:before {
+		left: -9px;
+	}
+
+.tier3, .tier4 {	
+	padding-bottom: 0 !important;
+}
+
+.tier4 .user-avatar.icon-user {
+	left: -36px;
+}
+
+.comment-body .tier4 .comment-body { margin-left: 0; }
+
+.tier4 .comment_reply .comment-body:after, .tier4 .comment_reply .comment-body:before {
+	display: none;
+}
+	.tier4 .comment_reply .user-avatar { display: none !important; }
+
+	/*
+	.tier3 .comment-meta {
+		padding-right: 12px;
+	}	
+	.tier3 .comment-meta .comment-toggle {
+		position: absolute;
+		right: 0;
+		top: 3px;
+		left: auto;
+	}
+	*/
+.comment--deep .comment-body {
+	border: none;	
+	-webkit-box-shadow: none;
+	-moz-box-shadow: none;
+	box-shadow: none;
+}
+.comment--deep > .comment-body > .row.content {
+	margin-bottom: 8px;
+}
+	.comment--deep > .comment-body > .row.content:last-child {
+		
+	}
+	
+.comment.row.comment--deep .comment-body .comment.row,
+.comment--deep .row.comment {
+	padding-right: 0;
+	padding-bottom: 0;
+}
 	
 /*--------------------------------------------------
 Comment Forms

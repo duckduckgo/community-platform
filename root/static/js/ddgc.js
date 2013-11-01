@@ -244,32 +244,47 @@ $(document).ready(function() {
     $('.js-thread-reply').click(function(e){
         e.preventDefault();
         $(this).siblings('.js-thread-cancel').toggleClass('hide');
-        $(this).parents('.thread').parent().children('.comment_reply').removeClass('hide');
 		$(this).toggleClass('hide');
+		
+			$(this).parents('.thread').parent().children('.comment_reply').removeClass('hide');		
     });
     
     $('.js-thread-cancel').click(function(e){
         e.preventDefault();
 		$(this).siblings('.js-thread-reply').toggleClass('hide');
-		$(this).parents('.thread').parent().children('.comment_reply').addClass('hide');
 		$(this).toggleClass('hide');
+		
+			$(this).parents('.thread').parent().children('.comment_reply').addClass('hide');
+		
     });
 	
-	$('.js-comment-reply').click(function(e){
-        e.preventDefault();
-        $(this).siblings('.js-comment-cancel').toggleClass('hide');		
-        $(this).parents('.comment-foot').siblings('.comment_reply').removeClass('js-hide')
-			.children('.comment_reply').removeClass('js-hide');
-		$(this).toggleClass('hide');
+	$('.js-comment-reply, .js-comment-cancel').click(function(e){        
+		var target, target_el, go_to;		
+		e.preventDefault();
+		
+		target = $(this).attr('data-target');
+		if (target) {		
+			target_el = $('.js-reply_'+target);
+			
+			$('.js-cancel_link_'+target).toggleClass('hide');
+			$('.js-reply_link_'+target).toggleClass('hide');
+			
+			if ($(this).hasClass('js-comment-reply')) {
+				target_el.removeClass('js-hide').children('.comment_reply').removeClass('js-hide');
+				target_el.find('.text').focus();
+				if ($(document).scrollTop() > target_el.offset().top) {
+					go_to = target_el.offset().top - 50;
+					$('body').animate({ scrollTop: go_to}, "fast");
+				}
+			}
+			if ($(this).hasClass('js-comment-cancel')) {
+				target_el.addClass('js-hide');
+			}
+			
+		}
     });
-    
-    $('.js-comment-cancel').click(function(e){
-        e.preventDefault();
-		$(this).siblings('.js-comment-reply').toggleClass('hide');
-		$(this).parents('.comment-foot').siblings('.comment_reply').addClass('js-hide');
-		$(this).toggleClass('hide');
-    });
-    
+
+    /*
 	$('a.comment_reply_link').click(function(e){
 		e.preventDefault();
 		$(this).next('.comment_reply_cancel_link').fadeIn();
@@ -283,7 +298,7 @@ $(document).ready(function() {
 		$(this).parents('.comment-meta').siblings('.comment_reply').fadeOut();
 		$(this).hide();
 	});
-
+	*/
 	$('a.comment_expand_link').click(function(e){
 		e.preventDefault();
 		$(this).parent().html($(this).next('.comment_expanded_content').html());

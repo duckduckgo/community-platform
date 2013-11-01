@@ -1,5 +1,5 @@
 <: if $context and $context_id and $c.user { :> 
-	<form method="post" class="comment_reply js-hide" action="<: $u('Comment','add',$context,$context_id) :>">    
+	<form method="post" class="comment_reply  js-reply_<: $context_id:>  js-hide" action="<: $u('Comment','add',$context,$context_id) :>">    
 		<div class="user-avatar icon-user">
 			<: i($c.user,'userpic', { userpic_size => 48 }) :>
 		</div>
