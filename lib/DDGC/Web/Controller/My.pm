@@ -293,7 +293,12 @@ sub capitalize :Chained('logged_in') :Args(0) {
 
 	if (lc($c->req->params->{new_username}) ne lc($c->user->username)) {
 		$c->stash->{changed_error} = 1;
-		my $error_count = $c->req->params->{changed_error_count} + 1 || 1;
+		my $error_count;
+		if (defined $c->req->params->{changed_error_count}) {
+			$error_count = $c->req->params->{changed_error_count} + 1;
+		} else {
+			$error_count = 1;
+		}
 		$c->stash->{changed_error_count} = $error_count;
 		return;
 	}
