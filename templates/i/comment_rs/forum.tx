@@ -1,5 +1,5 @@
 <div class="content-box">
-  <div class="content-box__head  group  head--forum">
+  <div class="group  head--forum">
     <div class="forum-nav">
 		<: if $forum_index { :>
 		  <: include "forum/nav.tx" { current_page => 'general' } :>
@@ -11,7 +11,7 @@
 		<: i($grouped_comments,'pager') :>	
 	</div>
   </div>
-  <div class="body">
+  <div class="body  body--round">
     <: for results($_) -> $comment { :>
       <: my $context_obj = $comment.get_context_obj :>
 	  <: my $reply_count = $comment.get_column('comments_count') - 1 :>

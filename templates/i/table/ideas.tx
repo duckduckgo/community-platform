@@ -1,5 +1,5 @@
 <div class="content-box">
-  <div class="content-box__head  group  head--forum">
+  <div class="head--forum  group">
 	<div class="forum-nav">
 		<: include "forum/nav.tx" { current_page => 'ideas' } :>
 	</div>
@@ -7,7 +7,7 @@
       <: i($_,'pager') :>
     </div>
   </div>
-  <div class="body">
+  <div class="body  body--round">
     <: for results($_.paged_rs) -> $idea { :>
       <div class="row">
         <: i($idea,'teaser') :>

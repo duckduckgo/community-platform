@@ -69,11 +69,17 @@
 .forum-nav {
 	float: left;
 }
-.content-box .head--forum {
-	padding-top: 3px;
-	padding-bottom: 3px;
+.head--forum { 
 	text-align: center;
+	padding-top: 0;
+	padding-bottom: 8px;	
+	margin-top: -2px;
 }
+	.content-box__head.head--forum {
+		margin-top: 0;
+		padding-top: 3px;
+		padding-bottom: 3px;
+	}
 	.head--forum .button-group--nav, .head--forum .pager-wrap {
 		margin: 3px 0;
 	}
