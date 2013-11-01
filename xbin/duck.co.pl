@@ -110,7 +110,7 @@ while (1) {
 
 		for my $li (@{$page->{topics}}) {
 
-			eval {
+			eval { $ddgc->without_events(sub {
 
 				my $topic = $topic_page->scrape(URI->new($li->{link}));
 
@@ -197,7 +197,7 @@ while (1) {
 					}
 				}
 
-			};
+			}) };
 
 			print "\n".$@."\n" if $@;
 

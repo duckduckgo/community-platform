@@ -1,4 +1,4 @@
-<: include "email/heading.tx" { title => "Claim your uservoice suggestions." } :>
+<: include "email/heading.tx" { title => "Claim your suggestions." } :>
 <tr>
   <td width="10"></td>
   <td align="center" colspan="2">
@@ -6,28 +6,31 @@
       <tr>
         <td colspan="2" valign="middle">
           <h4 <: style("default") :>>
-
-Hello <: $email_username :>,
-
-If you haven't already heard, we're moving off of UserVoice to our own open
-source platform at https://dukgo.com/. We'll be migrating the currently
-submitted ideas from http://ideas.duckduckhack.com/ to the new forum but we'd
-like to make sure that users who have submitted ideas or comments can claim
-them for their new community account.
-  
-To claim your old uservoice data, please click on the following link and login
-with your community platform account (or register a new one):
-
-<a href="<: $email_claimlink :>"><: $email_claimlink :></a>
-
-If, after login or registration, you don't get a screen informing you that your
-ideas and comments are claimed, please be sure you are logged in and then retry
-the link.
-
-That's all for now but stay tuned for more updates on our way to the new
-Community.
-
+            Hello <: $email_username :>,
           </h4>
+          <p <: style("default") :>>
+            If you haven't already heard, we're moving off of UserVoice to our own open
+            source platform at https://dukgo.com/. We'll be migrating the currently
+            submitted ideas from http://ideas.duckduckhack.com/ to the new forum but we'd
+            like to make sure that users who have submitted ideas or comments can claim
+            them for their new community account.
+          </p>
+          <p <: style("default") :>> 
+            To claim your old uservoice data, please click on the following link and login
+            with your community platform account (or register a new one):
+          </p>
+          <p <: style("default") :>>
+            <a href="<: $email_claimlink :>"><: $email_claimlink :></a>
+          </p>
+          <p <: style("default") :>>
+            If, after login or registration, you don't get a screen informing you that your
+            ideas and comments are claimed, please be sure you are logged in and then retry
+            the link.
+          </p>
+          <p <: style("default") :>>
+            That's all for now but stay tuned for more updates on our way to the new
+            Community.
+          </p>
           <p <: style("sub_text") :>>Regards, <br/><i <: style("signoff") :>>The DuckDuckGo Community team.</i></p>
         </td>
       </tr>

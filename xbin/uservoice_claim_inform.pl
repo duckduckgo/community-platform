@@ -47,15 +47,15 @@ for (keys %claim_link) {
   my $username = $user eq 'Anonymous'
     ? "anonymous user"
     : $user;
-  my $subject = "[DuckDuckGo Community] Claiming your uservoice data";
+  my $subject = "[DuckDuckGo Community] Claiming your instant answer suggestions";
   my %stash;
   $stash{email_username} = $username;
   $stash{email_claimlink} = $ddgc->config->web_base.'/my/uservoice_claim/'.$claim_ref.'/'.$claim;
-  $c->d->postman->template_mail(
+  $ddgc->postman->template_mail(
     $email,
     '"DuckDuckGo Community" <noreply@dukgo.com>',
     $subject,
     'uservoiceclaim',
-    $c->stash,
+    \%stash,
   );
 }

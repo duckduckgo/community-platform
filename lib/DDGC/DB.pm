@@ -43,11 +43,12 @@ has no_events => (
 sub without_events {
 	my ( $self, $code ) = @_;
 	die "without_events need coderef" unless ref $code eq 'CODE';
-	$self->no_events(1);
+	my $change_it = $self->no_events ? 1 : 0;
+	$self->no_events(1) if $change_it;
 	eval {
 		$code->();
 	};
-	$self->no_events(0);
+	$self->no_events(0) if $change_it;
 	croak $@ if $@;
 	return;
 }
