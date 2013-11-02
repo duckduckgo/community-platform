@@ -9,14 +9,13 @@
             Hello <: $email_username :>,
           </h4>
           <p <: style("default") :>>
-            If you haven't already heard, we're moving off of UserVoice to our own open
-            source platform at https://dukgo.com/. We'll be migrating the currently
-            submitted ideas from http://ideas.duckduckhack.com/ to the new forum but we'd
-            like to make sure that users who have submitted ideas or comments can claim
-            them for their new community account.
+            If you haven't heard, we're moving our Instant Answer ideas forum off of UserVoice and 
+            to our own open source platform at https://dukgo.com/ideas. We'd like to make sure that 
+            users who've submitted Instant Answer ideas will get attribution for them on the new platform
+            so please follow the steps below to claim any past submissions from: http://ideas.duckduckhack.com/.
           </p>
           <p <: style("default") :>> 
-            To claim your old uservoice data, please click on the following link and login
+            To claim your old UserVoice data, please click on the following link and login
             with your community platform account (or register a new one):
           </p>
           <p <: style("default") :>>
@@ -28,10 +27,9 @@
             the link.
           </p>
           <p <: style("default") :>>
-            That's all for now but stay tuned for more updates on our way to the new
-            Community.
+            That's all for now but stay tuned for more updates!
           </p>
-          <p <: style("sub_text") :>>Regards, <br/><i <: style("signoff") :>>The DuckDuckGo Community team.</i></p>
+          <p <: style("sub_text") :>>Regards, <br/><i <: style("signoff") :>>The DuckDuckGo staff.</i></p>
         </td>
       </tr>
     </table>
