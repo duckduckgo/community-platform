@@ -37,9 +37,9 @@
 		  <span class="button-group  pull-right">
 			  <: if !$no_reply { :>
 				<: if $watching { :>
-				  <a class="button" href="#"><i class="icon  icon-eye-close"></i>Don't Follow</a>
+: #				  <a class="button" href="#"><i class="icon  icon-eye-close"></i>Don't Follow</a>
 				<: } else { :>          
-				  <a class="button" href="#"><i class="icon  icon-eye-open"></i>Follow</a>
+: #				  <a class="button" href="#"><i class="icon  icon-eye-open"></i>Follow</a>
 				<: } :>
 			  <: } :>
 			  <: if $c.user.is('idea_manager') || $c.user.id == $_.user.id { :>

@@ -16,9 +16,9 @@
       <a href="#thread-comments"><i class="thread__foot__icon  icon-bubble"></i> <: $children_count :> Comment<: if $children_count != 1 { :>s<: } :></a>  
 	  <: if !$no_reply && $c.user { :>
 		<: if $watching { :>
-          <a class="" href="#"><i class="thread__foot__icon  icon-eye-close"></i>Don't Follow</a>
+: #          <a class="" href="#"><i class="thread__foot__icon  icon-eye-close"></i>Don't Follow</a>
 		<: } else { :>          
-		  <a class="" href="#"><i class="thread__foot__icon  icon-eye-open"></i>Follow</a>
+: #		  <a class="" href="#"><i class="thread__foot__icon  icon-eye-open"></i>Follow</a>
 		<: } :>
       <: } :>
 	  
