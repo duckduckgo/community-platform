@@ -17,7 +17,10 @@ use Digest::MD5 qw( md5_hex );
 my $types = DDGC::DB::Result::Idea::types;
 delete $$types{0};
 my %type = reverse %$types;
-$type{substr($_,0,1)} = delete $type{$_} for keys %type;
+$type{substr($_,0,3)} = delete $type{$_} for keys %type;
+
+my %statuses = %{DDGC::DB::Result::Idea::statuses()};
+delete $statuses{0};
 
 # datetime parser
 my $dt = DateTime::Format::Strptime->new(pattern => '%Y-%m-%d %H:%M');
@@ -61,11 +64,20 @@ sub suggestion {
 	$total_comments += $sug{Comments};
 	print "\rSuggestions: $sug_count";
 
-	$sug{Category} = substr($sug{Category}, 0, 1);
+	$sug{Category} = substr($sug{Category}, 0, 3);
+	my $status = 0;
+	for my $value (keys %statuses) {
+		my $text = $statuses{$value};
+		if ($sug{'Response Status'} =~ m/^$text$/) {
+			$status = $value;
+			last;
+		}
+	}
 	my $idea = $import_user->create_related('ideas',{
 			title => $sug{Title},
 			content => $sug{Description},
 			type => $type{$sug{Category}} // 0,
+			status => $status,
 			created => $sug{'Created At'},
 			updated => $sug{'Updated At'},
 			old_vote_count => $sug{Votes},
@@ -80,6 +92,21 @@ sub suggestion {
 			},
 		});
 	$sug_id{$sug{Id}} = $idea->id;
+	if ($sug{'Response Text'}) {
+		$ddgc->add_comment(
+			'DDGC::DB::Result::Idea',
+			$idea->id,
+			$import_user,
+			$sug{'Response Text'},
+			data => {
+				import => 'UserVoice',
+				import_user => 'DuckDuckGo Team',
+				___uservoice_import___ => 1,
+			},
+			created => $sug{'Response Created At'},
+			updated => $sug{'Response Created At'},			
+		);
+	}
 }
 
 my $comment_count;
@@ -89,6 +116,7 @@ my @missed;
 sub comment {
 	my (%comment) = @_;
 	$comment_count++;
+	$comment{$_} = $dt->parse_datetime($comment{$_}) for ('Created At', 'Updated At');
 	print "\rComments: $comment_count\t/ $total_comments";
 	if (defined $sug_id{$comment{'Suggestion ID'}}) {
 		$ddgc->add_comment(
@@ -96,6 +124,8 @@ sub comment {
 			$sug_id{ $comment{'Suggestion ID'} },
 			$import_user,
 			$comment{Text},
+			created => $comment{'Created At'},
+			updated => $comment{'Updated At'},
 			data => {
 				$comment{'User Email'} ? (uservoice_email => $comment{'User Email'}) : (),
 				$comment{'User Name'} ? (uservoice_user => $comment{'User Name'}) : (),

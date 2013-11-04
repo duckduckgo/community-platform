@@ -60,7 +60,7 @@
 			<div class="g twothird">
 				<select name="status" class="whole js-select">
 				<: for $idea_statuses -> $idea_status { :>
-					<option value="<: $idea_status.0 :>"<: if $idea_status.0 == $_.type || $idea_status.0 == $c.req.params.status { :>selected="selected"<: } :>>
+					<option value="<: $idea_status.0 :>"<: if $idea_status.0 == $_.status || $idea_status.0 == $c.req.params.status { :>selected="selected"<: } :>>
 						<: $idea_status.1 :>
 					</option>
 				<: } :>
