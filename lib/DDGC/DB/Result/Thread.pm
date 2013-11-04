@@ -134,7 +134,7 @@ sub get_url {
 	$key =~ s/-+/-/g;
 	$key =~ s/-$//;
 	$key =~ s/^-//;
-	return $key;
+	return $key || 'url';
 }
 
 no Moose;

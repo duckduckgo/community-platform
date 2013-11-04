@@ -69,6 +69,8 @@ sub all_done :Chained('base') :Args(0) {
 	},{
 		prefetch => [qw( user_notification )],
 	})->delete;
+	$c->user->undone_notifications->cursor->clear_cache;
+	$c->user->undone_notifications_count_resultset->cursor->clear_cache;
   $c->response->redirect($c->chained_uri('My::Notifications','index',{
   	all_notifications_done => $c->stash->{delete_count},
   }));
@@ -95,6 +97,8 @@ sub done :Chained('done_base') :Args(0) {
 	my ( $self, $c ) = @_;
 	my $count = $self->done_resultset($c,$c->stash->{event_notification_group_id})->delete;
 	$c->response->body('OK '.$count);
+	$c->user->undone_notifications->cursor->clear_cache;
+	$c->user->undone_notifications_count_resultset->cursor->clear_cache;
   return $c->detach;
 }
 
@@ -106,6 +110,8 @@ sub done_goto :Chained('done_base') :Args(0) {
 		: $c->chained_uri('My::Notification','index');
 	$self->done_resultset($c,$c->stash->{event_notification_group_id})->delete;
   $c->response->redirect($redirect);
+	$c->user->undone_notifications->cursor->clear_cache;
+	$c->user->undone_notifications_count_resultset->cursor->clear_cache;
   return $c->detach;
 }
 

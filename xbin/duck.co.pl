@@ -152,6 +152,7 @@ while (1) {
 					sticky => $sticky,
 					old_url => $li->{link},
 					comment_params => {
+						created => $datetime, updated => $datetime,
 						is_html => 1,
 						readonly => 1,
 						data => {

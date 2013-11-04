@@ -167,7 +167,7 @@ sub _build__locale_user_languages {
 
 sub translation_count { shift->token_language_translations->count(@_); }
 
-sub undone_notifications_count {
+sub undone_notifications_count_resultset {
 	my ( $self ) = @_;
 	$self->schema->resultset('Event::Notification::Group')->search_rs({
 		'user_notification.users_id' => $self->id,
@@ -176,7 +176,12 @@ sub undone_notifications_count {
 			event_notifications => [qw( user_notification )],
 		}],
 		cache_for => 45,
-	})->count;
+	})
+}
+
+sub undone_notifications_count {
+	my ( $self ) = @_;
+	$self->undone_notifications_count_resultset->count;
 }
 
 sub undone_notifications {
