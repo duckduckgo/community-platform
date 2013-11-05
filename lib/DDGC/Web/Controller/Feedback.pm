@@ -165,7 +165,7 @@ sub step :Chained('feedback') :PathPart('') :Args(1) {
 
     $c->stash->{c} = $c;
     $c->d->postman->template_mail(
-      'getty@duckduckgo.com',
+      'support@duckduckgo.com',
       '"DuckDuckGo Community" <noreply@dukgo.com>',
       '[DDG Feedback '.$c->stash->{feedback_name}.'] '.$data{'1'},
       'feedback',
