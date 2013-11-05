@@ -557,7 +557,15 @@
 			left: -8px;
 			border-right: 9px solid #fff; 
 		  }
-		 
+	
+	.comment--old > .comment-body,
+	.comment--old.comment--deep > .comment-body > .row.content {
+		background-color: #f9f9f9;
+	}
+		.comment--old > .comment-body:after {
+			border-right-color: #f9f9f9;
+		}
+	
 .row.tier1-new { margin-bottom: 13px; }
 .comment_reply { position: relative; }
 	.comment_reply .comment_reply { margin-top: -18px; }
