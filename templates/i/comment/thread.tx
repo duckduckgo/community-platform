@@ -14,12 +14,12 @@
     </div>
     <div class="thread__foot  group">      
       <a href="#thread-comments"><i class="thread__foot__icon  icon-bubble"></i> <: $children_count :> Comment<: if $children_count != 1 { :>s<: } :></a>  
-	  <: if !$no_reply && $c.user { :>
-		<: if $watching { :>
-          <a class="" href="#"><i class="thread__foot__icon  icon-eye-close"></i>Don't Follow</a>
-		<: } else { :>          
-		  <a class="" href="#"><i class="thread__foot__icon  icon-eye-open"></i>Follow</a>
-		<: } :>
+	  <: if $c.user and $_.context == 'DDGC::DB::Result::Thread' { :>
+        <: if $c.user.has_context_notification('forum_comments',$_.get_context_obj) { :>
+            <a href="<: $u($_.get_context_obj.u,{ unfollow => 'forum_comments' }) :>"><i class="icon  icon-eye-close"></i>Don't Follow</a>
+        <: } else { :>
+            <a href="<: $u($_.get_context_obj.u,{ follow => 'forum_comments' }) :>"><i class="icon  icon-eye-open"></i>Follow</a>
+        <: } :>
       <: } :>
 	  
       <div class="pull-right">

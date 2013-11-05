@@ -56,6 +56,8 @@ has db => (
 		data
 		user_notification_group_values
 		add_context_notification
+		delete_context_notification
+		has_context_notification
 		add_type_notification
 		lowercase_username
 	),qw(

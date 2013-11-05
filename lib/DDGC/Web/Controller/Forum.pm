@@ -115,6 +115,11 @@ sub thread : Chained('thread_id') PathPart('') Args(1) {
     $c->stash->{thread}->sticky($c->req->params->{sticky});
     $c->stash->{thread}->update;
   }
+  if ($c->user && $c->req->params->{unfollow}) {
+    $c->user->delete_context_notification($c->req->params->{unfollow},$c->stash->{thread});
+  } elsif ($c->user && $c->req->params->{follow}){
+    $c->user->add_context_notification($c->req->params->{follow},$c->stash->{thread});
+  }
   unless ($c->stash->{thread}->key eq $key) {
     $c->response->redirect($c->chained_uri(@{$c->stash->{thread}->u}));
     return $c->detach;

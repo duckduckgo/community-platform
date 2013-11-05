@@ -2,7 +2,7 @@
   <a href="<: $u('Userpage','home',$_.username) :>">
 <: } :>
 <: if $_.admin { :><span style="color:green"><: } :>
-  <: i($_,'name') :>
+  <: i($_,'name',{ no_caller => 1 }) :>
 <: if $_.admin { :></span><: } :>
 <: if $_.public && !$no_user_link { :>
   </a>

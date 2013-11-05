@@ -3,59 +3,57 @@
 <div class="idea-header  idea-header--title"><div class="idea-title  media"><i class="idea-title__icon  icon-lightbulb"></i> <h1 class="idea-title__text"><: $_.title :></h1></div></div>
 
 <div class="media  idea  idea--has-title  mg-bottom">
-  <div class="idea__votes  idea__votes--rev  text-mid">	
+	<div class="idea__votes  idea__votes--rev  text-mid">	
 	<small><em>
 		<: if $c.user { :>Vote for Me!<: } else { :><a href="<: $u('My','login') :>">Log in</a> to Vote<: } :>
 	</em></small>
 	<div class="vote-wrap mg-top--small">
 		<: i($_,'votes') :>	
 	</div>
-  </div>
-  <div class="idea-preview__body">
-	  <span class="comment-meta">	   
+	</div>
+	<div class="idea-preview__body">
+		<span class="comment-meta">	   
 		<: $_.vote_count :> Vote<: if $_.vote_count != 1 {:>s<: } :>
 		&bull; <: $reply_count :> Comment<: if $reply_count != 1 {:>s<:}:>		 
-	  </span>
-    <div class="content">
+		</span>
+		<div class="content">
 		<div class="p"><: r($_.html) :></div>
-    </div>
-    <: if $_.source { :>
-	  <div class="idea__label">
+		</div>
+		<: if $_.source { :>
+		<div class="idea__label">
 		<b>Source:</b>
-	  </div>
-	  <div class="row--floated  content">
+		</div>
+		<div class="row--floated  content">
 		<div class="p"><: r($_.source_html) :></div>
-	  </div>
+		</div>
 		
-    <: } :>
-    <div class="row">
-      <span class="comment-meta">
-		<: i($_.user,'userinfo',{userpic_size => 32}) :> &bull; posted <: $dur($_.created) :> <: i($_,'type') :>
-	  </span>
-	  <: i($_,'status') :>
-	  <: if $c.user { :>
-		  <span class="button-group  pull-right">
-			  <: if !$no_reply { :>
-				<: if $watching { :>
-				  <a class="button" href="#"><i class="icon  icon-eye-close"></i>Don't Follow</a>
-				<: } else { :>          
-				  <a class="button" href="#"><i class="icon  icon-eye-open"></i>Follow</a>
+		<: } :>
+		<div class="row">
+			<span class="comment-meta">
+		<: i($_.user,'userinfo',{ userpic_size => 32 }) :> &bull; posted <: $dur($_.created) :> <: i($_,'type') :>
+		</span>
+		<: i($_,'status') :>
+		<: if $c.user { :>
+			<span class="button-group  pull-right">
+				<: if $c.user.has_context_notification('forum_comments',$_) { :>
+					<a class="button" href="<: $u($_.u,{ unfollow => 'forum_comments' }) :>"><i class="icon  icon-eye-close"></i>Don't Follow</a>
+				<: } else { :>
+					<a class="button" href="<: $u($_.u,{ follow => 'forum_comments' }) :>"><i class="icon  icon-eye-open"></i>Follow</a>
 				<: } :>
-			  <: } :>
-			  <: if $c.user.is('idea_manager') || $c.user.id == $_.user.id { :>
+				<: if $c.user.is('idea_manager') || $c.user.id == $_.user.id { :>
 				<a href="<: $u('Ideas','edit',$_.id) :>" class="button"><i class="icon icon-edit"></i> Edit</a>
-			  <: } :>
-		  </span>
-	  <: } :>
-    </div>
-    
-  </div>
+				<: } :>
+			</span>
+		<: } :>
+		</div>
+		
+	</div>
 </div>
 <: if $c.user.is('idea_manager') { :>
-  <div class="idea-header  idea-header--controls  mg-bottom--big">
+	<div class="idea-header  idea-header--controls  mg-bottom--big">
 	<form class=""> 	  
-	  <label for="status" class="idea-header__form-label"><i class="icon-tools thread-title__icon"></i> Change Status:</label>
-	  <div class="row row--floated ">
+		<label for="status" class="idea-header__form-label"><i class="icon-tools thread-title__icon"></i> Change Status:</label>
+		<div class="row row--floated ">
 		<div class="gw">
 			<div class="g twothird">
 				<select name="status" class="whole js-select">
@@ -65,15 +63,15 @@
 					</option>
 				<: } :>
 				</select>
-			  </div>
-			  <div class="g thirty">
+				</div>
+				<div class="g thirty">
 				<input type="submit" name="change_status" value="Update" class="button  inline-form" />
-                                <a class="button  red" href="<: $u('Ideas','delete',$_.id) :>">Delete</a>
-			  </div>
-		  </div>
+																<a class="button  red" href="<: $u('Ideas','delete',$_.id) :>">Delete</a>
+				</div>
+			</div>
 		</div>
 	</form>
-  </div>
+	</div>
 <: } :>
 
 <hr class="mg-top--big"/>

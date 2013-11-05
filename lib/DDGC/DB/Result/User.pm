@@ -300,13 +300,49 @@ sub add_context_notification {
 		die "Several notification groups found, cant be..." if scalar @user_notification_groups > 1;
 		die "No notification group found!" if scalar @user_notification_groups < 1;
 		my $user_notification_group = $user_notification_groups[0];
-		return $self->create_related('user_notifications',{
+		return $self->update_or_create_related('user_notifications',{
 			user_notification_group_id => $user_notification_group->id,
 			xmpp => $group_info->{xmpp} ? 1 : 0,
 			cycle => $group_info->{cycle},
 			context_id => $context_obj->id,
+		},{
+			key => 'user_notification_user_notification_group_id_context_id_users_id',
 		});
 	}
+}
+
+sub has_context_notification {
+	my ( $self, $type, $context_obj ) = @_;
+	my $group_info = $self->user_notification_group_values->{$type}->{'*'};
+	my @user_notification_groups = $self->schema->resultset('User::Notification::Group')->search({
+		context => $context_obj->context_name,
+		with_context_id => 1,
+		type => $type,
+	})->all;
+	die "Several notification groups found, cant be..." if scalar @user_notification_groups > 1;
+	die "No notification group found!" if scalar @user_notification_groups < 1;
+	my $user_notification_group = $user_notification_groups[0];
+	return $self->search_related('user_notifications',{
+		user_notification_group_id => $user_notification_group->id,
+		context_id => $context_obj->id,
+	})->count;
+}
+
+sub delete_context_notification {
+	my ( $self, $type, $context_obj ) = @_;
+	my $group_info = $self->user_notification_group_values->{$type}->{'*'};
+	my @user_notification_groups = $self->schema->resultset('User::Notification::Group')->search({
+		context => $context_obj->context_name,
+		with_context_id => 1,
+		type => $type,
+	})->all;
+	die "Several notification groups found, cant be..." if scalar @user_notification_groups > 1;
+	die "No notification group found!" if scalar @user_notification_groups < 1;
+	my $user_notification_group = $user_notification_groups[0];
+	return $self->search_related('user_notifications',{
+		user_notification_group_id => $user_notification_group->id,
+		context_id => $context_obj->id,
+	})->delete;
 }
 
 sub add_type_notification {

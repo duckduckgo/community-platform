@@ -30,11 +30,6 @@
 					<: if ($c.user.admin or $c.user.id == $_.user.id) { :>
 						<span class="comment-meta__link">&bull; <a href="<: $u('Comment','delete',$_.id, { action_token => $action_token }) :>">Delete</a></span>
 					<: } :>
-					<: if $watching { :>
-					  <span class="comment-meta__link">&bull; <a class="" href="#">Don't Follow</a></span>
-					<: } else { :>          
-					  <span class="comment-meta__link">&bull; <a class="" href="#">Follow</a></span>
-					<: } :>
 				<: } :>
 				<: if ($children_count && $tier_level > 2) || !$children_count { :><span class="comment-meta__link">&bull; <a href="<: $u('Forum','comment', $_.id ) :>">Link</a></span><: } :>
 				<: if $children_count { :>
