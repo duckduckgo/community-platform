@@ -41,7 +41,7 @@
             <div class="forty">
                 <span class="comment-meta">
                     <: if $context_obj.can('user') && $context_obj.user { :>
-                      by <: i($context_obj.user) :> &bull; <: $dur($context_obj.created) :>
+                      by <: i($context_obj.user) :> &bull; <span title="<: $dur_precise($context_obj.created) :>"><: $dur($context_obj.created) :></span>					  
                     <: } elsif $context_obj.can('token') && $context_obj.token { :> 
                        <i>Translation</i>
                     <: } :>                    

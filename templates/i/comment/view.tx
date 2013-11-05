@@ -21,7 +21,7 @@
 				<: if $_.deleted { :></em><: } :>
 			</div>
 			<span class="comment-meta">
-				posted by <: i($_.user) :> &bull; <: $dur_precise($_.created) :>				
+				posted by <: i($_.user) :> &bull; <span title="<: $dur_precise($_.created) :>"><: $dur($_.created) :></span>
 				<: if !$no_reply && $c.user { :>
 					<span class="comment-meta__link">
 						&bull; <a class="js-reply_link_<: $_.id :>  js-comment-reply no-js-hide" data-target="<: $_.id :>" href="#">Reply</a>
