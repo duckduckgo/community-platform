@@ -52,7 +52,7 @@
 			<input type="submit" name="send" value="Say to Roboduck" class="button" />
 		</form>
 		<div id="duckzone-user-avatar" class="usericon">
-			<: if $c.user { i($c.user,'userpic',{ userpic_size => 46 }) } else { :>
+			<: if $c.user { i($c.user,'userpic',{ userpic_size => 48 }) } else { :>
 			<img class="userpic" width="46" src="/static/images/profile.anonymous.png" alt="ur face" />
 			<: } :>
 		</div>
