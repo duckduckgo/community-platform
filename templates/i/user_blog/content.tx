@@ -6,7 +6,7 @@
 	<section class="post-body">
 		<: i($_, "header") :>
 		<: r($_.html) :>
-		<: i($_, "actions") :>
+		<: i($_, "actions", { show_follow_button => 1 }) :>
 	</section>
 	<section class="post-comments">
 		<a name="comments"></a>

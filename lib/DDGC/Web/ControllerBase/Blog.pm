@@ -83,6 +83,11 @@ sub post_base :Chained('blog_base') :PathPart('') :CaptureArgs(1) {
 		$c->response->redirect($c->chained_uri('Blog','index'));
 		return $c->detach;
 	}
+	if ($c->user && $c->req->params->{unfollow}) {
+		$c->user->delete_context_notification($c->req->params->{unfollow},$c->stash->{post});
+	} elsif ($c->user && $c->req->params->{follow}){
+		$c->user->add_context_notification($c->req->params->{follow},$c->stash->{post});
+	}
 	$c->add_bc($c->stash->{post}->title, "");
 }
 
