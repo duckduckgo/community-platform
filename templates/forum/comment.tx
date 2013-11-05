@@ -1,0 +1,5 @@
+<div class="row comment--solo">
+  <: i($thread,'view', { tier => 1, no_kids => 1, userpic_size => 48 }) :>
+</div>
+<hr class="comment--solo-rule" /><a name="comments"></a>
+<: i($thread.comments,'view') :>

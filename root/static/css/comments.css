@@ -420,9 +420,11 @@
 /*
     Comments
 */
-
 .comment { position: relative; }
 .comment.row { margin: 8px auto; }
+	.comment--solo { margin-top: -8px; }
+	.comment--solo-rule { margin-bottom: 10px;}
+
 	/*.blog-content .comment.tier1 { margin-right: 4px; }*/
 	.comment.row .comment.row { margin: 0 auto 2px; }
 	.comment .user-avatar, .comment_reply .user-avatar{ 

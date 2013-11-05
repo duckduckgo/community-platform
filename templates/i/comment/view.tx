@@ -44,8 +44,10 @@
 			<: } :>
 		</div>
 		<: if $children_count { :>
-			<: for results($_.children) -> $child { :>				
-				<: i($child,'view', {tier => $tier_level+1}) :>				
+			<: if !$no_kids { :>
+				<: for results($_.children) -> $child { :>				
+					<: i($child,'view', {tier => $tier_level+1}) :>				
+				<: } :>
 			<: } :>
 			<: if $c.user and !$no_reply { :>
 : #				<div class="comment_reply row js-hide">
@@ -54,15 +56,35 @@
 			<: } :>
 			<: if $tier_level < 3 { :>
 				<div class="row comment-foot">
-					<a href="#" class="comment-toggle"><i class="icon-bubble"></i> <span class="max-msg">Hide Comments</span><span class="min-msg">Show <: $children_count :> Comment<: if $children_count != 1 { :>s<: } :></span></a>
+					<: if !$no_kids { :>
+						<a href="#" class="comment-toggle">
+							<i class="icon-bubble"></i> 
+							<span class="max-msg">Hide Comments</span>
+							<span class="min-msg">Show <: $children_count :> Comment<: if $children_count != 1 { :>s<: } :></span>
+						</a>
+					<: } else { :>
+						<a href="#comments">
+							<i class="icon-bubble"></i> 
+							<: $children_count :> Comment<: if $children_count != 1 { :>s<: } :>
+						</a>
+					<: } :>
 : #					<a href="<: $u('Forum','comment', $_.id ) :>"><b class="comment-foot__icon">#</b>permalink</a>
 					<div class="pull-right">
 					  <: if !$no_reply && $c.user { :>
-						<a class="right  js-reply_link_<: $_.id :>  js-comment-reply  no-js-hide" data-target="<: $_.id :>" href="#"><i class="thread__foot__icon  icon-reply"></i>Reply</a>
-						<a class="right  js-cancel_link_<: $_.id :>  js-comment-cancel  no-js-hide  hide" data-target="<: $_.id :>" href="#"><i class="thread__foot__icon  icon-remove"></i>Cancel</a>
+						<a class="right  js-reply_link_<: $_.id :>  js-comment-reply  no-js-hide" data-target="<: $_.id :>" href="#">
+							<i class="thread__foot__icon  icon-reply"></i> 
+							Reply
+						</a>
+						<a class="right  js-cancel_link_<: $_.id :>  js-comment-cancel  no-js-hide  hide" data-target="<: $_.id :>" href="#">
+							<i class="thread__foot__icon  icon-remove"></i> 
+							Cancel
+						</a>
 					  <: } :>
 					  <: if ($c.user.admin or $c.user.id == $_.user.id) { :>
-							<a class="right" href="<: $u('Comment','delete',$_.id, { action_token => $action_token }) :>"><i class="thread__foot__icon  icon-remove"></i> Delete</a>
+							<a class="right" href="<: $u('Comment','delete',$_.id, { action_token => $action_token }) :>">
+								<i class="thread__foot__icon  icon-trash"></i> 
+								Delete
+							</a>
 					  <: } :>
 					</div>
 				</div>
