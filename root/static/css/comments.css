@@ -558,14 +558,52 @@
 			border-right: 9px solid #fff; 
 		  }
 	
+	/* 
+		Comment Highlighting
+		
+		.comments--old is a wrapper that darkens all comments 
+		.comment--old is singular
+	*/
+	
+	.comments--old .comment-body,
+	.comments--old .comment--deep > .comment-body > .row.content,
 	.comment--old > .comment-body,
 	.comment--old.comment--deep > .comment-body > .row.content {
 		background-color: #f9f9f9;
 	}
+		.comments--old .comment-body:after,
 		.comment--old > .comment-body:after {
 			border-right-color: #f9f9f9;
 		}
+		
+	.comments--old .comment--new > .comment-body,
+	.comments--old .comment--new.comment--deep > .comment-body > .row.content{
+		background-color: #fff;
+	}
+		.comments--old .comment--new > .comment-body:after {
+			border-right-color: #fff;
+		}
 	
+	.comment--highlight > .comment-body,
+	.comment--highlight.comment--deep > .comment-body > .row.content {
+		background-color: #fefde4;
+		border-color: #d9d442;
+	}
+		.comment--highlight > .comment-body:after {
+			border-right-color: #fefde4;
+		}
+		.comment--highlight > .comment-body:before {
+			border-right-color: #d9d442;
+		}
+		.comment--highlight.comment--deep > .comment-body {
+			background: none;
+		}
+		.comment--highlight > .comment-body > .row > .comment-meta {
+			color: #8e8c4c;
+		}
+
+/* the reply field */
+		
 .row.tier1-new { margin-bottom: 13px; }
 .comment_reply { position: relative; }
 	.comment_reply .comment_reply { margin-top: -18px; }
