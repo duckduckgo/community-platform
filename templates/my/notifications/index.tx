@@ -26,7 +26,7 @@
 						</a>
 					<: } :>
 					<a class="button  black" href="<: $u('My::Notifications','index') :>">
-						Reload
+						<i class="icon-refresh"></i><span class="button__label">Reload</span>
 					</a>					
 				</div>
 				<div class="media__body">
