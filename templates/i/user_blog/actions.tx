@@ -23,7 +23,7 @@
 				<i class="icon-pencil"></i>
 				<span class="button__label">
 				<: if $c.user.id != $_.user.id && $c.user.admin { :>
-					Admin
+				: # Admin
 				<: } :>
 				Edit
 				</span>
@@ -32,7 +32,7 @@
 				<i class="action-item__icon  icon-cancel-circle"></i>
 				<span class="button__label">
 				<: if $c.user.id != $_.user.id && $c.user.admin { :>
-					Admin
+				: #	Admin
 				<: } :>
 				Delete
 				</span>
