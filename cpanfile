@@ -64,7 +64,7 @@ requires 'IO::All', '0.50';
 requires 'IO::Socket::SSL', '1.955';
 requires 'IPC::Run', '0.92';
 requires 'JSON', '2.61';
-requires 'JSON::XS', '2.34';
+requires 'JSON::MaybeXS', '2.34';
 requires 'List::MoreUtils', '0.33';
 requires 'Locale::Country', '3.27';
 requires 'Locale::PO::Callback', '0.04';
