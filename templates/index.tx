@@ -3,47 +3,30 @@
 
 <: include "view_disclaimer.tx" :>
 
-<div class="callout">
+<div class="callout">	
 	<div class="third">
-		<div class="callout-box yellow">
-			<a class="head" href="<: $u('Translate','index') :>">
-				<i class="icon-globe"></i> 
-				<h2>Help Translate</h2>				
+		<div class="callout-box green">
+			<a class="head" href="<: $u('Forum','index') :>">
+				<i class="icon-bubbles"></i> 
+				<h2>Discuss</h2>				
 			</a>
 			<div class="body">
-				<h3 class="headfont">Help us translate DuckDuckGo into your languages.</h3>
-				<ul> 
-					<li>Use this platform to translate DuckDuckGo into your language.</li>
-					<li>Your contributions are attributed to you!</li>
-					<li>Discuss the translation of tricky terms with others in the community.</li>					
+				<h3 class="headfont">Help improve DuckDuckGo by making great suggestions.</h3>
+				<ul>					
+					<li>Share your ideas for new Instant Answers.</li>
+					<li>Suggest Instant Answer sources.</li>
+					<li>Speak with other passionate DuckDuckGo users.</li>
+					<li></li>
 				</ul>
-				<a href="<: $u('Translate','index') :>" class="cta"><i class="icon-circle-arrow-right"></i>Help Translate DuckDuckGo</a>
+				<a href="<: $u('Forum','index') :>" class="cta"><i class="icon-circle-arrow-right"></i>Join the DuckDuckGo Community</a>
 			</div>
 		</div>
 	</div>
 	<div class="third">
 		<div class="callout-box blue">
-			<a class="head" href="https://github.com/duckduckgo/community-platform">
+			<a class="head" href="<: $u('DuckDuckHack','index') :>">
 				<i class="icon-tools"></i> 
-				<h2>Develop the Community</h2>				
-			</a>
-			<div class="body">
-				<h3 class="headfont">Pitch in and help us improve this community platform.</h3>
-				<ul>					
-					<li>Completely Open Source platform powered by the Perl programming language</li>
-					<li>Extend and improve user flow.</li>
-					<li>Runs locally on any linux machine</li>
-					<li></li>
-				</ul>
-				<a href="https://github.com/duckduckgo/community-platform" class="cta"><i class="icon-circle-arrow-right"></i>Develop this community platform</a>
-			</div>
-		</div>
-	</div>
-	<div class="third">
-		<div class="callout-box green">
-			<a class="head" href="http://duckduckhack.com/">
-				<i class="icon-browser-window"></i> 
-				<h2>Develop DuckDuckGo</h2>				
+				<h2>Develop</h2>				
 			</a>
 			<div class="body">
 				<h3 class="headfont">Develop for DuckDuckGo.<br/>Hack with us!</h3>
@@ -53,6 +36,23 @@
 					<li>Use open data and APIs, even yours.</li>
 				</ul>
 				<a href="http://duckduckhack.com/" class="cta"><i class="icon-circle-arrow-right"></i>Develop on DuckDuckGo</a>
+			</div>
+		</div>
+	</div>
+	<div class="third">
+		<div class="callout-box yellow">
+			<a class="head" href="<: $u('Translate','index') :>">
+				<i class="icon-globe"></i> 
+				<h2>Translate</h2>				
+			</a>
+			<div class="body">
+				<h3 class="headfont">Help us translate DuckDuckGo into your languages.</h3>
+				<ul> 
+					<li>Use this platform to translate DuckDuckGo into your language.</li>
+					<li>Your contributions are attributed to you!</li>
+					<li>Discuss the translation of tricky terms with others in the community.</li>					
+				</ul>
+				<a href="<: $u('Translate','index') :>" class="cta"><i class="icon-circle-arrow-right"></i>Help Translate DuckDuckGo</a>
 			</div>
 		</div>
 	</div>
