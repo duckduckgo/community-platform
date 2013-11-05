@@ -460,6 +460,10 @@
 			.comment-meta__link {
 				display: inline-block;
 			}
+			.comment-meta a:hover {
+				color: #000;
+			}
+			
 		.comment-meta .comment-toggle {
 			color: #d8d8d8;			
 			font-size: 1.5em;			
@@ -583,7 +587,24 @@
 		.comments--old .comment--new > .comment-body:after {
 			border-right-color: #fff;
 		}
+			
+	/* highlight user's own comments */
+	.comment--own > .comment-body,
+	.comment--own.comment--deep > .comment-body > .row.content {
+		background-color: #f3f7fb;
+		border-color: #bed6eb;
+	}
+		.comment--own > .comment-body:after {
+			border-right-color: #f3f7fb;
+		}
+		.comment--own > .comment-body:before {
+			border-right-color: #bed6eb;
+		}		
+		.comment--own > .comment-body > .row > .comment-meta {
+			color: #40556a;
+		}
 	
+	/* highlight special comments */
 	.comment--highlight > .comment-body,
 	.comment--highlight.comment--deep > .comment-body > .row.content {
 		background-color: #fefde4;
@@ -594,13 +615,17 @@
 		}
 		.comment--highlight > .comment-body:before {
 			border-right-color: #d9d442;
-		}
-		.comment--highlight.comment--deep > .comment-body {
-			background: none;
-		}
+		}		
 		.comment--highlight > .comment-body > .row > .comment-meta {
 			color: #8e8c4c;
 		}
+	
+	/* reset for deep nested items ... */
+	.comment--own.comment--deep > .comment-body,
+	.comment--highlight.comment--deep > .comment-body,	
+	.comments--old .comment--new.comment--deep > .comment-body {
+		background: none;
+	}
 
 /* the reply field */
 		
