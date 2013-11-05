@@ -141,6 +141,21 @@ sub thumbnail :Chained('base') :Args {
 	$c->serve_static_file($thumbnail);
 }
 
+sub redirect_duckco :Chained('base') :PathPart('topic') :Args(1) {
+	my ( $self, $c, $topic ) = @_;
+	my $old_url = 'http://duck.co/topic/'.$topic;
+	$c->stash->{thread} = $c->d->rs('Thread')->find({
+		old_url => $old_url,
+	});
+	if ($c->stash->{thread}) {
+		$c->response->redirect($c->chained_uri(@{$c->stash->{thread}->u}));
+		$c->response->status(301);
+	} else {
+		$c->response->redirect($c->chained_uri('Forum','index',{ thread_notfound => 1 }));
+	}
+	return $c->detach;
+}
+
 sub index :Chained('base') :PathPart('') :Args(0) {
 	my ($self, $c) = @_;
 	$c->stash->{not_last_url} = 1;
