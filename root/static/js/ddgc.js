@@ -392,23 +392,18 @@ $(document).ready(function() {
 	 
 	// hotkeys 
 	
-	$('.has-bbcode').keyup(function (e){ if(e.which == 17) isCtrl=false; }).keydown(function (e) { 
-		if(e.which == 17) isCtrl=true; 
-		if (e.which == 66 && isCtrl == true) { 
+	$('.has-bbcode').keydown(function (e) { 		
+		if ((e.which == 66 || e.which == 73 || e.which == 85) && e.ctrlKey && !e.shiftKey) { 
+			e.preventDefault();			
 			// CTRL + B, bold			
-			insertbb("[b]","[/b]",$(this));
-			return false;
-		} 
-		else if (e.which == 73 && isCtrl == true) { 
+			if (e.which == 66) insertbb("[b]","[/b]",$(this));
 			// CTRL + I, italic			
-			insertbb("[i]","[/i]",$(this));
-			return false;
-		} 
-		else if (e.which == 85 && isCtrl == true) { 
+			if (e.which == 73) insertbb("[i]","[/i]",$(this));
 			// CTRL + U, underline			
-			insertbb("[u]","[/u]",$(this));
+			if (e.which == 85) insertbb("[u]","[/u]",$(this));
+			
 			return false;
-		}
+		} 		
 	});
 	
 
