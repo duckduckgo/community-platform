@@ -87,6 +87,11 @@ sub thread_view : Chained('base') PathPart('') CaptureArgs(0) {
   push @{$c->stash->{template_layout}}, 'forum/thread.tx';
 }
 
+sub comment_view : Chained('base') PathPart('') CaptureArgs(0) {
+  my ( $self, $c ) = @_;
+  push @{$c->stash->{template_layout}}, 'forum/comment.tx';
+}
+
 # /forum/thread/$id
 sub thread_id : Chained('thread_view') PathPart('thread') CaptureArgs(1) {
   my ( $self, $c, $id ) = @_;
@@ -129,7 +134,7 @@ sub thread : Chained('thread_id') PathPart('') Args(1) {
 }
 
 # /forum/comment/$id
-sub comment_id : Chained('thread_view') PathPart('comment') CaptureArgs(1) {
+sub comment_id : Chained('comment_view') PathPart('comment') CaptureArgs(1) {
   my ( $self, $c, $id ) = @_;
   $c->stash->{thread} = $c->d->rs('Comment')->find($id);
   unless ($c->stash->{thread}) {

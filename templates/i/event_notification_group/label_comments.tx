@@ -1,1 +1,1 @@
-On <: i($_.group_object) :>, there are new comments from <: i($_,'userlist') :>.
+On <:- i($_.group_object) -:><span class="notification__punctuation">,</span> there are new comments from <:- i($_,'userlist') -:><span class="notification__punctuation">.</span>
