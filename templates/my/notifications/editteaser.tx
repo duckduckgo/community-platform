@@ -1,4 +1,6 @@
 <div class="row callout-row text-right">	
-    <a class="button" href="<: $u('My::Notifications','edit') :>" title="Edit Notification Settings"><i class="icon-gear"></i></a>
-    <a class="button" href="<: $u('My::Notifications','following') :>" title="Check what you're following"><i class="icon-eye-open"></i></a>	
+	<span class="button-group">
+		<a class="button" href="<: $u('My::Notifications','edit') :>" title="Edit Notification Settings"><i class="icon-gear"></i><span class="button__label">Settings</span></a>
+		<a class="button" href="<: $u('My::Notifications','following') :>" title="Check what you're following"><i class="icon-eye-open"></i><span class="button__label">Following</span></a>	
+	</span>
 </div>
