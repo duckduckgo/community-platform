@@ -40,10 +40,8 @@
             <: } :>
         <: } :>
         <: if ($c.user.admin or $c.user.id == $_.user.id) { :>
-            <a class="right" href="<: $u('Comment','delete',$_.id) :>"><i class="thread__foot__icon  icon-trash"></i> Delete</a>
-            <: if $_.context == 'DDGC::DB::Result::Thread' && !$_.parent_id { :>
-                <a class="right" href="<: $u($_.get_context_obj.u_edit) :>"><i class="thread__foot__icon  icon-edit"></i> Edit</a>
-            <: } :>
+            <a class="right" href="<: $u($_.get_context_obj.u_delete) :>"><i class="thread__foot__icon  icon-trash"></i> Delete</a>
+            <a class="right" href="<: $u($_.get_context_obj.u_edit) :>"><i class="thread__foot__icon  icon-edit"></i> Edit</a>
         <: } :>
        </div>
     </div>
