@@ -107,7 +107,7 @@ sub check_password {
 	);
 	my $data;
 	eval {
-		$data = $mod_data_access->get($self->username);
+		$data = $mod_data_access->get(lc($self->username));
 	};
 	return $data ? 1 : 0;
 }
