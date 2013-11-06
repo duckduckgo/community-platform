@@ -135,6 +135,11 @@
 		.notification__user a {
 			color: inherit;
 		}
+		/* usernames and other items have funky whitespace - this is to wrap the comma to remove that */
+		.notification__punctuation,
+		.notification__user--sep {
+			margin-left: -0.5ex;
+		}
 
 .notification--too-many	{
 	

@@ -1,1 +1,1 @@
-There are <b><: $_.event_notifications.count :> new votes</b> on <: i($_.group_object) :>.
+There are <b><:- $_.event_notifications.count -:> new votes</b> on <:- i($_.group_object) -:><span class="notification__punctuation">.</span>

@@ -1,1 +1,1 @@
-<: i($_,'label_create') :>
+<:- i($_,'label_create') -:>

@@ -1,1 +1,1 @@
-<: i($_,'userlist') :> made <: i($_.group_object) :>.
+<:- i($_,'userlist') -:> made <:- i($_.group_object) -:><span class="notification__punctuation">.</span>
