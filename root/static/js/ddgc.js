@@ -101,6 +101,16 @@ $(document).ready(function() {
 	$('.content-box-click').addClass('is-open').toggleClass('is-closed');
 	$('.content-box-click').children('.body').toggle();
 
+	// Comment anchors
+	
+	var hash = document.location.hash;
+
+	var element = $('#'+hash.slice(1));
+	if (element.length){
+		if (element.parent().hasClass('comment')) element.parent().addClass('comment--highlight');
+	}
+	   
+	
 	//
 	// Feedback page
 	//
