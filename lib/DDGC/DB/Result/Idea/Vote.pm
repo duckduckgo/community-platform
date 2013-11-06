@@ -40,7 +40,9 @@ unique_constraint(
   idea_users => [qw/ idea_id users_id /]
 );
 
-belongs_to 'user', 'DDGC::DB::Result::User', 'users_id';
+belongs_to 'user', 'DDGC::DB::Result::User', 'users_id', {
+  on_delete => 'cascade',
+};
 belongs_to 'idea', 'DDGC::DB::Result::Idea', 'idea_id', {
   on_delete => 'cascade',
 };

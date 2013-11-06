@@ -30,18 +30,22 @@ sub delete : Chained('do') Args(1) {
 	my $comment = $c->d->rs('Comment')->prefetch_all->find($id);
 	return unless $comment;
 	return unless $c->user && ($c->user->admin || $c->user->id == $comment->user->id);
+	$c->require_action_token;
 	if ($comment->context eq 'DDGC::DB::Result::Thread' && !$comment->parent_id) {
 		$c->response->redirect($c->chained_uri(@{$comment->get_context_obj->u_delete}));
 		return $c->detach;
 	}
-	$c->require_action_token;
 	$c->d->db->txn_do(sub {
-		my $deleted_user = $c->d->db->resultset('User')->single({
-			username => $c->d->config->deleted_account,
-		});
-		$comment->content('This comment has been deleted.');
-		$comment->users_id( defined $deleted_user ? $deleted_user->id : undef );
-		$comment->update;
+		if ($comment->children->count) {
+			my $deleted_user = $c->d->db->resultset('User')->single({
+				username => $c->d->config->deleted_account,
+			});
+			$comment->content('This comment has been deleted.');
+			$comment->users_id( defined $deleted_user ? $deleted_user->id : undef );
+			$comment->update;
+		} else {
+			$comment->delete;
+		}
 	});
 	my $redirect = $c->req->headers->referrer || '/';
 	$c->response->redirect($redirect);

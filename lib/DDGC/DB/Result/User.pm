@@ -96,20 +96,46 @@ around data => sub {
 	return $data;
 };
 
-has_many 'token_language_translations', 'DDGC::DB::Result::Token::Language::Translation', { 'foreign.username' => 'self.username' };
-has_many 'token_languages', 'DDGC::DB::Result::Token::Language', 'translator_users_id';
-has_many 'checked_translations', 'DDGC::DB::Result::Token::Language::Translation', 'check_users_id';
-has_many 'translation_votes', 'DDGC::DB::Result::Token::Language::Translation::Vote', 'users_id';
-has_many 'comments', 'DDGC::DB::Result::Comment', 'users_id';
-has_many 'duckpan_releases', 'DDGC::DB::Result::DuckPAN::Release', 'users_id';
-has_many 'threads', 'DDGC::DB::Result::Thread', 'users_id';
-has_many 'ideas', 'DDGC::DB::Result::Idea', 'users_id';
-has_many 'events', 'DDGC::DB::Result::Event', 'users_id';
-has_many 'medias', 'DDGC::DB::Result::Media', 'users_id';
+has_many 'token_language_translations', 'DDGC::DB::Result::Token::Language::Translation', { 'foreign.username' => 'self.username' }, {
+  cascade_delete => 0,
+};
+has_many 'token_languages', 'DDGC::DB::Result::Token::Language', 'translator_users_id', {
+  cascade_delete => 0,
+};
+has_many 'checked_translations', 'DDGC::DB::Result::Token::Language::Translation', 'check_users_id', {
+  cascade_delete => 0,
+};
+has_many 'translation_votes', 'DDGC::DB::Result::Token::Language::Translation::Vote', 'users_id', {
+  cascade_delete => 1,
+};
+has_many 'comments', 'DDGC::DB::Result::Comment', 'users_id', {
+  cascade_delete => 0,
+};
+has_many 'duckpan_releases', 'DDGC::DB::Result::DuckPAN::Release', 'users_id', {
+  cascade_delete => 0,
+};
+has_many 'threads', 'DDGC::DB::Result::Thread', 'users_id', {
+  cascade_delete => 0,
+};
+has_many 'ideas', 'DDGC::DB::Result::Idea', 'users_id', {
+  cascade_delete => 0,
+};
+has_many 'events', 'DDGC::DB::Result::Event', 'users_id', {
+  cascade_delete => 0,
+};
+has_many 'medias', 'DDGC::DB::Result::Media', 'users_id', {
+  cascade_delete => 0,
+};
 
-has_many 'user_languages', 'DDGC::DB::Result::User::Language', { 'foreign.username' => 'self.username' };
-has_many 'user_notifications', 'DDGC::DB::Result::User::Notification', 'users_id';
-has_many 'user_blogs', 'DDGC::DB::Result::User::Blog', 'users_id';
+has_many 'user_languages', 'DDGC::DB::Result::User::Language', { 'foreign.username' => 'self.username' }, {
+  cascade_delete => 1,
+};
+has_many 'user_notifications', 'DDGC::DB::Result::User::Notification', 'users_id', {
+  cascade_delete => 1,
+};
+has_many 'user_blogs', 'DDGC::DB::Result::User::Blog', 'users_id', {
+  cascade_delete => 1,
+};
 
 many_to_many 'languages', 'user_languages', 'language';
 

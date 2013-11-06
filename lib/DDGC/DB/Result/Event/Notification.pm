@@ -42,13 +42,13 @@ column created => {
 };
 
 belongs_to 'event', 'DDGC::DB::Result::Event', 'event_id', {
-	on_cascade => 'delete',
+	on_delete => 'cascade',
 };
 belongs_to 'event_notification_group', 'DDGC::DB::Result::Event::Notification::Group', 'event_notification_group_id', {
-	on_cascade => 'delete',
+	on_delete => 'cascade',
 };
 belongs_to 'user_notification', 'DDGC::DB::Result::User::Notification', 'user_notification_id', {
-	on_cascade => 'delete',
+	on_delete => 'cascade',
 };
 
 __PACKAGE__->indices(

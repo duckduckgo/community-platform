@@ -198,6 +198,37 @@ sub belongs_to {
 	$self->next::method(@args);
 }
 
+sub delete {
+	my ( $self, @args ) = @_;
+
+	my $context = $self->context_name;
+	my $context_id = $self->id;
+
+	my $result = $self->next::method(@args);
+
+	$self->schema->resultset('Event')->search([{
+		'me.context' => $context,
+		'me.context_id' => $context_id,
+	},{
+		'event_relates.context' => $context,
+		'event_relates.context_id' => $context_id,
+	}],{
+		join => [qw( event_relates )],
+	})->delete;
+
+	$self->schema->resultset('Event::Relate')->search({
+		context => $context,
+		context_id => $context_id,
+	})->delete;
+
+	$self->schema->resultset('Comment')->search({
+		context => $context,
+		context_id => $context_id,
+	})->delete;
+
+	return $result;
+}
+
 use overload '""' => sub {
 	my $self = shift;
 	return (ref $self).' #'.$self->id;

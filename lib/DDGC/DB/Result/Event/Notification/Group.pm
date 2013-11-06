@@ -43,7 +43,7 @@ has_many 'event_notifications', 'DDGC::DB::Result::Event::Notification', 'event_
 	cascade_delete => 1,
 };
 belongs_to 'user_notification_group', 'DDGC::DB::Result::User::Notification::Group', 'user_notification_group_id', {
-	on_cascade => 'delete',
+	on_delete => 'cascade',
 };
 
 unique_constraint [qw/ user_notification_group_id group_context_id /];

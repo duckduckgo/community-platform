@@ -665,7 +665,7 @@ sub find_user {
 	my $db_user;
 
 	if ($self->config->prosody_running) {
-		%xmpp_user = $self->xmpp->user($username);
+		%xmpp_user = $self->xmpp->user(lc($username));
 		return unless %xmpp_user;
 		$db_user = $self->db->resultset('User')->search(\[
 			'LOWER(me.username) LIKE ?',[ plain_value => lc($username)]

@@ -19,7 +19,9 @@ column event_id => {
   data_type => 'bigint',
   is_nullable => 0,
 };
-belongs_to 'event', 'DDGC::DB::Result::Event', 'event_id';
+belongs_to 'event', 'DDGC::DB::Result::Event', 'event_id', {
+  on_delete => 'cascade',
+};
 
 __PACKAGE__->add_context_relations;
 

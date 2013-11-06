@@ -20,14 +20,18 @@ column help_category_id => {
   is_nullable => 0,
 };
 
-belongs_to 'help_category', 'DDGC::DB::Result::Help::Category', 'help_category_id';
+belongs_to 'help_category', 'DDGC::DB::Result::Help::Category', 'help_category_id', {
+  on_delete => 'no action',
+};
 
 column language_id => {
   data_type => 'bigint',
   is_nullable => 0,
 };
 
-belongs_to 'language', 'DDGC::DB::Result::Language', 'language_id';
+belongs_to 'language', 'DDGC::DB::Result::Language', 'language_id', {
+  on_delete => 'no action',
+};
 
 column title => {
   data_type => 'text',

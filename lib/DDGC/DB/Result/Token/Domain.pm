@@ -86,7 +86,10 @@ has_many 'token_domain_languages', 'DDGC::DB::Result::Token::Domain::Language', 
 	cascade_delete => 1,
 };
 
-belongs_to 'source_language', 'DDGC::DB::Result::Language', 'source_language_id';
+belongs_to 'source_language', 'DDGC::DB::Result::Language', 'source_language_id', {
+	on_delete => 'no action',
+	on_update => 'no action',
+};
 
 many_to_many 'languages', 'token_domain_languages', 'language';
 

@@ -84,8 +84,14 @@ column parent_id => {
 };
 sub root_comment { $_[0]->parent_id ? 0 : 1 }
 
-belongs_to 'user', 'DDGC::DB::Result::User', 'users_id';
-belongs_to 'parent', 'DDGC::DB::Result::Comment', 'parent_id', { join_type => 'left' };
+belongs_to 'user', 'DDGC::DB::Result::User', 'users_id', {
+	on_delete => 'no action',
+};
+
+belongs_to 'parent', 'DDGC::DB::Result::Comment', 'parent_id', {
+	join_type => 'left',
+};
+
 has_many 'children', 'DDGC::DB::Result::Comment', 'parent_id';
 
 __PACKAGE__->indices(
@@ -106,6 +112,11 @@ after insert => sub {
 after update => sub {
 	my ( $self ) = @_;
 	$self->add_event('update');
+};
+
+before delete => sub {
+	my ( $self ) = @_;
+	die "Can't kill a comment with children" if $self->children->count;
 };
 
 sub event_related {

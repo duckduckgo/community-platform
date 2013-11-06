@@ -20,14 +20,18 @@ column on_help_id => {
   is_nullable => 0,
 };
 
-belongs_to 'on_help', 'DDGC::DB::Result::Help', 'on_help_id';
+belongs_to 'on_help', 'DDGC::DB::Result::Help', 'on_help_id', {
+  on_delete => 'cascade',
+};
 
 column show_help_id => {
   data_type => 'bigint',
   is_nullable => 0,
 };
 
-belongs_to 'show_help', 'DDGC::DB::Result::Help', 'show_help_id';
+belongs_to 'show_help', 'DDGC::DB::Result::Help', 'show_help_id', {
+  on_delete => 'cascade',
+};
 
 column created => {
   data_type => 'timestamp with time zone',
