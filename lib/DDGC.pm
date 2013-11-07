@@ -285,7 +285,13 @@ sub _build_xslate {
 			r => sub { mark_raw(@_) },
 
 			# trick function for DBIx::Class::ResultSet
-			results => sub { [ shift->all ] },
+			results => sub {
+				my ( $rs, $sorting ) = @_;
+				my @results = $rs->all;
+				$sorting
+					? [ sort { $b->$sorting <=> $a->$sorting } @results ]
+					: [ @results ];
+			},
 
 			# general functions avoiding xslates problems
 			call => sub {
