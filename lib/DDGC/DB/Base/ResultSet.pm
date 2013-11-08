@@ -26,12 +26,12 @@ sub paging {
 }
 
 sub prefetch_context_config {
-  my ( $self, $result_class ) = @_;
+  my ( $self, $result_class, %opts ) = @_;
   $result_class = $self->result_class unless defined $result_class;
   my %prefetch = map {
-    defined $result_class->context_config->{$_}->{prefetch} && $_ ne $result_class
+    defined $result_class->context_config(%opts)->{$_}->{prefetch} && $_ ne $result_class
       ? (
-        $result_class->context_config->{$_}->{relation} => $result_class->context_config->{$_}->{prefetch}
+        $result_class->context_config(%opts)->{$_}->{relation} => $result_class->context_config(%opts)->{$_}->{prefetch}
       ) : ()
   } keys %{$self->result_class->context_config};
   return \%prefetch;

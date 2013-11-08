@@ -11,7 +11,7 @@ __PACKAGE__->table_class('DBIx::Class::ResultSource::View');
 
 table('user_notification_matrix');
 
-__PACKAGE__->result_source_instance->is_virtual(0);
+__PACKAGE__->result_source_instance->is_virtual(1);
 __PACKAGE__->result_source_instance->view_definition(q{
 
 SELECT
@@ -23,6 +23,7 @@ SELECT
   "me"."cycle"                                    AS "cycle",
   "me"."xmpp"                                     AS "xmpp",
   "me"."cycle_time"                               AS "cycle_time",
+  "me"."created"                                  AS "created",
   "user_notification_group"."id"                  AS "user_notification_group_id",
   "user_notification_group"."type"                AS "type",
   "user_notification_group"."group_context"       AS "group_context",
@@ -72,6 +73,11 @@ column xmpp => {
 column cycle_time => {
   data_type => 'timestamp with time zone',
   is_nullable => 1,
+};
+
+column created => {
+  data_type => 'timestamp with time zone',
+  is_nullable => 0,
 };
 
 column type => {

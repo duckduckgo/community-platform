@@ -55,9 +55,12 @@ sub edit :Chained('base') :Args(0) {
 sub following :Chained('base') :Args(0) {
 	my ( $self, $c ) = @_;
 	$c->add_bc('Following');
+	$c->pager_init($c->action,'30');
 	$c->stash->{user_notification_matrixes} = $c->user->search_related('user_notification_matrixes',{
 		'me.context_id' => { '!=' => undef },
-	})->prefetch_all;
+	},{
+		order_by => { -desc => 'me.created' },
+	})->prefetch_all->paging($c->stash->{page},$c->stash->{pagesize});
 }
 
 sub all_done :Chained('base') :Args(0) {
