@@ -55,11 +55,9 @@ sub edit :Chained('base') :Args(0) {
 sub following :Chained('base') :Args(0) {
 	my ( $self, $c ) = @_;
 	$c->add_bc('Following');
-	$c->stash->{user_notifications} = $c->user->search_related('user_notifications',{
-		context_id => { '!=' => undef },
-	},{
-		join => [qw( user_notification_group )],
-	});
+	$c->stash->{user_notification_matrixes} = $c->user->search_related('user_notification_matrixes',{
+		'me.context_id' => { '!=' => undef },
+	})->prefetch_all;
 }
 
 sub all_done :Chained('base') :Args(0) {

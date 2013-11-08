@@ -1,7 +1,7 @@
 <: if $unfollowed { :>
-  <div class="notice success">
-    <i class="icn icon-ok"></i>Successfully unfollowed
-  </div>
+	<div class="notice success">
+		<i class="icn icon-ok"></i>Successfully unfollowed
+	</div>
 <: } :>
 
 <input type="hidden" name="action_token" value="<: $action_token :>">
@@ -10,19 +10,23 @@
 
 <: my $notification_count = $undone_notifications_count || $c.user.undone_notifications_count :>
 <div class="content-box">
-  <div class="head">
-    <h3>Currently Receiving Notifications For ...<a class="icn icn--sup" href="<: $u('Blog','post','notification-system') :>" title="Get more information about the notification system"><i class="icon-question-sign"></i></a></h3>
-  </div>
-  <div class="body">
-    <: for results($user_notifications) -> $user_notification { :>
-      <div class="row notification">
-		<i class="notification__following  icon-eye-open"></i> 
-		<a href="<: $u('My::Notifications','unfollow',$user_notification.id) :>" title="Stop following this item" class="notification__unfollow  button">Unfollow</a>
-		<span class="notification__body--following">
-			... <: $user_notification.user_notification_group.context :>
-			#<: $user_notification.context_id :>
-        </span>
-      </div>
-    <: } :>
-  </div>
+	<div class="head">
+		<h3>Currently Receiving Notifications For ...<a class="icn icn--sup" href="<: $u('Blog','post','notification-system') :>" title="Get more information about the notification system"><i class="icon-question-sign"></i></a></h3>
+	</div>
+	<div class="body">
+		<: for results($user_notification_matrixes) -> $user_notification_matrix { :>
+			<div class="row notification">
+				<i class="notification__following  icon-eye-open"></i> 
+				<a href="<: $u('My::Notifications','unfollow',$user_notification_matrix.id) :>" title="Stop following this item" class="notification__unfollow  button">Unfollow</a>
+				<span class="notification__body--following">
+					... <: i($user_notification_matrix.get_context_obj) :>
+				</span>
+				<: if $user_notification_matrix.context == 'DDGC::DB::Result::Comment' { :>
+					<span>
+						<: r($user_notification_matrix.get_context_obj.html) :>
+					</span>
+				<: } :>
+			</div>
+		<: } :>
+	</div>
 </div>

@@ -133,6 +133,9 @@ has_many 'user_languages', 'DDGC::DB::Result::User::Language', { 'foreign.userna
 has_many 'user_notifications', 'DDGC::DB::Result::User::Notification', 'users_id', {
   cascade_delete => 1,
 };
+has_many 'user_notification_matrixes', 'DDGC::DB::Result::User::Notification::Matrix', 'users_id', {
+  cascade_delete => 0,
+};
 has_many 'user_blogs', 'DDGC::DB::Result::User::Blog', 'users_id', {
   cascade_delete => 1,
 };
