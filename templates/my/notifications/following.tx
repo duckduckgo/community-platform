@@ -22,9 +22,9 @@
 					... <: i($user_notification_matrix.get_context_obj) :>
 				</span>
 				<: if $user_notification_matrix.context == 'DDGC::DB::Result::Comment' { :>
-					<span>
+					<div class="tag">
 						<: r($user_notification_matrix.get_context_obj.html) :>
-					</span>
+					</div>
 				<: } :>
 			</div>
 		<: } :>
