@@ -7,6 +7,7 @@
 .idea__votes, 
 .uploaded, 
 .uploaded__link,
+.notification__comment,
 .comment .my_comment.comment-body,
 .comment--deep > .comment-body > .row.content {
     border: 1px solid #cacaca;

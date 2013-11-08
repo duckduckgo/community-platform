@@ -140,6 +140,14 @@
 		.notification__user--sep {
 			margin-left: -0.5ex;
 		}
+		
+	.notification__comment {
+		/* extended in comments.css as well for styling */
+		display: block;
+		margin: 8px auto 8px 0;
+		padding: 13px;
+		max-width: 35em;
+	}
 
 .notification--too-many	{
 	

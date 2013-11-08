@@ -15,17 +15,21 @@
 	</div>
 	<div class="body">
 		<: for results($user_notification_matrixes) -> $user_notification_matrix { :>
-			<div class="row notification">
+			<div class="row notification">				
 				<i class="notification__following  icon-eye-open"></i> 
 				<a href="<: $u('My::Notifications','unfollow',$user_notification_matrix.id) :>" title="Stop following this item" class="notification__unfollow  button">Unfollow</a>
-				<span class="notification__body--following">
-					... <: i($user_notification_matrix.get_context_obj) :>
-				</span>
-				<: if $user_notification_matrix.context == 'DDGC::DB::Result::Comment' { :>
-					<span>
-						<: r($user_notification_matrix.get_context_obj.html) :>
-					</span>
-				<: } :>
+				<div class="notification__body--following">
+					<span class="pull-left">&hellip;</span>
+					<div class="media__body">
+						<: i($user_notification_matrix.get_context_obj) :>
+						<: if $user_notification_matrix.context == 'DDGC::DB::Result::Comment' { :>
+							<span class="notification__comment">
+								<: r($user_notification_matrix.get_context_obj.html) :>
+							</span>
+						<: } :>
+					</div>
+				</div>
+				
 			</div>
 		<: } :>
 	</div>
