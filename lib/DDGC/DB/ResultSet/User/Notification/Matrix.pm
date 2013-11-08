@@ -8,7 +8,10 @@ use namespace::autoclean;
 sub prefetch_all {
   my ( $self ) = @_;
   $self->search_rs({},{
-    prefetch => [qw( user ), $self->prefetch_context_config],
+    prefetch => [qw( user ), $self->prefetch_context_config(
+      'DDGC::DB::Result::User::Notification::Matrix',
+      comment_prefetch => $self->prefetch_context_config('DDGC::DB::Result::Comment'),
+    )],
   });
 }
 

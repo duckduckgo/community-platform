@@ -17,10 +17,17 @@ __PACKAGE__->load_components(qw/
     +DBICx::Indexing
 /);
 
-sub context_config {{
+sub context_config {
+	my ( $class, %opts ) = @_;
+
+{
 	'DDGC::DB::Result::Comment' => {
 		relation => 'comment',
-		prefetch => [qw( user parent )],
+		prefetch => [qw( user parent ),(
+			$opts{comment_prefetch}
+				? ($opts{comment_prefetch})
+				: ()
+		)],
 	},
 	'DDGC::DB::Result::Event' => {
 		relation => 'event',	
@@ -60,7 +67,9 @@ sub context_config {{
 			}]
 		}],
 	},
-}}
+}
+
+}
 
 sub add_context_relations {
   my ( $class ) = @_;
