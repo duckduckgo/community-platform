@@ -382,20 +382,33 @@ sub add_type_notification {
 	})->all;
 	die "No notification group found!" if scalar @user_notification_groups < 1;
 	for my $user_notification_group (@user_notification_groups) {
-		$self->update_or_create_related('user_notifications',{
-			user_notification_group_id => $user_notification_group->id,
-			context_id => undef,
-			cycle => $cycle,
-		},{
-			key => 'user_notification_user_notification_group_id_context_id_users_id',
-		});
-		if ($with_context_id) {
+		if ($cycle) {
+			$self->update_or_create_related('user_notifications',{
+				user_notification_group_id => $user_notification_group->id,
+				context_id => undef,
+				cycle => $cycle,
+			},{
+				key => 'user_notification_user_notification_group_id_context_id_users_id',
+			});
+			if ($with_context_id) {
+				$self->search_related('user_notifications',{
+					user_notification_group_id => $user_notification_group->id,
+					context_id => { '!=' => undef },
+				})->update({
+					cycle => $cycle,
+				});
+			}
+		} else {
 			$self->search_related('user_notifications',{
 				user_notification_group_id => $user_notification_group->id,
-				context_id => { '!=' => undef },
-			})->update({
-				cycle => $cycle,
-			});
+				context_id => undef,
+			})->delete;
+			if ($with_context_id) {
+				$self->search_related('user_notifications',{
+					user_notification_group_id => $user_notification_group->id,
+					context_id => { '!=' => undef },
+				})->delete;
+			}
 		}
 	}
 }
