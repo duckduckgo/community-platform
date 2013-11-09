@@ -116,7 +116,7 @@ sub next_step {
 
 sub step_count {
 	my ( $self ) = @_;
-	my $base = 4039;
+	my $base = 3933;
 	return $base unless $self->test;
 }
 
@@ -725,9 +725,13 @@ sub _replace_email {
 
 sub distributions {[
 	[ testone => 'DDG-Something-0.001.tar.gz' ],
-	[ testtwo => 'DDG-Plugin-OtherThing-MoreTest-0.001.tar.gz' ],
-	[ testthree => 'DDG-Plugin-FatHead-Test-0.001.tar.gz' ],
+	[ testone => 'DDG-Plugin-OtherThing-MoreTest-0.001.tar.gz' ],
+	[ testfour => 'DDG-Plugin-FatHead-Test-0.001.tar.gz' ],
 	[ cpan => 'My-Sample-Distribution-0.003.tar.gz' ],
+	[ testfour => 'DDG-FatheadBundle-OpenSourceDuckDuckGo-0.001-made-smaller.tar.gz' ],
+	[ testone => 'DDG-GoodieBundle-OpenSourceDuckDuckGo-0.090-made-smaller.tar.gz' ],
+	[ testfour => 'DDG-LongtailBundle-OpenSourceDuckDuckGo-0.001.tar.gz' ],
+	[ testone => 'DDG-SpiceBundle-OpenSourceDuckDuckGo-0.265.tar.gz' ],
 ]}
 
 sub add_distributions {

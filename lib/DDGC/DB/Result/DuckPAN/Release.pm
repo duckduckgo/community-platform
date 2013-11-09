@@ -9,6 +9,8 @@ use namespace::autoclean;
 
 table 'duckpan_release';
 
+sub u { [ 'Duckpan', 'release', $_[0]->name, $_[0]->version ] }
+
 column id => {
 	data_type => 'bigint',
 	is_auto_increment => 1,
@@ -33,6 +35,11 @@ column users_id => {
 column filename => {
 	data_type => 'text',
 	is_nullable => 0,
+};
+
+column current => {
+	data_type => 'int',
+	is_nullable => 0,
 	default_value => 1,
 };
 
@@ -47,7 +54,14 @@ column updated => {
 	set_on_update => 1,
 };
 
-belongs_to 'user', 'DDGC::DB::Result::User', 'users_id';
+belongs_to 'user', 'DDGC::DB::Result::User', 'users_id', {
+	on_delete => 'no action',
+	on_update => 'cascade',
+};
+
+has_many 'duckpan_modules', 'DDGC::DB::Result::DuckPAN::Module', 'duckpan_release_id', {
+	cascade_delete => 1,
+};
 
 unique_constraint [qw/ name version /];
 

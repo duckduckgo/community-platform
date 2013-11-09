@@ -1,0 +1,26 @@
+<div class="content-box account-box">
+  <div class="head">
+    <h2><a href="<: $u($_.u) :>">
+      <: $_.name :>
+    </a></h2>
+    <h2 class="pull-right">
+      <a href="<: $u('Duckpan','release_all',$_.name) :>">
+        Show all versions
+      </a>
+      <: $_.version :>
+    </h2>
+  </div>
+  <div class="body">
+    <: for results($_.duckpan_modules) -> $duckpan_module { :>
+      <: if $~duckpan_module % 2 == 0 { :>
+        <div class="row">
+      <: } :>
+      <div class="half">
+        <: $duckpan_module.name :>
+      </div>
+      <: if $~duckpan_module % 2 == 1 || $~duckpan_module.is_last { :>
+        </div>
+      <: } :>
+    <: } :>
+  </div>
+</div>

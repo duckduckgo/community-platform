@@ -123,25 +123,3 @@ has_many 'event_notification_groups', 'DDGC::DB::Result::Event::Notification::Gr
 
 no Moose;
 __PACKAGE__->meta->make_immutable;
-
-# CREATE VIEW "user_notification_matrix"
-#   ( "id", "user_notification_id", "users_id", "user_notification_group_id", "context", "context_id", "cycle", "xmpp", "cycle_time", "type", "group_context", "sub_context", "action", "priority", "filter_by_language" ) AS
-# SELECT
-#   "me"."id"                                       AS "id",
-#   "me"."id"                                       AS "user_notification_id",
-#   "me"."users_id"                                 AS "users_id",
-#   "me"."context_id"                               AS "context_id",
-#   "user_notification_group"."context"             AS "context",
-#   "me"."cycle"                                    AS "cycle",
-#   "me"."xmpp"                                     AS "xmpp",
-#   "me"."cycle_time"                               AS "cycle_time",
-#   "user_notification_group"."id"                  AS "user_notification_group_id",
-#   "user_notification_group"."type"                AS "type",
-#   "user_notification_group"."group_context"       AS "group_context",
-#   "user_notification_group"."sub_context"         AS "sub_context",
-#   "user_notification_group"."action"              AS "action",
-#   "user_notification_group"."priority"            AS "priority",
-#   "user_notification_group"."filter_by_language"  AS "filter_by_language"
-# FROM "user_notification" "me"
-# JOIN "user_notification_group" "user_notification_group"
-#   ON "user_notification_group"."id" = "me"."user_notification_group_id";

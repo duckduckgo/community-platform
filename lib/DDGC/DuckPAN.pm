@@ -39,6 +39,7 @@ sub get_release {
 
 sub add_user_distribution {
 	my ( $self, $user, $distribution_filename ) = @_;
+	$distribution_filename = file($distribution_filename)->absolute->stringify;
 	my $dist_data = Dist::Data->new($distribution_filename);
 	my %ret;
 	$ret{error} = 'Only admins may upload so far' unless $user->admin;
@@ -52,7 +53,6 @@ sub add_user_distribution {
 		return \%ret;
 	}
 	my $distribution_filename_duckpan = $self->cpan_repository->add_author_distribution(uc($user->username),$distribution_filename);
-	my @return = $self->add_release( $user, $dist_data->name, $dist_data->version, $distribution_filename_duckpan );
 	my $latest_dir = dir($self->ddgc->config->duckpandir,'latest',$dist_data->name);
 	$latest_dir->mkpath unless -d $latest_dir;
 	{
@@ -64,11 +64,55 @@ sub add_user_distribution {
 			$f->extract(join('/',@path_parts));
 		}
 	}
-	return @return;
+	my %modules;
+	if (-d $latest_dir->subdir('lib')) {
+		my $lib = $latest_dir->subdir('lib');
+		my ( @pods, @pms );
+		$lib->traverse(sub {
+			my $b = $_[0]->basename;
+			if ($b =~ qr!\.pm$!) {
+					push @pms, $_[0];
+			} elsif ($b =~ qr!\.pod$!) {
+					push @pods, $_[0];
+			}
+			return $_[1]->();
+		});
+		for my $file (@pods) {
+			my @parts = $file->relative($lib)->components;
+			my $filename = pop @parts;
+			$filename =~ s!\.pod$!!;
+			my $module = join('::',@parts,$filename);
+			$modules{$module} = {} unless defined $modules{$module};
+			$modules{$module}->{filename_pod} = $file->relative($latest_dir)->stringify;
+		}
+		for my $file (@pms) {
+			my @parts = $file->relative($lib)->components;
+			shift @parts if $parts[0] eq '.';
+			my $filename = pop @parts;
+			$filename =~ s!\.pm$!!;
+			my $module = join('::',@parts,$filename);
+			$modules{$module} = {} unless defined $modules{$module};
+			$modules{$module}->{filename} = $file->relative($latest_dir)->stringify;
+		}
+	}
+	my $release = $self->add_release( $user, $dist_data->name, $dist_data->version, $distribution_filename_duckpan );
+	for my $module (keys %modules) {
+		$self->ddgc->db->resultset('DuckPAN::Module')->update_or_create({
+			name => $module,
+			duckpan_release_id => $release->id,
+			%{$modules{$module}},
+		},{
+			key => 'duckpan_module_name',
+		});
+	}
+	return $release;
 }
 
 sub add_release {
 	my ( $self, $user, $release_name, $release_version, $filename ) = @_;
+	$self->ddgc->db->resultset('DuckPAN::Release')->search({
+		name => $release_name,
+	})->update({ current => 0 });
 	return $self->ddgc->db->resultset('DuckPAN::Release')->create({
 		name => $release_name,
 		version => $release_version,

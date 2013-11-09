@@ -1,1 +1,3 @@
-todo.... <a href="http://duckpan.org/perldoc/">Module Index</a>
+<: for results($duckpan_releases) -> $duckpan_release { :>
+	<: i($duckpan_release,'teaser') :>
+<: } :>
