@@ -24,7 +24,6 @@ SELECT
     AS "latest_filename",
   "duckpan_release"."name" AS "duckpan_release_name",
   "duckpan_release"."version" AS "duckpan_release_version",
-  "duckpan_release"."users_id",
   "duckpan_release"."current",
   "me"."created",
   "me"."updated"
@@ -81,11 +80,6 @@ column duckpan_release_name => {
 
 column duckpan_release_version => {
   data_type => 'text',
-  is_nullable => 0,
-};
-
-column users_id => {
-  data_type => 'bigint',
   is_nullable => 0,
 };
 
