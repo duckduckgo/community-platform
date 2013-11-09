@@ -1,4 +1,5 @@
 requires 'App::DuckPAN', '0.125';
+requires 'Archive::Tar', '1.96';
 requires 'Catalyst::Action::RenderView', '0.16';
 requires 'Catalyst::Authentication::Store::DBIx::Class', '0.1505';
 requires 'Catalyst::Component::InstancePerContext', '0.001001';
@@ -53,6 +54,7 @@ requires 'Email::Simple', '2.202';
 requires 'Email::Valid', '0.192';
 requires 'FCGI', '0.74';
 requires 'FCGI::ProcManager', '0.24';
+requires 'File::chdir', '0.1008';
 requires 'File::Path', '2.09';
 requires 'File::ShareDir::ProjectDistDir', '0.5.2';
 requires 'File::Spec', '3.33';

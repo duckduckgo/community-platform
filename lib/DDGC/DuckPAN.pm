@@ -4,6 +4,9 @@ package DDGC::DuckPAN;
 use Moose;
 use CPAN::Repository;
 use Dist::Data;
+use Path::Class;
+use Archive::Tar;
+use File::chdir;
 
 has ddgc => (
 	isa => 'DDGC',
@@ -49,7 +52,19 @@ sub add_user_distribution {
 		return \%ret;
 	}
 	my $distribution_filename_duckpan = $self->cpan_repository->add_author_distribution(uc($user->username),$distribution_filename);
-	return $self->add_release( $user, $dist_data->name, $dist_data->version, $distribution_filename_duckpan );
+	my @return = $self->add_release( $user, $dist_data->name, $dist_data->version, $distribution_filename_duckpan );
+	my $latest_dir = dir($self->ddgc->config->duckpandir,'latest',$dist_data->name);
+	$latest_dir->mkpath unless -d $latest_dir;
+	{
+		local $CWD = $latest_dir;
+		my $next = Archive::Tar->iter($distribution_filename, 1);
+		while (my $f = $next->()) {
+			my @path_parts = split('/',$f->full_path);
+			shift @path_parts;
+			$f->extract(join('/',@path_parts));
+		}
+	}
+	return @return;
 }
 
 sub add_release {

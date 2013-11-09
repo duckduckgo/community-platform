@@ -10,7 +10,7 @@ my $uploader_username = shift @ARGV;
 my $dist_filename = shift @ARGV;
 
 my $ddgc = DDGC->new;
-my $uploader = $ddgc->db->resultset('User')->find({ username => $uploader_username });
+my $uploader = $ddgc->find_user($uploader_username);
 
 die "uploader not found" unless $uploader;
 die "uploader is not admin" unless $uploader->admin;

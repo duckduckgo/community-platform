@@ -13,7 +13,11 @@ sub base :Chained('/') :PathPart('') :CaptureArgs(0) {
 	my ( $self, $c ) = @_;
 
 	if ( my ( $username, $password ) = $c->req->headers->authorization_basic ) {
-		$c->authenticate({ username => $username, password => $password, }, 'users');
+		unless ($c->authenticate({ username => $username, password => $password, }, 'users')) {
+			$c->response->status(401);
+			$c->response->body("HTTP auth failed: Unauthorized");
+			return $c->detach;
+		}
 	}
 
 	$c->stash->{web_base} = $c->d->config->web_base;
