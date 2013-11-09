@@ -20,8 +20,7 @@ SELECT
   "me"."duckpan_release_id",
   "me"."filename",
   "me"."filename_pod",
-  "duckpan_release"."name" || '/' || "me"."filename"
-    AS "latest_filename",
+  "duckpan_release"."filename" AS "duckpan_release_filename",
   "duckpan_release"."name" AS "duckpan_release_name",
   "duckpan_release"."version" AS "duckpan_release_version",
   "duckpan_release"."current",
@@ -68,9 +67,9 @@ column filename_pod => {
   is_nullable => 1,
 };
 
-column latest_filename => {
+column duckpan_release_filename => {
   data_type => 'text',
-  is_nullable => 1,
+  is_nullable => 0,
 };
 
 column duckpan_release_name => {
@@ -99,6 +98,9 @@ column updated => {
   set_on_create => 1,
   set_on_update => 1,
 };
+
+sub latest_filename { $_[0]->duckpan_release_name.'/'.$_[0]->filename }
+sub latest_lib { $_[0]->duckpan_release_name.'/lib' }
 
 no Moose;
 __PACKAGE__->meta->make_immutable;
