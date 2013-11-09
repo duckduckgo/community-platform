@@ -16,8 +16,9 @@
 			<div class="third">
 				<div class="input-wrap">
 					<input type="hidden" name="action_token" value="<: $action_token :>">
-					<input type="submit" value="Delete account" name="delete_profile" class="button submit"></div>
-				</div>
+					<input type="submit" value="Delete account" name="delete_profile" class="button submit">
+				</div>				
 			</div>
+		</form>
 	</div>
 </div>
