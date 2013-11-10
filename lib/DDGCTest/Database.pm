@@ -728,10 +728,10 @@ sub distributions {[
 	[ testone => 'DDG-Plugin-OtherThing-MoreTest-0.001.tar.gz' ],
 	[ testfour => 'DDG-Plugin-FatHead-Test-0.001.tar.gz' ],
 	[ cpan => 'My-Sample-Distribution-0.003.tar.gz' ],
-	[ testfour => 'DDG-FatheadBundle-OpenSourceDuckDuckGo-0.001-made-smaller.tar.gz' ],
-	[ testone => 'DDG-GoodieBundle-OpenSourceDuckDuckGo-0.090-made-smaller.tar.gz' ],
-	[ testfour => 'DDG-LongtailBundle-OpenSourceDuckDuckGo-0.001.tar.gz' ],
-	[ testone => 'DDG-SpiceBundle-OpenSourceDuckDuckGo-0.265.tar.gz' ],
+	[ testfour => 'DDG-FatheadBundle-OpenSourceDuckDuckGo-0.002-smaller-with-duckpan-meta.tar.gz' ],
+	[ testone => 'DDG-GoodieBundle-OpenSourceDuckDuckGo-0.088-smaller-with-duckpan-meta.tar.gz' ],
+	[ testfour => 'DDG-LongtailBundle-OpenSourceDuckDuckGo-0.002-smaller-with-duckpan-meta.tar.gz' ],
+	[ testone => 'DDG-SpiceBundle-OpenSourceDuckDuckGo-0.266-smaller-with-duckpan-meta.tar.gz' ],
 ]}
 
 sub add_distributions {

@@ -45,7 +45,7 @@ requires 'DBIx::Class::InflateColumn::Serializer', '0.06';
 requires 'DBIx::Class::Schema::Loader', '0.07036';
 requires 'DBIx::Class::TimeStamp', '0.14';
 requires 'Digest::MD5', '2.53';
-requires 'Dist::Data', '0.004';
+requires 'Dist::Data', '0.005';
 requires 'Dist::Zilla', '4.300039';
 requires 'Dist::Zilla::Plugin::PodWeaver', '3.102000';
 requires 'Email::MIME', '1.924';

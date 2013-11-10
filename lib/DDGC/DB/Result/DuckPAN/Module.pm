@@ -35,6 +35,13 @@ column filename_pod => {
   is_nullable => 1,
 };
 
+column duckpan_meta => {
+  data_type => 'text',
+  is_nullable => 0,
+  serializer_class => 'JSON',
+  default_value => '{}',
+};
+
 column created => {
   data_type => 'timestamp with time zone',
   set_on_create => 1,

@@ -7,6 +7,7 @@ use Dist::Data;
 use Path::Class;
 use Archive::Tar;
 use File::chdir;
+use JSON::MaybeXS;
 
 has ddgc => (
 	isa => 'DDGC',
@@ -95,11 +96,16 @@ sub add_user_distribution {
 			$modules{$module}->{filename} = $file->relative($latest_dir)->stringify;
 		}
 	}
-	my $release = $self->add_release( $user, $dist_data->name, $dist_data->version, $distribution_filename_duckpan );
+	my %meta;
+	if (-f $latest_dir->file('duckpan.json')) {
+		%meta = %{decode_json(scalar $latest_dir->file('duckpan.json')->slurp)};
+	}
+	my $release = $self->add_release( $user, $dist_data->name, $dist_data->version, $distribution_filename_duckpan, \%meta );
 	for my $module (keys %modules) {
 		$self->ddgc->db->resultset('DuckPAN::Module')->update_or_create({
 			name => $module,
 			duckpan_release_id => $release->id,
+			defined $meta{$module} ? ( duckpan_meta => $meta{$module} ) : (),
 			%{$modules{$module}},
 		},{
 			key => 'duckpan_module_name',
@@ -109,7 +115,7 @@ sub add_user_distribution {
 }
 
 sub add_release {
-	my ( $self, $user, $release_name, $release_version, $filename ) = @_;
+	my ( $self, $user, $release_name, $release_version, $filename, $meta ) = @_;
 	$self->ddgc->db->resultset('DuckPAN::Release')->search({
 		name => $release_name,
 	})->update({ current => 0 });
@@ -118,6 +124,7 @@ sub add_release {
 		version => $release_version,
 		users_id => $user->id,
 		filename => $filename,
+		duckpan_meta => $meta,
 	});
 }
 

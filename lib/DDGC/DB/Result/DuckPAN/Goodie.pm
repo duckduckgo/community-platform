@@ -9,7 +9,7 @@ use namespace::autoclean;
 
 __PACKAGE__->table_class('DBIx::Class::ResultSource::View');
 
-table('duckpan_goodies');
+table('duckpan_goodie');
 
 __PACKAGE__->result_source_instance->is_virtual(1);
 __PACKAGE__->result_source_instance->view_definition(q{
@@ -20,9 +20,11 @@ SELECT
   "me"."duckpan_release_id",
   "me"."filename",
   "me"."filename_pod",
+  "me"."duckpan_meta",
   "duckpan_release"."filename" AS "duckpan_release_filename",
   "duckpan_release"."name" AS "duckpan_release_name",
   "duckpan_release"."version" AS "duckpan_release_version",
+  "duckpan_release"."duckpan_meta" AS "duckpan_release_meta",
   "duckpan_release"."current",
   "me"."created",
   "me"."updated"
@@ -67,6 +69,12 @@ column filename_pod => {
   is_nullable => 1,
 };
 
+column duckpan_meta => {
+  data_type => 'text',
+  is_nullable => 1,
+  serializer_class => 'JSON',
+};
+
 column duckpan_release_filename => {
   data_type => 'text',
   is_nullable => 0,
@@ -80,6 +88,12 @@ column duckpan_release_name => {
 column duckpan_release_version => {
   data_type => 'text',
   is_nullable => 0,
+};
+
+column duckpan_release_meta => {
+  data_type => 'text',
+  is_nullable => 0,
+  serializer_class => 'JSON',
 };
 
 column current => {
