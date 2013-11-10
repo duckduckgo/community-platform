@@ -7,6 +7,11 @@ extends 'DDGC::DB::Base::Result';
 use DBIx::Class::Candy;
 use namespace::autoclean;
 
+sub u {
+  my ( undef, @name_parts ) = split('::',$_[0]->name);
+  [ 'Goodies', 'goodie', map { lc($_) } @name_parts ]
+}
+
 __PACKAGE__->table_class('DBIx::Class::ResultSource::View');
 
 table('duckpan_goodie');
