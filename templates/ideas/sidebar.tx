@@ -8,6 +8,7 @@
 </aside>
 <aside class="sidebar group  mg-top--double">		
 	<: if $ideas { :>
+	<!--
 		<section class="menu-list">
 			<h5>Sort by:</h5>
 			<ul>
@@ -15,6 +16,7 @@
 				<li<: if $ideas.sorting == '-updated' { :> class="active"<: } :>><a href="<: $u($ideas.u_sort('-updated')) :>">Last update</a></li>
 			</ul>
 		</section>
+	-->
 	<: } :>
 	<a href="javascript;" class="button  hide  palm-block  js-palm-toggle"><i class="icon  icon-list-ul"></i> Show More Links</a>
 	<div class="palm-hide">
