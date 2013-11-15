@@ -157,7 +157,41 @@ has sorting => (
 	lazy => 1,
 	default => sub {
 		my ( $self ) = @_;
-		return $self->c->req->param($self->key_sort) || $self->default_sorting;
+		my $sorting;
+		if ($self->has_sorting_options) {
+			if ($self->c->req->param($self->key_sort)) {
+				for (@{$self->sorting_options}) {
+					if (defined $_->{sorting} && $_->{sorting} eq $self->c->req->param($self->key_sort)) {
+						$sorting = $self->c->req->param($self->key_sort);
+						last;
+					}
+				}
+			}
+			$sorting = $self->default_sorting unless $sorting;
+		} else {
+			$sorting = $self->c->req->param($self->key_sort) || $self->default_sorting;
+		}
+		return $sorting;
+	},
+);
+
+has sorting_option => (
+	is => 'ro',
+	isa => 'Undef|HashRef',
+	lazy => 1,
+	default => sub {
+		my ( $self ) = @_;
+		if ($self->has_sorting_options) {
+			if ($self->c->req->param($self->key_sort)) {
+				for (@{$self->sorting_options}) {
+					if ($_->{sorting} eq $self->c->req->param($self->key_sort)) {
+						return $_;
+					}
+				}
+			}
+		}
+		return undef unless $self->sorting;
+		return { sorting => $self->sorting };
 	},
 );
 
@@ -175,6 +209,7 @@ has order_by => (
 		my ( $self ) = @_;
 		my $sorting = $self->sorting;
 		return undef unless $sorting;
+		return $self->sorting_option->{order_by} if defined $self->sorting_option->{order_by};
 		my ( $dir, $key ) = $sorting =~ m/^(-|\+)(.*)$/;
 		$dir = $dir eq '-' ? '-desc' : '-asc';
 		if ($key !~ m/\./) {

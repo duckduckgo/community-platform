@@ -39,7 +39,8 @@ sub add_ideas_table {
 		id => 'idealist_'.join('_',@args),
 		sorting_options => [{
 			label => 'Votes',
-			sorting => '-me.old_vote_count',
+			sorting => 'votes',
+			order_by => { -desc => 'old_votes_count' },
 		},{
 			label => 'Last Update',
 			sorting => '-me.updated',
