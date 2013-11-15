@@ -3,7 +3,7 @@
 		<span class="sorting__label">Sort by:</span>
 		<span class="sorting__buttons  button-group">
 			<: # need to make this a proper include/loop/function :>
-			<: for $_.sorting_options => $sorting_option { :>
+			<: for $_.sorting_options -> $sorting_option { :>
 				<: if $_.sorting == $sorting_option.sorting { :>
 					<span class="button disabled button-nav-current">
 						<: $sorting_option.label :>
