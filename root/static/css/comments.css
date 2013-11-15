@@ -142,6 +142,32 @@
 			text-align: left;
 		}
 	}
+/*
+	Forum Sorting
+*/
+	
+.sorting {
+	display: block;
+	position: relative;
+}
+.sorting--after {
+	margin-top: -6px;
+	margin-bottom: 10px;
+	text-align: right;
+}
+	.sorting__label {
+		display: inline-block;
+		padding: 0 8px 0 13px;
+		color: #999;
+	}
+	.sorting__buttons {
+		margin-top: -3px;
+	}
+		.sorting__buttons > .button {
+			font-size: 12px;
+			opacity: 1;	/* countering the disabled opacity, should be fixed in ddgc_static */
+		}
+	
 	
 /*
     Thread View
