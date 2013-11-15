@@ -16,9 +16,9 @@
   </div>
 </div>
 <: if $ideas { :>
-<div class="menu-list">
-	<span>Sort by:</span>
-	<span class="button-group">
+<div class="sorting  sorting--after">
+	<span class="sorting__label">Sort by:</span>
+	<span class="sorting__buttons  button-group">
 		<: # need to make this a proper include/loop/function :>
 		<: if $ideas.sorting == '-old_vote_count' { :>
 			<span class="button disabled button-nav-current">Votes</span>
