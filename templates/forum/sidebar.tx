@@ -1,7 +1,7 @@
 <aside class="sidebar">
 	<section class="clear tab-mid">		
-		<form class="one-field" action="<: $u('Forum','search') :>" method="post">
-			<input type="text" class="text" placeholder="Search Forum" name="q" value="<: $query :>" />
+		<form class="one-field" action="<: $u('Forum','search') :>" method="get">
+			<input type="text" class="text" placeholder="Search Forum and comments" name="q" value="<: $query :>" />
 			<button type="submit" class="button  icon-search"></button>
 		</form>
 	</section>

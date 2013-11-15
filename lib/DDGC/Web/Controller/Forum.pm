@@ -21,9 +21,9 @@ sub base : Chained('/base') PathPart('forum') CaptureArgs(0) {
 }
 
 sub set_grouped_comments {
-  my ( $self, $c, $action, $rs ) = @_;
+  my ( $self, $c, $action, $rs, @args ) = @_;
   $c->stash->{grouped_comments} = $c->table(
-    $rs->search_rs({},{}),['Forum',$action],[],
+    $rs,['Forum',$action,@args],[],
     default_pagesize => 15,
     default_sorting => '-me.created',
     id => 'forum_threadlist_'.$action,
@@ -67,16 +67,19 @@ sub translation : Chained('base') Args(0) {
   $self->set_grouped_comments($c,'translation',$c->d->forum->comments_grouped_translation);
 }
 
-# /forum/search/
 sub search : Chained('base') Args(0) {
-  my ( $self, $c, $pagenum ) = @_;
+  my ( $self, $c ) = @_;
+
+  $c->add_bc('Search');
 
   $c->stash->{query} = $c->req->params->{q};
   return unless length($c->stash->{query});
 
-  $c->stash->{results} = $c->d->forum->search($c->req->params->{q});
-
-
+  $self->set_grouped_comments($c,'search',$c->d->forum->comments_grouped->search_rs([
+    map {{
+      'me.content' => { -ilike => '%'.$_.'%' }
+    }} split(/\s+/,$c->stash->{query})
+  ],{}),{ q => $c->stash->{query} });
 }
 
 sub thread_view : Chained('base') PathPart('') CaptureArgs(0) {

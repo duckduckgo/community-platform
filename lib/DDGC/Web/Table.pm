@@ -24,7 +24,9 @@ sub table_params {
 	my ( $self ) = @_;
 	(
 		$self->page > 1 ? ( $self->key_page, $self->page ) : (),
-		$self->key_sort, $self->sorting
+		$self->sorting ne $self->default_sorting
+			? ( $self->key_sort, $self->sorting )
+			: (),
 	)
 }
 

@@ -1,6 +1,6 @@
 <aside class="sidebar">
 	<section class="clear tab-mid">		
-		<form class="one-field" action="<: $u('Ideas','search') :>" method="post">
+		<form class="one-field" action="<: $u('Ideas','search') :>" method="get">
 			<input type="text" class="text" placeholder="Search Ideas" name="q" value="<: $query :>" />
 			<button type="submit" class="button  icon-search"></button>
 		</form>

@@ -1,0 +1,5 @@
+<: if $grouped_comments.total_entries < 1 { :>
+  <h1>Nothing found</h1>
+<: } else { :>
+  <: include 'forum/threadlist.tx' :>
+<: } :>

@@ -1,1 +1,5 @@
-<: include "ideas/idealist.tx" :>
+<: if $ideas_rs.count < 1 { :>
+  <h1>Nothing found</h1>
+<: } else { :>
+  <: include "ideas/idealist.tx" :>
+<: } :>

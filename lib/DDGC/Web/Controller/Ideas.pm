@@ -65,13 +65,26 @@ sub index :Chained('base') :PathPart('') :Args(0) {
 	$c->bc_index;
 }
 
-# /forum/search/
 sub search : Chained('base') Args(0) {
-  my ( $self, $c, $pagenum ) = @_;
+  my ( $self, $c ) = @_;
+
+	$c->add_bc('Search');
 
   $c->stash->{query} = $c->req->params->{q};
   return unless length($c->stash->{query});
 
+	$c->stash->{ideas_rs} = $c->d->rs('Idea')->search_rs([
+		map {{
+			title => { -ilike => '%'.$_.'%' }
+		},{
+			content => { -ilike => '%'.$_.'%' }
+		}} split(/\s+/,$c->stash->{query})
+	],{
+		prefetch => [qw( user ),{
+			idea_votes => [qw( user )],
+		}]
+	});
+	$self->add_ideas_table($c,'search',{ q => $c->stash->{query} });
 }
 
 sub type :Chained('base') :Args(1) {

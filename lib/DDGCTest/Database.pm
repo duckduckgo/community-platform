@@ -116,7 +116,7 @@ sub next_step {
 
 sub step_count {
 	my ( $self ) = @_;
-	my $base = 4233;
+	my $base = 4241;
 	return $base unless $self->test;
 }
 
@@ -1319,6 +1319,7 @@ sub add_ideas {
 				$result_idea->set_user_vote($voteuser,1);
 				$self->next_step;
 			}
+			$self->add_comments('DDGC::DB::Result::Idea', $result_idea->id, @comments);
 		}
 		$self->c->{ideas}->{$username} = \@results;
 	}
