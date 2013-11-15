@@ -68,7 +68,14 @@ sub notify_cycle {
 					$c->stash,
 				);
 			};
-			unless ($@) {
+			if ($@) {
+				$c->d->postman->mail(
+					'getty@duckduckgo.com',
+					'"DuckDuckGo Community Envoy" <envoy@dukgo.com>',
+					'[DuckDuckGo Community] ERROR ON ENOVY',
+					$@,
+				);				
+			} else {
 				my @ids;
 				for (@{$c->stash->{unsent_notifications_results}}) {
 					for ($_->event_notifications) {

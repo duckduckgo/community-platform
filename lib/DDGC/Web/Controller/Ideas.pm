@@ -40,7 +40,7 @@ sub add_ideas_table {
 		sorting_options => [{
 			label => 'Votes',
 			sorting => 'votes',
-			order_by => { -desc => 'old_votes_count' },
+			order_by => { -desc => 'old_vote_count' },
 		},{
 			label => 'Last Update',
 			sorting => '-me.updated',
