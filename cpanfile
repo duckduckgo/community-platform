@@ -8,7 +8,7 @@ requires 'Catalyst::Model::Adaptor', '0.10';
 requires 'Catalyst::Plugin::Authentication', '0.10018';
 requires 'Catalyst::Plugin::Authorization::Roles', '0.09';
 requires 'Catalyst::Plugin::Captcha', '0.04';
-requires 'Catalyst::Plugin::ChainedURI', '0.003';
+requires 'Catalyst::Plugin::ChainedURI', '0.005';
 requires 'Catalyst::Plugin::CustomErrorMessage', '0.06';
 requires 'Catalyst::Plugin::ErrorCatcher', '0.0.8.13';
 requires 'Catalyst::Plugin::RunAfterRequest', '0.04';

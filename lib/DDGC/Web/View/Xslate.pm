@@ -17,6 +17,7 @@ __PACKAGE__->config(
 		next_template
 		link
 		u
+		cu
 		l
 		dur
 		dur_precise
@@ -68,6 +69,13 @@ sub u {
 		}
 	}
 	return $c->chained_uri(@args);
+}
+
+# current url
+sub cu {
+	my $self = shift;
+	my $c = shift;
+	return [$c->current_chained_uri(@_)];
 }
 
 # localize

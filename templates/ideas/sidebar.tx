@@ -24,6 +24,22 @@
 				<li><a href="<: $u('Ideas','status',8) :>">Live</a></li>	
 			</ul>
 		</section>
+		<section class="clear tab-mid">
+			<h5>Search ideas</h5>
+			<form class="one-field" action="<: $u('Ideas','search') :>" method="post">
+				<input type="text" class="text" placeholder="search" name="q" value="<: $query :>" />
+				<button type="submit" class="button">Search</button>
+			</form>
+		</section>
+		<: if $ideas { :>
+			<section class="menu-list">
+				<h5>Sort by:</h5>
+				<ul>
+					<li<: if $ideas.sorting == '-old_vote_count' { :> class="active"<: } :>><a href="<: $u($ideas.u_sort('-old_vote_count')) :>">Votes</a></li>
+					<li<: if $ideas.sorting == '-updated' { :> class="active"<: } :>><a href="<: $u($ideas.u_sort('-updated')) :>">Last update</a></li>
+				</ul>
+			</section>
+		<: } :>
 		<: include "forum/sidebar_latest.tx" :>
 	</div>
 </aside>

@@ -2,18 +2,12 @@ package DDGC::DB::ResultSet::User::Blog;
 # ABSTRACT: Resultset class for blog posts
 
 use Moose;
-use namespace::autoclean;
+extends 'DDGC::DB::Base::ResultSet';
 use DateTime::Format::RSS;
 use List::MoreUtils qw( uniq );
 use JSON;
 use DateTime;
-
-extends qw(
-  DDGC::DB::Base::ResultSet
-  DBIx::Class::Helper::ResultSet::Me
-  DBIx::Class::Helper::ResultSet::Shortcut::OrderBy
-  DBIx::Class::Helper::ResultSet::Shortcut::Prefetch
-);
+use namespace::autoclean;
 
 sub create_via_form {
 	my ( $self, $values ) = @_;

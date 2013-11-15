@@ -66,8 +66,9 @@ sub _build_bbcode {
 					class => 'block',
 					short => 1,
 					classic => 0,
-					ref $shorttags{$_} eq 'CODE' ?
-						(code => $shorttags{$_}) : (output => $shorttags{$_}),
+					ref $shorttags{$_} eq 'CODE'
+						? (code => $shorttags{$_})
+						: (output => $shorttags{$_}),
 				}
 			} keys %shorttags),
 		},

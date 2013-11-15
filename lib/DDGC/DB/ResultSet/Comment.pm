@@ -11,14 +11,13 @@ sub grouped_by_context {
     select => [qw( latest_comment_id )],
     alias => 'comment_context',
   });
-  my $me = $self->current_source_alias;
 	$self->search_rs({
-    $me.'.id' => { -in => $comment_context_rs->as_query },
+    $self->me.'id' => { -in => $comment_context_rs->as_query },
   },{
     '+columns' => {
       comments_count => $self->schema->resultset('Comment')->search_rs({
-        'comments_count.context' => { -ident => $me.'.context' },
-        'comments_count.context_id' => { -ident => $me.'.context_id' },
+        'comments_count.context' => { -ident => $self->me.'context' },
+        'comments_count.context_id' => { -ident => $self->me.'context_id' },
       },{
         alias => 'comments_count',
       })->count_rs->as_query

@@ -116,7 +116,7 @@ sub next_step {
 
 sub step_count {
 	my ( $self ) = @_;
-	my $base = 3933;
+	my $base = 4233;
 	return $base unless $self->test;
 }
 
@@ -1286,6 +1286,14 @@ sub ideas {{
 		],
 		votes => [qw( test10 testone test2 test23 test12 )],
 	}],
+	testthree => [map {{
+		title => 'Mass Idea '.$_,
+		content => "Mass Content ".$_,
+		type => 2,
+		status => 3,
+		votes => [qw( test10 test11 )],		
+		old_vote_count => $_,
+	}} 1..50],
 }}
 
 sub add_ideas {

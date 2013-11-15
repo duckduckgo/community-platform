@@ -5,7 +5,10 @@ use namespace::autoclean;
 
 extends qw(
   DBIx::Class::ResultSet
+  DBIx::Class::Helper::ResultSet::Me
   DBIx::Class::Helper::ResultSet::Shortcut::Limit
+  DBIx::Class::Helper::ResultSet::Shortcut::OrderBy
+  DBIx::Class::Helper::ResultSet::Shortcut::Prefetch
 );
 
 sub ddgc { shift->result_source->schema->ddgc }

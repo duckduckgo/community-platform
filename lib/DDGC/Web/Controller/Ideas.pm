@@ -33,10 +33,9 @@ sub add_latest_ideas {
 sub add_ideas_table {
 	my ( $self, $c, @args ) = @_;
 	$c->stash->{ideas} = $c->table(
-		$c->stash->{ideas_rs}->search_rs({},{
-			order_by => { -desc => 'me.created' },
-		}),['Ideas',@args],[],
+		$c->stash->{ideas_rs}->search_rs({},{}),['Ideas',@args],[],
 		default_pagesize => 15,
+    default_sorting => '-me.created',
 		id => 'idealist_'.join('_',@args),
 	);
 }
@@ -64,6 +63,15 @@ sub index :Chained('base') :PathPart('') :Args(0) {
 	my ( $self, $c ) = @_;
 	$self->add_ideas_table($c,'index');
 	$c->bc_index;
+}
+
+# /forum/search/
+sub search : Chained('base') Args(0) {
+  my ( $self, $c, $pagenum ) = @_;
+
+  $c->stash->{query} = $c->req->params->{q};
+  return unless length($c->stash->{query});
+
 }
 
 sub type :Chained('base') :Args(1) {

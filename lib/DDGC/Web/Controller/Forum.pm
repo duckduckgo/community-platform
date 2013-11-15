@@ -23,10 +23,9 @@ sub base : Chained('/base') PathPart('forum') CaptureArgs(0) {
 sub set_grouped_comments {
   my ( $self, $c, $action, $rs ) = @_;
   $c->stash->{grouped_comments} = $c->table(
-    $rs->search_rs({},{
-      order_by => { -desc => 'me.created' },
-    }),['Forum',$action],[],
+    $rs->search_rs({},{}),['Forum',$action],[],
     default_pagesize => 15,
+    default_sorting => '-me.created',
     id => 'forum_threadlist_'.$action,
   );
 }
@@ -73,13 +72,11 @@ sub search : Chained('base') Args(0) {
   my ( $self, $c, $pagenum ) = @_;
 
   $c->stash->{query} = $c->req->params->{q};
-  return unless $c->stash->{query};
+  return unless length($c->stash->{query});
 
   $c->stash->{results} = $c->d->forum->search($c->req->params->{q});
-  unless ($c->stash->{results}) {
-    $c->stash->{error} = "Unable to connect to search server. Please try again, and if this problem persists, please contact <a href='mailto:ops\@duckduckgo.com'>ops\@duckduckgo.com</a>";
-    return;
-  }
+
+
 }
 
 sub thread_view : Chained('base') PathPart('') CaptureArgs(0) {

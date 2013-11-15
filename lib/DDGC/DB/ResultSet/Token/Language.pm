@@ -13,7 +13,7 @@ sub untranslated {
 		'token_language_translations.id' => undef,
 		'token_domain_id' => $token_domain_id,
 		'language_id' => $language_id,
-		'me.id' => { -not_in => \@ignore_ids },
+		($self->me.'id') => { -not_in => \@ignore_ids },
 	},{
 		join => [ {
 			token_language_translations => 'token_language_translation_votes'
@@ -27,18 +27,17 @@ sub untranslated_all {
 	my ( $self, $user, $scalar_ignore_ids ) = @_;
 
 	my @language_ids = map { $_->language_id } $user->user_languages->search({},{
-		select => 'me.language_id',
+		select => ($self->me.'language_id'),
 	})->all;
 	my @ignore_ids = $scalar_ignore_ids ? @{$scalar_ignore_ids} : ();
-
 	$self->search({
 		'token_language_translations.id' => undef,
 		'token_domain_language.language_id' => { -in => \@language_ids},
-		'me.id' => { -not_in => \@ignore_ids },
+		($self->me.'id') => { -not_in => \@ignore_ids },
 		$self->result_source->schema->ddgc->is_live ? ( 'token_domain.key' => { -like => 'duckduckgo-%' } ) : (),
 	},{
 		join => [ 'token_language_translations', { token_domain_language => 'token_domain' } ],
-		order_by => { -asc => 'me.created' },
+		order_by => { -asc => ($self->me.'created') },
 	});
 }
 
@@ -48,7 +47,7 @@ sub unvoted_all {
 	my $schema = $self->result_source->schema;
 
 	my @language_ids = map { $_->language_id } $user->user_languages->search({},{
-		select => 'me.language_id',
+		select => $self->me.'language_id',
 	})->all;
 	my @ignore_ids = $scalar_ignore_ids ? @{$scalar_ignore_ids} : ();
 
@@ -57,8 +56,8 @@ sub unvoted_all {
 		'token_domain_language.language_id' => { -in => \@language_ids},
 		$token_domain_id ? ( 'token_domain_language.token_domain_id' => $token_domain_id ) : (),
 		-and => [
-			'me.id' => { -not_in => \@ignore_ids },
-			'me.id' => { -not_in => $self->search({
+			($self->me.'id') => { -not_in => \@ignore_ids },
+			($self->me.'id') => { -not_in => $self->search({
 				'token_language_translation_votes.users_id' => $user->id,
 				$self->result_source->schema->ddgc->is_live ? ( 'token_domain.key' => { -like => 'duckduckgo-%' } ) : (),
 			},{
@@ -74,7 +73,7 @@ sub unvoted_all {
 		join => [ {
 			token_language_translations => 'token_language_translation_votes'
 		}, { token_domain_language => 'token_domain' } ],
-		order_by => { -desc => 'me.created' },
+		order_by => { -desc => ($self->me.'created') },
 		# '+columns' => {
 		# 	token_language_votes => $schema->resultset('Token::Language::Translation::Vote')->search({
 		# 		'token_language_translation.token_language_id' => { -ident => 'me.id' },
@@ -96,8 +95,8 @@ sub unvoted {
 		'token_domain_id' => $token_domain_id,
 		'language_id' => $language_id,
 		-and => [
-			'me.id' => { -not_in => \@ignore_ids },
-			'me.id' => { -not_in => $self->search({
+			($self->me.'id') => { -not_in => \@ignore_ids },
+			($self->me.'id') => { -not_in => $self->search({
 				'token_language_translation_votes.users_id' => $user->id,
 				'token_domain_id' => $token_domain_id,
 				'language_id' => $language_id,

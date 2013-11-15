@@ -2,7 +2,7 @@ package DDGC::Web::Table;
 # ABSTRACT: Class holding the functionality for a web table over a resultset
 
 use Moose;
-use Digest::MD5 qw( md5_hex );
+use Digest::MD5 qw( md5_base64 );
 use List::MoreUtils qw( natatime );
 
 use DDGC::Web::Table::Column;
@@ -20,37 +20,27 @@ has u => (
 	required => 1,
 );
 
+sub table_params {
+	my ( $self ) = @_;
+	(
+		$self->page > 1 ? ( $self->key_page, $self->page ) : (),
+		$self->key_sort, $self->sorting
+	)
+}
+
 sub u_page {
 	my ( $self, $page ) = @_;
-	my @u = @{$self->u};
-	if (ref $u[-1] eq 'HASH') {
-		$u[-1]->{$self->key_page} = $page;
-	} else {
-		push @u, { $self->key_page, $page };
-	}
-	return \@u;
+	return [@{$self->u},{ $self->table_params, $self->key_page, $page }];
 }
 
 sub u_pagesize {
 	my ( $self, $pagesize ) = @_;
-	my @u = @{$self->u};
-	if (ref $u[-1] eq 'HASH') {
-		$u[-1]->{$self->key_pagesize} = $pagesize;
-	} else {
-		push @u, { $self->key_pagesize, $pagesize };
-	}
-	return \@u;
+	return [@{$self->u},{ $self->table_params, $self->key_pagesize, $pagesize }];
 }
 
 sub u_sort {
 	my ( $self, $sort ) = @_;
-	my @u = @{$self->u};
-	if (ref $u[-1] eq 'HASH') {
-		$u[-1]->{$self->key_sort} = $sort;
-	} else {
-		push @u, { $self->key_sort, $sort };
-	}
-	return \@u;
+	return [@{$self->u},{ $self->table_params, $self->key_sort, $sort }];
 }
 
 has u_row => (
@@ -148,19 +138,42 @@ has page => (
 	lazy => 1,
 	default => sub {
 		my ( $self ) = @_;
-		my $page = $self->c->req->param($self->key_page)
-			|| $self->c->session->{$self->key_page}
-			|| 1;
-		$self->c->session->{$self->key_page} = $page;
-		return $self->c->session->{$self->key_page};
+		return $self->c->req->param($self->key_page) || 1;
 	},
+);
+
+has default_sorting => (
+	is => 'ro',
+	isa => 'Undef|Str',
+	lazy => 1,
+	default => sub { undef },
 );
 
 has sorting => (
 	is => 'ro',
-	isa => 'ArrayRef[Str]',
+	isa => 'Undef|Str',
 	lazy => 1,
-	default => sub {[]},
+	default => sub {
+		my ( $self ) = @_;
+		return $self->c->req->param($self->key_sort) || $self->default_sorting;
+	},
+);
+
+has order_by => (
+	is => 'ro',
+	#isa => 'Undef|HashRef[Str]',
+	lazy => 1,
+	default => sub {
+		my ( $self ) = @_;
+		my $sorting = $self->sorting;
+		return undef unless $sorting;
+		my ( $dir, $key ) = $sorting =~ m/^(-|\+)(.*)$/;
+		$dir = $dir eq '-' ? '-desc' : '-asc';
+		if ($key !~ m/\./) {
+			$key = 'me.'.$key;
+		}
+		return { $dir, $key };
+	},
 );
 
 has default_pagesize => (
@@ -205,6 +218,9 @@ has paged_rs => (
 		$self->resultset->search({},{
 			page => $self->page,
 			rows => $self->pagesize,
+			$self->sorting
+				? ( order_by => $self->order_by )
+				: (),
 		});
 	},
 );
@@ -230,14 +246,14 @@ has key_pagesize => (
 	is => 'ro',
 	isa => 'Str',
 	lazy => 1,
-	default => sub { 'tablepagesize_'.md5_hex($_[0]->id_pagesize) },
+	default => sub { 'tablepagesize_'.md5_base64($_[0]->id_pagesize) },
 );
 
 has key => (
 	is => 'ro',
 	isa => 'Str',
 	lazy => 1,
-	default => sub { 'table_'.md5_hex($_[0]->id) },
+	default => sub { 'table_'.md5_base64($_[0]->id) },
 );
 
 has id_pagesize => (

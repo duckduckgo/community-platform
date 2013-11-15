@@ -11,6 +11,13 @@
 				<: } :>
 			</ul>
 		</section>
+		<section class="clear tab-mid">
+			<h5>Search threads</h5>
+			<form class="one-field" action="<: $u('Forum','search') :>" method="post">
+				<input type="text" class="text" placeholder="search" name="q" value="<: $query :>" />
+				<button type="submit" class="button">Search</button>
+			</form>
+		</section>
 		<: include "forum/sidebar_latest.tx" :>
 	</div>
 </aside>
