@@ -25,7 +25,7 @@ sub set_grouped_comments {
   $c->stash->{grouped_comments} = $c->table(
     $rs,['Forum',$action,@args],[],
     default_pagesize => 15,
-    default_sorting => '-me.created',
+    default_sorting => '-me.updated',
     id => 'forum_threadlist_'.$action,
   );
 }

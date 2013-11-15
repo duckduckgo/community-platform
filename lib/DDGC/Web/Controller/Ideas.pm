@@ -35,8 +35,15 @@ sub add_ideas_table {
 	$c->stash->{ideas} = $c->table(
 		$c->stash->{ideas_rs}->search_rs({},{}),['Ideas',@args],[],
 		default_pagesize => 15,
-    default_sorting => '-me.created',
+		default_sorting => '-me.updated',
 		id => 'idealist_'.join('_',@args),
+		sorting_options => [{
+			label => 'Votes',
+			sorting => '-me.old_vote_count',
+		},{
+			label => 'Last Update',
+			sorting => '-me.updated',
+		}],
 	);
 }
 
@@ -66,12 +73,12 @@ sub index :Chained('base') :PathPart('') :Args(0) {
 }
 
 sub search : Chained('base') Args(0) {
-  my ( $self, $c ) = @_;
+	my ( $self, $c ) = @_;
 
 	$c->add_bc('Search');
 
-  $c->stash->{query} = $c->req->params->{q};
-  return unless length($c->stash->{query});
+	$c->stash->{query} = $c->req->params->{q};
+	return unless length($c->stash->{query});
 
 	$c->stash->{ideas_rs} = $c->d->rs('Idea')->search_rs([
 		map {{

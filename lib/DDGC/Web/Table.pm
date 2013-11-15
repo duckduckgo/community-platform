@@ -161,6 +161,12 @@ has sorting => (
 	},
 );
 
+has sorting_options => (
+	is => 'ro',
+	isa => 'ArrayRef[HashRef]',
+	predicate => 'has_sorting_options',
+);
+
 has order_by => (
 	is => 'ro',
 	#isa => 'Undef|HashRef[Str]',

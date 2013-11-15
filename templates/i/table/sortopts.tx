@@ -1,0 +1,19 @@
+<: if $_.has_sorting_options { :>
+	<div class="sorting  sorting--after">
+		<span class="sorting__label">Sort by:</span>
+		<span class="sorting__buttons  button-group">
+			<: # need to make this a proper include/loop/function :>
+			<: for $_.sorting_options => $sorting_option { :>
+				<: if $_.sorting == $sorting_option.sorting { :>
+					<span class="button disabled button-nav-current">
+						<: $sorting_option.label :>
+					</span>
+				<: } else { :>
+					<a href="<: $u($_.u_sort($sorting_option.sorting)) :>" class="button">
+						<: $sorting_option.label :>
+					</a>
+				<: } :>
+			<: } :>
+		</span>
+	</div>
+<: } :>
