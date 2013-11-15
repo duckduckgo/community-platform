@@ -36,7 +36,7 @@ sub add_ideas_table {
 		$c->stash->{ideas_rs}->search_rs({},{}),['Ideas',@args],[],
 		default_pagesize => 15,
 		default_sorting => '-me.updated',
-		id => 'idealist_'.join('_',@args),
+		id => 'idealist_'.join('_',grep { ref $_ eq '' } @args),
 		sorting_options => [{
 			label => 'Votes',
 			sorting => 'votes',
