@@ -40,6 +40,9 @@ sub release_index :Chained('release_base') :PathPart('') :Args(0) {
 	my $latest = $c->d->rs('DuckPAN::Release')->search_rs({
 		name => $c->stash->{release_name},
 		current => 1,
+	},{
+		order_by => { -asc => 'duckpan_modules.name' },
+		prefetch => [qw( duckpan_modules )],
 	})->first;
 	if ($latest) {
 		$c->response->redirect($c->chained_uri('Duckpan','release',$c->stash->{release_name},$latest->version));
