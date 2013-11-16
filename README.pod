@@ -4,30 +4,58 @@ B<New documentation in work! Please only try if you know what you do>
 
 =head2 REQUIREMENTS
 
-Requires perl 5.14.2< and:
+Requires perl 5.14.2 (or higher) and:
 
-  apt-get install build-essential libgd2-xpm-dev libssl-dev git wget libxml2-dev imagemagick
+  apt-get install cpanm build-essential libgd2-xpm-dev libssl-dev git wget libxml2-dev imagemagick perl-doc postgresql libpq-dev
+
+(This requires PostgreSQL for the recommended setup.)
+The above uses apt-get for Debian-based distributions including Ubuntu.
+If you're using a different distribution, the command may differ.
+
+You'll next need to make sure you install Dist::Zilla module:
+
+  cpanm -i Dist::Zilla
 
 =head2 INSTALLATION
 
 After checking out, you require to install the requirements. You must have
 installed B<Dist::Zilla>, then you can do the following to install the base
-Perl requirements:
+Perl requirements (run this in the source root with dist.ini file):
 
   dzil authordeps --missing | cpanm
-  dzil listdeps --missing | cpanm
+  dzil listdeps --missing | grep -v abstract | cpanm
+
+If you're doing this on a fresh Perl install, this may take a while to install.
 
 Additionally, you require to install DDGC deps from duckpan:
 
   duckpan DDGC::Static
 
-When you checked out the repository you must once run this command to get a
-base database installed in your home:
+To start, you must once initialize the base database. The default is to use
+SQLite if no Database configuration environment variables are found, but it
+is strongly recommended to use Postgresql. To do this, make sure you set
+the following 3 environment variables before proceeding further (and these
+variables need to be set permanently post this, so you need to put them in
+bashrc or correspdonding initialization scripts for your shell):
+
+(Use your preferred database name / user / password values)
+
+  DDGC_DB_DSN='dbi:Pg:database=ddgc'
+  DDGC_DB_USER='ddgc'
+  DDGC_DB_PASSWORD='yourdbpass'
+
+Note: Do ensure that the user ('ddgc' in above example) has the 'createdb'
+permission. To do this, login to psql as a superuser and run:
+
+  ALTER USER ddgc CREATEDB
+
+Now, run the script to initialize the base database:
 
   script/ddgc_deploy_dev.pl
 
-You might need to use the B<--kill> switch if you already have one, or want to
-reset it:
+Do note that the script will complain if you already have an existing database
+at the target location. If this happens, you would need to use use the
+B<--kill> switch to reset it:
 
   script/ddgc_deploy_dev.pl --kill
 
