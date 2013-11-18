@@ -14,6 +14,7 @@ __PACKAGE__->load_components(qw/
     InflateColumn::Serializer
     EncodedColumn
     Helper::Row::OnColumnChange
+    Helper::Row::ProxyResultSetMethod
     +DBICx::Indexing
 /);
 

@@ -9,7 +9,7 @@ sub add_vote_count {
 	my ( $self ) = @_;
 	$self->search_rs({},{
 		'+columns' => {
-			vote_count => $self->correlated_vote_count,
+			total_vote_count => $self->correlated_total_vote_count,
 		},
 	});
 }
@@ -17,6 +17,12 @@ sub add_vote_count {
 sub correlated_vote_count {
   my ( $self ) = @_;
   $self->correlate('idea_votes')->count_rs->as_query;
+}
+
+sub correlated_total_vote_count {
+  my ( $self ) = @_;
+  my ( $new_vote_sql, @new_vote_bind) = @{${$self->correlated_vote_count}};  
+  return \[ "$new_vote_sql + ".$self->me."old_vote_count", @new_vote_bind ]
 }
 
 no Moose;

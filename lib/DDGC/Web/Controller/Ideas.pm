@@ -40,7 +40,7 @@ sub add_ideas_table {
 		sorting_options => [{
 			label => 'Votes',
 			sorting => 'votes',
-			order_by => { -desc => 'vote_count' },
+			order_by => { -desc => $c->stash->{ideas_rs}->correlated_total_vote_count },
 		},{
 			label => 'Last Update',
 			sorting => '-me.updated',
