@@ -9,9 +9,14 @@ sub add_vote_count {
 	my ( $self ) = @_;
 	$self->search_rs({},{
 		'+columns' => {
-			vote_count => $self->correlate('idea_votes')->count_rs->as_query,
+			vote_count => $self->correlated_vote_count,
 		},
 	});
+}
+
+sub correlated_vote_count {
+  my ( $self ) = @_;
+  $self->correlate('idea_votes')->count_rs->as_query;
 }
 
 no Moose;
