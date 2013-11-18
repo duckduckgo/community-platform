@@ -245,7 +245,15 @@
     -webkit-border-radius: 5px 0 0 5px;
     border-radius: 5px 0 0 5px;
 }    
-    .thread__body { display: block; }
+    .thread__body { 
+		display: block;
+		/* 
+			prevent breakage on preformatted posts 
+			needed because the parent is set to 'display: table', 
+			so max-width is ignored.
+		*/
+		max-width: 43em; 
+	}
     .thread__body--scroll { 
         display: block;
         overflow: auto; 
