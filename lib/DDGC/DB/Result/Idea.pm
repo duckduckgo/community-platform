@@ -135,7 +135,7 @@ has_many 'idea_votes', 'DDGC::DB::Result::Idea::Vote', 'idea_id', {
 
 sub vote_count {
 	my ( $self ) = @_;
-	return $self->get_column('vote_count') if $self->has_column_loaded('vote_count');
+	return $self->get_column('total_vote_count') if $self->has_column_loaded('total_vote_count');
 	return $self->old_vote_count + $self->idea_votes->count;
 }
 

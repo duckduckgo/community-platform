@@ -33,14 +33,14 @@ sub add_latest_ideas {
 sub add_ideas_table {
 	my ( $self, $c, @args ) = @_;
 	$c->stash->{ideas} = $c->table(
-		$c->stash->{ideas_rs}->search_rs({},{}),['Ideas',@args],[],
+		$c->stash->{ideas_rs}->add_vote_count,['Ideas',@args],[],
 		default_pagesize => 15,
 		default_sorting => '-me.updated',
 		id => 'idealist_'.join('_',grep { ref $_ eq '' } @args),
 		sorting_options => [{
 			label => 'Votes',
 			sorting => 'votes',
-			order_by => { -desc => 'old_vote_count' },
+			order_by => { -desc => 'vote_count' },
 		},{
 			label => 'Last Update',
 			sorting => '-me.updated',
