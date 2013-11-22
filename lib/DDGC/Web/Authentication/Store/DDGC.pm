@@ -4,7 +4,6 @@ package DDGC::Web::Authentication::Store::DDGC;
 use Moose;
 use Scalar::Util qw( blessed );
 use DDGC::Config;
-use DDGC::User;
 
 has _app => (
 	is => 'rw',

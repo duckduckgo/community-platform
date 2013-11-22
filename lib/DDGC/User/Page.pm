@@ -164,7 +164,7 @@ sub export {
 
 has user => (
 	is => 'ro',
-	isa => 'DDGC::User',
+	isa => 'DDGC::DB::Result::User',
 	required => 1,
 );
 

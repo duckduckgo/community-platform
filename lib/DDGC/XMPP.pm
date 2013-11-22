@@ -3,7 +3,6 @@ package DDGC::XMPP;
 
 use Moose;
 use DDGC::Config;
-use DDGC::User;
 
 use Prosody::Storage::SQL;
 use Prosody::Storage::SQL::DB;

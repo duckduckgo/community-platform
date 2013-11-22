@@ -5,6 +5,8 @@ use Moose;
 use MooseX::NonMoose;
 extends 'DDGC::DB::Base::Result';
 use DBIx::Class::Candy;
+use DDGC::User::Page;
+use Prosody::Mod::Data::Access;
 use Digest::MD5 qw( md5_hex );
 use namespace::autoclean;
 
@@ -88,6 +90,22 @@ column roles => {
 	is_nullable => 1,
 	default_value => '',
 };
+
+has xmpp => (
+	isa => 'HashRef',
+	is => 'ro',
+	lazy_build => 1,
+);
+
+sub _build_xmpp {
+	my ( $self ) = @_;
+	return { $self->ddgc->xmpp->user($self->username) };
+}
+
+sub userpage {
+	my ( $self ) = @_;
+	return DDGC::User::Page->new_from_user($self);
+}
 
 around data => sub {
 	my ( $orig, $self, @args ) = @_;
@@ -178,6 +196,7 @@ has _locale_user_languages => (
 	lazy_build => 1,
 );
 sub lul { shift->_locale_user_languages }
+sub locales { shift->_locale_user_languages }
 
 sub can_speak {
 	my ( $self, $locale ) = @_;
@@ -412,6 +431,59 @@ sub add_type_notification {
 		}
 	}
 }
+
+sub check_password {
+	my ( $self, $password ) = @_;
+	return 1 unless $self->ddgc->config->prosody_running;
+	my $mod_data_access = Prosody::Mod::Data::Access->new(
+		jid => lc($self->username).'@'.$self->ddgc->config->prosody_userhost,
+		password => $password,
+	);
+	my $data;
+	eval {
+		$data = $mod_data_access->get(lc($self->username));
+	};
+	return $data ? 1 : 0;
+}
+
+# For Catalyst
+
+# Store given by Catalyst
+has store => (
+	is => 'rw',
+);
+
+# Auth Realm given by Catalyst
+has auth_realm => (
+	is => 'rw',
+);
+
+sub supports {{}}
+
+sub for_session {
+	return shift->username;
+}
+
+sub get_object {
+	return shift;
+}
+ 
+sub obj {
+	my $self = shift;
+	return $self->get_object(@_);
+}
+
+sub get {
+	my ($self, $field) = @_;
+
+	my $object;
+	if ($object = $self->get_object and $object->can($field)) {
+		return $object->$field();
+	} else {
+		return undef;
+	}
+}
+### END
 
 no Moose;
 __PACKAGE__->meta->make_immutable;

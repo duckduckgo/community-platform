@@ -5,7 +5,6 @@ use Moose;
 
 use DDGC::Config;
 use DDGC::DB;
-use DDGC::User;
 use DDGC::DuckPAN;
 use DDGC::XMPP;
 use DDGC::Markup;
@@ -599,12 +598,7 @@ sub create_user {
 			username => $username,
 			notes => 'Created account',
 		});
-		return DDGC::User->new({
-			username => $username,
-			db => $db_user,
-			xmpp => {},
-			ddgc => $self,
-		});
+		return $db_user;
 	}
 
 	my %xmpp_user_find = $self->xmpp->user($username);
@@ -651,15 +645,7 @@ sub create_user {
 	}
 
 	return unless $db_user;
-	
-	my %xmpp_user = $self->xmpp->user($username);
-	
-	return DDGC::User->new({
-		username => $db_user->username,
-		db => $db_user,
-		xmpp => \%xmpp_user,
-		ddgc => $self,
-	});
+	return $db_user;
 }
 
 sub find_user {
@@ -689,12 +675,7 @@ sub find_user {
 		return unless $db_user;
 	}
 
-	return DDGC::User->new({
-		username => $db_user->username,
-		db => $db_user,
-		ddgc => $self,
-		xmpp => \%xmpp_user,
-	});
+	return $db_user;
 }
 
 sub user_counts {

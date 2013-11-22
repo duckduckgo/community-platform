@@ -608,7 +608,7 @@ sub users {{
 sub add_users {
 	my ( $self ) = @_;
 	my $testone = $self->d->create_user('TestOne','blabla');
-	$self->isa_ok($testone,'DDGC::User');
+	$self->isa_ok($testone,'DDGC::DB::Result::User');
 	$testone->admin(1);
 	$testone->public(1);
 	$testone->notes('Testuser, admin');
@@ -676,13 +676,13 @@ sub add_users {
 			$user->add_type_notification(@{$_});
 			$self->next_step;
 		}
-    $self->isa_ok($user,'DDGC::User');
+    $self->isa_ok($user,'DDGC::DB::Result::User');
 		$self->next_step;
 	}
 	for (sort keys %{$self->users}) {
 		my $user = $self->d->find_user($_);
 		$self->is($user->username,$_,'Checking username of '.$_);
-		$self->isa_ok($user,'DDGC::User');
+		$self->isa_ok($user,'DDGC::DB::Result::User');
 		$self->next_step;
 	}
 }
