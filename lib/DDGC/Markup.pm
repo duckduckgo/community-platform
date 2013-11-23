@@ -92,11 +92,11 @@ sub _build_plain_bbcode {
 	my $parser = Parse::BBCode->new({
 		close_open_tags => 1,
 		url_finder => {
-		    format => '%s',
-		    max_length => 200,
+			format => '%s',
+			max_length => 200,
 		},
 		tags => \%tags,
-	    });
+	});
 
 	return $parser;
 }
