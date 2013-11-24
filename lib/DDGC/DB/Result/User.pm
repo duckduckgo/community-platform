@@ -102,7 +102,7 @@ sub _build_xmpp {
 	return { $self->ddgc->xmpp->user($self->username) };
 }
 
-sub userpage {
+sub userpage_obj {
 	my ( $self ) = @_;
 	return DDGC::User::Page->new_from_user($self);
 }

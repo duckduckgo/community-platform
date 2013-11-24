@@ -694,7 +694,7 @@ sub test_userpage {
 			? $self->users->{$_}->{data}->{userpage}
 			: {};
 		my $username = $_;
-		my $userpage = $self->d->find_user($_)->userpage->export;
+		my $userpage = $self->d->find_user($_)->userpage_obj->export;
 		if (%{$data}) {
 			for (qw( about whyddg web )) {
 				$self->is($userpage->{$_},defined $data->{$_} ? $data->{$_} : '','Checking '.$username.' userpage export value of '.$_);

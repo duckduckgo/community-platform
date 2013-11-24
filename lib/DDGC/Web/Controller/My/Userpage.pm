@@ -10,7 +10,7 @@ use namespace::autoclean;
 sub base :Chained('/my/logged_in') :PathPart('userpage') :CaptureArgs(0) {
 	my ( $self, $c ) = @_;
 	$c->add_bc('Userpage Editor', $c->chained_uri('My::Userpage','index'));
-	$c->stash->{up} = $c->user->userpage;
+	$c->stash->{up} = $c->user->userpage_obj;
 	if ($c->req->param('save_userpage')) {
 		$c->require_action_token;
 		my @errors = $c->stash->{up}->update_data($c->req->params);

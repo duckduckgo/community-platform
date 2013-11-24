@@ -19,7 +19,7 @@ sub user :Chained('base') :PathPart('') :CaptureArgs(0) {
 	my ( $self, $c ) = @_;
 	my $username = $c->stash->{user}->username;
 	$c->add_bc($username, $c->chained_uri('Userpage','home',$username));
-	$c->stash->{up} = $c->stash->{user}->userpage;
+	$c->stash->{up} = $c->stash->{user}->userpage_obj;
 	$c->stash->{userpage_home} = 1;
 	$c->stash->{fields} = $c->stash->{up}->attribute_fields;
 	$c->stash->{x} = $c->stash->{up}->export;
