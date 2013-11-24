@@ -1,5 +1,6 @@
 <: my $children_count = $_.children.count :>
 <: my $tier_level = $tier || 1 :>
+<: if !defined $_.user.data.head_in_jar || $_.user.id == $c.user.id { :>
 <div class="row comment tier<: $tier_level :> <: if ($tier_level > 2) { :> comment--deep <: } :> max">
 
 	<div class="user-avatar icon-user">
@@ -92,3 +93,4 @@
 		<: } :>
 	</div>
 </div>
+<: } :>
