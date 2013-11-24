@@ -13,19 +13,19 @@ sub feedback {[
 	icon => "dax" 
   },
   { 
-	description => "It's an idea for an instant answer", 
-	icon => "sun", 
-	type => "link",
-	link => ['Ideas','newidea'],
-  },
-    # suggest_instant(),
-  { 
 	description => "It's a general topic (or click here if you are unsure)", 
 	icon => "convo",
 	type => "link",
 	link => ['Forum::My','newthread'],
   },
     # suggest_idea(),
+  {
+	description => "It's an idea for an instant answer (not a general suggestion!)",
+	icon => "sun",
+	type => "link",
+	link => ['Ideas','newidea'],
+  },
+    # suggest_instant(),
   "" # workaround for non submittable ending points like this here.
   # cutting this flow short to get a user to the 'new post' page sooner
 ]}
