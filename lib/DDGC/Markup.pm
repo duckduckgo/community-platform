@@ -194,8 +194,7 @@ sub html {
     my $html = $self->bbcode->render($markup);
 
     # Let's try to handle @mentions!
-    my @captures;
-    $html =~ s#(?<!\w)\@(-|\w+)#push @captures, $1;"<a href='/$1'>\@$1</a>"#ge;
+    $html =~ s#(?<!\w)\@(-|\w+)#<a href='/$1'>\@$1</a>#g;
     
     return $html;
 }
