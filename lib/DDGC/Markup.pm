@@ -197,10 +197,6 @@ sub html {
     my @captures;
     $html =~ s#(?<!\w)\@(-|\w+)#push @captures, $1;"<a href='/$1'>\@$1</a>"#ge;
     
-    for (@captures) {
-        "...";
-    }
-
     return $html;
 }
 
