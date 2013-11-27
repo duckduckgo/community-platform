@@ -21,11 +21,7 @@
 				<div class="header-logo__logo"><a href="<: $u('Root','index') :>"><img src="/static/img/logo_ddg_community.png" alt="DuckDuckGo Community Platform" /></a></div>
 				<div class="header-logo__text">
 					<h2>
-						<: if $c.user { :>
-							<: username_gimmick($c.user.username) :>
-						<: } else { :>
-							DuckDuck<i>Go</i>
-						<: } :>
+						DuckDuck<i>Go</i>
 					</h2>
 					<h3>
 						<: if $is_live { :>
