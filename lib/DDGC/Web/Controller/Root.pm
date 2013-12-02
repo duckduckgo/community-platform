@@ -20,6 +20,8 @@ sub base :Chained('/') :PathPart('') :CaptureArgs(0) {
 		}
 	}
 
+	$c->d->current_user($c->user) if $c->user;
+
 	$c->stash->{web_base} = $c->d->config->web_base;
 	$c->stash->{template_layout} = [ 'base.tx' ];
 	$c->stash->{ddgc_config} = $c->d->config;
@@ -193,7 +195,10 @@ sub end : ActionClass('RenderView') {
 	$c->session->{last_url} = $c->req->uri unless $c->stash->{not_last_url};
 
 	if ($c->user) {
-		$c->run_after_request(sub { $c->d->envoy->update_own_notifications });
+		$c->run_after_request(sub {
+			$c->d->reset_current_user;
+			$c->d->envoy->update_own_notifications;
+		});
 	}
 
 	$c->wiz_post_check;

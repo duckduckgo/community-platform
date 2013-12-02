@@ -1,0 +1,35 @@
+<div class="form-border">
+	<div class="form-wrap account-form">
+		<form action="<: $u('My','privacy') :>" method="post" id="formPublic">
+			<input type="hidden" name="action_token" value="<: $action_token :>">
+			<h2>
+				<: if $c.user.privacy { :>
+					<: $l('Disable privacy mode') :>
+				<: } else { :>
+					<: $l('Enable privacy mode') :>
+				<: } :>
+			</h2>
+			<div class="account-items group">
+				<: if $wrong_captcha { :>
+					<p>The captcha is incorrect. Please, try again.</p>
+				<: } :>
+			</div>
+			<hr class="clear" />
+			<div class="half">
+				<div class="robo-blaster-wrap group">
+					<div class="captcha">
+						<img src="<: $u('Root','captcha') :>" alt="nice try robot!" />
+					</div>
+					<div class="captcha-validate">
+						<div class="input-wrap"><input type="text" name="captcha" placeholder="Captcha here" class="text" /></div>
+					</div>
+				</div>
+			</div>
+			<div class="half">
+				<div class="half">
+					<div class="input-wrap"><input type="submit" value="<: $c.user.privacy ? 'Disable' : 'Enable' :> privacy mode" class="button blue submit" name="<: $c.user.privacy ? 'disable' : 'enable' :>_privacy" /></div>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>

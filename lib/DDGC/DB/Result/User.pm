@@ -36,6 +36,12 @@ column public => {
 	default_value => 0,
 };
 
+column privacy => {
+	data_type => 'int',
+	is_nullable => 0,
+	default_value => 1,
+};
+
 column admin => {
 	data_type => 'int',
 	is_nullable => 0,

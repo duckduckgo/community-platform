@@ -536,6 +536,15 @@ sub _build_forum { DDGC::Forum->new( ddgc => shift ) }
 # ======== User ====================
 #
 
+has current_user => (
+  isa => 'DDGC::DB::Result::User',
+  is => 'rw',
+  clearer => 'reset_current_user',
+  predicate => 'has_current_user',
+);
+
+sub current_privacy { $_[0]->has_current_user ? $_[0]->current_user->privacy : 1 }
+
 sub update_password {
 	my ( $self, $username, $new_password ) = @_;
 	return unless $self->config->prosody_running;
