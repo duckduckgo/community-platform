@@ -7,7 +7,7 @@ then
 	DDGC_RELEASE_HOSTNAME="view.dukgo.com"
 else 	if [ "$1" = "prod" ];
 	then
-		DDGC_RELEASE_HOSTNAME="dukgo.com"
+		DDGC_RELEASE_HOSTNAME="duck.co"
 	fi
 fi
 
