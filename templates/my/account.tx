@@ -135,7 +135,7 @@
 						</label>
 					</div>
 					<div class="third">
-						<a href="<: $u('My','privacy') :>" class="button ghostblue">
+						<a href="<: $u('My','privacy') :>" class="button button--right">
 							<: if $c.user.privacy { :>
 								<: $l('On') :>
 							<: } else { :>

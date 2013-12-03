@@ -31,20 +31,20 @@ sub bbcode {
 	for (keys %base) {
 		my $url = sprintf($base{$_},'%{uri}A');
 		my $target = $priv
-			? '<i class="icn icon-warning-sign"></i><a href="'.$url.'">'.$url.' (%s)</a>'
+			? '<a class="p-link" href="'.$url.'"><i class="p-link__icn icon-warning-sign"></i><span class="p-link__txt">%s</span><span class="p-link__url">'.$url.'</span></a>'
 			: '<a href="'.$url.'">%s</a>';
 		$tags{$_} = {
 			class => 'block',
 			short => 1,
 			classic => 0,
-			output => $target.'<a href="'.$url.'">%s</a>',
+			output => $target,
 		};
 	}
 	$tags{img} = $priv
-		? '<i class="icn icon-warning-sign"></i><a href="%{link}A">%{link}A (%{html}s)</a>'
+		? '<a class="p-link  p-link--img" href="%{link}A"><i class="p-link__icn icon-camera"></i><span class="p-link__url">%{link}A</span><span class="p-link__img">%{html}s</span></a>'
 		: '<a href="%{link}A"><img src="%{link}A" alt="[%{html}s]" title="%{html}s"></a>';
 	my $url_finder_format = $priv
-		? '<i class="icn icon-warning-sign"></i><a href="%s" rel="nofollow">%s</a>'
+		? '<a class="p-link" href="%s" rel="nofollow"><i class="p-link__icn icon-warning-sign"></i><span class="p-link__url">%s</span></a>'
 		: '<a href="%s" rel="nofollow">%s</a>';
 	Parse::BBCode->new({
 		close_open_tags => 1,
@@ -151,9 +151,9 @@ sub url_parse {
 
 		if ($priv) {
 			if ($content || $alt) {
-				return sprintf('<i class="icn icon-warning-sign"></i><a href="%s">%s (%s)</a>', $url, $url, $content.' '.$alt);
+				return sprintf('<a class="p-link" href="%s"><i class="p-link__icn icon-warning-sign"></i><span class="p-link__url">%s</span><span class="p-link__alt">(%s)</span></a>', $url, $url, $content.' '.$alt);
 			} else {
-				return sprintf('<i class="icn icon-warning-sign"></i><a href="%s">%s</a>', $url, $url,);
+				return sprintf('<a class="p-link" href="%s"><i class="p-link__icn icon-warning-sign"></i><span class="p-link__url">%s</span></a>', $url, $url,);
 			}
 		} else {
 			$content ||= $url;
