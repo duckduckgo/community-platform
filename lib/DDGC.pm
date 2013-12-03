@@ -23,8 +23,9 @@ use Class::Load qw( load_class );
 use POSIX;
 use Cache::FileCache;
 use Cache::NullCache;
-use namespace::autoclean;
 use LWP::UserAgent;
+use Carp;
+use namespace::autoclean;
 
 our $VERSION ||= '0.000';
 
@@ -543,7 +544,50 @@ has current_user => (
   predicate => 'has_current_user',
 );
 
-sub current_privacy { $_[0]->has_current_user ? $_[0]->current_user->privacy : 1 }
+sub privacy {
+	$_[0]->forced_privacy
+		? 1
+		: $_[0]->has_current_user
+			? $_[0]->current_user->privacy
+			: 1
+}
+
+has forced_privacy => (
+	isa => 'Bool',
+	is => 'rw',
+	default => sub { 0 },
+);
+
+sub force_privacy {
+	my ( $self, $code ) = @_;
+	die "force_privacy need coderef" unless ref $code eq 'CODE';
+	my $change_it = $self->forced_privacy ? 0 : 1;
+	$self->forced_privacy(1) if $change_it;
+	eval {
+		$code->();
+	};
+	$self->forced_privacy(0) if $change_it;
+	croak $@ if $@;
+	return;
+}
+
+sub as {
+	my ( $self, $user, $code ) = @_;
+	die "as need user or undef" unless !defined $user || $user->isa('DDGC::DB::Result::User');
+	die "as need coderef" unless ref $code eq 'CODE';
+	my $previous_default_user = $self->current_user;
+	$user
+		? $self->current_user($user)
+		: $self->reset_current_user;
+	eval {
+		$code->();
+	};
+	$previous_default_user
+		? $self->current_user($previous_default_user)
+		: $self->reset_current_user;
+	croak $@ if $@;
+	return;
+}
 
 sub update_password {
 	my ( $self, $username, $new_password ) = @_;

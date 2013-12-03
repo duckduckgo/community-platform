@@ -18,7 +18,7 @@ sub untranslated {
 		join => [ {
 			token_language_translations => 'token_language_translation_votes'
 		}, 'token_domain_language' ],
-		order_by => { -asc => 'me.created' },
+		order_by => { -asc => ($self->me.'created') },
 	});
 }
 
