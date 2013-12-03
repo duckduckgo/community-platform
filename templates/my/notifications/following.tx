@@ -32,10 +32,12 @@
 			</div>
 		<: } :>
 		<div class="row notification">
+			<div class="pager-wrap">
 			<: include pager {
     			pager => $user_notification_matrixes.pager,
     			url => $u('My::Notifications', 'following', { page => 'PAGE_NO' }),
   		} :>
+			</div>
   	</div>
 	</div>
 </div>
