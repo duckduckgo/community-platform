@@ -513,6 +513,7 @@ sub users {{
 	'TestTwo' => {
 		pw => 'test1234',
 		public => 1,
+		privacy => 0,
 		notes => 'Testuser, public, es',
 		languages => {
 			es => 6,
@@ -543,6 +544,7 @@ sub users {{
 	'TestThree' => {
 		pw => '1234test',
 		public => 1,
+		privacy => 0,
 		roles => 'translation_manager',
 		notes => 'Testuser, public, us, ar, de, nl_be, nl, fr_be, fr',
 		languages => {
@@ -571,6 +573,7 @@ sub users {{
 		pw => '1234test',
 		notes => 'Testuser, admin, de, es, us',
 		admin => 1,
+		privacy => 0,
 		languages => {
 			de => 3,
 			es => 3,
