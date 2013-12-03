@@ -412,6 +412,25 @@
 		display: block;
 		line-height: 1;		
 	}
+		.dz-browser-not-supported .dz-message {
+			color: #a3a3a3;
+			position: static;
+			padding-top: 0;
+			height: auto;			
+		}
+		.dz-browser-not-supported .dz-message__icon {
+			font-size: 1em;
+		}
+	
+	.dz-fallback {
+		margin-top: 10px;
+		font-size: 0.9em;
+	}
+		.dz-fallback p {
+			margin-bottom: 8px;
+			font-size: 0.85em;
+			color: #a3a3a3;
+		}
 	
 	.dropzone .dz-preview, .dropzone-previews .dz-preview {
 		margin: 10px;
