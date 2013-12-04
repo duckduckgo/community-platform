@@ -6,6 +6,7 @@ use warnings; use strict;
 use Text::VimColor;
 use Parse::BBCode;
 use URI::Escape;
+use URI;
 
 has ddgc => (
 	isa => 'DDGC',
@@ -22,22 +23,29 @@ sub bbcode {
 	my ( $self ) = @_;
 	my $priv = $self->privacy;
 	my %base = (
-		github => 'https://github.com/%s',
-		twitter => 'https://twitter.com/%s',
-		facebook => 'https://facebook.com/%s',
-		cpan => 'https://metacpan.org/module/%s',
+		GitHub => 'https://github.com/%s',
+		Twitter => 'https://twitter.com/%s',
+		Facebook => 'https://facebook.com/%s',
+		CPAN => 'https://metacpan.org/module/%s',
 	);
 	my %tags;
-	for (keys %base) {
-		my $url = sprintf($base{$_},'%{uri}A');
-		my $target = $priv
-			? '<a class="p-link" href="'.$url.'"><i class="p-link__icn icon-warning-sign"></i><span class="p-link__txt">%s</span><span class="p-link__url">'.$url.'</span></a>'
-			: '<a href="'.$url.'">%s</a>';
-		$tags{$_} = {
+	for my $site (keys %base) {
+		my $url_base = $base{$site};
+		my $key = lc($site);
+		# my $target = $priv
+		# 	? '<a class="p-link" href="'.$url.'"><i class="p-link__icn icon-warning-sign"></i><span class="p-link__txt">%s</span><span class="p-link__url">%s</span></a>'
+		# 	: '<a href="'.$url.'">%s</a>';
+		$tags{$key} = {
 			class => 'block',
 			short => 1,
 			classic => 0,
-			output => $target,
+			code => sub {
+				my $attr = $_[1];
+				my $url = sprintf($url_base,$attr);
+				$priv
+					? '<a class="p-link p-link--'.$key.'" href="'.$url.'"><i class="p-link__icn icon-warning-sign"></i><span class="p-link__txt">'.$site.'</span><span class="p-link__url">'.$attr.'</span></a>'
+					: '<a href="'.$url.'">'.$site.' '.$attr.'</a>';
+			},
 		};
 	}
 	$tags{img} = $priv
@@ -50,7 +58,7 @@ sub bbcode {
 		close_open_tags => 1,
 		attribute_quote => q('"),
 		url_finder => {
-			max_length  => 200,
+			max_length  => 40,
 			# sprintf format:
 			format      => $url_finder_format,
 		},
@@ -130,35 +138,41 @@ sub quote_parse {
 }
 
 sub url_parse {
-		my ($self, $priv, $parser, $attr, $content, $attribute_fallback, $tag) = @_;
-		$content = Parse::BBCode::escape_html($$content) if ref $content;
+	my ($self, $priv, $parser, $attr, $content, $attribute_fallback, $tag) = @_;
+	$content = Parse::BBCode::escape_html($$content) if ref $content;
 
-		my $url = $attribute_fallback;
-		my $alt = $content;
+	my $url = $attribute_fallback;
+	my $alt = $content;
 
-		for (@{$tag->get_attr}) {
-				my @attr = @$_;
-				next if @attr < 1 or !defined $attr[1];
-				$url = $attr[1] if $attr[0] eq "href";
-				$alt = Parse::BBCode::escape_html($attr[1]) if $attr[0] eq "alt";
-		}
+	for (@{$tag->get_attr}) {
+		my @attr = @$_;
+		next if @attr < 1 or !defined $attr[1];
+		$url = $attr[1] if $attr[0] eq "href";
+		$alt = Parse::BBCode::escape_html($attr[1]) if $attr[0] eq "alt";
+	}
 
-		my %default_escapes = Parse::BBCode::HTML->default_escapes;
+	my %default_escapes = Parse::BBCode::HTML->default_escapes;
 
-		$url = $default_escapes{link}->($parser,$tag,$url); # URL validation sort of thing.
+	$url = $default_escapes{link}->($parser,$tag,$url); # URL validation sort of thing.
 
-		return "$content" unless defined $url;
+	return "$content" unless defined $url;
 
-		if ($priv) {
-			if ($content || $alt) {
-				return sprintf('<a class="p-link" href="%s"><i class="p-link__icn icon-warning-sign"></i><span class="p-link__url">%s</span><span class="p-link__alt">(%s)</span></a>', $url, $url, $content.' '.$alt);
-			} else {
-				return sprintf('<a class="p-link" href="%s"><i class="p-link__icn icon-warning-sign"></i><span class="p-link__url">%s</span></a>', $url, $url,);
-			}
+	if ($priv) {
+		my $uri = URI->new($url);
+		my $text = $content;
+		if ($text) {
+			$text .= ' ['.$alt.']' if $alt && $alt ne $content;
 		} else {
-			$content ||= $url;
-			return sprintf('<a href="%s" rel="nofollow" alt="%s">%s</a>', $url, $alt, $content // $attr);
+			$text = $alt ? $alt : $attr;
 		}
+		return sprintf('<a class="p-link" alt="%s" href="%s"><i class="p-link__icn icon-warning-sign"></i><span class="p-link__url">%s</span><span class="p-link__alt">(%s)</span></a>',
+			$url, $url, $uri->host,
+			$text ? $text : $uri->path
+		);
+	} else {
+		$content ||= $url;
+		return sprintf('<a href="%s" rel="nofollow" alt="%s">%s</a>', $url, $alt, $content // $attr);
+	}
 }
 
 sub duck_parse {
