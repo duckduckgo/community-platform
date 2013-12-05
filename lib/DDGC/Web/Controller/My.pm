@@ -109,7 +109,7 @@ sub privacy :Chained('logged_in') :Args(0) {
 
 	if ($c->req->params->{disable_privacy}) {
 		$c->user->privacy(0);
-	} elsif ($c->req->params->{disable_privacy}) {
+	} elsif ($c->req->params->{enable_privacy}) {
 		$c->user->privacy(1);
 	}
 	$c->user->update();
