@@ -2,7 +2,6 @@ package DDGC::Markup;
 # ABSTRACT: DDGC BBCode parser using Parse::BBCode
 
 use Moose;
-use warnings; use strict;
 use Text::VimColor;
 use Parse::BBCode;
 use URI::Escape;
@@ -19,9 +18,25 @@ has ddgc => (
 	)],
 );
 
+sub privacy_aware_hosts {qw(
+	dukgo.com
+	duck.co
+	view.dukgo.com
+	help.dukgo.com
+	help.duckduckgo.com
+	duckduckgo.com
+	donttrack.us
+	dontbubble.us
+)}
+
+sub is_privacy_aware { 0 }
+# scalar (grep { $_[0] eq $_ } privacy_aware_hosts) }
+
 sub bbcode {
-	my ( $self ) = @_;
-	my $priv = $self->privacy;
+	my ( $self, $without_privacy ) = @_;
+	my $priv = $without_privacy
+		? 0
+		: $self->privacy;
 	my %base = (
 		GitHub => 'https://github.com/%s',
 		Twitter => 'https://twitter.com/%s',
@@ -43,16 +58,37 @@ sub bbcode {
 				my $attr = $_[1];
 				my $url = sprintf($url_base,$attr);
 				$priv
-					? '<a class="p-link p-link--'.$key.'" href="'.$url.'"><i class="p-link__icn icon-warning-sign"></i><span class="p-link__txt">'.$site.'</span><span class="p-link__url">'.$attr.'</span></a>'
-					: '<a href="'.$url.'">'.$site.' '.$attr.'</a>';
+					? '<a class="p-link p-link--'.$key.'" href="'.$url.'"><i class="p-link__icn icon-warning-sign"></i><span class="p-link__txt">'.$site.'</span> <span class="p-link__url">'.$attr.'</span></a>'
+					: '<a href="'.$url.'">'.$attr.' @ '.$site.'</a>';
 			},
 		};
 	}
-	$tags{img} = $priv
-		? '<a class="p-link  p-link--img" href="%{link}A"><i class="p-link__icn icon-camera"></i><span class="p-link__url">%{link}A</span><span class="p-link__img">%{html}s</span></a>'
-		: '<a href="%{link}A"><img src="%{link}A" alt="[%{html}s]" title="%{html}s"></a>';
+	$tags{img} = {
+		class => 'block',
+		classic => 1,
+		parse => 0,
+		code => sub {
+			my ( $content_ref, $attr ) = @_[2,3];
+			my $uri = URI->new(Parse::BBCode::escape_html($$content_ref));
+			my $url = $uri->as_string;
+			my $privacy_aware = is_privacy_aware($uri->host);
+			my $has_attr = $attr && $attr ne $url;
+			$priv && !$privacy_aware
+				? '<a class="p-link  p-link--img" href="'.$url.'">'.
+						'<i class="p-link__icn icon-camera"></i>'.
+						'<span class="p-link__'.( $has_attr ? 'url' : 'txt' ).'">'.$url.'</span>'.
+						( $has_attr ? '<span class="p-link__img">'.$attr.'</span>' : '' ).
+					'</a>'
+				: '<a href="'.$url.'">'.
+						'<img src="'.$url.'" alt="['.$attr.']" title="'.$attr.'">'.
+					'</a>'
+		},
+	};
+	# $tags{img} = $priv
+	# 	? '<a class="p-link  p-link--img" href="%{link}A"><i class="p-link__icn icon-camera"></i><span class="p-link__url">%{link}A</span><span class="p-link__img">%{html}s</span></a>'
+	# 	: '<a href="%{link}A"><img src="%{link}A" alt="[%{html}s]" title="%{html}s"></a>';
 	my $url_finder_format = $priv
-		? '<a class="p-link" href="%s" rel="nofollow"><i class="p-link__icn icon-warning-sign"></i><span class="p-link__url">%s</span></a>'
+		? '<a class="p-link" href="%s" rel="nofollow"><i class="p-link__icn icon-warning-sign"></i><span class="p-link__txt">%s</span></a>'
 		: '<a href="%s" rel="nofollow">%s</a>';
 	Parse::BBCode->new({
 		close_open_tags => 1,
@@ -205,14 +241,19 @@ sub vimeo_parse {
 # The user-facing ->html, handles the bulk of rendering magic
 #
 sub html {
-		my ( $self, @code_parts ) = @_;
-		my $markup = join ' ', @code_parts;
-		my $html = $self->bbcode->render($markup);
+	shift->html_render((join ' ', @_));
+}
 
-		# Let's try to handle @mentions!
-		$html =~ s#(?<!\w)\@(-|\w+)#<a href='/$1'>\@$1</a>#g;
-		
-		return $html;
+sub html_render {
+	my ( $self, $markup, $without_privacy ) = @_;
+	my $html = $self->bbcode($without_privacy)->render($markup);
+	# Let's try to handle @mentions!
+	$html =~ s#(?<!\w)\@(-|\w+)#<a href='/$1'>\@$1</a>#g;
+	return $html;
+}
+
+sub html_without_privacy {
+	shift->html_render((join ' ', @_),1);
 }
 
 #

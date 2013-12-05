@@ -57,7 +57,11 @@ column content => {
 sub html {
 	my ( $self ) = @_;
 	return $self->content if $self->raw_html;
-	return $self->ddgc->markup->html($self->content);
+	if ($self->company_blog) {
+		return $self->ddgc->markup->html_without_privacy($self->content);
+	} else {
+		return $self->ddgc->markup->html($self->content);
+	}
 }
 
 column topics => {

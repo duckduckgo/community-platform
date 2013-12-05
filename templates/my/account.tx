@@ -127,24 +127,22 @@
 					</a>
 				</div>
 			</div>
-			<: if $c.user && $c.user.admin { :>
-				<div class="row">
-					<div class="twothird">
-						<label>
-							<: $l('Privacy mode') :>
-						</label>
-					</div>
-					<div class="third">
-						<a href="<: $u('My','privacy') :>" class="button button--right">
-							<: if $c.user.privacy { :>
-								<: $l('On') :>
-							<: } else { :>
-								<: $l('Off') :>
-							<: } :>
-						</a>
-					</div>
+			<div class="row">
+				<div class="twothird">
+					<label>
+						<: $l('Privacy mode') :>
+					</label>
 				</div>
-			<: } :>
+				<div class="third">
+					<a href="<: $u('My','privacy') :>" class="button button--right">
+						<: if $c.user.privacy { :>
+							<: $l('On') :>
+						<: } else { :>
+							<: $l('Off') :>
+						<: } :>
+					</a>
+				</div>
+			</div>
 			<: if $c.user.public { :>
 				<div class="row">
 					<div class="twothird">
