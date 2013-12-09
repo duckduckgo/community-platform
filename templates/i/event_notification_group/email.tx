@@ -5,7 +5,7 @@
 				<td width="10">&nbsp;</td>
 				<td width="40" valign="middle"><img src="<: $web_base :>/static/img/email_icons/<: $_.icon :>.png" alt="Notification Icon" width="40" height="40" <: style("notification_icon") :> /></td>
 				<td width="10">&nbsp;</td>
-				<td valign="middle">					
+				<td valign="middle">
 					<div <: style("notification_text") :>>
 					 <: i($_,$_.user_notification_group.type ~ '/label') :>
 					</div>
@@ -17,6 +17,16 @@
 				</td>
 				<td width="10">&nbsp;</td>
 			</tr>
+			<: if $tmp_replace_me { :>
+			<tr>
+				<td width="50" colspan="2">&nbsp;</td>
+				<td width="10" valign="top">&ldquo;</td>
+				<td valign="top">
+					<: # contents of notification go here :>
+				</td>
+				<td width="50" colspan="2" valign="top" align="left">&rdquo;</td>
+			</tr>
+			<: } :>
 		</table>
-	</td>	
+	</td>
 </tr>
