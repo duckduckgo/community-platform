@@ -5,7 +5,7 @@
 
 =head1 OVERVIEW
 
-The community platform of L<https://duckduckgo.com/|DuckDuckGo> at
+The community platform of L<DuckDuckGo|https://duckduckgo.com/> at
 L<https://duck.co/> is an independent open source platform made for handling
 and coordinating the requirements of interaction with the community. Historical
 those needs were fulfilled with several external services which allowed us to
@@ -13,7 +13,7 @@ reduce the management overhead. Sadly those services didn't allowed us to
 customize them as we needed, which leaded to the start of the community platform
 and a slow migration of all external services towards it. Now all interaction
 with our users and contributors is coordinated via the community platform and
-L<https://github.com/|GitHub>.
+L<GitHub|https://github.com/>.
 
 =head1 SETUP
 
@@ -39,10 +39,10 @@ us longtime to integrate the options XMPP offers more directly to our users.
 =head1 USED TECHNOLOGY
 
 The community platform is made in Perl using L<Catalyst> and L<DBIx::Class>.
-As template engine, we use L<Text::Xslate>. We use L<http://prosody.im/|prosody>
+As template engine, we use L<Text::Xslate>. We use L<prosody|http://prosody.im/>
 as XMPP server, which is maintained and supervised by its main coder
 directly. The XMPP server is also federated to allow users to connect with all
-other XMPP users in the world. As webserver we use L<http://nginx.org/|nginx>,
+other XMPP users in the world. As webserver we use L<nginx|http://nginx.org/>,
 but we also plan to add B<varnish> as frontend proxy to offer a better caching.
 
 For indexing, so powerful searching over the content of the platform, we want
@@ -78,8 +78,8 @@ features is an important part (more the planning, suggesting is easy, hehe).
 We try to gather here a list of ways how to help with specific abilities. This
 manual concentrates on the work on the codebase, the templates and the
 infrastructure of the community platform. For the user accessable contribution
-options we offer more information on our L<http://duck.co/help|help pages> or
-in L<http://duck.co/blog|the DuckDuckGo blog>.
+options we offer more information on our L<help pages|http://duck.co/help> or
+in L<the DuckDuckGo blog|http://duck.co/blog>.
 
 =head2 AS DESIGNER, HTML OR CSS EXPERT
 
@@ -140,5 +140,7 @@ motivated to learn more!
 
 =head2 AS QUALITY ASSURANCE
 
-L<DDGC::Manual::QA>
+Another mission, always beloved mission, is the testing. Finding the failures
+and reporting them, so that we can handle them.
+
 
