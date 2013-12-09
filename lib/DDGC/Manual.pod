@@ -3,19 +3,140 @@
 
 =encoding utf-8
 
+=head1 OVERVIEW
+
+The community platform of L<https://duckduckgo.com/|DuckDuckGo> at
+L<https://duck.co/> is an independent open source platform made for handling
+and coordinating the requirements of interaction with the community. Historical
+those needs were fulfilled with several external services which allowed us to
+reduce the management overhead. Sadly those services didn't allowed us to
+customize them as we needed, which leaded to the start of the community platform
+and a slow migration of all external services towards it. Now all interaction
+with our users and contributors is coordinated via the community platform and
+L<https://github.com/|GitHub>.
+
+=head1 SETUP
+
+A key point of the community platform was making it a totally independent
+infrastructure, which has no special rights or any special connection towards
+DuckDuckGo. This was decided to prevent any security problem from one platform
+to produce damage on the other platform. Another strong reasoning for making
+the platform independent is our privacy policy and the image the user want to
+see, as we want to make it 100% clear, that no relation exist between the
+activity of the user on DuckDuckGo and the account on the community platform.
+Even tho, longtime we still plan to allow a user to store their setting on
+the community platform, but this mission is not fulfilled yet, wanna try?
+
+Currently (End 2013) the community platform runs on an own Debian server (while
+on DuckDuckGo we use Ubuntu servers), where we also run the database. We call
+this server B<wing>, which is used as reference to the wing of a duck :).
+
+Additional to the web platform, we also offer a XMPP server on the community
+platform, which is also at the same time our central user database. A login
+to the web platform is checked against the XMPP server. This concept allows
+us longtime to integrate the options XMPP offers more directly to our users.
+
+=head1 USED TECHNOLOGY
+
+The community platform is made in Perl using L<Catalyst> and L<DBIx::Class>.
+As template engine, we use L<Text::Xslate>. We use L<http://prosody.im/|prosody>
+as XMPP server, which is maintained and supervised by its main coder
+directly. The XMPP server is also federated to allow users to connect with all
+other XMPP users in the world. As webserver we use L<http://nginx.org/|nginx>,
+but we also plan to add B<varnish> as frontend proxy to offer a better caching.
+
+For indexing, so powerful searching over the content of the platform, we want
+to implement B<dezi>, but this is not done yet.
+
+=head1 STAGING
+
+Additionally for testing and staging our changes, we also use another server
+which is a exact copy of the existing server, beside that it has its own
+database, and so also its own user base and own XMPP server identity. This XMPP
+server is also federated.
+
+=head1 DEVELOPMENT
+
+Although we use L<Catalyst> as web framework and base, the project is not
+totally build as I<classical> Catalyst application, because we also have to
+take care of many processes which are outside of the main Catalyst flow. This
+lead to a design surrounding a very thick central model, which is just used
+by the Catalyst for the web application. The internal code is meant to be run
+with web or without it.
+
 =head1 WORKING ON THE COMMUNITY PLATFORM
+
+The community platform offers many opportunities to help. We have many data to
+review in the translation area, there is many help required on the translation
+to make it easier for people to understand what the text to translate means in
+the context. We need community manager who review user content to avoid spam
+and inappropiate behaviour. But mostly we like to see people who extend our
+community platform and add new features or refine existing features for a
+better user experience for all users. Also just suggesting and planning such
+features is an important part (more the planning, suggesting is easy, hehe).
+
+We try to gather here a list of ways how to help with specific abilities. This
+manual concentrates on the work on the codebase, the templates and the
+infrastructure of the community platform. For the user accessable contribution
+options we offer more information on our L<http://duck.co/help|help pages> or
+in L<http://duck.co/blog|the DuckDuckGo blog>.
 
 =head2 AS DESIGNER, HTML OR CSS EXPERT
 
-L<DDGC::Manual::Interface>
+The interface of our community platform has a very stable and simple HTML/CSS
+structure which is meant to be simple in usage for the coder. A big problem
+for a project like the community platform, with a very random amount of
+contributions, is the missing hand in hand of different departments which is
+the core of every company. On the HTML part this means, that we had in the
+beginning often the problem, that a feature was ready to go by code, but in
+the end had to be stalled because of missing timeslices of the designer to fix
+and tune the HTML to be acceptable for the users. Doug Brown killed this
+problem with a HTML/CSS structure which is really easy to use for developers.
+
+The challenge here is to keep up the good standard, as developerwise this flow
+quality is really appreciated. You can actually see that for yourself on the
+userpage and the configuration of the userpage in the account area. Those areas
+are really only made by a developer and had so far no revision of a designer. 
+
+For you as expert on HTML/CSS, you can go and help adding details or cleanup
+existing structure. There is often a kind of copy'n'paste mentality for the
+HTML by the developers which lead to unrequired CSS classes on the html, this
+could be always cleaned up. Also, even tho our CSS is targetted to be very
+stable, there are always little details which can be tuned with a bit more CSS
+pushing. Here you are also open to deliver pull request or get a permanent
+helper.
+
+It is not always required to actually run a development instance of the
+community platform to see the results, CSS changes can be done these days
+inside the browser, which can be the more straight forward way for little
+changes, but we strongly consider running your own instance of the community
+platform at home. See L<DDGC::Manual::Install>.
+
+Additionally you will more detailed instructions for HTML/CSS developers at
+L<DDGC::Manual::Interface>.
 
 =head2 AS SOFTWARE DEVELOPER
 
-L<DDGC::Manual::Development>
+The biggest help we need is on the software development area. We have a huge
+stack of todos and interface improvements we want to achieve, that its only
+the missing developers limit our possibilities.
 
-=head2 AS TRANSLATION MANAGER
+Projectwise the community platform is very interesting for you as developer, as
+it touches really all topics of professional web development, and its still 
+full open source. You can run on your own linux machine a version of it, which
+includes a complete test database and anything to directly see what is going
+on. If you want you can also additionally setup your own prosody server for
+your development environment and so got a complete experience or own community
+platform :). For the procedure to install the community platform at home
+please read L<DDGC::Manual::Install>.
 
-L<DDGC::Manual::Translation>
+For more details about what you need to know as developer please read up
+L<DDGC::Manual::Development>. The community platform is mainly in B<Perl>, but
+dont feel blocked if you are not familiar with it. If you have experience with
+other languages it will be very easy for you without any big learning to
+already help on several details. Diving deeper into Perl will then come up
+automatically, but no fear, you will have good guidance, if you are really
+motivated to learn more!
 
 =head2 AS QUALITY ASSURANCE
 
