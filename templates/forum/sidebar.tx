@@ -7,7 +7,7 @@
 	</section>
 </aside>
 <aside class="sidebar group  mg-top--double">
-	<a href="javascript;" class="button  hide  palm-block  js-palm-toggle"><i class="icon  icon-list-ul"></i> Show More Links</a>
+	<a href="javascript:" class="button  hide  palm-block  js-palm-toggle"><i class="icon  icon-list-ul"></i> Show More Links</a>
 	<div class="palm-hide">
 		<section class="menu-list">
 			<h5>Sticky threads</h5>

@@ -1,5 +1,5 @@
 <aside class="sidebar sidebar--blog">
-	<a href="javascript;" class="button  hide  palm-block  js-palm-toggle"><i class="icon  icon-list-ul"></i> Show More Links</a>
+	<a href="javascript:" class="button  hide  palm-block  js-palm-toggle"><i class="icon  icon-list-ul"></i> Show More Links</a>
 	<div class="sidebar-contents  group  palm-hide">
 		<!-- <section class="search">
 			<form class="one-field">				
