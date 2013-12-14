@@ -40,7 +40,7 @@
 			</div>
 		  </div>
 		<: } :>		
-		<a href="javascript;" class="button  hide  palm-block  js-palm-toggle"><i class="icon  icon-list-ul"></i> Show More Links</a>
+		<a href="javascript:" class="button  hide  palm-block  js-palm-toggle"><i class="icon  icon-list-ul"></i> Show More Links</a>
 		<ul class="nav  nav--panels  palm-hide">
 		  <: for results($help_categories) -> $category { :>
 			<li class="nav-item <: if $category.key == $help_category.key { :> nav-item--active<:}:>">
