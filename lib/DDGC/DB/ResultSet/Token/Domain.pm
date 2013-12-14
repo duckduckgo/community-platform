@@ -8,7 +8,7 @@ use namespace::autoclean;
 sub sorted {
 	my ( $self ) = @_;
 	$self->search({}, {
-		order_by => { -asc => $self->me.'sorting' },
+		order_by => { -asc => ($self->me.'sorting') },
 	});
 }
 

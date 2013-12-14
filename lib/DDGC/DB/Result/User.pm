@@ -8,6 +8,7 @@ use DBIx::Class::Candy;
 use DDGC::User::Page;
 use Prosody::Mod::Data::Access;
 use Digest::MD5 qw( md5_hex );
+use List::MoreUtils qw( uniq  );
 use namespace::autoclean;
 
 table 'users';
@@ -29,6 +30,7 @@ unique_column username => {
 	is_nullable => 0,
 };
 sub lowercase_username { lc(shift->username) }
+sub lc_username { lc(shift->username) }
 
 column public => {
 	data_type => 'int',
@@ -37,6 +39,12 @@ column public => {
 };
 
 column privacy => {
+	data_type => 'int',
+	is_nullable => 0,
+	default_value => 1,
+};
+
+column email_notification_content => {
 	data_type => 'int',
 	is_nullable => 0,
 	default_value => 1,
@@ -194,6 +202,11 @@ sub is {
 	return 1 if $self->admin;
 	return 1 if $self->roles =~ m/$role/;
 	return 0;
+}
+
+sub add_role {
+	my ( $self, $role ) = @_;
+	
 }
 
 has _locale_user_languages => (

@@ -1,22 +1,17 @@
+<: my $radio_name = $type ~ ( $context_id ? '1' : '0' ) :>
 <div class="row  notification--edit"> 
-	<div class="seventy">   
+	<div class="notification__settings-label">   
 		<i class="notification--edit__icon  icon-<: $default_types_def[$type]['icon'] :>"></i>
 		<div class="media__body">
 			<label>
 			<: $label :>
 			</label>
-			<input type="hidden" name="type" value="<: $type :>" />
-			<input type="hidden" name="context_id" value="<: $context_id :>" />
 		</div>
 	</div>
-	<div class="ten">
-		&nbsp;<!-- reserved space for xmpp checkbox, can be moved, but shouldnt be forgotten -->
-	</div>
-	<div class="twenty">
-		<select name="cycle" class="pull-right js-select">
-		  <: for $notification_cycle_options -> $option { :>
-			<option <: if $user_notification_group_values[$type][$context_id]['cycle'] == $option.value { :>selected="selected" <: } :>value="<: $option.value :>"><: $option.name :></option>
-		  <: } :>
-		</select>
-	</div>
+	<span class="notification__settings  button-group">
+	  <: for $notification_cycle_options -> $option { :>
+		<input name="<: $radio_name:>" type="radio" class="radio" id="<: $radio_name:><: $option.value :>" <: if $user_notification_group_values[$type][$context_id]['cycle'] == $option.value || (!$user_notification_group_values[$type][$context_id]['cycle'] && !$option.value) { :>checked="checked" <: } :>value="<: $option.value :>"><label class="button" for="<: $radio_name:><: $option.value :>"><: $option.name :></label>
+	  <: } :>
+	  <!-- reserved space for xmpp checkbox, can be moved, but shouldnt be forgotten -->
+	</span>
 </div>

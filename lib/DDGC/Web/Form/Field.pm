@@ -1,4 +1,5 @@
 package DDGC::Web::Form::Field;
+# ABSTRACT:
 
 use Moose;
 

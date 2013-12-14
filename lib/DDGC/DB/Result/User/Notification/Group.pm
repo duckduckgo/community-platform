@@ -62,6 +62,12 @@ column filter_by_language => {
 	is_nullable => 0,
 };
 
+column email_has_content => {
+	data_type => 'int',
+	is_nullable => 0,
+	default_value => 1,
+};
+
 column data => {
 	data_type => 'text',
 	is_nullable => 0,
@@ -201,6 +207,7 @@ sub default_types_def {{
 		sub_context => '',
 		action => 'update',
 		icon => 'lightbulb',
+		email_has_content => 0,
 	},
 
 	# follow idea votes
@@ -209,7 +216,8 @@ sub default_types_def {{
 		context_id => ['*',''],
 		sub_context => 'DDGC::DB::Result::Idea::Vote',
 		action => 'create',
-		icon => 'check',
+		icon => 'check-sign',
+		email_has_content => 0,
 	},
 
 	# follow threads
@@ -243,6 +251,7 @@ sub default_types_def {{
 		group_context_id => sub { $_[0]->token_language->token_domain_language->id },
 		u => sub { $_[0]->u_unvoted },
 		icon => 'globe',
+		email_has_content => 0,
 	},
 
 	# follow votes on translations
@@ -251,7 +260,8 @@ sub default_types_def {{
 		context_id => '*',
 		sub_context => 'DDGC::DB::Result::Token::Language::Translation::Vote',
 		action => 'create',
-		icon => 'check',
+		icon => 'check-sign',
+		email_has_content => 0,
 	},
 
 }}
@@ -309,6 +319,9 @@ sub default_types {
 						: $with_context_id
 							? 0
 							: 1,
+					defined $def{email_has_content}
+						? ( email_has_content => $def{email_has_content} )
+						: (),
 				};
 			}
 		}

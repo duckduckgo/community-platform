@@ -91,10 +91,10 @@ sub privacy :Chained('logged_in') :Args(0) {
 	my ( $self, $c ) = @_;
 
 	if ($c->user->privacy) {
-		$c->stash->{title} = 'Disable privacy mode';
+		$c->stash->{title} = 'Disable Content Load Shield';
 		$c->add_bc($c->stash->{title}, '');
 	} else {
-		$c->stash->{title} = 'Enable privacy mode';
+		$c->stash->{title} = 'Enable Content Load Shield';
 		$c->add_bc($c->stash->{title}, '');
 	}
 
@@ -109,7 +109,7 @@ sub privacy :Chained('logged_in') :Args(0) {
 
 	if ($c->req->params->{disable_privacy}) {
 		$c->user->privacy(0);
-	} elsif ($c->req->params->{disable_privacy}) {
+	} elsif ($c->req->params->{enable_privacy}) {
 		$c->user->privacy(1);
 	}
 	$c->user->update();

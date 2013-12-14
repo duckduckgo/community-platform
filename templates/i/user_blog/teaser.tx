@@ -1,8 +1,8 @@
 <article class="post-snippet">
-	<: i($user_blog, "header") :>
-	<: r($user_blog.html_teaser) :>
+	<: i($_, "header") :>
+	<: r($_.html_teaser) :>
 	<span class="post-readmore">
-		<a class="more-link" href="<: $u($user_blog.u) :>">Read the full story</a>
+		<a class="more-link" href="<: $u($_.u) :>">Read the full story</a>
 	</span>
-	<: i($user_blog, "actions") :>
+	<: i($_, "actions") :>
 </article>

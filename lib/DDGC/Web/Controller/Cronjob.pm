@@ -53,40 +53,43 @@ sub notify_cycle {
 	my @results = $users_ids_rs->all;
 
 	for (@results) {
-		my $users_id = $_->get_column('users_id');
-		my $user = $c->d->rs('User')->find($users_id);
-		if ($user->data && $user->data->{email}) {
-			$c->stash->{current_user} = $user;
-			$c->stash->{unsent_notifications_results} = [$user->unsent_notifications_cycle($cycle)->all];
-			$c->stash->{unsent_notifications_count} = scalar @{$c->stash->{unsent_notifications_results}};
-			eval {
-				$c->d->postman->template_mail(
-					$user->data->{email},
-					'"DuckDuckGo Community Envoy" <envoy@dukgo.com>',
-					'[DuckDuckGo Community] '.$c->stash->{unsent_notifications_count}.' new notifications for you',
-					'notifications',
-					$c->stash,
-				);
-			};
-			if ($@) {
-				$c->d->postman->mail(
-					'getty@duckduckgo.com',
-					'"DuckDuckGo Community Envoy" <envoy@dukgo.com>',
-					'[DuckDuckGo Community] ERROR ON ENOVY',
-					$@,
-				);				
-			} else {
-				my @ids;
-				for (@{$c->stash->{unsent_notifications_results}}) {
-					for ($_->event_notifications) {
-						push @ids, $_->id;
+		$c->d->db->txn_do(sub {
+			my $users_id = $_->get_column('users_id');
+			my $user = $c->d->rs('User')->find($users_id);
+			if ($user->data && $user->data->{email}) {
+				$c->d->as($user,sub {
+					$c->stash->{unsent_notifications_results} = [$user->unsent_notifications_cycle($cycle)->all];
+					$c->stash->{unsent_notifications_count} = scalar @{$c->stash->{unsent_notifications_results}};
+					eval {
+						$c->d->postman->template_mail(
+							$user->data->{email},
+							'"DuckDuckGo Community Envoy" <envoy@dukgo.com>',
+							'[DuckDuckGo Community] '.$c->stash->{unsent_notifications_count}.' new notifications for you',
+							'notifications',
+							$c->stash,
+						);
+					};
+					if ($@) {
+						$c->d->postman->mail(
+							'getty@duckduckgo.com',
+							'"DuckDuckGo Community Envoy" <envoy@dukgo.com>',
+							'[DuckDuckGo Community] ERROR ON ENVOY',
+							$@,
+						);				
+					} else {
+						my @ids;
+						for (@{$c->stash->{unsent_notifications_results}}) {
+							for ($_->event_notifications) {
+								push @ids, $_->id;
+							}
+						}
+						$c->d->rs('Event::Notification')->search({
+							id => { -in => \@ids },
+						})->update({ sent => 1 });
 					}
-				}
-				$c->d->rs('Event::Notification')->search({
-					id => { -in => \@ids },
-				})->update({ sent => 1 });
+				});
 			}
-		}
+		});
 	}
 
 }

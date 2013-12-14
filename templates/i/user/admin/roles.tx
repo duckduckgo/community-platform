@@ -1,0 +1,3 @@
+<: for $_.roles.keys() -> $role { :>
+  <a href="<: $u() :>" class="button <: if $_.is($role) { :>blue<: } else { :>grey<: } :>">
+<: } :>

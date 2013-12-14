@@ -17,15 +17,14 @@
 				</td>
 				<td width="10">&nbsp;</td>
 			</tr>
-			<: if $tmp_replace_me { :>
-			<tr>
-				<td width="50" colspan="2">&nbsp;</td>
-				<td width="10" valign="top">&ldquo;</td>
-				<td valign="top">
-					<: # contents of notification go here :>
-				</td>
-				<td width="50" colspan="2" valign="top" align="left">&rdquo;</td>
-			</tr>
+			<: if $_.user_notification_group.email_has_content && cur_user().email_notification_content { :>
+				<tr>
+					<td width="60" colspan="3">&nbsp;</td>
+					<td valign="top">
+						<: i($_,$_.user_notification_group.type ~ '/email') :>
+					</td>
+					<td width="50" colspan="2" valign="top" align="left">&nbsp;</td>
+				</tr>
 			<: } :>
 		</table>
 	</td>

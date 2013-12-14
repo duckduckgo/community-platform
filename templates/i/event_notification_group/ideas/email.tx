@@ -1,1 +1,1 @@
-New idea... content
+<div  <: style("quote") :>><: r($_.first_event_notification.event.get_context_obj.html) :></div>

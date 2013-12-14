@@ -163,4 +163,15 @@
 .notification--edit .select2-container {
 	margin-top: -2px;
 }
-	
+
+.notification__settings-label {
+	display: inline-block;
+}
+
+.notification__settings {
+	/* a button group */
+	float: right;
+}
+	.notification__settings > .button {
+		font-size: 12px;
+	}

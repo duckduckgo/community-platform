@@ -1,6 +1,6 @@
 <: for results_event_userlist($_.event_notifications) -> $user { :>
-  <: if $~user.is_last && $~user.count > 1 { :>
+  <: if $~user.is_last && $~user.size > 1 { :>
     and
   <: } :>
-  <span class="notification__user"><:- i($user) -:></span><:- if !$~user.is_last && $~user.count > 1 { -:><span class="notification__user--sep">,</span><: } :>  
+  <span class="notification__user"><:- i($user) -:></span><:- if !$~user.is_last && $~user.size > 1 { -:><span class="notification__user--sep">,</span><: } :>  
 <: } :>

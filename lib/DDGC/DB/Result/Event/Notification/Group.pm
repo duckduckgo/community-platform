@@ -52,6 +52,14 @@ __PACKAGE__->indices(
 	event_notification_group_group_context_id_idx => 'group_context_id',
 );
 
+sub first_event_notification {
+	my ( $self ) = @_;
+	my @event_notifications = $self->event_notifications;
+	return scalar @event_notifications
+		? $event_notifications[0]
+		: undef;
+}
+
 sub icon { $_[0]->user_notification_group->icon }
 
 sub u {

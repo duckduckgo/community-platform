@@ -1,0 +1,8 @@
+<div  <: style("quote", "quote_self") :>>
+<:- i($_.first_event_notification.event.get_context_obj.parent,'view',{
+  no_kids => 1, no_reply => 1, no_userpic => 1,
+}) -:>
+</div>
+<div  <: style("quote_indent") :>>
+	<: i($_,'email_comments') :>
+</div>

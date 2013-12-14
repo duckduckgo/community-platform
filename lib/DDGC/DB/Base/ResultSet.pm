@@ -1,4 +1,5 @@
 package DDGC::DB::Base::ResultSet;
+# ABSTRACT: DBIC ResultSet base class
 
 use Moose;
 use namespace::autoclean;

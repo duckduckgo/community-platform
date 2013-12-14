@@ -116,7 +116,7 @@ sub next_step {
 
 sub step_count {
 	my ( $self ) = @_;
-	my $base = 4241;
+	my $base = 3875;
 	return $base unless $self->test;
 }
 
@@ -513,6 +513,7 @@ sub users {{
 	'TestTwo' => {
 		pw => 'test1234',
 		public => 1,
+		privacy => 0,
 		notes => 'Testuser, public, es',
 		languages => {
 			es => 6,
@@ -543,6 +544,7 @@ sub users {{
 	'TestThree' => {
 		pw => '1234test',
 		public => 1,
+		privacy => 0,
 		roles => 'translation_manager',
 		notes => 'Testuser, public, us, ar, de, nl_be, nl, fr_be, fr',
 		languages => {
@@ -571,6 +573,7 @@ sub users {{
 		pw => '1234test',
 		notes => 'Testuser, admin, de, es, us',
 		admin => 1,
+		privacy => 0,
 		languages => {
 			de => 3,
 			es => 3,
@@ -1175,21 +1178,22 @@ sub blogs {
 				topics => ['Another Topic'],
 				company_blog => $_ % 2,
 				comments => [
-					testtwo => [ "Deep This is another awesome!",
-						testone => 'Deep Ok, you are another right',
+					testone => [ "Deep This is another awesome!",
+						testtwo => 'Deep Ok, you are another right',
 						testthree => "Deep Ugh another ugh!",
 						testfour => [ "Deep Comment on another me!",
 							testone => [ 'Deeeeper',
-								testone => "Deeeeeeeper",
+								testtwo => "Deeeeeeeper",
+								testthree => "Deeeeeeeper",
 							],
-							testtwo => [ 'Deeeeeeeeeper',
-								testtwo => "Deeeeeeeeeeeeper",
+							testone => [ 'Deeeeeeeeeper',
+								testfour => "Deeeeeeeeeeeeper",
 							],
 						],
 					],
 				],
 			},
-		) } (1..50)
+		) } (1..30)
 	],
 	testthree => [
 		'test-three' => {
@@ -1210,10 +1214,11 @@ sub blogs {
 					testthree => "Deep Ugh another ugh!",
 					testfour => [ "Deep Comment on another me!",
 						testone => [ 'Deeeeper',
-							testone => "Deeeeeeeper",
+							testtwo => "Deeeeeeeper",
+							testfour => "Deeeeeeeper",
 						],
 						testtwo => [ 'Deeeeeeeeeper',
-							testtwo => "Deeeeeeeeeeeeper",
+							testone => "Deeeeeeeeeeeeper",
 						],
 					],
 				],
@@ -1267,6 +1272,15 @@ sub ideas {{
 		comments => [
 			testtwo => "Blabla",
 			testthree => "blub",
+			testfour => [ "Deep Comment on another me!",
+				testone => [ 'Deeeeper',
+					testtwo => "Deeeeeeeper",
+					testfour => "Deeeeeeeper",
+				],
+				testtwo => [ 'Deeeeeeeeeper',
+					testone => "Deeeeeeeeeeeeper",
+				],
+			],
 		],
 		votes => [qw( test5 test6 test8 )],
 	}],

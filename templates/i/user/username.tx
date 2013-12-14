@@ -1,7 +1,9 @@
 <: if $caller && $caller.can('data') && $caller.data && $caller.data.import { :>
   [<: $caller.data.import :> <: $caller.data.import_user :>]
-<: } elsif $c.user && $c.user.admin { :>
-  <: $_.username :>
+<: } elsif has_cur_user() && cur_user().id == $_.id { :>
+  <: '<yourself>' :>
+<: } elsif has_cur_user() && cur_user().admin && !$_.public { :>
+  <span style="color: red"><: $_.username :></span>
 <: } else { :>
   <: $_.public_username || '<anonymous>' :>
 <: } :>

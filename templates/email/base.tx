@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html>
   <head>
-  <meta charset="utf-8">  
+    <meta http-equiv="Content-Type"  content="text/html charset=UTF-8" />
   </head>
   <body style="padding:0; margin:0; background-color: #ffffff">
 	<table cellpadding="5" cellspacing="0" border="0" width="100%" bgcolor="#ffffff">
 		<tr>
 			<td height="20" align="center" valign="top" colspan="3" <: style("warning") :>>
 			  This is an automated email from DuckDuckGo's Community platform. <b>DO NOT REPLY</b>.
-			</td>       
+			</td>
 		</tr>
 		<tr>
 			<td width="5">&nbsp;</td>
@@ -18,7 +18,7 @@
 				</table>	
 			</td>
 			<td width="5">&nbsp;</td>
-		</tr>		
+		</tr>
 	</table>
   </body>
 </html>

@@ -1,0 +1,47 @@
+<div class="content-box">
+  <div class="head">
+    <: i($_,'userpic') :>
+    <h2>
+      <: i($_,'username') :>
+      <: if $_.public { :>
+        [Public]
+      <: } else { :>
+        [Private]
+      <: } :>
+      <: if $_.public { :>
+        | <a href="<: $u('Userpage','home',$_.username) :>">Userpage</a>
+      <: } :>
+    </h2>
+    <: if $_.admin { :>
+      <img src="/static/images/duckduckgo-icon.png" width="32" height="32" title="Admin" class="admin-badge pull-right" />
+    <: } :>
+  </div>
+  <div class="body">
+    <: if !$_.admin { :>
+      <div class="row">
+        <: for d().all_roles.keys() -> $role { :>
+          <a href="<: $u('Admin::User','user',$_.lc_username,{
+            $role, $_.is($role) ? 0 : 1,
+          }) :>" class="button <: if $_.is($role) { :>blue<: } else { :>grey<: } :>"><: d().all_roles($role) :></a>
+        <: } :>
+      </div>
+    <: } :>
+    <div class="row">
+      <: my $email = $_.email || ( $_.data && $_.data.email ) :>
+      <h2>
+        <: if $email { :>
+          Email: <a href="mailto:<: $email :>"><: $email :></a>
+        <: } else { :>
+          No email
+        <: } :>
+      </h2>
+    </div>
+    <div class="row">
+      <h2><: $_.token_language_translations.count :> translations (<: $_.token_languages.count :> in use) and <: $_.translation_votes.count :> votes.</h2>
+      <: for results($_.user_languages) -> $user_language { :>
+        <span class="button"><: $user_language.language.name_in_english :></span>
+        <span class="tag green circle"><: $user_language.grade :></span>
+      <: } :>
+    </div>
+  </div>
+</div>

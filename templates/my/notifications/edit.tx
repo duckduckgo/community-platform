@@ -27,17 +27,17 @@
 		<: include my::notifications::option {
 			type => 'replies',
 			context_id => '*',
-			label => '... replies to comments you follow? (Note: You automatically follow your own comments)',
+			label => r('... replies to comments you follow?<br> (Note: You automatically follow your own comments)'),
 		} :>
 		<: include my::notifications::option {
 			type => 'forum_comments',
 			context_id => '*',
-			label => '... comments on forum posts you follow? (Note: You automatically follow your own posts)',
+			label => r('... comments on forum posts you follow?<br> (Note: You automatically follow your own posts)'),
 		} :>
 		<: include my::notifications::option {
 			type => 'blog_comments',
 			context_id => '*',
-			label => '... comments on blog posts you follow? (Note: You automatically follow your own blog posts)',
+			label => r('... comments on blog posts you follow?<br> (Note: You automatically follow your own blog posts)'),
 		} :>
 		<: include my::notifications::option {
 			type => 'forum_comments',
@@ -98,8 +98,28 @@
 			label => "... new votes on ideas you've submitted?",
 		} :>
 		<div class="row callout-row">
+			<i class="callout-row__icn--left  icon-paperclip"></i>
+			<h4 class="callout-row__text  has-icon">General settings</h4>
+		</div>
+		<div class="row  notification--edit"> 
+			<div class="notification__settings-label">   
+				<i class="notification--edit__icon "></i>
+				<div class="media__body">
+					<label>
+					 	Do you want to receive content in your notification emails?
+					</label>
+				</div>
+			</div>
+			<span class="notification__settings  button-group">
+				<input name="email_notification_content" type="radio" class="radio" id="email_notification_content1"<: if cur_user().email_notification_content { :> checked="checked"<: } :> value="1">
+				<label class="button" for="email_notification_content1">Yes</label>
+				<input name="email_notification_content" type="radio" class="radio" id="email_notification_content0"<: if !cur_user().email_notification_content { :> checked="checked"<: } :> value="0">
+				<label class="button" for="email_notification_content0">No</label>
+			</span>
+		</div>
+		<div class="row callout-row">
 			<i class="callout-row__icn--left icon-cloud-upload"></i>
-			<span class="callout-row__text  has-icon">Remember to save your changes!</span>
+			<span class="callout-row__text h5 has-icon">Remember to save your changes!</span>
 			<input type="submit" class="big red button pull-right" name="save_notifications" value="Save Changes" />	
 		</div>
 	</div>

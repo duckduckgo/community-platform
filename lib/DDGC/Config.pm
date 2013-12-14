@@ -60,7 +60,7 @@ sub rootdir {
 	return File::Spec->rel2abs( $dir );
 }
 
-has_conf web_base => DDGC_WEB_BASE => 'https://dukgo.com';
+has_conf web_base => DDGC_WEB_BASE => 'https://duck.co';
 
 sub prosody_db_samplefile { File::Spec->rel2abs( File::Spec->catfile( dist_dir('DDGC'), 'ddgc.prosody.sqlite' ) ) }
 sub duckpan_cdh_template { File::Spec->rel2abs( File::Spec->catfile( dist_dir('DDGC'), 'perldoc', 'duckpan.html' ) ) }

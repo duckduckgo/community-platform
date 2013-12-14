@@ -49,6 +49,15 @@ column teaser => {
 	data_type => 'text',
 	is_nullable => 0,
 };
+sub html_teaser {
+	my ( $self ) = @_;
+	return $self->teaser if $self->raw_html;
+	if ($self->company_blog) {
+		return $self->ddgc->markup->html_without_privacy($self->teaser);
+	} else {
+		return $self->ddgc->markup->html($self->teaser);
+	}
+}
 
 column content => {
 	data_type => 'text',
@@ -57,7 +66,11 @@ column content => {
 sub html {
 	my ( $self ) = @_;
 	return $self->content if $self->raw_html;
-	return $self->ddgc->markup->html($self->content);
+	if ($self->company_blog) {
+		return $self->ddgc->markup->html_without_privacy($self->content);
+	} else {
+		return $self->ddgc->markup->html($self->content);
+	}
 }
 
 column topics => {
@@ -171,12 +184,6 @@ sub update_via_form {
 		$self->$_($val{$_});
 	}
 	return $self->update;
-}
-
-sub html_teaser {
-	my ( $self ) = @_;
-	return $self->teaser if $self->raw_html;
-	return $self->result_source->schema->ddgc->markup->html($self->teaser);
 }
 
 sub human_duration_updated {

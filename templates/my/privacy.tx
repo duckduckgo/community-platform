@@ -4,9 +4,9 @@
 			<input type="hidden" name="action_token" value="<: $action_token :>">
 			<h2>
 				<: if $c.user.privacy { :>
-					<: $l('Disable privacy mode') :>
+					<: $l('Disable Content Load Shield') :>
 				<: } else { :>
-					<: $l('Enable privacy mode') :>
+					<: $l('Enable Content Load Shield') :>
 				<: } :>
 			</h2>
 			<div class="account-items group">

@@ -23,8 +23,9 @@ use Class::Load qw( load_class );
 use POSIX;
 use Cache::FileCache;
 use Cache::NullCache;
-use namespace::autoclean;
 use LWP::UserAgent;
+use Carp;
+use namespace::autoclean;
 
 our $VERSION ||= '0.000';
 
@@ -279,6 +280,8 @@ sub _build_xslate {
 
 			# Functions to access the main model and some functions specific
 			d => sub { $self },
+			cur_user => sub { $self->current_user },
+			has_cur_user => sub { defined $self->current_user ? 1 : 0 },
 
 			# Mark text as raw HTML
 			r => sub { mark_raw(@_) },
@@ -356,7 +359,7 @@ sub _build_xslate {
 					}
 				}
 				my $return = 'style="';
-				$return .= $_.':'.$style{$_}.';' for (keys %style);
+				$return .= $_.':'.$style{$_}.';' for (sort { length($a) <=> length($b) } keys %style);
 				$return .= '"';
 				return mark_raw($return);
 			},
@@ -372,7 +375,7 @@ sub _build_xslate {
 
 sub template_styles {{
 	'default' => {
-		'font-family' => 'sans-serif',		
+		'font-family' => 'sans-serif',
 	},
 	'sub_text' => {
 		'font-family' => 'sans-serif',
@@ -390,7 +393,7 @@ sub template_styles {{
 	'site_title' => {
 		'font-family' => 'sans-serif',
 		'position' => 'relative',
-		'text-align' => 'left',		
+		'text-align' => 'left',
 		'line-height' => '1',
 		'margin' => '0',
 	},
@@ -398,7 +401,7 @@ sub template_styles {{
 		'font-weight' => 'bold',
 		'font-size' => '21px',
 		'padding-top' => '10px',
-		'left' => '-1px',		
+		'left' => '-1px',
 	},
 	'green' => {
 		'font-style' => 'normal',
@@ -406,12 +409,12 @@ sub template_styles {{
 	},
 	'site_subtitle' => {
 		'font-weight' => 'normal',
-		'color' => '#a0a0a0',		
+		'color' => '#a0a0a0',
 		'padding-top' => '4px',
 		'padding-bottom' => '7px',
-		'font-size' => '12px',		
+		'font-size' => '12px',
 	},
-	'msg_body' => {		
+	'msg_body' => {
 		'border' => '1px solid #d7d7d7',
 		'border-radius' => '5px',
 		'max-width' => '800px',
@@ -420,13 +423,13 @@ sub template_styles {{
 		'width' => '100%',
 		'background-color' => '#f1f1f1',
 		'border-bottom' => '1px solid #d7d7d7',
-		'border-radius' => '5px 5px 0 0',		
+		'border-radius' => '5px 5px 0 0',
 	},
 	'msg_title' => {
 		'font-family' => 'sans-serif',
 		'font-weight' => 'normal',
 		'font-size' => '28px',
-		'color' => '#a0a0a0',	
+		'color' => '#a0a0a0',
 		'margin' => '0',
 		'padding' => '9px 0',
 	},	
@@ -437,8 +440,8 @@ sub template_styles {{
 	},
 	'msg_notification' => {
 		'font-family' => 'sans-serif',
-		'padding' => '0', 		
-		'background-color' => '#ffffff',		
+		'padding' => '0',
+		'background-color' => '#ffffff',
 	},
 	'notification' => {
 		'padding' => '10px 0',
@@ -461,7 +464,7 @@ sub template_styles {{
 		'background-color' => '#fbfbfb',
 		'font-family' => 'sans-serif',
 		'width' => '100%',
-		'border-bottom' => '1px solid #d7d7d7',	
+		'border-bottom' => '1px solid #d7d7d7',
 	},
 	'notification_count_text' => {
 		'margin' => '0',
@@ -474,10 +477,10 @@ sub template_styles {{
 		'font-family' => 'sans-serif',
 		'font-size' => '14px',
 		'border-radius' => '3px',
-		'display' => 'block',		
+		'display' => 'block',
 		'padding' => '0 12px',
 		'height' => '28px',
-		'line-height' => '28px',		
+		'line-height' => '28px',
 		'text-align' => 'center',
 		'text-decoration' => 'none',
 		'color' => '#d7d7d7',
@@ -486,11 +489,11 @@ sub template_styles {{
 		'white-space' => 'nowrap',
 	},
 	'button_blue' => {
-		'color' => '#4b8df8',		
+		'color' => '#4b8df8',
 		'border-color' => '#4b8df8',
 	},
 	'button_green' => {
-		'color' => '#48af04',		
+		'color' => '#48af04',
 		'border-color' => '#48af04',
 	},
 	'view_link' => {
@@ -501,7 +504,27 @@ sub template_styles {{
 		'text-decoration' => 'none',
 		'line-height' => '35px',
 		'height' => '40px',
-		'overflow' => 'visible',	
+		'overflow' => 'visible',
+	},
+	'hr' => {
+		'border' => 'none',
+		'height' => '0',
+		'border-top' => '1px solid #eee',
+		'margin' => '14px auto',
+	},
+	'quote' => {
+		'border' => '1px solid #d7d7d7',
+		'border-left-width' => '6px',
+		'background-color' => '#ffffff',
+		'margin-right' => '60px',
+		'margin-top' => '-2px',
+		'padding' => '14px',
+	},
+	'quote_self' => {
+		'border-color' => '#48af04',
+	},
+	'quote_indent' => {
+		'margin-left' => '6px',
 	},
 }}
 
@@ -536,6 +559,18 @@ sub _build_forum { DDGC::Forum->new( ddgc => shift ) }
 # ======== User ====================
 #
 
+sub all_roles {
+	my ( $self, $arg ) = @_;
+	my %roles = (
+		translation_manager => "Translation Manager",
+		forum_manager => "Community Leader (Forum Manager)",
+		idea_manager => "Instant Answer Manager",
+	);
+	return defined $arg
+		? $roles{$arg}
+		: \%roles;
+}
+
 has current_user => (
   isa => 'DDGC::DB::Result::User',
   is => 'rw',
@@ -543,7 +578,50 @@ has current_user => (
   predicate => 'has_current_user',
 );
 
-sub current_privacy { $_[0]->has_current_user ? $_[0]->current_user->privacy : 1 }
+sub privacy {
+	$_[0]->forced_privacy
+		? 1
+		: $_[0]->has_current_user
+			? $_[0]->current_user->privacy
+			: 1
+}
+
+has forced_privacy => (
+	isa => 'Bool',
+	is => 'rw',
+	default => sub { 0 },
+);
+
+sub force_privacy {
+	my ( $self, $code ) = @_;
+	die "force_privacy need coderef" unless ref $code eq 'CODE';
+	my $change_it = $self->forced_privacy ? 0 : 1;
+	$self->forced_privacy(1) if $change_it;
+	eval {
+		$code->();
+	};
+	$self->forced_privacy(0) if $change_it;
+	croak $@ if $@;
+	return;
+}
+
+sub as {
+	my ( $self, $user, $code ) = @_;
+	die "as need user or undef" unless !defined $user || $user->isa('DDGC::DB::Result::User');
+	die "as need coderef" unless ref $code eq 'CODE';
+	my $previous_current_user = $self->current_user;
+	$user
+		? $self->current_user($user)
+		: $self->reset_current_user;
+	eval {
+		$code->();
+	};
+	$previous_current_user
+		? $self->current_user($previous_current_user)
+		: $self->reset_current_user;
+	croak $@ if $@;
+	return;
+}
 
 sub update_password {
 	my ( $self, $username, $new_password ) = @_;

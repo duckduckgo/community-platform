@@ -5,4 +5,4 @@
 		<i class="close icon-remove"></i>
 	</div>
 <: } :>
-<: i($user_table,'full') :>
+

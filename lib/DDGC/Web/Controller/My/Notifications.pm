@@ -11,7 +11,7 @@ sub base :Chained('/my/logged_in') :PathPart('notifications') :CaptureArgs(0) {
 	my ( $self, $c ) = @_;
 	$c->add_bc('Notifications', $c->chained_uri('My::Notifications','index'));
 	$c->stash->{notification_cycle_options} = [
-		{ value => 0, name => "Never! NEVER!!" },
+		{ value => 0, name => "NEVER!!" },
 		#{ value => 1, name => "Instant" },
 		{ value => 2, name => "Hourly" },
 		{ value => 3, name => "Daily" },
@@ -38,16 +38,18 @@ sub edit :Chained('base') :Args(0) {
 	$c->add_bc('Configuration');
 	if ($c->req->param('save_notifications')) {
 		$c->require_action_token;
-		my @types = $c->req->param('type');
-		my @cycles = $c->req->param('cycle');
-		my @context_ids = $c->req->param('context_id');
-		while (@types) {
-			my $type = shift @types;
-			my $cycle = shift @cycles;
-			my $context_id = shift @context_ids;
-			my $with_context_id = $context_id eq '*' ? 1 : 0;
-			$c->user->add_type_notification($type,$cycle,$with_context_id);
+		for (keys %{$c->req->params}) {
+			if ($_ =~ m/^([a-zA-Z_]+)(\d)$/) {
+				my $type = $1;
+				my $with_context_id = $2;
+				my $cycle = $c->req->param($_);
+				$c->user->add_type_notification($type,$cycle,$with_context_id);
+			}
 		}
+		if (defined $c->req->param('email_notification_content')) {
+			$c->user->email_notification_content($c->req->param('email_notification_content') ? 1 : 0);
+		}
+		$c->user->update;
 	}
 	$c->stash->{user_notification_group_values} = $c->user->user_notification_group_values;
 }

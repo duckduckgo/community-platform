@@ -60,9 +60,13 @@ sub mail {
 
 sub template_mail {
 	my ( $self, $to, $from, $subject, $template, $stash, %extra ) = @_;
-	$stash->{email_template} = "email/".$template.".tx";
-	my $body = $self->ddgc->xslate->render('email/base.tx',$stash);
-	return $self->html_mail($to, $from, $subject, $body, %extra);
+	my @return;
+	$self->ddgc->force_privacy(sub {
+		$stash->{email_template} = "email/".$template.".tx";
+		my $body = $self->ddgc->xslate->render('email/base.tx',$stash);
+		@return = $self->html_mail($to, $from, $subject, $body, %extra);
+	});
+	return @return;
 }
 
 sub html_mail {
@@ -85,7 +89,10 @@ sub html_mail {
 		],
 		parts => [
 			Email::MIME->create(
-				attributes => { content_type => 'text/html' },
+				attributes => {
+					content_type => 'text/html; charset="UTF-8"',
+					content_transfer_encoding => '8bit',
+				},
 				body => $body,
 			),
 			map {
