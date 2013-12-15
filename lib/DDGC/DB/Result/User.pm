@@ -105,6 +105,13 @@ column roles => {
 	default_value => '',
 };
 
+column flags => {
+	data_type => 'text',
+	is_nullable => 0,
+	serializer_class => 'JSON',
+	default_value => '[]',
+};
+
 has xmpp => (
 	isa => 'HashRef',
 	is => 'ro',
@@ -197,16 +204,33 @@ sub db { return shift; }
 sub translation_manager { shift->is('translation_manager') }
 
 sub is {
-	my ( $self, $role ) = @_;
-	return 0 unless $role;
+	my ( $self, $flag ) = @_;
 	return 1 if $self->admin;
-	return 1 if $self->roles =~ m/$role/;
+	return $self->has_flag($flag);
+}
+
+sub has_flag {
+	my ( $self, $flag ) = @_;
+	return 0 unless $flag;
+	return 1 if grep { $_ eq $flag } @{$self->flags};
 	return 0;
 }
 
-sub add_role {
-	my ( $self, $role ) = @_;
-	
+sub add_flag {
+	my ( $self, $flag ) = @_;
+	return 0 if grep { $_ eq $flag } @{$self->flags};
+	push @{$self->flags}, $flag;
+	$self->make_column_dirty("flags");
+	return 1;
+}
+
+sub del_flag {
+	my ( $self, $flag ) = @_;
+	return 0 unless grep { $_ eq $flag } @{$self->flags};
+	my @newflags = grep { $_ ne $flag } @{$self->flags};
+	$self->flags(\@newflags);
+	$self->make_column_dirty("flags");
+	return 1;
 }
 
 has _locale_user_languages => (

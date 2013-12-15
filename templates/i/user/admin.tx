@@ -1,3 +1,4 @@
+<form method="POST" class="feedback-form" action="<: $u('Admin::User','user',$user.username) :>">
 <div class="content-box">
   <div class="head">
     <: i($_,'userpic') :>
@@ -37,6 +38,16 @@
       </h2>
     </div>
     <div class="row">
+      <div class="third">
+        <h2>New password:</h2>
+      </div>
+      <div class="twothird">
+        <input type="password" name="newpass" />
+        <input type="password" name="newpass2" />
+        <input type="submit" class="button" name="changepass" value="Change password" />
+      </div>
+    </div>
+    <div class="row">
       <h2><: $_.token_language_translations.count :> translations (<: $_.token_languages.count :> in use) and <: $_.translation_votes.count :> votes.</h2>
       <: for results($_.user_languages) -> $user_language { :>
         <span class="button"><: $user_language.language.name_in_english :></span>
@@ -45,3 +56,4 @@
     </div>
   </div>
 </div>
+</form>

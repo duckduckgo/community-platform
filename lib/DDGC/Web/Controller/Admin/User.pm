@@ -24,10 +24,19 @@ sub user_base :Chained('base') :PathPart('view') :CaptureArgs(1) {
 		return $c->detach;
 	}
 	for (keys %{$c->d->all_roles}) {
-		if (defined $c->req->param($_)) {
-			
+		if (defined $c->req->params->{$_}) {
+			$c->req->param($_)
+				? $c->stash->{user}->add_flag($_)
+				: $c->stash->{user}->del_flag($_)
 		}
 	}
+	if (defined $c->req->params->{changepass} && defined $c->req->params->{newpass} && length($c->req->params->{newpass})) {
+		if ($c->req->params->{newpass} eq $c->req->params->{newpass2}) {
+			$c->d->update_password($c->stash->{user}->username,$c->req->params->{newpass});
+		}
+	}
+			use DDP; p($c->stash->{user});
+	$c->stash->{user}->update;
 	$c->add_bc($c->stash->{user}->username, $c->chained_uri('Admin::User','index'));
 }
 

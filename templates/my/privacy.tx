@@ -27,7 +27,7 @@
 			</div>
 			<div class="half">
 				<div class="half">
-					<div class="input-wrap"><input type="submit" value="<: $c.user.privacy ? 'Disable' : 'Enable' :> privacy mode" class="button blue submit" name="<: $c.user.privacy ? 'disable' : 'enable' :>_privacy" /></div>
+					<div class="input-wrap"><input type="submit" value="<: $c.user.privacy ? 'Disable' : 'Enable' :> Content Load Shield" class="button blue submit" name="<: $c.user.privacy ? 'disable' : 'enable' :>_privacy" /></div>
 				</div>
 			</div>
 		</form>
