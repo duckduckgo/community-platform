@@ -7,4 +7,8 @@
 .help-search-results {
 	margin: 30px auto 40px;
 } 
- 
+
+.page-help .content h1, h2, h3, h4, h5, h6 {
+    padding-top: 15px;
+    padding-bottom: 5px;
+}
