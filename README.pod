@@ -36,7 +36,7 @@ SQLite if no Database configuration environment variables are found, but it
 is strongly recommended to use Postgresql. To do this, make sure you set
 the following 3 environment variables before proceeding further (and these
 variables need to be set permanently post this, so you need to put them in
-a .bashrc or correspdonding initialization scripts for your shell):
+a F<.bashrc> or correspdonding initialization scripts for your shell):
 
 (Use your preferred database name / user / password values)
 
