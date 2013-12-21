@@ -6,7 +6,7 @@
 		<div class="body">
 			<: for results($token_domain.tokens) -> $token { :>
 				<div class="row">		
-					<a href="<: $u('Translate','token', $token.id) :>"><: include "i/msgctxtid.tx" { msgctxtid => $token } :></a>
+					<a href="<: $u('Translate','token', $token.id) :>"><: i('msgctxtid', $token) :></a>
 				</div>
 			<: } :>
 		</div>
