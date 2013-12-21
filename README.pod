@@ -1,6 +1,6 @@
 =head1 DuckDuckGo - Community Platform
 
-B<New documentation in work! Please only try if you know what you do>
+B<New documentation in progress! Please only try if you know what you are doing.>
 
 =head2 REQUIREMENTS
 
@@ -18,8 +18,8 @@ You'll next need to make sure you install Dist::Zilla module:
 
 =head2 INSTALLATION
 
-After checking out, you require to install the requirements. You must have
-installed B<Dist::Zilla>, then you can do the following to install the base
+After checking out, you will need to install the prerequisite modules. You must have
+installed B<Dist::Zilla>.  Then, you can do the following to install the base
 Perl requirements (run this in the source root with dist.ini file):
 
   dzil authordeps --missing | cpanm
@@ -27,16 +27,16 @@ Perl requirements (run this in the source root with dist.ini file):
 
 If you're doing this on a fresh Perl install, this may take a while to install.
 
-Additionally, you require to install DDGC deps from duckpan:
+Additionally, you must install DDGC deps from duckpan:
 
   duckpan DDGC::Static
 
-To start, you must once initialize the base database. The default is to use
+To start, you must first initialize the base database. The default is to use
 SQLite if no Database configuration environment variables are found, but it
 is strongly recommended to use Postgresql. To do this, make sure you set
 the following 3 environment variables before proceeding further (and these
 variables need to be set permanently post this, so you need to put them in
-bashrc or correspdonding initialization scripts for your shell):
+a F<.bashrc> or correspdonding initialization scripts for your shell):
 
 (Use your preferred database name / user / password values)
 
@@ -59,8 +59,8 @@ B<--kill> switch to reset it:
 
   script/ddgc_deploy_dev.pl --kill
 
-For the flags to work you need to generate the sprites used for the flags. This
-process has to be repeated everytime the country flags are changing.
+For the flags to work, you need to generate the sprites used for the flags. This
+process has to be repeated everytime the country flags are changed.
 
   script/ddgc_generate_flag_sprites.pl
 
@@ -91,15 +91,15 @@ accessed with random passwords (yes, you can't test wrong password yet, sorry).
 
 The following account exist:
 
-* B<testone> An admin, who is native german, but also speaks english.
+* B<testone> An admin, who is native German but also speaks English.
 
-* B<testtwo> A normal user who speaks spanish, with public profile.
+* B<testtwo> A normal user who speaks Spanish with public profile.
 
-* B<testthree> A translation_manager who speaks english, arabic and german.
+* B<testthree> A translation_manager who speaks English, Arabic, and German.
 
-* B<testfour> An admin, who speaks german, spain and english.
+* B<testfour> An admin, who speaks German, Spanish, and English.
 
-* B<testfive> A normal user without public profile, who speaks russian and
-   english.
+* B<testfive> A normal user without public profile, who speaks Russian and
+   English.
 
-* Additionally there exist B<test1> till B<test100> all without any setup.
+* Additionally there are also B<test1> to B<test100> all without any setup.
