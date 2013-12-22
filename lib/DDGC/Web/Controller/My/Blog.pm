@@ -10,6 +10,10 @@ use namespace::autoclean;
 
 sub base :Chained('/my/logged_in') :PathPart('blog') :CaptureArgs(0) {
 	my ( $self, $c ) = @_;
+	if (!$c->user->admin) {
+		$c->response->redirect($c->chained_uri('Root','index',{ admin_required => 1 }));
+		return $c->detach;
+	}
 	$c->add_bc('Blog Editor', $c->chained_uri('My::Blog','index'));
 }
 

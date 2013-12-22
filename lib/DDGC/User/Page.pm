@@ -135,11 +135,6 @@ my @attributes = (
 		},
 	},
 
-	blog => 'Show your blog posts on the userpage?' => { type => 'noyes',
-		view => 'blog',
-		no_export => 1,
-	},
-
 );
 
 has data => (
