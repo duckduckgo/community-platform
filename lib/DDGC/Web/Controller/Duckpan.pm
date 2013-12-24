@@ -128,9 +128,7 @@ sub upload :Chained('logged_in') :Args(0) {
 		'[DuckPAN] '.$c->stash->{subject},
 		'duckpan',
 		$c->stash,
-		{
-			Cc => '"Torsten Raudssus" <getty@duckduckgo.com>',
-		}
+		Cc => '"Torsten Raudssus" <getty@duckduckgo.com>',
 	);
 }
 
