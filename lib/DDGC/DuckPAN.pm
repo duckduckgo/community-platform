@@ -8,6 +8,8 @@ use Path::Class;
 use Archive::Tar;
 use File::chdir;
 use JSON::MaybeXS;
+use DateTime;
+use IO::All -utf8;
 
 has ddgc => (
 	isa => 'DDGC',
@@ -38,22 +40,36 @@ sub get_release {
 	return $release;
 }
 
+sub log {
+	my $self = shift;
+	my $text = join(" ",@_);
+	io($self->ddgc->config->duckpanlog)->append(
+		"[".(DateTime->now->datetime)."] ".$text."\n"
+	);
+}
+
 sub add_user_distribution {
 	my ( $self, $user, $distribution_filename ) = @_;
 	$distribution_filename = file($distribution_filename)->absolute->stringify;
+	$self->log($user->lc_username,"adds",$distribution_filename);
 	my $dist_data = Dist::Data->new($distribution_filename);
 	my %ret;
-	$ret{error} = 'Only admins may upload so far' unless $user->admin;
-	return \%ret if $ret{error};
+	unless ($user->admin) {
+		$ret{error} = 'Only admins may upload so far';
+		$self->log("ERROR",$user->lc_username,"is no admin, adding denied");
+		return \%ret if $ret{error};
+	}
 	my @releases = $self->ddgc->db->resultset('DuckPAN::Release')->search({
 		name => $dist_data->name,
 		version => $dist_data->version,
 	})->all;
 	if (@releases) {
 		$ret{error} = 'Distribution version already uploaded';
+		$self->log("ERROR",$dist_data->name,$dist_data->version,"already uploaded");
 		return \%ret;
 	}
 	my $distribution_filename_duckpan = $self->cpan_repository->add_author_distribution(uc($user->username),$distribution_filename);
+	$self->log("Adding release",$dist_data->name,$dist_data->version);
 	my $release = $self->add_release( $user, $dist_data->name, $dist_data->version, $distribution_filename_duckpan);
 	eval {
 		$self->ddgc->db->txn_do(sub {
@@ -118,6 +134,7 @@ sub add_user_distribution {
 	};
 	if ($@) {
 		$release->duckpan_meta({ error => $@ });
+		$self->log("ERROR",$@);
 	}
 	$release->update;
 	return $release;

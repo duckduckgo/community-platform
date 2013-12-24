@@ -75,6 +75,16 @@ has_conf prosody_db_database => DDGC_PROSODY_DB_DATABASE => sub {
 	return $self->rootdir().'/ddgc.prosody.sqlite';
 };
 
+has_conf errorlog => DDGC_ERRORLOG => sub {
+	my ( $self ) = @_;
+	return $self->rootdir().'/error.log';
+};
+
+has_conf duckpanlog => DDGC_DUCKPANLOG => sub {
+	my ( $self ) = @_;
+	return $self->rootdir().'/duckpan.log';
+};
+
 has_conf prosody_db_username => DDGC_PROSODY_DB_USERNAME => undef;
 has_conf prosody_db_password => DDGC_PROSODY_DB_PASSWORD => undef;
 has_conf prosody_db_host => DDGC_PROSODY_DB_HOST => undef;

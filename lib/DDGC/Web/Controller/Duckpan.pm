@@ -8,6 +8,7 @@ use DDGC::Config;
 use Dist::Data;
 use Path::Class;
 use Pod::Simple::XHTML;
+use Data::Dumper;
 
 BEGIN {extends 'Catalyst::Controller'; }
 
@@ -84,18 +85,31 @@ sub logged_in :Chained('base') :PathPart('') :CaptureArgs(0) {
 
 sub upload :Chained('logged_in') :Args(0) {
 	my ( $self, $c ) = @_;
-	$c->add_bc('Upload');
-	if (!$c->user) {
+	eval {
+		$c->add_bc('Upload');
+		if (!$c->user) {
+			$c->res->code(403);
+			$c->d->errorlog($c->req);
+			$c->d->errorlog("No user");
+			$c->stash->{no_user} = 1;
+			return $c->detach;
+		}
+		my $uploader = $c->user->username;
+		my $upload = $c->req->upload('pause99_add_uri_httpupload');
+		my $filename = $c->d->config->cachedir.'/'.$upload->filename;
+		$upload->copy_to($filename);
+		$c->stash->{duckpan_return} = $c->d->duckpan->add_user_distribution($c->user,$filename);
+		if (ref $c->stash->{duckpan_return} eq 'HASH') {
+			$c->res->code(403);
+			$c->d->errorlog($c->req);
+			$c->d->errorlog($c->stash->{duckpan_return});
+		}
+	};
+	if ($@) {
 		$c->res->code(403);
-		$c->stash->{no_user} = 1;
-		return $c->detach;
+		$c->d->errorlog($c->req);
+		$c->d->errorlog($@);		
 	}
-	my $uploader = $c->user->username;
-	my $upload = $c->req->upload('pause99_add_uri_httpupload');
-	my $filename = $c->d->config->cachedir.'/'.$upload->filename;
-	$upload->copy_to($filename);
-	$c->stash->{duckpan_return} = $c->d->duckpan->add_user_distribution($c->user,$filename);
-	$c->res->code(403) if (ref $c->stash->{duckpan_return} eq 'HASH');
 }
 
 __PACKAGE__->meta->make_immutable;

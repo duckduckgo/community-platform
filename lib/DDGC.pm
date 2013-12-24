@@ -623,6 +623,11 @@ sub as {
 	return;
 }
 
+sub errorlog {
+	my ( $self, @data ) = @_;
+	io($self->config->errorlog)->append(Dumper(\@data));
+}
+
 sub update_password {
 	my ( $self, $username, $new_password ) = @_;
 	return unless $self->config->prosody_running;
