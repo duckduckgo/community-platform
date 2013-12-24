@@ -25,6 +25,7 @@ use Cache::FileCache;
 use Cache::NullCache;
 use LWP::UserAgent;
 use Carp;
+use Data::Dumper;
 use namespace::autoclean;
 
 our $VERSION ||= '0.000';
