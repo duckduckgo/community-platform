@@ -12,8 +12,8 @@
             </h4>
           <: } else { :>
             <h4 <: style("default") :>>
-              <: $duckpan_return.name :>
-              <: $duckpan_return.version :>
+              <: $duckpan_release.name :>
+              <: $duckpan_release.version :>
             </h4>
             <p <: style("default") :>>
               Thanks for your contribution!
