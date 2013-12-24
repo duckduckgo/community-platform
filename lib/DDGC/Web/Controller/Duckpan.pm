@@ -98,18 +98,40 @@ sub upload :Chained('logged_in') :Args(0) {
 		my $upload = $c->req->upload('pause99_add_uri_httpupload');
 		my $filename = $c->d->config->cachedir.'/'.$upload->filename;
 		$upload->copy_to($filename);
-		$c->stash->{duckpan_return} = $c->d->duckpan->add_user_distribution($c->user,$filename);
-		if (ref $c->stash->{duckpan_return} eq 'HASH') {
+		my $return = $c->d->duckpan->add_user_distribution($c->user,$filename);
+		my $return_ref = ref $return;
+		if ($return_ref eq 'DDGC::DB::Result::DuckPAN::Release') {
+			$c->stash->{duckpan_release} = $return;
+		} else {
+			$c->stash->{duckpan_error} = $return;
 			$c->res->code(403);
 			$c->d->errorlog($c->req);
-			$c->d->errorlog($c->stash->{duckpan_return});
+			$c->d->errorlog($c->stash->{duckpan_error});
 		}
 	};
 	if ($@) {
 		$c->res->code(403);
 		$c->d->errorlog($c->req);
-		$c->d->errorlog($@);		
+		$c->d->errorlog($@);
+		$c->stash->{duckpan_error} = $@;
 	}
+	if ($c->stash->{duckpan_error}) {
+		$c->stash->{subject} = "Error on release!"
+	} else {
+		$c->stash->{subject} = "Successful uploaded ".
+			$c->stash->{duckpan_release}->name." ".
+			$c->stash->{duckpan_release}->version;
+	}
+	$c->d->postman->template_mail(
+		$c->user->data->{email},
+		'"DuckPAN Indexer" <noreply@dukgo.com>',
+		'[DuckPAN] '.$c->stash->{subject},
+		'duckpan',
+		$c->stash,
+		{
+			Cc => '"Torsten Raudssus" <getty@duckduckgo.com>',
+		}
+	);
 }
 
 __PACKAGE__->meta->make_immutable;
