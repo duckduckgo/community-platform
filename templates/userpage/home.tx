@@ -36,7 +36,7 @@
 			<h3>Links</h3>
 		</div>
 		<div class="body">
-			<: for ['email','web','github','twitter','facebook','reddit','deviantart','imgur','youtube','flickr','linkedin'] -> $remote { :>
+			<: for ['email','web','github'] -> $remote { :>
 				<: include 'userpage/third/field.tx' { field => $fields[$remote] } :>
 			<: } :>
 		</div>

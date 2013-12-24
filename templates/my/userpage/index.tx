@@ -10,7 +10,7 @@
 		<h3>General Public Information</h3>
 	</div>
 	<div class="body">
-		<: for ['headline','gravatar_email','about','whyddg'] -> $field { :>
+		<: for ['headline','gravatar_email',,'whyddg'] -> $field { :>
 			<: include "my/userpage/field.tx" { field => $fields[$field] } :>
 		<: } :>
 	</div>
@@ -21,7 +21,7 @@
 		<h3>Links</h3>
 	</div>
 	<div class="body">
-		<: for ['email','web','github','twitter','facebook','reddit','deviantart','imgur','youtube','flickr','linkedin'] -> $field { :>
+		<: for ['email','web','github'] -> $field { :>
 			<: include "my/userpage/field.tx" { field => $fields[$field] } :>
 		<: } :>
 	</div>
@@ -53,17 +53,6 @@
 	</div>
 	<div class="body">
 		<: for ['languages'] -> $field { :>
-			<: include "my/userpage/field.tx" { field => $fields[$field] } :>
-		<: } :>
-	</div>
-</div>
-
-<div class="content-box">
-	<div class="head">
-		<h3>About (not yet displayed)</h3>
-	</div>
-	<div class="body">
-		<: for ['realname','country','city','birth_country'] -> $field { :>
 			<: include "my/userpage/field.tx" { field => $fields[$field] } :>
 		<: } :>
 	</div>
