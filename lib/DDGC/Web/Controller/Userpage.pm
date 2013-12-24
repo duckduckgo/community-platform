@@ -6,7 +6,7 @@ BEGIN {extends 'Catalyst::Controller'; }
 
 use namespace::autoclean;
 
-sub base :Chained('/base') :PathPart('u') :CaptureArgs(1) {
+sub base :Chained('/base') :PathPart('user') :CaptureArgs(1) {
 	my ( $self, $c, $username ) = @_;
 	$c->stash->{userpage_given_user} = $username;
 	$c->stash->{user} = $c->d->find_user($username);
