@@ -213,9 +213,7 @@ sub url_parse {
 					'<span class="p-link__'.( $has_desc ? 'url' : 'txt' ).'">'.$url.'</span>'.
 					( $has_desc ? '<span class="p-link">'.$desc.'</span>' : '' ).
 				'</a>'
-			: '<a href="'.$url.'" rel="nofollow">'.
-					'<img src="'.$url.'" alt="['.$desc.']" title="'.$desc.'">'.
-				'</a>'
+			: '<a href="'.$url.'" rel="nofollow">'.$desc.'</a>'
 	} else {
 		'<i class="p-link__icn icon-external-link"></i>'.
 		'<span class="p-link__url">'.$url.'</span>'.
