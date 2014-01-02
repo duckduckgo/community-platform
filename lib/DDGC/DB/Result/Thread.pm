@@ -80,6 +80,8 @@ column updated => {
 	set_on_update => 1,
 };
 
+__PACKAGE__->add_antispam_functionality;
+
 column old_url => {
 	data_type => 'text',
 	is_nullable => 1,

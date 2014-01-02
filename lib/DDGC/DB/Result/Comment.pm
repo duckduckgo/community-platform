@@ -78,6 +78,8 @@ column updated => {
 	set_on_update => 1,
 };
 
+__PACKAGE__->add_antispam_functionality;
+
 column parent_id => {
 	data_type => 'bigint',
 	is_nullable => 1,
