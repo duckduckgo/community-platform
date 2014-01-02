@@ -9,12 +9,9 @@
 					<: $l('Enable Content Load Shield') :>
 				<: } :>
 			</h2>
-			<div class="account-items group">
-				<: if $wrong_captcha { :>
-					<p>The captcha is incorrect. Please, try again.</p>
-				<: } :>
-			</div>
 			<hr class="clear" />
+			<p> Content Load Shield helps prevent tracking through links and images. If enabled, Content Load Shield will always display the URL of linked text and uploaded images to help prevent tracking when an image/link is clicked or loaded.</p>                                
+
 			<div class="half">
 				<div class="robo-blaster-wrap group">
 					<div class="captcha">
