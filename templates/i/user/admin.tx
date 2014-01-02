@@ -28,6 +28,17 @@
       </div>
     <: } :>
     <div class="row">
+      <a href="<: $u('Admin::User','user',$_.lc_username,{
+        $role, $_.autohoneypot() ? 0 : 1,
+      }) :>" class="button <: if $_.autohoneypot() { :>blue<: } else { :>grey<: } :>">
+        <: if $_.autohoneypot() { :>
+          Deactivate Auto Honeypot
+        <: } else { :>
+          Activate Auto Honeypot
+        <: } :>
+      </a>
+    </div>
+    <div class="row">
       <: my $email = $_.email || ( $_.data && $_.data.email ) :>
       <h2>
         <: if $email { :>

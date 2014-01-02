@@ -30,6 +30,11 @@ sub user_base :Chained('base') :PathPart('view') :CaptureArgs(1) {
 				: $c->stash->{user}->del_flag($_)
 		}
 	}
+	if (defined $c->req->params->{autohoneypot}) {
+		$c->req->param('autohoneypot')
+			? $c->stash->{user}->autohoneypot(1)
+			: $c->stash->{user}->autohoneypot(0)
+	}
 	if (defined $c->req->params->{changepass} && defined $c->req->params->{newpass} && length($c->req->params->{newpass})) {
 		if ($c->req->params->{newpass} eq $c->req->params->{newpass2}) {
 			$c->d->update_password($c->stash->{user}->username,$c->req->params->{newpass});

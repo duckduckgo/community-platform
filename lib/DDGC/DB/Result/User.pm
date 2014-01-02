@@ -56,6 +56,12 @@ column admin => {
 	default_value => 0,
 };
 
+column autohoneypot => {
+	data_type => 'int',
+	is_nullable => 0,
+	default_value => 0,
+};
+
 column email => {
 	data_type => 'text',
 	is_nullable => 1,
