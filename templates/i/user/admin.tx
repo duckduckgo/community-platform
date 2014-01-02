@@ -29,12 +29,12 @@
     <: } :>
     <div class="row">
       <a href="<: $u('Admin::User','user',$_.lc_username,{
-        $role, $_.autohoneypot() ? 0 : 1,
-      }) :>" class="button <: if $_.autohoneypot() { :>blue<: } else { :>grey<: } :>">
-        <: if $_.autohoneypot() { :>
-          Deactivate Auto Honeypot
+        $role, $_.ghosted() ? 0 : 1,
+      }) :>" class="button <: if $_.ghosted() { :>blue<: } else { :>grey<: } :>">
+        <: if $_.ghosted() { :>
+          Deactivate ghosting of this user
         <: } else { :>
-          Activate Auto Honeypot
+          Activate ghosting of this user
         <: } :>
       </a>
     </div>

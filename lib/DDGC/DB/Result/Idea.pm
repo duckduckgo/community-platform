@@ -127,6 +127,8 @@ column old_url => {
 	is_nullable => 1,
 };
 
+__PACKAGE__->add_antispam_functionality;
+
 belongs_to 'user', 'DDGC::DB::Result::User', 'users_id';
 
 has_many 'idea_votes', 'DDGC::DB::Result::Idea::Vote', 'idea_id', {

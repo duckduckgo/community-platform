@@ -56,10 +56,10 @@ column admin => {
 	default_value => 0,
 };
 
-column autohoneypot => {
+column ghosted => {
 	data_type => 'int',
 	is_nullable => 0,
-	default_value => 0,
+	default_value => 1,
 };
 
 column email => {

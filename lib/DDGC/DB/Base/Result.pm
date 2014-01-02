@@ -111,9 +111,9 @@ sub add_context_relations_belongs_to {
   }
 }
 
-sub add_honeypot_column {
+sub add_antispam_functionality {
 	my ( $class ) = @_;
-	$class->add_column(honeypot => {
+	$class->add_column(ghosted => {
 		data_type => 'int',
 		is_nullable => 0,
 		default_value => 0,
@@ -125,15 +125,10 @@ sub add_honeypot_column {
 		default_value => '[]',
 	});
 	$class->add_column(checked => {
-		data_type => 'int',
-		is_nullable => 0,
-		default_value => 0,
+		data_type => 'bigint',
+		is_nullable => 1,
 	});
-	$class->add_column(hidden => {
-		data_type => 'int',
-		is_nullable => 0,
-		default_value => 0,
-	});
+  apply_all_roles($class,'DDGC::DB::Role::AntiSpam');
 }
 
 sub default_result_namespace { 'DDGC::DB::Result' }
@@ -156,11 +151,6 @@ sub add_event {
 	$users_id = delete $args{users_id} if defined $args{users_id};
 	if ($users_id) {
 		$event{users_id} = $users_id;
-		if ($self->can('user')) {
-			return if $self->user->autohoneypot;
-		} else {
-			return if $self->schema->resultset('User')->find($users_id)->autohoneypot;
-		}
 	}
 	$event{action} = $action;
 	if ($self->can('event_related')) {
