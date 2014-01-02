@@ -111,6 +111,31 @@ sub add_context_relations_belongs_to {
   }
 }
 
+sub add_honeypot_column {
+	my ( $class ) = @_;
+	$class->add_column(honeypot => {
+		data_type => 'int',
+		is_nullable => 0,
+		default_value => 0,
+	});
+	$class->add_column(reported => {
+		data_type => 'text',
+		is_nullable => 0,
+		serializer_class => 'JSON',
+		default_value => '[]',
+	});
+	$class->add_column(checked => {
+		data_type => 'int',
+		is_nullable => 0,
+		default_value => 0,
+	});
+	$class->add_column(hidden => {
+		data_type => 'int',
+		is_nullable => 0,
+		default_value => 0,
+	});
+}
+
 sub default_result_namespace { 'DDGC::DB::Result' }
 
 sub ddgc { shift->result_source->schema->ddgc }
@@ -131,6 +156,11 @@ sub add_event {
 	$users_id = delete $args{users_id} if defined $args{users_id};
 	if ($users_id) {
 		$event{users_id} = $users_id;
+		if ($self->can('user')) {
+			return if $self->user->autohoneypot;
+		} else {
+			return if $self->schema->resultset('User')->find($users_id)->autohoneypot;
+		}
 	}
 	$event{action} = $action;
 	if ($self->can('event_related')) {
