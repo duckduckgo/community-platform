@@ -587,6 +587,7 @@ sub users {{
 	'testfive' => {
 		pw => '1-2-3-4-5',
 		notes => 'Testuser, ru, us',
+		ghosted => 1,
 		languages => {
 			ru => 5,
 			us => 2,
@@ -651,6 +652,7 @@ sub add_users {
 		[qw( user_blogs 3 0 )],
 		[qw( threads 3 0 )],
 		[qw( moderations 2 0 )],
+		[qw( reports 2 0 )],
 		[qw( translation_votes 2 1 )]) {
 		$testone->add_type_notification(@{$_});
 		$self->next_step;
