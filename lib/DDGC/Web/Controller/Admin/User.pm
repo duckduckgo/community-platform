@@ -40,7 +40,6 @@ sub user_base :Chained('base') :PathPart('view') :CaptureArgs(1) {
 			$c->d->update_password($c->stash->{user}->username,$c->req->params->{newpass});
 		}
 	}
-			use DDP; p($c->stash->{user});
 	$c->stash->{user}->update;
 	$c->add_bc($c->stash->{user}->username, $c->chained_uri('Admin::User','index'));
 }

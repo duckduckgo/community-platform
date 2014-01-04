@@ -18,7 +18,7 @@ sub base :Chained('/base') :PathPart('ideas') :CaptureArgs(0) {
 		prefetch => [qw( user ),{
 			idea_votes => [qw( user )],
 		}]
-	});
+	})->ghostbusted;
 }
 
 sub add_latest_ideas {

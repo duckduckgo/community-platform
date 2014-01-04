@@ -128,6 +128,7 @@ column old_url => {
 };
 
 __PACKAGE__->add_antispam_functionality;
+__PACKAGE__->add_moderation_functionality;
 
 belongs_to 'user', 'DDGC::DB::Result::User', 'users_id';
 
@@ -153,6 +154,9 @@ after insert => sub {
 	$self->add_event('create');
 	$self->user->add_context_notification('forum_comments',$self);
 	$self->user->add_context_notification('idea_votes',$self);
+  unless ($self->ghosted) {
+  	$self->add_event('live');
+  }
 };
 
 after update => sub {

@@ -116,7 +116,7 @@ sub default_types_def {{
 		context => 'DDGC::DB::Result::Comment',
 		context_id => '*',
 		sub_context => 'DDGC::DB::Result::Comment',
-		action => 'create',
+		action => 'live',
 		priority => 100,
 		icon => 'bubble',
 	},
@@ -129,7 +129,7 @@ sub default_types_def {{
 		)],
 		context_id => ['*',''],
 		sub_context => 'DDGC::DB::Result::Comment',
-		action => 'create',
+		action => 'live',
 		icon => 'bubble',
 	},
 
@@ -139,7 +139,7 @@ sub default_types_def {{
 		)],
 		context_id => '',
 		sub_context => 'DDGC::DB::Result::Comment',
-		action => 'create',
+		action => 'live',
 		priority => 50,
 		filter => sub { $_[0]->company_blog ? 1 : 0 },
 		icon => 'comments',
@@ -174,7 +174,7 @@ sub default_types_def {{
 		)],
 		context_id => '*',
 		sub_context => 'DDGC::DB::Result::Comment',
-		action => 'create',
+		action => 'live',
 		icon => 'bubble',
 	},
 
@@ -186,7 +186,7 @@ sub default_types_def {{
 		)],
 		context_id => '',
 		sub_context => 'DDGC::DB::Result::Comment',
-		action => 'create',
+		action => 'live',
 		filter_by_language => 1,
 		icon => 'comments',
 	},
@@ -196,7 +196,7 @@ sub default_types_def {{
 		context => 'DDGC::DB::Result::Idea',
 		context_id => '',
 		sub_context => '',
-		action => 'create',
+		action => 'live',
 		icon => 'lightbulb',
 	},
 
@@ -225,7 +225,7 @@ sub default_types_def {{
 		context => 'DDGC::DB::Result::Thread',
 		context_id => '',
 		sub_context => '',
-		action => 'create',
+		action => 'live',
 		icon => 'bubbles',
 	},
 
@@ -262,6 +262,37 @@ sub default_types_def {{
 		action => 'create',
 		icon => 'check-sign',
 		email_has_content => 0,
+	},
+
+	'moderations' => {
+		context => [qw(
+			DDGC::DB::Result::Comment
+			DDGC::DB::Result::Idea
+			DDGC::DB::Result::Thread
+		)],
+		context_id => '',
+		sub_context => '',
+		action => 'create',
+		icon => 'globe',
+		u => sub { ['Forum','moderation'] },
+		group_context => '',
+		group_context_id => sub { 1 },
+		filter => sub { $_[0]->ghosted ? 1 : 0 },
+	},
+
+	'reports' => {
+		context => [qw(
+			DDGC::DB::Result::Comment
+			DDGC::DB::Result::Idea
+			DDGC::DB::Result::Thread
+		)],
+		context_id => '',
+		sub_context => '',
+		action => 'report',
+		icon => 'globe',
+		u => sub { ['Forum','reports'] },
+		group_context => '',
+		group_context_id => sub { 1 },
 	},
 
 }}

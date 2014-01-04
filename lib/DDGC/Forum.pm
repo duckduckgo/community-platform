@@ -14,7 +14,7 @@ has ddgc => (
 	required => 1,
 );
 
-sub comments_grouped { shift->ddgc->rs('Comment')->grouped_by_context->prefetch_all }
+sub comments_grouped { shift->ddgc->rs('Comment')->ghostbusted->grouped_by_context->prefetch_all }
 
 sub comments_grouped_in { shift->comments_grouped->search_rs({
 	'me.context' => { -in => [@_] },

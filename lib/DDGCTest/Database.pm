@@ -116,7 +116,7 @@ sub next_step {
 
 sub step_count {
 	my ( $self ) = @_;
-	my $base = 3875;
+	my $base = 5167;
 	return $base unless $self->test;
 }
 
@@ -614,6 +614,7 @@ sub add_users {
 	$self->isa_ok($testone,'DDGC::DB::Result::User');
 	$testone->admin(1);
 	$testone->public(1);
+	$testone->ghosted(0);
 	$testone->notes('Testuser, admin');
 	$testone->create_related('user_languages',{
 		language_id => $self->c->{languages}->{'de'}->id,
@@ -649,6 +650,7 @@ sub add_users {
 		[qw( company_blogs 3 0 )],
 		[qw( user_blogs 3 0 )],
 		[qw( threads 3 0 )],
+		[qw( moderations 2 0 )],
 		[qw( translation_votes 2 1 )]) {
 		$testone->add_type_notification(@{$_});
 		$self->next_step;
@@ -664,6 +666,7 @@ sub add_users {
 			(@{delete $data->{notifications}}) : ();
 		my $user = $self->d->create_user($username,$pw);
 		$self->next_step;
+		$user->ghosted(0);
 		$user->$_($data->{$_}) for (keys %{$data});
 		for (keys %{$languages}) {
 			$user->create_related('user_languages',{
@@ -761,10 +764,16 @@ sub add_comments {
 	while (@comments) {
 		my $username = shift @comments;
 		my $text = shift @comments;
-		my @sub_comments;
+		my ( @sub_comments, @reports );
 		if (ref $text eq 'ARRAY') {
 			@sub_comments = @{$text};
 			$text = shift @sub_comments;
+		}
+		if (defined $comments[0] && ref $comments[0] eq 'HASH') {
+			my %feature = %{shift @comments};
+			if ($feature{reports}) {
+				@reports = @{delete $feature{reports}};
+			}
 		}
 		my $user = $self->c->{users}->{$username};
 		my $comment = $self->d->add_comment($context, $context_id, $user, $text);
@@ -772,6 +781,15 @@ sub add_comments {
 		$self->isa_ok($comment,'DDGC::DB::Result::Comment');
 		if (scalar @sub_comments > 0) {
 			$self->add_comments('DDGC::DB::Result::Comment',$comment->id, @sub_comments);
+		}
+		if (scalar @reports > 0) {
+			my $report_count = scalar @reports;
+			for (@reports) {
+				my $username = delete $_->{user};
+				$comment->add_report($user,%{$_});
+			}
+			$comment->update;
+			$self->is(scalar @{$comment->reported},$report_count,'Report count correct');
 		}
 	}
 }
@@ -788,7 +806,9 @@ sub threads {[
 		title => "Test thread",
 		content => "Testing some BBCode\n[b]Bold[/b]\n[url=http://ddg.gg]URL[/url] / http://ddg.gg\nEtc.",
 		comments => [
-			testtwo => "ah ha!",
+			testtwo => "ah ha!", { reports => [
+				{ user => 'testthree', text => 'dont laugh' },
+			] },
 		],
 		sticky => 1,
 	},
@@ -796,7 +816,9 @@ sub threads {[
 		title => "Test more thread",
 		content => "Testing more some",
 		comments => [
-			testtwo => "ah ha 2!",
+			testtwo => "ah ha 2!", { reports => [
+				{ user => 'testthree', text => 'dont laugh, i said' },
+			] },
 		],
 		sticky => 1,
 	},
@@ -804,7 +826,9 @@ sub threads {[
 		title => "Test more more thread",
 		content => "Testing more more some",
 		comments => [
-			testtwo => "ah ha 3!",
+			testtwo => "ah ha 3!", { reports => [
+				{ user => 'testthree', text => 'I SAID STOP LAUGHING!' },
+			] },
 		],
 		sticky => 1,
 	},
@@ -850,7 +874,9 @@ sub threads {[
 		comments => [
 			testone => [ "He is soooo lame",
 				testtwo => "totally agree here....",
-			],
+			], { reports => [
+				{ user => 'testfour', text => 'you can do better!' },
+			] },
 		],
 	},
 ]}

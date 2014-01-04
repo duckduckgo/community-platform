@@ -116,7 +116,7 @@ sub add_antispam_functionality {
 	$class->add_column(ghosted => {
 		data_type => 'int',
 		is_nullable => 0,
-		default_value => 0,
+		default_value => 1,
 	});
 	$class->add_column(reported => {
 		data_type => 'text',
@@ -129,6 +129,14 @@ sub add_antispam_functionality {
 		is_nullable => 1,
 	});
   apply_all_roles($class,'DDGC::DB::Role::AntiSpam');
+  my $resultset_class = $class;
+  $resultset_class =~ s/::Result::/::ResultSet::/g;
+  apply_all_roles($resultset_class,'DDGC::DB::Role::AntiSpamResultSet');
+}
+
+sub add_moderation_functionality {
+	my ( $class ) = @_;
+  apply_all_roles($class,'DDGC::DB::Role::IsModerated');	
 }
 
 sub default_result_namespace { 'DDGC::DB::Result' }
@@ -183,7 +191,7 @@ sub has_context {
 
 sub all_comments {
 	my ( $self ) = @_;
-	return $self->schema->resultset('Comment')->search_rs({
+	return $self->schema->resultset('Comment')->ghostbusted->search_rs({
 		'me.context' => $self->i_context,
 		'me.context_id' => $self->i_context_id,
 	},{
@@ -193,7 +201,7 @@ sub all_comments {
 
 sub comments {
 	my ( $self ) = @_;
-	return $self->schema->resultset('Comment')->search_rs({
+	return $self->schema->resultset('Comment')->ghostbusted->search_rs({
 		'me.context' => $self->i_context,
 		'me.context_id' => $self->i_context_id,
 		'me.parent_id' => undef,
@@ -214,6 +222,11 @@ sub i_context_id {
 	my ( $self ) = @_;
 	return $self->id;
 }
+
+sub i_related {[
+	$_[0]->i_context,
+	$_[0]->i_context_id,
+]}
 
 sub belongs_to {
 	my ($self, @args) = @_;

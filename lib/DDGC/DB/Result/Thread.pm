@@ -81,6 +81,7 @@ column updated => {
 };
 
 __PACKAGE__->add_antispam_functionality;
+__PACKAGE__->add_moderation_functionality;
 
 column old_url => {
 	data_type => 'text',
@@ -106,6 +107,9 @@ after insert => sub {
   my ( $self ) = @_;
   $self->add_event('create');
   $self->user->add_context_notification('forum_comments',$self);
+  unless ($self->ghosted) {
+  	$self->add_event('live');
+  }
 };
 
 after update => sub {
