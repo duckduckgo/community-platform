@@ -1,1 +1,1 @@
-There are <b><: $_.event_notifications.count :> new reports about content by users.
+There are <b><: $_.event_notifications.count :></b> new reports about content by users.

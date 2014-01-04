@@ -1,1 +1,1 @@
-There are <b><: $_.event_notifications.count :> new items for moderation.
+There are <b><: $_.event_notifications.count :></b> new items for moderation.
