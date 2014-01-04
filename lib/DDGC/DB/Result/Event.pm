@@ -155,6 +155,7 @@ sub notify {
 						$user_notification->user_notification_group->sub_context eq ''
 							? $self->get_context_obj
 							: $self->get_related($user_notification->user_notification_group->context),
+						$current_user,
 						$self
 					);
 				}

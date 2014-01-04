@@ -40,5 +40,4 @@ sub prefetch_tree {
 
 sub schema { shift->result_source->schema }
 
-no Moose;
-__PACKAGE__->meta->make_immutable( inline_constructor => 0 );
+1;

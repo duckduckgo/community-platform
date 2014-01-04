@@ -25,5 +25,4 @@ sub correlated_total_vote_count {
   return \[ "$new_vote_sql + ".$self->me."old_vote_count", @new_vote_bind ]
 }
 
-no Moose;
-__PACKAGE__->meta->make_immutable( inline_constructor => 0 );
+1;

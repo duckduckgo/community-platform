@@ -1,8 +1,7 @@
 <div <: style("quote") :>>
 <: for results($_.event_notifications) -> $event_notification { :>
-	<:- i($event_notification.event.get_context_obj,'view',{
-    no_kids => 1, no_reply => 1, no_userpic => 1,
-  }) -:>
+  <: d($event_notification.event.data) :>
+  <: i($event_notification.event.get_context_obj :>
   <: if !$~event_notification.is_last { :><hr <: style("hr") :>><: } :>
 <: } :>
 </div>
