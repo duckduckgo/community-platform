@@ -1,1 +1,7 @@
-<: i($_,'email_content') :>
+<: for results($_.event_notifications) -> $event_notification { :>
+  <div <: style("quote") :>>
+    <: i($event_notification.event.user,'name') :> produced ghosted content <: i($event_notification.event.get_context_obj) :>
+    <hr <: style("hr") :>>
+    <: i($event_notification.event.get_context_obj,'plaincontent') :>
+  </div>
+<: } :>

@@ -1,0 +1,3 @@
+<b><: $_.title :></b>
+<hr <: style('hr') :>>
+<: $_.content :>
