@@ -1,4 +1,3 @@
-
 <: include "email/heading.tx" { title => "New notifications for you" } :>
 <tr>	
 	<td align="center" colspan="4">
