@@ -145,8 +145,12 @@ sub notify {
 			for my $user_notification (@user_notifications) {
 				next if defined $notified_user_ids{$user_notification->users_id};
 				next if $self->users_id && $user_notification->users_id eq $self->users_id;
+				next unless defined $self->get_context_obj;
 				my $current_user = $user_notification->user;
 				if ($user_notification->user_notification_group->filter) {
+					next if 
+						$user_notification->user_notification_group->sub_context eq ''
+						&& !defined $self->get_related($user_notification->user_notification_group->context);
 					next unless $user_notification->user_notification_group->filter->(
 						$user_notification->user_notification_group->sub_context eq ''
 							? $self->get_context_obj
