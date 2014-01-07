@@ -94,6 +94,7 @@ has db => (
 	lazy_build => 1,
 	handles => [qw(
 		without_events
+		get_by_i_param
 	)],
 );
 sub _build_db { DDGC::DB->connect(shift) }
