@@ -1,0 +1,41 @@
+<div class="content-box">
+  <div class="head">
+    <h3>Currently open moderations</h3>
+  </div>
+  <div class="body">
+    <: for $moderations -> $moderation { :>
+      <div class="row">
+        <: i($moderation.user,'name') :>
+        produced ghosted content
+        <: i($moderation) :>
+      </div>
+      <div class="row">
+        <: i($moderation,'plaincontent') :>
+      </div>
+      <div class="row">
+        <a class="button blue" href="<: $u('Forum::Admin','moderations',{
+          approve => $moderation.i_param
+        }) :>">
+          Approve user and this content
+        </a>
+        <a class="button grey" href="<: $u('Forum::Admin','moderations',{
+          approve_content => $moderation.i_param
+        }) :>">
+          Approve content only, leave user ghosted
+        </a>
+        <a class="button red" href="<: $u('Forum::Admin','moderations',{
+          deny => $moderation.i_param
+        }) :>">
+          Keep content ghosted!
+        </a>
+      </div>
+    <: } :>
+    <div class="row callout-row center">
+      <a class="button red" href="<: $u('Forum::Admin','moderations',{
+        approve => $moderations_i_params
+      }) :>">
+        Approve all users and their content
+      </a>
+    </div>
+  </div>
+</div>

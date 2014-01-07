@@ -53,5 +53,13 @@ sub without_events {
 	return;
 }
 
+sub get_by_i_param {
+	my ( $self, $i_param ) = @_;
+	my ( $class, $id ) = split(/\|/, $i_param);
+	my $resultset = $class;
+	$resultset =~ s/DDGC::DB::Result:://g;
+	return $self->resultset($resultset)->find($id);
+}
+
 no Moose;
 __PACKAGE__->meta->make_immutable( inline_constructor => 0 );

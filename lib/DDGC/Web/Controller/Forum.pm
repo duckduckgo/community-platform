@@ -8,7 +8,6 @@ use namespace::autoclean;
 
 sub base : Chained('/base') PathPart('forum') CaptureArgs(0) {
   my ( $self, $c ) = @_;
-  push @{$c->stash->{template_layout}}, 'forum/base.tx';
   $c->add_bc("Forum", $c->chained_uri('Forum', 'index'));
   $c->stash->{page_class} = "page-forums  texture";
   $c->stash->{title} = 'DuckDuckGo Forums';
@@ -18,6 +17,11 @@ sub base : Chained('/base') PathPart('forum') CaptureArgs(0) {
   },{
     cache_for => 3600,
   });
+}
+
+sub userbase : Chained('base') PathPart('') CaptureArgs(0) {
+  my ( $self, $c ) = @_;
+  push @{$c->stash->{template_layout}}, 'forum/base.tx';  
 }
 
 sub set_grouped_comments {
@@ -30,44 +34,44 @@ sub set_grouped_comments {
   );
 }
 
-sub index : Chained('base') PathPart('') Args(0) {
+sub index : Chained('userbase') PathPart('') Args(0) {
   my ( $self, $c ) = @_;
   $c->bc_index;
   $self->set_grouped_comments($c,'index',$c->d->forum->comments_grouped_threads);
   $c->stash->{forum_index} = 1;
 }
 
-sub ideas : Chained('base') Args(0) {
+sub ideas : Chained('userbase') Args(0) {
   my ( $self, $c ) = @_;
   $c->add_bc("Latest idea comments");
   $self->set_grouped_comments($c,'ideas',$c->d->forum->comments_grouped_ideas);
 }
 
-sub all : Chained('base') Args(0) {
+sub all : Chained('userbase') Args(0) {
   my ( $self, $c ) = @_;
   $c->add_bc("Latest comments");
   $self->set_grouped_comments($c,'all',$c->d->forum->comments_grouped);
 }
 
-sub blog : Chained('base') Args(0) {
+sub blog : Chained('userbase') Args(0) {
   my ( $self, $c ) = @_;
   $c->add_bc("Latest company blog comments");
   $self->set_grouped_comments($c,'blog',$c->d->forum->comments_grouped_company_blog);
 }
 
-sub user_blog : Chained('base') Args(0) {
+sub user_blog : Chained('userbase') Args(0) {
   my ( $self, $c ) = @_;
   $c->add_bc("Latest user blog comments");
   $self->set_grouped_comments($c,'user_blog',$c->d->forum->comments_grouped_user_blog);
 }
 
-sub translation : Chained('base') Args(0) {
+sub translation : Chained('userbase') Args(0) {
   my ( $self, $c ) = @_;
   $c->add_bc("Latest translation comments");
   $self->set_grouped_comments($c,'translation',$c->d->forum->comments_grouped_translation);
 }
 
-sub search : Chained('base') Args(0) {
+sub search : Chained('userbase') Args(0) {
   my ( $self, $c ) = @_;
 
   $c->add_bc('Search');
@@ -82,12 +86,12 @@ sub search : Chained('base') Args(0) {
   ],{}),{ q => $c->stash->{query} });
 }
 
-sub thread_view : Chained('base') PathPart('') CaptureArgs(0) {
+sub thread_view : Chained('userbase') PathPart('') CaptureArgs(0) {
   my ( $self, $c ) = @_;
   push @{$c->stash->{template_layout}}, 'forum/thread.tx';
 }
 
-sub comment_view : Chained('base') PathPart('') CaptureArgs(0) {
+sub comment_view : Chained('userbase') PathPart('') CaptureArgs(0) {
   my ( $self, $c ) = @_;
   push @{$c->stash->{template_layout}}, 'forum/comment.tx';
 }

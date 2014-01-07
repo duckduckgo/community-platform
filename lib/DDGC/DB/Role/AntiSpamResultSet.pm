@@ -5,11 +5,11 @@ use Moose::Role;
 
 sub ghostbusted {
   $_[0]->search_rs([
-    { ghosted => undef },
-    $_[0]->d->cur_user() ? () : ({
-      ghosted => 1,
-      users_id => cur_user()->id
-    })
+    { $_[0]->me.'ghosted', 0 },
+    $_[0]->schema->ddgc->current_user() ? ({
+      $_[0]->me.'ghosted', 1,
+      $_[0]->me.'users_id', $_[0]->schema->ddgc->current_user()->id
+    }) : ()
   ]);
 }
 

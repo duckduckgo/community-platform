@@ -223,6 +223,8 @@ sub i_context_id {
 	return $self->id;
 }
 
+sub i_param { $_[0]->i_context.'|'.$_[0]->i_context_id }
+
 sub i_related {[
 	$_[0]->i_context,
 	$_[0]->i_context_id,
