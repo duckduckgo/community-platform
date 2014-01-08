@@ -1,0 +1,36 @@
+<div class="content-box">
+  <div class="head">
+    <h3>Currently open reports</h3>
+  </div>
+  <div class="body">
+    <: for $reports -> $report_obj { :>
+      <div class="report">
+        <div class="row">
+          <: i($moderation.user,'name') :>
+          produced content
+          <: i($moderation) :>
+          was reported
+        </div>
+        <div class="row">
+          <: i($moderation,'plaincontent') :>
+        </div>
+        <: for $report_obj.reports -> $report { :>
+          <div class="row">
+            <: $report.text :>
+            <a class="reportbuttonjs button grey" href="<: $u('Forum::Admin','reports',{
+              obj => $report_obj.i_param,
+              remove => $report.id,
+            }) :>">Remove this report</a>
+          </div>
+        <: } :>
+      </div>
+    <: } :>
+    <div class="row callout-row center">
+      <a class="button red" href="<: $u('Forum::Admin','moderations',{
+        approve => $moderations_i_params
+      }) :>">
+        Approve all users and their content
+      </a>
+    </div>
+  </div>
+</div>
