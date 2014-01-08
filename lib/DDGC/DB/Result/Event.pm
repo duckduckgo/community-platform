@@ -149,7 +149,7 @@ sub notify {
 				my $current_user = $user_notification->user;
 				if ($user_notification->user_notification_group->filter) {
 					next if 
-						$user_notification->user_notification_group->sub_context eq ''
+						$user_notification->user_notification_group->sub_context ne ''
 						&& !defined $self->get_related($user_notification->user_notification_group->context);
 					next unless $user_notification->user_notification_group->filter->(
 						$user_notification->user_notification_group->sub_context eq ''
