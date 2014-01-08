@@ -14,6 +14,13 @@ sub add_vote_count {
 	});
 }
 
+sub prefetch_all {
+  my ( $self ) = @_;
+  $self->search_rs({},{
+    prefetch => [qw( user )],
+  });
+}
+
 sub correlated_vote_count {
   my ( $self ) = @_;
   $self->correlate('idea_votes')->count_rs->as_query;

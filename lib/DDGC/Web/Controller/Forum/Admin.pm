@@ -18,20 +18,14 @@ sub base : Chained('/forum/base') PathPart('admin') CaptureArgs(0) {
   }
 }
 
+sub index : Chained('base') PathPart('') Args(0) {
+  my ( $self, $c ) = @_;
+ 
+}
+
 sub moderations : Chained('base') Args(0) {
   my ( $self, $c ) = @_;
 
-  $c->stash->{moderations} = [sort {
-    $a->created <=> $b->created
-  } map {
-    ($c->d->rs($_)->search({
-      ghosted => 1,
-      checked => undef,
-    })->all)
-  } qw( Idea Thread Comment )];
-  $c->stash->{moderations_i_params} = join(',',map {
-    $_->i_param
-  } @{$c->stash->{moderations}});
   my @approve = defined $c->req->param('approve')
     ? split(',',scalar $c->req->param('approve')) : ();
   my @approve_content = defined $c->req->param('approve_content')
@@ -42,8 +36,9 @@ sub moderations : Chained('base') Args(0) {
   if (@all) {
     eval {
       for (@approve,@approve_content) {
-        $c->ddgc->get_by_i_param($_)->ghosted_checked_by($c->user,0);
-        $c->ddgc->get_by_i_param($_)->update;
+        my $obj = $c->ddgc->get_by_i_param($_);
+        $obj->ghosted_checked_by($c->user,0);
+        $obj->update;
       }
       for (@approve) {
         my $user = $c->ddgc->get_by_i_param($_)->user;
@@ -51,8 +46,9 @@ sub moderations : Chained('base') Args(0) {
         $user->update;
       }
       for (@deny) {
-        $c->ddgc->get_by_i_param($_)->ghosted_checked_by($c->user,1);
-        $c->ddgc->get_by_i_param($_)->update;
+        my $obj = $c->ddgc->get_by_i_param($_);
+        $obj->ghosted_checked_by($c->user,1);
+        $obj->update;
       }
     };
     if ($@) {
@@ -60,8 +56,24 @@ sub moderations : Chained('base') Args(0) {
     } else {
       $c->stash->{x} = { ok => 1 };
     }
-    $c->forward('View::JSON');
-    return $c->detach;
+    if ($c->req->param('json')) {
+      $c->forward('View::JSON');
+      return $c->detach;
+    }
+  }
+
+  unless ($c->req->param('json')) {
+    $c->stash->{moderations} = [sort {
+      $a->created <=> $b->created
+    } map {
+      ($c->d->rs($_)->search({
+        'me.ghosted', 1,
+        'me.checked', undef,
+      })->prefetch_all->all)
+    } qw( Idea Thread Comment )];
+    $c->stash->{moderations_i_params} = join(',',map {
+      $_->i_param
+    } @{$c->stash->{moderations}});
   }
 }
 
