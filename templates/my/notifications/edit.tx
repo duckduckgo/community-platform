@@ -97,6 +97,22 @@
 			context_id => '*',
 			label => "... new votes on ideas you've submitted?",
 		} :>
+		<: if cur_user().is('forum_manager') { :>
+			<div class="row callout-row">
+				<i class="callout-row__icn--left  icon-check"></i>
+				<h4 class="callout-row__text  has-icon">Forum Manager Notifications</h4>
+			</div>
+			<: include my::notifications::option {
+				type => 'moderations',
+				context_id => '',
+				label => "... new unchecked content submitted by users?",
+			} :>	
+			<: include my::notifications::option {
+				type => 'reports',
+				context_id => '',
+				label => "... new reports on content submitted by users?",
+			} :>		
+		<: } :>
 		<div class="row callout-row">
 			<i class="callout-row__icn--left  icon-paperclip"></i>
 			<h4 class="callout-row__text  has-icon">General settings</h4>

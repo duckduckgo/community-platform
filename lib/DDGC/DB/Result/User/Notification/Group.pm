@@ -293,6 +293,7 @@ sub default_types_def {{
 		u => sub { ['Forum','reports'] },
 		group_context => '',
 		group_context_id => sub { 1 },
+		filter => sub { $_[0]->ghosted ? 1 : 0 },
 	},
 
 }}
