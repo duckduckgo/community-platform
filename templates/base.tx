@@ -26,5 +26,6 @@
 	<: if !$c.user { :>
 		<: include "modal_login.tx" :>
 	<: } :>
+		<: include "report_comments.tx" :>
 </body>
 </html>

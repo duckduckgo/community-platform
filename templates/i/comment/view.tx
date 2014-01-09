@@ -9,13 +9,13 @@
 		</div>
 	<: } :>
 
-:#	<!--div class="voting">
+:#	<div class="voting">
 :#	<button href="#" class="button upvote icon-arrow-up"></button>
 :#	<button href="#" class="button downvote icon-arrow-down"></button>
 :#	<: # make these count votes :>
 :#	<span class="votes positive">0</span>
 :#	<span class="votes negative">0</span>
-:#	</div-->
+:#	</div>
 	<div class="comment-body" id="comment_<: $_.id :>"> 
 		<div class="row content">
 			<div class="p">
@@ -35,6 +35,7 @@
 					<: } :>
 				<: } :>
 				<span class="comment-meta__link">&bull; <a href="<: $u('Forum','comment', $_.id ) :>">Link</a></span>
+				<span class="comment-meta__link  no-js-hide">&bull; <a href="#report_<: $_.id :>" class="js-reveal" data-reveal-id="report-comment" data-comment-id="<: $_.id :>">Report</a></span>
 				<: if !$no_kids && $children_count { :>
 					<a href="#" class="comment-toggle">
 						<i class="icon-minus-sign max-msg"></i>
