@@ -29,7 +29,7 @@
     <: } :>
     <div class="row">
       <a href="<: $u('Admin::User','user',$_.lc_username,{
-        $role, $_.ghosted() ? 0 : 1,
+        ghosted => $_.ghosted() ? 0 : 1,
       }) :>" class="button <: if $_.ghosted() { :>blue<: } else { :>grey<: } :>">
         <: if $_.ghosted() { :>
           Deactivate ghosting of this user
