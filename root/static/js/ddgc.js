@@ -407,6 +407,21 @@ $(document).ready(function() {
 	});
 	
 
+	// Report Comment Function
+	$('.js-report-comment').on('click', function(e) {
+		var	reportFormId = $(this).attr('data-reveal-id'),
+			$report = $('#'+reportFormId),
+			commentId = $(this).attr('data-comment-id'),
+			$commentField = $report.find('.js-report-id');
+		
+		if(commentId !== $commentField.val()) {
+			$commentField.val(commentId);
+			$report.find('.radio').removeAttr('checked');
+		}
+		
+	});
+	
+	
 	/*
 	 * Modified jQuery Reveal Plugin
 	 * Changted from ZURB's original code to use fixed positioning and the newer 'click' function as the trigger
