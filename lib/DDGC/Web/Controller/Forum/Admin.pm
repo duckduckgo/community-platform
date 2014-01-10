@@ -37,6 +37,7 @@ sub moderations : Chained('base') Args(0) {
     eval {
       for (@approve,@approve_content) {
         my $obj = $c->ddgc->get_by_i_param($_);
+        use DDP; p($obj);
         $obj->ghosted_checked_by($c->user,0);
         $obj->update;
       }
@@ -65,12 +66,21 @@ sub moderations : Chained('base') Args(0) {
   unless ($c->req->param('json')) {
     $c->stash->{moderations} = [sort {
       $a->created <=> $b->created
-    } map {
-      ($c->d->rs($_)->search({
+    } ( ( map {
+      $c->d->rs($_)->search({
         'me.ghosted', 1,
         'me.checked', undef,
-      })->prefetch_all->all)
-    } qw( Idea Thread Comment )];
+      })->prefetch_all->all
+    } qw( Idea Thread ) ),(
+      $c->d->rs('Comment')->search({
+        'me.ghosted', 1,
+        'me.checked', undef,
+        '-not' => { '-and' => {
+          'me.context', 'DDGC::DB::Result::Thread',
+          'me.parent_id', undef,
+        }},
+      })->prefetch_all->all 
+    ) ) ];
     $c->stash->{moderations_i_params} = join(',',map {
       $_->i_param
     } @{$c->stash->{moderations}});

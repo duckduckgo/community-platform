@@ -81,7 +81,6 @@ column updated => {
 };
 
 __PACKAGE__->add_antispam_functionality;
-__PACKAGE__->add_moderation_functionality;
 
 column old_url => {
 	data_type => 'text',
@@ -105,16 +104,26 @@ before insert => sub {
 
 after insert => sub {
   my ( $self ) = @_;
-  $self->add_event('create');
   $self->user->add_context_notification('forum_comments',$self);
-  unless ($self->ghosted) {
-  	$self->add_event('live');
-  }
 };
 
 after update => sub {
   my ( $self ) = @_;
   $self->add_event('update');
+  $self->schema->without_events(sub {
+  	if ($self->ghosted != $self->comment->ghosted) {
+  		$self->comment->ghosted($self->ghosted);
+  	}
+  	if (defined $self->checked) {
+  		if (defined $self->comment->checked) {
+  			$self->comment->checked($self->checked)
+  				if $self->comment->checked != $self->checked;
+  		} else {
+  			$self->comment->checked($self->checked);
+  		}
+  	}
+  	$self->comment->update;
+  });
 };
 
 sub sorted_screenshots {

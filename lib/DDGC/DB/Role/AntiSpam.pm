@@ -8,12 +8,42 @@ requires qw(
   ghosted
   reported
   checked
+  seen_live
 );
 
 before reported => sub {
   my ( $self ) = @_;
   $self->set_column('reported','[]') unless $self->get_column('reported');
 };
+
+before insert => sub {
+  my ( $self ) = @_;
+  unless (defined $self->ghosted) {
+    if ($self->user->ghosted) {
+      $self->ghosted(1);
+    } else {
+      $self->ghosted(0); $self->seen_live(1);
+    }
+  }
+};
+
+after insert => sub {
+  my ( $self ) = @_;
+  $self->add_event('create');
+  unless ($self->ghosted) {
+    $self->add_event('live');
+  }
+};
+
+sub ghosted_changed {
+  my ( $self, $old_value, $new_value ) = @_;
+  use DDP; p(@_);
+  # if ($old_value == 1 && $new_value == 0 && !$self->seen_live) {
+  #   $self->add_event('live');
+  #   $self->seen_live(1);
+  #   $self->update;
+  # }
+}
 
 sub add_report {
   my ( $self, $user, %data ) = @_;
