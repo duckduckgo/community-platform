@@ -116,20 +116,24 @@ sub add_antispam_functionality {
 	$class->add_column(ghosted => {
 		data_type => 'int',
 		default_value => 1,
+		keep_storage_value => 1,
 	});
 	$class->add_column(reported => {
 		data_type => 'text',
 		is_nullable => 0,
 		serializer_class => 'JSON',
 		default_value => '[]',
+		keep_storage_value => 1,
 	});
 	$class->add_column(checked => {
 		data_type => 'bigint',
 		is_nullable => 1,
+		keep_storage_value => 1,
 	});
 	$class->add_column(seen_live => {
 		data_type => 'int',
 		default_value => 0,
+		keep_storage_value => 1,
 	});
   apply_all_roles($class,'DDGC::DB::Role::AntiSpam');
   my $resultset_class = $class;

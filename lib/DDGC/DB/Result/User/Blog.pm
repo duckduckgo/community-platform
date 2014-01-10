@@ -95,6 +95,7 @@ column live => {
 	data_type => 'int', # bool
 	is_nullable => 0,
 	default_value => 0,
+	keep_storage_value => 1,
 };
 
 column language_id => {

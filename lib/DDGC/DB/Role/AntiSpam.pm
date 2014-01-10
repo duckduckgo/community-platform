@@ -37,12 +37,11 @@ after insert => sub {
 
 sub ghosted_changed {
   my ( $self, $old_value, $new_value ) = @_;
-  use DDP; p(@_);
-  # if ($old_value == 1 && $new_value == 0 && !$self->seen_live) {
-  #   $self->add_event('live');
-  #   $self->seen_live(1);
-  #   $self->update;
-  # }
+  if ($old_value == 1 && $new_value == 0 && !$self->seen_live) {
+    $self->add_event('live');
+    $self->seen_live(1);
+    $self->update;
+  }
 }
 
 sub add_report {
