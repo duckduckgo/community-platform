@@ -37,7 +37,6 @@ sub moderations : Chained('base') Args(0) {
     eval {
       for (@approve,@approve_content) {
         my $obj = $c->ddgc->get_by_i_param($_);
-        use DDP; p($obj);
         $obj->ghosted_checked_by($c->user,0);
         $obj->update;
       }
