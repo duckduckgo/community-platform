@@ -115,7 +115,6 @@ sub add_antispam_functionality {
 	my ( $class ) = @_;
 	$class->add_column(ghosted => {
 		data_type => 'int',
-		is_nullable => 0,
 		default_value => 1,
 	});
 	$class->add_column(reported => {
@@ -128,15 +127,18 @@ sub add_antispam_functionality {
 		data_type => 'bigint',
 		is_nullable => 1,
 	});
+	$class->add_column(seen_live => {
+		data_type => 'int',
+		default_value => 0,
+	});
   apply_all_roles($class,'DDGC::DB::Role::AntiSpam');
   my $resultset_class = $class;
   $resultset_class =~ s/::Result::/::ResultSet::/g;
   apply_all_roles($resultset_class,'DDGC::DB::Role::AntiSpamResultSet');
-}
-
-sub add_moderation_functionality {
-	my ( $class ) = @_;
-  apply_all_roles($class,'DDGC::DB::Role::IsModerated');	
+	$class->after_column_change( ghosted => {
+		method   => 'ghosted_changed',
+		txn_wrap => 1,
+	});
 }
 
 sub default_result_namespace { 'DDGC::DB::Result' }

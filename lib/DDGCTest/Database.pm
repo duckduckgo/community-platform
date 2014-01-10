@@ -834,6 +834,10 @@ sub threads {[
 		],
 		sticky => 1,
 	},
+	testfive => {
+		title => "Hello, Spam!",
+		content => "Hello, Spam!",
+	},
 	testtwo => {
 		title => "Hello, World!",
 		content => "Hello, World!\n[code=perl]#!/usr/bin/env perl\nprint \"Hello, World!\";[/code]\n[code=lua]print(\"Hello, World\")[/code]\n[code=javascript]alert('Hello, World!');[/code]\n[quote=shakespeare](bb|[^b]{2})[/quote]\n\@testtwo I love you!",
@@ -1307,6 +1311,7 @@ sub ideas {{
 				],
 				testtwo => [ 'Deeeeeeeeeper',
 					testone => "Deeeeeeeeeeeeper",
+					testfive => 'SPAM!',
 				],
 			],
 		],
@@ -1325,8 +1330,18 @@ sub ideas {{
 		comments => [
 			testone => "Blabla",
 			testtwo => "blub",
+			testfive => 'SPAM!',
 		],
 		votes => [qw( test10 testone test2 test23 test12 )],
+	}],
+	testfive => [{
+		title => 'I, also, Have A Spammy Idea',
+		content => "Lalalalala testfive",
+		type => 2,
+	},{
+		title => 'I Have Another Spammy Idea, too',
+		content => "Lalalalala testfive 2",
+		type => 1,
 	}],
 	testthree => [map {{
 		title => 'Mass Idea '.$_,

@@ -79,7 +79,6 @@ column updated => {
 };
 
 __PACKAGE__->add_antispam_functionality;
-__PACKAGE__->add_moderation_functionality;
 
 column parent_id => {
 	data_type => 'bigint',
@@ -108,11 +107,7 @@ sub comments { shift->children_rs }
 
 after insert => sub {
 	my ( $self ) = @_;
-	$self->add_event('create');
 	$self->user->add_context_notification('replies',$self);
-  unless ($self->ghosted) {
-  	$self->add_event('live');
-  }
 };
 
 after update => sub {
