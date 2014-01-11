@@ -277,23 +277,21 @@ sub default_types_def {{
 		u => sub { ['Forum','moderation'] },
 		group_context => '',
 		group_context_id => sub { 1 },
-		filter => sub { $_[0]->ghosted ? 1 : 0 },
+		filter => sub { ( $_[0]->ghosted && $_[1]->is('forum_manager') ) ? 1 : 0 },
 	},
 
 	'reports' => {
 		context => [qw(
-			DDGC::DB::Result::Comment
-			DDGC::DB::Result::Idea
-			DDGC::DB::Result::Thread
+			DDGC::DB::Result::User::Report
 		)],
 		context_id => '',
 		sub_context => '',
-		action => 'report',
+		action => 'create',
 		icon => 'globe',
 		u => sub { ['Forum','reports'] },
 		group_context => '',
 		group_context_id => sub { 1 },
-		filter => sub { $_[0]->ghosted ? 1 : 0 },
+		filter => sub { $_[1]->is('forum_manager') ? 1 : 0 },
 	},
 
 }}

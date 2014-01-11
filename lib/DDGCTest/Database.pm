@@ -790,8 +790,6 @@ sub add_comments {
 				my $username = delete $_->{user};
 				$comment->add_report($user,%{$_});
 			}
-			$comment->update;
-			$self->is(scalar @{$comment->reported},$report_count,'Report count correct');
 		}
 	}
 }

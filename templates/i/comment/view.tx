@@ -35,7 +35,9 @@
 					<: } :>
 				<: } :>
 				<span class="comment-meta__link">&bull; <a href="<: $u('Forum','comment', $_.id ) :>">Link</a></span>
-				<span class="comment-meta__link  no-js-hide">&bull; <a href="#report_<: $_.id :>" class="js-reveal  js-report-comment" data-reveal-id="report-comment" data-comment-id="<: $_.id :>">Report</a></span>
+				<span class="comment-meta__link  no-js-hide">&bull;
+					<: i('report',$_) :>
+				</span>
 				<: if !$no_kids && $children_count { :>
 					<a href="#" class="comment-toggle">
 						<i class="icon-minus-sign max-msg"></i>

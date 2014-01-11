@@ -118,6 +118,10 @@ sub privacy :Chained('logged_in') :Args(0) {
 	return $c->detach;
 }
 
+sub report :Chained('logged_in') :Args(0) {
+	my ( $self, $c ) = @_;
+}
+
 sub account :Chained('logged_in') :Args(0) {
 	my ( $self, $c ) = @_;
 

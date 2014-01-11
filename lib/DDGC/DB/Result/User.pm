@@ -184,6 +184,9 @@ has_many 'user_notification_matrixes', 'DDGC::DB::Result::User::Notification::Ma
 has_many 'user_blogs', 'DDGC::DB::Result::User::Blog', 'users_id', {
   cascade_delete => 1,
 };
+has_many 'user_reports', 'DDGC::DB::Result::User::Report', 'users_id', {
+  cascade_delete => 0,
+};
 
 many_to_many 'languages', 'user_languages', 'language';
 
@@ -346,6 +349,15 @@ sub public_username {
 		return $self->username;
 	}
 	return;
+}
+
+sub add_report {
+	my ( $self, $context, $context_id, %data ) = @_;
+	return $self->create_related('user_reports',{
+		context => $context,
+		context_id => $context_id,
+		%data,
+	});
 }
 
 sub last_comments {

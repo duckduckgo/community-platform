@@ -23,6 +23,7 @@
       <: } :>
 	  
       <div class="pull-right">
+        <: i('report',$_) :>
         <: if !$no_reply && $c.user { :>
             <a class="right  js-thread-reply  no-js-hide" href="#"><i class="thread__foot__icon  icon-reply"></i>Reply</a>
             <a class="right  js-thread-cancel  no-js-hide  hide" href="#"><i class="thread__foot__icon  icon-remove"></i>Cancel</a>

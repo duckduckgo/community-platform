@@ -436,17 +436,18 @@ $(document).ready(function() {
 	
 
 	// Report Comment Function
-	$('.js-report-comment').on('click', function(e) {
+	$('.js-report-content').on('click', function(e) {
 		var	reportFormId = $(this).attr('data-reveal-id'),
-			$report = $('#'+reportFormId),
-			commentId = $(this).attr('data-comment-id'),
-			$commentField = $report.find('.js-report-id');
-		
+		$report = $('#'+reportFormId),
+		contextId = $(this).attr('data-context-id'),
+		context = $(this).attr('data-context'),
+		$commentField = $report.find('.js-report-id');
+
 		if(commentId !== $commentField.val()) {
 			$commentField.val(commentId);
 			$report.find('.radio').removeAttr('checked');
 		}
-		
+
 	});
 	
 	

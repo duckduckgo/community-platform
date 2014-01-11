@@ -118,13 +118,6 @@ sub add_antispam_functionality {
 		default_value => 1,
 		keep_storage_value => 1,
 	});
-	$class->add_column(reported => {
-		data_type => 'text',
-		is_nullable => 0,
-		serializer_class => 'JSON',
-		default_value => '[]',
-		keep_storage_value => 1,
-	});
 	$class->add_column(checked => {
 		data_type => 'bigint',
 		is_nullable => 1,

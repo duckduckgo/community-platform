@@ -6,15 +6,9 @@ use DateTime;
 
 requires qw(
   ghosted
-  reported
   checked
   seen_live
 );
-
-before reported => sub {
-  my ( $self ) = @_;
-  $self->set_column('reported','[]') unless $self->get_column('reported');
-};
 
 before insert => sub {
   my ( $self ) = @_;
@@ -46,19 +40,7 @@ sub ghosted_changed {
 
 sub add_report {
   my ( $self, $user, %data ) = @_;
-  my $highest_id = 0;
-  for (@{$self->reported}) {
-    $highest_id = $_->{id} if $_->{id} > $highest_id;
-  }
-  my $report_data = {
-    users_id => $user->id,
-    time => DateTime->now->epoch,
-    id => $highest_id + 1,
-    %data,
-  };
-  push @{$self->reported}, $report_data;
-  $self->make_column_dirty('reported');
-  $self->add_event('report',%{$report_data});
+  $user->add_report($self->i_context,$self->i_context_id,%data);
 }
 
 sub delete_report {

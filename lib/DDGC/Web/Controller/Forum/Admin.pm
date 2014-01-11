@@ -20,7 +20,6 @@ sub base : Chained('/forum/base') PathPart('admin') CaptureArgs(0) {
 
 sub index : Chained('base') PathPart('') Args(0) {
   my ( $self, $c ) = @_;
- 
 }
 
 sub moderations : Chained('base') Args(0) {
@@ -89,13 +88,9 @@ sub moderations : Chained('base') Args(0) {
 sub reports : Chained('base') Args(0) {
   my ( $self, $c ) = @_;
 
-  $c->stash->{reports} = [sort {
-    $a->created <=> $b->created
-  } map {
-    ($c->d->rs($_)->search({
-      reported => { '!=' => '[]' },
-    })->all)
-  } qw( Idea Thread Comment )];
+  $c->stash->{reports} = $c->d->rs('User::Report')->search_rs({},{
+    order_by => { -desc => 'created' },
+  })->prefetch_all;
 }
 
 no Moose;
