@@ -25,6 +25,9 @@ sub index : Chained('base') PathPart('') Args(0) {
 sub moderations : Chained('base') Args(0) {
   my ( $self, $c ) = @_;
 
+  $c->stash->{title} = 'Moderations';
+  $c->add_bc($c->stash->{title}, '');
+
   my @approve = defined $c->req->param('approve')
     ? split(',',scalar $c->req->param('approve')) : ();
   my @approve_content = defined $c->req->param('approve_content')
@@ -88,8 +91,13 @@ sub moderations : Chained('base') Args(0) {
 sub reports : Chained('base') Args(0) {
   my ( $self, $c ) = @_;
 
-  $c->stash->{reports} = $c->d->rs('User::Report')->search_rs({},{
-    order_by => { -desc => 'created' },
+  $c->stash->{title} = 'Reports';
+  $c->add_bc($c->stash->{title}, '');
+
+  $c->stash->{reports} = $c->d->rs('User::Report')->search_rs({
+    'me.checked' => undef,
+  },{
+    order_by => { -desc => 'me.created' },
   })->prefetch_all;
 }
 

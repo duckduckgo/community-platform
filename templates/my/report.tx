@@ -1,0 +1,7 @@
+<h1>
+<: if $x.ok { :>
+  Thanks for your report!
+<: } else if $x.error { :>
+  There was an error while we tried to write down your report, please try again later, or contact support via the feedback form.
+<: } :>
+</h1>

@@ -3,26 +3,23 @@
     <h3>Currently open reports</h3>
   </div>
   <div class="body">
-    <: for $reports -> $report_obj { :>
+    <: for results($reports) -> $report { :>
       <div class="report">
         <div class="row">
-          <: i($moderation.user,'name') :>
-          produced content
-          <: i($moderation) :>
-          was reported
+          <: i($report.user,'name') :>
+          reported
+          <: i($report.get_context_obj) :>
         </div>
         <div class="row">
-          <: i($moderation,'plaincontent') :>
-        </div>
-        <: for $report_obj.reports -> $report { :>
-          <div class="row">
+          <: i($report.get_context_obj,'plaincontent') :>
+          <hr>
+          <b>Report:</b>
+          <: if $report.type == '0' { :>
             <: $report.text :>
-            <a class="reportbuttonjs button grey" href="<: $u('Forum::Admin','reports',{
-              obj => $report_obj.i_param,
-              remove => $report.id,
-            }) :>">Remove this report</a>
-          </div>
-        <: } :>
+          <: } else { :>
+            <: $report.type :>
+          <: } :>
+        </div>
       </div>
     <: } :>
     <div class="row callout-row center">

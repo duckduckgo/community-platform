@@ -62,6 +62,11 @@ column data => {
   default_value => '{}',
 };
 
+column checked => {
+  data_type => 'bigint',
+  is_nullable => 1,
+};
+
 column created => {
   data_type => 'timestamp with time zone',
   set_on_create => 1,
@@ -74,6 +79,10 @@ column updated => {
 };
 
 belongs_to 'user', 'DDGC::DB::Result::User', 'users_id', {
+  on_delete => 'no action',
+};
+
+belongs_to 'user_checked', 'DDGC::DB::Result::User', 'checked', {
   on_delete => 'no action',
 };
 
