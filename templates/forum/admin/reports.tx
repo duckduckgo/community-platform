@@ -22,19 +22,19 @@
         </div>
         <div class="row">
           <a class="report__close button blue" href="<: $u('Forum::Admin','reports',{
-            checked => $report.get_context_obj.i_param,
+            checked => $report.id,
             json => 1,
           }) :>">
             Mark as checked (no action)
           </a>
           <a class="report__close button grey" href="<: $u('Forum::Admin','reports',{
-            ghost_content => $report.get_context_obj.i_param,
+            ghost_content => $report.id,
             json => 1,
           }) :>">
             Ghost only the content
           </a>
           <a class="report__close button red" href="<: $u('Forum::Admin','reports',{
-            ghost => $report.get_context_obj.i_param,
+            ghost => $report.id,
             json => 1,
           }) :>">
             Ghost this content and the user!

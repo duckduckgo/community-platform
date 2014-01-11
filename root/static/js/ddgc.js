@@ -277,6 +277,34 @@ $(document).ready(function() {
 			});
 		});
 
+	/*
+	 *
+	 * Reports
+	 *
+	 */
+
+		$('a.report__close').click(function(e){
+			e.preventDefault();
+			var parent = $(this).parent().parent();
+			parent.css('background-color', 'red');
+			$.ajax({
+				url: $(this).attr('href'),
+				beforeSend: function(xhr) {				
+					parent.addClass('notification--close');
+				},
+				success: function(data) {
+					if (data.ok) {
+						parent.hide('slow', function(){ parent.remove(); });
+					} else {
+						if (data.error) {
+							alert(data.error);
+						}
+						parent.removeClass('notification--close');
+					}
+				}
+			});
+		});
+
 /* TODO - these next six are way too similar - they should be abstracted to a function/plugin */
     
     $('.js-thread-reply').click(function(e){

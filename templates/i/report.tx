@@ -1,4 +1,4 @@
-<: if cur_user() && !cur_user().ghosted { :>
+<: if cur_user() { :>
   <a href="#report_<:# $_.i_context :>_<: $_.i_context_id :>" class="js-reveal js-report-content" data-reveal-id="report-content" data-context="<: $_.i_context :>" data-context-id="<: $_.i_context_id :>">
     Report
   </a>
