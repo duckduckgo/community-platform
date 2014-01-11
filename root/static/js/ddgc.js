@@ -441,10 +441,12 @@ $(document).ready(function() {
 		$report = $('#'+reportFormId),
 		contextId = $(this).attr('data-context-id'),
 		context = $(this).attr('data-context'),
-		$commentField = $report.find('.js-report-id');
+		$contextField = $report.find('.js-context'),
+		$contextIdField = $report.find('.js-context-id');
 
-		if(commentId !== $commentField.val()) {
-			$commentField.val(commentId);
+		if(contextId !== $contextIdField.val()) {
+			$contextField.val(context);
+			$contextIdField.val(contextId);
 			$report.find('.radio').removeAttr('checked');
 		}
 

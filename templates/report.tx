@@ -1,4 +1,4 @@
-<div id="report-comment" class="reveal-modal modal-form account-form">
+<div id="report-content" class="reveal-modal modal-form account-form">
 	<h4>Report Content</h4>
 	<p class="report-subtitle">Report this content for:</p>
 	<form action="<: $u('My','report', { json => 1 }) :>" method="post">
