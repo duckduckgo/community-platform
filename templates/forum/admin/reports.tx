@@ -20,14 +20,27 @@
             <: $report.type :>
           <: } :>
         </div>
+        <div class="row">
+          <a class="report__close button blue" href="<: $u('Forum::Admin','reports',{
+            checked => $report.get_context_obj.i_param,
+            json => 1,
+          }) :>">
+            Mark as checked (no action)
+          </a>
+          <a class="report__close button grey" href="<: $u('Forum::Admin','reports',{
+            ghost_content => $report.get_context_obj.i_param,
+            json => 1,
+          }) :>">
+            Ghost only the content
+          </a>
+          <a class="report__close button red" href="<: $u('Forum::Admin','reports',{
+            ghost => $report.get_context_obj.i_param,
+            json => 1,
+          }) :>">
+            Ghost this content and the user!
+          </a>
+        </div>
       </div>
     <: } :>
-    <div class="row callout-row center">
-      <a class="button red" href="<: $u('Forum::Admin','moderations',{
-        approve => $moderations_i_params
-      }) :>">
-        Approve all users and their content
-      </a>
-    </div>
   </div>
 </div>

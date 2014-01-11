@@ -94,11 +94,41 @@ sub reports : Chained('base') Args(0) {
   $c->stash->{title} = 'Reports';
   $c->add_bc($c->stash->{title}, '');
 
-  $c->stash->{reports} = $c->d->rs('User::Report')->search_rs({
-    'me.checked' => undef,
-  },{
-    order_by => { -desc => 'me.created' },
-  })->prefetch_all;
+  my @ghost = defined $c->req->param('ghost')
+    ? split(',',scalar $c->req->param('ghost')) : ();
+  my @ghost_content = defined $c->req->param('ghost_content')
+    ? split(',',scalar $c->req->param('ghost_content')) : ();
+  my @checked = defined $c->req->param('checked')
+    ? split(',',scalar $c->req->param('checked')) : ();
+  my @all = (@ghost, @ghost_content, @checked);
+
+  if (@all) {
+    eval {
+      for (@ghost,@ghost_content) {
+      }
+      for (@ghost) {
+      }
+      for (@checked) {
+      }
+    };
+    if ($@) {
+      $c->stash->{x} = { error => $@ };
+    } else {
+      $c->stash->{x} = { ok => 1 };
+    }
+    if ($c->req->param('json')) {
+      $c->forward('View::JSON');
+      return $c->detach;
+    }
+  }
+
+  unless ($c->req->param('json')) {
+    $c->stash->{reports} = $c->d->rs('User::Report')->search_rs({
+      'me.checked' => undef,
+    },{
+      order_by => { -desc => 'me.created' },
+    })->prefetch_all;
+  }
 }
 
 no Moose;
