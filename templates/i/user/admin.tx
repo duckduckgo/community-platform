@@ -37,6 +37,15 @@
           Activate ghosting of this user
         <: } :>
       </a>
+      <a href="<: $u('Admin::User','user',$_.lc_username,{
+        ignore => $_.ignore() ? 0 : 1,
+      }) :>" class="button <: if $_.ignore() { :>blue<: } else { :>red<: } :>">
+        <: if $_.ignore() { :>
+          Reallow content for moderation
+        <: } else { :>
+          Ignore all his content and reports
+        <: } :>
+      </a>
     </div>
     <div class="row">
       <: my $email = $_.email || ( $_.data && $_.data.email ) :>

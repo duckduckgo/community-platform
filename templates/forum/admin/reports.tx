@@ -1,6 +1,22 @@
 <div class="content-box">
   <div class="head">
     <h3>Currently open reports</h3>
+    <: if cur_user().admin { :>
+      <a class="button grey" href="<: $u('Forum::Admin','reports',{ show_ignore => $show_ignore ? 0 : 1 }) :>">
+        <: if $show_ignore { :>
+          Show not ignored reports
+        <: } else { :>
+          Show auto ignored reports
+        <: } :>
+      </a>
+      <a class="button blue" href="<: $u('Forum::Admin','reports',{ show_ignore => $show_checked ? 0 : 1 }) :>">
+        <: if $show_checked { :>
+          Show unchecked reports
+        <: } else { :>
+          Show already checked reports
+        <: } :>
+      </a>
+    <: } :>
   </div>
   <div class="body">
     <: for results($reports) -> $report { :>
@@ -11,13 +27,20 @@
         <div class="row">
           <: i($report,'view') :>
         </div>
+        <: if $report.checked { :>
+          <div class="row">
+            Checked by <: i($report.user_checked) :>
+          </div>
+        <: } :>
         <div class="row">
-          <a class="report__close button blue" href="<: $u('Forum::Admin','reports',{
-            checked => $report.id,
-            json => 1,
-          }) :>">
-            Mark as checked (no action)
-          </a>
+          <: if !$report.checked { :>
+            <a class="report__close button blue" href="<: $u('Forum::Admin','reports',{
+              checked => $report.id,
+              json => 1,
+            }) :>">
+              Mark as checked (no action)
+            </a>
+          <: } :>
           <a class="report__close button grey" href="<: $u('Forum::Admin','reports',{
             ghost_content => $report.id,
             json => 1,
@@ -30,6 +53,14 @@
           }) :>">
             Ghost this content and the user!
           </a>
+          <: if cur_user().admin { :>
+            <a class="report__close button red" href="<: $u('Forum::Admin','reports',{
+              delete => $report.id,
+              json => 1,
+            }) :>">
+              Delete report
+            </a>
+          <: } :>
         </div>
       </div>
     <: } :>

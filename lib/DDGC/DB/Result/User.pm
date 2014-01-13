@@ -62,6 +62,12 @@ column ghosted => {
 	default_value => 1,
 };
 
+column ignore => {
+	data_type => 'int',
+	is_nullable => 0,
+	default_value => 0,
+};
+
 column email => {
 	data_type => 'text',
 	is_nullable => 1,

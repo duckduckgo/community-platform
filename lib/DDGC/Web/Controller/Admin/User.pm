@@ -35,6 +35,11 @@ sub user_base :Chained('base') :PathPart('view') :CaptureArgs(1) {
 			? $c->stash->{user}->ghosted(1)
 			: $c->stash->{user}->ghosted(0)
 	}
+	if (defined $c->req->params->{ignore}) {
+		$c->req->param('ignore')
+			? $c->stash->{user}->ignore(1)
+			: $c->stash->{user}->ignore(0)
+	}
 	if (defined $c->req->params->{changepass} && defined $c->req->params->{newpass} && length($c->req->params->{newpass})) {
 		if ($c->req->params->{newpass} eq $c->req->params->{newpass2}) {
 			$c->d->update_password($c->stash->{user}->username,$c->req->params->{newpass});

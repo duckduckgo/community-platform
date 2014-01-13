@@ -1,1 +1,1 @@
-<: i($_.user,'name') :> reported <: i($_.get_context_obj) :>
+<: i($_.user) :> reported <: i($_.get_context_obj) :>

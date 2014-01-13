@@ -277,7 +277,9 @@ sub default_types_def {{
 		u => sub { ['Forum','moderation'] },
 		group_context => '',
 		group_context_id => sub { 1 },
-		filter => sub { ( $_[0]->ghosted && $_[1]->is('forum_manager') ) ? 1 : 0 },
+		filter => sub { (
+			$_[0]->ghosted && !$_[0]->user->ignore && $_[1]->is('forum_manager')
+		) ? 1 : 0 },
 	},
 
 	'reports' => {
@@ -291,7 +293,9 @@ sub default_types_def {{
 		u => sub { ['Forum','reports'] },
 		group_context => '',
 		group_context_id => sub { 1 },
-		filter => sub { $_[1]->is('forum_manager') ? 1 : 0 },
+		filter => sub { (
+			!$_[0]->user->ignore && $_[1]->is('forum_manager')
+		) ? 1 : 0 },
 	},
 
 }}

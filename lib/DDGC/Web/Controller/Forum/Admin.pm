@@ -100,7 +100,13 @@ sub reports : Chained('base') Args(0) {
     ? split(',',scalar $c->req->param('ghost_content')) : ();
   my @checked = defined $c->req->param('checked')
     ? split(',',scalar $c->req->param('checked')) : ();
-  my @all = (@ghost, @ghost_content, @checked);
+  my @delete;
+  if ($c->user->admin) {
+    @delete = defined $c->req->param('delete')
+      ? split(',',scalar $c->req->param('delete')) : ();
+  }
+
+  my @all = (@ghost, @ghost_content, @checked, @delete);
 
   if (@all) {
     eval {
@@ -125,6 +131,9 @@ sub reports : Chained('base') Args(0) {
         $r->checked($c->user->id);
         $r->update;
       }
+      for (@delete) {
+        $c->d->rs('User::Report')->find($_)->delete;
+      }
     };
     if ($@) {
       $c->stash->{x} = { error => $@ };
@@ -137,12 +146,24 @@ sub reports : Chained('base') Args(0) {
     }
   }
 
+  $c->stash->{show_ignore} = $c->req->param('show_ignore') ? 1 : 0;
+  $c->stash->{show_checked} = ($c->user->admin && $c->req->param('show_checked')) ? 1 : 0;
+
   unless ($c->req->param('json')) {
-    $c->stash->{reports} = $c->d->rs('User::Report')->search_rs({
-      'me.checked' => undef,
-    },{
-      order_by => { -desc => 'me.created' },
-    })->prefetch_all;
+    if ($c->stash->{show_checked}) {
+      $c->stash->{reports} = $c->d->rs('User::Report')->search_rs({
+        'me.checked' => { '!=' => undef },
+      },{
+        order_by => { -desc => 'me.created' },
+      })->prefetch_all;
+    } else {
+      $c->stash->{reports} = $c->d->rs('User::Report')->search_rs({
+        'me.checked' => undef,
+        'me.ignore' => $c->stash->{show_ignore},
+      },{
+        order_by => { -desc => 'me.created' },
+      })->prefetch_all;
+    }
   }
 }
 

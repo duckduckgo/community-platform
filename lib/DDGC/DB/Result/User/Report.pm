@@ -67,6 +67,12 @@ column checked => {
   is_nullable => 1,
 };
 
+column ignore => {
+  data_type => 'int',
+  is_nullable => 0,
+  default_value => 0,
+};
+
 column created => {
   data_type => 'timestamp with time zone',
   set_on_create => 1,
@@ -84,6 +90,13 @@ belongs_to 'user', 'DDGC::DB::Result::User', 'users_id', {
 
 belongs_to 'user_checked', 'DDGC::DB::Result::User', 'checked', {
   on_delete => 'no action',
+};
+
+before insert => sub {
+  my ( $self ) = @_;
+  if ($self->user->ignore) {
+    $self->ignore(1);
+  }
 };
 
 after insert => sub {

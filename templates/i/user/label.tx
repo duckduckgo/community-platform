@@ -7,3 +7,8 @@
 <: if $_.public && !$no_user_link { :>
   </a>
 <: } :>
+<: if cur_user().admin { :>
+  <a target="adminuserview" href="<: $u('Admin::User','user',$_.lc_username) :>">
+    [A]
+  </a>
+<: } :>
