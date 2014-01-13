@@ -115,18 +115,14 @@ sub reports : Chained('base') Args(0) {
         my $o = $r->get_context_obj;
         $o->ghosted_checked_by($c->user,1);
         $o->update;
-        $r->checked($c->user->id);
-        $r->update;
       }
       for (@ghost) {
         my $r = $c->d->rs('User::Report')->find($_);
         my $u = $r->get_context_obj->user;
         $u->ghosted(1);
         $u->update;
-        $r->checked($c->user->id);
-        $r->update;
       }
-      for (@checked) {
+      for (@all) {
         my $r = $c->d->rs('User::Report')->find($_);
         $r->checked($c->user->id);
         $r->update;

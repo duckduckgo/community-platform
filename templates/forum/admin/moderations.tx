@@ -6,7 +6,7 @@
     <: for $moderations -> $moderation { :>
       <div class="moderation">
         <div class="row">
-          <: i($moderation.user,'name') :>
+          <: i($moderation.user) :>
           produced ghosted content
           <: i($moderation) :>
         </div>
