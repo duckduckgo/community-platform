@@ -1,13 +1,7 @@
 <: for results($_.event_notifications) -> $event_notification { :>
   <div <: style("quote") :>>
-    <: i($event_notification.event.user,'name') :> reports <: i($event_notification.event.get_context_obj) :>
+    <: i($event_notification.event.get_context_obj) :>
     <hr <: style("hr") :>>
-    <: i($event_notification.event.get_context_obj,'plaincontent') :>
-    <hr <: style("hr") :>>
-    <: if $event_notification.event.data.text { :>
-      Report: <b><: $event_notification.event.data.text :></b>
-    <: } else { :>
-      Please view more details on the report on the web interface.
-    <: } :>
+    <: i($event_notification.event.get_context_obj,'view') :>
   </div>
 <: } :>

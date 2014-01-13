@@ -1,0 +1,8 @@
+<: i($_.get_context_obj,'plaincontent') :>
+<hr <: style("hr") :>>
+<b>Report:</b>
+<: if $_.type == '0' { :>
+  <: $_.text :>
+<: } else { :>
+  <: $_.type :>
+<: } :>

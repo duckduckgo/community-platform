@@ -6,19 +6,10 @@
     <: for results($reports) -> $report { :>
       <div class="report">
         <div class="row">
-          <: i($report.user,'name') :>
-          reported
-          <: i($report.get_context_obj) :>
+          <: i($report) :>
         </div>
         <div class="row">
-          <: i($report.get_context_obj,'plaincontent') :>
-          <hr>
-          <b>Report:</b>
-          <: if $report.type == '0' { :>
-            <: $report.text :>
-          <: } else { :>
-            <: $report.type :>
-          <: } :>
+          <: i($report,'view') :>
         </div>
         <div class="row">
           <a class="report__close button blue" href="<: $u('Forum::Admin','reports',{
