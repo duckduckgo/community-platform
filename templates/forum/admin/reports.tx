@@ -9,7 +9,7 @@
           Show auto ignored reports
         <: } :>
       </a>
-      <a class="button blue" href="<: $u('Forum::Admin','reports',{ show_ignore => $show_checked ? 0 : 1 }) :>">
+      <a class="button blue" href="<: $u('Forum::Admin','reports',{ show_checked => $show_checked ? 0 : 1 }) :>">
         <: if $show_checked { :>
           Show unchecked reports
         <: } else { :>
