@@ -63,10 +63,14 @@ sub first_event_notification {
 sub icon { $_[0]->user_notification_group->icon }
 
 sub u {
-	my ( $self ) = @_;
+	my ( $self, @args ) = @_;
+	my $ung_u = $self->user_notification_group->u;
+	if ($ung_u) {
+		return $ung_u->($self,@args);
+	}
 	my $group_object = $self->group_object;
 	if ($group_object) {
-		return $group_object->u;
+		return $group_object->u(@args);
 	}
 	return ['Root','index',{ notification_link_error => 1 }]
 }

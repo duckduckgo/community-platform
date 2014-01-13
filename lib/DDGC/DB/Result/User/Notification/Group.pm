@@ -274,7 +274,7 @@ sub default_types_def {{
 		sub_context => '',
 		action => 'create',
 		icon => 'globe',
-		u => sub { ['Forum','moderation'] },
+		u => sub { ['Forum::Admin','moderations'] },
 		group_context => '',
 		group_context_id => sub { 1 },
 		filter => sub { (
@@ -290,7 +290,7 @@ sub default_types_def {{
 		sub_context => '',
 		action => 'create',
 		icon => 'globe',
-		u => sub { ['Forum','reports'] },
+		u => sub { ['Forum::Admin','reports'] },
 		group_context => '',
 		group_context_id => sub { 1 },
 		filter => sub { (
