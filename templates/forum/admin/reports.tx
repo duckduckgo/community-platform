@@ -1,7 +1,8 @@
 <div class="content-box">
   <div class="head">
-    <h3>Currently open reports</h3>
+    <h2>Open Reports</h2>
     <: if cur_user().admin { :>
+	<span class="pull-right  button-group">
       <a class="button grey" href="<: $u('Forum::Admin','reports',{ show_ignore => $show_ignore ? 0 : 1 }) :>">
         <: if $show_ignore { :>
           Show not ignored reports
@@ -16,11 +17,12 @@
           Show already checked reports
         <: } :>
       </a>
+	</span>
     <: } :>
   </div>
   <div class="body">
     <: for results($reports) -> $report { :>
-      <div class="report">
+      <div class="report  row">
         <div class="row">
           <: i($report) :>
         </div>
@@ -33,32 +35,38 @@
           </div>
         <: } :>
         <div class="row">
+		<span class="button-group">
           <: if !$report.checked { :>
-            <a class="report__close button blue" href="<: $u('Forum::Admin','reports',{
+            <a class="report__close button" href="<: $u('Forum::Admin','reports',{
               checked => $report.id,
               json => 1,
             }) :>">
-              Mark as checked (no action)
+			  <i class="icon icon-thumbs-up"></i>
+              Do Nothing
             </a>
           <: } :>
-          <a class="report__close button grey" href="<: $u('Forum::Admin','reports',{
+          <a class="report__close button" href="<: $u('Forum::Admin','reports',{
             ghost_content => $report.id,
             json => 1,
           }) :>">
-            Ghost only the content
+		    <i class="icon icon-thumbs-down"></i>
+            Ghost It
           </a>
-          <a class="report__close button red" href="<: $u('Forum::Admin','reports',{
+          <a class="report__close button" href="<: $u('Forum::Admin','reports',{
             ghost => $report.id,
             json => 1,
           }) :>">
-            Ghost this content and the user!
+			<i class="icon  icon-ban-circle"></i>
+			Ghost User
           </a>
+		</span>
           <: if cur_user().admin { :>
-            <a class="report__close button red" href="<: $u('Forum::Admin','reports',{
+            <a class="report__close button pull-right" href="<: $u('Forum::Admin','reports',{
               delete => $report.id,
               json => 1,
             }) :>">
-              Delete report
+			  <i class="icon icon-trash"></i>
+              Delete Report
             </a>
           <: } :>
         </div>

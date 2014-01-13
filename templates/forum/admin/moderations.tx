@@ -1,10 +1,10 @@
 <div class="content-box">
   <div class="head">
-    <h3>Currently open moderations</h3>
+    <h2>Open Items for Moderation</h2>
   </div>
   <div class="body">
     <: for $moderations -> $moderation { :>
-      <div class="moderation">
+      <div class="moderation row">
         <div class="row">
           <: i($moderation.user) :>
           produced ghosted content
@@ -13,33 +13,37 @@
         <div class="row">
           <: i($moderation,'plaincontent') :>
         </div>
-        <div class="row">
-          <a class="moderation__close button blue" href="<: $u('Forum::Admin','moderations',{
+        <div class="row  button-group">
+          <a class="moderation__close button  lightblue" href="<: $u('Forum::Admin','moderations',{
             approve => $moderation.i_param,
             json => 1,
           }) :>">
-            Approve user and this content
+			<i class="icon icon-user"></i>
+            Approve User
           </a>
-          <a class="moderation__close button grey" href="<: $u('Forum::Admin','moderations',{
+          <a class="moderation__close button  lightyellow" href="<: $u('Forum::Admin','moderations',{
             approve_content => $moderation.i_param,
             json => 1,
           }) :>">
-            Approve content only, leave user ghosted
+			<i class="icon icon-check"></i>
+            Approve Content Only
           </a>
-          <a class="moderation__close button red" href="<: $u('Forum::Admin','moderations',{
+          <a class="moderation__close button  pink" href="<: $u('Forum::Admin','moderations',{
             deny => $moderation.i_param,
             json => 1,
           }) :>">
-            Keep content ghosted!
+			<i class="icon icon-ban-circle"></i>
+            Leave Invisible
           </a>
         </div>
       </div>
-    <: } :>
+    <: } :>!
     <div class="row callout-row center">
       <a class="button red" href="<: $u('Forum::Admin','moderations',{
         approve => $moderations_i_params
       }) :>">
-        Approve all users and their content
+		<i class="icon icon-group"></i>
+        Approve All
       </a>
     </div>
   </div>
