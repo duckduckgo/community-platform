@@ -7,10 +7,10 @@
       <div class="moderation row">
         <div class="row">
           <: i($moderation.user) :>
-          produced ghosted content
-          <: i($moderation) :>
+          is a spooky ghost and produced 
+         <: i($moderation) :>
         </div>
-        <div class="row">
+        <div class="notification__comment">
           <: i($moderation,'plaincontent') :>
         </div>
         <div class="row  button-group">
