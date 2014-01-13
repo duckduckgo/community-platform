@@ -8,7 +8,10 @@
         <div class="thread-content  content">
           <span class="comment-meta  text-right">
             Created: <span title="<: $dur_precise($_.created) :>"><: $dur($_.created) :></span> <: if $_.created != $_.updated { :>&bull;
-            Updated: <span title="<: $dur_precise($_.updated) :>"><: $dur($_.updated) :></span><: } :></span>
+            Updated: <span title="<: $dur_precise($_.updated) :>"><: $dur($_.updated) :></span><: } :>
+            <: if $c.user {:>&bull; <: i('report',$_) :><: } :>
+          </span>
+            
           <div class="p"><: r($_.html) :></div>
         </div>
     </div>
@@ -23,7 +26,6 @@
       <: } :>
 	  
       <div class="pull-right">
-        <: i('report',$_) :>
         <: if !$no_reply && $c.user { :>
             <a class="right  js-thread-reply  no-js-hide" href="#"><i class="thread__foot__icon  icon-reply"></i>Reply</a>
             <a class="right  js-thread-cancel  no-js-hide  hide" href="#"><i class="thread__foot__icon  icon-remove"></i>Cancel</a>

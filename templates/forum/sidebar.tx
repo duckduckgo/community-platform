@@ -1,5 +1,13 @@
+<: if cur_user() && cur_user().is('forum_manager') { :>
+	<aside class="sidebar">
+	  <p class="mg-bottom--double  button-group">
+	    <a class="button" href="<: $u('Forum::Admin','moderations') :>"><i class="icon icon-spam"></i>Moderation</a>
+	    <a class="button" href="<: $u('Forum::Admin','reports') :>"><i class="icon icon-list"></i>Reports</a>
+	  </p>
+	</aside>
+<: } :>
 <aside class="sidebar">
-	<section class="clear tab-mid">		
+	<section class="clear tab-mid">
 		<form class="one-field" action="<: $u('Forum','search') :>" method="get">
 			<input type="text" class="text" placeholder="Search Forum and comments" name="q" value="<: $query :>" />
 			<button type="submit" class="button  icon-search"></button>
@@ -22,13 +30,3 @@
 		<: include "forum/sidebar_latest.tx" :>
 	</div>
 </aside>
-<: if cur_user() && cur_user().is('forum_manager') { :>
-	<aside class="sidebar">
-	  <p class="mg-bottom--double">
-	    <a class="button red text-big tall media full--l" href="<: $u('Forum::Admin','moderations') :>"><i class="media__img icon-bubbles"></i><span class="media__body">Moderation</span></a>
-	  </p>
-	  <p class="mg-bottom--double">
-	    <a class="button red text-big tall media full--l" href="<: $u('Forum::Admin','reports') :>"><i class="media__img icon-bubbles"></i><span class="media__body">Reports</span></a>
-	  </p>
-	</aside>
-<: } :>
