@@ -3,18 +3,18 @@
     <h2>Open Reports</h2>
     <: if cur_user().admin { :>
 	<span class="pull-right  button-group">
-      <a class="button grey" href="<: $u('Forum::Admin','reports',{ show_ignore => $show_ignore ? 0 : 1 }) :>">
+      <a class="button" href="<: $u('Forum::Admin','reports',{ show_ignore => $show_ignore ? 0 : 1 }) :>">
         <: if $show_ignore { :>
-          Show not ignored reports
+          <i class="icon icon-inbox"></i>Default View
         <: } else { :>
-          Show auto ignored reports
+          <i class="icon icon-archive"></i>Show Ignored
         <: } :>
       </a>
-      <a class="button blue" href="<: $u('Forum::Admin','reports',{ show_checked => $show_checked ? 0 : 1 }) :>">
+      <a class="button" href="<: $u('Forum::Admin','reports',{ show_checked => $show_checked ? 0 : 1 }) :>">
         <: if $show_checked { :>
-          Show unchecked reports
+          <i class="icon icon-check-empty"></i>Show Unchecked
         <: } else { :>
-          Show already checked reports
+          <i class="icon icon-check"></i>Show Checked
         <: } :>
       </a>
 	</span>
