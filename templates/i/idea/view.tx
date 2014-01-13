@@ -35,7 +35,7 @@
 		<: i($_,'status') :>
 		<: if $c.user { :>
 			<span class="button-group  pull-right">
-	      <: i('report',$_) :>
+	      <: i('report',$_,{class => "button", icon => "spam"}) :>
 				<: if $c.user.has_context_notification('forum_comments',$_) { :>
 					<a class="button" href="<: $u($_.u,{ unfollow => 'forum_comments' }) :>"><i class="icon  icon-eye-close"></i>Don't Follow</a>
 				<: } else { :>

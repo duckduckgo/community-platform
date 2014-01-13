@@ -1,5 +1,5 @@
 <: if cur_user() { :>
-  <a href="#report_<:# $_.i_context :>_<: $_.i_context_id :>" class="js-reveal js-report-content" data-reveal-id="report-content" data-context="<: $_.i_context :>" data-context-id="<: $_.i_context_id :>">
-    Report
+  <a href="#report_<:# $_.i_context :>_<: $_.i_context_id :>" class="<: $class :> js-reveal js-report-content" data-reveal-id="report-content" data-context="<: $_.i_context :>" data-context-id="<: $_.i_context_id :>">
+    <: if $icon {:><i class="icon icon-<:$icon:>"></i><:}:>Report
   </a>
 <: } :>
