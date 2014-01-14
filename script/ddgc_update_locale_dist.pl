@@ -12,6 +12,7 @@ use DDGC::LocaleDist;
 use Getopt::Long;
 use File::Copy;
 use Path::Class;
+use DDP;
 
 my $domain;
 my $target;
@@ -36,7 +37,7 @@ if ($target) {
 	copy($local_dist->distribution_file, file($target,$local_dist->distribution_file->basename));
 } else {
 	print "\nAdding to DuckPAN...\n";
-	$ddgc->duckpan->add_user_distribution($user, $local_dist->distribution_file);
+	p($ddgc->duckpan->add_user_distribution($user, $local_dist->distribution_file));
 }
 
 print "\nDone...\n\n";
