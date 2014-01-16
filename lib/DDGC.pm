@@ -10,6 +10,7 @@ use DDGC::XMPP;
 use DDGC::Markup;
 use DDGC::Envoy;
 use DDGC::Postman;
+use DDGC::Stats;
 use DDGC::Forum;
 use DDGC::Util::DateTime;
 
@@ -143,6 +144,13 @@ has duckpan => (
 	lazy_build => 1,
 );
 sub _build_duckpan { DDGC::DuckPAN->new({ ddgc => shift }) }
+
+has stats => (
+	isa => 'DDGC::Stats',
+	is => 'ro',
+	lazy_build => 1,
+);
+sub _build_stats { DDGC::Stats->new({ ddgc => shift }) }
 
 has cache => (
 	isa => 'Cache::Cache',

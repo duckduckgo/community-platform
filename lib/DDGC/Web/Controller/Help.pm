@@ -58,9 +58,11 @@ sub search :Chained('base') :Args(0) {
   $c->add_bc('Search');
   $c->stash->{help_search} = $c->req->param('help_search');
   return unless $c->stash->{help_search};
-  $c->stash->{search_helps} = $c->d->rs('Help')->search({
-    content => { -like => '%'.$c->stash->{help_search}.'%' },
+  $c->stash->{search_helps} = $c->d->rs('Help')->search([{
+    'help_contents.title' => { -ilike => '%'.$c->stash->{help_search}.'%' },
   },{
+    'help_contents.content' => { -ilike => '%'.$c->stash->{help_search}.'%' },
+  }],{
     order_by => { -asc => 'me.sort' },
     prefetch => [ 'help_contents', { help_category => 'help_category_contents' } ],
   });

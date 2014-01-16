@@ -20,6 +20,16 @@
 	<hr class="mg-top--none" />
 	<div class="row gw">
 		<div class="g third">
+			<p><a class="button  full  tall  h1  blue" href="<: $u('Admin::Stats','index') :>"><i class="icon-globe"></i></a></p>
+		</div>
+		<div class="g twothirds">
+			<h3 class="mg-top--small">Statistics</h3>
+			<p></p>
+		</div>
+	</div>
+	<hr class="mg-top--none" />
+	<div class="row gw">
+		<div class="g third">
 			<p><a class="button  full  tall  h1  blue" href="<: $u('Admin::Language','index') :>"><i class="icon-globe"></i></a></p>
 		</div>
 		<div class="g twothirds">

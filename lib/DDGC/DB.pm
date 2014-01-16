@@ -4,7 +4,9 @@ package DDGC::DB;
 use Moose;
 use MooseX::NonMoose;
 extends 'DBIx::Class::Schema';
-__PACKAGE__->load_namespaces();
+__PACKAGE__->load_namespaces(
+  default_resultset_class => 'Base::ResultSet',
+);
 use Cache::FileCache;
 use Carp;
 

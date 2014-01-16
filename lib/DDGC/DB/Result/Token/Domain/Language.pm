@@ -244,10 +244,10 @@ sub _get_token_languages {
 sub search_tokens {
 	my ( $self, $page, $pagesize, $search ) = @_;
 	$self->_get_token_languages(1, $page, $pagesize, {
-		'token.msgid' => { -like => '%'.$search.'%'},
-		'token.msgid_plural' => { -like => '%'.$search.'%'},
-		'token.msgctxt' => { -like => '%'.$search.'%'},
-		'token.notes' => { -like => '%'.$search.'%'},
+		'token.msgid' => { -ilike => '%'.$search.'%'},
+		'token.msgid_plural' => { -ilike => '%'.$search.'%'},
+		'token.msgctxt' => { -ilike => '%'.$search.'%'},
+		'token.notes' => { -ilike => '%'.$search.'%'},
 	},{
 		join => 'token_language_translations',
 	});

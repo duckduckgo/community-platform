@@ -227,12 +227,12 @@ sub domainsearch :Chained('domain') :PathPart('search') :Args(0) {
 	$c->stash->{search} = $c->req->param('search');
 	if ($c->req->param('submit_search')) {
 		$c->stash->{token_results} = $c->stash->{token_domain}->tokens->search([
-			msgid => { -like => '%'.$c->stash->{search}.'%' },
-			msgid_plural => { -like => '%'.$c->stash->{search}.'%' },
+			msgid => { -ilike => '%'.$c->stash->{search}.'%' },
+			msgid_plural => { -ilike => '%'.$c->stash->{search}.'%' },
 		]);
 		$c->stash->{token_language_translation_results} = $c->d->rs('Token::Language::Translation')->search([
 			map {
-				'msgstr'.$_ => { -like => '%'.$c->stash->{search}.'%' },
+				'msgstr'.$_ => { -ilike => '%'.$c->stash->{search}.'%' },
 			} (0..5)
 		]),
 	}
@@ -274,7 +274,7 @@ sub admin :Chained('domain') :Args(0) {
 
 	if ($c->req->params->{search_token_comments}) {
 		$c->stash->{search_token_comments_result} = $c->stash->{token_domain}->tokens->search({
-			notes => { -like => '%'.$c->req->params->{search_token_comments}.'%' },
+			notes => { -ilike => '%'.$c->req->params->{search_token_comments}.'%' },
 		},{
 			group_by => 'notes',
 		});

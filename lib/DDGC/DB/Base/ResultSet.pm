@@ -11,6 +11,7 @@ extends qw(
   DBIx::Class::Helper::ResultSet::Shortcut::OrderBy
   DBIx::Class::Helper::ResultSet::Shortcut::Prefetch
   DBIx::Class::Helper::ResultSet::CorrelateRelationship
+  DBIx::Class::Helper::ResultSet::SetOperations
 );
 
 sub ddgc { shift->result_source->schema->ddgc }
