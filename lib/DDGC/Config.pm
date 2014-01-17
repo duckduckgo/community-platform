@@ -116,6 +116,8 @@ has_conf duckpan_url => DDGC_DUCKPAN_URL => 'http://duckpan.org/';
 has_conf duckpan_locale_uploader => DDGC_DUCKPAN_LOCALE_UPLOADER => 'testone';
 has_conf roboduck_aiml_botid => ROBODUCK_AIML_BOTID => 'ab83497d9e345b6b';
 has_conf duckduckhack_url => DDGC_DUCKDUCKHACK_URL => 'http://duckduckhack.com/';
+has_conf github_token => DDGC_GITHUB_TOKEN => undef;
+has_conf github_org => DDGC_GITHUB_ORG => 'duckduckgo';
 
 has_conf deleted_account => DDGC_DELETED_ACCOUNT => 'testone';
 

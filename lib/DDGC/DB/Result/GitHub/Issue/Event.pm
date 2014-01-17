@@ -1,4 +1,4 @@
-package DDGC::DB::Result::GitHub::Pull;
+package DDGC::DB::Result::GitHub::Issue::Event;
 # ABSTRACT:
 
 use Moose;
@@ -7,7 +7,7 @@ extends 'DDGC::DB::Base::Result';
 use DBIx::Class::Candy;
 use namespace::autoclean;
 
-table 'github_pull';
+table 'github_issue_event';
 
 column id => {
   data_type => 'bigint',
@@ -20,14 +20,6 @@ unique_column github_id => {
   is_nullable => 0,
 };
 
-column github_repo_id => {
-  data_type => 'bigint',
-  is_nullable => 0,
-};
-belongs_to 'github_repo', 'DDGC::DB::Result::GitHub::Repo', 'github_repo_id', {
-  on_delete => 'cascade',
-};
-
 column github_user_id => {
   data_type => 'bigint',
   is_nullable => 0,
@@ -36,19 +28,17 @@ belongs_to 'github_user', 'DDGC::DB::Result::GitHub::User', 'github_user_id', {
   on_delete => 'cascade',
 };
 
-column title => {
+column event => {
   data_type => 'text',
   is_nullable => 0,
 };
 
-column body => {
-  data_type => 'text',
+column github_issue_id => {
+  data_type => 'bigint',
   is_nullable => 0,
 };
-
-column state => {
-  data_type => 'text',
-  is_nullable => 0,
+belongs_to 'github_issue', 'DDGC::DB::Result::GitHub::Issue', 'github_issue_id', {
+  on_delete => 'cascade',
 };
 
 column created_at => {
@@ -56,30 +46,9 @@ column created_at => {
   is_nullable => 0,
 };
 
-column updated_at => {
-  data_type => 'timestamp with time zone',
-  is_nullable => 1,
-};
-
-column closed_at => {
-  data_type => 'timestamp with time zone',
-  is_nullable => 1,
-};
-
-column merged_at => {
-  data_type => 'timestamp with time zone',
-  is_nullable => 1,
-};
-
 column created => {
   data_type => 'timestamp with time zone',
   set_on_create => 1,
-};
-
-column updated => {
-  data_type => 'timestamp with time zone',
-  set_on_create => 1,
-  set_on_update => 1,
 };
 
 column gh_data => {

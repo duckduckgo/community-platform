@@ -1,4 +1,4 @@
-package DDGC::DB::Result::GitHub::Pull;
+package DDGC::DB::Result::GitHub::Issue;
 # ABSTRACT:
 
 use Moose;
@@ -7,7 +7,7 @@ extends 'DDGC::DB::Base::Result';
 use DBIx::Class::Candy;
 use namespace::autoclean;
 
-table 'github_pull';
+table 'github_issue';
 
 column id => {
   data_type => 'bigint',
@@ -34,6 +34,16 @@ column github_user_id => {
 };
 belongs_to 'github_user', 'DDGC::DB::Result::GitHub::User', 'github_user_id', {
   on_delete => 'cascade',
+};
+
+column number => {
+  data_type => 'int',
+  is_nullable => 0,
+};
+
+column comments => {
+  data_type => 'int',
+  is_nullable => 0,
 };
 
 column title => {
@@ -66,9 +76,12 @@ column closed_at => {
   is_nullable => 1,
 };
 
-column merged_at => {
-  data_type => 'timestamp with time zone',
+column closed_by_github_user_id => {
+  data_type => 'bigint',
   is_nullable => 1,
+};
+belongs_to 'closed_by_github_user', 'DDGC::DB::Result::GitHub::User', 'github_user_id', {
+  on_delete => 'cascade', join_type => 'left',
 };
 
 column created => {
@@ -79,7 +92,6 @@ column created => {
 column updated => {
   data_type => 'timestamp with time zone',
   set_on_create => 1,
-  set_on_update => 1,
 };
 
 column gh_data => {
@@ -87,6 +99,10 @@ column gh_data => {
   is_nullable => 0,
   serializer_class => 'AnyJSON',
   default_value => '{}',
+};
+
+has_many 'github_issue_events', 'DDGC::DB::Result::GitHub::Issue::Event', 'github_issue_id', {
+  cascade_delete => 1,
 };
 
 no Moose;

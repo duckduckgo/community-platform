@@ -193,6 +193,9 @@ has_many 'user_blogs', 'DDGC::DB::Result::User::Blog', 'users_id', {
 has_many 'user_reports', 'DDGC::DB::Result::User::Report', 'users_id', {
   cascade_delete => 0,
 };
+has_many 'user_githubs', 'DDGC::DB::Result::User::GitHub', 'users_id', {
+  cascade_delete => 1,
+};
 
 many_to_many 'languages', 'user_languages', 'language';
 
