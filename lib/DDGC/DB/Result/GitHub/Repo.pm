@@ -72,6 +72,12 @@ column forkable => {
   default_value => 0,
 };
 
+column used_in_stats => {
+  data_type => 'int',
+  is_nullable => 0,
+  default_value => 0,
+};
+
 column created_at => {
   data_type => 'timestamp without time zone',
   is_nullable => 0,

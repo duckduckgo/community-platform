@@ -4,7 +4,7 @@
     <: i($github_user,'repos') :>
   <: } :>
 <: } else { :>
-  <a class="noblank button blue" href="https://github.com/login/oauth/authorize?client_id=<: $github_client_id :>">
+  <a class="noblank button blue" href="https://github.com/login/oauth/authorize?client_id=<: $github_client_id :>&redirect_uri=<: $c.req.uri | uri :>">
     Link your GitHub account
   </a>
 <: } :>
