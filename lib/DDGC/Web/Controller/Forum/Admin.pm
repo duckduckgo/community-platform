@@ -16,10 +16,21 @@ sub base : Chained('/forum/base') PathPart('admin') CaptureArgs(0) {
     }));
     return $c->detach;
   }
+  push @{$c->stash->{template_layout}}, 'forum/admin/base.tx';  
 }
 
 sub index : Chained('base') PathPart('') Args(0) {
   my ( $self, $c ) = @_;
+}
+
+sub forum : Chained('base') PathPart('') Args(0) {
+  my ( $self, $c ) = @_;
+  $c->stash->{grouped_comments} = $c->table(
+    $c->d->forum->comments_grouped_threads(2),['Forum::Admin','forum'],[],
+    default_pagesize => 15,
+    default_sorting => '-me.updated',
+    id => 'forum_threadlist_forum_admin',
+  );
 }
 
 sub moderations : Chained('base') Args(0) {

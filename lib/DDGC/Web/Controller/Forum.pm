@@ -12,16 +12,16 @@ sub base : Chained('/base') PathPart('forum') CaptureArgs(0) {
   $c->stash->{page_class} = "page-forums  texture";
   $c->stash->{title} = 'DuckDuckGo Forums';
   $c->stash->{is_admin} = $c->user && $c->user->admin;
-  $c->stash->{sticky_threads} = $c->d->rs('Thread')->search_rs({
-    sticky => 1,
-  },{
-    cache_for => 3600,
-  });
 }
 
 sub userbase : Chained('base') PathPart('') CaptureArgs(0) {
   my ( $self, $c ) = @_;
   push @{$c->stash->{template_layout}}, 'forum/base.tx';  
+  $c->stash->{sticky_threads} = $c->d->rs('Thread')->search_rs({
+    sticky => 1,
+  },{
+    cache_for => 3600,
+  });
 }
 
 sub set_grouped_comments {

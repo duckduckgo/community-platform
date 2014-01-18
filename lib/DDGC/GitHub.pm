@@ -44,15 +44,17 @@ sub validate_session_code {
   my $gh_user = $self->update_user_from_data(scalar $net_github->user->show);
   my %scopes = map { $_ => 1 } split(",",$result->{scope});
   $gh_user->scope_public_repo($scopes{public_repo} ? 1 : 0);
-  $gh_user->scope_user_email($scopes{'user:email'} ? 1 : 0);
+  $gh_user->scope_user_email(
+    $scopes{'user:email'}
+      ? 1
+      : $scopes{'user'}
+        ? 1
+        : 0
+  );
   $gh_user->access_token($result->{access_token});
   $gh_user->users_id($user->id) if ($user);
   $gh_user->update;
   return $gh_user;
-}
-
-sub who_am_i {
-  my ( $self, $access_token ) = @_;
 }
 
 sub user_net_github {

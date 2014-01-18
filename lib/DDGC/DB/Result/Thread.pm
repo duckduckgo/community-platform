@@ -25,6 +25,36 @@ column users_id => {
 	is_nullable => 0,
 };
 
+column forum => {
+  data_type => 'int',
+  is_nullable => 0,
+  default_value => 1,
+};
+
+sub forum_config { $_[0]->forums->{$_[0]->forum} }
+sub forums {
+  my ( $self ) = @_;
+  {
+    '1' => {
+      name => 'General Rambling',
+    },
+    '2' => {
+      name => 'Forum Manager Forum',
+      user_filter => sub { $_[1]->is('forum_manager') },
+    },
+    '3' => {
+      name => 'Translation Manager Forum',
+      user_filter => sub { $_[1]->is('translation_manager') },
+    },
+  }
+}
+
+sub can_be_viewed_by {
+  my ( $self, $user ) = @_;
+  return 1 unless defined $self->forum_config->{user_filter};
+  return $self->forum_config->{user_filter}->($self,$user);
+}
+
 # cotent source comment
 column comment_id => {
 	data_type => 'bigint',
