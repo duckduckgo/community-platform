@@ -193,8 +193,8 @@ has_many 'user_blogs', 'DDGC::DB::Result::User::Blog', 'users_id', {
 has_many 'user_reports', 'DDGC::DB::Result::User::Report', 'users_id', {
   cascade_delete => 0,
 };
-has_many 'user_githubs', 'DDGC::DB::Result::User::GitHub', 'users_id', {
-  cascade_delete => 1,
+has_many 'github_users', 'DDGC::DB::Result::GitHub::User', 'users_id', {
+  cascade_delete => 0,
 };
 
 many_to_many 'languages', 'user_languages', 'language';
@@ -220,6 +220,13 @@ sub add_default_notifications {
 sub db { return shift; }
 
 sub translation_manager { shift->is('translation_manager') }
+
+sub github_user {
+	my ( $self ) = @_;
+	return $self->search_related('github_users',{},{
+		order_by => { -desc => 'updated' }
+	})->first;
+}
 
 sub is {
 	my ( $self, $flag ) = @_;

@@ -52,22 +52,22 @@ column state => {
 };
 
 column created_at => {
-  data_type => 'timestamp with time zone',
+  data_type => 'timestamp without time zone',
   is_nullable => 0,
 };
 
 column updated_at => {
-  data_type => 'timestamp with time zone',
+  data_type => 'timestamp without time zone',
   is_nullable => 1,
 };
 
 column closed_at => {
-  data_type => 'timestamp with time zone',
+  data_type => 'timestamp without time zone',
   is_nullable => 1,
 };
 
 column merged_at => {
-  data_type => 'timestamp with time zone',
+  data_type => 'timestamp without time zone',
   is_nullable => 1,
 };
 

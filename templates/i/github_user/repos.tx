@@ -1,0 +1,18 @@
+<div class="content-box account-box">
+	<div class="head">
+		<div class="half">
+			<h2>DuckDuckGo related repositories of <: i($_) :></h2>
+		</div>
+		<: if cur_user().id == $_.users_id { :>
+			<div class="pull-right quarter">
+				<a class="noblank button blue" href="<: $u('My','github',{
+					update_repos => 1
+				}) :>">
+					Update your repositories
+				</a>
+			</div>
+		<: } :>
+	</div>
+	<div class="body">
+	</div>
+</div>

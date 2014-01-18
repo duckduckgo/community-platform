@@ -1,0 +1,11 @@
+<: if $github_user { :>
+  <: i($github_user,'view') :>
+  <: if cur_user().admin { :>
+    <: i($github_user,'repos') :>
+  <: } :>
+<: } else { :>
+  <a class="noblank button blue" href="https://github.com/login/oauth/authorize?client_id=<: $github_client_id :>">
+    Link your GitHub account
+  </a>
+<: } :>
+

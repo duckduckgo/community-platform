@@ -118,6 +118,8 @@ has_conf roboduck_aiml_botid => ROBODUCK_AIML_BOTID => 'ab83497d9e345b6b';
 has_conf duckduckhack_url => DDGC_DUCKDUCKHACK_URL => 'http://duckduckhack.com/';
 has_conf github_token => DDGC_GITHUB_TOKEN => undef;
 has_conf github_org => DDGC_GITHUB_ORG => 'duckduckgo';
+has_conf github_client_id => DDGC_GITHUB_CLIENT_ID => undef;
+has_conf github_client_secret => DDGC_GITHUB_CLIENT_SECRET => undef;
 
 has_conf deleted_account => DDGC_DELETED_ACCOUNT => 'testone';
 

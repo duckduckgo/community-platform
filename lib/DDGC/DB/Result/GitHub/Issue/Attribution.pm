@@ -1,4 +1,4 @@
-package DDGC::DB::Result::GitHub::Issue::Event;
+package DDGC::DB::Result::GitHub::Issue::Attribution;
 # ABSTRACT:
 
 use Moose;
@@ -7,7 +7,7 @@ extends 'DDGC::DB::Base::Result';
 use DBIx::Class::Candy;
 use namespace::autoclean;
 
-table 'github_issue_event';
+table 'github_issue_attribution';
 
 column id => {
   data_type => 'bigint',
@@ -20,17 +20,23 @@ unique_column github_id => {
   is_nullable => 0,
 };
 
-column github_user_id => {
+column users_id => {
   data_type => 'bigint',
   is_nullable => 0,
 };
-belongs_to 'github_user', 'DDGC::DB::Result::GitHub::User', 'github_user_id', {
-  on_delete => 'cascade',
+belongs_to 'user', 'DDGC::DB::Result::User', 'users_id', {
+  on_delete => 'no action',
 };
 
-column event => {
+column reason => {
   data_type => 'text',
   is_nullable => 0,
+};
+
+column approved_by_admin => {
+  data_type => 'int',
+  is_nullable => 0,
+  default_value => 0,
 };
 
 column github_issue_id => {
@@ -41,21 +47,9 @@ belongs_to 'github_issue', 'DDGC::DB::Result::GitHub::Issue', 'github_issue_id',
   on_delete => 'cascade',
 };
 
-column created_at => {
-  data_type => 'timestamp without time zone',
-  is_nullable => 0,
-};
-
 column created => {
   data_type => 'timestamp with time zone',
   set_on_create => 1,
-};
-
-column gh_data => {
-  data_type => 'text',
-  is_nullable => 0,
-  serializer_class => 'AnyJSON',
-  default_value => '{}',
 };
 
 no Moose;

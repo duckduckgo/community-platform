@@ -69,16 +69,16 @@ sub _build_config { DDGC::Config->new }
 ####################################################################
 
 has http => (
-    isa => 'LWP::UserAgent',
-    is => 'ro',
-    lazy_build => 1,
+	isa => 'LWP::UserAgent',
+	is => 'ro',
+	lazy_build => 1,
 );
 sub _build_http {
-    my $ua = LWP::UserAgent->new;
-    $ua->timeout(5);
-    my $agent = (ref $_[0] ? ref $_[0] : $_[0]).'/'.$VERSION;
-    $ua->agent($agent);
-    return $ua;
+	my $ua = LWP::UserAgent->new;
+	$ua->timeout(5);
+	my $agent = (ref $_[0] ? ref $_[0] : $_[0]).'/'.$VERSION;
+	$ua->agent($agent);
+	return $ua;
 }
 
 ############################################################
@@ -220,6 +220,8 @@ sub _build_xslate {
 		if (ref $object) {
 			$subtemplate = shift;
 			$vars = shift;
+		} elsif (!defined $object) {
+			return '';
 		} else {
 			$no_templatedir = 1;
 			$subtemplate = $object;
@@ -664,12 +666,6 @@ sub delete_user {
 		die "Deleted user account doesn't exist!" unless $deleted_user;
 		die "You can't delete the deleted account!" if $deleted_user->username eq $user->username;
 		my $guard = $self->db->txn_scope_guard;
-		if ($self->config->prosody_running) {
-			$self->xmpp->_prosody->_db->resultset('Prosody')->search({
-				host => $self->config->prosody_userhost,
-				user => $username,
-			})->delete;
-		}
 		my @translations = $user->token_language_translations->search({})->all;
 		for (@translations) {
 			$_->username($deleted_user->username);
@@ -692,6 +688,12 @@ sub delete_user {
 			$_->update;
 		}
 		$guard->commit;
+		if ($self->config->prosody_running) {
+			$self->xmpp->_prosody->_db->resultset('Prosody')->search({
+				host => $self->config->prosody_userhost,
+				user => $username,
+			})->delete;
+		}
 	}
 	return 1;
 }

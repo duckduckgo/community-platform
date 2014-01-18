@@ -66,18 +66,24 @@ column company_repo => {
   default_value => 0,
 };
 
+column forkable => {
+  data_type => 'int',
+  is_nullable => 0,
+  default_value => 0,
+};
+
 column created_at => {
-  data_type => 'timestamp with time zone',
+  data_type => 'timestamp without time zone',
   is_nullable => 0,
 };
 
 column updated_at => {
-  data_type => 'timestamp with time zone',
+  data_type => 'timestamp without time zone',
   is_nullable => 1,
 };
 
 column pushed_at => {
-  data_type => 'timestamp with time zone',
+  data_type => 'timestamp without time zone',
   is_nullable => 1,
 };
 
@@ -107,7 +113,7 @@ has_many 'github_pulls', 'DDGC::DB::Result::GitHub::Pull', 'github_repo_id', {
   cascade_delete => 1,
 };
 
-has_many 'github_issues', 'DDGC::DB::Result::GitHub::Issue', 'github_issue_id', {
+has_many 'github_issues', 'DDGC::DB::Result::GitHub::Issue', 'github_repo_id', {
   cascade_delete => 1,
 };
 

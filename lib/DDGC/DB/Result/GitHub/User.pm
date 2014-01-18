@@ -66,13 +66,35 @@ column type => {
 };
 
 column created_at => {
-  data_type => 'timestamp with time zone',
+  data_type => 'timestamp without time zone',
   is_nullable => 0,
 };
 
 column updated_at => {
-  data_type => 'timestamp with time zone',
+  data_type => 'timestamp without time zone',
   is_nullable => 1,
+};
+
+for (qw( public_repo user_email )) {
+  my $col = 'scope_'.$_;
+  column $col => {
+    data_type => 'int',
+    is_nullable => 0,
+    default_value => 0,
+  };
+}
+
+column access_token => {
+  data_type => 'text',
+  is_nullable => 1,
+};
+
+column users_id => {
+  data_type => 'bigint',
+  is_nullable => 1,
+};
+belongs_to 'user', 'DDGC::DB::Result::User', 'users_id', {
+  on_delete => 'no action', join_type => 'left'
 };
 
 column created => {
@@ -83,6 +105,7 @@ column created => {
 column updated => {
   data_type => 'timestamp with time zone',
   set_on_create => 1,
+  set_on_update => 1,
 };
 
 column gh_data => {

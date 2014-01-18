@@ -46,7 +46,7 @@ $(document).ready(function() {
 	});
 	
 	// All external links in new window
-	$("a[href^='http']").each(function(){
+	$("a[href^='http']").not('.noblank').each(function(){
 		if(this.href.indexOf(location.hostname) == -1) {
 			$(this).attr('target', '_blank');
 		}

@@ -50,7 +50,7 @@ column message => {
 };
 
 column author_date => {
-  data_type => 'timestamp with time zone',
+  data_type => 'timestamp without time zone',
   is_nullable => 0,
 };
 
@@ -65,7 +65,7 @@ column author_name => {
 };
 
 column committer_date => {
-  data_type => 'timestamp with time zone',
+  data_type => 'timestamp without time zone',
   is_nullable => 0,
 };
 

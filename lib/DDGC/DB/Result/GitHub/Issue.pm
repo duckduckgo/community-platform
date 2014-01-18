@@ -62,25 +62,25 @@ column state => {
 };
 
 column created_at => {
-  data_type => 'timestamp with time zone',
+  data_type => 'timestamp without time zone',
   is_nullable => 0,
 };
 
 column updated_at => {
-  data_type => 'timestamp with time zone',
+  data_type => 'timestamp without time zone',
   is_nullable => 1,
 };
 
 column closed_at => {
-  data_type => 'timestamp with time zone',
+  data_type => 'timestamp without time zone',
   is_nullable => 1,
 };
 
-column closed_by_github_user_id => {
+column github_user_id_assignee => {
   data_type => 'bigint',
   is_nullable => 1,
 };
-belongs_to 'closed_by_github_user', 'DDGC::DB::Result::GitHub::User', 'github_user_id', {
+belongs_to 'github_user_assignee', 'DDGC::DB::Result::GitHub::User', 'github_user_id_assignee', {
   on_delete => 'cascade', join_type => 'left',
 };
 
@@ -103,6 +103,10 @@ column gh_data => {
 
 has_many 'github_issue_events', 'DDGC::DB::Result::GitHub::Issue::Event', 'github_issue_id', {
   cascade_delete => 1,
+};
+
+has_many 'github_issue_attribution', 'DDGC::DB::Result::GitHub::Issue::Attribution', 'github_issue_id', {
+  cascade_delete => 0,
 };
 
 no Moose;

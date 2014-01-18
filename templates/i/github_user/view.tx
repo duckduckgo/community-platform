@@ -1,0 +1,106 @@
+<div class="content-box account-box">
+	<div class="head">
+		<div class="half">
+			<h2>GitHub Account <: i($_) :></h2>
+		</div>
+		<: if cur_user().id == $_.users_id { :>
+			<div class="pull-right quarter">
+				<a class="noblank button blue" href="https://github.com/login/oauth/authorize?client_id=<: $github_client_id :>">
+					Update your GitHub account
+				</a>
+			</div>
+		<: } :>
+	</div>
+	<div class="body">
+		<div class="row">
+			<div class="half">
+				Name
+			</div>
+			<div class="half">
+				<b><: $_.name :></b> 
+			</div>
+		</div>
+		<: if $_.company { :>
+			<div class="row">
+				<div class="half">
+					Company
+				</div>
+				<div class="half">
+					<b><: $_.company :></b> 
+				</div>
+			</div>
+		<: } :>
+		<: if $_.blog { :>
+			<div class="row">
+				<div class="half">
+					Blog
+				</div>
+				<div class="half">
+					<b><a href="<: $_.blog :>"><: $_.blog :></a></b> 
+				</div>
+			</div>
+		<: } :>
+		<: if $_.location { :>
+			<div class="row">
+				<div class="half">
+					Location
+				</div>
+				<div class="half">
+					<b><: $_.location :></b> 
+				</div>
+			</div>
+		<: } :>
+		<: if $_.email { :>
+			<div class="row">
+				<div class="half">
+					Public email
+				</div>
+				<div class="half">
+					<b><: $_.email :></b> 
+				</div>
+			</div>
+		<: } :>
+		<: if $_.bio { :>
+			<div class="row">
+				<div class="half">
+					Bio
+				</div>
+				<div class="half">
+					<b><: $_.bio :></b> 
+				</div>
+			</div>
+		<: } :>
+		<div class="row">
+			<div class="half">
+				Type
+			</div>
+			<div class="half">
+				<b><: $_.type :></b> 
+			</div>
+		</div>
+		<div class="row">
+			<div class="half">
+				Created @ GitHub
+			</div>
+			<div class="half">
+				<b><: $_.created_at :></b> 
+			</div>
+		</div>
+		<div class="row">
+			<div class="half">
+				Last update @ GitHub
+			</div>
+			<div class="half">
+				<b><: $_.updated_at :></b> 
+			</div>
+		</div>
+		<div class="row">
+			<div class="half">
+				Last update @ duck.co
+			</div>
+			<div class="half">
+				<b><: $_.updated :></b> 
+			</div>
+		</div>
+	</div>
+</div>

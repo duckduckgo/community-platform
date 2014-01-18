@@ -140,6 +140,22 @@ sub report :Chained('logged_in') :Args(0) {
 	}
 }
 
+sub github :Chained('logged_in') :Args(0) {
+	my ( $self, $c ) = @_;
+	$c->stash->{title} = 'GitHub';
+	$c->add_bc($c->stash->{title}, '');
+	$c->stash->{github_client_id} = $c->d->config->github_client_id;
+	if ($c->req->params->{code}) {
+		my $github_user = $c->d->github->validate_session_code($c->req->params->{code},$c->user);
+		if ($github_user) {
+			$c->user->search_related('github_users',{
+				id => { '!=' => $github_user->id },
+			})->update({ users_id => 0 });
+		}
+	}
+	$c->stash->{github_user} = $c->user->github_user;
+}
+
 sub account :Chained('logged_in') :Args(0) {
 	my ( $self, $c ) = @_;
 
