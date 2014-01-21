@@ -49,12 +49,6 @@ sub forums {
   }
 }
 
-sub can_be_viewed_by {
-  my ( $self, $user ) = @_;
-  return 1 unless defined $self->forum_config->{user_filter};
-  return $self->forum_config->{user_filter}->($self,$user);
-}
-
 # cotent source comment
 column comment_id => {
 	data_type => 'bigint',

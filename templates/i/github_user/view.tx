@@ -1,4 +1,4 @@
-<div class="content-box account-box">
+<div class="content-box content-box-toggleclick account-box">
 	<div class="head">
 		<div class="half">
 			<h2>GitHub Account <: i($_) :></h2>

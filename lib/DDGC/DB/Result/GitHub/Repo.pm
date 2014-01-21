@@ -28,6 +28,14 @@ belongs_to 'github_user', 'DDGC::DB::Result::GitHub::User', 'github_user_id', {
   on_delete => 'cascade',
 };
 
+column github_repo_id_source => {
+  data_type => 'bigint',
+  is_nullable => 1,
+};
+belongs_to 'github_repo_source', 'DDGC::DB::Result::GitHub::Repo', 'github_repo_id_source', {
+  on_delete => 'no action', join_type => 'left',
+};
+
 column full_name => {
   data_type => 'text',
   is_nullable => 0,

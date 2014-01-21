@@ -36,6 +36,14 @@ belongs_to 'github_user', 'DDGC::DB::Result::GitHub::User', 'github_user_id', {
   on_delete => 'cascade',
 };
 
+column idea_id => {
+  data_type => 'bigint',
+  is_nullable => 1,
+};
+belongs_to 'idea', 'DDGC::DB::Result::Idea', 'idea_id', {
+  on_delete => 'cascade', join_type => 'left',
+};
+
 column title => {
   data_type => 'text',
   is_nullable => 0,

@@ -33,7 +33,8 @@ __build_methods(__PACKAGE__,(
 
   commits => { url => "/repos/%s/%s/commits" },
   commits_since => { url => "/repos/%s/%s/commits?since=%s" },
-  pulls => { url => "/repos/%s/%s/pulls" },
+  pulls_open => { url => "/repos/%s/%s/pulls" },
+  pulls_closed => { url => "/repos/%s/%s/pulls?state=closed" },
   issues => { url => "/repos/%s/%s/issues" },
   issues_since => { url => "/repos/%s/%s/issues?since=%s" },
 

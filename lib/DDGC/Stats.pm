@@ -12,7 +12,58 @@ has ddgc => (
   required => 1,
 );
 
-sub contributors {
+sub content_def { my ( $self ) = @_;
+  my @github_scopes = $self->ddgc->rs('GitHub::Repo')->search({
+    used_in_stats => 1,
+  })->all;
+  return (
+    'Comment' => {
+      scope => 'context',
+      scopes => { map {
+        $_ => 'DDGC::DB::Result::'.$_
+      } qw( Thread Idea Token::Language ) },
+      relations => {
+        created => { users_id => 'user' },
+      },
+    },
+    (map {
+      $_ => {
+        relations => {
+          created => { users_id => 'user' },
+        },
+      },
+    } qw(
+      Thread Idea Idea::Vote Token::Language::Translation
+      Token::Language::Translation::Vote
+    )),
+    (map {
+      $_ => {
+        join => [qw( github_repo )],
+        scope => 'github_repo.full_name',
+        scopes => {
+          map { $_->full_name, $_->full_name } ($self->ddgc->rs('GitHub::Repo')->search({
+            used_in_stats => 1,
+          })->all)
+        },
+        relations => {
+          created => { users_id => 'user' },
+        },
+      }
+    } qw( GitHub::Issue GitHub::Pull )),
+    'GitHub::Commit' => {
+      join => [qw( github_repo )],
+      scope => 'github_repo.full_name',
+      scopes => {
+        map { $_->full_name, $_->full_name } ()
+      },
+      relations => {
+        author_date => { github_user_id_author => 'github_user_author' },
+      },
+    },
+  )
+}
+
+sub content {
   my ( $self, $types_ref, %args ) = @_;
   my %sets;
   my @types = @{$types_ref};

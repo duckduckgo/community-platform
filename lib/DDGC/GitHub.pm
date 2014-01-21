@@ -167,8 +167,17 @@ sub update_repo_pulls {
   return unless $gh_repo->pushed_at;
   my @gh_pulls;
   my $gh = $self->gh;
-  my @pulls = @{$gh->pulls($gh_repo->owner_name,$gh_repo->repo_name)};
+  my @pulls = @{$gh->pulls_open($gh_repo->owner_name,$gh_repo->repo_name)};
   for (@pulls) {
+    push @gh_pulls, $self->update_repo_pull_from_data($gh_repo,$_);
+  }
+  while ($gh->has_next_page) {
+    for (@{$gh->next_page}) {
+      push @gh_pulls, $self->update_repo_pull_from_data($gh_repo,$_);
+    }
+  }
+  my @closed_pulls = @{$gh->pulls_closed($gh_repo->owner_name,$gh_repo->repo_name)};
+  for (@closed_pulls) {
     push @gh_pulls, $self->update_repo_pull_from_data($gh_repo,$_);
   }
   while ($gh->has_next_page) {

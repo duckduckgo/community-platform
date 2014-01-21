@@ -20,10 +20,10 @@ column language_id => {
 	is_nullable => 0,
 };
 
-# column users_id => {
-	# data_type => 'bigint',
-	# is_nullable => 0,
-# };
+column users_id => {
+	data_type => 'bigint',
+	is_nullable => 1,
+};
 
 column username => {
 	data_type => 'text',

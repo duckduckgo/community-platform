@@ -135,6 +135,10 @@ has_many 'idea_votes', 'DDGC::DB::Result::Idea::Vote', 'idea_id', {
 	cascade_delete => 1,
 };
 
+has_many 'github_pulls', 'DDGC::DB::Result::GitHub::Pull', 'idea_id', {
+	cascade_delete => 0,
+};
+
 sub vote_count {
 	my ( $self ) = @_;
 	return $self->get_column('total_vote_count') if $self->has_column_loaded('total_vote_count');
