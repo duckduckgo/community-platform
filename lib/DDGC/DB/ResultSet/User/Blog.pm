@@ -41,7 +41,7 @@ sub values_via_form {
 
 sub most_recent_updated {
   my $self = shift;
-  return $self->order_by({ -desc => $self->me . 'updated' });
+  return $self->order_by({ -desc => [ $self->me . 'fixed_date', $self->me . 'created' ] });
 }
 
 sub live {
