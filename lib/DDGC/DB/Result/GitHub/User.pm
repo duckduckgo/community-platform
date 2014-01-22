@@ -115,11 +115,11 @@ column gh_data => {
   default_value => '{}',
 };
 
-has_many 'github_commits_authored', 'DDGC::DB::Result::GitHub::Commit', 'author_github_user_id', {
+has_many 'github_commits_authored', 'DDGC::DB::Result::GitHub::Commit', 'github_user_id_author', {
   cascade_delete => 1,
 };
 
-has_many 'github_commits_committed', 'DDGC::DB::Result::GitHub::Commit', 'committer_github_user_id', {
+has_many 'github_commits_committed', 'DDGC::DB::Result::GitHub::Commit', 'github_user_id_committer', {
   cascade_delete => 1,
 };
 
