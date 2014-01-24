@@ -6,7 +6,7 @@ B<New documentation in progress! Please only try if you know what you are doing.
 
 Requires perl 5.14.2 (or higher) and:
 
-  apt-get install cpanm build-essential libgd2-xpm-dev libssl-dev git wget libxml2-dev imagemagick perl-doc postgresql libpq-dev
+  apt-get install cpanminus build-essential libgd2-xpm-dev libssl-dev git wget libxml2-dev imagemagick perl-doc postgresql libpq-dev
 
 (This requires PostgreSQL for the recommended setup.)
 The above uses apt-get for Debian-based distributions including Ubuntu.
