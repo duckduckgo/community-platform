@@ -14,7 +14,7 @@ my %tests = (
       "Hello, World.",
     ],
     '@somebody' => [
-      "<a href='/somebody'>\@somebody</a>",
+      "<a href='/user/somebody'>\@somebody</a>",
       '@somebody',
     ],
 );
