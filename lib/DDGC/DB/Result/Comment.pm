@@ -106,7 +106,7 @@ sub comments { shift->children_rs }
 after insert => sub {
 	my ( $self ) = @_;
 	$self->add_event('create');
-	$self->user->add_context_notification('replies',$self);
+	$self->user->add_context_notification('forum_comments',$self->get_context_obj);
 };
 
 after update => sub {
