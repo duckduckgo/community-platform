@@ -196,6 +196,7 @@
     .thread-icon--stuck { color: #4b8df8;}
     
 .thread__user {
+    position: relative;
     display: table-cell;
     vertical-align: top;
     width: 92px;
@@ -229,7 +230,15 @@
     .thread__user img { 
         display: block; 
         margin: 0 auto;
-       }
+    }
+	.thread__user .userbadge {
+		position: absolute;
+		margin: auto;
+		bottom: 8px;
+		top: auto;
+		right: 0;
+		left: 0;
+	}
     .thread__user .user-name, .uploaded__name { 
         font-size: 0.85em;        
         display: block;
@@ -885,7 +894,12 @@ Comment Forms
 			width: 16px;
 			position: absolute; 
 			top: 10px;
-			left: 8px;			
+			left: 8px;
+		}
+		.thread__user .userbadge {
+			position: relative;
+			display: inline;
+			bottom: -2px;
 		}
 	
 	.comment .user-avatar,

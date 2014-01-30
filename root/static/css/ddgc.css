@@ -7,3 +7,9 @@
 	https://github.com/duckduckgo/community-platform-static
 */
 
+.userbadge {
+	width: 13px;
+	height: 13px;
+	position: relative;
+	top: 2px;
+}
