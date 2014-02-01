@@ -49,6 +49,10 @@ sub edit :Chained('base') :Args(0) {
 		if (defined $c->req->param('email_notification_content')) {
 			$c->user->email_notification_content($c->req->param('email_notification_content') ? 1 : 0);
 		}
+		if (defined $c->req->param('follow_commented_object')) {
+			$c->user->follow_commented_object($c->req->param('follow_commented_object') ? 1 : 0);
+		}
+
 		$c->user->update;
 	}
 	$c->stash->{user_notification_group_values} = $c->user->user_notification_group_values;
