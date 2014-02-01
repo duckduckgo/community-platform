@@ -133,6 +133,23 @@
 				<label class="button" for="email_notification_content0">No</label>
 			</span>
 		</div>
+		<div class="row  notification--edit"> 
+			<div class="notification__settings-label">   
+				<i class="notification--edit__icon "></i>
+				<div class="media__body">
+					<label>
+					 	Do you want to follow comments on all the objects where you comment?
+					</label>
+				</div>
+			</div>
+			<span class="notification__settings  button-group">
+				<input name="follow_commented_object" type="radio" class="radio" id="follow_commented_object1"<: if cur_user().follow_commented_object { :> checked="checked"<: } :> value="1">
+				<label class="button" for="follow_commented_object1">Yes</label>
+				<input name="follow_commented_object" type="radio" class="radio" id="follow_commented_object0"<: if !cur_user().follow_commented_object { :> checked="checked"<: } :> value="0">
+				<label class="button" for="follow_commented_object0">No</label>
+			</span>
+		</div>
+
 		<div class="row callout-row">
 			<i class="callout-row__icn--left icon-cloud-upload"></i>
 			<span class="callout-row__text h5 has-icon">Remember to save your changes!</span>
