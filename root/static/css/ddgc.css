@@ -13,3 +13,16 @@
 	position: relative;
 	top: 2px;
 }
+
+
+/* SC Editor Fixes */
+
+.comment .sceditor-container,
+.comment .sceditor-container iframe {
+	width: 100% !important;
+}
+.comment .sceditor-container iframe {
+	max-width: 99%;
+	margin-left: 0;
+	min-height: 70px;
+}
