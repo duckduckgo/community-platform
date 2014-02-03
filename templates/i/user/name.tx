@@ -5,6 +5,6 @@
 <: } elsif has_cur_user() && cur_user().admin && !$_.public { :>
   <span style="color: red"><: $_.username :></span>
 <: } else { :>
-  <: $_.public_username || '<anonymous>' :>
+  <: $_.public_username || '<hidden>' :>
 <: } :>
 <: if $_.public { i($_,'badge') } :>
