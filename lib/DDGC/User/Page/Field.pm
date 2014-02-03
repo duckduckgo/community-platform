@@ -5,6 +5,7 @@ use Moose;
 use Email::Valid;
 use Data::Validate::URI qw(is_uri);
 use Locale::Country;
+use Digest::MD5 'md5_hex';
 
 #######################################################
 
@@ -13,6 +14,11 @@ my %types = (
 		view => 'email',
 		validators => ['email'],
 		export => 'email',
+	},
+	email_md5 => { # Validate as email, export as md5sum of email
+		view => 'email',
+		validators => ['email'],
+		export => 'md5',
 	},
 	url => {
 		view => 'url',
@@ -250,6 +256,13 @@ sub export_email {
 	my ( $self ) = @_;
 	my $val = $self->value;
 	$val =~ s/@/ at /;
+	return $val;
+}
+
+sub export_md5 {
+	my ( $self ) = @_;
+	my $val = $self->value;
+	$val = md5_hex($val);
 	return $val;
 }
 
