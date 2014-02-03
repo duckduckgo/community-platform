@@ -308,10 +308,12 @@ sub _build_xslate {
 
 			# trick function for DBIx::Class::ResultSet
 			results => sub {
-				my ( $rs, $sorting ) = @_;
+				my ( $rs, $sorting, $order ) = @_;
 				my @results = $rs->all;
 				$sorting
-					? [ sort { $b->$sorting <=> $a->$sorting } @results ]
+					? ( ($order // '') eq 'asc' )
+						? [ sort { $a->$sorting <=> $b->$sorting } @results ]
+						: [ sort { $b->$sorting <=> $a->$sorting } @results ]
 					: [ @results ];
 			},
 
