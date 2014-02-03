@@ -7,4 +7,4 @@
 <: } else { :>
   <: $_.public_username || '<hidden>' :>
 <: } :>
-<: if $_.public { i($_,'badge') } :>
+<:# if $_.public { i($_,'badge') } :>
