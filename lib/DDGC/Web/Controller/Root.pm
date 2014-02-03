@@ -66,6 +66,8 @@ sub country_flag :Chained('base') :Args(2) {
 	$c->serve_static_file($country->flag($size));
 }
 
+sub editortest :Chained('base') :Args(0) {}
+
 sub generated_css :Chained('base') :Args(1) {
 	my ( $self, $c, $filename ) = @_;
 	$c->stash->{not_last_url} = 1;

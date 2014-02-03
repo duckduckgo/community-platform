@@ -1,0 +1,22 @@
+<form action="<: $u('Root','editortest') :>">
+
+  <div class="whole content-box">
+    <div class="head">
+      <h2>Editor Test</h2>
+    </div>
+    <div class="body">
+      <: if $c.req.params.bbcode { :>
+        <div class="row">
+          <: r($c.d.markup.html($c.req.params.bbcode)) :>
+        </div>
+      <: } :>
+      <div class="row">
+        <textarea class="bbcode-editor" name="bbcode"><: $c.req.params.bbcode :></textarea>
+      </div>
+      <div class="row">
+        <input type="submit" value="BBCode Editor Test">
+      </div>
+    </div>
+  </div>
+
+</form>

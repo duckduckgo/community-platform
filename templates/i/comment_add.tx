@@ -4,7 +4,7 @@
 			<: i($c.user,'userpic', { userpic_size => 48 }) :>
 		</div>
 		<div class="my_comment comment-body">
-		<textarea rows="10" name="content" class="form-textarea  text  has-bbcode" placeholder="Add your Comment"></textarea>
+		<textarea rows="10" name="content" class="form-textarea  text  has-bbcode bbcode-editor" placeholder="Add your Comment"></textarea>
 		</div>
 		<input type="hidden" name="from" value="<: $c.req.uri :>" />
                 <: i('bbcode_controls') :>
