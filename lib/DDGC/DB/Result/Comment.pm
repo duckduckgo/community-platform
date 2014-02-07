@@ -108,7 +108,7 @@ sub comments { shift->children_rs }
 after insert => sub {
 	my ( $self ) = @_;
 	$self->user->add_context_notification('replies',$self);
-	if ($self->user->follow_commented_object) {
+	if ($self->user->follow_commented_object && $self->context eq 'DDGC::DB::Result::Thread') {
 		$self->user->add_context_notification('forum_comments',$self->get_context_obj);
 	}
 };
