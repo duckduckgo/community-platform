@@ -262,6 +262,7 @@ sub export_email {
 sub export_md5 {
 	my ( $self ) = @_;
 	my $val = $self->value;
+        return '' unless length($val);
 	$val = md5_hex($val);
 	return $val;
 }
