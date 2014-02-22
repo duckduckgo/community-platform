@@ -79,11 +79,9 @@ sub search : Chained('userbase') Args(0) {
   $c->stash->{query} = $c->req->params->{q};
   return unless length($c->stash->{query});
 
-  $self->set_grouped_comments($c,'search',$c->d->forum->comments_grouped->search_rs([
-    map {{
-      'me.content' => { -ilike => '%'.$_.'%' }
-    }} split(/\s+/,$c->stash->{query})
-  ],{}),{ q => $c->stash->{query} });
+  $c->stash->{result} = $c->d->forum->search(q => $c->stash->{query});
+  use DDP; p $c->stash->{result}->results;
+  1
 }
 
 sub thread_view : Chained('userbase') PathPart('') CaptureArgs(0) {

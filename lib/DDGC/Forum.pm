@@ -17,18 +17,18 @@ has ddgc => (
 
 has search_engine => (
 	isa => 'DDGC::Search::Client',
-        is => 'ro',
-        lazy_build => 1,
-        handles => [qw(search index)]
-        lazy => 1,
+	is => 'ro',
+	lazy_build => 1,
+	handles => [qw(search index)],
+	lazy => 1,
 );
 
 sub _build_search_engine {
-    my $self = shift;
-    DDGC::Search::Client->new(
-        ddgc => $ddgc,
-        type => 'thread',
-    )
+	my $self = shift;
+	DDGC::Search::Client->new(
+	ddgc => $self->ddgc,
+	type => 'thread',
+	)
 }
 
 sub comments_grouped { shift->ddgc->rs('Comment')->ghostbusted->grouped_by_context->prefetch_all }
@@ -125,6 +125,14 @@ sub add_thread {
 			$thread->comment_id($thread_comment->id);
 			$thread->update;
 		});
+
+                use DDP; p $content;
+		$self->index(
+                        uri => $thread->get_url,
+			body => $content,
+			users_id => $user->id,
+			%params,
+		);
 	});
 
 	return $thread;

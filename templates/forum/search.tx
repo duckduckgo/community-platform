@@ -1,5 +1,10 @@
-<: if $grouped_comments.total_entries < 1 { :>
+<: if $result.total < 1 { :>
   <h1>Nothing found</h1>
 <: } else { :>
-  <: include 'forum/threadlist.tx' :>
+    <: for $result.results -> $thread { :>
+        <div class="row">
+            <a href="<: $u('Forum','thread',$thread.uri) :>"><: r($thread.title) :></a><br/>
+            <: r($thread.summary) :>
+        </div>
+    <: } :>
 <: } :>
