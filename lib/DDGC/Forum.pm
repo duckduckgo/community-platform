@@ -6,6 +6,7 @@ use File::ShareDir::ProjectDistDir;
 use JSON;
 use LWP::Simple;
 use URL::Encode 'url_encode_utf8';
+use DDGC::Search::Client;
 
 has ddgc => (
 	isa => 'DDGC',
@@ -13,6 +14,22 @@ has ddgc => (
 	weak_ref => 1,
 	required => 1,
 );
+
+has search_engine => (
+	isa => 'DDGC::Search::Client',
+        is => 'ro',
+        lazy_build => 1,
+        handles => [qw(search index)]
+        lazy => 1,
+);
+
+sub _build_search_engine {
+    my $self = shift;
+    DDGC::Search::Client->new(
+        ddgc => $ddgc,
+        type => 'thread',
+    )
+}
 
 sub comments_grouped { shift->ddgc->rs('Comment')->ghostbusted->grouped_by_context->prefetch_all }
 

@@ -97,3 +97,6 @@ requires 'Web::Scraper', '0.37';
 requires 'YAML', '0.84';
 requires 'YAML::XS', '0.41';
 requires 'DBIx::Class::Helpers', '0';
+requires 'Dezi', '0.002011';
+requires 'Dezi::Client', '0.002001';
+requires 'Dezi::MultiTenant', '0.003';
