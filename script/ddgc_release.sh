@@ -20,7 +20,7 @@ fi
 echo "\n*** Releasing to $DDGC_RELEASE_HOSTNAME...\n"
 
 echo "***\n*** Empty deploy directory...\n***"
-ssh -q -t ddgc@$DDGC_RELEASE_HOSTNAME "(
+ssh -t ddgc@$DDGC_RELEASE_HOSTNAME "(
 	rm -rf ~/deploy &&
 	mkdir ~/deploy
 )" && \
