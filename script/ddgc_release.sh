@@ -27,7 +27,7 @@ ssh -t ddgc@$DDGC_RELEASE_HOSTNAME "(
 echo "***\n*** Transfer release file $2...\n***" && \
 scp $2 ddgc@$DDGC_RELEASE_HOSTNAME:~/deploy && \
 echo "***\n*** Preparig release on remote site...\n***" && \
-ssh -q -t ddgc@$DDGC_RELEASE_HOSTNAME "(
+ssh -t ddgc@$DDGC_RELEASE_HOSTNAME "(
 	. /home/ddgc/perl5/perlbrew/etc/bashrc &&
 	. /home/ddgc/ddgc_config.sh &&
 	cd ~/deploy &&
