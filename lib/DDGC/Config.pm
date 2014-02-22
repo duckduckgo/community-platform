@@ -184,6 +184,8 @@ has db_params => (
 	},
 );
 
+has_conf dezi_uri => DDGC_DEZI_URI => 'http://127.0.0.1:5000';
+
 sub duckpandir {
 	my ( $self ) = @_;
 	my $dir = defined $ENV{'DDGC_DUCKPANDIR'} ? $ENV{'DDGC_DUCKPANDIR'} : $self->rootdir().'/duckpan/';
@@ -225,5 +227,8 @@ sub xslate_cachedir {
 	make_path($dir) if !-d $dir;
 	return File::Spec->rel2abs( $dir );
 }
+
+has_conf feedback_email => DDGC_FEEDBACK_EMAIL => 'support@duckduckgo.com';
+has_conf error_email => DDGC_ERROR_EMAIL => 'ddgc@duckduckgo.com';
 
 1;

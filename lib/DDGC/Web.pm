@@ -52,7 +52,7 @@ __PACKAGE__->config(
 		emit_module => 'Catalyst::Plugin::ErrorCatcher::Email',
 	},
 	'Plugin::ErrorCatcher::Email' => {
-		to => 'ddgc@duckduckgo.com',
+		to => $ENV{DDGC_ERROR_EMAIL} // 'ddgc@duckduckgo.com',
 		from => 'noreply@dukgo.com',
 		subject => '[DuckDuckGo Community] %p %l CRASH!!!',
 		use_tags => 1,

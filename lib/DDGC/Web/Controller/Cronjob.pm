@@ -71,7 +71,7 @@ sub notify_cycle {
 					};
 					if ($@) {
 						$c->d->postman->mail(
-							'getty@duckduckgo.com',
+							$c->d->config->error_email,
 							'"DuckDuckGo Community Envoy" <envoy@dukgo.com>',
 							'[DuckDuckGo Community] ERROR ON ENVOY',
 							$@,

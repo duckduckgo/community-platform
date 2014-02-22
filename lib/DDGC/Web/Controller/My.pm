@@ -593,7 +593,7 @@ sub requestlanguage :Chained('logged_in') :Args(0) {
 
 			$c->stash->{c} = $c;
 			$c->d->postman->template_mail(
-				'help@duckduckgo.com',
+				$c->d->config->feedback_email,
 				'"DuckDuckGo Community" <noreply@dukgo.com>',
 				'[DDG Language Request] New request',
 				'requestlanguage',

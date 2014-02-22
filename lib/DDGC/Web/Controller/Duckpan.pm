@@ -118,7 +118,7 @@ sub upload :Chained('logged_in') :Args(0) {
 	if ($c->stash->{duckpan_error}) {
 		$c->stash->{subject} = "Error on release!"
 	} else {
-		$c->stash->{subject} = "Successful uploaded ".
+		$c->stash->{subject} = "Successfully uploaded ".
 			$c->stash->{duckpan_release}->name." ".
 			$c->stash->{duckpan_release}->version;
 	}
@@ -128,7 +128,7 @@ sub upload :Chained('logged_in') :Args(0) {
 		'[DuckPAN] '.$c->stash->{subject},
 		'duckpan',
 		$c->stash,
-		Cc => '"Torsten Raudssus" <getty@duckduckgo.com>',
+		Cc => $c->d->config->error_email,
 	);
 }
 
