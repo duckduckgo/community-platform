@@ -17,9 +17,11 @@ my %tests = (
       "<a href='/user/somebody'>\@somebody</a>",
       '@somebody',
     ],
+    '@x.yz' => [
+      "<a href='/user/x.yz'>\@x.yz</a>",
+      '@x.yz',
+    ],
 );
-
-plan tests => int(keys(%tests)) * 2;
 
 use DDGC;
 my $ddgc = DDGC->new;
