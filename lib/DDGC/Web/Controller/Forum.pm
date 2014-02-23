@@ -80,8 +80,6 @@ sub search : Chained('userbase') Args(0) {
   return unless length($c->stash->{query});
 
   $c->stash->{result} = $c->d->forum->search(q => $c->stash->{query});
-  use DDP; p $c->stash->{result}->results;
-  1
 }
 
 sub thread_view : Chained('userbase') PathPart('') CaptureArgs(0) {

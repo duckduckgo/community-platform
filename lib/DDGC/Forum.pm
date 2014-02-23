@@ -126,11 +126,12 @@ sub add_thread {
 			$thread->update;
 		});
 
-                use DDP; p $content;
 		$self->index(
-                        uri => $thread->get_url,
+                        uri => $thread->id . '/' . $thread->get_url,
 			body => $content,
 			users_id => $user->id,
+                        thread_id => $thread->id,
+                        is_markup => 1,
 			%params,
 		);
 	});

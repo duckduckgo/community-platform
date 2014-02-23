@@ -1,10 +1,15 @@
-<: if $result.total < 1 { :>
-  <h1>Nothing found</h1>
+<: if !$result { :>
+    <div class="notice error"><b>Search error!</b> If this keeps happening, please report it to <a href="mailto:ddgc@duckduckgo.com">ddgc@duckduckgo.com</a>.</div>
+    <div class="row"><pre><: $result.error :></pre></div>
 <: } else { :>
-    <: for $result.results -> $thread { :>
-        <div class="row">
-            <a href="<: $u('Forum','thread',$thread.uri) :>"><: r($thread.title) :></a><br/>
-            <: r($thread.summary) :>
-        </div>
+    <: if $result.total < 1 { :>
+      <h1>Nothing found</h1>
+    <: } else { :>
+        <: for $result.results -> $thread { :>
+            <div class="row">
+                <a href="<: $u('Forum','thread',$thread.uri) :>"><: r($thread.title) :></a><br/>
+                <: r($thread.summary) :>
+            </div>
+        <: } :>
     <: } :>
 <: } :>

@@ -139,6 +139,14 @@ sub edit : Chained('thread') Args(0) {
 						key => 'screenshot_thread_thread_id_screenshot_id'
 					});
 				}
+				$c->d->forum->index(
+                                        uri => $c->stash->{thread}->id . '/' . $c->stash->{thread}->get_url,
+					body => $c->req->params->{content},
+					users_id => $c->stash->{thread}->users_id,
+                                        title => $c->req->params->{title},
+                                        thread_id => $c->stash->{thread}->id,
+                                        is_markup => 1,
+				);
 			} else {
 				$c->stash->{error} = 'One or more fields were empty.';
 			}

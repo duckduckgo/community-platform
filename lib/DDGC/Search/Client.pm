@@ -3,6 +3,7 @@ package DDGC::Search::Client;
 use Moose;
 use Dezi::Doc;
 use DDGC::Config;
+use JSON 'encode_json';
 
 use MooseX::NonMoose;
 extends 'Dezi::Client';
@@ -32,16 +33,24 @@ around index => sub {
     return $self->$orig(@_) if ref $_[0] eq 'Dezi::Doc';
 
     my %args = @_;
+    my $is_markup = defined $args{is_markup} ? delete $args{is_markup} : 0;
     my $uri = delete $args{uri};
 
-    my $doc = Dezi::Doc->new(
-        mime_type => 'application/xml',
-        mtime => time,
-        uri => $uri,
-    );
+    if ($is_markup && defined $args{body}) {
+        $args{body} = $self->ddgc->markup->plain($args{body});
+    }
 
-    $doc->set_field($_ => $args{$_}) foreach keys %args;
-    return $self->$orig($doc);
+    my $doc = encode_json({
+        mtime => time,
+        content_type => 'application/json',
+        %args,
+    });
+
+    return $self->$orig(
+        \$doc,
+        $uri,
+        'application/json',
+    );
 };
 
 
@@ -67,7 +76,7 @@ DDGC::Search - A Dezi-based search/indexing abstraction
 
     $search->index(
         title   => "I am a document",
-        content => "... and this is my body.",
+        body => "... and this is my body.",
     );
 
     my $response = $search->search( q => "document" );
@@ -84,8 +93,7 @@ This is the client part of DDGC's search engine abstraction layer. It inherits L
 
 =item B<index(%data)>
 
-This method takes a hash of options passed to L<Dezi::Doc>, in addition to
-a B<title> parameter, which is set on the document.
+This method takes a hash of options which will be encoded to JSON and passed to L<Dezi::Client>.
 
 =back
 

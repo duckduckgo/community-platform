@@ -3,6 +3,7 @@ package DDGC::Search::Server;
 use Moose;
 use Dezi::MultiTenant;
 use Dezi::Config;
+use Lingua::Stem;
 
 has indices => (
     is => 'ro',
@@ -14,6 +15,16 @@ sub _build_indices {
     [qw(help thread idea)]
 }
 
+has stemmer => (
+    is => 'ro',
+    lazy_build => 1,
+    handles => ['stem'],
+);
+
+sub _build_stemmer {
+    return Lingua::Stem->new;
+}
+
 sub app {
     my $self = shift;
     Dezi::MultiTenant->app({
@@ -23,12 +34,21 @@ sub app {
                 engine_config => {
                     type => 'Lucy',
                     index => ["$_.index"],
-                },
-                indexer_config => {
-                    config => {
-                        UndefinedMetaTags => 'auto',
-                        DefaultContents => 'TXT',
-                    }
+                    indexer_config => {
+                        config => {
+                            UndefinedMetaTags => 'autoall',
+                            FuzzyIndexingMode => 'Stemming_en1',
+                        }
+                    },
+                    searcher_config => {
+                        max_hits => 1000,
+                        find_relevant_fields => 1,
+                        qp_config => {
+                            dialect => 'Lucy',
+                            null_term => 'NULL',
+                            default_field => ['swishtitle', 'swishdescription'],
+                        },
+                    },
                 },
             }
         } @{$self->indices}
