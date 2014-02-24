@@ -1,5 +1,8 @@
 <p class="mg-bottom--double  button-group">
   <a class="button" href="<: $u('Forum::Admin','moderations') :>"><i class="icon icon-spam"></i>Moderation</a>
   <a class="button" href="<: $u('Forum::Admin','reports') :>"><i class="icon icon-inbox"></i>Reports</a>
+  <: if cur_user().admin { :>
+    <a class="button" href="<: $u('Forum::Admin','forum') :>"><i class="icon icon-inbox"></i>Forum Manager Forum</a>
+  <: } :>
 </p>
 <: include $next_template() :>
