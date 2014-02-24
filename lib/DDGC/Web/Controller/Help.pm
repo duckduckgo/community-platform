@@ -21,7 +21,7 @@ sub base :Chained('/base') :PathPart('help') :CaptureArgs(0) {
 
 sub legacy_redirect :Chained('base') :PathPart('en_US') :Args {
   my ( $self, $c, @args ) = @_;
-  $c->response->redirect('https://dukgo.com/help/'.join('/',@args));
+  $c->response->redirect('https://duck.co/help/'.join('/',@args));
 }
 
 # sub language :Chained('base') :PathPart('') :CaptureArgs(1) {
