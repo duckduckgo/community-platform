@@ -11,7 +11,6 @@ use DDGC::Markup;
 use DDGC::Envoy;
 use DDGC::Postman;
 use DDGC::Stats;
-use DDGC::GitHub;
 use DDGC::Forum;
 use DDGC::Util::DateTime;
 
@@ -153,12 +152,12 @@ has stats => (
 );
 sub _build_stats { DDGC::Stats->new({ ddgc => shift }) }
 
-has github => (
-	isa => 'DDGC::GitHub',
-	is => 'ro',
-	lazy_build => 1,
-);
-sub _build_github { DDGC::GitHub->new({ ddgc => shift }) }
+#has github => (
+#	isa => 'DDGC::GitHub',
+#	is => 'ro',
+#	lazy_build => 1,
+#);
+#sub _build_github { DDGC::GitHub->new({ ddgc => shift }) }
 
 has cache => (
 	isa => 'Cache::Cache',
