@@ -170,6 +170,7 @@ sub delete : Chained('thread') Args(0) {
 	if ($c->req->params->{i_am_sure}) {
 		$c->require_action_token;
 		my $id = $c->stash->{thread}->id;
+                eval { $c->d->forum->search_engine->delete($id . '/' . $c->stash->{thread}->get_url); };
 		$c->d->db->txn_do(sub {
 			$c->stash->{thread}->delete();
 			$c->d->rs('Comment')->search({ context => "DDGC::DB::Result::Thread", context_id => $id })->delete();

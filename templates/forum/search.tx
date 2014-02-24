@@ -1,15 +1,21 @@
-<: if !$result { :>
-    <div class="notice error"><b>Search error!</b> If this keeps happening, please report it to <a href="mailto:ddgc@duckduckgo.com">ddgc@duckduckgo.com</a>.</div>
-    <div class="row"><pre><: $result.error :></pre></div>
-<: } else { :>
-    <: if $result.total < 1 { :>
+<div class="content-box">
+<div class="body body--round">
+<div class="head"><h2>Search for <em><: $query :></em></h2></div>
+    <: if $results.size() < 1 { :>
       <h1>Nothing found</h1>
     <: } else { :>
-        <: for $result.results -> $thread { :>
-            <div class="row">
-                <a href="<: $u('Forum','thread',$thread.uri) :>"><: r($thread.title) :></a><br/>
-                <: r($thread.summary) :>
-            </div>
+        <: for results($threads) -> $thread { :>
+            <: my $comment = $thread.get_field('result').comment :>
+            <: my $reply_count = $comment.get_column('comments_count') :>
+            <: if !$thread.ghosted { :>
+                <div class="row">
+                    <a href="<: $u($thread.u) :>" class="group">
+                        <: r($results[$thread.id].title) :>
+                    </a>
+                    <: r($results[$thread.id].summary) :>
+                </div>
+            <: } :>
         <: } :>
     <: } :>
-<: } :>
+</div>
+</div>

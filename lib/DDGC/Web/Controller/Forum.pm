@@ -79,7 +79,38 @@ sub search : Chained('userbase') Args(0) {
   $c->stash->{query} = $c->req->params->{q};
   return unless length($c->stash->{query});
 
-  $c->stash->{result} = $c->d->forum->search(q => $c->stash->{query});
+  my $result = $c->d->forum->search(q => $c->stash->{query});
+
+  my %threads;
+  my $threads_rs;
+
+  # This will become:
+  # CASE id
+  #   WHEN x THEN i
+  #   ELSE last_i+1
+  # END
+  # With an additional when line for each x (thread_id) in results
+  my $case = "CASE id";
+
+  if ($result && $result->total) {
+      my @ids;
+      $threads{$_->get_field('thread_id')->[0]} = $_ for @{$result->results};
+      push @ids, $_->get_field('thread_id')->[0] for @{$result->results};
+      my $i;
+
+      $case .= ' WHEN '.$_.' THEN '.++$i for @ids;
+      $case .= ' ELSE '.++$i.' END, id';
+      
+      $threads_rs = $c->d->rs('Thread')->search_rs({id => \@ids},
+          { order_by => {
+                -desc =>
+                    \do { $case }
+              }
+      });
+  }
+
+  $c->stash->{results} = \%threads;
+  $c->stash->{threads} = $threads_rs;
 }
 
 sub thread_view : Chained('userbase') PathPart('') CaptureArgs(0) {
