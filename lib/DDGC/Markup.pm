@@ -259,7 +259,7 @@ sub html_render {
 	my ( $self, $markup, $without_privacy ) = @_;
 	my $html = $self->bbcode($without_privacy)->render($markup);
 	# Let's try to handle @mentions!
-	$html =~ s#(?<!\w)\@([\w\.]+)#<a href='/user/$1'>\@$1</a>#g;
+	$html =~ s#(?:^|(?<=[\s\."']))\@([\w\.]+)#<a href='/user/$1'>\@$1</a>#g;
 	return $html;
 }
 

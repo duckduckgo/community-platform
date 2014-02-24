@@ -17,9 +17,21 @@ my %tests = (
       "<a href='/user/somebody'>\@somebody</a>",
       '@somebody',
     ],
-    '@x.yz' => [
-      "<a href='/user/x.yz'>\@x.yz</a>",
-      '@x.yz',
+    '@x.yz @a.bc' => [
+      "<a href='/user/x.yz'>\@x.yz</a> <a href='/user/a.bc'>\@a.bc</a>",
+      '@x.yz @a.bc',
+    ],
+    'http://duckduckgo.com/?q=@yegg' => [
+        '<a class="p-link" href="http://duckduckgo.com/?q=@yegg" rel="nofollow"><i class="p-link__icn icon-external-link"></i><span class="p-link__txt">http://duckduckgo.com/?q=@yegg</span></a>',
+        'http://duckduckgo.com/?q=@yegg'
+    ],
+    'foo@example.com' => [
+        'foo@example.com',
+        'foo@example.com'
+    ],
+    '[code=perl]my @foo;[/code]' => [
+        '<div class=\'bbcode_code_header\'>Perl Code:<pre class=\'bbcode_code_body\'><code><span class="synStatement">my</span> <span class="synIdentifier">@foo</span>;'."\n".'</code></pre></div>',
+        'my @foo;'
     ],
 );
 
