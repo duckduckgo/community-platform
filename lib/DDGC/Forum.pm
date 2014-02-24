@@ -8,6 +8,13 @@ use LWP::Simple;
 use URL::Encode 'url_encode_utf8';
 use DDGC::Search::Client;
 
+has ddgc => (
+	isa => 'DDGC',
+        is => 'ro',
+        weak_ref => 1,
+        required => 1,
+);
+
 has search_engine => (
 	isa => 'DDGC::Search::Client',
 	is => 'ro',
