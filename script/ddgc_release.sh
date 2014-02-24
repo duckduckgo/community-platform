@@ -13,20 +13,20 @@ fi
 
 if [ "$DDGC_RELEASE_HOSTNAME" = "" ];
 then
-	echo "need a release target"
+	printf "need a release target\n"
 	exit 1
 fi
 
-echo "\n*** Releasing to $DDGC_RELEASE_HOSTNAME...\n"
+printf "\n*** Releasing to $DDGC_RELEASE_HOSTNAME...\n\n"
 
-echo "***\n*** Empty deploy directory...\n***"
+printf "***\n*** Empty deploy directory...\n***\n"
 ssh -t ddgc@$DDGC_RELEASE_HOSTNAME "(
 	rm -rf ~/deploy &&
 	mkdir ~/deploy
 )" && \
-echo "***\n*** Transfer release file $2...\n***" && \
+printf "***\n*** Transfer release file $2...\n***\n" && \
 scp $2 ddgc@$DDGC_RELEASE_HOSTNAME:~/deploy && \
-echo "***\n*** Preparig release on remote site...\n***" && \
+printf "***\n*** Preparig release on remote site...\n***\n" && \
 ssh -t ddgc@$DDGC_RELEASE_HOSTNAME "(
 	. /home/ddgc/perl5/perlbrew/etc/bashrc &&
 	. /home/ddgc/ddgc_config.sh &&
@@ -35,9 +35,9 @@ ssh -t ddgc@$DDGC_RELEASE_HOSTNAME "(
 	cpanm -n --installdeps . &&
 	duckpan DDGC::Static &&
 	touch ~/ddgc_web_maintenance &&
-	echo Stopping current system... && 
+	printf Stopping current system... && 
 	sudo /usr/local/sbin/stop_ddgc.sh && 
-	echo Copying new files in place... && 
+	printf Copying new files in place... && 
 	. /home/ddgc/perl5/perlbrew/etc/bashrc &&
 	. /home/ddgc/ddgc_config.sh &&
 	mv ~/live ~/backup/$CURRENT_DATE_FILENAME &&
@@ -46,7 +46,7 @@ ssh -t ddgc@$DDGC_RELEASE_HOSTNAME "(
 	mkdir ~/cache &&
 	cp -ar ~/live/share/docroot/* ~/docroot/ &&
 	cp -ar ~/live/share/docroot_duckpan/* ~/ddgc/duckpan/ &&
-	echo Starting new system... && 
+	printf Starting new system... && 
 	sudo /usr/local/sbin/start_ddgc.sh &&
 	. /home/ddgc/perl5/perlbrew/etc/bashrc &&
 	. /home/ddgc/ddgc_config.sh &&
