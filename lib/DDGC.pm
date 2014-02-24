@@ -591,7 +591,7 @@ sub all_roles {
 	return defined $arg
 		? $roles{$arg}
 		: \%roles;
-}
+ }
 
 has current_user => (
   isa => 'DDGC::DB::Result::User',
@@ -822,3 +822,207 @@ sub add_comment { shift->forum->add_comment(@_) }
 
 no Moose;
 __PACKAGE__->meta->make_immutable;
+
+# ABSTRACT: The DuckDuckGo Community Platform
+
+__DATA__
+
+=pod
+
+=head1 DESCRIPTION
+
+This is the main class of DDGC. It provides a bunch of helper methods for the
+rest of DDGC, and fires up all the other parts of the system.
+
+=head2 User-Facing Components
+
+=over 4
+
+=item Help
+
+The L<DDGC::Help> system provides L<https://duck.co/help> -- DuckDuckGo's
+user documentation.
+
+=item Forum
+
+L<DDGC::Forum> provides General Ramblings and Instant Answers in
+L<https://duck.co/forum> for user discussion and support.
+
+=item Blog
+
+L<DDGC::Web::Controller::Blog> provides L<https://duck.co/blog>,
+the company blog.
+
+=item Translate
+
+L<DDGC::Web::Controller::Translate> and friends provide
+L<https://duck.co/translate> -- DuckDuckGo's public translation system.
+
+=item Feedback
+
+L<DDGC::Web::Controller::Feedback> provides L<https://duckduckgo.com/feedback>
+for directly submitting feedback to DuckDuckGo.
+
+=back
+
+=head1 ATTRIBUTES
+
+=over 4
+
+=item B<config>
+
+L<DDGC::Config> instance, giving access to all of the configuration.
+
+=item B<http>
+
+L<LWP::UserAgent> instance for making HTTP requests from the server.
+
+=item B<db>
+
+L<DDGC::DB> database abstraction via L<DBIx::Class>.
+
+=item B<xmpp>
+
+L<DDGC::XMPP> instance for accessing a local Prosody XMPP server/database.
+
+=item B<markup>
+
+L<DDGC::Markup> instance for converting user-input markup (BBCode) to HTML.
+
+=item B<envoy>
+
+L<DDGC::Envoy> instance for managing DDGC's notifications.
+
+=item B<postman>
+
+L<DDGC::Postman> - your friendly neighborhood postman - deals with outbound emails.
+
+=item B<duckpan>
+
+L<DDGC::DuckPAN> handles Perl distributions like CPAN, just for DuckDuckGo.
+
+=item B<stats>
+
+L<DDGC::Stats> generates anonymous statistics for DDGC data.
+
+=item B<github>
+
+L<DDGC::GitHub> helps with interaction between DDGC and GitHub.
+
+=item B<cache>
+
+L<Cache::Cache> for caching just about anything in DDGC.
+
+=item B<forum>
+
+L<DDGC::Forum> manages the DuckDuckGo forum L<https://duck.co/forum>.
+
+=item B<xslate>
+
+L<Text::Xslate> template engine. This is what renders everything in B<templates/>.
+
+=item B<current_user>
+
+L<DDGC::DB::Result::User> instance for the current logged in user (if any).
+
+=item B<forced_privacy>
+
+B<Boolean> - whether privacy mode is currently forced (system-wide).
+
+=back
+
+=head1 METHODS
+
+=over 4
+
+=item B<resultset>
+
+Grab a ResultSet from DBIC. See L<https://metacpan.org/pod/DBIx::Class::ResultSet#new>.
+
+=item B<template_styles>
+
+B<Arguments:> None
+
+B<Return Value:> HashRef
+
+Some of the base styles for DDGC. These go into generated CSS.
+
+=item B<all_roles>
+
+B<Arguments:> $role_id?
+
+Role here refers to permission sets - users have roles including:
+
+=over 8
+
+=item translation_manager 
+=item forum_manager 
+=item idea_manager 
+
+=back
+
+With C<$role_id>, return the full (human-readable) name of that role.
+Without C<$role_id>, return a HashRef of C<{ role_id => "Role Name" }>
+
+=item B<force_privacy>
+
+B<Arguments:> $code
+
+Turn on C<forced_privacy>, execute the C<$code> block, then turn C<forced_privacy>
+back off.
+
+=item B<as>
+
+B<Arguments:> $user, $code
+
+Switch the C<current_user> to $user, execute C<$code>, then reset C<current_user>.
+
+=item B<error_log>
+
+B<Arguments:> @data
+
+Dump C<@data> to the error log, as configured in L<DDGC::Config>.
+
+=item B<update_password>
+
+B<Arguments:> $username, $password
+
+Changes C<$username>'s password to C<$password> both in DDGC and Prosody.
+
+=item B<delete_user>
+
+B<Arguments:> $username
+
+B<Return Value:> True if successful
+
+Delete C<$username> from DDGC and Prosody. There is no going back.
+
+=item B<create_user>
+
+B<Arguments:> $username, $password
+
+B<Return Value:> $user
+
+Create C<$username> in DDGC and Prosody, with default values.
+If C<$username> already exists, this will just return that user.
+
+=item B<find_user>
+
+B<Arguments:> $username
+
+B<Return Value:> $user or undef
+
+Try to find C<$username> and return that user. If it does not exist, return undef.
+
+=item B<user_counts>
+
+B<Arguments:> none.
+
+B<Return Value:> HashRef
+
+Get the current number of DDGC (Web) and Prosody (XMPP) users as a HashRef:
+C<{ db => $web_count, xmpp => $xmpp_count }>
+
+=back
+
+=cut
