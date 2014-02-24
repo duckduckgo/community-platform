@@ -8,13 +8,6 @@ use LWP::Simple;
 use URL::Encode 'url_encode_utf8';
 use DDGC::Search::Client;
 
-has ddgc => (
-	isa => 'DDGC',
-	is => 'ro',
-	weak_ref => 1,
-	required => 1,
-);
-
 has search_engine => (
 	isa => 'DDGC::Search::Client',
 	is => 'ro',
@@ -26,8 +19,8 @@ has search_engine => (
 sub _build_search_engine {
 	my $self = shift;
 	DDGC::Search::Client->new(
-	ddgc => $self->ddgc,
-	type => 'thread',
+		ddgc => $self->ddgc,
+		type => 'thread',
 	)
 }
 
@@ -127,11 +120,11 @@ sub add_thread {
 		});
 
 		$self->index(
-                        uri => $thread->id . '/' . $thread->get_url,
+			uri => $thread->id . '/' . $thread->get_url,
 			body => $content,
 			users_id => $user->id,
-                        thread_id => $thread->id,
-                        is_markup => 1,
+			thread_id => $thread->id,
+			is_markup => 1,
 			%params,
 		);
 	});

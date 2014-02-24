@@ -57,15 +57,11 @@ around index => sub {
 __PACKAGE__->meta->make_immutable;
 1;
 
+# ABSTRACT: A Dezi-based search/indexing abstraction
+
 __DATA__
 
 =pod
-
-=encoding UTF-8
-
-=head1 NAME
-
-DDGC::Search - A Dezi-based search/indexing abstraction
 
 =head1 SYNOPSIS
 

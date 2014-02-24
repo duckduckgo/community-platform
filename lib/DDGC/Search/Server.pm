@@ -63,15 +63,11 @@ has config => (
 __PACKAGE__->meta->make_immutable;
 1;
 
+# ABSTRACT: A Dezi-based opensearch server
+
 __DATA__
 
 =pod
-
-=encoding UTF-8
-
-=head1 NAME
-
-DDGC::Search::Server - A Dezi-based opensearch server
 
 =head1 SYNOPSIS
 
