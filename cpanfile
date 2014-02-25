@@ -101,3 +101,4 @@ requires 'Dezi', '0.002011';
 requires 'Dezi::Client', '0.002001';
 requires 'Dezi::MultiTenant', '0.003';
 requires 'Search::Query', '0.24';
+requires 'HTML::Strip', '1.06';

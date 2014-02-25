@@ -69,6 +69,17 @@ sub index :Chained('base') :PathPart('') :Args(0) {
 					\%help_content_values
 				);
 			}
+
+			# Now it exists! Index that article.
+			$c->d->help->index(
+				uri => $help_content->language_id . '/' . $help->help_category->key . '/' . $help->key,
+				body => $help_content->content,
+				language_id => $help_content->language_id,
+				id => $help->id,
+				title => $help_content->title,
+				is_html => $help_content->raw_html,
+				is_markup => !$help_content->raw_html,
+			);
 		}
 	}
 
@@ -175,7 +186,7 @@ sub media :Chained('base') :Args(2) {
 			$help_content->content($html);
 			$help_content->update;
 		}
-  }
+	}
 	$c->stash->{media_files} = \%files;
 }
 

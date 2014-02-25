@@ -3,6 +3,7 @@ package DDGC::Search::Client;
 use Moose;
 use Dezi::Doc;
 use DDGC::Config;
+use HTML::Strip;
 use JSON 'encode_json';
 
 use MooseX::NonMoose;
@@ -28,16 +29,30 @@ has ddgc => (
     weak_ref => 1,
 );
 
+has stripper => (
+    is => 'ro',
+    lazy_build => 1,
+);
+
+sub _build_stripper {
+    HTML::Strip->new
+}
+
 around index => sub {
     my ($orig, $self) = (shift, shift);
     return $self->$orig(@_) if ref $_[0] eq 'Dezi::Doc';
 
     my %args = @_;
     my $is_markup = defined $args{is_markup} ? delete $args{is_markup} : 0;
+    my $is_html = defined $args{is_html} ? delete $args{is_html} : 0;
     my $uri = delete $args{uri};
 
     if ($is_markup && defined $args{body}) {
         $args{body} = $self->ddgc->markup->plain($args{body});
+    }
+    elsif ($is_html && defined $args{body}) {
+        $args{body} = $self->stripper->parse($args{body});
+        $self->stripper->eof;
     }
 
     my $doc = encode_json({

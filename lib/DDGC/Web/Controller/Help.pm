@@ -58,14 +58,39 @@ sub search :Chained('base') :Args(0) {
   $c->add_bc('Search');
   $c->stash->{help_search} = $c->req->param('help_search');
   return unless $c->stash->{help_search};
-  $c->stash->{search_helps} = $c->d->rs('Help')->search([{
-    'help_contents.title' => { -ilike => '%'.$c->stash->{help_search}.'%' },
-  },{
-    'help_contents.content' => { -ilike => '%'.$c->stash->{help_search}.'%' },
-  }],{
-    order_by => { -asc => 'me.sort' },
-    prefetch => [ 'help_contents', { help_category => 'help_category_contents' } ],
-  });
+
+  my $result = $c->d->help->search(q => $c->stash->{help_search});
+
+  my %articles;
+  my $articles_rs;
+  my $case = "CASE id";
+
+  if ($result && $result->total) {
+      if (my $ducky = $c->req->param('ducky')) {
+          my @uri = split '/', $result->results->[0]->uri;
+          $c->response->redirect(join '/', @uri[1,2]);
+          return $c->detach;
+      }
+
+      my @ids;
+      push @ids, $_->get_field('id')->[0] for @{$result->results};
+
+      $articles{$_->get_field('id')->[0]} = $_ for @{$result->results};
+      my $i;
+
+      $case .= ' WHEN '.$_.' THEN '.++$i for @ids;
+      $case .= ' ELSE '.++$i.' END, id';
+      
+      $articles_rs = $c->d->rs('Help')->search_rs({id => \@ids},
+          { order_by => {
+                -desc =>
+                    \do { $case }
+              }
+      });
+  }
+
+  $c->stash->{articles} = \%articles;
+  $c->stash->{search_helps} = $articles_rs;
   $c->stash->{title} = 'Search help pages';
 }
 

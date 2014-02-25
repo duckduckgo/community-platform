@@ -94,8 +94,8 @@ sub search : Chained('userbase') Args(0) {
 
   if ($result && $result->total) {
       my @ids;
-      $threads{$_->get_field('thread_id')->[0]} = $_ for @{$result->results};
-      push @ids, $_->get_field('thread_id')->[0] for @{$result->results};
+      $threads{$_->get_field('id')->[0]} = $_ for @{$result->results};
+      push @ids, $_->get_field('id')->[0] for @{$result->results};
       my $i;
 
       $case .= ' WHEN '.$_.' THEN '.++$i for @ids;
