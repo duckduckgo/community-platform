@@ -49,7 +49,7 @@ my @attributes = (
 	github => 'Your GitHub username' => {
 		type => 'remote',
 		validators => [sub {
-			m/^[\w\.-_]+$/ ? () : ("Invalid GitHub username")
+			( m/^[[:alnum:]-]+$/ && m/^[^-]/ ) ? () : ("Invalid GitHub username")
 		}],
 		params => {
 			url_prefix => 'https://github.com/',
