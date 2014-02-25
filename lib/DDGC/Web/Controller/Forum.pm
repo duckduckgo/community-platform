@@ -81,8 +81,8 @@ sub search : Chained('userbase') Args(0) {
 
   my $result = $c->d->forum->search(q => $c->stash->{query});
 
-  my %threads;
   my $threads_rs;
+  my %threads;
 
   # This will become:
   # CASE id
@@ -108,9 +108,12 @@ sub search : Chained('userbase') Args(0) {
               }
       });
   }
-
   $c->stash->{results} = \%threads;
-  $c->stash->{threads} = $threads_rs;
+  $c->stash->{grouped_comments} = $c->table(
+    $threads_rs,['Forum','search',{ q => $c->stash->{query} }],[],
+    default_pagesize => 15,
+    id => 'forum_threadlist_search',
+  ) if defined $threads_rs;
 }
 
 sub thread_view : Chained('userbase') PathPart('') CaptureArgs(0) {

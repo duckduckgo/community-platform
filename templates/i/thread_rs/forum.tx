@@ -1,0 +1,60 @@
+<div class="content-box">
+  <div class="group  head--forum">
+    <div class="forum-nav">
+		<: if $forum_index { :>
+		  <: include "forum/nav.tx" { current_page => 'general' } :>
+		<: } else { :>
+		  <: include "forum/nav.tx" { current_page => 'other' } :>
+		<: } :>
+	</div>	
+	<div class="pager-wrap">
+		<: i($grouped_comments,'pager') :>	
+	</div>
+  </div>
+  <div class="body  body--round">
+    <: for results($_) -> $thread { :>
+      <: my $context_obj = $thread :>
+      <div class="row">
+        <div class="forum-item">
+			<div class="forum-item__top  group">
+				<div class="forum-item__title-wrap  eighty">
+				  <a class="forum-item__title  group" href="<: $u($thread.u) :>">
+					<: i($context_obj,'label_thread') :>
+				  </a>				  
+				</div>
+				<div class="forum-item__reply-count  twenty">
+					 <: if $comment.context == 'DDGC::DB::Result::Thread' { :>
+						<span class="thread-icons">
+						  <: if $context_obj.readonly { :><i class="thread-icon  icon-lock" title="This thread is read-only"></i><: } :>
+						  <: if $context_obj.done { :><i class="thread-icon--good  icon-ok" title="This thread is complete"></i><: } :>
+						  <: if $context_obj.sticky { :><i class="thread-icon--stuck  icon-pushpin" title="Stuck Thread"></i><: } :>
+						</span>
+					  <: } :>
+				</div>
+		  </div>
+          <div class="group">
+              <: r($results[$thread.id].summary) :>
+          </div>
+          <div class="group">
+            <div class="forty">
+                <span class="comment-meta">
+                    <: if $context_obj.can('user') && $context_obj.user { :>
+                      by <: i($context_obj.user) :> &bull; <span title="<: $dur_precise($context_obj.created) :>"><: $dur($context_obj.created) :></span>					  
+                    <: } elsif $context_obj.can('token') && $context_obj.token { :> 
+                       <i>Translation</i>
+                    <: } :>                    
+                </span>
+            </div>
+            <div class="sixty">
+               
+				<span class="comment-meta  reply-info">
+                      <: $dur_precise($thread.created) :>
+                </span>
+            </div>
+           </div>
+          </span>
+        </div>
+      </div>
+    <: } :>
+  </div>
+</div>

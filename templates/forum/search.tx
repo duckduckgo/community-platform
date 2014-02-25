@@ -1,21 +1,5 @@
-<div class="content-box">
-<div class="body body--round">
-<div class="head"><h2>Search for <em><: $query :></em></h2></div>
-    <: if $results.size() < 1 { :>
-      <h1>Nothing found</h1>
-    <: } else { :>
-        <: for results($threads) -> $thread { :>
-            <: my $comment = $thread.get_field('result').comment :>
-            <: my $reply_count = $comment.get_column('comments_count') :>
-            <: if !$thread.ghosted { :>
-                <div class="row">
-                    <a href="<: $u($thread.u) :>" class="group">
-                        <: r($results[$thread.id].title) :>
-                    </a>
-                    <: r($results[$thread.id].summary) :>
-                </div>
-            <: } :>
-        <: } :>
-    <: } :>
-</div>
-</div>
+<: if $grouped_comments.total_entries < 1 { :>
+  <h1>Nothing found</h1>
+<: } else { :>
+  <: include 'forum/threadlist.tx' :>
+<: } :>
