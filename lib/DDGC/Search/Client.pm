@@ -38,6 +38,57 @@ sub _build_stripper {
     HTML::Strip->new
 }
 
+sub resultset {
+    my ($self, $c, $query, $rs, %args) = @_;
+    die 'resultset() needs $c, $query, $rs.' unless defined $c || defined $query || defined $rs;
+
+    my $result = $self->search(q => $query, %args // ());
+
+    my %results;
+    my $resultset;
+    my $order_by;
+    # This will become:
+    # CASE id
+    #   WHEN x THEN i
+    #   ELSE last_i+1
+    # END
+    # With an additional when line for each x (id) in results.
+    # It is used as the ORDER BY clause to retain the search
+    # engine's ranking.
+    my $case = "CASE id";
+
+    if ($result && $result->total) {
+        my @ids;
+        push @ids, $_->get_field('id')->[0] for @{$result->results};
+
+        $results{$_->get_field('id')->[0]} = $_ for @{$result->results};
+        my $i;
+
+        $case .= ' WHEN '.$_.' THEN '.++$i for @ids;
+        $case .= ' ELSE '.++$i.' END, id';
+
+        $order_by = \do { $case };
+        
+        $resultset = $rs->search_rs({id => \@ids},
+            { order_by => {
+                  -desc => $order_by
+                }
+        });
+
+        if (my $ducky = $c->req->param('ducky')) {
+            my $first = $resultset->first;
+            if (defined $first && $first->can('u')) {
+                $c->response->redirect($c->chained_uri(@{$first->u}));
+                return $c->detach;
+            }
+        }
+    }
+
+    return \%results, $resultset, $order_by;
+}
+
+sub rs { shift->resultset(@_) }
+
 around index => sub {
     my ($orig, $self) = (shift, shift);
     return $self->$orig(@_) if ref $_[0] eq 'Dezi::Doc';

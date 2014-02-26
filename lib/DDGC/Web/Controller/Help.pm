@@ -59,37 +59,13 @@ sub search :Chained('base') :Args(0) {
   $c->stash->{help_search} = $c->req->param('help_search');
   return unless $c->stash->{help_search};
 
-  my $result = $c->d->help->search(q => $c->stash->{help_search});
+  my ($articles, $articles_rs) = $c->d->help->search_engine->rs(
+      $c,
+      $c->stash->{help_search},
+      $c->d->rs('Help')
+  );
 
-  my %articles;
-  my $articles_rs;
-  my $case = "CASE id";
-
-  if ($result && $result->total) {
-      if (my $ducky = $c->req->param('ducky')) {
-          my @uri = split '/', $result->results->[0]->uri;
-          $c->response->redirect(join '/', @uri[1,2]);
-          return $c->detach;
-      }
-
-      my @ids;
-      push @ids, $_->get_field('id')->[0] for @{$result->results};
-
-      $articles{$_->get_field('id')->[0]} = $_ for @{$result->results};
-      my $i;
-
-      $case .= ' WHEN '.$_.' THEN '.++$i for @ids;
-      $case .= ' ELSE '.++$i.' END, id';
-      
-      $articles_rs = $c->d->rs('Help')->search_rs({id => \@ids},
-          { order_by => {
-                -desc =>
-                    \do { $case }
-              }
-      });
-  }
-
-  $c->stash->{articles} = \%articles;
+  $c->stash->{articles} = $articles;
   $c->stash->{search_helps} = $articles_rs;
   $c->stash->{title} = 'Search help pages';
 }

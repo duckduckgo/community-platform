@@ -79,36 +79,13 @@ sub search : Chained('userbase') Args(0) {
   $c->stash->{query} = $c->req->params->{q};
   return unless length($c->stash->{query});
 
-  my $result = $c->d->forum->search(q => $c->stash->{query});
+  my ($threads, $threads_rs) = $c->d->forum->search_engine->rs(
+      $c,
+      $c->stash->{query},
+      $c->d->rs('Thread'),
+  );
 
-  my $threads_rs;
-  my %threads;
-
-  # This will become:
-  # CASE id
-  #   WHEN x THEN i
-  #   ELSE last_i+1
-  # END
-  # With an additional when line for each x (thread_id) in results
-  my $case = "CASE id";
-
-  if ($result && $result->total) {
-      my @ids;
-      $threads{$_->get_field('id')->[0]} = $_ for @{$result->results};
-      push @ids, $_->get_field('id')->[0] for @{$result->results};
-      my $i;
-
-      $case .= ' WHEN '.$_.' THEN '.++$i for @ids;
-      $case .= ' ELSE '.++$i.' END, id';
-      
-      $threads_rs = $c->d->rs('Thread')->search_rs({id => \@ids},
-          { order_by => {
-                -desc =>
-                    \do { $case }
-              }
-      });
-  }
-  $c->stash->{results} = \%threads;
+  $c->stash->{results} = $threads;
   $c->stash->{grouped_comments} = $c->table(
     $threads_rs,['Forum','search',{ q => $c->stash->{query} }],[],
     default_pagesize => 15,

@@ -16,7 +16,7 @@ STDOUT->autoflush(1);
     my $total = $rs->count;
 
     while (my $thread = $rs->next) {
-        print "\r" . ++$c . '/' . $total;
+        print "\rThreads: " . ++$c . '/' . $total;
         $search->index(
                 uri => $thread->id . '/' . $thread->get_url,
                 body => $thread->comment->content,
@@ -40,7 +40,7 @@ print "\n";
     my $total = $rs->count;
 
     while (my $article = $rs->next) {
-        print "\r" . ++$c . '/' . $total;
+        print "\rHelp: " . ++$c . '/' . $total;
         for ($article->help_contents->all) {
             $search->index(
                     uri => $_->language_id . '/' . $article->help_category->key . '/' . $article->key,
@@ -54,3 +54,28 @@ print "\n";
         }
     }
 }
+
+print "\n";
+
+{
+    my $search = DDGC::Search::Client->new(
+        ddgc => $ddgc,
+        type => 'idea',
+    );
+    my $rs = $ddgc->rs('Idea');
+
+    my $c;
+    my $total = $rs->count;
+
+    while (my $idea = $rs->next) {
+        print "\rIdeas: " . ++$c . '/' . $total;
+        $search->index(
+             uri => join('/', @{$idea->u}[-2,-1]),
+             title => $idea->title,
+             body => $idea->content,
+             id => $idea->id,
+             is_markup => 1,
+        );
+    }
+}
+print "\nALL DONE!\n";

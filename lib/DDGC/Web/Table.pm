@@ -182,9 +182,10 @@ has sorting_option => (
 	default => sub {
 		my ( $self ) = @_;
 		if ($self->has_sorting_options) {
-			if ($self->c->req->param($self->key_sort)) {
+			my $sort_key = $self->c->req->param($self->key_sort) || $self->default_sorting;
+			if ($sort_key) {
 				for (@{$self->sorting_options}) {
-					if ($_->{sorting} eq $self->c->req->param($self->key_sort)) {
+					if ($_->{sorting} eq $sort_key) {
 						return $_;
 					}
 				}
