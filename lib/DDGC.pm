@@ -14,6 +14,7 @@ use DDGC::Stats;
 use DDGC::GitHub;
 use DDGC::Forum;
 use DDGC::Help;
+use DDGC::Ideas;
 use DDGC::Util::DateTime;
 
 use File::Copy;
@@ -587,6 +588,16 @@ has help => (
 );
 
 sub _build_help { DDGC::Help->new( ddgc => shift ) }
+
+##################################################
+
+has idea => (
+    isa => 'DDGC::Ideas',
+    is => 'ro',
+    lazy_build => 1,
+);
+
+sub _build_idea { DDGC::Ideas->new( ddgc => shift ) }
 
 #
 # ======== User ====================
