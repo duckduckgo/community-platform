@@ -56,7 +56,7 @@ The web controller (where specific requests are handled).
 
 =item L<DDGC::DB::Result::Idea>
 
-The database model for Help articles.
+The database model for instant answer ideas.
 
 =back
 
