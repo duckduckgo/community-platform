@@ -17,4 +17,4 @@ my $server = DDGC::Search::Server->new(config => $config);
 
 my $runner = Plack::Runner->new;
 $runner->parse_options(@ARGV);
-$runner->run($server->app);
+$runner->run($server->to_app);

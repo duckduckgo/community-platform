@@ -42,7 +42,13 @@ sub resultset {
     my ($self, $c, $query, $rs, %args) = @_;
     die 'resultset() needs $c, $query, $rs.' unless defined $c || defined $query || defined $rs;
 
-    my $result = $self->search(q => $query, %args // ());
+    %args = () unless %args;
+    $args{q} = $query;
+    my $result = $self->search(%args);
+    $c->stash->{error} = 'Cannot connect to the search server! ' . ($c->debug ?
+        'Have you run `script/dezi_server.pl &`?' :
+        'Please contact <a href="mailto:ddgc@duckduckgo.com">ddgc@dukgo.com</a> if the issue persists.')
+    unless $result;
 
     my %results;
     my $resultset;

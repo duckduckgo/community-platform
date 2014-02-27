@@ -21,6 +21,9 @@
       <: } :>    
   <: } else { :>
     <h2>No search results!</h2>
+    <: if $error { :>
+      <div class="notice error"><: r($error) :></div>
+    <: } :>
   <: } :>
 <: } else { :>
   <h2>Please enter a search term!</h2>

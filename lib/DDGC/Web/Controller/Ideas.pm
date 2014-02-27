@@ -100,7 +100,7 @@ sub search : Chained('base') Args(0) {
 
         $c->stash->{ideas_rs} = $ideas_rs;
         $c->stash->{idea_order} = $order;
-	$self->add_ideas_table($c,'search',{ q => $c->stash->{query} });
+	$self->add_ideas_table($c,'search',{ q => $c->stash->{query} }) if defined $ideas_rs;
 }
 
 sub type :Chained('base') :Args(1) {

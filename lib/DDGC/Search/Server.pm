@@ -25,7 +25,7 @@ sub _build_stemmer {
     return Lingua::Stem->new;
 }
 
-sub app {
+sub to_app {
     my $self = shift;
     Dezi::MultiTenant->app({
         map {
