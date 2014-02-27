@@ -1,3 +1,11 @@
+#!/usr/bin/env perl
+
+use FindBin;
+use lib $FindBin::Dir . "/../lib"; 
+
+use strict;
+use warnings;
+
 use Plack::Runner;
 use DDGC::Config;
 use DDGC::Search::Server;
