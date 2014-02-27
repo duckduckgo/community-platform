@@ -6,3 +6,5 @@ po-files/*
 *.csv
 local-lib
 *.json
+*.log
+*.index
