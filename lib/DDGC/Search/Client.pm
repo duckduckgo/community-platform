@@ -157,17 +157,23 @@ This is the client part of DDGC's search engine abstraction layer. It inherits L
 
 B<Arguments:> %data
 
+B<Return Value:> L<HTTP::Response>
+
 This method takes a hash of data which will be encoded to JSON and passed to L<Dezi::Client>.
 
 =item B<search>
 
 B<Arguments:> %query
 
+B<Return Value:> L<Dezi::Response> or false
+
 Not overridden -- see L<Dezi::Client>.
 
 =item B<resultset>
 
 B<Arguments:> $c, $query, $rs, %extra_query
+
+B<Return Value:> {id=>L<Dezi::Doc>} from Dezi, ordered $resultset, $order_by
 
 Builds a new ordered resultset by searching $rs for the IDs returned by Dezi
 for $query. %extra_query is passed along to Dezi::Client->search. This also
