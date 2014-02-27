@@ -149,13 +149,30 @@ B<$response> is a L<Dezi::Response>.
 
 This is the client part of DDGC's search engine abstraction layer. It inherits L<Dezi::Client>.
 
-=head1 OVERRIDDEN METHODS
+=head1 METHODS
 
 =over 4
 
-=item B<index(%data)>
+=item B<index>
 
-This method takes a hash of options which will be encoded to JSON and passed to L<Dezi::Client>.
+B<Arguments:> %data
+
+This method takes a hash of data which will be encoded to JSON and passed to L<Dezi::Client>.
+
+=item B<search>
+
+B<Arguments:> %query
+
+Not overridden -- see L<Dezi::Client>.
+
+=item B<resultset>
+
+B<Arguments:> $c, $query, $rs, %extra_query
+
+Builds a new ordered resultset by searching $rs for the IDs returned by Dezi
+for $query. %extra_query is passed along to Dezi::Client->search. This also
+handles a C<ducky> parameter, and attempts to do an "I'm feeling ducky" search
+if it is present and the ResultSource from $rs C<can('u')>.
 
 =back
 
