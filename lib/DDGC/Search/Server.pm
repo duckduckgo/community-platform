@@ -45,8 +45,10 @@ sub to_app {
                         find_relevant_fields => 1,
                         qp_config => {
                             dialect => 'Lucy',
-                            null_term => 'NULL',
-                            default_field => ['swishtitle', 'swishdescription'],
+                            not_regex => qr/NOT|PAS|NICHT|NON/,
+                            sloppy => 1,
+                            fixup => 1,
+                            croak_on_error => 1,
                         },
                     },
                 },

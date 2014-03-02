@@ -4,7 +4,7 @@ use Moose;
 use Dezi::Doc;
 use DDGC::Config;
 use HTML::Strip;
-use JSON 'encode_json';
+use JSON qw(encode_json decode_json);
 
 use MooseX::NonMoose;
 extends 'Dezi::Client';
@@ -45,10 +45,19 @@ sub resultset {
     %args = () unless %args;
     $args{q} = $query;
     my $result = $self->search(%args);
-    $c->stash->{error} = 'Cannot connect to the search server! ' . ($c->debug ?
-        'Have you run `script/dezi_server.pl &`?' :
-        'Please contact <a href="mailto:ddgc@duckduckgo.com">ddgc@dukgo.com</a> if the issue persists.')
-    unless $result;
+    unless ($result) {
+        my $err;
+        if($self->last_response->code == 500 && $self->last_response->decoded_content =~ qr/^\{.+\}$/) { 
+            $err = decode_json($self->last_response->decoded_content)->{error} . 
+                '<br/>This seems like a problem with your query. If you disagree, please <a href="mailto:ddgc@duckduckgo.com">contact us</a>.'
+            ;
+        } else {
+            $err = $self->last_response->message . ($c->debug ?
+            '<br/>Have you run `script/dezi_server.pl &`?' :
+            '<br/>Please contact <a href="mailto:ddgc@duckduckgo.com">ddgc@duckduckgo.com</a> if the issue persists.');
+        }
+        $c->stash->{error} = $err;
+    }
 
     my %results;
     my $resultset;
