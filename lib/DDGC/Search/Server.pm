@@ -33,7 +33,7 @@ sub to_app {
                 base_uri => $self->config->dezi_uri,
                 engine_config => {
                     type => 'Lucy',
-                    index => ["$_.index"],
+                    index => [$self->config->index_path . "/$_.index"],
                     indexer_config => {
                         config => {
                             UndefinedMetaTags => 'autoall',
