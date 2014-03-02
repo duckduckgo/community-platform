@@ -72,7 +72,7 @@ sub index :Chained('base') :PathPart('') :Args(0) {
 
 			# Now it exists! Index that article.
 			$c->d->help->index(
-				uri => $help_content->language_id . '/' . $help->help_category->key . '/' . $help->key,
+				uri => $help_content->id,
 				body => $help_content->content,
 				language_id => $help_content->language_id,
 				id => $help->id,

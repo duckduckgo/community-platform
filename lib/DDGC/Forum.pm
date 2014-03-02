@@ -127,7 +127,7 @@ sub add_thread {
 		});
 
 		$self->index(
-			uri => $thread->id . '/' . $thread->get_url,
+			uri => $thread->id,
 			body => $content,
 			users_id => $user->id,
 			thread_id => $thread->id,

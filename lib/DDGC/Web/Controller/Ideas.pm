@@ -67,7 +67,7 @@ sub newidea : Chained('base') Args(0) {
 			type => $c->req->params->{type},
 		});
 		$c->d->idea->index(
-			uri => join('/', @{$idea->u}[-2,-1]),
+			uri => $idea->id,
 			title => $idea->title,
 			body => $idea->content,
 			id => $idea->id,
@@ -208,7 +208,7 @@ sub edit : Chained('idea_id') Args(0) {
 		$c->stash->{idea}->source($c->req->params->{source});
 		$c->stash->{idea}->update;
 		$c->d->idea->index(
-			uri => join('/', @{$c->stash->{idea}->u}[-2,-1]),
+			uri => $c->stash->{idea}->id,
 			title => $c->stash->{idea}->title,
 			body => $c->stash->{idea}->content,
 			id => $c->stash->{idea}->id,

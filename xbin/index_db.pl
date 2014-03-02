@@ -18,7 +18,7 @@ STDOUT->autoflush(1);
     while (my $thread = $rs->next) {
         print "\rThreads: " . ++$c . '/' . $total;
         $search->index(
-                uri => $thread->id . '/' . $thread->get_url,
+                uri => $thread->id,
                 body => $thread->comment->content,
                 id => $thread->id,
                 title => $thread->title,
@@ -43,7 +43,7 @@ print "\n";
         print "\rHelp: " . ++$c . '/' . $total;
         for ($article->help_contents->all) {
             $search->index(
-                    uri => $_->language_id . '/' . $article->help_category->key . '/' . $article->key,
+                    uri => $article->id,
                     body => $_->content,
                     language_id => $_->language_id,
                     id => $article->id,
@@ -70,7 +70,7 @@ print "\n";
     while (my $idea = $rs->next) {
         print "\rIdeas: " . ++$c . '/' . $total;
         $search->index(
-             uri => join('/', @{$idea->u}[-2,-1]),
+             uri => $idea->id,
              title => $idea->title,
              body => $idea->content,
              id => $idea->id,
