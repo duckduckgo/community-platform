@@ -22,7 +22,7 @@ STDOUT->autoflush(1);
                 body => $thread->comment->content,
                 id => $thread->id,
                 title => $thread->title,
-                is_markup => 1,
+                defined $thread->data && $thread->data->{___duckco_import___} ? (is_html => 1) : (is_markup => 1),
         );
     }
 }

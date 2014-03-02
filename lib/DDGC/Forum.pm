@@ -130,7 +130,7 @@ sub add_thread {
 			uri => $thread->id,
 			body => $content,
 			users_id => $user->id,
-			thread_id => $thread->id,
+			id => $thread->id,
 			is_markup => 1,
 			%params,
 		);

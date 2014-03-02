@@ -144,7 +144,7 @@ sub edit : Chained('thread') Args(0) {
 					body => $c->req->params->{content},
 					users_id => $c->stash->{thread}->users_id,
                                         title => $c->req->params->{title},
-                                        thread_id => $c->stash->{thread}->id,
+                                        id => $c->stash->{thread}->id,
                                         is_markup => 1,
 				);
 			} else {
