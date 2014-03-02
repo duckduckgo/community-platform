@@ -95,7 +95,7 @@ sub search : Chained('base') Args(0) {
         my ($ideas, $ideas_rs, $order) = $c->d->idea->search_engine->rs(
             $c,
             $c->stash->{query},
-            $c->d->rs('Idea')
+            $c->d->rs('Idea')->ghostbusted,
         );
 
         $c->stash->{ideas_rs} = $ideas_rs;
