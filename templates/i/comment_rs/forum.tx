@@ -14,7 +14,7 @@
   <div class="body  body--round">
     <: for results($_) -> $comment { :>
       <: my $context_obj = $comment.get_context_obj :>
-  	  <: my $reply_count = $comment.get_column('comments_count') + ($comment.context == 'DDGC::DB::Result::Thread' ? -1 : 0) :>
+      <: my $reply_count = $comment.comments_count :>
       <: # my $children_count = $context_obj.comment.children.count :>
       <div class="row">
         <div class="forum-item">

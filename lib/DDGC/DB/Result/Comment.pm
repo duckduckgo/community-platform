@@ -105,6 +105,12 @@ __PACKAGE__->indices(
 
 sub comments { shift->children_rs }
 
+sub comments_count {
+	my ( $self ) = @_;
+	my $count = $self->get_column('comments_count') +
+	            ( ( $self->context eq 'DDGC::DB::Result::Thread' ) ? -1 : 0 );
+}
+
 after insert => sub {
 	my ( $self ) = @_;
 	$self->user->add_context_notification('replies',$self);
