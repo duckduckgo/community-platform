@@ -9,6 +9,8 @@ use namespace::autoclean;
 
 table 'help';
 
+sub u { ['Help', 'help', $_[0]->category->key, $_[0]->key] }
+
 column id => {
 	data_type => 'bigint',
 	is_auto_increment => 1,
