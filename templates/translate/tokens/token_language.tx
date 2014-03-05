@@ -47,13 +47,13 @@
 						<: } :>.
 						Only translate it, if you are 100% sure in which way it is used!
 						<: if $token_language.token.has_placeholders { :>
-							A wrong translation can destroy <a href="https://github.com/duckduckgo/duckduckgo/blob/master/lib/DDG/Manual/Translation.pod#combined-tokens">combined tokens</a> very easily! Also be sure the same amount of placeholders is in your translation as in the token!
+							An invalid translation can destroy <a href="https://github.com/duckduckgo/duckduckgo/blob/master/lib/DDG/Manual/Translation.pod#combined-tokens">combined tokens</a> very easily! Use the same number of placeholders in your translation as in the original token!
 						<: } :>
 					</p>
 				<: } :>
 				<p>
 				<: if $token_language.token.notes { :>
-					Please assure to read the notes before translating!
+					Please read the notes before translating!
 				<: } else { :>
 					Please do not hesitate to <a href="<: $u('Forum','index') :>">contact us</a>, if you require any further information for this token.
 				<: } :>
