@@ -4,6 +4,7 @@ use Moose;
 use Dezi::Doc;
 use DDGC::Config;
 use HTML::Strip;
+use Encode 'decode';
 use JSON qw(encode_json decode_json);
 
 use MooseX::NonMoose;
@@ -141,7 +142,15 @@ around search => sub {
     $params{q} =~ s/(?:^|(?<=\s))!(\S+)/"!$1"/g;
     print "\n\nQuery: $params{q}\n\n";
 
-    return $self->$orig(%params);
+    my $result = $self->$orig(%params);
+
+    if ($result && $result->results) {
+        for my $doc (@{$result->results}) {
+            $doc->{$_} = decode('UTF-8', $doc->{$_}) for qw(title summary);
+        }
+    }
+
+    return $result;
 };
 
 
