@@ -10,26 +10,17 @@ use DDGC::Search::Client;
 
 has ddgc => (
 	isa => 'DDGC',
-        is => 'ro',
-        weak_ref => 1,
-        required => 1,
-);
-
-has search_engine => (
-	isa => 'DDGC::Search::Client',
 	is => 'ro',
-	lazy_build => 1,
-	handles => [qw(search index)],
-	lazy => 1,
+	weak_ref => 1,
+	required => 1,
 );
 
-sub _build_search_engine {
-	my $self = shift;
-	DDGC::Search::Client->new(
-		ddgc => $self->ddgc,
-		type => 'thread',
-	)
-}
+has index_name => (
+	is => 'ro',
+	default => sub { 'thread' },
+);
+
+with 'DDGC::Role::Searchable';
 
 sub comments_grouped { shift->ddgc->rs('Comment')->ghostbusted->grouped_by_context->prefetch_all }
 

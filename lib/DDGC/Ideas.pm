@@ -10,21 +10,12 @@ has ddgc => (
 	required => 1,
 );
 
-has search_engine => (
-	isa => 'DDGC::Search::Client',
+has index_name => (
 	is => 'ro',
-	lazy_build => 1,
-	lazy => 1,
-        handles => [qw(search index)],
+	default => sub { 'idea' },
 );
 
-sub _build_search_engine {
-	my $self = shift;
-	DDGC::Search::Client->new(
-		ddgc => $self->ddgc,
-		type => 'idea',
-	)
-}
+with 'DDGC::Role::Searchable';
 
 1;
 

@@ -1,4 +1,10 @@
-use DDP;
+#!/usr/bin/env perl
+use FindBin;
+use lib $FindBin::Dir . '/../lib';
+
+use strict;
+use warnings;
+
 use DDGC;
 use DDGC::Search::Client;
 
@@ -23,7 +29,7 @@ STDOUT->autoflush(1);
                 id => $thread->id,
                 title => $thread->title,
                 defined $thread->data && $thread->data->{___duckco_import___} ? (is_html => 1) : (is_markup => 1),
-        );
+        )->is_success || warn "Could not index thread ".$thread->id;
     }
 }
 
@@ -50,7 +56,7 @@ print "\n";
                     title => $_->title,
                     is_html => $_->raw_html,
                     is_markup => !$_->raw_html,
-            );
+            )->is_success || warn "Could not index help article ".$article->id;
         }
     }
 }
@@ -75,7 +81,7 @@ print "\n";
              body => $idea->content,
              id => $idea->id,
              is_markup => 1,
-        );
+        )->is_success || warn "Could not index idea ".$idea->id;
     }
 }
 print "\nALL DONE!\n";
