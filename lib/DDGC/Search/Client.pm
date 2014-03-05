@@ -134,6 +134,16 @@ around index => sub {
     );
 };
 
+around search => sub {
+    my ($orig, $self, %params) = @_;
+    die "->search needs a q parameter." unless defined $params{q};
+
+    $params{q} =~ s/(?:^|(?<=\s))!(\S+)/"!$1"/g;
+    print "\n\nQuery: $params{q}\n\n";
+
+    return $self->$orig(%params);
+};
+
 
 __PACKAGE__->meta->make_immutable;
 1;
