@@ -4,6 +4,7 @@ package DDGC::Web::Table;
 use Moose;
 use Digest::MD5 qw( md5_base64 );
 use List::MoreUtils qw( natatime );
+use Encode 'encode';
 
 use DDGC::Web::Table::Column;
 use DDGC::Web::Table::Row;
@@ -317,6 +318,7 @@ has id_pagesize => (
 				}
 			}
 		}
+                $id_pagesize[$_] = encode('UTF-8', $id_pagesize[$_]) for 0..$#id_pagesize;
 		return join('|',@id_pagesize);
 	},
 );
