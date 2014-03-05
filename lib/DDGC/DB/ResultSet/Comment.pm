@@ -6,29 +6,30 @@ extends 'DDGC::DB::Base::ResultSet';
 use namespace::autoclean;
 
 sub grouped_by_context {
-	my ( $self ) = @_;
+  my ( $self ) = @_;
   my $comment_context_rs = $self->schema->resultset('Comment::Context')->search_rs({},{
-    select => [qw( latest_comment_id )],
-    alias => 'comment_context',
+	select => [qw( latest_comment_id )],
+	alias => 'comment_context',
   });
-	$self->search_rs({
-    $self->me.'id' => { -in => $comment_context_rs->as_query },
+
+  $self->search_rs({
+	$self->me.'id' => { -in => $comment_context_rs->as_query },
   },{
-    '+columns' => {
-      comments_count => $self->schema->resultset('Comment')->search_rs({
-        'comments_count.context' => { -ident => $self->me.'context' },
-        'comments_count.context_id' => { -ident => $self->me.'context_id' },
-      },{
-        alias => 'comments_count',
-      })->count_rs->as_query
-    },
+	'+columns' => {
+		 comments_count => $self->schema->resultset('Comment')->search_rs({
+			'comments_count.context' => { -ident => $self->me.'context' },
+			'comments_count.context_id' => { -ident => $self->me.'context_id' },
+		  },{
+			alias => 'comments_count',
+		  })->count_rs->as_query
+	},
   });
 }
 
 sub prefetch_all {
   my ( $self ) = @_;
   $self->search_rs({},{
-    prefetch => [qw( user ), $self->prefetch_context_config],
+	prefetch => [qw( user ), $self->prefetch_context_config],
   });
 }
 

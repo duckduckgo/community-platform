@@ -161,7 +161,7 @@ sub code_parse {
 		for(split /\n/, $$content) {
 				if (length($_) > 600) { # >80s just because of a long line? I think not.
 						$highlight_ok = 0;
-						break();
+						last;
 				}
 		}
 		if ($attr && $highlight_ok) {
