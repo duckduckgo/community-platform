@@ -35,7 +35,7 @@ sub add_ideas_table {
 	$c->stash->{ideas} = $c->table(
 		$c->stash->{ideas_rs}->add_vote_count,['Ideas',@args],[],
 		default_pagesize => 15,
-		default_sorting => '-me.updated',
+		default_sorting => defined $c->stash->{idea_order} ? 'id' : '-me.updated',
 		id => 'idealist_'.join('_',grep { ref $_ eq '' } @args),
 		sorting_options => [{
 			label => 'Votes',
@@ -44,7 +44,11 @@ sub add_ideas_table {
 		},{
 			label => 'Last Update',
 			sorting => '-me.updated',
-		}],
+		},defined $c->stash->{idea_order} ? {
+                        label => 'Relevancy',
+                        sorting => 'id',
+                        order_by => { -desc => $c->stash->{idea_order} },
+                }:()],
 	);
 }
 
@@ -62,6 +66,13 @@ sub newidea : Chained('base') Args(0) {
 			source => $c->req->params->{source},
 			type => $c->req->params->{type},
 		});
+		$c->d->idea->index(
+			uri => $idea->id,
+			title => $idea->title,
+			body => $idea->content,
+			id => $idea->id,
+			is_markup => 1,
+		);
 		$c->response->redirect($c->chained_uri(@{$idea->u}));
 		return $c->detach;
 	}
@@ -81,18 +92,15 @@ sub search : Chained('base') Args(0) {
 	$c->stash->{query} = $c->req->params->{q};
 	return unless length($c->stash->{query});
 
-	$c->stash->{ideas_rs} = $c->d->rs('Idea')->search_rs([
-		map {{
-			title => { -ilike => '%'.$_.'%' }
-		},{
-			content => { -ilike => '%'.$_.'%' }
-		}} split(/\s+/,$c->stash->{query})
-	],{
-		prefetch => [qw( user ),{
-			idea_votes => [qw( user )],
-		}]
-	});
-	$self->add_ideas_table($c,'search',{ q => $c->stash->{query} });
+        my ($ideas, $ideas_rs, $order) = $c->d->idea->search_engine->rs(
+            $c,
+            $c->stash->{query},
+            $c->d->rs('Idea')->ghostbusted,
+        );
+
+        $c->stash->{ideas_rs} = $ideas_rs;
+        $c->stash->{idea_order} = $order;
+	$self->add_ideas_table($c,'search',{ q => $c->stash->{query} }) if defined $ideas_rs;
 }
 
 sub type :Chained('base') :Args(1) {
@@ -162,6 +170,7 @@ sub delete : Chained('idea_id') Args(0) {
 		return $c->detach;
 	}
 	my $id = $c->stash->{idea}->id;
+        eval { $c->d->idea->search_engine->delete(@{$c->stash->{idea}->u}[-2,-1]); };
 	$c->d->db->txn_do(sub {
 		$c->stash->{idea}->delete();
 		$c->d->rs('Comment')->search({ context => "DDGC::DB::Result::Idea", context_id => $id })->delete();
@@ -198,6 +207,13 @@ sub edit : Chained('idea_id') Args(0) {
 		$c->stash->{idea}->content($c->req->params->{content});
 		$c->stash->{idea}->source($c->req->params->{source});
 		$c->stash->{idea}->update;
+		$c->d->idea->index(
+			uri => $c->stash->{idea}->id,
+			title => $c->stash->{idea}->title,
+			body => $c->stash->{idea}->content,
+			id => $c->stash->{idea}->id,
+			is_markup => 1,
+		);
 		$c->response->redirect($c->chained_uri(@{$c->stash->{idea}->u}));
 		return $c->detach;
 	}

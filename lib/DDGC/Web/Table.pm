@@ -4,6 +4,7 @@ package DDGC::Web::Table;
 use Moose;
 use Digest::MD5 qw( md5_base64 );
 use List::MoreUtils qw( natatime );
+use Encode 'encode';
 
 use DDGC::Web::Table::Column;
 use DDGC::Web::Table::Row;
@@ -182,9 +183,10 @@ has sorting_option => (
 	default => sub {
 		my ( $self ) = @_;
 		if ($self->has_sorting_options) {
-			if ($self->c->req->param($self->key_sort)) {
+			my $sort_key = $self->c->req->param($self->key_sort) || $self->default_sorting;
+			if ($sort_key) {
 				for (@{$self->sorting_options}) {
-					if ($_->{sorting} eq $self->c->req->param($self->key_sort)) {
+					if ($_->{sorting} eq $sort_key) {
 						return $_;
 					}
 				}
@@ -316,6 +318,7 @@ has id_pagesize => (
 				}
 			}
 		}
+                $id_pagesize[$_] = encode('UTF-8', $id_pagesize[$_]) for 0..$#id_pagesize;
 		return join('|',@id_pagesize);
 	},
 );

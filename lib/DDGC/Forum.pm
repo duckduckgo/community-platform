@@ -6,6 +6,7 @@ use File::ShareDir::ProjectDistDir;
 use JSON;
 use LWP::Simple;
 use URL::Encode 'url_encode_utf8';
+use DDGC::Search::Client;
 
 has ddgc => (
 	isa => 'DDGC',
@@ -13,6 +14,13 @@ has ddgc => (
 	weak_ref => 1,
 	required => 1,
 );
+
+has index_name => (
+	is => 'ro',
+	default => sub { 'thread' },
+);
+
+with 'DDGC::Role::Searchable';
 
 sub comments_grouped { shift->ddgc->rs('Comment')->ghostbusted->grouped_by_context->prefetch_all }
 
@@ -108,6 +116,15 @@ sub add_thread {
 			$thread->comment_id($thread_comment->id);
 			$thread->update;
 		});
+
+		$self->index(
+			uri => $thread->id,
+			body => $content,
+			users_id => $user->id,
+			id => $thread->id,
+			is_markup => 1,
+			%params,
+		);
 	});
 
 	return $thread;

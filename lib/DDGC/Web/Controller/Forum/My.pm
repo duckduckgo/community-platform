@@ -139,6 +139,14 @@ sub edit : Chained('thread') Args(0) {
 						key => 'screenshot_thread_thread_id_screenshot_id'
 					});
 				}
+				$c->d->forum->index(
+                                        uri => $c->stash->{thread}->id,
+					body => $c->req->params->{content},
+					users_id => $c->stash->{thread}->users_id,
+                                        title => $c->req->params->{title},
+                                        id => $c->stash->{thread}->id,
+                                        is_markup => 1,
+				);
 			} else {
 				$c->stash->{error} = 'One or more fields were empty.';
 			}
@@ -162,6 +170,7 @@ sub delete : Chained('thread') Args(0) {
 	if ($c->req->params->{i_am_sure}) {
 		$c->require_action_token;
 		my $id = $c->stash->{thread}->id;
+                eval { $c->d->forum->search_engine->delete($id . '/' . $c->stash->{thread}->get_url); };
 		$c->d->db->txn_do(sub {
 			$c->stash->{thread}->delete();
 			$c->d->rs('Comment')->search({ context => "DDGC::DB::Result::Thread", context_id => $id })->delete();

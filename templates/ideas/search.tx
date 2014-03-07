@@ -1,5 +1,8 @@
 <: if $ideas_rs.count < 1 { :>
   <h1>Nothing found</h1>
+  <: if $error { :>
+    <div class="notice error"><: r($error) :></div>
+  <: } :>
 <: } else { :>
   <: include "ideas/idealist.tx" :>
 <: } :>

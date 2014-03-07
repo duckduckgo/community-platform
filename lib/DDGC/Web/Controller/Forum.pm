@@ -29,8 +29,9 @@ sub set_grouped_comments {
   $c->stash->{grouped_comments} = $c->table(
     $rs,['Forum',$action,@args],[],
     default_pagesize => 15,
-    default_sorting => '-me.updated',
+    default_sorting => defined $c->stash->{default_sorting} ? $c->stash->{default_sorting} : '-me.updated',
     id => 'forum_threadlist_'.$action,
+    defined $c->stash->{sorting_options} ? (sorting_options => $c->stash->{sorting_options}) : (),
   );
 }
 
@@ -79,11 +80,24 @@ sub search : Chained('userbase') Args(0) {
   $c->stash->{query} = $c->req->params->{q};
   return unless length($c->stash->{query});
 
-  $self->set_grouped_comments($c,'search',$c->d->forum->comments_grouped->search_rs([
-    map {{
-      'me.content' => { -ilike => '%'.$_.'%' }
-    }} split(/\s+/,$c->stash->{query})
-  ],{}),{ q => $c->stash->{query} });
+  my ($threads, $threads_rs, $order_by) = $c->d->forum->search_engine->rs(
+      $c,
+      $c->stash->{query},
+      $c->d->rs('Thread')->ghostbusted,
+  );
+
+  $c->stash->{results} = $threads;
+  $c->stash->{default_sorting} = 'id';
+  $c->stash->{sorting_options} = [{
+          label => 'Last Update',
+          sorting => '-me.updated',
+      },{
+          label => 'Relevance',
+          sorting => 'id',
+          order_by => $order_by,
+      }] if defined $order_by;
+  $self->set_grouped_comments($c,'search',$threads_rs,{ q => $c->stash->{query} })
+    if defined $threads_rs;
 }
 
 sub thread_view : Chained('userbase') PathPart('') CaptureArgs(0) {

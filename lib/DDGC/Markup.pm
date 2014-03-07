@@ -140,7 +140,7 @@ sub plain_bbcode {
 		close_open_tags => 1,
 		url_finder => {
 			format => '%s',
-			max_length => 200,
+			max_length => 200_000,
 		},
 		tags => \%tags,
 	});
@@ -271,10 +271,9 @@ sub html_without_privacy {
 # For returning a stripped plain-text version
 #
 sub plain {
-		my ($self, @code_parts) = @_;
-		$self->plain_bbcode;
-		my $markup = join ' ', @code_parts;
-		return $self->plain_bbcode->render($markup);
+	my ($self, @code_parts) = @_;
+	my $markup = join ' ', @code_parts;
+	return $self->plain_bbcode->render($markup);
 }
 
 no Moose;

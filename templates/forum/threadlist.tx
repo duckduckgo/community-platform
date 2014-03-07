@@ -2,5 +2,9 @@
   <: i($grouped_comments.paged_rs,'forum') :>
 </div>
 <div class="row mid">
-  <: i($grouped_comments,'pager') :>
+  <: if $sorting_options { :>
+      <: i($grouped_comments,'sortopts') :>
+  <: } else { :>
+      <: i($grouped_comments,'pager') :>
+  <: } :>
 </div>

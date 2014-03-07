@@ -185,6 +185,7 @@ has db_params => (
 );
 
 has_conf dezi_uri => DDGC_DEZI_URI => 'http://127.0.0.1:5000';
+has_conf index_path => DDGC_INDEX_PATH => '.';
 
 sub duckpandir {
 	my ( $self ) = @_;

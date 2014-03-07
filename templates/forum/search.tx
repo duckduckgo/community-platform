@@ -1,5 +1,8 @@
-<: if $grouped_comments.total_entries < 1 { :>
+<: if !$grouped_comments || $grouped_comments.total_entries < 1 { :>
   <h1>Nothing found</h1>
+  <: if $error { :>
+    <: include 'notice_error.tx' { error => r($error) } :>
+  <: } :>
 <: } else { :>
   <: include 'forum/threadlist.tx' :>
 <: } :>

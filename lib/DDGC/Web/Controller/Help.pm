@@ -21,7 +21,7 @@ sub base :Chained('/base') :PathPart('help') :CaptureArgs(0) {
 
 sub legacy_redirect :Chained('base') :PathPart('en_US') :Args {
   my ( $self, $c, @args ) = @_;
-  $c->response->redirect('https://dukgo.com/help/'.join('/',@args));
+  $c->response->redirect('https://duck.co/help/'.join('/',@args));
 }
 
 # sub language :Chained('base') :PathPart('') :CaptureArgs(1) {
@@ -58,14 +58,15 @@ sub search :Chained('base') :Args(0) {
   $c->add_bc('Search');
   $c->stash->{help_search} = $c->req->param('help_search');
   return unless $c->stash->{help_search};
-  $c->stash->{search_helps} = $c->d->rs('Help')->search([{
-    'help_contents.title' => { -ilike => '%'.$c->stash->{help_search}.'%' },
-  },{
-    'help_contents.content' => { -ilike => '%'.$c->stash->{help_search}.'%' },
-  }],{
-    order_by => { -asc => 'me.sort' },
-    prefetch => [ 'help_contents', { help_category => 'help_category_contents' } ],
-  });
+
+  my ($articles, $articles_rs) = $c->d->help->search_engine->rs(
+      $c,
+      $c->stash->{help_search},
+      $c->d->rs('Help')
+  );
+
+  $c->stash->{articles} = $articles;
+  $c->stash->{search_helps} = $articles_rs;
   $c->stash->{title} = 'Search help pages';
 }
 
