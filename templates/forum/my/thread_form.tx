@@ -44,12 +44,12 @@
         if(!e.charCode || e.ctrlKey || e.altKey) return;
         var v=e.target.value + String.fromCharCode(e.which) + '*';
         v=v.replace(/-/g, '');
-        $.getJSON("<: $u('Forum','suggest') :>?q="+window.encodeURIComponent(v), function(data) {
+        $.getJSON("<: $u('Forum','suggest') :>?q="+window.encodeURIComponent(v), function(data,b,xhr) {
+            if(xhr.l < e.target.value.length+1) return;
             var s=$('#suggestions');
             if(data.length) s.html('<h4>Are any of these what you\'re looking for?</h4>');
             else s.html('');
             data.forEach(function(r) {
-                console.log(r.score);
                 var row = document.createElement('div');
                 var a   = document.createElement('a');
                 row.className = 'row';
@@ -58,11 +58,10 @@
                 a.href = "../thread/" + r.uri;
                 a.textContent = r.title;
                 row.appendChild(a);
-                console.log(r.summary);
                 row.innerHTML += ' - ' + r.summary.slice(0,130);
                 s.append(row);
             });
-        });
+        }).l=v.length;
     }
 
     $('input[name="title"]').keypress(suggest);
