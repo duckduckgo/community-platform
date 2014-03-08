@@ -120,7 +120,6 @@ sub add_thread {
 		$self->index(
 			uri => $thread->id,
 			body => $content,
-			users_id => $user->id,
 			id => $thread->id,
 			is_markup => 1,
 			%params,

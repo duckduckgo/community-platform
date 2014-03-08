@@ -59,6 +59,7 @@ sub suggest {
         my $results = decode_json($resp->decoded_content)->{results};
         for (@{$results}) {
             $_->{summary} = (split '<br>', decode_entities($_->{summary}))[0];
+            $_->{title} = decode_entities($_->{title});
         }
         return $results;
     } // [];

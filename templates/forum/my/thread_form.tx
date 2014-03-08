@@ -12,7 +12,7 @@
                 <input type="hidden" name="action_token" value="<: $action_token :>">
                 <input type="hidden" name="thread_form_id" value="<: $thread_form_id :>"/>
                 <div class="input-wrap"><input autocomplete="off" value="<: $thread.title || $c.req.params.title :>" type="text" name="title" placeholder="Title" autofocus></input></div>
-                <div id="suggestions" class="group"></div>
+                <div id="suggestions" class="group" style="white-space:nowrap"></div>
                 <div class="input-wrap"><textarea name="content" class="js-bbcode" placeholder="Body" rows="15"><: $thread.comment.content || $c.req.params.content :></textarea></div>
 				<div class="gw">
 					<div class="g seventy">
@@ -53,6 +53,8 @@
                 var row = document.createElement('div');
                 var a   = document.createElement('a');
                 row.className = 'row';
+                row.style.textOverflow = 'ellipsis';
+                row.style.overflow = 'hidden';
                 a.href = "../thread/" + r.uri;
                 a.textContent = r.title;
                 row.appendChild(a);

@@ -142,7 +142,6 @@ sub edit : Chained('thread') Args(0) {
 				$c->d->forum->index(
                                         uri => $c->stash->{thread}->id,
 					body => $c->req->params->{content},
-					users_id => $c->stash->{thread}->users_id,
                                         title => $c->req->params->{title},
                                         id => $c->stash->{thread}->id,
                                         is_markup => 1,
