@@ -6,6 +6,8 @@ use DDGC::Config;
 use HTML::Strip;
 use Encode 'decode';
 use JSON qw(encode_json decode_json);
+use URI::Query;
+use HTML::Entities;
 
 use MooseX::NonMoose;
 extends 'Dezi::Client';
@@ -37,6 +39,30 @@ has stripper => (
 
 sub _build_stripper {
     HTML::Strip->new
+}
+
+sub suggest {
+    my ($self, $q, %args) = @_;
+    my $search_uri = $self->{search_uri};
+    %args = (
+        t => 'JSON',
+        p => 4,                # maximum of 4 results
+        h => 0,                # do not highlight matches
+        x => [qw(swishtitle)], # only return the title
+        b => 'OR',             # put an OR between terms instead of AND
+        q => $q,
+        %args,
+    );
+    my $query = URI::Query->new(%args);
+    my $resp = $self->{ua}->get($search_uri . '?' . $query);
+    return eval {
+        my $results = decode_json($resp->decoded_content)->{results};
+        for (@{$results}) {
+            $_->{summary} = (split '<br>', decode_entities($_->{summary}))[0];
+        }
+        return $results;
+    } // [];
+    return [];
 }
 
 sub resultset {
@@ -205,14 +231,25 @@ Not overridden -- see L<Dezi::Client>.
 
 =item B<resultset>
 
-B<Arguments:> $c, $query, $rs, %extra_query
+B<Arguments:> $c, $query, $rs, %params?
 
 B<Return Value:> {id=>L<Dezi::Doc>} from Dezi, ordered $resultset, $order_by
 
 Builds a new ordered resultset by searching $rs for the IDs returned by Dezi
-for $query. %extra_query is passed along to Dezi::Client->search. This also
+for $query. %params are passed along to Dezi::Client->search. This also
 handles a C<ducky> parameter, and attempts to do an "I'm feeling ducky" search
 if it is present and the ResultSource from $rs C<can('u')>.
+
+=item B<suggest>
+
+B<Arguments:> $query, %params?
+
+B<Return Value:> JSON string
+
+This is really just a strictly limited version of B<search>. It passes some
+special parameters to Dezi to get a tiny, fast response suitable for auto-
+suggestions. This method does NOT use Dezi::Client->search, it returns JSON
+directly from the Dezi server.
 
 =back
 

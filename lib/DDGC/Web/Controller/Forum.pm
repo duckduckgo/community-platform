@@ -100,6 +100,15 @@ sub search : Chained('userbase') Args(0) {
     if defined $threads_rs;
 }
 
+sub suggest : Chained('base') Args(0) {
+    my ($self, $c) = @_;
+    return unless length $c->req->params->{q};
+
+    $c->stash->{not_last_url} = 1;
+    $c->stash->{x} = $c->d->forum->search_engine->suggest($c->req->params->{q});
+    $c->forward($c->view('JSON'));
+}
+
 sub thread_view : Chained('userbase') PathPart('') CaptureArgs(0) {
   my ( $self, $c ) = @_;
   push @{$c->stash->{template_layout}}, 'forum/thread.tx';

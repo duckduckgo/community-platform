@@ -1,18 +1,19 @@
-<div class="notice warning"><i class="icn icon-warning-sign"></i>Please check if your post has been <a href="<: $u('Help','index') :>">answered</a> or is <a href="<: $u('Forum','index') :>">currently being discussed</a>.</div>
 <div class="form-border">
     <div class="form-wrap">
         <h3><: $form_title :></h3>
         <hr/>
-		
+
         <div class="body">
+            <div class="notice contrast"><i class="icn icon-warning-sign"></i>Please check our official <a href="<: $u('Help','index') :>">help pages</a> and search for <a href="<: $u('Forum','index') :>">previous discussions</a> before posting.</div>
             <: if $error { :>
                 <div class="notice error"><i class="icn icon-warning-sign"></i><: $error :></div>
-            <: } :>			
+            <: } :>
             <form action="<: if $thread.id { $u('Forum::My','edit',$thread.id) } else { $u('Forum::My','newthread') } :>" method="POST">
                 <input type="hidden" name="action_token" value="<: $action_token :>">
                 <input type="hidden" name="thread_form_id" value="<: $thread_form_id :>"/>
-                <div class="input-wrap"><input value="<: $thread.title || $c.req.params.title :>" type="text" name="title" placeholder="Title" autofocus></input></div>
-                <div class="input-wrap"><textarea name="content" class="js-bbcode" placeholder="Body" rows="15"><: $thread.comment.content || $c.req.params.content :></textarea></div>      
+                <div class="input-wrap"><input autocomplete="off" value="<: $thread.title || $c.req.params.title :>" type="text" name="title" placeholder="Title" autofocus></input></div>
+                <div id="suggestions" class="group"></div>
+                <div class="input-wrap"><textarea name="content" class="js-bbcode" placeholder="Body" rows="15"><: $thread.comment.content || $c.req.params.content :></textarea></div>
 				<div class="gw">
 					<div class="g seventy">
 						<div class="input-wrap">
@@ -39,7 +40,30 @@
 </div>
 
 <script type="text/javascript">
+    function suggest(e) {
+        if(!e.charCode || e.ctrlKey || e.altKey) return;
+        var v=e.target.value + String.fromCharCode(e.which) + '*';
+        v=v.replace(/-/g, '');
+        $.getJSON("<: $u('Forum','suggest') :>?q="+window.encodeURIComponent(v), function(data) {
+            var s=$('#suggestions');
+            if(data.length) s.html('<h4>Are any of these what you\'re looking for?</h4>');
+            else s.html('');
+            data.forEach(function(r) {
+                console.log(r.score);
+                var row = document.createElement('div');
+                var a   = document.createElement('a');
+                row.className = 'row';
+                a.href = "../thread/" + r.uri;
+                a.textContent = r.title;
+                row.appendChild(a);
+                console.log(r.summary);
+                row.innerHTML += ' - ' + r.summary.slice(0,130);
+                s.append(row);
+            });
+        });
+    }
 
+    $('input[name="title"]').keypress(suggest);
     $(function(){
 
         new Dropzone("#screenshots", {

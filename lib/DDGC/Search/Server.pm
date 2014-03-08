@@ -38,6 +38,8 @@ sub to_app {
                         config => {
                             UndefinedMetaTags => 'autoall',
                             FuzzyIndexingMode => 'Stemming_en1',
+                            ConvertHTMLEntities => 'no',
+                            DefaultContents => 'TXT',
                         }
                     },
                     searcher_config => {
