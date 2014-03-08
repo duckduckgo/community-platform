@@ -244,12 +244,12 @@ if it is present and the ResultSource from $rs C<can('u')>.
 
 B<Arguments:> $query, %params?
 
-B<Return Value:> JSON string
+B<Return Value:> ArrayRef of HashRefs
 
 This is really just a strictly limited version of B<search>. It passes some
 special parameters to Dezi to get a tiny, fast response suitable for auto-
-suggestions. This method does NOT use Dezi::Client->search, it returns JSON
-directly from the Dezi server.
+suggestions. This method does NOT use Dezi::Client->search, it returns decoded
+JSON directly from the Dezi server.
 
 =back
 
