@@ -124,8 +124,8 @@ has params => (
 );
 
 sub options {
-	my ( $self ) = @_;
-	my @opts = @{$self->params->{options}};
+        my $self = shift;
+	my @opts = @_ || @{$self->params->{options}};
 	my @options;
 	while (@opts) {
 		my $value = shift @opts;

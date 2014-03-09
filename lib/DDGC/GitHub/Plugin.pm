@@ -2,6 +2,11 @@ package DDGC::GitHub::Plugin;
 use Moose;
 
 sub attributes {[
+    branch => 'Which git branch do you want to merge from? (master, unless you created your own)' => {
+        type => 'select',
+        validators => ['select'],
+        export => 'select',
+    },
     function => 'What does your instant answer do?' => { type => 'textarea' },
     problem_solved => 'What problem does your instant answer solve (Why is it better than organic links)?' => { type => 'textarea' },
     source => 'What is the data source for your instant answer? (Provide a link if possible)' => {},

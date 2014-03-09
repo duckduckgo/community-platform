@@ -4,8 +4,7 @@
                     <h2>Request Pull from <: $repo.full_name :></h2>
             </div>
             <div class="body">
-                    <: for ['function','problem_solved','source','why_source','better_source','example_queries','communities','idea','overlap','issues'] -> $field { :>
-                        <: $obj2dir($fields[$field]) :>
+                    <: for ['branch','function','problem_solved','source','why_source','better_source','example_queries','communities','idea','overlap','issues'] -> $field { :>
                         <: i($fields[$field], 'edit') :>
                     <: } :>
             </div>

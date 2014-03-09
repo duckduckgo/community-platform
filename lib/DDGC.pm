@@ -201,8 +201,8 @@ sub _build_xslate {
                 }
 		if ($class =~ m/^DDGC::(DB::Result|DB::ResultSet|Web)::(.*)$/) {
 			my $return = lc($2);
-			$return =~ s/::/_/g;
                         $return .= '_rs' if $1 eq 'DB::ResultSet';
+			$return =~ s/::/_/g;
 			return $return;
 		}
 		die "cant include ".$class." with i-function";

@@ -18,7 +18,11 @@
             <div class="notice contrast">You have no DuckDuckGo repos! Get forking!</div>
         <: } else { :>
             <: for results($repos) -> $repo { :>
-                <div class="row"><div class="third"><a href="<: $repo.gh_data.html_url :>"><: $repo.gh_data.name :></a></div><div class="twothird"><: $repo.description :></div></div>
+                <div class="row">
+                    <div class="quarter"><a href="<: $repo.gh_data.html_url :>"><: $repo.gh_data.name :></a></div>
+                    <div class="half"><: $repo.description :></div>
+                    <div class="quarter pull-right"><a class="gray button" href="<: $u('My::GitHub','pull_request',$repo.gh_data.name) :>">Pull Request</a></div>
+                </div>
             <: } :>
         <: } :>
 	</div>

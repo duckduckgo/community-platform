@@ -170,6 +170,7 @@ sub update_user_repo_from_data {
   $self->update_repo_commits($gh_repo);
   $self->update_repo_pulls($gh_repo);
   $self->update_repo_issues($gh_repo);
+  $self->update_repo_branches($gh_repo);
   return $gh_repo;
 }
 
@@ -219,6 +220,16 @@ sub update_repo_pull_from_data {
   },{
     key => 'github_pull_github_id',
   });
+}
+
+sub update_repo_branches {
+    my ($self, $gh_repo) = @_;
+    my @branches = $self->gh->branches($gh_repo->owner_name,$gh_repo->repo_name);
+    my $d = $gh_repo->gh_data;
+    $d->{branches} = \@branches;
+    $gh_repo->gh_data($d);
+    use DDP; p $gh_repo->gh_data;
+    $gh_repo->update;
 }
 
 sub update_repo_commits {

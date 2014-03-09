@@ -31,6 +31,7 @@ sub list_org {
 
 __build_methods(__PACKAGE__,(
 
+  branches => { url => "/repos/%s/%s/branches" },
   commits => { url => "/repos/%s/%s/commits" },
   commits_since => { url => "/repos/%s/%s/commits?since=%s" },
   pulls_open => { url => "/repos/%s/%s/pulls" },
