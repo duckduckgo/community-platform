@@ -227,8 +227,8 @@ sub update_repo_branches {
     my @branches = $self->gh->branches($gh_repo->owner_name,$gh_repo->repo_name);
     my $d = $gh_repo->gh_data;
     $d->{branches} = \@branches;
-    $gh_repo->gh_data($d);
-    use DDP; p $gh_repo->gh_data;
+    $gh_repo->gh_data($d)
+    my $branch = $plugin->field('branch');
     $gh_repo->update;
 }
 

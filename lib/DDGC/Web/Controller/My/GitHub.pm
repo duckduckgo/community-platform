@@ -38,7 +38,6 @@ sub pull_request :Chained('base') :Args(1) {
     my ($self, $c, $repo) = @_;
 
     $c->stash->{repo} = $c->d->rs('GitHub::Repo')->find({full_name => $c->user->github_user->login.'/'.$repo});
-    use DDP; p $c->stash->{repo};
     my $plugin = DDGC::GitHub::Plugin->new;
     $plugin->field('branch')->params->{options} = [map { $_->{name} => $_->{name} } @{ $c->stash->{repo}->gh_data->{branches} }];
     $plugin->update_data({branch => $c->stash->{repo}->gh_data->{default_branch}});
