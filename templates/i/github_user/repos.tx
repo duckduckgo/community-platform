@@ -1,4 +1,4 @@
-<div class="content-box account-box">
+<div class="content-box">
 	<div class="head">
 		<div class="half">
 			<h2>DuckDuckGo related repositories of <: i($_) :></h2>
@@ -14,5 +14,12 @@
 		<: } :>
 	</div>
 	<div class="body">
+        <: if !$repos || !$repos.count { :>
+            <div class="notice contrast">You have no DuckDuckGo repos! Get forking!</div>
+        <: } else { :>
+            <: for results($repos) -> $repo { :>
+                <div class="row"><div class="third"><a href="<: $repo.gh_data.html_url :>"><: $repo.gh_data.name :></a></div><div class="twothird"><: $repo.description :></div></div>
+            <: } :>
+        <: } :>
 	</div>
 </div>

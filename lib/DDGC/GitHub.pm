@@ -130,7 +130,14 @@ sub update_repos {
     push @repos, @{$gh->next_page};
   }
   for (@repos) {
-    $self->update_user_repo_from_data($owner,$_,$company);
+    if (!$company && $_->{fork}) {
+        # Check to see if this is a fork and has the same name as a duckduckgo/ repo
+        $company = $self->ddgc->rs('GitHub::Repo')->search({
+                company_repo => 1,
+                full_name => 'duckduckgo/'.$_->{name},
+        })->count;
+    }
+    $self->update_user_repo_from_data($owner,$_,$company) unless $_->{private};
   }
 }
 
@@ -151,7 +158,6 @@ sub update_user_repo_from_data {
       updated_at
       pushed_at
     )),
-    company_repo => $company ? 1 : 0,
     gh_data => $repo,
   },{
     key => 'github_repo_github_id',
@@ -212,13 +218,14 @@ sub update_repo_pull_from_data {
 
 sub update_repo_commits {
   my ( $self, $gh_repo ) = @_;
-  return unless $gh_repo->pushed_at;
+  return unless $gh_repo->pushed_at && $gh_repo->gh_data->{size} > 48;
   my @gh_commits;
   my $latest = $gh_repo->search_related('github_commits',{},{
     rows => 1,
     order_by => { -desc => 'author_date' },
   })->first;
   my $gh = $self->gh;
+  printf "Updating %s/%s...\n", $gh_repo->owner_name, $gh_repo->repo_name;
   my @commits = $latest
     ? (@{$gh->commits_since(
       $gh_repo->owner_name,$gh_repo->repo_name,datetime_str(
@@ -262,6 +269,7 @@ sub update_repo_commit_from_data {
 
 sub update_repo_issues {
   my ( $self, $gh_repo ) = @_;
+  return unless $gh_repo->gh_data->{has_issues};
   my @gh_issues;
   my $latest = $gh_repo->search_related('github_issues',{},{
     rows => 1,
