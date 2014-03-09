@@ -1,5 +1,5 @@
-package DDGC::User::Page::Field;
-# ABSTRACT: One field of the user page
+package DDGC::Role::Table::Field;
+# ABSTRACT: One field of a table
 
 use Moose;
 use Email::Valid;
@@ -67,9 +67,9 @@ my %types = (
 
 ########################################################
 
-has page => (
+has table => (
 	is => 'ro',
-	isa => 'DDGC::User::Page',
+	does => 'DDGC::Role::Table',
 	required => 1,
 );
 
@@ -299,3 +299,31 @@ sub export_value {
 }
 
 1;
+
+__DATA__
+
+=pod
+
+=encoding UTF-8
+
+=head1 SYNOPSIS
+
+    # ... in a DDGC::Role::Table-consuming class' attributes
+    'field_name' => 'Human-readable field name' => {%attrs},
+
+=head1 DESCRIPTION
+
+This represents a single field in a L<DDGC::Role::Table>, handling validation,
+exporting, errors, etc. for any field type and properties you throw at it.
+B<Note:> This is not a role, it is merely under DDGC::Role to live with its
+parent.
+
+=head1 SEE ALSO
+
+=over 4
+
+=item L<DDGC::Role::Table>
+
+=back
+
+=cut

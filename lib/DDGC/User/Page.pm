@@ -2,12 +2,11 @@ package DDGC::User::Page;
 # ABSTRACT: Class for the user page information
 
 use Moose;
-use DDGC::User::Page::Field;
 use URI;
 
 # default type = text
 
-my @attributes = (
+sub attributes {[
 
 ############################ About
 
@@ -131,89 +130,19 @@ my @attributes = (
 		export => sub {
 			my ( $self ) = @_;
 			return "" unless $self->value;
-			return { map { $_->language->locale => $_->grade } $self->page->user->user_languages };
+			return { map { $_->language->locale => $_->grade } $self->table->user->user_languages };
 		},
 	},
 
-);
+]};
 
-has data => (
-	is => 'ro',
-	isa => 'HashRef',
-	lazy => 1,
-	default => sub {{}},
-);
-
-sub export {
-	my ( $self ) = @_;
-	my %export;
-	my %errors;
-	for (keys %{$self->attribute_fields}) {
-		next if $self->field($_)->no_export;
-		$export{$_} = $self->field($_)->export_value;
-		$errors{$_} = $self->field($_)->errors if $self->field($_)->error_count;
-	}
-	$export{errors} = \%errors if %errors;
-	return \%export;
-}
+with 'DDGC::Role::Table';
 
 has user => (
 	is => 'ro',
 	isa => 'DDGC::DB::Result::User',
 	required => 1,
 );
-
-has attribute_fields => (
-	is => 'ro',
-	isa => 'HashRef[DDGC::User::Page::Field]',
-	lazy_build => 1,
-);
-
-sub field {
-	my ( $self, $name ) = @_;
-	return $self->attribute_fields->{$name};
-}
-
-sub _build_attribute_fields {
-	my ( $self ) = @_;
-	my %fields;
-	my @attrs = @attributes;
-	while (@attrs) {
-		my $name = shift @attrs;
-		my $desc = shift @attrs;
-		my %extra = %{shift @attrs};
-		my $value = defined $self->data->{$name}
-			? $self->data->{$name}
-			: '';
-		$fields{$name} = DDGC::User::Page::Field->new(
-			page => $self,
-			name => $name,
-			description => $desc,
-			value => $value,
-			%extra,
-		);
-	}
-	return \%fields;
-}
-
-sub update_data {
-	my ( $self, $data ) = @_;
-	my $error_count;
-	for (keys %{$data}) {
-		my $key = $_;
-		my $value = $data->{$_};
-		my $field = $self->field($_);
-		if ($field) {
-			$field->value($value);
-			if ($field->error_count) {
-				$error_count += $field->error_count;
-			} else {
-				$self->data->{$key} = $value;
-			}
-		}
-	}
-	return $error_count;
-}
 
 sub new_from_user {
 	my ( $class, $user ) = @_;
@@ -234,12 +163,5 @@ sub update {
 	$self->user->update;
 }
 
-sub has_value_for {
-	my ( $self, @fields ) = @_;
-	for (@fields) {
-		return 1 if $self->field($_)->value;
-	}
-	return 0;
-}
 
 1;

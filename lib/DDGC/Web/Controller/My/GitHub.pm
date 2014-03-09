@@ -33,4 +33,11 @@ sub index :Chained('base') :PathPart('') :Args(0) {
 	}
 }
 
+sub pull_request :Chained('base') :Args(1) {
+    my ($self, $c, $repo) = @_;
+
+    $c->stash->{repo} = $c->d->rs('GitHub::Repo')->find({full_name => $c->user->github_user->login.'/'.$repo});
+    # TODO: Do something useful here!
+}
+
 1;

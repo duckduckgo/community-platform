@@ -134,7 +134,7 @@ sub update_repos {
         # Check to see if this is a fork and has the same name as a duckduckgo/ repo
         $company = $self->ddgc->rs('GitHub::Repo')->search({
                 company_repo => 1,
-                full_name => 'duckduckgo/'.$_->{name},
+                full_name => $self->ddgc->config->github_org.'/'.$_->{name},
         })->count;
     }
     $self->update_user_repo_from_data($owner,$_,$company) unless $_->{private};
