@@ -1,4 +1,6 @@
 package DDGC::GitHub::Plugin;
+# ABSTRACT: Manage instant-answer plugin pull requests
+
 use Moose;
 
 sub attributes {[
