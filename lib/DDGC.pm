@@ -199,12 +199,10 @@ sub _build_xslate {
                 if ($class =~ m/^[a-z_]+$/) {
                         return $class;
                 }
-		if ($class =~ m/^DDGC::DB::Result::(.*)$/ ||
-                    $class =~ m/^DDGC::DB::ResultSet::(.*)$/ ||
-                    $class =~ m/^DDGC::Web::(.*)$/
-                ) {
-			my $return = lc($1);
+		if ($class =~ m/^DDGC::(DB::Result|DB::ResultSet|Web)::(.*)$/) {
+			my $return = lc($2);
 			$return =~ s/::/_/g;
+                        $return .= '_rs' if $1 eq 'DB::ResultSet';
 			return $return;
 		}
 		die "cant include ".$class." with i-function";

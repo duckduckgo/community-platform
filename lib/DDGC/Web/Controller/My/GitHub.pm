@@ -38,7 +38,6 @@ sub pull_request :Chained('base') :Args(1) {
     my ($self, $c, $repo) = @_;
 
     $c->stash->{fields} = DDGC::GitHub::Plugin->new->attribute_fields;
-    use DDP; p $c->stash->{fields};
     $c->stash->{repo} = $c->d->rs('GitHub::Repo')->find({full_name => $c->user->github_user->login.'/'.$repo});
     # TODO: Do something useful here!
 }
