@@ -298,6 +298,9 @@ sub export_value {
 	$self->export_function->($self);
 }
 
+
+sub i { 'table_field' }
+
 1;
 
 __DATA__

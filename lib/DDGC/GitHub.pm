@@ -129,15 +129,20 @@ sub update_repos {
   while ($gh->has_next_page) {
     push @repos, @{$gh->next_page};
   }
-  for (@repos) {
-    if (!$company && $_->{fork}) {
+  my @company_repos = $self->ddgc->rs('GitHub::Repo')->search({
+      company_repo => 1,
+  },{
+      columns => ['full_name']
+  })->all;
+  for my $repo (@repos) {
+    if (!$company && $repo->{fork} && !$repo->{private}) {
         # Check to see if this is a fork and has the same name as a duckduckgo/ repo
-        $company = $self->ddgc->rs('GitHub::Repo')->search({
-                company_repo => 1,
-                full_name => $self->ddgc->config->github_org.'/'.$_->{name},
-        })->count;
+        $company = scalar grep { 
+            $_->full_name eq $self->ddgc->config->github_org.'/'.$repo->{name}
+        } @company_repos;
+        next unless $company;
+        $self->update_user_repo_from_data($owner,$repo,$company) unless $repo->{private};
     }
-    $self->update_user_repo_from_data($owner,$_,$company) unless $_->{private};
   }
 }
 

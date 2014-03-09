@@ -1,0 +1,13 @@
+<form class="column-form" method="post" action="">
+    <div class="content-box">
+            <div class="head">
+                    <h2>Request Pull from <: $repo.full_name :></h2>
+            </div>
+            <div class="body">
+                    <: for ['function','problem_solved','source','why_source','better_source','example_queries','communities','idea','overlap','issues'] -> $field { :>
+                        <: $obj2dir($fields[$field]) :>
+                        <: i($fields[$field], 'edit') :>
+                    <: } :>
+            </div>
+    </div>
+</form>

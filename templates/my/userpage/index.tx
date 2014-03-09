@@ -11,7 +11,7 @@
 	</div>
 	<div class="body">
 		<: for ['headline','gravatar_email',,'whyddg'] -> $field { :>
-			<: include "my/userpage/field.tx" { field => $fields[$field] } :>
+			<: i($fields[$field], 'edit') :>
 		<: } :>
 	</div>
 </div>
@@ -22,7 +22,7 @@
 	</div>
 	<div class="body">
 		<: for ['email','web','github'] -> $field { :>
-			<: include "my/userpage/field.tx" { field => $fields[$field] } :>
+			<: i($fields[$field], 'edit') :>
 		<: } :>
 	</div>
 </div>
@@ -33,7 +33,7 @@
 	</div>
 	<div class="body">
 		<: for ['openid_server','openid_delegate'] -> $field { :>
-			<: include "my/userpage/field.tx" { field => $fields[$field] } :>
+			<: i($fields[$field], 'edit') :>
 		<: } :>
 		<div class="account-box"> <!-- That shouldnt be necessary TODO -->
 		<div class="row callout-row">
@@ -53,7 +53,7 @@
 	</div>
 	<div class="body">
 		<: for ['languages'] -> $field { :>
-			<: include "my/userpage/field.tx" { field => $fields[$field] } :>
+			<: i($fields[$field], 'edit') :>
 		<: } :>
 	</div>
 </div>

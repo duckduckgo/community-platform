@@ -196,17 +196,13 @@ sub _build_xslate {
 	my $obj2dir = sub {
 		my $obj = shift;
 		my $class = $obj->can('i') ? $obj->i : ref $obj;
-		if ($class =~ m/^DDGC::DB::Result::(.*)$/) {
-			my $return = lc($1);
-			$return =~ s/::/_/g;
-			return $return;
-		}
-		if ($class =~ m/^DDGC::DB::ResultSet::(.*)$/) {
-			my $return = lc($1);
-			$return =~ s/::/_/g;
-			return $return.'_rs';
-		}
-		if ($class =~ m/^DDGC::Web::(.*)/) {
+                if ($class =~ m/^[a-z_]+$/) {
+                        return $class;
+                }
+		if ($class =~ m/^DDGC::DB::Result::(.*)$/ ||
+                    $class =~ m/^DDGC::DB::ResultSet::(.*)$/ ||
+                    $class =~ m/^DDGC::Web::(.*)$/
+                ) {
 			my $return = lc($1);
 			$return =~ s/::/_/g;
 			return $return;
@@ -214,7 +210,6 @@ sub _build_xslate {
 		die "cant include ".$class." with i-function";
 	};
 	my $i_template_and_vars = sub {
-
 		my $object = shift;
 		my $subtemplate;
 		my $no_templatedir;

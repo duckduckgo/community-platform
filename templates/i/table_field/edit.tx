@@ -1,16 +1,16 @@
 <div class="row">
 	<div class="third">
-		<label><: r($field.description) :></label>
+		<label><: r($_.description) :></label>
 	</div>
 	<div class="twothird">
-		<: include upf_edit($field) { field => $field } :>
+		<: include upf_edit($_) { field => $_ } :>
 	</div>
 </div>
-<: if $field.error_count { :>
+<: if $_.error_count { :>
 	<div class="row">
 		<div class="third">&nbsp;</div>
 		<div class="twothird">
-			<: for $field.errors -> $error { :>
+			<: for $_.errors -> $error { :>
 				<div class="notice error"><i class="icn icon-warning-sign"></i><: $error :></div>
 			<: } :>
 		</div>

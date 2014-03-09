@@ -88,6 +88,8 @@ sub has_value_for {
 	return 0;
 }
 
+sub i { 'table' }
+
 1;
 
 __DATA__
