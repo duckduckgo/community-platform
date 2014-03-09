@@ -119,7 +119,7 @@
 					</label>
 				</div>
 				<div class="third">
-					<a href="<: $u('My','github') :>" class="button button--right">GitHub Link</a>
+					<a href="<: $u('My::GitHub','index') :>" class="button button--right">GitHub Link</a>
 				</div>
 			</div>
 			<div class="row">
