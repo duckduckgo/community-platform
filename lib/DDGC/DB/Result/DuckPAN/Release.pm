@@ -72,5 +72,10 @@ has_many 'duckpan_modules', 'DDGC::DB::Result::DuckPAN::Module', 'duckpan_releas
 
 unique_constraint [qw/ name version /];
 
+sub primary_module {
+    my $self = shift;
+    $self->duckpan_modules->search({name => $self->name})->first;
+}
+
 no Moose;
 __PACKAGE__->meta->make_immutable;

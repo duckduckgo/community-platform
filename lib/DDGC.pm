@@ -978,13 +978,15 @@ Role here refers to permission sets - users have roles including:
 =over 8
 
 =item translation_manager 
+
 =item forum_manager 
+
 =item idea_manager 
 
 =back
 
 With C<$role_id>, return the full (human-readable) name of that role.
-Without C<$role_id>, return a HashRef of C<{ role_id => "Role Name" }>
+Without C<$role_id>, return a HashRef of C<{ role_id =&gt; "Role Name" }>
 
 =item B<force_privacy>
 

@@ -39,7 +39,7 @@ sub release_base :Chained('base') :PathPart('release') :CaptureArgs(1) {
 sub release_index :Chained('release_base') :PathPart('') :Args(0) {
 	my ( $self, $c ) = @_;
 	my $latest = $c->d->rs('DuckPAN::Release')->search_rs({
-		name => $c->stash->{release_name},
+		'me.name' => $c->stash->{release_name},
 		current => 1,
 	},{
 		order_by => { -asc => 'duckpan_modules.name' },
