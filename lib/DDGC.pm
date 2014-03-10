@@ -851,6 +851,8 @@ rest of DDGC, and fires up all the other parts of the system.
 
 =head2 User-Facing Components
 
+If you are looking for a tutorial-like document, head over to L<DDGC::Manual>.
+
 =over 4
 
 =item Help
@@ -877,6 +879,35 @@ L<https://duck.co/translate> -- DuckDuckGo's public translation system.
 
 L<DDGC::Web::Controller::Feedback> provides L<https://duckduckgo.com/feedback>
 for directly submitting feedback to DuckDuckGo.
+
+=back
+
+=head2 Major Development Components
+
+=over 4
+
+=item L<DDGC::Web>
+
+The Catalyst app which powers this whole thing.
+
+=item L<DDGC::Web::Table>
+
+Magic for dealing with pagination, sorting, etc. in web-based displays
+of resultsets. For example, the forum/ideas use this to sort and paginate
+themselves.
+
+=item L<DDGC::Search::Client>
+
+The search engine client for searching through things in DDGC.
+
+=item L<DDGC::DB>
+
+All of the L<DBIx::Class>-based database management.
+
+=item L<DDGC::Config>
+
+Configuration for DDGC. This provides default values, but allows for everything
+to be overridden via C<%ENV>.
 
 =back
 
@@ -932,9 +963,18 @@ L<Cache::Cache> for caching just about anything in DDGC.
 
 L<DDGC::Forum> manages the DuckDuckGo forum L<https://duck.co/forum>.
 
+=item B<help>
+
+L<DDGC::Help> helps with the L<help|https://duck.co/help>!
+
+=item B<idea>
+
+L<DDGC::Ideas> provides convenient functions to the L<ideas|https://duck.co/ideas>
+section.
+
 =item B<xslate>
 
-L<Text::Xslate> template engine. This is what renders everything in B<templates/>.
+L<Text::Xslate> template engine. This is what renders everything in F<templates>.
 
 =item B<current_user>
 
@@ -979,7 +1019,7 @@ Role here refers to permission sets - users have roles including:
 =back
 
 With C<$role_id>, return the full (human-readable) name of that role.
-Without C<$role_id>, return a HashRef of C<{ role_id =&gt; "Role Name" }>
+Without C<$role_id>, return a HashRef of C<{ role_id =<gt> "Role Name" }>
 
 =item B<force_privacy>
 
@@ -1038,7 +1078,7 @@ B<Arguments:> none.
 B<Return Value:> HashRef
 
 Get the current number of DDGC (Web) and Prosody (XMPP) users as a HashRef:
-C<{ db => $web_count, xmpp => $xmpp_count }>
+C<{ db =<gt> $web_count, xmpp =<gt> $xmpp_count }>
 
 =back
 
