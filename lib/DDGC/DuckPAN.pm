@@ -32,10 +32,10 @@ sub cpan_repository {
 }
 
 sub cpan_documentation_html {
-    my ($self) = @_;
-    my $cdh = CPAN::Documentation::HTML->new({
-            root => $self->ddgc->config->duckpandir,
-    });
+	my ($self) = @_;
+	my $cdh = CPAN::Documentation::HTML->new({
+		root => $self->ddgc->config->duckpandir,
+	});
 }
 
 sub modules { shift->cpan_repository->modules }
@@ -85,12 +85,18 @@ sub add_user_distribution {
 		}
 	}
 	my $distribution_filename_duckpan = $self->cpan_repository->add_author_distribution(uc($user->username),$distribution_filename);
-        my $cdh = $self->cpan_documentation_html;
-        $cdh->add_dist($distribution_filename);
-        $cdh->save_cache;
-        $cdh->save_index;
 	$self->log("Adding release",$dist_data->name,$dist_data->version);
 	my $release = $self->add_release( $user, $dist_data->name, $dist_data->version, $distribution_filename_duckpan);
+        eval {
+		my $cdh = $self->cpan_documentation_html;
+		$cdh->add_dist($distribution_filename);
+		$cdh->save_cache;
+		$cdh->save_index;
+        };
+        if ($@) {
+            $self->log("ERROR",'Could not generate documentation for',$dist_data->name,$dist_data->version,$@);
+            return "Failed to parse your POD. Perhaps you should test it first?";
+        }
 	eval {
 		$self->ddgc->db->txn_do(sub {
 			my $latest_dir = dir($self->ddgc->config->duckpandir,'latest',$dist_data->name);
@@ -152,11 +158,12 @@ sub add_user_distribution {
 			}
 		});
 	};
-        if ($@) {
-            $release->duckpan_meta({ error => $@ });
-            $self->log(ERROR => $dist_data->name, $dist_data->version, $@);
-            return $@;
-        }
+	if ($@) {
+		$release->duckpan_meta({ error => $@ });
+		$self->log(ERROR => $dist_data->name, $dist_data->version, $@);
+		return 'Error! '.$@;
+	}
+	return "This... this is not possible.";
 }
 
 sub add_release {

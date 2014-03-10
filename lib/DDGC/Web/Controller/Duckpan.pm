@@ -9,6 +9,7 @@ use Dist::Data;
 use Path::Class;
 use Pod::Simple::XHTML;
 use Data::Dumper;
+use DDP;
 
 BEGIN {extends 'Catalyst::Controller'; }
 
@@ -103,7 +104,7 @@ sub upload :Chained('logged_in') :Args(0) {
 		if ($return_ref eq 'DDGC::DB::Result::DuckPAN::Release') {
 			$c->stash->{duckpan_release} = $return;
 		} else {
-			$c->stash->{duckpan_error} = $return;
+			$c->stash->{duckpan_error} = $return || "Let's just say something broke.";
 			$c->res->code(403);
 			$c->d->errorlog($c->req);
 			$c->d->errorlog($c->stash->{duckpan_error});
@@ -115,7 +116,7 @@ sub upload :Chained('logged_in') :Args(0) {
 		$c->d->errorlog($@);
 		$c->stash->{duckpan_error} = $@;
 	}
-	if ($c->stash->{duckpan_error}) {
+	if (defined $c->stash->{duckpan_error}) {
 		$c->stash->{subject} = "Error on release!"
 	} else {
 		$c->stash->{subject} = "Successfully uploaded ".
