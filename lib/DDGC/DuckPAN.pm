@@ -163,7 +163,7 @@ sub add_user_distribution {
 		$self->log(ERROR => $dist_data->name, $dist_data->version, $@);
 		return 'Error! '.$@;
 	}
-	return "This... this is not possible.";
+	return $release // "This... this is not possible.";
 }
 
 sub add_release {
