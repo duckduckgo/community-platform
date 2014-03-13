@@ -3,7 +3,6 @@ package DDGC::Search::Server;
 use Moose;
 use Dezi::MultiTenant;
 use Dezi::Config;
-use Lingua::Stem;
 
 has indices => (
     is => 'ro',
@@ -13,16 +12,6 @@ has indices => (
 
 sub _build_indices {
     [qw(help thread idea)]
-}
-
-has stemmer => (
-    is => 'ro',
-    lazy_build => 1,
-    handles => ['stem'],
-);
-
-sub _build_stemmer {
-    return Lingua::Stem->new;
 }
 
 sub to_app {
@@ -51,6 +40,13 @@ sub to_app {
                             sloppy => 1,
                             fixup => 1,
                             croak_on_error => 1,
+                        },
+                    },
+                    suggester_config => {
+                        limit  => 2,
+                        fields => [qw( swishtitle swishdescription )],
+                        spellcheck_config => {
+                            lang => 'en_US',
                         },
                     },
                 },

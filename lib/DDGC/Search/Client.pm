@@ -167,7 +167,6 @@ around search => sub {
     die "->search needs a q parameter." unless defined $params{q};
 
     $params{q} =~ s/(?:^|(?<=\s))!(\S+)/"!$1"/g;
-    print "\n\nQuery: $params{q}\n\n";
 
     my $result = $self->$orig(%params);
 

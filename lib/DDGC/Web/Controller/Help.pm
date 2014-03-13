@@ -62,7 +62,8 @@ sub search :Chained('base') :Args(0) {
   my ($articles, $articles_rs) = $c->d->help->search_engine->rs(
       $c,
       $c->stash->{help_search},
-      $c->d->rs('Help')
+      $c->d->rs('Help'),
+      b => 'OR', # default to OR between terms for help search -- more likely to find something
   );
 
   $c->stash->{articles} = $articles;

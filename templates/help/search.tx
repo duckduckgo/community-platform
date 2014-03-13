@@ -21,6 +21,7 @@
       <: } :>    
   <: } else { :>
     <h2>No search results!</h2>
+    <p>Head over to the <a href="<: $u('Forum','index') :>">Forum</a> if you can't find what you are looking for - we'd love to help.</p>
     <: if $error { :>
       <div class="notice error"><: r($error) :></div>
     <: } :>

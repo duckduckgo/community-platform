@@ -9,7 +9,6 @@ use Dist::Data;
 use Path::Class;
 use Pod::Simple::XHTML;
 use Data::Dumper;
-use DDP;
 
 BEGIN {extends 'Catalyst::Controller'; }
 
