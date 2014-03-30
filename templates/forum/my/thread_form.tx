@@ -33,11 +33,6 @@
         </div>
     </div>
 </div>
-<div class="notice  contrast">
-	<i class="icn icon-info-sign"></i>
-	<b>Note:</b> Please be aware that along with any uploaded screenshots, we store your user agent (browser version): <a href="https://duckduckgo.com/?q=user+agent">https://duckduckgo.com/?q=user+agent</a>
-	<i class="close icon-remove"></i>
-</div>
 
 <script type="text/javascript">
     function suggest(e) {

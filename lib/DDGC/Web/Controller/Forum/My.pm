@@ -50,7 +50,6 @@ sub thread_form {
 		});
 		my $screenshot = $c->d->rs('Screenshot')->create({
 			media_id => $media->id,
-			user_agent => $c->req->user_agent,
 		});
 		$c->session->{thread_forms}->{$c->stash->{thread_form_id}}->{screenshots} = []
 			unless defined $c->session->{thread_forms}->{$c->stash->{thread_form_id}}->{screenshots};

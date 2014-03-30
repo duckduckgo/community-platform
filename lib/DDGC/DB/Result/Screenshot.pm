@@ -15,11 +15,6 @@ column id => {
 };
 primary_key 'id';
 
-column user_agent => {
-  data_type => 'text',
-  is_nullable => 1,
-};
-
 column url => {
   data_type => 'text',
   is_nullable => 1,
