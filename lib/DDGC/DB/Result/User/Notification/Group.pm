@@ -249,7 +249,6 @@ sub default_types_def {{
 		filter_by_language => 1,
 		group_context => 'DDGC::DB::Result::Token::Domain::Language',
 		group_context_id => sub { $_[0]->token_language->token_domain_language->id },
-		u => sub { $_[0]->u_unvoted },
 		icon => 'globe',
 		email_has_content => 0,
 	},
