@@ -55,7 +55,6 @@ sub feedback :Chained('base') :PathPart('') :CaptureArgs(1) {
       $c->response->redirect($c->chained_uri('My','login'));
       return $c->detach;
     }
-    $c->stash->{no_useragent_warning} = 1;
     $c->stash->{feedback_config} = DDGC::Feedback::Config::Suggest->feedback;
     $c->stash->{feedback_title} = DDGC::Feedback::Config::Suggest->feedback_title;
   } else {
@@ -161,7 +160,7 @@ sub step :Chained('feedback') :PathPart('') :Args(1) {
 
     $c->stash->{feedback_data} = \%data;
     my @header_field_names = $c->req->headers->header_field_names();
-    $c->stash->{header_field_names} = [grep { $_ ne 'COOKIE' } @header_field_names];
+    $c->stash->{header_field_names} = [grep { ($_ ne 'COOKIE' && $_ ne 'User-Agent')  } @header_field_names];
 
     $c->stash->{c} = $c;
     $c->d->postman->template_mail(
