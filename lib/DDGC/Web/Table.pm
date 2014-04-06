@@ -263,6 +263,7 @@ has paged_rs => (
 		$self->resultset->search({},{
 			page => $self->page,
 			rows => $self->pagesize,
+                        group_by => ['me.id'],
 			$self->sorting
 				? ( order_by => $self->order_by )
 				: (),
