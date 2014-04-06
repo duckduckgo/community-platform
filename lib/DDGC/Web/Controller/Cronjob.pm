@@ -69,12 +69,13 @@ sub notify_cycle {
 							$c->stash,
 						);
 					};
-					if ($@) {
+                                        my $err = $@;
+					if ($err) {
 						$c->d->postman->mail(
 							$c->d->config->error_email,
 							'"DuckDuckGo Community Envoy" <envoy@dukgo.com>',
 							'[DuckDuckGo Community] ERROR ON ENVOY',
-							$@,
+							$err,
 						);				
 					} else {
 						my @ids;
