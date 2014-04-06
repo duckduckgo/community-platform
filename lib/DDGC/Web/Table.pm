@@ -260,10 +260,10 @@ has paged_rs => (
 	lazy => 1,
 	default => sub {
 		my ( $self ) = @_;
-		$self->resultset->search({},{
+		my $foo=$self->resultset->search({},{
 			page => $self->page,
 			rows => $self->pagesize,
-                        group_by => ['me.id'],
+                        group_by => [map 'me.'.$_, $self->resultset->result_source->columns],
 			$self->sorting
 				? ( order_by => $self->order_by )
 				: (),
