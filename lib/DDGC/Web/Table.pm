@@ -1,5 +1,5 @@
 package DDGC::Web::Table;
-# ABSTRACT: Class holding the functionality for a web table over a resultset
+# ABSTRACT: Class for sorting, paging, etc. on a resultset for a web display
 
 use Moose;
 use Digest::MD5 qw( md5_base64 );
@@ -396,3 +396,45 @@ has data_page => (
 
 no Moose;
 __PACKAGE__->meta->make_immutable;
+
+__END__
+
+=pod
+
+=head1 SYNOPSIS
+
+    $c->stash->{items} = $c->table(
+        $resultset,
+        [qw/Chained URI components/],
+        [qw/columns/], # or [] to select all
+        default_pagesize => 20,
+        default_sorting => '-me.updated',
+        id => 'itemlist_ID', # must be unique to the sorting options in use
+        sorting_options => [{
+            label => 'Last Updated',
+            sorting => 'updated', # this will be used in the URL parameter
+            order_by => '-me.updated', # Or anything DBIC would accept
+        },{
+            label => 'Another Order',
+            sorting => 'key',
+            order_by => { -desc => 'whatever' },
+        }],
+    );
+
+Then in a template:
+
+    <: for results($items.paged_rs) -> $item { :>
+        Display an item: <: $item.name :>
+    <: } :>
+    Sorting controls: <: i($items, 'sortopts') :>
+    Page controls: <: i($items, 'pager') :>
+
+=head1 DESCRIPTION
+
+This class gives you pagination, sorting, etc. for resultsets with a simple
+and automated web-based display. It will set up and manage its own sorting
+parameters, you just have to tell it what to call them.
+
+TODO: Document the attributes/methods in here.
+
+=cut
