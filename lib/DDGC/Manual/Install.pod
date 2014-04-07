@@ -26,6 +26,11 @@ working great for us. Let us know if you run into any issues.
 
 =head1 RUNNING
 
+Installer should have started a postgresql daemon for you, so all you have to do
+now is fill it with DDGC's test data:
+
+    script/ddgc_deploy_dev.pl --kill
+
 If you want to use the search engine, you should run our indexer over the test
 database:
 
@@ -35,12 +40,7 @@ Then start the opensearch server:
 
     script/dezi_server.pl &
 
-Installer should have started a postgresql daemon for you, so all you have to do
-now is fill it with DDGC's test data:
-
-    script/ddgc_deploy_dev.pl --kill
-
-Then start the development server:
+Finally, start the development web server:
 
     script/ddgc_web_server.pl -r -d
 
