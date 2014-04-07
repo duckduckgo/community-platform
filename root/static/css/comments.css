@@ -58,6 +58,9 @@
     .forum-item__title-wrap,
 	.forum-item__title{
 		position: static !important; /* so that the icon can escape */
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
 	}
 	
 	.forum-item__title { 

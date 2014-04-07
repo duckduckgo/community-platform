@@ -30,6 +30,7 @@ use Cache::NullCache;
 use LWP::UserAgent;
 use Carp;
 use Data::Dumper;
+use String::Truncate 'elide';
 use namespace::autoclean;
 
 our $VERSION ||= '0.000';
@@ -384,6 +385,9 @@ sub _build_xslate {
 			username_gimmick => sub {
 				mark_raw(substr($_[0],0,-2).'<i>'.substr($_[0],-2).'</i>')
 			},
+
+                        # String::Truncate's elide function
+                        truncate => \&elide,
 
 		},
 	});

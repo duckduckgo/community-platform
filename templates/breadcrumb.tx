@@ -5,7 +5,7 @@
 				<: if $crumb.link { :>
 					<a href="<: $crumb.link :>">
 				<: } :>
-					<: $crumb.text :>
+					<: truncate($crumb.text, 43, {at_space => 1}) :>
 				<: if $crumb.link { :>
 					</a> &gt;
 				<: } :>

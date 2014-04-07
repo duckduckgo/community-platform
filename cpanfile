@@ -104,3 +104,4 @@ requires 'Dezi::MultiTenant', '0.003';
 requires 'Search::Query', '0.24';
 requires 'HTML::Strip', '1.06';
 requires 'CPAN::Documentation::HTML', '0.001';
+requires 'String::Truncate', '1.100602';
