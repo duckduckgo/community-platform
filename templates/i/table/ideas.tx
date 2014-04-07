@@ -16,3 +16,7 @@
 	</div>
 </div>
 <: i($_,'sortopts') :>
+<div class="row mid">
+	<: i($_,'pager') :>
+</div>
+
