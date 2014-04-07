@@ -41,6 +41,8 @@ sub bbcode {
 		Twitter => 'https://twitter.com/%s',
 		Facebook => 'https://facebook.com/%s',
 		CPAN => 'https://metacpan.org/module/%s',
+                Help => '/help/search?help_search=%s&ducky=1',
+                DDG => 'https://duckduckgo.com/?q=%s'
 	);
 	my %tags;
 	for my $site (keys %base) {
@@ -54,8 +56,9 @@ sub bbcode {
 			short => 1,
 			classic => 0,
 			code => sub {
-				my $attr = $_[1];
-				my $url = sprintf($url_base,$attr);
+				my $uri_component = uri_escape $_[1];
+                                my $attr = Parse::BBCode::escape_html($_[1]);
+				my $url = sprintf($url_base,$uri_component);
 				$priv
 					? '<a class="p-link p-link--'.$key.'" href="'.$url.'"><i class="p-link__icn icon-external-link"></i><span class="p-link__txt">'.$site.'</span> <span class="p-link__url">'.$attr.'</span></a>'
 					: '<a href="'.$url.'">'.$attr.' @ '.$site.'</a>';
