@@ -1,0 +1,54 @@
+# PODNAME: DDGC::Manual::Install
+# ABSTRACT: How to set up the development environment
+
+=encoding utf-8
+
+=head1 INSTALLATION
+
+If you can, we suggest you use Debian or Ubuntu for development to keep your
+environment similar to ours. Any Linux (or perhaps other Unices) will most
+likely work just fine though. Don't take this as a lack of support, however. We
+would be glad to help with other environments.
+
+The community platform uses L<Installer> to set up a contained development
+environment for itself. All you need to start is an internet connection and
+some version of Perl5 >= 5.10, which you likely already have.
+
+The one command to rule them all:
+
+    curl -s -L http://installer.pm | sh -s -- -f .installer ~/ddgc_env
+
+This should install all the dependencies you need. Check out F<.installer> and
+L<http://installer.pm> to see exactly what it is doing.
+
+B<Note:> Installer is not currently considered stable, though it has been
+working great for us. Let us know if you run into any issues.
+
+=head1 RUNNING
+
+If you want to use the search engine, you should run our indexer over the test
+database:
+
+    script/ddgc_index_db.pl
+
+Then start the opensearch server:
+
+    script/dezi_server.pl &
+
+Installer should have started a postgresql daemon for you, so all you have to do
+now is fill it with DDGC's test data:
+
+    script/ddgc_deploy_dev.pl --kill
+
+Then start the development server:
+
+    script/ddgc_web_server.pl -r -d
+
+If everything above looks good, you should now be able to access your
+development instance of DDGC at L<http://127.0.0.1:3000/>.
+
+=head1 ERRORS
+
+We cannot stress enough how important it is to report any issues you encounter
+while running DDGC. Create an issue on GitHub, stop by our IRC channel, or send
+us an email. Even if you think the issue is your fault, it's probably ours.

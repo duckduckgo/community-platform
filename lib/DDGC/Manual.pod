@@ -1,5 +1,5 @@
 # PODNAME: DDGC::Manual
-# ABSTRACT: Documentation to work on and contribute to the community platform
+# ABSTRACT: Documentation for contributing to the community platform
 
 =encoding utf-8
 
