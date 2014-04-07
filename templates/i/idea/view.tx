@@ -67,7 +67,7 @@
 				</div>
 				<div class="g thirty">
 				<input type="submit" name="change_status" value="Update" class="button  inline-form" />
-																<a class="button  red" href="<: $u('Ideas','delete',$_.id) :>">Delete</a>
+																<a class="button  red" href="<: $u('Ideas','delete',$_.id) :>" onclick="return confirm('Are you sure?')">Delete</a>
 				</div>
 			</div>
 		</div>

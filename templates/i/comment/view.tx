@@ -31,7 +31,7 @@
 						<a class="js-cancel_link_<: $_.id :>  js-comment-cancel no-js-hide hide" data-target="<: $_.id :>" href="#">Cancel</a>
 					</span>
 					<: if ($c.user.admin or $c.user.id == $_.user.id) { :>
-						<span class="comment-meta__link">&bull; <a href="<: $u('Comment','delete',$_.id, { action_token => $action_token }) :>">Delete</a></span>
+						<span class="comment-meta__link">&bull; <a href="<: $u('Comment','delete',$_.id, { action_token => $action_token }) :>" onclick="return confirm('Are you sure?')">Delete</a></span>
 					<: } :>
 				<: } :>
 				<span class="comment-meta__link">&bull; <a href="<: $u('Forum','comment', $_.id ) :>">Link</a></span>
