@@ -1,0 +1,140 @@
+# PODNAME: DDGC::Manual::Development
+# ABSTRACT: Community platform backend development guide
+
+=encoding utf-8
+
+=head1 OVERVIEW
+
+If you have followed the steps in L<DDGC::Manual::Install>, you should be ready
+to get started. First off, take a look at the API reference in L<DDGC>. That
+class is the backbone of the community platform, so its documentation should
+guide you to whichever part of the system you want to work on.
+
+If you are interested in working on the community platform, you likely already
+know the user-facing component you want to change. If not, look for open
+L<issues|https://github.com/duckduckgo/community-platform/issues> to start with.
+
+=head1 NAVIGATION
+
+This section will guide you through the main sections of the community platform
+code. This should help you find code from the path you see on the web.
+
+=head2 L<DDGC::Web>
+
+L<DDGC::Web> is the L<Catalyst> application powering web-facing components of
+the community platform. Under the DDGC::Web namespace, you will find the
+following major sections:
+
+=head3 Controller
+
+L<Controllers|Catalyst::Controller> tell Catalyst how to handle web requests. In
+the community platform, we use several extensions in Controllers which can make
+them a bit hard to follow at first.
+
+When you make a request, Catalyst looks for a class matching the first part of
+your request path. For example, if you request C</foo/bar>, it will look for
+DDGC::Web::Controller::Foo::Bar, then DDGC::Web::Controller::Foo. If neither of
+those are found, it will use the C<default> method of
+L<DDGC::Web::Controller::Root>, which acts as a 404 page.
+
+If it did find a DDGC::Web::Controller::Foo::Bar above, it would check that
+class for any method handling the given path. What you will often see in our
+controllers is a C<base> method which handles the "base" part of the path for
+the entire class. Then we add an C<index> method chained to C<base>, and let it
+handle an I<empty> path part. In other words, it handles "this class' base part
+plus nothing else": C<'/foo/bar' + ''>.
+
+    package DDGC::Web::Controller::Foo::Bar;
+
+    # Chained to /'s (Root's) base
+    # PathPart tells it to act only with the path component '/foo/bar' in
+    # addition to the part it's chained to (/)
+    sub base : Chained('/base') PathPart('/foo/bar') {
+        # Set up some things which several things under this path use
+    }
+
+    # Chained to the base defined above this time
+    # The empty PathPart
+    sub index : Chained('base') PathPart('') {
+        # Do something to handle /foo/bar/.
+    }
+
+    1;
+
+The next major step is L<finding templates|"Templates"> to render for each
+request.
+
+=head3 View
+
+L<Views|Catalyst::View> define how to display the data your Controllers stick in
+the stash. The most common view is L<DDGC::Web::View::Xslate>, but
+L<DDGC::Web::View::JSON> is often used as well. Not much to describe here, as
+you will rarely need to modify or even use a different view. If you I<do> need
+to return JSON data, for example, it's as simple as this:
+
+    # ... in a controller sub
+    $c->stash->{not_last_url} = 1;
+    $c->stash->{x} = {foo => 'bar'};
+    $c->forward( $c->view('JSON') );
+
+See L<DDGC::Web::Controller::Roboduck> for an example of a basic JSON API.
+
+=head3 Table
+
+Tables are best described in L<DDGC::Web::Table>. Basically, they define how to
+paginate and order database resultsets for display on the web. Controls are
+included.
+
+=head3 Wizard
+
+TODO: Documentation. See L<DDGC::Web::Wizard> for now.
+
+=head2 L<DDGC::DB>
+
+L<DDGC::DB> contains all the database abstraction for the community platform,
+powered by L<DBIx::Class>.
+
+=head3 Result
+
+Classes under this namespace are DBIC
+L<ResultSources|DBIx::Class::ResultSource>. There is nothing too strange about
+these, especially if you have used an ORM before. Each class defines a table in
+the database. They provide accessors for each column in that table, and they may
+provide some convenience methods for interacting with that data. L<DBIx::Class>
+provides some excellent documentation, so we encourage you to read that. If you
+still have questions, we would be glad to answer.
+
+=head3 ResultSet
+
+These are L<ResultSets|DBIx::Class::ResultSet>, providing some convenience
+methods for various commonly encountered sets from the database. For example,
+L<DDGC::DB::ResultSet::Comment> has a method for grouping comments by the type
+of their parent (what the comment is commenting on).
+
+=head2 Templates
+
+Our templates for webpages, emails, and everything else live in F<templates/>.
+We use L<Text::Xslate> as the template engine, which is configured in L<DDGC>'s
+C<xslate> attribute.
+
+The top-level template for any given request path is usually just
+F<templates/the/request/path.tx> or F<templates/the/request/path/index.tx>. You
+will see that these paths are based on the L<Controllers|"Controllers">. Using
+the example controller we defined above, a request to C</foo/bar> would be
+handled by the method C<index> of DDGC::Web::Controller::Foo::Bar. Take the last
+part of the class name plus the method name: F<templates/foo/bar/index.tx>. This
+template would be found and rendered for you automatically.
+
+To pass data into templates, you should use the B<stash>. In controllers, this
+is available as C<<$c->stash>>, which is a HashRef.
+
+    # ... in our controller
+    $c->stash->{name} = "World";
+
+F<templates/foo/bar/index.tx>:
+
+    <h1>Hello, <: $name :></h1>
+
+See L<Text::Xslate::Syntax::Kolon> for information on the template syntax, and
+L<DDGC::Manual::Interface> for a reference on the functions and variables DDGC
+provides to all templates.
