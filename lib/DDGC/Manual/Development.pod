@@ -126,7 +126,7 @@ part of the class name plus the method name: F<templates/foo/bar/index.tx>. This
 template would be found and rendered for you automatically.
 
 To pass data into templates, you should use the B<stash>. In controllers, this
-is available as C<<$c->stash>>, which is a HashRef.
+is available as C<< $c->stash >>, which is a HashRef.
 
     # ... in our controller
     $c->stash->{name} = "World";
