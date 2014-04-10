@@ -6,7 +6,7 @@
 =head1 OVERVIEW
 
 If you have followed the steps in L<DDGC::Manual::Install>, you should be ready
-to get started. First off, take a look at the API reference in L<DDGC>. That
+to get started. First off, take a look at the API reference in L<DDGC>; that
 class is the backbone of the community platform, so its documentation should
 guide you to whichever part of the system you want to work on.
 
@@ -17,12 +17,12 @@ L<issues|https://github.com/duckduckgo/community-platform/issues> to start with.
 =head1 NAVIGATION
 
 This section will guide you through the main sections of the community platform
-code. This should help you find code from the path you see on the web.
+code, which should help you find code from the path you see on the web.
 
 =head2 L<DDGC::Web>
 
-L<DDGC::Web> is the L<Catalyst> application powering web-facing components of
-the community platform. Under the DDGC::Web namespace, you will find the
+L<DDGC::Web> is the L<Catalyst> application which powers the web-facing components
+of the community platform. Under the DDGC::Web namespace, you will find the
 following major sections:
 
 =head3 Controller
@@ -37,11 +37,11 @@ DDGC::Web::Controller::Foo::Bar, then DDGC::Web::Controller::Foo. If neither of
 those are found, it will use the C<default> method of
 L<DDGC::Web::Controller::Root>, which acts as a 404 page.
 
-If it did find a DDGC::Web::Controller::Foo::Bar above, it would check that
-class for any method handling the given path. What you will often see in our
+If it does find a DDGC::Web::Controller::Foo::Bar above, it will check that
+class for any method which handles the given path. What you will often see in our
 controllers is a C<base> method which handles the "base" part of the path for
 the entire class. Then we add an C<index> method chained to C<base>, and let it
-handle an I<empty> path part. In other words, it handles "this class' base part
+handle an I<empty> path part — in other words, it handles "this class's base part
 plus nothing else": C<'/foo/bar' + ''>.
 
     package DDGC::Web::Controller::Foo::Bar;
@@ -102,7 +102,7 @@ these, especially if you have used an ORM before. Each class defines a table in
 the database. They provide accessors for each column in that table, and they may
 provide some convenience methods for interacting with that data. L<DBIx::Class>
 provides some excellent documentation, so we encourage you to read that. If you
-still have questions, we would be glad to answer.
+still have questions, we would be glad to answer them.
 
 =head3 ResultSet
 
@@ -122,7 +122,7 @@ F<templates/the/request/path.tx> or F<templates/the/request/path/index.tx>. You
 will see that these paths are based on the L<Controllers|"Controllers">. Using
 the example controller we defined above, a request to C</foo/bar> would be
 handled by the method C<index> of DDGC::Web::Controller::Foo::Bar. Take the last
-part of the class name plus the method name: F<templates/foo/bar/index.tx>. This
+part of the class name and add the method name: F<templates/foo/bar/index.tx>. This
 template would be found and rendered for you automatically.
 
 To pass data into templates, you should use the B<stash>. In controllers, this
