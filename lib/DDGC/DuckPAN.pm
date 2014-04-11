@@ -11,6 +11,7 @@ use JSON::MaybeXS;
 use DateTime;
 use IO::All -utf8;
 use CPAN::Documentation::HTML;
+use File::ShareDir::ProjectDistDir;
 use version;
 
 has ddgc => (
@@ -35,6 +36,10 @@ sub cpan_documentation_html {
 	my ($self) = @_;
 	my $cdh = CPAN::Documentation::HTML->new({
 		root => $self->ddgc->config->duckpandir,
+                assets => {
+                    'default.css' => file(dist_dir('DDGC'), 'docroot_duckpan', 'duckpan.css'),
+                    'default.png' => fild(dist_dir('DDGC'), 'docroot_duckpan', 'logo.png'),
+                },
 	});
 }
 

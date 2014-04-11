@@ -60,6 +60,8 @@ There are currently several users in the development database:
 
 =item B<testfive> - Normal user, speaks Russian and English.
 
+=item B<test1> and B<test100> are plain default accounts.
+
 =back
 
 Password-based authentication is disabled in development mode, so you can log
