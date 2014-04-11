@@ -1,0 +1,112 @@
+# PODNAME: DDGC::Manual::Interface
+# ABSTRACT: Contributing to the community platform's frontend (HTML/CSS)
+
+=encoding utf-8
+
+=head1 OVERVIEW
+
+You will find HTML templates in F<templates/> and static files such as CSS in
+F<root/static/>. L<DDGC::Manual::Development/"Templates"> should help you find
+the top-level template for a particular URL.
+
+We use L<Text::Xslate> for our template language. Check out
+L<Text::Xslate::Syntax::Kolon> to learn about its syntax.
+
+=head1 TEMPLATE FUNCTIONS
+
+These functions are available in all community platform templates. They are
+home-made in L<DDGC>.
+
+=over 4
+
+=item B<i()>
+
+This is one of the most-used functions throughout community platform templates.
+The name is short for B<include>, and that is basically what it does – includes
+other templates wherever it is written. The difference is: this function
+includes a certain template based on the object you give it. Let's look at some
+examples:
+
+    <: i($user, 'username') :>
+
+Assuming C<$user> is a L<user|DDGC::DB::Result::User>, this will load the
+template F<templates/i/user/username.tx>, setting C<$_> to the given C<$user>.
+
+    <: i($comments, 'pager') :>
+
+Similarly, if C<$comments> is a L<comment resultset|DDGC::DB::ResultSet::Comment>, 
+this will set C<$_> to C<$comments> and load
+F<templates/i/comments_rs/pager.tx>.
+
+This can be extremely useful for templates which are based entirely on the
+object given, as well. For example, quite a few objects have a F<label.tx>, so
+you can likely do a quick C<i($anything,'label')> to get a consistent label
+style regardless of what C<$anything> you are using.
+
+=item B<dur()>
+
+This function's full name is B<duration>. It tells you how long ago a given
+L<DateTime> was. For example:
+
+    Post created <: dur($comment.created) :>
+
+... would result in something like "Post created 5 hours ago."
+
+=item B<dur_precise()>
+
+Similar to C<dur>, but more precise. Repeating the above example with
+C<dur_precise> could result in something like "Post created 5 hours and 18
+minutes ago."
+
+=item B<truncate()>
+
+This function will truncate a string, optionally attempting to break between
+words if possible. It will then append an ellipsis if it shortened the string.
+
+    <: truncate("Something fairly long", 13, { at_space => 1 }) :>
+
+Results in: "Something..."
+
+=item B<results()>
+
+This takes a L<ResultSet|DBIx::Class::ResultSet> and gives you an array
+containing all of its results. You will often see it used in for loops, like
+this:
+
+    <: for results($all_the_things) -> $thing { :>
+        I have a thing: <: $thing :>
+    <: } :>
+
+=item B<d()>
+
+This returns the L<DDGC> object, from which you can access many things.
+
+=item B<cur_user()>
+
+Get the L<DDGC::DB::Result::User> which is currently logged in. Make sure there
+is a user logged in before you use this:
+
+    <: if cur_user() { :>
+        <: cur_user().username :> is logged in!
+    <: } :>
+
+=item B<r()>
+
+Mark given HTML as "raw" or "safe," so Xslate does not escape it. Be careful –
+this is where XSS issues could appear.
+
+=item B<floor()>
+
+=item B<ceil()>
+
+Floor and ceil are very standard functions for stupidly-rounding floating point
+numbers.
+
+    # Round down
+    floor(0.5)  # 0.0
+    floor(-1.2) # -2.0
+    # Round up
+    ceil(0.5)   # 1.0
+    ceil(-1.2)  # -1.0
+
+=back
