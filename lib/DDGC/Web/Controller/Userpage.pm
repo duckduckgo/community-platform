@@ -30,6 +30,13 @@ sub user :Chained('base') :PathPart('') :CaptureArgs(0) {
 sub home :Chained('user') :PathPart('') :Args(0) {
 	my ( $self, $c ) = @_;
 	$c->bc_index;
+        my $rs = $c->stash->{user}->last_comments;
+        $c->stash->{comments} = $c->table(
+            $rs,['Userpage','home',$c->stash->{user}->username],[],
+            default_pagesize => 10,
+            default_sorting => '-me.updated',
+            id => 'userpage_'.$c->stash->{user}->username,
+        );
 	unless ($c->stash->{user}->username eq $c->stash->{userpage_given_user}) {
 		$c->response->redirect($c->chained_uri('Userpage','home',$c->stash->{user}->username));
 		return $c->detach;
