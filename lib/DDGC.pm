@@ -1023,7 +1023,7 @@ Role here refers to permission sets - users have roles including:
 =back
 
 With C<$role_id>, return the full (human-readable) name of that role.
-Without C<$role_id>, return a HashRef of C<{ role_id =<gt> "Role Name" }>
+Without C<$role_id>, return a HashRef of C<< { role_id => "Role Name" } >>
 
 =item B<force_privacy>
 
@@ -1082,7 +1082,7 @@ B<Arguments:> none.
 B<Return Value:> HashRef
 
 Get the current number of DDGC (Web) and Prosody (XMPP) users as a HashRef:
-C<{ db =<gt> $web_count, xmpp =<gt> $xmpp_count }>
+C<< { db => $web_count, xmpp => $xmpp_count } >>
 
 =back
 

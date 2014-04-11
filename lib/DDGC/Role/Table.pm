@@ -142,7 +142,7 @@ data they can hold.
 
 =item B<data>
 
-This is usually the input data. It is a hashref of C<field =<gt> value>, where
+This is usually the input data. It is a hashref of C<< field => value >>, where
 field is the first parameter in each field descriptor--the machine-readable
 name.
 
@@ -160,7 +160,7 @@ B<Return Value:> \%export
 
 Export the contents of the table to a plain HashRef, ready for storing
 somewhere else. If there is an error in validation, $$export{errors} will
-contain a hashref of C<field =<gt> error message>.
+contain a hashref of C<< field => error message >>.
 
 =back
 
