@@ -31,14 +31,13 @@ now is fill it with DDGC's test data:
 
     script/ddgc_deploy_dev.pl --kill
 
-If you want to use the search engine, you should run our indexer over the test
-database:
-
-    script/ddgc_index_db.pl
-
-Then start the opensearch server:
+If you want to use the search engine, you should start the opensearch server:
 
     script/dezi_server.pl &
+
+Then run its indexer over all the test data:
+
+    script/ddgc_index_db.pl
 
 Finally, start the development web server:
 
