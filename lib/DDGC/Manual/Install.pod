@@ -47,6 +47,25 @@ Finally, start the development web server:
 If everything above looks good, you should now be able to access your
 development instance of DDGC at L<http://127.0.0.1:3000/>.
 
+There are currently several users in the development database:
+
+=over 4
+
+=item B<testone> - Admin, native German, also speaks English.
+
+=item B<testtwo> - Normal user, speaks Spanish, has a public profile.
+
+=item B<testthree> - Translation manager, speaks English, Arabic and German.
+
+=item B<testfour> - Admin, speaks German, Spanish and English.
+
+=item B<testfive> - Normal user, speaks Russian and English.
+
+=back
+
+Password-based authentication is disabled in development mode, so you can log
+into any of the above with I<any> password.
+
 =head1 ERRORS
 
 We cannot stress enough how important it is to report any issues you encounter
