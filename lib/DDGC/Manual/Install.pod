@@ -20,7 +20,7 @@ To be sure:
     sudo apt-get install build-essential
 
     # ArchLinux and friends
-    sudo pacman -S base-develo
+    sudo pacman -S base-devel
 
     # CentOS, RHEL, Fedora
     yum groupinstall "Development tools"
