@@ -11,12 +11,23 @@ will most likely work just fine. Don't take this as a lack of support, however â
 we would be glad to help with other environments.
 
 The community platform uses L<Installer> to set up a contained development
-environment for itself. All you need to start is an internet connection and
-some version of Perl5 >= 5.10, which you likely already have.
+environment for itself. All you need to start is a C compiler and some version
+of Perl5 >= 5.10, which you likely already have.
+
+To be sure:
+
+    # Debian/Ubuntu and the like
+    sudo apt-get install build-essential
+
+    # ArchLinux and friends
+    sudo pacman -S base-develo
+
+    # CentOS, RHEL, Fedora
+    yum groupinstall "Development tools"
 
 The one command to rule them all:
 
-    curl -s -L http://installer.pm | sh -s -- -f .installer ~/ddgc_env
+    curl -s -L http://installer.pm | sh -s ~/ddgc_env
 
 This should install all the dependencies you need. Check out F<.installer> and
 L<http://installer.pm> to see exactly what it is doing.
