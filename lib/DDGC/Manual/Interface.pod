@@ -12,6 +12,8 @@ the top-level template for a particular URL.
 We use L<Text::Xslate> for our template language. Check out
 L<Text::Xslate::Syntax::Kolon> to learn about its syntax.
 
+Check out L<DDGC::Manual::Style> for some basic coding style guidlines.
+
 =head1 TEMPLATE FUNCTIONS
 
 These functions are available in all community platform templates. They are

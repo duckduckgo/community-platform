@@ -29,7 +29,8 @@ The one command to rule them all:
 
     curl -s -L http://installer.pm | sh -s ~/ddgc_env
 
-This should install all the dependencies you need. Check out F<.installer> and
+Do NOT do that as root. This should install all the dependencies you need to the
+contained environment F<~/ddgc_env>. Check out F<.installer> and
 L<http://installer.pm> to see exactly what it is doing.
 
 B<Note:> Installer is not currently considered stable, though it has been
