@@ -38,7 +38,7 @@ sub cpan_documentation_html {
 		root => $self->ddgc->config->duckpandir,
                 assets => {
                     'default.css' => file(dist_dir('DDGC'), 'docroot_duckpan', 'duckpan.css'),
-                    'default.png' => fild(dist_dir('DDGC'), 'docroot_duckpan', 'logo.png'),
+                    'default.png' => file(dist_dir('DDGC'), 'docroot_duckpan', 'logo.png'),
                 },
 	});
 }
