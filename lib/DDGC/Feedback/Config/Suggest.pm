@@ -16,7 +16,7 @@ sub feedback {[
 	description => "It's a general topic (or click here if you are unsure)", 
 	icon => "convo",
 	type => "link",
-	link => ['Forum::My','newthread'],
+	link => ['Forum::My','newthread','1'],
   },
     # suggest_idea(),
   {
@@ -63,7 +63,7 @@ sub suggest_idea {[
   {
     description => "I can't find it, I want to share my topic",
     icon => "chat", type => "link",
-    link => ['Forum::My','newthread'],
+    link => ['Forum::My','newthread','1'],
   },
   "" # workaround for non submittable ending points like this here.
 ]}
