@@ -8,7 +8,7 @@
             <: if $error { :>
                 <div class="notice error"><i class="icn icon-warning-sign"></i><: $error :></div>
             <: } :>
-            <form action="<: if $thread.id { $u('Forum::My','edit',$thread.id) } else { $u('Forum::My','newthread') } :>" method="POST">
+            <form action="<: if $thread.id { $u('Forum::My','edit',$thread.id) } else { $u('Forum::My','newthread',$forum_index) } :>" method="POST">
                 <input type="hidden" name="action_token" value="<: $action_token :>">
                 <input type="hidden" name="thread_form_id" value="<: $thread_form_id :>"/>
                 <div class="input-wrap"><input autocomplete="off" value="<: $thread.title || $c.req.params.title :>" type="text" name="title" placeholder="Title" autofocus></input></div>
