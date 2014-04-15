@@ -34,6 +34,18 @@ sub context_threads {qw(
 sub comments_grouped_threads { $_[0]->comments_grouped_in(
 	$_[0]->context_threads
 ) }
+sub comments_grouped_general_threads{
+		$_[0]->comments_grouped_threads->search_rs({ 'thread.forum' => 1 });
+}
+sub comments_grouped_community_leaders_threads{
+		$_[0]->comments_grouped_threads->search_rs({ 'thread.forum' => 2 });
+}
+sub comments_grouped_admin_threads{
+		$_[0]->comments_grouped_threads->search_rs({ 'thread.forum' => 4 });
+}
+sub comments_grouped_special_threads{
+		$_[0]->comments_grouped_threads->search_rs({ 'thread.forum' => 5 });
+}
 
 sub context_ideas {qw(
 	DDGC::DB::Result::Idea

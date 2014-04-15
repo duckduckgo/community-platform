@@ -35,11 +35,59 @@ sub set_grouped_comments {
   );
 }
 
+sub allow_user {
+  my ( $self, $c ) = @_;
+  my $user_filter = $c->stash->{ddgc_config}->forums->{$c->stash->{forum_index}}->{user_filter};
+  return 0 if ($user_filter && (!$c->user || !$user_filter->($c->user)));
+  return 1;
+}
+
 sub index : Chained('userbase') PathPart('') Args(0) {
   my ( $self, $c ) = @_;
   $c->bc_index;
-  $self->set_grouped_comments($c,'index',$c->d->forum->comments_grouped_threads);
-  $c->stash->{forum_index} = 1;
+  $c->response->redirect($c->chained_uri('Forum','general'));
+  return $c->detach;
+}
+
+sub general : Chained('userbase') Args(0) {
+  my ( $self, $c ) = @_;
+  $c->stash->{forum_index} = $c->stash->{ddgc_config}->id_for_forum('general');
+  $c->add_bc($c->stash->{ddgc_config}->forums->{$c->stash->{forum_index}}->{name});
+  $self->set_grouped_comments($c,'index',$c->d->forum->comments_grouped_general_threads);
+}
+
+sub admins : Chained('userbase') Args(0) {
+  my ( $self, $c ) = @_;
+  use DDP; p @_;
+  $c->stash->{forum_index} = $c->stash->{ddgc_config}->id_for_forum('admin');
+  $c->add_bc($c->stash->{ddgc_config}->forums->{$c->stash->{forum_index}}->{name});
+  if (!$self->allow_user($c)) {
+    $c->response->redirect($c->chained_uri('Forum','general')) unless $self->allow_user($c);
+    return $c->detach;
+  }
+  $self->set_grouped_comments($c,'index',$c->d->forum->comments_grouped_admin_threads);
+}
+
+sub community_leaders : Chained('userbase') Args(0) {
+  my ( $self, $c ) = @_;
+  $c->stash->{forum_index} = $c->stash->{ddgc_config}->id_for_forum('community');
+  $c->add_bc($c->stash->{ddgc_config}->forums->{$c->stash->{forum_index}}->{name});
+  if (!$self->allow_user($c)) {
+    $c->response->redirect($c->chained_uri('Forum','general')) unless $self->allow_user($c);
+    return $c->detach;
+  }
+  $self->set_grouped_comments($c,'index',$c->d->forum->comments_grouped_community_leaders_threads);
+}
+
+sub special : Chained('userbase') Args(0) {
+  my ( $self, $c ) = @_;
+  $c->stash->{forum_index} = $c->stash->{ddgc_config}->id_for_forum('special');
+  $c->add_bc($c->stash->{ddgc_config}->forums->{$c->stash->{forum_index}}->{name});
+  if (!$self->allow_user($c)) {
+    $c->response->redirect($c->chained_uri('Forum','general')) unless $self->allow_user($c);
+    return $c->detach;
+  }
+  $self->set_grouped_comments($c,'index',$c->d->forum->comments_grouped_special_threads);
 }
 
 sub ideas : Chained('userbase') Args(0) {
@@ -123,11 +171,23 @@ sub comment_view : Chained('userbase') PathPart('') CaptureArgs(0) {
 sub thread_id : Chained('thread_view') PathPart('thread') CaptureArgs(1) {
   my ( $self, $c, $id ) = @_;
   $c->stash->{thread} = $c->d->rs('Thread')->find($id+0);
+  $c->stash->{forum_index} = $c->stash->{thread}->forum;
   unless ($c->stash->{thread}) {
     $c->response->redirect($c->chained_uri('Forum','index',{ thread_notfound => 1 }));
     return $c->detach;
   }
-  $c->add_bc($c->stash->{thread}->title,$c->chained_uri(@{$c->stash->{thread}->u}));
+  if ($c->stash->{thread}->forum eq '5') { # Magic number = special announcements
+    if (!$c->user) {
+      $c->response->redirect($c->chained_uri('My','login'));
+      return $c->detach;
+    }
+  }
+  else {
+    if (!$self->allow_user($c)) {
+      $c->response->redirect($c->chained_uri('Forum','general'));
+      return $c->detach;
+    }
+  }
   $c->stash->{title} = $c->stash->{thread}->title;
 }
 
@@ -156,7 +216,12 @@ sub thread : Chained('thread_id') PathPart('') Args(1) {
     $c->response->redirect($c->chained_uri(@{$c->stash->{thread}->u}));
     return $c->detach;
   }
-  $c->bc_index;
+  $c->add_bc($c->stash->{ddgc_config}->forums->{$c->stash->{thread}->forum}->{name},
+    $c->chained_uri(
+      'Forum',
+      $c->stash->{ddgc_config}->forums->{$c->stash->{thread}->forum}->{url},
+  ));
+  $c->add_bc($c->stash->{title});
   $c->stash->{no_reply} = 1 if $c->stash->{thread}->readonly;
 }
 
