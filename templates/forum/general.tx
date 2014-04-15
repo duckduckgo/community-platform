@@ -1,0 +1,4 @@
+<: if $comment_notfound { :>
+	I'm selling these fine jackets ...
+<: } :>
+<: include 'forum/threadlist.tx' :>
