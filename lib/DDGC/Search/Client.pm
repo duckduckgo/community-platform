@@ -206,7 +206,8 @@ B<$response> is a L<Dezi::Response>.
 
 =head1 DESCRIPTION
 
-This is the client part of DDGC's search engine abstraction layer. It inherits L<Dezi::Client>.
+This is the client part of DDGC's search engine abstraction layer. It inherits
+L<Dezi::Client>.
 
 =head1 METHODS
 
@@ -216,9 +217,11 @@ This is the client part of DDGC's search engine abstraction layer. It inherits L
 
 B<Arguments:> %data
 
-B<Return Value:> L<HTTP::Response>
+B<Return Value:> L<HTTP::Response> or false
 
-This method takes a hash of data which will be encoded to JSON and passed to L<Dezi::Client>.
+This method takes a hash of data which will be encoded to JSON and passed to
+L<Dezi::Client>. Use C<< $search->last_response >> to access the
+L<HTTP::Response> in case of error.
 
 =item B<search>
 
@@ -236,8 +239,8 @@ B<Return Value:> {id=>L<Dezi::Doc>} from Dezi, ordered $resultset, $order_by
 
 Builds a new ordered resultset by searching $rs for the IDs returned by Dezi
 for $query. %params are passed along to Dezi::Client->search. This also
-handles a C<ducky> parameter, and attempts to do an "I'm feeling ducky" search
-if it is present and the ResultSource from $rs C<can('u')>.
+handles a C<ducky> URL parameter, attempting to do an "I'm feeling ducky"
+search if it is present and the ResultSource from $rs C<can('u')>.
 
 =item B<suggest>
 
