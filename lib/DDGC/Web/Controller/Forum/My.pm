@@ -16,20 +16,20 @@ sub base : Chained('/forum/base') PathPart('my') CaptureArgs(0) {
 sub newthread : Chained('base') Args(1) {
 	my ( $self, $c, $forum_id ) = @_;
 	$c->stash->{forum_index} = $forum_id // 1;
-	if (!$c->stash->{ddgc_config}->forums->{$c->stash->{forum_index}}) {
+	if (!$c->d->config->forums->{$c->stash->{forum_index}}) {
 		$c->response->redirect($c->chained_uri('Forum', 'general'));
 		return $c->detach;
 	}
-	my $user_filter = $c->stash->{ddgc_config}->forums->{$c->stash->{forum_index}}->{user_filter};
+	my $user_filter = $c->d->config->forums->{$c->stash->{forum_index}}->{user_filter};
 	if ($user_filter && (!$c->user || !$user_filter->($c->user))) {
 		$c->response->redirect($c->chained_uri('Forum', 'general'));
 		return $c->detach;
 	}
 	
-	$c->add_bc($c->stash->{ddgc_config}->forums->{$c->stash->{forum_index}}->{name},
+	$c->add_bc($c->d->config->forums->{$c->stash->{forum_index}}->{name},
 		$c->chained_uri(
 			'Forum',
-			$c->stash->{ddgc_config}->forums->{$c->stash->{forum_index}}->{url},
+			$c->d->config->forums->{$c->stash->{forum_index}}->{url},
 	));
 	$c->add_bc("New Thread");
 	

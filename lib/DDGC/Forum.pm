@@ -54,6 +54,13 @@ sub comments_grouped_ideas { $_[0]->comments_grouped_in(
 	$_[0]->context_ideas
 ) }
 
+sub allow_user {
+  my ( $self, $c ) = @_;
+  my $user_filter = $self->ddgc->config->forums->{$c->stash->{forum_index}}->{user_filter};
+  return 0 if ($user_filter && (!$c->user || !$user_filter->($c->user)));
+  return 1;
+}
+
 sub context_translation {qw(
 	DDGC::DB::Result::Token::Language
 	DDGC::DB::Result::Token::Domain::Language
