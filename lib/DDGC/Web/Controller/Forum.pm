@@ -53,7 +53,7 @@ sub general : Chained('userbase') Args(0) {
   my ( $self, $c ) = @_;
   $c->stash->{forum_index} = $c->stash->{ddgc_config}->id_for_forum('general');
   $c->add_bc($c->stash->{ddgc_config}->forums->{$c->stash->{forum_index}}->{name});
-  $self->set_grouped_comments($c,'index',$c->d->forum->comments_grouped_general_threads);
+  $self->set_grouped_comments($c,'general',$c->d->forum->comments_grouped_general_threads);
 }
 
 sub admins : Chained('userbase') Args(0) {
@@ -61,10 +61,10 @@ sub admins : Chained('userbase') Args(0) {
   $c->stash->{forum_index} = $c->stash->{ddgc_config}->id_for_forum('admin');
   $c->add_bc($c->stash->{ddgc_config}->forums->{$c->stash->{forum_index}}->{name});
   if (!$self->allow_user($c)) {
-    $c->response->redirect($c->chained_uri('Forum','general')) unless $self->allow_user($c);
+    $c->response->redirect($c->chained_uri('Forum','general',{ thread_notallowed => 1 })) unless $self->allow_user($c);
     return $c->detach;
   }
-  $self->set_grouped_comments($c,'index',$c->d->forum->comments_grouped_admin_threads);
+  $self->set_grouped_comments($c,'admins',$c->d->forum->comments_grouped_admin_threads);
 }
 
 sub community_leaders : Chained('userbase') Args(0) {
@@ -72,10 +72,10 @@ sub community_leaders : Chained('userbase') Args(0) {
   $c->stash->{forum_index} = $c->stash->{ddgc_config}->id_for_forum('community');
   $c->add_bc($c->stash->{ddgc_config}->forums->{$c->stash->{forum_index}}->{name});
   if (!$self->allow_user($c)) {
-    $c->response->redirect($c->chained_uri('Forum','general')) unless $self->allow_user($c);
+    $c->response->redirect($c->chained_uri('Forum','general',{ thread_notallowed => 1 })) unless $self->allow_user($c);
     return $c->detach;
   }
-  $self->set_grouped_comments($c,'index',$c->d->forum->comments_grouped_community_leaders_threads);
+  $self->set_grouped_comments($c,'community_leaders',$c->d->forum->comments_grouped_community_leaders_threads);
 }
 
 sub special : Chained('userbase') Args(0) {
@@ -83,10 +83,10 @@ sub special : Chained('userbase') Args(0) {
   $c->stash->{forum_index} = $c->stash->{ddgc_config}->id_for_forum('special');
   $c->add_bc($c->stash->{ddgc_config}->forums->{$c->stash->{forum_index}}->{name});
   if (!$self->allow_user($c)) {
-    $c->response->redirect($c->chained_uri('Forum','general')) unless $self->allow_user($c);
+    $c->response->redirect($c->chained_uri('Forum','general',{ thread_notallowed => 1 })) unless $self->allow_user($c);
     return $c->detach;
   }
-  $self->set_grouped_comments($c,'index',$c->d->forum->comments_grouped_special_threads);
+  $self->set_grouped_comments($c,'special',$c->d->forum->comments_grouped_special_threads);
 }
 
 sub ideas : Chained('userbase') Args(0) {
@@ -229,7 +229,7 @@ sub comment_id : Chained('comment_view') PathPart('comment') CaptureArgs(1) {
   my ( $self, $c, $id ) = @_;
   $c->stash->{thread} = $c->d->rs('Comment')->find($id);
   unless ($c->stash->{thread}) {
-    $c->response->redirect($c->chained_uri('Forum','index',{ comment_notfound => 1 }));
+    $c->response->redirect($c->chained_uri('Forum','general',{ comment_notfound => 1 }));
     return $c->detach;
   }
   $c->add_bc('Comment #'.$c->stash->{thread}->id,$c->chained_uri('Forum','comment',
