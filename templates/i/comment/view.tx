@@ -26,10 +26,14 @@
 			<span class="comment-meta">
 				posted by <: i($_.user) :> &bull; <span title="<: $dur_precise($_.created) :>"><: $dur($_.created) :></span>
 				<: if !$no_reply && $c.user { :>
-					<span class="comment-meta__link">
-						&bull; <a class="js-reply_link_<: $_.id :>  js-comment-reply no-js-hide" data-target="<: $_.id :>" href="#">Reply</a>
-						<a class="js-cancel_link_<: $_.id :>  js-comment-cancel no-js-hide hide" data-target="<: $_.id :>" href="#">Cancel</a>
-					</span>
+					<: if !$c.user.admin and $forum_index == 5 { # Forum 5 = special announcements :>
+						<: # we may put something here :>
+					<: } else { :>
+						<span class="comment-meta__link">
+							&bull; <a class="js-reply_link_<: $_.id :>  js-comment-reply no-js-hide" data-target="<: $_.id :>" href="#">Reply</a>
+							<a class="js-cancel_link_<: $_.id :>  js-comment-cancel no-js-hide hide" data-target="<: $_.id :>" href="#">Cancel</a>
+						</span>
+					<: } :>
 					<: if ($c.user.admin or $c.user.id == $_.user.id) { :>
 						<span class="comment-meta__link">&bull; <a href="<: $u('Comment','delete',$_.id, { action_token => $action_token }) :>" onclick="return confirm('Are you sure?')">Delete</a></span>
 					<: } :>
@@ -78,14 +82,18 @@
 : #					<a href="<: $u('Forum','comment', $_.id ) :>"><b class="comment-foot__icon">#</b>permalink</a>
 					<div class="pull-right">
 					  <: if !$no_reply && $c.user { :>
-						<a class="right  js-reply_link_<: $_.id :>  js-comment-reply  no-js-hide" data-target="<: $_.id :>" href="#">
-							<i class="thread__foot__icon  icon-reply"></i> 
-							Reply
-						</a>
-						<a class="right  js-cancel_link_<: $_.id :>  js-comment-cancel  no-js-hide  hide" data-target="<: $_.id :>" href="#">
-							<i class="thread__foot__icon  icon-remove"></i> 
-							Cancel
-						</a>
+						<: if !$c.user.admin and $forum_index == 5 { # Forum 5 = special announcements :>
+							<: # we may put something here :>
+						<: } else { :>
+							<a class="right  js-reply_link_<: $_.id :>  js-comment-reply  no-js-hide" data-target="<: $_.id :>" href="#">
+								<i class="thread__foot__icon  icon-reply"></i> 
+								Reply
+							</a>
+							<a class="right  js-cancel_link_<: $_.id :>  js-comment-cancel  no-js-hide  hide" data-target="<: $_.id :>" href="#">
+								<i class="thread__foot__icon  icon-remove"></i> 
+								Cancel
+							</a>
+					  	<: } :>
 					  <: } :>
 					  <: if ($c.user.admin or $c.user.id == $_.user.id) { :>
 							<a class="right" href="<: $u('Comment','delete',$_.id, { action_token => $action_token }) :>">

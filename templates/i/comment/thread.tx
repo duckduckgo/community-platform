@@ -27,8 +27,12 @@
 	  
       <div class="pull-right">
         <: if !$no_reply && $c.user { :>
-            <a class="right  js-thread-reply  no-js-hide" href="#"><i class="thread__foot__icon  icon-reply"></i>Reply</a>
-            <a class="right  js-thread-cancel  no-js-hide  hide" href="#"><i class="thread__foot__icon  icon-remove"></i>Cancel</a>
+            <: if !$c.user.admin and $forum_index == 5 { # Forum 5 = special announcements :>
+		<: # we may put something here :>
+            <: } else { :>
+                <a class="right  js-thread-reply  no-js-hide" href="#"><i class="thread__foot__icon  icon-reply"></i>Reply</a>
+                <a class="right  js-thread-cancel  no-js-hide  hide" href="#"><i class="thread__foot__icon  icon-remove"></i>Cancel</a>
+            <: } :>
         <: } :>
         <: if $c.user.admin and $_.context == 'DDGC::DB::Result::Thread' { :>
             <: if !$_.get_context_obj.readonly { :>
