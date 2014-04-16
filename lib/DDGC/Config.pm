@@ -232,7 +232,7 @@ sub xslate_cachedir {
 sub forum_config { $_[0]->forums->{$_[0]->forum} }
 sub forums {
 	my ( $self ) = @_;
-	{
+	+{
 		'1' => {
 			name => 'General Ramblings',
 			url  => 'general',
