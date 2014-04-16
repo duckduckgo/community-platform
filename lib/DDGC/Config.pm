@@ -235,25 +235,30 @@ sub forums {
 	+{
 		'1' => {
 			name => 'General Ramblings',
+			notification => 'General Rambling',
 			url  => 'general',
 		},
 		'2' => {
 			name => 'Community Leaders',
+			notification => 'Community Leaders Post',
 			url  => 'community_leaders',
 			user_filter => sub { $_[0]->is('forum_manager') },
 		},
 		'3' => {
-			name => 'Translation Manager Forum',
+			name => 'Translation Managers',
+			notification => 'Translation Managers Post',
 			url  => 'translation_managers',
 			user_filter => sub { $_[0]->is('translation_manager') },
 		},
 		'4' => {
 			name => 'Admins',
+			notification => 'Admins Post',
 			url  => 'admins',
 			user_filter => sub { $_[0]->is('admin') },
 		},
 		'5' => {
 			name => 'Special Announcements',
+			notification => 'Special Announcement',
 			url  => 'special',
 			user_filter => sub { $_[0]->is('admin') },
 		},
