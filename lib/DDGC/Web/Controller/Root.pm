@@ -159,7 +159,7 @@ sub redirect_duckco :Chained('base') :PathPart('topic') :Args(1) {
 		$c->response->redirect($c->chained_uri(@{$c->stash->{thread}->u}));
 		$c->response->status(301);
 	} else {
-		$c->response->redirect($c->chained_uri('Forum','index',{ thread_notfound => 1 }));
+		$c->response->redirect($c->chained_uri('Forum','general',{ thread_notfound => 1 }));
 	}
 	return $c->detach;
 }
