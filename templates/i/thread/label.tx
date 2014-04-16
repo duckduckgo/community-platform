@@ -1,16 +1,1 @@
-the
-<: # We don't have a handle on DDGC::Config in here, so... :>
-<: if $_.forum == 1 { :>
-    General Rambling
-<: } elsif $_.forum == 2 { :>
-    Community Leaders Post
-<: } elsif $_.forum == 3 { :>
-    Translation Managers Post
-<: } elsif $_.forum == 4 { :>
-    Admins Forum Post
-<: } elsif $_.forum == 5 { :>
-    Special Announcement
-<: } else { :>
-    Forum Post
-<: } :>
-<b><:- i('link',$_) -:></b>
+the <: d().config.forums[$_.forum].notification :> <b><:- i('link',$_) -:></b>
