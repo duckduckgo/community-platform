@@ -38,7 +38,7 @@ has stripper => (
 );
 
 sub _build_stripper {
-    HTML::Strip->new
+    HTML::Strip->new(decode_entities => 0)
 }
 
 sub suggest {
@@ -150,7 +150,6 @@ around index => sub {
     }
 
     my $doc = encode_json({
-        mtime => time,
         content_type => 'application/json',
         %args,
     });
