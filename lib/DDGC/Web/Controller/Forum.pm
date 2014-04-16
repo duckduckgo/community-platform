@@ -58,7 +58,6 @@ sub general : Chained('userbase') Args(0) {
 
 sub admins : Chained('userbase') Args(0) {
   my ( $self, $c ) = @_;
-  use DDP; p @_;
   $c->stash->{forum_index} = $c->stash->{ddgc_config}->id_for_forum('admin');
   $c->add_bc($c->stash->{ddgc_config}->forums->{$c->stash->{forum_index}}->{name});
   if (!$self->allow_user($c)) {
@@ -171,12 +170,12 @@ sub comment_view : Chained('userbase') PathPart('') CaptureArgs(0) {
 sub thread_id : Chained('thread_view') PathPart('thread') CaptureArgs(1) {
   my ( $self, $c, $id ) = @_;
   $c->stash->{thread} = $c->d->rs('Thread')->find($id+0);
-  $c->stash->{forum_index} = $c->stash->{thread}->forum;
   unless ($c->stash->{thread}) {
-    $c->response->redirect($c->chained_uri('Forum','index',{ thread_notfound => 1 }));
+    $c->response->redirect($c->chained_uri('Forum','general',{ thread_notfound => 1 }));
     return $c->detach;
   }
-  if ($c->stash->{thread}->forum eq '5') { # Magic number = special announcements
+  $c->stash->{forum_index} = $c->stash->{thread}->forum;
+  if ($c->stash->{thread}->forum eq $c->stash->{ddgc_config}->id_for_forum('special')) {
     if (!$c->user) {
       $c->response->redirect($c->chained_uri('My','login'));
       return $c->detach;
