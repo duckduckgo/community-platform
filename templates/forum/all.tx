@@ -1,1 +1,8 @@
-<: include 'forum/threadlist.tx' :>
+<:# include 'forum/threadlist.tx' :>
+<div class="row">
+<h3>Sorry, this view has been temporarily disabled.</h3>
+<h4>We hope to restore it soon!</h4>
+<br><br>
+<br><br>
+<br><br>
+</div>
