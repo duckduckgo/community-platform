@@ -107,18 +107,24 @@ sub blog : Chained('userbase') Args(0) {
   my ( $self, $c ) = @_;
   $c->add_bc("Latest company blog comments");
   $self->set_grouped_comments($c,'blog',$c->d->forum->comments_grouped_company_blog);
+  $c->stash->{forum_index} = 1;
+  $self->get_sticky_threads($c);
 }
 
 sub user_blog : Chained('userbase') Args(0) {
   my ( $self, $c ) = @_;
   $c->add_bc("Latest user blog comments");
   $self->set_grouped_comments($c,'user_blog',$c->d->forum->comments_grouped_user_blog);
+  $c->stash->{forum_index} = 1;
+  $self->get_sticky_threads($c);
 }
 
 sub translation : Chained('userbase') Args(0) {
   my ( $self, $c ) = @_;
   $c->add_bc("Latest translation comments");
   $self->set_grouped_comments($c,'translation',$c->d->forum->comments_grouped_translation);
+  $c->stash->{forum_index} = 1;
+  $self->get_sticky_threads($c);
 }
 
 sub search : Chained('userbase') Args(0) {
@@ -190,6 +196,7 @@ sub thread_id : Chained('thread_view') PathPart('thread') CaptureArgs(1) {
     }
   }
   $c->stash->{title} = $c->stash->{thread}->title;
+  $self->get_sticky_threads($c);
 }
 
 sub thread_redirect : Chained('thread_id') PathPart('') Args(0) {
@@ -233,6 +240,15 @@ sub comment_id : Chained('comment_view') PathPart('comment') CaptureArgs(1) {
   unless ($c->stash->{thread}) {
     $c->response->redirect($c->chained_uri('Forum','general',{ comment_notfound => 1 }));
     return $c->detach;
+  }
+  my $t = $c->stash->{thread}->thread;
+  if ($t) {
+    $c->stash->{forum_index} = $t->forum // 1;
+    if (!$c->d->forum->allow_user($c)) {
+      $c->response->redirect($c->chained_uri('Forum','general',{ thread_notallowed => 1 }));
+      return $c->detach;
+    }
+    $self->get_sticky_threads($c);
   }
   $c->add_bc('Comment #'.$c->stash->{thread}->id,$c->chained_uri('Forum','comment',
     $c->stash->{thread}->id));
