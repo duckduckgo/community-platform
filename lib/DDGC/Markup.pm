@@ -89,7 +89,7 @@ sub bbcode {
 						'</a>'
 			} else {
 				'<i class="p-link__icn icon-camera"></i>'.
-				'<span class="p-link__url">'.$attr.'</span>'.
+				'<span class="p-link__url">'.Parse::BBCode::escape_html($attr).'</span>'.
 				'<span class="p-link__txt">INVALID URL</span>'
 			}
 		},

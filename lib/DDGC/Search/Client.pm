@@ -5,7 +5,7 @@ use Dezi::Doc;
 use DDGC::Config;
 use HTML::Strip;
 use Encode 'decode';
-use JSON qw(encode_json decode_json);
+use JSON::MaybeXS;
 use URI::Query;
 use HTML::Entities;
 
