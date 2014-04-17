@@ -17,8 +17,13 @@ sub base : Chained('/base') PathPart('forum') CaptureArgs(0) {
 sub userbase : Chained('base') PathPart('') CaptureArgs(0) {
   my ( $self, $c ) = @_;
   push @{$c->stash->{template_layout}}, 'forum/base.tx';  
+}
+
+sub get_sticky_threads {
+  my ( $self, $c ) = @_;
   $c->stash->{sticky_threads} = $c->d->rs('Thread')->search_rs({
     sticky => 1,
+    forum  => $c->stash->{forum_index} // 1,
   },{
     cache_for => 3600,
   });
@@ -47,6 +52,7 @@ sub general : Chained('userbase') Args(0) {
   $c->stash->{forum_index} = $c->d->config->id_for_forum('general');
   $c->add_bc($c->d->config->forums->{$c->stash->{forum_index}}->{name});
   $self->set_grouped_comments($c,'general',$c->d->forum->comments_grouped_general_threads);
+  $self->get_sticky_threads($c);
 }
 
 sub admins : Chained('userbase') Args(0) {
@@ -58,6 +64,7 @@ sub admins : Chained('userbase') Args(0) {
     return $c->detach;
   }
   $self->set_grouped_comments($c,'admins',$c->d->forum->comments_grouped_admin_threads);
+  $self->get_sticky_threads($c);
 }
 
 sub community_leaders : Chained('userbase') Args(0) {
@@ -69,6 +76,7 @@ sub community_leaders : Chained('userbase') Args(0) {
     return $c->detach;
   }
   $self->set_grouped_comments($c,'community_leaders',$c->d->forum->comments_grouped_community_leaders_threads);
+  $self->get_sticky_threads($c);
 }
 
 sub special : Chained('userbase') Args(0) {
@@ -80,6 +88,7 @@ sub special : Chained('userbase') Args(0) {
     return $c->detach;
   }
   $self->set_grouped_comments($c,'special',$c->d->forum->comments_grouped_special_threads);
+  $self->get_sticky_threads($c);
 }
 
 sub ideas : Chained('userbase') Args(0) {
