@@ -5,7 +5,7 @@ use Moose;
 extends 'DDGC::DB::Base::ResultSet';
 use DateTime::Format::RSS;
 use List::MoreUtils qw( uniq );
-use JSON;
+use JSON::MaybeXS;
 use DateTime;
 use namespace::autoclean;
 
@@ -105,7 +105,7 @@ sub filter_by_date {
 	});
 }
 
-sub util_json_string { JSON->new->allow_nonref(1)->encode(shift) }
+sub util_json_string { JSON::MaybeXS->new->allow_nonref(1)->encode(shift) }
 
 sub filter_by_topic {
 	my ( $self, $topic ) = @_;

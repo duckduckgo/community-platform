@@ -18,10 +18,11 @@ sub dur {
 	$date = DateTime->from_epoch( epoch => $date ) unless ref $date;
 	return DateTime::Format::Human::Duration->new->format_duration(
 		DateTime->now - $date,
-		'units' => [qw/years months days/],
 		'past' => '%s ago',
 		'future' => 'in %s will be',
-		'no_time' => 'today',
+		'no_time' => 'just now',
+                'precision' => 'minutes',
+                'significant_units' => 2,
 	);
 }
 
