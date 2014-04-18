@@ -130,7 +130,7 @@ $(document).ready(function() {
 	$('.js-fb-step__input').change(function () {
 		var str = "";
 		str = $(this).val();		
-		$(this).parents('.js-fb-step').find('.js-fb-step__output').html(str);
+		$(this).parents('.js-fb-step').find('.js-fb-step__output').text(str);
 	});
 	$('.js-fb-step__input').blur(function() {	
 		if ($(this).val() != '') {
