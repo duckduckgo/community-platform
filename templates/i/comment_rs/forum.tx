@@ -1,8 +1,8 @@
 <div class="content-box">
   <div class="group  head--forum">
     <div class="forum-nav">
-		<: if $forum_index == 1 { :>
-		  <: include "forum/nav.tx" { current_page => 'general' } :>
+		<: if $forum_index { :>
+		  <: include "forum/nav.tx" { current_page => $forum_index } :>
 		<: } else { :>
 		  <: include "forum/nav.tx" { current_page => 'other' } :>
 		<: } :>

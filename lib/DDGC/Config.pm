@@ -236,11 +236,13 @@ sub forums {
 		'1' => {
 			name => 'General Ramblings',
 			notification => 'General Rambling',
+			button_text => 'General Ramblings',
 			url  => 'general',
 		},
 		'2' => {
 			name => 'Community Leaders',
 			notification => 'Community Leaders Post',
+			button_img => '/static/img/badges/leader_alt.png',
 			url  => 'community_leaders',
 			user_filter => sub { $_[0]->is('forum_manager') },
 		},
@@ -253,12 +255,14 @@ sub forums {
 		'4' => {
 			name => 'Admins',
 			notification => 'Admins Post',
+			button_img => '/static/img/badges/admin.png',
 			url  => 'admins',
 			user_filter => sub { $_[0]->is('admin') },
 		},
 		'5' => {
 			name => 'Special Announcements',
 			notification => 'Special Announcement',
+			button_text => 'S',
 			url  => 'special',
 			user_filter => sub { $_[0]->is('admin') },
 		},

@@ -1,18 +1,29 @@
-<: # TODO - perhaps turn this into a for loop so that it's less repetitive :>
-
 <: my $general_name = "General Ramblings" :>
 <: my $ideas_name = "Instant Answers" :>
 
 <: if $current_page { :>
-	<span class="button-group button-group--nav">			
-		<: if $current_page == 'general' { :>
-			<span class="button  disabled  button-nav-current"><: $general_name :></span>
-		<: } else { :>
-			<a href="<: $u('Forum','index') :>" class="button"><: $general_name :></a>
-		<: } if $current_page == 'ideas' { :>
+	<span class="button-group button-group--nav">
+		<: for [1, 2, 4] -> $i { :>
+			<: if $current_page == $i { :>
+				<span class="button  disabled  button-nav-current" title="<: d().config.forums[$i].name :>">
+			<: } else { :>
+				<a href="<: $u('Forum',d().config.forums[$i].url) :>" class="button" title="<: d().config.forums[$i].name :>">
+			<: } :>
+					<: if d().config.forums[$i].button_img { :>
+						<img src="<: d().config.forums[$i].button_img :>">
+					<: } else {
+						d().config.forums[$i].button_text
+					} :>
+			<: if $current_page == $i { :>
+				</span>
+			<: } else { :>
+				</a>
+			<: } :>
+		<: } :>
+		<: if $current_page == 'ideas' { :>
 			<span class="button  disabled  button-nav-current"><: $ideas_name :></span>
 		<: } else { :>
-			<a href="<: $u('Ideas','index') :>" class="button"><: $ideas_name :></a>	
+			<a href="<: $u('Ideas','index') :>" class="button"><: $ideas_name :></a>
 		<: } :>
 	</span>
 <: } else { :>
