@@ -9,7 +9,7 @@
           <span class="comment-meta  text-right">
             Created: <span title="<: $dur_precise($_.created) :>"><: $dur($_.created) :></span> <: if $_.created != $_.updated { :>&bull;
             Updated: <span title="<: $dur_precise($_.updated) :>"><: $dur($_.updated) :></span><: } :>
-            <: if $c.user {:>&bull; <: i('report',$_) :><: } :>
+            <: if $c.user && (!$forum_index || $forum_index == d().config.id_for_forum('general')) {:>&bull; <: i('report',$_) :><: } :>
           </span>
             
           <div class="p"><: r($_.html) :></div>
@@ -27,7 +27,7 @@
 	  
       <div class="pull-right">
         <: if !$no_reply && $c.user { :>
-            <: if !$c.user.admin and $forum_index == 5 { # Forum 5 = special announcements :>
+            <: if !$c.user.admin && $forum_index == d().config.id_for_forum('special') { :>
 		<: # we may put something here :>
             <: } else { :>
                 <a class="right  js-thread-reply  no-js-hide" href="#"><i class="thread__foot__icon  icon-reply"></i>Reply</a>

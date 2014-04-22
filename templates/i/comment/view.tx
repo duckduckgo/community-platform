@@ -39,7 +39,7 @@
 					<: } :>
 				<: } :>
 				<span class="comment-meta__link">&bull; <a href="<: $u('Forum','comment', $_.id ) :>">Link</a></span>
-				<: if $c.user { :><span class="comment-meta__link  no-js-hide">&bull;
+				<: if $c.user && (!$forum_index || $forum_index == d().config.id_for_forum('general')) { :><span class="comment-meta__link  no-js-hide">&bull;
 					<: i('report',$_) :>
 				</span><: } :>
 				<: if !$no_kids && $children_count { :>
