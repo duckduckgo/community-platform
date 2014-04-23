@@ -4,6 +4,7 @@
 <: if $current_page { :>
 	<span class="button-group button-group--nav">
 		<: for [1, 2, 4] -> $i { :>
+			<: if !(forum_user_filter($i, $c.user)) { next } :>
 			<: if $current_page == $i { :>
 				<span class="button  disabled  button-nav-current" title="<: d().config.forums[$i].name :>">
 			<: } else { :>

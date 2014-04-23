@@ -296,6 +296,12 @@ sub _build_xslate {
 
 			# Functions to access the main model and some functions specific
 			d => sub { $self },
+			forum_user_filter => sub {
+				my ($forum_id, $user) = @_;
+				return 1 if (!DDGC::Config::forums->{$forum_id}->{'user_filter'});
+				return 0 if (!$user);
+				return DDGC::Config::forums->{$_[0]}->{'user_filter'}->($user);
+			},
 			cur_user => sub { $self->current_user },
 			has_cur_user => sub { defined $self->current_user ? 1 : 0 },
 
