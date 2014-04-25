@@ -217,6 +217,23 @@ $(document).ready(function() {
 		});
 	});
 
+	$('a.campaign_nothanks').click(function(e){
+		e.preventDefault();
+		var me = $(this);
+		$.ajax({
+			url: me.attr('href'),
+			beforeSend: function(xhr) {
+				me.replaceWith(
+					'<img class="loading-image"' +
+					'src="/static/images/ajax-loader.gif"/>'
+				);
+			},
+			success: function(data) {
+				$('#campaign_info').remove();
+			}
+		});
+	});
+
 	$('a.checkfalse_link').click(function(e){
 		e.preventDefault();
 		var parent = $(this).parent();

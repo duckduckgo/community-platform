@@ -34,6 +34,15 @@ sub finishwizard :Chained('base') :Args(0) {
 	return $c->detach;
 }
 
+sub campaign_nothanks :Chained('base') :Args(1) {
+	my ( $self, $c, $thread_id ) = @_;
+	$c->stash->{not_last_url} = 1;
+	$c->stash->{x} = ( $c->d->rs('User::CampaignNotice')->find_or_create( { users_id => $c->user->id, thread_id => $thread_id } ) ) ?
+		{ ok => 1 } : { ok => 0 };
+	$c->forward( $c->view('JSON') );
+	return $c->detach;
+}
+
 sub logged_out :Chained('base') :PathPart('') :CaptureArgs(0) {
 	my ( $self, $c ) = @_;
 	if ($c->user) {

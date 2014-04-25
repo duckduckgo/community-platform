@@ -188,6 +188,8 @@ sub thread_id : Chained('thread_view') PathPart('thread') CaptureArgs(1) {
       $c->response->redirect($c->chained_uri('My','login'));
       return $c->detach;
     }
+    $c->{stash}->{campaign_info} = undef;
+    $c->d->rs('User::CampaignNotice')->find_or_create( { users_id => $c->user->id, thread_id => $c->stash->{thread}->id } );
   }
   else {
     if (!$c->d->forum->allow_user($c)) {

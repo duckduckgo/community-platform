@@ -509,6 +509,11 @@ sub add_type_notification {
 	}
 }
 
+sub seen_campaign_notice {
+	my ( $self, $thread_id ) = @_;
+	return ( $self->schema->resultset('User::CampaignNotice')->find({ users_id => $self->id, thread_id => $thread_id }) )? 1 : 0;
+}
+
 sub check_password {
 	my ( $self, $password ) = @_;
 	return 1 unless $self->ddgc->config->prosody_running;
