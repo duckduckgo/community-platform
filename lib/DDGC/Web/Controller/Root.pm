@@ -26,7 +26,7 @@ sub base :Chained('/') :PathPart('') :CaptureArgs(0) {
 		my $t = $c->d->rs('Thread')->find( { forum => $c->d->config->id_for_forum('special') }, { order_by => { -desc => 'id' } } );
 		if ( $t && !$c->user->seen_campaign_notice( $t->id ) ) {
 			$c->{stash}->{campaign_info}->{thread_id} = $t->id;
-			$c->{stash}->{campaign_info}->{link} = $c->chained_uri( @{$t->u} );
+			$c->{stash}->{campaign_info}->{link} = $c->chained_uri( @{$t->u}, { follow => 'forum_comments' } );
 		}
 	}
 
