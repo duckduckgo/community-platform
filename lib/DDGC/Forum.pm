@@ -55,10 +55,16 @@ sub comments_grouped_ideas { $_[0]->comments_grouped_in(
 ) }
 
 sub allow_user {
-  my ( $self, $c ) = @_;
-  my $user_filter = $self->ddgc->config->forums->{$c->stash->{forum_index}}->{user_filter};
-  return 0 if ($user_filter && (!$c->user || !$user_filter->($c->user)));
+  my ( $self, $forum_index, $user ) = @_;
+  my $user_filter = $self->ddgc->config->forums->{$forum_index}->{user_filter};
+  return 0 if ($user_filter && (!$user || !$user_filter->($user)));
   return 1;
+}
+sub forbidden_forums {
+	my ($self, $user) = @_;
+	return grep {
+		!$self->allow_user( $_, $user )
+	} keys $self->ddgc->config->forums;
 }
 
 sub context_translation {qw(
@@ -90,6 +96,43 @@ sub comments_grouped_other { $_[0]->comments_grouped_not_in(
 	$_[0]->context_translation,
 	$_[0]->context_threads,
 ) }
+sub comments_grouped_for_user {
+	my ( $self, $user ) = @_;
+	my @forbidden_forums = $self->forbidden_forums($user);
+
+	return (@forbidden_forums) ?
+	$self->comments_grouped->search_rs( {
+		'me.id' => {
+			-not_in =>
+				$self->comments_grouped_threads->search_rs( {
+					'thread.forum' => \@forbidden_forums
+				} )->get_column('id')->as_query
+		}
+	} ) :
+	$self->comments_grouped;
+}
+sub user_comments_threads {
+	my ( $self, $user ) = @_;
+	$self->ddgc->rs('Comment')->search_rs({
+			'me.context' => context_threads,
+			'me.users_id' => $user->id,
+	})->prefetch_all;
+}
+sub user_comments_for_user {
+	my ( $self, $c ) = @_;
+	my @forbidden_forums = $self->forbidden_forums($c->user);
+
+	return (@forbidden_forums) ?
+	$c->stash->{user}->last_comments->search_rs( {
+		'me.id' => {
+			-not_in =>
+				$self->user_comments_threads($c->stash->{user})->search_rs( {
+					'thread.forum' => \@forbidden_forums
+				} )->get_column('id')->as_query
+		}
+	} ) :
+	$c->stash->{user}->last_comments;
+}
 
 sub comments {
 	my ( $self, $context, $context_id ) = @_;

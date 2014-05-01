@@ -59,8 +59,8 @@ sub admins : Chained('userbase') Args(0) {
   my ( $self, $c ) = @_;
   $c->stash->{forum_index} = $c->d->config->id_for_forum('admin');
   $c->add_bc($c->d->config->forums->{$c->stash->{forum_index}}->{name});
-  if (!$c->d->forum->allow_user($c)) {
-    $c->response->redirect($c->chained_uri('Forum','general',{ thread_notallowed => 1 })) unless $c->d->forum->allow_user($c);
+  if (!$c->d->forum->allow_user($c->stash->{forum_index}, $c->user)) {
+    $c->response->redirect($c->chained_uri('Forum','general',{ thread_notallowed => 1 }));
     return $c->detach;
   }
   $self->set_grouped_comments($c,'admins',$c->d->forum->comments_grouped_admin_threads);
@@ -71,8 +71,8 @@ sub community_leaders : Chained('userbase') Args(0) {
   my ( $self, $c ) = @_;
   $c->stash->{forum_index} = $c->d->config->id_for_forum('community');
   $c->add_bc($c->d->config->forums->{$c->stash->{forum_index}}->{name});
-  if (!$c->d->forum->allow_user($c)) {
-    $c->response->redirect($c->chained_uri('Forum','general',{ thread_notallowed => 1 })) unless $c->d->forum->allow_user($c);
+  if (!$c->d->forum->allow_user($c->stash->{forum_index}, $c->user)) {
+    $c->response->redirect($c->chained_uri('Forum','general',{ thread_notallowed => 1 }));
     return $c->detach;
   }
   $self->set_grouped_comments($c,'community_leaders',$c->d->forum->comments_grouped_community_leaders_threads);
@@ -83,8 +83,8 @@ sub special : Chained('userbase') Args(0) {
   my ( $self, $c ) = @_;
   $c->stash->{forum_index} = $c->d->config->id_for_forum('special');
   $c->add_bc($c->d->config->forums->{$c->stash->{forum_index}}->{name});
-  if (!$c->d->forum->allow_user($c)) {
-    $c->response->redirect($c->chained_uri('Forum','general',{ thread_notallowed => 1 })) unless $c->d->forum->allow_user($c);
+  if (!$c->d->forum->allow_user($c->stash->{forum_index}, $c->user)) {
+    $c->response->redirect($c->chained_uri('Forum','general',{ thread_notallowed => 1 }));
     return $c->detach;
   }
   $self->set_grouped_comments($c,'special',$c->d->forum->comments_grouped_special_threads);
@@ -192,7 +192,7 @@ sub thread_id : Chained('thread_view') PathPart('thread') CaptureArgs(1) {
     $c->d->rs('User::CampaignNotice')->find_or_create( { users_id => $c->user->id, thread_id => $c->stash->{thread}->id } );
   }
   else {
-    if (!$c->d->forum->allow_user($c)) {
+    if (!$c->d->forum->allow_user($c->stash->{forum_index}, $c->user)) {
       $c->response->redirect($c->chained_uri('Forum','general',{ thread_notallowed => 1 }));
       return $c->detach;
     }
@@ -246,7 +246,7 @@ sub comment_id : Chained('comment_view') PathPart('comment') CaptureArgs(1) {
   my $t = $c->stash->{thread}->thread;
   if ($t) {
     $c->stash->{forum_index} = $t->forum // 1;
-    if (!$c->d->forum->allow_user($c)) {
+    if (!$c->d->forum->allow_user($c->stash->{forum_index}, $c->user)) {
       $c->response->redirect($c->chained_uri('Forum','general',{ thread_notallowed => 1 }));
       return $c->detach;
     }
