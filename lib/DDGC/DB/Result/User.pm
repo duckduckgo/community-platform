@@ -322,6 +322,17 @@ sub unsent_notifications_cycle {
 	});	
 }
 
+sub has_access_to_notification {
+	my ( $self, $context_obj ) = @_;
+	my $t;
+	$t = $context_obj if $context_obj->isa('DDGC::DB::Result::Thread');
+	$t = $context_obj->thread if $context_obj->isa('DDGC::DB::Result::Comment');
+	if ( $t && DDGC::Config::forums->{$t->forum}->{user_filter} ) {
+		return DDGC::Config::forums->{$t->forum}->{user_filter}->($self);
+	}
+	return 1;
+}
+
 sub blog { shift->user_blogs_rs }
 
 sub profile_picture {
