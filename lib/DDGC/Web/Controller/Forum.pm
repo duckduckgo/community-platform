@@ -138,7 +138,7 @@ sub search : Chained('userbase') Args(0) {
   my ($threads, $threads_rs, $order_by) = $c->d->forum->search_engine->rs(
       $c,
       $c->stash->{query},
-      $c->d->rs('Thread')->ghostbusted,
+      $c->d->forum->threads_for_user($c->user),
   );
 
   $c->stash->{results} = $threads;

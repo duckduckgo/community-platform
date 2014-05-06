@@ -133,6 +133,16 @@ sub user_comments_for_user {
 	} ) :
 	$c->stash->{user}->last_comments;
 }
+sub threads_for_user {
+	my ( $self, $user ) = @_;
+	my @forbidden_forums = $self->forbidden_forums($user);
+
+	return (@forbidden_forums) ?
+	$self->ddgc->rs('Thread')->ghostbusted->search_rs( {
+		'me.forum' => { '-not_in' => \@forbidden_forums }
+	} ) :
+	$self->ddgc->rs('Thread');
+}
 
 sub comments {
 	my ( $self, $context, $context_id ) = @_;
