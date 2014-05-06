@@ -100,7 +100,7 @@ sub ideas : Chained('userbase') Args(0) {
 sub all : Chained('userbase') Args(0) {
   my ( $self, $c ) = @_;
   $c->add_bc("Latest comments");
-  $self->set_grouped_comments($c,'all',$c->d->forum->comments_grouped);
+  $self->set_grouped_comments($c,'all',$c->d->forum->comments_grouped_for_user($c->user));
 }
 
 sub blog : Chained('userbase') Args(0) {
