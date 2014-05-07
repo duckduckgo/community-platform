@@ -168,8 +168,10 @@ sub add_thread {
 		my %comment_params = defined $params{comment_params}
 			? (%{delete $params{comment_params}})
 			: ();
+		my $forum = delete $params{forum} // 1;
 		$thread = $self->ddgc->rs('Thread')->create({
 			users_id => $user->id,
+			forum => $forum,
 			%params,
 		});
 		$self->ddgc->without_events(sub {
