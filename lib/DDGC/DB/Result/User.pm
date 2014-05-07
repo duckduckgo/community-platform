@@ -328,7 +328,7 @@ sub has_access_to_notification {
 	$t = $context_obj if $context_obj->isa('DDGC::DB::Result::Thread');
 	$t = $context_obj->thread if $context_obj->isa('DDGC::DB::Result::Comment');
 	if ( $t && DDGC::Config::forums->{$t->forum}->{user_filter} ) {
-		return 1 if ($t->forum eq DDGC::Config::id_for_forum('special'));
+		return 1 if (($t->forum eq '5') && $context_obj->isa('DDGC::DB::Result::Comment')); # special
 		return DDGC::Config::forums->{$t->forum}->{user_filter}->($self);
 	}
 	return 1;
