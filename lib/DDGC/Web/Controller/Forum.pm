@@ -107,7 +107,6 @@ sub blog : Chained('userbase') Args(0) {
   my ( $self, $c ) = @_;
   $c->add_bc("Latest company blog comments");
   $self->set_grouped_comments($c,'blog',$c->d->forum->comments_grouped_company_blog);
-  $c->stash->{forum_index} = 1;
   $self->get_sticky_threads($c);
 }
 
@@ -115,7 +114,6 @@ sub user_blog : Chained('userbase') Args(0) {
   my ( $self, $c ) = @_;
   $c->add_bc("Latest user blog comments");
   $self->set_grouped_comments($c,'user_blog',$c->d->forum->comments_grouped_user_blog);
-  $c->stash->{forum_index} = 1;
   $self->get_sticky_threads($c);
 }
 
@@ -123,7 +121,6 @@ sub translation : Chained('userbase') Args(0) {
   my ( $self, $c ) = @_;
   $c->add_bc("Latest translation comments");
   $self->set_grouped_comments($c,'translation',$c->d->forum->comments_grouped_translation);
-  $c->stash->{forum_index} = 1;
   $self->get_sticky_threads($c);
 }
 
