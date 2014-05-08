@@ -148,6 +148,7 @@ sub notify {
 				next unless defined $self->get_context_obj;
 				my $current_user = $user_notification->user;
 				next if ( !$current_user->has_access_to_notification( $self->get_context_obj ) );
+				next if ( !$current_user->is_subscribed_and_notification_is_special( $self->get_context_obj ) );
 				if ($user_notification->user_notification_group->filter) {
 					next if 
 						$user_notification->user_notification_group->sub_context ne ''

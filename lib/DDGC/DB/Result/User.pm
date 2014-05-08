@@ -333,6 +333,21 @@ sub has_access_to_notification {
 	}
 	return 1;
 }
+sub is_subscribed_and_notification_is_special {
+	my ( $self, $context_obj ) = @_;
+	return 1 if $self->admin;
+	my $t;
+	$t = $context_obj if $context_obj->isa('DDGC::DB::Result::Thread');
+	$t = $context_obj->thread if $context_obj->isa('DDGC::DB::Result::Comment');
+	if ( $t && $t->forum eq '5' ) { # special
+		use DDP; p $t;
+		return $self->user_notifications->find( {
+				'me.context_id' => $t->id,
+				'user_notification_group.context' => 'DDGC::DB::Result::Thread',
+			}, { join => 'user_notification_group' } );
+	}
+	return 1;
+}
 
 sub blog { shift->user_blogs_rs }
 
@@ -428,7 +443,8 @@ sub _build_user_notification_group_values {
 sub add_context_notification {
 	my ( $self, $type, $context_obj ) = @_;
 	my $group_info = $self->user_notification_group_values->{$type}->{'*'};
-	if ($group_info->{cycle}) {
+	if ($group_info->{cycle} || # Subscription exemption for Special Notifications below...
+		($type eq 'forum_comments' && $context_obj->isa('DDGC::DB::Result::Thread') && $context_obj->forum eq '5')) {
 		my @user_notification_groups = $self->schema->resultset('User::Notification::Group')->search({
 			context => $context_obj->context_name,
 			with_context_id => 1,
@@ -440,7 +456,7 @@ sub add_context_notification {
 		return $self->update_or_create_related('user_notifications',{
 			user_notification_group_id => $user_notification_group->id,
 			xmpp => $group_info->{xmpp} ? 1 : 0,
-			cycle => $group_info->{cycle},
+			cycle => $group_info->{cycle} // 3,
 			context_id => $context_obj->id,
 		},{
 			key => 'user_notification_user_notification_group_id_context_id_users_id',
