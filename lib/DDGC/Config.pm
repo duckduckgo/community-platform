@@ -244,27 +244,27 @@ sub forums {
 			notification => 'Community Leaders Post',
 			button_img => '/static/img/badges/leader_alt.png',
 			url  => 'community_leaders',
-			user_filter => sub { $_[0]->is('forum_manager') },
+			user_filter => sub { ($_[0] && $_[0]->is('forum_manager')) },
 		},
 		'3' => {
 			name => 'Translation Managers',
 			notification => 'Translation Managers Post',
 			url  => 'translation_managers',
-			user_filter => sub { $_[0]->is('translation_manager') },
+			user_filter => sub { ($_[0] && $_[0]->is('translation_manager')) },
 		},
 		'4' => {
 			name => 'Admins',
 			notification => 'Admins Post',
 			button_img => '/static/img/badges/admin.png',
 			url  => 'admins',
-			user_filter => sub { $_[0]->is('admin') },
+			user_filter => sub { ($_[0] && $_[0]->is('admin')) },
 		},
 		'5' => {
 			name => 'Special Announcements',
 			notification => 'Special Announcement',
 			button_text => 'S',
 			url  => 'special',
-			user_filter => sub { $_[0]->is('admin') },
+			user_filter => sub { ($_[0] && $_[0]->is('admin')) },
 		},
 	};
 }
