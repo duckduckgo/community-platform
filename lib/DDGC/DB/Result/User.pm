@@ -324,23 +324,17 @@ sub unsent_notifications_cycle {
 
 sub has_access_to_notification {
 	my ( $self, $context_obj ) = @_;
-	my $t;
-	$t = $context_obj if $context_obj->isa('DDGC::DB::Result::Thread');
-	$t = $context_obj->thread if $context_obj->isa('DDGC::DB::Result::Comment');
-	if ( $t && DDGC::Config::forums->{$t->forum}->{user_filter} ) {
-		return 1 if (($t->forum eq '5') && $context_obj->isa('DDGC::DB::Result::Comment')); # special
-		return DDGC::Config::forums->{$t->forum}->{user_filter}->($self);
-	}
-	return 1;
+	return 1 if (!$context_obj->isa('DDGC::DB::Result::Thread') && !$context_obj->isa('DDGC::DB::Result::Comment'));
+	return $context_obj->user_has_access($self);
 }
+
 sub is_subscribed_and_notification_is_special {
 	my ( $self, $context_obj ) = @_;
 	return 1 if $self->admin;
 	my $t;
 	$t = $context_obj if $context_obj->isa('DDGC::DB::Result::Thread');
 	$t = $context_obj->thread if $context_obj->isa('DDGC::DB::Result::Comment');
-	if ( $t && $t->forum eq '5' ) { # special
-		use DDP; p $t;
+	if ( $t && $t->forum_is('special') ) {
 		return $self->user_notifications->find( {
 				'me.context_id' => $t->id,
 				'user_notification_group.context' => 'DDGC::DB::Result::Thread',
@@ -443,8 +437,8 @@ sub _build_user_notification_group_values {
 sub add_context_notification {
 	my ( $self, $type, $context_obj ) = @_;
 	my $group_info = $self->user_notification_group_values->{$type}->{'*'};
-	if ($group_info->{cycle} || # Subscription exemption for Special Notifications below...
-		($type eq 'forum_comments' && $context_obj->isa('DDGC::DB::Result::Thread') && $context_obj->forum eq '5')) {
+	if ($group_info->{cycle} ||
+		($type eq 'forum_comments' && $context_obj->isa('DDGC::DB::Result::Thread') && $context_obj->forum_is('special'))) {
 		my @user_notification_groups = $self->schema->resultset('User::Notification::Group')->search({
 			context => $context_obj->context_name,
 			with_context_id => 1,

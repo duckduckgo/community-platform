@@ -158,5 +158,17 @@ sub get_url {
 	return $key || 'url';
 }
 
+sub forum_is {
+	my ($self, $forum) = @_;
+	return ($self->forum eq $self->ddgc->config->id_for_forum($forum));
+}
+
+sub user_has_access {
+	my ($self, $user) = @_;
+	return 1 if (!$self->ddgc->config->forums->{$self->forum}->{user_filter});
+	return 1 if ($user && $self->forum_is('special'));
+	return $self->ddgc->config->forums->{$self->forum}->{user_filter}->($user);
+}
+
 no Moose;
 __PACKAGE__->meta->make_immutable;

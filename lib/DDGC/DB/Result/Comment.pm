@@ -139,6 +139,18 @@ sub event_related {
 	return @related;
 }
 
+sub forum_is {
+	my ($self, $forum) = @_;
+	my $t = $self->thread or return 0;
+	return $t->forum_is($forum);
+}
+
+sub user_has_access {
+	my ($self, $user) = @_;
+	my $t = $self->thread or return 1;
+	return $t->user_has_access($user);
+}
+
 ###############################
 
 no Moose;
