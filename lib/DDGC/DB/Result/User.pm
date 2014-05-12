@@ -6,6 +6,11 @@ use MooseX::NonMoose;
 extends 'DDGC::DB::Base::Result';
 use DBIx::Class::Candy;
 use DDGC::User::Page;
+use Path::Class;
+use File::Copy;
+use IPC::Run qw/ run timeout /;
+use LWP::Simple;
+ use File::Temp qw/ tempfile /;
 use Prosody::Mod::Data::Access;
 use Digest::MD5 qw( md5_hex );
 use List::MoreUtils qw( uniq  );
@@ -345,11 +350,36 @@ sub is_subscribed_and_notification_is_special {
 
 sub blog { shift->user_blogs_rs }
 
+# This validation is performed on signup, but better to do it again, prevent traversal etc.
+sub username_to_filename {
+	my ($self) = @_;
+	my $n = $self->username;
+	$n =~ s/[^A-Za-z0-9_.-]+/_/g;
+	return $n;
+}
+
 sub profile_picture {
 	my ( $self, $size ) = @_;
 
 	return unless $self->public;
 
+	my %return;
+	for (qw/16 32 48 64 80/) {
+		my $fn = $self->username_to_filename . "_$_";
+		return undef unless ( -f file($self->ddgc->config->mediadir, 'avatar', $fn)->stringify );
+		$return{$_} = "/media/avatar/$fn";
+	}
+
+	if ($size) {
+		return $return{$size};
+	} else {
+		return \%return;
+	}
+}
+
+sub gravatar_to_avatar {
+	my ($self) = @_;
+	return unless $self->public;
 	my $gravatar_email;
 
 	if ($self->data && defined $self->data->{gravatar_email}) {
@@ -365,18 +395,54 @@ sub profile_picture {
 	}
 
 	return unless $gravatar_email;
-
 	my $md5 = md5_hex($gravatar_email);
 
-	my %return;
-	for (qw/16 32 48 64 80/) {
-		$return{$_} = "//www.gravatar.com/avatar/".$md5."?r=g&s=$_";
-	}
+	my ($fh, $filename) = tempfile();
+	my $url = "//www.gravatar.com/avatar/$md5?r=g&s=300";
 
-	if ($size) {
-		return $return{$size};
-	} else {
-		return \%return;
+	die "Cannot retrieve gravatar for " . $self->username
+		unless (is_success(getstore($url, $filename)));
+
+	$self->store_avatar($filename);
+	$self->generate_thumbs;
+}
+
+sub generate_thumbs {
+	my ($self) = @_;
+	my $fn = $self->username_to_filename;
+	my $avatar = file($self->ddgc->config->mediadir, 'avatar', $fn);
+	my ( $in, $out, $err );
+	for my $size ( qw/16 32 48 64 80/ ) {
+		run [ convert => ( "$avatar",
+			'-resize', "${size}x${size}"."^",
+			'-gravity', 'center', '-strip',
+			'-crop', "${size}x${size}"."+0+0",
+			'+repage', "${avatar}_$size",
+		)], \$in, \$out, \$err, timeout(60) or die "$err (error $?) $out";
+	}
+}
+
+sub store_avatar {
+	my ($self, $file) = @_;
+	my $cachedir = dir($self->ddgc->config->mediadir, 'avatar');
+	$cachedir->mkpath;
+	my $destination = file($cachedir,$self->username_to_filename);
+	copy($file, "$destination") or die "Error storing avatar";
+}
+
+sub set_avatar {
+	my ($self, $avatar) = @_;
+	$self->store_avatar($avatar->tempname);
+	$self->generate_thumbs;
+}
+
+sub delete_avatar {
+	my ($self) = @_;
+	my $fn = $self->username_to_filename;
+	my $avatar = file($self->ddgc->config->mediadir, 'avatar', $fn);
+	unlink("$avatar") if (-f "$avatar");
+	for my $size ( qw/16 32 48 64 80/ ) {
+		unlink ("${avatar}_$size") if (-f "${avatar}_$size");
 	}
 }
 
