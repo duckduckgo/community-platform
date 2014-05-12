@@ -381,9 +381,9 @@ sub profile_picture {
 
 	my %return;
 	for (qw/16 32 48 64 80/) {
-		my $fn = $self->avatar_filename . "_$_";;
+		my $fn = $self->avatar_filename . "_$_";
 		return undef unless ( -f $fn );
-		$return{$_} = $self->avatar_url;;
+		$return{$_} = $self->avatar_url . "_$_";
 	}
 
 	if ($size) {
