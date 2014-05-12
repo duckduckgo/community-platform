@@ -56,6 +56,9 @@ sub feedback :Chained('base') :PathPart('') :CaptureArgs(1) {
       return $c->detach;
     }
     $c->stash->{feedback_config} = DDGC::Feedback::Config::Suggest->feedback;
+    @{$c->stash->{feedback_config}} = grep {
+      ((!$_) || (!$_->{user_filter}) || $_->{user_filter}->($c->user))
+    } @{$c->stash->{feedback_config}};
     $c->stash->{feedback_title} = DDGC::Feedback::Config::Suggest->feedback_title;
   } else {
     $c->response->redirect('https://duckduckgo.com/feedback');

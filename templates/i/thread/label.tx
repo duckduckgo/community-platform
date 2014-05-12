@@ -1,1 +1,1 @@
-the General Rambling <b><:- i('link',$_) -:></b>
+the <: d().config.forums[$_.forum].notification :> <b><:- i('link',$_) -:></b>

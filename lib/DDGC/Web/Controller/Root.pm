@@ -22,6 +22,14 @@ sub base :Chained('/') :PathPart('') :CaptureArgs(0) {
 
 	$c->d->current_user($c->user) if $c->user;
 
+	if ($c->user) {
+		my $t = $c->d->rs('Thread')->search( { forum => $c->d->config->id_for_forum('special') }, { order_by => { -desc => 'id' } } )->first;
+		if ( $t && !$c->user->seen_campaign_notice( $t->id ) ) {
+			$c->{stash}->{campaign_info}->{thread_id} = $t->id;
+			$c->{stash}->{campaign_info}->{link} = $c->chained_uri( @{$t->u}, { follow => 'forum_comments' } );
+		}
+	}
+
 	$c->stash->{web_base} = $c->d->config->web_base;
 	$c->stash->{template_layout} = [ 'base.tx' ];
 	$c->stash->{ddgc_config} = $c->d->config;
@@ -159,7 +167,7 @@ sub redirect_duckco :Chained('base') :PathPart('topic') :Args(1) {
 		$c->response->redirect($c->chained_uri(@{$c->stash->{thread}->u}));
 		$c->response->status(301);
 	} else {
-		$c->response->redirect($c->chained_uri('Forum','index',{ thread_notfound => 1 }));
+		$c->response->redirect($c->chained_uri('Forum','general',{ thread_notfound => 1 }));
 	}
 	return $c->detach;
 }

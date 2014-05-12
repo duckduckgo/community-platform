@@ -229,6 +229,51 @@ sub xslate_cachedir {
 	return File::Spec->rel2abs( $dir );
 }
 
+sub forum_config { $_[0]->forums->{$_[0]->forum} }
+sub forums {
+	my ( $self ) = @_;
+	+{
+		'1' => {
+			name => 'General Ramblings',
+			notification => 'General Rambling',
+			button_text => 'General Ramblings',
+			url  => 'general',
+		},
+		'2' => {
+			name => 'Community Leaders',
+			notification => 'Community Leaders Post',
+			button_img => '/static/img/badges/leader_alt.png',
+			url  => 'community_leaders',
+			user_filter => sub { ($_[0] && $_[0]->is('forum_manager')) },
+		},
+		'3' => {
+			name => 'Translation Managers',
+			notification => 'Translation Managers Post',
+			url  => 'translation_managers',
+			user_filter => sub { ($_[0] && $_[0]->is('translation_manager')) },
+		},
+		'4' => {
+			name => 'Admins',
+			notification => 'Admins Post',
+			button_img => '/static/img/badges/admin.png',
+			url  => 'admins',
+			user_filter => sub { ($_[0] && $_[0]->is('admin')) },
+		},
+		'5' => {
+			name => 'Special Announcements',
+			notification => 'Special Announcement',
+			button_text => 'S',
+			url  => 'special',
+			user_filter => sub { ($_[0] && $_[0]->is('admin')) },
+		},
+	};
+}
+sub id_for_forum {
+	my ( $self, $forum_name ) = @_;
+	my $forums = $self->forums;
+	return (grep { $forums->{$_}->{name} =~ m/$forum_name/i } keys $forums)[0];
+}
+
 has_conf feedback_email => DDGC_FEEDBACK_EMAIL => 'support@duckduckgo.com';
 has_conf error_email => DDGC_ERROR_EMAIL => 'ddgc@duckduckgo.com';
 

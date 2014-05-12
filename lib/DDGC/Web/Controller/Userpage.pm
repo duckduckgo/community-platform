@@ -30,7 +30,7 @@ sub user :Chained('base') :PathPart('') :CaptureArgs(0) {
 sub home :Chained('user') :PathPart('') :Args(0) {
 	my ( $self, $c ) = @_;
 	$c->bc_index;
-        my $rs = $c->stash->{user}->last_comments;
+        my $rs = $c->d->forum->user_comments_for_user($c);
         $c->stash->{comments} = $c->table(
             $rs,['Userpage','home',$c->stash->{user}->username],[],
             default_pagesize => 10,

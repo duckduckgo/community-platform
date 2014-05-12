@@ -13,9 +13,26 @@ sub base : Chained('/forum/base') PathPart('my') CaptureArgs(0) {
 }
 
 # /forum/my/newthread
-sub newthread : Chained('base') Args(0) {
-	my ( $self, $c ) = @_;
+sub newthread : Chained('base') Args(1) {
+	my ( $self, $c, $forum_id ) = @_;
+	$c->stash->{forum_index} = $forum_id // 1;
+	if (!$c->d->config->forums->{$c->stash->{forum_index}}) {
+		$c->response->redirect($c->chained_uri('Forum', 'general'));
+		return $c->detach;
+	}
+	my $user_filter = $c->d->config->forums->{$c->stash->{forum_index}}->{user_filter};
+	if ($user_filter && (!$c->user || !$user_filter->($c->user))) {
+		$c->response->redirect($c->chained_uri('Forum', 'general'));
+		return $c->detach;
+	}
+	
+	$c->add_bc($c->d->config->forums->{$c->stash->{forum_index}}->{name},
+		$c->chained_uri(
+			'Forum',
+			$c->d->config->forums->{$c->stash->{forum_index}}->{url},
+	));
 	$c->add_bc("New Thread");
+	
 
 	$self->thread_form($c);
 
@@ -26,6 +43,7 @@ sub newthread : Chained('base') Args(0) {
 		my $thread = $c->d->forum->add_thread(
 			$c->user,
 			$c->req->params->{content},
+			forum => $c->stash->{forum_index},
 			title => $c->req->params->{title},
 			defined $c->session->{thread_forms}->{$c->stash->{thread_form_id}}->{screenshots}
 				? ( screenshot_ids => $c->session->{thread_forms}->{$c->stash->{thread_form_id}}->{screenshots} )
@@ -93,11 +111,11 @@ sub thread : Chained('base') CaptureArgs(1) {
 	my ( $self, $c, $id ) = @_;
 	$c->stash->{thread} = $c->d->rs('Thread')->find($id);
 	unless ($c->stash->{thread}) {
-		$c->response->redirect($c->chained_uri('Forum','index',{ thread_notfound => 1 }));
+		$c->response->redirect($c->chained_uri('Forum','general',{ thread_notfound => 1 }));
 		return $c->detach;
 	}
 	unless ($c->user->admin || $c->stash->{thread}->users_id == $c->user->id) {
-		$c->response->redirect($c->chained_uri('Forum','index',{ thread_notallowed => 1 }));
+		$c->response->redirect($c->chained_uri('Forum','general',{ thread_notallowed => 1 }));
 		return $c->detach;
 	}
 }
@@ -173,7 +191,7 @@ sub delete : Chained('thread') Args(0) {
 			$c->stash->{thread}->delete();
 			$c->d->rs('Comment')->search({ context => "DDGC::DB::Result::Thread", context_id => $id })->delete();
 		});
-		$c->response->redirect($c->chained_uri('Forum','index'));
+		$c->response->redirect($c->chained_uri('Forum','general'));
 		return $c->detach;
 	}
 }

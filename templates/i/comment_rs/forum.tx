@@ -2,7 +2,7 @@
   <div class="group  head--forum">
     <div class="forum-nav">
 		<: if $forum_index { :>
-		  <: include "forum/nav.tx" { current_page => 'general' } :>
+		  <: include "forum/nav.tx" { current_page => $forum_index } :>
 		<: } else { :>
 		  <: include "forum/nav.tx" { current_page => 'other' } :>
 		<: } :>

@@ -4,11 +4,13 @@ package DDGC::Feedback::Config::Suggest;
 use strict;
 use warnings;
 
+use DDGC::Config;
+
 sub feedback_title { "I have something to share." }
 
 sub feedback {[
   { 
-	description => "DuckDuckGo discussions come in 2 forms: <b>Instant Answer Ideas</b> and <b>General Ramblings</b>. Please let us know what you'd like to talk about!", 
+	description => "DuckDuckGo discussions come in two forms: <b>Instant Answer Ideas</b> and <b>General Ramblings</b>. Please let us know what you'd like to talk about!", 
 	type => 'info', 
 	icon => "dax" 
   },
@@ -16,7 +18,7 @@ sub feedback {[
 	description => "It's a general topic (or click here if you are unsure)", 
 	icon => "convo",
 	type => "link",
-	link => ['Forum::My','newthread'],
+	link => ['Forum::My','newthread','1'],
   },
     # suggest_idea(),
   {
@@ -26,6 +28,27 @@ sub feedback {[
 	link => ['Ideas','newidea'],
   },
     # suggest_instant(),
+  {
+	description => "A new Admin forum post",
+	icon => "convo",
+	type => "link",
+	link => ['Forum::My','newthread','4'],
+	user_filter => DDGC::Config::forums->{'4'}->{'user_filter'},
+  },
+  {
+	description => "A new Community Leaders forum post",
+	icon => "convo",
+	type => "link",
+	link => ['Forum::My','newthread','2'],
+	user_filter => DDGC::Config::forums->{'2'}->{'user_filter'},
+  },
+  {
+	description => "A new Special Announcement",
+	icon => "convo",
+	type => "link",
+	link => ['Forum::My','newthread','5'],
+	user_filter => DDGC::Config::forums->{'5'}->{'user_filter'},
+  },
   "" # workaround for non submittable ending points like this here.
   # cutting this flow short to get a user to the 'new post' page sooner
 ]}
@@ -63,7 +86,7 @@ sub suggest_idea {[
   {
     description => "I can't find it, I want to share my topic",
     icon => "chat", type => "link",
-    link => ['Forum::My','newthread'],
+    link => ['Forum::My','newthread','1'],
   },
   "" # workaround for non submittable ending points like this here.
 ]}

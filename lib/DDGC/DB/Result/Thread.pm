@@ -31,24 +31,6 @@ column forum => {
   default_value => 1,
 };
 
-sub forum_config { $_[0]->forums->{$_[0]->forum} }
-sub forums {
-  my ( $self ) = @_;
-  {
-    '1' => {
-      name => 'General Rambling',
-    },
-    '2' => {
-      name => 'Forum Manager Forum',
-      user_filter => sub { $_[1]->is('forum_manager') },
-    },
-    '3' => {
-      name => 'Translation Manager Forum',
-      user_filter => sub { $_[1]->is('translation_manager') },
-    },
-  }
-}
-
 # cotent source comment
 column comment_id => {
 	data_type => 'bigint',
@@ -174,6 +156,18 @@ sub get_url {
 	$key =~ s/-$//;
 	$key =~ s/^-//;
 	return $key || 'url';
+}
+
+sub forum_is {
+	my ($self, $forum) = @_;
+	return ($self->forum eq $self->ddgc->config->id_for_forum($forum));
+}
+
+sub user_has_access {
+	my ($self, $user) = @_;
+	return 1 if (!$self->ddgc->config->forums->{$self->forum}->{user_filter});
+	return 1 if ($user && $self->forum_is('special'));
+	return $self->ddgc->config->forums->{$self->forum}->{user_filter}->($user);
 }
 
 no Moose;
