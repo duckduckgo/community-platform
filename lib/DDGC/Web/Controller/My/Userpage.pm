@@ -11,12 +11,19 @@ sub base :Chained('/my/logged_in') :PathPart('userpage') :CaptureArgs(0) {
 	my ( $self, $c ) = @_;
 	$c->add_bc('Userpage Editor', $c->chained_uri('My::Userpage','index'));
 	$c->stash->{up} = $c->user->userpage_obj;
+	$c->stash->{avatar} = $c->user->profile_picture(80);
 	if ($c->req->param('save_userpage')) {
 		$c->require_action_token;
 		my @errors = $c->stash->{up}->update_data($c->req->params);
 		$c->stash->{userpage_save_errors} = @errors ? 1 : 0;
 		$c->stash->{userpage_saved} = 1;
 		$c->stash->{up}->update;
+	}
+	if ($c->req->param('avatar')) {
+		$c->user->set_avatar($c->req->uploads->{avatar});
+	}
+	elsif ($c->req->param('delete_avatar')) {
+		$c->user->delete_avatar;
 	}
 }
 
