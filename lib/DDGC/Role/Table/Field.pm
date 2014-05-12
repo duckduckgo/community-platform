@@ -28,6 +28,9 @@ my %types = (
 	textarea => {
 		edit => 'textarea',
 	},
+	avatar => {
+		edit => 'avatar',
+	},
 	select => {
 		view => 'select',
 		edit => 'select',

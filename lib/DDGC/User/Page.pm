@@ -13,6 +13,7 @@ sub attributes {[
 	headline => 'Userpage headline, instead of username' => {},
 	about => 'About you' => { type => 'textarea' },
 	whyddg => 'Why DuckDuckGo?' => { type => 'textarea' },
+	avatar => 'Avatar' => { type => 'avatar' },
 	gravatar_email => '<a href="https://gravatar.com/">Gravatar</a> email (user picture)' => { type => 'email_md5' },
 	realname => 'If you want to make your real name public, do it here:' => {},
 	country => 'Living in country' => { type => 'country' },

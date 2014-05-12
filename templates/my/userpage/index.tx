@@ -10,7 +10,7 @@
 		<h3>General Public Information</h3>
 	</div>
 	<div class="body">
-		<: for ['headline','gravatar_email',,'whyddg'] -> $field { :>
+		<: for ['headline','whyddg','avatar'] -> $field { :>
 			<: i($fields[$field], 'edit') :>
 		<: } :>
 	</div>
