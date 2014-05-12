@@ -9,8 +9,8 @@ use DDGC::User::Page;
 use Path::Class;
 use File::Copy;
 use IPC::Run qw/ run timeout /;
-use LWP::Simple;
- use File::Temp qw/ tempfile /;
+use LWP::Simple qw/ is_success getstore /;
+use File::Temp qw/ tempfile /;
 use Prosody::Mod::Data::Access;
 use Digest::MD5 qw( md5_hex );
 use List::MoreUtils qw( uniq  );
@@ -357,6 +357,22 @@ sub username_to_filename {
 	$n =~ s/[^A-Za-z0-9_.-]+/_/g;
 	return $n;
 }
+sub avatar_url {
+	my ($self) = @_;
+	my $fn = $self->username_to_filename;
+	return "/media/avatar/$fn";
+}
+sub avatar_directory {
+	my ($self) = @_;
+	my $dir = dir($self->ddgc->config->mediadir, 'avatar');
+	$dir->mkpath unless (-d "$dir");
+	return $dir->stringify;
+}
+sub avatar_filename {
+	my ($self) = @_;
+	my $fn = $self->username_to_filename;
+	return file($self->avatar_directory, $fn)->stringify;
+}
 
 sub profile_picture {
 	my ( $self, $size ) = @_;
@@ -365,9 +381,9 @@ sub profile_picture {
 
 	my %return;
 	for (qw/16 32 48 64 80/) {
-		my $fn = $self->username_to_filename . "_$_";
-		return undef unless ( -f file($self->ddgc->config->mediadir, 'avatar', $fn)->stringify );
-		$return{$_} = "/media/avatar/$fn";
+		my $fn = $self->avatar_filename . "_$_";;
+		return undef unless ( -f $fn );
+		$return{$_} = $self->avatar_url;;
 	}
 
 	if ($size) {
@@ -410,7 +426,7 @@ sub gravatar_to_avatar {
 sub generate_thumbs {
 	my ($self) = @_;
 	my $fn = $self->username_to_filename;
-	my $avatar = file($self->ddgc->config->mediadir, 'avatar', $fn);
+	my $avatar = $self->avatar_filename;
 	my ( $in, $out, $err );
 	for my $size ( qw/16 32 48 64 80/ ) {
 		run [ convert => ( "$avatar",
@@ -424,9 +440,7 @@ sub generate_thumbs {
 
 sub store_avatar {
 	my ($self, $file) = @_;
-	my $cachedir = dir($self->ddgc->config->mediadir, 'avatar');
-	$cachedir->mkpath;
-	my $destination = file($cachedir,$self->username_to_filename);
+	my $destination = $self->avatar_filename;
 	copy($file, "$destination") or die "Error storing avatar";
 }
 
@@ -438,8 +452,7 @@ sub set_avatar {
 
 sub delete_avatar {
 	my ($self) = @_;
-	my $fn = $self->username_to_filename;
-	my $avatar = file($self->ddgc->config->mediadir, 'avatar', $fn);
+	my $avatar = $self->avatar_filename;
 	unlink("$avatar") if (-f "$avatar");
 	for my $size ( qw/16 32 48 64 80/ ) {
 		unlink ("${avatar}_$size") if (-f "${avatar}_$size");
