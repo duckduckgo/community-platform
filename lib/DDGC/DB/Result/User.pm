@@ -11,6 +11,7 @@ use File::Copy;
 use IPC::Run qw/ run timeout /;
 use LWP::Simple qw/ is_success getstore /;
 use File::Temp qw/ tempfile /;
+use Carp;
 use Prosody::Mod::Data::Access;
 use Digest::MD5 qw( md5_hex );
 use List::MoreUtils qw( uniq  );
@@ -354,24 +355,34 @@ sub blog { shift->user_blogs_rs }
 sub username_to_filename {
 	my ($self) = @_;
 	my $n = $self->username;
-	$n =~ s/[^A-Za-z0-9_.-]+/_/g;
+	$n =~ s/[^A-Za-z0-9_-]+/_/g;
 	return $n;
 }
+
+sub user_avatar_directory {
+	my ($self) = @_;
+	my @d = (split '',$self->username_to_filename)[0..1];
+	push @d, $self->username;
+	return @d;
+}
+
 sub avatar_url {
 	my ($self) = @_;
 	my $fn = $self->username_to_filename;
-	return "/media/avatar/$fn";
+	return dir('/media/avatar/', $self->user_avatar_directory, $fn)->stringify;
 }
+
 sub avatar_directory {
-	my ($self) = @_;
-	my $dir = dir($self->ddgc->config->mediadir, 'avatar');
-	$dir->mkpath unless (-d "$dir");
+	my ($self, $opts) = @_;
+	my $dir = dir($self->ddgc->config->mediadir, 'avatar', $self->user_avatar_directory);
+	$dir->mkpath if ($opts->{mkpath});
 	return $dir->stringify;
 }
+
 sub avatar_filename {
-	my ($self) = @_;
+	my ($self, $opts) = @_;
 	my $fn = $self->username_to_filename;
-	return file($self->avatar_directory, $fn)->stringify;
+	return file($self->avatar_directory($opts), $fn)->stringify;
 }
 
 sub profile_picture {
@@ -397,6 +408,7 @@ sub gravatar_to_avatar {
 	my ($self) = @_;
 	return unless $self->public;
 	my $gravatar_email;
+	return if (-f $self->avatar_filename );
 
 	if ($self->data && defined $self->data->{gravatar_email}) {
 		$gravatar_email = $self->data->{gravatar_email};
@@ -414,10 +426,12 @@ sub gravatar_to_avatar {
 	my $md5 = md5_hex($gravatar_email);
 
 	my ($fh, $filename) = tempfile();
-	my $url = "//www.gravatar.com/avatar/$md5?r=g&s=300";
+	my $url = "http://www.gravatar.com/avatar/$md5?r=g&s=200";
 
-	die "Cannot retrieve gravatar for " . $self->username
-		unless (is_success(getstore($url, $filename)));
+	unless (is_success(getstore($url, $filename))) {
+		carp("Unable to retrieve $url for " . $self->username);
+		return 0;
+	}
 
 	$self->store_avatar($filename);
 	$self->generate_thumbs;
@@ -440,7 +454,7 @@ sub generate_thumbs {
 
 sub store_avatar {
 	my ($self, $file) = @_;
-	my $destination = $self->avatar_filename;
+	my $destination = ($self->avatar_filename({ mkpath => 1 }));
 	copy($file, "$destination") or die "Error storing avatar";
 }
 
