@@ -17,7 +17,9 @@
         removedfile: function(file) {
             $.post(
                 "<: $u('My::Userpage','index') :>",
-                { delete_avatar: 1 },
+                { delete_avatar: 1,
+                  filename : file.avatar_id,
+                },
                 function() {
                     file.previewElement.remove();
                 }
@@ -26,14 +28,18 @@
             });
         },
         init: function() {
-            <: if $avatar { :>
-                var avatar = {
-                    name: "",
-                    media_url: "<: $avatar :>",
+            <: for $avatars -> $avatar { :>
+                var <: $avatar.name :> = {
+                    name: "<: $avatar.name :>",
+                    media_url: "<: $avatar.media_url :>",
+                    avatar_id: "<: $avatar.avatar_id :>",
                 };
-                this.options.addedfile.call(this, avatar);
-                this.options.thumbnail.call(this, avatar, '<: $avatar :>');
+                this.options.addedfile.call(this, <: $avatar.name :> );
+                this.options.thumbnail.call(this, <: $avatar.name :>, '<: $avatar.media_url :>');
             <: } :>
+            this.on("success", function(file, response) {
+              file.avatar_id = response.avatar_id;
+            });
         },
     })
 </script>

@@ -366,10 +366,22 @@ sub user_avatar_directory {
 	return @d;
 }
 
+sub avatar_stash_directory {
+	my ($self, $opts) = @_;
+	my $dir = dir($self->avatar_directory, 'stash');
+	$dir->mkpath if ($opts->{mkpath});
+	return $dir->stringify;
+}
+
 sub avatar_url {
 	my ($self) = @_;
 	my $fn = $self->username_to_filename;
-	return dir('/media/avatar/', $self->user_avatar_directory, $fn)->stringify;
+	return file('/media/avatar/', $self->user_avatar_directory, $fn)->stringify;
+}
+
+sub stash_url {
+	my ($self) = @_;
+	return dir('/media/avatar/', $self->user_avatar_directory, 'stash')->stringify;
 }
 
 sub avatar_directory {
@@ -455,22 +467,69 @@ sub generate_thumbs {
 sub store_avatar {
 	my ($self, $file) = @_;
 	my $destination = ($self->avatar_filename({ mkpath => 1 }));
-	copy($file, "$destination") or die "Error storing avatar";
+	copy($file, "$destination") or die "Error storing avatar: $!";
+}
+
+sub files_in_stash {
+	my ($self) = @_;
+	my $dh;
+	my $dir = $self->avatar_stash_directory;
+	if (-d $dir) {
+		opendir $dh, $dir;
+		return sort { -M $b <=> -M $a } grep { -f $_ } map { file($dir, $_)->stringify } readdir $dh;
+	}
+	return undef;
+}
+
+sub reload_stash {
+	my ($self) = @_;
+	my @stash;
+	my @files = $self->files_in_stash;
+	return unless @files;
+	for my $file (@files) {
+		(my $basename = $file) =~ s/.*\/(.*)/$1/;
+		(my $name = $basename) =~ s/\./_/g;
+		push @stash, { name => $name, avatar_id => $basename, media_url => file($self->stash_url, $basename)->stringify }
+	}
+	return @stash or undef;
 }
 
 sub set_avatar {
-	my ($self, $avatar) = @_;
-	$self->store_avatar($avatar->tempname);
+	my ($self) = @_;
+	$self->delete_avatar if (-f $self->avatar_filename . "_delete" );
+	my @files = $self->files_in_stash;
+	return unless @files;
+	$self->store_avatar($files[-1]);
 	$self->generate_thumbs;
+	unlink @files;
+}
+
+sub queue_delete_avatar {
+	my ($self, $filename) = @_;
+	return unless $filename;
+	if ($filename eq 'current') {
+		open my $fh, '>', $self->avatar_filename . '_delete';
+	}
+	else {
+		my $file = file($self->avatar_stash_directory, $filename)->stringify;
+		unlink $file if (-f $file);
+	}
 }
 
 sub delete_avatar {
 	my ($self) = @_;
 	my $avatar = $self->avatar_filename;
 	unlink("$avatar") if (-f "$avatar");
-	for my $size ( qw/16 32 48 64 80/ ) {
+	for my $size ( qw/delete 16 32 48 64 80/ ) {
 		unlink ("${avatar}_$size") if (-f "${avatar}_$size");
 	}
+}
+
+sub stash_avatar {
+	my ($self, $avatar) = @_;
+	my $destination = file($self->avatar_stash_directory({mkpath => 1}), $avatar->filename)->stringify;
+	return 0 if (-f "$destination");
+	copy($avatar->tempname, "$destination") or die "Error stashing avatar";
 }
 
 sub public_username {

@@ -11,19 +11,37 @@ sub base :Chained('/my/logged_in') :PathPart('userpage') :CaptureArgs(0) {
 	my ( $self, $c ) = @_;
 	$c->add_bc('Userpage Editor', $c->chained_uri('My::Userpage','index'));
 	$c->stash->{up} = $c->user->userpage_obj;
-	$c->stash->{avatar} = $c->user->profile_picture(80);
+
 	if ($c->req->param('save_userpage')) {
 		$c->require_action_token;
 		my @errors = $c->stash->{up}->update_data($c->req->params);
 		$c->stash->{userpage_save_errors} = @errors ? 1 : 0;
 		$c->stash->{userpage_saved} = 1;
 		$c->stash->{up}->update;
+		$c->user->set_avatar;
 	}
+
+	if ($c->user->profile_picture(80)) {
+		push @{$c->stash->{avatars}}, { name => 'current', media_url => $c->user->profile_picture(80), avatar_id => 'current' }
+	};
+	push @{$c->stash->{avatars}}, $c->user->reload_stash;
+
 	if ($c->req->param('avatar')) {
-		$c->user->set_avatar($c->req->uploads->{avatar});
+		if (!$c->user->stash_avatar($c->req->uploads->{avatar})) {
+			$c->res->code(400);
+			$c->stash->{x} = {
+				error => "A file with this name has already been uploaded",
+			};
+			return $c->forward('View::JSON');
+		}
+
+		$c->stash->{x} = {
+			avatar_id => $c->req->uploads->{avatar}->filename,
+		};
+		$c->forward('View::JSON');
 	}
 	elsif ($c->req->param('delete_avatar')) {
-		$c->user->delete_avatar;
+		$c->user->queue_delete_avatar($c->req->param('filename'));
 	}
 }
 
