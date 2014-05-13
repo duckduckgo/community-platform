@@ -488,6 +488,7 @@ sub reload_stash {
 	return unless @files;
 	for my $file (@files) {
 		(my $basename = $file) =~ s/.*\/(.*)/$1/;
+		next unless $basename;
 		(my $name = $basename) =~ s/\./_/g;
 		push @stash, { name => $name, avatar_id => $basename, media_url => file($self->stash_url, $basename)->stringify }
 	}
