@@ -242,7 +242,7 @@ sub forums {
 		'2' => {
 			name => 'Community Leaders',
 			notification => 'Community Leaders Post',
-			button_img => '/static/img/badges/leader_alt.png',
+			button_img => '/static/images/comleader_button.png',
 			url  => 'community_leaders',
 			user_filter => sub { ($_[0] && $_[0]->is('forum_manager')) },
 		},
@@ -255,7 +255,7 @@ sub forums {
 		'4' => {
 			name => 'Admins',
 			notification => 'Admins Post',
-			button_img => '/static/img/badges/admin.png',
+			button_img => '/static/images/admin_button.png',
 			url  => 'admins',
 			user_filter => sub { ($_[0] && $_[0]->is('admin')) },
 		},

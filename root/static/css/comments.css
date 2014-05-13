@@ -45,6 +45,7 @@
 		margin: 3px 0;
 	}
 	.head--forum .button.disabled { opacity: 1; }
+	.buttonimg { padding-top: 2px; }
 	.head--forum .pager-wrap {
 		float: right;
 	}
