@@ -3,7 +3,7 @@
     <: i($_.token_domain_language.language,'flag',{ flag_size => 24 }) :>
 		<: $user_language.language.name_in_local :>
 		<div class="pull-right">
-			<span class="tag green circle"><: $user_language.grade :></span>
+			<span class="tag green circle"><: $user_language.translation_count :></span>
 		</div>
 	</div>
 <: } :>

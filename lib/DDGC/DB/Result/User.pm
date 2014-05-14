@@ -6,6 +6,12 @@ use MooseX::NonMoose;
 extends 'DDGC::DB::Base::Result';
 use DBIx::Class::Candy;
 use DDGC::User::Page;
+use Path::Class;
+use File::Copy;
+use IPC::Run qw/ run timeout /;
+use LWP::Simple qw/ is_success getstore /;
+use File::Temp qw/ tempfile /;
+use Carp;
 use Prosody::Mod::Data::Access;
 use Digest::MD5 qw( md5_hex );
 use List::MoreUtils qw( uniq  );
@@ -345,12 +351,76 @@ sub is_subscribed_and_notification_is_special {
 
 sub blog { shift->user_blogs_rs }
 
+# This validation is performed on signup, but better to do it again, prevent traversal etc.
+sub username_to_filename {
+	my ($self) = @_;
+	my $n = $self->username;
+	$n =~ s/[^A-Za-z0-9_-]+/_/g;
+	return $n;
+}
+
+sub user_avatar_directory {
+	my ($self) = @_;
+	my @d = (split '',$self->username_to_filename)[0..1];
+	push @d, $self->username;
+	return @d;
+}
+
+sub avatar_stash_directory {
+	my ($self, $opts) = @_;
+	my $dir = dir($self->avatar_directory, 'stash');
+	$dir->mkpath if ($opts->{mkpath});
+	return $dir->stringify;
+}
+
+sub avatar_url {
+	my ($self) = @_;
+	my $fn = $self->username_to_filename;
+	return file('/media/avatar/', $self->user_avatar_directory, $fn)->stringify;
+}
+
+sub stash_url {
+	my ($self) = @_;
+	return dir('/media/avatar/', $self->user_avatar_directory, 'stash')->stringify;
+}
+
+sub avatar_directory {
+	my ($self, $opts) = @_;
+	my $dir = dir($self->ddgc->config->mediadir, 'avatar', $self->user_avatar_directory);
+	$dir->mkpath if ($opts->{mkpath});
+	return $dir->stringify;
+}
+
+sub avatar_filename {
+	my ($self, $opts) = @_;
+	my $fn = $self->username_to_filename;
+	return file($self->avatar_directory($opts), $fn)->stringify;
+}
+
 sub profile_picture {
 	my ( $self, $size ) = @_;
 
 	return unless $self->public;
 
+	my %return;
+	for (qw/16 32 48 64 80/) {
+		my $fn = $self->avatar_filename . "_$_";
+		return undef unless ( -f $fn );
+		$return{$_} = $self->avatar_url . "_$_";
+	}
+
+	if ($size) {
+		return $return{$size};
+	} else {
+		return \%return;
+	}
+}
+
+sub gravatar_to_avatar {
+	my ($self) = @_;
+	return unless $self->public;
 	my $gravatar_email;
+	return if (-f $self->avatar_filename );
 
 	if ($self->data && defined $self->data->{gravatar_email}) {
 		$gravatar_email = $self->data->{gravatar_email};
@@ -365,19 +435,102 @@ sub profile_picture {
 	}
 
 	return unless $gravatar_email;
-
 	my $md5 = md5_hex($gravatar_email);
 
-	my %return;
-	for (qw/16 32 48 64 80/) {
-		$return{$_} = "//www.gravatar.com/avatar/".$md5."?r=g&s=$_";
+	my ($fh, $filename) = tempfile();
+	my $url = "http://www.gravatar.com/avatar/$md5?r=g&s=200";
+
+	unless (is_success(getstore($url, $filename))) {
+		carp("Unable to retrieve $url for " . $self->username);
+		return 0;
 	}
 
-	if ($size) {
-		return $return{$size};
-	} else {
-		return \%return;
+	$self->store_avatar($filename);
+	$self->generate_thumbs;
+}
+
+sub generate_thumbs {
+	my ($self) = @_;
+	my $fn = $self->username_to_filename;
+	my $avatar = $self->avatar_filename;
+	my ( $in, $out, $err );
+	for my $size ( qw/16 32 48 64 80/ ) {
+		run [ convert => ( "$avatar",
+			'-resize', "${size}x${size}"."^",
+			'-gravity', 'center', '-strip',
+			'-crop', "${size}x${size}"."+0+0",
+			'+repage', "${avatar}_$size",
+		)], \$in, \$out, \$err, timeout(60) or die "$err (error $?) $out";
 	}
+}
+
+sub store_avatar {
+	my ($self, $file) = @_;
+	my $destination = ($self->avatar_filename({ mkpath => 1 }));
+	copy($file, "$destination") or die "Error storing avatar: $!";
+}
+
+sub files_in_stash {
+	my ($self) = @_;
+	my $dh;
+	my $dir = $self->avatar_stash_directory;
+	if (-d $dir) {
+		opendir $dh, $dir;
+		return sort { -M $b <=> -M $a } grep { -f $_ } map { file($dir, $_)->stringify } readdir $dh;
+	}
+	return undef;
+}
+
+sub reload_stash {
+	my ($self) = @_;
+	my @stash;
+	my @files = $self->files_in_stash;
+	return unless @files;
+	for my $file (@files) {
+		(my $basename = $file) =~ s/.*\/(.*)/$1/;
+		next unless $basename;
+		(my $name = $basename) =~ s/\./_/g;
+		push @stash, { name => $name, avatar_id => $basename, media_url => file($self->stash_url, $basename)->stringify }
+	}
+	return @stash or undef;
+}
+
+sub set_avatar {
+	my ($self) = @_;
+	$self->delete_avatar if (-f $self->avatar_filename . "_delete" );
+	my @files = $self->files_in_stash;
+	return unless @files;
+	$self->store_avatar($files[-1]);
+	$self->generate_thumbs;
+	unlink @files;
+}
+
+sub queue_delete_avatar {
+	my ($self, $filename) = @_;
+	return unless $filename;
+	if ($filename eq 'current') {
+		open my $fh, '>', $self->avatar_filename . '_delete';
+	}
+	else {
+		my $file = file($self->avatar_stash_directory, $filename)->stringify;
+		unlink $file if (-f $file);
+	}
+}
+
+sub delete_avatar {
+	my ($self) = @_;
+	my $avatar = $self->avatar_filename;
+	unlink("$avatar") if (-f "$avatar");
+	for my $size ( qw/delete 16 32 48 64 80/ ) {
+		unlink ("${avatar}_$size") if (-f "${avatar}_$size");
+	}
+}
+
+sub stash_avatar {
+	my ($self, $avatar) = @_;
+	my $destination = file($self->avatar_stash_directory({mkpath => 1}), $avatar->filename)->stringify;
+	return 0 if (-f "$destination");
+	copy($avatar->tempname, "$destination") or die "Error stashing avatar";
 }
 
 sub public_username {

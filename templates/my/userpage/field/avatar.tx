@@ -1,0 +1,46 @@
+<div id="avatar" class="dropzone">
+    <div class="dz-message">
+        <span class="dz-message__icon"><i class="icon-camera"></i></span>
+        <span class="dz-message__text">(Upload your avatar)</span>
+    </div>
+</div>
+
+<script type="text/javascript">
+    new Dropzone("#avatar", {
+        url: "<: $u('My::Userpage','index') :>",
+        paramName: 'avatar',
+        maxFilesize: '1',
+        parallelUploads: 1,
+        uploadMultiple: 0,
+        addRemoveLinks: true,
+        acceptedFiles: 'image/*',
+        removedfile: function(file) {
+            $.post(
+                "<: $u('My::Userpage','index') :>",
+                { delete_avatar: 1,
+                  filename : file.avatar_id,
+                },
+                function() {
+                    file.previewElement.remove();
+                }
+            ).fail(function(){
+                alert('Delete failed');
+            });
+        },
+        init: function() {
+            <: for $avatars -> $avatar { :>
+                var <: $avatar.name :> = {
+                    name: "<: $avatar.name :>",
+                    media_url: "<: $avatar.media_url :>",
+                    avatar_id: "<: $avatar.avatar_id :>",
+                };
+                this.options.addedfile.call(this, <: $avatar.name :> );
+                this.options.thumbnail.call(this, <: $avatar.name :>, '<: $avatar.media_url :>');
+            <: } :>
+            this.on("success", function(file, response) {
+              file.avatar_id = response.avatar_id;
+            });
+        },
+    })
+</script>
+

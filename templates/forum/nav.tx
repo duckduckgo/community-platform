@@ -11,7 +11,7 @@
 				<a href="<: $u('Forum',d().config.forums[$i].url) :>" class="button" title="<: d().config.forums[$i].name :>">
 			<: } :>
 					<: if d().config.forums[$i].button_img { :>
-						<img src="<: d().config.forums[$i].button_img :>">
+						<img class="buttonimg" src="<: d().config.forums[$i].button_img :>">
 					<: } else {
 						d().config.forums[$i].button_text
 					} :>

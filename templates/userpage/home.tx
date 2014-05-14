@@ -18,9 +18,6 @@
 			<: } :>
 		</div>
 		<div class="body">			
-			<: include 'userpage/twothird/field.tx' { field => $fields.about,
-				description => "About"
-			} :>
 			<: include 'userpage/twothird/field.tx' { field => $fields.whyddg,
 				description => "Why DuckDuckGo?"
 			} :>			
