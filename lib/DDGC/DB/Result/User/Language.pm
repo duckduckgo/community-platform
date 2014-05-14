@@ -54,6 +54,17 @@ column updated => {
 	set_on_update => 1,
 };
 
+sub translation_count {
+	my ($self) = @_;
+	return $self->schema->resultset('Token::Language::Translation')->search(
+		{   'me.username' => $self->user->username,
+		}
+	)->search_related('token_language')->search_related('token_domain_language')->search_related('language',
+		{   'language.id' =>$self->language->id,
+		}
+	)->count;
+}
+
 #belongs_to 'user', 'DDGC::DB::Result::User', 'users_id';
 belongs_to 'user', 'DDGC::DB::Result::User', { 'foreign.username' => 'self.username' };
 belongs_to 'language', 'DDGC::DB::Result::Language', 'language_id';
