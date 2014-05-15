@@ -157,7 +157,17 @@ sub suggest : Chained('base') Args(0) {
     return unless length $c->req->params->{q};
 
     $c->stash->{not_last_url} = 1;
-    $c->stash->{x} = $c->d->forum->search_engine->suggest($c->req->params->{q});
+
+    # I hate "this is a hack" code and comments, so forgive me when I say...
+    # This is a hack to filter out suggestions from not General Ramblings.
+    my $result = $c->d->forum->search_engine->suggest($c->req->params->{q});
+    my @non_general_thread_ids = $c->d->rs('Thread')->search(
+      { forum => { '!=' => $c->d->config->id_for_forum('general') } },
+      { cache_for => 120 }
+    )->get_column('id')->all;
+    @{$result} = grep { !($_->{uri} ~~ @non_general_thread_ids) } @{$result};
+
+    $c->stash->{x} = $result;
     $c->forward($c->view('JSON'));
 }
 

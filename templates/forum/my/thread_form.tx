@@ -50,7 +50,7 @@
                 row.className = 'row';
                 row.style.textOverflow = 'ellipsis';
                 row.style.overflow = 'hidden';
-                a.href = "../thread/" + r.uri;
+                a.href = "../../thread/" + r.uri;
                 a.textContent = r.title;
                 row.appendChild(a);
                 row.innerHTML += ' - ' + r.summary.slice(0,130);
