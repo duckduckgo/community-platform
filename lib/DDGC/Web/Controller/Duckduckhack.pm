@@ -50,7 +50,7 @@ sub fetch_doc {
     my $http_content = $response->decoded_content;
     my $scraper = scraper {
       process "#duckduckhack-body", doc => "HTML";
-      process "title", title => "HTML";
+      process "title", title => "TEXT";
     };
     my $res = $scraper->scrape($http_content);
     $content = $res->{doc};
