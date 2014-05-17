@@ -74,12 +74,12 @@ sub suggest_instant {[
 
 sub suggest_idea {[
   {
-    description => "View our Help Docs to see if it's already covered at: https://dukgo.com/help",
+    description => "View our Help Docs to see if it's already covered at: https://duck.co/help",
     icon => "search", type => "link",
     link => ['Help','index','en_US'],
   },
   {
-    description => "Check our forum to see if someone is currently discussing your idea: https://dukgo.com/forum",
+    description => "Check our forum to see if someone is currently discussing your idea: https://duck.co/forum",
     icon => "convo", type => "link",
     link => ['Forum','index'],
   },
