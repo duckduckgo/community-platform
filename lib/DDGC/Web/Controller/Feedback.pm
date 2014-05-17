@@ -11,6 +11,8 @@ use DDGC::Feedback::Config::Feature;
 use DDGC::Feedback::Config::Love;
 use DDGC::Feedback::Config::NoLove;
 use DDGC::Feedback::Config::Suggest;
+use DDGC::Feedback::Config::Partner;
+
 
 use namespace::autoclean;
 
@@ -35,6 +37,9 @@ sub feedback :Chained('base') :PathPart('') :CaptureArgs(1) {
   if ($feedback eq 'bug') {
     $c->stash->{feedback_config} = DDGC::Feedback::Config::Bug->feedback;
     $c->stash->{feedback_title} = DDGC::Feedback::Config::Bug->feedback_title;
+  } elsif ($feedback eq 'partner') {
+    $c->stash->{feedback_config} = DDGC::Feedback::Config::Partner->feedback;
+    $c->stash->{feedback_title} = DDGC::Feedback::Config::Partner->feedback_title;
   } elsif ($feedback eq 'relevancy') {
     $c->stash->{feedback_config} = DDGC::Feedback::Config::Relevancy->feedback;
     $c->stash->{feedback_title} = DDGC::Feedback::Config::Relevancy->feedback_title;
