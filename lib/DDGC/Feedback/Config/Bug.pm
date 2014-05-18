@@ -17,7 +17,7 @@ sub feedback {[
 
 sub bug_mobile {[
   { description => "The bug is in the DuckDuckGo app", icon => "dax" },
-      bug_site_area(\&bug_mobile_thirdparty),
+      bug_site_area(\&bug_mobile_app),
   { description => "The bug is with DuckDuckGo in a 3rd party app or mobile browser (e.g. Safari, iCab, Dolphin)", icon => "ddg-phone" },
       bug_site_area(\&bug_mobile_thirdparty),
 ]}
@@ -31,6 +31,17 @@ sub bug_mobile_thirdparty {[
       bug_mobile_thirdparty_windows(),
   { description => "I have a different type of mobile device than those listed above", icon => "phone" },
       bug_mobile_thirdparty_other(),
+]}
+
+sub bug_mobile_app {[
+  { description => "I have an iOS device", icon => "apple" },
+      bug_mobile_app_ios(),
+  { description => "I have an Android device", icon => "android" },
+      bug_mobile_app_android(),
+  { description => "I have a Windows mobile device", icon => "windows8" },
+      bug_mobile_app_windows(),
+  { description => "I have a different type of mobile device than those listed above", icon => "phone" },
+      bug_mobile_app_other(),
 ]}
 
 sub bug_desktop {[
@@ -119,6 +130,26 @@ sub bug_mobile_thirdparty_windows {[
 sub bug_mobile_thirdparty_other {[
   { name => 'other_mobile', description => 'My device is a', type => "text", placeholder => "e.g. Blackberry Z10, Kivo tablet", icon => "phone" },
   include_bug_app(),
+  include_bug(),
+]}
+
+sub bug_mobile_app_android {[
+  { name => 'android_mobile', description => 'My device is a', type => "text", placeholder => "e.g. Samsung Galaxy S3, HTC One", icon => "android" },
+  include_bug(),
+]}
+
+sub bug_mobile_app_ios {[
+  { name => 'ios_mobile', description => 'My device is a', type => "text", placeholder => "e.g. Apple iPhone 5, iPad", icon => "apple" },
+  include_bug(),
+]}
+
+sub bug_mobile_app_windows {[
+  { name => 'windows_mobile', description => 'My device is a', type => "text", placeholder => "e.g. Nokia Lumia 1020, Microsoft Surface Pro", icon => "windows8" },
+  include_bug(),
+]}
+
+sub bug_mobile_app_other {[
+  { name => 'other_mobile', description => 'My device is a', type => "text", placeholder => "e.g. Blackberry Z10, Kivo tablet", icon => "phone" },
   include_bug(),
 ]}
 
