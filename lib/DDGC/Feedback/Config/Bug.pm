@@ -8,11 +8,18 @@ sub feedback_title { 'I need to report a bug!' }
 
 sub feedback {[
   { description => "It's a bug on mobile (e.g. phone, tablet, media device)", icon => "phone" },
-      bug_site_area(\&bug_mobile_thirdparty),
+      bug_mobile(),
   { description => "It's a bug on Desktop (good ole' fashion computers)", icon => "browser" },
       bug_desktop(),
   { description => "It's a security issue", icon => "bug" },
       bug_security(),
+]}
+
+sub bug_mobile {[
+  { description => "The bug is in the DuckDuckGo app", icon => "dax" },
+      bug_site_area(\&bug_mobile_thirdparty),
+  { description => "The bug is with DuckDuckGo in a 3rd party app or mobile browser (e.g. Safari, iCab, Dolphin)", icon => "ddg-phone" },
+      bug_site_area(\&bug_mobile_thirdparty),
 ]}
 
 sub bug_mobile_thirdparty {[
@@ -116,6 +123,7 @@ sub bug_mobile_thirdparty_other {[
 ]}
 
 sub bug_security {[
+  { description => "We appreciate you helping to make DuckDuckGo a safer place. Please tell us about the issue below:", type => "info", icon => "newspaper" },
   { name => 'bug', description => "The security issue is", placeholder => "Please describe the issue in as much detail as possible.", type => "textarea", icon => "bug",},
   { name => 'email', description => "Your email (not required)", placeholder => "We'd like to get back to you, but you can leave this blank.", type => "email", icon => "inbox", optional => 1 },
   { name => 'hearabout', description => "Where did you hear about DuckDuckGo?", type => "text", icon => "dax", optional => 1 },
@@ -145,7 +153,7 @@ sub include_browser_linux { include_browser( name => "linux", placeholder => "e.
 sub include_browser_other { include_browser( name => "other", placeholder => "e.g. Nintendo DS Browser", icon => "browser" ) }
 
 sub include_bug_desktop {
-  include_bug("Other helpful info (e.g. Did you disable JavaScript? Do you use any custom DuckDuckGo settings? Do you have any other addons installed to your browser?)");
+  include_bug("Other helpful info (e.g. Do you use any custom DuckDuckGo settings? Do you have any other addons installed to your browser? Did you disable JavaScript?)");
 }
 
 sub bug_desktop_site_windows {[
