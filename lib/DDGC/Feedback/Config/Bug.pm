@@ -38,10 +38,6 @@ sub bug_mobile_app {[
       bug_mobile_app_ios(),
   { description => "I have an Android device", icon => "android" },
       bug_mobile_app_android(),
-  { description => "I have a Windows mobile device", icon => "windows8" },
-      bug_mobile_app_windows(),
-  { description => "I have a different type of mobile device than those listed above", icon => "phone" },
-      bug_mobile_app_other(),
 ]}
 
 sub bug_desktop {[
