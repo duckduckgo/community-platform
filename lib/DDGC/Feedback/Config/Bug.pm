@@ -81,7 +81,7 @@ sub bug_site_area {
     $next->(),
   { description => "It's an issue with Products", icon => "search" },
     $next->(),
-  { description => "It's an issue with Autocomplete", icon => "search" },
+  { description => "It's an issue with Autosuggest", icon => "search" },
     $next->(),
   { description => "It's not related to any of these", icon => "search" },
     $next->(),
