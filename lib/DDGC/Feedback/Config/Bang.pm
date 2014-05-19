@@ -4,12 +4,10 @@ package DDGC::Feedback::Config::Bang;
 use strict;
 use warnings;
 
-sub feedback_title { 'I’d like to submit a new !bang or report a broken !bang.' }
+sub feedback_title { 'I’d like to submit a new !bang.' }
 
 sub feedback {[
-  { description => 'To submit new <a href="https://duckduckgo.com/bang.html">!bangs</a>, use this page: <a href="https://duckduckgo.com/newbang">https://duckduckgo.com/newbang</a>.', type => "info", icon => "newspaper" },
-  { description => 'Let us know about a broken !bang', icon => "bang" },
-    broken_bang(),
+  { description => "To submit new <a href='https://duckduckgo.com/bang.html'>!bangs</a> or help us fix broken !bangs, fill out the form on this page with the correct !bang: <a href='https://duckduckgo.com/newbang'>https://duckduckgo.com/newbang</a>.", type => "info", icon => "newspaper" },
 ]}
 
 sub broken_bang {[

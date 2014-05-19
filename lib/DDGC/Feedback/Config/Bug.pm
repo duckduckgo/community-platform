@@ -11,29 +11,38 @@ sub feedback {[
       bug_mobile(),
   { description => "It's a bug on Desktop (good ole' fashion computers)", icon => "browser" },
       bug_desktop(),
+  { description => "It's a security issue", icon => "bug" },
+      bug_security(),
 ]}
 
 sub bug_mobile {[
   { description => "The bug is in the DuckDuckGo app", icon => "dax" },
-      "Please report the bug through the DuckDuckGo app by going to the Settings menu --&gt; Give Feedback. That way you don't have to type out your app version and details!",
+      bug_site_area(\&bug_mobile_app),
   { description => "The bug is with DuckDuckGo in a 3rd party app or mobile browser (e.g. Safari, iCab, Dolphin)", icon => "ddg-phone" },
-      bug_mobile_thirdparty(),
+      bug_site_area(\&bug_mobile_thirdparty),
 ]}
 
 sub bug_mobile_thirdparty {[
-  { description => "I have an Android device", icon => "android" },
-      bug_mobile_thirdparty_android(),
   { description => "I have an iOS device", icon => "apple" },
       bug_mobile_thirdparty_ios(),
+  { description => "I have an Android device", icon => "android" },
+      bug_mobile_thirdparty_android(),
   { description => "I have a Windows mobile device", icon => "windows8" },
       bug_mobile_thirdparty_windows(),
   { description => "I have a different type of mobile device than those listed above", icon => "phone" },
       bug_mobile_thirdparty_other(),
 ]}
 
+sub bug_mobile_app {[
+  { description => "I have an iOS device", icon => "apple" },
+      bug_mobile_app_ios(),
+  { description => "I have an Android device", icon => "android" },
+      bug_mobile_app_android(),
+]}
+
 sub bug_desktop {[
   { description => "It’s a problem with the DuckDuckGo site", icon => "dax" },
-      bug_desktop_site(),
+      bug_site_area(\&bug_desktop_site),
   { description => "It’s a problem with a DuckDuckGo browser addon", icon => "ddg-browser" },
       bug_desktop_addon(),
 ]}
@@ -62,6 +71,22 @@ sub bug_desktop_addon {[
       bug_desktop_addon_opera(),
 ]}
 
+sub bug_site_area {
+  my ($next) = @_; [
+  { description => "It's an issue with Images", icon => "search" },
+    $next->(),
+  { description => "It's an issue with Videos", icon => "search" },
+    $next->(),
+  { description => "It's an issue with Places", icon => "search" },
+    $next->(),
+  { description => "It's an issue with Products", icon => "search" },
+    $next->(),
+  { description => "It's an issue with Autocomplete", icon => "search" },
+    $next->(),
+  { description => "It's not related to any of these", icon => "search" },
+    $next->(),
+]}
+
 
 #-----------------------------------------------------------------
 
@@ -70,6 +95,7 @@ sub include_bug {
   { name => 'email', description => "Your email (not required)", placeholder => "We'd like to get back to you, but you can leave this blank.", type => "email", icon => "inbox", optional => 1 },
   { name => 'bug_steps', description => "You can reproduce it by", type => "textarea", optional => 1, placeholder => "Step-by-step instructions please", icon => "coffee" },
   { name => 'bug_other', description => $_[0] || "Other helpful info", type => "textarea", optional => 1, placeholder => 'e.g. only happens when the moon is waxing and you have underwear on your head.', icon => "folder",},
+  { name => 'hearabout', description => "Where did you hear about DuckDuckGo?", type => "text", icon => "dax", optional => 1 },
   { name => 'submitreport', description => "Send", type => "submit", icon => "mail", cssclass => "fb-step--submit"},
 }
 
@@ -103,6 +129,34 @@ sub bug_mobile_thirdparty_other {[
   include_bug(),
 ]}
 
+sub bug_mobile_app_android {[
+  { name => 'android_mobile', description => 'My device is a', type => "text", placeholder => "e.g. Samsung Galaxy S3, HTC One", icon => "android" },
+  include_bug(),
+]}
+
+sub bug_mobile_app_ios {[
+  { name => 'ios_mobile', description => 'My device is a', type => "text", placeholder => "e.g. Apple iPhone 5, iPad", icon => "apple" },
+  include_bug(),
+]}
+
+sub bug_mobile_app_windows {[
+  { name => 'windows_mobile', description => 'My device is a', type => "text", placeholder => "e.g. Nokia Lumia 1020, Microsoft Surface Pro", icon => "windows8" },
+  include_bug(),
+]}
+
+sub bug_mobile_app_other {[
+  { name => 'other_mobile', description => 'My device is a', type => "text", placeholder => "e.g. Blackberry Z10, Kivo tablet", icon => "phone" },
+  include_bug(),
+]}
+
+sub bug_security {[
+  { description => "We appreciate you helping to make DuckDuckGo a safer place. Please tell us about the issue below:", type => "info", icon => "newspaper" },
+  { name => 'bug', description => "The security issue is", placeholder => "Please describe the issue in as much detail as possible.", type => "textarea", icon => "bug",},
+  { name => 'email', description => "Your email (not required)", placeholder => "We'd like to get back to you, but you can leave this blank.", type => "email", icon => "inbox", optional => 1 },
+  { name => 'hearabout', description => "Where did you hear about DuckDuckGo?", type => "text", icon => "dax", optional => 1 },
+  { name => 'submitreport', description => "Send", type => "submit", icon => "mail", cssclass => "fb-step--submit"},
+]}
+
 #-----------------------------------------------------------------
 
 sub include_os {
@@ -126,7 +180,7 @@ sub include_browser_linux { include_browser( name => "linux", placeholder => "e.
 sub include_browser_other { include_browser( name => "other", placeholder => "e.g. Nintendo DS Browser", icon => "browser" ) }
 
 sub include_bug_desktop {
-  include_bug("Other helpful info (e.g. Do you use any custom DuckDuckGo settings? Do you have any other addons installed to your browser?)");
+  include_bug("Other helpful info (e.g. Do you use any custom DuckDuckGo settings? Do you have any other addons installed to your browser? Did you disable JavaScript?)");
 }
 
 sub bug_desktop_site_windows {[
