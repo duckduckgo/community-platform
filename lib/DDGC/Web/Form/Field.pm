@@ -218,7 +218,7 @@ sub update_obj {
       if ($self->obj->can($update_func)) {
         return $self->obj->$update_func($self->new_value);
       }
-      return $self->obj->$update_func($self->new_value);
+      #return $self->obj->$func($self->new_value);
     }
   }
   die "can't update value without an obj";
