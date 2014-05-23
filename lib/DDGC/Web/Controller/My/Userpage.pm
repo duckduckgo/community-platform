@@ -27,10 +27,11 @@ sub base :Chained('/my/logged_in') :PathPart('userpage') :CaptureArgs(0) {
 	push @{$c->stash->{avatars}}, $c->user->reload_stash;
 
 	if ($c->req->param('avatar')) {
-		if (!$c->user->stash_avatar($c->req->uploads->{avatar})) {
+		my $stash = $c->user->stash_avatar($c->req->uploads->{avatar});
+		if (!$stash->{success}) {
 			$c->res->code(400);
 			$c->stash->{x} = {
-				error => "A file with this name has already been uploaded",
+				error => $stash->{msg},
 			};
 			return $c->forward('View::JSON');
 		}

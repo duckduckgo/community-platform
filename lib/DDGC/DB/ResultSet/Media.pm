@@ -5,7 +5,6 @@ use Moose;
 extends 'DDGC::DB::Base::ResultSet';
 use Digest::MD5 qw( md5_hex );
 use Path::Class;
-use File::Copy;
 use URI;
 use LWP::Simple;
 use namespace::autoclean;
@@ -52,7 +51,7 @@ sub create_via_file {
   my $store_file = file($mediadir,$filename);
   my $store_dir = $store_file->dir;
   $store_dir->mkpath;
-  copy($file,$store_file->stringify) or die "Copy failed: $!";
+  $self->result_source->schema->ddgc->copy_image($file,$store_file->stringify) or die "Copy failed: $!";
   $args->{user} = $user;
   $args->{filename} = $filename;
   $args->{upload_filename} = file($file)->basename unless defined $args->{upload_filename};

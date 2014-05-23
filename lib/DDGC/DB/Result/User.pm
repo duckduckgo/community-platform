@@ -7,7 +7,6 @@ extends 'DDGC::DB::Base::Result';
 use DBIx::Class::Candy;
 use DDGC::User::Page;
 use Path::Class;
-use File::Copy;
 use IPC::Run qw/ run timeout /;
 use LWP::Simple qw/ is_success getstore /;
 use File::Temp qw/ tempfile /;
@@ -467,7 +466,7 @@ sub generate_thumbs {
 sub store_avatar {
 	my ($self, $file) = @_;
 	my $destination = ($self->avatar_filename({ mkpath => 1 }));
-	copy($file, "$destination") or die "Error storing avatar: $!";
+	$self->ddgc->copy_image($file, "$destination") or croak "Error storing avatar";
 }
 
 sub files_in_stash {
@@ -529,8 +528,9 @@ sub delete_avatar {
 sub stash_avatar {
 	my ($self, $avatar) = @_;
 	my $destination = file($self->avatar_stash_directory({mkpath => 1}), $avatar->filename)->stringify;
-	return 0 if (-f "$destination");
-	copy($avatar->tempname, "$destination") or die "Error stashing avatar";
+	return { success => 0, msg => 'A file with this name has already been uploaded' } if (-f "$destination");
+	$self->ddgc->copy_image($avatar->tempname, "$destination") or return { success => 0, msg => 'Error uploading image. Perhaps your file is corrupt.' };
+	return { success => 1 };
 }
 
 sub public_username {
