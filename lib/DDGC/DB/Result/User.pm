@@ -444,7 +444,7 @@ sub gravatar_to_avatar {
 		return 0;
 	}
 
-	$self->store_avatar($filename);
+	return unless $self->store_avatar($filename);
 	$self->generate_thumbs;
 }
 
@@ -466,6 +466,7 @@ sub generate_thumbs {
 sub store_avatar {
 	my ($self, $file) = @_;
 	my $destination = ($self->avatar_filename({ mkpath => 1 }));
+	return 0 unless ( -f $file );
 	$self->ddgc->copy_image($file, "$destination") or croak "Error storing avatar";
 }
 
@@ -499,7 +500,7 @@ sub set_avatar {
 	$self->delete_avatar if (-f $self->avatar_filename . "_delete" );
 	my @files = $self->files_in_stash;
 	return unless @files;
-	$self->store_avatar($files[-1]);
+	return unless $self->store_avatar($files[-1]);
 	$self->generate_thumbs;
 	unlink @files;
 }
