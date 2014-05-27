@@ -17,13 +17,13 @@ use DDGC::Help;
 use DDGC::Ideas;
 use DDGC::Util::DateTime;
 
-use File::Copy;
 use IO::All;
 use File::Spec;
 use File::ShareDir::ProjectDistDir;
 use Net::AIML;
 use Text::Xslate qw( mark_raw );
 use Class::Load qw( load_class );
+use IPC::Run qw/ run timeout /;
 use POSIX;
 use Cache::FileCache;
 use Cache::NullCache;
@@ -833,6 +833,13 @@ sub user_counts {
 	$self->cache->set('ddgc_user_counts',\%counts,"1 hour");
 
 	return \%counts;
+}
+
+sub copy_image {
+	my ( $self, $src, $dest ) = @_;
+	my ( $in, $out, $err );
+	run [ convert => ( "$src", "-strip", "$dest" ) ], \$in, \$out, \$err, timeout(20) or return 0;
+	return 1;
 }
 
 #
