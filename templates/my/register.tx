@@ -52,12 +52,16 @@
 		<form action="<: $u('My', 'register') :>" class="group" method="post">
 			<div class="account-items group">
 				<div class="half">
-					<label for="username" class="hide palm-block">Username</label>
-					<div class="input-wrap"><input type="text" placeholder="Your Username" title="Your Username" name="username" value="<: $username :>" class="text"/></div>
+					<label for="<: $c.session.username_field :>" class="hide palm-block">Username</label>
+					<div class="input-wrap"><input type="text" placeholder="Your Username" title="Your Username" name="<: $c.session.username_field :>" value="<: $username :>" class="text"/></div>
 				</div>
 				<div class="half">
 					<label for="email" class="hide palm-block">Email</label>
 					<div class="input-wrap"><input type="text" placeholder="Your Email (Optional)" title="Your Email (Optional)" value="<: $email :>" name="email" class="text" /></div>
+				</div>
+				<div class="emailagain">
+					<label for="emailagain" class="hide palm-block">If you see this, do not touch</label>
+					<div class="input-wrap"><input type="text" placeholder="Leave this alone" title="Leave this alone" value="" name="emailagain" class="text" /></div>
 				</div>
 				<div class="half">
 					<label for="password" class="hide palm-block">Password</label>
