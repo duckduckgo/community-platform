@@ -189,6 +189,12 @@ sub thread_id : Chained('thread_view') PathPart('thread') CaptureArgs(1) {
     $c->response->redirect($c->chained_uri('Forum','general',{ thread_notfound => 1 }));
     return $c->detach;
   }
+  if ($c->stash->{thread}->ghosted &&
+     ($c->stash->{thread}->checked || $c->stash->{thread}->comment->checked) &&
+     (!$c->user || (!$c->user->admin && $c->stash->{thread}->users_id != $c->user->id))) {
+    $c->response->redirect($c->chained_uri('Forum','general',{ thread_notfound => 1 }));
+    return $c->detach;
+  }
   $c->stash->{forum_index} = $c->stash->{thread}->forum;
   if ($c->stash->{thread}->forum eq $c->d->config->id_for_forum('special')) {
     if (!$c->user) {
