@@ -461,7 +461,7 @@ sub forgotpw :Chained('logged_out') :Args(0) {
 }
 
 sub register :Chained('logged_out') :Args(0) {
-		my ( $self, $c ) = @_;
+	my ( $self, $c ) = @_;
 	$c->stash->{not_last_url} = 1;
 
 	$c->stash->{page_class} = "page-signup";
@@ -471,9 +471,12 @@ sub register :Chained('logged_out') :Args(0) {
 
 	$c->stash->{no_login} = 1;
 
-	return $c->detach if !$c->req->params->{register};
+	if (!$c->req->params->{register}) {
+		$c->session->{username_field} = md5_hex(time x (int(rand(5))+1));
+		return $c->detach;
+	}
 
-	$c->stash->{username} = $c->req->params->{username};
+	$c->stash->{username} = $c->req->params->{$c->session->{username_field}};
 	$c->stash->{email} = $c->req->params->{email};
 
 	if (!$c->validate_captcha($c->req->params->{captcha})) {
@@ -493,7 +496,7 @@ sub register :Chained('logged_out') :Args(0) {
 		$error = 1;
 	}
 
-	if (!defined $c->req->params->{username} or $c->req->params->{username} eq '') {
+	if (!defined $c->req->params->{$c->session->{username_field}} or $c->req->params->{$c->session->{username_field}} eq '') {
 		$c->stash->{need_username} = 1;
 		$error = 1;
 	}
@@ -503,14 +506,14 @@ sub register :Chained('logged_out') :Args(0) {
 		$error = 1;
 	}
 
-	if ($c->req->params->{username} !~ /^[a-zA-Z0-9_\.]+$/) {
+	if ($c->req->params->{$c->session->{username_field}} !~ /^[a-zA-Z0-9_\.]+$/) {
 		$c->stash->{not_valid_chars} = 1;
 		$error = 1;
 	}
 
 	return $c->detach if $error;
 	
-	my $username = $c->req->params->{username};
+	my $username = $c->req->params->{$c->session->{username_field}};
 	my $password = $c->req->params->{password};
 	my $email = $c->req->params->{email};
 	
@@ -523,19 +526,22 @@ sub register :Chained('logged_out') :Args(0) {
 
 	return $c->detach if $error;
 
-	my $user = $c->d->create_user($username,$password);
+	# Skip actual account creation if this field is filled
+	unless ($c->req->params->{emailagain}) {
+		my $user = $c->d->create_user($username,$password);
 
-	if ($user) {
-		if ($email) {
-			$user->data({}) if !$user->data;
-			my $data = $user->data();
-			$data->{email} = $email;
-			$user->data($data);
-			$user->update;
+		if ($user) {
+			if ($email) {
+				$user->data({}) if !$user->data;
+				my $data = $user->data();
+				$data->{email} = $email;
+				$user->data($data);
+				$user->update;
+			}
+		} else {
+			$c->stash->{register_failed} = 1;
+			return $c->detach;
 		}
-	} else {
-		$c->stash->{register_failed} = 1;
-		return $c->detach;
 	}
 
 	$c->response->redirect($c->chained_uri('My','login',{ register_successful => 1, username => $username }));
