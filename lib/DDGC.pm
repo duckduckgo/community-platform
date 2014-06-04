@@ -394,6 +394,11 @@ sub _build_xslate {
 				mark_raw(substr($_[0],0,-2).'<i>'.substr($_[0],-2).'</i>')
 			},
 
+			hilight_token_placeholders => sub {
+				$_[0] =~ s{(%\d?[s|d])}{<span class="hilight-token">$1</span>}g;
+				return mark_raw($_[0]);
+			},
+
                         # String::Truncate's elide function
                         truncate => \&elide,
 
