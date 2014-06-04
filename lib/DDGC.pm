@@ -395,7 +395,7 @@ sub _build_xslate {
 			},
 
 			hilight_token_placeholders => sub {
-				$_[0] =~ s{(%\d?[s|d])}{<span class="hilight-token">$1</span>}g;
+				$_[0] =~ s{(%\d?\$?[s|d])}{<span class="hilight-token">$1</span>}g;
 				return mark_raw($_[0]);
 			},
 
