@@ -71,28 +71,34 @@ sub notify_cycle {
 					};
                                         my $err = $@;
 					if ($err) {
-						$c->d->postman->mail(
-							$c->d->config->error_email,
-							'"DuckDuckGo Community Envoy" <envoy@dukgo.com>',
-							'[DuckDuckGo Community] ERROR ON ENVOY',
-							$err,
-						);				
-					} else {
-						my @ids;
-						for (@{$c->stash->{unsent_notifications_results}}) {
-							for ($_->event_notifications) {
-								push @ids, $_->id;
-							}
+						eval {
+							$c->d->postman->mail(
+								$c->d->config->error_email,
+								'"DuckDuckGo Community Envoy" <envoy@dukgo.com>',
+								'[DuckDuckGo Community] ERROR ON ENVOY',
+								$err,
+							);
+						};
+						my $err_report = $@;
+						if ($err_report) {
+							$c->d->errorlog("ERROR ON ENVOY");
+							$c->d->errorlog($err);
+							$c->d->errorlog($err_report);
 						}
-						$c->d->rs('Event::Notification')->search({
-							id => { -in => \@ids },
-						})->update({ sent => 1 });
 					}
+					my @ids;
+					for (@{$c->stash->{unsent_notifications_results}}) {
+						for ($_->event_notifications) {
+							push @ids, $_->id;
+						}
+					}
+					$c->d->rs('Event::Notification')->search({
+						id => { -in => \@ids },
+					})->update({ sent => 1 });
 				});
 			}
 		});
 	}
-
 }
 
 __PACKAGE__->meta->make_immutable;
