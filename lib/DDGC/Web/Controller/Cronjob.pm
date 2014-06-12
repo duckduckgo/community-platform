@@ -7,6 +7,8 @@ use namespace::autoclean;
 use DDGC::Config;
 use DDGC::Util::DateTime;
 
+use Try::Tiny;
+
 BEGIN {extends 'Catalyst::Controller'; }
 
 sub base :Chained('/base') :PathPart('cronjob') :CaptureArgs(0) {
@@ -60,7 +62,7 @@ sub notify_cycle {
 				$c->d->as($user,sub {
 					$c->stash->{unsent_notifications_results} = [$user->unsent_notifications_cycle($cycle)->all];
 					$c->stash->{unsent_notifications_count} = scalar @{$c->stash->{unsent_notifications_results}};
-					eval {
+					try {
 						$c->d->postman->template_mail(
 							$user->data->{email},
 							'"DuckDuckGo Community Envoy" <envoy@dukgo.com>',
@@ -68,24 +70,25 @@ sub notify_cycle {
 							'notifications',
 							$c->stash,
 						);
-					};
-                                        my $err = $@;
-					if ($err) {
-						eval {
+					}
+					catch {
+						try {
+							$c->d->errorlog((caller(0))[3] . ":" . (caller(0))[2] . " - Mailing notifications to " .
+												$user->data->{email} . " failed, mailing " . $c->d->config->error_email);
 							$c->d->postman->mail(
 								$c->d->config->error_email,
 								'"DuckDuckGo Community Envoy" <envoy@dukgo.com>',
 								'[DuckDuckGo Community] ERROR ON ENVOY',
-								$err,
+								$_,
 							);
-						};
-						my $err_report = $@;
-						if ($err_report) {
-							$c->d->errorlog("ERROR ON ENVOY");
-							$c->d->errorlog($err);
-							$c->d->errorlog($err_report);
 						}
-					}
+						catch {
+							$c->d->errorlog((caller(0))[3] . ":" . (caller(0))[2] .
+									 " - Failed to mail error report about mailing " .
+									 $c->stash->{unsent_notifications_count} . " notifications to " .
+									 $user->data->{email});
+						};
+					};
 					my @ids;
 					for (@{$c->stash->{unsent_notifications_results}}) {
 						for ($_->event_notifications) {
@@ -104,3 +107,4 @@ sub notify_cycle {
 __PACKAGE__->meta->make_immutable;
 
 1;
+

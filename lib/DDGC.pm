@@ -670,8 +670,8 @@ sub as {
 }
 
 sub errorlog {
-	my ( $self, @data ) = @_;
-	io($self->config->errorlog)->append(Dumper(\@data));
+	my ( $self, $msg ) = @_;
+	io($self->config->errorlog)->append($msg);
 }
 
 sub update_password {
