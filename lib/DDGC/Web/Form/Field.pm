@@ -89,7 +89,7 @@ has base_validators => (
 
 has errors => (
   is => 'ro',
-  isa => 'ArrayRef[Str]'
+  isa => 'ArrayRef[Str]',
   default => sub {[]},
   lazy => 1,
 );
@@ -114,8 +114,8 @@ has all_validators => (
   lazy => 1,
   default => sub {
     my ( $self ) = @_;
-    my @defined_validators = @{$self->base_validators},@{$self->validators};
-    my @all_validators;
+    my @defined_validators = (@{$self->base_validators}, @{$self->validators});
+    my @all_validators = ();
     for my $validator (@defined_validators) {
       if (ref $validator eq '') {
         my $function = 'validate_'.$validator;
@@ -218,7 +218,6 @@ sub update_obj {
       if ($self->obj->can($update_func)) {
         return $self->obj->$update_func($self->new_value);
       }
-      return $self->obj->$func($self->new_value);
     }
   }
   die "can't update value without an obj";
@@ -250,7 +249,7 @@ has valid => (
         $valid = $self->error('May not be empty');
       }
       if ($self->new_is_notempty && $self->notempty) {
-        $empty_valid = $self->new_is_notempty;
+        $valid = $self->new_is_notempty;
       }
     } else {
       $valid = 0;

@@ -26,11 +26,11 @@ for (@{$ddgc->rs("User::Language")->search({},{
 
 if ($ddgc->config->prosody_running) {
   for (@{$ddgc->rs("User")->search({},{})->all}) {
-    my %xmpp_user_find = $self->xmpp->user($_->lc_username);
+    my %xmpp_user_find = $ddgc->xmpp->user($_->lc_username);
     unless (%xmpp_user_find) {
       print "Can't find user ".$_->lc_username." on XMPP\n";
     }
   }
 }
 
-exit 0
+exit 0;
