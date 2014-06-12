@@ -19,11 +19,11 @@
 			</tr>
 			<: if $_.user_notification_group.email_has_content && cur_user().email_notification_content { :>
 				<tr>
-					<td width="60" colspan="3">&nbsp;</td>
-					<td valign="top">
+					<td width="5" colspan="1">&nbsp;</td>
+					<td valign="top" colspan="4" width="100%">
 						<: i($_,$_.user_notification_group.type ~ '/email') :>
 					</td>
-					<td width="50" colspan="2" valign="top" align="left">&nbsp;</td>
+					<td width="5" colspan="1" valign="top" align="left">&nbsp;</td>
 				</tr>
 			<: } :>
 		</table>

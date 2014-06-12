@@ -543,7 +543,6 @@ sub template_styles {{
 		'border' => '1px solid #d7d7d7',
 		'border-left-width' => '6px',
 		'background-color' => '#ffffff',
-		'margin-right' => '60px',
 		'margin-top' => '-2px',
 		'padding' => '14px',
 	},
