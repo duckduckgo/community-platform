@@ -671,7 +671,7 @@ sub as {
 
 sub errorlog {
 	my ( $self, $msg ) = @_;
-	io($self->config->errorlog)->append($msg);
+	io($self->config->errorlog)->append($msg . "\n");
 }
 
 sub update_password {
