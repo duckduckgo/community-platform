@@ -73,7 +73,7 @@ sub notify_cycle {
 					}
 					catch {
 						try {
-							$c->d->errorlog((caller(0))[3] . ":" . (caller(0))[2] . " - Mailing notifications to " .
+							$c->d->errorlog("Mailing notifications to " .
 												$user->data->{email} . " failed, mailing " . $c->d->config->error_email);
 							$c->d->postman->mail(
 								$c->d->config->error_email,
@@ -83,8 +83,7 @@ sub notify_cycle {
 							);
 						}
 						catch {
-							$c->d->errorlog((caller(0))[3] . ":" . (caller(0))[2] .
-									 " - Failed to mail error report about mailing " .
+							$c->d->errorlog("Failed to mail error report about mailing " .
 									 $c->stash->{unsent_notifications_count} . " notifications to " .
 									 $user->data->{email});
 						};
