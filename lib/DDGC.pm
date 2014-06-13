@@ -31,6 +31,8 @@ use LWP::UserAgent;
 use Carp;
 use Data::Dumper;
 use String::Truncate 'elide';
+use feature qw/ state /;
+use Time::Piece;
 use namespace::autoclean;
 
 our $VERSION ||= '0.000';
@@ -671,7 +673,13 @@ sub as {
 
 sub errorlog {
 	my ( $self, $msg ) = @_;
-	io($self->config->errorlog)->append($msg . "\n");
+	state $counter = 0;
+	my $t = localtime;
+	my $log_id = $$ . $t->epoch . sprintf("%09d", ++$counter);
+	my ($package, $filename, $line) = caller(1);
+	my $log_line = "$log_id " . $t->datetime . " - $msg @ $filename:$line\n";
+	io($self->config->errorlog)->append($log_line);
+	return $log_id;
 }
 
 sub update_password {
