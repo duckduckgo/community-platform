@@ -89,7 +89,7 @@ sub upload :Chained('logged_in') :Args(0) {
 		$c->add_bc('Upload');
 		if (!$c->user) {
 			$c->res->code(403);
-			$c->d->errorlog((caller(0))[3] . ":" . (caller(0))[2] . " - No user");
+			$c->d->errorlog("No user");
 			$c->stash->{no_user} = 1;
 			return $c->detach;
 		}
@@ -104,12 +104,12 @@ sub upload :Chained('logged_in') :Args(0) {
 		} else {
 			$c->stash->{duckpan_error} = $return || "Let's just say something broke.";
 			$c->res->code(403);
-			$c->d->errorlog((caller(0))[3] . ":" . (caller(0))[2] . " - " . $c->stash->{duckpan_error});
+			$c->d->errorlog($c->stash->{duckpan_error});
 		}
 	};
 	if ($@) {
 		$c->res->code(403);
-		$c->d->errorlog((caller(0))[3]  . ":" . (caller(0))[2] . " - DuckPAN 403 - " . $@);
+		$c->d->errorlog("DuckPAN 403 - " . $@);
 		$c->stash->{duckpan_error} = $@;
 	}
 	if (defined $c->stash->{duckpan_error}) {
