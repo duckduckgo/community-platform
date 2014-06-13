@@ -24,15 +24,15 @@ sub base :Chained('/base') :PathPart('cronjob') :CaptureArgs(0) {
 }
 
 sub index :Chained('base') :PathPart('') :Args {
-	my ( $self, $c, @args ) = @_;
-	if ($args[0] eq 'notify_cycle') {
-		$self->notify_cycle($c,$args[1]);
+	my ( $self, $c, %args ) = @_;
+	if ($args{'notify_cycle'}) {
+		$self->notify_cycle($c,$args{'notify_cycle'}, $args{'scrub'});
 	}
 	$c->response->body('OK');
 }
 
 sub notify_cycle {
-	my ( $self, $c, $cycle ) = @_;
+	my ( $self, $c, $cycle, $skip_notify ) = @_;
 	$c->stash->{c} = $c;
 	$c->stash->{u} = sub {
 		my @args;
@@ -62,32 +62,34 @@ sub notify_cycle {
 				$c->d->as($user,sub {
 					$c->stash->{unsent_notifications_results} = [$user->unsent_notifications_cycle($cycle)->all];
 					$c->stash->{unsent_notifications_count} = scalar @{$c->stash->{unsent_notifications_results}};
-					try {
-						$c->d->postman->template_mail(
-							$user->data->{email},
-							'"DuckDuckGo Community Envoy" <envoy@dukgo.com>',
-							'[DuckDuckGo Community] '.$c->stash->{unsent_notifications_count}.' new notifications for you',
-							'notifications',
-							$c->stash,
-						);
-					}
-					catch {
+					unless ($skip_notify) {
 						try {
-							$c->d->errorlog("Mailing notifications to " .
-												$user->data->{email} . " failed, mailing " . $c->d->config->error_email);
-							$c->d->postman->mail(
-								$c->d->config->error_email,
+							$c->d->postman->template_mail(
+								$user->data->{email},
 								'"DuckDuckGo Community Envoy" <envoy@dukgo.com>',
-								'[DuckDuckGo Community] ERROR ON ENVOY',
-								$_,
+								'[DuckDuckGo Community] '.$c->stash->{unsent_notifications_count}.' new notifications for you',
+								'notifications',
+								$c->stash,
 							);
 						}
 						catch {
-							$c->d->errorlog("Failed to mail error report about mailing " .
-									 $c->stash->{unsent_notifications_count} . " notifications to " .
-									 $user->data->{email});
+							try {
+								$c->d->errorlog("Mailing notifications to " .
+													$user->data->{email} . " failed, mailing " . $c->d->config->error_email);
+								$c->d->postman->mail(
+									$c->d->config->error_email,
+									'"DuckDuckGo Community Envoy" <envoy@dukgo.com>',
+									'[DuckDuckGo Community] ERROR ON ENVOY',
+									$_,
+								);
+							}
+							catch {
+								$c->d->errorlog("Failed to mail error report about mailing " .
+										 $c->stash->{unsent_notifications_count} . " notifications to " .
+										 $user->data->{email});
+							};
 						};
-					};
+					}
 					my @ids;
 					for (@{$c->stash->{unsent_notifications_results}}) {
 						for ($_->event_notifications) {
