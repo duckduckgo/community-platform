@@ -13,19 +13,21 @@
 			<h2>Request new password</h2>
 			<: if $sentok { :>
 				<p class="notice success">
-					<i class="icn icon-ok"></i> An email has been sent to you in order to confirm.
+					<i class="icn icon-ok"></i>An email has been sent with instructions on how to reset your password.
 				</p>
 			<: } else { :>
-				<: if $wrong_user_or_wrong_email { :>
+				<: if $wrong_user { :>
 					<p class="notice error">
-						<i class="icn icon-warning-sign"></i>The username and/or email is incorrect. Please, try again.
+						<i class="icn icon-warning-sign"></i>This username is not registered.
+					</p>
+				<: } :>
+				<: if $no_email { :>
+					<p class="notice error">
+						<i class="icn icon-warning-sign"></i>There is no email address associated with this account. Your password cannot be reset.
 					</p>
 				<: } :>
 				<div class="third">
 					<div class="input-wrap"><input placeholder="Your Username" type="text" name="username" value="<: $forgotpw_username :>" /></div>
-				</div>
-				<div class="third">
-					<div class="input-wrap"><input placeholder="Your Email Address" type="text" name="email" value="<: $forgotpw_email :>" /></div>
 				</div>
 				<div class="sixth">
 					<div class="input-wrap"><input type="submit" name="requestpw" class="button submit" value="Submit" /></div>
