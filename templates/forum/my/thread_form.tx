@@ -63,7 +63,7 @@
     $(function(){
 
         new Dropzone("#screenshots", {
-            url: "<: if $thread.id { $u('Forum::My','edit',$thread.id, { thread_form_id => $thread_form_id }) } else { $u('Forum::My','newthread',$forum_index, { thread_form_id => $thread_form_id }) } :>",
+            url: "<: $u('Screenshot', 'manage', $thread_form_id ) :>",
             paramName: 'screenshot',
             maxFilesize: '2',
             addRemoveLinks: true,
@@ -71,7 +71,7 @@
             removedfile: function(file){
                 if (file.screenshot_id) {
                     $.post(
-                        "<: if $thread.id { $u('Forum::My','edit',$thread.id, { thread_form_id => $thread_form_id }) } else { $u('Forum::My','newthread',$forum_index, { thread_form_id => $thread_form_id }) } :>",
+                        "<: $u('Screenshot', 'manage', $thread_form_id ) :>",
                         { delete_screenshot: file.screenshot_id },
                         function(){
                             file.previewElement.remove();

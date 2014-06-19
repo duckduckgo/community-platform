@@ -60,51 +60,16 @@ sub thread_form {
 	$c->session->{thread_forms} = {} unless defined $c->session->{thread_forms};
 	$c->session->{thread_forms}->{$c->stash->{thread_form_id}} = {}
 		unless defined $c->session->{thread_forms}->{$c->stash->{thread_form_id}};
-	if ($c->req->param('screenshot')) {
-		my $upload = $c->req->uploads->{screenshot};
-		my $media = $c->d->rs('Media')->create_via_file($c->user->db, $upload->tempname,{
-			upload_filename => $upload->filename,
-			content_type => $upload->type
-		});
-		my $screenshot = $c->d->rs('Screenshot')->create({
-			media_id => $media->id,
-		});
-		$c->session->{thread_forms}->{$c->stash->{thread_form_id}}->{screenshots} = []
-			unless defined $c->session->{thread_forms}->{$c->stash->{thread_form_id}}->{screenshots};
-		push @{$c->session->{thread_forms}->{$c->stash->{thread_form_id}}->{screenshots}},
-			$screenshot->id;
-		$c->stash->{x} = {
-			screenshot_id => $screenshot->id,
-			media_url => $media->url,
-		};
-		$c->forward('View::JSON');
-	} elsif ($c->req->param('delete_screenshot')) {
-		my $delete_id = $c->req->param('delete_screenshot');
-		$c->stash->{x} = {
-			screenshot_id => $delete_id
-		};
-		my $screenshot = $c->d->rs('Screenshot')->find($delete_id);
-		$screenshot->media->delete
-			if $screenshot->media->users_id == $c->user->id || $c->user->admin;
-		my @old_ids = @{$c->session->{thread_forms}->{$c->stash->{thread_form_id}}->{screenshots}};
-		my @new_ids;
-		for (@old_ids) {
-			push @new_ids, $_ unless $_ == $delete_id;
-		}
-		$c->session->{thread_forms}->{$c->stash->{thread_form_id}}->{screenshots} = [@new_ids];
-		$c->forward('View::JSON');
-	} else {
-		my @screenshot_ids;
-		if (defined $c->session->{thread_forms}->{$c->stash->{thread_form_id}}->{screenshots}) {
-			@screenshot_ids = @{$c->session->{thread_forms}->{$c->stash->{thread_form_id}}->{screenshots}};
-		} elsif (defined $c->stash->{thread}) {
-			@screenshot_ids = $c->stash->{thread}->sorted_screenshots->ids;
-			$c->session->{thread_forms}->{$c->stash->{thread_form_id}}->{screenshots} = [@screenshot_ids];
-		}
-		$c->stash->{screenshots} = $c->d->rs('Screenshot')->search({
-			id => { -in => [@screenshot_ids] },
-		});
+	my @screenshot_ids;
+	if (defined $c->session->{thread_forms}->{$c->stash->{thread_form_id}}->{screenshots}) {
+		@screenshot_ids = @{$c->session->{thread_forms}->{$c->stash->{thread_form_id}}->{screenshots}};
+	} elsif (defined $c->stash->{thread}) {
+		@screenshot_ids = $c->stash->{thread}->sorted_screenshots->ids;
+		$c->session->{thread_forms}->{$c->stash->{thread_form_id}}->{screenshots} = [@screenshot_ids];
 	}
+	$c->stash->{screenshots} = $c->d->rs('Screenshot')->search({
+		id => { -in => [@screenshot_ids] },
+	});
 }
 
 sub thread : Chained('base') CaptureArgs(1) {
