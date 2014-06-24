@@ -57,7 +57,7 @@
 				</div>
 				<div class="half">
 					<label for="email" class="hide palm-block">Email</label>
-					<div class="input-wrap"><input type="text" placeholder="Your Email (Optional)" title="Your Email (Optional)" value="<: $email :>" name="email" class="text" /></div>
+					<div class="input-wrap"><input type="text" placeholder="Your Email (Optional - required for password recovery)" title="Your Email (Optional - required for password recovery)" value="<: $email :>" name="email" class="text" /></div>
 				</div>
 				<div class="emailagain">
 					<label for="emailagain" class="hide palm-block">If you see this, do not touch</label>
