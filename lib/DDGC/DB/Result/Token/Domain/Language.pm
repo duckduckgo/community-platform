@@ -255,9 +255,14 @@ sub search_tokens {
 
 sub untranslated_tokens {
 	my ( $self, $page, $pagesize ) = @_;
-	$self->_get_token_languages(1, $page, $pagesize, {
-		'token_language_translations.id' => undef,
-	},{
+	$self->_get_token_languages(1, $page, $pagesize,
+	{ 'token_language.id' => {
+			-not_in => $self->result_source->schema->resultset('Token::Language::Translation')->search({
+				check_result => '1',
+			})->get_column('token_language_id')->as_query,
+		},
+	},
+	{
 		join => 'token_language_translations',
 	});
 }

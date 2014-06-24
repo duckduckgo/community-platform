@@ -190,8 +190,14 @@ sub domain :Chained('logged_in') :PathPart('') :CaptureArgs(1) {
 	$c->stash->{token_domain_languages_rs} = $token_domain_language_rs->search({},{
 		'+columns' => {
 			token_languages_undone_count => $c->d->rs('Token::Language')->search({
-				'token_language_translations.id' => undef,
-				'undone_count.token_domain_language_id' => { -ident => 'me.id' },
+				-and => [
+					'undone_count.id' =>  { -not_in =>
+						$c->ddgc->rs('Token::Language::Translation')->search({
+							check_result => '1',
+						},)->get_column('token_language_id')->as_query,
+					},
+					'undone_count.token_domain_language_id' => { -ident => 'me.id' },
+				],
 			},{
 				join => 'token_language_translations', alias => 'undone_count'
 			})->count_rs->as_query,
