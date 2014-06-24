@@ -45,8 +45,8 @@ sub newthread : Chained('base') Args(1) {
 			$c->req->params->{content},
 			forum => $c->stash->{forum_index},
 			title => $c->req->params->{title},
-			defined $c->session->{thread_forms}->{$c->stash->{thread_form_id}}->{screenshots}
-				? ( screenshot_ids => $c->session->{thread_forms}->{$c->stash->{thread_form_id}}->{screenshots} )
+			defined $c->session->{thread_forms}->{$c->stash->{form_id}}->{screenshots}
+				? ( screenshot_ids => $c->session->{thread_forms}->{$c->stash->{form_id}}->{screenshots} )
 				: (),
 		);
 		$c->response->redirect($c->chained_uri(@{$thread->u}));
@@ -56,16 +56,16 @@ sub newthread : Chained('base') Args(1) {
 
 sub thread_form {
 	my ( $self, $c ) = @_;
-	$c->stash->{thread_form_id} = $c->req->param('thread_form_id') || $c->next_form_id;
+	$c->stash->{form_id} = $c->req->param('form_id') || $c->next_form_id;
 	$c->session->{thread_forms} = {} unless defined $c->session->{thread_forms};
-	$c->session->{thread_forms}->{$c->stash->{thread_form_id}} = {}
-		unless defined $c->session->{thread_forms}->{$c->stash->{thread_form_id}};
+	$c->session->{thread_forms}->{$c->stash->{form_id}} = {}
+		unless defined $c->session->{thread_forms}->{$c->stash->{form_id}};
 	my @screenshot_ids;
-	if (defined $c->session->{thread_forms}->{$c->stash->{thread_form_id}}->{screenshots}) {
-		@screenshot_ids = @{$c->session->{thread_forms}->{$c->stash->{thread_form_id}}->{screenshots}};
+	if (defined $c->session->{thread_forms}->{$c->stash->{form_id}}->{screenshots}) {
+		@screenshot_ids = @{$c->session->{thread_forms}->{$c->stash->{form_id}}->{screenshots}};
 	} elsif (defined $c->stash->{thread}) {
 		@screenshot_ids = $c->stash->{thread}->sorted_screenshots->ids;
-		$c->session->{thread_forms}->{$c->stash->{thread_form_id}}->{screenshots} = [@screenshot_ids];
+		$c->session->{thread_forms}->{$c->stash->{form_id}}->{screenshots} = [@screenshot_ids];
 	}
 	$c->stash->{screenshots} = $c->d->rs('Screenshot')->search({
 		id => { -in => [@screenshot_ids] },
@@ -108,8 +108,8 @@ sub edit : Chained('thread') Args(0) {
 				$c->stash->{thread}->comment->content($c->req->params->{content});
 				$c->stash->{thread}->comment->update;
 				my @screenshot_ids;
-				if (defined $c->session->{thread_forms}->{$c->stash->{thread_form_id}}->{screenshots}) {
-					@screenshot_ids = @{$c->session->{thread_forms}->{$c->stash->{thread_form_id}}->{screenshots}};
+				if (defined $c->session->{thread_forms}->{$c->stash->{form_id}}->{screenshots}) {
+					@screenshot_ids = @{$c->session->{thread_forms}->{$c->stash->{form_id}}->{screenshots}};
 				}
 				$c->stash->{thread}->screenshot_threads->search_rs({
 					screenshot_id => { -not_in => [@screenshot_ids] },

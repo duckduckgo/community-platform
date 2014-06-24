@@ -10,7 +10,7 @@
             <: } :>
             <form action="<: if $thread.id { $u('Forum::My','edit',$thread.id) } else { $u('Forum::My','newthread',$forum_index) } :>" method="POST">
                 <input type="hidden" name="action_token" value="<: $action_token :>">
-                <input type="hidden" name="thread_form_id" value="<: $thread_form_id :>"/>
+                <input type="hidden" name="form_id" value="<: $form_id :>"/>
                 <div class="input-wrap"><input autocomplete="off" value="<: $thread.title || $c.req.params.title :>" type="text" name="title" placeholder="Title" autofocus></input></div>
                 <div id="suggestions" class="group" style="white-space:nowrap"></div>
                 <div class="input-wrap"><textarea name="content" class="js-bbcode" placeholder="Body" rows="15"><: $thread.comment.content || $c.req.params.content :></textarea></div>
@@ -60,50 +60,6 @@
     }
 
     $('input[name="title"]').keypress(suggest);
-    $(function(){
-
-        new Dropzone("#screenshots", {
-            url: "<: $u('Screenshot', 'manage', $thread_form_id ) :>",
-            paramName: 'screenshot',
-            maxFilesize: '2',
-            addRemoveLinks: true,
-            acceptedFiles: 'image/*',
-            removedfile: function(file){
-                if (file.screenshot_id) {
-                    $.post(
-                        "<: $u('Screenshot', 'manage', $thread_form_id ) :>",
-                        { delete_screenshot: file.screenshot_id },
-                        function(){
-                            file.previewElement.remove();
-                        }
-                    ).fail(function(){
-                        alert('Delete failed');
-                    });
-                } else {
-                    file.previewElement.remove();
-                }
-            },
-            init: function() {
-
-                <: if $screenshots { :>
-                    <: for results($screenshots) -> $screenshot { :>
-                        var mockFile<: $screenshot.id :> = {
-                            name: "<: $screenshot.upload_filename :>",
-                            screenshot_id: <: $screenshot.id :>,
-                            media_url: "<: $screenshot.media.url :>",
-                        };
-                        this.options.addedfile.call(this, mockFile<: $screenshot.id :>);
-                        this.options.thumbnail.call(this, mockFile<: $screenshot.id :>, '<: $screenshot.media.url_thumbnail :>');
-                    <: } :>
-                <: } :>
-
-                this.on("success", function(file, response) {
-                    file.screenshot_id = response.screenshot_id;
-                    file.media_url = response.media_url;
-                });
-            }
-        });
-
-    });
 
 </script>
+<: i('screenshot') :>

@@ -1,0 +1,48 @@
+<script type="text/javascript">
+    $(function(){
+
+        new Dropzone("#screenshots", {
+            url: "<: $u('Screenshot', 'manage', $form_id ) :>",
+            paramName: 'screenshot',
+            maxFilesize: '2',
+            addRemoveLinks: true,
+            acceptedFiles: 'image/*',
+            removedfile: function(file){
+                if (file.screenshot_id) {
+                    $.post(
+                        "<: $u('Screenshot', 'manage', $form_id ) :>",
+                        { delete_screenshot: file.screenshot_id },
+                        function(){
+                            file.previewElement.remove();
+                        }
+                    ).fail(function(){
+                        alert('Delete failed');
+                    });
+                } else {
+                    file.previewElement.remove();
+                }
+            },
+            init: function() {
+
+                <: if $screenshots { :>
+                    <: for results($screenshots) -> $screenshot { :>
+                        var mockFile<: $screenshot.id :> = {
+                            name: "<: $screenshot.upload_filename :>",
+                            screenshot_id: <: $screenshot.id :>,
+                            media_url: "<: $screenshot.media.url :>",
+                        };
+                        this.options.addedfile.call(this, mockFile<: $screenshot.id :>);
+                        this.options.thumbnail.call(this, mockFile<: $screenshot.id :>, '<: $screenshot.media.url_thumbnail :>');
+                    <: } :>
+                <: } :>
+
+                this.on("success", function(file, response) {
+                    file.screenshot_id = response.screenshot_id;
+                    file.media_url = response.media_url;
+                });
+            }
+        });
+
+    });
+</script>
+
