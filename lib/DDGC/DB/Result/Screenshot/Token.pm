@@ -1,5 +1,5 @@
 package DDGC::DB::Result::Screenshot::Token;
-# ABSTRACT: A screenshot on a thread
+# ABSTRACT: A screenshot on a token
 
 use Moose;
 use MooseX::NonMoose;
@@ -8,9 +8,9 @@ use DBIx::Class::Candy;
 use DateTime::Format::RSS;
 use namespace::autoclean;
 
-table 'screenshot_thread';
+table 'screenshot_token';
 
-sub u { shift->thread->u(@_) }
+sub u { shift->token->u(@_) }
 
 column id => {
   data_type => 'bigint',

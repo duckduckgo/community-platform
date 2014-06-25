@@ -8,14 +8,14 @@
 	<div class="row">
 		<div class="token__label"><label>Term (Singular):</label></div>
 		<div class="token__content">			
-			<strong class="snippet__heading"><: $token_language.token.msgid :></strong>
+			<strong class="snippet__heading"><: hilight_token_placeholders($token_language.token.msgid) :></strong>
 			<: if !$token_language_page { :><a href="<: $u('Translate','tokenlanguage',$token_language.id) :>" class="button  light  pull-right">Discuss</a><: } :>
 		</div>	
 	<: if $token_language.token.msgid_plural { :>
 		<div class="row">
 			<div class="token__label"><label>Term (Plural):</label></div>
 			<div class="token__content">
-				<strong class="snippet__heading"><: $token_language.token.msgid_plural :></strong>
+				<strong class="snippet__heading"><: hilight_token_placeholders($token_language.token.msgid_plural) :></strong>
 			</div>
 		</div>
 	<: } :>

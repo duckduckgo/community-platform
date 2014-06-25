@@ -10,10 +10,19 @@ sub untranslated {
 	my ( $self, $token_domain_id, $language_id, $scalar_ignore_ids ) = @_;
 	my @ignore_ids = $scalar_ignore_ids ? @{$scalar_ignore_ids} : ();
 	$self->search({
-		'token_language_translations.id' => undef,
 		'token_domain_id' => $token_domain_id,
 		'language_id' => $language_id,
-		($self->me.'id') => { -not_in => \@ignore_ids },
+		-and => [
+			'me.id' => { -not_in => \@ignore_ids },
+			-or => [
+				'me.id' => { -not_in =>
+					$self->ddgc->rs('Token::Language::Translation')->search({
+						check_result => '1',
+					},)->get_column('token_language_id')->as_query,
+				},
+				fuzzy => 1,
+			],
+		],
 	},{
 		join => [ {
 			token_language_translations => 'token_language_translation_votes'

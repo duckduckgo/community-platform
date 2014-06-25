@@ -27,6 +27,7 @@ extends 'Catalyst';
 use DDGC::Config;
 use Class::Load ':all';
 use Digest::MD5 qw( md5_hex );
+use Data::UUID;
 
 use DDGC::Web::Wizard::Unvoted;
 use DDGC::Web::Wizard::Untranslated;
@@ -118,11 +119,7 @@ sub d {
 sub ddgc { shift->d(@_) }
 
 sub next_form_id {
-	my ( $c ) = @_;
-	my $last_id = $c->session->{last_form_id} || int(rand(1_000_000));
-	my $next_id = $last_id + int(rand(1_000));
-	$c->session->{last_form_id} = $next_id;
-	return $next_id;
+	Data::UUID->new->create_str;
 }
 
 sub set_new_action_token {

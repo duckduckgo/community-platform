@@ -81,6 +81,12 @@ column updated => {
 	set_on_update => 1,
 };
 
+column retired => {
+	data_type => 'tinyint',
+	is_nullable => 0,
+	default_value => 0,
+};
+
 belongs_to 'token_domain', 'DDGC::DB::Result::Token::Domain', 'token_domain_id';
 
 has_many 'token_languages', 'DDGC::DB::Result::Token::Language', 'token_id';

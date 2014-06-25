@@ -90,6 +90,12 @@ column updated => {
 	set_on_update => 1,
 };
 
+column fuzzy => {
+	data_type => 'tinyint',
+	is_nullable => 0,
+	default_value => 0,
+};
+
 belongs_to 'token', 'DDGC::DB::Result::Token', 'token_id', {
 	on_delete => 'cascade',
 };
