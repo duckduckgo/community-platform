@@ -829,6 +829,18 @@ sub find_user {
 	return $db_user;
 }
 
+sub find_user_by_email {
+	my ( $self, $email ) = @_;
+	return unless $email;
+	my $users = $self->db->resultset('User')->search_rs(
+		{ data => { like => "%$email%" } },
+	);
+	while (my $user = $users->next) {
+		return $user if $email eq $user->data->{email};
+	}
+	return undef;
+}
+
 sub user_counts {
 	my ( $self ) = @_;
 
