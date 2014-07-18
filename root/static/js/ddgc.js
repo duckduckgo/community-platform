@@ -12,8 +12,6 @@ $(document).ready(function() {
 		$('.token-submit').removeClass('js-hide');
 	});
 	
-	$('.js-bbcode').bbcode();
-	
   // $('textarea.bbcode-editor').sceditor({
   //   plugins: "bbcode",
   //   height: "200px",
@@ -645,81 +643,6 @@ $(document).ready(function() {
  
 });
 	
-(function($){
-	$.fn.bbcode = function(options){
-		// default settings
-		var options = $.extend({
-		  tag_bold: true,
-		  tag_italic: true,
-		  tag_underline: true,
-		  tag_link: true,
-		  tag_image: true,
-		  tag_code: true,
-		  button_icon: true
-		},options||{});
-		//  panel 
-		var text = '<div class="comment-controls  button-group">'
-		if(options.tag_bold){
-		  text = text + '<button class="button" title="Bold Text (Ctrl+B)" data-bbcode="b">';
-		  if(options.button_icon){
-			text = text + '<i class="icon-bold"></i>';
-		  }else{
-			text = text + 'Bold';
-		  }
-		  text = text + '</button>';
-		}
-		if(options.tag_italic){
-		  text = text + '<button class="button" title="Italic Text (Ctrl+I)" data-bbcode="i">';
-		  if(options.button_icon){
-			text = text + '<i class="icon-italic"></i>';
-		  }else{
-			text = text + 'Italic';
-		  }
-		  text = text + '</button>';
-		}
-		if(options.tag_underline){
-		  text = text + '<button class="button  palm-hide" title="Underline Text (Ctrl+U)" data-bbcode="u">';
-		  if(options.button_icon){
-			text = text + '<i class="icon-underline"></i>';
-		  }else{
-			text = text + 'Undescore';
-		  }
-		  text = text + '</button>';
-		}
-		if(options.tag_image){
-		  text = text + '<button class="button  palm-hide" title="Add an Image" data-bbcode="img">';
-		  if(options.button_icon){
-			text = text + '<i class="icon-picture"></i>';
-		  }else{
-			text = text + 'Image';
-		  }
-		  text = text + '</button>';
-		}
-		if(options.tag_link){
-		  text = text + '<button class="button" title="Add a Link" data-bbcode="url">';
-		  if(options.button_icon){
-			text = text + '<i class="icon-link"></i>';
-		  }else{
-			text = text + 'Link';
-		  }
-		  text = text + '</button>';
-		}
-		if(options.tag_code){
-		  text = text + '<button class="button  palm-hide" title="Add Example Code (Ctrl+ALT+DEL) --haha just hidding" data-bbcode="code">';
-		  if(options.button_icon){
-			text = text + '<i class="icon-code"></i>';
-		  }else{
-			text = text + 'Code';
-		  }
-		  text = text + '</button>';
-		}
-		text = text + '</div>';
-		
-		$(this).addClass('has-bbcode');
-		$(this).after(text);
-	}
-})(jQuery);
-
 /* random functions gogo */
 
 function showFormAddUserLanguage() {
