@@ -11,13 +11,11 @@ $(document).ready(function() {
 	$('.token-input').change(function(){
 		$('.token-submit').removeClass('js-hide');
 	});
-	
-  // $('textarea.bbcode-editor').sceditor({
-  //   plugins: "bbcode",
-  //   height: "200px",
-  //   toolbar: 'bold,italic,underline,color,removeformat|cut,copy,paste,pastetext|' +
-  //       'code,quote|image,email,link,unlink|date,time|ltr,rtl|maximize,source',
-  // });
+	$("textarea.has-bbcode").sceditor({
+		plugins: "bbcode",
+		style: "minified/jquery.sceditor.default.min.css",
+		toolbar: "bold,italic,underline|image,link,unlink|code|source",
+	});
 	
 	$('select.language_grade, select.language_select, select.js-select').select2({
 		placeholder: $(this).data('placeholder'),
