@@ -106,6 +106,9 @@ before insert => sub {
 	unless ($self->key) {
 		$self->key($self->get_url);
 	}
+	if ($self->user->ignore) {
+		$self->checked(32532); # Checked is a UID, this is johnthespamkiller
+	}
 };
 
 after insert => sub {
