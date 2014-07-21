@@ -130,6 +130,13 @@ sub idea_id : Chained('base') PathPart('idea') CaptureArgs(1) {
 		$c->response->redirect($c->chained_uri('Ideas','index',{ idea_notfound => 1 }));
 		return $c->detach;
 	}
+
+	if ($c->stash->{idea}->ghosted && $c->stash->{idea}->checked &&
+	   (!$c->user || (!$c->user->admin && $c->stash->{idea}->users_id != $c->user->id))) {
+		$c->response->redirect($c->chained_uri('Ideas','index',{ idea_notfound => 1 }));
+	}
+
+
 	$c->add_bc($c->stash->{idea}->title,$c->chained_uri(@{$c->stash->{idea}->u}));
 	$self->add_latest_ideas($c);
 }
