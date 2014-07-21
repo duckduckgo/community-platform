@@ -12,14 +12,30 @@
 	<div class="form-wrap account-form">
 		<form action="<: $u('My','forgotpw') :>" method="post" id="formForgotpw" class="my">
 			<h2>Request new password</h2>
+			<h5>Please provide your username OR email address</h5>
 			<: if $sentok { :>
 				<p class="notice success">
 					<i class="icn icon-ok"></i>An email has been sent with instructions on how to reset your password.
 				</p>
 			<: } else { :>
+				<: if $no_creds { :>
+					<p class="notice error">
+						<i class="icn icon-warning-sign"></i>Please provide a username OR password.
+					</p>
+				<: } :>
 				<: if $wrong_user { :>
 					<p class="notice error">
 						<i class="icn icon-warning-sign"></i>This username is not registered.
+					</p>
+				<: } :>
+				<: if $wrong_email { :>
+					<p class="notice error">
+						<i class="icn icon-warning-sign"></i>There is no user account with this email address.
+					</p>
+				<: } :>
+				<: if $not_matched { :>
+					<p class="notice error">
+						<i class="icn icon-warning-sign"></i>This username and email address do not match.
 					</p>
 				<: } :>
 				<: if $no_email { :>
@@ -29,6 +45,9 @@
 				<: } :>
 				<div class="third">
 					<div class="input-wrap"><input placeholder="Your Username" type="text" name="username" value="<: $forgotpw_username :>" /></div>
+				</div>
+				<div class="third">
+					<div class="input-wrap"><input placeholder="Your Email Address" type="text" name="email" value="<: $forgotpw_email :>" /></div>
 				</div>
 				<div class="sixth">
 					<div class="input-wrap"><input type="submit" name="requestpw" class="button submit" value="Submit" /></div>

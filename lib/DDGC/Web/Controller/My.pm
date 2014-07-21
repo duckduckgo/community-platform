@@ -82,7 +82,6 @@ sub login :Chained('logged_out') :Args(0) {
 			}
 			$c->stash->{username} = $c->req->params->{username};
 		}
-
 	}
 }
 
@@ -419,27 +418,48 @@ sub changepw :Chained('logged_in') :Args(0) {
 
 sub forgotpw :Chained('logged_out') :Args(0) {
 	my ( $self, $c ) = @_;
+	my $user;
 
 	$c->stash->{title} = 'Forgot password';
 		$c->add_bc($c->stash->{title}, '');
 
 	return $c->detach if !$c->req->params->{requestpw};
 
-	if ($c->req->params->{username} !~ /^[a-zA-Z0-9_\.]+$/) {
+	if ($c->req->params->{username} !~ /^[a-zA-Z0-9_\.]*$/) {
 		$c->stash->{not_valid_username} = 1;
 		return $c->detach;
 	}
 
 	$c->stash->{forgotpw_username} = lc($c->req->params->{username});
-	
-	my $user = $c->d->find_user($c->stash->{forgotpw_username});
+	$c->stash->{forgotpw_email} = $c->req->params->{email};
+
+	if (!$c->stash->{forgotpw_username} && !$c->stash->{forgotpw_email}) {
+		$c->stash->{no_creds} = 1;
+		return $c->detach;
+	}
+
+	if ($c->stash->{forgotpw_username}) {
+		$user = $c->d->find_user($c->stash->{forgotpw_username});
+		if ($c->stash->{forgotpw_email} && $user && $user->data && $c->stash->{forgotpw_email} ne $user->data->{email}) {
+			$c->stash->{not_matched} = 1;
+			return $c->detach;
+		}
+	}
+	else {
+		$user = $c->d->find_user_by_email($c->stash->{forgotpw_email});
+		if (!$user) {
+			$c->stash->{wrong_email} = 1;
+			return $c->detach;
+		}
+	}
+
 	if (!$user) {
 		$c->stash->{wrong_user} = 1;
-		return;
+		return $c->detach;
 	}
 	elsif (!$user->data || !$user->data->{email}) {
 		$c->stash->{no_email} = 1;
-		return;
+		return $c->detach;
 	}
 	
 	my $token = md5_hex(int(rand(99999999)));
