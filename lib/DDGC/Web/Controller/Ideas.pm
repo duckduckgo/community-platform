@@ -23,7 +23,7 @@ sub base :Chained('/base') :PathPart('ideas') :CaptureArgs(0) {
 
 sub add_latest_ideas {
 	my ( $self, $c ) = @_;
-	$c->stash->{latest_ideas} = $c->d->rs('Idea')->search_rs({},{
+	$c->stash->{latest_ideas} = $c->d->rs('Idea')->ghostbusted->search_rs({},{
 		order_by => { -desc => 'me.created' },
 		rows => 5,
 		page => 1,
