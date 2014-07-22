@@ -75,6 +75,28 @@ sub moderations : Chained('base') Args(0) {
     }
   }
 
+  if ($c->req->param('ignore_all_from_user') && $c->req->param('user_id')) {
+    my $user = $c->d->rs('User')->find($c->req->param('user_id'));
+    use DDP; p $c->req;
+    if ($user) {
+      $c->d->rs('Thread')->search_rs({
+          checked => undef, users_id => $c->req->param('user_id'),
+      })->update({ checked => 32532, ghosted => 1 });
+
+      $c->d->rs('Idea')->search_rs({
+          checked => undef, users_id => $c->req->param('user_id'),
+      })->update({ checked => 32532, ghosted => 1 });
+
+      $c->d->rs('Comment')->search_rs({
+          checked => undef, users_id => $c->req->param('user_id'),
+      })->update({ checked => 32532, ghosted => 1 });
+
+      $user->ignore(1);
+      $user->ghosted(1);
+      $user->update;
+    }
+  }
+
   unless ($c->req->param('json')) {
     $c->stash->{moderations} = [sort {
       $a->created <=> $b->created
