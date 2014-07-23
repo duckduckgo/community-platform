@@ -13,6 +13,7 @@
         <div class="notification__comment">
           <: i($moderation,'plaincontent') :>
         </div>
+	<form onsubmit="return confirm('This will remove all this user\'s posts from the moderation queue and ignore all their future posts, continue?');" action="<: $u('Forum::Admin','moderations') :>" method="POST">
         <div class="row  button-group">
           <a class="moderation__close button  lightblue" href="<: $u('Forum::Admin','moderations',{
             approve => $moderation.i_param,
@@ -35,7 +36,9 @@
 			<i class="icon icon-ban-circle"></i>
             Leave Invisible
           </a>
+          <input type="hidden" name="user_id" value="<: $moderation.user.id :>"><input type="submit" value="Ignore User / Clear Posts" class="button red submit" name="ignore_all_from_user" />
         </div>
+	</form>
       </div>
     <: } :>!
     <div class="row callout-row center">
