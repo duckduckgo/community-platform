@@ -79,17 +79,12 @@ sub moderations : Chained('base') Args(0) {
     my $user = $c->d->rs('User')->find($c->req->param('user_id'));
     use DDP; p $c->req;
     if ($user) {
-      $c->d->rs('Thread')->search_rs({
-          checked => undef, users_id => $c->req->param('user_id'),
-      })->update({ checked => 32532, ghosted => 1 });
 
-      $c->d->rs('Idea')->search_rs({
+      for my $contrib_type (qw/ Thread Idea Comment /) {
+        $c->d->rs( $contrib_type )->search_rs({
           checked => undef, users_id => $c->req->param('user_id'),
-      })->update({ checked => 32532, ghosted => 1 });
-
-      $c->d->rs('Comment')->search_rs({
-          checked => undef, users_id => $c->req->param('user_id'),
-      })->update({ checked => 32532, ghosted => 1 });
+        })->update({ checked => $c->user->id, ghosted => 1 });
+      }
 
       $user->ignore(1);
       $user->ghosted(1);
