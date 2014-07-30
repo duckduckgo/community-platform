@@ -1,7 +1,7 @@
 <:- my $img_path = $u('Root','index') ~ "static/img/badges/" -:>
 <:- my $img_class = "userbadge" -:>
 <:- if $_.admin { -:>
-	<img src="<: $img_path :>admin.png" class="<: $img_class :>" alt="Admin" title="Admin" />
+	<span class="<: $img_class :>  <: $img_class :>--txt" title="Admin">Staff</span>
 <:- } else if ($_.is('forum_manager') && $_.is('idea_manager')) || (($_.is('forum_manager') || $_.is('idea_manager')) && $_.is('translation_manager')) { -:>
 	<img src="<: $img_path :>leader.png" class="<: $img_class :>" alt="Community Leader" title="Community Leader" />
 <:- } else if $_.is('forum_manager') { -:>
