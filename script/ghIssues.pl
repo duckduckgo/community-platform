@@ -1,4 +1,4 @@
-#
+
 # Get the GH issues for DDG repos
 #
 use JSON;
@@ -10,6 +10,7 @@ my %json;
 # results to go into DB
 # |IA name|Repo|Issue#|title|Body|tags|created at|
 my @results;
+
 # the repos we care about
 my @repos = (
 	'zeroclickinfo-spice',
@@ -22,19 +23,23 @@ my @repos = (
 sub getIssues{
 	foreach my $repo (@repos){
 		$json->{$repo} = decode_json(`curl --silent https://api.github.com/repos/duckduckgo/$repo/issues?status=current`);
+		
 		# add all the data we care about to an array 
 		for my $issue ( @{$json->{$repo}} ){
+			
 			# get the IA name from the link in the first comment
 			# Update this later for whatever format we decide on
 			if($issue->{'body'} =~ /code:(\s)?http(s)?\:\/\/(.*)\/(.*)/i){
 				my $link = $4;
 			}
+			
 			# remove special chars from title and body
 			$issue->{'body'} =~ s/\'//g;
 			$issue->{'title'} =~ s/\'//g;
 
 			# get repo name
 			$repo =~ s/zeroclickinfo-//;
+			
 			# add entry to result array
 			my @entry = (
 				$link // 'null', 
@@ -64,6 +69,7 @@ sub updateDB{
 	$stmt = $dbh->prepare($sql);
 	$stmt->execute();
 
+	# insert
 	foreach (@results){
 		$sql = qq(insert into gh_issues values('@$_[0]','@$_[1]','@$_[2]','@$_[3]','@$_[4]','@$_[5]','@$_[6]'));
 		$stmt = $dbh->prepare($sql);
