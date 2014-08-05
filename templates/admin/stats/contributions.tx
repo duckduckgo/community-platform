@@ -1,0 +1,10 @@
+<pre>
+    Community platform stats up to <: $date :>
+
+    Contributors / Churn
+    --------------------
+
+    <: for $churn_stats -> $stat { :>
+        <: $stat.title :> : <: $stat.value :>
+    <: } :>
+</pre>
