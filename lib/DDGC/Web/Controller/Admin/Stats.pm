@@ -173,7 +173,7 @@ sub contributions :Chained('base') :Args(0) {
                 ($contribs, $period->{start}->ymd, $period->{end}->ymd, $context);
 
             push @{$c->stash->{"churn_stats_$hname"}}, {
-                title => "$context comment contributors from " .
+                title => _context_name->{$context} . " comment contributors from " .
                         $period->{start}->strftime('%d %B %Y')
                         . " to " . ($period->{end} - ONE_DAY)->strftime('%d %B %Y'),
                 value => scalar @b,
@@ -199,7 +199,7 @@ sub contributions :Chained('base') :Args(0) {
         @a = $self->unique_contributors_by_type
             ($contribs, $periods->[0]->{start}->ymd, $periods->[0]->{end}->ymd, $type);
         push @{$c->stash->{"churn_stats_$hname"}}, {
-            title => "$type contributors from " . $periods->[0]->{start}->strftime('%d %B %Y')
+            title => _contrib_name->{$type} . " contributors from " . $periods->[0]->{start}->strftime('%d %B %Y')
                      . " to " . ($periods->[0]->{end} - ONE_DAY)->strftime('%d %B %Y'),
             value => scalar @a,
         };
@@ -209,7 +209,7 @@ sub contributions :Chained('base') :Args(0) {
                 ($contribs, $period->{start}->ymd, $period->{end}->ymd, $type);
 
             push @{$c->stash->{"churn_stats_$hname"}}, {
-                title => "$type contributors from " . $period->{start}->strftime('%d %B %Y')
+                title => _contrib_name->{$type} . " contributors from " . $period->{start}->strftime('%d %B %Y')
                         . " to " . ($period->{end} - ONE_DAY)->strftime('%d %B %Y'),
                 value => scalar @b,
             };
@@ -221,7 +221,6 @@ sub contributions :Chained('base') :Args(0) {
             @a = @b;
         }
     }
-
 }
 
 no Moose;
