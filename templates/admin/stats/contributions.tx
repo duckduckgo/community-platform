@@ -1,10 +1,82 @@
 <pre>
-    Community platform stats up to <: $date :>
+    Community platform stats for <: $date :>
 
-    Contributors / Churn
-    --------------------
+    Contributors - Overall
+    ----------------------
 
     <: for $churn_stats -> $stat { :>
         <: $stat.title :> : <: $stat.value :>
     <: } :>
+
+    Contributors - Forum Threads
+    ----------------------------
+
+    <: for $churn_stats_Thread -> $stat { :>
+        <: $stat.title :> : <: $stat.value :>
+    <: } :>
+
+
+    Contributors - Ideas
+    --------------------
+
+    <: for $churn_stats_Idea -> $stat { :>
+        <: $stat.title :> : <: $stat.value :>
+    <: } :>
+
+
+    Contributors - Reports
+    ----------------------
+
+    <: for $churn_stats_User_Report -> $stat { :>
+        <: $stat.title :> : <: $stat.value :>
+    <: } :>
+
+
+    Contributors - Translation
+    --------------------------
+
+    <: for $churn_stats_Token_Language_Translation -> $stat { :>
+        <: $stat.title :> : <: $stat.value :>
+    <: } :>
+
+
+    Contributors - Translation Vote
+    -------------------------------
+
+    <: for $churn_stats_Token_Language_Translation_Vote -> $stat { :>
+        <: $stat.title :> : <: $stat.value :>
+    <: } :>
+
+
+    Contributors - Thread comments
+    ------------------------------
+
+    <: for $churn_stats_DDGC_DB_Result_Thread -> $stat { :>
+        <: $stat.title :> : <: $stat.value :>
+    <: } :>
+
+
+    Contributors - Idea comments
+    ------------------------------
+
+    <: for $churn_stats_DDGC_DB_Result_Idea -> $stat { :>
+        <: $stat.title :> : <: $stat.value :>
+    <: } :>
+
+
+    Contributors - Token comments
+    -----------------------------
+
+    <: for $churn_stats_DDGC_DB_Result_Token_Language -> $stat { :>
+        <: $stat.title :> : <: $stat.value :>
+    <: } :>
+
+
+    Contributors - Blog comments
+    ----------------------------
+
+    <: for $churn_stats_DDGC_DB_Result_User_Blog -> $stat { :>
+        <: $stat.title :> : <: $stat.value :>
+    <: } :>
+
 </pre>
