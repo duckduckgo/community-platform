@@ -47,7 +47,26 @@ sub unique_comment_contributors_by_context {
     uniq map  { $_->get_column('users_id') }
          grep { ( $_->created ge $start_date && $_->created lt $end_date && $_->context eq $context ) }
          @{$contribs->{comment}};
+}
 
+sub _context_name {
+    +{
+         'DDGC::DB::Result::Idea'               => 'Idea',
+         'DDGC::DB::Result::Thread'             => 'Thread',
+         'DDGC::DB::Result::Token::Language'    => 'Token',
+         'DDGC::DB::Result::User::Blog'         => 'Blog',
+    }
+}
+
+sub _contrib_name {
+    +{
+        'Thread'                                => 'Thread',
+        'Idea'                                  => 'Idea',
+        'User::Report'                          => 'Report',
+        'Token::Language::Translation'          => 'Translation',
+        'Token::Language::Translation::Vote'    => 'Translation vote',
+        'Idea::Vote'                            => 'Idea vote',
+    }
 }
 
 
@@ -56,11 +75,11 @@ sub contributions :Chained('base') :Args(0) {
     $c->add_bc('Community Platform Contributions');
     my $contribs;
     my $now = localtime;
-    my $month_start = Time::Piece->strptime(
-        $now->year . " " . $now->mon . " 1",
-        "%Y %m %d"
-    );
-    my @months_ago = ($month_start, map { $month_start->add_months(-$_) } (1..9));
+    my $periods = [
+        { start => $now - (ONE_DAY * 90),  end => $now },
+        { start => $now - (ONE_DAY * 180), end => $now - (ONE_DAY * 90) },
+    ];
+    my $created = $periods->[-1]->{start}->ymd;
 
     for my $contribtype ( qw/
         Idea::Vote
@@ -70,7 +89,7 @@ sub contributions :Chained('base') :Args(0) {
         @{$contribs->{$contribtype}} =
             $c->d->rs($contribtype)->search(
                 {
-                    created => { '>=' => $months_ago[9]->ymd },
+                    created => { '>=' => $created },
                 },
                 {   columns => [ qw/ created users_id / ] },
             )->all;
@@ -79,7 +98,7 @@ sub contributions :Chained('base') :Args(0) {
     @{$contribs->{'Token::Language::Translation'}} =
         $c->d->rs('Token::Language::Translation')->search_rs(
             {
-                'me.created' => { '>=' => $months_ago[9]->ymd },
+                'me.created' => { '>=' => $created },
             },
             {
                 select => [
@@ -102,7 +121,7 @@ sub contributions :Chained('base') :Args(0) {
         @{$contribs->{$contribtype}} =
             $c->d->rs($contribtype)->search_rs(
                 {
-                    created => { '>=' => $months_ago[7]->ymd },
+                    created => { '>=' => $created },
                     ghosted => 0,
                 },
                 {   columns => [ qw/ created users_id /,
@@ -110,24 +129,24 @@ sub contributions :Chained('base') :Args(0) {
             )->all;
     }
 
-    $c->stash->{date} = $month_start->strftime('%d %B %Y');
-    my @a = $self->unique_contributors($contribs, $months_ago[3]->ymd, $months_ago[0]->ymd);
+    $c->stash->{date} = $periods->[0]->{end}->strftime('%d %B %Y');
+    my @a = $self->unique_contributors
+            ($contribs, $periods->[0]->{start}->ymd, $periods->[0]->{end}->ymd);
     my @b;
     push @{$c->stash->{churn_stats}}, {
-        title => "Contributors from " . $months_ago[3]->strftime('%d %B %Y')
-                . " to " . ($months_ago[0] - ONE_DAY)->strftime('%d %B %Y'),
+        title => "Contributors from " . $periods->[0]->{start}->strftime('%d %B %Y')
+                . " to " . ( $periods->[0]->{end} - ONE_DAY)->strftime('%d %B %Y'),
         value => scalar @a,
     };
-    for (3, 6) {
-        @b = $self->unique_contributors($contribs, $months_ago[$_+3]->ymd, $months_ago[$_]->ymd);
+    for my $period (@{$periods}[1..$#$periods]) {
+        @b = $self->unique_contributors($contribs, $period->{start}->ymd, $period->{end}->ymd);
         push @{$c->stash->{churn_stats}}, {
-            title => "Contributors from " . $months_ago[$_+3]->strftime('%d %B %Y')
-                    . " to " . ($months_ago[$_] - ONE_DAY)->strftime('%d %B %Y'),
+            title => "Contributors from " . $period->{start}->strftime('%d %B %Y')
+                    . " to " . ($period->{end} - ONE_DAY)->strftime('%d %B %Y'),
             value => scalar @b,
         };
         push @{$c->stash->{churn_stats}}, {
-            title => "   ...not seen from " . $months_ago[$_]->strftime('%d %B %Y')
-                    . " to " . ($months_ago[$_-3] - ONE_DAY)->strftime('%d %B %Y'),
+            title => "  ...not seen in next 90 days",
             value => scalar $self->b_not_in_a(\@a, \@b),
         };
         @a = @b;
@@ -139,27 +158,29 @@ sub contributions :Chained('base') :Args(0) {
          DDGC::DB::Result::Token::Language
          DDGC::DB::Result::User::Blog
     /) {
+        (my $hname = $context) =~ s/::/_/g;
         @a = $self->unique_comment_contributors_by_context
-            ($contribs, $months_ago[3]->ymd, $months_ago[0]->ymd, $context);
-        push @{$c->stash->{churn_stats}}, {
-            title => "$context comment contributors from " . $months_ago[3]->strftime('%d %B %Y')
-                     . " to " . ($months_ago[0] - ONE_DAY)->strftime('%d %B %Y'),
+            ($contribs, $periods->[0]->{start}->ymd, $periods->[0]->{end}->ymd, $context);
+        push @{$c->stash->{"churn_stats_$hname"}}, {
+            title => _context_name->{$context} . " comment contributors from " .
+                    $periods->[0]->{start}->strftime('%d %B %Y')
+                    . " to " . ($periods->[0]->{end} - ONE_DAY)->strftime('%d %B %Y'),
             value => scalar @a,
         };
 
-        for (3, 6) {
+        for my $period (@{$periods}[1..$#$periods]) {
             @b = $self->unique_comment_contributors_by_context
-                ($contribs, $months_ago[$_+3]->ymd, $months_ago[$_]->ymd, $context);
+                ($contribs, $period->{start}->ymd, $period->{end}->ymd, $context);
 
-            push @{$c->stash->{churn_stats}}, {
-                title => "$context comment contributors from " . $months_ago[$_+3]->strftime('%d %B %Y')
-                        . " to " . ($months_ago[$_] - ONE_DAY)->strftime('%d %B %Y'),
+            push @{$c->stash->{"churn_stats_$hname"}}, {
+                title => "$context comment contributors from " .
+                        $period->{start}->strftime('%d %B %Y')
+                        . " to " . ($period->{end} - ONE_DAY)->strftime('%d %B %Y'),
                 value => scalar @b,
             };
 
-            push @{$c->stash->{churn_stats}}, {
-                title => "   ...not seen from " . $months_ago[$_]->strftime('%d %B %Y')
-                        . " to " . ($months_ago[$_-3] - ONE_DAY)->strftime('%d %B %Y'),
+            push @{$c->stash->{"churn_stats_$hname"}}, {
+                title => "  ...not making this type of comment in next 90 days",
                 value => scalar $self->b_not_in_a(\@a, \@b),
             };
             @a = @b;
@@ -174,28 +195,27 @@ sub contributions :Chained('base') :Args(0) {
         Token::Language::Translation::Vote
         Idea::Vote
     /) {
-
+        (my $hname = $type) =~ s/::/_/g;
         @a = $self->unique_contributors_by_type
-            ($contribs, $months_ago[3]->ymd, $months_ago[0]->ymd, $type);
-        push @{$c->stash->{churn_stats}}, {
-            title => "$type contributors from " . $months_ago[3]->strftime('%d %B %Y')
-                     . " to " . ($months_ago[0] - ONE_DAY)->strftime('%d %B %Y'),
+            ($contribs, $periods->[0]->{start}->ymd, $periods->[0]->{end}->ymd, $type);
+        push @{$c->stash->{"churn_stats_$hname"}}, {
+            title => "$type contributors from " . $periods->[0]->{start}->strftime('%d %B %Y')
+                     . " to " . ($periods->[0]->{end} - ONE_DAY)->strftime('%d %B %Y'),
             value => scalar @a,
         };
 
-        for (3, 6) {
+        for my $period (@{$periods}[1..$#$periods]) {
             @b = $self->unique_contributors_by_type
-                ($contribs, $months_ago[$_+3]->ymd, $months_ago[$_]->ymd, $type);
+                ($contribs, $period->{start}->ymd, $period->{end}->ymd, $type);
 
-            push @{$c->stash->{churn_stats}}, {
-                title => "$type contributors from " . $months_ago[$_+3]->strftime('%d %B %Y')
-                        . " to " . ($months_ago[$_] - ONE_DAY)->strftime('%d %B %Y'),
+            push @{$c->stash->{"churn_stats_$hname"}}, {
+                title => "$type contributors from " . $period->{start}->strftime('%d %B %Y')
+                        . " to " . ($period->{end} - ONE_DAY)->strftime('%d %B %Y'),
                 value => scalar @b,
             };
 
-            push @{$c->stash->{churn_stats}}, {
-                title => "   ...not seen from " . $months_ago[$_]->strftime('%d %B %Y')
-                        . " to " . ($months_ago[$_-3] - ONE_DAY)->strftime('%d %B %Y'),
+            push @{$c->stash->{"churn_stats_$hname"}}, {
+                title => "  ...not making this type of contribution in next 90 days",
                 value => scalar $self->b_not_in_a(\@a, \@b),
             };
             @a = @b;
