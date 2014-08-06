@@ -46,7 +46,7 @@ sub unique_comment_contributors_by_context {
     my ($self, $contribs, $start_date, $end_date, $context) = @_;
     uniq map  { $_->get_column('users_id') }
          grep { ( $_->created ge $start_date && $_->created lt $end_date && $_->context eq $context ) }
-         @{$contribs->{comment}};
+         @{$contribs->{Comment}};
 }
 
 sub _context_name {
