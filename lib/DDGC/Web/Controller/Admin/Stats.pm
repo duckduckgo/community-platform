@@ -44,9 +44,15 @@ sub unique_contributors_by_type {
 
 sub unique_comment_contributors_by_context {
     my ($self, $contribs, $start_date, $end_date, $context) = @_;
-    uniq map  { $_->get_column('users_id') }
-         grep { ( $_->created ge $start_date && $_->created lt $end_date && $_->context eq $context ) }
-         @{$contribs->{Comment}};
+    if ($context eq 'DDGC::DB::Result::Thread') {
+        return uniq map  { $_->get_column('users_id') }
+             grep { ( $_->created ge $start_date && $_->created lt $end_date &&
+             $_->context eq $context && ($_->parent_id) ) }
+             @{$contribs->{Comment}};
+     }
+     uniq map  { $_->get_column('users_id') }
+          grep { ( $_->created ge $start_date && $_->created lt $end_date && $_->context eq $context ) }
+          @{$contribs->{Comment}};
 }
 
 sub _context_name {
@@ -125,7 +131,7 @@ sub contributions :Chained('base') :Args(0) {
                     ghosted => 0,
                 },
                 {   columns => [ qw/ created users_id /,
-                    ($contribtype eq 'Comment')? 'context' : '' ] },
+                    ($contribtype eq 'Comment')? qw/ context parent_id / : '' ] },
             )->all;
     }
 
