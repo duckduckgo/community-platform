@@ -22,7 +22,7 @@ my $comments = $d->rs('Comment')->search_rs(
         ghosted     => 1,
         checked     => { '!=' => undef },
         created     => { '<' => format_datetime( DateTime->now - DateTime::Duration->new( hours => 1 ) )  },
-        parent_id   => { '!=' => undef },,
+        parent_id   => { '!=' => undef },
         context     => 'DDGC::DB::Result::Thread',
     },
     {},
@@ -30,7 +30,6 @@ my $comments = $d->rs('Comment')->search_rs(
 
 if (my $no_comments = $comments->count) {
     if ($doit) {
-        my $no_comments = $comments->count;
         $comments->delete;
         print "Deleted $no_comments comments\n";
     }
