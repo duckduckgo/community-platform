@@ -3,6 +3,7 @@ package DDGC::Web::Controller::Root;
 
 use Moose;
 use Path::Class;
+use POSIX qw(strftime);
 use namespace::autoclean;
 
 BEGIN { extends 'Catalyst::Controller' }
@@ -24,9 +25,22 @@ sub base :Chained('/') :PathPart('') :CaptureArgs(0) {
 
 	if ($c->user) {
 		my $t = $c->d->rs('Thread')->search( { forum => $c->d->config->id_for_forum('special') }, { order_by => { -desc => 'id' } } )->first;
-		if ( $t && !$c->user->seen_campaign_notice( $t->id ) ) {
-			$c->{stash}->{campaign_info}->{thread_id} = $t->id;
+		if ( $t && !$c->user->seen_campaign_notice( $t->id, 'thread' ) ) {
+			$c->{stash}->{campaign_info}->{campaign_id} = $t->id;
+			$c->{stash}->{campaign_info}->{campaign_source} = 'thread';
 			$c->{stash}->{campaign_info}->{link} = $c->chained_uri( @{$t->u}, { follow => 'forum_comments' } );
+		}
+
+		my $today = strftime "%Y-%m-%d", localtime;
+		my $campaigns = $c->d->config->campaigns;
+		for my $campaign (keys $campaigns) {
+			if ($campaigns->{$campaign}->{active} && $campaigns->{$campaign}->{expires} gt $today && !$c->user->seen_campaign_notice( $campaigns->{$campaign}->{id}, 'campaign', $campaigns->{$campaign}->{filter} ) ) {
+				$c->{stash}->{campaign_info}->{campaign_id} = $campaigns->{$campaign}->{id};
+				$c->{stash}->{campaign_info}->{campaign_notification_text} = $campaigns->{$campaign}->{notification};
+				$c->{stash}->{campaign_info}->{campaign_source} = 'campaign';
+				$c->{stash}->{campaign_info}->{link} = $campaigns->{$campaign}->{url};
+				last;
+			}
 		}
 	}
 
