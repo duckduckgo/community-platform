@@ -5,6 +5,7 @@ use Moose;
 use MooseX::NonMoose;
 extends 'DDGC::DB::Base::Result';
 use DBIx::Class::Candy;
+use HTML::Entities;
 use namespace::autoclean;
 
 table 'token_language';
@@ -151,8 +152,7 @@ sub gettext_snippet {
 sub gettext_escape {
 	my ( $self, $content ) = @_;
 	$content =~ s/\\/\\\\/g;
-#	$content =~ s/\n/\\n/g;
-	$content =~ s/"/\\"/g;
+	$content = HTML::Entities::encode_entities( $content, '<>&\'"' );
 	return $content;
 }
 
