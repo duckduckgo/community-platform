@@ -103,6 +103,10 @@ __PACKAGE__->config(
 		particle => [3000],
 		out => {force => 'jpeg'}
 	},
+	'Plugin::Session::State::Cookie' => {
+		cookie_secure   => 1,
+		cookie_httponly => 1,
+	},
 );
 
 sub localize {

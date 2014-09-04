@@ -13,7 +13,22 @@
 	position: relative;
 	top: 2px;
 }
-
+.userbadge--txt {
+	-moz-border-radius: 1em;
+	-webkit-border-radius: 1em;
+	border-radius: 1em;
+	background-color: #f0624d;
+	display: inline-block;
+	font-size: 10px;
+	max-width: 4em;
+	width: auto;
+	padding-left: 0.7em;
+	padding-right: 0.7em;
+	line-height: 1.5;
+	height: 1.5em;
+	color: #fff;
+	top: -1px;
+}
 
 /* SC Editor Fixes */
 

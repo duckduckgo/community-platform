@@ -865,10 +865,21 @@ Comment Forms
         left: 0;
         margin-left: 0;
     }
- 
+	
+	/* Admins have a lot of buttons... simplify it for them. */
+	.loggedin--admin .thread__foot a {
+		padding: 0 12px;
+	}
+	.loggedin--admin .thread__foot__txt {
+		display: none;
+	}
+	.loggedin--admin .thread__foot__icon {
+		left: 0;
+	}
+	
 }
 
-@media only screen and (max-width: 40em) {		
+@media only screen and (max-width: 40em) {
 	.forum-nav,
 	.head--forum .pager-wrap {
 		float: none;
