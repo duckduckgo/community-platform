@@ -111,6 +111,13 @@ sub comments_count {
 	            ( ( $self->context eq 'DDGC::DB::Result::Thread' ) ? -1 : 0 );
 }
 
+before insert => sub {
+	my ( $self ) = @_;
+	if ($self->user->ignore) {
+		$self->checked(32532); # Checked is a UID, this is johnthespamkiller
+	}
+};
+
 after insert => sub {
 	my ( $self ) = @_;
 	$self->user->add_context_notification('replies',$self);
