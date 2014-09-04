@@ -1,8 +1,13 @@
-
 # Get the GH issues for DDG repos
 #
+#
+use FindBin;
+use lib $FindBin::Dir . "/../lib";
 use JSON;
-use DBI;
+use DDGC;
+use Data::Dumper;
+
+my $d = DDGC->new;
 
 # JSON response from GH API
 my %json;
@@ -13,70 +18,67 @@ my @results;
 
 # the repos we care about
 my @repos = (
-	'zeroclickinfo-spice',
+    #'zeroclickinfo-spice',
 	'zeroclickinfo-goodies',
-	'zeroclickinfo-longtail',
-	'zeroclickinfo-fathead'
+    #'zeroclickinfo-longtail',
+    #'zeroclickinfo-fathead'
 );
 
-# get the GH issues 
+# get the GH issues
 sub getIssues{
 	foreach my $repo (@repos){
 		$json->{$repo} = decode_json(`curl --silent https://api.github.com/repos/duckduckgo/$repo/issues?status=current`);
-		
-		# add all the data we care about to an array 
+		# add all the data we care about to an array
 		for my $issue ( @{$json->{$repo}} ){
-			
-			# get the IA name from the link in the first comment
+
+            # get the IA name from the link in the first comment
 			# Update this later for whatever format we decide on
-			if($issue->{'body'} =~ /code:(\s)?http(s)?\:\/\/(.*)\/(.*)/i){
-				my $link = $4;
+			my $link = '';
+            if($issue->{'body'} =~ /http(s)?\:\/\/duckduckgo.com\/ia\/view\/(.*)/im){
+				$link = $2;
 			}
-			
 			# remove special chars from title and body
 			$issue->{'body'} =~ s/\'//g;
 			$issue->{'title'} =~ s/\'//g;
 
 			# get repo name
 			$repo =~ s/zeroclickinfo-//;
-			
+
 			# add entry to result array
 			my @entry = (
-				$link // 'null', 
-				$repo // 'null', 
-				$issue->{'number'} // 'null', 
-				$issue->{'title'} // 'null', 
-				$issue->{'body'} // 'null', 
-				$issue->{'tags'} // 'null', 
-				$issue->{'created_at'} // 'null'
+				$link || '',
+				$repo || '',
+				$issue->{'number'} || '',
+				$issue->{'title'} || '',
+				$issue->{'body'} || '',
+				encode_json($issue->{'labels'}) || '',
+				$issue->{'created_at'} || ''
 			);
-
 			push(@results, \@entry);
 		}
 	}
 }
 
 sub updateDB{
-	$dbh = DBI->connect('dbi:SQLite:github', 'root', '');
 
-	# drop table
-	$sql = 'drop table if exists gh_issues';
-	$stmt = $dbh->prepare($sql);
-	$stmt->execute();
-	
-	# create
-	$sql = 'create table gh_issues (name text, repo text, issue integer, title text, body text, tags text, created text)';
-	$stmt = $dbh->prepare($sql);
-	$stmt->execute();
+    $d->rs('InstantAnswer::Issues')->delete_all();
 
-	# insert
-	foreach (@results){
-		$sql = qq(insert into gh_issues values('@$_[0]','@$_[1]','@$_[2]','@$_[3]','@$_[4]','@$_[5]','@$_[6]'));
-		$stmt = $dbh->prepare($sql);
-		$stmt->execute();
-	}
+    foreach (@results){
+        if(@$_[0]){
 
-	$dbh->disconnect();
+            warn Dumper($_);
+
+		$d->rs('InstantAnswer::Issues')->create(
+            {
+                instant_answer_id => @$_[0],
+                repo => @$_[1],
+                issue_id => @$_[2],
+                title => @$_[3],
+                body => @$_[4],
+                tags => @$_[5],
+	        });
+        }
+    }
 }
 
 getIssues;
