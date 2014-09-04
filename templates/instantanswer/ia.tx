@@ -1,0 +1,141 @@
+<: # is this legal ? :>
+<style>
+    .iadata td {
+        padding-right:0.5em;
+        padding-left:0.5em;
+    }
+    .iadata li {
+        list-style:none;
+    }
+    .ia-single h3 {
+        margin-top: 1em;
+    }
+    .ia_topic {
+        border-radius: 2em;
+        background-color:#e0e0e0;
+        padding-left:1em;
+        padding-right:1em;
+    }
+    .ia_topic a {
+        color:black;
+    }
+</style>
+
+<div class="ia-single">
+<h2>
+<: $ia.name :>
+</h2>
+
+<p>
+<: $ia.description :>
+</p>
+
+<p>
+topics: 
+: for $ia_topics -> $t {
+    <span class="ia_topic"><a href="#" title="will be a link to all IAs in this topic"><: $t :></a></span>
+: }
+<br>
+related IAs: ...
+</p>
+
+<p>
+status: <a href="#" title="will link to all IAs of this status"><: $ia.status :></a><br>
+rank: x percentile of IAs &lt;fancy chart&gt;
+</p>
+
+<div>
+<img style="border:1px solid black" src="https://russell2.duckduckgo.com/meta/screenshots/<: $ia.id :>_desktop.png">
+</div>
+
+<!--
+<div>
+<img style="border:1px solid black" src="https://russell2.duckduckgo.com/meta/screenshots/<: $ia.id :>_mobile.png">
+</div>
+-->
+
+<h3>examples</h3>
+
+<div>
+<a href="https://duckduckgo.com/?q=<: $ia.example_query :>" title="try this example on DuckDuckGo"><: $ia.example_query :></a>
+: if $ia_other_queries {
+:     for $ia_other_queries -> $q {
+        <br>
+        <a href="https://duckduckgo.com/?q=<: $q :>" title="try this example on DuckDuckGo"><: $q :></a>
+:     }
+: }
+</div>
+
+<h3>issues</h3>
+
+<p>
+github issues if any.
+</p>
+
+<p>
+<a href="https://github.com/duckduckgo/zeroclickinfo-<:$ia.repo:>/issues/new?&title=issue+title&body=http%3A%2F%2Frussell2.duckduckgo.com%3A5000%2Fia%2Fview%2F<:$ia.id:>" title="Create a new issue for <:$ia.name:> on Github">Create new issue</a>
+</p>
+
+
+<h3>nuts &amp; bolts</h3>
+
+
+<table class="iadata">
+    <tr>
+        <td>id</td>
+        <td><: $ia.id :></td>
+    </tr>
+    <tr>
+        <td>topics</td>
+        <td>
+            : for $ia_topics -> $t {
+                <: $t :>
+            : }
+        </td>
+    </tr>
+
+    <tr>
+        <td>templates</td>
+        <td>
+            list of templates here, if any, or default for <: $ia.repo :>
+        </td>
+    </tr>
+
+    : if $ia.src_name {
+    <tr>
+        <td>Source</td>
+        <td>
+            <: $ia.src_name :>
+        </td>
+    </tr>
+    : }
+
+    : if $ia_code {
+    <tr>
+        <td>code</td>
+        <td>
+            <ul>
+            : for $ia_code -> $f {
+                <li><: $f :></li>
+            : }
+            </ul>
+        </td>
+    </tr>
+    : } # endif
+</table>
+
+<h3>credits</h3>
+
+<p>
+idea ..<br>
+designer ..<br>
+developers ..
+</p>
+
+<!--
+<pre>
+    <: $ia_pretty :>
+</pre>
+-->
+</div>
+
