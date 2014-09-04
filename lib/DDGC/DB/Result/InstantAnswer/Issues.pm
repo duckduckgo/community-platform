@@ -22,14 +22,17 @@ column issue_id => {
 
 column title => {
 	data_type => 'text',
+	is_nullable => 1,
 };
 
 column body => {
 	data_type => 'text',
+	is_nullable => 1,
 };
 
 column tags => {
 	data_type => 'text',
+	is_nullable => 1,
 };
 
 column repo => {
