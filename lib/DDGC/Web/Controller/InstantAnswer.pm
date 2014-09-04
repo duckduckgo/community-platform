@@ -37,7 +37,8 @@ sub ialist_json :Chained('base') :PathPart('json') :Args(0) {
                 id => $_->id,
                 repo => $_->repo,
                 dev_milestone => $_->dev_milestone,
-                perl_module => $_->perl_module
+                perl_module => $_->perl_module,
+                description => $_->description
             });
     }
 
@@ -80,9 +81,12 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
                 name => $ia->name,
                 id => $ia->id,
                 repo => $ia->repo,
+                example_query => $ia->example_query,
+                other_queries => $c->stash->{ia_other_queries},
                 dev_milestone => $ia->dev_milestone,
-                perl_module => $ia->perl_module
-
+                perl_module => $ia->perl_module,
+                code => $c->stash->{ia_code},
+                topic => $c->stash->{ia_topics}
     };
     $c->forward($c->view('JSON'));
 }
