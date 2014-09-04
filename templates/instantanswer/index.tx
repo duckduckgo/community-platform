@@ -1,1 +1,29 @@
-List of IAs
+<h2>Instant Answers</h2>
+
+<table>
+    : for $ialist -> $ia {
+
+        <tr>
+        <td style="width:20em;">
+        <a href="http://russell2.duckduckgo.com:5000/ia/view/<: $ia.id :>"><: $ia.name :></a>
+        </td>
+
+        <td>
+        <: $ia.description :>
+        </td>
+
+        <td style="padding-right: 1em">
+        <: $ia.dev_milestone :>
+        </td>
+
+        <td style="padding-right: 1em">
+        <: $ia.repo :>
+        </td>
+
+
+        </tr>
+
+    : }
+
+</table>
+
