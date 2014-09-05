@@ -18,10 +18,10 @@ my @results;
 
 # the repos we care about
 my @repos = (
-    #'zeroclickinfo-spice',
+    'zeroclickinfo-spice',
 	'zeroclickinfo-goodies',
-    #'zeroclickinfo-longtail',
-    #'zeroclickinfo-fathead'
+    'zeroclickinfo-longtail',
+    'zeroclickinfo-fathead'
 );
 
 # get the GH issues
@@ -34,8 +34,8 @@ sub getIssues{
             # get the IA name from the link in the first comment
 			# Update this later for whatever format we decide on
 			my $link = '';
-            if($issue->{'body'} =~ /http(s)?\:\/\/duckduckgo.com\/ia\/view\/(.*)/im){
-				$link = $2;
+            if($issue->{'body'} =~ /(http(s)?:\/\/(duck\.co|duckduckgo.com))?\/ia\/(view)?\/(.*)/im){
+				$link = $5;
 			}
 			# remove special chars from title and body
 			$issue->{'body'} =~ s/\'//g;
@@ -64,9 +64,7 @@ sub updateDB{
     $d->rs('InstantAnswer::Issues')->delete_all();
 
     foreach (@results){
-        if(@$_[0]){
-
-            warn Dumper($_);
+        if(@$_[0] and @$_[2]){
 
 		$d->rs('InstantAnswer::Issues')->create(
             {

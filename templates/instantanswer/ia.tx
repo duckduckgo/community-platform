@@ -31,7 +31,7 @@
 </p>
 
 <p>
-topics: 
+topics:
 : for $ia_topics -> $t {
     <span class="ia_topic"><a href="#" title="will be a link to all IAs in this topic"><: $t :></a></span>
 : }
@@ -71,6 +71,16 @@ rank: x percentile of IAs &lt;fancy chart&gt;
 <p>
 github issues if any.
 </p>
+
+: for $issues -> $i {
+    <h2>Issue id </h2> <: $i.issue_id :>
+    <br>
+    <h2>Title </h2> <: $i.title :>
+    <br>
+    <h2>Body </h2><: $i.body :>
+    <br>
+    <h2>Tags </h2><: $i.tags :>
+: }
 
 <p>
 <a href="https://github.com/duckduckgo/zeroclickinfo-<:$ia.repo:>/issues/new?&title=issue+title&body=http%3A%2F%2Frussell2.duckduckgo.com%3A5000%2Fia%2Fview%2F<:$ia.id:>" title="Create a new issue for <:$ia.name:> on Github">Create new issue</a>
