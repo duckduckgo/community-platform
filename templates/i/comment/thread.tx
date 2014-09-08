@@ -16,12 +16,12 @@
         </div>
     </div>
     <div class="thread__foot  group">      
-      <a href="#thread-comments"><i class="thread__foot__icon  icon-bubble"></i> <: $children_count :> Comment<: if $children_count != 1 { :>s<: } :></a>  
+      <a href="#thread-comments"><i class="thread__foot__icon  icon-bubble"></i> <: $children_count :><span class="thread__foot__txt"> Comment<: if $children_count != 1 { :>s<: } :></span></a>  
 	  <: if $c.user and $_.context == 'DDGC::DB::Result::Thread' { :>
         <: if $c.user.has_context_notification('forum_comments',$_.get_context_obj) { :>
-            <a href="<: $u($_.get_context_obj.u,{ unfollow => 'forum_comments' }) :>"><i class="thread__foot__icon  icon-eye-close"></i>Don't Follow</a>
+            <a href="<: $u($_.get_context_obj.u,{ unfollow => 'forum_comments' }) :>"><i class="thread__foot__icon  icon-eye-close"></i><span class="thread__foot__txt">Don't Follow</span></a>
         <: } else { :>
-            <a href="<: $u($_.get_context_obj.u,{ follow => 'forum_comments' }) :>"><i class="thread__foot__icon  icon-eye-open"></i>Follow</a>
+            <a href="<: $u($_.get_context_obj.u,{ follow => 'forum_comments' }) :>"><i class="thread__foot__icon  icon-eye-open"></i><span class="thread__foot__txt">Follow</span></a>
         <: } :>
       <: } :>
 	  
@@ -30,25 +30,25 @@
             <: if !$c.user.admin && $forum_index == d().config.id_for_forum('special') { :>
 		<: # we may put something here :>
             <: } else { :>
-                <a class="right  js-thread-reply  no-js-hide" href="#"><i class="thread__foot__icon  icon-reply"></i>Reply</a>
-                <a class="right  js-thread-cancel  no-js-hide  hide" href="#"><i class="thread__foot__icon  icon-remove"></i>Cancel</a>
+                <a class="right  js-thread-reply  no-js-hide" href="#"><i class="thread__foot__icon  icon-reply"></i><span class="thread__foot__txt">Reply</span></a>
+                <a class="right  js-thread-cancel  no-js-hide  hide" href="#"><i class="thread__foot__icon  icon-remove"></i><span class="thread__foot__txt">Cancel</span></a>
             <: } :>
         <: } :>
         <: if $c.user.admin and $_.context == 'DDGC::DB::Result::Thread' { :>
             <: if !$_.get_context_obj.readonly { :>
-                <a class="right" href="<: $u($_.u) :>?close=1"><i class="thread__foot__icon  icon-lock"></i> Close</a>
+                <a class="right" href="<: $u($_.u) :>?close=1"><i class="thread__foot__icon  icon-lock"></i><span class="thread__foot__txt"> Close</span></a>
             <: } else { :>
-                <a class="right" href="<: $u($_.u) :>?close=0"><i class="thread__foot__icon  icon-unlock"></i> Open</a>
+                <a class="right" href="<: $u($_.u) :>?close=0"><i class="thread__foot__icon  icon-unlock"></i><span class="thread__foot__txt">Open</span></a>
             <: } :>
             <: if !$_.get_context_obj.sticky { :>
-                <a class="right" href="<: $u($_.u) :>?sticky=1"><i class="thread__foot__icon  icon-pushpin"></i> Sticky</a>
+                <a class="right" href="<: $u($_.u) :>?sticky=1"><i class="thread__foot__icon  icon-pushpin"></i><span class="thread__foot__txt"> Sticky</span></a>
             <: } else { :>
-                <a class="right" href="<: $u($_.u) :>?sticky=0"><i class="thread__foot__icon  icon-pushpin"></i> Un-stick</a>
+                <a class="right" href="<: $u($_.u) :>?sticky=0"><i class="thread__foot__icon  icon-pushpin"></i><span class="thread__foot__txt"> Un-stick</span></a>
             <: } :>
         <: } :>
         <: if ($c.user.admin or $c.user.id == $_.user.id) { :>
-            <a class="right" href="<: $u($_.get_context_obj.u_delete) :>"><i class="thread__foot__icon  icon-trash"></i> Delete</a>
-            <a class="right" href="<: $u($_.get_context_obj.u_edit) :>"><i class="thread__foot__icon  icon-edit"></i> Edit</a>
+            <a class="right" href="<: $u($_.get_context_obj.u_delete) :>"><i class="thread__foot__icon  icon-trash"></i><span class="thread__foot__txt">Delete</span></a>
+            <a class="right" href="<: $u($_.get_context_obj.u_edit) :>"><i class="thread__foot__icon  icon-edit"></i><span class="thread__foot__txt">Edit</span></a>
         <: } :>
        </div>
     </div>

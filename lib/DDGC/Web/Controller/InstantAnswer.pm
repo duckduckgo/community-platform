@@ -1,6 +1,6 @@
 package DDGC::Web::Controller::InstantAnswer;
 # ABSTRACT: Instant Answer Pages
-
+use Data::Dumper;
 use Moose;
 use namespace::autoclean;
 
@@ -51,10 +51,11 @@ sub ialist_json :Chained('base') :PathPart('json') :Args(0) {
     $c->forward($c->view('JSON'));
 }
 
-sub ia_base :Chained('base') :PathPart('view') :CaptureArgs(1) {
+sub ia_base :Chained('base') :PathPart('view') :CaptureArgs(1) {  # /ia/view/calculator
 	my ( $self, $c, $answer_id ) = @_;
 
-	$c->stash->{ia} = $c->d->rs('InstantAnswer')->find($answer_id);
+    $c->stash->{ia} = $c->d->rs('InstantAnswer')->find($answer_id);
+    @{$c->stash->{issues}} = $c->d->rs('InstantAnswer::Issues')->search({instant_answer_id => $answer_id});
 
     use JSON;
     my $topics = $c->stash->{ia}->topic;

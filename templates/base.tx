@@ -9,7 +9,7 @@
 	<: include "head.tx" :>
 	<: include "scripts.tx" :>
 </head>
-<body class="<: $page_class :><: if $c.user { :> loggedin<: } :>">
+<body class="<: $page_class :><: if $c.user { :> loggedin<: if $c.user.admin || $c.user.is('forum_manager') { :> loggedin--admin<: } } :>">
 	<div id="wrapper">
 		<: include "header.tx" :>
 		<div class="site-main">
