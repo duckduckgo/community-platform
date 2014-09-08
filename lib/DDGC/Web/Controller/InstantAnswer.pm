@@ -31,14 +31,19 @@ sub ialist_json :Chained('base') :PathPart('json') :Args(0) {
     my @x = $c->d->rs('InstantAnswer')->all();
     my @ial;
 
+    use JSON;
+
     for (@x) {
+        my $topics = $_->topic;
         push (@ial, {
                 name => $_->name,
                 id => $_->id,
+                example_query => $_->example_query,
                 repo => $_->repo,
                 dev_milestone => $_->dev_milestone,
                 perl_module => $_->perl_module,
-                description => $_->description
+                description => $_->description,
+                topic => decode_json($topics) 
             });
     }
 
