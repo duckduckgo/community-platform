@@ -85,7 +85,49 @@
 		.translate-snippets .snippet .row.user-translation { padding-top: 0; }
 	.translate-snippets label { line-height: 30px; }
 	.translate-snippets .label, .token__label { float: left; width: 131px; }
-	.translate-snippets .label + div, .token__content { padding-left: 131px; }
+	.translate-snippets .label + div, .token__content { 
+		position: relative;
+		padding-left: 131px;
+	}
+	
+	.token__content__tooltip {
+		visibility: hidden;
+		position: absolute;
+		left: 131px;
+		top: 40px;
+		
+		height: 30px;
+		line-height: 30px;
+		
+		display: inline-block;
+		padding: 0 20px 0 13px;
+		font-weight: bold;
+		background: #444;
+		color: #fff;
+		
+		-moz-border-radius: 1em;
+		-webkit-border-radius: 1em;
+		border-radius: 1em;
+	}
+		.token__content__tooltip:before {
+			content: "";
+			position: absolute;
+			left: 20px;
+			top: -5px;
+			height: 0;
+			width: 0;
+			border: 5px solid transparent;
+			border-bottom-color: #444;
+			border-top-width: 0;
+		}
+		.token__content__tooltip .flag {
+			vertical-align: middle;
+			margin-right: 7px;
+			margin-top: -5px;
+		}
+		input:focus + .token__content__tooltip {
+			visibility: visible;
+		}
 	/*.snippet .row strong, */
     .snippet__heading { 
         display: inline-block; 

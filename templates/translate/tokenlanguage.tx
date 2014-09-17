@@ -1,6 +1,6 @@
 <div class="content-box translate-snippets">	
 	<div class="head">		
-		<h2><: $token_language.token_domain_language.token_domain.name :> in <: $token_language.token_domain_language.language.name_in_english :> &nbsp;&nbsp;<: i($token_language.token_domain_language.language,'flag') :></h2>
+		<h2><: $token_language.token_domain_language.token_domain.name :> in <: i($token_language.token_domain_language.language,'flag') :> <: $token_language.token_domain_language.language.name_in_english :></h2>
 	</div>
 	<div class="body">
 	  <form action="<: $u('Translate','tokenlanguage',$token_language.id) :>" method="post">
