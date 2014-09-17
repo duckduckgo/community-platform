@@ -99,7 +99,7 @@ sub write_flag_to {
 	run [ convert => (
 		$self->flag_source,
 		'-resize','512x320^',
-		'-gravity','NorthWest','-extent','512x320',
+		'-gravity','Center','-extent','512x320',
 		'-bordercolor','black','-border','2x2',
 		$self->subflag_source ? $tempflag1 : $filename
 	) ], \$in, \$out, \$err, timeout(10) or die "$err (error $?)";
@@ -113,7 +113,7 @@ sub write_flag_to {
 		$tempflag2
 	) ], \$in, \$out, \$err, timeout(10) or die "$err (error $?)";
 	run [ composite => (
-		'-gravity','SouthEast',
+		'-gravity','Center',
 		$tempflag2, $tempflag1, $filename
 	) ], \$in, \$out, \$err, timeout(10) or die "$err (error $?)";
 	return 1;
