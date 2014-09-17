@@ -124,6 +124,21 @@ sub gettext_snippet {
 	my ( $self, $fallback ) = @_;
 	my %vars;
 	my $msgstr_index_max = $self->token_domain_language->language->nplurals - 1;
+
+	if ($self->token_domain_language->language->locale eq 'en_US') {
+		$vars{msgid} = $self->gettext_escape($self->token->msgid);
+		$vars{msgctxt} = $self->gettext_escape($self->token->msgctxt) if $self->token->msgctxt;
+		if ($self->token->msgid_plural) {
+			$vars{msgid_plural} = $self->gettext_escape($self->token->msgid_plural);
+			$vars{'msgstr[0]'} = $self->gettext_escape($self->token->msgid);
+			$vars{'msgstr[1]'} = $self->gettext_escape($self->token->msgid_plural);
+		}
+		else {
+			$vars{msgstr} = $self->gettext_escape($self->token->msgid);
+		}
+		return "\n".$self->gettext_snippet_formatter(%vars);
+	}
+
 	if ($self->token->msgid_plural) {
 		for (0..$msgstr_index_max) {
 			my $func = 'msgstr'.$_;
