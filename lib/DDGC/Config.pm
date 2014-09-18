@@ -1,5 +1,5 @@
 package DDGC::Config;
-# ABSTRACT: DDGC main configuration file 
+# ABSTRACT: DDGC main configuration file
 
 use Moose;
 use File::Path qw( make_path );
@@ -274,7 +274,31 @@ sub id_for_forum {
 	return (grep { $forums->{$_}->{name} =~ m/$forum_name/i } keys $forums)[0];
 }
 
+sub campaign_config { $_[0]->campaigns->{$_[0]->campaign} }
+sub campaigns {
+	my ( $self ) = @_;
+	+{
+		share => {
+			id => 1,
+			active => 0,
+			url => '/share/',
+			notification => "Help share DuckDuckGo! Find out more...",
+		},
+		share_followup => {
+			id => 2,
+			active => 0,
+			url => '/share/',
+			notification => "Tell us how your friend got on with DuckDuckGo!",
+		}
+	}
+}
+sub id_for_campaign {
+	my ($self, $campaign) = @_;
+	return $self->campaigns->{$campaign}->id;
+}
+
 has_conf feedback_email => DDGC_FEEDBACK_EMAIL => 'support@duckduckgo.com';
 has_conf error_email => DDGC_ERROR_EMAIL => 'ddgc@duckduckgo.com';
 
 1;
+
