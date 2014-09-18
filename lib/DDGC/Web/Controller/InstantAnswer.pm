@@ -16,7 +16,9 @@ sub index :Chained('base') :PathPart('') :Args(0) {
 
     # my @x = $c->d->rs('InstantAnswer')->all();
     # $c->stash->{ialist} = \@x;
-    @{$c->stash->{ialist}} = $c->d->rs('InstantAnswer')->all();
+    $c->stash->{ia_page} = "index";
+
+    # @{$c->stash->{ialist}} = $c->d->rs('InstantAnswer')->all();
 }
 
 # this is just for testing

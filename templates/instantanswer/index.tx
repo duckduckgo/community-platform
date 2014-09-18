@@ -1,29 +1,29 @@
 <h2>Instant Answers</h2>
 
 <table>
-    : for $ialist -> $ia {
 
-        <tr>
-        <td style="width:20em;">
-        <a href="http://russell2.duckduckgo.com:5000/ia/view/<: $ia.id :>"><: $ia.name :></a>
-        </td>
+<thead style="border-bottom: 1px solid #CCC">
+<tr>
+<td> </td>
+<td>
+    <a id="sort_name">name</a>
+</td>
 
-        <td>
-        <: $ia.description :>
-        </td>
+<td>
+    <a id="sort_descr">description</a>
+</td>
+<td>
+    <a id="sort_status">stat</a>
+</td>
 
-        <td style="padding-right: 1em">
-        <: $ia.dev_milestone :>
-        </td>
+<td>
+    <a id="sort_repo">repo</a>
+</td>
+</tr>
+</thead>
 
-        <td style="padding-right: 1em">
-        <: $ia.repo :>
-        </td>
+<tbody id="ia_index">
 
-
-        </tr>
-
-    : }
+</tbody>
 
 </table>
-

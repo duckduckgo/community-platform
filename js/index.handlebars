@@ -1,0 +1,27 @@
+
+
+{{#each ia}}
+<tr>
+
+    <td style="width:2em; text-align:right; padding-right:1em;">
+        {{@index}}
+    </td>
+
+    <td style="width:20em;">
+        <a href="http://russell2.duckduckgo.com:5000/ia/view/{{id}}">{{name}}</a>
+    </td>
+
+    <td>
+        {{description}}
+    </td>
+
+    <td style="padding-right: 1em">
+        {{dev_milestone}}
+    </td>
+
+    <td style="padding-right: 1em">
+        {{repo}}
+    </td>
+
+</tr>
+{{/each}}
