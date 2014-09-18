@@ -1,0 +1,17 @@
+<div id="mailform2" class="hidden">
+    <div id="mailerr2" class="err"> </div>
+    <form id="mail2" method="POST" action="/share/respond">
+        How did you get your friend to switch to DuckDuckGo?<br />
+        <input type="text" name="question1"><br />
+        What did they most like about DuckDuckGo?<br />
+        <input type="text" name="question2"><br />
+        How long did it take them to switch?<br />
+        <select name="question3">
+            <option value="Less than a day">Less than a day</option>
+            <option value="About a week">About a week</option>
+            <option value="A few weeks">A few weeks</option>
+            <option value="A month">A month</option>
+        </select>
+        <input type="submit" name="submit" value="Submit">
+    </form>
+</div>
