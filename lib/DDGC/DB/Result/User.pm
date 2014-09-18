@@ -686,8 +686,47 @@ sub add_type_notification {
 }
 
 sub seen_campaign_notice {
-	my ( $self, $thread_id ) = @_;
-	return ( $self->schema->resultset('User::CampaignNotice')->find({ users_id => $self->id, thread_id => $thread_id }) )? 1 : 0;
+	my ( $self, $campaign, $campaign_source ) = @_;
+
+	my $result = $self->schema->resultset('User::CampaignNotice')->search( {
+		users_id => $self->id,
+		campaign_id => $self->ddgc->config->id_for_campaign($campaign),
+		campaign_source => $campaign_source,
+	}	);
+	use DDP; p $result;
+
+	return $result;
+}
+
+sub get_first_available_campaign {
+	my ($self) = @_;
+	my $campaigns = $self->ddgc->config->campaigns;
+	my $responded_share = $self->schema->resultset('User::CampaignNotice')->find( {
+			users_id => $self->id,
+			campaign_id => $self->ddgc->config->id_for_campaign('share'),
+			campaign_source => 'campaign',
+			responded => { '!=' => undef },
+	});
+	if ($responded_share) {
+		my $responded_share_30_days_ago = $self->schema->resultset('User::CampaignNotice')->find( {
+			users_id => $self->id,
+			campaign_id => $self->ddgc->config->id_for_campaign('share'),
+			campaign_source => 'campaign',
+			bad_response => 0,
+			responded => { '<' => "now() - interval '29 days'" },
+		} );
+p
+		my $responded_followup = $self->schema->resultset('User::CampaignNotice')->find( {
+			users_id => $self->id,
+			campaign_id => $self->ddgc->config->id_for_campaign('share_followup'),
+			campaign_source => 'campaign',
+			responded => { '!=' => undef },
+		} );
+		if ($responded_share_30_days_ago && !$responded_followup) {
+			return ($campaigns->{share_followup}->{active}) ? 'share_followup' : 0;
+		}
+	}
+	return ($campaigns->{share}->{active}) ? 'share' : 0;
 }
 
 sub check_password {
