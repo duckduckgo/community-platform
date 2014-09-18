@@ -24,22 +24,14 @@ sub base :Chained('/') :PathPart('') :CaptureArgs(0) {
 	$c->d->current_user($c->user) if $c->user;
 
 	if ($c->user) {
-		my $t = $c->d->rs('Thread')->search( { forum => $c->d->config->id_for_forum('special') }, { order_by => { -desc => 'id' } } )->first;
-		if ( $t && !$c->user->seen_campaign_notice( $t->id, 'thread' ) ) {
-			$c->{stash}->{campaign_info}->{campaign_id} = $t->id;
-			$c->{stash}->{campaign_info}->{campaign_source} = 'thread';
-			$c->{stash}->{campaign_info}->{link} = $c->chained_uri( @{$t->u}, { follow => 'forum_comments' } );
-		}
-
-		my $today = strftime "%Y-%m-%d", localtime;
-		my $campaigns = $c->d->config->campaigns;
-		for my $campaign (keys $campaigns) {
-			if ($campaigns->{$campaign}->{active} && $campaigns->{$campaign}->{expires} gt $today && !$c->user->seen_campaign_notice( $campaigns->{$campaign}->{id}, 'campaign', $campaigns->{$campaign}->{filter} ) ) {
-				$c->{stash}->{campaign_info}->{campaign_id} = $campaigns->{$campaign}->{id};
-				$c->{stash}->{campaign_info}->{campaign_notification_text} = $campaigns->{$campaign}->{notification};
-				$c->{stash}->{campaign_info}->{campaign_source} = 'campaign';
-				$c->{stash}->{campaign_info}->{link} = $campaigns->{$campaign}->{url};
-				last;
+		my $campaign = $c->user->get_first_available_campaign;
+		if ($campaign) {
+			if (!$c->user->seen_campaign_notice($campaign, 'campaign')) {
+				my $campaign_config = $c->d->config->campaigns->{$campaign};
+				$c->{stash}->{campaign_info}->{campaign_id} = $campaign_config->{id};
+				$c->{stash}->{campaign_info}->{campaign_name} = $campaign;
+				$c->{stash}->{campaign_info}->{link} = $campaign_config->{url};
+				$c->{stash}->{campaign_info}->{notification} = $campaign_config->{notification};
 			}
 		}
 	}
@@ -226,6 +218,12 @@ sub end : ActionClass('RenderView') {
 	}
 
 	$c->wiz_post_check;
+}
+
+sub share :Chained('base') :PathPart('share') :Args(0) {
+	my ( $self, $c ) = @_;
+	$c->stash->{no_breadcrumb} = 1;
+	
 }
 
 no Moose;
