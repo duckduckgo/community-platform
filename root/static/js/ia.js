@@ -10,7 +10,7 @@ function program1(depth0,data) {
   var buffer = "", stack1, helper;
   buffer += "\n<tr>\n\n    <td style=\"width:2em; text-align:right; padding-right:1em;\">\n        "
     + escapeExpression(((stack1 = (data == null || data === false ? data : data.index)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
-    + "\n    </td>\n\n    <td style=\"width:20em;\">\n        <a href=\"http://russell2.duckduckgo.com:5000/ia/view/";
+    + "\n    </td>\n\n    <!--<td style=\"width:20em;\">-->\n    <td>\n        <a href=\"http://russell2.duckduckgo.com:5000/ia/view/";
   if (helper = helpers.id) { stack1 = helper.call(depth0, {hash:{},data:data}); }
   else { helper = (depth0 && depth0.id); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
   buffer += escapeExpression(stack1)
@@ -19,6 +19,9 @@ function program1(depth0,data) {
   else { helper = (depth0 && depth0.name); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
   buffer += escapeExpression(stack1)
     + "</a>\n    </td>\n\n    <td>\n        ";
+  stack1 = helpers.each.call(depth0, (depth0 && depth0.topic), {hash:{},inverse:self.noop,fn:self.program(2, program2, data),data:data});
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "\n    </td>\n\n    <td>\n        ";
   if (helper = helpers.description) { stack1 = helper.call(depth0, {hash:{},data:data}); }
   else { helper = (depth0 && depth0.description); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
   buffer += escapeExpression(stack1)
@@ -31,6 +34,14 @@ function program1(depth0,data) {
   else { helper = (depth0 && depth0.repo); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
   buffer += escapeExpression(stack1)
     + "\n    </td>\n\n</tr>\n";
+  return buffer;
+  }
+function program2(depth0,data) {
+  
+  var buffer = "";
+  buffer += " <span class=\"ia_topic\">"
+    + escapeExpression((typeof depth0 === functionType ? depth0.apply(depth0) : depth0))
+    + "</span> ";
   return buffer;
   }
 
@@ -56,8 +67,8 @@ function program1(depth0,data) {
         sort_index: function(what) {
             console.log("sorting by %s, prev is %s", what, DDH.current_sort);
 
+            // reverse
             if (DDH.current_sort == what) {
-                console.log("reversing");
                 DDH.sort_asc = 1 - DDH.sort_asc;
             }
             else {
@@ -65,6 +76,8 @@ function program1(depth0,data) {
             }
 
             DDH.ia.sort(function(l,r) {
+
+                // sort direction
                 if (DDH.sort_asc) {
                     var a=l, b=r;
                 }
