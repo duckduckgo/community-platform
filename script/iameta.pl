@@ -14,7 +14,7 @@ use Term::ANSIColor;
 
 my $d = DDGC->new;
 
-my $meta = decode_json(io->file('meta13.js')->slurp);
+my $meta = decode_json(io->file('meta15.js')->slurp);
 
 say "there are " . (scalar @{$meta}) . " IAs";
 
