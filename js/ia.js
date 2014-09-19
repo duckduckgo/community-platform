@@ -1,18 +1,18 @@
 (function(env) {
 
-    console.log("ia pages");
+    // console.log("ia pages");
 
     env.DDH = {
         load_index: function(x) {
             DDH.ia = x;
-            console.log("DDH loaded ia data");
+            // console.log("DDH loaded ia data");
         },
 
         current_sort: '',
         sort_asc: 1,
 
         sort_index: function(what) {
-            console.log("sorting by %s, prev is %s", what, DDH.current_sort);
+            // console.log("sorting by %s, prev is %s", what, DDH.current_sort);
 
             // reverse
             if (DDH.current_sort == what) {

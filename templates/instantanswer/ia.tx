@@ -25,12 +25,6 @@ rank: x percentile of IAs &lt;fancy chart&gt;
 <img style="border:1px solid black" src="https://images.duckduckgo.com/iu/?u=http://ia-screenshots.s3.amazonaws.com/<: $ia.id :>_desktop.png">
 </div>
 
-<!--
-<div>
-<img style="border:1px solid black" src="https://russell2.duckduckgo.com/meta/screenshots/<: $ia.id :>_mobile.png">
-</div>
--->
-
 <h3>examples</h3>
 
 <div>
@@ -49,7 +43,8 @@ rank: x percentile of IAs &lt;fancy chart&gt;
 github issues if any.
 </p>
 
-<a href="https://github.com/duckduckgo/zeroclickinfo-<:$ia.repo:>/issues/new?&title=issue+title&body=http%3A%2F%2Frussell2.duckduckgo.com%3A5000%2Fia%2Fview%2F<:$ia.id:>" title="Create a new issue for <:$ia.name:> on Github">Create new issue</a>
+<a
+href="https://github.com/duckduckgo/zeroclickinfo-<:$ia.repo:>/issues/new?&title=issue+title&body=http%3A%2F%2Fduck.co%2Fia%2Fview%2F<:$ia.id:>" title="Create a new issue for <:$ia.name:> on Github">Create new issue</a>
 </p>
 
 

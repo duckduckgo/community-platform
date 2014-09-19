@@ -71,6 +71,8 @@ sub ia_base :Chained('base') :PathPart('view') :CaptureArgs(1) {  # /ia/view/cal
         $c->stash->{ia_other_queries} = decode_json($other_queries);
     }
 
+    $c->stash->{ia_page} = $answer_id;
+
 	unless ($c->stash->{ia}) {
 		$c->response->redirect($c->chained_uri('InstantAnswer','index',{ instant_answer_not_found => 1 }));
 		return $c->detach;

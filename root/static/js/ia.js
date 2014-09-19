@@ -10,7 +10,7 @@ function program1(depth0,data) {
   var buffer = "", stack1, helper;
   buffer += "\n<tr>\n\n    <td style=\"width:2em; text-align:right; padding-right:1em;\">\n        "
     + escapeExpression(((stack1 = (data == null || data === false ? data : data.index)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
-    + "\n    </td>\n\n    <!--<td style=\"width:20em;\">-->\n    <td>\n        <a href=\"http://russell2.duckduckgo.com:5000/ia/view/";
+    + "\n    </td>\n\n    <td>\n        <a href=\"/ia/view/";
   if (helper = helpers.id) { stack1 = helper.call(depth0, {hash:{},data:data}); }
   else { helper = (depth0 && depth0.id); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
   buffer += escapeExpression(stack1)
@@ -53,19 +53,19 @@ function program2(depth0,data) {
   });
 })();(function(env) {
 
-    console.log("ia pages");
+    // console.log("ia pages");
 
     env.DDH = {
         load_index: function(x) {
             DDH.ia = x;
-            console.log("DDH loaded ia data");
+            // console.log("DDH loaded ia data");
         },
 
         current_sort: '',
         sort_asc: 1,
 
         sort_index: function(what) {
-            console.log("sorting by %s, prev is %s", what, DDH.current_sort);
+            // console.log("sorting by %s, prev is %s", what, DDH.current_sort);
 
             // reverse
             if (DDH.current_sort == what) {
