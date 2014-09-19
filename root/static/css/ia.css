@@ -1,0 +1,22 @@
+/* experimental and/or prototype */
+
+.iadata td {
+    padding-right:0.5em;
+    padding-left:0.5em;
+}
+.iadata li {
+    list-style:none;
+}
+.ia-single h3 {
+    margin-top: 1em;
+}
+.ia_topic {
+    border-radius: 2em;
+    background-color:#e0e0e0;
+    padding-left:1em;
+    padding-right:1em;
+}
+.ia_topic a {
+    color:black;
+}
+
