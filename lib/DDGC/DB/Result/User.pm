@@ -296,7 +296,7 @@ sub undone_notifications_count_resultset {
 		prefetch => [qw( user_notification_group ),{
 			event_notifications => [qw( user_notification )],
 		}],
-		cache_for => 45,
+		cache_for => 300,
 	})
 }
 
@@ -311,7 +311,7 @@ sub undone_notifications {
 		'user_notification.users_id' => $self->id,
 	},{
 		order_by => { -desc => 'event_notifications.created' },
-		cache_for => 45,
+		cache_for => 300,
 		$limit ? ( rows => $limit ) : (),
 	});
 }
