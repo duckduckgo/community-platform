@@ -7,8 +7,13 @@
         {{@index}}
     </td>
 
-    <td style="width:20em;">
+    <!--<td style="width:20em;">-->
+    <td>
         <a href="http://russell2.duckduckgo.com:5000/ia/view/{{id}}">{{name}}</a>
+    </td>
+
+    <td>
+        {{#each topic}} <span class="ia_topic">{{this}}</span> {{/each}}
     </td>
 
     <td>
