@@ -1,5 +1,7 @@
 <h2>Instant Answers</h2>
 
+<p>this is an alpha prototype of the full index to Instant Answers.</p>
+
 <table>
 
 <thead style="border-bottom: 1px solid #CCC">
@@ -7,6 +9,9 @@
 <td> </td>
 <td>
     <a id="sort_name">name</a>
+</td>
+<td>
+    topic
 </td>
 
 <td>
