@@ -280,13 +280,13 @@ sub campaigns {
 	+{
 		share => {
 			id => 1,
-			active => 0,
+			active => 1,
 			url => '/share/',
 			notification => "Help share DuckDuckGo! Find out more...",
 		},
 		share_followup => {
 			id => 2,
-			active => 0,
+			active => 1,
 			url => '/share/',
 			notification => "Tell us how your friend got on with DuckDuckGo!",
 		}
@@ -294,7 +294,7 @@ sub campaigns {
 }
 sub id_for_campaign {
 	my ($self, $campaign) = @_;
-	return $self->campaigns->{$campaign}->id;
+	return $self->campaigns->{$campaign}->{id};
 }
 
 has_conf feedback_email => DDGC_FEEDBACK_EMAIL => 'support@duckduckgo.com';
