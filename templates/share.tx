@@ -58,6 +58,8 @@
 			<div class="input-wrap">
 				<input type="text" name="question3">
 			</div>
+			<input type="hidden" name="campaign_id" value="1">
+			<input type="hidden" name="campaign_name" value="share">
 			<hr/>
 			<div class="quarter">
 				<div class="input-wrap">
@@ -90,6 +92,8 @@
 				<option value="A few weeks">A few weeks</option>
 				<option value="A month">A month</option>
 			</select>
+			<input type="hidden" name="campaign_id" value="2">
+			<input type="hidden" name="campaign_name" value="share_followup">
 			<hr/>
 			<div class="quarter">
 				<div class="input-wrap">
