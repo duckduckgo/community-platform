@@ -698,33 +698,35 @@ sub seen_campaign_notice {
 	return $result;
 }
 
+sub responded_campaign {
+	my ($self, $campaign, $time_ago, $bad) = @_;
+	return $self->schema->resultset('User::CampaignNotice')->find( {
+			users_id => $self->id,
+			campaign_id => $self->ddgc->config->id_for_campaign($campaign),
+			campaign_source => 'campaign',
+			(defined $bad)?
+				(bad_response => $bad) : (),
+			($time_ago) ?
+				(responded => { '<' => $time_ago }) :
+				(responded => { '!=' => undef }),
+	});
+}
+
 sub get_first_available_campaign {
 	my ($self) = @_;
 	my $campaigns = $self->ddgc->config->campaigns;
-	my $responded_share = $self->schema->resultset('User::CampaignNotice')->find( {
-			users_id => $self->id,
-			campaign_id => $self->ddgc->config->id_for_campaign('share'),
-			campaign_source => 'campaign',
-			responded => { '!=' => undef },
-	});
-	if ($responded_share) {
-		my $responded_share_30_days_ago = $self->schema->resultset('User::CampaignNotice')->find( {
-			users_id => $self->id,
-			campaign_id => $self->ddgc->config->id_for_campaign('share'),
-			campaign_source => 'campaign',
-			bad_response => 0,
-			responded => { '<' => "now() - interval '29 days'" },
-		} );
-p
-		my $responded_followup = $self->schema->resultset('User::CampaignNotice')->find( {
-			users_id => $self->id,
-			campaign_id => $self->ddgc->config->id_for_campaign('share_followup'),
-			campaign_source => 'campaign',
-			responded => { '!=' => undef },
-		} );
+
+	if ($self->responded_campaign('share')) {
+
+		my $responded_share_30_days_ago = $self->responded_campaign(
+			'share', "now() - interval '29 days'", 0
+		);
+		my $responded_followup = $self->responded_campaign('share_followup');
+
 		if ($responded_share_30_days_ago && !$responded_followup) {
 			return ($campaigns->{share_followup}->{active}) ? 'share_followup' : 0;
 		}
+		return 0;
 	}
 	return ($campaigns->{share}->{active}) ? 'share' : 0;
 }
