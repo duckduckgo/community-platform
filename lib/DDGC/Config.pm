@@ -299,6 +299,7 @@ sub id_for_campaign {
 
 has_conf feedback_email => DDGC_FEEDBACK_EMAIL => 'support@duckduckgo.com';
 has_conf error_email => DDGC_ERROR_EMAIL => 'ddgc@duckduckgo.com';
+has_conf share_email => DDGC_SHARE_EMAIL => 'sharewear@duckduckgo.com';
 
 1;
 
