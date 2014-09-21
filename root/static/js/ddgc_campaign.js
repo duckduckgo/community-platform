@@ -4,7 +4,7 @@ $(document).ready(function() {
 		e.preventDefault();
 		var data = $('#mail1').serialize();
 		$.ajax({
-			url:        '/share/respond',
+			url:        '/campaign/respond',
 			data:       data,
 			type:       'POST',
 			success:    function(data) {
@@ -22,7 +22,7 @@ $(document).ready(function() {
 		e.preventDefault();
 		var data = $('#mail2').serialize();
 		$.ajax({
-			url:        '/share/respond',
+			url:        '/campaign/respond',
 			data:       data,
 			type:       'POST',
 			success:    function(data) {
