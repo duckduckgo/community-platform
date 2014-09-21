@@ -223,7 +223,14 @@ sub end : ActionClass('RenderView') {
 sub share :Chained('base') :PathPart('share') :Args(0) {
 	my ( $self, $c ) = @_;
 	$c->stash->{no_breadcrumb} = 1;
-	
+	$c->stash->{share_page} = 1;
+	$c->session->{last_url} = $c->req->uri;
+
+	if ($c->user) {
+		$c->stash->{user} = $c->user;
+		$c->stash->{campaign} = $c->user->get_first_available_campaign;
+		$c->stash->{no_campaign} = 1 if (!$c->stash->{campaign});
+	}
 }
 
 no Moose;
