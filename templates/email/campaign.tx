@@ -1,8 +1,15 @@
-<: include "email/heading.tx" { title => "Campaign response" } :>
-<table>
-	<:  { :>
-	<: } :>
-</table>
+<:$header:>
 
-<a href="https://duck.co/admin/campaign/bad_response/?user=<: $username :>&campaign=<: $campaign_id :>">These are bad responses (admin link)</a>
+<:
+$question1
+$answer1
+
+$question2
+$answer2
+
+$question3
+$answer3
+:>
+
+<:$extra:>
 
