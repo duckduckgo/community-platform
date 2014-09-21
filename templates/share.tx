@@ -25,20 +25,27 @@
 			</div>
 		</div>
 	</div>
+
+	<: if !$user { :>
 	<div id="loginprompt" class="shareit-prompt">
-		You must <a href="#" id="loginlink" class="js-reveal" data-reveal-id="login-box">Login</a> or <a href="#" id="registerlink" class="js-reveal" data-reveal-id="register-box">Register</a> to participate (so we can send you shirts)
+		You must <a href="#" id="loginlink" class="js-reveal" data-reveal-id="login-box">Login</a> or <a href="/my/register" id="registerlink">Register</a> to participate (so we can send you shirts)
 	</div>
+	<: } :>
 </div>
 
-	<div id="responded" class="hide">
-		<div class="shareit-responded  notice success"><i class="icn icon-thumbs-up-alt"></i> You already responded to this phase. Thank you!</div>
-	</div>
 
-<div id="mailform1" class="shareit-form  form-border  hide">
+<: if $no_campaign { :>
+	<div id="responded">
+		<div class="shareit-responded  notice success"><i class="icn icon-thumbs-up-alt"></i>We have no questions for you right now. Please check back later. Thank you!</div>
+	</div>
+<: } :>
+
+<: if $campaign == 'share' { :>
+<div id="mailform1" class="shareit-form  form-border">
 	<div class="form-wrap">
 		<div id="mailerr1" class="warning"></div>
 		<h2 class="shareit-form__title">Answer me this...</h2>
-		<form id="mail1" method="POST" action="/share/respond" class="group">
+		<form id="mail1" method="POST" action="/campaign/respond" class="group">
 			<label class="shareit-form__lbl" for="question1">What's your plan for spreading DuckDuckGo this month?</label>
 			<div class="input-wrap">
 				<input type="text" name="question1">
@@ -60,12 +67,14 @@
 		</form>
 	</div>
 </div>
+<: } :>
 
+<: if $campaign == 'share_followup' { :>
 <div id="mailform2" class="shareit-form  form-border  hide">
 	<div class="form-wrap">
 		<div id="mailerr2" class="warning"></div>
 		<h2 class="shareit-form__title">Welcome back!</h2>
-		<form id="mail2" method="POST" action="/share/respond">
+		<form id="mail2" method="POST" action="/campaign/respond">
 			<label class="shareit-form__lbl" for="question1">How did you get your friend to switch to DuckDuckGo?</label>
 			<div class="input-wrap">
 				<input type="text" name="question1">
@@ -90,6 +99,7 @@
 		</form>
 	</div>
 </div>
+<: } :>
 
 <div id="thankyou1" class="shareit-thanks  hide">
     <div class="shareit-responded  notice info"><i class="icn icon-thumbs-up-alt"></i> Thanks! Now it's time to go spread DuckDuckGo!</div>
