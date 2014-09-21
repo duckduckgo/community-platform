@@ -1,15 +1,11 @@
-<:$header:>
+<:$question1:><br />
+<:$answer1:><br /><br />
 
-<:
-$question1
-$answer1
+<:$question1:><br />
+<:$answer1:><br /><br />
 
-$question2
-$answer2
-
-$question3
-$answer3
-:>
+<:$question1:><br />
+<:$answer1:><br /><br />
 
 <:$extra:>
 
