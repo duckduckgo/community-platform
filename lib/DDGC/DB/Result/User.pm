@@ -15,6 +15,8 @@ use Prosody::Mod::Data::Access;
 use Digest::MD5 qw( md5_hex );
 use List::MoreUtils qw( uniq  );
 use namespace::autoclean;
+use DateTime;
+use DateTime::Duration;
 
 table 'users';
 
@@ -693,7 +695,6 @@ sub seen_campaign_notice {
 		campaign_id => $self->ddgc->config->id_for_campaign($campaign),
 		campaign_source => $campaign_source,
 	}	);
-	use DDP; p $result;
 
 	return $result;
 }
@@ -712,6 +713,16 @@ sub responded_campaign {
 	});
 }
 
+sub set_responded_campaign {
+	my ($self, $campaign) = @_;
+	$self->schema->resultset('User::CampaignNotice')->update_or_create({
+		users_id => $self->id,
+		campaign_id => $self->ddgc->config->id_for_campaign($campaign),
+		campaign_source => 'campaign',
+		responded => $self->ddgc->db->format_datetime( DateTime->now ),
+	});
+}
+
 sub get_first_available_campaign {
 	my ($self) = @_;
 	my $campaigns = $self->ddgc->config->campaigns;
@@ -719,7 +730,11 @@ sub get_first_available_campaign {
 	if ($self->responded_campaign('share')) {
 
 		my $responded_share_30_days_ago = $self->responded_campaign(
-			'share', "now() - interval '29 days'", 0
+			'share',
+			$self->ddgc->db->format_datetime(
+				DateTime->now - DateTime::Duration->new( days => 29 ),
+			),
+			0
 		);
 		my $responded_followup = $self->responded_campaign('share_followup');
 
