@@ -705,11 +705,11 @@ sub responded_campaign {
 			users_id => $self->id,
 			campaign_id => $self->ddgc->config->id_for_campaign($campaign),
 			campaign_source => 'campaign',
-			(defined $bad)?
-				(bad_response => $bad) : (),
-			($time_ago) ?
+			((defined $bad)?
+				(bad_response => $bad) : ()),
+			(($time_ago) ?
 				(responded => { '<' => $time_ago }) :
-				(responded => { '!=' => undef }),
+				(responded => { '!=' => undef })),
 	});
 }
 
@@ -746,7 +746,7 @@ sub get_first_available_campaign {
 	return ($campaigns->{share}->{active}) ? 'share' : 0;
 }
 
-sub get_token_for_campaign {
+sub get_coupon {
 	my ($self, $campaign) = @_;
 
 	return "NO COUPON" if (!$self->responded_campaign($campaign));
