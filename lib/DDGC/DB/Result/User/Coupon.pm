@@ -7,7 +7,7 @@ extends 'DDGC::DB::Base::Result';
 use DBIx::Class::Candy;
 use namespace::autoclean;
 
-table 'user_campaign_notice';
+table 'user_coupon';
 
 column coupon => {
   data_type => 'text',
