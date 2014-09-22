@@ -30,7 +30,6 @@ sub base :Chained('/') :PathPart('campaign') :CaptureArgs(0) {
 
 sub respond : Chained('base') : PathPart('respond') : Args(0) {
 	my ( $self, $c ) = @_;
-	use DDP; p $c->req;
 
 	my $to = $c->d->config->share_email // 'sharewear@duckduckgo.com';
 	my $from = 'noreply@dukgo.com';

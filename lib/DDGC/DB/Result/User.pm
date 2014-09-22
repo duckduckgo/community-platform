@@ -701,16 +701,15 @@ sub seen_campaign_notice {
 
 sub responded_campaign {
 	my ($self, $campaign, $time_ago, $bad) = @_;
-	return $self->schema->resultset('User::CampaignNotice')->find( {
+
+	return $self->schema->resultset('User::CampaignNotice')->search({
 			users_id => $self->id,
 			campaign_id => $self->ddgc->config->id_for_campaign($campaign),
 			campaign_source => 'campaign',
-			((defined $bad)?
-				(bad_response => $bad) : ()),
-			(($time_ago) ?
-				(responded => { '<' => $time_ago }) :
-				(responded => { '!=' => undef })),
-	});
+			responded => { '!=' => undef },
+			($time_ago) ? ( responded => { '<' => $time_ago } ) : (),
+			(defined $bad) ? ( bad_response => $bad ) : (),
+	})->first;
 }
 
 sub set_responded_campaign {
