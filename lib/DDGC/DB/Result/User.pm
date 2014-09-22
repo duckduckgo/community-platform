@@ -746,6 +746,27 @@ sub get_first_available_campaign {
 	return ($campaigns->{share}->{active}) ? 'share' : 0;
 }
 
+sub get_token_for_campaign {
+	my ($self, $campaign) = @_;
+
+	return "NO COUPON" if (!$self->responded_campaign($campaign));
+
+	my $coupon = $self->schema->resultset('User::Coupon')->find({
+		users_id => $self->id,
+		campaign_id => $self->ddgc->config->id_for_campaign($campaign),
+	}) //
+	$self->schema->resultset('User::Coupon')->search({
+		users_id => undef,
+		campaign_id => $self->ddgc->config->id_for_campaign($campaign),
+	})->first;
+
+	return "NO COUPON" if (!$coupon);
+
+	$coupon->users_id($self->id);
+	$coupon->update;
+	return $coupon->coupon;
+}
+
 sub check_password {
 	my ( $self, $password ) = @_;
 	return 1 unless $self->ddgc->config->prosody_running;
