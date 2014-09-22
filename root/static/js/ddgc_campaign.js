@@ -13,11 +13,12 @@ $(document).ready(function() {
 				$("#thankyou1").removeClass("hide");
 			},
 			error:      function(data) {
-				if (typeof data.responseJSON == 'undefined') {
+				jsondata = jQuery.parseJSON( data.responseText );
+				if (typeof jsondata.errstr == 'undefined') {
 					$("#mailerr1").html('<i class="icn icon-warning-sign"></i>Sorry, an unknown error occurred. Please try again later.').addClass('notice');
 				}
 				else {
-					$("#mailerr1").html('<i class="icn icon-warning-sign"></i>'+data.responseJSON.errstr).addClass('notice');
+					$("#mailerr1").html('<i class="icn icon-warning-sign"></i>'+jsondata.errstr).addClass('notice');
 				}
 			},
 		});
@@ -36,11 +37,12 @@ $(document).ready(function() {
 				$("#thankyou2").removeClass("hide");
 			},
 			error:      function(data) {
-				if (typeof data.responseJSON == 'undefined') {
+				jsondata = jQuery.parseJSON( data.responseText );
+				if (typeof jsondata.errstr == 'undefined') {
 					$("#mailerr2").html('<i class="icn icon-warning-sign"></i>Sorry, an unknown error occurred. Please try again later.').addClass('notice');
 				}
 				else {
-					$("#mailerr2").html('<i class="icn icon-warning-sign"></i>'+data.responseJSON.errstr).addClass('notice');
+					$("#mailerr2").html('<i class="icn icon-warning-sign"></i>'+jsondata.errstr).addClass('notice');
 				}
 			},
 		});
