@@ -46,15 +46,15 @@
 		<div id="mailerr1" class="warning"></div>
 		<h2 class="shareit-form__title">Answer me this...</h2>
 		<form id="mail1" method="POST" action="/campaign/respond" class="group">
-			<label class="shareit-form__lbl" for="question1">What's your plan for spreading DuckDuckGo this month?</label>
+			<label class="shareit-form__lbl" for="question1"><: $campaign_config.question1 :></label>
 			<div class="input-wrap">
 				<input type="text" name="question1">
 			</div>
-			<label class="shareit-form__lbl" for="question2">Why should your friends use DuckDuckGo?</label>
+			<label class="shareit-form__lbl" for="question2"><: $campaign_config.question2 :></label>
 			<div class="input-wrap">
 				<input type="text" name="question2">
 			</div>
-			<label class="shareit-form__lbl" for="question3">What awesome things will you do with your DuckDuckGo t-shirt next month?</label>
+			<label class="shareit-form__lbl" for="question3"><: $campaign_config.question3 :></label>
 			<div class="input-wrap">
 				<input type="text" name="question3">
 			</div>
@@ -72,20 +72,20 @@
 <: } :>
 
 <: if $campaign == 'share_followup' { :>
-<div id="mailform2" class="shareit-form  form-border  hide">
+<div id="mailform2" class="shareit-form  form-border">
 	<div class="form-wrap">
 		<div id="mailerr2" class="warning"></div>
 		<h2 class="shareit-form__title">Welcome back!</h2>
 		<form id="mail2" method="POST" action="/campaign/respond">
-			<label class="shareit-form__lbl" for="question1">How did you get your friend to switch to DuckDuckGo?</label>
+			<label class="shareit-form__lbl" for="question1"><: $campaign_config.question1 :></label>
 			<div class="input-wrap">
 				<input type="text" name="question1">
 			</div>
-			<label class="shareit-form__lbl" for="question2">What did they most like about DuckDuckGo?</label>
+			<label class="shareit-form__lbl" for="question2"><: $campaign_config.question2 :></label>
 			<div class="input-wrap">
 				<input type="text" name="question2">
 			</div>
-			<label class="shareit-form__lbl" for="question3">How long did it take them to switch?</label>
+			<label class="shareit-form__lbl" for="question3"><: $campaign_config.question3 :></label>
 			<select name="question3" class="js-select">
 				<option value="Less than a day">Less than a day</option>
 				<option value="About a week">About a week</option>
