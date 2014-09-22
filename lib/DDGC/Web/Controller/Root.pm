@@ -229,7 +229,12 @@ sub share :Chained('base') :PathPart('share') :Args(0) {
 	if ($c->user) {
 		$c->stash->{user} = $c->user;
 		$c->stash->{campaign} = $c->user->get_first_available_campaign;
-		$c->stash->{no_campaign} = 1 if (!$c->stash->{campaign});
+		if ($c->stash->{campaign}) {
+			$c->stash->{campaign_config} = $c->d->config->campaigns->{ $c->stash->{campaign} };
+		}
+		else {
+			$c->stash->{no_campaign} = 1 if (!$c->stash->{campaign});
+		}
 	}
 }
 
