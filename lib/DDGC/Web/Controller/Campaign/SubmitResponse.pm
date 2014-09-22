@@ -38,12 +38,14 @@ sub respond : Chained('base') : PathPart('respond') : Args(0) {
 	my $subject = "$campaign_name response from $username";
 	my $campaign = $c->d->config->campaigns->{ $campaign_name };
 
-	$c->stash->{ 'question' . $_ } = $campaign->{ 'question' . $_ } for (1..3);
-	$c->stash->{ 'answer' . $_ } = $c->req->param( 'question' . $_ ) for (1..3);
+	for (1..3) {
+		$c->stash->{ 'question' . $_ } = $campaign->{ 'question' . $_ };
+		$c->stash->{ 'answer' . $_ } = $c->req->param( 'question' . $_ );
+	}
 
 	if ($campaign_name eq 'share') {
 		$c->stash->{'extra'} = <<"BAD_RESPONSE_LINK"
-		<a href="https://duck.co/admin/campaign/bad_user_response?user=$username&campaign=$campaign_name>
+		<a href="https://duck.co/admin/campaign/bad_user_response?user=$username&campaign=$campaign_name">
 			Report bad responses
 		</a>.
 BAD_RESPONSE_LINK
