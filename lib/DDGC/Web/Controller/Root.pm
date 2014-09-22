@@ -23,15 +23,16 @@ sub base :Chained('/') :PathPart('') :CaptureArgs(0) {
 
 	$c->d->current_user($c->user) if $c->user;
 
-	if ($c->user) {
+	if ($c->user && !$c->session->{campaign_notification_checked}) {
+		$c->session->{campaign_notification_checked} = 1;
 		my $campaign = $c->user->get_first_available_campaign;
 		if ($campaign) {
 			if (!$c->user->seen_campaign_notice($campaign, 'campaign')) {
 				my $campaign_config = $c->d->config->campaigns->{$campaign};
-				$c->{stash}->{campaign_info}->{campaign_id} = $campaign_config->{id};
-				$c->{stash}->{campaign_info}->{campaign_name} = $campaign;
-				$c->{stash}->{campaign_info}->{link} = $campaign_config->{url};
-				$c->{stash}->{campaign_info}->{notification} = $campaign_config->{notification};
+				$c->stash->{campaign_info}->{campaign_id} = $campaign_config->{id};
+				$c->stash->{campaign_info}->{campaign_name} = $campaign;
+				$c->stash->{campaign_info}->{link} = $campaign_config->{url};
+				$c->stash->{campaign_info}->{notification} = $campaign_config->{notification};
 			}
 		}
 	}
@@ -225,6 +226,7 @@ sub share :Chained('base') :PathPart('share') :Args(0) {
 	$c->stash->{no_breadcrumb} = 1;
 	$c->stash->{share_page} = 1;
 	$c->session->{last_url} = $c->req->uri;
+	$c->stash->{title} = "DuckDuckGo : Share it + Wear it!";
 
 	if ($c->user) {
 		$c->stash->{user} = $c->user;
@@ -240,3 +242,4 @@ sub share :Chained('base') :PathPart('share') :Args(0) {
 
 no Moose;
 __PACKAGE__->meta->make_immutable;
+
