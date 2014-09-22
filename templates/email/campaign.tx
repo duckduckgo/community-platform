@@ -7,5 +7,5 @@
 <:$question1:><br />
 <:$answer1:><br /><br />
 
-<:$extra:>
+<: r($extra) :>
 
