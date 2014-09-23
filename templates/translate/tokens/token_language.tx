@@ -66,7 +66,10 @@
 			<div class="token__label"><label class="form_input-label" for="token_language_<: $token_language.id :>_<: $func :>">
 					<: if $n == 0 { :>Singular<: } else if $n == 1 { $n :>st Plural Form<: } else if $n == 2 { $n :>nd Plural Form<: } else { $n :>th Plural Form<: } :>
 				</label></div>
-			<div class="token__content <: if $c.wiz_inside { if $n == 0 || $n == $token_language.max_msgstr_index { :>wiz-arrow<: } :> <: if $n != 0 && $n == $token_language.max_msgstr_index { :>wiz-arrow-bottom-right<: } } :>"><input type="text" class="token-input" <: if $token_language.token_domain_language.language.rtl { :>dir="rtl" <: } :>id="token_language_<: $token_language.id :>_<: $func :>" name="token_language_<: $token_language.id :>_<: $func :>" value="<: call_if($own_translation,$func) :>" autocomplete="off" placeholder="Translate '<: $n == 0 ? $token_language.token.msgid : $token_language.token.msgid_plural :>' <: if $token_language.token.msgctxt { :> in context of '<: $token_language.token.msgctxt :>' <: } :>into <: $token_language.token_domain_language.language.name_in_english :>"></div>
+			<div class="token__content <: if $c.wiz_inside { if $n == 0 || $n == $token_language.max_msgstr_index { :>wiz-arrow<: } :> <: if $n != 0 && $n == $token_language.max_msgstr_index { :>wiz-arrow-bottom-right<: } } :>">
+				<input type="text" class="token-input" <: if $token_language.token_domain_language.language.rtl { :>dir="rtl" <: } :>id="token_language_<: $token_language.id :>_<: $func :>" name="token_language_<: $token_language.id :>_<: $func :>" value="<: call_if($own_translation,$func) :>" autocomplete="off" placeholder="Translate '<: $n == 0 ? $token_language.token.msgid : $token_language.token.msgid_plural :>' <: if $token_language.token.msgctxt { :> in context of '<: $token_language.token.msgctxt :>' <: } :>into <: $token_language.token_domain_language.language.name_in_english :>">
+				<span class="token__content__tooltip"><: i($token_language.token_domain_language.language,'flag') :><: $token_language.token_domain_language.language.name_in_english :></span>
+			</div>
 			<: if $token_language_page { :>
 				<script type="text/javascript">
 					$('#token_language_<: $token_language.id :>_<: $func :>').keyup(function(){

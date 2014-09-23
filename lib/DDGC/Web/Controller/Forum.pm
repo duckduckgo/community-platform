@@ -81,6 +81,7 @@ sub community_leaders : Chained('userbase') Args(0) {
 
 sub special : Chained('userbase') Args(0) {
   my ( $self, $c ) = @_;
+  $c->response->redirect($c->chained_uri('Forum','general', { termporarily_disabled => 1 } ));
   $c->stash->{forum_index} = $c->d->config->id_for_forum('special');
   $c->add_bc($c->d->config->forums->{$c->stash->{forum_index}}->{name});
   if (!$c->d->forum->allow_user($c->stash->{forum_index}, $c->user)) {

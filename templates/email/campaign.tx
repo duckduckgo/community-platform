@@ -1,0 +1,11 @@
+<:$question1:><br />
+<:$answer1:><br /><br />
+
+<:$question2:><br />
+<:$answer2:><br /><br />
+
+<:$question3:><br />
+<:$answer3:><br /><br />
+
+<: r($extra) :>
+

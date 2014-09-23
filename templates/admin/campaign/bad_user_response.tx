@@ -1,0 +1,36 @@
+<h3>Mark bad response:</h3>
+<form action="<: $u('Admin::Campaign', 'bad_user_response' :>" method="post">
+	<: if $user_not_found { :>
+		<p class="notice error">
+			<i class="icn icon-warning-sign"></i>User "<: $user :>" not found.
+		</p>
+	<: } :>
+	<: if $user_not_supplied { :>
+		<p class="notice error">
+			<i class="icn icon-warning-sign"></i>You must specify a username.
+		</p>
+	<: } :>
+	<: include form::row {
+		form_row_id => 'user',
+		form_row_label => 'Username:',
+		form_row_left => 'third',
+		form_row_right => 'twothird',
+		form_row_value => $user,
+	} :>
+	<: if $campaign_not_selected { :>
+		<p class="notice error">
+			<i class="icn icon-warning-sign"></i>You must select a campaign.
+		</p>
+	<: } :>
+	<: include form::row {
+		form_row_id => 'campaign',
+		form_row_label => 'Campaign:',
+		form_row_value => $campaign,
+		form_row_type => 'select',
+		form_row_options => $campaign_options,
+		form_row_left => 'third',
+		form_row_right => 'twothird',
+	} :>
+	<input type="submit" class="button blue big" name="save_bad_response" value="Submit" />
+</form>
+

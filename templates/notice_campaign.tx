@@ -5,7 +5,11 @@
 				<img src="/static/img/logo_ddg_community_thm.png" />
 			</div>
 			<div class="faux__body">
-				We have some exciting news coming soon! Would you like to be in the loop?
+				<: if ( $campaign_info.campaign_notification_text ) { :>
+					<: $campaign_info.campaign_notification_text :>
+				<: } else { :>
+					We have some exciting news coming soon! Would you like to be in the loop?
+				<: } :>
 				<div class="notice__buttons">
 					<a href="<: $campaign_info.link :>" class="button blue">Sure!</a>
 					<a href="<: $u(['My','campaign_nothanks',$campaign_info.thread_id]) :>" class="button red campaign_nothanks">No, thanks</a>
@@ -14,3 +18,4 @@
 		</div>
 	</div>
 <: } :>
+

@@ -46,7 +46,7 @@ sub _build_version {
 		pattern => '%Y%m%d.%H%M%S',
 	)->format_datetime(DateTime->now(
 		locale => 'en_US',
-		time_zone => 'Pacific/Easter',
+		time_zone => 'US/Eastern',
 	));
 }
 
@@ -61,7 +61,7 @@ sub _build_year {
 		pattern => '%Y',
 	)->format_datetime(DateTime->now(
 		locale => 'en_US',
-		time_zone => 'Pacific/Easter',
+		time_zone => 'US/Eastern',
 	));
 }
 
