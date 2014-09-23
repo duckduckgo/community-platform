@@ -227,7 +227,7 @@ sub end : ActionClass('RenderView') {
 	$c->wiz_post_check;
 }
 
-sub share :Chained('base') :PathPart('share') :Args(0) {
+sub wear :Chained('base') :PathPart('wear') :Args(0) {
 	my ( $self, $c ) = @_;
 	$c->stash->{no_breadcrumb} = 1;
 	$c->stash->{share_page} = 1;
