@@ -7,21 +7,21 @@
 			<div class="shareit-overview__col">
 				<img src="/static/img/share.png" alt="share duckduckgo" class="shareit-overview__img" />
 				<h4 class="shareit-overview__title">Share DuckDuckGo</h4>
-				<p>Each month, get 1 friend to switch to DuckDuckGo.</p>
+				<p>You've got thirty days and a world full of people. Get your friends to switch to DuckDuckGo by <: $share_date :>.</p>
 			</div>
 		</div>
 		<div class="third">
 			<div class="shareit-overview__col">
 				<img src="/static/img/questions.png" alt="answer questions" class="shareit-overview__img" />
-				<h4 class="shareit-overview__title">Answer Questions</h4>
-				<p>Answer a few questions today and 1 month from today.</p>
+				<h4 class="shareit-overview__title">Tell Us About It</h4>
+				<p>How do you convince your friends to switch? Sign into duck.co on <: $share_date :> and tell us what works best for you.</p>
 			</div>
 		</div>
 		<div class="third">
 			<div class="shareit-overview__col">
 				<img src="/static/img/t-shirt.png" alt="get a shirt" class="shareit-overview__img" />
-				<h4 class="shareit-overview__title">Get a Shirt</h4>
-				<p>Get a free DuckDuckGo t-shirt and keep on duckin'</p>
+				<h4 class="shareit-overview__title">Rock Your T-shirt</h4>
+				<p>We'll send you a free DuckDuckGo t-shirt! You can wear it or use it as a flag to lead the duck revolution you just started!</p>
 			</div>
 		</div>
 	</div>

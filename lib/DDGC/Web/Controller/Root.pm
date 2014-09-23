@@ -3,7 +3,9 @@ package DDGC::Web::Controller::Root;
 
 use Moose;
 use Path::Class;
-use POSIX qw(strftime);
+use DateTime;
+use DateTime::Duration;
+
 use namespace::autoclean;
 
 BEGIN { extends 'Catalyst::Controller' }
@@ -227,6 +229,7 @@ sub share :Chained('base') :PathPart('share') :Args(0) {
 	$c->stash->{share_page} = 1;
 	$c->session->{last_url} = $c->req->uri;
 	$c->stash->{title} = "DuckDuckGo : Share it + Wear it!";
+	$c->stash->{share_date} = (DateTime->now + DateTime::Duration->new( days => 30 ))->strftime("%e %B");
 
 	if ($c->user) {
 		$c->stash->{user} = $c->user;
