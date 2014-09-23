@@ -77,7 +77,7 @@ BAD_RESPONSE_LINK
 	my $coupon;
 
 	if ($campaign_name eq 'share') {
-		$return_on = (DateTime->now + DateTime::Duration->new( days => 30 ))->strftime("%e %B");
+		$return_on = (DateTime->now + DateTime::Duration->new( days => 30 ))->strftime("%B %e");
 	}
 	if ($campaign_name eq 'share_followup') {
 		$coupon = $c->user->get_coupon($campaign_name);
