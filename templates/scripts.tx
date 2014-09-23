@@ -1,3 +1,6 @@
 <: for ['jquery-1.9.1','select2-3.3.2/select2','jquery.addplaceholder.clean','jquery.atooltip','dropzone','ddgc','sceditor/jquery.sceditor.bbcode'] -> $js { :>
 	<script src="/static/js/<: $js :>.js" type="text/javascript"></script>
 <: } :>
+<: if $share_page { :>
+	<script src="/static/js/ddgc_campaign.js" type="text/javascript"></script>
+<: } :>

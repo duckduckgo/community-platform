@@ -42,13 +42,6 @@ sub feedback {[
 	link => ['Forum::My','newthread','2'],
 	user_filter => DDGC::Config::forums->{'2'}->{'user_filter'},
   },
-  {
-	description => "A new Special Announcement",
-	icon => "convo",
-	type => "link",
-	link => ['Forum::My','newthread','5'],
-	user_filter => DDGC::Config::forums->{'5'}->{'user_filter'},
-  },
   "" # workaround for non submittable ending points like this here.
   # cutting this flow short to get a user to the 'new post' page sooner
 ]}

@@ -77,7 +77,6 @@ sub moderations : Chained('base') Args(0) {
 
   if ($c->req->param('ignore_all_from_user') && $c->req->param('user_id')) {
     my $user = $c->d->rs('User')->find($c->req->param('user_id'));
-    use DDP; p $c->req;
     if ($user) {
 
       for my $contrib_type (qw/ Thread Idea Comment /) {

@@ -20,6 +20,10 @@ sub newthread : Chained('base') Args(1) {
 		$c->response->redirect($c->chained_uri('Forum', 'general'));
 		return $c->detach;
 	}
+	if ($forum_id eq $c->d->config->id_for_forum('special')) {
+		$c->response->redirect($c->chained_uri('Forum', 'general'));
+		return $c->detach;
+	}
 	my $user_filter = $c->d->config->forums->{$c->stash->{forum_index}}->{user_filter};
 	if ($user_filter && (!$c->user || !$user_filter->($c->user))) {
 		$c->response->redirect($c->chained_uri('Forum', 'general'));

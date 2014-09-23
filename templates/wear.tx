@@ -1,0 +1,120 @@
+<div class="shareit-top">
+	<h1 class="shareit-title">DuckDuckGo</h1>
+	<h3 class="shareit-subtitle">Share it + Wear it</h3>
+	
+	<div class="shareit-overview group">
+		<div class="third">
+			<div class="shareit-overview__col">
+				<img src="/static/img/share.png" alt="share duckduckgo" class="shareit-overview__img" />
+				<h4 class="shareit-overview__title">Share DuckDuckGo</h4>
+				<p>You've got thirty days and a world full of people. Get your friends to switch to DuckDuckGo by <: $share_date :>.</p>
+			</div>
+		</div>
+		<div class="third">
+			<div class="shareit-overview__col">
+				<img src="/static/img/questions.png" alt="answer questions" class="shareit-overview__img" />
+				<h4 class="shareit-overview__title">Tell Us About It</h4>
+				<p>How do you convince your friends to switch? Sign into duck.co on <: $share_date :> and tell us what works best for you.</p>
+			</div>
+		</div>
+		<div class="third">
+			<div class="shareit-overview__col">
+				<img src="/static/img/t-shirt.png" alt="get a shirt" class="shareit-overview__img" />
+				<h4 class="shareit-overview__title">Rock Your T-shirt</h4>
+				<p>We'll send you a free DuckDuckGo t-shirt! You can wear it or use it as a flag to lead the duck revolution you just started!</p>
+			</div>
+		</div>
+	</div>
+
+	<: if !$user { :>
+	<div id="loginprompt" class="shareit-prompt">
+		You must <a href="#" id="loginlink" class="js-reveal" data-reveal-id="login-box">Login</a> or <a href="/my/register" id="registerlink">Register</a> to participate (so we can send you shirts)
+	</div>
+	<: } :>
+</div>
+
+
+<: if $no_campaign { :>
+	<div id="responded">
+		<div class="shareit-responded  notice success"><i class="icn icon-thumbs-up-alt"></i>We have no questions for you right now. Please check back later. Thank you!</div>
+	</div>
+<: } :>
+
+<: if $campaign == 'share' { :>
+<div id="mailform1" class="shareit-form  form-border">
+	<div class="form-wrap">
+		<div id="mailerr1" class="warning"></div>
+		<h2 class="shareit-form__title">Answer me this...</h2>
+		<form id="mail1" method="POST" action="/campaign/respond" class="group">
+			<label class="shareit-form__lbl" for="question1"><: $campaign_config.question1 :></label>
+			<div class="input-wrap">
+				<input type="text" name="question1">
+			</div>
+			<label class="shareit-form__lbl" for="question2"><: $campaign_config.question2 :></label>
+			<div class="input-wrap">
+				<input type="text" name="question2">
+			</div>
+			<label class="shareit-form__lbl" for="question3"><: $campaign_config.question3 :></label>
+			<div class="input-wrap">
+				<input type="text" name="question3">
+			</div>
+			<input type="hidden" name="campaign_id" value="1">
+			<input type="hidden" name="campaign_name" value="share">
+			<hr/>
+			<div class="quarter">
+				<div class="input-wrap">
+					<input type="submit" name="submit" value="Submit" class="button blue submit">
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+<: } :>
+
+<: if $campaign == 'share_followup' { :>
+<div id="mailform2" class="shareit-form  form-border">
+	<div class="form-wrap">
+		<div id="mailerr2" class="warning"></div>
+		<h2 class="shareit-form__title">Welcome back!</h2>
+		<form id="mail2" method="POST" action="/campaign/respond">
+			<label class="shareit-form__lbl" for="question1"><: $campaign_config.question1 :></label>
+			<div class="input-wrap">
+				<input type="text" name="question1">
+			</div>
+			<label class="shareit-form__lbl" for="question2"><: $campaign_config.question2 :></label>
+			<div class="input-wrap">
+				<input type="text" name="question2">
+			</div>
+			<label class="shareit-form__lbl" for="question3"><: $campaign_config.question3 :></label>
+			<select name="question3" class="js-select">
+				<option value="Less than a day">Less than a day</option>
+				<option value="About a week">About a week</option>
+				<option value="A few weeks">A few weeks</option>
+				<option value="A month">A month</option>
+			</select>
+			<input type="hidden" name="campaign_id" value="2">
+			<input type="hidden" name="campaign_name" value="share_followup">
+			<hr/>
+			<div class="quarter">
+				<div class="input-wrap">
+					<input type="submit" name="submit" value="Submit" class="button blue submit">
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+<: } :>
+
+<div id="thankyou1" class="shareit-thanks  hide">
+    <div class="shareit-responded  notice info"><i class="icn icon-thumbs-up-alt"></i> Thanks! Now it's time to go spread DuckDuckGo!
+    <p class="shareit-thanks__return">On <span id="returndate" class="shareit-thanks__return__date"></span> log in here or go to <a href="https://duck.co/">https://duck.co/</a> and click the
+    notification at the top of the page for your next set of questions and a coupon code!</p>
+</div>
+</div>
+
+<div id="thankyou2" class="shareit-thanks  hide">
+    <p class="shareit-thanks__give">Thanks for sharing DuckDuckGo!  Here's a coupon code for a free t-shirt to help you spread the message in style!</p>
+    <div class="shareit-couponcode  notice"><i class="icn icon-tag"></i>Your coupon code is: <span id="couponcode" class="shareit-couponcode__code"></span></div>
+	<p><a href="http://duck-duck-go.myshopify.com/">Go to the DuckDuckGo store</a></p>
+</div>
+

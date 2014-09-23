@@ -1,0 +1,86 @@
+/*
+	ShareIt Page CSS
+	
+	Limited styling to support the unique look of this page.
+*/
+
+.shareit-top {
+	text-align: center;
+}
+
+.shareit-title {
+	font-size: 42px;
+	margin-bottom: 10px;
+}
+
+.shareit-subtitle {
+	font-size: 26px;
+}
+
+.shareit-prompt {
+	font-size: 18px;
+	padding-bottom: 70px;
+}
+
+.shareit-overview {
+	padding: 80px 0 40px;
+}
+	.shareit-overview__col {
+		padding: 0 50px;
+	}
+	.shareit-overview__img {
+		width: 128px;
+		height: 128px;
+		display: block;
+		margin: auto;
+	}
+	.shareit-overview__title {
+		padding-top: 10px;
+		font-weight: bold;
+		font-size: 22px;
+	}
+
+	
+.shareit-responded {
+	font-size: 1.35em;
+}
+
+.shareit-thanks {
+	text-align: center;
+}
+
+.shareit-thanks__return,
+.shareit-thanks__give {
+	font-size: 18px;
+	max-width: 38em;
+}
+.shareit-thanks__give {
+	max-width: 28em;
+}
+	.shareit-thanks__return__date {
+		font-weight: bold;
+	}
+
+.shareit-form__title {
+	font-weight: bold;
+}
+.shareit-form__lbl {
+	display: block;
+	font-size: 16px;
+	margin: 20px 0 5px;
+}
+
+.shareit-couponcode {
+	font-size:20px;
+}
+	.shareit-couponcode .icn {
+		top: 0;
+		bottom: 0;
+		margin: auto;
+	}
+	.shareit-couponcode__code {
+		display: block;
+		line-height: 1.2;
+		font-size: 42px;
+		color: #000;
+	}

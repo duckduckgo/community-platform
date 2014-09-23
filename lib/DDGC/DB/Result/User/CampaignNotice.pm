@@ -1,5 +1,5 @@
 package DDGC::DB::Result::User::CampaignNotice;
-# ABSTRACT: Which user has seen which 'Special Announcement'
+# ABSTRACT: Which user has seen which Special Announcement / Campaign
 
 use Moose;
 use MooseX::NonMoose;
@@ -14,18 +14,30 @@ column users_id => {
   is_nullable => 0,
 };
 
-column thread_id => {
+column campaign_id => {
   data_type => 'bigint',
   is_nullable => 0,
 };
 
-primary_key ( qw/users_id thread_id/ );
-
-belongs_to 'notice_user', 'DDGC::DB::Result::User', 'users_id', {
-  on_delete => 'no action',
+column campaign_source => {
+  data_type => 'text',
+  is_nullable => 0,
 };
 
-belongs_to 'notice_thread', 'DDGC::DB::Result::Thread', 'thread_id', {
+column responded => {
+  data_type => 'timestamp',
+  is_nullable => 1,
+};
+
+column bad_response => {
+  data_type => 'tinyint',
+  is_nullable => 0,
+  default_value => 0,
+};
+
+primary_key ( qw/users_id campaign_id campaign_source/ );
+
+belongs_to 'notice_user', 'DDGC::DB::Result::User', 'users_id', {
   on_delete => 'no action',
 };
 

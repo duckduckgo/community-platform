@@ -63,5 +63,7 @@ sub get_by_i_param {
 	return $self->resultset($resultset)->find($id);
 }
 
+sub format_datetime { shift->storage->datetime_parser->format_datetime(shift) }
+
 no Moose;
 __PACKAGE__->meta->make_immutable( inline_constructor => 0 );

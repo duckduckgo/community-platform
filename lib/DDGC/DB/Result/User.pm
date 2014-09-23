@@ -15,6 +15,8 @@ use Prosody::Mod::Data::Access;
 use Digest::MD5 qw( md5_hex );
 use List::MoreUtils qw( uniq  );
 use namespace::autoclean;
+use DateTime;
+use DateTime::Duration;
 
 table 'users';
 
@@ -296,7 +298,7 @@ sub undone_notifications_count_resultset {
 		prefetch => [qw( user_notification_group ),{
 			event_notifications => [qw( user_notification )],
 		}],
-		cache_for => 45,
+		cache_for => 300,
 	})
 }
 
@@ -311,7 +313,7 @@ sub undone_notifications {
 		'user_notification.users_id' => $self->id,
 	},{
 		order_by => { -desc => 'event_notifications.created' },
-		cache_for => 45,
+		cache_for => 300,
 		$limit ? ( rows => $limit ) : (),
 	});
 }
@@ -686,8 +688,82 @@ sub add_type_notification {
 }
 
 sub seen_campaign_notice {
-	my ( $self, $thread_id ) = @_;
-	return ( $self->schema->resultset('User::CampaignNotice')->find({ users_id => $self->id, thread_id => $thread_id }) )? 1 : 0;
+	my ( $self, $campaign, $campaign_source ) = @_;
+
+	my $result = $self->schema->resultset('User::CampaignNotice')->search( {
+		users_id => $self->id,
+		campaign_id => $self->ddgc->config->id_for_campaign($campaign),
+		campaign_source => $campaign_source,
+	}	);
+
+	return $result;
+}
+
+sub responded_campaign {
+	my ($self, $campaign, $time_ago, $bad) = @_;
+
+	return $self->schema->resultset('User::CampaignNotice')->search({
+			users_id => $self->id,
+			campaign_id => $self->ddgc->config->id_for_campaign($campaign),
+			campaign_source => 'campaign',
+			responded => { '!=' => undef },
+			($time_ago) ? ( responded => { '<' => $time_ago } ) : (),
+			(defined $bad) ? ( bad_response => $bad ) : (),
+	})->first;
+}
+
+sub set_responded_campaign {
+	my ($self, $campaign) = @_;
+	$self->schema->resultset('User::CampaignNotice')->update_or_create({
+		users_id => $self->id,
+		campaign_id => $self->ddgc->config->id_for_campaign($campaign),
+		campaign_source => 'campaign',
+		responded => $self->ddgc->db->format_datetime( DateTime->now ),
+	});
+}
+
+sub get_first_available_campaign {
+	my ($self) = @_;
+	my $campaigns = $self->ddgc->config->campaigns;
+
+	if ($self->responded_campaign('share')) {
+
+		my $responded_share_30_days_ago = $self->responded_campaign(
+			'share',
+			$self->ddgc->db->format_datetime(
+				DateTime->now - DateTime::Duration->new( days => 29 ),
+			),
+			0
+		);
+		my $responded_followup = $self->responded_campaign('share_followup');
+
+		if ($responded_share_30_days_ago && !$responded_followup) {
+			return ($campaigns->{share_followup}->{active}) ? 'share_followup' : 0;
+		}
+		return 0;
+	}
+	return ($campaigns->{share}->{active}) ? 'share' : 0;
+}
+
+sub get_coupon {
+	my ($self, $campaign) = @_;
+
+	return "NO COUPON" if (!$self->responded_campaign($campaign));
+
+	my $coupon = $self->schema->resultset('User::Coupon')->find({
+		users_id => $self->id,
+		campaign_id => $self->ddgc->config->id_for_campaign($campaign),
+	}) //
+	$self->schema->resultset('User::Coupon')->search({
+		users_id => undef,
+		campaign_id => $self->ddgc->config->id_for_campaign($campaign),
+	})->first;
+
+	return "NO COUPON" if (!$coupon);
+
+	$coupon->users_id($self->id);
+	$coupon->update;
+	return $coupon->coupon;
 }
 
 sub check_password {
