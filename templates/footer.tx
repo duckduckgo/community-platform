@@ -4,15 +4,10 @@
 			<div class="nav-col">
 				<h4>Things you can do:</h4>
 				<ul>
-					<li><a href="<: $u('Translate', 'index') :>">Translate DuckDuckGo</a></li>
-					<li><a href="http://duck.co/">Join our Forums</a></li>
-					<li><a href="<: $u('Blog','index') :>">Browse our Blog</a></li>
 					<li><a href="<: $u('Blog','post','using-pidgin-with-xmpp-jabber') :>">Chat via XMPP/Jabber</a></li>
-					<li><a href="https://github.com/duckduckgo/community-platform">Develop this site</a></li>
 					<li><a href="https://github.com/duckduckgo/duckduckgo/wiki">Develop instant answers</a></li>
 					<li><a href="https://duckduckgo.com/spread">Spread DuckDuckGo!</a></li>
 					<li><a href="https://duckduckgo.com/feedback">Submit feedback</a></li>
-					<li><a href="<: $u('Roboduck','index') :>">Talk with RoboDuck</a></li>
 				</ul>
 			</div>
 		</div>
@@ -20,11 +15,8 @@
 			<div class="nav-col">
 				<h4>DuckDuckGo sites:</h4>
 				<ul>
-					<li><a href="https://duckduckgo.com/">Homepage</a></li>
 					<li><a href="http://donttrack.us/">DontTrack.us</a></li>
 					<li><a href="http://dontbubble.us/">DontBubble.us</a></li>
-					<li><a href="<: $u('Help','index','en_US') :>">Help</a></li>
-					<li><a href="https://duck.co/">Forum</a></li>
 					<li><a href="http://duck-duck-go.myshopify.com/">Store</a></li>
 					<li><a href="http://www.stickermule.com/duckduckgo">Sticker Store</a></li>
 				</ul>
@@ -37,11 +29,7 @@
 					<li><a href="https://twitter.com/duckduckgo">Twitter</a> <a href="https://twitter.com/duckduckgo/team/members">(Team)</a></li>
 					<li><a href="https://facebook.com/duckduckgo">Facebook</a></li>
 					<li><a href="http://www.reddit.com/r/duckduckgo">/r/duckduckgo</a></li>
-					<li><a href="https://identi.ca/duckduckgo">identi.ca</a></li>
-					<li><a href="https://joindiaspora.com/u/duckduckgo">diaspora</a></li>
-					<li><a href="http://webchat.freenode.net/?channels=duckduckgo">IRC Channel</a></li>
 					<li><a href="https://github.com/duckduckgo">GitHub</a></li>
-					<li><a href="http://duckpan.org/">DuckPAN</a></li>
 				</ul>
 			</div>
 		</div>
@@ -53,7 +41,7 @@
 			<p class="footer-nav"><a href="<: $u('Root','index') :>">Home</a> <a href="https://duckduckgo.com/privacy">Privacy</a> <a href="https://duckduckgo.com/feedback">Feedback</a></p>
 		</div>
 		<div class="twothird">
-			<p>Powered by <a href="http://www.perl.org/" target="_perl">Perl</a> Delivered by <a href="http://nginx.org/" target="_nginx">nginx</a> Source at <a href="https://github.com/duckduckgo/community-platform" target="_github">github</a> &copy; <a href="https://duckduckgo.com">DuckDuckGo, Inc.</a></p>
+			<p>Powered by <a href="http://www.perl.org/" target="_perl">Perl</a>. Delivered by <a href="http://nginx.org/" target="_nginx">nginx</a>. Source at <a href="https://github.com/duckduckgo/community-platform" target="_github">GitHub</a> &copy; <a href="https://duckduckgo.com">DuckDuckGo, Inc.</a></p>
 			<p>XMPP/Jabber usercount: <: $user_counts.xmpp :> | Website usercount: <: $user_counts.db :></p>
 		</div>
 	</div>
