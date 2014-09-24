@@ -5,7 +5,7 @@
 	<div class="shareit-overview group">
 		<div class="third">
 			<div class="shareit-overview__col">
-				<img src="/static/img/share.png" alt="share duckduckgo" class="shareit-overview__img" />
+				<img src="/static/img/shareit.png" alt="share duckduckgo" class="shareit-overview__img" />
 				<h4 class="shareit-overview__title">Share DuckDuckGo</h4>
 				<p>You've got thirty days and a world full of people. Get your friends to switch to DuckDuckGo by <: $share_date :>.</p>
 			</div>
