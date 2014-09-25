@@ -48,7 +48,6 @@ sub base :Chained('/') :PathPart('') :CaptureArgs(0) {
 	$c->stash->{ddgc_config} = $c->d->config;
 	$c->stash->{xmpp_userhost} = $c->d->config->prosody_userhost;
 	$c->stash->{prefix_title} = 'DuckDuckGo Community';
-	$c->stash->{user_counts} = $c->d->user_counts;
 	$c->stash->{page_class} = "texture";
 	$c->stash->{is_live} = $c->d->is_live;
 	$c->stash->{is_view} = $c->d->is_view;
