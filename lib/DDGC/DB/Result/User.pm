@@ -705,6 +705,12 @@ sub add_type_notification {
 	}
 }
 
+sub reset_notifications_patron_role {
+	my ( $self ) = @_;
+	$self->user_notifications->delete;
+	$self->add_type_notification(qw( forum_comments 4 0 ));
+}
+
 sub seen_campaign_notice {
 	my ( $self, $campaign, $campaign_source ) = @_;
 

@@ -23,7 +23,9 @@
         <: for d().all_roles.keys() -> $role { :>
           <a href="<: $u('Admin::User','user',$_.lc_username,{
             $role, $_.is($role) ? 0 : 1,
-          }) :>" class="button <: if $_.is($role) { :>blue<: } else { :>grey<: } :>"><: d().all_roles($role) :></a>
+          }) :>" class="button <: if $_.is($role) { :>blue<: } else { :>grey<: } :>"
+                 <: if $role == 'patron' && !$_.is($role) { :> onclick="return confirm('This will reset all notification settings for this user. Are you sure?')" <: } :>
+          ><: d().all_roles($role) :></a>
         <: } :>
       </div>
       <div class="row">
