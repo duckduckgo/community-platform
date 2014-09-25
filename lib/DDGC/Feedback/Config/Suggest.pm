@@ -29,14 +29,14 @@ sub feedback {[
   },
     # suggest_instant(),
   {
-	description => "A new Admin forum post",
+	description => "A new Internal Forum post",
 	icon => "convo",
 	type => "link",
 	link => ['Forum::My','newthread','4'],
 	user_filter => DDGC::Config::forums->{'4'}->{'user_filter'},
   },
   {
-	description => "A new Community Leaders forum post",
+	description => "A new Community Leaders Forum post",
 	icon => "convo",
 	type => "link",
 	link => ['Forum::My','newthread','2'],

@@ -40,7 +40,7 @@ sub comments_grouped_general_threads{
 sub comments_grouped_community_leaders_threads{
 		$_[0]->comments_grouped_threads->search_rs({ 'thread.forum' => 2 });
 }
-sub comments_grouped_admin_threads{
+sub comments_grouped_internal_threads{
 		$_[0]->comments_grouped_threads->search_rs({ 'thread.forum' => 4 });
 }
 sub comments_grouped_special_threads{

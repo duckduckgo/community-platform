@@ -253,11 +253,11 @@ sub forums {
 			user_filter => sub { ($_[0] && $_[0]->is('translation_manager')) },
 		},
 		'4' => {
-			name => 'Admins',
-			notification => 'Admins Post',
+			name => 'Internal Forum',
+			notification => 'Internal Forum Post',
 			button_img => '/static/images/admin_button.png',
-			url  => 'admins',
-			user_filter => sub { ($_[0] && $_[0]->is('admin')) },
+			url  => 'internal',
+			user_filter => sub { ($_[0] && $_[0]->is('patron')) },
 		},
 		'5' => {
 			name => 'Special Announcements',
