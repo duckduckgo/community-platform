@@ -353,6 +353,21 @@ sub is_subscribed_and_notification_is_special {
 	return 1;
 }
 
+sub is_patron_and_notification_is_internal {
+	my ( $self, $context_obj ) = @_;
+	return 1 if !$self->is('patron');
+	my $t;
+	$t = $context_obj if $context_obj->isa('DDGC::DB::Result::Thread');
+	$t = $context_obj->thread if $context_obj->isa('DDGC::DB::Result::Comment');
+	if ( $t && $t->forum_is('internal') ) {
+		return $self->user_notifications->find( {
+				'me.context_id' => $t->id,
+				'user_notification_group.context' => 'DDGC::DB::Result::Thread',
+			}, { join => 'user_notification_group' } );
+	}
+	return 0;
+}
+
 sub blog { shift->user_blogs_rs }
 
 # This validation is performed on signup, but better to do it again, prevent traversal etc.
