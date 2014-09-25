@@ -1,34 +1,12 @@
 <div class="site-bottom">
 	<div class="content-wrap">
-		<div class="third">
-			<div class="nav-col">
-				<h4>Things you can do:</h4>
-				<ul>
-					<li><a href="https://github.com/duckduckgo/duckduckgo/wiki">Develop instant answers</a></li>
-					<li><a href="https://duckduckgo.com/spread">Spread DuckDuckGo!</a></li>
-					<li><a href="<: $u('Blog','post','using-pidgin-with-xmpp-jabber') :>">Chat via XMPP/Jabber</a></li>
-				</ul>
-			</div>
-		</div>
-		<div class="third">
-			<div class="nav-col">
-				<h4>DuckDuckGo sites:</h4>
-				<ul>
-					<li><a href="http://donttrack.us/">DontTrack.us</a></li>
-					<li><a href="http://dontbubble.us/">DontBubble.us</a></li>
-					<li><a href="http://duck-duck-go.myshopify.com/">Store</a></li>
-					<li><a href="http://www.stickermule.com/duckduckgo">Sticker Store</a></li>
-				</ul>
-			</div>
-		</div>
-		<div class="third">
-			<div class="nav-col">
-				<h4>DuckDuckGo social:</h4>
-				<ul>
-					<li><a href="https://twitter.com/duckduckgo">Twitter</a> <a href="https://twitter.com/duckduckgo/team/members">(Team)</a></li>
-					<li><a href="http://www.reddit.com/r/duckduckgo">/r/duckduckgo</a></li>
-				</ul>
-			</div>
+		<div class="nav-col">
+		<h4>Things to do:</h4>
+			<a href="https://duckduckhack.com/">Develop instant answers</a> |
+			<a href="https://duckduckgo.com/spread">Spread DuckDuckGo</a> |
+			<a href="<: $u('Blog','post','using-pidgin-with-xmpp-jabber') :>">Chat via XMPP</a> |
+			<a href="http://duck-duck-go.myshopify.com/">Get DuckDuckGo Gear</a> |
+			<a href="https://duck.co/help/community/following-duckduckgo">Follow DuckDuckGo</a>
 		</div>
 	</div>
 </div>
@@ -39,7 +17,6 @@
 		</div>
 		<div class="twothird">
 			<p>Powered by <a href="http://www.perl.org/" target="_perl">Perl</a>. Source at <a href="https://github.com/duckduckgo/community-platform" target="_github">GitHub</a>. &copy; <a href="https://duckduckgo.com">DuckDuckGo, Inc.</a></p>
-			<p>XMPP/Jabber usercount: <: $user_counts.xmpp :> | Website usercount: <: $user_counts.db :></p>
 		</div>
 	</div>
 </div>
