@@ -35,7 +35,7 @@
 <div class="site-footer">
 	<div class="content-wrap">
 		<div class="third">
-			<p class="footer-nav"><a href="<: $u('Root','index') :>">Home</a> <a href="https://duckduckgo.com/privacy">Privacy</a> <a href="https://duckduckgo.com/feedback">Feedback</a></p>
+			<p class="footer-nav"><a href="<: $u('Root','index') :>">Home</a> <a href="https://duckduckgo.com/feedback">Feedback</a></p>
 		</div>
 		<div class="twothird">
 			<p>Powered by <a href="https://www.perl.org/" target="_perl">Perl</a>. Source at <a href="https://github.com/duckduckgo/community-platform" target="_github">GitHub</a>. &copy; <a href="https://duckduckgo.com">DuckDuckGo, Inc.</a></p>
