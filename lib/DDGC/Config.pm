@@ -283,9 +283,9 @@ sub campaigns {
 			active => 1,
 			url => '/share/',
 			notification => "Help share DuckDuckGo! Find out more...",
-			question1 => "What's your plan for spreading DuckDuckGo this month?",
-			question2 => "Why should your friends use DuckDuckGo?",
-			question3 => "What awesome things will you do with your DuckDuckGo t-shirt next month?",
+			question1 => "How did you hear about DuckDuckGo?",
+			question2 => "How long have you been a DuckDuckGo user?",
+			question3 => "Is this your first time spreading DuckDuckGo to others?",
 		},
 		share_followup => {
 			id => 2,
