@@ -542,6 +542,7 @@ sub register :Chained('logged_out') :Args(0) {
 				$user->data($data);
 				$user->update;
 			}
+			$c->delete_session;
 		} else {
 			$c->stash->{register_failed} = 1;
 			return $c->detach;
