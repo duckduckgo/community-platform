@@ -122,3 +122,12 @@
 	<p><a href="http://duck-duck-go.myshopify.com/">Go to the DuckDuckGo store</a></p>
 </div>
 
+<: if $coupon_code { :>
+	<script>
+		$(document).ready(function() {
+				$("#thankyou2").removeClass("hide");
+			}
+		);
+	</script>
+<: } :>
+

@@ -242,7 +242,13 @@ sub wear :Chained('base') :PathPart('wear') :Args(0) {
 			$c->stash->{campaign_config} = $c->d->config->campaigns->{ $c->stash->{campaign} };
 		}
 		else {
-			$c->stash->{no_campaign} = 1 if (!$c->stash->{campaign});
+			my $coupon = $c->user->get_coupon('share_followup');
+			if ($coupon) {
+				$c->stash->{coupon_code} = $coupon;
+			}
+			else {
+				$c->stash->{no_campaign} = 1;
+			}
 		}
 	}
 }

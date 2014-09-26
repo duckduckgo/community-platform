@@ -80,7 +80,7 @@ BAD_RESPONSE_LINK
 		$return_on = (DateTime->now + DateTime::Duration->new( days => 30 ))->strftime("%B %e");
 	}
 	if ($campaign_name eq 'share_followup') {
-		$coupon = $c->user->get_coupon($campaign_name);
+		$coupon = $c->user->get_coupon($campaign_name, { create => 1 }) || "NO COUPON :(";
 	}
 	$c->stash->{x} = {
 		ok => 1, return_on => $return_on, coupon => $coupon,
