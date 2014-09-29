@@ -17,6 +17,11 @@
 	font-size: 26px;
 }
 
+.shareit-login-subtitle {
+	font-style: italic;
+	padding: 10px;
+}
+
 .shareit-prompt {
 	font-size: 18px;
 	padding-bottom: 70px;

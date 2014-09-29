@@ -746,20 +746,24 @@ sub get_first_available_campaign {
 }
 
 sub get_coupon {
-	my ($self, $campaign) = @_;
+	my ($self, $campaign, $opts) = @_;
 
-	return "NO COUPON" if (!$self->responded_campaign($campaign));
+	return 0 if (!$self->responded_campaign($campaign));
 
-	my $coupon = $self->schema->resultset('User::Coupon')->find({
+
+	my $coupon = $self->schema->resultset('User::Coupon')->search({
 		users_id => $self->id,
-		campaign_id => $self->ddgc->config->id_for_campaign($campaign),
-	}) //
-	$self->schema->resultset('User::Coupon')->search({
-		users_id => undef,
 		campaign_id => $self->ddgc->config->id_for_campaign($campaign),
 	})->first;
 
-	return "NO COUPON" if (!$coupon);
+	if (!$coupon && $opts->{create}) {
+		$coupon = $self->schema->resultset('User::Coupon')->search({
+			users_id => undef,
+			campaign_id => $self->ddgc->config->id_for_campaign($campaign),
+		})->first;
+	}
+
+	return 0 if (!$coupon);
 
 	$coupon->users_id($self->id);
 	$coupon->update;
