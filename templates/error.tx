@@ -59,12 +59,13 @@
               <div class="media__body">
                 <h3>Sorry...</h3>
                 <p><: r($finalize_error) :></p>
-                <p><a href='/'>Home</a>.
+                <p><a href='/forum'>Discuss</a> | <a href='/duckduckhack'>Develop</a> | <a href='/translate'>Translate</a></p>
               </div>
-            </div>            
+            </div>
           </div>
         </div>
       </div>
     </div> 
   </div> <!--wrapper-->
 </body></html>
+
