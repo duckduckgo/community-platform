@@ -689,8 +689,22 @@ sub add_type_notification {
 
 sub seen_campaign_notice {
 	my ( $self, $campaign, $campaign_source ) = @_;
+	my $campaign_id = $self->ddgc->config->id_for_campaign($campaign) // return 0;
 
-	my $result = $self->schema->resultset('User::CampaignNotice')->search( {
+	my $result = $self->schema->resultset('User::CampaignNotice')->find( {
+		users_id => $self->id,
+		campaign_id => $campaign_id,
+		campaign_source => $campaign_source,
+		cache_for => 600,
+	}	);
+
+	return ($result) ? 1 : 0;
+}
+
+sub set_seen_campaign {
+	my ( $self, $campaign, $campaign_source ) = @_;
+
+	my $result = $self->schema->resultset('User::CampaignNotice')->find_or_create( {
 		users_id => $self->id,
 		campaign_id => $self->ddgc->config->id_for_campaign($campaign),
 		campaign_source => $campaign_source,
@@ -719,6 +733,16 @@ sub set_responded_campaign {
 		campaign_id => $self->ddgc->config->id_for_campaign($campaign),
 		campaign_source => 'campaign',
 		responded => $self->ddgc->db->format_datetime( DateTime->now ),
+	});
+}
+
+sub set_bad_response {
+	my ($self, $campaign) = @_;
+	$self->schema->resultset('User::CampaignNotice')->update_or_create({
+		users_id => $self->id,
+		campaign_id => $self->ddgc->config->id_for_campaign($campaign),
+		campaign_source => 'campaign',
+		bad_response => 1,
 	});
 }
 

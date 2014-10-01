@@ -34,11 +34,20 @@ sub finishwizard :Chained('base') :Args(0) {
 	return $c->detach;
 }
 
-sub campaign_nothanks :Chained('base') :Args(1) {
-	my ( $self, $c, $thread_id ) = @_;
+sub campaign_nothanks :Chained('base') :Args(0) {
+	my ( $self, $c, $campaign, $source ) = @_;
 	$c->stash->{not_last_url} = 1;
-	$c->stash->{x} = ( $c->d->rs('User::CampaignNotice')->find_or_create( { users_id => $c->user->id, thread_id => $thread_id } ) ) ?
-		{ ok => 1 } : { ok => 0 };
+
+	$c->stash->{x} = ( $c->user->set_seen_campaign(
+		$c->stash->{campaign_info}->{campaign_name},
+		'campaign',
+	) ) ?
+	{ ok => 1 } : { ok => 0 };
+
+	if ($c->stash->{x}->{ok}) {
+		$c->session->{campaign_notification} = undef;
+		$c->stash->{campaign_info} = undef;
+	}
 	$c->forward( $c->view('JSON') );
 	return $c->detach;
 }
@@ -542,7 +551,9 @@ sub register :Chained('logged_out') :Args(0) {
 				$user->data($data);
 				$user->update;
 			}
-			$c->delete_session;
+			$c->session->{action_token} = undef;
+			$c->session->{captcha_string} = undef;
+			$c->session->{username_field} = undef;
 		} else {
 			$c->stash->{register_failed} = 1;
 			return $c->detach;
