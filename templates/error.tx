@@ -34,8 +34,10 @@
         <div class="header-logo">
           <div class="header-logo__logo"><a href="https://dukgo.com/"><img src="/static/img/logo_ddg_community.png" alt="DuckDuckGo Community Platform"></a></div>
           <div class="header-logo__text">
+            <a href="https://dukgo.com/">
             <h2>DuckDuck<i>Go</i></h2>
-            <h3>Community Platform</h3>   
+            <h3>Community Platform</h3>
+            </a>
           </div>
         </div>  
         <div class="header-notice">
@@ -55,70 +57,15 @@
             <div class="media">
               <img src="/ddgc_static/img/duckduckgo-icon.png" alt="DuckDuckGo" class="media__img  h1" />
               <div class="media__body">
-                <h3>Hooops!</h3>
+                <h3>Sorry...</h3>
                 <p><: r($finalize_error) :></p>
+                <p><a href='/forum'>Discuss</a> | <a href='/duckduckhack'>Develop</a> | <a href='/translate'>Translate</a></p>
               </div>
-            </div>            
-          </div>
-        </div>
-        <div class="notice">
-          <p></p>
-        </div>
-      </div>
-    </div> <!--.site-main-->
-    <div class="site-bottom">
-      <div class="content-wrap">
-        <div class="third">
-          <div class="nav-col">
-            <h4>Things you can do:</h4>
-            <ul>
-              <li>...</li>
-              <li><p><br><i>OR</i></p></li>
-              <li><a href="https://github.com/duckduckgo/community-platform" target="_blank">Fix this site</a></li>
-              <li><a href="https://github.com/duckduckgo/duckduckgo/wiki" target="_blank">Develop goodies</a></li>
-              <li><a href="https://duckduckgo.com/spread" target="_blank">Spread DuckDuckGo!</a></li>
-            </ul>
-          </div>
-          </div>
-        <div class="third">
-          <div class="nav-col">
-            <h4>DuckDuckGo sites:</h4>
-            <ul>
-              <li><a href="https://duckduckgo.com/" target="_blank">Homepage</a></li>
-              <li><a href="http://donttrack.us/" target="_blank">DontTrack.us</a></li>
-              <li><a href="http://dontbubble.us/" target="_blank">DontBubble.us</a></li>
-              <li><a href="http://cafepress.com/duckduckgo" target="_blank">Store</a></li>
-              <li><a href="http://www.stickermule.com/duckduckgo" target="_blank">Sticker Store</a></li>
-            </ul>
-          </div>
-        </div>
-        <div class="third">
-          <div class="nav-col">
-            <h4>DuckDuckGo social:</h4>
-            <ul>
-              <li><a href="https://twitter.com/duckduckgo" target="_blank">Twitter</a> <a href="https://twitter.com/duckduckgo/team/members" target="_blank">(Team)</a></li>
-              <li><a href="https://facebook.com/duckduckgo" target="_blank">Facebook</a></li>
-              <li><a href="http://www.reddit.com/r/duckduckgo" target="_blank">/r/duckduckgo</a></li>
-              <li><a href="https://identi.ca/duckduckgo" target="_blank">identi.ca</a></li>
-              <li><a href="https://joindiaspora.com/u/duckduckgo" target="_blank">diaspora</a></li>
-              <li><a href="http://webchat.freenode.net/?channels=duckduckgo" target="_blank">IRC Channel</a></li>
-              <li><a href="https://github.com/duckduckgo" target="_blank">GitHub</a></li>
-              <li><a href="http://duckpan.org/" target="_blank">DuckPAN</a></li>
-            </ul>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    <div class="site-footer">
-      <div class="content-wrap">
-        <div class="third">
-          <p class="footer-nav"><a href="https://dukgo.com/">Home</a> <a href="https://duckduckgo.com/privacy" target="_blank">Privacy</a> <a href="https://duckduckgo.com/feedback" target="_blank">Feedback</a></p>
-        </div>
-        <div class="twothird">
-          <p>Powered by <a href="http://www.perl.org/" target="_blank">Perl</a> Delivered by <a href="http://nginx.org/" target="_blank">nginx</a> Source at <a href="https://github.com/duckduckgo/community-platform" target="_blank">github</a> © <a href="https://duckduckgo.com" target="_blank">DuckDuckGo, Inc.</a></p>
-        </div>
-      </div>
-    </div>
-
+    </div> 
   </div> <!--wrapper-->
 </body></html>
+
