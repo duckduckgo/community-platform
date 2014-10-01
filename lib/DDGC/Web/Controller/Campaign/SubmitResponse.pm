@@ -44,8 +44,9 @@ sub respond : Chained('base') : PathPart('respond') : Args(0) {
 	}
 
 	if ($campaign_name eq 'share') {
+		my $report_url = $c->chained_uri( 'Admin::Campaign', 'bad_user_response', { user => $username, campaign => $campaign_name} );
 		$c->stash->{'extra'} = <<"BAD_RESPONSE_LINK"
-		<a href="https://duck.co/admin/campaign/bad_user_response?user=$username&campaign=$campaign_name">
+		<a href="$report_url">
 			Report bad responses
 		</a>.
 BAD_RESPONSE_LINK

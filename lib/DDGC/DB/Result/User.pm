@@ -736,6 +736,16 @@ sub set_responded_campaign {
 	});
 }
 
+sub set_bad_response {
+	my ($self, $campaign) = @_;
+	$self->schema->resultset('User::CampaignNotice')->update_or_create({
+		users_id => $self->id,
+		campaign_id => $self->ddgc->config->id_for_campaign($campaign),
+		campaign_source => 'campaign',
+		bad_response => 1,
+	});
+}
+
 sub get_first_available_campaign {
 	my ($self) = @_;
 	my $campaigns = $self->ddgc->config->campaigns;
@@ -745,7 +755,7 @@ sub get_first_available_campaign {
 		my $responded_share_30_days_ago = $self->responded_campaign(
 			'share',
 			$self->ddgc->db->format_datetime(
-				DateTime->now - DateTime::Duration->new( minutes => 1 ),
+				DateTime->now - DateTime::Duration->new( days => 29 ),
 			),
 			0
 		);
