@@ -25,23 +25,25 @@ sub base :Chained('/') :PathPart('') :CaptureArgs(0) {
 
 	$c->d->current_user($c->user) if $c->user;
 
-#	if ($c->user && !$c->session->{campaign_notification_checked}) {
-#		$c->session->{campaign_notification_checked} = 1;
-#		my $campaign = $c->user->get_first_available_campaign;
-#		if ($campaign) {
-#			if (!$c->user->seen_campaign_notice($campaign, 'campaign')) {
-#				$c->session->{campaign_notification} = $campaign;
-#			}
-#		}
-#	}
-#
-#	if ($c->session->{campaign_notification}) {
-#		my $campaign_config = $c->d->config->campaigns->{$c->session->{campaign_notification}};
-#		$c->stash->{campaign_info}->{campaign_id} = $campaign_config->{id};
-#		$c->stash->{campaign_info}->{campaign_name} = $campaign;
-#		$c->stash->{campaign_info}->{link} = $campaign_config->{url};
-#		$c->stash->{campaign_info}->{notification} = $campaign_config->{notification};
-#	}
+	if ($c->user && !$c->session->{campaign_notification_checked}) {
+		$c->session->{campaign_notification_checked} = 1;
+		my $campaign = $c->user->get_first_available_campaign;
+		if ($campaign) {
+			if (!$c->user->seen_campaign_notice($campaign, 'campaign')) {
+				$c->session->{campaign_notification} = $campaign;
+			}
+		}
+	}
+
+	if ($c->session->{campaign_notification}) {
+		my $campaign_config = $c->d->config->campaigns->{$c->session->{campaign_notification}};
+		if ($campaign_config->{notification_active}) {
+			$c->stash->{campaign_info}->{campaign_id} = $campaign_config->{id};
+			$c->stash->{campaign_info}->{campaign_name} = $c->session->{campaign_notification};
+			$c->stash->{campaign_info}->{link} = $campaign_config->{url};
+			$c->stash->{campaign_info}->{notification} = $campaign_config->{notification};
+		}
+	}
 
 	$c->stash->{web_base} = $c->d->config->web_base;
 	$c->stash->{template_layout} = [ 'base.tx' ];
@@ -232,6 +234,8 @@ sub wear :Chained('base') :PathPart('wear') :Args(0) {
 	$c->stash->{share_page} = 1;
 	$c->session->{last_url} = $c->req->uri;
 	$c->stash->{title} = "DuckDuckGo : Share it + Wear it!";
+	$c->session->{campaign_notification} = undef;
+	$c->stash->{campaign_info} = undef;
 	$c->stash->{share_date} = (DateTime->now + DateTime::Duration->new( days => 30 ))->strftime("%b %e");
 
 	if ($c->user) {
@@ -239,6 +243,7 @@ sub wear :Chained('base') :PathPart('wear') :Args(0) {
 		$c->stash->{campaign} = $c->user->get_first_available_campaign;
 		if ($c->stash->{campaign}) {
 			$c->stash->{campaign_config} = $c->d->config->campaigns->{ $c->stash->{campaign} };
+			$c->user->set_seen_campaign($c->stash->{campaign}, 'campaign');
 		}
 		else {
 			my $coupon = $c->user->get_coupon('share_followup');

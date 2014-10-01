@@ -281,7 +281,8 @@ sub campaigns {
 		share => {
 			id => 1,
 			active => 1,
-			url => '/share/',
+			notification_active => 0,
+			url => '/wear/',
 			notification => "Help share DuckDuckGo! Find out more...",
 			question1 => "How did you hear about DuckDuckGo?",
 			question2 => "How long have you been a DuckDuckGo user?",
@@ -290,8 +291,9 @@ sub campaigns {
 		share_followup => {
 			id => 2,
 			active => 1,
-			url => '/share/',
-			notification => "Tell us how your friend got on with DuckDuckGo!",
+			notification_active => 1,
+			url => '/wear/',
+			notification => "30 days ago you told us how you were going to get your firends and family to switch to DuckDuckGo. Want to tell us how you they got on?",
 			question1 => "How did you get your friend to switch to DuckDuckGo?",
 			question2 => "What did they most like about DuckDuckGo?",
 			question3 => "How long did it take them to switch?",
