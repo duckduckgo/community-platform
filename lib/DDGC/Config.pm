@@ -293,7 +293,7 @@ sub campaigns {
 			active => 1,
 			notification_active => 1,
 			url => '/wear/',
-			notification => "30 days ago you told us how you were going to get your firends and family to switch to DuckDuckGo. Want to tell us how you they got on?",
+			notification => "You've been sharing DuckDuckGo for 30 days. Ready to answer your final questions?",
 			question1 => "How did you get your friend to switch to DuckDuckGo?",
 			question2 => "What did they most like about DuckDuckGo?",
 			question3 => "How long did it take them to switch?",
