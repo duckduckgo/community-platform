@@ -275,8 +275,8 @@ sub finalize_error {
 	my $c = shift;
 	my $msg = (ref $c->error eq 'ARRAY') ? join "\n", @{$c->error} : $c->error;
 	$c->clear_errors;
-	my $ref = $c->d->errorlog($msg);
-	$c->error("A fatal error occurred and we could not complete your request. If this error persists, please email ddgc\@duckduckgo.com and quote the reference $ref.");
+	my $log_reference = $c->d->errorlog($msg);
+	$c->error("A fatal error occurred and we could not complete your request. If this error persists, please email ddgc\@duckduckgo.com and quote the reference $log_reference.");
 	$c->NEXT::finalize_error();
 }
 
