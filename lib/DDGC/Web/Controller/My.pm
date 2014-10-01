@@ -542,7 +542,9 @@ sub register :Chained('logged_out') :Args(0) {
 				$user->data($data);
 				$user->update;
 			}
-			$c->delete_session;
+			$c->session->{action_token} = undef;
+			$c->session->{captcha_string} = undef;
+			$c->session->{username_field} = undef;
 		} else {
 			$c->stash->{register_failed} = 1;
 			return $c->detach;
