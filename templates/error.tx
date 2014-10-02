@@ -58,7 +58,7 @@
               <img src="/ddgc_static/img/duckduckgo-icon.png" alt="DuckDuckGo" class="media__img  h1" />
               <div class="media__body">
                 <h3>Sorry...</h3>
-                <p><: r($finalize_error) :></p>
+                <p>"A fatal error occurred and we could not complete your request. If this error persists, please email ddgc@duckduckgo.com and quote the reference <: $log_reference :>."</p>
                 <p><a href='/forum'>Discuss</a> | <a href='/duckduckhack'>Develop</a> | <a href='/translate'>Translate</a></p>
               </div>
             </div>
