@@ -25,9 +25,14 @@ sub user_base :Chained('base') :PathPart('view') :CaptureArgs(1) {
 	}
 	for (keys %{$c->d->all_roles}) {
 		if (defined $c->req->params->{$_}) {
-			$c->req->param($_)
-				? $c->stash->{user}->add_flag($_)
-				: $c->stash->{user}->del_flag($_)
+			if ($c->req->param($_)) {
+				if ($_ eq 'patron') {
+					$c->stash->{user}->reset_notifications_patron_role;
+				}
+				$c->stash->{user}->add_flag($_);
+			} else {
+				$c->stash->{user}->del_flag($_);
+			}
 		}
 	}
 	if (defined $c->req->params->{ghosted}) {

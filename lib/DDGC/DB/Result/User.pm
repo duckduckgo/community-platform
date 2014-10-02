@@ -227,6 +227,9 @@ sub add_default_notifications {
 sub db { return shift; }
 
 sub translation_manager { shift->is('translation_manager') }
+sub community_leader { shift->is('forum_manager') }
+sub forum_manager { shift->is('forum_manager') }
+sub patron { shift->is('patron') }
 
 sub github_user {
 	my ( $self ) = @_;
@@ -348,6 +351,21 @@ sub is_subscribed_and_notification_is_special {
 			}, { join => 'user_notification_group' } );
 	}
 	return 1;
+}
+
+sub is_patron_and_notification_is_internal {
+	my ( $self, $context_obj ) = @_;
+	return 1 if !$self->is('patron');
+	my $t;
+	$t = $context_obj if $context_obj->isa('DDGC::DB::Result::Thread');
+	$t = $context_obj->thread if $context_obj->isa('DDGC::DB::Result::Comment');
+	if ( $t && $t->forum_is('internal') ) {
+		return $self->user_notifications->find( {
+				'me.context_id' => $t->id,
+				'user_notification_group.context' => 'DDGC::DB::Result::Thread',
+			}, { join => 'user_notification_group' } );
+	}
+	return 0;
 }
 
 sub blog { shift->user_blogs_rs }
@@ -685,6 +703,12 @@ sub add_type_notification {
 			}
 		}
 	}
+}
+
+sub reset_notifications_patron_role {
+	my ( $self ) = @_;
+	$self->user_notifications->delete;
+	$self->add_type_notification(qw( forum_comments 4 0 ));
 }
 
 sub seen_campaign_notice {

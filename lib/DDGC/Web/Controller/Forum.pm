@@ -55,15 +55,15 @@ sub general : Chained('userbase') Args(0) {
   $self->get_sticky_threads($c);
 }
 
-sub admins : Chained('userbase') Args(0) {
+sub internal : Chained('userbase') Args(0) {
   my ( $self, $c ) = @_;
-  $c->stash->{forum_index} = $c->d->config->id_for_forum('admin');
+  $c->stash->{forum_index} = $c->d->config->id_for_forum('internal');
   $c->add_bc($c->d->config->forums->{$c->stash->{forum_index}}->{name});
   if (!$c->d->forum->allow_user($c->stash->{forum_index}, $c->user)) {
     $c->response->redirect($c->chained_uri('Forum','general',{ thread_notallowed => 1 }));
     return $c->detach;
   }
-  $self->set_grouped_comments($c,'admins',$c->d->forum->comments_grouped_admin_threads);
+  $self->set_grouped_comments($c,'internal',$c->d->forum->comments_grouped_internal_threads);
   $self->get_sticky_threads($c);
 }
 
