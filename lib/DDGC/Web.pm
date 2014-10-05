@@ -143,7 +143,6 @@ sub check_action_token {
 	} else {
 		$c->stash->{action_token_checked} = 0;
 	}
-	$c->set_new_action_token;
 	return $c->stash->{action_token_checked};
 }
 
