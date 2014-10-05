@@ -4,6 +4,8 @@ package DDGC::Web::Controller::Forum::My;
 use Moose;
 BEGIN { extends 'Catalyst::Controller'; }
 
+with 'DDGC::Web::Role::ScreenshotForm';
+
 sub base : Chained('/forum/base') PathPart('my') CaptureArgs(0) {
 	my ( $self, $c ) = @_;
 	if (!$c->user) {
@@ -38,7 +40,8 @@ sub newthread : Chained('base') Args(1) {
 	$c->add_bc("New Thread");
 	
 
-	$self->thread_form($c);
+	$self->screenshot_form($c);
+	use DDP; p $c;
 
 	if ($c->req->params->{post_thread} && (!$c->req->params->{title} || !$c->req->params->{content})) {
 		$c->stash->{error} = 'One or more fields were empty.';
@@ -49,31 +52,13 @@ sub newthread : Chained('base') Args(1) {
 			$c->req->params->{content},
 			forum => $c->stash->{forum_index},
 			title => $c->req->params->{title},
-			defined $c->session->{thread_forms}->{$c->stash->{form_id}}->{screenshots}
-				? ( screenshot_ids => $c->session->{thread_forms}->{$c->stash->{form_id}}->{screenshots} )
+			defined $c->session->{forms}->{$c->stash->{form_id}}->{screenshots}
+				? ( screenshot_ids => $c->session->{forms}->{$c->stash->{form_id}}->{screenshots} )
 				: (),
 		);
 		$c->response->redirect($c->chained_uri(@{$thread->u}));
 		return $c->detach;
 	}
-}
-
-sub thread_form {
-	my ( $self, $c ) = @_;
-	$c->stash->{form_id} = $c->req->param('form_id') || $c->next_form_id;
-	$c->session->{thread_forms} = {} unless defined $c->session->{thread_forms};
-	$c->session->{thread_forms}->{$c->stash->{form_id}} = {}
-		unless defined $c->session->{thread_forms}->{$c->stash->{form_id}};
-	my @screenshot_ids;
-	if (defined $c->session->{thread_forms}->{$c->stash->{form_id}}->{screenshots}) {
-		@screenshot_ids = @{$c->session->{thread_forms}->{$c->stash->{form_id}}->{screenshots}};
-	} elsif (defined $c->stash->{thread}) {
-		@screenshot_ids = $c->stash->{thread}->sorted_screenshots->ids;
-		$c->session->{thread_forms}->{$c->stash->{form_id}}->{screenshots} = [@screenshot_ids];
-	}
-	$c->stash->{screenshots} = $c->d->rs('Screenshot')->search({
-		id => { -in => [@screenshot_ids] },
-	});
 }
 
 sub thread : Chained('base') CaptureArgs(1) {
@@ -111,10 +96,7 @@ sub edit : Chained('thread') Args(0) {
 				$c->stash->{thread}->update;
 				$c->stash->{thread}->comment->content($c->req->params->{content});
 				$c->stash->{thread}->comment->update;
-				my @screenshot_ids;
-				if (defined $c->session->{thread_forms}->{$c->stash->{form_id}}->{screenshots}) {
-					@screenshot_ids = @{$c->session->{thread_forms}->{$c->stash->{form_id}}->{screenshots}};
-				}
+				my @screenshot_ids = $c->screenshot_ids;
 				$c->stash->{thread}->screenshot_threads->search_rs({
 					screenshot_id => { -not_in => [@screenshot_ids] },
 				})->delete;
