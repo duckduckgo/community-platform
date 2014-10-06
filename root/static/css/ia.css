@@ -20,3 +20,7 @@
     color:black;
 }
 
+.ia_src_column {
+    max-width:18em;
+    overflow:hidden;
+}
