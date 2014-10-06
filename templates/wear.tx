@@ -65,6 +65,7 @@
 			</div>
 			<input type="hidden" name="campaign_id" value="1">
 			<input type="hidden" name="campaign_name" value="share">
+			<input type="hidden" name="action_token" value="<: $action_token :>">
 			<hr/>
 			<div class="quarter">
 				<div class="input-wrap">
@@ -99,6 +100,7 @@
 			</select>
 			<input type="hidden" name="campaign_id" value="2">
 			<input type="hidden" name="campaign_name" value="share_followup">
+			<input type="hidden" name="action_token" value="<: $action_token :>">
 			<hr/>
 			<div class="quarter">
 				<div class="input-wrap">
