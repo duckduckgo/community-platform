@@ -5,6 +5,7 @@ use DDGC::Util::File;
 use strict;
 use warnings;
 
+# TODO correct release directories
 my $INST = "../root/static/js";
 
 my $max = max_file_version ($INST, "ia", "js");
@@ -21,4 +22,6 @@ print "uglifyjs ia.js -o ia$new.js\n";
 print `uglifyjs ia.js -o ia$new.js`;
 print "git add ia$new.js\n";
 print `git add ia$new.js`;
+
+# should rm ia.js now
 
