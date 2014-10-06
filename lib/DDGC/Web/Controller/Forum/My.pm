@@ -89,7 +89,7 @@ sub thread : Chained('base') CaptureArgs(1) {
 sub edit : Chained('thread') Args(0) {
 	my ( $self, $c ) = @_;
 
-	$self->thread_form($c);
+	$self->screenshot_form($c);
 
 	if ($c->req->params->{post_thread}) {
 		$c->require_action_token;
@@ -108,7 +108,7 @@ sub edit : Chained('thread') Args(0) {
 				$c->stash->{thread}->update;
 				$c->stash->{thread}->comment->content($c->req->params->{content});
 				$c->stash->{thread}->comment->update;
-				my @screenshot_ids = $c->screenshot_ids;
+				my @screenshot_ids = $self->screenshot_ids($c);
 				$c->stash->{thread}->screenshot_threads->search_rs({
 					screenshot_id => { -not_in => [@screenshot_ids] },
 				})->delete;
