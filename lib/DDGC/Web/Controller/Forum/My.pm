@@ -3,8 +3,9 @@ package DDGC::Web::Controller::Forum::My;
 
 use Moose;
 BEGIN { extends 'Catalyst::Controller'; }
-
 with 'DDGC::Web::Role::ScreenshotForm';
+
+use Try::Tiny;
 
 sub base : Chained('/forum/base') PathPart('my') CaptureArgs(0) {
 	my ( $self, $c ) = @_;
@@ -41,13 +42,15 @@ sub newthread : Chained('base') Args(1) {
 	
 
 	$self->screenshot_form($c);
-	use DDP; p $c;
 
 	if ($c->req->params->{post_thread} && (!$c->req->params->{title} || !$c->req->params->{content})) {
 		$c->stash->{error} = 'One or more fields were empty.';
 	} elsif ($c->req->params->{post_thread}) {
 		$c->require_action_token;
-		my $thread = $c->d->forum->add_thread(
+		my $thread;
+		my $err = 0;
+		try {
+			$thread = $c->d->forum->add_thread(
 			$c->user,
 			$c->req->params->{content},
 			forum => $c->stash->{forum_index},
@@ -55,7 +58,16 @@ sub newthread : Chained('base') Args(1) {
 			defined $c->session->{forms}->{$c->stash->{form_id}}->{screenshots}
 				? ( screenshot_ids => $c->session->{forms}->{$c->stash->{form_id}}->{screenshots} )
 				: (),
-		);
+			);
+		}
+		catch {
+			$err = 1;
+		};
+		if ($err) {
+			$c->session->{error_msg} = "We were unable to post your comment. Have you posted already in the last few minutes? If so, please <a href='javascript:history.back()'>go back</a> and try again in a short while.";
+			$c->response->redirect($c->chained_uri('Root','error'));
+			return $c->detach;
+		}
 		$c->response->redirect($c->chained_uri(@{$thread->u}));
 		return $c->detach;
 	}
