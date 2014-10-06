@@ -111,6 +111,23 @@ sub comments_count {
 	            ( ( $self->context eq 'DDGC::DB::Result::Thread' ) ? -1 : 0 );
 }
 
+around insert => sub {
+	my ( $next, $self, @extra ) = @_;
+	if ( $self->user->ghosted ) {
+		my $comment_within_limit =
+		$self->user->comments->search({
+			created => { '>' =>
+			$self->ddgc->db->format_datetime(
+				DateTime->now - DateTime::Duration->new( seconds => $self->ddgc->config->comment_rate_limit ),
+			) },
+		})->first;
+		if ($comment_within_limit) {
+			return undef;
+		}
+	}
+	$self->$next(@extra);
+};
+
 before insert => sub {
 	my ( $self ) = @_;
 	if ($self->user->ignore) {

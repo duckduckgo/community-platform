@@ -123,6 +123,8 @@ has_conf github_client_secret => DDGC_GITHUB_CLIENT_SECRET => undef;
 
 has_conf deleted_account => DDGC_DELETED_ACCOUNT => 'testone';
 
+has_conf comment_rate_limit => DDGC_COMMENT_RATE_LIMIT => 120;
+
 # DANGER: DEACTIVATES PASSWORD CHECK FOR ALL USERACCOUNTS!!!!!!!!!!!!!!!!!!!!!!
 sub prosody_running { defined $ENV{'DDGC_PROSODY_RUNNING'} ? $ENV{'DDGC_PROSODY_RUNNING'} : 0 }
 sub fallback_user { 'testtwo' }
