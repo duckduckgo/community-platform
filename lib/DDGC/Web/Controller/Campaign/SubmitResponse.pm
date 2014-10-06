@@ -39,6 +39,16 @@ sub respond : Chained('base') : PathPart('respond') : Args(0) {
 	my $campaign = $c->d->config->campaigns->{ $campaign_name };
 
 	for (1..3) {
+		if (!$c->req->param( 'question' . $_ )) {
+			$c->response->status(500);
+			$c->stash->{x} = {
+				ok => 0, fields_empty => 1,
+				errstr => "Please fill all fields before submitting. Thanks."
+			};
+			$c->forward( $c->view('JSON') );
+			return $c->detach;
+		}
+
 		$c->stash->{ 'question' . $_ } = $campaign->{ 'question' . $_ };
 		$c->stash->{ 'answer' . $_ } = $c->req->param( 'question' . $_ );
 	}
