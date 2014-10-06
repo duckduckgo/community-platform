@@ -44,7 +44,7 @@ our $VERSION ||= '0.000';
 sub deploy_fresh {
 	my ( $self ) = @_;
 
-	die "ARE YOU INSANE????? KILLING LIVE???? GO FUCK YOURSELF!!!" if $self->is_live;
+	die "Refusing to kill live database." if $self->is_live;
 
 	$self->config->rootdir();
 	$self->config->filesdir();
