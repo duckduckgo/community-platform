@@ -40,11 +40,6 @@
             </a>
           </div>
         </div>  
-        <div class="header-notice">
-           <div class="notice error">
-            <i class="icn icon-warning-sign"></i>Oops!  Something has gone horribly wrong!
-           </div>
-        </div>
       </div>
     </div>
     
@@ -58,7 +53,14 @@
               <img src="/ddgc_static/img/duckduckgo-icon.png" alt="DuckDuckGo" class="media__img  h1" />
               <div class="media__body">
                 <h3>Sorry...</h3>
-                <p>"A fatal error occurred and we could not complete your request. If this error persists, please email ddgc@duckduckgo.com and quote the reference <: $log_reference :>."</p>
+                <p>
+                <: if $log_reference { :>
+                  A fatal error occurred and we could not complete your request. If this error persists, please email ddgc@duckduckgo.com and quote the reference <: $log_reference :>.
+                <: } else if $error_msg { :>
+                  <: r($error_msg) :>
+                <: } else { :>
+                  A fatal error occurred and we could not complete your request. If this error persists, please email ddgc@duckduckgo.com.
+                <: } :>
                 <p><a href='/forum'>Discuss</a> | <a href='/duckduckhack'>Develop</a> | <a href='/translate'>Translate</a></p>
               </div>
             </div>
