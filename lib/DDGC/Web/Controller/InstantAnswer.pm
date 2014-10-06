@@ -3,6 +3,11 @@ package DDGC::Web::Controller::InstantAnswer;
 use Data::Dumper;
 use Moose;
 use namespace::autoclean;
+use DDGC::Util::File;
+
+# TODO correct release directories
+my $INST = "/home/ddgc/community-platform/root/static/js";
+my $ia_version = max_file_version ($INST, "ia", "js");
 
 BEGIN {extends 'Catalyst::Controller'; }
 
@@ -17,12 +22,11 @@ sub index :Chained('base') :PathPart('') :Args(0) {
     # my @x = $c->d->rs('InstantAnswer')->all();
     # $c->stash->{ialist} = \@x;
     $c->stash->{ia_page} = "index";
+    $c->stash->{ia_version} = $ia_version;
 
     # @{$c->stash->{ialist}} = $c->d->rs('InstantAnswer')->all();
 }
 
-# this is just for testing
-# I'm expecting the index to be returned as JSON. all of the data.
 sub ialist_json :Chained('base') :PathPart('json') :Args(0) {
 	my ( $self, $c ) = @_;
 
@@ -42,6 +46,7 @@ sub ialist_json :Chained('base') :PathPart('json') :Args(0) {
                 id => $_->id,
                 example_query => $_->example_query,
                 repo => $_->repo,
+                src_name => $_->src_name,
                 dev_milestone => $_->dev_milestone,
                 perl_module => $_->perl_module,
                 description => $_->description,
@@ -51,6 +56,42 @@ sub ialist_json :Chained('base') :PathPart('json') :Args(0) {
 
     $c->stash->{x} = \@ial;
     $c->forward($c->view('JSON'));
+}
+
+sub iarepo :Chained('base') :PathPart('repo') :Args(1) {
+	my ( $self, $c, $repo ) = @_;
+
+
+    # $c->stash->{ia_repo} = $repo;
+
+    my @x = $c->d->rs('InstantAnswer')->search({repo => $repo});
+
+    my %iah;
+
+    use JSON;
+
+    for (@x) {
+        my $topics = $_->topic;
+        
+        if ($_->example_query) {
+            $iah{$_->id} = {
+                    name => $_->name,
+                    id => $_->id,
+                    example_query => $_->example_query,
+                    repo => $_->repo,
+                    perl_module => $_->perl_module
+            };
+        }
+    }
+
+    $c->stash->{x} = \%iah;
+    $c->forward($c->view('JSON'));
+}
+
+sub queries :Chained('base) :PathPart('queries') :Args(0) {
+
+    # my @x = $c->d->rs('InstantAnswer')->all();
+
 }
 
 sub ia_base :Chained('base') :PathPart('view') :CaptureArgs(1) {  # /ia/view/calculator
