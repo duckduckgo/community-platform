@@ -113,17 +113,8 @@ sub comments_count {
 
 around insert => sub {
 	my ( $next, $self, @extra ) = @_;
-	if ( $self->user->ghosted ) {
-		my $comment_within_limit =
-		$self->user->comments->search({
-			created => { '>' =>
-			$self->ddgc->db->format_datetime(
-				DateTime->now - DateTime::Duration->new( seconds => $self->ddgc->config->comment_rate_limit ),
-			) },
-		})->first;
-		if ($comment_within_limit) {
-			return undef;
-		}
+	if ($self->user->rate_limit_comment) {
+		$self->throw_exception("Rate limiting - comment not allowed");
 	}
 	$self->$next(@extra);
 };

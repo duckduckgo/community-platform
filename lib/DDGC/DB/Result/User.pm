@@ -350,6 +350,21 @@ sub is_subscribed_and_notification_is_special {
 	return 1;
 }
 
+sub rate_limit_comment {
+	my ( $self ) = @_;
+	return 0 if (!$self->ddgc->config->comment_rate_limit);
+	if ( $self->ghosted ) {
+		return $self->comments->search({
+			created => { '>' =>
+			$self->ddgc->db->format_datetime(
+				DateTime->now - DateTime::Duration->new( seconds => $self->ddgc->config->comment_rate_limit ),
+			) },
+		})->first;
+	}
+	return 0;
+}
+
+
 sub blog { shift->user_blogs_rs }
 
 # This validation is performed on signup, but better to do it again, prevent traversal etc.
