@@ -323,6 +323,11 @@ sub forgotpw_tokencheck :Chained('logged_out') :Args(2) {
 		$c->stash->{invalid_token} = 1;
 		return $c->detach;
 	}
+	if ($user->data->{token_timestamp} &&
+		time > $user->data->{token_timestamp} + (60 * 60 * 24)) {
+		$c->stash->{token_expired} = 1;
+		return $c->detach;
+	}
 	return if !$c->req->params->{forgotpw_tokencheck};
 	
 	my $error = 0;
@@ -461,9 +466,10 @@ sub forgotpw :Chained('logged_out') :Args(0) {
 		return;
 	}
 	
-	my $token = md5_hex(int(rand(99999999)));
+	my $token = $self->ddgc->uid;
 	my $data = $user->data;
 	$data->{token} = $token;
+	$data->{token_timestamp} = time;
 	$user->data($data);
 	$user->update;
 	$c->stash->{user} = $user->username;
@@ -478,8 +484,6 @@ sub forgotpw :Chained('logged_out') :Args(0) {
 		$c->stash,
 	);
 
-	#$c->forward( $c->view('Email::Xslate') );
-	
 	$c->stash->{sentok} = 1;
 }
 
