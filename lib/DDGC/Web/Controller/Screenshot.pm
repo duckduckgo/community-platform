@@ -23,8 +23,8 @@ sub manage : Chained('base') Args(1) {
 		my $screenshot = $c->d->rs('Screenshot')->create({
 			media_id => $media->id,
 		});
-		$c->session->{thread_forms}->{$form_id}->{screenshots} = [] unless defined $c->session->{thread_forms}->{$form_id}->{screenshots};
-		push @{$c->session->{thread_forms}->{$form_id}->{screenshots}}, $screenshot->id;
+		$c->session->{forms}->{$form_id}->{screenshots} = [] unless defined $c->session->{forms}->{$form_id}->{screenshots};
+		push @{$c->session->{forms}->{$form_id}->{screenshots}}, $screenshot->id;
 		$c->stash->{x} = {
 			screenshot_id => $screenshot->id,
 			media_url => $media->url,
@@ -47,7 +47,7 @@ sub manage : Chained('base') Args(1) {
 			};
 			return $c->forward('View::JSON');
 		}
-		@{$c->session->{thread_forms}->{$form_id}->{screenshots}} = grep { $_ != $delete_id } @{$c->session->{thread_forms}->{$form_id}->{screenshots}};
+		@{$c->session->{forms}->{$form_id}->{screenshots}} = grep { $_ != $delete_id } @{$c->session->{forms}->{$form_id}->{screenshots}};
 		$c->forward('View::JSON');
     }
 }

@@ -258,6 +258,17 @@ sub wear :Chained('base') :PathPart('wear') :Args(0) {
 	}
 }
 
+sub error :Chained('base') :PathPart('error') :Args(0) {
+	my ( $self, $c ) = @_;
+	$c->stash->{error_msg} = $c->session->{error_msg};
+	delete $c->session->{error_msg};
+	if (!$c->stash->{error_msg}) {
+		$c->response->redirect($c->chained_uri('Root','index'));
+		return $c->detach;
+	}
+	$c->stash->{template_layout} = ();
+}
+
 no Moose;
 __PACKAGE__->meta->make_immutable;
 

@@ -33,6 +33,8 @@ use Data::Dumper;
 use String::Truncate 'elide';
 use feature qw/ state /;
 use Time::Piece;
+use Data::UUID;
+use Digest::MD5 'md5_hex';
 use namespace::autoclean;
 
 our $VERSION ||= '0.000';
@@ -42,7 +44,7 @@ our $VERSION ||= '0.000';
 sub deploy_fresh {
 	my ( $self ) = @_;
 
-	die "ARE YOU INSANE????? KILLING LIVE???? GO FUCK YOURSELF!!!" if $self->is_live;
+	die "Refusing to kill live database." if $self->is_live;
 
 	$self->config->rootdir();
 	$self->config->filesdir();
@@ -85,6 +87,14 @@ sub _build_http {
 	$ua->agent($agent);
 	return $ua;
 }
+has uuid => (
+	isa => 'Data::UUID',
+	is  => 'ro',
+	lazy_build => 1,
+);
+sub _build_uuid { Data::UUID->new };
+sub uid { md5_hex $_[0]->uuid->create_str . rand };
+
 
 ############################################################
 #  ____        _    ____            _

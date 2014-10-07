@@ -68,6 +68,7 @@ sub for_test {
 		always_use_default => 1,
 		rootdir_path => $tempdir,
 		mail_test => 1,
+		comment_rate_limit => 0,
 	) });
 	return $class->new($ddgc,1);
 }

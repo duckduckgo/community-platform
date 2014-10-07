@@ -6,6 +6,8 @@ use namespace::autoclean;
 
 BEGIN {extends 'Catalyst::Controller'; }
 
+use Try::Tiny;
+
 sub base :Chained('/base') :PathPart('comment') :CaptureArgs(0) {
 	my ( $self, $c ) = @_;
 }
@@ -61,7 +63,18 @@ sub add :Chained('base') :Args(2) {
 		return $c->detach;
 	}
 	if ($c->req->params->{content}) {
-		$c->d->add_comment($context, $context_id, $c->user, $c->req->params->{content});
+		my $err;
+		try {
+			$c->d->add_comment($context, $context_id, $c->user, $c->req->params->{content});
+		}
+		catch {
+			$err = 1;
+		};
+		if ($err) {
+			$c->session->{error_msg} = "We were unable to post your comment. Have you posted already in the last few minutes? If so, please <a href='javascript:history.back()'>go back</a> and try again in a short while.";
+			$c->response->redirect($c->chained_uri('Root','error'));
+			return $c->detach;
+		}
 	}
 	if ($c->req->params->{from}) {
 		$c->response->redirect($c->req->params->{from});

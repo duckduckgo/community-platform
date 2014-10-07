@@ -27,7 +27,6 @@ extends 'Catalyst';
 use DDGC::Config;
 use Class::Load ':all';
 use Digest::MD5 qw( md5_hex );
-use Data::UUID;
 
 use DDGC::Web::Wizard::Unvoted;
 use DDGC::Web::Wizard::Untranslated;
@@ -122,13 +121,17 @@ sub d {
 }
 sub ddgc { shift->d(@_) }
 
+sub get_uid {
+	$_[0]->d->uid;
+}
+
 sub next_form_id {
-	Data::UUID->new->create_str;
+	$_[0]->get_uid;
 }
 
 sub set_new_action_token {
-	my ( $c ) = @_;
-	$c->session->{action_token} = md5_hex(int(rand(1_000_000)));
+	my ($c) = @_;
+	$c->session->{action_token} = $c->get_uid;
 }
 
 sub check_action_token {
@@ -140,7 +143,6 @@ sub check_action_token {
 	} else {
 		$c->stash->{action_token_checked} = 0;
 	}
-	$c->set_new_action_token;
 	return $c->stash->{action_token_checked};
 }
 

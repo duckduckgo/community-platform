@@ -111,6 +111,14 @@ sub comments_count {
 	            ( ( $self->context eq 'DDGC::DB::Result::Thread' ) ? -1 : 0 );
 }
 
+around insert => sub {
+	my ( $next, $self, @extra ) = @_;
+	if ($self->user->rate_limit_comment) {
+		$self->throw_exception("Rate limiting - comment not allowed");
+	}
+	$self->$next(@extra);
+};
+
 before insert => sub {
 	my ( $self ) = @_;
 	if ($self->user->ignore) {
