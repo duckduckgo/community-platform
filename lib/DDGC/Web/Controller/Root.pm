@@ -237,6 +237,7 @@ sub wear :Chained('base') :PathPart('wear') :Args(0) {
 	$c->session->{campaign_notification} = undef;
 	$c->stash->{campaign_info} = undef;
 	$c->stash->{share_date} = (DateTime->now + DateTime::Duration->new( days => 30 ))->strftime("%b %e");
+	$c->stash->{action_token} = $c->session->{action_token};
 
 	if ($c->user) {
 		$c->stash->{user} = $c->user;

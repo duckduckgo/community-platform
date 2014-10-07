@@ -17,6 +17,15 @@ sub base :Chained('/') :PathPart('campaign') :CaptureArgs(0) {
 		$c->forward( $c->view('JSON') );
 		return $c->detach;
 	}
+	elsif (!$c->req->param('campaign_name')) {
+		$c->response->status(500);
+		$c->stash->{x} = {
+			ok => 0, no_campaign => 1,
+			errstr => "No campaign info supplied!"
+		};
+		$c->forward( $c->view('JSON') );
+		return $c->detach;
+	}
 	elsif ($c->user->responded_campaign($c->req->param('campaign_name'))) {
 		$c->response->status(403);
 		$c->stash->{x} = {
@@ -26,10 +35,20 @@ sub base :Chained('/') :PathPart('campaign') :CaptureArgs(0) {
 		$c->forward( $c->view('JSON') );
 		return $c->detach;
 	}
+	elsif ($c->user->get_first_available_campaign ne $c->req->param('campaign_name')) {
+		$c->response->status(403);
+		$c->stash->{x} = {
+			ok => 0, no_access_yet => 1,
+			errstr => "This is not yet open",
+		};
+		$c->forward( $c->view('JSON') );
+		return $c->detach;
+	}
 }
 
 sub respond : Chained('base') : PathPart('respond') : Args(0) {
 	my ( $self, $c ) = @_;
+	#$c->require_action_token;
 
 	my $to = $c->d->config->share_email // 'sharewear@duckduckgo.com';
 	my $from = 'noreply@dukgo.com';
@@ -39,6 +58,16 @@ sub respond : Chained('base') : PathPart('respond') : Args(0) {
 	my $campaign = $c->d->config->campaigns->{ $campaign_name };
 
 	for (1..3) {
+		if (!$c->req->param( 'question' . $_ )) {
+			$c->response->status(500);
+			$c->stash->{x} = {
+				ok => 0, fields_empty => 1,
+				errstr => "Please fill all fields before submitting. Thanks."
+			};
+			$c->forward( $c->view('JSON') );
+			return $c->detach;
+		}
+
 		$c->stash->{ 'question' . $_ } = $campaign->{ 'question' . $_ };
 		$c->stash->{ 'answer' . $_ } = $c->req->param( 'question' . $_ );
 	}
