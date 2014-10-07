@@ -30,7 +30,9 @@ my $comments = $d->rs('Comment')->search_rs(
 
 if (my $no_comments = $comments->count) {
     if ($doit) {
-        $comments->delete;
+        while (my $comment = $comments->next) {
+            $comment->delete;
+        }
         print "Deleted $no_comments comments\n";
     }
     else {
