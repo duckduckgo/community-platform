@@ -21,7 +21,7 @@ ok( $root->is_success, 'Homepage should succeed' );
 like( $root->content, qr!/my/login!, 'There is a link to login' );
 like( $root->content, qr!/my/register!, 'There is a link to register' );
 
-#my $login = request('/my/login?username=testone&password=ficken');
+#my $login = request('/my/login?username=testone&password=asdfgh');
 #ok( $login->is_success, 'Login should succeed' );
 
 # test redirect?
