@@ -6,7 +6,7 @@ use namespace::autoclean;
 use DDGC::Util::File;
 
 # TODO correct release directories
-my $INST = "/home/ddgc/community-platform/root/static/js";
+my $INST = "/home/ubuntu/community-platform/root/static/js";
 my $ia_version = max_file_version ($INST, "ia", "js");
 
 BEGIN {extends 'Catalyst::Controller'; }
@@ -50,7 +50,7 @@ sub ialist_json :Chained('base') :PathPart('json') :Args(0) {
                 dev_milestone => $_->dev_milestone,
                 perl_module => $_->perl_module,
                 description => $_->description,
-                topic => decode_json($topics) 
+                topic => decode_json($topics)
             });
     }
 
@@ -72,7 +72,7 @@ sub iarepo :Chained('base') :PathPart('repo') :Args(1) {
 
     for (@x) {
         my $topics = $_->topic;
-        
+
         if ($_->example_query) {
             $iah{$_->id} = {
                     name => $_->name,
@@ -112,6 +112,11 @@ sub ia_base :Chained('base') :PathPart('view') :CaptureArgs(1) {  # /ia/view/cal
         $c->stash->{ia_other_queries} = decode_json($other_queries);
     }
 
+    my $ia_attribution = $c->stash->{ia}->attribution;
+    if ($ia_attribution) {
+        $c->stash->{ia_attribution} = decode_json($ia_attribution);
+    }
+
     $c->stash->{ia_page} = $answer_id;
 
 	unless ($c->stash->{ia}) {
@@ -120,6 +125,7 @@ sub ia_base :Chained('base') :PathPart('view') :CaptureArgs(1) {  # /ia/view/cal
 	}
 
 	use DDP;
+    $c->stash->{ia_version} = $ia_version;
 	$c->stash->{ia_pretty} = p $c->stash->{ia};
 }
 
@@ -137,7 +143,8 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
                 dev_milestone => $ia->dev_milestone,
                 perl_module => $ia->perl_module,
                 code => $c->stash->{ia_code},
-                topic => $c->stash->{ia_topics}
+                topic => $c->stash->{ia_topics},
+                attribution => $c->stash->{'ia_attribution'}
     };
     $c->forward($c->view('JSON'));
 }

@@ -93,10 +93,17 @@ href="https://github.com/duckduckgo/zeroclickinfo-<:$ia.repo:>/issues/new?&title
         </td>
     </tr>
     : } # endif
+
 </table>
 
 <h3>credits</h3>
+<ul>
 
+    : for  $ia_attribution.keys() -> $key {
+    <span><h4><: $ia_attribution[$key].0.type :> <a href="<: $ia_attribution[$key].0.loc :>"><: $key :></a><h4></li></span>
+    :}
+
+</ul>
 <p>
 idea ..<br>
 designer ..<br>

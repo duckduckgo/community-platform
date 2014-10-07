@@ -13,7 +13,7 @@ my $new = $max + 1;
 
 chdir $INST;
 
-if (`diff ia.js ia$max.js`) {
+if (not `diff ia.js ia$max.js`) {
     print "ia.js unchanged; identical to latest version $max\n";
     exit(1);
 }
@@ -23,5 +23,5 @@ print `uglifyjs ia.js -o ia$new.js`;
 print "git add ia$new.js\n";
 print `git add ia$new.js`;
 
-# should rm ia.js now
+unlink("ia.js");
 

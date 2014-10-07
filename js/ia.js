@@ -1,7 +1,7 @@
 (function(env) {
 
-    // console.log("ia pages");
-
+     console.log("ia pages");
+     
     env.DDH = {
         load_index: function(x) {
             DDH.ia = x;
