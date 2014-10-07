@@ -97,13 +97,17 @@ href="https://github.com/duckduckgo/zeroclickinfo-<:$ia.repo:>/issues/new?&title
 </table>
 
 <h3>credits</h3>
-<ul>
-
+<table class="iadata">
     : for  $ia_attribution.keys() -> $key {
-    <span><h4><: $ia_attribution[$key].0.type :> <a href="<: $ia_attribution[$key].0.loc :>"><: $key :></a><h4></li></span>
+    <tr>
+        <td><: $ia_attribution[$key].0.type :></td>
+        <td><a href="<: $ia_attribution[$key].0.loc :>"><: $key :></a></td>
+    </tr>
     :}
+</table>
 
 </ul>
+<br>
 <p>
 idea ..<br>
 designer ..<br>
