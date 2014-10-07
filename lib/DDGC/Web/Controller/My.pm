@@ -81,6 +81,10 @@ sub login :Chained('logged_out') :Args(0) {
 					username => $username,
 					password => $password,
 				}, 'users')) {
+					my $data = $c->user->data;
+					delete $data->{token};
+					$c->user->data($data);
+					$c->user->update;
 					$c->set_new_action_token;
 					$last_url = $c->chained_uri('My','account') unless defined $last_url;
 					$c->response->redirect($last_url);
@@ -238,6 +242,7 @@ sub email :Chained('logged_in') :Args(0) {
 	$c->user->data({}) if !$c->user->data;
 	my $data = $c->user->data();
 	$data->{email} = $email;
+	delete $data->{token};
 	$c->user->data($data);
 	$c->user->update;
 
@@ -411,8 +416,9 @@ sub changepw :Chained('logged_in') :Args(0) {
 	
 	my $newpass = $c->req->params->{password};
 	$c->d->update_password($c->user->username,$newpass);
+	my $data = $c->user->data;
 
-	if ($c->user->data && $c->user->data->{email}) {
+	if ($data && $data->{email}) {
 		$c->stash->{newpw_username} = $c->user->username;
 		$c->d->postman->template_mail(
 			$c->user->data->{email},
@@ -422,6 +428,10 @@ sub changepw :Chained('logged_in') :Args(0) {
 			$c->stash,
 		);
 	}
+
+	delete $data->{token};
+	$c->user->data($data);
+	$c->user->update;
 
 	$c->stash->{changeok} = 1;
 }
