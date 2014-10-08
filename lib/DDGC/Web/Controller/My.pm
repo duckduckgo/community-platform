@@ -466,7 +466,7 @@ sub forgotpw :Chained('logged_out') :Args(0) {
 		return;
 	}
 	
-	my $token = $self->ddgc->uid;
+	my $token = $c->d->uid;
 	my $data = $user->data;
 	$data->{token} = $token;
 	$data->{token_timestamp} = time;
