@@ -25,6 +25,14 @@ sub base :Chained('/') :PathPart('') :CaptureArgs(0) {
 
 	$c->d->current_user($c->user) if $c->user;
 
+	if ($c->user && $c->user->data && $c->user->data->{invalidate_existing_sessions} && $c->session->{action_token} ne $c->user->data->{password_reset_session_token}) {
+		$c->stash->{not_last_url} = 1;
+		$c->logout;
+		$c->delete_session;
+		$c->response->redirect($c->chained_uri('Root','index'));
+		return $c->detach;
+	}
+
 	if ($c->user && !$c->session->{campaign_notification_checked}) {
 		$c->session->{campaign_notification_checked} = 1;
 		my $campaign = $c->user->get_first_available_campaign;

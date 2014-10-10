@@ -83,6 +83,7 @@ sub login :Chained('logged_out') :Args(0) {
 				}, 'users')) {
 					my $data = $c->user->data;
 					delete $data->{token};
+					delete $data->{invalidate_existing_sessions};
 					$c->user->data($data);
 					$c->user->update;
 					$c->set_new_action_token;
@@ -347,6 +348,8 @@ sub forgotpw_tokencheck :Chained('logged_out') :Args(2) {
 	my $newpass = $c->req->params->{password};
 	my $data = $user->data;
 	delete $data->{token};
+	$data->{invalidate_existing_sessions} = 1;
+	delete $data->{password_reset_session_token};
 	$user->data($data);
 	$user->update;
 	$c->d->update_password($username,$newpass);
@@ -435,6 +438,8 @@ sub changepw :Chained('logged_in') :Args(0) {
 	}
 
 	delete $data->{token};
+	$data->{invalidate_existing_sessions} = 1;
+	$data->{password_reset_session_token} = $c->session->{action_token};
 	$c->user->data($data);
 	$c->user->update;
 
