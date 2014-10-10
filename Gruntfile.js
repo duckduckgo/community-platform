@@ -14,15 +14,18 @@ module.exports = function(grunt) {
 
         concat: {
             dist:{
-                src:['js/ia.js', 'js/handlebars_tmp'],
-                dest: 'root/static/js/ia.js'
+                src:['js/ia_pages/*.js', 'js/ia_pages/handlebars_tmp'],
+                dest: 'root/static/js/ia-<%= pkg.version %>.js'
             }
         },
 
         handlebars: {
             compile: {
+                options: {
+                    namespace: false
+                },
                 files: {
-                    'js/handlebars_tmp' : 'js/*.handlebars'
+                    'js/ia_pages/handlebars_tmp' : 'js/ia_pages/*.handlebars'
                 }
             }
         },
@@ -30,23 +33,41 @@ module.exports = function(grunt) {
         uglify: {
             my_target: {
                 files: {
-                    'root/static/js/ia<%= pkg.version %>.js' : ['root/static/js/ia.js']
+                'root/static/js/ia-<%= pkg.version %>.js': 'root/static/js/ia-<%= pkg.version %>.js' 
+            
                 }
             }
-        }
+        },
+
+      /*  diff: {
+            javascript: {
+                src: ['js/ia_pages/*.js'],
+                tasks: [
+                    'version:release', 
+                    'handlebars:compile',
+                    'concat:dist',
+                    'uglify'
+                    ]
+            }
+        }*/
+
     });
 
         grunt.loadNpmTasks('grunt-contrib-concat');
+        grunt.loadNpmTasks('grunt-contrib-copy');
         grunt.loadNpmTasks('grunt-contrib-handlebars');
         grunt.loadNpmTasks('grunt-version');
         grunt.loadNpmTasks('grunt-contrib-uglify');
+        grunt.loadNpmTasks('grunt-diff');
 
         grunt.registerTask('release', [
-            'version:release',
             'handlebars:compile',    
             'concat:dist',
-            'uglify'
+            //'uglify',
+            'version:release',
+
         ]);
+
 
         grunt.registerTask('build', [
             'handlebars:compile',
