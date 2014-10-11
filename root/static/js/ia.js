@@ -19,13 +19,17 @@ function program1(depth0,data) {
   else { helper = (depth0 && depth0.name); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
   buffer += escapeExpression(stack1)
     + "</a>\n    </td>\n\n    <td>\n        ";
-  stack1 = helpers.each.call(depth0, (depth0 && depth0.topic), {hash:{},inverse:self.noop,fn:self.program(2, program2, data),data:data});
-  if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\n    </td>\n\n    <td>\n        ";
   if (helper = helpers.description) { stack1 = helper.call(depth0, {hash:{},data:data}); }
   else { helper = (depth0 && depth0.description); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
   buffer += escapeExpression(stack1)
-    + "\n    </td>\n\n    <td style=\"padding-right: 1em\">\n        ";
+    + "\n    </td>\n    <td class=\"ia_src_column\">\n        ";
+  if (helper = helpers.src_name) { stack1 = helper.call(depth0, {hash:{},data:data}); }
+  else { helper = (depth0 && depth0.src_name); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
+  buffer += escapeExpression(stack1)
+    + "\n    </td>\n\n    <td>\n        ";
+  stack1 = helpers.each.call(depth0, (depth0 && depth0.topic), {hash:{},inverse:self.noop,fn:self.program(2, program2, data),data:data});
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "\n    </td>\n\n    <td style=\"padding-right: 1em\">\n        ";
   if (helper = helpers.dev_milestone) { stack1 = helper.call(depth0, {hash:{},data:data}); }
   else { helper = (depth0 && depth0.dev_milestone); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
   buffer += escapeExpression(stack1)
