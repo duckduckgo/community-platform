@@ -4,7 +4,10 @@
 
 : if $ia_page {
 	<script type="text/javascript">
-        var DDH_iapage = "<: $ia_page :>"; 
+        var DDH_iapage = "<: $ia_page :>";
+        : if $ia && $ia.id {
+        var DDH_iaid = "<: $ia.id :>"
+        : }
     </script>
 	<script src="/static/js/ia<: $ia_version :>.js" type="text/javascript"></script>
 : }
