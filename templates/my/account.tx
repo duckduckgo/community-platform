@@ -142,22 +142,6 @@
 					</a>
 				</div>
 			</div>
-			<div class="row">
-				<div class="twothird">
-					<label>
-						<: $l('Content Load Shield') :>
-					</label>
-				</div>
-				<div class="third">
-					<a href="<: $u('My','privacy') :>" class="button button--right">
-						<: if $c.user.privacy { :>
-							<: $l('On') :>
-						<: } else { :>
-							<: $l('Off') :>
-						<: } :>
-					</a>
-				</div>
-			</div>
 			<: if $c.user.public { :>
 				<div class="row">
 					<div class="twothird">

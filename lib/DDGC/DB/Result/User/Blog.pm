@@ -52,11 +52,7 @@ column teaser => {
 sub html_teaser {
 	my ( $self ) = @_;
 	return $self->teaser if $self->raw_html;
-	if ($self->company_blog) {
-		return $self->ddgc->markup->html_without_privacy($self->teaser);
-	} else {
-		return $self->ddgc->markup->html($self->teaser);
-	}
+	return $self->ddgc->markup->html($self->teaser);
 }
 
 column content => {
@@ -66,11 +62,7 @@ column content => {
 sub html {
 	my ( $self ) = @_;
 	return $self->content if $self->raw_html;
-	if ($self->company_blog) {
-		return $self->ddgc->markup->html_without_privacy($self->content);
-	} else {
-		return $self->ddgc->markup->html($self->content);
-	}
+	return $self->ddgc->markup->html($self->content);
 }
 
 column topics => {
