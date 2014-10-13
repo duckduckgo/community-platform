@@ -504,7 +504,7 @@ sub register :Chained('logged_out') :Args(0) {
 		$error = 1;
 	}
 
-	if (!defined $c->req->params->{password} or length($c->req->params->{password}) < 3) {
+	if (!defined $c->req->params->{password} or length($c->req->params->{password}) < 8) {
 		$c->stash->{password_too_short} = 1;
 		$error = 1;
 	}
@@ -544,6 +544,7 @@ sub register :Chained('logged_out') :Args(0) {
 		my $user = $c->d->create_user($username,$password);
 
 		if ($user) {
+			$c->authenticate({ username => $username, password => $password, }, 'users');
 			if ($email) {
 				$user->data({}) if !$user->data;
 				my $data = $user->data();
