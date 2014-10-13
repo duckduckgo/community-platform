@@ -46,8 +46,7 @@ module.exports = function(grunt) {
         remove: {
             default_options: {
                 trace: true,
-                fileList: ['ia.js'],
-                dirList: ['root/static/js/']
+                fileList: ['root/static/js/ia.js'],
             }
         },
 
@@ -55,12 +54,25 @@ module.exports = function(grunt) {
             ia_js: {
                 src: ['root/static/js/ia.js'],
                 tasks: [
-                    'uglify:ia_js',
                     'version:release',
-                    'remove'
+                    'uglify:ia_js',
+                    'remove',
+                    'gitcommit:ia_pages',
                     ]
             }
         },
+
+        gitcommit: {
+            ia_pages: {
+                options: {
+                    message: 'Release IA pages version: <%= pkg.version %>'
+                },
+                files: {
+                    src: ['root/static/js/ia<%= pkg.version %>.js', 'package.json']
+                }
+            },
+        
+        }
 
     });
 
@@ -71,6 +83,7 @@ module.exports = function(grunt) {
         grunt.loadNpmTasks('grunt-contrib-uglify');
         grunt.loadNpmTasks('grunt-diff');
         grunt.loadNpmTasks('grunt-remove');
+        grunt.loadNpmTasks('grunt-git');
 
         // check diff on ia.js.  Diff runs rest
         // of release process if the file has changed
