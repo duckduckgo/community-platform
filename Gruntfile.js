@@ -14,7 +14,7 @@ module.exports = function(grunt) {
 
         concat: {
             ia_pages:{
-                src:['js/ia_pages/*.js', 'js/ia_pages/handlebars_tmp'],
+                src:['js/ia_pages/DDG.js', 'js/ia_pages/IAIndex.js', 'js/ia_pages/IAPage.js', 'ready.js' , 'js/ia_pages/handlebars_tmp'],
                 dest: 'root/static/js/ia.js'
             }
         },
@@ -46,7 +46,7 @@ module.exports = function(grunt) {
         remove: {
             default_options: {
                 trace: true,
-                fileList: ['root/static/js/ia.js'],
+                fileList: ['root/static/js/ia.js', 'js/ia_pages/handlebars_tmp'],
             }
         },
 
