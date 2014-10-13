@@ -1,14 +1,15 @@
 {
-    "name": "ddg_community_platform",
-    "version": "0.29.0",
-    "engines": {
-        "node": ">=0.10.0"
-    },
-    "devDependencies": {
-        "grunt": "^0.4.5",
-        "grunt-contrib-concat": "0.4.0",
-        "grunt-contrib-handlebars": "0.8.0",
-        "grunt-contrib-uglify": "0.4.0",
-        "grunt-version": "~0.2.2"
-    }
+  "name": "ddg_community_platform",
+  "version": "0.30.0",
+  "engines": {
+    "node": ">=0.10.0"
+  },
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-contrib-concat": "0.4.0",
+    "grunt-contrib-handlebars": "0.8.0",
+    "grunt-contrib-uglify": "0.4.0",
+    "grunt-remove-logging": "^0.2.0",
+    "grunt-version": "~0.2.2"
+  }
 }
