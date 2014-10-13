@@ -251,16 +251,16 @@ sub delete :Chained('logged_in') :Args(0) {
 	$c->stash->{title} = 'Delete your account';
 	$c->add_bc($c->stash->{title}, '');
 
-	return $c->detach unless $c->req->params->{delete_profile};
+	return $c->detach unless $c->req->body_params->{delete_profile};
 
 	$c->require_action_token;
 
-	if (!$c->validate_captcha($c->req->params->{captcha})) {
+	if (!$c->validate_captcha($c->req->body_params->{captcha})) {
 		$c->stash->{wrong_captcha} = 1;
 		return $c->detach;
 	}
 
-	if ($c->req->params->{delete_profile}) {
+	if ($c->req->body_params->{delete_profile}) {
 		my $username = $c->user->username;
 		$c->d->delete_user($username);
 		$c->logout;
