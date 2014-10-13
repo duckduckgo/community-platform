@@ -7,7 +7,8 @@ use DDGC::Util::File;
 
 # TODO correct release directories
 my $INST = "/home/ddgc/community-platform/root/static/js";
-my $ia_version = max_file_version ($INST, "ia", "js");
+
+my $ia_version = (-f "$INST/ia.js") ? "" : max_file_version ($INST, "ia", "js");
 
 BEGIN {extends 'Catalyst::Controller'; }
 
@@ -21,7 +22,7 @@ sub index :Chained('base') :PathPart('') :Args(0) {
 
     # my @x = $c->d->rs('InstantAnswer')->all();
     # $c->stash->{ialist} = \@x;
-    $c->stash->{ia_page} = "index";
+    $c->stash->{ia_page} = "IAIndex";
     $c->stash->{ia_version} = $ia_version;
 
     # @{$c->stash->{ialist}} = $c->d->rs('InstantAnswer')->all();
@@ -97,6 +98,8 @@ sub queries :Chained('base) :PathPart('queries') :Args(0) {
 sub ia_base :Chained('base') :PathPart('view') :CaptureArgs(1) {  # /ia/view/calculator
 	my ( $self, $c, $answer_id ) = @_;
 
+    $c->stash->{ia_page} = "IAPage";
+    $c->stash->{ia_version} = $ia_version;
     $c->stash->{ia} = $c->d->rs('InstantAnswer')->find($answer_id);
     @{$c->stash->{issues}} = $c->d->rs('InstantAnswer::Issues')->search({instant_answer_id => $answer_id});
 
@@ -111,8 +114,6 @@ sub ia_base :Chained('base') :PathPart('view') :CaptureArgs(1) {  # /ia/view/cal
     if ($other_queries) {
         $c->stash->{ia_other_queries} = decode_json($other_queries);
     }
-
-    $c->stash->{ia_page} = $answer_id;
 
 	unless ($c->stash->{ia}) {
 		$c->response->redirect($c->chained_uri('InstantAnswer','index',{ instant_answer_not_found => 1 }));
