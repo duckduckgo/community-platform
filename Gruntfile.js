@@ -2,7 +2,7 @@ module.exports = function(grunt) {
 
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
-
+        
         version: {
             release: {
                 options: {
@@ -55,6 +55,7 @@ module.exports = function(grunt) {
                 src: ['root/static/js/ia.js'],
                 tasks: [
                     'version:release',
+                    'removelogging',
                     'uglify:ia_js',
                     'remove',
                     'gitcommit:ia_pages',
@@ -62,6 +63,8 @@ module.exports = function(grunt) {
             }
         },
 
+        // commits the ia.js version file and package.json
+        // still needs to be pushed
         gitcommit: {
             ia_pages: {
                 options: {
@@ -72,6 +75,12 @@ module.exports = function(grunt) {
                 }
             },
         
+        },
+
+        removelogging: {
+            dist: {
+                src: 'root/static/js/ia.js'
+            }
         }
 
     });
@@ -84,6 +93,7 @@ module.exports = function(grunt) {
         grunt.loadNpmTasks('grunt-diff');
         grunt.loadNpmTasks('grunt-remove');
         grunt.loadNpmTasks('grunt-git');
+        grunt.loadNpmTasks('grunt-remove-logging');
 
         // check diff on ia.js.  Diff runs rest
         // of release process if the file has changed
