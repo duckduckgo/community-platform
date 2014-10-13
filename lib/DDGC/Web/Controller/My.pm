@@ -338,7 +338,7 @@ sub forgotpw_tokencheck :Chained('logged_out') :Args(2) {
 		$error = 1;
 	}
 
-	if (!defined $c->req->params->{password} or length($c->req->params->{password}) < 3) {
+	if (!defined $c->req->params->{password} or length($c->req->params->{password}) < 8) {
 		$c->stash->{password_too_short} = 1;
 		$error = 1;
 	}
@@ -415,7 +415,7 @@ sub changepw :Chained('logged_in') :Args(0) {
 		$error = 1;
 	}
 
-	if (!defined $c->req->params->{password} or length($c->req->params->{password}) < 3) {
+	if (!defined $c->req->params->{password} or length($c->req->params->{password}) < 8) {
 		$c->stash->{password_too_short} = 1;
 		$error = 1;
 	}
@@ -523,7 +523,7 @@ sub register :Chained('logged_out') :Args(0) {
 		$error = 1;
 	}
 
-	if (!defined $c->req->params->{password} or length($c->req->params->{password}) < 3) {
+	if (!defined $c->req->params->{password} or length($c->req->params->{password}) < 8) {
 		$c->stash->{password_too_short} = 1;
 		$error = 1;
 	}

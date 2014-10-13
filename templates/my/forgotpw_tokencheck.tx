@@ -19,7 +19,7 @@
 				<p class="notice success"><i class="icn icon-ok"></i>Your password has been reset.</p>
 			</div>
 			<: } else { :>
-				<: if $password_too_short { :><p class="notice warning"><i class="icn icon-warning-sign"></i>Password must be at least 3 characters.</p><: } :>
+				<: if $password_too_short { :><p class="notice warning"><i class="icn icon-warning-sign"></i>Password must be at least 8 characters.</p><: } :>
 				<: if $password_different { :><p class="notice warning"><i class="icn icon-warning-sign"></i>Both passwords must be identical.</p><: } :>
 			</div>
 			<div class="third">

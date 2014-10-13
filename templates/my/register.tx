@@ -38,7 +38,7 @@
 <: } :>	
 <: if $password_too_short {  :> 
 	<p class="notice error">
-		<i class="icn icon-warning-sign"></i>Password must be at least 3 characters.
+		<i class="icn icon-warning-sign"></i>Password must be at least 8 characters.
 	</p>
 <: } # with l(), this should be l($string,3) :>
 <: if $password_different {  :> 
