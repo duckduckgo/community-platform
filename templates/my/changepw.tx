@@ -11,7 +11,7 @@
 			<input type="hidden" name="action_token" value="<: $action_token :>">
 			<: if $changeok { :> <p class="notice success"><i class="icn icon-ok"></i>Your password has been changed correctly.</p> <: } :>
 			<: if $old_password_wrong {  :> <p class="notice error"><i class="icn icon-warning-sign"></i>Your old password is not correct. Please try again.<: } :>
-			<: if $password_too_short {  :> <p class="notice warning"><i class="icn icon-warning-sign"></i>Password must be at least 3 characters.<: } :>
+			<: if $password_too_short {  :> <p class="notice warning"><i class="icn icon-warning-sign"></i>Password must be at least 8 characters.<: } :>
 			<: if $password_different {  :> <p class="notice error"><i class="icn icon-warning-sign"></i>The passwords do not match. Please try again.<: } :>
 			
 			<div class="account-items group">

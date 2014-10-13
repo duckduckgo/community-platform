@@ -1,5 +1,8 @@
 <div class="form-border">
 	<div class="form-wrap account-form">
+		<: if $no_valid_email { :>
+			<div class="notice error"><i class="icn icon-warning-sign"></i><: 'Please provide a valid email address.' :></div>
+		<: } :>  
 		<form action="<: $u('My','email') :>" method="post" id="formEmail">
 			<input type="hidden" name="action_token" value="<: $action_token :>">
 			<h3><b>

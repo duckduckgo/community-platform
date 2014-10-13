@@ -81,6 +81,11 @@ sub login :Chained('logged_out') :Args(0) {
 					username => $username,
 					password => $password,
 				}, 'users')) {
+					my $data = $c->user->data;
+					delete $data->{token};
+					delete $data->{invalidate_existing_sessions};
+					$c->user->data($data);
+					$c->user->update;
 					$c->set_new_action_token;
 					$last_url = $c->chained_uri('My','account') unless defined $last_url;
 					$c->response->redirect($last_url);
@@ -238,6 +243,7 @@ sub email :Chained('logged_in') :Args(0) {
 	$c->user->data({}) if !$c->user->data;
 	my $data = $c->user->data();
 	$data->{email} = $email;
+	delete $data->{token};
 	$c->user->data($data);
 	$c->user->update;
 
@@ -318,6 +324,11 @@ sub forgotpw_tokencheck :Chained('logged_out') :Args(2) {
 		$c->stash->{invalid_token} = 1;
 		return $c->detach;
 	}
+	if ($user->data->{token_timestamp} &&
+		time > $user->data->{token_timestamp} + (60 * 60 * 24)) {
+		$c->stash->{token_expired} = 1;
+		return $c->detach;
+	}
 	return if !$c->req->params->{forgotpw_tokencheck};
 	
 	my $error = 0;
@@ -327,7 +338,7 @@ sub forgotpw_tokencheck :Chained('logged_out') :Args(2) {
 		$error = 1;
 	}
 
-	if (!defined $c->req->params->{password} or length($c->req->params->{password}) < 3) {
+	if (!defined $c->req->params->{password} or length($c->req->params->{password}) < 8) {
 		$c->stash->{password_too_short} = 1;
 		$error = 1;
 	}
@@ -337,6 +348,8 @@ sub forgotpw_tokencheck :Chained('logged_out') :Args(2) {
 	my $newpass = $c->req->params->{password};
 	my $data = $user->data;
 	delete $data->{token};
+	$data->{invalidate_existing_sessions} = 1;
+	delete $data->{password_reset_session_token};
 	$user->data($data);
 	$user->update;
 	$c->d->update_password($username,$newpass);
@@ -402,7 +415,7 @@ sub changepw :Chained('logged_in') :Args(0) {
 		$error = 1;
 	}
 
-	if (!defined $c->req->params->{password} or length($c->req->params->{password}) < 3) {
+	if (!defined $c->req->params->{password} or length($c->req->params->{password}) < 8) {
 		$c->stash->{password_too_short} = 1;
 		$error = 1;
 	}
@@ -411,8 +424,9 @@ sub changepw :Chained('logged_in') :Args(0) {
 	
 	my $newpass = $c->req->params->{password};
 	$c->d->update_password($c->user->username,$newpass);
+	my $data = $c->user->data;
 
-	if ($c->user->data && $c->user->data->{email}) {
+	if ($data && $data->{email}) {
 		$c->stash->{newpw_username} = $c->user->username;
 		$c->d->postman->template_mail(
 			$c->user->data->{email},
@@ -422,6 +436,12 @@ sub changepw :Chained('logged_in') :Args(0) {
 			$c->stash,
 		);
 	}
+
+	delete $data->{token};
+	$data->{invalidate_existing_sessions} = 1;
+	$data->{password_reset_session_token} = $c->session->{action_token};
+	$c->user->data($data);
+	$c->user->update;
 
 	$c->stash->{changeok} = 1;
 }
@@ -451,9 +471,10 @@ sub forgotpw :Chained('logged_out') :Args(0) {
 		return;
 	}
 	
-	my $token = md5_hex(int(rand(99999999)));
+	my $token = $c->d->uid;
 	my $data = $user->data;
 	$data->{token} = $token;
+	$data->{token_timestamp} = time;
 	$user->data($data);
 	$user->update;
 	$c->stash->{user} = $user->username;
@@ -468,8 +489,6 @@ sub forgotpw :Chained('logged_out') :Args(0) {
 		$c->stash,
 	);
 
-	#$c->forward( $c->view('Email::Xslate') );
-	
 	$c->stash->{sentok} = 1;
 }
 
