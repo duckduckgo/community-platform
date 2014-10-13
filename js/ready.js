@@ -7,7 +7,7 @@ $(document).ready(function() {
         console.log("found DDH_iapage: '%s'", DDH_iapage);
 
         if (DDH[DDH_iapage]) {
-            DDH.index = new DDH[DDH_iapage]();
+            DDH.page = new DDH[DDH_iapage]();
         }
         // else .. error
     }
