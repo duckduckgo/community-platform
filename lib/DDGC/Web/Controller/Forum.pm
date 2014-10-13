@@ -4,6 +4,8 @@ package DDGC::Web::Controller::Forum;
 use Moose;
 BEGIN {extends 'Catalyst::Controller'; }
 
+use Scalar::Util qw/ looks_like_number /;
+
 use namespace::autoclean;
 
 sub base : Chained('/base') PathPart('forum') CaptureArgs(0) {
@@ -252,6 +254,21 @@ sub thread : Chained('thread_id') PathPart('') Args(1) {
 # /forum/comment/$id
 sub comment_id : Chained('comment_view') PathPart('comment') CaptureArgs(1) {
   my ( $self, $c, $id ) = @_;
+
+  $id += 0 if $id =~ /^[0-9]/;
+  if (!looks_like_number($id)) {
+    my $thread = $c->d->rs('Thread')->search({
+      key => $id,
+      forum => $c->d->config->id_for_forum('general'),
+    })->first;
+    if ($thread) {
+      $c->response->redirect($c->chained_uri('Forum','thread',$thread->id,$thread->key));
+      return $c->detach;
+    }
+    $c->response->redirect($c->chained_uri('Forum','general',{ comment_notfound => 1 }));
+    return $c->detach;
+  }
+
   $c->stash->{thread} = $c->d->rs('Comment')->find($id);
   unless ($c->stash->{thread}) {
     $c->response->redirect($c->chained_uri('Forum','general',{ comment_notfound => 1 }));
