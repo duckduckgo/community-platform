@@ -13,16 +13,20 @@ module.exports = function(grunt) {
         },
 
         concat: {
-            dist:{
+            ia_pages:{
                 src:['js/ia_pages/*.js', 'js/ia_pages/handlebars_tmp'],
-                dest: 'root/static/js/ia-<%= pkg.version %>.js'
+                dest: 'root/static/js/ia<%= pkg.version %>.js'
             }
         },
 
         handlebars: {
             compile: {
                 options: {
-                    namespace: false
+                    namespace: "Handlebars.templates",
+                    processName: function(filepath) {
+                        var parts = filepath.split('/');
+                        return parts[parts.length - 1].replace('.handlebars','');
+                    }
                 },
                 files: {
                     'js/ia_pages/handlebars_tmp' : 'js/ia_pages/*.handlebars'
@@ -33,7 +37,7 @@ module.exports = function(grunt) {
         uglify: {
             my_target: {
                 files: {
-                'root/static/js/ia-<%= pkg.version %>.js': 'root/static/js/ia-<%= pkg.version %>.js' 
+                'root/static/js/ia<%= pkg.version %>.js': 'root/static/js/ia<%= pkg.version %>.js' 
             
                 }
             }
@@ -62,7 +66,7 @@ module.exports = function(grunt) {
 
         grunt.registerTask('release', [
             'handlebars:compile',    
-            'concat:dist',
+            'concat:ia_pages',
             //'uglify',
             'version:release',
 

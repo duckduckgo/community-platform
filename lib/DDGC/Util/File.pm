@@ -4,6 +4,11 @@ package DDGC::Util::File;
 use strict;
 use warnings;
 use Exporter 'import';
+use JSON;
+use IO::All;
+use Data::Dumper;
+
+my $ROOT_DIR = '/home/ubuntu/community-platform';
 
 our @EXPORT = qw(
 	max_file_version
@@ -11,14 +16,14 @@ our @EXPORT = qw(
 
 
 sub max_file_version {
-    my ( $path, $base, $ext ) = @_;
-    my $mx = 0;
+    my $pkg < io("$ROOT_DIR/package.json");
 
-    foreach my $srcver (<$path/$base*.$ext>) {
-        if ($srcver =~ /$base(\d{1,})\.$ext/) { $mx = $1 if $1 > $mx; }
+    my $json = decode_json($pkg);
+
+    if($json->{'version'} =~ /(\d+)\.(\d+)\.(\d+)/){
+        my $version = $2 - 1;
+        return qq($1.$version.$3);
     }
-
-    return $mx;
 }
 
 
