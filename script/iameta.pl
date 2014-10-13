@@ -9,8 +9,7 @@ use feature "say";
 use Data::Dumper;
 
 # TODO: need final location
-#my $upload_meta = "/home/ddgc/community-platform/upload/all_meta.json";
-my $upload_meta = "/home/ubuntu/community-platform/upload/all_meta.json";
+my $upload_meta = "/home/ddgc/cache/all_meta.json";
 
 die unless (-f $upload_meta);
 
