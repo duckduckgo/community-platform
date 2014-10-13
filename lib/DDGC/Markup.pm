@@ -13,7 +13,6 @@ has ddgc => (
 	required => 1,
 	weak_ref => 1,
 	handles => [qw(
-		privacy
 		current_user
 	)],
 );
