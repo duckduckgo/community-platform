@@ -54,10 +54,12 @@ sub bbcode {
 			my $uri = URI->new($attr);
 			if ($uri->can('host')) {
 				my $url = $uri->as_string;
+				my $proxy_url = $self->ddgc->config->image_proxy_url .
+				                uri_escape($url) . '&f=1';
 				my $has_desc = $content ne $attr ? 1 : 0;
 				my $desc = $content;
 				'<a rel="nofollow" href="'.$url.'">'.
-					'<img src="'.$url.'" alt="['.$desc.']" title="'.$desc.'">'.
+					'<img src="'.$proxy_url.'" alt="['.$desc.']" title="'.$desc.'">'.
 				'</a>'
 			} else {
 				'<i class="p-link__icn icon-camera"></i>'.
