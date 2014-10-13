@@ -3,14 +3,13 @@ package DDGC::Web::Controller::InstantAnswer;
 use Data::Dumper;
 use Moose;
 use namespace::autoclean;
-use DDGC::Util::File qw( max_file_version );
+use DDGC::Util::File qw( ia_page_version );
 
 # TODO correct release directories
-my $INST = "/home/ddgc/community-platform/root/static/js";
+#my $INST = "/home/ddgc/community-platform/root/static/js";
+my $INST = "/home/ubuntu/community-platform/root/static/js";
 
-my $ia_version = (-f "$INST/ia.js") ? "" : max_file_version();
-
-warn qq(ia version: $ia_version);
+my $ia_version = (-f "$INST/ia.js") ? "" : ia_page_version();
 
 BEGIN {extends 'Catalyst::Controller'; }
 

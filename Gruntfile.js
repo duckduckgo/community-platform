@@ -1,7 +1,20 @@
 module.exports = function(grunt) {
+    
+    var root_dir = 'root/static/js/';
+    var js_dir = 'js/ia_pages/';
+
+    var ia_page_js = [
+        js_dir + 'DDH.js',
+        js_dir + 'IAIndex.js',
+        js_dir + 'IAPage.js',
+        js_dir + 'ready.js',
+        js_dir + 'handlebars_tmp'
+    ];
 
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
+        root_dir: root_dir,
+        js_dir: js_dir,
         
         version: {
             release: {
@@ -14,8 +27,8 @@ module.exports = function(grunt) {
 
         concat: {
             ia_pages:{
-                src:['js/ia_pages/DDG.js', 'js/ia_pages/IAIndex.js', 'js/ia_pages/IAPage.js', 'js/ia_pages/ready.js' , 'js/ia_pages/handlebars_tmp'],
-                dest: 'root/static/js/ia.js'
+                src: ia_page_js,
+                dest: root_dir + 'ia.js'
             }
         },
 
@@ -37,7 +50,7 @@ module.exports = function(grunt) {
         uglify: {
             ia_js: {
                 files: {
-                'root/static/js/ia<%= pkg.version %>.js': 'root/static/js/ia.js' 
+               '<%= root_dir + "ia" +  pkg.version %>.js': root_dir + 'ia.js' 
             
                 }
             }
@@ -46,13 +59,13 @@ module.exports = function(grunt) {
         remove: {
             default_options: {
                 trace: true,
-                fileList: ['root/static/js/ia.js', 'js/ia_pages/handlebars_tmp'],
+                fileList: [ root_dir + 'ia.js', js_dir + 'handlebars_tmp'],
             }
         },
 
        diff: {
             ia_js: {
-                src: ['root/static/js/ia.js'],
+                src: [ root_dir + 'ia.js'],
                 tasks: [
                     'version:release',
                     'removelogging',
@@ -71,7 +84,7 @@ module.exports = function(grunt) {
                     message: 'Release IA pages version: <%= pkg.version %>'
                 },
                 files: {
-                    src: ['root/static/js/ia<%= pkg.version %>.js', 'package.json']
+                    src: [ root_dir + 'ia<%= pkg.version %>.js', 'package.json']
                 }
             },
         
@@ -79,7 +92,7 @@ module.exports = function(grunt) {
 
         removelogging: {
             dist: {
-                src: 'root/static/js/ia.js'
+                src: root_dir + 'ia.js'
             }
         }
 
@@ -105,7 +118,7 @@ module.exports = function(grunt) {
         ]);
 
         // compile handlebars and concat js files
-        // to root/static/js/ia.js
+        // to ia.js
         grunt.registerTask('build', [
             'handlebars:compile',
             'concat:ia_pages'

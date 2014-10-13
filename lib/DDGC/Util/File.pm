@@ -11,11 +11,11 @@ use Data::Dumper;
 my $ROOT_DIR = '/home/ubuntu/community-platform';
 
 our @EXPORT = qw(
-	max_file_version
+	ia_page_version
 );
 
 
-sub max_file_version {
+sub ia_page_version {
     my $pkg < io("$ROOT_DIR/package.json");
 
     my $json = decode_json($pkg);
