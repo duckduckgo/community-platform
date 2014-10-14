@@ -127,6 +127,11 @@ column old_url => {
 	is_nullable => 1,
 };
 
+column migrated_thread => {
+	data_type => 'bigint',
+	is_nullable => 1,
+};
+
 __PACKAGE__->add_antispam_functionality;
 
 belongs_to 'user', 'DDGC::DB::Result::User', 'users_id';
@@ -200,6 +205,41 @@ sub get_url {
 	$key =~ s/-$//;
 	$key =~ s/^-//;
 	return $key || 'url';
+}
+
+sub migrate_to_ramblings {
+	my ( $self ) = @_;
+	return undef if $self->migrated_thread;
+
+	my $comment = $self->content . ( ($self->source) ?
+		  "\n\nSource:\n\n" . $self->source
+		: ""
+	);
+	my $thread = $self->ddgc->forum->add_thread(
+		$self->user,
+		$comment,
+		forum => $self->ddgc->config->id_for_forum('general'),
+		title => $self->title,
+		ghosted => $self->ghosted,
+		checked => $self->checked,
+	);
+
+	return undef unless $thread;
+
+	while (my $comment = $self->comments->next) {
+		$comment->update({
+			context => 'DDGC::DB::Result::Thread',
+			context_id => $thread->id,
+			parent_id => $comment->parent_id || $thread->comment->id,
+		});
+	}
+
+	use DDP; p $self->comments;
+
+	$self->migrated_thread($thread->id);
+	$self->update;
+
+	return $thread;
 }
 
 no Moose;
