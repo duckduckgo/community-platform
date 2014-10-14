@@ -57,7 +57,7 @@ sub bbcode {
 				                uri_escape($url) . '&f=1';
 				my $has_desc = $content ne $attr ? 1 : 0;
 				my $desc = $content;
-				'<a rel="nofollow" href="'.$url.'">'.
+				'<a rel="nofollow" href="'.$proxy_url.'">'.
 					'<img src="'.$proxy_url.'" alt="['.$desc.']" title="'.$desc.'">'.
 				'</a>'
 			} else {
