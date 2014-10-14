@@ -189,6 +189,8 @@ has db_params => (
 has_conf dezi_uri => DDGC_DEZI_URI => 'http://127.0.0.1:5000';
 has_conf index_path => DDGC_INDEX_PATH => '.';
 
+has_conf image_proxy_url => DDGC_IMAGE_PROXY_URL => 'https://images.duckduckgo.com/iu/?u=';
+
 sub duckpandir {
 	my ( $self ) = @_;
 	my $dir = defined $ENV{'DDGC_DUCKPANDIR'} ? $ENV{'DDGC_DUCKPANDIR'} : $self->rootdir().'/duckpan/';

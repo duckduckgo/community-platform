@@ -70,7 +70,7 @@ sub content_html {
   if ($self->raw_html) {
     return $self->content;
   } else {
-    return $self->ddgc->markup->html_without_privacy($self->content);
+    return $self->ddgc->markup->html($self->content);
   }
 }
 

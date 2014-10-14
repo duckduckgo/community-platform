@@ -60,13 +60,9 @@ sub mail {
 
 sub template_mail {
 	my ( $self, $to, $from, $subject, $template, $stash, %extra ) = @_;
-	my @return;
-	$self->ddgc->force_privacy(sub {
-		$stash->{email_template} = "email/".$template.".tx";
-		my $body = $self->ddgc->xslate->render('email/base.tx',$stash);
-		@return = $self->html_mail($to, $from, $subject, $body, %extra);
-	});
-	return @return;
+	$stash->{email_template} = "email/".$template.".tx";
+	my $body = $self->ddgc->xslate->render('email/base.tx',$stash);
+	return $self->html_mail($to, $from, $subject, $body, %extra);
 }
 
 sub html_mail {
