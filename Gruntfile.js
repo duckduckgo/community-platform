@@ -32,6 +32,9 @@ module.exports = function(grunt) {
             }
         },
 
+        /*
+         * concat js files in js_dir and copy to root_dir
+         */
         concat: {
             ia_pages:{
                 src: ia_page_js,
@@ -39,6 +42,9 @@ module.exports = function(grunt) {
             }
         },
 
+        /*
+         * Compiles handlebar templates and add to Handlebars.templates namespace
+         */
         handlebars: {
             compile: {
                 options: {
@@ -54,6 +60,9 @@ module.exports = function(grunt) {
             }
         },
 
+        /*
+         * uglify ia.js and give it a version number for release
+         */
         uglify: {
             ia_js: {
                 files: {
@@ -70,7 +79,11 @@ module.exports = function(grunt) {
             }
         },
 
-       diff: {
+        /*
+         * for release check ia.js to see if it has changed.  If true then
+         * run the tasks.  If not then stop here.
+         */
+        diff: {
             ia_js: {
                 src: [ root_dir + 'ia.js'],
                 tasks: [
@@ -83,8 +96,10 @@ module.exports = function(grunt) {
             }
         },
 
-        // commits the ia.js version file and package.json
-        // still needs to be pushed
+        /*
+         * commits the ia.js version file and package.json
+         * still needs to be pushed
+         */
         gitcommit: {
             ia_pages: {
                 options: {
