@@ -4,12 +4,16 @@ module.exports = function(grunt) {
     var js_dir = 'js/ia_pages/';
 
     var ia_page_js = [
-        js_dir + 'DDH.js',
-        js_dir + 'IAIndex.js',
-        js_dir + 'IAPage.js',
-        js_dir + 'ready.js',
-        js_dir + 'handlebars_tmp'
+        'DDH.js',
+        'IAIndex.js',
+        'IAPage.js',
+        'ready.js',
+        'handlebars_tmp'
     ];
+
+    for( var file in ia_page_js ){
+        ia_page_js[file] = js_dir + ia_page_js[file];
+    }
 
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
