@@ -19,7 +19,10 @@ module.exports = function(grunt) {
         pkg: grunt.file.readJSON('package.json'),
         root_dir: root_dir,
         js_dir: js_dir,
-        
+       
+        /*
+         * increases the version number in package.json
+         */
         version: {
             release: {
                 options: {
