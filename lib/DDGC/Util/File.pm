@@ -15,6 +15,10 @@ my $ROOT_PATH = DDGC::Config->new->appdir_path;
 
 sub ia_page_version {
 
+    # look for ia.js which doesn't exist in the repo.
+    # If it exists then we are building a debug version.
+    # If it doesn't then continue on to return the version
+    # number for release.
     if( -f "$ROOT_PATH/root/static/js/ia.js"){
         return '';
     }
