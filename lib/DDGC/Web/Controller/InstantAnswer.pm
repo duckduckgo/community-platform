@@ -7,9 +7,9 @@ use DDGC::Util::File qw( ia_page_version );
 
 # TODO correct release directories
 #my $INST = "/home/ddgc/community-platform/root/static/js";
-my $INST = "/home/ubuntu/community-platform/root/static/js";
+my $INST = DDGC::Config->new->inst_path;
 
-my $ia_version = (-f "$INST/ia.js") ? "" : ia_page_version();
+my $ia_version = ia_page_version();
 
 BEGIN {extends 'Catalyst::Controller'; }
 

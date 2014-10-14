@@ -1,6 +1,6 @@
 module.exports = function(grunt) {
     
-    var root_dir = 'root/static/js/';
+    var root_dir = process.env.HOME + '/community-platform/root/static/js/';
     var js_dir = 'js/ia_pages/';
 
     var ia_page_js = [

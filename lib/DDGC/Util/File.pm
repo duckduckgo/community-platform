@@ -6,17 +6,21 @@ use warnings;
 use Exporter 'import';
 use JSON;
 use IO::All;
-use Data::Dumper;
-
-my $ROOT_DIR = '/home/ubuntu/community-platform';
 
 our @EXPORT = qw(
 	ia_page_version
 );
 
-
+my $INST = '';
 sub ia_page_version {
-    my $pkg < io("$ROOT_DIR/package.json");
+
+    if( -f "$INST/ia.js"){
+        return '';
+    }
+
+    my $file = DDGC::Config->new->appdir_path."package.json";
+
+    my $pkg < io($file);
 
     my $json = decode_json($pkg);
 
@@ -28,4 +32,4 @@ sub ia_page_version {
     }
 }
 
-
+1;
