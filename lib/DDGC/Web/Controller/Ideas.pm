@@ -133,6 +133,7 @@ sub idea_id : Chained('base') PathPart('idea') CaptureArgs(1) {
 
 	if ($c->stash->{idea}->migrated_thread) {
 		$c->response->redirect($c->chained_uri('Forum','thread',$c->stash->{idea}->migrated_thread));
+		return $c->detach;
 	}
 	unless ($c->stash->{idea}) {
 		$c->response->redirect($c->chained_uri('Ideas','index',{ idea_notfound => 1 }));
@@ -161,6 +162,14 @@ sub idea : Chained('idea_id') PathPart('') Args(1) {
 	if ($c->user && $c->user->is('idea_manager') && $c->req->params->{change_status}) {
 		$c->stash->{idea}->status($c->req->params->{status});
 		$c->stash->{idea}->update;
+		if ( lc($c->stash->{idea_statuses}->[ $c->req->params->{status} ]->[1])
+		     eq 'not an instant answer idea') {
+			my $thread = $c->stash->{idea}->migrate_to_ramblings;
+			if ($thread) {
+				$c->response->redirect($c->chained_uri('Forum','thread',$thread->id,$thread->key));
+				return $c->detach;
+			}
+		}
 	}
 	if ($c->user && $c->req->params->{unfollow}) {
 		$c->user->delete_context_notification($c->req->params->{unfollow},$c->stash->{idea});

@@ -57,7 +57,7 @@
 		<div class="row row--floated ">
 		<div class="gw">
 			<div class="g twothird">
-				<select name="status" class="whole js-select">
+				<select name="status" id="status" class="whole js-select">
 				<: for $idea_statuses -> $idea_status { :>
 					<option value="<: $idea_status.0 :>"<: if $idea_status.0 == $_.status || $idea_status.0 == $c.req.params.status { :>selected="selected"<: } :>>
 						<: $idea_status.1 :>
@@ -66,8 +66,8 @@
 				</select>
 				</div>
 				<div class="g thirty">
-				<input type="submit" name="change_status" value="Update" class="button  inline-form" />
-																<a class="button  red" href="<: $u('Ideas','delete',$_.id) :>" onclick="return confirm('Are you sure?')">Delete</a>
+					<input type="submit" name="change_status" value="Update" class="button  inline-form" onClick="if (document.getElementById('status').value == '9') { return confirm ('This will migrate this Instant Answer idea to General Ramblings, continue?') }; return true;" />
+					<a class="button  red" href="<: $u('Ideas','delete',$_.id) :>" onclick="return confirm('Are you sure?')">Delete</a>
 				</div>
 			</div>
 		</div>
