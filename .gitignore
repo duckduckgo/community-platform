@@ -8,3 +8,4 @@ local-lib
 *.json
 *.log
 *.index
+node_modules/*
