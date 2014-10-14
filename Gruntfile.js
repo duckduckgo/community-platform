@@ -112,6 +112,9 @@ module.exports = function(grunt) {
         
         },
 
+        /*
+         * removes console.log
+         */
         removelogging: {
             dist: {
                 src: root_dir + 'ia.js'
