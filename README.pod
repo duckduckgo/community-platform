@@ -40,14 +40,15 @@ a F<.bashrc> or correspdonding initialization scripts for your shell):
 
 (Use your preferred database name / user / password values)
 
-  DDGC_DB_DSN='dbi:Pg:database=ddgc'
-  DDGC_DB_USER='ddgc'
-  DDGC_DB_PASSWORD='yourdbpass'
+  export DDGC_DB_DSN='dbi:Pg:database=ddgc';
+  export DDGC_DB_USER='ddgc';
+  export DDGC_DB_PASSWORD='yourdbpass';
 
 Note: Do ensure that the user ('ddgc' in above example) has the 'createdb'
-permission. To do this, login to psql as a superuser and run:
+and the 'login' permissions. To do this, login to psql as a superuser and run:
 
-  ALTER USER ddgc CREATEDB
+  ALTER USER ddgc CREATEDB;
+  ALTER USER ddgc LOGIN;
 
 Now, run the script to initialize the base database:
 
