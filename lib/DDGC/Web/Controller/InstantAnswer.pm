@@ -7,7 +7,7 @@ use DDGC::Util::File qw( ia_page_version );
 
 # TODO correct release directories
 #my $INST = "/home/ddgc/community-platform/root/static/js";
-my $INST = DDGC::Config->new->inst_path;
+my $INST = DDGC::Config->new->appdir_path."/root/static/js";
 
 my $ia_version = ia_page_version();
 

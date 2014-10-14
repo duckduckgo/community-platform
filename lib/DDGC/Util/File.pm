@@ -11,14 +11,15 @@ our @EXPORT = qw(
 	ia_page_version
 );
 
-my $INST = '';
+my $ROOT_PATH = DDGC::Config->new->appdir_path;
+
 sub ia_page_version {
 
-    if( -f "$INST/ia.js"){
+    if( -f "$ROOT_PATH/root/static/js/ia.js"){
         return '';
     }
 
-    my $file = DDGC::Config->new->appdir_path."package.json";
+    my $file = $ROOT_PATH."package.json";
 
     my $pkg < io($file);
 
