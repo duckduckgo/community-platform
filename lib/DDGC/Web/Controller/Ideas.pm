@@ -126,6 +126,10 @@ sub status :Chained('base') :Args(1) {
 sub idea_id : Chained('base') PathPart('idea') CaptureArgs(1) {
 	my ( $self, $c, $id ) = @_;
 	$c->stash->{idea} = $c->d->rs('Idea')->find($id);
+
+	if ($c->stash->{idea}->migrated_thread) {
+		$c->response->redirect($c->chained_uri('Forum','thread',$c->stash->{idea}->migrated_thread));
+	}
 	unless ($c->stash->{idea}) {
 		$c->response->redirect($c->chained_uri('Ideas','index',{ idea_notfound => 1 }));
 		return $c->detach;
