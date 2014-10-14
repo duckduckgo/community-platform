@@ -124,7 +124,6 @@ module.exports = function(grunt) {
     });
 
         grunt.loadNpmTasks('grunt-contrib-concat');
-        grunt.loadNpmTasks('grunt-contrib-copy');
         grunt.loadNpmTasks('grunt-contrib-handlebars');
         grunt.loadNpmTasks('grunt-version');
         grunt.loadNpmTasks('grunt-contrib-uglify');

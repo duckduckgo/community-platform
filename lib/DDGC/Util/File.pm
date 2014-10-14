@@ -23,6 +23,8 @@ sub ia_page_version {
     if($json->{'version'} =~ /(\d+)\.(\d+)\.(\d+)/){
         my $version = $2 - 1;
         return qq($1.$version.$3);
+    } else {
+        return '';
     }
 }
 
