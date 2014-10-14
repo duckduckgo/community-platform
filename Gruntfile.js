@@ -4,11 +4,11 @@ module.exports = function(grunt) {
     var js_dir = 'js/ia_pages/';
 
     var ia_page_js = [
+        'handlebars_tmp',
         'DDH.js',
         'IAIndex.js',
         'IAPage.js',
-        'ready.js',
-        'handlebars_tmp'
+        'ready.js'
     ];
 
     for( var file in ia_page_js ){
@@ -75,7 +75,7 @@ module.exports = function(grunt) {
         remove: {
             default_options: {
                 trace: true,
-                fileList: [ root_dir + 'ia.js', js_dir + 'handlebars_tmp'],
+                fileList: [ root_dir + 'ia.js', js_dir + 'handlebars_tmp']
             }
         },
 
@@ -91,7 +91,7 @@ module.exports = function(grunt) {
                     'removelogging',
                     'uglify:ia_js',
                     'remove',
-                    'gitcommit:ia_pages',
+                    'gitcommit:ia_pages'
                     ]
             }
         },
@@ -108,7 +108,7 @@ module.exports = function(grunt) {
                 files: {
                     src: [ root_dir + 'ia<%= pkg.version %>.js', 'package.json']
                 }
-            },
+            }
         
         },
 
@@ -136,7 +136,7 @@ module.exports = function(grunt) {
         // of release process if the file has changed
         grunt.registerTask('release', [
             'build',
-            'diff',
+            'diff'
             
             
         ]);
