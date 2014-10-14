@@ -234,8 +234,6 @@ sub migrate_to_ramblings {
 		});
 	}
 
-	use DDP; p $self->comments;
-
 	$self->migrated_thread($thread->id);
 	$self->update;
 
