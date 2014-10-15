@@ -305,6 +305,7 @@ sub undone_notifications {
 			event_notifications => [qw( user_notification )],
 		}],
 		order_by => { -desc => 'event_notifications.created' },
+		cache_for => 300,
 		$limit ? ( rows => $limit ) : (),
 	});
 }
