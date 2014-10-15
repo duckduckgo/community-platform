@@ -22,7 +22,7 @@ rank: x percentile of IAs &lt;fancy chart&gt;
 </p>
 
 <div>
-<img style="border:1px solid black" src="https://images.duckduckgo.com/iu/?u=http://ia-screenshots.s3.amazonaws.com/<: $ia.id :>_desktop.png">
+<img style="border:1px solid black" src="https://images.duckduckgo.com/iu/?u=https://ia-screenshots.s3.amazonaws.com/<: $ia.id :>_desktop.png">
 </div>
 
 <h3>examples</h3>
