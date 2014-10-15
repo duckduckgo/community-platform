@@ -116,6 +116,11 @@ sub ia_base :Chained('base') :PathPart('view') :CaptureArgs(1) {  # /ia/view/cal
         $c->stash->{ia_other_queries} = decode_json($other_queries);
     }
 
+    my $ia_attribution = $c->stash->{ia}->attribution;
+    if($ia_attribution){
+        $c->stash->{ia_attribution} = decode_json($ia_attribution);
+    }
+
 	unless ($c->stash->{ia}) {
 		$c->response->redirect($c->chained_uri('InstantAnswer','index',{ instant_answer_not_found => 1 }));
 		return $c->detach;
