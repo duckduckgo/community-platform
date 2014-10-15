@@ -298,11 +298,13 @@ sub undone_notifications_count {
 
 sub undone_notifications {
 	my ( $self, $limit ) = @_;
-	$self->schema->resultset('Event::Notification::Group')->prefetch_all->search_rs({
+	$self->schema->resultset('Event::Notification::Group')->search_rs({
 		'user_notification.users_id' => $self->id,
 	},{
+		prefetch => [qw( user_notification_group ),{
+			event_notifications => [qw( user_notification )],
+		}],
 		order_by => { -desc => 'event_notifications.created' },
-		cache_for => 300,
 		$limit ? ( rows => $limit ) : (),
 	});
 }
