@@ -7,8 +7,9 @@ use strict;
 use warnings;
 use feature "say";
 use Data::Dumper;
+use Try::Tiny;
+use File::Copy qw( move );
 
-# TODO: need final location
 my $upload_meta = DDGC::Config->new->rootdir_path."cache/all_meta.json";
 
 die unless (-f $upload_meta);
@@ -22,7 +23,17 @@ use Term::ANSIColor;
 sleep(2);
 
 my $d = DDGC->new;
-my $meta = decode_json(io->file($upload_meta)->slurp);
+my $meta = '';
+
+try {
+    $meta = decode_json(io->file($upload_meta)->slurp);
+}
+catch {
+    warn "Error reading metadata: $_, $@";
+    move $upload_meta, $upload_meta.".error";
+    die;
+};
+
 sub debug { 1 };
 
 say "there are " . (scalar @{$meta}) . " IAs" if debug;
@@ -64,7 +75,14 @@ for my $ia (@{$meta}) {
         $ia->{screenshots} = JSON->new->utf8(1)->encode($ia->{screenshots});
     }
 
-    $d->rs('InstantAnswer')->update_or_create($ia);
+    try {
+        $d->rs('InstantAnswer')->update_or_create($ia);
+    }
+    catch {
+        warn "Error updating database: $_. $@";
+        move $upload_meta, $upload_meta.".error";
+        die;
+    };
 
 
     # debug key val
@@ -80,6 +98,5 @@ for my $ia (@{$meta}) {
 
 }
 
-# TODO
-# unlink("/home/ddgc/community-platform/upload/all_meta.json");
+unlink($upload_meta);
 
