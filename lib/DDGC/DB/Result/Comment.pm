@@ -136,6 +136,13 @@ before insert => sub {
 	my ( $self ) = @_;
 	if ($self->user->ignore) {
 		$self->checked($self->ddgc->find_user( $self->ddgc->config->automoderator_account )->id);
+		if ($self->context eq 'DDGC::DB::Result::Thread' and !$self->parent_id) {
+			$self->ghosted(1);
+		}
+		else {
+			$self->moderated(1);
+			$self->ghosted(0);
+		}
 	}
 };
 
