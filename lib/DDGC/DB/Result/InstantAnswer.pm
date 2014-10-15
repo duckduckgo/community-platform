@@ -124,6 +124,48 @@ column other_queries => {
 	is_nullable => 1,
 };
 
+# signal_from
+column signal_from => {
+	data_type => 'text',
+	is_nullable => 1,
+};
+
+# tab
+column tab => {
+	data_type => 'text',
+	is_nullable => 1,
+};
+
+# attribution
+column attribution_orig => {
+	data_type => 'text',
+	is_nullable => 1,
+};
+
+# template
+column template => {
+	data_type => 'text',
+	is_nullable => 1,
+};
+
+# attribution
+column attribution => {
+	data_type => 'text',
+	is_nullable => 1,
+};
+
+# screenshots
+column screenshots => {
+	data_type => 'text',
+	is_nullable => 1,
+};
+
+# unsafe
+column unsafe => {
+	data_type => 'integer',
+	is_nullable => 1,
+};
+
 has_many 'issues', 'DDGC::DB::Result::InstantAnswer::Issues', 'instant_answer_id';
 has_many 'blocks', 'DDGC::DB::Result::InstantAnswer::Blocks', 'instant_answer_id';
 
