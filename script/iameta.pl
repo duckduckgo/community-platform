@@ -25,6 +25,9 @@ sleep(2);
 my $d = DDGC->new;
 my $meta = '';
 
+# if there are problems reading the meta data file
+# then log the error, rename the file do we don't
+# try reading it again, and die
 try {
     $meta = decode_json(io->file($upload_meta)->slurp);
 }
@@ -75,6 +78,9 @@ for my $ia (@{$meta}) {
         $ia->{screenshots} = JSON->new->utf8(1)->encode($ia->{screenshots});
     }
 
+    # try to add to db.  If there is an error log it
+    # rename the meta data file and die.  This prevents
+    # the whole db from being cleaned out by a bad file
     try {
         $d->rs('InstantAnswer')->update_or_create($ia);
     }
