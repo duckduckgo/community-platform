@@ -80,6 +80,19 @@ column updated => {
 
 __PACKAGE__->add_antispam_functionality;
 
+column moderated => {
+	data_type => 'int',
+	default_value => 0,
+};
+
+after ghosted_checked_by => sub {
+	my ( $self ) = @_;
+	if ($self->ghosted) {
+		$self->moderated(1);
+		$self->ghosted(0);
+	}
+};
+
 column parent_id => {
 	data_type => 'bigint',
 	is_nullable => 1,
@@ -122,7 +135,7 @@ around insert => sub {
 before insert => sub {
 	my ( $self ) = @_;
 	if ($self->user->ignore) {
-		$self->checked(32532); # Checked is a UID, this is johnthespamkiller
+		$self->checked($self->ddgc->find_user( $self->ddgc->config->automoderator_account )->id);
 	}
 };
 

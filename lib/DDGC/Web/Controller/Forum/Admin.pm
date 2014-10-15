@@ -80,9 +80,14 @@ sub moderations : Chained('base') Args(0) {
     if ($user) {
 
       for my $contrib_type (qw/ Thread Idea Comment /) {
-        $c->d->rs( $contrib_type )->search_rs({
+        my $contribs = $c->d->rs( $contrib_type )->search_rs({
           checked => undef, users_id => $c->req->param('user_id'),
-        })->update({ checked => $c->user->id, ghosted => 1 });
+        });
+        use DDP; p $contribs;
+        while (my $contrib = $contribs->next) {
+          $contrib->ghosted_checked_by($c->user,1);
+          $contrib->update;
+        }
       }
 
       $user->ignore(1);
