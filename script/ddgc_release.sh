@@ -26,7 +26,7 @@ ssh -t ddgc@$DDGC_RELEASE_HOSTNAME "(
 )" && \
 printf "***\n*** Transfer release file $2...\n***\n" && \
 scp $2 ddgc@$DDGC_RELEASE_HOSTNAME:~/deploy && \
-printf "***\n*** Preparig release on remote site...\n***\n" && \
+printf "***\n*** Preparing release on remote site...\n***\n" && \
 ssh -t ddgc@$DDGC_RELEASE_HOSTNAME "(
 	. /home/ddgc/perl5/perlbrew/etc/bashrc &&
 	. /home/ddgc/ddgc_config.sh &&
@@ -38,8 +38,6 @@ ssh -t ddgc@$DDGC_RELEASE_HOSTNAME "(
 	printf Stopping current system... && 
 	sudo /usr/local/sbin/stop_ddgc.sh && 
 	printf Copying new files in place... && 
-	. /home/ddgc/perl5/perlbrew/etc/bashrc &&
-	. /home/ddgc/ddgc_config.sh &&
 	mv ~/live ~/backup/$CURRENT_DATE_FILENAME &&
 	mv ~/deploy ~/live &&
 	rm -rf ~/cache &&
@@ -47,9 +45,5 @@ ssh -t ddgc@$DDGC_RELEASE_HOSTNAME "(
 	cp -ar ~/live/share/docroot/* ~/docroot/ &&
 	cp -ar ~/live/share/docroot_duckpan/* ~/ddgc/duckpan/ &&
 	printf Starting new system... && 
-	sudo /usr/local/sbin/start_ddgc.sh &&
-	. /home/ddgc/perl5/perlbrew/etc/bashrc &&
-	. /home/ddgc/ddgc_config.sh &&
-	cd ~/live &&
-	script/ddgc_add_duckpan_dist.pl ddgc $2
+	sudo /usr/local/sbin/start_ddgc.sh
 )"
