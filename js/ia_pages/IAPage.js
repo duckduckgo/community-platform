@@ -15,8 +15,10 @@
 
             if (DDH_iaid) {
                 console.log("for ia id '%s'", DDH_iaid);
-                //$.getJSON("/ia/json/view/" + DDH_iaid, function(x) {
-                //}
+                $.getJSON("/ia/view/" + DDH_iaid + "/json", function(x) {
+					var ia = Handlebars.templates.page(x);
+					$(".ia-single").html(ia);
+                });
             }
         }
     };
