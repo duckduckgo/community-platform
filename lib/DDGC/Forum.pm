@@ -22,7 +22,10 @@ has index_name => (
 
 with 'DDGC::Role::Searchable';
 
-sub comments_grouped { shift->ddgc->rs('Comment')->ghostbusted->grouped_by_context->prefetch_all }
+sub comments_grouped { shift->ddgc->rs('Comment')->ghostbusted->grouped_by_context->search(
+		{}, { prefetch => [ qw/ user / ], },
+	);
+}
 
 sub comments_grouped_in { shift->comments_grouped->search_rs({
 	'me.context' => { -in => [@_] },
@@ -32,8 +35,9 @@ sub context_threads {qw(
 	DDGC::DB::Result::Thread
 )}
 sub comments_grouped_threads { $_[0]->comments_grouped_in(
-	$_[0]->context_threads
-) }
+		$_[0]->context_threads
+	)->search({}, { prefetch => { thread => 'user' } });
+}
 sub comments_grouped_general_threads{
 		$_[0]->comments_grouped_threads->search_rs({ 'thread.forum' => 1 });
 }
@@ -51,8 +55,9 @@ sub context_ideas {qw(
 	DDGC::DB::Result::Idea
 )}
 sub comments_grouped_ideas { $_[0]->comments_grouped_in(
-	$_[0]->context_ideas
-) }
+		$_[0]->context_ideas
+	)->prefetch_all;
+}
 
 sub allow_user {
   my ( $self, $forum_index, $user ) = @_;
@@ -73,14 +78,15 @@ sub context_translation {qw(
 )}
 sub comments_grouped_translation { $_[0]->comments_grouped_in(
 	$_[0]->context_translation
-) }
+)->prefetch_all }
 
 sub context_blog {qw(
 	DDGC::DB::Result::User::Blog
 )}
 sub comments_grouped_blog { $_[0]->comments_grouped_in(
-	$_[0]->context_blog
-) }
+		$_[0]->context_blog
+	)->search({}, { prefetch => { user_blog => 'user' } });
+}
 sub comments_grouped_company_blog {
 	$_[0]->comments_grouped_blog->search_rs({ 'user_blog.company_blog' => 1 })
 }
@@ -95,7 +101,7 @@ sub comments_grouped_other { $_[0]->comments_grouped_not_in(
 	$_[0]->context_blog,
 	$_[0]->context_translation,
 	$_[0]->context_threads,
-) }
+)->prefetch_all }
 sub comments_grouped_for_user {
 	my ( $self, $user ) = @_;
 	my @forbidden_forums = $self->forbidden_forums($user);
