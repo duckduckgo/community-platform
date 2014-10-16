@@ -12,3 +12,86 @@
 
 <p>Related IAs: ...</p>
 
+<p>
+status: <br>
+rank: x percentile of IAs &lt;fancy chart&gt;
+</p>
+
+<div>
+    <img style="border:1px solid black" src="https://images.duckduckgo.com/iu/?u=https://ia-screenshots.s3.amazonaws.com/{{id}}_desktop.png">
+	<img style="border:1px solid black" src="https://images.duckduckgo.com/iu/?u=https://ia-screenshots.s3.amazonaws.com/{{id}}_mobile.png">
+</div>
+
+<h3>examples</h3>
+
+<div>
+    <a href="https://duckduckgo.com/?q={{example_query}}" title="try this example on DuckDuckGo">{{example_query}}</a>
+    {{#if other_queries}}
+	    {{#each other_queries}}
+		    <br>
+			<a href="https://duckduckgo.com/?q={{this}}" title="try this example on DuckDuckGo">{{this}}</a>
+		{{/each}}
+	{{/if}}
+</div>
+
+<h3>issues</h3>
+
+<p>
+github issues if any.
+</p>
+
+<p>
+<a href="https://github.com/duckduckgo/zeroclickinfo-{{repo}}/issues/new?&title=issue+title&body=http%3A%2F%2Fduck.co%2Fia%2Fview%2F{{id}}" 
+title="Create a new issue"/>
+</p>
+
+<h3>nuts &amp; bolts</h3>
+
+<table class="iadata">
+    <tr>
+	    <td>id</td>
+		<td>{{id}}</td>
+	</tr>
+	<tr>
+	    <td>topics</td>
+		<td>
+		    {{#each topic}}
+			    {{this}}
+			{{/each}}
+		</td>
+	</tr>
+	<tr>
+	    <td>templates</td>
+		<td>
+		    list of templates here, if any, or
+			default for {{repo}}
+		</td>
+	</tr>
+	{{#if code}}
+	    <tr>
+		    <td>code</td>
+			<td>
+			    {{#each code}}
+				    <li>{{this}}</li>
+				{{/each}}
+		</tr>
+	{{/if}}
+</table>
+
+<h3>credits</h3>
+
+<table class="iadata">
+    {{#each attribution}}
+	    <tr>
+		    <td>{{this.0.type}}</td>
+			<td>{{this.0.loc}}</td>
+		</tr>
+	{{/each}}
+</table>
+
+<p>
+    idea ... <br>
+	designer ... <br>
+	developers ...
+</p>
+

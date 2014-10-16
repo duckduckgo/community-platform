@@ -18,8 +18,12 @@
                 $.getJSON("/ia/view/" + DDH_iaid + "/json", function(x) {
 					var ia = Handlebars.templates.page({
 					    name: x.name,
-						topic: x.topic
-					});
+						topic: x.topic,
+						id: x.id,
+						example_query: x.example_query,
+						other_queries: x.other_queries,
+						repo: x.repo
+				    });
                     $(".ia-single").html(ia);
 					console.log(x.name);
                 });
