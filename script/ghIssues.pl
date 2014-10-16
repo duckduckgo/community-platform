@@ -1,3 +1,4 @@
+#!/usr/bin/env perl
 # Get the GH issues for DDG repos
 #
 #
