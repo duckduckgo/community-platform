@@ -3,6 +3,22 @@ module.exports = function(grunt) {
     var root_dir = 'root/static/js/';
     var js_dir = 'js/ia_pages/';
 
+    // tasks that run after diff
+    var release_tasks = [
+        'version:release',
+        'removelogging',
+        'uglify:ia_js',
+        'remove',
+        'gitcommit:ia_pages'
+    ];
+
+    // tasks that run when building
+    var build_tasks = [
+        'handlebars:compile',
+        'compass',
+        'concat:ia_pages'
+    ];
+
     var ia_page_js = [
         'handlebars_tmp',
         'DDH.js',
@@ -19,7 +35,8 @@ module.exports = function(grunt) {
         pkg: grunt.file.readJSON('package.json'),
         root_dir: root_dir,
         js_dir: js_dir,
-       
+        release_tasks: release_tasks,
+
         /*
          * increases the version number in package.json
          */
@@ -86,13 +103,7 @@ module.exports = function(grunt) {
         diff: {
             ia_js: {
                 src: [ root_dir + 'ia.js'],
-                tasks: [
-                    'version:release',
-                    'removelogging',
-                    'uglify:ia_js',
-                    'remove',
-                    'gitcommit:ia_pages'
-                    ]
+                tasks: release_tasks
             }
         },
 
@@ -119,6 +130,14 @@ module.exports = function(grunt) {
             dist: {
                 src: root_dir + 'ia.js'
             }
+        },
+
+        compass: {
+            dist: {
+                options: {
+                    cssDir: 'js/css'
+                }
+            }
         }
 
     });
@@ -131,6 +150,7 @@ module.exports = function(grunt) {
         grunt.loadNpmTasks('grunt-remove');
         grunt.loadNpmTasks('grunt-git');
         grunt.loadNpmTasks('grunt-remove-logging');
+        grunt.loadNpmTasks('grunt-contrib-compass');
 
         // check diff on ia.js.  Diff runs rest
         // of release process if the file has changed
@@ -143,8 +163,5 @@ module.exports = function(grunt) {
 
         // compile handlebars and concat js files
         // to ia.js
-        grunt.registerTask('build', [
-            'handlebars:compile',
-            'concat:ia_pages'
-        ]);
+        grunt.registerTask('build', build_tasks);
 }
