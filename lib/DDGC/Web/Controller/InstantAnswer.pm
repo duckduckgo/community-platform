@@ -5,8 +5,6 @@ use Moose;
 use namespace::autoclean;
 use DDGC::Util::File qw( ia_page_version );
 
-# TODO correct release directories
-#my $INST = "/home/ddgc/community-platform/root/static/js";
 my $INST = DDGC::Config->new->appdir_path."/root/static/js";
 
 my $ia_version = ia_page_version();
@@ -139,6 +137,7 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
     $c->stash->{x} =  {
                 name => $ia->name,
                 id => $ia->id,
+                status => $ia->status,
                 repo => $ia->repo,
                 example_query => $ia->example_query,
                 other_queries => $c->stash->{ia_other_queries},
@@ -146,6 +145,8 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
                 perl_module => $ia->perl_module,
                 code => $c->stash->{ia_code},
                 topic => $c->stash->{ia_topics},
+                tab => $c->stash->{tab}, # answerbar tab name, like "Software". may be null
+                description => $c->stash->{description},
                 attribution => $c->stash->{'ia_attribution'}
     };
     $c->forward($c->view('JSON'));
