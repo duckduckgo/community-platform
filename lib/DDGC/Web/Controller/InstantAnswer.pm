@@ -132,7 +132,7 @@ sub ia_base :Chained('base') :PathPart('view') :CaptureArgs(1) {  # /ia/view/cal
 sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
 	my ( $self, $c) = @_;
 
-    my $ia = $c->stash->{ia}; #$c->d->rs('InstantAnswer')->find($answer_id);
+    my $ia = $c->stash->{ia};
 
     $c->stash->{x} =  {
                 name => $ia->name,
@@ -145,10 +145,15 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
                 perl_module => $ia->perl_module,
                 code => $c->stash->{ia_code},
                 topic => $c->stash->{ia_topics},
-                tab => $c->stash->{tab}, # answerbar tab name, like "Software". may be null
+                tab => $c->stash->{tab},
                 description => $c->stash->{description},
                 attribution => $c->stash->{'ia_attribution'}
     };
+
+    # not ready yet
+    # my @issues = @{$c->stash->{issues}};
+    # $c->stash->{x}->{issues} = \@issues if (@issues);
+
     $c->forward($c->view('JSON'));
 }
 
