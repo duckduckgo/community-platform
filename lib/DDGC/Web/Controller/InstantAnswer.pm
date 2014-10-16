@@ -135,18 +135,18 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
     my $ia = $c->stash->{ia};
 
     $c->stash->{x} =  {
-                name => $ia->name,
                 id => $ia->id,
+                name => $ia->name,
+                description => $ia->description,
+                tab => $ia->tab,
                 status => $ia->status,
                 repo => $ia->repo,
-                example_query => $ia->example_query,
-                other_queries => $c->stash->{ia_other_queries},
                 dev_milestone => $ia->dev_milestone,
                 perl_module => $ia->perl_module,
+                example_query => $ia->example_query,
+                other_queries => $c->stash->{ia_other_queries},
                 code => $c->stash->{ia_code},
                 topic => $c->stash->{ia_topics},
-                tab => $c->stash->{tab},
-                description => $c->stash->{description},
                 attribution => $c->stash->{'ia_attribution'}
     };
 
