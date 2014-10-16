@@ -4,6 +4,7 @@ module.exports = function(grunt) {
     var js_dir = 'js/ia_pages/';
 
     // tasks that run after diff
+    // to release a new version
     var release_tasks = [
         'version:release',
         'removelogging',
@@ -16,7 +17,8 @@ module.exports = function(grunt) {
     var build_tasks = [
         'handlebars:compile',
         'compass',
-        'concat:ia_pages'
+        'concat:ia_pages',
+        'copy:css',
     ];
 
     var ia_page_js = [
@@ -138,6 +140,18 @@ module.exports = function(grunt) {
                     cssDir: 'js/css'
                 }
             }
+        },
+
+        copy: {
+            css: {
+                files: { 
+                    expand: true,
+                    flatten: true,
+                    src: ['js/css/**'],
+                    dest: 'root/static/css/',
+                    filter: 'isFile'
+                }
+            }
         }
 
     });
@@ -151,6 +165,7 @@ module.exports = function(grunt) {
         grunt.loadNpmTasks('grunt-git');
         grunt.loadNpmTasks('grunt-remove-logging');
         grunt.loadNpmTasks('grunt-contrib-compass');
+        grunt.loadNpmTasks('grunt-contrib-copy');
 
         // check diff on ia.js.  Diff runs rest
         // of release process if the file has changed
