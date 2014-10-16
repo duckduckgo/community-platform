@@ -8,7 +8,7 @@ use warnings;
 use feature "say";
 use Data::Dumper;
 use Try::Tiny;
-use File::Copy qw( move copy );
+use File::Copy qw( move );
 
 my $upload_meta = DDGC::Config->new->rootdir_path."cache/all_meta.json";
 
@@ -25,15 +25,20 @@ sleep(2);
 my $d = DDGC->new;
 my $meta = '';
 
+if(-f $upload_meta.".copy"){
+    unlink $upload_meta.".copy";
+}
+
+move $upload_meta, $upload_meta.".copy";
+
 # if there are problems reading the meta data file
 # then log the error, rename the file do we don't
 # try reading it again, and die
 try {
-    $meta = decode_json(io->file($upload_meta)->slurp);
+    $meta = decode_json(io->file($upload_meta.".copy")->slurp);
 }
 catch {
     $d->errorlog("Error reading metadata: $_");
-    move $upload_meta, $upload_meta.".error";
     die;
 };
 
@@ -83,7 +88,6 @@ for my $ia (@{$meta}) {
     }
     catch {
         $d->errorlog("Error updating database: $_");
-        copy $upload_meta, $upload_meta.".error";
     };
 
 
@@ -99,6 +103,4 @@ for my $ia (@{$meta}) {
 
 
 }
-
-unlink($upload_meta);
 
