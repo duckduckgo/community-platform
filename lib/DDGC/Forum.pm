@@ -106,7 +106,7 @@ sub comments_grouped_for_user {
 	my ( $self, $user ) = @_;
 	my @forbidden_forums = $self->forbidden_forums($user);
 
-	return (@forbidden_forums) ?
+	my $comments_grouped_rs = (@forbidden_forums) ?
 	$self->comments_grouped->search_rs( {
 		'me.id' => {
 			-not_in =>
@@ -116,6 +116,7 @@ sub comments_grouped_for_user {
 		}
 	} ) :
 	$self->comments_grouped;
+	return $comments_grouped_rs->prefetch_all;
 }
 sub user_comments_threads {
 	my ( $self, $user ) = @_;
