@@ -8,7 +8,7 @@ use warnings;
 use feature "say";
 use Data::Dumper;
 use Try::Tiny;
-use File::Copy qw( move );
+use File::Copy qw( move copy );
 
 my $upload_meta = DDGC::Config->new->rootdir_path."cache/all_meta.json";
 
@@ -32,7 +32,7 @@ try {
     $meta = decode_json(io->file($upload_meta)->slurp);
 }
 catch {
-    warn "Error reading metadata: $_, $@";
+    $d->errorlog("Error reading metadata: $_");
     move $upload_meta, $upload_meta.".error";
     die;
 };
@@ -78,16 +78,12 @@ for my $ia (@{$meta}) {
         $ia->{screenshots} = JSON->new->utf8(1)->encode($ia->{screenshots});
     }
 
-    # try to add to db.  If there is an error log it
-    # rename the meta data file and die.  This prevents
-    # the whole db from being cleaned out by a bad file
     try {
         $d->rs('InstantAnswer')->update_or_create($ia);
     }
     catch {
-        warn "Error updating database: $_. $@";
-        move $upload_meta, $upload_meta.".error";
-        die;
+        $d->errorlog("Error updating database: $_");
+        copy $upload_meta, $upload_meta.".error";
     };
 
 
