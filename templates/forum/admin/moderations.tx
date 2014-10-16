@@ -6,7 +6,7 @@
     <: for $moderations -> $moderation { :>
       <div class="moderation row">
         <div class="row">
-          <: i($moderation.user) :>
+          <: i($moderation.user) :> (<: $moderation.user.hidden_comments.count :>/<: $moderation.user.checked_comments.count :>)
           is a spooky ghost and produced 
          <: i($moderation) :>
         </div>
