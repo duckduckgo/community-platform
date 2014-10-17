@@ -12,7 +12,7 @@ use File::Copy qw( move );
 
 my $upload_meta = DDGC::Config->new->rootdir_path."cache/all_meta.json";
 
-die unless (-f $upload_meta);
+exit 0 unless (-f $upload_meta);
 
 use DDGC;
 use JSON;
