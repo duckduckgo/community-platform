@@ -146,6 +146,9 @@ module.exports = function(grunt) {
             copy_css: {
                 command: 'cp js/css/* root/static/css'
             }
+            copy_js_libs: {
+                // copy over js libraries 
+            }
         }
     });
 
