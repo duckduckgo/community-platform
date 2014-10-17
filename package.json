@@ -13,6 +13,7 @@
     "grunt-contrib-uglify": "0.4.0",
     "grunt-copy": "^0.1.0",
     "grunt-diff": "^0.1.5",
+    "grunt-exec": "^0.4.6",
     "grunt-git": "^0.2.14",
     "grunt-remove": "^0.1.0",
     "grunt-remove-logging": "^0.2.0",

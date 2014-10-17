@@ -18,7 +18,7 @@ module.exports = function(grunt) {
         'handlebars:compile',
         'compass',
         'concat:ia_pages',
-        'copy:css',
+        'exec:copy_css',
     ];
 
     var ia_page_js = [
@@ -142,18 +142,11 @@ module.exports = function(grunt) {
             }
         },
 
-        copy: {
-            css: {
-                files: { 
-                    expand: true,
-                    flatten: true,
-                    src: ['js/css/**'],
-                    dest: 'root/static/css/',
-                    filter: 'isFile'
-                }
+        exec: {
+            copy_css: {
+                command: 'cp js/css/* root/static/css'
             }
         }
-
     });
 
         grunt.loadNpmTasks('grunt-contrib-concat');
@@ -165,7 +158,7 @@ module.exports = function(grunt) {
         grunt.loadNpmTasks('grunt-git');
         grunt.loadNpmTasks('grunt-remove-logging');
         grunt.loadNpmTasks('grunt-contrib-compass');
-        grunt.loadNpmTasks('grunt-contrib-copy');
+        grunt.loadNpmTasks('grunt-exec');
 
         // check diff on ia.js.  Diff runs rest
         // of release process if the file has changed
