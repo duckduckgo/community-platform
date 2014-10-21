@@ -11,35 +11,49 @@ else 	if [ "$1" = "prod" ];
 	fi
 fi
 
-if [ "$DDGC_RELEASE_HOSTNAME" = "" ];
+if [ -z $DDGC_RELEASE_HOSTNAME ];
 then
 	printf "need a release target\n"
 	exit 1
 fi
 
-printf "\n*** Releasing to $DDGC_RELEASE_HOSTNAME...\n\n"
+if [[ $2 =~ DDGC-([0-9\.]*)\. ]] ; then
+	DDGC_RELEASE_VERSION=${BASH_REMATCH[1]}
+fi
 
-printf "***\n*** Empty deploy directory...\n***\n"
+if [[ -z $DDGC_RELEASE_VERSION ]] ; then
+	printf "Cannot extract version from tarball name, bailing...\n"
+	exit -1
+fi
+
+DDGC_RELEASE_DIRECTORY="$DDGC_RELEASE_VERSION-$CURRENT_DATE_FILENAME"
+
+printf "\n*** Releasing DDGC $DDGC_RELEASE_VERSION to $DDGC_RELEASE_HOSTNAME...\n\n"
+
+printf "***\n*** Creating deploy directory...\n***\n"
 ssh -t ddgc@$DDGC_RELEASE_HOSTNAME "(
-	rm -rf ~/deploy &&
-	mkdir ~/deploy
+	if [ ! -d ~/deploy/$DDGC_RELEASE_DIRECTORY ] ; then
+		mkdir -p ~/deploy/$DDGC_RELEASE_DIRECTORY
+	fi
 )" && \
 printf "***\n*** Transfer release file $2...\n***\n" && \
-scp $2 ddgc@$DDGC_RELEASE_HOSTNAME:~/deploy && \
+scp $2 ddgc@$DDGC_RELEASE_HOSTNAME:~/deploy/$DDGC_RELEASE_DIRECTORY && \
 printf "***\n*** Preparing release on remote site...\n***\n" && \
 ssh -t ddgc@$DDGC_RELEASE_HOSTNAME "(
 	. /home/ddgc/perl5/perlbrew/etc/bashrc &&
 	. /home/ddgc/ddgc_config.sh &&
-	cd ~/deploy &&
+	cd ~/deploy/$DDGC_RELEASE_DIRECTORY &&
 	tar xz --strip-components=1 -f $2 &&
 	cpanm -n --installdeps . &&
 	duckpan DDGC::Static &&
 	touch ~/ddgc_web_maintenance &&
 	printf Stopping current system... && 
 	sudo /usr/local/sbin/stop_ddgc.sh && 
-	printf Copying new files in place... && 
-	mv ~/live ~/backup/$CURRENT_DATE_FILENAME &&
-	mv ~/deploy ~/live &&
+	printf Creating live installation... && 
+	if [ ! -L ~/live ] ; then
+		mv ~/live ~/backup/$CURRENT_DATE_FILENAME
+	fi
+	ln -sf ~/deploy/$DDGC_RELEASE_DIRECTORY ~/live
 	rm -rf ~/cache &&
 	mkdir ~/cache &&
 	cp -ar ~/live/share/docroot/* ~/docroot/ &&
