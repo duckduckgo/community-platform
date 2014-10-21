@@ -53,7 +53,7 @@ ssh -t ddgc@$DDGC_RELEASE_HOSTNAME "(
 	if [ ! -L ~/live ] ; then
 		mv ~/live ~/backup/$CURRENT_DATE_FILENAME
 	fi
-	ln -sf ~/deploy/$DDGC_RELEASE_DIRECTORY ~/live
+	ln -sfn ~/deploy/$DDGC_RELEASE_DIRECTORY ~/live
 	rm -rf ~/cache &&
 	mkdir ~/cache &&
 	cp -ar ~/live/share/docroot/* ~/docroot/ &&
