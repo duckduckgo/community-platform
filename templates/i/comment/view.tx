@@ -19,7 +19,7 @@
 	<div class="comment-body" id="comment_<: $_.id :>"> 
 		<div class="row content">
 			<div class="p">
-				<: if $_.moderated && (!$c.user || $_.users_id != $c.user.id) { :>
+				<: if $_.is_moderated { :>
 					This comment has been removed for violation of our <a href="//duck.co/forum/thread/5177/forum-rules">forum rules</a>.
 				<: } else { :>
 					<: if $_.deleted { :><em class="comment-deleted"><: } :>
@@ -28,8 +28,8 @@
 				<: } :>
 			</div>
 			<span class="comment-meta">
-				posted by <: i($_.user) :> &bull; <span title="<: $dur_precise($_.created) :>"><: $dur($_.created) :></span>
-				<: if !$no_reply && $c.user { :>
+				posted by <: if $_.is_moderated { :>&lt;hidden&gt;<: } else { i($_.user) } :> &bull; <span title="<: $dur_precise($_.created) :>"><: $dur($_.created) :></span>
+				<: if !$no_reply && $c.user && !$_.is_moderated { :>
 					<: if !$c.user.admin and $forum_index == d().config.id_for_forum('special') { :>
 						<: # we may put something here :>
 					<: } else { :>
@@ -85,7 +85,7 @@
 					<: } :>
 : #					<a href="<: $u('Forum','comment', $_.id ) :>"><b class="comment-foot__icon">#</b>permalink</a>
 					<div class="pull-right">
-					  <: if !$no_reply && $c.user { :>
+					  <: if !$no_reply && $c.user && !$_.is_moderated { :>
 						<: if !$c.user.admin and $forum_index ==  d().config.id_for_forum('special') { :>
 							<: # we may put something here :>
 						<: } else { :>
