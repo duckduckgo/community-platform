@@ -42,10 +42,12 @@
 						<span class="comment-meta__link">&bull; <a href="<: $u('Comment','delete',$_.id, { action_token => $action_token }) :>" onclick="return confirm('Are you sure?')">Delete</a></span>
 					<: } :>
 				<: } :>
-				<span class="comment-meta__link">&bull; <a href="<: $u('Forum','comment', $_.id ) :>">Link</a></span>
-				<: if $c.user && (!$forum_index || $forum_index == d().config.id_for_forum('general')) { :><span class="comment-meta__link  no-js-hide">&bull;
-					<: i('report',$_) :>
-				</span><: } :>
+				<: if !$_.is_moderated { :>
+					<span class="comment-meta__link">&bull; <a href="<: $u('Forum','comment', $_.id ) :>">Link</a></span>
+					<: if $c.user && (!$forum_index || $forum_index == d().config.id_for_forum('general')) { :><span class="comment-meta__link  no-js-hide">&bull;
+						<: i('report',$_) :>
+					</span><: } :>
+				<: } :>
 				<: if !$no_kids && $children_count { :>
 					<a href="#" class="comment-toggle">
 						<i class="icon-minus-sign max-msg"></i>
