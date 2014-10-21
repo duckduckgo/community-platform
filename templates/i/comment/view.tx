@@ -19,9 +19,13 @@
 	<div class="comment-body" id="comment_<: $_.id :>"> 
 		<div class="row content">
 			<div class="p">
-				<: if $_.deleted { :><em class="comment-deleted"><: } :>
-					<: r($_.html) :>
-				<: if $_.deleted { :></em><: } :>
+				<: if $_.moderated && (!$c.user || $_.users_id != $c.user.id) { :>
+					This comment has been removed for violation of our <a href="//duck.co/forum/thread/5177/forum-rules">forum rules</a>.
+				<: } else { :>
+					<: if $_.deleted { :><em class="comment-deleted"><: } :>
+						<: r($_.html) :>
+					<: if $_.deleted { :></em><: } :>
+				<: } :>
 			</div>
 			<span class="comment-meta">
 				posted by <: i($_.user) :> &bull; <span title="<: $dur_precise($_.created) :>"><: $dur($_.created) :></span>
