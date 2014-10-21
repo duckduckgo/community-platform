@@ -7,11 +7,12 @@ use strict;
 use warnings;
 use feature "say";
 use Data::Dumper;
+use Try::Tiny;
+use File::Copy qw( move );
 
-# TODO: need final location
 my $upload_meta = DDGC::Config->new->rootdir_path."cache/all_meta.json";
 
-die unless (-f $upload_meta);
+exit 0 unless (-f $upload_meta);
 
 use DDGC;
 use JSON;
@@ -22,7 +23,25 @@ use Term::ANSIColor;
 sleep(2);
 
 my $d = DDGC->new;
-my $meta = decode_json(io->file($upload_meta)->slurp);
+my $meta = '';
+
+if(-f $upload_meta.".copy"){
+    unlink $upload_meta.".copy";
+}
+
+move $upload_meta, $upload_meta.".copy";
+
+# if there are problems reading the meta data file
+# then log the error, rename the file do we don't
+# try reading it again, and die
+try {
+    $meta = decode_json(io->file($upload_meta.".copy")->slurp);
+}
+catch {
+    $d->errorlog("Error reading metadata: $_");
+    die;
+};
+
 sub debug { 1 };
 
 say "there are " . (scalar @{$meta}) . " IAs" if debug;
@@ -64,7 +83,12 @@ for my $ia (@{$meta}) {
         $ia->{screenshots} = JSON->new->utf8(1)->encode($ia->{screenshots});
     }
 
-    $d->rs('InstantAnswer')->update_or_create($ia);
+    try {
+        $d->rs('InstantAnswer')->update_or_create($ia);
+    }
+    catch {
+        $d->errorlog("Error updating database: $_");
+    };
 
 
     # debug key val
@@ -79,7 +103,4 @@ for my $ia (@{$meta}) {
 
 
 }
-
-# TODO
-# unlink("/home/ddgc/community-platform/upload/all_meta.json");
 
