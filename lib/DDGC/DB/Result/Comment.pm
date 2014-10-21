@@ -84,6 +84,11 @@ column moderated => {
 	data_type => 'int',
 	default_value => 0,
 };
+sub is_moderated {
+	my ( $self ) = @_;
+	my $user = $self->ddgc->current_user();
+	($self->moderated && (!$user || $self->users_id != $user->id));
+}
 
 after ghosted_checked_by => sub {
 	my ( $self ) = @_;
