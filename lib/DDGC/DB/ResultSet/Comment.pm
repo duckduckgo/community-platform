@@ -7,9 +7,12 @@ use namespace::autoclean;
 
 sub grouped_by_context {
   my ( $self ) = @_;
+  my $user = $self->schema->ddgc->current_user();
+  my $user_id = ($user) ? $user->id : 0;
   my $comment_context_rs = $self->schema->resultset('Comment::Context')->search_rs({},{
 	select => [qw( latest_comment_id )],
 	alias => 'comment_context',
+	bind => [ $user_id ],
   });
 
   $self->search_rs({
