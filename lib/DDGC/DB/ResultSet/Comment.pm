@@ -22,9 +22,13 @@ sub grouped_by_context {
 		 comments_count => $self->schema->resultset('Comment')->search_rs({
 			'comments_count.context' => { -ident => $self->me.'context' },
 			'comments_count.context_id' => { -ident => $self->me.'context_id' },
-		  },{
+			-or => [
+				{ ( $user ) ? ( 'comments_count.ghosted' => 1, 'comments_count.users_id' => $user->id ) : () },
+				{ 'comments_count.ghosted' => 0 },
+			],
+		},{
 			alias => 'comments_count',
-		  })->count_rs->as_query
+		})->count_rs->as_query
 	},
   });
 }
