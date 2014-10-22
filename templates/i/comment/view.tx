@@ -19,13 +19,21 @@
 	<div class="comment-body" id="comment_<: $_.id :>"> 
 		<div class="row content">
 			<div class="p">
-				<: if $_.deleted { :><em class="comment-deleted"><: } :>
-					<: r($_.html) :>
-				<: if $_.deleted { :></em><: } :>
+				<: if $_.ghosted && (!$c.user || $_.users_id != $c.user.id) { :>
+					<: if $_.checked { :>
+						This comment has been removed for violation of our <a href="//duck.co/forum/thread/5177/forum-rules">forum rules</a>.
+					<: } else { :>
+						This comment is awaiting approval.
+					<: } :>
+				<: } else { :>
+					<: if $_.deleted { :><em class="comment-deleted"><: } :>
+						<: r($_.html) :>
+					<: if $_.deleted { :></em><: } :>
+				<: } :>
 			</div>
 			<span class="comment-meta">
-				posted by <: i($_.user) :> &bull; <span title="<: $dur_precise($_.created) :>"><: $dur($_.created) :></span>
-				<: if !$no_reply && $c.user { :>
+				posted by <: if $_.ghosted && (!$c.user || $_.users_id != $c.user.id) { :>&lt;hidden&gt;<: } else { i($_.user) } :> &bull; <span title="<: $dur_precise($_.created) :>"><: $dur($_.created) :></span>
+				<: if !$no_reply && $c.user && (!$_.ghosted || ($_.ghosted && $_.users_id == $c.user.id)) { :>
 					<: if !$c.user.admin and $forum_index == d().config.id_for_forum('special') { :>
 						<: # we may put something here :>
 					<: } else { :>
@@ -38,10 +46,12 @@
 						<span class="comment-meta__link">&bull; <a href="<: $u('Comment','delete',$_.id, { action_token => $action_token }) :>" onclick="return confirm('Are you sure?')">Delete</a></span>
 					<: } :>
 				<: } :>
-				<span class="comment-meta__link">&bull; <a href="<: $u('Forum','comment', $_.id ) :>">Link</a></span>
-				<: if $c.user && (!$forum_index || $forum_index == d().config.id_for_forum('general')) { :><span class="comment-meta__link  no-js-hide">&bull;
-					<: i('report',$_) :>
-				</span><: } :>
+				<: if !$_.ghosted || ($_.ghosted && $_.users_id == $c.user.id) { :>
+					<span class="comment-meta__link">&bull; <a href="<: $u('Forum','comment', $_.id ) :>">Link</a></span>
+					<: if $c.user && (!$forum_index || $forum_index == d().config.id_for_forum('general')) { :><span class="comment-meta__link  no-js-hide">&bull;
+						<: i('report',$_) :>
+					</span><: } :>
+				<: } :>
 				<: if !$no_kids && $children_count { :>
 					<a href="#" class="comment-toggle">
 						<i class="icon-minus-sign max-msg"></i>

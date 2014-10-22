@@ -40,7 +40,7 @@
         </div>
 	</form>
       </div>
-    <: } :>!
+    <: } :>
     <div class="row callout-row center">
       <a class="button red" href="<: $u('Forum::Admin','moderations',{
         approve => $moderations_i_params
