@@ -4,11 +4,15 @@ package DDGC::DB::Role::AntiSpamResultSet;
 use Moose::Role;
 
 sub ghostbusted {
-  $_[0]->search_rs([
-    { $_[0]->me.'ghosted', 0 },
-    $_[0]->schema->ddgc->current_user() ? ({
-      $_[0]->me.'ghosted', 1,
-      $_[0]->me.'users_id', $_[0]->schema->ddgc->current_user()->id
+  my ( $self ) = @_;
+  $self->search_rs([
+    { $self->me.'ghosted' => 0 },
+    { $self->me.'ghosted' => 1,
+      $self->me.'checked', { '!=' => undef }
+    },
+    $self->schema->ddgc->current_user() ? ({
+      $self->me.'ghosted' => 1,
+      $self->me.'users_id' => $self->schema->ddgc->current_user()->id
     }) : ()
   ]);
 }
