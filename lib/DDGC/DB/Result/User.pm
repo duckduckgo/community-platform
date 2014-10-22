@@ -359,6 +359,30 @@ sub rate_limit_comment {
 	return 0;
 }
 
+sub hidden_comments {
+	my ( $self ) = @_;
+	$self->comments->search({
+	-or => [
+			{ ghosted => 1 },
+			{ moderated => 1 },
+		],
+		checked => 1,
+	},
+	{ cache_for => 300 });
+}
+
+sub checked_comments {
+	my ( $self ) = @_;
+	$self->comments->search(
+	[
+		{
+			ghosted => 0,
+			moderated => 0,
+		},
+		{ checked => 1, },
+	],
+	{ cache_for => 300 });
+}
 
 sub blog { shift->user_blogs_rs }
 

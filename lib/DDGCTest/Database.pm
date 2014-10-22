@@ -599,6 +599,12 @@ sub users {{
 			us => 5,
 		},
 	},
+	'automoderator' => {
+		pw => '/sf7msjIixdEBjpMnTXSLt5k4CYOqCgjGnGAhKmz5srs!',
+		notes => 'Auto-moderator',
+		admin => 0,
+		ghosted => 0,
+	},
 	map {
 		'test'.$_ => {
 			pw => $_.$_,
