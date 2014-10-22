@@ -5,6 +5,20 @@ use Moose;
 extends 'DDGC::DB::Base::ResultSet';
 use namespace::autoclean;
 
+sub ghostbusted {
+  my ( $self ) = @_;
+  $self->search_rs([
+    { $self->me.'ghosted' => 0 },
+    { $self->me.'ghosted' => 1,
+      $self->me.'checked', { '!=' => undef }
+    },
+    $self->schema->ddgc->current_user() ? ({
+      $self->me.'ghosted' => 1,
+      $self->me.'users_id' => $self->schema->ddgc->current_user()->id
+    }) : ()
+  ]);
+}
+
 sub grouped_by_context {
   my ( $self ) = @_;
   my $user = $self->schema->ddgc->current_user();
