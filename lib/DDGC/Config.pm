@@ -124,6 +124,7 @@ has_conf github_client_id => DDGC_GITHUB_CLIENT_ID => undef;
 has_conf github_client_secret => DDGC_GITHUB_CLIENT_SECRET => undef;
 
 has_conf deleted_account => DDGC_DELETED_ACCOUNT => 'testone';
+has_conf automoderator_account => DDGC_AUTOMODERATOR_ACCOUNT => 'johnthespamkiller';
 
 has_conf comment_rate_limit => DDGC_COMMENT_RATE_LIMIT => 120;
 

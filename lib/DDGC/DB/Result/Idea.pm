@@ -169,7 +169,7 @@ before insert => sub {
 		$self->key($self->get_url);
 	}
 	if ($self->user->ignore) {
-		$self->checked(32532); # Checked is a UID, this is johnthespamkiller
+		$self->checked($self->ddgc->find_user( $self->ddgc->config->automoderator_account )->id);
 	}
 };
 
