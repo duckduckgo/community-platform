@@ -29,9 +29,16 @@ sub dur {
 sub dur_precise {
 	my ( $date ) = @_;
 	$date = DateTime->from_epoch( epoch => $date ) unless ref $date;
+	my $diff = DateTime->now - $date;
+	my $units = [qw/ hours minutes /];
+
+	$units = [qw/ days hours /]    if ($diff->days > 1);
+	$units = [qw/ months days /]   if ($diff->months > 1);
+	$units = [qw/ years months /]  if ($diff->years > 1);
+
 	return DateTime::Format::Human::Duration->new->format_duration(
-		DateTime->now - $date,
-		'units' => [qw/years months days hours minutes/],
+		$diff,
+		'units' => $units,
 		'past' => '%s ago',
 		'future' => 'in %s will be',
 		'no_time' => 'just now',
