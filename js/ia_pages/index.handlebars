@@ -1,3 +1,33 @@
+<table>
+
+<thead style="border-bottom: 1px solid #CCC">
+<tr>
+<td> </td>
+<td>
+    <a id="sort_name">name</a>
+</td>
+
+<td>
+    <a id="sort_descr">description</a>
+</td>
+<td>
+    <a id="sort_src">source</a>
+</td>
+<td>
+    <a id="sort_status">status</a>
+</td>
+<td>
+    topics
+</td>
+
+<td>
+    <a id="sort_repo">repo</a>
+</td>
+</tr>
+</thead>
+
+<tbody>
+
 
 
 {{#each ia}}
@@ -18,13 +48,14 @@
         {{src_name}}
     </td>
 
+    <td style="padding-right: 1em">
+        {{dev_milestone}}
+    </td>
+
     <td>
         {{#each topic}} <span class="ia_topic">{{this}}</span> {{/each}}
     </td>
 
-    <td style="padding-right: 1em">
-        {{dev_milestone}}
-    </td>
 
     <td style="padding-right: 1em">
         {{repo}}
@@ -32,3 +63,7 @@
 
 </tr>
 {{/each}}
+
+</tbody>
+
+</table>
