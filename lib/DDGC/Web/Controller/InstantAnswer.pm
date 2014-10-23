@@ -161,6 +161,9 @@ sub ia  :Chained('ia_base') :PathPart('') :Args(0) {
 	my ( $self, $c ) = @_;
 }
 
+sub edit :Chained('ia_base') :PathPart('edit') :Args(0) {
+    my ( $self, $c ) = @_;
+}
 
 no Moose;
 __PACKAGE__->meta->make_immutable;
