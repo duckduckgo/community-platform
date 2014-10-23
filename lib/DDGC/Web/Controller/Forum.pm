@@ -14,6 +14,34 @@ sub base : Chained('/base') PathPart('forum') CaptureArgs(0) {
   $c->stash->{page_class} = "page-forums  texture";
   $c->stash->{title} = 'DuckDuckGo Forums';
   $c->stash->{is_admin} = $c->user && $c->user->admin;
+
+  if ($c->user && $c->user->is('forum_manager')) {
+    $c->stash->{moderations_available} =
+      $c->d->rs('Comment')->search({
+        'me.ghosted' => 1,
+        'me.checked' => undef,
+        -not => { '-and' => {
+          'me.context' => 'DDGC::DB::Result::Thread',
+          'me.parent_id' => undef,
+        }}
+      }, { cache_for => 300 })->count +
+      $c->d->rs('Idea')->search({
+        'me.ghosted' => 1,
+        'me.checked' => undef,
+      }, { cache_for => 300 })->count +
+      $c->d->rs('Thread')->search({
+        'me.ghosted' => 1,
+        'me.checked' => undef,
+      }, { cache_for => 300 })->count;
+
+    $c->stash->{reports_available} =
+      $c->d->rs('User::Report')->search({
+        'me.checked' => undef,
+        'me.ignore' => 0,
+      }, { cache_for => 300 })->count;
+   }
+
+
 }
 
 sub userbase : Chained('base') PathPart('') CaptureArgs(0) {
