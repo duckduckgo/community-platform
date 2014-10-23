@@ -2,33 +2,6 @@
 
 <p>this is an alpha prototype of the full index to Instant Answers.</p>
 
-<table>
 
-<thead style="border-bottom: 1px solid #CCC">
-<tr>
-<td> </td>
-<td>
-    <a id="sort_name">name</a>
-</td>
-<td>
-    topic
-</td>
-
-<td>
-    <a id="sort_descr">description</a>
-</td>
-<td>
-    <a id="sort_status">stat</a>
-</td>
-
-<td>
-    <a id="sort_repo">repo</a>
-</td>
-</tr>
-</thead>
-
-<tbody id="ia_index">
-
-</tbody>
-
-</table>
+<div id="ia_index">
+</div>

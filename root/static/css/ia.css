@@ -39,3 +39,6 @@
 	display: none;
 }
 
+#ia_index td {
+    padding-left:4px;
+}
