@@ -85,10 +85,10 @@
             }
         },
 
-        expand: function() {
-            $(".ia-single .dev-info").addClass("hide");
-            $(".ia-single .dev-info-details").removeClass("hide");
-        }
+	    expand: function() {
+		    $(".ia-single .dev-info").addClass("hide");
+		    $(".ia-single .dev-info-details").removeClass("hide");
+		}        
     };
 
 })(DDH);

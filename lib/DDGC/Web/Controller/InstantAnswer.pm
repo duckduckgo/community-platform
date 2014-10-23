@@ -205,6 +205,10 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
     return $result;
 }
 
+sub edit :Chained('ia_base') :PathPart('edit') :Args(0) {
+    my ( $self, $c ) = @_;
+}
+
 no Moose;
 __PACKAGE__->meta->make_immutable;
 
