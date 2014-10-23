@@ -21,7 +21,7 @@ sub dur {
 
 	$units = [qw/ days hours /]    if ($diff->days > 0);
 	$units = [qw/ months days /]   if ($diff->months > 0);
-	$units = [qw/ years months /]  if ($diff->years > 0);
+	$units = [qw/ years /]  if ($diff->years > 0);
 
 	return DateTime::Format::Human::Duration->new->format_duration(
 		$diff,
