@@ -1,0 +1,78 @@
+<h2 class="left">{{name}}</h2>
+<div class="right tag status {{status}}">{{status}}</div>
+<p class="clearfix">Team: ...</p>
+
+<p>
+    {{#each topic}}
+        <div class="button ia_topic">
+            <a href="#" title="will be a link to all IAs in this topic">
+                {{this}}
+            </a>
+        </div> 
+    {{/each}}
+</p>
+
+<div class="screens">
+    <img class="desktop" style="border:1px solid black" src="https://images.duckduckgo.com/iu/?u=https://ia-screenshots.s3.amazonaws.com/{{id}}_desktop.png">
+    <img class="mobile" style="border:1px solid black" src="https://images.duckduckgo.com/iu/?u=https://ia-screenshots.s3.amazonaws.com/{{id}}_mobile.png">
+</div>
+
+<p><strong>Try it out:</strong> 
+    <a href="https://duckduckgo.com/?q={{example_query}}" title="try this example on DuckDuckGo">{{example_query}}</a>
+    {{#if other_queries}}
+        {{#each other_queries}}
+            , <a href="https://duckduckgo.com/?q={{this}}" title="try this example on DuckDuckGo">{{this}}</a>
+        {{/each}}
+    {{/if}}
+</p>
+
+<p>{{description}}</p>
+
+<p><strong>Related Instant Answers:</strong> ...</p>
+
+<div class="button dev-info">Developer Info</div>
+<div class="dev-info-details hide">
+    <table class="iadata">
+        <tr>
+            <td><strong>Id:</strong></td>
+            <td>{{id}}</td>
+        </tr>
+        <tr>
+            <td><strong>Templates:</strong></td>
+            <td>
+                list of templates here, if any, or
+                default for {{repo}}
+            </td>
+        </tr>
+        {{#if code}}
+            <tr>
+                <td><strong>Code:</strong></td>
+                <td>
+                    {{#each code}}
+                        <li>{{this}}</li>
+                    {{/each}}
+                </td>
+            </tr>
+        {{/if}}
+        <tr>
+	        <td><strong>Credits:</strong></td>
+			<td>
+                {{#each attribution}}
+                     <li><a href="{{this.0.loc}}">{{this.0.type}}</a></li>
+                {{/each}}
+			</td>
+	    </tr>
+    </table>
+</div>
+
+<hr>
+
+<p class="left"><strong>Issues</strong></p>
+
+<div class="right button new-issue">
+    <a href="https://github.com/duckduckgo/zeroclickinfo-{{repo}}/issues/new?&title=issue+title&body=http%3A%2F%2Fduck.co%2Fia%2Fview%2F{{id}}">
+        + Add an Issue
+	</a>
+</div>
+<span class="clearfix"></span>
+
