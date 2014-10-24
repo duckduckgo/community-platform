@@ -1,10 +1,10 @@
-<h2 class="left">{{name}}</h2>
-<div class="right tag status {{status}}">{{status}}</div>
-<p class="clearfix">Team: ...</p>
+<h2 class="left editable" id="name">{{name}}</h2>
+<div class="right tag editable status {{status}}">{{status}}</div>
+<p class="clearfix" id="team">Team: <span class="editable">...</span></p>
 
 <p>
     {{#each topic}}
-        <div class="button ia_topic">
+        <div class="button ia_topic editable">
             <a href="#" title="will be a link to all IAs in this topic">
                 {{this}}
             </a>
@@ -17,37 +17,37 @@
     <img class="mobile" style="border:1px solid black" src="https://images.duckduckgo.com/iu/?u=https://ia-screenshots.s3.amazonaws.com/{{id}}_mobile.png">
 </div>
 
-<p><strong>Try it out:</strong> 
-    <a href="https://duckduckgo.com/?q={{example_query}}" title="try this example on DuckDuckGo">{{example_query}}</a>
+<p id="examples"><strong>Try it out:</strong> 
+    <a href="https://duckduckgo.com/?q={{example_query}}" title="try this example on DuckDuckGo" class="editable">{{example_query}}</a>
     {{#if other_queries}}
         {{#each other_queries}}
-            , <a href="https://duckduckgo.com/?q={{this}}" title="try this example on DuckDuckGo">{{this}}</a>
+            , <a href="https://duckduckgo.com/?q={{this}}" title="try this example on DuckDuckGo" class="editable">{{this}}</a>
         {{/each}}
     {{/if}}
 </p>
 
-<p>{{description}}</p>
+<p id="desc" class="editable">{{description}}</p>
 
-<p><strong>Related Instant Answers:</strong> ...</p>
+<p id="related"><strong>Related Instant Answers:</strong> <span class="editable">...</span></p>
 
 <div class="button dev-info">Developer Info</div>
 <div class="dev-info-details hide">
     <table class="iadata">
         <tr>
-            <td><strong>Id:</strong></td>
-            <td>{{id}}</td>
+            <td id="id"><strong>Id:</strong></td>
+            <td class="editable">{{id}}</td>
         </tr>
         <tr>
-            <td><strong>Templates:</strong></td>
-            <td>
+            <td id="templates"><strong>Templates:</strong></td>
+            <td class="editable">
                 list of templates here, if any, or
                 default for {{repo}}
             </td>
         </tr>
         {{#if code}}
             <tr>
-                <td><strong>Code:</strong></td>
-                <td>
+                <td id="code"><strong>Code:</strong></td>
+                <td class="editable">
                     {{#each code}}
                         <li>{{this}}</li>
                     {{/each}}
@@ -55,8 +55,8 @@
             </tr>
         {{/if}}
         <tr>
-	        <td><strong>Credits:</strong></td>
-			<td>
+	        <td id="credits"><strong>Credits:</strong></td>
+			<td class="editable">
                 {{#each attribution}}
                      <li><a href="{{this.0.loc}}">{{this.0.type}}</a></li>
                 {{/each}}
