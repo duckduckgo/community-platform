@@ -5,7 +5,6 @@ use Moose;
 use MooseX::NonMoose;
 extends 'DDGC::DB::Base::Result';
 use DBIx::Class::Candy;
-use DateTime::Format::Human::Duration;
 use namespace::autoclean;
 
 table 'thread';

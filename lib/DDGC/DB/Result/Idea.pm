@@ -5,7 +5,6 @@ use Moose;
 use MooseX::NonMoose;
 extends 'DDGC::DB::Base::Result';
 use DBIx::Class::Candy;
-use DateTime::Format::Human::Duration;
 use namespace::autoclean;
 
 table 'idea';
@@ -224,8 +223,8 @@ sub migrate_to_ramblings {
 		forum => $self->ddgc->config->id_for_forum('general'),
 		title => $self->title,
 		data  => $data,
-		created => $self->created,
-		created => $self->updated,
+		created => $self->ddgc->db->format_datetime( $self->created ),
+		updated => $self->ddgc->db->format_datetime( $self->updated ),
 		ghosted => $self->ghosted,
 		checked => $self->checked,
 		old_url => $self->old_url,
