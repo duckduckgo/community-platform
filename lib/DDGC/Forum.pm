@@ -180,6 +180,8 @@ sub add_thread {
 					screenshot_id => $_
 				});
 			}
+			$comment_params{created} = $self->ddgc->db->format_datetime( $thread->created ),
+			$comment_params{updated} = $self->ddgc->db->format_datetime( $thread->created ),
 			my $thread_comment = $self->ddgc->add_comment(
 				'DDGC::DB::Result::Thread',
 				$thread->id,
