@@ -6,7 +6,7 @@
     <: for $moderations -> $moderation { :>
       <div class="moderation row">
         <div class="row">
-          <: i($moderation.user) :>
+          <: i($moderation.user) :> (<: $moderation.user.hidden_comments.count :> of <: $moderation.user.checked_comments.count :> posts rejected)
           is a spooky ghost and produced 
          <: i($moderation) :>
         </div>
@@ -40,7 +40,7 @@
         </div>
 	</form>
       </div>
-    <: } :>!
+    <: } :>
     <div class="row callout-row center">
       <a class="button red" href="<: $u('Forum::Admin','moderations',{
         approve => $moderations_i_params

@@ -17,7 +17,7 @@ use DBI;
 
 use Getopt::Long;
 
-my $config = DDGC::Config->new;
+my $config = DDGC::Config->new( comment_rate_limit => 0 );
 
 my $kill;
 my $start;
