@@ -1,12 +1,11 @@
 <h2 class="left editable" id="name">{{name}}</h2>
 <div class="right tag editable status {{status}}">{{status}}</div>
-<p id="desc" class="editable clearfix">{{description}}</p>
-<p id="team">Team: <span class="editable">...</span></p>
+<p class="clearfix" id="team">Team: <span class="editable">...</span></p>
 
 <p>
     {{#each topic}}
-        <div class="button ia_topic">
-            <a href="#" title="will be a link to all IAs in this topic" class="editable">
+        <div class="button ia_topic editable">
+            <a href="#" title="will be a link to all IAs in this topic">
                 {{this}}
             </a>
         </div> 
@@ -19,46 +18,45 @@
 </div>
 
 <p id="examples"><strong>Try it out:</strong> 
-    <a href="https://duckduckgo.com/?q={{example_query}}" title="try this example on DuckDuckGo" class="editable" id="primary">{{example_query}}</a>
+    <a href="https://duckduckgo.com/?q={{example_query}}" title="try this example on DuckDuckGo" class="editable">{{example_query}}</a>
     {{#if other_queries}}
         {{#each other_queries}}
-            , <a href="https://duckduckgo.com/?q={{this}}" title="try this example on DuckDuckGo" class="editable other-examples">{{this}}</a>
+            , <a href="https://duckduckgo.com/?q={{this}}" title="try this example on DuckDuckGo" class="editable">{{this}}</a>
         {{/each}}
     {{/if}}
-    <span class="hide" id="comma">,</span>
-    <div class="editable other-examples hide" id="input_example"></div>
-    <div class="button" id="add_example">+</div>
 </p>
 
-<p class="clearfix" id="related"><strong>Related Instant Answers:</strong> <span class="editable">...</span></p>
+<p id="desc" class="editable">{{description}}</p>
+
+<p id="related"><strong>Related Instant Answers:</strong> <span class="editable">...</span></p>
 
 <div class="button dev-info">Developer Info</div>
 <div class="dev-info-details hide">
     <table class="iadata">
         <tr>
             <td id="id"><strong>Id:</strong></td>
-            <td>{{id}}</td>
+            <td class="editable">{{id}}</td>
         </tr>
         <tr>
             <td id="templates"><strong>Templates:</strong></td>
-            <td>
+            <td class="editable">
                 list of templates here, if any, or
                 default for {{repo}}
             </td>
         </tr>
-   {{#if code}}     
+        {{#if code}}
             <tr>
-                <td><strong>Code:</strong></td>
-                <td>
+                <td id="code"><strong>Code:</strong></td>
+                <td class="editable">
                     {{#each code}}
-                        <li class="code editable">{{this}}</li>
+                        <li>{{this}}</li>
                     {{/each}}
                 </td>
             </tr>
-    {{/if}}
+        {{/if}}
         <tr>
 	        <td id="credits"><strong>Credits:</strong></td>
-			<td>
+			<td class="editable">
                 {{#each attribution}}
                      <li><a href="{{this.0.loc}}">{{this.0.type}}</a></li>
                 {{/each}}
@@ -78,4 +76,3 @@
 </div>
 <span class="clearfix"></span>
 
-<div class="button disabled" id="save">Save</div>
