@@ -1,7 +1,7 @@
 module.exports = function(grunt) {
     
     var root_dir = 'root/static/js/';
-    var js_dir = 'js/ia_pages/';
+    var js_dir = 'pages/ia_pages/js/';
 
     // tasks that run after diff
     // to release a new version
@@ -19,6 +19,7 @@ module.exports = function(grunt) {
         'compass',
         'concat:ia_pages',
         'exec:copy_css',
+        'exec:copy_js_libs'
     ];
 
     var ia_page_js = [
@@ -74,7 +75,7 @@ module.exports = function(grunt) {
                     }
                 },
                 files: {
-                    'js/ia_pages/handlebars_tmp' : 'js/ia_pages/*.handlebars'
+                    '<%= js_dir %>/handlebars_tmp' : '<%= js_dir %>/*.handlebars'
                 }
             }
         },
@@ -144,10 +145,10 @@ module.exports = function(grunt) {
 
         exec: {
             copy_css: {
-                command: 'cp js/css/* root/static/css'
-            }
+                command: 'mkdir -p root/static/css && cp -rf pages/static_pages/* root/static/css'
+            },
             copy_js_libs: {
-                // copy over js libraries 
+                command: 'mkdir -p root/static/js && cp -rf pages/static_pages/js/* root/static/js'
             }
         }
     });
