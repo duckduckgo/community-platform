@@ -15,7 +15,7 @@ sub base :Chained('/base') :PathPart('ideas') :CaptureArgs(0) {
 	$c->stash->{idea_types} = [map { [ $_, $idea_types->{$_} ] } sort { $a <=> $b } keys %{$idea_types}];
 	$c->stash->{idea_statuses} = [map { [ $_, $idea_statuses->{$_} ] } sort { $a <=> $b } keys %{$idea_statuses}];
 	$c->stash->{ideas_rs} = $c->d->rs('Idea')->search_rs({
-			migrated_thread => undef,
+			migrated_to_thread => undef,
 		},{
 		prefetch => [qw( user ),{
 			idea_votes => [qw( user )],
@@ -26,7 +26,7 @@ sub base :Chained('/base') :PathPart('ideas') :CaptureArgs(0) {
 sub add_latest_ideas {
 	my ( $self, $c ) = @_;
 	$c->stash->{latest_ideas} = $c->d->rs('Idea')->ghostbusted->search_rs({
-			migrated_thread => undef,
+			migrated_to_thread => undef,
 		},{
 		order_by => { -desc => 'me.created' },
 		rows => 5,
@@ -131,8 +131,8 @@ sub idea_id : Chained('base') PathPart('idea') CaptureArgs(1) {
 	my ( $self, $c, $id ) = @_;
 	$c->stash->{idea} = $c->d->rs('Idea')->find($id);
 
-	if ($c->stash->{idea}->migrated_thread) {
-		$c->response->redirect($c->chained_uri('Forum','thread',$c->stash->{idea}->migrated_thread));
+	if ($c->stash->{idea}->migrated_to_thread) {
+		$c->response->redirect($c->chained_uri('Forum','thread',$c->stash->{idea}->migrated_to_thread));
 		return $c->detach;
 	}
 	unless ($c->stash->{idea}) {

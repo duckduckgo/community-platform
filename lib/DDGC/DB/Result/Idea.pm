@@ -127,7 +127,7 @@ column old_url => {
 	is_nullable => 1,
 };
 
-column migrated_thread => {
+column migrated_to_thread => {
 	data_type => 'bigint',
 	is_nullable => 1,
 };
@@ -209,21 +209,29 @@ sub get_url {
 
 sub migrate_to_ramblings {
 	my ( $self ) = @_;
-	return undef if $self->migrated_thread;
+	return undef if $self->migrated_to_thread;
 
 	my $comment = $self->content . ( ($self->source) ?
 		  "\n\nSource:\n\n" . $self->source
 		: ""
 	);
+
+	my $data = $self->data;
+	$data->{migrated_from_idea} = $self->id;
 	my $thread = $self->ddgc->forum->add_thread(
 		$self->user,
 		$comment,
 		forum => $self->ddgc->config->id_for_forum('general'),
 		title => $self->title,
+		data  => $data,
+		created => $self->created,
+		created => $self->updated,
 		ghosted => $self->ghosted,
 		checked => $self->checked,
+		old_url => $self->old_url,
+		seen_live => $self->seen_live,
 	);
-
+	
 	return undef unless $thread;
 
 	while (my $comment = $self->comments->next) {
@@ -234,7 +242,7 @@ sub migrate_to_ramblings {
 		});
 	}
 
-	$self->migrated_thread($thread->id);
+	$self->migrated_to_thread($thread->id);
 	$self->update;
 
 	return $thread;
