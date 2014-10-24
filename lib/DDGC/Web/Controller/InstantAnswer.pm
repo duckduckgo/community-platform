@@ -161,7 +161,24 @@ sub ia  :Chained('ia_base') :PathPart('') :Args(0) {
 	my ( $self, $c ) = @_;
 }
 
-sub edit :Chained('ia_base') :PathPart('edit') :Args(0) {
+sub edit_base :Chained('base') :PathPart('edit') :CaptureArgs(1) {
+   	my ( $self, $c, $answer_id ) = @_;
+
+    $c->stash->{ia_page} = "IAPageEdit";
+    $c->stash->{ia_version} = $ia_version;
+    $c->stash->{ia} = $c->d->rs('InstantAnswer')->find($answer_id);
+
+    unless ($c->stash->{ia}) {
+        $c->response->redirect($c->chained_uri('InstantAnswer','index',{ instant_answer_not_found => 1 }));
+        return $c->detach;
+    }
+
+    use DDP;
+    $c->stash->{ia_version} = $ia_version;
+    $c->stash->{ia_pretty} = p $c->stash->{ia};
+}
+
+sub edit :Chained('edit_base') :PathPart('') :Args(0) {
     my ( $self, $c ) = @_;
 }
 
