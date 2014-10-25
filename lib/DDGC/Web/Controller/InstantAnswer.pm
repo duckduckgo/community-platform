@@ -182,6 +182,13 @@ sub edit :Chained('edit_base') :PathPart('') :Args(0) {
     my ( $self, $c ) = @_;
 }
 
+sub save_edit :Chained('base') :PathPart('save') :Args(0) {
+	my ( $self, $c ) = @_;
+
+	my $ia = $c->d->rs('InstantAnswer')->find($c->req->params->{id});
+	$ia->update( { description => $c->req->params->{description} } );
+}
+
 no Moose;
 __PACKAGE__->meta->make_immutable;
 

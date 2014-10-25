@@ -26,6 +26,12 @@
 					$(".editable").on('focusout', function(evt) {
 						$(this).attr("contenteditable", "false");
 					});
+
+					$("#save").on('click', function(evt) {
+					    var description =$("#desc").text();
+						console.log(description);
+					    var jqxhr = $.post("/ia/save", {description : description, id : DDH_iaid.replace("#", "")});
+					});
                 });
             }
 	    },
