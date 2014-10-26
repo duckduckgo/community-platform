@@ -206,7 +206,7 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
 }
 
 sub edit_base :Chained('base') :PathPart('edit') :CaptureArgs(1) {
-   	my ( $self, $c, $answer_id ) = @_;
+       my ( $self, $c, $answer_id ) = @_;
 
     $c->stash->{ia_page} = "IAPageEdit";
     $c->stash->{ia_version} = $ia_version;
@@ -232,7 +232,15 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
     my $ia = $c->d->rs('InstantAnswer')->find($c->req->params->{id});
 
     try {
-        $ia->update( { description => $c->req->params->{description} } );
+        $ia->update({
+                       description => $c->req->params->{description},
+                       name => $c->req->params->{name},
+                       status => $c->req->params->{status},
+                       topic => $c->req->params->{topic},
+                       example_query => $c->req->params->{example},
+                       other_queries => $c->req->params->{other_examples},
+                       code => $c->req->params->{code} 
+                   });
     }
     catch {
         $c->d->errorlog("Error updating database: $_");

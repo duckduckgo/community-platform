@@ -93,9 +93,31 @@
                     });
 
                     $("#save").on('click', function(evt) {
-                        var description =$("#desc").text();
-                        console.log(description);
-                        var jqxhr = $.post("/ia/save", {description : description, id : DDH_iaid.replace("#", "")})
+                        var topics = [];
+                        $(".ia_topic a.editable").each(function(index) {
+                            topics.push($(this).text());
+                        });
+
+                        var examples = [];
+                        $("#examples a.other-examples").each(function(index) {
+                            examples.push($(this).text());
+                        });
+                        
+                        var code = [];
+                        $("li.code.editable").each(function(index) {
+                            code.push($(this).text());
+                        });
+
+                        var jqxhr = $.post("/ia/save", {
+                                          description : $("#desc").text(), 
+                                          name : $("#name").text(),
+                                          status : $(".status").text(),
+                                          topic : JSON.stringify(topics),
+                                          example : $("#examples a#primary").text(),
+                                          other_examples : JSON.stringify(examples),
+                                          code : JSON.stringify(code),
+                                          id : DDH_iaid
+                                    })
                         .done(function(data) {
                             if (data) {
                                 window.location = "/ia/view/" + DDH_iaid;
