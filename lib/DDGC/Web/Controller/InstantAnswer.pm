@@ -12,12 +12,12 @@ my $ia_version = ia_page_version();
 BEGIN {extends 'Catalyst::Controller'; }
 
 sub base :Chained('/base') :PathPart('ia') :CaptureArgs(0) {
-	my ( $self, $c ) = @_;
+    my ( $self, $c ) = @_;
 }
 
 sub index :Chained('base') :PathPart('') :Args(0) {
-	my ( $self, $c ) = @_;
-	# Retrieve / stash all IAs for index page here?
+    my ( $self, $c ) = @_;
+    # Retrieve / stash all IAs for index page here?
 
     # my @x = $c->d->rs('InstantAnswer')->all();
     # $c->stash->{ialist} = \@x;
@@ -28,7 +28,7 @@ sub index :Chained('base') :PathPart('') :Args(0) {
 }
 
 sub ialist_json :Chained('base') :PathPart('json') :Args(0) {
-	my ( $self, $c ) = @_;
+    my ( $self, $c ) = @_;
 
     # $c->stash->{x} = {
     #     ia_list => "this will be the list of all IAs"
@@ -59,7 +59,7 @@ sub ialist_json :Chained('base') :PathPart('json') :Args(0) {
 }
 
 sub iarepo :Chained('base') :PathPart('repo') :Args(1) {
-	my ( $self, $c, $repo ) = @_;
+    my ( $self, $c, $repo ) = @_;
 
 
     # $c->stash->{ia_repo} = $repo;
@@ -95,7 +95,7 @@ sub queries :Chained('base) :PathPart('queries') :Args(0) {
 }
 
 sub ia_base :Chained('base') :PathPart('view') :CaptureArgs(1) {  # /ia/view/calculator
-	my ( $self, $c, $answer_id ) = @_;
+    my ( $self, $c, $answer_id ) = @_;
 
     $c->stash->{ia_page} = "IAPage";
     $c->stash->{ia_version} = $ia_version;
@@ -119,18 +119,18 @@ sub ia_base :Chained('base') :PathPart('view') :CaptureArgs(1) {  # /ia/view/cal
         $c->stash->{ia_attribution} = decode_json($ia_attribution);
     }
 
-	unless ($c->stash->{ia}) {
-		$c->response->redirect($c->chained_uri('InstantAnswer','index',{ instant_answer_not_found => 1 }));
-		return $c->detach;
-	}
+    unless ($c->stash->{ia}) {
+        $c->response->redirect($c->chained_uri('InstantAnswer','index',{ instant_answer_not_found => 1 }));
+        return $c->detach;
+    }
 
-	use DDP;
+    use DDP;
     $c->stash->{ia_version} = $ia_version;
-	$c->stash->{ia_pretty} = p $c->stash->{ia};
+    $c->stash->{ia_pretty} = p $c->stash->{ia};
 }
 
 sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
-	my ( $self, $c) = @_;
+    my ( $self, $c) = @_;
 
     my $ia = $c->stash->{ia};
 
@@ -158,11 +158,11 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
 }
 
 sub ia  :Chained('ia_base') :PathPart('') :Args(0) {
-	my ( $self, $c ) = @_;
+    my ( $self, $c ) = @_;
 }
 
 sub edit_base :Chained('base') :PathPart('edit') :CaptureArgs(1) {
-   	my ( $self, $c, $answer_id ) = @_;
+       my ( $self, $c, $answer_id ) = @_;
 
     $c->stash->{ia_page} = "IAPageEdit";
     $c->stash->{ia_version} = $ia_version;
@@ -188,7 +188,15 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
     my $ia = $c->d->rs('InstantAnswer')->find($c->req->params->{id});
 
     try {
-        $ia->update( { description => $c->req->params->{description} } );
+        $ia->update({
+                       description => $c->req->params->{description},
+                       name => $c->req->params->{name},
+                       status => $c->req->params->{status},
+                       topic => $c->req->params->{topic},
+                       example_query => $c->req->params->{example},
+                       other_queries => $c->req->params->{other_examples},
+                       code => $c->req->params->{code} 
+                   });
     }
     catch {
         $c->d->errorlog("Error updating database: $_");
