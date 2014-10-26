@@ -85,26 +85,31 @@
 				    var ia = Handlebars.templates.editpage(x);
 				    $(".ia-single").html(ia);
                     $(".ia-single .dev-info").on('click', DDH.IAPageEdit.prototype.expand.bind(this));
-					$(".editable").on('click', function(evt) {
-						$(this).attr("contenteditable", "true");
-					}); 
-					$(".editable").on('focusout', function(evt) {
-						$(this).attr("contenteditable", "false");
-					});
+                    $(".editable").on('click', function(evt) {
+                        $(this).attr("contenteditable", "true");
+                    }); 
+                    $(".editable").on('focusout', function(evt) {
+                        $(this).attr("contenteditable", "false");
+                    });
 
-					$("#save").on('click', function(evt) {
-					    var description =$("#desc").text();
-						console.log(description);
-					    var jqxhr = $.post("/ia/save", {description : description, id : DDH_iaid.replace("#", "")});
-					});
+                    $("#save").on('click', function(evt) {
+                        var description =$("#desc").text();
+                        console.log(description);
+                        var jqxhr = $.post("/ia/save", {description : description, id : DDH_iaid.replace("#", "")})
+                        .done(function(data) {
+                            if (data) {
+                                window.location = "/ia/view/" + DDH_iaid;
+                            }
+                        });
+                    });
                 });
             }
         },
 
-	    expand: function() {
-		    $(".ia-single .dev-info").addClass("hide");
-		    $(".ia-single .dev-info-details").removeClass("hide");
-		}
+        expand: function() {
+            $(".ia-single .dev-info").addClass("hide");
+            $(".ia-single .dev-info-details").removeClass("hide");
+        }
     };
 
 })(DDH);

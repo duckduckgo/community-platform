@@ -227,10 +227,19 @@ sub edit :Chained('edit_base') :PathPart('') :Args(0) {
 }
 
 sub save_edit :Chained('base') :PathPart('save') :Args(0) {
-	my ( $self, $c ) = @_;
+    my ( $self, $c ) = @_;
 
-	my $ia = $c->d->rs('InstantAnswer')->find($c->req->params->{id});
-	$ia->update( { description => $c->req->params->{description} } );
+    my $ia = $c->d->rs('InstantAnswer')->find($c->req->params->{id});
+
+    try {
+        $ia->update( { description => $c->req->params->{description} } );
+    }
+    catch {
+        $c->d->errorlog("Error updating database: $_");
+        return;
+    }
+    
+    return 1;
 }
 
 no Moose;
