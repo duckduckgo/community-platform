@@ -218,8 +218,6 @@ sub edit_base :Chained('base') :PathPart('edit') :CaptureArgs(1) {
     }
 
     use DDP;
-    $c->stash->{ia_version} = $ia_version;
-    $c->stash->{ia_pretty} = p $c->stash->{ia};
 }
 
 sub edit :Chained('edit_base') :PathPart('') :Args(0) {
@@ -230,6 +228,7 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
     my ( $self, $c ) = @_;
 
     my $ia = $c->d->rs('InstantAnswer')->find($c->req->params->{id});
+    my $result;
 
     try {
         $ia->update({
@@ -241,13 +240,13 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
                        other_queries => $c->req->params->{other_examples},
                        code => $c->req->params->{code} 
                    });
+        $result = 1;
     }
     catch {
-        $c->d->errorlog("Error updating database: $_");
-        return;
+        $c->d->errorlog("Error updating database");
     }
     
-    return 1;
+    return $result;
 }
 
 no Moose;
