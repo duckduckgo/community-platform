@@ -18,8 +18,9 @@ module.exports = function(grunt) {
         'handlebars:compile',
         'compass',
         'concat:ia_pages',
-        'exec:copy_css',
-        'exec:copy_js_libs'
+        'exec:copy_static_css',
+        'exec:copy_static_js',
+        'exec:copy_ia_css',
     ];
 
     var ia_page_js = [
@@ -138,17 +139,20 @@ module.exports = function(grunt) {
         compass: {
             dist: {
                 options: {
-                    cssDir: 'js/css'
+                    cssDir: 'pages/ia_pages/css'
                 }
             }
         },
 
         exec: {
-            copy_css: {
-                command: 'mkdir -p root/static/css && cp -rf pages/static_pages/* root/static/css'
+            copy_static_css: {
+                command: 'mkdir -p root/static/css && cp -rf pages/static_pages/css/* root/static/css/'
             },
-            copy_js_libs: {
-                command: 'mkdir -p root/static/js && cp -rf pages/static_pages/js/* root/static/js'
+            copy_static_js: {
+                command: 'mkdir -p root/static/js && cp -rf pages/static_pages/js/* root/static/js/'
+            },
+            copy_ia_css: {
+                command: 'mkdir -p root/static/css && cp -rf pages/ia_pages/css/* root/static/css/'
             }
         }
     });
