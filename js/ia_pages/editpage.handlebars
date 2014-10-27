@@ -1,6 +1,7 @@
 <h2 class="left editable" id="name">{{name}}</h2>
 <div class="right tag editable status {{status}}">{{status}}</div>
-<p class="clearfix" id="team">Team: <span class="editable">...</span></p>
+<p id="desc" class="editable clearfix">{{description}}</p>
+<p id="team">Team: <span class="editable">...</span></p>
 
 <p>
     {{#each topic}}
@@ -25,8 +26,6 @@
         {{/each}}
     {{/if}}
 </p>
-
-<p id="desc" class="editable">{{description}}</p>
 
 <p id="related"><strong>Related Instant Answers:</strong> <span class="editable">...</span></p>
 
