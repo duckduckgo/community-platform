@@ -88,7 +88,7 @@ sub iarepo :Chained('base') :PathPart('repo') :Args(1) {
     $c->forward($c->view('JSON'));
 }
 
-sub queries :Chained('base) :PathPart('queries') :Args(0) {
+sub queries :Chained('base') :PathPart('queries') :Args(0) {
 
     # my @x = $c->d->rs('InstantAnswer')->all();
 
