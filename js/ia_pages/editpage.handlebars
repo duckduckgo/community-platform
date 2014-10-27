@@ -25,9 +25,12 @@
             , <a href="https://duckduckgo.com/?q={{this}}" title="try this example on DuckDuckGo" class="editable other-examples">{{this}}</a>
         {{/each}}
     {{/if}}
+    <span class="hide" id="comma">,</span>
+    <div class="editable other-examples hide" id="input_example"></div>
+    <div class="button" id="add_example">+</div>
 </p>
 
-<p id="related"><strong>Related Instant Answers:</strong> <span class="editable">...</span></p>
+<p class="clearfix" id="related"><strong>Related Instant Answers:</strong> <span class="editable">...</span></p>
 
 <div class="button dev-info">Developer Info</div>
 <div class="dev-info-details hide">

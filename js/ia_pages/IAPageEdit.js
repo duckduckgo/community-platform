@@ -27,6 +27,24 @@
                         }
                     });
 
+                    $("#add_example").on('click', function(evt) {
+                        $(this).addClass("hide");
+                        $("#input_example").removeClass("hide");
+                        $("#comma").removeClass("hide");
+                    });
+
+                    $("#input_example").on('focusout', function(evt) {
+                        var new_example = $(this).text();
+                        if (new_example !== '') {
+                            $("#comma").before(', <a class="other-examples editable" href="https://duckduckgo.com/?q=' +
+                                               new_example + '">' + new_example + '</a>');
+                        }
+                        $(this).text("");
+                        $(this).addClass("hide");
+                        $("#comma").addClass("hide");
+                        $("#add_example").removeClass("hide");
+                    });
+
                     $("#save").on('click', function(evt) {
                        if (!$(this).hasClass("disabled")) {
                             var topics = [];
@@ -35,8 +53,10 @@
                             });
 
                             var examples = [];
-                            $("#examples a.other-examples").each(function(index) {
-                                examples.push($(this).text());
+                            $("#examples .other-examples").each(function(index) {
+                                if ($(this).text() !== '') {
+                                    examples.push($(this).text());
+                                }
                             });
                         
                             var code = [];
