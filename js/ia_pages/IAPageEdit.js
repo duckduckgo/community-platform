@@ -22,7 +22,7 @@
                     $(".ia-single").html(ia);
                     $(".ia-single .dev-info").on('click', DDH.IAPageEdit.prototype.expand.bind(this));
                     $(".editable").attr("contenteditable", "true");
-                    $(".editable").on('click', function(evt) {
+                    $(".editable").on('keydown', function(evt) {
                         if ($("#save").hasClass("disabled")) {
                             $("#save").removeClass("disabled");
                         }
