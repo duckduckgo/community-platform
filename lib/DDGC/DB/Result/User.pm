@@ -193,6 +193,9 @@ has_many 'github_users', 'DDGC::DB::Result::GitHub::User', 'users_id', {
   cascade_delete => 0,
 };
 
+has_many 'instant_answer_users', 'DDGC::DB::Result::InstantAnswer::Users', 'users_id';
+many_to_many 'instant_answers', 'instant_answer_users', 'instant_answer';
+
 many_to_many 'languages', 'user_languages', 'language';
 
 belongs_to 'profile_media', 'DDGC::DB::Result::Media', 'profile_media_id', { join_type => 'left' };
@@ -356,6 +359,24 @@ sub rate_limit_comment {
 	return 0;
 }
 
+sub hidden_comments {
+	my ( $self ) = @_;
+	$self->comments->search({
+		ghosted => 1,
+		checked => { '!=' => undef },
+	},
+	{ cache_for => 300 });
+}
+
+sub checked_comments {
+	my ( $self ) = @_;
+	$self->comments->search({
+	-or => [
+			ghosted => 0,
+			checked => { '!=' => undef },
+	]},
+	{ cache_for => 300 });
+}
 
 sub blog { shift->user_blogs_rs }
 

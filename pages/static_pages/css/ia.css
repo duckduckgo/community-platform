@@ -2,7 +2,6 @@
 
 .iadata td {
     padding-right:0.5em;
-    padding-left:0.5em;
 }
 .iadata li {
     list-style:none;
@@ -19,8 +18,27 @@
 .ia_topic a {
     color:black;
 }
-
 .ia_src_column {
     max-width:18em;
     overflow:hidden;
+} 
+.ia-single .desktop {
+	width: 99.75%;
+}
+.ia-single .clearfix {
+	clear: both;
+}
+.ia-single .screens {
+	margin-top: 2em;
+	margin-bottom: 2em;
+}
+.ia-single .button a {
+	color: #474747;
+}
+.ia-single .hide {
+	display: none;
+}
+
+#ia_index td {
+    padding-left:4px;
 }
