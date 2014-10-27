@@ -11,8 +11,7 @@
     // but for now the page is being built with xslate
     DDH.IAPageEdit.prototype = {
         init: function(ops) {
-            console.log("IAPageEdit.init()\n");
-            var edited = false; 
+            console.log("IAPageEdit.init()\n"); 
 
             if (DDH_iaid) {
                 console.log("for ia id '%s'", DDH_iaid);
@@ -26,14 +25,10 @@
                         if ($("#save").hasClass("disabled")) {
                             $("#save").removeClass("disabled");
                         }
-
-                        if (!edited) {
-                            edited = true;
-                        }
                     });
 
                     $("#save").on('click', function(evt) {
-                       if (edited) {
+                       if (!$(this).hasClass("disabled")) {
                             var topics = [];
                             $(".ia_topic a.editable").each(function(index) {
                                 topics.push($(this).text());
