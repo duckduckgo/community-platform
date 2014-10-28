@@ -2,13 +2,14 @@ module.exports = function(grunt) {
     
     var root_dir = 'root/static/js/';
     var js_dir = 'pages/ia_pages/js/';
+    var static_js_dir = 'pages/static_pages/js/';
 
     // tasks that run after diff
     // to release a new version
     var release_tasks = [
         'version:release',
         'removelogging',
-        'uglify:ia_js',
+        'uglify:js',
         'remove',
         'gitcommit:ia_pages'
     ];
@@ -18,6 +19,7 @@ module.exports = function(grunt) {
         'handlebars:compile',
         'compass',
         'concat:ia_pages',
+        'concat:static_pages',
         'exec:copy_static_css',
         'exec:copy_static_js',
         'exec:copy_ia_css',
@@ -39,6 +41,8 @@ module.exports = function(grunt) {
         pkg: grunt.file.readJSON('package.json'),
         root_dir: root_dir,
         js_dir: js_dir,
+        static_js_dir: static_js_dir,
+
         release_tasks: release_tasks,
 
         /*
@@ -60,7 +64,12 @@ module.exports = function(grunt) {
             ia_pages:{
                 src: ia_page_js,
                 dest: root_dir + 'ia.js'
+            },
+            static_pages:{
+                src: static_js_dir + '*.js',
+                dest: root_dir + 'ddgc.js'
             }
+
         },
 
         /*
@@ -85,10 +94,10 @@ module.exports = function(grunt) {
          * uglify ia.js and give it a version number for release
          */
         uglify: {
-            ia_js: {
+            js: {
                 files: {
-               '<%= root_dir + "ia" +  pkg.version %>.js': root_dir + 'ia.js' 
-            
+                    '<%= root_dir + "ia" +  pkg.version %>.js': root_dir + 'ia.js', 
+                    '<%= root_dir + "ddgc" +  pkg.version %>.js': root_dir + 'ddgc.js' 
                 }
             }
         },
@@ -96,7 +105,7 @@ module.exports = function(grunt) {
         remove: {
             default_options: {
                 trace: true,
-                fileList: [ root_dir + 'ia.js', js_dir + 'handlebars_tmp']
+                fileList: [ root_dir + 'ia.js', js_dir + 'handlebars_tmp', root_dir + 'ddgc.js']
             }
         },
 
@@ -121,7 +130,7 @@ module.exports = function(grunt) {
                     message: 'Release IA pages version: <%= pkg.version %>'
                 },
                 files: {
-                    src: [ root_dir + 'ia<%= pkg.version %>.js', 'package.json']
+                    src: [ root_dir + 'ia<%= pkg.version %>.js', 'package.json',  root_dir + 'ddgc<%= pkg.version %>.js']
                 }
             }
         
@@ -149,7 +158,7 @@ module.exports = function(grunt) {
                 command: 'mkdir -p root/static/css && cp -rf pages/static_pages/css/* root/static/css/'
             },
             copy_static_js: {
-                command: 'mkdir -p root/static/js && cp -rf pages/static_pages/js/* root/static/js/'
+                command: 'mkdir -p root/static/js && cp -rf pages/static_pages/js/libraries/* root/static/js/'
             },
             copy_ia_css: {
                 command: 'mkdir -p root/static/css && cp -rf pages/ia_pages/css/* root/static/css/'
