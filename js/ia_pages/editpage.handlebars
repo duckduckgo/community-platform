@@ -20,18 +20,20 @@
 
 <div id="examples"><strong>Examples:</strong>
     <ul>
-        <li>
+        <li class="editpage">
+            <div class="button delete listbutton" title="Remove this example"><span>-</span></div>
             <a href="https://duckduckgo.com/?q={{example_query}}" title="try this example on DuckDuckGo" class="editable" id="primary">{{example_query}}</a>
         </li>
         {{#if other_queries}}
             {{#each other_queries}}
-                <li>
+                <li class="editpage">
+                    <div class="button delete listbutton" title="Remove this example"><span>-</span></div>
                     <a href="https://duckduckgo.com/?q={{this}}" title="try this example on DuckDuckGo" class="editable other-examples">{{this}}</a>
                 </li>
             {{/each}}
         {{/if}}
-        <div class="editable other-examples hide" id="input_example"></div>
-        <div class="button" id="add_example">+</div>
+        <li class="editpage"><div class="editable other-examples hide" id="input_example"></div></li>
+        <li class="editpage"><div class="button listbutton" id="add_example" title="Add example"><span>+</span></div></li>
     </ul>
 </div>
 
