@@ -112,9 +112,9 @@
 				<div class="twothird">
 					<label>
 						<: if $github_user { :>
-							Update your Github link <: i($github_user) :>
+							Update your Github link <: i($github_user) :>:
 						<: } else { :>
-							Link your GitHub
+							Link your GitHub:
 						<: } :>
 					</label>
 				</div>
@@ -155,7 +155,7 @@
 					<div class="row">
 						<div class="twothird">
 							<label>
-								<: $l('Show Forum Badge') :>
+								<: $l('Show Forum Badge:') :>
 							</label>
 						</div>
 						<div class="third">
