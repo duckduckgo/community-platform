@@ -151,6 +151,24 @@
 						<a href="<: $u('My','capitalize') :>" class="button button--right">Capitalize</a>
 					</div>
 				</div>
+				<: if !$c.user.admin && ($c.user.is('forum_manager') || $c.user.is('idea_manager') || $c.user.is('translation_manager')) { :>
+					<div class="row">
+						<div class="twothird">
+							<label>
+								<: $l('Show Forum Badge') :>
+							</label>
+						</div>
+						<div class="third">
+							<a href="<: $u('My','flair', { action_token => $action_token }) :>" class="button button--right">
+								<: if $c.user.hide_flair { :>
+									<: $l('Off') :>
+								<: } else { :>
+									<: $l('On') :>
+								<: } :>
+							</a>
+						</div>
+					</div>
+				<: } :>
 				<: if cur_user().admin { :>
 					<div class="row">
 						<div class="twothird">

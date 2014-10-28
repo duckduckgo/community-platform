@@ -415,6 +415,16 @@ sub changepw :Chained('logged_in') :Args(0) {
 	$c->stash->{changeok} = 1;
 }
 
+sub flair :Chained('logged_in') :Args(0) {
+	my ( $self, $c ) = @_;
+	$c->require_action_token;
+
+	$c->user->toggle_hide_flair;
+
+	$c->response->redirect($c->chained_uri('My','account'));
+	return $c->detach;
+}
+
 sub forgotpw :Chained('logged_out') :Args(0) {
 	my ( $self, $c ) = @_;
 
