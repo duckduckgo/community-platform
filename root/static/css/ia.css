@@ -40,6 +40,7 @@
 }
 .ia-single #input_example {
     width: 7em;
+    height: 1.5em;
     margin-left: 1.15em;
     border-radius: 5px;
     -moz-border-radius: 5px;
