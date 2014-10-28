@@ -205,50 +205,6 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
     return $result;
 }
 
-sub edit_base :Chained('base') :PathPart('edit') :CaptureArgs(1) {
-       my ( $self, $c, $answer_id ) = @_;
-
-    $c->stash->{ia_page} = "IAPageEdit";
-    $c->stash->{ia_version} = $ia_version;
-    $c->stash->{ia} = $c->d->rs('InstantAnswer')->find($answer_id);
-
-    unless ($c->stash->{ia}) {
-        $c->response->redirect($c->chained_uri('InstantAnswer','index',{ instant_answer_not_found => 1 }));
-        return $c->detach;
-    }
-
-    use DDP;
-}
-
-sub edit :Chained('edit_base') :PathPart('') :Args(0) {
-    my ( $self, $c ) = @_;
-}
-
-sub save_edit :Chained('base') :PathPart('save') :Args(0) {
-    my ( $self, $c ) = @_;
-
-    my $ia = $c->d->rs('InstantAnswer')->find($c->req->params->{id});
-    my $result;
-
-    try {
-        $ia->update({
-                       description => $c->req->params->{description},
-                       name => $c->req->params->{name},
-                       status => $c->req->params->{status},
-                       topic => $c->req->params->{topic},
-                       example_query => $c->req->params->{example},
-                       other_queries => $c->req->params->{other_examples},
-                       code => $c->req->params->{code} 
-                   });
-        $result = 1;
-    }
-    catch {
-        $c->d->errorlog("Error updating database");
-    }
-    
-    return $result;
-}
-
 no Moose;
 __PACKAGE__->meta->make_immutable;
 
