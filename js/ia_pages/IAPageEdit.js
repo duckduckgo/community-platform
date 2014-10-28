@@ -30,14 +30,13 @@
                     $("#add_example").on('click', function(evt) {
                         $(this).addClass("hide");
                         $("#input_example").removeClass("hide");
-                        $("#comma").removeClass("hide");
                     });
 
                     $("#input_example").on('focusout', function(evt) {
                         var new_example = $(this).text();
                         if (new_example !== '') {
-                            $("#comma").before(', <a class="other-examples editable" href="https://duckduckgo.com/?q=' +
-                                               new_example + '">' + new_example + '</a>');
+                            $(this).before('<li><a class="other-examples editable" href="https://duckduckgo.com/?q=' +
+                                               new_example + '">' + new_example + '</a></li>');
                         }
                         $(this).text("");
                         $(this).addClass("hide");

@@ -18,14 +18,20 @@
     <img class="mobile" style="border:1px solid black" src="https://images.duckduckgo.com/iu/?u=https://ia-screenshots.s3.amazonaws.com/{{id}}_mobile.png">
 </div>
 
-<p><strong>Try it out:</strong> 
-    <a href="https://duckduckgo.com/?q={{example_query}}" title="try this example on DuckDuckGo">{{example_query}}</a>
-    {{#if other_queries}}
-        {{#each other_queries}}
-            , <a href="https://duckduckgo.com/?q={{this}}" title="try this example on DuckDuckGo">{{this}}</a>
-        {{/each}}
-    {{/if}}
-</p>
+<div><strong>Examples:</strong>
+    <ul> 
+        <li>
+            <a href="https://duckduckgo.com/?q={{example_query}}" title="try this example on DuckDuckGo">{{example_query}}</a>
+        </li>
+        {{#if other_queries}}
+            {{#each other_queries}}
+                <li>
+                    <a href="https://duckduckgo.com/?q={{this}}" title="try this example on DuckDuckGo">{{this}}</a>
+                </li>
+            {{/each}}
+        {{/if}}
+    </ul>
+</div>
 
 <p><strong>Related Instant Answers:</strong> ...</p>
 

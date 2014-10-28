@@ -39,23 +39,20 @@
 	display: none;
 }
 .ia-single #input_example {
-    min-width: 3em;
-    width: auto;
-    margin-left: 0.5em;
+    width: 7em;
+    margin-left: 1.15em;
     border-radius: 5px;
     -moz-border-radius: 5px;
     -o-border-radius: 5px;
     -webkit-border-radius: 5px;
     border: 1px solid #888;
 }
-.ia-single #add_example,
-.ia-single #input_example,
-.ia-single #examples {
-    float: left;
-}
 .ia-single #add_example {
-    padding: 0 6px;
-    margin-left: 0.5em;
+    padding: 0 8px;
+    margin-left: 1.15em;
+}
+.ia-single ul li {
+    list-style-position: inside;
 }
 #ia_index td {
     padding-left:4px;
