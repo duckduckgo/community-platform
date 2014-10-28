@@ -45,7 +45,7 @@
                         $("#add_example").removeClass("hide");
                     });
 
-                    $(".button.delete").on('click', function(evt) {
+                    $("body").on('click', '.button.delete',  function(evt) {
                         $(this).parent().remove();
                     });
 
