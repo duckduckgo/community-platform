@@ -5,6 +5,7 @@
         <: if $_.readonly { :><i class="thread-icon  icon-lock" title="This thread is read-only"></i><: }:>
         <: if $_.done { :><i class="thread-icon--good  icon-ok" title="This thread is complete"></i><: }:>
         <: if $_.sticky { :><i class="thread-icon--stuck  icon-pushpin" title="Stuck Thread"></i><: } :>
+        <input type="submit" name="change_status" value="This is an IA Idea!" class="button" onClick="return confirm ('This will migrate this Thread to Instant Answers, continue?');" />
         </span>
     </div>
     <: i($_.comment,'thread') :>
