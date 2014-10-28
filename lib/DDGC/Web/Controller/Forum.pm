@@ -24,21 +24,21 @@ sub base : Chained('/base') PathPart('forum') CaptureArgs(0) {
           'me.context' => 'DDGC::DB::Result::Thread',
           'me.parent_id' => undef,
         }}
-      }, { cache_for => 300 })->count +
+      }, { cache_for => 30 })->count +
       $c->d->rs('Idea')->search({
         'me.ghosted' => 1,
         'me.checked' => undef,
-      }, { cache_for => 300 })->count +
+      }, { cache_for => 30 })->count +
       $c->d->rs('Thread')->search({
         'me.ghosted' => 1,
         'me.checked' => undef,
-      }, { cache_for => 300 })->count;
+      }, { cache_for => 30 })->count;
 
     $c->stash->{reports_available} =
       $c->d->rs('User::Report')->search({
         'me.checked' => undef,
         'me.ignore' => 0,
-      }, { cache_for => 300 })->count;
+      }, { cache_for => 60 })->count;
    }
 
 
