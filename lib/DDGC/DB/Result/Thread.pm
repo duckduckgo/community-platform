@@ -209,7 +209,7 @@ sub migrate_to_ideas {
 		$comment->update({
 			context => 'DDGC::DB::Result::Idea',
 			context_id => $idea->id,
-			parent_id => $comment->parent_id,
+			parent_id => ($comment->parent_id eq $self->comment->id) ? undef : $comment->parent_id,
 		});
 	}
 
