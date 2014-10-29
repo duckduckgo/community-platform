@@ -36,17 +36,19 @@
                         window.location = "/ia/view/" + DDH_iaid;
                     });
 
-                    $("#input_example").on('focusout', function(evt) {
-                        var new_example = $(this).text();
-                        if (new_example !== '') {
-                            $(this).before('<li class="editpage"><div class="button delete listbutton"><span>-</span></div>' +
-                                           '<a class="editable other-examples newentry" title="Try this example on DuckDuckGo" href="https://duckduckgo.com/?q=' +
-                                           new_example + '">' + new_example + '</a></li>');
+                    $("#input_example").on('focusout keypress', function(evt) {
+                        if (evt.type === 'focusout' || (evt.type === 'keypress' && evt.which === 13)) {
+                            var new_example = $(this).text();
+                            if (new_example !== '') {
+                                $(this).before('<li class="editpage"><div class="button delete listbutton"><span>-</span></div>' +
+                                               '<a class="editable other-examples newentry" title="Try this example on DuckDuckGo" href="https://duckduckgo.com/?q=' +
+                                               new_example + '">' + new_example + '</a></li>');
+                            }
+                            $(this).text("");
+                            $(this).addClass("hide");
+                            $("#comma").addClass("hide");
+                            $("#add_example").removeClass("hide");
                         }
-                        $(this).text("");
-                        $(this).addClass("hide");
-                        $("#comma").addClass("hide");
-                        $("#add_example").removeClass("hide");
                     });
 
                     $("body").on('click', '.button.delete',  function(evt) {
