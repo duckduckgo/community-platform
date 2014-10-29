@@ -3,6 +3,7 @@ package DDGC::Web::Controller::InstantAnswer;
 use Data::Dumper;
 use Moose;
 use namespace::autoclean;
+use Try::Tiny;
 use DDGC::Util::File qw( ia_page_version );
 
 my $INST = DDGC::Config->new->appdir_path."/root/static/js";
@@ -184,25 +185,32 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
     my ( $self, $c ) = @_;
 
     my $ia = $c->d->rs('InstantAnswer')->find($c->req->params->{id});
-    my $result;
+    my $permissions = $ia->users->find($c->user->id);
+    my $result = '';
 
-    try {
-        $ia->update({
-                       description => $c->req->params->{description},
-                       name => $c->req->params->{name},
-                       status => $c->req->params->{status},
-                       topic => $c->req->params->{topic},
-                       example_query => $c->req->params->{example},
-                       other_queries => $c->req->params->{other_examples},
-                       code => $c->req->params->{code} 
-                   });
-        $result = 1;
-    }
-    catch {
-        $c->d->errorlog("Error updating database");
+    if ($permissions) {
+        try {
+            $ia->update({
+                        description => $c->req->params->{description},
+                        name => $c->req->params->{name},
+                        status => $c->req->params->{status},
+                        topic => $c->req->params->{topic},
+                        example_query => $c->req->params->{example},
+                        other_queries => $c->req->params->{other_examples},
+                        code => $c->req->params->{code} 
+                     });
+            $result = 1;
+        }
+        catch {
+            $c->d->errorlog("Error updating the database");
+        };
     }
     
-    return $result;
+    $c->stash->{x} = {
+        result => $result,
+    };
+    
+    return $c->forward($c->view('JSON'));
 }
 
 no Moose;
