@@ -183,6 +183,7 @@ sub migrate_to_ideas {
 
 	my $data = $self->data;
 	$data->{migrated_from_thread} = $self->id;
+	$data->{is_html} = $self->comment->is_html;
 	my $idea = $self->user->create_related('ideas',{
 		title => $self->title,
 		data  => $data,
