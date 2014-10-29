@@ -31,9 +31,11 @@ sub comments_grouped_in { shift->comments_grouped->search_rs({
 sub context_threads {qw(
 	DDGC::DB::Result::Thread
 )}
-sub comments_grouped_threads { $_[0]->comments_grouped_in(
-	$_[0]->context_threads
-) }
+sub comments_grouped_threads {
+	$_[0]->comments_grouped_in(
+		$_[0]->context_threads
+	)->search_rs({ 'thread.migrated_to_idea' => undef })
+}
 sub comments_grouped_general_threads{
 		$_[0]->comments_grouped_threads->search_rs({ 'thread.forum' => 1 });
 }
