@@ -251,6 +251,21 @@ sub thread : Chained('thread_id') PathPart('') Args(1) {
   $c->stash->{no_reply} = 1 if $c->stash->{thread}->readonly;
 }
 
+sub migrate_to_idea : Chained('userbase') PathPart('migrate') Args(1) {
+  my ( $self, $c, $id ) = @_;
+  my $thread = $c->d->rs('Thread')->find($id+0);
+  if ($thread && $c->user && $c->user->is('forum_manager')) {
+    $c->require_action_token;
+    my $idea = $thread->migrate_to_ideas;
+    if ($idea) {
+      $c->response->redirect($c->chained_uri(@{$idea->u}));
+      return $c->detach;
+    }
+    $c->response->redirect($c->chained_uri(@{$thread->u}));
+    return $c->detach;
+  }
+}
+
 # /forum/comment/$id
 sub comment_id : Chained('comment_view') PathPart('comment') CaptureArgs(1) {
   my ( $self, $c, $id ) = @_;
