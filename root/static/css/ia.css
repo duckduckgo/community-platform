@@ -73,6 +73,9 @@
 .ia-single ul li.editpage .newentry {
     margin-left: 0.25em;
 }
+.ia-single .button#cancel {
+    margin-left: 1em;
+}
 #ia_index td {
     padding-left:4px;
 }

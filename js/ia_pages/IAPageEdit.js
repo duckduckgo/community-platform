@@ -32,6 +32,10 @@
                         $("#input_example").removeClass("hide");
                     });
 
+                    $("#cancel").on('click', function(evt) {
+                        window.location = "/ia/view/" + DDH_iaid;
+                    });
+
                     $("#input_example").on('focusout', function(evt) {
                         var new_example = $(this).text();
                         if (new_example !== '') {
