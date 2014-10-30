@@ -1,0 +1,91 @@
+<h2 class="left editable" id="name">{{name}}</h2>
+<div class="right tag editable status {{status}}">{{status}}</div>
+<p id="desc" class="editable clearfix">{{description}}</p>
+<p id="team">Team: <span class="editable">...</span></p>
+
+<p>
+    {{#each topic}}
+        <div class="button ia_topic">
+            <a href="#" title="will be a link to all IAs in this topic" class="editable">
+                {{this}}
+            </a>
+        </div> 
+    {{/each}}
+</p>
+
+<div class="screens">
+    <img class="desktop" style="border:1px solid black" src="https://images.duckduckgo.com/iu/?u=https://ia-screenshots.s3.amazonaws.com/{{id}}_desktop.png">
+    <img class="mobile" style="border:1px solid black" src="https://images.duckduckgo.com/iu/?u=https://ia-screenshots.s3.amazonaws.com/{{id}}_mobile.png">
+</div>
+
+<div id="examples"><strong>Examples:</strong>
+    <ul>
+        <li class="editpage">
+            <div class="button delete listbutton" title="Remove this example"><span>-</span></div>
+            <a href="https://duckduckgo.com/?q={{example_query}}" title="try this example on DuckDuckGo" class="editable" id="primary">{{example_query}}</a>
+        </li>
+        {{#if other_queries}}
+            {{#each other_queries}}
+                <li class="editpage">
+                    <div class="button delete listbutton" title="Remove this example"><span>-</span></div>
+                    <a href="https://duckduckgo.com/?q={{this}}" title="try this example on DuckDuckGo" class="editable other-examples">{{this}}</a>
+                </li>
+            {{/each}}
+        {{/if}}
+        <li class="editpage"><div class="editable other-examples hide" id="input_example"></div></li>
+        <li class="editpage"><div class="button listbutton" id="add_example" title="Add example"><span>+</span></div></li>
+    </ul>
+</div>
+
+<p class="clearfix" id="related"><strong>Related Instant Answers:</strong> <span class="editable">...</span></p>
+
+<div class="button dev-info">Developer Info</div>
+<div class="dev-info-details hide">
+    <table class="iadata">
+        <tr>
+            <td id="id"><strong>Id:</strong></td>
+            <td>{{id}}</td>
+        </tr>
+        <tr>
+            <td id="templates"><strong>Templates:</strong></td>
+            <td>
+                list of templates here, if any, or
+                default for {{repo}}
+            </td>
+        </tr>
+   {{#if code}}     
+            <tr>
+                <td><strong>Code:</strong></td>
+                <td>
+                    {{#each code}}
+                        <li class="code editable">{{this}}</li>
+                    {{/each}}
+                </td>
+            </tr>
+    {{/if}}
+        <tr>
+	        <td id="credits"><strong>Credits:</strong></td>
+			<td>
+                {{#each attribution}}
+                     <li><a href="{{this.0.loc}}">{{this.0.type}}</a></li>
+                {{/each}}
+			</td>
+	    </tr>
+    </table>
+</div>
+
+<hr>
+
+<p class="left"><strong>Issues</strong></p>
+
+<div class="right button new-issue">
+    <a href="https://github.com/duckduckgo/zeroclickinfo-{{repo}}/issues/new?&title=issue+title&body=http%3A%2F%2Fduck.co%2Fia%2Fview%2F{{id}}">
+        + Add an Issue
+	</a>
+</div>
+<span class="clearfix"></span>
+<div class="hide" id="error"><strong>Error: unable to save the data.</strong></div>
+
+<div class="button left disabled" id="save">Save</div>
+<div class="button left" id="cancel">Cancel</div>
+<span class="clearfix"></span>

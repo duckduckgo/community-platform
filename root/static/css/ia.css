@@ -38,7 +38,48 @@
 .ia-single .hide {
 	display: none;
 }
-
+.ia-single #input_example {
+    width: 7em;
+    height: 1.5em;
+    margin-left: 1.15em;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -o-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border: 1px solid #888;
+}
+.ia-single ul li {
+    list-style-position: inside;
+}
+.ia-single .button.listbutton {
+    padding: 0;
+    width: 1em;
+    height: 1em;
+    border-radius: 50%;
+    -moz-border-radius: 50%;
+    -o-border-radius: 50%;
+    -webkit-border-radius: 50%;
+    text-align: center;
+    font-size: 14px;
+}
+.ia-single .button.listbutton span {
+    vertical-align: top;
+    line-height: 0.8;
+    font-weight: bold;
+}
+.ia-single ul li.editpage {
+    list-style: none;
+}
+.ia-single ul li.editpage .newentry {
+    margin-left: 0.25em;
+}
+.ia-single .button#cancel {
+    margin-left: 1em;
+}
+.ia-single #error {
+    margin-bottom: 1em;
+    color: #DD4C26;
+}
 #ia_index td {
     padding-left:4px;
 }
