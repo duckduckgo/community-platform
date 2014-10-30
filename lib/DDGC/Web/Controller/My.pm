@@ -18,6 +18,7 @@ sub base :Chained('/base') :PathPart('my') :CaptureArgs(0) {
 sub logout :Chained('base') :Args(0) {
 	my ( $self, $c ) = @_;
 	$c->stash->{not_last_url} = 1;
+	$c->require_action_token;
 	$c->logout;
 	$c->delete_session;
 	$c->response->redirect($c->chained_uri('Root','index'));
@@ -108,37 +109,6 @@ sub logged_in :Chained('base') :PathPart('') :CaptureArgs(0) {
 		$c->response->redirect($c->chained_uri('My','login'));
 		return $c->detach;
 	}
-}
-
-sub privacy :Chained('logged_in') :Args(0) {
-	my ( $self, $c ) = @_;
-
-	if ($c->user->privacy) {
-		$c->stash->{title} = 'Disable Content Load Shield';
-		$c->add_bc($c->stash->{title}, '');
-	} else {
-		$c->stash->{title} = 'Enable Content Load Shield';
-		$c->add_bc($c->stash->{title}, '');
-	}
-
-	return $c->detach if !($c->req->params->{enable_privacy} || $c->req->params->{disable_privacy});
-
-	$c->require_action_token;
-
-	if (!$c->validate_captcha($c->req->params->{captcha})) {
-		$c->stash->{wrong_captcha} = 1;
-		return $c->detach;
-	}
-
-	if ($c->req->params->{disable_privacy}) {
-		$c->user->privacy(0);
-	} elsif ($c->req->params->{enable_privacy}) {
-		$c->user->privacy(1);
-	}
-	$c->user->update();
-
-	$c->response->redirect($c->chained_uri('My','account'));
-	return $c->detach;
 }
 
 sub report :Chained('logged_in') :Args(0) {
@@ -444,6 +414,16 @@ sub changepw :Chained('logged_in') :Args(0) {
 	$c->user->update;
 
 	$c->stash->{changeok} = 1;
+}
+
+sub flair :Chained('logged_in') :Args(0) {
+	my ( $self, $c ) = @_;
+	$c->require_action_token;
+
+	$c->user->toggle_hide_flair;
+
+	$c->response->redirect($c->chained_uri('My','account'));
+	return $c->detach;
 }
 
 sub forgotpw :Chained('logged_out') :Args(0) {

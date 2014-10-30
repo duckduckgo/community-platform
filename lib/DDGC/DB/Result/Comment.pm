@@ -122,7 +122,7 @@ around insert => sub {
 before insert => sub {
 	my ( $self ) = @_;
 	if ($self->user->ignore) {
-		$self->checked(32532); # Checked is a UID, this is johnthespamkiller
+		$self->checked($self->ddgc->find_user( $self->ddgc->config->automoderator_account )->id);
 	}
 };
 

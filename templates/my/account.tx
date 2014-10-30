@@ -112,9 +112,9 @@
 				<div class="twothird">
 					<label>
 						<: if $github_user { :>
-							Update your Github link <: i($github_user) :>
+							Update your Github link <: i($github_user) :>:
 						<: } else { :>
-							Link your GitHub
+							Link your GitHub:
 						<: } :>
 					</label>
 				</div>
@@ -142,22 +142,6 @@
 					</a>
 				</div>
 			</div>
-			<div class="row">
-				<div class="twothird">
-					<label>
-						<: $l('Content Load Shield') :>
-					</label>
-				</div>
-				<div class="third">
-					<a href="<: $u('My','privacy') :>" class="button button--right">
-						<: if $c.user.privacy { :>
-							<: $l('On') :>
-						<: } else { :>
-							<: $l('Off') :>
-						<: } :>
-					</a>
-				</div>
-			</div>
 			<: if $c.user.public { :>
 				<div class="row">
 					<div class="twothird">
@@ -167,6 +151,24 @@
 						<a href="<: $u('My','capitalize') :>" class="button button--right">Capitalize</a>
 					</div>
 				</div>
+				<: if !$c.user.admin && ($c.user.is('forum_manager') || $c.user.is('idea_manager') || $c.user.is('translation_manager')) { :>
+					<div class="row">
+						<div class="twothird">
+							<label>
+								<: $l('Show Forum Badge:') :>
+							</label>
+						</div>
+						<div class="third">
+							<a href="<: $u('My','flair', { action_token => $action_token }) :>" class="button button--right">
+								<: if $c.user.hide_flair { :>
+									<: $l('Off') :>
+								<: } else { :>
+									<: $l('On') :>
+								<: } :>
+							</a>
+						</div>
+					</div>
+				<: } :>
 				<: if cur_user().admin { :>
 					<div class="row">
 						<div class="twothird">

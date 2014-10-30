@@ -45,12 +45,6 @@ column public => {
 	default_value => 0,
 };
 
-column privacy => {
-	data_type => 'int',
-	is_nullable => 0,
-	default_value => 1,
-};
-
 column email_notification_content => {
 	data_type => 'int',
 	is_nullable => 0,
@@ -76,11 +70,6 @@ column ignore => {
 };
 
 column email => {
-	data_type => 'text',
-	is_nullable => 1,
-};
-
-column gravatar_email => {
 	data_type => 'text',
 	is_nullable => 1,
 };
@@ -204,6 +193,9 @@ has_many 'github_users', 'DDGC::DB::Result::GitHub::User', 'users_id', {
   cascade_delete => 0,
 };
 
+has_many 'instant_answer_users', 'DDGC::DB::Result::InstantAnswer::Users', 'users_id';
+many_to_many 'instant_answers', 'instant_answer_users', 'instant_answer';
+
 many_to_many 'languages', 'user_languages', 'language';
 
 belongs_to 'profile_media', 'DDGC::DB::Result::Media', 'profile_media_id', { join_type => 'left' };
@@ -309,9 +301,12 @@ sub undone_notifications_count {
 
 sub undone_notifications {
 	my ( $self, $limit ) = @_;
-	$self->schema->resultset('Event::Notification::Group')->prefetch_all->search_rs({
+	$self->schema->resultset('Event::Notification::Group')->search_rs({
 		'user_notification.users_id' => $self->id,
 	},{
+		prefetch => [qw( user_notification_group ),{
+			event_notifications => [qw( user_notification )],
+		}],
 		order_by => { -desc => 'event_notifications.created' },
 		cache_for => 300,
 		$limit ? ( rows => $limit ) : (),
@@ -364,6 +359,24 @@ sub rate_limit_comment {
 	return 0;
 }
 
+sub hidden_comments {
+	my ( $self ) = @_;
+	$self->comments->search({
+		ghosted => 1,
+		checked => { '!=' => undef },
+	},
+	{ cache_for => 300 });
+}
+
+sub checked_comments {
+	my ( $self ) = @_;
+	$self->comments->search({
+	-or => [
+			ghosted => 0,
+			checked => { '!=' => undef },
+	]},
+	{ cache_for => 300 });
+}
 
 sub blog { shift->user_blogs_rs }
 
@@ -839,6 +852,18 @@ sub supports {{}}
 
 sub for_session {
 	return shift->username;
+}
+
+sub hide_flair {
+	my ( $self ) = @_;
+	$self->data->{hide_flair};
+}
+sub toggle_hide_flair {
+	my ( $self ) = @_;
+	my $data = $self->data;
+	$data->{hide_flair} = (!$data->{hide_flair});
+	$self->data($data);
+	$self->update;
 }
 
 sub get_object {

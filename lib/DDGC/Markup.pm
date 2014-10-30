@@ -13,29 +13,12 @@ has ddgc => (
 	required => 1,
 	weak_ref => 1,
 	handles => [qw(
-		privacy
 		current_user
 	)],
 );
 
-sub privacy_aware_hosts {qw(
-	dukgo.com
-	duck.co
-	view.dukgo.com
-	help.dukgo.com
-	help.duckduckgo.com
-	duckduckgo.com
-	donttrack.us
-	dontbubble.us
-)}
-
-sub is_privacy_aware { scalar (grep { $_[0] eq $_ } privacy_aware_hosts) > 0 }
-
 sub bbcode {
-	my ( $self, $without_privacy ) = @_;
-	my $priv = $without_privacy
-		? 0
-		: $self->privacy;
+	my ( $self ) = @_;
 	my %base = (
 		GitHub => 'https://github.com/%s',
 		Twitter => 'https://twitter.com/%s',
@@ -48,9 +31,6 @@ sub bbcode {
 	for my $site (keys %base) {
 		my $url_base = $base{$site};
 		my $key = lc($site);
-		# my $target = $priv
-		# 	? '<a class="p-link" href="'.$url.'"><i class="p-link__icn icon-external-link"></i><span class="p-link__txt">%s</span><span class="p-link__url">%s</span></a>'
-		# 	: '<a href="'.$url.'">%s</a>';
 		$tags{$key} = {
 			class => 'block',
 			short => 1,
@@ -59,9 +39,7 @@ sub bbcode {
 				my $uri_component = uri_escape $_[1];
                                 my $attr = Parse::BBCode::escape_html($_[1]);
 				my $url = sprintf($url_base,$uri_component);
-				$priv
-					? '<a class="p-link p-link--'.$key.'" href="'.$url.'"><i class="p-link__icn icon-external-link"></i><span class="p-link__txt">'.$site.'</span> <span class="p-link__url">'.$attr.'</span></a>'
-					: '<a href="'.$url.'">'.$attr.' @ '.$site.'</a>';
+				return '<a href="'.$url.'">'.$attr.' @ '.$site.'</a>';
 			},
 		};
 	}
@@ -75,18 +53,13 @@ sub bbcode {
 			my $uri = URI->new($attr);
 			if ($uri->can('host')) {
 				my $url = $uri->as_string;
-				my $privacy_aware = is_privacy_aware($uri->host);
+				my $proxy_url = $self->ddgc->config->image_proxy_url .
+				                uri_escape($url) . '&f=1';
 				my $has_desc = $content ne $attr ? 1 : 0;
 				my $desc = $content;
-				$priv && !$privacy_aware
-					? '<a class="p-link  p-link--img" rel="nofollow" href="'.$url.'">'.
-							'<i class="p-link__icn icon-camera"></i>'.
-							'<span class="p-link__'.( $has_desc ? 'url' : 'txt' ).'">'.$url.'</span>'.
-							( $has_desc ? '<span class="p-link__img">'.$desc.'</span>' : '' ).
-						'</a>'
-					: '<a rel="nofollow" href="'.$url.'">'.
-							'<img src="'.$url.'" alt="['.$desc.']" title="'.$desc.'">'.
-						'</a>'
+				'<a rel="nofollow" href="'.$proxy_url.'">'.
+					'<img src="'.$proxy_url.'" alt="['.$desc.']" title="'.$desc.'">'.
+				'</a>'
 			} else {
 				'<i class="p-link__icn icon-camera"></i>'.
 				'<span class="p-link__url">'.Parse::BBCode::escape_html($attr).'</span>'.
@@ -94,17 +67,12 @@ sub bbcode {
 			}
 		},
 	};
-	# $tags{img} = $priv
-	# 	? '<a class="p-link  p-link--img" href="%{link}A"><i class="p-link__icn icon-camera"></i><span class="p-link__url">%{link}A</span><span class="p-link__img">%{html}s</span></a>'
-	# 	: '<a href="%{link}A"><img src="%{link}A" alt="[%{html}s]" title="%{html}s"></a>';
 	$tags{url} = {
-    code => sub { $self->url_parse($priv,@_) },
-    parse => 0,
-    class => 'url',
-  },
-	my $url_finder_format = $priv
-		? '<a class="p-link" href="%s" rel="nofollow"><i class="p-link__icn icon-external-link"></i><span class="p-link__txt">%s</span></a>'
-		: '<a href="%s" rel="nofollow">%s</a>';
+		code => sub { $self->url_parse(@_) },
+		parse => 0,
+		class => 'url',
+	},
+	my $url_finder_format = '<a href="%s" rel="nofollow">%s</a>';
 	my %html_tags = Parse::BBCode::HTML->defaults;
 	Parse::BBCode->new({
 		close_open_tags => 1,
@@ -117,14 +85,14 @@ sub bbcode {
 		tags => {
 			%html_tags,
 			code => {
-				code  => sub { $self->code_parse($priv,@_) },
+				code  => sub { $self->code_parse(@_) },
 				parse => 0,
 				class => 'block',
 			},
 			quote => {
 				parse => 1,
 				class => 'block',
-				code  => sub { $self->quote_parse($priv,@_) },
+				code  => sub { $self->quote_parse(@_) },
 			},
 			%tags,
 		},
@@ -155,7 +123,7 @@ sub plain_bbcode {
 # Specific sub-parser functions
 #
 sub code_parse {
-		my ($self, $priv, $parser, $attr, $content, $attribute_fallback) = @_;
+		my ($self, $parser, $attr, $content, $attribute_fallback) = @_;
 		my $lang = "";
 
 		my $highlight_ok = 1;
@@ -179,13 +147,13 @@ sub code_parse {
 }
 
 sub quote_parse {
-		my ($self, $priv, $parser, $attr, $content, $attribute_fallback) = @_;
+		my ($self, $parser, $attr, $content, $attribute_fallback) = @_;
 		my $username = $attribute_fallback =~ m{^[^/\s?+]+$} ? Parse::BBCode::escape_html($attribute_fallback) : '';
 		"<div class='bbcode_quote_header'>Quote". ($username ? " from <a href='/$username'>$username</a>" : "") . ":<div class='bbcode_quote_body'>$$content</div></div>";
 }
 
 sub url_parse {
-	my ($self, $priv, $parser, $attr, $content, $attribute_fallback, $tag) = @_;
+	my ($self, $parser, $attr, $content, $attribute_fallback, $tag) = @_;
 	$content = Parse::BBCode::escape_html($$content) if ref $content;
 
 	my $url = $attribute_fallback;
@@ -207,16 +175,9 @@ sub url_parse {
 	my $uri = URI->new($url);
 	if ($uri->can('host')) {
 		my $url = $uri->as_string;
-		my $privacy_aware = is_privacy_aware($uri->host);
 		my $desc = $alt ? $alt : $attr;
 		my $has_desc = $desc ne $url ? 1 : 0;
-		$priv && !$privacy_aware
-			? '<a class="p-link" rel="nofollow" href="'.$url.'">'.
-					'<i class="p-link__icn icon-external-link"></i>'.
-					'<span class="p-link__'.( $has_desc ? 'url' : 'txt' ).'">'.$url.'</span>'.
-					( $has_desc ? '<span class="p-link">'.$desc.'</span>' : '' ).
-				'</a>'
-			: '<a href="'.$url.'" rel="nofollow">'.$desc.'</a>'
+		'<a href="'.$url.'" rel="nofollow">'.$desc.'</a>'
 	} else {
 		'<i class="p-link__icn icon-external-link"></i>'.
 		'<span class="p-link__url">'.$url.'</span>'.
@@ -226,7 +187,7 @@ sub url_parse {
 }
 
 sub duck_parse {
-		my ($self, $priv, $parser, $attr, $content, $attribute_fallback, $tag, $info) = @_;
+		my ($self, $parser, $attr, $content, $attribute_fallback, $tag, $info) = @_;
 		$attr =~ s/(?:^\\|([\w\s])!|!([\w\s]))/$1$2/g;
 		my $uri_q = uri_escape $attr;
 		my $html_q = Parse::BBCode::escape_html($attr);
@@ -259,15 +220,11 @@ sub html {
 }
 
 sub html_render {
-	my ( $self, $markup, $without_privacy ) = @_;
-	my $html = $self->bbcode($without_privacy)->render($markup);
+	my ( $self, $markup) = @_;
+	my $html = $self->bbcode->render($markup);
 	# Let's try to handle @mentions!
 	$html =~ s#(?:^|(?<=[\s\."']))\@([\w\.]+)#<a href='/user/$1'>\@$1</a>#g;
 	return $html;
-}
-
-sub html_without_privacy {
-	shift->html_render((join ' ', @_),1);
 }
 
 #

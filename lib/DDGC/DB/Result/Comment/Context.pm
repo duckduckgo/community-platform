@@ -22,6 +22,7 @@ __PACKAGE__->result_source_instance->view_definition(q{
       SELECT latest 
       FROM comment latest
       WHERE latest.context = c.context AND latest.context_id = c.context_id
+      AND   (latest.ghosted = 0 OR (latest.ghosted = 1 and latest.users_id = ?))
       ORDER BY
         created DESC
       LIMIT 1

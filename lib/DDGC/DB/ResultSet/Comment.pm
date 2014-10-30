@@ -5,11 +5,28 @@ use Moose;
 extends 'DDGC::DB::Base::ResultSet';
 use namespace::autoclean;
 
+sub ghostbusted {
+  my ( $self ) = @_;
+  $self->search_rs([
+    { $self->me.'ghosted' => 0 },
+    { $self->me.'ghosted' => 1,
+      $self->me.'checked', { '!=' => undef }
+    },
+    $self->schema->ddgc->current_user() ? ({
+      $self->me.'ghosted' => 1,
+      $self->me.'users_id' => $self->schema->ddgc->current_user()->id
+    }) : ()
+  ]);
+}
+
 sub grouped_by_context {
   my ( $self ) = @_;
+  my $user = $self->schema->ddgc->current_user();
+  my $user_id = ($user) ? $user->id : 0;
   my $comment_context_rs = $self->schema->resultset('Comment::Context')->search_rs({},{
 	select => [qw( latest_comment_id )],
 	alias => 'comment_context',
+	bind => [ $user_id ],
   });
 
   $self->search_rs({
@@ -19,9 +36,13 @@ sub grouped_by_context {
 		 comments_count => $self->schema->resultset('Comment')->search_rs({
 			'comments_count.context' => { -ident => $self->me.'context' },
 			'comments_count.context_id' => { -ident => $self->me.'context_id' },
-		  },{
+			-or => [
+				{ ( $user ) ? ( 'comments_count.ghosted' => 1, 'comments_count.users_id' => $user->id ) : () },
+				{ 'comments_count.ghosted' => 0 },
+			],
+		},{
 			alias => 'comments_count',
-		  })->count_rs->as_query
+		})->count_rs->as_query
 	},
   });
 }

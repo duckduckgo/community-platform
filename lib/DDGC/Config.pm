@@ -8,6 +8,7 @@ use File::ShareDir::ProjectDistDir;
 use DDGC::Static;
 use Path::Class;
 use Catalyst::Utils;
+use FindBin;
 
 has always_use_default => (
 	is => 'ro',
@@ -49,6 +50,7 @@ sub has_conf {
 has_conf nid => DDGC_NID => 1;
 has_conf pid => DDGC_PID => $$;
 
+has_conf appdir_path => DDGC_APPDIR => "$FindBin::Bin/../";
 has_conf rootdir_path => DDGC_ROOTDIR => $ENV{HOME}.'/ddgc/';
 has_conf ddgc_static_path => DDGC_STATIC => DDGC::Static->sharedir;
 has_conf no_cache => DDGC_NOCACHE => 0;
@@ -122,6 +124,7 @@ has_conf github_client_id => DDGC_GITHUB_CLIENT_ID => undef;
 has_conf github_client_secret => DDGC_GITHUB_CLIENT_SECRET => undef;
 
 has_conf deleted_account => DDGC_DELETED_ACCOUNT => 'testone';
+has_conf automoderator_account => DDGC_AUTOMODERATOR_ACCOUNT => 'automoderator';
 
 has_conf comment_rate_limit => DDGC_COMMENT_RATE_LIMIT => 120;
 
@@ -188,6 +191,8 @@ has db_params => (
 
 has_conf dezi_uri => DDGC_DEZI_URI => 'http://127.0.0.1:5000';
 has_conf index_path => DDGC_INDEX_PATH => '.';
+
+has_conf image_proxy_url => DDGC_IMAGE_PROXY_URL => 'https://images.duckduckgo.com/iu/?u=';
 
 sub duckpandir {
 	my ( $self ) = @_;

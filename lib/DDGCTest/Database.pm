@@ -514,7 +514,6 @@ sub users {{
 	'TestTwo' => {
 		pw => 'test1234',
 		public => 1,
-		privacy => 0,
 		notes => 'Testuser, public, es',
 		languages => {
 			es => 6,
@@ -545,7 +544,6 @@ sub users {{
 	'TestThree' => {
 		pw => '1234test',
 		public => 1,
-		privacy => 0,
 		roles => 'translation_manager',
 		notes => 'Testuser, public, us, ar, de, nl_be, nl, fr_be, fr',
 		languages => {
@@ -574,7 +572,6 @@ sub users {{
 		pw => '1234test',
 		notes => 'Testuser, admin, de, es, us',
 		admin => 1,
-		privacy => 0,
 		languages => {
 			de => 3,
 			es => 3,
@@ -601,6 +598,12 @@ sub users {{
 		languages => {
 			us => 5,
 		},
+	},
+	'automoderator' => {
+		pw => '/sf7msjIixdEBjpMnTXSLt5k4CYOqCgjGnGAhKmz5srs!',
+		notes => 'Auto-moderator',
+		admin => 0,
+		ghosted => 0,
 	},
 	map {
 		'test'.$_ => {

@@ -1,5 +1,4 @@
 <h1>Welcome to the DuckDuckGo Community!</h1>
-<p class="intro-message">Your playground for all things DuckDuckGo. </p>
 
 <: include "view_disclaimer.tx" :>
 
