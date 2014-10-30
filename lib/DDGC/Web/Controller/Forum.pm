@@ -220,6 +220,11 @@ sub thread_id : Chained('thread_view') PathPart('thread') CaptureArgs(1) {
     $c->response->redirect($c->chained_uri('Forum','general',{ thread_notfound => 1 }));
     return $c->detach;
   }
+
+  if ($c->stash->{thread}->migrated_to_idea) {
+    $c->response->redirect($c->chained_uri('Ideas','idea',$c->stash->{thread}->migrated_to_idea));
+    return $c->detach;
+  }
   if ($c->stash->{thread}->ghosted &&
      ($c->stash->{thread}->checked || $c->stash->{thread}->comment->checked) &&
      (!$c->user || (!$c->user->admin && $c->stash->{thread}->users_id != $c->user->id))) {
@@ -277,6 +282,21 @@ sub thread : Chained('thread_id') PathPart('') Args(1) {
   ));
   $c->add_bc($c->stash->{title});
   $c->stash->{no_reply} = 1 if $c->stash->{thread}->readonly;
+}
+
+sub migrate_to_idea : Chained('userbase') PathPart('migrate') Args(1) {
+  my ( $self, $c, $id ) = @_;
+  my $thread = $c->d->rs('Thread')->find($id+0);
+  if ($thread && $c->user && $c->user->is('forum_manager')) {
+    $c->require_action_token;
+    my $idea = $thread->migrate_to_ideas;
+    if ($idea) {
+      $c->response->redirect($c->chained_uri(@{$idea->u}));
+      return $c->detach;
+    }
+    $c->response->redirect($c->chained_uri(@{$thread->u}));
+    return $c->detach;
+  }
 }
 
 # /forum/comment/$id

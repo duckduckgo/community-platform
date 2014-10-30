@@ -5,7 +5,11 @@
         <: if $_.readonly { :><i class="thread-icon  icon-lock" title="This thread is read-only"></i><: }:>
         <: if $_.done { :><i class="thread-icon--good  icon-ok" title="This thread is complete"></i><: }:>
         <: if $_.sticky { :><i class="thread-icon--stuck  icon-pushpin" title="Stuck Thread"></i><: } :>
-        </span>
+        <: if $c.user && $c.user.is('forum_manager') && $thread.forum == d().config.id_for_forum('general') { :>
+            <a href="<: $u('Forum', 'migrate_to_idea', $thread.id, { action_token => $action_token }) :>" onClick="return confirm ('This will migrate this Thread to Instant Answers, continue?');">
+                <i class="thread-icon--stuck  icon-lightbulb" title="This is an Instant Answer idea"></i>
+            </a>
+        <: } :>
     </div>
     <: i($_.comment,'thread') :>
 </div>

@@ -5,7 +5,6 @@ use Moose;
 use MooseX::NonMoose;
 extends 'DDGC::DB::Base::Result';
 use DBIx::Class::Candy;
-use DateTime::Format::Human::Duration;
 use namespace::autoclean;
 
 table 'thread';
@@ -93,6 +92,11 @@ column old_url => {
 	is_nullable => 1,
 };
 
+column migrated_to_idea => {
+	data_type => 'bigint',
+	is_nullable => 1,
+};
+
 has_many 'screenshot_threads', 'DDGC::DB::Result::Screenshot::Thread', 'thread_id';
 
 belongs_to 'user', 'DDGC::DB::Result::User', 'users_id';
@@ -171,6 +175,49 @@ sub user_has_access {
 	return 1 if (!$self->ddgc->config->forums->{$self->forum}->{user_filter});
 	return 1 if ($user && $self->forum_is('special'));
 	return $self->ddgc->config->forums->{$self->forum}->{user_filter}->($user);
+}
+
+sub migrate_to_ideas {
+	my ( $self ) = @_;
+	return undef if $self->migrated_to_idea;
+
+	my $data = $self->data;
+	$data->{migrated_from_thread} = $self->id;
+	$data->{is_html} = $self->comment->is_html;
+	my $idea = $self->user->create_related('ideas',{
+		title => $self->title,
+		data  => $data,
+		content => $self->comment->content,
+		created => $self->ddgc->db->format_datetime( $self->created ),
+		updated => $self->ddgc->db->format_datetime( $self->updated ),
+		ghosted => $self->ghosted,
+		checked => $self->checked,
+		old_url => $self->old_url,
+		seen_live => $self->seen_live,
+	});
+
+	return undef unless $idea;
+
+	$self->ddgc->idea->index(
+		uri => $idea->id,
+		title => $idea->title,
+		body => $idea->content,
+		id => $idea->id,
+		is_markup => 1,
+	);
+
+	while (my $comment = $self->comments->next) {
+		$comment->update({
+			context => 'DDGC::DB::Result::Idea',
+			context_id => $idea->id,
+			parent_id => ($comment->parent_id eq $self->comment->id) ? undef : $comment->parent_id,
+		});
+	}
+
+	$self->migrated_to_idea($idea->id);
+	$self->update;
+
+	return $idea;
 }
 
 no Moose;
