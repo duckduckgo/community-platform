@@ -46,13 +46,15 @@
                             }
                             $(this).text("");
                             $(this).addClass("hide");
-                            $("#comma").addClass("hide");
                             $("#add_example").removeClass("hide");
                         }
                     });
 
                     $("body").on('click', '.button.delete',  function(evt) {
                         $(this).parent().remove();
+                        if ($("#save").hasClass("disabled")) {
+                            $("#save").removeClass("disabled");
+                        }
                     });
 
                     $("#save").on('click', function(evt) {
