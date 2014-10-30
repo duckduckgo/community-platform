@@ -24,6 +24,9 @@ sub base :Chained('/') :PathPart('') :CaptureArgs(0) {
 	}
 
 	$c->d->current_user($c->user) if $c->user;
+	if ($c->user) {
+		$c->response->header('Cache-Control' => 'no-cache, max-age=0, must-revalidate, no-store');
+	}
 
 	if ($c->user && $c->user->data && $c->user->data->{invalidate_existing_sessions} && $c->session->{action_token} ne $c->user->data->{password_reset_session_token}) {
 		$c->stash->{not_last_url} = 1;
