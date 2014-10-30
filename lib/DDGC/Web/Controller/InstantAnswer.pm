@@ -166,7 +166,6 @@ sub edit_base :Chained('base') :PathPart('edit') :CaptureArgs(1) {
        my ( $self, $c, $answer_id ) = @_;
 
     $c->stash->{ia_page} = "IAPageEdit";
-    $c->stash->{ia_version} = $ia_version;
     $c->stash->{ia} = $c->d->rs('InstantAnswer')->find($answer_id);
 
     unless ($c->stash->{ia}) {
@@ -174,7 +173,6 @@ sub edit_base :Chained('base') :PathPart('edit') :CaptureArgs(1) {
         return $c->detach;
     }
 
-    use DDP;
 }
 
 sub edit :Chained('edit_base') :PathPart('') :Args(0) {
