@@ -59,6 +59,10 @@
 
                     $("#save").on('click', function(evt) {
                        if (!$(this).hasClass("disabled")) {
+                            if (!$("#error").hasClass("hide")) {
+                                $("#error").addClass("hide");
+                            }
+
                             var topics = [];
                             $(".ia_topic a.editable").each(function(index) {
                                 topics.push($(this).text());
@@ -89,6 +93,10 @@
                             .done(function(data) {
                                 if (data.result) {
                                     window.location = "/ia/view/" + DDH_iaid;
+                                } else {
+                                    if ($("#error").hasClass("hide")) {
+                                        $("#error").removeClass("hide");
+                                    }
                                 }
                             });
                         }

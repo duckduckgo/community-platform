@@ -76,6 +76,10 @@
 .ia-single .button#cancel {
     margin-left: 1em;
 }
+.ia-single #error {
+    margin-bottom: 1em;
+    color: #DD4C26;
+}
 #ia_index td {
     padding-left:4px;
 }
