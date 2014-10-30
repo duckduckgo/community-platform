@@ -183,8 +183,16 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
     my ( $self, $c ) = @_;
 
     my $ia = $c->d->rs('InstantAnswer')->find($c->req->params->{id});
-    my $permissions = $ia->users->find($c->user->id);
+    my $permissions;
     my $result = '';
+
+    try {
+       $permissions = $ia->users->find($c->user->id);
+    }
+    catch {
+        $c->d->errorlog("Error: user is not logged in");
+    };
+
 
     if ($permissions) {
         try {
