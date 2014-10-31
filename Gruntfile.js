@@ -7,6 +7,7 @@ module.exports = function(grunt) {
     // tasks that run after diff
     // to release a new version
     var release_tasks = [
+        'build',
         'version:release',
         'removelogging',
         'uglify:js',
@@ -180,10 +181,7 @@ module.exports = function(grunt) {
 
         // check diff on ia.js.  Diff runs rest
         // of release process if the file has changed
-        grunt.registerTask('release', [
-            'build',
-            'diff'
-        ]);
+        grunt.registerTask('release', release_tasks);
 
         // compile handlebars and concat js files
         // to ia.js
