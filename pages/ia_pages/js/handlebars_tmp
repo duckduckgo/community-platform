@@ -1,0 +1,312 @@
+this["Handlebars"] = this["Handlebars"] || {};
+this["Handlebars"]["templates"] = this["Handlebars"]["templates"] || {};
+
+this["Handlebars"]["templates"]["editpage"] = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
+  this.compilerInfo = [4,'>= 1.0.0'];
+helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
+  var buffer = "", stack1, helper, functionType="function", escapeExpression=this.escapeExpression, self=this;
+
+function program1(depth0,data) {
+  
+  var buffer = "";
+  buffer += "\n        <div class=\"button ia_topic\">\n            <a href=\"#\" title=\"will be a link to all IAs in this topic\" class=\"editable\">\n                "
+    + escapeExpression((typeof depth0 === functionType ? depth0.apply(depth0) : depth0))
+    + "\n            </a>\n        </div> \n    ";
+  return buffer;
+  }
+
+function program3(depth0,data) {
+  
+  var buffer = "", stack1;
+  buffer += "\n            ";
+  stack1 = helpers.each.call(depth0, (depth0 && depth0.other_queries), {hash:{},inverse:self.noop,fn:self.program(4, program4, data),data:data});
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "\n        ";
+  return buffer;
+  }
+function program4(depth0,data) {
+  
+  var buffer = "";
+  buffer += "\n                <li class=\"editpage\">\n                    <div class=\"button delete listbutton\" title=\"Remove this example\"><span>-</span></div>\n                    <a href=\"https://duckduckgo.com/?q="
+    + escapeExpression((typeof depth0 === functionType ? depth0.apply(depth0) : depth0))
+    + "\" title=\"try this example on DuckDuckGo\" class=\"editable other-examples\">"
+    + escapeExpression((typeof depth0 === functionType ? depth0.apply(depth0) : depth0))
+    + "</a>\n                </li>\n            ";
+  return buffer;
+  }
+
+function program6(depth0,data) {
+  
+  var buffer = "", stack1;
+  buffer += "     \n            <tr>\n                <td><strong>Code:</strong></td>\n                <td>\n                    ";
+  stack1 = helpers.each.call(depth0, (depth0 && depth0.code), {hash:{},inverse:self.noop,fn:self.program(7, program7, data),data:data});
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "\n                </td>\n            </tr>\n    ";
+  return buffer;
+  }
+function program7(depth0,data) {
+  
+  var buffer = "";
+  buffer += "\n                        <li class=\"code editable\">"
+    + escapeExpression((typeof depth0 === functionType ? depth0.apply(depth0) : depth0))
+    + "</li>\n                    ";
+  return buffer;
+  }
+
+function program9(depth0,data) {
+  
+  var buffer = "", stack1;
+  buffer += "\n                     <li><a href=\""
+    + escapeExpression(((stack1 = ((stack1 = (depth0 && depth0[0])),stack1 == null || stack1 === false ? stack1 : stack1.loc)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
+    + "\">"
+    + escapeExpression(((stack1 = ((stack1 = (depth0 && depth0[0])),stack1 == null || stack1 === false ? stack1 : stack1.type)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
+    + "</a></li>\n                ";
+  return buffer;
+  }
+
+  buffer += "<h2 class=\"left editable\" id=\"name\">";
+  if (helper = helpers.name) { stack1 = helper.call(depth0, {hash:{},data:data}); }
+  else { helper = (depth0 && depth0.name); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
+  buffer += escapeExpression(stack1)
+    + "</h2>\n<div class=\"right tag editable status ";
+  if (helper = helpers.status) { stack1 = helper.call(depth0, {hash:{},data:data}); }
+  else { helper = (depth0 && depth0.status); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
+  buffer += escapeExpression(stack1)
+    + "\">";
+  if (helper = helpers.status) { stack1 = helper.call(depth0, {hash:{},data:data}); }
+  else { helper = (depth0 && depth0.status); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
+  buffer += escapeExpression(stack1)
+    + "</div>\n<p id=\"desc\" class=\"editable clearfix\">";
+  if (helper = helpers.description) { stack1 = helper.call(depth0, {hash:{},data:data}); }
+  else { helper = (depth0 && depth0.description); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
+  buffer += escapeExpression(stack1)
+    + "</p>\n<p id=\"team\">Team: <span class=\"editable\">...</span></p>\n\n<p>\n    ";
+  stack1 = helpers.each.call(depth0, (depth0 && depth0.topic), {hash:{},inverse:self.noop,fn:self.program(1, program1, data),data:data});
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "\n</p>\n\n<div class=\"screens\">\n    <img class=\"desktop\" style=\"border:1px solid black\" src=\"https://images.duckduckgo.com/iu/?u=https://ia-screenshots.s3.amazonaws.com/";
+  if (helper = helpers.id) { stack1 = helper.call(depth0, {hash:{},data:data}); }
+  else { helper = (depth0 && depth0.id); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
+  buffer += escapeExpression(stack1)
+    + "_desktop.png\">\n    <img class=\"mobile\" style=\"border:1px solid black\" src=\"https://images.duckduckgo.com/iu/?u=https://ia-screenshots.s3.amazonaws.com/";
+  if (helper = helpers.id) { stack1 = helper.call(depth0, {hash:{},data:data}); }
+  else { helper = (depth0 && depth0.id); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
+  buffer += escapeExpression(stack1)
+    + "_mobile.png\">\n</div>\n\n<div id=\"examples\"><strong>Examples:</strong>\n    <ul>\n        <li class=\"editpage\">\n            <div class=\"button delete listbutton\" title=\"Remove this example\"><span>-</span></div>\n            <a href=\"https://duckduckgo.com/?q=";
+  if (helper = helpers.example_query) { stack1 = helper.call(depth0, {hash:{},data:data}); }
+  else { helper = (depth0 && depth0.example_query); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
+  buffer += escapeExpression(stack1)
+    + "\" title=\"try this example on DuckDuckGo\" class=\"editable\" id=\"primary\">";
+  if (helper = helpers.example_query) { stack1 = helper.call(depth0, {hash:{},data:data}); }
+  else { helper = (depth0 && depth0.example_query); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
+  buffer += escapeExpression(stack1)
+    + "</a>\n        </li>\n        ";
+  stack1 = helpers['if'].call(depth0, (depth0 && depth0.other_queries), {hash:{},inverse:self.noop,fn:self.program(3, program3, data),data:data});
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "\n        <li class=\"editpage\"><div class=\"editable other-examples hide\" id=\"input_example\"></div></li>\n        <li class=\"editpage\"><div class=\"button listbutton\" id=\"add_example\" title=\"Add example\"><span>+</span></div></li>\n    </ul>\n</div>\n\n<p class=\"clearfix\" id=\"related\"><strong>Related Instant Answers:</strong> <span class=\"editable\">...</span></p>\n\n<div class=\"button dev-info\">Developer Info</div>\n<div class=\"dev-info-details hide\">\n    <table class=\"iadata\">\n        <tr>\n            <td id=\"id\"><strong>Id:</strong></td>\n            <td>";
+  if (helper = helpers.id) { stack1 = helper.call(depth0, {hash:{},data:data}); }
+  else { helper = (depth0 && depth0.id); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
+  buffer += escapeExpression(stack1)
+    + "</td>\n        </tr>\n        <tr>\n            <td id=\"templates\"><strong>Templates:</strong></td>\n            <td>\n                list of templates here, if any, or\n                default for ";
+  if (helper = helpers.repo) { stack1 = helper.call(depth0, {hash:{},data:data}); }
+  else { helper = (depth0 && depth0.repo); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
+  buffer += escapeExpression(stack1)
+    + "\n            </td>\n        </tr>\n   ";
+  stack1 = helpers['if'].call(depth0, (depth0 && depth0.code), {hash:{},inverse:self.noop,fn:self.program(6, program6, data),data:data});
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "\n        <tr>\n	        <td id=\"credits\"><strong>Credits:</strong></td>\n			<td>\n                ";
+  stack1 = helpers.each.call(depth0, (depth0 && depth0.attribution), {hash:{},inverse:self.noop,fn:self.program(9, program9, data),data:data});
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "\n			</td>\n	    </tr>\n    </table>\n</div>\n\n<hr>\n\n<p class=\"left\"><strong>Issues</strong></p>\n\n<div class=\"right button new-issue\">\n    <a href=\"https://github.com/duckduckgo/zeroclickinfo-";
+  if (helper = helpers.repo) { stack1 = helper.call(depth0, {hash:{},data:data}); }
+  else { helper = (depth0 && depth0.repo); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
+  buffer += escapeExpression(stack1)
+    + "/issues/new?&title=issue+title&body=http%3A%2F%2Fduck.co%2Fia%2Fview%2F";
+  if (helper = helpers.id) { stack1 = helper.call(depth0, {hash:{},data:data}); }
+  else { helper = (depth0 && depth0.id); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
+  buffer += escapeExpression(stack1)
+    + "\">\n        + Add an Issue\n	</a>\n</div>\n<span class=\"clearfix\"></span>\n<div class=\"hide\" id=\"error\"><strong>Error: unable to save the data.</strong></div>\n\n<div class=\"button left disabled\" id=\"save\">Save</div>\n<div class=\"button left\" id=\"cancel\">Cancel</div>\n<span class=\"clearfix\"></span>\n";
+  return buffer;
+  });
+
+this["Handlebars"]["templates"]["index"] = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
+  this.compilerInfo = [4,'>= 1.0.0'];
+helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
+  var buffer = "", stack1, functionType="function", escapeExpression=this.escapeExpression, self=this;
+
+function program1(depth0,data) {
+  
+  var buffer = "", stack1, helper;
+  buffer += "\n<tr>\n\n    <td style=\"width:2em; text-align:right; padding-right:1em;\">\n        "
+    + escapeExpression(((stack1 = (data == null || data === false ? data : data.index)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
+    + "\n    </td>\n\n    <td>\n        <a href=\"/ia/view/";
+  if (helper = helpers.id) { stack1 = helper.call(depth0, {hash:{},data:data}); }
+  else { helper = (depth0 && depth0.id); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
+  buffer += escapeExpression(stack1)
+    + "\">";
+  if (helper = helpers.name) { stack1 = helper.call(depth0, {hash:{},data:data}); }
+  else { helper = (depth0 && depth0.name); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
+  buffer += escapeExpression(stack1)
+    + "</a>\n    </td>\n\n    <td>\n        ";
+  if (helper = helpers.description) { stack1 = helper.call(depth0, {hash:{},data:data}); }
+  else { helper = (depth0 && depth0.description); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
+  buffer += escapeExpression(stack1)
+    + "\n    </td>\n    <td class=\"ia_src_column\">\n        ";
+  if (helper = helpers.src_name) { stack1 = helper.call(depth0, {hash:{},data:data}); }
+  else { helper = (depth0 && depth0.src_name); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
+  buffer += escapeExpression(stack1)
+    + "\n    </td>\n\n    <td style=\"padding-right: 1em\">\n        ";
+  if (helper = helpers.dev_milestone) { stack1 = helper.call(depth0, {hash:{},data:data}); }
+  else { helper = (depth0 && depth0.dev_milestone); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
+  buffer += escapeExpression(stack1)
+    + "\n    </td>\n\n    <td>\n        ";
+  stack1 = helpers.each.call(depth0, (depth0 && depth0.topic), {hash:{},inverse:self.noop,fn:self.program(2, program2, data),data:data});
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "\n    </td>\n\n\n    <td style=\"padding-right: 1em\">\n        ";
+  if (helper = helpers.repo) { stack1 = helper.call(depth0, {hash:{},data:data}); }
+  else { helper = (depth0 && depth0.repo); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
+  buffer += escapeExpression(stack1)
+    + "\n    </td>\n\n</tr>\n";
+  return buffer;
+  }
+function program2(depth0,data) {
+  
+  var buffer = "";
+  buffer += " <span class=\"ia_topic\">"
+    + escapeExpression((typeof depth0 === functionType ? depth0.apply(depth0) : depth0))
+    + "</span> ";
+  return buffer;
+  }
+
+  buffer += "<table>\n\n<thead style=\"border-bottom: 1px solid #CCC\">\n<tr>\n<td> </td>\n<td>\n    <a id=\"sort_name\">name</a>\n</td>\n\n<td>\n    <a id=\"sort_descr\">description</a>\n</td>\n<td>\n    <a id=\"sort_src\">source</a>\n</td>\n<td>\n    <a id=\"sort_status\">status</a>\n</td>\n<td>\n    topics\n</td>\n\n<td>\n    <a id=\"sort_repo\">repo</a>\n</td>\n</tr>\n</thead>\n\n<tbody>\n\n\n\n";
+  stack1 = helpers.each.call(depth0, (depth0 && depth0.ia), {hash:{},inverse:self.noop,fn:self.program(1, program1, data),data:data});
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "\n\n</tbody>\n\n</table>\n";
+  return buffer;
+  });
+
+this["Handlebars"]["templates"]["page"] = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
+  this.compilerInfo = [4,'>= 1.0.0'];
+helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
+  var buffer = "", stack1, helper, functionType="function", escapeExpression=this.escapeExpression, self=this;
+
+function program1(depth0,data) {
+  
+  var buffer = "";
+  buffer += "\n        <div class=\"button ia_topic\">\n            <a href=\"#\" title=\"will be a link to all IAs in this topic\">\n                "
+    + escapeExpression((typeof depth0 === functionType ? depth0.apply(depth0) : depth0))
+    + "\n            </a>\n        </div> \n    ";
+  return buffer;
+  }
+
+function program3(depth0,data) {
+  
+  var buffer = "", stack1;
+  buffer += "\n            ";
+  stack1 = helpers.each.call(depth0, (depth0 && depth0.other_queries), {hash:{},inverse:self.noop,fn:self.program(4, program4, data),data:data});
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "\n        ";
+  return buffer;
+  }
+function program4(depth0,data) {
+  
+  var buffer = "";
+  buffer += "\n                <li>\n                    <a href=\"https://duckduckgo.com/?q="
+    + escapeExpression((typeof depth0 === functionType ? depth0.apply(depth0) : depth0))
+    + "\" title=\"try this example on DuckDuckGo\">"
+    + escapeExpression((typeof depth0 === functionType ? depth0.apply(depth0) : depth0))
+    + "</a>\n                </li>\n            ";
+  return buffer;
+  }
+
+function program6(depth0,data) {
+  
+  var buffer = "", stack1;
+  buffer += "\n            <tr>\n                <td><strong>Code:</strong></td>\n                <td>\n                    ";
+  stack1 = helpers.each.call(depth0, (depth0 && depth0.code), {hash:{},inverse:self.noop,fn:self.program(7, program7, data),data:data});
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "\n                </td>\n            </tr>\n        ";
+  return buffer;
+  }
+function program7(depth0,data) {
+  
+  var buffer = "";
+  buffer += "\n                        <li>"
+    + escapeExpression((typeof depth0 === functionType ? depth0.apply(depth0) : depth0))
+    + "</li>\n                    ";
+  return buffer;
+  }
+
+function program9(depth0,data) {
+  
+  var buffer = "", stack1;
+  buffer += "\n                     <li><a href=\""
+    + escapeExpression(((stack1 = ((stack1 = (depth0 && depth0[0])),stack1 == null || stack1 === false ? stack1 : stack1.loc)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
+    + "\">"
+    + escapeExpression(((stack1 = ((stack1 = (depth0 && depth0[0])),stack1 == null || stack1 === false ? stack1 : stack1.type)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
+    + "</a></li>\n                ";
+  return buffer;
+  }
+
+  buffer += "<h2 class=\"left\">";
+  if (helper = helpers.name) { stack1 = helper.call(depth0, {hash:{},data:data}); }
+  else { helper = (depth0 && depth0.name); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
+  buffer += escapeExpression(stack1)
+    + "</h2>\n<div class=\"right tag status ";
+  if (helper = helpers.status) { stack1 = helper.call(depth0, {hash:{},data:data}); }
+  else { helper = (depth0 && depth0.status); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
+  buffer += escapeExpression(stack1)
+    + "\">";
+  if (helper = helpers.status) { stack1 = helper.call(depth0, {hash:{},data:data}); }
+  else { helper = (depth0 && depth0.status); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
+  buffer += escapeExpression(stack1)
+    + "</div>\n<p class=\"clearfix\">";
+  if (helper = helpers.description) { stack1 = helper.call(depth0, {hash:{},data:data}); }
+  else { helper = (depth0 && depth0.description); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
+  buffer += escapeExpression(stack1)
+    + "</p>\n<p>Team: ...</p>\n\n<p>\n    ";
+  stack1 = helpers.each.call(depth0, (depth0 && depth0.topic), {hash:{},inverse:self.noop,fn:self.program(1, program1, data),data:data});
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "\n</p>\n\n<div class=\"screens\">\n    <img class=\"desktop\" style=\"border:1px solid black\" src=\"https://images.duckduckgo.com/iu/?u=https://ia-screenshots.s3.amazonaws.com/";
+  if (helper = helpers.id) { stack1 = helper.call(depth0, {hash:{},data:data}); }
+  else { helper = (depth0 && depth0.id); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
+  buffer += escapeExpression(stack1)
+    + "_desktop.png\">\n    <img class=\"mobile\" style=\"border:1px solid black\" src=\"https://images.duckduckgo.com/iu/?u=https://ia-screenshots.s3.amazonaws.com/";
+  if (helper = helpers.id) { stack1 = helper.call(depth0, {hash:{},data:data}); }
+  else { helper = (depth0 && depth0.id); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
+  buffer += escapeExpression(stack1)
+    + "_mobile.png\">\n</div>\n\n<div><strong>Examples:</strong>\n    <ul> \n        <li>\n            <a href=\"https://duckduckgo.com/?q=";
+  if (helper = helpers.example_query) { stack1 = helper.call(depth0, {hash:{},data:data}); }
+  else { helper = (depth0 && depth0.example_query); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
+  buffer += escapeExpression(stack1)
+    + "\" title=\"try this example on DuckDuckGo\">";
+  if (helper = helpers.example_query) { stack1 = helper.call(depth0, {hash:{},data:data}); }
+  else { helper = (depth0 && depth0.example_query); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
+  buffer += escapeExpression(stack1)
+    + "</a>\n        </li>\n        ";
+  stack1 = helpers['if'].call(depth0, (depth0 && depth0.other_queries), {hash:{},inverse:self.noop,fn:self.program(3, program3, data),data:data});
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "\n    </ul>\n</div>\n\n<p><strong>Related Instant Answers:</strong> ...</p>\n\n<div class=\"button dev-info\">Developer Info</div>\n<div class=\"dev-info-details hide\">\n    <table class=\"iadata\">\n        <tr>\n            <td><strong>Id:</strong></td>\n            <td>";
+  if (helper = helpers.id) { stack1 = helper.call(depth0, {hash:{},data:data}); }
+  else { helper = (depth0 && depth0.id); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
+  buffer += escapeExpression(stack1)
+    + "</td>\n        </tr>\n        <tr>\n            <td><strong>Templates:</strong></td>\n            <td>\n                list of templates here, if any, or\n                default for ";
+  if (helper = helpers.repo) { stack1 = helper.call(depth0, {hash:{},data:data}); }
+  else { helper = (depth0 && depth0.repo); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
+  buffer += escapeExpression(stack1)
+    + "\n            </td>\n        </tr>\n        ";
+  stack1 = helpers['if'].call(depth0, (depth0 && depth0.code), {hash:{},inverse:self.noop,fn:self.program(6, program6, data),data:data});
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "\n        <tr>\n	        <td><strong>Credits:</strong></td>\n			<td>\n                ";
+  stack1 = helpers.each.call(depth0, (depth0 && depth0.attribution), {hash:{},inverse:self.noop,fn:self.program(9, program9, data),data:data});
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "\n			</td>\n	    </tr>\n    </table>\n</div>\n\n<hr>\n\n<p class=\"left\"><strong>Issues</strong></p>\n\n<div class=\"right button new-issue\">\n    <a href=\"https://github.com/duckduckgo/zeroclickinfo-";
+  if (helper = helpers.repo) { stack1 = helper.call(depth0, {hash:{},data:data}); }
+  else { helper = (depth0 && depth0.repo); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
+  buffer += escapeExpression(stack1)
+    + "/issues/new?&title=issue+title&body=http%3A%2F%2Fduck.co%2Fia%2Fview%2F";
+  if (helper = helpers.id) { stack1 = helper.call(depth0, {hash:{},data:data}); }
+  else { helper = (depth0 && depth0.id); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
+  buffer += escapeExpression(stack1)
+    + "\">\n        + Add an Issue\n	</a>\n</div>\n<span class=\"clearfix\"></span>\n\n";
+  return buffer;
+  });
