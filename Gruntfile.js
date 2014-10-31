@@ -115,7 +115,8 @@ module.exports = function(grunt) {
          */
         diff: {
             ia_js: {
-                src: [ root_dir + 'ia.js'],
+                src: [ ],
+               // src: [ root_dir + 'ia.js'],
                 tasks: release_tasks
             }
         },
@@ -182,8 +183,6 @@ module.exports = function(grunt) {
         grunt.registerTask('release', [
             'build',
             'diff'
-            
-            
         ]);
 
         // compile handlebars and concat js files
