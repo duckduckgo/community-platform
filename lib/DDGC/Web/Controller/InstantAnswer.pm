@@ -4,11 +4,8 @@ use Data::Dumper;
 use Moose;
 use namespace::autoclean;
 use Try::Tiny;
-use DDGC::Util::File qw( ia_page_version );
 
 my $INST = DDGC::Config->new->appdir_path."/root/static/js";
-
-my $ia_version = ia_page_version();
 
 BEGIN {extends 'Catalyst::Controller'; }
 
@@ -23,7 +20,7 @@ sub index :Chained('base') :PathPart('') :Args(0) {
     # my @x = $c->d->rs('InstantAnswer')->all();
     # $c->stash->{ialist} = \@x;
     $c->stash->{ia_page} = "IAIndex";
-    $c->stash->{ia_version} = $ia_version;
+    $c->stash->{ia_version} = $c->d->ia_page_version;
 
     # @{$c->stash->{ialist}} = $c->d->rs('InstantAnswer')->all();
 }
@@ -99,7 +96,7 @@ sub ia_base :Chained('base') :PathPart('view') :CaptureArgs(1) {  # /ia/view/cal
     my ( $self, $c, $answer_id ) = @_;
 
     $c->stash->{ia_page} = "IAPage";
-    $c->stash->{ia_version} = $ia_version;
+    $c->stash->{ia_version} = $c->d->ia_page_version;
     $c->stash->{ia} = $c->d->rs('InstantAnswer')->find($answer_id);
     @{$c->stash->{issues}} = $c->d->rs('InstantAnswer::Issues')->search({instant_answer_id => $answer_id});
 
@@ -126,7 +123,7 @@ sub ia_base :Chained('base') :PathPart('view') :CaptureArgs(1) {  # /ia/view/cal
     }
 
     use DDP;
-    $c->stash->{ia_version} = $ia_version;
+    $c->stash->{ia_version} = $c->d->ia_page_version;
     $c->stash->{ia_pretty} = p $c->stash->{ia};
 }
 
@@ -166,7 +163,7 @@ sub edit_base :Chained('base') :PathPart('edit') :CaptureArgs(1) {
        my ( $self, $c, $answer_id ) = @_;
 
     $c->stash->{ia_page} = "IAPageEdit";
-    $c->stash->{ia_version} = $ia_version;
+    $c->stash->{ia_version} = $c->d->ia_page_version;
     $c->stash->{ia} = $c->d->rs('InstantAnswer')->find($answer_id);
 
     unless ($c->stash->{ia}) {
