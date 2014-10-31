@@ -5,7 +5,6 @@ use Moose;
 use MooseX::NonMoose;
 extends 'DDGC::DB::Base::Result';
 use DBIx::Class::Candy;
-use DateTime::Format::Human::Duration;
 use namespace::autoclean;
 
 table 'idea';
@@ -38,7 +37,7 @@ column content => {
 	data_type => 'text',
 	is_nullable => 0,
 };
-sub html { $_[0]->ddgc->markup->html($_[0]->content) }
+sub html { $_[0]->data->{is_html} ? $_[0]->content :  $_[0]->ddgc->markup->html($_[0]->content) }
 
 column source => {
 	data_type => 'text',
@@ -127,6 +126,11 @@ column old_url => {
 	is_nullable => 1,
 };
 
+column migrated_to_thread => {
+	data_type => 'bigint',
+	is_nullable => 1,
+};
+
 __PACKAGE__->add_antispam_functionality;
 
 belongs_to 'user', 'DDGC::DB::Result::User', 'users_id';
@@ -200,6 +204,47 @@ sub get_url {
 	$key =~ s/-$//;
 	$key =~ s/^-//;
 	return $key || 'url';
+}
+
+sub migrate_to_ramblings {
+	my ( $self ) = @_;
+	return undef if $self->migrated_to_thread;
+
+	my $comment = $self->content . ( ($self->source) ?
+		  "\n\nSource:\n\n" . $self->source
+		: ""
+	);
+
+	my $data = $self->data;
+	$data->{migrated_from_idea} = $self->id;
+	my $thread = $self->ddgc->forum->add_thread(
+		$self->user,
+		$comment,
+		forum => $self->ddgc->config->id_for_forum('general'),
+		title => $self->title,
+		data  => $data,
+		created => $self->ddgc->db->format_datetime( $self->created ),
+		updated => $self->ddgc->db->format_datetime( $self->updated ),
+		ghosted => $self->ghosted,
+		checked => $self->checked,
+		old_url => $self->old_url,
+		seen_live => $self->seen_live,
+	);
+	
+	return undef unless $thread;
+
+	while (my $comment = $self->comments->next) {
+		$comment->update({
+			context => 'DDGC::DB::Result::Thread',
+			context_id => $thread->id,
+			parent_id => $comment->parent_id || $thread->comment->id,
+		});
+	}
+
+	$self->migrated_to_thread($thread->id);
+	$self->update;
+
+	return $thread;
 }
 
 no Moose;

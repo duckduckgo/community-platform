@@ -3,9 +3,10 @@
 
 <div class="row comment tier<: $tier_level :> <: if ($tier_level > 2) { :> comment--deep <: } :> max">
 
-	<: if !$no_userpic { :>
+	<: if !$no_userpic  { :>
+		<: my $user = (!$_.ghosted || ($c.user && $_.users_id == $c.user.id)) ? $_.user : nil :>
 		<div class="user-avatar icon-user">
-			<: i($_.user,'userpic', { userpic_size => $userpic_size }) :>
+			<: i($user,'userpic', { userpic_size => $userpic_size }) :>
 		</div>
 	<: } :>
 

@@ -18,6 +18,7 @@ sub base :Chained('/base') :PathPart('my') :CaptureArgs(0) {
 sub logout :Chained('base') :Args(0) {
 	my ( $self, $c ) = @_;
 	$c->stash->{not_last_url} = 1;
+	$c->require_action_token;
 	$c->logout;
 	$c->delete_session;
 	$c->response->redirect($c->chained_uri('Root','index'));
@@ -413,6 +414,16 @@ sub changepw :Chained('logged_in') :Args(0) {
 	$c->user->update;
 
 	$c->stash->{changeok} = 1;
+}
+
+sub flair :Chained('logged_in') :Args(0) {
+	my ( $self, $c ) = @_;
+	$c->require_action_token;
+
+	$c->user->toggle_hide_flair;
+
+	$c->response->redirect($c->chained_uri('My','account'));
+	return $c->detach;
 }
 
 sub forgotpw :Chained('logged_out') :Args(0) {

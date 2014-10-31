@@ -854,6 +854,18 @@ sub for_session {
 	return shift->username;
 }
 
+sub hide_flair {
+	my ( $self ) = @_;
+	$self->data->{hide_flair};
+}
+sub toggle_hide_flair {
+	my ( $self ) = @_;
+	my $data = $self->data;
+	$data->{hide_flair} = (!$data->{hide_flair});
+	$self->data($data);
+	$self->update;
+}
+
 sub get_object {
 	return shift;
 }

@@ -10,9 +10,8 @@
 			</a>
 		<: } :>
 	</div>
-	<span class="user-name"><: $c.user.username :></span>
+	<span class="user-name"><a href="<: $u('My','account') :>" class="first"><: $c.user.username :></a></span>
 	<span class="account-links">
-		<a href="<: $u('My','account') :>" class="first">My Account</a>
-		<a href="<: $u('My','logout') :>">Logout</a>
+		<a class="first" href="<: $u('My','logout', { action_token => $action_token }) :>">Logout</a>
 	</span>
 </div>

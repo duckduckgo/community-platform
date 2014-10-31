@@ -34,9 +34,10 @@ sub comments_grouped_in { shift->comments_grouped->search_rs({
 sub context_threads {qw(
 	DDGC::DB::Result::Thread
 )}
-sub comments_grouped_threads { $_[0]->comments_grouped_in(
+sub comments_grouped_threads {
+	$_[0]->comments_grouped_in(
 		$_[0]->context_threads
-	)->search({}, { prefetch => { thread => 'user' } });
+	)->search({ 'thread.migrated_to_idea' => undef }, { prefetch => { thread => 'user' } })
 }
 sub comments_grouped_general_threads{
 		$_[0]->comments_grouped_threads->search_rs({ 'thread.forum' => 1 });
@@ -187,6 +188,8 @@ sub add_thread {
 					screenshot_id => $_
 				});
 			}
+			$comment_params{created} = $self->ddgc->db->format_datetime( $thread->created ),
+			$comment_params{updated} = $self->ddgc->db->format_datetime( $thread->created ),
 			my $thread_comment = $self->ddgc->add_comment(
 				'DDGC::DB::Result::Thread',
 				$thread->id,

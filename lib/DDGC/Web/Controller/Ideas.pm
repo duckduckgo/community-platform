@@ -14,7 +14,9 @@ sub base :Chained('/base') :PathPart('ideas') :CaptureArgs(0) {
 	$c->stash->{page_class} = "page-ideas texture";
 	$c->stash->{idea_types} = [map { [ $_, $idea_types->{$_} ] } sort { $a <=> $b } keys %{$idea_types}];
 	$c->stash->{idea_statuses} = [map { [ $_, $idea_statuses->{$_} ] } sort { $a <=> $b } keys %{$idea_statuses}];
-	$c->stash->{ideas_rs} = $c->d->rs('Idea')->search_rs({},{
+	$c->stash->{ideas_rs} = $c->d->rs('Idea')->search_rs({
+			migrated_to_thread => undef,
+		},{
 		prefetch => [qw( user ),{
 			idea_votes => [qw( user )],
 		}]
@@ -23,7 +25,9 @@ sub base :Chained('/base') :PathPart('ideas') :CaptureArgs(0) {
 
 sub add_latest_ideas {
 	my ( $self, $c ) = @_;
-	$c->stash->{latest_ideas} = $c->d->rs('Idea')->ghostbusted->search_rs({},{
+	$c->stash->{latest_ideas} = $c->d->rs('Idea')->ghostbusted->search_rs({
+			migrated_to_thread => undef,
+		},{
 		order_by => { -desc => 'me.created' },
 		rows => 5,
 		page => 1,
@@ -126,6 +130,11 @@ sub status :Chained('base') :Args(1) {
 sub idea_id : Chained('base') PathPart('idea') CaptureArgs(1) {
 	my ( $self, $c, $id ) = @_;
 	$c->stash->{idea} = $c->d->rs('Idea')->find($id);
+
+	if ($c->stash->{idea}->migrated_to_thread) {
+		$c->response->redirect($c->chained_uri('Forum','thread',$c->stash->{idea}->migrated_to_thread));
+		return $c->detach;
+	}
 	unless ($c->stash->{idea}) {
 		$c->response->redirect($c->chained_uri('Ideas','index',{ idea_notfound => 1 }));
 		return $c->detach;
@@ -153,6 +162,14 @@ sub idea : Chained('idea_id') PathPart('') Args(1) {
 	if ($c->user && $c->user->is('idea_manager') && $c->req->params->{change_status}) {
 		$c->stash->{idea}->status($c->req->params->{status});
 		$c->stash->{idea}->update;
+		if ( lc($c->stash->{idea_statuses}->[ $c->req->params->{status} ]->[1])
+		     eq 'not an instant answer idea') {
+			my $thread = $c->stash->{idea}->migrate_to_ramblings;
+			if ($thread) {
+				$c->response->redirect($c->chained_uri('Forum','thread',$thread->id,$thread->key));
+				return $c->detach;
+			}
+		}
 	}
 	if ($c->user && $c->req->params->{unfollow}) {
 		$c->user->delete_context_notification($c->req->params->{unfollow},$c->stash->{idea});

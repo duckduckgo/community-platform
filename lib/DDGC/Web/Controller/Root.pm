@@ -23,33 +23,36 @@ sub base :Chained('/') :PathPart('') :CaptureArgs(0) {
 		}
 	}
 
-	$c->d->current_user($c->user) if $c->user;
+	if ($c->user) {
+		$c->response->header('Cache-Control' => 'no-cache, max-age=0, must-revalidate, no-store');
+		$c->d->current_user($c->user);
 
-	if ($c->user && $c->user->data && $c->user->data->{invalidate_existing_sessions} && $c->session->{action_token} ne $c->user->data->{password_reset_session_token}) {
-		$c->stash->{not_last_url} = 1;
-		$c->logout;
-		$c->delete_session;
-		$c->response->redirect($c->chained_uri('Root','index'));
-		return $c->detach;
-	}
+		if ($c->user->data && $c->user->data->{invalidate_existing_sessions} && $c->session->{action_token} ne $c->user->data->{password_reset_session_token}) {
+			$c->stash->{not_last_url} = 1;
+			$c->logout;
+			$c->delete_session;
+			$c->response->redirect($c->chained_uri('Root','index'));
+			return $c->detach;
+		}
 
-	if ($c->user && !$c->session->{campaign_notification_checked}) {
-		$c->session->{campaign_notification_checked} = 1;
-		my $campaign = $c->user->get_first_available_campaign;
-		if ($campaign) {
-			if (!$c->user->seen_campaign_notice($campaign, 'campaign')) {
-				$c->session->{campaign_notification} = $campaign;
+		if (!$c->session->{campaign_notification_checked}) {
+			$c->session->{campaign_notification_checked} = 1;
+			my $campaign = $c->user->get_first_available_campaign;
+			if ($campaign) {
+				if (!$c->user->seen_campaign_notice($campaign, 'campaign')) {
+					$c->session->{campaign_notification} = $campaign;
+				}
 			}
 		}
-	}
 
-	if ($c->session->{campaign_notification}) {
-		my $campaign_config = $c->d->config->campaigns->{$c->session->{campaign_notification}};
-		if ($campaign_config->{notification_active}) {
-			$c->stash->{campaign_info}->{campaign_id} = $campaign_config->{id};
-			$c->stash->{campaign_info}->{campaign_name} = $c->session->{campaign_notification};
-			$c->stash->{campaign_info}->{link} = $campaign_config->{url};
-			$c->stash->{campaign_info}->{notification} = $campaign_config->{notification};
+		if ($c->session->{campaign_notification}) {
+			my $campaign_config = $c->d->config->campaigns->{$c->session->{campaign_notification}};
+			if ($campaign_config->{notification_active}) {
+				$c->stash->{campaign_info}->{campaign_id} = $campaign_config->{id};
+				$c->stash->{campaign_info}->{campaign_name} = $c->session->{campaign_notification};
+				$c->stash->{campaign_info}->{link} = $campaign_config->{url};
+				$c->stash->{campaign_info}->{notification} = $campaign_config->{notification};
+			}
 		}
 	}
 
