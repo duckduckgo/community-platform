@@ -78,6 +78,7 @@ sub login :Chained('logged_out') :Args(0) {
 			$c->stash->{not_valid_username} = 1;
 		} else {
 			if ( my $username = lc($c->req->params->{username}) and my $password = $c->req->params->{password} ) {
+				$c->delete_session;
 				if ($c->authenticate({
 					username => $username,
 					password => $password,
