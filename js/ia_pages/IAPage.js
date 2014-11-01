@@ -34,10 +34,6 @@
                         $("#input_example").removeClass("hide");
                     });
 
-                    $("#cancel").on('click', function(evt) {
-                        window.location = "/ia/view/" + DDH_iaid;
-                    });
-
                     $("#input_example").on('focusout keypress', function(evt) {
                         if (evt.type === 'focusout' || (evt.type === 'keypress' && evt.which === 13)) {
                             var new_example = $(this).text();
