@@ -440,16 +440,30 @@ sub forgotpw :Chained('logged_out') :Args(0) {
 		$c->add_bc($c->stash->{title}, '');
 
 	return $c->detach if !$c->req->params->{requestpw};
+	if (++$c->session->{forgotpw_requests} > $c->d->config->forgotpw_session_limit) {
+		sleep .5;
+		$c->stash->{sentok} = 1;
+		return $c->detach;
+	}
 
 	$c->stash->{forgotpw_username} = lc($c->req->params->{ $c->session->{username_field} });
 	$c->session->{username_field} = $c->d->uid;
 	
 	my $user = $c->d->find_user($c->stash->{forgotpw_username});
 	if (!$user || !$user->data || !$user->data->{email}) {
+		sleep .5;
 		$c->stash->{sentok} = 1;
 		return $c->detach;
 	}
-	
+
+	if ($user->data->{token_timestamp} &&
+	    time < $user->data->{token_timestamp} +
+	        $c->d->config->forgotpw_user_time_limit) {
+		sleep .5;
+		$c->stash->{sentok} = 1;
+		return $c->detach;
+	}
+
 	my $token = $c->d->uid;
 	my $data = $user->data;
 	$data->{token} = $token;
