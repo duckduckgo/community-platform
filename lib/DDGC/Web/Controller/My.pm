@@ -5,6 +5,7 @@ use Moose;
 use namespace::autoclean;
 
 use DDGC::Config;
+use Time::HiRes qw/ sleep /;
 use Email::Valid;
 use Digest::MD5 qw( md5_hex );
 
@@ -60,7 +61,6 @@ sub logged_out :Chained('base') :PathPart('') :CaptureArgs(0) {
 		return $c->detach;
 	}
 }
-
 sub login :Chained('logged_out') :Args(0) {
 	my ( $self, $c ) = @_;
 	$c->stash->{not_last_url} = 1;
@@ -73,6 +73,15 @@ sub login :Chained('logged_out') :Args(0) {
 	my $last_url = $c->session->{last_url};
 
 	if ($c->req->params->{username}) {
+		$c->stash->{username} = $c->req->params->{username};
+
+		my $user = $c->d->find_user($c->req->params->{username});
+		if (($user && $user->rate_limit_login)
+		    || $c->session->{failed_logins} > $c->d->config->login_failure_session_limit) {
+			sleep 0.5; # Look like we tried
+			$c->stash->{login_failed} = 1;
+			return $c->detach;
+		}
 
 		if ($c->req->params->{username} !~ /^[a-zA-Z0-9_\.]+$/) {
 			$c->stash->{not_valid_username} = 1;
@@ -92,12 +101,14 @@ sub login :Chained('logged_out') :Args(0) {
 					$c->response->redirect($last_url);
 					return $c->detach;
 				} else {
+					$c->session->{failed_logins} ++;
+					if ($user) {
+						$user->failedlogins->create({});
+					}
 					$c->stash->{login_failed} = 1;
 				}
 			}
-			$c->stash->{username} = $c->req->params->{username};
 		}
-
 	}
 }
 
