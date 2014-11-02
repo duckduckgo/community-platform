@@ -132,12 +132,9 @@ sub ia_base :Chained('base') :PathPart('view') :CaptureArgs(1) {  # /ia/view/cal
     my $permissions;
     my $class = "ia-readonly";
 
-    try {
+    if ($c->user) {
         $permissions = $c->stash->{ia}->users->find($c->user->id);
     }
-    catch {
-        $c->d->errorlog("Error: user is not logged in");
-    };
 
     if ($permissions) {
         $class = "ia-edit"
@@ -185,13 +182,9 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
     my $permissions;
     my $result = '';
 
-    try {
+    if ($c->user) {
        $permissions = $ia->users->find($c->user->id);
     }
-    catch {
-        $c->d->errorlog("Error: user is not logged in");
-    };
-
 
     if ($permissions) {
         try {
