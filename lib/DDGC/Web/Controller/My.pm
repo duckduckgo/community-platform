@@ -72,10 +72,9 @@ sub login :Chained('logged_out') :Args(0) {
 
 	my $last_url = $c->session->{last_url};
 
-	if ($c->req->params->{username}) {
-		$c->stash->{username} = $c->req->params->{username};
-
-		my $user = $c->d->find_user($c->req->params->{username});
+	if ($c->stash->{username} = $c->req->params->{ $c->session->{username_field} }) {
+		$c->session->{username_field} = $c->d->uid;
+		my $user = $c->d->find_user($c->stash->{username});
 		if (($user && $user->rate_limit_login)
 		    || $c->session->{failed_logins} > $c->d->config->login_failure_session_limit) {
 			sleep 0.5; # Look like we tried
@@ -83,30 +82,27 @@ sub login :Chained('logged_out') :Args(0) {
 			return $c->detach;
 		}
 
-		if ($c->req->params->{username} !~ /^[a-zA-Z0-9_\.]+$/) {
-			$c->stash->{not_valid_username} = 1;
-		} else {
-			if ( my $username = lc($c->req->params->{username}) and my $password = $c->req->params->{password} ) {
-				if ($c->authenticate({
-					username => $username,
-					password => $password,
-				}, 'users')) {
-					my $data = $c->user->data;
-					delete $data->{token};
-					delete $data->{invalidate_existing_sessions};
-					$c->user->data($data);
-					$c->user->update;
-					$c->set_new_action_token;
-					$last_url = $c->chained_uri('My','account') unless defined $last_url;
-					$c->response->redirect($last_url);
-					return $c->detach;
-				} else {
-					$c->session->{failed_logins} ++;
-					if ($user) {
-						$user->failedlogins->create({});
-					}
-					$c->stash->{login_failed} = 1;
+		if ( my $username = lc($c->stash->{username}) and
+		     my $password = $c->req->params->{password} ) {
+			if ($c->authenticate({
+				username => $username,
+				password => $password,
+			}, 'users')) {
+				my $data = $c->user->data;
+				delete $data->{token};
+				delete $data->{invalidate_existing_sessions};
+				$c->user->data($data);
+				$c->user->update;
+				$c->set_new_action_token;
+				$last_url = $c->chained_uri('My','account') unless defined $last_url;
+				$c->response->redirect($last_url);
+				return $c->detach;
+			} else {
+				$c->session->{failed_logins} ++;
+				if ($user) {
+					$user->failedlogins->create({});
 				}
+				$c->stash->{login_failed} = 1;
 			}
 		}
 	}
@@ -445,12 +441,8 @@ sub forgotpw :Chained('logged_out') :Args(0) {
 
 	return $c->detach if !$c->req->params->{requestpw};
 
-	if ($c->req->params->{username} !~ /^[a-zA-Z0-9_\.]+$/) {
-		$c->stash->{not_valid_username} = 1;
-		return $c->detach;
-	}
-
-	$c->stash->{forgotpw_username} = lc($c->req->params->{username});
+	$c->stash->{forgotpw_username} = lc($c->req->params->{ $c->session->{username_field} });
+	$c->session->{username_field} = $c->d->uid;
 	
 	my $user = $c->d->find_user($c->stash->{forgotpw_username});
 	if (!$user) {
@@ -490,17 +482,17 @@ sub register :Chained('logged_out') :Args(0) {
 	$c->stash->{page_class} = "page-signup";
 
 	$c->stash->{title} = 'Create a new account';
-		$c->add_bc($c->stash->{title}, '');
+	$c->add_bc($c->stash->{title}, '');
 
 	$c->stash->{no_login} = 1;
 
 	if (!$c->req->params->{register}) {
-		$c->session->{username_field} = md5_hex(time x (int(rand(5))+1));
 		return $c->detach;
 	}
 
 	$c->stash->{username} = $c->req->params->{$c->session->{username_field}};
 	$c->stash->{email} = $c->req->params->{email};
+	$c->session->{username_field} = $c->d->uid;
 
 	if (!$c->validate_captcha($c->req->params->{captcha})) {
 		$c->stash->{wrong_captcha} = 1;
@@ -519,7 +511,7 @@ sub register :Chained('logged_out') :Args(0) {
 		$error = 1;
 	}
 
-	if (!defined $c->req->params->{$c->session->{username_field}} or $c->req->params->{$c->session->{username_field}} eq '') {
+	if (!defined $c->stash->{username} or $c->stash->{username} eq '') {
 		$c->stash->{need_username} = 1;
 		$error = 1;
 	}
@@ -529,14 +521,14 @@ sub register :Chained('logged_out') :Args(0) {
 		$error = 1;
 	}
 
-	if ($c->req->params->{$c->session->{username_field}} !~ /^[a-zA-Z0-9_\.]+$/) {
+	if ($c->stash->{username} !~ /^[a-zA-Z0-9_\.]+$/) {
 		$c->stash->{not_valid_chars} = 1;
 		$error = 1;
 	}
 
 	return $c->detach if $error;
 	
-	my $username = $c->req->params->{$c->session->{username_field}};
+	my $username = $c->stash->{username};
 	my $password = $c->req->params->{password};
 	my $email = $c->req->params->{email};
 	
