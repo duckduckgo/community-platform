@@ -88,6 +88,7 @@ sub login :Chained('logged_out') :Args(0) {
 				username => $username,
 				password => $password,
 			}, 'users')) {
+				$c->change_session_id;
 				my $data = $c->user->data;
 				delete $data->{token};
 				delete $data->{invalidate_existing_sessions};
