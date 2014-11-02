@@ -445,13 +445,9 @@ sub forgotpw :Chained('logged_out') :Args(0) {
 	$c->session->{username_field} = $c->d->uid;
 	
 	my $user = $c->d->find_user($c->stash->{forgotpw_username});
-	if (!$user) {
-		$c->stash->{wrong_user} = 1;
-		return;
-	}
-	elsif (!$user->data || !$user->data->{email}) {
-		$c->stash->{no_email} = 1;
-		return;
+	if (!$user || !$user->data || !$user->data->{email}) {
+		$c->stash->{sentok} = 1;
+		return $c->detach;
 	}
 	
 	my $token = $c->d->uid;
