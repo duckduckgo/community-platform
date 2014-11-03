@@ -197,24 +197,25 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
     };
 
     if ($permissions) {
+        my $time = time;
+        my $current_updates = $ia->get_column('updates') || '';
+        $current_updates = decode_json($current_updates) if $current_updates;
+
+        my %new_update = (
+            $time => {
+                description => $c->req->params->{description},
+                name => $c->req->params->{name},
+                status => $c->req->params->{status},
+                topic => $c->req->params->{topic},
+                example_query => $c->req->params->{example},
+                other_queries => $c->req->params->{other_examples},
+                code => $c->req->params->{code}
+            });
+
+        push(@{$current_updates}, \%new_update);
+
         try {
-            my $time = time;
-            my $current_updates = $ia->get_column('updates');
-            $current_updates = decode_json($current_updates) if $current_updates;
-
-            my %new_update = (
-                $time => {
-                       description => $c->req->params->{description},
-                       name => $c->req->params->{name},
-                       status => $c->req->params->{status},
-                       topic => $c->req->params->{topic},
-                       example_query => $c->req->params->{example},
-                       other_queries => $c->req->params->{other_examples},
-                       code => $c->req->params->{code}
-                    });
-
-            %new_update = %{ merge($current_updates, \%new_update)} if $current_updates;
-            $ia->update({updates => {%new_update}});
+            $ia->update({updates => $current_updates});
             $result = 1;
         }
         catch {
