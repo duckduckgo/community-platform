@@ -213,8 +213,8 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
                        code => $c->req->params->{code}
                     });
 
-            my %new = %{ merge($current_updates, \%new_update)} if $current_updates;
-            $ia->update({updates => {%new}});
+            %new_update = %{ merge($current_updates, \%new_update)} if $current_updates;
+            $ia->update({updates => {%new_update}});
             $result = 1;
         }
         catch {
