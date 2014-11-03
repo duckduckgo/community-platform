@@ -148,6 +148,7 @@ sub account :Chained('logged_in') :Args(0) {
 		for (keys %{$c->req->params}) {
 
 			if ($_ =~ m/^update_language_(\d+)/) {
+				$c->require_action_token;
 				my $grade = $c->req->param('language_grade_'.$1);
 				if ($grade) {
 					my ( $user_language ) = $c->user->db->user_languages->search({ language_id => $1 })->all;
@@ -160,6 +161,7 @@ sub account :Chained('logged_in') :Args(0) {
 			}
 
 		if ($_ eq 'add_language') {
+			$c->require_action_token;
 			my $language_id = $c->req->params->{language_id};
 			my $grade = $c->req->params->{language_grade};
 			if ($grade and $language_id) {
@@ -174,6 +176,7 @@ sub account :Chained('logged_in') :Args(0) {
 		}
 
 		if ($_ eq 'remove_language') {
+			$c->require_action_token;
 			my $language_id = $c->req->params->{$_};
 			$c->user->db->user_languages->search({ language_id => $language_id })->delete;
 			$saved = 1;
