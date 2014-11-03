@@ -56,6 +56,7 @@ sub ialist_json :Chained('base') :PathPart('json') :Args(0) {
     }
 
     $c->stash->{x} = \@ial;
+    $c->stash->{not_last_url} = 1;
     $c->forward($c->view('JSON'));
 }
 
@@ -86,6 +87,7 @@ sub iarepo :Chained('base') :PathPart('repo') :Args(1) {
     }
 
     $c->stash->{x} = \%iah;
+    $c->stash->{not_last_url} = 1;
     $c->forward($c->view('JSON'));
 }
 
@@ -168,6 +170,7 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
     # my @issues = @{$c->stash->{issues}};
     # $c->stash->{x}->{issues} = \@issues if (@issues);
 
+    $c->stash->{not_last_url} = 1;
     $c->forward($c->view('JSON'));
 }
 
@@ -207,7 +210,8 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
     $c->stash->{x} = {
         result => $result,
     };
-    
+   
+    $c->stash->{not_last_url} = 1; 
     return $c->forward($c->view('JSON'));
 }
 
