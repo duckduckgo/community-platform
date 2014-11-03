@@ -56,6 +56,7 @@ sub ialist_json :Chained('base') :PathPart('json') :Args(0) {
     }
 
     $c->stash->{x} = \@ial;
+    $c->stash->{not_last_url} = 1;
     $c->forward($c->view('JSON'));
 }
 
@@ -86,6 +87,7 @@ sub iarepo :Chained('base') :PathPart('repo') :Args(1) {
     }
 
     $c->stash->{x} = \%iah;
+    $c->stash->{not_last_url} = 1;
     $c->forward($c->view('JSON'));
 }
 
@@ -128,6 +130,19 @@ sub ia_base :Chained('base') :PathPart('view') :CaptureArgs(1) {  # /ia/view/cal
     use DDP;
     $c->stash->{ia_version} = $ia_version;
     $c->stash->{ia_pretty} = p $c->stash->{ia};
+
+    my $permissions;
+    my $class = "ia-readonly";
+
+    if ($c->user) {
+        $permissions = $c->stash->{ia}->users->find($c->user->id);
+    }
+
+    if ($permissions) {
+        $class = "ia-edit"
+    }
+
+    $c->stash->{class} = $class;
 }
 
 sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
@@ -155,28 +170,11 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
     # my @issues = @{$c->stash->{issues}};
     # $c->stash->{x}->{issues} = \@issues if (@issues);
 
+    $c->stash->{not_last_url} = 1;
     $c->forward($c->view('JSON'));
 }
 
 sub ia  :Chained('ia_base') :PathPart('') :Args(0) {
-    my ( $self, $c ) = @_;
-}
-
-sub edit_base :Chained('base') :PathPart('edit') :CaptureArgs(1) {
-       my ( $self, $c, $answer_id ) = @_;
-
-    $c->stash->{ia_page} = "IAPageEdit";
-    $c->stash->{ia_version} = $ia_version;
-    $c->stash->{ia} = $c->d->rs('InstantAnswer')->find($answer_id);
-
-    unless ($c->stash->{ia}) {
-        $c->response->redirect($c->chained_uri('InstantAnswer','index',{ instant_answer_not_found => 1 }));
-        return $c->detach;
-    }
-
-}
-
-sub edit :Chained('edit_base') :PathPart('') :Args(0) {
     my ( $self, $c ) = @_;
 }
 
@@ -187,13 +185,9 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
     my $permissions;
     my $result = '';
 
-    try {
+    if ($c->user) {
        $permissions = $ia->users->find($c->user->id);
     }
-    catch {
-        $c->d->errorlog("Error: user is not logged in");
-    };
-
 
     if ($permissions) {
         try {
@@ -216,7 +210,8 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
     $c->stash->{x} = {
         result => $result,
     };
-    
+   
+    $c->stash->{not_last_url} = 1; 
     return $c->forward($c->view('JSON'));
 }
 
