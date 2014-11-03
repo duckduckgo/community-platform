@@ -5,6 +5,8 @@ use Moose;
 use namespace::autoclean;
 use Try::Tiny;
 use DDGC::Util::File qw( ia_page_version );
+use Hash::Merge qw( merge );
+use Time::Local;
 
 my $INST = DDGC::Config->new->appdir_path."/root/static/js";
 
@@ -194,29 +196,36 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
         $c->d->errorlog("Error: user is not logged in");
     };
 
-
     if ($permissions) {
         try {
-            $ia->update({
-                        description => $c->req->params->{description},
-                        name => $c->req->params->{name},
-                        status => $c->req->params->{status},
-                        topic => $c->req->params->{topic},
-                        example_query => $c->req->params->{example},
-                        other_queries => $c->req->params->{other_examples},
-                        code => $c->req->params->{code} 
-                     });
+            my $time = time;
+            my $current_updates = $ia->get_column('updates');
+            $current_updates = decode_json($current_updates) if $current_updates;
+
+            my %new_update = (
+                $time => {
+                       description => $c->req->params->{description},
+                       name => $c->req->params->{name},
+                       status => $c->req->params->{status},
+                       topic => $c->req->params->{topic},
+                       example_query => $c->req->params->{example},
+                       other_queries => $c->req->params->{other_examples},
+                       code => $c->req->params->{code}
+                    });
+
+            my %new = %{ merge($current_updates, \%new_update)} if $current_updates;
+            $ia->update({updates => {%new}});
             $result = 1;
         }
         catch {
             $c->d->errorlog("Error updating the database");
         };
     }
-    
+
     $c->stash->{x} = {
         result => $result,
     };
-    
+
     return $c->forward($c->view('JSON'));
 }
 
