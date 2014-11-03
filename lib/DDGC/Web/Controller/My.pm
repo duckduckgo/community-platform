@@ -113,6 +113,8 @@ sub logged_in :Chained('base') :PathPart('') :CaptureArgs(0) {
 
 sub report :Chained('logged_in') :Args(0) {
 	my ( $self, $c ) = @_;
+	$c->require_action_token;
+
 	$c->stash->{title} = 'Content Report';
 	$c->add_bc($c->stash->{title}, '');
 	eval {
