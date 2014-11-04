@@ -52,10 +52,23 @@ $(document).ready(function() {
 		e.preventDefault();
 	});
 	
-	// All external links in new window
-	$("a[href^='http']").not('.noblank').each(function(){
+	$("a[href^='http']").click(function(event) {
+		var _this = this;
 		if(this.href.indexOf(location.hostname) == -1) {
-			$(this).attr('target', '_blank');
+			event.preventDefault();
+			$.ajax({
+				url:        '/r_seturl',
+				data:       {url : _this.href},
+				type:       'POST',
+				success:    function(data) {
+					if ($(_this).hasClass('noblank')) {
+						window.location = '/r';
+					}
+					else {
+						window.open('/r');
+					}
+				},
+			});
 		}
 	});
 
