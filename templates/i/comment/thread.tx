@@ -19,9 +19,9 @@
       <a href="#thread-comments"><i class="thread__foot__icon  icon-bubble"></i> <: $children_count :><span class="thread__foot__txt"> Comment<: if $children_count != 1 { :>s<: } :></span></a>  
 	  <: if $c.user and $_.context == 'DDGC::DB::Result::Thread' { :>
         <: if $c.user.has_context_notification('forum_comments',$_.get_context_obj) { :>
-            <a href="<: $u($_.get_context_obj.u,{ unfollow => 'forum_comments' }) :>"><i class="thread__foot__icon  icon-eye-close"></i><span class="thread__foot__txt">Don't Follow</span></a>
+            <a href="<: $u($_.get_context_obj.u,{ unfollow => 'forum_comments', action_token => $action_token }) :>"><i class="thread__foot__icon  icon-eye-close"></i><span class="thread__foot__txt">Don't Follow</span></a>
         <: } else { :>
-            <a href="<: $u($_.get_context_obj.u,{ follow => 'forum_comments' }) :>"><i class="thread__foot__icon  icon-eye-open"></i><span class="thread__foot__txt">Follow</span></a>
+            <a href="<: $u($_.get_context_obj.u,{ follow => 'forum_comments', action_token => $action_token }) :>"><i class="thread__foot__icon  icon-eye-open"></i><span class="thread__foot__txt">Follow</span></a>
         <: } :>
       <: } :>
 	  
@@ -36,14 +36,14 @@
         <: } :>
         <: if $c.user.admin and $_.context == 'DDGC::DB::Result::Thread' { :>
             <: if !$_.get_context_obj.readonly { :>
-                <a class="right" href="<: $u($_.u) :>?close=1"><i class="thread__foot__icon  icon-lock"></i><span class="thread__foot__txt"> Close</span></a>
+                <a class="right" href="<: $u($_.u, { close => 1, action_token => $action_token } ) :>"><i class="thread__foot__icon  icon-lock"></i><span class="thread__foot__txt"> Close</span></a>
             <: } else { :>
-                <a class="right" href="<: $u($_.u) :>?close=0"><i class="thread__foot__icon  icon-unlock"></i><span class="thread__foot__txt">Open</span></a>
+                <a class="right" href="<: $u($_.u, { close => 0, action_token => $action_token } ) :>"><i class="thread__foot__icon  icon-unlock"></i><span class="thread__foot__txt">Open</span></a>
             <: } :>
             <: if !$_.get_context_obj.sticky { :>
-                <a class="right" href="<: $u($_.u) :>?sticky=1"><i class="thread__foot__icon  icon-pushpin"></i><span class="thread__foot__txt"> Sticky</span></a>
+                <a class="right" href="<: $u($_.u, { sticky => 1, action_token => $action_token } ) :>"><i class="thread__foot__icon  icon-pushpin"></i><span class="thread__foot__txt"> Sticky</span></a>
             <: } else { :>
-                <a class="right" href="<: $u($_.u) :>?sticky=0"><i class="thread__foot__icon  icon-pushpin"></i><span class="thread__foot__txt"> Un-stick</span></a>
+                <a class="right" href="<: $u($_.u, { sticky => 0, action_token => $action_token } ) :>"><i class="thread__foot__icon  icon-pushpin"></i><span class="thread__foot__txt"> Un-stick</span></a>
             <: } :>
         <: } :>
         <: if ($c.user.admin or $c.user.id == $_.user.id) { :>
