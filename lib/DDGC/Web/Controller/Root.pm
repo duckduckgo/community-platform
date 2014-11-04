@@ -197,6 +197,20 @@ sub redirect_duckco :Chained('base') :PathPart('topic') :Args(1) {
 	return $c->detach;
 }
 
+sub r_seturl : Chained('base') : PathPart('r_seturl') : Args(0) {
+	my ( $self, $c ) = @_;
+	$c->session->{r_url} = $c->req->param('url');
+	$c->stash->{x} = { ok => 1 };
+	$c->forward( $c->view('JSON') );
+	return $c->detach;
+}
+
+sub r :Chained('base') :PathPart('r') :Args(0) {
+	my ( $self, $c ) = @_;
+	$c->stash->{template_layout} = ();
+	$c->stash->{r_url} = $c->session->{r_url};
+}
+
 sub index :Chained('base') :PathPart('') :Args(0) {
 	my ($self, $c) = @_;
 	$c->stash->{not_last_url} = 1;
