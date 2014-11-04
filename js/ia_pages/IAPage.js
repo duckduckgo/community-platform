@@ -24,34 +24,38 @@
                     $(".ia-single .dev-info").on('click', DDH.IAPage.prototype.expand.bind(this));
                     $(".editable").attr("contenteditable", "true");
 
+                    if (!($("#examples a.other-examples").length)) {
+                        $("#primary").parent().find(".button.delete").addClass("hide");
+                    }
+
                     $("#add_example").on('click', function(evt) {
                         $(this).addClass("hide");
                         $("#input_example").removeClass("hide");
                     });
 
-                    $("#input_example").on('focusout keypress', function(evt) {
+                    $("body").on('focusout keypress', '.editable', function(evt) {
                         if (evt.type === 'focusout' || (evt.type === 'keypress' && evt.which === 13)) {
-                            var new_example = $(this).text();
-                            if (new_example !== '') {
-                                $(this).before('<li class="editpage"><div class="button delete listbutton"><span>-</span></div>' +
-                                               '<a class="editable other-examples newentry" title="Try this example on DuckDuckGo" href="https://duckduckgo.com/?q=' +
-                                               new_example + '">' + new_example + '</a></li>');
-                            }
-                            $(this).text("");
-                            $(this).addClass("hide");
-                            $("#add_example").removeClass("hide");
-                        }
-                    });
+                            if ($(this).attr('id') === 'input_example') {
+                                var new_example = $(this).text();
+                                if (new_example !== '') {
+                                    $(this).parent().before('<li class="editpage"><div class="button delete listbutton"><span>-</span></div>' +
+                                                   '<a class="editable other-examples newentry" name="other_queries" title="Try this example on DuckDuckGo" href="https://duckduckgo.com/?q=' +
+                                                    new_example + '">' + new_example + '</a></li>');
+                                }
 
-                    $("body").on('click focusout keypress', '.editable, .button.delete', function(evt) {
-                       if ((evt.type === 'click' && $(this).hasClass("delete")) ||
-                          (evt.type === 'focusout' && $(this).hasClass("editable")) ||
-                          (evt.type === 'keypress' && evt.which === 13 && $(this).hasClass("editable"))) {
+                                $(".editable.newentry").attr("contenteditable", "true");
+                                $(this).text("");
+                                $(this).addClass("hide");
+                                $("#add_example").removeClass("hide");
+
+                                var $primary_button = $("#primary").parent().find(".button.delete");
+                                if ($primary_button.hasClass("hide")) {
+                                    $primary_button.removeClass("hide");
+                                }
+                            }
+
                             var field = $(this).attr('name');
                             var value;
-                            if (evt.type === 'click') {
-                                $(this).parent().remove();
-                            }
 
                             if (field !== "topic" && field !== "other_queries" && field !== "code") {
                                 value = $(this).text();
@@ -73,26 +77,60 @@
                                 value = JSON.stringify(value);
                             }
 
-                            var jqxhr = $.post("/ia/save", {
-                                            field : field, 
-                                            value : value,
-                                            id : DDH_iaid
-                                        })
-                            .done(function(data) {
-                                if (data.result) {
-                                    //location.reload();
-                                } else {
-                                    if ($("#error").hasClass("hide")) {
-                                        $("#error").removeClass("hide");
-                                    }
-                                }
-                            });
+                            save(field, value, DDH_iaid);
 
                             if (evt.type === "keypress") {
                                 return false;
                             }
                         }
                     });
+
+                    $("body").on("click", ".button.delete", function(evt) {
+                        var field = $(this).parent().find("a.editable").attr('name');
+                        var value;
+
+                        console.log("Field: " + field);
+                        if (field === 'example_query') {
+                            var $new_primary = $('a.other-examples').first();
+                            if ($new_primary.length) {
+                                $new_primary.removeClass('other-examples');
+                                $new_primary.attr('name', 'example_query');
+                                $new_primary.attr('id', 'primary');
+                                console.log("$new_primary: " + $new_primary.text());
+                                save(field, $new_primary.text(), DDH_iaid);
+                            }
+
+                            field = 'other_queries';
+                        }
+
+                        $(this).parent().remove();
+
+                        if (!$("#examples a.other-examples").length && $("#primary").length) {
+                            $("#primary").parent().find(".button.delete").addClass("hide");
+                        }
+
+                        value = [];
+                        $("#examples a.other-examples").each(function(index) {
+                            value.push($(this).text());
+                        });
+
+                        save(field, value, DDH_iaid);
+                    });
+
+                    function save(field, value, id) {
+                        var jqxhr = $.post("/ia/save", {
+                            field : field, 
+                            value : value,
+                            id : id
+                        })
+                        .done(function(data) {
+                            if (!data.result) {
+                                if ($("#error").hasClass("hide")) {
+                                    $("#error").removeClass("hide");
+                                }
+                            }
+                        });
+                    }
                 });
             }
         },
