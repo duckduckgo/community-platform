@@ -866,6 +866,17 @@ sub toggle_hide_flair {
 	$self->update;
 }
 
+sub forum_links_same_window {
+	my ( $self ) = @_;
+	$self->data->{forum_links_same_window};
+}
+sub toggle_forum_links {
+	my ( $self ) = @_;
+	my $data = $self->data;
+	$data->{forum_links_same_window} = (!$data->{forum_links_same_window});
+	$self->data($data);
+	$self->update;
+}
 sub get_object {
 	return shift;
 }

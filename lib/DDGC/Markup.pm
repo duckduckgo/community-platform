@@ -19,6 +19,7 @@ has ddgc => (
 
 sub bbcode {
 	my ( $self ) = @_;
+	my $noblank = ($self->ddgc->current_user && $self->ddgc->current_user->forum_links_same_window) ? 'class="noblank"' : '';
 	my %base = (
 		GitHub => 'https://github.com/%s',
 		Twitter => 'https://twitter.com/%s',
@@ -39,7 +40,7 @@ sub bbcode {
 				my $uri_component = uri_escape $_[1];
                                 my $attr = Parse::BBCode::escape_html($_[1]);
 				my $url = sprintf($url_base,$uri_component);
-				return '<a href="'.$url.'">'.$attr.' @ '.$site.'</a>';
+				return '<a ' . $noblank . ' href="'.$url.'">'.$attr.' @ '.$site.'</a>';
 			},
 		};
 	}
@@ -57,7 +58,7 @@ sub bbcode {
 				                uri_escape($url) . '&f=1';
 				my $has_desc = $content ne $attr ? 1 : 0;
 				my $desc = $content;
-				'<a rel="nofollow" href="'.$proxy_url.'">'.
+				'<a rel="nofollow" '. $noblank .' href="'.$proxy_url.'">'.
 					'<img src="'.$proxy_url.'" alt="['.$desc.']" title="'.$desc.'">'.
 				'</a>'
 			} else {
@@ -72,7 +73,7 @@ sub bbcode {
 		parse => 0,
 		class => 'url',
 	},
-	my $url_finder_format = '<a href="%s" rel="nofollow">%s</a>';
+	my $url_finder_format = '<a ' .  $noblank . ' href="%s" rel="nofollow">%s</a>';
 	my %html_tags = Parse::BBCode::HTML->defaults;
 	Parse::BBCode->new({
 		close_open_tags => 1,
@@ -154,6 +155,7 @@ sub quote_parse {
 
 sub url_parse {
 	my ($self, $parser, $attr, $content, $attribute_fallback, $tag) = @_;
+	my $noblank = ($self->ddgc->current_user && $self->ddgc->current_user->forum_links_same_window) ? 'class="noblank"' : '';
 	$content = Parse::BBCode::escape_html($$content) if ref $content;
 
 	my $url = $attribute_fallback;
@@ -177,7 +179,7 @@ sub url_parse {
 		my $url = $uri->as_string;
 		my $desc = $alt ? $alt : $attr;
 		my $has_desc = $desc ne $url ? 1 : 0;
-		'<a href="'.$url.'" rel="nofollow">'.$desc.'</a>'
+		'<a ' . $noblank . ' href="'.$url.'" rel="nofollow">'.$desc.'</a>'
 	} else {
 		'<i class="p-link__icn icon-external-link"></i>'.
 		'<span class="p-link__url">'.$url.'</span>'.

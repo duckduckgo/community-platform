@@ -426,6 +426,16 @@ sub flair :Chained('logged_in') :Args(0) {
 	return $c->detach;
 }
 
+sub forum_links_same_window :Chained('logged_in') :Args(0) {
+	my ( $self, $c ) = @_;
+	$c->require_action_token;
+
+	$c->user->toggle_forum_links;
+
+	$c->response->redirect($c->chained_uri('My','account'));
+	return $c->detach;
+}
+
 sub forgotpw :Chained('logged_out') :Args(0) {
 	my ( $self, $c ) = @_;
 
