@@ -47,6 +47,7 @@ sub moderations : Chained('base') Args(0) {
     ? split(',',scalar $c->req->param('deny')) : ();
   my @all = (@approve, @approve_content, @deny);
   if (@all) {
+    $c->require_action_token;
     eval {
       for (@approve,@approve_content) {
         my $obj = $c->ddgc->get_by_i_param($_);
@@ -76,6 +77,7 @@ sub moderations : Chained('base') Args(0) {
   }
 
   if ($c->req->param('ignore_all_from_user') && $c->req->param('user_id')) {
+    $c->require_action_token;
     my $user = $c->d->rs('User')->find($c->req->param('user_id'));
     if ($user) {
 
