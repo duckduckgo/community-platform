@@ -55,20 +55,7 @@ $(document).ready(function() {
 	$("a[href^='http']").click(function(event) {
 		var _this = this;
 		if(this.href.indexOf(location.hostname) == -1) {
-			event.preventDefault();
-			$.ajax({
-				url:        '/r_seturl',
-				data:       {url : _this.href},
-				type:       'POST',
-				success:    function(data) {
-					if ($(_this).hasClass('noblank')) {
-						window.location = '/r';
-					}
-					else {
-						window.open('/r');
-					}
-				},
-			});
+			$(this).addEventListener('onmousedown', set_url_to_redirect(this), true);
 		}
 	});
 
@@ -734,6 +721,10 @@ $(document).ready(function() {
 })(jQuery);
 
 /* random functions gogo */
+
+function set_url_to_redirect(link) {
+    link.href = '/r/?u=' + encodeURIComponent(link.href) + '&action_token=' + $('meta[name="action-token"]').attr('content');
+}
 
 function showFormAddUserLanguage() {
 	$('#formAddUserLanguage').fadeIn();
