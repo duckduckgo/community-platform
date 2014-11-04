@@ -172,8 +172,10 @@ sub idea : Chained('idea_id') PathPart('') Args(1) {
 		}
 	}
 	if ($c->user && $c->req->params->{unfollow}) {
+		$c->require_action_token;
 		$c->user->delete_context_notification($c->req->params->{unfollow},$c->stash->{idea});
 	} elsif ($c->user && $c->req->params->{follow}){
+		$c->require_action_token;
 		$c->user->add_context_notification($c->req->params->{follow},$c->stash->{idea});
 	}
 	unless ($c->stash->{idea}->key eq $key) {
