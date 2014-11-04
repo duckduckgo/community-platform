@@ -162,6 +162,7 @@ sub translation_check :Chained('translation') :PathPart('check') :Args(1) {
 
 sub vote :Chained('translation') :CaptureArgs(1) {
 	my ( $self, $c, $vote ) = @_;
+	$c->require_action_token;
 	$c->stash->{translation}->set_user_vote($c->user,0+$vote);
 }
 
