@@ -192,13 +192,7 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
     if ($permissions) {
         try {
             $ia->update({
-                        description => $c->req->params->{description},
-                        name => $c->req->params->{name},
-                        status => $c->req->params->{status},
-                        topic => $c->req->params->{topic},
-                        example_query => $c->req->params->{example},
-                        other_queries => $c->req->params->{other_examples},
-                        code => $c->req->params->{code} 
+                        $c->req->params->{field} => $c->req->params->{value}
                      });
             $result = 1;
         }
