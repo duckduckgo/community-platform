@@ -249,6 +249,7 @@ sub edit : Chained('idea_id') Args(0) {
 
 sub vote :Chained('idea_id') :CaptureArgs(1) {
 	my ( $self, $c, $vote ) = @_;
+	$c->require_action_token;
 	$c->stash->{idea}->set_user_vote($c->user,0+$vote);
 }
 
