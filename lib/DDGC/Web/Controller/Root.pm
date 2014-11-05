@@ -55,6 +55,9 @@ sub base :Chained('/') :PathPart('') :CaptureArgs(0) {
 			}
 		}
 	}
+	elsif (!$c->session->{username_field}) {
+		$c->session->{username_field} = $c->d->uid;
+	}
 
 	$c->stash->{web_base} = $c->d->config->web_base;
 	$c->stash->{template_layout} = [ 'base.tx' ];
