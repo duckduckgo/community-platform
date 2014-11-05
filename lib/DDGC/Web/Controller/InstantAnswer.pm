@@ -132,14 +132,14 @@ sub ia_base :Chained('base') :PathPart('view') :CaptureArgs(1) {  # /ia/view/cal
     $c->stash->{ia_pretty} = p $c->stash->{ia};
 
     my $permissions;
-    my $class = "ia-readonly";
+    my $class = "hide";
 
     if ($c->user) {
         $permissions = $c->stash->{ia}->users->find($c->user->id);
     }
 
     if ($permissions) {
-        $class = "ia-edit"
+        $class = "";
     }
 
     $c->stash->{class} = $class;

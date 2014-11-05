@@ -19,14 +19,24 @@
                 $.getJSON("/ia/view/" + DDH_iaid + "/json", function(x) {
                     var ia = Handlebars.templates.page(x);
                     var ia_edit = Handlebars.templates.editpage(x);
-                    $(".ia-readonly").html(ia);
-                    $(".ia-edit").html(ia_edit);
+                    $(".ia-single").html(ia);
                     $(".ia-single .dev-info").on('click', DDH.IAPage.prototype.expand.bind(this));
-                    $(".editable").attr("contenteditable", "true");
 
-                    if (!($("#examples a.other-examples").length)) {
-                        $("#primary").parent().find(".button.delete").addClass("hide");
-                    }
+                    $("#edit_activate").on('click', function(evt) {
+                        $(".ia-single").html(ia_edit);
+                        $(".editable").attr("contenteditable", "true");
+
+                        if (!($("#examples a.other-examples").length)) {
+                            $("#primary").parent().find(".button.delete").addClass("hide");
+                        }
+
+                        $("#edit_disable").removeClass("hide");
+                        $(this).hide();
+                    });
+
+                    $("#edit_disable").on('click', function(evt) {
+                        location.reload();
+                    });
 
                     $("#add_example").on('click', function(evt) {
                         $(this).addClass("hide");
