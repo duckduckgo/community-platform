@@ -1,13 +1,13 @@
-<h2 class="left editable" id="name" name="name">{{name}}</h2>
-<div class="right tag editable status {{status}}" name="status">{{status}}</div>
-<p id="desc" class="editable clearfix" name="description">{{description}}</p>
-<p id="team">Team: <span class="editable">...</span></p>
+<h2 class="left editable" id="name" name="name"><input type="text" value="{{name}}" /></h2>
+<div class="right tag editable status {{status}}" name="status"><input type="text" value="{{status}}" /></div>
+<p id="desc" class="editable clearfix" name="description"><input type="text" value="{{description}}" /></p>
+<p id="team">Team: <input class="" type="text" value="..." /></p>
 
 <p>
     {{#each topic}}
         <div class="button ia_topic">
             <a href="#" title="will be a link to all IAs in this topic" class="editable" name="topic">
-                {{this}}
+                <input type="text" value="{{this}}" />
             </a>
         </div> 
     {{/each}}
@@ -23,7 +23,7 @@
         <li class="editpage">
             <div class="button delete listbutton" name="example_query" title="Remove this example"><span>-</span></div>
             <a href="https://duckduckgo.com/?q={{example_query}}" title="try this example on DuckDuckGo" name="example_query" class="editable" id="primary">
-                {{example_query}}
+               <input type="text" value="{{example_query}}" />
             </a>
         </li>
         {{#if other_queries}}
@@ -31,17 +31,19 @@
                 <li class="editpage">
                     <div class="button delete listbutton" name="other_queries" title="Remove this example"><span>-</span></div>
                     <a href="https://duckduckgo.com/?q={{this}}" title="try this example on DuckDuckGo" name="other_queries" class="editable other-examples">
-                        {{this}}
+                       <input type="text" value="{{this}}" />
                     </a>
                 </li>
             {{/each}}
         {{/if}}
-        <li class="editpage"><div name="other_queries" class="editable other-examples hide" id="input_example"></div></li>
+        <li class="editpage"><div name="other_queries" class="editable other-examples hide" id="input_example">
+            <input type="text" value="" />
+        </div></li>
         <li class="editpage"><div class="button listbutton" id="add_example" title="Add example"><span>+</span></div></li>
     </ul>
 </div>
 
-<p class="clearfix" id="related"><strong>Related Instant Answers:</strong> <span class="editable">...</span></p>
+<p class="clearfix" id="related"><strong>Related Instant Answers:</strong> <span class="editable"><input type="text" value="..." /></span></p>
 
 <div class="button dev-info">Developer Info</div>
 <div class="dev-info-details hide">
@@ -62,7 +64,7 @@
                 <td><strong>Code:</strong></td>
                 <td>
                     {{#each code}}
-                        <li name="code" class="code editable">{{this}}</li>
+                        <li name="code" class="code editable"><input type="text" value="{{this}}" /></li>
                     {{/each}}
                 </td>
             </tr>

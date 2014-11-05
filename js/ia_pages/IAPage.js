@@ -24,7 +24,6 @@
 
                     $("#edit_activate").on('click', function(evt) {
                         $(".ia-single").html(ia_edit);
-                        $(".editable").attr("contenteditable", "true");
 
                         if (!($("#examples a.other-examples").length)) {
                             $("#primary").parent().find(".button.delete").addClass("hide");
@@ -38,50 +37,51 @@
                         location.reload();
                     });
 
-                    $("#add_example").on('click', function(evt) {
+                    $("body").on('click', '#add_example', function(evt) {
                         $(this).addClass("hide");
                         $("#input_example").removeClass("hide");
                     });
 
-                    $("body").on('focusout keypress', '.editable', function(evt) {
+                    $("body").on('focusout keypress', '.editable input', function(evt) {
                         if (evt.type === 'focusout' || (evt.type === 'keypress' && evt.which === 13)) {
-                            if ($(this).attr('id') === 'input_example') {
-                                var new_example = $(this).text();
+                            if ($(this).parent().attr('id') === 'input_example') {
+                                var new_example = $(this).val();
                                 if (new_example !== '') {
-                                    $(this).parent().before('<li class="editpage"><div class="button delete listbutton"><span>-</span></div>' +
+                                    $(this).parent().parent().before('<li class="editpage"><div class="button delete listbutton"><span>-</span></div>' +
                                                    '<a class="editable other-examples newentry" name="other_queries" title="Try this example on DuckDuckGo" href="https://duckduckgo.com/?q=' +
-                                                    new_example + '">' + new_example + '</a></li>');
+                                                    new_example + '"><input type="text" value="' + new_example + '" /></a></li>');
                                 }
 
-                                $(".editable.newentry").attr("contenteditable", "true");
-                                $(this).text("");
-                                $(this).addClass("hide");
+                                $(this).val("");
+                                $(this).parent().addClass("hide");
                                 $("#add_example").removeClass("hide");
 
-                                var $primary_button = $("#primary").parent().find(".button.delete");
+                                var $primary_button = $("#primary").parent().parent().find(".button.delete");
                                 if ($primary_button.hasClass("hide")) {
                                     $primary_button.removeClass("hide");
                                 }
                             }
 
-                            var field = $(this).attr('name');
+                            var field = $(this).parent().attr('name');
                             var value;
 
                             if (field !== "topic" && field !== "other_queries" && field !== "code") {
-                                value = $(this).text();
+                                value = $(this).val();
                             } else {
                                 value = [];
                                 var selector;
                                 if (field === "topic") {
-                                    selector = ".ia_topic a.editable";
+                                    selector = ".ia_topic a.editable input";
                                 } else if (field === "other_queries") {
-                                    selector = "#examples a.other-examples";
+                                    selector = "#examples a.other-examples input";
                                 } else {                            
-                                    selector = "li.code.editable";
+                                    selector = "li.code.editable input";
                                 }
 
                                 $(selector).each(function(index) {
-                                    value.push($(this).text());
+                                    if ($(this).val()) {
+                                        value.push($(this).val());
+                                    }
                                 });
 
                                 value = JSON.stringify(value);
@@ -101,13 +101,13 @@
 
                         console.log("Field: " + field);
                         if (field === 'example_query') {
-                            var $new_primary = $('a.other-examples').first();
+                            var $new_primary = $('a.other-examples input').first();
                             if ($new_primary.length) {
-                                $new_primary.removeClass('other-examples');
-                                $new_primary.attr('name', 'example_query');
-                                $new_primary.attr('id', 'primary');
-                                console.log("$new_primary: " + $new_primary.text());
-                                save(field, $new_primary.text(), DDH_iaid);
+                                $new_primary.parent().removeClass('other-examples');
+                                $new_primary.parent().attr('name', 'example_query');
+                                $new_primary.parent().attr('id', 'primary');
+                                console.log("$new_primary: " + $new_primary.val());
+                                save(field, $new_primary.val(), DDH_iaid);
                             }
 
                             field = 'other_queries';
@@ -120,8 +120,10 @@
                         }
 
                         value = [];
-                        $("#examples a.other-examples").each(function(index) {
-                            value.push($(this).text());
+                        $("#examples a.other-examples input").each(function(index) {
+                            if ($(this).val()) {
+                                value.push($(this).val());
+                            }
                         });
 
                         save(field, value, DDH_iaid);
