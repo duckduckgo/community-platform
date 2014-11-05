@@ -166,6 +166,39 @@ column unsafe => {
 	is_nullable => 1,
 };
 
+# IA type
+column type => {
+    datatype => 'text',
+    is_nullable => 1,
+}
+
+# Source for fatheads
+column source => {
+    datatype => 'text',
+    is_nullable => 1,
+}
+
+# IA sponsor
+column assignee => {
+    datatype => 'text',
+    is_nullable => 1,
+}
+
+column src_options => {
+    datatype => 'text',
+    is_nullable => 1,
+}
+
+column src_id => {
+    datatype => 'text',
+    is_nullable => 1,
+}
+
+column src_domain => {
+    datatype => 'text',
+    is_nullable => 1,
+}
+
 has_many 'issues', 'DDGC::DB::Result::InstantAnswer::Issues', 'instant_answer_id';
 has_many 'blocks', 'DDGC::DB::Result::InstantAnswer::Blocks', 'instant_answer_id';
 

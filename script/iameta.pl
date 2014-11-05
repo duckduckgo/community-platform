@@ -83,6 +83,10 @@ for my $ia (@{$meta}) {
         $ia->{screenshots} = JSON->new->utf8(1)->encode($ia->{screenshots});
     }
 
+    if ($ia->{src_options}) {
+        $ia->{src_options} = JSON->new->utf8(1)->encode($ia->{src_options});
+    }
+
     try {
         $d->rs('InstantAnswer')->update_or_create($ia);
     }
