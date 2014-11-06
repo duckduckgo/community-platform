@@ -46,7 +46,7 @@ sub debug { 1 };
 
 say "there are " . (scalar @{$meta}) . " IAs" if debug;
 
-# say JSON->new->utf8(1)->pretty(1)->encode($meta);
+# say JSON->new->ascii(1)->pretty(1)->encode($meta);
 
 my $line = 1;
 
@@ -60,27 +60,31 @@ for my $ia (@{$meta}) {
 
 
     if ($ia->{topic}) {
-        $ia->{topic} = JSON->new->utf8(1)->encode($ia->{topic});
+        $ia->{topic} = JSON->new->ascii(1)->encode($ia->{topic});
     }
 
     if ($ia->{code}) {
-        $ia->{code} = JSON->new->utf8(1)->encode($ia->{code});
+        $ia->{code} = JSON->new->ascii(1)->encode($ia->{code});
     }
 
     if ($ia->{other_queries}) {
-        $ia->{other_queries} = JSON->new->utf8(1)->encode($ia->{other_queries});
+        $ia->{other_queries} = JSON->new->ascii(1)->encode($ia->{other_queries});
     }
 
     if ($ia->{attribution_orig}) {
-        $ia->{attribution_orig} = JSON->new->utf8(1)->encode($ia->{attribution_orig});
+        $ia->{attribution_orig} = JSON->new->ascii(1)->encode($ia->{attribution_orig});
     }
 
     if ($ia->{attribution}) {
-        $ia->{attribution} = JSON->new->utf8(1)->encode($ia->{attribution});
+        $ia->{attribution} = JSON->new->ascii(1)->encode($ia->{attribution});
     }
 
     if ($ia->{screenshots}) {
-        $ia->{screenshots} = JSON->new->utf8(1)->encode($ia->{screenshots});
+        $ia->{screenshots} = JSON->new->ascii(1)->encode($ia->{screenshots});
+    }
+
+    if ($ia->{src_options}) {
+        $ia->{src_options} = JSON->new->ascii(1)->encode($ia->{src_options});
     }
 
     try {
