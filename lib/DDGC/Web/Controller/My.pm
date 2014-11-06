@@ -211,8 +211,8 @@ sub email :Chained('logged_in') :Args(0) {
 
 	$c->require_action_token;
 
-	if (!$c->validate_captcha($c->req->params->{captcha})) {
-		$c->stash->{wrong_captcha} = 1;
+	if (!$c->user->check_password($c->req->params->{password})) {
+		$c->stash->{wrong_password} = 1;
 		return;
 	}
 
@@ -244,9 +244,9 @@ sub delete :Chained('logged_in') :Args(0) {
 
 	$c->require_action_token;
 
-	if (!$c->validate_captcha($c->req->params->{captcha})) {
-		$c->stash->{wrong_captcha} = 1;
-		return $c->detach;
+	if (!$c->user->check_password($c->req->params->{password})) {
+		$c->stash->{wrong_password} = 1;
+		return;
 	}
 
 	if ($c->req->params->{delete_profile}) {
