@@ -172,12 +172,6 @@ column type => {
     is_nullable => 1,
 };
 
-# Source for fatheads
-column source => {
-    datatype => 'text',
-    is_nullable => 1,
-};
-
 # IA sponsor
 column assignee => {
     datatype => 'text',
