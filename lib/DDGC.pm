@@ -663,7 +663,7 @@ sub errorlog {
 	my ( $self, $msg ) = @_;
 	state $counter = 0;
 	my $t = localtime;
-	my $log_id = $$ . $t->epoch . sprintf("%09d", ++$counter);
+	my $log_id = $$ . $t->epoch . sprintf("%03d", ++$counter);
 	my ($package, $filename, $line) = caller(1);
 	my $log_line = "$log_id " . $t->datetime . " - $msg @ $filename:$line\n";
 	io($self->config->errorlog)->append($log_line);
