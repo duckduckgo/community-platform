@@ -168,28 +168,28 @@ column unsafe => {
 
 # IA type
 column type => {
-    datatype => 'text',
+    data_type => 'text',
     is_nullable => 1,
 };
 
 # IA sponsor
 column assignee => {
-    datatype => 'text',
+    data_type => 'text',
     is_nullable => 1,
 };
 
 column src_options => {
-    datatype => 'text',
+    data_type => 'text',
     is_nullable => 1,
 };
 
 column src_id => {
-    datatype => 'integer',
+    data_type => 'integer',
     is_nullable => 1,
 };
 
 column src_domain => {
-    datatype => 'text',
+    data_type => 'text',
     is_nullable => 1,
 };
 
