@@ -14,10 +14,12 @@
           <: i($moderation,'plaincontent') :>
         </div>
 	<form onsubmit="return confirm('This will remove all this user\'s posts from the moderation queue and ignore all their future posts, continue?');" action="<: $u('Forum::Admin','moderations') :>" method="POST">
+	<input type="hidden" name="action_token" value="<: $action_token :>">
         <div class="row  button-group">
           <a class="moderation__close button  lightblue" href="<: $u('Forum::Admin','moderations',{
             approve => $moderation.i_param,
             json => 1,
+            action_token => $action_token,
           }) :>">
 			<i class="icon icon-user"></i>
             Approve User
@@ -25,6 +27,7 @@
           <a class="moderation__close button  lightyellow" href="<: $u('Forum::Admin','moderations',{
             approve_content => $moderation.i_param,
             json => 1,
+            action_token => $action_token,
           }) :>">
 			<i class="icon icon-check"></i>
             Approve Content Only
@@ -32,6 +35,7 @@
           <a class="moderation__close button  pink" href="<: $u('Forum::Admin','moderations',{
             deny => $moderation.i_param,
             json => 1,
+            action_token => $action_token,
           }) :>">
 			<i class="icon icon-ban-circle"></i>
             Leave Invisible
@@ -43,7 +47,8 @@
     <: } :>
     <div class="row callout-row center">
       <a class="button red" href="<: $u('Forum::Admin','moderations',{
-        approve => $moderations_i_params
+        approve => $moderations_i_params,
+        action_token => $action_token,
       }) :>">
 		<i class="icon icon-group"></i>
         Approve All

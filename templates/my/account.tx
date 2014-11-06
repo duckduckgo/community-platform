@@ -9,6 +9,7 @@
 	</div>
 <: } :>
 <form action="<: $u('My','account') :>" method="post" id="formAccount">
+	<input type="hidden" name="action_token" value="<: $action_token :>">
 
 	<: include my::notifications::header { highlight_view => 1 }:>
 

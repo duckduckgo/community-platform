@@ -172,8 +172,10 @@ sub idea : Chained('idea_id') PathPart('') Args(1) {
 		}
 	}
 	if ($c->user && $c->req->params->{unfollow}) {
+		$c->require_action_token;
 		$c->user->delete_context_notification($c->req->params->{unfollow},$c->stash->{idea});
 	} elsif ($c->user && $c->req->params->{follow}){
+		$c->require_action_token;
 		$c->user->add_context_notification($c->req->params->{follow},$c->stash->{idea});
 	}
 	unless ($c->stash->{idea}->key eq $key) {
@@ -247,6 +249,7 @@ sub edit : Chained('idea_id') Args(0) {
 
 sub vote :Chained('idea_id') :CaptureArgs(1) {
 	my ( $self, $c, $vote ) = @_;
+	$c->require_action_token;
 	$c->stash->{idea}->set_user_vote($c->user,0+$vote);
 }
 

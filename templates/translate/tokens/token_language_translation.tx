@@ -32,10 +32,10 @@
 						<: if !$user_can_speak { :>disabled="disabled" title="You are not allowed to vote because you do not speak this language."<: } :>
 						<: if $c.user.username == $translation.username { :>disabled="disabled" title="You can't vote on your own translations."<: } :>
 							<: if $translation.user_voted($c.user) { :>
-								href="<: $u('Translate', 'vote_view', $translation.id, 0):>">
+								href="<: $u('Translate', 'vote_view', $translation.id, 0, { action_token => $action_token } ):>">
 								<i class="translation-vote__check checked icon-ok"></i>
 							<: } else { :>
-								href="<: $u('Translate', 'vote_view', $translation.id, 1):>">
+								href="<: $u('Translate', 'vote_view', $translation.id, 1, { action_token => $action_token }):>">
 								<i class="translation-vote__check icon-ok"></i>
 							<: } :>
 					</a>

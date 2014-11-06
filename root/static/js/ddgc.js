@@ -191,10 +191,10 @@ $(document).ready(function() {
 				parent.children('.loading-image').hide();
 				parent.toggleClass('voted');
 				checkmark.children(":first").toggleClass('checked');
-				if (checkmark.attr('href').match(/1$/))
-					checkmark.attr('href', checkmark.attr('href').replace(/1$/, '0'));
-				else if (checkmark.attr('href').match(/0$/))
-					checkmark.attr('href', checkmark.attr('href').replace(/0$/, '1'));
+				if (checkmark.attr('href').match(/vote\/1/))
+					checkmark.attr('href', checkmark.attr('href').replace(/vote\/1/, 'vote/0'));
+				else if (checkmark.attr('href').match(/vote\/0/))
+					checkmark.attr('href', checkmark.attr('href').replace(/vote\/0/, 'vote/1'));
 				vote_count.html(data.vote_count);				
 			}
 		});

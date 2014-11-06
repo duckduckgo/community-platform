@@ -259,16 +259,20 @@ sub thread_redirect : Chained('thread_id') PathPart('') Args(0) {
 sub thread : Chained('thread_id') PathPart('') Args(1) {
   my ( $self, $c, $key ) = @_;
   if (defined $c->req->params->{close} && $c->user->admin) {
+    $c->require_action_token;
     $c->stash->{thread}->readonly($c->req->params->{close});
     $c->stash->{thread}->update;
   }
   if (defined $c->req->params->{sticky} && $c->user->admin) {
+    $c->require_action_token;
     $c->stash->{thread}->sticky($c->req->params->{sticky});
     $c->stash->{thread}->update;
   }
   if ($c->user && $c->req->params->{unfollow}) {
+    $c->require_action_token;
     $c->user->delete_context_notification($c->req->params->{unfollow},$c->stash->{thread});
   } elsif ($c->user && $c->req->params->{follow}){
+    $c->require_action_token;
     $c->user->add_context_notification($c->req->params->{follow},$c->stash->{thread});
   }
   unless ($c->stash->{thread}->key eq $key) {
