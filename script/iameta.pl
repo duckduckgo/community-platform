@@ -46,7 +46,7 @@ sub debug { 1 };
 
 say "there are " . (scalar @{$meta}) . " IAs" if debug;
 
-# say JSON->new->ascii(1)utf8(1)->pretty(1)->encode($meta);
+# say JSON->new->ascii(1)->pretty(1)->encode($meta);
 
 my $line = 1;
 
