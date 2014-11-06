@@ -17,9 +17,29 @@
                 console.log("for ia id '%s'", DDH_iaid);
 
                 $.getJSON("/ia/view/" + DDH_iaid + "/json", function(x) {
-                    var ia = Handlebars.templates.page(x);
+                    var name = Handlebars.templates.name(x);
+                    var status = Handlebars.templates.status(x);
+                    var desc = Handlebars.templates.desc(x);
+                    var team = Handlebars.templates.team(x);
+                    var topic = Handlebars.templates.topic(x);
+                    var screens = Handlebars.templates.screens(x);
+                    var examples = Handlebars.templates.examples(x);
+                    var related = Handlebars.templates.related(x);
+                    var devinfo = Handlebars.templates.devinfo(x);
+                    var issues = Handlebars.templates.issues(x);
                     var ia_edit = Handlebars.templates.editpage(x);
-                    $(".ia-single").html(ia);
+
+                    $(".ia-single").append(name);
+                    $(".ia-single").append(status);
+                    $(".ia-single").append(desc);
+                    $(".ia-single").append(team);
+                    $(".ia-single").append(topic);
+                    $(".ia-single").append(screens);
+                    $(".ia-single").append(examples);
+                    $(".ia-single").append(related);
+                    $(".ia-single").append(devinfo);
+                    $(".ia-single").append(issues);
+
                     $(".ia-single .dev-info").on('click', DDH.IAPage.prototype.expand.bind(this));
 
                     $("#edit_activate").on('click', function(evt) {
