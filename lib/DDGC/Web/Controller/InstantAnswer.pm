@@ -31,10 +31,6 @@ sub index :Chained('base') :PathPart('') :Args(0) {
 sub ialist_json :Chained('base') :PathPart('json') :Args(0) {
     my ( $self, $c ) = @_;
 
-    # $c->stash->{x} = {
-    #     ia_list => "this will be the list of all IAs"
-    # };
-
     my @x = $c->d->rs('InstantAnswer')->all();
     my @ial;
 
@@ -42,6 +38,7 @@ sub ialist_json :Chained('base') :PathPart('json') :Args(0) {
 
     for (@x) {
         my $topics = $_->topic;
+        my $attribution = $_->attribution;
         push (@ial, {
                 name => $_->name,
                 id => $_->id,
@@ -51,7 +48,8 @@ sub ialist_json :Chained('base') :PathPart('json') :Args(0) {
                 dev_milestone => $_->dev_milestone,
                 perl_module => $_->perl_module,
                 description => $_->description,
-                topic => decode_json($topics)
+                topic => decode_json($topics),
+                attribution => $attribution ? decode_json($attribution) : undef,
             });
     }
 
@@ -119,7 +117,7 @@ sub ia_base :Chained('base') :PathPart('view') :CaptureArgs(1) {  # /ia/view/cal
 
     my $ia_attribution = $c->stash->{ia}->attribution;
     if($ia_attribution){
-        $c->stash->{ia_attribution} = decode_json($ia_attribution);
+        $c->stash->{ia_attribution} = $ia_attribution ? decode_json($ia_attribution) : undef;
     }
 
     unless ($c->stash->{ia}) {
