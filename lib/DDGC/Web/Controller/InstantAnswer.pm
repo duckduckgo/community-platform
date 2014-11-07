@@ -194,7 +194,7 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
             $ia->update({
                         $c->req->params->{field} => $c->req->params->{value}
                      });
-            $result = 1;
+            $result = {$c->req->params->{field} => $c->req->params->{value}};
         }
         catch {
             $c->d->errorlog("Error updating the database");

@@ -17,17 +17,32 @@
                 console.log("for ia id '%s'", DDH_iaid);
 
                 $.getJSON("/ia/view/" + DDH_iaid + "/json", function(x) {
+                    var field_order = [
+                        'name',
+                        'status',
+                        'description',
+                        'team',
+                        'topic',
+                        'screens',
+                        'examples',
+                        'related',
+                        'devinfo',
+                        'issues'
+                    ];
+
                     // Readonly mode templates
-                    var name = Handlebars.templates.name(x);
-                    var status = Handlebars.templates.status(x);
-                    var desc = Handlebars.templates.description(x);
-                    var team = Handlebars.templates.team(x);
-                    var topic = Handlebars.templates.topic(x);
-                    var screens = Handlebars.templates.screens(x);
-                    var examples = Handlebars.templates.examples(x);
-                    var related = Handlebars.templates.related(x);
-                    var devinfo = Handlebars.templates.devinfo(x);
-                    var issues = Handlebars.templates.issues(x);
+                    var readonly_templates = {
+                        name : Handlebars.templates.name(x),
+                        status : Handlebars.templates.status(x),
+                        description : Handlebars.templates.description(x),
+                        team : Handlebars.templates.team(x),
+                        topic : Handlebars.templates.topic(x),
+                        screens : Handlebars.templates.screens(x),
+                        examples : Handlebars.templates.examples(x),
+                        related : Handlebars.templates.related(x),
+                        devinfo : Handlebars.templates.devinfo(x),
+                        issues : Handlebars.templates.issues(x),
+                    };
 
                     // Pre-Edit mode templates
                     var pre_templates = {
@@ -36,54 +51,26 @@
                         description : Handlebars.templates.pre_edit_description(x),
                         team : Handlebars.templates.pre_edit_team(x),
                         topic : Handlebars.templates.pre_edit_topic(x),
+                        screens : Handlebars.templates.screens(x),
                         examples : Handlebars.templates.pre_edit_examples(x),
-                        example_query : this.examples,
-                        other_queries : this.examples,
                         related : Handlebars.templates.pre_edit_related(x),
+                        devinfo : Handlebars.templates.devinfo(x),
                         issues : Handlebars.templates.pre_edit_issues(x)
                     };
 
-                    // Edit mode templates
-                    var edit_templates = {
-                        name : Handlebars.templates.edit_name(x),
-                        status : Handlebars.templates.edit_status(x),
-                        description : Handlebars.templates.edit_description(x),
-                        team : Handlebars.templates.edit_team(x),
-                        topic : Handlebars.templates.edit_topic(x),
-                        example_query : Handlebars.templates.edit_examples(x),
-                        other_queries : this.example_query,
-                        related : Handlebars.templates.edit_related(x),
-                    };
+                    function updateAll(templates) {
+                        $(".ia-single").empty();
+                        for (var i = 0; i < field_order.length; i++) {
+                            $(".ia-single").append(templates[field_order[i]]);
+                        }
+                    }
 
-                    $(".ia-single").append(name);
-                    $(".ia-single").append(status);
-                    $(".ia-single").append(desc);
-                    $(".ia-single").append(team);
-                    $(".ia-single").append(topic);
-                    $(".ia-single").append(screens);
-                    $(".ia-single").append(examples);
-                    $(".ia-single").append(related);
-                    $(".ia-single").append(devinfo);
-                    $(".ia-single").append(issues);
+                    updateAll(readonly_templates);
 
                     $("body").on('click', '.ia-single .dev-info', DDH.IAPage.prototype.expand.bind(this));
 
                     $("#edit_activate").on('click', function(evt) {
-
-                        $(".ia-single").html(pre_templates.name);
-                        $(".ia-single").append(pre_templates.status);
-                        $(".ia-single").append(pre_templates.description);
-                        $(".ia-single").append(pre_templates.team);
-                        $(".ia-single").append(pre_templates.topic);
-                        $(".ia-single").append(screens);
-                        $(".ia-single").append(pre_templates.examples);
-                        $(".ia-single").append(pre_templates.related);
-                        $(".ia-single").append(devinfo);
-                        $(".ia-single").append(pre_templates.issues);
-
-                        if (!($("#examples a.other-examples").length)) {
-                            $("#primary").parent().find(".button.delete").addClass("hide");
-                        }
+                        updateAll(pre_templates);
 
                         $("#edit_disable").removeClass("hide");
                         $(this).hide();
@@ -99,6 +86,7 @@
 
                         if (name === "example_query" || name === "other_queries") {
                            $obj = $("#examples");
+                           name = "examples";
                         } else if (name === "topic") {
                             $obj = $("#topics");
                         } else if (name === "code") {
@@ -107,7 +95,13 @@
                             $obj = $(this);
                         }
 
-                        $obj.replaceWith(edit_templates[name]);
+                        $obj.replaceWith(Handlebars.templates['edit_' + name](x));
+
+                        if (name === "examples") {
+                            if (!($("#examples .other-examples").length)) {
+                                $("#primary").parent().find(".button.delete").addClass("hide");
+                            }
+                        }
                     });
 
                     $("#edit_disable").on('click', function(evt) {
@@ -142,7 +136,9 @@
                                 }
                             }
 
-                            if (field === "topic" || field === "other_queries" || field === "code") {
+                            if (field === "example_query") {
+                                $obj = $("#examples");
+                            } else if (field === "topic" || field === "other_queries" || field === "code") {
                                 value = [];
                                 var selector;
                                 if (field === "topic") {
@@ -194,12 +190,12 @@
 
                         $(this).parent().remove();
 
-                        if (!$("#examples a.other-examples").length && $("#primary").length) {
+                        if (!$("#examples .other-examples").length && $("#primary").length) {
                             $("#primary").parent().find(".button.delete").addClass("hide");
                         }
 
                         value = [];
-                        $("#examples a.other-examples input").each(function(index) {
+                        $("#examples .other-examples input").each(function(index) {
                             if ($(this).val()) {
                                 value.push($(this).val());
                             }
@@ -220,18 +216,21 @@
                                     $("#error").removeClass("hide");
                                 }
                             } else {
-                                $.getJSON("/ia/view/" + DDH_iaid + "/json", function(new_x) {
-                                    var name;
-                                    if (field === "example_query" || field === "other_queries") {
-                                        name = "examples"
-                                    } else {
-                                        name = field;
-                                    }
+                                var name;
+                                if (field === "example_query" || field === "other_queries") {
+                                    name = "examples";
+                                } else {
+                                    name = field;
+                                }
 
-                                    pre_templates[field] = Handlebars.templates['pre_edit_' + name](new_x);
-                                    edit_templates[field] = Handlebars.templates['edit_' + name](new_x);
-                                    $obj.replaceWith(pre_templates[field]);
-                                });
+                                if (field === "other_queries" || field === "topic" || field === "code") {
+                                    x[field] = $.parseJSON(data.result[field]);
+                                } else {
+                                    x[field] = data.result[field];
+                                }
+
+                                pre_templates[field] = Handlebars.templates['pre_edit_' + name](x);
+                                $obj.replaceWith(pre_templates[field]);
                             }
                         });
                     }
