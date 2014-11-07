@@ -1,5 +1,5 @@
 (function(env) {
-
+    Handlebars.registerHelper('encodeURIComponent', encodeURIComponent);
 
     // placeholder
 
