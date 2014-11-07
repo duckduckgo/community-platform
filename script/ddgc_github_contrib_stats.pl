@@ -238,8 +238,8 @@ MONTH:
 }
 
 for (0..$#$periods) {
-    print "Unique GitHub contributors " . $periods->[$_]->{start}->mdy . " through " . ($periods->[$_]->{end} - ONE_DAY )->mdy . "\t";
+    print "\nUnique GitHub contributors " . $periods->[$_]->{start}->mdy . " through " . ($periods->[$_]->{end} - ONE_DAY )->mdy . "\t";
     print scalar (keys $log->[$_]->{authors}) . "\n";
-    print "Logins : " . join(', ', sort keys $log->[$_]->{authors}) . "\n\n";
+    print "Logins : " . join(', ', sort keys $log->[$_]->{authors}) . "\n";
 }
 
