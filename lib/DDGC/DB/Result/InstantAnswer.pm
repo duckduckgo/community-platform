@@ -166,6 +166,33 @@ column unsafe => {
 	is_nullable => 1,
 };
 
+# IA type
+column type => {
+    data_type => 'text',
+    is_nullable => 1,
+};
+
+# IA sponsor
+column assignee => {
+    data_type => 'text',
+    is_nullable => 1,
+};
+
+column src_options => {
+    data_type => 'text',
+    is_nullable => 1,
+};
+
+column src_id => {
+    data_type => 'integer',
+    is_nullable => 1,
+};
+
+column src_domain => {
+    data_type => 'text',
+    is_nullable => 1,
+};
+
 has_many 'issues', 'DDGC::DB::Result::InstantAnswer::Issues', 'instant_answer_id';
 has_many 'blocks', 'DDGC::DB::Result::InstantAnswer::Blocks', 'instant_answer_id';
 

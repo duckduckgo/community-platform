@@ -193,6 +193,8 @@ has_many 'github_users', 'DDGC::DB::Result::GitHub::User', 'users_id', {
   cascade_delete => 0,
 };
 
+has_many 'failedlogins', 'DDGC::DB::Result::User::FailedLogin', 'users_id';
+
 has_many 'instant_answer_users', 'DDGC::DB::Result::InstantAnswer::Users', 'users_id';
 many_to_many 'instant_answers', 'instant_answer_users', 'instant_answer';
 
@@ -862,6 +864,32 @@ sub toggle_hide_flair {
 	my ( $self ) = @_;
 	my $data = $self->data;
 	$data->{hide_flair} = (!$data->{hide_flair});
+	$self->data($data);
+	$self->update;
+}
+
+sub rate_limit_login {
+	my ( $self ) = @_;
+
+	($self->failedlogins->search({
+		timestamp => { '>' =>
+			$self->ddgc->db->format_datetime(
+				DateTime->now - DateTime::Duration->new(
+					seconds => $self->ddgc->config->login_failure_time_limit
+				),
+			),
+		},
+	})->count > $self->ddgc->config->login_failure_count_limit);
+}
+
+sub forum_links_same_window {
+	my ( $self ) = @_;
+	$self->data->{forum_links_same_window};
+}
+sub toggle_forum_links {
+	my ( $self ) = @_;
+	my $data = $self->data;
+	$data->{forum_links_same_window} = (!$data->{forum_links_same_window});
 	$self->data($data);
 	$self->update;
 }

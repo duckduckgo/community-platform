@@ -53,15 +53,15 @@
 		<form id="mail1" method="POST" action="/campaign/respond" class="group">
 			<label class="shareit-form__lbl" for="question1"><: $campaign_config.question1 :></label>
 			<div class="input-wrap">
-				<input type="text" name="question1">
+				<textarea name="question1"></textarea>
 			</div>
 			<label class="shareit-form__lbl" for="question2"><: $campaign_config.question2 :></label>
 			<div class="input-wrap">
-				<input type="text" name="question2">
+				<textarea name="question2"></textarea>
 			</div>
 			<label class="shareit-form__lbl" for="question3"><: $campaign_config.question3 :></label>
 			<div class="input-wrap">
-				<input type="text" name="question3">
+				<textarea name="question3"></textarea>
 			</div>
 			<input type="hidden" name="campaign_id" value="1">
 			<input type="hidden" name="campaign_name" value="share">
@@ -85,11 +85,11 @@
 		<form id="mail2" method="POST" action="/campaign/respond">
 			<label class="shareit-form__lbl" for="question1"><: $campaign_config.question1 :></label>
 			<div class="input-wrap">
-				<input type="text" name="question1">
+				<textarea name="question1"></textarea>
 			</div>
 			<label class="shareit-form__lbl" for="question2"><: $campaign_config.question2 :></label>
 			<div class="input-wrap">
-				<input type="text" name="question2">
+				<textarea name="question2"></textarea>
 			</div>
 			<label class="shareit-form__lbl" for="question3"><: $campaign_config.question3 :></label>
 			<select name="question3" class="js-select">

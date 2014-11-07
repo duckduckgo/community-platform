@@ -161,8 +161,7 @@ sub notify {
 						$self
 					);
 				}
-				if ($user_notification->user_notification_group->filter_by_language
-					&& !$current_user->translation_manager) {
+				if ($user_notification->user_notification_group->filter_by_language) {
 					next unless $language_id;
 					my $has_language = 0;
 					for ($current_user->user_languages) {

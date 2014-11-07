@@ -4,6 +4,7 @@
 	<form action="<: $u('My','report') :>" method="post">
 		<input type="hidden" name="context" class="js-context" />
 		<input type="hidden" name="context_id" class="js-context-id" />
+		<input type="hidden" name="action_token" value="<: $action_token :>">
 		<ul class="radio-list">
 			<li>
 				<input type="radio" class="radio" name="type" id="report_reason__linkbait" value="1" />
