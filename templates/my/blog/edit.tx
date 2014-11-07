@@ -131,7 +131,7 @@
 					<p>You can use <a href="https://en.wikipedia.org/wiki/BBCode">BBCode</a> to format your post.</p>
 					<p>Quick examples:<br/>
 						<tt>[b]Hello[/b]</tt> : <b>Hello</b><br/>
-						<tt>[i]Hello[/b]</tt> : <i>Hello</i><br/>
+						<tt>[i]Hello[/i]</tt> : <i>Hello</i><br/>
 						<tt>[u]Hello[/u]</tt> : <u>Hello</u><br/>
 						<tt>[img]http://ddg.gg/favicon.ico[/img]</tt>: <img src="https://duckduckgo.com/favicon.ico" alt="https://duckduckgo.com/favicon.ico"></img><br/>
 						<tt>[quote=superman]Look at me![/quote]</tt>: <div class='bbcode_quote_header'>Quote from <a href='/superman'>superman</a>:<div class='bbcode_quote_body'>Look at me!</div></div>
