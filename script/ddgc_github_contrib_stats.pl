@@ -12,6 +12,8 @@ use Time::Piece;
 use Time::Seconds;
 use Try::Tiny;
 
+$|=1;
+
 my $repository_url = 'https://github.com/duckduckgo/';
 
 my $core_team_github = {
@@ -22,6 +24,8 @@ my $core_team_github = {
         name =>  'Blake Jennelle'
     },
     davidmascio =>  {
+    },
+    chrismorast => {
     },
     faraday     =>  {
         name =>  'Çağatay Çallı'
@@ -79,6 +83,9 @@ my $core_team_github = {
     ddh5        => {
         name =>  'DuckDuckHack Five',
     },
+    dax => {
+        name => 'Dax the Duck',
+    }
 };
 
 # Should come from API in future:
@@ -153,6 +160,8 @@ my $periods = [
 ];
 my $log;
 
+print "working";
+
 for my $project (@projects) {
     next if $project eq 'nodejs-duckpan-npm'; # empty, API bombs
 MONTH:
@@ -165,17 +174,18 @@ MONTH:
             $request .= "?since=" . $since;
             $request .= "&until=" . $until;
             $request .= "&per_page=100";
-            print "$request\n";
             my $page = 1;
+            my $err = 0;
 
             try {
                 $commits = $gh->query('GET', $request);
             } catch {
-                print "$request failed - skipping\n";
-                next;
+                $err = 1;
+                print STDERR "$request failed - skipping\n";
             };
+            next if $err;
 
-            print scalar @{$commits} . "\n";
+            print ".";
 
             for my $commit (@{$commits}) {
                 #my $author = $commit->{author}->{login} || $commit->{committer}->{login} || "";
@@ -230,8 +240,8 @@ MONTH:
 }
 
 for (0..$#$periods) {
-    print "Unique GitHub contributors " . $periods->[$_]->{start}->mdy . " through " . ($periods->[$_]->{end} - ONE_DAY )->mdy . "\t";
+    print "\nUnique GitHub contributors " . $periods->[$_]->{start}->mdy . " through " . ($periods->[$_]->{end} - ONE_DAY )->mdy . "\t";
     print scalar (keys $log->[$_]->{authors}) . "\n";
-    print "Logins : " . join(', ', sort keys $log->[$_]->{authors}) . "\n\n";
+    print "Logins : " . join(', ', sort keys $log->[$_]->{authors}) . "\n";
 }
 
