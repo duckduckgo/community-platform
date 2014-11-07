@@ -51,11 +51,10 @@ $(document).ready(function() {
 		$(this).closest('.comment').toggleClass("min").toggleClass("max");
 		e.preventDefault();
 	});
-	
-	$("a[href^='http']").click(function(event) {
-		var _this = this;
-		if(this.href.indexOf(location.hostname) == -1) {
-			$(this).addEventListener('onmousedown', set_url_to_redirect(this), true);
+
+	$("a[href^='http']").mousedown(function() {
+		if (this.href.indexOf(location.hostname) === -1) {
+			set_url_to_redirect(this);
 		}
 	});
 
