@@ -25,6 +25,8 @@ my $core_team_github = {
     },
     davidmascio =>  {
     },
+    chrismorast => {
+    },
     faraday     =>  {
         name =>  'Çağatay Çallı'
     },
