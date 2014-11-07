@@ -22,7 +22,7 @@ my %tests = (
       '@x.yz @a.bc',
     ],
     'http://duckduckgo.com/?q=@yegg' => [
-        '<a href="http://duckduckgo.com/?q=@yegg" rel="nofollow">http://duckduckgo.com/?q=@yegg</a>',
+        '<a target="_blank" href="http://duckduckgo.com/?q=@yegg" rel="nofollow">http://duckduckgo.com/?q=@yegg</a>',
         'http://duckduckgo.com/?q=@yegg'
     ],
     'foo@example.com' => [

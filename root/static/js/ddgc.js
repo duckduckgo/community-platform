@@ -51,11 +51,10 @@ $(document).ready(function() {
 		$(this).closest('.comment').toggleClass("min").toggleClass("max");
 		e.preventDefault();
 	});
-	
-	// All external links in new window
-	$("a[href^='http']").not('.noblank').each(function(){
-		if(this.href.indexOf(location.hostname) == -1) {
-			$(this).attr('target', '_blank');
+
+	$("a[href^='http']").mousedown(function() {
+		if (this.href.indexOf(location.hostname) === -1) {
+			set_url_to_redirect(this);
 		}
 	});
 
@@ -721,6 +720,10 @@ $(document).ready(function() {
 })(jQuery);
 
 /* random functions gogo */
+
+function set_url_to_redirect(link) {
+    link.href = '/r/?u=' + encodeURIComponent(link.href) + '&action_token=' + $('meta[name="action-token"]').attr('content');
+}
 
 function showFormAddUserLanguage() {
 	$('#formAddUserLanguage').fadeIn();
