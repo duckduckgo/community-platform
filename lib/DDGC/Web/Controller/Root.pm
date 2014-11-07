@@ -200,6 +200,7 @@ sub redirect_duckco :Chained('base') :PathPart('topic') :Args(1) {
 
 sub r :Chained('base') :PathPart('r') :Args(0) {
 	my ( $self, $c ) = @_;
+	$c->stash->{not_last_url} = 1;
 	$c->require_action_token;
 	$c->stash->{template_layout} = ();
 	$c->stash->{r_url} = url_decode_utf8($c->req->param('u'));
