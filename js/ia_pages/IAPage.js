@@ -41,7 +41,7 @@
                         screens : Handlebars.templates.screens(x),
                         examples : Handlebars.templates.pre_edit_examples(x),
                         related : Handlebars.templates.pre_edit_related(x),
-                        devinfo : Handlebars.templates.devinfo(x),
+                        devinfo : Handlebars.templates.pre_edit_devinfo(x),
                         issues : Handlebars.templates.pre_edit_issues(x)
                     };
 
@@ -71,6 +71,7 @@
                             $obj = $("#topics");
                         } else if (name === "code") {
                             $obj = $(".dev-info-details");
+                            name = "devinfo";
                         }else {
                             $obj = $(this);
                         }
@@ -163,6 +164,7 @@
                         } else {
                             selector = "li.code.editable input";
                             $obj = $(".dev-info-details");
+                            field = "code";
                         }
 
                         $(selector).each(function(index) {
@@ -190,6 +192,8 @@
                                 var name;
                                 if (field === "example_query" || field === "other_queries") {
                                     name = "examples";
+                                } else if (field === "code") {
+                                    name = "devinfo";
                                 } else {
                                     name = field;
                                 }

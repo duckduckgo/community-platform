@@ -1,28 +1,28 @@
-<div class="dev-info-details section_editable">
+<div class="dev-info-details" id="code">
     <table class="iadata">
         <tr>
-            <td id="id"><strong>Id:</strong></td>
+            <td><strong>Id:</strong></td>
             <td>{{id}}</td>
         </tr>
         <tr>
-            <td id="templates"><strong>Templates:</strong></td>
+            <td><strong>Templates:</strong></td>
             <td>
                 list of templates here, if any, or
                 default for {{repo}}
             </td>
         </tr>
-        {{#if code}}     
+        {{#if code}}
             <tr>
                 <td><strong>Code:</strong></td>
                 <td>
                     {{#each code}}
-                        <li name="code" class="code editable"><input type="text" value="{{this}}" /></li>
+                        <li class="pre_edit" name="code">{{this}}</li>
                     {{/each}}
                 </td>
             </tr>
         {{/if}}
         <tr>
-            <td id="credits"><strong>Credits:</strong></td>
+            <td><strong>Credits:</strong></td>
             <td>
                 {{#each attribution}}
                     <li><a href="{{this.0.loc}}">{{this.0.type}}</a></li>
@@ -30,6 +30,4 @@
             </td>
         </tr>
     </table>
-
-    <div class="button end">OK</div>
 </div>
