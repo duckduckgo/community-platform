@@ -722,7 +722,7 @@ $(document).ready(function() {
 /* random functions gogo */
 
 function set_url_to_redirect(link) {
-    link.href = '/r/?u=' + encodeURIComponent(link.href) + '&action_token=' + $('meta[name="action-token"]').attr('content');
+    link.href = '/redir/?u=' + encodeURIComponent(link.href) + '&action_token=' + $('meta[name="action-token"]').attr('content');
 }
 
 function showFormAddUserLanguage() {

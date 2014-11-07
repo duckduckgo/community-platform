@@ -211,12 +211,24 @@ sub redirect_duckco :Chained('base') :PathPart('topic') :Args(1) {
 	return $c->detach;
 }
 
-sub r :Chained('base') :PathPart('r') :Args(0) {
+sub redir :Chained('base') :PathPart('redir') :Args(0) {
 	my ( $self, $c ) = @_;
 	$c->stash->{not_last_url} = 1;
 	$c->require_action_token;
+	$c->session->{r_url} = url_decode_utf8($c->req->param('u'));
+	$c->response->redirect($c->chained_uri('Root','r'));
+	return $c->detach;
+}
+
+sub r :Chained('base') :PathPart('r') :Args(0) {
+	my ( $self, $c ) = @_;
+	if (!$c->session->{r_url}) {
+		$c->response->redirect($c->chained_uri('Root','index'));
+		return $c->detach;
+	}
+	$c->stash->{not_last_url} = 1;
 	$c->stash->{template_layout} = ();
-	$c->stash->{r_url} = url_decode_utf8($c->req->param('u'));
+	$c->stash->{r_url} = $c->session->{r_url};
 }
 
 sub index :Chained('base') :PathPart('') :Args(0) {
