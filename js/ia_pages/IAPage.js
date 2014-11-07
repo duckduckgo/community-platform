@@ -137,7 +137,7 @@
                             }
 
                             if (field !== "topic" && field !== "other_queries" && field !== "code" && field !== "example_query") {
-                                save(field, value, DDH_iaid, $obj);
+                                save(field, value, DDH_iaid, $obj, true);
                             }
 
                             if (evt.type === "keypress") {
@@ -177,7 +177,7 @@
                         if (field === "topic") {
                             selector = ".ia_topic a.editable input";
                         } else if (field === "examples") {
-                            save("example_query", $("#primary input").val(), DDH_iaid, $obj);
+                            save("example_query", $("#primary input").val(), DDH_iaid, $obj, false);
                             field = "other_queries";
                             selector = "#examples .other-examples input";
                         } else {
@@ -192,10 +192,10 @@
                         });
 
                         value = JSON.stringify(value);
-                        save(field, value, DDH_iaid, $obj);
+                        save(field, value, DDH_iaid, $obj, true);
                     });
 
-                    function save(field, value, id, $obj) {
+                    function save(field, value, id, $obj, replace) {
                         var jqxhr = $.post("/ia/save", {
                             field : field, 
                             value : value,
@@ -221,7 +221,10 @@
                                 }
 
                                 pre_templates[field] = Handlebars.templates['pre_edit_' + name](x);
-                                $obj.replaceWith(pre_templates[field]);
+
+                                if (replace) {
+                                    $obj.replaceWith(pre_templates[field]);
+                                }
                             }
                         });
                     }
