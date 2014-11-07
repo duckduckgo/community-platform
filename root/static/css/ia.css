@@ -84,6 +84,9 @@
 .ia-singe .editable input {
     padding-right: 0.7em;
 }
+.ia-single #examples .button.end {
+    margin-bottom: 0.5em;
+}
 #edit_activate,
 #edit_disable {
     margin-bottom: 1em;
