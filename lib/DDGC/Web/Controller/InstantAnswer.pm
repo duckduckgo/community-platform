@@ -102,10 +102,10 @@ sub ia_base :Chained('base') :PathPart('view') :CaptureArgs(1) {  # /ia/view/cal
 
     use JSON;
     my $topics = $c->stash->{ia}->topic;
-    $c->stash->{ia_topics} = decode_json($topics);
+    $c->stash->{ia_topics} = $topics ? decode_json($topics) : undef;
 
     my $code = $c->stash->{ia}->code;
-    $c->stash->{ia_code} = decode_json($code);
+    $c->stash->{ia_code} = $code ? decode_json($code) : undef;
 
     my $other_queries = $c->stash->{ia}->other_queries;
     if ($other_queries) {
