@@ -25,7 +25,7 @@
 .ia-single .desktop {
 	width: 99.75%;
 }
-.ia-single .clearfix {
+.clearfix {
 	clear: both;
 }
 .ia-single .screens {
@@ -38,20 +38,13 @@
 .ia-single .hide {
 	display: none;
 }
-.ia-edit #input_example {
-    width: 7em;
-    height: 1.5em;
+.ia-single #input_example {
     margin-left: 1.15em;
-    border-radius: 5px;
-    -moz-border-radius: 5px;
-    -o-border-radius: 5px;
-    -webkit-border-radius: 5px;
-    border: 1px solid #888;
 }
 .ia-single ul li {
     list-style-position: inside;
 }
-.ia-edit .button.listbutton {
+.ia-single .button.listbutton {
     padding: 0;
     width: 1em;
     height: 1em;
@@ -62,23 +55,41 @@
     text-align: center;
     font-size: 14px;
 }
-.ia-edit .button.listbutton span {
+.ia-single .button.listbutton span {
     vertical-align: top;
     line-height: 0.8;
     font-weight: bold;
 }
-.ia-edit ul li.editpage {
+.ia-single ul li.editpage {
     list-style: none;
 }
-.ia-edit ul li.editpage .newentry {
+.ia-single ul li.editpage .newentry {
     margin-left: 0.25em;
 }
-.ia-edit .button#cancel {
+.ia-single .button#cancel {
     margin-left: 1em;
 }
-.ia-edit #error {
+.ia-single #error {
     margin-bottom: 1em;
     color: #DD4C26;
+}
+.ia-single .pre_edit.highlight {
+    border: 1px solid #333;
+    border-radius: 5%;
+    -moz-border-radius: 5%;
+    -o-border-radius: 5%;
+    -webkit-border-radius: 5%;
+}
+.ia-single .pre_edit,
+.ia-singe .editable input {
+    padding-right: 0.7em;
+}
+.ia-single #examples .button.end {
+    margin-bottom: 0.5em;
+}
+#edit_activate,
+#edit_disable {
+    margin-bottom: 1em;
 }
 #ia_index td {
     padding-left:4px;

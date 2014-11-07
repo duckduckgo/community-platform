@@ -127,14 +127,14 @@ sub ia_base :Chained('base') :PathPart('view') :CaptureArgs(1) {  # /ia/view/cal
     $c->stash->{ia_pretty} = p $c->stash->{ia};
 
     my $permissions;
-    my $class = "ia-readonly";
+    my $class = "hide";
 
     if ($c->user) {
         $permissions = $c->stash->{ia}->users->find($c->user->id);
     }
 
     if ($permissions) {
-        $class = "ia-edit"
+        $class = "";
     }
 
     $c->stash->{class} = $class;
@@ -187,15 +187,9 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
     if ($permissions) {
         try {
             $ia->update({
-                        description => $c->req->params->{description},
-                        name => $c->req->params->{name},
-                        status => $c->req->params->{status},
-                        topic => $c->req->params->{topic},
-                        example_query => $c->req->params->{example},
-                        other_queries => $c->req->params->{other_examples},
-                        code => $c->req->params->{code} 
+                        $c->req->params->{field} => $c->req->params->{value}
                      });
-            $result = 1;
+            $result = {$c->req->params->{field} => $c->req->params->{value}};
         }
         catch {
             $c->d->errorlog("Error updating the database");

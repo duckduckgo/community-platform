@@ -1,0 +1,26 @@
+<div id="examples" class="section_editable"><strong>Examples:</strong>
+    <ul>
+        <li class="editpage">
+            <div class="button delete listbutton" name="example_query" title="Remove this example"><span>-</span></div>
+            <span title="try this example on DuckDuckGo" name="example_query" class="editable" id="primary">
+                <input type="text" value="{{example_query}}" />
+            </span>
+        </li>
+        {{#if other_queries}}
+            {{#each other_queries}}
+                <li class="editpage">
+                    <div class="button delete listbutton" name="other_queries" title="Remove this example"><span>-</span></div>
+                    <span title="try this example on DuckDuckGo" name="other_queries" class="editable other-examples">
+                        <input type="text" value="{{this}}" />
+                    </span>
+                </li>
+            {{/each}}
+        {{/if}}
+        <li class="editpage"><div name="other_queries" class="editable other-examples hide" id="input_example">
+            <input type="text" value="" />
+        </div></li>
+        <li class="editpage"><div class="button listbutton" id="add_example" title="Add example"><span>+</span></div></li>
+    </ul>
+
+    <div class="button end">OK</div>
+</div>
