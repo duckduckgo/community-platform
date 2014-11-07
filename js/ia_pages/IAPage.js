@@ -17,19 +17,6 @@
                 console.log("for ia id '%s'", DDH_iaid);
 
                 $.getJSON("/ia/view/" + DDH_iaid + "/json", function(x) {
-                    var field_order = [
-                        'name',
-                        'status',
-                        'description',
-                        'team',
-                        'topic',
-                        'screens',
-                        'examples',
-                        'related',
-                        'devinfo',
-                        'issues'
-                    ];
-
                     // Readonly mode templates
                     var readonly_templates = {
                         name : Handlebars.templates.name(x),
@@ -58,19 +45,12 @@
                         issues : Handlebars.templates.pre_edit_issues(x)
                     };
 
-                    function updateAll(templates) {
-                        $(".ia-single").empty();
-                        for (var i = 0; i < field_order.length; i++) {
-                            $(".ia-single").append(templates[field_order[i]]);
-                        }
-                    }
-
-                    updateAll(readonly_templates);
+                    DDH.IAPage.prototype.updateAll(readonly_templates);
 
                     $("body").on('click', '.ia-single .dev-info', DDH.IAPage.prototype.expand.bind(this));
 
                     $("#edit_activate").on('click', function(evt) {
-                        updateAll(pre_templates);
+                        DDH.IAPage.prototype.updateAll(pre_templates);
 
                         $("#edit_disable").removeClass("hide");
                         $(this).hide();
@@ -231,6 +211,26 @@
                 });
             }
         },
+
+        field_order: [
+            'name',
+            'status',
+            'description',
+            'team',
+            'topic',
+            'screens',
+            'examples',
+            'related',
+            'devinfo',
+            'issues'
+        ],
+
+        updateAll: function(templates) {
+            $(".ia-single").empty();
+            for (var i = 0; i < this.field_order.length; i++) {
+                $(".ia-single").append(templates[this.field_order[i]]);
+            }
+        },       
 
         expand: function() {
             $(".ia-single .dev-info").addClass("hide");
