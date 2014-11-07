@@ -5,6 +5,7 @@ use Moose;
 use Path::Class;
 use DateTime;
 use DateTime::Duration;
+use URL::Encode 'url_decode_utf8';
 
 use namespace::autoclean;
 
@@ -208,6 +209,14 @@ sub redirect_duckco :Chained('base') :PathPart('topic') :Args(1) {
 		$c->response->redirect($c->chained_uri('Forum','general',{ thread_notfound => 1 }));
 	}
 	return $c->detach;
+}
+
+sub r :Chained('base') :PathPart('r') :Args(0) {
+	my ( $self, $c ) = @_;
+	$c->stash->{not_last_url} = 1;
+	$c->require_action_token;
+	$c->stash->{template_layout} = ();
+	$c->stash->{r_url} = url_decode_utf8($c->req->param('u'));
 }
 
 sub index :Chained('base') :PathPart('') :Args(0) {

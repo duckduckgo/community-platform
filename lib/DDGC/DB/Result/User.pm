@@ -882,6 +882,18 @@ sub rate_limit_login {
 	})->count > $self->ddgc->config->login_failure_count_limit);
 }
 
+sub forum_links_same_window {
+	my ( $self ) = @_;
+	$self->data->{forum_links_same_window};
+}
+sub toggle_forum_links {
+	my ( $self ) = @_;
+	my $data = $self->data;
+	$data->{forum_links_same_window} = (!$data->{forum_links_same_window});
+	$self->data($data);
+	$self->update;
+}
+
 sub get_object {
 	return shift;
 }
