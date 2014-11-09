@@ -22,6 +22,8 @@ sub index :Chained('base') :PathPart('') :Args(0) {
     $c->stash->{ia_page} = "IAIndex";
     $c->stash->{ia_version} = $c->d->ia_page_version;
 
+    $c->add_bc('Instant Answers', $c->chained_uri('InstantAnswer','index'));
+
     # @{$c->stash->{ialist}} = $c->d->rs('InstantAnswer')->all();
 }
 
@@ -138,6 +140,9 @@ sub ia_base :Chained('base') :PathPart('view') :CaptureArgs(1) {  # /ia/view/cal
     }
 
     $c->stash->{class} = $class;
+
+    $c->add_bc('Instant Answers', $c->chained_uri('InstantAnswer','index'));
+    $c->add_bc($c->stash->{ia}->name);
 }
 
 sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
