@@ -8,6 +8,10 @@
 				Your registration was successful, you can now login!
 			</div>
 		<: } :>
+		<: if $username_at { :>
+			<div class="notice error"><i class="icn icon-warning-sign"></i>Login needs your duck.co username, not your email address or XMPP details.</div>
+		<: } :>
+
 		
 		<: if $login_failed { :>
 			<div class="notice error"><i class="icn icon-warning-sign"></i>Login failed. Your username or password is incorrect.</div>
