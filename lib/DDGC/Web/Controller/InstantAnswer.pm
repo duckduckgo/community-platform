@@ -4,6 +4,7 @@ use Data::Dumper;
 use Moose;
 use namespace::autoclean;
 use Try::Tiny;
+use Time::Local;
 
 my $INST = DDGC::Config->new->appdir_path."/root/static/js";
 
@@ -190,23 +191,44 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
     }
 
     if ($permissions) {
+        my $current_updates = $ia->get_column('updates') || ();
+        my $field = $c->req->params->{field};
+        my $value = $c->req->params->{value};
+        warn "start ",Dumper($c->req->params);
+        warn "updates $current_updates  field $field   value $value\n";
+
+        $current_updates = add_edit($current_updates, $field, $value);
+
+        warn Dumper($current_updates);
         try {
-            $ia->update({
-                        $c->req->params->{field} => $c->req->params->{value}
-                     });
-            $result = {$c->req->params->{field} => $c->req->params->{value}};
+            $ia->update({updates => $current_updates});
+            $result = {$field => $value};
         }
         catch {
             $c->d->errorlog("Error updating the database");
         };
     }
-    
+
     $c->stash->{x} = {
         result => $result,
     };
-   
-    $c->stash->{not_last_url} = 1; 
+
+    $c->stash->{not_last_url} = 1;
     return $c->forward($c->view('JSON'));
+}
+
+sub add_edit {
+
+    my ( $current_updates , $field, $value ) = @_;
+    my $time = time;
+    $current_updates = decode_json($current_updates) if $current_updates;
+        warn "updatesfrom sub $current_updates  field $field   value $value\n";
+
+    my %new_update = ( $time => {$field => $value});
+
+    push(@{$current_updates}, \%new_update);
+
+    return $current_updates;
 }
 
 no Moose;
