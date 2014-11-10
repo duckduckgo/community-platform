@@ -8,6 +8,7 @@ use DDGC::Config;
 use Time::HiRes qw/ sleep /;
 use Email::Valid;
 use Digest::MD5 qw( md5_hex );
+use Try::Tiny;
 
 BEGIN {extends 'Catalyst::Controller'; }
 
@@ -73,6 +74,12 @@ sub login :Chained('logged_out') :Args(0) {
 	my $last_url = $c->session->{last_url};
 
 	if ($c->stash->{username} = $c->req->params->{ $c->session->{username_field} }) {
+
+		if ($c->stash->{username} =~ /@/) {
+			$c->stash->{username_at} = 1;
+			return $c->detach;
+		}
+
 		$c->session->{username_field} = $c->d->uid;
 		my $user = $c->d->find_user($c->stash->{username});
 		if (($user && $user->rate_limit_login)
@@ -463,6 +470,12 @@ sub forgotpw :Chained('logged_out') :Args(0) {
 	}
 
 	$c->stash->{forgotpw_username} = lc($c->req->params->{ $c->session->{username_field} });
+
+	if ($c->stash->{forgotpw_username} =~ /@/) {
+		$c->stash->{username_at} = 1;
+		return $c->detach;
+	}
+
 	$c->session->{username_field} = $c->d->uid;
 	
 	my $user = $c->d->find_user($c->stash->{forgotpw_username});

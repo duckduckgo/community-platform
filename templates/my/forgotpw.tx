@@ -7,6 +7,9 @@
 <: if $not_valid_username { :>
 	<div class="notice error"><i class="icn icon-warning-sign"></i>Your username contains invalid characters. Use only your username to request new password.</div>
 <: } :>
+<: if $username_at { :>
+	<div class="notice error"><i class="icn icon-warning-sign"></i>This form needs your duck.co username, not your email address or XMPP details.</div>
+<: } :>
 
 <div class="form-border">
 	<div class="form-wrap account-form">
