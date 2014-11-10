@@ -126,15 +126,15 @@ sub gettext_snippet {
 	my $msgstr_index_max = $self->token_domain_language->language->nplurals - 1;
 
 	if ($self->token_domain_language->language->locale eq 'en_US') {
-		$vars{msgid} = $self->gettext_msgid_escape($self->token->msgid);
-		$vars{msgctxt} = $self->gettext_msgid_escape($self->token->msgctxt) if $self->token->msgctxt;
+		$vars{msgid} = $self->gettext_escape($self->token->msgid);
+		$vars{msgctxt} = $self->gettext_escape($self->token->msgctxt) if $self->token->msgctxt;
 		if ($self->token->msgid_plural) {
-			$vars{msgid_plural} = $self->gettext_msgid_escape($self->token->msgid_plural);
-			$vars{'msgstr[0]'} = $self->gettext_msgstr_escape($self->token->msgid);
-			$vars{'msgstr[1]'} = $self->gettext_msgstr_escape($self->token->msgid_plural);
+			$vars{msgid_plural} = $self->gettext_escape($self->token->msgid_plural);
+			$vars{'msgstr[0]'} = $self->gettext_escape($self->token->msgid);
+			$vars{'msgstr[1]'} = $self->gettext_escape($self->token->msgid_plural);
 		}
 		else {
-			$vars{msgstr} = $self->gettext_msgstr_escape($self->token->msgid);
+			$vars{msgstr} = $self->gettext_escape($self->token->msgid);
 		}
 		return "\n".$self->gettext_snippet_formatter(%vars);
 	}
@@ -143,38 +143,31 @@ sub gettext_snippet {
 		for (0..$msgstr_index_max) {
 			my $func = 'msgstr'.$_;
 			my $result = $self->$func;
-			$vars{'msgstr['.$_.']'} = $self->gettext_msgstr_escape($result) if $result;
+			$vars{'msgstr['.$_.']'} = $self->gettext_escape($result) if $result;
 		}
 	} else {
-		$vars{'msgstr'} = $self->gettext_msgstr_escape($self->msgstr0) if $self->msgstr0;
+		$vars{'msgstr'} = $self->gettext_escape($self->msgstr0) if $self->msgstr0;
 	}
 	return unless %vars || $fallback;
-	$vars{msgid} = $self->gettext_msgid_escape($self->token->msgid);
-	$vars{msgctxt} = $self->gettext_msgid_escape($self->token->msgctxt) if $self->token->msgctxt;
+	$vars{msgid} = $self->gettext_escape($self->token->msgid);
+	$vars{msgctxt} = $self->gettext_escape($self->token->msgctxt) if $self->token->msgctxt;
 	if ($self->token->msgid_plural) {
-		$vars{msgid_plural} = $self->gettext_msgid_escape($self->token->msgid_plural);
+		$vars{msgid_plural} = $self->gettext_escape($self->token->msgid_plural);
 		for (0..$msgstr_index_max) {
-			$vars{'msgstr['.$_.']'} = $self->gettext_msgstr_escape($self->token->msgid_plural)
+			$vars{'msgstr['.$_.']'} = $self->gettext_escape($self->token->msgid_plural)
 				unless defined $vars{'msgstr['.$_.']'};
 		}
 	} else {
-		$vars{msgstr} = $self->gettext_msgstr_escape($self->token->msgid)
+		$vars{msgstr} = $self->gettext_escape($self->token->msgid)
 			unless defined $vars{msgstr};
 	}
 	return "\n".$self->gettext_snippet_formatter(%vars);
 }
 
-sub gettext_msgid_escape {
+sub gettext_escape {
 	my ( $self, $content ) = @_;
 	$content =~ s/\\/\\\\/g;
 	$content =~ s/"/\\"/g;
-	return $content;
-}
-
-sub gettext_msgstr_escape {
-	my ( $self, $content ) = @_;
-	$content =~ s/\\/\\\\/g;
-	$content = HTML::Entities::encode_entities( $content, '<>&\'"' );
 	return $content;
 }
 
