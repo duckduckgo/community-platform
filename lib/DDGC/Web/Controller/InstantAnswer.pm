@@ -132,7 +132,7 @@ sub ia_base :Chained('base') :PathPart('view') :CaptureArgs(1) {  # /ia/view/cal
     my $class = "hide";
 
     if ($c->user) {
-        $permissions = $c->stash->{ia}->users->find($c->user->id);
+        $permissions = $c->stash->{ia}->users->find($c->user->id) || $c->user->admin;
     }
 
     if ($permissions) {
@@ -186,7 +186,7 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
     my $result = '';
 
     if ($c->user) {
-       $permissions = $ia->users->find($c->user->id);
+       $permissions = $ia->users->find($c->user->id) || $c->user->admin;
     }
 
     if ($permissions) {
