@@ -84,6 +84,8 @@ __PACKAGE__->config(
 		'response-status' => 500,
 	},
 	'Plugin::Session' => {
+		cookie_secure   => 2,
+		cookie_httponly => 1,
 		expires => 21600,
 		defined $ENV{DDGC_TMP} ? ( storage => $ENV{DDGC_TMP} ) : (),
 	},
@@ -101,10 +103,6 @@ __PACKAGE__->config(
 		create => [qw/ttf rect/],
 		particle => [3000],
 		out => {force => 'jpeg'}
-	},
-	'Plugin::Session::State::Cookie' => {
-		cookie_secure   => 1,
-		cookie_httponly => 1,
 	},
 );
 

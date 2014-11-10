@@ -120,6 +120,7 @@ sub done_goto :Chained('done_base') :Args(0) {
 
 sub unfollow :Chained('base') :Args(1) {
 	my ( $self, $c, $id ) = @_;
+	$c->require_action_token;
 	my $user_notification = $c->user->search_related('user_notifications',{
 		id => $id
 	})->first;

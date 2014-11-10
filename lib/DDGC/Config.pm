@@ -127,6 +127,12 @@ has_conf deleted_account => DDGC_DELETED_ACCOUNT => 'testone';
 has_conf automoderator_account => DDGC_AUTOMODERATOR_ACCOUNT => 'automoderator';
 
 has_conf comment_rate_limit => DDGC_COMMENT_RATE_LIMIT => 120;
+has_conf login_failure_time_limit => DDGC_LOGIN_FAILURE_TIME_LIMIT => 600;
+has_conf login_failure_count_limit => DDGC_LOGIN_FAILURE_COUNT_LIMIT => 6;
+has_conf login_failure_session_limit => DDGC_LOGIN_FAILURE_SESSION_LIMIT => 10;
+
+has_conf forgotpw_session_limit => DDGC_LOGIN_FAILURE_SESSION_LIMIT => 5;
+has_conf forgotpw_user_time_limit => DDGC_LOGIN_FAILURE_SESSION_LIMIT => 300;
 
 # DANGER: DEACTIVATES PASSWORD CHECK FOR ALL USERACCOUNTS!!!!!!!!!!!!!!!!!!!!!!
 sub prosody_running { defined $ENV{'DDGC_PROSODY_RUNNING'} ? $ENV{'DDGC_PROSODY_RUNNING'} : 0 }

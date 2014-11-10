@@ -74,17 +74,13 @@ sub resultset {
     $args{q} = $query;
     my $result = $self->search(%args);
     unless ($result) {
-        my $err;
+        my $log_reference;
         if($self->last_response->code == 500 && $self->last_response->decoded_content =~ qr/^\{.+\}$/) { 
-            $err = decode_json($self->last_response->decoded_content)->{error} . 
-                '<br/>This seems like a problem with your query. If you disagree, please <a href="mailto:ddgc@duckduckgo.com">contact us</a>.'
-            ;
+            $log_reference = $c->d->errorlog("Query error : " . decode_json($self->last_response->decoded_content)->{error});
         } else {
-            $err = $self->last_response->message . ($c->debug ?
-            '<br/>Have you run `script/dezi_server.pl &`?' :
-            '<br/>Please contact <a href="mailto:ddgc@duckduckgo.com">ddgc@duckduckgo.com</a> if the issue persists.');
+            $log_reference = $c->d->errorlog($self->last_response->message);
         }
-        $c->stash->{error} = $err;
+        $c->stash->{error} = "There was a problem with this query. If this persists If this error persists, please email ddgc\@duckduckgo.com and quote the reference $log_reference";
     }
 
     my %results;

@@ -4,13 +4,9 @@ use Data::Dumper;
 use Moose;
 use namespace::autoclean;
 use Try::Tiny;
-use DDGC::Util::File qw( ia_page_version );
-use Hash::Merge qw( merge );
 use Time::Local;
 
 my $INST = DDGC::Config->new->appdir_path."/root/static/js";
-
-my $ia_version = ia_page_version();
 
 BEGIN {extends 'Catalyst::Controller'; }
 
@@ -25,17 +21,15 @@ sub index :Chained('base') :PathPart('') :Args(0) {
     # my @x = $c->d->rs('InstantAnswer')->all();
     # $c->stash->{ialist} = \@x;
     $c->stash->{ia_page} = "IAIndex";
-    $c->stash->{ia_version} = $ia_version;
+    $c->stash->{ia_version} = $c->d->ia_page_version;
+
+    $c->add_bc('Instant Answers', $c->chained_uri('InstantAnswer','index'));
 
     # @{$c->stash->{ialist}} = $c->d->rs('InstantAnswer')->all();
 }
 
 sub ialist_json :Chained('base') :PathPart('json') :Args(0) {
     my ( $self, $c ) = @_;
-
-    # $c->stash->{x} = {
-    #     ia_list => "this will be the list of all IAs"
-    # };
 
     my @x = $c->d->rs('InstantAnswer')->all();
     my @ial;
@@ -44,6 +38,7 @@ sub ialist_json :Chained('base') :PathPart('json') :Args(0) {
 
     for (@x) {
         my $topics = $_->topic;
+        my $attribution = $_->attribution;
         push (@ial, {
                 name => $_->name,
                 id => $_->id,
@@ -53,11 +48,13 @@ sub ialist_json :Chained('base') :PathPart('json') :Args(0) {
                 dev_milestone => $_->dev_milestone,
                 perl_module => $_->perl_module,
                 description => $_->description,
-                topic => decode_json($topics)
+                topic => decode_json($topics),
+                attribution => $attribution ? decode_json($attribution) : undef,
             });
     }
 
     $c->stash->{x} = \@ial;
+    $c->stash->{not_last_url} = 1;
     $c->forward($c->view('JSON'));
 }
 
@@ -88,6 +85,7 @@ sub iarepo :Chained('base') :PathPart('repo') :Args(1) {
     }
 
     $c->stash->{x} = \%iah;
+    $c->stash->{not_last_url} = 1;
     $c->forward($c->view('JSON'));
 }
 
@@ -101,16 +99,16 @@ sub ia_base :Chained('base') :PathPart('view') :CaptureArgs(1) {  # /ia/view/cal
     my ( $self, $c, $answer_id ) = @_;
 
     $c->stash->{ia_page} = "IAPage";
-    $c->stash->{ia_version} = $ia_version;
+    $c->stash->{ia_version} = $c->d->ia_page_version;
     $c->stash->{ia} = $c->d->rs('InstantAnswer')->find($answer_id);
     @{$c->stash->{issues}} = $c->d->rs('InstantAnswer::Issues')->search({instant_answer_id => $answer_id});
 
     use JSON;
     my $topics = $c->stash->{ia}->topic;
-    $c->stash->{ia_topics} = decode_json($topics);
+    $c->stash->{ia_topics} = $topics ? decode_json($topics) : undef;
 
     my $code = $c->stash->{ia}->code;
-    $c->stash->{ia_code} = decode_json($code);
+    $c->stash->{ia_code} = $code ? decode_json($code) : undef;
 
     my $other_queries = $c->stash->{ia}->other_queries;
     if ($other_queries) {
@@ -119,7 +117,7 @@ sub ia_base :Chained('base') :PathPart('view') :CaptureArgs(1) {  # /ia/view/cal
 
     my $ia_attribution = $c->stash->{ia}->attribution;
     if($ia_attribution){
-        $c->stash->{ia_attribution} = decode_json($ia_attribution);
+        $c->stash->{ia_attribution} = $ia_attribution ? decode_json($ia_attribution) : undef;
     }
 
     unless ($c->stash->{ia}) {
@@ -128,8 +126,24 @@ sub ia_base :Chained('base') :PathPart('view') :CaptureArgs(1) {  # /ia/view/cal
     }
 
     use DDP;
-    $c->stash->{ia_version} = $ia_version;
+    $c->stash->{ia_version} = $c->d->ia_page_version;
     $c->stash->{ia_pretty} = p $c->stash->{ia};
+
+    my $permissions;
+    my $class = "hide";
+
+    if ($c->user) {
+        $permissions = $c->stash->{ia}->users->find($c->user->id) || $c->user->admin;
+    }
+
+    if ($permissions) {
+        $class = "";
+    }
+
+    $c->stash->{class} = $class;
+
+    $c->add_bc('Instant Answers', $c->chained_uri('InstantAnswer','index'));
+    $c->add_bc($c->stash->{ia}->name);
 }
 
 sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
@@ -157,28 +171,11 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
     # my @issues = @{$c->stash->{issues}};
     # $c->stash->{x}->{issues} = \@issues if (@issues);
 
+    $c->stash->{not_last_url} = 1;
     $c->forward($c->view('JSON'));
 }
 
 sub ia  :Chained('ia_base') :PathPart('') :Args(0) {
-    my ( $self, $c ) = @_;
-}
-
-sub edit_base :Chained('base') :PathPart('edit') :CaptureArgs(1) {
-       my ( $self, $c, $answer_id ) = @_;
-
-    $c->stash->{ia_page} = "IAPageEdit";
-    $c->stash->{ia_version} = $ia_version;
-    $c->stash->{ia} = $c->d->rs('InstantAnswer')->find($answer_id);
-
-    unless ($c->stash->{ia}) {
-        $c->response->redirect($c->chained_uri('InstantAnswer','index',{ instant_answer_not_found => 1 }));
-        return $c->detach;
-    }
-
-}
-
-sub edit :Chained('edit_base') :PathPart('') :Args(0) {
     my ( $self, $c ) = @_;
 }
 
@@ -189,34 +186,23 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
     my $permissions;
     my $result = '';
 
-    try {
-       $permissions = $ia->users->find($c->user->id);
+    if ($c->user) {
+       $permissions = $ia->users->find($c->user->id) || $c->user->admin;
     }
-    catch {
-        $c->d->errorlog("Error: user is not logged in");
-    };
 
     if ($permissions) {
-        my $time = time;
-        my $current_updates = $ia->get_column('updates') || '';
-        $current_updates = decode_json($current_updates) if $current_updates;
+        my $current_updates = $ia->get_column('updates') || ();
+        my $field = $c->req->params->{field};
+        my $value = $c->req->params->{value};
+        warn "start ",Dumper($c->req->params);
+        warn "updates $current_updates  field $field   value $value\n";
 
-        my %new_update = (
-            $time => {
-                description => $c->req->params->{description},
-                name => $c->req->params->{name},
-                status => $c->req->params->{status},
-                topic => $c->req->params->{topic},
-                example_query => $c->req->params->{example},
-                other_queries => $c->req->params->{other_examples},
-                code => $c->req->params->{code}
-            });
+        $current_updates = add_edit($current_updates, $field, $value);
 
-        push(@{$current_updates}, \%new_update);
-
+        warn Dumper($current_updates);
         try {
             $ia->update({updates => $current_updates});
-            $result = 1;
+            $result = {$field => $value};
         }
         catch {
             $c->d->errorlog("Error updating the database");
@@ -227,7 +213,22 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
         result => $result,
     };
 
+    $c->stash->{not_last_url} = 1;
     return $c->forward($c->view('JSON'));
+}
+
+sub add_edit {
+
+    my ( $current_updates , $field, $value ) = @_;
+    my $time = time;
+    $current_updates = decode_json($current_updates) if $current_updates;
+        warn "updatesfrom sub $current_updates  field $field   value $value\n";
+
+    my %new_update = ( $time => {$field => $value});
+
+    push(@{$current_updates}, \%new_update);
+
+    return $current_updates;
 }
 
 no Moose;

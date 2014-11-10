@@ -20,6 +20,7 @@
 <link rel="stylesheet" media="screen, projection, handheld" href="/generated_css/flags.css" />
 <meta name="viewport" content="width=100, initial-scale=1.0" />
 
+<meta name="action-token" content="<: $action_token :>" />
 
 <!--[if lt IE 9]>
 <script src="/static/js/html5shiv.js"></script>
