@@ -16,7 +16,7 @@ while( my $ia = $results->next() ){
 
     my $edits = from_json($ia->get_column('updates'));
     my $ia_name = $ia->get_column('name');
-    print "For IA: $ia_name\n";
+    print "IA: $ia_name\n";
 
     # each edit
     foreach my $edit (@{ $edits }){
