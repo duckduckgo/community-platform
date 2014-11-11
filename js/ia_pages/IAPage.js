@@ -22,11 +22,9 @@
                         name : Handlebars.templates.name(x),
                         status : Handlebars.templates.status(x),
                         description : Handlebars.templates.description(x),
-                        team : Handlebars.templates.team(x),
                         topic : Handlebars.templates.topic(x),
                         screens : Handlebars.templates.screens(x),
                         examples : Handlebars.templates.examples(x),
-                        related : Handlebars.templates.related(x),
                         devinfo : Handlebars.templates.devinfo(x),
                         issues : Handlebars.templates.issues(x),
                     };
@@ -36,11 +34,9 @@
                         name : Handlebars.templates.pre_edit_name(x),
                         status : Handlebars.templates.pre_edit_status(x),
                         description : Handlebars.templates.pre_edit_description(x),
-                        team : Handlebars.templates.pre_edit_team(x),
                         topic : Handlebars.templates.pre_edit_topic(x),
                         screens : Handlebars.templates.screens(x),
                         examples : Handlebars.templates.pre_edit_examples(x),
-                        related : Handlebars.templates.pre_edit_related(x),
                         devinfo : Handlebars.templates.pre_edit_devinfo(x),
                         issues : Handlebars.templates.pre_edit_issues(x)
                     };
@@ -220,11 +216,9 @@
             'name',
             'status',
             'description',
-            'team',
             'topic',
             'screens',
             'examples',
-            'related',
             'devinfo',
             'issues'
         ],
