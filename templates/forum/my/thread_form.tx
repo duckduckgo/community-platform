@@ -53,7 +53,7 @@
                 a.href = "../../thread/" + r.id + "/" + r.key;
                 a.textContent = r.title;
                 row.appendChild(a);
-                row.innerHTML += ' - ' + r.comment.content.slice(0,130);
+                row.innerHTML += ' - ' + r.content.slice(0,130);
                 s.append(row);
             });
         }).l=v.length;

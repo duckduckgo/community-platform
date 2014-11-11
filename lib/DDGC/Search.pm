@@ -15,23 +15,12 @@ has ddgc => (
 sub topic_suggest {
 	my ( $self, $searchtext ) = @_;
 	my $searchterms = join ' | ', split /\s+/, $searchtext =~ s/[^\w ]//rg;
+	$searchterms.=":*";
 
-	$self->rs('Thread')->search({
-		-and => [
-			'me.forum' => $self->ddgc->config->id_for_forum('general'),
-			'me.migrated_to_idea' => undef,
-			\[
-				'to_tsvector(me.title) ||
-				 to_tsvector(comment.content)
-				 @@ to_tsquery( ? )', $searchterms
-			],
-		],
-	},
-	{
-		rows => 4,
+	$self->rs('Thread::Suggest')->search({}, {
 		cache_for => 600,
 		result_class => 'DBIx::Class::ResultClass::HashRefInflator',
-		prefetch => [qw/ comment /],
+		bind => [ $searchterms, $searchterms ],
 	})->all;
 }
 
