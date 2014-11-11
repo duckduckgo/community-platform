@@ -37,7 +37,7 @@
 <script type="text/javascript">
     function suggest(e) {
         if(!e.charCode || e.ctrlKey || e.altKey) return;
-        var v=e.target.value + String.fromCharCode(e.which) + '*';
+        var v=e.target.value + String.fromCharCode(e.which);
         v=v.replace(/-/g, '');
         $.getJSON("<: $u('Forum','suggest') :>?q="+window.encodeURIComponent(v), function(data,b,xhr) {
             if(xhr.l < e.target.value.length+1) return;
