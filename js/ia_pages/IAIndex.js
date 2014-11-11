@@ -12,13 +12,16 @@
         init: function() {
             console.log("IAIndex init()");
             var ind = this;
+            var field = $("#ia_index").attr("field");
+            var value = (field == "topic")? JSON.stringify([$("#ia_index").attr("value")]) : $("#ia_index").attr("value");
+            var url = (field && value)? "/ia/json/" + field + "/" + value : "/ia/json";
 
             $("#sort_name").on('click',   DDH.IAIndex.prototype.sort.bind(this, 'name'));
             $("#sort_descr").on('click',  DDH.IAIndex.prototype.sort.bind(this, 'description'));
             $("#sort_status").on('click', DDH.IAIndex.prototype.sort.bind(this, 'dev_milestone'));
             $("#sort_repo").on('click',   DDH.IAIndex.prototype.sort.bind(this, 'repo'));
 
-            $.getJSON("/ia/json", function(x) {
+            $.getJSON(url, function(x) {
                 ind.ia_list = x;
                 ind.sort('name');
 

@@ -14,8 +14,8 @@ sub base :Chained('/base') :PathPart('ia') :CaptureArgs(0) {
     my ( $self, $c ) = @_;
 }
 
-sub index :Chained('base') :PathPart('') :Args(0) {
-    my ( $self, $c ) = @_;
+sub index :Chained('base') :PathPart('') :Args() {
+    my ( $self, $c, $field, $value ) = @_;
     # Retrieve / stash all IAs for index page here?
 
     # my @x = $c->d->rs('InstantAnswer')->all();
@@ -23,15 +23,27 @@ sub index :Chained('base') :PathPart('') :Args(0) {
     $c->stash->{ia_page} = "IAIndex";
     $c->stash->{ia_version} = $c->d->ia_page_version;
 
+    if ($field && $value) {
+        $c->stash->{field} = $field;
+        $c->stash->{value} = $value;
+    }
+
     $c->add_bc('Instant Answers', $c->chained_uri('InstantAnswer','index'));
 
     # @{$c->stash->{ialist}} = $c->d->rs('InstantAnswer')->all();
 }
 
-sub ialist_json :Chained('base') :PathPart('json') :Args(0) {
-    my ( $self, $c ) = @_;
+sub ialist_json :Chained('base') :PathPart('json') :Args() {
+    my ( $self, $c, $field, $value ) = @_;
 
-    my @x = $c->d->rs('InstantAnswer')->all();
+    my @x;
+   
+    if ($field && $value) {
+        @x = $c->d->rs('InstantAnswer')->search({$field => $value});
+    } else {
+        @x = $c->d->rs('InstantAnswer')->all();
+    }
+
     my @ial;
 
     use JSON;

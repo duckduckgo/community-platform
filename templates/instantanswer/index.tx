@@ -3,5 +3,5 @@
 <p>this is an alpha prototype of the full index to Instant Answers.</p>
 
 
-<div id="ia_index">
+<div id="ia_index" field="<: $field :>" value="<: $value :>">
 </div>
