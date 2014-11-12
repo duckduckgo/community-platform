@@ -73,7 +73,11 @@ sub commit_edits {
 
                     if($input eq "y" || $input eq "Y"){
                         print "updating field\n\n";
-                        DDGC::Web::Controller::InstantAnswer::commit_edit($ia, $field, $value);
+                        DDGC::Web::Controller::InstantAnswer::commit_edit($ia, $field, $value, $time);
+                    }
+                    if($input eq "n" ||  $input eq "N"){
+                        DDGC::Web::Controller::InstantAnswer::remove_edit($ia, $time);
+                        print "updating field\n\n";
                     }
                 }
             }
@@ -85,7 +89,7 @@ sub commit_edits {
             shift @{$edits} ;
         }
 
-        $ia->update({'updates' => $edits});
+        #   $ia->update({'updates' => $edits});
 
 }
 

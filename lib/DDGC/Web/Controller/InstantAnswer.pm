@@ -243,18 +243,42 @@ sub add_edit {
 }
 
 # commits a single edit to the database
+# removes that entry from the updates column
 sub commit_edit {
-    my ($ia, $field, $value) = @_;
+    my ($ia, $field, $value, $time) = @_;
 
     $ia->update({$field => $value});
 
+    remove_edit($ia, $time);
+
+}
+
+# removed an edit from the updates column base on
+# the timestamp of the edit
+sub remove_edit {
+    my($ia, $time) = @_;
+
+    my $updates = ();
+    my $edits = from_json($ia->get_column('updates'));
+
+    # look through edits for timestamp
+    # push all edits that don't match the timestamp of the
+    # one we want to remove
+    foreach my $edit ( @{$edits} ){
+        foreach my $timestamp (keys %{$edit}){
+            if($timestamp ne $time){
+                push(@{$updates}, $edit);
+            }
+        }
+    }
+    $ia->update({updates => $updates});
 }
 
 # returns IA edits as array of hashes
 sub get_edits {
-    my ($d, $ia) = @_;
+    my ($d, $name) = @_;
 
-    my $results = $d->rs('InstantAnswer')->search( {name => $ia} );
+    my $results = $d->rs('InstantAnswer')->search( {name => $name} );
 
     my $ia_result = $results->first();
     my $edits = $ia_result->get_column('updates');
