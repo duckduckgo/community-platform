@@ -52,9 +52,10 @@ $(document).ready(function() {
 		e.preventDefault();
 	});
 
-	$("a[href^='http']").mousedown(function() {
+	$("a[href^='http']").click(function(e) {
 		if (this.href.indexOf(location.hostname) === -1) {
-			set_url_to_redirect(this);
+			e.preventDefault();
+			perform_redirect(this);
 		}
 	});
 
@@ -721,8 +722,19 @@ $(document).ready(function() {
 
 /* random functions gogo */
 
-function set_url_to_redirect(link) {
-    link.href = '/redir/?u=' + encodeURIComponent(link.href) + '&action_token=' + $('meta[name="action-token"]').attr('content');
+function perform_redirect(link) {
+	$.ajax({
+		url:        '/redir',
+		data:       {url : link.href},
+		type:       'POST',
+		success:    function(data) {
+			if (link.getAttribute('target') == '_blank') {
+				window.open('/r');
+			} else {
+				window.location = '/r';
+			}
+		},
+	});
 }
 
 function showFormAddUserLanguage() {
