@@ -1,1 +1,7 @@
-<html><head><script>window.opener=null</script><meta http-equiv='refresh' content="0;URL='<: $r_url :>'"></body></html>
+: if $r_referer_validated {
+<html><head><script>window.opener=null</script><meta http-equiv='refresh' content="0;URL='<: $r_url :>'">
+: } else {
+<html><head><script>window.opener=null</script><meta http-equiv='refresh' content="10;URL='<: $r_url :>'">
+<body>Redirecting to external URL <a href="<: $r_url :>"><: $r_url :></a> in 10 seconds.
+: }
+
