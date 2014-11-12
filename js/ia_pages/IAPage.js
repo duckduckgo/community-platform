@@ -56,6 +56,13 @@
                         $(this).toggleClass("highlight");
                     });
 
+                    $("body").on('click', '.button.arrow', function(evt) {
+                        $(this).parent().find("img").toggleClass("hide");
+                        if ($(this).text() == "&#x25B4;") {
+                            $(this).html("&#x25BE;");
+                        }
+                    });
+
                     $("body").on('click', '.pre_edit', function(evt) {
                         var name = $(this).attr('name');
                         var $obj;
