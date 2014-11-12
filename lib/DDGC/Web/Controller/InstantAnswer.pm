@@ -37,7 +37,7 @@ sub ialist_json :Chained('base') :PathPart('json') :Args() {
     my ( $self, $c, $field, $value ) = @_;
 
     my @x;
-   
+
     if ($field && $value) {
         @x = $c->d->rs('InstantAnswer')->search({$field => $value});
     } else {
@@ -203,17 +203,12 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
     }
 
     if ($permissions) {
-        my $current_updates = $ia->get_column('updates') || ();
         my $field = $c->req->params->{field};
         my $value = $c->req->params->{value};
-        warn "start ",Dumper($c->req->params);
-        warn "updates $current_updates  field $field   value $value\n";
+        my $edits = add_edit($ia,  $field, $value);
 
-        $current_updates = add_edit($current_updates, $field, $value);
-
-        warn Dumper($current_updates);
         try {
-            $ia->update({updates => $current_updates});
+            $ia->update({updates => $edits});
             $result = {$field => $value};
         }
         catch {
@@ -229,19 +224,48 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
     return $c->forward($c->view('JSON'));
 }
 
+# add edited data to the updates field in the db
+# check if the submitted edit is actually different
 sub add_edit {
+    my ($ia, $field, $value ) = @_;
 
-    my ( $current_updates , $field, $value ) = @_;
-    my $time = time;
-    $current_updates = decode_json($current_updates) if $current_updates;
-        warn "updatesfrom sub $current_updates  field $field   value $value\n";
+    my $orig_data = $ia->get_column($field);
+    my $current_updates = $ia->get_column('updates') || ();
 
-    my %new_update = ( $time => {$field => $value});
-
-    push(@{$current_updates}, \%new_update);
+    if($value ne $orig_data){
+        $current_updates = decode_json($current_updates) if $current_updates;
+        my $time = time;
+        my %new_update = ( $time => {$field => $value});
+        push(@{$current_updates}, \%new_update);
+    }
 
     return $current_updates;
 }
+
+# commits a single edit to the database
+sub commit_edit {
+    my ($ia, $field, $value) = @_;
+
+    $ia->update({$field => $value});
+
+}
+
+# returns IA edits as array of hashes
+sub get_edits {
+    my ($d, $ia) = @_;
+
+    my $results = $d->rs('InstantAnswer')->search( {name => $ia} );
+
+    my $ia_result = $results->first();
+    my $edits = $ia_result->get_column('updates');
+
+    if(!$edits){
+        return 0;
+    }
+
+    return from_json($edits);
+}
+
 
 no Moose;
 __PACKAGE__->meta->make_immutable;

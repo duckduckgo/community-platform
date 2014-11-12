@@ -4,6 +4,7 @@ use strict;
 use FindBin;
 use lib $FindBin::Dir . "/../lib";
 use DDGC;
+use DDGC::Web::Controller::InstantAnswer;
 use Data::Dumper;
 use JSON;
 
@@ -26,43 +27,31 @@ sub list_ia_with_edits {
     print "The following IAs have staged edits\n" if $results != 0;
     while( my $ia = $results->next() ){
         my $name = $ia->get_column('name');
-        print qq(\t$name\n);
+        my $updates = $ia->get_column('updates');
+        $updates = from_json($updates);
+        if(@{$updates}){
+            print qq(\t$name\n);
+        }
     }
 }
 
 sub commit_edits {
 
-    my $results = $d->rs('InstantAnswer')->search( {name => ucfirst $argv});
+    my $edits = DDGC::Web::Controller::InstantAnswer::get_edits($d, ucfirst $argv);
+    my $results = $d->rs('InstantAnswer')->search({name => ucfirst $argv});
+    my $ia = $results->first();
+    my $edits_to_remove = 0;
 
-    if($results == 0){
-        print "No IA named $argv\n";
-        exit 0;
-    }
-
-    # each IA that has an update
-    while( my $ia = $results->next() ){
-
-
-        my $edits = $ia->get_column('updates');
-
-        if(!$edits){
-            print "No staged edits for $argv\n";
-            exit 0;
-        }
-
-        $edits = from_json($edits);
-
-        my $ia_name = $ia->get_column('name');
+        my $ia_name = $argv;
         print "IA: $ia_name\n";
 
-        # each edit
         foreach my $edit (@{ $edits }){
             my $time  = '';
             my $field = '';
             my $value = '';
             my $input = '';
 
-            # get time for the edit
+            #get time for the edit
             foreach $time (keys %{$edit}) {
 
                 # each field in the edit
@@ -70,33 +59,34 @@ sub commit_edits {
                     $value = $edit->{$time}->{$field};
                     my $orig_val = $ia->get_column($field);
 
-                    # see if this field has changed
-                    if($value eq $orig_val){
-                        # warn "Skipping  unchanged field\n";
+                    print "Field: $field\n";
+                    print "\tEdit: $edit->{$time}->{$field}\n";
+                    print "\tOrig: $orig_val\n\n";
+
+                    while(check_input($input)){
+                        print "Accept Edit? [y/n]: ";
+                        $input = <STDIN>;
+                        chomp $input;
                     }
-                    else{
-                        print "Field: $field\n";
-                        print "\tEdit: $edit->{$time}->{$field}\n";
-                        print "\tOrig: $orig_val\n\n";
+                    print "\n";
+                    # update the data in the db
 
-                        while(check_input($input)){
-                            print "Accept Edit? [y/n]: ";
-                            $input = <STDIN>;
-                            chomp $input;
-                        }
-                        print "\n";
-
-                        # update the data in the db
-                        if($input eq "y" || $input eq "Y"){
-                            print "updating field\n\n";
-                            $ia->update({$field => $value});
-                        }
+                    if($input eq "y" || $input eq "Y"){
+                        print "updating field\n\n";
+                        DDGC::Web::Controller::InstantAnswer::commit_edit($ia, $field, $value);
                     }
                 }
             }
+            $edits_to_remove++;
         }
-        $ia->update({updates => undef});
-    }
+
+        # remove edits so we have an empty array when finished
+        for(my $i; $i < $edits_to_remove; $i++){
+            shift @{$edits} ;
+        }
+
+        $ia->update({'updates' => $edits});
+
 }
 
 sub check_input {
