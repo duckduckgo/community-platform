@@ -94,3 +94,6 @@
 #ia_index td {
     padding-left:4px;
 }
+.idx_filter {
+    text-transform: capitalize;
+}
