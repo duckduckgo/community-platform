@@ -14,7 +14,15 @@
             var ind = this;
             var field = $("#ia_index").attr("field");
             var value = $("#ia_index").attr("value");
-            var url = ((field && value) && (field !== "topic"))? "/ia/json/" + field + "/" + value : "/ia/json";
+            var url = "/ia/json";
+            
+            if (field && value) {
+               $(".breadcrumbs").append(field + ': <span class="idx_filter">' + value + '</span>');
+
+               if (field !== "topic") {
+                  url += "/" + field + "/" + value;
+               }
+            }
 
             $("#sort_name").on('click',   DDH.IAIndex.prototype.sort.bind(this, 'name'));
             $("#sort_descr").on('click',  DDH.IAIndex.prototype.sort.bind(this, 'description'));
