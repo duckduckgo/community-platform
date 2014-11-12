@@ -58,8 +58,10 @@
 
                     $("body").on('click', '.button.arrow', function(evt) {
                         $(this).parent().find("img").toggleClass("hide");
-                        if ($(this).text() == "&#x25B4;") {
-                            $(this).html("&#x25BE;");
+                        if ($(this).find("span").text() == "▾") {
+                            $(this).find("span").text("▴");
+                        } else if ($(this).find("span").text() == "▴") {
+                            $(this).find("span").text("▾");
                         }
                     });
 
