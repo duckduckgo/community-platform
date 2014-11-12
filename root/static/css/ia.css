@@ -44,7 +44,8 @@
 .ia-single ul li {
     list-style-position: inside;
 }
-.ia-single .button.listbutton {
+.ia-single .button.listbutton,
+.ia-single .screens .button.arrow {
     padding: 0;
     width: 1em;
     height: 1em;
@@ -55,7 +56,8 @@
     text-align: center;
     font-size: 14px;
 }
-.ia-single .button.listbutton span {
+.ia-single .button.listbutton span,
+.ia-single .screens .button.arrow span {
     vertical-align: top;
     line-height: 0.8;
     font-weight: bold;
@@ -86,6 +88,11 @@
 }
 .ia-single #examples .button.end {
     margin-bottom: 0.5em;
+}
+.ia-single .screens img {
+    border: 1px solid black;
+    margin-top: 0.5em;
+    margin-bottom: 1em;
 }
 #edit_activate,
 #edit_disable {
