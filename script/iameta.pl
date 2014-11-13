@@ -98,21 +98,27 @@ for my $ia (@{$meta}) {
         # did we have topics?
         if ($ia->{topic}) {
 
-            for (@{$ia->{topic}}) {
+            for my $topic_name (@{$ia->{topic}}) {
 
                 if (debug) {
                     print color 'green';
-                    print "\t$_\n";
+                    print "\t$topic_name\n";
                     print color 'reset';
                 }
 
+                # create topic if it doesn't exist.
 
-                # create topic if it doesn't exist. Very simple, doesn't matter for now
-                my $topic = $d->rs('Topic')->update_or_create({name => $_});
+                my $topic = $d->rs('Topic')->update_or_create({name => $topic_name});
 
-                # reference it from IA
-                $new_ia->add_to_topics($topic);
+                # add it to the IA
+                unless ($d->rs('InstantAnswer::Topics')->find({instant_answer_id => $ia->{id}, topics_id => $topic->id})) {
+                    print "adding topic $topic_name to $ia->{id}\n" if debug;
+                    $new_ia->add_to_topics($topic);
+                }
+
             }
+
+            # $ia->{topic} = JSON->new->ascii(1)->encode($ia->{topic});
         }
     }
 
