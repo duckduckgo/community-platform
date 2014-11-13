@@ -94,6 +94,9 @@
     margin-top: 0.5em;
     margin-bottom: 1em;
 }
+.ia-single .empty_field {
+    color: #888;
+}
 #edit_activate,
 #edit_disable {
     margin-bottom: 1em;

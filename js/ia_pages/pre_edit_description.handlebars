@@ -1,1 +1,9 @@
-<p id="desc" name="description" class="pre_edit clearfix">{{description}}</p>
+<p id="desc" name="description" class="pre_edit clearfix">
+    {{#if description}}
+        {{description}}
+    {{else}}
+        <span class="empty_field">
+            Add description
+        </span>
+    {{/if}}
+</p>
