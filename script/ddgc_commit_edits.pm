@@ -23,8 +23,6 @@ else{
 
 sub list_ia_with_edits {
     my $results = $d->rs('InstantAnswer')->search( {updates => { '!=', undef}});
-    print "No staged edits\n" if $results == 0;
-    print "The following IAs have staged edits\n" if $results != 0;
     while( my $ia = $results->next() ){
         my $name = $ia->get_column('name');
         my $updates = $ia->get_column('updates');
