@@ -25,17 +25,20 @@ sleep(2);
 my $d = DDGC->new;
 my $meta = '';
 
-if(-f $upload_meta.".copy"){
-    unlink $upload_meta.".copy";
-}
 
-move $upload_meta, $upload_meta.".copy";
+# TODO commented out for testing
+
+# if(-f $upload_meta.".copy"){
+#     unlink $upload_meta.".copy";
+# }
+
+# move $upload_meta, $upload_meta.".copy";
 
 # if there are problems reading the meta data file
 # then log the error, rename the file do we don't
 # try reading it again, and die
 try {
-    $meta = decode_json(io->file($upload_meta.".copy")->slurp);
+    $meta = decode_json(io->file($upload_meta)->slurp);
 }
 catch {
     $d->errorlog("Error reading metadata: $_");
@@ -46,8 +49,6 @@ sub debug { 1 };
 
 say "there are " . (scalar @{$meta}) . " IAs" if debug;
 
-# say JSON->new->ascii(1)->pretty(1)->encode($meta);
-
 my $line = 1;
 
 for my $ia (@{$meta}) {
@@ -56,11 +57,6 @@ for my $ia (@{$meta}) {
         print color 'red';
         print "$ia->{name}\n";
         print color 'reset';
-    }
-
-
-    if ($ia->{topic}) {
-        $ia->{topic} = JSON->new->ascii(1)->encode($ia->{topic});
     }
 
     if ($ia->{code}) {
@@ -93,6 +89,32 @@ for my $ia (@{$meta}) {
     catch {
         $d->errorlog("Error updating database: $_");
     };
+
+    # get the IA references
+    my $new_ia = $d->rs('InstantAnswer')->find($ia->{id});
+
+    if ($new_ia) {
+
+        # did we have topics?
+        if ($ia->{topic}) {
+
+            for (@{$ia->{topic}}) {
+
+                if (debug) {
+                    print color 'green';
+                    print "\t$_\n";
+                    print color 'reset';
+                }
+
+
+                # create topic if it doesn't exist. Very simple, doesn't matter for now
+                my $topic = $d->rs('Topic')->update_or_create({name => $_});
+
+                # reference it from IA
+                $new_ia->add_to_topics($topic);
+            }
+        }
+    }
 
 
     # debug key val
