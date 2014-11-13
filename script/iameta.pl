@@ -10,7 +10,10 @@ use Data::Dumper;
 use Try::Tiny;
 use File::Copy qw( move );
 
-my $upload_meta = DDGC::Config->new->rootdir_path."cache/all_meta.json";
+sub debug { 0 };
+
+my $upload_meta = DDGC::Config->new->rootdir_path . "cache/all_meta.json";
+my $meta_copy = $upload_meta . '.copy';
 
 exit 0 unless (-f $upload_meta);
 
@@ -26,26 +29,22 @@ my $d = DDGC->new;
 my $meta = '';
 
 
-# TODO commented out for testing
+if(-f $meta_copy){
+    unlink $meta_copy;
+}
 
-# if(-f $upload_meta.".copy"){
-#     unlink $upload_meta.".copy";
-# }
-
-# move $upload_meta, $upload_meta.".copy";
+move $upload_meta, $meta_copy;
 
 # if there are problems reading the meta data file
 # then log the error, rename the file do we don't
 # try reading it again, and die
 try {
-    $meta = decode_json(io->file($upload_meta)->slurp);
+    $meta = decode_json(io->file($meta_copy)->slurp);
 }
 catch {
-    $d->errorlog("Error reading metadata: $_");
+    $d->errorlog("Error reading metadata");
     die;
 };
-
-sub debug { 1 };
 
 say "there are " . (scalar @{$meta}) . " IAs" if debug;
 
