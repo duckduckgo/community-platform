@@ -48,19 +48,20 @@ sub ialist_json :Chained('base') :PathPart('json') :Args() {
 
     use JSON;
 
-    for (@x) {
-        my $topics = $_->topic;
-        my $attribution = $_->attribution;
+    for my $ia (@x) {
+        my @topics = map { $_->name } $ia->topics;
+        my $attribution = $ia->attribution;
+
         push (@ial, {
-                name => $_->name,
-                id => $_->id,
-                example_query => $_->example_query,
-                repo => $_->repo,
-                src_name => $_->src_name,
-                dev_milestone => $_->dev_milestone,
-                perl_module => $_->perl_module,
-                description => $_->description,
-                topic => decode_json($topics),
+                name => $ia->name,
+                id => $ia->id,
+                example_query => $ia->example_query,
+                repo => $ia->repo,
+                src_name => $ia->src_name,
+                dev_milestone => $ia->dev_milestone,
+                perl_module => $ia->perl_module,
+                description => $ia->description,
+                topic => \@topics,
                 attribution => $attribution ? decode_json($attribution) : undef,
             });
     }
@@ -116,30 +117,13 @@ sub ia_base :Chained('base') :PathPart('view') :CaptureArgs(1) {  # /ia/view/cal
     @{$c->stash->{issues}} = $c->d->rs('InstantAnswer::Issues')->search({instant_answer_id => $answer_id});
 
     use JSON;
-    my $topics = $c->stash->{ia}->topic;
-    $c->stash->{ia_topics} = $topics ? decode_json($topics) : undef;
-
-    my $code = $c->stash->{ia}->code;
-    $c->stash->{ia_code} = $code ? decode_json($code) : undef;
-
-    my $other_queries = $c->stash->{ia}->other_queries;
-    if ($other_queries) {
-        $c->stash->{ia_other_queries} = decode_json($other_queries);
-    }
-
-    my $ia_attribution = $c->stash->{ia}->attribution;
-    if($ia_attribution){
-        $c->stash->{ia_attribution} = $ia_attribution ? decode_json($ia_attribution) : undef;
-    }
 
     unless ($c->stash->{ia}) {
         $c->response->redirect($c->chained_uri('InstantAnswer','index',{ instant_answer_not_found => 1 }));
         return $c->detach;
     }
 
-    use DDP;
     $c->stash->{ia_version} = $c->d->ia_page_version;
-    $c->stash->{ia_pretty} = p $c->stash->{ia};
 
     my $permissions;
     my $class = "hide";
@@ -162,6 +146,7 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
     my ( $self, $c) = @_;
 
     my $ia = $c->stash->{ia};
+    my @topics = map { $_->name} $ia->topics;
 
     $c->stash->{x} =  {
                 id => $ia->id,
@@ -175,7 +160,7 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
                 example_query => $ia->example_query,
                 other_queries => $c->stash->{ia_other_queries},
                 code => $c->stash->{ia_code},
-                topic => $c->stash->{ia_topics},
+                topic => \@topics,
                 attribution => $c->stash->{'ia_attribution'}
     };
 
