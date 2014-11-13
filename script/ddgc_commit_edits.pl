@@ -81,14 +81,6 @@ sub commit_edits {
             }
             $edits_to_remove++;
         }
-
-        # remove edits so we have an empty array when finished
-        for(my $i; $i < $edits_to_remove; $i++){
-            shift @{$edits} ;
-        }
-
-        #   $ia->update({'updates' => $edits});
-
 }
 
 sub check_input {
