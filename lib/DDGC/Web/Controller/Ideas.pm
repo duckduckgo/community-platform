@@ -131,10 +131,6 @@ sub idea_id : Chained('base') PathPart('idea') CaptureArgs(1) {
 	my ( $self, $c, $id ) = @_;
 	$c->stash->{idea} = $c->d->rs('Idea')->find($id);
 
-	if ($c->stash->{idea}->migrated_to_thread) {
-		$c->response->redirect($c->chained_uri('Forum','thread',$c->stash->{idea}->migrated_to_thread));
-		return $c->detach;
-	}
 	unless ($c->stash->{idea}) {
 		$c->response->redirect($c->chained_uri('Ideas','index',{ idea_notfound => 1 }));
 		return $c->detach;
@@ -145,6 +141,10 @@ sub idea_id : Chained('base') PathPart('idea') CaptureArgs(1) {
 		$c->response->redirect($c->chained_uri('Ideas','index',{ idea_notfound => 1 }));
 	}
 
+	if ($c->stash->{idea}->migrated_to_thread) {
+		$c->response->redirect($c->chained_uri('Forum','thread',$c->stash->{idea}->migrated_to_thread));
+		return $c->detach;
+	}
 
 	$c->add_bc($c->stash->{idea}->title,$c->chained_uri(@{$c->stash->{idea}->u}));
 	$self->add_latest_ideas($c);
