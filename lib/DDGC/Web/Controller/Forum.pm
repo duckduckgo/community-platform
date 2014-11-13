@@ -221,10 +221,6 @@ sub thread_id : Chained('thread_view') PathPart('thread') CaptureArgs(1) {
     return $c->detach;
   }
 
-  if ($c->stash->{thread}->migrated_to_idea) {
-    $c->response->redirect($c->chained_uri('Ideas','idea',$c->stash->{thread}->migrated_to_idea));
-    return $c->detach;
-  }
   if ($c->stash->{thread}->ghosted &&
      ($c->stash->{thread}->checked || $c->stash->{thread}->comment->checked) &&
      (!$c->user || (!$c->user->admin && $c->stash->{thread}->users_id != $c->user->id))) {
@@ -245,6 +241,10 @@ sub thread_id : Chained('thread_view') PathPart('thread') CaptureArgs(1) {
       $c->response->redirect($c->chained_uri('Forum','general',{ thread_notallowed => 1 }));
       return $c->detach;
     }
+  }
+  if ($c->stash->{thread}->migrated_to_idea) {
+    $c->response->redirect($c->chained_uri('Ideas','idea',$c->stash->{thread}->migrated_to_idea));
+    return $c->detach;
   }
   $c->stash->{title} = $c->stash->{thread}->title;
   $self->get_sticky_threads($c);

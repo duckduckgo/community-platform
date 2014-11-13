@@ -206,6 +206,9 @@ has_many 'blocks', 'DDGC::DB::Result::InstantAnswer::Blocks', 'instant_answer_id
 has_many 'instant_answer_users', 'DDGC::DB::Result::InstantAnswer::Users', 'instant_answer_id';
 many_to_many 'users', 'instant_answer_users', 'user';
 
+has_many 'instant_answer_topics', 'DDGC::DB::Result::InstantAnswer::Topics', 'instant_answer_id';
+many_to_many 'topics', 'instant_answer_topics', 'topic';
+
 no Moose;
 __PACKAGE__->meta->make_immutable;
 
