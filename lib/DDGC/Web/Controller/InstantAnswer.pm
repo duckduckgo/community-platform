@@ -224,8 +224,9 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
     return $c->forward($c->view('JSON'));
 }
 
-# add edited data to the updates field in the db
-# check if the submitted edit is actually different
+# given result set, field, and value. Add a new hash
+# to the updates array
+# return the updated array to add to the database
 sub add_edit {
     my ($ia, $field, $value ) = @_;
 
@@ -253,8 +254,8 @@ sub commit_edit {
 
 }
 
-# removed an edit from the updates column base on
-# the timestamp of the edit
+# given a result set and timestamp, remove the
+# entry from the updates column with that timestamp
 sub remove_edit {
     my($ia, $time) = @_;
 
@@ -263,7 +264,7 @@ sub remove_edit {
 
     # look through edits for timestamp
     # push all edits that don't match the timestamp of the
-    # one we want to remove
+    # one we want to remove (recreate the updates json)
     foreach my $edit ( @{$edits} ){
         foreach my $timestamp (keys %{$edit}){
             if($timestamp ne $time){
@@ -274,7 +275,8 @@ sub remove_edit {
     $ia->update({updates => $updates});
 }
 
-# returns IA edits as array of hashes
+# given the IA name return the data in the updates
+# column as an array of hashes
 sub get_edits {
     my ($d, $name) = @_;
 
