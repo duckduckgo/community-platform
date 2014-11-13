@@ -33,6 +33,8 @@ my $old_schema = DDGC::DBOld->connect($ddgc);
 my $old_translator = SQL::Translator->new( parser => 'SQL::Translator::Parser::DBIx::Class', parser_args => { dbic_schema => $old_schema, add_fk_index => 0 } );
 my $new_translator = SQL::Translator->new( parser => 'SQL::Translator::Parser::DBIx::Class', parser_args => { dbic_schema => $schema, add_fk_index => 0 } );
 
+$old_translator->translate; $new_translator->translate;
+
 my @diff = SQL::Translator::Diff::schema_diff(
 	$old_translator->translate(), $old_schema->storage->sqlt_type,
 	$new_translator->translate(), $schema->storage->sqlt_type,
