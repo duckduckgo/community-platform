@@ -23,13 +23,13 @@
         <: for d().all_roles.keys() -> $role { :>
           <a href="<: $u('Admin::User','user',$_.lc_username,{
             $role, $_.is($role) ? 0 : 1,
-          }) :>" class="button <: if $_.is($role) { :>blue<: } else { :>grey<: } :>"><: d().all_roles($role) :></a>
+          action_token => $action_token }) :>" class="button <: if $_.is($role) { :>blue<: } else { :>grey<: } :>"><: d().all_roles($role) :></a>
         <: } :>
       </div>
       <div class="row">
         <a href="<: $u('Admin::User','user',$_.lc_username,{
           ghosted => $_.ghosted() ? 0 : 1,
-        }) :>" class="button <: if $_.ghosted() { :>blue<: } else { :>grey<: } :>">
+        action_token => $action_token }) :>" class="button <: if $_.ghosted() { :>blue<: } else { :>grey<: } :>">
           <: if $_.ghosted() { :>
             Deactivate ghosting of this user
           <: } else { :>
@@ -38,7 +38,7 @@
         </a>
         <a href="<: $u('Admin::User','user',$_.lc_username,{
           ignore => $_.ignore() ? 0 : 1,
-        }) :>" class="button <: if $_.ignore() { :>blue<: } else { :>red<: } :>">
+        action_token => $action_token }) :>" class="button <: if $_.ignore() { :>blue<: } else { :>red<: } :>">
           <: if $_.ignore() { :>
             Reallow content for moderation
           <: } else { :>
@@ -64,6 +64,7 @@
       <div class="twothird">
         <input type="password" name="newpass" />
         <input type="password" name="newpass2" />
+        <input type="hidden" name="action_token" value="<: $action_token :>">
         <input type="submit" class="button" name="changepass" value="Change password" />
       </div>
     </div>

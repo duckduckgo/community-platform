@@ -12,16 +12,39 @@
         init: function() {
             console.log("IAIndex init()");
             var ind = this;
+            var field = $("#ia_index").attr("field");
+            var value = $("#ia_index").attr("value");
+            var url = "/ia/json";
+            
+            if (field && value) {
+               $(".breadcrumbs").append(field + ': <span class="idx_filter">' + value + '</span>');
+
+               if (field !== "topic") {
+                  url += "/" + field + "/" + value;
+               }
+            }
 
             $("#sort_name").on('click',   DDH.IAIndex.prototype.sort.bind(this, 'name'));
             $("#sort_descr").on('click',  DDH.IAIndex.prototype.sort.bind(this, 'description'));
             $("#sort_status").on('click', DDH.IAIndex.prototype.sort.bind(this, 'dev_milestone'));
             $("#sort_repo").on('click',   DDH.IAIndex.prototype.sort.bind(this, 'repo'));
 
-            $.getJSON("/ia/json", function(x) {
+            $.getJSON(url, function(x) {i
+                if (field == "topic") {
+                    var topics;
+                    var new_x = [];
+                    for (var i = 0; i < x.length; i++) {
+                        topics = x[i].topic;
+                        if ($.inArray(value, topics) !== -1) {
+                            new_x.push(x[i]);
+                        }
+                    }
+
+                    x = new_x;
+                }
+
                 ind.ia_list = x;
                 ind.sort('name');
-
             });
         },
 

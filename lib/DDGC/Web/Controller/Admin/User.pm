@@ -25,22 +25,26 @@ sub user_base :Chained('base') :PathPart('view') :CaptureArgs(1) {
 	}
 	for (keys %{$c->d->all_roles}) {
 		if (defined $c->req->params->{$_}) {
+			$c->require_action_token;
 			$c->req->param($_)
 				? $c->stash->{user}->add_flag($_)
 				: $c->stash->{user}->del_flag($_)
 		}
 	}
 	if (defined $c->req->params->{ghosted}) {
+		$c->require_action_token;
 		$c->req->param('ghosted')
 			? $c->stash->{user}->ghosted(1)
 			: $c->stash->{user}->ghosted(0)
 	}
 	if (defined $c->req->params->{ignore}) {
+		$c->require_action_token;
 		$c->req->param('ignore')
 			? $c->stash->{user}->ignore(1)
 			: $c->stash->{user}->ignore(0)
 	}
 	if (defined $c->req->params->{changepass} && defined $c->req->params->{newpass} && length($c->req->params->{newpass})) {
+		$c->require_action_token;
 		if ($c->req->params->{newpass} eq $c->req->params->{newpass2}) {
 			$c->d->update_password($c->stash->{user}->username,$c->req->params->{newpass});
 		}

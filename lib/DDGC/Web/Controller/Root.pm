@@ -5,6 +5,7 @@ use Moose;
 use Path::Class;
 use DateTime;
 use DateTime::Duration;
+use URL::Encode 'url_decode_utf8';
 
 use namespace::autoclean;
 
@@ -55,6 +56,9 @@ sub base :Chained('/') :PathPart('') :CaptureArgs(0) {
 			}
 		}
 	}
+	elsif (!$c->session->{username_field}) {
+		$c->session->{username_field} = $c->d->uid;
+	}
 
 	$c->stash->{web_base} = $c->d->config->web_base;
 	$c->stash->{template_layout} = [ 'base.tx' ];
@@ -71,7 +75,17 @@ sub base :Chained('/') :PathPart('') :CaptureArgs(0) {
 	$c->check_action_token;
 	$c->wiz_check;
 
-	$c->response->headers->header( 'X-Frame-Options' => 'DENY' );
+	$c->response->header( 'X-Frame-Options' => 'DENY' );
+	$c->response->header( 'Content-Security-Policy' => "default-src 'self' ; img-src 'self' https://*.duckduckgo.com ; script-src 'self' 'unsafe-inline' ; style-src 'self' 'unsafe-inline' ;" );
+
+	# Should not be necessary, is not harmful
+	$c->response->header( 'X-Permitted-Cross-Domain-Policies' => 'master-only' );
+
+	# IE Only
+	$c->response->header( 'X-Content-Type-Options' => 'nosniff' );
+	$c->response->header( 'X-Download-Options' => 'noopen' );
+	$c->response->header( 'X-XSS-Protection' => "1; 'mode=block'" );
+
 
 	$c->stash->{action_token} = $c->session->{action_token};
 
@@ -195,6 +209,27 @@ sub redirect_duckco :Chained('base') :PathPart('topic') :Args(1) {
 		$c->response->redirect($c->chained_uri('Forum','general',{ thread_notfound => 1 }));
 	}
 	return $c->detach;
+}
+
+sub redir :Chained('base') :PathPart('redir') :Args(0) {
+	my ( $self, $c ) = @_;
+	$c->stash->{not_last_url} = 1;
+	$c->session->{r_url} = $c->req->param('u');
+	$c->session->{r_referer_validated} = (index($c->req->headers->referer, $c->req->base->as_string) == 0) ? 1 : 0;
+	$c->response->redirect($c->chained_uri('Root','r'));
+	return $c->detach;
+}
+
+sub r :Chained('base') :PathPart('r') :Args(0) {
+	my ( $self, $c ) = @_;
+	if (!$c->session->{r_url}) {
+		$c->response->redirect($c->chained_uri('Root','index'));
+		return $c->detach;
+	}
+	$c->stash->{not_last_url} = 1;
+	$c->stash->{template_layout} = ();
+	$c->stash->{r_url} = $c->session->{r_url};
+	$c->stash->{r_referer_validated} = $c->session->{r_referer_validated};
 }
 
 sub index :Chained('base') :PathPart('') :Args(0) {

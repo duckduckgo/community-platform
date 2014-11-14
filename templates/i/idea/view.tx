@@ -37,9 +37,9 @@
 			<span class="button-group  pull-right">
 	      <: i('report',$_,{class => "button", icon => "spam"}) :>
 				<: if $c.user.has_context_notification('forum_comments',$_) { :>
-					<a class="button" href="<: $u($_.u,{ unfollow => 'forum_comments' }) :>"><i class="icon  icon-eye-close"></i>Don't Follow</a>
+					<a class="button" href="<: $u($_.u,{ unfollow => 'forum_comments', action_token => $action_token }) :>"><i class="icon  icon-eye-close"></i>Don't Follow</a>
 				<: } else { :>
-					<a class="button" href="<: $u($_.u,{ follow => 'forum_comments' }) :>"><i class="icon  icon-eye-open"></i>Follow</a>
+					<a class="button" href="<: $u($_.u,{ follow => 'forum_comments', action_token => $action_token }) :>"><i class="icon  icon-eye-open"></i>Follow</a>
 				<: } :>
 				<: if $c.user.is('idea_manager') || $c.user.id == $_.user.id { :>
 				<a href="<: $u('Ideas','edit',$_.id) :>" class="button"><i class="icon icon-edit"></i> Edit</a>

@@ -1,3 +1,5 @@
-<div class="ia-single">
+<div class="button <: $class :> right" id="edit_activate">Enable edit mode</div>
+<div class="button hide right" id="edit_disable">Disable edit mode</div>
+<div class="ia-single clearfix">
 </div>
 

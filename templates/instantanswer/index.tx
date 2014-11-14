@@ -1,7 +1,14 @@
 <h2>Instant Answers</h2>
 
-<p>this is an alpha prototype of the full index to Instant Answers.</p>
+<p>Showing all Instant Answers 
+   <: if ($field && $value) { :>  
+       with <: $field :>: 
+       <span class="idx_filter">
+           <: $value :> 
+       </span> 
+   <: } :>
+</p>
 
 
-<div id="ia_index">
+<div id="ia_index" field="<: $field :>" value="<: $value :>">
 </div>

@@ -2,10 +2,10 @@
 	<: if $c.user && $_.users_id != $c.user.id { :>
 	  <a class="button  vote__button  vote__button--first  js-vote-link" 
 		<: if $_.user_voted($c.user) { :>
-		  href="<: $u('Ideas', 'vote_view', $_.id, 0):>">
+		  href="<: $u('Ideas', 'vote_view', $_.id, 0, { action_token => $action_token }):>">
 		  <i class="vote__icon  vote__check  checked icon-ok"></i>
 		<: } else { :>
-		  href="<: $u('Ideas', 'vote_view', $_.id, 1):>">
+		  href="<: $u('Ideas', 'vote_view', $_.id, 1, { action_token => $action_token }):>">
 		  <i class="vote__icon  vote__check icon-ok"></i>
 		<: } :>
 	  </a>

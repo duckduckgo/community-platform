@@ -131,10 +131,6 @@ sub idea_id : Chained('base') PathPart('idea') CaptureArgs(1) {
 	my ( $self, $c, $id ) = @_;
 	$c->stash->{idea} = $c->d->rs('Idea')->find($id);
 
-	if ($c->stash->{idea}->migrated_to_thread) {
-		$c->response->redirect($c->chained_uri('Forum','thread',$c->stash->{idea}->migrated_to_thread));
-		return $c->detach;
-	}
 	unless ($c->stash->{idea}) {
 		$c->response->redirect($c->chained_uri('Ideas','index',{ idea_notfound => 1 }));
 		return $c->detach;
@@ -145,6 +141,10 @@ sub idea_id : Chained('base') PathPart('idea') CaptureArgs(1) {
 		$c->response->redirect($c->chained_uri('Ideas','index',{ idea_notfound => 1 }));
 	}
 
+	if ($c->stash->{idea}->migrated_to_thread) {
+		$c->response->redirect($c->chained_uri('Forum','thread',$c->stash->{idea}->migrated_to_thread));
+		return $c->detach;
+	}
 
 	$c->add_bc($c->stash->{idea}->title,$c->chained_uri(@{$c->stash->{idea}->u}));
 	$self->add_latest_ideas($c);
@@ -172,8 +172,10 @@ sub idea : Chained('idea_id') PathPart('') Args(1) {
 		}
 	}
 	if ($c->user && $c->req->params->{unfollow}) {
+		$c->require_action_token;
 		$c->user->delete_context_notification($c->req->params->{unfollow},$c->stash->{idea});
 	} elsif ($c->user && $c->req->params->{follow}){
+		$c->require_action_token;
 		$c->user->add_context_notification($c->req->params->{follow},$c->stash->{idea});
 	}
 	unless ($c->stash->{idea}->key eq $key) {
@@ -247,6 +249,7 @@ sub edit : Chained('idea_id') Args(0) {
 
 sub vote :Chained('idea_id') :CaptureArgs(1) {
 	my ( $self, $c, $vote ) = @_;
+	$c->require_action_token;
 	$c->stash->{idea}->set_user_vote($c->user,0+$vote);
 }
 

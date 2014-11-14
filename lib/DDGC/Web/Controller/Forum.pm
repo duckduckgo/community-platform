@@ -221,10 +221,6 @@ sub thread_id : Chained('thread_view') PathPart('thread') CaptureArgs(1) {
     return $c->detach;
   }
 
-  if ($c->stash->{thread}->migrated_to_idea) {
-    $c->response->redirect($c->chained_uri('Ideas','idea',$c->stash->{thread}->migrated_to_idea));
-    return $c->detach;
-  }
   if ($c->stash->{thread}->ghosted &&
      ($c->stash->{thread}->checked || $c->stash->{thread}->comment->checked) &&
      (!$c->user || (!$c->user->admin && $c->stash->{thread}->users_id != $c->user->id))) {
@@ -246,6 +242,10 @@ sub thread_id : Chained('thread_view') PathPart('thread') CaptureArgs(1) {
       return $c->detach;
     }
   }
+  if ($c->stash->{thread}->migrated_to_idea) {
+    $c->response->redirect($c->chained_uri('Ideas','idea',$c->stash->{thread}->migrated_to_idea));
+    return $c->detach;
+  }
   $c->stash->{title} = $c->stash->{thread}->title;
   $self->get_sticky_threads($c);
 }
@@ -259,16 +259,20 @@ sub thread_redirect : Chained('thread_id') PathPart('') Args(0) {
 sub thread : Chained('thread_id') PathPart('') Args(1) {
   my ( $self, $c, $key ) = @_;
   if (defined $c->req->params->{close} && $c->user->admin) {
+    $c->require_action_token;
     $c->stash->{thread}->readonly($c->req->params->{close});
     $c->stash->{thread}->update;
   }
   if (defined $c->req->params->{sticky} && $c->user->admin) {
+    $c->require_action_token;
     $c->stash->{thread}->sticky($c->req->params->{sticky});
     $c->stash->{thread}->update;
   }
   if ($c->user && $c->req->params->{unfollow}) {
+    $c->require_action_token;
     $c->user->delete_context_notification($c->req->params->{unfollow},$c->stash->{thread});
   } elsif ($c->user && $c->req->params->{follow}){
+    $c->require_action_token;
     $c->user->add_context_notification($c->req->params->{follow},$c->stash->{thread});
   }
   unless ($c->stash->{thread}->key eq $key) {

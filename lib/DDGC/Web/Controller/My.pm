@@ -5,8 +5,10 @@ use Moose;
 use namespace::autoclean;
 
 use DDGC::Config;
+use Time::HiRes qw/ sleep /;
 use Email::Valid;
 use Digest::MD5 qw( md5_hex );
+use Try::Tiny;
 
 BEGIN {extends 'Catalyst::Controller'; }
 
@@ -60,7 +62,6 @@ sub logged_out :Chained('base') :PathPart('') :CaptureArgs(0) {
 		return $c->detach;
 	}
 }
-
 sub login :Chained('logged_out') :Args(0) {
 	my ( $self, $c ) = @_;
 	$c->stash->{not_last_url} = 1;
@@ -72,32 +73,46 @@ sub login :Chained('logged_out') :Args(0) {
 
 	my $last_url = $c->session->{last_url};
 
-	if ($c->req->params->{username}) {
+	if ($c->stash->{username} = $c->req->params->{ $c->session->{username_field} }) {
 
-		if ($c->req->params->{username} !~ /^[a-zA-Z0-9_\.]+$/) {
-			$c->stash->{not_valid_username} = 1;
-		} else {
-			if ( my $username = lc($c->req->params->{username}) and my $password = $c->req->params->{password} ) {
-				if ($c->authenticate({
-					username => $username,
-					password => $password,
-				}, 'users')) {
-					my $data = $c->user->data;
-					delete $data->{token};
-					delete $data->{invalidate_existing_sessions};
-					$c->user->data($data);
-					$c->user->update;
-					$c->set_new_action_token;
-					$last_url = $c->chained_uri('My','account') unless defined $last_url;
-					$c->response->redirect($last_url);
-					return $c->detach;
-				} else {
-					$c->stash->{login_failed} = 1;
-				}
-			}
-			$c->stash->{username} = $c->req->params->{username};
+		if ($c->stash->{username} =~ /@/) {
+			$c->stash->{username_at} = 1;
+			return $c->detach;
 		}
 
+		$c->session->{username_field} = $c->d->uid;
+		my $user = $c->d->find_user($c->stash->{username});
+		if (($user && $user->rate_limit_login)
+		    || $c->session->{failed_logins} > $c->d->config->login_failure_session_limit) {
+			sleep 0.5; # Look like we tried
+			$c->stash->{login_failed} = 1;
+			return $c->detach;
+		}
+
+		if ( my $username = lc($c->stash->{username}) and
+		     my $password = $c->req->params->{password} ) {
+			if ($c->authenticate({
+				username => $username,
+				password => $password,
+			}, 'users')) {
+				$c->change_session_id;
+				my $data = $c->user->data;
+				delete $data->{token};
+				delete $data->{invalidate_existing_sessions};
+				$c->user->data($data);
+				$c->user->update;
+				$c->set_new_action_token;
+				$last_url = $c->chained_uri('My','account') unless defined $last_url;
+				$c->response->redirect($last_url);
+				return $c->detach;
+			} else {
+				$c->session->{failed_logins} ++;
+				if ($user) {
+					$user->failedlogins->create({});
+				}
+				$c->stash->{login_failed} = 1;
+			}
+		}
 	}
 }
 
@@ -113,6 +128,8 @@ sub logged_in :Chained('base') :PathPart('') :CaptureArgs(0) {
 
 sub report :Chained('logged_in') :Args(0) {
 	my ( $self, $c ) = @_;
+	$c->require_action_token;
+
 	$c->stash->{title} = 'Content Report';
 	$c->add_bc($c->stash->{title}, '');
 	eval {
@@ -146,6 +163,7 @@ sub account :Chained('logged_in') :Args(0) {
 		for (keys %{$c->req->params}) {
 
 			if ($_ =~ m/^update_language_(\d+)/) {
+				$c->require_action_token;
 				my $grade = $c->req->param('language_grade_'.$1);
 				if ($grade) {
 					my ( $user_language ) = $c->user->db->user_languages->search({ language_id => $1 })->all;
@@ -158,6 +176,7 @@ sub account :Chained('logged_in') :Args(0) {
 			}
 
 		if ($_ eq 'add_language') {
+			$c->require_action_token;
 			my $language_id = $c->req->params->{language_id};
 			my $grade = $c->req->params->{language_grade};
 			if ($grade and $language_id) {
@@ -172,6 +191,7 @@ sub account :Chained('logged_in') :Args(0) {
 		}
 
 		if ($_ eq 'remove_language') {
+			$c->require_action_token;
 			my $language_id = $c->req->params->{$_};
 			$c->user->db->user_languages->search({ language_id => $language_id })->delete;
 			$saved = 1;
@@ -198,8 +218,8 @@ sub email :Chained('logged_in') :Args(0) {
 
 	$c->require_action_token;
 
-	if (!$c->validate_captcha($c->req->params->{captcha})) {
-		$c->stash->{wrong_captcha} = 1;
+	if (!$c->user->check_password($c->req->params->{password})) {
+		$c->stash->{wrong_password} = 1;
 		return;
 	}
 
@@ -231,9 +251,9 @@ sub delete :Chained('logged_in') :Args(0) {
 
 	$c->require_action_token;
 
-	if (!$c->validate_captcha($c->req->params->{captcha})) {
-		$c->stash->{wrong_captcha} = 1;
-		return $c->detach;
+	if (!$c->user->check_password($c->req->params->{password})) {
+		$c->stash->{wrong_password} = 1;
+		return;
 	}
 
 	if ($c->req->params->{delete_profile}) {
@@ -426,6 +446,16 @@ sub flair :Chained('logged_in') :Args(0) {
 	return $c->detach;
 }
 
+sub forum_links_same_window :Chained('logged_in') :Args(0) {
+	my ( $self, $c ) = @_;
+	$c->require_action_token;
+
+	$c->user->toggle_forum_links;
+
+	$c->response->redirect($c->chained_uri('My','account'));
+	return $c->detach;
+}
+
 sub forgotpw :Chained('logged_out') :Args(0) {
 	my ( $self, $c ) = @_;
 
@@ -433,24 +463,36 @@ sub forgotpw :Chained('logged_out') :Args(0) {
 		$c->add_bc($c->stash->{title}, '');
 
 	return $c->detach if !$c->req->params->{requestpw};
-
-	if ($c->req->params->{username} !~ /^[a-zA-Z0-9_\.]+$/) {
-		$c->stash->{not_valid_username} = 1;
+	if (++$c->session->{forgotpw_requests} > $c->d->config->forgotpw_session_limit) {
+		sleep .5;
+		$c->stash->{sentok} = 1;
 		return $c->detach;
 	}
 
-	$c->stash->{forgotpw_username} = lc($c->req->params->{username});
+	$c->stash->{forgotpw_username} = lc($c->req->params->{ $c->session->{username_field} });
+
+	if ($c->stash->{forgotpw_username} =~ /@/) {
+		$c->stash->{username_at} = 1;
+		return $c->detach;
+	}
+
+	$c->session->{username_field} = $c->d->uid;
 	
 	my $user = $c->d->find_user($c->stash->{forgotpw_username});
-	if (!$user) {
-		$c->stash->{wrong_user} = 1;
-		return;
+	if (!$user || !$user->data || !$user->data->{email}) {
+		sleep .5;
+		$c->stash->{sentok} = 1;
+		return $c->detach;
 	}
-	elsif (!$user->data || !$user->data->{email}) {
-		$c->stash->{no_email} = 1;
-		return;
+
+	if ($user->data->{token_timestamp} &&
+	    time < $user->data->{token_timestamp} +
+	        $c->d->config->forgotpw_user_time_limit) {
+		sleep .5;
+		$c->stash->{sentok} = 1;
+		return $c->detach;
 	}
-	
+
 	my $token = $c->d->uid;
 	my $data = $user->data;
 	$data->{token} = $token;
@@ -479,17 +521,17 @@ sub register :Chained('logged_out') :Args(0) {
 	$c->stash->{page_class} = "page-signup";
 
 	$c->stash->{title} = 'Create a new account';
-		$c->add_bc($c->stash->{title}, '');
+	$c->add_bc($c->stash->{title}, '');
 
 	$c->stash->{no_login} = 1;
 
 	if (!$c->req->params->{register}) {
-		$c->session->{username_field} = md5_hex(time x (int(rand(5))+1));
 		return $c->detach;
 	}
 
 	$c->stash->{username} = $c->req->params->{$c->session->{username_field}};
 	$c->stash->{email} = $c->req->params->{email};
+	$c->session->{username_field} = $c->d->uid;
 
 	if (!$c->validate_captcha($c->req->params->{captcha})) {
 		$c->stash->{wrong_captcha} = 1;
@@ -508,7 +550,7 @@ sub register :Chained('logged_out') :Args(0) {
 		$error = 1;
 	}
 
-	if (!defined $c->req->params->{$c->session->{username_field}} or $c->req->params->{$c->session->{username_field}} eq '') {
+	if (!defined $c->stash->{username} or $c->stash->{username} eq '') {
 		$c->stash->{need_username} = 1;
 		$error = 1;
 	}
@@ -518,14 +560,14 @@ sub register :Chained('logged_out') :Args(0) {
 		$error = 1;
 	}
 
-	if ($c->req->params->{$c->session->{username_field}} !~ /^[a-zA-Z0-9_\.]+$/) {
+	if ($c->stash->{username} !~ /^[a-zA-Z0-9_\.]+$/) {
 		$c->stash->{not_valid_chars} = 1;
 		$error = 1;
 	}
 
 	return $c->detach if $error;
 	
-	my $username = $c->req->params->{$c->session->{username_field}};
+	my $username = $c->stash->{username};
 	my $password = $c->req->params->{password};
 	my $email = $c->req->params->{email};
 	

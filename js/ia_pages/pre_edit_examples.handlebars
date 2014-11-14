@@ -1,0 +1,14 @@
+<div id="examples"><strong>Examples:</strong>
+    <ul>
+        <li class="editpage">
+            <span title="try this example on DuckDuckGo" name="example_query" class="pre_edit" id="primary">{{example_query}}</span>
+        </li>
+        {{#if other_queries}}
+            {{#each other_queries}}
+                <li class="editpage">
+                    <span title="try this example on DuckDuckGo" name="other_queries" class="pre_edit other-examples">{{this}}</span>
+                </li>
+            {{/each}}
+        {{/if}}
+    </ul>
+</div>

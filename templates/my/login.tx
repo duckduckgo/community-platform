@@ -8,6 +8,10 @@
 				Your registration was successful, you can now login!
 			</div>
 		<: } :>
+		<: if $username_at { :>
+			<div class="notice error"><i class="icn icon-warning-sign"></i>Login needs your duck.co username, not your email address or XMPP details.</div>
+		<: } :>
+
 		
 		<: if $login_failed { :>
 			<div class="notice error"><i class="icn icon-warning-sign"></i>Login failed. Your username or password is incorrect.</div>
@@ -20,7 +24,7 @@
 		<h2>Login to your account</h2>
 		<form action="<: $u('My','login') :>" class="group" method="post">
 			<div class="third">
-				<div class="input-wrap"><input type="text" placeholder="Your Username" name="username" class="text" value="<: $username :>" autofocus/></div>
+				<div class="input-wrap"><input type="text" placeholder="Your Username" name="<: $c.session.username_field :>" class="text" value="<: $username :>" autofocus/></div>
 			</div>
 			<div class="third">
 				<div class="input-wrap"><input type="password" placeholder="Your Password" name="password" class="text password" /></div>

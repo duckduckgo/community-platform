@@ -11,9 +11,9 @@
 	<: if $c.user && $show_follow_button { :>
 		<span class="action-item">
 			<: if $c.user.has_context_notification('blog_comments',$_) { :>
-				<a class="button grey" href="<: $u($_.u,{ unfollow => 'blog_comments' }) :>"><i class="icon  icon-eye-close"></i>Don't Follow</a>
+				<a class="button grey" href="<: $u($_.u,{ unfollow => 'blog_comments', action_token => $action_token }) :>"><i class="icon  icon-eye-close"></i>Don't Follow</a>
 			<: } else { :>
-				<a class="button grey" href="<: $u($_.u,{ follow => 'blog_comments' }) :>"><i class="icon  icon-eye-open"></i>Follow</a>
+				<a class="button grey" href="<: $u($_.u,{ follow => 'blog_comments', action_token => $action_token }) :>"><i class="icon  icon-eye-open"></i>Follow</a>
 			<: } :>
 		</span>
 	<: } :>
