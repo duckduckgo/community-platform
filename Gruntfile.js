@@ -1,8 +1,9 @@
 module.exports = function(grunt) {
     
     var root_dir = 'root/static/js/';
-    var js_dir = 'pages/ia_pages/js/';
-    var static_js_dir = 'pages/static_pages/js/';
+    var ia_js_dir = 'src/ia/js/';
+    var templates_dir = 'src/templates/';
+    var ddgc_js_dir = 'src/ddgc/js/';
 
     // tasks that run after diff
     // to release a new version
@@ -20,10 +21,9 @@ module.exports = function(grunt) {
         'handlebars:compile',
         'compass',
         'concat:ia_pages',
-        'concat:static_pages',
-        'exec:copy_static_css',
-        'exec:copy_static_js',
-        'exec:copy_ia_css',
+        'concat:ddgc_pages',
+        'exec:copy_ddgc_css',
+        'exec:copy_ia_css'
     ];
 
     var ia_page_js = [
@@ -36,14 +36,15 @@ module.exports = function(grunt) {
     ];
 
     for( var file in ia_page_js ){
-        ia_page_js[file] = js_dir + ia_page_js[file];
+        ia_page_js[file] = ia_js_dir + ia_page_js[file];
     }
 
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
         root_dir: root_dir,
-        js_dir: js_dir,
-        static_js_dir: static_js_dir,
+        ia_js_dir: ia_js_dir,
+        ddgc_js_dir: ddgc_js_dir,
+        templates_dir: templates_dir,
 
         release_tasks: release_tasks,
 
@@ -60,15 +61,15 @@ module.exports = function(grunt) {
         },
 
         /*
-         * concat js files in js_dir and copy to root_dir
+         * concat js files in ia_js_dir and copy to root_dir
          */
         concat: {
             ia_pages:{
-                src: ia_page_js,
+                src: [templates_dir+'handlebars_tmp', ia_page_js],
                 dest: root_dir + 'ia.js'
             },
-            static_pages:{
-                src: static_js_dir + '*.js',
+            ddgc_pages:{
+                src: ddgc_js_dir + '*.js',
                 dest: root_dir + 'ddgc.js'
             }
 
@@ -87,7 +88,7 @@ module.exports = function(grunt) {
                     }
                 },
                 files: {
-                    '<%= js_dir %>/handlebars_tmp' : '<%= js_dir %>/*.handlebars'
+                    '<%= templates_dir %>/handlebars_tmp' : '<%= templates_dir %>/*.handlebars'
                 }
             }
         },
@@ -107,7 +108,7 @@ module.exports = function(grunt) {
         remove: {
             default_options: {
                 trace: true,
-                fileList: [ root_dir + 'ia.js', js_dir + 'handlebars_tmp', root_dir + 'ddgc.js']
+                fileList: [ root_dir + 'ia.js', templates_dir + 'handlebars_tmp', root_dir + 'ddgc.js']
             }
         },
 
@@ -151,20 +152,17 @@ module.exports = function(grunt) {
         compass: {
             dist: {
                 options: {
-                    cssDir: 'pages/ia_pages/css'
+                    cssDir: 'src/ia/css'
                 }
             }
         },
 
         exec: {
-            copy_static_css: {
-                command: 'mkdir -p root/static/css && cp -rf pages/static_pages/css/* root/static/css/'
-            },
-            copy_static_js: {
-                command: 'mkdir -p root/static/js && cp -rf pages/static_pages/js/libraries/* root/static/js/'
+            copy_ddgc_css: {
+                command: 'mkdir -p root/static/css && cp -rf src/ddgc/css/* root/static/css/'
             },
             copy_ia_css: {
-                command: 'mkdir -p root/static/css && cp -rf pages/ia_pages/css/* root/static/css/'
+                command: 'mkdir -p root/static/css && cp -rf src/ia/css/* root/static/css/'
             }
         }
     });
