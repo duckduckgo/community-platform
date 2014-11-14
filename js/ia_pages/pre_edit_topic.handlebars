@@ -1,9 +1,15 @@
 <div id="topics">
-    {{#each topic}}
-        <div class="button ia_topic">
-            <a href="#" title="will be a link to all IAs in this topic" class="pre_edit" name="topic">
-                {{this}}
-            </a>
-        </div> 
-    {{/each}}
+    {{#if topic}}
+        {{#each topic}}
+            <div class="button ia_topic">
+                <a href="#" title="will be a link to all IAs in this topic" class="pre_edit" name="topic">
+                    {{this}}
+                </a>
+            </div> 
+        {{/each}}
+    {{else}}
+        <span class="empty_field pre_edit" name="topic">
+            Add topic
+        </span>
+    {{/if}}
 </div>

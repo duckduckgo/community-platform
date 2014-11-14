@@ -146,7 +146,16 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
     my ( $self, $c) = @_;
 
     my $ia = $c->stash->{ia};
+    my @topics_list =  $c->d->rs('Topic')->all();
     my @topics = map { $_->name} $ia->topics;
+    my @allowed;
+
+    for my $topic (@topics_list) {
+        push (@allowed, {
+               id => $topic->id,
+               name => $topic->name
+            });
+    }
 
     $c->stash->{x} =  {
                 id => $ia->id,
@@ -161,7 +170,8 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
                 other_queries => $c->stash->{ia_other_queries},
                 code => $c->stash->{ia_code},
                 topic => \@topics,
-                attribution => $c->stash->{'ia_attribution'}
+                attribution => $c->stash->{'ia_attribution'},
+                allowed_topics => \@allowed
     };
 
     # not ready yet

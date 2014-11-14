@@ -99,6 +99,11 @@
                         $("#input_example").removeClass("hide");
                     });
 
+                    $("body").on('click', '#add_topic', function(evt) {
+                        $(this).addClass("hide");
+                        $("#new_topic").parent().parent().removeClass("hide");
+                    });
+
                     $("body").on('focusout keypress', '.editable input', function(evt) {
                         if (evt.type === 'focusout' || (evt.type === 'keypress' && evt.which === 13)) {
                             var $obj = $(this).parent();
@@ -133,11 +138,7 @@
                     });
 
                     $("body").on("click", ".button.delete", function(evt) {
-                        var field = $(this).parent().find("a.editable").attr('name');
-                        var value;
-                        var $obj = $("#examples");
-
-                        console.log("Field: " + field);
+                        var field = $(this).parent().find(".editable").attr('name');
                         if (field === 'example_query') {
                             var $new_primary = $('a.other-examples input').first();
                             if ($new_primary.length) {
@@ -161,7 +162,7 @@
                         var selector;
 
                         if (field === "topic") {
-                            selector = ".ia_topic a.editable input";
+                            selector = ".ia_topic .editable .available_topics option:selected";
                         } else if (field === "examples") {
                             save("example_query", $("#primary input").val(), DDH_iaid, $obj, false);
                             field = "other_queries";
@@ -172,11 +173,19 @@
                             field = "code";
                         }
 
-                        $(selector).each(function(index) {
-                            if ($(this).val()) {
-                                value.push($(this).val());
-                            }
-                        });
+                        if (field !== "topic") {
+                            $(selector).each(function(index) {
+                                if ($(this).val()) {
+                                    value.push($(this).val());
+                                }
+                            });
+                        } else {
+                            $(selector).each(function(index) {
+                                if ($(this).text() && $.inArray($(this).text(), value) === -1) {
+                                    value.push($(this).text());
+                                }
+                            });
+                        }
 
                         value = JSON.stringify(value);
                         save(field, value, DDH_iaid, $obj, true);
