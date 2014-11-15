@@ -1,12 +1,11 @@
 /* 
 	Homepage
 */
-.callout { width: 102%; margin: 45px auto 0 -1%; overflow: hidden; }
+.callout { width: 102%; margin: 45px auto 0 -1%; overflow: hidden; margin-bottom:7%;}
 	.callout-box { 
 		margin: 0 6px;
 		color: #484848;
 		background: #f7f7f7;
-		margin-bottom: 20px;
 		position: relative;
 		-webkit-border-radius: 5px;
 		border-radius: 5px;
@@ -37,7 +36,7 @@
 				margin-bottom: 10px; 
 				background: url('../img/bullet-check.png') 3px 3px no-repeat;
 			}
-			.callout-box .cta { padding-left: 28px; display: block; height: 20px; position: relative; }
+			.callout-box .cta { padding-left: 28px; display: inline-block; height: 20px; position: relative; }
 				.callout-box .cta i[class*='icon'] { 
 					text-shadow: 0 0 1px rgba(0,0,0,0.5);
 					position: absolute; 
