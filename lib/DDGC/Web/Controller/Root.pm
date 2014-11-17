@@ -70,7 +70,7 @@ sub base :Chained('/') :PathPart('') :CaptureArgs(0) {
 	$c->stash->{is_view} = $c->d->is_view;
 	$c->stash->{is_dev} = ( $c->d->is_live || $c->d->is_view ) ? 1 : 0;
 	$c->stash->{errors} = [];
-    $c->stash->{ia_version} = $c->d->ia_page_version;
+    $c->stash->{js_version} = $c->d->js_version;
 
 	$c->set_new_action_token unless defined $c->session->{action_token};
 	$c->check_action_token;

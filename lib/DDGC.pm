@@ -75,12 +75,12 @@ has config => (
 );
 sub _build_config { DDGC::Config->new }
 
-has ia_page_version => (
+has js_version => (
 	isa => 'Str',
 	is => 'ro',
 	lazy_build => 1,
 );
-sub _build_ia_page_version {
+sub _build_js_version {
 	my ( $self ) = @_;
 	my $ROOT_PATH = $self->config->appdir_path;
 
@@ -100,7 +100,7 @@ sub _build_ia_page_version {
 		my $version = $2 - 1;
 		return qq($1.$version.$3);
 	} else {
-		$self->errorlog("Unable to ascertain IA pages version from $ROOT_PATH/package.json");
+		$self->errorlog("Unable to ascertain JS version from $ROOT_PATH/package.json");
 		return '';
 	}
 }
@@ -455,7 +455,7 @@ sub template_styles {{
 	},
 	'sub_text' => {
 		'font-family' => 'sans-serif',
-		'font-size' => '12px', 
+		'font-size' => '12px',
 	},
 	'signoff' => {
 		'color' => '#999999',
@@ -463,7 +463,7 @@ sub template_styles {{
 	'warning' => {
 		'font-family' => 'sans-serif',
 		'font-style' => 'normal',
-		'font-size' => '11px', 
+		'font-size' => '11px',
 		'color' => '#a8a8a8',
 	},
 	'site_title' => {
@@ -508,10 +508,10 @@ sub template_styles {{
 		'color' => '#a0a0a0',
 		'margin' => '0',
 		'padding' => '9px 0',
-	},	
+	},
 	'msg_content' => {
 		'font-family' => 'sans-serif',
-		'padding' => '10px 0', 
+		'padding' => '10px 0',
 		'background-color' => '#ffffff',
 	},
 	'msg_notification' => {
@@ -523,7 +523,7 @@ sub template_styles {{
 		'padding' => '10px 0',
 		'font-family' => 'sans-serif',
 		'width' => '100%',
-		'border-bottom' => '1px solid #d7d7d7',	
+		'border-bottom' => '1px solid #d7d7d7',
 	},
 	'notification_text' => {
 		'font-family' => 'sans-serif',
@@ -548,7 +548,7 @@ sub template_styles {{
 		'color' => '#a0a0a0',
 		'font-weight' => 'bold',
 		'font-size', => '16px',
-	},	
+	},
 	'button' => {
 		'font-family' => 'sans-serif',
 		'font-size' => '14px',
@@ -791,7 +791,7 @@ sub create_user {
 			jid => lc($username).'@'.$self->config->prosody_userhost,
 			password => $password,
 		);
-		
+
 		if ($xmpp_data_check || !$self->config->prosody_running) {
 
 			$db_user = $self->db->resultset('User')->create({
@@ -1050,11 +1050,11 @@ Role here refers to permission sets - users have roles including:
 
 =over 8
 
-=item translation_manager 
+=item translation_manager
 
-=item forum_manager 
+=item forum_manager
 
-=item idea_manager 
+=item idea_manager
 
 =back
 
