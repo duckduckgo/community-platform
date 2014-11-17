@@ -21,7 +21,6 @@ sub index :Chained('base') :PathPart('') :Args() {
     # my @x = $c->d->rs('InstantAnswer')->all();
     # $c->stash->{ialist} = \@x;
     $c->stash->{ia_page} = "IAIndex";
-    $c->stash->{ia_version} = $c->d->ia_page_version;
 
     if ($field && $value) {
         $c->stash->{field} = $field;
@@ -37,7 +36,7 @@ sub ialist_json :Chained('base') :PathPart('json') :Args() {
     my ( $self, $c, $field, $value ) = @_;
 
     my @x;
-   
+
     if ($field && $value) {
         @x = $c->d->rs('InstantAnswer')->search({$field => $value});
     } else {

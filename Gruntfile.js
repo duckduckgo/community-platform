@@ -110,8 +110,8 @@ module.exports = function(grunt) {
                 trace: true,
                 fileList: [ 
                     root_dir + 'ia.js', 
-                    templates_dir + 'handlebars_tmp'
-                 //   root_dir + 'ddgc.js'
+                    templates_dir + 'handlebars_tmp',
+                    root_dir + 'ddgc.js'
                 ]
             }
         },
