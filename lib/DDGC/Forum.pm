@@ -202,11 +202,11 @@ sub add_thread {
 		});
 
 		$self->index(
+			title => $thread->title,
 			uri => $thread->id,
 			body => $content,
 			id => $thread->id,
 			is_markup => 1,
-			%params,
 		);
 	});
 
