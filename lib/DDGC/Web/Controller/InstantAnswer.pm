@@ -161,11 +161,13 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
     }
 
     for my $issue (@issues) {
+        use JSON;
+
         push(@ia_issues, {
                 issue_id => $issue->issue_id,
                 title => $issue->title,
                 body => $issue->body,
-                tags => $issue->tags
+                tags => decode_json($issue->tags)
             });
     }
 
