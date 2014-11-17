@@ -97,6 +97,34 @@
 .ia-single .empty_field {
     color: #888;
 }
+.ia-single .issue {
+    width: 50%;
+    padding: 0.5em;
+    text-align: left;
+}
+.ia-single .issue a .title {
+    color: #333;
+    font-size: 1.15em;
+}
+.ia-single .issue a .issue_tag {
+    color: #fff;
+    font-weight: 600;
+    padding: 0.25em 0.5em;
+    font-size: 0.75em;
+    margin-top: 0.25em;
+    margin-left: 0.8em;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -o-border-radius: 3px;
+    -webkit-border-radius: 3px;
+}
+.ia-single .issue a .issue_desc {
+    color: #888;
+    font-size: 0.85em;
+    margin-bottom: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
 #edit_activate,
 #edit_disable {
     margin-bottom: 1em;
