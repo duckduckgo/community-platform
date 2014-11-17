@@ -3,7 +3,7 @@ package DDGC::DB::ResultSet::Media;
 
 use Moose;
 extends 'DDGC::DB::Base::ResultSet';
-use Digest::MD5 qw( md5_hex );
+use Digest::SHA qw/ sha1_hex /;
 use Path::Class;
 use URI;
 use LWP::Simple;
@@ -32,17 +32,17 @@ sub create_via_file {
   die $file." not found!" unless -f $file;
   die __PACKAGE__."->create_via_file needs need user"
     unless $user->isa('DDGC::DB::Result::User');
-  my $username = $user->lowercase_username;
+  my $username = sha1_hex($user->lowercase_username);
   my @username_parts = split(//,$username);
   my @dirparts = (shift @username_parts);
   my $next = shift @username_parts;
   push @dirparts, $next ? $next : '_';
   push @dirparts, $username;
-  my $md5 = md5_hex("$file$args");
-  my @md5_parts = split(//,$md5);
-  push @dirparts, shift @md5_parts;
-  push @dirparts, shift @md5_parts;
-  push @dirparts, $md5;
+  my $sha1 = sha1_hex("$file$args");
+  my @sha1_parts = split(//,$sha1);
+  push @dirparts, shift @sha1_parts;
+  push @dirparts, shift @sha1_parts;
+  push @dirparts, $sha1;
   my $basename = file($file)->basename;
   my @basename_parts = split(/\./,$basename);
   my $ext = pop @basename_parts;
