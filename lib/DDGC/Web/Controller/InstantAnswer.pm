@@ -153,6 +153,8 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
     my @issues = $c->d->rs('InstantAnswer::Issues')->find({instant_answer_id => $ia->id});
     my @ia_issues;
 
+    use JSON;
+ 
     for my $topic (@topics_list) {
         push (@allowed, {
                id => $topic->id,
@@ -161,14 +163,14 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
     }
 
     for my $issue (@issues) {
-        use JSON;
-
-        push(@ia_issues, {
-                issue_id => $issue->issue_id,
-                title => $issue->title,
-                body => $issue->body,
-                tags => decode_json($issue->tags)
-            });
+        if ($issue) {
+            push(@ia_issues, {
+                    issue_id => $issue->issue_id,
+                    title => $issue->title,
+                    body => $issue->body,
+                    tags => decode_json($issue->tags)
+                });
+        }
     }
 
     $c->stash->{x} =  {
