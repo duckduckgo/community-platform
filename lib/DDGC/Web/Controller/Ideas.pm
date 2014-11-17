@@ -69,6 +69,7 @@ sub newidea : Chained('base') Args(0) {
 			content => $c->req->params->{content},
 			source => $c->req->params->{source},
 			type => $c->req->params->{type},
+			data => {},
 		});
 		$c->d->idea->index(
 			uri => $idea->id,
