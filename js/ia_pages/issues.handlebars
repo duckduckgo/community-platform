@@ -8,3 +8,7 @@
     </a>
 </div>
 <span class="clearfix"></span>
+
+{{#each issues}}
+<a href="https://github.com/duckduckgo/zeroclickinfo-{{../repo}}/issues/{{issue_id}}">{{title}}</a>
+{{/each}}
