@@ -65,7 +65,8 @@
 .ia-single ul li.editpage {
     list-style: none;
 }
-.ia-single ul li.editpage .newentry {
+.ia-single ul li.editpage .newentry,
+.ia-single .button.cancel {
     margin-left: 0.25em;
 }
 .ia-single .button#cancel {

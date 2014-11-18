@@ -104,10 +104,17 @@
                         $("#new_topic").parent().parent().removeClass("hide");
                     });
 
+                    $("body").on('click', '.button.cancel', function(evt) {
+                        var $obj = $(this).parent();
+                        var name = $(this).attr('name');
+
+                        $obj.replaceWith(Handlebars.templates['pre_edit_' + name](x));
+                    });
+
                     $("body").on('focusout keypress', '.editable input', function(evt) {
                         if (evt.type === 'focusout' || (evt.type === 'keypress' && evt.which === 13)) {
-                            var $obj = $(this).parent();
-                            var field = $obj.attr('name');
+                            var $obj = $(this).parent().parent();
+                            var field = $(this).parent().attr('name');
                             var value = $(this).val();
 
                             if ($obj.attr('id') === 'input_example') {
