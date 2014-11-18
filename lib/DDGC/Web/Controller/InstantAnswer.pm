@@ -21,7 +21,6 @@ sub index :Chained('base') :PathPart('') :Args() {
     # my @x = $c->d->rs('InstantAnswer')->all();
     # $c->stash->{ialist} = \@x;
     $c->stash->{ia_page} = "IAIndex";
-    $c->stash->{ia_version} = $c->d->ia_page_version;
 
     if ($field && $value) {
         $c->stash->{field} = $field;
@@ -37,7 +36,7 @@ sub ialist_json :Chained('base') :PathPart('json') :Args() {
     my ( $self, $c, $field, $value ) = @_;
 
     my @x;
-   
+
     if ($field && $value) {
         @x = $c->d->rs('InstantAnswer')->search({$field => $value});
     } else {
@@ -112,7 +111,6 @@ sub ia_base :Chained('base') :PathPart('view') :CaptureArgs(1) {  # /ia/view/cal
     my ( $self, $c, $answer_id ) = @_;
 
     $c->stash->{ia_page} = "IAPage";
-    $c->stash->{ia_version} = $c->d->ia_page_version;
     $c->stash->{ia} = $c->d->rs('InstantAnswer')->find($answer_id);
     @{$c->stash->{issues}} = $c->d->rs('InstantAnswer::Issues')->search({instant_answer_id => $answer_id});
 
@@ -122,8 +120,6 @@ sub ia_base :Chained('base') :PathPart('view') :CaptureArgs(1) {  # /ia/view/cal
         $c->response->redirect($c->chained_uri('InstantAnswer','index',{ instant_answer_not_found => 1 }));
         return $c->detach;
     }
-
-    $c->stash->{ia_version} = $c->d->ia_page_version;
 
     my $permissions;
     my $class = "hide";

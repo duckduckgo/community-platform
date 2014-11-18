@@ -90,6 +90,11 @@
         refresh: function() {
             var iap = Handlebars.templates.index({ia: this.ia_list});
             $("#ia_index").html(iap);
+            $("#sort_name").on('click',   DDH.IAIndex.prototype.sort.bind(this, 'name'));
+            $("#sort_descr").on('click',  DDH.IAIndex.prototype.sort.bind(this, 'description'));
+            $("#sort_status").on('click', DDH.IAIndex.prototype.sort.bind(this, 'dev_milestone'));
+            $("#sort_repo").on('click',   DDH.IAIndex.prototype.sort.bind(this, 'repo'));
+
         }
 
     };

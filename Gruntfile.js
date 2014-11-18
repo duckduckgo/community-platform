@@ -1,7 +1,30 @@
 module.exports = function(grunt) {
     
     var root_dir = 'root/static/js/';
-    var js_dir = 'js/ia_pages/';
+    var ia_js_dir = 'src/ia/js/';
+    var templates_dir = 'src/templates/';
+    var ddgc_js_dir = 'src/ddgc/js/';
+
+    // tasks that run after diff
+    // to release a new version
+    var release_tasks = [
+        'build',
+        'version:release',
+        'removelogging',
+        'uglify:js',
+        'remove',
+        'gitcommit:ia_pages'
+    ];
+
+    // tasks that run when building
+    var build_tasks = [
+        'handlebars:compile',
+        'compass',
+        'concat:ia_pages',
+        'concat:ddgc_pages',
+        'exec:copy_ddgc_css',
+        'exec:copy_ia_css'
+    ];
 
     var ia_page_js = [
         'handlebars_tmp',
@@ -13,14 +36,18 @@ module.exports = function(grunt) {
     ];
 
     for( var file in ia_page_js ){
-        ia_page_js[file] = js_dir + ia_page_js[file];
+        ia_page_js[file] = ia_js_dir + ia_page_js[file];
     }
 
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
         root_dir: root_dir,
-        js_dir: js_dir,
-       
+        ia_js_dir: ia_js_dir,
+        ddgc_js_dir: ddgc_js_dir,
+        templates_dir: templates_dir,
+
+        release_tasks: release_tasks,
+
         /*
          * increases the version number in package.json
          */
@@ -34,13 +61,18 @@ module.exports = function(grunt) {
         },
 
         /*
-         * concat js files in js_dir and copy to root_dir
+         * concat js files in ia_js_dir and copy to root_dir
          */
         concat: {
             ia_pages:{
-                src: ia_page_js,
+                src: [templates_dir+'handlebars_tmp', ia_page_js],
                 dest: root_dir + 'ia.js'
+            },
+            ddgc_pages:{
+                src: ddgc_js_dir + '*.js',
+                dest: root_dir + 'ddgc.js'
             }
+
         },
 
         /*
@@ -56,7 +88,7 @@ module.exports = function(grunt) {
                     }
                 },
                 files: {
-                    'js/ia_pages/handlebars_tmp' : 'js/ia_pages/*.handlebars'
+                    '<%= templates_dir %>/handlebars_tmp' : '<%= templates_dir %>/*.handlebars'
                 }
             }
         },
@@ -65,10 +97,10 @@ module.exports = function(grunt) {
          * uglify ia.js and give it a version number for release
          */
         uglify: {
-            ia_js: {
+            js: {
                 files: {
-               '<%= root_dir + "ia" +  pkg.version %>.js': root_dir + 'ia.js' 
-            
+                    '<%= root_dir + "ia" +  pkg.version %>.js': root_dir + 'ia.js', 
+                    '<%= root_dir + "ddgc" +  pkg.version %>.js': root_dir + 'ddgc.js' 
                 }
             }
         },
@@ -76,7 +108,11 @@ module.exports = function(grunt) {
         remove: {
             default_options: {
                 trace: true,
-                fileList: [ root_dir + 'ia.js', js_dir + 'handlebars_tmp']
+                fileList: [ 
+                    root_dir + 'ia.js', 
+                    templates_dir + 'handlebars_tmp',
+                    root_dir + 'ddgc.js'
+                ]
             }
         },
 
@@ -86,14 +122,9 @@ module.exports = function(grunt) {
          */
         diff: {
             ia_js: {
-                src: [ root_dir + 'ia.js'],
-                tasks: [
-                    'version:release',
-                    'removelogging',
-                    'uglify:ia_js',
-                    'remove',
-                    'gitcommit:ia_pages'
-                    ]
+                src: [ ],
+               // src: [ root_dir + 'ia.js'],
+                tasks: release_tasks
             }
         },
 
@@ -107,7 +138,7 @@ module.exports = function(grunt) {
                     message: 'Release IA pages version: <%= pkg.version %>'
                 },
                 files: {
-                    src: [ root_dir + 'ia<%= pkg.version %>.js', 'package.json']
+                    src: [ root_dir + 'ia<%= pkg.version %>.js', 'package.json',  root_dir + 'ddgc<%= pkg.version %>.js']
                 }
             }
         
@@ -120,8 +151,24 @@ module.exports = function(grunt) {
             dist: {
                 src: root_dir + 'ia.js'
             }
-        }
+        },
 
+        compass: {
+            dist: {
+                options: {
+                    cssDir: 'src/ia/css'
+                }
+            }
+        },
+
+        exec: {
+            copy_ddgc_css: {
+                command: 'mkdir -p root/static/css && cp -rf src/ddgc/css/* root/static/css/'
+            },
+            copy_ia_css: {
+                command: 'mkdir -p root/static/css && cp -rf src/ia/css/* root/static/css/'
+            }
+        }
     });
 
         grunt.loadNpmTasks('grunt-contrib-concat');
@@ -132,20 +179,14 @@ module.exports = function(grunt) {
         grunt.loadNpmTasks('grunt-remove');
         grunt.loadNpmTasks('grunt-git');
         grunt.loadNpmTasks('grunt-remove-logging');
+        grunt.loadNpmTasks('grunt-contrib-compass');
+        grunt.loadNpmTasks('grunt-exec');
 
         // check diff on ia.js.  Diff runs rest
         // of release process if the file has changed
-        grunt.registerTask('release', [
-            'build',
-            'diff'
-            
-            
-        ]);
+        grunt.registerTask('release', release_tasks);
 
         // compile handlebars and concat js files
         // to ia.js
-        grunt.registerTask('build', [
-            'handlebars:compile',
-            'concat:ia_pages'
-        ]);
+        grunt.registerTask('build', build_tasks);
 }
