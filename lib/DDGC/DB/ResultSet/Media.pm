@@ -32,12 +32,12 @@ sub create_via_file {
   die $file." not found!" unless -f $file;
   die __PACKAGE__."->create_via_file needs need user"
     unless $user->isa('DDGC::DB::Result::User');
-  my $username = $user->lowercase_username;
-  my @username_parts = split(//,$username);
-  my @dirparts = (shift @username_parts);
-  my $next = shift @username_parts;
+  my $directory = $self->result_source->schema->ddgc->uid;
+  my @directory_parts = split(//,$directory);
+  my @dirparts = (shift @directory_parts);
+  my $next = shift @directory_parts;
   push @dirparts, $next ? $next : '_';
-  push @dirparts, $username;
+  push @dirparts, $directory;
   my $md5 = md5_hex("$file$args");
   my @md5_parts = split(//,$md5);
   push @dirparts, shift @md5_parts;

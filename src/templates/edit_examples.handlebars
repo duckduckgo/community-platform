@@ -1,11 +1,17 @@
 <div id="examples" class="section_editable"><strong>Examples:</strong>
     <ul>
-        <li class="editpage">
-            <div class="button delete listbutton" name="example_query" title="Remove this example"><span>-</span></div>
-            <span title="try this example on DuckDuckGo" name="example_query" class="editable" id="primary">
-                <input type="text" value="{{example_query}}" />
+        {{#if example_query}}
+            <li class="editpage">
+                <div class="button delete listbutton" name="example_query" title="Remove this example"><span>-</span></div>
+                <span title="try this example on DuckDuckGo" name="example_query" class="editable" id="primary">
+                    <input type="text" value="{{example_query}}" />
+                </span>
+            </li>
+        {{else}}
+            <span class="editable" name="example_query" id="primary">
+                <input type="text" value="" />
             </span>
-        </li>
+        {{/if}}
         {{#if other_queries}}
             {{#each other_queries}}
                 <li class="editpage">

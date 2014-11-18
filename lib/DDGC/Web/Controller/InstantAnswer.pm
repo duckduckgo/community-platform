@@ -142,7 +142,32 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
     my ( $self, $c) = @_;
 
     my $ia = $c->stash->{ia};
+    my @topics_list =  $c->d->rs('Topic')->all();
     my @topics = map { $_->name} $ia->topics;
+    my @allowed;
+
+    my @issues = $c->d->rs('InstantAnswer::Issues')->find({instant_answer_id => $ia->id});
+    my @ia_issues;
+
+    use JSON;
+ 
+    for my $topic (@topics_list) {
+        push (@allowed, {
+               id => $topic->id,
+               name => $topic->name
+            });
+    }
+
+    for my $issue (@issues) {
+        if ($issue) {
+            push(@ia_issues, {
+                    issue_id => $issue->issue_id,
+                    title => $issue->title,
+                    body => $issue->body,
+                    tags => decode_json($issue->tags)
+                });
+        }
+    }
 
     $c->stash->{x} =  {
                 id => $ia->id,
@@ -157,12 +182,10 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
                 other_queries => $c->stash->{ia_other_queries},
                 code => $c->stash->{ia_code},
                 topic => \@topics,
-                attribution => $c->stash->{'ia_attribution'}
+                attribution => $c->stash->{'ia_attribution'},
+                allowed_topics => \@allowed,
+                issues => \@ia_issues
     };
-
-    # not ready yet
-    # my @issues = @{$c->stash->{issues}};
-    # $c->stash->{x}->{issues} = \@issues if (@issues);
 
     $c->stash->{not_last_url} = 1;
     $c->forward($c->view('JSON'));

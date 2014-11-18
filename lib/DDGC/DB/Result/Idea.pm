@@ -37,7 +37,7 @@ column content => {
 	data_type => 'text',
 	is_nullable => 0,
 };
-sub html { $_[0]->data->{is_html} ? $_[0]->content :  $_[0]->ddgc->markup->html($_[0]->content) }
+sub html { ( $_[0]->data && $_[0]->data->{is_html} ) ? $_[0]->content :  $_[0]->ddgc->markup->html($_[0]->content) }
 
 column source => {
 	data_type => 'text',

@@ -5,13 +5,6 @@
             <td><strong>Id:</strong></td>
             <td>{{id}}</td>
         </tr>
-        <tr>
-            <td><strong>Templates:</strong></td>
-            <td>
-                list of templates here, if any, or
-                default for {{repo}}
-            </td>
-        </tr>
         {{#if code}}
             <tr>
                 <td><strong>Code:</strong></td>
@@ -22,13 +15,15 @@
                 </td>
             </tr>
         {{/if}}
-        <tr>
-            <td><strong>Credits:</strong></td>
-            <td>
-                {{#each attribution}}
-                    <li><a href="{{this.0.loc}}">{{this.0.type}}</a></li>
-                {{/each}}
-            </td>
-        </tr>
+        {{#if attribution}}
+            <tr>
+                <td><strong>Credits:</strong></td>
+                <td>
+                    {{#each attribution}}
+                        <li><a href="{{this.0.loc}}">{{this.0.type}}</a></li>
+                    {{/each}}
+                </td>
+            </tr>
+        {{/if}}
     </table>
 </div>
