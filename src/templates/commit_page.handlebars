@@ -1,72 +1,86 @@
-<div class="updates_list">
-    <h2>Name</h2>
+{{#if name}}
+    <div class="updates_list">
+        <h2>Name</h2>
 
-    <ul name="name">
-        {{#each name}}
-            <li id="name_{{time}}">{{value}}</li>
-        {{/each}}
-    </ul>
-</div>
+        <ul name="name">
+            {{#each name}}
+                <li id="name_{{time}}">{{value}}</li>
+            {{/each}}
+        </ul>
+    </div>
+{{/if}}
 
-<div class="updates_list">
-    <h2>Status</h2>
+{{#if status}}
+    <div class="updates_list">
+        <h2>Status</h2>
 
-    <ul name="status">
-        {{#each status}}
-            <li id="status_{{time}}">{{value}}</li>
-        {{/each}}
-    </ul>
-</div>
+        <ul name="status">
+            {{#each status}}
+                <li id="status_{{time}}">{{value}}</li>
+            {{/each}}
+        </ul>
+    </div>
+{{/if}}
 
-<div class="updates_list">
-    <h2>Description</h2>
+{{#if description}}
+    <div class="updates_list">
+        <h2>Description</h2>
 
-    <ul name="description">
-        {{#each description}}
-            <li id="description_{{time}}">{{value}}</li>
-        {{/each}}
-    </ul>
-</div>
+        <ul name="description">
+            {{#each description}}
+                <li id="description_{{time}}">{{value}}</li>
+            {{/each}}
+        </ul>
+    </div>
+{{/if}}
 
-<div class="updates_list">
-    <h2>Topic</h2>
+{{#if topic}}
+    <div class="updates_list">
+        <h2>Topic</h2>
 
-    <ul name="topic">
-        {{#each topic}}
-            <li id="topic_{{time}}">{{value}}</li>
-        {{/each}}
-    </ul>
-</div>
+        <ul name="topic">
+            {{#each topic}}
+                <li id="topic_{{time}}">{{value}}</li>
+            {{/each}}
+        </ul>
+    </div>
+{{/if}}
 
-<div class="updates_list">
-    <h2>Example Query</h2>
+{{#if example_query}}
+    <div class="updates_list">
+        <h2>Example Query</h2>
 
-    <ul name="example_query">
-        {{#each example_query}}
-            <li id="example_query_{{time}}">{{value}}</li>
-        {{/each}}
-    </ul>
-</div>
+        <ul name="example_query">
+            {{#each example_query}}
+                <li id="example_query_{{time}}">{{value}}</li>
+            {{/each}}
+        </ul>
+    </div>
+{{/if}}
 
-<div class="updates_list">
-    <h2>Other Queries</h2>
+{{#if other_queries}}
+    <div class="updates_list">
+        <h2>Other Queries</h2>
 
-    <ul name="other_queries">
-        {{#each other_queries}}
-            <li id="other_queries_{{time}}">{{value}}</li>
-        {{/each}}
-    </ul>
-</div>
+        <ul name="other_queries">
+            {{#each other_queries}}
+                <li id="other_queries_{{time}}">{{value}}</li>
+            {{/each}}
+        </ul>
+    </div>
+{{/if}}
 
-<div class="updates_list">
-    <h2>Code</h2>
+{{#if code}}
+    <div class="updates_list">
+        <h2>Code</h2>
 
-    <ul name="code">
-        {{#each code}}
-            <li id="code_{{time}}">{{value}}</li>
-        {{/each}}
-    </ul>
-</div>
+        <ul name="code">
+            {{#each code}}
+                <li id="code_{{time}}">{{value}}</li>
+            {{/each}}
+        </ul>
+    </div>
+{{/if}}
 
 <span class="clearfix"></span>
 <div class="button" id="commit">Commit</div>

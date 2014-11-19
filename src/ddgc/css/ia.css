@@ -140,7 +140,15 @@
     width: 15em;
 }
 #ia_commit .updates_list ul li {
-    padding: 0.25em 0;
+    padding: 0.25em;
+    cursor: pointer;
+    width: 70%;
+}
+#ia_commit .updates_list ul li.item_selected {
+    background-color: #faf87a;
+}
+#ia_commit .updates_list ul li.item_focused {
+    background-color: #faf9c0;
 }
 .idx_filter {
     text-transform: capitalize;
