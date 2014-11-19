@@ -223,6 +223,10 @@ sub commit_json :Chained('commit_base') :PathPart('json') :Args(0) {
     my @name;
     my @desc;
     my @status;
+    my @topic;
+    my @example_query;
+    my @other_queries;
+    my @code;
 
     use JSON;
 
@@ -242,6 +246,14 @@ sub commit_json :Chained('commit_base') :PathPart('json') :Args(0) {
                     push(@desc, {%entry});
                 } elsif ($field eq 'status') {
                     push(@status, {%entry});
+                } elsif ($field eq 'topic') {
+                    push(@topic, {%entry});
+                } elsif ($field eq 'example_query') {
+                    push(@example_query, {%entry});
+                } elsif ($field eq 'other_queries') {
+                    push(@other_queries, {%entry});
+                } elsif ($field eq 'code') {
+                    push(@code, {%entry});
                 }
             }
         }
@@ -250,7 +262,11 @@ sub commit_json :Chained('commit_base') :PathPart('json') :Args(0) {
     $c->stash->{x} = {
         name => \@name,
         description => \@desc,
-        status => \@status
+        status => \@status,
+        topic => \@topic,
+        example_query => \@example_query,
+        other_queries => \@other_queries,
+        code => \@code
     };
 
     $c->stash->{not_last_url} = 1;
