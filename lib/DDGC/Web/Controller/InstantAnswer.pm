@@ -207,17 +207,12 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
     }
 
     if ($permissions) {
-        my $current_updates = $ia->get_column('updates') || ();
         my $field = $c->req->params->{field};
         my $value = $c->req->params->{value};
-        warn "start ",Dumper($c->req->params);
-        warn "updates $current_updates  field $field   value $value\n";
+        my $edits = add_edit($ia,  $field, $value);
 
-        $current_updates = add_edit($current_updates, $field, $value);
-
-        warn Dumper($current_updates);
         try {
-            $ia->update({updates => $current_updates});
+            $ia->update({updates => $edits});
             $result = {$field => $value};
         }
         catch {
@@ -233,19 +228,74 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
     return $c->forward($c->view('JSON'));
 }
 
+# given result set, field, and value. Add a new hash
+# to the updates array
+# return the updated array to add to the database
 sub add_edit {
+    my ($ia, $field, $value ) = @_;
 
-    my ( $current_updates , $field, $value ) = @_;
-    my $time = time;
-    $current_updates = decode_json($current_updates) if $current_updates;
-        warn "updatesfrom sub $current_updates  field $field   value $value\n";
+    my $orig_data = $ia->get_column($field);
+    my $current_updates = $ia->get_column('updates') || ();
 
-    my %new_update = ( $time => {$field => $value});
-
-    push(@{$current_updates}, \%new_update);
+    if($value ne $orig_data){
+        $current_updates = decode_json($current_updates) if $current_updates;
+        my $time = time;
+        my %new_update = ( $time => {$field => $value});
+        push(@{$current_updates}, \%new_update);
+    }
 
     return $current_updates;
 }
+
+# commits a single edit to the database
+# removes that entry from the updates column
+sub commit_edit {
+    my ($ia, $field, $value, $time) = @_;
+
+    $ia->update({$field => $value});
+
+    remove_edit($ia, $time);
+
+}
+
+# given a result set and timestamp, remove the
+# entry from the updates column with that timestamp
+sub remove_edit {
+    my($ia, $time) = @_;
+
+    my $updates = ();
+    my $edits = from_json($ia->get_column('updates'));
+
+    # look through edits for timestamp
+    # push all edits that don't match the timestamp of the
+    # one we want to remove (recreate the updates json)
+    foreach my $edit ( @{$edits} ){
+        foreach my $timestamp (keys %{$edit}){
+            if($timestamp ne $time){
+                push(@{$updates}, $edit);
+            }
+        }
+    }
+    $ia->update({updates => $updates});
+}
+
+# given the IA name return the data in the updates
+# column as an array of hashes
+sub get_edits {
+    my ($d, $name) = @_;
+
+    my $results = $d->rs('InstantAnswer')->search( {name => $name} );
+
+    my $ia_result = $results->first();
+    my $edits = $ia_result->get_column('updates');
+
+    if(!$edits){
+        return 0;
+    }
+
+    return from_json($edits);
+}
+
 
 no Moose;
 __PACKAGE__->meta->make_immutable;
