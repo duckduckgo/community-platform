@@ -1,0 +1,33 @@
+<h2>Commit edits</h2>
+
+<div>
+    <span><strong>Name</strong></span>
+
+    <ul name="name">
+        {{#each name}}
+            <li id="name_{{time}}">{{value}}</li>
+        {{/each}}
+    </ul>
+</div>
+
+<div>
+    <span><strong>Status</strong></span>
+
+    <ul name="status">
+        {{#each status}}
+            <li id="status_{{time}}">{{value}}</li>
+        {{/each}}
+    </ul>
+</div>
+
+<div>
+    <span><strong>Description</strong></span>
+
+    <ul name="description">
+        {{#each description}}
+            <li id="description_{{time}}">{{value}}</li>
+        {{/each}}
+    </ul>
+</div>
+
+<div class="button" id="commit">Commit</div>

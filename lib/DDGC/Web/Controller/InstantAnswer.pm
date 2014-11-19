@@ -122,17 +122,25 @@ sub ia_base :Chained('base') :PathPart('view') :CaptureArgs(1) {  # /ia/view/cal
     }
 
     my $permissions;
-    my $class = "hide";
+    my $is_admin;
+    my $edit_class = "hide";
+    my $commit_class = "hide";
 
     if ($c->user) {
-        $permissions = $c->stash->{ia}->users->find($c->user->id) || $c->user->admin;
+        $permissions = $c->stash->{ia}->users->find($c->user->id);
+        $is_admin = $c->user->admin;
     }
 
-    if ($permissions) {
-        $class = "";
+    if ($permissions || $is_admin) {
+        $edit_class = "";
+
+        if ($is_admin) {
+            $commit_class = "";
+        }
     }
 
-    $c->stash->{class} = $class;
+    $c->stash->{edit_class} = $edit_class;
+    $c->stash->{commit_class} = $commit_class;
 
     $c->add_bc('Instant Answers', $c->chained_uri('InstantAnswer','index'));
     $c->add_bc($c->stash->{ia}->name);
@@ -193,6 +201,60 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
 
 sub ia  :Chained('ia_base') :PathPart('') :Args(0) {
     my ( $self, $c ) = @_;
+}
+
+sub commit_base :Chained('base') :PathPart('commit') :CaptureArgs(1) {
+    my ( $self, $c, $answer_id ) = @_;
+
+    $c->stash->{ia} = $c->d->rs('InstantAnswer')->find($answer_id);
+    $c->stash->{ia_page} = "IAPageCommit";
+}
+
+sub commit :Chained('commit_base') :PathPart('') :Args(0) {
+    my ( $self, $c ) = @_;
+}
+
+sub commit_json :Chained('commit_base') :PathPart('json') :Args(0) {
+    my ( $self, $c ) = @_;
+
+    my $ia = $c->stash->{ia};
+    my $edits = get_edits($c->d, $ia->name);
+
+    my @name;
+    my @desc;
+    my @status;
+
+    use JSON;
+
+    for my $edit (@{ $edits }) {
+
+        for my $time (keys %{$edit}) {
+
+            for my $field (keys %{ $edit->{$time} } ) {
+                my %entry = (
+                   value => $edit->{$time}->{$field},
+                   time => $time,
+                );
+
+                if ($field eq 'name') {
+                    push(@name, {%entry});
+                } elsif ($field eq 'description') {
+                    push(@desc, {%entry});
+                } elsif ($field eq 'status') {
+                    push(@status, {%entry});
+                }
+            }
+        }
+    }
+
+    $c->stash->{x} = {
+        name => \@name,
+        description => \@desc,
+        status => \@status
+    };
+
+    $c->stash->{not_last_url} = 1;
+    $c->forward($c->view('JSON'));
 }
 
 sub save_edit :Chained('base') :PathPart('save') :Args(0) {

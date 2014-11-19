@@ -104,6 +104,10 @@
                         $("#new_topic").parent().parent().removeClass("hide");
                     });
 
+                    $("body").on('click', '#view_commits', function(evt) {
+                        window.location = "/ia/commit/" + DDH_iaid;
+                    });
+
                     $("body").on('click', '.button.cancel', function(evt) {
                         var $obj = $(this).parent();
                         var name = $(this).attr('name');
