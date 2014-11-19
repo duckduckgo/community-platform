@@ -41,7 +41,8 @@
 .ia-single #input_example {
     margin-left: 1.15em;
 }
-.ia-single ul li {
+.ia-single ul li,
+#ia_commit ul li {
     list-style-position: inside;
 }
 .ia-single .button.listbutton,
@@ -62,7 +63,8 @@
     line-height: 0.8;
     font-weight: bold;
 }
-.ia-single ul li.editpage {
+.ia-single ul li.editpage,
+#ia_commit ul li {
     list-style: none;
 }
 .ia-single ul li.editpage .newentry,
@@ -132,6 +134,13 @@
 }
 #ia_index td {
     padding-left:4px;
+}
+#ia_commit .updates_list {
+    float: left;
+    width: 15em;
+}
+#ia_commit .updates_list ul li {
+    padding: 0.25em 0;
 }
 .idx_filter {
     text-transform: capitalize;
