@@ -3,6 +3,9 @@
         <h2>Name</h2>
 
         <ul name="name">
+            <li class="item_selected" id="name_original">
+                {{original.name}}
+            </li>
             {{#each name}}
                 <li id="name_{{time}}">{{value}}</li>
             {{/each}}
@@ -15,6 +18,9 @@
         <h2>Status</h2>
 
         <ul name="status">
+            <li class="item_selected" id="status_original">
+                {{original.status}}
+            </li>
             {{#each status}}
                 <li id="status_{{time}}">{{value}}</li>
             {{/each}}
@@ -27,6 +33,9 @@
         <h2>Description</h2>
 
         <ul name="description">
+            <li class="item_selected" id="description_original">
+                {{original.description}}
+            </li>
             {{#each description}}
                 <li id="description_{{time}}">{{value}}</li>
             {{/each}}
@@ -39,6 +48,9 @@
         <h2>Topic</h2>
 
         <ul name="topic">
+            <li class="item_selected" id="topic_original">
+                {{original.topic}}
+            </li>
             {{#each topic}}
                 <li id="topic_{{time}}">{{value}}</li>
             {{/each}}
@@ -51,6 +63,9 @@
         <h2>Example Query</h2>
 
         <ul name="example_query">
+            <li class="item_selected" id="example_query_original">
+                {{original.example_query}}
+            </li>
             {{#each example_query}}
                 <li id="example_query_{{time}}">{{value}}</li>
             {{/each}}
@@ -63,6 +78,9 @@
         <h2>Other Queries</h2>
 
         <ul name="other_queries">
+            <li class="item_selected" id="other_queries_original">
+                {{original.other_queries}}
+            </li>
             {{#each other_queries}}
                 <li id="other_queries_{{time}}">{{value}}</li>
             {{/each}}
@@ -75,6 +93,9 @@
         <h2>Code</h2>
 
         <ul name="code">
+            <li class="item_selected" id="code_original">
+                {{original.code}}
+            </li>
             {{#each code}}
                 <li id="code_{{time}}">{{value}}</li>
             {{/each}}

@@ -219,6 +219,8 @@ sub commit_json :Chained('commit_base') :PathPart('json') :Args(0) {
 
     my $ia = $c->stash->{ia};
     my $edits = get_edits($c->d, $ia->name);
+    my @topics_list =  $c->d->rs('Topic')->all();
+    my @topics = map { $_->name} $ia->topics;
 
     my @name;
     my @desc;
@@ -227,8 +229,19 @@ sub commit_json :Chained('commit_base') :PathPart('json') :Args(0) {
     my @example_query;
     my @other_queries;
     my @code;
+    my %original;
 
     use JSON;
+
+    my %original = (
+        name => $ia->name,
+        description => $ia->description,
+        status => $ia->status,
+        topic => encode_json(\@topics),
+        example_query => $ia->example_query,
+        other_queries => $c->stash->{ia_other_queries},
+        code => $c->stash->{ia_code}
+    );
 
     for my $edit (@{ $edits }) {
 
@@ -266,7 +279,8 @@ sub commit_json :Chained('commit_base') :PathPart('json') :Args(0) {
         topic => \@topic,
         example_query => \@example_query,
         other_queries => \@other_queries,
-        code => \@code
+        code => \@code,
+        original => \%original
     };
 
     $c->stash->{not_last_url} = 1;

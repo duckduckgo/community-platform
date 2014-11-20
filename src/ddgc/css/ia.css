@@ -143,6 +143,7 @@
     padding: 0.25em;
     cursor: pointer;
     width: 70%;
+    word-wrap: break-word;
 }
 #ia_commit .updates_list ul li.item_selected {
     background-color: #faf87a;
