@@ -233,7 +233,7 @@ sub commit_json :Chained('commit_base') :PathPart('json') :Args(0) {
 
     use JSON;
 
-    my %original = (
+    %original = (
         name => $ia->name,
         description => $ia->description,
         status => $ia->status,
@@ -285,6 +285,55 @@ sub commit_json :Chained('commit_base') :PathPart('json') :Args(0) {
 
     $c->stash->{not_last_url} = 1;
     $c->forward($c->view('JSON'));
+}
+
+sub commit_save :Chained('commit_base') :PathPart('save') :Args(0) {
+    my ( $self, $c ) = @_;
+
+    my $is_admin;
+    my $result = '';
+
+    if ($c->user) {
+        my $is_admin = $c->user->admin;
+
+        if ($is_admin) {
+            my $ia = $c->d->rs('InstantAnswer')->find($c->req->params->{id});
+            my @params = $c->req->params->{values};
+            my $field;
+            while (my ($field, $value) = each @params) {
+                if ($field eq 'topic') {
+                    my @topics_list =  $c->d->rs('Topic')->all();
+                    my @topics = map { $_->name} $ia->topics;
+                    my @topic_value = decode_json($value);
+
+                    # TODO: update topics for this IA
+
+                } else {
+                    try {
+                        $ia->update({$field => $value});
+                        $result = '1';
+                    } catch {
+                        $c->d->errorlog("Error updating the database");
+                    };
+                }
+            } 
+     
+            my $edits = get_edits($c->d, $ia->name);
+
+            foreach my $edit ( @{$edits} ){
+                foreach my $time (keys %{$edit}){
+                    remove_edit($ia, $time);
+                }
+            }
+        }
+    }
+
+    $c->stash->{x} = {
+        result => $result,
+    };
+
+    $c->stash->{not_last_url} = 1;
+    return $c->forward($c->view('JSON'));
 }
 
 sub save_edit :Chained('base') :PathPart('save') :Args(0) {

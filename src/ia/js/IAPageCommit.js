@@ -26,6 +26,19 @@
                         $(this).addClass("item_selected");
                     });
 
+                    $("body").on('click', '#commit', function(evt) {
+                        var values = [];
+                        $('.updates_list ul li.item_selected').each(function(idx) {
+                            var temp_value = $(this).text();
+                            var temp_id = $(this).attr('id');
+                            var temp_field = temp_id.substring(0, temp_id.lastIndexOf('_'));
+                            
+                            values.push({temp_field, temp_value});
+                        });
+
+                        DDH.IAPageCommit.prototype.save(values);
+                    });
+
                     $("body").on('mouseenter mouseleave', '.updates_list ul li', function(evt) {
                         if (!$(this).hasClass("item_selected")) {
                             $(this).toggleClass("item_focused");
@@ -33,6 +46,18 @@
                     });
                 });
             }
+        },
+
+        save: function(values) {
+            var jqxhr = $.post("/ia/commit/" + DDH_iaid + "/save", {
+                values: values,
+                id: DDH_iaid
+            })
+            .done(function(data) {
+                if (data.result) {
+                    window.location('/ia/view/' + DDH_iaid);
+                }
+            });
         }
     };
 
