@@ -116,7 +116,7 @@
                     });
 
                     $("body").on('focusout keypress', '.editable input', function(evt) {
-                        if (evt.type === 'focusout' || (evt.type === 'keypress' && evt.which === 13)) {
+                        if (evt.type === 'keypress' && evt.which === 13) {
                             var $obj = $(this).parent().parent();
                             var field = $(this).parent().attr('name');
                             var value = $(this).val();
