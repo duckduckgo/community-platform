@@ -29,7 +29,10 @@ my @repos = (
 sub getIssues{
 	foreach my $repo (@repos){
 		$json->{$repo} = decode_json(`curl --silent https://api.github.com/repos/duckduckgo/$repo/issues?status=current`);
-		# add all the data we care about to an array
+
+        next unless ref $json->{$repo} eq 'ARRAY';
+
+        # add all the data we care about to an array
 		for my $issue ( @{$json->{$repo}} ){
 
             # get the IA name from the link in the first comment
