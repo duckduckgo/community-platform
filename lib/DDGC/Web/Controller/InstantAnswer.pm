@@ -292,7 +292,7 @@ sub get_edits {
     try{
         $edits = from_json($ia_result->get_column('updates'));
     }catch{
-        return 0;
+        return;
     };
 
     return $edits;

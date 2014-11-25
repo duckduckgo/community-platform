@@ -36,7 +36,7 @@ sub list_ia_with_edits {
 sub commit_edits {
 
     my $edits = DDGC::Web::Controller::InstantAnswer::get_edits($d, ucfirst $argv);
-    return unless ref $edits eq 'ARRAY';
+    return unless $edits;
 
     my $results = $d->rs('InstantAnswer')->search({name => ucfirst $argv});
     my $ia = $results->first();
