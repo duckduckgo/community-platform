@@ -33,7 +33,7 @@
                             var temp_id = $(this).attr('id');
                             var temp_field = temp_id.substring(0, temp_id.lastIndexOf('_'));
                             
-                            values.push({temp_field, temp_value});
+                            values.push({'field':temp_field, 'value':temp_value});
                         });
 
                         DDH.IAPageCommit.prototype.save(values);
@@ -50,7 +50,7 @@
 
         save: function(values) {
             var jqxhr = $.post("/ia/commit/" + DDH_iaid + "/save", {
-                values: values,
+                values: JSON.stringify(values),
                 id: DDH_iaid
             })
             .done(function(data) {

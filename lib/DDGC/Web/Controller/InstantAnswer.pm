@@ -293,36 +293,53 @@ sub commit_save :Chained('commit_base') :PathPart('save') :Args(0) {
     my $is_admin;
     my $result = '';
 
+    use JSON;
+
     if ($c->user) {
         my $is_admin = $c->user->admin;
 
         if ($is_admin) {
             my $ia = $c->d->rs('InstantAnswer')->find($c->req->params->{id});
-            my @params = $c->req->params->{values};
-            my $field;
-            while (my ($field, $value) = each @params) {
-                if ($field eq 'topic') {
-                    my @topics_list =  $c->d->rs('Topic')->all();
-                    my @topics = map { $_->name} $ia->topics;
-                    my @topic_value = decode_json($value);
+            my @params = decode_json($c->req->params->{values});
+            use Data::Dumper;
 
-                    # TODO: update topics for this IA
+            for my $param (@params) {
+                for my $hash_param (@{$param}) {
+                    my %hash = %{$hash_param};
+                    my $field;
+                    my $value;
+                    for my $key (keys %hash) {
+                        if ($key eq 'field') {
+                            $field = $hash{$key};
+                        } else {
+                            $value = $hash{$key};
+                        }
+                    }
+                    if ($field eq 'topic') {
+                        my @topics_list =  $c->d->rs('Topic')->all();
+                        my @topics = map { $_->name} $ia->topics;
+                        my @topic_value = $value;
 
-                } else {
-                    try {
-                        $ia->update({$field => $value});
-                        $result = '1';
-                    } catch {
-                        $c->d->errorlog("Error updating the database");
-                    };
+                        # TODO: update topics for this IA
+
+                    } else {
+                        try {
+                            $ia->update({$field => $value});
+                            $result = '1';
+                        } catch {
+                            $c->d->errorlog("Error updating the database");
+                        };
+                    }
                 }
             } 
      
             my $edits = get_edits($c->d, $ia->name);
 
-            foreach my $edit ( @{$edits} ){
-                foreach my $time (keys %{$edit}){
-                    remove_edit($ia, $time);
+            unless (ref $edits eq 'ARRAY') {
+                foreach my $edit (@{$edits}) {
+                    foreach my $time (keys %{$edit}){
+                        remove_edit($ia, $time);
+                    }
                 }
             }
         }
@@ -379,7 +396,7 @@ sub add_edit {
     my $current_updates = $ia->get_column('updates') || ();
 
     if($value ne $orig_data){
-        $current_updates = decode_json($current_updates) if $current_updates;
+        $current_updates = from_json($current_updates) if $current_updates;
         my $time = time;
         my %new_update = ( $time => {$field => $value});
         push(@{$current_updates}, \%new_update);
@@ -404,6 +421,8 @@ sub commit_edit {
 sub remove_edit {
     my($ia, $time) = @_;
 
+    use JSON;
+
     my $updates = ();
     my $edits = from_json($ia->get_column('updates'));
 
@@ -424,6 +443,8 @@ sub remove_edit {
 # column as an array of hashes
 sub get_edits {
     my ($d, $name) = @_;
+
+    use JSON;
 
     my $results = $d->rs('InstantAnswer')->search( {name => $name} );
 
