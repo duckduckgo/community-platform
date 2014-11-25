@@ -243,30 +243,32 @@ sub commit_json :Chained('commit_base') :PathPart('json') :Args(0) {
         code => $c->stash->{ia_code}
     );
 
-    for my $edit (@{ $edits }) {
+    if (ref $edits eq 'ARRAY') {
+        for my $edit (@{ $edits }) {
 
-        for my $time (keys %{$edit}) {
+            for my $time (keys %{$edit}) {
 
-            for my $field (keys %{ $edit->{$time} } ) {
-                my %entry = (
-                   value => $edit->{$time}->{$field},
-                   time => $time,
-                );
+                for my $field (keys %{ $edit->{$time} } ) {
+                    my %entry = (
+                        value => $edit->{$time}->{$field},
+                        time => $time,
+                    );
 
-                if ($field eq 'name') {
-                    push(@name, {%entry});
-                } elsif ($field eq 'description') {
-                    push(@desc, {%entry});
-                } elsif ($field eq 'status') {
-                    push(@status, {%entry});
-                } elsif ($field eq 'topic') {
-                    push(@topic, {%entry});
-                } elsif ($field eq 'example_query') {
-                    push(@example_query, {%entry});
-                } elsif ($field eq 'other_queries') {
-                    push(@other_queries, {%entry});
-                } elsif ($field eq 'code') {
-                    push(@code, {%entry});
+                    if ($field eq 'name') {
+                        push(@name, {%entry});
+                    } elsif ($field eq 'description') {
+                        push(@desc, {%entry});
+                    } elsif ($field eq 'status') {
+                        push(@status, {%entry});
+                    } elsif ($field eq 'topic') {
+                        push(@topic, {%entry});
+                    } elsif ($field eq 'example_query') {
+                        push(@example_query, {%entry});
+                    } elsif ($field eq 'other_queries') {
+                        push(@other_queries, {%entry});
+                    } elsif ($field eq 'code') {
+                        push(@code, {%entry});
+                    }
                 }
             }
         }
@@ -335,7 +337,7 @@ sub commit_save :Chained('commit_base') :PathPart('save') :Args(0) {
      
             my $edits = get_edits($c->d, $ia->name);
 
-            unless (ref $edits eq 'ARRAY') {
+            if (ref $edits eq 'ARRAY') {
                 foreach my $edit (@{$edits}) {
                     foreach my $time (keys %{$edit}){
                         remove_edit($ia, $time);
