@@ -36,12 +36,14 @@ sub list_ia_with_edits {
 sub commit_edits {
 
     my $edits = DDGC::Web::Controller::InstantAnswer::get_edits($d, ucfirst $argv);
+    return unless ref $edits eq 'ARRAY';
+
     my $results = $d->rs('InstantAnswer')->search({name => ucfirst $argv});
     my $ia = $results->first();
     my $edits_to_remove = 0;
 
-        my $ia_name = $argv;
-        print "IA: $ia_name\n";
+    my $ia_name = $argv;
+    print "IA: $ia_name\n";
 
         foreach my $edit (@{ $edits }){
             my $time  = '';
