@@ -55,7 +55,7 @@
             })
             .done(function(data) {
                 if (data.result) {
-                    window.location('/ia/view/' + DDH_iaid);
+                    window.location = '/ia/view/' + DDH_iaid;
                 }
             });
         }
