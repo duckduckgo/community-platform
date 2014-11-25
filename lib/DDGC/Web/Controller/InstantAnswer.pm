@@ -135,7 +135,11 @@ sub ia_base :Chained('base') :PathPart('view') :CaptureArgs(1) {  # /ia/view/cal
         $edit_class = "";
 
         if ($is_admin) {
-            $commit_class = "";
+            my $edits = get_edits($c->d, $c->stash->{ia}->name);
+
+            if (ref $edits eq 'ARRAY') {
+                $commit_class = "";
+            }
         }
     }
 
