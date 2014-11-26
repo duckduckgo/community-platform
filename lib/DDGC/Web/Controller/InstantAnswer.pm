@@ -249,29 +249,37 @@ sub commit_json :Chained('commit_base') :PathPart('json') :Args(0) {
 
     if (ref $edits eq 'ARRAY') {
         for my $edit (@{ $edits }) {
+            my $cur_time = time;
+            my $diff_time;
 
             for my $time (keys %{$edit}) {
+                my %hash_edit = %{$edit};
+                my $temp_diff_time = $cur_time - $hash_edit{$time};
 
-                for my $field (keys %{ $edit->{$time} } ) {
-                    my %entry = (
-                        value => $edit->{$time}->{$field},
-                        time => $time,
-                    );
+                if (!$diff_time || $temp_diff_time < $diff_time) {
+                    $diff_time = $temp_diff_time;
 
-                    if ($field eq 'name') {
-                        push(@name, {%entry});
-                    } elsif ($field eq 'description') {
-                        push(@desc, {%entry});
-                    } elsif ($field eq 'status') {
-                        push(@status, {%entry});
-                    } elsif ($field eq 'topic') {
-                        push(@topic, {%entry});
-                    } elsif ($field eq 'example_query') {
-                        push(@example_query, {%entry});
-                    } elsif ($field eq 'other_queries') {
-                        push(@other_queries, {%entry});
-                    } elsif ($field eq 'code') {
-                        push(@code, {%entry});
+                    for my $field (keys %{ $edit->{$time} } ) {
+                        my %entry = (
+                            value => $edit->{$time}->{$field},
+                            time => $time,
+                        );
+
+                        if ($field eq 'name') {
+                            @name = {%entry};
+                        } elsif ($field eq 'description') {
+                            @desc =  {%entry};
+                        } elsif ($field eq 'status') {
+                            @status = {%entry};
+                        } elsif ($field eq 'topic') {
+                            @topic = {%entry};
+                        } elsif ($field eq 'example_query') {
+                            @example_query = {%entry};
+                        } elsif ($field eq 'other_queries') {
+                            @other_queries = {%entry};
+                        } elsif ($field eq 'code') {
+                            @code = {%entry};
+                        }
                     }
                 }
             }
