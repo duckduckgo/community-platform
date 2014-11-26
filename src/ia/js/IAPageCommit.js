@@ -20,8 +20,8 @@
                     var iapc = Handlebars.templates.commit_page(x);
                     $("#ia_commit").html(iapc);
 
-                    $("body").on('click', '.updates_list ul li', function(evt) {
-                        $(this).parent().find('li').removeClass("item_selected");
+                    $("body").on('click', '.updates_list td', function(evt) {
+                        $(this).parent().find('td').removeClass("item_selected");
                         $(this).removeClass("item_focused");
                         $(this).addClass("item_selected");
                     });
@@ -39,7 +39,7 @@
                         DDH.IAPageCommit.prototype.save(values);
                     });
 
-                    $("body").on('mouseenter mouseleave', '.updates_list ul li', function(evt) {
+                    $("body").on('mouseenter mouseleave', '.updates_list td', function(evt) {
                         if (!$(this).hasClass("item_selected")) {
                             $(this).toggleClass("item_focused");
                         }
