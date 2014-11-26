@@ -241,7 +241,7 @@ sub commit_json :Chained('commit_base') :PathPart('json') :Args(0) {
         name => $ia->name,
         description => $ia->description,
         status => $ia->status,
-        topic => encode_json(\@topics),
+        topic => \@topics,
         example_query => $ia->example_query,
         other_queries => $c->stash->{ia_other_queries},
         code => $c->stash->{ia_code}
@@ -260,25 +260,20 @@ sub commit_json :Chained('commit_base') :PathPart('json') :Args(0) {
                     $diff_time = $temp_diff_time;
 
                     for my $field (keys %{ $edit->{$time} } ) {
-                        my %entry = (
-                            value => $edit->{$time}->{$field},
-                            time => $time,
-                        );
-
                         if ($field eq 'name') {
-                            @name = {%entry};
+                            @name = {value => $edit->{$time}->{$field}};
                         } elsif ($field eq 'description') {
-                            @desc =  {%entry};
+                            @desc =  {value => $edit->{$time}->{$field}};
                         } elsif ($field eq 'status') {
-                            @status = {%entry};
+                            @status = {value => $edit->{$time}->{$field}};
                         } elsif ($field eq 'topic') {
-                            @topic = {%entry};
+                            @topic = {value => decode_json($edit->{$time}->{$field})};
                         } elsif ($field eq 'example_query') {
-                            @example_query = {%entry};
+                            @example_query = {value => $edit->{$time}->{$field}};
                         } elsif ($field eq 'other_queries') {
-                            @other_queries = {%entry};
+                            @other_queries = {value =>$edit->{$time}->{$field}};
                         } elsif ($field eq 'code') {
-                            @code = {%entry};
+                            @code = {value => $edit->{$time}->{$field}};
                         }
                     }
                 }
@@ -315,7 +310,7 @@ sub commit_save :Chained('commit_base') :PathPart('save') :Args(0) {
         if ($is_admin) {
             my $ia = $c->d->rs('InstantAnswer')->find($c->req->params->{id});
             my @params = decode_json($c->req->params->{values});
-            use Data::Dumper;
+            #use Data::Dumper;
 
             for my $param (@params) {
                 for my $hash_param (@{$param}) {
@@ -329,12 +324,29 @@ sub commit_save :Chained('commit_base') :PathPart('save') :Args(0) {
                             $value = $hash{$key};
                         }
                     }
-                    if ($field eq 'topic') {
+                    if ($field eq "topic") {
                         my @topics_list =  $c->d->rs('Topic')->all();
                         my @topics = map { $_->name} $ia->topics;
-                        my @topic_value = $value;
+                        my @topic_values = split /,/m, $value;
+                        $ia->update({topic => undef});
 
-                        # TODO: update topics for this IA
+                        for my $topic (@topic_values) {
+                            my $topic_id = $c->d->rs('Topic')->find({name => $topic});
+
+                            my $result;
+
+                            for my $item (@topics) {
+                                if ($item eq $topic) {
+                                    $result = 1;
+                                }
+                            }
+
+                            if (!$result) {
+                                $ia->add_to_topics($topic_id);
+                            }
+                        }
+
+                        $result = '1';
 
                     } else {
                         try {
@@ -342,6 +354,7 @@ sub commit_save :Chained('commit_base') :PathPart('save') :Args(0) {
                             $result = '1';
                         } catch {
                             $c->d->errorlog("Error updating the database");
+                            return $result;
                         };
                     }
                 }

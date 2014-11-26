@@ -28,10 +28,9 @@
 
                     $("body").on('click', '#commit', function(evt) {
                         var values = [];
-                        $('.updates_list ul li.item_selected').each(function(idx) {
-                            var temp_value = $(this).text();
-                            var temp_id = $(this).attr('id');
-                            var temp_field = temp_id.substring(0, temp_id.lastIndexOf('_'));
+                        $('.updates_list .item_selected').each(function(idx) {
+                            var temp_value = $(this).text().replace(/\"/g, "");
+                            var temp_field = $(this).attr('name');
                             
                             values.push({'field':temp_field, 'value':temp_value});
                         });
@@ -48,7 +47,7 @@
             }
         },
 
-        save: function(values) {
+        save: function(values) { 
             var jqxhr = $.post("/ia/commit/" + DDH_iaid + "/save", {
                 values: JSON.stringify(values),
                 id: DDH_iaid
