@@ -29,8 +29,17 @@
                     $("body").on('click', '#commit', function(evt) {
                         var values = [];
                         $('.updates_list .item_selected').each(function(idx) {
-                            var temp_value = $(this).text().replace(/\"/g, "");
                             var temp_field = $(this).attr('name');
+
+                            if (temp_field === "topic" || temp_field === "other_queries"
+                                || temp_field === "code") {
+                                var temp_value = [];
+                                $('.updates_list .item_selected li').each(function(id) {
+                                    temp_value.push($(this).text());
+                                });
+                            } else {
+                                var temp_value = $(this).text().replace(/\"/g, "");
+                            }
                             
                             values.push({'field':temp_field, 'value':temp_value});
                         });

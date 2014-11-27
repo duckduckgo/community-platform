@@ -50,9 +50,15 @@
                 <th>Topic</th>
 
                 <td name="topic" class="item_selected" id="topic_original">
-                    {{original.topic}}
+                    {{#each original.topic}}
+                        <li>{{this}}</li>
+                    {{/each}}
                 </td>
-                <td name="topic" id="topic_{{topic.0.time}}">{{topic.0.value}}</td>
+                <td name="topic" id="topic_{{topic.0.time}}">
+                    {{#each topic.0.value}}
+                        <li>{{this}}</li>
+                    {{/each}}
+                </td>
             </tr>
         {{/if}}
 
@@ -74,10 +80,14 @@
                 <th>Other Queries</th>
 
                 <td name="other_queries" class="item_selected" id="other_queries_original">
-                    {{original.other_queries}}
+                    {{#each original.other_queries}}
+                        <li>{{this}}</li>
+                    {{/each}}
                 </td>
                 <td name="other_queries" id="other_queries_{{other_queries.0.time}}">
-                    {{other_queries.0.value}}
+                    {{#each other_queries.0.value}}
+                        <li>{{this}}</li>
+                    {{/each}}
                 </td>
             </tr>
         {{/if}}
@@ -87,9 +97,15 @@
                 <th>Code</th>
 
                 <td name="code" class="item_selected" id="code_original">
-                    {{original.code}}
+                    {{#each original.code}}
+                        <li>{{this}}</li>
+                    {{/each}}
                 </td>
-                <td name="code" id="code_{{code.0.time}}">{{code.0.value}}</td>
+                <td name="code" id="code_{{code.0.time}}">
+                    {{#each code.0.value}}
+                        <li>{{this}}</li>
+                    {{/each}}
+                </td>
             </tr>
         {{/if}}
     </tbody>

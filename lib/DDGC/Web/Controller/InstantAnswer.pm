@@ -325,25 +325,14 @@ sub commit_save :Chained('commit_base') :PathPart('save') :Args(0) {
                         }
                     }
                     if ($field eq "topic") {
-                        my @topics_list =  $c->d->rs('Topic')->all();
-                        my @topics = map { $_->name} $ia->topics;
-                        my @topic_values = split /,/m, $value;
-                        $ia->update({topic => undef});
+                        my @topics = map {$_->name} $ia->topics;
+                        my @topic_values = $value;
+                        $ia->instant_answer_topics->delete;
 
-                        for my $topic (@topic_values) {
+                        for my $topic (@{$topic_values[0]}) {
                             my $topic_id = $c->d->rs('Topic')->find({name => $topic});
 
-                            my $result;
-
-                            for my $item (@topics) {
-                                if ($item eq $topic) {
-                                    $result = 1;
-                                }
-                            }
-
-                            if (!$result) {
-                                $ia->add_to_topics($topic_id);
-                            }
+                            $ia->add_to_topics($topic_id);
                         }
 
                         $result = '1';

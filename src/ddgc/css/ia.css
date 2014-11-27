@@ -41,8 +41,7 @@
 .ia-single #input_example {
     margin-left: 1.15em;
 }
-.ia-single ul li,
-#ia_commit ul li {
+.ia-single ul li {
     list-style-position: inside;
 }
 .ia-single .button.listbutton,
@@ -64,7 +63,7 @@
     font-weight: bold;
 }
 .ia-single ul li.editpage,
-#ia_commit ul li {
+#ia_commit li {
     list-style: none;
 }
 .ia-single ul li.editpage .newentry,
