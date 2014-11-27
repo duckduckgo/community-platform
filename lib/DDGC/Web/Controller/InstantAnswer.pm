@@ -374,24 +374,26 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
 
     my $ia = $c->d->rs('InstantAnswer')->find($c->req->params->{id});
     my $permissions;
+    my $is_admin;
     my $result = '';
 
     if ($c->user) {
-       $permissions = $ia->users->find($c->user->id) || $c->user->admin;
-    }
+       $permissions = $ia->users->find($c->user->id);
+       $is_admin = $c->user->admin;
 
-    if ($permissions) {
-        my $field = $c->req->params->{field};
-        my $value = $c->req->params->{value};
-        my $edits = add_edit($ia,  $field, $value);
+        if ($permissions || $is_admin) {
+            my $field = $c->req->params->{field};
+            my $value = $c->req->params->{value};
+            my $edits = add_edit($ia,  $field, $value);
 
-        try {
-            $ia->update({updates => $edits});
-            $result = {$field => $value};
+            try {
+                $ia->update({updates => $edits});
+                $result = {$field => $value, is_admin => $is_admin};
+            }
+            catch {
+                $c->d->errorlog("Error updating the database");
+            };
         }
-        catch {
-            $c->d->errorlog("Error updating the database");
-        };
     }
 
     $c->stash->{x} = {

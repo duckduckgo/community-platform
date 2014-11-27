@@ -214,6 +214,12 @@
                                     $("#error").removeClass("hide");
                                 }
                             } else {
+                                if (data.result.is_admin) {
+                                    if ($("#view_commits").hasClass("hide")) {
+                                        $("#view_commits").removeClass("hide");
+                                    }
+                                }
+
                                 var name;
                                 if (field === "example_query" || field === "other_queries") {
                                     name = "examples";
