@@ -223,7 +223,6 @@ sub commit_json :Chained('commit_base') :PathPart('json') :Args(0) {
 
     my $ia = $c->stash->{ia};
     my $edits = get_edits($c->d, $ia->name);
-    my @topics_list =  $c->d->rs('Topic')->all();
     my @topics = map { $_->name} $ia->topics;
 
     my @name;
@@ -234,6 +233,12 @@ sub commit_json :Chained('commit_base') :PathPart('json') :Args(0) {
     my @other_queries;
     my @code;
     my %original;
+    my $new_edits;
+    my $is_admin;
+
+    if ($c->user) {
+        $is_admin = $c->user->admin;
+    }
 
     use JSON;
 
@@ -248,6 +253,7 @@ sub commit_json :Chained('commit_base') :PathPart('json') :Args(0) {
     );
 
     if (ref $edits eq 'ARRAY') {
+        $new_edits = 1;
         for my $edit (@{ $edits }) {
             my $cur_time = time;
             my $diff_time;
@@ -281,16 +287,20 @@ sub commit_json :Chained('commit_base') :PathPart('json') :Args(0) {
         }
     }
 
-    $c->stash->{x} = {
-        name => \@name,
-        description => \@desc,
-        status => \@status,
-        topic => \@topic,
-        example_query => \@example_query,
-        other_queries => \@other_queries,
-        code => \@code,
-        original => \%original
-    };
+    if ($new_edits && $is_admin) {
+        $c->stash->{x} = {
+            name => \@name,
+            description => \@desc,
+            status => \@status,
+            topic => \@topic,
+            example_query => \@example_query,
+            other_queries => \@other_queries,
+            code => \@code,
+            original => \%original
+        };
+    } else {
+        $c->stash->{x} = {redirect => 1};
+    }
 
     $c->stash->{not_last_url} = 1;
     $c->forward($c->view('JSON'));

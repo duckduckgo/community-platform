@@ -17,8 +17,12 @@
                 console.log("for ia id '%s'", DDH_iaid);
 
                 $.getJSON("/ia/commit/" + DDH_iaid + "/json", function(x) {
-                    var iapc = Handlebars.templates.commit_page(x);
-                    $("#ia_commit").html(iapc);
+                    if (x.redirect) {
+                        window.location = "/ia/view/" + DDH_iaid;
+                    } else {
+                        var iapc = Handlebars.templates.commit_page(x);
+                        $("#ia_commit").html(iapc);
+                    }
 
                     $("body").on('click', '.updates_list td', function(evt) {
                         $(this).parent().find('td').removeClass("item_selected");
