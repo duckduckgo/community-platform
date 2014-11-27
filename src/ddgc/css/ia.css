@@ -127,6 +127,9 @@
     overflow: hidden;
     text-overflow: ellipsis;
 }
+#view_commits {
+    margin-left: 0.25em;
+}
 #edit_activate,
 #edit_disable {
     margin-bottom: 1em;
