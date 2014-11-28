@@ -5,10 +5,6 @@
 	<link rel="stylesheet" media="screen, projection, handheld" href="<: $css :>.css" />
 : }
 
-<!-- : if $ddh_intro {
-	<link rel="stylesheet" media="screen, projection, handheld" href="/static/css/duckduckhack-intro.css" />
-: } -->
-
 : if $ia_page {
 	<link rel="stylesheet" media="screen, projection, handheld" href="/static/css/ia.css" />
 : }
