@@ -320,7 +320,6 @@ sub commit_save :Chained('commit_base') :PathPart('save') :Args(0) {
         if ($is_admin) {
             my $ia = $c->d->rs('InstantAnswer')->find($c->req->params->{id});
             my @params = decode_json($c->req->params->{values});
-            #use Data::Dumper;
 
             for my $param (@params) {
                 for my $hash_param (@{$param}) {
@@ -335,7 +334,6 @@ sub commit_save :Chained('commit_base') :PathPart('save') :Args(0) {
                         }
                     }
                     if ($field eq "topic") {
-                        my @topics = map {$_->name} $ia->topics;
                         my @topic_values = $value;
                         $ia->instant_answer_topics->delete;
 
