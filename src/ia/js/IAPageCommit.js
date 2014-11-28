@@ -39,7 +39,9 @@
                                 || temp_field === "code") {
                                 var temp_value = [];
                                 $('.updates_list .item_selected li').each(function(id) {
-                                    temp_value.push($(this).text());
+                                    if ($(this).parent().attr('name') === temp_field) {
+                                        temp_value.push($(this).text());
+                                    }
                                 });
                             } else {
                                 var temp_value = $(this).text().replace(/\"/g, "");

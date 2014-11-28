@@ -191,10 +191,10 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
                 dev_milestone => $ia->dev_milestone,
                 perl_module => $ia->perl_module,
                 example_query => $ia->example_query,
-                other_queries => $c->stash->{ia_other_queries},
-                code => $c->stash->{ia_code},
+                other_queries => decode_json($ia->other_queries),
+                code => decode_json($ia->code),
                 topic => \@topics,
-                attribution => $c->stash->{'ia_attribution'},
+                attribution => decode_json($ia->attribution),
                 allowed_topics => \@allowed,
                 issues => \@ia_issues
     };
@@ -248,8 +248,8 @@ sub commit_json :Chained('commit_base') :PathPart('json') :Args(0) {
         status => $ia->status,
         topic => \@topics,
         example_query => $ia->example_query,
-        other_queries => $c->stash->{ia_other_queries},
-        code => $c->stash->{ia_code}
+        other_queries => decode_json($ia->other_queries),
+        code => decode_json($ia->code)
     );
 
     if (ref $edits eq 'ARRAY') {
@@ -277,9 +277,9 @@ sub commit_json :Chained('commit_base') :PathPart('json') :Args(0) {
                         } elsif ($field eq 'example_query') {
                             @example_query = {value => $edit->{$time}->{$field}};
                         } elsif ($field eq 'other_queries') {
-                            @other_queries = {value =>$edit->{$time}->{$field}};
+                            @other_queries = {value => decode_json($edit->{$time}->{$field})};
                         } elsif ($field eq 'code') {
-                            @code = {value => $edit->{$time}->{$field}};
+                            @code = {value => decode_json($edit->{$time}->{$field})};
                         }
                     }
                 }
@@ -342,12 +342,19 @@ sub commit_save :Chained('commit_base') :PathPart('save') :Args(0) {
                         for my $topic (@{$topic_values[0]}) {
                             my $topic_id = $c->d->rs('Topic')->find({name => $topic});
 
-                            $ia->add_to_topics($topic_id);
+                            try {
+                                $ia->add_to_topics($topic_id);
+                                $result = 1;
+                            } catch {
+                                $c->d->errorlog("Error updating the database");
+                                return $result;
+                            };
+                        }
+                    } else {
+                        if ($field eq 'other_queries' || $field eq 'code') {
+                            $value = encode_json($value);
                         }
 
-                        $result = '1';
-
-                    } else {
                         try {
                             $ia->update({$field => $value});
                             $result = '1';
