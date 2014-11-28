@@ -11,16 +11,31 @@
                 default for {{repo}}
             </td>
         </tr>
-        {{#if code}}     
-            <tr>
-                <td><strong>Code:</strong></td>
-                <td>
-                    {{#each code}}
-                        <li name="code" class="code editable"><input type="text" value="{{this}}" /></li>
-                    {{/each}}
-                </td>
-            </tr>
-        {{/if}}
+        <tr>
+            <td><strong>Code:</strong></td>
+            <td>
+                {{#each code}}
+                    <li>
+                        <div class="button delete listbutton">
+                            <span>-</span>
+                        </div>
+                        <span name="code" class="code editable">
+                            <input type="text" value="{{this}}" />
+                        </span>
+                    </li>
+                {{/each}}
+                <li>
+                    <span class="code editable hide" name="code" id="newcode">
+                        <input type="text" value="" />
+                    </span>
+                </li>
+                <li>
+                    <div class="button listbutton" id="add_code">
+                        <span>+</span>
+                    </div>
+                </li>
+            </td>
+        </tr>
         <tr>
             <td id="credits"><strong>Credits:</strong></td>
             <td>

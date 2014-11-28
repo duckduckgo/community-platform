@@ -104,6 +104,11 @@
                         $("#new_topic").parent().parent().removeClass("hide");
                     });
 
+                    $("body").on('click', '#add_code', function(evt) {
+                        $(this).addClass("hide");
+                        $("#newcode").removeClass("hide");
+                    });
+
                     $("body").on('click', '#view_commits', function(evt) {
                         window.location = "/ia/commit/" + DDH_iaid;
                     });
@@ -115,7 +120,7 @@
                         $obj.replaceWith(Handlebars.templates['pre_edit_' + name](x));
                     });
 
-                    $("body").on('focusout keypress', '.editable input', function(evt) {
+                    $("body").on('keypress', '.editable input', function(evt) {
                         if (evt.type === 'keypress' && evt.which === 13) {
                             var $obj = $(this).parent().parent();
                             var field = $(this).parent().attr('name');
@@ -135,6 +140,25 @@
                                 var $primary_button = $("#primary").parent().parent().find(".button.delete");
                                 if ($primary_button.hasClass("hide")) {
                                     $primary_button.removeClass("hide");
+                                }
+                            } else if (field === "code") {
+                                if (value !== '') {
+                                    $("#newcode").before('<li>' +
+                                                    '<div class="button delete listbutton">' +
+                                                    '<span>-</span>' +
+                                                    '</div>' + 
+                                                    '<span name="code" class="code editable">' +
+                                                    '<input type="text" value="' + value + '" />' +
+                                                    '</span></li>');
+                                
+                                $(this).val("");
+                                $("#newcode").addClass("hide");
+                                $("#add_code").removeClass("hide");
+
+                                var $primary_button = $("#primary").parent().parent().find(".button.delete");
+                                if ($primary_button.hasClass("hide")) {
+                                    $primary_button.removeClass("hide");
+                                }
                                 }
                             }
 
@@ -179,7 +203,7 @@
                             field = "other_queries";
                             selector = "#examples .other-examples input";
                         } else {
-                            selector = "li.code.editable input";
+                            selector = "li .code.editable input";
                             $obj = $(".dev-info-details");
                             field = "code";
                         }
