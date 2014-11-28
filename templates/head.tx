@@ -18,7 +18,7 @@
 : }
 
 : if $duckduckhack {
-	<link rel="stylesheet" media="screen, projection, handheld" href="/static/css/tomorrow-night-eighties.css">
+	<link rel="stylesheet" media="screen, projection, handheld" href="/static/css/tomorrow-night.css">
 : }
 
 <link rel="stylesheet" media="screen, projection, handheld" href="/generated_css/flags.css" />
