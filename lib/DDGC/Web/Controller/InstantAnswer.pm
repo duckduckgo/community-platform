@@ -150,7 +150,7 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
     my @ia_issues;
 
     use JSON;
- 
+
     for my $topic (@topics_list) {
         push (@allowed, {
                id => $topic->id,
@@ -287,13 +287,15 @@ sub get_edits {
     my $results = $d->rs('InstantAnswer')->search( {name => $name} );
 
     my $ia_result = $results->first();
-    my $edits = $ia_result->get_column('updates');
+    my $edits;
 
-    if(!$edits){
-        return 0;
-    }
+    try{
+        $edits = from_json($ia_result->get_column('updates'));
+    }catch{
+        return;
+    };
 
-    return from_json($edits);
+    return $edits;
 }
 
 
