@@ -10,29 +10,29 @@
     </thead>
     
     <tbody>
-        {{#if name.value}}
+        {{#if name}}
             <tr class="updates_list">
                 <th>Name</th>
 
                 <td name="name" class="item_selected" id="name_original">
                     {{original.name}}
                 </td>
-                <td name="name">{{name.value}}</td>
+                <td name="name">{{name}}</td>
             </tr>
         {{/if}}
 
-        {{#if status.value}}
+        {{#if status}}
             <tr class="updates_list">
                 <th>Status</th>
 
                 <td name="status" class="item_selected" id="status_original">
                     {{original.status}}
                 </td>
-                <td name="status">{{status.value}}</td>
+                <td name="status">{{status}}</td>
             </tr>
         {{/if}}
 
-        {{#if description.value}}
+        {{#if description}}
             <tr class="updates_list">
                 <th>Description</th>
 
@@ -40,12 +40,12 @@
                     {{original.description}}
                 </td>
                 <td name="description">
-                    {{description.value}}
+                    {{description}}
                 </td>
             </tr>
         {{/if}}
 
-        {{#if topic.value}}
+        {{#if topic}}
             <tr class="updates_list">
                 <th>Topic</th>
 
@@ -55,14 +55,14 @@
                     {{/each}}
                 </td>
                 <td name="topic">
-                    {{#each topic.value}}
+                    {{#each topic}}
                         <li>{{this}}</li>
                     {{/each}}
                 </td>
             </tr>
         {{/if}}
 
-        {{#if example_query.value}}
+        {{#if example_query}}
             <tr class="updates_list">
                 <th>Example Query</th>
 
@@ -70,12 +70,12 @@
                     {{original.example_query}}
                 </td>
                 <td name="example_query">
-                    {{example_query.value}}
+                    {{example_query}}
                 </td>
             </tr>
         {{/if}}
 
-        {{#if other_queries.value}}
+        {{#if other_queries}}
             <tr class="updates_list">
                 <th>Other Queries</th>
 
@@ -85,14 +85,14 @@
                     {{/each}}
                 </td>
                 <td name="other_queries">
-                    {{#each other_queries.value}}
+                    {{#each other_queries}}
                         <li>{{this}}</li>
                     {{/each}}
                 </td>
             </tr>
         {{/if}}
 
-        {{#if code.value}}
+        {{#if code}}
             <tr class="updates_list">
                 <th>Code</th>
 
@@ -102,7 +102,7 @@
                     {{/each}}
                 </td>
                 <td name="code">
-                    {{#each code.value}}
+                    {{#each code}}
                         <li>{{this}}</li>
                     {{/each}}
                 </td>
