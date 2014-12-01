@@ -29,7 +29,7 @@
             $("#sort_status").on('click', DDH.IAIndex.prototype.sort.bind(this, 'dev_milestone'));
             $("#sort_repo").on('click',   DDH.IAIndex.prototype.sort.bind(this, 'repo'));
 
-            $.getJSON(url, function(x) {i
+            $.getJSON(url, function(x) {
                 if (field == "topic") {
                     var topics;
                     var new_x = [];
