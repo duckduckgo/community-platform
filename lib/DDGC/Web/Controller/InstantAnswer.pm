@@ -320,7 +320,7 @@ sub commit_save :Chained('commit_base') :PathPart('save') :Args(0) {
 
         if ($is_admin) {
             my $ia = $c->d->rs('InstantAnswer')->find($c->req->params->{id});
-            my @params = $c->req->params->{values}? decode_json($c->req->params->{values}) : undef;
+            my @params = decode_json($c->req->params->{values});
 
             for my $param (@params) {
                 for my $hash_param (@{$param}) {
@@ -457,7 +457,7 @@ sub remove_edit {
 
     my $updates = ();
     my $column_updates = $ia->get_column('updates');
-    my $edits = $column_updates? decode_json($ia->get_column('updates')) : undef;
+    my $edits = $column_updates? decode_json($column_updates) : undef;
 
     # look through edits for timestamp
     # push all edits that don't match the timestamp of the
