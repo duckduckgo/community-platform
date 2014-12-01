@@ -430,7 +430,7 @@ sub add_edit {
     my $current_updates = $ia->get_column('updates') || ();
 
     if($value ne $orig_data){
-        $current_updates = from_json($current_updates) if $current_updates;
+        $current_updates = $current_updates? decode_json($current_updates) : undef;
         my $time = time;
         my %new_update = ( $time => {$field => $value});
         push(@{$current_updates}, \%new_update);
@@ -456,7 +456,8 @@ sub remove_edit {
     my($ia, $time) = @_;   
 
     my $updates = ();
-    my $edits = from_json($ia->get_column('updates'));
+    my $column_updates = $ia->get_column('updates');
+    my $edits = $column_updates? decode_json($column_updates) : undef;
 
     # look through edits for timestamp
     # push all edits that don't match the timestamp of the
@@ -482,7 +483,8 @@ sub get_edits {
     my $edits;
 
     try{
-        $edits = from_json($ia_result->get_column('updates'));
+        my $column_updates = $ia_result->get_column('updates');
+        $edits = $column_updates? decode_json($column_updates) : undef;
     }catch{
         return;
     };
