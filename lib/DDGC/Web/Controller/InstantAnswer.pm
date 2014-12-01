@@ -171,7 +171,7 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
                     issue_id => $issue->issue_id,
                     title => $issue->title,
                     body => $issue->body,
-                    tags => decode_json($issue->tags)
+                    tags => $issue->tags? decode_json($issue->tags) : undef
                 });
         }
     }
@@ -186,10 +186,10 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
                 dev_milestone => $ia->dev_milestone,
                 perl_module => $ia->perl_module,
                 example_query => $ia->example_query,
-                other_queries => decode_json($ia->other_queries),
-                code => decode_json($ia->code),
+                other_queries => $ia->other_queries? decode_json($ia->other_queries) : undef,
+                code => $ia->code? decode_json($ia->code) : undef,
                 topic => \@topics,
-                attribution => decode_json($ia->attribution),
+                attribution => $ia->attribution? decode_json($ia->attribution) : undef,
                 allowed_topics => \@allowed,
                 issues => \@ia_issues
     };
@@ -241,8 +241,8 @@ sub commit_json :Chained('commit_base') :PathPart('json') :Args(0) {
         status => $ia->status,
         topic => \@topics,
         example_query => $ia->example_query,
-        other_queries => decode_json($ia->other_queries),
-        code => decode_json($ia->code)
+        other_queries => $ia->other_queries? decode_json($ia->other_queries) : undef,
+        code => $ia->code? decode_json($ia->code) : undef
     );
 
     if (ref $edits eq 'ARRAY') {
@@ -274,13 +274,13 @@ sub commit_json :Chained('commit_base') :PathPart('json') :Args(0) {
                         } elsif ($field eq 'status') {
                             $status = $edit->{$time}->{$field};
                         } elsif ($field eq 'topic') {
-                            $topic = decode_json($edit->{$time}->{$field});
+                            $topic =$edit->{$time}->{$field}?  decode_json($edit->{$time}->{$field}) : undef;
                         } elsif ($field eq 'example_query') {
                             $example_query = $edit->{$time}->{$field};
                         } elsif ($field eq 'other_queries') {
-                            $other_queries = decode_json($edit->{$time}->{$field});
+                            $other_queries = $edit->{$time}->{$field}? decode_json($edit->{$time}->{$field}) : undef;
                         } elsif ($field eq 'code') {
-                            $code = decode_json($edit->{$time}->{$field});
+                            $code = $edit->{time}->{$field}? decode_json($edit->{$time}->{$field}) : undef;
                         }
                     }
                 }
