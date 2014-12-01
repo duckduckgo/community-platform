@@ -5,6 +5,7 @@ use Moose;
 use namespace::autoclean;
 use Try::Tiny;
 use Time::Local;
+use JSON;
 
 my $INST = DDGC::Config->new->appdir_path."/root/static/js";
 
@@ -43,9 +44,7 @@ sub ialist_json :Chained('base') :PathPart('json') :Args() {
         @x = $c->d->rs('InstantAnswer')->all();
     }
 
-    my @ial;
-
-    use JSON;
+    my @ial;    
 
     for my $ia (@x) {
         my @topics = map { $_->name } $ia->topics;
@@ -80,8 +79,6 @@ sub iarepo :Chained('base') :PathPart('repo') :Args(1) {
 
     my %iah;
 
-    use JSON;
-
     for (@x) {
         my $topics = $_->topic;
 
@@ -114,7 +111,7 @@ sub ia_base :Chained('base') :PathPart('view') :CaptureArgs(1) {  # /ia/view/cal
     $c->stash->{ia} = $c->d->rs('InstantAnswer')->find($answer_id);
     @{$c->stash->{issues}} = $c->d->rs('InstantAnswer::Issues')->search({instant_answer_id => $answer_id});
 
-    use JSON;
+    
 
     unless ($c->stash->{ia}) {
         $c->response->redirect($c->chained_uri('InstantAnswer','index',{ instant_answer_not_found => 1 }));
@@ -159,9 +156,7 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
     my @allowed;
 
     my @issues = $c->d->rs('InstantAnswer::Issues')->find({instant_answer_id => $ia->id});
-    my @ia_issues;
-
-    use JSON;
+    my @ia_issues;    
  
     for my $topic (@topics_list) {
         push (@allowed, {
@@ -240,8 +235,6 @@ sub commit_json :Chained('commit_base') :PathPart('json') :Args(0) {
         $is_admin = $c->user->admin;
     }
 
-    use JSON;
-
     %original = (
         name => $ia->name,
         description => $ia->description,
@@ -312,7 +305,7 @@ sub commit_save :Chained('commit_base') :PathPart('save') :Args(0) {
     my $is_admin;
     my $result = '';
 
-    use JSON;
+    
 
     if ($c->user) {
         my $is_admin = $c->user->admin;
@@ -452,9 +445,7 @@ sub commit_edit {
 # given a result set and timestamp, remove the
 # entry from the updates column with that timestamp
 sub remove_edit {
-    my($ia, $time) = @_;
-
-    use JSON;
+    my($ia, $time) = @_;   
 
     my $updates = ();
     my $edits = from_json($ia->get_column('updates'));
@@ -475,9 +466,7 @@ sub remove_edit {
 # given the IA name return the data in the updates
 # column as an array of hashes
 sub get_edits {
-    my ($d, $name) = @_;
-
-    use JSON;
+    my ($d, $name) = @_; 
 
     my $results = $d->rs('InstantAnswer')->search( {name => $name} );
 
