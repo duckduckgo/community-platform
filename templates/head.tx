@@ -17,6 +17,10 @@
 	<link rel="stylesheet" media="screen, projection, handheld" href="/static/css/share.css" />
 : }
 
+: if $duckduckhack {
+	<link rel="stylesheet" media="screen, projection, handheld" href="/static/css/tomorrow-night.css">
+: }
+
 <link rel="stylesheet" media="screen, projection, handheld" href="/generated_css/flags.css" />
 <meta name="viewport" content="width=100, initial-scale=1.0" />
 

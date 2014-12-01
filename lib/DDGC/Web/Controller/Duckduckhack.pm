@@ -12,6 +12,7 @@ sub base :Chained('/base') :PathPart('duckduckhack') :CaptureArgs(0) {
   $c->stash->{duckduckhack} = 1;
   $c->stash->{no_breadcrumb} = 1;
   $c->stash->{title} = 'DuckDuckHack Documentation';
+  $c->stash->{page_class} = "duckduckhack-docs";
 }
 
 sub index :Chained('base') :PathPart('') :Args(0) {
