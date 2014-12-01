@@ -127,6 +127,16 @@
     overflow: hidden;
     text-overflow: ellipsis;
 }
+.ia-single #desc.editable,
+.ia-single #desc.editable input {
+    width: 100%;
+}
+.ia-single #desc.editable {
+    margin-bottom: 0;
+}
+.ia-single .button.cancel[name="description"] {
+    margin: 0.35em 0 1em;   
+}
 #view_commits {
     margin-left: 0.25em;
 }
