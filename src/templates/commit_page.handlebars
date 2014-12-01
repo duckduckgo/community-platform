@@ -1,0 +1,115 @@
+<h2>{{original.name}} - Staged Edits</h2>
+
+<table class="staged_edits">
+    <thead>
+        <tr>
+            <th class="empty_th"></th>
+            <th>Live</th>
+            <th>Edited</th>
+         </tr>
+    </thead>
+    
+    <tbody>
+        {{#if name}}
+            <tr class="updates_list">
+                <th>Name</th>
+
+                <td name="name" class="item_selected" id="name_original">
+                    {{original.name}}
+                </td>
+                <td name="name">{{name}}</td>
+            </tr>
+        {{/if}}
+
+        {{#if status}}
+            <tr class="updates_list">
+                <th>Status</th>
+
+                <td name="status" class="item_selected" id="status_original">
+                    {{original.status}}
+                </td>
+                <td name="status">{{status}}</td>
+            </tr>
+        {{/if}}
+
+        {{#if description}}
+            <tr class="updates_list">
+                <th>Description</th>
+
+                <td name="description" class="item_selected" id="description_original">
+                    {{original.description}}
+                </td>
+                <td name="description">
+                    {{description}}
+                </td>
+            </tr>
+        {{/if}}
+
+        {{#if topic}}
+            <tr class="updates_list">
+                <th>Topic</th>
+
+                <td name="topic" class="item_selected" id="topic_original">
+                    {{#each original.topic}}
+                        <li>{{this}}</li>
+                    {{/each}}
+                </td>
+                <td name="topic">
+                    {{#each topic}}
+                        <li>{{this}}</li>
+                    {{/each}}
+                </td>
+            </tr>
+        {{/if}}
+
+        {{#if example_query}}
+            <tr class="updates_list">
+                <th>Example Query</th>
+
+                <td name="example_query" class="item_selected" id="example_query_original">
+                    {{original.example_query}}
+                </td>
+                <td name="example_query">
+                    {{example_query}}
+                </td>
+            </tr>
+        {{/if}}
+
+        {{#if other_queries}}
+            <tr class="updates_list">
+                <th>Other Queries</th>
+
+                <td name="other_queries" class="item_selected" id="other_queries_original">
+                    {{#each original.other_queries}}
+                        <li>{{this}}</li>
+                    {{/each}}
+                </td>
+                <td name="other_queries">
+                    {{#each other_queries}}
+                        <li>{{this}}</li>
+                    {{/each}}
+                </td>
+            </tr>
+        {{/if}}
+
+        {{#if code}}
+            <tr class="updates_list">
+                <th>Code</th>
+
+                <td name="code" class="item_selected" id="code_original">
+                    {{#each original.code}}
+                        <li>{{this}}</li>
+                    {{/each}}
+                </td>
+                <td name="code">
+                    {{#each code}}
+                        <li>{{this}}</li>
+                    {{/each}}
+                </td>
+            </tr>
+        {{/if}}
+    </tbody>
+</table>
+
+<span class="clearfix"></span>
+<div class="button" id="commit">Commit</div>

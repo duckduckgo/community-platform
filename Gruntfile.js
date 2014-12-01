@@ -34,6 +34,8 @@ module.exports = function(grunt) {
 	'IAPageEdit.js',
         'ready.js',
         'template_helpers.js'
+        'IAPageCommit.js',
+        'ready.js'
     ];
 
     for( var file in ia_page_js ){

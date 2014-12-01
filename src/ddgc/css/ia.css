@@ -62,7 +62,8 @@
     line-height: 0.8;
     font-weight: bold;
 }
-.ia-single ul li.editpage {
+.ia-single ul li.editpage,
+#ia_commit li {
     list-style: none;
 }
 .ia-single ul li.editpage .newentry,
@@ -126,12 +127,47 @@
     overflow: hidden;
     text-overflow: ellipsis;
 }
+#view_commits {
+    margin-left: 0.25em;
+}
 #edit_activate,
 #edit_disable {
     margin-bottom: 1em;
 }
 #ia_index td {
     padding-left:4px;
+}
+#ia_commit .updates_list {
+    width: 15em;
+}
+#ia_commit table thead th {
+    padding: 0 2em;
+}
+#ia_commit tbody .updates_list td,
+#ia_commit tbody .updates_list th {
+    padding: 0.25em 2em;
+    vertical-align: middle;
+    cursor: pointer;
+    word-wrap: break-word;
+}
+#ia_commit table th {
+    font-size: 1.1em;
+}
+#ia_commit table th,
+#ia_commit table td {
+    border: 1px solid #888;
+}
+#ia_commit table th.empty_th {
+    border: 0;
+}
+#ia_commit table {
+    margin: 2em 0;
+}
+#ia_commit .updates_list .item_selected {
+    background-color: #d5d5d5;
+}
+#ia_commit .updates_list .item_focused {
+    background-color: #e9e9e9;
 }
 .idx_filter {
     text-transform: capitalize;
