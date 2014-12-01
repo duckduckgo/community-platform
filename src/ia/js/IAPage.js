@@ -104,6 +104,15 @@
                         $("#new_topic").parent().parent().removeClass("hide");
                     });
 
+                    $("body").on('click', '#add_code', function(evt) {
+                        $(this).addClass("hide");
+                        $("#newcode").removeClass("hide");
+                    });
+
+                    $("body").on('click', '#view_commits', function(evt) {
+                        window.location = "/ia/commit/" + DDH_iaid;
+                    });
+
                     $("body").on('click', '.button.cancel', function(evt) {
                         var $obj = $(this).parent();
                         var name = $(this).attr('name');
@@ -111,8 +120,8 @@
                         $obj.replaceWith(Handlebars.templates['pre_edit_' + name](x));
                     });
 
-                    $("body").on('focusout keypress', '.editable input', function(evt) {
-                        if (evt.type === 'focusout' || (evt.type === 'keypress' && evt.which === 13)) {
+                    $("body").on('keypress', '.editable input', function(evt) {
+                        if (evt.type === 'keypress' && evt.which === 13) {
                             var $obj = $(this).parent().parent();
                             var field = $(this).parent().attr('name');
                             var value = $(this).val();
@@ -131,6 +140,25 @@
                                 var $primary_button = $("#primary").parent().parent().find(".button.delete");
                                 if ($primary_button.hasClass("hide")) {
                                     $primary_button.removeClass("hide");
+                                }
+                            } else if (field === "code") {
+                                if (value !== '') {
+                                    $("#newcode").before('<li>' +
+                                                    '<div class="button delete listbutton">' +
+                                                    '<span>-</span>' +
+                                                    '</div>' + 
+                                                    '<span name="code" class="code editable">' +
+                                                    '<input type="text" value="' + value + '" />' +
+                                                    '</span></li>');
+                                
+                                $(this).val("");
+                                $("#newcode").addClass("hide");
+                                $("#add_code").removeClass("hide");
+
+                                var $primary_button = $("#primary").parent().parent().find(".button.delete");
+                                if ($primary_button.hasClass("hide")) {
+                                    $primary_button.removeClass("hide");
+                                }
                                 }
                             }
 
@@ -175,7 +203,7 @@
                             field = "other_queries";
                             selector = "#examples .other-examples input";
                         } else {
-                            selector = "li.code.editable input";
+                            selector = "li .code.editable input";
                             $obj = $(".dev-info-details");
                             field = "code";
                         }
@@ -210,6 +238,12 @@
                                     $("#error").removeClass("hide");
                                 }
                             } else {
+                                if (data.result.is_admin) {
+                                    if ($("#view_commits").hasClass("hide")) {
+                                        $("#view_commits").removeClass("hide");
+                                    }
+                                }
+
                                 var name;
                                 if (field === "example_query" || field === "other_queries") {
                                     name = "examples";
