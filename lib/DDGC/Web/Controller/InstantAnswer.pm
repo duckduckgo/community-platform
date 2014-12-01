@@ -247,10 +247,16 @@ sub commit_json :Chained('commit_base') :PathPart('json') :Args(0) {
 
     if (ref $edits eq 'ARRAY') {
         $new_edits = 1;
+
+        # Loop through staged edits
         for my $edit (@{ $edits }) {
             my $cur_time = time;
             my $diff_time;
 
+            # Loop through time keys, which contain edited 
+            # fields and values, and choose last edit, aka the
+            # edit in which the timestamp is the closest to the current
+            # timestamp
             for my $time (keys %{$edit}) {
                 my %hash_edit = %{$edit};
                 my $temp_diff_time = $cur_time - $hash_edit{$time};
@@ -258,6 +264,8 @@ sub commit_json :Chained('commit_base') :PathPart('json') :Args(0) {
                 if (!$diff_time || $temp_diff_time < $diff_time) {
                     $diff_time = $temp_diff_time;
 
+                    # Loop through fields (structure: field_name => field_value)
+                    # and assign the value to the correct array depending on the field name 
                     for my $field (keys %{ $edit->{$time} } ) {
                         if ($field eq 'name') {
                             @name = {value => $edit->{$time}->{$field}};
@@ -275,7 +283,7 @@ sub commit_json :Chained('commit_base') :PathPart('json') :Args(0) {
                             @code = {value => decode_json($edit->{$time}->{$field})};
                         }
                     }
-                }
+                 }
             }
         }
     }
