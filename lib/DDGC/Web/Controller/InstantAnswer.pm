@@ -220,13 +220,13 @@ sub commit_json :Chained('commit_base') :PathPart('json') :Args(0) {
     my $edits = get_edits($c->d, $ia->name);
     my @topics = map { $_->name} $ia->topics;
 
-    my @name;
-    my @desc;
-    my @status;
-    my @topic;
-    my @example_query;
-    my @other_queries;
-    my @code;
+    my %name;
+    my %desc;
+    my %status;
+    my %topic;
+    my %example_query;
+    my %other_queries;
+    my %code;
     my %original;
     my $new_edits;
     my $is_admin;
@@ -268,19 +268,19 @@ sub commit_json :Chained('commit_base') :PathPart('json') :Args(0) {
                     # and assign the value to the correct array depending on the field name 
                     for my $field (keys %{ $edit->{$time} } ) {
                         if ($field eq 'name') {
-                            @name = {value => $edit->{$time}->{$field}};
+                            %name = (value => $edit->{$time}->{$field});
                         } elsif ($field eq 'description') {
-                            @desc =  {value => $edit->{$time}->{$field}};
+                            %desc =  (value => $edit->{$time}->{$field});
                         } elsif ($field eq 'status') {
-                            @status = {value => $edit->{$time}->{$field}};
+                            %status = (value => $edit->{$time}->{$field});
                         } elsif ($field eq 'topic') {
-                            @topic = {value => decode_json($edit->{$time}->{$field})};
+                            %topic = (value => decode_json($edit->{$time}->{$field}));
                         } elsif ($field eq 'example_query') {
-                            @example_query = {value => $edit->{$time}->{$field}};
+                            %example_query = (value => $edit->{$time}->{$field});
                         } elsif ($field eq 'other_queries') {
-                            @other_queries = {value => decode_json($edit->{$time}->{$field})};
+                            %other_queries = (value => decode_json($edit->{$time}->{$field}));
                         } elsif ($field eq 'code') {
-                            @code = {value => decode_json($edit->{$time}->{$field})};
+                            %code = (value => decode_json($edit->{$time}->{$field}));
                         }
                     }
                  }
@@ -290,13 +290,13 @@ sub commit_json :Chained('commit_base') :PathPart('json') :Args(0) {
 
     if ($new_edits && $is_admin) {
         $c->stash->{x} = {
-            name => \@name,
-            description => \@desc,
-            status => \@status,
-            topic => \@topic,
-            example_query => \@example_query,
-            other_queries => \@other_queries,
-            code => \@code,
+            name => \%name,
+            description => \%desc,
+            status => \%status,
+            topic => \%topic,
+            example_query => \%example_query,
+            other_queries => \%other_queries,
+            code => \%code,
             original => \%original
         };
     } else {
