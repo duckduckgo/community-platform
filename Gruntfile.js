@@ -31,8 +31,9 @@ module.exports = function(grunt) {
         'DDH.js',
         'IAIndex.js',
         'IAPage.js',
-		'IAPageEdit.js',
-        'ready.js'
+	'IAPageEdit.js',
+        'ready.js',
+        'template_helpers.js'
     ];
 
     for( var file in ia_page_js ){
