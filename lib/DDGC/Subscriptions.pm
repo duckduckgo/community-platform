@@ -36,7 +36,7 @@ has subscriptions => (
 	is => 'ro',
 	required => 1,
 	lazy_build => 1,
-)
+);
 sub _build_subscriptions {
 	my ( $self ) = @_;
 	+{
@@ -168,4 +168,6 @@ sub generate_events {
 		$subs->{ $sub }->{process}->( $rs );
 	}
 }
+
+1;
 
