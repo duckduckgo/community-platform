@@ -15,6 +15,7 @@ use DDGC::GitHub;
 use DDGC::Forum;
 use DDGC::Help;
 use DDGC::Ideas;
+use DDGC::Subscriptions;
 use DDGC::Util::DateTime;
 
 use IO::All;
@@ -649,6 +650,15 @@ has idea => (
 );
 
 sub _build_idea { DDGC::Ideas->new( ddgc => shift ) }
+
+##################################################
+
+has subscriptions => (
+    isa => 'DDGC::Subscriptions',
+    is => 'ro',
+    lazy_build => 1,
+);
+sub _build_subscriptions { DDGC::Subscriptions->new( ddgc => shift ) }
 
 #
 # ======== User ====================
