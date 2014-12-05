@@ -38,19 +38,30 @@ sub ialist_json :Chained('base') :PathPart('json') :Args() {
 
     my @x;
 
-    if ($field && $value) {
+    # Search the database for topics with the requested $field and $value.
+    # Make sure to return everything if we're requesting for 'topic' because
+    # we still need to process the data.
+    if ($field && $value && $field ne 'topic') {
         @x = $c->d->rs('InstantAnswer')->search({$field => $value});
     } else {
         @x = $c->d->rs('InstantAnswer')->all();
     }
 
-    my @ial;    
+    my @ial;
 
     for my $ia (@x) {
         my @topics = map { $_->name } $ia->topics;
         my $attribution = $ia->attribution;
+        my $accept = 1;
 
-        push (@ial, {
+        # If we're requesting for a topic, we only need to return the items with
+        # the value that we're looking for.
+        if(($field && $value) && ($field eq 'topic') && !(grep {$_ eq $value} @topics)) {
+            $accept = 0;
+        }
+
+        if($accept) {
+            push (@ial, {
                 name => $ia->name,
                 id => $ia->id,
                 example_query => $ia->example_query,
@@ -62,6 +73,7 @@ sub ialist_json :Chained('base') :PathPart('json') :Args() {
                 topic => \@topics,
                 attribution => $attribution ? decode_json($attribution) : undef,
             });
+        }
     }
 
     $c->stash->{x} = \@ial;
