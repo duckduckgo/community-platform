@@ -1,5 +1,19 @@
 (function(env) {
 
+    DDH.Index = (function() 
+        var templateProperties = {
+            index: {
+                
+            }
+        };
+
+        // If there are no arguments, we stick with the default view.
+        function Index(field, value) {
+            this.field = field;
+            this.value = value;
+        }
+    })();
+
     DDH.IAIndex = function() {
         this.init();
     };
