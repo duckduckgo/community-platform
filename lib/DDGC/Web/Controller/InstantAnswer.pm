@@ -431,9 +431,13 @@ sub add_edit {
 
     if($value ne $orig_data){
         $current_updates = $current_updates? decode_json($current_updates) : undef;
+        my @field_updates = $current_updates->{$field}? $current_updates->{$field} : [];
         my $time = time;
-        my %new_update = ( $time => {$field => $value});
-        push(@{$current_updates}, \%new_update);
+        my %new_update = ( value => $value, 
+                           timestamp => $time
+                         );
+        push(@field_updates, \%new_update);
+        $current_updates->{$field} = @field_updates;
     }
 
     return $current_updates;
@@ -446,30 +450,33 @@ sub commit_edit {
 
     $ia->update({$field => $value});
 
-    remove_edit($ia, $time);
+    remove_edit($ia, $field, $time);
 
 }
 
 # given a result set and timestamp, remove the
 # entry from the updates column with that timestamp
 sub remove_edit {
-    my($ia, $time) = @_;   
+    my($ia, $field, $time) = @_;   
 
     my $updates = ();
     my $column_updates = $ia->get_column('updates');
     my $edits = $column_updates? decode_json($column_updates) : undef;
+    my @field_edits = $edits->{$field};
+    my @new_field_edits;
 
     # look through edits for timestamp
     # push all edits that don't match the timestamp of the
     # one we want to remove (recreate the updates json)
-    foreach my $edit ( @{$edits} ){
-        foreach my $timestamp (keys %{$edit}){
-            if($timestamp ne $time){
-                push(@{$updates}, $edit);
-            }
+    foreach my $edit ( @field_edits ){
+        my $timestamp = $edit->{'timestamp'};
+        if($timestamp ne $time){
+            push(@new_field_edits, $edit);
         }
     }
-    $ia->update({updates => $updates});
+
+    $edits->{$field} = @new_field_edits;
+    $ia->update({updates => $edits});
 }
 
 # given the IA name return the data in the updates
