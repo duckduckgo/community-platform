@@ -230,9 +230,6 @@ sub commit_json :Chained('commit_base') :PathPart('json') :Args(0) {
     my %original;
     my $new_edits;
     my $is_admin;
-    use Data::Dumper;
-
-    print Dumper $name[0];
 
     if ($c->user) {
         $is_admin = $c->user->admin;
@@ -248,9 +245,9 @@ sub commit_json :Chained('commit_base') :PathPart('json') :Args(0) {
         code => $ia->code? decode_json($ia->code) : undef
     );
 
-    #if (ref $edits eq 'ARRAY') {
+    if (ref $edits eq 'ARRAY') {
         $new_edits = 1;
-        #}
+    }
 
     if ($new_edits && $is_admin) {
         $c->stash->{x} = {
@@ -326,6 +323,16 @@ sub commit_save :Chained('commit_base') :PathPart('save') :Args(0) {
                         };
                     }
                 }
+            } 
+     
+            my $edits = get_edits($c->d, $ia->name);
+
+            if (ref $edits eq 'ARRAY') {
+                foreach my $edit (@{$edits}) {
+                    foreach my $field(keys %{$edit}){
+                        remove_edit($ia, $field);
+                    }
+                }
             }
         }
     }
@@ -381,7 +388,6 @@ sub add_edit {
 
     my $orig_data = $ia->get_column($field);
     my $current_updates = $ia->get_column('updates') || ();
-    use Data::Dumper;
 
     if($value ne $orig_data){
         $current_updates = $current_updates? decode_json($current_updates) : undef;
@@ -391,7 +397,6 @@ sub add_edit {
                            timestamp => $time
                          );
         push(@field_updates, \%new_update);
-        print Dumper @field_updates;
         $current_updates->{$field} = [@field_updates];
     }
 
