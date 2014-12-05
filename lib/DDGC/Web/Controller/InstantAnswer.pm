@@ -220,16 +220,19 @@ sub commit_json :Chained('commit_base') :PathPart('json') :Args(0) {
     my $edits = get_edits($c->d, $ia->name);
     my @topics = map { $_->name} $ia->topics;
 
-    my $name;
-    my $desc;
-    my $status;
-    my $topic;
-    my $example_query;
-    my $other_queries;
-    my $code;
+    my @name = $edits->{'name'};
+    my @desc = $edits->{'description'};
+    my @status = $edits->{'status'}; ;
+    my @topic = $edits->{'topic'}; ;
+    my @example_query = $edits->{'example_query'}; ;
+    my @other_queries = $edits->{'other_queries'}; ;
+    my @code = $edits->{'code'}; ;
     my %original;
     my $new_edits;
     my $is_admin;
+    use Data::Dumper;
+
+    print Dumper $name[0];
 
     if ($c->user) {
         $is_admin = $c->user->admin;
@@ -245,58 +248,19 @@ sub commit_json :Chained('commit_base') :PathPart('json') :Args(0) {
         code => $ia->code? decode_json($ia->code) : undef
     );
 
-    if (ref $edits eq 'ARRAY') {
+    #if (ref $edits eq 'ARRAY') {
         $new_edits = 1;
-
-        # Loop through staged edits
-        for my $edit (@{ $edits }) {
-            my $cur_time = time;
-            my $diff_time;
-
-            # Loop through time keys, which contain edited 
-            # fields and values, and choose last edit, aka the
-            # edit in which the timestamp is the closest to the current
-            # timestamp
-            for my $time (keys %{$edit}) {
-                my %hash_edit = %{$edit};
-                my $temp_diff_time = $cur_time - $hash_edit{$time};
-
-                if (!$diff_time || $temp_diff_time < $diff_time) {
-                    $diff_time = $temp_diff_time;
-
-                    # Loop through fields (structure: field_name => field_value)
-                    # and assign the value to the correct array depending on the field name 
-                    for my $field (keys %{ $edit->{$time} } ) {
-                        if ($field eq 'name') {
-                            $name = $edit->{$time}->{$field};
-                        } elsif ($field eq 'description') {
-                            $desc =  $edit->{$time}->{$field};
-                        } elsif ($field eq 'status') {
-                            $status = $edit->{$time}->{$field};
-                        } elsif ($field eq 'topic') {
-                            $topic =$edit->{$time}->{$field}?  decode_json($edit->{$time}->{$field}) : undef;
-                        } elsif ($field eq 'example_query') {
-                            $example_query = $edit->{$time}->{$field};
-                        } elsif ($field eq 'other_queries') {
-                            $other_queries = $edit->{$time}->{$field}? decode_json($edit->{$time}->{$field}) : undef;
-                        } elsif ($field eq 'code') {
-                            $code = $edit->{time}->{$field}? decode_json($edit->{$time}->{$field}) : undef;
-                        }
-                    }
-                }
-            }
-        }
-    }
+        #}
 
     if ($new_edits && $is_admin) {
         $c->stash->{x} = {
-            name => $name,
-            description => $desc,
-            status => $status,
-            topic => $topic,
-            example_query => $example_query,
-            other_queries => $other_queries,
-            code => $code,
+            name => $name[0][@name]{'value'},
+            description => $desc[0][@desc]{'value'},
+            status => $status[0][@status]{'value'},
+            topic => $topic[0][@topic]{'value'}? decode_json($topic[0][@topic]{'value'}) : undef,
+            example_query => $example_query[0][@example_query]{'value'},
+            other_queries => $other_queries[0][@other_queries]{'value'}? decode_json($other_queries[0][@other_queries]{'value'}) : undef,
+            code => $code[0][@code]{'value'},
             original => \%original
         };
     } else {
@@ -428,16 +392,18 @@ sub add_edit {
 
     my $orig_data = $ia->get_column($field);
     my $current_updates = $ia->get_column('updates') || ();
+    use Data::Dumper;
 
     if($value ne $orig_data){
         $current_updates = $current_updates? decode_json($current_updates) : undef;
-        my @field_updates = $current_updates->{$field}? $current_updates->{$field} : [];
+        my @field_updates = $current_updates->{$field}? $current_updates->{$field} : undef;
         my $time = time;
-        my %new_update = ( value => $value, 
+        my %new_update = ( value => $value,
                            timestamp => $time
                          );
         push(@field_updates, \%new_update);
-        $current_updates->{$field} = @field_updates;
+        print Dumper @field_updates;
+        $current_updates->{$field} = [@field_updates];
     }
 
     return $current_updates;
