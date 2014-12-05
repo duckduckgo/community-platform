@@ -305,10 +305,11 @@ sub commit_save :Chained('commit_base') :PathPart('save') :Args(0) {
 
                             try {
                                 $ia->add_to_topics($topic_id);
+                                remove_edit($ia, $field);
                                 $result = 1;
                             } catch {
                                 $c->d->errorlog("Error updating the database");
-                                return $result;
+                                return '';
                             };
                         }
                     } else {
@@ -317,22 +318,12 @@ sub commit_save :Chained('commit_base') :PathPart('save') :Args(0) {
                         }
 
                         try {
-                            $ia->update({$field => $value});
+                            commit_edit($ia, $field, $value);
                             $result = '1';
                         } catch {
                             $c->d->errorlog("Error updating the database");
                             return '';
                         };
-                    }
-                }
-            } 
-     
-            my $edits = get_edits($c->d, $ia->name);
-
-            if (ref $edits eq 'ARRAY') {
-                foreach my $edit (@{$edits}) {
-                    foreach my $field(keys %{$edit}){
-                        remove_edit($ia, $field);
                     }
                 }
             }
