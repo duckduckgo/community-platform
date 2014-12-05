@@ -22,8 +22,7 @@ $(function() {
         view: function(id) {
             var template = this.template;
             $.getJSON(this.url, function(result) {
-                var html = template.data(result).view();
-                $(id).html(html);
+                template.data(result).view();
             });
         },
         
@@ -36,11 +35,26 @@ $(function() {
     var availableTemplates = {
         index: {
             view: function() {
-                return Handlebars.templates.index({ia: this.result});
+                var html = Handlebars.templates.index({ia: this.result});                
+                $("#ia_index").html(html);
             },
             data: function(result) {
-                this.result = ;
+                this.result = result;
+                this.util.sort.call(this, 'name');
                 return this;
+            },
+            util: {
+                sort: function(what) {
+                    this.result.sort(function(a, b) {
+                        if(a[what] > b[what]) {
+                            return 1;
+                        } else if(a[what] < b[what]) {
+                            return -1;
+                        } else {
+                            return 0;
+                        }
+                    });
+                }
             }
         },
         template: {
