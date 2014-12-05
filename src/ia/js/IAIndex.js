@@ -1,18 +1,45 @@
 (function(env) {
 
-    DDH.Index = (function() 
-        var templateProperties = {
-            index: {
-                
-            }
-        };
-
-        // If there are no arguments, we stick with the default view.
-        function Index(field, value) {
+    DDH.Index = {
+        init: function(field, value) {
+            // This lists all of the available templates that we could use.
+            var availableTemplates: {
+                index: {
+                    view: function() {
+                        
+                    }
+                },
+                template: {
+                    view: function() {
+                        
+                    }
+                },
+            },
+            
+            // Initialize the properties.
             this.field = field;
             this.value = value;
+
+            // Check if we need to use a new template.
+            // If there aren't any, stick with the default (called "index").
+            this.use = availableTemplates.index;
+            if(this.field && this.value) {
+                if(this.field in availableTemplates) {
+                    this.use = availableTemplates[this.field];
+                }
+            }
+        },
+
+        view: function(data) {
+            return this.use.view(data);
         }
-    })();
+    };
+    
+    // Get the attributes from the HTML element if it exists.
+    var field = $("#ia_index").attr("field");
+    var value = $("#ia_index").attr("value");
+
+    DDH.Index.init(field, value);
 
     DDH.IAIndex = function() {
         this.init();
@@ -26,8 +53,6 @@
         init: function() {
             console.log("IAIndex init()");
             var ind = this;
-            var field = $("#ia_index").attr("field");
-            var value = $("#ia_index").attr("value");
             var url = "/ia/json";
             
             if (field && value) {
