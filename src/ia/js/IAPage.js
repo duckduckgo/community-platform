@@ -26,8 +26,7 @@
                         topic : Handlebars.templates.topic(x),
                         screens : Handlebars.templates.screens(x),
                         examples : Handlebars.templates.examples(x),
-                        devinfo : Handlebars.templates.devinfo(x),
-                        issues : Handlebars.templates.issues(x),
+                        devinfo : Handlebars.templates.devinfo(x)
                     };
 
                     // Pre-Edit mode templates
@@ -38,8 +37,7 @@
                         topic : Handlebars.templates.pre_edit_topic(x),
                         screens : Handlebars.templates.screens(x),
                         examples : Handlebars.templates.pre_edit_examples(x),
-                        devinfo : Handlebars.templates.pre_edit_devinfo(x),
-                        issues : Handlebars.templates.pre_edit_issues(x)
+                        devinfo : Handlebars.templates.pre_edit_devinfo(x)
                     };
 
                     DDH.IAPage.prototype.updateAll(readonly_templates);
