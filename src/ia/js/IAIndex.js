@@ -1,45 +1,55 @@
 (function() {
-    DDH.Index = {
-        init: function(field, value) {
-            // This lists all of the available templates that we could use.
-            var availableTemplates = {
-                index: {
-                    view: function(data) {
+    var availableTemplates = {
+        index: {
+            view: function(result) {
 
-                    }
-                },
-                template: {
-                    view: function(data) {
+            },
+            data: function(result) {
 
-                    }
-                },
-            };
-            
-            // Initialize the properties.
-            this.field = field;
-            this.value = value;
-            this.url = "/ia/json";
-
-            // Check if we need to use a new template.
-            // If there aren't any, stick with the default (called "index").
-            this.use = availableTemplates.index;
-            if(this.field && this.value) {
-                this.url += "/" + field + "/" + value;
-                if(this.field in availableTemplates) {
-                    this.use = availableTemplates[this.field];
-                }
+                return this;
             }
         },
+        template: {
+            view: function(result) {
 
-        view: function() {
-            var that = this;
-            // Get the data that we need.
-            $.getJSON(this.url, function(data) {
-                that.use.view(data);
-            });
+            },
+            data: function(result) {
+
+                return this;
+            }
         }
     };
 
-    DDH.Index.init();
-    DDH.Index.view();
+    DDH.Index = {
+        init: function(field, value) {
+            this.field = field;
+            this.value = value;
+
+            if(this.field && this.value) {
+                this.url += "/" + field + "/" + value;
+                if(this.field in availableTemplates) {
+                    this.template = availableTemplates[this.field];
+                }
+            }
+
+            return this;
+        },
+
+        view: function() {
+            var template = this.template;
+            $.getJSON(this.url, function(result) {
+                template.data(result).view();
+            });
+        },
+        
+        url: "/ia/json",
+        template: availableTemplates.index
+    };
+
+    $(function() {
+        var field = $("#ia_index").attr("field");
+        var value = $("#ia_index").attr("value");
+
+        DDH.Index.init(field, value).view();
+    });
 })();
