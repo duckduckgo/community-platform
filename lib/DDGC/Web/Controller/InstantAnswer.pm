@@ -277,8 +277,6 @@ sub commit_save :Chained('commit_base') :PathPart('save') :Args(0) {
     my $is_admin;
     my $result = '';
 
-    
-
     if ($c->user) {
         my $is_admin = $c->user->admin;
 
@@ -323,7 +321,7 @@ sub commit_save :Chained('commit_base') :PathPart('save') :Args(0) {
                             $result = '1';
                         } catch {
                             $c->d->errorlog("Error updating the database");
-                            return $result;
+                            return '';
                         };
                     }
                 }
@@ -333,8 +331,8 @@ sub commit_save :Chained('commit_base') :PathPart('save') :Args(0) {
 
             if (ref $edits eq 'ARRAY') {
                 foreach my $edit (@{$edits}) {
-                    foreach my $time (keys %{$edit}){
-                        remove_edit($ia, $time);
+                    foreach my $field(keys %{$edit}){
+                        remove_edit($ia, $field);
                     }
                 }
             }
@@ -412,36 +410,24 @@ sub add_edit {
 # commits a single edit to the database
 # removes that entry from the updates column
 sub commit_edit {
-    my ($ia, $field, $value, $time) = @_;
+    my ($ia, $field, $value) = @_;
 
     $ia->update({$field => $value});
 
-    remove_edit($ia, $field, $time);
+    remove_edit($ia, $field);
 
 }
 
-# given a result set and timestamp, remove the
-# entry from the updates column with that timestamp
+# given a result set and a field name, remove all the
+# entries for that field from the updates column
 sub remove_edit {
-    my($ia, $field, $time) = @_;   
+    my($ia, $field) = @_;   
 
     my $updates = ();
     my $column_updates = $ia->get_column('updates');
     my $edits = $column_updates? decode_json($column_updates) : undef;
-    my @field_edits = $edits->{$field};
-    my @new_field_edits;
-
-    # look through edits for timestamp
-    # push all edits that don't match the timestamp of the
-    # one we want to remove (recreate the updates json)
-    foreach my $edit ( @field_edits ){
-        my $timestamp = $edit->{'timestamp'};
-        if($timestamp ne $time){
-            push(@new_field_edits, $edit);
-        }
-    }
-
-    $edits->{$field} = @new_field_edits;
+    $edits->{$field} = undef;
+ 
     $ia->update({updates => $edits});
 }
 
