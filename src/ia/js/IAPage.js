@@ -26,8 +26,7 @@
                         topic : Handlebars.templates.topic(x),
                         screens : Handlebars.templates.screens(x),
                         examples : Handlebars.templates.examples(x),
-                        devinfo : Handlebars.templates.devinfo(x),
-                        issues : Handlebars.templates.issues(x),
+                        devinfo : Handlebars.templates.devinfo(x)
                     };
 
                     // Pre-Edit mode templates
@@ -38,8 +37,7 @@
                         topic : Handlebars.templates.pre_edit_topic(x),
                         screens : Handlebars.templates.screens(x),
                         examples : Handlebars.templates.pre_edit_examples(x),
-                        devinfo : Handlebars.templates.pre_edit_devinfo(x),
-                        issues : Handlebars.templates.pre_edit_issues(x)
+                        devinfo : Handlebars.templates.pre_edit_devinfo(x)
                     };
 
                     DDH.IAPage.prototype.updateAll(readonly_templates);
@@ -75,9 +73,6 @@
                            name = "examples";
                         } else if (name === "topic") {
                             $obj = $("#topics");
-                        } else if (name === "code") {
-                            $obj = $(".dev-info-details");
-                            name = "devinfo";
                         }else {
                             $obj = $(this);
                         }
@@ -103,11 +98,6 @@
                     $("body").on('click', '#add_topic', function(evt) {
                         $(this).addClass("hide");
                         $("#new_topic").parent().parent().removeClass("hide");
-                    });
-
-                    $("body").on('click', '#add_code', function(evt) {
-                        $(this).addClass("hide");
-                        $("#newcode").removeClass("hide");
                     });
 
                     $("body").on('click', '#view_commits', function(evt) {
@@ -141,25 +131,6 @@
                                 var $primary_button = $("#primary").parent().parent().find(".button.delete");
                                 if ($primary_button.hasClass("hide")) {
                                     $primary_button.removeClass("hide");
-                                }
-                            } else if (field === "code") {
-                                if (value !== '') {
-                                    $("#newcode").before('<li>' +
-                                                    '<div class="button delete listbutton">' +
-                                                    '<span>-</span>' +
-                                                    '</div>' + 
-                                                    '<span name="code" class="code editable">' +
-                                                    '<input type="text" value="' + value + '" />' +
-                                                    '</span></li>');
-                                
-                                $(this).val("");
-                                $("#newcode").addClass("hide");
-                                $("#add_code").removeClass("hide");
-
-                                var $primary_button = $("#primary").parent().parent().find(".button.delete");
-                                if ($primary_button.hasClass("hide")) {
-                                    $primary_button.removeClass("hide");
-                                }
                                 }
                             }
 
@@ -203,10 +174,6 @@
                             save("example_query", $("#primary input").val(), DDH_iaid, $obj, false);
                             field = "other_queries";
                             selector = "#examples .other-examples input";
-                        } else {
-                            selector = "li .code.editable input";
-                            $obj = $(".dev-info-details");
-                            field = "code";
                         }
 
                         if (field !== "topic") {
@@ -248,8 +215,6 @@
                                 var name;
                                 if (field === "example_query" || field === "other_queries") {
                                     name = "examples";
-                                } else if (field === "code") {
-                                    name = "devinfo";
                                 } else {
                                     name = field;
                                 }

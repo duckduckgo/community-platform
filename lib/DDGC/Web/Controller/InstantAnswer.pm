@@ -109,9 +109,7 @@ sub ia_base :Chained('base') :PathPart('view') :CaptureArgs(1) {  # /ia/view/cal
 
     $c->stash->{ia_page} = "IAPage";
     $c->stash->{ia} = $c->d->rs('InstantAnswer')->find($answer_id);
-    @{$c->stash->{issues}} = $c->d->rs('InstantAnswer::Issues')->search({instant_answer_id => $answer_id});
-
-    
+    @{$c->stash->{issues}} = $c->d->rs('InstantAnswer::Issues')->search({instant_answer_id => $answer_id});    
 
     unless ($c->stash->{ia}) {
         $c->response->redirect($c->chained_uri('InstantAnswer','index',{ instant_answer_not_found => 1 }));
@@ -222,11 +220,10 @@ sub commit_json :Chained('commit_base') :PathPart('json') :Args(0) {
 
     my @name = $edits->{'name'};
     my @desc = $edits->{'description'};
-    my @status = $edits->{'status'}; ;
-    my @topic = $edits->{'topic'}; ;
-    my @example_query = $edits->{'example_query'}; ;
-    my @other_queries = $edits->{'other_queries'}; ;
-    my @code = $edits->{'code'}; ;
+    my @status = $edits->{'status'};
+    my @topic = $edits->{'topic'};
+    my @example_query = $edits->{'example_query'};
+    my @other_queries = $edits->{'other_queries'};
     my %original;
     my $new_edits;
     my $is_admin;
@@ -241,8 +238,7 @@ sub commit_json :Chained('commit_base') :PathPart('json') :Args(0) {
         status => $ia->status,
         topic => \@topics,
         example_query => $ia->example_query,
-        other_queries => $ia->other_queries? decode_json($ia->other_queries) : undef,
-        code => $ia->code? decode_json($ia->code) : undef
+        other_queries => $ia->other_queries? decode_json($ia->other_queries) : undef
     );
 
     if (ref $edits eq 'ARRAY') {
@@ -257,7 +253,6 @@ sub commit_json :Chained('commit_base') :PathPart('json') :Args(0) {
             topic => $topic[0][@topic]{'value'}? decode_json($topic[0][@topic]{'value'}) : undef,
             example_query => $example_query[0][@example_query]{'value'},
             other_queries => $other_queries[0][@other_queries]{'value'}? decode_json($other_queries[0][@other_queries]{'value'}) : undef,
-            code => $code[0][@code]{'value'},
             original => \%original
         };
     } else {
@@ -310,7 +305,7 @@ sub commit_save :Chained('commit_base') :PathPart('save') :Args(0) {
                             };
                         }
                     } else {
-                        if ($field eq 'other_queries' || $field eq 'code') {
+                        if ($field eq 'other_queries') {
                             $value = encode_json($value);
                         }
 
