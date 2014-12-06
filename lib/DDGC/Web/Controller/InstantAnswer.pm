@@ -61,6 +61,7 @@ sub ialist_json :Chained('base') :PathPart('json') :Args() {
                 description => $ia->description,
                 topic => \@topics,
                 attribution => $attribution ? decode_json($attribution) : undef,
+                template => $ia->template,
             });
     }
 
@@ -191,7 +192,8 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
                 topic => \@topics,
                 attribution => $ia->attribution? decode_json($ia->attribution) : undef,
                 allowed_topics => \@allowed,
-                issues => \@ia_issues
+                issues => \@ia_issues,
+                template => $ia->template,
     };
 
     $c->stash->{not_last_url} = 1;
