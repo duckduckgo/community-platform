@@ -25,6 +25,7 @@
                         description : Handlebars.templates.description(x),
                         topic : Handlebars.templates.topic(x),
                         screens : Handlebars.templates.screens(x),
+                        template : Handlebars.templates.template(x),
                         examples : Handlebars.templates.examples(x),
                         devinfo : Handlebars.templates.devinfo(x)
                     };
@@ -36,8 +37,9 @@
                         description : Handlebars.templates.pre_edit_description(x),
                         topic : Handlebars.templates.pre_edit_topic(x),
                         screens : Handlebars.templates.screens(x),
+                        template : Handlebars.templates.template(x),
                         examples : Handlebars.templates.pre_edit_examples(x),
-                        devinfo : Handlebars.templates.pre_edit_devinfo(x)
+                        devinfo : Handlebars.templates.devinfo(x)
                     };
 
                     DDH.IAPage.prototype.updateAll(readonly_templates);
@@ -243,6 +245,7 @@
             'description',
             'topic',
             'screens',
+            'template',
             'examples',
             'devinfo',
             'issues'
