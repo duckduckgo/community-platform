@@ -1,4 +1,6 @@
-$(function() {
+(function(env) {
+    "use strict";
+
     // This class is responsible for abstracting away:
     // - Choosing the right template depending on the URL.
     // - Getting the data needed by the template.
@@ -30,7 +32,9 @@ $(function() {
     };
 
     // Initialize the class.
-    var field = $("#ia_index").attr("field");
-    var value = $("#ia_index").attr("value");
-    DDH.Index.init(field, value).view();
-});
+    $(function() {
+        var field = $("#ia_index").attr("field");
+        var value = $("#ia_index").attr("value");
+        DDH.Index.init(field, value).view();
+    });
+})(this);

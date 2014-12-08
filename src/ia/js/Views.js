@@ -1,4 +1,6 @@
 (function(env) {
+    "use strict";
+
     // This object implements the `view` and `data` methods of each view.
     // - `data` is responsible for manipulating the data (filtering, mapping, etc.)
     // - `view` is responsible for displaying the data on the page and adding DOM manip.
