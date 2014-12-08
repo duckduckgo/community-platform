@@ -61,6 +61,7 @@ sub ialist_json :Chained('base') :PathPart('json') :Args() {
                 description => $ia->description,
                 topic => \@topics,
                 attribution => $attribution ? decode_json($attribution) : undef,
+                template => $ia->template,
             });
     }
 
@@ -69,12 +70,16 @@ sub ialist_json :Chained('base') :PathPart('json') :Args() {
     $c->forward($c->view('JSON'));
 }
 
-sub iarepo :Chained('base') :PathPart('repo') :Args(1) {
+sub iarepo :Chained('base') :PathPart('repo') :CaptureArgs(1) {
     my ( $self, $c, $repo ) = @_;
 
+    $c->stash->{ia_repo} = $repo;
+}
 
-    # $c->stash->{ia_repo} = $repo;
+sub iarepo_json :Chained('iarepo') :PathPart('json') :Args(0) {
+    my ( $self, $c ) = @_;
 
+    my $repo = $c->stash->{ia_repo};
     my @x = $c->d->rs('InstantAnswer')->search({repo => $repo});
 
     my %iah;
@@ -189,7 +194,8 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
                 topic => \@topics,
                 attribution => $ia->attribution? decode_json($ia->attribution) : undef,
                 allowed_topics => \@allowed,
-                issues => \@ia_issues
+                issues => \@ia_issues,
+                template => $ia->template,
     };
 
     $c->stash->{not_last_url} = 1;
