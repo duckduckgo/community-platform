@@ -7,8 +7,12 @@
         index: {
             view: function() {
                 append_html("index_view", this.result);
+
+                // Add click events specific to the page.
                 $("#sort_name").click(this.util.click.bind(this, "name"));
                 $("#sort_repo").click(this.util.click.bind(this, "repo"));
+                $("#sort_status").click(this.util.click.bind(this, "status"));                
+
                 return this;
             },
             data: function(result) {
@@ -18,7 +22,8 @@
             util: {
                 sort_asc: {
                     name: true,
-                    repo: true
+                    repo: true,
+                    status: true
                 },
                 click: function(col) {
                     this.util.sort_asc[col] = !this.util.sort_asc[col];
