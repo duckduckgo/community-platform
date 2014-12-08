@@ -1,6 +1,3 @@
-// This hash lists implements the `view` and `data` methods of each template.
-// - `data` is responsible for manipulating the data (filtering, mapping, etc.)
-// - `view` is responsible for displaying the data on the page.
 (function(env) {
     function sort(what, list) {
         return list.sort(function(a, b) {
@@ -14,6 +11,9 @@
         });
     }
 
+    // This object implements the `view` and `data` methods of each view.
+    // - `data` is responsible for manipulating the data (filtering, mapping, etc.)
+    // - `view` is responsible for displaying the data on the page.
     env.Views = {
         // Index View: This is the default view. It lists all the IAs in a table.
         index: {
@@ -34,7 +34,7 @@
                 $("#ia_index").html(html);
             },
             data: function(result) {
-                this.result = result;
+                this.result = sort('name', result);
                 return this;
             }
         }
