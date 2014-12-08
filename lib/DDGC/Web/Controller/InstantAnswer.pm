@@ -248,6 +248,17 @@ sub commit_json :Chained('commit_base') :PathPart('json') :Args(0) {
     if ($new_edits && $is_admin) {
         my $topic_val = $topic[0][@topic]{'value'};
         my $other_q_val = $other_queries[0][@other_queries]{'value'};
+        my $other_q_edited = $other_q_val? 1 : undef;
+
+        # Other queries can be empty,
+        # but the handlebars {{#if}} evaluates to false
+        # for both null and empty values,
+        # so instead of the value, we check other_queries.edited
+        # to see if this field was edited
+        my %other_q = (
+            edited => $other_q_edited,
+            value => $other_q_val? decode_json($other_q_val) : undef
+        );
 
         $c->stash->{x} = {
             name => $name[0][@name]{'value'},
@@ -255,7 +266,7 @@ sub commit_json :Chained('commit_base') :PathPart('json') :Args(0) {
             status => $status[0][@status]{'value'},
             topic => $topic_val? decode_json($topic_val) : undef,
             example_query => $example_query[0][@example_query]{'value'},
-            other_queries => $other_q_val? decode_json($other_q_val) : undef,
+            other_queries => \%other_q,
             original => \%original
         };
     } else {
