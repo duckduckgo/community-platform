@@ -70,12 +70,16 @@ sub ialist_json :Chained('base') :PathPart('json') :Args() {
     $c->forward($c->view('JSON'));
 }
 
-sub iarepo :Chained('base') :PathPart('repo') :Args(1) {
+sub iarepo :Chained('base') :PathPart('repo') :CaptureArgs(1) {
     my ( $self, $c, $repo ) = @_;
 
+    $c->stash->{ia_repo} = $repo;
+}
 
-    # $c->stash->{ia_repo} = $repo;
+sub iarepo_json :Chained('iarepo') :PathPart('json') :Args(0) {
+    my ( $self, $c ) = @_;
 
+    my $repo = $c->stash->{ia_repo};
     my @x = $c->d->rs('InstantAnswer')->search({repo => $repo});
 
     my %iah;
