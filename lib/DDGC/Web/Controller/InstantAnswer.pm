@@ -52,28 +52,25 @@ sub ialist_json :Chained('base') :PathPart('json') :Args() {
     for my $ia (@x) {
         my @topics = map { $_->name } $ia->topics;
         my $attribution = $ia->attribution;
-        my $accept = 1;
 
         # If we're requesting for a topic, we only need to return the items with
         # the value that we're looking for.
         if(($field && $value) && ($field eq 'topic') && !(grep {$_ eq $value} @topics)) {
-            $accept = 0;
+            next;
         }
 
-        if($accept) {
-            push (@ial, {
-                name => $ia->name,
-                id => $ia->id,
-                example_query => $ia->example_query,
-                repo => $ia->repo,
-                src_name => $ia->src_name,
-                dev_milestone => $ia->dev_milestone,
-                perl_module => $ia->perl_module,
-                description => $ia->description,
-                topic => \@topics,
-                attribution => $attribution ? decode_json($attribution) : undef,
-            });
-        }
+        push (@ial, {
+            name => $ia->name,
+            id => $ia->id,
+            example_query => $ia->example_query,
+            repo => $ia->repo,
+            src_name => $ia->src_name,
+            dev_milestone => $ia->dev_milestone,
+            perl_module => $ia->perl_module,
+            description => $ia->description,
+            topic => \@topics,
+            attribution => $attribution ? decode_json($attribution) : undef,
+        });
     }
 
     $c->stash->{x} = \@ial;
