@@ -29,6 +29,7 @@ module.exports = function(grunt) {
     var ia_page_js = [
         'handlebars_tmp',
         'DDH.js',
+        'Views.js',
         'IAIndex.js',
         'IAPage.js',
         'IAPageCommit.js',

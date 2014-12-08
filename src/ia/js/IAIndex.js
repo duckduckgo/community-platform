@@ -4,15 +4,15 @@ $(function() {
     // - Getting the data needed by the template.
     // - Calling the right methods to manipulate and display the data.
     DDH.Index = {
-        init: function(field, value, availableTemplates) {
+        init: function(field, value) {
             this.field = field;
             this.value = value;
-            this.template = availableTemplates.index;
+            this.template = Views.index;
 
             if(this.field && this.value) {
                 this.url += "/" + field + "/" + value;
-                if(this.field in availableTemplates) {
-                    this.template = availableTemplates[this.field];
+                if(this.field in Views) {
+                    this.template = Views[this.field];
                 }
             }
 
@@ -29,49 +29,8 @@ $(function() {
         url: "/ia/json"
     };
 
-    // This hash lists implements the `view` and `data` methods of each template.
-    // - `data` is responsible for manipulating the data (filtering, mapping, etc.)
-    // - `view` is responsible for displaying the data on the page.
-    var availableTemplates = {
-        index: {
-            view: function() {
-                var html = Handlebars.templates.index_view({ia: this.result});                
-                $(id).html(html);
-            },
-            data: function(result) {
-                this.result = result;
-                this.util.sort.call(this, 'name');
-                return this;
-            },
-            util: {
-                sort: function(what) {
-                    this.result.sort(function(a, b) {
-                        if(a[what] > b[what]) {
-                            return 1;
-                        } else if(a[what] < b[what]) {
-                            return -1;
-                        } else {
-                            return 0;
-                        }
-                    });
-                }
-            }
-        },
-        template: {
-            view: function() {
-                var html = Handlebars.templates.template_view({ia: this.result});
-                $(id).html(html);
-            },
-            data: function(result) {
-                this.result = result;
-                return this;
-            }
-        }
-    };
-
     // Initialize the class.
-    var id = "#ia_index";
-    var field = $(id).attr("field");
-    var value = $(id).attr("value");
-    DDH.Index.init(field, value, availableTemplates).view();
+    var field = $("#ia_index").attr("field");
+    var value = $("#ia_index").attr("value");
+    DDH.Index.init(field, value).view();
 });
