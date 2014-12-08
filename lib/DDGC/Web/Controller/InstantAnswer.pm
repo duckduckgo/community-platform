@@ -37,11 +37,12 @@ sub ialist_json :Chained('base') :PathPart('json') :Args() {
     my ( $self, $c, $field, $value ) = @_;
 
     my @x;
+    my $has_field_value = $field && $value;
 
     # Search the database for topics with the requested $field and $value.
     # Make sure to return everything if we're requesting for 'topic' because
     # we still need to process the data.
-    if ($field && $value && $field ne 'topic') {
+    if ($has_field_value && $field ne 'topic') {
         @x = $c->d->rs('InstantAnswer')->search({$field => $value});
     } else {
         @x = $c->d->rs('InstantAnswer')->all();
@@ -55,7 +56,7 @@ sub ialist_json :Chained('base') :PathPart('json') :Args() {
 
         # If we're requesting for a topic, we only need to return the items with
         # the value that we're looking for.
-        if(($field && $value) && ($field eq 'topic') && !(grep {$_ eq $value} @topics)) {
+        if($has_field_value && ($field eq 'topic') && !(grep {$_ eq $value} @topics)) {
             next;
         }
 
