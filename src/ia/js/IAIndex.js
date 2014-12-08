@@ -35,7 +35,7 @@ $(function() {
     var availableTemplates = {
         index: {
             view: function() {
-                var html = Handlebars.templates.index({ia: this.result});                
+                var html = Handlebars.templates.index_view({ia: this.result});                
                 $("#ia_index").html(html);
             },
             data: function(result) {
@@ -59,7 +59,7 @@ $(function() {
         },
         template: {
             view: function() {
-                var html = Handlebars.templates.template({ia: this.result});
+                var html = Handlebars.templates.template_view({ia: this.result});
                 $("#ia_index").html(html);
             },
             data: function(result) {
