@@ -7,20 +7,24 @@
         index: {
             view: function() {
                 append_html("index_view", this.result);
-                var that = this;
-                $("#sort_name").click(function() {
-                    that.sort_asc.name = !that.sort_asc.name;
-                    sort('name', that.result, that.sort_asc.name);
-                    that.view();
-                });
+                $("#sort_name").click(this.util.click.bind(this, "name"));
+                $("#sort_repo").click(this.util.click.bind(this, "repo"));
                 return this;
             },
             data: function(result) {
                 this.result = sort("name", result, true);
                 return this;
             },
-            sort_asc: {
-                name: true
+            util: {
+                sort_asc: {
+                    name: true,
+                    repo: true
+                },
+                click: function(col) {
+                    this.util.sort_asc[col] = !this.util.sort_asc[col];
+                    sort(col, this.result, this.util.sort_asc[col]);
+                    this.view();
+                }
             }
         },
         
@@ -40,16 +44,16 @@
     function sort(what, result, asc) {
         return result.sort(function(m, n) {
             if(asc) {
-                var a = m;
-                var b = n;
+                var a = m[what] || "";
+                var b = n[what] || "";
             } else {
-                var a = n;
-                var b = m;
+                var a = n[what] || "";
+                var b = m[what] || "";
             }
 
-            if(a[what] > b[what]) {
+            if(a > b) {
                 return 1;
-            } else if(a[what] < b[what]) {
+            } else if(a < b) {
                 return -1;
             } else {
                 return 0;
