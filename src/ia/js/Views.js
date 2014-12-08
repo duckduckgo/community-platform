@@ -7,11 +7,20 @@
         index: {
             view: function() {
                 append_html("index_view", this.result);
+                var that = this;
+                $("#sort_name").click(function() {
+                    that.sort_asc.name = !that.sort_asc.name;
+                    sort('name', that.result, that.sort_asc.name);
+                    that.view();
+                });
                 return this;
             },
             data: function(result) {
-                this.result = sort("name", result);
+                this.result = sort("name", result, true);
                 return this;
+            },
+            sort_asc: {
+                name: true
             }
         },
         
@@ -22,14 +31,22 @@
                 return this;
             },
             data: function(result) {
-                this.result = sort("name", result);
+                this.result = sort("name", result, true);
                 return this;
             }
         }
     }
 
-    function sort(what, result) {
-        return result.sort(function(a, b) {
+    function sort(what, result, asc) {
+        return result.sort(function(m, n) {
+            if(asc) {
+                var a = m;
+                var b = n;
+            } else {
+                var a = n;
+                var b = m;
+            }
+
             if(a[what] > b[what]) {
                 return 1;
             } else if(a[what] < b[what]) {
