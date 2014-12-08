@@ -112,7 +112,8 @@ module.exports = function(grunt) {
                 fileList: [ 
                     static_dir + 'js/ia.js', 
                     templates_dir + 'handlebars_tmp',
-                    static_dir + 'js/ddgc.js'
+                    static_dir + 'js/ddgc.js',
+                    static_dir + 'css/ia.css'
                 ]
             }
         },
