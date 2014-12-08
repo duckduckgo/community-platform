@@ -19,7 +19,7 @@ $(function() {
             return this;
         },
 
-        view: function(id) {
+        view: function() {
             var template = this.template;
             $.getJSON(this.url, function(result) {
                 template.data(result).view();
@@ -36,7 +36,7 @@ $(function() {
         index: {
             view: function() {
                 var html = Handlebars.templates.index_view({ia: this.result});                
-                $("#ia_index").html(html);
+                $(id).html(html);
             },
             data: function(result) {
                 this.result = result;
@@ -60,7 +60,7 @@ $(function() {
         template: {
             view: function() {
                 var html = Handlebars.templates.template_view({ia: this.result});
-                $("#ia_index").html(html);
+                $(id).html(html);
             },
             data: function(result) {
                 this.result = result;
@@ -73,5 +73,5 @@ $(function() {
     var id = "#ia_index";
     var field = $(id).attr("field");
     var value = $(id).attr("value");
-    DDH.Index.init(field, value, availableTemplates).view(id);
+    DDH.Index.init(field, value, availableTemplates).view();
 });
