@@ -10,7 +10,6 @@ module.exports = function(grunt) {
     var release_tasks = [
         'build',
         'exec:version_ia_css',
-        'exec:copy_ia_css',
         'version:release',
         'removelogging',
         'uglify:js',
@@ -178,7 +177,7 @@ module.exports = function(grunt) {
                 command: 'mkdir -p root/static/css && cp -rf src/ddgc/css/* root/static/css/'
             },
             version_ia_css: {
-                command: 'mv src/ia/css/ia.css src/ia/css/ia<%= pkg.version %>.css'
+                command: 'mv root/static/css/ia.css root/static/css/ia<%= pkg.version %>.css'
             },
             copy_ia_css: {
                 command: 'mkdir -p root/static/css && cp -rf src/ia/css/* root/static/css/'
