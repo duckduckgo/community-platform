@@ -1,0 +1,164 @@
+
+/*Classes*/
+/* MENU IN MOBILE MODE */
+.menu{
+  background-image:linear-gradient(#efefef, #e2e2e2);
+  top:-60px;
+  height:56px;
+  border-top:1px solid #bdbdbd;
+  border-bottom:1px solid #bdbdbd;
+  z-index:5;
+  position:fixed;
+  width:100%;
+  box-shadow: 0px 1px 0px #ebebeb;
+  transition-duration:0.4s;
+}
+.roboduck-input {
+	margin: 16px auto;
+	max-width: 600px;
+}
+	.roboduck-input .button { padding: 0 12px; }
+	
+/* TALK */
+.roboduck, .user{
+  display:block;
+  float:right;
+  max-width:550px;
+  min-width:400px;
+  border-radius:3px;
+  background:white;
+  padding:1em;
+  margin: 0 80px 1em 1em;
+  border: 1px solid #cacaca;
+  transition-duration:0.4s;
+}
+.user{
+  float:right;
+  margin: 0 80px 1em 1em;
+}
+
+.roboduck{
+  float:left;
+  margin: 0 1em 1em 80px;
+}
+	.user:first-child, .roboduck:first-child { margin-top: 25px; }
+	
+.user:before{
+  content:"";
+  background:url("/static/img/darrow.png") no-repeat;
+  margin-right: -21px;
+  width: 7px;
+  height: 12px;
+  position:relative;
+  float:right;
+  z-index:2;
+}
+.roboduck:before{
+  content:"";
+  background:url("/static/img/garrow.png") no-repeat;
+  margin-left: -21px;
+  width: 7px;
+  height: 12px;
+  position:relative;
+  float:left;
+  z-index:2;
+}
+/* CSS FOR THE ICONS */
+/* ICON OF ROBODUCK */
+.robicon,.robiconmenu{
+  background:url("/static/img/rd.png")no-repeat transparent;
+}
+/* ICON OF USER */
+.usericon,.usericonmenu{
+  background:url("/static/img/icon.png")no-repeat transparent;
+}
+.robicon, .usericon{
+  margin-top:-15px;
+}
+.robiconmenu, .usericonmenu,.robicon, .usericon{
+  width:46px;
+  height:46px;
+  display: block;
+  border:1px solid #d5d5d5;
+  position:absolute;
+  border-radius:3px;
+  box-shadow: inset 0px -1px 1px rgba(221,221,221,0.2), 0px 1px 1px #f8f8f8;
+}
+.robicon{
+  left: 10px;
+  transition-duration:0.6s;
+}
+.usericon{
+  right: 10px;
+  transition-duration:0.6s;
+}
+
+.robiconmenu{
+  left: 10px;
+  top: -50px;
+  transition-duration:0.6s;
+}
+.usericonmenu{
+  right: 10px;
+  top: -50px;
+  transition-duration:0.6s;
+}
+/* RESPONSIVE DESIGN */
+@media screen and (max-width:550px){
+  .roboduck, .user { min-width: auto; }
+  .robicon{
+    left: -50px;
+    transition-duration:0.6s;
+  }
+  .usericon{
+    right: -50px;
+    transition-duration:0.6s;
+  }
+
+  .user{
+    margin: 0 1em 1em 1em;
+    transition-duration:0.6s;
+  }
+
+  .roboduck{
+    margin: 0 1em 1em 1em;
+    transition-duration:0.6s;
+  }
+  .menu{
+    top:1px;
+    transition-duration:0.4s;
+  }
+  .robiconmenu{
+    left: 10px;
+    top: 3px;
+    transition-duration:0.6s;
+  }
+  .usericonmenu{
+    right: 10px;
+    top: 3px;
+    transition-duration:0.6s;
+  }
+}
+@media screen and (min-width:900px){
+  
+  .robicon{
+    margin-left: -85px;
+    left: auto;
+    transition-duration:0.6s;
+  }
+  .usericon{
+    margin-left: 585px;
+    right: auto;
+    transition-duration:0.6s;
+  }
+  .user{
+    max-width:550px;
+    min-width:550px;
+    transition-duration:0.4s;
+  }
+}
+
+/* Magical reusable avatar container */
+#duckzone-user-avatar { 
+  display:none;
+}

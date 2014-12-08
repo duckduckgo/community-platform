@@ -1,0 +1,395 @@
+/* 
+ * DuckDuckGo Feedback Guide
+ * Styling for the DuckDuckGo Feedback System
+ */
+ 
+@font-face {
+	font-family: 'ddg-feedback';
+	src:url('../font/ddg-feedback.eot');
+	src:url('../font/ddg-feedback.eot?#iefix') format('embedded-opentype'),
+		url('../font/ddg-feedback.woff') format('woff'),
+		url('../font/ddg-feedback.ttf') format('truetype'),
+		url('../font/ddg-feedback.svg#ddg-feedback') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+
+/* Use the following CSS code if you want to use data attributes for inserting your icons */
+[data-icon]:before {
+	font-family: 'ddg-feedback';
+	content: attr(data-icon);
+	speak: none;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	line-height: 1;
+	-webkit-font-smoothing: antialiased;
+}
+
+/* Use the following CSS code if you want to have a class per icon */
+/*
+Instead of a list of all class selectors,
+you can use the generic selector below, but it's slower:
+[class*="ddgi-"] {
+*/
+.ddgi-tools, .ddgi-search, .ddgi-sad-search, .ddgi-bang, .ddgi-windows, .ddgi-user, .ddgi-trash, .ddgi-sun, .ddgi-print, .ddgi-phone, .ddgi-newspaper, .ddgi-map, .ddgi-mail, .ddgi-inbox, .ddgi-home, .ddgi-heart, .ddgi-globe, .ddgi-folder, .ddgi-convo, .ddgi-coffee, .ddgi-cloud, .ddgi-clock, .ddgi-chat, .ddgi-camera, .ddgi-calendar, .ddgi-browser, .ddgi-arrow, .ddgi-bug, .ddgi-embed, .ddgi-code, .ddgi-tux, .ddgi-apple, .ddgi-finder, .ddgi-android, .ddgi-windows-2, .ddgi-windows8, .ddgi-chrome, .ddgi-firefox, .ddgi-IE, .ddgi-opera, .ddgi-safari, .ddgi-spinner, .ddgi-arrow-up, .ddgi-arrow-right, .ddgi-arrow-left, .ddgi-arrow-down, .ddgi-browser-window, .ddgi-globe-2, .ddgi-ddg-phone, .ddgi-dax, .ddgi-ddg-browser, .ddgi-history {
+	font-family: 'ddg-feedback';
+	speak: none;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	line-height: 1;
+	-webkit-font-smoothing: antialiased;
+}
+.ddgi-tools:before {
+	content: "\e003";
+}
+.ddgi-search:before {
+	content: "\e004";
+}
+.ddgi-sad-search:before {
+	content: "\e005";
+}
+.ddgi-bang:before {
+	content: "\e006";
+}
+.ddgi-windows:before {
+	content: "\e007";
+}
+.ddgi-user:before {
+	content: "\e008";
+}
+.ddgi-trash:before {
+	content: "\e009";
+}
+.ddgi-sun:before {
+	content: "\e00a";
+}
+.ddgi-print:before {
+	content: "\e00b";
+}
+.ddgi-phone:before {
+	content: "\e00c";
+}
+.ddgi-newspaper:before {
+	content: "\e00d";
+}
+.ddgi-map:before {
+	content: "\e00e";
+}
+.ddgi-mail:before {
+	content: "\e00f";
+}
+.ddgi-inbox:before {
+	content: "\e010";
+}
+.ddgi-home:before {
+	content: "\e011";
+}
+.ddgi-heart:before {
+	content: "\e012";
+}
+.ddgi-globe:before {
+	content: "\e013";
+}
+.ddgi-folder:before {
+	content: "\e014";
+}
+.ddgi-convo:before {
+	content: "\e015";
+}
+.ddgi-coffee:before {
+	content: "\e016";
+}
+.ddgi-cloud:before {
+	content: "\e017";
+}
+.ddgi-clock:before {
+	content: "\e018";
+}
+.ddgi-chat:before {
+	content: "\e019";
+}
+.ddgi-camera:before {
+	content: "\e01a";
+}
+.ddgi-calendar:before {
+	content: "\e01b";
+}
+.ddgi-browser:before {
+	content: "\e01c";
+}
+.ddgi-arrow:before {
+	content: "\e01d";
+}
+.ddgi-bug:before {
+	content: "\e01e";
+}
+.ddgi-embed:before {
+	content: "\e01f";
+}
+.ddgi-code:before {
+	content: "\e020";
+}
+.ddgi-tux:before {
+	content: "\e021";
+}
+.ddgi-apple:before {
+	content: "\e022";
+}
+.ddgi-finder:before {
+	content: "\e023";
+}
+.ddgi-android:before {
+	content: "\e024";
+}
+.ddgi-windows-2:before {
+	content: "\e025";
+}
+.ddgi-windows8:before {
+	content: "\e026";
+}
+.ddgi-chrome:before {
+	content: "\e027";
+}
+.ddgi-firefox:before {
+	content: "\e028";
+}
+.ddgi-IE:before {
+	content: "\e029";
+}
+.ddgi-opera:before {
+	content: "\e02a";
+}
+.ddgi-safari:before {
+	content: "\e02b";
+}
+.ddgi-spinner:before {
+	content: "\e02c";
+}
+.ddgi-arrow-up:before {
+	content: "\e001";
+}
+.ddgi-arrow-right:before {
+	content: "\e002";
+}
+.ddgi-arrow-left:before {
+	content: "\e02d";
+}
+.ddgi-arrow-down:before {
+	content: "\e02e";
+}
+.ddgi-browser-window:before {
+	content: "\e030";
+}
+.ddgi-globe-2:before {
+	content: "\e031";
+}
+.ddgi-ddg-phone:before {
+	content: "\e032";
+}
+.ddgi-dax:before {
+	content: "\e000";
+}
+.ddgi-ddg-browser:before {
+	content: "\e02f";
+}
+.ddgi-history:before {
+	content: "\e033";
+}
+
+/* end font icons */
+
+/* interaction styling starts here */
+
+.feedback-title {
+	font-size: 2em;
+}
+
+.feedback-wrap {
+	max-width: 655px;
+}
+
+.feedback-wrap, .feedback-form {
+	margin: 0 auto 30px;	
+}
+
+.fb-step, .fb-answer {
+	margin: 0 auto 10px;
+}
+.fb-step {
+	display: table;
+	vertical-align: middle;
+	width: 100%;
+	position: relative;
+	color: #b0b0b0;
+	background-color: #f5f5f5;
+	border: 1px solid #d6d6d6;
+	-webkit-box-shadow: inset 1px 1px 0px 0px rgba(255,255,255,0.9);
+    box-shadow: inset 1px 1px 0px 0px rgba(255,255,255,0.9);
+	-webkit-border-radius: 2px;
+	border-radius: 2px;
+	
+  -webkit-transition: all 0.3s ease-out; 
+     -moz-transition: all 0.3s ease-out; 
+       -o-transition: all 0.3s ease-out; 
+          transition: all 0.3s ease-out; 
+
+}
+	.fb-step--back:active, 
+	.fb-step--active:active,
+	.fb-step--text:active,
+	.fb-step--submit:active { top: 1px; }
+
+.fb-step--active {
+	color: #7e7e7e;
+	background-color: #fefefe;	
+}
+.fb-step--error {	
+	color: #e16843;
+	background-color: #f9ede9;
+}
+.fb-step--info {
+	border-color: #aeaeae;
+}
+.fb-step--answer {
+	background-color: #fff;
+}
+.fb-step--submit {
+	font-weight: bold;
+	color: #fff; 
+	background-color: #0e7290;
+	-webkit-box-shadow: inset 1px 1px 0px 0px rgba(255,255,255,0.1);
+    box-shadow: inset 1px 1px 0px 0px rgba(255,255,255,0.1);
+}
+	.fb-step--submit:hover {		
+		background-color: #1184a6;
+		-webkit-box-shadow: inset 1px 1px 0px 0px rgba(255,255,255,0.1), 0px 0px 5px 0px rgba(0,0,0,0.3);
+        box-shadow: inset 1px 1px 0px 0px rgba(255,255,255,0.1), 0px 0px 5px 0px rgba(0,0,0,0.3);
+	}
+	.fb-step--submit .fb-step__icon, .fb-step--submit .fb-step__arrow {
+		color: inherit; 
+	}
+	
+	.fb-step--error .fb-step__warning { display: block; }
+	.fb-step--error .fb-step__arrow { display: none; } 
+	.fb-step--error .fb-step__icon, .fb-step--error .fb-step__warning { color: inherit !important; }
+	
+	.fb-step--active:hover, .fb-step--text:hover {		
+		-webkit-box-shadow: inset 1px 1px 0px 0px rgba(255,255,255,0.9), 0px 0px 5px 0px rgba(0,0,0,0.3);
+        box-shadow: inset 1px 1px 0px 0px rgba(255,255,255,0.9), 0px 0px 5px 0px rgba(0,0,0,0.3);
+	}
+
+	.fb-step__icon, .fb-step__arrow, .fb-step__warning {		
+		display: block;
+		text-align: center;
+		vertical-align: middle;
+		color: #d7d7d7;
+		position: absolute;
+		top: 0;
+		bottom: 0;	
+		z-index: 3;
+		pointer-events: none;
+	}		
+		.fb-step__icon { 
+			right: auto;
+			left: 15px;
+			font-size: 2.2em;
+		}
+		.fb-step__icon:before {
+			display: block;	
+			position: absolute;
+			top: 50%;			
+			left: 0;
+			margin-top: -0.5em;
+		}
+		.fb-step__arrow, .fb-step__warning {
+			left: auto;
+			right: 24px;
+			font-size: 1.25em;
+		}
+		.fb-step__warning { display: none; }
+		.fb-step__arrow:before, .fb-step__warning:before {
+			position: absolute;
+			bottom: 17px;
+			right: -4px;			
+		}
+		
+		.fb-step--active:hover .fb-step__arrow,
+		.fb-step--text:hover .fb-step__arrow,
+		.fb-step--text:hover .fb-step__icon { color: #7e7e7e; }
+		
+		.fb-step--active:hover .fb-step__icon { color: #e16843; }
+	
+	.fb-step__body {
+		position: relative;
+		z-index: 2;
+		display: table-cell;
+		vertical-align: middle;
+		width: 100%;
+		max-width: 100%;
+		text-align: left;
+		padding: 13px 67px 13px 63px;		
+		border: none;
+		background: none;
+	}
+	.fb-step__body--btn {		
+		font-size: 17px;
+		font-weight: inherit;
+		color: inherit;
+		padding-top: 17px;
+		padding-bottom: 17px;
+		white-space: normal;		
+	}
+		/* in case we use an 'a' tag... */
+		.fb-step__body--btn:hover { text-decoration: none; }
+		.fb-step__body--btn:visited { color: inherit; }
+	.fb-step__body--info {		
+		color: #494949;
+		font-size: 16px;
+		padding-top: 26px;
+		padding-bottom: 26px;
+	}
+		.fb-step--active .fb-step__body--btn{ background-color: #fff; }
+		.fb-step--active .fb-step__body--btn:hover { background-color: transparent; }
+	
+	.fb-step__body b { font-size: 17px;}
+	.fb-step__body p, .fb-step__body label {
+		color: #7e7e7e;
+	}
+	.fb-step__body p { margin-bottom: 0; }
+	
+	.fb-step__textarea { height: 76px; }
+	
+	.fb-step__toggle {
+	  max-height: 1000px;
+	  overflow: hidden;
+	  transition-property: max-height;
+	  -webkit-transition-delay: 0.1s; 
+	  -moz-transition-delay: 0.1s; 
+      -o-transition-delay: 0.1s;
+	  transition-delay: 0.1s;
+	  transition-duration: 0.1s;
+	}
+	.fb-step__toggle--hide {		
+		max-height: 0;
+		visibility: hidden;
+	}
+	
+/* 
+ * experimental css-only optional field hiding 
+ * this should trigger all optional fields to hide when in the presence of a required (active) field
+ * only set to trigger if javascript is active
+ */ 
+ 
+ /* not due to bad UX - cool idea though
+ .js .fb-step--active ~ .fb-step--optional {
+	height: 0;
+	display: block;
+	overflow: hidden;
+	margin-top: -10px;
+	visibility: hidden;
+ }
+ */

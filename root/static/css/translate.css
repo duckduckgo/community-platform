@@ -1,0 +1,284 @@
+
+.locale { 
+    display: block;
+    position: relative; 
+    margin-left: -6px;
+    padding: 0;
+    height: 2em;
+    line-height: 2em;     
+    width: 100%;    
+    overflow: hidden;
+    white-space: nowrap;
+    word-wrap: break-word;
+    text-overflow: ellipsis;
+}
+	.locale .flag { 
+		margin-right: 6px;  
+        margin-top: -3px;
+		display: inline-block;
+        vertical-align: middle;
+	}
+	.locale__label { 
+		font-size: 17px;
+        display: inline;
+	}
+    .locale--account {
+        height: 2.2em;
+        line-height: 2.2em;
+    }        
+    .locale__label--account  { 
+        font-size: 18px; 
+        display: inline;
+    }
+		
+.translate-overview .button--discuss { width: 90px; }	
+
+.translate-overview .body h3 { color: #454336; font-size: 18px; margin: 0; padding-top: 16px; }
+.translate-overview p { margin: 0; padding: 5px 0 8px; color: #818489; }
+
+.translate-overview .half.progress { padding: 0 11px 0 0; width: 54.2%; }
+	.translate-overview .progress .numeral { 
+		position: relative; 
+		left: 0; 
+		top: 0; 
+		text-align: right; 
+		width: 12.5%;
+		float: left;
+	}
+	.translate-overview .progress .numeral + .bar {
+		float: right;
+		width: 85%;
+	}
+
+.translate-snippets .button, .translate-comments .button { 
+	font-weight: normal; 
+	padding: 0 11px; 
+	font-size: 0.9em; 
+	display: inline-block; 
+	margin-left: 3px;
+	height: 27px;
+	line-height: 26px;	
+}	
+	.translate-snippets .button-group .button {
+		font-size: 14px;
+	}
+	.translate-snippets .button.big { 
+		font-size: 1.1em; 
+		font-weight: bold;
+		padding: 0 19px;
+		height: 35px;
+		line-height: 34px;
+	}
+	.translate-snippets .button.light {
+		color: #686868;
+	}
+	.translate-snippets .button.blue {
+		color: white;
+		text-shadow: none;		
+	}
+		.translate-snippets .button.blue:hover { background-color: #3e7ee9; }
+		
+.translate-snippets label, .paging-menu label, .comments .comment_add_title { 
+	color: #8f8f8f;
+}
+	.translate-snippets .row.snippet { padding: 16px 26px 16px 18px; }
+		.translate-snippets .snippet .row.user-translation { padding-top: 0; }
+	.translate-snippets label { line-height: 30px; }
+	.translate-snippets .label, .token__label { float: left; width: 131px; }
+	.translate-snippets .label + div, .token__content { 
+		position: relative;
+		padding-left: 131px;
+	}
+	
+	.token__content__tooltip {
+		visibility: hidden;
+		position: absolute;
+		left: 131px;
+		top: 40px;
+		
+		height: 30px;
+		line-height: 30px;
+		
+		display: inline-block;
+		padding: 0 20px 0 13px;
+		font-weight: bold;
+		background: #444;
+		color: #fff;
+		
+		-moz-border-radius: 1em;
+		-webkit-border-radius: 1em;
+		border-radius: 1em;
+	}
+		.token__content__tooltip:before {
+			content: "";
+			position: absolute;
+			left: 20px;
+			top: -5px;
+			height: 0;
+			width: 0;
+			border: 5px solid transparent;
+			border-bottom-color: #444;
+			border-top-width: 0;
+		}
+		.token__content__tooltip .flag {
+			vertical-align: middle;
+			margin-right: 7px;
+			margin-top: -5px;
+		}
+		input:focus + .token__content__tooltip {
+			visibility: visible;
+		}
+	/*.snippet .row strong, */
+    .snippet__heading { 
+        display: inline-block; 
+        font-size: 1.4em; 
+        font-weight: bold; 
+    }
+		.snippet .row .context { display: inline-block; font-size: 1.4em; }
+	.snippet .row p, .snippet .row ul { margin-bottom: 0; line-height: 1.2; }
+	.snippet .row p { margin-top: 0; }
+		.snippet .row p + p { margin-top: 8px; }
+	.snippet .row .translation-notes li { margin: 6px 0 0 18px; }
+	.translation-notes p { padding-top: 8px;}
+	.snippet .row input.text { height: 30px; line-height: 30px; }
+	
+    .token__user-list { font-size: 1.4em; }
+    
+	ul.user-translations, ul.translation-details { list-style: none; }
+	
+	.user-translations li { margin-bottom: 10px; }
+	.user-translations .user-info, .user-translations .user-info + label, .user-translations .own-translation { padding: 1px 0 9px; height: 26px; display: inline-block; }		
+		.user-translations .user-info + label, .user-translations .own-translation { font-size: 0.8em; }
+		.user-translations .user-info { letter-spacing: -0.07em; padding-left: 37px; position: relative; }	
+			.user-translations .user-info img { width: 26px; display: block; margin-right: 11px; position: absolute; top: 1px; left: 0; }
+			.user-translations .user-info label { display: inline-block; height: 26px; line-height: 26px; }
+	.translation-details { 
+		background: #f7f7f7; 
+		padding: 12px 13px; 
+		-moz-border-radius: 6px;
+		-webkit-border-radius: 6px;
+		border-radius: 6px;
+	}
+		.translation-details li { margin-bottom: 0; line-height: 1.6em; }
+		.translation-details label { min-width: 97px; display: inline-block; line-height: 1.4em; }
+		
+        /*.snippet .row .translation-details strong, */
+        .translation-details__content { 
+            font-weight: bold;
+            font-size: 1.2em; 
+        }		
+	.translation-invalid { float: right; font-weight: bold; color: red;}
+	.translation-vote,
+	.translation-validate {
+		margin-top: -4px;
+		float: right; 
+	}
+	.translation-vote { 			
+		border: 1px solid #c6c6c6;
+		-moz-border-radius: 3px;
+		-webkit-border-radius: 3px;
+		border-radius: 3px;
+		height: 28px;
+		background: #fdfdfd;		
+		position: relative;
+	}
+		.translation-details .translation-vote .button { 
+			float: none; 			
+			height: 28px;			
+			margin: 0;
+			padding: 0 3px;
+			border-right: 1px solid #c6c6c6;
+			-moz-border-radius: 3px 0 0 3px;
+			-webkit-border-radius: 3px 0 0 3px;
+			border-radius: 3px 0 0 3px;
+			position: relative;
+			top: -3px;
+			left: -1px;
+		}
+			.translation-vote .button { color: #999; }
+			.translation-vote .button:hover, 
+            .translation-vote.voted .button, 
+            .translation-vote .button .checked { color: #2d76dd; }	
+				.translation-vote .button[disabled="disabled"], 
+                .translation-vote .button[disabled="disabled"]:hover, 
+                .translation-vote .button[disabled="disabled"] .checked { color: #ccc; }
+			
+		.translation-vote .check,
+        .translation-vote__check  { 
+            font-size: 1.5em; 
+            position: relative; 
+            top: 2px; 
+         }
+		.translation-vote .vote-tally,
+        .translation-vote__tally{			
+			color: #464541;
+			height: 28px;
+			line-height: 28px;
+			font-size: 1.2em;
+			padding-right: 9px;
+			min-width: 26px;
+			text-align: right;
+			display: inline-block;
+		}
+		.translation-vote .loading-image {
+			position: absolute;
+			top: 50%;
+			right: 10px;
+			padding: 7px 0;
+			margin-top: -12px;
+			background: #fff;
+		}
+	
+	.translation-use .user-translations { margin-top: -8px; }
+	.translation-use .translation-vote { padding-left: 30px; display: none; /* it's styled correctly but shouldn't show */ }
+		.translation-use .translation-details .translation-vote .button { position: absolute; top: -1px; left: -1px; }
+	.translation-use strong { display: inline-block; font-size: 1.2em; font-weight: bold; line-height: 30px; }
+	
+.paging-menu { float: left; }
+	.paging-menu label { font-size: 0.9em; line-height: 30px; }
+	.page-select, .page-size { float: left; }	
+	.page-select { padding-right: 47px; }
+	.paging-menu .button { float: left; margin: 1px 0 0 20px;}
+	.paging-menu .select2-container { max-width: 55px; }
+	.paging-menu .select2-container, .paging-menu .select2-container .select2-choice { height: 27px; line-height: 27px; }
+	.paging-menu .select2-container .select2-choice span { margin-right: 21px; min-width: 1.4em; text-align: right;}
+	.paging-menu .select2-container .select2-choice div { width: 14px; }
+
+@media only screen and (max-width: 60em) {
+	.translate-overview label { 
+		width: 80%;
+		font-size: 16px; 
+		overflow: hidden;				
+		white-space: nowrap;
+		word-wrap: break-word;
+		text-overflow: ellipsis;		
+	}
+	.translate-overview .button {
+		width: auto;
+	}
+    .locale__label--account{ 
+		font-size: 16px; 
+	}
+}
+
+span.hilight-token {
+    color: #990000;
+}
+	
+@media only screen and (max-width: 40em) {		
+	.translate-overview .half.progress { width: 100%; clear: both; }
+		.translate-overview .half.progress + .eighth { position: static; }
+			.translate-overview .half.progress + .eighth .button { position: absolute; top: 8px; right: 12px; }
+	.translate-snippets .label, .token__label {	float: none; width: auto; }
+		.translate-snippets .label + div, .token__content { padding-left: 0; }
+	
+	.paging-menu { float: none; text-align: center; }
+		.page-select, .page-size, .paging-menu .button { float: none; display: inline-block; }
+		.page-select { padding-right: 23x; }		
+	.row.nav .right { float: none; clear: both; text-align: center; padding-top: 6px; }
+		.translate-snippets .button, .translate-comments .button { margin-left: 0; }
+
+}
+@media only screen and (max-width: 30em) {	
+	.translate-comments.content-box .row { padding-left: 8px; }
+}

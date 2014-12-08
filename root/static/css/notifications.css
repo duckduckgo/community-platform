@@ -1,0 +1,177 @@
+/*
+	Notifications
+	
+	Internal alerts to track comments, translations, posts, etc.
+*/
+
+.notification {
+	display: block;
+}
+.notification--close {
+	color: #C01300;
+	background-color: #F6D4D4;
+}
+	.notification:nth-child(even),
+	.notification_group:nth-child(even) {
+		background-color: #fafafa;
+	}
+	.notification__body,
+	.notification__body--following{
+		display: block;
+		overflow: hidden;
+		padding: 2px 0 2px 30px;
+		line-height: 1.33;
+	}
+		.notification__body--following {
+			padding-left: 5px;
+			padding-top: 7px;
+		}
+	
+	.notification__unfollow {
+		float: right;
+		margin-left: 8px;
+		margin-right: 0;
+	}
+	
+	.notification__icon {
+		color: #a7a7a7;
+		display: block;
+		text-align: center;
+		width: 1em;
+		font-size: 24px;
+		
+		position: absolute;				
+		top: 50%;
+		left: 11px;
+		margin-top: -0.75em;
+	}		
+		.notification--edit__icon {
+			color: #a7a7a7;
+		}
+		.notification--close .notification__icon {
+			color: #C01300;
+		}
+			
+	
+	.notification__following,
+	.notification__view,
+	.notification__close {
+		color: #d7d7d7;
+	}
+		.notification__following:hover,
+		.notification__view:hover,
+		.notification__close:hover {
+			color: #a7a7a7;
+		}
+		.notification__following:active,
+		.notification__view:hover,
+		.notification__close:active {
+			color: #676767;
+		}
+		.notification--close .notification__view,
+		.notification--close .notification__close {
+			color: #E5BFBF;
+		}	
+	
+	.notification__following,
+	.notification--edit__icon {
+		float: left;
+		display: block;
+		width: 1em;
+		text-align: center;
+		margin-right: 8px;
+		margin-left: -8px;
+		font-size: 17px;
+		height: 20px;
+		line-height: 20px;
+		position: relative;
+		top: 3px;
+	}
+	.notification__following {
+		top: 6px;
+	}
+	.notification__following__passive {
+		visibility: visible;
+	}
+	.notification__following__active {
+		visibility: hidden;
+	}
+		
+		.notification__following:hover .notification__following__passive {
+			visibility: hidden;
+		}
+		.notification__following:hover .notification__following__active {
+			visibility: visible;
+		}
+	
+	.notification__view,
+	.notification__close {
+		font-size: 12px;		
+		float: right;		
+		margin-left: 8px;
+		position: relative;
+		right: 4px;
+		top: 6px;
+	}
+		
+	.notification__primary {
+		font-size: 17px;
+		display: block;
+		margin-top: -8px;
+	}
+		.notification__primary__by {
+			font-size: 12px;
+			color: #a7a7a7;
+		}
+	.notification__secondary {
+		font-size: 15px;
+		display: block;
+		color: #999;
+	}
+	.notification__user {
+		font-weight: bold;
+		color: #7a7f88;
+	}
+		.notification__user a {
+			color: inherit;
+		}
+		/* usernames and other items have funky whitespace - this is to wrap the comma to remove that */
+		.notification__punctuation,
+		.notification__user--sep {
+			margin-left: -0.5ex;
+		}
+		
+	.notification__comment {
+		/* extended in comments.css as well for styling */
+		display: block;
+		margin: 8px auto 8px 0;
+		padding: 13px;
+		max-width: 35em;
+	}
+
+.notification--too-many	{
+	
+}	
+	.notification--too-many__header {
+		font-weight: bold;
+		padding-top: 4px;
+	}
+	.notification--too-many__msg {		
+		margin-bottom: 0;
+	}
+
+.notification--edit .select2-container {
+	margin-top: -2px;
+}
+
+.notification__settings-label {
+	display: inline-block;
+}
+
+.notification__settings {
+	/* a button group */
+	float: right;
+}
+	.notification__settings > .button {
+		font-size: 12px;
+	}
