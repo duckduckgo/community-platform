@@ -241,18 +241,21 @@ sub commit_json :Chained('commit_base') :PathPart('json') :Args(0) {
         other_queries => $ia->other_queries? decode_json($ia->other_queries) : undef
     );
 
-    if (ref $edits eq 'ARRAY') {
+    if (ref $edits eq 'HASH') {
         $new_edits = 1;
     }
 
     if ($new_edits && $is_admin) {
+        my $topic_val = $topic[0][@topic]{'value'};
+        my $other_q_val = $other_queries[0][@other_queries]{'value'};
+
         $c->stash->{x} = {
             name => $name[0][@name]{'value'},
             description => $desc[0][@desc]{'value'},
             status => $status[0][@status]{'value'},
-            topic => $topic[0][@topic]{'value'}? decode_json($topic[0][@topic]{'value'}) : undef,
+            topic => $topic_val? decode_json($topic_val) : undef,
             example_query => $example_query[0][@example_query]{'value'},
-            other_queries => $other_queries[0][@other_queries]{'value'}? decode_json($other_queries[0][@other_queries]{'value'}) : undef,
+            other_queries => $other_q_val? decode_json($other_q_val) : undef,
             original => \%original
         };
     } else {
