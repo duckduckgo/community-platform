@@ -10,7 +10,7 @@
 : }
 
 : if $ia_page {
-	<link rel="stylesheet" media="screen, projection, handheld" href="/static/css/ia.css" />
+	<link rel="stylesheet" media="screen, projection, handheld" href="/static/css/ia<: $js_version :>.css" />
 : }
 
 : if $share_page {
