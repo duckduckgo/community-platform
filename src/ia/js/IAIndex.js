@@ -59,10 +59,11 @@ $(function() {
         },
         template: {
             view: function() {
-
+                var html = Handlebars.templates.template({ia: this.result});
+                $("#ia_index").html(html);
             },
             data: function(result) {
-
+                this.result = result;
                 return this;
             }
         }
