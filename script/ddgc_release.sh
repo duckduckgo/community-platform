@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
 CURRENT_DATE_FILENAME=$( date +%Y%m%d_%H%M%S )
 
