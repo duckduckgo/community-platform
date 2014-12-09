@@ -36,34 +36,22 @@ sub index :Chained('base') :PathPart('') :Args() {
 sub ialist_json :Chained('base') :PathPart('json') :Args() {
     my ( $self, $c, $field, $value ) = @_;
 
-    my @x;
+    my $rs;
 
     if ($field && $value) {
-        @x = $c->d->rs('InstantAnswer')->search({$field => $value});
+        $rs = $c->d->rs('InstantAnswer')->search_rs({$field => $value});
     } else {
-        @x = $c->d->rs('InstantAnswer')->all();
+        $rs = $c->d->rs('InstantAnswer');
     }
 
-    my @ial;    
-
-    for my $ia (@x) {
-        my @topics = map { $_->name } $ia->topics;
-        my $attribution = $ia->attribution;
-
-        push (@ial, {
-                name => $ia->name,
-                id => $ia->id,
-                example_query => $ia->example_query,
-                repo => $ia->repo,
-                src_name => $ia->src_name,
-                dev_milestone => $ia->dev_milestone,
-                perl_module => $ia->perl_module,
-                description => $ia->description,
-                topic => \@topics,
-                attribution => $attribution ? decode_json($attribution) : undef,
-                template => $ia->template,
-            });
-    }
+    my @ial = $rs->search(
+        {},
+        {
+            columns => [ qw/ name id repo src_name dev_milestone description template / ],
+            prefetch => { instant_answer_topics => 'topic' },
+            result_class => 'DBIx::Class::ResultClass::HashRefInflator',
+        }
+    )->all;
 
     $c->stash->{x} = \@ial;
     $c->stash->{not_last_url} = 1;
