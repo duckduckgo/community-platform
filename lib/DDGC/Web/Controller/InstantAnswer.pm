@@ -114,9 +114,7 @@ sub ia_base :Chained('base') :PathPart('view') :CaptureArgs(1) {  # /ia/view/cal
 
     $c->stash->{ia_page} = "IAPage";
     $c->stash->{ia} = $c->d->rs('InstantAnswer')->find($answer_id);
-    @{$c->stash->{issues}} = $c->d->rs('InstantAnswer::Issues')->search({instant_answer_id => $answer_id});
-
-    
+    @{$c->stash->{issues}} = $c->d->rs('InstantAnswer::Issues')->search({instant_answer_id => $answer_id});    
 
     unless ($c->stash->{ia}) {
         $c->response->redirect($c->chained_uri('InstantAnswer','index',{ instant_answer_not_found => 1 }));
@@ -226,12 +224,12 @@ sub commit_json :Chained('commit_base') :PathPart('json') :Args(0) {
     my $edits = get_edits($c->d, $ia->name);
     my @topics = map { $_->name} $ia->topics;
 
-    my $name;
-    my $desc;
-    my $status;
-    my $topic;
-    my $example_query;
-    my $other_queries;
+    my @name = $edits->{'name'};
+    my @desc = $edits->{'description'};
+    my @status = $edits->{'status'};
+    my @topic = $edits->{'topic'};
+    my @example_query = $edits->{'example_query'};
+    my @other_queries = $edits->{'other_queries'};
     my %original;
     my $new_edits;
     my $is_admin;
@@ -249,55 +247,32 @@ sub commit_json :Chained('commit_base') :PathPart('json') :Args(0) {
         other_queries => $ia->other_queries? decode_json($ia->other_queries) : undef
     );
 
-    if (ref $edits eq 'ARRAY') {
+    if (ref $edits eq 'HASH') {
         $new_edits = 1;
-
-        # Loop through staged edits
-        for my $edit (@{ $edits }) {
-            my $cur_time = time;
-            my $diff_time;
-
-            # Loop through time keys, which contain edited 
-            # fields and values, and choose last edit, aka the
-            # edit in which the timestamp is the closest to the current
-            # timestamp
-            for my $time (keys %{$edit}) {
-                my %hash_edit = %{$edit};
-                my $temp_diff_time = $cur_time - $hash_edit{$time};
-
-                if (!$diff_time || $temp_diff_time < $diff_time) {
-                    $diff_time = $temp_diff_time;
-
-                    # Loop through fields (structure: field_name => field_value)
-                    # and assign the value to the correct array depending on the field name 
-                    for my $field (keys %{ $edit->{$time} } ) {
-                        if ($field eq 'name') {
-                            $name = $edit->{$time}->{$field};
-                        } elsif ($field eq 'description') {
-                            $desc =  $edit->{$time}->{$field};
-                        } elsif ($field eq 'status') {
-                            $status = $edit->{$time}->{$field};
-                        } elsif ($field eq 'topic') {
-                            $topic =$edit->{$time}->{$field}?  decode_json($edit->{$time}->{$field}) : undef;
-                        } elsif ($field eq 'example_query') {
-                            $example_query = $edit->{$time}->{$field};
-                        } elsif ($field eq 'other_queries') {
-                            $other_queries = $edit->{$time}->{$field}? decode_json($edit->{$time}->{$field}) : undef;
-                        }
-                    }
-                }
-            }
-        }
     }
 
     if ($new_edits && $is_admin) {
+        my $topic_val = $topic[0][@topic]{'value'};
+        my $other_q_val = $other_queries[0][@other_queries]{'value'};
+        my $other_q_edited = $other_q_val? 1 : undef;
+
+        # Other queries can be empty,
+        # but the handlebars {{#if}} evaluates to false
+        # for both null and empty values,
+        # so instead of the value, we check other_queries.edited
+        # to see if this field was edited
+        my %other_q = (
+            edited => $other_q_edited,
+            value => $other_q_val? decode_json($other_q_val) : undef
+        );
+
         $c->stash->{x} = {
-            name => $name,
-            description => $desc,
-            status => $status,
-            topic => $topic,
-            example_query => $example_query,
-            other_queries => $other_queries,
+            name => $name[0][@name]{'value'},
+            description => $desc[0][@desc]{'value'},
+            status => $status[0][@status]{'value'},
+            topic => $topic_val? decode_json($topic_val) : undef,
+            example_query => $example_query[0][@example_query]{'value'},
+            other_queries => \%other_q,
             original => \%original
         };
     } else {
@@ -313,8 +288,6 @@ sub commit_save :Chained('commit_base') :PathPart('save') :Args(0) {
 
     my $is_admin;
     my $result = '';
-
-    
 
     if ($c->user) {
         my $is_admin = $c->user->admin;
@@ -344,10 +317,11 @@ sub commit_save :Chained('commit_base') :PathPart('save') :Args(0) {
 
                             try {
                                 $ia->add_to_topics($topic_id);
+                                remove_edit($ia, $field);
                                 $result = 1;
                             } catch {
                                 $c->d->errorlog("Error updating the database");
-                                return $result;
+                                return '';
                             };
                         }
                     } else {
@@ -356,11 +330,11 @@ sub commit_save :Chained('commit_base') :PathPart('save') :Args(0) {
                         }
 
                         try {
-                            $ia->update({$field => $value});
+                            commit_edit($ia, $field, $value);
                             $result = '1';
                         } catch {
                             $c->d->errorlog("Error updating the database");
-                            return $result;
+                            return '';
                         };
                     }
                 }
@@ -370,8 +344,8 @@ sub commit_save :Chained('commit_base') :PathPart('save') :Args(0) {
 
             if (ref $edits eq 'ARRAY') {
                 foreach my $edit (@{$edits}) {
-                    foreach my $time (keys %{$edit}){
-                        remove_edit($ia, $time);
+                    foreach my $field(keys %{$edit}){
+                        remove_edit($ia, $field);
                     }
                 }
             }
@@ -432,9 +406,13 @@ sub add_edit {
 
     if($value ne $orig_data){
         $current_updates = $current_updates? decode_json($current_updates) : undef;
+        my @field_updates = $current_updates->{$field}? $current_updates->{$field} : undef;
         my $time = time;
-        my %new_update = ( $time => {$field => $value});
-        push(@{$current_updates}, \%new_update);
+        my %new_update = ( value => $value,
+                           timestamp => $time
+                         );
+        push(@field_updates, \%new_update);
+        $current_updates->{$field} = [@field_updates];
     }
 
     return $current_updates;
@@ -443,34 +421,25 @@ sub add_edit {
 # commits a single edit to the database
 # removes that entry from the updates column
 sub commit_edit {
-    my ($ia, $field, $value, $time) = @_;
+    my ($ia, $field, $value) = @_;
 
     $ia->update({$field => $value});
 
-    remove_edit($ia, $time);
+    remove_edit($ia, $field);
 
 }
 
-# given a result set and timestamp, remove the
-# entry from the updates column with that timestamp
+# given a result set and a field name, remove all the
+# entries for that field from the updates column
 sub remove_edit {
-    my($ia, $time) = @_;   
+    my($ia, $field) = @_;   
 
     my $updates = ();
     my $column_updates = $ia->get_column('updates');
     my $edits = $column_updates? decode_json($column_updates) : undef;
-
-    # look through edits for timestamp
-    # push all edits that don't match the timestamp of the
-    # one we want to remove (recreate the updates json)
-    foreach my $edit ( @{$edits} ){
-        foreach my $timestamp (keys %{$edit}){
-            if($timestamp ne $time){
-                push(@{$updates}, $edit);
-            }
-        }
-    }
-    $ia->update({updates => $updates});
+    $edits->{$field} = undef;
+ 
+    $ia->update({updates => $edits});
 }
 
 # given the IA name return the data in the updates

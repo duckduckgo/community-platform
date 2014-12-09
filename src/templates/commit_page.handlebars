@@ -75,7 +75,7 @@
             </tr>
         {{/if}}
 
-        {{#if other_queries}}
+       {{#if other_queries.edited}}
             <tr class="updates_list">
                 <th>Other Queries</th>
 
@@ -86,24 +86,9 @@
                 </td>
                 <td name="other_queries">
                     {{#each other_queries}}
-                        <li>{{this}}</li>
-                    {{/each}}
-                </td>
-            </tr>
-        {{/if}}
-
-        {{#if code}}
-            <tr class="updates_list">
-                <th>Code</th>
-
-                <td name="code" class="item_selected" id="code_original">
-                    {{#each original.code}}
-                        <li>{{this}}</li>
-                    {{/each}}
-                </td>
-                <td name="code">
-                    {{#each code}}
-                        <li>{{this}}</li>
+                        {{#each value}}
+                            <li>{{this}}</li>
+                        {{/each}}
                     {{/each}}
                 </td>
             </tr>
