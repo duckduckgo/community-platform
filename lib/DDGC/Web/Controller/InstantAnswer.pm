@@ -48,6 +48,15 @@ sub ialist_json :Chained('base') :PathPart('json') :Args() {
         @x = $c->d->rs('InstantAnswer')->all();
     }
 
+    ##### DISPLAY
+    # use Data::Dumper;
+    # @stuff = $c->d->rs('Topic')->search({'name' => 'productivity'});
+    # my @asdf = $c->d->rs('InstantAnswer::Topics')->search({topics_id => $stuff[0]->id});
+    # for my $a (@asdf) {
+    #    my $b = $c->d->rs('InstantAnswer')->find({id => $a->instant_answer_id});
+    #    warn $b->id . " " . Dumper \(map { $_-> name } $b->topics);
+    # }
+
     my @ial;
 
     for my $ia (@x) {
