@@ -10,10 +10,15 @@ module.exports = function(grunt) {
     var release_tasks = [
         'build',
         'exec:version_ia_css',
+        'cssmin:combine',
         'version:release',
         'removelogging',
         'uglify:js',
         'remove',
+    ];
+
+    // commit files for release
+    var commit_tasks = [
         'gitcommit:ia_pages'
     ];
 
@@ -183,6 +188,18 @@ module.exports = function(grunt) {
             copy_ia_css: {
                 command: 'mkdir -p root/static/css && cp -rf src/ia/css/* root/static/css/'
             }
+        },
+
+        cssmin: {
+            combine: {
+                files: [{
+                    expand: true,
+                    cwd: 'root/static/css/',
+                    src: ['*.css', '!ia*.css'],
+                    dest: 'root/static/css/',
+                    ext: '.min.css'
+                }]
+            }
         }
     });
 
@@ -195,6 +212,7 @@ module.exports = function(grunt) {
         grunt.loadNpmTasks('grunt-git');
         grunt.loadNpmTasks('grunt-remove-logging');
         grunt.loadNpmTasks('grunt-contrib-compass');
+        grunt.loadNpmTasks('grunt-contrib-cssmin');
         grunt.loadNpmTasks('grunt-exec');
 
         // check diff on ia.js.  Diff runs rest
@@ -204,4 +222,7 @@ module.exports = function(grunt) {
         // compile handlebars and concat js files
         // to ia.js
         grunt.registerTask('build', build_tasks);
+
+        // commit files to the repo for release
+        grunt.registerTask('commit', commit_tasks);
 }
