@@ -2,12 +2,12 @@
     <div><strong>Examples:</strong>
         <ul>
             <li>
-                <a href="https://duckduckgo.com/?q={{example_query}}" title="try this example on DuckDuckGo">{{example_query}}</a>
+                <a href="https://duckduckgo.com/?q={{encodeURIComponent example_query}}" title="try this example on DuckDuckGo">{{example_query}}</a>
             </li>
             {{#if other_queries}}
                 {{#each other_queries}}
                     <li>
-                        <a href="https://duckduckgo.com/?q={{this}}" title="try this example on DuckDuckGo">{{this}}</a>
+                        <a href="https://duckduckgo.com/?q={{encodeURIComponent this}}" title="try this example on DuckDuckGo">{{this}}</a>
                     </li>
                 {{/each}}
             {{/if}}

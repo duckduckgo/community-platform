@@ -79,12 +79,16 @@ sub ialist_json :Chained('base') :PathPart('json') :Args() {
     $c->forward($c->view('JSON'));
 }
 
-sub iarepo :Chained('base') :PathPart('repo') :Args(1) {
+sub iarepo :Chained('base') :PathPart('repo') :CaptureArgs(1) {
     my ( $self, $c, $repo ) = @_;
 
+    $c->stash->{ia_repo} = $repo;
+}
 
-    # $c->stash->{ia_repo} = $repo;
+sub iarepo_json :Chained('iarepo') :PathPart('json') :Args(0) {
+    my ( $self, $c ) = @_;
 
+    my $repo = $c->stash->{ia_repo};
     my @x = $c->d->rs('InstantAnswer')->search({repo => $repo});
 
     my %iah;
@@ -201,7 +205,8 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
                 topic => \@topics,
                 attribution => $ia->attribution? decode_json($ia->attribution) : undef,
                 allowed_topics => \@allowed,
-                issues => \@ia_issues
+                issues => \@ia_issues,
+                template => $ia->template,
     };
 
     $c->stash->{not_last_url} = 1;
@@ -236,7 +241,6 @@ sub commit_json :Chained('commit_base') :PathPart('json') :Args(0) {
     my $topic;
     my $example_query;
     my $other_queries;
-    my $code;
     my %original;
     my $new_edits;
     my $is_admin;
@@ -251,8 +255,7 @@ sub commit_json :Chained('commit_base') :PathPart('json') :Args(0) {
         status => $ia->status,
         topic => \@topics,
         example_query => $ia->example_query,
-        other_queries => $ia->other_queries? decode_json($ia->other_queries) : undef,
-        code => $ia->code? decode_json($ia->code) : undef
+        other_queries => $ia->other_queries? decode_json($ia->other_queries) : undef
     );
 
     if (ref $edits eq 'ARRAY') {
@@ -289,8 +292,6 @@ sub commit_json :Chained('commit_base') :PathPart('json') :Args(0) {
                             $example_query = $edit->{$time}->{$field};
                         } elsif ($field eq 'other_queries') {
                             $other_queries = $edit->{$time}->{$field}? decode_json($edit->{$time}->{$field}) : undef;
-                        } elsif ($field eq 'code') {
-                            $code = $edit->{time}->{$field}? decode_json($edit->{$time}->{$field}) : undef;
                         }
                     }
                 }
@@ -306,7 +307,6 @@ sub commit_json :Chained('commit_base') :PathPart('json') :Args(0) {
             topic => $topic,
             example_query => $example_query,
             other_queries => $other_queries,
-            code => $code,
             original => \%original
         };
     } else {
@@ -360,7 +360,7 @@ sub commit_save :Chained('commit_base') :PathPart('save') :Args(0) {
                             };
                         }
                     } else {
-                        if ($field eq 'other_queries' || $field eq 'code') {
+                        if ($field eq 'other_queries') {
                             $value = encode_json($value);
                         }
 
