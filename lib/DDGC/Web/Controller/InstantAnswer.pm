@@ -47,7 +47,8 @@ sub ialist_json :Chained('base') :PathPart('json') :Args() {
     my @ial = $rs->search(
         {},
         {
-            columns => [ qw/ name id example_query repo src_name dev_milestone perl_module description attribution template / ],
+            columns => [ qw/ name id repo src_name dev_milestone description template / ],
+            prefetch => { instant_answer_topics => 'topic' },
             result_class => 'DBIx::Class::ResultClass::HashRefInflator',
         }
     )->all;
