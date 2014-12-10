@@ -7,20 +7,8 @@
 
 <link rel="stylesheet" media="screen, projection, handheld" href="/static/css/ddgc<: $js_version :>.css" />
 
-: if $ddh_intro {
-	<link rel="stylesheet" media="screen, projection, handheld" href="/static/css/duckduckhack-intro.css" />
-: }
-
 : if $ia_page {
 	<link rel="stylesheet" media="screen, projection, handheld" href="/static/css/ia<: $js_version :>.css" />
-: }
-
-: if $share_page {
-	<link rel="stylesheet" media="screen, projection, handheld" href="/static/css/share.css" />
-: }
-
-: if $duckduckhack {
-	<link rel="stylesheet" media="screen, projection, handheld" href="/static/css/tomorrow-night.css">
 : }
 
 <link rel="stylesheet" media="screen, projection, handheld" href="/generated_css/flags.css" />

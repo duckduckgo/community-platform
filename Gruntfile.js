@@ -71,7 +71,7 @@ module.exports = function(grunt) {
                 dest: static_dir + 'js/ia.js'
             },
             ddgc_pages: {
-                src: ddgc_dir + 'ddgc/*.js',
+                src: ddgc_dir + 'js/*.js',
                 dest: static_dir + 'js/ddgc.js'
             },
             ia_css: {
