@@ -9,7 +9,6 @@ module.exports = function(grunt) {
     // to release a new version
     var release_tasks = [
         'build',
-        'exec:version_ia_css',
         'cssmin:combine',
         'version:release',
         'removelogging',
@@ -114,6 +113,9 @@ module.exports = function(grunt) {
             }
         },
 
+        /*
+         * removes dev versions of JS and CSS files
+         */
         remove: {
             default_options: {
                 trace: true,
@@ -136,7 +138,7 @@ module.exports = function(grunt) {
                 src: [ ],
                // src: [ static_dir + 'ia.js'],
                 tasks: release_tasks
-            }
+            } 
         },
 
         /*
@@ -152,7 +154,8 @@ module.exports = function(grunt) {
                     src: [ 
                         static_dir + 'js/ia<%= pkg.version %>.js', 
                         static_dir + 'js/ddgc<%= pkg.version %>.js', 
-                        static_dir + 'css/*',
+                        static_dir + 'css/ddgc<%= pkg.version %>.css',
+                        static_dir + 'css/ia<%= pkg.version %>.css',
                         'package.json',  
                     ]
                 }
@@ -182,17 +185,19 @@ module.exports = function(grunt) {
             }
         },
 
-        exec: {
-            version_ia_css: {
-                command: 'mv root/static/css/ia.css root/static/css/ia<%= pkg.version %>.css'
-            },
-        },
-
+        /*
+         * minify and version css files
+         */
         cssmin: {
             combine: {
-                files: {'root/static/css/ddgc<%= pkg.version %>.css' : 'src/ddgc/css/*.css'}
+                ddgc_css: {
+                    files: {'root/static/css/ddgc<%= pkg.version %>.css' : 'src/ddgc/css/*.css'}
+                },
+                ia_css: {
+                    files: {'root/static/css/ia<%= pkg.version %>.css' : 'src/ia/css/*.css'}
+                }
             }
-        }
+        }                                                                          
     });
 
         // check diff on ia.js.  Diff runs rest
