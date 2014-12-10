@@ -49,6 +49,27 @@
                     Longtail
                 </a>
             </li>
+        </ul>
+    </div>
+
+    <div id="filter_topic" class="button-group-vertical">
+        <ul>
+            <li>
+                <a id="all_topic" class="row topic" href="#">
+                    All Topics
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <div id="filter_template" class="button-group-vertical">
+        <ul>
+            <li>
+                <a id="all_template" class="row template" href="#">
+                    All Templates
+                </a>
+            </li>
+        </ul>
     </div>
 </div>
 
