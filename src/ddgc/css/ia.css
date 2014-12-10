@@ -32,10 +32,13 @@
     width: 70%;
 }
 #filters {
-    width: 30%;
+    width: 25%;
     text-align: center;
     position: fixed;
     margin-left: 45em;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    max-height: 30em;
 }
 #ia_index #ia_list .topic {
     margin-left: 0.25em;
