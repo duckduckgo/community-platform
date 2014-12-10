@@ -1,9 +1,9 @@
 module.exports = function(grunt) {
     
     var static_dir = 'root/static/';
-    var ia_js_dir = 'src/ia/js/';
+    var ia_dir = 'src/ia/';
     var templates_dir = 'src/templates/';
-    var ddgc_js_dir = 'src/ddgc/js/';
+    var ddgc_dir = 'src/ddgc/';
 
     // tasks that run after diff
     // to release a new version
@@ -26,10 +26,7 @@ module.exports = function(grunt) {
     var build_tasks = [
         'handlebars:compile',
         'compass',
-        'concat:ia_pages',
-        'concat:ddgc_pages',
-        'exec:copy_ddgc_css',
-        'exec:copy_ia_css'
+        'concat',
     ];
 
     var ia_page_js = [
@@ -42,16 +39,15 @@ module.exports = function(grunt) {
     ];
 
     for( var file in ia_page_js ){
-        ia_page_js[file] = ia_js_dir + ia_page_js[file];
+        ia_page_js[file] = ia_dir + 'js/' + ia_page_js[file];
     }
 
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
         static_dir: static_dir,
-        ia_js_dir: ia_js_dir,
-        ddgc_js_dir: ddgc_js_dir,
+        ia_dir: ia_dir,
+        ddgc_dir: ddgc_dir,
         templates_dir: templates_dir,
-
         release_tasks: release_tasks,
 
         /*
@@ -70,15 +66,22 @@ module.exports = function(grunt) {
          * concat js files in ia_js_dir and copy to static_dir
          */
         concat: {
-            ia_pages:{
+            ia_pages: {
                 src: [templates_dir+'handlebars_tmp', ia_page_js],
                 dest: static_dir + 'js/ia.js'
             },
-            ddgc_pages:{
-                src: ddgc_js_dir + '*.js',
+            ddgc_pages: {
+                src: ddgc_dir + 'ddgc/*.js',
                 dest: static_dir + 'js/ddgc.js'
+            },
+            ia_css: {
+                src: ia_dir + 'css/*.css',
+                dest: static_dir + 'css/ia.css'
+            },
+            ddgc_css: {
+                src: [ddgc_dir + 'css/*.css', '!'+ddgc_dir + 'css/duckduckhack-intro.css'],
+                dest: static_dir + 'css/ddgc.css'
             }
-
         },
 
         /*
@@ -118,6 +121,7 @@ module.exports = function(grunt) {
                     static_dir + 'js/ia.js', 
                     templates_dir + 'handlebars_tmp',
                     static_dir + 'js/ddgc.js',
+                    static_dir + 'css/ddgc.css',
                     static_dir + 'css/ia.css'
                 ]
             }
@@ -179,30 +183,33 @@ module.exports = function(grunt) {
         },
 
         exec: {
-            copy_ddgc_css: {
-                command: 'mkdir -p root/static/css && cp -rf src/ddgc/css/* root/static/css/'
-            },
             version_ia_css: {
                 command: 'mv root/static/css/ia.css root/static/css/ia<%= pkg.version %>.css'
             },
-            copy_ia_css: {
-                command: 'mkdir -p root/static/css && cp -rf src/ia/css/* root/static/css/'
-            }
         },
 
         cssmin: {
             combine: {
-                files: [{
-                    expand: true,
-                    cwd: 'root/static/css/',
-                    src: ['*.css', '!ia*.css'],
-                    dest: 'root/static/css/',
-                    ext: '.min.css'
-                }]
+                files: {'root/static/css/ddgc<%= pkg.version %>.css' : 'src/ddgc/css/*.css'}
             }
         }
     });
 
+        // check diff on ia.js.  Diff runs rest
+        // of release process if the file has changed
+        grunt.registerTask('release', release_tasks);
+
+        // compile handlebars and concat js files
+        // to ia.js
+        grunt.registerTask('build', build_tasks);
+
+        // commit files to the repo for release
+        grunt.registerTask('commit', commit_tasks);
+ 
+        // default task runs build
+        grunt.registerTask('default', build_tasks);
+
+        // add modules here
         grunt.loadNpmTasks('grunt-contrib-concat');
         grunt.loadNpmTasks('grunt-contrib-handlebars');
         grunt.loadNpmTasks('grunt-version');
@@ -215,14 +222,4 @@ module.exports = function(grunt) {
         grunt.loadNpmTasks('grunt-contrib-cssmin');
         grunt.loadNpmTasks('grunt-exec');
 
-        // check diff on ia.js.  Diff runs rest
-        // of release process if the file has changed
-        grunt.registerTask('release', release_tasks);
-
-        // compile handlebars and concat js files
-        // to ia.js
-        grunt.registerTask('build', build_tasks);
-
-        // commit files to the repo for release
-        grunt.registerTask('commit', commit_tasks);
 }
