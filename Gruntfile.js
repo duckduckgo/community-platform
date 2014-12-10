@@ -9,7 +9,8 @@ module.exports = function(grunt) {
     // to release a new version
     var release_tasks = [
         'build',
-        'cssmin:combine',
+        'cssmin:ddgc_css',
+        'cssmin:ia_css',
         'version:release',
         'removelogging',
         'uglify:js',
@@ -189,13 +190,11 @@ module.exports = function(grunt) {
          * minify and version css files
          */
         cssmin: {
-            combine: {
-                ddgc_css: {
-                    files: {'root/static/css/ddgc<%= pkg.version %>.css' : 'src/ddgc/css/*.css'}
-                },
-                ia_css: {
-                    files: {'root/static/css/ia<%= pkg.version %>.css' : 'src/ia/css/*.css'}
-                }
+            ddgc_css: {
+                files: {'root/static/css/ddgc<%= pkg.version %>.css' : 'src/ddgc/css/*.css'}
+            },
+            ia_css: {
+                files: {'root/static/css/ia<%= pkg.version %>.css' : 'src/ia/css/*.css'}
             }
         }                                                                          
     });
