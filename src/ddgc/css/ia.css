@@ -40,7 +40,7 @@
     overflow-x: hidden;
     max-height: 30em;
 }
-#ia_index #ia_list .topic {
+#ia_index #ia-list .topic {
     margin-left: 0.25em;
 }
 #ia_index_header {
@@ -103,7 +103,7 @@
     line-height: 0.8;
     font-weight: bold;
 }
-#ia_index #ia_list li,
+#ia_index #ia-list li,
 .ia-single ul li.editpage,
 #ia_commit li {
     list-style: none;
@@ -223,4 +223,12 @@
 }
 .idx_filter {
     text-transform: capitalize;
+}
+
+.ia-item--stamp {
+    display: inline-block;
+}
+
+.ia-item--details {
+    display: inline-block;
 }
