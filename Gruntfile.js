@@ -60,7 +60,7 @@ module.exports = function(grunt) {
                         'Build:' : ['handlebars', 'concat'],
                         'Release:' : ['handlebars', 'concat', 'cssmin', 'removelogging', 'uglify', 'remove:dev', 'version'],
                         'Commit:' : ['gitcommit'],
-                        'Revert:' : ['remove:release', 'version:revert']
+                        'Revert:' : ['exec:revert']
                     }
                 }
             }
