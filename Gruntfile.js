@@ -199,7 +199,7 @@ module.exports = function(grunt) {
             ia_css: {
                 files: {'root/static/css/ia<%= pkg.version %>.css' : 'src/ia/css/*.css'}
             }
-        }                                                                          
+        }
     });
 
         // check diff on ia.js.  Diff runs rest

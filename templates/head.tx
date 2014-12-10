@@ -40,4 +40,3 @@
 		<link rel="openid.delegate" href="<: $up.field('openid_delegate').value :>">
 	: }
 : }
-
