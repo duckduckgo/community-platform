@@ -11,13 +11,13 @@
 
 <div id="filters" class="right">
     <span class="button-group" id="filter_dev_milestone">
-        <a id="all_dev_milestone" class="button dev_milestone" href="#">
+        <a id="ia_dev_milestone-all" class="button dev_milestone" href="#">
             All
         </a>
-        <a id="live" class="button dev_milestone" href="#">
+        <a id="ia_dev_milestone-live" class="button dev_milestone" href="#">
             Live
         </a>
-        <a id="down" class="button dev_milestone" href="#">
+        <a id="ia_dev_milestone-down" class="button dev_milestone" href="#">
             Down
         </a>
     </span>
@@ -25,27 +25,27 @@
     <div class="button-group-vertical" id="filter_repo">
         <ul>
             <li>
-                <a id="all_repo" class="row repo" href="#">
+                <a id="ia_repo-all" class="row repo" href="#">
                     All Types
                 </a>
             </li>
             <li>
-                <a id="goodies" class="row repo" href="#">
+                <a id="ia_repo-goodies" class="row repo" href="#">
                     Goodies
                 </a>
             </li>
             <li>
-                <a id="spice" class="row repo" href="#">
+                <a id="ia_repo-spice" class="row repo" href="#">
                     Spice
                 </a>
             </li>
             <li>
-                <a id="fathead" class="row repo" href="#">
+                <a id="ia_repo-fathead" class="row repo" href="#">
                     Fathead
                 </a>
             </li>
             <li>
-                <a id="longtail" class="row repo" href="#">
+                <a id="ia_repo-longtail" class="row repo" href="#">
                     Longtail
                 </a>
             </li>
@@ -55,13 +55,13 @@
     <div id="filter_topic" class="button-group-vertical">
         <ul>
             <li>
-                <a id="all_topic" class="row topic" href="#">
+                <a id="ia_topic-all" class="row topic" href="#">
                     All Topics
                 </a>
             </li>
             <: for $topic_list -> $topic { :>
                 <li>
-                    <a id="<: $topic.name :>" class="row topic" href="#">
+                    <a id="ia_topic-<: $topic.id :>" class="row topic" href="#">
                         <: $topic.name :>
                     </a>
                 </li>

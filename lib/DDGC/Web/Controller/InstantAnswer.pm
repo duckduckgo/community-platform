@@ -33,7 +33,7 @@ sub index :Chained('base') :PathPart('') :Args() {
     my @topics = $rs->search(
         {},
         {
-            columns => [ qw/ name /],
+            columns => [ qw/ name id /],
             result_class => 'DBIx::Class::ResultClass::HashRefInflator',
         }
     )->all;
