@@ -14,7 +14,8 @@ module.exports = function(grunt) {
         'removelogging',
         'uglify:js',
         'remove:dev',
-        'version:release'
+        'version:release',
+        'gitcommit'
     ];
 
     // commit files for release
@@ -72,12 +73,6 @@ module.exports = function(grunt) {
             release: {
                 options: {
                     release: 'minor'
-                },
-                src: ['package.json']
-            },
-            revert: {
-                options: {
-                    revert: 'minor'
                 },
                 src: ['package.json']
             }
@@ -147,15 +142,6 @@ module.exports = function(grunt) {
                     static_dir + 'js/ddgc.js',
                     static_dir + 'css/ddgc.css',
                     static_dir + 'css/ia.css'
-                ]
-            },
-            release: {
-                trace: true,
-                fileList: [ 
-                    static_dir + 'js/ddgc<%= pkg.version -1 %=>.js',
-                    static_dir + 'js/is<%= pkg.version  -1 %=>.js',
-                    static_dir + 'css/ddgc<%= pkg.version -1 %=>.css',
-                    static_dir + 'css/ia<%= pkg.version -1 %=>.css'
                 ]
             }
         },
@@ -254,7 +240,7 @@ module.exports = function(grunt) {
         // default task runs build
         grunt.registerTask('default', build_tasks);
 
-        grunt.registerTask('revert', ['exec:revert', 'remove:release']);
+        grunt.registerTask('revert', ['exec:revert']);
         
         // add modules here
         grunt.loadNpmTasks('grunt-contrib-concat');
