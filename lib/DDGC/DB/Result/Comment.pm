@@ -128,7 +128,7 @@ before insert => sub {
 
 after insert => sub {
 	my ( $self ) = @_;
-	$self->user->add_context_notification('replies',$self);
+	$self->ddgc->subscriptions->generate_events( 'comment', $self );
 };
 
 after update => sub {
