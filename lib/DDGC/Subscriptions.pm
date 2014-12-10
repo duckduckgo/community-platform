@@ -1,4 +1,4 @@
-package DDGC::User::Subscriptions;
+package DDGC::Subscriptions;
 # ABSTRACT: Describes notification types users can subscribe to.
 
 use Moose;
@@ -21,7 +21,7 @@ sub _build_categories {
 	my $subs = $self->subscriptions;
 	my $cats;
 	for my $sub (keys $subs) {
-		push @{ $cats->{ $subs->{ $sub }->category }, $sub }
+		push @{ $cats->{ $subs->{ $sub }->category } }, $sub;
 	}
 	return $cats;
 }
@@ -131,32 +131,36 @@ sub at_mention {
 
 sub rs_name {
 	my ( $self, $rs ) = @_;
-	return ( ref $rs =~ /ResultSet::(.*)/ ) ? $1 : undef;
+	return ( ref $rs =~ /Result(?:Set)?::(.*)/ ) ? $1 : undef;
 }
 
 # Generate event for a single result with users_id and instance info.
 sub event_simple {
-	my ( $self, $subcription_id, $rs ) = @_;
-	my @ids = $self->rs_ids($rs);
-	my $result = $rs->first;
+	my ( $self, $subcription_id, $r ) = @_;
+	my @ids = $self->rs_ids($r);
+	my $result = ( ref $r =~ /ResultSet/ ) ? $r->first : $r;
 	$self->ddgc->rs('Event')->create( {
 		subscription_id => $subcription_id,
 		users_id        => $result->users_id,
-		object          => $self->rs_name( $rs ),
+		object          => $self->rs_name( $r ),
 		object_ids      => \@ids,
 	});
 }
 
 sub rs_ids {
-	my ( $self, $rs ) = @_;
-	return $rs->get_column(qw/ id /)->all;
+	my ( $self, $r ) = @_;
+	if ( ref $r =~ /ResultSet/ ) {
+		return $r->get_column(qw/ id /)->all;
+	}
+	return $r->id;
 }
 
 # New Event table entries
 #   - type      - matches a subscription 'applies_to' clause
-#   - is        - ResultSet of object(s) linked in the notification
+#   - rs        - Result(Set) of object(s) linked in the notification
 sub generate_events {
 	my ( $self, $type, $rs ) = @_;
+	
 	my $subs = $self->subscriptions;
 
 	for my $sub (keys $subs) {
@@ -170,4 +174,3 @@ sub generate_events {
 }
 
 1;
-

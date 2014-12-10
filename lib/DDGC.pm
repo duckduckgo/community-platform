@@ -658,6 +658,7 @@ has subscriptions => (
     is => 'ro',
     lazy_build => 1,
 );
+
 sub _build_subscriptions { DDGC::Subscriptions->new( ddgc => shift ) }
 
 #
