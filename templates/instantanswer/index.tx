@@ -1,14 +1,55 @@
-<h2>Instant Answers</h2>
-
-<p>Showing all Instant Answers 
-   <: if ($field && $value) { :>  
-       with <: $field :>: 
-       <span class="idx_filter">
-           <: $value :> 
-       </span> 
-   <: } :>
-</p>
-
-
-<div id="ia_index" field="<: $field :>" value="<: $value :>">
+<div id="ia_index_header">
+    <h2 class="left">Instant Answers</h2>
+    <div id="clear_filters" class="button right hide">
+        Clear Filters
+    </div>
+    <span class="clearfix"></span>
 </div>
+
+<div id="ia_index" class="left">
+</div>
+
+<div id="filters" class="right">
+    <span class="button-group" id="filter_dev_milestone">
+        <a id="all_dev_milestone" class="button dev_milestone" href="#">
+            All
+        </a>
+        <a id="live" class="button dev_milestone" href="#">
+            Live
+        </a>
+        <a id="down" class="button dev_milestone" href="#">
+            Down
+        </a>
+    </span>
+
+    <div class="button-group-vertical" id="filter_repo">
+        <ul>
+            <li>
+                <a id="all_repo" class="row repo" href="#">
+                    All Types
+                </a>
+            </li>
+            <li>
+                <a id="goodies" class="row repo" href="#">
+                    Goodies
+                </a>
+            </li>
+            <li>
+                <a id="spice" class="row repo" href="#">
+                    Spice
+                </a>
+            </li>
+            <li>
+                <a id="fathead" class="row repo" href="#">
+                    Fathead
+                </a>
+            </li>
+            <li>
+                <a id="longtail" class="row repo" href="#">
+                    Longtail
+                </a>
+            </li>
+    </div>
+</div>
+
+<span class="clearfix"></span>

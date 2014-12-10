@@ -28,6 +28,44 @@
 .clearfix {
 	clear: both;
 }
+#ia_index {
+    width: 70%;
+}
+#filters {
+    width: 30%;
+    text-align: center;
+    position: fixed;
+    margin-left: 45em;
+}
+#ia_index #ia_list .topic {
+    margin-left: 0.25em;
+}
+#ia_index_header {
+    padding-bottom: 0.5em;
+    margin-bottom: 0.5em;
+    border-bottom: 1px solid #ddd;
+}
+#filters .button-group-vertical {
+   width: 50%;
+   margin: 1em auto 0 auto;
+   border: 1px solid #babec9;
+   border-radius: 3px;
+   -moz-border-radius: 3px;
+   -o-border-radius: 3px;
+   -webkit-border-radius: 3px;
+   text-align: left;
+} 
+#filters .button-group-vertical ul {
+    margin-bottom: 0;
+}
+#filters .button-group-vertical ul li {
+    padding: 0.4em;
+    border-bottom: 1px solid #babec9;
+    list-style: none;
+}
+#filters .button-group-vertical ul li:last-child {
+    border-bottom: 0;
+}
 .ia-single .screens {
 	margin-top: 2em;
 	margin-bottom: 2em;
@@ -62,6 +100,7 @@
     line-height: 0.8;
     font-weight: bold;
 }
+#ia_index #ia_list li,
 .ia-single ul li.editpage,
 #ia_commit li {
     list-style: none;
