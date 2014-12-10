@@ -79,7 +79,7 @@ module.exports = function(grunt) {
                 dest: static_dir + 'css/ia.css'
             },
             ddgc_css: {
-                src: [ddgc_dir + 'css/*.css', '!'+ddgc_dir + 'css/duckduckhack-intro.css'],
+                src: ddgc_dir + 'css/*.css',
                 dest: static_dir + 'css/ddgc.css'
             }
         },
@@ -173,6 +173,9 @@ module.exports = function(grunt) {
             }
         },
 
+        /*
+         * not used yet
+         */
         compass: {
             dist: {
                 options: {
@@ -183,7 +186,7 @@ module.exports = function(grunt) {
                         cssDir: 'src/ddgc/css'
                     }
                 }
-            }
+            } 
         },
 
         /*
