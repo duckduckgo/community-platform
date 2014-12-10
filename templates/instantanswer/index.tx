@@ -59,6 +59,13 @@
                     All Topics
                 </a>
             </li>
+            <: for $topic_list -> $topic { :>
+                <li>
+                    <a id="<: $topic.name :>" class="row topic" href="#">
+                        <: $topic.name :>
+                    </a>
+                </li>
+            <: } :>
         </ul>
     </div>
 
