@@ -11,10 +11,10 @@ module.exports = function(grunt) {
         'build',
         'cssmin:ddgc_css',
         'cssmin:ia_css',
-        'version:release',
         'removelogging',
         'uglify:js',
-        'remove',
+        'remove:dev',
+        'version:release'
     ];
 
     // commit files for release
@@ -50,6 +50,21 @@ module.exports = function(grunt) {
         templates_dir: templates_dir,
         release_tasks: release_tasks,
 
+        availabletasks: {
+            tasks: {
+                options: {
+                    filter: 'exclude',
+                    tasks: ['compass', 'diff'], // not using this yet
+                    groups: {
+                        'Build:' : ['handlebars', 'concat'],
+                        'Release:' : ['handlebars', 'concat', 'cssmin', 'removelogging', 'uglify', 'remove:dev', 'version'],
+                        'Commit:' : ['gitcommit'],
+                        'Revert:' : ['remove:release', 'version:revert']
+                    }
+                }
+            }
+        },
+
         /*
          * increases the version number in package.json
          */
@@ -57,6 +72,12 @@ module.exports = function(grunt) {
             release: {
                 options: {
                     release: 'minor'
+                },
+                src: ['package.json']
+            },
+            revert: {
+                options: {
+                    revert: 'minor'
                 },
                 src: ['package.json']
             }
@@ -118,7 +139,7 @@ module.exports = function(grunt) {
          * removes dev versions of JS and CSS files
          */
         remove: {
-            default_options: {
+            dev: {
                 trace: true,
                 fileList: [ 
                     static_dir + 'js/ia.js', 
@@ -126,6 +147,15 @@ module.exports = function(grunt) {
                     static_dir + 'js/ddgc.js',
                     static_dir + 'css/ddgc.css',
                     static_dir + 'css/ia.css'
+                ]
+            },
+            release: {
+                trace: true,
+                fileList: [ 
+                    static_dir + 'js/ddgc<%= pkg.version -1 %=>.js',
+                    static_dir + 'js/is<%= pkg.version  -1 %=>.js',
+                    static_dir + 'css/ddgc<%= pkg.version -1 %=>.css',
+                    static_dir + 'css/ia<%= pkg.version -1 %=>.css'
                 ]
             }
         },
@@ -199,23 +229,33 @@ module.exports = function(grunt) {
             ia_css: {
                 files: {'root/static/css/ia<%= pkg.version %>.css' : 'src/ia/css/*.css'}
             }
+        },
+
+        /*
+         * revert the version number in package.json
+         */
+        exec: {
+            revert: "./script/revert_pkg_version.pl"
         }
+
     });
 
         // check diff on ia.js.  Diff runs rest
         // of release process if the file has changed
-        grunt.registerTask('release', release_tasks);
+        grunt.registerTask('release', 'same as build but creates versioned JS and CSS files', release_tasks);
 
         // compile handlebars and concat js files
         // to ia.js
-        grunt.registerTask('build', build_tasks);
+        grunt.registerTask('build', 'compiles templates, builds JS and CSS files', build_tasks);
 
         // commit files to the repo for release
-        grunt.registerTask('commit', commit_tasks);
+        grunt.registerTask('commit', 'commit the versioned files to the repo, still needs to be manually pushed', commit_tasks);
  
         // default task runs build
         grunt.registerTask('default', build_tasks);
 
+        grunt.registerTask('revert', ['exec:revert', 'remove:release']);
+        
         // add modules here
         grunt.loadNpmTasks('grunt-contrib-concat');
         grunt.loadNpmTasks('grunt-contrib-handlebars');
@@ -228,5 +268,5 @@ module.exports = function(grunt) {
         grunt.loadNpmTasks('grunt-contrib-compass');
         grunt.loadNpmTasks('grunt-contrib-cssmin');
         grunt.loadNpmTasks('grunt-exec');
-
+        grunt.loadNpmTasks('grunt-available-tasks');
 }
