@@ -238,9 +238,10 @@
     text-overflow: ellipsis;
 }
 .ia-item {
-    margin-bottom: 0.7em;
+    padding-bottom: 0.5em;
+    padding-top: 0.5em;
+    border-bottom: 1px solid #DBDBDB;
 }
-
 .ia-item--header {
     margin: 0;
     font-size: 1.3em;
@@ -252,17 +253,58 @@
 
 .ia-item--stamp {
     display: inline-block;
-    border: 1px solid #EF8373;
+    border: 1px solid #777;
     text-align: center;
     width: 25px;
     vertical-align: top;
     font-size: 1.1em;
     margin-right: 0.5em;
-    color: #EF8373;
+    color: #777;
     
     position: relative;
     top: 8px;
 }
+
+.ia-item--stamp::before {
+    content: "N";
+}
+
+.ia-item--stamp.stamp--goodies::before {
+    content: "G";
+}
+
+.stamp--goodies {
+    border: 1px solid #EF8373;
+    color: #EF8373;
+}
+
+.ia-item--stamp.stamp--spice::before {
+    content: "S";
+}
+
+.stamp--spice {
+    border: 1px solid #50AF5E;
+    color: #50AF5E;
+}
+
+.ia-item--stamp.stamp--fathead::before {
+    content: "F";
+}
+
+.stamp--fathead {
+    border: 1px solid #2E7BB3;
+    color: #2E7BB3;
+}
+
+.ia-item--stamp.stamp--longtail::before {
+    content: "L";
+}
+
+.stamp--longtail {
+    border: 1px solid #81869A;
+    color: #81869A;
+}
+
 
 .ia-item--details {
     display: inline-block;
