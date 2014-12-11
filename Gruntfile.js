@@ -225,10 +225,16 @@ module.exports = function(grunt) {
         },
 
         jshint: {
-            files: ia_page_js,
             options: {
-                force: true
-            }
+                force: true,
+                curly: true,
+                eqnull: true,
+                browser: true,
+                '-W038': false,
+                '-W004': false,
+                '-W014': false
+            },
+            files: ia_page_js
         }
 
     });
