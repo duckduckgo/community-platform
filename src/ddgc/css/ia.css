@@ -268,5 +268,8 @@
 .ia-item--details--bottom {
     height: 1.5em;
     color: #777;
+}
+
+.ia-item--details--bottom::first-letter {
     text-transform: capitalize;
 }
