@@ -20,11 +20,26 @@
             var ind = this;
             var url = "/ia/json";
             var $list_item;
+            var $clear_filters;
             
             $.getJSON(url, function(x) { 
                 ind.ia_list = x;
                 ind.sort('name');
                 $list_item = $("#ia_list .ia-list_item");
+                $clear_filters = $("#clear_filters");
+            });
+
+            $("body").on("click", "#clear_filters", function(evt) {
+                $(this).addClass("hide");
+                ind.selected_filter.dev_milestone = "";
+                ind.selected_filter.repo = "";
+                ind.selected_filter.topic = "";
+                ind.selected_filter.template = "";
+
+                $(".is-selected").removeClass("is-selected");
+                $("#ia_dev_milestone-all, #ia_repo-all, #ia_topic-all, #ia_template-all").addClass("is-selected");
+
+                ind.filter($list_item);
             });
 
             $("body").on("click", ".button-group .button, .button-group-vertical .row", function(evt) {
@@ -38,6 +53,10 @@
 
                     $parent.find(".is-selected").removeClass("is-selected");
                     $(this).addClass("is-selected");
+
+                    if ($clear_filters.hasClass("hide")) {
+                        $clear_filters.removeClass("hide");
+                    }
                 }
 
                 ind.selected_filter.dev_milestone = "." + $("#filter_dev_milestone .is-selected").attr("id");
