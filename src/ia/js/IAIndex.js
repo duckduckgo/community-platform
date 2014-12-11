@@ -8,44 +8,94 @@
 
         sort_field: '',
         sort_asc: 1,    // sort ascending
+        selected_filter: {
+            dev_milestone: '',
+            repo: '',
+            topic: '',
+            template: ''
+        },
 
         init: function() {
             console.log("IAIndex init()");
             var ind = this;
-            var field = $("#ia_index").attr("field");
-            var value = $("#ia_index").attr("value");
             var url = "/ia/json";
+            var $list_item;
+            var $clear_filters;
             
-            if (field && value) {
-               $(".breadcrumbs").append(field + ': <span class="idx_filter">' + value + '</span>');
-
-               if (field !== "topic") {
-                  url += "/" + field + "/" + value;
-               }
-            }
-
-            $("#sort_name").on('click',   DDH.IAIndex.prototype.sort.bind(this, 'name'));
-            $("#sort_descr").on('click',  DDH.IAIndex.prototype.sort.bind(this, 'description'));
-            $("#sort_status").on('click', DDH.IAIndex.prototype.sort.bind(this, 'dev_milestone'));
-            $("#sort_repo").on('click',   DDH.IAIndex.prototype.sort.bind(this, 'repo'));
-
-            $.getJSON(url, function(x) {
-                if (field == "topic") {
-                    var topics;
-                    var new_x = [];
-                    for (var i = 0; i < x.length; i++) {
-                        topics = x[i].topic;
-                        if ($.inArray(value, topics) !== -1) {
-                            new_x.push(x[i]);
-                        }
-                    }
-
-                    x = new_x;
-                }
-
+            $.getJSON(url, function(x) { 
                 ind.ia_list = x;
                 ind.sort('name');
+                $list_item = $("#ia-list .ia-item");
+                $clear_filters = $("#clear_filters");
             });
+
+            $("body").on("click", "#clear_filters", function(evt) {
+                $(this).addClass("hide");
+                ind.selected_filter.dev_milestone = "";
+                ind.selected_filter.repo = "";
+                ind.selected_filter.topic = "";
+                ind.selected_filter.template = "";
+
+                $(".is-selected").removeClass("is-selected");
+                $("#ia_dev_milestone-all, #ia_repo-all, #ia_topic-all, #ia_template-all").addClass("is-selected");
+
+                ind.filter($list_item);
+            });
+
+            $("body").on("click", ".button-group .button, .button-group-vertical .row", function(evt) {
+                if (!$(this).hasClass("is-selected")) {
+                    var $parent;
+                    if ($(this).hasClass("row")) {
+                        $parent = $(this).parent().parent();
+                    } else {
+                        $parent = $(this).parent();
+                    }
+
+                    $parent.find(".is-selected").removeClass("is-selected");
+                    $(this).addClass("is-selected");
+
+                    if ($clear_filters.hasClass("hide")) {
+                        $clear_filters.removeClass("hide");
+                    }
+                }
+
+                ind.selected_filter.dev_milestone = "." + $("#filter_dev_milestone .is-selected").attr("id");
+                ind.selected_filter.repo = "." + $("#filter_repo .is-selected").attr("id");
+                ind.selected_filter.topic = "." + $("#filter_topic .is-selected").attr("id");
+                ind.selected_filter.template = "." + $("#filter_template .is-selected").attr("id");
+
+                if (ind.selected_filter.dev_milestone === ".ia_dev_milestone-all") {
+                    ind.selected_filter.dev_milestone = "";
+                }
+
+                if (ind.selected_filter.repo === ".ia_repo-all") {
+                    ind.selected_filter.repo = "";
+                }
+
+                if (ind.selected_filter.topic === ".ia_topic-all") {
+                    ind.selected_filter.topic = "";
+                }
+
+                if (ind.selected_filter.template === ".ia_template-all") {
+                    ind.selected_filter.template = "";
+                }
+
+                ind.filter($list_item);
+            });
+        },
+
+        filter: function($obj) {
+            var repo = this.selected_filter.repo;
+            var dev_milestone = this.selected_filter.dev_milestone;
+            var topic = this.selected_filter.topic;
+            var template = this.selected_filter.template;
+
+            if (!repo.length && !topic.length && !dev_milestone.length && !template.length) {
+                $obj.show();
+            } else {
+                $obj.hide();                
+                $obj.children(dev_milestone + repo + topic + template).parent().show();
+            }
         },
 
         sort: function(what) {

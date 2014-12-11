@@ -11,7 +11,7 @@
 
 <div id="filters" class="right">
     <span class="button-group" id="filter_dev_milestone">
-        <a id="ia_dev_milestone-all" class="button dev_milestone" href="#">
+        <a id="ia_dev_milestone-all" class="button dev_milestone is-selected" href="#">
             All
         </a>
         <a id="ia_dev_milestone-live" class="button dev_milestone" href="#">
@@ -25,7 +25,7 @@
     <div class="button-group-vertical" id="filter_repo">
         <ul>
             <li>
-                <a id="ia_repo-all" class="row repo" href="#">
+                <a id="ia_repo-all" class="row repo is-selected" href="#">
                     All Types
                 </a>
             </li>
@@ -55,7 +55,7 @@
     <div id="filter_topic" class="button-group-vertical">
         <ul>
             <li>
-                <a id="ia_topic-all" class="row topic" href="#">
+                <a id="ia_topic-all" class="row topic is-selected" href="#">
                     All Topics
                 </a>
             </li>
@@ -72,8 +72,38 @@
     <div id="filter_template" class="button-group-vertical">
         <ul>
             <li>
-                <a id="all_template" class="row template" href="#">
+                <a id="ia_template-all" class="row template is-selected" href="#">
                     All Templates
+                </a>
+            </li>
+            <li>
+                <a id="ia_template-base" class="row template" href="#">
+                    Base
+                </a>
+            </li>
+            <li>
+                <a id="ia_template-icon" class="row template" href="#">
+                    Icon
+                </a>
+            </li>
+            <li>
+                <a id="ia_template-info" class="row template" href="#">
+                    Info
+                </a>
+            </li>
+            <li>
+                <a id="ia_template-media" class="row template" href="#">
+                    Media
+                </a>
+            </li>
+            <li>
+                <a id="ia_template-products" class="row template" href="#">
+                    Products
+                </a>
+            </li>
+            <li>
+                <a id="ia_template-text" class="row template" href="#">
+                    Text
                 </a>
             </li>
         </ul>
