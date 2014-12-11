@@ -33,21 +33,25 @@
                 <a id="ia_repo-goodies" class="row repo" href="#">
                     Goodies
                 </a>
+                <div class="circle ia-repo ia-repo--goodies"></div>
             </li>
             <li>
                 <a id="ia_repo-spice" class="row repo" href="#">
                     Spice
                 </a>
+                <div class="circle ia-repo ia-repo--spice"></div>
             </li>
             <li>
                 <a id="ia_repo-fathead" class="row repo" href="#">
                     Fathead
                 </a>
+                <div class="circle ia-repo ia-repo--fathead"></div>
             </li>
             <li>
                 <a id="ia_repo-longtail" class="row repo" href="#">
                     Longtail
                 </a>
+                <div class="circle ia-repo ia-repo--longtail"></div>
             </li>
         </ul>
     </div>

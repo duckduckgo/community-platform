@@ -362,3 +362,36 @@
 #filter_template ul li:first-child {
      background-color: #F2F2F2;   
 }
+
+#filter_repo li {
+    overflow: auto;
+}
+
+#filter_repo .repo {
+    float: left;
+}
+
+.ia-repo {
+    float: right;
+    border: 2px solid #777;
+    width: 12px;
+    height: 12px;
+    position: relative;
+    top: 2px;
+}
+
+.ia-repo--goodies {
+    border-color: #EF8373;
+}
+
+.ia-repo--spice {
+    border-color: #50AF5E;
+}
+
+.ia-repo--fathead {
+    border-color: #2E7BB3;
+}
+
+.ia-repo--longtail {
+    border-color: #81869A;
+}
