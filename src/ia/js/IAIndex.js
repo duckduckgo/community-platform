@@ -28,7 +28,7 @@
             $.getJSON(url, function(x) { 
                 ind.ia_list = x;
                 ind.sort('name');
-                $list_item = $("#ia_list .ia-list_item");
+                $list_item = $("#ia-list .ia-item");
                 $clear_filters = $("#clear_filters");
                 $right_pane_div = $("#filter_template");
                 right_pane_top = $right_pane_div.offset().top;
@@ -58,10 +58,17 @@
                 $(".is-selected").removeClass("is-selected");
                 $("#ia_dev_milestone-all, #ia_repo-all, #ia_topic-all, #ia_template-all").addClass("is-selected");
 
+                $(".button-group-vertical").find(".ia-repo").removeClass("fill");
                 ind.filter($list_item);
             });
 
             $("body").on("click", ".button-group .button, .button-group-vertical .row", function(evt) {
+                
+                if($(this).hasClass("row")) {
+                    $(this).parent().parent().find(".ia-repo").removeClass("fill");
+                    $(this).parent().find(".ia-repo").addClass("fill");
+                }
+
                 if (!$(this).hasClass("is-selected")) {
                     var $parent;
                     if ($(this).hasClass("row")) {

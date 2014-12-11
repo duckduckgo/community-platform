@@ -1,15 +1,23 @@
-<ul id="ia_list" class="ia-list">
-    {{#each ia}}
-        <li class="ia-list_item">
-            <div class="ia_dev_milestone-{{dev_milestone}} ia_repo-{{repo}} ia_template-{{template}} {{#each instant_answer_topics}} ia_topic-{{this.topic.id}} {{/each}}">
-                <h3 class="left"><a href="/ia/view/{{id}}">{{name}}</a></h3>
-                {{#each instant_answer_topics}}
-                    <div class="topic right">
-                        {{this.topic.name}}
-                    </div>
-                {{/each}}
-                <p class="clearfix">{{description}}</p>
-            </div>
-        </li>
-    {{/each}}
+<ul id="ia-list">
+  {{#each ia}}
+    <li class="ia-item">
+      <div class="ia_dev_milestone-{{dev_milestone}} ia_repo-{{repo}} ia_template-{{template}} {{#each instant_answer_topics}} ia_topic-{{this.topic.id}} {{/each}}">
+        
+        <div class="ia-item--stamp circle stamp--{{repo}}"></div>
+        
+        <div class="ia-item--details">
+          <div class="ia-item--details--top">
+            <h3 class="left ia-item--header"><a href="/ia/view/{{id}}">{{name}}</a></h3>
+            {{#each instant_answer_topics}}
+              <div class="topic right btn--wire">
+                {{this.topic.name}}
+              </div>
+            {{/each}}
+          </div>
+          <div class="ia-item--details--bottom one-line">{{description}}</div>
+        </div>
+        
+      </div>
+    </li>
+  {{/each}}
 </ul>
