@@ -232,7 +232,6 @@
     -o-text-overflow: ellipsis;
     text-overflow: ellipsis;
 }
-
 .ia-item {
     margin-bottom: 0.7em;
 }
@@ -246,7 +245,7 @@
     border: 1px solid black;
     text-align: center;
     width: 28px;
-    vertical-align: text-bottom;
+    vertical-align: top;
     font-size: 1.3em;
     margin-right: 0.5em;
 }
@@ -256,4 +255,10 @@
     width: 93%;
 }
 
+.ia-item--details--top {
+    overflow: auto;
+}
 
+.ia-item--details--bottom {
+    height: 1.5em;
+}
