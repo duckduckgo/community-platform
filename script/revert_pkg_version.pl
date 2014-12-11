@@ -25,3 +25,5 @@ path("root/static/css/ia0.$version.0.css")->remove;
 path("root/static/css/ddgc0.$version.0.css")->remove;
 path("root/static/js/ia0.$version.0.js")->remove;
 path("root/static/js/ddgc0.$version.0.js")->remove;
+
+print qq(Reverting to version: 0.$version.0);

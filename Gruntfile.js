@@ -14,13 +14,12 @@ module.exports = function(grunt) {
         'removelogging',
         'uglify:js',
         'remove:dev',
-        'version:release',
-        'gitcommit'
+        'bump:minor',
     ];
 
     // commit files for release
     var commit_tasks = [
-        'gitcommit:ia_pages'
+        'gitcommit'
     ];
 
     // tasks that run when building
@@ -169,10 +168,10 @@ module.exports = function(grunt) {
                 },
                 files: {
                     src: [ 
-                        static_dir + 'js/ia<%= pkg.version %>.js', 
-                        static_dir + 'js/ddgc<%= pkg.version %>.js', 
-                        static_dir + 'css/ddgc<%= pkg.version %>.css',
-                        static_dir + 'css/ia<%= pkg.version %>.css',
+                        static_dir + 'js/ia0.*.0.js', 
+                        static_dir + 'js/ddgc0.*.0.js', 
+                        static_dir + 'css/ddgc0.*.0.css',
+                        static_dir + 'css/ia0.*.0.css',
                         'package.json',  
                     ]
                 }
@@ -222,6 +221,18 @@ module.exports = function(grunt) {
          */
         exec: {
             revert: "./script/revert_pkg_version.pl"
+        },
+
+        /*
+         *
+         */
+        bump: {
+            options: {
+                files: ['package.json'],
+                commit: false,
+                createTag: false,
+                push: false,
+            }
         }
 
     });
@@ -255,4 +266,5 @@ module.exports = function(grunt) {
         grunt.loadNpmTasks('grunt-contrib-cssmin');
         grunt.loadNpmTasks('grunt-exec');
         grunt.loadNpmTasks('grunt-available-tasks');
+        grunt.loadNpmTasks('grunt-bump');
 }
