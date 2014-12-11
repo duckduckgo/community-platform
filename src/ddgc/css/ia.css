@@ -42,6 +42,10 @@
 }
 #ia_index #ia-list .topic {
     margin-left: 0.25em;
+    padding-left: 0.3em;
+    padding-right: 0.3em;
+    font-size: 0.9em;
+    font-weight: 300;
 }
 #ia_index_header {
     padding-bottom: 0.5em;
@@ -291,7 +295,4 @@
 
     padding-left: 0.3em;
     padding-right: 0.3em;
-    font-weight: 300;
-
-    text-transform: capitalize;
 }
