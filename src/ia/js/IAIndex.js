@@ -19,10 +19,12 @@
             console.log("IAIndex init()");
             var ind = this;
             var url = "/ia/json";
+            var $list_item;
             
             $.getJSON(url, function(x) { 
                 ind.ia_list = x;
                 ind.sort('name');
+                $list_item = $("#ia_list .ia-list_item");
             });
 
             $("body").on("click", ".button-group .button, .button-group-vertical .row", function(evt) {
@@ -59,24 +61,21 @@
                     ind.selected_filter.template = "";
                 }
 
-                ind.filter();
+                ind.filter($list_item);
             });
         },
 
-        filter: function() {
+        filter: function($obj) {
             var repo = this.selected_filter.repo;
             var dev_milestone = this.selected_filter.dev_milestone;
             var topic = this.selected_filter.topic;
             var template = this.selected_filter.template;
 
             if (!repo.length && !topic.length && !dev_milestone.length && !template.length) {
-                $("#ia_index #ia_list li div").show();
-                $("#ia_index #ia_list li div").children().show();
+                $obj.show();
             } else {
-                $("#ia_index #ia_list li div").hide();
-                
-                $("#ia_index #ia_list li div" + dev_milestone + repo + topic + template).show();
-                $("#ia_index #ia_list li div" + dev_milestone + repo + topic + template).children().show();
+                $obj.hide();                
+                $obj.children(dev_milestone + repo + topic + template).parent().show();
             }
         },
 
