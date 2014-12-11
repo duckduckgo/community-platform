@@ -21,7 +21,7 @@
             var url = "/ia/json";
             var $list_item;
             var $clear_filters;
-            var $right_pane;
+            var $right_pane_div;
             var right_pane_top;
             var window_top;
             
@@ -30,20 +30,20 @@
                 ind.sort('name');
                 $list_item = $("#ia_list .ia-list_item");
                 $clear_filters = $("#clear_filters");
-                $right_pane = $("#filters");
-                right_pane_top = $("#filter_template").offset().top;
+                $right_pane_div = $("#filter_template");
+                right_pane_top = $right_pane_div.offset().top;
             });
 
             $(window).scroll(function(evt) {
                 var window_top = $(window).scrollTop();
 
                 if (right_pane_top < window_top) {
-                    if (!$("#filter_template").hasClass("is-fixed")) {
-                        $("#filter_template").addClass("is-fixed");
+                    if (!$right_pane_div.hasClass("is-fixed")) {
+                        $right_pane_div.addClass("is-fixed");
                     }
                } else {
-                    if ($("#filter_template").hasClass("is-fixed")) {
-                        $("#filter_template").removeClass("is-fixed");
+                    if ($right_pane_div.hasClass("is-fixed")) {
+                        $right_pane_div.removeClass("is-fixed");
                     }
                 }
             });
