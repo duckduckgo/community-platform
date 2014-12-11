@@ -131,7 +131,8 @@ sub at_mention {
 
 sub rs_name {
 	my ( $self, $rs ) = @_;
-	return ( ref $rs =~ /Result(?:Set)?::(.*)/ ) ? $1 : undef;
+	my $ref = ref $rs;
+	return ( $ref =~ /Result(?:Set)?::(.*)/ ) ? $1 : undef;
 }
 
 # Generate event for a single result with users_id and instance info.
