@@ -276,3 +276,20 @@
 .ia-item--details--bottom::first-letter {
     text-transform: capitalize;
 }
+
+.btn--wire {
+    -webkit-border-radius: 9px;
+    -moz-border-radius: 9px;
+    -ms-border-radius: 9px;
+    -o-border-radius: 9px;
+    border-radius: 9px;
+    background: none;
+    background-color: transparent;
+    font-weight: normal;
+    border: 1px solid #ccc;
+    color: #aaa;
+
+    padding-left: 0.3em;
+    padding-right: 0.3em;
+    font-weight: 300;
+}
