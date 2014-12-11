@@ -50,7 +50,6 @@
 }
 #ia_index_header {
     padding-bottom: 0.5em;
-    margin-bottom: 0.5em;
     border-bottom: 1px solid #ddd;
 }
 #filters .button-group-vertical {
@@ -237,11 +236,17 @@
     -o-text-overflow: ellipsis;
     text-overflow: ellipsis;
 }
+
 .ia-item {
     padding-bottom: 0.5em;
     padding-top: 0.7em;
     border-bottom: 1px solid #DBDBDB;
 }
+
+.ia-item:hover {
+    background-color: #F2F7FA;
+}
+
 .ia-item--header {
     margin: 0;
     font-size: 1.3em;
