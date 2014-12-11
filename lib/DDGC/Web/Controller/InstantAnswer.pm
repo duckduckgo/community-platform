@@ -383,6 +383,48 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
     return $c->forward($c->view('JSON'));
 }
 
+# Return a hash with the latest edits for the given IA
+sub current_ia {
+    my ($ia) = @_;
+
+    my $edits = get_edits($c->d, $ia->name);
+
+    my @name = $edits->{'name'};
+    my @desc = $edits->{'description'};
+    my @status = $edits->{'status'};
+    my @topic = $edits->{'topic'};
+    my @example_query = $edits->{'example_query'};
+    my @other_queries = $edits->{'other_queries'};
+    my %x;
+
+    if (ref $edits eq 'HASH') {
+        my $topic_val = $topic[0][@topic]{'value'};
+        my $other_q_val = $other_queries[0][@other_queries]{'value'};
+        my $other_q_edited = $other_q_val? 1 : undef;
+
+        # Other queries can be empty,
+        # but the handlebars {{#if}} evaluates to false
+        # for both null and empty values,
+        # so instead of the value, we check other_queries.edited
+        # to see if this field was edited
+        my %other_q = (
+            edited => $other_q_edited,
+            value => $other_q_val? decode_json($other_q_val) : undef
+        );
+
+        %x = (
+            name => $name[0][@name]{'value'},
+            description => $desc[0][@desc]{'value'},
+            status => $status[0][@status]{'value'},
+            topic => $topic_val? decode_json($topic_val) : undef,
+            example_query => $example_query[0][@example_query]{'value'},
+            other_queries => \%other_q
+        );
+    }
+
+    return \%x;
+}
+
 # given result set, field, and value. Add a new hash
 # to the updates array
 # return the updated array to add to the database
