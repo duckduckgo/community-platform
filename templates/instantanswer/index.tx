@@ -76,6 +76,36 @@
                     All Templates
                 </a>
             </li>
+            <li>
+                <a id="ia_template-base" class="row template" href="#">
+                    Base
+                </a>
+            </li>
+            <li>
+                <a id="ia_template-icon" class="row template" href="#">
+                    Icon
+                </a>
+            </li>
+            <li>
+                <a id="ia_template-info" class="row template" href="#">
+                    Info
+                </a>
+            </li>
+            <li>
+                <a id="ia_template-media" class="row template" href="#">
+                    Media
+                </a>
+            </li>
+            <li>
+                <a id="ia_template-products" class="row template" href="#">
+                    Products
+                </a>
+            </li>
+            <li>
+                <a id="ia_template-text" class="row template" href="#">
+                    Text
+                </a>
+            </li>
         </ul>
     </div>
 </div>
