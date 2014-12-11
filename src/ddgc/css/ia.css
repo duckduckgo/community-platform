@@ -242,13 +242,13 @@
 
 .ia-item--stamp {
     display: inline-block;
-    border: 1px solid #f0624d;
+    border: 1px solid #EF8373;
     text-align: center;
     width: 28px;
     vertical-align: top;
     font-size: 1.3em;
     margin-right: 0.5em;
-    color: #f0624d;
+    color: #EF8373;
 }
 
 .ia-item--details {
