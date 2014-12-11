@@ -46,6 +46,7 @@
     padding-right: 0.3em;
     font-size: 0.9em;
     font-weight: 300;
+    text-transform: capitalize;
 }
 #ia_index_header {
     padding-bottom: 0.5em;
@@ -292,7 +293,4 @@
     font-weight: normal;
     border: 1px solid #ccc;
     color: #aaa;
-
-    padding-left: 0.3em;
-    padding-right: 0.3em;
 }
