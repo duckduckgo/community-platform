@@ -292,4 +292,6 @@
     padding-left: 0.3em;
     padding-right: 0.3em;
     font-weight: 300;
+
+    text-transform: capitalize;
 }
