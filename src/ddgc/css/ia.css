@@ -34,12 +34,19 @@
 #filters {
     width: 25%;
     text-align: center;
+    position: static;
+    top: 0;
+    margin-top: 1em;
+}
+#filters .is-fixed {
     position: fixed;
     margin-left: 45em;
     overflow-y: scroll;
     overflow-x: hidden;
     max-height: 30em;
     margin-top: 1em;
+    top: 0;
+    width: 17.5% !important;
 }
 #ia_index #ia-list .topic {
     margin-left: 0.25em;
@@ -54,7 +61,6 @@
     border-bottom: 1px solid #ddd;
 }
 #filters .button-group-vertical {
-   width: 50%;
    margin: 1em auto 0 auto;
    border: 1px solid #babec9;
    border-radius: 3px;

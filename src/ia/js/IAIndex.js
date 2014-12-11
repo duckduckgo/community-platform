@@ -21,12 +21,31 @@
             var url = "/ia/json";
             var $list_item;
             var $clear_filters;
+            var $right_pane_div;
+            var right_pane_top;
+            var window_top;
             
             $.getJSON(url, function(x) { 
                 ind.ia_list = x;
                 ind.sort('name');
                 $list_item = $("#ia-list .ia-item");
                 $clear_filters = $("#clear_filters");
+                $right_pane_div = $("#filter_template");
+                right_pane_top = $right_pane_div.offset().top;
+            });
+
+            $(window).scroll(function(evt) {
+                var window_top = $(window).scrollTop();
+
+                if (right_pane_top < window_top) {
+                    if (!$right_pane_div.hasClass("is-fixed")) {
+                        $right_pane_div.addClass("is-fixed");
+                    }
+               } else {
+                    if ($right_pane_div.hasClass("is-fixed")) {
+                        $right_pane_div.removeClass("is-fixed");
+                    }
+                }
             });
 
             $("body").on("click", "#clear_filters", function(evt) {
