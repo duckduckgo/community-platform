@@ -27,6 +27,7 @@ module.exports = function(grunt) {
         'handlebars:compile',
         'compass',
         'concat',
+        'jshint'
     ];
 
     var ia_page_js = [
@@ -62,18 +63,6 @@ module.exports = function(grunt) {
                         'Revert:' : ['exec:revert']
                     }
                 }
-            }
-        },
-
-        /*
-         * increases the version number in package.json
-         */
-        version: {
-            release: {
-                options: {
-                    release: 'minor'
-                },
-                src: ['package.json']
             }
         },
 
@@ -224,7 +213,7 @@ module.exports = function(grunt) {
         },
 
         /*
-         *
+         * bumps the version number in package.json
          */
         bump: {
             options: {
@@ -232,6 +221,13 @@ module.exports = function(grunt) {
                 commit: false,
                 createTag: false,
                 push: false,
+            }
+        },
+
+        jshint: {
+            files: ia_page_js,
+            options: {
+                force: true
             }
         }
 
@@ -256,7 +252,6 @@ module.exports = function(grunt) {
         // add modules here
         grunt.loadNpmTasks('grunt-contrib-concat');
         grunt.loadNpmTasks('grunt-contrib-handlebars');
-        grunt.loadNpmTasks('grunt-version');
         grunt.loadNpmTasks('grunt-contrib-uglify');
         grunt.loadNpmTasks('grunt-diff');
         grunt.loadNpmTasks('grunt-remove');
@@ -267,4 +262,5 @@ module.exports = function(grunt) {
         grunt.loadNpmTasks('grunt-exec');
         grunt.loadNpmTasks('grunt-available-tasks');
         grunt.loadNpmTasks('grunt-bump');
+        grunt.loadNpmTasks('grunt-contrib-jshint');
 }
