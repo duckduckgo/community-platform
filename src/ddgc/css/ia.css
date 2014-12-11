@@ -268,4 +268,5 @@
 .ia-item--details--bottom {
     height: 1.5em;
     color: #777;
+    text-transform: capitalize;
 }
