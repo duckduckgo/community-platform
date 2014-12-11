@@ -225,10 +225,27 @@
     text-transform: capitalize;
 }
 
+.ia-item {
+    margin-bottom: 0.7em;
+}
+
+.ia-item--header {
+    margin: 0;
+}
+
 .ia-item--stamp {
     display: inline-block;
+    border: 1px solid black;
+    text-align: center;
+    width: 28px;
+    vertical-align: text-bottom;
+    font-size: 1.3em;
+    margin-right: 0.5em;
 }
 
 .ia-item--details {
     display: inline-block;
+    width: 93%;
 }
+
+

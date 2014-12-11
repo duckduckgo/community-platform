@@ -6,13 +6,13 @@
         <div class="ia-item--stamp circle">G</div>
         
         <div class="ia-item--details">
-          <h3 class="left"><a href="/ia/view/{{id}}">{{name}}</a></h3>
+          <h3 class="left ia-item--header"><a href="/ia/view/{{id}}">{{name}}</a></h3>
           {{#each instant_answer_topics}}
             <div class="topic right">
               {{this.topic.name}}
             </div>
           {{/each}}
-          <p class="clearfix">{{description}}</p>
+          <div class="clearfix">{{description}}</div>
         </div>
         
       </div>
