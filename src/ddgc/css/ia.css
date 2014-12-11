@@ -384,14 +384,30 @@
     border-color: #EF8373;
 }
 
+.ia-repo--goodies.fill {
+    background-color: #EF8373;
+}
+
 .ia-repo--spice {
     border-color: #50AF5E;
+}
+
+.ia-repo--spice.fill {
+    background-color: #50AF5E;
 }
 
 .ia-repo--fathead {
     border-color: #2E7BB3;
 }
 
+.ia-repo--fathead.fill {
+    background-color: #2E7BB3;
+}
+
 .ia-repo--longtail {
     border-color: #81869A;
+}
+
+.ia-repo--longtail.fill {
+    background-color: #81869A;
 }
