@@ -53,7 +53,6 @@
     padding-left: 0.3em;
     padding-right: 0.3em;
     font-size: 0.9em;
-    font-weight: 300;
     text-transform: capitalize;
 }
 #ia_index_header {
@@ -268,6 +267,7 @@
     border: 1px solid #777;
     text-align: center;
     width: 25px;
+    height: 25px;
     vertical-align: top;
     font-size: 1.1em;
     margin-right: 0.5em;
