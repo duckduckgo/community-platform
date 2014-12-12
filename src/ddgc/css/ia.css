@@ -38,15 +38,13 @@
     top: 0;
     margin-top: 1em;
 }
-#filters ul li {
+#filters ul li,
+#filters .dropdown .dropdown_header {
     cursor: pointer;
 }
 #filters .is-fixed {
     position: fixed;
     margin-left: 45em;
-    overflow-y: scroll;
-    overflow-x: hidden;
-    max-height: 30em;
     margin-top: 1em;
     top: 0;
     width: 17.5% !important;
@@ -369,7 +367,8 @@
     background-color: #F2F2F2;
 }
 
-#filter_topic a {
+#filter_topic a,
+#filters .dropdown .dropdown_header span {
     color: #646464;
     text-transform: capitalize;
 }
