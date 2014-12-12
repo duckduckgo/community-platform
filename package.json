@@ -1,6 +1,6 @@
 {
   "name": "ddg_community_platform",
-  "version": "0.41.0",
+  "version": "0.42.0",
   "engines": {
     "node": ">=0.10.0"
   },
@@ -9,7 +9,9 @@
     "grunt-contrib-compass": "^1.0.1",
     "grunt-contrib-concat": "0.4.0",
     "grunt-contrib-copy": "^0.7.0",
+    "grunt-contrib-cssmin": "^0.10.0",
     "grunt-contrib-handlebars": "0.8.0",
+    "grunt-contrib-jshint": "^0.10.0",
     "grunt-contrib-uglify": "0.4.0",
     "grunt-copy": "^0.1.0",
     "grunt-diff": "^0.1.5",
