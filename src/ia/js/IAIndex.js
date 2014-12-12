@@ -73,7 +73,8 @@
                 ind.selected_filter.template = "";
 
                 $(".is-selected").removeClass("is-selected");
-                $("#ia_dev_milestone-all, #ia_repo-all, #ia_topic-all, #ia_template-all").parent().addClass("is-selected");
+                $("#ia_dev_milestone-all").addClass("is-selected");
+                $("#ia_repo-all, #ia_topic-all, #ia_template-all").parent().addClass("is-selected");
 
                 $(".button-group-vertical").find(".ia-repo").removeClass("fill");
                 ind.filter($list_item);
