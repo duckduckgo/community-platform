@@ -442,6 +442,7 @@ body.texture {
 
 .ia-index--left {
     width: 70%;
+    border-right: 1px solid #ddd;
 }
 
 #ia_index_header {
@@ -472,4 +473,8 @@ body.texture {
 
 #filter_topic .is-selected {
     background-color: #F2F2F2;
+}
+
+.ia-index-container {
+    width: 97%;
 }
