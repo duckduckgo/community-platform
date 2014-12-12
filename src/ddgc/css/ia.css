@@ -29,7 +29,7 @@
 	clear: both;
 }
 #ia_index {
-    width: 70%;
+    width: 100%;
 }
 #filters {
     width: 25%;
@@ -55,6 +55,12 @@
     padding-right: 0.3em;
     font-size: 0.9em;
     text-transform: capitalize;
+
+    -webkit-border-radius: 9px;
+    -moz-border-radius: 9px;
+    -ms-border-radius: 9px;
+    -o-border-radius: 9px;
+    border-radius: 9px;
 }
 #ia_index_header {
     padding-bottom: 0.5em;
@@ -254,7 +260,7 @@
 }
 
 .ia-item:hover {
-    background-color: #F2F7FA;
+    background-color: #F7F7F7;
 }
 
 .ia-item--header {
@@ -341,11 +347,11 @@
  }
 
  .btn--wire {
-     -webkit-border-radius: 9px;
-     -moz-border-radius: 9px;
-     -ms-border-radius: 9px;
-     -o-border-radius: 9px;
-     border-radius: 9px;
+     -webkit-border-radius: 2px;
+     -moz-border-radius: 2px;
+     -ms-border-radius: 2px;
+     -o-border-radius: 2px;
+     border-radius: 2px;
      background: none;
      background-color: transparent;
      font-weight: normal;
@@ -367,17 +373,9 @@
     text-transform: capitalize;
 }
 
-#filter_topic ul li:first-child {
-    background-color: #F2F2F2;
-}
-
 #filter_template a {
     color: #646464;
     text-transform: capitalize;
-}
-
-#filter_template ul li:first-child {
-     background-color: #F2F2F2;   
 }
 
 #filter_repo li {
@@ -427,4 +425,55 @@
 
 .ia-repo--longtail.fill {
     background-color: #81869A;
+}
+
+body.texture {
+    background: transparent;
+}
+
+.dropdown_header {
+    background-color: #F2F2F2;
+}
+
+#clear_filters {
+    margin-top: 1em;
+}
+
+.ia-index--left {
+    width: 70%;
+    border-right: 1px solid #ddd;
+}
+
+#ia_index_header {
+    overflow: auto;
+}
+
+.ia_index_header--right {
+    position: relative;
+    top: 6px;
+}
+
+.ia_index_header--right a {
+    margin-left: 0.7em;
+    color: #474747;
+}
+
+#clear_filters {
+    color: #474747;
+}
+
+#sort-updated {
+    color: #BDBDBD;
+}
+
+#filter_template .is-selected {
+    background-color: #F2F2F2;
+}
+
+#filter_topic .is-selected {
+    background-color: #F2F2F2;
+}
+
+.ia-index-container {
+    width: 97%;
 }

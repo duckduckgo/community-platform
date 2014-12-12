@@ -27,7 +27,10 @@
             var window_top;
             var $dropdown_header;
             
+            $(".breadcrumb-nav").remove();
+
             $.getJSON(url, function(x) { 
+                $("#ia_index_header h2").text(x.length + " Instant Answers");
                 ind.ia_list = x;
                 ind.sort('name');
                 $list_item = $("#ia-list .ia-item");
@@ -191,7 +194,6 @@
             $("#sort_descr").on('click',  DDH.IAIndex.prototype.sort.bind(this, 'description'));
             $("#sort_status").on('click', DDH.IAIndex.prototype.sort.bind(this, 'dev_milestone'));
             $("#sort_repo").on('click',   DDH.IAIndex.prototype.sort.bind(this, 'repo'));
-
         }
 
     };
