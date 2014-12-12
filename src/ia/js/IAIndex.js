@@ -23,15 +23,40 @@
             var $clear_filters;
             var $right_pane_div;
             var right_pane_top;
+            var right_pane_top_start;
+            var $right_pane;
             var window_top;
+            var $dropdown_header;
             
+            $(".breadcrumb-nav").remove();
+
             $.getJSON(url, function(x) { 
+                $("#ia_index_header h2").text(x.length + " Instant Answers");
                 ind.ia_list = x;
                 ind.sort('name');
                 $list_item = $("#ia-list .ia-item");
                 $clear_filters = $("#clear_filters");
+                $right_pane = $("#filters");
                 $right_pane_div = $("#filter_template");
                 right_pane_top = $right_pane_div.offset().top;
+                right_pane_top_start = right_pane_top;
+                $dropdown_header = $right_pane.children(".dropdown").children(".dropdown_header");
+            });
+
+            $("body").on("click", "#filters .dropdown .dropdown_header", function(evt) {
+                var $list = $(this).parent().children("ul");
+                if ($list.hasClass("hide")) {
+                    $right_pane.children(".dropdown").children("ul").addClass("hide");
+                    $list.removeClass("hide");
+                } else {
+                    $list.addClass("hide");
+                }
+                
+                if ($(this).parent().attr("id") === "filter_topic") {
+                    right_pane_top = $right_pane_div.offset().top;
+                } else {
+                    right_pane_top = right_pane_top_start;
+                }
             });
 
             $(window).scroll(function(evt) {
@@ -55,58 +80,65 @@
                 ind.selected_filter.topic = "";
                 ind.selected_filter.template = "";
 
+                $dropdown_header.each(function(idx) {
+                    var text = $(this).parent().children("ul").children("li:first-child").text();
+                    $(this).children("span").text(text.trim());
+                });
+
                 $(".is-selected").removeClass("is-selected");
-                $("#ia_dev_milestone-all, #ia_repo-all, #ia_topic-all, #ia_template-all").addClass("is-selected");
+                $("#ia_dev_milestone-all").addClass("is-selected");
+                $("#ia_repo-all, #ia_topic-all, #ia_template-all").parent().addClass("is-selected");
 
                 $(".button-group-vertical").find(".ia-repo").removeClass("fill");
                 ind.filter($list_item);
             });
 
             $("body").on("click", ".button-group .button, .button-group-vertical .row", function(evt) {
-                
-                if($(this).hasClass("row")) {
-                    $(this).parent().parent().find(".ia-repo").removeClass("fill");
-                    $(this).parent().find(".ia-repo").addClass("fill");
-                }
-
-                if (!$(this).hasClass("is-selected")) {
-                    var $parent;
-                    if ($(this).hasClass("row")) {
-                        $parent = $(this).parent().parent();
-                    } else {
-                        $parent = $(this).parent();
+                if (!$(this).hasClass("disabled")) { 
+                    if($(this).hasClass("row")) {
+                        $(this).parent().find(".ia-repo").removeClass("fill");
+                        $(this).find(".ia-repo").addClass("fill");
                     }
 
-                    $parent.find(".is-selected").removeClass("is-selected");
-                    $(this).addClass("is-selected");
+                    if (!$(this).hasClass("is-selected")) {
+                        var $parent = $(this).parent();
 
-                    if ($clear_filters.hasClass("hide")) {
-                        $clear_filters.removeClass("hide");
+                        $parent.find(".is-selected").removeClass("is-selected");
+                        $(this).addClass("is-selected");
+
+                        if ($clear_filters.hasClass("hide")) {
+                            $clear_filters.removeClass("hide");
+                        }
+
+
+                        if ($parent.parent().hasClass("dropdown")) {
+                            $parent.parent().children(".dropdown_header").children("span").text($(this).text().trim());
+                        }
                     }
+
+                    ind.selected_filter.dev_milestone = "." + $("#filter_dev_milestone .is-selected").attr("id");
+                    ind.selected_filter.repo = "." + $("#filter_repo .is-selected a").attr("id");
+                    ind.selected_filter.topic = "." + $("#filter_topic .is-selected a").attr("id");
+                    ind.selected_filter.template = "." + $("#filter_template .is-selected a").attr("id");
+
+                    if (ind.selected_filter.dev_milestone === ".ia_dev_milestone-all") {
+                        ind.selected_filter.dev_milestone = "";
+                    }
+
+                    if (ind.selected_filter.repo === ".ia_repo-all") {
+                        ind.selected_filter.repo = "";
+                    }
+
+                    if (ind.selected_filter.topic === ".ia_topic-all") {
+                        ind.selected_filter.topic = "";
+                    }
+
+                    if (ind.selected_filter.template === ".ia_template-all") {
+                        ind.selected_filter.template = "";
+                    }
+
+                    ind.filter($list_item);
                 }
-
-                ind.selected_filter.dev_milestone = "." + $("#filter_dev_milestone .is-selected").attr("id");
-                ind.selected_filter.repo = "." + $("#filter_repo .is-selected").attr("id");
-                ind.selected_filter.topic = "." + $("#filter_topic .is-selected").attr("id");
-                ind.selected_filter.template = "." + $("#filter_template .is-selected").attr("id");
-
-                if (ind.selected_filter.dev_milestone === ".ia_dev_milestone-all") {
-                    ind.selected_filter.dev_milestone = "";
-                }
-
-                if (ind.selected_filter.repo === ".ia_repo-all") {
-                    ind.selected_filter.repo = "";
-                }
-
-                if (ind.selected_filter.topic === ".ia_topic-all") {
-                    ind.selected_filter.topic = "";
-                }
-
-                if (ind.selected_filter.template === ".ia_template-all") {
-                    ind.selected_filter.template = "";
-                }
-
-                ind.filter($list_item);
             });
         },
 
@@ -170,7 +202,6 @@
             $("#sort_descr").on('click',  DDH.IAIndex.prototype.sort.bind(this, 'description'));
             $("#sort_status").on('click', DDH.IAIndex.prototype.sort.bind(this, 'dev_milestone'));
             $("#sort_repo").on('click',   DDH.IAIndex.prototype.sort.bind(this, 'repo'));
-
         }
 
     };

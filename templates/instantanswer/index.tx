@@ -1,54 +1,59 @@
-<div id="ia_index_header">
-    <h2 class="left">Instant Answers</h2>
-    <div id="clear_filters" class="button right hide">
-        Clear Filters
-    </div>
-    <span class="clearfix"></span>
-</div>
 
-<div id="ia_index" class="left">
+<div class="left ia-index--left">
+  <div class="ia-index-container">
+    <div id="ia_index_header">
+      <h2 class="left">Instant Answers</h2>
+      <div class="hide right ia_index_header--right">
+        <a href="#" id="sort-alphabetical">Alphabetical</a>
+        <a href="#" id="sort-updated">Last Updated</a>
+      </div>
+    </div>
+    
+    <div id="ia_index" class="left">
+    </div>
+  </div>
 </div>
 
 <div id="filters" class="right">
-    <span class="button-group" id="filter_dev_milestone">
-        <a id="ia_dev_milestone-all" class="button dev_milestone is-selected" href="#">
+    <span class="hide button-group" id="filter_dev_milestone">
+        <a id="ia_dev_milestone-all" class="button dev_milestone is-selected disabled" href="#">
             All
         </a>
-        <a id="ia_dev_milestone-live" class="button dev_milestone" href="#">
+        <a id="ia_dev_milestone-live" class="button dev_milestone disabled" href="#">
             Live
         </a>
-        <a id="ia_dev_milestone-down" class="button dev_milestone" href="#">
+        <a id="ia_dev_milestone-down" class="button dev_milestone disabled" href="#">
             Down
         </a>
     </span>
 
     <div class="button-group-vertical" id="filter_repo">
         <ul>
-            <li>
-                <a id="ia_repo-all" class="row repo is-selected" href="#">
+            <li class="row is-selected">
+                <a id="ia_repo-all" class="repo" href="#">
                     All Types
                 </a>
             </li>
-            <li>
-                <a id="ia_repo-goodies" class="row repo" href="#">
+            <li class="row">
+                <a id="ia_repo-goodies" class="repo" href="#">
                     Goodies
                 </a>
                 <div class="circle ia-repo ia-repo--goodies"></div>
             </li>
-            <li>
-                <a id="ia_repo-spice" class="row repo" href="#">
+            <li class="row">
+                <a id="ia_repo-spice" class="repo" href="#">
                     Spice
                 </a>
                 <div class="circle ia-repo ia-repo--spice"></div>
             </li>
-            <li>
-                <a id="ia_repo-fathead" class="row repo" href="#">
+            <li class="row">
+                <a id="ia_repo-fathead" class="repo" href="#">
                     Fathead
                 </a>
                 <div class="circle ia-repo ia-repo--fathead"></div>
             </li>
-            <li>
-                <a id="ia_repo-longtail" class="row repo" href="#">
+            <li class="row">
+                <a id="ia_repo-longtail" class="repo" href="#">
                     Longtail
                 </a>
                 <div class="circle ia-repo ia-repo--longtail"></div>
@@ -56,16 +61,19 @@
         </ul>
     </div>
 
-    <div id="filter_topic" class="button-group-vertical">
-        <ul>
-            <li>
-                <a id="ia_topic-all" class="row topic is-selected" href="#">
+    <div id="filter_topic" class="button-group-vertical dropdown">
+        <div class="dropdown_header">
+            <span>All Topics</span> <i class="right">▼</i>
+        </div>
+        <ul class="clearfix hide">
+            <li class="row is-selected">
+                <a id="ia_topic-all" class="topic" href="#">
                     All Topics
                 </a>
             </li>
             <: for $topic_list -> $topic { :>
-                <li>
-                    <a id="ia_topic-<: $topic.id :>" class="row topic" href="#">
+                <li class="row">
+                    <a id="ia_topic-<: $topic.id :>" class="topic" href="#">
                         <: $topic.name :>
                     </a>
                 </li>
@@ -73,44 +81,51 @@
         </ul>
     </div>
 
-    <div id="filter_template" class="button-group-vertical">
-        <ul>
-            <li>
-                <a id="ia_template-all" class="row template is-selected" href="#">
+    <div id="filter_template" class="button-group-vertical dropdown">
+        <div class="dropdown_header">
+            <span>All Templates</span> <i class="right">▼</i>
+        </div>
+        <ul class="clearfix hide">
+            <li class="row is-selected">
+                <a id="ia_template-all" class="template" href="#">
                     All Templates
                 </a>
             </li>
-            <li>
-                <a id="ia_template-base" class="row template" href="#">
+            <li class="row">
+                <a id="ia_template-base" class="template" href="#">
                     Base
                 </a>
             </li>
-            <li>
-                <a id="ia_template-icon" class="row template" href="#">
+            <li class="row">
+                <a id="ia_template-icon" class="template" href="#">
                     Icon
                 </a>
             </li>
-            <li>
-                <a id="ia_template-info" class="row template" href="#">
+            <li class="row">
+                <a id="ia_template-info" class="template" href="#">
                     Info
                 </a>
             </li>
-            <li>
-                <a id="ia_template-media" class="row template" href="#">
+            <li class="row">
+                <a id="ia_template-media" class="template" href="#">
                     Media
                 </a>
             </li>
-            <li>
-                <a id="ia_template-products" class="row template" href="#">
+            <li class="row">
+                <a id="ia_template-products" class="template" href="#">
                     Products
                 </a>
             </li>
-            <li>
-                <a id="ia_template-text" class="row template" href="#">
+            <li class="row">
+                <a id="ia_template-text" class="template" href="#">
                     Text
                 </a>
             </li>
         </ul>
+    </div>
+
+    <div id="clear_filters" class="btn--wire hide">
+        Clear Filters
     </div>
 </div>
 
