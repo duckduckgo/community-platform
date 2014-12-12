@@ -3,7 +3,7 @@
   <div class="ia-index-container">
     <div id="ia_index_header">
       <h2 class="left">Instant Answers</h2>
-      <div class="right ia_index_header--right">
+      <div class="hide right ia_index_header--right">
         <a href="#" id="sort-alphabetical">Alphabetical</a>
         <a href="#" id="sort-updated">Last Updated</a>
       </div>
@@ -15,7 +15,7 @@
 </div>
 
 <div id="filters" class="right">
-    <span class="button-group" id="filter_dev_milestone">
+    <span class="hide button-group" id="filter_dev_milestone">
         <a id="ia_dev_milestone-all" class="button dev_milestone is-selected disabled" href="#">
             All
         </a>
