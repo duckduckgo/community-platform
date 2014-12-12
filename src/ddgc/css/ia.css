@@ -29,7 +29,7 @@
 	clear: both;
 }
 #ia_index {
-    width: 70%;
+    width: 100%;
 }
 #filters {
     width: 25%;
@@ -438,4 +438,8 @@ body.texture {
 
 #clear_filters {
     margin-top: 1em;
+}
+
+.ia-index--left {
+    width: 70%;
 }
