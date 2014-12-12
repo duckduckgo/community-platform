@@ -429,3 +429,7 @@
 .ia-repo--longtail.fill {
     background-color: #81869A;
 }
+
+body.texture {
+    background: transparent;
+}
