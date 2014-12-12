@@ -36,7 +36,6 @@
     text-align: center;
     position: static;
     top: 0;
-    margin-top: 1em;
 }
 #filters ul li,
 #filters .dropdown .dropdown_header {
