@@ -56,8 +56,11 @@
         </ul>
     </div>
 
-    <div id="filter_topic" class="button-group-vertical">
-        <ul>
+    <div id="filter_topic" class="button-group-vertical dropdown">
+        <div class="dropdown_header">
+            <span>All Topics</span> <i class="right">▼</i>
+        </div>
+        <ul class="clearfix hide">
             <li class="row is-selected">
                 <a id="ia_topic-all" class="topic" href="#">
                     All Topics
@@ -73,8 +76,11 @@
         </ul>
     </div>
 
-    <div id="filter_template" class="button-group-vertical">
-        <ul>
+    <div id="filter_template" class="button-group-vertical dropdown">
+        <div class="dropdown_header">
+            <span>All Templates</span> <i class="right">▼</i>
+        </div>
+        <ul class="clearfix hide">
             <li class="row is-selected">
                 <a id="ia_template-all" class="template" href="#">
                     All Templates
