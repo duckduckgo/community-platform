@@ -11,13 +11,13 @@
 
 <div id="filters" class="right">
     <span class="button-group" id="filter_dev_milestone">
-        <a id="ia_dev_milestone-all" class="button dev_milestone is-selected" href="#">
+        <a id="ia_dev_milestone-all" class="button dev_milestone is-selected disabled" href="#">
             All
         </a>
-        <a id="ia_dev_milestone-live" class="button dev_milestone" href="#">
+        <a id="ia_dev_milestone-live" class="button dev_milestone disabled" href="#">
             Live
         </a>
-        <a id="ia_dev_milestone-down" class="button dev_milestone" href="#">
+        <a id="ia_dev_milestone-down" class="button dev_milestone disabled" href="#">
             Down
         </a>
     </span>
