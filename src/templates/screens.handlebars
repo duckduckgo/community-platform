@@ -1,11 +1,11 @@
 <div class="screens">
     {{#if example_query}}
         <div class="img_container open"><strong>Desktop</strong> <div class="button arrow"><span>&#x25B4;</span></div> </br>
-            <img class="desktop" src="https://images.duckduckgo.com/iu/?u=https://ia-screenshots.s3.amazonaws.com/{{id}}_desktop.png">
+            <img class="desktop" src="https://images.duckduckgo.com/iu/?u={{encodeURIComponent 'https://ia-screenshots.s3.amazonaws.com/'}}{{id}}_desktop.png&f=1">
         </div>
 
         <div class="img_container"><strong>Mobile</strong> <div class="button arrow"><span>&#x25BE;</span></div> </br>
-            <img class="mobile hide" src="https://images.duckduckgo.com/iu/?u=https://ia-screenshots.s3.amazonaws.com/{{id}}_mobile.png">
+            <img class="mobile hide" src="https://images.duckduckgo.com/iu/?u={{encodeURIComponent 'https://ia-screenshots.s3.amazonaws.com/'}}{{id}}_mobile.png&f=1">
         </div>
     {{/if}}
 </div>
