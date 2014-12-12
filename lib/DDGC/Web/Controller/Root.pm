@@ -215,7 +215,7 @@ sub redirect_duckco :Chained('base') :PathPart('topic') :Args(1) {
 sub redir :Chained('base') :PathPart('redir') :Args(0) {
 	my ( $self, $c ) = @_;
 	$c->stash->{not_last_url} = 1;
-	$c->session->{r_url} = $c->req->param('u');
+	$c->session->{r_url} = url_decode_utf8($c->req->param('u'));
 	$c->session->{r_referer_validated} = (index($c->req->headers->referer, $c->req->base->as_string) == 0) ? 1 : 0;
 	$c->response->redirect($c->chained_uri('Root','r'));
 	return $c->detach;
@@ -239,16 +239,6 @@ sub index :Chained('base') :PathPart('') :Args(0) {
 	$c->stash->{no_breadcrumb} = 1;
 	$c->stash->{title} = 'Welcome to the DuckDuckGo Community Platform';
 	$c->stash->{page_class} = "page-home texture";
-}
-
-sub instant :Chained('base') :PathPart('instant') :Args(0) {
-	my ($self, $c) = @_;
-	$c->stash->{not_last_url} = 1;
-	$c->stash->{no_breadcrumb} = 1;
-	$c->stash->{title} = 'Instant Answers Start Here';
-	$c->stash->{page_class} = "page-instant texture";
-	$c->stash->{no_wrap} = 1;
-	$c->stash->{ddh_intro} = 1;
 }
 
 sub default :Chained('base') :PathPart('') :Args {
