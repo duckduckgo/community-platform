@@ -241,16 +241,6 @@ sub index :Chained('base') :PathPart('') :Args(0) {
 	$c->stash->{page_class} = "page-home texture";
 }
 
-sub instant :Chained('base') :PathPart('instant') :Args(0) {
-	my ($self, $c) = @_;
-	$c->stash->{not_last_url} = 1;
-	$c->stash->{no_breadcrumb} = 1;
-	$c->stash->{title} = 'Instant Answers Start Here';
-	$c->stash->{page_class} = "page-instant texture";
-	$c->stash->{no_wrap} = 1;
-	$c->stash->{ddh_intro} = 1;
-}
-
 sub default :Chained('base') :PathPart('') :Args {
 	my ( $self, $c ) = @_;
 	$c->stash->{not_last_url} = 1;
