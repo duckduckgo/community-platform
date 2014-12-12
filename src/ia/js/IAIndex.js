@@ -56,7 +56,7 @@
                 ind.selected_filter.template = "";
 
                 $(".is-selected").removeClass("is-selected");
-                $("#ia_dev_milestone-all, #ia_repo-all, #ia_topic-all, #ia_template-all").addClass("is-selected");
+                $("#ia_dev_milestone-all, #ia_repo-all, #ia_topic-all, #ia_template-all").parent().addClass("is-selected");
 
                 $(".button-group-vertical").find(".ia-repo").removeClass("fill");
                 ind.filter($list_item);
@@ -65,17 +65,12 @@
             $("body").on("click", ".button-group .button, .button-group-vertical .row", function(evt) {
                 if (!$(this).hasClass("disabled")) { 
                     if($(this).hasClass("row")) {
-                        $(this).parent().parent().find(".ia-repo").removeClass("fill");
-                        $(this).parent().find(".ia-repo").addClass("fill");
+                        $(this).parent().find(".ia-repo").removeClass("fill");
+                        $(this).find(".ia-repo").addClass("fill");
                     }
 
                     if (!$(this).hasClass("is-selected")) {
-                        var $parent;
-                        if ($(this).hasClass("row")) {
-                            $parent = $(this).parent().parent();
-                        } else {
-                            $parent = $(this).parent();
-                        }
+                        var $parent = $(this).parent();
 
                         $parent.find(".is-selected").removeClass("is-selected");
                         $(this).addClass("is-selected");
@@ -86,9 +81,9 @@
                     }
 
                     ind.selected_filter.dev_milestone = "." + $("#filter_dev_milestone .is-selected").attr("id");
-                    ind.selected_filter.repo = "." + $("#filter_repo .is-selected").attr("id");
-                    ind.selected_filter.topic = "." + $("#filter_topic .is-selected").attr("id");
-                    ind.selected_filter.template = "." + $("#filter_template .is-selected").attr("id");
+                    ind.selected_filter.repo = "." + $("#filter_repo .is-selected a").attr("id");
+                    ind.selected_filter.topic = "." + $("#filter_topic .is-selected a").attr("id");
+                    ind.selected_filter.template = "." + $("#filter_template .is-selected a").attr("id");
 
                     if (ind.selected_filter.dev_milestone === ".ia_dev_milestone-all") {
                         ind.selected_filter.dev_milestone = "";

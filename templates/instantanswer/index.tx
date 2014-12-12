@@ -24,31 +24,31 @@
 
     <div class="button-group-vertical" id="filter_repo">
         <ul>
-            <li>
-                <a id="ia_repo-all" class="row repo is-selected" href="#">
+            <li class="row is-selected">
+                <a id="ia_repo-all" class="repo" href="#">
                     All Types
                 </a>
             </li>
-            <li>
-                <a id="ia_repo-goodies" class="row repo" href="#">
+            <li class="row">
+                <a id="ia_repo-goodies" class="repo" href="#">
                     Goodies
                 </a>
                 <div class="circle ia-repo ia-repo--goodies"></div>
             </li>
-            <li>
-                <a id="ia_repo-spice" class="row repo" href="#">
+            <li class="row">
+                <a id="ia_repo-spice" class="repo" href="#">
                     Spice
                 </a>
                 <div class="circle ia-repo ia-repo--spice"></div>
             </li>
-            <li>
-                <a id="ia_repo-fathead" class="row repo" href="#">
+            <li class="row">
+                <a id="ia_repo-fathead" class="repo" href="#">
                     Fathead
                 </a>
                 <div class="circle ia-repo ia-repo--fathead"></div>
             </li>
-            <li>
-                <a id="ia_repo-longtail" class="row repo" href="#">
+            <li class="row">
+                <a id="ia_repo-longtail" class="repo" href="#">
                     Longtail
                 </a>
                 <div class="circle ia-repo ia-repo--longtail"></div>
@@ -58,14 +58,14 @@
 
     <div id="filter_topic" class="button-group-vertical">
         <ul>
-            <li>
-                <a id="ia_topic-all" class="row topic is-selected" href="#">
+            <li class="row is-selected">
+                <a id="ia_topic-all" class="topic" href="#">
                     All Topics
                 </a>
             </li>
             <: for $topic_list -> $topic { :>
-                <li>
-                    <a id="ia_topic-<: $topic.id :>" class="row topic" href="#">
+                <li class="row">
+                    <a id="ia_topic-<: $topic.id :>" class="topic" href="#">
                         <: $topic.name :>
                     </a>
                 </li>
@@ -75,38 +75,38 @@
 
     <div id="filter_template" class="button-group-vertical">
         <ul>
-            <li>
-                <a id="ia_template-all" class="row template is-selected" href="#">
+            <li class="row is-selected">
+                <a id="ia_template-all" class="template" href="#">
                     All Templates
                 </a>
             </li>
-            <li>
-                <a id="ia_template-base" class="row template" href="#">
+            <li class="row">
+                <a id="ia_template-base" class="template" href="#">
                     Base
                 </a>
             </li>
-            <li>
-                <a id="ia_template-icon" class="row template" href="#">
+            <li class="row">
+                <a id="ia_template-icon" class="template" href="#">
                     Icon
                 </a>
             </li>
-            <li>
-                <a id="ia_template-info" class="row template" href="#">
+            <li class="row">
+                <a id="ia_template-info" class="template" href="#">
                     Info
                 </a>
             </li>
-            <li>
-                <a id="ia_template-media" class="row template" href="#">
+            <li class="row">
+                <a id="ia_template-media" class="template" href="#">
                     Media
                 </a>
             </li>
-            <li>
-                <a id="ia_template-products" class="row template" href="#">
+            <li class="row">
+                <a id="ia_template-products" class="template" href="#">
                     Products
                 </a>
             </li>
-            <li>
-                <a id="ia_template-text" class="row template" href="#">
+            <li class="row">
+                <a id="ia_template-text" class="template" href="#">
                     Text
                 </a>
             </li>
