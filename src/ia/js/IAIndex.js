@@ -35,7 +35,7 @@
                 $right_pane = $("#filters");
                 $right_pane_div = $("#filter_template");
                 right_pane_top = $right_pane_div.offset().top;
-                $dropdown_header = $right_pane.children(".dropdown .dropdown_header");
+                $dropdown_header = $right_pane.children(".dropdown").children(".dropdown_header");
             });
 
             $("body").on("click", "#filters .dropdown .dropdown_header", function(evt) {
@@ -69,6 +69,11 @@
                 ind.selected_filter.topic = "";
                 ind.selected_filter.template = "";
 
+                $dropdown_header.each(function(idx) {
+                    var text = $(this).parent().children("ul").children("li:first-child").text();
+                    $(this).children("span").text(text.trim());
+                });
+
                 $(".is-selected").removeClass("is-selected");
                 $("#ia_dev_milestone-all").addClass("is-selected");
                 $("#ia_repo-all, #ia_topic-all, #ia_template-all").parent().addClass("is-selected");
@@ -92,6 +97,11 @@
 
                         if ($clear_filters.hasClass("hide")) {
                             $clear_filters.removeClass("hide");
+                        }
+
+
+                        if ($parent.parent().hasClass("dropdown")) {
+                            $parent.parent().children(".dropdown_header").children("span").text($(this).text().trim());
                         }
                     }
 
