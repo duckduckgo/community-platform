@@ -28,6 +28,17 @@ sub index :Chained('base') :PathPart('') :Args() {
         $c->stash->{value} = $value;
     }
 
+    my $rs = $c->d->rs('Topic');
+    
+    my @topics = $rs->search(
+        {},
+        {
+            columns => [ qw/ name id /],
+            result_class => 'DBIx::Class::ResultClass::HashRefInflator',
+        }
+    )->all;
+
+    $c->stash->{topic_list} = \@topics;
     $c->add_bc('Instant Answers', $c->chained_uri('InstantAnswer','index'));
 
     # @{$c->stash->{ialist}} = $c->d->rs('InstantAnswer')->all();

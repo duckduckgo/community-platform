@@ -28,6 +28,57 @@
 .clearfix {
 	clear: both;
 }
+#ia_index {
+    width: 70%;
+}
+#filters {
+    width: 25%;
+    text-align: center;
+    position: static;
+    top: 0;
+    margin-top: 1em;
+}
+#filters .is-fixed {
+    position: fixed;
+    margin-left: 45em;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    max-height: 30em;
+    margin-top: 1em;
+    top: 0;
+    width: 17.5% !important;
+}
+#ia_index #ia-list .topic {
+    margin-left: 0.25em;
+    padding-left: 0.3em;
+    padding-right: 0.3em;
+    font-size: 0.9em;
+    text-transform: capitalize;
+}
+#ia_index_header {
+    padding-bottom: 0.5em;
+    border-bottom: 1px solid #ddd;
+}
+#filters .button-group-vertical {
+   margin: 1em auto 0 auto;
+   border: 1px solid #babec9;
+   border-radius: 3px;
+   -moz-border-radius: 3px;
+   -o-border-radius: 3px;
+   -webkit-border-radius: 3px;
+   text-align: left;
+} 
+#filters .button-group-vertical ul {
+    margin-bottom: 0;
+}
+#filters .button-group-vertical ul li {
+    padding: 0.4em;
+    border-bottom: 1px solid #babec9;
+    list-style: none;
+}
+#filters .button-group-vertical ul li:last-child {
+    border-bottom: 0;
+}
 .ia-single .screens {
 	margin-top: 2em;
 	margin-bottom: 2em;
@@ -62,6 +113,7 @@
     line-height: 0.8;
     font-weight: bold;
 }
+#ia_index #ia-list li,
 .ia-single ul li.editpage,
 #ia_commit li {
     list-style: none;
@@ -181,4 +233,193 @@
 }
 .idx_filter {
     text-transform: capitalize;
+}
+
+.one-line {
+    white-space: nowrap;
+    overflow: hidden;
+    -ms-text-overflow: ellipsis;
+    -o-text-overflow: ellipsis;
+    text-overflow: ellipsis;
+}
+
+.ia-item {
+    padding-bottom: 0.5em;
+    padding-top: 0.7em;
+    border-bottom: 1px solid #DBDBDB;
+}
+
+.ia-item:hover {
+    background-color: #F2F7FA;
+}
+
+.ia-item--header {
+    margin: 0;
+    font-size: 1.3em;
+}
+
+.ia-item--header a {
+    color: #474747;
+}
+
+.ia-item--stamp {
+    display: inline-block;
+    border: 1px solid #777;
+    text-align: center;
+    width: 25px;
+    height: 25px;
+    vertical-align: top;
+    font-size: 1.1em;
+    margin-right: 0.5em;
+    color: #777;
+    
+    position: relative;
+    top: 8px;
+}
+
+.ia-item--stamp::before {
+    content: "N";
+}
+
+.ia-item--stamp.stamp--goodies::before {
+    content: "G";
+}
+
+.stamp--goodies {
+    border: 1px solid #EF8373;
+    color: #EF8373;
+}
+
+.ia-item--stamp.stamp--spice::before {
+    content: "S";
+}
+
+.stamp--spice {
+    border: 1px solid #50AF5E;
+    color: #50AF5E;
+}
+
+.ia-item--stamp.stamp--fathead::before {
+    content: "F";
+}
+
+.stamp--fathead {
+    border: 1px solid #2E7BB3;
+    color: #2E7BB3;
+}
+
+.ia-item--stamp.stamp--longtail::before {
+    content: "L";
+}
+
+.stamp--longtail {
+    border: 1px solid #81869A;
+    color: #81869A;
+ }
+
+
+ .ia-item--details {
+     display: inline-block;
+     width: 93%;
+ }
+
+ .ia-item--details--top {
+     overflow: auto;
+ }
+
+ .ia-item--details--bottom {
+     height: 1.5em;
+     color: #777;
+ }
+
+ .ia-item--details--bottom::first-letter {
+     text-transform: capitalize;
+ }
+
+ .btn--wire {
+     -webkit-border-radius: 9px;
+     -moz-border-radius: 9px;
+     -ms-border-radius: 9px;
+     -o-border-radius: 9px;
+     border-radius: 9px;
+     background: none;
+     background-color: transparent;
+     font-weight: normal;
+     border: 1px solid #ccc;
+     color: #aaa;
+ }
+
+#filter_repo a {
+     color: #646464;
+}
+
+#filter_repo ul li:first-child {
+    background-color: #F2F2F2;
+}
+
+#filter_topic a {
+    color: #646464;
+    text-transform: capitalize;
+}
+
+#filter_topic ul li:first-child {
+    background-color: #F2F2F2;
+}
+
+#filter_template a {
+    color: #646464;
+    text-transform: capitalize;
+}
+
+#filter_template ul li:first-child {
+     background-color: #F2F2F2;   
+}
+
+#filter_repo li {
+    overflow: auto;
+}
+
+#filter_repo .repo {
+    float: left;
+}
+
+.ia-repo {
+    float: right;
+    border: 2px solid #777;
+    width: 12px;
+    height: 12px;
+    position: relative;
+    top: 2px;
+}
+
+.ia-repo--goodies {
+    border-color: #EF8373;
+}
+
+.ia-repo--goodies.fill {
+    background-color: #EF8373;
+}
+
+.ia-repo--spice {
+    border-color: #50AF5E;
+}
+
+.ia-repo--spice.fill {
+    background-color: #50AF5E;
+}
+
+.ia-repo--fathead {
+    border-color: #2E7BB3;
+}
+
+.ia-repo--fathead.fill {
+    background-color: #2E7BB3;
+}
+
+.ia-repo--longtail {
+    border-color: #81869A;
+}
+
+.ia-repo--longtail.fill {
+    background-color: #81869A;
 }

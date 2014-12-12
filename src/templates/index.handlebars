@@ -1,69 +1,23 @@
-<table>
-
-<thead style="border-bottom: 1px solid #CCC">
-<tr>
-<td> </td>
-<td>
-    <a id="sort_name">name</a>
-</td>
-
-<td>
-    <a id="sort_descr">description</a>
-</td>
-<td>
-    <a id="sort_src">source</a>
-</td>
-<td>
-    <a id="sort_status">status</a>
-</td>
-<td>
-    topics
-</td>
-
-<td>
-    <a id="sort_repo">repo</a>
-</td>
-</tr>
-</thead>
-
-<tbody>
-
-
-
-{{#each ia}}
-<tr>
-
-    <td style="width:2em; text-align:right; padding-right:1em;">
-        {{@index}}
-    </td>
-
-    <td>
-        <a href="/ia/view/{{id}}">{{name}}</a>
-    </td>
-
-    <td>
-        {{description}}
-    </td>
-    <td class="ia_src_column">
-        {{src_name}}
-    </td>
-
-    <td style="padding-right: 1em">
-        {{dev_milestone}}
-    </td>
-
-    <td>
-        {{#each instant_answer_topics}} <span class="ia_topic">{{this.topic.name}}</span> {{/each}}
-    </td>
-
-
-    <td style="padding-right: 1em">
-        {{repo}}
-    </td>
-
-</tr>
-{{/each}}
-
-</tbody>
-
-</table>
+<ul id="ia-list">
+  {{#each ia}}
+    <li class="ia-item">
+      <div class="ia_dev_milestone-{{dev_milestone}} ia_repo-{{repo}} ia_template-{{template}} {{#each instant_answer_topics}} ia_topic-{{this.topic.id}} {{/each}}">
+        
+        <div class="ia-item--stamp circle stamp--{{repo}}"></div>
+        
+        <div class="ia-item--details">
+          <div class="ia-item--details--top">
+            <h3 class="left ia-item--header"><a href="/ia/view/{{id}}">{{name}}</a></h3>
+            {{#each instant_answer_topics}}
+              <div class="topic right btn--wire">
+                {{this.topic.name}}
+              </div>
+            {{/each}}
+          </div>
+          <div class="ia-item--details--bottom one-line">{{description}}</div>
+        </div>
+        
+      </div>
+    </li>
+  {{/each}}
+</ul>

@@ -1,14 +1,117 @@
-<h2>Instant Answers</h2>
-
-<p>Showing all Instant Answers 
-   <: if ($field && $value) { :>  
-       with <: $field :>: 
-       <span class="idx_filter">
-           <: $value :> 
-       </span> 
-   <: } :>
-</p>
-
-
-<div id="ia_index" field="<: $field :>" value="<: $value :>">
+<div id="ia_index_header">
+    <h2 class="left">Instant Answers</h2>
+    <div id="clear_filters" class="button right hide">
+        Clear Filters
+    </div>
+    <span class="clearfix"></span>
 </div>
+
+<div id="ia_index" class="left">
+</div>
+
+<div id="filters" class="right">
+    <span class="button-group" id="filter_dev_milestone">
+        <a id="ia_dev_milestone-all" class="button dev_milestone is-selected" href="#">
+            All
+        </a>
+        <a id="ia_dev_milestone-live" class="button dev_milestone" href="#">
+            Live
+        </a>
+        <a id="ia_dev_milestone-down" class="button dev_milestone" href="#">
+            Down
+        </a>
+    </span>
+
+    <div class="button-group-vertical" id="filter_repo">
+        <ul>
+            <li>
+                <a id="ia_repo-all" class="row repo is-selected" href="#">
+                    All Types
+                </a>
+            </li>
+            <li>
+                <a id="ia_repo-goodies" class="row repo" href="#">
+                    Goodies
+                </a>
+                <div class="circle ia-repo ia-repo--goodies"></div>
+            </li>
+            <li>
+                <a id="ia_repo-spice" class="row repo" href="#">
+                    Spice
+                </a>
+                <div class="circle ia-repo ia-repo--spice"></div>
+            </li>
+            <li>
+                <a id="ia_repo-fathead" class="row repo" href="#">
+                    Fathead
+                </a>
+                <div class="circle ia-repo ia-repo--fathead"></div>
+            </li>
+            <li>
+                <a id="ia_repo-longtail" class="row repo" href="#">
+                    Longtail
+                </a>
+                <div class="circle ia-repo ia-repo--longtail"></div>
+            </li>
+        </ul>
+    </div>
+
+    <div id="filter_topic" class="button-group-vertical">
+        <ul>
+            <li>
+                <a id="ia_topic-all" class="row topic is-selected" href="#">
+                    All Topics
+                </a>
+            </li>
+            <: for $topic_list -> $topic { :>
+                <li>
+                    <a id="ia_topic-<: $topic.id :>" class="row topic" href="#">
+                        <: $topic.name :>
+                    </a>
+                </li>
+            <: } :>
+        </ul>
+    </div>
+
+    <div id="filter_template" class="button-group-vertical">
+        <ul>
+            <li>
+                <a id="ia_template-all" class="row template is-selected" href="#">
+                    All Templates
+                </a>
+            </li>
+            <li>
+                <a id="ia_template-base" class="row template" href="#">
+                    Base
+                </a>
+            </li>
+            <li>
+                <a id="ia_template-icon" class="row template" href="#">
+                    Icon
+                </a>
+            </li>
+            <li>
+                <a id="ia_template-info" class="row template" href="#">
+                    Info
+                </a>
+            </li>
+            <li>
+                <a id="ia_template-media" class="row template" href="#">
+                    Media
+                </a>
+            </li>
+            <li>
+                <a id="ia_template-products" class="row template" href="#">
+                    Products
+                </a>
+            </li>
+            <li>
+                <a id="ia_template-text" class="row template" href="#">
+                    Text
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<span class="clearfix"></span>
