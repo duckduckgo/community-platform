@@ -23,6 +23,7 @@
             var $clear_filters;
             var $right_pane_div;
             var right_pane_top;
+            var right_pane_top_start;
             var $right_pane;
             var window_top;
             var $dropdown_header;
@@ -38,6 +39,7 @@
                 $right_pane = $("#filters");
                 $right_pane_div = $("#filter_template");
                 right_pane_top = $right_pane_div.offset().top;
+                right_pane_top_start = right_pane_top;
                 $dropdown_header = $right_pane.children(".dropdown").children(".dropdown_header");
             });
 
@@ -48,6 +50,12 @@
                     $list.removeClass("hide");
                 } else {
                     $list.addClass("hide");
+                }
+                
+                if ($(this).parent().attr("id") === "filter_topic") {
+                    right_pane_top = $right_pane_div.offset().top;
+                } else {
+                    right_pane_top = right_pane_top_start;
                 }
             });
 
