@@ -215,7 +215,7 @@ sub redirect_duckco :Chained('base') :PathPart('topic') :Args(1) {
 sub redir :Chained('base') :PathPart('redir') :Args(0) {
 	my ( $self, $c ) = @_;
 	$c->stash->{not_last_url} = 1;
-	$c->session->{r_url} = $c->req->param('u');
+	$c->session->{r_url} = url_decode_utf8($c->req->param('u'));
 	$c->session->{r_referer_validated} = (index($c->req->headers->referer, $c->req->base->as_string) == 0) ? 1 : 0;
 	$c->response->redirect($c->chained_uri('Root','r'));
 	return $c->detach;
