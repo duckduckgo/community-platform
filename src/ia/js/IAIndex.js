@@ -24,6 +24,8 @@
             var $right_pane_div;
             var right_pane_top;
             var window_top;
+
+            $(".breadcrumb-nav").remove();
             
             $.getJSON(url, function(x) { 
                 ind.ia_list = x;
