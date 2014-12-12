@@ -20,9 +20,11 @@ sub base :Chained('/base') :PathPart('my') :CaptureArgs(0) {
 sub logout :Chained('base') :Args(0) {
 	my ( $self, $c ) = @_;
 	$c->stash->{not_last_url} = 1;
-	$c->require_action_token;
-	$c->logout;
-	$c->delete_session;
+	try {
+		$c->require_action_token;
+		$c->logout;
+		$c->delete_session;
+	};
 	$c->response->redirect($c->chained_uri('Root','index'));
 	return $c->detach;
 }
