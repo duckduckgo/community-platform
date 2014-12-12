@@ -57,6 +57,12 @@
     padding-right: 0.3em;
     font-size: 0.9em;
     text-transform: capitalize;
+
+    -webkit-border-radius: 9px;
+    -moz-border-radius: 9px;
+    -ms-border-radius: 9px;
+    -o-border-radius: 9px;
+    border-radius: 9px;
 }
 #ia_index_header {
     padding-bottom: 0.5em;
@@ -343,11 +349,11 @@
  }
 
  .btn--wire {
-     -webkit-border-radius: 9px;
-     -moz-border-radius: 9px;
-     -ms-border-radius: 9px;
-     -o-border-radius: 9px;
-     border-radius: 9px;
+     -webkit-border-radius: 2px;
+     -moz-border-radius: 2px;
+     -ms-border-radius: 2px;
+     -o-border-radius: 2px;
+     border-radius: 2px;
      background: none;
      background-color: transparent;
      font-weight: normal;
@@ -428,4 +434,8 @@ body.texture {
 
 .dropdown_header {
     background-color: #F2F2F2;
+}
+
+#clear_filters {
+    margin-top: 1em;
 }

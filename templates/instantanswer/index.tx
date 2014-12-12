@@ -1,8 +1,5 @@
 <div id="ia_index_header">
     <h2 class="left">Instant Answers</h2>
-    <div id="clear_filters" class="button right hide">
-        Clear Filters
-    </div>
     <span class="clearfix"></span>
 </div>
 
@@ -117,6 +114,10 @@
                 </a>
             </li>
         </ul>
+    </div>
+
+    <div id="clear_filters" class="btn--wire hide">
+        Clear Filters
     </div>
 </div>
 
