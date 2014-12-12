@@ -368,17 +368,9 @@
     text-transform: capitalize;
 }
 
-#filter_topic ul li:first-child {
-    background-color: #F2F2F2;
-}
-
 #filter_template a {
     color: #646464;
     text-transform: capitalize;
-}
-
-#filter_template ul li:first-child {
-     background-color: #F2F2F2;   
 }
 
 #filter_repo li {
@@ -432,4 +424,8 @@
 
 body.texture {
     background: transparent;
+}
+
+.dropdown_header {
+    background-color: #F2F2F2;
 }
