@@ -184,7 +184,6 @@
             $("#sort_descr").on('click',  DDH.IAIndex.prototype.sort.bind(this, 'description'));
             $("#sort_status").on('click', DDH.IAIndex.prototype.sort.bind(this, 'dev_milestone'));
             $("#sort_repo").on('click',   DDH.IAIndex.prototype.sort.bind(this, 'repo'));
-
         }
 
     };

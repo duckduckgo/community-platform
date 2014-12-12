@@ -443,3 +443,33 @@ body.texture {
 .ia-index--left {
     width: 70%;
 }
+
+#ia_index_header {
+    overflow: auto;
+}
+
+.ia_index_header--right {
+    position: relative;
+    top: 6px;
+}
+
+.ia_index_header--right a {
+    margin-left: 0.7em;
+    color: #474747;
+}
+
+#clear_filters {
+    color: #474747;
+}
+
+#sort-updated {
+    color: #BDBDBD;
+}
+
+#filter_template .is-selected {
+    background-color: #F2F2F2;
+}
+
+#filter_topic .is-selected {
+    background-color: #F2F2F2;
+}
