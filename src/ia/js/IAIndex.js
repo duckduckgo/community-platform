@@ -43,6 +43,12 @@
                 $dropdown_header = $right_pane.children(".dropdown").children(".dropdown_header");
             });
 
+            $(document).click(function(evt) {
+                if (!$(evt.target).closest(".dropdown").length) {
+                    $right_pane.children(".dropdown").children("ul").addClass("hide");
+                }
+            });
+
             $("body").on("click", "#filters .dropdown .dropdown_header", function(evt) {
                 var $list = $(this).parent().children("ul");
                 if ($list.hasClass("hide")) {
