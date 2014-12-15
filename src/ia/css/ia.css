@@ -46,7 +46,7 @@
     margin-left: 45em;
     margin-top: 1em;
     top: 0;
-    width: 17.5% !important;
+    width: 16.5% !important;
 }
 #ia_index #ia-list .topic {
     margin-left: 0.25em;
@@ -486,6 +486,7 @@ body.texture {
     display: block;
     top: 1em;
     left: 15em;
+    border-bottom-width: 0;
 }
 
 .dropdown {
