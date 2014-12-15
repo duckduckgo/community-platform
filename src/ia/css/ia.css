@@ -75,11 +75,11 @@
    text-align: left;
 } 
 
-#filters .button-group-vertical ul > li:first-child {
+#filters .button-group-vertical li:first-child {
     border-top: 1px solid #babec9;
 }
 
-#filters #filter_repo ul > li:first-child {
+#filters #filter_repo li:first-child {
     border-top: none;
 }
 
