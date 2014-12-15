@@ -477,3 +477,7 @@ body.texture {
 .ia-index-container {
     width: 97%;
 }
+
+.topic {
+    cursor: pointer;
+}
