@@ -491,3 +491,7 @@ body.texture {
 .dropdown {
     position: relative;
 }
+
+.topic {
+    cursor: pointer;
+}
