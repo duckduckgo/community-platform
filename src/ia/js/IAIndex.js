@@ -93,36 +93,9 @@
                 ind.filter($list_item);
             });
 
-            $("body").on("click", ".topic", function() {
-                ind.selected_filter.dev_milestone = "." + $("#filter_dev_milestone .is-selected").attr("id");
-                ind.selected_filter.repo = "." + $("#filter_repo .is-selected a").attr("id");
-                ind.selected_filter.topic = "." + $(this).data("topic");
-                ind.selected_filter.template = "." + $("#filter_template .is-selected a").attr("id");
+            $("body").on("click", ".button-group .button, .button-group-vertical .row, .topic", function(evt) {
 
-                if (ind.selected_filter.dev_milestone === ".ia_dev_milestone-all") {
-                    ind.selected_filter.dev_milestone = "";
-                }
-                
-                if (ind.selected_filter.repo === ".ia_repo-all") {
-                    ind.selected_filter.repo = "";
-                }
-                
-                if (ind.selected_filter.topic === ".ia_topic-all") {
-                    ind.selected_filter.topic = "";
-                }
-                
-                if (ind.selected_filter.template === ".ia_template-all") {
-                    ind.selected_filter.template = "";
-                }
-
-                $("#filter_topic").find("li").removeClass("is-selected");
-                $("#" + $(this).data("topic")).parent().addClass("is-selected");
-                $("#filter_topic").find(".dropdown_header span").text($(this).text());
-
-                ind.filter($list_item);
-            });            
-
-            $("body").on("click", ".button-group .button, .button-group-vertical .row", function(evt) {
+                console.log(this);
 
                 if (!$(this).hasClass("disabled")) { 
                     if($(this).hasClass("row")) {
@@ -148,7 +121,13 @@
 
                     ind.selected_filter.dev_milestone = "." + $("#filter_dev_milestone .is-selected").attr("id");
                     ind.selected_filter.repo = "." + $("#filter_repo .is-selected a").attr("id");
-                    ind.selected_filter.topic = "." + $("#filter_topic .is-selected a").attr("id");
+
+                    if($(this).hasClass("topic")) {
+                        ind.selected_filter.topic = "." + $(this).data("topic");
+                    } else {                        
+                        ind.selected_filter.topic = "." + $("#filter_topic .is-selected a").attr("id");
+                    }
+
                     ind.selected_filter.template = "." + $("#filter_template .is-selected a").attr("id");
 
                     if (ind.selected_filter.dev_milestone === ".ia_dev_milestone-all") {
@@ -165,6 +144,12 @@
 
                     if (ind.selected_filter.template === ".ia_template-all") {
                         ind.selected_filter.template = "";
+                    }
+
+                    if($(this).hasClass("topic")) {
+                        $("#filter_topic").find("li").removeClass("is-selected");
+                        $("#" + $(this).data("topic")).parent().addClass("is-selected");
+                        $("#filter_topic").find(".dropdown_header span").text($(this).text());
                     }
 
                     ind.filter($list_item);
