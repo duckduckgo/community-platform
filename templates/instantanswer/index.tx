@@ -63,7 +63,7 @@
 
     <div id="filter_topic" class="button-group-vertical dropdown">
         <div class="dropdown_header">
-            <span>All Topics</span> <i class="right">▼</i>
+            <span>All Topics</span>
         </div>
         <ul class="clearfix hide">
             <li class="row is-selected">
@@ -83,7 +83,7 @@
 
     <div id="filter_template" class="button-group-vertical dropdown">
         <div class="dropdown_header">
-            <span>All Templates</span> <i class="right">▼</i>
+            <span>All Templates</span>
         </div>
         <ul class="clearfix hide">
             <li class="row is-selected">
