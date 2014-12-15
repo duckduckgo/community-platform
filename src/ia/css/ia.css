@@ -478,6 +478,20 @@ body.texture {
     width: 97%;
 }
 
+.dropdown_header::after {
+    content: "";
+    border: 5px solid transparent;
+    border-top-color: #333;
+    position: absolute;
+    display: block;
+    top: 1em;
+    left: 15em;
+}
+
+.dropdown {
+    position: relative;
+}
+
 .topic {
     cursor: pointer;
 }
