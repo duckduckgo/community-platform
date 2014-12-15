@@ -74,14 +74,27 @@
    -webkit-border-radius: 3px;
    text-align: left;
 } 
+
+#filters .button-group-vertical li:first-child {
+    border-top: 1px solid #babec9;
+}
+
+#filters #filter_repo li:first-child {
+    border-top: none;
+}
+
 #filters .button-group-vertical ul {
     margin-bottom: 0;
 }
-#filters .button-group-vertical ul li,
-#filters .dropdown .dropdown_header {
+#filters .button-group-vertical ul li {
     padding: 0.4em;
     border-bottom: 1px solid #babec9;
 }
+
+#filters .dropdown .dropdown_header {
+    padding: 0.4em;
+}
+
 #filters .button-group-vertical ul li {
     list-style: none;
 }
