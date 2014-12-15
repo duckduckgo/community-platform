@@ -1,5 +1,23 @@
 (function(env) {
 
+    Handlebars.registerHelper("convertTopic", function(name) {
+        var topics = {
+            "special interest": "ia_topic-1",
+            "code & hacking": "ia_topic-2",
+            "math & science": "ia_topic-3",
+            "productivity": "ia_topic-4",
+            "movies & tv": "ia_topic-5",
+            "finance": "ia_topic-6",
+            "social networking": "ia_topic-7",
+            "language": "ia_topic-8",
+            "gaming": "ia_topic-9",
+            "food & drink": "ia_topic-10",
+            "music": "ia_topic-11"
+        };
+
+        return topics[name];
+    });
+
     DDH.IAIndex = function() {
         this.init();
     };
@@ -93,7 +111,37 @@
                 ind.filter($list_item);
             });
 
+            $("body").on("click", ".topic", function() {
+                ind.selected_filter.dev_milestone = "." + $("#filter_dev_milestone .is-selected").attr("id");
+                ind.selected_filter.repo = "." + $("#filter_repo .is-selected a").attr("id");
+                ind.selected_filter.topic = "." + $(this).data("topic");
+                ind.selected_filter.template = "." + $("#filter_template .is-selected a").attr("id");
+
+                if (ind.selected_filter.dev_milestone === ".ia_dev_milestone-all") {
+                    ind.selected_filter.dev_milestone = "";
+                }
+                
+                if (ind.selected_filter.repo === ".ia_repo-all") {
+                    ind.selected_filter.repo = "";
+                }
+                
+                if (ind.selected_filter.topic === ".ia_topic-all") {
+                    ind.selected_filter.topic = "";
+                }
+                
+                if (ind.selected_filter.template === ".ia_template-all") {
+                    ind.selected_filter.template = "";
+                }
+
+                $("#filter_topic").find("li").removeClass("is-selected");
+                $("#" + $(this).data("topic")).parent().addClass("is-selected");
+                $("#filter_topic").find(".dropdown_header span").text($(this).text());
+
+                ind.filter($list_item);
+            });            
+
             $("body").on("click", ".button-group .button, .button-group-vertical .row", function(evt) {
+
                 if (!$(this).hasClass("disabled")) { 
                     if($(this).hasClass("row")) {
                         $(this).parent().find(".ia-repo").removeClass("fill");
