@@ -1,23 +1,5 @@
 (function(env) {
 
-    Handlebars.registerHelper("convertTopic", function(name) {
-        var topics = {
-            "special interest": "ia_topic-1",
-            "code & hacking": "ia_topic-2",
-            "math & science": "ia_topic-3",
-            "productivity": "ia_topic-4",
-            "movies & tv": "ia_topic-5",
-            "finance": "ia_topic-6",
-            "social networking": "ia_topic-7",
-            "language": "ia_topic-8",
-            "gaming": "ia_topic-9",
-            "food & drink": "ia_topic-10",
-            "music": "ia_topic-11"
-        };
-
-        return topics[name];
-    });
-
     DDH.IAIndex = function() {
         this.init();
     };
