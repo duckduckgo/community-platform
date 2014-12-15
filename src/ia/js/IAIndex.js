@@ -51,8 +51,8 @@
                 }
             });
 
-            $("body").on("click", "#search_ias", function(evt) {
-               var query = $input_query.text().trim();
+            $("body").on("click", "#search-ias", function(evt) {
+               var query = $input_query.val().trim();
                if (query.length) {
                 ind.filter($list_item, query);
                }
@@ -179,7 +179,7 @@
             var topic = this.selected_filter.topic;
             var template = this.selected_filter.template;
 
-            if (!repo.length && !topic.length && !dev_milestone.length && !template.length) {
+            if (!query && !repo.length && !topic.length && !dev_milestone.length && !template.length) {
                 $obj.show();
             } else {
                 $obj.hide();
