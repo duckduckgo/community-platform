@@ -50,8 +50,8 @@
 }
 #ia_index #ia-list .topic {
     margin-left: 0.25em;
-    padding-left: 0.3em;
-    padding-right: 0.3em;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
     font-size: 0.9em;
     text-transform: capitalize;
 
@@ -60,6 +60,8 @@
     -ms-border-radius: 9px;
     -o-border-radius: 9px;
     border-radius: 9px;
+
+    font-weight: 300;
 }
 #ia_index_header {
     padding-bottom: 0.5em;
