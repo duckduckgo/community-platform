@@ -15,6 +15,11 @@
 </div>
 
 <div id="filters" class="right">
+    <div class="one-field">
+        <input type="text" class="text" placeholder="Filter Instant Answers" name="query" value="">
+        <div class="button icon-search" id="search-ias"></div>
+    </div>
+
     <span class="hide button-group" id="filter_dev_milestone">
         <a id="ia_dev_milestone-all" class="button dev_milestone is-selected disabled" href="#">
             All

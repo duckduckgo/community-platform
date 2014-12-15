@@ -37,6 +37,13 @@
     position: static;
     top: 0;
 }
+#filters .one-field input.text {
+    box-shadow: none;
+}
+#filters .one-field #search-ias {
+    margin-right: 1.25em;
+    line-height: 31px;
+}
 #filters ul li,
 #filters .dropdown .dropdown_header {
     cursor: pointer;

@@ -27,6 +27,7 @@
             var $right_pane;
             var window_top;
             var $dropdown_header;
+            var $input_query;
             
             $(".breadcrumb-nav").remove();
 
@@ -41,12 +42,20 @@
                 right_pane_top = $right_pane_div.offset().top;
                 right_pane_top_start = right_pane_top;
                 $dropdown_header = $right_pane.children(".dropdown").children(".dropdown_header");
+                $input_query = $('#filters input[name="query"]');
             });
 
             $(document).click(function(evt) {
                 if (!$(evt.target).closest(".dropdown").length) {
                     $right_pane.children(".dropdown").children("ul").addClass("hide");
                 }
+            });
+
+            $("body").on("click", "#search_ias", function(evt) {
+               var query = $input_query.text().trim();
+               if (query.length) {
+                ind.filter($list_item, query);
+               }
             });
 
             $("body").on("click", "#filters .dropdown .dropdown_header", function(evt) {
@@ -163,7 +172,8 @@
             });
         },
 
-        filter: function($obj) {
+        filter: function($obj, query) {
+            var regex = query? new RegExp("\\b" + query + "\\b", "g") : null;
             var repo = this.selected_filter.repo;
             var dev_milestone = this.selected_filter.dev_milestone;
             var topic = this.selected_filter.topic;
@@ -172,8 +182,22 @@
             if (!repo.length && !topic.length && !dev_milestone.length && !template.length) {
                 $obj.show();
             } else {
-                $obj.hide();                
-                $obj.children(dev_milestone + repo + topic + template).parent().show();
+                $obj.hide();
+                var $children = $obj.children(dev_milestone + repo + topic + template);
+                var temp_name;
+                var temp_desc;
+                if (regex) {
+                    $children.each(function(idx) {
+                        temp_name = $(this).children(".ia-item--header").text().trim();
+                        temp_desc = $(this).children(".ia-item--details--bottom").text().trim();
+
+                        if (regex.test(temp_name) || regex.test(temp_desc)) {
+                            $(this).show();
+                        }
+                    });
+                } else {
+                    $children.parent().show();
+                } 
             }
         },
 
