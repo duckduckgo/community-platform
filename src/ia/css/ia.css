@@ -314,8 +314,8 @@
 }
 
 .stamp--goodies {
-    border: 1px solid #EF8373;
-    color: #EF8373;
+    border: 1px solid #ffd700;
+    color: #ffd700;
 }
 
 .ia-item--stamp.stamp--spice::before {
@@ -414,11 +414,11 @@
 }
 
 .ia-repo--goodies {
-    border-color: #EF8373;
+    border-color: #ffd700;
 }
 
 .ia-repo--goodies.fill {
-    background-color: #EF8373;
+    background-color: #ffd700;
 }
 
 .ia-repo--spice {
