@@ -37,6 +37,9 @@
     position: static;
     top: 0;
 }
+#filters select {
+    width: 100%;
+}
 #filters .one-field input.text {
     box-shadow: none;
     width: 87%;
