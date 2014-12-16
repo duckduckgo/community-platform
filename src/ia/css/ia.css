@@ -41,6 +41,9 @@
 #filters .dropdown .dropdown_header {
     cursor: pointer;
 }
+#ia_index #ia-list .ia-item .ia-item--details--img {
+    margin-top: 1em;
+}
 #filters .is-fixed {
     position: fixed;
     margin-left: 45em;
