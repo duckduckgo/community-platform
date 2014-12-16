@@ -195,7 +195,6 @@
         },
 
         filter: function($obj, query) {
-            var regex = query? new RegExp(query, "gi") : null;
             var repo = this.selected_filter.repo;
             var dev_milestone = this.selected_filter.dev_milestone;
             var topic = this.selected_filter.topic;
@@ -204,7 +203,15 @@
             if (!query && !repo.length && !topic.length && !dev_milestone.length && !template.length) {
                 $obj.show();
             } else {
+                var regex;
+
+                if (query) {
+                    query = query.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+                    regex = new RegExp(query, "gi");
+                }
+                
                 $obj.hide();
+                
                 var $children = $obj.children(dev_milestone + repo + topic + template);
                 var temp_name;
                 var temp_desc;
