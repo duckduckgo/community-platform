@@ -55,6 +55,8 @@
                     var $img = $(this).find(".ia-item--details--img");
                     if ($img.hasClass("hide")) {
                         $img.removeClass("hide");
+                        var data_img = $img.children(".ia-item--img").attr("data-img");
+                        $img.children(".ia-item--img").attr("src", data_img);
                     } else {
                         $img.addClass("hide");
                     }
