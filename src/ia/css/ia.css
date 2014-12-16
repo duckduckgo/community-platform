@@ -526,11 +526,41 @@ body.texture {
 
 #filters {
     width: 24%;
-
+    
     -webkit-touch-callout: none;
     -webkit-user-select: none;
     -khtml-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+}
+
+/* Single page CSS */
+
+.ia-single h2 {
+    color: #474747;
+    font-weight: 300;
+    font-size: 2em;
+}
+
+.ia-single p::first-letter {
+    text-transform: capitalize;
+}
+
+.ia-single p {
+    color: #474747;
+}
+
+.ia-single .ia-single--header {
+    color: #999;
+    font-size: 0.9em;
+    margin-bottom: 0.9em;
+}
+
+.ia-single ul {
+    list-style-type: none;
+}
+
+.ia-single a {
+    color: #7DB2DE;
 }

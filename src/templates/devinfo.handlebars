@@ -1,5 +1,25 @@
-<div class="button dev-info">Developer Info</div>
-<div class="dev-info-details hide">
+<div class="ia-attribution">
+  {{#if attribution}}
+    <div class="ia-single--header">CONTRIBUTORS</div>
+    <ul>
+      {{#each attribution}}
+        <li><a href="{{this.0.loc}}">{{@key}}</a></li>
+      {{/each}}
+    </ul>
+  {{/if}}
+
+  {{#if code}}
+    <div class="ia-single--header">GITHUB FILES</div>
+    <ul>
+      {{#each code}}
+        <li><a href="{{this}}">{{this}}</a></li>
+      {{/each}}
+    </ul>
+  {{/if}}
+</div>
+
+<!--
+<div class="dev-info-details">
     <table class="iadata">
         <tr>
             <td><strong>Id:</strong></td>
@@ -50,3 +70,4 @@
         </div>
     {{/each}}
 </div>
+-->
