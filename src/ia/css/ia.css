@@ -549,6 +549,7 @@ body.texture {
 
 .ia-single p {
     color: #474747;
+    font-weight: 300;
 }
 
 .ia-single .ia-single--header {
@@ -563,5 +564,6 @@ body.texture {
 }
 
 .ia-single a {
-    color: #5F9CCB;
+    color: #7DB2DE;
+    font-weight: 300;
 }
