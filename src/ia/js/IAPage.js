@@ -241,14 +241,9 @@
 
         field_order: [
             'name',
-            'status',
             'description',
-            'topic',
-            'screens',
-            'template',
             'examples',
             'devinfo',
-            'issues'
         ],
 
         updateAll: function(templates) {

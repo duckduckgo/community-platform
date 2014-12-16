@@ -518,7 +518,7 @@ body.texture {
 
 #filters {
     width: 24%;
-
+    
     -webkit-touch-callout: none;
     -webkit-user-select: none;
     -khtml-user-select: none;
@@ -526,3 +526,7 @@ body.texture {
     -ms-user-select: none;
     user-select: none;
 }
+
+/* Single page CSS */
+
+
