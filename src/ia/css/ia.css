@@ -39,9 +39,10 @@
 }
 #filters .one-field input.text {
     box-shadow: none;
+    width: 87%;
+    margin-right: 2.5em;
 }
 #filters .one-field #search-ias {
-    margin-right: 1.25em;
     line-height: 31px;
 }
 #filters ul li,
