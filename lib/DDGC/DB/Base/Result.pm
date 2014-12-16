@@ -143,46 +143,6 @@ sub default_result_namespace { 'DDGC::DB::Result' }
 sub ddgc { shift->result_source->schema->ddgc }
 sub schema { shift->result_source->schema }
 
-sub add_event {
-	my ( $self, $action, %args ) = @_;
-	return if $self->schema->no_events;
-	my %event;
-	$event{context} = ref $self;
-	$event{context_id} = $self->id;
-	my $users_id;
-	if ($self->can('users_id')) {
-		$users_id = $self->users_id;
-	} elsif ($self->can('user')) {
-		$users_id = $self->user->id
-	}
-	$users_id = delete $args{users_id} if defined $args{users_id};
-	if ($users_id) {
-		$event{users_id} = $users_id;
-	}
-	$event{action} = $action;
-	if ($self->can('event_related')) {
-		$event{related} = [$self->event_related, defined $args{related} ? @{delete $args{related}} : ()];
-	}
-	if ($args{related}) {
-		$event{related} = [] unless defined $event{related};
-		my $related = delete $args{related};
-		push @{$event{related}}, @{$related};
-	}
-	my @related = defined $event{related}
-		? (@{delete $event{related}})
-		: ();
-	$event{data} = \%args if %args;
-	$self->ddgc->db->txn_do(sub {
-		my $event_result = $self->result_source->schema->resultset('Event')->create({ %event });
-		for (@related) {
-			$event_result->create_related('event_relates',{
-				context => $_->[0],
-				context_id => $_->[1],
-			});
-		}
-	});
-}
-
 sub has_context {
 	my ( $self ) = @_;
 	return $self->does('DDGC::DB::Role::HasContext');
