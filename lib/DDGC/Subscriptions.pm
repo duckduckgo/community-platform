@@ -62,7 +62,7 @@ sub _build_subscriptions {
 		all_comments_general => {
 			applies_to          => 'comment',
 			process             =>  sub {
-				$self->event_simple( 'all_comments_general', @_ );
+				$self->all_comments_general( @_ );
 			},
 			user_filter         => sub { 1; },
 			description         => 'All comments on the General Ramblings forum',
@@ -73,7 +73,7 @@ sub _build_subscriptions {
 		all_comments_comleader => {
 			applies_to          => 'comment',
 			process             =>  sub {
-				$self->event_simple( 'all_comments_comleader', @_ );
+				$self->all_comments_comleader( @_ );
 			},
 			user_filter         => sub {
 				$self->ddgc->config->forums->{
@@ -88,7 +88,7 @@ sub _build_subscriptions {
 		all_comments_internal => {
 			applies_to          => 'comment',
 			process             =>  sub {
-				$self->event_simple( 'all_comments_internal', @_ );
+				$self->all_comments_internal( @_ );
 			},
 			user_filter         => sub {
 				$self->ddgc->config->forums->{
@@ -109,11 +109,52 @@ sub neglected_thread {
 	#
 }
 
+sub all_comments_general {
+	my ( $self, $r ) = @_;
+	$r = $self->rs_to_result( $r );
+	if ( $r->thread &&
+	     !defined $r->parent_id &&
+	     $r->thread->forum eq $self->ddgc->config->id_for_forum( 'general' ) ) {
+		$self->event_simple( 'all_comments_general', $r );
+	}
+}
+
+sub all_comments_internal {
+	my ( $self, $r ) = @_;
+	$r = $self->rs_to_result( $r );
+	if ( $r->thread &&
+	     !defined $r->parent_id &&
+	     $r->thread->forum eq $self->ddgc->config->id_for_forum( 'internal' ) ) {
+		$self->event_simple( 'all_comments_internal', $r );
+	}
+}
+
+sub all_comments_comleader {
+	my ( $self, $r ) = @_;
+	$r = $self->rs_to_result( $r );
+	if ( $r->thread &&
+	     !defined $r->parent_id &&
+	     $r->thread->forum eq $self->ddgc->config->id_for_forum( 'community' ) ) {
+		$self->event_simple( 'all_comments_comleader', $r );
+	}
+}
+
+# Return result or first result in resultset.
+sub rs_to_result {
+	my ( $self, $r ) = @_;
+	return ( ref $r =~ /ResultSet/ ) ? $r->first : $r;
+}
+
+# @user mentions
+# Operates on a single result or first result in a resultset.
 sub at_mention {
-	my ( $self, $rs ) = @_;
-	my $comment = ( ref $rs =~ /Thread/ ) ? $rs->first->comment : $rs->first;
+	my ( $self, $r ) = @_;
+	$r = $self->rs_to_result( $r );
+	my $ref = ref $r;
+	my $comment = ( $ref =~ /Thread/ ) ? $r->comment : $r;
+	die $comment;
 	my @usernames = ( $comment =~ /(?:^|\s+)\@([\w.]+)/g );
-	my @ids = $self->rs_ids($rs);
+	my @ids = $self->rs_ids($r);
 	for my $username (@usernames) {
 		if ( my $user = $self->ddgc->find_user( $username ) ) {
 			if ( $user->public ) {
@@ -121,7 +162,7 @@ sub at_mention {
 					subscription_id => 'at_mention',
 					target_users_id => $user->id,
 					users_id        => $comment->users_id,
-					object          => $self->rs_name( $rs ),
+					object          => $self->rs_name( $r ),
 					object_ids      => \@ids,
 				} );
 			}
