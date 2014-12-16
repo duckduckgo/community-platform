@@ -455,6 +455,7 @@ body.texture {
 
 #clear_filters {
     margin-top: 1em;
+    padding: 0.4em;
 }
 
 .ia-index--left {
