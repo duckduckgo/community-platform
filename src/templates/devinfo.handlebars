@@ -7,14 +7,15 @@
       {{/each}}
     </ul>
   {{/if}}
-  
-  <div class="ia-single--header">GITHUB FILES</div>
-  <ul>
-    {{#each code}}
-      <li><a href="{{this}}">{{this}}</a></li>
-    {{/each}}
-  </ul>
-  
+
+  {{#if code}}
+    <div class="ia-single--header">GITHUB FILES</div>
+    <ul>
+      {{#each code}}
+        <li><a href="{{this}}">{{this}}</a></li>
+      {{/each}}
+    </ul>
+  {{/if}}
 </div>
 
 <!--
