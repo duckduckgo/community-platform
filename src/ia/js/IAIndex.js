@@ -63,6 +63,18 @@
                 }
             });
 
+            $("body").on("click", "#ia-list .ia-item", function(evt) {
+                if (!$(evt.target).closest(".ia-item--header").length
+                    && !$(evt.target).closest(".topic").length) {
+                    var $img = $(this).find(".ia-item--details--img");
+                    if ($img.hasClass("hide")) {
+                        $img.removeClass("hide");
+                    } else {
+                        $img.addClass("hide");
+                    }
+                } 
+            });
+
             $("body").on("click", "#filters .dropdown .dropdown_header", function(evt) {
                 var $list = $(this).parent().children("ul");
                 if ($list.hasClass("hide")) {
