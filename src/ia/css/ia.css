@@ -543,7 +543,7 @@ body.texture {
     color: #474747;
 }
 
-.ia-single .ia-examples--header {
+.ia-single .ia-single--header {
     font-weight: 300;
     color: #999;
     font-size: 0.9em;
@@ -551,4 +551,8 @@ body.texture {
 
 .ia-single ul {
     list-style-type: none;
+}
+
+.ia-single a {
+    color: #5F9CCB;
 }
