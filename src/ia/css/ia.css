@@ -458,7 +458,7 @@ body.texture {
 }
 
 .ia-index--left {
-    width: 70%;
+    width: 73%;
     border-right: 1px solid #ddd;
 }
 
@@ -516,6 +516,8 @@ body.texture {
 }
 
 #filters {
+    width: 24%;
+
     -webkit-touch-callout: none;
     -webkit-user-select: none;
     -khtml-user-select: none;
