@@ -49,6 +49,11 @@ column target_object_id => {
 	is_nullable => 1,
 };
 
+column created => {
+	data_type => 'timestamp with time zone',
+	set_on_create => 1,
+};
+
 sub event_objects {
 	my ( $self ) = @_;
 	$self->ddgc->rs( $self->object )->search_rs({
