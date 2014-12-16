@@ -107,6 +107,7 @@
 
             $("body").on("click", "#clear_filters", function(evt) {
                 $(this).addClass("hide");
+                query = "";
                 ind.selected_filter.dev_milestone = "";
                 ind.selected_filter.repo = "";
                 ind.selected_filter.topic = "";
