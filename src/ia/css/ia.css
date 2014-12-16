@@ -39,6 +39,7 @@
 }
 #filters select {
     width: 100%;
+    text-transform: capitalize;
 }
 #filters .one-field input.text {
     box-shadow: none;
@@ -47,10 +48,6 @@
 }
 #filters .one-field #search-ias {
     line-height: 31px;
-}
-#filters ul li,
-#filters .dropdown .dropdown_header {
-    cursor: pointer;
 }
 #ia_index #ia-list .ia-item .ia-item--details--img {
     margin-top: 1em;

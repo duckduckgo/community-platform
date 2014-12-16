@@ -67,55 +67,37 @@
     </div>
 
     <select id="filter_topic" class="clearfix button-group-vertical dropdown">
-        <option value="0" class="row is-selected">
-            <a id="ia_topic-all" class="topic" href="#">
-                All Topics
-            </a>
+        <option value="0" id="ia_topic-all" class="topic row is-selected">
+            All Topics
         </option>
         <: for $topic_list -> $topic { :>
-            <option value="<: $topic.id :>" class="row">
-                <a id="ia_topic-<: $topic.id :>" class="topic" href="#">
-                    <: $topic.name :>
-                </a>
+            <option value="<: $topic.id :>" id="ia_topic-<: $topic.id :>" class="topic row">
+                <: $topic.name :>
             </option>
         <: } :>
     </select>
 
     <select id="filter_template" class="button-group-vertical dropdown">
-        <option value="0" class="row is-selected">
-            <a id="ia_template-all" class="template" href="#">
-                All Templates
-            </a>
+        <option value="0" id="ia_template-all" class="template row is-selected">
+            All Templates
         </option>
-        <option value="1" class="row">
-            <a id="ia_template-base" class="template" href="#">
-                Base
-            </a>
+        <option value="1" id="ia_template-base" class="template row">
+            Base
         </option>
-        <option value="2" class="row">
-            <a id="ia_template-icon" class="template" href="#">
-                Icon
-            </a>
+        <option value="2" id="ia_template-icon" class="template row">
+            Icon
         </option>
-        <option value="3" class="row">
-            <a id="ia_template-info" class="template" href="#">
-                Info
-            </a>
+        <option value="3" id="ia_template-info" class="template row">
+            Info
         </option>
-        <option value="4" class="row">
-            <a id="ia_template-media" class="template" href="#">
-                Media
-            </a>
+        <option value="4" id="ia_template-media" class="template row">
+            Media
         </option>
-        <option value="5" class="row">
-            <a id="ia_template-products" class="template" href="#">
-                Products
-            </a>
+        <option value="5" id="ia_template-products" class="template row">
+            Products
         </option>
-        <option value="6" class="row">
-            <a id="ia_template-text" class="template" href="#">
-                Text
-            </a>
+        <option value="6" id="ia_template-text" class="template row">
+            Text
         </option>
     </select>
 

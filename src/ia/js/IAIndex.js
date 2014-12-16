@@ -46,12 +46,6 @@
                 $input_query = $('#filters input[name="query"]');
             });
 
-            $(document).click(function(evt) {
-                if (!$(evt.target).closest(".dropdown").length) {
-                    $right_pane.children(".dropdown").children("ul").addClass("hide");
-                }
-            });
-
             $("body").on("click", "#search-ias", function(evt) {
                 var temp_query = $input_query.val().trim();
                 if (temp_query !== query) {
@@ -75,22 +69,6 @@
                         $img.addClass("hide");
                     }
                 } 
-            });
-
-            $("body").on("click", "#filters .dropdown .dropdown_header", function(evt) {
-                var $list = $(this).parent().children("ul");
-                if ($list.hasClass("hide")) {
-                    $right_pane.children(".dropdown").children("ul").addClass("hide");
-                    $list.removeClass("hide");
-                } else {
-                    $list.addClass("hide");
-                }
-                
-                if ($(this).parent().attr("id") === "filter_topic") {
-                    right_pane_top = $right_pane_div.offset().top;
-                } else {
-                    right_pane_top = right_pane_top_start;
-                }
             });
 
             $(window).scroll(function(evt) {
@@ -124,7 +102,8 @@
 
                 $(".is-selected").removeClass("is-selected");
                 $("#ia_dev_milestone-all").addClass("is-selected");
-                $("#ia_repo-all, #ia_topic-all, #ia_template-all").parent().addClass("is-selected");
+                $("#ia_repo-all").parent().addClass("is-selected");
+                $("#ia_topic-all, #ia_template-all").attr("selected", true);
 
                 $(".button-group-vertical").find(".ia-repo").removeClass("fill");
                 ind.filter($list_item);
@@ -149,11 +128,6 @@
                         if ($clear_filters.hasClass("hide")) {
                             $clear_filters.removeClass("hide");
                         }
-
-
-                        if ($parent.parent().hasClass("dropdown")) {
-                            $parent.parent().children(".dropdown_header").children("span").text($(this).text().trim());
-                        }
                     }
 
                     ind.selected_filter.dev_milestone = "." + $("#filter_dev_milestone .is-selected").attr("id");
@@ -162,10 +136,10 @@
                     if($(this).hasClass("topic")) {
                         ind.selected_filter.topic = "." + $(this).data("topic");
                     } else {                        
-                        ind.selected_filter.topic = "." + $("#filter_topic .is-selected a").attr("id");
+                        ind.selected_filter.topic = "." + $("#filter_topic option:selected").attr("id");
                     }
 
-                    ind.selected_filter.template = "." + $("#filter_template .is-selected a").attr("id");
+                    ind.selected_filter.template = "." + $("#filter_template option:selected").attr("id");
 
                     if (ind.selected_filter.dev_milestone === ".ia_dev_milestone-all") {
                         ind.selected_filter.dev_milestone = "";
