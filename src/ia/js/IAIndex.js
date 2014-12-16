@@ -28,6 +28,7 @@
             var window_top;
             var $dropdown_header;
             var $input_query;
+            var query;
             
             $(".breadcrumb-nav").remove();
 
@@ -52,7 +53,7 @@
             });
 
             $("body").on("click", "#search-ias", function(evt) {
-               var query = $input_query.val().trim();
+               query = $input_query.val().trim();
                if (query.length) {
                 ind.filter($list_item, query);
                 if ($clear_filters.hasClass("hide")) {
@@ -97,6 +98,8 @@
                 ind.selected_filter.repo = "";
                 ind.selected_filter.topic = "";
                 ind.selected_filter.template = "";
+
+                $input_query.val("");
 
                 $dropdown_header.each(function(idx) {
                     var text = $(this).parent().children("ul").children("li:first-child").text();
@@ -170,7 +173,7 @@
                         $("#filter_topic").find(".dropdown_header span").text($(this).text());
                     }
 
-                    ind.filter($list_item);
+                    ind.filter($list_item, query);
                 }
             });
         },
