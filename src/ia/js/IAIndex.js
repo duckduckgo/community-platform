@@ -55,6 +55,9 @@
                var query = $input_query.val().trim();
                if (query.length) {
                 ind.filter($list_item, query);
+                if ($clear_filters.hasClass("hide")) {
+                    $clear_filters.removeClass("hide");
+                }
                }
             });
 
@@ -173,7 +176,7 @@
         },
 
         filter: function($obj, query) {
-            var regex = query? new RegExp("\\b" + query + "\\b", "g") : null;
+            var regex = query? new RegExp(query, "gi") : null;
             var repo = this.selected_filter.repo;
             var dev_milestone = this.selected_filter.dev_milestone;
             var topic = this.selected_filter.topic;
@@ -188,11 +191,11 @@
                 var temp_desc;
                 if (regex) {
                     $children.each(function(idx) {
-                        temp_name = $(this).children(".ia-item--header").text().trim();
-                        temp_desc = $(this).children(".ia-item--details--bottom").text().trim();
+                        temp_name = $(this).find(".ia-item--header").text().trim();
+                        temp_desc = $(this).find(".ia-item--details--bottom").text().trim();
 
                         if (regex.test(temp_name) || regex.test(temp_desc)) {
-                            $(this).show();
+                            $(this).parent().show();
                         }
                     });
                 } else {
