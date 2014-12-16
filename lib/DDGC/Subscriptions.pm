@@ -43,7 +43,7 @@ sub _build_subscriptions {
 
 		at_mention => {
 			applies_to          => [ 'comment', 'thread' ],
-			process             => \&at_mention,
+			process             => sub { $self->at_mention(@_) },
 			user_filter         => sub { $_[0]->public },
 			description         => 'Comments which @mention you',
 			category            => 'forum',
@@ -152,18 +152,17 @@ sub at_mention {
 	$r = $self->rs_to_result( $r );
 	my $ref = ref $r;
 	my $comment = ( $ref =~ /Thread/ ) ? $r->comment : $r;
-	die $comment;
-	my @usernames = ( $comment =~ /(?:^|\s+)\@([\w.]+)/g );
+	my @usernames = ( $comment->content =~ /(?:^|\s+)\@([\w.]+)/g );
 	my @ids = $self->rs_ids($r);
 	for my $username (@usernames) {
 		if ( my $user = $self->ddgc->find_user( $username ) ) {
 			if ( $user->public ) {
 				$self->ddgc->rs('Event')->create( {
-					subscription_id => 'at_mention',
-					target_users_id => $user->id,
-					users_id        => $comment->users_id,
-					object          => $self->rs_name( $r ),
-					object_ids      => \@ids,
+					subscription_id  => 'at_mention',
+					target_object_id => $user->id,
+					users_id         => $comment->users_id,
+					object           => $self->rs_name( $r ),
+					object_ids       => \@ids,
 				} );
 			}
 		}
@@ -208,8 +207,8 @@ sub generate_events {
 	for my $sub (keys $subs) {
 		my (@ids, $id);
 		next if ( ( ref $subs->{ $sub }->{applies_to} eq 'ARRAY' ) ?
-			( grep { $_ eq $type } @{ $subs->{ $sub }->{applies_to} } ) :
-			( $subs->{ $sub }->{applies_to} ne $type) );
+			( !grep { $_ eq $type } @{ $subs->{ $sub }->{applies_to} } ) :
+			( $subs->{ $sub }->{applies_to} ne $type ) );
 
 		$subs->{ $sub }->{process}->( $rs );
 	}
