@@ -529,4 +529,26 @@ body.texture {
 
 /* Single page CSS */
 
+.ia-single h2 {
+    color: #474747;
+    font-weight: 300;
+    font-size: 2em;
+}
 
+.ia-single p::first-letter {
+    text-transform: capitalize;
+}
+
+.ia-single p {
+    color: #474747;
+}
+
+.ia-single .ia-examples--header {
+    font-weight: 300;
+    color: #999;
+    font-size: 0.9em;
+}
+
+.ia-single ul {
+    list-style-type: none;
+}

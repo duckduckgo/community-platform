@@ -1,16 +1,17 @@
 {{#if example_query}}
-    <div><strong>Examples:</strong>
-        <ul>
-            <li>
-                <a href="https://duckduckgo.com/?q={{encodeURIComponent example_query}}" title="try this example on DuckDuckGo">{{example_query}}</a>
-            </li>
-            {{#if other_queries}}
-                {{#each other_queries}}
-                    <li>
-                        <a href="https://duckduckgo.com/?q={{encodeURIComponent this}}" title="try this example on DuckDuckGo">{{this}}</a>
-                    </li>
-                {{/each}}
-            {{/if}}
-        </ul>
-    </div>
+  <div class="ia-examples">
+    <div class="ia-examples--header">EXAMPLES</div>
+    <ul>
+      <li>
+        <a href="https://duckduckgo.com/?q={{encodeURIComponent example_query}}" title="try this example on DuckDuckGo">{{example_query}}</a>
+      </li>
+      {{#if other_queries}}
+        {{#each other_queries}}
+          <li>
+            <a href="https://duckduckgo.com/?q={{encodeURIComponent this}}" title="try this example on DuckDuckGo">{{this}}</a>
+          </li>
+        {{/each}}
+      {{/if}}
+    </ul>
+  </div>
 {{/if}}
