@@ -187,6 +187,8 @@
                         $("#filter_topic").find(".dropdown_header span").text($(this).text());
                     }
 
+                    query = $input_query.val().trim();
+
                     ind.filter($list_item, query);
                 }
             });
