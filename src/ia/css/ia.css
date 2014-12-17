@@ -59,7 +59,7 @@
     top: 0;
     width: 15.8% !important;
 }
-#ia_index #ia-list .topic {
+span.topic {
     margin-left: 0.25em;
     padding-left: 0.5em;
     padding-right: 0.5em;
@@ -570,8 +570,67 @@ body.texture {
     margin-right: 0.2em;
 }
 
-.icon--image {
-    width: 16px;
-    height: 16px;
-    margin-right: 0.3em;
+.ia-single--stamp {
+    display: inline-block;
+    border: 1px solid #777;
+    text-align: center;
+    width: 35px;
+    height: 35px;
+    vertical-align: top;
+    font-size: 1.9em;
+    background-color: #777;
+    position: relative;
 }
+
+.ia-single--stamp::before {
+    content: "N";
+    position: relative;
+    top: -2px;
+    color: white;
+}
+
+.ia-single--topic-container {
+    display: inline-block;
+    position: relative;
+    top: 7px;
+}
+
+.ia-single--top {
+    margin-bottom: 1.5em;
+}
+
+.ia-single--stamp.stamp-invert--goodies::before {
+    content: "G";
+}
+
+.stamp-invert--goodies {
+    border: 1px solid #ffd700;
+    background-color: #ffd700;
+}
+
+.ia-single--stamp.stamp-invert--spice::before {
+    content: "S";
+}
+
+.stamp-invert--spice {
+    border: 1px solid #50AF5E;
+    background-color: #50AF5E;
+}
+
+.ia-single--stamp.stamp-invert--fathead::before {
+    content: "F";
+}
+
+.stamp-invert--fathead {
+    border: 1px solid #2E7BB3;
+    background-color: #2E7BB3;
+}
+
+.ia-single--stamp.stamp-invert--longtail::before {
+    content: "L";
+}
+
+.stamp-invert--longtail {
+    border: 1px solid #81869A;
+    background-color: #81869A;
+ }
