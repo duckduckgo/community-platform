@@ -48,6 +48,7 @@
 }
 #filters .one-field #search-ias {
     line-height: 31px;
+    box-shadow: none;
 }
 #filters ul li,
 #filters .dropdown .dropdown_header {
