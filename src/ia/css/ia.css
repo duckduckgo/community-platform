@@ -389,7 +389,7 @@
      color: #646464;
 }
 
-#filter_repo ul li:first-child {
+#filter_repo ul .is-selected {
     background-color: #F2F2F2;
 }
 
