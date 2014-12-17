@@ -41,9 +41,14 @@
     box-shadow: none;
     width: 87%;
     margin-right: 2.5em;
+    border: 1px solid #babec9;
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
+    padding-left: 0.25em;
 }
 #filters .one-field #search-ias {
     line-height: 31px;
+    box-shadow: none;
 }
 #filters ul li,
 #filters .dropdown .dropdown_header {
@@ -389,7 +394,7 @@ span.topic {
      color: #646464;
 }
 
-#filter_repo ul li:first-child {
+#filter_repo ul .is-selected {
     background-color: #F2F2F2;
 }
 
