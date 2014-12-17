@@ -242,18 +242,21 @@
         count: function($list, $obj, regex, classes) {
             var temp_text;
             var id;
-            var children_count = 0;
             
             $obj.each(function(idx) {
                 temp_text = $(this).text().replace(/\([0-9]+\)/g, "").trim();
                 id = "." + $(this).attr("id");
                 
-                if (id === ".ia_repo-all") {
+                if (id === ".ia_repo-all" || id === ".ia_topic-all" || id === ".ia_template-all" || id === ".ia_dev_milestone-all") {
                     id = "";
                 }
                 
                 var $children = $list.children(classes + id);  
                 if (regex) {
+                    var temp_name;
+                    var temp_desc;
+                    var children_count = 0;
+
                     $children.each(function(idx) {
                         temp_name = $(this).find(".ia-item--header").text().trim();
                         temp_desc = $(this).find(".ia-item--details--bottom").text().trim();
