@@ -44,6 +44,8 @@
                 right_pane_top_start = right_pane_top;
                 $dropdown_header = $right_pane.children(".dropdown").children(".dropdown_header");
                 $input_query = $('#filters input[name="query"]');
+
+                ind.filter($list_item, query);
             });
 
             $(document).click(function(evt) {
@@ -152,7 +154,7 @@
 
 
                         if ($parent.parent().hasClass("dropdown")) {
-                            $parent.parent().children(".dropdown_header").children("span").text($(this).text().trim());
+                            $parent.parent().children(".dropdown_header").children("span").text($(this).text().replace(/\([0-9]+\)/g, "").trim());
                         }
                     }
 
@@ -201,7 +203,9 @@
             var dev_milestone = this.selected_filter.dev_milestone;
             var topic = this.selected_filter.topic;
             var template = this.selected_filter.template;
-
+                
+            var $children = $obj.children(dev_milestone + repo + topic + template);
+ 
             if (!query && !repo.length && !topic.length && !dev_milestone.length && !template.length) {
                 $obj.show();
             } else {
@@ -213,8 +217,7 @@
                 }
                 
                 $obj.hide();
-                
-                var $children = $obj.children(dev_milestone + repo + topic + template);
+               
                 var temp_name;
                 var temp_desc;
                 if (regex) {
@@ -228,8 +231,46 @@
                     });
                 } else {
                     $children.parent().show();
-                } 
+                }
             }
+
+            var temp_text;
+            var id;
+            $("#filter_repo ul li a").each(function(idx) {
+                temp_text = $(this).text().replace(/\([0-9]+\)/g, "").trim();
+                id = "." + $(this).attr("id");
+                
+                if (id === ".ia_repo-all") {
+                    id = "";
+                }
+                
+                temp_text += " (" + $obj.children(dev_milestone + id + topic + template).length + ")";
+                $(this).text(temp_text);
+            }); 
+
+            $("#filter_topic ul li a").each(function(idx) {
+                temp_text = $(this).text().replace(/\([0-9]+\)/g, "").trim();
+                id = "." + $(this).attr("id");
+
+                if (id === ".ia_topic-all") {
+                    id = "";
+                }
+                
+                temp_text += " (" + $obj.children(dev_milestone + repo + id + template).length + ")";
+                $(this).text(temp_text);
+            });
+
+            $("#filter_template ul li a").each(function(idx) {
+                temp_text = $(this).text().replace(/\([0-9]+\)/g, "").trim();
+                id = "." + $(this).attr("id");
+
+                if (id === ".ia_template-all") {
+                    id = "";
+                }
+                
+                temp_text += " (" + $obj.children(dev_milestone + repo + topic + id).length + ")";
+                $(this).text(temp_text);
+            }); 
         },
 
         sort: function(what) {
