@@ -1,1 +1,10 @@
-<h2 class="left">{{name}}</h2>
+<div class="ia-single--top">
+  <div class="ia-single--stamp circle stamp-invert--{{repo}}"></div>
+  <div class="ia-single--topic-container">
+    {{#each topic}}
+      <span class="btn--wire topic">{{this}}</span>
+    {{/each}}
+  </div>
+</div>
+
+<h2>{{name}}</h2>

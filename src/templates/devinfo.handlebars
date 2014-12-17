@@ -18,6 +18,26 @@
   {{/if}}
 </div>
 
+<div class="button new-issue">
+  <a href="https://github.com/duckduckgo/zeroclickinfo-{{repo}}/issues/new?&title=issue+title&body=http%3A%2F%2Fduck.co%2Fia%2Fview%2F{{id}}">
+  + Add an Issue
+  </a>
+</div>
+<span class="clearfix"></span>
+
+{{#each issues}}
+  <div class="issue tag left">
+    <a href="https://github.com/duckduckgo/zeroclickinfo-{{../repo}}/issues/{{issue_id}}">
+    <span class="title left">{{title}}</span>
+    {{#each tags}}
+      <div class="issue_tag left" style="background-color:#{{color}};">{{name}}</div>
+    {{/each}}
+    <p class="issue_desc clearfix">{{body}}</p>
+    </a>
+  </div>
+{{/each}}
+
+
 <!--
 <div class="dev-info-details">
     <table class="iadata">

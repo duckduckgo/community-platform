@@ -54,13 +54,16 @@
                 }
             });
 
-            $("body").on("click", "#search-ias", function(evt) {
-                var temp_query = $input_query.val().trim();
-                if (temp_query !== query) {
-                    query = temp_query;
-                    ind.filter($list_item, query);
-                    if ($clear_filters.hasClass("hide")) {
-                        $clear_filters.removeClass("hide");
+            $("body").on("click keypress", "#search-ias, #filters .one-field input.text", function(evt) {
+                if (((evt.type === "keypress" && evt.which === 13) && $(this).hasClass("text"))
+                    || (evt.type === "click" && $(this).attr("id") === "search-ias")) {
+                    var temp_query = $input_query.val().trim();
+                    if (temp_query !== query) {
+                        query = temp_query;
+                        ind.filter($list_item, query);
+                        if ($clear_filters.hasClass("hide")) {
+                            $clear_filters.removeClass("hide");
+                        }
                     }
                 }
             });
@@ -154,7 +157,8 @@
 
 
                         if ($parent.parent().hasClass("dropdown")) {
-                            $parent.parent().children(".dropdown_header").children("span").text($(this).text().replace(/\([0-9]+\)/g, "").trim());
+                            $parent.parent().children(".dropdown_header").children("span").text($(this).text().trim());
+                            $parent.parent().children("ul").addClass("hide");
                         }
                     }
 
