@@ -67,11 +67,11 @@
     </div>
 
     <select id="filter_topic" class="clearfix button-group-vertical dropdown">
-        <option value="0" id="ia_topic-all" class="topic row is-selected">
+        <option value="0" id="ia_topic-all" class="row is-selected">
             All Topics
         </option>
         <: for $topic_list -> $topic { :>
-            <option value="<: $topic.id :>" id="ia_topic-<: $topic.id :>" class="topic row">
+            <option value="<: $topic.id :>" id="ia_topic-<: $topic.id :>" class="row">
                 <: $topic.name :>
             </option>
         <: } :>
