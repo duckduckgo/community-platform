@@ -634,3 +634,7 @@ body.texture {
     border: 1px solid #81869A;
     background-color: #81869A;
  }
+
+.ia-single--screenshots {
+    margin-bottom: 1em;
+}
