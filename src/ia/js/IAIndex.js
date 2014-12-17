@@ -121,7 +121,7 @@
 
                 $dropdown_header.each(function(idx) {
                     var text = $(this).parent().children("ul").children("li:first-child").text();
-                    $(this).children("span").text(text.trim());
+                    $(this).children("span").text(text.replace(/\([0-9]+\)/g, "").trim());
                 });
 
                 $(".is-selected").removeClass("is-selected");
