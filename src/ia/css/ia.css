@@ -325,8 +325,8 @@ span.topic {
 }
 
 .stamp--goodies {
-    border: 1px solid #ffd700;
-    color: #ffd700;
+    border: 1px solid #F1A031;
+    color: #F1A031;
 }
 
 .ia-item--stamp.stamp--spice::before {
@@ -425,11 +425,11 @@ span.topic {
 }
 
 .ia-repo--goodies {
-    border-color: #ffd700;
+    border-color: #F1A031;
 }
 
 .ia-repo--goodies.fill {
-    background-color: #ffd700;
+    background-color: #F1A031;
 }
 
 .ia-repo--spice {
@@ -607,8 +607,8 @@ body.texture {
 }
 
 .stamp-invert--goodies {
-    border: 1px solid #ffd700;
-    background-color: #ffd700;
+    border: 1px solid #F1A031;
+    background-color: #F1A031;
 }
 
 .ia-single--stamp.stamp-invert--spice::before {
