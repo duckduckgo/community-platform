@@ -27,9 +27,11 @@
             var $dropdown_header;
             var $input_query;
             var query = ""; 
+            var total = 0;
 
             $.getJSON(url, function(x) { 
-                $("#ia_index_header h2").text(x.length + " Instant Answers");
+                total = x.length
+                $("#ia_index_header h2").text(total + " Instant Answers");
                 ind.ia_list = x;
                 ind.sort('name');
                 $list_item = $("#ia-list .ia-item");
@@ -103,6 +105,7 @@
             });
 
             $("body").on("click", "#clear_filters", function(evt) {
+                $("#ia_index_header h2").text(total + " Instant Answers");
                 $(this).addClass("hide");
                 query = "";
                 ind.selected_filter.dev_milestone = "";
@@ -211,6 +214,7 @@
                 $obj.hide();
                  
                 var $children = $obj.children(dev_milestone + repo + topic + template);
+                $("#ia_index_header h2").text($(dev_milestone + repo + topic + template).length + " Instant Answers");
                
                 var temp_name;
                 var temp_desc;
