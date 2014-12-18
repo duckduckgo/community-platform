@@ -22,6 +22,7 @@
             var $list_item;
             var $clear_filters;
             var right_pane_top;
+            var right_pane_left;
             var $right_pane;
             var window_top;
             var $dropdown_header;
@@ -36,6 +37,7 @@
                 $clear_filters = $("#clear_filters");
                 $right_pane = $("#filters");
                 right_pane_top = $right_pane.offset().top;
+                right_pane_left = $right_pane.offset().left;
                 $dropdown_header = $right_pane.children(".dropdown").children(".dropdown_header");
                 $input_query = $('#filters input[name="query"]');
 
@@ -84,8 +86,6 @@
                 } else {
                     $list.addClass("hide");
                 }
-                
-                right_pane_height = $right_pane.height();
             });
 
             $(window).scroll(function(evt) {
@@ -94,6 +94,7 @@
                 if (right_pane_top < window_top) {
                     if (!$right_pane.hasClass("is-fixed")) {
                         $right_pane.addClass("is-fixed");
+                        $right_pane.css('left', right_pane_left + "px");
                     }
                } else {
                     if ($right_pane.hasClass("is-fixed")) {
