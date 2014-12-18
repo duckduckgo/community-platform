@@ -16,8 +16,10 @@
 
 <div id="filters" class="right">
     <div class="one-field">
-        <input type="text" class="text" placeholder="Filter Instant Answers" name="query" value="">
-        <div class="button icon-search" id="search-ias"></div>
+        <input type="text" class="text filters--search" placeholder="Filter Instant Answers" name="query" value="" autocorrect="off" autocapitalize="off" autocomplete="off">
+        <div class="filters--search-button">
+          <span class="ddgsi-loupe"></span>
+        </div>
     </div>
 
     <span class="hide button-group" id="filter_dev_milestone">
