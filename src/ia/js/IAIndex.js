@@ -21,7 +21,6 @@
             var url = "/ia/json";
             var $list_item;
             var $clear_filters;
-            var right_pane_top;
             var right_pane_height;
             var $right_pane;
             var window_top;
@@ -38,7 +37,6 @@
                 $list_item = $("#ia-list .ia-item");
                 $clear_filters = $("#clear_filters");
                 $right_pane = $("#filters");
-                right_pane_top = $right_pane.offset().top;
                 right_pane_height = $right_pane.height();
                 $dropdown_header = $right_pane.children(".dropdown").children(".dropdown_header");
                 $input_query = $('#filters input[name="query"]');
