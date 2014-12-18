@@ -157,7 +157,7 @@
 
 
                         if ($parent.parent().hasClass("dropdown")) {
-                            $parent.parent().children(".dropdown_header").children("span").text($(this).text().trim());
+                            $parent.parent().children(".dropdown_header").children("span").text($(this).text().replace(/\([0-9]+\)/g, "").trim());
                             $parent.parent().children("ul").addClass("hide");
                         }
                     }
