@@ -662,13 +662,21 @@ body.texture {
     display: inline-block;
     width: 17%;
     height: 25px;
-    position: relative;
-    top: 2px;
 }
 
 .filters--search-button span {
     position: relative;
-    top: 1px;
+    top: 3px;
+}
+
+.filters--search-button.search-button--hover span {
+    color: white;
+}
+
+.filters--search-button.search-button--hover {
+    background-color: #63ad57;
+    border-radius: 2px;
+    cursor: pointer;
 }
 
 
