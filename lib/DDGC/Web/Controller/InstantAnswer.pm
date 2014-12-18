@@ -31,7 +31,7 @@ sub index :Chained('base') :PathPart('') :Args() {
     my $rs = $c->d->rs('Topic');
     
     my @topics = $rs->search(
-        {},
+        {'name' => { '!=' => 'test' }},
         {
             columns => [ qw/ name id /],
             result_class => 'DBIx::Class::ResultClass::HashRefInflator',
@@ -56,7 +56,7 @@ sub ialist_json :Chained('base') :PathPart('json') :Args() {
     }
 
     my @ial = $rs->search(
-        {},
+        {'topic.name' => { '!=' => 'test' }},
         {
             columns => [ qw/ name id repo src_name dev_milestone description template / ],
             prefetch => { instant_answer_topics => 'topic' },
