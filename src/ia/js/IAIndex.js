@@ -246,13 +246,18 @@
         count: function($list, $obj, regex, classes) {
             var temp_text;
             var id;
+            var selector_all;
+            var text_all;
+            var tot_count = 0;
             
             $obj.each(function(idx) {
                 temp_text = $(this).text().replace(/\([0-9]+\)/g, "").trim();
                 id = "." + $(this).attr("id");
                 
                 if (id === ".ia_repo-all" || id === ".ia_topic-all" || id === ".ia_template-all" || id === ".ia_dev_milestone-all") {
-                    id = "";
+                    selector_all = id.replace(".", "#");
+                    text_all = temp_text;
+                    return;
                 }
                 
                 var $children = $list.children(classes + id);  
@@ -271,12 +276,18 @@
                     });
 
                     temp_text += " (" + children_count + ")";
+                    tot_count += children_count;
                 } else {
                     temp_text += " (" + $children.length + ")";
+                    tot_count += $children.length;
                 }
                     
                 $(this).text(temp_text);
             });
+            
+            text_all += " (" + tot_count + ")";
+            $(selector_all).text(text_all);
+        
         },
 
         sort: function(what) {
