@@ -422,6 +422,7 @@ span.topic {
     height: 12px;
     position: relative;
     top: 2px;
+    right: 5.27px;
 }
 
 .ia-repo--goodies {
@@ -516,7 +517,7 @@ body.texture {
     position: absolute;
     display: block;
     top: 1em;
-    left: 14.5em;
+    left: 14.26em;
     border-bottom-width: 0;
 }
 
