@@ -66,68 +66,40 @@
         </ul>
     </div>
 
-    <div id="filter_topic" class="button-group-vertical dropdown">
-        <div class="dropdown_header">
-            <span>All Topics</span>
-        </div>
-        <ul class="clearfix hide">
-            <li class="row is-selected">
-                <a id="ia_topic-all" class="topic" href="#">
-                    All Topics
-                </a>
-            </li>
-            <: for $topic_list -> $topic { :>
-                <li class="row">
-                    <a id="ia_topic-<: $topic.id :>" class="topic" href="#">
-                        <: $topic.name :>
-                    </a>
-                </li>
-            <: } :>
-        </ul>
-    </div>
+    <select id="filter_topic" class="clearfix button-group-vertical dropdown">
+        <option value="0" id="ia_topic-all" class="row is-selected">
+            All Topics
+        </option>
+        <: for $topic_list -> $topic { :>
+            <option value="<: $topic.id :>" id="ia_topic-<: $topic.id :>" class="row">
+                <: $topic.name :>
+            </option>
+        <: } :>
+    </select>
 
-    <div id="filter_template" class="button-group-vertical dropdown">
-        <div class="dropdown_header">
-            <span>All Templates</span>
-        </div>
-        <ul class="clearfix hide">
-            <li class="row is-selected">
-                <a id="ia_template-all" class="template" href="#">
-                    All Templates
-                </a>
-            </li>
-            <li class="row">
-                <a id="ia_template-base" class="template" href="#">
-                    Base
-                </a>
-            </li>
-            <li class="row">
-                <a id="ia_template-icon" class="template" href="#">
-                    Icon
-                </a>
-            </li>
-            <li class="row">
-                <a id="ia_template-info" class="template" href="#">
-                    Info
-                </a>
-            </li>
-            <li class="row">
-                <a id="ia_template-media" class="template" href="#">
-                    Media
-                </a>
-            </li>
-            <li class="row">
-                <a id="ia_template-products" class="template" href="#">
-                    Products
-                </a>
-            </li>
-            <li class="row">
-                <a id="ia_template-text" class="template" href="#">
-                    Text
-                </a>
-            </li>
-        </ul>
-    </div>
+    <select id="filter_template" class="button-group-vertical dropdown">
+        <option value="0" id="ia_template-all" class="template row is-selected">
+            All Templates
+        </option>
+        <option value="1" id="ia_template-base" class="template row">
+            Base
+        </option>
+        <option value="2" id="ia_template-icon" class="template row">
+            Icon
+        </option>
+        <option value="3" id="ia_template-info" class="template row">
+            Info
+        </option>
+        <option value="4" id="ia_template-media" class="template row">
+            Media
+        </option>
+        <option value="5" id="ia_template-products" class="template row">
+            Products
+        </option>
+        <option value="6" id="ia_template-text" class="template row">
+            Text
+        </option>
+    </select>
 
     <div id="clear_filters" class="btn--wire hide">
         Clear Filters
