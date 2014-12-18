@@ -209,7 +209,8 @@ module.exports = function(grunt) {
          * revert the version number in package.json
          */
         exec: {
-            revert: "./script/revert_pkg_version.pl"
+            revert: "./script/revert_pkg_version.pl",
+            revert_release: "./script/revert_pkg_version.pl release"
         },
 
         /*
@@ -254,6 +255,8 @@ module.exports = function(grunt) {
         grunt.registerTask('default', build_tasks);
 
         grunt.registerTask('revert', ['exec:revert']);
+        
+        grunt.registerTask('revert-release', ['exec:revert_release']);
         
         // add modules here
         grunt.loadNpmTasks('grunt-contrib-concat');
