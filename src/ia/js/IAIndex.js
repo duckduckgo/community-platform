@@ -28,9 +28,7 @@
             var window_top;
             var $dropdown_header;
             var $input_query;
-            var query = "";
-            
-            $(".breadcrumb-nav").remove();
+            var query = ""; 
 
             $.getJSON(url, function(x) { 
                 $("#ia_index_header h2").text(x.length + " Instant Answers");
