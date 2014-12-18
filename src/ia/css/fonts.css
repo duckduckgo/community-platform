@@ -1,0 +1,121 @@
+@font-face {
+    font-family: 'ddg-serp-icons';
+    src:url('../../static/fonts/ddg-serp-icons.eot?-rrae82');
+    src:url('../../static/fonts/ddg-serp-icons.eot?#iefix-rrae82') format('embedded-opentype'),
+    url('../../static/fonts/ddg-serp-icons.woff?-rrae82') format('woff'),
+    url('../../static/fonts/ddg-serp-icons.ttf?-rrae82') format('truetype'),
+    url('../../static/fonts/ddg-serp-icons.svg?-rrae82#ddg-serp-icons') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+[class^="ddgsi-"], [class*=" ddgsi-"] {
+    font-family: 'ddg-serp-icons';
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+
+    /* Better Font Rendering =========== */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.ddgsi-swap:before {
+    content: "\21a9";
+}
+.ddgsi-plus:before {
+    content: "\2b";
+}
+.ddgsi-clear-field:before {
+    content: "\58";
+}
+.ddgsi-home:before {
+    content: "\2302";
+}
+.ddgsi-chev-down:before {
+    content: "\76";
+}
+.ddgsi-more:before {
+    content: "\2026";
+}
+.ddgsi-chev-up:before {
+    content: "\5e";
+}
+.ddgsi-move:before {
+    content: "\2629";
+}
+.ddgsi-user:before {
+    content: "\75";
+}
+.ddgsi-star:before {
+    content: "\2605";
+}
+.ddgsi-close-menu:before {
+    content: "\78";
+}
+.ddgsi-menu:before {
+    content: "\21f6";
+}
+.ddgsi-grid:before {
+    content: "\47";
+}
+.ddgsi-check-sign:before {
+    content: "\2611";
+}
+.ddgsi-eye:before {
+    content: "\69";
+}
+.ddgsi-loupe:before {
+    content: "\53";
+}
+.ddgsi-region:before {
+    content: "\2637";
+}
+.ddgsi-cry:before {
+    content: "\2639";
+}
+.ddgsi-uploaded:before {
+    content: "\21d1";
+}
+.ddgsi-prev:before {
+    content: "\25c0";
+}
+.ddgsi-next:before {
+    content: "\25b6";
+}
+.ddgsi-close-grid:before {
+    content: "\d7";
+}
+.ddgsi-arrow-left:before {
+    content: "\3c";
+}
+.ddgsi-arrow-right:before {
+    content: "\3e";
+}
+.ddgsi-marker:before {
+    content: "\40";
+}
+.ddgsi-cloudsave:before {
+    content: "\63";
+}
+.ddgsi-check:before {
+    content: "\2713";
+}
+.ddgsi-heart:before {
+    content: "\2665";
+}
+.ddgsi-icon_pause:before {
+    content: "\2551";
+}
+.ddgsi-icon_play:before {
+    content: "\25ba";
+}
+.ddgsi-arrow-up:before {
+    content: "\2191";
+}
+.ddgsi-arrow-down:before {
+    content: "\2193";
+}

@@ -45,9 +45,14 @@
     box-shadow: none;
     width: 87%;
     margin-right: 2.5em;
+    border: 1px solid #babec9;
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
+    padding-left: 0.25em;
 }
 #filters .one-field #search-ias {
     line-height: 31px;
+    box-shadow: none;
 }
 #ia_index #ia-list .ia-item .ia-item--details--img {
     margin-top: 1em;
@@ -59,7 +64,7 @@
     top: 0;
     width: 15.8% !important;
 }
-#ia_index #ia-list .topic {
+span.topic {
     margin-left: 0.25em;
     padding-left: 0.5em;
     padding-right: 0.5em;
@@ -71,8 +76,6 @@
     -ms-border-radius: 9px;
     -o-border-radius: 9px;
     border-radius: 9px;
-
-    font-weight: 300;
 }
 #ia_index_header {
     padding-bottom: 0.5em;
@@ -322,8 +325,8 @@
 }
 
 .stamp--goodies {
-    border: 1px solid #ffd700;
-    color: #ffd700;
+    border: 1px solid #F1A031;
+    color: #F1A031;
 }
 
 .ia-item--stamp.stamp--spice::before {
@@ -389,7 +392,7 @@
      color: #646464;
 }
 
-#filter_repo ul li:first-child {
+#filter_repo ul .is-selected {
     background-color: #F2F2F2;
 }
 
@@ -422,11 +425,11 @@
 }
 
 .ia-repo--goodies {
-    border-color: #ffd700;
+    border-color: #F1A031;
 }
 
 .ia-repo--goodies.fill {
-    background-color: #ffd700;
+    background-color: #F1A031;
 }
 
 .ia-repo--spice {
@@ -526,11 +529,115 @@ body.texture {
 
 #filters {
     width: 24%;
-
+    
     -webkit-touch-callout: none;
     -webkit-user-select: none;
     -khtml-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+}
+
+/* Single page CSS */
+
+.ia-single h2 {
+    color: #474747;
+    font-weight: 300;
+    font-size: 2em;
+}
+
+.ia-single p::first-letter {
+    text-transform: capitalize;
+}
+
+.ia-single p {
+    color: #474747;
+}
+
+.ia-single .ia-single--header {
+    color: #999;
+    font-size: 0.9em;
+    margin-bottom: 0.9em;
+}
+
+.ia-single ul {
+    list-style-type: none;
+}
+
+.ia-single a {
+    color: #7DB2DE;
+}
+
+.ia-single--icon {
+    vertical-align: middle;
+    margin-right: 0.2em;
+}
+
+.ia-single--stamp {
+    display: inline-block;
+    border: 1px solid #777;
+    text-align: center;
+    width: 35px;
+    height: 35px;
+    vertical-align: top;
+    font-size: 1.9em;
+    background-color: #777;
+    position: relative;
+}
+
+.ia-single--stamp::before {
+    content: "N";
+    position: relative;
+    top: -2px;
+    color: white;
+}
+
+.ia-single--topic-container {
+    display: inline-block;
+    position: relative;
+    top: 7px;
+}
+
+.ia-single--top {
+    margin-bottom: 1.5em;
+}
+
+.ia-single--stamp.stamp-invert--goodies::before {
+    content: "G";
+}
+
+.stamp-invert--goodies {
+    border: 1px solid #F1A031;
+    background-color: #F1A031;
+}
+
+.ia-single--stamp.stamp-invert--spice::before {
+    content: "S";
+}
+
+.stamp-invert--spice {
+    border: 1px solid #50AF5E;
+    background-color: #50AF5E;
+}
+
+.ia-single--stamp.stamp-invert--fathead::before {
+    content: "F";
+}
+
+.stamp-invert--fathead {
+    border: 1px solid #2E7BB3;
+    background-color: #2E7BB3;
+}
+
+.ia-single--stamp.stamp-invert--longtail::before {
+    content: "L";
+}
+
+.stamp-invert--longtail {
+    border: 1px solid #81869A;
+    background-color: #81869A;
+ }
+
+.ia-single--screenshots {
+    margin-bottom: 1em;
 }

@@ -44,15 +44,26 @@
                 right_pane_top_start = right_pane_top;
                 $dropdown_header = $right_pane.children(".dropdown").children(".dropdown_header");
                 $input_query = $('#filters input[name="query"]');
+
+                ind.filter($list_item, query);
             });
 
-            $("body").on("click", "#search-ias", function(evt) {
-                var temp_query = $input_query.val().trim();
-                if (temp_query !== query) {
-                    query = temp_query;
-                    ind.filter($list_item, query);
-                    if ($clear_filters.hasClass("hide")) {
-                        $clear_filters.removeClass("hide");
+            $(document).click(function(evt) {
+                if (!$(evt.target).closest(".dropdown").length) {
+                    $right_pane.children(".dropdown").children("ul").addClass("hide");
+                }
+            });
+
+            $("body").on("click keypress", "#search-ias, #filters .one-field input.text", function(evt) {
+                if (((evt.type === "keypress" && evt.which === 13) && $(this).hasClass("text"))
+                    || (evt.type === "click" && $(this).attr("id") === "search-ias")) {
+                    var temp_query = $input_query.val().trim();
+                    if (temp_query !== query) {
+                        query = temp_query;
+                        ind.filter($list_item, query);
+                        if ($clear_filters.hasClass("hide")) {
+                            $clear_filters.removeClass("hide");
+                        }
                     }
                 }
             });
@@ -97,7 +108,7 @@
 
                 $dropdown_header.each(function(idx) {
                     var text = $(this).parent().children("ul").children("li:first-child").text();
-                    $(this).children("span").text(text.trim());
+                    $(this).children("span").text(text.replace(/\([0-9]+\)/g, "").trim());
                 });
 
                 $(".is-selected").removeClass("is-selected");
@@ -142,6 +153,11 @@
                             ind.selected_filter.topic = "." + $("#filter_topic option:selected").attr("id");
                         }
 
+                        if ($parent.parent().hasClass("dropdown")) {
+                            $parent.parent().children(".dropdown_header").children("span").text($(this).text().trim());
+                            $parent.parent().children("ul").addClass("hide");
+                        }
+
                         ind.selected_filter.template = "." + $("#filter_template option:selected").attr("id");
 
                         if (ind.selected_filter.dev_milestone === ".ia_dev_milestone-all") {
@@ -179,19 +195,20 @@
             var topic = this.selected_filter.topic;
             var template = this.selected_filter.template;
 
+            var regex;
+
+            if (query) {
+                query = query.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+                regex = new RegExp(query, "gi");
+            }
+
             if (!query && !repo.length && !topic.length && !dev_milestone.length && !template.length) {
                 $obj.show();
             } else {
-                var regex;
-
-                if (query) {
-                    query = query.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
-                    regex = new RegExp(query, "gi");
-                }
-                
                 $obj.hide();
-                
+                 
                 var $children = $obj.children(dev_milestone + repo + topic + template);
+               
                 var temp_name;
                 var temp_desc;
                 if (regex) {
@@ -205,8 +222,48 @@
                     });
                 } else {
                     $children.parent().show();
-                } 
+                }
             }
+ 
+            this.count($obj, $("#filter_repo ul li a"), regex, dev_milestone + topic + template);
+            this.count($obj, $("#filter_topic ul li a"), regex, dev_milestone + repo + template);
+            this.count($obj, $("#filter_template ul li a"), regex, dev_milestone + repo + topic);
+        },
+
+        count: function($list, $obj, regex, classes) {
+            var temp_text;
+            var id;
+            
+            $obj.each(function(idx) {
+                temp_text = $(this).text().replace(/\([0-9]+\)/g, "").trim();
+                id = "." + $(this).attr("id");
+                
+                if (id === ".ia_repo-all" || id === ".ia_topic-all" || id === ".ia_template-all" || id === ".ia_dev_milestone-all") {
+                    id = "";
+                }
+                
+                var $children = $list.children(classes + id);  
+                if (regex) {
+                    var temp_name;
+                    var temp_desc;
+                    var children_count = 0;
+
+                    $children.each(function(idx) {
+                        temp_name = $(this).find(".ia-item--header").text().trim();
+                        temp_desc = $(this).find(".ia-item--details--bottom").text().trim();
+
+                        if (regex.test(temp_name) || regex.test(temp_desc)) {
+                            children_count++;
+                        }
+                    });
+
+                    temp_text += " (" + children_count + ")";
+                } else {
+                    temp_text += " (" + $children.length + ")";
+                }
+                    
+                $(this).text(temp_text);
+            });
         },
 
         sort: function(what) {
