@@ -21,9 +21,7 @@
             var url = "/ia/json";
             var $list_item;
             var $clear_filters;
-            var $right_pane_div;
-            var right_pane_top;
-            var right_pane_top_start;
+            var right_pane_height;
             var $right_pane;
             var window_top;
             var $dropdown_header;
@@ -37,9 +35,7 @@
                 $list_item = $("#ia-list .ia-item");
                 $clear_filters = $("#clear_filters");
                 $right_pane = $("#filters");
-                $right_pane_div = $("#filter_template");
-                right_pane_top = $right_pane_div.offset().top;
-                right_pane_top_start = right_pane_top;
+                right_pane_height = $right_pane.height();
                 $dropdown_header = $right_pane.children(".dropdown").children(".dropdown_header");
                 $input_query = $('#filters input[name="query"]');
 
@@ -89,23 +85,19 @@
                     $list.addClass("hide");
                 }
                 
-                if ($(this).parent().attr("id") === "filter_topic") {
-                    right_pane_top = $right_pane_div.offset().top;
-                } else {
-                    right_pane_top = right_pane_top_start;
-                }
+                right_pane_height = $right_pane.height();
             });
 
             $(window).scroll(function(evt) {
                 var window_top = $(window).scrollTop();
 
-                if (right_pane_top < window_top) {
-                    if (!$right_pane_div.hasClass("is-fixed")) {
-                        $right_pane_div.addClass("is-fixed");
+                if (right_pane_height < window_top) {
+                    if (!$right_pane.hasClass("is-fixed")) {
+                        $right_pane.addClass("is-fixed");
                     }
                } else {
-                    if ($right_pane_div.hasClass("is-fixed")) {
-                        $right_pane_div.removeClass("is-fixed");
+                    if ($right_pane.hasClass("is-fixed")) {
+                        $right_pane.removeClass("is-fixed");
                     }
                 }
             });
