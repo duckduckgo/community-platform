@@ -50,6 +50,12 @@
                 }
             });
 
+            $(".filters--search-button").hover(function() {
+                $(this).addClass("search-button--hover");
+            }, function() {
+                $(this).removeClass("search-button--hover");
+            });
+            
             $("body").on("click keypress", "#search-ias, #filters .one-field input.text", function(evt) {
                 if (((evt.type === "keypress" && evt.which === 13) && $(this).hasClass("text"))
                     || (evt.type === "click" && $(this).attr("id") === "search-ias")) {

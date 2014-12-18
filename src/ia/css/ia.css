@@ -39,12 +39,9 @@
 }
 #filters .one-field input.text {
     box-shadow: none;
-    width: 87%;
-    margin-right: 2.5em;
-    border: 1px solid #babec9;
+    padding-right: 0;
     border-top-left-radius: 3px;
     border-bottom-left-radius: 3px;
-    padding-left: 0.25em;
 }
 #filters .one-field #search-ias {
     line-height: 31px;
@@ -645,3 +642,40 @@ body.texture {
 .ia-single--screenshots {
     margin-bottom: 1em;
 }
+
+.one-field .filters--search {
+    border: none;
+    outline: none;
+    background: none;
+    padding: 0;
+    width: 78%;
+}
+
+.one-field {
+    background-color: #f7f7f7;
+    border: 1px solid #cccdc8;
+    padding-left: 0.5em;
+}
+
+.filters--search-button {
+    display: inline-block;
+    width: 17%;
+    height: 25px;
+}
+
+.filters--search-button span {
+    position: relative;
+    top: 3px;
+}
+
+.filters--search-button.search-button--hover span {
+    color: white;
+}
+
+.filters--search-button.search-button--hover {
+    background-color: #63ad57;
+    border-radius: 2px;
+    cursor: pointer;
+}
+
+
