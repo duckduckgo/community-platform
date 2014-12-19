@@ -40,6 +40,7 @@
 #filters .one-field input.text {
     box-shadow: none;
     padding-right: 0;
+    font-size: 100%;
     border-top-left-radius: 3px;
     border-bottom-left-radius: 3px;
 }
@@ -84,7 +85,8 @@ span.topic {
 }
 
 #filters .button-group-vertical,
-#filters .dropdown .dropdown_header {
+#filters .dropdown .dropdown_header,
+#filters .one-field {
    border-radius: 3px;
    -moz-border-radius: 3px;
    -o-border-radius: 3px;
@@ -655,6 +657,7 @@ body.texture {
 .one-field {
     background-color: #f7f7f7;
     border: 1px solid #cccdc8;
+    padding: 0.1em;
     padding-left: 0.5em;
 }
 
@@ -679,4 +682,24 @@ body.texture {
     cursor: pointer;
 }
 
+
+q
+q
+q
+q
+q
+q
+q
+q
+q
+q
+q
+q
+q
+q
+q
+q
+q
+q
+q
 
