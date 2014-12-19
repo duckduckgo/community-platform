@@ -38,7 +38,7 @@
                     
                     // Readonly mode templates
                     var readonly_templates = {
-                        
+                        name : Handlebars.templates.name(x), 
                         status : Handlebars.templates.status(x),
                         description : Handlebars.templates.description(x),
                         topic : Handlebars.templates.topic(x),
