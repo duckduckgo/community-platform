@@ -40,6 +40,7 @@
 #filters .one-field input.text {
     box-shadow: none;
     padding-right: 0;
+    font-size: 100%;
     border-top-left-radius: 3px;
     border-bottom-left-radius: 3px;
 }
@@ -84,7 +85,8 @@ span.topic {
 }
 
 #filters .button-group-vertical,
-#filters .dropdown .dropdown_header {
+#filters .dropdown .dropdown_header,
+#filters .one-field {
    border-radius: 3px;
    -moz-border-radius: 3px;
    -o-border-radius: 3px;
@@ -422,6 +424,7 @@ span.topic {
     height: 12px;
     position: relative;
     top: 2px;
+    right: 5.27px;
 }
 
 .ia-repo--goodies {
@@ -516,7 +519,7 @@ body.texture {
     position: absolute;
     display: block;
     top: 1em;
-    left: 14.5em;
+    left: 14.26em;
     border-bottom-width: 0;
 }
 
@@ -654,6 +657,7 @@ body.texture {
 .one-field {
     background-color: #f7f7f7;
     border: 1px solid #cccdc8;
+    padding: 0.1em;
     padding-left: 0.5em;
 }
 
@@ -677,5 +681,4 @@ body.texture {
     border-radius: 2px;
     cursor: pointer;
 }
-
 
