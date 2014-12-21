@@ -50,6 +50,18 @@
                 }
             });
 
+            $(window).resize(function(evt) {
+                if ($right_pane.hasClass("is-fixed")) {
+                    $right_pane.removeClass("is-fixed");
+                    right_pane_left = $right_pane.offset().left;
+                    $right_pane.addClass("is-fixed");
+                    $right_pane.css('left', right_pane_left + "px");
+                } else {
+                    right_pane_left = $right_pane.offset().left;
+                    right_pane_top = $right_pane.offset().top;
+                }
+            });
+
             $(".filters--search-button").hover(function() {
                 $(this).addClass("search-button--hover");
             }, function() {
