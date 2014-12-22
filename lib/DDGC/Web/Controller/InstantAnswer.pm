@@ -38,6 +38,7 @@ sub index :Chained('base') :PathPart('') :Args() {
         }
     )->all;
 
+    $c->stash->{title} = "Index: Instant Answers";
     $c->stash->{topic_list} = \@topics;
     $c->add_bc('Instant Answers', $c->chained_uri('InstantAnswer','index'));
 
@@ -142,6 +143,7 @@ sub ia_base :Chained('base') :PathPart('view') :CaptureArgs(1) {  # /ia/view/cal
         }
     }
 
+    $c->stash->{title} = $c->stash->{ia}->name;
     $c->stash->{edit_class} = $edit_class;
     $c->stash->{commit_class} = $commit_class;
 
