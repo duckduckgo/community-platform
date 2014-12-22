@@ -43,6 +43,7 @@
     font-size: 100%;
     border-top-left-radius: 3px;
     border-bottom-left-radius: 3px;
+    height: 27px;
 }
 #filters .one-field #search-ias {
     line-height: 31px;
