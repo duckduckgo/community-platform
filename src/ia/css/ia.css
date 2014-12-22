@@ -43,6 +43,7 @@
     font-size: 100%;
     border-top-left-radius: 3px;
     border-bottom-left-radius: 3px;
+    height: 27px;
 }
 #filters .one-field #search-ias {
     line-height: 31px;
@@ -426,7 +427,7 @@ span.topic {
     height: 12px;
     position: relative;
     top: 2px;
-    right: 5.27px;
+    right: 5px;
 }
 
 .ia-repo--goodies {
@@ -521,7 +522,7 @@ body.texture {
     position: absolute;
     display: block;
     top: 1em;
-    left: 14.26em;
+    right: 16px;
     border-bottom-width: 0;
 }
 
@@ -667,6 +668,9 @@ body.texture {
     display: inline-block;
     width: 17%;
     height: 25px;
+    margin-top: 2px;
+    position: relative;
+    right: -2px;
 }
 
 .filters--search-button span {
