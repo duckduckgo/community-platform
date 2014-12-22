@@ -153,19 +153,10 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
     my ( $self, $c) = @_;
 
     my $ia = $c->stash->{ia};
-    my @topics_list =  $c->d->rs('Topic')->all();
     my @topics = map { $_->name} $ia->topics;
-    my @allowed;
 
     my @issues = $c->d->rs('InstantAnswer::Issues')->find({instant_answer_id => $ia->id});
-    my @ia_issues;    
- 
-    for my $topic (@topics_list) {
-        push (@allowed, {
-               id => $topic->id,
-               name => $topic->name
-            });
-    }
+    my @ia_issues; 
 
     for my $issue (@issues) {
         if ($issue) {
@@ -192,7 +183,6 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
                 code => $ia->code? decode_json($ia->code) : undef,
                 topic => \@topics,
                 attribution => $ia->attribution? decode_json($ia->attribution) : undef,
-                allowed_topics => \@allowed,
                 issues => \@ia_issues,
                 template => $ia->template,
     };
