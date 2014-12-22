@@ -557,6 +557,7 @@ body.texture {
 
 .ia-single p {
     color: #707070;
+    margin-top: 1.5em;
 }
 
 .ia-single .ia-single--header {
@@ -686,3 +687,9 @@ body.texture {
     cursor: pointer;
 }
 
+span.ia-single--topic {
+    padding: 0.5em;
+    margin-right: 0.5em;
+    margin-left: 0;
+    cursor: default;
+}
