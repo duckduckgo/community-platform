@@ -250,7 +250,6 @@
         field_order: [
             'name',
             'description',
-            'screens',
             'examples',
             'devinfo',
         ],
