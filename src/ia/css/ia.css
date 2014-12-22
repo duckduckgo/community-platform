@@ -320,6 +320,8 @@ span.topic {
 
 .ia-item--stamp::before {
     content: "N";
+    position: relative;
+    top: 1px;
 }
 
 .ia-item--stamp.stamp--goodies::before {
