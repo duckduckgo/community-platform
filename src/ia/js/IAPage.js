@@ -21,14 +21,11 @@
     DDH.IAPage.prototype = {
         init: function(ops) {
             console.log("IAPage.init()\n");
-            var ia_page = this; 
 
             if (DDH_iaid) {
                 console.log("for ia id '%s'", DDH_iaid);
 
                 $.getJSON("/ia/view/" + DDH_iaid + "/json", function(x) {
-                    x.allowed_topics = ia_page.allowed_topics;
-
                     // Readonly mode templates
                     var readonly_templates = {
                         name : Handlebars.templates.name(x),
@@ -264,20 +261,6 @@
                 $(".ia-single").append(templates[this.field_order[i]]);
             }
         },       
-
-        allowed_topics: [
-            {"name":"special interest","id":1},
-            {"name":"code & hacking","id":2},
-            {"name":"math & science","id":3},
-            {"name":"productivity","id":4},
-            {"name":"movies & tv","id":5},
-            {"name":"finance","id":6},
-            {"name":"music","id":7},
-            {"name":"social networking","id":8},
-            {"name":"language","id":9},
-            {"name":"gaming","id":10},
-            {"name":"food & drink","id":11}
-        ],
 
         expand: function() {
             $(".ia-single .dev-info").addClass("hide");

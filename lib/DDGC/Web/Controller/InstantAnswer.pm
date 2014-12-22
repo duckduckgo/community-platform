@@ -145,6 +145,15 @@ sub ia_base :Chained('base') :PathPart('view') :CaptureArgs(1) {  # /ia/view/cal
     $c->stash->{edit_class} = $edit_class;
     $c->stash->{commit_class} = $commit_class;
 
+    my @topics = $c->d->rs('Topic')->search(
+        {'name' => { '!=' => 'test' }},
+        {
+            columns => [ qw/ name id /],
+            result_class => 'DBIx::Class::ResultClass::HashRefInflator',
+        }
+    )->all;
+
+    $c->stash->{topic_list} = \@topics;
     $c->add_bc('Instant Answers', $c->chained_uri('InstantAnswer','index'));
     $c->add_bc($c->stash->{ia}->name);
 }
