@@ -111,8 +111,6 @@ span.topic {
 }
 
 #filters .dropdown ul {
-    max-height: 16.2em;
-    overflow-y: scroll;
     border-top: 0;
 }
 

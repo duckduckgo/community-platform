@@ -21,8 +21,8 @@
             var url = "/ia/json";
             var $list_item;
             var $clear_filters;
-            var right_pane_top;
-            var right_pane_left;
+            //var right_pane_top;
+            //var right_pane_left;
             var $right_pane;
             var window_top;
             var $dropdown_header;
@@ -36,8 +36,8 @@
                 $list_item = $("#ia-list .ia-item");
                 $clear_filters = $("#clear_filters");
                 $right_pane = $("#filters");
-                right_pane_top = $right_pane.offset().top;
-                right_pane_left = $right_pane.offset().left;
+                //right_pane_top = $right_pane.offset().top;
+                //right_pane_left = $right_pane.offset().left;
                 $dropdown_header = $right_pane.children(".dropdown").children(".dropdown_header");
                 $input_query = $('#filters input[name="query"]');
 
@@ -50,7 +50,7 @@
                 }
             });
 
-            $(window).resize(function(evt) {
+            /*$(window).resize(function(evt) {
                 if ($right_pane.hasClass("is-fixed")) {
                     $right_pane.removeClass("is-fixed");
                     right_pane_left = $right_pane.offset().left;
@@ -60,7 +60,7 @@
                     right_pane_left = $right_pane.offset().left;
                     right_pane_top = $right_pane.offset().top;
                 }
-            });
+            });*/
 
             $(".filters--search-button").hover(function() {
                 $(this).addClass("search-button--hover");
@@ -106,7 +106,7 @@
                 }
             });
 
-            $(window).scroll(function(evt) {
+            /*$(window).scroll(function(evt) {
                 var window_top = $(window).scrollTop();
 
                 if (right_pane_top < window_top) {
@@ -119,7 +119,7 @@
                         $right_pane.removeClass("is-fixed");
                     }
                 }
-            });
+            });*/
 
             $("body").on("click", "#clear_filters", function(evt) {
                 $(this).addClass("hide");
@@ -348,10 +348,6 @@
         refresh: function() {
             var iap = Handlebars.templates.index({ia: this.ia_list});
             $("#ia_index").html(iap);
-            $("#sort_name").on('click',   DDH.IAIndex.prototype.sort.bind(this, 'name'));
-            $("#sort_descr").on('click',  DDH.IAIndex.prototype.sort.bind(this, 'description'));
-            $("#sort_status").on('click', DDH.IAIndex.prototype.sort.bind(this, 'dev_milestone'));
-            $("#sort_repo").on('click',   DDH.IAIndex.prototype.sort.bind(this, 'repo'));
         }
 
     };
