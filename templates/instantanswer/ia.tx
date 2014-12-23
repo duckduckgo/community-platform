@@ -1,3 +1,12 @@
+<select id="allowed_topics" class="hide">
+    <: for $topic_list -> $topic { :>
+        <option value="<: $topic.id :>">
+            <: $topic.name :>
+        </option>
+    <: } :>
+</select>
+
+
 <div class="button <: $commit_class :> right" id="view_commits">Commit edits</div>
 <div class="button <: $edit_class :> right" id="edit_activate">Enable edit mode</div>
 <div class="button hide right" id="edit_disable">Disable edit mode</div>
