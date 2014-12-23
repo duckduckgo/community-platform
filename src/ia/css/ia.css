@@ -53,6 +53,12 @@
 #filters .dropdown .dropdown_header {
     cursor: pointer;
 }
+#filters .dropdown.disabled .dropdown_header span {
+    color: #999;
+}
+#filters .dropdown.disabled .dropdown_header::after {
+    border-top-color: #999;
+}
 #ia_index #ia-list .ia-item .ia-item--details--img {
     margin-top: 1em;
 }
