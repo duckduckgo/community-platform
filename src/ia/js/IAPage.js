@@ -26,9 +26,19 @@
                 console.log("for ia id '%s'", DDH_iaid);
 
                 $.getJSON("/ia/view/" + DDH_iaid + "/json", function(x) {
+                    
+                    var temp_key;
+                    if (x.attribution) {
+                        $.each(x.attribution, function(key, val) {
+                            temp_key = unescape(key);
+                            delete x.attribution[key];
+                            x.attribution[temp_key] = val;
+                        });
+                    }
+                    
                     // Readonly mode templates
                     var readonly_templates = {
-                        name : Handlebars.templates.name(x),
+                        name : Handlebars.templates.name(x), 
                         status : Handlebars.templates.status(x),
                         description : Handlebars.templates.description(x),
                         topic : Handlebars.templates.topic(x),
