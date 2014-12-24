@@ -657,3 +657,7 @@ a.create-issue {
 .ia-single ul {
     margin: 0 auto 5px;
 }
+
+.ia-single {
+    margin-bottom: 7em;
+}
