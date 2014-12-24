@@ -53,6 +53,12 @@
 #filters .dropdown .dropdown_header {
     cursor: pointer;
 }
+#filters .dropdown.disabled .dropdown_header span {
+    color: #999;
+}
+#filters .dropdown.disabled .dropdown_header::after {
+    border-top-color: #999;
+}
 #ia_index #ia-list .ia-item .ia-item--details--img {
     margin-top: 1em;
 }
@@ -105,8 +111,6 @@ span.topic {
 }
 
 #filters .dropdown ul {
-    max-height: 16.2em;
-    overflow-y: scroll;
     border-top: 0;
 }
 
@@ -308,8 +312,8 @@ span.topic {
     display: inline-block;
     border: 1px solid #777;
     text-align: center;
-    width: 25px;
-    height: 25px;
+    width: 26px;
+    height: 26px;
     vertical-align: top;
     font-size: 1.1em;
     margin-right: 0.75em;
@@ -321,6 +325,8 @@ span.topic {
 
 .ia-item--stamp::before {
     content: "N";
+    position: relative;
+    top: 1px;
 }
 
 .ia-item--stamp.stamp--goodies::before {
