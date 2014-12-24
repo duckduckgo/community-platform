@@ -658,7 +658,13 @@ a.create-issue {
     margin-bottom: 7em;
 }
 
-.ia-single--screenshots img {
-    width: 67%;
-    float: right;
+.ia-single--screenshots {
+    width: 65%;
+}
+
+.ia-single--screenshots-top {
+    display: block;
+    height: 19px;
+    background-color: #383C45;
+    border-radius: 3px 3px 0px 0px;
 }
