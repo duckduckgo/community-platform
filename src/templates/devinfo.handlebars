@@ -7,7 +7,9 @@
       {{/each}}
     </ul>
   {{/if}}
+</div>
 
+<div>
   {{#if code}}
     <div class="ia-single--header">GITHUB FILES</div>
     <ul>
@@ -27,16 +29,17 @@
 <span class="clearfix"></span>
 -->
 
-{{#each issues}}
-  <div>
-    <div class="ia-single--header">ISSUES</div>
-    <ul>
+<div class="ia-issues">
+  <div class="ia-single--header">ISSUES</div>
+  <ul>
+    {{#each issues}}
       <li>
         <a href="https://github.com/duckduckgo/zeroclickinfo-{{../repo}}/issues/{{issue_id}}">{{title}}</a>
       </li>
-    </ul>
-  </div>
-{{/each}}
+    {{/each}}
+  </ul>
+  <a class="create-issue" href="https://github.com/duckduckgo/zeroclickinfo-{{repo}}/issues/new?&title=issue+title&body=http%3A%2F%2Fduck.co%2Fia%2Fview%2F{{id}}">Create an Issue</a>
+</div>
 
 
 <!--

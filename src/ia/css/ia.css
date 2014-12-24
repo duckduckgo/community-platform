@@ -570,6 +570,7 @@ body.texture {
     color: #999;
     font-size: 0.9em;
     margin-bottom: 0.9em;
+    margin-top: 2em;
 }
 
 .ia-single ul {
@@ -633,4 +634,26 @@ span.ia-single--topic {
     margin-right: 0.5em;
     margin-left: 0;
     cursor: default;
+}
+
+.ia-issues li {
+    border-bottom: 1px solid #DBDBDB;
+    padding-bottom: 0.3em;
+}
+
+.ia-attribution li {
+    border-bottom: 1px solid #DBDBDB;
+    padding-bottom: 0.3em;
+}
+
+.ia-attribution li:last-child {
+    border-bottom: none;
+}
+
+a.create-issue {
+    color: #707070;
+}
+
+.ia-single ul {
+    margin: 0 auto 5px;
 }
