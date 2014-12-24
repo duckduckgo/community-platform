@@ -255,10 +255,12 @@
         ],
 
         updateAll: function(templates) {
-            $(".ia-single").empty();
+            $(".ia-single--left").empty();
             for (var i = 0; i < this.field_order.length; i++) {
-                $(".ia-single").append(templates[this.field_order[i]]);
+                $(".ia-single--left").append(templates[this.field_order[i]]);
             }
+
+            $(".ia-single--right").append(templates.screens);
         },       
 
         expand: function() {
