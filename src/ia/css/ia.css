@@ -636,6 +636,10 @@ span.ia-single--topic {
     padding-bottom: 0.3em;
 }
 
+.ia-issues li:last-child {
+    border-bottom: none;
+}
+
 .ia-attribution li {
     border-bottom: 1px solid #DBDBDB;
     padding-bottom: 0.3em;
@@ -645,7 +649,7 @@ span.ia-single--topic {
     border-bottom: none;
 }
 
-a.create-issue {
+a.create-issue--link {
     color: #707070;
 }
 
@@ -716,3 +720,18 @@ a.create-issue {
 .ia-single--info ul li a {
     display: block;
 }
+
+.create-issue .ddgsi-next {
+    background-color: #D3D3D3;
+    color: #555555;
+    height: 15px;
+    width: 15px;
+    position: relative;
+    top: 3px;
+}
+
+.create-issue {
+    border-top: 1px solid #DBDBDB;
+    padding-top: 3px;
+}
+
