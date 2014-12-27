@@ -2,11 +2,17 @@
   {{#if code}}
     <div class="ia-single--header">GITHUB FILES</div>
     <ul>
-      {{#each code}}
-        <li><a class="one-line" href="https://github.com/duckduckgo/zeroclickinfo-{{../repo}}/tree/master/{{this}}">{{this}}</a></li>
-      {{/each}}
+      {{#listFiles code}}
+        <a class="one-line" href="https://github.com/duckduckgo/zeroclickinfo-{{../repo}}/tree/master/{{this}}">{{this}}</a>
+      {{/listFiles}}
     </ul>
   {{/if}}
+  <div class="show-more">
+    <a id="show-more--link" href="#">Show More</a>
+    <a href="#">
+      <span class="ddgsi ddgsi-chev-down right circle"></span>
+    </a>
+  </div>
 </div>
 
 <!--
@@ -29,8 +35,9 @@
       {{/each}}
     </ul>
   {{/if}}
+
   <div class="create-issue">
-    <a class="create-issue--link" href="https://github.com/duckduckgo/zeroclickinfo-{{repo}}/issues/new?&title=issue+title&body=http%3A%2F%2Fduck.co%2Fia%2Fview%2F{{id}}">Create an Issue</a>
+    <a id="create-issue--link" href="https://github.com/duckduckgo/zeroclickinfo-{{repo}}/issues/new?&title=issue+title&body=http%3A%2F%2Fduck.co%2Fia%2Fview%2F{{id}}">Create Issue</a>
     <a href="https://github.com/duckduckgo/zeroclickinfo-{{repo}}/issues/new?&title=issue+title&body=http%3A%2F%2Fduck.co%2Fia%2Fview%2F{{id}}">
     <span class="ddgsi ddgsi-next right circle"></span>
     </a>

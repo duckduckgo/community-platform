@@ -649,7 +649,11 @@ body.texture {
     border-bottom: none;
 }
 
-a.create-issue--link {
+#create-issue--link {
+    color: #707070;
+}
+
+#show-more--link {
     color: #707070;
 }
 
@@ -721,16 +725,42 @@ a.create-issue--link {
     display: block;
 }
 
-.create-issue .ddgsi-next {
+.create-issue .ddgsi {
     background-color: #D3D3D3;
     color: #555555;
-    height: 15px;
-    width: 15px;
+    height: 17px;
+    width: 17px;
     position: relative;
     top: 3px;
 }
 
+.create-issue .ddgsi::before {
+    position: relative;
+    top: 2px;
+    right: -1px;
+}
+
+.show-more .ddgsi {
+    background-color: #D3D3D3;
+    color: #555555;
+    height: 17px;
+    width: 17px;
+    position: relative;
+    top: 3px;
+}
+
+.show-more .ddgsi::before {
+    position: relative;
+    top: 2px;
+    right: -1px;
+}
+
 .create-issue {
+    border-top: 1px solid #DBDBDB;
+    padding-top: 3px;
+}
+
+.show-more {
     border-top: 1px solid #DBDBDB;
     padding-top: 3px;
 }

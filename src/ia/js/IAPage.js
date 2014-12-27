@@ -10,6 +10,19 @@
         return description;
     });
 
+    Handlebars.registerHelper('listFiles', function(items, options) {
+        var out = "";
+        for(var i = 0; i < items.length; i++) {
+            if(i < 3) {
+                out +="<li>" + options.fn(items[i]) + "</li>";
+            } else {
+                out += "<li class='hide extra-item'>" + options.fn(items[i]) + "</li>";
+            }
+        }
+
+        return out;
+    });
+
     // placeholder
 
     DDH.IAPage = function(ops) {
@@ -264,6 +277,20 @@
             }
 
             $(".ia-single--right").append(templates.screens);
+
+            $(".show-more").click(function(e) {
+                e.preventDefault();
+                
+                if($(".ia-single--info li").hasClass("hide")) {
+                    $(".ia-single--info li").removeClass("hide");
+                    $("#show-more--link").text("Show Less");
+                    $(".ia-single--info").find(".ddgsi").removeClass("ddgsi-chev-down").addClass("ddgsi-chev-up");
+                } else {
+                    $(".ia-single--info li.extra-item").addClass("hide");
+                    $("#show-more--link").text("Show More");
+                    $(".ia-single--info").find(".ddgsi").removeClass("ddgsi-chev-up").addClass("ddgsi-chev-down");
+                }
+            });
         },       
 
         expand: function() {
