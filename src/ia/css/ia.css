@@ -68,7 +68,7 @@
     top: 0;
     width: 16em !important;
 }
-span.topic {
+.topic {
     margin-left: 0.5em;
     padding-left: 0.5em;
     padding-right: 0.5em;
@@ -576,7 +576,7 @@ body.texture {
     list-style-type: none;
 }
 
-.ia-single a {
+.ia-single .ia-single--left a {
     color: #7DB2DE;
 }
 
@@ -624,7 +624,7 @@ body.texture {
     cursor: pointer;
 }
 
-span.ia-single--topic {
+.ia-single--topic {
     padding: 0.5em;
     margin-right: 0.5em;
     margin-left: 0;
@@ -735,3 +735,26 @@ a.create-issue--link {
     padding-top: 3px;
 }
 
+.ia-single--edit {
+    margin-top: 3em;
+    margin-bottom: 1.6em;
+    display: inline-block;
+    margin-right: 0;
+    position: relative;
+    left: 42.7em;
+    cursor: pointer;
+}
+
+.btn--primary {
+    border: none;
+    background-color: #60a5da;
+    border-bottom: 2px solid #4495d4;
+    color: #fff;
+
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    -ms-border-radius: 2px;
+    -o-border-radius: 2px;
+    border-radius: 2px;
+    font-weight: normal;
+}
