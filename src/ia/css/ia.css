@@ -675,7 +675,7 @@ a.create-issue {
     background-color: #6D7278;
     display: inline-block;
     position: relative;
-    top: 22px;
+    top: 2px;
     right: -6px;
 }
 
@@ -704,4 +704,8 @@ a.create-issue {
 
 .serp-item:first-child {
     width: 50%;
+}
+
+.window-buttons-container {
+    position: absolute;
 }
