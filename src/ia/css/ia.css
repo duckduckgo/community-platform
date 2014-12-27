@@ -736,13 +736,14 @@ a.create-issue--link {
 }
 
 .ia-single--edit {
-    margin-top: 3em;
+    margin-top: 3.1em;
     margin-bottom: 1.6em;
     display: inline-block;
     margin-right: 0;
     position: relative;
     left: 42.7em;
     cursor: pointer;
+    padding-bottom: 0.3em;
 }
 
 .btn--primary {
