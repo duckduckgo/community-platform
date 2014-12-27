@@ -709,3 +709,7 @@ a.create-issue {
 .window-buttons-container {
     position: absolute;
 }
+
+.ia-single--left {
+    width: 35%;
+}
