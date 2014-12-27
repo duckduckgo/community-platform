@@ -711,5 +711,9 @@ a.create-issue {
 }
 
 .ia-single--left {
-    width: 35%;
+    width: 30%;
+}
+
+.ia-single--info ul li a {
+    display: block;
 }
