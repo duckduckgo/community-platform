@@ -35,7 +35,8 @@
                         screens : Handlebars.templates.screens(x),
                         template : Handlebars.templates.template(x),
                         examples : Handlebars.templates.examples(x),
-                        devinfo : Handlebars.templates.devinfo(x)
+                        devinfo : Handlebars.templates.devinfo(x),
+                        github: Handlebars.templates.github(x)
                     };
 
                     // Pre-Edit mode templates
@@ -47,7 +48,8 @@
                         screens : Handlebars.templates.screens(x),
                         template : Handlebars.templates.template(x),
                         examples : Handlebars.templates.pre_edit_examples(x),
-                        devinfo : Handlebars.templates.devinfo(x)
+                        devinfo : Handlebars.templates.devinfo(x),
+                        github: Handlebars.templates.github(x)
                     };
 
                     DDH.IAPage.prototype.updateAll(readonly_templates);
@@ -250,6 +252,7 @@
         field_order: [
             'name',
             'description',
+            'github',
             'examples',
             'devinfo',
         ],
