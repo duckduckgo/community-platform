@@ -7,12 +7,14 @@
       {{/listFiles}}
     </ul>
   {{/if}}
-  <div class="show-more">
-    <a id="show-more--link" href="#">Show More</a>
-    <a href="#">
-      <span class="ddgsi ddgsi-chev-down right circle"></span>
-    </a>
-  </div>
+  {{#moreFiles code}}
+    <div class="show-more">
+      <a id="show-more--link" href="#">Show More</a>
+      <a href="#">
+        <span class="ddgsi ddgsi-chev-down right circle"></span>
+      </a>
+    </div>
+  {{/moreFiles}}
 </div>
 
 <!--

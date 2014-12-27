@@ -23,6 +23,13 @@
         return out;
     });
 
+    Handlebars.registerHelper('moreFiles', function(items, options) {
+        if(items && items.length > 3) {
+            return options.fn(items);
+        }
+        return "";
+    });
+
     // placeholder
 
     DDH.IAPage = function(ops) {
