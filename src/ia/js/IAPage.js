@@ -270,7 +270,6 @@
         },
 
         field_order: [
-            'name',
             'description',
             'github',
             'examples',

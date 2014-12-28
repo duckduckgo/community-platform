@@ -764,7 +764,7 @@ body.texture {
 }
 
 .ia-single--edit {
-    margin-top: 3.9em;
+    margin-top: 3.8em;
     margin-bottom: 1.6em;
     display: inline-block;
     margin-right: 0;
@@ -788,9 +788,34 @@ body.texture {
 @media (max-width: 980px) {
     .site-main .content-wrap {
         margin-left: 0.7em;
+        margin-right: 0.7em;
+    }
+}
+
+@media (max-width: 730px) {
+    div.ia-single--right {
+        float: none;
+        width: 100%;
+    }
+
+    div.ia-single--left {
+        float: none;
+        width: 100%;
+    }
+
+    .ia-single--right .small-description {
+        display: initial;
+    }
+
+    .big-description {
+        display: none;
     }
 }
 
 .ia-single--right {
     width: 67%;
+}
+
+.ia-single {
+    margin-right: 0.7em;
 }

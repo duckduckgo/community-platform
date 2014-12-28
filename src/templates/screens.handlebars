@@ -1,6 +1,13 @@
-<div>
-  <a href="/edit" class="ia-single--edit btn--primary topic right ia-single--topic">Edit Page</a>
+<div class="left small-description hide">
+  <h2>{{name}}</h2>
+  {{#each topic}}
+    <span class="btn--wire topic ia-single--topic">{{this}}</span>
+  {{/each}}
+  {{#if description}}
+    <p>{{addPeriod description}}</p>
+  {{/if}}
 </div>
+<a href="/edit" class="ia-single--edit btn--primary topic right ia-single--topic">Edit Page</a>
 <div class="ia-single--screenshots clearfix">
   <div class="window-buttons-container">
     <span class="circle"></span>
