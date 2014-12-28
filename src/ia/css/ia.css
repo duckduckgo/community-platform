@@ -629,6 +629,8 @@ body.texture {
     margin-right: 0.5em;
     margin-left: 0;
     cursor: default;
+    display: inline-block;
+    margin-top: 0.5em;
 }
 
 .ia-issues li {
@@ -788,4 +790,8 @@ body.texture {
     -o-border-radius: 2px;
     border-radius: 2px;
     font-weight: normal;
+}
+
+@media (max-width: 980px) {
+
 }
