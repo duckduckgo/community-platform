@@ -866,5 +866,6 @@ body.texture {
     .ia-index--left {
         width: 100%;
         border-right: none;
+        min-height: 26em;
     }
 }
