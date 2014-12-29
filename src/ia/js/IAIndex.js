@@ -121,6 +121,20 @@
                 }
             });*/
 
+            $("#filters .ddgsi-close-grid").click(function() {
+                $("#filters").hide();
+            });
+
+            $("#ia_index_header .ddgsi-menu").click(function() {
+                $("#filters").show();
+            });
+
+            $(window).resize(function() {
+                if($(window).width() > 910) {
+                    $("#filters").show();
+                }
+            });
+
             $("body").on("click", "#clear_filters", function(evt) {
                 $(this).addClass("hide");
                 query = "";

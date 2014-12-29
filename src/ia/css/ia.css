@@ -36,6 +36,7 @@
     text-align: center;
     position: static;
     top: 0;
+    padding-right: 1em;
 }
 #filters .one-field input.text {
     box-shadow: none;
@@ -482,7 +483,7 @@ body.texture {
 .ia-index--left {
     width: 73%;
     border-right: 1px solid #e9e9e9;
-    margin-top: 15px;
+    padding-top: 15px;
 }
 
 #ia_index_header {
@@ -540,7 +541,7 @@ body.texture {
 
 #filters {
     width: 24%;
-    margin-top: 15px;
+    padding-top: 15px;
     -webkit-touch-callout: none;
     -webkit-user-select: none;
     -khtml-user-select: none;
@@ -818,4 +819,52 @@ body.texture {
 
 .ia-single {
     margin-right: 0.7em;
+}
+
+@media (max-width: 910px) {
+    #filters {
+        height: 100%;
+        position: absolute;
+        background-color: white;
+        right: 0;
+        padding-left: 0.6em;
+        width: 15em;
+        -webkit-box-shadow: -1px 0 1px rgba(0,0,0,0.2);
+        box-shadow: -1px 0 1px rgba(0,0,0,0.2);
+        display: none;
+    }
+
+    .filters--search-button {
+        top: -1px;
+    }
+
+    #filters .ddgsi-close-grid {
+        float: right;
+        margin-bottom: 0.7em;
+        margin-right: 0.1em;
+        font-size: 1.2em;
+        display: initial;
+        cursor: pointer;
+    }
+
+    #ia_index_header .ddgsi-menu {
+        display: initial;
+        position: relative;
+        top: 6px;
+        font-size: 1.5em;
+        cursor: pointer;
+    }
+
+    .site-main {
+        padding: 0;
+    }
+
+    .breadcrumbs {
+        margin-top: 15px;
+    }
+
+    .ia-index--left {
+        width: 100%;
+        border-right: none;
+    }
 }
