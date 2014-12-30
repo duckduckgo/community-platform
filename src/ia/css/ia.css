@@ -526,8 +526,8 @@ body.texture {
     border-top-color: #333;
     position: absolute;
     display: block;
-    top: 1em;
-    right: 16px;
+    top: 1.1em;
+    right: 15px;
     border-bottom-width: 0;
 }
 
