@@ -15,7 +15,7 @@
   </div>
 </div>
 
-<div id="filters" class="right">
+<div id="filters" class="right hide-small">
     <span class="ddgsi-close-grid hide"></span>
     <div class="one-field clearfix">
         <input type="text" class="text filters--search" placeholder="Filter Instant Answers" name="query" value="" autocorrect="off" autocapitalize="off" autocomplete="off">

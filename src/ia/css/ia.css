@@ -831,11 +831,14 @@ body.texture {
         width: 15em;
         -webkit-box-shadow: -1px 0 1px rgba(0,0,0,0.2);
         box-shadow: -1px 0 1px rgba(0,0,0,0.2);
-        display: none;
     }
 
     .filters--search-button {
         top: -1px;
+    }
+
+    #filters.hide-small {
+        display: none;
     }
 
     #filters .ddgsi-close-grid {
@@ -867,10 +870,6 @@ body.texture {
         width: 100%;
         border-right: none;
         min-height: 29em;
-    }
-    
-    .breadcrumb-nav {
-        display: none;
     }
 }
 

@@ -122,18 +122,14 @@
             });*/
 
             $("#filters .ddgsi-close-grid").click(function() {
-                $("#filters").hide();
+                $("#filters").addClass("hide-small");
             });
 
             $("#ia_index_header .ddgsi-menu").click(function() {
-                $("#filters").show();
+                $("#filters").removeClass("hide-small");
             });
 
-            $(window).resize(function() {
-                if($(window).width() > 910) {
-                    $("#filters").show();
-                }
-            });
+            $(".breadcrumb-nav").hide();
 
             $("body").on("click", "#clear_filters", function(evt) {
                 $(this).addClass("hide");
