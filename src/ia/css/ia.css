@@ -906,3 +906,27 @@ body.texture {
         width: 88%;
     }
 }
+
+@media (max-width: 400px) {
+    .ia-item--details {
+        width: 80%;
+    }
+
+    .ia-single--serp-item {
+        padding-left: 2.5em;
+    }
+}
+
+@media (max-width: 320px) {
+    .ia-index--left {
+        width: 97%;
+    }
+
+    #filters {
+        padding-right: 1.3em;
+    }
+
+    div.ia-single--right {
+        width: 98%;
+    }
+}
