@@ -853,7 +853,7 @@ body.texture {
     #ia_index_header .ddgsi-menu {
         display: initial;
         position: relative;
-        top: 6px;
+        top: 2px;
         font-size: 1.5em;
         cursor: pointer;
     }
