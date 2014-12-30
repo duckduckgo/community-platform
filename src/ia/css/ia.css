@@ -36,7 +36,7 @@
     text-align: center;
     position: static;
     top: 0;
-    padding-right: 1em;
+    padding-right: 1.2em;
 }
 #filters .one-field input.text {
     box-shadow: none;
@@ -886,9 +886,19 @@ body.texture {
     }
 }
 
+@media (max-width: 788px) {
+    #filters {
+        padding-right: 0.2em;
+    }
+}
+
 @media (max-width: 500px) {
     .ia-item--details .topic {
         display: none;
+    }
+    
+    #filters {
+        padding-right: 0.5em;
     }
 }
 
