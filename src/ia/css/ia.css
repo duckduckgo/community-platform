@@ -866,6 +866,34 @@ body.texture {
     .ia-index--left {
         width: 100%;
         border-right: none;
-        min-height: 26em;
+        min-height: 29em;
+    }
+    
+    .breadcrumb-nav {
+        display: none;
+    }
+}
+
+@media (max-width: 675px) {
+    .ia-item--details {
+        width: 92%;
+    }
+}
+
+@media (max-width: 595px) {
+    .ia-item--details {
+        width: 90%;
+    }
+}
+
+@media (max-width: 500px) {
+    .ia-item--details .topic {
+        display: none;
+    }
+}
+
+@media (max-width: 480px) {
+    .ia-item--details {
+        width: 88%;
     }
 }
