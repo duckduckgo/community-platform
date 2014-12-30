@@ -50,9 +50,6 @@ ssh -t ddgc@$DDGC_RELEASE_HOSTNAME "(
 	printf Stopping current system... && 
 	sudo /usr/local/sbin/stop_ddgc.sh && 
 	printf Creating live installation... && 
-	if [ ! -L ~/live ] ; then
-		mv ~/live ~/backup/$CURRENT_DATE_FILENAME
-	fi
 	ln -sfn $DDGC_RELEASE_DIRECTORY ~/live
 	rm -rf ~/cache &&
 	mkdir ~/cache &&
