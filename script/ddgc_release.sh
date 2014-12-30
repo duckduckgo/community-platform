@@ -40,7 +40,7 @@ printf "***\n*** Transfer release file $2...\n***\n" && \
 scp $2 ddgc@$DDGC_RELEASE_HOSTNAME:$DDGC_RELEASE_DIRECTORY && \
 printf "***\n*** Preparing release on remote site...\n***\n" && \
 ssh -t ddgc@$DDGC_RELEASE_HOSTNAME "(
-	. /home/ddgc/perl5/perlbrew/etc/bashrc &&
+	. /etc/profile.d/perlbrew.sh &&
 	. /home/ddgc/ddgc_config.sh &&
 	cd $DDGC_RELEASE_DIRECTORY &&
 	tar xz --strip-components=1 -f $2 &&
