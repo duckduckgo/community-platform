@@ -68,9 +68,12 @@
                 $(this).removeClass("search-button--hover");
             });
             
-            $("body").on("click keypress", "#search-ias, #filters .one-field input.text", function(evt) {
+            $("body").on("click keypress", "#search-ias, #filters .one-field input.text, .filters--search-button", function(evt) {
+                
+                console.log(evt.type, this);
+
                 if (((evt.type === "keypress" && evt.which === 13) && $(this).hasClass("text"))
-                    || (evt.type === "click" && $(this).attr("id") === "search-ias")) {
+                    || (evt.type === "click" && $(this).hasClass("filters--search-button"))) {
                     var temp_query = $input_query.val().trim();
                     if (temp_query !== query) {
                         query = temp_query;
@@ -120,6 +123,16 @@
                     }
                 }
             });*/
+
+            $("#filters .ddgsi-close-grid").click(function() {
+                $("#filters").addClass("hide-small");
+            });
+
+            $("#ia_index_header .ddgsi-menu").click(function() {
+                $("#filters").removeClass("hide-small");
+            });
+
+            $(".breadcrumb-nav").hide();
 
             $("body").on("click", "#clear_filters", function(evt) {
                 $(this).addClass("hide");

@@ -10,6 +10,26 @@
         return description;
     });
 
+    Handlebars.registerHelper('listFiles', function(items, options) {
+        var out = "";
+        for(var i = 0; i < items.length; i++) {
+            if(i < 3) {
+                out +="<li>" + options.fn(items[i]) + "</li>";
+            } else {
+                out += "<li class='hide extra-item'>" + options.fn(items[i]) + "</li>";
+            }
+        }
+
+        return out;
+    });
+
+    Handlebars.registerHelper('moreFiles', function(items, options) {
+        if(items && items.length > 3) {
+            return options.fn(items);
+        }
+        return "";
+    });
+
     // placeholder
 
     DDH.IAPage = function(ops) {
@@ -35,7 +55,8 @@
                         screens : Handlebars.templates.screens(x),
                         template : Handlebars.templates.template(x),
                         examples : Handlebars.templates.examples(x),
-                        devinfo : Handlebars.templates.devinfo(x)
+                        devinfo : Handlebars.templates.devinfo(x),
+                        github: Handlebars.templates.github(x)
                     };
 
                     // Pre-Edit mode templates
@@ -47,7 +68,8 @@
                         screens : Handlebars.templates.screens(x),
                         template : Handlebars.templates.template(x),
                         examples : Handlebars.templates.pre_edit_examples(x),
-                        devinfo : Handlebars.templates.devinfo(x)
+                        devinfo : Handlebars.templates.devinfo(x),
+                        github: Handlebars.templates.github(x)
                     };
 
                     DDH.IAPage.prototype.updateAll(readonly_templates);
@@ -248,18 +270,33 @@
         },
 
         field_order: [
-            'name',
             'description',
-            'screens',
+            'github',
             'examples',
             'devinfo',
         ],
 
         updateAll: function(templates) {
-            $(".ia-single").empty();
+            $(".ia-single--left").empty();
             for (var i = 0; i < this.field_order.length; i++) {
-                $(".ia-single").append(templates[this.field_order[i]]);
+                $(".ia-single--left").append(templates[this.field_order[i]]);
             }
+
+            $(".ia-single--right").append(templates.screens);
+
+            $(".show-more").click(function(e) {
+                e.preventDefault();
+                
+                if($(".ia-single--info li").hasClass("hide")) {
+                    $(".ia-single--info li").removeClass("hide");
+                    $("#show-more--link").text("Show Less");
+                    $(".ia-single--info").find(".ddgsi").removeClass("ddgsi-chev-down").addClass("ddgsi-chev-up");
+                } else {
+                    $(".ia-single--info li.extra-item").addClass("hide");
+                    $("#show-more--link").text("Show More");
+                    $(".ia-single--info").find(".ddgsi").removeClass("ddgsi-chev-up").addClass("ddgsi-chev-down");
+                }
+            });
         },       
 
         expand: function() {

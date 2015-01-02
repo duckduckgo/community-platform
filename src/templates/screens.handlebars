@@ -1,5 +1,41 @@
-<div class="ia-single--screenshots">
-  <img src="https://images.duckduckgo.com/iu/?u={{encodeURIComponent 'https://ia-screenshots.s3.amazonaws.com/'}}{{id}}_desktop.png&f=1">
+<div class="left small-description hide">
+  <h2>{{name}}</h2>
+  {{#each topic}}
+    <span class="btn--wire topic ia-single--topic">{{this}}</span>
+  {{/each}}
+  {{#if description}}
+    <p>{{addPeriod description}}</p>
+  {{/if}}
+</div>
+<a href="/edit" class="ia-single--edit btn--primary topic right ia-single--topic">Edit Page</a>
+<div class="ia-single--screenshots clearfix">
+  <div class="window-buttons-container">
+    <span class="circle"></span>
+    <span class="circle"></span>
+    <span class="circle"></span>
+  </div>
+  <div class="ia-single--screenshots-top"></div>
+  <div class="ia-single--image-container">
+    <img src="https://images.duckduckgo.com/iu/?u={{encodeURIComponent 'https://ia-screenshots.s3.amazonaws.com/'}}{{id}}_index.png&f=1">
+    <div class="ia-single--serp">
+      <div class="ia-single--serp-item">
+        <div class="serp-item"></div>
+        <div class="serp-item"></div>
+        <div class="serp-item"></div>
+        <div class="serp-item"></div>
+        <div class="serp-item"></div>
+      </div>
+
+      <div class="ia-single--serp-item">
+        <div class="serp-item"></div>
+        <div class="serp-item"></div>
+        <div class="serp-item"></div>
+        <div class="serp-item"></div>
+        <div class="serp-item"></div>
+      </div>
+
+    </div>
+  </div>
 </div>
 
 <!--
