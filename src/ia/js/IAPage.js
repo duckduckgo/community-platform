@@ -10,26 +10,6 @@
         return description;
     });
 
-    Handlebars.registerHelper('listFiles', function(items, options) {
-        var out = "";
-        for(var i = 0; i < items.length; i++) {
-            if(i < 3) {
-                out +="<li>" + options.fn(items[i]) + "</li>";
-            } else {
-                out += "<li class='hide extra-item'>" + options.fn(items[i]) + "</li>";
-            }
-        }
-
-        return out;
-    });
-
-    Handlebars.registerHelper('moreFiles', function(items, options) {
-        if(items && items.length > 3) {
-            return options.fn(items);
-        }
-        return "";
-    });
-
     // placeholder
 
     DDH.IAPage = function(ops) {
