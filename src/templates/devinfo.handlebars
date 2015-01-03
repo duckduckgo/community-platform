@@ -2,20 +2,11 @@
   {{#if code}}
     <div class="ia-single--header">GITHUB FILES</div>
     <ul>
-      {{#listFiles code}}
+      {{#each code}}
         <a class="one-line" href="https://github.com/duckduckgo/zeroclickinfo-{{../repo}}/tree/master/{{this}}">{{this}}</a>
-      {{/listFiles}}
+      {{/each}}
     </ul>
   {{/if}}
-  {{#moreFiles code}}
-    <div class="show-more">
-      <a id="show-more--link" href="#">Show More</a>
-      <a href="#">
-        <span class="ddgsi ddgsi-chev-down right circle"></span>
-      </a>
-    </div>
-  {{/moreFiles}}
-</div>
 
 <!--
 <div class="button new-issue">
