@@ -3,6 +3,7 @@
   <div class="ia-index-container">
     <div id="ia_index_header">
       <h2 class="left">Instant Answers</h2>
+      <span class="right ddgsi-menu hide"></span>
       <div class="hide right ia_index_header--right">
         <a href="#" id="sort-alphabetical">Alphabetical</a>
         <a href="#" id="sort-updated">Last Updated</a>
@@ -14,7 +15,15 @@
   </div>
 </div>
 
-<div id="filters" class="right">
+<div id="filters" class="right hide-small">
+    <span class="ddgsi-close-grid hide"></span>
+    <div class="one-field clearfix">
+        <input type="text" class="text filters--search" placeholder="Filter Instant Answers" name="query" value="" autocorrect="off" autocapitalize="off" autocomplete="off">
+        <div class="filters--search-button">
+          <span class="ddgsi-loupe"></span>
+        </div>
+    </div>
+
     <span class="hide button-group" id="filter_dev_milestone">
         <a id="ia_dev_milestone-all" class="button dev_milestone is-selected disabled" href="#">
             All
@@ -63,7 +72,7 @@
 
     <div id="filter_topic" class="button-group-vertical dropdown">
         <div class="dropdown_header">
-            <span>All Topics</span> <i class="right">▼</i>
+            <span>All Topics</span>
         </div>
         <ul class="clearfix hide">
             <li class="row is-selected">
@@ -83,7 +92,7 @@
 
     <div id="filter_template" class="button-group-vertical dropdown">
         <div class="dropdown_header">
-            <span>All Templates</span> <i class="right">▼</i>
+            <span>All Templates</span>
         </div>
         <ul class="clearfix hide">
             <li class="row is-selected">

@@ -85,7 +85,19 @@ my $core_team_github = {
     },
     dax => {
         name => 'Dax the Duck',
+    },
+    ddg => {
+        name => 'DuckDuckGo',
     }
+    abeyang     =>  {
+        name =>  'Abe Yang',
+    },
+    jdorweiler  =>  {
+        name =>  'Jason',
+    },
+    thm => {
+        name =>  'Thom',
+    },
 };
 
 # Should come from API in future:

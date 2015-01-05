@@ -2,6 +2,14 @@
     // Handlebars helpers
     Handlebars.registerHelper('encodeURIComponent', encodeURIComponent);
 
+    Handlebars.registerHelper('addPeriod', function(description) {
+        if(!/\.$/.test(description)) {
+            return description + ".";
+        }
+
+        return description;
+    });
+
     // placeholder
 
     DDH.IAPage = function(ops) {
@@ -12,7 +20,7 @@
     // but for now the page is being built with xslate
     DDH.IAPage.prototype = {
         init: function(ops) {
-            console.log("IAPage.init()\n"); 
+            console.log("IAPage.init()\n");
 
             if (DDH_iaid) {
                 console.log("for ia id '%s'", DDH_iaid);
@@ -27,7 +35,8 @@
                         screens : Handlebars.templates.screens(x),
                         template : Handlebars.templates.template(x),
                         examples : Handlebars.templates.examples(x),
-                        devinfo : Handlebars.templates.devinfo(x)
+                        devinfo : Handlebars.templates.devinfo(x),
+                        github: Handlebars.templates.github(x)
                     };
 
                     // Pre-Edit mode templates
@@ -39,7 +48,8 @@
                         screens : Handlebars.templates.screens(x),
                         template : Handlebars.templates.template(x),
                         examples : Handlebars.templates.pre_edit_examples(x),
-                        devinfo : Handlebars.templates.devinfo(x)
+                        devinfo : Handlebars.templates.devinfo(x),
+                        github: Handlebars.templates.github(x)
                     };
 
                     DDH.IAPage.prototype.updateAll(readonly_templates);
@@ -240,22 +250,33 @@
         },
 
         field_order: [
-            'name',
-            'status',
             'description',
-            'topic',
-            'screens',
-            'template',
+            'github',
             'examples',
             'devinfo',
-            'issues'
         ],
 
         updateAll: function(templates) {
-            $(".ia-single").empty();
+            $(".ia-single--left").empty();
             for (var i = 0; i < this.field_order.length; i++) {
-                $(".ia-single").append(templates[this.field_order[i]]);
+                $(".ia-single--left").append(templates[this.field_order[i]]);
             }
+
+            $(".ia-single--right").append(templates.screens);
+
+            $(".show-more").click(function(e) {
+                e.preventDefault();
+                
+                if($(".ia-single--info li").hasClass("hide")) {
+                    $(".ia-single--info li").removeClass("hide");
+                    $("#show-more--link").text("Show Less");
+                    $(".ia-single--info").find(".ddgsi").removeClass("ddgsi-chev-down").addClass("ddgsi-chev-up");
+                } else {
+                    $(".ia-single--info li.extra-item").addClass("hide");
+                    $("#show-more--link").text("Show More");
+                    $(".ia-single--info").find(".ddgsi").removeClass("ddgsi-chev-up").addClass("ddgsi-chev-down");
+                }
+            });
         },       
 
         expand: function() {

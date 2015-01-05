@@ -31,13 +31,14 @@ sub index :Chained('base') :PathPart('') :Args() {
     my $rs = $c->d->rs('Topic');
     
     my @topics = $rs->search(
-        {},
+        {'name' => { '!=' => 'test' }},
         {
             columns => [ qw/ name id /],
             result_class => 'DBIx::Class::ResultClass::HashRefInflator',
         }
     )->all;
 
+    $c->stash->{title} = "Index: Instant Answers";
     $c->stash->{topic_list} = \@topics;
     $c->add_bc('Instant Answers', $c->chained_uri('InstantAnswer','index'));
 
@@ -56,7 +57,7 @@ sub ialist_json :Chained('base') :PathPart('json') :Args() {
     }
 
     my @ial = $rs->search(
-        {},
+        {'topic.name' => { '!=' => 'test' }},
         {
             columns => [ qw/ name id repo src_name dev_milestone description template / ],
             prefetch => { instant_answer_topics => 'topic' },
@@ -142,9 +143,19 @@ sub ia_base :Chained('base') :PathPart('view') :CaptureArgs(1) {  # /ia/view/cal
         }
     }
 
+    $c->stash->{title} = $c->stash->{ia}->name;
     $c->stash->{edit_class} = $edit_class;
     $c->stash->{commit_class} = $commit_class;
 
+    my @topics = $c->d->rs('Topic')->search(
+        {'name' => { '!=' => 'test' }},
+        {
+            columns => [ qw/ name id /],
+            result_class => 'DBIx::Class::ResultClass::HashRefInflator',
+        }
+    )->all;
+
+    $c->stash->{topic_list} = \@topics;
     $c->add_bc('Instant Answers', $c->chained_uri('InstantAnswer','index'));
     $c->add_bc($c->stash->{ia}->name);
 }
@@ -153,19 +164,10 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
     my ( $self, $c) = @_;
 
     my $ia = $c->stash->{ia};
-    my @topics_list =  $c->d->rs('Topic')->all();
     my @topics = map { $_->name} $ia->topics;
-    my @allowed;
 
     my @issues = $c->d->rs('InstantAnswer::Issues')->find({instant_answer_id => $ia->id});
-    my @ia_issues;    
- 
-    for my $topic (@topics_list) {
-        push (@allowed, {
-               id => $topic->id,
-               name => $topic->name
-            });
-    }
+    my @ia_issues; 
 
     for my $issue (@issues) {
         if ($issue) {
@@ -192,7 +194,6 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
                 code => $ia->code? decode_json($ia->code) : undef,
                 topic => \@topics,
                 attribution => $ia->attribution? decode_json($ia->attribution) : undef,
-                allowed_topics => \@allowed,
                 issues => \@ia_issues,
                 template => $ia->template,
     };
