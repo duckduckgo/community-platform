@@ -2,14 +2,6 @@
     // Handlebars helpers
     Handlebars.registerHelper('encodeURIComponent', encodeURIComponent);
 
-    Handlebars.registerHelper('addPeriod', function(description) {
-        if(!/\.$/.test(description)) {
-            return description + ".";
-        }
-
-        return description;
-    });
-
     // placeholder
 
     DDH.IAPage = function(ops) {
