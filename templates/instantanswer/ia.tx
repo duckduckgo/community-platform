@@ -6,10 +6,6 @@
     <: } :>
 </select>
 
-
-<div class="button <: $commit_class :> right" id="view_commits">Commit edits</div>
-<div class="button <: $edit_class :> right" id="edit_activate">Enable edit mode</div>
-<div class="button hide right" id="edit_disable">Disable edit mode</div>
 <div class="ia-single clearfix">
      <div class="ia-single--right right"></div>
      <div class="ia-single--left left"></div>
