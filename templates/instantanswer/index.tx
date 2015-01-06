@@ -76,13 +76,13 @@
         </div>
         <ul class="clearfix hide">
             <li class="row is-selected">
-                <a id="ia_topic-all" class="topic" href="#">
+                <a id="ia_topic-all" href="#">
                     All Topics
                 </a>
             </li>
             <: for $topic_list -> $topic { :>
                 <li class="row">
-                    <a id="ia_topic-<: $topic.id :>" class="topic" href="#">
+                    <a id="ia_topic-<: $topic.id :>" href="#">
                         <: $topic.name :>
                     </a>
                 </li>
