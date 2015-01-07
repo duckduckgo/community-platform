@@ -735,7 +735,7 @@ body.texture {
 
 .create-issue .ddgsi::before {
     position: relative;
-    top: 2px;
+    top: 1.5px;
     right: -1px;
 }
 
