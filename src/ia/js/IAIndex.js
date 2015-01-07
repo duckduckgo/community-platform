@@ -31,7 +31,10 @@
 
             $.getJSON(url, function(x) { 
                 $("#ia_index_header h2").text(x.length + " Instant Answers");
-                ind.ia_list = $.grep(x, function(e) { return e.name !== "IsAwesome"; });
+                // Filter all IAs with the topic "test"
+                ind.ia_list = $.grep(x, function(e) { 
+                    return $.inArray("test", e.topic) === -1;
+                });
                 ind.sort('name');
                 $list_item = $("#ia-list .ia-item");
                 $clear_filters = $("#clear_filters");
