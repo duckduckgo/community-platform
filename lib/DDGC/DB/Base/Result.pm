@@ -235,7 +235,7 @@ sub belongs_to {
 	$args[3] = {
 		is_foreign => 1,
 		on_update => 'cascade',
-		on_delete => 'cascade',
+		on_delete => 'restrict',
 		%{$args[3]||{}}
 	};
 
