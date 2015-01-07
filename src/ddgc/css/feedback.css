@@ -5,11 +5,11 @@
  
 @font-face {
 	font-family: 'ddg-feedback';
-	src:url('../font/ddg-feedback.eot');
-	src:url('../font/ddg-feedback.eot?#iefix') format('embedded-opentype'),
-		url('../font/ddg-feedback.woff') format('woff'),
-		url('../font/ddg-feedback.ttf') format('truetype'),
-		url('../font/ddg-feedback.svg#ddg-feedback') format('svg');
+	src:url('/ddgc_static/font/ddg-feedback.eot');
+	src:url('/ddgc_static/font/ddg-feedback.eot?#iefix') format('embedded-opentype'),
+		url('/ddgc_static/font/ddg-feedback.woff') format('woff'),
+		url('/ddgc_static/font/ddg-feedback.ttf') format('truetype'),
+		url('/ddgc_static/font/ddg-feedback.svg#ddg-feedback') format('svg');
 	font-weight: normal;
 	font-style: normal;
 }

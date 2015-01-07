@@ -30,7 +30,6 @@
             var query = ""; 
 
             $.getJSON(url, function(x) { 
-                $("#ia_index_header h2").text(x.length + " Instant Answers");
                 ind.ia_list = x;
                 ind.sort('name');
                 $list_item = $("#ia-list .ia-item");
@@ -271,6 +270,8 @@
             var selector_all;
             var text_all;
             var tot_count = 0;
+
+            $("#ia_index_header h2").text("Showing " + $(".ia-item:visible").length + " Instant Answers");
             
             $obj.each(function(idx) {
                 temp_text = $(this).text().replace(/\([0-9]+\)/g, "").trim();
