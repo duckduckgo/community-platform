@@ -42,6 +42,7 @@
 
             $.getJSON(url, function(x) { 
                 $("#ia_index_header h2").text(x.length + " Instant Answers");
+                ind.ia_list = x;
                 ind.sort('name');
                 $list_item = $("#ia-list .ia-item");
                 $clear_filters = $("#clear_filters");
