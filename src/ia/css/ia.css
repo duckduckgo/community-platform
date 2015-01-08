@@ -689,6 +689,14 @@ body.texture {
     border: 1px solid #DBDBDB;
     border-top-style: none;
     border-bottom-style: none;
+    position: relative;
+    top: -4px;
+    z-index: -1;
+}
+
+.ia-single--red-bar {
+    height: 3px;
+    background-color: #DE5833;
 }
 
 .ia-single--serp {
