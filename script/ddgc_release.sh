@@ -5,9 +5,11 @@ CURRENT_DATE_FILENAME=$( date +%Y%m%d_%H%M%S )
 if [ "$1" = "view" ];
 then
 	DDGC_RELEASE_HOSTNAME="view.dukgo.com"
+	DDGC_PERLBREW_SOURCE="/home/ddgc/perl5/perlbrew/etc/bashrc"
 else 	if [ "$1" = "prod" ];
 	then
 		DDGC_RELEASE_HOSTNAME="duck.co"
+		DDGC_PERLBREW_SOURCE="/etc/profile.d/perlbrew.sh"
 	fi
 fi
 
@@ -40,7 +42,7 @@ printf "***\n*** Transfer release file $2...\n***\n" && \
 scp $2 ddgc@$DDGC_RELEASE_HOSTNAME:$DDGC_RELEASE_DIRECTORY && \
 printf "***\n*** Preparing release on remote site...\n***\n" && \
 ssh -t ddgc@$DDGC_RELEASE_HOSTNAME "(
-	. /etc/profile.d/perlbrew.sh &&
+	. $DDGC_PERLBREW_SOURCE &&
 	. /home/ddgc/ddgc_config.sh &&
 	cd $DDGC_RELEASE_DIRECTORY &&
 	tar xz --strip-components=1 -f $2 &&
