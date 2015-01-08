@@ -1,6 +1,6 @@
 (function(env) {
 
-    console.log("DDH.js");
+    //console.log("DDH.js");
 
 
     env.DDH = {

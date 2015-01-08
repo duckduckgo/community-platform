@@ -37,10 +37,10 @@
     // but for now the page is being built with xslate
     DDH.IAPage.prototype = {
         init: function(ops) {
-            console.log("IAPage.init()\n");
+            //console.log("IAPage.init()\n");
 
             if (DDH_iaid) {
-                console.log("for ia id '%s'", DDH_iaid);
+                //console.log("for ia id '%s'", DDH_iaid);
 
                 $.getJSON("/ia/view/" + DDH_iaid + "/json", function(x) {
                     // Readonly mode templates
