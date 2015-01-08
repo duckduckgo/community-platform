@@ -16,7 +16,7 @@
         },
 
         init: function() {
-            console.log("IAIndex init()");
+            //console.log("IAIndex init()");
             var ind = this;
             var url = "/ia/json";
             var $list_item;
@@ -69,7 +69,7 @@
             
             $("body").on("click keypress", "#search-ias, #filters .one-field input.text, .filters--search-button", function(evt) {
                 
-                console.log(evt.type, this);
+                //console.log(evt.type, this);
 
                 if (((evt.type === "keypress" && evt.which === 13) && $(this).hasClass("text"))
                     || (evt.type === "click" && $(this).hasClass("filters--search-button"))) {
@@ -158,7 +158,7 @@
 
             $("body").on("click", ".button-group .button, .button-group-vertical .row, .topic", function(evt) {
 
-                console.log(this);
+                //console.log(this);
 
                 if (!$(this).hasClass("disabled") && !$(this).parent().parent().parent().hasClass("disabled")) { 
                     if($(this).hasClass("row")) {
@@ -321,7 +321,7 @@
         },
 
         sort: function(what) {
-            console.log("sorting %s by %s", this.sort_asc ? "ascending" : "descending", what);
+            //console.log("sorting %s by %s", this.sort_asc ? "ascending" : "descending", what);
 
             // reverse
             if (this.sort_field == what) {
