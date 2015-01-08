@@ -4,6 +4,17 @@
         this.init();
     };
 
+    Handlebars.registerHelper('skipTest', function(ia, options) {
+        var topics = ia.instant_answer_topics;
+        for(var i = 0; i < topics.length; i++) {
+            if(topics[i].topic.name === "test") {
+                return "";
+            }
+        }
+
+        return options.fn(ia);
+    });
+
     DDH.IAIndex.prototype = {
 
         sort_field: '',
@@ -31,10 +42,6 @@
 
             $.getJSON(url, function(x) { 
                 $("#ia_index_header h2").text(x.length + " Instant Answers");
-                // Filter all IAs with the topic "test"
-                ind.ia_list = $.grep(x, function(e) { 
-                    return $.inArray("test", e.topic) === -1;
-                });
                 ind.sort('name');
                 $list_item = $("#ia-list .ia-item");
                 $clear_filters = $("#clear_filters");
