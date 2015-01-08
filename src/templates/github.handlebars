@@ -3,7 +3,7 @@
     <div class="ia-single--header">CONTRIBUTORS</div>
     <ul>
       {{#each attribution}}
-        <li><a href="{{this.0.loc}}" class="one-line">{{@key}}</a></li>
+        <li><a href="{{chooseService this}}" class="one-line">{{@key}}</a></li>
       {{/each}}
     </ul>
   {{/if}}
