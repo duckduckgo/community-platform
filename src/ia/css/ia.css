@@ -731,12 +731,8 @@ body.texture {
     width: 17px;
     position: relative;
     top: 3px;
-}
-
-.create-issue .ddgsi::before {
-    position: relative;
-    top: 2px;
-    right: -1px;
+    font-size: 1.1em;
+    text-align: center;
 }
 
 .show-more .ddgsi {
