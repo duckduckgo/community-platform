@@ -27,7 +27,13 @@ sleep(2);
 
 my $d = DDGC->new;
 my $meta = '';
+my $nuke_tables = 0;
+$nuke_tables = 1 if $ARGV[0] && $ARGV[0] eq "delete";
 
+if($nuke_tables){
+    print "Deleting all tables before updating\n";
+    $d->rs('InstantAnswer')->delete;
+}
 
 if(-f $meta_copy){
     unlink $meta_copy;
