@@ -268,7 +268,6 @@ sub end : ActionClass('RenderView') {
 	if ($c->user) {
 		$c->run_after_request(sub {
 			$c->d->reset_current_user;
-			$c->d->envoy->update_own_notifications;
 		});
 	}
 

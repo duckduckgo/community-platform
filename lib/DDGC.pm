@@ -53,7 +53,6 @@ sub deploy_fresh {
 	$self->config->cachedir();
 
 	$self->db->deploy;
-	$self->db->resultset('User::Notification::Group')->update_group_types;
 }
 ##############################################
 
