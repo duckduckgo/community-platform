@@ -2,6 +2,31 @@
     // Handlebars helpers
     Handlebars.registerHelper('encodeURIComponent', encodeURIComponent);
 
+    // Choose a GitHub location before anything else.
+    Handlebars.registerHelper('chooseService', function(services) {
+        // Make sure to build the URL if we just find the handle.
+        function buildURL(service) {
+            var types = {
+                github: 'https://github.com/',
+                twitter: 'https://twitter.com/'
+            };
+
+            if(service.type in types && !/https?:\/\//.test(service.loc)) {
+                return types[service.type] + service.loc; 
+            }
+
+            return service.loc;
+        }
+
+        for(var i = 0; i < services.length; i++) {
+            if(services[i].type === "github") {
+                return buildURL(services[i]);
+            }
+        }
+
+        return buildURL(services[0]);
+    });
+
     // placeholder
 
     DDH.IAPage = function(ops) {
@@ -12,10 +37,10 @@
     // but for now the page is being built with xslate
     DDH.IAPage.prototype = {
         init: function(ops) {
-            console.log("IAPage.init()\n");
+            //console.log("IAPage.init()\n");
 
             if (DDH_iaid) {
-                console.log("for ia id '%s'", DDH_iaid);
+                //console.log("for ia id '%s'", DDH_iaid);
 
                 $.getJSON("/ia/view/" + DDH_iaid + "/json", function(x) {
                     // Readonly mode templates

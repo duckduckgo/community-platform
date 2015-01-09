@@ -689,6 +689,14 @@ body.texture {
     border: 1px solid #DBDBDB;
     border-top-style: none;
     border-bottom-style: none;
+    position: relative;
+    top: -4px;
+    z-index: -1;
+}
+
+.ia-single--red-bar {
+    height: 3px;
+    background-color: #DE5833;
 }
 
 .ia-single--serp {
@@ -731,12 +739,8 @@ body.texture {
     width: 17px;
     position: relative;
     top: 3px;
-}
-
-.create-issue .ddgsi::before {
-    position: relative;
-    top: 2px;
-    right: -1px;
+    font-size: 1.1em;
+    text-align: center;
 }
 
 .show-more .ddgsi {
