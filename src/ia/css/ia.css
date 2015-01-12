@@ -555,6 +555,7 @@ body.texture {
 .ia-single h2 {
     color: #333333;
     font-size: 2.3em;
+    word-break: break-all;
 }
 
 .ia-single p::first-letter {
