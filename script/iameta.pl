@@ -1,8 +1,6 @@
 #!/usr/bin/env perl
-
 use FindBin;
 use lib $FindBin::Dir . "/../lib";
-
 use strict;
 use warnings;
 use feature "say";
@@ -14,7 +12,6 @@ sub debug { 0 };
 
 my $upload_meta = DDGC::Config->new->rootdir_path . "cache/all_meta.json";
 my $meta_copy = $upload_meta . '.copy';
-my $meta_failed = $upload_meta . '.failed';
 
 exit 0 unless (-f $upload_meta);
 
@@ -55,7 +52,6 @@ my $update = sub {
     say "there are " . (scalar @{$meta}) . " IAs" if debug;
 
     my $line = 1;
-    my $success = 1;
 
     for my $ia (@{$meta}) {
 
