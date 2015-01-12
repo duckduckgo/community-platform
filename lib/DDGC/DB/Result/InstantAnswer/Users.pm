@@ -20,7 +20,7 @@ column users_id => {
 
 primary_key (qw/instant_answer_id users_id/);
 
-belongs_to 'instant_answer', 'DDGC::DB::Result::InstantAnswer', 'instant_answer_id';
+belongs_to 'instant_answer', 'DDGC::DB::Result::InstantAnswer', 'instant_answer_id', {on_delete => 'cascade'};
 belongs_to 'user', 'DDGC::DB::Result::User', 'users_id';
 
 

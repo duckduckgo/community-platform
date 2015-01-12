@@ -1,6 +1,6 @@
 {
   "name": "ddg_community_platform",
-  "version": "0.47.0",
+  "version": "0.52.0",
   "engines": {
     "node": ">=0.10.0"
   },
@@ -19,6 +19,8 @@
     "grunt-git": "^0.2.14",
     "grunt-remove": "^0.1.0",
     "grunt-remove-logging": "^0.2.0",
-    "grunt-version": "~0.2.2"
+    "grunt-version": "~0.2.2",
+    "grunt-available-tasks": "^0.5.4",
+    "grunt-bump": "^0.0.16"
   }
 }

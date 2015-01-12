@@ -1,0 +1,10 @@
+<div class="ia-attribution ia-single--info">
+  {{#if attribution}}
+    <div class="ia-single--header">CONTRIBUTORS</div>
+    <ul>
+      {{#each attribution}}
+        <li><a href="{{chooseService this}}" class="one-line">{{@key}}</a></li>
+      {{/each}}
+    </ul>
+  {{/if}}
+</div>

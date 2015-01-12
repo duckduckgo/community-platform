@@ -16,7 +16,7 @@
         },
 
         init: function() {
-            console.log("IAIndex init()");
+            //console.log("IAIndex init()");
             var ind = this;
             var url = "/ia/json";
             var $list_item;
@@ -30,7 +30,6 @@
             var query = ""; 
 
             $.getJSON(url, function(x) { 
-                $("#ia_index_header h2").text(x.length + " Instant Answers");
                 ind.ia_list = x;
                 ind.sort('name');
                 $list_item = $("#ia-list .ia-item");
@@ -68,9 +67,12 @@
                 $(this).removeClass("search-button--hover");
             });
             
-            $("body").on("click keypress", "#search-ias, #filters .one-field input.text", function(evt) {
+            $("body").on("click keypress", "#search-ias, #filters .one-field input.text, .filters--search-button", function(evt) {
+                
+                //console.log(evt.type, this);
+
                 if (((evt.type === "keypress" && evt.which === 13) && $(this).hasClass("text"))
-                    || (evt.type === "click" && $(this).attr("id") === "search-ias")) {
+                    || (evt.type === "click" && $(this).hasClass("filters--search-button"))) {
                     var temp_query = $input_query.val().trim();
                     if (temp_query !== query) {
                         query = temp_query;
@@ -121,6 +123,16 @@
                 }
             });*/
 
+            $("#filters .ddgsi-close-grid").click(function() {
+                $("#filters").addClass("hide-small");
+            });
+
+            $("#ia_index_header .ddgsi-menu").click(function() {
+                $("#filters").removeClass("hide-small");
+            });
+
+            $(".breadcrumb-nav").hide();
+
             $("body").on("click", "#clear_filters", function(evt) {
                 $(this).addClass("hide");
                 query = "";
@@ -146,7 +158,7 @@
 
             $("body").on("click", ".button-group .button, .button-group-vertical .row, .topic", function(evt) {
 
-                console.log(this);
+                //console.log(this);
 
                 if (!$(this).hasClass("disabled") && !$(this).parent().parent().parent().hasClass("disabled")) { 
                     if($(this).hasClass("row")) {
@@ -255,18 +267,24 @@
         count: function($list, $obj, regex, classes) {
             var temp_text;
             var id;
-            var selector_all;
+            var selector_all = "";
             var text_all;
             var tot_count = 0;
+
+            $("#ia_index_header h2").text("Showing " + $(".ia-item:visible").length + " Instant Answers");
             
             $obj.each(function(idx) {
                 temp_text = $(this).text().replace(/\([0-9]+\)/g, "").trim();
                 id = "." + $(this).attr("id");
                 
-                if (id === ".ia_repo-all" || id === ".ia_topic-all" || id === ".ia_template-all" || id === ".ia_dev_milestone-all") {
+                // First row of each section will have the count equal to the sum of the other rows counts
+                // in that section, except for topics, because an IA can have more than one topic
+                if (id === ".ia_repo-all" || id === ".ia_template-all" || id === ".ia_dev_milestone-all") {
                     selector_all = id.replace(".", "#");
                     text_all = temp_text;
                     return;
+                } else if (id === ".ia_topic-all") {
+                    id = "";
                 }
                 
                 var $children = $list.children(classes + id);  
@@ -294,20 +312,22 @@
                 $(this).text(temp_text);
             });
             
-            text_all += " (" + tot_count + ")";
-            $(selector_all).text(text_all);
+            if (selector_all !== "") {
+                text_all += " (" + tot_count + ")";
+                $(selector_all).text(text_all);
 
-            if (selector_all !== "#ia_repo-all") {
-                if (tot_count === 0) {
-                    $(selector_all).parent().parent().parent().addClass("disabled");
-                } else {
-                    $(selector_all).parent().parent().parent().removeClass("disabled");
+                if (selector_all !== "#ia_repo-all") {
+                    if (tot_count === 0) {
+                        $(selector_all).parent().parent().parent().addClass("disabled");
+                    } else {
+                        $(selector_all).parent().parent().parent().removeClass("disabled");
+                    }
                 }
             }
         },
 
         sort: function(what) {
-            console.log("sorting %s by %s", this.sort_asc ? "ascending" : "descending", what);
+            //console.log("sorting %s by %s", this.sort_asc ? "ascending" : "descending", what);
 
             // reverse
             if (this.sort_field == what) {
