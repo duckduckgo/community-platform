@@ -267,7 +267,7 @@
         count: function($list, $obj, regex, classes) {
             var temp_text;
             var id;
-            var selector_all;
+            var selector_all = "";
             var text_all;
             var tot_count = 0;
 
@@ -277,10 +277,14 @@
                 temp_text = $(this).text().replace(/\([0-9]+\)/g, "").trim();
                 id = "." + $(this).attr("id");
                 
-                if (id === ".ia_repo-all" || id === ".ia_topic-all" || id === ".ia_template-all" || id === ".ia_dev_milestone-all") {
+                // First row of each section will have the count equal to the sum of the other rows counts
+                // in that section, except for topics, because an IA can have more than one topic
+                if (id === ".ia_repo-all" || id === ".ia_template-all" || id === ".ia_dev_milestone-all") {
                     selector_all = id.replace(".", "#");
                     text_all = temp_text;
                     return;
+                } else if (id === ".ia_topic-all") {
+                    id = "";
                 }
                 
                 var $children = $list.children(classes + id);  
@@ -308,14 +312,16 @@
                 $(this).text(temp_text);
             });
             
-            text_all += " (" + tot_count + ")";
-            $(selector_all).text(text_all);
+            if (selector_all !== "") {
+                text_all += " (" + tot_count + ")";
+                $(selector_all).text(text_all);
 
-            if (selector_all !== "#ia_repo-all") {
-                if (tot_count === 0) {
-                    $(selector_all).parent().parent().parent().addClass("disabled");
-                } else {
-                    $(selector_all).parent().parent().parent().removeClass("disabled");
+                if (selector_all !== "#ia_repo-all") {
+                    if (tot_count === 0) {
+                        $(selector_all).parent().parent().parent().addClass("disabled");
+                    } else {
+                        $(selector_all).parent().parent().parent().removeClass("disabled");
+                    }
                 }
             }
         },
