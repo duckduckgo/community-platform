@@ -745,7 +745,7 @@ sub delete_user {
 		if ($self->config->prosody_running) {
 			$self->xmpp->_prosody->_db->resultset('Prosody')->search({
 				host => $self->config->prosody_userhost,
-				user => $username,
+				user => lc($username),
 			})->delete;
 		}
 	}
