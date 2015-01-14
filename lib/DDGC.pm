@@ -744,6 +744,7 @@ sub delete_user {
 		my @threads = $user->threads->search({})->all;
 		for (@threads) {
 			$_->users_id($deleted_user->id);
+			$_->ghosted(1);
 			$_->update({ 'updated' => $_->created });
 		}
 		$guard->commit;
