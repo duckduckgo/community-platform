@@ -73,7 +73,7 @@
 
                 if (((evt.type === "keypress" && evt.which === 13) && $(this).hasClass("text"))
                     || (evt.type === "click" && $(this).hasClass("filters--search-button"))) {
-                    var temp_query = $input_query.val().trim();
+                    var temp_query = $.trim($input_query.val());
                     if (temp_query !== query) {
                         query = temp_query;
                         ind.filter($list_item, query);
@@ -145,7 +145,7 @@
 
                 $dropdown_header.each(function(idx) {
                     var text = $(this).parent().children("ul").children("li:first-child").text();
-                    $(this).children("span").text(text.replace(/\([0-9]+\)/g, "").trim());
+                    $(this).children("span").text($.trim(text.replace(/\([0-9]+\)/g, "")));
                 });
 
                 $(".is-selected").removeClass("is-selected");
@@ -178,7 +178,7 @@
 
 
                         if ($parent.parent().hasClass("dropdown")) {
-                            $parent.parent().children(".dropdown_header").children("span").text($(this).text().replace(/\([0-9]+\)/g, "").trim());
+                            $parent.parent().children(".dropdown_header").children("span").text($.trim($(this).text().replace(/\([0-9]+\)/g, "")));
                             $parent.parent().children("ul").addClass("hide");
                         }
                     }
@@ -216,7 +216,7 @@
                         $("#filter_topic").find(".dropdown_header span").text($(this).text());
                     }
 
-                    query = $input_query.val().trim();
+                    query = $.trim($input_query.val());
 
                     ind.filter($list_item, query);
                 }
@@ -247,8 +247,8 @@
                 var temp_desc;
                 if (regex) {
                     $children.each(function(idx) {
-                        temp_name = $(this).find(".ia-item--header").text().trim();
-                        temp_desc = $(this).find(".ia-item--details--bottom").text().trim();
+                        temp_name = $.trim($(this).find(".ia-item--header").text());
+                        temp_desc = $.trim($(this).find(".ia-item--details--bottom").text());
 
                         if (regex.test(temp_name) || regex.test(temp_desc)) {
                             $(this).parent().show();
@@ -274,7 +274,7 @@
             $("#ia_index_header h2").text("Showing " + $(".ia-item:visible").length + " Instant Answers");
             
             $obj.each(function(idx) {
-                temp_text = $(this).text().replace(/\([0-9]+\)/g, "").trim();
+                temp_text = $.trim($(this).text().replace(/\([0-9]+\)/g, ""));
                 id = "." + $(this).attr("id");
                 
                 // First row of each section will have the count equal to the sum of the other rows counts
@@ -294,8 +294,8 @@
                     var children_count = 0;
 
                     $children.each(function(idx) {
-                        temp_name = $(this).find(".ia-item--header").text().trim();
-                        temp_desc = $(this).find(".ia-item--details--bottom").text().trim();
+                        temp_name = $.trim($(this).find(".ia-item--header").text());
+                        temp_desc = $.trim($(this).find(".ia-item--details--bottom").text());
 
                         if (regex.test(temp_name) || regex.test(temp_desc)) {
                             children_count++;
