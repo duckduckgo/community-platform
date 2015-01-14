@@ -739,7 +739,12 @@ sub delete_user {
 		for (@comments) {
 			$_->content("This user account has been deleted.");
 			$_->users_id($deleted_user->id);
-			$_->update;
+			$_->update({ 'updated' => $_->created });
+		}
+		my @threads = $user->threads->search({})->all;
+		for (@threads) {
+			$_->users_id($deleted_user->id);
+			$_->update({ 'updated' => $_->created });
 		}
 		$guard->commit;
 		if ($self->config->prosody_running) {
