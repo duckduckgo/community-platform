@@ -255,12 +255,22 @@ sub delete :Chained('logged_in') :Args(0) {
 
 	if (!$c->user->check_password($c->req->params->{password})) {
 		$c->stash->{wrong_password} = 1;
-		return;
+		return $c->detach;
 	}
 
 	if ($c->req->params->{delete_profile}) {
 		my $username = $c->user->username;
-		$c->d->delete_user($username);
+		my $delete_error = 0;
+		try {
+			$c->d->delete_user($username);
+		}
+		catch {
+			$delete_error = 1;
+		};
+		if ($delete_error) {
+			$c->stash->{delete_error} = 1;
+			return $c->detach;
+		}
 		$c->logout;
 		$c->response->redirect($c->chained_uri('Root','index'));
 		return $c->detach;
