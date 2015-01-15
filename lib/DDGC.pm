@@ -758,7 +758,7 @@ sub delete_user {
 			$_->update({ 'updated' => $_->created });
 		}
 		$guard->commit;
-		$prosody_user_rs->delete;
+		($prosody_user_rs) && $prosody_user_rs->delete;
 	}
 	return 1;
 }
