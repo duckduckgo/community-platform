@@ -719,6 +719,16 @@ sub delete_user {
 		});
 		die "Deleted user account doesn't exist!" unless $deleted_user;
 		die "You can't delete the deleted account!" if $deleted_user->username eq $user->username;
+		my $prosody_user_rs;
+		if ($self->config->prosody_running) {
+			$prosody_user_rs = $self->xmpp->_prosody->_db->resultset('Prosody')->search({
+				host => $self->config->prosody_userhost,
+				user => lc($username),
+			});
+			if (!$prosody_user_rs) {
+				croak('Unable to find user in Prosody store - bailing out!');
+			}
+		}
 		my $guard = $self->db->txn_scope_guard;
 		my @translations = $user->token_language_translations->search({})->all;
 		for (@translations) {
@@ -739,15 +749,16 @@ sub delete_user {
 		for (@comments) {
 			$_->content("This user account has been deleted.");
 			$_->users_id($deleted_user->id);
-			$_->update;
+			$_->update({ 'updated' => $_->created });
+		}
+		my @threads = $user->threads->search({})->all;
+		for (@threads) {
+			$_->users_id($deleted_user->id);
+			$_->ghosted(1);
+			$_->update({ 'updated' => $_->created });
 		}
 		$guard->commit;
-		if ($self->config->prosody_running) {
-			$self->xmpp->_prosody->_db->resultset('Prosody')->search({
-				host => $self->config->prosody_userhost,
-				user => $username,
-			})->delete;
-		}
+		($prosody_user_rs) && $prosody_user_rs->delete;
 	}
 	return 1;
 }
