@@ -555,6 +555,7 @@ body.texture {
 .ia-single h2 {
     color: #333333;
     font-size: 2.3em;
+    word-break: break-all;
 }
 
 .ia-single p::first-letter {
@@ -562,15 +563,16 @@ body.texture {
 }
 
 .ia-single p {
-    color: #707070;
-    margin-top: 1.5em;
+    color: #666;
+    margin-top: 1.1em;
+    font-size: 1.143em;
 }
 
 .ia-single .ia-single--header {
-    color: #999;
-    font-size: 0.9em;
-    margin-bottom: 0.9em;
-    margin-top: 2em;
+    color: #AAA;
+    font-size: 0.857em;
+    margin-bottom: 0.4em;
+    margin-top: 2.4em;
 }
 
 .ia-single ul {
@@ -578,7 +580,8 @@ body.texture {
 }
 
 .ia-single .ia-single--left a {
-    color: #7DB2DE;
+    color: #4896d2;
+    line-height: 1.857em;
 }
 
 .ia-single--icon {
@@ -626,7 +629,7 @@ body.texture {
 }
 
 .ia-single--topic {
-    padding: 0.5em;
+    padding: 0.4em 0.8em 0.4em 0.8em;
     margin-right: 0.5em;
     margin-left: 0;
     cursor: default;
@@ -635,8 +638,8 @@ body.texture {
 }
 
 .ia-issues li {
-    border-bottom: 1px solid #DBDBDB;
-    padding-bottom: 0.3em;
+    border-bottom: 1px solid #eee;
+    padding: 0.1em 0 0.1em 0;
 }
 
 .ia-issues li:last-child {
@@ -662,6 +665,7 @@ body.texture {
 
 .ia-single ul {
     margin: 0 auto 5px;
+    margin-bottom: 0;
 }
 
 .ia-single {
@@ -759,7 +763,7 @@ body.texture {
 }
 
 .create-issue {
-    border-top: 1px solid #DBDBDB;
+    border-top: 1px solid #eee;
     padding-top: 3px;
 }
 

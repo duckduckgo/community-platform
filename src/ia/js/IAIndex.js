@@ -73,7 +73,7 @@
 
                 if (((evt.type === "keypress" && evt.which === 13) && $(this).hasClass("text"))
                     || (evt.type === "click" && $(this).hasClass("filters--search-button"))) {
-                    var temp_query = $input_query.val().trim();
+                    var temp_query = $.trim($input_query.val());
                     if (temp_query !== query) {
                         query = temp_query;
                         ind.filter($list_item, query);
@@ -145,7 +145,7 @@
 
                 $dropdown_header.each(function(idx) {
                     var text = $(this).parent().children("ul").children("li:first-child").text();
-                    $(this).children("span").text(text.replace(/\([0-9]+\)/g, "").trim());
+                    $(this).children("span").text($.trim(text.replace(/\([0-9]+\)/g, "")));
                 });
 
                 $(".is-selected").removeClass("is-selected");
@@ -178,7 +178,7 @@
 
 
                         if ($parent.parent().hasClass("dropdown")) {
-                            $parent.parent().children(".dropdown_header").children("span").text($(this).text().replace(/\([0-9]+\)/g, "").trim());
+                            $parent.parent().children(".dropdown_header").children("span").text($.trim($(this).text().replace(/\([0-9]+\)/g, "")));
                             $parent.parent().children("ul").addClass("hide");
                         }
                     }
@@ -216,7 +216,7 @@
                         $("#filter_topic").find(".dropdown_header span").text($(this).text());
                     }
 
-                    query = $input_query.val().trim();
+                    query = $.trim($input_query.val());
 
                     ind.filter($list_item, query);
                 }
@@ -247,8 +247,8 @@
                 var temp_desc;
                 if (regex) {
                     $children.each(function(idx) {
-                        temp_name = $(this).find(".ia-item--header").text().trim();
-                        temp_desc = $(this).find(".ia-item--details--bottom").text().trim();
+                        temp_name = $.trim($(this).find(".ia-item--header").text());
+                        temp_desc = $.trim($(this).find(".ia-item--details--bottom").text());
 
                         if (regex.test(temp_name) || regex.test(temp_desc)) {
                             $(this).parent().show();
@@ -267,20 +267,24 @@
         count: function($list, $obj, regex, classes) {
             var temp_text;
             var id;
-            var selector_all;
+            var selector_all = "";
             var text_all;
             var tot_count = 0;
 
             $("#ia_index_header h2").text("Showing " + $(".ia-item:visible").length + " Instant Answers");
             
             $obj.each(function(idx) {
-                temp_text = $(this).text().replace(/\([0-9]+\)/g, "").trim();
+                temp_text = $.trim($(this).text().replace(/\([0-9]+\)/g, ""));
                 id = "." + $(this).attr("id");
                 
-                if (id === ".ia_repo-all" || id === ".ia_topic-all" || id === ".ia_template-all" || id === ".ia_dev_milestone-all") {
+                // First row of each section will have the count equal to the sum of the other rows counts
+                // in that section, except for topics, because an IA can have more than one topic
+                if (id === ".ia_repo-all" || id === ".ia_template-all" || id === ".ia_dev_milestone-all") {
                     selector_all = id.replace(".", "#");
                     text_all = temp_text;
                     return;
+                } else if (id === ".ia_topic-all") {
+                    id = "";
                 }
                 
                 var $children = $list.children(classes + id);  
@@ -290,8 +294,8 @@
                     var children_count = 0;
 
                     $children.each(function(idx) {
-                        temp_name = $(this).find(".ia-item--header").text().trim();
-                        temp_desc = $(this).find(".ia-item--details--bottom").text().trim();
+                        temp_name = $.trim($(this).find(".ia-item--header").text());
+                        temp_desc = $.trim($(this).find(".ia-item--details--bottom").text());
 
                         if (regex.test(temp_name) || regex.test(temp_desc)) {
                             children_count++;
@@ -308,14 +312,16 @@
                 $(this).text(temp_text);
             });
             
-            text_all += " (" + tot_count + ")";
-            $(selector_all).text(text_all);
+            if (selector_all !== "") {
+                text_all += " (" + tot_count + ")";
+                $(selector_all).text(text_all);
 
-            if (selector_all !== "#ia_repo-all") {
-                if (tot_count === 0) {
-                    $(selector_all).parent().parent().parent().addClass("disabled");
-                } else {
-                    $(selector_all).parent().parent().parent().removeClass("disabled");
+                if (selector_all !== "#ia_repo-all") {
+                    if (tot_count === 0) {
+                        $(selector_all).parent().parent().parent().addClass("disabled");
+                    } else {
+                        $(selector_all).parent().parent().parent().removeClass("disabled");
+                    }
                 }
             }
         },
