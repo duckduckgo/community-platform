@@ -182,9 +182,9 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
         }
     }
 
-    $ia->other_queries = $ia->other_queries? decode_json($ia->other_queries) : undef;
+    my $other_queries = $ia->other_queries? decode_json($ia->other_queries) : undef;
 
-    $ia_data{live} =  (
+    $ia_data{live} =  {
                 id => $ia->id,
                 name => $ia->name,
                 description => $ia->description,
@@ -194,20 +194,20 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
                 dev_milestone => $ia->dev_milestone,
                 perl_module => $ia->perl_module,
                 example_query => $ia->example_query,
-                other_queries => $ia->other_queries,
+                other_queries => $other_queries,
                 code => $ia->code? decode_json($ia->code) : undef,
                 topic => \@topics,
                 attribution => $ia->attribution? decode_json($ia->attribution) : undef,
                 issues => \@ia_issues,
                 template => $ia->template,
-    );
+    };
 
     if ($c->user) {
         $is_admin = $c->user->admin;
 
         if ($is_admin) {
             $edited = current_ia($c->d, $ia);
-            $ia_data{edited} = (
+            $ia_data{edited} = {
                 id => $ia->id,
                 name => defined $edited->{name}? $edited->{name} : $ia->name,
                 description => defined $edited->{description}? $edited->{description} : $ia->description,
@@ -217,13 +217,13 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
                 dev_milestone => $ia->dev_milestone,
                 perl_module => $ia->perl_module,
                 example_query => defined $edited->{example_query}? $edited->{example_query} : $ia->example_query,
-                other_queries => defined $edited->{other_queries}->{value}? $edited->{other_queries}->{edited} : $ia->other_queries,
+                other_queries => defined $edited->{other_queries}->{value}? $edited->{other_queries}->{edited} : $other_queries,
                 code => $ia->code? decode_json($ia->code) : undef,
                 topic => defined $edited->{topic}? $edited->{topic} : \@topics,
                 attribution => $ia->attribution? decode_json($ia->attribution) : undef,
                 issues => \@ia_issues,
                 template => $ia->template,
-            );
+            };
         }
     }
 

@@ -45,9 +45,11 @@
                 $.getJSON("/ia/view/" + DDH_iaid + "/json", function(x) {
 
                     // Show latest edits for admins and users with edit permissions
-                    this.ia_data = x;
-                    if (this.ia_data.edited) {
-                        x = this.ia_data.edited;
+                    var ia_data = x;
+                    if (ia_data.edited) {
+                        x = ia_data.edited;
+                    } else {
+                        x = ia_data.live;
                     }
 
                     // Readonly mode templates
