@@ -43,6 +43,13 @@
                 //console.log("for ia id '%s'", DDH_iaid);
 
                 $.getJSON("/ia/view/" + DDH_iaid + "/json", function(x) {
+
+                    // Show latest edits for admins and users with edit permissions
+                    this.ia_data = x;
+                    if (this.ia_data.edited) {
+                        x = this.ia_data.edited;
+                    }
+
                     // Readonly mode templates
                     var readonly_templates = {
                         name : Handlebars.templates.name(x),

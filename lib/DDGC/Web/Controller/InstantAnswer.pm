@@ -165,9 +165,11 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
 
     my $ia = $c->stash->{ia};
     my @topics = map { $_->name} $ia->topics;
-
+    my $edited;
     my @issues = $c->d->rs('InstantAnswer::Issues')->find({instant_answer_id => $ia->id});
-    my @ia_issues; 
+    my @ia_issues;
+    my %ia_data;
+    my $is_admin; 
 
     for my $issue (@issues) {
         if ($issue) {
@@ -180,7 +182,9 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
         }
     }
 
-    $c->stash->{x} =  {
+    $ia->other_queries = $ia->other_queries? decode_json($ia->other_queries) : undef;
+
+    $ia_data{live} =  (
                 id => $ia->id,
                 name => $ia->name,
                 description => $ia->description,
@@ -190,13 +194,40 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
                 dev_milestone => $ia->dev_milestone,
                 perl_module => $ia->perl_module,
                 example_query => $ia->example_query,
-                other_queries => $ia->other_queries? decode_json($ia->other_queries) : undef,
+                other_queries => $ia->other_queries,
                 code => $ia->code? decode_json($ia->code) : undef,
                 topic => \@topics,
                 attribution => $ia->attribution? decode_json($ia->attribution) : undef,
                 issues => \@ia_issues,
                 template => $ia->template,
-    };
+    );
+
+    if ($c->user) {
+        $is_admin = $c->user->admin;
+
+        if ($is_admin) {
+            $edited = current_ia($c->d, $ia);
+            $ia_data{edited} = (
+                id => $ia->id,
+                name => defined $edited->{name}? $edited->{name} : $ia->name,
+                description => defined $edited->{description}? $edited->{description} : $ia->description,
+                tab => $ia->tab,
+                status => defined $edited->{status}? $edited->{status} : $ia->status,
+                repo => $ia->repo,
+                dev_milestone => $ia->dev_milestone,
+                perl_module => $ia->perl_module,
+                example_query => defined $edited->{example_query}? $edited->{example_query} : $ia->example_query,
+                other_queries => defined $edited->{other_queries}->{value}? $edited->{other_queries}->{edited} : $ia->other_queries,
+                code => $ia->code? decode_json($ia->code) : undef,
+                topic => defined $edited->{topic}? $edited->{topic} : \@topics,
+                attribution => $ia->attribution? decode_json($ia->attribution) : undef,
+                issues => \@ia_issues,
+                template => $ia->template,
+            );
+        }
+    }
+
+    $c->stash->{x} = \%ia_data;
 
     $c->stash->{not_last_url} = 1;
     $c->forward($c->view('JSON'));
