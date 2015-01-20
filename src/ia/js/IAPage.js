@@ -67,43 +67,24 @@
 
                     // Pre-Edit mode templates
                     var pre_templates = {
-                        name : Handlebars.templates.pre_edit_name(x),
-                        status : Handlebars.templates.pre_edit_status(x),
-                        description : Handlebars.templates.pre_edit_description(x),
-                        topic : Handlebars.templates.pre_edit_topic(x),
-                        screens : Handlebars.templates.screens(x),
-                        template : Handlebars.templates.template(x),
-                        examples : Handlebars.templates.pre_edit_examples(x),
-                        devinfo : Handlebars.templates.devinfo(x),
-                        github: Handlebars.templates.github(x)
+                        name : Handlebars.templates.pre_edit_name(ia_data),
+                        status : Handlebars.templates.pre_edit_status(ia_data),
+                        description : Handlebars.templates.pre_edit_description(ia_data),
+                        topic : Handlebars.templates.pre_edit_topic(ia_data),
+                        examples : Handlebars.templates.pre_edit_examples(ia_data),
                     };
 
-                    DDH.IAPage.prototype.updateAll(readonly_templates);
-
-                    $("body").on('click', '.ia-single .dev-info', DDH.IAPage.prototype.expand.bind(this));
+                    DDH.IAPage.prototype.updateAll(readonly_templates, false);
 
                     $("#edit_activate").on('click', function(evt) {
-                        DDH.IAPage.prototype.updateAll(pre_templates);
+                        DDH.IAPage.prototype.updateAll(pre_templates, true);
 
                         $("#edit_disable").removeClass("hide");
                         $(this).hide();
                     });
 
-                    $("body").on('mouseenter mouseleave', '.pre_edit', function(evt) {
-                        $(this).toggleClass("highlight");
-                    });
-
-                    $("body").on('click', '.button.arrow', function(evt) {
-                        $(this).parent().find("img").toggleClass("hide");
-                        if ($(this).find("span").text() == "▾") {
-                            $(this).find("span").text("▴");
-                        } else if ($(this).find("span").text() == "▴") {
-                            $(this).find("span").text("▾");
-                        }
-                    });
-
-                    $("body").on('click', '.pre_edit', function(evt) {
-                        var name = $(this).attr('name');
+                    $("body").on('click', '.js-pre-edit .button-edit', function(evt) {
+                        var name = $(this).parent().attr('name');
                         var $obj;
 
                         if (name === "example_query" || name === "other_queries") {
@@ -115,7 +96,7 @@
                             $obj = $(this);
                         }
 
-                        $obj.replaceWith(Handlebars.templates['edit_' + name](x));
+                        $obj.replaceWith(Handlebars.templates['edit_' + name](ia_data));
 
                         if (name === "examples") {
                             if (!($("#examples .other-examples").length)) {
@@ -142,14 +123,14 @@
                         window.location = "/ia/commit/" + DDH_iaid;
                     });
 
-                    $("body").on('click', '.button.cancel', function(evt) {
+                    $("body").on('click', '.button.js-cancel', function(evt) {
                         var $obj = $(this).parent();
                         var name = $(this).attr('name');
 
                         $obj.replaceWith(Handlebars.templates['pre_edit_' + name](x));
                     });
 
-                    $("body").on('keypress', '.editable input', function(evt) {
+                    $("body").on('keypress', '.js-editable input', function(evt) {
                         if (evt.type === 'keypress' && evt.which === 13) {
                             var $obj = $(this).parent().parent();
                             var field = $(this).parent().attr('name');
@@ -183,7 +164,7 @@
                     });
 
                     $("body").on("click", ".button.delete", function(evt) {
-                        var field = $(this).parent().find(".editable").attr('name');
+                        var field = $(this).parent().find(".js-editable").attr('name');
                         if (field === 'example_query') {
                             var $new_primary = $('a.other-examples input').first();
                             if ($new_primary.length) {
@@ -200,14 +181,14 @@
                         }
                     });
 
-                    $("body").on("click", ".section_editable .button.end", function(evt) {
+                    $("body").on("click", ".js-section-editable .button.end", function(evt) {
                         var $obj = $(this).parent();
                         var field = $obj.attr('id');
                         var value = [];
                         var selector;
 
                         if (field === "topic") {
-                            selector = ".ia_topic .editable .available_topics option:selected";
+                            selector = ".ia_topic .js-editable .available_topics option:selected";
                         } else if (field === "examples") {
                             save("example_query", $("#primary input").val(), DDH_iaid, $obj, false);
                             field = "other_queries";
@@ -258,12 +239,13 @@
                                 }
 
                                 if (field === "other_queries" || field === "topic" || field === "code") {
-                                    x[field] = $.parseJSON(data.result[field]);
+                                    ia_data.edited[field] = $.parseJSON(data.result[field]);
                                 } else {
-                                    x[field] = data.result[field];
+                                    ia_data.edited[field] = data.result[field];
                                 }
 
-                                pre_templates[field] = Handlebars.templates['pre_edit_' + name](x);
+                                x = ia_data.edited;
+                                pre_templates[field] = Handlebars.templates['pre_edit_' + name](ia_data);
 
                                 if (replace) {
                                     $obj.replaceWith(pre_templates[field]);
@@ -279,36 +261,46 @@
             'description',
             'github',
             'examples',
-            'devinfo',
+            'devinfo'
         ],
 
-        updateAll: function(templates) {
-            $(".ia-single--left").empty();
-            for (var i = 0; i < this.field_order.length; i++) {
-                $(".ia-single--left").append(templates[this.field_order[i]]);
-            }
+        edit_field_order: [
+            'name',
+            'status',
+            'description',
+            'topic',
+            'examples'
+        ],
 
-            $(".ia-single--right").append(templates.screens);
-
-            $(".show-more").click(function(e) {
-                e.preventDefault();
-                
-                if($(".ia-single--info li").hasClass("hide")) {
-                    $(".ia-single--info li").removeClass("hide");
-                    $("#show-more--link").text("Show Less");
-                    $(".ia-single--info").find(".ddgsi").removeClass("ddgsi-chev-down").addClass("ddgsi-chev-up");
-                } else {
-                    $(".ia-single--info li.extra-item").addClass("hide");
-                    $("#show-more--link").text("Show More");
-                    $(".ia-single--info").find(".ddgsi").removeClass("ddgsi-chev-up").addClass("ddgsi-chev-down");
+        updateAll: function(templates, edit) {
+            if (!edit) {
+                $(".ia-single--left").show().empty();
+                for (var i = 0; i < this.field_order.length; i++) {
+                    $(".ia-single--left").append(templates[this.field_order[i]]);
                 }
-            });
-        },       
 
-        expand: function() {
-            $(".ia-single .dev-info").addClass("hide");
-            $(".ia-single .dev-info-details").removeClass("hide");
-        }        
+                $(".ia-single--right").show().append(templates.screens);
+
+                $(".show-more").click(function(e) {
+                    e.preventDefault();
+                
+                    if($(".ia-single--info li").hasClass("hide")) {
+                        $(".ia-single--info li").removeClass("hide");
+                        $("#show-more--link").text("Show Less");
+                        $(".ia-single--info").find(".ddgsi").removeClass("ddgsi-chev-down").addClass("ddgsi-chev-up");
+                    } else {
+                        $(".ia-single--info li.extra-item").addClass("hide");
+                        $("#show-more--link").text("Show More");
+                        $(".ia-single--info").find(".ddgsi").removeClass("ddgsi-chev-up").addClass("ddgsi-chev-down");
+                    }
+                });
+            } else {
+                $(".ia-single--left, .ia-single--right").hide();
+                for (var i = 0; i < this.field_order.length; i++) {
+                    $(".ia-single").append(templates[this.edit_field_order[i]]);
+                }
+            }
+        }    
     };
 
 })(DDH);

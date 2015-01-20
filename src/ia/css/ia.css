@@ -9,6 +9,20 @@
 .ia-single h3 {
     margin-top: 1em;
 }
+.ia-single .column-left-labels,
+.ia-single .column-center-live,
+.ia-single .column-right-edits {
+    font-size: 1.25em;
+}
+.ia-single .column-left-labels {
+    width: 20%;
+    font-weight: 600;
+}
+.ia-single .column-center-live,
+.ia-single .column-right-edits {
+    width: 40%;
+    text-align: center;
+}
 .ia_topic {
     border-radius: 2em;
     background-color:#e0e0e0;

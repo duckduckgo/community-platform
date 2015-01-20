@@ -123,29 +123,29 @@ sub ia_base :Chained('base') :PathPart('view') :CaptureArgs(1) {  # /ia/view/cal
 
     my $permissions;
     my $is_admin;
-    my $edit_class = "hide";
-    my $commit_class = "hide";
+    my $can_edit;
+    my $can_commit;
 
     if ($c->user) {
         $permissions = $c->stash->{ia}->users->find($c->user->id);
         $is_admin = $c->user->admin;
-    }
 
-    if ($permissions || $is_admin) {
-        $edit_class = "";
+        if ($permissions || $is_admin) {
+            $can_edit = 1;
 
-        if ($is_admin) {
-            my $edits = get_edits($c->d, $c->stash->{ia}->name);
+            if ($is_admin) {
+                my $edits = get_edits($c->d, $c->stash->{ia}->name);
 
-            if (ref $edits eq 'ARRAY') {
-                $commit_class = "";
+                if (ref $edits eq 'ARRAY') {
+                    $can_commit = 1;
+                }
             }
         }
     }
 
     $c->stash->{title} = $c->stash->{ia}->name;
-    $c->stash->{edit_class} = $edit_class;
-    $c->stash->{commit_class} = $commit_class;
+    $c->stash->{can_edit} = $can_edit;
+    $c->stash->{can_commit} = $can_commit;
 
     my @topics = $c->d->rs('Topic')->search(
         {'name' => { '!=' => 'test' }},
