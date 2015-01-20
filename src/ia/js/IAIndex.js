@@ -4,6 +4,17 @@
         this.init();
     };
 
+    Handlebars.registerHelper('skipTest', function(ia, options) {
+        var topics = ia.instant_answer_topics;
+        for(var i = 0; i < topics.length; i++) {
+            if(topics[i].topic.name === "test") {
+                return "";
+            }
+        }
+
+        return options.fn(ia);
+    });
+
     DDH.IAIndex.prototype = {
 
         sort_field: '',
