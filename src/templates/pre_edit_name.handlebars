@@ -1,1 +1,21 @@
-<h2 class="left pre_edit" id="name" name="name">{{name}}</h2>
+<div class="column-left-labels left">
+    <div class="column-left-labels__child">
+        <p class="column-left-labels__child__p">
+            Name
+        </p>
+    </div>
+</div>
+<div class="column-center-live">
+    <div class="column-center-live__child">
+        <p class="column-center-live__child__p">
+            {{live.name}}
+        </p>
+    </div>
+</div>
+<div class="column-right-edits righ">
+    <div class="column-right-edits__child js-pre-editable" id="name" name="name">
+        <p class="column-right-edits__child__p">
+            {{edited.name}}
+        </p>
+    </div>
+</div>

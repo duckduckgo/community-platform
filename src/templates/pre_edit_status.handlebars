@@ -1,4 +1,21 @@
-<div name="status" class="right tag pre_edit status {{status}}">
-    {{status}}
+<div class="column-left-labels left">
+    <div class="column-left-labels__child">
+        <p class="column-left-labels__child__p">
+            Status
+        </p>
+    </div>
 </div>
-<span class="clearfix"></span>
+<div class="column-center-live">
+    <div class="column-center-live__child">
+        <p class="column-center-live__child__p">
+            {{live.status}}
+        </p>
+    </div>
+</div>
+<div class="column-right-edits righ">
+    <div class="column-right-edits__child js-pre-editable" id="status" name="status">
+        <p class="column-right-edits__child__p">
+            {{edited.status}}
+        </p>
+    </div>
+</div>

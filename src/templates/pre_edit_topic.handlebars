@@ -1,15 +1,37 @@
-<div id="topics">
-    {{#if topic}}
-        {{#each topic}}
-            <div class="button ia_topic">
-                <a href="#" title="will be a link to all IAs in this topic" class="pre_edit" name="topic">
-                    {{this}}
-                </a>
-            </div> 
-        {{/each}}
-    {{else}}
-        <span class="empty_field pre_edit" name="topic">
-            Add topic
-        </span>
-    {{/if}}
+<div class="column-left-labels left">
+    <div class="column-left-labels__child">
+        <p class="column-left-labels__child__p">
+            Topic
+        </p>
+    </div>
+</div>
+<div class="column-center-live">
+    <div class="column-center-live__child">
+        {{#if live.topic}}
+            <ul class="column-center-live__child__ul">
+                {{#each live.topic}}
+                    <li>
+                        {{this}}
+                    </li>
+                {{/each}}
+            </ul>
+        {{/if}}
+    </div>
+</div>
+<div class="column-right-edits righ">
+    <div class="column-right-edits__child js-pre-editable" id="topic" name="topic">
+        {{#if edited.topic}}
+            <ul>
+                {{#each edited.topic}}
+                    <li>
+                        {{this}}
+                    </li> 
+                {{/each}}
+            </ul>
+        {{else}}
+            <span class="empty_field pre_edit" name="topic">
+                Add topic
+            </span>
+        {{/if}}
+    </div>
 </div>
