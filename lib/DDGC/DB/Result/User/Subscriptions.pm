@@ -19,7 +19,15 @@ column subscription_id => {
 	is_nullable => 0,
 };
 
-primary_key(qw/ users_id subscription_id /);
+# Subscriptions to specific object instances.
+# e.g. Following a thread
+column target_object_id => {
+	data_type => 'bigint',
+	is_nullable => 0,
+	default_value => 0,
+};
+
+primary_key(qw/ users_id subscription_id target_object_id /);
 
 column created => {
 	data_type => 'timestamp with time zone',
