@@ -132,7 +132,7 @@ __PACKAGE__->after_column_change(
 
 after insert => sub {
   my ( $self ) = @_;
-  $self->ddgc->subscriptions->generate_events( 'comment', $self );
+  $self->ddgc->subscriptions->generate_events( 'blog', $self );
 };
 
 after update => sub {
