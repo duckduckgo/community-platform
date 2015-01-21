@@ -285,7 +285,7 @@
                 });
             } else {
                 $(".ia-single--left, .ia-single--right").hide();
-                for (var i = 0; i < this.field_order.length; i++) {
+                for (var i = 0; i < this.edit_field_order.length; i++) {
                     $(".ia-single").append(templates[this.edit_field_order[i]]);
                 }
             }
