@@ -7,7 +7,6 @@ use DateTime;
 requires qw(
   ghosted
   checked
-  seen_live
 );
 
 before insert => sub {
@@ -16,27 +15,10 @@ before insert => sub {
     if ($self->user->ghosted) {
       $self->ghosted(1);
     } else {
-      $self->ghosted(0); $self->seen_live(1);
+      $self->ghosted(0);
     }
   }
 };
-
-after insert => sub {
-  my ( $self ) = @_;
-  $self->add_event('create');
-  unless ($self->ghosted) {
-    $self->add_event('live');
-  }
-};
-
-sub ghosted_changed {
-  my ( $self, $old_value, $new_value ) = @_;
-  if ($old_value == 1 && $new_value == 0 && !$self->seen_live) {
-    $self->add_event('live');
-    $self->seen_live(1);
-    $self->update;
-  }
-}
 
 sub add_report {
   my ( $self, $user, %data ) = @_;

@@ -158,13 +158,6 @@ sub user_voted {
 
 after insert => sub {
 	my ( $self ) = @_;
-	$self->user->add_context_notification('forum_comments',$self);
-	$self->user->add_context_notification('idea_votes',$self);
-};
-
-after update => sub {
-	my ( $self ) = @_;
-	$self->add_event('update');
 };
 
 before insert => sub {
@@ -228,7 +221,6 @@ sub migrate_to_ramblings {
 		ghosted => $self->ghosted,
 		checked => $self->checked,
 		old_url => $self->old_url,
-		seen_live => $self->seen_live,
 	);
 	
 	return undef unless $thread;

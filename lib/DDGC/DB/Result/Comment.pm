@@ -131,11 +131,6 @@ after insert => sub {
 	$self->ddgc->subscriptions->generate_events( 'comment', $self );
 };
 
-after update => sub {
-	my ( $self ) = @_;
-	$self->add_event('update');
-};
-
 before delete => sub {
 	my ( $self ) = @_;
 	die "Can't kill a comment with children" if $self->children->count;

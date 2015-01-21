@@ -69,12 +69,6 @@ has_many 'help_relate_shows', 'DDGC::DB::Result::Help::Relate', 'show_help_id';
 
 after insert => sub {
   my ( $self ) = @_;
-  $self->add_event('create');
-};
-
-after update => sub {
-  my ( $self ) = @_;
-  $self->add_event('update');
 };
 
 sub related_helps {
