@@ -1,6 +1,8 @@
 package DDGC::Subscriptions;
 # ABSTRACT: Describes notification types users can subscribe to.
 
+use v5.10.1;
+
 use Moose;
 
 has ddgc => (
@@ -42,7 +44,7 @@ sub _build_subscriptions {
 	+{
 
 		at_mention => {
-			applies_to          => [ 'comment', 'thread' ],
+			applies_to          => 'comment',
 			process             => sub { $self->at_mention(@_) },
 			user_filter         => sub { $_[0]->public },
 			description         => 'Comments which @mention you',
@@ -62,7 +64,7 @@ sub _build_subscriptions {
 		all_comments_general => {
 			applies_to          => 'comment',
 			process             =>  sub {
-				$self->all_comments_general( @_ );
+				$self->all_comments_thread( @_ );
 			},
 			user_filter         => sub { 1; },
 			description         => 'All comments on the General Ramblings forum',
@@ -73,7 +75,7 @@ sub _build_subscriptions {
 		all_comments_comleader => {
 			applies_to          => 'comment',
 			process             =>  sub {
-				$self->all_comments_comleader( @_ );
+				$self->all_comments_thread( @_ );
 			},
 			user_filter         => sub {
 				$self->ddgc->config->forums->{
@@ -88,7 +90,7 @@ sub _build_subscriptions {
 		all_comments_internal => {
 			applies_to          => 'comment',
 			process             =>  sub {
-				$self->all_comments_internal( @_ );
+				$self->all_comments_thread( @_ );
 			},
 			user_filter         => sub {
 				$self->ddgc->config->forums->{
@@ -109,33 +111,20 @@ sub neglected_thread {
 	#
 }
 
-sub all_comments_general {
+sub all_comments_thread {
 	my ( $self, $r ) = @_;
 	$r = $self->rs_to_result( $r );
-	if ( $r->thread &&
-	     !defined $r->parent_id &&
-	     $r->thread->forum eq $self->ddgc->config->id_for_forum( 'general' ) ) {
-		$self->event_simple( 'all_comments_general', $r );
-	}
-}
-
-sub all_comments_internal {
-	my ( $self, $r ) = @_;
-	$r = $self->rs_to_result( $r );
-	if ( $r->thread &&
-	     !defined $r->parent_id &&
-	     $r->thread->forum eq $self->ddgc->config->id_for_forum( 'internal' ) ) {
-		$self->event_simple( 'all_comments_internal', $r );
-	}
-}
-
-sub all_comments_comleader {
-	my ( $self, $r ) = @_;
-	$r = $self->rs_to_result( $r );
-	if ( $r->thread &&
-	     !defined $r->parent_id &&
-	     $r->thread->forum eq $self->ddgc->config->id_for_forum( 'community' ) ) {
-		$self->event_simple( 'all_comments_comleader', $r );
+	return unless ( $r->can('thread') && $r->thread && $r->parent_id );
+	for ( $r->thread->forum ) {
+		when ( $self->ddgc->config->id_for_forum( 'general' ) ) {
+			$self->event_simple( 'all_comments_general', $r );
+		}
+		when ( $self->ddgc->config->id_for_forum( 'internal' ) ) {
+			$self->event_simple( 'all_comments_internal', $r );
+		}
+		when ( $self->ddgc->config->id_for_forum( 'community' ) ) {
+			$self->event_simple( 'all_comments_comleader', $r );
+		}
 	}
 }
 
