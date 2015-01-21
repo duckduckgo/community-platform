@@ -9,19 +9,62 @@
 .ia-single h3 {
     margin-top: 1em;
 }
-.ia-single .column-left-labels,
-.ia-single .column-center-live,
-.ia-single .column-right-edits {
+.ia-single .row-diff {
+    height: 4.5em;
+    overflow: hidden;
+    border: 1px solid #babec9;
+    display: table;
+    margin-bottom: 1em;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    -o-border-radius: 3px;
+    padding: 1em;
+    vertical-align: middle;
+    width: 98%;
+}
+.ia-single .row-diff-edit,
+.ia-single .row-diff .button.js-editable {
+    border: 1px solid #5b9e4d;
+}
+.ia-single .row-diff .button.js-pre-editable,
+.ia-single .row-diff .button.js-editable {
+    float: right;
+    top: -1em;
+    right: -1em;
+    border-top: 0;
+    border-right: 0;
+    border-radius: 0;
+    -moz-border-radius: 0;
+    -webkit-border-radius: 0;
+    -o-border-radius: 0;
+     border-bottom-left-radius: 3px;
+    -moz-border-bottom-left-radius: 3px;
+    -webkit-border-bottom-left-radius: 3px;
+    -o-border-bottom-left-radius: 3px;
+}
+.ia-single .row-diff .button.js-pre-editable {
+    color: #babec9;
+}
+.ia-single .row-diff .button.js-editable {
+    color: #5b9e4d;
+}
+.ia-single .row-diff .button.js-pre-editable .js-pre-editable__text,
+.ia-single .row-diff .button.js-editable .js-editable__text {
+    vertical-align: top;
+}
+.ia-single .row-diff .column-left-labels,
+.ia-single .row-diff .column-center-live,
+.ia-single .row-diff .column-right-edits {
     font-size: 1.25em;
 }
-.ia-single .column-left-labels {
-    width: 20%;
+.ia-single .row-diff .column-left-labels {
     font-weight: 600;
+    width: 18%;
 }
-.ia-single .column-center-live,
-.ia-single .column-right-edits {
-    width: 40%;
-    text-align: center;
+.ia-single .row-diff .column-center-live,
+.ia-single .row-diff .column-right-edits {
+    width: 35%
 }
 .ia_topic {
     border-radius: 2em;

@@ -1,39 +1,52 @@
-<div class="column-left-labels left">
-    <div class="column-left-labels__child">
-        <p class="column-left-labels__child__p">
-            Topic
-        </p>
+<div class="row-diff" id="row-diff-topic">
+    <div class="column-left-labels left">
+        <div class="column-left-labels__child">
+            <p class="column-left-labels__child__p">
+                Topic
+            </p>
+        </div>
+    </div>
+    <div class="column-center-live left">
+        <div class="column-center-live__child">
+            {{#if live.topic}}
+                <ul class="column-center-live__child__ul">
+                    {{#each live.topic}}
+                        <li>
+                            {{this}}
+                        </li>
+                    {{/each}}
+                </ul>
+            {{/if}}
+        </div>
+    </div>
+    <div class="column-right-edits left" id="column-edits-topic">
+        <div class="column-right-edits__child" id="topic" name="topic">
+            {{#if edited.topic}}
+                <ul>
+                    {{#each edited.topic}}
+                        <li>
+                            {{this}}
+                        </li> 
+                    {{/each}}
+                </ul>
+            {{else}}
+                <span class="empty_field pre_edit" name="topic">
+                    Add topic
+                </span>
+            {{/if}}
+        </div>
+    </div>
+
+    <div class="button js-pre-editable" name="topic">
+        <i class="js-pre-editable__icon icon-edit"></i>
+        <span class="js-pre-editable__text">Edit</span>
+    </div>
+
+    <div class="button hide js-editable" name="topic">
+        <i class="js-editable__icon icon-check"></i>
+        <span class="js-editable__text">Done</span>
     </div>
 </div>
-<div class="column-center-live left">
-    <div class="column-center-live__child">
-        {{#if live.topic}}
-            <ul class="column-center-live__child__ul">
-                {{#each live.topic}}
-                    <li>
-                        {{this}}
-                    </li>
-                {{/each}}
-            </ul>
-        {{/if}}
-    </div>
-</div>
-<div class="column-right-edits left">
-    <div class="column-right-edits__child js-pre-editable" id="topic" name="topic">
-        {{#if edited.topic}}
-            <ul>
-                {{#each edited.topic}}
-                    <li>
-                        {{this}}
-                    </li> 
-                {{/each}}
-            </ul>
-        {{else}}
-            <span class="empty_field pre_edit" name="topic">
-                Add topic
-            </span>
-        {{/if}}
-    </div>
-</div>
+
 
 <span class="clearfix"></span>

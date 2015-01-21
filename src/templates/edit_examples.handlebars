@@ -1,29 +1,4 @@
-<div class="column-left-labels left">
-    <div class="column-left-labels__child">
-        <p class="column-left-labels__child__p">
-            Examples
-        </p>
-    </div>
-</div>
-<div class="column-center-live left">
-    <div class="column-center-live__child">
-        <ul class="column-center-live__child__ul">
-            {{#if live.example_query}}
-                <li class="editpage">
-                    <span title="try this example on DuckDuckGo" name="example_query" class="pre_edit" id="primary">{{example_query}}</span>
-                </li>
-            {{/if}}
-            {{#if live.other_queries}}
-                {{#each other_queries}}
-                    <li class="editpage">
-                        <span title="try this example on DuckDuckGo" name="other_queries" class="pre_edit other-examples">{{this}}</span>
-                    </li>
-                {{/each}}
-            {{/if}}
-        </ul>
-    </div>
-</div>
-<div class="column-right-edits left">
+<div class="column-right-edits left" id="column-edits-examples">
     <div class="column-right-edits__child js-section-editable" id="examples" name="examples">
         <ul>
             {{#if edited.example_query}}
@@ -55,7 +30,4 @@
         </ul>
     </div>
     <div class="button end left">OK</div>
-    <div class="button cancel left" name="examples">Cancel</div>
 </div>
-
-<span class="clearfix"></span>

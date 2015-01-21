@@ -83,20 +83,15 @@
                         $(this).hide();
                     });
 
-                    $("body").on('click', '.js-pre-edit .button-edit', function(evt) {
-                        var name = $(this).parent().attr('name');
-                        var $obj;
-
-                        if (name === "example_query" || name === "other_queries") {
-                           $obj = $("#examples");
-                           name = "examples";
-                        } else if (name === "topic") {
-                            $obj = $("#topics");
-                        }else {
-                            $obj = $(this);
-                        }
+                    $("body").on('click', '.js-pre-editable.button', function(evt) {
+                        var name = $(this).attr('name');
+                        var $row = $(this).parent();
+                        var $obj = $("#column-edits-" + name);
 
                         $obj.replaceWith(Handlebars.templates['edit_' + name](ia_data));
+                        $row.addClass("row-diff-edit");
+                        $(this).hide();
+                        $row.children(".js-editable").removeClass("hide");
 
                         if (name === "examples") {
                             if (!($("#examples .other-examples").length)) {
