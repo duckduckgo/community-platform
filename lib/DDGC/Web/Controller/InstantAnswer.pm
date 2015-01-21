@@ -209,20 +209,12 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
             $edited = current_ia($c->d, $ia);
             $ia_data{edited} = {
                 id => $ia->id,
-                name => defined $edited->{name}? $edited->{name} : $ia->name,
-                description => defined $edited->{description}? $edited->{description} : $ia->description,
-                tab => $ia->tab,
-                status => defined $edited->{status}? $edited->{status} : $ia->status,
-                repo => $ia->repo,
-                dev_milestone => $ia->dev_milestone,
-                perl_module => $ia->perl_module,
-                example_query => defined $edited->{example_query}? $edited->{example_query} : $ia->example_query,
-                other_queries => defined $edited->{other_queries}->{value}? $edited->{other_queries}->{edited} : $other_queries,
-                code => $ia->code? decode_json($ia->code) : undef,
-                topic => defined $edited->{topic}? $edited->{topic} : \@topics,
-                attribution => $ia->attribution? decode_json($ia->attribution) : undef,
-                issues => \@ia_issues,
-                template => $ia->template,
+                name => $edited->{name},
+                description => $edited->{description},
+                status => $edited->{status},
+                example_query => $edited->{example_query},
+                other_queries => $edited->{other_queries}->{edited},
+                topic => $edited->{topic},
             };
         }
     }

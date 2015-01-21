@@ -27,6 +27,14 @@
 .ia-single .row-diff .button.js-editable {
     border: 1px solid #5b9e4d;
 }
+.ia-single .row-diff p {
+    margin: 1em auto;
+}
+.ia-single .row-diff .js-input {
+    margin-top: 1.2em;
+    font-size: 1em;
+    padding-left: 0.2em;
+}
 .ia-single .row-diff .button.js-pre-editable,
 .ia-single .row-diff .button.js-editable {
     float: right;

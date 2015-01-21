@@ -42,12 +42,18 @@
             if (DDH_iaid) {
                 //console.log("for ia id '%s'", DDH_iaid);
 
-                $.getJSON("/ia/view/" + DDH_iaid + "/json", function(x) {
+                $.getJSON("/ia/view/" + DDH_iaid + "/json", function(ia_data) {
 
                     // Show latest edits for admins and users with edit permissions
-                    var ia_data = x;
+                    var x = {};
                     if (ia_data.edited) {
-                        x = ia_data.edited;
+                       $.each(ia_data.live, function(key, value) {
+                            if (!ia_data.edited[key]) {
+                                x[key] = value;
+                            } else {
+                                x[key] = ia_data.edited[key];
+                            }
+                        });
                     } else {
                         x = ia_data.live;
                     }
@@ -71,7 +77,7 @@
                         status : Handlebars.templates.pre_edit_status(ia_data),
                         description : Handlebars.templates.pre_edit_description(ia_data),
                         topic : Handlebars.templates.pre_edit_topic(ia_data),
-                        examples : Handlebars.templates.pre_edit_examples(ia_data),
+                        examples : Handlebars.templates.pre_edit_examples(ia_data)
                     };
 
                     DDH.IAPage.prototype.updateAll(readonly_templates, false);
@@ -118,46 +124,6 @@
                         window.location = "/ia/commit/" + DDH_iaid;
                     });
 
-                    $("body").on('click', '.button.js-cancel', function(evt) {
-                        var $obj = $(this).parent();
-                        var name = $(this).attr('name');
-
-                        $obj.replaceWith(Handlebars.templates['pre_edit_' + name](x));
-                    });
-
-                    $("body").on('keypress', '.js-editable input', function(evt) {
-                        if (evt.type === 'keypress' && evt.which === 13) {
-                            var $obj = $(this).parent().parent();
-                            var field = $(this).parent().attr('name');
-                            var value = $(this).val();
-
-                            if ($obj.attr('id') === 'input_example') {
-                                if (value !== '') {
-                                    $obj.parent().before('<li class="editpage"><div class="button delete listbutton"><span>-</span></div>' +
-                                                   '<span class="editable other-examples newentry" name="other_queries" title="Try this example on DuckDuckGo">' +
-                                                   '<input type="text" value="' + value + '" /></span></li>');
-                                }
-
-                                $(this).val("");
-                                $obj.addClass("hide");
-                                $("#add_example").removeClass("hide");
-
-                                var $primary_button = $("#primary").parent().parent().find(".button.delete");
-                                if ($primary_button.hasClass("hide")) {
-                                    $primary_button.removeClass("hide");
-                                }
-                            }
-
-                            if (field !== "topic" && field !== "other_queries" && field !== "code" && field !== "example_query") {
-                                save(field, value, DDH_iaid, $obj, true);
-                            }
-
-                            if (evt.type === "keypress") {
-                                return false;
-                            }
-                        }
-                    });
-
                     $("body").on("click", ".button.delete", function(evt) {
                         var field = $(this).parent().find(".js-editable").attr('name');
                         if (field === 'example_query') {
@@ -176,36 +142,65 @@
                         }
                     });
 
-                    $("body").on("click", ".js-section-editable .button.end", function(evt) {
-                        var $obj = $(this).parent();
-                        var field = $obj.attr('id');
-                        var value = [];
-                        var selector;
+                    $("body").on('keypress click', '.js-input, .button.js-editable', function(evt) {
+                        if ((evt.type === 'keypress' && (evt.which === 13 && $(this).hasClass("js-input")))
+                            || (evt.type === 'click' && $(this).hasClass("js-editable"))) {
+                            var field = $(this).attr('name');
+                            var value = "";
+                            var $obj = $("#row-diff-" + field);
 
-                        if (field === "topic") {
-                            selector = ".ia_topic .js-editable .available_topics option:selected";
-                        } else if (field === "examples") {
-                            save("example_query", $("#primary input").val(), DDH_iaid, $obj, false);
-                            field = "other_queries";
-                            selector = "#examples .other-examples input";
-                        }
+                            if ($(this).hasClass("js-input")) {
+                                value = $(this).val();
+                            } else {
+                                var $input = $obj.find("input.js-input");
+                                value = $input.val();
+                            }
 
-                        if (field !== "topic") {
-                            $(selector).each(function(index) {
-                                if ($(this).val()) {
-                                    value.push($(this).val());
+                            if ($obj.attr('id') === 'input_example') {
+                                if (value !== '') {
+                                    $obj.parent().before('<li class="editpage"><div class="button delete listbutton"><span>-</span></div>' +
+                                                   '<span class="editable other-examples newentry" name="other_queries" title="Try this example on DuckDuckGo">' +
+                                                   '<input type="text" value="' + value + '" /></span></li>');
                                 }
-                            });
-                        } else {
-                            $(selector).each(function(index) {
-                                if ($(this).text() && $.inArray($(this).text(), value) === -1) {
-                                    value.push($(this).text());
-                                }
-                            });
-                        }
 
-                        value = JSON.stringify(value);
-                        save(field, value, DDH_iaid, $obj, true);
+                                $(this).val("");
+                                $obj.addClass("hide");
+                                $("#add_example").removeClass("hide");
+
+                                var $primary_button = $("#primary").parent().parent().find(".button.delete");
+                                if ($primary_button.hasClass("hide")) {
+                                    $primary_button.removeClass("hide");
+                                }
+                            }
+
+                            if (evt.type === "click" && (field === "topic" || field === "examples")) {
+                                if (field === "topic") {
+                                    $(".ia_topic .js-editable .available_topics option:selected").each(function(index) {
+                                        if ($(this).text() && $.inArray($(this).text(), value) === -1) {
+                                            value.push($(this).text());
+                                        }
+                                    });
+                                } else if (field === "examples") {
+                                    save("example_query", $("#primary input").val(), DDH_iaid, $obj, false);
+                                    field = "other_queries";
+                                    $("#examples .other-examples input").each(function(index) {
+                                        if ($(this).val()) {
+                                            value.push($(this).val());
+                                        }
+                                    });
+                                }
+
+                                value = JSON.stringify(value);
+                            }
+                            
+                            if (value !== ia_data.live[field] && value !== ia_data.edited[field]) {
+                                save(field, value, DDH_iaid, $obj, true);    
+                            }
+
+                            if (evt.type === "keypress") {
+                                return false;
+                            }
+                        }
                     });
 
                     function save(field, value, id, $obj, replace) {
@@ -233,13 +228,12 @@
                                     name = field;
                                 }
 
-                                if (field === "other_queries" || field === "topic" || field === "code") {
+                                if (field === "other_queries" || field === "topic") {
                                     ia_data.edited[field] = $.parseJSON(data.result[field]);
                                 } else {
                                     ia_data.edited[field] = data.result[field];
                                 }
 
-                                x = ia_data.edited;
                                 pre_templates[field] = Handlebars.templates['pre_edit_' + name](ia_data);
 
                                 if (replace) {
