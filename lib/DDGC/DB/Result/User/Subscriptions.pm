@@ -42,5 +42,18 @@ column updated => {
 
 belongs_to 'user', 'DDGC::DB::Result::User', 'users_id';
 
+has_many 'events', 'DDGC::DB::Result::Event', sub {
+	my ( $args ) = @_;
+	return {
+		-and => {
+			"$args->{foreign_alias}.subscription_id" => { -ident => "$args->{self_alias}.subscription_id" },
+			-or => [
+				{ "$args->{self_alias}.target_object_id" => 0 },
+				{ "$args->{self_alias}.target_object_id" => "$args->{foreign_alias}.object_id[1]" },
+			],
+		},
+	}
+};
+
 no Moose;
 __PACKAGE__->meta->make_immutable;
