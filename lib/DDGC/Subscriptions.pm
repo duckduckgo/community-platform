@@ -53,11 +53,46 @@ sub _build_subscriptions {
 
 
 		neglected_thread        => {
-			applies_to          => 'thread',
+			applies_to          => 'thread_aggregate',
 			process             => sub { $self->neglected_thread(@_); },
 			user_filter         => sub { $_[0]->is('forum_manager') },
 			description         => 'Threads without a reply for over 24 hours',
 			category            => 'comleader',
+		},
+
+
+		all_threads_general => {
+			applies_to          => 'thread',
+			process             =>  sub { 1; },
+			user_filter         => sub { 1; },
+			description         => 'All threads on the General Ramblings forum',
+			category            => 'forum',
+		},
+
+
+		all_threads_comleader => {
+			applies_to          => 'thread',
+			process             =>  sub { 1; },
+			user_filter         => sub {
+				$self->ddgc->config->forums->{
+					$self->forum_id_comleader
+				}->user_filter( $_[0] );
+			},
+			description         => 'All threads on the Community Leader forum',
+			category            => 'forum',
+		},
+
+
+		all_threads_internal => {
+			applies_to          => 'thread',
+			process             =>  sub { 1; },
+			user_filter         => sub {
+				$self->ddgc->config->forums->{
+					$self->forum_id_internal
+				}->user_filter( $_[0] );
+			},
+			description         => 'All threads on the Internal forum',
+			category            => 'forum',
 		},
 
 
@@ -111,19 +146,35 @@ sub neglected_thread {
 	#
 }
 
+# Generates events for all new thread comments, all new threads.
 sub all_comments_thread {
 	my ( $self, $r ) = @_;
 	$r = $self->rs_to_result( $r );
-	return unless ( $r->can('thread') && $r->thread && $r->parent_id );
-	for ( $r->thread->forum ) {
-		when ( $self->ddgc->config->id_for_forum( 'general' ) ) {
-			$self->event_simple( 'all_comments_general', $r );
+	return unless ( $r->can('thread') && $r->thread );
+	if ( $r->parent_id ) {
+		for ( $r->thread->forum ) {
+			when ( $self->ddgc->config->id_for_forum( 'general' ) ) {
+				$self->event_simple( 'all_comments_general', $r );
+			}
+			when ( $self->ddgc->config->id_for_forum( 'internal' ) ) {
+				$self->event_simple( 'all_comments_internal', $r );
+			}
+			when ( $self->ddgc->config->id_for_forum( 'community' ) ) {
+				$self->event_simple( 'all_comments_comleader', $r );
+			}
 		}
-		when ( $self->ddgc->config->id_for_forum( 'internal' ) ) {
-			$self->event_simple( 'all_comments_internal', $r );
-		}
-		when ( $self->ddgc->config->id_for_forum( 'community' ) ) {
-			$self->event_simple( 'all_comments_comleader', $r );
+	}
+	else {
+		for ( $r->thread->forum ) {
+			when ( $self->ddgc->config->id_for_forum( 'general' ) ) {
+				$self->event_simple( 'all_thread_general', $r->thread );
+			}
+			when ( $self->ddgc->config->id_for_forum( 'internal' ) ) {
+				$self->event_simple( 'all_thread_internal', $r->thread );
+			}
+			when ( $self->ddgc->config->id_for_forum( 'community' ) ) {
+				$self->event_simple( 'all_thread_comleader', $r->thread );
+			}
 		}
 	}
 }
