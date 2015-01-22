@@ -48,6 +48,7 @@
 
     margin-bottom: 0.1em;
     height: 1.77em;
+    min-width: 5em;
 }
 .ia-single .row-diff .button.js-pre-editable,
 .ia-single .row-diff .button.js-editable {
@@ -85,11 +86,17 @@
 }
 .ia-single .row-diff .column-left-labels {
     font-weight: 600;
-    width: 18%;
+    width: 15%;
+}
+.ia-single .row-diff .column-center-live {
+    width: 30%;
+}
+.ia-single .row-diff .column-right-edits {
+    width: 40%;
 }
 .ia-single .row-diff .column-center-live,
 .ia-single .row-diff .column-right-edits {
-    width: 35%
+    margin-left: 1em;
 }
 .ia_topic {
     margin-bottom: 0.25em;
@@ -651,9 +658,11 @@ body.texture {
 .ia-single p::first-letter {
     text-transform: capitalize;
 }
-
-.ia-single p {
+.ia-single p,
+.ia-single .row-diff ul {
     color: #666;
+}
+.ia-single p {
     margin-top: 1.1em;
     font-size: 1.143em;
 }

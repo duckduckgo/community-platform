@@ -116,7 +116,7 @@
 
                     $("body").on('click', '#add_topic', function(evt) {
                         $(this).addClass("hide");
-                        $("#new_topic").parent().parent().removeClass("hide");
+                        $("#add_topic_select").removeClass("hide");
                     });
 
                     $("body").on('click', '#view_commits', function(evt) {
