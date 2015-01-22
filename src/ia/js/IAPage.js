@@ -102,6 +102,8 @@
                             if (!($("#examples .other-examples").length)) {
                                 $("#primary").parent().find(".button.delete").addClass("hide");
                             }
+                        } else if (field === "topic") {
+                            $(".available_topics").append($("#allowed_topics").html());
                         }
                     });
 
@@ -145,7 +147,7 @@
                         if ((evt.type === 'keypress' && (evt.which === 13 && $(this).hasClass("js-input")))
                             || (evt.type === 'click' && $(this).hasClass("js-editable"))) {
                             var field = $(this).attr('name');
-                            var value = "";
+                            var value;
                             var $obj = $("#row-diff-" + field);
 
                             if ($(this).hasClass("js-input")) {
@@ -173,8 +175,9 @@
                             }
 
                             if (evt.type === "click" && (field === "topic" || field === "examples")) {
+                                value = [];
                                 if (field === "topic") {
-                                    $(".ia_topic .js-editable .available_topics option:selected").each(function(index) {
+                                    $(".ia_topic .available_topics option:selected").each(function(index) {
                                         if ($(this).text() && $.inArray($(this).text(), value) === -1) {
                                             value.push($(this).text());
                                         }
@@ -192,7 +195,7 @@
                                 value = JSON.stringify(value);
                             }
                             
-                            if (value !== ia_data.live[field] && value !== ia_data.edited[field]) {
+                            if (value && (value !== ia_data.live[field] && value !== ia_data.edited[field])) {
                                 save(field, value, DDH_iaid, $obj, true);    
                             }
 
