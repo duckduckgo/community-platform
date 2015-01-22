@@ -11,7 +11,7 @@
 }
 .ia-single .row-diff {
     height: 4.5em;
-    overflow: hidden;
+    overflow-y: hidden;
     border: 1px solid #babec9;
     display: table;
     margin-bottom: 1em;
@@ -35,6 +35,20 @@
     font-size: 1em;
     padding-left: 0.2em;
 }
+.ia-single .row-diff .available_topics {
+    border-top-left-radius: 0;
+    -moz-border-top-left-radius: 0;
+    -webkit-border-top-left-radius: 0;
+    -o-border-top-left-radius: 0;
+
+    border-bottom-left-radius: 0;
+    -moz-border-bottom-left-radius: 0;
+    -webkit-border-bottom-left-radius: 0;
+    -o-border-bottom-left-radius: 0;
+
+    margin-bottom: 0.1em;
+    height: 1.77em;
+}
 .ia-single .row-diff .button.js-pre-editable,
 .ia-single .row-diff .button.js-editable {
     float: right;
@@ -57,6 +71,9 @@
 .ia-single .row-diff .button.js-editable {
     color: #5b9e4d;
 }
+.ia-single .row-diff .column-right-edits i {
+    vertical-align: middle;
+}
 .ia-single .row-diff .button.js-pre-editable .js-pre-editable__text,
 .ia-single .row-diff .button.js-editable .js-editable__text {
     vertical-align: top;
@@ -75,10 +92,10 @@
     width: 35%
 }
 .ia_topic {
-    border-radius: 2em;
-    background-color:#e0e0e0;
-    padding-left:1em;
-    padding-right:1em;
+    margin-bottom: 0.25em;
+    height: 1.6em;
+    width: 10em;
+    margin-right: 0.25em;
 }
 .ia_topic a {
     color:black;
@@ -205,17 +222,25 @@
 .ia-single ul li {
     list-style-position: inside;
 }
-.ia-single .button.listbutton,
-.ia-single .screens .button.arrow {
+.ia-single .row-diff .column-right-edits .button.listbutton {
     padding: 0;
-    width: 1em;
-    height: 1em;
-    border-radius: 50%;
-    -moz-border-radius: 50%;
-    -o-border-radius: 50%;
-    -webkit-border-radius: 50%;
+    width: 1.6em;
+    height: 1.9em;
     text-align: center;
     font-size: 14px;
+    background-color: #dbdbdb;
+}
+.ia-single .row-diff .column-right-edits .button.delete {
+    border-right: 0;
+    border-bottom-right-radius: 0;
+    -moz-border-bottom-right-radius: 0;
+    -webkit-border-bottom-right-radius: 0;
+    -o-border-bottom-right-radius: 0;
+
+    border-top-right-radius: 0;
+    -moz-border-top-right-radius: 0;
+    -webkit-border-top-right-radius: 0;
+    -o-border-top-right-radius: 0;
 }
 .ia-single .button.listbutton span,
 .ia-single .screens .button.arrow span {

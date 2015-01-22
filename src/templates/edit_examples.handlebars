@@ -1,11 +1,13 @@
 <div class="column-right-edits left" id="column-edits-examples">
     <div class="column-right-edits__child js-section-editable" id="examples" name="examples">
         <ul>
-            {{#if edited.example_query}}
+            {{#if example_query}}
                 <li class="editpage">
-                    <div class="button delete listbutton" name="example_query" title="Remove this example"><span>-</span></div>
+                    <div class="button delete listbutton" name="example_query" title="Remove this example">
+                        <i class="icon-remove" />
+                    </div>
                     <span title="try this example on DuckDuckGo" name="example_query" class="editable" id="primary">
-                        <input type="text" value="{{edited.example_query}}" />
+                        <input type="text" value="{{example_query}}" />
                     </span>
                 </li>
             {{else}}
@@ -13,10 +15,12 @@
                     <input type="text" value="" />
                 </li>
             {{/if}}
-            {{#if edited.other_queries}}
-                {{#each edited.other_queries}}
+            {{#if other_queries}}
+                {{#each other_queries}}
                     <li class="editpage">
-                        <div class="button delete listbutton" name="other_queries" title="Remove this example"><span>-</span></div>
+                        <div class="button delete listbutton" name="other_queries" title="Remove this example">
+                            <i class="icon-remove" />
+                        </div>
                         <span title="try this example on DuckDuckGo" name="other_queries" class="editable other-examples">
                             <input type="text" value="{{this}}" />
                         </span>
@@ -26,7 +30,9 @@
             <li class="editpage"><div name="other_queries" class="editable other-examples hide" id="input_example">
                 <input type="text" value="" />
             </div></li>
-            <li class="editpage"><div class="button listbutton" id="add_example" title="Add example"><span>+</span></div></li>
+            <li class="editpage"><div class="button listbutton" id="add_example" title="Add example">
+                <i class="icon-plus" />
+            </div></li>
         </ul>
     </div>
 </div>

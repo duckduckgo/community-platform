@@ -47,12 +47,8 @@
                     // Show latest edits for admins and users with edit permissions
                     var x = {};
                     if (ia_data.edited) {
-                       $.each(ia_data.live, function(key, value) {
-                            if (!ia_data.edited[key]) {
-                                x[key] = value;
-                            } else {
-                                x[key] = ia_data.edited[key];
-                            }
+                        $.each(ia_data.live, function(key, value) {
+                            x[key] = ia_data.edited[key]? ia_data.edited[key] : value;
                         });
                     } else {
                         x = ia_data.live;
@@ -90,16 +86,19 @@
                     });
 
                     $("body").on('click', '.js-pre-editable.button', function(evt) {
-                        var name = $(this).attr('name');
+                        var field = $(this).attr('name');
                         var $row = $(this).parent();
-                        var $obj = $("#column-edits-" + name);
+                        var $obj = $("#column-edits-" + field);
+                        var value = {};
+                        
+                        value[field] = ia_data.edited[field]? ia_data.edited[field] : ia_data.live[field];
 
-                        $obj.replaceWith(Handlebars.templates['edit_' + name](ia_data));
+                        $obj.replaceWith(Handlebars.templates['edit_' + field](value));
                         $row.addClass("row-diff-edit");
                         $(this).hide();
                         $row.children(".js-editable").removeClass("hide");
 
-                        if (name === "examples") {
+                        if (field === "examples") {
                             if (!($("#examples .other-examples").length)) {
                                 $("#primary").parent().find(".button.delete").addClass("hide");
                             }
