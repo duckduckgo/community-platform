@@ -213,6 +213,12 @@
                             
                             if (value && (value !== ia_data.edited[field] && value !== ia_data.live[field])) {
                                 save(field, value, DDH_iaid, $obj, true);
+                            } else {
+                                if (field === "other_examples") {
+                                    field = "examples";
+                                }
+
+                                $obj.replaceWith(pre_templates[field]);
                             }
 
                             if (evt.type === "keypress") {
