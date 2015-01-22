@@ -90,8 +90,18 @@
                         var $row = $(this).parent();
                         var $obj = $("#column-edits-" + field);
                         var value = {};
+    
+                        if (field === "examples") {
+                            field = "example_query";
+                        }
                         
                         value[field] = ia_data.edited[field]? ia_data.edited[field] : ia_data.live[field];
+                        
+                        if (field === "example_query") {
+                            field = "other_queries";
+                            value[field] = ia_data.edited[field]? ia_data.edited[field] : ia_data.live[field];
+                            field = "examples";
+                        }
 
                         $obj.replaceWith(Handlebars.templates['edit_' + field](value));
                         $row.addClass("row-diff-edit");
@@ -175,16 +185,22 @@
                             }
 
                             if (evt.type === "click" && (field === "topic" || field === "examples")) {
-                                value = [];
                                 if (field === "topic") {
+                                    value = [];
                                     $(".ia_topic .available_topics option:selected").each(function(index) {
                                         if ($(this).text() && $.inArray($(this).text(), value) === -1) {
                                             value.push($(this).text());
                                         }
                                     });
                                 } else if (field === "examples") {
-                                    save("example_query", $("#primary input").val(), DDH_iaid, $obj, false);
+                                    field = "example_query";
+                                    value = $("#primary input").val();
+                                    if (value && (value !== ia_data.edited[field] && value !== ia_data.live[field])) {
+                                        save("example_query", value, DDH_iaid, $obj, false);
+                                    }
+                                    
                                     field = "other_queries";
+                                    value = [];
                                     $("#examples .other-examples input").each(function(index) {
                                         if ($(this).val()) {
                                             value.push($(this).val());
@@ -195,8 +211,8 @@
                                 value = JSON.stringify(value);
                             }
                             
-                            if (value && (value !== ia_data.live[field] && value !== ia_data.edited[field])) {
-                                save(field, value, DDH_iaid, $obj, true);    
+                            if (value && (value !== ia_data.edited[field] && value !== ia_data.live[field])) {
+                                save(field, value, DDH_iaid, $obj, true);
                             }
 
                             if (evt.type === "keypress") {

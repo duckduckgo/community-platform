@@ -213,7 +213,7 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
                 description => $edited->{description},
                 status => $edited->{status},
                 example_query => $edited->{example_query},
-                other_queries => $edited->{other_queries}->{edited},
+                other_queries => $edited->{other_queries}->{value},
                 topic => $edited->{topic},
             };
         }

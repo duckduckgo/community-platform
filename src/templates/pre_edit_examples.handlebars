@@ -11,13 +11,17 @@
             <ul class="column-center-live__child__ul">
                 {{#if live.example_query}}
                     <li class="editpage">
-                        <span title="try this example on DuckDuckGo" name="example_query" class="pre_edit" id="primary">{{example_query}}</span>
+                        <span title="try this example on DuckDuckGo" name="example_query" class="pre_edit" id="primary">
+                            {{live.example_query}}
+                        </span>
                     </li>
                 {{/if}}
                 {{#if live.other_queries}}
                     {{#each live.other_queries}}
                         <li class="editpage">
-                            <span title="try this example on DuckDuckGo" name="other_queries" class="pre_edit other-examples">{{this}}</span>
+                            <span title="try this example on DuckDuckGo" name="other_queries" class="pre_edit other-examples">
+                                {{this}}
+                            </span>
                         </li>
                     {{/each}}
                 {{/if}}
@@ -29,13 +33,17 @@
             <ul class="column-center-live__child__ul">
                 {{#if edited.example_query}}
                     <li class="editpage">
-                        <span title="try this example on DuckDuckGo" name="example_query" class="pre_edit" id="primary">{{edited.example_query}}</span>
+                        <span title="try this example on DuckDuckGo" name="example_query" class="pre_edit" id="primary">
+                            {{edited.example_query}}
+                        </span>
                     </li>
                 {{/if}}
                 {{#if edited.other_queries}}
                     {{#each edited.other_queries}}
                         <li class="editpage">
-                            <span title="try this example on DuckDuckGo" name="other_queries" class="pre_edit other-examples">{{this}}</span>
+                            <span title="try this example on DuckDuckGo" name="other_queries" class="pre_edit other-examples">
+                                {{this}}
+                            </span>
                         </li>
                     {{/each}}
                 {{/if}}
