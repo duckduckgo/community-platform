@@ -33,9 +33,18 @@
 .ia-single .row-diff .js-input {
     margin-top: 1.2em;
     font-size: 1em;
+}
+.ia-single .row-diff input {
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    -o-border-radius: 3px;
+
+    border: 1px solid #babec9;
     padding-left: 0.2em;
 }
-.ia-single .row-diff .available_topics {
+.ia-single .row-diff .available_topics,
+.ia-single .row-diff .editpage span input {
     border-top-left-radius: 0;
     -moz-border-top-left-radius: 0;
     -webkit-border-top-left-radius: 0;
@@ -47,8 +56,14 @@
     -o-border-bottom-left-radius: 0;
 
     margin-bottom: 0.1em;
+}
+.ia-single .row-diff .available_topics {
     height: 1.77em;
     min-width: 5em;
+}
+.ia-single .row-diff .editpage span input {
+    height: 1.52em;
+    width: 8em;
 }
 .ia-single .row-diff .button.js-pre-editable,
 .ia-single .row-diff .button.js-editable {
@@ -98,11 +113,17 @@
 .ia-single .row-diff .column-right-edits {
     margin-left: 1em;
 }
-.ia_topic {
+.ia_topic,
+.ia-single .row-diff .editpage {
     margin-bottom: 0.25em;
     height: 1.6em;
-    width: 10em;
     margin-right: 0.25em;
+}
+.ia_topic {
+    width: 10em;
+}
+.ia-single .row-diff .editpage {
+    width: 9em;
 }
 .ia_topic a {
     color:black;
@@ -222,9 +243,6 @@
 }
 .ia-single .hide {
 	display: none;
-}
-.ia-single #input_example {
-    margin-left: 1.15em;
 }
 .ia-single ul li {
     list-style-position: inside;

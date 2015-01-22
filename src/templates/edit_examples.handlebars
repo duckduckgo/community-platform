@@ -1,38 +1,45 @@
 <div class="column-right-edits left" id="column-edits-examples">
     <div class="column-right-edits__child js-section-editable" id="examples" name="examples">
         <ul>
-            {{#if example_query}}
-                <li class="editpage">
-                    <div class="button delete listbutton" name="example_query" title="Remove this example">
-                        <i class="icon-remove" />
-                    </div>
-                    <span title="try this example on DuckDuckGo" name="example_query" class="editable" id="primary">
-                        <input type="text" value="{{example_query}}" />
-                    </span>
-                </li>
-            {{else}}
-                <li class="editable" name="example_query" id="primary">
+            <li class="editpage left">
+                <div class="button delete listbutton left" name="example_query" title="Remove this example">
+                    <i class="icon-remove" />
+                </div>
+                <span title="try this example on DuckDuckGo" name="example_query" class="editable left" id="primary">
+                    {{#if example_query}}
+                        <input type="text" value="{{example_query}}" />    
+                    {{else}}
+                        <input type="text" value="" />
+                    {{/if}}
+                </span>
+            </li>
+            <li class="editpage hide left" id="input_example">
+                <div class="button delete listbutton left" name="example_query" title="Remove this example">
+                    <i class="icon-remove" />
+                </div>
+                <span name="other_queries" class="editable other-examples left" id="input_example">
                     <input type="text" value="" />
-                </li>
-            {{/if}}
+                </span>
+            </li>
+            <li class="editpage left" id="add_example">
+                <div class="button listbutton left" id="add_example_button" title="Add example">
+                    <i class="icon-plus" />
+                </div>
+            </li>
+            <span class="clearfix"></span>
             {{#if other_queries}}
                 {{#each other_queries}}
-                    <li class="editpage">
-                        <div class="button delete listbutton" name="other_queries" title="Remove this example">
+                    <li class="editpage left">
+                        <div class="button delete listbutton left" name="other_queries" title="Remove this example">
                             <i class="icon-remove" />
                         </div>
-                        <span title="try this example on DuckDuckGo" name="other_queries" class="editable other-examples">
+                        <span title="try this example on DuckDuckGo" name="other_queries" class="editable other-examples left">
                             <input type="text" value="{{this}}" />
                         </span>
                     </li>
+                    <span class="clearfix"></span>
                 {{/each}}
             {{/if}}
-            <li class="editpage"><div name="other_queries" class="editable other-examples hide" id="input_example">
-                <input type="text" value="" />
-            </div></li>
-            <li class="editpage"><div class="button listbutton" id="add_example" title="Add example">
-                <i class="icon-plus" />
-            </div></li>
         </ul>
     </div>
 </div>
