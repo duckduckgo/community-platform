@@ -431,7 +431,7 @@ sub current_ia {
 sub add_edit {
     my ($ia, $field, $value ) = @_;
 
-    my $orig_data = $ia->get_column($field);
+    my $orig_data = $ia->get_column($field) || '';
     my $current_updates = $ia->get_column('updates') || ();
 
     if($value ne $orig_data){

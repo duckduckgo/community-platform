@@ -85,10 +85,8 @@
                     {{/each}}
                 </td>
                 <td name="other_queries">
-                    {{#each other_queries}}
-                        {{#each value}}
-                            <li>{{this}}</li>
-                        {{/each}}
+                    {{#each other_queries.value}}
+                        <li>{{this}}</li>
                     {{/each}}
                 </td>
             </tr>
