@@ -1,0 +1,32 @@
+<div class="column-right-edits left" id="column-edits-other_queries">
+    <div class="column-right-edits__child js-section-editable" id="other_queries" name="other_queries">
+        <ul>
+            {{#if other_queries}}
+                {{#each other_queries}}
+                    <li class="editpage left">
+                        <div class="button delete listbutton left" name="other_queries" title="Remove this example">
+                            <i class="icon-remove" />
+                        </div>
+                        <span title="try this example on DuckDuckGo" name="other_queries" class="editable other-examples left">
+                            <input type="text" value="{{this}}" />
+                        </span>
+                    </li>
+                    <span class="clearfix"></span>
+                {{/each}}
+            {{/if}}
+            <li class="editpage hide left" id="input_example">
+                <div class="button delete listbutton left" name="example_query" title="Remove this example">
+                    <i class="icon-remove" />
+                </div>
+                <span name="other_queries" class="editable other-examples left" id="input_example">
+                    <input type="text" value="" />
+                </span>
+            </li>
+            <li class="editpage left" id="add_example">
+                <div class="button listbutton left" id="add_example_button" title="Add example">
+                    <i class="icon-plus" />
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
