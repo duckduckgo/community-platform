@@ -11,10 +11,10 @@
     // but for now the page is being built with xslate
     DDH.IAPageCommit.prototype = {
         init: function(ops) {
-            console.log("IAPageCommit.init()\n"); 
+            //console.log("IAPageCommit.init()\n"); 
 
             if (DDH_iaid) {
-                console.log("for ia id '%s'", DDH_iaid);
+                //console.log("for ia id '%s'", DDH_iaid);
 
                 $.getJSON("/ia/commit/" + DDH_iaid + "/json", function(x) {
                     if (x.redirect) {
@@ -35,16 +35,15 @@
                         $('.updates_list .item_selected').each(function(idx) {
                             var temp_field = $(this).attr('name');
 
-                            if (temp_field === "topic" || temp_field === "other_queries"
-                                || temp_field === "code") {
+                            if (temp_field === "topic" || temp_field === "other_queries") {
                                 var temp_value = [];
                                 $('.updates_list .item_selected li').each(function(id) {
                                     if ($(this).parent().attr('name') === temp_field) {
-                                        temp_value.push($(this).text());
+                                        temp_value.push($.trim($(this).text()));
                                     }
                                 });
                             } else {
-                                var temp_value = $(this).text().replace(/\"/g, "");
+                                var temp_value = $.trim($(this).text().replace(/\"/g, ""));
                             }
                             
                             values.push({'field':temp_field, 'value':temp_value});

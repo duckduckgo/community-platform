@@ -158,32 +158,17 @@
                             || (evt.type === 'click' && $(this).hasClass("js-editable"))) {
                             var field = $(this).attr('name');
                             var value;
+                            var edited_value = ia_data.edited[field];
+                            var live_value = ia_data.live[field];
                             var $obj = $("#row-diff-" + field);
 
                             if ($(this).hasClass("js-input")) {
-                                value = $(this).val();
+                                value = $.trim($(this).val());
                             } else {
                                 var $input = $obj.find("input.js-input");
-                                value = $input.val();
+                                value = $.trim($input.val());
                             }
-
-                            if ($obj.attr('id') === 'input_example') {
-                                if (value !== '') {
-                                    $obj.parent().before('<li class="editpage"><div class="button delete listbutton"><span>-</span></div>' +
-                                                   '<span class="editable other-examples newentry" name="other_queries" title="Try this example on DuckDuckGo">' +
-                                                   '<input type="text" value="' + value + '" /></span></li>');
-                                }
-
-                                $(this).val("");
-                                $obj.addClass("hide");
-                                $("#add_example").removeClass("hide");
-
-                                var $primary_button = $("#primary").parent().parent().find(".button.delete");
-                                if ($primary_button.hasClass("hide")) {
-                                    $primary_button.removeClass("hide");
-                                }
-                            }
-
+                            
                             if (evt.type === "click" && (field === "topic" || field === "examples")) {
                                 if (field === "topic") {
                                     value = [];
@@ -194,7 +179,7 @@
                                     });
                                 } else if (field === "examples") {
                                     field = "example_query";
-                                    value = $("#primary input").val();
+                                    value = $.trim($("#primary input").val());
                                     if (value && (value !== ia_data.edited[field] && value !== ia_data.live[field])) {
                                         save("example_query", value, DDH_iaid, $obj, false);
                                     }
@@ -203,18 +188,20 @@
                                     value = [];
                                     $("#examples .other-examples input").each(function(index) {
                                         if ($(this).val()) {
-                                            value.push($(this).val());
+                                            value.push($.trim($(this).val()));
                                         }
                                     });
                                 }
 
                                 value = JSON.stringify(value);
+                                edited_value = JSON.stringify(ia_data.edited[field]);
+                                live_value = JSON.stringify(ia_data.live[field]);
                             }
-                            
-                            if (value && (value !== ia_data.edited[field] && value !== ia_data.live[field])) {
+
+                            if (value && (value !== edited_value && value !== live_value)) {
                                 save(field, value, DDH_iaid, $obj, true);
                             } else {
-                                if (field === "other_examples") {
+                                if (field === "other_queries") {
                                     field = "examples";
                                 }
 
