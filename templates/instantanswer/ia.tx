@@ -8,11 +8,11 @@
 
 <: if $can_edit { :>
     <div class="special-permissions right">
-        <div class="special-permissions__edit js-edit-enable button" id="edit_activate">Enable edit mode</div>
-        <div class="special-permissions__static hide js-edit-disable button" id="edit_disable">Disable edit mode</div>
         <: if $can_commit { :>
-            <div class="special-permissions__edit js-view-commits button right <: $commit_class :>" id="view_commits">Commit edits</div>
+            <div class="special-permissions__edit js-view-commits button <: $commit_class :>" id="view_commits">Commit edits</div>
         <: } :>
+        <div class="special-permissions__edit js-edit-enable button right" id="edit_activate">Enable edit mode</div>
+        <div class="special-permissions__static hide js-edit-disable button right" id="edit_disable">Disable edit mode</div>
     </div>
 <: } :>
 

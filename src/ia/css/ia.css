@@ -6,7 +6,7 @@
 .iadata li {
     list-style:none;
 }
-.special-permissions {
+.special-permissions #edit_activate {
     margin-right: 0.7em;
 }
 .ia-single h3 {
@@ -353,7 +353,7 @@
     margin: 0.35em 0 1em;   
 }
 #view_commits {
-    margin-left: 0.25em;
+    margin-right: 0.25em;
 }
 #edit_activate,
 #edit_disable {
