@@ -6,6 +6,9 @@
 .iadata li {
     list-style:none;
 }
+.special-permissions {
+    margin-right: 0.7em;
+}
 .ia-single h3 {
     margin-top: 1em;
 }

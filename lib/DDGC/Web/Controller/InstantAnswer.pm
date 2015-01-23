@@ -125,6 +125,7 @@ sub ia_base :Chained('base') :PathPart('view') :CaptureArgs(1) {  # /ia/view/cal
     my $is_admin;
     my $can_edit;
     my $can_commit;
+    my $commit_class = "hide";
 
     if ($c->user) {
         $permissions = $c->stash->{ia}->users->find($c->user->id);
@@ -135,9 +136,10 @@ sub ia_base :Chained('base') :PathPart('view') :CaptureArgs(1) {  # /ia/view/cal
 
             if ($is_admin) {
                 my $edits = get_edits($c->d, $c->stash->{ia}->name);
+                $can_commit = 1;
 
-                if (ref $edits eq 'ARRAY') {
-                    $can_commit = 1;
+                if (length $edits && ref $edits eq 'HASH') {
+                    $commit_class = '';
                 }
             }
         }
@@ -146,6 +148,7 @@ sub ia_base :Chained('base') :PathPart('view') :CaptureArgs(1) {  # /ia/view/cal
     $c->stash->{title} = $c->stash->{ia}->name;
     $c->stash->{can_edit} = $can_edit;
     $c->stash->{can_commit} = $can_commit;
+    $c->stash->{commit_class} = $commit_class;
 
     my @topics = $c->d->rs('Topic')->search(
         {'name' => { '!=' => 'test' }},
