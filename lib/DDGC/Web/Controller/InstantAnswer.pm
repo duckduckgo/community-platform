@@ -138,7 +138,7 @@ sub ia_base :Chained('base') :PathPart('view') :CaptureArgs(1) {  # /ia/view/cal
                 my $edits = get_edits($c->d, $c->stash->{ia}->name);
                 $can_commit = 1;
 
-                if (length $edits && ref $edits eq 'HASH') {
+                if (length $edits > 1 && ref $edits eq 'HASH') {
                     $commit_class = '';
                 }
             }
@@ -333,16 +333,8 @@ sub commit_save :Chained('commit_base') :PathPart('save') :Args(0) {
                     }
                 }
             } 
-     
-            my $edits = get_edits($c->d, $ia->name);
 
-            if (ref $edits eq 'ARRAY') {
-                foreach my $edit (@{$edits}) {
-                    foreach my $field(keys %{$edit}){
-                        remove_edit($ia, $field);
-                    }
-                }
-            }
+            remove_edits($ia);
         }
     }
 
@@ -474,8 +466,16 @@ sub remove_edit {
     my $column_updates = $ia->get_column('updates');
     my $edits = $column_updates? decode_json($column_updates) : undef;
     $edits->{$field} = undef;
- 
+                      
     $ia->update({updates => $edits});
+}
+
+# given a result set, remove 
+# all the entries from the updates column
+sub remove_edits {
+    my($ia) = @_;
+ 
+    $ia->update({updates => ''});
 }
 
 # given the IA name return the data in the updates
