@@ -123,28 +123,31 @@ sub ia_base :Chained('base') :PathPart('view') :CaptureArgs(1) {  # /ia/view/cal
 
     my $permissions;
     my $is_admin;
-    my $edit_class = "hide";
+    my $can_edit;
+    my $can_commit;
     my $commit_class = "hide";
 
     if ($c->user) {
         $permissions = $c->stash->{ia}->users->find($c->user->id);
         $is_admin = $c->user->admin;
-    }
 
-    if ($permissions || $is_admin) {
-        $edit_class = "";
+        if ($permissions || $is_admin) {
+            $can_edit = 1;
 
-        if ($is_admin) {
-            my $edits = get_edits($c->d, $c->stash->{ia}->name);
+            if ($is_admin) {
+                my $edits = get_edits($c->d, $c->stash->{ia}->name);
+                $can_commit = 1;
 
-            if (ref $edits eq 'ARRAY') {
-                $commit_class = "";
+                if (length $edits && ref $edits eq 'HASH') {
+                    $commit_class = '';
+                }
             }
         }
     }
 
     $c->stash->{title} = $c->stash->{ia}->name;
-    $c->stash->{edit_class} = $edit_class;
+    $c->stash->{can_edit} = $can_edit;
+    $c->stash->{can_commit} = $can_commit;
     $c->stash->{commit_class} = $commit_class;
 
     my @topics = $c->d->rs('Topic')->search(
@@ -169,6 +172,7 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
     my @issues = $c->d->rs('InstantAnswer::Issues')->find({instant_answer_id => $ia->id});
     my @ia_issues;
     my %ia_data;
+    my $permissions;
     my $is_admin; 
 
     for my $issue (@issues) {
@@ -203,26 +207,19 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
     };
 
     if ($c->user) {
+        $permissions = $c->stash->{ia}->users->find($c->user->id);
         $is_admin = $c->user->admin;
 
-        if ($is_admin) {
+        if ($is_admin || $permissions) {
             $edited = current_ia($c->d, $ia);
             $ia_data{edited} = {
                 id => $ia->id,
-                name => defined $edited->{name}? $edited->{name} : $ia->name,
-                description => defined $edited->{description}? $edited->{description} : $ia->description,
-                tab => $ia->tab,
-                status => defined $edited->{status}? $edited->{status} : $ia->status,
-                repo => $ia->repo,
-                dev_milestone => $ia->dev_milestone,
-                perl_module => $ia->perl_module,
-                example_query => defined $edited->{example_query}? $edited->{example_query} : $ia->example_query,
-                other_queries => defined $edited->{other_queries}->{value}? $edited->{other_queries}->{edited} : $other_queries,
-                code => $ia->code? decode_json($ia->code) : undef,
-                topic => defined $edited->{topic}? $edited->{topic} : \@topics,
-                attribution => $ia->attribution? decode_json($ia->attribution) : undef,
-                issues => \@ia_issues,
-                template => $ia->template,
+                name => $edited->{name},
+                description => $edited->{description},
+                status => $edited->{status},
+                example_query => $edited->{example_query},
+                other_queries => $edited->{other_queries}->{value},
+                topic => $edited->{topic},
             };
         }
     }
@@ -338,16 +335,8 @@ sub commit_save :Chained('commit_base') :PathPart('save') :Args(0) {
                     }
                 }
             } 
-     
-            my $edits = get_edits($c->d, $ia->name);
 
-            if (ref $edits eq 'ARRAY') {
-                foreach my $edit (@{$edits}) {
-                    foreach my $field(keys %{$edit}){
-                        remove_edit($ia, $field);
-                    }
-                }
-            }
+            remove_edits($ia);
         }
     }
 
@@ -442,7 +431,7 @@ sub current_ia {
 sub add_edit {
     my ($ia, $field, $value ) = @_;
 
-    my $orig_data = $ia->get_column($field);
+    my $orig_data = $ia->get_column($field) || '';
     my $current_updates = $ia->get_column('updates') || ();
 
     if($value ne $orig_data){
@@ -479,8 +468,16 @@ sub remove_edit {
     my $column_updates = $ia->get_column('updates');
     my $edits = $column_updates? decode_json($column_updates) : undef;
     $edits->{$field} = undef;
- 
+                      
     $ia->update({updates => $edits});
+}
+
+# given a result set, remove 
+# all the entries from the updates column
+sub remove_edits {
+    my($ia) = @_;
+ 
+    $ia->update({updates => ''});
 }
 
 # given the IA name return the data in the updates

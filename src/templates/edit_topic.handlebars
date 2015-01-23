@@ -1,28 +1,33 @@
-<div id="topic" class="section_editable">
-    {{#each topic}}
-        <div class="button ia_topic">
-            <div class="button delete listbutton" name="topic" title="Remove this topic"><span>-</span></div>
-            <span class="editable" name="topic">
-                <select class="available_topics" tabindex="-1">
-                    <option value="0">{{this}}</option>
-                    {{#each ../allowed_topics}}
-                        <option value="{{id}}">{{name}}</option>
-                    {{/each}}
-                </select>
-            </span>
-        </div> 
-    {{/each}}
-    <div class="button ia_topic hide">
-        <span class="editable" name="topic">
-            <select class="available_topics" id="new_topic" tabindex="-1">
-                <option value="0"></option> 
-                {{#each allowed_topics}}
-                    <option value="{{id}}">{{name}}</option>
-                {{/each}}
-            </select>
-        </span>
-    </div>
-    <div class="button listbutton" id="add_topic" title="Add topic"><span>+</span></div>
-    <div class="button end">OK</div>
-    <div class="button cancel" name="topic">Cancel</div>
+<div class="column-right-edits left" id="column-edits-topic">
+    <div class="column-right-edits__child js-section-editable" id="topic" name="topic">
+        {{#each topic}}
+            <div class="ia_topic left">
+                <div class="button delete listbutton left" name="topic" title="Remove this topic">
+                    <i class="icon-remove" />
+                </div>
+                <span class="editable left" name="topic">
+                    <select class="available_topics" tabindex="-1">
+                        <option value="0">{{this}}</option>
+                    </select>
+                </span>
+            </div>
+
+            {{#if @first}}
+                <div class="ia_topic left hide" id="add_topic_select">
+                    <div class="button delete listbutton left" name="topic" title="Remove this topic">
+                        <i class="icon-remove" />
+                    </div>
+                    <span class="editable left" name="topic">
+                    <select class="available_topics left" id="new_topic" tabindex="-1">
+                        <option value="0"></option>
+                    </select>
+                    </span>
+                </div>
+                <div class="button listbutton left" id="add_topic" title="Add topic">
+                    <i class="icon-plus" />
+                </div>
+            {{/if}}
+            <span class="clearfix"></span>
+        {{/each}}
+   </div>
 </div>

@@ -42,12 +42,14 @@
             if (DDH_iaid) {
                 //console.log("for ia id '%s'", DDH_iaid);
 
-                $.getJSON("/ia/view/" + DDH_iaid + "/json", function(x) {
+                $.getJSON("/ia/view/" + DDH_iaid + "/json", function(ia_data) {
 
                     // Show latest edits for admins and users with edit permissions
-                    var ia_data = x;
+                    var x = {};
                     if (ia_data.edited) {
-                        x = ia_data.edited;
+                        $.each(ia_data.live, function(key, value) {
+                            x[key] = ia_data.edited[key]? ia_data.edited[key] : value;
+                        });
                     } else {
                         x = ia_data.live;
                     }
@@ -67,60 +69,51 @@
 
                     // Pre-Edit mode templates
                     var pre_templates = {
-                        name : Handlebars.templates.pre_edit_name(x),
-                        status : Handlebars.templates.pre_edit_status(x),
-                        description : Handlebars.templates.pre_edit_description(x),
-                        topic : Handlebars.templates.pre_edit_topic(x),
-                        screens : Handlebars.templates.screens(x),
-                        template : Handlebars.templates.template(x),
-                        examples : Handlebars.templates.pre_edit_examples(x),
-                        devinfo : Handlebars.templates.devinfo(x),
-                        github: Handlebars.templates.github(x)
+                        name : Handlebars.templates.pre_edit_name(ia_data),
+                        status : Handlebars.templates.pre_edit_status(ia_data),
+                        description : Handlebars.templates.pre_edit_description(ia_data),
+                        topic : Handlebars.templates.pre_edit_topic(ia_data),
+                        examples : Handlebars.templates.pre_edit_examples(ia_data)
                     };
 
-                    DDH.IAPage.prototype.updateAll(readonly_templates);
-
-                    $("body").on('click', '.ia-single .dev-info', DDH.IAPage.prototype.expand.bind(this));
+                    DDH.IAPage.prototype.updateAll(readonly_templates, false);
 
                     $("#edit_activate").on('click', function(evt) {
-                        DDH.IAPage.prototype.updateAll(pre_templates);
+                        DDH.IAPage.prototype.updateAll(pre_templates, true);
 
                         $("#edit_disable").removeClass("hide");
                         $(this).hide();
                     });
 
-                    $("body").on('mouseenter mouseleave', '.pre_edit', function(evt) {
-                        $(this).toggleClass("highlight");
-                    });
-
-                    $("body").on('click', '.button.arrow', function(evt) {
-                        $(this).parent().find("img").toggleClass("hide");
-                        if ($(this).find("span").text() == "▾") {
-                            $(this).find("span").text("▴");
-                        } else if ($(this).find("span").text() == "▴") {
-                            $(this).find("span").text("▾");
+                    $("body").on('click', '.js-pre-editable.button', function(evt) {
+                        var field = $(this).attr('name');
+                        var $row = $(this).parent();
+                        var $obj = $("#column-edits-" + field);
+                        var value = {};
+    
+                        if (field === "examples") {
+                            field = "example_query";
                         }
-                    });
-
-                    $("body").on('click', '.pre_edit', function(evt) {
-                        var name = $(this).attr('name');
-                        var $obj;
-
-                        if (name === "example_query" || name === "other_queries") {
-                           $obj = $("#examples");
-                           name = "examples";
-                        } else if (name === "topic") {
-                            $obj = $("#topics");
-                        }else {
-                            $obj = $(this);
+                        
+                        value[field] = ia_data.edited[field]? ia_data.edited[field] : ia_data.live[field];
+                        
+                        if (field === "example_query") {
+                            field = "other_queries";
+                            value[field] = ia_data.edited[field]? ia_data.edited[field] : ia_data.live[field];
+                            field = "examples";
                         }
 
-                        $obj.replaceWith(Handlebars.templates['edit_' + name](x));
+                        $obj.replaceWith(Handlebars.templates['edit_' + field](value));
+                        $row.addClass("row-diff-edit");
+                        $(this).hide();
+                        $row.children(".js-editable").removeClass("hide");
 
-                        if (name === "examples") {
+                        if (field === "examples") {
                             if (!($("#examples .other-examples").length)) {
                                 $("#primary").parent().find(".button.delete").addClass("hide");
                             }
+                        } else if (field === "topic") {
+                            $(".available_topics").append($("#allowed_topics").html());
                         }
                     });
 
@@ -135,55 +128,15 @@
 
                     $("body").on('click', '#add_topic', function(evt) {
                         $(this).addClass("hide");
-                        $("#new_topic").parent().parent().removeClass("hide");
+                        $("#add_topic_select").removeClass("hide");
                     });
 
                     $("body").on('click', '#view_commits', function(evt) {
                         window.location = "/ia/commit/" + DDH_iaid;
                     });
 
-                    $("body").on('click', '.button.cancel', function(evt) {
-                        var $obj = $(this).parent();
-                        var name = $(this).attr('name');
-
-                        $obj.replaceWith(Handlebars.templates['pre_edit_' + name](x));
-                    });
-
-                    $("body").on('keypress', '.editable input', function(evt) {
-                        if (evt.type === 'keypress' && evt.which === 13) {
-                            var $obj = $(this).parent().parent();
-                            var field = $(this).parent().attr('name');
-                            var value = $(this).val();
-
-                            if ($obj.attr('id') === 'input_example') {
-                                if (value !== '') {
-                                    $obj.parent().before('<li class="editpage"><div class="button delete listbutton"><span>-</span></div>' +
-                                                   '<span class="editable other-examples newentry" name="other_queries" title="Try this example on DuckDuckGo">' +
-                                                   '<input type="text" value="' + value + '" /></span></li>');
-                                }
-
-                                $(this).val("");
-                                $obj.addClass("hide");
-                                $("#add_example").removeClass("hide");
-
-                                var $primary_button = $("#primary").parent().parent().find(".button.delete");
-                                if ($primary_button.hasClass("hide")) {
-                                    $primary_button.removeClass("hide");
-                                }
-                            }
-
-                            if (field !== "topic" && field !== "other_queries" && field !== "code" && field !== "example_query") {
-                                save(field, value, DDH_iaid, $obj, true);
-                            }
-
-                            if (evt.type === "keypress") {
-                                return false;
-                            }
-                        }
-                    });
-
                     $("body").on("click", ".button.delete", function(evt) {
-                        var field = $(this).parent().find(".editable").attr('name');
+                        var field = $(this).parent().find(".js-editable").attr('name');
                         if (field === 'example_query') {
                             var $new_primary = $('a.other-examples input').first();
                             if ($new_primary.length) {
@@ -200,36 +153,65 @@
                         }
                     });
 
-                    $("body").on("click", ".section_editable .button.end", function(evt) {
-                        var $obj = $(this).parent();
-                        var field = $obj.attr('id');
-                        var value = [];
-                        var selector;
+                    $("body").on('keypress click', '.js-input, .button.js-editable', function(evt) {
+                        if ((evt.type === 'keypress' && (evt.which === 13 && $(this).hasClass("js-input")))
+                            || (evt.type === 'click' && $(this).hasClass("js-editable"))) {
+                            var field = $(this).attr('name');
+                            var value;
+                            var edited_value = ia_data.edited[field];
+                            var live_value = ia_data.live[field];
+                            var $obj = $("#row-diff-" + field);
 
-                        if (field === "topic") {
-                            selector = ".ia_topic .editable .available_topics option:selected";
-                        } else if (field === "examples") {
-                            save("example_query", $("#primary input").val(), DDH_iaid, $obj, false);
-                            field = "other_queries";
-                            selector = "#examples .other-examples input";
-                        }
-
-                        if (field !== "topic") {
-                            $(selector).each(function(index) {
-                                if ($(this).val()) {
-                                    value.push($(this).val());
+                            if ($(this).hasClass("js-input")) {
+                                value = $.trim($(this).val());
+                            } else {
+                                var $input = $obj.find("input.js-input");
+                                value = $.trim($input.val());
+                            }
+                            
+                            if (evt.type === "click" && (field === "topic" || field === "examples")) {
+                                if (field === "topic") {
+                                    value = [];
+                                    $(".ia_topic .available_topics option:selected").each(function(index) {
+                                        if ($(this).text() && $.inArray($(this).text(), value) === -1) {
+                                            value.push($(this).text());
+                                        }
+                                    });
+                                } else if (field === "examples") {
+                                    field = "example_query";
+                                    value = $.trim($("#primary input").val());
+                                    if (value && (value !== ia_data.edited[field] && value !== ia_data.live[field])) {
+                                        save("example_query", value, DDH_iaid, $obj, false);
+                                    }
+                                    
+                                    field = "other_queries";
+                                    value = [];
+                                    $("#examples .other-examples input").each(function(index) {
+                                        if ($(this).val()) {
+                                            value.push($.trim($(this).val()));
+                                        }
+                                    });
                                 }
-                            });
-                        } else {
-                            $(selector).each(function(index) {
-                                if ($(this).text() && $.inArray($(this).text(), value) === -1) {
-                                    value.push($(this).text());
-                                }
-                            });
-                        }
 
-                        value = JSON.stringify(value);
-                        save(field, value, DDH_iaid, $obj, true);
+                                value = JSON.stringify(value);
+                                edited_value = JSON.stringify(ia_data.edited[field]);
+                                live_value = JSON.stringify(ia_data.live[field]);
+                            }
+
+                            if (value && (value !== edited_value && value !== live_value)) {
+                                save(field, value, DDH_iaid, $obj, true);
+                            } else {
+                                if (field === "other_queries") {
+                                    field = "examples";
+                                }
+
+                                $obj.replaceWith(pre_templates[field]);
+                            }
+
+                            if (evt.type === "keypress") {
+                                return false;
+                            }
+                        }
                     });
 
                     function save(field, value, id, $obj, replace) {
@@ -257,13 +239,13 @@
                                     name = field;
                                 }
 
-                                if (field === "other_queries" || field === "topic" || field === "code") {
-                                    x[field] = $.parseJSON(data.result[field]);
+                                if (field === "other_queries" || field === "topic") {
+                                    ia_data.edited[field] = $.parseJSON(data.result[field]);
                                 } else {
-                                    x[field] = data.result[field];
+                                    ia_data.edited[field] = data.result[field];
                                 }
 
-                                pre_templates[field] = Handlebars.templates['pre_edit_' + name](x);
+                                pre_templates[field] = Handlebars.templates['pre_edit_' + name](ia_data);
 
                                 if (replace) {
                                     $obj.replaceWith(pre_templates[field]);
@@ -279,36 +261,47 @@
             'description',
             'github',
             'examples',
-            'devinfo',
+            'devinfo'
         ],
 
-        updateAll: function(templates) {
-            $(".ia-single--left").empty();
-            for (var i = 0; i < this.field_order.length; i++) {
-                $(".ia-single--left").append(templates[this.field_order[i]]);
-            }
+        edit_field_order: [
+            'name',
+            'status',
+            'description',
+            'topic',
+            'examples'
+        ],
 
-            $(".ia-single--right").append(templates.screens);
-
-            $(".show-more").click(function(e) {
-                e.preventDefault();
-                
-                if($(".ia-single--info li").hasClass("hide")) {
-                    $(".ia-single--info li").removeClass("hide");
-                    $("#show-more--link").text("Show Less");
-                    $(".ia-single--info").find(".ddgsi").removeClass("ddgsi-chev-down").addClass("ddgsi-chev-up");
-                } else {
-                    $(".ia-single--info li.extra-item").addClass("hide");
-                    $("#show-more--link").text("Show More");
-                    $(".ia-single--info").find(".ddgsi").removeClass("ddgsi-chev-up").addClass("ddgsi-chev-down");
+        updateAll: function(templates, edit) {
+            if (!edit) {
+                $(".ia-single--left").show().empty();
+                for (var i = 0; i < this.field_order.length; i++) {
+                    $(".ia-single--left").append(templates[this.field_order[i]]);
                 }
-            });
-        },       
 
-        expand: function() {
-            $(".ia-single .dev-info").addClass("hide");
-            $(".ia-single .dev-info-details").removeClass("hide");
-        }        
+                $(".ia-single--right").show().append(templates.screens);
+
+                $(".show-more").click(function(e) {
+                    e.preventDefault();
+                
+                    if($(".ia-single--info li").hasClass("hide")) {
+                        $(".ia-single--info li").removeClass("hide");
+                        $("#show-more--link").text("Show Less");
+                        $(".ia-single--info").find(".ddgsi").removeClass("ddgsi-chev-down").addClass("ddgsi-chev-up");
+                    } else {
+                        $(".ia-single--info li.extra-item").addClass("hide");
+                        $("#show-more--link").text("Show More");
+                        $(".ia-single--info").find(".ddgsi").removeClass("ddgsi-chev-up").addClass("ddgsi-chev-down");
+                    }
+                });
+            } else {
+                $(".ia-single--left, .ia-single--right").hide();
+                $(".ia-single--edits").removeClass("hide");
+                for (var i = 0; i < this.edit_field_order.length; i++) {
+                    $(".ia-single--edits").append(templates[this.edit_field_order[i]]);
+                }
+            }
+        }    
     };
 
 })(DDH);

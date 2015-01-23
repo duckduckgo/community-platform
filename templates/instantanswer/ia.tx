@@ -6,8 +6,29 @@
     <: } :>
 </select>
 
+<: if $can_edit { :>
+    <div class="special-permissions right">
+        <: if $can_commit { :>
+            <div class="special-permissions__edit js-view-commits button <: $commit_class :>" id="view_commits">Commit edits</div>
+        <: } :>
+        <div class="special-permissions__edit js-edit-enable button right" id="edit_activate">Enable edit mode</div>
+        <div class="special-permissions__static hide js-edit-disable button right" id="edit_disable">Disable edit mode</div>
+    </div>
+<: } :>
+
 <div class="ia-single clearfix">
      <div class="ia-single--right right"></div>
      <div class="ia-single--left left"></div>
+     <div class="ia-single--edits hide">
+        <div id="row-title">
+            <h2 class="left row-title__live" id="row-title-live">
+                Live
+            </h2>
+            <h2 class="left row-title__edited" id="row-title-edited">
+                Edited
+            </h2>
+        </div>
+        <span class="clearfix"></span>
+     </div>
 </div>
 
