@@ -296,8 +296,9 @@
                 });
             } else {
                 $(".ia-single--left, .ia-single--right").hide();
+                $(".ia-single--edits").removeClass("hide");
                 for (var i = 0; i < this.edit_field_order.length; i++) {
-                    $(".ia-single").append(templates[this.edit_field_order[i]]);
+                    $(".ia-single--edits").append(templates[this.edit_field_order[i]]);
                 }
             }
         }    
