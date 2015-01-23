@@ -92,6 +92,7 @@
 .ia-single .row-diff .available_topics {
     height: 1.76em;
     min-width: 5em;
+    width: 9em;
 }
 .ia-single .row-diff .editpage span input {
     height: 1.52em;
@@ -146,10 +147,15 @@
     margin-left: 1em;
 }
 .ia_topic,
-.ia-single .row-diff .editpage {
+.ia-single .row-diff .column-right-edits .editpage {
     margin-bottom: 0.25em;
     height: 1.6em;
     margin-right: 0.25em;
+}
+.ia-single .row-diff .column-center-live .editpage {
+    width: 100%;
+    line-height: 1;
+    margin-bottom: 0.5em;
 }
 .ia_topic {
     width: 10em;

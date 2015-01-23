@@ -138,7 +138,7 @@ sub ia_base :Chained('base') :PathPart('view') :CaptureArgs(1) {  # /ia/view/cal
                 my $edits = get_edits($c->d, $c->stash->{ia}->name);
                 $can_commit = 1;
 
-                if (length $edits > 1 && ref $edits eq 'HASH') {
+                if (length $edits && ref $edits eq 'HASH') {
                     $commit_class = '';
                 }
             }
