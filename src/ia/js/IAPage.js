@@ -73,7 +73,8 @@
                         status : Handlebars.templates.pre_edit_status(ia_data),
                         description : Handlebars.templates.pre_edit_description(ia_data),
                         topic : Handlebars.templates.pre_edit_topic(ia_data),
-                        examples : Handlebars.templates.pre_edit_examples(ia_data)
+                        example_query : Handlebars.templates.pre_edit_example_query(ia_data),
+                        other_queries : Handlebars.templates.pre_edit_other_queries(ia_data)
                     };
 
                     DDH.IAPage.prototype.updateAll(readonly_templates, false);
@@ -90,29 +91,15 @@
                         var $row = $(this).parent();
                         var $obj = $("#column-edits-" + field);
                         var value = {};
-    
-                        if (field === "examples") {
-                            field = "example_query";
-                        }
-                        
+                       
                         value[field] = ia_data.edited[field]? ia_data.edited[field] : ia_data.live[field];
-                        
-                        if (field === "example_query") {
-                            field = "other_queries";
-                            value[field] = ia_data.edited[field]? ia_data.edited[field] : ia_data.live[field];
-                            field = "examples";
-                        }
 
                         $obj.replaceWith(Handlebars.templates['edit_' + field](value));
                         $row.addClass("row-diff-edit");
                         $(this).hide();
                         $row.children(".js-editable").removeClass("hide");
 
-                        if (field === "examples") {
-                            if (!($("#examples .other-examples").length)) {
-                                $("#primary").parent().find(".button.delete").addClass("hide");
-                            }
-                        } else if (field === "topic") {
+                        if (field === "topic") {
                             $(".available_topics").append($("#allowed_topics").html());
                         }
                     });
@@ -169,24 +156,16 @@
                                 value = $.trim($input.val());
                             }
                             
-                            if (evt.type === "click" && (field === "topic" || field === "examples")) {
+                            if (evt.type === "click" && (field === "topic" || field === "other_queries")) {
+                                value = [];
                                 if (field === "topic") {
-                                    value = [];
                                     $(".ia_topic .available_topics option:selected").each(function(index) {
                                         if ($(this).text() && $.inArray($(this).text(), value) === -1) {
                                             value.push($(this).text());
                                         }
                                     });
-                                } else if (field === "examples") {
-                                    field = "example_query";
-                                    value = $.trim($("#primary input").val());
-                                    if (value && (value !== ia_data.edited[field] && value !== ia_data.live[field])) {
-                                        save("example_query", value, DDH_iaid, $obj, false);
-                                    }
-                                    
-                                    field = "other_queries";
-                                    value = [];
-                                    $("#examples .other-examples input").each(function(index) {
+                                } else if (field === "other_queries") {
+                                    $(".other-examples input").each(function(index) {
                                         if ($(this).val()) {
                                             value.push($.trim($(this).val()));
                                         }
@@ -199,12 +178,8 @@
                             }
 
                             if (value && (value !== edited_value && value !== live_value)) {
-                                save(field, value, DDH_iaid, $obj, true);
+                                save(field, value, DDH_iaid, $obj);
                             } else {
-                                if (field === "other_queries") {
-                                    field = "examples";
-                                }
-
                                 $obj.replaceWith(pre_templates[field]);
                             }
 
@@ -214,7 +189,7 @@
                         }
                     });
 
-                    function save(field, value, id, $obj, replace) {
+                    function save(field, value, id, $obj) {
                         var jqxhr = $.post("/ia/save", {
                             field : field, 
                             value : value,
@@ -232,24 +207,15 @@
                                     }
                                 }
 
-                                var name;
-                                if (field === "example_query" || field === "other_queries") {
-                                    name = "examples";
-                                } else {
-                                    name = field;
-                                }
-
                                 if (field === "other_queries" || field === "topic") {
                                     ia_data.edited[field] = $.parseJSON(data.result[field]);
                                 } else {
                                     ia_data.edited[field] = data.result[field];
                                 }
 
-                                pre_templates[field] = Handlebars.templates['pre_edit_' + name](ia_data);
+                                pre_templates[field] = Handlebars.templates['pre_edit_' + field](ia_data);
 
-                                if (replace) {
-                                    $obj.replaceWith(pre_templates[field]);
-                                }
+                                $obj.replaceWith(pre_templates[field]);
                             }
                         });
                     }
@@ -269,7 +235,8 @@
             'status',
             'description',
             'topic',
-            'examples'
+            'example_query',
+            'other_queries'
         ],
 
         updateAll: function(templates, edit) {

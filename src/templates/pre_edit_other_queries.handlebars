@@ -1,21 +1,14 @@
-<div class="row-diff" id="row-diff-examples">
+<div class="row-diff" id="row-diff-other_queries">
     <div class="column-left-labels left">
         <div class="column-left-labels__child">
             <p class="column-left-labels__child__p">
-                Examples
+                Other Queries
             </p>
         </div>
     </div>
     <div class="column-center-live left">
         <div class="column-center-live__child">
             <ul class="column-center-live__child__ul">
-                {{#if live.example_query}}
-                    <li class="editpage">
-                        <span title="try this example on DuckDuckGo" name="example_query" class="pre_edit" id="primary">
-                            {{live.example_query}}
-                        </span>
-                    </li>
-                {{/if}}
                 {{#if live.other_queries}}
                     {{#each live.other_queries}}
                         <li class="editpage">
@@ -28,16 +21,9 @@
             </ul>
         </div>
     </div>
-    <div class="column-right-edits left" id="column-edits-examples">
+    <div class="column-right-edits left" id="column-edits-other_queries">
         <div class="column-right-edits__child" id="examples">
             <ul class="column-center-live__child__ul">
-                {{#if edited.example_query}}
-                    <li class="editpage">
-                        <span title="try this example on DuckDuckGo" name="example_query" class="pre_edit" id="primary">
-                            {{edited.example_query}}
-                        </span>
-                    </li>
-                {{/if}}
                 {{#if edited.other_queries}}
                     {{#each edited.other_queries}}
                         <li class="editpage">
@@ -51,12 +37,12 @@
         </div>
     </div>
 
-    <div class="button js-pre-editable" name="examples">
+    <div class="button js-pre-editable" name="other_queries">
         <i class="js-pre-editable__icon icon-edit"></i>
         <span class="js-pre-editable__text">Edit</span>
     </div>
 
-    <div class="button hide js-editable" name="examples">
+    <div class="button hide js-editable" name="other_queries">
         <i class="js-editable__icon icon-check"></i>
         <span class="js-editable__text">Done</span>
     </div>
