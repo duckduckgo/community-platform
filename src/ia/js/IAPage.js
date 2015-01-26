@@ -152,7 +152,7 @@
                             if ($(this).hasClass("js-input")) {
                                 value = $.trim($(this).val());
                             } else {
-                                var $input = $obj.find("input.js-input");
+                                var $input = $obj.find("input.js-input,#description textarea");
                                 value = $.trim($input.val());
                             }
                             
