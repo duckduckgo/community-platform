@@ -158,16 +158,19 @@
                             
                             if (evt.type === "click" && (field === "topic" || field === "other_queries")) {
                                 value = [];
+                                var txt;
                                 if (field === "topic") {
                                     $(".ia_topic .available_topics option:selected").each(function(index) {
-                                        if ($(this).text() && $.inArray($(this).text(), value) === -1) {
-                                            value.push($(this).text());
+                                        txt = $.trim($(this).text());
+                                        if (txt && $.inArray(txt, value) === -1) {
+                                            value.push(txt);
                                         }
                                     });
                                 } else if (field === "other_queries") {
                                     $(".other-examples input").each(function(index) {
-                                        if ($(this).val()) {
-                                            value.push($.trim($(this).val()));
+                                        txt = $.trim($(this).val());
+                                        if (txt && $.inArray(txt, value) === -1) {
+                                            value.push(txt);
                                         }
                                     });
                                 }
