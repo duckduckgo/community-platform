@@ -1097,3 +1097,9 @@ body.texture {
         width: 98%;
     }
 }
+
+.ia-single--edits #description textarea {
+    height: 4em;
+    width: 24em;
+    max-width: 24em;
+}
