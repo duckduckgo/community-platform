@@ -148,9 +148,11 @@
 }
 .ia_topic,
 .ia-single .row-diff .column-right-edits .editpage {
+/*
     margin-bottom: 0.25em;
     height: 1.6em;
     margin-right: 0.25em;
+*/
 }
 .ia-single .row-diff .column-center-live .editpage {
     width: 100%;
@@ -337,6 +339,8 @@
 .ia-single .pre_edit,
 .ia-singe .editable input {
     padding-right: 0.7em;
+    display: inline-block;
+    width: 16em;
 }
 .ia-single #examples .button.end {
     margin-bottom: 0.5em;
