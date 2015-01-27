@@ -10,10 +10,10 @@
     <div class="special-permissions__toggle-view right" id="toggle-view">
         <div class="pager-wrap">
             <span class="button-group  button-group--paging">
-                <span class="button special-permissions__toggle-view__live" id="toggle-live">
+                <span class="button special-permissions__toggle-view__button" id="toggle-live">
                     Live
                 </span>
-                <span class="button special-permissions__toggle-view__edited button-nav-current disabled" id="toggle-edited">
+                <span class="button special-permissions__toggle-view__button button-nav-current disabled" id="toggle-edited">
                     Edited
                 </span>
         </div>
