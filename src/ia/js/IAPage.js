@@ -48,7 +48,7 @@
                     var x = {};
                     if (ia_data.edited) {
                         x = DDH.IAPage.prototype.updateData(ia_data, x, true);
-                    } else {
+                   } else {
                         x = ia_data.live;
                     }
 
@@ -262,14 +262,20 @@
         ],
 
         updateData: function(ia_data, x, edited) {
+            var edited_fields = 0;
             $.each(ia_data.live, function(key, value) {
-                if (edited) {
-                    x[key] = ia_data.edited[key]? ia_data.edited[key] : value;
+                if (edited && ia_data.edited[key]) {
+                    x[key] = ia_data.edited[key];
+                    edited_fields++;
                 } else {
                     x[key] = value;
                 }
             });
 
+            if (edited && edited_fields === 0) {
+                $(".special-permissions__toggle-view").hide();       
+            }
+ 
             return x;
         },
 

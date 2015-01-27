@@ -213,7 +213,6 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
         if ($is_admin || $permissions) {
             $edited = current_ia($c->d, $ia);
             $ia_data{edited} = {
-                id => $ia->id,
                 name => $edited->{name},
                 description => $edited->{description},
                 status => $edited->{status},
