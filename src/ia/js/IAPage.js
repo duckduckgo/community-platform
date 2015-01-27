@@ -47,9 +47,7 @@
                     // Show latest edits for admins and users with edit permissions
                     var x = {};
                     if (ia_data.edited) {
-                        $.each(ia_data.live, function(key, value) {
-                            x[key] = ia_data.edited[key]? ia_data.edited[key] : value;
-                        });
+                        x = DDH.IAPage.prototype.updateData(ia_data, x, true);
                     } else {
                         x = ia_data.live;
                     }
@@ -84,6 +82,27 @@
 
                         $("#edit_disable").removeClass("hide");
                         $(this).hide();
+                        $(".special-permissions__toggle-view").hide();
+                    });
+
+                    $(".special-permissions__toggle-view__button").on('click', function(evt) {
+                        if (!$(this).hasClass("disabled")) {
+                            $(".button-nav-current").removeClass("button-nav-current").removeClass("disabled");
+
+                            $(this).addClass("button-nav-current").addClass("disabled");
+
+                            if ($(this).attr("id") == "toggle-live") {
+                                 x = DDH.IAPage.prototype.updateData(ia_data, x, false);       
+                            } else {
+                                 x = DDH.IAPage.prototype.updateData(ia_data, x, true);
+                            }
+
+                            for (var i = 0; i <  DDH.IAPage.prototype.field_order.length; i++) {
+                                readonly_templates[ DDH.IAPage.prototype.field_order[i]] = Handlebars.templates[ DDH.IAPage.prototype.field_order[i]](x);
+                            }
+
+                            DDH.IAPage.prototype.updateAll(readonly_templates, false);
+                        }
                     });
 
                     $("body").on('click', '.js-pre-editable.button', function(evt) {
@@ -242,14 +261,26 @@
             'other_queries'
         ],
 
+        updateData: function(ia_data, x, edited) {
+            $.each(ia_data.live, function(key, value) {
+                if (edited) {
+                    x[key] = ia_data.edited[key]? ia_data.edited[key] : value;
+                } else {
+                    x[key] = value;
+                }
+            });
+
+            return x;
+        },
+
         updateAll: function(templates, edit) {
             if (!edit) {
-                $(".ia-single--left").show().empty();
+                $(".ia-single--left, .ia-single--right").show().empty();
                 for (var i = 0; i < this.field_order.length; i++) {
                     $(".ia-single--left").append(templates[this.field_order[i]]);
                 }
 
-                $(".ia-single--right").show().append(templates.screens);
+                $(".ia-single--right").append(templates.screens);
 
                 $(".show-more").click(function(e) {
                     e.preventDefault();

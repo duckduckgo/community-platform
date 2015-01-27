@@ -9,6 +9,10 @@
 .special-permissions #edit_activate {
     margin-right: 0.7em;
 }
+.special-permissions__toggle-view #toggle-edited {
+    position:relative;
+    margin-left: 1em;
+}
 .ia-single h3 {
     margin-top: 1em;
 }
