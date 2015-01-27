@@ -7,6 +7,17 @@
 </select>
 
 <: if $can_edit { :>
+    <div class="special-permissions__toggle-view right" id="toggle-view">
+        <div class="pager-wrap">
+            <span class="button-group  button-group--paging">
+                <span class="button special-permissions__toggle-view__live" id="toggle-live">
+                    Live
+                </span>
+                <span class="button special-permissions__toggle-view__edited button-nav-current disabled" id="toggle-edited">
+                    Edited
+                </span>
+        </div>
+    </div>
     <div class="special-permissions right">
         <: if $can_commit { :>
             <div class="special-permissions__edit js-view-commits button <: $commit_class :>" id="view_commits">Commit edits</div>
