@@ -82,6 +82,7 @@
 
                         $("#edit_disable").removeClass("hide");
                         $(this).hide();
+                        $(".special-permissions__toggle-view").hide();
                     });
 
                     $(".special-permissions__toggle-view__button").on('click', function(evt) {
