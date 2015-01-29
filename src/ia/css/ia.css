@@ -70,7 +70,8 @@
     margin-top: 1.2em;
     font-size: 1em;
 }
-.ia-single .row-diff input {
+.ia-single .row-diff input,
+.ia-single .row-diff textarea {
     border-radius: 3px;
     -moz-border-radius: 3px;
     -webkit-border-radius: 3px;
@@ -1104,6 +1105,7 @@ body.texture {
 
 .ia-single--edits #description textarea {
     height: 4em;
-    width: 24em;
-    max-width: 24em;
+    width: 21.5em;
+    max-width: 21.5em;
+    font-size: 1em;
 }
