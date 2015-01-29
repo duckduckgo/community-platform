@@ -169,7 +169,7 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
     my $ia = $c->stash->{ia};
     my @topics = map { $_->name} $ia->topics;
     my $edited;
-    my @issues = $c->d->rs('InstantAnswer::Issues')->find({instant_answer_id => $ia->id});
+    my @issues = $c->d->rs('InstantAnswer::Issues')->search({instant_answer_id => $ia->id});
     my @ia_issues;
     my %ia_data;
     my $permissions;
