@@ -89,7 +89,6 @@ my $update = sub {
 };
 
 getIssues;
-updateDB;
 
 try {
     $d->db->txn_do($update);
