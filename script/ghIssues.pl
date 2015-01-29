@@ -7,7 +7,7 @@ use lib $FindBin::Dir . "/../lib";
 use JSON;
 use DDGC;
 use Data::Dumper;
-
+use Try::Tiny;
 my $d = DDGC->new;
 
 # JSON response from GH API
@@ -38,7 +38,7 @@ sub getIssues{
             # get the IA name from the link in the first comment
 			# Update this later for whatever format we decide on
 			my $link = '';
-            if($issue->{'body'} =~ /(http(s)?:\/\/(duck\.co|duckduckgo.com))?\/ia\/(view)?\/(.*)/im){
+            if($issue->{'body'} =~ /(http(s)?:\/\/(duck\.co|duckduckgo.com))?\/ia\/(view)?\/(\w+)/im){
 				$link = $5;
 			}
 			# remove special chars from title and body
@@ -63,27 +63,37 @@ sub getIssues{
 	}
 }
 
-sub updateDB{
+my $update = sub {
 
     $d->rs('InstantAnswer::Issues')->delete_all();
 
     foreach (@results){
-        if(@$_[0] and @$_[2]){
+        my ($id, $repo, $issue, $title, $body, $tags) = @$_;
 
-		$d->rs('InstantAnswer::Issues')->create(
+        # check if the IA is in our table so we dont die on a foreign key error
+        $ia = $d->rs('InstantAnswer')->find($id);
+
+        if($id && $issue  && $ia){
+            $d->rs('InstantAnswer::Issues')->create(
             {
-                instant_answer_id => @$_[0],
-                repo => @$_[1],
-                issue_id => @$_[2],
-                title => @$_[3],
-                body => @$_[4],
-                tags => @$_[5],
+                instant_answer_id => $id,
+                repo => $repo,
+                issue_id => $issue,
+                title => $title,
+                body => $body,
+                tags => $tags,
 	        });
+
         }
     }
-}
+};
 
 getIssues;
-
 updateDB;
 
+try {
+    $d->db->txn_do($update);
+} catch {
+    print "Update error $_ \n rolling back\n";
+    $d->errorlog("Error updating ghIssues: '$_'...");
+}
