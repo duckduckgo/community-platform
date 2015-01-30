@@ -33,15 +33,11 @@ my $gh = Net::GitHub->new(access_token => $token);
 # get the GH issues
 sub getIssues{
 	foreach my $repo (@repos){
-        my $url = "https://api.github.com/repos/duckduckgo/$repo/issues?status=current";
         my @issues = $gh->issue->repos_issues('duckduckgo', $repo, {state => 'open'});
-
+        
         while($gh->issue->has_next_page){
             push(@issues, $gh->issue->next_page)
         }
-
-        #  die $d->errorlog("Error at $url $response->{status} $response->{reason}")
-        #   unless $response->{success};
 
 		# add all the data we care about to an array
 		for my $issue (@issues){
@@ -76,7 +72,6 @@ sub getIssues{
 }
 
 my $update = sub {
-
     $d->rs('InstantAnswer::Issues')->delete_all();
 
     foreach (@results){
