@@ -9,6 +9,7 @@ use DDGC;
 use HTTP::Tiny;
 use Data::Dumper;
 use Try::Tiny;
+use Net::GitHub;
 my $d = DDGC->new;
 
 # JSON response from GH API
@@ -26,21 +27,25 @@ my @repos = (
     'zeroclickinfo-fathead'
 );
 
+my $gh = Net::GitHub->new(access_token => $ENV{DDG_GITHUB_BASIC_OAUTH_TOKEN});
+
 # get the GH issues
 sub getIssues{
 	foreach my $repo (@repos){
         my $url = "https://api.github.com/repos/duckduckgo/$repo/issues?status=current";
-		my $response = HTTP::Tiny->new->get($url);
-        
-        die $d->errorlog("Error at $url $response->{status} $response->{reason}")
-            unless $response->{success};
+        my @issues = $gh->issue->repos_issues('duckduckgo', $repo, {state => 'open'});
 
-        $json->{$repo} = decode_json($response->{content});
+        while($gh->issue->has_next_page){
+            push(@issues, $gh->issue->next_page)
+        }
 
-		next unless ref $json->{$repo} eq 'ARRAY';
+        warn Dumper @issues;
+
+        #  die $d->errorlog("Error at $url $response->{status} $response->{reason}")
+        #   unless $response->{success};
 
 		# add all the data we care about to an array
-		for my $issue ( @{$json->{$repo}} ){
+		for my $issue (@issues){
 
             # get the IA name from the link in the first comment
 			# Update this later for whatever format we decide on
@@ -68,6 +73,7 @@ sub getIssues{
 			push(@results, \@entry);
 		}
 	}
+    #  warn Dumper @results;
 }
 
 my $update = sub {
@@ -79,7 +85,6 @@ my $update = sub {
 
         # check if the IA is in our table so we dont die on a foreign key error
         $ia = $d->rs('InstantAnswer')->find($id);
-
         if($id && $issue  && $ia){
             $d->rs('InstantAnswer::Issues')->create(
             {
