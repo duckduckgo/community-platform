@@ -115,7 +115,7 @@ sub token :Chained('logged_in') :Args(1) {
 
 sub tokenlanguage :Chained('logged_in') :Args(1) {
 	my ( $self, $c, $token_language_id ) = @_;
-	$self->save_translate_params($c) if ($c->req->params->{save_translation});
+	$self->save_translate_params($c) if ($c->req->params->{save_translations});
 	if ($c->wiz_inside && $c->req->params->{wizard_skip}) {
 		push @{$c->wiz->unwanted_ids}, $token_language_id;
 		$c->wiz_step;
