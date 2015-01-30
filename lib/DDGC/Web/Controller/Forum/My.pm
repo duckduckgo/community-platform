@@ -80,7 +80,7 @@ sub thread : Chained('base') CaptureArgs(1) {
 		$c->response->redirect($c->chained_uri('Forum','general',{ thread_notfound => 1 }));
 		return $c->detach;
 	}
-	unless ($c->user->admin || $c->stash->{thread}->users_id == $c->user->id) {
+	unless ($c->user->is('forum_manager') || $c->stash->{thread}->users_id == $c->user->id) {
 		$c->response->redirect($c->chained_uri('Forum','general',{ thread_notallowed => 1 }));
 		return $c->detach;
 	}

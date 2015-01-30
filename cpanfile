@@ -88,6 +88,7 @@ requires 'Plack::Middleware::Debug', '0.16';
 requires 'Prosody', '0.007';
 requires 'String::ProgressBar', '0.03';
 requires 'Test::WWW::Mechanize::Catalyst', '0.58';
+requires 'Test::EOL', '1.5';
 requires 'Text::VimColor', '0.20';
 requires 'Text::Fuzzy', '0.14';
 requires 'Text::CSV', '1.32';
