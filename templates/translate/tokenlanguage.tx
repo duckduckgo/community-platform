@@ -23,9 +23,9 @@
 			<div class="row  mid <: if !$c.wiz_inside { :> token-submit  js-hide<:}:>">
 				<span id="submit_token_language_<: $token_language.id :>" class="<: if $c.wiz_inside { :> token-submit  js-hide<:}:>">
 					<: if $c.wiz_inside { :>
-						<span class="wiz-arrow  wiz-arrow-bottom-left"><input type="submit" class="button  red  big" name="save_translation" value="Submit translation and go to the next"/></span>					
+						<span class="wiz-arrow  wiz-arrow-bottom-left"><input type="submit" class="button  red  big" name="save_translations" value="Submit translation and go to the next"/></span>
 					<: } else { :>
-						<input type="submit" class="button blue big" name="save_translation" value="Submit translation" />
+						<input type="submit" class="button blue big" name="save_translations" value="Submit translation" />
 					<: } :>
 				</span>
 				<: if $c.wiz_inside { :>					

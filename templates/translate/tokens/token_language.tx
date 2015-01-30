@@ -100,7 +100,7 @@
 				<: if $c.user.translation_manager { :>
 					<label for="token_notes_<: $token_language.token.id :>_edit">Token Notes</label>
           			<textarea style="resize: none;" cols="40" class="has-button" rows="5" id="token_notes_<: $token_language.token.id :>_edit" name="token_notes_<: $token_language.token.id :>_edit"><: $token_language.token.notes :></textarea>
-          			<input type="submit" class="button  pull-right" name="save_translation" value="Save notes" />
+          			<input type="submit" class="button  pull-right" name="save_translations" value="Save notes" />
 				<: } else { :>
 					<: if $token_language.token.notes { :>
 						<: r($token_language.token.notes) :>
