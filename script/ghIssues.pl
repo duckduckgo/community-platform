@@ -8,7 +8,8 @@ use JSON;
 use DDGC;
 use HTTP::Tiny;
 use Data::Dumper;
-
+use Try::Tiny;
+use Net::GitHub;
 my $d = DDGC->new;
 
 # JSON response from GH API
@@ -26,26 +27,25 @@ my @repos = (
     'zeroclickinfo-fathead'
 );
 
+my $token = $ENV{DDGC_GITHUB_TOKEN} || $ENV{DDG_GITHUB_BASIC_OAUTH_TOKEN};
+my $gh = Net::GitHub->new(access_token => $token);
+
 # get the GH issues
 sub getIssues{
 	foreach my $repo (@repos){
-        my $url = "https://api.github.com/repos/duckduckgo/$repo/issues?status=current";
-		my $response = HTTP::Tiny->new->get($url);
+        my @issues = $gh->issue->repos_issues('duckduckgo', $repo, {state => 'open'});
         
-        die $d->errorlog("Error at $url $response->{status} $response->{reason}")
-            unless $response->{success};
-
-        $json->{$repo} = decode_json($response->{content});
-
-		next unless ref $json->{$repo} eq 'ARRAY';
+        while($gh->issue->has_next_page){
+            push(@issues, $gh->issue->next_page)
+        }
 
 		# add all the data we care about to an array
-		for my $issue ( @{$json->{$repo}} ){
+		for my $issue (@issues){
 
             # get the IA name from the link in the first comment
 			# Update this later for whatever format we decide on
 			my $link = '';
-            if($issue->{'body'} =~ /(http(s)?:\/\/(duck\.co|duckduckgo.com))?\/ia\/(view)?\/(.*)/im){
+            if($issue->{'body'} =~ /(http(s)?:\/\/(duck\.co|duckduckgo.com))?\/ia\/(view)?\/(\w+)/im){
 				$link = $5;
 			}
 			# remove special chars from title and body
@@ -68,29 +68,37 @@ sub getIssues{
 			push(@results, \@entry);
 		}
 	}
+    #  warn Dumper @results;
 }
 
-sub updateDB{
-
+my $update = sub {
     $d->rs('InstantAnswer::Issues')->delete_all();
 
     foreach (@results){
-        if(@$_[0] and @$_[2]){
+        my ($id, $repo, $issue, $title, $body, $tags) = @$_;
 
-		$d->rs('InstantAnswer::Issues')->create(
+        # check if the IA is in our table so we dont die on a foreign key error
+        $ia = $d->rs('InstantAnswer')->find($id);
+        if($id && $issue  && $ia){
+            $d->rs('InstantAnswer::Issues')->create(
             {
-                instant_answer_id => @$_[0],
-                repo => @$_[1],
-                issue_id => @$_[2],
-                title => @$_[3],
-                body => @$_[4],
-                tags => @$_[5],
+                instant_answer_id => $id,
+                repo => $repo,
+                issue_id => $issue,
+                title => $title,
+                body => $body,
+                tags => $tags,
 	        });
+
         }
     }
-}
+};
 
 getIssues;
 
-updateDB;
-
+try {
+    $d->db->txn_do($update);
+} catch {
+    print "Update error $_ \n rolling back\n";
+    $d->errorlog("Error updating ghIssues: '$_'...");
+}
