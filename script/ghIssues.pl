@@ -27,7 +27,8 @@ my @repos = (
     'zeroclickinfo-fathead'
 );
 
-my $gh = Net::GitHub->new(access_token => $ENV{DDG_GITHUB_BASIC_OAUTH_TOKEN});
+my $token = $ENV{DDGC_GITHUB_TOKEN} || $ENV{DDG_GITHUB_BASIC_OAUTH_TOKEN};
+my $gh = Net::GitHub->new(access_token => $token);
 
 # get the GH issues
 sub getIssues{
@@ -38,8 +39,6 @@ sub getIssues{
         while($gh->issue->has_next_page){
             push(@issues, $gh->issue->next_page)
         }
-
-        warn Dumper @issues;
 
         #  die $d->errorlog("Error at $url $response->{status} $response->{reason}")
         #   unless $response->{success};
