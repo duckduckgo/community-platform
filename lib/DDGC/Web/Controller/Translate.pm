@@ -72,7 +72,7 @@ sub token :Chained('logged_in') :Args(1) {
 
 		for (keys %{$c->req->params}) {
 			if ($_ =~ m/token_notes_(\d+)_edit$/) {
-				my $token = $c->d->resultset('Token')->find({ id => $token_id });
+				my $token = $c->d->resultset('Token')->find($_);
 				$token->notes($c->req->params->{$_});
 				$token->update;
 			}
