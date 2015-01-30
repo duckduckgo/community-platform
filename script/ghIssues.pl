@@ -6,6 +6,7 @@ use FindBin;
 use lib $FindBin::Dir . "/../lib";
 use JSON;
 use DDGC;
+use HTTP::Tiny;
 use Data::Dumper;
 use Try::Tiny;
 my $d = DDGC->new;
@@ -20,7 +21,7 @@ my @results;
 # the repos we care about
 my @repos = (
     'zeroclickinfo-spice',
-	'zeroclickinfo-goodies',
+    'zeroclickinfo-goodies',
     'zeroclickinfo-longtail',
     'zeroclickinfo-fathead'
 );
@@ -28,7 +29,13 @@ my @repos = (
 # get the GH issues
 sub getIssues{
 	foreach my $repo (@repos){
-		$json->{$repo} = decode_json(`curl --silent https://api.github.com/repos/duckduckgo/$repo/issues?status=current`);
+        my $url = "https://api.github.com/repos/duckduckgo/$repo/issues?status=current";
+		my $response = HTTP::Tiny->new->get($url);
+        
+        die $d->errorlog("Error at $url $response->{status} $response->{reason}")
+            unless $response->{success};
+
+        $json->{$repo} = decode_json($response->{content});
 
 		next unless ref $json->{$repo} eq 'ARRAY';
 

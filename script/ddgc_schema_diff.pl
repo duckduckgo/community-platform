@@ -7,12 +7,12 @@ use lib $FindBin::Dir . "/../lib";
 
 use strict;
 use warnings;
+use v5.10;
+
 use DDGC;
 use DDGC::DB;
 use SQL::Translator::Diff;
-use IO::All;
 use SQL::Translator;
-use Getopt::Long;
 
 {
 	package DDGC::DBOld;
@@ -20,10 +20,6 @@ use Getopt::Long;
 	sub connect { DDGC::DB::connect(@_) }
 	__PACKAGE__->naming('v5');
 }
-
-my $doupgrade = 0;
-
-GetOptions("doupgrade" => \$doupgrade);
 
 my $ddgc = DDGC->new;
 
@@ -35,25 +31,9 @@ my $new_translator = SQL::Translator->new( parser => 'SQL::Translator::Parser::D
 
 $old_translator->translate; $new_translator->translate;
 
-my @diff = SQL::Translator::Diff::schema_diff(
+say SQL::Translator::Diff::schema_diff(
 	$old_translator->translate(), $old_schema->storage->sqlt_type,
 	$new_translator->translate(), $schema->storage->sqlt_type,
 	{ ignore_constraint_names => 1, ignore_index_names => 1, no_comments => 1 }
 );
 
-my $exit = 0;
-
-for (@diff) {
-	print $_;
-	next if m/^--/;
-	if ($doupgrade) {
-		$schema->storage->dbh_do(sub {
-			my ( $self, $dbh ) = @_;
-			$dbh->do($_);
-		});
-	} else {
-		$exit = 1;
-	}
-}
-
-exit $exit;

@@ -169,7 +169,7 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
     my $ia = $c->stash->{ia};
     my @topics = map { $_->name} $ia->topics;
     my $edited;
-    my @issues = $c->d->rs('InstantAnswer::Issues')->find({instant_answer_id => $ia->id});
+    my @issues = $c->d->rs('InstantAnswer::Issues')->search({instant_answer_id => $ia->id});
     my @ia_issues;
     my %ia_data;
     my $permissions;
@@ -213,7 +213,6 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
         if ($is_admin || $permissions) {
             $edited = current_ia($c->d, $ia);
             $ia_data{edited} = {
-                id => $ia->id,
                 name => $edited->{name},
                 description => $edited->{description},
                 status => $edited->{status},

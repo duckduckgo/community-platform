@@ -46,8 +46,10 @@
                 <a class="right" href="<: $u($_.u, { sticky => 0, action_token => $action_token } ) :>"><i class="thread__foot__icon  icon-pushpin"></i><span class="thread__foot__txt"> Un-stick</span></a>
             <: } :>
         <: } :>
-        <: if ($c.user.admin or $c.user.id == $_.user.id) { :>
+        <: if ($c.user.is('forum_manager') or $c.user.id == $_.user.id) { :>
             <a class="right" href="<: $u($_.get_context_obj.u_delete) :>"><i class="thread__foot__icon  icon-trash"></i><span class="thread__foot__txt">Delete</span></a>
+        <: } :>
+        <: if ($c.user.admin or $c.user.id == $_.user.id) { :>
             <a class="right" href="<: $u($_.get_context_obj.u_edit) :>"><i class="thread__foot__icon  icon-edit"></i><span class="thread__foot__txt">Edit</span></a>
         <: } :>
        </div>
