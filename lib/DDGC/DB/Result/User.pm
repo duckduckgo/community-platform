@@ -640,6 +640,18 @@ sub check_password {
 	return $data ? 1 : 0;
 }
 
+sub notifications {
+	my ( $self ) = @_;
+	$self->subscriptions->search_related('events');
+}
+
+sub unseen_notifications {
+	my ( $self ) = @_;
+	$self->notifications->search({},
+	);
+}
+sub unseen_notifications_count { $_[0]->unseen_notifications->count; }
+
 # For Catalyst
 
 # Store given by Catalyst
