@@ -25,10 +25,6 @@ column read => {
 	data_type => 'timestamp with time zone',
 };
 
-column emailed => {
-	data_type => 'timestamp with time zone',
-};
-
 belongs_to 'user', 'DDGC::DB::Result::User', 'users_id';
 
 no Moose;
