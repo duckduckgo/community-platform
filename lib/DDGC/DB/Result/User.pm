@@ -183,6 +183,12 @@ has_many 'user_reports', 'DDGC::DB::Result::User::Report', 'users_id', {
 has_many 'github_users', 'DDGC::DB::Result::GitHub::User', 'users_id', {
   cascade_delete => 0,
 };
+has_many 'subscriptions', 'DDGC::DB::Result::User::Subscriptions', 'users_id', {
+  cascade_delete => 1,
+};
+has_many 'subscriptions_read', 'DDGC::DB::Result::User::Subscriptions::Read', 'users_id', {
+  cascade_delete => 1,
+};
 
 has_many 'failedlogins', 'DDGC::DB::Result::User::FailedLogin', 'users_id';
 
