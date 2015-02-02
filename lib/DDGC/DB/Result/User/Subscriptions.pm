@@ -29,6 +29,12 @@ column target_object_id => {
 
 primary_key(qw/ users_id subscription_id target_object_id /);
 
+column notification_cycle => {
+	data_type => 'bigint',
+	is_nullable => 0,
+	default_value => 0,
+};
+
 column created => {
 	data_type => 'timestamp with time zone',
 	set_on_create => 1,
