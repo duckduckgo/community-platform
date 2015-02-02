@@ -53,9 +53,10 @@ has_many 'events', 'DDGC::DB::Result::Event', sub {
 	return {
 		-and => {
 			"$args->{foreign_alias}.subscription_id" => { -ident => "$args->{self_alias}.subscription_id" },
+			"$args->{foreign_alias}.created" => { '>=' => { -ident => "$args->{self_alias}.created" } },
 			-or => [
 				{ "$args->{self_alias}.target_object_id" => 0 },
-				{ "$args->{self_alias}.target_object_id" => "$args->{foreign_alias}.object_id[1]" },
+				{ "$args->{self_alias}.target_object_id" => { '=' => \[ "ANY ($args->{foreign_alias}.object_ids)" ] } }
 			],
 		},
 	}
