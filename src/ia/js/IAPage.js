@@ -72,7 +72,8 @@
                         description : Handlebars.templates.pre_edit_description(ia_data),
                         topic : Handlebars.templates.pre_edit_topic(ia_data),
                         example_query : Handlebars.templates.pre_edit_example_query(ia_data),
-                        other_queries : Handlebars.templates.pre_edit_other_queries(ia_data)
+                        other_queries : Handlebars.templates.pre_edit_other_queries(ia_data),
+                        dev_milestone : Handlebars.templates.pre_edit_dev_milestone(ia_data)
                     };
 
                     DDH.IAPage.prototype.updateAll(readonly_templates, false);
@@ -171,8 +172,14 @@
                             if ($(this).hasClass("js-input")) {
                                 value = $.trim($(this).val());
                             } else {
-                                var $input = $obj.find("input.js-input,#description textarea");
-                                value = $.trim($input.val());
+                                var input;
+                                if (field === "dev_milestone") {
+                                     $input = $obj.find(".available_dev_milestones option:selected");
+                                     value = $.trim($input.text());
+                                } else {
+                                    $input = $obj.find("input.js-input,#description textarea");
+                                    value = $.trim($input.val());
+                                }
                             }
                             
                             if (evt.type === "click" && (field === "topic" || field === "other_queries")) {
@@ -307,6 +314,11 @@
                 for (var i = 0; i < this.edit_field_order.length; i++) {
                     $(".ia-single--edits").append(templates[this.edit_field_order[i]]);
                 }
+
+                // Only admins can edit the dev milestone
+                if ($("#view_commits").length) {
+                    $(".ia-single--edits").append(templates.dev_milestone);
+                } 
             }
         }    
     };
