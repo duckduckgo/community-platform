@@ -91,6 +91,19 @@
                 </td>
             </tr>
         {{/if}}
+
+        {{#if dev_milestone}}
+            <tr class="updates_list">
+                <th>Dev Milestone</th>
+
+                <td name="dev_milestone" class="item_selected" id="dev_milestone_original">
+                    {{original.dev_milestone}}
+                </td>
+                <td name="dev_milestone">
+                    {{dev_milestone}}
+                </td>
+            </tr>
+        {{/if}}
     </tbody>
 </table>
 

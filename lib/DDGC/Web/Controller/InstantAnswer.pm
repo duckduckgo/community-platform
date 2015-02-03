@@ -219,6 +219,7 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
                 example_query => $edited->{example_query},
                 other_queries => $edited->{other_queries}->{value},
                 topic => $edited->{topic},
+                dev_milestone => $edited->{dev_milestone},
             };
         }
     }
@@ -264,7 +265,8 @@ sub commit_json :Chained('commit_base') :PathPart('json') :Args(0) {
             status => $ia->status,
             topic => \@topics,
             example_query => $ia->example_query,
-            other_queries => $ia->other_queries? decode_json($ia->other_queries) : undef
+            other_queries => $ia->other_queries? decode_json($ia->other_queries) : undef,
+            dev_milestone => $ia->dev_milestone
         );
 
         $edited->{original} = \%original;
@@ -394,6 +396,7 @@ sub current_ia {
     my @topic = $edits->{'topic'};
     my @example_query = $edits->{'example_query'};
     my @other_queries = $edits->{'other_queries'};
+    my @dev_milestone = $edits->{'dev_milestone'};
     my %x;
 
     if (ref $edits eq 'HASH') {
@@ -417,7 +420,8 @@ sub current_ia {
             status => $status[0][@status]{'value'},
             topic => $topic_val? decode_json($topic_val) : undef,
             example_query => $example_query[0][@example_query]{'value'},
-            other_queries => \%other_q
+            other_queries => \%other_q,
+            dev_milestone => $dev_milestone[0][@dev_milestone]{'value'}
         );
     }
 
