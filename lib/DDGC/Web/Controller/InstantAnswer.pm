@@ -171,6 +171,7 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
     my $edited;
     my @issues = $c->d->rs('InstantAnswer::Issues')->search({instant_answer_id => $ia->id});
     my @ia_issues;
+    my @ia_pr;
     my %ia_data;
     my $permissions;
     my $is_admin; 
@@ -182,7 +183,7 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
                     title => $issue->title,
                     body => $issue->body,
                     tags => $issue->tags? decode_json($issue->tags) : undef
-                });
+            });
         }
     }
 
@@ -215,16 +216,23 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
         $is_admin = $c->user->admin;
 
         if ($is_admin || $permissions) {
-            $edited = current_ia($c->d, $ia);
-            $ia_data{edited} = {
-                name => $edited->{name},
-                description => $edited->{description},
-                status => $edited->{status},
-                example_query => $edited->{example_query},
-                other_queries => $edited->{other_queries}->{value},
-                topic => $edited->{topic},
-                dev_milestone => $edited->{dev_milestone},
-            };
+            if ($ia->dev_milestone eq 'live') {
+                $edited = current_ia($c->d, $ia);
+                $ia_data{edited} = {
+                    name => $edited->{name},
+                    description => $edited->{description},
+                    status => $edited->{status},
+                    example_query => $edited->{example_query},
+                    other_queries => $edited->{other_queries}->{value},
+                    topic => $edited->{topic},
+                    dev_milestone => $edited->{dev_milestone},
+                };
+            } else {
+                $ia_data{permissions} = {
+                    admin => $is_admin,
+                    can_edit => $is_admin? $is_admin : $permissions
+                };
+            }
         }
     }
 
