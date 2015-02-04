@@ -1,0 +1,51 @@
+<div class="dev_milestone-container container-planning" id="planning">
+    <div class="dev_milestone-container__header container-planning__header">
+        <span class="dev_milestone-container__header__span">
+            Planning
+        </span>
+        <div class="button js-expand dev_milestone-container__header__button">
+            <i class="js-expand__icon icon-caret-down" />
+        </div>
+    </div>
+
+    <div class="dev_milestone-container__body container-planning__body hide">
+        <div class="dev_milestone-container__body__label ia-single--header">
+            Repo
+        </div>
+        {{#if current.planning}}
+            {{#if can_edit}}
+                <input type="text" class="dev_milestone-container__body__input js-autocommit" id="repo-input" value="{{live.repo}}" />
+            {{else}}
+                <div class="dev_milestone-container__body__readonly" id="repo-txt">
+                    {{live.repo}}
+                </div>
+            {{/if}}
+        {{/if}}
+
+        <div class="dev_milestone-container__body__label ia-single--header">
+            Example Query
+        </div>
+        {{#if current.planning}}
+            {{#if can_edit}}
+                <input type="text" class="dev_milestone-container__body__input js-autocommit" id="example_query-input" value="{{live.example_query}}" />
+            {{else}}
+                <div class="dev_milestone-container__body__readonly" id="example_query-txt">
+                    {{live.example_query}}
+                </div>
+            {{/if}}
+        {{/if}}
+
+        <div class="dev_milestone-container__body__label ia-single--header">
+            Api Documentation
+        </div>
+        {{#if current.planning}}
+            {{#if can_edit}}
+                <input type="text" class="dev_milestone-container__body__input js-autocommit" id="src_api_docs-input" value="{{live.src_api_docs}}" />
+            {{else}}
+                <div class="dev_milestone-container__body__readonly" id="src_api_docs-txt">
+                    {{live.src_api_docs}}
+                </div>
+            {{/if}}
+        {{/if}}
+    </div>
+</div>
