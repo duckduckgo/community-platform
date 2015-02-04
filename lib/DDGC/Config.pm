@@ -295,6 +295,7 @@ sub campaigns {
 			id => 1,
 			active => 1,
 			notification_active => 0,
+			min_length => 20,
 			url => '/wear/',
 			notification => "Help share DuckDuckGo! Find out more...",
 			question1 => "How did you hear about DuckDuckGo?",
@@ -305,6 +306,7 @@ sub campaigns {
 			id => 2,
 			active => 1,
 			notification_active => 1,
+			min_length => 50,
 			url => '/wear/',
 			notification => "You've been sharing DuckDuckGo for 30 days. Ready to answer your final questions?",
 			question1 => "How did you get your friend to switch to DuckDuckGo?",
@@ -322,7 +324,6 @@ sub first_active_campaign {
 	my $c = $self->campaigns;
 	(sort { $c->{$a}->{id} <=> $c->{$b}->{id} } grep { $c->{$_}->{active} } keys $c)[0];
 }
-has_conf campaign_response_min_length => DDGC_CAMPAIGN_RESPONSE_MIN_LENGTH => 5; # '1 day'
 
 has_conf feedback_email => DDGC_FEEDBACK_EMAIL => 'support@duckduckgo.com';
 has_conf error_email => DDGC_ERROR_EMAIL => 'ddgc@duckduckgo.com';

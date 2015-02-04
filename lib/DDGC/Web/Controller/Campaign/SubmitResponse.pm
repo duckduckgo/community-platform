@@ -54,22 +54,36 @@ sub respond : Chained('base') : PathPart('respond') : Args(0) {
 	my $from = 'noreply@dukgo.com';
 	my $username = $c->user->username;
 	my $campaign_name = $c->req->param('campaign_name');;
-	my $subject = "$campaign_name response from $username";
 	my $campaign = $c->d->config->campaigns->{ $campaign_name };
+	my $short_response = 0;
+	my $flag_response = 0;
+
+	my $response_length = length($c->req->param( 'question1' ) . $c->req->param( 'question2' ) . $c->req->param( 'question3' ));
+
+
+	if ( $response_length < $campaign->{min_length} + 10 ) {
+		$flag_response = 1;
+		if ( $response_length < $campaign->{min_length} ) {
+			$short_response = 1;
+		}
+	}
 
 	for (1..3) {
-		if (length($c->req->param( 'question' . $_ )) < $c->d->config->campaign_response_min_length) {
-			$c->response->status(500);
-			$c->stash->{x} = {
-				ok => 0, fields_empty => 1,
-				errstr => "You'll need to try a little harder than that!"
-			};
-			$c->forward( $c->view('JSON') );
-			return $c->detach;
+		if (!$c->req->param( 'question' . $_ )) {
+			$short_response = 1;
 		}
-
 		$c->stash->{ 'question' . $_ } = $campaign->{ 'question' . $_ };
 		$c->stash->{ 'answer' . $_ } = $c->req->param( 'question' . $_ );
+	}
+
+	if ($short_response) {
+		$c->response->status(500);
+		$c->stash->{x} = {
+			ok => 0, fields_empty => 1,
+			errstr => "Your responses are too short. Please add more explanation.",
+		};
+		$c->forward( $c->view('JSON') );
+		return $c->detach;
 	}
 
 	if ($campaign_name eq 'share') {
@@ -81,6 +95,8 @@ sub respond : Chained('base') : PathPart('respond') : Args(0) {
 BAD_RESPONSE_LINK
 	}
 
+	my $subject = (($flag_response)? "** SHORT RESPONSE ** " : "" ) .
+	"$campaign_name response from $username";
 	my $error = 0;
 	try {
 		$c->d->postman->template_mail(
