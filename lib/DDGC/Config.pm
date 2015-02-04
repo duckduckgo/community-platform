@@ -317,6 +317,11 @@ sub id_for_campaign {
 	my ($self, $campaign) = @_;
 	return $self->campaigns->{$campaign}->{id};
 }
+sub first_active_campaign {
+	my ($self) = @_;
+	my $c = $self->campaigns;
+	(sort { $c->{$a}->{id} <=> $c->{$b}->{id} } grep { $c->{$_}->{active} } keys $c)[0];
+}
 has_conf campaign_response_min_length => DDGC_CAMPAIGN_RESPONSE_MIN_LENGTH => 5; # '1 day'
 
 has_conf feedback_email => DDGC_FEEDBACK_EMAIL => 'support@duckduckgo.com';
