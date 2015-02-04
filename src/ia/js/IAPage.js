@@ -45,24 +45,30 @@
                 $.getJSON("/ia/view/" + DDH_iaid + "/json", function(ia_data) {
 
                     // Show latest edits for admins and users with edit permissions
-                    var x = {};
+                    var latest_edits_data = {};
                     if (ia_data.edited) {
-                        x = DDH.IAPage.prototype.updateData(ia_data, x, true);
+                        latest_edits_data = DDH.IAPage.prototype.updateData(ia_data, latest_edits_data, true);
                    } else {
-                        x = ia_data.live;
+                        latest_edits_data = ia_data.live;
                     }
 
                     // Readonly mode templates
                     var readonly_templates = {
-                        name : Handlebars.templates.name(x),
-                        status : Handlebars.templates.status(x),
-                        description : Handlebars.templates.description(x),
-                        topic : Handlebars.templates.topic(x),
-                        screens : Handlebars.templates.screens(x),
-                        template : Handlebars.templates.template(x),
-                        examples : Handlebars.templates.examples(x),
-                        devinfo : Handlebars.templates.devinfo(x),
-                        github: Handlebars.templates.github(x)
+                        live: {
+                            name : Handlebars.templates.name(latest_edits_data),
+                            status : Handlebars.templates.status(latest_edits_data),
+                            description : Handlebars.templates.description(latest_edits_data),
+                            topic : Handlebars.templates.topic(latest_edits_data),
+                            screens : Handlebars.templates.screens(latest_edits_data),
+                            template : Handlebars.templates.template(latest_edits_data),
+                            examples : Handlebars.templates.examples(latest_edits_data),
+                            devinfo : Handlebars.templates.devinfo(latest_edits_data),
+                            github: Handlebars.templates.github(latest_edits_data)
+                        }/*,
+                        planning : Handlebars.templates.planning(ia_data),
+                        in_development : Handlebars.templates.in_development(ia_data),
+                        qa : Handlebars.templates.qa(ia_data),
+                        ready : Handlebars.templates.ready(ia_data)*/
                     };
 
                     // Pre-Edit mode templates
@@ -76,10 +82,10 @@
                         dev_milestone : Handlebars.templates.pre_edit_dev_milestone(ia_data)
                     };
 
-                    DDH.IAPage.prototype.updateAll(readonly_templates, false);
+                    DDH.IAPage.prototype.updateAll(readonly_templates.live, ia_data.live.dev_milestone, false);
 
                     $("#edit_activate").on('click', function(evt) {
-                        DDH.IAPage.prototype.updateAll(pre_templates, true);
+                        DDH.IAPage.prototype.updateAll(pre_templates, ia_data.live.dev_milestone, true);
 
                         $("#edit_disable").removeClass("hide");
                         $(this).hide();
@@ -268,6 +274,13 @@
             'other_queries'
         ],
 
+        dev_milestones_order: [
+            'planning',
+            'in_development',
+            'qa',
+            'ready'
+        ],
+
         updateData: function(ia_data, x, edited) {
             var edited_fields = 0;
             $.each(ia_data.live, function(key, value) {
@@ -286,8 +299,8 @@
             return x;
         },
 
-        updateAll: function(templates, edit) {
-            if (!edit) {
+        updateAll: function(templates, dev_milestone, edit) {
+            if (!edit && dev_milestone === "live") {
                 $(".ia-single--left, .ia-single--right").show().empty();
                 for (var i = 0; i < this.field_order.length; i++) {
                     $(".ia-single--left").append(templates[this.field_order[i]]);
@@ -311,13 +324,19 @@
             } else {
                 $(".ia-single--left, .ia-single--right").hide();
                 $(".ia-single--edits").removeClass("hide");
-                for (var i = 0; i < this.edit_field_order.length; i++) {
-                    $(".ia-single--edits").append(templates[this.edit_field_order[i]]);
-                }
+                if (dev_milestone === "live") {
+                    for (var i = 0; i < this.edit_field_order.length; i++) {
+                        $(".ia-single--edits").append(templates[this.edit_field_order[i]]);
+                    }
 
-                // Only admins can edit the dev milestone
-                if ($("#view_commits").length) {
-                    $(".ia-single--edits").append(templates.dev_milestone);
+                    // Only admins can edit the dev milestone
+                    if ($("#view_commits").length) {
+                        $(".ia-single--edits").append(templates.dev_milestone);
+                    }
+                } else {
+                    for (var i = 0; i < this.dev_milestones_order.length; i++) {
+                        $(".ia-single--edits").append(templates[this.dev_milestones_order[i]]);
+                    }
                 } 
             }
         }    
