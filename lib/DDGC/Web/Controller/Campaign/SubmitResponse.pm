@@ -58,11 +58,11 @@ sub respond : Chained('base') : PathPart('respond') : Args(0) {
 	my $campaign = $c->d->config->campaigns->{ $campaign_name };
 
 	for (1..3) {
-		if (!$c->req->param( 'question' . $_ )) {
+		if (length($c->req->param( 'question' . $_ )) < $c->d->config->campaign_response_min_length) {
 			$c->response->status(500);
 			$c->stash->{x} = {
 				ok => 0, fields_empty => 1,
-				errstr => "Please fill all fields before submitting. Thanks."
+				errstr => "You'll need to try a little harder than that!"
 			};
 			$c->forward( $c->view('JSON') );
 			return $c->detach;

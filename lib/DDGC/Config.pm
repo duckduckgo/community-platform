@@ -317,6 +317,7 @@ sub id_for_campaign {
 	my ($self, $campaign) = @_;
 	return $self->campaigns->{$campaign}->{id};
 }
+has_conf campaign_response_min_length => DDGC_CAMPAIGN_RESPONSE_MIN_LENGTH => 5; # '1 day'
 
 has_conf feedback_email => DDGC_FEEDBACK_EMAIL => 'support@duckduckgo.com';
 has_conf error_email => DDGC_ERROR_EMAIL => 'ddgc@duckduckgo.com';
