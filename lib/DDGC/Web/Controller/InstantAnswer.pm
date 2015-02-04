@@ -204,6 +204,10 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
                 attribution => $ia->attribution? decode_json($ia->attribution) : undef,
                 issues => \@ia_issues,
                 template => $ia->template,
+                unsafe => $ia->unsafe,
+                src_api_documentation => $ia->src_api_documentation,
+                assignee => $ia->assignee,
+                tab => $ia->tab
     };
 
     if ($c->user) {
