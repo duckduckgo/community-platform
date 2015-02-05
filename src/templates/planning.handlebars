@@ -12,40 +12,58 @@
         <div class="dev_milestone-container__body__label ia-single--header">
             Repo
         </div>
-        {{#if current.planning}}
-            {{#if can_edit}}
+        {{#unless future.planning}}
+            {{#if permissions.can_edit}}
                 <input type="text" class="dev_milestone-container__body__input js-autocommit" id="repo-input" value="{{live.repo}}" />
             {{else}}
                 <div class="dev_milestone-container__body__readonly" id="repo-txt">
                     {{live.repo}}
                 </div>
             {{/if}}
-        {{/if}}
+        {{/unless}}
 
         <div class="dev_milestone-container__body__label ia-single--header">
             Example Query
         </div>
-        {{#if current.planning}}
-            {{#if can_edit}}
+        {{#unless future.planning}}
+            {{#if permissions.can_edit}}
                 <input type="text" class="dev_milestone-container__body__input js-autocommit" id="example_query-input" value="{{live.example_query}}" />
             {{else}}
                 <div class="dev_milestone-container__body__readonly" id="example_query-txt">
                     {{live.example_query}}
                 </div>
             {{/if}}
-        {{/if}}
+        {{/unless}}
 
         <div class="dev_milestone-container__body__label ia-single--header">
             Api Documentation
         </div>
-        {{#if current.planning}}
-            {{#if can_edit}}
+        {{#unless future.planning}}
+            {{#if permissions.can_edit}}
                 <input type="text" class="dev_milestone-container__body__input js-autocommit" id="src_api_docs-input" value="{{live.src_api_docs}}" />
             {{else}}
                 <div class="dev_milestone-container__body__readonly" id="src_api_docs-txt">
                     {{live.src_api_docs}}
                 </div>
             {{/if}}
-        {{/if}}
+        {{/unless}}
+
+        <div class="dev_milestone-container__body__label ia-single--header">
+            Safe Search
+        </div>
+        {{#unless future.planning}}
+            {{#if permissions.can_edit}}
+                <i class="dev_milestone-container__body__checkbox {{#if permissions.can_edit}}js-autocommit{{/if}} icon-check{{#unless live.unsafe}}-empty{{/unless}}" id="unsafe-check"/>
+            {{/if}}
+            <div class="dev_milestone-container__body__readonly" id="check-txt">
+                Unsafe
+            </div>
+        {{/unless}}
     </div>
+
+    {{#if permissions.admin}}
+        <div class="dev_milestone-container__body__complete js-complete button right" id="complete-planning">
+            Mark as complete
+        </div>
+    {{/if}}
 </div>
