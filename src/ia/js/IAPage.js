@@ -409,6 +409,7 @@
                         $(".ia-single--edits").append(templates.dev_milestone);
                     }
                 } else {
+                    $(".ia-single").append(templates.live.name);
                     for (var i = 0; i < this.dev_milestones_order.length; i++) {
                         $(".ia-single").append(templates[this.dev_milestones_order[i]]);
                     }
