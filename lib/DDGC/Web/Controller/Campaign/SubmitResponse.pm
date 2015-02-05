@@ -8,6 +8,7 @@ use DDGC::Config;
 use Try::Tiny;
 use DateTime;
 use DateTime::Duration;
+use Lingua::Identify qw(:language_identification);
 
 sub base :Chained('/') :PathPart('campaign') :CaptureArgs(0) {
 	my ( $self, $c ) = @_;
@@ -57,8 +58,8 @@ sub respond : Chained('base') : PathPart('respond') : Args(0) {
 	my $campaign = $c->d->config->campaigns->{ $campaign_name };
 	my $short_response = 0;
 	my $flag_response = 0;
-
 	my $response_length = length($c->req->param( 'question1' ) . $c->req->param( 'question2' ) . $c->req->param( 'question3' ));
+	my ($language, $probability) = langof join " ", ( $c->req->param( 'question1' ) , $c->req->param( 'question2' ) , $c->req->param( 'question3' ) );
 
 
 	if ( $response_length < $campaign->{min_length} + 10 ) {
@@ -95,8 +96,10 @@ sub respond : Chained('base') : PathPart('respond') : Args(0) {
 BAD_RESPONSE_LINK
 	}
 
-	my $subject = (($flag_response)? "** SHORT RESPONSE ** " : "" ) .
-	"$campaign_name response from $username";
+	my $subject =
+		(($flag_response)? "** SHORT RESPONSE ** " : "" ) .
+		(($language ne "en" || $probability < 0.3)? "** POSSIBLE SPAM ** " : "") .
+		"$campaign_name response from $username";
 	my $error = 0;
 	try {
 		$c->d->postman->template_mail(
