@@ -1,16 +1,17 @@
 <div class="dev_milestone-container container-planning" id="planning">
     <div class="dev_milestone-container__header container-planning__header">
-        <span class="dev_milestone-container__header__span">
-            Planning
-        </span>
-        <div class="button js-expand dev_milestone-container__header__button">
+        <div class="button js-expand dev_milestone-container__header__button left">
             <i class="js-expand__icon icon-caret-down" />
         </div>
+        <h3 class="dev_milestone-container__header__title left">
+            Planning
+        </h3>
+        <span class="clearfix"></span>
     </div>
 
-    <div class="dev_milestone-container__body container-planning__body hide">
+    <div class="dev_milestone-container__body container-planning__body {{#unless current.planning}}hide{{/unless}}">
         <div class="dev_milestone-container__body__label ia-single--header">
-            Repo
+            REPO
         </div>
         {{#unless future.planning}}
             {{#if permissions.can_edit}}
@@ -23,7 +24,7 @@
         {{/unless}}
 
         <div class="dev_milestone-container__body__label ia-single--header">
-            Example Query
+            EXAMPLE QUERY
         </div>
         {{#unless future.planning}}
             {{#if permissions.can_edit}}
@@ -36,7 +37,7 @@
         {{/unless}}
 
         <div class="dev_milestone-container__body__label ia-single--header">
-            Api Documentation
+            API DOCUMENTATION
         </div>
         {{#unless future.planning}}
             {{#if permissions.can_edit}}
@@ -49,21 +50,23 @@
         {{/unless}}
 
         <div class="dev_milestone-container__body__label ia-single--header">
-            Safe Search
+            SAFE SEARCH
         </div>
         {{#unless future.planning}}
-            {{#if permissions.can_edit}}
-                <i class="dev_milestone-container__body__checkbox {{#if permissions.can_edit}}js-autocommit{{/if}} icon-check{{#unless live.unsafe}}-empty{{/unless}}" id="unsafe-check"/>
-            {{/if}}
-            <div class="dev_milestone-container__body__readonly" id="check-txt">
+            <i class="left dev_milestone-container__body__checkbox {{#if permissions.can_edit}}js-autocommit{{/if}} icon-check{{#unless live.unsafe}}-empty{{/unless}}" id="unsafe-check"/>
+            <div class="left dev_milestone-container__body__readonly" id="check-txt">
                 Unsafe
             </div>
+            <span class="clearfix"></span>
         {{/unless}}
     </div>
 
     {{#if permissions.admin}}
-        <div class="dev_milestone-container__body__complete js-complete button right" id="complete-planning">
-            Mark as complete
-        </div>
+        {{#if current.planning}}
+            <div class="dev_milestone-container__body__complete js-complete button right" id="complete-planning">
+                Mark as complete
+            </div>
+            <span class="clearfix"></span>
+        {{/if}}
     {{/if}}
 </div>

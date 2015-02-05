@@ -215,10 +215,9 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
         $permissions = $c->stash->{ia}->users->find($c->user->id);
         $is_admin = $c->user->admin;
 
-        if ($is_admin || $permissions) {
-            if ($ia->dev_milestone eq 'live') {
-                $edited = current_ia($c->d, $ia);
-                $ia_data{edited} = {
+        if (($is_admin || $permissions) && ($ia->dev_milestone eq 'live')) {
+            $edited = current_ia($c->d, $ia);
+            $ia_data{edited} = {
                     name => $edited->{name},
                     description => $edited->{description},
                     status => $edited->{status},
@@ -226,13 +225,7 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
                     other_queries => $edited->{other_queries}->{value},
                     topic => $edited->{topic},
                     dev_milestone => $edited->{dev_milestone},
-                };
-            } else {
-                $ia_data{permissions} = {
-                    admin => $is_admin,
-                    can_edit => $is_admin? $is_admin : $permissions
-                };
-            }
+            };
         }
     }
 

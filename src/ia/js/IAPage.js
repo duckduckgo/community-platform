@@ -48,8 +48,31 @@
                     var latest_edits_data = {};
                     if (ia_data.edited) {
                         latest_edits_data = DDH.IAPage.prototype.updateData(ia_data, latest_edits_data, true);
-                   } else {
+                    } else {
                         latest_edits_data = ia_data.live;
+                    }
+
+                    if (ia_data.live.dev_milestone !== "live") {
+                        if ($(".special-permissions").length) {
+                            $(".special-permissions, .special-permissions__toggle-view").hide();
+                            ia_data.permissions = {can_edit: 1};
+                            
+                            if ($("#view_commits").length) {
+                                ia_data.permissions.admin = 1;
+                            }
+                        }
+                        ia_data.current = {};
+                        ia_data.current[ia_data.live.dev_milestone] = 1;
+                        var future = {};
+                        var milestone_idx = $.inArray(ia_data.live.dev_milestone, DDH.IAPage.prototype.dev_milestones_order);
+                        if (milestone_idx !== -1) {
+                            milestone_idx++;
+                            for (var i = milestone_idx; i < DDH.IAPage.prototype.dev_milestones_order.length; i++) {
+                                future[DDH.IAPage.prototype.dev_milestones_order[i]] = 1;
+                            }
+                        }
+
+                        ia_data.future = future;
                     }
 
                     // Readonly mode templates
@@ -64,8 +87,8 @@
                             examples : Handlebars.templates.examples(latest_edits_data),
                             devinfo : Handlebars.templates.devinfo(latest_edits_data),
                             github: Handlebars.templates.github(latest_edits_data)
-                        }/*,
-                        planning : Handlebars.templates.planning(ia_data),
+                        },
+                        planning : Handlebars.templates.planning(ia_data)/*,
                         in_development : Handlebars.templates.in_development(ia_data),
                         qa : Handlebars.templates.qa(ia_data),
                         ready : Handlebars.templates.ready(ia_data)*/
@@ -82,7 +105,7 @@
                         dev_milestone : Handlebars.templates.pre_edit_dev_milestone(ia_data)
                     };
 
-                    DDH.IAPage.prototype.updateAll(readonly_templates.live, ia_data.live.dev_milestone, false);
+                    DDH.IAPage.prototype.updateAll(readonly_templates, ia_data.live.dev_milestone, false);
 
                     $("#edit_activate").on('click', function(evt) {
                         DDH.IAPage.prototype.updateAll(pre_templates, ia_data.live.dev_milestone, true);
@@ -303,10 +326,10 @@
             if (!edit && dev_milestone === "live") {
                 $(".ia-single--left, .ia-single--right").show().empty();
                 for (var i = 0; i < this.field_order.length; i++) {
-                    $(".ia-single--left").append(templates[this.field_order[i]]);
+                    $(".ia-single--left").append(templates.live[this.field_order[i]]);
                 }
 
-                $(".ia-single--right").append(templates.screens);
+                $(".ia-single--right").append(templates.live.screens);
 
                 $(".show-more").click(function(e) {
                     e.preventDefault();
@@ -323,8 +346,8 @@
                 });
             } else {
                 $(".ia-single--left, .ia-single--right").hide();
-                $(".ia-single--edits").removeClass("hide");
                 if (dev_milestone === "live") {
+                    $(".ia-single--edits").removeClass("hide");
                     for (var i = 0; i < this.edit_field_order.length; i++) {
                         $(".ia-single--edits").append(templates[this.edit_field_order[i]]);
                     }
@@ -335,7 +358,7 @@
                     }
                 } else {
                     for (var i = 0; i < this.dev_milestones_order.length; i++) {
-                        $(".ia-single--edits").append(templates[this.dev_milestones_order[i]]);
+                        $(".ia-single").append(templates[this.dev_milestones_order[i]]);
                     }
                 } 
             }
