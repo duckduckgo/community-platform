@@ -373,6 +373,7 @@
                     $(".ia-single--left").append(templates.live[this.field_order[i]]);
                 }
 
+                $(".ia-single--right").before(templates.live.name);
                 $(".ia-single--right").append(templates.live.screens);
 
                 $(".show-more").click(function(e) {
@@ -389,7 +390,7 @@
                     }
                 });
             } else {
-                $(".ia-single--left, .ia-single--right").hide();
+                $(".ia-single--left, .ia-single--right, .ia-single--name").hide();
                 if (dev_milestone === "live") {
                     $(".ia-single--edits").removeClass("hide");
                     for (var i = 0; i < this.edit_field_order.length; i++) {
