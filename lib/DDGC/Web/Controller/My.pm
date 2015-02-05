@@ -597,7 +597,7 @@ sub register :Chained('logged_out') :Args(0) {
 		my $user = $c->d->create_user($username,$password);
 
 		if ($user) {
-			$c->authenticate({ username => $username, password => $password, }, 'users');
+			$user->check_password($password);
 			if ($email) {
 				$user->data({}) if !$user->data;
 				my $data = $user->data();
