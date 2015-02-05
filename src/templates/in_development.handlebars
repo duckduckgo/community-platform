@@ -1,0 +1,30 @@
+<div class="dev_milestone-container container-in_development" id="in_development">
+    <div class="dev_milestone-container__header container-in_development__header">
+        <h3 class="dev_milestone-container__header__title left">
+            In Development
+        </h3>
+        <div class="button js-expand dev_milestone-container__header__button left">
+            <i class="js-expand__icon icon-caret-down" />
+        </div>
+        <span class="clearfix"></span>
+    </div>
+
+    <div class="dev_milestone-container__body container-in_development__body {{#unless current.in_development}}hide{{/unless}}">
+        <div class="dev_milestone-container__body__label ia-single--header">
+            PULL REQUEST
+        </div>
+            <div class="dev_milestone-container__body__readonly" id="repo-txt">
+                <a href="{{live.pr.url}}" class="dev_milestone-container__body__readonly__a" id="pr">
+                    {{live.pr.title}}
+                </a>
+        </div>
+
+        {{#if permissions.admin}}
+            {{#if current.in_development}}
+                <div class="dev_milestone-container__body__complete js-complete button" id="complete-in_development">
+                    Mark as complete
+                </div>
+            {{/if}}
+        {{/if}}
+    </div>
+</div>

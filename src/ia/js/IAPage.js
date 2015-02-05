@@ -88,10 +88,10 @@
                             devinfo : Handlebars.templates.devinfo(latest_edits_data),
                             github: Handlebars.templates.github(latest_edits_data)
                         },
-                        planning : Handlebars.templates.planning(ia_data)/*,
+                        planning : Handlebars.templates.planning(ia_data),
                         in_development : Handlebars.templates.in_development(ia_data),
                         qa : Handlebars.templates.qa(ia_data),
-                        ready : Handlebars.templates.ready(ia_data)*/
+                        ready : Handlebars.templates.ready(ia_data)
                     };
 
                     // Pre-Edit mode templates

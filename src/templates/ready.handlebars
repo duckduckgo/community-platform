@@ -1,0 +1,21 @@
+<div class="dev_milestone-container container-ready" id="ready">
+    <div class="dev_milestone-container__header container-ready__header">
+        <h3 class="dev_milestone-container__header__title left">
+            Ready
+        </h3>
+        <div class="button js-expand dev_milestone-container__header__button left">
+            <i class="js-expand__icon icon-caret-down" />
+        </div>
+        <span class="clearfix"></span>
+    </div>
+
+    <div class="dev_milestone-container__body container-ready">
+        {{#if permissions.admin}}
+            {{#if current.ready}}
+                <div class="dev_milestone-container__body__complete js-complete button" id="complete-ready">
+                    Mark as complete
+                </div>
+            {{/if}}
+        {{/if}}
+    </div>
+</div>
