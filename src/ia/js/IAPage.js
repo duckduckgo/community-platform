@@ -148,6 +148,13 @@
                         }
                     });
 
+                    $("body").on('click', ".js-complete.button", function(evt) {
+                        var field = "dev_milestone";
+                        var value = DDH.IAPage.prototype.dev_milestones_order[$.inArray(ia_data.live.dev_milestone, DDH.IAPage.prototype.dev_milestones_order) + 1];
+
+                        autocommit(field, value, DDH_iaid);
+                    });
+
                     $(".special-permissions__toggle-view__button").on('click', function(evt) {
                         if (!$(this).hasClass("disabled")) {
                             $(".button-nav-current").removeClass("button-nav-current").removeClass("disabled");
