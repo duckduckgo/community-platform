@@ -69,7 +69,6 @@ sub getIssues{
                 is_pr => $is_pr,
 			);
 			push(@results, \%entry);
-            warn Dumper \%entry if $entry{name} =~ m/guide/;
 		}
 	}
     #  warn Dumper @results;
