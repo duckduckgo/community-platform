@@ -59,7 +59,9 @@ sub respond : Chained('base') : PathPart('respond') : Args(0) {
 	my $short_response = 0;
 	my $flag_response = 0;
 	my $response_length = length($c->req->param( 'question1' ) . $c->req->param( 'question2' ) . $c->req->param( 'question3' ));
-	my ($language, $probability) = langof join " ", ( $c->req->param( 'question1' ) , $c->req->param( 'question2' ) , $c->req->param( 'question3' ) );
+	my @languages = langof join " ", ( $c->req->param( 'question1' ) , $c->req->param( 'question2' ) , $c->req->param( 'question3' ) );
+	my $language = $languages[0] // 'unknown';
+	my $confidence = confidence(@languages);
 
 
 	if ( $response_length < $campaign->{min_length} + 10 ) {
@@ -90,15 +92,16 @@ sub respond : Chained('base') : PathPart('respond') : Args(0) {
 	if ($campaign_name eq 'share') {
 		my $report_url = $c->chained_uri( 'Admin::Campaign', 'bad_user_response', { user => $username, campaign => $campaign_name} );
 		$c->stash->{'extra'} = <<"BAD_RESPONSE_LINK"
+		Language: $language, Confidence: $confidence<br />
 		<a href="$report_url">
 			Report bad responses
-		</a>.
+		</a>
 BAD_RESPONSE_LINK
 	}
 
 	my $subject =
 		(($flag_response)? "** SHORT RESPONSE ** " : "" ) .
-		(($language ne "en" || $probability < 0.3)? "** POSSIBLE SPAM ** " : "") .
+		(($language ne "en" || $confidence < 0.65)? "** POSSIBLE SPAM ** " : "") .
 		"$campaign_name response from $username";
 	my $error = 0;
 	try {
