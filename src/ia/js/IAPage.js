@@ -115,6 +115,13 @@
                         $(".special-permissions__toggle-view").hide();
                     });
 
+                    $("body").on('click', ".js-expand.button", function(evt) {
+                        var milestone = $(this).parent().parent().attr("id");
+                        $(".container-" + milestone + "__body").toggleClass("hide");
+                        $(this).children("i").toggleClass("icon-caret-up");
+                        $(this).children("i").toggleClass("icon-caret-down");
+                    });
+
                     $(".special-permissions__toggle-view__button").on('click', function(evt) {
                         if (!$(this).hasClass("disabled")) {
                             $(".button-nav-current").removeClass("button-nav-current").removeClass("disabled");

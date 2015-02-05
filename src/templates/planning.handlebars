@@ -1,11 +1,11 @@
 <div class="dev_milestone-container container-planning" id="planning">
     <div class="dev_milestone-container__header container-planning__header">
-        <div class="button js-expand dev_milestone-container__header__button left">
-            <i class="js-expand__icon icon-caret-down" />
-        </div>
         <h3 class="dev_milestone-container__header__title left">
             Planning
         </h3>
+        <div class="button js-expand dev_milestone-container__header__button left">
+            <i class="js-expand__icon icon-caret-down" />
+        </div>
         <span class="clearfix"></span>
     </div>
 
@@ -59,14 +59,13 @@
             </div>
             <span class="clearfix"></span>
         {{/unless}}
-    </div>
 
-    {{#if permissions.admin}}
-        {{#if current.planning}}
-            <div class="dev_milestone-container__body__complete js-complete button right" id="complete-planning">
-                Mark as complete
-            </div>
-            <span class="clearfix"></span>
+        {{#if permissions.admin}}
+            {{#if current.planning}}
+                <div class="dev_milestone-container__body__complete js-complete button" id="complete-planning">
+                    Mark as complete
+                </div>
+            {{/if}}
         {{/if}}
-    {{/if}}
+    </div>
 </div>
