@@ -122,6 +122,32 @@
                         $(this).children("i").toggleClass("icon-caret-down");
                     });
 
+                    $("body").on('click', ".dev_milestone-container__body__checkbox", function(evt) {
+                        if ($(this).hasClass("js-autocommit")) {
+                            var field = $.trim($(this).attr("id").replace("-check", ""));
+                            var value;
+                            if ($(this).hasClass("icon-check-empty")) {
+                                value = 1;
+                            } else {
+                                value = 0;
+                            }
+
+                            $(this).toggleClass("icon-check-empty");
+                            $(this).toggleClass("icon-check");
+
+                            autocommit(field, value, DDH_iaid);
+                        }
+                    });
+
+                    $("body").on('keypress', ".dev_milestone-container__body__input.js-autocommit", function(evt) {
+                        if (evt.type === 'keypress' && evt.which === 13) {
+                            var field = $.trim($(this).attr("id").replace("-input", ""));
+                            var value = $.trim($(this).val());
+
+                            autocommit(field, value, DDH_iaid);
+                        }
+                    });
+
                     $(".special-permissions__toggle-view__button").on('click', function(evt) {
                         if (!$(this).hasClass("disabled")) {
                             $(".button-nav-current").removeClass("button-nav-current").removeClass("disabled");
@@ -253,6 +279,17 @@
                             }
                         }
                     });
+
+                    function autocommit(field, value, id) {
+                        var jqxhr = $.post("/ia/save", {
+                            field : field,
+                            value : value,
+                            id : id,
+                            autocommit: true
+                        })
+                        .done(function(data) {
+                        });
+                    }
 
                     function save(field, value, id, $obj) {
                         var jqxhr = $.post("/ia/save", {

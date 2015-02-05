@@ -369,15 +369,26 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
         if ($permissions || $is_admin) {
             my $field = $c->req->params->{field};
             my $value = $c->req->params->{value};
-            my $edits = add_edit($ia,  $field, $value);
+            my $autocommit = $c->req->params->{autocommit};
+            if ($autocommit) {
+                try {
+                    $ia->update({$field => $value});
+                    $result = {$field => $value};
+                }
+                catch {
+                    $c->d->errorlog("Error updating the database");
+                };
+            } else {
+                my $edits = add_edit($ia,  $field, $value);
 
-            try {
-                $ia->update({updates => $edits});
-                $result = {$field => $value, is_admin => $is_admin};
+                try {
+                    $ia->update({updates => $edits});
+                    $result = {$field => $value, is_admin => $is_admin};
+                }
+                catch {
+                    $c->d->errorlog("Error updating the database");
+                };
             }
-            catch {
-                $c->d->errorlog("Error updating the database");
-            };
         }
     }
 

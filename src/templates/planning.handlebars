@@ -41,9 +41,9 @@
         </div>
         {{#unless future.planning}}
             {{#if permissions.can_edit}}
-                <input type="text" class="dev_milestone-container__body__input js-autocommit" id="src_api_docs-input" value="{{live.src_api_docs}}" />
+                <input type="text" class="dev_milestone-container__body__input js-autocommit" id="src_api_documentation-input" value="{{live.src_api_docs}}" />
             {{else}}
-                <div class="dev_milestone-container__body__readonly" id="src_api_docs-txt">
+                <div class="dev_milestone-container__body__readonly" id="src_api_documentation-txt">
                     {{live.src_api_docs}}
                 </div>
             {{/if}}
