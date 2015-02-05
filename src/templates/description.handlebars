@@ -1,5 +1,7 @@
 <div class="big-description">
-  <h2>{{name}}</h2>
+  <div class="ia-single--name">
+    <h2>{{name}}</h2> <span class="btn--wire status--{{status}} status">{{status}}</span>
+  </div>
   {{#each topic}}
     <span class="btn--wire topic ia-single--topic">{{this}}</span>
   {{/each}}
