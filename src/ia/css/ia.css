@@ -8,6 +8,7 @@
 }
 .special-permissions #edit_activate {
     margin-right: 0.7em;
+    margin-bottom: 0;
 }
 .special-permissions__toggle-view #toggle-edited {
     position:relative;
