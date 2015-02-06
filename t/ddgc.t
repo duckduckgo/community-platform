@@ -7,12 +7,6 @@ use DDGCTest::Database;
 my $testdir = tempdir;
 $ENV{DDGC_TESTING} = $testdir;
 
-# generate test database and run tests while doing so
-my $test = DDGCTest::Database->for_test($testdir);
-$test->deploy;
-
-my $ddgc = $test->d;
-
 require Catalyst::Test;
 Catalyst::Test->import('DDGC::Web');
 
