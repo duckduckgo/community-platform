@@ -49,11 +49,10 @@
             SAFE SEARCH
         </div>
         {{#unless future.planning}}
-            <i class="left dev_milestone-container__body__checkbox {{#if permissions.can_edit}}js-autocommit{{/if}} icon-check{{#unless live.unsafe}}-empty{{/unless}}" id="unsafe-check"/>
-            <div class="left dev_milestone-container__body__readonly" id="check-txt">
+            <i class="dev_milestone-container__body__checkbox {{#if permissions.can_edit}}js-autocommit{{/if}} icon-check{{#unless live.unsafe}}-empty{{/unless}}" id="unsafe-check"/>
+            <span class="dev_milestone-container__body__readonly" id="check-txt">
                 Unsafe
-            </div>
-            <span class="clearfix"></span>
+            </span>
         {{/unless}}
 
         {{#if permissions.admin}}
