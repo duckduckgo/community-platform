@@ -1153,3 +1153,7 @@ body.texture {
 .ia-single .dev_milestone-container .ia-single--header {
     margin-top: 2em;
 }
+
+.ia-single .dev_milestone-container.current-container {
+    border: 1px solid #5b9e4d;
+}
