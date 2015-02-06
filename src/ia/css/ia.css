@@ -1136,7 +1136,7 @@ body.texture {
 
 .dev_milestone-container {
     width: 23%;
-    height: 21em;
+    min-height: 21em;
     border: 1px solid rgb(225, 225, 225);
     border-radius: 5px;
     padding: 5px;
@@ -1146,7 +1146,7 @@ body.texture {
 /* Set the height of the read-only fields so that 
    the layout doesn't change when it switches to the input field */
 .dev_milestone-container__body__readonly {
-    height: 21px;
+    min-height: 21px;
 }
 
 /* Small adjustment to the spacing between the labels in the dev page. */
