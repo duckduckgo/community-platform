@@ -10,6 +10,7 @@ use HTTP::Tiny;
 use Data::Dumper;
 use Try::Tiny;
 use Net::GitHub;
+use Encode qw(decode_utf8);
 my $d = DDGC->new;
 
 # JSON response from GH API
@@ -60,8 +61,8 @@ sub getIssues{
 				$link || '',
 				$repo || '',
 				$issue->{'number'} || '',
-				$issue->{'title'} || '',
-				$issue->{'body'} || '',
+				decode_utf8($issue->{'title'}) || '',
+				decode_utf8($issue->{'body'}) || '',
 				encode_json($issue->{'labels'}) || '',
 				$issue->{'created_at'} || ''
 			);
