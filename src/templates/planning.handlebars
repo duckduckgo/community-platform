@@ -14,7 +14,12 @@
                 <input type="text" class="dev_milestone-container__body__input js-autocommit" id="repo-input" value="{{live.repo}}" />
             {{else}}
                 <div class="dev_milestone-container__body__readonly" id="repo-txt">
-                    {{live.repo}}
+                    <a class="dev_milestone-container__body__readonly__a" href="https://github.com/duckduckgo/zeroclickinfo-{{live.repo}}">
+                        {{live.repo}}
+                    </a>
+                    <a class="dev_milestone-container__body__readonly__a docs-link" href="https://duck.co/duckduckhack/{{live.repo}}_overview">
+                        <i class="dev_milestone-container__body__readonly__a__icon docs-link-icon icon-question-sign" />
+                    </a>
                 </div>
             {{/if}}
         {{/unless}}

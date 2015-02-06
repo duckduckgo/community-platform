@@ -1169,3 +1169,7 @@ body.texture {
 .ia-single .dev_milestone-container__body__complete {
     margin-top: 1em;
 }
+
+.ia-single .docs-link-icon {
+    color: #AAA;
+}
