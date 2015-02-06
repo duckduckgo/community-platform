@@ -9,11 +9,24 @@
         <div class="dev_milestone-container__body__label ia-single--header">
             PULL REQUEST
         </div>
-            <div class="dev_milestone-container__body__readonly" id="repo-txt">
-                <a href="{{live.pr.url}}" class="dev_milestone-container__body__readonly__a" id="pr">
-                    {{live.pr.title}}
-                </a>
+        <div class="dev_milestone-container__body__readonly" id="pr-txt">
+            <a href="{{live.pr.url}}" class="dev_milestone-container__body__readonly__a" id="pr">
+                {{live.pr.title}}
+            </a>
         </div>
+
+        <div class="dev_milestone-container__body__label ia-single--header">
+            PERL MODULE
+        </div>
+        {{#unless future.in_development}}
+            {{#if permissions.can_edit}}
+                input type="text" class="dev_milestone-container__body__input js-autocommit" id="perl_module-input" value="{{live.perl_module}}" />
+            {{else}}
+                <div class="dev_milestone-container__body__readonly" id="perl_module-txt">
+                    {{live.perl_module}}        
+                </div>
+            {{/if}}
+        {{/unless}}
 
         {{#if permissions.admin}}
             {{#if current.in_development}}
