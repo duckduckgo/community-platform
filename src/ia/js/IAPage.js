@@ -413,6 +413,16 @@
                     for (var i = 0; i < this.dev_milestones_order.length; i++) {
                         $(".ia-single").append(templates[this.dev_milestones_order[i]]);
                     }
+
+                    // Set the panels height to the tallest one's height
+                    var max_height = 0;
+                    $(".dev_milestone-container").each(function(idx) {
+                        if ($(this).height() > max_height) {
+                            max_height = $(this).height();
+                        }
+                    });
+
+                    $(".dev_milestone-container").height(max_height);
                 } 
             }
         }    
