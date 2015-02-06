@@ -15,7 +15,7 @@
     margin-left: 1em;
 }
 .ia-single h3 {
-    margin-top: 1em;
+    margin-top: 0.2em;
 }
 .ia-single--edits #row-title {
     width: 98%;
@@ -1134,6 +1134,22 @@ body.texture {
     border-color: #4B9E4F;
 } 
 
-.container-planning, .container-in_development, .container-qa, .container-ready {
-    width: 25%;
+.dev_milestone-container {
+    width: 23%;
+    height: 21em;
+    border: 1px solid rgb(225, 225, 225);
+    border-radius: 5px;
+    padding: 5px;
+    margin-right: 0.3em;
+}
+
+/* Set the height of the read-only fields so that 
+   the layout doesn't change when it switches to the input field */
+.dev_milestone-container__body__readonly {
+    height: 21px;
+}
+
+/* Small adjustment to the spacing between the labels in the dev page. */
+.ia-single .dev_milestone-container .ia-single--header {
+    margin-top: 2em;
 }
