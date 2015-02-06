@@ -20,7 +20,7 @@
         </div>
         {{#unless future.in_development}}
             {{#if permissions.can_edit}}
-                input type="text" class="dev_milestone-container__body__input js-autocommit" id="perl_module-input" value="{{live.perl_module}}" />
+                <input type="text" class="dev_milestone-container__body__input js-autocommit" id="perl_module-input" value="{{live.perl_module}}" />
             {{else}}
                 <div class="dev_milestone-container__body__readonly" id="perl_module-txt">
                     {{live.perl_module}}        
