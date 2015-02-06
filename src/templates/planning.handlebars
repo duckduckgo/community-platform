@@ -1,15 +1,11 @@
-<div class="dev_milestone-container container-planning" id="planning">
+<div class="dev_milestone-container container-planning left" id="planning">
     <div class="dev_milestone-container__header container-planning__header">
-        <h3 class="dev_milestone-container__header__title left">
+        <h3 class="dev_milestone-container__header__title">
             Planning
         </h3>
-        <div class="button js-expand dev_milestone-container__header__button left">
-            <i class="js-expand__icon icon-caret-down" />
-        </div>
-        <span class="clearfix"></span>
     </div>
 
-    <div class="dev_milestone-container__body container-planning__body {{#unless current.planning}}hide{{/unless}}">
+    <div class="dev_milestone-container__body container-planning__body">
         <div class="dev_milestone-container__body__label ia-single--header">
             REPO
         </div>
@@ -53,11 +49,10 @@
             SAFE SEARCH
         </div>
         {{#unless future.planning}}
-            <i class="left dev_milestone-container__body__checkbox {{#if permissions.can_edit}}js-autocommit{{/if}} icon-check{{#unless live.unsafe}}-empty{{/unless}}" id="unsafe-check"/>
-            <div class="left dev_milestone-container__body__readonly" id="check-txt">
+            <i class="dev_milestone-container__body__checkbox {{#if permissions.can_edit}}js-autocommit{{/if}} icon-check{{#unless live.unsafe}}-empty{{/unless}}" id="unsafe-check"/>
+            <span class="dev_milestone-container__body__readonly" id="check-txt">
                 Unsafe
-            </div>
-            <span class="clearfix"></span>
+            </span>
         {{/unless}}
 
         {{#if permissions.admin}}
