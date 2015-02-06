@@ -1165,3 +1165,7 @@ body.texture {
 .ia-single .dev_milestone-container.future-container .dev_milestone-container__header {
     color: #888;
 }
+
+.ia-single .dev_milestone-container__body__complete {
+    margin-top: 1em;
+}
