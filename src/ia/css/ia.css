@@ -1133,3 +1133,7 @@ body.texture {
     color: #4B9E4F;
     border-color: #4B9E4F;
 } 
+
+.container-planning, .container-in_development, .container-qa, .container-ready {
+    width: 25%;
+}
