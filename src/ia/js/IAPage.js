@@ -39,6 +39,8 @@
         init: function(ops) {
             //console.log("IAPage.init()\n");
 
+            var page = this;
+
             if (DDH_iaid) {
                 //console.log("for ia id '%s'", DDH_iaid);
 
@@ -47,7 +49,7 @@
                     // Show latest edits for admins and users with edit permissions
                     var latest_edits_data = {};
                     if (ia_data.edited) {
-                        latest_edits_data = DDH.IAPage.prototype.updateData(ia_data, latest_edits_data, true);
+                        latest_edits_data = page.updateData(ia_data, latest_edits_data, true);
                     } else {
                         latest_edits_data = ia_data.live;
                     }
@@ -64,11 +66,11 @@
                         ia_data.current = {};
                         ia_data.current[ia_data.live.dev_milestone] = 1;
                         var future = {};
-                        var milestone_idx = $.inArray(ia_data.live.dev_milestone, DDH.IAPage.prototype.dev_milestones_order);
+                        var milestone_idx = $.inArray(ia_data.live.dev_milestone, page.dev_milestones_order);
                         if (milestone_idx !== -1) {
                             milestone_idx++;
-                            for (var i = milestone_idx; i < DDH.IAPage.prototype.dev_milestones_order.length; i++) {
-                                future[DDH.IAPage.prototype.dev_milestones_order[i]] = 1;
+                            for (var i = milestone_idx; i < page.dev_milestones_order.length; i++) {
+                                future[page.dev_milestones_order[i]] = 1;
                             }
                         }
 
@@ -105,10 +107,10 @@
                         dev_milestone : Handlebars.templates.pre_edit_dev_milestone(ia_data)
                     };
 
-                    DDH.IAPage.prototype.updateAll(readonly_templates, ia_data.live.dev_milestone, false);
+                    page.updateAll(readonly_templates, ia_data.live.dev_milestone, false);
 
                     $("#edit_activate").on('click', function(evt) {
-                        DDH.IAPage.prototype.updateAll(pre_templates, ia_data.live.dev_milestone, true);
+                        page.updateAll(pre_templates, ia_data.live.dev_milestone, true);
 
                         $("#edit_disable").removeClass("hide");
                         $(this).hide();
@@ -150,7 +152,7 @@
 
                     $("body").on('click', ".js-complete.button", function(evt) {
                         var field = "dev_milestone";
-                        var value = DDH.IAPage.prototype.dev_milestones_order[$.inArray(ia_data.live.dev_milestone, DDH.IAPage.prototype.dev_milestones_order) + 1];
+                        var value = page.dev_milestones_order[$.inArray(ia_data.live.dev_milestone, page.dev_milestones_order) + 1];
 
                         autocommit(field, value, DDH_iaid);
                     });
@@ -162,16 +164,16 @@
                             $(this).addClass("button-nav-current").addClass("disabled");
 
                             if ($(this).attr("id") == "toggle-live") {
-                                 x = DDH.IAPage.prototype.updateData(ia_data, x, false);       
+                                 x = page.updateData(ia_data, x, false);       
                             } else {
-                                 x = DDH.IAPage.prototype.updateData(ia_data, x, true);
+                                 x = page.updateData(ia_data, x, true);
                             }
 
-                            for (var i = 0; i <  DDH.IAPage.prototype.field_order.length; i++) {
-                                readonly_templates[ DDH.IAPage.prototype.field_order[i]] = Handlebars.templates[ DDH.IAPage.prototype.field_order[i]](x);
+                            for (var i = 0; i <  page.field_order.length; i++) {
+                                readonly_templates[ page.field_order[i]] = Handlebars.templates[ page.field_order[i]](x);
                             }
 
-                            DDH.IAPage.prototype.updateAll(readonly_templates, false);
+                            page.updateAll(readonly_templates, false);
                         }
                     });
 
