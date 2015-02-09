@@ -1,28 +1,42 @@
 <: if !$bad_response_success { :>
-	<h3>Mark bad response:</h3>
+	<h3>Mark bad response</h3>
 	<form action="<: $u('Admin::Campaign', 'bad_user_response') :>" method="post">
-		<: if $user_not_found { :>
+
+		<: if $users_not_found { :>
 			<p class="notice error">
-				<i class="icn icon-warning-sign"></i>User "<: $user :>" not found.
+				<i class="icn icon-warning-sign"></i>Users not found:
+				<: for $users_not_found -> $username { :>
+					<br/><: $username :>
+				<: } :>
 			</p>
 		<: } :>
-		<: if $user_not_supplied { :>
+
+		<: if $users_not_responded { :>
 			<p class="notice error">
-				<i class="icn icon-warning-sign"></i>You must specify a username.
+				<i class="icn icon-warning-sign"></i>These users nave not responded:
+				<: for $users_not_responded -> $username { :>
+					<br/><: $username :>
+				<: } :>
 			</p>
 		<: } :>
-		<: if $campaign_not_selected { :>
+
+		<: if $no_campaign { :>
 			<p class="notice error">
 				<i class="icn icon-warning-sign"></i>You must specify a campaign.
 			</p>
 		<: } :>
+
+		<: if !$user { :>
+			Enter usernames:<br/>
+			<textarea rows=10 name='multi_user'><: $multi_user :></textarea>
+		<: } :>
 		<input type="hidden" name="user" value="<: $user :>">
 		<input type="hidden" name="campaign" value="<: $campaign :>">
-		<p>Responses from <: $user :> for campaign <: $campaign :> were bad?</p>
-		<input type="submit" class="button blue big" name="save_bad_response" value="Yes" />
+		<p>Responses <: if $user { :> from user <strong><: $user :></strong> <: } :> for campaign <: $campaign :> were bad?</p>
+		<input type="submit" class="button red big" name="save_bad_response" value="Mark responses as bad" />
 	</form>
 <: } else { :>
-	Thanks for reporting...
+	Thanks for reporting.
 <: } :>
 
 
