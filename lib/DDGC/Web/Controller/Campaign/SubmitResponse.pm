@@ -64,7 +64,7 @@ sub respond : Chained('base') : PathPart('respond') : Args(0) {
 	my $confidence = confidence(@languages);
 
 
-	if ( $response_length < $campaign->{min_length} + 10 ) {
+	if ( $response_length < $campaign->{min_length} + 20 ) {
 		$flag_response = 1;
 		if ( $response_length < $campaign->{min_length} ) {
 			$short_response = 1;
