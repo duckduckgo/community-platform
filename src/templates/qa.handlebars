@@ -5,7 +5,20 @@
         </h3>
     </div>
 
-    <div class="dev_milestone-container__body container-qa__body {{#unless current.qa}}hide{{/unless}}">
+    <div class="dev_milestone-container__body container-qa__body">
+        <div class="dev_milestone-container__body__label ia-single--header">
+            EXAMPLE QUERY
+        </div>
+        {{#unless future.qa}}
+            {{#if permissions.can_edit}}
+                <input type="text" class="dev_milestone-container__body__input js-autocommit" id="example_query-input" value="{{live.example_query}}" />
+            {{else}}
+                <a href="https://duckduckgo.com/?q={{encodeURIComponent live.example_query}}" class="dev_milestone-container__body__readonly" id="example_query-a">
+                    {{live.example_query}}
+                </a>
+            {{/if}}
+        {{/unless}}       
+        
         {{#if permissions.admin}}
             {{#if current.qa}}
                 <div class="dev_milestone-container__body__complete js-complete button" id="complete-qa">
