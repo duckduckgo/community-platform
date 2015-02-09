@@ -9,11 +9,13 @@
         <div class="dev_milestone-container__body__label ia-single--header">
             PULL REQUEST
         </div>
-        <div class="dev_milestone-container__body__readonly" id="pr-txt">
-            <a href="{{live.pr.url}}" class="dev_milestone-container__body__readonly__a" id="pr">
-                {{live.pr.title}}
-            </a>
-        </div>
+        {{#if live.pr}}
+            <div class="dev_milestone-container__body__readonly" id="pr-txt">
+                <a href="{{live.pr.url}}" class="dev_milestone-container__body__readonly__a" id="pr">
+                    {{live.pr.title}}
+                </a>
+            </div>
+        {{/if}}
 
         <div class="dev_milestone-container__body__label ia-single--header">
             PERL MODULE

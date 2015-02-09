@@ -10,14 +10,12 @@
         <div class="dev_milestone-container__body__label ia-single--header">
             DEPLOYMENT
         </div>
-        {{#unless future.ready}}
-            <div class="dev_milestone-container__body__div">
-                <i class="dev_milestone-container__body__div__checkbox {{#if permissions.can_edit}}js-autocommit{{/if}} icon-check{{#unless live.is_live}}-empty{{/unless}}" id="is_live-check"/>
-                <span class="dev_milestone-container__body__readonly check-txt">
-                    Deployed
-                </span>
-            </div>
-        {{/unless}}
+        <div class="dev_milestone-container__body__div">
+            <i class="dev_milestone-container__body__div__checkbox {{#unless future.ready}}{{#if permissions.can_edit}}js-autocommit{{/if}}{{/unless}} icon-check{{#unless live.is_live}}-empty{{/unless}}" id="is_live-check"/>
+            <span class="dev_milestone-container__body__readonly check-txt">
+                Deployed
+            </span>
+        </div>
 
         {{#if permissions.admin}}
             {{#if current.ready}}

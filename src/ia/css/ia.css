@@ -1170,6 +1170,7 @@ body.texture {
     margin-top: 1em;
 }
 
+.ia-single .dev_milestone-container.future-container,
 .ia-single .docs-link-icon {
     color: #AAA;
 }
