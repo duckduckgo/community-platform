@@ -28,6 +28,58 @@
             {{/if}}
         {{/unless}}
 
+        <div class="dev_milestone-container__body__label ia-single--header">
+            PERL DEPENDENCIES
+        </div>
+        {{#unless future.in_development}}
+            {{#if permissions.can_edit}}
+                <input type="text" class="dev_milestone-container__body__input js-autocommit" id="repo-input" value="{{live.perl_dependencies}}" />
+            {{else}}
+                <div class="dev_milestone-container__body__readonly" id="perl_dependencies-txt">
+                   {{live.perl_dependencies}} 
+                </div>
+            {{/if}}
+        {{/unless}}
+
+        <div class="dev_milestone-container__body__label ia-single--header">
+            TOPICS
+        </div>
+        {{#unless future.in_development}}
+            {{#if permissions.can_edit}}
+                <input type="text" class="dev_milestone-container__body__input js-autocommit" id="repo-input" value="{{live.topic}}" />
+            {{else}}
+                <div class="dev_milestone-container__body__readonly" id="topic-txt">
+                   {{live.topic}} 
+                </div>
+            {{/if}}
+        {{/unless}}
+
+        <div class="dev_milestone-container__body__label ia-single--header">
+            TAB NAME
+        </div>
+        {{#unless future.in_development}}
+            {{#if permissions.admin}}
+                <input type="text" class="dev_milestone-container__body__input js-autocommit" id="repo-input" value="{{live.tab_name}}" />
+            {{else}}
+                <div class="dev_milestone-container__body__readonly" id="tab_name-txt">
+                   {{live.tab_name}} 
+                </div>
+            {{/if}}
+        {{/unless}}
+
+        <div class="dev_milestone-container__body__label ia-single--header">
+            TEMPLATE
+        </div>
+        {{#unless future.in_development}}
+            {{#if permissions.can_edit}}
+                <input type="text" class="dev_milestone-container__body__input js-autocommit" id="repo-input" value="{{live.template}}" />
+            {{else}}
+                <div class="dev_milestone-container__body__readonly" id="template-txt">
+                   {{live.template}} 
+                </div>
+            {{/if}}
+        {{/unless}}
+
         {{#if permissions.admin}}
             {{#if current.in_development}}
                 <div class="dev_milestone-container__body__complete js-complete button" id="complete-in_development">

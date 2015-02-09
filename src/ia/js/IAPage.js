@@ -124,7 +124,7 @@
                         $(this).children("i").toggleClass("icon-caret-down");
                     });
 
-                    $("body").on('click', ".dev_milestone-container__body__checkbox", function(evt) {
+                    $("body").on('click', ".dev_milestone-container__body__div__checkbox", function(evt) {
                         if ($(this).hasClass("js-autocommit")) {
                             var field = $.trim($(this).attr("id").replace("-check", ""));
                             var value;

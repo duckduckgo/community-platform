@@ -51,15 +51,66 @@
         {{/unless}}
 
         <div class="dev_milestone-container__body__label ia-single--header">
+            API TERMS
+        </div>
+        {{#unless future.planning}}
+            <div class="dev_milestone-container__body__div">
+                <i class="dev_milestone-container__body__div__checkbox {{#if permissions.can_edit}}js-autocommit{{/if}} icon-check{{#unless live.src_api_paid}}-empty{{/unless}}" id="src_api_paid-check"/>
+                <span class="dev_milestone-container__body__readonly check-txt">
+                    Paid
+                </span>
+            </div>
+        {{/unless}}
+
+        <div class="dev_milestone-container__body__label ia-single--header">
             SAFE SEARCH
         </div>
         {{#unless future.planning}}
             <div class="dev_milestone-container__body__div">
                 <i class="dev_milestone-container__body__div__checkbox {{#if permissions.can_edit}}js-autocommit{{/if}} icon-check{{#unless live.unsafe}}-empty{{/unless}}" id="unsafe-check"/>
-                <span class="dev_milestone-container__body__readonly" id="check-txt">
+                <span class="dev_milestone-container__body__readonly check-txt">
                     Unsafe
                 </span>
             </div>
+        {{/unless}}
+
+        <div class="dev_milestone-container__body__label ia-single--header">
+            PRODUCER
+        </div>
+        {{#unless future.planning}}
+            {{#if permissions.admin}}
+                <input type="text" class="dev_milestone-container__body__input js-autocommit" id="assignee-input" value="{{live.assignee}}" />
+            {{else}}
+                <div class="dev_milestone-container__body__readonly" id="assignee-txt">
+                    {{live.assignee}}
+                </div>
+            {{/if}}
+        {{/unless}}
+
+        <div class="dev_milestone-container__body__label ia-single--header">
+            DESIGNER
+        </div>
+        {{#unless future.planning}}
+            {{#if permissions.admin}}
+                <input type="text" class="dev_milestone-container__body__input js-autocommit" id="designer-input" value="{{live.designer}}" />
+            {{else}}
+                <div class="dev_milestone-container__body__readonly" id="designer-txt">
+                    {{live.designer}}
+                </div>
+            {{/if}}
+        {{/unless}}
+
+        <div class="dev_milestone-container__body__label ia-single--header">
+            DEVELOPER
+        </div>
+        {{#unless future.planning}}
+            {{#if permissions.can_edit}}
+                <input type="text" class="dev_milestone-container__body__input js-autocommit" id="developer-input" value="{{live.developer}}" />
+            {{else}}
+                <div class="dev_milestone-container__body__readonly" id="developer-txt">
+                    {{live.developer}}
+                </div>
+            {{/if}}
         {{/unless}}
 
         {{#if permissions.admin}}
