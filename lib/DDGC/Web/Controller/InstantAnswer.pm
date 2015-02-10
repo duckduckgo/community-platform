@@ -371,13 +371,32 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
             my $value = $c->req->params->{value};
             my $autocommit = $c->req->params->{autocommit};
             if ($autocommit) {
-                try {
-                    $ia->update({$field => $value});
+                if ($field eq "topic") {
+                    my @topic_values = $value? decode_json($value) : undef;
+                    $ia->instant_answer_topics->delete;
+
+                    for my $topic (@{$topic_values[0]}) {
+                        my $topic_id = $c->d->rs('Topic')->find({name => $topic});
+
+                        try {
+                            $ia->add_to_topics($topic_id);
+                            $result = 1;
+                        } catch {
+                            $c->d->errorlog("Error updating the database");
+                            return '';
+                        };
+                    }
+
                     $result = {$field => $value};
+                } else {
+                    try {
+                        $ia->update({$field => $value});
+                        $result = {$field => $value};
+                    }
+                    catch {
+                        $c->d->errorlog("Error updating the database");
+                    };
                 }
-                catch {
-                    $c->d->errorlog("Error updating the database");
-                };
             } else {
                 my $edits = add_edit($ia,  $field, $value);
 

@@ -137,7 +137,9 @@
                             $(this).toggleClass("icon-check-empty");
                             $(this).toggleClass("icon-check");
 
-                            autocommit(field, value, DDH_iaid);
+                            if (field && value) {
+                                autocommit(field, value, DDH_iaid);
+                            }
                         }
                     });
 
@@ -146,7 +148,14 @@
                             var field = $.trim($(this).attr("id").replace("-input", ""));
                             var value = $.trim($(this).val());
 
-                            autocommit(field, value, DDH_iaid);
+                            if ($(this).hasClass("comma-separated")) {
+                                value = value.split(",");
+                                value = JSON.stringify(value);
+                            }
+
+                            if (field && value) {
+                                autocommit(field, value, DDH_iaid);
+                            }
                         }
                     });
 

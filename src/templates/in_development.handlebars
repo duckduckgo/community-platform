@@ -35,7 +35,7 @@
         </div>
         {{#unless future.in_development}}
             {{#if permissions.can_edit}}
-                <input type="text" class="dev_milestone-container__body__input js-autocommit" id="repo-input" value="{{live.perl_dependencies}}" />
+                <input type="text" class="dev_milestone-container__body__input js-autocommit comma-separated" id="perl_dependencies-input" value="{{live.perl_dependencies}}" />
             {{else}}
                 <div class="dev_milestone-container__body__readonly" id="perl_dependencies-txt">
                    {{live.perl_dependencies}} 
@@ -48,7 +48,7 @@
         </div>
         {{#unless future.in_development}}
             {{#if permissions.can_edit}}
-                <input type="text" class="dev_milestone-container__body__input js-autocommit" id="repo-input" value="{{live.topic}}" />
+                <input type="text" class="dev_milestone-container__body__input js-autocommit comma-separated" id="topic-input" value="{{live.topic}}" />
             {{else}}
                 <div class="dev_milestone-container__body__readonly" id="topic-txt">
                    {{live.topic}} 
@@ -61,7 +61,7 @@
         </div>
         {{#unless future.in_development}}
             {{#if permissions.admin}}
-                <input type="text" class="dev_milestone-container__body__input js-autocommit" id="repo-input" value="{{live.tab_name}}" />
+                <input type="text" class="dev_milestone-container__body__input js-autocommit" id="tab_name-input" value="{{live.tab_name}}" />
             {{else}}
                 <div class="dev_milestone-container__body__readonly" id="tab_name-txt">
                    {{live.tab_name}} 
@@ -74,7 +74,7 @@
         </div>
         {{#unless future.in_development}}
             {{#if permissions.can_edit}}
-                <input type="text" class="dev_milestone-container__body__input js-autocommit" id="repo-input" value="{{live.template}}" />
+                <input type="text" class="dev_milestone-container__body__input js-autocommit" id="template-input" value="{{live.template}}" />
             {{else}}
                 <div class="dev_milestone-container__body__readonly" id="template-txt">
                    {{live.template}} 

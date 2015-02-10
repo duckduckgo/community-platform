@@ -29,7 +29,7 @@
         </div>
         {{#unless future.planning}}
             {{#if permissions.can_edit}}
-                <input type="text" class="dev_milestone-container__body__input js-autocommit" id="triggers-input" value="{{live.triggers}}" />
+                <input type="text" class="dev_milestone-container__body__input js-autocommit comma-separated" id="triggers-input" value="{{live.triggers}}" />
             {{else}}
                 <div class="dev_milestone-container__body__readonly" id="triggers-txt">
                     {{live.triggers}}
