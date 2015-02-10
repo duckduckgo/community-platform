@@ -161,8 +161,14 @@
 
                     $("body").on('click', ".js-complete.button", function(evt) {
                         var field = "dev_milestone";
-                        var value = page.dev_milestones_order[$.inArray(ia_data.live.dev_milestone, page.dev_milestones_order) + 1];
-
+                        var value;
+                        
+                        if (ia_data.live.dev_milestone === "ready") {
+                            value = "live";
+                        } else {
+                            value = page.dev_milestones_order[$.inArray(ia_data.live.dev_milestone, page.dev_milestones_order) + 1];
+                        }
+                        
                         autocommit(field, value, DDH_iaid);
                     });
 
@@ -306,6 +312,9 @@
                             autocommit: true
                         })
                         .done(function(data) {
+                            if (field === "dev_milestone") {
+                                location.reload();
+                            }
                         });
                     }
 

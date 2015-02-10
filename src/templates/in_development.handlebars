@@ -81,6 +81,22 @@
                 </div>
             {{/if}}
         {{/unless}}
+  
+        <div class="dev_milestone-container__body__label ia-single--header">
+            REVIEW
+        </div>
+        <div class="dev_milestone-container__body__div">
+            <i class="dev_milestone-container__body__div__checkbox {{#unless future.qa}}{{#if permissions.admin}}js-autocommit{{/if}}{{/unless}} icon-check{{#unless live.review.code}}-empty{{/unless}}" id="review_code-check"/>
+            <span class="dev_milestone-container__body__readonly check-txt">
+                Code looks good
+            </span>
+        </div>
+        <div class="dev_milestone-container__body__div">
+            <i class="dev_milestone-container__body__div__checkbox {{#unless future.qa}}{{#if permissions.admin}}js-autocommit{{/if}}{{/unless}} icon-check{{#unless live.review.layout}}-empty{{/unless}}" id="review_code-check"/>
+            <span class="dev_milestone-container__body__readonly check-txt">
+                Layout looks good
+            </span>
+        </div>
 
         {{#if permissions.admin}}
             {{#if current.in_development}}
