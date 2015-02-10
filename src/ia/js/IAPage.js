@@ -137,7 +137,7 @@
                             $(this).toggleClass("icon-check-empty");
                             $(this).toggleClass("icon-check");
 
-                            if (field && value) {
+                            if (field.length && value.length) {
                                 autocommit(field, value, DDH_iaid);
                             }
                         }
@@ -153,7 +153,9 @@
                                 value = JSON.stringify(value);
                             }
 
-                            if (field && value) {
+                            $(this).blur();
+
+                            if (field.length && value.length) {
                                 autocommit(field, value, DDH_iaid);
                             }
                         }
@@ -168,8 +170,10 @@
                         } else {
                             value = page.dev_milestones_order[$.inArray(ia_data.live.dev_milestone, page.dev_milestones_order) + 1];
                         }
-                        
-                        autocommit(field, value, DDH_iaid);
+                       
+                        if (value.length) { 
+                            autocommit(field, value, DDH_iaid);
+                        }
                     });
 
                     $(".special-permissions__toggle-view__button").on('click', function(evt) {
