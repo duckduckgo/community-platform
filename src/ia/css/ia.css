@@ -8,13 +8,14 @@
 }
 .special-permissions #edit_activate {
     margin-right: 0.7em;
+    margin-bottom: 0;
 }
 .special-permissions__toggle-view #toggle-edited {
     position:relative;
     margin-left: 1em;
 }
 .ia-single h3 {
-    margin-top: 1em;
+    margin-top: 0.2em;
 }
 .ia-single--edits #row-title {
     width: 98%;
@@ -718,6 +719,8 @@ body.texture {
     color: #333333;
     font-size: 2.3em;
     word-break: break-all;
+    display: inline-block;
+    margin-bottom: 0;
 }
 
 .ia-single p::first-letter {
@@ -1108,4 +1111,66 @@ body.texture {
     width: 21.5em;
     max-width: 21.5em;
     font-size: 1em;
+}
+
+.ia-single--name {
+    margin-bottom: 0.5em;
+}
+
+.ia-single--name .status {
+    display: inline-block;
+    margin-left: 0.5em;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+    font-size: 0.9em;
+    text-transform: capitalize;
+    margin-bottom: 0.15em;
+    vertical-align: super;
+    margin-bottom: 0;
+}
+
+.ia-single--name .status.status--live {
+    color: #4B9E4F;
+    border-color: #4B9E4F;
+} 
+
+.dev_milestone-container {
+    width: 23%;
+    min-height: 21em;
+    border: 1px solid rgb(225, 225, 225);
+    border-radius: 5px;
+    padding: 5px;
+    margin-right: 0.3em;
+}
+
+/* Set the height of the read-only fields so that 
+   the layout doesn't change when it switches to the input field */
+.dev_milestone-container__body__readonly {
+    min-height: 21px;
+}
+
+/* Small adjustment to the spacing between the labels in the dev page. */
+.ia-single .dev_milestone-container .ia-single--header {
+    margin-top: 2em;
+}
+
+.ia-single .dev_milestone-container.current-container {
+    border: 1px solid #5b9e4d;
+}
+
+.ia-single .dev_milestone-container.future-container {
+    background-color: #f2f2f2;
+}
+
+.ia-single .dev_milestone-container.future-container .dev_milestone-container__header {
+    color: #888;
+}
+
+.ia-single .dev_milestone-container__body__complete {
+    margin-top: 1em;
+}
+
+.ia-single .dev_milestone-container.future-container,
+.ia-single .docs-link-icon {
+    color: #AAA;
 }

@@ -171,6 +171,7 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
     my $edited;
     my @issues = $c->d->rs('InstantAnswer::Issues')->search({instant_answer_id => $ia->id});
     my @ia_issues;
+    my @ia_pr;
     my %ia_data;
     my $permissions;
     my $is_admin; 
@@ -182,7 +183,7 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
                     title => $issue->title,
                     body => $issue->body,
                     tags => $issue->tags? decode_json($issue->tags) : undef
-                });
+            });
         }
     }
 
@@ -204,22 +205,26 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
                 attribution => $ia->attribution? decode_json($ia->attribution) : undef,
                 issues => \@ia_issues,
                 template => $ia->template,
+                unsafe => $ia->unsafe,
+                src_api_documentation => $ia->src_api_documentation,
+                assignee => $ia->assignee,
+                tab => $ia->tab
     };
 
     if ($c->user) {
         $permissions = $c->stash->{ia}->users->find($c->user->id);
         $is_admin = $c->user->admin;
 
-        if ($is_admin || $permissions) {
+        if (($is_admin || $permissions) && ($ia->dev_milestone eq 'live')) {
             $edited = current_ia($c->d, $ia);
             $ia_data{edited} = {
-                name => $edited->{name},
-                description => $edited->{description},
-                status => $edited->{status},
-                example_query => $edited->{example_query},
-                other_queries => $edited->{other_queries}->{value},
-                topic => $edited->{topic},
-                dev_milestone => $edited->{dev_milestone},
+                    name => $edited->{name},
+                    description => $edited->{description},
+                    status => $edited->{status},
+                    example_query => $edited->{example_query},
+                    other_queries => $edited->{other_queries}->{value},
+                    topic => $edited->{topic},
+                    dev_milestone => $edited->{dev_milestone},
             };
         }
     }
@@ -364,15 +369,44 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
         if ($permissions || $is_admin) {
             my $field = $c->req->params->{field};
             my $value = $c->req->params->{value};
-            my $edits = add_edit($ia,  $field, $value);
+            my $autocommit = $c->req->params->{autocommit};
+            if ($autocommit) {
+                if ($field eq "topic") {
+                    my @topic_values = $value? decode_json($value) : undef;
+                    $ia->instant_answer_topics->delete;
 
-            try {
-                $ia->update({updates => $edits});
-                $result = {$field => $value, is_admin => $is_admin};
+                    for my $topic (@{$topic_values[0]}) {
+                        my $topic_id = $c->d->rs('Topic')->find({name => $topic});
+
+                        try {
+                            $ia->add_to_topics($topic_id);
+                        } catch {
+                            $c->d->errorlog("Error updating the database");
+                            return '';
+                        };
+                    }
+
+                    $result = {$field => $value};
+                } else {
+                    try {
+                        $ia->update({$field => $value});
+                        $result = {$field => $value};
+                    }
+                    catch {
+                        $c->d->errorlog("Error updating the database");
+                    };
+                }
+            } else {
+                my $edits = add_edit($ia,  $field, $value);
+
+                try {
+                    $ia->update({updates => $edits});
+                    $result = {$field => $value, is_admin => $is_admin};
+                }
+                catch {
+                    $c->d->errorlog("Error updating the database");
+                };
             }
-            catch {
-                $c->d->errorlog("Error updating the database");
-            };
         }
     }
 

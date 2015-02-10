@@ -1,0 +1,28 @@
+<div class="dev_milestone-container {{#if current.ready}}current-container{{/if}} {{#if future.ready}}future-container{{/if}} container-ready left" id="ready">
+    <div class="dev_milestone-container__header container-ready__header">
+        <h3 class="dev_milestone-container__header__title">
+            Ready
+        </h3>
+    </div>
+
+    <div class="dev_milestone-container__body">
+
+        <div class="dev_milestone-container__body__label ia-single--header">
+            DEPLOYMENT
+        </div>
+        <div class="dev_milestone-container__body__div">
+            <i class="dev_milestone-container__body__div__checkbox {{#unless future.ready}}{{#if permissions.can_edit}}js-autocommit{{/if}}{{/unless}} icon-check{{#unless live.is_live}}-empty{{/unless}}" id="is_live-check"/>
+            <span class="dev_milestone-container__body__readonly check-txt">
+                Deployed
+            </span>
+        </div>
+
+        {{#if permissions.admin}}
+            {{#if current.ready}}
+                <div class="dev_milestone-container__body__complete js-complete button" id="complete-ready">
+                    Mark as complete
+                </div>
+            {{/if}}
+        {{/if}}
+    </div>
+</div>
