@@ -380,7 +380,6 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
 
                         try {
                             $ia->add_to_topics($topic_id);
-                            $result = 1;
                         } catch {
                             $c->d->errorlog("Error updating the database");
                             return '';

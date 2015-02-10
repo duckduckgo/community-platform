@@ -149,7 +149,7 @@
                             var value = $.trim($(this).val());
 
                             if ($(this).hasClass("comma-separated")) {
-                                value = value.split(",");
+                                value = value.split(/\s*,\s*/);
                                 value = JSON.stringify(value);
                             }
 
