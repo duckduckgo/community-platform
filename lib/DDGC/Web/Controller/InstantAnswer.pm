@@ -211,7 +211,23 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
                 template => $ia->template,
                 unsafe => $ia->unsafe,
                 src_api_documentation => $ia->src_api_documentation,
-                assignee => $ia->assignee
+                producer => $ia->producer,
+                designer => $ia->designer,
+                developer => $ia->developer,
+                perl_dependencies => $ia->perl_dependencies,
+                code_review => $ia->code_review,
+                design_review => $ia->design_review,
+                test_machine => $ia->test_machine,
+                browsers_ie => $ia->browsers_ie,
+                browsers_chrome => $ia->browsers_chrome,
+                browsers_firefox => $ia->browsers_firefox,
+                browsers_opera => $ia->browsers_opera,
+                browsers_safari => $ia->browsers_safari,
+                mobile_android => $ia->mobile_android,
+                mobile_ios => $ia->mobile_ios,
+                tested_relevancy => $ia->tested_relevancy,
+                tested_staging => $ia->tested_staging,
+                is_live => $ia->is_live
     };
 
     if ($c->user) {
