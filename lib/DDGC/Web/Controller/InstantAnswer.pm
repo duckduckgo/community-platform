@@ -84,16 +84,19 @@ sub iarepo_json :Chained('iarepo') :PathPart('json') :Args(0) {
 
     my %iah;
 
-    for (@x) {
-        my $topics = $_->topic;
+    for my $ia (@x) {
+        my $topics = $ia->topic;
 
-        if ($_->example_query) {
-            $iah{$_->id} = {
-                    name => $_->name,
-                    id => $_->id,
-                    example_query => $_->example_query,
-                    repo => $_->repo,
-                    perl_module => $_->perl_module
+        if ($ia->example_query) {
+            $iah{$ia->id} = {
+                    name => $ia->name,
+                    id => $ia->id,
+                    example_query => $ia->example_query,
+                    repo => $ia->repo,
+                    perl_module => $ia->perl_module,
+                    tab => $ia->tab,
+                    description => $ia->description,
+                    status => $ia->status
             };
         }
     }
