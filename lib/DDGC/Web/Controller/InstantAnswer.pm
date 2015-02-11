@@ -215,6 +215,7 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
                 designer => $ia->designer,
                 developer => $ia->developer,
                 perl_dependencies => $ia->perl_dependencies,
+                triggers => $ia->triggers,
                 code_review => $ia->code_review,
                 design_review => $ia->design_review,
                 test_machine => $ia->test_machine,

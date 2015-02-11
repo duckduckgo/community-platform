@@ -86,13 +86,13 @@
             REVIEW
         </div>
         <div class="dev_milestone-container__body__div">
-            <i class="dev_milestone-container__body__div__checkbox {{#unless future.qa}}{{#if permissions.admin}}js-autocommit{{/if}}{{/unless}} icon-check{{#unless live.review.code}}-empty{{/unless}}" id="review_code-check"/>
+            <i class="dev_milestone-container__body__div__checkbox {{#unless future.in_development}}{{#if permissions.admin}}js-autocommit{{/if}}{{/unless}} icon-check{{#unless live.code_review}}-empty{{/unless}}" id="code_review-check"/>
             <span class="dev_milestone-container__body__readonly check-txt">
                 Code looks good
             </span>
         </div>
         <div class="dev_milestone-container__body__div">
-            <i class="dev_milestone-container__body__div__checkbox {{#unless future.qa}}{{#if permissions.admin}}js-autocommit{{/if}}{{/unless}} icon-check{{#unless live.review.layout}}-empty{{/unless}}" id="review_code-check"/>
+            <i class="dev_milestone-container__body__div__checkbox {{#unless future.in_development}}{{#if permissions.admin}}js-autocommit{{/if}}{{/unless}} icon-check{{#unless live.design_review}}-empty{{/unless}}" id="design_review-check"/>
             <span class="dev_milestone-container__body__readonly check-txt">
                 Layout looks good
             </span>

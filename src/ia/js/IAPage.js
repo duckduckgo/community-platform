@@ -137,7 +137,7 @@
                             $(this).toggleClass("icon-check-empty");
                             $(this).toggleClass("icon-check");
 
-                            if (field.length && value.length) {
+                            if (field.length) {
                                 autocommit(field, value, DDH_iaid);
                             }
                         }
