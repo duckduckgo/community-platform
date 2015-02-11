@@ -189,11 +189,15 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
 
     my $other_queries = $ia->other_queries? decode_json($ia->other_queries) : undef;
 
+    # Need to get the lowercase tab name and remove spaces for the example links
+    my $tab = lc($ia->tab);
+    $tab =~ s/\s//g;
+
     $ia_data{live} =  {
                 id => $ia->id,
                 name => $ia->name,
                 description => $ia->description,
-                tab => $ia->tab,
+                tab => $tab,
                 status => $ia->status,
                 repo => $ia->repo,
                 dev_milestone => $ia->dev_milestone,
@@ -207,8 +211,7 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
                 template => $ia->template,
                 unsafe => $ia->unsafe,
                 src_api_documentation => $ia->src_api_documentation,
-                assignee => $ia->assignee,
-                tab => $ia->tab
+                assignee => $ia->assignee
     };
 
     if ($c->user) {
@@ -225,6 +228,7 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
                     other_queries => $edited->{other_queries}->{value},
                     topic => $edited->{topic},
                     dev_milestone => $edited->{dev_milestone},
+                    tab => $edited->{tab}
             };
         }
     }
