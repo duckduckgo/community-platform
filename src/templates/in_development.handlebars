@@ -61,10 +61,10 @@
         </div>
         {{#unless future.in_development}}
             {{#if permissions.admin}}
-                <input type="text" class="dev_milestone-container__body__input js-autocommit" id="tab_name-input" value="{{live.tab_name}}" />
+                <input type="text" class="dev_milestone-container__body__input js-autocommit" id="tab-input" value="{{live.tab}}" />
             {{else}}
-                <div class="dev_milestone-container__body__readonly" id="tab_name-txt">
-                   {{live.tab_name}} 
+                <div class="dev_milestone-container__body__readonly" id="tab-txt">
+                   {{live.tab}} 
                 </div>
             {{/if}}
         {{/unless}}
