@@ -28,6 +28,21 @@ sub _build_categories {
 	return $cats;
 }
 
+has notification_cycles => (
+	isa => 'ArrayRef',
+	is => 'ro',
+	required => 1,
+	lazy_build => 1,
+);
+sub _build_notification_cycles {
+	+[
+		{ value => 0, name => "Never" },
+		{ value => 2, name => "Hourly" },
+		{ value => 3, name => "Daily" },
+		{ value => 4, name => "Weekly" },
+	];
+}
+
 # Describe notification types
 #   - applies_to  - entity the notification applies to, for filtering
 #   - process     - a code ref, check if entity matches criteria, generate events
