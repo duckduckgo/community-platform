@@ -626,6 +626,19 @@ sub get_coupon {
 	return $coupon->coupon;
 }
 
+sub add_subscription {
+	my ( $self, $subscription_id, $cycle, $target_object_id) = @_;
+	$self->update_or_create_related('subscriptions', {
+			subscription_id    => $subscription_id,
+			target_object_id   => $target_object_id // 0,
+			notification_cycle => $cycle,
+		}
+	)
+}
+
+sub add_default_subscriptions {
+}
+
 sub check_password {
 	my ( $self, $password ) = @_;
 	return 1 unless $self->ddgc->config->prosody_running;
