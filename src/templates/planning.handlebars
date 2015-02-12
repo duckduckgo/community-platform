@@ -65,10 +65,10 @@
         </div>
         {{#unless future.planning}}
             {{#if permissions.admin}}
-                <input type="text" class="dev_milestone-container__body__input js-autocommit" id="assignee-input" value="{{live.assignee}}" />
+                <input type="text" class="dev_milestone-container__body__input js-autocommit" id="producer-input" value="{{live.producer}}" />
             {{else}}
-                <div class="dev_milestone-container__body__readonly" id="assignee-txt">
-                    {{live.assignee}}
+                <div class="dev_milestone-container__body__readonly" id="producer-txt">
+                    {{live.producer}}
                 </div>
             {{/if}}
         {{/unless}}

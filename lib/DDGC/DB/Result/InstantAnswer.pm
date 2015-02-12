@@ -34,10 +34,22 @@ column perl_module => {
 	is_nullable => 1,
 };
 
+# JSON array of dependencies
+column perl_dependencies => {
+    data_type => 'text',
+    is_nullable => 1,
+};
+
 # idea, planning, alpha, beta, qa, ready, live, disabled
 column dev_milestone => {
 	data_type => 'text',
 	is_nullable => 1,
+};
+
+# is the IA live or not live?
+column is_live => {
+    data_type => 'integer',
+    is_nullable => 1,
 };
 
 # JSON associative array of dates when milestones reached { idea: "date", planning: "date" , .. }
@@ -100,6 +112,12 @@ column screenshot => {
 	is_nullable => 1,
 };
 
+# JSON array of mockups urls
+column mockups => {
+    data_type => 'text',
+    is_nullable => 1,
+};
+
 # eg 'info', broad brush for v1.
 column template_group => {
 	data_type => 'text',
@@ -110,6 +128,12 @@ column template_group => {
 column custom_templates => {
 	data_type => 'text',
 	is_nullable => 1,
+};
+
+# JSON array of triggers
+column triggers => {
+    data_type => 'text',
+    is_nullable => 1,
 };
 
 # primary example query
@@ -179,9 +203,93 @@ column type => {
     is_nullable => 1,
 };
 
-# IA sponsor
-column assignee => {
+# IA producer (must be an admin)
+column producer => {
     data_type => 'text',
+    is_nullable => 1,
+};
+
+# IA designer (must be an admin)
+column designer => {
+    data_type => 'text',
+    is_nullable => 1,
+};
+
+# IA developer
+column developer => {
+    data_type => 'text',
+    is_nullable => 1,
+};
+
+# code review (can be completed, aka '1', or not completed, aka '0')
+column code_review => {
+    data_type => 'integer',
+    is_nullalbe => 1,
+};
+
+# design review (can be completed, aka '1', or not completed, aka '0')
+column design_review => {
+    data_type => 'integer',
+    is_nullalbe => 1,
+};
+
+# name of the test machine on which the IA is on when in QA
+column test_machine => {
+    data_type => 'text',
+    is_nullable => 1,
+};
+
+# test results on IE 8
+column browsers_ie => {
+    data_type => 'integer',
+    is_nullable => 1,
+};
+
+# test results on Google Chrome
+column browsers_chrome => {
+    data_type => 'integer',
+    is_nullable => 1,
+};
+
+# test results on Firefox
+column browsers_firefox => {
+    data_type => 'integer',
+    is_nullable => 1,
+};
+
+# test results on Safari
+column browsers_safari => {
+    data_type => 'integer',
+    is_nullable => 1,
+};
+
+# test results on Opera
+column browsers_opera => {
+    data_type => 'integer',
+    is_nullable => 1,
+};
+
+# test results on Android
+column mobile_android => {
+    data_type => 'integer',
+    is_nullable => 1,
+};
+
+# test results on iOS
+column mobile_ios => {
+    data_type => 'integer',
+    is_nullable => 1,
+};
+
+# test results for relevancy
+column tested_relevancy => {
+    data_type => 'integer',
+    is_nullable => 1,
+};
+
+# test results on staging machine
+column tested_staging => {
+    data_type => 'integer',
     is_nullable => 1,
 };
 
