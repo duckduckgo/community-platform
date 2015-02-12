@@ -51,7 +51,8 @@ sub edit :Chained('base') :Args(0) {
 		}
 		$c->user->update;
 	}
-	$c->stash->{user_notification_group_values} = $c->user->user_notification_group_values;
+	$c->stash->{categories} = $c->d->subscriptions->categories;
+	$c->stash->{subscriptions} = $c->d->subscriptions->subscriptions;
 }
 
 sub following :Chained('base') :Args(0) {
