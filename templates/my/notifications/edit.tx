@@ -6,7 +6,10 @@
 <: include my::notifications::noemail :>
 <div class="notice warning">
 	<i class="icn icon-spam"></i>
-	Notifications are sent from <b>envoy@dukgo.com</b>. Please add this email to your contact list, or update your "safe senders" list in your email account. This will ensure these notifications won't end up in your spam folder or a black hole.
+	Notifications are sent from <b>envoy@dukgo.com</b>. Please add this email
+	to your contact list, or update your "safe senders" list in your email
+	account. This will ensure these notifications won't end up in your spam
+	folder or a black hole.
 </div>
 
 <form action="<: $u('My::Notifications','edit') :>" method="post" class="column-form">
@@ -17,7 +20,11 @@
 <: my $notification_count = $undone_notifications_count || $c.user.undone_notifications_count :>
 <div class="content-box">
 	<div class="head">
-		<h3>How often would you like to be notified about ...<a class="icn icn--sup" href="<: $u('Blog','post','notification-system') :>" title="Get more information about the notification system"><i class="icon-question-sign"></i></a></h3>
+		<h3>How often would you like to be notified about ...
+		<a class="icn icn--sup" href="<: $u('Blog','post','notification-system') :>"
+		   title="Get more information about the notification system">
+			<i class="icon-question-sign"></i>
+		 </a></h3>
 	</div>
 	<div class="body">
 		<div class="row callout-row">
