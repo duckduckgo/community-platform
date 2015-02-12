@@ -143,8 +143,14 @@
                         }
                     });
 
-                    $("body").on('keypress', ".dev_milestone-container__body__input.js-autocommit", function(evt) {
-                        if (evt.type === 'keypress' && evt.which === 13) {
+                    $("body").on("focusin", ".dev_milestone-container__body__input.js-autocommit", function(evt) {
+                        if (!$(this).hasClass("js-autocommit-focused")) {
+                            $(this).addClass("js-autocommit-focused");
+                        }
+                    });
+
+                    $("body").on('keypress focusout', ".dev_milestone-container__body__input.js-autocommit-focused", function(evt) {
+                        if ((evt.type === 'keypress' && evt.which === 13) || (evt.type === "focusout")) {
                             var field = $.trim($(this).attr("id").replace("-input", ""));
                             var value = $.trim($(this).val());
 
@@ -153,7 +159,11 @@
                                 value = JSON.stringify(value);
                             }
 
-                            $(this).blur();
+                            if (evt.type === 'keypress') {
+                                $(this).blur();
+                            }
+
+                            $(this).removeClass("js-autocommit-focused");
 
                             if (field.length && value.length) {
                                 autocommit(field, value, DDH_iaid);
