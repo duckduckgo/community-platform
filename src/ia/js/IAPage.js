@@ -46,14 +46,6 @@
 
                 $.getJSON("/ia/view/" + DDH_iaid + "/json", function(ia_data) {
 
-                    // Show latest edits for admins and users with edit permissions
-                    var latest_edits_data = {};
-                    if (ia_data.edited) {
-                        latest_edits_data = page.updateData(ia_data, latest_edits_data, true);
-                    } else {
-                        latest_edits_data = ia_data.live;
-                    }
-
                     if (ia_data.live.dev_milestone !== "live") {
                         if ($(".special-permissions").length) {
                             $(".special-permissions, .special-permissions__toggle-view").hide();
@@ -75,6 +67,19 @@
                         }
 
                         ia_data.future = future;
+                    } else {
+                        if (ia_data.live.tab) {
+                            // On the live static page we use the tab name for the example links
+                            ia_data.live.tab = ia_data.live.tab.toLowerCase().replace(/\s/g, "");
+                        }
+
+                        // Show latest edits for admins and users with edit permissions
+                        var latest_edits_data = {};
+                        if (ia_data.edited) {
+                            latest_edits_data = page.updateData(ia_data, latest_edits_data, true);
+                        } else {
+                            latest_edits_data = ia_data.live;
+                        }
                     }
 
                     // Readonly mode templates
