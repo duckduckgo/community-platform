@@ -84,18 +84,30 @@ sub iarepo_json :Chained('iarepo') :PathPart('json') :Args(0) {
 
     my %iah;
 
-    for (@x) {
-        my $topics = $_->topic;
+    for my $ia (@x) {
+        my $topics = $ia->topic;
 
-        if ($_->example_query) {
-            $iah{$_->id} = {
-                    name => $_->name,
-                    id => $_->id,
-                    example_query => $_->example_query,
-                    repo => $_->repo,
-                    perl_module => $_->perl_module
-            };
+
+        $iah{$ia->id} = {
+                name => $ia->name,
+                id => $ia->id,
+                example_query => $ia->example_query,
+                repo => $ia->repo,
+                perl_module => $ia->perl_module,
+                tab => $ia->tab,
+                description => $ia->description,
+                status => $ia->status
+        };
+
+        # fathead specific
+        # TODO: do we need src_domain ?
+
+        my $src_options = $ia->src_options;
+        if ($src_options ) {
+            $iah{$ia->id}{src_options} = decode_json($src_options);
         }
+
+        $iah{$ia->id}{src_id} = $ia->src_id if $ia->src_id;
     }
 
     $c->stash->{x} = \%iah;
