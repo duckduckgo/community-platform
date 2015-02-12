@@ -22,8 +22,8 @@ sub _build_categories {
 	my ( $self ) = @_;
 	my $subs = $self->subscriptions;
 	my $cats;
-	for my $sub (keys $subs) {
-		push @{ $cats->{ $subs->{ $sub }->category } }, $sub;
+	for my $sub (sort keys $subs) {
+		push @{ $cats->{ $subs->{ $sub }->{category} } }, $sub;
 	}
 	return $cats;
 }
