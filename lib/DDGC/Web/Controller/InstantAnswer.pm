@@ -408,6 +408,23 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
                     }
 
                     $result = {$field => $value};
+                } elsif ($field eq "producer" || $field eq "designer" || $field eq "developer") {
+                    my $complat_user = $c->d->rs('User')->find({username => $value});
+
+                    if ($complat_user) {
+                        my $complat_user_admin = $complat_user->admin;
+
+                        if ((($field eq "producer" || $field eq "designer") && ($complat_user_admin))
+                            || ($field eq "developer")) {
+                            try {
+                                $ia->update({$field => $value});
+                                $result = {$field => $value};
+                            }
+                            catch {
+                                $c->d->errorlog("Error updating the database");
+                            };
+                        }
+                    }
                 } else {
                     try {
                         $ia->update({$field => $value});
