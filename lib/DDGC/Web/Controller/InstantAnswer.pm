@@ -202,7 +202,7 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
     my $other_queries = $ia->other_queries? decode_json($ia->other_queries) : undef;
 
     # Need to get the lowercase tab name and remove spaces for the example links
-    my $tab = lc($ia->tab);
+    my $tab = $ia->tab? lc($ia->tab) : '';
     $tab =~ s/\s//g;
 
     $ia_data{live} =  {
