@@ -154,7 +154,7 @@
                             var field = $.trim($(this).attr("id").replace("-input", ""));
                             var value = $.trim($(this).val());
 
-                            if ($(this).hasClass("comma-separated")) {
+                            if ($(this).hasClass("comma-separated") && value.length) {
                                 value = value.split(/\s*,\s*/);
                                 value = JSON.stringify(value);
                             }
