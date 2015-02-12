@@ -183,6 +183,7 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
     my $edited;
     my @issues = $c->d->rs('InstantAnswer::Issues')->search({instant_answer_id => $ia->id});
     my @ia_issues;
+    my %pull_request;
     my @ia_pr;
     my %ia_data;
     my $permissions;
@@ -190,12 +191,21 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
 
     for my $issue (@issues) {
         if ($issue) {
-            push(@ia_issues, {
+            if ($issue->is_pr) {
+               %pull_request = (
+                    id => $issue->issue_id,
+                    title => $issue->title,
+                    body => $issue->body,
+                    tags => $issue->tags? decode_json($issue->tags) : undef
+               );
+            } else {
+                push(@ia_issues, {
                     issue_id => $issue->issue_id,
                     title => $issue->title,
                     body => $issue->body,
                     tags => $issue->tags? decode_json($issue->tags) : undef
-            });
+                });
+            }
         }
     }
 
@@ -220,6 +230,7 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
                 topic => \@topics,
                 attribution => $ia->attribution? decode_json($ia->attribution) : undef,
                 issues => \@ia_issues,
+                pr => \%pull_request,
                 template => $ia->template,
                 unsafe => $ia->unsafe,
                 src_api_documentation => $ia->src_api_documentation,
