@@ -193,7 +193,7 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
         if ($issue) {
             if ($issue->is_pr) {
                %pull_request = (
-                    issue_id => $issue->issue_id,
+                    id => $issue->issue_id,
                     title => $issue->title,
                     body => $issue->body,
                     tags => $issue->tags? decode_json($issue->tags) : undef
