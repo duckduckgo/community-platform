@@ -10,6 +10,7 @@ use HTTP::Tiny;
 use Data::Dumper;
 use Try::Tiny;
 use Net::GitHub;
+use Encode qw(decode_utf8);
 my $d = DDGC->new;
 
 # JSON response from GH API
@@ -44,9 +45,9 @@ sub getIssues{
 
             # get the IA name from the link in the first comment
 			# Update this later for whatever format we decide on
-			my $link = '';
+			my $name_from_link = '';
             if($issue->{'body'} =~ /(http(s)?:\/\/(duck\.co|duckduckgo.com))?\/ia\/(view)?\/(\w+)/im){
-				$link = $5;
+				$name_from_link = $5;
 			}
 			# remove special chars from title and body
 			$issue->{'body'} =~ s/\'//g;
@@ -55,17 +56,20 @@ sub getIssues{
 			# get repo name
 			$repo =~ s/zeroclickinfo-//;
 
+            my $is_pr = exists $issue->{pull_request} ? 1 : 0;
+
 			# add entry to result array
-			my @entry = (
-				$link || '',
-				$repo || '',
-				$issue->{'number'} || '',
-				$issue->{'title'} || '',
-				$issue->{'body'} || '',
-				encode_json($issue->{'labels'}) || '',
-				$issue->{'created_at'} || ''
+			my %entry = (
+			    name => $name_from_link || '',
+				repo => $repo || '',
+				issue_id => $issue->{'number'} || '',
+				title => decode_utf8($issue->{'title'}) || '',
+				body => decode_utf8($issue->{'body'}) || '',
+				tags => encode_json($issue->{'labels'}) || '',
+				created => $issue->{'created_at'} || '',
+                is_pr => $is_pr,
 			);
-			push(@results, \@entry);
+			push(@results, \%entry);
 		}
 	}
     #  warn Dumper @results;
@@ -74,20 +78,20 @@ sub getIssues{
 my $update = sub {
     $d->rs('InstantAnswer::Issues')->delete_all();
 
-    foreach (@results){
-        my ($id, $repo, $issue, $title, $body, $tags) = @$_;
-
+    foreach my $result (@results){
         # check if the IA is in our table so we dont die on a foreign key error
-        $ia = $d->rs('InstantAnswer')->find($id);
-        if($id && $issue  && $ia){
+        $ia = $d->rs('InstantAnswer')->find( $result->{name});
+
+        if(exists $result->{name} && $ia){
             $d->rs('InstantAnswer::Issues')->create(
             {
-                instant_answer_id => $id,
-                repo => $repo,
-                issue_id => $issue,
-                title => $title,
-                body => $body,
-                tags => $tags,
+                instant_answer_id => $result->{name},
+                repo => $result->{repo},
+                issue_id => $result->{issue_id},
+                title => $result->{title},
+                body => $result->{body},
+                tags => $result->{tags},
+                is_pr => $result->{is_pr},
 	        });
 
         }

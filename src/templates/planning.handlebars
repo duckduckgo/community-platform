@@ -1,0 +1,110 @@
+<div class="dev_milestone-container {{#if current.planning}}current-container{{/if}} {{#if future.planning}}future-container{{/if}} container-planning left" id="planning">
+    <div class="dev_milestone-container__header container-planning__header">
+        <h3 class="dev_milestone-container__header__title">
+            Planning
+        </h3>
+    </div>
+
+    <div class="dev_milestone-container__body container-planning__body">
+        <div class="dev_milestone-container__body__label ia-single--header">
+            REPO
+        </div>
+        {{#unless future.planning}}
+            {{#if permissions.can_edit}}
+                <input type="text" class="dev_milestone-container__body__input js-autocommit" id="repo-input" value="{{live.repo}}" />
+            {{else}}
+                <div class="dev_milestone-container__body__readonly" id="repo-txt">
+                    <a class="dev_milestone-container__body__readonly__a" href="https://github.com/duckduckgo/zeroclickinfo-{{live.repo}}">
+                        {{live.repo}}
+                    </a>
+                    <a class="dev_milestone-container__body__readonly__a docs-link" href="https://duck.co/duckduckhack/{{live.repo}}_overview">
+                        <i class="dev_milestone-container__body__readonly__a__icon docs-link-icon icon-question-sign" />
+                    </a>
+                </div>
+            {{/if}}
+        {{/unless}}
+
+        <div class="dev_milestone-container__body__label ia-single--header">
+            TRIGGERS
+        </div>
+        {{#unless future.planning}}
+            {{#if permissions.can_edit}}
+                <input type="text" class="dev_milestone-container__body__input js-autocommit comma-separated" id="triggers-input" value="{{live.triggers}}" />
+            {{else}}
+                <div class="dev_milestone-container__body__readonly" id="triggers-txt">
+                    {{live.triggers}}
+                </div>
+            {{/if}}
+        {{/unless}}
+
+        <div class="dev_milestone-container__body__label ia-single--header">
+            API DOCUMENTATION
+        </div>
+        {{#unless future.planning}}
+            {{#if permissions.can_edit}}
+                <input type="text" class="dev_milestone-container__body__input js-autocommit" id="src_api_documentation-input" value="{{live.src_api_docs}}" />
+            {{else}}
+                <div class="dev_milestone-container__body__readonly" id="src_api_documentation-txt">
+                    {{live.src_api_docs}}
+                </div>
+            {{/if}}
+        {{/unless}}
+
+        <div class="dev_milestone-container__body__label ia-single--header">
+            SAFE SEARCH
+        </div>
+        <div class="dev_milestone-container__body__div">
+            <i class="dev_milestone-container__body__div__checkbox {{#unless future.planning}}{{#if permissions.can_edit}}js-autocommit{{/if}}{{/unless}} icon-check{{#unless live.unsafe}}-empty{{/unless}}" id="unsafe-check"/>
+            <span class="dev_milestone-container__body__readonly check-txt">
+                Unsafe
+            </span>
+        </div>
+
+        <div class="dev_milestone-container__body__label ia-single--header">
+            PRODUCER
+        </div>
+        {{#unless future.planning}}
+            {{#if permissions.admin}}
+                <input type="text" class="dev_milestone-container__body__input js-autocommit" id="producer-input" value="{{live.producer}}" />
+            {{else}}
+                <div class="dev_milestone-container__body__readonly" id="producer-txt">
+                    {{live.producer}}
+                </div>
+            {{/if}}
+        {{/unless}}
+
+        <div class="dev_milestone-container__body__label ia-single--header">
+            DESIGNER
+        </div>
+        {{#unless future.planning}}
+            {{#if permissions.admin}}
+                <input type="text" class="dev_milestone-container__body__input js-autocommit" id="designer-input" value="{{live.designer}}" />
+            {{else}}
+                <div class="dev_milestone-container__body__readonly" id="designer-txt">
+                    {{live.designer}}
+                </div>
+            {{/if}}
+        {{/unless}}
+
+        <div class="dev_milestone-container__body__label ia-single--header">
+            DEVELOPER
+        </div>
+        {{#unless future.planning}}
+            {{#if permissions.can_edit}}
+                <input type="text" class="dev_milestone-container__body__input js-autocommit" id="developer-input" value="{{live.developer}}" />
+            {{else}}
+                <div class="dev_milestone-container__body__readonly" id="developer-txt">
+                    {{live.developer}}
+                </div>
+            {{/if}}
+        {{/unless}}
+
+        {{#if permissions.admin}}
+            {{#if current.planning}}
+                <div class="dev_milestone-container__body__complete js-complete button" id="complete-planning">
+                    Mark as complete
+                </div>
+            {{/if}}
+        {{/if}}
+    </div>
+</div>

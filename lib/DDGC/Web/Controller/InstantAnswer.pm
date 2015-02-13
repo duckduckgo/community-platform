@@ -84,18 +84,30 @@ sub iarepo_json :Chained('iarepo') :PathPart('json') :Args(0) {
 
     my %iah;
 
-    for (@x) {
-        my $topics = $_->topic;
+    for my $ia (@x) {
+        my $topics = $ia->topic;
 
-        if ($_->example_query) {
-            $iah{$_->id} = {
-                    name => $_->name,
-                    id => $_->id,
-                    example_query => $_->example_query,
-                    repo => $_->repo,
-                    perl_module => $_->perl_module
-            };
+
+        $iah{$ia->id} = {
+                name => $ia->name,
+                id => $ia->id,
+                example_query => $ia->example_query,
+                repo => $ia->repo,
+                perl_module => $ia->perl_module,
+                tab => $ia->tab,
+                description => $ia->description,
+                status => $ia->status
+        };
+
+        # fathead specific
+        # TODO: do we need src_domain ?
+
+        my $src_options = $ia->src_options;
+        if ($src_options ) {
+            $iah{$ia->id}{src_options} = decode_json($src_options);
         }
+
+        $iah{$ia->id}{src_id} = $ia->src_id if $ia->src_id;
     }
 
     $c->stash->{x} = \%iah;
@@ -171,18 +183,29 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
     my $edited;
     my @issues = $c->d->rs('InstantAnswer::Issues')->search({instant_answer_id => $ia->id});
     my @ia_issues;
+    my %pull_request;
+    my @ia_pr;
     my %ia_data;
     my $permissions;
     my $is_admin; 
 
     for my $issue (@issues) {
         if ($issue) {
-            push(@ia_issues, {
+            if ($issue->is_pr) {
+               %pull_request = (
+                    id => $issue->issue_id,
+                    title => $issue->title,
+                    body => $issue->body,
+                    tags => $issue->tags? decode_json($issue->tags) : undef
+               );
+            } else {
+                push(@ia_issues, {
                     issue_id => $issue->issue_id,
                     title => $issue->title,
                     body => $issue->body,
                     tags => $issue->tags? decode_json($issue->tags) : undef
                 });
+            }
         }
     }
 
@@ -203,23 +226,45 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
                 topic => \@topics,
                 attribution => $ia->attribution? decode_json($ia->attribution) : undef,
                 issues => \@ia_issues,
+                pr => \%pull_request,
                 template => $ia->template,
+                unsafe => $ia->unsafe,
+                src_api_documentation => $ia->src_api_documentation,
+                producer => $ia->producer,
+                designer => $ia->designer,
+                developer => $ia->developer,
+                perl_dependencies => $ia->perl_dependencies? decode_json($ia->perl_dependencies) : undef,
+                triggers => $ia->triggers? decode_json($ia->triggers) : undef,
+                code_review => $ia->code_review,
+                design_review => $ia->design_review,
+                test_machine => $ia->test_machine,
+                browsers_ie => $ia->browsers_ie,
+                browsers_chrome => $ia->browsers_chrome,
+                browsers_firefox => $ia->browsers_firefox,
+                browsers_opera => $ia->browsers_opera,
+                browsers_safari => $ia->browsers_safari,
+                mobile_android => $ia->mobile_android,
+                mobile_ios => $ia->mobile_ios,
+                tested_relevancy => $ia->tested_relevancy,
+                tested_staging => $ia->tested_staging,
+                is_live => $ia->is_live
     };
 
     if ($c->user) {
         $permissions = $c->stash->{ia}->users->find($c->user->id);
         $is_admin = $c->user->admin;
 
-        if ($is_admin || $permissions) {
+        if (($is_admin || $permissions) && ($ia->dev_milestone eq 'live')) {
             $edited = current_ia($c->d, $ia);
             $ia_data{edited} = {
-                name => $edited->{name},
-                description => $edited->{description},
-                status => $edited->{status},
-                example_query => $edited->{example_query},
-                other_queries => $edited->{other_queries}->{value},
-                topic => $edited->{topic},
-                dev_milestone => $edited->{dev_milestone},
+                    name => $edited->{name},
+                    description => $edited->{description},
+                    status => $edited->{status},
+                    example_query => $edited->{example_query},
+                    other_queries => $edited->{other_queries}->{value},
+                    topic => $edited->{topic},
+                    dev_milestone => $edited->{dev_milestone},
+                    tab => $edited->{tab}
             };
         }
     }
@@ -364,15 +409,61 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
         if ($permissions || $is_admin) {
             my $field = $c->req->params->{field};
             my $value = $c->req->params->{value};
-            my $edits = add_edit($ia,  $field, $value);
+            my $autocommit = $c->req->params->{autocommit};
+            if ($autocommit) {
+                if ($field eq "topic") {
+                    my @topic_values = $value? decode_json($value) : undef;
+                    $ia->instant_answer_topics->delete;
 
-            try {
-                $ia->update({updates => $edits});
-                $result = {$field => $value, is_admin => $is_admin};
+                    for my $topic (@{$topic_values[0]}) {
+                        my $topic_id = $c->d->rs('Topic')->find({name => $topic});
+
+                        try {
+                            $ia->add_to_topics($topic_id);
+                        } catch {
+                            $c->d->errorlog("Error updating the database");
+                            return '';
+                        };
+                    }
+
+                    $result = {$field => $value};
+                } elsif ($field eq "producer" || $field eq "designer" || $field eq "developer") {
+                    my $complat_user = $c->d->rs('User')->find({username => $value});
+
+                    if ($complat_user) {
+                        my $complat_user_admin = $complat_user->admin;
+
+                        if ((($field eq "producer" || $field eq "designer") && ($complat_user_admin))
+                            || ($field eq "developer")) {
+                            try {
+                                $ia->update({$field => $value});
+                                $result = {$field => $value};
+                            }
+                            catch {
+                                $c->d->errorlog("Error updating the database");
+                            };
+                        }
+                    }
+                } else {
+                    try {
+                        $ia->update({$field => $value});
+                        $result = {$field => $value};
+                    }
+                    catch {
+                        $c->d->errorlog("Error updating the database");
+                    };
+                }
+            } else {
+                my $edits = add_edit($ia,  $field, $value);
+
+                try {
+                    $ia->update({updates => $edits});
+                    $result = {$field => $value, is_admin => $is_admin};
+                }
+                catch {
+                    $c->d->errorlog("Error updating the database");
+                };
             }
-            catch {
-                $c->d->errorlog("Error updating the database");
-            };
         }
     }
 

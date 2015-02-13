@@ -191,11 +191,6 @@ sub add_user_translation {
 			username => $user->username,
 		})->first;
 		unless ($found) {
-			$self->search_related('token_language_translations',{
-				'token_language_translation_votes.id' => undef,
-			},{
-				join => [qw( token_language_translation_votes )]
-			})->delete;
 			my $plurals=$self->max_msgstr_index;
 			for (my $i = $plurals; $i > -1; $i--) {
 				return 0 unless $translation->{'msgstr'.$i};

@@ -1,9 +1,5 @@
-<div id="topics">
-    {{#each topic}}
-        <div class="button ia_topic">
-            <a href="/ia/topic/{{encodeURIComponent this}}" title="See all IAs with the same topic">
-                {{this}}
-            </a>
-        </div> 
-    {{/each}}
+<div class="topic-labels">
+  {{#each topic}}
+    <span class="btn--wire topic ia-single--topic">{{this}}</span>
+  {{/each}}
 </div>

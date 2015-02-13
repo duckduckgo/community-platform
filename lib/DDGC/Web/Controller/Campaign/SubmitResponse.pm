@@ -64,7 +64,7 @@ sub respond : Chained('base') : PathPart('respond') : Args(0) {
 	my $confidence = confidence(@languages);
 
 
-	if ( $response_length < $campaign->{min_length} + 10 ) {
+	if ( $response_length < $campaign->{min_length} + 20 ) {
 		$flag_response = 1;
 		if ( $response_length < $campaign->{min_length} ) {
 			$short_response = 1;
@@ -89,7 +89,10 @@ sub respond : Chained('base') : PathPart('respond') : Args(0) {
 		return $c->detach;
 	}
 
+	my $subject_extra = '';
 	if ($campaign_name eq 'share') {
+		($language ne "en" || $confidence < 0.57) && ($subject_extra = '** POSSIBLE SPAM ** ');
+		($flag_response) && ($subject_extra = '** SHORT RESPONSE ** ');
 		my $report_url = $c->chained_uri( 'Admin::Campaign', 'bad_user_response', { user => $username, campaign => $campaign_name} );
 		$c->stash->{'extra'} = <<"BAD_RESPONSE_LINK"
 		Language: $language, Confidence: $confidence<br />
@@ -99,10 +102,7 @@ sub respond : Chained('base') : PathPart('respond') : Args(0) {
 BAD_RESPONSE_LINK
 	}
 
-	my $subject =
-		(($flag_response)? "** SHORT RESPONSE ** " : "" ) .
-		(($language ne "en" || $confidence < 0.65)? "** POSSIBLE SPAM ** " : "") .
-		"$campaign_name response from $username";
+	my $subject = "${subject_extra}$campaign_name response from $username";
 	my $error = 0;
 	try {
 		$c->d->postman->template_mail(
