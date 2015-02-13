@@ -5,13 +5,6 @@
 <div class="content-box">
 	<div class="head">
 		<h2>Your Notifications</h2>
-		<span class="button-group pull-right">			
-		<: if $undone_notifications.count { :>
-			<a class="button red" href="<: $u('My::Notifications','all_done') :>">
-				<i class="icon-folder-open"></i><span class="button__label">Mark All Read</span>
-			</a>	
-		<: } :>
-		</span>
 	</div>
 	<div class="body">
 		<: for results($undone_notifications) -> $event_notification_group { :>
