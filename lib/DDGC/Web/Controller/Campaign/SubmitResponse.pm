@@ -91,7 +91,7 @@ sub respond : Chained('base') : PathPart('respond') : Args(0) {
 
 	my $subject_extra = '';
 	if ($campaign_name eq 'share') {
-		($language ne "en" || $confidence < 0.62) && ($subject_extra = '** POSSIBLE SPAM ** ');
+		($language ne "en" || $confidence < 0.57) && ($subject_extra = '** POSSIBLE SPAM ** ');
 		($flag_response) && ($subject_extra = '** SHORT RESPONSE ** ');
 		my $report_url = $c->chained_uri( 'Admin::Campaign', 'bad_user_response', { user => $username, campaign => $campaign_name} );
 		$c->stash->{'extra'} = <<"BAD_RESPONSE_LINK"
