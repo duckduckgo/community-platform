@@ -26,103 +26,12 @@
 		</div>
 	</div>
 
-	<: if !$user { :>
-	<div id="loginprompt" class="shareit-prompt">
-		<h4 class="shareit-overview__title">To Participate:</h4>
-		<div>
-		<a href="#" id="loginlink" class="js-reveal button blue h5" data-reveal-id="login-box">Login</a> or
-		<a href="/my/register" id="registerlink" class="button blue h5">Register</a>
-		</div>
-		<h5 class="shareit-login-subtitle">(so we can send you shirts)</h5>
-	</div>
-	<: } :>
 </div>
 
 
-<: if $no_campaign { :>
-	<div id="responded">
-		<div class="shareit-responded  notice success"><i class="icn icon-thumbs-up-alt"></i>We have no questions for you right now. Please check back later. Thank you!</div>
-	</div>
-<: } :>
-
-<: if $campaign == 'share' { :>
-<div id="mailform1" class="shareit-form  form-border">
-	<div class="form-wrap">
-		<div id="mailerr1" class="warning"></div>
-		<h2 class="shareit-form__title">Answer me this...</h2>
-		<form id="mail1" method="POST" action="/campaign/respond" class="group">
-			<label class="shareit-form__lbl" for="question1"><: $campaign_config.question1 :></label>
-			<div class="input-wrap">
-				<textarea name="question1"></textarea>
-			</div>
-			<label class="shareit-form__lbl" for="question2"><: $campaign_config.question2 :></label>
-			<div class="input-wrap">
-				<textarea name="question2"></textarea>
-			</div>
-			<label class="shareit-form__lbl" for="question3"><: $campaign_config.question3 :></label>
-			<div class="input-wrap">
-				<textarea name="question3"></textarea>
-			</div>
-			<input type="hidden" name="campaign_id" value="1">
-			<input type="hidden" name="campaign_name" value="share">
-			<input type="hidden" name="action_token" value="<: $action_token :>">
-			<hr/>
-			<div class="quarter">
-				<div class="input-wrap">
-					<input type="submit" name="submit" value="Submit" class="button blue submit">
-				</div>
-			</div>
-		</form>
-	</div>
-</div>
-<: } :>
-
-<: if $campaign == 'share_followup' { :>
-<div id="mailform2" class="shareit-form  form-border">
-	<div class="form-wrap">
-		<div id="mailerr2" class="warning"></div>
-		<h2 class="shareit-form__title">Welcome back!</h2>
-		<form id="mail2" method="POST" action="/campaign/respond">
-			<label class="shareit-form__lbl" for="question1"><: $campaign_config.question1 :></label>
-			<div class="input-wrap">
-				<textarea name="question1"></textarea>
-			</div>
-			<label class="shareit-form__lbl" for="question2"><: $campaign_config.question2 :></label>
-			<div class="input-wrap">
-				<textarea name="question2"></textarea>
-			</div>
-			<label class="shareit-form__lbl" for="question3"><: $campaign_config.question3 :></label>
-			<select name="question3" class="js-select">
-				<option value="Less than a day">Less than a day</option>
-				<option value="About a week">About a week</option>
-				<option value="A few weeks">A few weeks</option>
-				<option value="A month">A month</option>
-			</select>
-			<input type="hidden" name="campaign_id" value="2">
-			<input type="hidden" name="campaign_name" value="share_followup">
-			<input type="hidden" name="action_token" value="<: $action_token :>">
-			<hr/>
-			<div class="quarter">
-				<div class="input-wrap">
-					<input type="submit" name="submit" value="Submit" class="button blue submit">
-				</div>
-			</div>
-		</form>
-	</div>
-</div>
-<: } :>
-
-<div id="thankyou1" class="shareit-thanks  hide">
 	<div class="shareit-responded  notice info"><i class="icn icon-thumbs-up-alt"></i>
-		<p class="shareit-thanks__return">Thanks for your support! Come back to <a href="https://duck.co/wear">duck.co/wear</a> on <span id="returndate" class="shareit-thanks__return__date"></span> for your final questions and coupon code! (Limit 1 per household)</p>
+		<p class="shareit-thanks__return">Share it + Wear it will be back, sorry for the inconvenience!</p>
 	</div>
-</div>
-
-<div id="thankyou2" class="shareit-thanks  hide">
-	<p class="shareit-thanks__give">Thanks for sharing DuckDuckGo!  Here's a coupon code for a free t-shirt to help you spread the message in style!</p>
-		<div class="shareit-couponcode  notice"><i class="icn icon-tag"></i>Your coupon code is: <span id="couponcode" class="shareit-couponcode__code"><: $coupon_code :></span></div>
-	<p><a href="http://d-d-g.myshopify.com/">Go to the DuckDuckGo store</a></p>
-</div>
 
 <: if $coupon_code { :>
 	<script>
