@@ -66,6 +66,9 @@
         {{#unless future.planning}}
             {{#if permissions.admin}}
                 <input type="text" class="dev_milestone-container__body__input js-autocommit" id="producer-input" value="{{live.producer}}" />
+                <div class="dev_milestone-container__body__button js-autocommit button assign-button" id="producer-button">
+                    Assign to me
+                </div>
             {{else}}
                 <div class="dev_milestone-container__body__readonly" id="producer-txt">
                     {{live.producer}}
@@ -79,6 +82,9 @@
         {{#unless future.planning}}
             {{#if permissions.admin}}
                 <input type="text" class="dev_milestone-container__body__input js-autocommit" id="designer-input" value="{{live.designer}}" />
+                <div class="dev_milestone-container__body__button js-autocommit button assign-button" id="designer-button">
+                    Assign to me
+                </div>
             {{else}}
                 <div class="dev_milestone-container__body__readonly" id="designer-txt">
                     {{live.designer}}
@@ -92,6 +98,9 @@
         {{#unless future.planning}}
             {{#if permissions.can_edit}}
                 <input type="text" class="dev_milestone-container__body__input js-autocommit" id="developer-input" value="{{live.developer}}" />
+                <div class="dev_milestone-container__body__button js-autocommit button assign-button" id="developer-button">
+                    Assign to me
+                </div>
             {{else}}
                 <div class="dev_milestone-container__body__readonly" id="developer-txt">
                     {{live.developer}}
