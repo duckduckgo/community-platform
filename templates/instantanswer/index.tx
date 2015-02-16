@@ -31,15 +31,15 @@
         </div>
     </div>
 
-    <span class="hide button-group" id="filter_dev_milestone">
-        <a id="ia_dev_milestone-all" class="button dev_milestone is-selected disabled" href="#">
+    <span class="button-group" id="filter_dev_milestone">
+        <a id="ia_dev_milestone-all" class="button dev_milestone is-selected" href="#">
             All
         </a>
-        <a id="ia_dev_milestone-live" class="button dev_milestone disabled" href="#">
+        <a id="ia_dev_milestone-live" class="button dev_milestone" href="#">
             Live
         </a>
-        <a id="ia_dev_milestone-down" class="button dev_milestone disabled" href="#">
-            Down
+        <a id="ia_dev_milestone-ready" class="button dev_milestone" href="#">
+            Coming Soon
         </a>
     </span>
 

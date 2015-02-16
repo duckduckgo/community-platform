@@ -238,13 +238,33 @@
     padding-bottom: 0.5em;
     border-bottom: 1px solid #ddd;
 }
-#filters .button-group-vertical {
+#filters .button-group-vertical,
+#filters .button-group {
    margin: 1em auto 0 auto;
-   text-align: left;
 }
-
+#filters .button-group-vertical {
+    text-align: left;
+}
+#filters #filter_dev_milestone {
+    width: 100%;
+}
+#filters #filter_dev_milestone #ia_dev_milestone-all,
+#filters #filter_dev_milestone #ia_dev_milestone-live {
+    width: 15%;
+}
+#filters #filter_dev_milestone .button.dev_milestone {
+    font-weight: 400;
+    box-shadow: none;
+}
+#filters #filter_dev_milestone .button.dev_milestone.is-selected {
+    background-color: #f2f2f2;
+}
+#filters .one-field {
+    margin-bottom: 1em;
+}
 #filters #filter_repo,
-#filters .dropdown ul {
+#filters .dropdown ul,
+#filters #filter_dev_milestone .button.dev_milestone {
    border: 1px solid #d0d0d0;
 }
 
