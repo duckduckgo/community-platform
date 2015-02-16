@@ -21,7 +21,7 @@ column topics_id => {
 primary_key (qw/instant_answer_id topics_id/);
 
 belongs_to 'instant_answer', 'DDGC::DB::Result::InstantAnswer', 'instant_answer_id', {on_delete => 'cascade'};
-belongs_to 'topic', 'DDGC::DB::Result::Topic', 'topics_id';
+belongs_to 'topic', 'DDGC::DB::Result::Topic', 'topics_id', {on_delete => 'cascade'};
 
 no Moose;
 __PACKAGE__->meta->make_immutable;
