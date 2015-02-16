@@ -298,6 +298,7 @@ sub campaigns {
 			min_length => 20,
 			url => '/wear/',
 			notification => "Help share DuckDuckGo! Find out more...",
+			hourly_limit => 2,
 			question1 => "How did you hear about DuckDuckGo?",
 			question2 => "How long have you been a DuckDuckGo user?",
 			question3 => "Is this your first time spreading DuckDuckGo to others?",
