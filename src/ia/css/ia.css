@@ -1195,3 +1195,7 @@ body.texture {
 .ia-single .docs-link-icon {
     color: #AAA;
 }
+
+.ia-single .assign-button {
+    margin-top: 0.5em;
+}
