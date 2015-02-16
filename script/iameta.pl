@@ -43,7 +43,9 @@ catch {
 };
 
 my $update = sub { 
-    
+   
+    $d->rs('Topic')->delete;
+
     if($nuke_tables){
         print "Deleting all tables before updating\n";
         $d->rs('InstantAnswer')->delete;
