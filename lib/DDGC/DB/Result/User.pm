@@ -639,6 +639,29 @@ sub add_subscription {
 sub add_default_subscriptions {
 }
 
+sub notification_cycles_by_subscription {
+	map { $_->{subscription_id} => $_->{notification_cycle} }
+	$_[0]->subscriptions->search({}, {
+		result_class => 'DBIx::Class::ResultClass::HashRefInflator',
+	})->all;
+}
+
+sub subscriptions_by_category {
+	my ( $self ) = @_;
+	my $subscriptions = $self->ddgc->subscriptions->subscriptions;
+	my @categories = grep { !$_->{user_filter} || $_->{user_filter}->($self) }
+		@{ $self->ddgc->subscriptions->categories };
+
+	for my $category (@categories) {
+		@{ $category->{subscriptions} } = grep {
+			!$subscriptions->{$_}->{user_filter} ||
+			$subscriptions->{$_}->{user_filter}->($self)
+		} @{ $category->{subscriptions} };
+	}
+
+	return \@categories;
+}
+
 sub check_password {
 	my ( $self, $password ) = @_;
 	return 1 unless $self->ddgc->config->prosody_running;
