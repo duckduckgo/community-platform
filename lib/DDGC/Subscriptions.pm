@@ -13,19 +13,33 @@ has ddgc => (
 );
 
 has categories => (
-	isa => 'HashRef',
+	isa => 'ArrayRef',
 	is => 'ro',
 	required => 1,
 	lazy_build => 1,
 );
 sub _build_categories {
-	my ( $self ) = @_;
-	my $subs = $self->subscriptions;
-	my $cats;
-	for my $sub (sort keys $subs) {
-		push @{ $cats->{ $subs->{ $sub }->{category} } }, $sub;
-	}
-	return $cats;
+	+[
+		{
+			name => 'comleader',
+			description => "Community Leader",
+			user_filter => sub { $_[0]->is('forum_manager') },
+			subscriptions => [qw/ neglected_thread /],
+		},
+		{
+			name => 'forum',
+			description => "Discussions",
+			subscriptions => [qw/
+				at_mention
+				all_threads_general
+				all_comments_general
+				all_threads_comleader
+				all_comments_comleader
+				all_threads_internal
+				all_comments_internal
+			/],
+		}
+	];
 }
 
 has notification_cycles => (
