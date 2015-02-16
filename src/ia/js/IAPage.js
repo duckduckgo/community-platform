@@ -473,6 +473,15 @@
                     });
 
                     $(".dev_milestone-container").height(max_height);
+
+                    // If one or more team fields has the current user's name as value,
+                    // hide the 'assign to me' button accordingly
+                    var current_user = $.trim($(".header-account-info .user-name").text());
+                    $(".team-input").each(function(idx) {
+                        if ($(this).val() === current_user) {
+                            $("#" + $.trim($(this).attr("id").replace("-input", "")) + "-button").hide();
+                        }
+                    });
                 } 
             }
         }    
