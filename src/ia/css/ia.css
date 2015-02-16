@@ -254,6 +254,7 @@
 }
 #filters #filter_dev_milestone .button.dev_milestone {
     font-weight: 400;
+    box-shadow: none;
 }
 #filters #filter_dev_milestone .button.dev_milestone.is-selected {
     background-color: #f2f2f2;
@@ -262,7 +263,8 @@
     margin-bottom: 1em;
 }
 #filters #filter_repo,
-#filters .dropdown ul {
+#filters .dropdown ul,
+#filters #filter_dev_milestone .button.dev_milestone {
    border: 1px solid #d0d0d0;
 }
 
