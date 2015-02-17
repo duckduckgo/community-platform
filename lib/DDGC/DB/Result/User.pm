@@ -74,6 +74,12 @@ column email => {
 	is_nullable => 1,
 };
 
+column email_verified => {
+	data_type => 'int',
+	is_nullable => 0,
+	default_value => 0,
+};
+
 column userpage => {
 	data_type => 'text',
 	is_nullable => 1,
