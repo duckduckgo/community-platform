@@ -280,6 +280,15 @@ sub wear :Chained('base') :PathPart('wear') :Args(0) {
 		$c->stash->{campaign} = $c->user->get_first_available_campaign;
 		if ($c->stash->{campaign}) {
 			$c->stash->{campaign_config} = $c->d->config->campaigns->{ $c->stash->{campaign} };
+			if ($c->stash->{campaign_config}->{hourly_limit}) {
+				$c->stash->{limit_reached} = (
+					$c->d->rs('User::CampaignNotice')->search(
+						{ responded => { '>' => $c->d->db->format_datetime(
+							DateTime->now - DateTime::Duration->new( hours => 1 ),
+						) } },
+					)->count  >=  $c->stash->{campaign_config}->{hourly_limit}
+				);
+			}
 			$c->user->set_seen_campaign($c->stash->{campaign}, 'campaign');
 		}
 		else {

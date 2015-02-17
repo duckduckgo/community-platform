@@ -45,7 +45,7 @@
 	</div>
 <: } :>
 
-<: if $campaign == 'share' { :>
+<: if $campaign == 'share' && !$limit_reached { :>
 <div id="mailform1" class="shareit-form  form-border">
 	<div class="form-wrap">
 		<div id="mailerr1" class="warning"></div>
@@ -75,6 +75,10 @@
 		</form>
 	</div>
 </div>
+<: } elsif $limit_reached { :>
+	<div class="shareit-responded notice info"><i class="icn icon-thumbs-up-alt"></i>
+		<p class="shareit-thanks__return">We've reached our limit of free T shirts for this hour, please check back soon!</p>
+	</div>
 <: } :>
 
 <: if $campaign == 'share_followup' { :>
