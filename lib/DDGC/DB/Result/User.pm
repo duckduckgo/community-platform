@@ -189,6 +189,9 @@ has_many 'subscriptions', 'DDGC::DB::Result::User::Subscriptions', 'users_id', {
 has_many 'subscriptions_read', 'DDGC::DB::Result::User::Subscriptions::Read', 'users_id', {
   cascade_delete => 1,
 };
+has_many 'events', 'DDGC::DB::Result::Event', 'users_id', {
+  cascade_delete => 1,
+};
 
 has_many 'failedlogins', 'DDGC::DB::Result::User::FailedLogin', 'users_id';
 

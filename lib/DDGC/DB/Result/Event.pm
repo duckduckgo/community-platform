@@ -54,6 +54,8 @@ column created => {
 	set_on_create => 1,
 };
 
+belongs_to 'user', 'DDGC::DB::Result::User', 'users_id', { join_type => 'left' };
+
 sub event_objects {
 	my ( $self ) = @_;
 	$self->ddgc->rs( $self->object )->search_rs({
