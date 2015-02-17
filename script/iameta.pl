@@ -44,7 +44,6 @@ catch {
 };
 
 my $update = sub { 
-   
     if($nuke_tables){
         print "Deleting all tables before updating\n";
         $d->rs('InstantAnswer')->delete;
@@ -86,8 +85,6 @@ my $update = sub {
         if ($ia->{src_options}) {
             $ia->{src_options} = JSON->new->ascii(1)->encode($ia->{src_options});
         }
-
-        $ia->{example_query} = encode("UCS-2BE", $ia->{example_query});
 
         $d->rs('InstantAnswer')->update_or_create($ia);
 
