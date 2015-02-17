@@ -670,6 +670,7 @@ sub all_roles {
 		translation_manager => "Translation Manager",
 		forum_manager => "Community Leader (Forum Manager)",
 		idea_manager => "Instant Answer Manager",
+		patron => "Patron",
 	);
 	return defined $arg
 		? $roles{$arg}

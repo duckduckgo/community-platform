@@ -217,6 +217,9 @@ after insert => sub {
 sub db { return shift; }
 
 sub translation_manager { shift->is('translation_manager') }
+sub community_leader { shift->is('forum_manager') }
+sub forum_manager { shift->is('forum_manager') }
+sub patron { shift->is('patron') }
 
 sub github_user {
 	my ( $self ) = @_;
