@@ -104,8 +104,8 @@ sub _build_subscriptions {
 			process             =>  sub { 1; },
 			user_filter         => sub {
 				$self->ddgc->config->forums->{
-					$self->forum_id_comleader
-				}->user_filter( $_[0] );
+					$self->ddgc->config->id_for_forum('community')
+				}->{user_filter}->( $_[0] );
 			},
 			description         => 'All threads on the Community Leader forum',
 			category            => 'forum',
@@ -117,8 +117,8 @@ sub _build_subscriptions {
 			process             =>  sub { 1; },
 			user_filter         => sub {
 				$self->ddgc->config->forums->{
-					$self->forum_id_internal
-				}->user_filter( $_[0] );
+					$self->ddgc->config->id_for_forum('internal')
+				}->{user_filter}->( $_[0] );
 			},
 			description         => 'All threads on the Internal forum',
 			category            => 'forum',
@@ -143,8 +143,8 @@ sub _build_subscriptions {
 			},
 			user_filter         => sub {
 				$self->ddgc->config->forums->{
-					$self->forum_id_comleader
-				}->user_filter( $_[0] );
+					$self->ddgc->config->id_for_forum('community')
+				}->{user_filter}->( $_[0] );
 			},
 			description         => 'All comments on the Community Leader forum',
 			category            => 'forum',
@@ -158,8 +158,8 @@ sub _build_subscriptions {
 			},
 			user_filter         => sub {
 				$self->ddgc->config->forums->{
-					$self->forum_id_internal
-				}->user_filter( $_[0] );
+					$self->ddgc->config->id_for_forum('internal')
+				}->{user_filter}->( $_[0] );
 			},
 			description         => 'All comments on the Internal forum',
 			category            => 'forum',
