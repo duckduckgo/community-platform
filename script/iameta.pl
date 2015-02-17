@@ -7,6 +7,7 @@ use feature "say";
 use Data::Dumper;
 use Try::Tiny;
 use File::Copy qw( move );
+use Encode qw(encode);
 
 sub debug { 0 };
 
@@ -35,7 +36,8 @@ move $upload_meta, $meta_copy;
 
 # try reading metadata file
 try {
-    $meta = decode_json(io->file($meta_copy)->slurp);
+    my $json = io->file($meta_copy)->slurp;
+    $meta = from_json($json);
 }
 catch {
     $d->errorlog("Error reading metadata: $_");
@@ -44,11 +46,13 @@ catch {
 
 my $update = sub { 
    
-    $d->rs('Topic')->delete;
-
+    #
+    #need to reset seq here
+    #
     if($nuke_tables){
         print "Deleting all tables before updating\n";
         $d->rs('InstantAnswer')->delete;
+        $d->rs('Topic')->delete;
     }
 
     say "there are " . (scalar @{$meta}) . " IAs" if debug;
@@ -86,6 +90,8 @@ my $update = sub {
         if ($ia->{src_options}) {
             $ia->{src_options} = JSON->new->ascii(1)->encode($ia->{src_options});
         }
+
+        $ia->{example_query} = encode("UCS-2BE", $ia->{example_query});
 
         $d->rs('InstantAnswer')->update_or_create($ia);
 
@@ -140,3 +146,4 @@ try{
     print "Update error, rolling back\n";
     $d->errorlog("Error updating iameta, Rolling back update: $_");
 };
+
