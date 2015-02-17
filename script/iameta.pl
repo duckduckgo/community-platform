@@ -7,7 +7,6 @@ use feature "say";
 use Data::Dumper;
 use Try::Tiny;
 use File::Copy qw( move );
-use Encode qw(encode);
 
 sub debug { 0 };
 
@@ -46,9 +45,6 @@ catch {
 
 my $update = sub { 
    
-    #
-    #need to reset seq here
-    #
     if($nuke_tables){
         print "Deleting all tables before updating\n";
         $d->rs('InstantAnswer')->delete;
