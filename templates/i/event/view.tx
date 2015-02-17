@@ -1,10 +1,8 @@
 <div class="notification_group">
 	<div class="row  notification">  
 		<a href="<: $u($_.u) :>" class="notification__icon" title="Go to this item"><i class="icon-<: $_.icon :>"></i></a>
-		<a class="notification__close" href="<: $u('My::Notifications','done',$_.id) :>" title="Mark Complete"><i class="icon-close"></i></a>
-		<a class="notification__view" href="<: $u('My::Notifications','done_goto',$_.id) :>" title="View &amp; Mark Complete"><i class="icon-folder-open"></i></a>
 		<div class="notification__body">
-			<: i($_,$_.user_notification_group.type ~ '/label') :>
+			<: i($_,$_.subscription_id ~ '/label') :>
 		</div>
 	</div>
 	<!-- placeholder for later div of content -->

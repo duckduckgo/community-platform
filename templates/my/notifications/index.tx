@@ -7,8 +7,8 @@
 		<h2>Your Notifications</h2>
 	</div>
 	<div class="body">
-		<: for results($undone_notifications) -> $event_notification_group { :>
-			<: i($event_notification_group,'view') :>
+		<: for results($undone_notifications) -> $event { :>
+			<: i($event,'view') :>
 		<: } :>
 		<: include my::notifications::editteaser :>
 	</div>
