@@ -1,0 +1,1 @@
+<:- i($_.user,'username') -:> @mentioned you in <:- i($_.event_object.get_context_obj) -:><span class="notification__punctuation">.</span>
