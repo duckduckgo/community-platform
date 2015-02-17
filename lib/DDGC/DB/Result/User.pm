@@ -204,7 +204,7 @@ belongs_to 'profile_media', 'DDGC::DB::Result::Media', 'profile_media_id', { joi
 
 after insert => sub {
 	my ( $self ) = @_;
-	$self->add_default_notifications;
+	$self->add_default_subscriptions;
 };
 
 # WORKAROUND
@@ -638,15 +638,16 @@ sub add_subscription {
 		}
 	)
 }
-
 sub add_default_subscriptions {
 }
 
 sub notification_cycles_by_subscription {
-	map { $_->{subscription_id} => $_->{notification_cycle} }
-	$_[0]->subscriptions->search({}, {
-		result_class => 'DBIx::Class::ResultClass::HashRefInflator',
-	})->all;
+	my ( $self ) = @_;
+	my %subs = map { $_->{subscription_id} => $_->{notification_cycle} }
+		$self->subscriptions->search({}, {
+			result_class => 'DBIx::Class::ResultClass::HashRefInflator',
+		})->all;
+	return \%subs;
 }
 
 sub subscriptions_by_category {
@@ -681,12 +682,16 @@ sub check_password {
 
 sub notifications {
 	my ( $self ) = @_;
-	$self->subscriptions->search_related('events');
+	$self->subscriptions->search_related('events')->search({},
+		{ order_by => { -desc => 'events.created' } }
+	);
 }
 
 sub unseen_notifications {
 	my ( $self ) = @_;
-	$self->notifications->search({},
+	$self->notifications->search({
+
+		},
 	);
 }
 sub unseen_notifications_count { $_[0]->unseen_notifications->count; }
