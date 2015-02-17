@@ -27,21 +27,21 @@
 		 </a></h3>
 	</div>
 	<div class="body">
-		<: for $categories.keys() -> $category { :> 
+		<: for $categories -> $category { :> 
 			<div class="row callout-row">
 				<i class="callout-row__icn--left  icon-bubble"></i>
-				<h4 class="callout-row__text  has-icon"><: $category :></h4>
+				<h4 class="callout-row__text  has-icon"><: $category.description :></h4>
 			</div>
-			<: for $categories[$category] -> $subscription { :>
+			<: for $category.subscriptions -> $subscription { :>
 				<: include my::notifications::option {
 					type => $subscription,
-					context_id => '',
+					cycle => $user_subscriptions[$subscription],
 					label => r($subscriptions[$subscription].description),
 				} :>
 			<: } :>
 		<: } :>
 		<div class="row  notification--edit"> 
-			<div class="notification__settings-label">   
+			<div class="notification__settings-label">
 				<i class="notification--edit__icon "></i>
 				<div class="media__body">
 					<label>
