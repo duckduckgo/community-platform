@@ -187,6 +187,20 @@
 #ia_index {
     width: 100%;
 }
+#create-new-ia-form {
+    position: fixed;
+    background-color: #fff;
+    width: 31em;
+    z-index: 1000;
+    border: 1px solid #dbdbdb;
+    top: 10em;
+    left: 25em;
+    box-shadow: 2px 5px 20px 5px #888;
+    padding: 20px;
+}
+.new-ia-form-section {
+    margin-right: 0.5em;
+}
 #filters {
     width: 25%;
     text-align: center;

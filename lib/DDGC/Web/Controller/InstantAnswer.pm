@@ -38,6 +38,13 @@ sub index :Chained('base') :PathPart('') :Args() {
         }
     )->all;
 
+    my $is_admin;
+
+    if ($c->user) {
+        $is_admin = $c->user->admin;
+    }
+
+    $c->stash->{admin} = $is_admin;
     $c->stash->{title} = "Index: Instant Answers";
     $c->stash->{topic_list} = \@topics;
     $c->add_bc('Instant Answers', $c->chained_uri('InstantAnswer','index'));
