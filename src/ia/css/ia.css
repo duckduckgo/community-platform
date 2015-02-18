@@ -187,6 +187,9 @@
 #ia_index {
     width: 100%;
 }
+#create-new-ia.button {
+    left: 0.75em;
+}
 #create-new-ia-form {
     position: fixed;
     background-color: #fff;
