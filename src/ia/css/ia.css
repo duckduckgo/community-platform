@@ -199,7 +199,7 @@
     top: 10em;
     left: 25em;
     box-shadow: 2px 5px 20px 5px #888;
-    padding: 20px;
+    padding: 20px 0 20px 25px;
 }
 .new-ia-form-section {
     margin-right: 0.5em;
