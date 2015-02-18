@@ -209,6 +209,7 @@
 }
 #create-new-ia-form #description-input {
     width: 94%;
+    margin-bottom: 0.5em;
 }
 #filters {
     width: 25%;
