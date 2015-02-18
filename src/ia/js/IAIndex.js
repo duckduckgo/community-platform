@@ -72,7 +72,7 @@
                         dev_milestone : dev_milestone
                     })
                     .done(function(data) {
-                        location.reload();
+                        window.location = '/ia/view/' + id;
                     });
                 }
             });
