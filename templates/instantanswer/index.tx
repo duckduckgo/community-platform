@@ -40,9 +40,14 @@
             </textarea>
         </div>
 
-        <div class="button" id="new-ia-form-save">
+        <div class="button left" id="new-ia-form-save">
             Save
         </div>
+
+        <div class="button left" id="new-ia-form-cancel">
+            Cancel
+        </div>
+        <span class="clearfix"></span>
     </div>
 <: } :>
 

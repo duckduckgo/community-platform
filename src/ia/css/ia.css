@@ -204,6 +204,9 @@
 .new-ia-form-section {
     margin-right: 0.5em;
 }
+#new-ia-form-cancel {
+    margin-left: 0.5em;
+}
 #filters {
     width: 25%;
     text-align: center;

@@ -54,6 +54,11 @@
                 $("#create-new-ia-form").removeClass("hide");
             });
 
+            $("body").on('click', "#new-ia-form-cancel", function(evt) {
+                $("#create-new-ia-form").addClass("hide");
+                $("#create-new-ia").show();
+            });
+
             $("body").on('click', "#new-ia-form-save", function(evt) {
                 var name = $.trim($("#name-input").val());
                 var id = $.trim($("#id-input").val());
