@@ -2,7 +2,7 @@
     <div id="create-new-ia" class="button">
         New IA Page
     </div>
-    <div id="create-new-ia-form" class="new-ia-form">
+    <div id="create-new-ia-form" class="new-ia-form hide">
         <div class="new-ia-form-section left">
             <div class="label">
                 Name

@@ -490,7 +490,7 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
 sub create_ia :Chained('base') :PathPart('create') :Args() {
     my ( $self, $c ) = @_;
 
-    my $ia = $d->rs('InstantAnswer')->find({lc id => $c->req->params->{id}});
+    my $ia = $c->d->rs('InstantAnswer')->find({lc id => $c->req->params->{id}});
     my $is_admin;
     my $result = '';
 
@@ -498,7 +498,7 @@ sub create_ia :Chained('base') :PathPart('create') :Args() {
        $is_admin = $c->user->admin;
 
         if ($is_admin) {
-            my $new_ia = $d->rs('InstantAnswer')->create({
+            my $new_ia = $c->d->rs('InstantAnswer')->create({
                 lc id => $c->req->params->{id},
                 name => $c->req->params->{name},
                 status => $c->req->params->{dev_milestone},
