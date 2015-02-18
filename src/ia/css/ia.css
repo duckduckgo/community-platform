@@ -207,6 +207,9 @@
 #new-ia-form-cancel {
     margin-left: 0.5em;
 }
+#create-new-ia-form #description-input {
+    width: 94%;
+}
 #filters {
     width: 25%;
     text-align: center;
