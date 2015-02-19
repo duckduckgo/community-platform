@@ -213,6 +213,7 @@
                             }
 
                             for (var i = 0; i <  page.field_order.length; i++) {
+                                readonly_templates.live.name = Handlebars.templates.name(latest_edits_data);
                                 readonly_templates.live[ page.field_order[i]] = Handlebars.templates[ page.field_order[i]](latest_edits_data);
                             }
 
