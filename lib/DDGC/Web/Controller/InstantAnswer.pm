@@ -15,18 +15,18 @@ sub base :Chained('/base') :PathPart('ia') :CaptureArgs(0) {
     my ( $self, $c ) = @_;
 }
 
-sub index :Chained('base') :PathPart('') :Args() {
-    my ( $self, $c, $field, $value ) = @_;
+sub index :Chained('base') :PathPart('') :Args(0) {
+    my ( $self, $c ) = @_;
     # Retrieve / stash all IAs for index page here?
 
     # my @x = $c->d->rs('InstantAnswer')->all();
     # $c->stash->{ialist} = \@x;
     $c->stash->{ia_page} = "IAIndex";
 
-    if ($field && $value) {
-        $c->stash->{field} = $field;
-        $c->stash->{value} = $value;
-    }
+    #if ($field && $value) {
+    #   $c->stash->{field} = $field;
+    #   $c->stash->{value} = $value;
+    #}
 
     my $rs = $c->d->rs('Topic');
     
@@ -54,15 +54,9 @@ sub index :Chained('base') :PathPart('') :Args() {
 }
 
 sub ialist_json :Chained('base') :PathPart('json') :Args() {
-    my ( $self, $c, $field, $value ) = @_;
+    my ( $self, $c ) = @_;
 
-    my $rs;
-
-    if ($field && $value) {
-        $rs = $c->d->rs('InstantAnswer')->search_rs({$field => $value});
-    } else {
-        $rs = $c->d->rs('InstantAnswer');
-    }
+    my $rs = $c->d->rs('InstantAnswer');
 
     my @ial = $rs->search(
         {'topic.name' => { '!=' => 'test' },
@@ -132,6 +126,70 @@ sub queries :Chained('base') :PathPart('queries') :Args(0) {
 
     # my @x = $c->d->rs('InstantAnswer')->all();
 
+}
+
+sub dev_pipeline_base :Chained('base') :PathPart('pipeline') :CaptureArgs(0) {
+    my ( $self, $c ) = @_;
+}
+
+sub dev_pipeline :Chained('dev_pipeline_base') :PathPart('') :Args(0) {
+    my ( $self, $c ) = @_;
+
+    $c->stash->{ia_page} = "IADevPipeline";
+    $c->stash->{title} = "Dev Pipeline";
+    $c->add_bc('Instant Answers', $c->chained_uri('InstantAnswer','index'));
+    $c->add_bc('Dev Pipeline', $c->chained_uri('InstantAnswer','dev_pipeline'));
+}
+
+sub dev_pipeline_json :Chained('dev_pipeline_base') :PathPart('json') :Args(0) {
+    my ( $self, $c ) = @_;
+
+    my $rs = $c->d->rs('InstantAnswer');
+    my @planning = $rs->search(
+        {'me.dev_milestone' => { '=' => 'planning'}},
+        {
+            columns => [ qw/ name id dev_milestone/ ],
+            order_by => [ qw/ name/ ],
+            result_class => 'DBIx::Class::ResultClass::HashRefInflator',
+        }
+    )->all;
+
+    my @in_development = $rs->search(
+        {'me.dev_milestone' => { '=' => 'in_development'}},
+        {
+            columns => [ qw/ name id dev_milestone/ ],
+            order_by => [ qw/ name/ ],
+            result_class => 'DBIx::Class::ResultClass::HashRefInflator',
+        }
+    )->all;
+
+    my @qa = $rs->search(
+        {'me.dev_milestone' => { '=' => 'qa'}},
+        {
+            columns => [ qw/ name id dev_milestone/ ],
+            order_by => [ qw/ name/ ],
+            result_class => 'DBIx::Class::ResultClass::HashRefInflator',
+        }
+    )->all;
+
+    my @ready = $rs->search(
+        {'me.dev_milestone' => { '=' => 'ready'}},
+        {
+            columns => [ qw/ name id dev_milestone/ ],
+            order_by => [ qw/ name/ ],
+            result_class => 'DBIx::Class::ResultClass::HashRefInflator',
+        }
+    )->all;
+
+    $c->stash->{x} = {
+        planning => \@planning,
+        in_development => \@in_development,
+        qa => \@qa,
+        ready => \@ready,
+    };
+    
+    $c->stash->{not_last_url} = 1;
+    $c->forward($c->view('JSON'));
 }
 
 sub ia_base :Chained('base') :PathPart('view') :CaptureArgs(1) {  # /ia/view/calculator

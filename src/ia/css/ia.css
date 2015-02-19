@@ -1223,3 +1223,29 @@ body.texture {
 .ia-single .assign-button {
     margin-top: 0.5em;
 }
+
+#dev_pipeline .dev_pipeline-column {
+    width: 21%;
+    text-align: left;
+    padding: 0 1em;
+}
+
+#dev_pipeline .dev_pipeline-column:not(#pipeline-planning) {
+    margin-left: 0.5em;
+}
+
+#dev_pipeline .dev_pipeline-column__title {
+    font-weight: 600;
+    font-size: 1.92em;
+}
+
+#dev_pipeline .dev_pipeline-column__list li {
+    list-style: none;
+    padding: 0.3em 0;
+    font-size: 1.1em;
+    border-bottom: 1px solid #cdcdcd;
+}
+
+#dev_pipeline .dev_pipeline-column__list li a {
+    color: #333;
+}

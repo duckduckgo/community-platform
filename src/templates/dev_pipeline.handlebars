@@ -1,0 +1,58 @@
+<div class="dev_pipeline-column left" id="pipeline-planning">
+    <h2 class="dev_pipeline-column__title">
+        Planning
+    </h2>
+
+    <ul class="dev_pipeline-column__list" id="pipeline-planning__list">
+        {{#each planning}}
+            <li id="pipeline-planning__list__{{id}}">
+                <a href="/ia/view/{{id}}">{{name}}</a>
+            </li>
+        {{/each}}
+    </ul>
+</div>
+
+<div class="dev_pipeline-column left" id="pipeline-in_development">
+    <h2 class="dev_pipeline-column__title">
+        In Development
+    </h2>
+
+
+    <ul class="dev_pipeline-column__list" id="pipeline-in_development__list">
+        {{#each in_development}}
+            <li id="pipeline-in_development__list__{{id}}">
+                <a href="/ia/view/{{id}}">{{name}}</a>
+            </li>
+        {{/each}}
+    </ul>
+</div>
+
+<div class="dev_pipeline-column left" id="pipeline-qa">
+    <h2 class="dev_pipeline-column__title">
+        QA
+    </h2>
+
+
+    <ul class="dev_pipeline-column__list" id="pipeline-qa__list">
+        {{#each qa}}
+            <li id="pipeline-qa__list__{{id}}">
+                <a href="/ia/view/{{id}}">{{name}}</a>
+            </li>
+        {{/each}}
+    </ul>
+</div>
+
+<div class="dev_pipeline-column left" id="pipeline-ready">
+    <h2 class="dev_pipeline-column__title">
+        Ready
+    </h2>
+
+
+    <ul class="dev_pipeline-column__list" id="pipeline-ready__list">
+        {{#each ready}}
+            <li id="pipeline-ready__list__{{id}}">
+                <a href="/ia/view/{{id}}">{{name}}</a>
+            </li>
+        {{/each}}
+    </ul>
+</div>
