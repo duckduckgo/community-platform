@@ -635,7 +635,7 @@ sub add_edit {
     my ($ia, $field, $value ) = @_;
 
     my $orig_data = $ia->get_column($field) || '';
-    my $current_updates = $ia->get_column('updates') || ();
+    my $current_updates = $ || ();
 
     if($value ne $orig_data){
         $current_updates = $current_updates? decode_json($current_updates) : undef;
@@ -656,12 +656,16 @@ sub add_edit {
 sub commit_edit {
     my ($ia, $field, $value) = @_;
 
-    $ia->update({$field => $value});
+    # update the IA data
+    update_ia($ia)
 
     remove_edit($ia, $field);
 
 }
 
+sub update_ia {
+
+}
 # given a result set and a field name, remove all the
 # entries for that field from the updates column
 sub remove_edit {
@@ -679,30 +683,17 @@ sub remove_edit {
 # all the entries from the updates column
 sub remove_edits {
     my($ia) = @_;
- 
-    $ia->update({updates => ''});
+    my $columns = get_edits($ia);
+    $columns->delete;
 }
 
 # given the IA name return the data in the updates
 # column as an array of hashes
 sub get_edits {
     my ($d, $name) = @_; 
-
-    my $results = $d->rs('InstantAnswer')->search( {name => $name} );
-
-    my $ia_result = $results->first();
-    my $edits;
-
-    try{
-        my $column_updates = $ia_result->get_column('updates');
-        $edits = $column_updates? decode_json($column_updates) : undef;
-    }catch{
-        return;
-    };
-
+    my $results = $d->rs('InstantAnswer::Updates')->search( {id => $name} );
     return $edits;
 }
-
 
 no Moose;
 __PACKAGE__->meta->make_immutable;
