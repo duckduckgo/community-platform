@@ -63,5 +63,10 @@ sub event_objects {
 	});
 }
 
+sub event_object {
+	my ( $self ) = @_;
+	$self->event_objects->first;
+}
+
 no Moose;
 __PACKAGE__->meta->make_immutable;
