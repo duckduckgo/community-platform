@@ -57,7 +57,13 @@ sub _build_notification_cycles {
 	];
 }
 
-# Describe notification types
+sub forum_user_filter {
+	my ( $self, $forum, $user ) = @_;
+	$self->ddgc->config->forums->{
+		$self->ddgc->config->id_for_forum( $forum )
+	}->{user_filter}->( $user );
+}
+
 #   - applies_to  - entity the notification applies to, for filtering
 #   - process     - a code ref, check if entity matches criteria, generate events
 #   - user_filter - whether a user can subscribe to this notification
@@ -91,7 +97,7 @@ sub _build_subscriptions {
 
 
 		all_threads_general => {
-			applies_to          => 'thread',
+			applies_to          => 'thread_aggregate',
 			process             =>  sub { 1; },
 			user_filter         => sub { 1; },
 			description         => 'All threads on the General Ramblings forum',
@@ -100,35 +106,27 @@ sub _build_subscriptions {
 
 
 		all_threads_comleader => {
-			applies_to          => 'thread',
-			process             =>  sub { 1; },
-			user_filter         => sub {
-				$self->ddgc->config->forums->{
-					$self->ddgc->config->id_for_forum('community')
-				}->{user_filter}->( $_[0] );
-			},
+			applies_to          => 'thread_aggregate',
+			process             => sub { 1; },
+			user_filter         => sub { $self->forum_user_filter( 'community',  @_ ) },
 			description         => 'All threads on the Community Leader forum',
 			category            => 'forum',
 		},
 
 
 		all_threads_internal => {
-			applies_to          => 'thread',
+			applies_to          => 'thread_aggregate',
 			process             =>  sub { 1; },
-			user_filter         => sub {
-				$self->ddgc->config->forums->{
-					$self->ddgc->config->id_for_forum('internal')
-				}->{user_filter}->( $_[0] );
-			},
+			user_filter         => sub { $self->forum_user_filter( 'internal',  @_ ) },
 			description         => 'All threads on the Internal forum',
 			category            => 'forum',
 		},
 
 
 		all_comments_general => {
-			applies_to          => 'comment',
+			applies_to          => 'comment_aggregate',
 			process             =>  sub {
-				$self->all_comments_thread( @_ );
+				$self->all_comments_threads( 'general', @_ );
 			},
 			user_filter         => sub { 1; },
 			description         => 'All comments on the General Ramblings forum',
@@ -136,31 +134,23 @@ sub _build_subscriptions {
 		},
 
 
-		all_comments_comleader => {
-			applies_to          => 'comment',
+		all_comments_community => {
+			applies_to          => 'comment_aggregate',
 			process             =>  sub {
-				$self->all_comments_thread( @_ );
+				$self->all_comments_threads( 'community', @_ );
 			},
-			user_filter         => sub {
-				$self->ddgc->config->forums->{
-					$self->ddgc->config->id_for_forum('community')
-				}->{user_filter}->( $_[0] );
-			},
+			user_filter         => sub { $self->forum_user_filter( 'community',  @_ ) },
 			description         => 'All comments on the Community Leader forum',
 			category            => 'forum',
 		},
 
 
 		all_comments_internal => {
-			applies_to          => 'comment',
-			process             =>  sub {
-				$self->all_comments_thread( @_ );
+			applies_to          => 'comment_aggregate',
+			Process             =>  sub {
+				$self->all_comments_threads( 'internal', @_ );
 			},
-			user_filter         => sub {
-				$self->ddgc->config->forums->{
-					$self->ddgc->config->id_for_forum('internal')
-				}->{user_filter}->( $_[0] );
-			},
+			user_filter         => sub { $self->forum_user_filter( 'internal',  @_ ) },
 			description         => 'All comments on the Internal forum',
 			category            => 'forum',
 		},
@@ -176,34 +166,16 @@ sub neglected_thread {
 }
 
 # Generates events for all new thread comments, all new threads.
-sub all_comments_thread {
-	my ( $self, $r ) = @_;
+sub all_comments_threads {
+	my ( $self, $forum, $r ) = @_;
 	$r = $self->rs_to_result( $r );
 	return unless ( $r->can('thread') && $r->thread );
-	if ( $r->parent_id ) {
-		for ( $r->thread->forum ) {
-			when ( $self->ddgc->config->id_for_forum( 'general' ) ) {
-				$self->event_simple( 'all_comments_general', $r );
-			}
-			when ( $self->ddgc->config->id_for_forum( 'internal' ) ) {
-				$self->event_simple( 'all_comments_internal', $r );
-			}
-			when ( $self->ddgc->config->id_for_forum( 'community' ) ) {
-				$self->event_simple( 'all_comments_comleader', $r );
-			}
+	if ( $r->thread->forum == $self->ddgc->config->id_for_forum( $forum ) ) {
+		if ( $r->parent_id ) {
+			$self->event_simple( "all_comments_$forum", $r );
 		}
-	}
-	else {
-		for ( $r->thread->forum ) {
-			when ( $self->ddgc->config->id_for_forum( 'general' ) ) {
-				$self->event_simple( 'all_thread_general', $r->thread );
-			}
-			when ( $self->ddgc->config->id_for_forum( 'internal' ) ) {
-				$self->event_simple( 'all_thread_internal', $r->thread );
-			}
-			when ( $self->ddgc->config->id_for_forum( 'community' ) ) {
-				$self->event_simple( 'all_thread_comleader', $r->thread );
-			}
+		else {
+			$self->event_simple( "all_thread_$forum", $r->thread );
 		}
 	}
 }
