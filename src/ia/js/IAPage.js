@@ -341,8 +341,12 @@
                             autocommit: true
                         })
                         .done(function(data) {
-                            if (field === "dev_milestone") {
-                                location.reload();
+                            if (data.result) {
+                                if (field === "dev_milestone") {
+                                    location.reload();
+                                } else if (field === "producer" || field === "designer" || field === "developer") {
+                                    $("#" + field + "-input.js-autocommit").val(data.result[field]);
+                                }
                             }
                         });
                     }
