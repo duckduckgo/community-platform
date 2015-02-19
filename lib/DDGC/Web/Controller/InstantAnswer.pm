@@ -34,6 +34,7 @@ sub index :Chained('base') :PathPart('') :Args() {
         {'name' => { '!=' => 'test' }},
         {
             columns => [ qw/ name id /],
+            order_by => [ qw/ name /],
             result_class => 'DBIx::Class::ResultClass::HashRefInflator',
         }
     )->all;
