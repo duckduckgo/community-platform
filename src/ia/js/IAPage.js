@@ -46,6 +46,14 @@
 
                 $.getJSON("/ia/view/" + DDH_iaid + "/json", function(ia_data) {
 
+                    // Show latest edits for admins and users with edit permissions
+                    var latest_edits_data = {};
+                    if (ia_data.edited) {
+                        latest_edits_data = page.updateData(ia_data, latest_edits_data, true);
+                    } else {
+                        latest_edits_data = ia_data.live;
+                    }
+
                     if (ia_data.live.dev_milestone !== "live") {
                         if ($(".special-permissions").length) {
                             $(".special-permissions, .special-permissions__toggle-view").hide();
@@ -71,14 +79,6 @@
                         if (ia_data.live.tab) {
                             // On the live static page we use the tab name for the example links
                             ia_data.live.tab = ia_data.live.tab.toLowerCase().replace(/\s/g, "");
-                        }
-
-                        // Show latest edits for admins and users with edit permissions
-                        var latest_edits_data = {};
-                        if (ia_data.edited) {
-                            latest_edits_data = page.updateData(ia_data, latest_edits_data, true);
-                        } else {
-                            latest_edits_data = ia_data.live;
                         }
                     }
 
@@ -207,16 +207,16 @@
                             $(this).addClass("button-nav-current").addClass("disabled");
 
                             if ($(this).attr("id") == "toggle-live") {
-                                 x = page.updateData(ia_data, x, false);       
+                                 latest_edits_data = page.updateData(ia_data, latest_edits_data, false);       
                             } else {
-                                 x = page.updateData(ia_data, x, true);
+                                 latest_edits_data = page.updateData(ia_data, latest_edits_data, true);
                             }
 
                             for (var i = 0; i <  page.field_order.length; i++) {
-                                readonly_templates[ page.field_order[i]] = Handlebars.templates[ page.field_order[i]](x);
+                                readonly_templates.live[ page.field_order[i]] = Handlebars.templates[ page.field_order[i]](latest_edits_data);
                             }
 
-                            page.updateAll(readonly_templates, false);
+                            page.updateAll(readonly_templates, ia_data.live.dev_milestone, false);
                         }
                     });
 
@@ -424,6 +424,7 @@
 
         updateAll: function(templates, dev_milestone, edit) {
             if (!edit && dev_milestone === "live") {
+                $(".ia-single--name").remove();
                 $(".ia-single--left, .ia-single--right").show().empty();
                 for (var i = 0; i < this.field_order.length; i++) {
                     $(".ia-single--left").append(templates.live[this.field_order[i]]);

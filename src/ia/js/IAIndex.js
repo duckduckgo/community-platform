@@ -49,6 +49,34 @@
                 }
             });
 
+            $("#create-new-ia").click(function(evt) {
+                $(this).hide();
+                $("#create-new-ia-form").removeClass("hide");
+            });
+
+            $("body").on('click', "#new-ia-form-cancel", function(evt) {
+                $("#create-new-ia-form").addClass("hide");
+                $("#create-new-ia").show();
+            });
+
+            $("body").on('click', "#new-ia-form-save", function(evt) {
+                var name = $.trim($("#name-input").val());
+                var id = $.trim($("#id-input").val());
+                var description = $.trim($("#description-input").val());
+                var dev_milestone = $.trim($("#dev_milestone-select .available_dev_milestones option:selected").text());
+                if (name.length && id.length && dev_milestone.length && description.length) {
+                    var jqxhr = $.post("/ia/create", {
+                        name : name,
+                        id : id,
+                        description : description,
+                        dev_milestone : dev_milestone
+                    })
+                    .done(function(data) {
+                        window.location = '/ia/view/' + id;
+                    });
+                }
+            });
+
             /*$(window).resize(function(evt) {
                 if ($right_pane.hasClass("is-fixed")) {
                     $right_pane.removeClass("is-fixed");
