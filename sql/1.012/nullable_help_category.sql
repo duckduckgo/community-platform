@@ -1,0 +1,7 @@
+
+BEGIN;
+
+ALTER TABLE help ALTER COLUMN help_category_id DROP NOT NULL;
+
+COMMIT;
+
