@@ -111,7 +111,7 @@ sub iarepo_json :Chained('iarepo') :PathPart('json') :Args(0) {
 
         my $src_options = $ia->src_options;
         if ($src_options ) {
-            $iah{$ia->id}{src_options} = decode_json($src_options);
+            $iah{$ia->id}{src_options} = from_json($src_options);
         }
 
         $iah{$ia->id}{src_id} = $ia->src_id if $ia->src_id;
@@ -267,20 +267,20 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
                     id => $issue->issue_id,
                     title => $issue->title,
                     body => $issue->body,
-                    tags => $issue->tags? decode_json($issue->tags) : undef
+                    tags => $issue->tags? from_json($issue->tags) : undef
                );
             } else {
                 push(@ia_issues, {
                     issue_id => $issue->issue_id,
                     title => $issue->title,
                     body => $issue->body,
-                    tags => $issue->tags? decode_json($issue->tags) : undef
+                    tags => $issue->tags? from_json($issue->tags) : undef
                 });
             }
         }
     }
 
-    my $other_queries = $ia->other_queries? decode_json($ia->other_queries) : undef;
+    my $other_queries = $ia->other_queries? from_json($ia->other_queries) : undef;
 
     $ia_data{live} =  {
                 id => $ia->id,
@@ -293,9 +293,9 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
                 perl_module => $ia->perl_module,
                 example_query => $ia->example_query,
                 other_queries => $other_queries,
-                code => $ia->code? decode_json($ia->code) : undef,
+                code => $ia->code? from_json($ia->code) : undef,
                 topic => \@topics,
-                attribution => $ia->attribution? decode_json($ia->attribution) : undef,
+                attribution => $ia->attribution? from_json($ia->attribution) : undef,
                 issues => \@ia_issues,
                 pr => \%pull_request,
                 template => $ia->template,
@@ -304,8 +304,8 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
                 producer => $ia->producer,
                 designer => $ia->designer,
                 developer => $ia->developer,
-                perl_dependencies => $ia->perl_dependencies? decode_json($ia->perl_dependencies) : undef,
-                triggers => $ia->triggers? decode_json($ia->triggers) : undef,
+                perl_dependencies => $ia->perl_dependencies? from_json($ia->perl_dependencies) : undef,
+                triggers => $ia->triggers? from_json($ia->triggers) : undef,
                 code_review => $ia->code_review,
                 design_review => $ia->design_review,
                 test_machine => $ia->test_machine,
@@ -381,7 +381,7 @@ sub commit_json :Chained('commit_base') :PathPart('json') :Args(0) {
             status => $ia->status,
             topic => \@topics,
             example_query => $ia->example_query,
-            other_queries => $ia->other_queries? decode_json($ia->other_queries) : undef,
+            other_queries => $ia->other_queries? from_json($ia->other_queries) : undef,
             dev_milestone => $ia->dev_milestone
         );
 
@@ -407,7 +407,7 @@ sub commit_save :Chained('commit_base') :PathPart('save') :Args(0) {
 
         if ($is_admin) {
             my $ia = $c->d->rs('InstantAnswer')->find($c->req->params->{id});
-            my @params = decode_json($c->req->params->{values});
+            my @params = from_json($c->req->params->{values});
 
             for my $param (@params) {
                 for my $hash_param (@{$param}) {
@@ -439,7 +439,7 @@ sub commit_save :Chained('commit_base') :PathPart('save') :Args(0) {
                         }
                     } else {
                         if ($field eq 'other_queries') {
-                            $value = encode_json($value);
+                            $value = to_json($value);
                         }
 
                         try {
@@ -483,7 +483,7 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
             my $autocommit = $c->req->params->{autocommit};
             if ($autocommit) {
                 if ($field eq "topic") {
-                    my @topic_values = $value? decode_json($value) : undef;
+                    my @topic_values = $value? from_json($value) : undef;
                     $ia->instant_answer_topics->delete;
 
                     for my $topic (@{$topic_values[0]}) {
@@ -611,14 +611,14 @@ sub current_ia {
         # to see if this field was edited
         my %other_q = (
             edited => $other_q_edited,
-            value => $other_q_val? decode_json($other_q_val) : undef
+            value => $other_q_val? from_json($other_q_val) : undef
         );
 
         %x = (
             name => $name[0][@name]{'value'},
             description => $desc[0][@desc]{'value'},
             status => $status[0][@status]{'value'},
-            topic => $topic_val? decode_json($topic_val) : undef,
+            topic => $topic_val? from_json($topic_val) : undef,
             example_query => $example_query[0][@example_query]{'value'},
             other_queries => \%other_q,
             dev_milestone => $dev_milestone[0][@dev_milestone]{'value'}
@@ -638,7 +638,7 @@ sub add_edit {
     my $current_updates = $ia->get_column('updates') || ();
 
     if($value ne $orig_data){
-        $current_updates = $current_updates? decode_json($current_updates) : undef;
+        $current_updates = $current_updates? from_json($current_updates) : undef;
         my @field_updates = $current_updates->{$field}? $current_updates->{$field} : undef;
         my $time = time;
         my %new_update = ( value => $value,
@@ -669,7 +669,7 @@ sub remove_edit {
 
     my $updates = ();
     my $column_updates = $ia->get_column('updates');
-    my $edits = $column_updates? decode_json($column_updates) : undef;
+    my $edits = $column_updates? from_json($column_updates) : undef;
     $edits->{$field} = undef;
                       
     $ia->update({updates => $edits});
@@ -695,7 +695,7 @@ sub get_edits {
 
     try{
         my $column_updates = $ia_result->get_column('updates');
-        $edits = $column_updates? decode_json($column_updates) : undef;
+        $edits = $column_updates? from_json($column_updates) : undef;
     }catch{
         return;
     };
