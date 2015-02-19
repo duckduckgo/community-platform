@@ -38,6 +38,13 @@ sub index :Chained('base') :PathPart('') :Args() {
         }
     )->all;
 
+    my $is_admin;
+
+    if ($c->user) {
+        $is_admin = $c->user->admin;
+    }
+
+    $c->stash->{admin} = $is_admin;
     $c->stash->{title} = "Index: Instant Answers";
     $c->stash->{topic_list} = \@topics;
     $c->add_bc('Instant Answers', $c->chained_uri('InstantAnswer','index'));
@@ -469,6 +476,37 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
                     $c->d->errorlog("Error updating the database");
                 };
             }
+        }
+    }
+
+    $c->stash->{x} = {
+        result => $result,
+    };
+
+    $c->stash->{not_last_url} = 1;
+    return $c->forward($c->view('JSON'));
+}
+
+sub create_ia :Chained('base') :PathPart('create') :Args() {
+    my ( $self, $c ) = @_;
+
+    my $ia = $c->d->rs('InstantAnswer')->find({lc id => $c->req->params->{id}});
+    my $is_admin;
+    my $result = '';
+
+    if ($c->user && (!$ia)) {
+       $is_admin = $c->user->admin;
+
+        if ($is_admin) {
+            my $new_ia = $c->d->rs('InstantAnswer')->create({
+                lc id => $c->req->params->{id},
+                name => $c->req->params->{name},
+                status => $c->req->params->{dev_milestone},
+                dev_milestone => $c->req->params->{dev_milestone},
+                description => $c->req->params->{description},
+            });
+
+            $result = 1;
         }
     }
 
