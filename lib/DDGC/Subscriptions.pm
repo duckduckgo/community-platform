@@ -33,8 +33,8 @@ sub _build_categories {
 				at_mention
 				all_threads_general
 				all_comments_general
-				all_threads_comleader
-				all_comments_comleader
+				all_threads_community
+				all_comments_community
 				all_threads_internal
 				all_comments_internal
 			/],
