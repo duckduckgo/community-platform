@@ -128,13 +128,19 @@ before insert => sub {
 
 after insert => sub {
 	my ( $self ) = @_;
-	$self->ddgc->subscriptions->generate_events( 'comment', $self );
+	return if $self->ghosted;
+	$self->generate_events;
 };
 
 before delete => sub {
 	my ( $self ) = @_;
 	die "Can't kill a comment with children" if $self->children->count;
 };
+
+sub generate_events {
+	my ( $self ) = @_;
+	$self->ddgc->subscriptions->generate_events( 'comment', $self );
+}
 
 sub event_related {
 	my ( $self ) = @_;

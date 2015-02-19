@@ -116,8 +116,9 @@ before insert => sub {
 };
 
 after insert => sub {
-  my ( $self ) = @_;
-  $self->ddgc->subscriptions->generate_events( 'thread', $self );
+	my ( $self ) = @_;
+	return if $self->ghosted;
+	$self->generate_events;
 };
 
 after update => sub {
@@ -137,6 +138,11 @@ after update => sub {
   	$self->comment->update;
   });
 };
+
+sub generate_events {
+	my ( $self ) = @_;
+	$self->ddgc->subscriptions->generate_events( 'thread', $self );
+}
 
 sub sorted_screenshots {
 	my ( $self ) = @_;
