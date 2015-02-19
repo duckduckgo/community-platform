@@ -127,15 +127,20 @@ sub queries :Chained('base') :PathPart('queries') :Args(0) {
 
 }
 
-sub dev_pipeline :Chained('base') :PathPart('dev_pipeline') :Args(0) {
+sub dev_pipeline_base :Chained('base') :PathPart('pipeline') :CaptureArgs(0) {
+    my ( $self, $c ) = @_;
+}
+
+sub dev_pipeline :Chained('dev_pipeline_base') :PathPart('') :Args(0) {
     my ( $self, $c ) = @_;
 
     $c->stash->{ia_page} = "IADevPipeline";
     $c->stash->{title} = "Dev Pipeline";
+    $c->add_bc('Instant Answers', $c->chained_uri('InstantAnswer','index'));
     $c->add_bc('Dev Pipeline', $c->chained_uri('InstantAnswer','dev_pipeline'));
 }
 
-sub pipeline_json :Chained('dev_pipeline') :PathPart('json') :Args(0) {
+sub dev_pipeline_json :Chained('dev_pipeline_base') :PathPart('json') :Args(0) {
     my ( $self, $c ) = @_;
 
     my $rs = $c->d->rs('InstantAnswer');
@@ -148,7 +153,7 @@ sub pipeline_json :Chained('dev_pipeline') :PathPart('json') :Args(0) {
     )->all;
 
     $c->stash->{x} = \@ial;
-    $c->stash->{not_last_url} = 1;
+    #   $c->stash->{not_last_url} = 1;
     $c->forward($c->view('JSON'));
 }
 
