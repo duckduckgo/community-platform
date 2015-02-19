@@ -97,17 +97,21 @@ sub _build_subscriptions {
 
 
 		all_threads_general => {
-			applies_to          => 'thread_aggregate',
-			process             =>  sub { 1; },
+			applies_to          => 'thread',
+			process             =>  sub {
+				$self->all_threads( 'general', @_ );
+			},
 			user_filter         => sub { 1; },
 			description         => 'All threads on the General Ramblings forum',
 			category            => 'forum',
 		},
 
 
-		all_threads_comleader => {
-			applies_to          => 'thread_aggregate',
-			process             => sub { 1; },
+		all_threads_community => {
+			applies_to          => 'thread',
+			process             =>  sub {
+				$self->all_threads( 'community', @_ );
+			},
 			user_filter         => sub { $self->forum_user_filter( 'community',  @_ ) },
 			description         => 'All threads on the Community Leader forum',
 			category            => 'forum',
@@ -115,8 +119,10 @@ sub _build_subscriptions {
 
 
 		all_threads_internal => {
-			applies_to          => 'thread_aggregate',
-			process             =>  sub { 1; },
+			applies_to          => 'thread',
+			process             =>  sub {
+				$self->all_threads( 'internal', @_ );
+			},
 			user_filter         => sub { $self->forum_user_filter( 'internal',  @_ ) },
 			description         => 'All threads on the Internal forum',
 			category            => 'forum',
@@ -126,7 +132,7 @@ sub _build_subscriptions {
 		all_comments_general => {
 			applies_to          => 'comment_aggregate',
 			process             =>  sub {
-				$self->all_comments_threads( 'general', @_ );
+				$self->all_comments_on_threads( 'general', @_ );
 			},
 			user_filter         => sub { 1; },
 			description         => 'All comments on the General Ramblings forum',
@@ -137,7 +143,7 @@ sub _build_subscriptions {
 		all_comments_community => {
 			applies_to          => 'comment_aggregate',
 			process             =>  sub {
-				$self->all_comments_threads( 'community', @_ );
+				$self->all_comments_on_threads( 'community', @_ );
 			},
 			user_filter         => sub { $self->forum_user_filter( 'community',  @_ ) },
 			description         => 'All comments on the Community Leader forum',
@@ -148,7 +154,7 @@ sub _build_subscriptions {
 		all_comments_internal => {
 			applies_to          => 'comment_aggregate',
 			Process             =>  sub {
-				$self->all_comments_threads( 'internal', @_ );
+				$self->all_comments_on_threads( 'internal', @_ );
 			},
 			user_filter         => sub { $self->forum_user_filter( 'internal',  @_ ) },
 			description         => 'All comments on the Internal forum',
@@ -166,17 +172,21 @@ sub neglected_thread {
 }
 
 # Generates events for all new thread comments, all new threads.
-sub all_comments_threads {
+sub all_comments_on_threads {
 	my ( $self, $forum, $r ) = @_;
-	$r = $self->rs_to_result( $r );
 	return unless ( $r->can('thread') && $r->thread );
 	if ( $r->thread->forum == $self->ddgc->config->id_for_forum( $forum ) ) {
 		if ( $r->parent_id ) {
 			$self->event_simple( "all_comments_$forum", $r );
 		}
-		else {
-			$self->event_simple( "all_thread_$forum", $r->thread );
-		}
+	}
+}
+
+sub all_threads {
+	my ( $self, $forum, $r ) = @_;
+	$r = $self->rs_to_result( $r );
+	if ( $r->forum == $self->ddgc->config->id_for_forum( $forum ) ) {
+		$self->event_simple( "all_threads_$forum", $r );
 	}
 }
 
