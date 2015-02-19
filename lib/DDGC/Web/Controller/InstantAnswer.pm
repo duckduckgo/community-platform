@@ -499,11 +499,18 @@ sub create_ia :Chained('base') :PathPart('create') :Args() {
        $is_admin = $c->user->admin;
 
         if ($is_admin) {
+            my $dev_milestone = $c->req->params->{dev_milestone};
+            my $status = $dev_milestone;
+            
+            if ($dev_milestone eq 'in_development') {
+                $status =~ s/_/ /g;
+            }
+
             my $new_ia = $c->d->rs('InstantAnswer')->create({
                 lc id => $c->req->params->{id},
                 name => $c->req->params->{name},
-                status => $c->req->params->{dev_milestone},
-                dev_milestone => $c->req->params->{dev_milestone},
+                status => $status,
+                dev_milestone => $dev_milestone,
                 description => $c->req->params->{description},
             });
 
