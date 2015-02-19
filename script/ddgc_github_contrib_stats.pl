@@ -88,7 +88,7 @@ my $core_team_github = {
     },
     ddg => {
         name => 'DuckDuckGo',
-    }
+    },
     abeyang     =>  {
         name =>  'Abe Yang',
     },
