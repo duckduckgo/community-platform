@@ -1223,3 +1223,17 @@ body.texture {
 .ia-single .assign-button {
     margin-top: 0.5em;
 }
+
+#dev_pipeline .dev_pipeline-column {
+    width: 20%;
+    text-align: left;
+    padding: 0 1em;
+}
+
+#dev_pipeline .dev_pipeline-column:not(#pipeline-planning) {
+    margin-left: 1em;
+}
+
+#dev_pipeline .dev_pipeline-column__list li {
+    list-style: none;
+}

@@ -144,16 +144,50 @@ sub dev_pipeline_json :Chained('dev_pipeline_base') :PathPart('json') :Args(0) {
     my ( $self, $c ) = @_;
 
     my $rs = $c->d->rs('InstantAnswer');
-    my @ial = $rs->search(
-        {'me.dev_milestone' => { '!=' => 'live'}},
+    my @planning = $rs->search(
+        {'me.dev_milestone' => { '=' => 'planning'}},
         {
             columns => [ qw/ name id dev_milestone/ ],
+            order_by => [ qw/ name/ ],
             result_class => 'DBIx::Class::ResultClass::HashRefInflator',
         }
     )->all;
 
-    $c->stash->{x} = \@ial;
-    #   $c->stash->{not_last_url} = 1;
+    my @in_development = $rs->search(
+        {'me.dev_milestone' => { '=' => 'in_development'}},
+        {
+            columns => [ qw/ name id dev_milestone/ ],
+            order_by => [ qw/ name/ ],
+            result_class => 'DBIx::Class::ResultClass::HashRefInflator',
+        }
+    )->all;
+
+    my @qa = $rs->search(
+        {'me.dev_milestone' => { '=' => 'qa'}},
+        {
+            columns => [ qw/ name id dev_milestone/ ],
+            order_by => [ qw/ name/ ],
+            result_class => 'DBIx::Class::ResultClass::HashRefInflator',
+        }
+    )->all;
+
+    my @ready = $rs->search(
+        {'me.dev_milestone' => { '=' => 'ready'}},
+        {
+            columns => [ qw/ name id dev_milestone/ ],
+            order_by => [ qw/ name/ ],
+            result_class => 'DBIx::Class::ResultClass::HashRefInflator',
+        }
+    )->all;
+
+    $c->stash->{x} = {
+        planning => \@planning,
+        in_development => \@in_development,
+        qa => \@qa,
+        ready => \@ready,
+    };
+    
+    $c->stash->{not_last_url} = 1;
     $c->forward($c->view('JSON'));
 }
 
