@@ -68,5 +68,10 @@ sub event_object {
 	$self->event_objects->first;
 }
 
+sub icon {
+	my ( $self ) = @_;
+	$self->ddgc->subscriptions->subscriptions->{ $self->subscription_id }->{icon};
+}
+
 no Moose;
 __PACKAGE__->meta->make_immutable;
