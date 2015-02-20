@@ -154,6 +154,15 @@
                         }
                     });
 
+                    $("body").on('change', ".dev_milestone-container__body__select.js-autocommit", function(evt) {
+                        var field = $.trim($(this).attr("id").replace("-select", ""));
+                        var value = $.trim($(this).find("option:selected").text());
+
+                        if (field.length && value.length) {
+                             autocommit(field, value, DDH_iaid);
+                        }
+                    });
+
                     $("body").on('keypress focusout', ".dev_milestone-container__body__input.js-autocommit-focused", function(evt) {
                         if ((evt.type === 'keypress' && evt.which === 13) || (evt.type === "focusout")) {
                             var field = $.trim($(this).attr("id").replace("-input", ""));
