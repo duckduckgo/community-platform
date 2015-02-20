@@ -7,11 +7,19 @@
 
     <div class="dev_milestone-container__body container-planning__body">
         <div class="dev_milestone-container__body__label ia-single--header">
-            REPO
+            TYPE
         </div>
         {{#unless future.planning}}
             {{#if permissions.can_edit}}
-                <input type="text" class="dev_milestone-container__body__input js-autocommit" id="repo-input" value="{{live.repo}}" />
+                <span>
+                <select class="dev_milestone-container__body__select js-autocommit" tabindex="-1" id="repo-select">
+                    <option value="0">{{live.repo}}</option>
+                    <option value="1">fathead</option>
+                    <option value="2">goodies</option>
+                    <option value="3">longtail</option>
+                    <option value="4">spice</option>
+                </select>
+                </span>
             {{else}}
                 <div class="dev_milestone-container__body__readonly" id="repo-txt">
                     <a class="dev_milestone-container__body__readonly__a" href="https://github.com/duckduckgo/zeroclickinfo-{{live.repo}}">
