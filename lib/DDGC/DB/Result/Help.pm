@@ -24,10 +24,10 @@ unique_column key => {
 
 column help_category_id => {
 	data_type => 'bigint',
-	is_nullable => 0,
+	is_nullable => 1,
 };
 
-belongs_to 'help_category', 'DDGC::DB::Result::Help::Category', 'help_category_id';
+belongs_to 'help_category', 'DDGC::DB::Result::Help::Category', 'help_category_id', { join_type => 'left' };;
 sub category { shift->help_category(@_) }
 
 column data => {
