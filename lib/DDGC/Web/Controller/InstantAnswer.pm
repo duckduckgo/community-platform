@@ -209,6 +209,8 @@ sub ia_base :Chained('base') :PathPart('view') :CaptureArgs(1) {  # /ia/view/cal
     my $can_edit;
     my $can_commit;
     my $commit_class = "hide";
+    my $ia = $c->stash->{ia};
+    my $dev_milestone = $ia->dev_milestone;
 
     if ($c->user) {
         $permissions = $c->stash->{ia}->users->find($c->user->id);
@@ -242,7 +244,11 @@ sub ia_base :Chained('base') :PathPart('view') :CaptureArgs(1) {  # /ia/view/cal
     )->all;
 
     $c->stash->{topic_list} = \@topics;
-    $c->add_bc('Instant Answers', $c->chained_uri('InstantAnswer','index'));
+    if ($dev_milestone eq 'live') {
+        $c->add_bc('Instant Answers', $c->chained_uri('InstantAnswer','index'));
+    } else {
+        $c->add_bc('Dev Pipeline', $c->chained_uri('InstantAnswer','dev_pipeline'));
+    }
     $c->add_bc($c->stash->{ia}->name);
 }
 
