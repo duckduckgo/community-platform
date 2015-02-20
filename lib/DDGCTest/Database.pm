@@ -94,10 +94,6 @@ sub deploy {
 
 sub update_notifications {
 	my ( $self ) = @_;
-	$self->d->rs('Event')->result_class->meta->add_after_method_modifier('notify', sub {
-		$self->next_step;
-	});
-	$self->d->envoy->update_all_notifications;
 }
 
 has current_step => (
@@ -658,7 +654,7 @@ sub add_users {
 		[qw( moderations 2 0 )],
 		[qw( reports 2 0 )],
 		[qw( translation_votes 2 1 )]) {
-		$testone->add_type_notification(@{$_});
+		$testone->add_subscription(@{$_});
 		$self->next_step;
 	}
 	$self->c->{users}->{testone} = $testone;
@@ -685,7 +681,7 @@ sub add_users {
 		my $lowercase_username = lc($username);
 		$self->c->{users}->{$lowercase_username} = $user;
 		for (@notifications) {
-			$user->add_type_notification(@{$_});
+			$user->add_subscription(@{$_});
 			$self->next_step;
 		}
     $self->isa_ok($user,'DDGC::DB::Result::User');
