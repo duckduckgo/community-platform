@@ -88,7 +88,7 @@ my $core_team_github = {
     },
     ddg => {
         name => 'DuckDuckGo',
-    }
+    },
     abeyang     =>  {
         name =>  'Abe Yang',
     },
@@ -151,6 +151,8 @@ my @projects = qw/
 /;
 
 sub github_creds {
+    ($ENV{DDGC_GITHUB_TOKEN}) && return ( access_token => $ENV{DDGC_GITHUB_TOKEN} );
+
     print "GitHub API limits requests to 60 per hour, please provide login so this script doesn't fail\n\n";
 
     print "Username : ";
