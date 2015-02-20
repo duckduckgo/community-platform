@@ -187,6 +187,30 @@
 #ia_index {
     width: 100%;
 }
+#create-new-ia.button {
+    left: 0.75em;
+}
+#create-new-ia-form {
+    position: fixed;
+    background-color: #fff;
+    width: 31em;
+    z-index: 1000;
+    border: 1px solid #dbdbdb;
+    top: 10em;
+    left: 25em;
+    box-shadow: 2px 5px 20px 5px #888;
+    padding: 20px 0 20px 25px;
+}
+.new-ia-form-section {
+    margin-right: 0.5em;
+}
+#new-ia-form-cancel {
+    margin-left: 0.5em;
+}
+#create-new-ia-form #description-input {
+    width: 94%;
+    margin-bottom: 0.5em;
+}
 #filters {
     width: 25%;
     text-align: center;
@@ -238,13 +262,33 @@
     padding-bottom: 0.5em;
     border-bottom: 1px solid #ddd;
 }
-#filters .button-group-vertical {
+#filters .button-group-vertical,
+#filters .button-group {
    margin: 1em auto 0 auto;
-   text-align: left;
 }
-
+#filters .button-group-vertical {
+    text-align: left;
+}
+#filters #filter_dev_milestone {
+    width: 100%;
+}
+#filters #filter_dev_milestone #ia_dev_milestone-all,
+#filters #filter_dev_milestone #ia_dev_milestone-live {
+    width: 15%;
+}
+#filters #filter_dev_milestone .button.dev_milestone {
+    font-weight: 400;
+    box-shadow: none;
+}
+#filters #filter_dev_milestone .button.dev_milestone.is-selected {
+    background-color: #f2f2f2;
+}
+#filters .one-field {
+    margin-bottom: 1em;
+}
 #filters #filter_repo,
-#filters .dropdown ul {
+#filters .dropdown ul,
+#filters #filter_dev_milestone .button.dev_milestone {
    border: 1px solid #d0d0d0;
 }
 
@@ -1174,4 +1218,34 @@ body.texture {
 .ia-single .dev_milestone-container.future-container,
 .ia-single .docs-link-icon {
     color: #AAA;
+}
+
+.ia-single .assign-button {
+    margin-top: 0.5em;
+}
+
+#dev_pipeline .dev_pipeline-column {
+    width: 21%;
+    text-align: left;
+    padding: 0 1em;
+}
+
+#dev_pipeline .dev_pipeline-column:not(#pipeline-planning) {
+    margin-left: 0.5em;
+}
+
+#dev_pipeline .dev_pipeline-column__title {
+    font-weight: 600;
+    font-size: 1.92em;
+}
+
+#dev_pipeline .dev_pipeline-column__list li {
+    list-style: none;
+    padding: 0.3em 0;
+    font-size: 1.1em;
+    border-bottom: 1px solid #cdcdcd;
+}
+
+#dev_pipeline .dev_pipeline-column__list li a {
+    color: #333;
 }

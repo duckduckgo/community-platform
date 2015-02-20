@@ -9,7 +9,11 @@
     <div class="column-center-live left">
         <div class="column-center-live__child">
             <p name="example_query" class="column-center-live__child__p" id="primary">
-                {{live.example_query}}
+                {{#if live.example_query}}
+                    {{live.example_query}}
+                {{else}}
+                    —
+                {{/if}}
             </p>
         </div>
     </div>

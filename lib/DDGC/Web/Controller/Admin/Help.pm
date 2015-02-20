@@ -46,6 +46,7 @@ sub index :Chained('base') :PathPart('') :Args(0) {
 			if ($id > 0) {
 				$help = $c->d->rs('Help')->find($id);
 				die "help id ".$_." not found" unless $help;
+				$help_values{help_category_id} ||= undef;
 				for (keys %help_values) {
 					$help->$_($help_values{$_});
 				}

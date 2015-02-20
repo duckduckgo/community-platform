@@ -30,7 +30,7 @@ unique_column name => {
         is_nullable => 0,
 };
 
-has_many 'instant_answer_topics', 'DDGC::DB::Result::InstantAnswer::Topics', 'topics_id';
+has_many 'instant_answer_topics', 'DDGC::DB::Result::InstantAnswer::Topics', 'topics_id', {on_delete => 'cascade'};
 many_to_many 'instant_answers', 'instant_answer_topics', 'instant_answer';
 
 no Moose;

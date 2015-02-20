@@ -35,7 +35,8 @@ move $upload_meta, $meta_copy;
 
 # try reading metadata file
 try {
-    $meta = decode_json(io->file($meta_copy)->slurp);
+    my $json = io->file($meta_copy)->slurp;
+    $meta = from_json($json);
 }
 catch {
     $d->errorlog("Error reading metadata: $_");
@@ -43,10 +44,10 @@ catch {
 };
 
 my $update = sub { 
-    
     if($nuke_tables){
         print "Deleting all tables before updating\n";
         $d->rs('InstantAnswer')->delete;
+        $d->rs('Topic')->delete;
     }
 
     say "there are " . (scalar @{$meta}) . " IAs" if debug;
@@ -138,3 +139,4 @@ try{
     print "Update error, rolling back\n";
     $d->errorlog("Error updating iameta, Rolling back update: $_");
 };
+

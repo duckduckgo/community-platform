@@ -9,7 +9,11 @@
     <div class="column-center-live left">
         <div class="column-center-live__child">
             <p class="column-center-live__child__p">
-                {{live.status}}
+                {{#if live.status}}
+                    {{live.status}}
+                {{else}}
+                    —
+                {{/if}}
             </p>
         </div>
     </div>
