@@ -153,7 +153,7 @@ sub _build_subscriptions {
 
 		all_comments_internal => {
 			applies_to          => 'comment_aggregate',
-			Process             =>  sub {
+			process             =>  sub {
 				$self->all_comments_on_threads( 'internal', @_ );
 			},
 			user_filter         => sub { $self->forum_user_filter( 'internal',  @_ ) },
