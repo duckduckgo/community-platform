@@ -8,7 +8,6 @@ use DDGC::DB;
 use DDGC::DuckPAN;
 use DDGC::XMPP;
 use DDGC::Markup;
-use DDGC::Envoy;
 use DDGC::Postman;
 use DDGC::Stats;
 use DDGC::GitHub;
@@ -165,14 +164,6 @@ has markup => (
 	lazy_build => 1,
 );
 sub _build_markup { DDGC::Markup->new({ ddgc => shift }) }
-
-# Notification System
-has envoy => (
-	isa => 'DDGC::Envoy',
-	is => 'ro',
-	lazy_build => 1,
-);
-sub _build_envoy { DDGC::Envoy->new({ ddgc => shift }) }
 
 # Mail System
 has postman => (
