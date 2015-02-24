@@ -157,17 +157,20 @@
                     $("body").on('change', ".dev_milestone-container__body__select.js-autocommit", function(evt) {
                         var field;
                         var value;
-
+                    
                         if ($(this).hasClass("topic-group")) {
-                            var this_topic = $(this);
-                            var arr = [value];
+                            value = [];
+                            var temp;
                             $(".dev_milestone-container__body__select.js-autocommit.topic-group").each(function(idx) {
-                                if ($(this) !== this_topic) {
-                                    arr.push($.trim($(this).find("option:selected").text()));
+                                temp = $.trim($(this).find("option:selected").text());
+
+                                if (temp.length) {
+                                    value.push(temp);
                                 }
                             });
 
-                           value = JSON.stringify(arr); 
+                           field = "topic";
+                           value = JSON.stringify(value); 
                         } else {
                            field = $.trim($(this).attr("id").replace("-select", ""));
                            value = $.trim($(this).find("option:selected").text());
@@ -305,8 +308,13 @@
                             if ($(this).hasClass("js-autocommit")) {
                                 var field = "topic";
                                 var value = [];
+                                var temp;
                                 $(".dev_milestone-container__body__select.js-autocommit.topic-group").each(function(idx) {
-                                    value.push($.trim($(this).find("option:selected").text()));
+                                    temp = $.trim($(this).find("option:selected").text());
+
+                                    if (temp.length) {
+                                        value.push(temp);
+                                    }
                                 });
 
                                 value = JSON.stringify(value); 
@@ -531,6 +539,10 @@
                             $("#" + $.trim($(this).attr("id").replace("-input", "")) + "-button").hide();
                         }
                     });
+
+                    if ($(".topic-group").length) {
+                        $(".topic-group").append($("#allowed_topics").html());
+                    }
                 } 
             }
         }    
