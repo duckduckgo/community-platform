@@ -60,6 +60,21 @@
             {{/unless}}
         {{/eq}}
 
+        {{#eq live.repo 'fathead'}}
+            <div class="dev_milestone-container__body__label ia-single--header">
+                SOURCE OPTIONS
+            </div>
+            {{#unless future.planning}}
+                {{#if permissions.can_edit}}
+                    <input type="text" class="dev_milestone-container__body__input js-autocommit" id="src_options-input" value="{{live.src_options}}" />
+                {{else}}
+                    <div class="dev_milestone-container__body__readonly" id="src_options-txt">
+                        {{live.src_options}}
+                    </div>
+                {{/if}}
+            {{/unless}}
+        {{/eq}}
+
         <div class="dev_milestone-container__body__label ia-single--header">
             SAFE SEARCH
         </div>
