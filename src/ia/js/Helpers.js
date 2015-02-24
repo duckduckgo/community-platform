@@ -8,4 +8,11 @@
         }
     });
 
+    // Return the array value at the specified index
+    Handlebars.registerHelper('index', function(array, idx) {
+        if (array[idx]) {
+            return array[idx];
+        }
+    });
+
 })(DDH);

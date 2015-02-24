@@ -161,7 +161,7 @@
                         if ($(this).hasClass("topic-group")) {
                             var this_topic = $(this);
                             var arr = [value];
-                            $(".dev_milestone-container__body__select.js-autocommit.topic-group").each(functionn(idx) {
+                            $(".dev_milestone-container__body__select.js-autocommit.topic-group").each(function(idx) {
                                 if ($(this) !== this_topic) {
                                     arr.push($.trim($(this).find("option:selected").text()));
                                 }
@@ -169,7 +169,7 @@
 
                            value = JSON.stringify(arr); 
                         } else {
-                           field = $.trim($(this).attr("id").replace("-select", "");
+                           field = $.trim($(this).attr("id").replace("-select", ""));
                            value = $.trim($(this).find("option:selected").text());
                         }
 
@@ -282,22 +282,41 @@
                     });
 
                     $("body").on("click", ".button.delete", function(evt) {
-                        var field = $(this).parent().find(".js-editable").attr('name');
-                        if (field === 'example_query') {
-                            var $new_primary = $('a.other-examples input').first();
-                            if ($new_primary.length) {
-                                $new_primary.parent().removeClass('other-examples');
-                                $new_primary.parent().attr('name', 'example_query');
-                                $new_primary.parent().attr('id', 'primary');
-                            }
-                        }
-
                         $(this).parent().remove();
 
-                        if (!$("#examples .other-examples").length && $("#primary").length) {
-                            $("#primary").parent().find(".button.delete").addClass("hide");
+                        if (ia_data.live.dev_milestone === "live") {
+                            var field = $(this).parent().find(".js-editable").attr('name');
+                            if (field === 'example_query') {
+                                var $new_primary = $('a.other-examples input').first();
+                                if ($new_primary.length) {
+                                    $new_primary.parent().removeClass('other-examples');
+                                    $new_primary.parent().attr('name', 'example_query');
+                                    $new_primary.parent().attr('id', 'primary');
+                                }
+                            }
+
+                            if (!$("#examples .other-examples").length && $("#primary").length) {
+                                $("#primary").parent().find(".button.delete").addClass("hide");
+                            }
+                        } else {
+                            // If dev milestone is not 'live' it means we are in the dev page
+                            // and a topic has been deleted (it's the only field having a delete button in the dev page
+                            // so far) - so we must save
+                            if ($(this).hasClass("js-autocommit")) {
+                                var field = "topic";
+                                var value = [];
+                                $(".dev_milestone-container__body__select.js-autocommit.topic-group").each(function(idx) {
+                                    value.push($.trim($(this).find("option:selected").text()));
+                                });
+
+                                value = JSON.stringify(value); 
+
+                                if (field.length && value.length) {
+                                    autocommit(field, value, DDH_iaid);
+                                }
+                            }
                         }
-                    });
+                   });
 
                     $("body").on('keypress click', '.js-input, .button.js-editable', function(evt) {
                         if ((evt.type === 'keypress' && (evt.which === 13 && $(this).hasClass("js-input")))
