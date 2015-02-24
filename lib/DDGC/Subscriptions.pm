@@ -4,6 +4,7 @@ package DDGC::Subscriptions;
 use v5.10.1;
 
 use Moose;
+use DateTime;
 
 has ddgc => (
 	isa => 'DDGC',
@@ -40,6 +41,23 @@ sub _build_categories {
 			/],
 		}
 	];
+}
+
+# Which rs to query for a given aggregate notification type
+has aggregate_resultsets => (
+	isa => 'HashRef',
+	is => 'ro',
+	required => 1,
+	lazy_build => 1,
+);
+sub _build_aggregate_resultsets {
+	+{
+		comment_aggregate => 'Comment',
+		thread_aggregate  => 'Thread',
+		token_aggregate   => 'Token',
+		translation_aggregate => 'Token::Language::Translation',
+		translation_votes_aggregate => 'Token::Language::Translation::Vote',
+	}
 }
 
 has notification_cycles => (
@@ -262,6 +280,29 @@ sub generate_events {
 			( $subs->{ $sub }->{applies_to} ne $type ) );
 
 		$subs->{ $sub }->{process}->( $rs );
+	}
+}
+
+# $lastrun should be a DateTime instance
+sub generate_aggregate_events {
+	my ( $self, $lastrun ) = @_;
+
+	# If $lastrun not supplied, get events for 2 hours
+	$lastrun //= DateTime->now - DateTime::Duration->new( hours => 2 );
+
+	my $created_clause = {
+		created => {
+			'>=' =>
+			$self->ddgc->db->storage->datetime_parser->format_datetime($lastrun)
+		}
+	};
+
+	my $aggregate_resultsets = $self->aggregate_resultsets;
+	while (my ($subscription, $rs) = each $aggregate_resultsets) {
+		$self->generate_events(
+			$subscription,
+			$self->ddgc->rs($rs)->search( $created_clause ),
+		);
 	}
 }
 
