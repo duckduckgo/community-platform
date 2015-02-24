@@ -48,7 +48,15 @@
         </div>
         {{#unless future.in_development}}
             {{#if permissions.can_edit}}
-                <input type="text" class="dev_milestone-container__body__input js-autocommit comma-separated" id="topic-input" value="{{live.topic}}" />
+                <select class="dev_milestone-container__body__select js-autocommit topic-group" id="first-topic-select">
+                    <option value="0">{{live.topic}}</option>
+                </select>
+                <select class="dev_milestone-container__body__select js-autocommit topic-group" id="second-topic-select">
+                    <option value="0">{{live.topic}}</option>
+                </select>
+                <select class="dev_milestone-container__body__select js-autocommit topic-group" id="third-topic-select">
+                    <option value="0">{{live.topic}}</option>
+                </select>
             {{else}}
                 <div class="dev_milestone-container__body__readonly" id="topic-txt">
                    {{live.topic}} 

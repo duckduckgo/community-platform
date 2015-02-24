@@ -155,8 +155,23 @@
                     });
 
                     $("body").on('change', ".dev_milestone-container__body__select.js-autocommit", function(evt) {
-                        var field = $.trim($(this).attr("id").replace("-select", ""));
-                        var value = $.trim($(this).find("option:selected").text());
+                        var field;
+                        var value;
+
+                        if ($(this).hasClass("topic-group")) {
+                            var this_topic = $(this);
+                            var arr = [value];
+                            $(".dev_milestone-container__body__select.js-autocommit.topic-group").each(functionn(idx) {
+                                if ($(this) !== this_topic) {
+                                    arr.push($.trim($(this).find("option:selected").text()));
+                                }
+                            });
+
+                           value = JSON.stringify(arr); 
+                        } else {
+                           field = $.trim($(this).attr("id").replace("-select", "");
+                           value = $.trim($(this).find("option:selected").text());
+                        }
 
                         if (field.length && value.length) {
                              autocommit(field, value, DDH_iaid);
