@@ -92,8 +92,7 @@ sub iarepo_json :Chained('iarepo') :PathPart('json') :Args(0) {
     my %iah;
 
     for my $ia (@x) {
-        my $topics = $ia->topic;
-
+        my @topics = map { $_->name} $ia->topics;
 
         $iah{$ia->id} = {
                 name => $ia->name,
@@ -103,7 +102,8 @@ sub iarepo_json :Chained('iarepo') :PathPart('json') :Args(0) {
                 perl_module => $ia->perl_module,
                 tab => $ia->tab,
                 description => $ia->description,
-                status => $ia->status
+                status => $ia->status,
+                topic => \@topics
         };
 
         # fathead specific
