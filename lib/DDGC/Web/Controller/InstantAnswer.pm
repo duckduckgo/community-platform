@@ -148,7 +148,7 @@ sub dev_pipeline_json :Chained('dev_pipeline_base') :PathPart('json') :Args(0) {
     my @planning = $rs->search(
         {'me.dev_milestone' => { '=' => 'planning'}},
         {
-            columns => [ qw/ name id dev_milestone/ ],
+            columns => [ qw/ name id dev_milestone producer designer developer/ ],
             order_by => [ qw/ name/ ],
             result_class => 'DBIx::Class::ResultClass::HashRefInflator',
         }
