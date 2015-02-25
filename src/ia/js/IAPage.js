@@ -129,22 +129,50 @@
                         $(this).children("i").toggleClass("icon-caret-down");
                     });
 
-                    $("body").on('click', ".dev_milestone-container__body__div__checkbox", function(evt) {
-                        if ($(this).hasClass("js-autocommit")) {
-                            var field = $.trim($(this).attr("id").replace("-check", ""));
-                            var value;
-                            if ($(this).hasClass("icon-check-empty")) {
-                                value = 1;
-                            } else {
-                                value = 0;
-                            }
+                    $("body").on('click', ".dev_milestone-container__body__div__checkbox.js-autocommit", function(evt) {
+                        var field = $.trim($(this).attr("id").replace("-check", ""));
+                        var value;
+                        if ($(this).hasClass("icon-check-empty")) {
+                            value = 1;
+                        } else {
+                            value = 0;
+                        }
 
-                            $(this).toggleClass("icon-check-empty");
-                            $(this).toggleClass("icon-check");
+                        $(this).toggleClass("icon-check-empty");
+                        $(this).toggleClass("icon-check");
 
-                            if (field.length) {
-                                autocommit(field, value, DDH_iaid);
+                        if (field.length) {
+                            if ($(this).hasClass("section-group__item")) {
+                                var parent_field = $.trim($(this).parent().parent().attr("id"));
+                                var section_vals = {};
+                                var $checked = $(this);
+                                var temp_field;
+                                var temp_value;
+
+                                section_vals[field] = value;
+                                $("#" + parent_field + " .section-group__item").each(function(idx) {
+                                    if ($(this) !== $checked) {
+                                        if ($(this).hasClass("dev_milestone-container__body__input")) {
+                                            temp_field = $.trim($(this).attr("id").replace("-input", ""));
+                                            temp_value = $.trim($(this).val());
+                                        } else {
+                                            temp_field = $.trim($(this).attr("id").replace("-check", ""));
+                                            if ($(this).hasClass("icon-check-empty")) {
+                                                temp_value = 0;
+                                            } else {
+                                                temp_value = 1;
+                                            }
+                                        }
+
+                                        section_vals[temp_field] = temp_value;
+                                    }
+                                });
+                                
+                                field = parent_field.replace("-group", "");
+                                value = JSON.stringify(section_vals);
                             }
+                         
+                            autocommit(field, value, DDH_iaid);
                         }
                     });
 
@@ -176,7 +204,36 @@
                            value = $.trim($(this).find("option:selected").text());
                         }
 
-                        if (field.length && value.length) {
+                        if (field.length && value.length) { 
+                            if ($(this).hasClass("section-group__item")) {
+                                var parent_field = $.trim($(this).parent().parent().attr("id"));
+                                var section_vals = {};
+                                var $checked = $(this);
+                                var temp_field;
+                                var temp_value;
+
+                                section_vals[field] = value;
+                                $("#" + parent_field + " .section-group__item").each(function(idx) {
+                                    if ($(this) !== $checked) {
+                                        if ($(this).hasClass("dev_milestone-container__body__input")) {
+                                            temp_field = $.trim($(this).attr("id").replace("-input", ""));
+                                            temp_value = $.trim($(this).val());
+                                        } else {
+                                            temp_field = $.trim($(this).attr("id").replace("-check", ""));
+                                            if ($(this).hasClass("icon-check-empty")) {
+                                                temp_value = 0;
+                                            } else {
+                                                temp_value = 1;
+                                            }
+                                        }
+
+                                        section_vals[temp_field] = temp_value;
+                                    }
+                                });
+                                
+                                field = parent_field.replace("-group", "");
+                                value = JSON.stringify(section_vals);
+                            }
                              autocommit(field, value, DDH_iaid);
                         }
                     });
