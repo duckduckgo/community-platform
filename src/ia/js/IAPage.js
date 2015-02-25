@@ -144,30 +144,10 @@
                         if (field.length) {
                             if ($(this).hasClass("section-group__item")) {
                                 var parent_field = $.trim($(this).parent().parent().attr("id"));
-                                var section_vals = {};
-                                var $checked = $(this);
-                                var temp_field;
-                                var temp_value;
+                                var section_vals = getSectionVals($(this), parent_field);
 
                                 section_vals[field] = value;
-                                $("#" + parent_field + " .section-group__item").each(function(idx) {
-                                    if ($(this) !== $checked) {
-                                        if ($(this).hasClass("dev_milestone-container__body__input")) {
-                                            temp_field = $.trim($(this).attr("id").replace("-input", ""));
-                                            temp_value = $.trim($(this).val());
-                                        } else {
-                                            temp_field = $.trim($(this).attr("id").replace("-check", ""));
-                                            if ($(this).hasClass("icon-check-empty")) {
-                                                temp_value = 0;
-                                            } else {
-                                                temp_value = 1;
-                                            }
-                                        }
-
-                                        section_vals[temp_field] = temp_value;
-                                    }
-                                });
-                                
+                               
                                 field = parent_field.replace("-group", "");
                                 value = JSON.stringify(section_vals);
                             }
@@ -205,35 +185,6 @@
                         }
 
                         if (field.length && value.length) { 
-                            if ($(this).hasClass("section-group__item")) {
-                                var parent_field = $.trim($(this).parent().parent().attr("id"));
-                                var section_vals = {};
-                                var $checked = $(this);
-                                var temp_field;
-                                var temp_value;
-
-                                section_vals[field] = value;
-                                $("#" + parent_field + " .section-group__item").each(function(idx) {
-                                    if ($(this) !== $checked) {
-                                        if ($(this).hasClass("dev_milestone-container__body__input")) {
-                                            temp_field = $.trim($(this).attr("id").replace("-input", ""));
-                                            temp_value = $.trim($(this).val());
-                                        } else {
-                                            temp_field = $.trim($(this).attr("id").replace("-check", ""));
-                                            if ($(this).hasClass("icon-check-empty")) {
-                                                temp_value = 0;
-                                            } else {
-                                                temp_value = 1;
-                                            }
-                                        }
-
-                                        section_vals[temp_field] = temp_value;
-                                    }
-                                });
-                                
-                                field = parent_field.replace("-group", "");
-                                value = JSON.stringify(section_vals);
-                            }
                              autocommit(field, value, DDH_iaid);
                         }
                     });
@@ -255,6 +206,15 @@
                             $(this).removeClass("js-autocommit-focused");
 
                             if (field.length && value.length) {
+                                if ($(this).hasClass("section-group__item")) {
+                                    var parent_field = $.trim($(this).parent().parent().attr("id"));
+                                    var section_vals = getSectionVals($(this), parent_field);
+                                    section_vals[field] = value;
+                                
+                                    field = parent_field.replace("-group", "");
+                                    value = JSON.stringify(section_vals);
+                                }
+                                
                                 autocommit(field, value, DDH_iaid);
                             }
                         }
@@ -442,6 +402,32 @@
                             }
                         }
                     });
+
+                    function getSectionVals($obj, parent_field) {
+                        var section_vals = {};
+                        var temp_field;
+                        var temp_value;
+
+                        $("#" + parent_field + " .section-group__item").each(function(idx) {
+                            if ($(this) !== $obj) {
+                                if ($(this).hasClass("dev_milestone-container__body__input")) {
+                                    temp_field = $.trim($(this).attr("id").replace("-input", ""));
+                                    temp_value = $.trim($(this).val());
+                                } else {
+                                    temp_field = $.trim($(this).attr("id").replace("-check", ""));
+                                    if ($(this).hasClass("icon-check-empty")) {
+                                        temp_value = 0;
+                                    } else {
+                                        temp_value = 1;
+                                    }
+                                }
+
+                                section_vals[temp_field] = temp_value;
+                            }
+                        });
+                        
+                        return section_vals;
+                    }
 
                     function autocommit(field, value, id) {
                         var jqxhr = $.post("/ia/save", {
