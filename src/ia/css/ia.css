@@ -81,6 +81,7 @@
     padding-left: 0.2em;
 }
 .ia-single .row-diff .available_topics,
+.ia-single .topic-group,
 .ia-single .row-diff .editpage span input {
     border-top-left-radius: 0;
     -moz-border-top-left-radius: 0;
@@ -94,10 +95,16 @@
 
     margin-bottom: 0.3em;
 }
-.ia-single .row-diff .available_topics {
-    height: 1.76em;
+.ia-single .row-diff .available_topics,
+.ia-single .topic-group {
     min-width: 5em;
     width: 9em;
+}
+.ia-single .row-diff .available_topics {
+    height: 1.76em;
+}
+.ia-single .topic-group {
+    height: 2.21em;
 }
 .ia-single .row-diff .editpage span input {
     height: 1.52em;
@@ -337,7 +344,7 @@
 .ia-single ul li {
     list-style-position: inside;
 }
-.ia-single .row-diff .column-right-edits .button.listbutton {
+.ia-single .button.listbutton {
     padding: 0;
     width: 1.6em;
     height: 1.9em;
@@ -345,7 +352,7 @@
     font-size: 14px;
     background-color: #dbdbdb;
 }
-.ia-single .row-diff .column-right-edits .button.delete {
+.ia-single .button.delete {
     border-right: 0;
     border-bottom-right-radius: 0;
     -moz-border-bottom-right-radius: 0;

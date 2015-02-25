@@ -48,7 +48,33 @@
         </div>
         {{#unless future.in_development}}
             {{#if permissions.can_edit}}
-                <input type="text" class="dev_milestone-container__body__input js-autocommit comma-separated" id="topic-input" value="{{live.topic}}" />
+                <div class="separator">
+                    <div class="button delete listbutton left js-autocommit" name="topic" title="Remove this topic">
+                        <i class="icon-remove" />
+                    </div>
+                    <select class="dev_milestone-container__body__select js-autocommit topic-group left" id="first-topic-select">
+                        <option value="0">{{index live.topic 0}}</option>
+                    </select>
+                    <span class="clearfix"></span>
+                </div>
+                <div class="separator">
+                    <div class="button delete listbutton left js-autocommit" name="topic" title="Remove this topic">
+                        <i class="icon-remove" />
+                    </div>
+                    <select class="dev_milestone-container__body__select js-autocommit topic-group left" id="second-topic-select">
+                        <option value="0">{{index live.topic 1}}</option>
+                    </select>
+                    <span class="clearfix"></span>
+                </div>
+                <div class="separator">
+                    <div class="button delete listbutton left js-autocommit" name="topic" title="Remove this topic">
+                        <i class="icon-remove" />
+                    </div>
+                    <select class="dev_milestone-container__body__select js-autocommit topic-group left" id="third-topic-select">
+                        <option value="0">{{index live.topic 2}}</option>
+                    </select>
+                    <span class="clearfix"></span>
+                </div>
             {{else}}
                 <div class="dev_milestone-container__body__readonly" id="topic-txt">
                    {{live.topic}} 
