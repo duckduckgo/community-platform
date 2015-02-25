@@ -92,8 +92,7 @@ sub iarepo_json :Chained('iarepo') :PathPart('json') :Args(0) {
     my %iah;
 
     for my $ia (@x) {
-        my $topics = $ia->topic;
-
+        my @topics = map { $_->name} $ia->topics;
 
         $iah{$ia->id} = {
                 name => $ia->name,
@@ -103,7 +102,8 @@ sub iarepo_json :Chained('iarepo') :PathPart('json') :Args(0) {
                 perl_module => $ia->perl_module,
                 tab => $ia->tab,
                 description => $ia->description,
-                status => $ia->status
+                status => $ia->status,
+                topic => \@topics
         };
 
         # fathead specific
@@ -324,7 +324,8 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
                 mobile_ios => $ia->mobile_ios,
                 tested_relevancy => $ia->tested_relevancy,
                 tested_staging => $ia->tested_staging,
-                is_live => $ia->is_live
+                is_live => $ia->is_live,
+                src_options => $ia->src_options? from_json($ia->src_options) : undef
     };
 
     if ($c->user) {

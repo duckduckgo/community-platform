@@ -129,22 +129,30 @@
                         $(this).children("i").toggleClass("icon-caret-down");
                     });
 
-                    $("body").on('click', ".dev_milestone-container__body__div__checkbox", function(evt) {
-                        if ($(this).hasClass("js-autocommit")) {
-                            var field = $.trim($(this).attr("id").replace("-check", ""));
-                            var value;
-                            if ($(this).hasClass("icon-check-empty")) {
-                                value = 1;
-                            } else {
-                                value = 0;
-                            }
+                    $("body").on('click', ".dev_milestone-container__body__div__checkbox.js-autocommit", function(evt) {
+                        var field = $.trim($(this).attr("id").replace("-check", ""));
+                        var value;
+                        if ($(this).hasClass("icon-check-empty")) {
+                            value = 1;
+                        } else {
+                            value = 0;
+                        }
 
-                            $(this).toggleClass("icon-check-empty");
-                            $(this).toggleClass("icon-check");
+                        $(this).toggleClass("icon-check-empty");
+                        $(this).toggleClass("icon-check");
 
-                            if (field.length) {
-                                autocommit(field, value, DDH_iaid);
+                        if (field.length) {
+                            if ($(this).hasClass("section-group__item")) {
+                                var parent_field = $.trim($(this).parent().parent().attr("id"));
+                                var section_vals = getSectionVals($(this), parent_field);
+
+                                section_vals[field] = value;
+                               
+                                field = parent_field.replace("-group", "");
+                                value = JSON.stringify(section_vals);
                             }
+                         
+                            autocommit(field, value, DDH_iaid);
                         }
                     });
 
@@ -176,7 +184,7 @@
                            value = $.trim($(this).find("option:selected").text());
                         }
 
-                        if (field.length && value.length) {
+                        if (field.length && value.length) { 
                              autocommit(field, value, DDH_iaid);
                         }
                     });
@@ -198,6 +206,15 @@
                             $(this).removeClass("js-autocommit-focused");
 
                             if (field.length && value.length) {
+                                if ($(this).hasClass("section-group__item")) {
+                                    var parent_field = $.trim($(this).parent().parent().attr("id"));
+                                    var section_vals = getSectionVals($(this), parent_field);
+                                    section_vals[field] = value;
+                                
+                                    field = parent_field.replace("-group", "");
+                                    value = JSON.stringify(section_vals);
+                                }
+                                
                                 autocommit(field, value, DDH_iaid);
                             }
                         }
@@ -385,6 +402,36 @@
                             }
                         }
                     });
+
+                    function getSectionVals($obj, parent_field) {
+                        var section_vals = {};
+                        var temp_field;
+                        var temp_value;
+
+                        $("#" + parent_field + " .section-group__item").each(function(idx) {
+                            if ($(this) !== $obj) {
+                                if ($(this).hasClass("dev_milestone-container__body__input")) {
+                                    temp_field = $.trim($(this).attr("id").replace("-input", ""));
+                                    temp_value = $.trim($(this).val());
+
+                                    if ($(this).attr("type") === "number") {
+                                        temp_value = parseInt(temp_value);
+                                    }
+                                } else {
+                                    temp_field = $.trim($(this).attr("id").replace("-check", ""));
+                                    if ($(this).hasClass("icon-check-empty")) {
+                                        temp_value = 0;
+                                    } else {
+                                        temp_value = 1;
+                                    }
+                                }
+
+                                section_vals[temp_field] = temp_value;
+                            }
+                        });
+                        
+                        return section_vals;
+                    }
 
                     function autocommit(field, value, id) {
                         var jqxhr = $.post("/ia/save", {
