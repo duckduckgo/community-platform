@@ -413,6 +413,10 @@
                                 if ($(this).hasClass("dev_milestone-container__body__input")) {
                                     temp_field = $.trim($(this).attr("id").replace("-input", ""));
                                     temp_value = $.trim($(this).val());
+
+                                    if ($(this).attr("type") === "number") {
+                                        temp_value = parseInt(temp_value);
+                                    }
                                 } else {
                                     temp_field = $.trim($(this).attr("id").replace("-check", ""));
                                     if ($(this).hasClass("icon-check-empty")) {
