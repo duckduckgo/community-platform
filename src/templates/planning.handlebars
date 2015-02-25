@@ -60,6 +60,106 @@
             {{/unless}}
         {{/eq}}
 
+        {{#eq live.repo 'fathead'}}
+            <div class="dev_milestone-container__body__label ia-single--header">
+                SOURCE OPTIONS
+            </div>
+            <div class="dev_milestone-container__body__div">
+                <ul class="section-group" id="src_options-group">
+                    <li>
+                        <i class="section-group__item dev_milestone-container__body__div__checkbox {{#unless future.planning}}{{#if permissions.can_edit}}js-autocommit{{/if}}{{/unless}} icon-check{{#unless live.src_options.skip_end}}-empty{{/unless}}" id="skip_end-check"/>
+                        <span class="dev_milestone-container__body__readonly check-txt">
+                            Skip end
+                        </span>
+                    </li>
+                    <li>
+                        <i class="section-group__item dev_milestone-container__body__div__checkbox {{#unless future.planning}}{{#if permissions.can_edit}}js-autocommit{{/if}}{{/unless}} icon-check{{#unless live.src_options.skip_abstract}}-empty{{/unless}}" id="skip_abstract-check"/>
+                        <span class="dev_milestone-container__body__readonly check-txt">
+                            Skip abstract
+                        </span>
+                    </li>
+                    <li>
+                        <i class="section-group__item dev_milestone-container__body__div__checkbox {{#unless future.planning}}{{#if permissions.can_edit}}js-autocommit{{/if}}{{/unless}} icon-check{{#unless live.src_options.skip_abstract_paren}}-empty{{/unless}}" id="skip_abstract_paren-check"/>
+                        <span class="dev_milestone-container__body__readonly check-txt">
+                            Skip abstract parent
+                        </span>
+                    </li>
+                    <li>
+                        <i class="section-group__item dev_milestone-container__body__div__checkbox {{#unless future.planning}}{{#if permissions.can_edit}}js-autocommit{{/if}}{{/unless}} icon-check{{#unless live.src_options.skip_icon}}-empty{{/unless}}" id="skip_icon-check"/>
+                        <span class="dev_milestone-container__body__readonly check-txt">
+                            Skip icon
+                        </span>
+                    </li>
+                    <li>
+                        <i class="section-group__item dev_milestone-container__body__div__checkbox {{#unless future.planning}}{{#if permissions.can_edit}}js-autocommit{{/if}}{{/unless}} icon-check{{#unless live.src_options.skip_image_name}}-empty{{/unless}}" id="skip_image_name-check"/>
+                        <span class="dev_milestone-container__body__readonly check-txt">
+                            Skip image name
+                        </span>
+                    </li>
+                    <li>
+                        <i class="section-group__item dev_milestone-container__body__div__checkbox {{#unless future.planning}}{{#if permissions.can_edit}}js-autocommit{{/if}}{{/unless}} icon-check{{#unless live.src_options.is_wikipedia}}-empty{{/unless}}" id="is_wikipedia-check"/>
+                        <span class="dev_milestone-container__body__readonly check-txt">
+                            Is Wikipedia
+                        </span>
+                    </li>
+                    <li>
+                        <i class="section-group__item dev_milestone-container__body__div__checkbox {{#unless future.planning}}{{#if permissions.can_edit}}js-autocommit{{/if}}{{/unless}} icon-check{{#unless live.src_options.is_mediawiki}}-empty{{/unless}}" id="is_mediawiki-check"/>
+                        <span class="dev_milestone-container__body__readonly check-txt">
+                            Is MediaWiki
+                        </span>
+                    </li>
+                    <li>
+                        <label class="left">Skip query</label>
+                        {{#unless future.planning}}
+                            {{#if permissions.can_edit}}
+                                <input type="text" class="clearfix section-group__item dev_milestone-container__body__input js-autocommit" id="skip_qr-input" value="{{live.src_options.skip_qr}}" />
+                            {{else}}
+                                <div class="clearfix dev_milestone-container__body__readonly" id="directory-txt">
+                                    {{live.src_options.skip_qr}}
+                                </div>
+                            {{/if}}
+                        {{/unless}}
+                    </li>
+                    <li>
+                        <label class="left">Directory</label>
+                        {{#unless future.planning}}
+                            {{#if permissions.can_edit}}
+                                <input type="text" class="clearfix section-group__item dev_milestone-container__body__input js-autocommit" id="directory-input" value="{{live.src_options.directory}}" />
+                            {{else}}
+                                <div class="clearfix dev_milestone-container__body__readonly" id="directory-txt">
+                                    {{live.src_options.directory}}
+                                </div>
+                            {{/if}}
+                        {{/unless}}
+                    </li>
+                    <li>
+                        <label class="left">Minimum abstract length</label>
+                        {{#unless future.planning}}
+                            {{#if permissions.can_edit}}
+                                <input type="number" step="1" class="clearfix section-group__item dev_milestone-container__body__input js-autocommit" id="min_abstract_length-input" value="{{live.src_options.min_abstract_length}}" />
+                            {{else}}
+                                <div class="clearfix dev_milestone-container__body__readonly" id="min_abstract_length-txt">
+                                    {{live.src_options.min_abstract_length}}
+                                </div>
+                            {{/if}}
+                        {{/unless}}
+                    </li>
+                    <li>
+                        <label class="left">Source info</label>
+                        {{#unless future.planning}}
+                            {{#if permissions.can_edit}}
+                                <input type="text" class="clearfix section-group__item dev_milestone-container__body__input js-autocommit" id="src_info-input" value="{{live.src_options.src_info}}" />
+                            {{else}}
+                                <div class="clearfix dev_milestone-container__body__readonly" id="src_info-txt">
+                                    {{live.src_options.src_info}}
+                                </div>
+                            {{/if}}
+                        {{/unless}}
+                    </li>
+                </ul>
+            </div>
+        {{/eq}}
+
         <div class="dev_milestone-container__body__label ia-single--header">
             SAFE SEARCH
         </div>

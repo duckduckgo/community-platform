@@ -1195,6 +1195,10 @@ body.texture {
     margin-right: 0.3em;
 }
 
+.dev_milestone-container label {
+    width: 100%;
+}
+
 /* Set the height of the read-only fields so that 
    the layout doesn't change when it switches to the input field */
 .dev_milestone-container__body__readonly {
