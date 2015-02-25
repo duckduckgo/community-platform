@@ -298,11 +298,10 @@ sub generate_aggregate_events {
 	};
 
 	my $aggregate_resultsets = $self->aggregate_resultsets;
+
 	while (my ($subscription, $rs) = each $aggregate_resultsets) {
-		$self->generate_events(
-			$subscription,
-			$self->ddgc->rs($rs)->search( $created_clause ),
-		);
+		my $rs = $self->ddgc->rs($rs)->search( $created_clause );
+		$self->generate_events(	$subscription, $rs ) if ($rs);
 	}
 }
 
