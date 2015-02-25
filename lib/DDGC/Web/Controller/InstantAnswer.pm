@@ -324,7 +324,8 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
                 mobile_ios => $ia->mobile_ios,
                 tested_relevancy => $ia->tested_relevancy,
                 tested_staging => $ia->tested_staging,
-                is_live => $ia->is_live
+                is_live => $ia->is_live,
+                src_options => $ia->src_options? from_json($ia->src_options) : undef
     };
 
     if ($c->user) {
