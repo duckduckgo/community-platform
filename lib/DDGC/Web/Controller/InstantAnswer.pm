@@ -135,7 +135,7 @@ sub dev_pipeline_base :Chained('base') :PathPart('pipeline') :CaptureArgs(1) {
     $c->stash->{ia_page} = "IADevPipeline";
     $c->stash->{title} = "Dev Pipeline";
     $c->add_bc('Instant Answers', $c->chained_uri('InstantAnswer','index'));
-    #$c->add_bc('Dev Pipeline', $c->chained_uri('InstantAnswer','dev_pipeline'));
+    $c->add_bc('Dev Pipeline', $c->chained_uri('InstantAnswer', 'dev_pipeline', $view));
 }
 
 sub dev_pipeline :Chained('dev_pipeline_base') :PathPart('') :Args(0) {
@@ -268,7 +268,7 @@ sub ia_base :Chained('base') :PathPart('view') :CaptureArgs(1) {  # /ia/view/cal
     if ($dev_milestone eq 'live') {
         $c->add_bc('Instant Answers', $c->chained_uri('InstantAnswer','index'));
     } else {
-        $c->add_bc('Dev Pipeline', $c->chained_uri('InstantAnswer','dev_pipeline'));
+        $c->add_bc('Dev Pipeline', $c->chained_uri('InstantAnswer','dev_pipeline', 'dev'));
     }
     $c->add_bc($c->stash->{ia}->name);
 }
