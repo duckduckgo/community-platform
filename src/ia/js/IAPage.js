@@ -75,11 +75,6 @@
                         }
 
                         ia_data.future = future;
-                    } else {
-                        if (ia_data.live.tab) {
-                            // On the live static page we use the tab name for the example links
-                            ia_data.live.tab = ia_data.live.tab.toLowerCase().replace(/\s/g, "");
-                        }
                     }
 
                     // Readonly mode templates
