@@ -9,12 +9,20 @@
         init: function() {
             //console.log("IADevPipeline init()");
             var dev_p = this;
-            var url = "/ia/pipeline/json";
+            var url = window.location.pathname + "/json";
 
             $.getJSON(url, function(data) { 
-                console.log(data);
+                console.log(window.location.pathname);
                 var iadp = Handlebars.templates.dev_pipeline(data);
                 $("#dev_pipeline").html(iadp);
+            });
+
+            $("#pipeline_toggle-dev").click(function(evt) {
+                window.location = "/ia/pipeline/dev";
+            });
+
+            $("#pipeline_toggle-live").click(function(evt) {
+                window.location = "/ia/pipeline/live";
             });
         }
     };
