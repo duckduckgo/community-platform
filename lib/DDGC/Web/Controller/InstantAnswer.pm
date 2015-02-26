@@ -530,10 +530,10 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
                 } elsif ($field eq "producer" || $field eq "designer" || $field eq "developer") {
                     my $complat_user = $c->d->rs('User')->find({username => $value});
 
-                    if ($complat_user) {
-                        my $complat_user_admin = $complat_user->admin;
+                    if ($complat_user || $value eq '') {
+                        my $complat_user_admin = $complat_user? $complat_user->admin : '';
 
-                        if ((($field eq "producer" || $field eq "designer") && ($complat_user_admin))
+                        if ((($field eq "producer" || $field eq "designer") && ($complat_user_admin || $value eq ''))
                             || ($field eq "developer")) {
                             try {
                                 $ia->update({$field => $value});

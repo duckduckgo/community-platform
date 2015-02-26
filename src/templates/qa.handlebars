@@ -26,7 +26,7 @@
             {{#if permissions.can_edit}}
                 <input type="text" class="dev_milestone-container__body__input js-autocommit" id="example_query-input" value="{{live.example_query}}" />
             {{else}}
-                <a href="https://{{live.test_machine}}duckduckgo.com/?q={{encodeURIComponent live.example_query}}" class="dev_milestone-container__body__readonly" id="example_query-a">
+                <a href="https://{{live.test_machine}}.duckduckgo.com/?q={{encodeURIComponent live.example_query}}" class="dev_milestone-container__body__readonly" id="example_query-a">
                     {{live.example_query}}
                 </a>
             {{/if}}
