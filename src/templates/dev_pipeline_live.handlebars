@@ -1,0 +1,24 @@
+<div id="pipeline-live-container" class="pipeline-container">
+    <ul class="dev_pipeline-container__list" id="pipeline-live__list">
+        {{#each ia}}
+            <li id="pipeline-live__list__{{id}}" class="pipeline-live__list__item
+            {{#if producer}}producer-{{producer}}{{/if}} {{#if designer}}designer-{{designer}}{{/if}} {{#if developer}}developer-{{developer}}{{/if}}">
+                <div class="list-container--left left">
+                    <h3><a href="/ia/view/{{id}}">{{name}}</a></h3>
+                </div>
+                <div class="list-container--right left">
+                    <ul class="list-container--right__issues issues_col">
+                        {{#each issues}}
+                            <li>
+                                <a class="one-line" href="https://github.com/duckduckgo/zeroclickinfo-{{../repo}}/issues/{{issue_id}}">{{title}}</a>
+                            </li>
+                        {{/each}}
+                    </ul>
+                </div>
+                <span class="clearfix"></span>
+            </li>
+        {{/each}}
+    </ul>
+</div>
+
+
