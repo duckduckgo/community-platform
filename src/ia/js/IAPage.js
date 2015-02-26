@@ -223,6 +223,8 @@
                     $("body").on('click', ".dev_milestone-container__body__button.js-autocommit", function(evt) {
                         var field = $.trim($(this).attr("id").replace("-button", ""));
                         var value = $.trim($(".header-account-info .user-name").text());
+                        
+                        $(this).hide();
 
                         if (field.length && value.length) {
                             autocommit(field, value, DDH_iaid);
