@@ -181,7 +181,7 @@
                 </div>
             {{else}}
                 <div class="dev_milestone-container__body__readonly" id="producer-txt">
-                    {{live.producer}}
+                    <a href="/user/{{live.producer}}">{{live.producer}}</a>
                 </div>
             {{/if}}
         {{/unless}}
@@ -197,7 +197,7 @@
                 </div>
             {{else}}
                 <div class="dev_milestone-container__body__readonly" id="designer-txt">
-                    {{live.designer}}
+                    <a href="/user/{{live.designer}}">{{live.designer}}</a>
                 </div>
             {{/if}}
         {{/unless}}
@@ -213,7 +213,7 @@
                 </div>
             {{else}}
                 <div class="dev_milestone-container__body__readonly" id="developer-txt">
-                    {{live.developer}}
+                    <a href="/user/{{live.developer}}">{{live.developer}}</a>
                 </div>
             {{/if}}
         {{/unless}}
