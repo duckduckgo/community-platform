@@ -71,7 +71,7 @@ sub add_user_distribution {
 		$self->log("ERROR",$user->lc_username,"is no admin, adding denied");
 		return 'Only admins may upload so far ('.$user->username.')';
 	}
-	unless ($user->data && $user->data->{email}) {
+	unless ($user->email) {
 		$self->log("ERROR",$user->lc_username,"has no email, adding denied");
 		return 'You need an email to upload ('.$user->username.')';
 	}
