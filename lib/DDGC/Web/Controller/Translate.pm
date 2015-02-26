@@ -123,7 +123,7 @@ sub tokenlanguage :Chained('logged_in') :Args(1) {
 		$c->wiz_step;
 	} else {
 		$c->stash->{token_language} = $c->d->rs('Token::Language')->find({ id => $token_language_id });
-		if (!defined $c->stash->{token_language} or !$c->stash->{token_language}) {
+		if (!defined $c->stash->{token_language} or !$c->stash->{token_language} or !$c->stash->{token_language}->token->token_domain->active) {
 			$c->response->redirect($c->chained_uri('Translate','index'));
 			return $c->detach;
 		}
