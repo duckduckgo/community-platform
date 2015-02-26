@@ -184,7 +184,7 @@
                            value = $.trim($(this).find("option:selected").text());
                         }
 
-                        if (field.length && value.length) { 
+                        if (field.length && value !== ia_data.live[field]) { 
                              autocommit(field, value, DDH_iaid);
                         }
                     });
@@ -205,7 +205,7 @@
 
                             $(this).removeClass("js-autocommit-focused");
 
-                            if (field.length && value.length) {
+                            if (field.length && value !== ia_data.live[field]) {
                                 if ($(this).hasClass("section-group__item")) {
                                     var parent_field = $.trim($(this).parent().parent().attr("id"));
                                     var section_vals = getSectionVals($(this), parent_field);
