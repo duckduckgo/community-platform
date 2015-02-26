@@ -11,7 +11,19 @@
         </div>
         {{#unless future.qa}}
             {{#if permissions.can_edit}}
-                <input type="text" class="dev_milestone-container__body__input js-autocommit" id="test_machine-input" value="{{live.test_machine}}" />
+                <select class="dev_milestone-container__body__select js-autocommit" tabindex="-1" id="test_machine-select">
+                    <option value="0">{{live.test_machine}}</option>
+                    <option value="1">ddh1</option>
+                    <option value="2">ddh2</option>
+                    <option value="3">ddh3</option>
+                    <option value="4">ddh4</option>
+                    <option value="5">ddh5</option>
+                    <option value="6">ddh6</option>
+                    <option value="7">ddh7</option>
+                    <option value="8">ddh8</option>
+                    <option value="9">ddh9</option>
+                    <option value="10">ddh10</option>
+                </select>
             {{else}}
                 <div class="dev_milestone-container__body__readonly" id="test_machine-txt">
                     {{live.test_machine}}
