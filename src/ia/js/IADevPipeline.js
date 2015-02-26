@@ -13,7 +13,14 @@
 
             $.getJSON(url, function(data) { 
                 console.log(window.location.pathname);
-                var iadp = Handlebars.templates.dev_pipeline(data);
+                var iadp;
+
+                if (data.hasOwnProperty("planning")) {
+                    iadp = Handlebars.templates.dev_pipeline(data);
+                } else {
+                    iadp = Handlebars.templates.dev_pipeline_live(data);
+                }
+
                 $("#dev_pipeline").html(iadp);
             });
 
