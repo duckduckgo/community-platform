@@ -187,7 +187,7 @@ sub domain :Chained('logged_in') :PathPart('') :CaptureArgs(1) {
 	$c->stash->{locale} = $c->req->params->{locale} ? $c->req->params->{locale} :
 		$c->session->{cur_locale}->{$token_domain_key} ? $c->session->{cur_locale}->{$token_domain_key} : undef;
 	$c->stash->{token_domain} = $c->d->rs('Token::Domain')->find({ key => $token_domain_key });
-	return $c->go($c->controller('Root'),'default') unless $c->stash->{token_domain};
+	return $c->go($c->controller('Root'),'default') unless ($c->stash->{token_domain} && $c->stash->{token_domain}->active);
 	$c->stash->{locales} = {};
 	my $token_domain_language_rs = $c->stash->{token_domain}->token_domain_languages->search({});
 	$c->stash->{token_domain_languages_rs} = $token_domain_language_rs->search({},{
