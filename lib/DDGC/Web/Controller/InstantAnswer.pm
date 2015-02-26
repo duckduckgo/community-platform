@@ -199,6 +199,7 @@ sub dev_pipeline_json :Chained('dev_pipeline_base') :PathPart('json') :Args(0) {
             },
             {
                 columns => [ qw/ name id repo dev_milestone producer designer developer/ ],
+                order_by => [ qw/ name/ ],
                 prefetch => [ qw/ issues / ],
                 result_class => 'DBIx::Class::ResultClass::HashRefInflator',
             }
