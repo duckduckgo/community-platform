@@ -225,9 +225,9 @@ sub email :Chained('logged_in') :Args(0) {
 		return;
 	}
 
-	my $email = $c->req->params->{emailaddress};
+	my $email = Email::Valid->address($c->req->params->{emailaddress});
 
-	if ( !$email || !Email::Valid->address($email) ) {
+	if ($c->req->params->{emailaddress} && !$email ) {
 		$c->stash->{no_valid_email} = 1;
 		return;
 	}
@@ -567,7 +567,8 @@ sub register :Chained('logged_out') :Args(0) {
 		$error = 1;
 	}
 
-	if ( $c->req->params->{email} && !Email::Valid->address($c->req->params->{email}) ) {
+	my $email = Email::Valid->address($c->req->params->{email});
+	if ( $c->req->params->{email} && !$email ) {
 		$c->stash->{not_valid_email} = 1;
 		$error = 1;
 	}
@@ -581,7 +582,6 @@ sub register :Chained('logged_out') :Args(0) {
 	
 	my $username = $c->stash->{username};
 	my $password = $c->req->params->{password};
-	my $email = $c->req->params->{email};
 	
 	my $find_user = $c->d->find_user($username);
 
