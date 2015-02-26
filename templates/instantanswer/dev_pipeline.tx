@@ -1,10 +1,10 @@
 <div class="pipeline__toggle-view" id="pipeline_toggle-view">
     <div class="pager-wrap">
         <span class="button-group  button-group--paging">
-            <span class="button pipeline__toggle-view__button button-nav-current disabled" id="pipeline_toggle-dev">
+            <span class="button pipeline__toggle-view__button <: if $view == 'dev' { :>button-nav-current disabled<: } :>" id="pipeline_toggle-dev">
                 In Development
             </span>
-            <span class="button pipeline__toggle-view__button" id="pipeline_toggle-live">
+            <span class="button pipeline__toggle-view__button <: if $view == 'live' { :>button-nav-current disabled<: } :>" id="pipeline_toggle-live">
                 Live with issues
             </span>
         </span>

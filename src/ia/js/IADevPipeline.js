@@ -25,11 +25,15 @@
             });
 
             $("#pipeline_toggle-dev").click(function(evt) {
-                window.location = "/ia/pipeline/dev";
+                if (!$(this).hasClass("disabled")) {
+                    window.location = "/ia/pipeline/dev";
+                }   
             });
 
             $("#pipeline_toggle-live").click(function(evt) {
-                window.location = "/ia/pipeline/live";
+                if (!$(this).hasClass("disabled")) {
+                    window.location = "/ia/pipeline/live";
+                }
             });
         }
     };
