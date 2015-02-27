@@ -75,11 +75,6 @@
                         }
 
                         ia_data.future = future;
-                    } else {
-                        if (ia_data.live.tab) {
-                            // On the live static page we use the tab name for the example links
-                            ia_data.live.tab = ia_data.live.tab.toLowerCase().replace(/\s/g, "");
-                        }
                     }
 
                     // Readonly mode templates
@@ -129,28 +124,63 @@
                         $(this).children("i").toggleClass("icon-caret-down");
                     });
 
-                    $("body").on('click', ".dev_milestone-container__body__div__checkbox", function(evt) {
-                        if ($(this).hasClass("js-autocommit")) {
-                            var field = $.trim($(this).attr("id").replace("-check", ""));
-                            var value;
-                            if ($(this).hasClass("icon-check-empty")) {
-                                value = 1;
-                            } else {
-                                value = 0;
-                            }
+                    $("body").on('click', ".dev_milestone-container__body__div__checkbox.js-autocommit", function(evt) {
+                        var field = $.trim($(this).attr("id").replace("-check", ""));
+                        var value;
+                        if ($(this).hasClass("icon-check-empty")) {
+                            value = 1;
+                        } else {
+                            value = 0;
+                        }
 
-                            $(this).toggleClass("icon-check-empty");
-                            $(this).toggleClass("icon-check");
+                        $(this).toggleClass("icon-check-empty");
+                        $(this).toggleClass("icon-check");
 
-                            if (field.length) {
-                                autocommit(field, value, DDH_iaid);
+                        if (field.length) {
+                            if ($(this).hasClass("section-group__item")) {
+                                var parent_field = $.trim($(this).parent().parent().attr("id"));
+                                var section_vals = getSectionVals($(this), parent_field);
+
+                                section_vals[field] = value;
+                               
+                                field = parent_field.replace("-group", "");
+                                value = JSON.stringify(section_vals);
                             }
+                         
+                            autocommit(field, value, DDH_iaid);
                         }
                     });
 
                     $("body").on("focusin", ".dev_milestone-container__body__input.js-autocommit", function(evt) {
                         if (!$(this).hasClass("js-autocommit-focused")) {
                             $(this).addClass("js-autocommit-focused");
+                        }
+                    });
+
+                    $("body").on('change', ".dev_milestone-container__body__select.js-autocommit", function(evt) {
+                        var field;
+                        var value;
+                    
+                        if ($(this).hasClass("topic-group")) {
+                            value = [];
+                            var temp;
+                            $(".dev_milestone-container__body__select.js-autocommit.topic-group").each(function(idx) {
+                                temp = $.trim($(this).find("option:selected").text());
+
+                                if (temp.length) {
+                                    value.push(temp);
+                                }
+                            });
+
+                           field = "topic";
+                           value = JSON.stringify(value); 
+                        } else {
+                           field = $.trim($(this).attr("id").replace("-select", ""));
+                           value = $.trim($(this).find("option:selected").text());
+                        }
+
+                        if (field.length && value !== ia_data.live[field]) { 
+                             autocommit(field, value, DDH_iaid);
                         }
                     });
 
@@ -170,7 +200,16 @@
 
                             $(this).removeClass("js-autocommit-focused");
 
-                            if (field.length && value.length) {
+                            if (field.length && value !== ia_data.live[field]) {
+                                if ($(this).hasClass("section-group__item")) {
+                                    var parent_field = $.trim($(this).parent().parent().attr("id"));
+                                    var section_vals = getSectionVals($(this), parent_field);
+                                    section_vals[field] = value;
+                                
+                                    field = parent_field.replace("-group", "");
+                                    value = JSON.stringify(section_vals);
+                                }
+                                
                                 autocommit(field, value, DDH_iaid);
                             }
                         }
@@ -179,6 +218,8 @@
                     $("body").on('click', ".dev_milestone-container__body__button.js-autocommit", function(evt) {
                         var field = $.trim($(this).attr("id").replace("-button", ""));
                         var value = $.trim($(".header-account-info .user-name").text());
+                        
+                        $(this).hide();
 
                         if (field.length && value.length) {
                             autocommit(field, value, DDH_iaid);
@@ -258,22 +299,48 @@
                     });
 
                     $("body").on("click", ".button.delete", function(evt) {
-                        var field = $(this).parent().find(".js-editable").attr('name');
-                        if (field === 'example_query') {
-                            var $new_primary = $('a.other-examples input').first();
-                            if ($new_primary.length) {
-                                $new_primary.parent().removeClass('other-examples');
-                                $new_primary.parent().attr('name', 'example_query');
-                                $new_primary.parent().attr('id', 'primary');
+                        if (ia_data.live.dev_milestone === "live") {
+                            $(this).parent().remove();
+                            var field = $(this).parent().find(".js-editable").attr('name');
+                            if (field === 'example_query') {
+                                var $new_primary = $('a.other-examples input').first();
+                                if ($new_primary.length) {
+                                    $new_primary.parent().removeClass('other-examples');
+                                    $new_primary.parent().attr('name', 'example_query');
+                                    $new_primary.parent().attr('id', 'primary');
+                                }
+                            }
+
+                            if (!$("#examples .other-examples").length && $("#primary").length) {
+                                $("#primary").parent().find(".button.delete").addClass("hide");
+                            }
+                        } else {
+                            // If dev milestone is not 'live' it means we are in the dev page
+                            // and a topic has been deleted (it's the only field having a delete button in the dev page
+                            // so far) - so we must save
+                            if ($(this).hasClass("js-autocommit")) {
+                                var field = "topic";
+                                var value = [];
+                                var temp;
+                                var $parent = $(this).parent();
+                                $parent.find('.topic-group option[value="0"]').empty();
+                                $parent.find('.topic-group').val('0');
+                                $(".dev_milestone-container__body__select.js-autocommit.topic-group").each(function(idx) {
+                                    temp = $.trim($(this).find("option:selected").text());
+
+                                    if (temp.length) {
+                                        value.push(temp);
+                                    }
+                                });
+
+                                value = JSON.stringify(value); 
+
+                                if (field.length && value.length) {
+                                    autocommit(field, value, DDH_iaid);
+                                }
                             }
                         }
-
-                        $(this).parent().remove();
-
-                        if (!$("#examples .other-examples").length && $("#primary").length) {
-                            $("#primary").parent().find(".button.delete").addClass("hide");
-                        }
-                    });
+                   });
 
                     $("body").on('keypress click', '.js-input, .button.js-editable', function(evt) {
                         if ((evt.type === 'keypress' && (evt.which === 13 && $(this).hasClass("js-input")))
@@ -332,6 +399,36 @@
                             }
                         }
                     });
+
+                    function getSectionVals($obj, parent_field) {
+                        var section_vals = {};
+                        var temp_field;
+                        var temp_value;
+
+                        $("#" + parent_field + " .section-group__item").each(function(idx) {
+                            if ($(this) !== $obj) {
+                                if ($(this).hasClass("dev_milestone-container__body__input")) {
+                                    temp_field = $.trim($(this).attr("id").replace("-input", ""));
+                                    temp_value = $.trim($(this).val());
+
+                                    if ($(this).attr("type") === "number") {
+                                        temp_value = parseInt(temp_value);
+                                    }
+                                } else {
+                                    temp_field = $.trim($(this).attr("id").replace("-check", ""));
+                                    if ($(this).hasClass("icon-check-empty")) {
+                                        temp_value = 0;
+                                    } else {
+                                        temp_value = 1;
+                                    }
+                                }
+
+                                section_vals[temp_field] = temp_value;
+                            }
+                        });
+                        
+                        return section_vals;
+                    }
 
                     function autocommit(field, value, id) {
                         var jqxhr = $.post("/ia/save", {
@@ -488,6 +585,10 @@
                             $("#" + $.trim($(this).attr("id").replace("-input", "")) + "-button").hide();
                         }
                     });
+
+                    if ($(".topic-group").length) {
+                        $(".topic-group").append($("#allowed_topics").html());
+                    }
                 } 
             }
         }    

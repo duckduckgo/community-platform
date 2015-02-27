@@ -6,6 +6,14 @@
   form_row_value => $_.key,
 } :>
 <: include form::row {
+  form_row_id => 'token_domain_' ~ ( $_.id || 0 ) ~ '_active',
+  form_row_label => 'Domain is Active:',
+  form_row_left => 'third',
+  form_row_right => 'twothird',
+  form_row_type => 'yesno',
+  form_row_value => $_.active,
+} :>
+<: include form::row {
   form_row_id => 'token_domain_' ~ ( $_.id || 0 ) ~ '_name',
   form_row_label => 'Name/Title:',
   form_row_left => 'third',

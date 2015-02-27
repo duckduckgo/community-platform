@@ -42,6 +42,7 @@ sub untranslated_all {
 	$self->search({
 		'token_language_translations.id' => undef,
 		'token_domain_language.language_id' => { -in => \@language_ids},
+		'token_domain.active' => 1,
 		($self->me.'id') => { -not_in => \@ignore_ids },
 		$self->result_source->schema->ddgc->is_live ? ( 'token_domain.key' => { -like => 'duckduckgo-%' } ) : (),
 	},{
@@ -63,6 +64,7 @@ sub unvoted_all {
 	$self->search({
 		'token_language_translations.id' => { -not => undef },
 		'token_domain_language.language_id' => { -in => \@language_ids},
+		'token_domain.active' => 1,
 		$token_domain_id ? ( 'token_domain_language.token_domain_id' => $token_domain_id ) : (),
 		-and => [
 			($self->me.'id') => { -not_in => \@ignore_ids },

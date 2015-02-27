@@ -92,8 +92,7 @@ sub iarepo_json :Chained('iarepo') :PathPart('json') :Args(0) {
     my %iah;
 
     for my $ia (@x) {
-        my $topics = $ia->topic;
-
+        my @topics = map { $_->name} $ia->topics;
 
         $iah{$ia->id} = {
                 name => $ia->name,
@@ -103,7 +102,8 @@ sub iarepo_json :Chained('iarepo') :PathPart('json') :Args(0) {
                 perl_module => $ia->perl_module,
                 tab => $ia->tab,
                 description => $ia->description,
-                status => $ia->status
+                status => $ia->status,
+                topic => \@topics
         };
 
         # fathead specific
@@ -128,66 +128,88 @@ sub queries :Chained('base') :PathPart('queries') :Args(0) {
 
 }
 
-sub dev_pipeline_base :Chained('base') :PathPart('pipeline') :CaptureArgs(0) {
-    my ( $self, $c ) = @_;
+sub dev_pipeline_base :Chained('base') :PathPart('pipeline') :CaptureArgs(1) {
+    my ( $self, $c, $view ) = @_;
+    
+    $c->stash->{view} = $view;
+    $c->stash->{ia_page} = "IADevPipeline";
+    $c->stash->{title} = "Dev Pipeline";
+    $c->add_bc('Instant Answers', $c->chained_uri('InstantAnswer','index'));
+    $c->add_bc('Dev Pipeline', $c->chained_uri('InstantAnswer', 'dev_pipeline', $view));
 }
 
 sub dev_pipeline :Chained('dev_pipeline_base') :PathPart('') :Args(0) {
     my ( $self, $c ) = @_;
-
-    $c->stash->{ia_page} = "IADevPipeline";
-    $c->stash->{title} = "Dev Pipeline";
-    $c->add_bc('Instant Answers', $c->chained_uri('InstantAnswer','index'));
-    $c->add_bc('Dev Pipeline', $c->chained_uri('InstantAnswer','dev_pipeline'));
+    
 }
 
 sub dev_pipeline_json :Chained('dev_pipeline_base') :PathPart('json') :Args(0) {
     my ( $self, $c ) = @_;
 
+    my $view = $c->stash->{view};
     my $rs = $c->d->rs('InstantAnswer');
-    my @planning = $rs->search(
-        {'me.dev_milestone' => { '=' => 'planning'}},
-        {
-            columns => [ qw/ name id dev_milestone/ ],
-            order_by => [ qw/ name/ ],
-            result_class => 'DBIx::Class::ResultClass::HashRefInflator',
-        }
-    )->all;
 
-    my @in_development = $rs->search(
-        {'me.dev_milestone' => { '=' => 'in_development'}},
-        {
-            columns => [ qw/ name id dev_milestone/ ],
-            order_by => [ qw/ name/ ],
-            result_class => 'DBIx::Class::ResultClass::HashRefInflator',
-        }
-    )->all;
+    if ($view eq 'dev') {
+        my @planning = $rs->search(
+            {'me.dev_milestone' => { '=' => 'planning'}},
+            {
+                columns => [ qw/ name id dev_milestone producer designer developer/ ],
+                order_by => [ qw/ name/ ],
+                result_class => 'DBIx::Class::ResultClass::HashRefInflator',
+            }
+        )->all;
 
-    my @qa = $rs->search(
-        {'me.dev_milestone' => { '=' => 'qa'}},
-        {
-            columns => [ qw/ name id dev_milestone/ ],
-            order_by => [ qw/ name/ ],
-            result_class => 'DBIx::Class::ResultClass::HashRefInflator',
-        }
-    )->all;
+        my @in_development = $rs->search(
+            {'me.dev_milestone' => { '=' => 'in_development'}},
+            {
+                columns => [ qw/ name id dev_milestone producer designer developer/ ],
+                order_by => [ qw/ name/ ],
+                result_class => 'DBIx::Class::ResultClass::HashRefInflator',
+            }
+        )->all;
 
-    my @ready = $rs->search(
-        {'me.dev_milestone' => { '=' => 'ready'}},
-        {
-            columns => [ qw/ name id dev_milestone/ ],
-            order_by => [ qw/ name/ ],
-            result_class => 'DBIx::Class::ResultClass::HashRefInflator',
-        }
-    )->all;
+        my @qa = $rs->search(
+            {'me.dev_milestone' => { '=' => 'qa'}},
+            {
+                columns => [ qw/ name id dev_milestone producer designer developer/ ],
+                order_by => [ qw/ name/ ],
+                result_class => 'DBIx::Class::ResultClass::HashRefInflator',
+            }
+        )->all;
 
-    $c->stash->{x} = {
-        planning => \@planning,
-        in_development => \@in_development,
-        qa => \@qa,
-        ready => \@ready,
-    };
-    
+        my @ready = $rs->search(
+            {'me.dev_milestone' => { '=' => 'ready'}},
+            {
+                columns => [ qw/ name id dev_milestone producer designer developer/ ],
+                order_by => [ qw/ name/ ],
+                result_class => 'DBIx::Class::ResultClass::HashRefInflator',
+            }
+        )->all;
+
+        $c->stash->{x} = {
+            planning => \@planning,
+            in_development => \@in_development,
+            qa => \@qa,
+            ready => \@ready,
+        };
+    } elsif ($view eq 'live') {
+        my @ial = $rs->search(
+            {'issues.is_pr' => { '!=' => 1 },
+             'me.dev_milestone' => { '=' => 'live'},
+            },
+            {
+                columns => [ qw/ name id repo dev_milestone producer designer developer/ ],
+                order_by => [ qw/ name/ ],
+                prefetch => [ qw/ issues / ],
+                result_class => 'DBIx::Class::ResultClass::HashRefInflator',
+            }
+        )->all;
+
+        $c->stash->{x} = {
+            ia => \@ial
+        };
+    }
+
     $c->stash->{not_last_url} = 1;
     $c->forward($c->view('JSON'));
 }
@@ -209,6 +231,8 @@ sub ia_base :Chained('base') :PathPart('view') :CaptureArgs(1) {  # /ia/view/cal
     my $can_edit;
     my $can_commit;
     my $commit_class = "hide";
+    my $ia = $c->stash->{ia};
+    my $dev_milestone = $ia->dev_milestone;
 
     if ($c->user) {
         $permissions = $c->stash->{ia}->users->find($c->user->id);
@@ -242,7 +266,11 @@ sub ia_base :Chained('base') :PathPart('view') :CaptureArgs(1) {  # /ia/view/cal
     )->all;
 
     $c->stash->{topic_list} = \@topics;
-    $c->add_bc('Instant Answers', $c->chained_uri('InstantAnswer','index'));
+    if ($dev_milestone eq 'live') {
+        $c->add_bc('Instant Answers', $c->chained_uri('InstantAnswer','index'));
+    } else {
+        $c->add_bc('Dev Pipeline', $c->chained_uri('InstantAnswer','dev_pipeline', 'dev'));
+    }
     $c->add_bc($c->stash->{ia}->name);
 }
 
@@ -318,7 +346,8 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
                 mobile_ios => $ia->mobile_ios,
                 tested_relevancy => $ia->tested_relevancy,
                 tested_staging => $ia->tested_staging,
-                is_live => $ia->is_live
+                is_live => $ia->is_live,
+                src_options => $ia->src_options? from_json($ia->src_options) : undef
     };
 
     if ($c->user) {
@@ -501,10 +530,10 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
                 } elsif ($field eq "producer" || $field eq "designer" || $field eq "developer") {
                     my $complat_user = $c->d->rs('User')->find({username => $value});
 
-                    if ($complat_user) {
-                        my $complat_user_admin = $complat_user->admin;
+                    if ($complat_user || $value eq '') {
+                        my $complat_user_admin = $complat_user? $complat_user->admin : '';
 
-                        if ((($field eq "producer" || $field eq "designer") && ($complat_user_admin))
+                        if ((($field eq "producer" || $field eq "designer") && ($complat_user_admin || $value eq ''))
                             || ($field eq "developer")) {
                             try {
                                 $ia->update({$field => $value});

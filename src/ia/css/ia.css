@@ -81,6 +81,7 @@
     padding-left: 0.2em;
 }
 .ia-single .row-diff .available_topics,
+.ia-single .topic-group,
 .ia-single .row-diff .editpage span input {
     border-top-left-radius: 0;
     -moz-border-top-left-radius: 0;
@@ -94,10 +95,16 @@
 
     margin-bottom: 0.3em;
 }
-.ia-single .row-diff .available_topics {
-    height: 1.76em;
+.ia-single .row-diff .available_topics,
+.ia-single .topic-group {
     min-width: 5em;
     width: 9em;
+}
+.ia-single .row-diff .available_topics {
+    height: 1.76em;
+}
+.ia-single .topic-group {
+    height: 2.21em;
 }
 .ia-single .row-diff .editpage span input {
     height: 1.52em;
@@ -337,7 +344,7 @@
 .ia-single ul li {
     list-style-position: inside;
 }
-.ia-single .row-diff .column-right-edits .button.listbutton {
+.ia-single .button.listbutton {
     padding: 0;
     width: 1.6em;
     height: 1.9em;
@@ -345,7 +352,7 @@
     font-size: 14px;
     background-color: #dbdbdb;
 }
-.ia-single .row-diff .column-right-edits .button.delete {
+.ia-single .button.delete {
     border-right: 0;
     border-bottom-right-radius: 0;
     -moz-border-bottom-right-radius: 0;
@@ -1188,6 +1195,10 @@ body.texture {
     margin-right: 0.3em;
 }
 
+.dev_milestone-container label {
+    width: 100%;
+}
+
 /* Set the height of the read-only fields so that 
    the layout doesn't change when it switches to the input field */
 .dev_milestone-container__body__readonly {
@@ -1236,7 +1247,7 @@ body.texture {
 
 #dev_pipeline .dev_pipeline-column__title {
     font-weight: 600;
-    font-size: 1.92em;
+    font-size: 1.87em;
 }
 
 #dev_pipeline .dev_pipeline-column__list li {
@@ -1248,4 +1259,44 @@ body.texture {
 
 #dev_pipeline .dev_pipeline-column__list li a {
     color: #333;
+}
+
+#pipeline_toggle-view,
+#pipeline-live-container {
+    padding-left: 1em;
+}
+
+#pipeline_toggle-view .pager-wrap {
+    height: 4em;
+    width: 17.7em;
+}
+
+#pipeline-live-container .list-container--left {
+    width: 20%;
+}
+
+#pipeline-live-container .list-container--left {
+    padding-left: 1em;
+}
+
+#pipeline-live__list .pipeline-live__list__item {
+    border-bottom: 1px solid #CDCDCD;
+    margin-top: 1em;
+}
+
+#pipeline-live__list li,
+#pipeline-live-container .list-container--right li {
+    list-style: none;
+}
+
+#pipeline-live__list .list-container--left a {
+    color: #333;
+}
+
+#pipeline-live-container .list-container--right li a {
+    color: #4896D2;
+}
+
+#pipeline-live-container .list-container--right {
+    margin-left: 5em;
 }

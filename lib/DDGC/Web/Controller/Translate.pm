@@ -31,7 +31,9 @@ sub base :Chained('/base') :PathPart('translate') :CaptureArgs(0) {
 sub index :Chained('base') :PathPart('') :Args(0) {
     my ( $self, $c ) = @_;
 	$c->stash->{headline_template} = 'headline/translate.tt';
-	$c->stash->{token_domains} = $c->d->rs('Token::Domain')->search({},{
+	$c->stash->{token_domains} = $c->d->rs('Token::Domain')->search({
+			active => 1,
+		},{
 		'+columns' => {
 			token_count => $c->d->rs('Token')->search({
 				'token_domain_id' => { -ident => 'me.id' },
@@ -121,7 +123,7 @@ sub tokenlanguage :Chained('logged_in') :Args(1) {
 		$c->wiz_step;
 	} else {
 		$c->stash->{token_language} = $c->d->rs('Token::Language')->find({ id => $token_language_id });
-		if (!defined $c->stash->{token_language} or !$c->stash->{token_language}) {
+		if (!defined $c->stash->{token_language} or !$c->stash->{token_language} or !$c->stash->{token_language}->token->token_domain->active) {
 			$c->response->redirect($c->chained_uri('Translate','index'));
 			return $c->detach;
 		}
@@ -185,7 +187,7 @@ sub domain :Chained('logged_in') :PathPart('') :CaptureArgs(1) {
 	$c->stash->{locale} = $c->req->params->{locale} ? $c->req->params->{locale} :
 		$c->session->{cur_locale}->{$token_domain_key} ? $c->session->{cur_locale}->{$token_domain_key} : undef;
 	$c->stash->{token_domain} = $c->d->rs('Token::Domain')->find({ key => $token_domain_key });
-	return $c->go($c->controller('Root'),'default') unless $c->stash->{token_domain};
+	return $c->go($c->controller('Root'),'default') unless ($c->stash->{token_domain} && $c->stash->{token_domain}->active);
 	$c->stash->{locales} = {};
 	my $token_domain_language_rs = $c->stash->{token_domain}->token_domain_languages->search({});
 	$c->stash->{token_domain_languages_rs} = $token_domain_language_rs->search({},{
