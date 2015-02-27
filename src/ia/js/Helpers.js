@@ -16,7 +16,7 @@
     });
 
     Handlebars.registerHelper('tab_url', function(tab) {
-        if (tab.length) {
+        if (tab && tab.length) {
             return '&ia=' + tab.toLowerCase().replace(/\s/g, "");
         }
     });
