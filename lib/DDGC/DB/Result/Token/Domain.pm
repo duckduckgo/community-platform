@@ -52,6 +52,12 @@ column sorting => {
 	default_value => 0,
 };
 
+column active => {
+	data_type => 'tinyint',
+	is_nullable => 0,
+	default_value => 1,
+};
+
 column source_language_id => {
 	data_type => 'int',
 	is_nullable => 0,
