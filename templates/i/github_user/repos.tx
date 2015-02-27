@@ -6,7 +6,8 @@
 		<: if cur_user().id == $_.users_id { :>
 			<div class="pull-right quarter">
 				<a class="noblank button blue" href="<: $u('My::GitHub','index',{
-					update_repos => 1
+					update_repos => 1,
+					action_token => $action_token
 				}) :>">
 					Update your repositories
 				</a>
