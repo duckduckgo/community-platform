@@ -261,6 +261,7 @@ sub ia_base :Chained('base') :PathPart('view') :CaptureArgs(1) {  # /ia/view/cal
         {'name' => { '!=' => 'test' }},
         {
             columns => [ qw/ name id /],
+            order_by => [ qw/ name/ ],
             result_class => 'DBIx::Class::ResultClass::HashRefInflator',
         }
     )->all;
