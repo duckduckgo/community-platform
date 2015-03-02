@@ -27,6 +27,15 @@ sub base :Chained('/') :PathPart('campaign') :CaptureArgs(0) {
 		$c->forward( $c->view('JSON') );
 		return $c->detach;
 	}
+	elsif ($c->req->param('campaign_name') ne 'share_followup') {
+		$c->response->status(500);
+		$c->stash->{x} = {
+			ok => 0, closed_campaign => 1,
+			errstr => "This phase is closed."
+		};
+		$c->forward( $c->view('JSON') );
+		return $c->detach;
+	}
 	elsif ($c->user->responded_campaign($c->req->param('campaign_name'))) {
 		$c->response->status(403);
 		$c->stash->{x} = {
