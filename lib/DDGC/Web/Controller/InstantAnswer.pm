@@ -128,6 +128,12 @@ sub queries :Chained('base') :PathPart('queries') :Args(0) {
 
 }
 
+sub dev_pipeline_redirect :Chained('base') :PathPart('pipeline') :Args(0) {
+    my ( $self, $c, $view ) = @_;
+
+    $c->res->redirect($c->chained_uri('InstantAnswer', 'dev_pipeline', 'dev'));
+}
+
 sub dev_pipeline_base :Chained('base') :PathPart('pipeline') :CaptureArgs(1) {
     my ( $self, $c, $view ) = @_;
     
