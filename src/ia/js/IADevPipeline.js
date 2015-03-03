@@ -9,7 +9,7 @@
         init: function() {
             // console.log("IADevPipeline init()");
             var dev_p = this;
-            var url = window.location.pathname + "json";
+            var url = window.location.pathname.replace(/\/$/, '') + "/json";
             var username = $(".user-name").text();
 
             $.getJSON(url, function(data) { 
