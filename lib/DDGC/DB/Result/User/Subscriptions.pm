@@ -48,20 +48,26 @@ column updated => {
 
 belongs_to 'user', 'DDGC::DB::Result::User', 'users_id';
 
-has_many 'events', 'DDGC::DB::Result::Event', sub {
-	my ( $args ) = @_;
-	return {
-		-and => {
-			"$args->{foreign_alias}.users_id" => { '!=' => { -ident => "$args->{self_alias}.users_id" } },
-			"$args->{foreign_alias}.subscription_id" => { -ident => "$args->{self_alias}.subscription_id" },
-			"$args->{foreign_alias}.created" => { '>=' => { -ident => "$args->{self_alias}.created" } },
-			-or => [
-				{ "$args->{self_alias}.target_object_id" => 0 },
-				{ "$args->{self_alias}.target_object_id" => { '=' => \[ "ANY ($args->{foreign_alias}.object_ids)" ] } }
-			],
-		},
-	}
-};
+sub events {
+	my ( $self ) = @_;
+	$self->result_source->schema->resultset('Event')->search_rs( {
+		users_id            => { '!=' => $self->users_id },
+		subscription_id     => $self->subscription_id,
+		created             => { '>' => $self->ddgc->db->format_datetime( $self->created ) },
+		($self->target_object_id) ?
+		(
+			target_object_id => $self->target_object_id,
+			subscription_id => { -in =>
+				$self->result_source->schema->resultset('User::Subscriptions')->search_rs(
+				{
+					users_id            => $self->users_id,
+					subscription_id     => $self->subscription_id,
+					target_object_id    => 0,
+				}
+			)->get_column([qw/ id /])->as_query },
+		) : (),
+	} );
+}
 
 no Moose;
 __PACKAGE__->meta->make_immutable;
