@@ -441,9 +441,12 @@
                             if (data.result) {
                                 if (field === "dev_milestone") {
                                     location.reload();
-                                } else if (field === "producer" || field === "designer" || field === "developer") {
-                                    $("#" + field + "-input.js-autocommit").val(data.result[field]);
-                                }
+                                } else if (field === "repo" || field === "producer"
+                                           || field === "designer" || field === "developer") {
+                                    ia_data.live[field] = data.result[field];
+                                    readonly_templates.planning =  Handlebars.templates.planning(ia_data);
+                                    page.updateAll(readonly_templates, ia_data.live.dev_milestone, false);
+                                } 
                             }
                         });
                     }
@@ -561,6 +564,7 @@
                         $(".ia-single--edits").append(templates.dev_milestone);
                     }
                 } else {
+                    $(".ia-single").empty();
                     $(".ia-single").append(templates.live.name);
                     $(".ia-single").append(templates.live.description);
                     for (var i = 0; i < this.dev_milestones_order.length; i++) {
