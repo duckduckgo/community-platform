@@ -441,13 +441,12 @@
                             if (data.result) {
                                 if (field === "dev_milestone") {
                                     location.reload();
-                                } else if (field === "repo") {
-                                    ia_data.live.repo = data.result.repo;
+                                } else if (field === "repo" || field === "producer"
+                                           || field === "designer" || field === "developer") {
+                                    ia_data.live[field] = data.result[field];
                                     readonly_templates.planning =  Handlebars.templates.planning(ia_data);
                                     page.updateAll(readonly_templates, ia_data.live.dev_milestone, false);
-                                } else if (field === "producer" || field === "designer" || field === "developer") {
-                                    $("#" + field + "-input.js-autocommit").val(data.result[field]);
-                                }
+                                } 
                             }
                         });
                     }
