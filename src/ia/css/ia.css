@@ -1266,6 +1266,10 @@ body.texture {
     padding-left: 1em;
 }
 
+#pipeline_toggle-view {
+    margin-bottom: 1em;
+}
+
 #pipeline_toggle-view .pager-wrap {
     height: 4em;
     width: 17.7em;
@@ -1299,4 +1303,9 @@ body.texture {
 
 #pipeline-live-container .list-container--right {
     margin-left: 5em;
+}
+
+.icon-check,
+.icon-check-empty {
+    cursor: pointer;
 }
