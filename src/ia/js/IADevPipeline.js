@@ -46,6 +46,15 @@
                 }
             });
 
+            $("#select-teamrole").change(function(evt) {
+                if ($("#filter-team_checkbox").hasClass("icon-check")) {
+                    $(".dev_pipeline-column__list li").hide();
+
+                    var teamrole = $(this).find("option:selected").text();
+                    $(".dev_pipeline-column__list li." + teamrole + "-" + username).show();
+                }
+            });
+
             $("#pipeline_toggle-dev").click(function(evt) {
                 if (!$(this).hasClass("disabled")) {
                     window.location = "/ia/pipeline/dev";
