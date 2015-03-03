@@ -9,6 +9,24 @@
             </span>
         </span>
     </div>
+
+    <: if $view == 'dev' { :>
+        <div class="filter-team">
+            <i class="filter-team__checkbox icon-check-empty" id="filter-team_checkbox"></i>
+            <span class="filter-team__span">
+                Show IAs of which I am the 
+                <: if $is_admin { :>
+                    <select class="filter-team__span__select" id="select-teamrole">
+                        <option value="0">producer</option>
+                        <option value="1">designer</option>
+                        <option value="2">developer</option>
+                    </select>
+                <: } else { :>
+                    developer
+                <: } :>
+            </span> 
+        </div>
+    <: } :>
 </div>
 
 <div id="dev_pipeline">

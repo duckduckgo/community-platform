@@ -140,6 +140,11 @@ sub dev_pipeline_base :Chained('base') :PathPart('pipeline') :CaptureArgs(1) {
     $c->stash->{view} = $view;
     $c->stash->{ia_page} = "IADevPipeline";
     $c->stash->{title} = "Dev Pipeline";
+   
+    if ($view eq 'dev') {
+        $c->stash->{is_admin} = $c->user? $c->user->admin : 0;
+    }
+    
     $c->add_bc('Instant Answers', $c->chained_uri('InstantAnswer','index'));
     $c->add_bc('Dev Pipeline', $c->chained_uri('InstantAnswer', 'dev_pipeline', $view));
 }
