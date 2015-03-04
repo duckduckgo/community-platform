@@ -113,11 +113,7 @@
                             ia_data.permissions.can_edit = 0;
                             ia_data.permissions.admin = 0;
 
-                            readonly_templates.planning = Handlebars.templates.planning(ia_data);
-                            readonly_templates.in_development = Handlebars.templates.in_development(ia_data);
-                            readonly_templates.qa = Handlebars.templates.qa(ia_data);
-                            readonly_templates.ready = Handlebars.templates.ready(ia_data);
-
+                            page.updateHandlebars(readonly_templates, ia_data);
                             page.updateAll(readonly_templates, ia_data.live.dev_milestone, false);
                         }
                     });
@@ -127,11 +123,7 @@
                             ia_data.permissions.can_edit = 1;
                             ia_data.permissions.admin = 1;
 
-                            readonly_templates.planning = Handlebars.templates.planning(ia_data);
-                            readonly_templates.in_development = Handlebars.templates.in_development(ia_data);
-                            readonly_templates.qa = Handlebars.templates.qa(ia_data);
-                            readonly_templates.ready = Handlebars.templates.ready(ia_data);
-
+                            page.updateHandlebars(readonly_templates, ia_data);
                             page.updateAll(readonly_templates, ia_data.live.dev_milestone, false);
                         }
                     });
@@ -290,11 +282,7 @@
                                  latest_edits_data = page.updateData(ia_data, latest_edits_data, true);
                             }
 
-                            for (var i = 0; i <  page.field_order.length; i++) {
-                                readonly_templates.live.name = Handlebars.templates.name(latest_edits_data);
-                                readonly_templates.live[ page.field_order[i]] = Handlebars.templates[ page.field_order[i]](latest_edits_data);
-                            }
-
+                            page.updateHandlebars(readonly_templates, ia_data);
                             page.updateAll(readonly_templates, ia_data.live.dev_milestone, false);
                         }
                     });
@@ -358,6 +346,7 @@
                             if ($(this).hasClass("js-autocommit")) {
                                 var field = "topic";
                                 var value = [];
+                                var is_json = true;
                                 var temp;
                                 var $parent = $(this).parent();
                                 $parent.find('.topic-group option[value="0"]').empty();
@@ -373,7 +362,7 @@
                                 value = JSON.stringify(value); 
 
                                 if (field.length && value.length) {
-                                    autocommit(field, value, DDH_iaid);
+                                    autocommit(field, value, DDH_iaid, is_json);
                                 }
                             }
                         }
@@ -548,6 +537,19 @@
             'qa',
             'ready'
         ],
+
+        updateHandlebars: function(templates, ia_data) {
+            if (ia_data.live.dev_milestone === 'live') {
+                for (var i = 0; i < this.field_order.length; i++) {
+                    templates.live.name = Handlebars.templates.name(ia_data);
+                    templates.live[this.field_order[i]] = Handlebars.templates[this.field_order[i]](ia_data);
+                }
+            } else {
+                for (var i = 0; i < this.dev_milestones_order.length; i++) {
+                    templates[this.dev_milestones_order[i]] = Handlebars.templates[this.dev_milestones_order[i]](ia_data);
+                }
+            }
+        },
 
         updateData: function(ia_data, x, edited) {
             var edited_fields = 0;
