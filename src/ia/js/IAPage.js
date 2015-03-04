@@ -108,6 +108,34 @@
 
                     page.updateAll(readonly_templates, ia_data.live.dev_milestone, false);
 
+                    $("#toggle-devpage-static").click(function(evt) {
+                        if (!$(this).hasClass("disabled")) {
+                            ia_data.permissions.can_edit = 0;
+                            ia_data.permissions.admin = 0;
+
+                            readonly_templates.planning = Handlebars.templates.planning(ia_data);
+                            readonly_templates.in_development = Handlebars.templates.in_development(ia_data);
+                            readonly_templates.qa = Handlebars.templates.qa(ia_data);
+                            readonly_templates.ready = Handlebars.templates.ready(ia_data);
+
+                            page.updateAll(readonly_templates, ia_data.live.dev_milestone, false);
+                        }
+                    });
+
+                    $("#toggle-devpage-editable").click(function(evt) {
+                        if (!$(this).hasClass("disabled")) {
+                            ia_data.permissions.can_edit = 1;
+                            ia_data.permissions.admin = 1;
+
+                            readonly_templates.planning = Handlebars.templates.planning(ia_data);
+                            readonly_templates.in_development = Handlebars.templates.in_development(ia_data);
+                            readonly_templates.qa = Handlebars.templates.qa(ia_data);
+                            readonly_templates.ready = Handlebars.templates.ready(ia_data);
+
+                            page.updateAll(readonly_templates, ia_data.live.dev_milestone, false);
+                        }
+                    });
+
                     $("#edit_activate").on('click', function(evt) {
                         page.updateAll(pre_templates, ia_data.live.dev_milestone, true);
 
