@@ -154,6 +154,8 @@
                     $("body").on('click', ".dev_milestone-container__body__div__checkbox.js-autocommit", function(evt) {
                         var field = $.trim($(this).attr("id").replace("-check", ""));
                         var value;
+                        var is_json = false;
+
                         if ($(this).hasClass("icon-check-empty")) {
                             value = 1;
                         } else {
@@ -172,9 +174,10 @@
                                
                                 field = parent_field.replace("-group", "");
                                 value = JSON.stringify(section_vals);
+                                is_json = true;
                             }
                          
-                            autocommit(field, value, DDH_iaid);
+                            autocommit(field, value, DDH_iaid, is_json);
                         }
                     });
 
@@ -187,6 +190,7 @@
                     $("body").on('change', ".dev_milestone-container__body__select.js-autocommit", function(evt) {
                         var field;
                         var value;
+                        var is_json = false;
                     
                         if ($(this).hasClass("topic-group")) {
                             value = [];
@@ -200,14 +204,15 @@
                             });
 
                            field = "topic";
-                           value = JSON.stringify(value); 
+                           value = JSON.stringify(value);
+                           is_json = true;
                         } else {
                            field = $.trim($(this).attr("id").replace("-select", ""));
                            value = $.trim($(this).find("option:selected").text());
                         }
 
                         if (field.length && value !== ia_data.live[field]) { 
-                             autocommit(field, value, DDH_iaid);
+                             autocommit(field, value, DDH_iaid, is_json);
                         }
                     });
 
@@ -215,10 +220,12 @@
                         if ((evt.type === 'keypress' && evt.which === 13) || (evt.type === "focusout")) {
                             var field = $.trim($(this).attr("id").replace("-input", ""));
                             var value = $.trim($(this).val());
+                            var is_json = false;
 
                             if ($(this).hasClass("comma-separated") && value.length) {
                                 value = value.split(/\s*,\s*/);
                                 value = JSON.stringify(value);
+                                is_json = true;
                             }
 
                             if (evt.type === 'keypress') {
@@ -235,9 +242,10 @@
                                 
                                     field = parent_field.replace("-group", "");
                                     value = JSON.stringify(section_vals);
+                                    is_json = true;
                                 }
                                 
-                                autocommit(field, value, DDH_iaid);
+                                autocommit(field, value, DDH_iaid, is_json);
                             }
                         }
                     });
@@ -245,17 +253,19 @@
                     $("body").on('click', ".dev_milestone-container__body__button.js-autocommit", function(evt) {
                         var field = $.trim($(this).attr("id").replace("-button", ""));
                         var value = $.trim($(".header-account-info .user-name").text());
+                        var is_json = false;
                         
                         $(this).hide();
 
                         if (field.length && value.length) {
-                            autocommit(field, value, DDH_iaid);
+                            autocommit(field, value, DDH_iaid, is_json);
                         }
                     });
 
                     $("body").on('click', ".js-complete.button", function(evt) {
                         var field = "dev_milestone";
                         var value;
+                        var is_json = false;
                         
                         if (ia_data.live.dev_milestone === "ready") {
                             value = "live";
@@ -264,7 +274,7 @@
                         }
                        
                         if (value.length) { 
-                            autocommit(field, value, DDH_iaid);
+                            autocommit(field, value, DDH_iaid, is_json);
                         }
                     });
 
@@ -457,7 +467,7 @@
                         return section_vals;
                     }
 
-                    function autocommit(field, value, id) {
+                    function autocommit(field, value, id, is_json) {
                         var jqxhr = $.post("/ia/save", {
                             field : field,
                             value : value,
@@ -468,11 +478,14 @@
                             if (data.result) {
                                 if (field === "dev_milestone") {
                                     location.reload();
-                                } else if (field === "repo" || field === "producer"
-                                           || field === "designer" || field === "developer") {
-                                    ia_data.live[field] = data.result[field];
-                                    readonly_templates.planning =  Handlebars.templates.planning(ia_data);
-                                    page.updateAll(readonly_templates, ia_data.live.dev_milestone, false);
+                                } else {
+                                    ia_data.live[field] = (is_json && data.result[field])? $.parseJSON(data.result[field]) : data.result[field];
+
+                                    if (field === "repo" || field === "producer"
+                                        || field === "designer" || field === "developer") {
+                                        readonly_templates.planning =  Handlebars.templates.planning(ia_data);
+                                        page.updateAll(readonly_templates, ia_data.live.dev_milestone, false);
+                                    }
                                 } 
                             }
                         });
