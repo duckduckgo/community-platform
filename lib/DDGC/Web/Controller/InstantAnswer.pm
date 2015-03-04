@@ -142,6 +142,7 @@ sub dev_pipeline_base :Chained('base') :PathPart('pipeline') :CaptureArgs(1) {
     $c->stash->{title} = "Dev Pipeline";
    
     if ($view eq 'dev') {
+        $c->stash->{logged_in} = $c->user;
         $c->stash->{is_admin} = $c->user? $c->user->admin : 0;
     }
     

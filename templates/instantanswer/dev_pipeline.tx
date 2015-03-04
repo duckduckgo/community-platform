@@ -10,7 +10,7 @@
         </span>
     </div>
 
-    <: if $view == 'dev' { :>
+    <: if $view == 'dev' && $logged_in { :>
         <div class="filter-team">
             <i class="filter-team__checkbox icon-check-empty" id="filter-team_checkbox"></i>
             <span class="filter-team__span">
