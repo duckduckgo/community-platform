@@ -1186,6 +1186,11 @@ body.texture {
     border-color: #4B9E4F;
 } 
 
+#toggle-devpage-view .pager-wrap {
+    height: 2.5em;
+    width: 9.5em;
+}
+
 .dev_milestone-container {
     width: 23%;
     min-height: 21em;
