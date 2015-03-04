@@ -273,6 +273,7 @@ sub ia_base :Chained('base') :PathPart('view') :CaptureArgs(1) {  # /ia/view/cal
     )->all;
 
     $c->stash->{topic_list} = \@topics;
+    $c->stash->{dev_milestone} = $dev_milestone;
     if ($dev_milestone eq 'live') {
         $c->add_bc('Instant Answers', $c->chained_uri('InstantAnswer','index'));
     } else {

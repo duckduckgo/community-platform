@@ -56,7 +56,6 @@
 
                     if (ia_data.live.dev_milestone !== "live") {
                         if ($(".special-permissions").length) {
-                            $(".special-permissions, .special-permissions__toggle-view").hide();
                             ia_data.permissions = {can_edit: 1};
                             
                             if ($("#view_commits").length) {
