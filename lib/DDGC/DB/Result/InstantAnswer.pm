@@ -310,6 +310,7 @@ column src_domain => {
 
 has_many 'issues', 'DDGC::DB::Result::InstantAnswer::Issues', 'instant_answer_id';
 has_many 'blocks', 'DDGC::DB::Result::InstantAnswer::Blocks', 'instant_answer_id';
+has_many 'updates', 'DDGC::DB::Result::InstantAnswer::Updates', 'instant_answer_id';
 
 has_many 'instant_answer_users', 'DDGC::DB::Result::InstantAnswer::Users', 'instant_answer_id';
 many_to_many 'users', 'instant_answer_users', 'user';

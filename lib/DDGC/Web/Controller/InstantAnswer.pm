@@ -218,7 +218,7 @@ sub ia_base :Chained('base') :PathPart('view') :CaptureArgs(1) {  # /ia/view/cal
             $can_edit = 1;
 
             if ($is_admin) {
-                my $edits = get_edits($c->d, $c->stash->{ia}->name);
+                my $edits = get_all_edits($c->d, $c->stash->{ia}->name);
                 $can_commit = 1;
 
                 if (length $edits && ref $edits eq 'HASH') {
@@ -406,6 +406,8 @@ sub commit_save :Chained('commit_base') :PathPart('save') :Args(0) {
         my $is_admin = $c->user->admin;
 
         if ($is_admin) {
+
+            # get the IA 
             my $ia = $c->d->rs('InstantAnswer')->find($c->req->params->{id});
             my @params = decode_json($c->req->params->{values});
 
@@ -525,15 +527,8 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
                     };
                 }
             } else {
-                my $edits = add_edit($ia,  $field, $value);
-
-                try {
-                    $ia->update({updates => $edits});
-                    $result = {$field => $value, is_admin => $is_admin};
-                }
-                catch {
-                    $c->d->errorlog("Error updating the database");
-                };
+                add_edit($c, $ia, $field, $value);
+                $result = {$field => $value, is_admin => $is_admin};
             }
         }
     }
@@ -588,7 +583,7 @@ sub create_ia :Chained('base') :PathPart('create') :Args() {
 sub current_ia {
     my ($d, $ia) = @_;
 
-    my $edits = get_edits($d, $ia->name);
+    my $edits = get_all_edits($d, $ia->name);
 
     my @name = $edits->{'name'};
     my @desc = $edits->{'description'};
@@ -632,53 +627,69 @@ sub current_ia {
 # to the updates array
 # return the updated array to add to the database
 sub add_edit {
-    my ($d, $ia, $field, $value ) = @_;
+    my ($c, $ia, $field, $value ) = @_;
 
-    $d->rs('InstantAnswer:Updates')->create(
-        ia => $ia->{id},
-        field => $field,
-        value => $value, 
-        timestamp => $time
-    );
+    warn "ia: $ia->id, field $field, value $value";
+
+    try {
+        $c->d->rs('InstantAnswer::Updates')->create({
+            instant_answer_id => $ia->id,
+            field => $field,
+            value => $value, 
+            timestamp => time
+        });
+    }catch {
+        $c->d->errorlog("Error updating Updates table from add_edit: $_");
+    };
 }
 
 # commits a single edit to the database
 # removes that entry from the updates column
 sub commit_edit {
-    my ($ia, $field, $value) = @_;
+    my ($ia, $edit, $field, $value) = @_;
 
-    # update the IA data
+    # update the IA data in instant answer table
     update_ia($ia, $field, $value);
 
-    remove_edit($ia, $field);
+    # remove the edit from the updates table
+    remove_edit($edit, $field);
 
 }
 
+# update the instant answer table
 sub update_ia {
-    my ($d, $ia, $filed, $value) = @_;
-
-
+    my ($ia, $field, $value) = @_;
+    $ia->update( $field => $value );
 }
+
 # given a result set and a field name, remove all the
 # entries for that field from the updates column
 sub remove_edit {
-    my($d, $ia, $field) = @_;   
-
+    my($d, $edit, $field) = @_;   
+    $edit->delete();
 }
 
-# given a result set, remove 
-# all the entries from the updates column
-sub remove_edits {
+# get a single edit with oldest timestamp (next edit to check)
+sub get_update {
+    my ($d, $ia) = @_;
+    my $updates = get_all_edits($ia);
+    # sort by timestamp 
+    my $edit = '';
+
+    return $edit;
+}
+
+# remove all the entries from the updates column
+sub remove_all_updates {
     my($ia) = @_;
-    my $columns = get_edits($ia);
+    my $columns = get_all_updates($ia);
     $columns->delete;
 }
 
-# given the IA name return the data in the updates
-# column as an array of hashes
-sub get_edits {
+# given the IA name return a result set of all edits
+sub get_all_edits {
     my ($d, $name) = @_; 
-    my $results = $d->rs('InstantAnswer::Updates')->search( {id => $name} );
+    my $edits = $d->rs('InstantAnswer::Updates')->search( {instant_answer_id => $name} );
     return $edits;
 }
 

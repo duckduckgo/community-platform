@@ -10,10 +10,11 @@ use namespace::autoclean;
 
 table 'instant_answer_updates';
 
-sub u { [ 'InstantAnswer', 'update', $_[0]->id, $_[0]->id ] }
+sub u { [ 'InstantAnswer', 'update', $_[0]->id, $_[0]->instant_answer_id ] }
 
-column id => {
-	data_type => 'text',
+# f_key to ia table
+column instant_answer_id => {
+    data_type => 'text'
 };
 
 column field => {
@@ -26,11 +27,9 @@ column value => {
 
 column timestamp => {
     data_type => 'text'
-}
+};
 
-primary_key (qw/id/);
-
-belongs_to 'instant_answer', 'DDGC::DB::Result::InstantAnswer', 'id', {on_delete => 'cascade'};
+belongs_to 'instant_answer', 'DDGC::DB::Result::InstantAnswer', 'instant_answer_id', {on_delete => 'cascade'};
 
 no Moose;
 __PACKAGE__->meta->make_immutable;
