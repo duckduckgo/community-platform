@@ -213,14 +213,26 @@ sub dev_pipeline_json :Chained('dev_pipeline_base') :PathPart('json') :Args(0) {
         my $ia;
         my $id;
         my $dev_milestone;
+        my @tags;
+        my %temp_tags;
 
         for my $issue (@result) {
             $id = $issue->instant_answer_id;
             $ia = $c->d->rs('InstantAnswer')->find($id);
             $dev_milestone = $ia->dev_milestone;
-
             my @issues;
             if ($dev_milestone eq 'live') {
+                use autobox;
+
+                for my $tag (@{$issue->tags}) {
+                    if (!$temp_tags{$tag->{name}}) {
+                        $temp_tags{$tag->{name}} = {
+                                name => $tag->{name},
+                                color => $tag->{color}
+                            };
+                    }
+                }
+
                 if (defined $ial{$id}) {
                     my @existing_issues = @{$ial{$id}->{issues}};
                     push(@existing_issues, {
@@ -259,8 +271,13 @@ sub dev_pipeline_json :Chained('dev_pipeline_base') :PathPart('json') :Args(0) {
             push(@sorted_ial, $ial{$ia_id});
         }
 
+        foreach my $tag_name (sort keys %temp_tags) {
+            push(@tags, $temp_tags{$tag_name});
+        }
+
         $c->stash->{x} = {
-            ia => \@sorted_ial
+            ia => \@sorted_ial,
+            tags => \@tags
         };
     }
 

@@ -1,3 +1,12 @@
+<div class="filter-issues">
+    {{#each tags}}
+        <i class="filter-issues__checkbox icon-check-empty" id="issue-{{name}}"></i>
+        <div class="filter-issues__tag" style="background-color: #{{color}};">
+            {{name}}
+        </div>
+    {{/each}}
+</div>
+
 <div id="pipeline-live-container" class="pipeline-container">
     <ul class="dev_pipeline-container__list" id="pipeline-live__list">
         {{#each ia}}
@@ -9,7 +18,7 @@
                 <div class="list-container--right left">
                     <ul class="list-container--right__issues issues_col">
                         {{#each issues}}
-                            <li>
+                            <li class="{{#each tags}} issue-{{name}} {{/each}}">
                                 <a class="one-line" href="https://github.com/duckduckgo/zeroclickinfo-{{../repo}}/issues/{{issue_id}}">{{title}}</a>
                                 {{#each tags}}
                                     <div class="list-container--right__issues__tags issues_col__tags left issue-{{name}}" style="background-color: #{{color}};">
