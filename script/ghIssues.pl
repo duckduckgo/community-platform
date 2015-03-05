@@ -65,7 +65,7 @@ sub getIssues{
 				issue_id => $issue->{'number'} || '',
 				title => decode_utf8($issue->{'title'}) || '',
 				body => decode_utf8($issue->{'body'}) || '',
-				tags => encode_json($issue->{'labels'}) || '',
+				tags => $issue->{'labels'} || '',
 				created => $issue->{'created_at'} || '',
                 is_pr => $is_pr,
 			);

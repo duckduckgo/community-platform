@@ -309,14 +309,14 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
                     id => $issue->issue_id,
                     title => $issue->title,
                     body => $issue->body,
-                    tags => $issue->tags? from_json($issue->tags) : undef
+                    tags => $issue->tags
                );
             } else {
                 push(@ia_issues, {
                     issue_id => $issue->issue_id,
                     title => $issue->title,
                     body => $issue->body,
-                    tags => $issue->tags? from_json($issue->tags) : undef
+                    tags => $issue->tags
                 });
             }
         }
