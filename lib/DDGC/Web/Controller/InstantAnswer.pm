@@ -632,23 +632,14 @@ sub current_ia {
 # to the updates array
 # return the updated array to add to the database
 sub add_edit {
-    my ($ia, $field, $value ) = @_;
+    my ($d, $ia, $field, $value ) = @_;
 
-    my $orig_data = $ia->get_column($field) || '';
-    my $current_updates = $ || ();
-
-    if($value ne $orig_data){
-        $current_updates = $current_updates? decode_json($current_updates) : undef;
-        my @field_updates = $current_updates->{$field}? $current_updates->{$field} : undef;
-        my $time = time;
-        my %new_update = ( value => $value,
-                           timestamp => $time
-                         );
-        push(@field_updates, \%new_update);
-        $current_updates->{$field} = [@field_updates];
-    }
-
-    return $current_updates;
+    $d->rs('InstantAnswer:Updates')->create(
+        ia => $ia->{id},
+        field => $field,
+        value => $value, 
+        timestamp => $time
+    );
 }
 
 # commits a single edit to the database
@@ -657,26 +648,22 @@ sub commit_edit {
     my ($ia, $field, $value) = @_;
 
     # update the IA data
-    update_ia($ia)
+    update_ia($ia, $field, $value);
 
     remove_edit($ia, $field);
 
 }
 
 sub update_ia {
+    my ($d, $ia, $filed, $value) = @_;
+
 
 }
 # given a result set and a field name, remove all the
 # entries for that field from the updates column
 sub remove_edit {
-    my($ia, $field) = @_;   
+    my($d, $ia, $field) = @_;   
 
-    my $updates = ();
-    my $column_updates = $ia->get_column('updates');
-    my $edits = $column_updates? decode_json($column_updates) : undef;
-    $edits->{$field} = undef;
-                      
-    $ia->update({updates => $edits});
 }
 
 # given a result set, remove 

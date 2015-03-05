@@ -18,13 +18,15 @@ column id => {
 
 column field => {
 	data_type => 'text',
-	is_nullable => 1,
 };
 
-column body => {
+column value => {
 	data_type => 'text',
-	is_nullable => 1,
 };
+
+column timestamp => {
+    data_type => 'text'
+}
 
 primary_key (qw/id/);
 
