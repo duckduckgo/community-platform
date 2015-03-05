@@ -11,6 +11,8 @@ my $INST = DDGC::Config->new->appdir_path."/root/static/js";
 
 BEGIN {extends 'Catalyst::Controller'; }
 
+sub debug { 1 }
+
 sub base :Chained('/base') :PathPart('ia') :CaptureArgs(0) {
     my ( $self, $c ) = @_;
 }
@@ -218,12 +220,9 @@ sub ia_base :Chained('base') :PathPart('view') :CaptureArgs(1) {  # /ia/view/cal
             $can_edit = 1;
 
             if ($is_admin) {
-                my $edits = get_all_edits($c->d, $c->stash->{ia}->name);
+                my @edits = get_all_edits($c->d, $c->stash->{ia}->id);
                 $can_commit = 1;
-
-                if (length $edits && ref $edits eq 'HASH') {
-                    $commit_class = '';
-                }
+                $commit_class = '' if @edits;
             }
         }
     }
@@ -583,19 +582,10 @@ sub create_ia :Chained('base') :PathPart('create') :Args() {
 sub current_ia {
     my ($d, $ia) = @_;
 
-    my $edits = get_all_edits($d, $ia->name);
+    my $edits = get_edit($d, $ia->id);
 
-    my @name = $edits->{'name'};
-    my @desc = $edits->{'description'};
-    my @status = $edits->{'status'};
-    my @topic = $edits->{'topic'};
-    my @example_query = $edits->{'example_query'};
-    my @other_queries = $edits->{'other_queries'};
-    my @dev_milestone = $edits->{'dev_milestone'};
-    my %x;
-
-    if (ref $edits eq 'HASH') {
-        my $topic_val = $topic[0][@topic]{'value'};
+    if ($edits) {
+        my $topic_val = $edits->;
         my $other_q_val = $other_queries[0][@other_queries]{'value'};
         my $other_q_edited = $other_q_val? 1 : undef;
 
@@ -670,13 +660,20 @@ sub remove_edit {
 }
 
 # get a single edit with oldest timestamp (next edit to check)
-sub get_update {
-    my ($d, $ia) = @_;
-    my $updates = get_all_edits($ia);
-    # sort by timestamp 
-    my $edit = '';
+sub get_edit {
+    my ($d, $id) = @_;
+    warn "Getting single edit for: $id" if debug;
+    my @edit = $d->rs('InstantAnswer::Updates')->search({
+        instant_answer_id => $id
+    },
+    {
+        order_by => {-desc => 'timestamp'},
+        rows => 1
+    });
 
-    return $edit;
+    warn $edit[0]->timestamp if debug;
+
+    return $edit[0];
 }
 
 # remove all the entries from the updates column
@@ -688,9 +685,11 @@ sub remove_all_updates {
 
 # given the IA name return a result set of all edits
 sub get_all_edits {
-    my ($d, $name) = @_; 
-    my $edits = $d->rs('InstantAnswer::Updates')->search( {instant_answer_id => $name} );
-    return $edits;
+    my ($d, $id) = @_;
+    warn "Getting edits for $id" if debug;
+    my @edits = $d->rs('InstantAnswer::Updates')->search( {instant_answer_id => $id} );
+    warn "Returning ", scalar @edits if debug;
+    return @edits;
 }
 
 no Moose;
