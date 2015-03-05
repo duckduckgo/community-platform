@@ -205,20 +205,62 @@ sub dev_pipeline_json :Chained('dev_pipeline_base') :PathPart('json') :Args(0) {
             ready => \@ready,
         };
     } elsif ($view eq 'live') {
-        my @ial = $rs->search(
-            {'issues.is_pr' => { '!=' => 1 },
-             'me.dev_milestone' => { '=' => 'live'},
-            },
-            {
-                columns => [ qw/ name id repo dev_milestone producer designer developer/ ],
-                order_by => [ qw/ name/ ],
-                prefetch => [ qw/ issues / ],
-                result_class => 'DBIx::Class::ResultClass::HashRefInflator',
+        $rs = $c->d->rs('InstantAnswer::Issues');
+
+        my @result = $rs->search({'is_pr' => 0})->all;
+
+        my %ial;
+        my $ia;
+        my $id;
+        my $dev_milestone;
+
+        for my $issue (@result) {
+            $id = $issue->instant_answer_id;
+            $ia = $c->d->rs('InstantAnswer')->find($id);
+            $dev_milestone = $ia->dev_milestone;
+
+            my @issues;
+            if ($dev_milestone eq 'live') {
+                if (defined $ial{$id}) {
+                    my @existing_issues = @{$ial{$id}->{issues}};
+                    push(@existing_issues, {
+                            issue_id => $issue->issue_id,
+                            title => $issue->title,
+                            tags => $issue->tags
+                        });
+
+                    $ial{$id}->{issues} = \@existing_issues;
+                } else {
+                    push(@issues, {
+                            issue_id => $issue->issue_id,
+                            title => $issue->title,
+                            tags => $issue->tags
+                        });
+
+                    $ial{$id}  = {
+                            name => $ia->name,
+                            id => $ia->id,
+                            repo => $ia->repo,
+                            dev_milestone => $ia->dev_milestone,
+                            producer => $ia->producer,
+                            designer => $ia->designer,
+                            developer => $ia->developer,
+                            issues => \@issues
+                        };
+
+                    
+                }
             }
-        )->all;
+        }
+
+        my @sorted_ial;
+
+        foreach my $ia_id (sort keys %ial) {
+            push(@sorted_ial, $ial{$ia_id});
+        }
 
         $c->stash->{x} = {
-            ia => \@ial
+            ia => \@sorted_ial
         };
     }
 

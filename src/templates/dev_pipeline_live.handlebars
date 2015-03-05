@@ -11,6 +11,11 @@
                         {{#each issues}}
                             <li>
                                 <a class="one-line" href="https://github.com/duckduckgo/zeroclickinfo-{{../repo}}/issues/{{issue_id}}">{{title}}</a>
+                                {{#each tags}}
+                                    <div class="list-container--right__issues__tags issues_col__tags left issue-{{name}}" style="background-color: #{{color}};">
+                                        {{name}}
+                                    </div>
+                                {{/each}}
                             </li>
                         {{/each}}
                     </ul>
