@@ -222,8 +222,6 @@ sub dev_pipeline_json :Chained('dev_pipeline_base') :PathPart('json') :Args(0) {
             $dev_milestone = $ia->dev_milestone;
             my @issues;
             if ($dev_milestone eq 'live') {
-                use autobox;
-
                 for my $tag (@{$issue->tags}) {
                     if (!$temp_tags{$tag->{name}}) {
                         $temp_tags{$tag->{name}} = {
