@@ -384,6 +384,8 @@ sub commit_json :Chained('commit_base') :PathPart('json') :Args(0) {
             dev_milestone => $ia->dev_milestone
         );
 
+        warn $edited->{topic};
+
         $edited->{original} = \%original;
 
         $c->stash->{x} = $edited;
@@ -582,35 +584,38 @@ sub create_ia :Chained('base') :PathPart('create') :Args() {
 sub current_ia {
     my ($d, $ia) = @_;
 
-    my $edits = get_edit($d, $ia->id);
+    my %combined_edits;
+    # get all edits
+    my @edits = get_all_edits($d, $ia->id);
 
-    if ($edits) {
-        my $topic_val = $edits->;
-        my $other_q_val = $other_queries[0][@other_queries]{'value'};
-        my $other_q_edited = $other_q_val? 1 : undef;
+    return {} unless @edits;
 
-        # Other queries can be empty,
-        # but the handlebars {{#if}} evaluates to false
-        # for both null and empty values,
-        # so instead of the value, we check other_queries.edited
-        # to see if this field was edited
-        my %other_q = (
-            edited => $other_q_edited,
-            value => $other_q_val? decode_json($other_q_val) : undef
-        );
+    # combine all edits into a single hash
+    foreach my $edit (@edits){
+        my $value = $edit->value;
+        $value = from_json($value);
 
-        %x = (
-            name => $name[0][@name]{'value'},
-            description => $desc[0][@desc]{'value'},
-            status => $status[0][@status]{'value'},
-            topic => $topic_val? decode_json($topic_val) : undef,
-            example_query => $example_query[0][@example_query]{'value'},
-            other_queries => \%other_q,
-            dev_milestone => $dev_milestone[0][@dev_milestone]{'value'}
-        );
+        warn Dumper $value;
+
+        # if field is an aray then push new
+        # values to it
+        if($value->{field} eq 'ARRAY'){
+            if(exists $combined_edits{$edit->field}){
+                my @merged_arr = (@{$combined_edits{$edit->field}}, @{$value->{field}});
+                $combined_edits{$edit->field} = @merged_arr;
+            }
+            else {
+                $combined_edits{$edit->field} = $value->{field};
+            }
+        }
+        else {
+            $combined_edits{$edit->field} = $value->{field};
+        }
     }
 
-    return \%x;
+    warn Dumper \%combined_edits;
+
+    return \%combined_edits;
 }
 
 # given result set, field, and value. Add a new hash
@@ -620,12 +625,13 @@ sub add_edit {
     my ($c, $ia, $field, $value ) = @_;
 
     warn "ia: $ia->id, field $field, value $value";
+    $value = decode_json($value) if $field eq 'topic';
 
     try {
         $c->d->rs('InstantAnswer::Updates')->create({
             instant_answer_id => $ia->id,
             field => $field,
-            value => $value, 
+            value => encode_json({field =>$value}), 
             timestamp => time
         });
     }catch {
