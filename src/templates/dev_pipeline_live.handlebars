@@ -1,7 +1,7 @@
 <div id="pipeline-live-container" class="pipeline-container left">
     <ul class="dev_pipeline-container__list" id="pipeline-live__list">
         {{#each ia}}
-            <li id="pipeline-live__list__{{id}}" class="pipeline-live__list__item
+            <li id="pipeline-live__list__{{id}}" class="pipeline-live__list__item {{#each issues}}{{#each tags}} issue-{{slug name}} {{/each}}{{/each}}
             {{#if producer}}producer-{{producer}}{{/if}} {{#if designer}}designer-{{designer}}{{/if}} {{#if developer}}developer-{{developer}}{{/if}}">
                 <div class="list-container--left left">
                     <h3><a href="/ia/view/{{id}}">{{name}}</a></h3>
@@ -9,12 +9,12 @@
                 <div class="list-container--right left">
                     <ul class="list-container--right__issues issues_col">
                         {{#each issues}}
-                            <li class="{{#each tags}} issue-{{name}} {{/each}}">
+                            <li>
                                 <div class="one-line left">
                                     <a href="https://github.com/duckduckgo/zeroclickinfo-{{../repo}}/issues/{{issue_id}}">{{title}}</a>
                                 </div>
                                 {{#each tags}}
-                                    <div class="list-container--right__issues__tags issues_col__tags left issue-{{name}}" style="background-color: #{{color}};">
+                                    <div class="list-container--right__issues__tags issues_col__tags left issue-{{slug name}}" style="background-color: #{{color}};">
                                     </div>
                                 {{/each}}
                             </li>
@@ -30,7 +30,7 @@
 <div class="filter-issues left">
     {{#each tags}}
         <div class="filter-issues__item">
-            <i class="filter-issues__item__checkbox icon-check-empty left" id="issue-{{name}}"></i>
+            <i class="filter-issues__item__checkbox icon-check-empty left" id="issue-{{slug name}}"></i>
             <div class="filter-issues__item__tag left" style="background-color: #{{color}};">
                 {{name}}
             </div>
