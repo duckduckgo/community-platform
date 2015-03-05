@@ -384,8 +384,6 @@ sub commit_json :Chained('commit_base') :PathPart('json') :Args(0) {
             dev_milestone => $ia->dev_milestone
         );
 
-        warn $edited->{topic};
-
         $edited->{original} = \%original;
 
         $c->stash->{x} = $edited;
@@ -433,7 +431,7 @@ sub commit_save :Chained('commit_base') :PathPart('save') :Args(0) {
 
                             try {
                                 $ia->add_to_topics($topic_id);
-                                remove_edit($ia, $field);
+                                remove_edits($c->d, $ia, $field);
                                 $result = 1;
                             } catch {
                                 $c->d->errorlog("Error updating the database");
@@ -446,7 +444,7 @@ sub commit_save :Chained('commit_base') :PathPart('save') :Args(0) {
                         }
 
                         try {
-                            commit_edit($ia, $field, $value);
+                            commit_edit($c->d, $ia, $field);
                             $result = '1';
                         } catch {
                             $c->d->errorlog("Error updating the database");
@@ -455,8 +453,6 @@ sub commit_save :Chained('commit_base') :PathPart('save') :Args(0) {
                     }
                 }
             } 
-
-            remove_edits($ia);
         }
     }
 
@@ -625,7 +621,7 @@ sub add_edit {
     my ($c, $ia, $field, $value ) = @_;
 
     warn "ia: $ia->id, field $field, value $value";
-    $value = decode_json($value) if $field eq 'topic';
+    $value = decode_json($value) if $field =~ /topic|other_queries/;
 
     try {
         $c->d->rs('InstantAnswer::Updates')->create({
@@ -642,27 +638,33 @@ sub add_edit {
 # commits a single edit to the database
 # removes that entry from the updates column
 sub commit_edit {
-    my ($ia, $edit, $field, $value) = @_;
+    my ($d, $ia, $field) = @_;
+
 
     # update the IA data in instant answer table
-    update_ia($ia, $field, $value);
+    #update_ia($ia, $field, $value);
 
+    warn "committing edits";
     # remove the edit from the updates table
-    remove_edit($edit, $field);
+    remove_edits($d, $ia, $field);
 
 }
 
 # update the instant answer table
 sub update_ia {
     my ($ia, $field, $value) = @_;
-    $ia->update( $field => $value );
+    #$ia->update( $field => $value );
 }
 
 # given a result set and a field name, remove all the
 # entries for that field from the updates column
-sub remove_edit {
-    my($d, $edit, $field) = @_;   
-    $edit->delete();
+sub remove_edits {
+    my($d, $ia, $field) = @_;   
+    # delete all entries from updates with field
+    my $edits = $d->rs('InstantAnswer::Updates')->search({ instant_answer_id => $ia->id, field => $field });
+    warn "Found $edits->count";
+    $edits->delete();
+
 }
 
 # get a single edit with oldest timestamp (next edit to check)
