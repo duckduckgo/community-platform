@@ -33,6 +33,7 @@ column body => {
 column tags => {
 	data_type => 'text',
 	is_nullable => 1,
+    serializer_class => 'JSON',
 };
 
 column repo => {
