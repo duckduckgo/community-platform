@@ -1186,6 +1186,11 @@ body.texture {
     border-color: #4B9E4F;
 } 
 
+#toggle-devpage-view .pager-wrap {
+    height: 2.5em;
+    width: 9.5em;
+}
+
 .dev_milestone-container {
     width: 23%;
     min-height: 21em;
@@ -1266,9 +1271,22 @@ body.texture {
     padding-left: 1em;
 }
 
+#pipeline-live-container {
+    width: 70%;
+}
+
+.filter-issues {
+    width: 23%;
+    margin-left: 3em;
+}
+
+#pipeline_toggle-view {
+    margin-bottom: 1em;
+}
+
 #pipeline_toggle-view .pager-wrap {
     height: 4em;
-    width: 17.7em;
+    width: 17.95em;
 }
 
 #pipeline-live-container .list-container--left {
@@ -1281,7 +1299,8 @@ body.texture {
 
 #pipeline-live__list .pipeline-live__list__item {
     border-bottom: 1px solid #CDCDCD;
-    margin-top: 1em;
+    margin-top: 0.5em;
+    padding: 1em 0;
 }
 
 #pipeline-live__list li,
@@ -1293,10 +1312,56 @@ body.texture {
     color: #333;
 }
 
-#pipeline-live-container .list-container--right li a {
+#pipeline-live-container .list-container--right li .one-line,
+#pipeline-live-container .list-container--right li .one-line a {
     color: #4896D2;
+}
+
+#pipeline-live-container .list-container--right li .one-line {
+    width: 20em;
 }
 
 #pipeline-live-container .list-container--right {
     margin-left: 5em;
+}
+
+.icon-check,
+.icon-check-empty {
+    cursor: pointer;
+}
+
+.filter-issues__item__tag,
+.issues_col__tags {
+    display: inline-block;
+    padding: 0.1em 0.25em;
+    margin-left: 0.5em;
+}
+
+.issues_col__tags {
+    height: 0.5em;
+    width: 0.2em;
+    border-radius: 100%;
+    -moz-border-radius: 100%;
+    -webkit-border-radius: 100%;
+    -o-border-radius: 100%;
+    margin-top: 0.5em;
+}
+
+.filter-issues__item {
+    margin-top: 0.5em;
+}
+
+.filter-issues__item__checkbox {
+    margin-top: 0.35em;
+}
+
+.filter-issues__item__tag {
+    color: #fff;
+    font-weight: 600;
+    width: auto;
+    text-shadow: 1px 1px 1px #333;
+    border-radius: 3px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    -o-border-radius: 3px;
 }
