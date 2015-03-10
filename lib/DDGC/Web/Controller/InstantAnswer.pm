@@ -418,7 +418,8 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
                 tested_relevancy => $ia->tested_relevancy,
                 tested_staging => $ia->tested_staging,
                 is_live => $ia->is_live,
-                src_options => $ia->src_options? from_json($ia->src_options) : undef
+                src_options => $ia->src_options? from_json($ia->src_options) : undef,
+                answerbar => $ia->answerbar? from_json($ia->answerbar) : undef
     };
 
     if ($c->user) {

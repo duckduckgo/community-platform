@@ -58,6 +58,26 @@
                     </div>
                 {{/if}}
             {{/unless}}
+
+            <div class="dev_milestone-container__body__label ia-single--header">
+                ANSWERBAR
+            </div>
+            <div class="dev_milestone-container__body__div">
+                <ul class="section-group" id="answerbar-group">
+                    <li>
+                        <label class="left">Fallback Timeout (seconds):</label>
+                        {{#unless future.planning}}
+                            {{#if permissions.admin}}
+                                <input type="number" class="clearfix section-group__item dev_milestone-container__body__input js-autocommit" id="fallback_timeout-input" value="{{live.answerbar.fallback_timeout}}" />
+                            {{else}}
+                                <div class="clearfix dev_milestone-container__body__readonly" id="fallback_timeout-txt">
+                                    {{live.answerbar.fallback_timeout}}
+                                </div>
+                            {{/if}}
+                        {{/unless}}
+                    </li>
+                </ul>
+            </div>
         {{/eq}}
 
         {{#eq live.repo 'fathead'}}
@@ -114,7 +134,7 @@
                             {{#if permissions.can_edit}}
                                 <input type="text" class="clearfix section-group__item dev_milestone-container__body__input js-autocommit" id="skip_qr-input" value="{{live.src_options.skip_qr}}" />
                             {{else}}
-                                <div class="clearfix dev_milestone-container__body__readonly" id="directory-txt">
+                                <div class="clearfix dev_milestone-container__body__readonly" id="skip_qr-txt">
                                     {{live.src_options.skip_qr}}
                                 </div>
                             {{/if}}
