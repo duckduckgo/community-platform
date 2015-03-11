@@ -28,6 +28,13 @@ column description => {
 	is_nullable => 1,
 };
 
+# JSON string cointaining parameters such as
+# fallback_timeout, for IAs with slow upstream providers
+column answerbar => {
+    data_type => 'text',
+    is_nullable => 1,
+};
+
 # eg DDG::Goodie::Calculator
 column perl_module => {
 	data_type => 'text',
