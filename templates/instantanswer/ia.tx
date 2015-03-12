@@ -21,13 +21,13 @@
             </div>
         </div>
     <: } else { :>
-        <div class="special-permissions__toggle-view right" id="toggle-devpage-view">
+        <div class="dev-special-permissions__toggle-view right" id="toggle-devpage-view">
             <div class="pager-wrap">
                 <span class="button-group  button-group--paging">
-                    <span class="button special-permissions__toggle-view__button" id="toggle-devpage-static">
+                    <span class="button dev-special-permissions__toggle-view__button" id="toggle-devpage-static">
                         Static
                     </span>
-                    <span class="button special-permissions__toggle-view__button button-nav-current disabled" id="toggle-devpage-editable">
+                    <span class="button dev-special-permissions__toggle-view__button button-nav-current disabled" id="toggle-devpage-editable">
                         Editable
                     </span>
                 </span>

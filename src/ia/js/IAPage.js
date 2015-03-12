@@ -89,6 +89,7 @@
                             devinfo : Handlebars.templates.devinfo(latest_edits_data),
                             github: Handlebars.templates.github(latest_edits_data)
                         },
+                        metafields : Handlebars.templates.metafields(ia_data),
                         planning : Handlebars.templates.planning(ia_data),
                         in_development : Handlebars.templates.in_development(ia_data),
                         qa : Handlebars.templates.qa(ia_data),
@@ -115,6 +116,9 @@
 
                             page.updateHandlebars(readonly_templates, ia_data);
                             page.updateAll(readonly_templates, ia_data.live.dev_milestone, false);
+
+                            $(".button-nav-current").removeClass("disabled").removeClass("button-nav-current");
+                            $(this).addClass("disabled").addClass("button-nav-current");
                         }
                     });
 
@@ -125,6 +129,9 @@
 
                             page.updateHandlebars(readonly_templates, ia_data);
                             page.updateAll(readonly_templates, ia_data.live.dev_milestone, false);
+
+                            $(".button-nav-current").removeClass("disabled").removeClass("button-nav-current");
+                            $(this).addClass("disabled").addClass("button-nav-current");
                         }
                     });
 
@@ -173,7 +180,7 @@
                         }
                     });
 
-                    $("body").on("focusin", ".dev_milestone-container__body__input.js-autocommit", function(evt) {
+                    $("body").on("focusin", "textarea.js-autocommit, input.js-autocommit", function(evt) {
                         if (!$(this).hasClass("js-autocommit-focused")) {
                             $(this).addClass("js-autocommit-focused");
                         }
@@ -208,24 +215,25 @@
                         }
                     });
 
-                    $("body").on('keypress focusout', ".dev_milestone-container__body__input.js-autocommit-focused", function(evt) {
+                    $("body").on('keypress focusout', "textarea.js-autocommit-focused, input.js-autocommit-focused", function(evt) {
                         if ((evt.type === 'keypress' && evt.which === 13) || (evt.type === "focusout")) {
-                            var field = $.trim($(this).attr("id").replace("-input", ""));
+                            var field;
                             var value = $.trim($(this).val());
+                            var id = $.trim($(this).attr("id"));
                             var is_json = false;
+
+                            if (id.match(/.*-input/)) {
+                                field = id.replace("-input", "");
+                            } else {
+                                field = id.replace("-textarea", "");
+                            }
 
                             if ($(this).hasClass("comma-separated") && value.length) {
                                 value = value.split(/\s*,\s*/);
                                 value = JSON.stringify(value);
                                 is_json = true;
                             }
-
-                            if (evt.type === 'keypress') {
-                                $(this).blur();
-                            }
-
-                            $(this).removeClass("js-autocommit-focused");
-
+                            
                             if (field.length && value !== ia_data.live[field]) {
                                 if ($(this).hasClass("section-group__item")) {
                                     var parent_field = $.trim($(this).parent().parent().attr("id"));
@@ -239,6 +247,12 @@
                                 
                                 autocommit(field, value, DDH_iaid, is_json);
                             }
+
+                            if (evt.type === 'keypress') {
+                                $(this).blur();
+                            }
+
+                            $(this).removeClass("js-autocommit-focused");
                         }
                     });
 
@@ -545,6 +559,7 @@
                     templates.live[this.field_order[i]] = Handlebars.templates[this.field_order[i]](ia_data);
                 }
             } else {
+                templates.metafields = Handlebars.templates.metafields(ia_data);
                 for (var i = 0; i < this.dev_milestones_order.length; i++) {
                     templates[this.dev_milestones_order[i]] = Handlebars.templates[this.dev_milestones_order[i]](ia_data);
                 }
@@ -608,7 +623,7 @@
                 } else {
                     $(".ia-single").empty();
                     $(".ia-single").append(templates.live.name);
-                    $(".ia-single").append(templates.live.description);
+                    $(".ia-single").append(templates.metafields);
                     for (var i = 0; i < this.dev_milestones_order.length; i++) {
                         $(".ia-single").append(templates[this.dev_milestones_order[i]]);
                     }

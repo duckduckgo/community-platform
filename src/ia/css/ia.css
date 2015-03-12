@@ -1362,3 +1362,7 @@ body.texture {
     -moz-border-radius: 3px;
     -o-border-radius: 3px;
 }
+
+.metafield {
+    margin-bottom: 1em;
+}
