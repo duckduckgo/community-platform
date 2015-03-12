@@ -1,5 +1,6 @@
 package DDGC::Web::Controller::InstantAnswer;
 # ABSTRACT: Instant Answer Pages
+
 use Data::Dumper;
 use Moose;
 use namespace::autoclean;
