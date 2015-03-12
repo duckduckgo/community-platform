@@ -1,6 +1,6 @@
 <div id="big-description">
     {{#if permissions.can_edit}}
-        <input class="js-autocommit metafield" id="description-input" value="{{live.description}}" />
+        <textarea rows="2" cols="55" class="js-autocommit metafield" id="description-textarea">{{live.description}}</textarea>
     {{else}}
         {{#if live.description}}
             <p>{{live.description}}</p>

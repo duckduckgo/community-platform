@@ -116,6 +116,9 @@
 
                             page.updateHandlebars(readonly_templates, ia_data);
                             page.updateAll(readonly_templates, ia_data.live.dev_milestone, false);
+
+                            $(".button-nav-current").removeClass("disabled").removeClass("button-nav-current");
+                            $(this).addClass("disabled").addClass("button-nav-current");
                         }
                     });
 
@@ -126,6 +129,9 @@
 
                             page.updateHandlebars(readonly_templates, ia_data);
                             page.updateAll(readonly_templates, ia_data.live.dev_milestone, false);
+
+                            $(".button-nav-current").removeClass("disabled").removeClass("button-nav-current");
+                            $(this).addClass("disabled").addClass("button-nav-current");
                         }
                     });
 
@@ -174,7 +180,7 @@
                         }
                     });
 
-                    $("body").on("focusin", "input.js-autocommit", function(evt) {
+                    $("body").on("focusin", "textarea.js-autocommit, input.js-autocommit", function(evt) {
                         if (!$(this).hasClass("js-autocommit-focused")) {
                             $(this).addClass("js-autocommit-focused");
                         }
@@ -209,24 +215,25 @@
                         }
                     });
 
-                    $("body").on('keypress focusout', "input.js-autocommit-focused", function(evt) {
+                    $("body").on('keypress focusout', "textarea.js-autocommit-focused, input.js-autocommit-focused", function(evt) {
                         if ((evt.type === 'keypress' && evt.which === 13) || (evt.type === "focusout")) {
-                            var field = $.trim($(this).attr("id").replace("-input", ""));
+                            var field;
                             var value = $.trim($(this).val());
+                            var id = $.trim($(this).attr("id"));
                             var is_json = false;
+
+                            if (id.match(/.*-input/)) {
+                                field = id.replace("-input", "");
+                            } else {
+                                field = id.replace("-textarea", "");
+                            }
 
                             if ($(this).hasClass("comma-separated") && value.length) {
                                 value = value.split(/\s*,\s*/);
                                 value = JSON.stringify(value);
                                 is_json = true;
                             }
-
-                            if (evt.type === 'keypress') {
-                                $(this).blur();
-                            }
-
-                            $(this).removeClass("js-autocommit-focused");
-
+                            
                             if (field.length && value !== ia_data.live[field]) {
                                 if ($(this).hasClass("section-group__item")) {
                                     var parent_field = $.trim($(this).parent().parent().attr("id"));
@@ -240,6 +247,12 @@
                                 
                                 autocommit(field, value, DDH_iaid, is_json);
                             }
+
+                            if (evt.type === 'keypress') {
+                                $(this).blur();
+                            }
+
+                            $(this).removeClass("js-autocommit-focused");
                         }
                     });
 
