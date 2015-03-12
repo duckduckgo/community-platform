@@ -25,6 +25,34 @@
                 $("#dev_pipeline").html(iadp);
             });
 
+            $("#create-new-ia").click(function(evt) {
+                $(this).hide();
+                $("#create-new-ia-form").removeClass("hide");
+            });
+
+            $("body").on('click', "#new-ia-form-cancel", function(evt) {
+                $("#create-new-ia-form").addClass("hide");
+                $("#create-new-ia").show();
+            });
+
+            $("body").on('click', "#new-ia-form-save", function(evt) {
+                var name = $.trim($("#name-input").val());
+                var id = $.trim($("#id-input").val());
+                var description = $.trim($("#description-input").val());
+                var dev_milestone = $.trim($("#dev_milestone-select .available_dev_milestones option:selected").text());
+                if (name.length && id.length && dev_milestone.length && description.length) {
+                    var jqxhr = $.post("/ia/create", {
+                        name : name,
+                        id : id,
+                        description : description,
+                        dev_milestone : dev_milestone
+                    })
+                    .done(function(data) {
+                        window.location = '/ia/view/' + id;
+                    });
+                }
+            });
+
             $("body").on('click', ".filter-issues__item__checkbox", function(evt) {
                 if ($(this).hasClass("icon-check-empty")) {
                     $(".icon-check").removeClass("icon-check").addClass("icon-check-empty");
