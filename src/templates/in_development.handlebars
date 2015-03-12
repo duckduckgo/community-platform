@@ -44,58 +44,6 @@
         {{/unless}}
 
         <div class="dev_milestone-container__body__label ia-single--header">
-            TOPICS
-        </div>
-        {{#unless future.in_development}}
-            {{#if permissions.can_edit}}
-                <div class="separator">
-                    <div class="button delete listbutton left js-autocommit" name="topic" title="Remove this topic">
-                        <i class="icon-remove" />
-                    </div>
-                    <select class="dev_milestone-container__body__select js-autocommit topic-group left" id="first-topic-select">
-                        <option value="0">{{index live.topic 0}}</option>
-                    </select>
-                    <span class="clearfix"></span>
-                </div>
-                <div class="separator">
-                    <div class="button delete listbutton left js-autocommit" name="topic" title="Remove this topic">
-                        <i class="icon-remove" />
-                    </div>
-                    <select class="dev_milestone-container__body__select js-autocommit topic-group left" id="second-topic-select">
-                        <option value="0">{{index live.topic 1}}</option>
-                    </select>
-                    <span class="clearfix"></span>
-                </div>
-                <div class="separator">
-                    <div class="button delete listbutton left js-autocommit" name="topic" title="Remove this topic">
-                        <i class="icon-remove" />
-                    </div>
-                    <select class="dev_milestone-container__body__select js-autocommit topic-group left" id="third-topic-select">
-                        <option value="0">{{index live.topic 2}}</option>
-                    </select>
-                    <span class="clearfix"></span>
-                </div>
-            {{else}}
-                <div class="dev_milestone-container__body__readonly" id="topic-txt">
-                   {{live.topic}} 
-                </div>
-            {{/if}}
-        {{/unless}}
-
-        <div class="dev_milestone-container__body__label ia-single--header">
-            TAB NAME
-        </div>
-        {{#unless future.in_development}}
-            {{#if permissions.admin}}
-                <input type="text" class="dev_milestone-container__body__input js-autocommit" id="tab-input" value="{{live.tab}}" />
-            {{else}}
-                <div class="dev_milestone-container__body__readonly" id="tab-txt">
-                   {{live.tab}} 
-                </div>
-            {{/if}}
-        {{/unless}}
-
-        <div class="dev_milestone-container__body__label ia-single--header">
             TEMPLATE
         </div>
         {{#unless future.in_development}}

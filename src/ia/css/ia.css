@@ -1364,5 +1364,14 @@ body.texture {
 }
 
 .metafield {
-    margin-bottom: 1em;
+    margin-bottom: 0.5em;
+    margin-right: 1em;
+}
+
+.topic-separator.left {
+    margin-left: 0.25em;
+}
+
+.metafield .ia-single--header {
+    margin-top: 0.5em;
 }
