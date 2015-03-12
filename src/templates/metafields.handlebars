@@ -1,0 +1,9 @@
+<div id="big-description">
+    {{#if permissions.can_edit}}
+        <input class="js-autocommit metafield" id="description-input" value="{{live.description}}" />
+    {{else}}
+        {{#if live.description}}
+            <p>{{live.description}}</p>
+        {{/if}}
+    {{/if}}
+</div>
