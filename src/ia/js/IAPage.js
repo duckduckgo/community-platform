@@ -186,7 +186,7 @@
                         }
                     });
 
-                    $("body").on('change', ".dev_milestone-container__body__select.js-autocommit", function(evt) {
+                    $("body").on('change', "select.js-autocommit", function(evt) {
                         var field;
                         var value;
                         var is_json = false;
@@ -194,7 +194,7 @@
                         if ($(this).hasClass("topic-group")) {
                             value = [];
                             var temp;
-                            $(".dev_milestone-container__body__select.js-autocommit.topic-group").each(function(idx) {
+                            $("select.js-autocommit.topic-group").each(function(idx) {
                                 temp = $.trim($(this).find("option:selected").text());
 
                                 if (temp.length) {
@@ -365,7 +365,7 @@
                                 var $parent = $(this).parent();
                                 $parent.find('.topic-group option[value="0"]').empty();
                                 $parent.find('.topic-group').val('0');
-                                $(".dev_milestone-container__body__select.js-autocommit.topic-group").each(function(idx) {
+                                $("select.js-autocommit.topic-group").each(function(idx) {
                                     temp = $.trim($(this).find("option:selected").text());
 
                                     if (temp.length) {
