@@ -119,7 +119,7 @@
                             ia_data.permissions.can_edit = 0;
                             ia_data.permissions.admin = 0;
 
-                            page.updateHandlebars(readonly_templates, ia_data);
+                            page.updateHandlebars(readonly_templates, ia_data, ia_data.live.dev_milestone);
                             page.updateAll(readonly_templates, ia_data.live.dev_milestone, false);
 
                             $(".button-nav-current").removeClass("disabled").removeClass("button-nav-current");
@@ -132,7 +132,7 @@
                             ia_data.permissions.can_edit = 1;
                             ia_data.permissions.admin = 1;
 
-                            page.updateHandlebars(readonly_templates, ia_data);
+                            page.updateHandlebars(readonly_templates, ia_data, ia_data.live.dev_milestone);
                             page.updateAll(readonly_templates, ia_data.live.dev_milestone, false);
 
                             $(".button-nav-current").removeClass("disabled").removeClass("button-nav-current");
@@ -301,7 +301,7 @@
                                  latest_edits_data = page.updateData(ia_data, latest_edits_data, true);
                             }
 
-                            page.updateHandlebars(readonly_templates, ia_data);
+                            page.updateHandlebars(readonly_templates, latest_edits_data, ia_data.live.dev_milestone);
                             page.updateAll(readonly_templates, ia_data.live.dev_milestone, false);
                         }
                     });
@@ -557,8 +557,8 @@
             'ready'
         ],
 
-        updateHandlebars: function(templates, ia_data) {
-            if (ia_data.live.dev_milestone === 'live') {
+        updateHandlebars: function(templates, ia_data, dev_milestone) {
+            if (dev_milestone === 'live') {
                 for (var i = 0; i < this.field_order.length; i++) {
                     templates.live.name = Handlebars.templates.name(ia_data);
                     templates.live[this.field_order[i]] = Handlebars.templates[this.field_order[i]](ia_data);
@@ -590,14 +590,38 @@
         },
 
         updateAll: function(templates, dev_milestone, edit) {
-            if (!edit && dev_milestone === "live") {
+            if (!edit) {
                 $(".ia-single--name").remove();
+                $("#big-description, .metafield").remove();
                 $(".ia-single--left, .ia-single--right").show().empty();
-                for (var i = 0; i < this.field_order.length; i++) {
-                    $(".ia-single--left").append(templates.live[this.field_order[i]]);
+
+                if (dev_milestone === "live") {
+                    for (var i = 0; i < this.field_order.length; i++) {
+                        $(".ia-single--left").append(templates.live[this.field_order[i]]);
+                    }
+                } else {
+                    for (var i = 0; i < this.dev_milestones_order.length; i++) {
+                        $(".ia-single--left").append(templates[this.dev_milestones_order[i]]);
+                    }
+
+                    // If one or more team fields has the current user's name as value,
+                    // hide the 'assign to me' button accordingly
+                    var current_user = $.trim($(".header-account-info .user-name").text());
+                    $(".team-input").each(function(idx) {
+                        if ($(this).val() === current_user) {
+                            $("#" + $.trim($(this).attr("id").replace("-input", "")) + "-button").hide();
+                        }
+                    });
+
+                    if ($(".topic-group").length) {
+                        $(".topic-group").append($("#allowed_topics").html());
+                    }
                 }
 
                 $(".ia-single--right").before(templates.live.name);
+                if (dev_milestone != "live") {
+                    $(".ia-single--right").before(templates.metafields);
+                }
                 $(".ia-single--right").append(templates.live.screens);
 
                 $(".show-more").click(function(e) {
@@ -615,47 +639,15 @@
                 });
             } else {
                 $(".ia-single--left, .ia-single--right, .ia-single--name").hide();
-                if (dev_milestone === "live") {
-                    $(".ia-single--edits").removeClass("hide");
-                    for (var i = 0; i < this.edit_field_order.length; i++) {
-                        $(".ia-single--edits").append(templates[this.edit_field_order[i]]);
-                    }
+                $(".ia-single--edits").removeClass("hide");
+                for (var i = 0; i < this.edit_field_order.length; i++) {
+                    $(".ia-single--edits").append(templates[this.edit_field_order[i]]);
+                }
 
-                    // Only admins can edit the dev milestone
-                    if ($("#view_commits").length) {
-                        $(".ia-single--edits").append(templates.dev_milestone);
-                    }
-                } else {
-                    $(".ia-single").empty();
-                    $(".ia-single").append(templates.live.name);
-                    $(".ia-single").append(templates.metafields);
-                    for (var i = 0; i < this.dev_milestones_order.length; i++) {
-                        $(".ia-single").append(templates[this.dev_milestones_order[i]]);
-                    }
-
-                    // Set the panels height to the tallest one's height
-                    var max_height = 0;
-                    $(".dev_milestone-container").each(function(idx) {
-                        if ($(this).height() > max_height) {
-                            max_height = $(this).height();
-                        }
-                    });
-
-                    $(".dev_milestone-container").height(max_height);
-
-                    // If one or more team fields has the current user's name as value,
-                    // hide the 'assign to me' button accordingly
-                    var current_user = $.trim($(".header-account-info .user-name").text());
-                    $(".team-input").each(function(idx) {
-                        if ($(this).val() === current_user) {
-                            $("#" + $.trim($(this).attr("id").replace("-input", "")) + "-button").hide();
-                        }
-                    });
-
-                    if ($(".topic-group").length) {
-                        $(".topic-group").append($("#allowed_topics").html());
-                    }
-                } 
+                // Only admins can edit the dev milestone
+                if ($("#view_commits").length) {
+                    $(".ia-single--edits").append(templates.dev_milestone);
+                }
             }
         }    
     };

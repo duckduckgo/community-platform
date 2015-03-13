@@ -1189,12 +1189,16 @@ body.texture {
 }
 
 .dev_milestone-container {
-    width: 23%;
-    min-height: 21em;
     border: 1px solid rgb(225, 225, 225);
     border-radius: 5px;
     padding: 5px;
-    margin-right: 0.3em;
+    margin-bottom: 0.5em;
+}
+
+.dev_milestone-container__header__button.js-expand {
+    border: 0;
+    box-shadow: unset;
+    background-color: transparent;
 }
 
 .dev_milestone-container label {
