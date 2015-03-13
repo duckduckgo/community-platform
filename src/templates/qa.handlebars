@@ -1,11 +1,15 @@
-<div class="dev_milestone-container {{#if current.qa}}current-container{{/if}} {{#if future.qa}}future-container{{/if}} container-qa left" id="qa">
+<div class="dev_milestone-container {{#if current.qa}}current-container{{/if}} {{#if future.qa}}future-container{{/if}} container-qa" id="qa">
     <div class="dev_milestone-container__header container-qa__header">
-        <h3 class="dev_milestone-container__header__title">
+        <h3 class="dev_milestone-container__header__title left">
             QA
         </h3>
+        <div class="button js-expand dev_milestone-container__header__button left">
+            <i class="js-expand__icon icon-caret-down" />
+        </div>
+        <span class="clearfix"></span>
     </div>
 
-    <div class="dev_milestone-container__body container-qa__body">
+    <div class="dev_milestone-container__body container-qa__body {{#unless current.qa}}hide{{/unless}}">
         <div class="dev_milestone-container__body__label ia-single--header">
             TEST MACHINE
         </div>
