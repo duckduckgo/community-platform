@@ -612,15 +612,15 @@
                             $("#" + $.trim($(this).attr("id").replace("-input", "")) + "-button").hide();
                         }
                     });
-
-                    if ($(".topic-group").length) {
-                        $(".topic-group").append($("#allowed_topics").html());
-                    }
                 }
 
                 $(".ia-single--right").before(templates.live.name);
                 if (dev_milestone != "live") {
                     $(".ia-single--right").before(templates.metafields);
+
+                    if ($(".topic-group").length) {
+                        $(".topic-group").append($("#allowed_topics").html());
+                    }
                 }
                 $(".ia-single--right").append(templates.live.screens);
 
