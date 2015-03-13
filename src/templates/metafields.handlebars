@@ -1,0 +1,63 @@
+<div id="big-description">
+{{#if permissions.can_edit}}
+    <textarea rows="2" cols="55" class="js-autocommit metafield" id="description-textarea">{{live.description}}</textarea>
+{{else}}
+    {{#if live.description}}
+        <p>{{live.description}}</p>
+    {{/if}}
+{{/if}}
+</div>
+
+<div class="left metafield">
+    <div class="ia-single--header">
+        TAB NAME
+    </div>
+    {{#if permissions.admin}}
+        <input type="text" class="js-autocommit" id="tab-input" value="{{live.tab}}" />
+    {{else}}
+        <div id="tab-txt">
+            {{live.tab}} 
+        </div>
+    {{/if}}
+</div>
+
+<div class="left metafield">
+    <div class="ia-single--header">
+            TOPICS
+    </div>
+    {{#if permissions.can_edit}}
+        <div class="separator topic-separator left">
+            <div class="button delete listbutton left js-autocommit" name="topic" title="Remove this topic">
+                <i class="icon-remove" />
+            </div>
+            <select class="js-autocommit topic-group left" id="first-topic-select">
+                <option value="0">{{index live.topic 0}}</option>
+            </select>
+            <span class="clearfix"></span>
+        </div>
+        <div class="separator topic-separator left">
+            <div class="button delete listbutton left js-autocommit" name="topic" title="Remove this topic">
+                <i class="icon-remove" />
+            </div>
+            <select class="js-autocommit topic-group left" id="second-topic-select">
+                <option value="0">{{index live.topic 1}}</option>
+            </select>
+            <span class="clearfix"></span>
+        </div>
+        <div class="separator topic-separator left">
+            <div class="button delete listbutton left js-autocommit" name="topic" title="Remove this topic">
+                <i class="icon-remove" />
+            </div>
+            <select class="js-autocommit topic-group left" id="third-topic-select">
+                <option value="0">{{index live.topic 2}}</option>
+            </select>
+            <span class="clearfix"></span>
+        </div>
+        <span class="clearfix"></span>
+    {{else}}
+        <div id="topic-txt">
+           {{live.topic}} 
+        </div>
+    {{/if}}
+</div>
+<span class="clearfix"></span>

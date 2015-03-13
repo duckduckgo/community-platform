@@ -40,11 +40,12 @@
             //console.log("IAPage.init()\n");
 
             var page = this;
+            var json_url = "/ia/view/" + DDH_iaid + "/json";
 
             if (DDH_iaid) {
                 //console.log("for ia id '%s'", DDH_iaid);
 
-                $.getJSON("/ia/view/" + DDH_iaid + "/json", function(ia_data) {
+                $.getJSON(json_url, function(ia_data) {
 
                     // Show latest edits for admins and users with edit permissions
                     var latest_edits_data = {};
@@ -89,6 +90,7 @@
                             devinfo : Handlebars.templates.devinfo(latest_edits_data),
                             github: Handlebars.templates.github(latest_edits_data)
                         },
+                        metafields : Handlebars.templates.metafields(ia_data),
                         planning : Handlebars.templates.planning(ia_data),
                         in_development : Handlebars.templates.in_development(ia_data),
                         qa : Handlebars.templates.qa(ia_data),
@@ -108,13 +110,20 @@
 
                     page.updateAll(readonly_templates, ia_data.live.dev_milestone, false);
 
+                    $("#view_json").click(function(evt) {
+                        location.href = json_url;
+                    });
+
                     $("#toggle-devpage-static").click(function(evt) {
                         if (!$(this).hasClass("disabled")) {
                             ia_data.permissions.can_edit = 0;
                             ia_data.permissions.admin = 0;
 
-                            page.updateHandlebars(readonly_templates, ia_data);
+                            page.updateHandlebars(readonly_templates, ia_data, ia_data.live.dev_milestone);
                             page.updateAll(readonly_templates, ia_data.live.dev_milestone, false);
+
+                            $(".button-nav-current").removeClass("disabled").removeClass("button-nav-current");
+                            $(this).addClass("disabled").addClass("button-nav-current");
                         }
                     });
 
@@ -123,8 +132,11 @@
                             ia_data.permissions.can_edit = 1;
                             ia_data.permissions.admin = 1;
 
-                            page.updateHandlebars(readonly_templates, ia_data);
+                            page.updateHandlebars(readonly_templates, ia_data, ia_data.live.dev_milestone);
                             page.updateAll(readonly_templates, ia_data.live.dev_milestone, false);
+
+                            $(".button-nav-current").removeClass("disabled").removeClass("button-nav-current");
+                            $(this).addClass("disabled").addClass("button-nav-current");
                         }
                     });
 
@@ -173,13 +185,13 @@
                         }
                     });
 
-                    $("body").on("focusin", ".dev_milestone-container__body__input.js-autocommit", function(evt) {
+                    $("body").on("focusin", "textarea.js-autocommit, input.js-autocommit", function(evt) {
                         if (!$(this).hasClass("js-autocommit-focused")) {
                             $(this).addClass("js-autocommit-focused");
                         }
                     });
 
-                    $("body").on('change', ".dev_milestone-container__body__select.js-autocommit", function(evt) {
+                    $("body").on('change', "select.js-autocommit", function(evt) {
                         var field;
                         var value;
                         var is_json = false;
@@ -187,7 +199,7 @@
                         if ($(this).hasClass("topic-group")) {
                             value = [];
                             var temp;
-                            $(".dev_milestone-container__body__select.js-autocommit.topic-group").each(function(idx) {
+                            $("select.js-autocommit.topic-group").each(function(idx) {
                                 temp = $.trim($(this).find("option:selected").text());
 
                                 if (temp.length) {
@@ -208,24 +220,25 @@
                         }
                     });
 
-                    $("body").on('keypress focusout', ".dev_milestone-container__body__input.js-autocommit-focused", function(evt) {
+                    $("body").on('keypress focusout', "textarea.js-autocommit-focused, input.js-autocommit-focused", function(evt) {
                         if ((evt.type === 'keypress' && evt.which === 13) || (evt.type === "focusout")) {
-                            var field = $.trim($(this).attr("id").replace("-input", ""));
+                            var field;
                             var value = $.trim($(this).val());
+                            var id = $.trim($(this).attr("id"));
                             var is_json = false;
+
+                            if (id.match(/.*-input/)) {
+                                field = id.replace("-input", "");
+                            } else {
+                                field = id.replace("-textarea", "");
+                            }
 
                             if ($(this).hasClass("comma-separated") && value.length) {
                                 value = value.split(/\s*,\s*/);
                                 value = JSON.stringify(value);
                                 is_json = true;
                             }
-
-                            if (evt.type === 'keypress') {
-                                $(this).blur();
-                            }
-
-                            $(this).removeClass("js-autocommit-focused");
-
+                            
                             if (field.length && value !== ia_data.live[field]) {
                                 if ($(this).hasClass("section-group__item")) {
                                     var parent_field = $.trim($(this).parent().parent().attr("id"));
@@ -239,6 +252,12 @@
                                 
                                 autocommit(field, value, DDH_iaid, is_json);
                             }
+
+                            if (evt.type === 'keypress') {
+                                $(this).blur();
+                            }
+
+                            $(this).removeClass("js-autocommit-focused");
                         }
                     });
 
@@ -282,7 +301,7 @@
                                  latest_edits_data = page.updateData(ia_data, latest_edits_data, true);
                             }
 
-                            page.updateHandlebars(readonly_templates, ia_data);
+                            page.updateHandlebars(readonly_templates, latest_edits_data, ia_data.live.dev_milestone);
                             page.updateAll(readonly_templates, ia_data.live.dev_milestone, false);
                         }
                     });
@@ -351,7 +370,7 @@
                                 var $parent = $(this).parent();
                                 $parent.find('.topic-group option[value="0"]').empty();
                                 $parent.find('.topic-group').val('0');
-                                $(".dev_milestone-container__body__select.js-autocommit.topic-group").each(function(idx) {
+                                $("select.js-autocommit.topic-group").each(function(idx) {
                                     temp = $.trim($(this).find("option:selected").text());
 
                                     if (temp.length) {
@@ -538,13 +557,14 @@
             'ready'
         ],
 
-        updateHandlebars: function(templates, ia_data) {
-            if (ia_data.live.dev_milestone === 'live') {
+        updateHandlebars: function(templates, ia_data, dev_milestone) {
+            if (dev_milestone === 'live') {
                 for (var i = 0; i < this.field_order.length; i++) {
                     templates.live.name = Handlebars.templates.name(ia_data);
                     templates.live[this.field_order[i]] = Handlebars.templates[this.field_order[i]](ia_data);
                 }
             } else {
+                templates.metafields = Handlebars.templates.metafields(ia_data);
                 for (var i = 0; i < this.dev_milestones_order.length; i++) {
                     templates[this.dev_milestones_order[i]] = Handlebars.templates[this.dev_milestones_order[i]](ia_data);
                 }
@@ -570,14 +590,38 @@
         },
 
         updateAll: function(templates, dev_milestone, edit) {
-            if (!edit && dev_milestone === "live") {
+            if (!edit) {
                 $(".ia-single--name").remove();
+                $("#big-description, .metafield").remove();
                 $(".ia-single--left, .ia-single--right").show().empty();
-                for (var i = 0; i < this.field_order.length; i++) {
-                    $(".ia-single--left").append(templates.live[this.field_order[i]]);
+
+                if (dev_milestone === "live") {
+                    for (var i = 0; i < this.field_order.length; i++) {
+                        $(".ia-single--left").append(templates.live[this.field_order[i]]);
+                    }
+                } else {
+                    for (var i = 0; i < this.dev_milestones_order.length; i++) {
+                        $(".ia-single--left").append(templates[this.dev_milestones_order[i]]);
+                    }
+
+                    // If one or more team fields has the current user's name as value,
+                    // hide the 'assign to me' button accordingly
+                    var current_user = $.trim($(".header-account-info .user-name").text());
+                    $(".team-input").each(function(idx) {
+                        if ($(this).val() === current_user) {
+                            $("#" + $.trim($(this).attr("id").replace("-input", "")) + "-button").hide();
+                        }
+                    });
+
+                    if ($(".topic-group").length) {
+                        $(".topic-group").append($("#allowed_topics").html());
+                    }
                 }
 
                 $(".ia-single--right").before(templates.live.name);
+                if (dev_milestone != "live") {
+                    $(".ia-single--right").before(templates.metafields);
+                }
                 $(".ia-single--right").append(templates.live.screens);
 
                 $(".show-more").click(function(e) {
@@ -595,47 +639,15 @@
                 });
             } else {
                 $(".ia-single--left, .ia-single--right, .ia-single--name").hide();
-                if (dev_milestone === "live") {
-                    $(".ia-single--edits").removeClass("hide");
-                    for (var i = 0; i < this.edit_field_order.length; i++) {
-                        $(".ia-single--edits").append(templates[this.edit_field_order[i]]);
-                    }
+                $(".ia-single--edits").removeClass("hide");
+                for (var i = 0; i < this.edit_field_order.length; i++) {
+                    $(".ia-single--edits").append(templates[this.edit_field_order[i]]);
+                }
 
-                    // Only admins can edit the dev milestone
-                    if ($("#view_commits").length) {
-                        $(".ia-single--edits").append(templates.dev_milestone);
-                    }
-                } else {
-                    $(".ia-single").empty();
-                    $(".ia-single").append(templates.live.name);
-                    $(".ia-single").append(templates.live.description);
-                    for (var i = 0; i < this.dev_milestones_order.length; i++) {
-                        $(".ia-single").append(templates[this.dev_milestones_order[i]]);
-                    }
-
-                    // Set the panels height to the tallest one's height
-                    var max_height = 0;
-                    $(".dev_milestone-container").each(function(idx) {
-                        if ($(this).height() > max_height) {
-                            max_height = $(this).height();
-                        }
-                    });
-
-                    $(".dev_milestone-container").height(max_height);
-
-                    // If one or more team fields has the current user's name as value,
-                    // hide the 'assign to me' button accordingly
-                    var current_user = $.trim($(".header-account-info .user-name").text());
-                    $(".team-input").each(function(idx) {
-                        if ($(this).val() === current_user) {
-                            $("#" + $.trim($(this).attr("id").replace("-input", "")) + "-button").hide();
-                        }
-                    });
-
-                    if ($(".topic-group").length) {
-                        $(".topic-group").append($("#allowed_topics").html());
-                    }
-                } 
+                // Only admins can edit the dev milestone
+                if ($("#view_commits").length) {
+                    $(".ia-single--edits").append(templates.dev_milestone);
+                }
             }
         }    
     };
