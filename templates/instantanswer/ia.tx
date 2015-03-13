@@ -33,6 +33,9 @@
                 </span>
             </div>
         </div>
+        <div class="dev-special-permissions__json button right" id="view_json">
+            View as JSON
+        </div>
     <: } :>
     <div class="special-permissions right <: if $dev_milestone != 'live' { :>hide<: } :>">
         <: if $can_commit { :>

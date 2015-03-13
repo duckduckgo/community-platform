@@ -40,11 +40,12 @@
             //console.log("IAPage.init()\n");
 
             var page = this;
+            var json_url = "/ia/view/" + DDH_iaid + "/json";
 
             if (DDH_iaid) {
                 //console.log("for ia id '%s'", DDH_iaid);
 
-                $.getJSON("/ia/view/" + DDH_iaid + "/json", function(ia_data) {
+                $.getJSON(json_url, function(ia_data) {
 
                     // Show latest edits for admins and users with edit permissions
                     var latest_edits_data = {};
@@ -108,6 +109,10 @@
                     };
 
                     page.updateAll(readonly_templates, ia_data.live.dev_milestone, false);
+
+                    $("#view_json").click(function(evt) {
+                        location.href = json_url;
+                    });
 
                     $("#toggle-devpage-static").click(function(evt) {
                         if (!$(this).hasClass("disabled")) {
