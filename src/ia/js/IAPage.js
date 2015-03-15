@@ -185,6 +185,12 @@
                         }
                     });
 
+                    $("body").on("change", 'input[type="number"].js-autocommit', function(evt) {
+                        if (!$(this).hasClass("js-autocommit-focused")) {
+                            $(this).focus();
+                        }
+                    });
+
                     $("body").on("focusin", "textarea.js-autocommit, input.js-autocommit", function(evt) {
                         if (!$(this).hasClass("js-autocommit-focused")) {
                             $(this).addClass("js-autocommit-focused");
