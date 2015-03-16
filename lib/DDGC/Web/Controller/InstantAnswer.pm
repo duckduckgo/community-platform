@@ -430,7 +430,12 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
                     other_queries => $edited->{other_queries}->{value},
                     topic => $edited->{topic},
                     dev_milestone => $edited->{dev_milestone},
-                    tab => $edited->{tab}
+                    tab => $edited->{tab},
+                    producer => $edited->{producer},
+                    designer => $edited->{designer},
+                    developer => $edited->{developer},
+                    perl_module => $edited->{perl_module},
+                    template => $edited->{template}
             };
         }
     }
