@@ -631,15 +631,33 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
                     };
                 }
             } else {
-                my $edits = add_edit($ia,  $field, $value);
-                
-                try {
-                    $ia->update({updates => $edits});
-                    $result = {$field => $value, is_admin => $is_admin};
+                my $can_add = 0;
+                if ($field eq "producer" || $field eq "designer" || $field eq "developer") {
+                    my $complat_user = $c->d->rs('User')->find({username => $value});
+
+                    if ($complat_user || $value eq '') {
+                        my $complat_user_admin = $complat_user? $complat_user->admin : '';
+
+                        if ((($field eq "producer" || $field eq "designer") && ($complat_user_admin || $value eq ''))
+                            || ($field eq "developer")) {
+                            $can_add = 1;
+                        }
+                    }
+                } else {
+                    $can_add = 1;
                 }
-                catch {
-                    $c->d->errorlog("Error updating the database");
-                };
+                
+                if ($can_add) {   
+                    my $edits = add_edit($ia,  $field, $value);
+                
+                    try {
+                        $ia->update({updates => $edits});
+                        $result = {$field => $value, is_admin => $is_admin};
+                    }
+                    catch {
+                        $c->d->errorlog("Error updating the database");
+                    };
+                }
             }
         }
     }
