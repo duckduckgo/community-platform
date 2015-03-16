@@ -641,6 +641,20 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
   return buffer;
   });
 
+this["Handlebars"]["templates"]["edit_designer"] = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
+  this.compilerInfo = [4,'>= 1.0.0'];
+helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
+  var buffer = "", stack1, helper, functionType="function", escapeExpression=this.escapeExpression;
+
+
+  buffer += "<div class=\"column-right-edits left\" id=\"column-edits-designer\">\n    <div class=\"column-right-edits__child js-editable\" id=\"designer\" name=\"designer\">\n        <input type=\"text\" value=\"";
+  if (helper = helpers.designer) { stack1 = helper.call(depth0, {hash:{},data:data}); }
+  else { helper = (depth0 && depth0.designer); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
+  buffer += escapeExpression(stack1)
+    + "\" class=\"column-right-edits__child__input js-input\" name=\"designer\"/>\n    </div>\n</div>\n\n";
+  return buffer;
+  });
+
 this["Handlebars"]["templates"]["edit_dev_milestone"] = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
   this.compilerInfo = [4,'>= 1.0.0'];
 helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
@@ -652,6 +666,20 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
   else { helper = (depth0 && depth0.dev_milestone); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
   buffer += escapeExpression(stack1)
     + "</option>\n                    <option value=\"1\">planning</option>\n                    <option value=\"2\">in_development</option>\n                    <option value=\"3\">qa</option>\n                    <option value=\"4\">ready</option>\n                    <option value=\"5\">live</option>\n                </select>\n            </span>\n        </div>\n    </div>\n</div>\n\n";
+  return buffer;
+  });
+
+this["Handlebars"]["templates"]["edit_developer"] = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
+  this.compilerInfo = [4,'>= 1.0.0'];
+helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
+  var buffer = "", stack1, helper, functionType="function", escapeExpression=this.escapeExpression;
+
+
+  buffer += "<div class=\"column-right-edits left\" id=\"column-edits-developer\">\n    <div class=\"column-right-edits__child js-editable\" id=\"developer\" name=\"developer\">\n        <input type=\"text\" value=\"";
+  if (helper = helpers.developer) { stack1 = helper.call(depth0, {hash:{},data:data}); }
+  else { helper = (depth0 && depth0.developer); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
+  buffer += escapeExpression(stack1)
+    + "\" class=\"column-right-edits__child__input js-input\" name=\"developer\"/>\n    </div>\n</div>\n\n";
   return buffer;
   });
 
@@ -713,6 +741,34 @@ function program2(depth0,data) {
   return buffer;
   });
 
+this["Handlebars"]["templates"]["edit_perl_module"] = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
+  this.compilerInfo = [4,'>= 1.0.0'];
+helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
+  var buffer = "", stack1, helper, functionType="function", escapeExpression=this.escapeExpression;
+
+
+  buffer += "<div class=\"column-right-edits left\" id=\"column-edits-perl_module\">\n    <div class=\"column-right-edits__child js-editable\" id=\"perl_module\" name=\"perl_module\">\n        <input type=\"text\" value=\"";
+  if (helper = helpers.perl_module) { stack1 = helper.call(depth0, {hash:{},data:data}); }
+  else { helper = (depth0 && depth0.perl_module); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
+  buffer += escapeExpression(stack1)
+    + "\" class=\"column-right-edits__child__input js-input\" name=\"perl_module\"/>\n    </div>\n</div>\n\n";
+  return buffer;
+  });
+
+this["Handlebars"]["templates"]["edit_producer"] = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
+  this.compilerInfo = [4,'>= 1.0.0'];
+helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
+  var buffer = "", stack1, helper, functionType="function", escapeExpression=this.escapeExpression;
+
+
+  buffer += "<div class=\"column-right-edits left\" id=\"column-edits-producer\">\n    <div class=\"column-right-edits__child js-editable\" id=\"producer\" name=\"producer\">\n        <input type=\"text\" value=\"";
+  if (helper = helpers.producer) { stack1 = helper.call(depth0, {hash:{},data:data}); }
+  else { helper = (depth0 && depth0.producer); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
+  buffer += escapeExpression(stack1)
+    + "\" class=\"column-right-edits__child__input js-input\" name=\"producer\"/>\n    </div>\n</div>\n\n";
+  return buffer;
+  });
+
 this["Handlebars"]["templates"]["edit_status"] = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
   this.compilerInfo = [4,'>= 1.0.0'];
 helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
@@ -724,6 +780,20 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
   else { helper = (depth0 && depth0.status); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
   buffer += escapeExpression(stack1)
     + "\" class=\"column-right-edits__child__input js-input\" name=\"status\"/>\n    </div>\n</div>\n";
+  return buffer;
+  });
+
+this["Handlebars"]["templates"]["edit_template"] = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
+  this.compilerInfo = [4,'>= 1.0.0'];
+helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
+  var buffer = "", stack1, helper, functionType="function", escapeExpression=this.escapeExpression;
+
+
+  buffer += "<div class=\"column-right-edits left\" id=\"column-edits-template\">\n    <div class=\"column-right-edits__child js-editable\" id=\"template\" name=\"template\">\n        <input type=\"text\" value=\"";
+  if (helper = helpers.template) { stack1 = helper.call(depth0, {hash:{},data:data}); }
+  else { helper = (depth0 && depth0.template); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
+  buffer += escapeExpression(stack1)
+    + "\" class=\"column-right-edits__child__input js-input\" name=\"template\"/>\n    </div>\n</div>\n\n";
   return buffer;
   });
 
@@ -1728,6 +1798,35 @@ function program3(depth0,data) {
   return buffer;
   });
 
+this["Handlebars"]["templates"]["pre_edit_designer"] = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
+  this.compilerInfo = [4,'>= 1.0.0'];
+helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
+  var buffer = "", stack1, functionType="function", escapeExpression=this.escapeExpression, self=this;
+
+function program1(depth0,data) {
+  
+  var buffer = "", stack1;
+  buffer += "\n                    "
+    + escapeExpression(((stack1 = ((stack1 = (depth0 && depth0.live)),stack1 == null || stack1 === false ? stack1 : stack1.designer)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
+    + "\n                ";
+  return buffer;
+  }
+
+function program3(depth0,data) {
+  
+  
+  return "\n                    —\n                ";
+  }
+
+  buffer += "<div class=\"row-diff\" id=\"row-diff-designer\">\n    <div class=\"column-left-labels left\">\n        <div class=\"column-left-labels__child\">\n            <p class=\"column-left-labels__child__p\">\n                Designer\n            </p>\n        </div>\n    </div>\n    <div class=\"column-center-live left\">\n        <div class=\"column-center-live__child\">\n            <p class=\"column-center-live__child__p\">\n                ";
+  stack1 = helpers['if'].call(depth0, ((stack1 = (depth0 && depth0.live)),stack1 == null || stack1 === false ? stack1 : stack1.designer), {hash:{},inverse:self.program(3, program3, data),fn:self.program(1, program1, data),data:data});
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "\n            </p>\n        </div>\n    </div>\n    <div class=\"column-right-edits left\" id=\"column-edits-designer\">\n        <div class=\"column-right-edits__child\">\n            <p class=\"column-right-edits__child__p\">\n                "
+    + escapeExpression(((stack1 = ((stack1 = (depth0 && depth0.edited)),stack1 == null || stack1 === false ? stack1 : stack1.designer)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
+    + "\n            </p>\n        </div>\n    </div>\n\n    <div class=\"button js-pre-editable\" name=\"designer\">\n        <i class=\"js-pre-editable__icon icon-edit\"></i>\n        <span class=\"js-pre-editable__text\">Edit</span>\n    </div>\n\n    <div class=\"button hide js-editable\" name=\"designer\">\n        <i class=\"js-editable__icon icon-check\"></i>\n        <span class=\"js-editable__text\">Done</span>\n    </div>\n</div>\n";
+  return buffer;
+  });
+
 this["Handlebars"]["templates"]["pre_edit_dev_milestone"] = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
   this.compilerInfo = [4,'>= 1.0.0'];
 helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
@@ -1754,6 +1853,35 @@ function program3(depth0,data) {
   buffer += "\n            </p>\n        </div>\n    </div>\n    <div class=\"column-right-edits left\" id=\"column-edits-dev_milestone\">\n        <div class=\"column-right-edits__child\">\n            <p class=\"column-right-edits__child__p\">\n                "
     + escapeExpression(((stack1 = ((stack1 = (depth0 && depth0.edited)),stack1 == null || stack1 === false ? stack1 : stack1.dev_milestone)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
     + "\n            </p>\n        </div>\n    </div>\n\n    <div class=\"button js-pre-editable\" name=\"dev_milestone\">\n        <i class=\"js-pre-editable__icon icon-edit\"></i>\n        <span class=\"js-pre-editable__text\">Edit</span>\n    </div>\n\n    <div class=\"button hide js-editable\" name=\"dev_milestone\">\n        <i class=\"js-editable__icon icon-check\"></i>\n        <span class=\"js-editable__text\">Done</span>\n    </div>\n</div>\n";
+  return buffer;
+  });
+
+this["Handlebars"]["templates"]["pre_edit_developer"] = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
+  this.compilerInfo = [4,'>= 1.0.0'];
+helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
+  var buffer = "", stack1, functionType="function", escapeExpression=this.escapeExpression, self=this;
+
+function program1(depth0,data) {
+  
+  var buffer = "", stack1;
+  buffer += "\n                    "
+    + escapeExpression(((stack1 = ((stack1 = (depth0 && depth0.live)),stack1 == null || stack1 === false ? stack1 : stack1.developer)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
+    + "\n                ";
+  return buffer;
+  }
+
+function program3(depth0,data) {
+  
+  
+  return "\n                    —\n                ";
+  }
+
+  buffer += "<div class=\"row-diff\" id=\"row-diff-developer\">\n    <div class=\"column-left-labels left\">\n        <div class=\"column-left-labels__child\">\n            <p class=\"column-left-labels__child__p\">\n                Developer\n            </p>\n        </div>\n    </div>\n    <div class=\"column-center-live left\">\n        <div class=\"column-center-live__child\">\n            <p class=\"column-center-live__child__p\">\n                ";
+  stack1 = helpers['if'].call(depth0, ((stack1 = (depth0 && depth0.live)),stack1 == null || stack1 === false ? stack1 : stack1.developer), {hash:{},inverse:self.program(3, program3, data),fn:self.program(1, program1, data),data:data});
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "\n            </p>\n        </div>\n    </div>\n    <div class=\"column-right-edits left\" id=\"column-edits-developer\">\n        <div class=\"column-right-edits__child\">\n            <p class=\"column-right-edits__child__p\">\n                "
+    + escapeExpression(((stack1 = ((stack1 = (depth0 && depth0.edited)),stack1 == null || stack1 === false ? stack1 : stack1.developer)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
+    + "\n            </p>\n        </div>\n    </div>\n\n    <div class=\"button js-pre-editable\" name=\"developer\">\n        <i class=\"js-pre-editable__icon icon-edit\"></i>\n        <span class=\"js-pre-editable__text\">Edit</span>\n    </div>\n\n    <div class=\"button hide js-editable\" name=\"developer\">\n        <i class=\"js-editable__icon icon-check\"></i>\n        <span class=\"js-editable__text\">Done</span>\n    </div>\n</div>\n";
   return buffer;
   });
 
@@ -1891,6 +2019,64 @@ function program6(depth0,data) {
   return buffer;
   });
 
+this["Handlebars"]["templates"]["pre_edit_perl_module"] = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
+  this.compilerInfo = [4,'>= 1.0.0'];
+helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
+  var buffer = "", stack1, functionType="function", escapeExpression=this.escapeExpression, self=this;
+
+function program1(depth0,data) {
+  
+  var buffer = "", stack1;
+  buffer += "\n                    "
+    + escapeExpression(((stack1 = ((stack1 = (depth0 && depth0.live)),stack1 == null || stack1 === false ? stack1 : stack1.perl_module)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
+    + "\n                ";
+  return buffer;
+  }
+
+function program3(depth0,data) {
+  
+  
+  return "\n                    —\n                ";
+  }
+
+  buffer += "<div class=\"row-diff\" id=\"row-diff-perl_module\">\n    <div class=\"column-left-labels left\">\n        <div class=\"column-left-labels__child\">\n            <p class=\"column-left-labels__child__p\">\n                Perl Module\n            </p>\n        </div>\n    </div>\n    <div class=\"column-center-live left\">\n        <div class=\"column-center-live__child\">\n            <p class=\"column-center-live__child__p\">\n                ";
+  stack1 = helpers['if'].call(depth0, ((stack1 = (depth0 && depth0.live)),stack1 == null || stack1 === false ? stack1 : stack1.perl_module), {hash:{},inverse:self.program(3, program3, data),fn:self.program(1, program1, data),data:data});
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "\n            </p>\n        </div>\n    </div>\n    <div class=\"column-right-edits left\" id=\"column-edits-perl_module\">\n        <div class=\"column-right-edits__child\">\n            <p class=\"column-right-edits__child__p\">\n                "
+    + escapeExpression(((stack1 = ((stack1 = (depth0 && depth0.edited)),stack1 == null || stack1 === false ? stack1 : stack1.perl_module)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
+    + "\n            </p>\n        </div>\n    </div>\n\n    <div class=\"button js-pre-editable\" name=\"perl_module\">\n        <i class=\"js-pre-editable__icon icon-edit\"></i>\n        <span class=\"js-pre-editable__text\">Edit</span>\n    </div>\n\n    <div class=\"button hide js-editable\" name=\"perl_module\">\n        <i class=\"js-editable__icon icon-check\"></i>\n        <span class=\"js-editable__text\">Done</span>\n    </div>\n</div>\n";
+  return buffer;
+  });
+
+this["Handlebars"]["templates"]["pre_edit_producer"] = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
+  this.compilerInfo = [4,'>= 1.0.0'];
+helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
+  var buffer = "", stack1, functionType="function", escapeExpression=this.escapeExpression, self=this;
+
+function program1(depth0,data) {
+  
+  var buffer = "", stack1;
+  buffer += "\n                    "
+    + escapeExpression(((stack1 = ((stack1 = (depth0 && depth0.live)),stack1 == null || stack1 === false ? stack1 : stack1.producer)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
+    + "\n                ";
+  return buffer;
+  }
+
+function program3(depth0,data) {
+  
+  
+  return "\n                    —\n                ";
+  }
+
+  buffer += "<div class=\"row-diff\" id=\"row-diff-producer\">\n    <div class=\"column-left-labels left\">\n        <div class=\"column-left-labels__child\">\n            <p class=\"column-left-labels__child__p\">\n                Producer\n            </p>\n        </div>\n    </div>\n    <div class=\"column-center-live left\">\n        <div class=\"column-center-live__child\">\n            <p class=\"column-center-live__child__p\">\n                ";
+  stack1 = helpers['if'].call(depth0, ((stack1 = (depth0 && depth0.live)),stack1 == null || stack1 === false ? stack1 : stack1.producer), {hash:{},inverse:self.program(3, program3, data),fn:self.program(1, program1, data),data:data});
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "\n            </p>\n        </div>\n    </div>\n    <div class=\"column-right-edits left\" id=\"column-edits-producer\">\n        <div class=\"column-right-edits__child\">\n            <p class=\"column-right-edits__child__p\">\n                "
+    + escapeExpression(((stack1 = ((stack1 = (depth0 && depth0.edited)),stack1 == null || stack1 === false ? stack1 : stack1.producer)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
+    + "\n            </p>\n        </div>\n    </div>\n\n    <div class=\"button js-pre-editable\" name=\"producer\">\n        <i class=\"js-pre-editable__icon icon-edit\"></i>\n        <span class=\"js-pre-editable__text\">Edit</span>\n    </div>\n\n    <div class=\"button hide js-editable\" name=\"producer\">\n        <i class=\"js-editable__icon icon-check\"></i>\n        <span class=\"js-editable__text\">Done</span>\n    </div>\n</div>\n";
+  return buffer;
+  });
+
 this["Handlebars"]["templates"]["pre_edit_status"] = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
   this.compilerInfo = [4,'>= 1.0.0'];
 helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
@@ -1917,6 +2103,35 @@ function program3(depth0,data) {
   buffer += "\n            </p>\n        </div>\n    </div>\n    <div class=\"column-right-edits left\" id=\"column-edits-status\">\n        <div class=\"column-right-edits__child\" id=\"status\" name=\"status\">\n            <p class=\"column-right-edits__child__p\">\n                "
     + escapeExpression(((stack1 = ((stack1 = (depth0 && depth0.edited)),stack1 == null || stack1 === false ? stack1 : stack1.status)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
     + "\n            </p>\n        </div>\n    </div>\n\n    <div class=\"button js-pre-editable\" name=\"status\">\n        <i class=\"js-pre-editable__icon icon-edit\"></i>\n        <span class=\"js-pre-editable__text\">Edit</span>\n    </div>\n\n    <div class=\"button hide js-editable\" name=\"status\">\n        <i class=\"js-editable__icon icon-check\"></i>\n        <span class=\"js-editable__text\">Done</span>\n    </div>\n</div>\n";
+  return buffer;
+  });
+
+this["Handlebars"]["templates"]["pre_edit_template"] = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
+  this.compilerInfo = [4,'>= 1.0.0'];
+helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
+  var buffer = "", stack1, functionType="function", escapeExpression=this.escapeExpression, self=this;
+
+function program1(depth0,data) {
+  
+  var buffer = "", stack1;
+  buffer += "\n                    "
+    + escapeExpression(((stack1 = ((stack1 = (depth0 && depth0.live)),stack1 == null || stack1 === false ? stack1 : stack1.template)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
+    + "\n                ";
+  return buffer;
+  }
+
+function program3(depth0,data) {
+  
+  
+  return "\n                    —\n                ";
+  }
+
+  buffer += "<div class=\"row-diff\" id=\"row-diff-template\">\n    <div class=\"column-left-labels left\">\n        <div class=\"column-left-labels__child\">\n            <p class=\"column-left-labels__child__p\">\n                Template\n            </p>\n        </div>\n    </div>\n    <div class=\"column-center-live left\">\n        <div class=\"column-center-live__child\">\n            <p class=\"column-center-live__child__p\">\n                ";
+  stack1 = helpers['if'].call(depth0, ((stack1 = (depth0 && depth0.live)),stack1 == null || stack1 === false ? stack1 : stack1.template), {hash:{},inverse:self.program(3, program3, data),fn:self.program(1, program1, data),data:data});
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "\n            </p>\n        </div>\n    </div>\n    <div class=\"column-right-edits left\" id=\"column-edits-template\">\n        <div class=\"column-right-edits__child\">\n            <p class=\"column-right-edits__child__p\">\n                "
+    + escapeExpression(((stack1 = ((stack1 = (depth0 && depth0.edited)),stack1 == null || stack1 === false ? stack1 : stack1.template)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
+    + "\n            </p>\n        </div>\n    </div>\n\n    <div class=\"button js-pre-editable\" name=\"template\">\n        <i class=\"js-pre-editable__icon icon-edit\"></i>\n        <span class=\"js-pre-editable__text\">Edit</span>\n    </div>\n\n    <div class=\"button hide js-editable\" name=\"template\">\n        <i class=\"js-editable__icon icon-check\"></i>\n        <span class=\"js-editable__text\">Done</span>\n    </div>\n</div>\n";
   return buffer;
   });
 
