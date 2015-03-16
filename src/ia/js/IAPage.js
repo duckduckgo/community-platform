@@ -492,7 +492,7 @@
                             field : field,
                             value : value,
                             id : id,
-                            autocommit: true
+                            autocommit: 1
                         })
                         .done(function(data) {
                             if (data.result) {
@@ -515,7 +515,8 @@
                         var jqxhr = $.post("/ia/save", {
                             field : field, 
                             value : value,
-                            id : id
+                            id : id,
+                            autocommit: 0
                         })
                         .done(function(data) {
                             if (!data.result) {
