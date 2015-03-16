@@ -66,7 +66,7 @@ sub getIssues{
 				title => decode_utf8($issue->{'title'}) || '',
 				body => decode_utf8($issue->{'body'}) || '',
 				tags => $issue->{'labels'} || '',
-				created => $issue->{'created_at'} || '',
+				date => $issue->{'created_at'} || '',
                 is_pr => $is_pr,
 			);
 			push(@results, \%entry);
@@ -92,6 +92,7 @@ my $update = sub {
                 body => $result->{body},
                 tags => $result->{tags},
                 is_pr => $result->{is_pr},
+                date => $result->{date}
 	        });
 
         }
