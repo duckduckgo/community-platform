@@ -430,7 +430,12 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
                     other_queries => $edited->{other_queries}->{value},
                     topic => $edited->{topic},
                     dev_milestone => $edited->{dev_milestone},
-                    tab => $edited->{tab}
+                    tab => $edited->{tab},
+                    producer => $edited->{producer},
+                    designer => $edited->{designer},
+                    developer => $edited->{developer},
+                    perl_module => $edited->{perl_module},
+                    template => $edited->{template}
             };
         }
     }
@@ -477,7 +482,13 @@ sub commit_json :Chained('commit_base') :PathPart('json') :Args(0) {
             topic => \@topics,
             example_query => $ia->example_query,
             other_queries => $ia->other_queries? from_json($ia->other_queries) : undef,
-            dev_milestone => $ia->dev_milestone
+            dev_milestone => $ia->dev_milestone,
+            perl_module => $ia->perl_module,
+            producer => $ia->producer,
+            designer => $ia->designer,
+            developer => $ia->developer,
+            template => $ia->template,
+            tab => $ia->tab
         );
 
         $edited->{original} = \%original;
@@ -620,15 +631,33 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
                     };
                 }
             } else {
-                my $edits = add_edit($ia,  $field, $value);
+                my $can_add = 0;
+                if ($field eq "producer" || $field eq "designer" || $field eq "developer") {
+                    my $complat_user = $c->d->rs('User')->find({username => $value});
 
-                try {
-                    $ia->update({updates => $edits});
-                    $result = {$field => $value, is_admin => $is_admin};
+                    if ($complat_user || $value eq '') {
+                        my $complat_user_admin = $complat_user? $complat_user->admin : '';
+
+                        if ((($field eq "producer" || $field eq "designer") && ($complat_user_admin || $value eq ''))
+                            || ($field eq "developer")) {
+                            $can_add = 1;
+                        }
+                    }
+                } else {
+                    $can_add = 1;
                 }
-                catch {
-                    $c->d->errorlog("Error updating the database");
-                };
+                
+                if ($can_add) {   
+                    my $edits = add_edit($ia,  $field, $value);
+                
+                    try {
+                        $ia->update({updates => $edits});
+                        $result = {$field => $value, is_admin => $is_admin};
+                    }
+                    catch {
+                        $c->d->errorlog("Error updating the database");
+                    };
+                }
             }
         }
     }
@@ -692,6 +721,12 @@ sub current_ia {
     my @example_query = $edits->{'example_query'};
     my @other_queries = $edits->{'other_queries'};
     my @dev_milestone = $edits->{'dev_milestone'};
+    my @producer = $edits->{'producer'};
+    my @designer = $edits->{'designer'};
+    my @developer = $edits->{'developer'};
+    my @tab = $edits->{'tab'};
+    my @template = $edits->{'template'};
+    my @perl_module = $edits->{'perl_module'};
     my %x;
 
     if (ref $edits eq 'HASH') {
@@ -716,7 +751,13 @@ sub current_ia {
             topic => $topic_val? from_json($topic_val) : undef,
             example_query => $example_query[0][@example_query]{'value'},
             other_queries => \%other_q,
-            dev_milestone => $dev_milestone[0][@dev_milestone]{'value'}
+            dev_milestone => $dev_milestone[0][@dev_milestone]{'value'},
+            producer => $producer[0][@producer]{'value'},
+            designer => $designer[0][@designer]{'value'},
+            developer => $developer[0][@developer]{'value'},
+            tab => $tab[0][@tab]{'value'},
+            template => $template[0][@template]{'value'},
+            perl_module => $perl_module[0][@perl_module]{'value'}
         );
     }
 
