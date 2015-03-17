@@ -435,7 +435,8 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
                     designer => $edited->{designer},
                     developer => $edited->{developer},
                     perl_module => $edited->{perl_module},
-                    template => $edited->{template}
+                    template => $edited->{template},
+                    repo => $edited->{repo}
             };
         }
     }
@@ -488,7 +489,8 @@ sub commit_json :Chained('commit_base') :PathPart('json') :Args(0) {
             designer => $ia->designer,
             developer => $ia->developer,
             template => $ia->template,
-            tab => $ia->tab
+            tab => $ia->tab,
+            repo => $ia->repo
         );
 
         $edited->{original} = \%original;
@@ -727,6 +729,7 @@ sub current_ia {
     my @tab = $edits->{'tab'};
     my @template = $edits->{'template'};
     my @perl_module = $edits->{'perl_module'};
+    my @repo = $edits->{'repo'};
     my %x;
 
     if (ref $edits eq 'HASH') {
@@ -757,7 +760,8 @@ sub current_ia {
             developer => $developer[0][@developer]{'value'},
             tab => $tab[0][@tab]{'value'},
             template => $template[0][@template]{'value'},
-            perl_module => $perl_module[0][@perl_module]{'value'}
+            perl_module => $perl_module[0][@perl_module]{'value'},
+            repo => $repo[0][@repo]{'value'}
         );
     }
 
