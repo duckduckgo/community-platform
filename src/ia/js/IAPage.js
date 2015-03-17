@@ -111,7 +111,8 @@
                         producer : Handlebars.templates.pre_edit_producer(ia_data),
                         designer : Handlebars.templates.pre_edit_designer(ia_data),
                         developer : Handlebars.templates.pre_edit_developer(ia_data),
-                        tab : Handlebars.templates.pre_edit_tab(ia_data)
+                        tab : Handlebars.templates.pre_edit_tab(ia_data),
+                        repo : Handlebars.templates.pre_edit_repo(ia_data)
                     };
 
                     page.updateAll(readonly_templates, ia_data.live.dev_milestone, false);
@@ -415,6 +416,9 @@
                                 if (field === "dev_milestone") {
                                      $input = $obj.find(".available_dev_milestones option:selected");
                                      value = $.trim($input.text());
+                                } else if (field === "repo") {
+                                    $input = $obj.find(".available_repos option:selected");
+                                    value = $.trim($input.text());
                                 } else {
                                     $input = $obj.find("input.js-input,#description textarea");
                                     value = $.trim($input.val());
@@ -558,6 +562,7 @@
             'name',
             'status',
             'description',
+            'repo',
             'topic',
             'example_query',
             'other_queries',

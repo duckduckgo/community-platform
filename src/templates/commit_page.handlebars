@@ -45,6 +45,19 @@
             </tr>
         {{/if}}
 
+        {{#if repo}}
+            <tr class="updates_list">
+                <th>Type</th>
+
+                <td name="repo" class="item_selected" id="repo_original">
+                    {{original.repo}}
+                </td>
+                <td name="repo">
+                    {{repo}}
+                </td>
+            </tr>
+        {{/if}}
+
         {{#if topic}}
             <tr class="updates_list">
                 <th>Topic</th>
