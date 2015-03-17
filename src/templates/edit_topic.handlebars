@@ -1,33 +1,32 @@
 <div class="column-right-edits left" id="column-edits-topic">
     <div class="column-right-edits__child js-section-editable" id="topic" name="topic">
-        {{#each topic}}
-            <div class="ia_topic left">
-                <div class="button delete listbutton left" name="topic" title="Remove this topic">
-                    <i class="icon-remove" />
-                </div>
-                <span class="editable left" name="topic">
-                    <select class="available_topics" tabindex="-1">
-                        <option value="0">{{this}}</option>
-                    </select>
-                </span>
+        <div class="separator ia_topic">
+            <div class="button delete listbutton left" name="topic" title="Remove this topic">
+                <i class="icon-remove" />
             </div>
-
-            {{#if @first}}
-                <div class="ia_topic left hide" id="add_topic_select">
-                    <div class="button delete listbutton left" name="topic" title="Remove this topic">
-                        <i class="icon-remove" />
-                    </div>
-                    <span class="editable left" name="topic">
-                    <select class="available_topics left" id="new_topic" tabindex="-1">
-                        <option value="0"></option>
-                    </select>
-                    </span>
-                </div>
-                <div class="button listbutton left" id="add_topic" title="Add topic">
-                    <i class="icon-plus" />
-                </div>
-            {{/if}}
+            <select class="available_topics left" id="first-topic-select">
+                <option value="0">{{index topic 0}}</option>
+            </select>
             <span class="clearfix"></span>
-        {{/each}}
-   </div>
+        </div>
+        <div class="separator ia_topic">
+            <div class="button delete listbutton left" name="topic" title="Remove this topic">
+                <i class="icon-remove" />
+            </div>
+            <select class="available_topics left" id="second-topic-select">
+                <option value="1">{{index topic 1}}</option>
+            </select>
+            <span class="clearfix"></span>
+        </div>
+        <div class="separator ia_topic">
+            <div class="button delete listbutton left" name="topic" title="Remove this topic">
+                <i class="icon-remove" />
+            </div>
+            <select class="available_topics" id="third-topic-select">
+                <option value="2">{{index topic 2}}</option>
+            </select>
+            <span class="clearfix"></span>
+        </div>
+        <span class="clearfix"></span>
+    </div>
 </div>
