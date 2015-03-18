@@ -50,6 +50,11 @@ column date => {
     is_nullable => 1,
 };
 
+column author => {
+    data_type => 'text',
+    is_nullable => 1,
+};
+
 primary_key (qw/issue_id repo/);
 
 belongs_to 'instant_answer', 'DDGC::DB::Result::InstantAnswer', 'instant_answer_id', {on_delete => 'cascade'};
