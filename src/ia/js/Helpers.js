@@ -27,4 +27,14 @@
         return txt;
     });
 
+    // Remove specified chars from a given string 
+    // and replace it with specified char/string (optional)
+    Handlebars.registerHelper('replace', function(txt, to_remove, replacement) {
+        replacement = replacement? replacement : '';
+        to_remove = new RegExp(to_remove, 'g');
+
+        txt = txt.replace(to_remove, replacement);
+        return txt;
+    });
+
 })(DDH);
