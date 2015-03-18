@@ -8,7 +8,6 @@ use JSON;
 use DDGC;
 use HTTP::Tiny;
 use Data::Dumper;
-use Data::Printer;
 use Try::Tiny;
 use Net::GitHub;
 use Encode qw(decode_utf8);
@@ -66,8 +65,8 @@ sub getIssues{
                 author => $issue->{user}->{login} || '', 
 				title => decode_utf8($issue->{'title'}) || '',
 				body => decode_utf8($issue->{'body'}) || '',
-				tags => encode_json($issue->{'labels'}) || '',
-				created => $issue->{'created_at'} || '',
+				tags => $issue->{'labels'} || '',
+				date => $issue->{'created_at'} || '',
                 is_pr => $is_pr,
 			);
 			push(@results, \%entry);
@@ -93,6 +92,7 @@ my $update = sub {
                 body => $result->{body},
                 tags => $result->{tags},
                 is_pr => $result->{is_pr},
+                date => $result->{date},
                 author => $result->{author},
 	        });
 
