@@ -1212,8 +1212,9 @@ body.texture {
 }
 
 /* Small adjustment to the spacing between the labels in the dev page. */
-.ia-single .dev_milestone-container .ia-single--header {
-    margin-top: 2em;
+.ia-single .dev_milestone-container .ia-single--header,
+#metafield_container .ia-single--header {
+    margin-top: 1.25em;
 }
 
 .ia-single .dev_milestone-container.current-container {
@@ -1367,9 +1368,17 @@ body.texture {
     -o-border-radius: 3px;
 }
 
-.metafield {
+#metafield_container {
     margin-bottom: 0.5em;
-    margin-right: 1em;
+}
+
+#metafield_container--left {
+    width: 45%;
+}
+
+#metafield_container--right {
+    margin-left: 1em;
+    width: 53%;
 }
 
 .topic-separator.left {

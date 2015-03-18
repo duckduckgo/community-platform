@@ -507,7 +507,13 @@
 
                                     if (field === "repo" || field === "producer"
                                         || field === "designer" || field === "developer") {
-                                        readonly_templates.planning =  Handlebars.templates.planning(ia_data);
+
+                                        if (field === "repo") {
+                                            readonly_templates.planning =  Handlebars.templates.planning(ia_data);
+                                        } else {
+                                            readonly_templates.metafields =  Handlebars.templates.metafields(ia_data);
+                                        }
+
                                         page.updateAll(readonly_templates, ia_data.live.dev_milestone, false);
                                     }
                                 } 
@@ -612,7 +618,7 @@
         updateAll: function(templates, dev_milestone, edit) {
             if (!edit) {
                 $(".ia-single--name").remove();
-                $("#big-description, .metafield").remove();
+                $("#metafield_container").remove();
                 $(".ia-single--left, .ia-single--right").show().empty();
 
                 if (dev_milestone === "live") {
@@ -623,15 +629,6 @@
                     for (var i = 0; i < this.dev_milestones_order.length; i++) {
                         $(".ia-single--left").append(templates[this.dev_milestones_order[i]]);
                     }
-
-                    // If one or more team fields has the current user's name as value,
-                    // hide the 'assign to me' button accordingly
-                    var current_user = $.trim($(".header-account-info .user-name").text());
-                    $(".team-input").each(function(idx) {
-                        if ($(this).val() === current_user) {
-                            $("#" + $.trim($(this).attr("id").replace("-input", "")) + "-button").hide();
-                        }
-                    });
                 }
 
                 $(".ia-single--right").before(templates.live.name);
@@ -641,6 +638,15 @@
                     if ($(".topic-group").length) {
                         $(".topic-group").append($("#allowed_topics").html());
                     }
+
+                    // If one or more team fields has the current user's name as value,
+                    // hide the 'assign to me' button accordingly
+                    var current_user = $.trim($(".header-account-info .user-name").text());
+                    $(".team-input").each(function(idx) {
+                        if ($(this).val() === current_user) {
+                            $("#" + $.trim($(this).attr("id").replace("-input", "")) + "-button").hide();
+                        }
+                    });
                 }
                 $(".ia-single--right").append(templates.live.screens);
 
