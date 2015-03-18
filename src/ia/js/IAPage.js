@@ -105,7 +105,14 @@
                         topic : Handlebars.templates.pre_edit_topic(ia_data),
                         example_query : Handlebars.templates.pre_edit_example_query(ia_data),
                         other_queries : Handlebars.templates.pre_edit_other_queries(ia_data),
-                        dev_milestone : Handlebars.templates.pre_edit_dev_milestone(ia_data)
+                        dev_milestone : Handlebars.templates.pre_edit_dev_milestone(ia_data),
+                        template : Handlebars.templates.pre_edit_template(ia_data),
+                        perl_module : Handlebars.templates.pre_edit_perl_module(ia_data),
+                        producer : Handlebars.templates.pre_edit_producer(ia_data),
+                        designer : Handlebars.templates.pre_edit_designer(ia_data),
+                        developer : Handlebars.templates.pre_edit_developer(ia_data),
+                        tab : Handlebars.templates.pre_edit_tab(ia_data),
+                        repo : Handlebars.templates.pre_edit_repo(ia_data)
                     };
 
                     page.updateAll(readonly_templates, ia_data.live.dev_milestone, false);
@@ -182,6 +189,12 @@
                             }
                          
                             autocommit(field, value, DDH_iaid, is_json);
+                        }
+                    });
+
+                    $("body").on("change", 'input[type="number"].js-autocommit', function(evt) {
+                        if (!$(this).hasClass("js-autocommit-focused")) {
+                            $(this).focus();
                         }
                     });
 
@@ -403,6 +416,9 @@
                                 if (field === "dev_milestone") {
                                      $input = $obj.find(".available_dev_milestones option:selected");
                                      value = $.trim($input.text());
+                                } else if (field === "repo") {
+                                    $input = $obj.find(".available_repos option:selected");
+                                    value = $.trim($input.text());
                                 } else {
                                     $input = $obj.find("input.js-input,#description textarea");
                                     value = $.trim($input.val());
@@ -480,7 +496,7 @@
                             field : field,
                             value : value,
                             id : id,
-                            autocommit: true
+                            autocommit: 1
                         })
                         .done(function(data) {
                             if (data.result) {
@@ -503,7 +519,8 @@
                         var jqxhr = $.post("/ia/save", {
                             field : field, 
                             value : value,
-                            id : id
+                            id : id,
+                            autocommit: 0
                         })
                         .done(function(data) {
                             if (!data.result) {
@@ -545,9 +562,12 @@
             'name',
             'status',
             'description',
+            'repo',
             'topic',
             'example_query',
-            'other_queries'
+            'other_queries',
+            'perl_module',
+            'template'
         ],
 
         dev_milestones_order: [
@@ -644,9 +664,13 @@
                     $(".ia-single--edits").append(templates[this.edit_field_order[i]]);
                 }
 
-                // Only admins can edit the dev milestone
+                // Only admins can edit these fields
                 if ($("#view_commits").length) {
                     $(".ia-single--edits").append(templates.dev_milestone);
+                    $(".ia-single--edits").append(templates.producer);
+                    $(".ia-single--edits").append(templates.designer);
+                    $(".ia-single--edits").append(templates.developer);
+                    $(".ia-single--edits").append(templates.tab);
                 }
             }
         }    

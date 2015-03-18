@@ -45,6 +45,97 @@
             </tr>
         {{/if}}
 
+        {{#if repo}}
+            <tr class="updates_list">
+                <th>Type</th>
+
+                <td name="repo" class="item_selected" id="repo_original">
+                    {{original.repo}}
+                </td>
+                <td name="repo">
+                    {{repo}}
+                </td>
+            </tr>
+        {{/if}}
+
+        {{#if template}}
+            <tr class="updates_list">
+                <th>Template</th>
+
+                <td name="template" class="item_selected" id="template_original">
+                    {{original.template}}
+                </td>
+                <td name="template">
+                    {{template}}
+                </td>
+            </tr>
+        {{/if}}
+
+        {{#if tab}}
+            <tr class="updates_list">
+                <th>Tab</th>
+
+                <td name="tab" class="item_selected" id="tab_original">
+                    {{original.tab}}
+                </td>
+                <td name="tab">
+                    {{tab}}
+                </td>
+            </tr>
+        {{/if}}
+
+        {{#if producer}}
+            <tr class="updates_list">
+                <th>Producer</th>
+
+                <td name="producer" class="item_selected" id="producer_original">
+                    {{original.producer}}
+                </td>
+                <td name="producer">
+                    {{producer}}
+                </td>
+            </tr>
+        {{/if}}
+
+        {{#if designer}}
+            <tr class="updates_list">
+                <th>Designer</th>
+
+                <td name="designer" class="item_selected" id="designer_original">
+                    {{original.designer}}
+                </td>
+                <td name="designer">
+                    {{designer}}
+                </td>
+            </tr>
+        {{/if}}
+
+        {{#if developer}}
+            <tr class="updates_list">
+                <th>Developer</th>
+
+                <td name="developer" class="item_selected" id="developer_original">
+                    {{original.developer}}
+                </td>
+                <td name="developer">
+                    {{developer}}
+                </td>
+            </tr>
+        {{/if}}
+
+        {{#if perl_module}}
+            <tr class="updates_list">
+                <th>Perl Module</th>
+
+                <td name="perl_module" class="item_selected" id="perl_module_original">
+                    {{original.perl_module}}
+                </td>
+                <td name="perl_module">
+                    {{perl_module}}
+                </td>
+            </tr>
+        {{/if}}
+
         {{#if topic}}
             <tr class="updates_list">
                 <th>Topic</th>

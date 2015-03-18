@@ -1166,7 +1166,7 @@ body.texture {
     margin-bottom: 0.5em;
 }
 
-.ia-single--name .status {
+.ia-single--name .dev_milestone {
     display: inline-block;
     margin-left: 0.5em;
     padding-left: 0.5em;
@@ -1178,7 +1178,7 @@ body.texture {
     margin-bottom: 0;
 }
 
-.ia-single--name .status.status--live {
+.ia-single--name .dev_milestone.dev_milestone--live {
     color: #4B9E4F;
     border-color: #4B9E4F;
 } 
