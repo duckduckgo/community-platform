@@ -1367,9 +1367,17 @@ body.texture {
     -o-border-radius: 3px;
 }
 
-.metafield {
+#metafield_container {
     margin-bottom: 0.5em;
-    margin-right: 1em;
+}
+
+#metafield_container--left {
+    width: 45%;
+}
+
+#metafield_container--right {
+    margin-left: 1em;
+    width: 53%;
 }
 
 .topic-separator.left {
