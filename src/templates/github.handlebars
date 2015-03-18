@@ -6,5 +6,11 @@
         <li><a href="{{chooseService this}}" class="one-line">{{@key}}</a></li>
       {{/each}}
     </ul>
+  {{else}}
+    {{#if developer}}
+      <div class="ia-single--header">CONTRIBUTORS</div>
+        <a href="https://duck.co/user/{{developer}}">{{developer}}</a>
+      </div>
+    {{/if}}
   {{/if}}
 </div>
