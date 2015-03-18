@@ -91,6 +91,7 @@ sub iarepo_json :Chained('iarepo') :PathPart('json') :Args(0) {
         $iah{$ia->id} = {
                 name => $ia->name,
                 id => $ia->id,
+                attribution => $ia->attribution? from_json($ia->attribution) : undef,
                 example_query => $ia->example_query,
                 repo => $ia->repo,
                 perl_module => $ia->perl_module,
