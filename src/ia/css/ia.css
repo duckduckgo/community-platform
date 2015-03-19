@@ -1222,12 +1222,17 @@ body.texture {
 
 #metafield_container td {
     vertical-align: initial;
+    padding-bottom: 1em;
+}
+
+#metafield_container td.up {
+    vertical-align: top;
 }
 
 /* Small adjustment to the spacing between the labels in the dev page. */
 .ia-single .dev_milestone-container .ia-single--header,
 #metafield_container .ia-single--header {
-    margin-top: 1.25em;
+    margin: 0;
 }
 
 .ia-single .dev_milestone-container.current-container {

@@ -106,7 +106,7 @@
     <table>
       <tbody>
         <tr>
-          <td>
+          <td class="{{#if permissions.admin}}up{{/if}}">
             <div class="ia-single--header">
               STATUS
             </div>
@@ -114,7 +114,7 @@
           <td>
             {{#if permissions.admin}}
               <textarea rows="3" cols="40" class="js-autocommit metafield" id="status-textarea">{{live.status}}</textarea>
-              {{else}}
+            {{else}}
               {{#if live.status}}
                 <div id="status-txt">
                   {{live.status}} 
@@ -192,7 +192,7 @@
         </tr>
 
         <tr>
-          <td>
+          <td class="{{#if permissions.admin}}up{{/if}}">
             <div class="ia-single--header">
               TOPICS
             </div>
@@ -200,7 +200,7 @@
 
           <td>
             {{#if permissions.can_edit}}
-              <div class="separator topic-separator left">
+              <div class="separator topic-separator">
                 <div class="button delete listbutton left js-autocommit" name="topic" title="Remove this topic">
                   <i class="icon-remove" />
                 </div>
@@ -209,7 +209,7 @@
                 </select>
                 <span class="clearfix"></span>
               </div>
-              <div class="separator topic-separator left">
+              <div class="separator topic-separator">
                 <div class="button delete listbutton left js-autocommit" name="topic" title="Remove this topic">
                   <i class="icon-remove" />
                 </div>
@@ -218,7 +218,7 @@
                 </select>
                 <span class="clearfix"></span>
               </div>
-              <div class="separator topic-separator left">
+              <div class="separator topic-separator">
                 <div class="button delete listbutton left js-autocommit" name="topic" title="Remove this topic">
                   <i class="icon-remove" />
                 </div>
