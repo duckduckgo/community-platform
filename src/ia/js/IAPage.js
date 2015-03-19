@@ -155,6 +155,12 @@
                         $(".special-permissions__toggle-view").hide();
                     });
 
+                    $(".ia-single--image-container img").error(function() {
+                        if (ia_data.live.dev_milestone !== "live") {
+                            $(".ia-single--screenshots").hide();
+                        }
+                    });
+                    
                     $("body").on('click', ".js-expand.button", function(evt) {
                         var milestone = $(this).parent().parent().attr("id");
                         $(".container-" + milestone + "__body").toggleClass("hide");
