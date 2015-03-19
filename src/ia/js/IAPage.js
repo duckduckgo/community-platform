@@ -170,6 +170,8 @@
                             });
 
                             $(".dev_milestone-container").height(max_height);
+
+                            page.imgHide = true;
                         }
                     });
                     
@@ -574,6 +576,8 @@
             }
         },
 
+        imgHide: false,
+
         field_order: [
             'topic',
             'description',
@@ -666,7 +670,10 @@
                         }
                     });
                 }
-                $(".ia-single--right").append(templates.live.screens);
+
+                if (!this.imgHide) {
+                    $(".ia-single--right").append(templates.live.screens);
+                }
 
                 $(".show-more").click(function(e) {
                     e.preventDefault();
