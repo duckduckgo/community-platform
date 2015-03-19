@@ -568,6 +568,15 @@ sub commit_save :Chained('commit_base') :PathPart('save') :Args(0) {
                         if ($field eq 'other_queries') {
                             $value = to_json($value);
                         }
+                        
+                        if ($field eq "developer" && $value ne '') {
+                            my %dev_hash = (
+                                name => $value,
+                                url => 'https://duck.co/user/'.$value
+                            );
+
+                            $value = to_json \%dev_hash;
+                        }
 
                         try {
                             commit_edit($ia, $field, $value);

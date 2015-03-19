@@ -9,8 +9,8 @@
     <div class="column-center-live left">
         <div class="column-center-live__child">
             <p class="column-center-live__child__p">
-                {{#if live.developer}}
-                    {{live.developer}}
+                {{#if live.developer.name}}
+                    {{live.developer.name}}
                 {{else}}
                     —
                 {{/if}}
@@ -20,7 +20,7 @@
     <div class="column-right-edits left" id="column-edits-developer">
         <div class="column-right-edits__child">
             <p class="column-right-edits__child__p">
-                {{edited.developer}}
+                {{edited.developer.name}}
             </p>
         </div>
     </div>
