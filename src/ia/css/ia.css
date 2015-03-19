@@ -1208,13 +1208,31 @@ body.texture {
 /* Set the height of the read-only fields so that 
    the layout doesn't change when it switches to the input field */
 .dev_milestone-container__body__readonly {
-    min-height: 21px;
+
+}
+
+#metafield_container td:nth-child(2) {
+    padding-left: 1.2em;
+}
+
+.dev_milestone-container__body__label {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+#metafield_container td {
+    vertical-align: initial;
+    padding-bottom: 1em;
+}
+
+#metafield_container td.up {
+    vertical-align: top;
 }
 
 /* Small adjustment to the spacing between the labels in the dev page. */
 .ia-single .dev_milestone-container .ia-single--header,
 #metafield_container .ia-single--header {
-    margin-top: 1.25em;
+    margin: 0;
 }
 
 .ia-single .dev_milestone-container.current-container {
