@@ -1393,3 +1393,20 @@ body.texture {
     margin-right: 0.5em;
     height: 1.45em;
 }
+
+.ia-single--left--wide {
+    width: 100%;
+}
+
+.ia-single--left--wide .dev_milestone-container {
+    width: 22%;
+    float: left;
+}
+
+.ia-single--left--wide .dev_milestone-container {
+    margin-left: 1em;
+}
+
+.ia-single--left--wide #planning {
+    margin-left: 0;
+}

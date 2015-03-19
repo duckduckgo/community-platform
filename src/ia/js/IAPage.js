@@ -157,7 +157,19 @@
 
                     $(".ia-single--image-container img").error(function() {
                         if (ia_data.live.dev_milestone !== "live") {
-                            $(".ia-single--screenshots").hide();
+                            $(".ia-single--screenshots").addClass("hide");
+                            $(".ia-single--left").removeClass("ia-single--left").addClass("ia-single--left--wide");
+                            $(".dev_milestone-container__body").removeClass("hide");
+
+                            // Set the panels height to the tallest one's height
+                            var max_height = 0;
+                            $(".dev_milestone-container").each(function(idx) {
+                                if ($(this).height() > max_height) {
+                                    max_height = $(this).height();
+                                }
+                            });
+
+                            $(".dev_milestone-container").height(max_height);
                         }
                     });
                     
