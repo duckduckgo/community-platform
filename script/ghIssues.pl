@@ -42,7 +42,6 @@ sub getIssues{
 
 		# add all the data we care about to an array
 		for my $issue (@issues){
-
             # get the IA name from the link in the first comment
 			# Update this later for whatever format we decide on
 			my $name_from_link = '';
@@ -57,12 +56,13 @@ sub getIssues{
 			$repo =~ s/zeroclickinfo-//;
 
             my $is_pr = exists $issue->{pull_request} ? 1 : 0;
-
+            
 			# add entry to result array
 			my %entry = (
 			    name => $name_from_link || '',
 				repo => $repo || '',
 				issue_id => $issue->{'number'} || '',
+                author => $issue->{user}->{login} || '', 
 				title => decode_utf8($issue->{'title'}) || '',
 				body => decode_utf8($issue->{'body'}) || '',
 				tags => $issue->{'labels'} || '',
@@ -92,7 +92,8 @@ my $update = sub {
                 body => $result->{body},
                 tags => $result->{tags},
                 is_pr => $result->{is_pr},
-                date => $result->{date}
+                date => $result->{date},
+                author => $result->{author},
 	        });
 
         }
