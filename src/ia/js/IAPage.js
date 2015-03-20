@@ -155,6 +155,26 @@
                         $(".special-permissions__toggle-view").hide();
                     });
 
+                    $(".ia-single--image-container img").error(function() {
+                        if (ia_data.live.dev_milestone !== "live") {
+                            $(".ia-single--screenshots").addClass("hide");
+                            $(".ia-single--left").removeClass("ia-single--left").addClass("ia-single--left--wide");
+                            $(".dev_milestone-container__body").removeClass("hide");
+
+                            // Set the panels height to the tallest one's height
+                            var max_height = 0;
+                            $(".dev_milestone-container").each(function(idx) {
+                                if ($(this).height() > max_height) {
+                                    max_height = $(this).height();
+                                }
+                            });
+
+                            $(".dev_milestone-container").height(max_height);
+
+                            page.imgHide = true;
+                        }
+                    });
+                    
                     $("body").on('click', ".js-expand.button", function(evt) {
                         var milestone = $(this).parent().parent().attr("id");
                         $(".container-" + milestone + "__body").toggleClass("hide");
@@ -507,7 +527,13 @@
 
                                     if (field === "repo" || field === "producer"
                                         || field === "designer" || field === "developer") {
-                                        readonly_templates.planning =  Handlebars.templates.planning(ia_data);
+
+                                        if (field === "repo") {
+                                            readonly_templates.planning =  Handlebars.templates.planning(ia_data);
+                                        } else {
+                                            readonly_templates.metafields =  Handlebars.templates.metafields(ia_data);
+                                        }
+
                                         page.updateAll(readonly_templates, ia_data.live.dev_milestone, false);
                                     }
                                 } 
@@ -549,6 +575,8 @@
                 });
             }
         },
+
+        imgHide: false,
 
         field_order: [
             'topic',
@@ -612,7 +640,7 @@
         updateAll: function(templates, dev_milestone, edit) {
             if (!edit) {
                 $(".ia-single--name").remove();
-                $("#big-description, .metafield").remove();
+                $("#metafield_container").remove();
                 $(".ia-single--left, .ia-single--right").show().empty();
 
                 if (dev_milestone === "live") {
@@ -622,6 +650,15 @@
                 } else {
                     for (var i = 0; i < this.dev_milestones_order.length; i++) {
                         $(".ia-single--left").append(templates[this.dev_milestones_order[i]]);
+                    }
+                }
+
+                $(".ia-single--right").before(templates.live.name);
+                if (dev_milestone != "live") {
+                    $(".ia-single--right").before(templates.metafields);
+
+                    if ($(".topic-group").length) {
+                        $(".topic-group").append($("#allowed_topics").html());
                     }
 
                     // If one or more team fields has the current user's name as value,
@@ -634,15 +671,9 @@
                     });
                 }
 
-                $(".ia-single--right").before(templates.live.name);
-                if (dev_milestone != "live") {
-                    $(".ia-single--right").before(templates.metafields);
-
-                    if ($(".topic-group").length) {
-                        $(".topic-group").append($("#allowed_topics").html());
-                    }
+                if (!this.imgHide) {
+                    $(".ia-single--right").append(templates.live.screens);
                 }
-                $(".ia-single--right").append(templates.live.screens);
 
                 $(".show-more").click(function(e) {
                     e.preventDefault();

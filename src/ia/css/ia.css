@@ -1208,12 +1208,31 @@ body.texture {
 /* Set the height of the read-only fields so that 
    the layout doesn't change when it switches to the input field */
 .dev_milestone-container__body__readonly {
-    min-height: 21px;
+
+}
+
+#metafield_container td:nth-child(2) {
+    padding-left: 1.2em;
+}
+
+.dev_milestone-container__body__label {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+#metafield_container td {
+    vertical-align: initial;
+    padding-bottom: 1em;
+}
+
+#metafield_container td.up {
+    vertical-align: top;
 }
 
 /* Small adjustment to the spacing between the labels in the dev page. */
-.ia-single .dev_milestone-container .ia-single--header {
-    margin-top: 2em;
+.ia-single .dev_milestone-container .ia-single--header,
+#metafield_container .ia-single--header {
+    margin: 0;
 }
 
 .ia-single .dev_milestone-container.current-container {
@@ -1367,9 +1386,17 @@ body.texture {
     -o-border-radius: 3px;
 }
 
-.metafield {
+#metafield_container {
     margin-bottom: 0.5em;
-    margin-right: 1em;
+}
+
+#metafield_container--left {
+    width: 45%;
+}
+
+#metafield_container--right {
+    margin-left: 1em;
+    width: 53%;
 }
 
 .topic-separator.left {
@@ -1383,4 +1410,21 @@ body.texture {
 #view_json {
     margin-right: 0.5em;
     height: 1.45em;
+}
+
+.ia-single--left--wide {
+    width: 100%;
+}
+
+.ia-single--left--wide .dev_milestone-container {
+    width: 22%;
+    float: left;
+}
+
+.ia-single--left--wide .dev_milestone-container {
+    margin-left: 1em;
+}
+
+.ia-single--left--wide #planning {
+    margin-left: 0;
 }

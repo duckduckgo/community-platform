@@ -91,6 +91,7 @@ sub iarepo_json :Chained('iarepo') :PathPart('json') :Args(0) {
         $iah{$ia->id} = {
                 name => $ia->name,
                 id => $ia->id,
+                attribution => $ia->attribution? from_json($ia->attribution) : undef,
                 example_query => $ia->example_query,
                 repo => $ia->repo,
                 perl_module => $ia->perl_module,
@@ -351,7 +352,8 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
     my @ia_pr;
     my %ia_data;
     my $permissions;
-    my $is_admin; 
+    my $is_admin;
+    my $dev_milestone = $ia->dev_milestone; 
 
     for my $issue (@issues) {
         if ($issue) {
@@ -360,8 +362,25 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
                     id => $issue->issue_id,
                     title => $issue->title,
                     body => $issue->body,
-                    tags => $issue->tags
+                    tags => $issue->tags,
+                    author => $issue->author
                );
+
+               if ($dev_milestone ne 'live' && !$ia->developer) {
+                  my %dev_hash = (
+                      name => $pull_request{author},
+                      url => 'https://github.com/'.$pull_request{author}
+                  );
+
+                  my $value = to_json \%dev_hash;
+
+                  try {
+                      $ia->update({developer => $value});
+                  }
+                  catch {
+                      $c->d->errorlog("Error updating the database");
+                  };
+               }
             } else {
                 push(@ia_issues, {
                     issue_id => $issue->issue_id,
@@ -382,7 +401,7 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
                 tab => $ia->tab,
                 status => $ia->status,
                 repo => $ia->repo,
-                dev_milestone => $ia->dev_milestone,
+                dev_milestone => $dev_milestone,
                 perl_module => $ia->perl_module,
                 example_query => $ia->example_query,
                 other_queries => $other_queries,
@@ -396,7 +415,7 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
                 src_api_documentation => $ia->src_api_documentation,
                 producer => $ia->producer,
                 designer => $ia->designer,
-                developer => $ia->developer,
+                developer => $ia->developer? from_json($ia->developer) : undef,
                 perl_dependencies => $ia->perl_dependencies? from_json($ia->perl_dependencies) : undef,
                 triggers => $ia->triggers? from_json($ia->triggers) : undef,
                 code_review => $ia->code_review,
@@ -487,7 +506,7 @@ sub commit_json :Chained('commit_base') :PathPart('json') :Args(0) {
             perl_module => $ia->perl_module,
             producer => $ia->producer,
             designer => $ia->designer,
-            developer => $ia->developer,
+            developer => $ia->developer? from_json($ia->developer) : undef,
             template => $ia->template,
             tab => $ia->tab,
             repo => $ia->repo
@@ -548,6 +567,15 @@ sub commit_save :Chained('commit_base') :PathPart('save') :Args(0) {
                     } else {
                         if ($field eq 'other_queries') {
                             $value = to_json($value);
+                        }
+                        
+                        if ($field eq "developer" && $value ne '') {
+                            my %dev_hash = (
+                                name => $value,
+                                url => 'https://duck.co/user/'.$value
+                            );
+
+                            $value = to_json \%dev_hash;
                         }
 
                         try {
@@ -613,9 +641,25 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
                         my $complat_user_admin = $complat_user? $complat_user->admin : '';
 
                         if ((($field eq "producer" || $field eq "designer") && ($complat_user_admin || $value eq ''))
-                            || ($field eq "developer")) {
+                            || $field eq "developer") {
+                            if ($field eq "developer" && $value ne '') {
+                                my %dev_hash = (
+                                    name => $value,
+                                    url => 'https://duck.co/user/'.$value
+                                );
+
+                                $value = to_json \%dev_hash;
+                            }
+
+                            print $value;
+
                             try {
                                 $ia->update({$field => $value});
+                                
+                                if ($field eq 'developer') {
+                                    $value = $value? from_json($value) : undef;
+                                }
+                                
                                 $result = {$field => $value};
                             }
                             catch {
@@ -643,6 +687,14 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
                         if ((($field eq "producer" || $field eq "designer") && ($complat_user_admin || $value eq ''))
                             || ($field eq "developer")) {
                             $can_add = 1;
+                            if ($field eq "developer" && $value ne '') {
+                                my %dev_hash = (
+                                    name => $value,
+                                    url => 'https://duck.co/user/'.$value
+                                );
+
+                                $value = to_json \%dev_hash;
+                            }
                         }
                     }
                 } else {
@@ -654,6 +706,11 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
                 
                     try {
                         $ia->update({updates => $edits});
+                                
+                        if ($field eq 'developer') {
+                            $value = $value? from_json($value) : undef;
+                        }
+                                
                         $result = {$field => $value, is_admin => $is_admin};
                     }
                     catch {
@@ -736,6 +793,7 @@ sub current_ia {
         my $topic_val = $topic[0][@topic]{'value'};
         my $other_q_val = $other_queries[0][@other_queries]{'value'};
         my $other_q_edited = $other_q_val? 1 : undef;
+        my $developer_val = $developer[0][@developer]{'value'};
 
         # Other queries can be empty,
         # but the handlebars {{#if}} evaluates to false
@@ -757,7 +815,7 @@ sub current_ia {
             dev_milestone => $dev_milestone[0][@dev_milestone]{'value'},
             producer => $producer[0][@producer]{'value'},
             designer => $designer[0][@designer]{'value'},
-            developer => $developer[0][@developer]{'value'},
+            developer => $developer_val? from_json($developer_val) : undef,
             tab => $tab[0][@tab]{'value'},
             template => $template[0][@template]{'value'},
             perl_module => $perl_module[0][@perl_module]{'value'},

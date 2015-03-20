@@ -110,15 +110,15 @@
             </tr>
         {{/if}}
 
-        {{#if developer}}
+        {{#if developer.name}}
             <tr class="updates_list">
                 <th>Developer</th>
 
                 <td name="developer" class="item_selected" id="developer_original">
-                    {{original.developer}}
+                    {{original.developer.name}}
                 </td>
                 <td name="developer">
-                    {{developer}}
+                    {{developer.name}}
                 </td>
             </tr>
         {{/if}}

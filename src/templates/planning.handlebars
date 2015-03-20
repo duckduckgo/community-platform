@@ -194,54 +194,6 @@
             </span>
         </div>
 
-        <div class="dev_milestone-container__body__label ia-single--header">
-            PRODUCER
-        </div>
-        {{#unless future.planning}}
-            {{#if permissions.admin}}
-                <input type="text" class="dev_milestone-container__body__input js-autocommit team-input" id="producer-input" value="{{live.producer}}" />
-                <div class="dev_milestone-container__body__button js-autocommit button assign-button" id="producer-button">
-                    Assign to me
-                </div>
-            {{else}}
-                <div class="dev_milestone-container__body__readonly" id="producer-txt">
-                    <a href="/user/{{live.producer}}">{{live.producer}}</a>
-                </div>
-            {{/if}}
-        {{/unless}}
-
-        <div class="dev_milestone-container__body__label ia-single--header">
-            DESIGNER
-        </div>
-        {{#unless future.planning}}
-            {{#if permissions.admin}}
-                <input type="text" class="dev_milestone-container__body__input js-autocommit team-input" id="designer-input" value="{{live.designer}}" />
-                <div class="dev_milestone-container__body__button js-autocommit button assign-button" id="designer-button">
-                    Assign to me
-                </div>
-            {{else}}
-                <div class="dev_milestone-container__body__readonly" id="designer-txt">
-                    <a href="/user/{{live.designer}}">{{live.designer}}</a>
-                </div>
-            {{/if}}
-        {{/unless}}
-
-        <div class="dev_milestone-container__body__label ia-single--header">
-            DEVELOPER
-        </div>
-        {{#unless future.planning}}
-            {{#if permissions.can_edit}}
-                <input type="text" class="dev_milestone-container__body__input js-autocommit team-input" id="developer-input" value="{{live.developer}}" />
-                <div class="dev_milestone-container__body__button js-autocommit button assign-button" id="developer-button">
-                    Assign to me
-                </div>
-            {{else}}
-                <div class="dev_milestone-container__body__readonly" id="developer-txt">
-                    <a href="/user/{{live.developer}}">{{live.developer}}</a>
-                </div>
-            {{/if}}
-        {{/unless}}
-
         {{#if permissions.admin}}
             {{#if current.planning}}
                 <div class="dev_milestone-container__body__complete js-complete button" id="complete-planning">
