@@ -1,18 +1,43 @@
 <div id="metafield_container">
   <div id="metafield_container--left" class="left">
 
-    {{#if permissions.can_edit}}
-      <textarea rows="3" cols="40" class="js-autocommit metafield" id="description-textarea">{{live.description}}</textarea>
-      {{else}}
-      {{#if live.description}}
-        <div class="dev_milestone-container__body__readonly" id="description_txt">
-          {{live.description}}
-        </div>
-      {{/if}}
-    {{/if}}  
-
     <table>
-      <tbody>
+      <tbody>       
+        <tr>
+          <td class="up">
+            <div class="dev_milestone-container__body__label ia-single--header">
+              DESCRIPTION
+            </div>
+          </td>
+          <td>
+            {{#if permissions.can_edit}}
+              <textarea rows="3" cols="40" class="js-autocommit metafield" id="description-textarea">{{live.description}}</textarea>
+              {{else}}
+                {{#if live.description}}
+                  <div class="dev_milestone-container__body__readonly" id="description_txt">
+                    {{live.description}}
+                  </div>
+                {{/if}}
+              {{/if}}   
+          </td>
+        </tr>
+        
+        <tr>
+          <td>
+            <div class="dev_milestone-container__body__label ia-single--header">
+              ID
+            </div>
+          </td>
+          <td>
+            {{#if live.id}}    
+              <div class="dev_milestone-container__body__readonly" id="id-txt">
+                {{live.id}}
+              </div>
+            {{/if}}
+          </td>
+        </tr>
+ 
+ 
         <tr>
           <td>
             <div class="dev_milestone-container__body__label ia-single--header">
