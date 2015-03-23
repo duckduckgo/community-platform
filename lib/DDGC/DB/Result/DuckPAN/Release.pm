@@ -9,8 +9,6 @@ use namespace::autoclean;
 
 table 'duckpan_release';
 
-sub u { [ 'Duckpan', 'release', $_[0]->name, $_[0]->version ] }
-
 column id => {
 	data_type => 'bigint',
 	is_auto_increment => 1,
