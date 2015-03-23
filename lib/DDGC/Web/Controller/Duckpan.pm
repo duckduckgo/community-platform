@@ -16,7 +16,6 @@ sub base :Chained('/base') :PathPart('duckpan') :CaptureArgs(0) {
 	my ( $self, $c ) = @_;
 	$c->stash->{title} = 'DuckPAN';
 	$c->stash->{duckpan} = $c->d->duckpan;
-	$c->add_bc('DuckPAN', $c->chained_uri('Duckpan','index'));
 }
 
 sub logged_in :Chained('base') :PathPart('') :CaptureArgs(0) {
