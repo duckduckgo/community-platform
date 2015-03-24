@@ -9,8 +9,6 @@ use namespace::autoclean;
 
 table 'duckpan_release';
 
-sub u { [ 'Duckpan', 'release', $_[0]->name, $_[0]->version ] }
-
 column id => {
 	data_type => 'bigint',
 	is_auto_increment => 1,
@@ -66,16 +64,7 @@ belongs_to 'user', 'DDGC::DB::Result::User', 'users_id', {
 	on_update => 'cascade',
 };
 
-has_many 'duckpan_modules', 'DDGC::DB::Result::DuckPAN::Module', 'duckpan_release_id', {
-	cascade_delete => 1,
-};
-
 unique_constraint [qw/ name version /];
-
-sub primary_module {
-    my $self = shift;
-    $self->duckpan_modules->search({name => $self->name})->first;
-}
 
 no Moose;
 __PACKAGE__->meta->make_immutable;
