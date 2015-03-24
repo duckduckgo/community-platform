@@ -453,39 +453,6 @@ sub profile_picture {
 	}
 }
 
-sub gravatar_to_avatar {
-	my ($self) = @_;
-	return unless $self->public;
-	my $gravatar_email;
-	return if (-f $self->avatar_filename );
-
-	if ($self->data && defined $self->data->{gravatar_email}) {
-		$gravatar_email = $self->data->{gravatar_email};
-	}
-
-	if ($self->data && defined $self->data->{userpage} && defined $self->data->{userpage}->{gravatar_email}) {
-		$gravatar_email = $self->data->{userpage}->{gravatar_email};
-	}
-
-	if ($self->userpage && defined $self->userpage->{gravatar_email}) {
-		$gravatar_email = $self->userpage->{gravatar_email};
-	}
-
-	return unless $gravatar_email;
-	my $md5 = md5_hex($gravatar_email);
-
-	my ($fh, $filename) = tempfile();
-	my $url = "http://www.gravatar.com/avatar/$md5?r=g&s=200";
-
-	unless (is_success(getstore($url, $filename))) {
-		carp("Unable to retrieve $url for " . $self->username);
-		return 0;
-	}
-
-	return unless $self->store_avatar($filename);
-	$self->generate_thumbs;
-}
-
 sub generate_thumbs {
 	my ($self) = @_;
 	my $fn = $self->username_to_filename;
