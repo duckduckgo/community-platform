@@ -106,7 +106,7 @@ BAD_RESPONSE_LINK
 	my $error = 0;
 	try {
 		$c->d->postman->template_mail(
-			$to, $from, $subject, 'campaign', $c->stash
+			1, $to, $from, $subject, 'campaign', $c->stash
 		);
 	}
 	catch {

@@ -38,7 +38,8 @@ sub _build_transport {
 }
 
 sub mail {
-	my ( $self, $to, $from, $subject, $body, %extra_headers ) = @_;
+	my ( $self, $verified, $to, $from, $subject, $body, %extra_headers ) = @_;
+	return unless $verified;
 	die __PACKAGE__."->mail needs to, from, subject, body" unless $body && $subject && $to && $from;
 	$subject =~ s/\n/ /g;
 	my $email = Email::Simple->create(
@@ -59,14 +60,16 @@ sub mail {
 }
 
 sub template_mail {
-	my ( $self, $to, $from, $subject, $template, $stash, %extra ) = @_;
+	my ( $self, $verified, $to, $from, $subject, $template, $stash, %extra ) = @_;
+	return unless $verified;
 	$stash->{email_template} = "email/".$template.".tx";
 	my $body = $self->ddgc->xslate->render('email/base.tx',$stash);
-	return $self->html_mail($to, $from, $subject, $body, %extra);
+	return $self->html_mail($verified, $to, $from, $subject, $body, %extra);
 }
 
 sub html_mail {
-	my ( $self, $to, $from, $subject, $body, %extra ) = @_;
+	my ( $self, $verified, $to, $from, $subject, $body, %extra ) = @_;
+	return unless $verified;
 	die __PACKAGE__."->mail needs to, from, subject, body" unless $body && $subject && $to && $from;
 
 	my @parts = defined $extra{parts}

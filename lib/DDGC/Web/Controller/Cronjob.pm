@@ -58,14 +58,15 @@ sub notify_cycle {
 		$c->d->db->txn_do(sub {
 			my $users_id = $_->get_column('users_id');
 			my $user = $c->d->rs('User')->find($users_id);
-			if ($user->data && $user->data->{email}) {
+			if ($user->email && $user->email_verified) {
 				$c->d->as($user,sub {
 					$c->stash->{unsent_notifications_results} = [$user->unsent_notifications_cycle($cycle)->all];
 					$c->stash->{unsent_notifications_count} = scalar @{$c->stash->{unsent_notifications_results}};
 					unless ($skip_notify) {
 						try {
 							$c->d->postman->template_mail(
-								$user->data->{email},
+								$user->email_verified,
+								$user->email,
 								'"DuckDuckGo Community Envoy" <envoy@dukgo.com>',
 								'[DuckDuckGo Community] '.$c->stash->{unsent_notifications_count}.' new notifications for you',
 								'notifications',
@@ -75,8 +76,9 @@ sub notify_cycle {
 						catch {
 							try {
 								$c->d->errorlog("Mailing notifications to " .
-													$user->data->{email} . " failed, mailing " . $c->d->config->error_email);
+													$user->email . " failed, mailing " . $c->d->config->error_email);
 								$c->d->postman->mail(
+									1,
 									$c->d->config->error_email,
 									'"DuckDuckGo Community Envoy" <envoy@dukgo.com>',
 									'[DuckDuckGo Community] ERROR ON ENVOY',
@@ -86,7 +88,7 @@ sub notify_cycle {
 							catch {
 								$c->d->errorlog("Failed to mail error report about mailing " .
 										 $c->stash->{unsent_notifications_count} . " notifications to " .
-										 $user->data->{email});
+										 $user->email);
 							};
 						};
 					}
