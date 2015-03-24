@@ -117,7 +117,8 @@
                         unsafe : Handlebars.templates.pre_edit_unsafe(ia_data),
                         answerbar : Handlebars.templates.pre_edit_answerbar(ia_data),
                         triggers :  Handlebars.templates.pre_edit_triggers(ia_data),
-                        perl_dependencies :  Handlebars.templates.pre_edit_perl_dependencies(ia_data)
+                        perl_dependencies :  Handlebars.templates.pre_edit_perl_dependencies(ia_data),
+                        src_options : Handlebars.templates.pre_edit_src_options(ia_data)
                     };
 
                     page.updateAll(readonly_templates, ia_data.live.dev_milestone, false);
@@ -602,6 +603,7 @@
             'perl_module',
             'template',
             'src_api_documentation',
+            'src_options',
             'unsafe',
             'answerbar',
             'triggers',
