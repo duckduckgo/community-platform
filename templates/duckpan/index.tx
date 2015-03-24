@@ -1,3 +1,0 @@
-<: for results($duckpan_releases) -> $duckpan_release { :>
-	<: i($duckpan_release,'teaser') :>
-<: } :>
