@@ -101,7 +101,6 @@ before insert => sub {
 
 after insert => sub {
   my ( $self ) = @_;
-  $self->add_event('create');
 };
 
 sub event_related {

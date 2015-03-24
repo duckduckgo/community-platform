@@ -90,12 +90,6 @@ column live => {
 	keep_storage_value => 1,
 };
 
-column seen_live => {
-	data_type => 'int', # bool
-	is_nullable => 0,
-	default_value => 0,
-};
-
 column language_id => {
 	data_type => 'bigint',
 	is_nullable => 1,
@@ -136,24 +130,9 @@ __PACKAGE__->after_column_change(
 	}
 );
 
-sub live_change {
-	my ( $self, $old_value, $new_value ) = @_;
-	if ($old_value == 0 && $new_value == 1) {
-		$self->add_event('live');
-		$self->seen_live(1);
-		$self->update;
-	}
-}
-
 after insert => sub {
   my ( $self ) = @_;
-  $self->add_event('create');
-  if ($self->live) {
-	  $self->add_event('live');
-	  $self->seen_live(1);
-	  $self->update;
-  }
-  $self->user->add_context_notification('blog_comments',$self);
+  $self->ddgc->subscriptions->generate_events( 'blog', $self );
 };
 
 after update => sub {

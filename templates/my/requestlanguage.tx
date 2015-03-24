@@ -15,7 +15,7 @@
 			<label for="email" class="form_input-label" aria-describedby="errorInvalidEmail"><: $l('Your email') :></label>
 		  </div>
 		  <div class="twothird">
-			<input type="email" name="email" id="email" value="<: $c.user.data.email || $requestlanguage_email :>" class="text">
+			<input type="email" name="email" id="email" value="<: $c.user.email || $requestlanguage_email :>" class="text">
 		  </div>
 		</div>		
 		<div class="row">

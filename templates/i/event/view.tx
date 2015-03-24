@@ -1,0 +1,9 @@
+<div class="notification_group">
+	<div class="row  notification">  
+		<a href="<: $u($_.u) :>" class="notification__icon" title="Go to this item"><i class="icon-<: $_.icon :>"></i></a>
+		<div class="notification__body">
+			<: i($_,$_.subscription_id ~ '/label') :>
+		</div>
+	</div>
+	<!-- placeholder for later div of content -->
+</div>

@@ -8,13 +8,13 @@ use DDGC::DB;
 use DDGC::DuckPAN;
 use DDGC::XMPP;
 use DDGC::Markup;
-use DDGC::Envoy;
 use DDGC::Postman;
 use DDGC::Stats;
 use DDGC::GitHub;
 use DDGC::Forum;
 use DDGC::Help;
 use DDGC::Ideas;
+use DDGC::Subscriptions;
 use DDGC::Util::DateTime;
 
 use IO::All;
@@ -52,7 +52,6 @@ sub deploy_fresh {
 	$self->config->cachedir();
 
 	$self->db->deploy;
-	$self->db->resultset('User::Notification::Group')->update_group_types;
 }
 ##############################################
 
@@ -165,14 +164,6 @@ has markup => (
 	lazy_build => 1,
 );
 sub _build_markup { DDGC::Markup->new({ ddgc => shift }) }
-
-# Notification System
-has envoy => (
-	isa => 'DDGC::Envoy',
-	is => 'ro',
-	lazy_build => 1,
-);
-sub _build_envoy { DDGC::Envoy->new({ ddgc => shift }) }
 
 # Mail System
 has postman => (
@@ -650,6 +641,16 @@ has idea => (
 
 sub _build_idea { DDGC::Ideas->new( ddgc => shift ) }
 
+##################################################
+
+has subscriptions => (
+    isa => 'DDGC::Subscriptions',
+    is => 'ro',
+    lazy_build => 1,
+);
+
+sub _build_subscriptions { DDGC::Subscriptions->new( ddgc => shift ) }
+
 #
 # ======== User ====================
 #
@@ -660,6 +661,7 @@ sub all_roles {
 		translation_manager => "Translation Manager",
 		forum_manager => "Community Leader (Forum Manager)",
 		idea_manager => "Instant Answer Manager",
+		patron => "Patron",
 	);
 	return defined $arg
 		? $roles{$arg}

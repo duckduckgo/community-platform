@@ -234,9 +234,9 @@ sub email :Chained('logged_in') :Args(0) {
 
 	$c->user->data({}) if !$c->user->data;
 	my $data = $c->user->data();
-	$data->{email} = $email;
 	delete $data->{token};
 	$c->user->data($data);
+	$c->user->email($email);
 	$c->user->update;
 
 	$c->response->redirect($c->chained_uri('My','account'));
@@ -359,7 +359,7 @@ sub forgotpw_tokencheck :Chained('logged_out') :Args(2) {
 	$c->stash->{newpw_username} = $username;
 
 	$c->d->postman->template_mail(
-		$user->data->{email},
+		$user->email,
 		'"DuckDuckGo Community" <noreply@dukgo.com>',
 		'[DuckDuckGo Community] New password for '.$username,
 		'newpw',
@@ -428,10 +428,10 @@ sub changepw :Chained('logged_in') :Args(0) {
 	$c->d->update_password($c->user->username,$newpass);
 	my $data = $c->user->data;
 
-	if ($data && $data->{email}) {
+	if ($c->user->email) {
 		$c->stash->{newpw_username} = $c->user->username;
 		$c->d->postman->template_mail(
-			$c->user->data->{email},
+			$c->user->email,
 			'"DuckDuckGo Community" <noreply@dukgo.com>',
 			'[DuckDuckGo Community] New password for '.$c->user->username,
 			'newpw',
@@ -491,7 +491,7 @@ sub forgotpw :Chained('logged_out') :Args(0) {
 	$c->session->{username_field} = $c->d->uid;
 	
 	my $user = $c->d->find_user($c->stash->{forgotpw_username});
-	if (!$user || !$user->data || !$user->data->{email}) {
+	if (!$user->email) {
 		sleep .5;
 		$c->stash->{sentok} = 1;
 		return $c->detach;
@@ -516,7 +516,7 @@ sub forgotpw :Chained('logged_out') :Args(0) {
 	$c->stash->{forgotpw_link} = $c->chained_uri('My','forgotpw_tokencheck',$user->lowercase_username,$token);
 
 	$c->d->postman->template_mail(
-		$user->data->{email},
+		$user->email,
 		'"DuckDuckGo Community" <noreply@dukgo.com>',
 		'[DuckDuckGo Community] Reset password for '.$user->username,
 		'forgotpw',
@@ -601,7 +601,7 @@ sub register :Chained('logged_out') :Args(0) {
 			if ($email) {
 				$user->data({}) if !$user->data;
 				my $data = $user->data();
-				$data->{email} = $email;
+				$user->email($email);
 				$user->data($data);
 				$user->update;
 			}

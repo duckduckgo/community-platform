@@ -74,6 +74,12 @@ column email => {
 	is_nullable => 1,
 };
 
+column email_verified => {
+	data_type => 'int',
+	is_nullable => 0,
+	default_value => 0,
+};
+
 column userpage => {
 	data_type => 'text',
 	is_nullable => 1,
@@ -167,21 +173,12 @@ has_many 'threads', 'DDGC::DB::Result::Thread', 'users_id', {
 has_many 'ideas', 'DDGC::DB::Result::Idea', 'users_id', {
   cascade_delete => 0,
 };
-has_many 'events', 'DDGC::DB::Result::Event', 'users_id', {
-  cascade_delete => 0,
-};
 has_many 'medias', 'DDGC::DB::Result::Media', 'users_id', {
   cascade_delete => 0,
 };
 
 has_many 'user_languages', 'DDGC::DB::Result::User::Language', { 'foreign.username' => 'self.username' }, {
   cascade_delete => 1,
-};
-has_many 'user_notifications', 'DDGC::DB::Result::User::Notification', 'users_id', {
-  cascade_delete => 1,
-};
-has_many 'user_notification_matrixes', 'DDGC::DB::Result::User::Notification::Matrix', 'users_id', {
-  cascade_delete => 0,
 };
 has_many 'user_blogs', 'DDGC::DB::Result::User::Blog', 'users_id', {
   cascade_delete => 1,
@@ -191,6 +188,15 @@ has_many 'user_reports', 'DDGC::DB::Result::User::Report', 'users_id', {
 };
 has_many 'github_users', 'DDGC::DB::Result::GitHub::User', 'users_id', {
   cascade_delete => 0,
+};
+has_many 'subscriptions', 'DDGC::DB::Result::User::Subscriptions', 'users_id', {
+  cascade_delete => 1,
+};
+has_many 'subscriptions_read', 'DDGC::DB::Result::User::Subscriptions::Read', 'users_id', {
+  cascade_delete => 1,
+};
+has_many 'events', 'DDGC::DB::Result::Event', 'users_id', {
+  cascade_delete => 1,
 };
 
 has_many 'failedlogins', 'DDGC::DB::Result::User::FailedLogin', 'users_id';
@@ -204,23 +210,16 @@ belongs_to 'profile_media', 'DDGC::DB::Result::Media', 'profile_media_id', { joi
 
 after insert => sub {
 	my ( $self ) = @_;
-	$self->add_default_notifications;
+	$self->add_default_subscriptions;
 };
-
-sub add_default_notifications {
-	my ( $self ) = @_;
-	return if $self->search_related('user_notifications')->count;
-	$self->add_type_notification(qw( replies 2 1 ));
-	$self->add_type_notification(qw( forum_comments 2 1 ));
-	$self->add_type_notification(qw( blog_comments 2 1 ));
-	$self->add_type_notification(qw( translation_votes 3 1 ));
-	$self->add_type_notification(qw( idea_votes 3 1 ));
-}
 
 # WORKAROUND
 sub db { return shift; }
 
 sub translation_manager { shift->is('translation_manager') }
+sub community_leader { shift->is('forum_manager') }
+sub forum_manager { shift->is('forum_manager') }
+sub patron { shift->is('patron') }
 
 sub github_user {
 	my ( $self ) = @_;
@@ -283,69 +282,6 @@ sub _build__locale_user_languages {
 }
 
 sub translation_count { shift->token_language_translations->count(@_); }
-
-sub undone_notifications_count_resultset {
-	my ( $self ) = @_;
-	$self->schema->resultset('Event::Notification::Group')->search_rs({
-		'user_notification.users_id' => $self->id,
-	},{
-		prefetch => [qw( user_notification_group ),{
-			event_notifications => [qw( user_notification )],
-		}],
-		cache_for => 300,
-	})
-}
-
-sub undone_notifications_count {
-	my ( $self ) = @_;
-	$self->undone_notifications_count_resultset->count;
-}
-
-sub undone_notifications {
-	my ( $self, $limit ) = @_;
-	$self->schema->resultset('Event::Notification::Group')->search_rs({
-		'user_notification.users_id' => $self->id,
-	},{
-		prefetch => [qw( user_notification_group ),{
-			event_notifications => [qw( user_notification )],
-		}],
-		order_by => { -desc => 'event_notifications.created' },
-		cache_for => 300,
-		$limit ? ( rows => $limit ) : (),
-	});
-}
-
-sub unsent_notifications_cycle {
-	my ( $self, $cycle ) = @_;
-	$self->schema->resultset('Event::Notification::Group')->prefetch_all->search_rs({
-		'event_notifications.sent' => 0,
-		'user_notification.cycle' => $cycle,
-		'user_notification.users_id' => $self->id,
-	},{
-		order_by => { -desc => 'event_notifications.created' },
-	});	
-}
-
-sub has_access_to_notification {
-	my ( $self, $context_obj ) = @_;
-	return 1 if (!$context_obj->isa('DDGC::DB::Result::Thread') && !$context_obj->isa('DDGC::DB::Result::Comment'));
-	return $context_obj->user_has_access($self);
-}
-
-sub is_subscribed_and_notification_is_special {
-	my ( $self, $context_obj ) = @_;
-	return 1 if $self->admin;
-	my $t;
-	$t = $context_obj if $context_obj->isa('DDGC::DB::Result::Thread');
-	$t = $context_obj->thread if $context_obj->isa('DDGC::DB::Result::Comment');
-	if ( $t && $t->forum_is('special') ) {
-		return $self->user_notifications->find( {
-				'me.context_id' => $t->id,
-				'user_notification_group.context' => 'DDGC::DB::Result::Thread',
-			}, { join => 'user_notification_group' } );
-	}
-	return 1;
-}
 
 sub rate_limit_comment {
 	my ( $self ) = @_;
@@ -595,128 +531,6 @@ sub last_comments {
 	});
 }
 
-has user_notification_group_values => (
-	isa => 'HashRef',
-	is => 'ro',
-	lazy_build => 1,
-	clearer => 'clear_user_notification_group_values',
-);
-
-sub _build_user_notification_group_values {
-	my ( $self ) = @_;
-	my %user_notification_group_values;
-	for ($self->search_related('user_notifications',{
-		context_id => undef,
-	},{
-		join => [qw( user_notification_group )],
-	})->all) {
-		$user_notification_group_values{$_->user_notification_group->type} = {}
-			unless defined $user_notification_group_values{$_->user_notification_group->type};
-		my $context_id_key = $_->user_notification_group->with_context_id
-			? '*' : '';
-		$user_notification_group_values{$_->user_notification_group->type}->{$context_id_key}
-			= { cycle => $_->cycle, xmpp => $_->xmpp };
-	}
-	return \%user_notification_group_values;
-}
-
-sub add_context_notification {
-	my ( $self, $type, $context_obj ) = @_;
-	my $group_info = $self->user_notification_group_values->{$type}->{'*'};
-	if ($group_info->{cycle} ||
-		($type eq 'forum_comments' && $context_obj->isa('DDGC::DB::Result::Thread') && $context_obj->forum_is('special'))) {
-		my @user_notification_groups = $self->schema->resultset('User::Notification::Group')->search({
-			context => $context_obj->context_name,
-			with_context_id => 1,
-			type => $type,
-		})->all;
-		die "Several notification groups found, cant be..." if scalar @user_notification_groups > 1;
-		die "No notification group found!" if scalar @user_notification_groups < 1;
-		my $user_notification_group = $user_notification_groups[0];
-		return $self->update_or_create_related('user_notifications',{
-			user_notification_group_id => $user_notification_group->id,
-			xmpp => $group_info->{xmpp} ? 1 : 0,
-			cycle => $group_info->{cycle} // 3,
-			context_id => $context_obj->id,
-		},{
-			key => 'user_notification_user_notification_group_id_context_id_users_id',
-		});
-	}
-}
-
-sub has_context_notification {
-	my ( $self, $type, $context_obj ) = @_;
-	my $group_info = $self->user_notification_group_values->{$type}->{'*'};
-	my @user_notification_groups = $self->schema->resultset('User::Notification::Group')->search({
-		context => $context_obj->context_name,
-		with_context_id => 1,
-		type => $type,
-	})->all;
-	die "Several notification groups found, cant be..." if scalar @user_notification_groups > 1;
-	die "No notification group found!" if scalar @user_notification_groups < 1;
-	my $user_notification_group = $user_notification_groups[0];
-	return $self->search_related('user_notifications',{
-		user_notification_group_id => $user_notification_group->id,
-		context_id => $context_obj->id,
-	})->count;
-}
-
-sub delete_context_notification {
-	my ( $self, $type, $context_obj ) = @_;
-	my $group_info = $self->user_notification_group_values->{$type}->{'*'};
-	my @user_notification_groups = $self->schema->resultset('User::Notification::Group')->search({
-		context => $context_obj->context_name,
-		with_context_id => 1,
-		type => $type,
-	})->all;
-	die "Several notification groups found, cant be..." if scalar @user_notification_groups > 1;
-	die "No notification group found!" if scalar @user_notification_groups < 1;
-	my $user_notification_group = $user_notification_groups[0];
-	return $self->search_related('user_notifications',{
-		user_notification_group_id => $user_notification_group->id,
-		context_id => $context_obj->id,
-	})->delete;
-}
-
-sub add_type_notification {
-	my ( $self, $type, $cycle, $with_context_id ) = @_;
-	my @user_notification_groups = $self->schema->resultset('User::Notification::Group')->search({
-		with_context_id => $with_context_id ? 1 : 0,
-		type => $type,
-	})->all;
-	die "No notification group found!" if scalar @user_notification_groups < 1;
-	for my $user_notification_group (@user_notification_groups) {
-		if ($cycle) {
-			$self->update_or_create_related('user_notifications',{
-				user_notification_group_id => $user_notification_group->id,
-				context_id => undef,
-				cycle => $cycle,
-			},{
-				key => 'user_notification_user_notification_group_id_context_id_users_id',
-			});
-			if ($with_context_id) {
-				$self->search_related('user_notifications',{
-					user_notification_group_id => $user_notification_group->id,
-					context_id => { '!=' => undef },
-				})->update({
-					cycle => $cycle,
-				});
-			}
-		} else {
-			$self->search_related('user_notifications',{
-				user_notification_group_id => $user_notification_group->id,
-				context_id => undef,
-			})->delete;
-			if ($with_context_id) {
-				$self->search_related('user_notifications',{
-					user_notification_group_id => $user_notification_group->id,
-					context_id => { '!=' => undef },
-				})->delete;
-			}
-		}
-	}
-}
-
 sub seen_campaign_notice {
 	my ( $self, $campaign, $campaign_source ) = @_;
 	my $campaign_id = $self->ddgc->config->id_for_campaign($campaign) // return 0;
@@ -824,6 +638,43 @@ sub get_coupon {
 	return $coupon->coupon;
 }
 
+sub add_subscription {
+	my ( $self, $subscription_id, $cycle, $target_object_id) = @_;
+	$self->update_or_create_related('subscriptions', {
+			subscription_id    => $subscription_id,
+			target_object_id   => $target_object_id // 0,
+			notification_cycle => $cycle,
+		}
+	)
+}
+sub add_default_subscriptions {
+}
+
+sub notification_cycles_by_subscription {
+	my ( $self ) = @_;
+	my %subs = map { $_->{subscription_id} => $_->{notification_cycle} }
+		$self->subscriptions->search({}, {
+			result_class => 'DBIx::Class::ResultClass::HashRefInflator',
+		})->all;
+	return \%subs;
+}
+
+sub subscriptions_by_category {
+	my ( $self ) = @_;
+	my $subscriptions = $self->ddgc->subscriptions->subscriptions;
+	my @categories = grep { !$_->{user_filter} || $_->{user_filter}->($self) }
+		@{ $self->ddgc->subscriptions->categories };
+
+	for my $category (@categories) {
+		@{ $category->{subscriptions} } = grep {
+			!$subscriptions->{$_}->{user_filter} ||
+			$subscriptions->{$_}->{user_filter}->($self)
+		} @{ $category->{subscriptions} };
+	}
+
+	return \@categories;
+}
+
 sub check_password {
 	my ( $self, $password ) = @_;
 	return 1 unless $self->ddgc->config->prosody_running;
@@ -837,6 +688,22 @@ sub check_password {
 	};
 	return $data ? 1 : 0;
 }
+
+sub notifications {
+	my ( $self ) = @_;
+	$self->subscriptions->search_related('events')->search({},
+		{ order_by => { -desc => 'events.created' } }
+	);
+}
+
+sub unseen_notifications {
+	my ( $self ) = @_;
+	$self->notifications->search({
+
+		},
+	);
+}
+sub unseen_notifications_count { $_[0]->unseen_notifications->count; }
 
 # For Catalyst
 

@@ -10,26 +10,17 @@ use namespace::autoclean;
 sub base :Chained('/my/logged_in') :PathPart('notifications') :CaptureArgs(0) {
 	my ( $self, $c ) = @_;
 	$c->add_bc('Notifications', $c->chained_uri('My::Notifications','index'));
-	$c->stash->{notification_cycle_options} = [
-		{ value => 0, name => "NEVER!!" },
-		#{ value => 1, name => "Instant" },
-		{ value => 2, name => "Hourly" },
-		{ value => 3, name => "Daily" },
-		{ value => 4, name => "Weekly" },
-	];
-	$c->stash->{default_types_def} = $c->d->rs('User::Notification::Group')->result_class->default_types_def;
+	$c->stash->{notification_cycle_options} = $c->d->subscriptions->notification_cycles;
+	$c->stash->{default_types_def} = $c->d->subscriptions->subscriptions;
 }
 
 sub index :Chained('base') :PathPart('') :Args(0) {
 	my ( $self, $c ) = @_;
-	unless ($c->user->search_related('user_notifications')->count) {
+	unless ($c->user->subscriptions) {
     $c->response->redirect($c->chained_uri('My::Notifications','edit',{ first_time => 1 }));
     return $c->detach;
 	}
-	my $limit = $c->req->param('all') && $c->user->admin
-		? undef : 40;
-	$c->stash->{undone_notifications} = $c->user->undone_notifications($limit);
-	$c->stash->{undone_notifications_count} = $c->user->undone_notifications_count;
+	$c->stash->{undone_notifications} = $c->user->unseen_notifications;
 	$c->bc_index;
 }
 
@@ -43,7 +34,7 @@ sub edit :Chained('base') :Args(0) {
 				my $type = $1;
 				my $with_context_id = $2;
 				my $cycle = $c->req->param($_);
-				$c->user->add_type_notification($type,$cycle,$with_context_id);
+				$c->user->add_subscription($type, $cycle);
 			}
 		}
 		if (defined $c->req->param('email_notification_content')) {
@@ -51,7 +42,9 @@ sub edit :Chained('base') :Args(0) {
 		}
 		$c->user->update;
 	}
-	$c->stash->{user_notification_group_values} = $c->user->user_notification_group_values;
+	$c->stash->{categories} = $c->user->subscriptions_by_category;
+	$c->stash->{subscriptions} = $c->d->subscriptions->subscriptions;
+	$c->stash->{user_subscriptions} = $c->user->notification_cycles_by_subscription;
 }
 
 sub following :Chained('base') :Args(0) {

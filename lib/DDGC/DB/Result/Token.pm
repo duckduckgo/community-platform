@@ -93,7 +93,6 @@ has_many 'token_languages', 'DDGC::DB::Result::Token::Language', 'token_id';
 
 after insert => sub {
   my ( $self ) = @_;
-  $self->add_event('create');
 };
 
 sub has_placeholders {

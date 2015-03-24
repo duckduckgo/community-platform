@@ -6,7 +6,10 @@
 <: include my::notifications::noemail :>
 <div class="notice warning">
 	<i class="icn icon-spam"></i>
-	Notifications are sent from <b>envoy@dukgo.com</b>. Please add this email to your contact list, or update your "safe senders" list in your email account. This will ensure these notifications won't end up in your spam folder or a black hole.
+	Notifications are sent from <b>envoy@dukgo.com</b>. Please add this email
+	to your contact list, or update your "safe senders" list in your email
+	account. This will ensure these notifications won't end up in your spam
+	folder or a black hole.
 </div>
 
 <form action="<: $u('My::Notifications','edit') :>" method="post" class="column-form">
@@ -17,108 +20,28 @@
 <: my $notification_count = $undone_notifications_count || $c.user.undone_notifications_count :>
 <div class="content-box">
 	<div class="head">
-		<h3>How often would you like to be notified about ...<a class="icn icn--sup" href="<: $u('Blog','post','notification-system') :>" title="Get more information about the notification system"><i class="icon-question-sign"></i></a></h3>
+		<h3>How often would you like to be notified about ...
+		<a class="icn icn--sup" href="<: $u('Blog','post','notification-system') :>"
+		   title="Get more information about the notification system">
+			<i class="icon-question-sign"></i>
+		 </a></h3>
 	</div>
 	<div class="body">
-		<div class="row callout-row">
-			<i class="callout-row__icn--left  icon-bubble"></i>
-			<h4 class="callout-row__text  has-icon">Comments</h4>
-		</div>
-		<: include my::notifications::option {
-			type => 'replies',
-			context_id => '*',
-			label => r('... replies to comments you follow?<br> (Note: You automatically follow your own comments)'),
-		} :>
-		<: include my::notifications::option {
-			type => 'forum_comments',
-			context_id => '*',
-			label => r('... comments on forum posts you follow?<br> (Note: You automatically follow your own posts)'),
-		} :>
-		<: include my::notifications::option {
-			type => 'blog_comments',
-			context_id => '*',
-			label => r('... comments on blog posts you follow?<br> (Note: You automatically follow your own blog posts)'),
-		} :>
-		<: include my::notifications::option {
-			type => 'forum_comments',
-			context_id => '',
-			label => '... all new comments on the forum?',
-		} :>
-		<: include my::notifications::option {
-			type => 'company_blog_comments',
-			context_id => '',
-			label => '... comments on the DuckDuckGo blog?',
-		} :>		
-		<: include my::notifications::option {
-			type => 'translation_comments',
-			context_id => '',
-			label => '... comments made on translation topics related to your languages?',
-		} :>
-		<div class="row callout-row">
-			<i class="callout-row__icn--left  icon-paperclip"></i>
-			<h4 class="callout-row__text  has-icon">Content</h4>
-		</div>
-		<: include my::notifications::option {
-			type => 'company_blogs',
-			context_id => '',
-			label => '... new DuckDuckGo blog posts?',
-		} :>
-		<: include my::notifications::option {
-			type => 'ideas',
-			context_id => '',
-			label => '... new Instant Answer ideas on the forum?',
-		} :>		
-		<: include my::notifications::option {
-			type => 'threads',
-			context_id => '',
-			label => '... new General Ramblings posts on the forum?',
-		} :>
-		<: include my::notifications::option {
-			type => 'tokens',
-			context_id => '',
-			label => '... new tokens (words) that need translation?',
-		} :>
-		<: include my::notifications::option {
-			type => 'translations',
-			context_id => '',
-			label => '... new translations in your languages to vote on?',
-		} :>
-		<div class="row callout-row">
-			<i class="callout-row__icn--left  icon-check"></i>
-			<h4 class="callout-row__text  has-icon">Votes</h4>
-		</div>
-		<: include my::notifications::option {
-			type => 'translation_votes',
-			context_id => '*',
-			label => "... new votes on translations you've submitted?",
-		} :>	
-		<: include my::notifications::option {
-			type => 'idea_votes',
-			context_id => '*',
-			label => "... new votes on ideas you've submitted?",
-		} :>
-		<: if cur_user().is('forum_manager') { :>
+		<: for $categories -> $category { :> 
 			<div class="row callout-row">
-				<i class="callout-row__icn--left  icon-check"></i>
-				<h4 class="callout-row__text  has-icon">Forum Manager Notifications</h4>
+				<i class="callout-row__icn--left  icon-bubble"></i>
+				<h4 class="callout-row__text  has-icon"><: $category.description :></h4>
 			</div>
-			<: include my::notifications::option {
-				type => 'moderations',
-				context_id => '',
-				label => "... new unchecked content submitted by users?",
-			} :>	
-			<: include my::notifications::option {
-				type => 'reports',
-				context_id => '',
-				label => "... new reports on content submitted by users?",
-			} :>		
+			<: for $category.subscriptions -> $subscription { :>
+				<: include my::notifications::option {
+					type => $subscription,
+					cycle => $user_subscriptions[$subscription],
+					label => r($subscriptions[$subscription].description),
+				} :>
+			<: } :>
 		<: } :>
-		<div class="row callout-row">
-			<i class="callout-row__icn--left  icon-paperclip"></i>
-			<h4 class="callout-row__text  has-icon">General settings</h4>
-		</div>
 		<div class="row  notification--edit"> 
-			<div class="notification__settings-label">   
+			<div class="notification__settings-label">
 				<i class="notification--edit__icon "></i>
 				<div class="media__body">
 					<label>

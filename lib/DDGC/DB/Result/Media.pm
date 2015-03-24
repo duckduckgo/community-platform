@@ -76,11 +76,6 @@ unique_constraint [qw/ users_id filename /];
 
 belongs_to 'user', 'DDGC::DB::Result::User', 'users_id';
 
-after insert => sub {
-  my ( $self ) = @_;
-  $self->add_event('create');
-};
-
 sub generate_thumbnail {
   my ( $self, $size, $target ) = @_;
   my $source = file($self->ddgc->config->mediadir,$self->filename)->stringify;

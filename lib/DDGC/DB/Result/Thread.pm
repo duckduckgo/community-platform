@@ -116,13 +116,13 @@ before insert => sub {
 };
 
 after insert => sub {
-  my ( $self ) = @_;
-  $self->user->add_context_notification('forum_comments',$self);
+	my ( $self ) = @_;
+	return if $self->ghosted;
+	$self->generate_events;
 };
 
 after update => sub {
   my ( $self ) = @_;
-  $self->add_event('update');
   $self->schema->without_events(sub {
   	if ($self->ghosted != $self->comment->ghosted) {
   		$self->comment->ghosted($self->ghosted);
@@ -138,6 +138,11 @@ after update => sub {
   	$self->comment->update;
   });
 };
+
+sub generate_events {
+	my ( $self ) = @_;
+	$self->ddgc->subscriptions->generate_events( 'thread', $self );
+}
 
 sub sorted_screenshots {
 	my ( $self ) = @_;
@@ -193,7 +198,6 @@ sub migrate_to_ideas {
 		ghosted => $self->ghosted,
 		checked => $self->checked,
 		old_url => $self->old_url,
-		seen_live => $self->seen_live,
 	});
 
 	return undef unless $idea;

@@ -63,7 +63,7 @@ sub upload :Chained('logged_in') :Args(0) {
 			$c->stash->{duckpan_release}->version;
 	}
 	$c->d->postman->template_mail(
-		$c->user->data->{email},
+		$c->user->email,
 		'"DuckPAN Indexer" <noreply@dukgo.com>',
 		'[DuckPAN] '.$c->stash->{subject},
 		'duckpan',

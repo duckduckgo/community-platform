@@ -7,7 +7,7 @@
 			No notifications for you
 		<: } :></h2>
 		<span class="button-group pull-right">
-			<: if $notification_count && !$hide_view { :>
+			<: if !$hide_view { :>
 				<a class="button  <: if $highlight_view { :>blue<: } if $active_view { :> button-nav-current<: } :>" href="<: $u('My::Notifications','index') :>">
 					<i class="icon-bullhorn"></i><span class="button__label">View Notifications</span>
 				</a>

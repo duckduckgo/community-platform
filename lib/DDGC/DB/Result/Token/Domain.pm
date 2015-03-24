@@ -99,11 +99,6 @@ belongs_to 'source_language', 'DDGC::DB::Result::Language', 'source_language_id'
 
 many_to_many 'languages', 'token_domain_languages', 'language';
 
-after insert => sub {
-  my ( $self ) = @_;
-  $self->add_event('create');
-};
-
 has _name_parts => (
 	is => 'ro',
 	lazy_build => 1,
