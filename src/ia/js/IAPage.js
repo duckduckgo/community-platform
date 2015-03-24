@@ -426,6 +426,14 @@
                         }
                    });
 
+                    $("body").on("click", ".column-right-edits i.icon-check", function(evt) {
+                        $(this).removeClass("icon-check").addClass("icon-check-empty");
+                    });
+
+                    $("body").on("click", ".column-right-edits i.icon-check-empty", function(evt) {
+                        $(this).removeClass("icon-check-empty").addClass("icon-check");
+                    });
+
                     $("body").on('keypress click', '.js-input, .button.js-editable', function(evt) {
                         if ((evt.type === 'keypress' && (evt.which === 13 && $(this).hasClass("js-input")))
                             || (evt.type === 'click' && $(this).hasClass("js-editable"))) {
@@ -450,8 +458,10 @@
                                     value = $.trim($input.val());
                                 }
                             }
-                            
-                            if (evt.type === "click" && (field === "topic" || field === "other_queries")) {
+
+                            if ((evt.type === "click"
+                                && (field === "topic" || field === "other_queries" || field === "triggers" || field === "perl_dependencies" || field === "src_options")) 
+                                || (field === "answerbar")) {
                                 value = [];
                                 var txt;
                                 if (field === "topic") {
@@ -468,6 +478,26 @@
                                             value.push(txt);
                                         }
                                     });
+                                } else if (field === "triggers") {
+                                    $(".triggers input").each(function(index) {
+                                        txt = $.trim($(this).val());
+                                        if (txt && $.inArray(txt, value) === -1) {
+                                            value.push(txt);
+                                        }
+                                    });
+                                } else if (field === "perl_dependencies") {
+                                    $(".perl_dependencies input").each(function(index) {
+                                        txt = $.trim($(this).val());
+                                        if (txt && $.inArray(txt, value) === -1) {
+                                            value.push(txt);
+                                        }
+                                    });
+                                } else if (field === "src_options") {
+                                    value = {};
+                                    value = getSectionVals(null, "src_options-group");
+                                } else if (field === "answerbar") {
+                                    value = {};
+                                    value.fallback_timeout = $("#answerbar input").val();
                                 }
 
                                 value = JSON.stringify(value);
@@ -494,7 +524,8 @@
 
                         $("#" + parent_field + " .section-group__item").each(function(idx) {
                             if ($(this) !== $obj) {
-                                if ($(this).hasClass("dev_milestone-container__body__input")) {
+                                if ($(this).hasClass("dev_milestone-container__body__input")
+                                    || $(this).hasClass("selection-group__item-input")) {
                                     temp_field = $.trim($(this).attr("id").replace("-input", ""));
                                     temp_value = $.trim($(this).val());
 
