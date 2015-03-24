@@ -455,7 +455,13 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
                     developer => $edited->{developer},
                     perl_module => $edited->{perl_module},
                     template => $edited->{template},
-                    repo => $edited->{repo}
+                    repo => $edited->{repo},
+                    answerbar => $edited->{answerbar},
+                    src_api_documentation => $edited->{src_api_documentation},
+                    src_options => $edited->{src_options},
+                    unsafe => $edited->{unsafe},
+                    triggers => $edited->{triggers},
+                    perl_dependencies => $edited->{perl_dependencies}
             };
         }
     }
@@ -509,7 +515,13 @@ sub commit_json :Chained('commit_base') :PathPart('json') :Args(0) {
             developer => $ia->developer? from_json($ia->developer) : undef,
             template => $ia->template,
             tab => $ia->tab,
-            repo => $ia->repo
+            repo => $ia->repo,
+            answerbar => $ia->answerbar,
+            src_options => $ia->src_options,
+            src_api_documentation => $ia->src_api_documentation,
+            unsafe => $ia->unsafe,
+            triggers => $ia->triggers,
+            perl_dependencies => $ia->perl_dependencies
         );
 
         $edited->{original} = \%original;
@@ -787,6 +799,12 @@ sub current_ia {
     my @template = $edits->{'template'};
     my @perl_module = $edits->{'perl_module'};
     my @repo = $edits->{'repo'};
+    my @answerbar = $edits->{'answerbar'};
+    my @src_api_documentation = $edits->{'src_api_documentation'};
+    my @src_options = $edits->{'src_options'};
+    my @unsafe = $edits->{'unsafe'};
+    my @triggers = $edits->{'triggers'};
+    my @perl_dependencies = $edits->{'perl_dependencies'};
     my %x;
 
     if (ref $edits eq 'HASH') {
@@ -794,15 +812,31 @@ sub current_ia {
         my $other_q_val = $other_queries[0][@other_queries]{'value'};
         my $other_q_edited = $other_q_val? 1 : undef;
         my $developer_val = $developer[0][@developer]{'value'};
+        my $answerbar_val = $answerbar[0][@answerbar]{'value'};
+        my $src_options_val = $src_options[0][@src_options]{'value'};
+        my $triggers_val = $triggers[0][@triggers]{'value'};
+        my $triggers_edited = $triggers_val? 1 : undef;
+        my $perl_dep_val = $perl_dependencies[0][@perl_dependencies]{'value'};
+        my $perl_dep_edited = $perl_dep_val? 1 : undef;
 
-        # Other queries can be empty,
+        # Other queries, triggers and perl dependencies can be empty,
         # but the handlebars {{#if}} evaluates to false
         # for both null and empty values,
-        # so instead of the value, we check other_queries.edited
+        # so instead of the value, we check the 'edited' key
         # to see if this field was edited
         my %other_q = (
             edited => $other_q_edited,
             value => $other_q_val? from_json($other_q_val) : undef
+        );
+
+        my %triggers_hash = (
+            edited => $triggers_edited,
+            value => $triggers_val
+        );
+
+        my %perl_dep = (
+            edited => $perl_dep_edited,
+            value => $perl_dep_val
         );
 
         %x = (
@@ -819,7 +853,13 @@ sub current_ia {
             tab => $tab[0][@tab]{'value'},
             template => $template[0][@template]{'value'},
             perl_module => $perl_module[0][@perl_module]{'value'},
-            repo => $repo[0][@repo]{'value'}
+            repo => $repo[0][@repo]{'value'},
+            answerbar => $answerbar_val? from_json($answerbar_val) : undef,
+            src_api_documentation => $src_api_documentation[0][@src_api_documentation]{'value'},
+            src_options => $src_options_val? from_json($src_options_val) : undef,
+            unsafe => $unsafe[0][@unsafe]{'value'},
+            triggers => \%triggers_hash,
+            perl_dependencies => \%perl_dep
         );
     }
 
