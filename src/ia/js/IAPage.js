@@ -112,7 +112,9 @@
                         designer : Handlebars.templates.pre_edit_designer(ia_data),
                         developer : Handlebars.templates.pre_edit_developer(ia_data),
                         tab : Handlebars.templates.pre_edit_tab(ia_data),
-                        repo : Handlebars.templates.pre_edit_repo(ia_data)
+                        repo : Handlebars.templates.pre_edit_repo(ia_data),
+                        src_api_documentation : Handlebars.templates.pre_edit_src_api_documentation(ia_data),
+                        unsafe : Handlebars.templates.pre_edit_unsafe(ia_data)
                     };
 
                     page.updateAll(readonly_templates, ia_data.live.dev_milestone, false);
@@ -595,7 +597,9 @@
             'example_query',
             'other_queries',
             'perl_module',
-            'template'
+            'template',
+            'src_api_documentation',
+            'unsafe'
         ],
 
         dev_milestones_order: [

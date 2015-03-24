@@ -71,6 +71,32 @@
             </tr>
         {{/if}}
 
+        {{#if src_api_documentation}}
+            <tr class="updates_list">
+                <th>API Documentation</th>
+
+                <td name="src_api_documentation" class="item_selected" id="src_api_documentation_original">
+                    {{original.src_api_documentation}}
+                </td>
+                <td name="src_api_documentation">
+                    {{src_api_documentation}}
+                </td>
+            </tr>
+        {{/if}}
+
+        {{#if unsafe}}
+            <tr class="updates_list">
+                <th>Unsafe</th>
+
+                <td name="unsafe" class="item_selected" id="unsafe_original">
+                    {{original.unsafe}}
+                </td>
+                <td name="unsafe">
+                    {{unsafe}}
+                </td>
+            </tr>
+        {{/if}}
+
         {{#if tab}}
             <tr class="updates_list">
                 <th>Tab</th>

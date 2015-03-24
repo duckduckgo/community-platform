@@ -1,0 +1,37 @@
+<div class="row-diff" id="row-diff-unsafe">
+    <div class="column-left-labels left">
+        <div class="column-left-labels__child">
+            <p class="column-left-labels__child__p">
+                Safe Search
+            </p>
+        </div>
+    </div>
+    <div class="column-center-live left">
+        <div class="column-center-live__child">
+            <p class="column-center-live__child__p">
+                <i class="icon-check{{#unless live.unsafe}}-empty{{/unless}}" id="unsafe-check"/>
+                Unsafe
+            </p>
+        </div>
+    </div>
+    <div class="column-right-edits left" id="column-edits-unsafe">
+        <div class="column-right-edits__child" id="unsafe" name="unsafe">
+            <p class="column-right-edits__child__p">
+                {{#if edited.unsafe}}
+                    <i class="icon-check{{#unless edited.unsafe}}-empty{{/unless}}" id="unsafe-check"/>
+                    Unsafe
+                {{/if}}
+            </p>
+        </div>
+    </div>
+
+    <div class="button js-pre-editable" name="unsafe">
+        <i class="js-pre-editable__icon icon-edit"></i>
+        <span class="js-pre-editable__text">Edit</span>
+    </div>
+
+    <div class="button hide js-editable" name="unsafe">
+        <i class="js-editable__icon icon-check"></i>
+        <span class="js-editable__text">Done</span>
+    </div>
+</div>
