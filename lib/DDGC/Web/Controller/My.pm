@@ -234,9 +234,10 @@ sub email :Chained('logged_in') :Args(0) {
 
 	$c->user->data({}) if !$c->user->data;
 	my $data = $c->user->data();
-	$data->{email} = $email;
 	delete $data->{token};
 	$c->user->data($data);
+	$c->user->email($email);
+	$c->user->email_verified(0);
 	$c->user->update;
 
 	$c->response->redirect($c->chained_uri('My','account'));
@@ -601,8 +602,9 @@ sub register :Chained('logged_out') :Args(0) {
 			if ($email) {
 				$user->data({}) if !$user->data;
 				my $data = $user->data();
-				$data->{email} = $email;
 				$user->data($data);
+				$user->email($email);
+				$user->email_verified(0);
 				$user->update;
 			}
 			$c->session->{action_token} = undef;
