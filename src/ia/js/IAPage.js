@@ -115,7 +115,9 @@
                         repo : Handlebars.templates.pre_edit_repo(ia_data),
                         src_api_documentation : Handlebars.templates.pre_edit_src_api_documentation(ia_data),
                         unsafe : Handlebars.templates.pre_edit_unsafe(ia_data),
-                        answerbar : Handlebars.templates.pre_edit_answerbar(ia_data)
+                        answerbar : Handlebars.templates.pre_edit_answerbar(ia_data),
+                        triggers :  Handlebars.templates.pre_edit_triggers(ia_data),
+                        perl_dependencies :  Handlebars.templates.pre_edit_perl_dependencies(ia_data)
                     };
 
                     page.updateAll(readonly_templates, ia_data.live.dev_milestone, false);
@@ -601,7 +603,9 @@
             'template',
             'src_api_documentation',
             'unsafe',
-            'answerbar'
+            'answerbar',
+            'triggers',
+            'perl_dependencies'
         ],
 
         dev_milestones_order: [

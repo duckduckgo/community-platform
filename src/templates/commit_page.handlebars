@@ -222,6 +222,40 @@
             </tr>
         {{/if}}
 
+       {{#if triggers.edited}}
+            <tr class="updates_list">
+                <th>Trigger Words</th>
+
+                <td name="triggers" class="item_selected" id="triggers_original">
+                    {{#each original.triggers}}
+                        <li>{{this}}</li>
+                    {{/each}}
+                </td>
+                <td name="triggers">
+                    {{#each triggers.value}}
+                        <li>{{this}}</li>
+                    {{/each}}
+                </td>
+            </tr>
+        {{/if}}
+
+       {{#if perl_dependencies.edited}}
+            <tr class="updates_list">
+                <th>Perl Dependencies</th>
+
+                <td name="perl_dependencies" class="item_selected" id="perl_dependencies_original">
+                    {{#each original.perl_dependencies}}
+                        <li>{{this}}</li>
+                    {{/each}}
+                </td>
+                <td name="perl_dependencies">
+                    {{#each perl_dependencies.value}}
+                        <li>{{this}}</li>
+                    {{/each}}
+                </td>
+            </tr>
+        {{/if}}
+
         {{#if dev_milestone}}
             <tr class="updates_list">
                 <th>Dev Milestone</th>
