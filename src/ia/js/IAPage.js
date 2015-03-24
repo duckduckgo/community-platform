@@ -114,7 +114,8 @@
                         tab : Handlebars.templates.pre_edit_tab(ia_data),
                         repo : Handlebars.templates.pre_edit_repo(ia_data),
                         src_api_documentation : Handlebars.templates.pre_edit_src_api_documentation(ia_data),
-                        unsafe : Handlebars.templates.pre_edit_unsafe(ia_data)
+                        unsafe : Handlebars.templates.pre_edit_unsafe(ia_data),
+                        answerbar : Handlebars.templates.pre_edit_answerbar(ia_data)
                     };
 
                     page.updateAll(readonly_templates, ia_data.live.dev_milestone, false);
@@ -599,7 +600,8 @@
             'perl_module',
             'template',
             'src_api_documentation',
-            'unsafe'
+            'unsafe',
+            'answerbar'
         ],
 
         dev_milestones_order: [

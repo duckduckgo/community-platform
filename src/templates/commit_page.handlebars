@@ -97,6 +97,19 @@
             </tr>
         {{/if}}
 
+        {{#if answerbar.fallback_timeout}}
+            <tr class="updates_list">
+                <th>Answerbar</th>
+
+                <td name="answerbar" class="item_selected" id="answerbar_original">
+                    {{original.answerbar.fallback_timeout}}
+                </td>
+                <td name="answerbar">
+                    {{answerbar.fallback_timeout}}
+                </td>
+            </tr>
+        {{/if}}
+
         {{#if tab}}
             <tr class="updates_list">
                 <th>Tab</th>
