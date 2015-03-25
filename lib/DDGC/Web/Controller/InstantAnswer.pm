@@ -577,10 +577,6 @@ sub commit_save :Chained('commit_base') :PathPart('save') :Args(0) {
                             };
                         }
                     } else {
-                        if ($field eq 'other_queries') {
-                            $value = to_json($value);
-                        }
-                        
                         if ($field eq "developer" && $value ne '') {
                             my %dev_hash = (
                                 name => $value,
