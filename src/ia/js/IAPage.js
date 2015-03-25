@@ -367,9 +367,9 @@
                         location.reload();
                     });
 
-                    $("body").on('click', '#add_example', function(evt) {
+                    $("body").on('click', '.add_input', function(evt) {
                         $(this).addClass("hide");
-                        $("#input_example").removeClass("hide");
+                        $(this).parent().find('.new_input').removeClass("hide");
                     });
 
                     $("body").on('click', '#add_topic', function(evt) {

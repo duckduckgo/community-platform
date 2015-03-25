@@ -460,8 +460,8 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
                     src_api_documentation => $edited->{src_api_documentation},
                     src_options => $edited->{src_options},
                     unsafe => $edited->{unsafe},
-                    triggers => $edited->{triggers},
-                    perl_dependencies => $edited->{perl_dependencies}
+                    triggers => $edited->{triggers}->{value},
+                    perl_dependencies => $edited->{perl_dependencies}->{value}
             };
         }
     }
@@ -520,8 +520,8 @@ sub commit_json :Chained('commit_base') :PathPart('json') :Args(0) {
             src_options => $ia->src_options,
             src_api_documentation => $ia->src_api_documentation,
             unsafe => $ia->unsafe,
-            triggers => $ia->triggers,
-            perl_dependencies => $ia->perl_dependencies
+            triggers => $ia->triggers? from_json($ia->triggers) : undef,
+            perl_dependencies => $ia->perl_dependencies? from_json($ia->perl_dependencies) : undef
         );
 
         $edited->{original} = \%original;
@@ -831,12 +831,12 @@ sub current_ia {
 
         my %triggers_hash = (
             edited => $triggers_edited,
-            value => $triggers_val
+            value => $triggers_val? from_json($triggers_val) : undef
         );
 
         my %perl_dep = (
             edited => $perl_dep_edited,
-            value => $perl_dep_val
+            value => $perl_dep_val? from_json($perl_dep_val) : undef
         );
 
         %x = (
