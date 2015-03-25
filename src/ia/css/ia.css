@@ -135,6 +135,9 @@
 .ia-single .row-diff .column-right-edits i {
     vertical-align: middle;
 }
+.ia-single .row-diff .column-right-edits .selection-group__item-input {
+    margin-left: 0.5em;
+}
 .ia-single .row-diff .button.js-pre-editable .js-pre-editable__text,
 .ia-single .row-diff .button.js-editable .js-editable__text {
     vertical-align: top;

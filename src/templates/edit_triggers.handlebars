@@ -1,0 +1,32 @@
+<div class="column-right-edits left" id="column-edits-triggers">
+    <div class="column-right-edits__child js-section-editable" id="triggers" name="triggers">
+        <ul>
+            {{#if triggers}}
+                {{#each triggers}}
+                    <li class="editpage left">
+                        <div class="button delete listbutton left" name="triggers" title="Remove trigger">
+                            <i class="icon-remove" />
+                        </div>
+                        <span name="triggers" class="editable triggers left">
+                            <input type="text" value="{{this}}" />
+                        </span>
+                    </li>
+                    <span class="clearfix"></span>
+                {{/each}}
+            {{/if}}
+            <li class="editpage hide left new_input" id="input_triggers">
+                <div class="button delete listbutton left" title="Remove trigger">
+                    <i class="icon-remove" />
+                </div>
+                <span name="triggers" class="editable triggers left" id="input_triggers">
+                    <input type="text" value="" />
+                </span>
+            </li>
+            <li class="editpage left add_input" id="add_trigger">
+                <div class="button listbutton left" id="add_trigger_button" title="Add trigger">
+                    <i class="icon-plus" />
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>

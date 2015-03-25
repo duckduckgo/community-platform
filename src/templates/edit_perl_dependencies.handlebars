@@ -1,0 +1,32 @@
+<div class="column-right-edits left" id="column-edits-perl_dependencies">
+    <div class="column-right-edits__child js-section-editable" id="perl_dependencies" name="perl_dependencies">
+        <ul>
+            {{#if perl_dependencies}}
+                {{#each perl_dependencies}}
+                    <li class="editpage left">
+                        <div class="button delete listbutton left" name="perl_dependencies" title="Remove perl_dependencies">
+                            <i class="icon-remove" />
+                        </div>
+                        <span name="perl_dependencies" class="editable perl_dependencies left">
+                            <input type="text" value="{{this}}" />
+                        </span>
+                    </li>
+                    <span class="clearfix"></span>
+                {{/each}}
+            {{/if}}
+            <li class="editpage hide left new_input" id="input_perl_dependencies">
+                <div class="button delete listbutton left" title="Remove perl_dependencies">
+                    <i class="icon-remove" />
+                </div>
+                <span name="perl_dependencies" class="editable perl_dependencies left" id="input_perl_dependencies">
+                    <input type="text" value="" />
+                </span>
+            </li>
+            <li class="editpage left add_input" id="add_perl_dependencies">
+                <div class="button listbutton left" id="add_perl_dependencies_button" title="Add perl_dependencies">
+                    <i class="icon-plus" />
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>

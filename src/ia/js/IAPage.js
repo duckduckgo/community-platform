@@ -112,7 +112,13 @@
                         designer : Handlebars.templates.pre_edit_designer(ia_data),
                         developer : Handlebars.templates.pre_edit_developer(ia_data),
                         tab : Handlebars.templates.pre_edit_tab(ia_data),
-                        repo : Handlebars.templates.pre_edit_repo(ia_data)
+                        repo : Handlebars.templates.pre_edit_repo(ia_data),
+                        src_api_documentation : Handlebars.templates.pre_edit_src_api_documentation(ia_data),
+                        unsafe : Handlebars.templates.pre_edit_unsafe(ia_data),
+                        answerbar : Handlebars.templates.pre_edit_answerbar(ia_data),
+                        triggers :  Handlebars.templates.pre_edit_triggers(ia_data),
+                        perl_dependencies :  Handlebars.templates.pre_edit_perl_dependencies(ia_data),
+                        src_options : Handlebars.templates.pre_edit_src_options(ia_data)
                     };
 
                     page.updateAll(readonly_templates, ia_data.live.dev_milestone, false);
@@ -361,9 +367,9 @@
                         location.reload();
                     });
 
-                    $("body").on('click', '#add_example', function(evt) {
+                    $("body").on('click', '.add_input', function(evt) {
                         $(this).addClass("hide");
-                        $("#input_example").removeClass("hide");
+                        $(this).parent().find('.new_input').removeClass("hide");
                     });
 
                     $("body").on('click', '#add_topic', function(evt) {
@@ -420,11 +426,20 @@
                         }
                    });
 
+                    $("body").on("click", ".column-right-edits i.icon-check", function(evt) {
+                        $(this).removeClass("icon-check").addClass("icon-check-empty");
+                    });
+
+                    $("body").on("click", ".column-right-edits i.icon-check-empty", function(evt) {
+                        $(this).removeClass("icon-check-empty").addClass("icon-check");
+                    });
+
                     $("body").on('keypress click', '.js-input, .button.js-editable', function(evt) {
                         if ((evt.type === 'keypress' && (evt.which === 13 && $(this).hasClass("js-input")))
                             || (evt.type === 'click' && $(this).hasClass("js-editable"))) {
                             var field = $(this).attr('name');
                             var value;
+                            var is_json = false;
                             var edited_value = ia_data.edited[field];
                             var live_value = ia_data.live[field];
                             var $obj = $("#row-diff-" + field);
@@ -444,8 +459,14 @@
                                     value = $.trim($input.val());
                                 }
                             }
-                            
-                            if (evt.type === "click" && (field === "topic" || field === "other_queries")) {
+
+                            if (field === "unsafe") {
+                                value = $("#unsafe-check").hasClass("icon-check")? 1 : 0;
+                            }
+
+                            if ((evt.type === "click"
+                                && (field === "topic" || field === "other_queries" || field === "triggers" || field === "perl_dependencies" || field === "src_options")) 
+                                || (field === "answerbar")) {
                                 value = [];
                                 var txt;
                                 if (field === "topic") {
@@ -462,15 +483,36 @@
                                             value.push(txt);
                                         }
                                     });
+                                } else if (field === "triggers") {
+                                    $(".triggers input").each(function(index) {
+                                        txt = $.trim($(this).val());
+                                        if (txt && $.inArray(txt, value) === -1) {
+                                            value.push(txt);
+                                        }
+                                    });
+                                } else if (field === "perl_dependencies") {
+                                    $(".perl_dependencies input").each(function(index) {
+                                        txt = $.trim($(this).val());
+                                        if (txt && $.inArray(txt, value) === -1) {
+                                            value.push(txt);
+                                        }
+                                    });
+                                } else if (field === "src_options") {
+                                    value = {};
+                                    value = getSectionVals(null, "src_options-group");
+                                } else if (field === "answerbar") {
+                                    value = {};
+                                    value.fallback_timeout = $("#answerbar input").val();
                                 }
 
                                 value = JSON.stringify(value);
                                 edited_value = JSON.stringify(ia_data.edited[field]);
                                 live_value = JSON.stringify(ia_data.live[field]);
+                                is_json = true;
                             }
 
                             if (value && (value !== edited_value && value !== live_value)) {
-                                save(field, value, DDH_iaid, $obj);
+                                save(field, value, DDH_iaid, $obj, is_json);
                             } else {
                                 $obj.replaceWith(pre_templates[field]);
                             }
@@ -488,7 +530,8 @@
 
                         $("#" + parent_field + " .section-group__item").each(function(idx) {
                             if ($(this) !== $obj) {
-                                if ($(this).hasClass("dev_milestone-container__body__input")) {
+                                if ($(this).hasClass("dev_milestone-container__body__input")
+                                    || $(this).hasClass("selection-group__item-input")) {
                                     temp_field = $.trim($(this).attr("id").replace("-input", ""));
                                     temp_value = $.trim($(this).val());
 
@@ -541,7 +584,7 @@
                         });
                     }
 
-                    function save(field, value, id, $obj) {
+                    function save(field, value, id, $obj, is_json) {
                         var jqxhr = $.post("/ia/save", {
                             field : field, 
                             value : value,
@@ -560,7 +603,7 @@
                                     }
                                 }
 
-                                if (field === "other_queries" || field === "topic") {
+                                if (is_json) {
                                     ia_data.edited[field] = $.parseJSON(data.result[field]);
                                 } else {
                                     ia_data.edited[field] = data.result[field];
@@ -595,7 +638,13 @@
             'example_query',
             'other_queries',
             'perl_module',
-            'template'
+            'template',
+            'src_api_documentation',
+            'src_options',
+            'unsafe',
+            'answerbar',
+            'triggers',
+            'perl_dependencies'
         ],
 
         dev_milestones_order: [
