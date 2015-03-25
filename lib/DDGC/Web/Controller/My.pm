@@ -210,6 +210,30 @@ sub account :Chained('logged_in') :Args(0) {
 	})->all];
 }
 
+sub send_email_verification {
+	my ( $self, $c ) = @_;
+	return if ($c->user->email_verified || !$c->user->email);
+	my $data = $c->user->data || {};
+	return if ($data->{sent_email_verification_timestamp} &&
+		$data->{sent_email_verification_timestamp} > (time - (60 * 60)) );
+	if (!$data->{email_verify_token}) {
+		$data->{email_verify_token} = $self->ddgc->uid;
+	}
+	$c->stash->{email_verify_link} =
+		$c->chained_uri('My','email_verify',$c->user->lowercase_username,$data->{email_verify_token});
+	$c->d->postman->template_mail(
+		1,
+		$c->user->email,
+		'"DuckDuckGo Community" <noreply@dukgo.com>',
+		'[DuckDuckGo Community] Please verify your email address',
+		'newemail',
+		$c->stash,
+	);
+	$data->{sent_email_verification_timestamp} = time;
+	$c->user->data($data);
+	$c->user->update;
+}
+
 sub email :Chained('logged_in') :Args(0) {
 	my ( $self, $c, ) = @_;
 
@@ -240,6 +264,8 @@ sub email :Chained('logged_in') :Args(0) {
 	$c->user->email($email);
 	$c->user->email_verified(0);
 	$c->user->update;
+
+	$self->send_email_verification($c);
 
 	$c->response->redirect($c->chained_uri('My','account'));
 	return $c->detach;
@@ -308,6 +334,34 @@ sub public :Chained('logged_in') :Args(0) {
 
 	$c->response->redirect($c->chained_uri('My','account'));
 	return $c->detach;
+
+}
+
+sub email_verify :Chained('base') :Args(2) {
+	my ( $self, $c, $username, $token ) = @_;
+
+	$c->stash->{title} = 'Email confirmation token check';
+		$c->add_bc($c->stash->{title}, '');
+
+	my $user = $c->d->find_user($username);
+
+	if (!$user || !$token) {
+		$c->stash->{invalid_token} = 1;
+		return $c->detach;
+	}
+
+	unless ($user->data && $user->data->{email_verify_token} &&
+		    ($token eq $user->data->{email_verify_token}) ) {
+		$c->stash->{invalid_token} = 1;
+		return $c->detach;
+	}
+
+	my $data = $user->data;
+	delete $data->{email_verify_token};
+	$user->data($data);
+	$user->email_verified(1);
+	$user->update;
+	$c->stash->{success} = 1;
 
 }
 
@@ -606,11 +660,21 @@ sub register :Chained('logged_out') :Args(0) {
 			if ($email) {
 				$user->data({}) if !$user->data;
 				my $data = $user->data();
-				$data->{email_verify_token} = $c->d->uid;
+				$c->stash->{email_verify_token} = $data->{email_verify_token} = $c->d->uid;
+				$c->stash->{email_verify_link} =
+				    $c->chained_uri('My','email_verify',$user->lowercase_username, $c->stash->{email_verify_token});
 				$user->data($data);
 				$user->email($email);
 				$user->email_verified(0);
 				$user->update;
+				$c->d->postman->template_mail(
+					1,
+					$user->email,
+					'"DuckDuckGo Community" <noreply@dukgo.com>',
+					'[DuckDuckGo Community] Thank you for registering',
+					'register',
+					$c->stash,
+				);
 			}
 			$c->session->{action_token} = undef;
 			$c->session->{captcha_string} = undef;
