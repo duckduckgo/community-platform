@@ -271,6 +271,16 @@ sub email :Chained('logged_in') :Args(0) {
 	return $c->detach;
 }
 
+sub resend_email_verification :Chained('logged_in') :Args(0) {
+	my ( $self, $c ) = @_;
+	$c->require_action_token;
+	$self->send_email_verification($c);
+
+	$c->stash->{x} = { ok => 1 };
+	$c->forward( $c->view('JSON') );
+	return $c->detach;
+}
+
 sub delete :Chained('logged_in') :Args(0) {
 	my ( $self, $c ) = @_;
 
