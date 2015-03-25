@@ -439,6 +439,7 @@
                             || (evt.type === 'click' && $(this).hasClass("js-editable"))) {
                             var field = $(this).attr('name');
                             var value;
+                            var is_json = false;
                             var edited_value = ia_data.edited[field];
                             var live_value = ia_data.live[field];
                             var $obj = $("#row-diff-" + field);
@@ -457,6 +458,10 @@
                                     $input = $obj.find("input.js-input,#description textarea");
                                     value = $.trim($input.val());
                                 }
+                            }
+
+                            if (field === "unsafe") {
+                                value = $("#unsafe-check").hasClass("icon-check")? 1 : 0;
                             }
 
                             if ((evt.type === "click"
@@ -503,10 +508,11 @@
                                 value = JSON.stringify(value);
                                 edited_value = JSON.stringify(ia_data.edited[field]);
                                 live_value = JSON.stringify(ia_data.live[field]);
+                                is_json = true;
                             }
 
                             if (value && (value !== edited_value && value !== live_value)) {
-                                save(field, value, DDH_iaid, $obj);
+                                save(field, value, DDH_iaid, $obj, is_json);
                             } else {
                                 $obj.replaceWith(pre_templates[field]);
                             }
@@ -578,7 +584,7 @@
                         });
                     }
 
-                    function save(field, value, id, $obj) {
+                    function save(field, value, id, $obj, is_json) {
                         var jqxhr = $.post("/ia/save", {
                             field : field, 
                             value : value,
@@ -597,7 +603,7 @@
                                     }
                                 }
 
-                                if (field === "other_queries" || field === "topic") {
+                                if (is_json) {
                                     ia_data.edited[field] = $.parseJSON(data.result[field]);
                                 } else {
                                     ia_data.edited[field] = data.result[field];

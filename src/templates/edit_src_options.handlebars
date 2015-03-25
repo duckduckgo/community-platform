@@ -2,62 +2,62 @@
     <div class="column-right-edits__child js-editable" id="src_options" name="src_options">
         <ul class="section-group" id="src_options-group">
             <li>
-                <i class="section-group__item icon-check{{#unless edited.src_options.skip_end}}-empty{{/unless}}" id="skip_end-check"/>
+                <i class="section-group__item icon-check{{#unless src_options.skip_end}}-empty{{/unless}}" id="skip_end-check"/>
                 <span class="check-txt">
                     Skip end
                 </span>
             </li>
             <li>
-                <i class="section-group__item icon-check{{#unless edited.src_options.skip_abstract}}-empty{{/unless}}" id="skip_abstract-check"/>
+                <i class="section-group__item icon-check{{#unless src_options.skip_abstract}}-empty{{/unless}}" id="skip_abstract-check"/>
                 <span class="check-txt">
                     Skip abstract
                 </span>
             </li>
             <li>
-                <i class="section-group__item icon-check{{#unless edited.src_options.skip_abstract_paren}}-empty{{/unless}}" id="skip_abstract_paren-check"/>
+                <i class="section-group__item icon-check{{#unless src_options.skip_abstract_paren}}-empty{{/unless}}" id="skip_abstract_paren-check"/>
                 <span class="check-txt">
                     Skip abstract parent
                 </span>
             </li>
             <li>
-                <i class="section-group__item icon-check{{#unless edited.src_options.skip_icon}}-empty{{/unless}}" id="skip_icon-check"/>
+                <i class="section-group__item icon-check{{#unless src_options.skip_icon}}-empty{{/unless}}" id="skip_icon-check"/>
                 <span class="check-txt">
                     Skip icon
                 </span>
             </li>
             <li>
-                <i class="section-group__item icon-check{{#unless edited.src_options.skip_image_name}}-empty{{/unless}}" id="skip_image_name-check"/>
+                <i class="section-group__item icon-check{{#unless src_options.skip_image_name}}-empty{{/unless}}" id="skip_image_name-check"/>
                 <span class="check-txt">
                     Skip image name
                 </span>
             </li>
             <li>
-                <i class="section-group__item icon-check{{#unless edited.src_options.is_wikipedia}}-empty{{/unless}}" id="is_wikipedia-check"/>
+                <i class="section-group__item icon-check{{#unless src_options.is_wikipedia}}-empty{{/unless}}" id="is_wikipedia-check"/>
                 <span class="check-txt">
                     Is Wikipedia
                 </span>
             </li>
             <li>
-                <i class="section-group__item icon-check{{#unless edited.src_options.is_mediawiki}}-empty{{/unless}}" id="is_mediawiki-check"/>
+                <i class="section-group__item icon-check{{#unless src_options.is_mediawiki}}-empty{{/unless}}" id="is_mediawiki-check"/>
                 <span class="check-txt">
                     Is MediaWiki
                 </span>
             </li>
             <li>
                 <label class="left">Skip query: </label>
-                <input type="text" class="clearfix section-group__item selection-group__item-input" id="skip_qr-input" value="{{edited.src_options.skip_qr}}" />
+                <input type="text" class="clearfix section-group__item selection-group__item-input" id="skip_qr-input" value="{{src_options.skip_qr}}" />
             </li>
             <li>
                 <label class="left">Directory: </label>
-                <input type="text" class="clearfix section-group__item selection-group__item-input" id="directory-input" value="{{edited.src_options.directory}}" />
+                <input type="text" class="clearfix section-group__item selection-group__item-input" id="directory-input" value="{{src_options.directory}}" />
             </li>
             <li>
                 <label class="left">Minimum abstract length: </label>
-                <input type="number" step="1" class="clearfix section-group__item selection-group__item-input" id="directory-input" value="{{edited.src_options.min_abstract_length}}" /> 
+                <input type="number" step="1" class="clearfix section-group__item selection-group__item-input" id="directory-input" value="{{src_options.min_abstract_length}}" /> 
             </li>
             <li>
                 <label class="left">Source info: </label>
-                <input type="text" class="clearfix section-group__item selection-group__item-input" id="directory-input" value="{{edited.src_options.src_info}}" />
+                <input type="text" class="clearfix section-group__item selection-group__item-input" id="directory-input" value="{{src_options.src_info}}" />
             </li>
         </ul>   
     </div>
