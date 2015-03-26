@@ -426,11 +426,11 @@
                         }
                    });
 
-                    $("body").on("click", ".column-right-edits i.icon-check", function(evt) {
+                    $("body").on("click", ".column-right-edits i.icon-check.js-editable", function(evt) {
                         $(this).removeClass("icon-check").addClass("icon-check-empty");
                     });
 
-                    $("body").on("click", ".column-right-edits i.icon-check-empty", function(evt) {
+                    $("body").on("click", ".column-right-edits i.icon-check-empty.js-editable", function(evt) {
                         $(this).removeClass("icon-check-empty").addClass("icon-check");
                     });
 
