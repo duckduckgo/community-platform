@@ -690,7 +690,7 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
                 }
 
                 $result = {
-                    $field => $ia->{$field},
+                    $field => $ia->$field,
                     saved => $saved
                 };
             } else {

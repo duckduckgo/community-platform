@@ -416,6 +416,7 @@
                                 var field = "topic";
                                 var value = [];
                                 var is_json = true;
+                                var panel = $.trim($(this).attr("data-panel"));
                                 var temp;
                                 var $parent = $(this).parent();
                                 $parent.find('.topic-group option[value="0"]').empty();
@@ -431,7 +432,7 @@
                                 value = JSON.stringify(value); 
 
                                 if (field.length && value.length) {
-                                    autocommit(field, value, DDH_iaid, is_json);
+                                    autocommit(field, value, DDH_iaid, is_json, panel);
                                 }
                             }
                         }
@@ -577,6 +578,8 @@
                                 if (field === "dev_milestone") {
                                     location.reload();
                                 } else {
+                                    console.log(data.result[field]);
+                                    console.log(panel);
                                     ia_data.live[field] = (is_json && data.result[field])? $.parseJSON(data.result[field]) : data.result[field];
                                     readonly_templates[panel + "_content"] = Handlebars.templates[panel + "_content"](ia_data);
 
@@ -666,6 +669,7 @@
                 }
             } else {
                 templates.metafields = Handlebars.templates.metafields(ia_data);
+                templates.metafields_content = Handlebars.templates.metafields_content(ia_data);
                 for (var i = 0; i < this.dev_milestones_order.length; i++) {
                     templates[this.dev_milestones_order[i]] = Handlebars.templates[this.dev_milestones_order[i]](ia_data);
                     templates[this.dev_milestones_order[i] + "_content"] = Handlebars.templates[this.dev_milestones_order[i] + "_content"](ia_data);
@@ -694,7 +698,7 @@
         updateAll: function(templates, dev_milestone, edit) {
             if (!edit) {
                 $(".ia-single--name").remove();
-                $("#metafield_container").remove();
+                $("#metafields").remove();
                 $(".ia-single--left, .ia-single--right").show().empty();
 
                 if (dev_milestone === "live") {
