@@ -82,6 +82,19 @@
                     </li>
                 </ul>
             </div>
+            
+            <div class="dev_milestone-container__body__label ia-single--header">
+                API STATUS PAGE
+            </div>
+            {{#unless future.planning}}
+                {{#if permissions.can_edit}}
+                    <input type="text" class="dev_milestone-container__body__input js-autocommit" id="api_status_page-input" value="{{live.api_status_page}}" />
+                {{else}}
+                    <div class="dev_milestone-container__body__readonly" id="api_status_page-txt">
+                        {{live.api_status_page}}
+                    </div>
+                {{/if}}
+            {{/unless}}
         {{/eq}}
 
         {{#eq live.repo 'fathead'}}

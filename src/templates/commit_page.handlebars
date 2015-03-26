@@ -84,6 +84,19 @@
             </tr>
         {{/if}}
 
+        {{#if api_status_page}}
+            <tr class="updates_list">
+                <th>API Status Page</th>
+
+                <td name="api_status_page" class="item_selected" id="api_status_page_original">
+                    {{original.api_status_page}}
+                </td>
+                <td name="api_status_page">
+                    {{api_status_page}}
+                </td>
+            </tr>
+        {{/if}}
+
         {{#if unsafe}}
             <tr class="updates_list">
                 <th>Unsafe</th>

@@ -413,6 +413,7 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
                 template => $ia->template,
                 unsafe => $ia->unsafe,
                 src_api_documentation => $ia->src_api_documentation,
+                api_status_page => $ia->api_status_page,
                 producer => $ia->producer,
                 designer => $ia->designer,
                 developer => $ia->developer? from_json($ia->developer) : undef,
@@ -458,6 +459,7 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
                     repo => $edited->{repo},
                     answerbar => $edited->{answerbar},
                     src_api_documentation => $edited->{src_api_documentation},
+                    api_status_page => $edited->{api_status_page},
                     src_options => $edited->{src_options},
                     unsafe => $edited->{unsafe},
                     triggers => $edited->{triggers}->{value},
@@ -519,6 +521,7 @@ sub commit_json :Chained('commit_base') :PathPart('json') :Args(0) {
             answerbar => $ia->answerbar,
             src_options => $ia->src_options,
             src_api_documentation => $ia->src_api_documentation,
+            api_status_page => $ia->api_status_page,
             unsafe => $ia->unsafe,
             triggers => $ia->triggers? from_json($ia->triggers) : undef,
             perl_dependencies => $ia->perl_dependencies? from_json($ia->perl_dependencies) : undef
@@ -797,6 +800,7 @@ sub current_ia {
     my @repo = $edits->{'repo'};
     my @answerbar = $edits->{'answerbar'};
     my @src_api_documentation = $edits->{'src_api_documentation'};
+    my @api_status_page = $edits->{'api_status_page'};
     my @src_options = $edits->{'src_options'};
     my @unsafe = $edits->{'unsafe'};
     my @triggers = $edits->{'triggers'};
@@ -852,6 +856,7 @@ sub current_ia {
             repo => $repo[0][@repo]{'value'},
             answerbar => $answerbar_val? from_json($answerbar_val) : undef,
             src_api_documentation => $src_api_documentation[0][@src_api_documentation]{'value'},
+            api_status_page => $api_status_page[0][@api_status_page]{'value'},
             src_options => $src_options_val? from_json($src_options_val) : undef,
             unsafe => $unsafe[0][@unsafe]{'value'},
             triggers => \%triggers_hash,
