@@ -91,10 +91,15 @@
                             github: Handlebars.templates.github(latest_edits_data)
                         },
                         metafields : Handlebars.templates.metafields(ia_data),
+                        metafields_content : Handlebars.templates.metafields_content(ia_data),
                         planning : Handlebars.templates.planning(ia_data),
+                        planning_content : Handlebars.templates.planning_content(ia_data),
                         in_development : Handlebars.templates.in_development(ia_data),
+                        in_development_content : Handlebars.templates.in_development_content(ia_data),
                         qa : Handlebars.templates.qa(ia_data),
-                        ready : Handlebars.templates.ready(ia_data)
+                        qa_content : Handlebars.templates.qa_content(ia_data),
+                        ready : Handlebars.templates.ready(ia_data),
+                        ready_content : Handlebars.templates.ready_content(ia_data)
                     };
 
                     // Pre-Edit mode templates
@@ -193,6 +198,7 @@
                         var field = $.trim($(this).attr("id").replace("-check", ""));
                         var value;
                         var is_json = false;
+                        var panel = $.trim($(this).attr("data-panel"));
 
                         if ($(this).hasClass("icon-check-empty")) {
                             value = 1;
@@ -215,7 +221,7 @@
                                 is_json = true;
                             }
                          
-                            autocommit(field, value, DDH_iaid, is_json);
+                            autocommit(field, value, DDH_iaid, is_json, panel);
                         }
                     });
 
@@ -235,6 +241,7 @@
                         var field;
                         var value;
                         var is_json = false;
+                        var panel = $.trim($(this).attr("data-panel"));
                     
                         if ($(this).hasClass("topic-group")) {
                             value = [];
@@ -256,7 +263,7 @@
                         }
 
                         if (field.length && value !== ia_data.live[field]) { 
-                             autocommit(field, value, DDH_iaid, is_json);
+                             autocommit(field, value, DDH_iaid, is_json, panel);
                         }
                     });
 
@@ -266,6 +273,7 @@
                             var value = $.trim($(this).val());
                             var id = $.trim($(this).attr("id"));
                             var is_json = false;
+                            var panel = $.trim($(this).attr("data-panel"));
 
                             if (id.match(/.*-input/)) {
                                 field = id.replace("-input", "");
@@ -290,7 +298,7 @@
                                     is_json = true;
                                 }
                                 
-                                autocommit(field, value, DDH_iaid, is_json);
+                                autocommit(field, value, DDH_iaid, is_json, panel);
                             }
 
                             if (evt.type === 'keypress') {
@@ -305,11 +313,12 @@
                         var field = $.trim($(this).attr("id").replace("-button", ""));
                         var value = $.trim($(".header-account-info .user-name").text());
                         var is_json = false;
-                        
+                        var panel = $.trim($(this).attr("data-panel"));
+
                         $(this).hide();
 
                         if (field.length && value.length) {
-                            autocommit(field, value, DDH_iaid, is_json);
+                            autocommit(field, value, DDH_iaid, is_json, panel);
                         }
                     });
 
@@ -317,7 +326,8 @@
                         var field = "dev_milestone";
                         var value;
                         var is_json = false;
-                        
+                        var panel = $.trim($(this).attr("data-panel"));
+
                         if (ia_data.live.dev_milestone === "ready") {
                             value = "live";
                         } else {
@@ -325,7 +335,7 @@
                         }
                        
                         if (value.length) { 
-                            autocommit(field, value, DDH_iaid, is_json);
+                            autocommit(field, value, DDH_iaid, is_json, panel);
                         }
                     });
 
@@ -555,7 +565,7 @@
                         return section_vals;
                     }
 
-                    function autocommit(field, value, id, is_json) {
+                    function autocommit(field, value, id, is_json, panel) {
                         var jqxhr = $.post("/ia/save", {
                             field : field,
                             value : value,
@@ -563,23 +573,15 @@
                             autocommit: 1
                         })
                         .done(function(data) {
-                            if (data.result) {
+                            if (data.result && data.result.saved) {
                                 if (field === "dev_milestone") {
                                     location.reload();
                                 } else {
                                     ia_data.live[field] = (is_json && data.result[field])? $.parseJSON(data.result[field]) : data.result[field];
+                                    readonly_templates[panel + "_content"] = Handlebars.templates[panel + "_content"](ia_data);
 
-                                    if (field === "repo" || field === "producer"
-                                        || field === "designer" || field === "developer") {
-
-                                        if (field === "repo") {
-                                            readonly_templates.planning =  Handlebars.templates.planning(ia_data);
-                                        } else {
-                                            readonly_templates.metafields =  Handlebars.templates.metafields(ia_data);
-                                        }
-
-                                        page.updateAll(readonly_templates, ia_data.live.dev_milestone, false);
-                                    }
+                                    var $panel_body = $("#" + panel + " .dev_milestone-container__body");
+                                    $panel_body.html(readonly_templates[panel + "_content"]);
                                 } 
                             }
                         });
@@ -666,6 +668,7 @@
                 templates.metafields = Handlebars.templates.metafields(ia_data);
                 for (var i = 0; i < this.dev_milestones_order.length; i++) {
                     templates[this.dev_milestones_order[i]] = Handlebars.templates[this.dev_milestones_order[i]](ia_data);
+                    templates[this.dev_milestones_order[i] + "_content"] = Handlebars.templates[this.dev_milestones_order[i] + "_content"](ia_data);
                 }
             }
         },
@@ -699,14 +702,18 @@
                         $(".ia-single--left").append(templates.live[this.field_order[i]]);
                     }
                 } else {
+                    var $temp_panel_body;
                     for (var i = 0; i < this.dev_milestones_order.length; i++) {
                         $(".ia-single--left").append(templates[this.dev_milestones_order[i]]);
+                        $temp_panel_body = $("#" + this.dev_milestones_order[i] + " .dev_milestone-container__body");
+                        $temp_panel_body.html(templates[this.dev_milestones_order[i] + "_content"]);
                     }
                 }
 
                 $(".ia-single--right").before(templates.live.name);
                 if (dev_milestone != "live") {
                     $(".ia-single--right").before(templates.metafields);
+                    $("#metafields .dev_milestone-container__body").html(templates.metafields_content);
 
                     if ($(".topic-group").length) {
                         $(".topic-group").append($("#allowed_topics").html());

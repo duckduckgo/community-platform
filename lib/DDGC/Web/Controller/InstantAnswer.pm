@@ -629,7 +629,9 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
             my $value = $c->req->params->{value};
             my $autocommit = $c->req->params->{autocommit};
             if ($autocommit) {
-                if ($field eq "topic") {
+            my $saved;
+                
+            if ($field eq "topic") {
                     my @topic_values = $value? from_json($value) : undef;
                     $ia->instant_answer_topics->delete;
 
@@ -638,13 +640,12 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
 
                         try {
                             $ia->add_to_topics($topic_id);
+                            $saved = 1;
                         } catch {
                             $c->d->errorlog("Error updating the database");
                             return '';
                         };
                     }
-
-                    $result = {$field => $value};
                 } elsif ($field eq "producer" || $field eq "designer" || $field eq "developer") {
                     my $complat_user = $c->d->rs('User')->find({username => $value});
 
@@ -670,8 +671,8 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
                                 if ($field eq 'developer') {
                                     $value = $value? from_json($value) : undef;
                                 }
-                                
-                                $result = {$field => $value};
+
+                                $saved = 1;
                             }
                             catch {
                                 $c->d->errorlog("Error updating the database");
@@ -681,12 +682,17 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
                 } else {
                     try {
                         $ia->update({$field => $value});
-                        $result = {$field => $value};
+                        $saved = 1;
                     }
                     catch {
                         $c->d->errorlog("Error updating the database");
                     };
                 }
+
+                $result = {
+                    $field => $ia->{$field},
+                    saved => $saved
+                };
             } else {
                 my $can_add = 0;
                 if ($field eq "producer" || $field eq "designer" || $field eq "developer") {
