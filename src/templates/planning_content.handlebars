@@ -92,43 +92,43 @@
     <div class="dev_milestone-container__body__div">
         <ul class="section-group" id="src_options-group">
             <li>
-                <i data-panel="planning" class="section-group__item dev_milestone-container__body__div__checkbox {{#unless future.planning}}{{#if permissions.can_edit}}js-autocommit{{/if}}{{/unless}} icon-check{{#unless live.src_options.skip_end}}-empty{{/unless}}" id="skip_end-check"/>
+                <i data-panel="planning" class="section-group__item dev_milestone-container__body__div__checkbox {{#unless future.planning}}{{#if permissions.can_edit}}js-autocommit{{/if}}{{/unless}} icon-check{{#is_false live.src_options.skip_end}}-empty{{/is_false}}" id="skip_end-check"/>
                 <span class="dev_milestone-container__body__readonly check-txt">
                     Skip end
                 </span>
             </li>
             <li>
-                <i data-panel="planning" class="section-group__item dev_milestone-container__body__div__checkbox {{#unless future.planning}}{{#if permissions.can_edit}}js-autocommit{{/if}}{{/unless}} icon-check{{#unless live.src_options.skip_abstract}}-empty{{/unless}}" id="skip_abstract-check"/>
+                <i data-panel="planning" class="section-group__item dev_milestone-container__body__div__checkbox {{#unless future.planning}}{{#if permissions.can_edit}}js-autocommit{{/if}}{{/unless}} icon-check{{#is_false live.src_options.skip_abstract}}-empty{{/is_false}}" id="skip_abstract-check"/>
                 <span class="dev_milestone-container__body__readonly check-txt">
                     Skip abstract
                 </span>
             </li>
             <li>
-                <i data-panel="planning" class="section-group__item dev_milestone-container__body__div__checkbox {{#unless future.planning}}{{#if permissions.can_edit}}js-autocommit{{/if}}{{/unless}} icon-check{{#unless live.src_options.skip_abstract_paren}}-empty{{/unless}}" id="skip_abstract_paren-check"/>
+                <i data-panel="planning" class="section-group__item dev_milestone-container__body__div__checkbox {{#unless future.planning}}{{#if permissions.can_edit}}js-autocommit{{/if}}{{/unless}} icon-check{{#is_false live.src_options.skip_abstract_paren}}-empty{{/is_false}}" id="skip_abstract_paren-check"/>
                 <span class="dev_milestone-container__body__readonly check-txt">
                     Skip abstract parent
                 </span>
             </li>
             <li>
-                <i data-panel="planning" class="section-group__item dev_milestone-container__body__div__checkbox {{#unless future.planning}}{{#if permissions.can_edit}}js-autocommit{{/if}}{{/unless}} icon-check{{#unless live.src_options.skip_icon}}-empty{{/unless}}" id="skip_icon-check"/>
+                <i data-panel="planning" class="section-group__item dev_milestone-container__body__div__checkbox {{#unless future.planning}}{{#if permissions.can_edit}}js-autocommit{{/if}}{{/unless}} icon-check{{#is_false live.src_options.skip_icon}}-empty{{/is_false}}" id="skip_icon-check"/>
                 <span class="dev_milestone-container__body__readonly check-txt">
                     Skip icon
                 </span>
             </li>
             <li>
-                <i data-panel="planning" class="section-group__item dev_milestone-container__body__div__checkbox {{#unless future.planning}}{{#if permissions.can_edit}}js-autocommit{{/if}}{{/unless}} icon-check{{#unless live.src_options.skip_image_name}}-empty{{/unless}}" id="skip_image_name-check"/>
+                <i data-panel="planning" class="section-group__item dev_milestone-container__body__div__checkbox {{#unless future.planning}}{{#if permissions.can_edit}}js-autocommit{{/if}}{{/unless}} icon-check{{#is_false live.src_options.skip_image_name}}-empty{{/is_false}}" id="skip_image_name-check"/>
                 <span class="dev_milestone-container__body__readonly check-txt">
                     Skip image name
                 </span>
             </li>
             <li>
-                <i data-panel="planning" class="section-group__item dev_milestone-container__body__div__checkbox {{#unless future.planning}}{{#if permissions.can_edit}}js-autocommit{{/if}}{{/unless}} icon-check{{#unless live.src_options.is_wikipedia}}-empty{{/unless}}" id="is_wikipedia-check"/>
+                <i data-panel="planning" class="section-group__item dev_milestone-container__body__div__checkbox {{#unless future.planning}}{{#if permissions.can_edit}}js-autocommit{{/if}}{{/unless}} icon-check{{#is_false live.src_options.is_wikipedia}}-empty{{/is_false}}" id="is_wikipedia-check"/>
                 <span class="dev_milestone-container__body__readonly check-txt">
                     Is Wikipedia
                 </span>
             </li>
             <li>
-                <i data-panel="planning" class="section-group__item dev_milestone-container__body__div__checkbox {{#unless future.planning}}{{#if permissions.can_edit}}js-autocommit{{/if}}{{/unless}} icon-check{{#unless live.src_options.is_mediawiki}}-empty{{/unless}}" id="is_mediawiki-check"/>
+                <i data-panel="planning" class="section-group__item dev_milestone-container__body__div__checkbox {{#unless future.planning}}{{#if permissions.can_edit}}js-autocommit{{/if}}{{/unless}} icon-check{{#is_false live.src_options.is_mediawiki}}-empty{{/is_false}}" id="is_mediawiki-check"/>
                 <span class="dev_milestone-container__body__readonly check-txt">
                     Is MediaWiki
                 </span>
@@ -189,7 +189,7 @@
     SAFE SEARCH
 </div>
 <div class="dev_milestone-container__body__div">
-    <i data-panel="planning" class="dev_milestone-container__body__div__checkbox {{#unless future.planning}}{{#if permissions.can_edit}}js-autocommit{{/if}}{{/unless}} icon-check{{#unless live.unsafe}}-empty{{/unless}}" id="unsafe-check"/>
+    <i data-panel="planning" class="dev_milestone-container__body__div__checkbox {{#unless future.planning}}{{#if permissions.can_edit}}js-autocommit{{/if}}{{/unless}} icon-check{{#is_false live.unsafe}}-empty{{/is_false}}" id="unsafe-check"/>
     <span class="dev_milestone-container__body__readonly check-txt">
         Unsafe
     </span>

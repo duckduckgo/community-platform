@@ -37,4 +37,12 @@
         return txt;
     });
 
+    // Returns true for values equal to zero, evaluating to false
+    Handlebars.registerHelper('is_false', function(value, options) {
+        value = parseInt(value);
+        if (!value) {
+            return options.fn(this);
+        }
+    });
+
 })(DDH);
