@@ -1,0 +1,73 @@
+<div class="dev_milestone-container__body__label ia-single--header">
+    BROWSER COMPATIBILITY
+</div>
+<div class="dev_milestone-container__body__div">
+    <i data-panel="qa" class="dev_milestone-container__body__div__checkbox {{#unless future.qa}}{{#if permissions.can_edit}}js-autocommit{{/if}}{{/unless}} icon-check{{#is_false live.browsers_ie}}-empty{{/is_false}}" id="browsers_ie-check"/>
+    <span class="dev_milestone-container__body__readonly check-txt">
+        IE 8
+    </span>
+</div>
+<div class="dev_milestone-container__body__div">
+    <i data-panel="qa" class="dev_milestone-container__body__div__checkbox {{#unless future.qa}}{{#if permissions.can_edit}}js-autocommit{{/if}}{{/unless}} icon-check{{#is_false live.browsers_chrome}}-empty{{/is_false}}" id="browsers_chrome-check"/>
+    <span class="dev_milestone-container__body__readonly check-txt">
+        Chrome
+    </span>
+</div>
+<div class="dev_milestone-container__body__div">
+    <i data-panel="qa" class="dev_milestone-container__body__div__checkbox {{#unless future.qa}}{{#if permissions.can_edit}}js-autocommit{{/if}}{{/unless}} icon-check{{#is_false live.browsers_firefox}}-empty{{/is_false}}" id="browsers_firefox-check"/>
+    <span class="dev_milestone-container__body__readonly check-txt">
+        Firefox
+    </span>
+</div>
+<div class="dev_milestone-container__body__div">
+    <i data-panel="qa" class="dev_milestone-container__body__div__checkbox {{#unless future.qa}}{{#if permissions.can_edit}}js-autocommit{{/if}}{{/unless}} icon-check{{#is_false live.browsers_safari}}-empty{{/is_false}}" id="browsers_safari-check"/>
+    <span class="dev_milestone-container__body__readonly check-txt">
+        Safari
+    </span>
+</div>
+<div class="dev_milestone-container__body__div">
+    <i data-panel="qa" class="dev_milestone-container__body__div__checkbox {{#unless future.qa}}{{#if permissions.can_edit}}js-autocommit{{/if}}{{/unless}} icon-check{{#is_false live.browsers_opera}}-empty{{/is_false}}" id="browsers_opera-check"/>
+    <span class="dev_milestone-container__body__readonly check-txt">
+        Opera
+    </span>
+</div>
+
+<div class="dev_milestone-container__body__label ia-single--header">
+    MOBILE PHONES
+</div>
+<div class="dev_milestone-container__body__div">
+    <i data-panel="qa" class="dev_milestone-container__body__div__checkbox {{#unless future.qa}}{{#if permissions.can_edit}}js-autocommit{{/if}}{{/unless}} icon-check{{#is_false live.mobile_ios}}-empty{{/is_false}}" id="mobile_ios-check"/>
+    <span class="dev_milestone-container__body__readonly check-txt">
+        iOS
+    </span>
+</div>
+<div class="dev_milestone-container__body__div">
+    <i data-panel="qa" class="dev_milestone-container__body__div__checkbox {{#unless future.qa}}{{#if permissions.can_edit}}js-autocommit{{/if}}{{/unless}} icon-check{{#is_false live.mobile_android}}-empty{{/is_false}}" id="mobile_android-check"/>
+    <span class="dev_milestone-container__body__readonly check-txt">
+        Android
+    </span>
+</div>
+
+<div class="dev_milestone-container__body__label ia-single--header">
+    TESTS
+</div>
+<div class="dev_milestone-container__body__div">
+    <i data-panel="qa" class="dev_milestone-container__body__div__checkbox {{#unless future.qa}}{{#if permissions.can_edit}}js-autocommit{{/if}}{{/unless}} icon-check{{#is_false live.tested_relevancy}}-empty{{/is_false}}" id="tested_relevancy-check"/>
+    <span class="dev_milestone-container__body__readonly check-txt">
+        Relevancy
+    </span>
+</div>
+<div class="dev_milestone-container__body__div">
+    <i data-panel="qa" class="dev_milestone-container__body__div__checkbox {{#unless future.qa}}{{#if permissions.can_edit}}js-autocommit{{/if}}{{/unless}} icon-check{{#is_false live.tested_staging}}-empty{{/is_false}}" id="tested_staging-check"/>
+    <span class="dev_milestone-container__body__readonly check-txt">
+        Tested in staging machines
+    </span>
+</div>
+     
+{{#if permissions.admin}}
+    {{#if current.qa}}
+        <div data-panel="qa" class="dev_milestone-container__body__complete js-complete button" id="complete-qa">
+            Mark as complete
+        </div>
+    {{/if}}
+{{/if}}
