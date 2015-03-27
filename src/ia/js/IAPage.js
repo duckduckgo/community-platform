@@ -202,12 +202,11 @@
 
                         if ($(this).hasClass("icon-check-empty")) {
                             value = 1;
+                            $(this).removeClass("icon-check-empty").addClass("icon-check");
                         } else {
                             value = 0;
+                            $(this).removeClass("icon-check").addClass("icon-check-empty");
                         }
-
-                        $(this).toggleClass("icon-check-empty");
-                        $(this).toggleClass("icon-check");
 
                         if (field.length) {
                             if ($(this).hasClass("section-group__item")) {
@@ -583,6 +582,9 @@
 
                                     var $panel_body = $("#" + panel + " .dev_milestone-container__body");
                                     $panel_body.html(readonly_templates[panel + "_content"]);
+
+                                    page.appendTopics();
+                                    page.hideAssignToMe();
                                 } 
                             }
                         });
@@ -693,6 +695,23 @@
             return x;
         },
 
+        appendTopics: function() {
+            if ($(".topic-group").length) {
+                $(".topic-group").append($("#allowed_topics").html());
+            }
+        },
+
+        hideAssignToMe: function() {
+            // If one or more team fields has the current user's name as value,
+            // hide the 'assign to me' button accordingly
+            var current_user = $.trim($(".header-account-info .user-name").text());
+            $(".team-input").each(function(idx) {
+                if ($(this).val() === current_user) {
+                    $("#" + $.trim($(this).attr("id").replace("-input", "")) + "-button").hide();
+                }
+            });
+        },
+
         updateAll: function(templates, dev_milestone, edit) {
             if (!edit) {
                 $(".ia-single--name").remove();
@@ -717,18 +736,8 @@
                     $(".ia-single--right").before(templates.metafields);
                     $("#metafields .dev_milestone-container__body").html(templates.metafields_content);
 
-                    if ($(".topic-group").length) {
-                        $(".topic-group").append($("#allowed_topics").html());
-                    }
-
-                    // If one or more team fields has the current user's name as value,
-                    // hide the 'assign to me' button accordingly
-                    var current_user = $.trim($(".header-account-info .user-name").text());
-                    $(".team-input").each(function(idx) {
-                        if ($(this).val() === current_user) {
-                            $("#" + $.trim($(this).attr("id").replace("-input", "")) + "-button").hide();
-                        }
-                    });
+                    this.appendTopics();
+                    this.hideAssignToMe();
                 }
 
                 if (!this.imgHide) {
