@@ -1,6 +1,6 @@
-<: if $c.user && $c.user.data && $c.user.data.email { :>
+<: if $c.user && $c.user.email { :>
   <div class="fb-step__body  js-fb-step--deactivate">
-    <: $option.description :>: <b><: $c.user.data.email :></b><input type="hidden" name="<: $option.name :>" value="<: $c.user.data.email :>" />
+    <: $option.description :>: <b><: $c.user.email :></b><input type="hidden" name="<: $option.name :>" value="<: $c.user.email :>" />
   </div>
 <: } else { :> 
   <: include "feedback/option/text.tx" { option => $option, index => $index } :>
