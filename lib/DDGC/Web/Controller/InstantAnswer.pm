@@ -630,6 +630,7 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
             my $autocommit = $c->req->params->{autocommit};
             if ($autocommit) {
             my $saved;
+            my @topics = map { $_->name} $ia->topics;
                 
             if ($field eq "topic") {
                     my @topic_values = $value? from_json($value) : undef;
@@ -640,12 +641,14 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
 
                         try {
                             $ia->add_to_topics($topic_id);
-                            $saved = 1;
                         } catch {
                             $c->d->errorlog("Error updating the database");
                             return '';
                         };
                     }
+
+                    $saved = 1;
+                    @topics = map { $_->name} $ia->topics;
                 } elsif ($field eq "producer" || $field eq "designer" || $field eq "developer") {
                     my $complat_user = $c->d->rs('User')->find({username => $value});
 
@@ -689,10 +692,17 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
                     };
                 }
 
-                $result = {
-                    $field => $ia->$field,
-                    saved => $saved
-                };
+                if ($field ne 'topic') {
+                    $result = {
+                        $field => $ia->$field,
+                        saved => $saved
+                    };
+                } else {
+                    $result = {
+                        $field => to_json(\@topics),
+                        saved => $saved
+                    };
+                }
             } else {
                 my $can_add = 0;
                 if ($field eq "producer" || $field eq "designer" || $field eq "developer") {
