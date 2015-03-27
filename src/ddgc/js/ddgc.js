@@ -216,6 +216,23 @@ $(document).ready(function() {
 		});
 	});
 
+	$('a.email_verify').click(function(e){
+		e.preventDefault();
+		var me = $(this);
+		$.ajax({
+			url: me.attr('href'),
+			beforeSend: function(xhr) {
+				me.html(
+					'Verify <img class="loading-image"' +
+					'src="/static/images/ajax-loader.gif"/>'
+				);
+			},
+			success: function(data) {
+				$('a.email_verify').remove();
+			}
+		});
+	});
+
 	$('a.campaign_nothanks').click(function(e){
 		e.preventDefault();
 		var me = $(this);

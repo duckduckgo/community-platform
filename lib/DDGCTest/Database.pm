@@ -527,8 +527,8 @@ sub users {{
 				about => 'about duckduckgo on twitter',
 				whyddg => 'because it\'s awesome!',
 			},
-			email => 'testtwo@localhost',
 		},
+		email => 'testtwo@localhost',
 		notifications => [
 			[qw( replies 1 1 )],
 			[qw( forum_comments 1 0 )],
@@ -559,8 +559,8 @@ sub users {{
 			userpage => {
 				web => 'https://test.de/',
 			},
-			email => 'testthree@localhost',
 		},
+		email => 'testthree@localhost',
 		notifications => [
 			[qw( replies 4 1 )],
 			[qw( company_blog_comments 4 0 )],
@@ -638,8 +638,8 @@ sub add_users {
 			about => 'about me',
 			whyddg => 'because it\'s awesome!',
 		},
-		email => 'testone@localhost',
 	});
+	$testone->email('testone@localhost');
 	$testone->update;
 	$self->next_step;
 	for ([qw( replies 2 1 )],

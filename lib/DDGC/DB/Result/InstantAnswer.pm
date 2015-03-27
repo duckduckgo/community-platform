@@ -107,6 +107,12 @@ column src_api_documentation => {
 	is_nullable => 1,
 };
 
+# api status page
+column api_status_page => {
+    data_type => 'text',
+    is_nullable => 1,
+};
+
 # favicon url, if necessary. can usually be inferred from the domain
 column icon_url => {
 	data_type => 'text',

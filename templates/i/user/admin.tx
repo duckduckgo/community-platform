@@ -48,7 +48,7 @@
       </div>
     <: } :>
     <div class="row">
-      <: my $email = $_.email || ( $_.data && $_.data.email ) :>
+      <: my $email = $_.email :>
       <h2>
         <: if $email { :>
           Email: <a href="mailto:<: $email :>"><: $email :></a>
