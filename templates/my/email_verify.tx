@@ -6,6 +6,6 @@
 <: } else { :>
 	<div class="notice success">
 		<i class="icn icon-ok"></i>
-		Your email address has been confirmed
+		You have successfully confirmed your email! Check out your <a href="/my/account">Settings</a> to change your preferences.
 	</div>
 <: } :>
