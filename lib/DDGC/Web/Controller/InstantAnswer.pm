@@ -84,15 +84,15 @@ sub iarepo_json :Chained('iarepo') :PathPart('json') :Args(0) {
     my ( $self, $c ) = @_;
 
     my $repo = $c->stash->{ia_repo};
-    my @x = $c->d->rs('InstantAnswer')->search({repo => $repo});
+    my @x = $c->d->rs('InstantAnswer')->search({
+        repo => $repo,
+        dev_milestone => 'live',
+    });
 
     my %iah;
 
 IA:
     for my $ia (@x) {
-
-        next IA unless $ia->dev_milestone eq 'live'; # or ready?
-
         my @topics = map { $_->name} $ia->topics;
 
         $iah{$ia->id} = {
