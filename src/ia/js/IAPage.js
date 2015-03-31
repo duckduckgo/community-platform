@@ -393,21 +393,15 @@
 
                     $("body").on("click", ".button.delete", function(evt) {
                         if (ia_data.live.dev_milestone === "live") {
-                            $(this).parent().remove();
-                            var field = $(this).parent().find(".js-editable").attr('name');
-                            if (field === 'example_query') {
-                                var $new_primary = $('a.other-examples input').first();
-                                if ($new_primary.length) {
-                                    $new_primary.parent().removeClass('other-examples');
-                                    $new_primary.parent().attr('name', 'example_query');
-                                    $new_primary.parent().attr('id', 'primary');
-                                }
+                            var field = $(this).attr('name');
+                            if (field !== "topic") {
+                                $(this).parent().remove();
+                            } else {
+                                var $select = $(this).parent().find('.available_topics');
+                                $select.find('option[value="0"]').empty();
+                                $select.val('0');
                             }
-
-                            if (!$("#examples .other-examples").length && $("#primary").length) {
-                                $("#primary").parent().find(".button.delete").addClass("hide");
-                            }
-                        } else {
+                       } else {
                             // If dev milestone is not 'live' it means we are in the dev page
                             // and a topic has been deleted (it's the only field having a delete button in the dev page
                             // so far) - so we must save
