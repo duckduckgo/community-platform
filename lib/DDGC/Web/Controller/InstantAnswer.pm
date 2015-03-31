@@ -399,49 +399,10 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
     }
 
     my $other_queries = $ia->other_queries? from_json($ia->other_queries) : undef;
-warn Dumper $ia->tab;
-warn Dumper $ia->TO_JSON;
-    $ia_data{live} =  {
-                id => $ia->id,
-                name => $ia->name,
-                description => $ia->description,
-                tab => $ia->tab,
-                status => $ia->status,
-                repo => $ia->repo,
-                dev_milestone => $dev_milestone,
-                perl_module => $ia->perl_module,
-                example_query => $ia->example_query,
-                other_queries => $other_queries,
-                code => $ia->code? from_json($ia->code) : undef,
-                topic => \@topics,
-                attribution => $ia->attribution? from_json($ia->attribution) : undef,
-                issues => \@ia_issues,
-                pr => \%pull_request,
-                template => $ia->template,
-                unsafe => $ia->unsafe,
-                src_api_documentation => $ia->src_api_documentation,
-                api_status_page => $ia->api_status_page,
-                producer => $ia->producer,
-                designer => $ia->designer,
-                developer => $ia->developer? from_json($ia->developer) : undef,
-                perl_dependencies => $ia->perl_dependencies? from_json($ia->perl_dependencies) : undef,
-                triggers => $ia->triggers? from_json($ia->triggers) : undef,
-                code_review => $ia->code_review,
-                design_review => $ia->design_review,
-                test_machine => $ia->test_machine,
-                browsers_ie => $ia->browsers_ie,
-                browsers_chrome => $ia->browsers_chrome,
-                browsers_firefox => $ia->browsers_firefox,
-                browsers_opera => $ia->browsers_opera,
-                browsers_safari => $ia->browsers_safari,
-                mobile_android => $ia->mobile_android,
-                mobile_ios => $ia->mobile_ios,
-                tested_relevancy => $ia->tested_relevancy,
-                tested_staging => $ia->tested_staging,
-                is_live => $ia->is_live,
-                src_options => $ia->src_options? from_json($ia->src_options) : undef,
-                answerbar => $ia->answerbar? from_json($ia->answerbar) : undef
-    };
+
+    warn Dumper $ia->TO_JSON;
+    
+    $ia_data{live} = $ia->TO_JSON;
 
     if ($c->user) {
         $permissions = $c->stash->{ia}->users->find($c->user->id);
@@ -449,29 +410,7 @@ warn Dumper $ia->TO_JSON;
 
         if (($is_admin || $permissions) && ($ia->dev_milestone eq 'live')) {
             $edited = current_ia($c->d, $ia);
-            $ia_data{edited} = {
-                    name => $edited->{name},
-                    description => $edited->{description},
-                    status => $edited->{status},
-                    example_query => $edited->{example_query},
-                    other_queries => $edited->{other_queries}->{value},
-                    topic => $edited->{topic},
-                    dev_milestone => $edited->{dev_milestone},
-                    tab => $edited->{tab},
-                    producer => $edited->{producer},
-                    designer => $edited->{designer},
-                    developer => $edited->{developer},
-                    perl_module => $edited->{perl_module},
-                    template => $edited->{template},
-                    repo => $edited->{repo},
-                    answerbar => $edited->{answerbar},
-                    src_api_documentation => $edited->{src_api_documentation},
-                    api_status_page => $edited->{api_status_page},
-                    src_options => $edited->{src_options},
-                    unsafe => $edited->{unsafe},
-                    triggers => $edited->{triggers}->{value},
-                    perl_dependencies => $edited->{perl_dependencies}->{value}
-            };
+            $ia_data{edited} = $edited;
         }
     }
 
