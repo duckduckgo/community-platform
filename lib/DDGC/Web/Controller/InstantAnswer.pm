@@ -313,7 +313,7 @@ sub ia_base :Chained('base') :PathPart('view') :CaptureArgs(1) {  # /ia/view/cal
             $can_edit = 1;
 
             if ($is_admin) {
-                my $edits = get_edits($c->d, $c->stash->{ia}->name);
+                my $edits = get_edits($c->d, $answer_id);
                 $can_commit = 1;
 
                 if (length $edits && ref $edits eq 'HASH') {
@@ -805,7 +805,7 @@ sub create_ia :Chained('base') :PathPart('create') :Args() {
 sub current_ia {
     my ($d, $ia) = @_;
 
-    my $edits = get_edits($d, $ia->name);
+    my $edits = get_edits($d, $ia->id);
 
     my @name = $edits->{'name'};
     my @desc = $edits->{'description'};
@@ -954,11 +954,9 @@ sub remove_edits {
 # given the IA name return the data in the updates
 # column as an array of hashes
 sub get_edits {
-    my ($d, $name) = @_; 
+    my ($d, $id) = @_; 
 
-    my $results = $d->rs('InstantAnswer')->search( {name => $name} );
-
-    my $ia_result = $results->first();
+    my $ia_result = $d->rs('InstantAnswer')->find($id);
     my $edits;
 
     try{
