@@ -1,109 +1,14 @@
-<div class="dev_milestone-container {{#if current.in_development}}current-container{{/if}} {{#if future.in_development}}future-container{{/if}} container-in_development left" id="in_development">
+<div class="dev_milestone-container {{#if current.in_development}}current-container{{/if}} {{#if future.in_development}}future-container{{/if}} container-in_development" id="in_development">
     <div class="dev_milestone-container__header container-in_development__header">
-        <h3 class="dev_milestone-container__header__title">
+        <h3 class="dev_milestone-container__header__title left">
             In Development
         </h3>
+        <div class="button js-expand dev_milestone-container__header__button left">
+            <i class="js-expand__icon icon-caret-down" />
+        </div>
+        <span class="clearfix"></span>
     </div>
 
-    <div class="dev_milestone-container__body container-in_development__body">
-        <div class="dev_milestone-container__body__label ia-single--header">
-            PULL REQUEST
-        </div>
-        {{#if live.pr}}
-            <div class="dev_milestone-container__body__readonly" id="pr-txt">
-                <a href="https://github.com/duckduckgo/zeroclickinfo-{{live.repo}}/issues/{{live.pr.id}}" class="dev_milestone-container__body__readonly__a" id="pr">
-                    {{live.pr.title}}
-                </a>
-            </div>
-        {{/if}}
-
-        <div class="dev_milestone-container__body__label ia-single--header">
-            PERL MODULE
-        </div>
-        {{#unless future.in_development}}
-            {{#if permissions.can_edit}}
-                <input type="text" class="dev_milestone-container__body__input js-autocommit" id="perl_module-input" value="{{live.perl_module}}" />
-            {{else}}
-                <div class="dev_milestone-container__body__readonly" id="perl_module-txt">
-                    {{live.perl_module}}        
-                </div>
-            {{/if}}
-        {{/unless}}
-
-        <div class="dev_milestone-container__body__label ia-single--header">
-            PERL DEPENDENCIES
-        </div>
-        {{#unless future.in_development}}
-            {{#if permissions.can_edit}}
-                <input type="text" class="dev_milestone-container__body__input js-autocommit comma-separated" id="perl_dependencies-input" value="{{live.perl_dependencies}}" />
-            {{else}}
-                <div class="dev_milestone-container__body__readonly" id="perl_dependencies-txt">
-                   {{live.perl_dependencies}} 
-                </div>
-            {{/if}}
-        {{/unless}}
-
-        <div class="dev_milestone-container__body__label ia-single--header">
-            TOPICS
-        </div>
-        {{#unless future.in_development}}
-            {{#if permissions.can_edit}}
-                <input type="text" class="dev_milestone-container__body__input js-autocommit comma-separated" id="topic-input" value="{{live.topic}}" />
-            {{else}}
-                <div class="dev_milestone-container__body__readonly" id="topic-txt">
-                   {{live.topic}} 
-                </div>
-            {{/if}}
-        {{/unless}}
-
-        <div class="dev_milestone-container__body__label ia-single--header">
-            TAB NAME
-        </div>
-        {{#unless future.in_development}}
-            {{#if permissions.admin}}
-                <input type="text" class="dev_milestone-container__body__input js-autocommit" id="tab-input" value="{{live.tab}}" />
-            {{else}}
-                <div class="dev_milestone-container__body__readonly" id="tab-txt">
-                   {{live.tab}} 
-                </div>
-            {{/if}}
-        {{/unless}}
-
-        <div class="dev_milestone-container__body__label ia-single--header">
-            TEMPLATE
-        </div>
-        {{#unless future.in_development}}
-            {{#if permissions.can_edit}}
-                <input type="text" class="dev_milestone-container__body__input js-autocommit" id="template-input" value="{{live.template}}" />
-            {{else}}
-                <div class="dev_milestone-container__body__readonly" id="template-txt">
-                   {{live.template}} 
-                </div>
-            {{/if}}
-        {{/unless}}
-  
-        <div class="dev_milestone-container__body__label ia-single--header">
-            REVIEW
-        </div>
-        <div class="dev_milestone-container__body__div">
-            <i class="dev_milestone-container__body__div__checkbox {{#unless future.in_development}}{{#if permissions.admin}}js-autocommit{{/if}}{{/unless}} icon-check{{#unless live.code_review}}-empty{{/unless}}" id="code_review-check"/>
-            <span class="dev_milestone-container__body__readonly check-txt">
-                Code looks good
-            </span>
-        </div>
-        <div class="dev_milestone-container__body__div">
-            <i class="dev_milestone-container__body__div__checkbox {{#unless future.in_development}}{{#if permissions.admin}}js-autocommit{{/if}}{{/unless}} icon-check{{#unless live.design_review}}-empty{{/unless}}" id="design_review-check"/>
-            <span class="dev_milestone-container__body__readonly check-txt">
-                Layout looks good
-            </span>
-        </div>
-
-        {{#if permissions.admin}}
-            {{#if current.in_development}}
-                <div class="dev_milestone-container__body__complete js-complete button" id="complete-in_development">
-                    Mark as complete
-                </div>
-            {{/if}}
-        {{/if}}
+    <div class="dev_milestone-container__body container-in_development__body {{#unless current.in_development}}hide{{/unless}}">
     </div>
-</div>
+</div> 

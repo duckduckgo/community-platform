@@ -90,13 +90,16 @@
 		<div class="body">
 			<div class="row">
 				<div class="twothird">
-					<: if $c.user().data().email { :>
-						<label>Current email: <span class="fakelink"><: $c.user().data().email :></span></label>
+					<: if $c.user().email { :>
+						<label>Current email: <span class="fakelink"><: $c.user().email :></span></label>
 					<: } else { :>
 						<label>No email</label>
 					<: } :>
 				</div>
 				<div class="third">
+					<: if $c.user().email && !$c.user().email_verified { :>
+						<a href="<: $u(['My','email_resend_verification'], {action_token => $action_token}) :>" class="button blue email_verify">Verify</a>
+					<: } :>
 					<a href="<: $u('My','email') :>" class="button button--right">Change email</a>
 				</div>
 			</div>
@@ -120,7 +123,7 @@
 					</label>
 				</div>
 				<div class="third">
-					<a href="<: $u('My::GitHub','index') :>" class="button button--right">GitHub Link</a>
+					<a href="<: $u('My::GitHub','index', { action_token => $action_token }) :>" class="button button--right">GitHub Link</a>
 				</div>
 			</div>
 			<div class="row">

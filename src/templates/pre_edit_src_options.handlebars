@@ -1,0 +1,175 @@
+{{#eq live.repo 'fathead'}}
+    <div class="row-diff" id="row-diff-src_options">
+        <div class="column-left-labels left">
+            <div class="column-left-labels__child">
+                <p class="column-left-labels__child__p">
+                    Source Options
+                </p>
+            </div>
+        </div>
+        <div class="column-center-live left">
+            <div class="column-center-live__child">
+                <p class="column-center-live__child__p">
+                    {{#if live.src_options}}
+                    <ul class="section-group" id="src_options-group">
+                        <li>
+                            <i class="section-group__item icon-check{{#unless live.src_options.skip_end}}-empty{{/unless}}" id="skip_end-check"/>
+                            <span class="check-txt">
+                                Skip end
+                            </span>
+                        </li>
+                        <li>
+                            <i class="section-group__item icon-check{{#unless live.src_options.skip_abstract}}-empty{{/unless}}" id="skip_abstract-check"/>
+                            <span class="check-txt">
+                                Skip abstract
+                            </span>
+                        </li>
+                        <li>
+                            <i class="section-group__item icon-check{{#unless live.src_options.skip_abstract_paren}}-empty{{/unless}}" id="skip_abstract_paren-check"/>
+                            <span class="check-txt">
+                                Skip abstract parent
+                            </span>
+                        </li>
+                        <li>
+                            <i class="section-group__item icon-check{{#unless live.src_options.skip_icon}}-empty{{/unless}}" id="skip_icon-check"/>
+                            <span class="check-txt">
+                                Skip icon
+                            </span>
+                        </li>
+                        <li>
+                            <i class="section-group__item icon-check{{#unless live.src_options.skip_image_name}}-empty{{/unless}}" id="skip_image_name-check"/>
+                            <span class="check-txt">
+                                Skip image name
+                            </span>
+                        </li>
+                        <li>
+                            <i class="section-group__item icon-check{{#unless live.src_options.is_wikipedia}}-empty{{/unless}}" id="is_wikipedia-check"/>
+                            <span class="check-txt">
+                                Is Wikipedia
+                            </span>
+                        </li>
+                        <li>
+                            <i class="section-group__item icon-check{{#unless live.src_options.is_mediawiki}}-empty{{/unless}}" id="is_mediawiki-check"/>
+                            <span class="check-txt">
+                                Is MediaWiki
+                            </span>
+                        </li>
+                        <li>
+                            <label class="left">Skip query: </label>
+                            <div class="clearfix " id="skip_qr-txt">
+                                {{live.src_options.skip_qr}}
+                            </div>
+                        </li>
+                        <li>
+                            <label class="left">Directory: </label>
+                            <div class="clearfix " id="directory-txt">
+                                {{live.src_options.directory}}
+                            </div>
+                        </li>
+                        <li>
+                            <label class="left">Minimum abstract length: </label>
+                            <div class="clearfix " id="min_abstract_length-txt">
+                                {{live.src_options.min_abstract_length}}
+                            </div>
+                        </li>
+                        <li>
+                            <label class="left">Source info: </label>
+                            <div class="clearfix " id="src_info-txt">
+                                {{live.src_options.src_info}}
+                            </div>
+                        </li>
+                    </ul>
+                    {{else}}
+                        —
+                    {{/if}}
+                </p>
+            </div>
+        </div>
+        <div class="column-right-edits left" id="column-edits-src_options">
+            <div class="column-right-edits__child" id="src_options" name="src_options">
+                <p class="column-right-edits__child__p">
+                    {{#if edited.src_options}}
+                    <ul class="section-group" id="src_options-group">
+                        <li>
+                            <i class="section-group__item icon-check{{#unless edited.src_options.skip_end}}-empty{{/unless}}" id="skip_end-check"/>
+                            <span class="check-txt">
+                                Skip end
+                            </span>
+                        </li>
+                        <li>
+                            <i class="section-group__item icon-check{{#unless edited.src_options.skip_abstract}}-empty{{/unless}}" id="skip_abstract-check"/>
+                            <span class="check-txt">
+                                Skip abstract
+                            </span>
+                        </li>
+                        <li>
+                            <i class="section-group__item icon-check{{#unless edited.src_options.skip_abstract_paren}}-empty{{/unless}}" id="skip_abstract_paren-check"/>
+                            <span class="check-txt">
+                                Skip abstract parent
+                            </span>
+                        </li>
+                        <li>
+                            <i class="section-group__item icon-check{{#unless edited.src_options.skip_icon}}-empty{{/unless}}" id="skip_icon-check"/>
+                            <span class="check-txt">
+                                Skip icon
+                            </span>
+                        </li>
+                        <li>
+                            <i class="section-group__item icon-check{{#unless edited.src_options.skip_image_name}}-empty{{/unless}}" id="skip_image_name-check"/>
+                            <span class="check-txt">
+                                Skip image name
+                            </span>
+                        </li>
+                        <li>
+                            <i class="section-group__item icon-check{{#unless edited.src_options.is_wikipedia}}-empty{{/unless}}" id="is_wikipedia-check"/>
+                            <span class="check-txt">
+                                Is Wikipedia
+                            </span>
+                        </li>
+                        <li>
+                            <i class="section-group__item icon-check{{#unless edited.src_options.is_mediawiki}}-empty{{/unless}}" id="is_mediawiki-check"/>
+                            <span class="check-txt">
+                                Is MediaWiki
+                            </span>
+                        </li>
+                        <li>
+                            <label class="left">Skip query: </label>
+                            <div class="clearfix " id="skip_qr-txt">
+                                {{edited.src_options.skip_qr}}
+                            </div>
+                        </li>
+                        <li>
+                            <label class="left">Directory: </label>
+                            <div class="clearfix " id="directory-txt">
+                                {{edited.src_options.directory}}
+                            </div>
+                        </li>
+                        <li>
+                            <label class="left">Minimum abstract length: </label>
+                            <div class="clearfix " id="min_abstract_length-txt">
+                                {{edited.src_options.min_abstract_length}}
+                            </div>
+                        </li>
+                        <li>
+                            <label class="left">Source info: </label>
+                            <div class="clearfix " id="src_info-txt">
+                                {{edited.src_options.src_info}}
+                            </div>
+                        </li>
+                    </ul>
+                    {{/if}}
+                </p>
+            </div>
+        </div>
+
+        <div class="button js-pre-editable" name="src_options">
+            <i class="js-pre-editable__icon icon-edit"></i>
+            <span class="js-pre-editable__text">Edit</span>
+        </div>
+
+        <div class="button hide js-editable" name="src_options">
+            <i class="js-editable__icon icon-check"></i>
+            <span class="js-editable__text">Done</span>
+        </div>
+    </div>
+{{/eq}}

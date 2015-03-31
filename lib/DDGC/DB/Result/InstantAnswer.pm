@@ -7,6 +7,7 @@ extends 'DDGC::DB::Base::Result';
 use DBIx::Class::Candy;
 use DateTime::Format::Human::Duration;
 use namespace::autoclean;
+use JSON;
 
 table 'instant_answer';
 
@@ -28,6 +29,14 @@ column description => {
 	is_nullable => 1,
 };
 
+# JSON string cointaining parameters such as
+# fallback_timeout, for IAs with slow upstream providers
+column answerbar => {
+    data_type => 'text',
+    is_nullable => 1,
+    is_json => 1,
+};
+
 # eg DDG::Goodie::Calculator
 column perl_module => {
 	data_type => 'text',
@@ -38,6 +47,7 @@ column perl_module => {
 column perl_dependencies => {
     data_type => 'text',
     is_nullable => 1,
+    is_json => 1,
 };
 
 # idea, planning, alpha, beta, qa, ready, live, disabled
@@ -80,6 +90,7 @@ column topic=> {
 column code => {
 	data_type => 'text',
 	is_nullable => 1,
+    is_json => 1,
 };
 
 # external api name
@@ -98,6 +109,12 @@ column src_url => {
 column src_api_documentation => {
 	data_type => 'text',
 	is_nullable => 1,
+};
+
+# api status page
+column api_status_page => {
+    data_type => 'text',
+    is_nullable => 1,
 };
 
 # favicon url, if necessary. can usually be inferred from the domain
@@ -134,6 +151,7 @@ column custom_templates => {
 column triggers => {
     data_type => 'text',
     is_nullable => 1,
+    is_json => 1,
 };
 
 # primary example query
@@ -164,6 +182,7 @@ column tab => {
 column attribution_orig => {
 	data_type => 'text',
 	is_nullable => 1,
+    is_json => 1,
 };
 
 # template
@@ -219,6 +238,7 @@ column designer => {
 column developer => {
     data_type => 'text',
     is_nullable => 1,
+    is_json => 1,
 };
 
 # code review (can be completed, aka '1', or not completed, aka '0')
@@ -296,6 +316,7 @@ column tested_staging => {
 column src_options => {
     data_type => 'text',
     is_nullable => 1,
+    is_json => 1,
 };
 
 column src_id => {
@@ -317,6 +338,20 @@ many_to_many 'users', 'instant_answer_users', 'user';
 
 has_many 'instant_answer_topics', 'DDGC::DB::Result::InstantAnswer::Topics', 'instant_answer_id';
 many_to_many 'topics', 'instant_answer_topics', 'topic';
+
+sub TO_JSON {
+    my $ia = shift;
+    my %data = $ia->get_columns;
+    while( my($field,$value) = each %data ){
+        my $column_data = $ia->column_info($field);
+        next unless $column_data->{is_json} && $data{$field};
+        warn $field;
+        warn $column_data->{is_json};
+        $data{$field} = from_json($data{$field})
+    }
+
+    return \%data;
+}
 
 no Moose;
 __PACKAGE__->meta->make_immutable;

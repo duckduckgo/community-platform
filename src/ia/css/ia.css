@@ -1,4 +1,4 @@
-/* experimental and/or prototype */
+/*te-new-ia.button experimental and/or prototype */
 
 .iadata td {
     padding-right:0.5em;
@@ -81,6 +81,7 @@
     padding-left: 0.2em;
 }
 .ia-single .row-diff .available_topics,
+.ia-single .topic-group,
 .ia-single .row-diff .editpage span input {
     border-top-left-radius: 0;
     -moz-border-top-left-radius: 0;
@@ -94,10 +95,16 @@
 
     margin-bottom: 0.3em;
 }
-.ia-single .row-diff .available_topics {
-    height: 1.76em;
+.ia-single .row-diff .available_topics,
+.ia-single .topic-group {
     min-width: 5em;
     width: 9em;
+}
+.ia-single .row-diff .available_topics {
+    height: 1.76em;
+}
+.ia-single .topic-group {
+    height: 2.21em;
 }
 .ia-single .row-diff .editpage span input {
     height: 1.52em;
@@ -127,6 +134,9 @@
 }
 .ia-single .row-diff .column-right-edits i {
     vertical-align: middle;
+}
+.ia-single .row-diff .column-right-edits .selection-group__item-input {
+    margin-left: 0.5em;
 }
 .ia-single .row-diff .button.js-pre-editable .js-pre-editable__text,
 .ia-single .row-diff .button.js-editable .js-editable__text {
@@ -187,17 +197,14 @@
 #ia_index {
     width: 100%;
 }
-#create-new-ia.button {
-    left: 0.75em;
-}
 #create-new-ia-form {
     position: fixed;
     background-color: #fff;
     width: 31em;
     z-index: 1000;
     border: 1px solid #dbdbdb;
-    top: 10em;
-    left: 25em;
+    top: 11em;
+    left: 33em;
     box-shadow: 2px 5px 20px 5px #888;
     padding: 20px 0 20px 25px;
 }
@@ -337,7 +344,7 @@
 .ia-single ul li {
     list-style-position: inside;
 }
-.ia-single .row-diff .column-right-edits .button.listbutton {
+.ia-single .button.listbutton {
     padding: 0;
     width: 1.6em;
     height: 1.9em;
@@ -345,7 +352,7 @@
     font-size: 14px;
     background-color: #dbdbdb;
 }
-.ia-single .row-diff .column-right-edits .button.delete {
+.ia-single .button.delete {
     border-right: 0;
     border-bottom-right-radius: 0;
     -moz-border-bottom-right-radius: 0;
@@ -1162,7 +1169,7 @@ body.texture {
     margin-bottom: 0.5em;
 }
 
-.ia-single--name .status {
+.ia-single--name .dev_milestone {
     display: inline-block;
     margin-left: 0.5em;
     padding-left: 0.5em;
@@ -1174,29 +1181,61 @@ body.texture {
     margin-bottom: 0;
 }
 
-.ia-single--name .status.status--live {
+.ia-single--name .dev_milestone.dev_milestone--live {
     color: #4B9E4F;
     border-color: #4B9E4F;
 } 
 
+#toggle-devpage-view .pager-wrap {
+    height: 2.5em;
+    width: 9.5em;
+}
+
 .dev_milestone-container {
-    width: 23%;
-    min-height: 21em;
     border: 1px solid rgb(225, 225, 225);
     border-radius: 5px;
     padding: 5px;
-    margin-right: 0.3em;
+    margin-bottom: 0.5em;
+}
+
+.dev_milestone-container__header__button.js-expand {
+    border: 0;
+    box-shadow: unset;
+    background-color: transparent;
+}
+
+.dev_milestone-container label {
+    width: 100%;
 }
 
 /* Set the height of the read-only fields so that 
    the layout doesn't change when it switches to the input field */
 .dev_milestone-container__body__readonly {
-    min-height: 21px;
+
+}
+
+#metafield_container td:nth-child(2) {
+    padding-left: 1.2em;
+}
+
+.dev_milestone-container__body__label {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+#metafield_container td {
+    vertical-align: initial;
+    padding-bottom: 1em;
+}
+
+#metafield_container td.up {
+    vertical-align: top;
 }
 
 /* Small adjustment to the spacing between the labels in the dev page. */
-.ia-single .dev_milestone-container .ia-single--header {
-    margin-top: 2em;
+.ia-single .dev_milestone-container .ia-single--header,
+#metafield_container .ia-single--header {
+    margin: 0;
 }
 
 .ia-single .dev_milestone-container.current-container {
@@ -1236,7 +1275,7 @@ body.texture {
 
 #dev_pipeline .dev_pipeline-column__title {
     font-weight: 600;
-    font-size: 1.92em;
+    font-size: 1.87em;
 }
 
 #dev_pipeline .dev_pipeline-column__list li {
@@ -1248,4 +1287,147 @@ body.texture {
 
 #dev_pipeline .dev_pipeline-column__list li a {
     color: #333;
+}
+
+#pipeline_toggle-view,
+#pipeline-live-container {
+    padding-left: 1em;
+}
+
+#pipeline-live-container {
+    width: 70%;
+}
+
+.filter-issues {
+    width: 23%;
+    margin-left: 3em;
+}
+
+#pipeline_toggle-view {
+    margin-bottom: 1em;
+}
+
+#pipeline_toggle-view .pager-wrap {
+    height: 4em;
+    width: 17.95em;
+}
+
+#pipeline-live-container .list-container--left {
+    width: 20%;
+}
+
+#pipeline-live-container .list-container--left {
+    padding-left: 1em;
+}
+
+#pipeline-live__list .pipeline-live__list__item {
+    border-bottom: 1px solid #CDCDCD;
+    margin-top: 0.5em;
+    padding: 1em 0;
+}
+
+#pipeline-live__list li,
+#pipeline-live-container .list-container--right li {
+    list-style: none;
+}
+
+#pipeline-live__list .list-container--left a {
+    color: #333;
+}
+
+#pipeline-live-container .list-container--right li .one-line,
+#pipeline-live-container .list-container--right li .one-line a {
+    color: #4896D2;
+}
+
+#pipeline-live-container .list-container--right li .one-line {
+    width: 20em;
+}
+
+#pipeline-live-container .list-container--right {
+    margin-left: 5em;
+}
+
+.icon-check,
+.icon-check-empty {
+    cursor: pointer;
+}
+
+.filter-issues__item__tag,
+.issues_col__tags {
+    display: inline-block;
+    padding: 0.1em 0.25em;
+    margin-left: 0.5em;
+}
+
+.issues_col__tags {
+    height: 0.5em;
+    width: 0.2em;
+    border-radius: 100%;
+    -moz-border-radius: 100%;
+    -webkit-border-radius: 100%;
+    -o-border-radius: 100%;
+    margin-top: 0.5em;
+}
+
+.filter-issues__item {
+    margin-top: 0.5em;
+}
+
+.filter-issues__item__checkbox {
+    margin-top: 0.35em;
+}
+
+.filter-issues__item__tag {
+    color: #fff;
+    font-weight: 600;
+    width: auto;
+    text-shadow: 1px 1px 1px #333;
+    border-radius: 3px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    -o-border-radius: 3px;
+}
+
+#metafield_container {
+    margin-bottom: 0.5em;
+}
+
+#metafield_container--left {
+    width: 45%;
+}
+
+#metafield_container--right {
+    margin-left: 1em;
+    width: 53%;
+}
+
+.topic-separator.left {
+    margin-left: 0.25em;
+}
+
+.metafield .ia-single--header {
+    margin-top: 0.5em;
+}
+
+#view_json {
+    margin-right: 0.5em;
+    height: 1.45em;
+}
+
+.ia-single--left--wide {
+    width: 100%;
+}
+
+.ia-single--left--wide .dev_milestone-container {
+    width: 22%;
+    float: left;
+}
+
+.ia-single--left--wide .dev_milestone-container {
+    margin-left: 1em;
+}
+
+.ia-single--left--wide #planning {
+    margin-left: 0;
 }

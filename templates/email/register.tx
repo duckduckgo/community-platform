@@ -1,0 +1,18 @@
+
+<: include "email/heading.tx" { title => "Welcome to the DuckDuckGo Community!" } :>
+<tr>
+	<td width="10"></td>
+	<td align="center" colspan="2">
+		<table cellpadding="0" cellspacing="5" border="0" bgcolor="#fff" <: style("msg_content") :>>
+			<tr>
+				<td colspan="2" valign="middle">
+					<p <: style("default") :>>Thanks for joining duck.co, the DuckDuckGo community changing the future of search.</p>
+					<h4 <: style("default") :>>Please click the link below to verify this email address:</h4>
+					<p <: style("default") :>><a href="<: $email_verify_link :>">Yes, I signed up for duck.co with this address</a></p>
+					<p <: style("sub_text") :>>Regards, <br/><i <: style("signoff") :>>The DuckDuckGo Community team.</i></p>
+				</td>
+			</tr>
+		</table>
+	</td>
+	<td width="10"></td>
+</tr>

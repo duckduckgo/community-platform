@@ -33,6 +33,7 @@ column body => {
 column tags => {
 	data_type => 'text',
 	is_nullable => 1,
+    serializer_class => 'JSON',
 };
 
 column repo => {
@@ -40,6 +41,16 @@ column repo => {
 };
 
 column is_pr => {
+    data_type => 'text',
+    is_nullable => 1,
+};
+
+column date => {
+    data_type => 'text',
+    is_nullable => 1,
+};
+
+column author => {
     data_type => 'text',
     is_nullable => 1,
 };

@@ -5,7 +5,7 @@
 
     <ul class="dev_pipeline-column__list" id="pipeline-planning__list">
         {{#each planning}}
-            <li id="pipeline-planning__list__{{id}}">
+            <li id="pipeline-planning__list__{{id}}" class="producer-{{producer}} designer-{{designer}} developer-{{developer}}">
                 <a href="/ia/view/{{id}}">{{name}}</a>
             </li>
         {{/each}}
@@ -20,7 +20,7 @@
 
     <ul class="dev_pipeline-column__list" id="pipeline-in_development__list">
         {{#each in_development}}
-            <li id="pipeline-in_development__list__{{id}}">
+            <li id="pipeline-in_development__list__{{id}}" class="producer-{{producer}} designer-{{designer}} developer-{{developer}}">
                 <a href="/ia/view/{{id}}">{{name}}</a>
             </li>
         {{/each}}
@@ -35,7 +35,7 @@
 
     <ul class="dev_pipeline-column__list" id="pipeline-qa__list">
         {{#each qa}}
-            <li id="pipeline-qa__list__{{id}}">
+            <li id="pipeline-qa__list__{{id}}" class="producer-{{producer}} designer-{{designer}} developer-{{developer}}">
                 <a href="/ia/view/{{id}}">{{name}}</a>
             </li>
         {{/each}}
@@ -50,7 +50,7 @@
 
     <ul class="dev_pipeline-column__list" id="pipeline-ready__list">
         {{#each ready}}
-            <li id="pipeline-ready__list__{{id}}">
+            <li id="pipeline-ready__list__{{id}}" class="producer-{{producer}} designer-{{designer}} developer-{{developer}}">
                 <a href="/ia/view/{{id}}">{{name}}</a>
             </li>
         {{/each}}

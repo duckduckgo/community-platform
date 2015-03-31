@@ -3,12 +3,12 @@
     <div class="ia-single--header">EXAMPLES</div>
     <ul>
       <li>
-        <a class="one-line" href="https://duckduckgo.com/?q={{encodeURIComponent example_query}}{{#if tab}}&ia={{tab}}{{/if}}" title="try this example on DuckDuckGo">{{example_query}}</a>
+        <a class="one-line" href="https://duckduckgo.com/?q={{encodeURIComponent example_query}}{{tab_url tab}}" title="try this example on DuckDuckGo">{{example_query}}</a>
       </li>
       {{#if other_queries}}
         {{#each other_queries}}
           <li>
-            <a class="one-line" href="https://duckduckgo.com/?q={{encodeURIComponent this}}{{#if ../tab}}&ia={{../../tab}}{{/if}}" title="try this example on DuckDuckGo">{{this}}</a>
+            <a class="one-line" href="https://duckduckgo.com/?q={{encodeURIComponent this}}{{tab_url ../tab}}" title="try this example on DuckDuckGo">{{this}}</a>
           </li>
         {{/each}}
       {{/if}}

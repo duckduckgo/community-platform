@@ -1,1 +1,86 @@
-<div id="dev_pipeline"></div>
+<: if $is_admin { :>
+    <div id="create-new-ia" class="button right">
+        New IA Page
+    </div>
+    <div id="create-new-ia-form" class="new-ia-form hide">
+        <div class="new-ia-form-section left">
+            <div class="label">
+                Name
+            </div>
+            <input id="name-input" class="new-ia-input">
+        </div>
+
+        <div class="new-ia-form-section left">
+            <div class="label">
+                ID
+            </div>
+            <input id="id-input" class="new-ia-input">
+        </div>
+
+        <div class="new-ia-form-section left">
+            <div class="label">
+                Dev Milestone
+            </div>
+            <span class="new-ia-select" id="dev_milestone-select">
+                <select class="available_dev_milestones" tabindex="-1">
+                    <option value="1">planning</option>
+                    <option value="2">in_development</option>
+                    <option value="3">qa</option>
+                    <option value="4">ready</option>
+                    <option value="5">live</option>
+                </select>
+            </span>
+        </div>
+
+        <div class="new-ia-form-section clearfix">
+            <div class="label">
+                Description
+            </div>
+            <textarea id="description-input" class="new-ia-input" rows="5"></textarea>
+        </div>
+
+        <div class="button left" id="new-ia-form-save">
+            Save
+        </div>
+
+        <div class="button left" id="new-ia-form-cancel">
+            Cancel
+        </div>
+        <span class="clearfix"></span>
+    </div>
+<: } :>
+
+<div class="pipeline__toggle-view" id="pipeline_toggle-view">
+    <div class="pager-wrap">
+        <span class="button-group  button-group--paging">
+            <span class="button pipeline__toggle-view__button <: if $view == 'dev' { :>button-nav-current disabled<: } :>" id="pipeline_toggle-dev">
+                In Development
+            </span>
+            <span class="button pipeline__toggle-view__button <: if $view == 'live' { :>button-nav-current disabled<: } :>" id="pipeline_toggle-live">
+                Live with issues
+            </span>
+        </span>
+    </div>
+
+    <: if $view == 'dev' && $logged_in { :>
+        <div class="filter-team">
+            <i class="filter-team__checkbox icon-check-empty" id="filter-team_checkbox"></i>
+            <span class="filter-team__span">
+                Show IAs of which I am the 
+                <: if $is_admin { :>
+                    <select class="filter-team__span__select" id="select-teamrole">
+                        <option value="0">producer</option>
+                        <option value="1">designer</option>
+                        <option value="2">developer</option>
+                    </select>
+                <: } else { :>
+                    developer
+                <: } :>
+            </span> 
+        </div>
+    <: } :>
+</div>
+
+<div id="dev_pipeline">
+    
+</div>

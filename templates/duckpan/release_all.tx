@@ -1,9 +1,0 @@
-<: for results($duckpan_releases) -> $duckpan_release { :>
-  <div class="content-box account-box">
-    <div class="head">
-      <h2><a href="<: $u($duckpan_release.u) :>">
-        <: $duckpan_release.name :> <: $duckpan_release.version :>
-      </a></h2>
-    </div>
-  </div>
-<: } :>

@@ -6,7 +6,7 @@
   <form method="POST" action="<: $u('Admin::Help','index') :>">
     <div class="content-box content-box-toggleclick only">
       <div id="help_<: $help.id :>_clicker" class="head">
-        <h4>#<: $help.id :> [<: $help.category.key :>] <: $help.key :></h4>
+        <h4>#<: $help.id :> [<: $help.category.key || 'HIDDEN' :>] <: $help.key :></h4>
 		<: include 'i/head_icons.tx' :>
       </div>
       <div class="body  column-form">

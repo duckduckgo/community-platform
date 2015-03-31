@@ -9,15 +9,15 @@
 		<form action="<: $u('My','email') :>" method="post" id="formEmail">
 			<input type="hidden" name="action_token" value="<: $action_token :>">
 			<h3><b>
-				<: if $c.user.data.email { :>
+				<: if $c.user.email { :>
 					Change your email address
   				<: } else { :>
 				    Add an email address
   				<: } :>
 			</b></h3>
 			<hr class="clear" />			
-			<: if $c.user.data.email { :>					
-				<p>Current email: <b><: $c.user.data.email :></b></p>					
+			<: if $c.user.email { :>
+				<p>Current email: <b><: $c.user.email :></b></p>
 			<: } else { :>
 				<p>No email set yet.</p>
 			<: } :>

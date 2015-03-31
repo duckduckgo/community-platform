@@ -7,18 +7,37 @@
 </select>
 
 <: if $can_edit { :>
-    <div class="special-permissions__toggle-view right" id="toggle-view">
-        <div class="pager-wrap">
-            <span class="button-group  button-group--paging">
-                <span class="button special-permissions__toggle-view__button" id="toggle-live">
-                    Live
+    <: if $dev_milestone == 'live' { :>
+        <div class="special-permissions__toggle-view right" id="toggle-view">
+            <div class="pager-wrap">
+                <span class="button-group  button-group--paging">
+                    <span class="button special-permissions__toggle-view__button" id="toggle-live">
+                        Live
+                    </span>
+                    <span class="button special-permissions__toggle-view__button button-nav-current disabled" id="toggle-edited">
+                        Edited
+                    </span>
                 </span>
-                <span class="button special-permissions__toggle-view__button button-nav-current disabled" id="toggle-edited">
-                    Edited
-                </span>
+            </div>
         </div>
-    </div>
-    <div class="special-permissions right">
+    <: } else { :>
+        <div class="dev-special-permissions__toggle-view right" id="toggle-devpage-view">
+            <div class="pager-wrap">
+                <span class="button-group  button-group--paging">
+                    <span class="button dev-special-permissions__toggle-view__button" id="toggle-devpage-static">
+                        Static
+                    </span>
+                    <span class="button dev-special-permissions__toggle-view__button button-nav-current disabled" id="toggle-devpage-editable">
+                        Editable
+                    </span>
+                </span>
+            </div>
+        </div>
+        <div class="dev-special-permissions__json button right" id="view_json">
+            View as JSON
+        </div>
+    <: } :>
+    <div class="special-permissions right <: if $dev_milestone != 'live' { :>hide<: } :>">
         <: if $can_commit { :>
             <div class="special-permissions__edit js-view-commits button <: $commit_class :>" id="view_commits">Commit edits</div>
         <: } :>
