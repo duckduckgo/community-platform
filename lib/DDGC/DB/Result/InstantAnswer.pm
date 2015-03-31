@@ -177,7 +177,6 @@ column signal_from => {
 column tab => {
 	data_type => 'text',
 	is_nullable => 1,
-    is_json => 1,
 };
 
 # attribution
