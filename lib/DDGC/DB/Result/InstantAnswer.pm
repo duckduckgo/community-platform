@@ -164,6 +164,7 @@ column example_query => {
 column other_queries => {
 	data_type => 'text',
 	is_nullable => 1,
+    is_json => 1,
 };
 
 # signal_from
@@ -176,6 +177,7 @@ column signal_from => {
 column tab => {
 	data_type => 'text',
 	is_nullable => 1,
+    is_json => 1,
 };
 
 # attribution
@@ -195,6 +197,7 @@ column template => {
 column attribution => {
 	data_type => 'text',
 	is_nullable => 1,
+    is_json => 1,
 };
 
 # screenshots
@@ -345,8 +348,6 @@ sub TO_JSON {
     while( my($field,$value) = each %data ){
         my $column_data = $ia->column_info($field);
         next unless $column_data->{is_json} && $data{$field};
-        warn $field;
-        warn $column_data->{is_json};
         $data{$field} = from_json($data{$field})
     }
 
