@@ -455,7 +455,7 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
                     status => $edited->{status},
                     example_query => $edited->{example_query},
                     other_queries => $edited->{other_queries}->{value},
-                    topic => $edited->{topic},
+                    topic => $edited->{topic}->{value},
                     dev_milestone => $edited->{dev_milestone},
                     tab => $edited->{tab},
                     producer => $edited->{producer},
@@ -832,6 +832,7 @@ sub current_ia {
 
     if (ref $edits eq 'HASH') {
         my $topic_val = $topic[0][@topic]{'value'};
+        my $topic_edited = $topic_val? 1 : undef;
         my $other_q_val = $other_queries[0][@other_queries]{'value'};
         my $other_q_edited = $other_q_val? 1 : undef;
         my $developer_val = $developer[0][@developer]{'value'};
@@ -842,7 +843,7 @@ sub current_ia {
         my $perl_dep_val = $perl_dependencies[0][@perl_dependencies]{'value'};
         my $perl_dep_edited = $perl_dep_val? 1 : undef;
 
-        # Other queries, triggers and perl dependencies can be empty,
+        # Other queries, topics, triggers and perl dependencies can be empty,
         # but the handlebars {{#if}} evaluates to false
         # for both null and empty values,
         # so instead of the value, we check the 'edited' key
@@ -850,6 +851,11 @@ sub current_ia {
         my %other_q = (
             edited => $other_q_edited,
             value => $other_q_val? from_json($other_q_val) : undef
+        );
+
+        my %topics = (
+            edited => $topic_edited,
+            value => $topic_val? from_json($topic_val) : undef
         );
 
         my %triggers_hash = (
@@ -866,7 +872,7 @@ sub current_ia {
             name => $name[0][@name]{'value'},
             description => $desc[0][@desc]{'value'},
             status => $status[0][@status]{'value'},
-            topic => $topic_val? from_json($topic_val) : undef,
+            topic => \%topics,
             example_query => $example_query[0][@example_query]{'value'},
             other_queries => \%other_q,
             dev_milestone => $dev_milestone[0][@dev_milestone]{'value'},
