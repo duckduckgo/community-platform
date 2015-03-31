@@ -53,7 +53,10 @@ sub ialist_json :Chained('base') :PathPart('json') :Args() {
     my $rs = $c->d->rs('InstantAnswer');
 
     my @ial = $rs->search(
-        {'topic.name' => { '!=' => 'test' },
+        {-or => [
+            'topic.name' => { '!=' => 'test' },
+            'topic' => { '=' => ''},
+        ],
          -or => [
             'me.dev_milestone' => { '=' => 'live'},
             'me.dev_milestone' => { '=' => 'ready'},
@@ -81,10 +84,14 @@ sub iarepo_json :Chained('iarepo') :PathPart('json') :Args(0) {
     my ( $self, $c ) = @_;
 
     my $repo = $c->stash->{ia_repo};
-    my @x = $c->d->rs('InstantAnswer')->search({repo => $repo});
+    my @x = $c->d->rs('InstantAnswer')->search({
+        repo => $repo,
+        dev_milestone => 'live',
+    });
 
     my %iah;
 
+IA:
     for my $ia (@x) {
         my @topics = map { $_->name} $ia->topics;
 
@@ -629,7 +636,10 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
             my $value = $c->req->params->{value};
             my $autocommit = $c->req->params->{autocommit};
             if ($autocommit) {
-                if ($field eq "topic") {
+            my $saved;
+            my @topics = map { $_->name} $ia->topics;
+                
+            if ($field eq "topic") {
                     my @topic_values = $value? from_json($value) : undef;
                     $ia->instant_answer_topics->delete;
 
@@ -644,7 +654,8 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
                         };
                     }
 
-                    $result = {$field => $value};
+                    $saved = 1;
+                    @topics = map { $_->name} $ia->topics;
                 } elsif ($field eq "producer" || $field eq "designer" || $field eq "developer") {
                     my $complat_user = $c->d->rs('User')->find({username => $value});
 
@@ -670,8 +681,8 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
                                 if ($field eq 'developer') {
                                     $value = $value? from_json($value) : undef;
                                 }
-                                
-                                $result = {$field => $value};
+
+                                $saved = 1;
                             }
                             catch {
                                 $c->d->errorlog("Error updating the database");
@@ -681,10 +692,22 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
                 } else {
                     try {
                         $ia->update({$field => $value});
-                        $result = {$field => $value};
+                        $saved = 1;
                     }
                     catch {
                         $c->d->errorlog("Error updating the database");
+                    };
+                }
+
+                if ($field ne 'topic') {
+                    $result = {
+                        $field => $ia->$field,
+                        saved => $saved
+                    };
+                } else {
+                    $result = {
+                        $field => to_json(\@topics),
+                        saved => $saved
                     };
                 }
             } else {
