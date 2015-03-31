@@ -84,6 +84,8 @@ column repo => {
 column topic=> {
 	data_type => 'text',
 	is_nullable => 1,
+    is_json => 1,
+    serializer_class => 'JSON'
 };
 
 # json array of all relevant files (.pm, .t, js, handlebars, etc)
@@ -346,7 +348,14 @@ sub TO_JSON {
     my %data = $ia->get_columns;
     while( my($field,$value) = each %data ){
         my $column_data = $ia->column_info($field);
-        next unless $column_data->{is_json} && $data{$field};
+        next unless defined $data{$field} && $column_data->{is_json};
+
+        warn $data{$field};
+        if($field eq "topic"){
+            $data{$field} =~ s/{/{"topics":[/;
+            $data{$field} =~ s/}/]}/;
+            warn $data{$field};
+        }
         $data{$field} = from_json($data{$field})
     }
 
