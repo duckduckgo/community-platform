@@ -235,7 +235,7 @@
             </tr>
         {{/if}}
 
-       {{#if triggers.edited}}
+       {{#if triggers}}
             <tr class="updates_list">
                 <th>Trigger Words</th>
 
@@ -245,14 +245,14 @@
                     {{/each}}
                 </td>
                 <td name="triggers">
-                    {{#each triggers.value}}
+                    {{#each triggers}}
                         <li>{{this}}</li>
                     {{/each}}
                 </td>
             </tr>
         {{/if}}
 
-       {{#if perl_dependencies.edited}}
+       {{#if perl_dependencies}}
             <tr class="updates_list">
                 <th>Perl Dependencies</th>
 
@@ -262,7 +262,7 @@
                     {{/each}}
                 </td>
                 <td name="perl_dependencies">
-                    {{#each perl_dependencies.value}}
+                    {{#each perl_dependencies}}
                         <li>{{this}}</li>
                     {{/each}}
                 </td>

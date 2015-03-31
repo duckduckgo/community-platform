@@ -658,7 +658,7 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
                 }
                 
                 if ($can_add) {   
-                    my $edits = add_edit($ia,  $field, $value);
+                    my $edits = add_edit($c, $ia,  $field, $value);
                 
                     try {
                         $ia->update({updates => $edits});
@@ -767,8 +767,9 @@ sub current_ia {
 sub add_edit {
     my ($c, $ia, $field, $value) = @_;
 
-    #   warn "ia: $ia->id field: $field value: $value";
-    $value = decode_json($value) if $field =~ /topic|other_queries/;
+    my $column_data = $ia->column_info(qq($field));
+    warn $column_data;
+    $value = decode_json($value) if $column_data->{is_json};
 try{
         $c->d->rs('InstantAnswer::Updates')->create({
                 instant_answer_id => $ia->id,
