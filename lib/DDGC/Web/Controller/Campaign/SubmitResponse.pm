@@ -10,7 +10,7 @@ use DateTime;
 use DateTime::Duration;
 use Lingua::Identify qw(:language_identification);
 
-sub base :Chained('/') :PathPart('campaign') :CaptureArgs(0) {
+sub base :Chained('/base') :PathPart('campaign') :CaptureArgs(0) {
 	my ( $self, $c ) = @_;
 	if (!$c->user) {
 		$c->response->status(403);
@@ -49,7 +49,7 @@ sub base :Chained('/') :PathPart('campaign') :CaptureArgs(0) {
 
 sub respond : Chained('base') : PathPart('respond') : Args(0) {
 	my ( $self, $c ) = @_;
-	#$c->require_action_token;
+	$c->require_action_token;
 
 	my $to = $c->d->config->share_email // 'sharewear@duckduckgo.com';
 	my $from = 'noreply@dukgo.com';
