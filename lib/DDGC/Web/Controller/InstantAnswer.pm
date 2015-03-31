@@ -88,7 +88,11 @@ sub iarepo_json :Chained('iarepo') :PathPart('json') :Args(0) {
 
     my %iah;
 
+IA:
     for my $ia (@x) {
+
+        next IA unless $ia->dev_milestone eq 'live'; # or ready?
+
         my @topics = map { $_->name} $ia->topics;
 
         $iah{$ia->id} = {
