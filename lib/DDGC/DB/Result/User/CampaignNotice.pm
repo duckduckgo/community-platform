@@ -37,7 +37,7 @@ column bad_response => {
 
 primary_key ( qw/users_id campaign_id campaign_source/ );
 
-belongs_to 'notice_user', 'DDGC::DB::Result::User', 'users_id', {
+belongs_to 'user', 'DDGC::DB::Result::User', 'users_id', {
   on_delete => 'no action',
 };
 
