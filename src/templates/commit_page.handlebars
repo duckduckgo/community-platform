@@ -218,7 +218,7 @@
             </tr>
         {{/if}}
 
-       {{#if other_queries.edited}}
+       {{#if other_queries}}
             <tr class="updates_list">
                 <th>Other Queries</th>
 
@@ -228,7 +228,7 @@
                     {{/each}}
                 </td>
                 <td name="other_queries">
-                    {{#each other_queries.value}}
+                    {{#each other_queries}}
                         <li>{{this}}</li>
                     {{/each}}
                 </td>

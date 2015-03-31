@@ -441,7 +441,7 @@ sub commit_json :Chained('commit_base') :PathPart('json') :Args(0) {
     my $ia = $c->stash->{ia};
     my @topics = map { $_->name} $ia->topics;
     my $edited = current_ia($c->d, $ia);
-    my %original;
+    my $original;
     my $is_admin;
 
     if ($c->user) {
@@ -449,32 +449,8 @@ sub commit_json :Chained('commit_base') :PathPart('json') :Args(0) {
     }
 
     if ($edited && $is_admin) {    
-        my %original = (
-            name => $ia->name,
-            description => $ia->description,
-            status => $ia->status,
-            topic => \@topics,
-            example_query => $ia->example_query,
-            other_queries => $ia->other_queries? from_json($ia->other_queries) : undef,
-            dev_milestone => $ia->dev_milestone,
-            perl_module => $ia->perl_module,
-            producer => $ia->producer,
-            designer => $ia->designer,
-            developer => $ia->developer? from_json($ia->developer) : undef,
-            template => $ia->template,
-            tab => $ia->tab,
-            repo => $ia->repo,
-            answerbar => $ia->answerbar,
-            src_options => $ia->src_options,
-            src_api_documentation => $ia->src_api_documentation,
-            api_status_page => $ia->api_status_page,
-            unsafe => $ia->unsafe,
-            triggers => $ia->triggers? from_json($ia->triggers) : undef,
-            perl_dependencies => $ia->perl_dependencies? from_json($ia->perl_dependencies) : undef
-        );
-
-        $edited->{original} = \%original;
-
+        $original = $ia->TO_JSON;
+        $edited->{original} = $original;
         $c->stash->{x} = $edited;
     } else {
         $c->stash->{x} = {redirect => 1};
