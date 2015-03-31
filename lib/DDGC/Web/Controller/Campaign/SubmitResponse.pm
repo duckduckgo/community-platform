@@ -19,7 +19,7 @@ sub base :Chained('/base') :PathPart('campaign') :CaptureArgs(0) {
 		return $c->detach;
 	}
 	elsif (!$c->req->param('campaign_name')) {
-		$c->response->status(500);
+		$c->response->status(403);
 		$c->stash->{x} = {
 			ok => 0, no_campaign => 1,
 			errstr => "No campaign info supplied!"
@@ -80,7 +80,7 @@ sub respond : Chained('base') : PathPart('respond') : Args(0) {
 	}
 
 	if ($short_response) {
-		$c->response->status(500);
+		$c->response->status(403);
 		$c->stash->{x} = {
 			ok => 0, fields_empty => 1,
 			errstr => "Your responses are too short. Please add more explanation.",
