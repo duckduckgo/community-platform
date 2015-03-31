@@ -97,16 +97,17 @@ IA:
     for my $ia (@x) {
         my @topics = map { $_->name} $ia->topics;
 
+        my $ia_data = $ia->TO_JSON;
         $iah{$ia->id} = {
-                name => $ia->name,
-                id => $ia->id,
-                attribution => $ia->attribution? from_json($ia->attribution) : undef,
-                example_query => $ia->example_query,
-                repo => $ia->repo,
-                perl_module => $ia->perl_module,
-                tab => $ia->tab,
-                description => $ia->description,
-                status => $ia->status,
+                name => $ia_data->{name},
+                id => $ia_data->{id},
+                attribution => $ia_data->{attribution},
+                example_query => $ia_data->{example_query},
+                repo => $ia_data->{repo},
+                perl_module => $ia_data->{perl_module},
+                tab => $ia_data->{tab},
+                description => $ia_data->{description},
+                status => $ia_data->{status},
                 topic => \@topics
         };
 
