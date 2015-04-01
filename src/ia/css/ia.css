@@ -1431,3 +1431,16 @@ body.texture {
 .ia-single--left--wide #planning {
     margin-left: 0;
 }
+
+.generate-screenshot {
+    text-align: center;
+}
+
+.ia-single--right.dashed-border {
+    border-radius: 3px;
+    border: 2px dashed #999;
+}
+
+.generate-screenshot--button {
+    margin: 1em;
+}

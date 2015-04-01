@@ -167,23 +167,29 @@
                         $(".special-permissions__toggle-view").hide();
                     });
 
+                    // Check if the screenshot exists or not.
                     $(".ia-single--image-container img").error(function() {
                         if (ia_data.live.dev_milestone !== "live") {
-                            $(".ia-single--screenshots").addClass("hide");
-                            $(".ia-single--left").removeClass("ia-single--left").addClass("ia-single--left--wide");
-                            $(".dev_milestone-container__body").removeClass("hide");
-
-                            // Set the panels height to the tallest one's height
-                            var max_height = 0;
-                            $(".dev_milestone-container").each(function(idx) {
-                                if ($(this).height() > max_height) {
-                                    max_height = $(this).height();
-                                }
-                            });
-
-                            $(".dev_milestone-container").height(max_height);
+                            // Hide the faux-window if the screenshot doesn't exist.
+                            $(".ia-single--screenshots").hide();
+                            $(".ia-single--right").addClass("dashed-border");
 
                             page.imgHide = true;
+                        }
+                    });
+
+                    var generate_clicked = false;
+                    $(".generate-screenshot").click(function() {
+                        env.create_screenshot = function() {
+                            generate_clicked = false;
+                            $(".generate-screenshot--button").html("Generate Screenshot");
+                            $(".save-screenshot").show();
+                        };
+
+                        if(!generate_clicked) {
+                            generate_clicked = true;
+                            $(".generate-screenshot--button").html("Generating ...");
+                            $.post("http://ddh5.duckduckgo.com:5000/screenshot/create/dictionary_definition?callback=create_screenshot");
                         }
                     });
                     
