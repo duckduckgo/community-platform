@@ -351,7 +351,6 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
     my ( $self, $c) = @_;
 
     my $ia = $c->stash->{ia};
-    my @topics = map { $_->name} $ia->topics;
     my $edited;
     my @issues = $c->d->rs('InstantAnswer::Issues')->search({instant_answer_id => $ia->id});
     my @ia_issues;
@@ -440,7 +439,6 @@ sub commit_json :Chained('commit_base') :PathPart('json') :Args(0) {
     my ( $self, $c ) = @_;
 
     my $ia = $c->stash->{ia};
-    my @topics = map { $_->name} $ia->topics;
     my $edited = current_ia($c->d, $ia);
     my $original;
     my $is_admin;
@@ -469,54 +467,12 @@ sub commit_save :Chained('commit_base') :PathPart('save') :Args(0) {
 
     if ($c->user) {
         my $is_admin = $c->user->admin;
-
         if ($is_admin) {
-
             # get the IA 
+            warn "saving";
             my $ia = $c->d->rs('InstantAnswer')->find($c->req->params->{id});
-            my @params = from_json($c->req->params->{values});
-
-            for my $param (@params) {
-                for my $hash_param (@{$param}) {
-                    my %hash = %{$hash_param};
-                    my $field;
-                    my $value;
-                    for my $key (keys %hash) {
-                        if ($key eq 'field') {
-                            $field = $hash{$key};
-                        } else {
-                            $value = $hash{$key};
-                        }
-                    }
-                    if ($field eq "topic") {
-                        my @topic_values = $value;
-                        warn "updating topics";
-                        warn Dumper @topic_values;
-                        warn $ia->instant_answer_topics->delete;
-                        for my $topic (@{$topic_values[0]}) {
-                            $result = add_topic($c, $ia, $topic);
-                            return unless $result;
-                        }
-                    } else {
-                        if ($field eq "developer" && $value ne '') {
-                            my %dev_hash = (
-                                name => $value,
-                                url => 'https://duck.co/user/'.$value
-                            );
-
-                            $value = to_json \%dev_hash;
-                        }
-
-                        try {
-                            commit_edit($c->d, $ia, $field, $value);
-                            $result = '1';
-                        } catch {
-                            $c->d->errorlog("Error updating the database");
-                            return '';
-                        };
-                    }
-                }
-            } 
+            my $params = from_json($c->req->params->{values});
+            $result = save($c, $params, $ia);
         }
     }
 
@@ -532,6 +488,8 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
     my ( $self, $c ) = @_;
 
     my $ia = $c->d->rs('InstantAnswer')->find($c->req->params->{id});
+    #my @params = from_json($c->req->params->{values});
+    my $ia_data = $ia->TO_JSON;
     my $permissions;
     my $is_admin;
     my $result = '';
@@ -544,129 +502,32 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
             my $field = $c->req->params->{field};
             my $value = $c->req->params->{value};
             my $autocommit = $c->req->params->{autocommit};
-            if ($autocommit) {
-            my $saved;
-            my @topics = map { $_->name} $ia->topics;
-                
-            if ($field eq "topic") {
-                    my @topic_values = $value? from_json($value) : undef;
-                    $ia->instant_answer_topics->delete;
+            my $complat_user = $c->d->rs('User')->find({username => $value});
+            my $complat_user_admin = $complat_user? $complat_user->admin : '';
 
-                    for my $topic (@{$topic_values[0]}) {
-                        my $topic_id = $c->d->rs('Topic')->find({name => $topic});
+            $result = {$field => $value, is_admin => $is_admin};
 
-                        try {
-                            $ia->add_to_topics($topic_id);
-                        } catch {
-                            $c->d->errorlog("Error updating the database");
-                            return '';
-                        };
-                    }
-
-                    $saved = 1;
-                    @topics = map { $_->name} $ia->topics;
-                } elsif ($field eq "producer" || $field eq "designer" || $field eq "developer") {
-                    my $complat_user = $c->d->rs('User')->find({username => $value});
-
-                    if ($complat_user || $value eq '') {
-                        my $complat_user_admin = $complat_user? $complat_user->admin : '';
-
-                        if ((($field eq "producer" || $field eq "designer") && ($complat_user_admin || $value eq ''))
-                            || $field eq "developer") {
-                            if ($field eq "developer" && $value ne '') {
-                                my %dev_hash = (
-                                    name => $value,
-                                    url => 'https://duck.co/user/'.$value
-                                );
-
-                                $value = to_json \%dev_hash;
-                            }
-
-                            print $value;
-
-                            try {
-                                $ia->update({$field => $value});
-                                
-                                if ($field eq 'developer') {
-                                    $value = $value? from_json($value) : undef;
-                                }
-
-                                $saved = 1;
-                            }
-                            catch {
-                                $c->d->errorlog("Error updating the database");
-                            };
-                        }
-                    }
-                } else {
-                    try {
-                        $ia->update({$field => $value});
-                        $saved = 1;
-                    }
-                    catch {
-                        $c->d->errorlog("Error updating the database");
-                    };
-                }
-
-                if ($field ne 'topic') {
-                    $result = {
-                        $field => $ia->$field,
-                        saved => $saved
-                    };
-                } else {
-                    $result = {
-                        $field => to_json(\@topics),
-                        saved => $saved
-                    };
-                }
-            } else {
-
-                warn "adding edit";
-                add_edit($c, $ia, $field, $value);
-                warn "edit was added";
-                $result = {$field => $value, is_admin => $is_admin};
-
-                my $can_add = 0;
-                if ($field eq "producer" || $field eq "designer" || $field eq "developer") {
-                    my $complat_user = $c->d->rs('User')->find({username => $value});
-
-                    if ($complat_user || $value eq '') {
-                        my $complat_user_admin = $complat_user? $complat_user->admin : '';
-
-                        if ((($field eq "producer" || $field eq "designer") && ($complat_user_admin || $value eq ''))
-                            || ($field eq "developer")) {
-                            $can_add = 1;
-                            if ($field eq "developer" && $value ne '') {
-                                my %dev_hash = (
-                                    name => $value,
-                                    url => 'https://duck.co/user/'.$value
-                                );
-
-                                $value = to_json \%dev_hash;
-                            }
-                        }
-                    }
-                } else {
-                    $can_add = 1;
-                }
-                
-                if ($can_add) {   
-                    my $edits = add_edit($c, $ia,  $field, $value);
-                
-                    try {
-                        $ia->update({updates => $edits});
-                                
-                        if ($field eq 'developer') {
-                            $value = $value? from_json($value) : undef;
-                        }
-                                
-                        $result = {$field => $value, is_admin => $is_admin};
-                    }
-                    catch {
-                        $c->d->errorlog("Error updating the database");
-                    };
-                }
+            if ($field eq "developer" && $value ne '') {
+                        
+                warn "setting developer hash";
+                my %dev_hash = (
+                        name => $value,
+                        url => 'https://duck.co/user/'.$value
+                );
+                $value = to_json \%dev_hash;
             }
+                
+            warn "Adding EDIT non autocommit";  
+            warn Dumper "Value: ",  $value;
+            my $edits = add_edit($c, $ia,  $field, $value);
+                                
+            if ($field eq 'developer') {
+                $value = $value? from_json($value) : undef;
+            }
+                                
+            $result = {$field => $value, is_admin => $is_admin};
+
+            #$result +{ saved => save($c, \@params, $ia)} if $autocommit;
         }
     }
 
@@ -716,6 +577,43 @@ sub create_ia :Chained('base') :PathPart('create') :Args() {
     return $c->forward($c->view('JSON'));
 }
 
+sub save {
+    my($c, $params, $ia) = @_;
+    my $result;
+
+    warn "params ", Dumper $params;
+
+    for my $param (@$params) {
+            my $field = $param->{field};
+            my $value = $param->{value};
+
+        if ($field eq "topic") {
+            my @topic_values = $value;
+            warn "updating topics";
+            warn Dumper @topic_values;
+            warn $ia->instant_answer_topics->delete;
+                
+            for my $topic (@{$topic_values[0]}) {
+                $result = add_topic($c, $ia, $topic);
+                return unless $result;
+            }
+        } else {
+            if ($field eq "developer" && $value ne '') {
+                my %dev_hash = (
+                    name => $value,
+                    url => 'https://duck.co/user/'.$value
+                );
+                $value = to_json \%dev_hash;
+            }
+            
+            commit_edit($c->d, $ia, $field, $value);
+            $result = '1';
+        }
+
+    }
+    return $result; 
+}
+
 # Return a hash with the latest edits for the given IA
 sub current_ia {
     my ($d, $ia) = @_;
@@ -760,9 +658,8 @@ sub current_ia {
 # return the updated array to add to the database
 sub add_edit {
     my ($c, $ia, $field, $value) = @_;
-
+    warn Dumper "Field: $field, value $value";
     my $column_data = $ia->column_info($field);
-    warn "column is_json: $column_data";
     $value = decode_json($value) if $column_data->{is_json} || $field eq 'topic';
     
     $c->d->rs('InstantAnswer::Updates')->create({
