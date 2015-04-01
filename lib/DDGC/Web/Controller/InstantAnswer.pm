@@ -206,6 +206,53 @@ sub dev_pipeline_json :Chained('dev_pipeline_base') :PathPart('json') :Args(0) {
             qa => \@qa,
             ready => \@ready,
         };
+    } elsif ($view eq 'deprecated') {
+        my @fathead = $rs->search(
+            {'me.repo' => { '=' => 'fathead'},
+             'me.dev_milestone' => { '=' => 'deprecated'}},
+            {
+                columns => [ qw/ name repo id dev_milestone producer designer developer/ ],
+                order_by => [ qw/ name/ ],
+                result_class => 'DBIx::Class::ResultClass::HashRefInflator',
+            }
+        )->all;
+
+        my @goodies = $rs->search(
+            {'me.repo' => { '=' => 'goodies'},
+             'me.dev_milestone' => { '=' => 'deprecated'}},
+            {
+                columns => [ qw/ name repo id dev_milestone producer designer developer/ ],
+                order_by => [ qw/ name/ ],
+                result_class => 'DBIx::Class::ResultClass::HashRefInflator',
+            }
+        )->all;
+
+        my @longtail = $rs->search(
+            {'me.repo' => { '=' => 'longtail'},
+             'me.dev_milestone' => { '=' => 'deprecated'}},
+            {
+                columns => [ qw/ name id repo dev_milestone producer designer developer/ ],
+                order_by => [ qw/ name/ ],
+                result_class => 'DBIx::Class::ResultClass::HashRefInflator',
+            }
+        )->all;
+
+        my @spice = $rs->search(
+            {'me.repo' => { '=' => 'spice'},
+             'me.dev_milestone' => { '=' => 'deprecated'}},
+            {
+                columns => [ qw/ name id repo dev_milestone producer designer developer/ ],
+                order_by => [ qw/ name/ ],
+                result_class => 'DBIx::Class::ResultClass::HashRefInflator',
+            }
+        )->all;
+
+        $c->stash->{x} = {
+            fathead => \@fathead,
+            goodies => \@goodies,
+            longtail => \@longtail,
+            spice => \@spice,
+        };
     } elsif ($view eq 'live') {
         $rs = $c->d->rs('InstantAnswer::Issues');
 
