@@ -490,19 +490,12 @@ sub commit_save :Chained('commit_base') :PathPart('save') :Args(0) {
                     }
                     if ($field eq "topic") {
                         my @topic_values = $value;
-                        $ia->instant_answer_topics->delete;
-
+                        warn "updating topics";
+                        warn Dumper @topic_values;
+                        warn $ia->instant_answer_topics->delete;
                         for my $topic (@{$topic_values[0]}) {
-                            my $topic_id = $c->d->rs('Topic')->find({name => $topic});
-
-                            try {
-                                $ia->add_to_topics($topic_id);
-                                remove_edits($c->d, $ia, $field);
-                                $result = 1;
-                            } catch {
-                                $c->d->errorlog("Error updating the database");
-                                return '';
-                            };
+                            $result = add_topic($c, $ia, $topic);
+                            return unless $result;
                         }
                     } else {
                         if ($field eq "developer" && $value ne '') {
@@ -736,6 +729,7 @@ sub current_ia {
     # combine all edits into a single hash
     foreach my $edit (@edits){
         my $value = $edit->value;
+        warn Dumper $value;
         $value = from_json($value);
 
         warn Dumper $value;
@@ -767,17 +761,31 @@ sub current_ia {
 sub add_edit {
     my ($c, $ia, $field, $value) = @_;
 
-    my $column_data = $ia->column_info(qq($field));
-    warn $column_data;
-    $value = decode_json($value) if $column_data->{is_json};
-try{
-        $c->d->rs('InstantAnswer::Updates')->create({
+    my $column_data = $ia->column_info($field);
+    warn "column is_json: $column_data";
+    $value = decode_json($value) if $column_data->{is_json} || $field eq 'topic';
+    
+    $c->d->rs('InstantAnswer::Updates')->create({
                 instant_answer_id => $ia->id,
                 field => $field,
                 value => encode_json({field => $value}),
                 timestamp => time
-        });    
-}catch {}
+    });    
+}
+
+sub add_topic {
+    my ($c, $ia, $topic) = @_;
+    warn "topic: $topic";
+    my $topic_id = $c->d->rs('Topic')->find({name => $topic});
+    warn $topic_id;
+    try {
+        $ia->add_to_topics($topic_id);
+        remove_edits($c->d, $ia, 'topic');
+    } catch {
+        $c->d->errorlog("Error updating the database ... $@");
+        return 0;
+    };
+    return 1;
 }
 
 # commits a single edit to the database

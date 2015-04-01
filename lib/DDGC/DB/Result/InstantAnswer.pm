@@ -84,8 +84,6 @@ column repo => {
 column topic=> {
 	data_type => 'text',
 	is_nullable => 1,
-    is_json => 1,
-    serializer_class => 'JSON'
 };
 
 # json array of all relevant files (.pm, .t, js, handlebars, etc)
@@ -346,16 +344,14 @@ many_to_many 'topics', 'instant_answer_topics', 'topic';
 sub TO_JSON {
     my $ia = shift;
     my %data = $ia->get_columns;
+    #get topics from many-many relationship
+    #and store as a ref to topics array
+    my @topics = map { $_->name } $ia->topics;
+    $data{topic} = \@topics;
+
     while( my($field,$value) = each %data ){
         my $column_data = $ia->column_info($field);
-        next unless defined $data{$field} && $column_data->{is_json};
-
-        warn $data{$field};
-        if($field eq "topic"){
-            $data{$field} =~ s/{/{"topics":[/;
-            $data{$field} =~ s/}/]}/;
-            warn $data{$field};
-        }
+        next unless $data{$field} && $column_data->{is_json};
         $data{$field} = from_json($data{$field})
     }
 
