@@ -387,8 +387,8 @@ sub wear_email_verify :Chained('base') :Args(2) {
 		return $c->detach;
 	}
 
-	my $response = $c->d->rs('CampaignNotice')->search({
-		campaign_id => $c->d->id_for_campaign('wear'),
+	my $response = $c->d->rs('User::CampaignNotice')->find({
+		campaign_id => $c->d->config->id_for_campaign('share'),
 		users_id    => $user->id,
 		responded   => { '!=' => undef },
 	});
