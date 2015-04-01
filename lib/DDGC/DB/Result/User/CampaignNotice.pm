@@ -55,6 +55,8 @@ column campaign_email_verified => {
 sub get_verified_campaign_email {
   my ( $self ) = @_;
 
+  return '' if $self->bad_response;
+
   if ( $self->campaign_email_is_account_email ) {
     return $self->user->email if $self->user->email_verified;
     return '';
