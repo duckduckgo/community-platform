@@ -1443,4 +1443,14 @@ body.texture {
 
 .generate-screenshot--button {
     margin: 1em;
+    cursor: pointer;
+
+    background-color: #e37151;
+    border-color: #de5833;
+}
+
+.save-screenshot--button {
+    margin: 1em;
+    margin-left: 0;
+    cursor: pointer;
 }

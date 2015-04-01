@@ -178,19 +178,32 @@
                         }
                     });
 
-                    var generate_clicked = false;
-                    $(".generate-screenshot").click(function() {
-                        env.create_screenshot = function() {
-                            generate_clicked = false;
-                            $(".generate-screenshot--button").html("Generate Screenshot");
-                            $(".save-screenshot").show();
-                        };
+                    // Saves the screenshot to S3.
+                    $(".save-screenshot--button").click(function() {
+                        $.post("/screenshot/save/" + ia_data.live.id, function(data) {
+                            console.log(data);
+                            page.updateAll(readonly_templates, ia_data.live.dev_milestone, false);
+                        });
+                    });
 
-                        if(!generate_clicked) {
-                            generate_clicked = true;
-                            $(".generate-screenshot--button").html("Generating ...");
-                            $.post("http://ddh5.duckduckgo.com:5000/screenshot/create/dictionary_definition?callback=create_screenshot");
-                        }
+                    // Generate a screenshot when the button is clicked.
+                    $(".generate-screenshot--button").click(function() {
+                        $(".generate-screenshot--button").html("Generating ...");
+
+                        // Send a POST request with the ID of the IA.
+                        $.post("/screenshot/create/" + ia_data.live.id, function(data) {
+                            if(data.screenshots.index) {
+                                $(".generate-screenshot--button").html("Generate Screenshot");
+                                $(".save-screenshot--button").removeClass("hide");
+                                
+                                $(".ia-single--image-container img").attr("src", data.screenshots.index);
+                                $(".ia-single--screenshots").show();
+                                $(".ia-single--right").removeClass("dashed-border");
+                            } else {
+                                $(".generate-screenshot--button").html("Generate Screenshot");
+                                console.log("Failed to generate image.");
+                            }
+                        });
                     });
                     
                     $("body").on('click', ".js-expand.button", function(evt) {
