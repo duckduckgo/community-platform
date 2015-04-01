@@ -35,9 +35,40 @@ column bad_response => {
   default_value => 0,
 };
 
+column campaign_email_is_account_email => {
+  data_type => 'bigint',
+  is_nullable => 0,
+  default_value => 0,
+};
+
+column campaign_email => {
+  data_type => 'text',
+  is_nullable => 1,
+};
+
+column campaign_email_verified => {
+  data_type => 'tinyint',
+  is_nullable => 0,
+  default_value => 0,
+};
+
+sub get_verified_campaign_email {
+  my ( $self ) = @_;
+
+  return '' if $self->bad_response;
+
+  if ( $self->campaign_email_is_account_email ) {
+    return $self->user->email if $self->user->email_verified;
+    return '';
+  }
+
+  return $self->campaign_email if $self->campaign_email_verified;
+  return '';
+}
+
 primary_key ( qw/users_id campaign_id campaign_source/ );
 
-belongs_to 'notice_user', 'DDGC::DB::Result::User', 'users_id', {
+belongs_to 'user', 'DDGC::DB::Result::User', 'users_id', {
   on_delete => 'no action',
 };
 

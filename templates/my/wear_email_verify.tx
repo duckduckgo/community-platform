@@ -1,0 +1,11 @@
+<: if $invalid_token { :>
+	<div class="notice error">
+		<i class="icn icon-warning-sign"></i>
+		This token is invalid.
+	</div>
+<: } else { :>
+	<div class="notice success">
+		<i class="icn icon-ok"></i>
+		You have successfully confirmed your email. Thank you.
+	</div>
+<: } :>
