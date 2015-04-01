@@ -486,9 +486,7 @@ sub commit_save :Chained('commit_base') :PathPart('save') :Args(0) {
 
 sub save_edit :Chained('base') :PathPart('save') :Args(0) {
     my ( $self, $c ) = @_;
-
     my $ia = $c->d->rs('InstantAnswer')->find($c->req->params->{id});
-    #my @params = from_json($c->req->params->{values});
     my $ia_data = $ia->TO_JSON;
     my $permissions;
     my $is_admin;
@@ -521,13 +519,25 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
             warn Dumper "Value: ",  $value;
             my $edits = add_edit($c, $ia,  $field, $value);
                                 
+            $result = {$field => $value, is_admin => $is_admin};
+
+            if($autocommit){
+                my $params = $c->req->params;
+                my @update;
+                if ($field eq 'developer') {
+                    $value = $value->{name};
+                }
+                if ($field eq 'topic'){
+                    $value = from_json($value);
+                }
+                push(@update, {value => $value, field => $field} );
+                save($c, \@update, $ia);
+                $result +{ saved => 1};
+            }
+
             if ($field eq 'developer') {
                 $value = $value? from_json($value) : undef;
             }
-                                
-            $result = {$field => $value, is_admin => $is_admin};
-
-            #$result +{ saved => save($c, \@params, $ia)} if $autocommit;
         }
     }
 
