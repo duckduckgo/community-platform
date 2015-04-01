@@ -503,8 +503,6 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
             my $complat_user = $c->d->rs('User')->find({username => $value});
             my $complat_user_admin = $complat_user? $complat_user->admin : '';
 
-            $result = {$field => $value, is_admin => $is_admin};
-
             if ($field eq "developer" && $value ne '') {
                         
                 warn "setting developer hash";
@@ -518,18 +516,17 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
             warn "Adding EDIT non autocommit";  
             warn Dumper "Value: ",  $value;
             my $edits = add_edit($c, $ia,  $field, $value);
-                                
-            $result = {$field => $value, is_admin => $is_admin};
 
             if($autocommit){
                 my $params = $c->req->params;
                 my @update;
-                if ($field eq 'developer') {
-                    $value = $value->{name};
-                }
+
                 if ($field eq 'topic'){
                     $value = from_json($value);
                 }
+
+                # do stuff here to format developer for saving
+
                 push(@update, {value => $value, field => $field} );
                 save($c, \@update, $ia);
                 $result +{ saved => 1};
@@ -538,6 +535,8 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
             if ($field eq 'developer') {
                 $value = $value? from_json($value) : undef;
             }
+
+            $result = {$field => $value, is_admin => $is_admin};
         }
     }
 
