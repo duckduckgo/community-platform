@@ -59,6 +59,9 @@
             <span class="button pipeline__toggle-view__button <: if $view == 'live' { :>button-nav-current disabled<: } :>" id="pipeline_toggle-live">
                 Live with issues
             </span>
+            <span class="button pipeline__toggle-view__button <: if $view == 'deprecated' { :>button-nav-current disabled<: } :>" id="pipeline_toggle-deprecated">
+                Deprecated
+            </span>
         </span>
     </div>
 

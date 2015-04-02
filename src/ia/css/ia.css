@@ -1184,7 +1184,12 @@ body.texture {
 .ia-single--name .dev_milestone.dev_milestone--live {
     color: #4B9E4F;
     border-color: #4B9E4F;
-} 
+}
+
+.ia-single--name .dev_milestone.dev_milestone--deprecated {
+    color: #DE5833;
+    border-color: #DE5833;
+}
 
 #toggle-devpage-view .pager-wrap {
     height: 2.5em;
@@ -1309,7 +1314,16 @@ body.texture {
 
 #pipeline_toggle-view .pager-wrap {
     height: 4em;
-    width: 17.95em;
+}
+
+#pipeline_toggle-view .pipeline__toggle-view__button {
+    box-shadow: none;
+}
+
+#pipeline_toggle-live {
+    margin-left: 5em;
+    margin-right: 3em;
+    width: 12em;
 }
 
 #pipeline-live-container .list-container--left {

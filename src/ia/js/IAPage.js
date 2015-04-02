@@ -175,10 +175,20 @@
                     
                     // Check if the screenshot exists or not.
                     $(".ia-single--image-container img").error(function() {
-                        if (ia_data.live.dev_milestone !== "live") {
-                            // Hide the faux-window if the screenshot doesn't exist.
-                            $(".ia-single--screenshots").hide();
-                            $(".ia-single--right").addClass("dashed-border");
+                        if (ia_data.live.dev_milestone !== "live" && ia_data.live.dev_milestone !== "deprecated") {
+                            $(".ia-single--screenshots").addClass("hide");
+                            $(".ia-single--left").removeClass("ia-single--left").addClass("ia-single--left--wide");
+                            $(".dev_milestone-container__body").removeClass("hide");
+
+                            // Set the panels height to the tallest one's height
+                            var max_height = 0;
+                            $(".dev_milestone-container").each(function(idx) {
+                                if ($(this).height() > max_height) {
+                                    max_height = $(this).height();
+                                }
+                            });
+
+                            $(".dev_milestone-container").height(max_height);
 
                             page.imgHide = true;
                         }
@@ -551,7 +561,7 @@
                                 is_json = true;
                             }
 
-                            if (value && (value !== edited_value && value !== live_value)) {
+                            if (((value && field !== 'unsafe') || (field === 'unsafe')) && (value !== edited_value && value !== live_value)) {
                                 save(field, value, DDH_iaid, $obj, is_json);
                             } else {
                                 $obj.replaceWith(pre_templates[field]);
@@ -747,7 +757,7 @@
                 $("#metafields").remove();
                 $(".ia-single--left, .ia-single--right").show().empty();
 
-                if (dev_milestone === "live") {
+                if (dev_milestone === "live" || dev_milestone === "deprecated") {
                     for (var i = 0; i < this.field_order.length; i++) {
                         $(".ia-single--left").append(templates.live[this.field_order[i]]);
                     }
@@ -761,7 +771,7 @@
                 }
 
                 $(".ia-single--right").before(templates.live.name);
-                if (dev_milestone != "live") {
+                if (dev_milestone !== "live" && dev_milestone !== "deprecated") {
                     $(".ia-single--right").before(templates.metafields);
                     $("#metafields .dev_milestone-container__body").html(templates.metafields_content);
 
