@@ -63,14 +63,17 @@
                             ia_data.permissions.admin = 1;
                         }
                     }
-                    ia_data.current = {};
-                    ia_data.current[ia_data.live.dev_milestone] = 1;
-                    var future = {};
-                    var milestone_idx = $.inArray(ia_data.live.dev_milestone, page.dev_milestones_order);
-                    if (milestone_idx !== -1) {
-                        milestone_idx++;
-                        for (var i = milestone_idx; i < page.dev_milestones_order.length; i++) {
-                            future[page.dev_milestones_order[i]] = 1;
+
+                    if (ia_data.live.dev_milestone !== "live") {
+                        ia_data.current = {};
+                        ia_data.current[ia_data.live.dev_milestone] = 1;
+                        var future = {};
+                        var milestone_idx = $.inArray(ia_data.live.dev_milestone, page.dev_milestones_order);
+                        if (milestone_idx !== -1) {
+                            milestone_idx++;
+                            for (var i = milestone_idx; i < page.dev_milestones_order.length; i++) {
+                                future[page.dev_milestones_order[i]] = 1;
+                            }
                         }
                     }
 
