@@ -10,7 +10,7 @@ my $INST = DDGC::Config->new->appdir_path."/root/static/js";
 
 BEGIN {extends 'Catalyst::Controller'; }
 
-sub debug { 1 }
+sub debug { 0 }
 use if debug, 'Data::Dumper';
 
 sub base :Chained('/base') :PathPart('ia') :CaptureArgs(0) {
@@ -54,14 +54,8 @@ sub ialist_json :Chained('base') :PathPart('json') :Args() {
     my $rs = $c->d->rs('InstantAnswer');
 
     my @ial = $rs->search(
-        {-or => [
-            'topic.name' => { '!=' => 'test' },
-            'topic' => { '=' => ''},
-        ],
-         -or => [
-            'me.dev_milestone' => { '=' => 'live'},
-            'me.dev_milestone' => { '=' => 'ready'},
-         ],
+        {'topic.name' => [{ '!=' => 'test' }, { '=' => undef}],
+         'me.dev_milestone' => { '=' => ['live', 'ready']},
         },
         {
             columns => [ qw/ name id repo src_name dev_milestone description template / ],
@@ -452,7 +446,6 @@ sub commit_save :Chained('commit_base') :PathPart('save') :Args(0) {
         my $is_admin = $c->user->admin;
         if ($is_admin) {
             # get the IA 
-            warn "saving";
             my $ia = $c->d->rs('InstantAnswer')->find($c->req->params->{id});
             my $params = from_json($c->req->params->{values});
             $result = save($c, $params, $ia);
@@ -607,9 +600,9 @@ sub current_ia {
     my ($d, $ia) = @_;
 
     my %combined_edits;
+  
     # get all edits
     my @edits = get_all_edits($d, $ia->id);
-
     return {} unless @edits;
 
     # combine all edits into a single hash
@@ -640,7 +633,7 @@ sub current_ia {
 # return the updated array to add to the database
 sub add_edit {
     my ($c, $ia, $field, $value) = @_;
-    warn Dumper "Field: $field, value $value" if debug;
+    warn Dumper("Field: $field, value $value") if debug;
     my $column_data = $ia->column_info($field);
     $value = decode_json($value) if $column_data->{is_json} || $field eq 'topic';
     
@@ -654,9 +647,7 @@ sub add_edit {
 
 sub add_topic {
     my ($c, $ia, $topic) = @_;
-    warn "topic: $topic";
     my $topic_id = $c->d->rs('Topic')->find({name => $topic});
-    warn $topic_id;
     try {
         $ia->add_to_topics($topic_id);
         remove_edits($c->d, $ia, 'topic');
@@ -693,7 +684,6 @@ sub remove_edit {
 # update the instant answer table
 sub update_ia {
     my ($d,$ia, $field, $value) = @_;
-    warn "updating IA: $ia with field: $field and value $value";
     $ia->update({$field => $value});
 }
 
@@ -703,9 +693,7 @@ sub remove_edits {
     my($d, $ia, $field) = @_;   
     # delete all entries from updates with field
     my $edits = $d->rs('InstantAnswer::Updates')->search({ instant_answer_id => $ia->id, field => $field });
-    warn "Found $edits->count";
     $edits->delete();
-
 }
 
 # given the IA name return a result set of all edits

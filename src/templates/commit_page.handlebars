@@ -1,5 +1,5 @@
 <h2>{{original.name}} - Staged Edits</h2>
-<p>Click on the version you want to commit for each field (default: original version)</p>
+<p>Click on the version you want to commit for each field</p>
 <table class="staged_edits">
     <thead>
         <tr>
@@ -14,7 +14,7 @@
             <tr class="updates_list">
                 <th>Name</th>
 
-                <td name="name" class="item_selected" id="name_original">
+                <td name="name" id="name_original">
                     {{original.name}}
                 </td>
                 <td name="name">{{name}}</td>
@@ -25,7 +25,7 @@
             <tr class="updates_list">
                 <th>Status</th>
 
-                <td name="status" class="item_selected" id="status_original">
+                <td name="status" id="status_original">
                     {{original.status}}
                 </td>
                 <td name="status">{{status}}</td>
@@ -36,7 +36,7 @@
             <tr class="updates_list">
                 <th>Description</th>
 
-                <td name="description" class="item_selected" id="description_original">
+                <td name="description"  id="description_original">
                     {{original.description}}
                 </td>
                 <td name="description">
@@ -49,7 +49,7 @@
             <tr class="updates_list">
                 <th>Type</th>
 
-                <td name="repo" class="item_selected" id="repo_original">
+                <td name="repo"  id="repo_original">
                     {{original.repo}}
                 </td>
                 <td name="repo">
@@ -62,7 +62,7 @@
             <tr class="updates_list">
                 <th>Template</th>
 
-                <td name="template" class="item_selected" id="template_original">
+                <td name="template"  id="template_original">
                     {{original.template}}
                 </td>
                 <td name="template">
@@ -75,7 +75,7 @@
             <tr class="updates_list">
                 <th>API Documentation</th>
 
-                <td name="src_api_documentation" class="item_selected" id="src_api_documentation_original">
+                <td name="src_api_documentation"  id="src_api_documentation_original">
                     {{original.src_api_documentation}}
                 </td>
                 <td name="src_api_documentation">
@@ -88,7 +88,7 @@
             <tr class="updates_list">
                 <th>API Status Page</th>
 
-                <td name="api_status_page" class="item_selected" id="api_status_page_original">
+                <td name="api_status_page"  id="api_status_page_original">
                     {{original.api_status_page}}
                 </td>
                 <td name="api_status_page">
@@ -101,7 +101,7 @@
             <tr class="updates_list">
                 <th>Unsafe</th>
 
-                <td name="unsafe" class="item_selected" id="unsafe_original">
+                <td name="unsafe"  id="unsafe_original">
                     {{original.unsafe}}
                 </td>
                 <td name="unsafe">
@@ -114,7 +114,7 @@
             <tr class="updates_list">
                 <th>Answerbar</th>
 
-                <td name="answerbar" class="item_selected" id="answerbar_original">
+                <td name="answerbar"  id="answerbar_original">
                     {{original.answerbar.fallback_timeout}}
                 </td>
                 <td name="answerbar">
@@ -127,7 +127,7 @@
             <tr class="updates_list">
                 <th>Tab</th>
 
-                <td name="tab" class="item_selected" id="tab_original">
+                <td name="tab"  id="tab_original">
                     {{original.tab}}
                 </td>
                 <td name="tab">
@@ -140,7 +140,7 @@
             <tr class="updates_list">
                 <th>Producer</th>
 
-                <td name="producer" class="item_selected" id="producer_original">
+                <td name="producer"  id="producer_original">
                     {{original.producer}}
                 </td>
                 <td name="producer">
@@ -153,7 +153,7 @@
             <tr class="updates_list">
                 <th>Designer</th>
 
-                <td name="designer" class="item_selected" id="designer_original">
+                <td name="designer"  id="designer_original">
                     {{original.designer}}
                 </td>
                 <td name="designer">
@@ -166,7 +166,7 @@
             <tr class="updates_list">
                 <th>Developer</th>
 
-                <td name="developer" class="item_selected" id="developer_original">
+                <td name="developer"  id="developer_original">
                     {{original.developer.name}}
                 </td>
                 <td name="developer">
@@ -179,7 +179,7 @@
             <tr class="updates_list">
                 <th>Perl Module</th>
 
-                <td name="perl_module" class="item_selected" id="perl_module_original">
+                <td name="perl_module"  id="perl_module_original">
                     {{original.perl_module}}
                 </td>
                 <td name="perl_module">
@@ -188,17 +188,17 @@
             </tr>
         {{/if}}
 
-        {{#if topic}}
+        {{#if topic.edited}}
             <tr class="updates_list">
                 <th>Topic</th>
 
-                <td name="topic" class="item_selected" id="topic_original">
+                <td name="topic"  id="topic_original">
                     {{#each original.topic}}
                         <li>{{this}}</li>
                     {{/each}}
                 </td>
                 <td name="topic">
-                    {{#each topic}}
+                    {{#each topic.value}}
                         <li>{{this}}</li>
                     {{/each}}
                 </td>
@@ -209,7 +209,7 @@
             <tr class="updates_list">
                 <th>Example Query</th>
 
-                <td name="example_query" class="item_selected" id="example_query_original">
+                <td name="example_query"  id="example_query_original">
                     {{original.example_query}}
                 </td>
                 <td name="example_query">
@@ -222,7 +222,7 @@
             <tr class="updates_list">
                 <th>Other Queries</th>
 
-                <td name="other_queries" class="item_selected" id="other_queries_original">
+                <td name="other_queries"  id="other_queries_original">
                     {{#each original.other_queries}}
                         <li>{{this}}</li>
                     {{/each}}
@@ -239,7 +239,7 @@
             <tr class="updates_list">
                 <th>Trigger Words</th>
 
-                <td name="triggers" class="item_selected" id="triggers_original">
+                <td name="triggers"  id="triggers_original">
                     {{#each original.triggers}}
                         <li>{{this}}</li>
                     {{/each}}
@@ -256,7 +256,7 @@
             <tr class="updates_list">
                 <th>Perl Dependencies</th>
 
-                <td name="perl_dependencies" class="item_selected" id="perl_dependencies_original">
+                <td name="perl_dependencies"  id="perl_dependencies_original">
                     {{#each original.perl_dependencies}}
                         <li>{{this}}</li>
                     {{/each}}
@@ -273,46 +273,46 @@
             <tr class="updates_list">
                 <th>Source Options</th>
 
-                <td name="src_options" class="item_selected" id="src_options_original">
+                <td name="src_options"  id="src_options_original">
                     <ul class="section-group src_options-group">
                         <li>
-                            <i class="section-group__item icon-check{{#unless original.src_options.skip_end}}-empty{{/unless}}" data-field="skip_end"/>
+                            <i class="section-group__item icon-check{{#is_false original.src_options.skip_end}}-empty{{/is_false}}" data-field="skip_end"/>
                             <span class="check-txt">
                                 Skip end
                             </span>
                         </li>
                         <li>
-                            <i class="section-group__item icon-check{{#unless original.src_options.skip_abstract}}-empty{{/unless}}" data-field="skip_abstract"/>
+                            <i class="section-group__item icon-check{{#is_false original.src_options.skip_abstract}}-empty{{/is_false}}" data-field="skip_abstract"/>
                             <span class="check-txt">
                                 Skip abstract
                             </span>
                         </li>
                         <li>
-                            <i class="section-group__item icon-check{{#unless original.src_options.skip_abstract_paren}}-empty{{/unless}}" data-field="skip_abstract_paren"/>
+                            <i class="section-group__item icon-check{{#is_false original.src_options.skip_abstract_paren}}-empty{{/is_false}}" data-field="skip_abstract_paren"/>
                             <span class="check-txt">
                                 Skip abstract parent
                             </span>
                         </li>
                         <li>
-                            <i class="section-group__item icon-check{{#unless original.src_options.skip_icon}}-empty{{/unless}}" data-field="skip_icon"/>
+                            <i class="section-group__item icon-check{{#is_false original.src_options.skip_icon}}-empty{{/is_false}}" data-field="skip_icon"/>
                             <span class="check-txt">
                                 Skip icon
                             </span>
                         </li>
                         <li>
-                            <i class="section-group__item icon-check{{#unless original.src_options.skip_image_name}}-empty{{/unless}}" data-field="skip_image_name"/>
+                            <i class="section-group__item icon-check{{#is_false original.src_options.skip_image_name}}-empty{{/is_false}}" data-field="skip_image_name"/>
                             <span class="check-txt">
                                 Skip image name
                             </span>
                         </li>
                         <li>
-                            <i class="section-group__item icon-check{{#unless original.src_options.is_wikipedia}}-empty{{/unless}}" data-field="is_wikipedia"/>
+                            <i class="section-group__item icon-check{{#is_false original.src_options.is_wikipedia}}-empty{{/is_false}}" data-field="is_wikipedia"/>
                             <span class="check-txt">
                                 Is Wikipedia
                             </span>
                         </li>
                         <li>
-                            <i class="section-group__item icon-check{{#unless original.src_options.is_mediawiki}}-empty{{/unless}}" data-field="is_mediawiki"/>
+                            <i class="section-group__item icon-check{{#is_false original.src_options.is_mediawiki}}-empty{{/is_false}}" data-field="is_mediawiki"/>
                             <span class="check-txt">
                                 Is MediaWiki
                             </span>
@@ -346,43 +346,43 @@
                 <td name="src_options">
                     <ul class="section-group src_options-group">
                         <li>
-                            <i class="section-group__item icon-check{{#unless src_options.skip_end}}-empty{{/unless}}" data-field="skip_end"/>
+                            <i class="section-group__item icon-check{{#is_false src_options.skip_end}}-empty{{/is_false}}" data-field="skip_end"/>
                             <span class="check-txt">
                                 Skip end
                             </span>
                         </li>
                         <li>
-                            <i class="section-group__item icon-check{{#unless src_options.skip_abstract}}-empty{{/unless}}" data-field="skip_abstract"/>
+                            <i class="section-group__item icon-check{{#is_false src_options.skip_abstract}}-empty{{/is_false}}" data-field="skip_abstract"/>
                             <span class="check-txt">
                                 Skip abstract
                             </span>
                         </li>
                         <li>
-                            <i class="section-group__item icon-check{{#unless src_options.skip_abstract_paren}}-empty{{/unless}}" data-field="skip_abstract_paren"/>
+                            <i class="section-group__item icon-check{{#is_false src_options.skip_abstract_paren}}-empty{{/is_false}}" data-field="skip_abstract_paren"/>
                             <span class="check-txt">
                                 Skip abstract parent
                             </span>
                         </li>
                         <li>
-                            <i class="section-group__item icon-check{{#unless src_options.skip_icon}}-empty{{/unless}}" data-field="skip_icon"/>
+                            <i class="section-group__item icon-check{{#is_false src_options.skip_icon}}-empty{{/is_false}}" data-field="skip_icon"/>
                             <span class="check-txt">
                                 Skip icon
                             </span>
                         </li>
                         <li>
-                            <i class="section-group__item icon-check{{#unless src_options.skip_image_name}}-empty{{/unless}}" data-field="skip_image_name"/>
+                            <i class="section-group__item icon-check{{#is_false src_options.skip_image_name}}-empty{{/is_false}}" data-field="skip_image_name"/>
                             <span class="check-txt">
                                 Skip image name
                             </span>
                         </li>
                         <li>
-                            <i class="section-group__item icon-check{{#unless src_options.is_wikipedia}}-empty{{/unless}}" data-field="is_wikipedia"/>
+                            <i class="section-group__item icon-check{{#is_false src_options.is_wikipedia}}-empty{{/is_false}}" data-field="is_wikipedia"/>
                             <span class="check-txt">
                                 Is Wikipedia
                             </span>
                         </li>
                         <li>
-                            <i class="section-group__item icon-check{{#unless src_options.is_mediawiki}}-empty{{/unless}}" data-field="is_mediawiki"/>
+                            <i class="section-group__item icon-check{{#is_false src_options.is_mediawiki}}-empty{{/is_false}}" data-field="is_mediawiki"/>
                             <span class="check-txt">
                                 Is MediaWiki
                             </span>
@@ -420,7 +420,7 @@
             <tr class="updates_list">
                 <th>Dev Milestone</th>
 
-                <td name="dev_milestone" class="item_selected" id="dev_milestone_original">
+                <td name="dev_milestone"  id="dev_milestone_original">
                     {{original.dev_milestone}}
                 </td>
                 <td name="dev_milestone">
@@ -432,4 +432,4 @@
 </table>
 
 <span class="clearfix"></span>
-<div class="button" id="commit">Commit</div>
+<div class="button disabled" id="commit">Commit</div>

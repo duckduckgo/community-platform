@@ -63,6 +63,10 @@
 			<div class="input-wrap">
 				<textarea name="question3"></textarea>
 			</div>
+			<label class="shareit-form__lbl" for="question4"><: $campaign_config.question4 :></label>
+			<div class="input-wrap">
+				<input name="question4" type="text" value="<: $user.email :>" />
+			</div>
 			<input type="hidden" name="campaign_id" value="1">
 			<input type="hidden" name="campaign_name" value="share">
 			<input type="hidden" name="action_token" value="<: $action_token :>">

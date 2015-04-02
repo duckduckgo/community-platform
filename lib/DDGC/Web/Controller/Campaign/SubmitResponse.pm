@@ -8,9 +8,10 @@ use DDGC::Config;
 use Try::Tiny;
 use DateTime;
 use DateTime::Duration;
+use Email::Valid;
 use Lingua::Identify qw(:language_identification);
 
-sub base :Chained('/') :PathPart('campaign') :CaptureArgs(0) {
+sub base :Chained('/base') :PathPart('campaign') :CaptureArgs(0) {
 	my ( $self, $c ) = @_;
 	if (!$c->user) {
 		$c->response->status(403);
@@ -19,7 +20,7 @@ sub base :Chained('/') :PathPart('campaign') :CaptureArgs(0) {
 		return $c->detach;
 	}
 	elsif (!$c->req->param('campaign_name')) {
-		$c->response->status(500);
+		$c->response->status(403);
 		$c->stash->{x} = {
 			ok => 0, no_campaign => 1,
 			errstr => "No campaign info supplied!"
@@ -49,7 +50,7 @@ sub base :Chained('/') :PathPart('campaign') :CaptureArgs(0) {
 
 sub respond : Chained('base') : PathPart('respond') : Args(0) {
 	my ( $self, $c ) = @_;
-	#$c->require_action_token;
+	$c->require_action_token;
 
 	my $to = $c->d->config->share_email // 'sharewear@duckduckgo.com';
 	my $from = 'noreply@dukgo.com';
@@ -80,13 +81,58 @@ sub respond : Chained('base') : PathPart('respond') : Args(0) {
 	}
 
 	if ($short_response) {
-		$c->response->status(500);
+		$c->response->status(403);
 		$c->stash->{x} = {
 			ok => 0, fields_empty => 1,
 			errstr => "Your responses are too short. Please add more explanation.",
 		};
 		$c->forward( $c->view('JSON') );
 		return $c->detach;
+	}
+
+	if ($c->req->param('question4')) {
+		$c->stash->{campaign_email} = Email::Valid->address($c->req->param('question4'));
+		if (!$c->stash->{campaign_email}) {
+			$c->response->status(403);
+			$c->stash->{x} = {
+				ok => 0, invalid_email => 1,
+				errstr => "This email address appears to be invalid.",
+			};
+			$c->forward( $c->view('JSON') );
+			return $c->detach;
+		}
+
+		if (lc($c->stash->{campaign_email}) eq lc($c->user->email)) {
+			$c->stash->{campaign_email_is_account_email} = 1;
+		}
+		else {
+			my $data = $c->user->data || {};
+			$data->{wear_email_verify_token} = $c->d->uid;
+			$c->user->update({ data => $data });
+			$c->stash->{wear_email_verify_link} =
+			    $c->chained_uri('My','wear_email_verify',$c->user->lowercase_username,$data->{wear_email_verify_token});
+			my $error = 0;
+			try {
+				$c->d->postman->template_mail(
+					1, $c->stash->{campaign_email}, $from,
+					'[DuckDuckGo Community] Thank you for participating in Share it + Wear it',
+					'wearemail',$c->stash);
+			}
+			catch {
+				$error = 1;
+			};
+
+			if ($error) {
+				$c->response->status(500);
+				$c->stash->{x} = {
+					ok => 0, mailer_error => 1,
+					errstr => "Sorry, there was a problem submitting your response. Please try again later."
+				};
+				$c->forward( $c->view('JSON') );
+				return $c->detach;
+			}
+
+		}
 	}
 
 	my $subject_extra = '';
@@ -123,7 +169,11 @@ BAD_RESPONSE_LINK
 		return $c->detach;
 	}
 
-	$c->user->set_responded_campaign($campaign_name);
+	my $response = $c->user->set_responded_campaign($campaign_name);
+	$response->update( ($c->stash->{campaign_email_is_account_email}) ?
+		{ campaign_email_is_account_email => 1 } :
+		{ campaign_email => $c->stash->{campaign_email} }
+	);
 
 	my $return_on;
 	my $coupon;
