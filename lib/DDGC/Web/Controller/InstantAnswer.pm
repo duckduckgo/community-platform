@@ -527,7 +527,14 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
                 if($field eq 'developer'){
                     $tmp_val= $c->req->params->{value};
                 }
-                push(@update, {value => $value || $tmp_val, field => $field} );
+
+                if($field eq 'topic'){
+                    $tmp_val = from_json($c->req->params->{value});
+                }
+
+                warn Dumper "tmp_val $tmp_val";
+
+                push(@update, {value => $tmp_val || $value, field => $field} );
                 save($c, \@update, $ia);
                 $saved = 1;
             }
