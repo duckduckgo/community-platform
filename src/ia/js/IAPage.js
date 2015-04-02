@@ -84,12 +84,12 @@
                             status : Handlebars.templates.status(latest_edits_data),
                             description : Handlebars.templates.description(latest_edits_data),
                             topic : Handlebars.templates.topic(latest_edits_data),
-                            screens : Handlebars.templates.screens(latest_edits_data),
                             template : Handlebars.templates.template(latest_edits_data),
                             examples : Handlebars.templates.examples(latest_edits_data),
                             devinfo : Handlebars.templates.devinfo(latest_edits_data),
                             github: Handlebars.templates.github(latest_edits_data)
                         },
+                        screens : Handlebars.templates.screens(ia_data),
                         metafields : Handlebars.templates.metafields(ia_data),
                         metafields_content : Handlebars.templates.metafields_content(ia_data),
                         planning : Handlebars.templates.planning(ia_data),
@@ -170,6 +170,7 @@
                     // Screenshots TODO:
                     // - Notify the user of any errors.
                     // - Tell the user if the service is down.
+                    
                     // Check if the screenshot exists or not.
                     $(".ia-single--image-container img").error(function() {
                         if (ia_data.live.dev_milestone !== "live") {
@@ -767,7 +768,7 @@
                 }
 
                 if (!this.imgHide) {
-                    $(".ia-single--right").append(templates.live.screens);
+                    $(".ia-single--right").append(templates.screens);
                 }
 
                 $(".show-more").click(function(e) {
