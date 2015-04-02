@@ -167,6 +167,9 @@
                         $(".special-permissions__toggle-view").hide();
                     });
 
+                    // Screenshots TODO:
+                    // - Notify the user of any errors.
+                    // - Tell the user if the service is down.
                     // Check if the screenshot exists or not.
                     $(".ia-single--image-container img").error(function() {
                         if (ia_data.live.dev_milestone !== "live") {
@@ -181,8 +184,10 @@
                     // Saves the screenshot to S3.
                     $(".save-screenshot--button").click(function() {
                         $.post("/screenshot/save/" + ia_data.live.id, function(data) {
-                            console.log(data);
-                            page.updateAll(readonly_templates, ia_data.live.dev_milestone, false);
+                            // Hide the save button.
+                            $(".save-screenshot--button").addClass("hide");
+                            // Put in the image from S3.
+                            $(".ia-single--image-container img").attr("src", "https://images.duckduckgo.com/iu/?u=" + encodeURIComponent(data.screenshots.index));
                         });
                     });
 
@@ -192,16 +197,18 @@
 
                         // Send a POST request with the ID of the IA.
                         $.post("/screenshot/create/" + ia_data.live.id, function(data) {
+                            // Check if the screenshot that we want is available.
+                            // If it isn't there must be something wrong.
                             if(data.screenshots.index) {
                                 $(".generate-screenshot--button").html("Generate Screenshot");
                                 $(".save-screenshot--button").removeClass("hide");
-                                
+
+                                // Show preview image.
                                 $(".ia-single--image-container img").attr("src", data.screenshots.index);
                                 $(".ia-single--screenshots").show();
                                 $(".ia-single--right").removeClass("dashed-border");
                             } else {
                                 $(".generate-screenshot--button").html("Generate Screenshot");
-                                console.log("Failed to generate image.");
                             }
                         });
                     });
