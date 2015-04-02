@@ -490,7 +490,8 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
     my $ia_data = $ia->TO_JSON;
     my $permissions;
     my $is_admin;
-    my $result = '';
+    my $saved = 0;
+    my $result = {};
 
     if ($c->user) {
        $permissions = $ia->users->find($c->user->id);
@@ -519,24 +520,23 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
 
             if($autocommit){
                 my $params = $c->req->params;
+                my $tmp_val;
                 my @update;
 
-                if ($field eq 'topic'){
-                    $value = from_json($value);
-                }
-
                 # do stuff here to format developer for saving
-
-                push(@update, {value => $value, field => $field} );
+                if($field eq 'developer'){
+                    $tmp_val= $c->req->params->{value};
+                }
+                push(@update, {value => $value || $tmp_val, field => $field} );
                 save($c, \@update, $ia);
-                $result +{ saved => 1};
+                $saved = 1;
             }
 
             if ($field eq 'developer') {
                 $value = $value? from_json($value) : undef;
             }
 
-            $result = {$field => $value, is_admin => $is_admin};
+            $result = +{$field => $value, is_admin => $is_admin, saved => $saved};
         }
     }
 
