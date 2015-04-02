@@ -1440,3 +1440,7 @@ body.texture {
 .ia-single--left--wide #planning {
     margin-left: 0;
 }
+
+.dev_milestone-container__body__readonly {
+    word-wrap: break-word;
+}
