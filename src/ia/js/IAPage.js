@@ -182,7 +182,7 @@
                     });
 
                     // Saves the screenshot to S3.
-                    $(".save-screenshot--button").click(function() {
+                    $("body").on("click", ".save-screenshot--button", function() {
                         $.post("/screenshot/save/" + DDH_iaid, function(data) {
                             // Hide the save button.
                             $(".save-screenshot--button").addClass("hide");
@@ -192,7 +192,7 @@
                     });
 
                     // Generate a screenshot when the button is clicked.
-                    $(".generate-screenshot--button").click(function() {
+                    $("body").on("click", ".generate-screenshot--button", function() {
                         $(".generate-screenshot--button").html("Generating ...");
 
                         // Send a POST request with the ID of the IA.
