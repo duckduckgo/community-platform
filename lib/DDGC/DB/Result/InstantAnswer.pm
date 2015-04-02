@@ -15,18 +15,21 @@ sub u { [ 'InstantAnswer', 'view', $_[0]->id ] }
 
 column id => {
 	data_type => 'text',
+    for_endpt => 1
 };
 primary_key 'id';
 
 # userland name
 column name => {
 	data_type => 'text',
+    for_endpt => 1
 };
 
 # userland description of what the IA does
 column description => {
 	data_type => 'text',
 	is_nullable => 1,
+    for_endpt => 1
 };
 
 # JSON string cointaining parameters such as
@@ -41,6 +44,7 @@ column answerbar => {
 column perl_module => {
 	data_type => 'text',
 	is_nullable => 1,
+    for_endpt => 1
 };
 
 # JSON array of dependencies
@@ -72,18 +76,21 @@ column milestone_dates => {
 column status => {
 	data_type => 'text',
 	is_nullable => 1,
+    for_endpt => 1
 };
 
 # aka 'type': goodie, spice, fathead, longtail, some future repos
 column repo => {
 	data_type => 'text',
 	is_nullable => 1,
+    for_endpt => 1
 };
 
 # aka team
 column topic=> {
 	data_type => 'text',
 	is_nullable => 1,
+    for_endpt => 1,
 };
 
 # json array of all relevant files (.pm, .t, js, handlebars, etc)
@@ -158,6 +165,7 @@ column triggers => {
 column example_query => {
 	data_type => 'text',
 	is_nullable => 1,
+    for_endpt => 1
 };
 
 # json, aka secondary queries
@@ -177,6 +185,7 @@ column signal_from => {
 column tab => {
 	data_type => 'text',
 	is_nullable => 1,
+    for_endpt => 1
 };
 
 # attribution
@@ -197,6 +206,7 @@ column attribution => {
 	data_type => 'text',
 	is_nullable => 1,
     is_json => 1,
+    for_endpt => 1
 };
 
 # screenshots
@@ -344,15 +354,21 @@ many_to_many 'topics', 'instant_answer_topics', 'topic';
 # returns a hash ref of all IA data.  Same idea as hashRefInflator
 # but this takes care of deserialization for you.
 sub TO_JSON {
-    my $ia = shift;
+    my ($ia, $type) = @_;
+    
     my %data = $ia->get_columns;
     my @topics = map { $_->name } $ia->topics;
     $data{topic} = \@topics;
 
     while( my($field,$value) = each %data ){
         my $column_data = $ia->column_info($field);
+        
+        if ($type && !$column_data->{$type}){
+            delete $data{$field};
+            next;
+        }
         next unless $data{$field} && $column_data->{is_json};
-        $data{$field} = from_json($data{$field})
+        $data{$field} = from_json($data{$field});
     }
     return \%data;
 }

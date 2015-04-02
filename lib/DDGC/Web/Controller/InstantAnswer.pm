@@ -91,24 +91,8 @@ sub iarepo_json :Chained('iarepo') :PathPart('json') :Args(0) {
     });
 
     my %iah;
-
-IA:
     for my $ia (@x) {
-        my @topics = map { $_->name} $ia->topics;
-
-        my $ia_data = $ia->TO_JSON;
-        $iah{$ia->id} = {
-                name => $ia_data->{name},
-                id => $ia_data->{id},
-                attribution => $ia_data->{attribution},
-                example_query => $ia_data->{example_query},
-                repo => $ia_data->{repo},
-                perl_module => $ia_data->{perl_module},
-                tab => $ia_data->{tab},
-                description => $ia_data->{description},
-                status => $ia_data->{status},
-                topic => \@topics
-        };
+        $iah{$ia->id} = $ia->TO_JSON('for_endpt');
 
         # fathead specific
         # TODO: do we need src_domain ?
