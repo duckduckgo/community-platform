@@ -1309,7 +1309,16 @@ body.texture {
 
 #pipeline_toggle-view .pager-wrap {
     height: 4em;
-    width: 17.95em;
+}
+
+#pipeline_toggle-view .pipeline__toggle-view__button {
+    box-shadow: none;
+}
+
+#pipeline_toggle-live {
+    margin-left: 5em;
+    margin-right: 3em;
+    width: 12em;
 }
 
 #pipeline-live-container .list-container--left {
