@@ -382,6 +382,8 @@ sub ia_base :Chained('base') :PathPart('view') :CaptureArgs(1) {  # /ia/view/cal
     $c->stash->{dev_milestone} = $dev_milestone;
     if ($dev_milestone eq 'live') {
         $c->add_bc('Instant Answers', $c->chained_uri('InstantAnswer','index'));
+    } elsif ($dev_milestone eq 'deprecated') {
+        $c->add_bc('Dev Pipeline', $c->chained_uri('InstantAnswer','dev_pipeline', 'deprecated'));
     } else {
         $c->add_bc('Dev Pipeline', $c->chained_uri('InstantAnswer','dev_pipeline', 'dev'));
     }
