@@ -210,6 +210,12 @@
                             } else {
                                 $(".generate-screenshot--button").html("Generate Screenshot");
                             }
+                        }).error(function() {
+                            // Revert button to its original state since the server is down.
+                            // Add a little delay.
+                            setTimeout(function() {
+                                $(".generate-screenshot--button").html("Generate Screenshot");
+                            }, 500);
                         });
                     });
                     
