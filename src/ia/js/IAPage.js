@@ -168,7 +168,7 @@
                     });
 
                     $(".ia-single--image-container img").error(function() {
-                        if (ia_data.live.dev_milestone !== "live") {
+                        if (ia_data.live.dev_milestone !== "live" && ia_data.live.dev_milestone !== "deprecated") {
                             $(".ia-single--screenshots").addClass("hide");
                             $(".ia-single--left").removeClass("ia-single--left").addClass("ia-single--left--wide");
                             $(".dev_milestone-container__body").removeClass("hide");
@@ -712,7 +712,7 @@
                 $("#metafields").remove();
                 $(".ia-single--left, .ia-single--right").show().empty();
 
-                if (dev_milestone === "live") {
+                if (dev_milestone === "live" || dev_milestone === "deprecated") {
                     for (var i = 0; i < this.field_order.length; i++) {
                         $(".ia-single--left").append(templates.live[this.field_order[i]]);
                     }
@@ -726,7 +726,7 @@
                 }
 
                 $(".ia-single--right").before(templates.live.name);
-                if (dev_milestone != "live") {
+                if (dev_milestone !== "live" && dev_milestone !== "deprecated") {
                     $(".ia-single--right").before(templates.metafields);
                     $("#metafields .dev_milestone-container__body").html(templates.metafields_content);
 

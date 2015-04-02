@@ -8,6 +8,14 @@
         }
     });
 
+    // True if the first value is equal to the second
+    // or to the third
+    Handlebars.registerHelper('eq_or', function(value1, value2, value3, options) {
+        if (value1 === value2 || value1 === value3) {
+            return options.fn(this);
+        }
+    });
+
     // Return the array value at the specified index
     Handlebars.registerHelper('index', function(array, idx) {
         if (array[idx]) {
