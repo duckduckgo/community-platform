@@ -505,17 +505,13 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
             my $complat_user_admin = $complat_user? $complat_user->admin : '';
 
             if ($field eq "developer" && $value ne '') {
-                        
-                warn "setting developer hash";
                 my %dev_hash = (
                         name => $value,
                         url => 'https://duck.co/user/'.$value
                 );
                 $value = to_json \%dev_hash;
-            }
-                
-            warn "Adding EDIT non autocommit";  
-            warn Dumper "Value: ",  $value;
+            } 
+
             my $edits = add_edit($c, $ia,  $field, $value);
 
             if($autocommit){
@@ -531,8 +527,6 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
                 if($field eq 'topic'){
                     $tmp_val = from_json($c->req->params->{value});
                 }
-
-                warn Dumper "tmp_val $tmp_val";
 
                 push(@update, {value => $tmp_val || $value, field => $field} );
                 save($c, \@update, $ia);
@@ -597,8 +591,6 @@ sub save {
     my($c, $params, $ia) = @_;
     my $result;
 
-    warn "params ", Dumper $params;
-
     for my $param (@$params) {
             my $field = $param->{field};
             my $value = $param->{value};
@@ -625,7 +617,6 @@ sub save {
             commit_edit($c->d, $ia, $field, $value);
             $result = '1';
         }
-
     }
     return $result; 
 }
@@ -643,10 +634,7 @@ sub current_ia {
     # combine all edits into a single hash
     foreach my $edit (@edits){
         my $value = $edit->value;
-        warn Dumper $value;
         $value = from_json($value);
-
-        warn Dumper $value;
 
         # if field is an aray then push new
         # values to it
@@ -663,9 +651,6 @@ sub current_ia {
             $combined_edits{$edit->field} = $value->{field};
         }
     }
-
-    warn Dumper \%combined_edits;
-
     return \%combined_edits;
 }
 
@@ -705,13 +690,8 @@ sub add_topic {
 # removes that entry from the updates column
 sub commit_edit {
     my ($d, $ia, $field, $value) = @_;
-
-
-    warn "committing edits";
     # update the IA data in instant answer table
     update_ia($d, $ia, $field, $value);
-
-    warn "removing edits";
     # remove the edit from the updates table
     remove_edits($d, $ia, $field);
 }
@@ -745,30 +725,6 @@ sub remove_edits {
     warn "Found $edits->count";
     $edits->delete();
 
-}
-
-# get a single edit with oldest timestamp (next edit to check)
-sub get_edit {
-    my ($d, $id) = @_;
-    warn "Getting single edit for: $id" if debug;
-    my @edit = $d->rs('InstantAnswer::Updates')->search({
-        instant_answer_id => $id
-    },
-    {
-        order_by => {-desc => 'timestamp'},
-        rows => 1
-    });
-
-    warn $edit[0]->timestamp if debug;
-
-    return $edit[0];
-}
-
-# remove all the entries from the updates column
-sub remove_all_updates {
-    my($ia) = @_;
-    my $columns = get_all_updates($ia);
-    $columns->delete;
 }
 
 # given the IA name return a result set of all edits
