@@ -372,7 +372,46 @@ sub email_verify :Chained('base') :Args(2) {
 	$user->email_verified(1);
 	$user->update;
 	$c->stash->{success} = 1;
+}
 
+sub wear_email_verify :Chained('base') :Args(2) {
+	my ( $self, $c, $username, $token ) = @_;
+
+	$c->stash->{title} = 'Share + Wear email confirmation token check';
+		$c->add_bc($c->stash->{title}, '');
+
+	my $user = $c->d->find_user($username);
+
+	if (!$user || !$token) {
+		$c->stash->{invalid_token} = 1;
+		return $c->detach;
+	}
+
+	my $response = $c->d->rs('User::CampaignNotice')->find({
+		campaign_id => $c->d->config->id_for_campaign('share'),
+		users_id    => $user->id,
+		responded   => { '!=' => undef },
+	});
+
+	if (!$response) {
+		$c->stash->{invalid_token} = 1;
+		return $c->detach;
+	}
+
+
+	unless ($user->data && $user->data->{wear_email_verify_token} &&
+		    ($token eq $user->data->{wear_email_verify_token}) ) {
+		$c->stash->{invalid_token} = 1;
+		return $c->detach;
+	}
+
+	my $data = $user->data;
+	delete $data->{wear_email_verify_token};
+	$user->data($data);
+	$user->update;
+	$response->campaign_email_verified(1);
+	$response->update;
+	$c->stash->{success} = 1;
 }
 
 sub forgotpw_tokencheck :Chained('logged_out') :Args(2) {

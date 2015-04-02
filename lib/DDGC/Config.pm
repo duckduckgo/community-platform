@@ -301,6 +301,7 @@ sub campaigns {
 			question1 => "How did you hear about DuckDuckGo?",
 			question2 => "How long have you been a DuckDuckGo user?",
 			question3 => "Is this your first time spreading DuckDuckGo to others?",
+			question4 => "Share your email so that we can send updates on the T-shirt campaign.",
 		},
 		share_followup => {
 			id => 2,

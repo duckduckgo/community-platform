@@ -1454,3 +1454,7 @@ body.texture {
     margin-left: 0;
     cursor: pointer;
 }
+
+.dev_milestone-container__body__readonly {
+    word-wrap: break-word;
+}
