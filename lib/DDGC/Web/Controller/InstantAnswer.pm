@@ -414,7 +414,7 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
                     author => $issue->author
                );
 
-               if ($dev_milestone ne 'live' && !$ia->developer) {
+               if ($dev_milestone ne 'live' && $dev_milestone ne 'deprecated' && !$ia->developer) {
                   my %dev_hash = (
                       name => $pull_request{author},
                       url => 'https://github.com/'.$pull_request{author}
@@ -488,7 +488,7 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
         $permissions = $c->stash->{ia}->users->find($c->user->id);
         $is_admin = $c->user->admin;
 
-        if (($is_admin || $permissions) && ($ia->dev_milestone eq 'live')) {
+        if (($is_admin || $permissions) && ($ia->dev_milestone eq 'live' || $ia->dev_milestone eq 'deprecated')) {
             $edited = current_ia($c->d, $ia);
             $ia_data{edited} = {
                     name => $edited->{name},
