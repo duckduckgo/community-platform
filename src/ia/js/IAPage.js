@@ -199,7 +199,7 @@
                         $.post("/screenshot/create/" + DDH_iaid, function(data) {
                             // Check if the screenshot that we want is available.
                             // If it isn't there must be something wrong.
-                            if(data.screenshots.index) {
+                            if(data && data.screenshots && data.screenshots.index) {
                                 $(".generate-screenshot--button").html("Generate Screenshot");
                                 $(".save-screenshot--button").removeClass("hide");
 
