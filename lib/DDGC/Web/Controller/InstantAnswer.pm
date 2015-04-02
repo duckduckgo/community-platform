@@ -1,7 +1,5 @@
 package DDGC::Web::Controller::InstantAnswer;
 # ABSTRACT: Instant Answer Pages
-
-use Data::Dumper;
 use Moose;
 use namespace::autoclean;
 use Try::Tiny;
@@ -13,6 +11,7 @@ my $INST = DDGC::Config->new->appdir_path."/root/static/js";
 BEGIN {extends 'Catalyst::Controller'; }
 
 sub debug { 1 }
+use if debug, 'Data::Dumper';
 
 sub base :Chained('/base') :PathPart('ia') :CaptureArgs(0) {
     my ( $self, $c ) = @_;
@@ -400,7 +399,7 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
 
     my $other_queries = $ia->other_queries? from_json($ia->other_queries) : undef;
 
-    warn Dumper $ia->TO_JSON;
+    warn Dumper $ia->TO_JSON if debug;
     
     $ia_data{live} = $ia->TO_JSON;
     $ia_data{live}->{issues} = \@ia_issues;
@@ -597,9 +596,7 @@ sub save {
 
         if ($field eq "topic") {
             my @topic_values = $value;
-            warn "updating topics";
-            warn Dumper @topic_values;
-            warn $ia->instant_answer_topics->delete;
+            $ia->instant_answer_topics->delete;
                 
             for my $topic (@{$topic_values[0]}) {
                 $result = add_topic($c, $ia, $topic);
@@ -659,7 +656,7 @@ sub current_ia {
 # return the updated array to add to the database
 sub add_edit {
     my ($c, $ia, $field, $value) = @_;
-    warn Dumper "Field: $field, value $value";
+    warn Dumper "Field: $field, value $value" if debug;
     my $column_data = $ia->column_info($field);
     $value = decode_json($value) if $column_data->{is_json} || $field eq 'topic';
     
