@@ -183,7 +183,7 @@
 
                     // Saves the screenshot to S3.
                     $(".save-screenshot--button").click(function() {
-                        $.post("/screenshot/save/" + ia_data.live.id, function(data) {
+                        $.post("/screenshot/save/" + DDH_iaid, function(data) {
                             // Hide the save button.
                             $(".save-screenshot--button").addClass("hide");
                             // Put in the image from S3.
@@ -196,7 +196,7 @@
                         $(".generate-screenshot--button").html("Generating ...");
 
                         // Send a POST request with the ID of the IA.
-                        $.post("/screenshot/create/" + ia_data.live.id, function(data) {
+                        $.post("/screenshot/create/" + DDH_iaid, function(data) {
                             // Check if the screenshot that we want is available.
                             // If it isn't there must be something wrong.
                             if(data.screenshots.index) {
