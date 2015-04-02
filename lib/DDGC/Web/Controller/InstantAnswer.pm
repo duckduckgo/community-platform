@@ -403,7 +403,7 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
     warn Dumper $ia->TO_JSON;
     
     $ia_data{live} = $ia->TO_JSON;
-
+    $ia_data{live}->{issues} = \@ia_issues;
     if ($c->user) {
         $permissions = $c->stash->{ia}->users->find($c->user->id);
         $is_admin = $c->user->admin;
