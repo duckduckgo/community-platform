@@ -200,6 +200,53 @@ sub dev_pipeline_json :Chained('dev_pipeline_base') :PathPart('json') :Args(0) {
             qa => \@qa,
             ready => \@ready,
         };
+    } elsif ($view eq 'deprecated') {
+        my @fathead = $rs->search(
+            {'me.repo' => { '=' => 'fathead'},
+             'me.dev_milestone' => { '=' => 'deprecated'}},
+            {
+                columns => [ qw/ name repo id dev_milestone producer designer developer/ ],
+                order_by => [ qw/ name/ ],
+                result_class => 'DBIx::Class::ResultClass::HashRefInflator',
+            }
+        )->all;
+
+        my @goodies = $rs->search(
+            {'me.repo' => { '=' => 'goodies'},
+             'me.dev_milestone' => { '=' => 'deprecated'}},
+            {
+                columns => [ qw/ name repo id dev_milestone producer designer developer/ ],
+                order_by => [ qw/ name/ ],
+                result_class => 'DBIx::Class::ResultClass::HashRefInflator',
+            }
+        )->all;
+
+        my @longtail = $rs->search(
+            {'me.repo' => { '=' => 'longtail'},
+             'me.dev_milestone' => { '=' => 'deprecated'}},
+            {
+                columns => [ qw/ name id repo dev_milestone producer designer developer/ ],
+                order_by => [ qw/ name/ ],
+                result_class => 'DBIx::Class::ResultClass::HashRefInflator',
+            }
+        )->all;
+
+        my @spice = $rs->search(
+            {'me.repo' => { '=' => 'spice'},
+             'me.dev_milestone' => { '=' => 'deprecated'}},
+            {
+                columns => [ qw/ name id repo dev_milestone producer designer developer/ ],
+                order_by => [ qw/ name/ ],
+                result_class => 'DBIx::Class::ResultClass::HashRefInflator',
+            }
+        )->all;
+
+        $c->stash->{x} = {
+            fathead => \@fathead,
+            goodies => \@goodies,
+            longtail => \@longtail,
+            spice => \@spice,
+        };
     } elsif ($view eq 'live') {
         $rs = $c->d->rs('InstantAnswer::Issues');
 
@@ -335,6 +382,8 @@ sub ia_base :Chained('base') :PathPart('view') :CaptureArgs(1) {  # /ia/view/cal
     $c->stash->{dev_milestone} = $dev_milestone;
     if ($dev_milestone eq 'live') {
         $c->add_bc('Instant Answers', $c->chained_uri('InstantAnswer','index'));
+    } elsif ($dev_milestone eq 'deprecated') {
+        $c->add_bc('Dev Pipeline', $c->chained_uri('InstantAnswer','dev_pipeline', 'deprecated'));
     } else {
         $c->add_bc('Dev Pipeline', $c->chained_uri('InstantAnswer','dev_pipeline', 'dev'));
     }
@@ -367,7 +416,7 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
                     author => $issue->author
                );
 
-               if ($dev_milestone ne 'live' && !$ia->developer) {
+               if ($dev_milestone ne 'live' && $dev_milestone ne 'deprecated' && !$ia->developer) {
                   my %dev_hash = (
                       name => $pull_request{author},
                       url => 'https://github.com/'.$pull_request{author}
@@ -441,7 +490,7 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
         $permissions = $c->stash->{ia}->users->find($c->user->id);
         $is_admin = $c->user->admin;
 
-        if (($is_admin || $permissions) && ($ia->dev_milestone eq 'live')) {
+        if (($is_admin || $permissions) && ($ia->dev_milestone eq 'live' || $ia->dev_milestone eq 'deprecated')) {
             $edited = current_ia($c->d, $ia);
             $ia_data{edited} = {
                     name => $edited->{name},

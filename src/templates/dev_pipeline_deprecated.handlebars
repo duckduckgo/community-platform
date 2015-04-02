@@ -1,0 +1,58 @@
+<div class="dev_pipeline-column left" id="pipeline-fathead">
+    <h2 class="dev_pipeline-column__title">
+        Fathead
+    </h2>
+
+    <ul class="dev_pipeline-column__list" id="pipeline-fathead__list">
+        {{#each fathead}}
+            <li id="pipeline-planning__list__{{id}}" class="producer-{{producer}} designer-{{designer}} developer-{{developer}}">
+                <a href="/ia/view/{{id}}">{{name}}</a>
+            </li>
+        {{/each}}
+    </ul>
+</div>
+
+<div class="dev_pipeline-column left" id="pipeline-goodies">
+    <h2 class="dev_pipeline-column__title">
+        Goodies
+    </h2>
+
+
+    <ul class="dev_pipeline-column__list" id="pipeline-goodies__list">
+        {{#each goodies}}
+            <li id="pipeline-in_development__list__{{id}}" class="producer-{{producer}} designer-{{designer}} developer-{{developer}}">
+                <a href="/ia/view/{{id}}">{{name}}</a>
+            </li>
+        {{/each}}
+    </ul>
+</div>
+
+<div class="dev_pipeline-column left" id="pipeline-longtail">
+    <h2 class="dev_pipeline-column__title">
+        Longtail
+    </h2>
+
+
+    <ul class="dev_pipeline-column__list" id="pipeline-longtail__list">
+        {{#each longtail}}
+            <li id="pipeline-qa__list__{{id}}" class="producer-{{producer}} designer-{{designer}} developer-{{developer}}">
+                <a href="/ia/view/{{id}}">{{name}}</a>
+            </li>
+        {{/each}}
+    </ul>
+</div>
+
+<div class="dev_pipeline-column left" id="pipeline-spice">
+    <h2 class="dev_pipeline-column__title">
+        Spice
+    </h2>
+
+    <ul class="dev_pipeline-column__list" id="pipeline-spice__list">
+        {{#each spice}}
+            <li id="pipeline-qa__list__{{id}}" class="producer-{{producer}} designer-{{designer}} developer-{{developer}}">
+                <a href="/ia/view/{{id}}">{{name}}</a>
+            </li>
+        {{/each}}
+    </ul>
+</div>
+
