@@ -341,11 +341,11 @@ many_to_many 'users', 'instant_answer_users', 'user';
 has_many 'instant_answer_topics', 'DDGC::DB::Result::InstantAnswer::Topics', 'instant_answer_id';
 many_to_many 'topics', 'instant_answer_topics', 'topic';
 
+# returns a hash ref of all IA data.  Same idea as hashRefInflator
+# but this takes care of deserialization for you.
 sub TO_JSON {
     my $ia = shift;
     my %data = $ia->get_columns;
-    #get topics from many-many relationship
-    #and store as a ref to topics array
     my @topics = map { $_->name } $ia->topics;
     $data{topic} = \@topics;
 
@@ -354,7 +354,6 @@ sub TO_JSON {
         next unless $data{$field} && $column_data->{is_json};
         $data{$field} = from_json($data{$field})
     }
-
     return \%data;
 }
 
