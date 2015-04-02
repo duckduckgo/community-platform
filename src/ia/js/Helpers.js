@@ -53,4 +53,11 @@
         }
     });
 
+    // Returns true if value is not null
+    Handlebars.registerHelper('not_null', function(value, options) {
+        if (value !== null) {
+            return options.fn(this);
+        }
+    });
+
 })(DDH);

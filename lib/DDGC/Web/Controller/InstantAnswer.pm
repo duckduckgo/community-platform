@@ -567,7 +567,7 @@ sub commit_json :Chained('commit_base') :PathPart('json') :Args(0) {
             tab => $ia->tab,
             repo => $ia->repo,
             answerbar => $ia->answerbar,
-            src_options => $ia->src_options,
+            src_options => $ia->src_options? from_json($ia->src_options) : undef,
             src_api_documentation => $ia->src_api_documentation,
             api_status_page => $ia->api_status_page,
             unsafe => $ia->unsafe,
