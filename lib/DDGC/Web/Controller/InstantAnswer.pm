@@ -10,7 +10,7 @@ my $INST = DDGC::Config->new->appdir_path."/root/static/js";
 
 BEGIN {extends 'Catalyst::Controller'; }
 
-sub debug { 1 }
+sub debug { 0 }
 use if debug, 'Data::Dumper';
 
 sub base :Chained('/base') :PathPart('ia') :CaptureArgs(0) {
@@ -467,7 +467,7 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
     my $permissions;
     my $is_admin;
     my $saved = 0;
-    my $result = {};
+    my $result;
 
     if ($c->user) {
        $permissions = $ia->users->find($c->user->id);
@@ -510,7 +510,7 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
                     $tmp_val = from_json($c->req->params->{value});
                 }
 
-                push(@update, {value => $tmp_val || $value, field => $field} );
+                push(@update, {value => $tmp_val // $value, field => $field} );
                 save($c, \@update, $ia);
                 $saved = 1;
             }
@@ -519,7 +519,7 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
                 $value = $value? from_json($value) : undef;
             }
 
-            $result = +{$field => $value, is_admin => $is_admin, saved => $saved};
+            $result = {$field => $value, is_admin => $is_admin, saved => $saved};
         }
     }
 
