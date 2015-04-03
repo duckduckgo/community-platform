@@ -419,7 +419,7 @@ sub commit_json :Chained('commit_base') :PathPart('json') :Args(0) {
     my $edited = current_ia($c->d, $ia);
     my $original;
     my $is_admin;
-
+    
     if ($c->user) {
         $is_admin = $c->user->admin;
     }
@@ -586,7 +586,7 @@ sub save {
                 return unless $result;
             }
         } else {
-            if ($field eq "developer" && $value ne '') {
+            if ($field eq "developer") {
                 my %dev_hash = (
                     name => $value,
                     url => 'https://duck.co/user/'.$value
@@ -609,7 +609,7 @@ sub current_ia {
   
     # get all edits
     my @edits = get_all_edits($d, $ia->id);
-    return {} unless @edits;
+    return 0 unless @edits;
 
     # combine all edits into a single hash
     foreach my $edit (@edits){
