@@ -213,11 +213,16 @@
                                 $(".generate-screenshot--button").html("Generate Screenshot");
                             }
                         }).error(function() {
+                            // Send notification when service is down.
+                            // TODO: Move this out to a general function.
+                            $(".generate-screenshot--notif").text("Screenshot service is down.");
+
                             // Revert button to its original state since the server is down.
                             // Add a little delay.
                             setTimeout(function() {
                                 $(".generate-screenshot--button").html("Generate Screenshot");
-                            }, 500);
+                                $(".generate-screenshot--notif").text("");
+                            }, 1500);
                         });
                     });
                     

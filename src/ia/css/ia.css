@@ -1472,3 +1472,7 @@ body.texture {
 .dev_milestone-container__body__readonly {
     word-wrap: break-word;
 }
+
+.generate-screenshot--notif {
+    color: #E37151;
+}
