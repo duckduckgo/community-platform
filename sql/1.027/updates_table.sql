@@ -1,6 +1,6 @@
 BEGIN;
 CREATE TABLE "instant_answer_updates" (
-      "id" text NOT NULL,
+      "instant_answer_id" text NOT NULL,
       "field" text NOT NULL,
       "value" text NOT NULL,
       "timestamp" text NOT NULL,
