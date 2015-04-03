@@ -183,14 +183,15 @@
                     });
 
                     function setNotification(message) {
+                        var $notif = $(".generate-screenshot--notif");
                         // Send notification.
-                        $(".generate-screenshot--notif").text("Screenshot service is down.");
+                        $notif.text(message);
                         
                         // Revert button to its original state.
                         // Add a little delay.
                         setTimeout(function() {
                             $(".generate-screenshot--button").text("Generate Screenshot");
-                            $(".generate-screenshot--notif").text("");
+                            $notif.text("");
                         }, 1500);
                     }
 
@@ -200,20 +201,21 @@
                             // Hide the save button.
                             $(".save-screenshot--button").addClass("hide");
                             // Put in the image from S3.
-                            $(".ia-single--image-container img").attr("src", "https://images.duckduckgo.com/iu/?u=" + encodeURIComponent(data.screenshots.index));
+                            $(".ia-single--image-container img").attr("src", data.screenshots.index);
                         });
                     });
 
                     // Generate a screenshot when the button is clicked.
                     $("body").on("click", ".generate-screenshot--button", function(evt) {
-                        $(".generate-screenshot--button").text("Generating ...");
+                        var $button =  $(".generate-screenshot--button");
+                        $button.text("Generating ...");
 
                         // Send a POST request with the ID of the IA.
                         $.post("/screenshot/create/" + DDH_iaid, function(data) {
                             // Check if the screenshot that we want is available.
                             // If it isn't there must be something wrong.
                             if(data && data.screenshots && data.screenshots.index) {
-                                $(".generate-screenshot--button").text("Generate Screenshot");
+                                $button.text("Generate Screenshot");
                                 $(".save-screenshot--button").removeClass("hide");
 
                                 // Show preview image.
@@ -221,7 +223,7 @@
                                 $(".ia-single--screenshots").show();
                                 $(".ia-single--right").removeClass("dashed-border");
                             } else {
-                                $(".generate-screenshot--button").text("Generate Screenshot");
+                                $button.text("Generate Screenshot");
                             }
                         }).error(function() {
                             setNotification("Screenshot service is down.");
