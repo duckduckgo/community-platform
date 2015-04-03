@@ -1,5 +1,7 @@
 <: if $caller && $caller.can('data') && $caller.data && $caller.data.import { :>
   [<: $caller.data.import :> <: $caller.data.import_user :>]
+<: } elsif $headline { :>
+  <: $headline :>
 <: } elsif has_cur_user() && cur_user().id == $_.id { :>
   <: '<yourself>' :>
 <: } elsif has_cur_user() && cur_user().admin && !$_.public { :>

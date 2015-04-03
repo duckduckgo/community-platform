@@ -5,7 +5,7 @@
 
 		<: if $register_successful { :>
 			<div class="notice success"><i class="icn icon-ok"></i>
-				Your registration was successful, you can now login!
+				Registration successful! You can now login! If you added an email address, please click the confirmation link we just sent!
 			</div>
 		<: } :>
 		<: if $username_at { :>

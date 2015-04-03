@@ -18,7 +18,7 @@
   <div class="ia-single--red-bar"></div>
   <div class="ia-single--image-container">
     <img src="https://images.duckduckgo.com/iu/?u={{encodeURIComponent 'https://ia-screenshots.s3.amazonaws.com/'}}{{id}}_index.png&f=1">
-    {{#eq dev_milestone 'live'}}
+    {{#eq_or dev_milestone 'live' 'deprecated'}}
         <div class="ia-single--serp">
           <div class="ia-single--serp-item">
             <div class="serp-item"></div>
@@ -35,7 +35,7 @@
             <div class="serp-item"></div>
             <div class="serp-item"></div>
           </div>
-    {{/eq}}
+    {{/eq_or}}
 
     </div>
   </div>

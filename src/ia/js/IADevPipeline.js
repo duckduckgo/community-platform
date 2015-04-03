@@ -18,7 +18,9 @@
 
                 if (data.hasOwnProperty("planning")) {
                     iadp = Handlebars.templates.dev_pipeline(data);
-                } else {
+                } else if (data.hasOwnProperty("fathead")) {
+                    iadp = Handlebars.templates.dev_pipeline_deprecated(data);
+                }else {
                     iadp = Handlebars.templates.dev_pipeline_live(data);
                 }
 
@@ -114,6 +116,12 @@
             $("#pipeline_toggle-live").click(function(evt) {
                 if (!$(this).hasClass("disabled")) {
                     window.location = "/ia/pipeline/live";
+                }
+            });
+
+            $("#pipeline_toggle-deprecated").click(function(evt) {
+                if (!$(this).hasClass("disabled")) {
+                    window.location = "/ia/pipeline/deprecated";
                 }
             });
         }
