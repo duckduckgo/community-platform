@@ -10,7 +10,7 @@ my $INST = DDGC::Config->new->appdir_path."/root/static/js";
 
 BEGIN {extends 'Catalyst::Controller'; }
 
-sub debug { 0 }
+sub debug { 1 }
 use if debug, 'Data::Dumper';
 
 sub base :Chained('/base') :PathPart('ia') :CaptureArgs(0) {
@@ -482,7 +482,7 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
 
             # designers can be any complat user
             if ($field eq "developer") {
-                return '' unless $complat_user;
+                return '' unless $complat_user || $value eq '';
                 my %dev_hash = (
                         name => $value,
                         url => 'https://duck.co/user/'.$value
@@ -491,7 +491,7 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
             }
 
             if ($field =~ /designer|producer/){
-                return '' unless $complat_user_admin;
+                return '' unless $complat_user_admin || $value eq '';
             }
 
             my $edits = add_edit($c, $ia,  $field, $value);
