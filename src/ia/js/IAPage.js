@@ -214,7 +214,7 @@
                         $.post("/screenshot/create/" + DDH_iaid, function(data) {
                             // Check if the screenshot that we want is available.
                             // If it isn't there must be something wrong.
-                            if(data && data.screenshots && data.screenshots.index) {
+                            if(data && data.status === "ok" && data.screenshots && data.screenshots.index) {
                                 $button.text("Generate Screenshot");
                                 $(".save-screenshot--button").removeClass("hide");
 
@@ -224,6 +224,7 @@
                                 $(".ia-single--right").removeClass("dashed-border");
                             } else {
                                 $button.text("Generate Screenshot");
+                                setNotification(data.status);
                             }
                         }).error(function() {
                             setNotification("Screenshot service is down.");
