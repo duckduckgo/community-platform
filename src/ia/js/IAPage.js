@@ -169,26 +169,15 @@
                         $(".special-permissions__toggle-view").hide();
                     });
 
-                    // Screenshots TODO:
-                    // - Notify the user of any errors.
-                    // - Tell the user if the service is down.
-                    
+                    // If the image successfully loads, show the false window.
+                    $(".ia-single--image-container img").load(function() {
+                        $(".ia-single--screenshots").removeClass("hide");
+                    });
+
                     // Check if the screenshot exists or not.
                     $(".ia-single--image-container img").error(function() {
                         if (ia_data.live.dev_milestone !== "live" && ia_data.live.dev_milestone !== "deprecated") {
-                            $(".ia-single--screenshots").addClass("hide");
-                            $(".ia-single--left").removeClass("ia-single--left").addClass("ia-single--left--wide");
-                            $(".dev_milestone-container__body").removeClass("hide");
-
-                            // Set the panels height to the tallest one's height
-                            var max_height = 0;
-                            $(".dev_milestone-container").each(function(idx) {
-                                if ($(this).height() > max_height) {
-                                    max_height = $(this).height();
-                                }
-                            });
-
-                            $(".dev_milestone-container").height(max_height);
+                            $(".ia-single--right").addClass("dashed-border");
 
                             page.imgHide = true;
                         }
