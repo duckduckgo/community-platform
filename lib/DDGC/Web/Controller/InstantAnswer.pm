@@ -480,13 +480,19 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
             my $complat_user = $c->d->rs('User')->find({username => $value});
             my $complat_user_admin = $complat_user? $complat_user->admin : '';
 
-            if ($field eq "developer" && $value ne '') {
+            # designers can be any complat user
+            if ($field eq "developer") {
+                return '' unless $complat_user;
                 my %dev_hash = (
                         name => $value,
                         url => 'https://duck.co/user/'.$value
                 );
                 $value = to_json \%dev_hash;
-            } 
+            }
+
+            if ($field =~ /designer|producer/){
+                return '' unless $complat_user_admin;
+            }
 
             my $edits = add_edit($c, $ia,  $field, $value);
 
