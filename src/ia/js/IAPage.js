@@ -195,14 +195,14 @@
 
                     // Generate a screenshot when the button is clicked.
                     $("body").on("click", ".generate-screenshot--button", function(evt) {
-                        $(".generate-screenshot--button").html("Generating ...");
+                        $(".generate-screenshot--button").text("Generating ...");
 
                         // Send a POST request with the ID of the IA.
                         $.post("/screenshot/create/" + DDH_iaid, function(data) {
                             // Check if the screenshot that we want is available.
                             // If it isn't there must be something wrong.
                             if(data && data.screenshots && data.screenshots.index) {
-                                $(".generate-screenshot--button").html("Generate Screenshot");
+                                $(".generate-screenshot--button").text("Generate Screenshot");
                                 $(".save-screenshot--button").removeClass("hide");
 
                                 // Show preview image.
@@ -210,7 +210,7 @@
                                 $(".ia-single--screenshots").show();
                                 $(".ia-single--right").removeClass("dashed-border");
                             } else {
-                                $(".generate-screenshot--button").html("Generate Screenshot");
+                                $(".generate-screenshot--button").text("Generate Screenshot");
                             }
                         }).error(function() {
                             // Send notification when service is down.
@@ -220,7 +220,7 @@
                             // Revert button to its original state since the server is down.
                             // Add a little delay.
                             setTimeout(function() {
-                                $(".generate-screenshot--button").html("Generate Screenshot");
+                                $(".generate-screenshot--button").text("Generate Screenshot");
                                 $(".generate-screenshot--notif").text("");
                             }, 1500);
                         });
