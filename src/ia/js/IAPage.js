@@ -75,9 +75,8 @@
                                 future[page.dev_milestones_order[i]] = 1;
                             }
                         }
+                        ia_data.future = future;
                     }
-
-                    ia_data.future = future;
 
                     // Readonly mode templates
                     var readonly_templates = {
