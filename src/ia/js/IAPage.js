@@ -201,7 +201,7 @@
                             // Hide the save button.
                             $(".save-screenshot--button").addClass("hide");
                             // Put in the image from S3.
-                            $(".ia-single--image-container img").attr("src", data.screenshots.index);
+                            $(".ia-single--image-container img").attr("src", "https://images.duckduckgo.com/iu/?u=" + encodeURIComponent(data.screenshots.index));
                         });
                     });
 
