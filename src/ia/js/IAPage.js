@@ -183,6 +183,18 @@
                         }
                     });
 
+                    function setNotification(message) {
+                        // Send notification.
+                        $(".generate-screenshot--notif").text("Screenshot service is down.");
+                        
+                        // Revert button to its original state.
+                        // Add a little delay.
+                        setTimeout(function() {
+                            $(".generate-screenshot--button").text("Generate Screenshot");
+                            $(".generate-screenshot--notif").text("");
+                        }, 1500);
+                    }
+
                     // Saves the screenshot to S3.
                     $("body").on("click", ".save-screenshot--button", function(evt) {
                         $.post("/screenshot/save/" + DDH_iaid, function(data) {
@@ -213,16 +225,7 @@
                                 $(".generate-screenshot--button").text("Generate Screenshot");
                             }
                         }).error(function() {
-                            // Send notification when service is down.
-                            // TODO: Move this out to a general function.
-                            $(".generate-screenshot--notif").text("Screenshot service is down.");
-
-                            // Revert button to its original state since the server is down.
-                            // Add a little delay.
-                            setTimeout(function() {
-                                $(".generate-screenshot--button").text("Generate Screenshot");
-                                $(".generate-screenshot--notif").text("");
-                            }, 1500);
+                            setNotification("Screenshot service is down.");
                         });
                     });
                     
