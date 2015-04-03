@@ -188,7 +188,7 @@
             </tr>
         {{/if}}
 
-        {{#if topic.edited}}
+        {{#if topic}}
             <tr class="updates_list">
                 <th>Topic</th>
 
@@ -198,7 +198,7 @@
                     {{/each}}
                 </td>
                 <td name="topic">
-                    {{#each topic.value}}
+                    {{#each topic}}
                         <li>{{this}}</li>
                     {{/each}}
                 </td>
