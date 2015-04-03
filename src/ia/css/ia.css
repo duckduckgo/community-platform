@@ -1450,7 +1450,7 @@ body.texture {
     text-align: center;
 }
 
-.ia-single--right.dashed-border {
+.dashed-border {
     border-radius: 3px;
     border: 2px dashed #999;
 }
@@ -1475,4 +1475,5 @@ body.texture {
 
 .generate-screenshot--notif {
     color: #E37151;
+    text-align: center;
 }
