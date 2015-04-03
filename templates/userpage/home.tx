@@ -5,11 +5,7 @@
 		<div class="head">
 			<: i($user,'userpic',{ userpic_size => 32 }) :>
 			<h2>
-				<: if $fields.headline.value { :>
-					<: $fields.headline.value :>
-				<: } else { :>
-					<: i($user,'username',{ no_user_link => 1 }) :>
-				<: } :>
+				<: i($user,'username',{ no_user_link => 1, headline => $fields.headline.value }) :>
 			</h2>
 			<: if $user.admin { :>
 				<div class="pull-right">
