@@ -1,4 +1,6 @@
 BEGIN;
+ALTER TABLE instant_answer DROP COLUMN updates;
+
 CREATE TABLE "instant_answer_updates" (
   "instant_answer_id" text NOT NULL,
   "field" text NOT NULL,
