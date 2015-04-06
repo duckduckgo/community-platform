@@ -53,9 +53,9 @@
         }
     });
 
-    // Returns true if value is not null
-    Handlebars.registerHelper('not_null', function(value, options) {
-        if (value !== null) {
+    // Check if object has key
+    Handlebars.registerHelper('not_null', function(key, options) {
+        if (key || key === '') {
             return options.fn(this);
         }
     });

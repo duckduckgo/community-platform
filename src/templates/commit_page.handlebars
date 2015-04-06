@@ -10,7 +10,7 @@
     </thead>
     
     <tbody>
-        {{#if name}}
+        {{#not_null name}}
             <tr class="updates_list">
                 <th>Name</th>
 
@@ -19,9 +19,9 @@
                 </td>
                 <td name="name">{{name}}</td>
             </tr>
-        {{/if}}
+        {{/not_null}}
 
-        {{#if status}}
+        {{#not_null status}}
             <tr class="updates_list">
                 <th>Status</th>
 
@@ -30,9 +30,9 @@
                 </td>
                 <td name="status">{{status}}</td>
             </tr>
-        {{/if}}
+        {{/not_null}}
 
-        {{#if description}}
+        {{#not_null description}}
             <tr class="updates_list">
                 <th>Description</th>
 
@@ -43,9 +43,9 @@
                     {{description}}
                 </td>
             </tr>
-        {{/if}}
+        {{/not_null}}
 
-        {{#if repo}}
+        {{#not_null repo}}
             <tr class="updates_list">
                 <th>Type</th>
 
@@ -56,9 +56,9 @@
                     {{repo}}
                 </td>
             </tr>
-        {{/if}}
+        {{/not_null}}
 
-        {{#if template}}
+        {{#not_null template}}
             <tr class="updates_list">
                 <th>Template</th>
 
@@ -69,9 +69,9 @@
                     {{template}}
                 </td>
             </tr>
-        {{/if}}
+        {{/not_null}}
 
-        {{#if src_api_documentation}}
+        {{#not_null src_api_documentation}}
             <tr class="updates_list">
                 <th>API Documentation</th>
 
@@ -82,9 +82,9 @@
                     {{src_api_documentation}}
                 </td>
             </tr>
-        {{/if}}
+        {{/not_null}}
 
-        {{#if api_status_page}}
+        {{#not_null api_status_page}}
             <tr class="updates_list">
                 <th>API Status Page</th>
 
@@ -95,9 +95,9 @@
                     {{api_status_page}}
                 </td>
             </tr>
-        {{/if}}
+        {{/not_null}}
 
-        {{#if unsafe}}
+        {{#not_null unsafe}}
             <tr class="updates_list">
                 <th>Unsafe</th>
 
@@ -108,9 +108,9 @@
                     {{unsafe}}
                 </td>
             </tr>
-        {{/if}}
+        {{/not_null}}
 
-        {{#if answerbar.fallback_timeout}}
+        {{#not_null answerbar.fallback_timeout}}
             <tr class="updates_list">
                 <th>Answerbar</th>
 
@@ -121,9 +121,9 @@
                     {{answerbar.fallback_timeout}}
                 </td>
             </tr>
-        {{/if}}
+        {{/not_null}}
 
-        {{#if tab}}
+        {{#not_null tab}}
             <tr class="updates_list">
                 <th>Tab</th>
 
@@ -134,9 +134,9 @@
                     {{tab}}
                 </td>
             </tr>
-        {{/if}}
+        {{/not_null}}
 
-        {{#if producer}}
+        {{#not_null producer}}
             <tr class="updates_list">
                 <th>Producer</th>
 
@@ -147,9 +147,9 @@
                     {{producer}}
                 </td>
             </tr>
-        {{/if}}
+        {{/not_null}}
 
-        {{#if designer}}
+        {{#not_null designer}}
             <tr class="updates_list">
                 <th>Designer</th>
 
@@ -160,9 +160,9 @@
                     {{designer}}
                 </td>
             </tr>
-        {{/if}}
+        {{/not_null}}
 
-        {{#if developer.name}}
+        {{#not_null developer.name}}
             <tr class="updates_list">
                 <th>Developer</th>
 
@@ -173,9 +173,9 @@
                     {{developer.name}}
                 </td>
             </tr>
-        {{/if}}
+        {{/not_null}}
 
-        {{#if perl_module}}
+        {{#not_null perl_module}}
             <tr class="updates_list">
                 <th>Perl Module</th>
 
@@ -186,9 +186,9 @@
                     {{perl_module}}
                 </td>
             </tr>
-        {{/if}}
+        {{/not_null}}
 
-        {{#if topic}}
+        {{#not_null topic}}
             <tr class="updates_list">
                 <th>Topic</th>
 
@@ -203,9 +203,9 @@
                     {{/each}}
                 </td>
             </tr>
-        {{/if}}
+        {{/not_null}}
 
-        {{#if example_query}}
+        {{#not_null example_query}}
             <tr class="updates_list">
                 <th>Example Query</th>
 
@@ -216,9 +216,9 @@
                     {{example_query}}
                 </td>
             </tr>
-        {{/if}}
+        {{/not_null}}
 
-       {{#if other_queries}}
+       {{#not_null other_queries}}
             <tr class="updates_list">
                 <th>Other Queries</th>
 
@@ -233,9 +233,9 @@
                     {{/each}}
                 </td>
             </tr>
-        {{/if}}
+        {{/not_null}}
 
-       {{#if triggers}}
+       {{#not_null triggers}}
             <tr class="updates_list">
                 <th>Trigger Words</th>
 
@@ -250,9 +250,9 @@
                     {{/each}}
                 </td>
             </tr>
-        {{/if}}
+        {{/not_null}}
 
-       {{#if perl_dependencies}}
+       {{#not_null perl_dependencies}}
             <tr class="updates_list">
                 <th>Perl Dependencies</th>
 
@@ -267,9 +267,9 @@
                     {{/each}}
                 </td>
             </tr>
-        {{/if}}
+        {{/not_null}}
 
-       {{#if src_options}}
+       {{#not_null src_options}}
             <tr class="updates_list">
                 <th>Source Options</th>
 
@@ -414,9 +414,9 @@
                     </ul>
                 </td>
             </tr>
-        {{/if}}
+        {{/not_null}}
 
-        {{#if dev_milestone}}
+        {{#not_null dev_milestone}}
             <tr class="updates_list">
                 <th>Dev Milestone</th>
 
@@ -427,7 +427,7 @@
                     {{dev_milestone}}
                 </td>
             </tr>
-        {{/if}}
+        {{/not_null}}
     </tbody>
 </table>
 
