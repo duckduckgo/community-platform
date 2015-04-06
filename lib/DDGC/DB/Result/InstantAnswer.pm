@@ -221,13 +221,6 @@ column unsafe => {
 	is_nullable => 1,
 };
 
-# for staging updates to metadata
-column updates => {
-    data_type => 'text',
-    is_nullable => 1,
-    serializer_class => 'JSON'
-};
-
 # IA type
 column type => {
     data_type => 'text',
