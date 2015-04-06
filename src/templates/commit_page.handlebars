@@ -188,7 +188,7 @@
             </tr>
         {{/if}}
 
-        {{#if topic.edited}}
+        {{#if topic}}
             <tr class="updates_list">
                 <th>Topic</th>
 
@@ -198,7 +198,7 @@
                     {{/each}}
                 </td>
                 <td name="topic">
-                    {{#each topic.value}}
+                    {{#each topic}}
                         <li>{{this}}</li>
                     {{/each}}
                 </td>
@@ -218,7 +218,7 @@
             </tr>
         {{/if}}
 
-       {{#if other_queries.edited}}
+       {{#if other_queries}}
             <tr class="updates_list">
                 <th>Other Queries</th>
 
@@ -228,14 +228,14 @@
                     {{/each}}
                 </td>
                 <td name="other_queries">
-                    {{#each other_queries.value}}
+                    {{#each other_queries}}
                         <li>{{this}}</li>
                     {{/each}}
                 </td>
             </tr>
         {{/if}}
 
-       {{#if triggers.edited}}
+       {{#if triggers}}
             <tr class="updates_list">
                 <th>Trigger Words</th>
 
@@ -245,14 +245,14 @@
                     {{/each}}
                 </td>
                 <td name="triggers">
-                    {{#each triggers.value}}
+                    {{#each triggers}}
                         <li>{{this}}</li>
                     {{/each}}
                 </td>
             </tr>
         {{/if}}
 
-       {{#if perl_dependencies.edited}}
+       {{#if perl_dependencies}}
             <tr class="updates_list">
                 <th>Perl Dependencies</th>
 
@@ -262,7 +262,7 @@
                     {{/each}}
                 </td>
                 <td name="perl_dependencies">
-                    {{#each perl_dependencies.value}}
+                    {{#each perl_dependencies}}
                         <li>{{this}}</li>
                     {{/each}}
                 </td>

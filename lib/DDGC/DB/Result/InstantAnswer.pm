@@ -7,6 +7,7 @@ extends 'DDGC::DB::Base::Result';
 use DBIx::Class::Candy;
 use DateTime::Format::Human::Duration;
 use namespace::autoclean;
+use JSON;
 
 table 'instant_answer';
 
@@ -14,18 +15,21 @@ sub u { [ 'InstantAnswer', 'view', $_[0]->id ] }
 
 column id => {
 	data_type => 'text',
+    for_endpt => 1
 };
 primary_key 'id';
 
 # userland name
 column name => {
 	data_type => 'text',
+    for_endpt => 1
 };
 
 # userland description of what the IA does
 column description => {
 	data_type => 'text',
 	is_nullable => 1,
+    for_endpt => 1
 };
 
 # JSON string cointaining parameters such as
@@ -33,18 +37,21 @@ column description => {
 column answerbar => {
     data_type => 'text',
     is_nullable => 1,
+    is_json => 1,
 };
 
 # eg DDG::Goodie::Calculator
 column perl_module => {
 	data_type => 'text',
 	is_nullable => 1,
+    for_endpt => 1
 };
 
 # JSON array of dependencies
 column perl_dependencies => {
     data_type => 'text',
     is_nullable => 1,
+    is_json => 1,
 };
 
 # idea, planning, alpha, beta, qa, ready, live, disabled
@@ -69,24 +76,28 @@ column milestone_dates => {
 column status => {
 	data_type => 'text',
 	is_nullable => 1,
+    for_endpt => 1
 };
 
 # aka 'type': goodie, spice, fathead, longtail, some future repos
 column repo => {
 	data_type => 'text',
 	is_nullable => 1,
+    for_endpt => 1
 };
 
 # aka team
 column topic=> {
 	data_type => 'text',
 	is_nullable => 1,
+    for_endpt => 1,
 };
 
 # json array of all relevant files (.pm, .t, js, handlebars, etc)
 column code => {
 	data_type => 'text',
 	is_nullable => 1,
+    is_json => 1,
 };
 
 # external api name
@@ -147,18 +158,21 @@ column custom_templates => {
 column triggers => {
     data_type => 'text',
     is_nullable => 1,
+    is_json => 1,
 };
 
 # primary example query
 column example_query => {
 	data_type => 'text',
 	is_nullable => 1,
+    for_endpt => 1
 };
 
 # json, aka secondary queries
 column other_queries => {
 	data_type => 'text',
 	is_nullable => 1,
+    is_json => 1,
 };
 
 # signal_from
@@ -171,12 +185,14 @@ column signal_from => {
 column tab => {
 	data_type => 'text',
 	is_nullable => 1,
+    for_endpt => 1
 };
 
 # attribution
 column attribution_orig => {
 	data_type => 'text',
 	is_nullable => 1,
+    is_json => 1,
 };
 
 # template
@@ -189,6 +205,8 @@ column template => {
 column attribution => {
 	data_type => 'text',
 	is_nullable => 1,
+    is_json => 1,
+    for_endpt => 1
 };
 
 # screenshots
@@ -201,13 +219,6 @@ column screenshots => {
 column unsafe => {
 	data_type => 'integer',
 	is_nullable => 1,
-};
-
-# for staging updates to metadata
-column updates => {
-    data_type => 'text',
-    is_nullable => 1,
-    serializer_class => 'JSON'
 };
 
 # IA type
@@ -232,6 +243,7 @@ column designer => {
 column developer => {
     data_type => 'text',
     is_nullable => 1,
+    is_json => 1,
 };
 
 # code review (can be completed, aka '1', or not completed, aka '0')
@@ -309,6 +321,7 @@ column tested_staging => {
 column src_options => {
     data_type => 'text',
     is_nullable => 1,
+    is_json => 1,
 };
 
 column src_id => {
@@ -323,12 +336,35 @@ column src_domain => {
 
 has_many 'issues', 'DDGC::DB::Result::InstantAnswer::Issues', 'instant_answer_id';
 has_many 'blocks', 'DDGC::DB::Result::InstantAnswer::Blocks', 'instant_answer_id';
+has_many 'updates', 'DDGC::DB::Result::InstantAnswer::Updates', 'instant_answer_id';
 
 has_many 'instant_answer_users', 'DDGC::DB::Result::InstantAnswer::Users', 'instant_answer_id';
 many_to_many 'users', 'instant_answer_users', 'user';
 
 has_many 'instant_answer_topics', 'DDGC::DB::Result::InstantAnswer::Topics', 'instant_answer_id';
 many_to_many 'topics', 'instant_answer_topics', 'topic';
+
+# returns a hash ref of all IA data.  Same idea as hashRefInflator
+# but this takes care of deserialization for you.
+sub TO_JSON {
+    my ($ia, $type) = @_;
+    
+    my %data = $ia->get_columns;
+    my @topics = map { $_->name } $ia->topics;
+    $data{topic} = \@topics;
+
+    while( my($field,$value) = each %data ){
+        my $column_data = $ia->column_info($field);
+        
+        if ($type && !$column_data->{$type}){
+            delete $data{$field};
+            next;
+        }
+        next unless $data{$field} && $column_data->{is_json};
+        $data{$field} = from_json($data{$field});
+    }
+    return \%data;
+}
 
 no Moose;
 __PACKAGE__->meta->make_immutable;
