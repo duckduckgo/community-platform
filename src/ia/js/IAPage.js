@@ -198,10 +198,15 @@
                     // Saves the screenshot to S3.
                     $("body").on("click", ".save-screenshot--button", function(evt) {
                         $.post("https://ddh5.duckduckgo.com/screenshot/save/" + DDH_iaid, function(data) {
-                            // Hide the save button.
-                            $(".save-screenshot--button").addClass("hide");
-                            // Put in the image from S3.
-                            $(".ia-single--image-container img").attr("src", "https://images.duckduckgo.com/iu/?u=" + encodeURIComponent(data.screenshots.index));
+                            // Check if the request was successful.
+                            if(data && data.status === "ok" && data.screenshots && data.screenshots.index) {
+                                // Hide the save button.
+                                $(".save-screenshot--button").addClass("hide");
+                                // Put in the image from S3.
+                                $(".ia-single--image-container img").attr("src", "https://images.duckduckgo.com/iu/?u=" + encodeURIComponent(data.screenshots.index));
+                            } else {
+                                setNotification(data.status);
+                            }
                         });
                     });
 
