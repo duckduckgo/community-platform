@@ -169,10 +169,18 @@
                     });
 
                     // If the image successfully loads, show the false window.
-                    
                     $(".ia-single--image-container img").error(function() {
                         $(".ia-single--screenshots").addClass("hide");
-                        $(".generate-screenshot").addClass("dashed-border");
+
+                        // Show the dashed border if the image errored out and we have permissions.
+                        if(ia_data.permissions && ia_data.permissions.can_edit) {
+                            $(".generate-screenshot").addClass("dashed-border");
+                        } else {
+                            $(".ia-single--left").removeClass("ia-single--left").addClass("ia-single--left--wide");
+                            $(".dev_milestone-container__body").removeClass("hide");
+                            
+                            page.setMaxHeight($(".milestone-panel"));
+                        }
 
                         if (ia_data.live.dev_milestone !== "live" && ia_data.live.dev_milestone !== "deprecated") {
                             page.imgHide = true;
