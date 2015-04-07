@@ -1,0 +1,23 @@
+
+<: include "email/heading.tx" PO File Uploaded :>
+<tr>
+  <td width="10"></td>
+  <td align="center" colspan="2">
+    <table cellpadding="0" cellspacing="5" border="0" bgcolor="#fff" <: style("msg_content") :>>
+      <tr>
+        <td colspan="2" valign="middle">
+           <h4 <: style("default") :>>
+              <a href="<: $u('Translate','po') :>">
+                Please review <: $filename :> here
+              </a>
+            </h4>
+            <p <: style("default") :>>
+              Thanks for your contribution!
+            </p>
+          <p <: style("sub_text") :>>Regards, <br/><i <: style("signoff") :>>DuckDuckGo Translations.</i></p>
+        </td>
+      </tr>
+    </table>
+  </td>
+  <td width="10"></td>
+</tr>
