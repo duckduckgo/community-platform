@@ -174,16 +174,9 @@
                             $(".dev_milestone-container__body").removeClass("hide");
 
                             // Set the panels height to the tallest one's height
-                            var max_height = 0;
-                            $(".dev_milestone-container").each(function(idx) {
-                                if ($(this).height() > max_height) {
-                                    max_height = $(this).height();
-                                }
-                            });
-
-                            $(".dev_milestone-container").height(max_height);
-
+                            page.setMaxHeight($(".milestone-panel"));
                             page.imgHide = true;
+                            $(".button.js-expand").hide();
                         }
                     });
                     
@@ -577,6 +570,9 @@
                                     var $panel_body = $("#" + panel + " .dev_milestone-container__body");
                                     $panel_body.html(readonly_templates[panel + "_content"]);
 
+                                    $("#" + panel).height($panel_body.height() + 50);
+                                    page.setMaxHeight($(".milestone-panel"));
+
                                     page.appendTopics();
                                     page.hideAssignToMe();
                                 } 
@@ -654,6 +650,17 @@
             'qa',
             'ready'
         ],
+
+        setMaxHeight: function($obj_set) {
+            var max_height = 0;
+            $obj_set.each(function(idx) {
+                if ($(this).height() > max_height) {
+                    max_height = $(this).height();
+                }
+            });
+
+            $obj_set.height(max_height);
+        },
 
         updateHandlebars: function(templates, ia_data, dev_milestone) {
             if (dev_milestone === 'live') {
@@ -736,6 +743,8 @@
 
                 if (!this.imgHide) {
                     $(".ia-single--right").append(templates.live.screens);
+                } else {
+                    $(".button.js-expand").hide();
                 }
 
                 $(".show-more").click(function(e) {
