@@ -76,7 +76,7 @@ sub base :Chained('/') :PathPart('') :CaptureArgs(0) {
 	$c->wiz_check;
 
 	$c->response->header( 'X-Frame-Options' => 'DENY' );
-	$c->response->header( 'Content-Security-Policy' => "default-src 'self' ; img-src 'self' https://*.duckduckgo.com https://duckduckgo.com ; script-src 'self' 'unsafe-inline' ; style-src 'self' 'unsafe-inline' ;" );
+	$c->response->header( 'Content-Security-Policy' => "default-src 'self' https://*.duckduckgo.com ; img-src 'self' https://*.duckduckgo.com https://duckduckgo.com ; script-src 'self' 'unsafe-inline' ; style-src 'self' 'unsafe-inline' ;" );
 
 	# Should not be necessary, is not harmful
 	$c->response->header( 'X-Permitted-Cross-Domain-Policies' => 'master-only' );
