@@ -169,13 +169,11 @@
                     });
 
                     // If the image successfully loads, show the false window.
-                    $(".ia-single--image-container img").load(function() {
-                        $(".ia-single--screenshots").removeClass("hide");
-                        $(".generate-screenshot").removeClass("dashed-border");
-                    });
-
-                    // Check if the screenshot exists or not.
+                    
                     $(".ia-single--image-container img").error(function() {
+                        $(".ia-single--screenshots").addClass("hide");
+                        $(".generate-screenshot").addClass("dashed-border");
+
                         if (ia_data.live.dev_milestone !== "live" && ia_data.live.dev_milestone !== "deprecated") {
                             page.imgHide = true;
                             $(".button.js-expand").hide();
