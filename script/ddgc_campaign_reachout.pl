@@ -36,7 +36,7 @@ my $mail_dates = [
 ];
 
 for my $mail_date (@{$mail_dates}) {
-    return if $mail_date->{start} lt $reachout_start;
+    next if $mail_date->{start} lt $reachout_start;
     my $responses = $ddgc->rs('User::CampaignNotice')->search(
         {
             responded => {
