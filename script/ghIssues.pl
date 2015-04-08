@@ -31,6 +31,10 @@ my @repos = (
 my $token = $ENV{DDGC_GITHUB_TOKEN} || $ENV{DDG_GITHUB_BASIC_OAUTH_TOKEN};
 my $gh = Net::GitHub->new(access_token => $token);
 
+# build a list of the current PRs in our database
+my $rs = $d->rs('InstantAnswer::Issues');
+my @pull_requests = $rs->search({'is_pr' => 1})->all;
+
 # get the GH issues
 sub getIssues{
 	foreach my $repo (@repos){
@@ -42,6 +46,7 @@ sub getIssues{
 
 		# add all the data we care about to an array
 		for my $issue (@issues){
+            warn Dumper $issue;
             # get the IA name from the link in the first comment
 			# Update this later for whatever format we decide on
 			my $name_from_link = '';
@@ -68,11 +73,12 @@ sub getIssues{
 				tags => $issue->{'labels'} || '',
 				date => $issue->{'created_at'} || '',
                 is_pr => $is_pr,
+                code => '',
 			);
 			push(@results, \%entry);
 		}
 	}
-    #  warn Dumper @results;
+    # warn Dumper @results;
 }
 
 my $update = sub {
@@ -83,6 +89,8 @@ my $update = sub {
         $ia = $d->rs('InstantAnswer')->find( $result->{name});
 
         if(exists $result->{name} && $ia){
+            warn Dumper $result if $result->{is_pr} == 1;
+
             $d->rs('InstantAnswer::Issues')->create(
             {
                 instant_answer_id => $result->{name},
