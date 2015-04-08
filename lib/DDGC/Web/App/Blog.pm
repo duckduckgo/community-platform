@@ -1,4 +1,4 @@
-package DDGC::Web::App::UserLoggedIn;
+package DDGC::Web::App::Blog;
 
 use Dancer2;
 use Dancer2::Plugin::DBIC;
