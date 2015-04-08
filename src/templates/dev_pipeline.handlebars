@@ -5,8 +5,8 @@
 
     <ul class="dev_pipeline-column__list" id="pipeline-planning__list">
         {{#each planning}}
-            <li id="pipeline-planning__list__{{id}}" class="producer-{{producer}} designer-{{designer}} developer-{{developer}}">
-                <a href="/ia/view/{{id}}">{{name}}</a>
+            <li id="pipeline-planning__list__{{meta_id}}" class="producer-{{producer}} designer-{{designer}} developer-{{developer}}">
+                <a href="/ia/view/{{meta_id}}">{{name}}</a>
             </li>
         {{/each}}
     </ul>
@@ -20,8 +20,8 @@
 
     <ul class="dev_pipeline-column__list" id="pipeline-in_development__list">
         {{#each in_development}}
-            <li id="pipeline-in_development__list__{{id}}" class="producer-{{producer}} designer-{{designer}} developer-{{developer}}">
-                <a href="/ia/view/{{id}}">{{name}}</a>
+            <li id="pipeline-in_development__list__{{meta_id}}" class="producer-{{producer}} designer-{{designer}} developer-{{developer}}">
+                <a href="/ia/view/{{meta_id}}">{{name}}</a>
             </li>
         {{/each}}
     </ul>
@@ -35,8 +35,8 @@
 
     <ul class="dev_pipeline-column__list" id="pipeline-qa__list">
         {{#each qa}}
-            <li id="pipeline-qa__list__{{id}}" class="producer-{{producer}} designer-{{designer}} developer-{{developer}}">
-                <a href="/ia/view/{{id}}">{{name}}</a>
+            <li id="pipeline-qa__list__{{meta_id}}" class="producer-{{producer}} designer-{{designer}} developer-{{developer}}">
+                <a href="/ia/view/{{meta_id}}">{{name}}</a>
             </li>
         {{/each}}
     </ul>
@@ -50,8 +50,8 @@
 
     <ul class="dev_pipeline-column__list" id="pipeline-ready__list">
         {{#each ready}}
-            <li id="pipeline-ready__list__{{id}}" class="producer-{{producer}} designer-{{designer}} developer-{{developer}}">
-                <a href="/ia/view/{{id}}">{{name}}</a>
+            <li id="pipeline-ready__list__{{meta_id}}" class="producer-{{producer}} designer-{{designer}} developer-{{developer}}">
+                <a href="/ia/view/{{meta_id}}">{{name}}</a>
             </li>
         {{/each}}
     </ul>

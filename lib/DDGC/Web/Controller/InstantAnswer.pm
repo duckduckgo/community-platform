@@ -58,7 +58,7 @@ sub ialist_json :Chained('base') :PathPart('json') :Args() {
          'me.dev_milestone' => { '=' => ['live', 'ready']},
         },
         {
-            columns => [ qw/ name id repo src_name dev_milestone description template / ],
+            columns => [ qw/ name id meta_id repo src_name dev_milestone description template / ],
             prefetch => { instant_answer_topics => 'topic' },
             result_class => 'DBIx::Class::ResultClass::HashRefInflator',
         }
@@ -147,7 +147,7 @@ sub dev_pipeline_json :Chained('dev_pipeline_base') :PathPart('json') :Args(0) {
         my @planning = $rs->search(
             {'me.dev_milestone' => { '=' => 'planning'}},
             {
-                columns => [ qw/ name id dev_milestone producer designer developer/ ],
+                columns => [ qw/ name id meta_id dev_milestone producer designer developer/ ],
                 order_by => [ qw/ name/ ],
                 result_class => 'DBIx::Class::ResultClass::HashRefInflator',
             }
@@ -156,7 +156,7 @@ sub dev_pipeline_json :Chained('dev_pipeline_base') :PathPart('json') :Args(0) {
         my @in_development = $rs->search(
             {'me.dev_milestone' => { '=' => 'in_development'}},
             {
-                columns => [ qw/ name id dev_milestone producer designer developer/ ],
+                columns => [ qw/ name id meta_id dev_milestone producer designer developer/ ],
                 order_by => [ qw/ name/ ],
                 result_class => 'DBIx::Class::ResultClass::HashRefInflator',
             }
@@ -165,7 +165,7 @@ sub dev_pipeline_json :Chained('dev_pipeline_base') :PathPart('json') :Args(0) {
         my @qa = $rs->search(
             {'me.dev_milestone' => { '=' => 'qa'}},
             {
-                columns => [ qw/ name id dev_milestone producer designer developer/ ],
+                columns => [ qw/ name id meta_id dev_milestone producer designer developer/ ],
                 order_by => [ qw/ name/ ],
                 result_class => 'DBIx::Class::ResultClass::HashRefInflator',
             }
@@ -174,7 +174,7 @@ sub dev_pipeline_json :Chained('dev_pipeline_base') :PathPart('json') :Args(0) {
         my @ready = $rs->search(
             {'me.dev_milestone' => { '=' => 'ready'}},
             {
-                columns => [ qw/ name id dev_milestone producer designer developer/ ],
+                columns => [ qw/ name id meta_id dev_milestone producer designer developer/ ],
                 order_by => [ qw/ name/ ],
                 result_class => 'DBIx::Class::ResultClass::HashRefInflator',
             }
@@ -191,7 +191,7 @@ sub dev_pipeline_json :Chained('dev_pipeline_base') :PathPart('json') :Args(0) {
             {'me.repo' => { '=' => 'fathead'},
              'me.dev_milestone' => { '=' => 'deprecated'}},
             {
-                columns => [ qw/ name repo id dev_milestone producer designer developer/ ],
+                columns => [ qw/ name repo id meta_id dev_milestone producer designer developer/ ],
                 order_by => [ qw/ name/ ],
                 result_class => 'DBIx::Class::ResultClass::HashRefInflator',
             }
@@ -201,7 +201,7 @@ sub dev_pipeline_json :Chained('dev_pipeline_base') :PathPart('json') :Args(0) {
             {'me.repo' => { '=' => 'goodies'},
              'me.dev_milestone' => { '=' => 'deprecated'}},
             {
-                columns => [ qw/ name repo id dev_milestone producer designer developer/ ],
+                columns => [ qw/ name repo id meta_id dev_milestone producer designer developer/ ],
                 order_by => [ qw/ name/ ],
                 result_class => 'DBIx::Class::ResultClass::HashRefInflator',
             }
@@ -211,7 +211,7 @@ sub dev_pipeline_json :Chained('dev_pipeline_base') :PathPart('json') :Args(0) {
             {'me.repo' => { '=' => 'longtail'},
              'me.dev_milestone' => { '=' => 'deprecated'}},
             {
-                columns => [ qw/ name id repo dev_milestone producer designer developer/ ],
+                columns => [ qw/ name id meta_id repo dev_milestone producer designer developer/ ],
                 order_by => [ qw/ name/ ],
                 result_class => 'DBIx::Class::ResultClass::HashRefInflator',
             }
@@ -221,7 +221,7 @@ sub dev_pipeline_json :Chained('dev_pipeline_base') :PathPart('json') :Args(0) {
             {'me.repo' => { '=' => 'spice'},
              'me.dev_milestone' => { '=' => 'deprecated'}},
             {
-                columns => [ qw/ name id repo dev_milestone producer designer developer/ ],
+                columns => [ qw/ name id meta_id repo dev_milestone producer designer developer/ ],
                 order_by => [ qw/ name/ ],
                 result_class => 'DBIx::Class::ResultClass::HashRefInflator',
             }
@@ -279,6 +279,7 @@ sub dev_pipeline_json :Chained('dev_pipeline_base') :PathPart('json') :Args(0) {
                     $ial{$id}  = {
                             name => $ia->name,
                             id => $ia->id,
+                            meta_id => $ia->meta_id,
                             repo => $ia->repo,
                             dev_milestone => $ia->dev_milestone,
                             producer => $ia->producer,
@@ -316,10 +317,11 @@ sub ia_base :Chained('base') :PathPart('view') :CaptureArgs(1) {  # /ia/view/cal
     my ( $self, $c, $answer_id ) = @_;
 
     $c->stash->{ia_page} = "IAPage";
-    $c->stash->{ia} = $c->d->rs('InstantAnswer')->find($answer_id);
-    @{$c->stash->{issues}} = $c->d->rs('InstantAnswer::Issues')->search({instant_answer_id => $answer_id});    
+    $c->stash->{ia} = $c->d->rs('InstantAnswer')->find({meta_id => $answer_id});
+    my $ia = $c->stash->{ia};
+    @{$c->stash->{issues}} = $c->d->rs('InstantAnswer::Issues')->search({instant_answer_id => $ia->id});    
 
-    unless ($c->stash->{ia}) {
+    unless ($ia) {
         $c->response->redirect($c->chained_uri('InstantAnswer','index',{ instant_answer_not_found => 1 }));
         return $c->detach;
     }
@@ -329,11 +331,10 @@ sub ia_base :Chained('base') :PathPart('view') :CaptureArgs(1) {  # /ia/view/cal
     my $can_edit;
     my $can_commit;
     my $commit_class = "hide";
-    my $ia = $c->stash->{ia};
     my $dev_milestone = $ia->dev_milestone;
 
     if ($c->user) {
-        $permissions = $c->stash->{ia}->users->find($c->user->id);
+        $permissions = $ia->users->find($c->user->id);
         $is_admin = $c->user->admin;
 
         if ($permissions || $is_admin) {
@@ -347,7 +348,7 @@ sub ia_base :Chained('base') :PathPart('view') :CaptureArgs(1) {  # /ia/view/cal
         }
     }
 
-    $c->stash->{title} = $c->stash->{ia}->name;
+    $c->stash->{title} = $ia->name;
     $c->stash->{can_edit} = $can_edit;
     $c->stash->{can_commit} = $can_commit;
     $c->stash->{commit_class} = $commit_class;
@@ -453,7 +454,7 @@ sub ia  :Chained('ia_base') :PathPart('') :Args(0) {
 sub commit_base :Chained('base') :PathPart('commit') :CaptureArgs(1) {
     my ( $self, $c, $answer_id ) = @_;
 
-    $c->stash->{ia} = $c->d->rs('InstantAnswer')->find($answer_id);
+    $c->stash->{ia} = $c->d->rs('InstantAnswer')->find({meta_id => $answer_id});
     $c->stash->{ia_page} = "IAPageCommit";
 }
 
@@ -495,7 +496,7 @@ sub commit_save :Chained('commit_base') :PathPart('save') :Args(0) {
         my $is_admin = $c->user->admin;
         if ($is_admin) {
             # get the IA 
-            my $ia = $c->d->rs('InstantAnswer')->find($c->req->params->{id});
+            my $ia = $c->d->rs('InstantAnswer')->find({meta_id => $c->req->params->{id}});
             my $params = from_json($c->req->params->{values});
             $result = save($c, $params, $ia);
         }
@@ -511,7 +512,7 @@ sub commit_save :Chained('commit_base') :PathPart('save') :Args(0) {
 
 sub save_edit :Chained('base') :PathPart('save') :Args(0) {
     my ( $self, $c ) = @_;
-    my $ia = $c->d->rs('InstantAnswer')->find($c->req->params->{id});
+    my $ia = $c->d->rs('InstantAnswer')->find({meta_id => $c->req->params->{id}});
     my $ia_data = $ia->TO_JSON;
     my $permissions;
     my $is_admin;
@@ -583,7 +584,7 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
 sub create_ia :Chained('base') :PathPart('create') :Args() {
     my ( $self, $c ) = @_;
 
-    my $ia = $c->d->rs('InstantAnswer')->find({lc id => $c->req->params->{id}});
+    my $ia = $c->d->rs('InstantAnswer')->find({lc id => $c->req->params->{id}}) || $c->d->rs('InstantAnswer')->find({lc meta_id => $c->req->params->{id}});
     my $is_admin;
     my $result = '';
 
@@ -600,6 +601,7 @@ sub create_ia :Chained('base') :PathPart('create') :Args() {
 
             my $new_ia = $c->d->rs('InstantAnswer')->create({
                 lc id => $c->req->params->{id},
+                lc meta_id => $c->req->params->{id},
                 name => $c->req->params->{name},
                 status => $status,
                 dev_milestone => $dev_milestone,
