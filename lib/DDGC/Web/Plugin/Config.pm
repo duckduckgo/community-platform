@@ -8,6 +8,9 @@ on_plugin_import {
     my ( $dsl ) = @_;
     my $settings = plugin_setting();
     my $config = DDGC::Config->new;
+    my $appdir = $dsl->config->{appdir};
+
+    $dsl->set(ddgc_config => $config);
 
     $dsl->set(
         plugins => {
@@ -20,7 +23,34 @@ on_plugin_import {
             },
         },
     );
+
     $dsl->set(session => 'PSGI');
+
+    $dsl->set(views => './');
+
+    $dsl->set(
+        engines  => {
+            template => {
+                Xslate => {
+                    path      => $appdir . '/templates',
+                    cache_dir => $config->xslate_cachedir,
+                    function  => {
+                        c => sub {
+                                $dsl->request->vars;
+                        },
+                        u => sub { '/' },
+                        next_template => sub {
+                            my $templates = $dsl->request->var('templates');
+                            my $template = shift @{$templates};
+                            $dsl->request->var( templates => $templates );
+                        }
+                    },
+                },
+            }
+        }
+    );
+
+    $dsl->set(template => 'Xslate');
 };
 
 register_plugin for_versions => [2];
