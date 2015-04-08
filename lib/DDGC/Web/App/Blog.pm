@@ -2,25 +2,8 @@ package DDGC::Web::App::Blog;
 
 use Dancer2;
 use Dancer2::Plugin::DBIC;
-use DDGC;
-use DDGC::Web;
-
-my $d = DDGC->new;
-my $c = DDGC::Web->new;
-my $config = $d->config;
-my $xslate = $d->xslate;
-
-set plugins => {
-    DBIC => {
-        default => {
-            dsn         => $config->db_dsn,
-            user        => $config->db_user,
-            password    => $config->db_password,
-        }
-    },
-};
-
-set session => 'PSGI';
+use DDGC::Web::Plugin::Config;
+use DDGC::Web::Plugin::Session;
 
 get '/' => sub {
     my $user = schema->resultset('User')->find({ username => session('__user') });
