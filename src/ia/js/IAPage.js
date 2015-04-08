@@ -563,6 +563,8 @@
                             if (data.result && data.result.saved) {
                                 if (field === "dev_milestone") {
                                     location.reload();
+                                } else if (field === "meta_id") {
+                                    location.href = "/ia/view/" + data.result.meta_id;
                                 } else {
                                     ia_data.live[field] = (is_json && data.result[field])? $.parseJSON(data.result[field]) : data.result[field];
                                     readonly_templates[panel + "_content"] = Handlebars.templates[panel + "_content"](ia_data);

@@ -319,12 +319,15 @@ sub ia_base :Chained('base') :PathPart('view') :CaptureArgs(1) {  # /ia/view/cal
     $c->stash->{ia_page} = "IAPage";
     $c->stash->{ia} = $c->d->rs('InstantAnswer')->find({meta_id => $answer_id});
     my $ia = $c->stash->{ia};
-    @{$c->stash->{issues}} = $c->d->rs('InstantAnswer::Issues')->search({instant_answer_id => $ia->id});    
-
+    print $answer_id;    
+    
     unless ($ia) {
         $c->response->redirect($c->chained_uri('InstantAnswer','index',{ instant_answer_not_found => 1 }));
         return $c->detach;
     }
+    
+    print $ia->id;
+    @{$c->stash->{issues}} = $c->d->rs('InstantAnswer::Issues')->search({instant_answer_id => $ia->id}); 
 
     my $permissions;
     my $is_admin;
@@ -513,6 +516,12 @@ sub commit_save :Chained('commit_base') :PathPart('save') :Args(0) {
 sub save_edit :Chained('base') :PathPart('save') :Args(0) {
     my ( $self, $c ) = @_;
     my $ia = $c->d->rs('InstantAnswer')->find({meta_id => $c->req->params->{id}});
+    print $c->req->params->{id};    
+    
+    unless ($ia) {
+        return '';
+    }
+    
     my $ia_data = $ia->TO_JSON;
     my $permissions;
     my $is_admin;
