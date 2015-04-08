@@ -16,9 +16,10 @@ on_plugin_import {
         plugins => {
             DBIC => {
                 default => {
-                    dsn         => $config->db_dsn,
-                    user        => $config->db_user,
-                    password    => $config->db_password,
+                    dsn          => $config->db_dsn,
+                    user         => $config->db_user,
+                    password     => $config->db_password,
+                    schema_class => 'DDGC::Schema',
                 }
             },
         },
