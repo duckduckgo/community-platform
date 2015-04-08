@@ -24,7 +24,7 @@ on_plugin_import {
                         { username => $dsl->session('__user') }
                     )
                 );
-                pass;
+                $dsl->pass;
             },
 
         );
