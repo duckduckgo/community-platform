@@ -168,25 +168,35 @@
                         $(".special-permissions__toggle-view").hide();
                     });
 
-                    // If the image successfully loads, show the false window.
-                    $(".ia-single--image-container img").error(function() {
-                        $(".ia-single--screenshots").addClass("hide");
+                    page.hideScreenshot = (function(ia_data) {
+                        return function() {
+                            $(".ia-single--image-container img").error(function() {
+                                $(".ia-single--screenshots").addClass("hide");
 
-                        // Show the dashed border if the image errored out and we have permissions.
-                        if(ia_data.permissions && ia_data.permissions.can_edit) {
-                            $(".generate-screenshot").addClass("dashed-border");
-                        } else {
-                            $(".ia-single--left").removeClass("ia-single--left").addClass("ia-single--left--wide");
-                            $(".dev_milestone-container__body").removeClass("hide");
+                                console.log(ia_data.permissions, ia_data.permissions.can_edit);
+                                // Show the dashed border if the image errored out and we have permissions.
+                                if(ia_data.permissions && ia_data.permissions.can_edit) {
+                                    $(".generate-screenshot").addClass("dashed-border");
+                                    $(".ia-single--left--wide").removeClass("ia-single--left--wide").addClass("ia-single--left");
+
+                                    page.removeMaxHeight($(".milestone-panel"));
+                                } else {
+                                    $(".generate-screenshot").hide();
+                                    $(".ia-single--left").removeClass("ia-single--left").addClass("ia-single--left--wide");
+                                    $(".dev_milestone-container__body").removeClass("hide");
                             
-                            page.setMaxHeight($(".milestone-panel"));
-                        }
+                                    page.setMaxHeight($(".milestone-panel"));
+                                }
 
-                        if (ia_data.live.dev_milestone !== "live" && ia_data.live.dev_milestone !== "deprecated") {
-                            page.imgHide = true;
-                            $(".button.js-expand").hide();
-                        }
-                    });
+                                if (ia_data.live.dev_milestone !== "live" && ia_data.live.dev_milestone !== "deprecated") {
+                                    page.imgHide = true;
+                                    $(".button.js-expand").hide();
+                                }
+                            });
+                        };
+                    }(ia_data));
+
+                    page.hideScreenshot();
 
                     function setNotification(message) {
                         var $notif = $(".generate-screenshot--notif");
@@ -713,6 +723,12 @@
             'ready'
         ],
 
+        removeMaxHeight: function($obj_set) {
+            $obj_set.each(function(idx) {
+                $(this).css("height", "");
+            });
+        },
+
         setMaxHeight: function($obj_set) {
             var max_height = 0;
             $obj_set.each(function(idx) {
@@ -803,11 +819,9 @@
                     this.hideAssignToMe();
                 }
 
-                if (!this.imgHide) {
-                    $(".ia-single--right").append(templates.screens);
-                    $(".ia-single--right").append(templates.live.screens);
-                } else {
-                    $(".button.js-expand").hide();
+                $(".ia-single--right").append(templates.screens);
+                if (this.hideScreenshot) {
+                    this.hideScreenshot();
                 }
 
                 $(".show-more").click(function(e) {
