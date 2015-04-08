@@ -539,7 +539,7 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
             my $complat_user = $c->d->rs('User')->find({username => $value});
             my $complat_user_admin = $complat_user? $complat_user->admin : '';
 
-            # designers can be any complat user
+            # developers can be any complat user
             if ($field eq "developer") {
                 return '' unless $complat_user || $value eq '';
                 my %dev_hash = (
@@ -551,6 +551,11 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
 
             if ($field =~ /designer|producer/){
                 return '' unless $complat_user_admin || $value eq '';
+            } elsif ($field eq "meta_id") {
+                # meta_id must be unique, lowercase and without spaces
+                $value =~ s/\s//g;
+                $value = lc $value;
+                return '' if $c->d->rs('InstantAnswer')->find({meta_id => $value});
             }
 
             my $edits = add_edit($c, $ia,  $field, $value);
