@@ -631,7 +631,8 @@ sub create_ia :Chained('base') :PathPart('create') :Args() {
 
 sub save {
     my($c, $params, $ia) = @_;
-    my $result;
+    my %result;
+    my $saved;
 
     for my $param (@$params) {
             my $field = $param->{field};
@@ -642,8 +643,8 @@ sub save {
             $ia->instant_answer_topics->delete;
                 
             for my $topic (@{$topic_values[0]}) {
-                $result = add_topic($c, $ia, $topic);
-                return unless $result;
+                $saved = add_topic($c, $ia, $topic);
+                return unless $saved;
             }
         } else {
             if ($field eq "developer") {
@@ -655,10 +656,16 @@ sub save {
             }
             
             commit_edit($c->d, $ia, $field, $value);
-            $result = '1';
+            $saved = '1';
         }
     }
-    return $result; 
+
+    %result = (
+        saved => $saved,
+        id => $ia->meta_id
+    );
+
+    return \%result; 
 }
 
 # Return a hash with the latest edits for the given IA
