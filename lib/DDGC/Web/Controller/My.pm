@@ -720,7 +720,7 @@ sub register :Chained('logged_out') :Args(0) {
 					1,
 					$user->email,
 					'"DuckDuckGo Community" <noreply@dukgo.com>',
-					'[DuckDuckGo Community] Thank you for registering',
+					'[DuckDuckGo Community] Thank you for registering. Please verify your email address',
 					'register',
 					$c->stash,
 				);
