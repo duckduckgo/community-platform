@@ -574,8 +574,10 @@
                                     var $panel_body = $("#" + panel + " .dev_milestone-container__body");
                                     $panel_body.html(readonly_templates[panel + "_content"]);
 
-                                    $("#" + panel).height($panel_body.height() + 50);
-                                    page.setMaxHeight($(".milestone-panel"));
+                                    if (page.imgHide) {
+                                        $("#" + panel).height($panel_body.height() + 50);
+                                        page.setMaxHeight($(".milestone-panel"));
+                                    }
 
                                     page.appendTopics();
                                     page.hideAssignToMe();
