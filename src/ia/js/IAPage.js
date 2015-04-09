@@ -581,6 +581,9 @@
 
                                     page.appendTopics();
                                     page.hideAssignToMe();
+
+                                    var saved_class = data.result.saved? "saved" : "not_saved";
+                                    $panel_body.find("." + field).addClass(saved_class);
                                 } 
                             }
                         });
