@@ -33,11 +33,15 @@ my $gh = Net::GitHub->new(access_token => $token);
 
 # build a list of the current PRs in our database
 my $rs = $d->rs('InstantAnswer::Issues');
-my @pull_requests = $rs->search({'is_pr' => 1})->all;
+my @pull_requests = $rs->search({'is_pr' => 1}, {result_class => 'DBIx::Class::ResultClass::HashRefInflator'})->all;
+
+# turn into issue id hash to make searching easier
+my %pr_hash;
+map{ $pr_hash{$_->{issue_id}} = $_ } @pull_requests;
 
 # get the GH issues
 sub getIssues{
-	foreach my $repo (@repos){
+    foreach my $repo (@repos){
         my @issues = $gh->issue->repos_issues('duckduckgo', $repo, {state => 'open'});
         
         while($gh->issue->has_next_page){
@@ -46,7 +50,6 @@ sub getIssues{
 
 		# add all the data we care about to an array
 		for my $issue (@issues){
-            warn Dumper $issue;
             # get the IA name from the link in the first comment
 			# Update this later for whatever format we decide on
 			my $name_from_link = '';
@@ -89,7 +92,17 @@ my $update = sub {
         $ia = $d->rs('InstantAnswer')->find( $result->{name});
 
         if(exists $result->{name} && $ia){
-            warn Dumper $result if $result->{is_pr} == 1;
+            # check our list of past issues marked as being a pull request
+            # if the PR isn't in our new list of issues then get more data
+            # on that specific PR using gh api
+            if($result->{is_pr} && !$pr_hash{$result->{issue_id}}){
+                # Just for testing.  Set a pr to 0
+                $result->{is_pr} = 0 if $result->{is_pr};
+                my @files;
+                $gh->set_default_user_repo('duckduckgo', "zeroclickinfo-$result->{repo}");
+                my @pr = $gh->pull_request->files($result->{issue_id});
+                map{ push(@files, $_->{filename}) } @pr;
+            }
 
             $d->rs('InstantAnswer::Issues')->create(
             {
