@@ -778,6 +778,9 @@ body.texture {
 .ia-single p::first-letter {
     text-transform: capitalize;
 }
+#row-diff-meta_id p::first-letter {
+    text-transform: none;
+}
 .ia-single p,
 .ia-single .row-diff ul {
     color: #666;
