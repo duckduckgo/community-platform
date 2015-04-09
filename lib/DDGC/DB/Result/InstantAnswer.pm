@@ -19,6 +19,12 @@ column id => {
 };
 primary_key 'id';
 
+# editable ID
+column meta_id => {
+    data_type => 'text',
+    for_endpt => 1
+};
+
 # userland name
 column name => {
 	data_type => 'text',
