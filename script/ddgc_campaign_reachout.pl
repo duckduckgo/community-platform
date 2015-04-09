@@ -11,7 +11,7 @@ use FindBin;
 use lib $FindBin::Dir . "/../lib"; 
 use DDGC;
 
-die 'This emails people... See crontab' if (!$ARGV[0] || $ARGV[0] ne '--yes-really-send-email');
+die 'This emails people... See crontab.' if (!$ARGV[0] || $ARGV[0] ne '--yes-really-send-email');
 
 my $ddgc  = DDGC->new;
 my $today = localtime;
