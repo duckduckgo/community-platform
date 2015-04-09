@@ -86,17 +86,17 @@ sub iarepo_json :Chained('iarepo') :PathPart('json') :Args(0) {
 
     my %iah;
     for my $ia (@x) {
-        $iah{$ia->id} = $ia->TO_JSON('for_endpt');
+        $iah{$ia->meta_id} = $ia->TO_JSON('for_endpt');
 
         # fathead specific
         # TODO: do we need src_domain ?
 
         my $src_options = $ia->src_options;
         if ($src_options ) {
-            $iah{$ia->id}{src_options} = from_json($src_options);
+            $iah{$ia->meta_id}{src_options} = from_json($src_options);
         }
 
-        $iah{$ia->id}{src_id} = $ia->src_id if $ia->src_id;
+        $iah{$ia->meta_id}{src_id} = $ia->src_id if $ia->src_id;
     }
 
     $c->stash->{x} = \%iah;
