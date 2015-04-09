@@ -171,20 +171,27 @@
                     page.hideScreenshot = (function(ia_data) {
                         return function() {
                             $(".ia-single--image-container img").error(function() {
-                                $(".ia-single--screenshots").addClass("hide");
-
                                 // Show the dashed border if the image errored out and we have permissions.
                                 if(ia_data.permissions && ia_data.permissions.can_edit) {
+                                    $(".ia-single--screenshots").addClass("hide");
                                     $(".generate-screenshot").addClass("dashed-border");
                                     $(".ia-single--left--wide").removeClass("ia-single--left--wide").addClass("ia-single--left");
 
                                     page.removeMaxHeight($(".milestone-panel"));
                                 } else {
-                                    $(".generate-screenshot").hide();
-                                    $(".ia-single--left").removeClass("ia-single--left").addClass("ia-single--left--wide");
-                                    $(".dev_milestone-container__body").removeClass("hide");
-                            
-                                    page.setMaxHeight($(".milestone-panel"));
+                                    // Display default image if we found the live image.
+                                    if(ia_data.live && ia_data.live.dev_milestone === "live") {
+                                        $(".ia-single--screenshots").removeClass("hide");
+                                        $(".ia-single--image-container img").attr("src",  "https://images.duckduckgo.com/iu/?u=" + encodeURIComponent("http://ia-screenshots.s3.amazonaws.com/default_index.png"));
+                                    } else {
+                                        $(".ia-single--screenshots").addClass("hide");
+
+                                        $(".generate-screenshot").hide();
+                                        $(".ia-single--left").removeClass("ia-single--left").addClass("ia-single--left--wide");
+                                        $(".dev_milestone-container__body").removeClass("hide");
+
+                                        page.setMaxHeight($(".milestone-panel"));
+                                    }                            
                                 }
 
                                 if (ia_data.live.dev_milestone !== "live" && ia_data.live.dev_milestone !== "deprecated") {
