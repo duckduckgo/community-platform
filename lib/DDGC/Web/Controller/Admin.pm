@@ -43,6 +43,7 @@ sub index :Chained('base') :PathPart('') :Args(0) {
 	$c->stash->{votes_count} = $c->d->rs('Token::Language::Translation::Vote')->count;
 	$c->stash->{token_domains_count} = $c->d->rs('Token::Domain')->count;
 	$c->stash->{tokens_count} = $c->d->rs('Token')->count;
+	$c->stash->{remaining_coupon_count} = $c->d->rs('User::Coupon')->search({ users_id => undef })->count;
 }
 
 no Moose;
