@@ -31,8 +31,8 @@ my $mail_dates = [
         subject => 'Tips to help your friends & family try out DuckDuckGo',
     },
     {
-        start => ($today - (ONE_DAY * 28))->ymd,
-        end   => ($today - (ONE_DAY * 27))->ymd,
+        start => ($today - (ONE_DAY * 27))->ymd,
+        end   => ($today - (ONE_DAY * 26))->ymd,
         mail  => 'campaigninfo3',
         subject => '2 days to go before you can get your DuckDuckGo t-shirt!',
     },
