@@ -1216,6 +1216,10 @@ body.texture {
     width: 100%;
 }
 
+.dev_milestone-container .topic {
+    margin-left: 0;
+}
+
 .not_saved {
     border: 1px solid #DE5833;
     color: #DE5833;
