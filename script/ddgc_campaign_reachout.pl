@@ -54,15 +54,14 @@ for my $mail_date (@{$mail_dates}) {
     while (my $response = $responses->next) {
         my $address = $response->get_verified_campaign_email;
         next if !$address;
-        $ddgc->postman->template_mail(
+        my $stash = { return_date => ($response->responded + DateTime::Duration->new( days => 30 ))->strftime("%b %e"), };
+        my $body = $ddgc->xslate->render('email/' . $mail_date->{mail} . '.tx', $stash);
+        $ddgc->postman->html_mail(
             1,
             $address,
             '"DuckDuckGo Share It + Wear It" <sharewear@duckduckgo.com>',
             '[DuckDuckGo Share It + Wear It] ' . $mail_date->{subject},
-            $mail_date->{mail},
-            {
-                return_date => ($response->responded + DateTime::Duration->new( days => 30 ))->strftime("%b %e"),
-            },
+            $body,
         );
     }
 }
