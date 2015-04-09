@@ -34,7 +34,7 @@ my $mail_dates = [
         start => ($today - (ONE_DAY * 27))->ymd,
         end   => ($today - (ONE_DAY * 26))->ymd,
         mail  => 'campaigninfo3',
-        subject => '2 days to go before you can get your DuckDuckGo t-shirt!',
+        subject => '3 days to go before you can get your DuckDuckGo t-shirt!',
     },
 ];
 
