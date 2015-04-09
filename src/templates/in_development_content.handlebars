@@ -25,19 +25,6 @@ PERL MODULE
 {{/unless}}
 
 <div class="dev_milestone-container__body__label ia-single--header">
-    TEMPLATE
-</div>
-{{#unless future.in_development}}
-    {{#if permissions.can_edit}}
-        <input data-panel="in_development" type="text" class="template dev_milestone-container__body__input js-autocommit" id="template-input" value="{{live.template}}" />
-    {{else}}
-        <div class="dev_milestone-container__body__readonly" id="template-txt">
-           {{live.template}} 
-        </div>
-    {{/if}}
-{{/unless}}
-
-<div class="dev_milestone-container__body__label ia-single--header">
     REVIEW
 </div>
 <div class="dev_milestone-container__body__div">
