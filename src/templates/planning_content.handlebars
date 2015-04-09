@@ -37,6 +37,19 @@
     {{/if}}
 {{/unless}}
 
+<div class="dev_milestone-container__body__label ia-single--header">
+    TEMPLATE
+</div>
+{{#unless future.planning}}
+    {{#if permissions.can_edit}}
+        <input data-panel="planning" type="text" class="dev_milestone-container__body__input js-autocommit" id="template-input" value="{{live.template}}" />
+    {{else}}
+        <div class="dev_milestone-container__body__readonly" id="template-txt">
+           {{live.template}} 
+        </div>
+    {{/if}}
+{{/unless}}
+
 {{#eq live.repo 'spice'}}
     <div class="dev_milestone-container__body__label ia-single--header">
         API DOCUMENTATION
