@@ -11,25 +11,20 @@ on_plugin_import {
     my $schema = $dsl->schema;
     my $settings = plugin_setting();
 
-    for (qw/delete get head options patch post put/) {
+    $dsl->app->add_hook(
+        Dancer2::Core::Hook->new(
+            name => 'before',
 
-        $dsl->app->add_route(
-            method => $_,
-            regexp  => qr/.*/,
-
-            code    => sub {
-                my ($app) = @_;
+            code => sub {
                 $dsl->request->var( user =>
                     $schema->resultset('User')->find(
                         { username => $dsl->session('__user') }
                     )
                 );
-                $dsl->pass;
             },
 
-        );
-
-    }
+        )
+    );
 
 };
 
