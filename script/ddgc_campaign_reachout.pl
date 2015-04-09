@@ -15,23 +15,26 @@ die 'This emails people... See crontab.' if (!$ARGV[0] || $ARGV[0] ne '--yes-rea
 
 my $ddgc  = DDGC->new;
 my $today = localtime;
-my $reachout_start = '2015-04-07';
+my $reachout_start = '2015-04-10';
 
 my $mail_dates = [
     {
         start => ($today - ONE_DAY)->ymd,
         end   => ($today)->ymd,
         mail  => 'campaigninfo1',
+        subject => 'Helping friends & family take back their privacy',
     },
     {
         start => ($today - (ONE_DAY * 14))->ymd,
         end   => ($today - (ONE_DAY * 13))->ymd,
         mail  => 'campaigninfo2',
+        subject => 'Tips to help your friends & family try out DuckDuckGo',
     },
     {
         start => ($today - (ONE_DAY * 28))->ymd,
         end   => ($today - (ONE_DAY * 27))->ymd,
         mail  => 'campaigninfo3',
+        subject => '2 days to go before you can get your DuckDuckGo t-shirt!',
     },
 ];
 
