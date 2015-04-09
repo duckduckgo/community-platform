@@ -3,7 +3,7 @@ PERL MODULE
 </div>
 {{#unless future.in_development}}
     {{#if permissions.can_edit}}
-        <input data-panel="in_development" type="text" class="dev_milestone-container__body__input js-autocommit" id="perl_module-input" value="{{live.perl_module}}" />
+        <input data-panel="in_development" type="text" class="perl_module dev_milestone-container__body__input js-autocommit" id="perl_module-input" value="{{live.perl_module}}" />
     {{else}}
         <div class="dev_milestone-container__body__readonly" id="perl_module-txt">
             {{live.perl_module}}        
@@ -16,7 +16,7 @@ PERL MODULE
 </div>
 {{#unless future.in_development}}
     {{#if permissions.can_edit}}
-        <input data-panel="in_development" type="text" class="dev_milestone-container__body__input js-autocommit comma-separated" id="perl_dependencies-input" value="{{live.perl_dependencies}}" />
+        <input data-panel="in_development" type="text" class="perl_dependencies dev_milestone-container__body__input js-autocommit comma-separated" id="perl_dependencies-input" value="{{live.perl_dependencies}}" />
     {{else}}
         <div class="dev_milestone-container__body__readonly" id="perl_dependencies-txt">
            {{live.perl_dependencies}} 
@@ -29,7 +29,7 @@ PERL MODULE
 </div>
 {{#unless future.in_development}}
     {{#if permissions.can_edit}}
-        <input data-panel="in_development" type="text" class="dev_milestone-container__body__input js-autocommit" id="template-input" value="{{live.template}}" />
+        <input data-panel="in_development" type="text" class="template dev_milestone-container__body__input js-autocommit" id="template-input" value="{{live.template}}" />
     {{else}}
         <div class="dev_milestone-container__body__readonly" id="template-txt">
            {{live.template}} 
@@ -41,13 +41,13 @@ PERL MODULE
     REVIEW
 </div>
 <div class="dev_milestone-container__body__div">
-    <i data-panel="in_development" class="dev_milestone-container__body__div__checkbox {{#unless future.in_development}}{{#if permissions.admin}}js-autocommit{{/if}}{{/unless}} icon-check{{#is_false live.code_review}}-empty{{/is_false}}" id="code_review-check"/>
+    <i data-panel="in_development" class="code_review dev_milestone-container__body__div__checkbox {{#unless future.in_development}}{{#if permissions.admin}}js-autocommit{{/if}}{{/unless}} icon-check{{#is_false live.code_review}}-empty{{/is_false}}" id="code_review-check"/>
     <span class="dev_milestone-container__body__readonly check-txt">
         Code looks good
     </span>
 </div>
 <div class="dev_milestone-container__body__div">
-    <i class="dev_milestone-container__body__div__checkbox {{#unless future.in_development}}{{#if permissions.admin}}js-autocommit{{/if}}{{/unless}} icon-check{{#is_false live.design_review}}-empty{{/is_false}}" id="design_review-check"/>
+    <i class="design_review dev_milestone-container__body__div__checkbox {{#unless future.in_development}}{{#if permissions.admin}}js-autocommit{{/if}}{{/unless}} icon-check{{#is_false live.design_review}}-empty{{/is_false}}" id="design_review-check"/>
     <span class="dev_milestone-container__body__readonly check-txt">
         Layout looks good
     </span>

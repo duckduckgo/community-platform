@@ -523,14 +523,28 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
     my $permissions;
     my $is_admin;
     my $saved = 0;
-    my $result;
+    my $field = $c->req->params->{field};
+    my $live_value = $ia->{$field};
+
+    # if the update fails because of invalid values
+    # we still return the current value of the specified field
+    # so the handlebars can be updated correctly
+    my $result = {result => {$field => $live_value, is_admin => $is_admin, saved => $saved}};
+
+    $c->stash->{x} = {
+        result => $result,
+    };
+
+    $c->stash->{not_last_url} = 1;
 
     if ($c->user) {
        $permissions = $ia->users->find($c->user->id);
        $is_admin = $c->user->admin;
 
         if ($permissions || $is_admin) {
-            my $field = $c->req->params->{field};
+            $result->{result}->{is_admin} = $is_admin;
+            $c->stash->{x}->{result} = $result;
+
             my $value = $c->req->params->{value};
             my $autocommit = $c->req->params->{autocommit};
             my $complat_user = $c->d->rs('User')->find({username => $value});
@@ -538,7 +552,7 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
 
             # developers can be any complat user
             if ($field eq "developer") {
-                return '' unless $complat_user || $value eq '';
+                return $c->forward($c->view('JSON')) unless $complat_user || $value eq '';
                 my %dev_hash = (
                         name => $value,
                         url => 'https://duck.co/user/'.$value
@@ -547,12 +561,12 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
             }
 
             if ($field =~ /designer|producer/){
-                return '' unless $complat_user_admin || $value eq '';
+                return $c->forward($c->view('JSON')) unless $complat_user_admin || $value eq '';
             } elsif ($field eq "meta_id") {
                 # meta_id must be unique, lowercase and without spaces
                 $value =~ s/\s//g;
                 $value = lc $value;
-                return '' if $c->d->rs('InstantAnswer')->find({meta_id => $value});
+                return $c->forward($c->view('JSON')) if $c->d->rs('InstantAnswer')->find({meta_id => $value});
             }
 
             my $edits = add_edit($c, $ia,  $field, $value);
@@ -584,11 +598,8 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
         }
     }
 
-    $c->stash->{x} = {
-        result => $result,
-    };
+    $c->stash->{x}->{result} = $result;
 
-    $c->stash->{not_last_url} = 1;
     return $c->forward($c->view('JSON'));
 }
 

@@ -561,10 +561,11 @@
                             autocommit: 1
                         })
                         .done(function(data) {
-                            if (data.result && data.result.saved) {
-                                if (field === "dev_milestone") {
+                            console.log(data);
+                            if (data.result) {
+                                if (data.result.saved && field === "dev_milestone") {
                                     location.reload();
-                                } else if (field === "meta_id") {
+                                } else if (data.result.saved && field === "meta_id") {
                                     location.href = "/ia/view/" + data.result.meta_id;
                                 } else {
                                     ia_data.live[field] = (is_json && data.result[field])? $.parseJSON(data.result[field]) : data.result[field];
@@ -573,11 +574,16 @@
                                     var $panel_body = $("#" + panel + " .dev_milestone-container__body");
                                     $panel_body.html(readonly_templates[panel + "_content"]);
 
-                                    $("#" + panel).height($panel_body.height() + 50);
-                                    page.setMaxHeight($(".milestone-panel"));
+                                    if (page.imgHide) {
+                                        $("#" + panel).height($panel_body.height() + 50);
+                                        page.setMaxHeight($(".milestone-panel"));
+                                    }
 
                                     page.appendTopics();
                                     page.hideAssignToMe();
+
+                                    var saved_class = data.result.saved? "saved" : "not_saved";
+                                    $panel_body.find("." + field).addClass(saved_class);
                                 } 
                             }
                         });
