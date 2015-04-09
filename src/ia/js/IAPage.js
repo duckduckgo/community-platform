@@ -173,7 +173,6 @@
                             $(".ia-single--image-container img").error(function() {
                                 $(".ia-single--screenshots").addClass("hide");
 
-                                console.log(ia_data.permissions, ia_data.permissions.can_edit);
                                 // Show the dashed border if the image errored out and we have permissions.
                                 if(ia_data.permissions && ia_data.permissions.can_edit) {
                                     $(".generate-screenshot").addClass("dashed-border");
@@ -242,7 +241,7 @@
                                 // Show preview image.
                                 $(".ia-single--image-container img").attr("src", data.screenshots.index);
                                 $(".ia-single--screenshots").show();
-                                $(".ia-single--right").removeClass("dashed-border");
+                                $(".generate-screenshot").removeClass("dashed-border");
                             } else {
                                 $button.text("Generate Screenshot");
                                 setNotification(data.status);
