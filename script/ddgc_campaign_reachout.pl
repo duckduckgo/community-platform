@@ -23,7 +23,7 @@ if (-f $lastrun_file) {
 }
 
 my $today = localtime;
-die "Campaign reach-out already run today!" if ($lastrun_date && $today->ymd ge $lastrun_date);
+die "Campaign reach-out already run today!" if ($lastrun_date && $today->ymd eq $lastrun_date);
 
 my $reachout_start = '2015-04-09';
 
