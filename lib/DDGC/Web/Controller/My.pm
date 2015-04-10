@@ -406,7 +406,7 @@ sub email_verify :Chained('base') :Args(2) {
 sub wear_email_verify :Chained('base') :Args(2) {
 	my ( $self, $c, $username, $token ) = @_;
 
-	$c->stash->{title} = 'Share + Wear email confirmation token check';
+	$c->stash->{title} = 'Share it & Wear it email confirmation token check';
 		$c->add_bc($c->stash->{title}, '');
 
 	my $user = $c->d->find_user($username);

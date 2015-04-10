@@ -6,6 +6,6 @@
 <: } else { :>
 	<div class="notice success">
 		<i class="icn icon-ok"></i>
-		You have been unsubscribed from further Share It + Wear It emails.
+		You have been unsubscribed from further Share it &amp; Wear it emails.
 	</div>
 <: } :>

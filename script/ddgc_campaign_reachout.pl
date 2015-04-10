@@ -77,8 +77,8 @@ for my $mail_date (@{$mail_dates}) {
         $ddgc->postman->html_mail(
             1,
             $address,
-            '"DuckDuckGo Share It + Wear It" <sharewear@duckduckgo.com>',
-            '[DuckDuckGo Share It + Wear It] ' . $mail_date->{subject},
+            '"DuckDuckGo Share it & Wear it" <sharewear@duckduckgo.com>',
+            '[DuckDuckGo Share it & Wear it] ' . $mail_date->{subject},
             $body,
         );
     }
