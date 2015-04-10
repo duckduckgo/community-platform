@@ -85,7 +85,7 @@ sub login :Chained('logged_out') :Args(0) {
 		$c->session->{username_field} = $c->d->uid;
 		my $user = $c->d->find_user($c->stash->{username});
 		if (($user && $user->rate_limit_login)
-		    || $c->session->{failed_logins} > $c->d->config->login_failure_session_limit) {
+		    || ($c->session->{failed_logins} && $c->session->{failed_logins} > $c->d->config->login_failure_session_limit) ) {
 			sleep 0.5; # Look like we tried
 			$c->stash->{login_failed} = 1;
 			return $c->detach;
