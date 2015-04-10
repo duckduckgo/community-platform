@@ -349,6 +349,7 @@ sub public :Chained('logged_in') :Args(0) {
 
 sub unsubscribe :Chained('base') :Args(2) {
 	my ( $self, $c, $username, $hash ) = @_;
+	my $from = $c->req->params->{from} || 1;
 
 	$c->stash->{title} = 'Unsubscribe';
 		$c->add_bc($c->stash->{title}, '');
@@ -371,7 +372,7 @@ sub unsubscribe :Chained('base') :Args(2) {
 		return $c->detach;
 	}
 
-	$response->update({ unsubbed => 1 });
+	$response->update({ unsubbed => $from });
 	$c->stash->{success} = 1;
 }
 
