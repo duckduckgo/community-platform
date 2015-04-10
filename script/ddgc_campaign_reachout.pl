@@ -15,7 +15,7 @@ die 'This emails people... See crontab.' if (!$ARGV[0] || $ARGV[0] ne '--yes-rea
 
 my $ddgc  = DDGC->new;
 my $today = localtime;
-my $reachout_start = '2015-04-10';
+my $reachout_start = '2015-04-09';
 
 my $mail_dates = [
     {
