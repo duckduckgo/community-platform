@@ -14,7 +14,17 @@ use DDGC;
 die 'This emails people... See crontab.' if (!$ARGV[0] || $ARGV[0] ne '--yes-really-send-email');
 
 my $ddgc  = DDGC->new;
+my $lastrun_file = $ddgc->config->rootdir_path . '/ddgc_campaign_reachout_last_run';
+my $lastrun_date;
+
+if (-f $lastrun_file) {
+    open my $fh, '<', $lastrun_file;
+    chomp( $lastrun_date = <$fh> );
+}
+
 my $today = localtime;
+die "Campaign reach-out already run today!" if ($lastrun_date && $today->ymd ge $lastrun_date);
+
 my $reachout_start = '2015-04-09';
 
 my $mail_dates = [
@@ -74,3 +84,5 @@ for my $mail_date (@{$mail_dates}) {
     }
 }
 
+open my $fh, '>', $lastrun_file;
+print $fh $today->ymd;
