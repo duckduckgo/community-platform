@@ -47,6 +47,7 @@ for my $mail_date (@{$mail_dates}) {
                 '<'  => $mail_date->{end},
             },
             campaign_id => 1,
+            unsubbed    => 0,
         }
     );
     next if !$responses;
