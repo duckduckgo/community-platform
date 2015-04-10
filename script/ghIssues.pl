@@ -78,14 +78,13 @@ sub getIssues{
 				tags => $issue->{'labels'} || '',
 				date => $issue->{'created_at'} || '',
                 is_pr => $is_pr,
-                code => '',
 			);
 			push(@results, \%entry);
             delete $pr_hash{$issue->{'number'}.$issue->{repo}};
 		}
 	}
     # warn Dumper @results;
-    #warn Dumper %pr_hash;
+    # warn Dumper %pr_hash;
 }
 
 # check the status of PRs in $pr_hash.  If they were merged
