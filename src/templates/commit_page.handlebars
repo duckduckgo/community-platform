@@ -20,6 +20,17 @@
                 <td name="name">{{name}}</td>
             </tr>
         {{/not_null}}
+        
+        {{#not_null meta_id}}
+            <tr class="updates_list">
+                <th>ID</th>
+
+                <td name="meta_id" id="meta_id_original">
+                    {{original.meta_id}}
+                </td>
+                <td name="meta_id">{{meta_id}}</td>
+            </tr>
+        {{/not_null}}
 
         {{#not_null status}}
             <tr class="updates_list">

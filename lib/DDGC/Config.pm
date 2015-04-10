@@ -134,6 +134,8 @@ has_conf login_failure_session_limit => DDGC_LOGIN_FAILURE_SESSION_LIMIT => 10;
 has_conf forgotpw_session_limit => DDGC_LOGIN_FAILURE_SESSION_LIMIT => 5;
 has_conf forgotpw_user_time_limit => DDGC_LOGIN_FAILURE_SESSION_LIMIT => 300;
 
+has_conf unsub_key => DDGC_UNSUB_KEY => undef;
+
 # DANGER: DEACTIVATES PASSWORD CHECK FOR ALL USERACCOUNTS!!!!!!!!!!!!!!!!!!!!!!
 sub prosody_running { defined $ENV{'DDGC_PROSODY_RUNNING'} ? $ENV{'DDGC_PROSODY_RUNNING'} : 0 }
 sub fallback_user { 'testtwo' }
@@ -301,7 +303,7 @@ sub campaigns {
 			question1 => "How did you hear about DuckDuckGo?",
 			question2 => "How long have you been a DuckDuckGo user?",
 			question3 => "Is this your first time spreading DuckDuckGo to others?",
-			question4 => "Share your email so that we can send updates on the T-shirt campaign.",
+			question4 => "Share your email so that we can send updates on your DuckDuckGo T-shirt.",
 		},
 		share_followup => {
 			id => 2,

@@ -104,8 +104,8 @@
                 id: DDH_iaid,
             })
             .done(function(data) {
-                if (data.result) {
-                    window.location = '/ia/view/' + DDH_iaid;
+                if (data.result && data.result.saved) {
+                    window.location = '/ia/view/' + data.result.id;
                 }
             });
         }

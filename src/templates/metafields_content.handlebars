@@ -11,7 +11,7 @@
           </td>
           <td>
             {{#if permissions.can_edit}}
-              <textarea data-panel="metafields" rows="3" cols="40" class="js-autocommit metafield" id="description-textarea">{{live.description}}</textarea>
+              <textarea data-panel="metafields" rows="3" cols="40" class="description js-autocommit metafield" id="description-textarea">{{live.description}}</textarea>
               {{else}}
                 {{#if live.description}}
                   <div class="dev_milestone-container__body__readonly" id="description_txt">
@@ -29,10 +29,14 @@
             </div>
           </td>
           <td>
-            {{#if live.id}}    
-              <div class="dev_milestone-container__body__readonly" id="id-txt">
-                {{live.id}}
-              </div>
+            {{#if permissions.admin}}
+                <input data-panel="metafields" type="text" class="meta_id js-autocommit metafield" id="meta_id-input" value="{{live.meta_id}}" />
+            {{else}}
+                {{#if live.meta_id}}    
+                    <div class="dev_milestone-container__body__readonly" id="meta_id-txt">
+                        {{live.meta_id}}
+                    </div>
+                {{/if}}
             {{/if}}
           </td>
         </tr>
@@ -63,7 +67,7 @@
           </td>
           <td>
             {{#if permissions.can_edit}}
-              <select data-panel="metafields" class="dev_milestone-container__body__select js-autocommit" tabindex="-1" id="test_machine-select">
+              <select data-panel="metafields" class="test_machine dev_milestone-container__body__select js-autocommit" tabindex="-1" id="test_machine-select">
                 <option value="0">{{live.test_machine}}</option>
                 <option value="1">ddh1</option>
                 <option value="2">ddh2</option>
@@ -94,7 +98,7 @@
           </td>
           <td>
             {{#if permissions.can_edit}}
-              <input data-panel="metafields" type="text" class="dev_milestone-container__body__input js-autocommit" id="example_query-input" value="{{live.example_query}}" />
+              <input data-panel="metafields" type="text" class="example_query dev_milestone-container__body__input js-autocommit" id="example_query-input" value="{{live.example_query}}" />
               {{else}}
               {{#if live.example_query}}
                 <a href="{{#if live.test_machine}}https://{{live.test_machine}}.duckduckgo.com/?q={{encodeURIComponent live.example_query}}{{tab_url live.tab}}{{/if}}" class="dev_milestone-container__body__readonly" id="example_query-a">
@@ -113,7 +117,7 @@
           </td>
           <td>
             {{#if permissions.admin}}
-              <input data-panel="metafields" type="text" class="js-autocommit" id="tab-input" value="{{live.tab}}" />
+              <input data-panel="metafields" type="text" class="tab js-autocommit" id="tab-input" value="{{live.tab}}" />
               {{else}}
               {{#if live.tab}}
                 <div id="tab-txt">
@@ -138,7 +142,7 @@
           </td>
           <td>
             {{#if permissions.admin}}
-              <textarea data-panel="metafields" rows="3" cols="40" class="js-autocommit metafield" id="status-textarea">{{live.status}}</textarea>
+              <textarea data-panel="metafields" rows="3" cols="40" class="status js-autocommit metafield" id="status-textarea">{{live.status}}</textarea>
             {{else}}
               {{#if live.status}}
                 <div id="status-txt">
@@ -157,7 +161,7 @@
           </td>
           <td>
             {{#if permissions.admin}}
-              <input data-panel="metafields" type="text" class="dev_milestone-container__body__input js-autocommit team-input" id="producer-input" value="{{live.producer}}" />
+              <input data-panel="metafields" type="text" class="producer dev_milestone-container__body__input js-autocommit team-input" id="producer-input" value="{{live.producer}}" />
               <div data-panel="metafields" class="dev_milestone-container__body__button js-autocommit button assign-button" id="producer-button">
                 Assign to me
               </div>
@@ -180,7 +184,7 @@
 
           <td>
             {{#if permissions.admin}}
-              <input data-panel="metafields" type="text" class="dev_milestone-container__body__input js-autocommit team-input" id="designer-input" value="{{live.designer}}" />
+              <input data-panel="metafields" type="text" class="designer dev_milestone-container__body__input js-autocommit team-input" id="designer-input" value="{{live.designer}}" />
               <div data-panel="metafields" class="dev_milestone-container__body__button js-autocommit button assign-button" id="designer-button">
                 Assign to me
               </div>
@@ -202,7 +206,7 @@
           </td>
           <td>
             {{#if permissions.can_edit}}
-              <input data-panel="metafields" type="text" class="dev_milestone-container__body__input js-autocommit team-input" id="developer-input" value="{{live.developer.name}}" />
+              <input data-panel="metafields" type="text" class="developer dev_milestone-container__body__input js-autocommit team-input" id="developer-input" value="{{live.developer.name}}" />
               <div data-panel="metafields" class="dev_milestone-container__body__button js-autocommit button assign-button" id="developer-button">
                 Assign to me
               </div>
@@ -226,28 +230,28 @@
           <td>
             {{#if permissions.can_edit}}
               <div class="separator topic-separator">
-                <div data-panel="metafields" class="button delete listbutton left js-autocommit" name="topic" title="Remove this topic">
+                <div data-panel="metafields" class="topic button delete listbutton left js-autocommit" name="topic" title="Remove this topic">
                   <i class="icon-remove" />
                 </div>
-                <select data-panel="metafields" class="js-autocommit topic-group left" id="first-topic-select">
+                <select data-panel="metafields" class="topic js-autocommit topic-group left" id="first-topic-select">
                   <option value="0">{{index live.topic 0}}</option>
                 </select>
                 <span class="clearfix"></span>
               </div>
               <div class="separator topic-separator">
-                <div data-panel="metafields" class="button delete listbutton left js-autocommit" name="topic" title="Remove this topic">
+                <div data-panel="metafields" class="topic button delete listbutton left js-autocommit" name="topic" title="Remove this topic">
                   <i class="icon-remove" />
                 </div>
-                <select data-panel="metafields" class="js-autocommit topic-group left" id="second-topic-select">
+                <select data-panel="metafields" class="topic js-autocommit topic-group left" id="second-topic-select">
                   <option value="0">{{index live.topic 1}}</option>
                 </select>
                 <span class="clearfix"></span>
               </div>
               <div class="separator topic-separator">
-                <div data-panel="metafields" class="button delete listbutton left js-autocommit" name="topic" title="Remove this topic">
+                <div data-panel="metafields" class="topic button delete listbutton left js-autocommit" name="topic" title="Remove this topic">
                   <i class="icon-remove" />
                 </div>
-                <select data-panel="metafields" class="js-autocommit topic-group left" id="third-topic-select">
+                <select data-panel="metafields" class="topic js-autocommit topic-group left" id="third-topic-select">
                   <option value="0">{{index live.topic 2}}</option>
                 </select>
                 <span class="clearfix"></span>

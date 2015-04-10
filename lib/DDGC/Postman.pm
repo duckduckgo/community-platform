@@ -9,6 +9,7 @@ use Email::MIME;
 use Email::Sender::Transport::SMTP;
 use Email::Sender::Transport::Sendmail;
 use Email::Sender::Transport::Test;
+use HTML::FormatText::WithLinks;
 use Data::Dumper;
 use IO::All;
 
@@ -35,6 +36,17 @@ sub _build_transport {
 	$smtp_args{sasl_username} = $self->ddgc->config->smtp_sasl_username if $self->ddgc->config->smtp_sasl_username;
 	$smtp_args{sasl_password} = $self->ddgc->config->smtp_sasl_password if $self->ddgc->config->smtp_sasl_password;
 	return Email::Sender::Transport::SMTP->new({ %smtp_args });
+}
+
+has plaintext_formatter => (
+	isa => 'HTML::FormatText::WithLinks',
+	is  => 'ro',
+	lazy_build => 1,
+);
+sub _build_plaintext_formatter {
+	HTML::FormatText::WithLinks->new(
+		unique_links => 1,
+	);
 }
 
 sub mail {
@@ -93,6 +105,13 @@ sub html_mail {
 					content_transfer_encoding => '8bit',
 				},
 				body => $body,
+			),
+			Email::MIME->create(
+				attributes => {
+					content_type => 'text/plain; charset="UTF-8"',
+					content_transfer_encoding => '8bit',
+				},
+				body => $self->plaintext_formatter->parse($body),
 			),
 			map {
 				Email::MIME->create(%{$_});

@@ -124,7 +124,8 @@
                         answerbar : Handlebars.templates.pre_edit_answerbar(ia_data),
                         triggers :  Handlebars.templates.pre_edit_triggers(ia_data),
                         perl_dependencies :  Handlebars.templates.pre_edit_perl_dependencies(ia_data),
-                        src_options : Handlebars.templates.pre_edit_src_options(ia_data)
+                        src_options : Handlebars.templates.pre_edit_src_options(ia_data),
+                        meta_id : Handlebars.templates.pre_edit_meta_id(ia_data)
                     };
 
                     page.updateAll(readonly_templates, ia_data.live.dev_milestone, false);
@@ -174,16 +175,9 @@
                             $(".dev_milestone-container__body").removeClass("hide");
 
                             // Set the panels height to the tallest one's height
-                            var max_height = 0;
-                            $(".dev_milestone-container").each(function(idx) {
-                                if ($(this).height() > max_height) {
-                                    max_height = $(this).height();
-                                }
-                            });
-
-                            $(".dev_milestone-container").height(max_height);
-
+                            page.setMaxHeight($(".milestone-panel"));
                             page.imgHide = true;
+                            $(".button.js-expand").hide();
                         }
                     });
                     
@@ -567,9 +561,12 @@
                             autocommit: 1
                         })
                         .done(function(data) {
-                            if (data.result && data.result.saved) {
-                                if (field === "dev_milestone") {
+                            console.log(data);
+                            if (data.result) {
+                                if (data.result.saved && field === "dev_milestone") {
                                     location.reload();
+                                } else if (data.result.saved && field === "meta_id") {
+                                    location.href = "/ia/view/" + data.result.meta_id;
                                 } else {
                                     ia_data.live[field] = (is_json && data.result[field])? $.parseJSON(data.result[field]) : data.result[field];
                                     readonly_templates[panel + "_content"] = Handlebars.templates[panel + "_content"](ia_data);
@@ -577,8 +574,16 @@
                                     var $panel_body = $("#" + panel + " .dev_milestone-container__body");
                                     $panel_body.html(readonly_templates[panel + "_content"]);
 
+                                    if (page.imgHide) {
+                                        $("#" + panel).height($panel_body.height() + 50);
+                                        page.setMaxHeight($(".milestone-panel"));
+                                    }
+
                                     page.appendTopics();
                                     page.hideAssignToMe();
+
+                                    var saved_class = data.result.saved? "saved" : "not_saved";
+                                    $panel_body.find("." + field).addClass(saved_class);
                                 } 
                             }
                         });
@@ -654,6 +659,17 @@
             'qa',
             'ready'
         ],
+
+        setMaxHeight: function($obj_set) {
+            var max_height = 0;
+            $obj_set.each(function(idx) {
+                if ($(this).height() > max_height) {
+                    max_height = $(this).height();
+                }
+            });
+
+            $obj_set.height(max_height);
+        },
 
         updateHandlebars: function(templates, ia_data, dev_milestone) {
             if (dev_milestone === 'live') {
@@ -736,6 +752,8 @@
 
                 if (!this.imgHide) {
                     $(".ia-single--right").append(templates.live.screens);
+                } else {
+                    $(".button.js-expand").hide();
                 }
 
                 $(".show-more").click(function(e) {
@@ -765,6 +783,7 @@
                     $(".ia-single--edits").append(templates.designer);
                     $(".ia-single--edits").append(templates.developer);
                     $(".ia-single--edits").append(templates.tab);
+                    $(".ia-single--edits").append(templates.meta_id);
                 }
             }
         }    

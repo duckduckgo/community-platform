@@ -778,6 +778,9 @@ body.texture {
 .ia-single p::first-letter {
     text-transform: capitalize;
 }
+#row-diff-meta_id p::first-letter {
+    text-transform: none;
+}
 .ia-single p,
 .ia-single .row-diff ul {
     color: #666;
@@ -1213,6 +1216,20 @@ body.texture {
     width: 100%;
 }
 
+.dev_milestone-container .topic {
+    margin-left: 0;
+}
+
+.not_saved {
+    border: 1px solid #DE5833;
+    color: #DE5833;
+}
+
+.saved {
+    border: 1px solid #5B9E4D;
+    color: #5B9E4D;
+}
+
 /* Set the height of the read-only fields so that 
    the layout doesn't change when it switches to the input field */
 .dev_milestone-container__body__readonly {
@@ -1434,7 +1451,7 @@ body.texture {
 }
 
 .ia-single--left--wide .dev_milestone-container {
-    width: 22%;
+    width: 22.6%;
     float: left;
 }
 

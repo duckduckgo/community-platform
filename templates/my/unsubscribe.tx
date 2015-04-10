@@ -1,0 +1,11 @@
+<: if $invalid_hash { :>
+	<div class="notice error">
+		<i class="icn icon-warning-sign"></i>
+		There was a problem with this unsubscribe link. Please email ddgc@duck.co to unsubscribe.
+	</div>
+<: } else { :>
+	<div class="notice success">
+		<i class="icn icon-ok"></i>
+		You have been unsubscribed from further Share it &amp; Wear it emails.
+	</div>
+<: } :>
