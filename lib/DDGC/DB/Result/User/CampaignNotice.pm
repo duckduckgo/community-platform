@@ -6,6 +6,7 @@ use MooseX::NonMoose;
 extends 'DDGC::DB::Base::Result';
 use DBIx::Class::Candy;
 use namespace::autoclean;
+use Digest::SHA1 qw/ sha1_hex /;
 
 table 'user_campaign_notice';
 
@@ -70,6 +71,21 @@ sub get_verified_campaign_email {
 
   return $self->campaign_email if $self->campaign_email_verified;
   return '';
+}
+
+sub unsub_hash {
+  my ( $self ) = @_;
+  return '' if !(my $email = $self->get_verified_campaign_email);
+  return '' if !(my $secret = $self->ddgc->config->unsub_key);
+  return sha1_hex( $email . lc($self->user->username) . $secret );
+}
+
+sub check_unsub_hash {
+  my ( $self, $hash ) = @_;
+  return 0 if !$hash;
+  return 0 if !($self->ddgc->config->unsub_key);
+  return 0 if ($hash ne $self->unsub_hash);
+  return 1;
 }
 
 primary_key ( qw/users_id campaign_id campaign_source/ );

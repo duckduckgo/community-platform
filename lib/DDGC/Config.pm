@@ -134,6 +134,8 @@ has_conf login_failure_session_limit => DDGC_LOGIN_FAILURE_SESSION_LIMIT => 10;
 has_conf forgotpw_session_limit => DDGC_LOGIN_FAILURE_SESSION_LIMIT => 5;
 has_conf forgotpw_user_time_limit => DDGC_LOGIN_FAILURE_SESSION_LIMIT => 300;
 
+has_conf unsub_key => DDGC_UNSUB_KEY => undef;
+
 # DANGER: DEACTIVATES PASSWORD CHECK FOR ALL USERACCOUNTS!!!!!!!!!!!!!!!!!!!!!!
 sub prosody_running { defined $ENV{'DDGC_PROSODY_RUNNING'} ? $ENV{'DDGC_PROSODY_RUNNING'} : 0 }
 sub fallback_user { 'testtwo' }
