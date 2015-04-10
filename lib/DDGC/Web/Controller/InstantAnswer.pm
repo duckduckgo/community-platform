@@ -81,7 +81,9 @@ sub iarepo_json :Chained('iarepo') :PathPart('json') :Args(0) {
     my $repo = $c->stash->{ia_repo};
     my @x = $c->d->rs('InstantAnswer')->search({
         repo => $repo,
-        dev_milestone => 'live',
+        -or => [{dev_milestone => 'live'},
+        {dev_milestone => 'qa'},
+        {dev_milestone => 'ready'}]
     });
 
     my %iah;
