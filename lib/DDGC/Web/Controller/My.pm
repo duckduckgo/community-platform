@@ -347,6 +347,34 @@ sub public :Chained('logged_in') :Args(0) {
 
 }
 
+sub unsubscribe :Chained('base') :Args(2) {
+	my ( $self, $c, $username, $hash ) = @_;
+
+	$c->stash->{title} = 'Unsubscribe';
+		$c->add_bc($c->stash->{title}, '');
+
+	my $user = $c->d->find_user($username);
+
+	if (!$user || !$hash) {
+		$c->stash->{invalid_hash} = 1;
+		return $c->detach;
+	}
+
+	my $response = $c->d->rs('User::CampaignNotice')->find({
+		users_id => $user->id,
+		campaign_id => 1,
+		campaign_source => 'campaign',
+	});
+
+	if (!$response || !$response->check_unsub_hash($hash)) {
+		$c->stash->{invalid_hash} = 1;
+		return $c->detach;
+	}
+
+	$response->update({ unsubbed => 1 });
+	$c->stash->{success} = 1;
+}
+
 sub email_verify :Chained('base') :Args(2) {
 	my ( $self, $c, $username, $token ) = @_;
 
