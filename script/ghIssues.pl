@@ -81,7 +81,7 @@ sub getIssues{
                 code => '',
 			);
 			push(@results, \%entry);
-            delete $pr_hash{$issue->{'number'}.$issue->{repo}} unless $issue->{'number'} =~ /'1574'/;
+            delete $pr_hash{$issue->{'number'}.$issue->{repo}};
 		}
 	}
     # warn Dumper @results;
