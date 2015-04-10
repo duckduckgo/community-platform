@@ -60,7 +60,7 @@ for my $mail_date (@{$mail_dates}) {
         my $stash = {
             return_date => ($response->responded + DateTime::Duration->new( days => 30 ))->strftime("%b %e"),
             unsub_link  => $ddgc->config->web_base . '/' .
-                           join '/', (qw/my unsubscribe/, lc($response->user->username), $unsub_hash) .
+                           join('/', (qw/my unsubscribe/, lc($response->user->username), $unsub_hash)) .
                            '?from=' . $mail_date->{mail},
         };
         my $body = $ddgc->xslate->render('email/campaigninfo' . $mail_date->{mail} . '.tx', $stash);
