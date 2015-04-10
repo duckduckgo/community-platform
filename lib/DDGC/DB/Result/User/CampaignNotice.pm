@@ -52,6 +52,12 @@ column campaign_email_verified => {
   default_value => 0,
 };
 
+column unsubbed => {
+  data_type => 'tinyint',
+  is_nullable => 0,
+  default_value => 0,
+};
+
 sub get_verified_campaign_email {
   my ( $self ) = @_;
 
