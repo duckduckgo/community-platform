@@ -54,7 +54,12 @@ for my $mail_date (@{$mail_dates}) {
     while (my $response = $responses->next) {
         my $address = $response->get_verified_campaign_email;
         next if !$address;
-        my $stash = { return_date => ($response->responded + DateTime::Duration->new( days => 30 ))->strftime("%b %e"), };
+        my $unsub_hash = $response->unsub_hash;
+        die ("Could not compute unsubscribe hash for " . $response->user->username) if !$unsub_hash;
+        my $stash = {
+            return_date => ($response->responded + DateTime::Duration->new( days => 30 ))->strftime("%b %e"),
+            unsub_link  => $ddgc->config->web_base . '/' . join '/', (qw/my unsubscribe/, lc($response->user->username), $unsub_hash),
+        };
         my $body = $ddgc->xslate->render('email/' . $mail_date->{mail} . '.tx', $stash);
         $ddgc->postman->html_mail(
             1,
