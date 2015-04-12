@@ -1311,6 +1311,17 @@ body.texture {
     color: #333;
 }
 
+#dev_pipeline .dev_pipeline-column__list li .item-name {
+    max-width: 9em;
+}
+
+#dev_pipeline .dev_pipeline-column__list .ia-item--stamp {
+    width: 20px;
+    height: 20px;
+    position: inherit;
+    font-size: 0.8em;
+}
+
 #pipeline_toggle-view,
 #pipeline-live-container {
     padding-left: 1em;
