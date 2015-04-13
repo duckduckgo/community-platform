@@ -36,17 +36,6 @@ on_plugin_import {
                 Xslate => {
                     path      => 'views',
                     cache_dir => $config->xslate_cachedir,
-                    function  => {
-                        c => sub {
-                                $dsl->request->vars;
-                        },
-                        u => sub { '/' },
-                        next_template => sub {
-                            my $templates = $dsl->request->var('templates');
-                            my $template = shift @{$templates};
-                            $dsl->request->var( templates => $templates );
-                        }
-                    },
                 },
             }
         }
