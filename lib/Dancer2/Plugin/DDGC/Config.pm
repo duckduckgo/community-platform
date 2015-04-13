@@ -1,4 +1,4 @@
-package DDGC::Web::Plugin::Config;
+package Dancer2::Plugin::DDGC::Config;
 
 use Dancer2;
 use Dancer2::Plugin;

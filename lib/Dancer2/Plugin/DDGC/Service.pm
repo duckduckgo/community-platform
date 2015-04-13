@@ -1,4 +1,4 @@
-package DDGC::Web::Plugin::Service;
+package Dancer2::Plugin::DDGC::Service;
 
 use Dancer2;
 use Dancer2::Plugin;
@@ -8,7 +8,6 @@ on_plugin_import {
     my ( $dsl ) = @_;
 
     $dsl->set(serializer => 'JSON');
-
 };
 
 register_plugin for_versions => [2];

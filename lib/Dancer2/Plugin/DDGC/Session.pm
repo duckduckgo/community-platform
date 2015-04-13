@@ -1,4 +1,4 @@
-package DDGC::Web::Plugin::Session;
+package Dancer2::Plugin::DDGC::Session;
 
 use Dancer2;
 use Dancer2::Plugin;

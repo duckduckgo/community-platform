@@ -8,8 +8,8 @@ use utf8;
 
 use Dancer2;
 use Dancer2::Plugin::DBIC;
-use DDGC::Web::Plugin::Config;
-use DDGC::Web::Plugin::Session;
+use Dancer2::Plugin::DDGC::Config;
+use Dancer2::Plugin::DDGC::Session;
 
 {   no warnings 'redefine';
     sub import {
@@ -21,8 +21,8 @@ use DDGC::Web::Plugin::Session;
             utf8
             Dancer2
             Dancer2::Plugin::DBIC
-            DDGC::Web::Plugin::Config
-            DDGC::Web::Plugin::Session
+            Dancer2::Plugin::DDGC::Config
+            Dancer2::Plugin::DDGC::Session
           /
         ) {
             $_->import::into($caller);
