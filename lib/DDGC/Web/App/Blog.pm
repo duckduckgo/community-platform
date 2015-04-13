@@ -1,9 +1,6 @@
 package DDGC::Web::App::Blog;
 
-use Dancer2;
-use Dancer2::Plugin::DBIC;
-use DDGC::Web::Plugin::Config;
-use DDGC::Web::Plugin::Session;
+use DDGC::Web::App::Base;
 
 get '/' => sub {
     request->var( templates => ['blog'] );

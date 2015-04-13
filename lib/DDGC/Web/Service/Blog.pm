@@ -1,10 +1,6 @@
 package DDGC::Web::Service::Blog;
 
-use Dancer2;
-use Dancer2::Plugin::DBIC;
-use DDGC::Web::Plugin::Config;
-use DDGC::Web::Plugin::Session;
-use DDGC::Web::Plugin::Service;
+use DDGC::Web::Service::Base;
 
 sub pagesize { 20 }
 
