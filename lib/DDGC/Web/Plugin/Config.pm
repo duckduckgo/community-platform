@@ -27,13 +27,14 @@ on_plugin_import {
 
     $dsl->set(session => 'PSGI');
 
+    $dsl->set(layout => 'main');
     $dsl->set(views => './');
 
     $dsl->set(
         engines  => {
             template => {
                 Xslate => {
-                    path      => $appdir . '/templates',
+                    path      => 'views',
                     cache_dir => $config->xslate_cachedir,
                     function  => {
                         c => sub {
