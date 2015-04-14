@@ -6,23 +6,14 @@ use strict;
 use warnings;
 use utf8;
 
-use Dancer2;
-use Dancer2::Plugin::DBIC;
-use Dancer2::Plugin::DDGC::Config;
-use Dancer2::Plugin::DDGC::Session;
+use DDGC::Base::Web::Common;
 
 {   no warnings 'redefine';
     sub import {
         my ($caller, $filename) = caller;
         for (
           qw/
-            strict
-            warnings
-            utf8
-            Dancer2
-            Dancer2::Plugin::DBIC
-            Dancer2::Plugin::DDGC::Config
-            Dancer2::Plugin::DDGC::Session
+            DDGC::Base::Web::Common
           /
         ) {
             $_->import::into($caller);
@@ -31,3 +22,4 @@ use Dancer2::Plugin::DDGC::Session;
 };
 
 1;
+
