@@ -1,4 +1,4 @@
-package DDGC::Web::Service::Base;
+package DDGC::Base::Web::App;
 
 use Import::Into;
 
@@ -10,7 +10,6 @@ use Dancer2;
 use Dancer2::Plugin::DBIC;
 use Dancer2::Plugin::DDGC::Config;
 use Dancer2::Plugin::DDGC::Session;
-use Dancer2::Plugin::DDGC::Service;
 
 {   no warnings 'redefine';
     sub import {
@@ -23,7 +22,6 @@ use Dancer2::Plugin::DDGC::Service;
             Dancer2
             Dancer2::Plugin::DBIC
             Dancer2::Plugin::DDGC::Config
-            Dancer2::Plugin::DDGC::Service
             Dancer2::Plugin::DDGC::Session
           /
         ) {
