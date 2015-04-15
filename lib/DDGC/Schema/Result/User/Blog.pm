@@ -112,27 +112,7 @@ column updated => {
 	set_on_update => 1,
 };
 
-belongs_to 'user', 'DDGC::DB::Result::User', 'users_id';
-belongs_to 'language', 'DDGC::DB::Result::Language', 'language_id', { join_type => 'left' };
-belongs_to 'translation_of', 'DDGC::DB::Result::User::Blog', 'translation_of_id', { join_type => 'left' };
-
-###############################
-
-__PACKAGE__->after_column_change(
-	live => {
-		method   => 'live_change',
-		txn_wrap => 1,
-	}
-);
-
-sub live_change {
-	my ( $self, $old_value, $new_value ) = @_;
-	if ($old_value == 0 && $new_value == 1) {
-		$self->add_event('live');
-		$self->seen_live(1);
-		$self->update;
-	}
-}
+belongs_to 'user', 'DDGC::Schema::Result::User', 'users_id';
 
 after insert => sub {
   my ( $self ) = @_;
