@@ -2,7 +2,7 @@ package DDGC::Schema::ResultSet::User::Blog;
 # ABSTRACT: Resultset class for blog posts
 
 use Moo;
-extends 'DBIx::Class::ResultSet';
+extends 'DDGC::Schema::ResultSet';
 use DateTime::Format::RSS;
 use List::MoreUtils qw( uniq );
 use JSON::MaybeXS;
