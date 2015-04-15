@@ -1,4 +1,4 @@
-package DDGC::DB::ResultSet::User::Blog;
+package DDGC::Schema::ResultSet::User::Blog;
 # ABSTRACT: Resultset class for blog posts
 
 use Moose;
