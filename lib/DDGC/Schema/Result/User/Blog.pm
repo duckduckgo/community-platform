@@ -8,15 +8,6 @@ use DateTime::Format::RSS;
 
 table 'user_blog';
 
-sub u {
-	my ( $self ) = @_;
-	if ($self->company_blog) {
-		return ['Blog', 'post', $self->uri];
-	} else {
-		return ['Userpage::Blog', 'post', $self->user->username, $self->uri];
-	}
-}
-
 column id => {
 	data_type => 'bigint',
 	is_auto_increment => 1,
