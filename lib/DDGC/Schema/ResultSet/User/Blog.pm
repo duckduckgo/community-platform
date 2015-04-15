@@ -1,13 +1,12 @@
 package DDGC::Schema::ResultSet::User::Blog;
 # ABSTRACT: Resultset class for blog posts
 
-use Moose;
-extends 'DDGC::DB::Base::ResultSet';
+use Moo;
+extends 'DBIx::Class::ResultSet';
 use DateTime::Format::RSS;
 use List::MoreUtils qw( uniq );
 use JSON::MaybeXS;
 use DateTime;
-use namespace::autoclean;
 
 sub create_via_form {
 	my ( $self, $values ) = @_;
@@ -115,5 +114,4 @@ sub filter_by_topic {
 	});
 }
 
-no Moose;
-__PACKAGE__->meta->make_immutable( inline_constructor => 0 );
+1;
