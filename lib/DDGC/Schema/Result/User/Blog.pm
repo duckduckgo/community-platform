@@ -1,4 +1,4 @@
-package DDGC::DB::Result::User::Blog;
+package DDGC::Schema::Result::User::Blog;
 # ABSTRACT: Result class of blog posts
 
 use Moose;
