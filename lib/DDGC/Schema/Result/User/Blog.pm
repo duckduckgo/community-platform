@@ -1,12 +1,10 @@
 package DDGC::Schema::Result::User::Blog;
 # ABSTRACT: Result class of blog posts
 
-use Moose;
-use MooseX::NonMoose;
-extends 'DDGC::DB::Base::Result';
+use Moo;
+extends 'DBIx::Class::Core';
 use DBIx::Class::Candy;
 use DateTime::Format::RSS;
-use namespace::autoclean;
 
 table 'user_blog';
 
@@ -198,5 +196,4 @@ sub human_duration_updated {
 	return (split /,/, $result)[0];
 }
 
-no Moose;
-__PACKAGE__->meta->make_immutable;
+1;
