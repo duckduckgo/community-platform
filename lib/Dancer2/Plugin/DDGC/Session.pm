@@ -18,7 +18,7 @@ on_plugin_import {
             code => sub {
                 $dsl->request->var( user =>
                     $schema->resultset('User')->find(
-                        { username => $dsl->session('__user') }
+                        { username => $dsl->session('__user') || undef }
                     )
                 );
             },
