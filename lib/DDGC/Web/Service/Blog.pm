@@ -1,6 +1,6 @@
 package DDGC::Web::Service::Blog;
 
-use DDGC::Web::Service::Base;
+use DDGC::Base::Web::Service;
 
 sub pagesize { 20 }
 
