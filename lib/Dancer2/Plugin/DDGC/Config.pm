@@ -44,6 +44,6 @@ on_plugin_import {
     $dsl->set(template => 'Xslate');
 };
 
-register_plugin for_versions => [2];
+register_plugin;
 
 1;

@@ -28,6 +28,6 @@ on_plugin_import {
 
 };
 
-register_plugin for_versions => [2];
+register_plugin;
 
 1;
