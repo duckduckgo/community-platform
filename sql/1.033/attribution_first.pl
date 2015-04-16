@@ -17,11 +17,11 @@ while (my $ia = $ias->next) {
         my $dev = $ia->developer? from_json($ia->developer) : undef;
 
         if ($dev) {
-            #push @devs, $dev;
-            #my $dev_name = lc $dev->{name};
-            #my $dev_url = lc $dev->{url};
-            #$names{$dev_name} = 1;
-            #$locs{$dev_url} = 1;
+            push @devs, $dev;
+            my $dev_name = lc $dev->{name};
+            my $dev_url = lc $dev->{url};
+            $names{$dev_name} = 1;
+            $locs{$dev_url} = 1;
         }
         
         if ($attribution) {
