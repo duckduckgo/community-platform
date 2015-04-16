@@ -7,14 +7,14 @@
 			<div class="shareit-overview__col">
 				<img src="/static/img/shareit.png" alt="share duckduckgo" class="shareit-overview__img" />
 				<h4 class="shareit-overview__title">Share DuckDuckGo</h4>
-				<p>Over the next month, get three of your friends and family to switch to DuckDuckGo.</p>
+				<p>In the next 30 days, get three of your friends and family to switch to DuckDuckGo.</p>
 			</div>
 		</div>
 		<div class="third">
 			<div class="shareit-overview__col">
 				<img src="/static/img/questions.png" alt="answer questions" class="shareit-overview__img" />
 				<h4 class="shareit-overview__title">Tell Us About It</h4>
-				<p>Next month, sign in to duck.co and answer a few questions about how you got them to switch.</p>
+				<p>After 30 days, sign in to duck.co and answer a few questions about how you got them to switch.</p>
 			</div>
 		</div>
 		<div class="third">
@@ -33,7 +33,7 @@
 		<a href="#" id="loginlink" class="js-reveal button blue h5" data-reveal-id="login-box">Login</a> or
 		<a href="/my/register" id="registerlink" class="button blue h5">Register</a>
 		</div>
-		<h5 class="shareit-login-subtitle">(so we can send you shirts)</h5>
+		<h5 class="shareit-login-subtitle">(so we can send you a T-shirt)</h5>
 	</div>
 	<: } :>
 </div>
