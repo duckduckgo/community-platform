@@ -5,24 +5,11 @@ use DDGC::Base::Web::Service;
 sub pagesize { 20 }
 
 get '/' => sub {
-    my $page = param('page') || 1;
-    my @posts = schema('default')->resultset('User::Blog')->company_blog->search({},
-    {
-        page => $page,
+    my $posts = rset('User::Blog')->company_blog->search({}, {
+        page => param('page') || 1,
         rows => pagesize,
-    })->all;
-
-    return map { +{
-        title   => $_->title,
-        uri     => $_->uri,
-        content => $_->html,
-        teaser  => $_->teaser,
-        user    => $_->users_id,
-        topics  => $_->topics,
-        date    => $_->fixed_date || $_->created,
-        }
-    } @posts;
-
+    });
+    { posts => $posts };
 };
 
 1;
