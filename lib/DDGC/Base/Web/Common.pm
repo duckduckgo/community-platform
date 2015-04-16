@@ -8,9 +8,9 @@ use utf8;
 
 use Dancer2;
 use Dancer2::Plugin::DBIC;
+use Dancer2::Plugin::Params::HashMultiValue;
 use Dancer2::Plugin::DDGC::Config;
 use Dancer2::Plugin::DDGC::Session;
-use Dancer2::Plugin::DDGC::Service;
 
 {   no warnings 'redefine';
     sub import {
@@ -22,6 +22,7 @@ use Dancer2::Plugin::DDGC::Service;
             utf8
             Dancer2
             Dancer2::Plugin::DBIC
+            Dancer2::Plugin::Params::HashMultiValue
             Dancer2::Plugin::DDGC::Config
             Dancer2::Plugin::DDGC::Session
           /
