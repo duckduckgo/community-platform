@@ -18,17 +18,21 @@ while (my $ia = $ias->next) {
 
         if ($dev) {
             push @devs, $dev;
-            $names{lc $dev->{name}} = 1;
-            $locs{lc $dev->{url}} = 1;
+            my $dev_name = lc $dev->{name};
+            my $dev_url = lc $dev->{url};
+            $names{$dev_name} = 1;
+            $locs{$dev_url} = 1;
         }
         
         if ($attribution) {
             while (my ($name, $urls) = each %{$attribution}) {
                 my $url = chooseUrl(@{$urls});
-                if (!exists($names{lc $name}) && (!exists($locs{lc $url}))
-                    && (!exists($names{lc $url})) && (!exists($locs{lc $name}))) {
-                    $names{lc $name} = 1;
-                    $locs{lc $url} = 1;
+                my $temp_name = lc $name;
+                my $temp_url = lc $url;
+                if (!exists($names{$temp_name}) && (!exists($locs{$temp_url}))
+                    && (!exists($names{$temp_url})) && (!exists($locs{$temp_name}))) {
+                    $names{$temp_name} = 1;
+                    $locs{$temp_url} = 1;
                     my %temp_dev = (
                         name => $name,
                         url => $url
