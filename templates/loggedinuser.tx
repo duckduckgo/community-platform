@@ -1,3 +1,0 @@
-<pre>
-  Username : <: $user.username :>
-  User ID  : <: $user.id :>
