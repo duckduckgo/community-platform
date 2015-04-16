@@ -17,11 +17,11 @@ while (my $ia = $ias->next) {
         my $dev = $ia->developer? from_json($ia->developer) : undef;
 
         if ($dev) {
-            push @devs, $dev;
-            my $dev_name = lc $dev->{name};
-            my $dev_url = lc $dev->{url};
-            $names{$dev_name} = 1;
-            $locs{$dev_url} = 1;
+            #push @devs, $dev;
+            #my $dev_name = lc $dev->{name};
+            #my $dev_url = lc $dev->{url};
+            #$names{$dev_name} = 1;
+            #$locs{$dev_url} = 1;
         }
         
         if ($attribution) {
@@ -53,11 +53,18 @@ sub chooseUrl {
     my (@urls) = @_;
 
     my $web_url;
+    my $github_url = 'https://github.com/';
+    my $twitter_url = 'https://twitter.com/';
+
     for my $url (@urls) {
         my $type = lc $url->{type};
         
         if ($type eq 'github') {
-            return $url->{loc};
+            if ($url->{loc} !~ $github_url) {
+                return $github_url.$url->{loc};
+            } else {
+                return $url->{loc};
+            }
         } elsif ($type eq 'web') {
             $web_url = $url->{loc};
         }
@@ -66,6 +73,12 @@ sub chooseUrl {
     if ($web_url) {
         return $web_url;
     } else {
-        return $urls[@urls]{loc};
+        my %last_url = $urls[@urls];
+
+        if (($last_url{type} eq 'twitter') && ($last_url{loc} !~ $twitter_url)) {
+            return $twitter_url.$last_url{loc};
+        } else {
+            return $last_url{loc};
+        }
     }
 }
