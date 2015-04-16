@@ -62,7 +62,7 @@
 
     <ul class="dev_pipeline-column__list" id="pipeline-ready__list">
         {{#each ready}}
-            <li id="pipeline-ready__list__{{meta_id}}" class="producer-{{producer}} designer-{{designer}} {{#each}}developer-{{name}}{{/each}}">
+            <li id="pipeline-ready__list__{{meta_id}}" class="producer-{{producer}} designer-{{designer}} {{#each developer}}developer-{{name}}{{/each}}">
                 <div class="ia-item--stamp circle stamp--{{repo}} left"></div>
                 <div class="left item-name">
                     <a href="/ia/view/{{meta_id}}">{{name}}</a>

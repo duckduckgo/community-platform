@@ -206,14 +206,15 @@
           </td>
           <td>
             {{#if permissions.can_edit}}
-              <input data-panel="metafields" type="text" class="developer dev_milestone-container__body__input js-autocommit team-input" id="developer-input" value="{{live.developer.name}}" />
-              <div data-panel="metafields" class="dev_milestone-container__body__button js-autocommit button assign-button" id="developer-button">
-                Assign to me
-              </div>
-              {{else}}
+              {{#each live.developer}}
+                <input data-panel="metafields" type="text" class="developer dev_milestone-container__body__input js-autocommit team-input" id="developer-input" value="{{name}}" />
+              {{/each}}
+            {{else}}
               {{#if live.developer}}
                 <div class="dev_milestone-container__body__readonly" id="developer-txt">
-                  <a href="{{live.developer.url}}">{{live.developer.name}}</a>
+                  {{#each live.developer}}
+                    <a href="{{url}}">{{name}}</a>
+                  {{/each}}
                 </div>
               {{/if}}
             {{/if}}
