@@ -101,17 +101,17 @@ sub html_mail {
 		parts => [
 			Email::MIME->create(
 				attributes => {
-					content_type => 'text/html; charset="UTF-8"',
-					content_transfer_encoding => '8bit',
-				},
-				body => $body,
-			),
-			Email::MIME->create(
-				attributes => {
 					content_type => 'text/plain; charset="UTF-8"',
 					content_transfer_encoding => '8bit',
 				},
 				body => $self->plaintext_formatter->parse($body),
+			),
+			Email::MIME->create(
+				attributes => {
+					content_type => 'text/html; charset="UTF-8"',
+					content_transfer_encoding => '8bit',
+				},
+				body => $body,
 			),
 			map {
 				Email::MIME->create(%{$_});
