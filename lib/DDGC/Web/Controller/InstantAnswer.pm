@@ -149,7 +149,7 @@ sub dev_pipeline_json :Chained('dev_pipeline_base') :PathPart('json') :Args(0) {
         my @planning = $rs->search(
             {'me.dev_milestone' => { '=' => 'planning'}},
             {
-                columns => [ qw/ name id meta_id dev_milestone producer designer developer/ ],
+                columns => [ qw/ name id meta_id repo dev_milestone producer designer developer/ ],
                 order_by => [ qw/ name/ ],
                 result_class => 'DBIx::Class::ResultClass::HashRefInflator',
             }
@@ -158,7 +158,7 @@ sub dev_pipeline_json :Chained('dev_pipeline_base') :PathPart('json') :Args(0) {
         my @in_development = $rs->search(
             {'me.dev_milestone' => { '=' => 'in_development'}},
             {
-                columns => [ qw/ name id meta_id dev_milestone producer designer developer/ ],
+                columns => [ qw/ name id meta_id repo dev_milestone producer designer developer/ ],
                 order_by => [ qw/ name/ ],
                 result_class => 'DBIx::Class::ResultClass::HashRefInflator',
             }
@@ -167,7 +167,7 @@ sub dev_pipeline_json :Chained('dev_pipeline_base') :PathPart('json') :Args(0) {
         my @qa = $rs->search(
             {'me.dev_milestone' => { '=' => 'qa'}},
             {
-                columns => [ qw/ name id meta_id dev_milestone producer designer developer/ ],
+                columns => [ qw/ name id meta_id repo dev_milestone producer designer developer/ ],
                 order_by => [ qw/ name/ ],
                 result_class => 'DBIx::Class::ResultClass::HashRefInflator',
             }
@@ -176,7 +176,7 @@ sub dev_pipeline_json :Chained('dev_pipeline_base') :PathPart('json') :Args(0) {
         my @ready = $rs->search(
             {'me.dev_milestone' => { '=' => 'ready'}},
             {
-                columns => [ qw/ name id meta_id dev_milestone producer designer developer/ ],
+                columns => [ qw/ name id meta_id repo dev_milestone producer designer developer/ ],
                 order_by => [ qw/ name/ ],
                 result_class => 'DBIx::Class::ResultClass::HashRefInflator',
             }

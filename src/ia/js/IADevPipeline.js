@@ -68,12 +68,19 @@
                     var issue_tag = $(this).attr("id");
 
                     $("#pipeline-live__list .pipeline-live__list__item").hide();
+                    $("#pipeline-live__list .pipeline-live__list__item .list-container--right__issues li").hide();
                     $("#pipeline-live__list .pipeline-live__list__item." + issue_tag).show();
+                    $("#pipeline-live__list .pipeline-live__list__item .list-container--right__issues li").each(function(idx) {
+                        if ($(this).find(".issues_col__tags." + issue_tag).length) {
+                            $(this).show();
+                        }
+                    });
                 } else {
                     $(this).removeClass("icon-check");
                     $(this).addClass("icon-check-empty");
 
                     $("#pipeline-live__list .pipeline-live__list__item").show();
+                    $("#pipeline-live__list .pipeline-live__list__item .list-container--right__issues li").show();
                 }
             });
 
