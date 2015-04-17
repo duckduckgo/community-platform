@@ -8,9 +8,11 @@ use utf8;
 
 use Dancer2;
 use Dancer2::Plugin::DBIC;
+use Dancer2::Plugin::RootURIFor;
 use Dancer2::Plugin::Params::HashMultiValue;
 use Dancer2::Plugin::DDGC::Config;
 use Dancer2::Plugin::DDGC::Session;
+use Dancer2::Plugin::DDGC::Request;
 use Dancer2::Plugin::DDGC::Validate;
 
 {   no warnings 'redefine';
@@ -23,9 +25,11 @@ use Dancer2::Plugin::DDGC::Validate;
             utf8
             Dancer2
             Dancer2::Plugin::DBIC
+            Dancer2::Plugin::RootURIFor
             Dancer2::Plugin::Params::HashMultiValue
             Dancer2::Plugin::DDGC::Config
             Dancer2::Plugin::DDGC::Session
+            Dancer2::Plugin::DDGC::Request
             Dancer2::Plugin::DDGC::Validate
           /
         ) {
