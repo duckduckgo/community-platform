@@ -18,6 +18,9 @@ builder {
         httponly => 1,
         expires => 21600,
     );
+    enable 'Debug', panels => [
+        qw/ Environment Response Parameters Timer Memory Session DBITrace CatalystLog /
+    ];
     mount '/blog' => DDGC::Web::App::Blog->to_app;
     mount '/blog.json' => DDGC::Web::Service::Blog->to_app;
     mount '/' => DDGC::Web->new->psgi_app;
