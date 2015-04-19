@@ -17,6 +17,11 @@ sub for_user {
     return $self;
 }
 
+sub none {
+    my ( $self ) = @_;
+    return $self->search_rs(\['1=0']);
+}
+
 __PACKAGE__->load_components('Helper::ResultSet::Me');
 
 1;
