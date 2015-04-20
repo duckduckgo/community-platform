@@ -1,6 +1,7 @@
 package DDGC::Web::Service::Blog;
 
 use DDGC::Base::Web::Service;
+use POSIX;
 
 sub pagesize { 20 }
 
@@ -19,6 +20,10 @@ sub posts_page {
     })->all;
 }
 
+sub total {
+    posts_rset->count;
+}
+
 get '/' => sub {
     [ posts_page( params_hmv ) ];
 };
@@ -29,6 +34,22 @@ get '/page/:page' => sub {
 
 get '/page/:page/pagesize/:pagesize' => sub {
     forward '/', { params('route') };
+};
+
+get '/total' => sub {
+    total;
+};
+
+get '/numpages' => sub {
+    ceil( total() / ( param_hmv('pagesize') || pagesize ) );
+};
+
+get '/numpages/:pagesize?' => sub {
+    forward '/numpages', { params('route') };
+};
+
+get '/numpages/pagesize/:pagesize' => sub {
+    forward '/numpages', { params('route') };
 };
 
 1;
