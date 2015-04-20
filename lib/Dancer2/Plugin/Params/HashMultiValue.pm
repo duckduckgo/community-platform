@@ -8,7 +8,7 @@ use Dancer2::Plugin;
 
 register params_hmv => sub {
     my ( $dsl ) = @_;
-    my $request = $dsl->app->request;
+    my $request = $dsl->request;
 
     if ( !$request->var('plugin_params_hmv') ) {
        $request->var('plugin_params_hmv' =>
