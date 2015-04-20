@@ -114,4 +114,14 @@ column flags => {
     default_value => '[]',
 };
 
+# TODO: Migrate 'flags' to 'roles'
+sub is {
+    my ( $self, $role ) = @_;
+    return 1 if ( $role eq 'user' );
+    return 0 if !$role;
+    return 1 if $self->admin;
+    return 1 if grep { $_ eq $role } @{ $self->flags }
+    return 0;
+}
+
 1;
