@@ -32,9 +32,9 @@ register user_is => sub {
                 $dsl->session->write( 'last_url', $dsl->request->uri )
                     if ( !$settings->{not_last_url} );
 
-                redirect root_uri_for(
+                $dsl->redirect( $dsl->root_uri_for (
                     $settings->{redirect_url} || '/my/login'
-                );
+                ) );
             }
             goto STATUS_403;
         }
@@ -47,11 +47,14 @@ register user_is => sub {
 
 STATUS_403:
         $dsl->status(403);
-        return {
+        my $status = {
             ok     => 0,
             status => 403,
             error  => '403 Forbidden',
         };
+        return ( $settings->{error_template} )
+            ? template $settings->{error_template}, $status
+            : $status;
     };
 };
 
