@@ -19,6 +19,14 @@ on_plugin_import {
 
     $dsl->set(serializer => 'JSON');
 
+    $dsl->set(
+        plugins => {
+            'DDGC::UserRole' => {
+                redirect => 0,
+            }
+        }
+    );
+
 };
 
 register_plugin;

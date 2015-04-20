@@ -14,6 +14,7 @@ use Dancer2::Plugin::DDGC::Config;
 use Dancer2::Plugin::DDGC::Session;
 use Dancer2::Plugin::DDGC::Request;
 use Dancer2::Plugin::DDGC::Validate;
+use Dancer2::Plugin::DDGC::UserRole;
 
 {   no warnings 'redefine';
     sub import {
@@ -31,6 +32,7 @@ use Dancer2::Plugin::DDGC::Validate;
             Dancer2::Plugin::DDGC::Session
             Dancer2::Plugin::DDGC::Request
             Dancer2::Plugin::DDGC::Validate
+            Dancer2::Plugin::DDGC::UserRole
           /
         ) {
             $_->import::into($caller);
