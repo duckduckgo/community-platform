@@ -33,7 +33,9 @@ on_plugin_import {
 
     $dsl->set(
         engines  => {
-            %{ $dsl->config->{engines} },
+            ( $dsl->config->{engines} )
+            ? %{ $dsl->config->{engines} }
+            : (),
             template => {
                 Xslate => {
                     path      => 'views',
