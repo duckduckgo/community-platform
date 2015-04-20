@@ -54,7 +54,9 @@ STATUS_403:
         };
         return ( $settings->{error_template} )
             ? template $settings->{error_template}, $status
-            : $status;
+            : ( $dsl->config->{serializer} )
+                ? $status
+                : $status->{error};
     };
 };
 
