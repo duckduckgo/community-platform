@@ -14,6 +14,7 @@ on_plugin_import {
 
     $dsl->set(
         plugins => {
+            %{ $dsl->config->{plugins} },
             DBIC => {
                 default => {
                     dsn          => $config->db_dsn,
@@ -32,6 +33,7 @@ on_plugin_import {
 
     $dsl->set(
         engines  => {
+            %{ $dsl->config->{engines} },
             template => {
                 Xslate => {
                     path      => 'views',

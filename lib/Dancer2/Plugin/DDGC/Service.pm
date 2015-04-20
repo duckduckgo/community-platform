@@ -9,6 +9,7 @@ on_plugin_import {
 
     $dsl->set(
         engines  => {
+            %{ $dsl->config->{engines} },
             serializer => {
                 JSON => {
                     convert_blessed => 1,
@@ -21,12 +22,12 @@ on_plugin_import {
 
     $dsl->set(
         plugins => {
+            %{ $dsl->config->{plugins} },
             'DDGC::UserRole' => {
                 redirect => 0,
             }
         }
     );
-
 };
 
 register_plugin;
