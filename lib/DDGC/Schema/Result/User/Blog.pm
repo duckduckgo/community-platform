@@ -174,4 +174,15 @@ sub human_duration_updated {
     return ( split /,/, $result )[0];
 }
 
+sub TO_JSON {
+    my ( $self ) = @_;
+    +{
+        id      => $self->id,
+        title   => $self->title,
+        user    => $self->users_id,
+        uri     => $self->uri,
+        content => $self->content,
+    };
+}
+
 1;

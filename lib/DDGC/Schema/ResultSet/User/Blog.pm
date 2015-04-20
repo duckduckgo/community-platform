@@ -131,14 +131,7 @@ sub filter_by_topic {
 
 sub TO_JSON {
     my ( $self ) = @_;
-    [
-        map { +{
-            title   => $_->title,
-            user    => $_->users_id,
-            uri     => $_->uri,
-            content => $_->content,
-        } } $self->all
-    ];
+    [ map { $_->TO_JSON } $self->all ];
 }
 
 1;
