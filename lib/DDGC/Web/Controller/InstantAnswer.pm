@@ -408,7 +408,9 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
                       url => 'https://github.com/'.$pull_request{author}
                   );
 
-                  my $value = to_json \%dev_hash;
+                  my @dev_array = [\%dev_hash];
+
+                  my $value = to_json \@dev_array;
 
                   try {
                       $ia->update({developer => $value});

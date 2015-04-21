@@ -207,7 +207,7 @@
           <td>
             {{#if permissions.can_edit}}
               {{#each live.developer}}
-                <input data-panel="metafields" type="text" class="developer dev_milestone-container__body__input js-autocommit team-input" id="developer-input" value="{{name}}" />
+                <input data-panel="metafields" type="text" class="developer dev_milestone-container__body__input js-autocommit comma-separated team-input" id="developer-input" value="{{name}}" />
               {{/each}}
             {{else}}
               {{#if live.developer}}
