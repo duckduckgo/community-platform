@@ -54,4 +54,53 @@ get '/numpages/pagesize/:pagesize' => sub {
     forward '/numpages', { params('route') };
 };
 
+get '/post' => sub {
+    my $v = validate('/blog.json/post', params_hmv );
+    if (
+        !(scalar $v->errors) &&
+        (my $post = posts_rset->find( $v->values->{id} ))
+    ) {
+        return [ $post ];
+    }
+    status 404;
+    return {
+        ok     => 0,
+        status => 404,
+    }
+};
+
+get '/post/:id' => sub {
+    forward '/post', { params('route') };
+};
+
+get '/post/by_id/:id' => sub {
+    forward '/post', { params('route') };
+};
+
+get '/post/by_url' => sub {
+    if (
+        param_hvm('url') &&
+        (my $post = posts_rset->search(
+            { url => param_hvm('url') },
+            { order_by => { -desc => 'id' } }
+        )->first)
+    ) {
+        return [ $post ];
+    }
+    status 404;
+    return {
+        ok     => 0,
+        status => 404,
+    }
+};
+
+get '/post/by_url/:url' => sub {
+    forward '/post/by_url', { params('route') };
+};
+
+post '/post/new' => user_is 'admin' => sub {
+    my $v = validate('/blog.json/post/new', { params('body') });
+    return [];
+};
+
 1;
