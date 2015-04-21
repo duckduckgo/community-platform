@@ -58,7 +58,7 @@ sub ialist_json :Chained('base') :PathPart('json') :Args() {
          'me.dev_milestone' => { '=' => ['live', 'ready']},
         },
         {
-            columns => [ qw/ name id meta_id repo src_name dev_milestone description template / ],
+            columns => [ qw/ name repo src_name dev_milestone description template /, {id => 'meta_id'} ],
             prefetch => { instant_answer_topics => 'topic' },
             result_class => 'DBIx::Class::ResultClass::HashRefInflator',
         }
@@ -149,7 +149,7 @@ sub dev_pipeline_json :Chained('dev_pipeline_base') :PathPart('json') :Args(0) {
         my @planning = $rs->search(
             {'me.dev_milestone' => { '=' => 'planning'}},
             {
-                columns => [ qw/ name id meta_id repo dev_milestone producer designer developer/ ],
+                columns => [ qw/ name repo dev_milestone producer designer developer/, {id => 'meta_id'}],
                 order_by => [ qw/ name/ ],
                 result_class => 'DBIx::Class::ResultClass::HashRefInflator',
             }
@@ -158,7 +158,7 @@ sub dev_pipeline_json :Chained('dev_pipeline_base') :PathPart('json') :Args(0) {
         my @in_development = $rs->search(
             {'me.dev_milestone' => { '=' => 'in_development'}},
             {
-                columns => [ qw/ name id meta_id repo dev_milestone producer designer developer/ ],
+                columns => [ qw/ name repo dev_milestone producer designer developer/, {id => 'meta_id'}],
                 order_by => [ qw/ name/ ],
                 result_class => 'DBIx::Class::ResultClass::HashRefInflator',
             }
@@ -167,7 +167,7 @@ sub dev_pipeline_json :Chained('dev_pipeline_base') :PathPart('json') :Args(0) {
         my @qa = $rs->search(
             {'me.dev_milestone' => { '=' => 'qa'}},
             {
-                columns => [ qw/ name id meta_id repo dev_milestone producer designer developer/ ],
+                columns => [ qw/ name repo dev_milestone producer designer developer/, {id => 'meta_id'}],
                 order_by => [ qw/ name/ ],
                 result_class => 'DBIx::Class::ResultClass::HashRefInflator',
             }
@@ -176,7 +176,7 @@ sub dev_pipeline_json :Chained('dev_pipeline_base') :PathPart('json') :Args(0) {
         my @ready = $rs->search(
             {'me.dev_milestone' => { '=' => 'ready'}},
             {
-                columns => [ qw/ name id meta_id repo dev_milestone producer designer developer/ ],
+                columns => [ qw/ name repo dev_milestone producer designer developer/, {id => 'meta_id'}],
                 order_by => [ qw/ name/ ],
                 result_class => 'DBIx::Class::ResultClass::HashRefInflator',
             }
@@ -193,7 +193,7 @@ sub dev_pipeline_json :Chained('dev_pipeline_base') :PathPart('json') :Args(0) {
             {'me.repo' => { '=' => 'fathead'},
              'me.dev_milestone' => { '=' => 'deprecated'}},
             {
-                columns => [ qw/ name repo id meta_id dev_milestone producer designer developer/ ],
+                columns => [ qw/ name repo dev_milestone producer designer developer/, {id => 'meta_id'}],
                 order_by => [ qw/ name/ ],
                 result_class => 'DBIx::Class::ResultClass::HashRefInflator',
             }
@@ -203,7 +203,7 @@ sub dev_pipeline_json :Chained('dev_pipeline_base') :PathPart('json') :Args(0) {
             {'me.repo' => { '=' => 'goodies'},
              'me.dev_milestone' => { '=' => 'deprecated'}},
             {
-                columns => [ qw/ name repo id meta_id dev_milestone producer designer developer/ ],
+                columns => [ qw/ name repo dev_milestone producer designer developer/, {id => 'meta_id'}],
                 order_by => [ qw/ name/ ],
                 result_class => 'DBIx::Class::ResultClass::HashRefInflator',
             }
@@ -213,7 +213,7 @@ sub dev_pipeline_json :Chained('dev_pipeline_base') :PathPart('json') :Args(0) {
             {'me.repo' => { '=' => 'longtail'},
              'me.dev_milestone' => { '=' => 'deprecated'}},
             {
-                columns => [ qw/ name id meta_id repo dev_milestone producer designer developer/ ],
+                columns => [ qw/ name repo dev_milestone producer designer developer/, {id => 'meta_id'}],
                 order_by => [ qw/ name/ ],
                 result_class => 'DBIx::Class::ResultClass::HashRefInflator',
             }
@@ -223,7 +223,7 @@ sub dev_pipeline_json :Chained('dev_pipeline_base') :PathPart('json') :Args(0) {
             {'me.repo' => { '=' => 'spice'},
              'me.dev_milestone' => { '=' => 'deprecated'}},
             {
-                columns => [ qw/ name id meta_id repo dev_milestone producer designer developer/ ],
+                columns => [ qw/ name repo dev_milestone producer designer developer/, {id => 'meta_id'}],
                 order_by => [ qw/ name/ ],
                 result_class => 'DBIx::Class::ResultClass::HashRefInflator',
             }
@@ -280,8 +280,7 @@ sub dev_pipeline_json :Chained('dev_pipeline_base') :PathPart('json') :Args(0) {
 
                     $ial{$id}  = {
                             name => $ia->name,
-                            id => $ia->id,
-                            meta_id => $ia->meta_id,
+                            id => $ia->meta_id,
                             repo => $ia->repo,
                             dev_milestone => $ia->dev_milestone,
                             producer => $ia->producer,
@@ -751,7 +750,8 @@ sub add_topic {
 sub commit_edit {
     my ($d, $ia, $field, $value) = @_;
     # update the IA data in instant answer table
-    update_ia($d, $ia, $field, $value);
+    my $update_field = $field eq 'id'? 'meta_id' : $field;
+    update_ia($d, $ia, $update_field, $value);
     # remove the edit from the updates table
     remove_edits($d, $ia, $field);
 }

@@ -15,14 +15,14 @@ sub u { [ 'InstantAnswer', 'view', $_[0]->id ] }
 
 column id => {
 	data_type => 'text',
-    for_endpt => 1
 };
 primary_key 'id';
 
 # editable ID
 column meta_id => {
     data_type => 'text',
-    for_endpt => 1
+    for_endpt => 1,
+    alias => 'id'
 };
 
 # userland name
@@ -362,13 +362,21 @@ sub TO_JSON {
 
     while( my($field,$value) = each %data ){
         my $column_data = $ia->column_info($field);
-        
+        my $key = $field;
+
         if ($type && !$column_data->{$type}){
-            delete $data{$field};
+            delete $data{$key};
             next;
         }
-        next unless $data{$field} && $column_data->{is_json};
-        $data{$field} = from_json($data{$field});
+
+        if ($column_data->{alias}) {
+            delete $data{$key};
+            $key = $column_data->{alias};
+            $data{$key} = $value;
+        }
+        
+        next unless $data{$key} && $column_data->{is_json};
+        $data{$key} = from_json($data{$key});
     }
     return \%data;
 }
