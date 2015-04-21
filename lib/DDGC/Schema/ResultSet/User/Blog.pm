@@ -75,11 +75,13 @@ sub posts_by_day {
 }
 
 sub company_blog {
-    my ( $self, $user ) = @_;
+    my ( $self ) = @_;
     return $self->search(
         {
             $self->me . 'company_blog' => 1,
-            $user && $user->admin ? () : ( $self->me . 'live' => 1 ),
+            ( $self->current_user && $self->current_user->is('admin') )
+            ? ()
+            : ( $self->me . 'live' => 1 ),
         }
     );
 }
