@@ -38,6 +38,27 @@ get '/page/:page/pagesize/:pagesize' => sub {
     forward '/', { params('route') };
 };
 
+get '/by_user' => sub {
+    if (
+        param_hmv('id') &&
+        (my $posts = posts_rset->search(
+            { users_id => param_hmv('id') },
+            { order_by => { -desc => 'id' } }
+        ))
+    ) {
+        return [ $posts ];
+    }
+    status 404;
+    return {
+        ok     => 0,
+        status => 404,
+    }
+};
+
+get '/by_user/:id' => sub {
+    forward '/by_user', { params('route') };
+};
+
 get '/total' => sub {
     total;
 };
@@ -79,9 +100,9 @@ get '/post/by_id/:id' => sub {
 
 get '/post/by_url' => sub {
     if (
-        param_hvm('url') &&
+        param_hmv('url') &&
         (my $post = posts_rset->search(
-            { url => param_hvm('url') },
+            { url => param_hmv('url') },
             { order_by => { -desc => 'id' } }
         )->first)
     ) {
