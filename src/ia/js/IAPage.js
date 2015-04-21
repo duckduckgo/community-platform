@@ -125,7 +125,7 @@
                         triggers :  Handlebars.templates.pre_edit_triggers(ia_data),
                         perl_dependencies :  Handlebars.templates.pre_edit_perl_dependencies(ia_data),
                         src_options : Handlebars.templates.pre_edit_src_options(ia_data),
-                        meta_id : Handlebars.templates.pre_edit_meta_id(ia_data)
+                        id : Handlebars.templates.pre_edit_id(ia_data)
                     };
 
                     page.updateAll(readonly_templates, ia_data.live.dev_milestone, false);
@@ -783,7 +783,7 @@
                     $(".ia-single--edits").append(templates.designer);
                     $(".ia-single--edits").append(templates.developer);
                     $(".ia-single--edits").append(templates.tab);
-                    $(".ia-single--edits").append(templates.meta_id);
+                    $(".ia-single--edits").append(templates.id);
                 }
             }
         }    
