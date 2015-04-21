@@ -22,6 +22,9 @@ sub none {
     return $self->search_rs(\['1=0']);
 }
 
-__PACKAGE__->load_components('Helper::ResultSet::Me');
+__PACKAGE__->load_components(qw/
+        Helper::ResultSet::Me
+        Helper::ResultSet::Shortcut::HRI
+    /);
 
 1;
