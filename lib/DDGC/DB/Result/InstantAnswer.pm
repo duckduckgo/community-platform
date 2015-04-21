@@ -338,6 +338,7 @@ column src_id => {
 column src_domain => {
     data_type => 'text',
     is_nullable => 1,
+    for_endpt => 1
 };
 
 has_many 'issues', 'DDGC::DB::Result::InstantAnswer::Issues', 'instant_answer_id';
