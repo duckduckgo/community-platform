@@ -27,7 +27,9 @@ use IPC::Run qw/ run timeout /;
 use POSIX;
 use Cache::FileCache;
 use Cache::NullCache;
+use LWP::Protocol::Net::Curl;
 use LWP::UserAgent;
+use HTTP::Request;
 use Carp;
 use Data::Dumper;
 use String::Truncate 'elide';
@@ -127,6 +129,40 @@ has uuid => (
 sub _build_uuid { Data::UUID->new };
 sub uid { md5_hex $_[0]->uuid->create_str . rand };
 
+sub _apply_session_to_req {
+	my ( $c, $req ) = @_;
+	if ( $c->can('session') && $c->session->{id} ) {
+		$req->header(
+			Cookie => 'plack_session=' . $c->session->{id}
+		);
+	}
+}
+sub ddgcr_get {
+	my ( $self, $c, $route, $params ) = @_;
+	my $req = HTTP::Request->new(
+		GET => $c->uri_for( $route, $params )->canonical
+	);
+	_apply_session_to_req( $c, $req );
+
+	my $res = $self->http->request( $req );
+	$res->{ddgcr} = ( $res->is_success )
+		? JSON::from_json( $res->decoded_content )
+		: undef;
+	return $res;
+}
+sub ddgcr_post {
+	my ( $self, $c, $route, $data ) = @_;
+
+	$data = to_json($data, { convert_blessed => 1 }) if ref $data;
+	my $req = HTTP::Request->new(
+		POST => $c->uri_for( $route )->canonical
+	);
+	$req->content_type( 'application/json' );
+	$req->content( $data );
+	_apply_session_to_req( $c, $req );
+
+	my $res = $self->http->request( $req );
+}
 
 ############################################################
 #  ____        _    ____            _
