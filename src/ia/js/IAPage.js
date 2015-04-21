@@ -220,7 +220,7 @@
 
                     // Saves the screenshot to S3.
                     $("body").on("click", ".save-screenshot--button", function(evt) {
-                        $.post("https://ddh5.duckduckgo.com/screenshot/save/" + DDH_iaid, function(data) {
+                        $.post("https://ranger.duckduckgo.com/screenshot/save/" + DDH_iaid, function(data) {
                             // Check if the request was successful.
                             if(data && data.status === "ok" && data.screenshots && data.screenshots.index) {
                                 // Hide the save button.
@@ -239,7 +239,7 @@
                         $button.text("Generating ...");
 
                         // Send a POST request with the ID of the IA.
-                        $.post("https://ddh5.duckduckgo.com/screenshot/create/" + DDH_iaid, function(data) {
+                        $.post("https://ranger.duckduckgo.com/screenshot/create/" + DDH_iaid, function(data) {
                             // Check if the screenshot that we want is available.
                             // If it isn't there must be something wrong.
                             if(data && data.status === "ok" && data.screenshots && data.screenshots.index) {
