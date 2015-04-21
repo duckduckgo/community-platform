@@ -31,9 +31,19 @@ my @repos = (
 my $token = $ENV{DDGC_GITHUB_TOKEN} || $ENV{DDG_GITHUB_BASIC_OAUTH_TOKEN};
 my $gh = Net::GitHub->new(access_token => $token);
 
+# build a list of the PRs in our database
+my $rs = $d->rs('InstantAnswer::Issues');
+my @pull_requests = $rs->search({'is_pr' => 1}, {result_class => 'DBIx::Class::ResultClass::HashRefInflator'})->all;
+
+# build hash to make searching easier. Concat pr number and repo to avoid collisions
+my %pr_hash;
+map{ $pr_hash{$_->{issue_id}.$_->{repo}} = $_ } @pull_requests;
+
+#warn Dumper keys %pr_hash;
+
 # get the GH issues
 sub getIssues{
-	foreach my $repo (@repos){
+    foreach my $repo (@repos){
         my @issues = $gh->issue->repos_issues('duckduckgo', $repo, {state => 'open'});
         
         while($gh->issue->has_next_page){
@@ -70,10 +80,33 @@ sub getIssues{
                 is_pr => $is_pr,
 			);
 			push(@results, \%entry);
+            delete $pr_hash{$issue->{'number'}.$issue->{repo}};
 		}
 	}
-    #  warn Dumper @results;
+    # warn Dumper @results;
+    # warn Dumper %pr_hash;
 }
+
+# check the status of PRs in $pr_hash.  If they were merged
+# then update the file paths in the db
+my $merge_files = sub {
+    PR: while ( my ($pr, $data) = each %pr_hash){
+        $gh->set_default_user_repo('duckduckgo', "zeroclickinfo-$data->{repo}");
+        my $pr = $gh->pull_request->pull($data->{issue_id});
+
+        # closed PRs have undef merged_at.  Merged ones have the date
+        next PR unless $pr->{merged_at};
+        
+        my @files_changed = $gh->pull_request->files($data->{issue_id});
+
+        my @files;
+        map{ push(@files, $_->{filename}) } @files_changed;
+
+        #update code in db
+        my $result = $d->rs('InstantAnswer')->find({id => $data->{instant_answer_id}});
+        $result->update({code => JSON->new->ascii(1)->encode(\@files)});
+    }
+};
 
 my $update = sub {
     $d->rs('InstantAnswer::Issues')->delete_all();
@@ -83,8 +116,7 @@ my $update = sub {
         $ia = $d->rs('InstantAnswer')->find( $result->{name});
 
         if(exists $result->{name} && $ia){
-            $d->rs('InstantAnswer::Issues')->create(
-            {
+            $d->rs('InstantAnswer::Issues')->create({
                 instant_answer_id => $result->{name},
                 repo => $result->{repo},
                 issue_id => $result->{issue_id},
@@ -102,7 +134,9 @@ my $update = sub {
 
 getIssues;
 
+
 try {
+    $d->db->txn_do($merge_files);
     $d->db->txn_do($update);
 } catch {
     print "Update error $_ \n rolling back\n";

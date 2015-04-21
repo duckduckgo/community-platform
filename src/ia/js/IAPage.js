@@ -125,7 +125,8 @@
                         answerbar : Handlebars.templates.pre_edit_answerbar(ia_data),
                         triggers :  Handlebars.templates.pre_edit_triggers(ia_data),
                         perl_dependencies :  Handlebars.templates.pre_edit_perl_dependencies(ia_data),
-                        src_options : Handlebars.templates.pre_edit_src_options(ia_data)
+                        src_options : Handlebars.templates.pre_edit_src_options(ia_data),
+                        meta_id : Handlebars.templates.pre_edit_meta_id(ia_data)
                     };
 
                     page.updateAll(readonly_templates, ia_data.live.dev_milestone, false);
@@ -638,9 +639,12 @@
                             autocommit: 1
                         })
                         .done(function(data) {
-                            if (data.result && data.result.saved) {
-                                if (field === "dev_milestone") {
+                            console.log(data);
+                            if (data.result) {
+                                if (data.result.saved && field === "dev_milestone") {
                                     location.reload();
+                                } else if (data.result.saved && field === "meta_id") {
+                                    location.href = "/ia/view/" + data.result.meta_id;
                                 } else {
                                     ia_data.live[field] = (is_json && data.result[field])? $.parseJSON(data.result[field]) : data.result[field];
                                     readonly_templates[panel + "_content"] = Handlebars.templates[panel + "_content"](ia_data);
@@ -648,11 +652,16 @@
                                     var $panel_body = $("#" + panel + " .dev_milestone-container__body");
                                     $panel_body.html(readonly_templates[panel + "_content"]);
 
-                                    $("#" + panel).height($panel_body.height() + 50);
-                                    page.setMaxHeight($(".milestone-panel"));
+                                    if (page.imgHide) {
+                                        $("#" + panel).height($panel_body.height() + 50);
+                                        page.setMaxHeight($(".milestone-panel"));
+                                    }
 
                                     page.appendTopics();
                                     page.hideAssignToMe();
+
+                                    var saved_class = data.result.saved? "saved" : "not_saved";
+                                    $panel_body.find("." + field).addClass(saved_class);
                                 } 
                             }
                         });
@@ -857,6 +866,7 @@
                     $(".ia-single--edits").append(templates.designer);
                     $(".ia-single--edits").append(templates.developer);
                     $(".ia-single--edits").append(templates.tab);
+                    $(".ia-single--edits").append(templates.meta_id);
                 }
             }
         }    

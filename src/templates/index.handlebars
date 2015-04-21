@@ -7,7 +7,7 @@
         
         <div class="ia-item--details">
           <div class="ia-item--details--top">
-            <h3 class="left ia-item--header"><a href="/ia/view/{{id}}">{{name}}</a></h3>
+            <h3 class="left ia-item--header"><a href="/ia/view/{{meta_id}}">{{name}}</a></h3>
             {{#each instant_answer_topics}}
               <span class="topic right btn--wire" data-topic="ia_topic-{{this.topic.id}}">
                 {{this.topic.name}}
@@ -16,7 +16,7 @@
           </div>
           <div class="ia-item--details--bottom one-line">{{description}}</div>
           <div class="ia-item--details--img hide">
-            <img class="ia-item--img" src="/static/img/duckduckhack/default.png" data-img="https://images.duckduckgo.com/iu/?u={{encodeURIComponent 'https://ia-screenshots.s3.amazonaws.com/'}}{{id}}_desktop.png&f=1">
+            <img class="ia-item--img" src="/static/img/duckduckhack/default.png" data-img="https://images.duckduckgo.com/iu/?u={{encodeURIComponent 'https://ia-screenshots.s3.amazonaws.com/'}}{{meta_id}}_desktop.png&f=1">
           </div>
         </div>
         

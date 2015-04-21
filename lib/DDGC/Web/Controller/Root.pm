@@ -269,7 +269,7 @@ sub wear :Chained('base') :PathPart('wear') :Args(0) {
 	$c->stash->{no_breadcrumb} = 1;
 	$c->stash->{share_page} = 1;
 	$c->session->{last_url} = $c->req->uri;
-	$c->stash->{title} = "DuckDuckGo : Share it + Wear it!";
+	$c->stash->{title} = "DuckDuckGo : Share it & Wear it!";
 	$c->session->{campaign_notification} = undef;
 	$c->stash->{campaign_info} = undef;
 	$c->stash->{share_date} = (DateTime->now + DateTime::Duration->new( days => 30 ))->strftime("%b %e");

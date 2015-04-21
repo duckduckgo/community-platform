@@ -1,6 +1,7 @@
 <h2 class="mg-top mg-bottom--big h1 text-center">Welcome, oh almighty, <: $c.user.username :></h2>
 <div class="seventy block-mid mg-top--big mg-bottom">
 	<hr class="mg-top--none" />
+	<h3><: $remaining_coupon_count :> T-shirt Coupons Remaining.</h3>
 	<div class="row gw">
 		<div class="g third">
 			<p><a class="button  full  tall  h1  red" href="<: $u('Admin::User','index') :>"><i class="icon-users"></i></a></p>

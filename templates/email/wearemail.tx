@@ -7,7 +7,7 @@
 			<tr>
 				<td colspan="2" valign="middle">
 					<h4 <: style("default") :>>Please click on the following link to verify your email address</h4>
-					<p <: style("default") :>><a href="<: $wear_email_verify_link :>">Yes, I signed up for Share it + Wear it with this address</a></p>
+					<p <: style("default") :>><a href="<: $wear_email_verify_link :>">Yes, I signed up for Share it &amp; Wear it with this address</a></p>
 					<p <: style("sub_text") :>>Regards, <br/><i <: style("signoff") :>>The DuckDuckGo Community team.</i></p>
 				</td>
 			</tr>

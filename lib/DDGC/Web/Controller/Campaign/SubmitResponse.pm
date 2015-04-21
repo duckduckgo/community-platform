@@ -115,7 +115,7 @@ sub respond : Chained('base') : PathPart('respond') : Args(0) {
 			try {
 				$c->d->postman->template_mail(
 					1, $c->stash->{campaign_email}, $from,
-					'[DuckDuckGo Community] Thank you for participating in Share it + Wear it',
+					'[DuckDuckGo Community] ' . $c->user->username . ', thank you for participating in Share it & Wear it. Please verify your email address.',
 					'wearemail',$c->stash);
 			}
 			catch {

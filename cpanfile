@@ -106,3 +106,4 @@ requires 'Search::Query', '0.24';
 requires 'HTML::Strip', '1.06';
 requires 'CPAN::Documentation::HTML', '0.001';
 requires 'String::Truncate', '1.100602';
+requires 'HTML::FormatText::WithLinks', '0.15';
