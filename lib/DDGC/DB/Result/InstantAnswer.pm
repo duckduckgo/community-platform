@@ -22,13 +22,15 @@ primary_key 'id';
 column meta_id => {
     data_type => 'text',
     for_endpt => 1,
-    alias => 'id'
+    alias => 'id',
+    pipeline => 1
 };
 
 # userland name
 column name => {
 	data_type => 'text',
-    for_endpt => 1
+    for_endpt => 1,
+    pipeline => 1
 };
 
 # userland description of what the IA does
@@ -89,7 +91,8 @@ column status => {
 column repo => {
 	data_type => 'text',
 	is_nullable => 1,
-    for_endpt => 1
+    for_endpt => 1,
+    pipeline => 1
 };
 
 # aka team
@@ -238,18 +241,21 @@ column type => {
 column producer => {
     data_type => 'text',
     is_nullable => 1,
+    pipeline => 1
 };
 
 # IA designer (must be an admin)
 column designer => {
     data_type => 'text',
     is_nullable => 1,
+    pipeline => 1
 };
 
 # IA developer
 column developer => {
     data_type => 'text',
     is_nullable => 1,
+    pipeline => 1,
     is_json => 1,
 };
 

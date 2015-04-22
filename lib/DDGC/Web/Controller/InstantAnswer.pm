@@ -146,48 +146,16 @@ sub dev_pipeline_json :Chained('dev_pipeline_base') :PathPart('json') :Args(0) {
     my $rs = $c->d->rs('InstantAnswer');
 
     if ($view eq 'dev') {
-        my @planning = $rs->search(
-            {'me.dev_milestone' => { '=' => 'planning'}},
-            {
-                columns => [ qw/ name repo dev_milestone producer designer developer/, {id => 'meta_id'}],
-                order_by => [ qw/ name/ ],
-                result_class => 'DBIx::Class::ResultClass::HashRefInflator',
-            }
-        )->all;
+        my @ias = $rs->search(
+            {'me.dev_milestone' => { '!=' => 'live'},
+             'me.dev_milestone' => { '!=' => 'deprecated'}});
 
-        my @in_development = $rs->search(
-            {'me.dev_milestone' => { '=' => 'in_development'}},
-            {
-                columns => [ qw/ name repo dev_milestone producer designer developer/, {id => 'meta_id'}],
-                order_by => [ qw/ name/ ],
-                result_class => 'DBIx::Class::ResultClass::HashRefInflator',
-            }
-        )->all;
+        my %dev_ias;
+        for my $ia (@ias) {
+            push @{$dev_ias{$ia->dev_milestone}}, $ia->TO_JSON('pipeline');
+        }
 
-        my @qa = $rs->search(
-            {'me.dev_milestone' => { '=' => 'qa'}},
-            {
-                columns => [ qw/ name repo dev_milestone producer designer developer/, {id => 'meta_id'}],
-                order_by => [ qw/ name/ ],
-                result_class => 'DBIx::Class::ResultClass::HashRefInflator',
-            }
-        )->all;
-
-        my @ready = $rs->search(
-            {'me.dev_milestone' => { '=' => 'ready'}},
-            {
-                columns => [ qw/ name repo dev_milestone producer designer developer/, {id => 'meta_id'}],
-                order_by => [ qw/ name/ ],
-                result_class => 'DBIx::Class::ResultClass::HashRefInflator',
-            }
-        )->all;
-
-        $c->stash->{x} = {
-            planning => \@planning,
-            in_development => \@in_development,
-            qa => \@qa,
-            ready => \@ready,
-        };
+        $c->stash->{x} = \%dev_ias;
     } elsif ($view eq 'deprecated') {
         my @fathead = $rs->search(
             {'me.repo' => { '=' => 'fathead'},
