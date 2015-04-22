@@ -3,7 +3,7 @@ package DDGC::Schema::Result::User::Blog;
 # ABSTRACT: Result class of blog posts
 
 use Moo;
-extends 'DBIx::Class::Core';
+extends 'DDGC::Schema::Result';
 use DBIx::Class::Candy;
 use DateTime::Format::RSS;
 

@@ -2,7 +2,7 @@ package DDGC::Schema::Result::User;
 # ABSTRACT: Result class of a user in the DB
 
 use Moo;
-extends 'DBIx::Class::Core';
+extends 'DDGC::Schema::Result';
 use DBIx::Class::Candy;
 use namespace::autoclean;
 
