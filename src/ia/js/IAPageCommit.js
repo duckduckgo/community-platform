@@ -73,8 +73,12 @@
                                     is_json = true;
                                     temp_value = {};
                                     temp_value.fallback_timeout = $.trim($(this).text().replace(/\"/g, ""));
-                                }else {
+                                } else {
                                     temp_value = $.trim($(this).text().replace(/\"/g, ""));
+
+                                    if (temp_field === "src_id") {
+                                        temp_value = parseInt(temp_value);
+                                    }
                                 }
                                 
                                 if (is_json && (temp_field !== "topic")) {
