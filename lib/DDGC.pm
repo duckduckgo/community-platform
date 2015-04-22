@@ -131,11 +131,9 @@ sub uid { md5_hex $_[0]->uuid->create_str . rand };
 
 sub _apply_session_to_req {
 	my ( $c, $req ) = @_;
-	if ( $c->can('session') && $c->session->{id} ) {
-		$req->header(
-			Cookie => 'plack_session=' . $c->session->{id}
-		);
-	}
+	$req->header(
+		Cookie => 'plack_session=' . $c->req->env->{'psgix.session.options'}->{id},
+	);
 }
 sub ddgcr_get {
 	my ( $self, $c, $route, $params ) = @_;
