@@ -46,7 +46,7 @@ get '/by_user' => sub {
             { order_by => { -desc => 'id' } }
         ))
     ) {
-        return [ $posts ];
+        return { posts => $posts };
     }
     status 404;
     return {
@@ -81,7 +81,7 @@ get '/post' => sub {
         !(scalar $v->errors) &&
         (my $post = posts_rset->find( $v->values->{id} ))
     ) {
-        return [ $post ];
+        return { post => $post };
     }
     status 404;
     return {
@@ -106,7 +106,7 @@ get '/post/by_url' => sub {
             { order_by => { -desc => 'id' } }
         )->first)
     ) {
-        return [ $post ];
+        return { post => $post };
     }
     status 404;
     return {
