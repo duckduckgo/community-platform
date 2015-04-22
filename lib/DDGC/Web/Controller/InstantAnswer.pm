@@ -568,6 +568,8 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
                 $value =~ s/\s//g;
                 $value = lc $value;
                 return $c->forward($c->view('JSON')) if $c->d->rs('InstantAnswer')->find({meta_id => $value});
+            } elsif ($field eq "src_id") {
+                return $c->forward($c->view('JSON')) if $c->d->rs('InstantAnswer')->find({src_id => $value});
             }
 
             my $edits = add_edit($c, $ia,  $field, $value);
