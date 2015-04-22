@@ -135,8 +135,16 @@ sub _apply_session_to_req {
 		Cookie => 'plack_session=' . $c->req->env->{'psgix.session.options'}->{id},
 	);
 }
+sub _ref_to_uri {
+	my ( $route ) = @_;
+	my $service = '/' . lc( shift @{$route} ) . '.json';
+	my ( $uri ) = join  '/', @{$route};
+	return "$service/$uri";
+}
 sub ddgcr_get {
 	my ( $self, $c, $route, $params ) = @_;
+	$route = _ref_to_uri( $route  ) if ( ref $route eq 'ARRAY' );
+
 	my $req = HTTP::Request->new(
 		GET => $c->uri_for( $route, $params )->canonical
 	);
@@ -150,6 +158,7 @@ sub ddgcr_get {
 }
 sub ddgcr_post {
 	my ( $self, $c, $route, $data ) = @_;
+	$route = _ref_to_uri( $route  ) if ( ref $route eq 'ARRAY' );
 
 	$data = to_json($data, { convert_blessed => 1 }) if ref $data;
 	my $req = HTTP::Request->new(

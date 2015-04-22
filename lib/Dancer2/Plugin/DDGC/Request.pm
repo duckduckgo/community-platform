@@ -26,6 +26,14 @@ sub _apply_session_to_req {
         );
     }
 }
+
+sub _ref_to_uri {
+    my ( $route ) = @_;
+    my $service = '//' . lc( shift @{$route} ) . '.json';
+    my ( $uri ) = join  '/', @{$route};
+    return "$service/$uri";
+}
+
 on_plugin_import {
     my ( $dsl ) = @_;
     die "Need to load Dancer2::Plugin::RootURIFor before Dancer2::Plugin::DDGC::Request" if !($dsl->can('root_uri_for'));
@@ -33,6 +41,7 @@ on_plugin_import {
 
 register ddgcr_get => sub {
     my ( $dsl, $route, $params ) = @_;
+    $route = _ref_to_uri( $route  ) if ( ref $route eq 'ARRAY' );
 
     my $req = HTTP::Request->new(
         GET => _uri_for( $dsl, $route, $params )
@@ -48,6 +57,7 @@ register ddgcr_get => sub {
 
 register ddgcr_post => sub {
     my ( $dsl, $route, $data ) = @_;
+    $route = _ref_to_uri( $route  ) if ( ref $route eq 'ARRAY' );
 
     $data = to_json($data, { convert_blessed => 1 }) if ref $data;
     my $req = HTTP::Request->new(
