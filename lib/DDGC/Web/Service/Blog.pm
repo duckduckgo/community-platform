@@ -119,6 +119,25 @@ get '/post/by_url/:url' => sub {
     forward '/post/by_url', { params('route') };
 };
 
+get '/post_raw' => user_is 'admin' => sub {
+    my $v = validate('/blog.json/post', params_hmv );
+    if (
+        !(scalar $v->errors) &&
+        (my $post = posts_rset->find( $v->values->{id} ))
+    ) {
+        return { post => $post->for_edit };
+    }
+    status 404;
+    return {
+        ok     => 0,
+        status => 404,
+    }
+};
+
+get '/post_raw/:id' => sub {
+    forward '/post_raw', { params('route') };
+};
+
 post '/post/new' => user_is 'admin' => sub {
     my $v = validate('/blog.json/post/new', { params('body') });
     return [];

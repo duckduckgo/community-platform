@@ -63,6 +63,7 @@ column topics => {
     serializer_class => 'JSON',
 };
 
+# TODO: Deprecate this
 column company_blog => {
     data_type     => 'int',
     is_nullable   => 0,
@@ -139,9 +140,9 @@ sub date {
     return $self->updated;
 }
 
-sub form_values {
+sub for_edit {
     my ($self) = @_;
-    {
+    +{
         title   => $self->title,
         uri     => lc( $self->uri ),
         teaser  => $self->teaser,
