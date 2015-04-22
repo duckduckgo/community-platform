@@ -23,8 +23,8 @@ sub none {
 }
 
 __PACKAGE__->load_components(qw/
-        Helper::ResultSet::Me
-        Helper::ResultSet::Shortcut::HRI
-    /);
+    Helper::ResultSet::Me
+    Helper::ResultSet::Shortcut::HRI
+/);
 
 1;
