@@ -138,8 +138,17 @@ get '/admin/post/:id' => sub {
     forward '/admin/post/raw', { params('route') };
 };
 
-post '/post/new' => user_is 'admin' => sub {
-    my $v = validate('/blog.json/post/new', { params('body') });
+post '/admin/post/update' => user_is 'admin' => sub {
+    my $params = params('body');
+    my $id = delete $params->{id};
+    delete $params->{$_} for grep { !$params->{$_} } keys $params;
+    $params->{topics} = [ split /\s*,\s*/, $params->{topics} ] if $params->{topics};
+    posts_rset->find($id)->update($params);
+    forward '/post', { id => $id }, { method => 'GET' };
+};
+
+post '/admin/post/new' => user_is 'admin' => sub {
+    my $v = validate('/blog.json/admin/post/new', { params('body') });
     return [];
 };
 
