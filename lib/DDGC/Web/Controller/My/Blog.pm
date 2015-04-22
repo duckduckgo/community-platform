@@ -52,9 +52,10 @@ sub edit :Chained('base') :Args(1) {
 
 	if ($id_or_new ne 'new' && $id_or_new+0 > 0) {
 		my $id = $id_or_new+0;
-		$post = $c->d->rs('User::Blog')->find($id);
+		my $res = $c->d->ddgcr_get( $c, [ 'Blog', 'admin', 'post', 'raw' ], { id => $id } );
+		$post = $res->{ddgcr}->{post} if ( $res->is_success );
 		unless ($c->user->admin) {
-			if ($post->users_id ne $c->user->id) {
+			if ($post->{users_id} ne $c->user->id) {
 				$c->response->redirect($c->chained_uri('My::Blog','index'));
 				return $c->detach;
 			}
@@ -83,7 +84,7 @@ sub edit :Chained('base') :Args(1) {
 
 		if ($values{fixed_date}) {
 			unless (DateTime::Format::RSS->new->parse_datetime($values{fixed_date})) {
-				$c->stash->{error_fixed_date_invalid} = 1; $ok = 0; $ok = 0;
+				$c->stash->{error_fixed_date_invalid} = 1; $ok = 0;
 			}
 		}
 
@@ -96,12 +97,29 @@ sub edit :Chained('base') :Args(1) {
 		}
 
 		if ($ok) {
+			my $res;
 			if ($post) {
-				$post->update_via_form(\%values);
+				$values{id} = $c->stash->{id};
+				my $res = $c->d->ddgcr_post( $c, [ 'Blog', 'admin', 'post', 'update' ], \%values );
+				if ( $res->is_success ) {
+					$post = $res->{ddgcr}->{post}
+				}
+				else {
+					$ok = 0;
+				}
 			} else {
-				$post = $c->user->user_blogs_rs->create_via_form(\%values);
+				my $res = $c->d->ddgcr_post( $c, [ 'Blog', 'admin', 'post', 'new' ], \%values );
+				if ( $res->is_success ) {
+					$post = $res->{ddgcr}->{post}
+				}
+				else {
+					$ok = 0;
+				}
 			}
-			$c->response->redirect($c->chained_uri(@{$post->u}));
+		}
+
+		if ($ok) {
+			$c->response->redirect('/blog/' . $post->{id});
 			return $c->detach;
 		} else {
 			$c->stash->{not_ok} = 1;
@@ -116,7 +134,7 @@ sub edit :Chained('base') :Args(1) {
 	}
 
 	if ($post && !defined $c->stash->{post}) {
-		$c->stash->{post} = $post->form_values;
+		$c->stash->{post} = $post;
 	}
 
 	$c->add_bc($c->stash->{post}->{title} || "New blog post");
