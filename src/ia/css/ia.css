@@ -1474,6 +1474,34 @@ body.texture {
     margin-left: 0;
 }
 
+.generate-screenshot {
+    text-align: center;
+}
+
+.dashed-border {
+    border-radius: 3px;
+    border: 2px dashed #999;
+}
+
+.generate-screenshot--button {
+    margin: 1em;
+    cursor: pointer;
+
+    background-color: #e37151;
+    border-color: #de5833;
+}
+
+.save-screenshot--button {
+    margin: 1em;
+    margin-left: 0;
+    cursor: pointer;
+}
+
 .dev_milestone-container__body__readonly {
     word-wrap: break-word;
+}
+
+.generate-screenshot--notif {
+    color: #E37151;
+    text-align: center;
 }
