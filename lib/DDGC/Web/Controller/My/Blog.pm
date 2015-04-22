@@ -19,7 +19,8 @@ sub base :Chained('/my/logged_in') :PathPart('blog') :CaptureArgs(0) {
 
 sub index :Chained('base') :PathPart('') :Args(0) {
 	my ( $self, $c ) = @_;
-	$c->stash->{blog} = $c->user->blog;
+	my $res = $c->d->ddgcr_get( $c, [ 'Blog', 'by_user' ], { id => $c->user->id } );
+	$c->stash->{blog} = $res->{ddgcr}->{posts} if ( $res->is_success );
 	$c->bc_index;
 }
 
