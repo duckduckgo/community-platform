@@ -121,11 +121,5 @@ sub edit :Chained('base') :Args(1) {
 	$c->add_bc($c->stash->{post}->{title} || "New blog post");
 }
 
-# sub json :Chained('base') :Args(0) {
-# 	my ( $self, $c ) = @_;
-# 	$c->stash->{x} = $c->stash->{blog}->export;
-# 	$c->forward('View::JSON');
-# }
-
 no Moose;
 __PACKAGE__->meta->make_immutable;
