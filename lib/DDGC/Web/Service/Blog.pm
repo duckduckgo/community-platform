@@ -103,7 +103,7 @@ get '/post/by_url' => sub {
         param_hmv('url') &&
         (my $post = posts_rset->search(
             { url => param_hmv('url') },
-            { order_by => { -desc => 'id' } }
+            { order_by => { -asc => 'id' } }
         )->first)
     ) {
         return { post => $post };
