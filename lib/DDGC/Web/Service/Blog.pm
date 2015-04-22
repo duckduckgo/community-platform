@@ -119,7 +119,7 @@ get '/post/by_url/:url' => sub {
     forward '/post/by_url', { params('route') };
 };
 
-get '/post_raw' => user_is 'admin' => sub {
+get '/admin/post/raw' => user_is 'admin' => sub {
     my $v = validate('/blog.json/post', params_hmv );
     if (
         !(scalar $v->errors) &&
@@ -134,8 +134,8 @@ get '/post_raw' => user_is 'admin' => sub {
     }
 };
 
-get '/post_raw/:id' => sub {
-    forward '/post_raw', { params('route') };
+get '/admin/post/:id' => sub {
+    forward '/admin/post/raw', { params('route') };
 };
 
 post '/post/new' => user_is 'admin' => sub {
