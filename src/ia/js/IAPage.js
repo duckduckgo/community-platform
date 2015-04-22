@@ -126,6 +126,9 @@
                         triggers :  Handlebars.templates.pre_edit_triggers(ia_data),
                         perl_dependencies :  Handlebars.templates.pre_edit_perl_dependencies(ia_data),
                         src_options : Handlebars.templates.pre_edit_src_options(ia_data),
+                        src_id : Handlebars.templates.pre_edit_src_id(ia_data),
+                        src_name : Handlebars.templates.pre_edit_src_name(ia_data),
+                        src_domain : Handlebars.templates.pre_edit_src_domain(ia_data),
                         id : Handlebars.templates.pre_edit_id(ia_data)
                     };
 
@@ -724,6 +727,9 @@
             'template',
             'src_api_documentation',
             'api_status_page',
+            'src_id',
+            'src_name',
+            'src_domain',
             'src_options',
             'unsafe',
             'answerbar',

@@ -110,6 +110,7 @@ column code => {
 column src_name => {
 	data_type => 'text',
 	is_nullable => 1,
+    for_endpt => 1
 };
 
 # top-level url of the source website
@@ -333,6 +334,7 @@ column src_options => {
 column src_id => {
     data_type => 'integer',
     is_nullable => 1,
+    for_endpt => 1
 };
 
 column src_domain => {
