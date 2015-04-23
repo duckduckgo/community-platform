@@ -22,8 +22,8 @@ primary_key 'id';
 column meta_id => {
     data_type => 'text',
     for_endpt => 1,
-    alias => 'id',
-    pipeline => 1
+    pipeline => 1,
+    show_as => 'id',
 };
 
 # userland name
@@ -370,18 +370,14 @@ sub TO_JSON {
 
     while( my($field,$value) = each %data ){
         my $column_data = $ia->column_info($field);
-        my $key = $field;
+        my $key = $column_data->{show_as}? $column_data->{show_as} : $field;
 
         if ($type && !$column_data->{$type}){
             delete $data{$key};
             next;
         }
 
-        if ($column_data->{alias}) {
-            delete $data{$key};
-            $key = $column_data->{alias};
-            $data{$key} = $value;
-        }
+        $data{$key} = $value;
         
         next unless $data{$key} && $column_data->{is_json};
         $data{$key} = from_json($data{$key});
