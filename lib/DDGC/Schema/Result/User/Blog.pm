@@ -6,6 +6,7 @@ use Moo;
 extends 'DDGC::Schema::Result';
 use DBIx::Class::Candy;
 use DateTime::Format::RSS;
+use DDGC::Util::Markup;
 
 table 'user_blog';
 
@@ -42,8 +43,9 @@ column teaser => {
 
 sub html_teaser {
     my ($self) = @_;
-    return $self->teaser if $self->raw_html;
-    return $self->ddgc->markup->html( $self->teaser );
+    my $markup = DDGC::Util::Markup->new;
+    return $markup->html( $self->teaser ) if $self->raw_html;
+    return $markup->bbcode( $self->teaser );
 }
 
 column content => {
@@ -53,8 +55,9 @@ column content => {
 
 sub html {
     my ($self) = @_;
-    return $self->content if $self->raw_html;
-    return $self->ddgc->markup->html( $self->content );
+    my $markup = DDGC::Util::Markup->new;
+    return $markup->html( $self->content ) if $self->raw_html;
+    return $markup->bbcode( $self->content );
 }
 
 column topics => {
@@ -179,10 +182,13 @@ sub TO_JSON {
     my ( $self ) = @_;
     +{
         id      => $self->id,
+        user_id => $self->users_id,
+        user    => $self->user->TO_JSON,
         title   => $self->title,
-        user    => $self->users_id,
+        topics  => $self->topics,
         uri     => $self->uri,
-        content => $self->content,
+        content => $self->html,
+        teaser  => $self->html_teaser,
     };
 }
 
