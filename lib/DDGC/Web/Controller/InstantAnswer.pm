@@ -528,6 +528,8 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
                 push(@update, {value => $tmp_val // $value, field => $field} );
                 save($c, \@update, $ia);
                 $saved = 1;
+                
+                save_milestone_date($ia, $c->req->params->{value});
             }
 
             if ($field eq 'developer') {
@@ -690,7 +692,7 @@ sub commit_edit {
     my ($d, $ia, $field, $value) = @_;
     # update the IA data in instant answer table
     my $update_field = $field eq 'id'? 'meta_id' : $field;
-    update_ia($d, $ia, $update_field, $value);
+    update_ia($ia, $update_field, $value);
     # remove the edit from the updates table
     remove_edits($d, $ia, $field);
 }
@@ -710,7 +712,7 @@ sub remove_edit {
 
 # update the instant answer table
 sub update_ia {
-    my ($d,$ia, $field, $value) = @_;
+    my ($ia, $field, $value) = @_;
     $ia->update({$field => $value});
 }
 
@@ -730,6 +732,21 @@ sub get_all_edits {
     my @edits = $d->rs('InstantAnswer::Updates')->search( {instant_answer_id => $id} );
     warn "Returning ", scalar @edits if debug;
     return @edits;
+}
+
+sub save_milestone_date {
+    my ($ia, $milestone) = @_;
+    my $field;
+    if($milestone eq 'in_development'){
+        $field = 'dev_date';
+    }elsif($milestone eq 'live'){
+        $field = 'live_date';
+    }
+
+    return unless $field;
+    my @time = localtime(time);
+    my $date = "$time[4]/$time[3]/".($time[5]+1900);
+    update_ia($ia, $field, $date);
 }
 
 no Moose;
