@@ -364,31 +364,27 @@ sub TO_JSON {
     my ($ia, $type) = @_;
     
     my %data = $ia->get_columns;
+    my %result;
     my @topics = map { $_->name } $ia->topics;
-    $data{topic} = \@topics;
+    $result{topic} = \@topics;
 
-    while( my($field,$value) = each %data ){
-        my $column_data = $ia->column_info($field);
-        my $key;
+    while( my($key,$value) = each %data ){
+        my $column_data = $ia->column_info($key);
+
+        next if $result{$key};
 
         if ($column_data->{show_as}) {
             $key = $column_data->{show_as};
-            delete $data{$field};
-        } else {
-            $key = $field;
         }
 
-        if ($type && !$column_data->{$type}){
-            delete $data{$key};
-            next;
-        }
+        next if ($type && !$column_data->{$type});
 
-        $data{$key} = $value;
+        $result{$key} = $value;
         
         next unless $data{$key} && $column_data->{is_json};
-        $data{$key} = from_json($data{$key});
+        $result{$key} = from_json($data{$key});
     }
-    return \%data;
+    return \%result;
 }
 
 no Moose;
