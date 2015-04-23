@@ -22,13 +22,15 @@ primary_key 'id';
 column meta_id => {
     data_type => 'text',
     for_endpt => 1,
-    alias => 'id'
+    pipeline => 1,
+    show_as => 'id',
 };
 
 # userland name
 column name => {
 	data_type => 'text',
-    for_endpt => 1
+    for_endpt => 1,
+    pipeline => 1
 };
 
 # userland description of what the IA does
@@ -64,6 +66,7 @@ column perl_dependencies => {
 column dev_milestone => {
 	data_type => 'text',
 	is_nullable => 1,
+    pipeline => 1
 };
 
 # is the IA live or not live?
@@ -89,7 +92,8 @@ column status => {
 column repo => {
 	data_type => 'text',
 	is_nullable => 1,
-    for_endpt => 1
+    for_endpt => 1,
+    pipeline => 1
 };
 
 # aka team
@@ -238,18 +242,21 @@ column type => {
 column producer => {
     data_type => 'text',
     is_nullable => 1,
+    pipeline => 1
 };
 
 # IA designer (must be an admin)
 column designer => {
     data_type => 'text',
     is_nullable => 1,
+    pipeline => 1
 };
 
 # IA developer
 column developer => {
     data_type => 'text',
     is_nullable => 1,
+    pipeline => 1,
     is_json => 1,
 };
 
@@ -359,28 +366,27 @@ sub TO_JSON {
     my ($ia, $type) = @_;
     
     my %data = $ia->get_columns;
+    my %result;
     my @topics = map { $_->name } $ia->topics;
-    $data{topic} = \@topics;
+    $result{topic} = \@topics;
 
-    while( my($field,$value) = each %data ){
-        my $column_data = $ia->column_info($field);
-        my $key = $field;
+    while( my($key,$value) = each %data ){
+        my $column_data = $ia->column_info($key);
 
-        if ($type && !$column_data->{$type}){
-            delete $data{$key};
-            next;
+        next if $result{$key};
+
+        if ($column_data->{show_as}) {
+            $key = $column_data->{show_as};
         }
 
-        if ($column_data->{alias}) {
-            delete $data{$key};
-            $key = $column_data->{alias};
-            $data{$key} = $value;
-        }
+        next if ($type && !$column_data->{$type});
+
+        $result{$key} = $value;
         
         next unless $data{$key} && $column_data->{is_json};
-        $data{$key} = from_json($data{$key});
+        $result{$key} = from_json($data{$key});
     }
-    return \%data;
+    return \%result;
 }
 
 no Moose;

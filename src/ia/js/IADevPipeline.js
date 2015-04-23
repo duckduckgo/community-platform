@@ -16,10 +16,10 @@
                 // console.log(window.location.pathname);
                 var iadp;
 
-                if (data.hasOwnProperty("planning")) {
-                    iadp = Handlebars.templates.dev_pipeline(data);
-                } else if (data.hasOwnProperty("fathead")) {
-                    iadp = Handlebars.templates.dev_pipeline_deprecated(data);
+                if (data.hasOwnProperty("dev_milestones")) {
+                    iadp = Handlebars.templates.dev_pipeline(data.dev_milestones);
+                } else if (data.hasOwnProperty("repos")) {
+                    iadp = Handlebars.templates.dev_pipeline_deprecated(data.repos);
                 }else {
                     iadp = Handlebars.templates.dev_pipeline_live(data);
                 }

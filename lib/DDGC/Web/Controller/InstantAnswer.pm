@@ -145,95 +145,24 @@ sub dev_pipeline_json :Chained('dev_pipeline_base') :PathPart('json') :Args(0) {
     my $view = $c->stash->{view};
     my $rs = $c->d->rs('InstantAnswer');
 
-    if ($view eq 'dev') {
-        my @planning = $rs->search(
-            {'me.dev_milestone' => { '=' => 'planning'}},
-            {
-                columns => [ qw/ name repo dev_milestone producer designer developer/, {id => 'meta_id'}],
-                order_by => [ qw/ name/ ],
-                result_class => 'DBIx::Class::ResultClass::HashRefInflator',
-            }
-        )->all;
+    if ($view eq 'dev' || $view eq 'deprecated') {
+        my @ias;
+        my $key;
+        if ($view eq 'dev') {
+            @ias = $rs->search({'dev_milestone' => { '=' => ['planning', 'in_development', 'qa', 'ready']}});
+            $key = 'dev_milestone';
+        } else {
+            @ias = $rs->search({'dev_milestone' => { '=' => 'deprecated'}});
+            $key = 'repo';
+        }
 
-        my @in_development = $rs->search(
-            {'me.dev_milestone' => { '=' => 'in_development'}},
-            {
-                columns => [ qw/ name repo dev_milestone producer designer developer/, {id => 'meta_id'}],
-                order_by => [ qw/ name/ ],
-                result_class => 'DBIx::Class::ResultClass::HashRefInflator',
-            }
-        )->all;
-
-        my @qa = $rs->search(
-            {'me.dev_milestone' => { '=' => 'qa'}},
-            {
-                columns => [ qw/ name repo dev_milestone producer designer developer/, {id => 'meta_id'}],
-                order_by => [ qw/ name/ ],
-                result_class => 'DBIx::Class::ResultClass::HashRefInflator',
-            }
-        )->all;
-
-        my @ready = $rs->search(
-            {'me.dev_milestone' => { '=' => 'ready'}},
-            {
-                columns => [ qw/ name repo dev_milestone producer designer developer/, {id => 'meta_id'}],
-                order_by => [ qw/ name/ ],
-                result_class => 'DBIx::Class::ResultClass::HashRefInflator',
-            }
-        )->all;
+        my %dev_ias;
+        for my $ia (@ias) {
+            push @{$dev_ias{$ia->$key}}, $ia->TO_JSON('pipeline');
+        }
 
         $c->stash->{x} = {
-            planning => \@planning,
-            in_development => \@in_development,
-            qa => \@qa,
-            ready => \@ready,
-        };
-    } elsif ($view eq 'deprecated') {
-        my @fathead = $rs->search(
-            {'me.repo' => { '=' => 'fathead'},
-             'me.dev_milestone' => { '=' => 'deprecated'}},
-            {
-                columns => [ qw/ name repo dev_milestone producer designer developer/, {id => 'meta_id'}],
-                order_by => [ qw/ name/ ],
-                result_class => 'DBIx::Class::ResultClass::HashRefInflator',
-            }
-        )->all;
-
-        my @goodies = $rs->search(
-            {'me.repo' => { '=' => 'goodies'},
-             'me.dev_milestone' => { '=' => 'deprecated'}},
-            {
-                columns => [ qw/ name repo dev_milestone producer designer developer/, {id => 'meta_id'}],
-                order_by => [ qw/ name/ ],
-                result_class => 'DBIx::Class::ResultClass::HashRefInflator',
-            }
-        )->all;
-
-        my @longtail = $rs->search(
-            {'me.repo' => { '=' => 'longtail'},
-             'me.dev_milestone' => { '=' => 'deprecated'}},
-            {
-                columns => [ qw/ name repo dev_milestone producer designer developer/, {id => 'meta_id'}],
-                order_by => [ qw/ name/ ],
-                result_class => 'DBIx::Class::ResultClass::HashRefInflator',
-            }
-        )->all;
-
-        my @spice = $rs->search(
-            {'me.repo' => { '=' => 'spice'},
-             'me.dev_milestone' => { '=' => 'deprecated'}},
-            {
-                columns => [ qw/ name repo dev_milestone producer designer developer/, {id => 'meta_id'}],
-                order_by => [ qw/ name/ ],
-                result_class => 'DBIx::Class::ResultClass::HashRefInflator',
-            }
-        )->all;
-
-        $c->stash->{x} = {
-            fathead => \@fathead,
-            goodies => \@goodies,
-            longtail => \@longtail,
-            spice => \@spice,
+            $key.'s' => \%dev_ias
         };
     } elsif ($view eq 'live') {
         $rs = $c->d->rs('InstantAnswer::Issues');
@@ -285,7 +214,7 @@ sub dev_pipeline_json :Chained('dev_pipeline_base') :PathPart('json') :Args(0) {
                             dev_milestone => $ia->dev_milestone,
                             producer => $ia->producer,
                             designer => $ia->designer,
-                            developer => $ia->developer,
+                            developer => $ia->developer? from_json($ia->developer) : undef,
                             issues => \@issues
                         };
 
