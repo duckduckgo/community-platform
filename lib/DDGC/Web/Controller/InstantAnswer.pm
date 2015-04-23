@@ -157,8 +157,16 @@ sub dev_pipeline_json :Chained('dev_pipeline_base') :PathPart('json') :Args(0) {
         }
 
         my %dev_ias;
+        my $temp_ia;
         for my $ia (@ias) {
-            push @{$dev_ias{$ia->$key}}, $ia->TO_JSON('pipeline');
+            $temp_ia = $ia->TO_JSON('pipeline');
+            
+            if ($c->user && (!$c->user->admin)) {
+                my $can_edit = $ia->users->find($c->user->id)? 1 : undef;
+                @$temp_ia{"can_edit"} = ( $can_edit );
+            }
+            
+            push @{$dev_ias{$ia->$key}}, $temp_ia;
         }
 
         $c->stash->{x} = {

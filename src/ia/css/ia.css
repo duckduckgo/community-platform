@@ -1505,3 +1505,7 @@ body.texture {
     color: #E37151;
     text-align: center;
 }
+
+.dev_pipeline-column__list .can_edit {
+    font-weight: 600;
+}

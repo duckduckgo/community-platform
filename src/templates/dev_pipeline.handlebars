@@ -7,7 +7,7 @@
         {{#each planning}}
             <li id="pipeline-planning__list__{{id}}" class="producer-{{producer}} designer-{{designer}} developer-{{developer.name}}">
                 <div class="ia-item--stamp circle stamp--{{repo}} left"></div>
-                <div class="left item-name">
+                <div class="left item-name {{#if can_edit}}can_edit{{/if}}">
                     <a href="/ia/view/{{id}}">{{name}}</a>
                 </div>
                 <span class="clearfix"></span>
@@ -26,7 +26,7 @@
         {{#each in_development}}
             <li id="pipeline-in_development__list__{{id}}" class="producer-{{producer}} designer-{{designer}} developer-{{developer.name}}">
                 <div class="ia-item--stamp circle stamp--{{repo}} left"></div>
-                <div class="left item-name">
+                <div class="left item-name {{#if can_edit}}can_edit{{/if}}">
                     <a href="/ia/view/{{id}}">{{name}}</a>
                 </div>
                 <span class="clearfix"></span>
@@ -45,7 +45,7 @@
         {{#each qa}}
             <li id="pipeline-qa__list__{{id}}" class="producer-{{producer}} designer-{{designer}} developer-{{developer.name}}">
                 <div class="ia-item--stamp circle stamp--{{repo}} left"></div>
-                <div class="left item-name">
+                <div class="left item-name {{#if can_edit}}can_edit{{/if}}">
                     <a href="/ia/view/{{id}}">{{name}}</a>
                 </div>
                 <span class="clearfix"></span>
@@ -64,7 +64,7 @@
         {{#each ready}}
             <li id="pipeline-ready__list__{{id}}" class="producer-{{producer}} designer-{{designer}} developer-{{developer.name}}">
                 <div class="ia-item--stamp circle stamp--{{repo}} left"></div>
-                <div class="left item-name">
+                <div class="left item-name {{#if can_edit}}can_edit{{/if}}">
                     <a href="/ia/view/{{id}}">{{name}}</a>
                 </div>
                 <span class="clearfix"></span>
