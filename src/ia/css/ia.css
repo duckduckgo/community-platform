@@ -1508,4 +1508,5 @@ body.texture {
 
 .dev_pipeline-column__list .can_edit {
     font-weight: 600;
+    background-color: rgb(246, 250, 209);
 }

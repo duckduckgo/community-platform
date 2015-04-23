@@ -163,7 +163,7 @@ sub dev_pipeline_json :Chained('dev_pipeline_base') :PathPart('json') :Args(0) {
             
             if ($c->user && (!$c->user->admin)) {
                 my $can_edit = $ia->users->find($c->user->id)? 1 : undef;
-                @$temp_ia{"can_edit"} = ( $can_edit );
+                $temp_ia->{"can_edit"} = $can_edit;
             }
             
             push @{$dev_ias{$ia->$key}}, $temp_ia;
