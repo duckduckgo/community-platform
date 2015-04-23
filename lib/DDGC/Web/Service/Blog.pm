@@ -1,6 +1,7 @@
 package DDGC::Web::Service::Blog;
 
 use DDGC::Base::Web::Service;
+use Try::Tiny;
 use POSIX;
 
 sub pagesize { 20 }
@@ -138,18 +139,78 @@ get '/admin/post/:id' => sub {
     forward '/admin/post/raw', { params('route') };
 };
 
+sub post_update_or_create {
+    my ( $params ) = @_;
+    my $post;
+    my $error;
+    my $user = var 'user';
+    $params->{users_id} = $user->id;
+
+    my $v = validate('/blog.json/admin/post/new', $params);
+    if (scalar $v->errors) {
+        status 400;
+        return {
+            ok     => 0,
+            status => 400,
+            errors => [ $v->errors ],
+        };
+    }
+    $params = $v->values;
+
+    if ( $params->{id} ) {
+        $post = rset('User::Blog')->find( $params->{id} );
+        if (!$post) {
+            status 404;
+            return {
+                ok  => 0,
+                status => 404,
+                errors => [ sprintf "Blog post %s not found", $params->{id} ],
+            };
+        }
+
+        if ($post->users_id != $params->{users_id}) {
+            status 403;
+            return {
+                ok     => 0,
+                status => 403,
+                errors => [ "You do not have permission to update this post" ],
+            };
+        }
+
+        try {
+            $post->update( $params );
+        } catch {
+            $error = $_;
+        };
+
+    }
+    else {
+
+        try {
+            $post = rset('User::Blog')->create( $params );
+        } catch {
+            $error = $_;
+        };
+
+    }
+    if ($error || !$post) {
+        status 500;
+        return {
+            ok     => 0,
+            status => 500,
+            errors => [ $error ],
+        };
+    }
+
+    forward '/admin/post/raw', { id => $post->id }, { method => 'GET' };
+}
+
 post '/admin/post/update' => user_is 'admin' => sub {
-    my $params = params('body');
-    my $id = delete $params->{id};
-    delete $params->{$_} for grep { !$params->{$_} } keys $params;
-    $params->{topics} = [ split /\s*,\s*/, $params->{topics} ] if $params->{topics};
-    posts_rset->find($id)->update($params);
-    forward '/post', { id => $id }, { method => 'GET' };
+    post_update_or_create { params('body') };
 };
 
 post '/admin/post/new' => user_is 'admin' => sub {
-    my $v = validate('/blog.json/admin/post/new', { params('body') });
-    return [];
+    post_update_or_create { params('body') };
 };
 
 1;
