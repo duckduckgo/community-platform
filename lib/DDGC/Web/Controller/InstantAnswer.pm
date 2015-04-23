@@ -214,7 +214,7 @@ sub dev_pipeline_json :Chained('dev_pipeline_base') :PathPart('json') :Args(0) {
                             dev_milestone => $ia->dev_milestone,
                             producer => $ia->producer,
                             designer => $ia->designer,
-                            developer => $ia->developer,
+                            developer => $ia->developer? from_json($ia->developer) : undef,
                             issues => \@issues
                         };
 
