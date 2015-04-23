@@ -146,9 +146,7 @@ sub dev_pipeline_json :Chained('dev_pipeline_base') :PathPart('json') :Args(0) {
     my $rs = $c->d->rs('InstantAnswer');
 
     if ($view eq 'dev') {
-        my @ias = $rs->search(
-            {'me.dev_milestone' => { '!=' => 'live'},
-             'me.dev_milestone' => { '!=' => 'deprecated'}});
+        my @ias = $rs->search({'dev_milestone' => { '=' => ['planning', 'in_development', 'qa', 'ready']}});
 
         my %dev_ias;
         for my $ia (@ias) {
