@@ -22,6 +22,7 @@ primary_key 'id';
 column meta_id => {
     data_type => 'text',
     for_endpt => 1,
+    pipeline => 1,
     show_as => 'id',
 };
 
@@ -65,6 +66,7 @@ column perl_dependencies => {
 column dev_milestone => {
 	data_type => 'text',
 	is_nullable => 1,
+    pipeline => 1
 };
 
 # is the IA live or not live?
