@@ -161,7 +161,9 @@ sub dev_pipeline_json :Chained('dev_pipeline_base') :PathPart('json') :Args(0) {
             push @{$dev_ias{$ia->$key}}, $ia->TO_JSON('pipeline');
         }
 
-        $c->stash->{x} = \%dev_ias;
+        $c->stash->{x} = {
+            $key.'s' => \%dev_ias
+        };
     } elsif ($view eq 'live') {
         $rs = $c->d->rs('InstantAnswer::Issues');
 
