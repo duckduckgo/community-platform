@@ -22,7 +22,6 @@ primary_key 'id';
 column meta_id => {
     data_type => 'text',
     for_endpt => 1,
-    pipeline => 1,
     show_as => 'id',
 };
 
@@ -370,7 +369,14 @@ sub TO_JSON {
 
     while( my($field,$value) = each %data ){
         my $column_data = $ia->column_info($field);
-        my $key = $column_data->{show_as}? $column_data->{show_as} : $field;
+        my $key;
+
+        if ($column_data->{show_as}) {
+            $key = $column_data->{show_as};
+            delete $data{$field};
+        } else {
+            $key = $field;
+        }
 
         if ($type && !$column_data->{$type}){
             delete $data{$key};
