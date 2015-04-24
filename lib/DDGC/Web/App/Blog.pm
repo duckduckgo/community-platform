@@ -1,6 +1,6 @@
 package DDGC::Web::App::Blog;
 
-use DDGC::Web::App::Base;
+use DDGC::Base::Web::App;
 
 get '/' => sub {
     request->var( templates => ['blog'] );
