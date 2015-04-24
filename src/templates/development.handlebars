@@ -1,7 +1,7 @@
-<div class="dev_milestone-container milestone-panel {{#if current.in_development}}current-container{{/if}} {{#if future.in_development}}future-container{{/if}} container-in_development" id="in_development">
-    <div class="dev_milestone-container__header container-in_development__header">
+<div class="dev_milestone-container milestone-panel {{#if current.development}}current-container{{/if}} {{#if future.development}}future-container{{/if}} container-development" id="development">
+    <div class="dev_milestone-container__header container-development__header">
         <h3 class="dev_milestone-container__header__title left">
-            In Development
+            Development
         </h3>
         <div class="button js-expand dev_milestone-container__header__button left">
             <i class="js-expand__icon icon-caret-down" />
@@ -9,6 +9,6 @@
         <span class="clearfix"></span>
     </div>
 
-    <div class="dev_milestone-container__body container-in_development__body {{#unless current.in_development}}hide{{/unless}}">
+    <div class="dev_milestone-container__body container-development__body {{#unless current.development}}hide{{/unless}}">
     </div>
 </div> 
