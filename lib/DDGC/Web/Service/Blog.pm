@@ -40,20 +40,14 @@ get '/page/:page/pagesize/:pagesize' => sub {
 };
 
 get '/by_user' => sub {
-    if (
-        param_hmv('id') &&
-        (my $posts = posts_rset->search(
+    if ( param_hmv('id') ) {
+        my $posts = posts_rset->search(
             { users_id => param_hmv('id') },
             { order_by => { -desc => 'id' } }
-        ))
-    ) {
-        return { posts => $posts };
+        );
+        return { posts => $posts } if ($posts->first);
     }
-    status 404;
-    return {
-        ok     => 0,
-        status => 404,
-    }
+    return bailout( 404, "Not found" );
 };
 
 get '/by_user/:id' => sub {
@@ -84,11 +78,7 @@ get '/post' => sub {
     ) {
         return { post => $post };
     }
-    status 404;
-    return {
-        ok     => 0,
-        status => 404,
-    }
+    return bailout( 404, "Not found" );
 };
 
 get '/post/:id' => sub {
@@ -109,11 +99,7 @@ get '/post/by_url' => sub {
     ) {
         return { post => $post };
     }
-    status 404;
-    return {
-        ok     => 0,
-        status => 404,
-    }
+    return bailout( 404, "Not found" );
 };
 
 get '/post/by_url/:url' => sub {
@@ -128,11 +114,7 @@ get '/admin/post/raw' => user_is 'admin' => sub {
     ) {
         return { post => $post->for_edit };
     }
-    status 404;
-    return {
-        ok     => 0,
-        status => 404,
-    }
+    return bailout( 404, "Not found" );
 };
 
 get '/admin/post/:id' => sub {
@@ -147,60 +129,25 @@ sub post_update_or_create {
     $params->{users_id} = $user->id;
 
     my $v = validate('/blog.json/admin/post/new', $params);
-    if (scalar $v->errors) {
-        status 400;
-        return {
-            ok     => 0,
-            status => 400,
-            errors => [ $v->errors ],
-        };
-    }
+    return bailout( 400, [ $v->errors ] ) if (scalar $v->errors);
     $params = $v->values;
 
     if ( $params->{id} ) {
         $post = rset('User::Blog')->find( $params->{id} );
-        if (!$post) {
-            status 404;
-            return {
-                ok  => 0,
-                status => 404,
-                errors => [ sprintf "Blog post %s not found", $params->{id} ],
-            };
-        }
+        return bailout( 404, sprintf "Blog post %s not found", $params->{id} )
+            if (!$post);
 
-        if ($post->users_id != $params->{users_id}) {
-            status 403;
-            return {
-                ok     => 0,
-                status => 403,
-                errors => [ "You do not have permission to update this post" ],
-            };
-        }
-
-        try {
-            $post->update( $params );
-        } catch {
-            $error = $_;
-        };
-
+        return bailout( 403, "You do not have permission to update this post" )
+            if ($post->users_id != $params->{users_id});
     }
-    else {
 
-        try {
-            $post = rset('User::Blog')->create( $params );
-        } catch {
-            $error = $_;
-        };
+    try {
+        $post = rset('User::Blog')->update_or_create( $params );
+    } catch {
+        $error = $_;
+    };
 
-    }
-    if ($error || !$post) {
-        status 500;
-        return {
-            ok     => 0,
-            status => 500,
-            errors => [ $error ],
-        };
-    }
+    bailout( 500, "DBIC Error: $error" ) if ($error || !$post);
 
     forward '/admin/post/raw', { id => $post->id }, { method => 'GET' };
 }
