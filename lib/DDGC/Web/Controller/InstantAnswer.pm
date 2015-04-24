@@ -572,6 +572,8 @@ sub create_ia :Chained('base') :PathPart('create') :Args() {
                 description => $c->req->params->{description},
             });
 
+            save_milestone_date($new_ia, 'created');
+
             $result = 1;
         }
     }
@@ -736,14 +738,15 @@ sub get_all_edits {
 
 sub save_milestone_date {
     my ($ia, $milestone) = @_;
-    my $field;
-    if($milestone eq 'in_development'){
-        $field = 'dev_date';
-    }elsif($milestone eq 'live'){
-        $field = 'live_date';
-    }
+    my %milestones = (
+        'in_development' => 'dev_date',
+        'live' => 'live_date',
+        'created' => 'created_date'
+    );
 
+    my $field = $milestones{$milestone};
     return unless $field;
+    
     my @time = localtime(time);
     my $date = "$time[4]/$time[3]/".($time[5]+1900);
     update_ia($ia, $field, $date);
