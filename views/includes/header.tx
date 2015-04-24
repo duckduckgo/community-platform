@@ -1,0 +1,38 @@
+<div class="site-header">
+    <div class="content-wrap">
+       : if $duckduckhack {
+            <div class="header-logo">
+                <div class="header-logo__logo"><a href="/"><img src="/ddgc_static/img/logo_ddg_duckduckhack.png" alt="DuckDuckGo Community Platform" /></a></div>
+                <div class="header-logo__text">
+                    <h2>DuckDuck<i>Hack</i></h2>
+                    <h3>Open Source DuckDuckGo</h3>
+                </div>
+            </div>
+        : } else {
+            <div class="header-logo">
+                <div class="header-logo__logo"><a href="/"><img src="/static/img/logo_ddg_community.png" alt="DuckDuckGo Community Platform" /></a></div>
+                <div class="header-logo__text">
+                    <h2>
+                        DuckDuck<i>Go</i>
+                    </h2>
+                    <h3>
+                        : if $is_live {
+                            Community Platform
+                        : } elsif $is_view {
+                            Preview community platform
+                        : } else {
+                            Your development platform
+                        : }
+                    </h3>
+                </div>
+            </div>
+        : }
+        : include "includes/header/nav.tx"
+        : if $user {
+            : include "includes/header/accountinfo.tx"
+        : } else {
+            : include "includes/header/login.tx"
+        : }
+    </div>
+</div>
+
