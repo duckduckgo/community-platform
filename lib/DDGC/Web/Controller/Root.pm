@@ -27,7 +27,13 @@ sub base :Chained('/') :PathPart('') :CaptureArgs(0) {
 		$c->response->header('Cache-Control' => 'no-cache, max-age=0, must-revalidate, no-store');
 		$c->d->current_user($c->user);
 
-		if ($c->user->data && $c->user->data->{invalidate_existing_sessions} && $c->session->{action_token} ne $c->user->data->{password_reset_session_token}) {
+		if (
+			$c->user->data &&
+			$c->user->data->{invalidate_existing_sessions} &&
+			time < $c->user->data->{invalidate_existing_sessions_timestamp} + (60 * 60 * 24) &&
+			( !$c->user->data->{post_invalidation_tokens} ||
+			  !grep { $_ eq $c->session->{action_token} } @{ $c->user->data->{post_invalidation_tokens} } )
+		) {
 			$c->stash->{not_last_url} = 1;
 			$c->logout;
 			$c->delete_session;
