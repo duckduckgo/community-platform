@@ -1,0 +1,31 @@
+<!doctype html>
+<!--[if IEMobile 7 ]> <html lang="en" class="no-js iem7"> <![endif]-->
+<!--[if lt IE 7]> <html class="no-js lt-ie10 lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js lt-ie10 lt-ie9 lt-ie8" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js lt-ie10 lt-ie9" lang="en"> <![endif]-->
+<!--[if IE 9]>    <html class="no-js lt-ie10" lang="en"> <![endif]-->
+<!--[if (gte IE 9)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+    : include "includes/head.tx"
+    : include "includes/js.tx"
+</head>
+<body class="<: $page_class :><: if $user { :> loggedin<: if $user.admin || $user.is('forum_manager') { :> loggedin--admin<: } } :>">
+    <div id="wrapper">
+        : include "includes/header/index.tx"
+        <div class="site-main">
+            : #include "includes/topmessage.tx"
+            <div class="<: if !$no_wrap { :>content-wrap<: } :>">
+                : #include "includes/notice/errors.tx"
+                : #include "includes/notice/warnings.tx"
+                : #include "includes/notice/campaign.tx"
+                : $content
+            </div>
+        </div> <!--.site-main-->
+        : include "includes/footer.tx"
+    </div> <!--wrapper-->
+    : if !$user {
+        : include "includes/modal_login.tx"
+    : }
+    : #include "includes/report.tx"
+</body>
+</html>
