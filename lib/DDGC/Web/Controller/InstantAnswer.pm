@@ -58,7 +58,7 @@ sub ialist_json :Chained('base') :PathPart('json') :Args() {
          'me.dev_milestone' => { '=' => ['live', 'ready']},
         },
         {
-            columns => [ qw/ name id meta_id repo src_name dev_milestone description template / ],
+            columns => [ qw/ name repo src_name dev_milestone description template /, {id => 'meta_id'} ],
             prefetch => { instant_answer_topics => 'topic' },
             result_class => 'DBIx::Class::ResultClass::HashRefInflator',
         }
@@ -145,95 +145,32 @@ sub dev_pipeline_json :Chained('dev_pipeline_base') :PathPart('json') :Args(0) {
     my $view = $c->stash->{view};
     my $rs = $c->d->rs('InstantAnswer');
 
-    if ($view eq 'dev') {
-        my @planning = $rs->search(
-            {'me.dev_milestone' => { '=' => 'planning'}},
-            {
-                columns => [ qw/ name id meta_id repo dev_milestone producer designer developer/ ],
-                order_by => [ qw/ name/ ],
-                result_class => 'DBIx::Class::ResultClass::HashRefInflator',
-            }
-        )->all;
+    if ($view eq 'dev' || $view eq 'deprecated') {
+        my @ias;
+        my $key;
+        if ($view eq 'dev') {
+            @ias = $rs->search({'dev_milestone' => { '=' => ['planning', 'in_development', 'qa', 'ready']}});
+            $key = 'dev_milestone';
+        } else {
+            @ias = $rs->search({'dev_milestone' => { '=' => 'deprecated'}});
+            $key = 'repo';
+        }
 
-        my @in_development = $rs->search(
-            {'me.dev_milestone' => { '=' => 'in_development'}},
-            {
-                columns => [ qw/ name id meta_id repo dev_milestone producer designer developer/ ],
-                order_by => [ qw/ name/ ],
-                result_class => 'DBIx::Class::ResultClass::HashRefInflator',
+        my %dev_ias;
+        my $temp_ia;
+        for my $ia (@ias) {
+            $temp_ia = $ia->TO_JSON('pipeline');
+            
+            if ($c->user && (!$c->user->admin)) {
+                my $can_edit = $ia->users->find($c->user->id)? 1 : undef;
+                $temp_ia->{"can_edit"} = $can_edit;
             }
-        )->all;
-
-        my @qa = $rs->search(
-            {'me.dev_milestone' => { '=' => 'qa'}},
-            {
-                columns => [ qw/ name id meta_id repo dev_milestone producer designer developer/ ],
-                order_by => [ qw/ name/ ],
-                result_class => 'DBIx::Class::ResultClass::HashRefInflator',
-            }
-        )->all;
-
-        my @ready = $rs->search(
-            {'me.dev_milestone' => { '=' => 'ready'}},
-            {
-                columns => [ qw/ name id meta_id repo dev_milestone producer designer developer/ ],
-                order_by => [ qw/ name/ ],
-                result_class => 'DBIx::Class::ResultClass::HashRefInflator',
-            }
-        )->all;
+            
+            push @{$dev_ias{$ia->$key}}, $temp_ia;
+        }
 
         $c->stash->{x} = {
-            planning => \@planning,
-            in_development => \@in_development,
-            qa => \@qa,
-            ready => \@ready,
-        };
-    } elsif ($view eq 'deprecated') {
-        my @fathead = $rs->search(
-            {'me.repo' => { '=' => 'fathead'},
-             'me.dev_milestone' => { '=' => 'deprecated'}},
-            {
-                columns => [ qw/ name repo id meta_id dev_milestone producer designer developer/ ],
-                order_by => [ qw/ name/ ],
-                result_class => 'DBIx::Class::ResultClass::HashRefInflator',
-            }
-        )->all;
-
-        my @goodies = $rs->search(
-            {'me.repo' => { '=' => 'goodies'},
-             'me.dev_milestone' => { '=' => 'deprecated'}},
-            {
-                columns => [ qw/ name repo id meta_id dev_milestone producer designer developer/ ],
-                order_by => [ qw/ name/ ],
-                result_class => 'DBIx::Class::ResultClass::HashRefInflator',
-            }
-        )->all;
-
-        my @longtail = $rs->search(
-            {'me.repo' => { '=' => 'longtail'},
-             'me.dev_milestone' => { '=' => 'deprecated'}},
-            {
-                columns => [ qw/ name id meta_id repo dev_milestone producer designer developer/ ],
-                order_by => [ qw/ name/ ],
-                result_class => 'DBIx::Class::ResultClass::HashRefInflator',
-            }
-        )->all;
-
-        my @spice = $rs->search(
-            {'me.repo' => { '=' => 'spice'},
-             'me.dev_milestone' => { '=' => 'deprecated'}},
-            {
-                columns => [ qw/ name id meta_id repo dev_milestone producer designer developer/ ],
-                order_by => [ qw/ name/ ],
-                result_class => 'DBIx::Class::ResultClass::HashRefInflator',
-            }
-        )->all;
-
-        $c->stash->{x} = {
-            fathead => \@fathead,
-            goodies => \@goodies,
-            longtail => \@longtail,
-            spice => \@spice,
+            $key.'s' => \%dev_ias
         };
     } elsif ($view eq 'live') {
         $rs = $c->d->rs('InstantAnswer::Issues');
@@ -280,13 +217,12 @@ sub dev_pipeline_json :Chained('dev_pipeline_base') :PathPart('json') :Args(0) {
 
                     $ial{$id}  = {
                             name => $ia->name,
-                            id => $ia->id,
-                            meta_id => $ia->meta_id,
+                            id => $ia->meta_id,
                             repo => $ia->repo,
                             dev_milestone => $ia->dev_milestone,
                             producer => $ia->producer,
                             designer => $ia->designer,
-                            developer => $ia->developer,
+                            developer => $ia->developer? from_json($ia->developer) : undef,
                             issues => \@issues
                         };
 
@@ -569,6 +505,8 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
                 $value =~ s/\s//g;
                 $value = lc $value;
                 return $c->forward($c->view('JSON')) if $c->d->rs('InstantAnswer')->find({meta_id => $value});
+            } elsif ($field eq "src_id") {
+                return $c->forward($c->view('JSON')) if $c->d->rs('InstantAnswer')->find({src_id => $value});
             }
 
             my $edits = add_edit($c, $ia,  $field, $value);
@@ -590,6 +528,8 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
                 push(@update, {value => $tmp_val // $value, field => $field} );
                 save($c, \@update, $ia);
                 $saved = 1;
+                
+                save_milestone_date($ia, $c->req->params->{value});
             }
 
             if ($field eq 'developer') {
@@ -631,6 +571,8 @@ sub create_ia :Chained('base') :PathPart('create') :Args() {
                 dev_milestone => $dev_milestone,
                 description => $c->req->params->{description},
             });
+
+            save_milestone_date($new_ia, 'created');
 
             $result = 1;
         }
@@ -751,7 +693,8 @@ sub add_topic {
 sub commit_edit {
     my ($d, $ia, $field, $value) = @_;
     # update the IA data in instant answer table
-    update_ia($d, $ia, $field, $value);
+    my $update_field = $field eq 'id'? 'meta_id' : $field;
+    update_ia($ia, $update_field, $value);
     # remove the edit from the updates table
     remove_edits($d, $ia, $field);
 }
@@ -771,7 +714,7 @@ sub remove_edit {
 
 # update the instant answer table
 sub update_ia {
-    my ($d,$ia, $field, $value) = @_;
+    my ($ia, $field, $value) = @_;
     $ia->update({$field => $value});
 }
 
@@ -791,6 +734,22 @@ sub get_all_edits {
     my @edits = $d->rs('InstantAnswer::Updates')->search( {instant_answer_id => $id} );
     warn "Returning ", scalar @edits if debug;
     return @edits;
+}
+
+sub save_milestone_date {
+    my ($ia, $milestone) = @_;
+    my %milestones = (
+        'in_development' => 'dev_date',
+        'live' => 'live_date',
+        'created' => 'created_date'
+    );
+
+    my $field = $milestones{$milestone};
+    return unless $field;
+    
+    my @time = localtime(time);
+    my $date = "$time[4]/$time[3]/".($time[5]+1900);
+    update_ia($ia, $field, $date);
 }
 
 no Moose;

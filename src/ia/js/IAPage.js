@@ -55,14 +55,16 @@
                         latest_edits_data = ia_data.live;
                     }
 
-                    if (ia_data.live.dev_milestone !== "live") {
-                        if ($(".special-permissions").length) {
-                            ia_data.permissions = {can_edit: 1};
+
+                    if ($(".special-permissions").length) {
+                        ia_data.permissions = {can_edit: 1};
                             
-                            if ($("#view_commits").length) {
-                                ia_data.permissions.admin = 1;
-                            }
+                        if ($("#view_commits").length) {
+                            ia_data.permissions.admin = 1;
                         }
+                    }
+
+                    if (ia_data.live.dev_milestone !== "live") {
                         ia_data.current = {};
                         ia_data.current[ia_data.live.dev_milestone] = 1;
                         var future = {};
@@ -73,7 +75,6 @@
                                 future[page.dev_milestones_order[i]] = 1;
                             }
                         }
-
                         ia_data.future = future;
                     }
 
@@ -84,12 +85,12 @@
                             status : Handlebars.templates.status(latest_edits_data),
                             description : Handlebars.templates.description(latest_edits_data),
                             topic : Handlebars.templates.topic(latest_edits_data),
-                            screens : Handlebars.templates.screens(latest_edits_data),
                             template : Handlebars.templates.template(latest_edits_data),
                             examples : Handlebars.templates.examples(latest_edits_data),
                             devinfo : Handlebars.templates.devinfo(latest_edits_data),
                             github: Handlebars.templates.github(latest_edits_data)
                         },
+                        screens : Handlebars.templates.screens(ia_data),
                         metafields : Handlebars.templates.metafields(ia_data),
                         metafields_content : Handlebars.templates.metafields_content(ia_data),
                         planning : Handlebars.templates.planning(ia_data),
@@ -125,7 +126,10 @@
                         triggers :  Handlebars.templates.pre_edit_triggers(ia_data),
                         perl_dependencies :  Handlebars.templates.pre_edit_perl_dependencies(ia_data),
                         src_options : Handlebars.templates.pre_edit_src_options(ia_data),
-                        meta_id : Handlebars.templates.pre_edit_meta_id(ia_data)
+                        src_id : Handlebars.templates.pre_edit_src_id(ia_data),
+                        src_name : Handlebars.templates.pre_edit_src_name(ia_data),
+                        src_domain : Handlebars.templates.pre_edit_src_domain(ia_data),
+                        id : Handlebars.templates.pre_edit_id(ia_data)
                     };
 
                     page.updateAll(readonly_templates, ia_data.live.dev_milestone, false);
@@ -168,17 +172,94 @@
                         $(".special-permissions__toggle-view").hide();
                     });
 
-                    $(".ia-single--image-container img").error(function() {
-                        if (ia_data.live.dev_milestone !== "live" && ia_data.live.dev_milestone !== "deprecated") {
-                            $(".ia-single--screenshots").addClass("hide");
-                            $(".ia-single--left").removeClass("ia-single--left").addClass("ia-single--left--wide");
-                            $(".dev_milestone-container__body").removeClass("hide");
+                    page.hideScreenshot = (function(ia_data) {
+                        return function() {
+                            $(".ia-single--image-container img").error(function() {
+                                // Show the dashed border if the image errored out and we have permissions.
+                                if(ia_data.permissions && ia_data.permissions.can_edit) {
+                                    $(".ia-single--screenshots").addClass("hide");
+                                    $(".generate-screenshot").addClass("dashed-border");
+                                    $(".ia-single--left--wide").removeClass("ia-single--left--wide").addClass("ia-single--left");
 
-                            // Set the panels height to the tallest one's height
-                            page.setMaxHeight($(".milestone-panel"));
-                            page.imgHide = true;
-                            $(".button.js-expand").hide();
-                        }
+                                    page.removeMaxHeight($(".milestone-panel"));
+                                } else {
+                                    // Display default image if we found the live image.
+                                    if(ia_data.live && ia_data.live.dev_milestone === "live") {
+                                        $(".ia-single--screenshots").removeClass("hide");
+                                        $(".ia-single--image-container img").attr("src",  "https://images.duckduckgo.com/iu/?u=" + encodeURIComponent("http://ia-screenshots.s3.amazonaws.com/default_index.png"));
+                                    } else {
+                                        $(".ia-single--screenshots").addClass("hide");
+
+                                        $(".generate-screenshot").hide();
+                                        $(".ia-single--left").removeClass("ia-single--left").addClass("ia-single--left--wide");
+                                        $(".dev_milestone-container__body").removeClass("hide");
+
+                                        page.setMaxHeight($(".milestone-panel"));
+                                    }                            
+                                }
+
+                                if (ia_data.live.dev_milestone !== "live" && ia_data.live.dev_milestone !== "deprecated") {
+                                    page.imgHide = true;
+                                    $(".button.js-expand").hide();
+                                }
+                            });
+                        };
+                    }(ia_data));
+
+                    page.hideScreenshot();
+
+                    function setNotification(message) {
+                        var $notif = $(".generate-screenshot--notif");
+                        // Send notification.
+                        $notif.text(message);
+                        
+                        // Revert button to its original state.
+                        // Add a little delay.
+                        setTimeout(function() {
+                            $(".generate-screenshot--button").text("Generate Screenshot");
+                            $notif.text("");
+                        }, 1500);
+                    }
+
+                    // Saves the screenshot to S3.
+                    $("body").on("click", ".save-screenshot--button", function(evt) {
+                        $.post("https://ranger.duckduckgo.com/screenshot/save/" + DDH_iaid, function(data) {
+                            // Check if the request was successful.
+                            if(data && data.status === "ok" && data.screenshots && data.screenshots.index) {
+                                // Hide the save button.
+                                $(".save-screenshot--button").addClass("hide");
+                                // Put in the image from S3.
+                                $(".ia-single--image-container img").attr("src", "https://images.duckduckgo.com/iu/?u=" + encodeURIComponent(data.screenshots.index));
+                            } else {
+                                setNotification(data.status);
+                            }
+                        });
+                    });
+
+                    // Generate a screenshot when the button is clicked.
+                    $("body").on("click", ".generate-screenshot--button", function(evt) {
+                        var $button =  $(".generate-screenshot--button");
+                        $button.text("Generating ...");
+
+                        // Send a POST request with the ID of the IA.
+                        $.post("https://ranger.duckduckgo.com/screenshot/create/" + DDH_iaid, function(data) {
+                            // Check if the screenshot that we want is available.
+                            // If it isn't there must be something wrong.
+                            if(data && data.status === "ok" && data.screenshots && data.screenshots.index) {
+                                $button.text("Generate Screenshot");
+                                $(".save-screenshot--button").removeClass("hide");
+
+                                // Show preview image.
+                                $(".ia-single--image-container img").attr("src", data.screenshots.index);
+                                $(".ia-single--screenshots").show();
+                                $(".generate-screenshot").removeClass("dashed-border");
+                            } else {
+                                $button.text("Generate Screenshot");
+                                setNotification(data.status);
+                            }
+                        }).error(function() {
+                            setNotification("Screenshot service is down.");
+                        });
                     });
                     
                     $("body").on('click', ".js-expand.button", function(evt) {
@@ -646,6 +727,9 @@
             'template',
             'src_api_documentation',
             'api_status_page',
+            'src_id',
+            'src_name',
+            'src_domain',
             'src_options',
             'unsafe',
             'answerbar',
@@ -659,6 +743,12 @@
             'qa',
             'ready'
         ],
+
+        removeMaxHeight: function($obj_set) {
+            $obj_set.each(function(idx) {
+                $(this).css("height", "");
+            });
+        },
 
         setMaxHeight: function($obj_set) {
             var max_height = 0;
@@ -750,10 +840,9 @@
                     this.hideAssignToMe();
                 }
 
-                if (!this.imgHide) {
-                    $(".ia-single--right").append(templates.live.screens);
-                } else {
-                    $(".button.js-expand").hide();
+                $(".ia-single--right").append(templates.screens);
+                if (this.hideScreenshot) {
+                    this.hideScreenshot();
                 }
 
                 $(".show-more").click(function(e) {
@@ -783,7 +872,7 @@
                     $(".ia-single--edits").append(templates.designer);
                     $(".ia-single--edits").append(templates.developer);
                     $(".ia-single--edits").append(templates.tab);
-                    $(".ia-single--edits").append(templates.meta_id);
+                    $(".ia-single--edits").append(templates.id);
                 }
             }
         }    
