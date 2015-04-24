@@ -8,6 +8,7 @@ use utf8;
 
 use DDGC::Base::Web::Common;
 use Dancer2::Plugin::DDGC::Service;
+use Dancer2::Plugin::DDGC::Bailout;
 
 {   no warnings 'redefine';
     sub import {
@@ -16,6 +17,7 @@ use Dancer2::Plugin::DDGC::Service;
           qw/
             DDGC::Base::Web::Common
             Dancer2::Plugin::DDGC::Service
+            Dancer2::Plugin::DDGC::Bailout
           /
         ) {
             $_->import::into($caller);
