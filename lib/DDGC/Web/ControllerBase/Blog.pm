@@ -40,7 +40,23 @@ sub postlist_rss {
 	my ( $self, $c ) = @_;
 	$self->postlist_resultset($c);
 	my @posts = $c->stash->{posts_resultset}->all;
-	$c->stash->{feed} = $self->posts_to_feed($c,@posts);
+	$c->stash->{feed} = {
+		format      => 'Atom',
+		id          => 'dukgo.com/'.$c->action,
+		title       => $c->stash->{title},
+		link        => $c->req->uri,
+		modified    => DateTime->now,
+		entries => [
+			map {{
+				id       => $_->id,
+				link     => $c->chained_uri(@{$_->u}),
+				title    => $_->title,
+				modified => $_->updated,
+				description => $_->teaser,
+				content => $_->html,
+			}} @posts
+		],
+	};
 	$c->forward('View::Feed');
 	$c->forward( $c->view('Feed') );
 }
@@ -96,28 +112,6 @@ sub post_base :Chained('blog_base') :PathPart('') :CaptureArgs(1) {
 sub post :Chained('post_base') :PathPart('') :Args(0) {
 	my ( $self, $c ) = @_;
 	$c->stash->{title} = $c->stash->{post}->title;
-}
-
-sub posts_to_feed {
-	my ( $self, $c, @posts ) = @_;
-	$c->stash->{feed} = {
-		format      => 'Atom',
-		id          => 'dukgo.com/'.$c->action,
-		title       => $c->stash->{title},
-		#description => $description,
-		link        => $c->req->uri,
-		modified    => DateTime->now,
-		entries => [
-			map {{
-				id       => $_->id,
-				link     => $c->chained_uri(@{$_->u}),
-				title    => $_->title,
-				modified => $_->updated,
-				description => $_->teaser,
-				content => $_->html,
-			}} @posts
-		],
-	};
 }
 
 sub archive_base :Chained('postlist_base') :PathPart('archive') :CaptureArgs(1) {
