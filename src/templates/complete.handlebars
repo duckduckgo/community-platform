@@ -1,0 +1,15 @@
+<div class="dev_milestone-container milestone-panel {{#if current.complete}}current-container{{/if}} {{#if future.complete}}future-container{{/if}} container-complete" id="complete">
+    <div class="dev_milestone-container__header container-complete__header">
+        <h3 class="dev_milestone-container__header__title left">
+            Complete
+        </h3>
+        <div class="button js-expand dev_milestone-container__header__button left">
+            <i class="js-expand__icon icon-caret-down" />
+        </div>
+        <span class="clearfix"></span>
+    </div>
+
+    <div class="dev_milestone-container__body container-complete__body {{#unless current.complete}}hide{{/unless}}">
+    </div>
+</div>
+

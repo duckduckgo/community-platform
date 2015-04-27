@@ -54,10 +54,10 @@
     <div class="pager-wrap">
         <span class="button-group  button-group--paging">
             <span class="button pipeline__toggle-view__button <: if $view == 'dev' { :>button-nav-current disabled<: } :>" id="pipeline_toggle-dev">
-                In Development
+                New
             </span>
             <span class="button pipeline__toggle-view__button <: if $view == 'live' { :>button-nav-current disabled<: } :>" id="pipeline_toggle-live">
-                Live with issues
+                Live
             </span>
             <span class="button pipeline__toggle-view__button <: if $view == 'deprecated' { :>button-nav-current disabled<: } :>" id="pipeline_toggle-deprecated">
                 Deprecated

@@ -37,7 +37,7 @@
         <a id="ia_dev_milestone-live" class="button dev_milestone" href="#">
             Live
         </a>
-        <a id="ia_dev_milestone-ready" class="button dev_milestone" href="#">
+        <a id="ia_dev_milestone-complete" class="button dev_milestone" href="#">
             Coming Soon
         </a>
     </span>

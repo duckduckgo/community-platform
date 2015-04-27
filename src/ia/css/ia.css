@@ -1349,9 +1349,9 @@ body.texture {
 }
 
 #pipeline_toggle-live {
-    margin-left: 5em;
-    margin-right: 3em;
-    width: 12em;
+    margin-left: 1em;
+    margin-right: 4em;
+    width: 5em;
 }
 
 #pipeline-live-container .list-container--left {

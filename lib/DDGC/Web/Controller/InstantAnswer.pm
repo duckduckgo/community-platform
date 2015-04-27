@@ -55,7 +55,7 @@ sub ialist_json :Chained('base') :PathPart('json') :Args() {
 
     my @ial = $rs->search(
         {'topic.name' => [{ '!=' => 'test' }, { '=' => undef}],
-         'me.dev_milestone' => { '=' => ['live', 'ready']},
+         'me.dev_milestone' => { '=' => ['live', 'complete']},
         },
         {
             columns => [ qw/ name repo src_name dev_milestone description template /, {id => 'meta_id'} ],
@@ -82,8 +82,8 @@ sub iarepo_json :Chained('iarepo') :PathPart('json') :Args(0) {
     my @x = $c->d->rs('InstantAnswer')->search({
         repo => $repo,
         -or => [{dev_milestone => 'live'},
-        {dev_milestone => 'qa'},
-        {dev_milestone => 'ready'}]
+        {dev_milestone => 'testing'},
+        {dev_milestone => 'complete'}]
     });
 
     my %iah;
@@ -149,7 +149,7 @@ sub dev_pipeline_json :Chained('dev_pipeline_base') :PathPart('json') :Args(0) {
         my @ias;
         my $key;
         if ($view eq 'dev') {
-            @ias = $rs->search({'dev_milestone' => { '=' => ['planning', 'in_development', 'qa', 'ready']}});
+            @ias = $rs->search({'dev_milestone' => { '=' => ['planning', 'development', 'testing', 'complete']}});
             $key = 'dev_milestone';
         } else {
             @ias = $rs->search({'dev_milestone' => { '=' => 'deprecated'}});
@@ -559,7 +559,7 @@ sub create_ia :Chained('base') :PathPart('create') :Args() {
             my $dev_milestone = $c->req->params->{dev_milestone};
             my $status = $dev_milestone;
             
-            if ($dev_milestone eq 'in_development') {
+            if ($dev_milestone eq 'development') {
                 $status =~ s/_/ /g;
             }
 
@@ -739,7 +739,7 @@ sub get_all_edits {
 sub save_milestone_date {
     my ($ia, $milestone) = @_;
     my %milestones = (
-        'in_development' => 'dev_date',
+        'development' => 'dev_date',
         'live' => 'live_date',
         'created' => 'created_date'
     );

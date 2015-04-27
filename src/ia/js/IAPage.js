@@ -95,12 +95,12 @@
                         metafields_content : Handlebars.templates.metafields_content(ia_data),
                         planning : Handlebars.templates.planning(ia_data),
                         planning_content : Handlebars.templates.planning_content(ia_data),
-                        in_development : Handlebars.templates.in_development(ia_data),
-                        in_development_content : Handlebars.templates.in_development_content(ia_data),
-                        qa : Handlebars.templates.qa(ia_data),
-                        qa_content : Handlebars.templates.qa_content(ia_data),
-                        ready : Handlebars.templates.ready(ia_data),
-                        ready_content : Handlebars.templates.ready_content(ia_data)
+                        development : Handlebars.templates.development(ia_data),
+                        development_content : Handlebars.templates.development_content(ia_data),
+                        testing : Handlebars.templates.testing(ia_data),
+                        testing_content : Handlebars.templates.testing_content(ia_data),
+                        complete : Handlebars.templates.complete(ia_data),
+                        complete_content : Handlebars.templates.complete_content(ia_data)
                     };
 
                     // Pre-Edit mode templates
@@ -402,7 +402,7 @@
                         var is_json = false;
                         var panel = $.trim($(this).attr("data-panel"));
 
-                        if (ia_data.live.dev_milestone === "ready") {
+                        if (ia_data.live.dev_milestone === "complete") {
                             value = "live";
                         } else {
                             value = page.dev_milestones_order[$.inArray(ia_data.live.dev_milestone, page.dev_milestones_order) + 1];
@@ -739,9 +739,9 @@
 
         dev_milestones_order: [
             'planning',
-            'in_development',
-            'qa',
-            'ready'
+            'development',
+            'testing',
+            'complete'
         ],
 
         removeMaxHeight: function($obj_set) {
