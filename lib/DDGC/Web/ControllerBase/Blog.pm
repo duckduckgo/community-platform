@@ -58,7 +58,6 @@ sub postlist_rss {
 		],
 	};
 	$c->forward('View::Feed');
-	$c->forward( $c->view('Feed') );
 }
 
 sub index_base :Chained('postlist_base') :PathPart('') :CaptureArgs(0) {
