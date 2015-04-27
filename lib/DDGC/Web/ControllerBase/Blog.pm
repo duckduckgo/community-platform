@@ -40,6 +40,7 @@ sub postlist_rss {
 	my ( $self, $c ) = @_;
 	$self->postlist_resultset($c);
 	my @posts = $c->stash->{posts_resultset}->all;
+	$c->encoding(undef);
 	$c->stash->{feed} = {
 		format      => 'Atom',
 		id          => 'dukgo.com/'.$c->action,
@@ -57,7 +58,9 @@ sub postlist_rss {
 			}} @posts
 		],
 	};
-	$c->forward('View::Feed');
+	my $atom = $c->forward('View::Feed');
+	$c->response->headers->header('Content-Type' => "application/atom+xml;charset=UTF-8");
+	return $atom;
 }
 
 sub index_base :Chained('postlist_base') :PathPart('') :CaptureArgs(0) {
