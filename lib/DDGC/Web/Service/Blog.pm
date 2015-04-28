@@ -28,7 +28,7 @@ sub total {
 }
 
 get '/' => sub {
-    [ posts_page( params_hmv ) ];
+    { posts => [ posts_page( params_hmv ) ] };
 };
 
 get '/page/:page' => sub {
