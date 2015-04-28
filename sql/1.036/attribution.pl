@@ -14,29 +14,43 @@ while (my $ia = $ias->next) {
         my @devs;
         my %names;
         my %locs;
+        my %temp_dev;
         my $dev = $ia->developer? from_json($ia->developer) : undef;
 
         if ($dev) {
-            push @devs, $dev;
             my $dev_name = lc $dev->{name};
             my $dev_url = lc $dev->{url};
+            my $dev_type;
+            
+            if ($dev_url =~ "github") {
+                $dev_type = "github";
+            } else {
+                $dev_type = "duck.co";
+            }
+
+            %temp_dev = (
+                name => $dev_name,
+                url => $dev_url,
+                type => $dev_type
+            );
+
+            push @devs, \%temp_dev;
+            
             $names{$dev_name} = 1;
             $locs{$dev_url} = 1;
         }
         
         if ($attribution) {
             while (my ($name, $urls) = each %{$attribution}) {
-                my $url = chooseUrl(@{$urls});
+                %temp_dev = chooseUrl(@{$urls});
                 my $temp_name = lc $name;
-                my $temp_url = lc $url;
+                my $temp_url = lc $temp_dev{url};
                 if (!exists($names{$temp_name}) && (!exists($locs{$temp_url}))
                     && (!exists($names{$temp_url})) && (!exists($locs{$temp_name}))) {
                     $names{$temp_name} = 1;
                     $locs{$temp_url} = 1;
-                    my %temp_dev = (
-                        name => $name,
-                        url => $url
-                    );
+                    
+                    $temp_dev{name} = $name;
 
                     push @devs, \%temp_dev;
                 }
@@ -55,30 +69,34 @@ sub chooseUrl {
     my $web_url;
     my $github_url = 'https://github.com/';
     my $twitter_url = 'https://twitter.com/';
+    my %result;
 
     for my $url (@urls) {
         my $type = lc $url->{type};
         
         if ($type eq 'github') {
+            %result = (
+                type => $type
+            );
+            
             if ($url->{loc} !~ $github_url) {
-                return $github_url.$url->{loc};
+                $result{url} = $github_url.$url->{loc};
             } else {
-                return $url->{loc};
+                $result{url} = $url->{loc};
             }
-        } elsif ($type eq 'web') {
-            $web_url = $url->{loc};
-        }
-    }
-
-    if ($web_url) {
-        return $web_url;
-    } else {
-        my %last_url = $urls[@urls];
-
-        if (($last_url{type} eq 'twitter') && ($last_url{loc} !~ $twitter_url)) {
-            return $twitter_url.$last_url{loc};
+            
+            return \%result;
         } else {
-            return $last_url{loc};
+            %result = (
+                type => "legacy",
+                url => $url->{loc}
+            );
+
+            if (($type eq 'twitter') && ($url->{loc} !~ $twitter_url)) {
+                $result{url} = $twitter_url.$url->{loc};
+            }
         }
     }
+
+    return \%result;
 }
