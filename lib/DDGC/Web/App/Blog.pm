@@ -1,6 +1,7 @@
 package DDGC::Web::App::Blog;
 
 use DDGC::Base::Web::App;
+use Dancer2::Plugin::Feed;
 use Scalar::Util qw/ looks_like_number /;
 
 get '/' => sub {
@@ -17,6 +18,27 @@ get '/' => sub {
 
 get '/page/:page' => sub {
     forward '/', { params('route') };
+};
+
+get '/rss' =>sub {
+    my $p = ddgcr_get( [ 'Blog' ], { page => 1 } );
+    use DDP; p( schema->storage ); p( $p );
+    if ( $p->is_success ) {
+        return create_feed(
+            format => 'Atom',
+            title  => 'DuckDuckGo Blog',
+            entries => [
+                map {{
+                    id          => $_->{id},
+                    link        => uri_for($_->{uri}),
+                    title       => $_->{title},
+                    modified    => $_->{updated},
+                    content     => $_->{content},
+                }} @{ $p->{ddgcr}->{posts} }
+            ],
+        );
+    }
+    status 404;
 };
 
 get '/:id/:uri' => sub {
