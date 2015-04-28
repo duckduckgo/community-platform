@@ -13,6 +13,7 @@ on_plugin_import {
             serializer => {
                 JSON => {
                     convert_blessed => 1,
+                    utf8            => 1,
                 },
             }
         }

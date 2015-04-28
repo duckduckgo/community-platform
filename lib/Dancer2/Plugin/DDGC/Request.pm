@@ -50,7 +50,7 @@ register ddgcr_get => sub {
 
     my $res = $ua->request( $req );
     $res->{ddgcr} = ( $res->is_success )
-        ? JSON::from_json( $res->decoded_content )
+        ? JSON::from_json( $res->content, { utf8 => 1 } )
         : undef;
     return $res;
 };
@@ -59,7 +59,7 @@ register ddgcr_post => sub {
     my ( $dsl, $route, $data ) = @_;
     $route = _ref_to_uri( $route  ) if ( ref $route eq 'ARRAY' );
 
-    $data = to_json($data, { convert_blessed => 1 }) if ref $data;
+    $data = JSON::to_json($data, { convert_blessed => 1, utf8 => 1 }) if ref $data;
     my $req = HTTP::Request->new(
         POST => _uri_for( $dsl, $route )
     );

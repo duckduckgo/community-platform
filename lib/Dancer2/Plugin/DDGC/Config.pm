@@ -11,6 +11,7 @@ on_plugin_import {
     my $appdir = $dsl->config->{appdir};
 
     $dsl->set(ddgc_config => $config);
+    $dsl->set(charset => 'UTF-8');
 
     $dsl->set(
         plugins => {
@@ -21,6 +22,12 @@ on_plugin_import {
                     user         => $config->db_user,
                     password     => $config->db_password,
                     schema_class => 'DDGC::Schema',
+                    options      => {
+                        pg_enable_utf8 => 1,
+                        on_connect_do => [
+                            "SET client_encoding to UTF8",
+                        ],
+                    },
                 }
             },
         },
