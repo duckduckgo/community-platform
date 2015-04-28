@@ -14,10 +14,9 @@ while (my $ia = $ias->next) {
         my @devs;
         my %names;
         my %locs;
-        my %temp_dev;
         my $dev = $ia->developer? from_json($ia->developer) : undef;
 
-        if ($dev) {
+        if ($dev && $dev eq 'HASHREF') {
             my $dev_name = lc $dev->{name};
             my $dev_url = lc $dev->{url};
             my $dev_type;
@@ -28,7 +27,7 @@ while (my $ia = $ias->next) {
                 $dev_type = "duck.co";
             }
 
-            %temp_dev = (
+            my %temp_dev = (
                 name => $dev_name,
                 url => $dev_url,
                 type => $dev_type
@@ -42,7 +41,7 @@ while (my $ia = $ias->next) {
         
         if ($attribution) {
             while (my ($name, $urls) = each %{$attribution}) {
-                %temp_dev = chooseUrl(@{$urls});
+                my %temp_dev = chooseUrl(@{$urls});
                 my $temp_name = lc $name;
                 my $temp_url = lc $temp_dev{url};
                 if (!exists($names{$temp_name}) && (!exists($locs{$temp_url}))
@@ -66,7 +65,6 @@ while (my $ia = $ias->next) {
 sub chooseUrl {
     my (@urls) = @_;
 
-    my $web_url;
     my $github_url = 'https://github.com/';
     my $twitter_url = 'https://twitter.com/';
     my %result;
@@ -85,7 +83,7 @@ sub chooseUrl {
                 $result{url} = $url->{loc};
             }
             
-            return \%result;
+            return %result;
         } else {
             %result = (
                 type => "legacy",
@@ -98,5 +96,5 @@ sub chooseUrl {
         }
     }
 
-    return \%result;
+    return %result;
 }
