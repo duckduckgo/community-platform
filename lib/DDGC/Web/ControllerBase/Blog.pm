@@ -53,8 +53,7 @@ sub postlist_rss {
 				link     => $c->chained_uri(@{$_->u}),
 				title    => $_->title,
 				modified => $_->updated,
-				description => $_->teaser,
-				content => $_->html,
+				content  => $_->html,
 			}} @posts
 		],
 	};
