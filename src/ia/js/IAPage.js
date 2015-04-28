@@ -501,12 +501,9 @@
                                 value = $.trim($(this).val());
                             } else {
                                 var input;
-                                if (field === "dev_milestone") {
-                                     $input = $obj.find(".available_dev_milestones option:selected");
+                                if (field === "dev_milestone" || field === "repo") {
+                                     $input = $obj.find(".available_" + field + "s option:selected");
                                      value = $.trim($input.text());
-                                } else if (field === "repo") {
-                                    $input = $obj.find(".available_repos option:selected");
-                                    value = $.trim($input.text());
                                 } else {
                                     $input = $obj.find("input.js-input,#description textarea");
                                     value = $.trim($input.val());
@@ -519,33 +516,13 @@
 
                             if ((evt.type === "click"
                                 && (field === "topic" || field === "other_queries" || field === "triggers" || field === "perl_dependencies" || field === "src_options")) 
-                                || (field === "answerbar")) {
+                                || (field === "answerbar") || (field === "developer")) {
                                 value = [];
                                 var txt;
-                                if (field === "topic") {
-                                    $(".ia_topic .available_topics option:selected").each(function(index) {
-                                        txt = $.trim($(this).text());
-                                        if (txt && $.inArray(txt, value) === -1) {
-                                            value.push(txt);
-                                        }
-                                    });
-                                } else if (field === "other_queries") {
-                                    $(".other-examples input").each(function(index) {
-                                        txt = $.trim($(this).val());
-                                        if (txt && $.inArray(txt, value) === -1) {
-                                            value.push(txt);
-                                        }
-                                    });
-                                } else if (field === "triggers") {
-                                    $(".triggers input").each(function(index) {
-                                        txt = $.trim($(this).val());
-                                        if (txt && $.inArray(txt, value) === -1) {
-                                            value.push(txt);
-                                        }
-                                    });
-                                } else if (field === "perl_dependencies") {
-                                    $(".perl_dependencies input").each(function(index) {
-                                        txt = $.trim($(this).val());
+                                if (field !== "answerbar" && field !== "src_options") {
+                                    var $selector = (field === "topic")? $(".ia_topic .available_topics option:selected") : $("." + field + " input");
+                                    $selector.each(function(index) {
+                                        txt = (field === "topic")? $.trim($(this).text()) : $.trim($(this).val());
                                         if (txt && $.inArray(txt, value) === -1) {
                                             value.push(txt);
                                         }
