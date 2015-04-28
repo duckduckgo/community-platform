@@ -7,7 +7,7 @@ get '/' => sub {
     my $p = ddgcr_get( [ 'Blog' ], { page => $page } );
 
     if ( $p->is_success ) {
-        template 'blog/index', { $p->{ddgcr} } if ( $p->is_success );
+        template 'blog/index', { $p->{ddgcr} };
     }
     else {
         status 404;
