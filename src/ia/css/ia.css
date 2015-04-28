@@ -108,8 +108,13 @@
 }
 .ia-single .row-diff .editpage span input {
     height: 1.52em;
-    width: 8em;
+    width: 10em;
 }
+
+.ia-single .row-diff .editpage select.left {
+    margin-left: 0.5em;
+}
+
 .ia-single .row-diff .button.js-pre-editable,
 .ia-single .row-diff .button.js-editable {
     float: right;
@@ -179,7 +184,7 @@
     width: 10em;
 }
 .ia-single .row-diff .editpage {
-    width: 9em;
+    width: 100%;
 }
 .ia_topic a {
     color:black;
