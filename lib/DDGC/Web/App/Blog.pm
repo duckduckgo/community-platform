@@ -5,10 +5,10 @@ use Scalar::Util qw/ looks_like_number /;
 
 get '/' => sub {
     my $page = param_hmv('page') || 1;
-    my $p = ddgcr_get( [ 'Blog' ], { page => $page } );
+    my $res = ddgcr_get( [ 'Blog' ], { page => $page } );
 
-    if ( $p->is_success ) {
-        template 'blog/index', { $p->{ddgcr} };
+    if ( $res->is_success ) {
+        template 'blog/index', { $res->{ddgcr} };
     }
     else {
         status 404;
