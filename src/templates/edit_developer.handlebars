@@ -8,9 +8,9 @@
                             <i class="icon-remove" />
                         </div>
                         <span name="developer" class="{{#eq_or this.type 'duck.co' 'github'}}editable{{/eq_or}} developer left type-{{this.type}}">
-                            <input type="text" value="{{this.name}}" />
+                            <input type="text" value="{{this.name}}" {{#eq this.type 'legacy'}}disabled="disabled"{{/eq}}/>
                         </span>
-                        <select class="available_types left" tabindex="-1">
+                        <select class="available_types left" tabindex="-1" {{#eq this.type 'legacy'}}disabled="disabled"{{/eq}}>
                             {{#if this.type}}<option value="0">{{this.type}}</option>{{/if}}
                             <option value="1">duck.co</option>
                             <option value="2">github</option>
