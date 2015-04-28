@@ -100,10 +100,18 @@ sub login :Chained('logged_out') :Args(0) {
 				$c->change_session_id;
 				my $data = $c->user->data;
 				delete $data->{token};
-				delete $data->{invalidate_existing_sessions};
+				$c->set_new_action_token;
+				if ( $data->{invalidate_existing_sessions} &&
+					time > $user->data->{invalidate_existing_sessions_timestamp} + (60 * 60 * 24) ) {
+					delete $data->{invalidate_existing_sessions};
+					delete $data->{invalidate_existing_sessions_timestamp};
+					delete $data->{post_invalidation_tokens};
+				}
+				elsif ( $data->{invalidate_existing_sessions} ) {
+					push @{ $data->{post_invalidation_tokens} }, $c->session->{action_token};
+				}
 				$c->user->data($data);
 				$c->user->update;
-				$c->set_new_action_token;
 				$last_url = $c->chained_uri('My','account') unless defined $last_url;
 				$c->response->redirect($last_url);
 				return $c->detach;
@@ -485,7 +493,8 @@ sub forgotpw_tokencheck :Chained('logged_out') :Args(2) {
 	my $data = $user->data;
 	delete $data->{token};
 	$data->{invalidate_existing_sessions} = 1;
-	delete $data->{password_reset_session_token};
+	$data->{invalidate_existing_sessions_timestamp} = time;
+	delete $data->{post_invalidation_tokens};
 	$user->data($data);
 	$user->update;
 	$c->d->update_password($username,$newpass);
@@ -577,7 +586,8 @@ sub changepw :Chained('logged_in') :Args(0) {
 
 	delete $data->{token};
 	$data->{invalidate_existing_sessions} = 1;
-	$data->{password_reset_session_token} = $c->session->{action_token};
+	$data->{invalidate_existing_sessions_timestamp} = time;
+	delete $data->{post_invalidation_tokens};
 	$c->user->data($data);
 	$c->user->update;
 
@@ -749,7 +759,7 @@ sub register :Chained('logged_out') :Args(0) {
 					1,
 					$user->email,
 					'"DuckDuckGo Community" <noreply@dukgo.com>',
-					'[DuckDuckGo Community] Thank you for registering. Please verify your email address',
+					'[DuckDuckGo Community] ' . $user->username . ', thank you for registering. Please verify your email address',
 					'register',
 					$c->stash,
 				);

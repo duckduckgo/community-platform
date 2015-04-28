@@ -5,10 +5,10 @@
 
     <ul class="dev_pipeline-column__list" id="pipeline-planning__list">
         {{#each planning}}
-            <li id="pipeline-planning__list__{{meta_id}}" class="producer-{{producer}} designer-{{designer}} {{#each developer}}developer-{{name}}{{/each}}">
+            <li id="pipeline-planning__list__{{id}}" class="{{#if can_edit}}can_edit{{/if}} producer-{{producer}} designer-{{designer}} developer-{{developer.name}}">
                 <div class="ia-item--stamp circle stamp--{{repo}} left"></div>
                 <div class="left item-name">
-                    <a href="/ia/view/{{meta_id}}">{{name}}</a>
+                    <a href="/ia/view/{{id}}">{{name}}</a>
                 </div>
                 <span class="clearfix"></span>
             </li>
@@ -16,18 +16,17 @@
     </ul>
 </div>
 
-<div class="dev_pipeline-column left" id="pipeline-in_development">
+<div class="dev_pipeline-column left" id="pipeline-development">
     <h2 class="dev_pipeline-column__title">
-        In Development
+        Development
     </h2>
 
-
-    <ul class="dev_pipeline-column__list" id="pipeline-in_development__list">
-        {{#each in_development}}
-            <li id="pipeline-in_development__list__{{meta_id}}" class="producer-{{producer}} designer-{{designer}} {{#each developer}}developer-{{name}}{{/each}}">
+    <ul class="dev_pipeline-column__list" id="pipeline-development__list">
+        {{#each development}}
+            <li id="pipeline-development__list__{{id}}" class="{{#if can_edit}}can_edit{{/if}} producer-{{producer}} designer-{{designer}} developer-{{developer.name}}">
                 <div class="ia-item--stamp circle stamp--{{repo}} left"></div>
                 <div class="left item-name">
-                    <a href="/ia/view/{{meta_id}}">{{name}}</a>
+                    <a href="/ia/view/{{id}}">{{name}}</a>
                 </div>
                 <span class="clearfix"></span>
             </li>
@@ -35,18 +34,17 @@
     </ul>
 </div>
 
-<div class="dev_pipeline-column left" id="pipeline-qa">
+<div class="dev_pipeline-column left" id="pipeline-testing">
     <h2 class="dev_pipeline-column__title">
-        QA
+        Testing
     </h2>
 
-
-    <ul class="dev_pipeline-column__list" id="pipeline-qa__list">
-        {{#each qa}}
-            <li id="pipeline-qa__list__{{meta_id}}" class="producer-{{producer}} designer-{{designer}} {{#each developer}}developer-{{name}}{{/each}}">
+    <ul class="dev_pipeline-column__list" id="pipeline-testing__list">
+        {{#each testing}}
+            <li id="pipeline-testing__list__{{id}}" class="{{#if can_edit}}can_edit{{/if}} producer-{{producer}} designer-{{designer}} developer-{{developer.name}}">
                 <div class="ia-item--stamp circle stamp--{{repo}} left"></div>
                 <div class="left item-name">
-                    <a href="/ia/view/{{meta_id}}">{{name}}</a>
+                    <a href="/ia/view/{{id}}">{{name}}</a>
                 </div>
                 <span class="clearfix"></span>
             </li>
@@ -54,18 +52,17 @@
     </ul>
 </div>
 
-<div class="dev_pipeline-column left" id="pipeline-ready">
+<div class="dev_pipeline-column left" id="pipeline-complete">
     <h2 class="dev_pipeline-column__title">
-        Ready
+        Complete
     </h2>
 
-
-    <ul class="dev_pipeline-column__list" id="pipeline-ready__list">
-        {{#each ready}}
-            <li id="pipeline-ready__list__{{meta_id}}" class="producer-{{producer}} designer-{{designer}} {{#each developer}}developer-{{name}}{{/each}}">
+    <ul class="dev_pipeline-column__list" id="pipeline-complete__list">
+        {{#each complete}}
+            <li id="pipeline-complete__list__{{id}}" class="{{#if can_edit}}can_edit{{/if}} producer-{{producer}} designer-{{designer}} developer-{{developer.name}}">
                 <div class="ia-item--stamp circle stamp--{{repo}} left"></div>
                 <div class="left item-name">
-                    <a href="/ia/view/{{meta_id}}">{{name}}</a>
+                    <a href="/ia/view/{{id}}">{{name}}</a>
                 </div>
                 <span class="clearfix"></span>
             </li>

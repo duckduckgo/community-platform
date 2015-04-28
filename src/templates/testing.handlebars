@@ -1,0 +1,14 @@
+<div class="dev_milestone-container milestone-panel {{#if current.testing}}current-container{{/if}} {{#if future.testing}}future-container{{/if}} container-testing" id="testing">
+    <div class="dev_milestone-container__header container-testing__header">
+        <h3 class="dev_milestone-container__header__title left">
+            Testing
+        </h3>
+        <div class="button js-expand dev_milestone-container__header__button left">
+            <i class="js-expand__icon icon-caret-down" />
+        </div>
+        <span class="clearfix"></span>
+    </div>
+
+    <div class="dev_milestone-container__body container-testing__body {{#unless current.testing}}hide{{/unless}}">
+    </div>
+</div> 

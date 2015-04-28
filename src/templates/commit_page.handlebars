@@ -21,14 +21,14 @@
             </tr>
         {{/not_null}}
         
-        {{#not_null meta_id}}
+        {{#not_null id}}
             <tr class="updates_list">
                 <th>ID</th>
 
-                <td name="meta_id" id="meta_id_original">
-                    {{original.meta_id}}
+                <td name="id" id="id_original">
+                    {{original.id}}
                 </td>
-                <td name="meta_id">{{meta_id}}</td>
+                <td name="id">{{id}}</td>
             </tr>
         {{/not_null}}
 
@@ -276,6 +276,45 @@
                     {{#each perl_dependencies}}
                         <li>{{this}}</li>
                     {{/each}}
+                </td>
+            </tr>
+        {{/not_null}}
+
+        {{#not_null src_id}}
+            <tr class="updates_list">
+                <th>Source ID</th>
+
+                <td name="src_id"  id="src_id_original">
+                    {{original.src_id}}
+                </td>
+                <td name="src_id">
+                    {{src_id}}
+                </td>
+            </tr>
+        {{/not_null}}
+
+        {{#not_null src_name}}
+            <tr class="updates_list">
+                <th>Source Name</th>
+
+                <td name="src_name"  id="src_name_original">
+                    {{original.src_name}}
+                </td>
+                <td name="src_name">
+                    {{src_name}}
+                </td>
+            </tr>
+        {{/not_null}}
+
+        {{#not_null src_domain}}
+            <tr class="updates_list">
+                <th>Source Domain</th>
+
+                <td name="src_domain"  id="src_domain_original">
+                    {{original.src_domain}}
+                </td>
+                <td name="src_domain">
+                    {{src_domain}}
                 </td>
             </tr>
         {{/not_null}}

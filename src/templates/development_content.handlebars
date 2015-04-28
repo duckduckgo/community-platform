@@ -1,0 +1,49 @@
+<div class="dev_milestone-container__body__label ia-single--header">
+PERL MODULE
+</div>
+{{#unless future.development}}
+    {{#if permissions.can_edit}}
+        <input data-panel="development" type="text" class="perl_module dev_milestone-container__body__input js-autocommit" id="perl_module-input" value="{{live.perl_module}}" />
+    {{else}}
+        <div class="dev_milestone-container__body__readonly" id="perl_module-txt">
+            {{live.perl_module}}        
+        </div>
+    {{/if}}
+{{/unless}}
+
+<div class="dev_milestone-container__body__label ia-single--header">
+    PERL DEPENDENCIES
+</div>
+{{#unless future.development}}
+    {{#if permissions.can_edit}}
+        <input data-panel="development" type="text" class="perl_dependencies dev_milestone-container__body__input js-autocommit comma-separated" id="perl_dependencies-input" value="{{live.perl_dependencies}}" />
+    {{else}}
+        <div class="dev_milestone-container__body__readonly" id="perl_dependencies-txt">
+           {{live.perl_dependencies}} 
+        </div>
+    {{/if}}
+{{/unless}}
+
+<div class="dev_milestone-container__body__label ia-single--header">
+    REVIEW
+</div>
+<div class="dev_milestone-container__body__div">
+    <i data-panel="development" class="code_review dev_milestone-container__body__div__checkbox {{#unless future.development}}{{#if permissions.admin}}js-autocommit{{/if}}{{/unless}} icon-check{{#is_false live.code_review}}-empty{{/is_false}}" id="code_review-check"/>
+    <span class="dev_milestone-container__body__readonly check-txt">
+        Code looks good
+    </span>
+</div>
+<div class="dev_milestone-container__body__div">
+    <i class="design_review dev_milestone-container__body__div__checkbox {{#unless future.development}}{{#if permissions.admin}}js-autocommit{{/if}}{{/unless}} icon-check{{#is_false live.design_review}}-empty{{/is_false}}" id="design_review-check"/>
+    <span class="dev_milestone-container__body__readonly check-txt">
+        Layout looks good
+    </span>
+</div>
+
+{{#if permissions.admin}}
+    {{#if current.development}}
+        <div data-panel="development" class="dev_milestone-container__body__complete js-complete button" id="complete-development">
+            Mark as complete
+        </div>
+    {{/if}}
+{{/if}}

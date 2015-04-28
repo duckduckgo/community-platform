@@ -778,7 +778,7 @@ body.texture {
 .ia-single p::first-letter {
     text-transform: capitalize;
 }
-#row-diff-meta_id p::first-letter {
+#row-diff-id p::first-letter {
     text-transform: none;
 }
 .ia-single p,
@@ -1349,9 +1349,9 @@ body.texture {
 }
 
 #pipeline_toggle-live {
-    margin-left: 5em;
-    margin-right: 3em;
-    width: 12em;
+    margin-left: 1em;
+    margin-right: 4em;
+    width: 5em;
 }
 
 #pipeline-live-container .list-container--left {
@@ -1474,6 +1474,39 @@ body.texture {
     margin-left: 0;
 }
 
+.generate-screenshot {
+    text-align: center;
+}
+
+.dashed-border {
+    border-radius: 3px;
+    border: 2px dashed #999;
+}
+
+.generate-screenshot--button {
+    margin: 1em;
+    cursor: pointer;
+
+    background-color: #e37151;
+    border-color: #de5833;
+}
+
+.save-screenshot--button {
+    margin: 1em;
+    margin-left: 0;
+    cursor: pointer;
+}
+
 .dev_milestone-container__body__readonly {
     word-wrap: break-word;
+}
+
+.generate-screenshot--notif {
+    color: #E37151;
+    text-align: center;
+}
+
+.dev_pipeline-column__list .can_edit {
+    font-weight: 600;
+    background-color: rgb(246, 250, 209);
 }

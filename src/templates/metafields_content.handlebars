@@ -30,11 +30,11 @@
           </td>
           <td>
             {{#if permissions.admin}}
-                <input data-panel="metafields" type="text" class="meta_id js-autocommit metafield" id="meta_id-input" value="{{live.meta_id}}" />
+                <input data-panel="metafields" type="text" class="meta_id js-autocommit metafield" id="meta_id-input" value="{{live.id}}" />
             {{else}}
                 {{#if live.meta_id}}    
                     <div class="dev_milestone-container__body__readonly" id="meta_id-txt">
-                        {{live.meta_id}}
+                        {{live.id}}
                     </div>
                 {{/if}}
             {{/if}}

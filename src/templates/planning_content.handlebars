@@ -100,6 +100,45 @@
 
 {{#eq live.repo 'fathead'}}
     <div class="dev_milestone-container__body__label ia-single--header">
+        SOURCE ID
+    </div>
+    {{#unless future.planning}}
+        {{#if permissions.can_edit}}
+            <input type="number" data-panel="planning" class="src_id dev_milestone-container__body__input js-autocommit" id="src_id-input" value="{{live.src_id}}" />
+        {{else}}
+            <div class="dev_milestone-container__body__readonly" id="src_id-txt">
+                {{live.src_id}}
+            </div>
+        {{/if}}
+    {{/unless}}
+    
+    <div class="dev_milestone-container__body__label ia-single--header">
+        SOURCE NAME
+    </div>
+    {{#unless future.planning}}
+        {{#if permissions.can_edit}}
+            <input type="text" data-panel="planning" class="src_name dev_milestone-container__body__input js-autocommit" id="src_name-input" value="{{live.src_name}}" />
+        {{else}}
+            <div class="dev_milestone-container__body__readonly" id="src_name-txt">
+                {{live.src_name}}
+            </div>
+        {{/if}}
+    {{/unless}}
+    
+    <div class="dev_milestone-container__body__label ia-single--header">
+        SOURCE DOMAIN
+    </div>
+    {{#unless future.planning}}
+        {{#if permissions.can_edit}}
+            <input type="text" data-panel="planning" class="src_domain dev_milestone-container__body__input js-autocommit" id="src_domain-input" value="{{live.src_domain}}" />
+        {{else}}
+            <div class="dev_milestone-container__body__readonly" id="src_domain-txt">
+                {{live.src_domain}}
+            </div>
+        {{/if}}
+    {{/unless}}
+    
+    <div class="dev_milestone-container__body__label ia-single--header">
         SOURCE OPTIONS
     </div>
     <div class="dev_milestone-container__body__div">
