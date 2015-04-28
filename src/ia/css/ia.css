@@ -111,8 +111,16 @@
     width: 10em;
 }
 
+.ia-single .row-diff .editpage span.developer_username input {
+    width: 5em;
+    border-left: 0;
+}
+
 .ia-single .row-diff .editpage select.left {
     margin-left: 0.5em;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    height: 1.75em;
 }
 
 .ia-single .row-diff .button.js-pre-editable,
