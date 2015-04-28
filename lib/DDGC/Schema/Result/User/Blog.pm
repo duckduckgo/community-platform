@@ -161,15 +161,6 @@ sub for_edit {
     };
 }
 
-sub update_via_form {
-    my ( $self, $values ) = @_;
-    my %val = %{ $self->result_source->resultset->values_via_form($values) };
-    for ( keys %val ) {
-        $self->$_( $val{$_} );
-    }
-    return $self->update;
-}
-
 sub human_duration_updated {
     my ($self) = @_;
     my $result =
