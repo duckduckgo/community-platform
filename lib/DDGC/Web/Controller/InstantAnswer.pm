@@ -558,7 +558,6 @@ sub usercheck :Chained('base') :PathPart('usercheck') :Args() {
     if ($type eq 'github') {
         if (check_github($username)) {
             $result = 1;
-            print $result;
         }
     } else {
         my $user = $c->d->rs('User')->find({username => $username});
@@ -702,7 +701,7 @@ sub add_edit {
 }
 
 sub check_github {
-    my ($c, $username) = @_;
+    my ($username) = @_;
 
     my $result = 0;
     my $token = $ENV{DDGC_GITHUB_TOKEN} || $ENV{DDG_GITHUB_BASIC_OAUTH_TOKEN};
@@ -712,17 +711,11 @@ sub check_github {
         my $user_info = $gh->user->show($username);
 
         if ($user_info) {
-            print "github ok";
-            use Data::Dumper;
-
-            print Dumper($user_info);
             return 1;
         } else {
-            print "invalid github";
             return 0;
         }
     } catch {
-        print "invalid github";
         return 0;
     };
 }

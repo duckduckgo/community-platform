@@ -111,32 +111,23 @@
                         location.href = json_url;
                     });
 
-                    $('body').on("change focusout", ".available_types, .developer_username input", function(evt) {
-                        if (evt.type === "focusout" && (!$(this).hasClass("focused"))) {
-                            return false;
-                        } 
+                    $('body').on("change keypress", ".available_types, .developer_username input", function(evt) {
+                        if ((evt.type === "change") || (evt.type === "keypress" && evt.which === 13)) {
+                            var $available_types;
+                            var $dev_username;
 
-                        var $available_types;
-                        var $dev_username;
+                            if (evt.type === "keypress") {
+                                $available_types = $(this).parent().parent().find(".available_types");
+                                $dev_username = $(this).parent().parent().find(".developer_username input");
+                            } else {
+                                $available_types = $(this).parent().find(".available_types");
+                                $dev_username = $(this).parent().find(".developer_username input");
+                            }
+                            
+                            var type = $.trim($available_types.find("option:selected").text());
+                            var username = $.trim($dev_username.val());
 
-                        if ($(this).hasClass("focused")) {
-                            $(this).removeClass("focused");
-                            $available_types = $(this).parent().parent().find(".available_types");
-                            $dev_username = $(this).parent().parent().find(".developer_username input");
-                        } else {
-                            $available_types = $(this).parent().find(".available_types");
-                            $dev_username = $(this).parent().find(".developer_username input");
-                        }
-                        
-                        var type = $.trim($available_types.find("option:selected").text());
-                        var username = $.trim($dev_username.val());
-
-                        usercheck(type, username, $available_types, $dev_username);
-                    });
-
-                    $("body").on("focusin", ".developer_username input", function(evt) {
-                        if (!$(this).hasClass("focused")) {
-                            $(this).addClass("focused");
+                            usercheck(type, username, $available_types, $dev_username);
                         }
                     });
 
