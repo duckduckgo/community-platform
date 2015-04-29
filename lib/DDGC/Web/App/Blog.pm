@@ -22,7 +22,6 @@ get '/page/:page' => sub {
 
 get '/rss' =>sub {
     my $p = ddgcr_get( [ 'Blog' ], { page => 1 } );
-    use DDP; p( schema->storage ); p( $p );
     if ( $p->is_success ) {
         return create_feed(
             format => 'Atom',
