@@ -10,6 +10,24 @@ on_plugin_import {
     my $config = DDGC::Config->new;
     my $appdir = $dsl->config->{appdir};
 
+    my $dsn_cfgs = {
+       'Pg' => {
+            options => {
+                pg_enable_utf8 => 1,
+                on_connect_do => [
+                    "SET client_encoding to UTF8",
+                ],
+            },
+       },
+       'SQLite' => {
+           options => {
+               sqlite_unicode => 1,
+           }
+       },
+    };
+
+    (my $rdbms = $config->db_dsn) =~ s/dbi:([a-zA-Z]+):.*/$1/;
+
     $dsl->set(ddgc_config => $config);
     $dsl->set(charset => 'UTF-8');
 
@@ -22,14 +40,7 @@ on_plugin_import {
                     user         => $config->db_user,
                     password     => $config->db_password,
                     schema_class => 'DDGC::Schema',
-                    ( $config->db_dsn =~ /^dbi:Pg/ )
-                        ? (options => {
-                            pg_enable_utf8 => 1,
-                            on_connect_do => [
-                                "SET client_encoding to UTF8",
-                            ],
-                          })
-                        : (),
+                    %{ $dsn_cfgs->{ $rdbms } },
                 }
             },
         },
