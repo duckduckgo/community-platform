@@ -118,6 +118,7 @@ Perl data is available at key C<ddgcr>.
     my $response = ddgcr_get [ 'Blog', 'post', 'by_url' ], { url => $url };
 
 or
+
     my $response = ddgcr_get [ qw/ Blog post by_url / ], { url => $url };
 
 or
@@ -148,6 +149,6 @@ Perl data is available by key ddgcr.
         send error $response->message, $response->code;
     }
 
-Request parameters are serialised to JSON. Perl data is available by key ddgcr.
+Request parameters are serialised to JSON. Perl data is available by key C<ddgcr>.
 
 =cut
