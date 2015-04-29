@@ -114,6 +114,26 @@
 .ia-single .row-diff .editpage span.developer_username input {
     width: 5em;
     border-left: 0;
+    border-color: #5b9e4d;
+}
+
+.ia-single .row-diff .editpage span.developer_username.invalid input {
+    border-color: #bd4b2b;
+}
+
+.ia-single .row-diff .editpage span.developer_username.type-legacy input {
+    border-top-left-radius: 3px;
+    -moz-border-top-left-radius: 3px;
+    -webkit-border-top-left-radius: 3px;
+    -o-border-top-left-radius: 3px;
+
+    border-bottom-left-radius: 3px;
+    -moz-border-bottom-left-radius: 3px;
+    -webkit-border-bottom-left-radius: 3px;
+    -o-border-bottom-left-radius: 3px;
+    border: 1px solid #babec9;
+    width: 10em;
+    margin-left: 0.5em;
 }
 
 .ia-single .row-diff .editpage select.left {
@@ -122,6 +142,17 @@
     border-bottom-right-radius: 0;
     height: 1.75em;
 }
+
+ .ia-single .row-diff .editpage select.left.available_types {
+    color: #fff;
+    background-color: #5b9e4d;
+    border-color: #5b9e4d;
+ }
+
+ .ia-single .row-diff .editpage select.left.available_types.invalid {
+    background-color: #bd4b2b;
+    color: #bd4b2b;
+ }
 
 .ia-single .row-diff .button.js-pre-editable,
 .ia-single .row-diff .button.js-editable {
