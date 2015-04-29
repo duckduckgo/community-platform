@@ -111,6 +111,35 @@
                         location.href = json_url;
                     });
 
+                    $('body').on("change focusout", ".available_types, .developer_username input", function(evt) {
+                        if (evt.type === "focusout" && (!$(this).hasClass("focused"))) {
+                            return false;
+                        } 
+
+                        var $available_types;
+                        var $dev_username;
+
+                        if ($(this).hasClass("focused")) {
+                            $(this).removeClass("focused");
+                            $available_types = $(this).parent().parent().find(".available_types");
+                            $dev_username = $(this).parent().parent().find(".developer_username input");
+                        } else {
+                            $available_types = $(this).parent().find(".available_types");
+                            $dev_username = $(this).parent().find(".developer_username input");
+                        }
+                        
+                        var type = $.trim($available_types.find("option:selected").text());
+                        var username = $.trim($dev_username.val());
+
+                        usercheck(type, username, $available_types, $dev_username);
+                    });
+
+                    $("body").on("focusin", ".developer_username input", function(evt) {
+                        if (!$(this).hasClass("focused")) {
+                            $(this).addClass("focused");
+                        }
+                    });
+
                     $("#toggle-devpage-static").click(function(evt) {
                         if (!$(this).hasClass("disabled")) {
                             ia_data.permissions.can_edit = 0;
@@ -139,7 +168,6 @@
 
                     $("#edit_activate").on('click', function(evt) {
                         page.updateAll(pre_templates, ia_data.live.dev_milestone, true);
-
                         $("#edit_disable").removeClass("hide");
                         $(this).hide();
                         $(".special-permissions__toggle-view").hide();
@@ -552,6 +580,22 @@
                             }
                         }
                     });
+
+                    function usercheck(type, username, $type, $username) {
+                        var jqxhr = $.post("/ia/usercheck", {
+                            type: type,
+                            username: username
+                        })
+                        .done(function(data) {
+                            if (data.result) {
+                                $type.removeClass("invalid");
+                                $username.removeClass("invalid");
+                            } else {
+                                $type.addClass("invalid");
+                                $username.addClass("invalid");
+                            }
+                        });
+                    }
 
                     function getSectionVals($obj, parent_field) {
                         var section_vals = {};

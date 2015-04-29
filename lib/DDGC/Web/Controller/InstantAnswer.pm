@@ -5,6 +5,7 @@ use namespace::autoclean;
 use Try::Tiny;
 use Time::Local;
 use JSON;
+use Net::GitHub::V3;
 
 my $INST = DDGC::Config->new->appdir_path."/root/static/js";
 
@@ -547,6 +548,29 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
     return $c->forward($c->view('JSON'));
 }
 
+sub usercheck :Chained('base') :PathPart('usercheck') :Args() {
+    my ( $self, $c ) = @_;
+
+    my $username = $c->req->params->{username};
+    my $type = $c->req->params->{type};
+    my $result = 0;
+
+    if ($type eq 'github') {
+        if (check_github($username)) {
+            $result = 1;
+            print $result;
+        }
+    } else {
+        my $user = $c->d->rs('User')->find({username => $username});
+        if ($user) {
+            $result = 1;
+        }
+    }
+
+    $c->stash->{x}->{result} = $result;
+    return $c->forward($c->view('JSON'));
+}
+
 sub create_ia :Chained('base') :PathPart('create') :Args() {
     my ( $self, $c ) = @_;
 
@@ -675,6 +699,32 @@ sub add_edit {
                 value => encode_json({field => $value}),
                 timestamp => time
     });    
+}
+
+sub check_github {
+    my ($c, $username) = @_;
+
+    my $result = 0;
+    my $token = $ENV{DDGC_GITHUB_TOKEN} || $ENV{DDG_GITHUB_BASIC_OAUTH_TOKEN};
+    my $gh = Net::GitHub->new(access_token => $token);
+
+    try {
+        my $user_info = $gh->user->show($username);
+
+        if ($user_info) {
+            print "github ok";
+            use Data::Dumper;
+
+            print Dumper($user_info);
+            return 1;
+        } else {
+            print "invalid github";
+            return 0;
+        }
+    } catch {
+        print "invalid github";
+        return 0;
+    };
 }
 
 sub add_topic {

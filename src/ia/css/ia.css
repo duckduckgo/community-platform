@@ -117,7 +117,7 @@
     border-color: #5b9e4d;
 }
 
-.ia-single .row-diff .editpage span.developer_username.invalid input {
+.ia-single .row-diff .editpage span.developer_username input.invalid {
     border-color: #bd4b2b;
 }
 
@@ -151,7 +151,7 @@
 
  .ia-single .row-diff .editpage select.left.available_types.invalid {
     background-color: #bd4b2b;
-    color: #bd4b2b;
+    border-color: #bd4b2b;
  }
 
 .ia-single .row-diff .button.js-pre-editable,
