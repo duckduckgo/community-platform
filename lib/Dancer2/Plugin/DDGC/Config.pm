@@ -22,12 +22,14 @@ on_plugin_import {
                     user         => $config->db_user,
                     password     => $config->db_password,
                     schema_class => 'DDGC::Schema',
-                    options      => {
-                        pg_enable_utf8 => 1,
-                        on_connect_do => [
-                            "SET client_encoding to UTF8",
-                        ],
-                    },
+                    ( $config->db_dsn =~ /^dbi:Pg/ )
+                        ? (options => {
+                            pg_enable_utf8 => 1,
+                            on_connect_do => [
+                                "SET client_encoding to UTF8",
+                            ],
+                          })
+                        : (),
                 }
             },
         },
