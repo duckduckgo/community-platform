@@ -117,6 +117,7 @@ column flags => {
 # TODO: Migrate 'flags' to 'roles'
 sub is {
     my ( $self, $role ) = @_;
+    $role = 'forum_manager' if ( $role eq 'community_leader' );
     return 1 if ( $role eq 'user' );
     return 0 if !$role;
     return 1 if $self->admin;
