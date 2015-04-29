@@ -74,6 +74,7 @@ column userpage => {
     serializer_class => 'JSON',
 };
 
+# TODO: Make this JSON or anything else
 column data => {
     data_type => 'text',
     is_nullable => 1,
@@ -123,6 +124,28 @@ sub is {
     return 1 if $self->admin;
     return 1 if grep { $_ eq $role } @{ $self->flags };
     return 0;
+}
+
+sub remove_role {
+    my ( $self, $role ) = @_;
+    return $self->update({ admin => 0 }) if $role eq 'admin';
+    $role = 'forum_manager' if ( $role eq 'community_leader' );
+    return 0 if grep { $_ eq $role } @{$self->flags};
+    my @roles = grep { $_ ne $role } @{$self->flags};
+    $self->update({ flags => \@roles });
+}
+
+sub add_role {
+    my ( $self, $role ) = @_;
+    return $self->update({ admin => 1 }) if $role eq 'admin';
+    $role = 'forum_manager' if ( $role eq 'community_leader' );
+    return 0 if grep { $_ eq $role } @{$self->flags};
+    push @{$self->flags}, $role;
+    $self->update;
+}
+
+sub TO_JSON {
+    [];
 }
 
 1;
