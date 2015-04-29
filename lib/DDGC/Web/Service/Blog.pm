@@ -107,14 +107,15 @@ get '/post/by_url/:url' => sub {
 };
 
 get '/admin/post/raw' => user_is 'admin' => sub {
-    my $v = validate('/blog.json/post', params_hmv );
-    if (
-        !(scalar $v->errors) &&
-        (my $post = posts_rset->find( $v->values->{id} ))
-    ) {
+    my $v = validate('/blog.json/post', params_hmv);
+    if (scalar $v->errors) {
+        return bailout( 400, [ $v->errors ] );
+    }
+    if (my $post = rset('User::Blog')->find( $v->values->{id} ))
+    {
         return { post => $post->for_edit };
     }
-    return bailout( 404, "Not found" );
+    return bailout( 404, sprintf "Post %s not found", $v->values->{id} );
 };
 
 get '/admin/post/:id' => sub {
