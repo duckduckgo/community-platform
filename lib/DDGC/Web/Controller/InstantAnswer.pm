@@ -493,12 +493,46 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
 
             # developers can be any complat user
             if ($field eq "developer") {
-                return $c->forward($c->view('JSON')) unless $complat_user || $value eq '';
-                my %dev_hash = (
-                        name => $value,
-                        url => 'https://duck.co/user/'.$value
-                );
-                $value = to_json \%dev_hash;
+
+                my @devs = $value? from_json($value) : undef;
+                my @result;
+
+                if (@devs) {
+                    use Data::Dumper;
+                    for my $dev (@{$devs[0]}) {
+                        print Dumper($dev);
+                        my $temp_username = $dev->{username};
+                        my $temp_type = $dev->{type};
+                        my $temp_fullname = $dev->{name} || $temp_username;
+                        my $temp_url;
+
+                        if ($temp_type eq 'duck.co') {
+                            $complat_user = $c->d->rs('User')->find({username => $temp_username});
+                            return $c->forward($c->view('JSON')) unless $complat_user;
+
+                            $temp_url = 'https://duck.co/user/'.$temp_username;
+                        } elsif ($temp_type eq 'github') {
+                            return $c->forward($c->view('JSON')) unless check_github($temp_username);
+
+                            $temp_url = 'https://github.com/'.$temp_username;
+                        } else {
+                            # Type is 'legacy', so the username contains the url to 
+                            # a personal website or twitter account etc,
+                            # meaning we can't check for validity, so we save it as it is
+                            $temp_url = $temp_username;
+                        }
+
+                        my %temp_dev = (
+                            name => $temp_fullname,
+                            type => $temp_type,
+                            url => $temp_url
+                        );
+
+                        push @result, \%temp_dev;
+                    }
+
+                    $value = to_json \@result;
+                }
             }
 
             if ($field =~ /designer|producer/){

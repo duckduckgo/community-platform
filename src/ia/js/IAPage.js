@@ -537,13 +537,29 @@
                                 && (field === "topic" || field === "other_queries" || field === "triggers" || field === "perl_dependencies" || field === "src_options")) 
                                 || (field === "answerbar") || (field === "developer")) {
                                 value = [];
-                                var txt;
+                                var temp_val;
                                 if (field !== "answerbar" && field !== "src_options") {
                                     var $selector = (field === "topic")? $(".ia_topic .available_topics option:selected") : $("." + field + " input");
                                     $selector.each(function(index) {
-                                        txt = (field === "topic")? $.trim($(this).text()) : $.trim($(this).val());
-                                        if (txt && $.inArray(txt, value) === -1) {
-                                            value.push(txt);
+                                        if (field === "developer") {
+                                            var $li_item = $(this).parent().parent();
+                                            
+                                            temp_val = {};
+                                            temp_val.name = $.trim($(this).val());
+                                            temp_val.type = $.trim($li_item.find(".available_types").find("option:selected").text()) || "legacy";
+                                            temp_val.username = $.trim($li_item.find(".developer_username input").val());
+
+                                            if (!$temp_val.username) {
+                                                return;
+                                            }
+
+                                            temp_val = JSON.stringify(temp_val);
+                                        } else {
+                                            temp_val = (field === "topic")? $.trim($(this).text()) : $.trim($(this).val());
+                                        }
+                                         
+                                        if (temp_val && $.inArray(temp_val, value) === -1) {
+                                            value.push(temp_val);
                                         }
                                     });
                                 } else if (field === "src_options") {

@@ -17,7 +17,7 @@
                                 <option value="2">github</option>
                             </select>
                         {{/eq_or}}
-                        <span class="developer developer_username left type-{{this.type}}">
+                        <span class="developer_username left type-{{this.type}}">
                             <input type="text" {{#eq_or this.type 'duck.co' 'github'}}value="{{final_path this.url}}"{{/eq_or}} {{#eq this.type 'legacy'}}value="{{this.url}}" disabled="disabled"{{/eq}}/>
                         </span>
                     </li>
@@ -35,7 +35,7 @@
                     <option value="0">duck.co</option>
                     <option value="1">github</option>
                 </select>
-                <span class="developer developer_username left">
+                <span class="developer_username left">
                     <input type="text"/>
                 </span>
             </li>
