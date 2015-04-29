@@ -1,5 +1,7 @@
 package Dancer2::Plugin::DDGC::Request;
 
+# ABSTRACT: HTTP Request handling functions for DDGC
+
 use strict;
 use warnings;
 
@@ -73,3 +75,79 @@ register ddgcr_post => sub {
 register_plugin;
 
 1;
+
+__END__
+
+=pod
+
+=head1 NAME
+
+Dancer2::Plugin::DDGC::Request - HTTP Request handling functions for DDGC
+
+=head1 SYNOPSIS
+
+    use Dancer2;
+    use Dancer2::Plugin::DDGC::Request;
+
+    my $response = ddgcr_get [ 'Blog' ], { page => 1 };
+
+    if ( $response->is_success ) {
+        template 'blog', $response->{ddgcr};
+    }
+
+=head1 DESCRIPTION
+
+Dancer2::Plugin::DDGC::Request provides convenience functions for serialising
+and sending requests to DDGC JSON service components.
+
+The Cookie header is forwarded in the request, so requested services can work
+as part of the same auth realm.
+
+Incoming JSON data is deserialised to Perl data and made available in the
+response at key C<ddgcr>.
+
+For POST requests, request parameters are serialised to JSON.
+
+=head1 FUNCTIONS
+
+=head2 ddgcr_get
+
+Make a GET request to a service. Returns a L<HTTP::Response> instance. Returned
+Perl data is available at key C<ddgcr>.
+
+    my $response = ddgcr_get [ 'Blog', 'post', 'by_url' ], { url => $url };
+
+or
+    my $response = ddgcr_get [ qw/ Blog post by_url / ], { url => $url };
+
+or
+
+    my $response = ddgcr_get [ 'Blog', 'post/by_url' ], { url => $url };
+
+or
+
+    my $response = ddgcr_get '/blog.json/post/by_url', { url => $url };
+
+then
+
+    if ( $response->is_success ) {
+        template 'blog', { post => $response->{ddgcr}->{post} }
+    }
+
+=head2 ddgcr_post
+
+Make a POST request to a service. Returns a L<HTTP::Response> instance. Returned
+Perl data is available by key ddgcr.
+
+    my $response = ddgcr_get [ qw/ Blog admin post new / ], {
+        title => params('body')->{title},
+        tags  => params('body')->{tags},
+        ...
+    };
+    if ( !$response->is_success ) {
+        send error $response->message, $response->code;
+    }
+
+Request parameters are serialised to JSON. Perl data is available by key ddgcr.
+
+=cut

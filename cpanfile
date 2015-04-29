@@ -111,7 +111,7 @@ requires 'Catalyst::Plugin::Session::PSGI', '0.0.2';
 requires 'LWP::Protocol::Net::Curl', '0.023';
 requires 'Import::Into', '1.002004';
 requires 'Dancer2', '0.160000';
-reqiures 'Dancer2::Session::PSGI', '0.008';
+requires 'Dancer2::Session::PSGI', '0.008';
 requires 'Dancer2::Plugin::RootURIFor', '0.02';
 requires 'Dancer2::Plugin::DBIC', '0.0009';
 requires 'Dancer2::Plugin::Feed', '1.142060';
