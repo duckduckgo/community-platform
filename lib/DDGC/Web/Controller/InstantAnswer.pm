@@ -556,7 +556,7 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
 
                 # do stuff here to format developer for saving
                 if($field eq 'developer'){
-                    $tmp_val= $c->req->params->{value};
+                    $tmp_val= $value;
                 }
 
                 if($field eq 'topic'){
