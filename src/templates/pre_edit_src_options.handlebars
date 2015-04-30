@@ -13,10 +13,10 @@
                     {{#if live.src_options}}
                     <ul class="section-group" id="src_options-group">
                         <li>
-                            <i class="section-group__item icon-check{{#unless live.src_options.skip_end}}-empty{{/unless}}" id="skip_end-check"/>
-                            <span class="check-txt">
-                                Skip end
-                            </span>
+                            <label class="left">Skip end: </label>
+                            <div class="clearfix " id="skip_end-txt">
+                                {{live.src_options.directory}}
+                            </div>
                         </li>
                         <li>
                             <i class="section-group__item icon-check{{#unless live.src_options.skip_abstract}}-empty{{/unless}}" id="skip_abstract-check"/>
@@ -55,6 +55,18 @@
                             </span>
                         </li>
                         <li>
+                        <li>
+                            <i class="section-group__item icon-check{{#unless live.src_options.is_fanon}}-empty{{/unless}}" id="is_fanon-check"/>
+                            <span class="check-txt">
+                                Is Fanon
+                            </span>
+                        </li>
+                        <li>
+                            <i class="section-group__item icon-check{{#unless live.src_options.source_skip}}-empty{{/unless}}" id="source_skip-check"/>
+                            <span class="check-txt">
+                                Source skip
+                            </span>
+                        </li>
                             <label class="left">Skip query: </label>
                             <div class="clearfix " id="skip_qr-txt">
                                 {{live.src_options.skip_qr}}
@@ -91,10 +103,10 @@
                     {{#if edited.src_options}}
                     <ul class="section-group" id="src_options-group">
                         <li>
-                            <i class="section-group__item icon-check{{#unless edited.src_options.skip_end}}-empty{{/unless}}" id="skip_end-check"/>
-                            <span class="check-txt">
-                                Skip end
-                            </span>
+                            <label class="left">Skip end: </label>
+                            <div class="clearfix " id="skip_end-txt">
+                                {{edited.src_options.directory}}
+                            </div>
                         </li>
                         <li>
                             <i class="section-group__item icon-check{{#unless edited.src_options.skip_abstract}}-empty{{/unless}}" id="skip_abstract-check"/>
@@ -130,6 +142,18 @@
                             <i class="section-group__item icon-check{{#unless edited.src_options.is_mediawiki}}-empty{{/unless}}" id="is_mediawiki-check"/>
                             <span class="check-txt">
                                 Is MediaWiki
+                            </span>
+                        </li>
+                        <li>
+                            <i class="section-group__item icon-check{{#unless edited.src_options.is_fanon}}-empty{{/unless}}" id="is_fanon-check"/>
+                            <span class="check-txt">
+                                Is Fanon
+                            </span>
+                        </li>
+                        <li>
+                            <i class="section-group__item icon-check{{#unless edited.src_options.source_skip}}-empty{{/unless}}" id="source_skip-check"/>
+                            <span class="check-txt">
+                                Source skip
                             </span>
                         </li>
                         <li>

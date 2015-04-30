@@ -2,10 +2,8 @@
     <div class="column-right-edits__child js-editable " id="src_options" name="src_options">
         <ul class="section-group" id="src_options-group">
             <li>
-                <i class="section-group__item js-editable icon-check{{#unless src_options.skip_end}}-empty{{/unless}}" id="skip_end-check"/>
-                <span class="check-txt">
-                    Skip end
-                </span>
+                <label class="left">Skip end: </label>
+                <input type="text" class="clearfix section-group__item js-editable selection-group__item-input" id="skip_end-input" value="{{src_options.skip_end}}" />
             </li>
             <li>
                 <i class="section-group__item js-editable icon-check{{#unless src_options.skip_abstract}}-empty{{/unless}}" id="skip_abstract-check"/>
@@ -41,6 +39,18 @@
                 <i class="section-group__item js-editable icon-check{{#unless src_options.is_mediawiki}}-empty{{/unless}}" id="is_mediawiki-check"/>
                 <span class="check-txt">
                     Is MediaWiki
+                </span>
+            </li>
+            <li>
+                <i class="section-group__item js-editable icon-check{{#unless src_options.is_fanon}}-empty{{/unless}}" id="is_fanon-check"/>
+                <span class="check-txt">
+                    Is Fanon
+                </span>
+            </li>
+            <li>
+                <i class="section-group__item js-editable icon-check{{#unless src_options.source_skip}}-empty{{/unless}}" id="source_skip-check"/>
+                <span class="check-txt">
+                    Source skip
                 </span>
             </li>
             <li>
