@@ -31,6 +31,19 @@ on_plugin_import {
             }
         }
     );
+
+    $dsl->app->add_hook(
+        Dancer2::Core::Hook->new(
+            name => 'before_serializer',
+            code => sub {
+                my ( @data ) = @_;
+                for my $datum (@data) {
+                    $datum->{status} //= 200;
+                    $datum->{ok}     //= 1;
+                }
+            },
+        )
+    );
 };
 
 register_plugin;
