@@ -13,7 +13,9 @@
                     {{#each live.developer}}
                         <li class="editpage">
                             <span name="developer" class="pre_edit other-examples">
-                                {{name}}
+                                <a href="{{url}}">
+                                    {{name}}
+                                </a>
                             </span>
                         </li>
                     {{/each}}
@@ -30,7 +32,9 @@
                     {{#each edited.developer}}
                         <li class="editpage">
                             <span name="developer" class="pre_edit other-examples">
-                                {{name}}
+                                <a href="{{url}}">
+                                    {{name}}
+                                </a>
                             </span>
                         </li>
                     {{/each}}
