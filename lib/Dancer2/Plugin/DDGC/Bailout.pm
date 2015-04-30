@@ -11,11 +11,14 @@ register bailout => sub {
     $errors = [ $errors ] if !(ref $errors eq 'ARRAY');
 
     $dsl->status( $status );
-    +{
+
+    $dsl->app->response->content({
         ok      => 0,
         status  => $status,
         errors  => $errors,
-    }
+    });
+
+    $dsl->halt;
 };
 
 register_plugin;
