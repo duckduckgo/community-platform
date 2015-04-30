@@ -140,7 +140,7 @@ then
 Make a POST request to a service. Returns a L<HTTP::Response> instance. Returned
 Perl data is available by key ddgcr.
 
-    my $response = ddgcr_get [ qw/ Blog admin post new / ], {
+    my $response = ddgcr_post [ qw/ Blog admin post new / ], {
         title => params('body')->{title},
         tags  => params('body')->{tags},
         ...
