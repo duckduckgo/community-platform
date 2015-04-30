@@ -139,7 +139,6 @@ B<GET '/post/[id]'>
 
 get '/post' => sub {
     my $v = validate('/blog.json/post', params_hmv );
-    use DDP; p $v;
     if (
         !(scalar $v->errors) &&
         (my $post = posts_rset->find( $v->values->{id} ))
