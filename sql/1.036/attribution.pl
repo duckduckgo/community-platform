@@ -15,7 +15,7 @@ while (my $ia = $ias->next) {
         my %names;
         my %locs;
         my $dev = $ia->developer? from_json($ia->developer) : undef;
-
+        
         if ($dev && $dev eq 'HASHREF') {
             my $dev_name = lc $dev->{name};
             my $dev_url = lc $dev->{url};
@@ -44,7 +44,7 @@ while (my $ia = $ias->next) {
                 my %temp_dev = chooseUrl(@{$urls});
                 my $temp_name = lc $name;
                 my $temp_url = lc $temp_dev{url};
-                if (!exists($names{$temp_name}) && (!exists($locs{$temp_url}))
+                if ((!exists($names{$temp_name})) && (!exists($locs{$temp_url}))
                     && (!exists($names{$temp_url})) && (!exists($locs{$temp_name}))) {
                     $names{$temp_name} = 1;
                     $locs{$temp_url} = 1;
