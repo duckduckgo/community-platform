@@ -124,3 +124,4 @@ requires 'URI', '1.65';
 requires 'Scalar::Util', '1.41';
 requires 'Try::Tiny', '0.22';
 requires 'HTTP::Validate', '0.45';
+requires 'String::Util', '1.24';
