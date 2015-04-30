@@ -5,7 +5,7 @@ use Moose;
 use File::Path qw( make_path );
 use File::Spec;
 use File::ShareDir::ProjectDistDir;
-use DDGC::Static;
+eval 'use DDGC::Static';
 use Path::Class;
 use Catalyst::Utils;
 use FindBin;
