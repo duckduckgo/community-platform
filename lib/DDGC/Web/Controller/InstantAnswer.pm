@@ -462,18 +462,20 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
     
     my $ia_data = $ia->TO_JSON;
     my $permissions;
-    my $is_admin;
+    my $is_admin = 0;
     my $saved = 0;
     my $field = $c->req->params->{field};
-    my $live_value = $ia->{$field};
 
     # if the update fails because of invalid values
-    # we still return the current value of the specified field
-    # so the handlebars can be updated correctly
-    my $result = {result => {$field => $live_value, is_admin => $is_admin, saved => $saved}};
+    # we still return some info
+    # so the handlebars can be updated accordingly
+    my $result = {
+        is_admin => $is_admin, 
+        saved => $saved
+    };
 
     $c->stash->{x} = {
-        result => $result,
+        result => $result
     };
 
     $c->stash->{not_last_url} = 1;
@@ -483,7 +485,7 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
        $is_admin = $c->user->admin;
 
         if ($permissions || $is_admin) {
-            $result->{result}->{is_admin} = $is_admin;
+            $result->{is_admin} = $is_admin;
             $c->stash->{x}->{result} = $result;
 
             my $value = $c->req->params->{value};
@@ -494,7 +496,7 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
             # developers can be any complat user
             if ($field eq "developer") {
                 my @devs = $value? from_json($value) : undef;
-                my @result;
+                my @result_devs;
 
                 if (@devs) {
                     for my $dev (@{$devs[0]}) {
@@ -525,10 +527,10 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
                             url => $temp_url
                         );
 
-                        push @result, \%temp_dev;
+                        push @result_devs, \%temp_dev;
                     }
 
-                    $value = to_json \@result;
+                    $value = to_json \@result_devs;
 
                     print $value;
                 }

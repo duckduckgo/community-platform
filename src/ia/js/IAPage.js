@@ -693,11 +693,7 @@
                             autocommit: 0
                         })
                         .done(function(data) {
-                            if (!data.result) {
-                                if ($("#error").hasClass("hide")) {
-                                    $("#error").removeClass("hide");
-                                }
-                            } else {
+                            if (data.result && data.result[field]) {
                                 if (data.result.is_admin) {
                                     if ($("#view_commits").hasClass("hide")) {
                                         $("#view_commits").removeClass("hide");
@@ -713,6 +709,10 @@
                                 pre_templates[field] = Handlebars.templates['pre_edit_' + field](ia_data);
 
                                 $obj.replaceWith(pre_templates[field]);
+                            } else {
+                                if ($("#error").hasClass("hide")) {
+                                    $("#error").removeClass("hide");
+                                }
                             }
                         });
                     }
