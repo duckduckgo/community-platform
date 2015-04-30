@@ -490,17 +490,14 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
             my $autocommit = $c->req->params->{autocommit};
             my $complat_user = $c->d->rs('User')->find({username => $value});
             my $complat_user_admin = $complat_user? $complat_user->admin : '';
-
+            
             # developers can be any complat user
             if ($field eq "developer") {
-
                 my @devs = $value? from_json($value) : undef;
                 my @result;
 
                 if (@devs) {
-                    use Data::Dumper;
                     for my $dev (@{$devs[0]}) {
-                        print Dumper($dev);
                         my $temp_username = $dev->{username};
                         my $temp_type = $dev->{type};
                         my $temp_fullname = $dev->{name} || $temp_username;
@@ -532,6 +529,8 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
                     }
 
                     $value = to_json \@result;
+
+                    print $value;
                 }
             }
 
@@ -567,10 +566,6 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
                 $saved = 1;
                 
                 save_milestone_date($ia, $c->req->params->{value});
-            }
-
-            if ($field eq 'developer') {
-                $value = $value? from_json($value) : undef;
             }
 
             $result = {$field => $value, is_admin => $is_admin, saved => $saved};

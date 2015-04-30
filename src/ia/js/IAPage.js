@@ -549,11 +549,9 @@
                                             temp_val.type = $.trim($li_item.find(".available_types").find("option:selected").text()) || "legacy";
                                             temp_val.username = $.trim($li_item.find(".developer_username input").val());
 
-                                            if (!$temp_val.username) {
+                                            if (!temp_val.username) {
                                                 return;
                                             }
-
-                                            temp_val = JSON.stringify(temp_val);
                                         } else {
                                             temp_val = (field === "topic")? $.trim($(this).text()) : $.trim($(this).val());
                                         }
@@ -643,7 +641,6 @@
                             autocommit: 1
                         })
                         .done(function(data) {
-                            console.log(data);
                             if (data.result) {
                                 if (data.result.saved && field === "dev_milestone") {
                                     location.reload();
