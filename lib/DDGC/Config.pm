@@ -52,7 +52,7 @@ has_conf pid => DDGC_PID => $$;
 
 has_conf appdir_path => DDGC_APPDIR => "$FindBin::Bin/../";
 has_conf rootdir_path => DDGC_ROOTDIR => $ENV{HOME}.'/ddgc/';
-has_conf ddgc_static_path => DDGC_STATIC => DDGC::Static->sharedir;
+has_conf ddgc_static_path => DDGC_STATIC => eval 'DDGC::Static->sharedir' || '';
 has_conf no_cache => DDGC_NOCACHE => 0;
 
 sub rootdir {
