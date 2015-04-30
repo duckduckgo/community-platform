@@ -349,6 +349,23 @@
 
                             if ($(this).hasClass("comma-separated") && value.length) {
                                 value = value.split(/\s*,\s*/);
+
+                                if (field === "developer") {
+                                    var dev_array = [];
+
+                                    $.each(value, function(idx, val) {
+                                        var temp_dev = {};
+                                        temp_dev.username = val.replace(/.*\/([^\/]*)$/,'$1');
+                                        temp_dev.type = val.match(/github/)? 'github' : 'duck.co';
+
+                                        if (temp_dev.type && temp_dev.username && $.inArray(temp_dev, dev_array) === -1) {
+                                            dev_array.push(temp_dev);
+                                        }
+                                    });
+
+                                    value = dev_array;
+                                }
+                                
                                 value = JSON.stringify(value);
                                 is_json = true;
                             }
