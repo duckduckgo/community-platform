@@ -54,22 +54,6 @@ get '/by_user/:id' => sub {
     forward '/by_user', { params('route') };
 };
 
-get '/total' => sub {
-    total;
-};
-
-get '/numpages' => sub {
-    ceil( total() / ( param_hmv('pagesize') || pagesize ) );
-};
-
-get '/numpages/:pagesize?' => sub {
-    forward '/numpages', { params('route') };
-};
-
-get '/numpages/pagesize/:pagesize' => sub {
-    forward '/numpages', { params('route') };
-};
-
 get '/post' => sub {
     my $v = validate('/blog.json/post', params_hmv );
     if (
