@@ -173,15 +173,27 @@
             </tr>
         {{/not_null}}
 
-        {{#not_null developer.name}}
+        {{#not_null developer}}
             <tr class="updates_list">
                 <th>Developer</th>
 
                 <td name="developer"  id="developer_original">
-                    {{original.developer.name}}
+                    {{#each original.developer}}
+                        <li data-type="{{type}}">
+                            <a href="{{url}}">
+                                {{name}}
+                            </a>
+                        </li>
+                    {{/each}}
                 </td>
                 <td name="developer">
-                    {{developer.name}}
+                    {{#each developer}}
+                        <li data-type="{{type}}">
+                            <a href="{{url}}">
+                                {{name}}
+                            </a>
+                        </li>
+                    {{/each}}
                 </td>
             </tr>
         {{/not_null}}

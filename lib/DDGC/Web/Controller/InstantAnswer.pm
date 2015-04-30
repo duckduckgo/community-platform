@@ -657,15 +657,7 @@ sub save {
                 $saved = add_topic($c, $ia, $topic);
                 return unless $saved;
             }
-        } else {
-            if ($field eq "developer") {
-                my %dev_hash = (
-                    name => $value,
-                    url => 'https://duck.co/user/'.$value
-                );
-                $value = to_json \%dev_hash;
-            }
-            
+        } else {           
             commit_edit($c->d, $ia, $field, $value);
             $saved = '1';
         }
