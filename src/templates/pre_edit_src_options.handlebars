@@ -13,12 +13,6 @@
                     {{#if live.src_options}}
                     <ul class="section-group" id="src_options-group">
                         <li>
-                            <label class="left">Skip end: </label>
-                            <div class="clearfix " id="skip_end-txt">
-                                {{live.src_options.skip_end}}
-                            </div>
-                        </li>
-                        <li>
                             <i class="section-group__item icon-check{{#unless live.src_options.skip_abstract}}-empty{{/unless}}" id="skip_abstract-check"/>
                             <span class="check-txt">
                                 Skip abstract
@@ -90,6 +84,18 @@
                                 {{live.src_options.src_info}}
                             </div>
                         </li>
+                        <li>
+                            <label class="left">Skip end: </label>
+                            <div class="clearfix " id="skip_end-txt">
+                                {{live.src_options.skip_end}}
+                            </div>
+                        </li>
+                        <li>
+                            <label class="left">Language: </label>
+                            <div class="clearfix " id="Language-txt">
+                                {{live.src_options.language}}
+                            </div>
+                        </li>
                     </ul>
                     {{else}}
                         —
@@ -102,12 +108,6 @@
                 <p class="column-right-edits__child__p">
                     {{#if edited.src_options}}
                     <ul class="section-group" id="src_options-group">
-                        <li>
-                            <label class="left">Skip end: </label>
-                            <div class="clearfix " id="skip_end-txt">
-                                {{edited.src_options.directory}}
-                            </div>
-                        </li>
                         <li>
                             <i class="section-group__item icon-check{{#unless edited.src_options.skip_abstract}}-empty{{/unless}}" id="skip_abstract-check"/>
                             <span class="check-txt">
@@ -178,6 +178,18 @@
                             <label class="left">Source info: </label>
                             <div class="clearfix " id="src_info-txt">
                                 {{edited.src_options.src_info}}
+                            </div>
+                        </li>
+                        <li>
+                            <label class="left">Skip end: </label>
+                            <div class="clearfix " id="skip_end-txt">
+                                {{edited.src_options.skip_end}}
+                            </div>
+                        </li>
+                        <li>
+                            <label class="left">Language: </label>
+                            <div class="clearfix " id="language-txt">
+                                {{edited.src_options.language}}
                             </div>
                         </li>
                     </ul>

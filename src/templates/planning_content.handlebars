@@ -144,18 +144,6 @@
     <div class="dev_milestone-container__body__div">
         <ul class="section-group" id="src_options-group">
             <li>
-                <label class="left">Skip end</label>
-                {{#unless future.planning}}
-                    {{#if permissions.can_edit}}
-                        <input type="text" data-panel="planning" class="skip_end clearfix section-group__item dev_milestone-container__body__input js-autocommit" id="skip_end-input" value="{{live.src_options.skip_end}}" />
-                    {{else}}
-                        <div class="clearfix dev_milestone-container__body__readonly" id="skip_end-txt">
-                            {{live.src_options.skip_end}}
-                        </div>
-                    {{/if}}
-                {{/unless}}
-            </li>
-            <li>
                 <i data-panel="planning" class="skip_abstract section-group__item dev_milestone-container__body__div__checkbox {{#unless future.planning}}{{#if permissions.can_edit}}js-autocommit{{/if}}{{/unless}} icon-check{{#is_false live.src_options.skip_abstract}}-empty{{/is_false}}" id="skip_abstract-check"/>
                 <span class="dev_milestone-container__body__readonly check-txt">
                     Skip abstract
@@ -252,6 +240,18 @@
                     {{else}}
                         <div class="clearfix dev_milestone-container__body__readonly" id="src_info-txt">
                             {{live.src_options.src_info}}
+                        </div>
+                    {{/if}}
+                {{/unless}}
+            </li>
+            <li>
+                <label class="left">Language</label>
+                {{#unless future.planning}}
+                    {{#if permissions.can_edit}}
+                        <input type="text" data-panel="planning" class="language clearfix section-group__item dev_milestone-container__body__input js-autocommit" id="language-input" value="{{live.src_options.language}}" />
+                    {{else}}
+                        <div class="clearfix dev_milestone-container__body__readonly" id="language-txt">
+                            {{live.src_options.language}}
                         </div>
                     {{/if}}
                 {{/unless}}
