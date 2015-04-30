@@ -112,7 +112,7 @@
                     });
 
                     $('body').on("change keypress", ".available_types, .developer_username input", function(evt) {
-                        if ((evt.type === "change") || (evt.type === "keypress" && evt.which === 13)) {
+                        if ((evt.type === "change" && $(this).hasClass("available_types")) || (evt.type === "keypress" && evt.which === 13)) {
                             var $available_types;
                             var $dev_username;
 
