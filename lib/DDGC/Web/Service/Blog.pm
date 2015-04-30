@@ -1,5 +1,28 @@
 package DDGC::Web::Service::Blog;
 
+# ABSTRACT: Blog post management JSON service
+
+=pod
+
+=head1 NAME
+
+DDGC::Web::Service::Blog - blog post retrieval and update services
+
+=head1 DESCRIPTION
+
+This module provides an interface to retrieve pages of posts and single posts via
+new and legacy URIs.
+
+It also allows admins to update posts and create new posts.
+
+=head1 MOUNT POINT
+
+This service is expected to be mounted on '/blog.json'
+
+=head1 REQUEST HANDLERS
+
+=cut
+
 use DDGC::Base::Web::Service;
 use Try::Tiny;
 use POSIX;
@@ -27,6 +50,28 @@ sub total {
     posts_rset->count;
 }
 
+=head2 GET '/'
+
+Retrieve a page of blog posts.
+
+=head3 Request Parameters
+
+B<page> - The page of posts to return. Default is 1.
+
+B<pagesize> - Number of posts per-page. Default is 20. Max is 20.
+
+=head3 Returns
+
+JSON - A page of rendered blog posts.
+
+=head3 Alternatives:
+
+B<GET '/page/[page]'>
+
+B<GET '/page/[page]/pagesize/[pagesize]'>
+
+=cut
+
 get '/' => sub {
     { posts => [ posts_page( params_hmv ) ] };
 };
@@ -38,6 +83,24 @@ get '/page/:page' => sub {
 get '/page/:page/pagesize/:pagesize' => sub {
     forward '/', { params('route') };
 };
+
+=head2 GET '/by_user'
+
+Retrieve posts authored by a given user.
+
+=head3 Request Parameters
+
+B<id> - User ID.
+
+=head3 Returns
+
+JSON - Blog posts authored by a given user
+
+=head3 Alternatives:
+
+B<GET '/by_user/[id]'>
+
+=cut
 
 get '/by_user' => sub {
     if ( param_hmv('id') ) {
@@ -54,8 +117,29 @@ get '/by_user/:id' => sub {
     forward '/by_user', { params('route') };
 };
 
+=head2 GET '/post'
+
+Retrieve a single blog post.
+
+=head3 Request Parameters
+
+B<id> - Post ID.
+
+=head3 Returns
+
+JSON - A single blog post
+
+=head3 Alternatives:
+
+B<GET '/post/by_id/[id]'>
+
+B<GET '/post/[id]'>
+
+=cut
+
 get '/post' => sub {
     my $v = validate('/blog.json/post', params_hmv );
+    use DDP; p $v;
     if (
         !(scalar $v->errors) &&
         (my $post = posts_rset->find( $v->values->{id} ))
@@ -72,6 +156,24 @@ get '/post/:id' => sub {
 get '/post/by_id/:id' => sub {
     forward '/post', { params('route') };
 };
+
+=head2 GET '/post/by_url'
+
+Support for legacy links where url was the primary identifier.
+
+=head3 Request Parameters
+
+B<url> - Post url field.
+
+=head3 Returns
+
+JSON - A single blog post
+
+=head3 Alternatives:
+
+B<GET '/post/by_url/[url]'>
+
+=cut
 
 get '/post/by_url' => sub {
     if (
@@ -90,6 +192,28 @@ get '/post/by_url/:url' => sub {
     forward '/post/by_url', { params('route') };
 };
 
+=head2 GET '/admin/post/raw'
+
+Retrieve an "un-rendered" post for editing.
+
+=head3 Required Role
+
+Admin.
+
+=head3 Request Parameters
+
+B<id> - Post ID.
+
+=head3 Returns
+
+JSON - A single blog post, suitable for editing in a form.
+
+=head3 Alternatives:
+
+B<GET '/admin/post/raw/[id]'>
+
+=cut
+
 get '/admin/post/raw' => user_is 'admin' => sub {
     my $v = validate('/blog.json/post', params_hmv);
     if (scalar $v->errors) {
@@ -101,7 +225,7 @@ get '/admin/post/raw' => user_is 'admin' => sub {
     bailout( 404, sprintf "Post %s not found", $v->values->{id} );
 };
 
-get '/admin/post/:id' => sub {
+get '/admin/post/raw/:id' => sub {
     forward '/admin/post/raw', { params('route') };
 };
 
@@ -136,9 +260,69 @@ sub post_update_or_create {
     forward '/admin/post/raw', { id => $post->id }, { method => 'GET' };
 }
 
+=head2 GET '/admin/post/update'
+
+Update a blog post.
+
+=head3 Required Role
+
+Admin.
+
+=head3 Body Parameters
+
+Body content is JSON.
+
+Fields:
+
+B<id> - Post ID.
+
+Also,
+
+B<title> - Updated post title.
+
+B<content> - Updated post content.
+
+etc.
+
+Remaining fields are defined in L<DDGC::Schema::User::Blog>.
+
+=head3 Returns
+
+JSON - The updated blog post content.
+
+=cut
+
 post '/admin/post/update' => user_is 'admin' => sub {
     post_update_or_create { params('body') };
 };
+
+=head2 GET '/admin/post/new'
+
+Create a new blog post.
+
+=head3 Required Role
+
+Admin.
+
+=head3 Body Parameters
+
+Body content is JSON.
+
+Fields:
+
+B<title> - New post title.
+
+B<content> - New post content.
+
+etc.
+
+Remaining fields are defined in L<DDGC::Schema::User::Blog>.
+
+=head3 Returns
+
+JSON - The new blog post content.
+
+=cut
 
 post '/admin/post/new' => user_is 'admin' => sub {
     post_update_or_create { params('body') };
