@@ -46,7 +46,7 @@ errors
         if ( !$user ) {
             bailout 404, sprintf "User %s not found", param('id');
         }
-    }
+    };
 
 =head1 DESCRIPTION
 
@@ -70,7 +70,7 @@ would look something like this:
         bailout( 400, [ $v->errors ] );
     }
 
-...and return the following JSON with a 400 Bad Request HTTP status:
+This call would return the following JSON with a 400 Bad Request HTTP status:
 
     {
         "ok": 0,
