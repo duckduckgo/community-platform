@@ -147,7 +147,7 @@
                 <label class="left">Skip end</label>
                 {{#unless future.planning}}
                     {{#if permissions.can_edit}}
-                        <input type="text" data-panel="planning" class="directory clearfix section-group__item dev_milestone-container__body__input js-autocommit" id="skip_end-input" value="{{live.src_options.skip_end}}" />
+                        <input type="text" data-panel="planning" class="skip_end clearfix section-group__item dev_milestone-container__body__input js-autocommit" id="skip_end-input" value="{{live.src_options.skip_end}}" />
                     {{else}}
                         <div class="clearfix dev_milestone-container__body__readonly" id="skip_end-txt">
                             {{live.src_options.skip_end}}
@@ -199,10 +199,15 @@
                 </span>
             </li>
             <li>
-                <i data-panel="planning" class="source_skip section-group__item dev_milestone-container__body__div__checkbox {{#unless future.planning}}{{#if permissions.can_edit}}js-autocommit{{/if}}{{/unless}} icon-check{{#is_false live.src_options.source_skip}}-empty{{/is_false}}" id="source_skip-check"/>
-                <span class="dev_milestone-container__body__readonly check-txt">
-                    Source skip
-                </span>
+                {{#unless future.planning}}
+                    {{#if permissions.can_edit}}
+                        <input type="text" data-panel="planning" class="source_skip clearfix section-group__item dev_milestone-container__body__input js-autocommit" id="source_skip-input" value="{{live.src_options.source_skip}}" />
+                    {{else}}
+                        <div class="clearfix dev_milestone-container__body__readonly" id="source_skip-txt">
+                            {{live.src_options.source_skip}}
+                        </div>
+                    {{/if}}
+                {{/unless}}
             </li>
                 <label class="left">Skip query</label>
                 {{#unless future.planning}}

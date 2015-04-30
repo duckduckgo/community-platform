@@ -48,10 +48,8 @@
                 </span>
             </li>
             <li>
-                <i class="section-group__item js-editable icon-check{{#unless src_options.source_skip}}-empty{{/unless}}" id="source_skip-check"/>
-                <span class="check-txt">
-                    Source skip
-                </span>
+                <label class="left">Source skip: </label>
+                <input type="text" class="clearfix section-group__item js-editable selection-group__item-input" id="source_skip-input" value="{{src_options.source_skip}}" />
             </li>
             <li>
                 <label class="left">Skip query: </label>

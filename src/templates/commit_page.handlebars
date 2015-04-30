@@ -374,10 +374,10 @@
                             </span>
                         </li>
                         <li>
-                            <i class="section-group__item icon-check{{#is_false original.src_options.source_skip}}-empty{{/is_false}}" data-field="source_skip"/>
-                            <span class="check-txt">
-                                Source skip
-                            </span>
+                            <label class="left">Source skip</label>
+                            <div class="clearfix section-group__item" data-field="source_skip">
+                                {{original.src_options.source_skip}}
+                            </div>
                         </li>
                         <li>
                             <label class="left">Skip query</label>
@@ -456,10 +456,10 @@
                             </span>
                         </li>
                         <li>
-                            <i class="section-group__item icon-check{{#is_false src_options.source_skip}}-empty{{/is_false}}" data-field="source_skip"/>
-                            <span class="check-txt">
-                                Source skip
-                            </span>
+                            <label class="left">Source skip</label>
+                            <div class="clearfix section-group__item" data-field="source_skip">
+                                {{src_options.source_skip}}
+                            </div>
                         </li>
                         <li>
                             <label class="left">Skip query</label>

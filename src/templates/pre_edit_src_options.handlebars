@@ -15,7 +15,7 @@
                         <li>
                             <label class="left">Skip end: </label>
                             <div class="clearfix " id="skip_end-txt">
-                                {{live.src_options.directory}}
+                                {{live.src_options.skip_end}}
                             </div>
                         </li>
                         <li>
@@ -62,10 +62,10 @@
                             </span>
                         </li>
                         <li>
-                            <i class="section-group__item icon-check{{#unless live.src_options.source_skip}}-empty{{/unless}}" id="source_skip-check"/>
-                            <span class="check-txt">
-                                Source skip
-                            </span>
+                            <label class="left">Source skip: </label>
+                            <div class="clearfix " id="source_skip-txt">
+                                {{live.src_options.source_skip}}
+                            </div>
                         </li>
                             <label class="left">Skip query: </label>
                             <div class="clearfix " id="skip_qr-txt">
@@ -151,10 +151,10 @@
                             </span>
                         </li>
                         <li>
-                            <i class="section-group__item icon-check{{#unless edited.src_options.source_skip}}-empty{{/unless}}" id="source_skip-check"/>
-                            <span class="check-txt">
-                                Source skip
-                            </span>
+                            <label class="left">Source skip: </label>
+                            <div class="clearfix " id="source_skip-txt">
+                                {{edited.src_options.source_skip}}
+                            </div>
                         </li>
                         <li>
                             <label class="left">Skip query: </label>
