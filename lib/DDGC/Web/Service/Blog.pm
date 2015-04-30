@@ -47,7 +47,7 @@ get '/by_user' => sub {
         );
         return { posts => $posts } if ($posts->first);
     }
-    return bailout( 404, "Not found" );
+    bailout( 404, "Not found" );
 };
 
 get '/by_user/:id' => sub {
@@ -78,7 +78,7 @@ get '/post' => sub {
     ) {
         return { post => $post };
     }
-    return bailout( 404, "Not found" );
+    bailout( 404, "Not found" );
 };
 
 get '/post/:id' => sub {
@@ -99,7 +99,7 @@ get '/post/by_url' => sub {
     ) {
         return { post => $post };
     }
-    return bailout( 404, "Not found" );
+    bailout( 404, "Not found" );
 };
 
 get '/post/by_url/:url' => sub {
@@ -109,13 +109,12 @@ get '/post/by_url/:url' => sub {
 get '/admin/post/raw' => user_is 'admin' => sub {
     my $v = validate('/blog.json/post', params_hmv);
     if (scalar $v->errors) {
-        return bailout( 400, [ $v->errors ] );
+        bailout( 400, [ $v->errors ] );
     }
-    if (my $post = rset('User::Blog')->find( $v->values->{id} ))
-    {
+    if (my $post = rset('User::Blog')->find( $v->values->{id} )) {
         return { post => $post->for_edit };
     }
-    return bailout( 404, sprintf "Post %s not found", $v->values->{id} );
+    bailout( 404, sprintf "Post %s not found", $v->values->{id} );
 };
 
 get '/admin/post/:id' => sub {
@@ -130,15 +129,15 @@ sub post_update_or_create {
     $params->{users_id} = $user->id;
 
     my $v = validate('/blog.json/admin/post/new', $params);
-    return bailout( 400, [ $v->errors ] ) if (scalar $v->errors);
+    bailout( 400, [ $v->errors ] ) if (scalar $v->errors);
     $params = $v->values;
 
     if ( $params->{id} ) {
         $post = rset('User::Blog')->find( $params->{id} );
-        return bailout( 404, sprintf "Blog post %s not found", $params->{id} )
+        bailout( 404, sprintf "Blog post %s not found", $params->{id} )
             if (!$post);
 
-        return bailout( 403, "You do not have permission to update this post" )
+        bailout( 403, "You do not have permission to update this post" )
             if ($post->users_id != $params->{users_id});
     }
 
