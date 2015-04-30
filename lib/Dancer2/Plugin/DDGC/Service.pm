@@ -1,5 +1,7 @@
 package Dancer2::Plugin::DDGC::Service;
 
+# ABSTRACT: Set default configuration for JSON services.
+
 use Dancer2;
 use Dancer2::Plugin;
 use DDGC::Config;

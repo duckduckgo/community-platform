@@ -1,5 +1,7 @@
 package DDGC::Web::App::Blog;
 
+# ABSTRACT: Rendering service application for blog posts and RSS
+
 use DDGC::Base::Web::App;
 use Dancer2::Plugin::Feed;
 use Scalar::Util qw/ looks_like_number /;

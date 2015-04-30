@@ -1,6 +1,6 @@
 package Dancer2::Plugin::DDGC::UserRole;
 
-# ABSTRACT : Authorisation for DDGC request handlers
+# ABSTRACT: Authorisation for DDGC request handlers
 
 use strict;
 use warnings;

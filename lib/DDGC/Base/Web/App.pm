@@ -1,5 +1,7 @@
 package DDGC::Base::Web::App;
 
+# ABSTRACT: Base module for Applications (rendering services)
+
 use Import::Into;
 
 use strict;

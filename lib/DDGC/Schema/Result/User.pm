@@ -1,5 +1,6 @@
 package DDGC::Schema::Result::User;
-# ABSTRACT: Result class of a user in the DB
+
+# ABSTRACT: DDGC User Result class
 
 use Moo;
 extends 'DDGC::Schema::Result';

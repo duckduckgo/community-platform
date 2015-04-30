@@ -1,5 +1,7 @@
 package DDGC::Base::Web::Service;
 
+# ABSTRACT: Base module for Services
+
 use Import::Into;
 
 use strict;

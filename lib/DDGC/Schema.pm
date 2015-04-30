@@ -1,5 +1,7 @@
 package DDGC::Schema;
 
+# ABSTRACT: DBIC Schema base class
+
 use Moo;
 extends 'DBIx::Class::Schema';
 

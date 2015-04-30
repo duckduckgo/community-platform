@@ -1,5 +1,7 @@
 package Dancer2::Plugin::DDGC::Config;
 
+# ABSTRACT: Set common configuration options
+
 use Dancer2;
 use Dancer2::Plugin;
 use DDGC::Config;

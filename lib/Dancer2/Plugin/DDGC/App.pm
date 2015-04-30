@@ -1,5 +1,7 @@
 package Dancer2::Plugin::DDGC::App;
 
+# ABSTRACT: Set default configuration for Application services.
+
 use Dancer2::Plugin;
 
 on_plugin_import {

@@ -1,5 +1,7 @@
 package DDGC::Base::Web::Common;
 
+# ABSTRACT: Base module with common configs / features for DDGC Apps and Services.
+
 use Import::Into;
 
 use strict;

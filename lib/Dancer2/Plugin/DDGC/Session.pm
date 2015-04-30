@@ -1,5 +1,7 @@
 package Dancer2::Plugin::DDGC::Session;
 
+# ABSTRACT: Populates request variable 'user' with instance of user from Plack session
+
 use Dancer2;
 use Dancer2::Plugin;
 use DDGC::Config;
