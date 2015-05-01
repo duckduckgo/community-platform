@@ -46,13 +46,22 @@
                                 var temp_field = $(this).attr('name');
                                 var temp_value;
 
-                                if (temp_field === "topic" || temp_field === "other_queries"
+                                if (temp_field === "topic" || temp_field === "other_queries" || temp_field === "developer"
                                     || temp_field === "triggers" || temp_field === "perl_dependencies") {
                                     temp_value = [];
                                     is_json = true;
                                     $('.updates_list .item_selected li').each(function(id) {
                                         if ($(this).parent().attr('name') === temp_field) {
-                                            temp_value.push($.trim($(this).text()));
+                                            if (temp_field === "developer") {
+                                                var temp_dev = {};
+                                                temp_dev.name = $.trim($(this).text());
+                                                temp_dev.type = $.trim($(this).attr("data-type"));
+                                                temp_dev.url = $.trim($(this).find("a").attr("href"));
+
+                                                temp_value.push(temp_dev);
+                                            } else {
+                                                temp_value.push($.trim($(this).text()));
+                                            }
                                         }
                                     });
                                 } else if (temp_field === "src_options") {

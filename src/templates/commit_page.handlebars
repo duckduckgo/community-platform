@@ -173,15 +173,27 @@
             </tr>
         {{/not_null}}
 
-        {{#not_null developer.name}}
+        {{#not_null developer}}
             <tr class="updates_list">
                 <th>Developer</th>
 
                 <td name="developer"  id="developer_original">
-                    {{original.developer.name}}
+                    {{#each original.developer}}
+                        <li data-type="{{type}}">
+                            <a href="{{url}}">
+                                {{name}}
+                            </a>
+                        </li>
+                    {{/each}}
                 </td>
                 <td name="developer">
-                    {{developer.name}}
+                    {{#each developer}}
+                        <li data-type="{{type}}">
+                            <a href="{{url}}">
+                                {{name}}
+                            </a>
+                        </li>
+                    {{/each}}
                 </td>
             </tr>
         {{/not_null}}
@@ -326,12 +338,6 @@
                 <td name="src_options"  id="src_options_original">
                     <ul class="section-group src_options-group">
                         <li>
-                            <i class="section-group__item icon-check{{#is_false original.src_options.skip_end}}-empty{{/is_false}}" data-field="skip_end"/>
-                            <span class="check-txt">
-                                Skip end
-                            </span>
-                        </li>
-                        <li>
                             <i class="section-group__item icon-check{{#is_false original.src_options.skip_abstract}}-empty{{/is_false}}" data-field="skip_abstract"/>
                             <span class="check-txt">
                                 Skip abstract
@@ -368,6 +374,18 @@
                             </span>
                         </li>
                         <li>
+                            <i class="section-group__item icon-check{{#is_false original.src_options.is_fanon}}-empty{{/is_false}}" data-field="is_fanon"/>
+                            <span class="check-txt">
+                                Is Fanon
+                            </span>
+                        </li>
+                        <li>
+                            <label class="left">Source skip</label>
+                            <div class="clearfix section-group__item" data-field="source_skip">
+                                {{original.src_options.source_skip}}
+                            </div>
+                        </li>
+                        <li>
                             <label class="left">Skip query</label>
                             <div class="clearfix section-group__item" data-field="skip_qr">
                                 {{original.src_options.skip_qr}}
@@ -391,16 +409,22 @@
                                 {{original.src_options.src_info}}
                             </div>
                         </li>
+                        <li>
+                            <label class="left">Skip end</label>
+                            <div class="clearfix section-group__item" data-field="skip_end">
+                                {{original.src_options.skip_end}}
+                            </div>
+                        </li>
+                        <li>
+                            <label class="left">Language</label>
+                            <div class="clearfix section-group__item" data-field="language">
+                                {{original.src_options.language}}
+                            </div>
+                        </li>
                     </ul>
                 </td>
                 <td name="src_options">
                     <ul class="section-group src_options-group">
-                        <li>
-                            <i class="section-group__item icon-check{{#is_false src_options.skip_end}}-empty{{/is_false}}" data-field="skip_end"/>
-                            <span class="check-txt">
-                                Skip end
-                            </span>
-                        </li>
                         <li>
                             <i class="section-group__item icon-check{{#is_false src_options.skip_abstract}}-empty{{/is_false}}" data-field="skip_abstract"/>
                             <span class="check-txt">
@@ -438,6 +462,18 @@
                             </span>
                         </li>
                         <li>
+                            <i class="section-group__item icon-check{{#is_false src_options.is_fanon}}-empty{{/is_false}}" data-field="is_fanon"/>
+                            <span class="check-txt">
+                                Is Fanon
+                            </span>
+                        </li>
+                        <li>
+                            <label class="left">Source skip</label>
+                            <div class="clearfix section-group__item" data-field="source_skip">
+                                {{src_options.source_skip}}
+                            </div>
+                        </li>
+                        <li>
                             <label class="left">Skip query</label>
                             <div class="clearfix section-group__item" data-field="skip_qr">
                                 {{src_options.skip_qr}}
@@ -459,6 +495,18 @@
                             <label class="left">Source info</label>
                             <div class="clearfix section-group__item" data-field="src_info">
                                 {{src_options.src_info}}
+                            </div>
+                        </li>
+                        <li>
+                            <label class="left">Skip end</label>
+                            <div class="clearfix section-group__item" data-field="skip_end">
+                                {{src_options.skip_end}}
+                            </div>
+                        </li>
+                        <li>
+                            <label class="left">Language</label>
+                            <div class="clearfix section-group__item" data-field="language">
+                                {{src_options.language}}
                             </div>
                         </li>
                     </ul>

@@ -183,6 +183,10 @@ module.exports = function(grunt) {
          * not used yet
          */
         compass: {
+            options: {
+                sassDir: 'src/ia/css',
+                cssDir: 'src/ddgc/css'
+            },
             dist: {
                 options: {
                     ia: {
