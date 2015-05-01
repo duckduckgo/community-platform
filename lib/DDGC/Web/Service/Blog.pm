@@ -30,9 +30,7 @@ use POSIX;
 sub pagesize { 20 }
 
 sub posts_rset {
-    rset('User::Blog')->for_user( var 'user' )->company_blog->search_rs({},
-        { cache_for => 300 }
-    );
+    rset('User::Blog')->company_blog;
 }
 
 sub posts_page {
