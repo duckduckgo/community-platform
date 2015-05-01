@@ -5,7 +5,10 @@ package DDGC::Schema;
 use Moo;
 extends 'DBIx::Class::Schema';
 
+has app => (
+    is => 'rw',
+);
+
 __PACKAGE__->load_namespaces();
 
 1;
-
