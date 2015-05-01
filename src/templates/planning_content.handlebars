@@ -144,12 +144,6 @@
     <div class="dev_milestone-container__body__div">
         <ul class="section-group" id="src_options-group">
             <li>
-                <i data-panel="planning" class="skip_end section-group__item dev_milestone-container__body__div__checkbox {{#unless future.planning}}{{#if permissions.can_edit}}js-autocommit{{/if}}{{/unless}} icon-check{{#is_false live.src_options.skip_end}}-empty{{/is_false}}" id="skip_end-check"/>
-                <span class="dev_milestone-container__body__readonly check-txt">
-                    Skip end
-                </span>
-            </li>
-            <li>
                 <i data-panel="planning" class="skip_abstract section-group__item dev_milestone-container__body__div__checkbox {{#unless future.planning}}{{#if permissions.can_edit}}js-autocommit{{/if}}{{/unless}} icon-check{{#is_false live.src_options.skip_abstract}}-empty{{/is_false}}" id="skip_abstract-check"/>
                 <span class="dev_milestone-container__body__readonly check-txt">
                     Skip abstract
@@ -186,6 +180,23 @@
                 </span>
             </li>
             <li>
+            <li>
+                <i data-panel="planning" class="is_fanon section-group__item dev_milestone-container__body__div__checkbox {{#unless future.planning}}{{#if permissions.can_edit}}js-autocommit{{/if}}{{/unless}} icon-check{{#is_false live.src_options.is_fanon}}-empty{{/is_false}}" id="is_fanon-check"/>
+                <span class="dev_milestone-container__body__readonly check-txt">
+                    Is Fanon
+                </span>
+            </li>
+            <li>
+                {{#unless future.planning}}
+                    {{#if permissions.can_edit}}
+                        <input type="text" data-panel="planning" class="source_skip clearfix section-group__item dev_milestone-container__body__input js-autocommit" id="source_skip-input" value="{{live.src_options.source_skip}}" />
+                    {{else}}
+                        <div class="clearfix dev_milestone-container__body__readonly" id="source_skip-txt">
+                            {{live.src_options.source_skip}}
+                        </div>
+                    {{/if}}
+                {{/unless}}
+            </li>
                 <label class="left">Skip query</label>
                 {{#unless future.planning}}
                     {{#if permissions.can_edit}}
@@ -229,6 +240,18 @@
                     {{else}}
                         <div class="clearfix dev_milestone-container__body__readonly" id="src_info-txt">
                             {{live.src_options.src_info}}
+                        </div>
+                    {{/if}}
+                {{/unless}}
+            </li>
+            <li>
+                <label class="left">Language</label>
+                {{#unless future.planning}}
+                    {{#if permissions.can_edit}}
+                        <input type="text" data-panel="planning" class="language clearfix section-group__item dev_milestone-container__body__input js-autocommit" id="language-input" value="{{live.src_options.language}}" />
+                    {{else}}
+                        <div class="clearfix dev_milestone-container__body__readonly" id="language-txt">
+                            {{live.src_options.language}}
                         </div>
                     {{/if}}
                 {{/unless}}

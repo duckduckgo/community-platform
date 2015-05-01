@@ -2,12 +2,6 @@
     <div class="column-right-edits__child js-editable " id="src_options" name="src_options">
         <ul class="section-group" id="src_options-group">
             <li>
-                <i class="section-group__item js-editable icon-check{{#unless src_options.skip_end}}-empty{{/unless}}" id="skip_end-check"/>
-                <span class="check-txt">
-                    Skip end
-                </span>
-            </li>
-            <li>
                 <i class="section-group__item js-editable icon-check{{#unless src_options.skip_abstract}}-empty{{/unless}}" id="skip_abstract-check"/>
                 <span class="check-txt">
                     Skip abstract
@@ -44,6 +38,16 @@
                 </span>
             </li>
             <li>
+                <i class="section-group__item js-editable icon-check{{#unless src_options.is_fanon}}-empty{{/unless}}" id="is_fanon-check"/>
+                <span class="check-txt">
+                    Is Fanon
+                </span>
+            </li>
+            <li>
+                <label class="left">Source skip: </label>
+                <input type="text" class="clearfix section-group__item js-editable selection-group__item-input" id="source_skip-input" value="{{src_options.source_skip}}" />
+            </li>
+            <li>
                 <label class="left">Skip query: </label>
                 <input type="text" class="clearfix section-group__item js-editable selection-group__item-input" id="skip_qr-input" value="{{src_options.skip_qr}}" />
             </li>
@@ -58,6 +62,14 @@
             <li>
                 <label class="left">Source info: </label>
                 <input type="text" class="clearfix section-group__item js-editable selection-group__item-input" id="src_info-input" value="{{src_options.src_info}}" />
+            </li>
+            <li>
+                <label class="left">Skip end: </label>
+                <input type="text" class="clearfix section-group__item js-editable selection-group__item-input" id="skip_end-input" value="{{src_options.skip_end}}" />
+            </li>
+            <li>
+                <label class="left">Language: </label>
+                <input type="text" class="clearfix section-group__item js-editable selection-group__item-input" id="language-input" value="{{src_options.language}}" />
             </li>
         </ul>   
     </div>
