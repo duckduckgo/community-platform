@@ -5,6 +5,7 @@ use namespace::autoclean;
 use Try::Tiny;
 use Time::Local;
 use JSON;
+use Net::GitHub::V3;
 
 my $INST = DDGC::Config->new->appdir_path."/root/static/js";
 
@@ -344,7 +345,9 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
                       url => 'https://github.com/'.$pull_request{author}
                   );
 
-                  my $value = to_json \%dev_hash;
+                  my @dev_array = [\%dev_hash];
+
+                  my $value = to_json \@dev_array;
 
                   try {
                       $ia->update({developer => $value});
@@ -459,18 +462,20 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
     
     my $ia_data = $ia->TO_JSON;
     my $permissions;
-    my $is_admin;
+    my $is_admin = 0;
     my $saved = 0;
     my $field = $c->req->params->{field};
-    my $live_value = $ia->{$field};
 
     # if the update fails because of invalid values
-    # we still return the current value of the specified field
-    # so the handlebars can be updated correctly
-    my $result = {result => {$field => $live_value, is_admin => $is_admin, saved => $saved}};
+    # we still return some info
+    # so the handlebars can be updated accordingly
+    my $result = {
+        is_admin => $is_admin, 
+        saved => $saved
+    };
 
     $c->stash->{x} = {
-        result => $result,
+        result => $result
     };
 
     $c->stash->{not_last_url} = 1;
@@ -480,22 +485,55 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
        $is_admin = $c->user->admin;
 
         if ($permissions || $is_admin) {
-            $result->{result}->{is_admin} = $is_admin;
+            $result->{is_admin} = $is_admin;
             $c->stash->{x}->{result} = $result;
 
             my $value = $c->req->params->{value};
             my $autocommit = $c->req->params->{autocommit};
             my $complat_user = $c->d->rs('User')->find({username => $value});
             my $complat_user_admin = $complat_user? $complat_user->admin : '';
-
+            
             # developers can be any complat user
             if ($field eq "developer") {
-                return $c->forward($c->view('JSON')) unless $complat_user || $value eq '';
-                my %dev_hash = (
-                        name => $value,
-                        url => 'https://duck.co/user/'.$value
-                );
-                $value = to_json \%dev_hash;
+                my @devs = $value? from_json($value) : undef;
+                my @result_devs;
+
+                if (@devs) {
+                    for my $dev (@{$devs[0]}) {
+                        my $temp_username = $dev->{username};
+                        my $temp_type = $dev->{type};
+                        my $temp_fullname = $dev->{name} || $temp_username;
+                        my $temp_url;
+
+                        if ($temp_type eq 'duck.co') {
+                            $complat_user = $c->d->rs('User')->find({username => $temp_username});
+                            return $c->forward($c->view('JSON')) unless $complat_user;
+
+                            $temp_url = 'https://duck.co/user/'.$temp_username;
+                        } elsif ($temp_type eq 'github') {
+                            return $c->forward($c->view('JSON')) unless check_github($temp_username);
+
+                            $temp_url = 'https://github.com/'.$temp_username;
+                        } else {
+                            # Type is 'legacy', so the username contains the url to 
+                            # a personal website or twitter account etc,
+                            # meaning we can't check for validity, so we save it as it is
+                            $temp_url = $temp_username;
+                        }
+
+                        my %temp_dev = (
+                            name => $temp_fullname,
+                            type => $temp_type,
+                            url => $temp_url
+                        );
+
+                        push @result_devs, \%temp_dev;
+                    }
+
+                    $value = to_json \@result_devs;
+
+                    print $value;
+                }
             }
 
             if ($field =~ /designer|producer/){
@@ -518,7 +556,7 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
 
                 # do stuff here to format developer for saving
                 if($field eq 'developer'){
-                    $tmp_val= $c->req->params->{value};
+                    $tmp_val= $value;
                 }
 
                 if($field eq 'topic'){
@@ -532,16 +570,34 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
                 save_milestone_date($ia, $c->req->params->{value});
             }
 
-            if ($field eq 'developer') {
-                $value = $value? from_json($value) : undef;
-            }
-
             $result = {$field => $value, is_admin => $is_admin, saved => $saved};
         }
     }
 
     $c->stash->{x}->{result} = $result;
 
+    return $c->forward($c->view('JSON'));
+}
+
+sub usercheck :Chained('base') :PathPart('usercheck') :Args() {
+    my ( $self, $c ) = @_;
+
+    my $username = $c->req->params->{username};
+    my $type = $c->req->params->{type};
+    my $result = 0;
+
+    if ($type eq 'github') {
+        if (check_github($username)) {
+            $result = 1;
+        }
+    } else {
+        my $user = $c->d->rs('User')->find({username => $username});
+        if ($user) {
+            $result = 1;
+        }
+    }
+
+    $c->stash->{x}->{result} = $result;
     return $c->forward($c->view('JSON'));
 }
 
@@ -603,15 +659,7 @@ sub save {
                 $saved = add_topic($c, $ia, $topic);
                 return unless $saved;
             }
-        } else {
-            if ($field eq "developer") {
-                my %dev_hash = (
-                    name => $value,
-                    url => 'https://duck.co/user/'.$value
-                );
-                $value = to_json \%dev_hash;
-            }
-            
+        } else {           
             commit_edit($c->d, $ia, $field, $value);
             $saved = '1';
         }
@@ -673,6 +721,26 @@ sub add_edit {
                 value => encode_json({field => $value}),
                 timestamp => time
     });    
+}
+
+sub check_github {
+    my ($username) = @_;
+
+    my $result = 0;
+    my $token = $ENV{DDGC_GITHUB_TOKEN} || $ENV{DDG_GITHUB_BASIC_OAUTH_TOKEN};
+    my $gh = Net::GitHub->new(access_token => $token);
+
+    try {
+        my $user_info = $gh->user->show($username);
+
+        if ($user_info) {
+            return 1;
+        } else {
+            return 0;
+        }
+    } catch {
+        return 0;
+    };
 }
 
 sub add_topic {

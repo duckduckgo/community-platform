@@ -2,33 +2,6 @@
     // Handlebars helpers
     Handlebars.registerHelper('encodeURIComponent', encodeURIComponent);
 
-    // Choose a GitHub location before anything else.
-    Handlebars.registerHelper('chooseService', function(services) {
-        // Make sure to build the URL if we just find the handle.
-        function buildURL(service) {
-            var types = {
-                github: 'https://github.com/',
-                twitter: 'https://twitter.com/'
-            };
-
-            if(service.type in types && !/https?:\/\//.test(service.loc)) {
-                return types[service.type] + service.loc; 
-            }
-
-            return service.loc;
-        }
-
-        for(var i = 0; i < services.length; i++) {
-            if(services[i].type === "github") {
-                return buildURL(services[i]);
-            }
-        }
-
-        return buildURL(services[0]);
-    });
-
-    // placeholder
-
     DDH.IAPage = function(ops) {
         this.init(ops); 
     };
@@ -138,6 +111,26 @@
                         location.href = json_url;
                     });
 
+                    $('body').on("change keypress", ".available_types, .developer_username input", function(evt) {
+                        if ((evt.type === "change" && $(this).hasClass("available_types")) || (evt.type === "keypress" && evt.which === 13)) {
+                            var $available_types;
+                            var $dev_username;
+
+                            if (evt.type === "keypress") {
+                                $available_types = $(this).parent().parent().find(".available_types");
+                                $dev_username = $(this).parent().parent().find(".developer_username input");
+                            } else {
+                                $available_types = $(this).parent().find(".available_types");
+                                $dev_username = $(this).parent().find(".developer_username input");
+                            }
+                            
+                            var type = $.trim($available_types.find("option:selected").text());
+                            var username = $.trim($dev_username.val());
+
+                            usercheck(type, username, $available_types, $dev_username);
+                        }
+                    });
+
                     $("#toggle-devpage-static").click(function(evt) {
                         if (!$(this).hasClass("disabled")) {
                             ia_data.permissions.can_edit = 0;
@@ -166,7 +159,6 @@
 
                     $("#edit_activate").on('click', function(evt) {
                         page.updateAll(pre_templates, ia_data.live.dev_milestone, true);
-
                         $("#edit_disable").removeClass("hide");
                         $(this).hide();
                         $(".special-permissions__toggle-view").hide();
@@ -198,7 +190,8 @@
                                     }                            
                                 }
 
-                                if (ia_data.live.dev_milestone !== "live" && ia_data.live.dev_milestone !== "deprecated") {
+                                if (ia_data.live.dev_milestone !== "live" && ia_data.live.dev_milestone !== "deprecated"
+                                    && (!ia_data.permissions.can_edit) && (!ia_data.permissions.admin)) {
                                     page.imgHide = true;
                                     $(".button.js-expand").hide();
                                 }
@@ -357,6 +350,23 @@
 
                             if ($(this).hasClass("comma-separated") && value.length) {
                                 value = value.split(/\s*,\s*/);
+
+                                if (field === "developer") {
+                                    var dev_array = [];
+
+                                    $.each(value, function(idx, val) {
+                                        var temp_dev = {};
+                                        temp_dev.username = val.replace(/.*\/([^\/]*)$/,'$1');
+                                        temp_dev.type = val.match(/github/)? 'github' : 'duck.co';
+
+                                        if (temp_dev.type && temp_dev.username && $.inArray(temp_dev, dev_array) === -1) {
+                                            dev_array.push(temp_dev);
+                                        }
+                                    });
+
+                                    value = dev_array;
+                                }
+                                
                                 value = JSON.stringify(value);
                                 is_json = true;
                             }
@@ -528,12 +538,9 @@
                                 value = $.trim($(this).val());
                             } else {
                                 var input;
-                                if (field === "dev_milestone") {
-                                     $input = $obj.find(".available_dev_milestones option:selected");
+                                if (field === "dev_milestone" || field === "repo") {
+                                     $input = $obj.find(".available_" + field + "s option:selected");
                                      value = $.trim($input.text());
-                                } else if (field === "repo") {
-                                    $input = $obj.find(".available_repos option:selected");
-                                    value = $.trim($input.text());
                                 } else {
                                     $input = $obj.find("input.js-input,#description textarea");
                                     value = $.trim($input.val());
@@ -546,35 +553,29 @@
 
                             if ((evt.type === "click"
                                 && (field === "topic" || field === "other_queries" || field === "triggers" || field === "perl_dependencies" || field === "src_options")) 
-                                || (field === "answerbar")) {
+                                || (field === "answerbar") || (field === "developer")) {
                                 value = [];
-                                var txt;
-                                if (field === "topic") {
-                                    $(".ia_topic .available_topics option:selected").each(function(index) {
-                                        txt = $.trim($(this).text());
-                                        if (txt && $.inArray(txt, value) === -1) {
-                                            value.push(txt);
+                                var temp_val;
+                                if (field !== "answerbar" && field !== "src_options") {
+                                    var $selector = (field === "topic")? $(".ia_topic .available_topics option:selected") : $("." + field + " input");
+                                    $selector.each(function(index) {
+                                        if (field === "developer") {
+                                            var $li_item = $(this).parent().parent();
+                                            
+                                            temp_val = {};
+                                            temp_val.name = $.trim($(this).val());
+                                            temp_val.type = $.trim($li_item.find(".available_types").find("option:selected").text()) || "legacy";
+                                            temp_val.username = $.trim($li_item.find(".developer_username input").val());
+
+                                            if (!temp_val.username) {
+                                                return;
+                                            }
+                                        } else {
+                                            temp_val = (field === "topic")? $.trim($(this).text()) : $.trim($(this).val());
                                         }
-                                    });
-                                } else if (field === "other_queries") {
-                                    $(".other-examples input").each(function(index) {
-                                        txt = $.trim($(this).val());
-                                        if (txt && $.inArray(txt, value) === -1) {
-                                            value.push(txt);
-                                        }
-                                    });
-                                } else if (field === "triggers") {
-                                    $(".triggers input").each(function(index) {
-                                        txt = $.trim($(this).val());
-                                        if (txt && $.inArray(txt, value) === -1) {
-                                            value.push(txt);
-                                        }
-                                    });
-                                } else if (field === "perl_dependencies") {
-                                    $(".perl_dependencies input").each(function(index) {
-                                        txt = $.trim($(this).val());
-                                        if (txt && $.inArray(txt, value) === -1) {
-                                            value.push(txt);
+                                         
+                                        if (temp_val && $.inArray(temp_val, value) === -1) {
+                                            value.push(temp_val);
                                         }
                                     });
                                 } else if (field === "src_options") {
@@ -602,6 +603,22 @@
                             }
                         }
                     });
+
+                    function usercheck(type, username, $type, $username) {
+                        var jqxhr = $.post("/ia/usercheck", {
+                            type: type,
+                            username: username
+                        })
+                        .done(function(data) {
+                            if (data.result) {
+                                $type.removeClass("invalid");
+                                $username.removeClass("invalid");
+                            } else {
+                                $type.addClass("invalid");
+                                $username.addClass("invalid");
+                            }
+                        });
+                    }
 
                     function getSectionVals($obj, parent_field) {
                         var section_vals = {};
@@ -642,7 +659,6 @@
                             autocommit: 1
                         })
                         .done(function(data) {
-                            console.log(data);
                             if (data.result) {
                                 if (data.result.saved && field === "dev_milestone") {
                                     location.reload();
@@ -678,11 +694,7 @@
                             autocommit: 0
                         })
                         .done(function(data) {
-                            if (!data.result) {
-                                if ($("#error").hasClass("hide")) {
-                                    $("#error").removeClass("hide");
-                                }
-                            } else {
+                            if (data.result && data.result[field]) {
                                 if (data.result.is_admin) {
                                     if ($("#view_commits").hasClass("hide")) {
                                         $("#view_commits").removeClass("hide");
@@ -698,6 +710,10 @@
                                 pre_templates[field] = Handlebars.templates['pre_edit_' + field](ia_data);
 
                                 $obj.replaceWith(pre_templates[field]);
+                            } else {
+                                if ($("#error").hasClass("hide")) {
+                                    $("#error").removeClass("hide");
+                                }
                             }
                         });
                     }

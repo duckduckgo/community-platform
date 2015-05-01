@@ -5,7 +5,7 @@
 
     <ul class="dev_pipeline-column__list" id="pipeline-planning__list">
         {{#each planning}}
-            <li id="pipeline-planning__list__{{id}}" class="{{#if can_edit}}can_edit{{/if}} producer-{{producer}} designer-{{designer}} developer-{{developer.name}}">
+            <li id="pipeline-planning__list__{{id}}" class="{{#if can_edit}}can_edit{{/if}} producer-{{producer}} designer-{{designer}} {{#each developer}}developer-{{name}} {{/each}}">
                 <div class="ia-item--stamp circle stamp--{{repo}} left"></div>
                 <div class="left item-name">
                     <a href="/ia/view/{{id}}">{{name}}</a>
@@ -21,10 +21,9 @@
         Development
     </h2>
 
-
     <ul class="dev_pipeline-column__list" id="pipeline-development__list">
         {{#each development}}
-            <li id="pipeline-development__list__{{id}}" class="{{#if can_edit}}can_edit{{/if}} producer-{{producer}} designer-{{designer}} developer-{{developer.name}}">
+            <li id="pipeline-development__list__{{id}}" class="{{#if can_edit}}can_edit{{/if}} producer-{{producer}} designer-{{designer}} {{#each developer}}developer-{{name}} {{/each}}">
                 <div class="ia-item--stamp circle stamp--{{repo}} left"></div>
                 <div class="left item-name">
                     <a href="/ia/view/{{id}}">{{name}}</a>
@@ -40,10 +39,9 @@
         Testing
     </h2>
 
-
     <ul class="dev_pipeline-column__list" id="pipeline-testing__list">
         {{#each testing}}
-            <li id="pipeline-testing__list__{{id}}" class="{{#if can_edit}}can_edit{{/if}} producer-{{producer}} designer-{{designer}} developer-{{developer.name}}">
+            <li id="pipeline-testing__list__{{id}}" class="{{#if can_edit}}can_edit{{/if}} producer-{{producer}} designer-{{designer}} {{#each developer}}developer-{{name}} {{/each}}">
                 <div class="ia-item--stamp circle stamp--{{repo}} left"></div>
                 <div class="left item-name">
                     <a href="/ia/view/{{id}}">{{name}}</a>
@@ -59,10 +57,9 @@
         Complete
     </h2>
 
-
     <ul class="dev_pipeline-column__list" id="pipeline-complete__list">
         {{#each complete}}
-            <li id="pipeline-complete__list__{{id}}" class="{{#if can_edit}}can_edit{{/if}} producer-{{producer}} designer-{{designer}} developer-{{developer.name}}">
+            <li id="pipeline-complete__list__{{id}}" class="{{#if can_edit}}can_edit{{/if}} producer-{{producer}} designer-{{designer}} {{#each developer}}developer-{{name}} {{/each}}">
                 <div class="ia-item--stamp circle stamp--{{repo}} left"></div>
                 <div class="left item-name">
                     <a href="/ia/view/{{id}}">{{name}}</a>
