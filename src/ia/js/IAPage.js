@@ -190,7 +190,8 @@
                                     }                            
                                 }
 
-                                if (ia_data.live.dev_milestone !== "live" && ia_data.live.dev_milestone !== "deprecated") {
+                                if (ia_data.live.dev_milestone !== "live" && ia_data.live.dev_milestone !== "deprecated"
+                                    && (!ia_data.permissions.can_edit) && (!ia_data.permissions.admin)) {
                                     page.imgHide = true;
                                     $(".button.js-expand").hide();
                                 }
