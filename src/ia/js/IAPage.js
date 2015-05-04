@@ -676,6 +676,10 @@
                                         page.setMaxHeight($(".milestone-panel"));
                                     }
 
+                                    if (field === "name") {
+                                        $(".ia-single--name h2").text(ia_data.live[field]);
+                                    }
+
                                     page.appendTopics();
                                     page.hideAssignToMe();
 

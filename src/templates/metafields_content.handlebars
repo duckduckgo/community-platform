@@ -2,7 +2,26 @@
   <div id="metafield_container--left" class="left">
 
     <table>
-      <tbody>       
+      <tbody> 
+        <tr>
+          <td>
+            <div class="dev_milestone-container__body__label ia-single--header">
+              NAME
+            </div>
+          </td>
+          <td>
+            {{#if permissions.admin}}
+                <input data-panel="metafields" type="text" class="name js-autocommit metafield" id="name-input" value="{{live.name}}" />
+            {{else}}
+                {{#if live.name}}    
+                    <div class="dev_milestone-container__body__readonly" id="name-txt">
+                        {{live.name}}
+                    </div>
+                {{/if}}
+            {{/if}}
+          </td>
+        </tr>
+
         <tr>
           <td class="up">
             <div class="dev_milestone-container__body__label ia-single--header">
