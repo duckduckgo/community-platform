@@ -463,8 +463,8 @@
                     });
 
                     $("body").on('click', '.add_input', function(evt) {
-                        $(this).addClass("hide");
-                        $(this).parent().find('.new_input').removeClass("hide");
+                        $new_input = $(this).parent().find('.new_input').first().clone();
+                        $(this).before($new_input.removeClass("hide"));
                     });
 
                     $("body").on('click', '#add_topic', function(evt) {
