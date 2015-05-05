@@ -111,23 +111,34 @@
                         location.href = json_url;
                     });
 
-                    $('body').on("change keypress", ".available_types, .developer_username input", function(evt) {
-                        if ((evt.type === "change" && $(this).hasClass("available_types")) || (evt.type === "keypress" && evt.which === 13)) {
+                    $('body').on("change keypress focusout", ".available_types, .developer_username input", function(evt) {
+                        if ((evt.type === "change" && $(this).hasClass("available_types")) || (evt.type === "keypress" && evt.which === 13)
+                             || (evt.type === "focusout" && $(this).hasClass("focused"))) {
                             var $available_types;
                             var $dev_username;
 
-                            if (evt.type === "keypress") {
+                            if (evt.type !== "change") {
                                 $available_types = $(this).parent().parent().find(".available_types");
                                 $dev_username = $(this).parent().parent().find(".developer_username input");
                             } else {
                                 $available_types = $(this).parent().find(".available_types");
                                 $dev_username = $(this).parent().find(".developer_username input");
                             }
+
+                            if ($(this).hasClass("focused")) {
+                                $(this).removeClass("focused");
+                            }
                             
                             var type = $.trim($available_types.find("option:selected").text());
                             var username = $.trim($dev_username.val());
 
                             usercheck(type, username, $available_types, $dev_username);
+                        }
+                    });
+
+                    $('body').on("focusin", ".developer_username input", function(evt) {
+                        if (!$(this).hasClass("focused")) {
+                            $(this).addClass("focused");
                         }
                     });
 
