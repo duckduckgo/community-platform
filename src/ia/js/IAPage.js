@@ -279,6 +279,8 @@
                         var is_json = false;
                         var panel = $.trim($(this).attr("data-panel"));
 
+                        resetSaved($(this));
+
                         if ($(this).hasClass("icon-check-empty")) {
                             value = 1;
                             $(this).removeClass("icon-check-empty").addClass("icon-check");
@@ -307,12 +309,28 @@
                         if (!$(this).hasClass("js-autocommit-focused")) {
                             $(this).focus();
                         }
+
+                        resetSaved($(this));
                     });
 
                     $("body").on("focusin", "textarea.js-autocommit, input.js-autocommit", function(evt) {
                         if (!$(this).hasClass("js-autocommit-focused")) {
                             $(this).addClass("js-autocommit-focused");
                         }
+
+                        resetSaved($(this));
+                    });
+
+                    $("body").on("click", "select.js-autocommit", function(evt) {
+                        var $obj;
+
+                        if ($(this).hasClass("topic-group")) {
+                            $obj = $(".js-autocommit.topic");
+                        } else {
+                            $obj = $(this);
+                        }
+                        
+                        resetSaved($obj);
                     });
 
                     $("body").on('change', "select.js-autocommit", function(evt) {
@@ -320,7 +338,7 @@
                         var value;
                         var is_json = false;
                         var panel = $.trim($(this).attr("data-panel"));
-                    
+
                         if ($(this).hasClass("topic-group")) {
                             value = [];
                             var temp;
@@ -660,6 +678,14 @@
                         });
                         
                         return section_vals;
+                    }
+
+                    function resetSaved($obj) {
+                        if ($obj.hasClass("saved")) {
+                            $obj.removeClass("saved");
+                        } else if ($obj.hasClass("not_saved")) {
+                            $obj.removeClass("not_saved");
+                        }
                     }
 
                     function autocommit(field, value, id, is_json, panel) {
