@@ -83,6 +83,7 @@ sub iarepo_json :Chained('iarepo') :PathPart('json') :Args(0) {
     my @x = $c->d->rs('InstantAnswer')->search({
         repo => $repo,
         -or => [{dev_milestone => 'live'},
+        {dev_milestone => 'development'},
         {dev_milestone => 'testing'},
         {dev_milestone => 'complete'}]
     });
@@ -538,7 +539,9 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
 
             if ($field =~ /designer|producer/){
                 return $c->forward($c->view('JSON')) unless $complat_user_admin || $value eq '';
-            } elsif ($field eq "meta_id") {
+            } elsif ($field eq "id") {
+                $field = "meta_id";
+
                 # meta_id must be unique, lowercase and without spaces
                 $value =~ s/\s//g;
                 $value = lc $value;
@@ -568,6 +571,10 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
                 $saved = 1;
                 
                 save_milestone_date($ia, $c->req->params->{value});
+            }
+
+            if ($field eq "meta_id") {
+                $field = "id";
             }
 
             $result = {$field => $value, is_admin => $is_admin, saved => $saved};

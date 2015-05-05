@@ -242,14 +242,16 @@ column type => {
 column producer => {
     data_type => 'text',
     is_nullable => 1,
-    pipeline => 1
+    pipeline => 1,
+    for_endpt => 1
 };
 
 # IA designer (must be an admin)
 column designer => {
     data_type => 'text',
     is_nullable => 1,
-    pipeline => 1
+    pipeline => 1,
+    for_endpt => 1
 };
 
 # IA developer
@@ -257,7 +259,8 @@ column developer => {
     data_type => 'text',
     is_nullable => 1,
     pipeline => 1,
-    is_json => 1
+    is_json => 1,
+    for_endpt => 1
 };
 
 # code review (can be completed, aka '1', or not completed, aka '0')

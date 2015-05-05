@@ -111,23 +111,34 @@
                         location.href = json_url;
                     });
 
-                    $('body').on("change keypress", ".available_types, .developer_username input", function(evt) {
-                        if ((evt.type === "change" && $(this).hasClass("available_types")) || (evt.type === "keypress" && evt.which === 13)) {
+                    $('body').on("change keypress focusout", ".available_types, .developer_username input", function(evt) {
+                        if ((evt.type === "change" && $(this).hasClass("available_types")) || (evt.type === "keypress" && evt.which === 13)
+                             || (evt.type === "focusout" && $(this).hasClass("focused"))) {
                             var $available_types;
                             var $dev_username;
 
-                            if (evt.type === "keypress") {
+                            if (evt.type !== "change") {
                                 $available_types = $(this).parent().parent().find(".available_types");
                                 $dev_username = $(this).parent().parent().find(".developer_username input");
                             } else {
                                 $available_types = $(this).parent().find(".available_types");
                                 $dev_username = $(this).parent().find(".developer_username input");
                             }
+
+                            if ($(this).hasClass("focused")) {
+                                $(this).removeClass("focused");
+                            }
                             
                             var type = $.trim($available_types.find("option:selected").text());
                             var username = $.trim($dev_username.val());
 
                             usercheck(type, username, $available_types, $dev_username);
+                        }
+                    });
+
+                    $('body').on("focusin", ".developer_username input", function(evt) {
+                        if (!$(this).hasClass("focused")) {
+                            $(this).addClass("focused");
                         }
                     });
 
@@ -268,6 +279,8 @@
                         var is_json = false;
                         var panel = $.trim($(this).attr("data-panel"));
 
+                        resetSaved($(this));
+
                         if ($(this).hasClass("icon-check-empty")) {
                             value = 1;
                             $(this).removeClass("icon-check-empty").addClass("icon-check");
@@ -296,12 +309,28 @@
                         if (!$(this).hasClass("js-autocommit-focused")) {
                             $(this).focus();
                         }
+
+                        resetSaved($(this));
                     });
 
                     $("body").on("focusin", "textarea.js-autocommit, input.js-autocommit", function(evt) {
                         if (!$(this).hasClass("js-autocommit-focused")) {
                             $(this).addClass("js-autocommit-focused");
                         }
+
+                        resetSaved($(this));
+                    });
+
+                    $("body").on("click", "select.js-autocommit", function(evt) {
+                        var $obj;
+
+                        if ($(this).hasClass("topic-group")) {
+                            $obj = $(".js-autocommit.topic");
+                        } else {
+                            $obj = $(this);
+                        }
+                        
+                        resetSaved($obj);
                     });
 
                     $("body").on('change', "select.js-autocommit", function(evt) {
@@ -309,7 +338,7 @@
                         var value;
                         var is_json = false;
                         var panel = $.trim($(this).attr("data-panel"));
-                    
+
                         if ($(this).hasClass("topic-group")) {
                             value = [];
                             var temp;
@@ -463,8 +492,8 @@
                     });
 
                     $("body").on('click', '.add_input', function(evt) {
-                        $(this).addClass("hide");
-                        $(this).parent().find('.new_input').removeClass("hide");
+                        $new_input = $(this).parent().find('.new_input').first().clone();
+                        $(this).before($new_input.removeClass("hide"));
                     });
 
                     $("body").on('click', '#add_topic', function(evt) {
@@ -651,6 +680,14 @@
                         return section_vals;
                     }
 
+                    function resetSaved($obj) {
+                        if ($obj.hasClass("saved")) {
+                            $obj.removeClass("saved");
+                        } else if ($obj.hasClass("not_saved")) {
+                            $obj.removeClass("not_saved");
+                        }
+                    }
+
                     function autocommit(field, value, id, is_json, panel) {
                         var jqxhr = $.post("/ia/save", {
                             field : field,
@@ -662,8 +699,8 @@
                             if (data.result) {
                                 if (data.result.saved && field === "dev_milestone") {
                                     location.reload();
-                                } else if (data.result.saved && field === "meta_id") {
-                                    location.href = "/ia/view/" + data.result.meta_id;
+                                } else if (data.result.saved && field === "id") {
+                                    location.href = "/ia/view/" + data.result.id;
                                 } else {
                                     ia_data.live[field] = (is_json && data.result[field])? $.parseJSON(data.result[field]) : data.result[field];
                                     readonly_templates[panel + "_content"] = Handlebars.templates[panel + "_content"](ia_data);
@@ -674,6 +711,10 @@
                                     if (page.imgHide) {
                                         $("#" + panel).height($panel_body.height() + 50);
                                         page.setMaxHeight($(".milestone-panel"));
+                                    }
+
+                                    if (field === "name") {
+                                        $(".ia-single--name h2").text(ia_data.live[field]);
                                     }
 
                                     page.appendTopics();
