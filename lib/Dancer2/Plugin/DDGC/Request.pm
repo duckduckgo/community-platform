@@ -24,7 +24,7 @@ sub _apply_session_to_req {
     my ( $dsl, $req ) = @_;
     if ( $dsl->can('session') && $dsl->session->id ) {
         $req->header(
-            Cookie => 'plack_session=' . $dsl->request->env->{'psgix.session.options'}->{id},
+            Cookie => 'ddgc_session=' . $dsl->request->env->{'psgix.session.options'}->{id},
         );
     }
 }

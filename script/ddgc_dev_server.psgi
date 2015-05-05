@@ -1,5 +1,8 @@
 #!/usr/bin/env perl
 
+# Development server builder.
+# See ddgc_dev_server.sh
+
 use strict;
 use warnings;
 
@@ -17,6 +20,7 @@ builder {
         secure => 0,
         httponly => 1,
         expires => 21600,
+        session_key => 'ddgc_session',
     );
     enable 'Debug', panels => [
         qw/ Environment Response Parameters Timer Memory Session DBITrace CatalystLog /

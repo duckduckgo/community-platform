@@ -132,7 +132,7 @@ sub uid { md5_hex $_[0]->uuid->create_str . rand };
 sub _apply_session_to_req {
 	my ( $c, $req ) = @_;
 	$req->header(
-		Cookie => 'plack_session=' . $c->req->env->{'psgix.session.options'}->{id},
+		Cookie => 'ddgc_session=' . $c->req->env->{'psgix.session.options'}->{id},
 	);
 }
 sub _ref_to_uri {
