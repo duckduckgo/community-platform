@@ -150,12 +150,16 @@ sub for_edit {
         uri     => lc( $self->uri ),
         teaser  => $self->teaser,
         content => $self->content,
-        $self->topics ? ( topics => join( ', ', @{ $self->topics } ) ) : (),
+        $self->topics
+            ? ( topics => join( ', ', @{ $self->topics } ) )
+            : (),
         raw_html => $self->raw_html,
         $self->fixed_date
-        ? ( fixed_date =>
-              DateTime::Format::RSS->new->format_datetime( $self->fixed_date ) )
-        : (),
+            ? ( fixed_date =>
+              DateTime::Format::RSS->new->format_datetime(
+                  $self->fixed_date
+              ) )
+            : (),
         live         => $self->live,
         company_blog => $self->company_blog,
     };
