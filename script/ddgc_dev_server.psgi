@@ -10,18 +10,19 @@ use FindBin;
 use lib $FindBin::Dir . "/../lib";
 
 use Plack::Builder;
-use Plack::Session::State::Cookie;
+use Cache::File;
 use DDGC::Web;
 use DDGC::Web::App::Blog;
 use DDGC::Web::Service::Blog;
 
 builder {
-    enable 'Session', store => 'File', state => Plack::Session::State::Cookie->new(
+    enable 'Session::Simple',
+        store => Cache::FileCache->new,
+        keep_empty => 0,
         secure => 0,
         httponly => 1,
-        expires => 21600,
-        session_key => 'ddgc_session',
-    );
+        expires => '+21600s',
+        cookie_name => 'ddgc_session';
     enable 'Debug', panels => [
         qw/ Environment Response Parameters Timer Memory Session DBITrace CatalystLog /
     ];
