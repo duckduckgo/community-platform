@@ -34,7 +34,7 @@
         : }
         : include "includes/header/nav.tx"
 
-        : if !$user {
+        : if !$vars.user {
             : include "includes/header/login.tx"
         : } else {
             : include "includes/header/accountinfo.tx"
