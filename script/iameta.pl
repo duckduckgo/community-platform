@@ -7,17 +7,13 @@ use feature "say";
 use Data::Dumper;
 use Try::Tiny;
 use File::Copy qw( move );
-use LWP::Simple;
 
 sub debug { 0 };
 
 my $upload_meta = DDGC::Config->new->rootdir_path . "cache/all_meta.json";
 my $meta_copy = $upload_meta . '.copy';
 
-my $nuke_tables = 0;
-$nuke_tables = 1 if $ARGV[0] && $ARGV[0] eq "delete";
-
-exit 0 unless (-f $upload_meta || $nuke_tables);
+exit 0 unless (-f $upload_meta);
 
 use DDGC;
 use JSON;
@@ -29,6 +25,8 @@ sleep(2);
 
 my $d = DDGC->new;
 my $meta = '';
+my $nuke_tables = 0;
+$nuke_tables = 1 if $ARGV[0] && $ARGV[0] eq "delete";
 
 if(-f $meta_copy){
     unlink $meta_copy;
@@ -43,22 +41,13 @@ try {
 catch {
     $d->errorlog("Error reading metadata: $_");
     die;
-} unless $nuke_tables;
+};
 
 my $update = sub { 
     if($nuke_tables){
         print "Deleting all tables before updating\n";
         $d->rs('InstantAnswer')->delete;
         $d->rs('Topic')->delete;
-
-        # get data from complat json endpoints
-        my @data;
-        my $res;
-        foreach my $repo (qw(spice goodies fathead longtail)){
-            my $res = get "http://duck.co/ia/repo/$repo/json" or warn  "Didn't get repo: $repo, try again";
-            push(@data, $res);
-        }
-        $meta = from_json($res);
     }
 
     say "there are " . (scalar @{$meta}) . " IAs" if debug;
