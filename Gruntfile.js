@@ -59,6 +59,7 @@ module.exports = function(grunt) {
                     filter: 'exclude',
                     tasks: ['compass', 'diff'], // not using this yet
                     groups: {
+                        'Utils:': ['watch'],
                         'Build:' : ['handlebars', 'concat'],
                         'Release:' : ['handlebars', 'concat', 'cssmin', 'removelogging', 'uglify', 'remove:dev', 'version'],
                         'Commit:' : ['gitcommit'],
@@ -219,6 +220,21 @@ module.exports = function(grunt) {
             revert_release: "./script/revert_pkg_version.pl release"
         },
 
+        watch: {
+            scripts: {
+                files: ['src/ia/js/*.js'],
+                tasks: ['concat']
+            },
+            templates: {
+                files: ['src/templates/*.handlebars'],
+                tasks: ['concat']
+            },
+            scss: {
+                files: ['src/ia/css/*'],
+                tasks: ['compass', 'concat']
+            }
+        },
+
         /*
          * bumps the version number in package.json
          */
@@ -278,4 +294,5 @@ module.exports = function(grunt) {
         grunt.loadNpmTasks('grunt-available-tasks');
         grunt.loadNpmTasks('grunt-bump');
         grunt.loadNpmTasks('grunt-contrib-jshint');
+        grunt.loadNpmTasks('grunt-contrib-watch');
 }
