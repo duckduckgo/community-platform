@@ -82,7 +82,7 @@ module.exports = function(grunt) {
                 dest: static_dir + 'js/ddgc.js'
             },
             ia_css: {
-                src: ia_dir + 'css/*.css',
+                src: 'build/ia.css',
                 dest: static_dir + 'css/ia.css'
             },
             ddgc_css: {
@@ -185,19 +185,16 @@ module.exports = function(grunt) {
          */
         compass: {
             options: {
-                sassDir: 'src/ia/css',
-                cssDir: 'src/ia/css'
+                sassDir: 'src/ia/scss',
+                cssDir: 'build'
             },
             dist: {
                 options: {
                     ia: {
-                        cssDir: 'src/ia/css'
+                        cssDir: 'build'
                     },
-                    ddgc:{
-                        cssDir: 'src/ddgc/css'
-                    }
                 }
-            } 
+            }
         },
 
         /*
@@ -230,7 +227,7 @@ module.exports = function(grunt) {
                 tasks: ['concat']
             },
             scss: {
-                files: ['src/ia/css/*'],
+                files: ['src/ia/scss/*'],
                 tasks: ['compass', 'concat']
             }
         },

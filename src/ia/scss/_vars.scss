@@ -1,0 +1,64 @@
+/*
+	Color Palette
+*/
+
+$black: #111111;
+$white: #ffffff;
+$silver-light: #f7f7f7;
+$silver: #f2f2f2;
+$silver-dark: #ededed;
+$platinum-light: #e5e5e5;
+$platinum: #e0e0e0;
+$platinum-dark: #d0d0d0;
+$platinum-darker: #c3c3c3;
+$grey-light: #aaaaaa;
+$grey: #999999;
+$grey-dark: #888888;
+$slate-light: #666666;
+$slate-light-blue: #434a50;
+$slate: #333333;
+$slate-dark: $black;
+$slate-blue: #34383b;
+
+$gray-blue: #707978;
+
+$gray-light: $grey-light;
+$gray: $grey;
+$gray-dark: $grey-dark;
+
+$plat-light: $platinum-light;
+$plat: $platinum;
+$plat-dark: $platinum-dark;
+$plat-darker: $platinum-darker;
+
+$divider-gray: $platinum-dark;
+
+$red: #de5833;
+$red-dark: #bd4b2b;
+$red-darker: darken($red-dark,15%);
+$red-light: #e37151;
+$red-lighter: lighten($red-light,15%);
+$green: #589e4d;
+$blue-desaturated: #6096bf;
+$blue-dark-bg: #49a9f2;
+$blue: #4495d4;
+$blue-dark: #3a7fb4;
+$blue-darker: darken($blue-dark,15%);
+$blue-light: #60a5da;
+$blue-lighter: lighten($blue-light,15%);
+$blue-lightest: lighten($blue-light,20%);
+$gold: #f1a031;
+$purple: #6d59a3;
+
+$button-bg: #fafafa;
+$button-color: $slate;
+$button-border: #dddddd;
+
+$button-bg-alt: $platinum-light;
+$button-color-alt: $slate-light;
+$button-border-alt: $platinum-darker;
+
+$button-icon-bg: #dfdfdf;
+
+$button-show-more-font-size: 1em;
+$button-show-more-line-height: 3;
