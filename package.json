@@ -4,6 +4,7 @@
   "engines": {
     "node": ">=0.10.0"
   },
+  "repository": "duckduckgo/community-platform",
   "devDependencies": {
     "grunt": "^0.4.5",
     "grunt-available-tasks": "^0.5.7",
