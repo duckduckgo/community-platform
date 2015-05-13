@@ -229,5 +229,22 @@ sub contributions :Chained('base') :Args(0) {
     }
 }
 
+sub coupons :Chained('base') :Args(0) {
+    my ( $self, $c ) = @_;
+    $c->add_bc('Assigned Coupons');
+    my $dbh = $c->d->rs('User')->schema->storage->dbh;
+
+    $c->stash->{assigned_coupons} = $dbh->selectall_arrayref(q/
+        select to_char(cn.responded, 'DD Mon YYYY') as responded, uc.coupon as coupon
+        from   user_campaign_notice cn, user_coupon uc
+        where  cn.users_id = uc.users_id
+          and  cn.campaign_source = 'campaign'
+          and  cn.campaign_id = 2
+          and  uc.users_id is not null
+          and  cn.responded is not null
+        order  by cn.responded desc
+    /) or die $dbh->errstr;
+}
+
 no Moose;
 __PACKAGE__->meta->make_immutable;
