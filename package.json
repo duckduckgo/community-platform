@@ -5,6 +5,9 @@
     "node": ">=0.10.0"
   },
   "repository": "duckduckgo/community-platform",
+  "dependencies": {
+    "duckduckgo-colors": "0.0.1"
+  },
   "devDependencies": {
     "grunt": "^0.4.5",
     "grunt-available-tasks": "^0.5.7",
