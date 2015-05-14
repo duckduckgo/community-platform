@@ -32,10 +32,10 @@
 				</div>
 				<div class="row">
 					<div class="third">
-						<label for="url">URL</label>
+						<label for="url">Slug</label>
 					</div>
 					<div class="twothird">
-						<input type="text" name="uri" size="50" value="<: $post.uri :>" />
+						<input type="text" name="uri" size="50" value="<: $post.uri :>" placeholder="(leave empty to take slug from title)" />
 					</div>
 					<: if $error_uri_invalid { :>
 					<div class="row">
