@@ -15,9 +15,8 @@
         <div class="site-main">
             : #include "includes/topmessage.tx"
             <div class="<: if !$no_wrap { :>content-wrap<: } :>">
-                : #include "includes/notice/errors.tx"
-                : #include "includes/notice/warnings.tx"
-                : #include "includes/notice/campaign.tx"
+                : include "includes/flash.tx"
+
                 : $content
             </div>
         </div> <!--.site-main-->
