@@ -128,6 +128,10 @@ sub is {
     return 0;
 }
 
+sub unread_notifications {
+    0;
+}
+
 sub remove_role {
     my ( $self, $role ) = @_;
     return $self->update({ admin => 0 }) if $role eq 'admin';
