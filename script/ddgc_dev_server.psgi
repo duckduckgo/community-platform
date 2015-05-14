@@ -10,14 +10,17 @@ use FindBin;
 use lib $FindBin::Dir . "/../lib";
 
 use Plack::Builder;
-use Cache::File;
+use CHI;
 use DDGC::Web;
 use DDGC::Web::App::Blog;
 use DDGC::Web::Service::Blog;
 
 builder {
     enable 'Session::Simple',
-        store => Cache::FileCache->new,
+        store => CHI->new(
+            driver => 'File',
+            root_dir => '/tmp/ddgc_session',
+        ),
         keep_empty => 0,
         secure => 0,
         httponly => 1,
