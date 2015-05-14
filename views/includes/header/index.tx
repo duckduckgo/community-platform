@@ -34,10 +34,10 @@
         : }
         : include "includes/header/nav.tx"
 
-        : if !$vars.user {
-            : include "includes/header/login.tx"
-        : } else {
+        : if $vars.user {
             : include "includes/header/accountinfo.tx"
+        : } else {
+            : include "includes/header/login.tx"
         : }
 
     </div>
