@@ -1,0 +1,2 @@
+: my $size = $userpic_size || 32
+<img class="userpic" src="<: $vars.user.avatar( $size ) :>" width="<: $size :>" />
