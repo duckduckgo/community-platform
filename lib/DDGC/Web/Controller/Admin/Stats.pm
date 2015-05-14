@@ -234,8 +234,8 @@ sub coupons :Chained('base') :Args(0) {
     $c->add_bc('Assigned Coupons');
     my $dbh = $c->d->rs('User')->schema->storage->dbh;
 
-    $c->stash->{assigned_coupons} = $dbh->selectall_arrayref(q/
-        select to_char(cn.responded, 'DD Mon YYYY') as responded, uc.coupon as coupon
+    $c->stash->{assigned_coupons} = $dbh->selectall_arrayref("
+        select to_char(cn.responded, 'MM/DD/YYYY') as responded, uc.coupon as coupon
         from   user_campaign_notice cn, user_coupon uc
         where  cn.users_id = uc.users_id
           and  cn.campaign_source = 'campaign'
@@ -243,7 +243,7 @@ sub coupons :Chained('base') :Args(0) {
           and  uc.users_id is not null
           and  cn.responded is not null
         order  by cn.responded desc
-    /) or die $dbh->errstr;
+    ") or die $dbh->errstr;
 }
 
 no Moose;
