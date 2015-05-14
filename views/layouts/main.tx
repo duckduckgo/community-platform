@@ -18,11 +18,12 @@
                 : include "includes/flash.tx"
 
                 : $content
+
             </div>
         </div> <!--.site-main-->
         : include "includes/footer.tx"
     </div> <!--wrapper-->
-    : if !$user {
+    : if !$vars.user {
         : include "includes/modal_login.tx"
     : }
     : #include "includes/report.tx"
