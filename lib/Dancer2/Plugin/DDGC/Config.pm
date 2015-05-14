@@ -75,6 +75,12 @@ on_plugin_import {
                 Xslate => {
                     path      => 'views',
                     cache_dir => $config->xslate_cachedir,
+                    cache     => 1,
+                    function => {
+                        uri_for => sub {
+                            $dsl->root_uri_for(@_);
+                        },
+                    },
                 },
             }
         }
