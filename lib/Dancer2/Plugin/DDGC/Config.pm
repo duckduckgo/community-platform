@@ -12,6 +12,23 @@ on_plugin_import {
     my $config = DDGC::Config->new;
     my $appdir = $dsl->config->{appdir};
 
+    $dsl->set(ddgc_config => $config);
+    $dsl->set(charset => 'UTF-8');
+
+    $dsl->set(
+        engines  => {
+            ( $dsl->config->{engines} )
+            ? %{ $dsl->config->{engines} }
+            : (),
+            session => {
+                PSGI => {
+                    cookie_name => 'ddgc_session',
+                },
+            },
+        }
+    );
+    $dsl->set(session => 'PSGI');
+
     my $dsn_cfgs = {
        'Pg' => {
             options => {
@@ -30,8 +47,6 @@ on_plugin_import {
 
     (my $rdbms = $config->db_dsn) =~ s/dbi:([a-zA-Z]+):.*/$1/;
 
-    $dsl->set(ddgc_config => $config);
-    $dsl->set(charset => 'UTF-8');
 
     $dsl->set(
         plugins => {
@@ -47,8 +62,6 @@ on_plugin_import {
             },
         },
     );
-
-    $dsl->set(session => 'PSGI');
 
     $dsl->set(layout => 'main');
     $dsl->set(views => './');
