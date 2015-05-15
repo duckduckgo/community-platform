@@ -1,39 +1,65 @@
 #!/usr/bin/env perl
 # recover a dev database with whatever is live on duck.co/ia/view/$repo/json enpoints
-#
+# ./ddgc_rebuild_dev_db.pl --repo <repo to delete> --ia <ia to delete>
+# default (no options) deletes everything
 #
 use FindBin;
 use lib $FindBin::Dir . "/../lib";
 use strict;
 use warnings;
 use feature "say";
-use Data::Dumper;
-use Try::Tiny;
-use File::Copy qw( move );
-use LWP::Simple;
-
-sub debug { 0 };
-
 use DDGC;
-use JSON;
+use Data::Dumper;
+use File::Copy qw( move );
+use Getopt::Long;
 use IO::All;
+use JSON;
+use LWP::Simple;
+use Try::Tiny;
 use Term::ANSIColor;
 use Term::ProgressBar;
+sub debug { 0 };
 
 my $d = DDGC->new;
+my $ia_to_delete;
+my $repo_to_delete;
+
+GetOptions (
+    "repo=s" => \$repo_to_delete,
+    "ia=s" => \$ia_to_delete,
+);
 
 my $update = sub { 
-    
-    print "Deleting all tables before updating\n";
-    $d->rs('InstantAnswer')->delete;
-    $d->rs('Topic')->delete;
 
-    # get data from complat json endpoints
     my @data;
-    foreach my $repo (qw(spice goodies fathead longtail)){
-        my $res = get "http://duck.co/ia/repo/$repo/json" or warn  "Didn't get repo: $repo, try again";
+    # delete IA if given
+    if($ia_to_delete){
+        print "Deleting IA: $ia_to_delete\n";
+        my $result = $d->rs('InstantAnswer')->search({id => $ia_to_delete});
+        die "IA not found!" unless $result;
+        $result->delete;
+    }
+    # delete repo
+    elsif($repo_to_delete){
+        my $result = $d->rs('InstantAnswer')->search({repo => $repo_to_delete});
+        die "No repo found" unless $result->count;
+        print "Deleting repo: $repo_to_delete\n";
+        $result->delete;
+        my $res = get "http://duck.co/ia/repo/$repo_to_delete/json" or warn  "Didn't get repo: $repo_to_delete, try again";
         push(@data, from_json($res));
     }
+    # delete everything
+    else{
+        print "Deleting all tables before updating\n";
+        $d->rs('InstantAnswer')->delete;
+        $d->rs('Topic')->delete;
+        # get data from complat json endpoints
+        foreach my $repo (qw(spice goodies fathead longtail)){
+            my $res = get "http://duck.co/ia/repo/$repo/json" or warn  "Didn't get repo: $repo, try again";
+        push(@data, from_json($res));
+        }
+    }
+
     # combine the hashes
     my $meta = { map{ %$_ }(@data)};
     my $line = 1;
@@ -44,6 +70,11 @@ my $update = sub {
     print "Downloading IA metadata\n";
     my $progress_bar = Term::ProgressBar->new($total);
     # get the full metadata from /ia/view/$ia/json
+    if($ia_to_delete){
+        my $more_data = get "http://duck.co/ia/view/$ia_to_delete/json" or warn "Didn't get more data for IA: $ia_to_delete";
+        $more_data = from_json($more_data);
+        $meta->{$ia_to_delete} = $more_data->{live};
+    }
     while( my($key, $data) = each $meta ){
         $progress_bar->update($line);
         my $more_data = get "http://duck.co/ia/view/$key/json" or warn "Didn't get more data for IA: $key";
@@ -55,7 +86,6 @@ my $update = sub {
     }
 
     print "Updating database\n";
-
     while( my($key, $ia) = each $meta) {
         
         if (debug) {
@@ -65,10 +95,8 @@ my $update = sub {
         }
 
         $ia->{meta_id} = $ia->{id};
-
         # get these with ghIssues.pl
         delete $ia->{issues};
-
         # get column attributes
         my $rs = $d->rs('InstantAnswer')->get_column('id');
         
@@ -86,10 +114,8 @@ my $update = sub {
         my $new_ia = $d->rs('InstantAnswer')->find($ia->{id});
 
         if ($new_ia) {
-
             # did we have topics?
             if ($ia->{topic}) {
-
                 for my $topic_name (@{$ia->{topic}}) {
 
                     if (debug) {
@@ -97,8 +123,6 @@ my $update = sub {
                         print "\t$topic_name\n";
                         print color 'reset';
                     }
-
-                    # create topic if it doesn't exist.
 
                     my $topic = $d->rs('Topic')->update_or_create({name => $topic_name});
 
@@ -112,15 +136,6 @@ my $update = sub {
             }
         }
     }
-        # debug key val
-        # for my $k (keys %{$ia}) {
-        #     my $val = $ia->{$k} || "(null)";
-        #     print "   $k: ";
-        #     print color 'green';
-        #     print "$val\n";
-        #     print color 'reset';
-        # }
-        # exit 1 if (++$line > 5);
 };
 
 try{
