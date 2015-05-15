@@ -59,6 +59,7 @@ module.exports = function(grunt) {
                     filter: 'exclude',
                     tasks: ['compass', 'diff'], // not using this yet
                     groups: {
+                        'Utils:': ['watch'],
                         'Build:' : ['handlebars', 'concat'],
                         'Release:' : ['handlebars', 'concat', 'cssmin', 'removelogging', 'uglify', 'remove:dev', 'version'],
                         'Commit:' : ['gitcommit'],
@@ -81,7 +82,7 @@ module.exports = function(grunt) {
                 dest: static_dir + 'js/ddgc.js'
             },
             ia_css: {
-                src: ia_dir + 'css/*.css',
+                src: 'build/ia.css',
                 dest: static_dir + 'css/ia.css'
             },
             ddgc_css: {
@@ -184,19 +185,16 @@ module.exports = function(grunt) {
          */
         compass: {
             options: {
-                sassDir: 'src/ia/css',
-                cssDir: 'src/ddgc/css'
+                sassDir: 'src/ia/scss',
+                cssDir: 'build'
             },
             dist: {
                 options: {
                     ia: {
-                        cssDir: 'src/ia/css'
+                        cssDir: 'build'
                     },
-                    ddgc:{
-                        cssDir: 'src/ddgc/css'
-                    }
                 }
-            } 
+            }
         },
 
         /*
@@ -217,6 +215,21 @@ module.exports = function(grunt) {
         exec: {
             revert: "./script/revert_pkg_version.pl",
             revert_release: "./script/revert_pkg_version.pl release"
+        },
+
+        watch: {
+            scripts: {
+                files: ['src/ia/js/*.js'],
+                tasks: ['concat']
+            },
+            templates: {
+                files: ['src/templates/*.handlebars'],
+                tasks: ['concat']
+            },
+            scss: {
+                files: ['src/ia/scss/*'],
+                tasks: ['compass', 'concat']
+            }
         },
 
         /*
@@ -278,4 +291,5 @@ module.exports = function(grunt) {
         grunt.loadNpmTasks('grunt-available-tasks');
         grunt.loadNpmTasks('grunt-bump');
         grunt.loadNpmTasks('grunt-contrib-jshint');
+        grunt.loadNpmTasks('grunt-contrib-watch');
 }
