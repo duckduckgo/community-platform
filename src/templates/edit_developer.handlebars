@@ -13,8 +13,8 @@
                         {{#eq_or this.type 'duck.co' 'github'}}
                             <select class="available_types left" tabindex="-1" {{#eq this.type 'legacy'}}disabled="disabled"{{/eq}}>
                                 {{#if this.type}}<option value="0">{{this.type}}</option>{{/if}}
-                                <option value="1">duck.co</option>
-                                <option value="2">github</option>
+                                {{#not_eq this.type 'duck.co'}}<option value="1">duck.co</option>{{/not_eq}}
+                                {{#not_eq this.type 'github'}}<option value="2">github</option>{{/not_eq}}
                             </select>
                         {{/eq_or}}
                         <span class="developer_username left type-{{this.type}}">

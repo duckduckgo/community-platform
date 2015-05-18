@@ -8,6 +8,13 @@
         }
     });
 
+    // Check if two values are different
+    Handlebars.registerHelper('not_eq', function(value1, value2, options) {
+        if (value1 !== value2) {
+            return options.fn(this);
+        }
+    });
+
     // True if the first value is equal to the second
     // or to the third
     Handlebars.registerHelper('eq_or', function(value1, value2, value3, options) {

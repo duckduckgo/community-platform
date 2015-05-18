@@ -4,10 +4,10 @@
             <span class="editable left" name="repo">
                 <select class="available_repos" tabindex="-1">
                     <option value="0">{{repo}}</option>
-                    <option value="1">spice</option>
-                    <option value="2">goodies</option>
-                    <option value="3">fathead</option>
-                    <option value="4">longtail</option>
+                    {{#not_eq repo 'spice'}}<option value="1">spice</option>{{/not_eq}}
+                    {{#not_eq repo 'goodies'}}<option value="2">goodies</option>{{/not_eq}}
+                    {{#not_eq repo 'fathead'}}<option value="3">fathead</option>{{/not_eq}}
+                    {{#not_eq repo 'longtail'}}<option value="4">longtail</option>{{/not_eq}}
                 </select>
             </span>
         </div>
