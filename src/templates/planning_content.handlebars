@@ -6,10 +6,10 @@
         <span>
         <select class="dev_milestone-container__body__select js-autocommit repo" data-panel="planning" tabindex="-1" id="repo-select">
             <option value="0">{{live.repo}}</option>
-            <option value="1">fathead</option>
-            <option value="2">goodies</option>
-            <option value="3">longtail</option>
-            <option value="4">spice</option>
+            {{#not_eq live.repo 'fathead'}}<option value="1">fathead</option>{{/not_eq}}
+            {{#not_eq live.repo 'goodies'}}<option value="2">goodies</option>{{/not_eq}}
+            {{#not_eq live.repo 'longtail'}}<option value="3">longtail</option>{{/not_eq}}
+            {{#not_eq live.repo 'spice'}}<option value="4">spice</option>{{/not_eq}}
         </select>
         </span>
     {{else}}
