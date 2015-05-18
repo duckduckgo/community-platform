@@ -34,7 +34,7 @@ sub functions {
     my ( $self ) = @_;
     +{
         uri_for => sub { $self->uri_for(@_) },
-        pager => sub { use DDP; p @_; $self->pager(@_) },
+        pager => sub { $self->pager(@_) },
     };
 }
 
