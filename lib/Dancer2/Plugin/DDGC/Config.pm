@@ -5,6 +5,7 @@ package Dancer2::Plugin::DDGC::Config;
 use Dancer2;
 use Dancer2::Plugin;
 use DDGC::Config;
+use DDGC::Util::TemplateHelpers;
 
 on_plugin_import {
     my ( $dsl ) = @_;
@@ -76,11 +77,10 @@ on_plugin_import {
                     path      => 'views',
                     cache_dir => $config->xslate_cachedir,
                     cache     => 1,
-                    function => {
-                        uri_for => sub {
-                            $dsl->root_uri_for(@_);
-                        },
-                    },
+                    function  =>
+                        DDGC::Util::TemplateHelpers->new(
+                            app => $dsl
+                        )->functions,
                 },
             }
         }
