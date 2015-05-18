@@ -56,7 +56,7 @@ sub ialist_json :Chained('base') :PathPart('json') :Args() {
 
     my @ial = $rs->search(
         {'topic.name' => [{ '!=' => 'test' }, { '=' => undef}],
-         'me.dev_milestone' => { '=' => ['live', 'complete']},
+         'me.dev_milestone' => { '=' => 'live'},
         },
         {
             columns => [ qw/ name repo src_name dev_milestone description template /, {id => 'meta_id'} ],
