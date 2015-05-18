@@ -71,7 +71,11 @@ B<GET '/page/[page]/pagesize/[pagesize]'>
 =cut
 
 get '/' => sub {
-    { posts => [ posts_page( params_hmv ) ] };
+    +{
+        posts => [ posts_page( params_hmv ) ],
+        page  => param_hmv('page'),
+        pages => ceil( total() / ( param_hmv('pagesize') || pagesize() ) ),
+    };
 };
 
 get '/page/:page' => sub {
