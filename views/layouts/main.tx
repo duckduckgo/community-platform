@@ -17,7 +17,7 @@
             <div class="<: if !$no_wrap { :>content-wrap<: } :>">
                 : include "includes/flash.tx"
 
-                : $content
+                : $content | raw
 
             </div>
         </div> <!--.site-main-->
