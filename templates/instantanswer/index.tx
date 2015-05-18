@@ -30,7 +30,7 @@
         </div>
     </div>
 
-    <span class="button-group" id="filter_dev_milestone">
+    <span class="button-group hide" id="filter_dev_milestone">
         <a id="ia_dev_milestone-all" class="button dev_milestone is-selected" href="#">
             All
         </a>
