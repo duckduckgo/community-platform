@@ -121,22 +121,6 @@ column updated => {
 
 belongs_to 'user', 'DDGC::Schema::Result::User', 'users_id';
 
-after insert => sub {
-    my ($self) = @_;
-    $self->add_event('create');
-    if ( $self->live ) {
-        $self->add_event('live');
-        $self->seen_live(1);
-        $self->update;
-    }
-    $self->user->add_context_notification( 'blog_comments', $self );
-};
-
-after update => sub {
-    my ($self) = @_;
-    $self->add_event('update');
-};
-
 sub date {
     my ($self) = @_;
     return $self->fixed_date if $self->fixed_date;
