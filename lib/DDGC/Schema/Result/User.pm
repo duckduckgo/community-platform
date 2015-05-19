@@ -179,6 +179,14 @@ sub avatar {
     return $avatar;
 }
 
+sub badge {
+    my ( $self ) = @_;
+    for my $role (qw/ admin community_leader translation_manager /) {
+        return $role if $self->is($role)
+    }
+    return '';
+}
+
 sub TO_JSON {
     [];
 }
