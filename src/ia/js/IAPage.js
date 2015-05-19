@@ -338,16 +338,21 @@
                         var value;
                         var is_json = false;
                         var panel = $.trim($(this).attr("data-panel"));
+                        var $selected = $(this).find("option:selected");
 
                         if ($(this).hasClass("topic-group")) {
                             value = [];
                             var temp;
                             $("select.js-autocommit.topic-group").each(function(idx) {
-                                temp = $.trim($(this).find("option:selected").text());
+                                $selected = $(this).find("option:selected");
 
-                                if (temp.length) {
-                                    value.push(temp);
+                                if ($selected.attr("value").length) {
+                                    temp = $.trim($selected.text());
+                                } else {
+                                    temp = '';
                                 }
+
+                                value.push(temp);
                             });
 
                            field = "topic";
@@ -355,7 +360,7 @@
                            is_json = true;
                         } else {
                            field = $.trim($(this).attr("id").replace("-select", ""));
-                           value = $.trim($(this).find("option:selected").text());
+                           value = $selected.attr("value").length? $.trim($selected.text()) : '';
                         }
 
                         if (field.length && value !== ia_data.live[field]) { 
@@ -600,7 +605,11 @@
                                                 return;
                                             }
                                         } else {
-                                            temp_val = (field === "topic")? $.trim($(this).text()) : $.trim($(this).val());
+                                            if (field === "topic") {
+                                                temp_val = $(this).attr("value").length? $.trim($(this).text()) : '';
+                                            } else {
+                                                temp_val = $.trim($(this).val());
+                                            }
                                         }
                                          
                                         if (temp_val && $.inArray(temp_val, value) === -1) {
@@ -858,12 +867,19 @@
 
                 // Hide duplicated dropdown values
                 $obj.each(function(idx) {
-                    var opt_0 = $.trim($(this).find('option[value="0"]').text());
+                    $first_opt = $(this).find('option[value="0"]');
+                    var opt_0 = $.trim($first_opt.text()) || '';
                     $(this).find("option").each(function(id) {
-                        if ($(this).attr("value") !== '0' && $.trim($(this).text()) === opt_0) {
+                        if ($(this) !== $first_opt && $.trim($(this).text()) === opt_0) {
                             $(this).hide();
                         }
                     });
+
+                    if (!opt_0)  {
+                        $first_opt.hide();
+                    } else {
+                        $first_opt.show();
+                    }
                 });
             }
         },
