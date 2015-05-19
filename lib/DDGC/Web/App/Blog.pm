@@ -52,7 +52,7 @@ get '/post/:id/:uri' => sub {
         $post = $res->{ddgcr}->{post};
 
         if ( $post->{uri} ne $params->{uri} ) {
-            redirect '/' . $post->{id} . '/' . $post->{uri};
+            redirect '/post/' . $post->{id} . '/' . $post->{uri};
         }
 
         template 'blog/index', {
@@ -77,7 +77,7 @@ get '/:uri_or_id' => sub {
             $req->{ddgcr}->{post}->{uri},
         );
 
-        redirect "/$id/$uri";
+        redirect "/post/$id/$uri";
     };
     status 404;
 };
