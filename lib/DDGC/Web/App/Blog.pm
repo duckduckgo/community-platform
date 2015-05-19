@@ -6,12 +6,14 @@ use DDGC::Base::Web::App;
 use Dancer2::Plugin::Feed;
 use Scalar::Util qw/ looks_like_number /;
 
+sub title { 'DuckDuckGo Blog' };
+
 get '/' => sub {
     my $page = param_hmv('page') || 1;
     my $res = ddgcr_get( [ 'Blog' ], { page => $page } );
 
     if ( $res->is_success ) {
-        template 'blog/index', { $res->{ddgcr} };
+        return template 'blog/index', { %{$res->{ddgcr}}, title => title };
     }
     else {
         status 404;
@@ -53,7 +55,10 @@ get '/:id/:uri' => sub {
             redirect '/' . $post->{id} . '/' . $post->{uri};
         }
 
-        template 'blog/index', { $res->{ddgcr} };
+        template 'blog/index', {
+            %{$res->{ddgcr}},
+            title => join ' : ', ( title, $post->{title} ),
+        };
     }
     else {
         status 404;
