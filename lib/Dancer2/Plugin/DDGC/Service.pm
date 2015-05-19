@@ -39,6 +39,9 @@ on_plugin_import {
                 for my $datum (@data) {
                     $datum->{status} //= 200;
                     $datum->{ok}     //= 1;
+                    if ( $datum->{status} >= 400 ) {
+                        $datum->{ok} = 0;
+                    }
                 }
             },
         )
