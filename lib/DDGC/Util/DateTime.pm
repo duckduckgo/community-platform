@@ -17,15 +17,11 @@ sub dur {
 	my ( $date ) = @_;
 	$date = DateTime->from_epoch( epoch => $date ) unless ref $date;
 	my $diff = DateTime->now - $date;
-	my $units = [qw/ hours minutes /];
-
-	$units = [qw/ days hours /]    if ($diff->days > 0);
-	$units = [qw/ months days /]   if ($diff->months > 0);
-	$units = [qw/ years /]  if ($diff->years > 0);
 
 	return DateTime::Format::Human::Duration->new->format_duration(
 		$diff,
-		'units' => $units,
+		units => [qw/ years months days hours minutes /],
+		significant_units => 2,
 		'past' => '%s ago',
 		'future' => 'in %s will be',
 		'no_time' => 'just now',
