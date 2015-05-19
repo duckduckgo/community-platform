@@ -124,7 +124,7 @@ belongs_to 'user', 'DDGC::Schema::Result::User', 'users_id';
 sub date {
     my ($self) = @_;
     return $self->fixed_date if $self->fixed_date;
-    return $self->updated;
+    return $self->created;
 }
 
 sub for_edit {
