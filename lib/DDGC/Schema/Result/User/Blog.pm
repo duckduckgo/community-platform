@@ -7,6 +7,7 @@ extends 'DDGC::Schema::Result';
 use DBIx::Class::Candy;
 use DateTime::Format::RSS;
 use DDGC::Util::Markup;
+use DDGC::Util::DateTime qw/ dur /;
 
 table 'user_blog';
 
@@ -159,6 +160,7 @@ sub human_duration_updated {
 
 sub TO_JSON {
     my ( $self ) = @_;
+    my $date = $self->date;
     +{
         id      => $self->id,
         user_id => $self->users_id,
@@ -168,6 +170,10 @@ sub TO_JSON {
         uri     => $self->uri,
         content => $self->html,
         teaser  => $self->html_teaser,
+        path    => "/blog/post/" . $self->id . "/"  .$self->uri,
+        date_m  => $date->month_abbr,
+        date_d  => $date->day,
+        dur     => dur( $date ),
     };
 }
 
