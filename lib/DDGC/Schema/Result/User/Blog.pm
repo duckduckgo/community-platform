@@ -128,7 +128,9 @@ has_many comments => 'DDGC::Schema::Result::Comment', sub {
     +{
         # TODO : simplify contexts like this to, e.g. 'blog'
         "$args->{foreign_alias}.context"    => 'DDGC::DB::Result::User::Blog',
-        "$args->{foreign_alias}.context_id" => { -ident => "$args->{self_alias}.id" },
+        "$args->{foreign_alias}.context_id" => {
+            -ident => "$args->{self_alias}.id"
+        },
         "$args->{foreign_alias}.ghosted"    => 0,
     }
 };
