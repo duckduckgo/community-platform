@@ -44,7 +44,7 @@ get '/rss' =>sub {
     status 404;
 };
 
-get '/:id/:uri' => sub {
+get '/post/:id/:uri' => sub {
     my $params = params('route');
     my $post;
     my $res = ddgcr_get [ 'Blog', 'post' ], { id => $params->{id} };
