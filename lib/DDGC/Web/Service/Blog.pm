@@ -145,7 +145,7 @@ get '/post' => sub {
         !(scalar $v->errors) &&
         (my $post = posts_rset->find( $v->values->{id} ))
     ) {
-        return { post => $post };
+        return { post => $post, comments => $post->comments };
     }
     bailout( 404, "Not found" );
 };
@@ -184,7 +184,7 @@ get '/post/by_url' => sub {
             { order_by => { -asc => 'id' } }
         )->first)
     ) {
-        return { post => $post };
+        return { post => $post, comments => $post->comments };
     }
     bailout( 404, "Not found" );
 };
