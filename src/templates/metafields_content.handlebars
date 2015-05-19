@@ -87,7 +87,8 @@
           <td>
             {{#if permissions.can_edit}}
               <select data-panel="metafields" class="test_machine dev_milestone-container__body__select js-autocommit" tabindex="-1" id="test_machine-select">
-                <option value="0">{{live.test_machine}}</option>
+                {{#if live.test_machine}}<option value="0">{{live.test_machine}}</option>{{/if}}
+                <option value=""> --- </option>
                 {{#not_eq live.test_machine 'ddh1'}}<option value="1">ddh1</option>{{/not_eq}}
                 {{#not_eq live.test_machine 'ddh2'}}<option value="2">ddh2</option>{{/not_eq}}
                 {{#not_eq live.test_machine 'ddh3'}}<option value="3">ddh3</option>{{/not_eq}}
