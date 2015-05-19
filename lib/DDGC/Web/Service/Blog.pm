@@ -48,6 +48,41 @@ sub total {
     posts_rset->count;
 }
 
+=head2 GET '/post/by_url'
+
+Support for legacy links where url was the primary identifier.
+
+=head3 Request Parameters
+
+B<url> - Post url field.
+
+=head3 Returns
+
+JSON - A single blog post
+
+=head3 Alternatives:
+
+B<GET '/post/by_url/[url]'>
+
+=cut
+
+get '/post/by_url' => sub {
+    if (
+        param_hmv('url') &&
+        (my $post = posts_rset->search(
+            { uri => param_hmv('url') },
+            { order_by => { -asc => 'id' } }
+        )->first)
+    ) {
+        return { post => $post, comments => $post->comments };
+    }
+    bailout( 404, "Not found" );
+};
+
+get '/post/by_url/:url' => sub {
+    forward '/post/by_url', { params('route') };
+};
+
 =head2 GET '/'
 
 Retrieve a page of blog posts.
@@ -156,41 +191,6 @@ get '/post/:id' => sub {
 
 get '/post/by_id/:id' => sub {
     forward '/post', { params('route') };
-};
-
-=head2 GET '/post/by_url'
-
-Support for legacy links where url was the primary identifier.
-
-=head3 Request Parameters
-
-B<url> - Post url field.
-
-=head3 Returns
-
-JSON - A single blog post
-
-=head3 Alternatives:
-
-B<GET '/post/by_url/[url]'>
-
-=cut
-
-get '/post/by_url' => sub {
-    if (
-        param_hmv('url') &&
-        (my $post = posts_rset->search(
-            { uri => param_hmv('url') },
-            { order_by => { -asc => 'id' } }
-        )->first)
-    ) {
-        return { post => $post, comments => $post->comments };
-    }
-    bailout( 404, "Not found" );
-};
-
-get '/post/by_url/:url' => sub {
-    forward '/post/by_url', { params('route') };
 };
 
 =head2 GET '/admin/post/raw'
