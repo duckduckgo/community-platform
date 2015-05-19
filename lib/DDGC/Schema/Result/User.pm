@@ -188,7 +188,20 @@ sub badge {
 }
 
 sub TO_JSON {
-    [];
+    my ( $self ) = @_;
+    return []
+      if ( !$self->public
+        && !( $self->app->var('user') && $self->app->var('user')->is('admin') )
+      );
+
+    +{
+        id          => $self->id,
+        username    => $self->username,
+        avatar16    => $self->avatar(16),
+        avatar32    => $self->avatar(32),
+        public      => $self->public,
+        badge       => $self->badge,
+    };
 }
 
 1;
