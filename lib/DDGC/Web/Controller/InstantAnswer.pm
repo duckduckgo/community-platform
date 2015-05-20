@@ -253,6 +253,20 @@ sub dev_pipeline_json :Chained('dev_pipeline_base') :PathPart('json') :Args(0) {
     $c->forward($c->view('JSON'));
 }
 
+sub overview_base :Chained('base') :PathPart('home') :CaptureArgs(0) {
+    my ( $self, $c ) = @_;
+}
+
+sub overview_json :Chained('overview_base') :PathPart('json') :Args(0) {
+     my ( $self, $c ) = @_;
+
+    $c->forward($c->view('JSON'));
+}
+
+sub overview :Chained('overview_base') :PathPart('') :Args(0) {
+     my ( $self, $c ) = @_;
+}
+
 sub ia_base :Chained('base') :PathPart('view') :CaptureArgs(1) {  # /ia/view/calculator
     my ( $self, $c, $answer_id ) = @_;
 
