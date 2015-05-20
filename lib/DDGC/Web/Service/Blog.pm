@@ -210,6 +210,9 @@ get '/post' => sub {
                 'user',
                 { comments => 'user' },
             ])
+            ->order_by(
+                { -desc => 'comments.id' }
+            )
             ->find(
                 $v->values->{id}
             )
