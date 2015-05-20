@@ -35,11 +35,8 @@ sub company_blog {
     );
 }
 
-sub util_json_string { JSON::MaybeXS->new->allow_nonref(1)->encode(shift) }
-
 sub filter_by_topic {
     my ( $self, $topic ) = @_;
-    $topic = util_json_string($topic);
     return $self->search(
         {
             $self->me . 'topics' => { like => sprintf( '%%%s%%', $topic ) }
