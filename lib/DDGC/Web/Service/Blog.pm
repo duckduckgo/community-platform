@@ -261,7 +261,7 @@ sub post_update_or_create {
     forward '/admin/post/raw', { id => $post->id }, { method => 'GET' };
 }
 
-=head2 GET '/admin/post/update'
+=head2 POST '/admin/post/update'
 
 Update a blog post.
 
@@ -297,7 +297,7 @@ post '/admin/post/update' => user_is 'admin' => sub {
     post_update_or_create { params('body') };
 };
 
-=head2 GET '/admin/post/new'
+=head2 POST '/admin/post/new'
 
 Create a new blog post.
 
