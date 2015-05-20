@@ -37,15 +37,21 @@ sub posts_page {
     my ( $params ) = @_;
     $params = validate('/blog.json', $params)->values;
 
-    posts_rset->search_rs({}, {
+    my $posts_rset = posts_rset->search_rs({}, {
         order_by => { -desc => 'me.id' },
         rows     => $params->{pagesize} || pagesize,
         page     => $params->{page} || 1,
-    })->prefetch([qw/ user comments /]);
+    });
+
+    return $posts_rset->filter_by_topic( $params->{topic} )
+        if ( $params->{topic} );
+    return $posts_rset;
 }
 
 sub total {
-    posts_rset->count;
+    my ( $topic ) = @_;
+    return posts_rset->filter_by_topic( $topic )->count if ( $topic );
+    return posts_rset->count;
 }
 
 sub topics {
@@ -117,10 +123,17 @@ B<GET '/page/[page]/pagesize/[pagesize]'>
 
 get '/' => sub {
     +{
-        posts  => [ posts_page( params_hmv ) ],
-        page   => param_hmv('page') // 1,
-        pages  => ceil( total() / ( param_hmv('pagesize') || pagesize() ) ),
-        topics => topics,
+        posts => [
+            posts_page(params_hmv)
+                ->prefetch([qw/ user comments /])
+                ->all
+            ],
+        page  => param_hmv('page') // 1,
+        pages => ceil(
+            total( param_hmv('topic') ) /
+              ( param_hmv('pagesize') || pagesize() )
+        ),
+        topics => topics(),
     };
 };
 
