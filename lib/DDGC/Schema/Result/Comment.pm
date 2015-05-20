@@ -5,6 +5,7 @@ use Moo;
 extends 'DDGC::Schema::Result';
 use DBIx::Class::Candy;
 use DDGC::Util::Markup;
+use DDGC::Util::DateTime qw/ dur /;
 
 table 'comment';
 
@@ -81,3 +82,14 @@ sub html {
     return $markup->bbcode( $self->content );
 }
 
+sub TO_JSON {
+    my ( $self ) = @_;
+    +{
+        id      => $self->id,
+        user_id => $self->users_id,
+        user    => $self->user->TO_JSON,
+        content => $self->html,
+        path    => "/forum/comment/" . $self->id,
+        parent_id => $self->parent_id,
+    };
+}
