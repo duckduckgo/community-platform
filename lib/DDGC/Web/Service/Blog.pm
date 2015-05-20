@@ -48,6 +48,10 @@ sub total {
     posts_rset->count;
 }
 
+sub topics {
+    [ posts_rset->topics ];
+}
+
 =head2 GET '/post/by_url'
 
 Support for legacy links where url was the primary identifier.
@@ -74,7 +78,11 @@ get '/post/by_url' => sub {
             { order_by => { -asc => 'me.id' } }
         )->prefetch([qw/ user comments /])->first)
     ) {
-        return { post => $post, comments => [ $post->comments ] };
+        return {
+            post     => $post,
+            comments => [ $post->comments ],
+            topics   => topics,
+        };
     }
     bailout( 404, "Not found" );
 };
@@ -107,9 +115,10 @@ B<GET '/page/[page]/pagesize/[pagesize]'>
 
 get '/' => sub {
     +{
-        posts => [ posts_page( params_hmv ) ],
-        page  => param_hmv('page'),
-        pages => ceil( total() / ( param_hmv('pagesize') || pagesize() ) ),
+        posts  => [ posts_page( params_hmv ) ],
+        page   => param_hmv('page'),
+        pages  => ceil( total() / ( param_hmv('pagesize') || pagesize() ) ),
+        topics => topics,
     };
 };
 
@@ -145,7 +154,10 @@ get '/by_user' => sub {
             { users_id => param_hmv('id') },
             { order_by => { -desc => 'id' } }
         );
-        return { posts => $posts } if ($posts->first);
+        return {
+            posts  => $posts,
+            topics => topics,
+        } if ($posts->first);
     }
     bailout( 404, "Not found" );
 };
