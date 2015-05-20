@@ -44,6 +44,16 @@ sub filter_by_topic {
     );
 }
 
+# This is an attempt to get the full set of topics efficiently with distinct
+# TODO: many-to-many rel with a topics entity
+sub topics {
+    my ( $self ) = @_;
+    uniq sort map { @{$_->topics} } $self->search({}, {
+        columns => [qw/ topics /],
+        distinct => 1,
+    })->all;
+}
+
 sub TO_JSON {
     my ( $self ) = @_;
     [ map { $_->TO_JSON } $self->all ];
