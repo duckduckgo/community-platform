@@ -27,10 +27,19 @@ sub feed {
 
 get '/' => sub {
     my $page = param_hmv('page') || 1;
-    my $res = ddgcr_get( [ 'Blog' ], { page => $page } );
+    my $res = ddgcr_get( [ 'Blog' ], {
+            page => $page,
+            ( param_hmv('topic') )
+                ? ( topic => param_hmv('topic') )
+                : (),
+        });
 
     if ( $res->is_success ) {
-        return template 'blog/index', { %{$res->{ddgcr}}, title => title };
+        return template 'blog/index', {
+            %{$res->{ddgcr}},
+            title => title,
+            topic => param_hmv('topic'),
+        };
     }
     else {
         status 404;
@@ -47,6 +56,25 @@ get '/rss' => sub {
         return feed( $p->{ddgcr}->{posts} );
     }
     status 404;
+};
+
+get '/topic/:topic/rss' => sub {
+    my $p = ddgcr_get( [ 'Blog' ], {
+        page  => 1,
+        topic => params('route')->{topic},
+    } );
+    if ( $p->is_success ) {
+        return feed( $p->{ddgcr}->{posts} );
+    }
+    status 404;
+};
+
+get '/topic/:topic' => sub {
+    forward '/', {
+        topic => params('route')->{topic},
+        page  => param_hmv('page') || 1,
+        url   => ''
+    };
 };
 
 get '/post/:id/:uri' => sub {
