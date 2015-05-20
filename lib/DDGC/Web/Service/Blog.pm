@@ -38,10 +38,10 @@ sub posts_page {
     $params = validate('/blog.json', $params)->values;
 
     posts_rset->search_rs({}, {
-        order_by => { -desc => 'id' },
+        order_by => { -desc => 'me.id' },
         rows     => $params->{pagesize} || pagesize,
         page     => $params->{page} || 1,
-    })->all;
+    })->prefetch([qw/ user comments /]);
 }
 
 sub total {
@@ -71,8 +71,8 @@ get '/post/by_url' => sub {
         param_hmv('url') &&
         (my $post = posts_rset->search(
             { uri => param_hmv('url') },
-            { order_by => { -asc => 'id' } }
-        )->first)
+            { order_by => { -asc => 'me.id' } }
+        )->prefetch([qw/ user comments /])->first)
     ) {
         return { post => $post, comments => $post->comments };
     }
