@@ -15,6 +15,7 @@ on_plugin_import {
         '/blog.json' =>
         { optional => 'page', valid => POS_VALUE, default => 1 },
         { optional => 'pagesize', valid => INT_VALUE(1,20), default => 20 },
+        { optional => 'topic', valid => ANY_VALUE },
     );
     $app->{validator}->define_ruleset(
         '/blog.json/post' =>

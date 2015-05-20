@@ -101,6 +101,8 @@ B<page> - The page of posts to return. Default is 1.
 
 B<pagesize> - Number of posts per-page. Default is 20. Max is 20.
 
+B<topic> - String, a single topic.
+
 =head3 Returns
 
 JSON - A page of rendered blog posts.
