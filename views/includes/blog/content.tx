@@ -1,0 +1,93 @@
+<article class=<: $preview == 1 ? 'post-snippet' : 'blog-content post' :>>
+
+    <div class='date-box'>
+        <span class='num'>
+            : $post.date_d
+        </span>
+        <span class='month'>
+            : $post.date_m
+        </span>
+    </div>
+
+    <section class="post-body">
+
+        <div class='pull-right'>
+            <img src='/static/images/duckduckgo-icon.png'
+                 width='32'
+                 height='32'
+                 title='Official DuckDuckGo Blog Post'
+                 class='admin-badge' />
+        </div>
+
+        <h2>
+            : if $preview == 1 {
+                <a href='<: $post.path :>'>
+            : }
+            : $post.title;
+            : if $preview == 1 {
+                </a>
+            : }
+        </h2>
+
+        <span class='post-meta'>
+            <: $post.dur :> posted by
+            <img src='<: $post.user.avatar16 :>'
+                 width='16'
+                 title='<: $post.user.username :>'
+                 class='userpic' />
+            : $post.user.username
+        </span>
+
+        : if $preview == 1 {
+            : $post.teaser | raw
+            <span class="post-readmore">
+                <a class="more-link" href='<: $post.path :>'>Read the full story</a>
+            </span>
+        : } else {
+            : $post.content | raw
+        : }
+
+        <div class='post-actions'>
+
+            <span class='action-item'>
+                <a href='<: $post.path :>#comments' class='comments-link'>
+                     <i class='comments-link__icon  icon-bubble'></i>
+                     : $post.comment_count
+                </a>
+            </span>
+
+            <span class='action-item'>
+                <a href='https://twitter.com/?status=<: $post.title :> <: uri_for($post.path) :>'
+                   class='button blue tw'
+                   target='_twitter-share'>
+                    <i class="action-item__icon icon-twitter"></i>
+                    Tweet
+                </a>
+            </span>
+
+            : # TODO: Follow buttons
+
+            : if $vars.user.is('admin') {
+                <span class='pull-right button-group'>
+
+                    <a class='button  action-item' href='/my/blog/edit/<: $post.id :>'>
+                        <i class="icon-pencil"></i>
+                        <span class='button__label'>
+                            Edit
+                        </span>
+                    </a>
+
+                    <a class='button  action-item' href='/my/blog/delete/<: $post.id :>'>
+                        <i class='action-item__icon  icon-cancel-circle'></i>
+                        <span class='button__label'>
+                            Delete
+                        </span>
+                    </a>
+
+                </span>
+            : }
+
+        </div> <!-- post-actions -->
+
+    </section>
+</article>
