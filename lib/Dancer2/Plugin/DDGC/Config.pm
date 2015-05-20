@@ -37,6 +37,7 @@ on_plugin_import {
                 on_connect_do => [
                     "SET client_encoding to UTF8",
                 ],
+                quote_char => '"',
             },
        },
        'SQLite' => {
