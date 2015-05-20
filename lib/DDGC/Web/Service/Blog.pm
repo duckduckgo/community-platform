@@ -116,7 +116,7 @@ B<GET '/page/[page]/pagesize/[pagesize]'>
 get '/' => sub {
     +{
         posts  => [ posts_page( params_hmv ) ],
-        page   => param_hmv('page'),
+        page   => param_hmv('page') // 1,
         pages  => ceil( total() / ( param_hmv('pagesize') || pagesize() ) ),
         topics => topics,
     };
