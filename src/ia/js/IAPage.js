@@ -102,6 +102,7 @@
                         src_id : Handlebars.templates.pre_edit_src_id(ia_data),
                         src_name : Handlebars.templates.pre_edit_src_name(ia_data),
                         src_domain : Handlebars.templates.pre_edit_src_domain(ia_data),
+                        is_stackexchange : Handlebars.templates.pre_edit_is_stackexchange(ia_data),
                         id : Handlebars.templates.pre_edit_id(ia_data)
                     };
 
@@ -570,6 +571,8 @@
 
                             if ($(this).hasClass("js-input")) {
                                 value = $.trim($(this).val());
+                            } else if ($(this).hasClass("js-check")) {
+                                value = $("#" + field + "-check").hasClass("icon-check")? 1 : 0; 
                             } else {
                                 var input;
                                 if (field === "dev_milestone" || field === "repo") {
@@ -579,10 +582,6 @@
                                     $input = $obj.find("input.js-input,#description textarea");
                                     value = $.trim($input.val());
                                 }
-                            }
-
-                            if (field === "unsafe") {
-                                value = $("#unsafe-check").hasClass("icon-check")? 1 : 0;
                             }
 
                             if ((evt.type === "click"
@@ -796,6 +795,7 @@
             'src_id',
             'src_name',
             'src_domain',
+            'is_stackexchange',
             'src_options',
             'unsafe',
             'answerbar',

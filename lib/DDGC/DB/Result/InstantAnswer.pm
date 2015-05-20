@@ -347,6 +347,12 @@ column src_id => {
     for_endpt => 1
 };
 
+column is_stackexchange => {
+    data_type => 'integer',
+    is_nullable => 1,
+    for_endpt => 1
+};
+
 column src_domain => {
     data_type => 'text',
     is_nullable => 1,
