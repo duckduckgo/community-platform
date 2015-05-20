@@ -205,9 +205,17 @@ get '/post' => sub {
     my $v = validate('/blog.json/post', params_hmv );
     if (
         !(scalar $v->errors) &&
-        (my $post = posts_rset->find( $v->values->{id} ))
+        (my $post = posts_rset
+            ->prefetch([
+                'user',
+                { comments => 'user' },
+            ])
+            ->find(
+                $v->values->{id}
+            )
+        )
     ) {
-        return { post => $post, comments => $post->comments };
+        return { post => $post, comments => [ $post->comments ] };
     }
     bailout( 404, "Not found" );
 };
