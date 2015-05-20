@@ -24,7 +24,7 @@ get '/page/:page' => sub {
     forward '/', { params('route') };
 };
 
-get '/rss' =>sub {
+get '/rss' => sub {
     my $p = ddgcr_get( [ 'Blog' ], { page => 1 } );
     if ( $p->is_success ) {
         return create_feed(
@@ -33,7 +33,7 @@ get '/rss' =>sub {
             entries => [
                 map {{
                     id          => $_->{id},
-                    link        => uri_for($_->{uri}),
+                    link        => uri_for($_->{path}),
                     title       => $_->{title},
                     modified    => $_->{updated},
                     content     => $_->{content},
