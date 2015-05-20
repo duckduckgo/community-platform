@@ -1,0 +1,5 @@
+: include 'includes/blog/content.tx'
+<section class='post-comments'>
+    <a name='comments'>
+    : include 'includes/comments.tx' { comments => $post.comments }
+</section>
