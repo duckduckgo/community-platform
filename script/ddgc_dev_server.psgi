@@ -18,6 +18,7 @@ use DDGC::Static;
 my $ddgc_home = '/home/' . (getpwuid($<))[0] . '/ddgc';
 
 builder {
+    enable 'StackTrace', force => 1;
     enable 'Session::Simple',
         store => CHI->new(
             driver => 'File',
