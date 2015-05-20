@@ -57,6 +57,21 @@ column updated => {
     set_on_update => 1,
 };
 
+column parent_id => {
+    data_type => 'bigint',
+    is_nullable => 1,
+};
+
+column context => {
+    data_type => 'text',
+    is_nullable => 0,
+};
+
+column context_id => {
+    data_type => 'bigint',
+    is_nullable => 0,
+};
+
 belongs_to 'user', 'DDGC::Schema::Result::User', 'users_id';
 
 sub html {
