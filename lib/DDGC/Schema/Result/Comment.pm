@@ -57,6 +57,8 @@ column updated => {
     set_on_update => 1,
 };
 
+belongs_to 'user', 'DDGC::Schema::Result::User', 'users_id';
+
 sub html {
     my ( $self ) = @_;
     my $markup = DDGC::Util::Markup->new;
