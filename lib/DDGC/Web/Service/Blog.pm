@@ -74,7 +74,7 @@ get '/post/by_url' => sub {
             { order_by => { -asc => 'me.id' } }
         )->prefetch([qw/ user comments /])->first)
     ) {
-        return { post => $post, comments => $post->comments };
+        return { post => $post, comments => [ $post->comments ] };
     }
     bailout( 404, "Not found" );
 };
