@@ -8,6 +8,23 @@ use Scalar::Util qw/ looks_like_number /;
 
 sub title { 'DuckDuckGo Blog' };
 
+sub feed {
+    my ( $posts ) = @_;
+    create_feed(
+        format  => 'Atom',
+        title   => title,
+        entries => [
+            map {{
+                id          => $_->{id},
+                link        => uri_for($_->{path}),
+                title       => $_->{title},
+                modified    => $_->{updated},
+                content     => $_->{content},
+            }} @{ $posts }
+        ],
+    );
+}
+
 get '/' => sub {
     my $page = param_hmv('page') || 1;
     my $res = ddgcr_get( [ 'Blog' ], { page => $page } );
@@ -27,19 +44,7 @@ get '/page/:page' => sub {
 get '/rss' => sub {
     my $p = ddgcr_get( [ 'Blog' ], { page => 1 } );
     if ( $p->is_success ) {
-        return create_feed(
-            format => 'Atom',
-            title  => 'DuckDuckGo Blog',
-            entries => [
-                map {{
-                    id          => $_->{id},
-                    link        => uri_for($_->{path}),
-                    title       => $_->{title},
-                    modified    => $_->{updated},
-                    content     => $_->{content},
-                }} @{ $p->{ddgcr}->{posts} }
-            ],
-        );
+        return feed( $p->{ddgcr}->{posts} );
     }
     status 404;
 };
