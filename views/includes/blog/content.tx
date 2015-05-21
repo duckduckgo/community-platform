@@ -1,4 +1,4 @@
-<article class=<: $preview == 1 ? 'post-snippet' : 'blog-content post' :>>
+<article class="<: $preview == 1 ? 'post-snippet' : 'blog-content post' :>">
 
     <div class='date-box'>
         <span class='num'>
