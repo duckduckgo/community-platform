@@ -2,7 +2,7 @@
     : if $post == nil {
         : for $posts -> $post {
             <section class="daily-posts">
-                : include 'includes/blog/preview.tx' { post => $post };
+                : include 'includes/blog/content.tx' { post => $post, preview => 1 };
             </section>
         : }
         <div class="post-snippet text-right">
@@ -14,7 +14,7 @@
         </div>
     : } else {
         <section class="daily-posts">
-            : include 'includes/blog/post.tx' { post => $post };
+            : include 'includes/blog/content.tx' { post => $post };
         </section>
     : }
 </div>

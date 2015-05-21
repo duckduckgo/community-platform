@@ -90,4 +90,10 @@
         </div> <!-- post-actions -->
 
     </section>
+
+    : if $preview != 1 {
+        <section class='post-comments'>
+            : include 'includes/comments.tx' { comments => $comments }
+        </section>
+    : }
 </article>
