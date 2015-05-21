@@ -6,8 +6,6 @@ use Moo;
 extends 'DDGC::Schema::ResultSet';
 use DateTime::Format::RSS;
 use List::MoreUtils qw( uniq );
-use JSON::MaybeXS;
-use DateTime;
 
 sub create_via_form {
     my ( $self, $values ) = @_;
