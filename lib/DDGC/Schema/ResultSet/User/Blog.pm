@@ -4,13 +4,7 @@ package DDGC::Schema::ResultSet::User::Blog;
 
 use Moo;
 extends 'DDGC::Schema::ResultSet';
-use DateTime::Format::RSS;
 use List::MoreUtils qw( uniq );
-
-sub create_via_form {
-    my ( $self, $values ) = @_;
-    return $self->create( $self->values_via_form($values) );
-}
 
 sub live {
     my ($self) = @_;
