@@ -226,7 +226,7 @@ module.exports = function(grunt) {
                 tasks: ['concat']
             },
             scss: {
-                files: ['src/scss/ia/*.scss', 'src/scss/ddgc/*.scss'],
+                files: ['src/scss/ia/*.scss', 'src/scss/ddgc/*.scss', 'src/scss/content/*.scss'],
                 tasks: ['compass', 'concat']
             }
         },
