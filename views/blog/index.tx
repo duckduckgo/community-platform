@@ -99,7 +99,7 @@
                 </a>
 
                 <a class='icon rss'
-                   href='/blog/rss') :>'
+                   href='/blog/rss'>
                    title='DuckDuckGo Blog RSS feed'>
                     RSS
                 </a>
