@@ -266,21 +266,27 @@ sub overview_json :Chained('overview_base') :PathPart('json') :Args(0) {
 
      if ($c->user) {
         my $username = $c->user->username;
-        @ias = $c->d->rs('InstantAnswer')->search({
-                -or => [{producer => $username}, {designer => $username}],
-                dev_milestone => {'!=' => 'deprecated'}
-            },
-            {
-                columns => [ qw/ name id dev_milestone/],
-                order_by => [ qw/ name /],
-                result_class => 'DBIx::Class::ResultClass::HashRefInflator'
-            })->all;
+        @ias = $c->d->rs('InstantAnswer')->search({dev_milestone => {'!=' => 'deprecated'}})->all;
 
+        my $temp_ia;
         for my $ia (@ias) {
-            if ($ia->{dev_milestone} eq 'live') {
-                push @live_ias, $ia;
-            } else {
-                push @dev_ias, $ia;
+            $temp_ia = $ia->TO_JSON('pipeline');
+            my $is_mine = ($c->user->admin && ($temp_ia->{producer} eq $username || $temp_ia->{designer} eq $username))? 1 : 0;
+
+            if (!$is_mine && $temp_ia->{developer} eq 'ARRAY') {
+                for my $dev (@{$temp_ia->{developer}}) {
+                    if ($dev->{name} eq $username) {
+                        $is_mine = 1;
+                    }
+                }
+            }
+
+            if ($is_mine) {
+                if ($temp_ia->{dev_milestone} eq 'live') {
+                    push @live_ias, $temp_ia;
+                } else {
+                    push @dev_ias, $temp_ia;
+                }
             }
         }
      }
@@ -292,15 +298,29 @@ sub overview_json :Chained('overview_base') :PathPart('json') :Args(0) {
      my @lhf;
 
      for my $issue (@issues) {
+        my %temp_issue = (
+            title => $issue->title,
+            body => $issue->body,
+            date => $issue->date,
+            issue_id => $issue->issue_id,
+            ia_id => $issue->instant_answer_id,
+            repo => $issue->repo,
+            author => $issue->author
+        );
+
+        my $issue_ia = $c->d->rs('InstantAnswer')->find($issue->instant_answer_id);
+
+        $temp_issue{ia_name} = $issue_ia->name;
+
         for my $tag (@{$issue->tags}) {
             my $tag_name = $tag->{name};
 
-            if ($tag_name eq 'Bug') {
-                push @bugs, $issue->title;
-            } elsif ($tag_name eq 'Priority: High') {
-                push @high_p, $issue->title;
+            if ($tag_name eq 'Priority: High') {
+                push @high_p, \%temp_issue;
+            } elsif ($tag_name eq 'Bug') {
+                push @bugs, \%temp_issue;
             } elsif ($tag_name eq 'Low-Hanging Fruit') {
-                push @lhf, $issue->title;
+                push @lhf, \%temp_issue;
             }
         }
      }
