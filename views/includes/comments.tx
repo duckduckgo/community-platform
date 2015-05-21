@@ -1,0 +1,12 @@
+: macro comment_content -> ( $comment, $level ) {
+:   for $comment.children -> $child {
+:       comment_content( $child, $child.level // 2 );
+:   }
+: }
+
+<a name='comments'></a>
+
+: for $comments -> $comment {
+  : comment_content( $comment, $comment.level // 1 );
+: }
+
