@@ -1,0 +1,54 @@
+/* Content Styling */
+
+.content {
+	word-wrap: break-word; /* these containers often have user input, so don't let users break stuff */
+}
+	
+	.content h1 { 
+		font-weight: bold;
+		text-align: left;
+		letter-spacing: auto;
+	}
+	
+	.content h3, .content h4, .content h5, .content blockquote, .content .block, .content .p, .content p {
+		margin-bottom: 1.4em;
+	}
+	.content p, .content .p { 
+		font-size: 1.05em;
+		line-height: 1.55;		
+	}	
+	.content .block { 
+		display: block; 		
+		padding: 7px;
+		border: 1px solid #d7d7d7;
+		-webkit-border-radius: 4px;
+		border-radius: 4px;
+	}
+	.content img.mid {
+		display: block;
+		margin-left: auto;
+		margin-right: auto;
+	}
+	
+	.content ul, .content ol {
+		font-size: 1.05em;
+		line-height: 1.3;	
+        margin-bottom: 0.9em;
+	}
+		.content li {			
+			padding-left: 18px;
+			position: relative;            
+            padding-bottom: 0.5em;
+		}
+		.content ul li { list-style: none; }
+			.content ul li:before  {
+				position: absolute;
+				top: 0.35em;
+				left: 2px;
+				content: "";
+				display: block;
+				border: 4px solid transparent;
+				border-left: 5px solid #d9d9d9;
+				border-right: none;				
+            }
+	

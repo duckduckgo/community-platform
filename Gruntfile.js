@@ -83,6 +83,10 @@ module.exports = function(grunt) {
             ddgc_css: {
                 src: 'build/ddgc/main.css',
                 dest: static_dir + 'css/ddgc.css'
+            },
+            content_css: {
+                src: 'build/content/main.css',
+                dest: static_dir + 'css/content.css'
             }
         },
 
