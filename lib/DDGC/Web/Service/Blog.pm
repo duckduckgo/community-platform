@@ -218,7 +218,11 @@ get '/post' => sub {
             )
         )
     ) {
-        return { post => $post, comments => $post->comments->threaded };
+        return {
+            post     => $post,
+            comments => $post->comments->threaded,
+            topics   => topics,
+        };
     }
     bailout( 404, "Not found" );
 };
