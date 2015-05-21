@@ -260,7 +260,66 @@ sub overview_base :Chained('base') :PathPart('home') :CaptureArgs(0) {
 sub overview_json :Chained('overview_base') :PathPart('json') :Args(0) {
      my ( $self, $c ) = @_;
 
-    $c->forward($c->view('JSON'));
+     my @ias;
+     my @live_ias;
+     my @dev_ias;
+
+     if ($c->user) {
+        my $username = $c->user->username;
+        @ias = $c->d->rs('InstantAnswer')->search({
+                -or => [{producer => $username}, {designer => $username}],
+                dev_milestone => {'!=' => 'deprecated'}
+            },
+            {
+                columns => [ qw/ name id dev_milestone/],
+                order_by => [ qw/ name /],
+                result_class => 'DBIx::Class::ResultClass::HashRefInflator'
+            })->all;
+
+        for my $ia (@ias) {
+            if ($ia->{dev_milestone} eq 'live') {
+                push @live_ias, $ia;
+            } else {
+                push @dev_ias, $ia;
+            }
+        }
+     }
+
+     my @issues = $c->d->rs('InstantAnswer::Issues')->search({'is_pr' => 0})->all;
+
+     my @bugs;
+     my @high_p;
+     my @lhf;
+
+     for my $issue (@issues) {
+        for my $tag (@{$issue->tags}) {
+            my $tag_name = $tag->{name};
+
+            if ($tag_name eq 'Bug') {
+                push @bugs, $issue->title;
+            } elsif ($tag_name eq 'Priority: High') {
+                push @high_p, $issue->title;
+            } elsif ($tag_name eq 'Low-Hanging Fruit') {
+                push @lhf, $issue->title;
+            }
+        }
+     }
+
+
+     my %top_issues = (
+         bugs => \@bugs,
+         high_p => \@high_p,
+         lhf => \@lhf
+     );
+
+     $c->stash->{x} = {
+         live => \@live_ias,
+         development => \@dev_ias,
+         issues => \%top_issues
+     };
+
+     $c->stash->{not_last_url} = 1;
+     $c->forward($c->view('JSON'));
 }
 
 sub overview :Chained('overview_base') :PathPart('') :Args(0) {
