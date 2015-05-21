@@ -86,7 +86,7 @@ get '/post/by_url' => sub {
     ) {
         return {
             post     => $post,
-            comments => [ $post->comments ],
+            comments => $post->comments->threaded,
             topics   => topics,
         };
     }
@@ -218,7 +218,7 @@ get '/post' => sub {
             )
         )
     ) {
-        return { post => $post, comments => [ $post->comments ] };
+        return { post => $post, comments => $post->comments->threaded };
     }
     bailout( 404, "Not found" );
 };
