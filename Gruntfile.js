@@ -197,10 +197,10 @@ module.exports = function(grunt) {
          */
         cssmin: {
             ddgc_css: {
-                files: {'root/static/css/ddgc<%= pkg.version %>.css' : 'build/ddgc.css'}
+                files: {'root/static/css/ddgc<%= pkg.version %>.css' : 'build/ddgc/main.css'}
             },
             ia_css: {
-                files: {'root/static/css/ia<%= pkg.version %>.css' : 'build/ia.css' }
+                files: {'root/static/css/ia<%= pkg.version %>.css' : 'build/ia/main.css' }
             }
         },
 
