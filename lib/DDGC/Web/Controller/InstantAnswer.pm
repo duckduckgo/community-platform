@@ -308,6 +308,11 @@ sub overview_json :Chained('overview_base') :PathPart('json') :Args(0) {
             author => $issue->author
         );
 
+        my @temp_tags;
+        my $is_highp = 0;
+        my $is_bug = 0;
+        my $is_lhf = 0;
+
         my $issue_ia = $c->d->rs('InstantAnswer')->find($issue->instant_answer_id);
 
         $temp_issue{ia_name} = $issue_ia->name;
@@ -315,13 +320,30 @@ sub overview_json :Chained('overview_base') :PathPart('json') :Args(0) {
         for my $tag (@{$issue->tags}) {
             my $tag_name = $tag->{name};
 
+            my %temp_tag = (
+                name => $tag_name,
+                color => $tag->{color}
+            );
+
+            push @temp_tags, \%temp_tag;
+
             if ($tag_name eq 'Priority: High') {
-                push @high_p, \%temp_issue;
+                $is_highp = 1;
             } elsif ($tag_name eq 'Bug') {
-                push @bugs, \%temp_issue;
+                $is_bug = 1;
             } elsif ($tag_name eq 'Low-Hanging Fruit') {
-                push @lhf, \%temp_issue;
+                $is_lhf = 1;
             }
+        }
+
+        $temp_issue{tags} = \@temp_tags;
+
+        if ($is_highp) {
+            push @high_p, \%temp_issue;
+        } elsif ($is_bug) {
+            push @bugs, \%temp_issue;
+        } elsif ($is_lhf) {
+            push @lhf, \%temp_issue;
         }
      }
 
