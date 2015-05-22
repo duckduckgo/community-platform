@@ -24,13 +24,13 @@ sub threaded {
 }
 
 sub nest {
-    my ( $list, $level, $parentlevel ) = @_;
+    my ( $list, $level, $parent_id ) = @_;
     my $tree = [];
     $level //= 1;
-    $parentlevel //= min map { $_->{parent_id} // 0 } @{ $list };
+    $parent_id //= min map { $_->{parent_id} // 0 } @{ $list };
 
     for my $comment ( @{ $list } ) {
-        if ( ( $comment->{parent_id} // 0 ) == $parentlevel ) {
+        if ( ( $comment->{parent_id} // 0 ) == $parent_id ) {
             $comment->{level} = $level;
             $comment->{children} = nest (
                 $list,
