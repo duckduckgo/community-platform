@@ -255,6 +255,8 @@ sub dev_pipeline_json :Chained('dev_pipeline_base') :PathPart('json') :Args(0) {
 
 sub overview_base :Chained('base') :PathPart('home') :CaptureArgs(0) {
     my ( $self, $c ) = @_;
+
+    $c->stash->{ia_page} = "IAOverview";
 }
 
 sub overview_json :Chained('overview_base') :PathPart('json') :Args(0) {
