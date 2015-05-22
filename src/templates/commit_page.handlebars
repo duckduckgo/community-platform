@@ -108,6 +108,19 @@
             </tr>
         {{/not_null}}
 
+        {{#not_null is_stackexchange}}
+            <tr class="updates_list">
+                <th>Is Stack Exchange</th>
+
+                <td name="is_stackexchange"  id="is_stackexchange_original">
+                    {{original.is_stackexchange}}
+                </td>
+                <td name="is_stackexchange">
+                    {{is_stackexchange}}
+                </td>
+            </tr>
+        {{/not_null}}
+
         {{#not_null unsafe}}
             <tr class="updates_list">
                 <th>Unsafe</th>

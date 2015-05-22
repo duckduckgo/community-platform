@@ -1,4 +1,4 @@
-{{#eq live.repo 'fathead'}}
+{{#eq_or live.repo 'fathead' 'longtail'}}
 <div class="row-diff" id="row-diff-src_domain">
     <div class="column-left-labels left">
         <div class="column-left-labels__child">
@@ -36,4 +36,4 @@
         <span class="js-editable__text">Done</span>
     </div>
 </div>
-{{/eq}}
+{{/eq_or}}
