@@ -23,25 +23,21 @@ sub threaded {
     return $self;
 }
 
-# Build a nested data structure using adjacency list data (parent / child links)
-# TODO: This hits the database more than is strictly necessary. It could maybe
-# be a virtual view with a postgres WITH RECURSIVE... function.
-#
-# Difference between requesting nested vs flat data in dev is ~60ms
 sub nest {
-    my ( $self, $level ) = @_;
+    my ( $list, $level, $parentlevel ) = @_;
     my $tree = [];
     $level //= 1;
-    my $toplevel = min map { $_ // 0 } $self->get_column('parent_id')->all;
+    $parentlevel //= min map { $_->{parent_id} // 0 } @{ $list };
 
-    while ( my $comment = $self->next ) {
-        if ( ( $comment->parent_id // 0 ) == $toplevel ) {
-            my $comment_JSON = $comment->TO_JSON;
-            $comment_JSON->{level} = $level;
-            $comment_JSON->{children} = ( $comment->children )
-                ? $comment->children->nest( $level + 1 )
-                : [];
-            push @{$tree}, $comment_JSON;
+    for my $comment ( @{ $list } ) {
+        if ( ( $comment->{parent_id} // 0 ) == $parentlevel ) {
+            $comment->{level} = $level;
+            $comment->{children} = nest (
+                $list,
+                $level + 1,
+                $comment->{id},
+            );
+            push @{$tree}, $comment;
         }
     }
     return $tree;
@@ -49,8 +45,9 @@ sub nest {
 
 sub TO_JSON {
     my ( $self ) = @_;
-    return [ map { $_->TO_JSON } $self->all ] if !$self->nest_comments;
-    return $self->nest;
+    my $JSON = [ map { $_->TO_JSON } $self->all ];
+    return $JSON if !$self->nest_comments;
+    return nest( $JSON );
 }
 
 1;
