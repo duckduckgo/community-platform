@@ -102,6 +102,7 @@
                         src_id : Handlebars.templates.pre_edit_src_id(ia_data),
                         src_name : Handlebars.templates.pre_edit_src_name(ia_data),
                         src_domain : Handlebars.templates.pre_edit_src_domain(ia_data),
+                        is_stackexchange : Handlebars.templates.pre_edit_is_stackexchange(ia_data),
                         id : Handlebars.templates.pre_edit_id(ia_data)
                     };
 
@@ -338,16 +339,21 @@
                         var value;
                         var is_json = false;
                         var panel = $.trim($(this).attr("data-panel"));
+                        var $selected = $(this).find("option:selected");
 
                         if ($(this).hasClass("topic-group")) {
                             value = [];
                             var temp;
                             $("select.js-autocommit.topic-group").each(function(idx) {
-                                temp = $.trim($(this).find("option:selected").text());
+                                $selected = $(this).find("option:selected");
 
-                                if (temp.length) {
-                                    value.push(temp);
+                                if ($selected.attr("value").length) {
+                                    temp = $.trim($selected.text());
+                                } else {
+                                    temp = '';
                                 }
+
+                                value.push(temp);
                             });
 
                            field = "topic";
@@ -355,7 +361,7 @@
                            is_json = true;
                         } else {
                            field = $.trim($(this).attr("id").replace("-select", ""));
-                           value = $.trim($(this).find("option:selected").text());
+                           value = $selected.attr("value").length? $.trim($selected.text()) : '';
                         }
 
                         if (field.length && value !== ia_data.live[field]) { 
@@ -483,7 +489,7 @@
                         $row.children(".js-editable").removeClass("hide");
 
                         if (field === "topic") {
-                            $(".available_topics").append($("#allowed_topics").html());
+                            page.appendTopics($(".available_topics"));
                         }
                     });
 
@@ -565,6 +571,8 @@
 
                             if ($(this).hasClass("js-input")) {
                                 value = $.trim($(this).val());
+                            } else if ($(this).hasClass("js-check")) {
+                                value = $("#" + field + "-check").hasClass("icon-check")? 1 : 0; 
                             } else {
                                 var input;
                                 if (field === "dev_milestone" || field === "repo") {
@@ -574,10 +582,6 @@
                                     $input = $obj.find("input.js-input,#description textarea");
                                     value = $.trim($input.val());
                                 }
-                            }
-
-                            if (field === "unsafe") {
-                                value = $("#unsafe-check").hasClass("icon-check")? 1 : 0;
                             }
 
                             if ((evt.type === "click"
@@ -600,7 +604,11 @@
                                                 return;
                                             }
                                         } else {
-                                            temp_val = (field === "topic")? $.trim($(this).text()) : $.trim($(this).val());
+                                            if (field === "topic") {
+                                                temp_val = $(this).attr("value").length? $.trim($(this).text()) : '';
+                                            } else {
+                                                temp_val = $.trim($(this).val());
+                                            }
                                         }
                                          
                                         if (temp_val && $.inArray(temp_val, value) === -1) {
@@ -717,7 +725,7 @@
                                         $(".ia-single--name h2").text(ia_data.live[field]);
                                     }
 
-                                    page.appendTopics();
+                                    page.appendTopics($(".topic-group"));
                                     page.hideAssignToMe();
 
                                     var saved_class = data.result.saved? "saved" : "not_saved";
@@ -787,6 +795,7 @@
             'src_id',
             'src_name',
             'src_domain',
+            'is_stackexchange',
             'src_options',
             'unsafe',
             'answerbar',
@@ -852,9 +861,26 @@
             return x;
         },
 
-        appendTopics: function() {
-            if ($(".topic-group").length) {
-                $(".topic-group").append($("#allowed_topics").html());
+        appendTopics: function($obj) {
+            if ($obj.length) {
+                $obj.append($("#allowed_topics").html());
+
+                // Hide duplicated dropdown values
+                $obj.each(function(idx) {
+                    $first_opt = $(this).find('option[value="0"]');
+                    var opt_0 = $.trim($first_opt.text()) || '';
+                    $(this).find("option").each(function(id) {
+                        if ($(this) !== $first_opt && $.trim($(this).text()) === opt_0) {
+                            $(this).hide();
+                        }
+                    });
+
+                    if (!opt_0)  {
+                        $first_opt.hide();
+                    } else {
+                        $first_opt.show();
+                    }
+                });
             }
         },
 
@@ -893,7 +919,7 @@
                     $(".ia-single--right").before(templates.metafields);
                     $("#metafields .dev_milestone-container__body").html(templates.metafields_content);
 
-                    this.appendTopics();
+                    this.appendTopics($(".topic-group"));
                     this.hideAssignToMe();
                 }
 

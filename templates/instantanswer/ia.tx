@@ -1,4 +1,5 @@
 <select id="allowed_topics" class="hide">
+    <option value=""> --- </option>
     <: for $topic_list -> $topic { :>
         <option value="<: $topic.id :>">
             <: $topic.name :>
