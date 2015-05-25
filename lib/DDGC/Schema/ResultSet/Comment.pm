@@ -11,16 +11,28 @@ has nest_comments => (
     default => sub { 1 },
 );
 
+sub ghostbusted {
+    my ( $self ) = @_;
+    return $self->search_rs({
+        -or => [
+            $self->me . ghosted => 0,
+            ( $self->current_user )
+                ? ( $self->me . users_id => $self->current_user->id )
+                : (),
+        ],
+    });
+}
+
 sub flat {
     my ( $self ) = @_;
     $self->nest_comments(0);
-    return $self;
+    return $self->ghostbusted;
 }
 
 sub threaded {
     my ( $self ) = @_;
     $self->nest_comments(1);
-    return $self;
+    return $self->ghostbusted;
 }
 
 sub nest {

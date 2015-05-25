@@ -131,7 +131,6 @@ has_many comments => 'DDGC::Schema::Result::Comment', sub {
         "$args->{foreign_alias}.context_id" => {
             -ident => "$args->{self_alias}.id"
         },
-        "$args->{foreign_alias}.ghosted"    => 0,
     }
 };
 
