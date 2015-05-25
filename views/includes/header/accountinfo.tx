@@ -1,6 +1,6 @@
 <div class="header-account-info">
     <div class="user-avatar">
-        : include 'includes/user/avatar.tx' { userpic_size => 32 }
+        : include 'includes/user/current/avatar.tx' { userpic_size => 32 }
     </div>
     <div class="user-notifications">
         : my $notification_count = $vars.user.unread_notifications || 0;
