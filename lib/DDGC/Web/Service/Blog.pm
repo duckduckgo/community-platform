@@ -86,7 +86,7 @@ get '/post/by_url' => sub {
     ) {
         return {
             post     => $post,
-            comments => $post->comments->threaded,
+            comments => $post->comments->prefetch('user')->threaded,
             topics   => topics,
         };
     }
@@ -220,7 +220,7 @@ get '/post' => sub {
     ) {
         return {
             post     => $post,
-            comments => $post->comments->threaded,
+            comments => $post->comments->prefetch('user')->threaded,
             topics   => topics,
         };
     }
