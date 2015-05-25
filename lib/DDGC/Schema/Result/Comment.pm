@@ -88,7 +88,6 @@ sub TO_JSON {
     my ( $self ) = @_;
     +{
         id      => $self->id,
-        user_id => $self->users_id,
         user    => $self->user->TO_JSON,
         content => $self->html,
         path    => "/forum/comment/" . $self->id,
