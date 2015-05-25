@@ -91,6 +91,9 @@ sub TO_JSON {
         user    => $self->user->TO_JSON,
         content => $self->html,
         path    => "/forum/comment/" . $self->id,
+        dur     => dur( $self->created ),
         parent_id => $self->parent_id,
     };
 }
+
+1;
