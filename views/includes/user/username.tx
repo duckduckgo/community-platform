@@ -21,14 +21,8 @@
         : $user.username
     </a>
 
-    : if $user.badge {
-        : if $user.badge == 'admin' {
-            <span class='userbadge  userbadge--txt'
-                  title='Admin'>
-                Staff
-            </span>
-        : } else {
-        : }
+    : if $show_badge // 1 {
+        : include 'includes/user/badge.tx' { user => $user }
     : }
 
     : if $vars.user != nil && $vars.user.is('admin') {
