@@ -1,5 +1,6 @@
-    <img src='<: $user.avatar32 :>'
-         width='32'
-         title='<: $user.username :>'
-         class='userpic' />
+: if $user.username != nil {
+    <img src='<: $user.avatar48 :>'
+         width='48'
+         title='<: $user.username :>' />
     : $user.username
+: }
