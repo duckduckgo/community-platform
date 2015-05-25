@@ -1,4 +1,97 @@
+: macro comment_body -> ( $comment ) {
+        <div class="comment-body" id="comment_<: $comment.id :>">
+            <div class="row content">
+                <div class="p">
+                    : if $comment.ghosted {
+                        : if $comment.checked {
+                            This comment has been removed for violation of our
+                            <a href="//duck.co/forum/thread/5177/forum-rules">
+                                forum rules
+                            </a>
+                        : } else {
+                            This comment is awaiting approval.
+                        : }
+                    : } else {
+                        : if $comment.deleted {
+                            <em class='comment-deleted'>
+                        : }
+                        : $comment.content | raw;
+                        : if $comment.deleted {
+                            </em>
+                        : }
+                    : }
+                </div>
+                : comment_meta( $comment );
+            </div>
+        </div>
+: }
+
+: macro comment_reply_delete -> ( $comment ) {
+    : if !$locked && (
+          : !$comment.ghosted ||
+          : $vars.user.id == $comment.user.id
+    : ) {
+        <span class="comment-meta__link">
+            &bull;
+            <a class='js-reply_link_<: $comment.id :>  js-comment-reply no-js-hide'
+               data-target='<: $comment.id :>'
+               href='#'>
+                Reply
+            </a>
+        </span>
+
+        : if ($vars.user.is('admin') or $vars.user.id == $comment.user.id) {
+            <span class="comment-meta__link">
+                &bull;
+                <a href='<:
+                    uri_for( '/comment/delete/' ~ $comment.id,
+                             { action_token => $session.action_token } );
+                        :>'
+                   onclick="return confirm ('Are you sure?')">
+                    Delete
+                </a>
+            </span>
+        : }
+    : }
+: }
+
+: macro comment_meta -> ( $comment ) {
+        <span class="comment-meta">
+
+            posted by
+            : include 'includes/user/username.tx' { user => $comment.user }
+
+            &bull;
+            : $comment.dur;
+
+            : comment_reply_delete( $comment );
+
+            : if !$comment.ghosted || $vars.user.id == $comment.user.id {
+                <span class="comment-meta__link">
+                    &bull;
+                    <a href='/forum/comment/<: $comment.id :>'>
+                        Link
+                    </a>
+                </span>
+            : }
+
+            : # TODO: Report and 
+        </span>
+: }
+
 : macro comment_content -> ( $comment, $level ) {
+    <div class="row comment tier<: $level :>
+                <: ($level > 2) ? 'comment--deep' : '' :> max">
+
+        <div class="user-avatar icon-user">
+            : include 'includes/user/avatar_comment.tx' { user => $comment.user }
+        </div>
+
+        : comment_body( $comment );
+
+
+    </div>
+
 :   for $comment.children -> $child {
 :       comment_content( $child, $child.level // 2 );
 :   }
