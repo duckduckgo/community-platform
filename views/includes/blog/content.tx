@@ -31,11 +31,7 @@
 
         <span class='post-meta'>
             <: $post.dur :> posted by
-            <img src='<: $post.user.avatar16 :>'
-                 width='16'
-                 title='<: $post.user.username :>'
-                 class='userpic' />
-            : $post.user.username
+            : include 'includes/user/avatar_author.tx' { user => $post.user }
         </span>
 
         : if $preview == 1 {
