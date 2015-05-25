@@ -1045,16 +1045,20 @@ body.texture {
 
 .btn--primary {
     border: none;
-    background-color: #60a5da;
-    border-bottom: 2px solid #4495d4;
-    color: #fff;
+    background-color: $blue;
+    border-bottom: 2px solid $blue-dark;
+    color: $white;
 
-    -webkit-border-radius: 2px;
-    -moz-border-radius: 2px;
-    -ms-border-radius: 2px;
-    -o-border-radius: 2px;
-    border-radius: 2px;
+    @include border-radius(2px);
     font-weight: normal;
+    max-width: 5em;
+    text-align: center;
+    font-size: 16px;
+    padding: 0 0.5em;
+
+        a {
+            color: $white;
+        }
 }
 
 @media (max-width: 980px) {

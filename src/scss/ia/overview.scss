@@ -1,0 +1,23 @@
+.heavy {
+    font-weight: 700;
+}
+
+.half-w {
+    width: 42%;
+}
+
+.ia-overview { margin-top: 3.5em; }
+
+.iap-list {
+    margin-top: 1em;
+
+    li.ia-item { 
+        list-style: none;
+        padding: 0.25em;
+    }
+
+    .ia-item--stamp { top: -4px; }
+
+
+}
+
