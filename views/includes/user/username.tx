@@ -25,11 +25,12 @@
         : include 'includes/user/badge.tx' { user => $user }
     : }
 
-    : if $vars.user != nil && $vars.user.is('admin') {
-        <a href='/admin/user/view/<: $user.username :>'>
-            [A]
-        </a>
-    : }
+: }
+
+: if $vars.user.is('admin') {
+    <a href='/admin/user/view/<: $user.username :>'>
+        [A]
+    </a>
 : }
 
 </span>
