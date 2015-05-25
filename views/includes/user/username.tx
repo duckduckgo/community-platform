@@ -1,0 +1,41 @@
+<span class='user-name'>
+
+: if $user.username == nil {
+    &lt;nobody&gt;
+: } elsif $user.public != 1 {
+    : if $vars.user != nil {
+        : if $vars.user.admin {
+            <span style='color: red'>
+                : $user.username
+            </span>
+        : } elsif $vars.user.id == $user.id {
+            <span style='color: green'>
+                &lt;yourself&gt;
+            </span>
+        : }
+    : } else {
+        &lt;hidden&gt;
+    : }
+: } else {
+    <a href="/user/<: $user.username :>">
+        : $user.username
+    </a>
+
+    : if $user.badge {
+        : if $user.badge == 'admin' {
+            <span class='userbadge  userbadge--txt'
+                  title='Admin'>
+                Staff
+            </span>
+        : } else {
+        : }
+    : }
+
+    : if $vars.user != nil && $vars.user.is('admin') {
+        <a href='/admin/user/view/<: $user.username :>'>
+            [A]
+        </a>
+    : }
+: }
+
+</span>
