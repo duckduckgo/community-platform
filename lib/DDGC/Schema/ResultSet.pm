@@ -15,7 +15,6 @@ sub current_user {
 
 __PACKAGE__->load_components(qw/
     Helper::ResultSet::Me
-    Helper::ResultSet::IgnoreWantarray
     Helper::ResultSet::Shortcut::HRI
     Helper::ResultSet::Shortcut::Prefetch
     Helper::ResultSet::Shortcut::GroupBy
