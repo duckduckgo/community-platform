@@ -257,6 +257,7 @@ sub overview_base :Chained('base') :PathPart('home') :CaptureArgs(0) {
     my ( $self, $c ) = @_;
 
     $c->stash->{ia_page} = "IAOverview";
+    $c->stash->{title} = "IA Pages Overview";
 }
 
 sub overview_json :Chained('overview_base') :PathPart('json') :Args(0) {
@@ -265,19 +266,31 @@ sub overview_json :Chained('overview_base') :PathPart('json') :Args(0) {
      my @ias;
      my @live_ias;
      my @dev_ias;
+     my $rs = $c->d->rs('InstantAnswer');
+     my $dev_count = $rs->search({'dev_milestone' => { '=' => ['planning', 'development', 'testing', 'complete']}})->count;
+     my $live_count = $rs->search({
+             dev_milestone => 'live', 
+             'topic.name' => [{ '!=' => 'test' }, { '=' => undef}]
+         },
+         {   prefetch => { instant_answer_topics => 'topic' }
+         })->count;
 
      if ($c->user) {
         my $username = $c->user->username;
-        @ias = $c->d->rs('InstantAnswer')->search({dev_milestone => {'!=' => 'deprecated'}})->all;
+        @ias = $rs->search({dev_milestone => {'!=' => 'deprecated'}})->all;
 
         my $temp_ia;
         for my $ia (@ias) {
             $temp_ia = $ia->TO_JSON('pipeline');
+            $temp_ia->{producer} = $temp_ia->{producer} || '';
+            $temp_ia->{designer} = $temp_ia->{designer} || '';
+            $temp_ia->{developer} = $temp_ia->{developer} || '';
+
             my $is_mine = ($c->user->admin && ($temp_ia->{producer} eq $username || $temp_ia->{designer} eq $username))? 1 : 0;
 
-            if (!$is_mine && $temp_ia->{developer} eq 'ARRAY') {
+            if (!$is_mine && ref($temp_ia->{developer}) eq 'ARRAY') {
                 for my $dev (@{$temp_ia->{developer}}) {
-                    if ($dev->{name} eq $username) {
+                    if (ref($dev) eq 'HASH' && $dev->{name} eq $username) {
                         $is_mine = 1;
                     }
                 }
@@ -358,7 +371,9 @@ sub overview_json :Chained('overview_base') :PathPart('json') :Args(0) {
 
      $c->stash->{x} = {
          live => \@live_ias,
+         live_count => $live_count,
          development => \@dev_ias,
+         dev_count => $dev_count,
          issues => \%top_issues
      };
 
