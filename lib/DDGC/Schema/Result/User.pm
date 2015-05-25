@@ -200,6 +200,7 @@ sub TO_JSON {
         username    => $self->username,
         avatar16    => $self->avatar(16),
         avatar32    => $self->avatar(32),
+        avatar48    => $self->avatar(48),
         public      => $self->public,
         badge       => $self->badge,
     };
