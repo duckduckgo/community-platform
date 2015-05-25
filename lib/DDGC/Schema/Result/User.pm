@@ -191,7 +191,8 @@ sub TO_JSON {
     my ( $self ) = @_;
     return []
       if ( !$self->public
-        && !( $self->app->var('user') && $self->app->var('user')->is('admin') )
+        && !( $self->app->var('user') && ( $self->app->var('user')->is('admin')
+                                        || $self->app->var('user')->id == $self->id ))
       );
 
     +{
