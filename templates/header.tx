@@ -10,7 +10,7 @@
 			</div>
 		<: } else if $duckduckhack { :>
 			<div class="header-logo">
-				<div class="header-logo__logo"><a href="<: $u('Root','index') :>"><img src="/ddgc_static/img/logo_ddg_duckduckhack.png" alt="DuckDuckGo Community Platform" /></a></div>
+				<div class="header-logo__logo"><a href="<: $u('Root','index') :>"><img src="/static/img/logo_ddg_duckduckhack.png" alt="DuckDuckGo Community Platform" /></a></div>
 				<div class="header-logo__text">
 					<h2>DuckDuck<i>Hack</i></h2>
 					<h3>Open Source DuckDuckGo</h3>		

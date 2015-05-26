@@ -5,11 +5,11 @@
  
 @font-face {
 	font-family: 'ddg-feedback';
-	src:url('/static/fonts/ddg-feedback.eot');
-	src:url('/static/fonts/ddg-feedback.eot?#iefix') format('embedded-opentype'),
-		url('/static/fonts/ddg-feedback.woff') format('woff'),
-		url('/static/fonts/ddg-feedback.ttf') format('truetype'),
-		url('/static/fonts/ddg-feedback.svg#ddg-feedback') format('svg');
+	src:url('../fonts/ddg-feedback.eot');
+	src:url('../fonts/ddg-feedback.eot?#iefix') format('embedded-opentype'),
+		url('../fonts/ddg-feedback.woff') format('woff'),
+		url('../fonts/ddg-feedback.ttf') format('truetype'),
+		url('../fonts/ddg-feedback.svg#ddg-feedback') format('svg');
 	font-weight: normal;
 	font-style: normal;
 }
@@ -242,7 +242,7 @@ you can use the generic selector below, but it's slower:
 	.fb-step--active:active,
 	.fb-step--text:active,
 	.fb-step--submit:active { top: 1px; }
-
+	
 .fb-step--active {
 	color: #7e7e7e;
 	background-color: #fefefe;	
@@ -334,6 +334,12 @@ you can use the generic selector below, but it's slower:
 		padding: 13px 67px 13px 63px;		
 		border: none;
 		background: none;
+	} 
+	.fb-step__body,
+	.fb-step {
+		-webkit-appearance: none;
+		-moz-appearance: none;
+		appearance: none;
 	}
 	.fb-step__body--btn {		
 		font-size: 17px;

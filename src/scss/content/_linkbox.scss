@@ -1,0 +1,110 @@
+/*
+ * Linkbox 
+ * The help 'categories' and 'search results' both use this 'linkbox' construction,
+ * with modifiers based on what is being displayed.
+ */
+ 
+.linkbox {
+	display: table;
+	vertical-align: middle;
+	width: 100%;
+	margin-bottom: 10px;
+	position: relative;
+	color: #8d8c8c;	
+	background-color: #fff;
+	border: 1px solid transparent;
+	-webkit-border-radius: 4px;
+	border-radius: 4px;
+}
+	.linkbox:active { top: 1px; }
+	.linkbox:hover { 
+		-webkit-box-shadow: inset 1px 1px 0px 0px rgba(255,255,255,0.9), 1px 1px 3px 0px rgba(0,0,0,0.1);
+        box-shadow: inset 1px 1px 0px 0px rgba(255,255,255,0.9), 1px 1px 3px 0px rgba(0,0,0,0.1);
+	}
+	
+	.linkbox__icon {		
+		display: block;
+		text-align: center;
+		vertical-align: middle;
+		color: #d7d7d7;
+		position: absolute;
+		top: 0;
+		bottom: 0;
+		right: auto;
+		left: 0;		
+		z-index: 3;
+		pointer-events: none;
+		font-size: 1em;
+		width: 1.65em;
+	}
+		.linkbox__icon:before {
+			display: block;	
+			position: absolute;
+			top: 50%;			
+			left: 50%;
+			margin-top: -0.5em;
+			margin-left: -0.45em;
+		}
+		
+	.linkbox__body {
+		position: relative;
+		z-index: 2;
+		display: table-cell;
+		vertical-align: middle;
+		width: 100%;
+		max-width: 100%;
+		text-align: left;
+		padding: 13px 18px 13px 1.65em;
+		border: none;
+		background: none;
+		line-height: 1.1;
+		line-height: 1.1;
+	}
+	
+	.linkbox__title {
+		color: #3363b3;
+		margin-bottom: 5px;
+	}
+	
+	/* 'Category' Linkboxes */
+	
+	.linkbox--category {
+		background-color: #fff;
+		border-color: #d6d6d6;
+	}
+		.linkbox--category:hover {
+			border-color: #afcdff;
+		}
+		.linkbox--category .linkbox__icon {
+			font-size: 42px;
+		}
+		.linkbox--category .linkbox__title {
+			font-size: 30px;
+		}
+		.linkbox--category .linkbox__body {
+			font-size: 17px;
+			padding-top: 30px;
+			padding-bottom: 30px;
+			padding-left: 67px; 
+		}
+	
+	/* 'Result' Linkboxes */
+	
+	.linkbox--result {
+		background-color: transparent;
+	}
+		.linkbox--result:hover {
+			background-color: #fff;
+			border-color: #d6d6d6;
+		}
+		.linkbox--result .linkbox__icon {
+			font-size: 1.25em;
+			left: 6px;
+		}
+		.linkbox--result .linkbox__title {
+			font-size: 21px;
+		}
+		.linkbox--result .linkbox__body {			
+			padding: 17px 20px 17px 2.5em;
+			font-size: 15px;
+		}
