@@ -28,9 +28,15 @@
 
         h2 { top: -0.19em; }
 
-        .main-tag__left { width: 25%; }
+        .main-tag__left { width: 30%; }
 
-        .issue-title a { color: #444; }
+        .main-tag__right { margin-left: 2em; }
+
+        a { color: #4896D2; }
+
+        .issue-title { margin-top: 0.5em; margin-bottom: 0; }
+
+        .issue-details { color: #aaa; }
     }
 }
 

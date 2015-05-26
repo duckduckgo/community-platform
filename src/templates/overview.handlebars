@@ -54,12 +54,16 @@
                     <ul class="list-container--right__issues issues_col main-tag__right__list">
                         {{#loop_n 5 list}}
                             <li>
-                                <div class="one-line issue-title">
-                                    <h5>
+                                <div class="one-line">
+                                    <h5 class="issue-title">
                                         <a href="https://github.com/duckduckgo/zeroclickinfo-{{repo}}/issues/{{issue_id}}">
                                             {{title}}
                                         </a>
                                     </h5>
+                                    <span class="issue-details">
+                                        created on {{parse_date date}} by <a href="https://github.com/{{author}}">{{author}}</a> 
+                                        &middot; IA Page: <a href="/ia/view/{{ia_id}}">{{ia_name}}</a>
+                                    </span>
                                 </div>
                             </li>
                         {{/loop_n}}
