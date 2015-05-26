@@ -364,9 +364,9 @@ sub overview_json :Chained('overview_base') :PathPart('json') :Args(0) {
 
 
      my %top_issues = (
-         bugs => \@bugs,
-         high_p => \@high_p,
-         lhf => \@lhf
+         bugs => { name => "Bugs", list => \@bugs },
+         high_p => { name => "Priority: High", list => \@high_p },
+         lhf => { name => "Low-Hanging Fruit", list => \@lhf }
      );
 
      $c->stash->{x} = {

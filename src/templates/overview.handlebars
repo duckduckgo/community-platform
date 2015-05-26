@@ -48,11 +48,11 @@
         {{#each issues}}
             <li class="top-issues__list__item main-tag">
                 <div class="list-container--left left main-tag__left">
-                    <h2 class="heavy">{{@key}}</h2>
+                    <h2 class="heavy">{{name}}</h2>
                 </div>
                 <div class="list-container--right left main-tag__right">
                     <ul class="list-container--right__issues issues_col main-tag__right__list">
-                        {{#loop_n 5 this}}
+                        {{#loop_n 5 list}}
                             <li>
                                 <div class="one-line issue-title">
                                     <h5>
