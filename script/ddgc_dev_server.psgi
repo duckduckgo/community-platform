@@ -11,7 +11,6 @@ use lib $FindBin::Dir . "/../lib";
 
 use Plack::Builder;
 use DDGC::Web;
-use DDGC::Static;
 my $ddgc_home = '/home/' . (getpwuid($<))[0] . '/ddgc';
 
 builder {
