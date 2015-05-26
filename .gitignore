@@ -15,4 +15,5 @@ root/static/css/ia.css
 root/static/js/ddgc.js
 root/static/js/ia.js
 src/templates/handlebars_tmp
-build/*
+build/
+bower_components/
