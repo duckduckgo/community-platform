@@ -28,11 +28,13 @@
 
         h2 { top: -0.19em; }
 
-        .main-tag__left { width: 30%; }
+        .main-tag__left { width: 30%; margin-top: 11%}
 
         .main-tag__right { margin-left: 2em; }
 
-        a { color: #4896D2; }
+        a { color: #444; }
+
+        a:hover { color: #4896D2; }
 
         .issue-title { margin-top: 0.5em; margin-bottom: 0; }
 
@@ -43,8 +45,6 @@
 
 /* Live and New IA Pages */
 .iap-list {
-    margin-top: 1em;
-
     li.ia-item { 
         padding: 1em 0.25em 0.25em;
     }
