@@ -6,19 +6,43 @@
     width: 42%;
 }
 
-.ia-overview { margin-top: 3.5em; }
+/* General page style */
+#ia-overview { 
+    margin-top: 3.5em; 
 
+    ul li { list-style: none; }
+
+    h2, h3 { text-transform: capitalize; }
+}
+
+/* Top Issues */
+#top-issues {
+    margin-top: 2.5em;
+
+    .top-issues__title { text-align: center; }
+
+    .main-tag { 
+        border-bottom: 1px solid #d0d0d0;
+        margin-top: 0.5em;
+        padding: 1em 0 0;
+
+        h2 { top: -0.19em; }
+
+        .main-tag__left { width: 23%; }
+
+        .issue-title a { color: #444; }
+    }
+}
+
+
+/* Live and New IA Pages */
 .iap-list {
     margin-top: 1em;
 
     li.ia-item { 
-        list-style: none;
-        padding: 0.25em;
-        margin-top: 0.5em;
+        padding: 1em 0.25em 0.25em;
     }
 
     .ia-item--stamp { top: -4px; }
-
-
 }
 

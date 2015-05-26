@@ -39,3 +39,34 @@
         {{/each}}
     </ul>
 </div>
+
+<span class="clearfix"></span>
+
+<div id="top-issues">
+    <h2 class="top-issues__title">Top Issues on GitHub</h2>
+    <ul class="top-issues__list top-{{this}} iap-list">
+        {{#each issues}}
+            <li class="top-issues__list__item main-tag">
+                <div class="list-container--left left main-tag__left">
+                    <h2 class="heavy">{{@key}}</h2>
+                </div>
+                <div class="list-container--right left main-tag__right">
+                    <ul class="list-container--right__issues issues_col main-tag__right__list">
+                        {{#loop_n 5 this}}
+                            <li>
+                                <div class="one-line issue-title">
+                                    <h5>
+                                        <a href="https://github.com/duckduckgo/zeroclickinfo-{{repo}}/issues/{{issue_id}}">
+                                            {{title}}
+                                        </a>
+                                    </h5>
+                                </div>
+                            </li>
+                        {{/loop_n}}
+                    </ul>
+                </div>
+                <span class="clearfix"></span>
+            <li>
+        {{/each}}
+    </ul>
+</div>

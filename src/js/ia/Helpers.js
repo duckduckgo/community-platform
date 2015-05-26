@@ -73,4 +73,14 @@
         return url;
     });
 
+    // Loop n times
+    Handlebars.registerHelper('loop_n', function(n, context, options) {
+        var result = '';
+        for(var i = 0; i < n; i++) {
+            result += options.fn(context[i]);
+        }
+
+        return result;
+    });
+
 })(DDH);
