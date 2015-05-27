@@ -89,7 +89,11 @@
 
     : if $preview != 1 {
         <section class='post-comments'>
-            : include 'includes/comments.tx' { comments => $comments }
+            : include 'includes/comments.tx' {
+                : comments => $comments,
+                : context => 'DDGC::DB::Result::User::Blog',
+                : context_id => $post.id,
+            : }
         </section>
     : }
 </article>
