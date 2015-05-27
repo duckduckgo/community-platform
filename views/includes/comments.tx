@@ -66,6 +66,7 @@
 
             : comment_reply_delete( $comment );
 
+
             : if !$comment.ghosted || $vars.user.id == $comment.user.id {
                 <span class="comment-meta__link">
                     &bull;
@@ -90,11 +91,12 @@
         : comment_body( $comment );
 
 
-    </div>
 
 :   for $comment.children -> $child {
 :       comment_content( $child, $child.level // 2 );
 :   }
+
+    </div>
 : }
 
 <a name='comments'></a>
