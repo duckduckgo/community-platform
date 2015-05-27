@@ -56,6 +56,17 @@
     : }
 : }
 
+: macro comment_link -> ( $comment ) {
+    : if !$comment.ghosted || $vars.user.id == $comment.user.id {
+        <span class="comment-meta__link">
+            &bull;
+            <a href='/forum/comment/<: $comment.id :>'>
+                Link
+            </a>
+        </span>
+    : }
+: }
+
 : macro comment_report -> ( $comment ) {
     : if $vars.user && $vars.user.id != $comment.user.id {
         &bull;
@@ -80,15 +91,7 @@
 
             : comment_reply_delete( $comment );
 
-
-            : if !$comment.ghosted || $vars.user.id == $comment.user.id {
-                <span class="comment-meta__link">
-                    &bull;
-                    <a href='/forum/comment/<: $comment.id :>'>
-                        Link
-                    </a>
-                </span>
-            : }
+            : comment_link( $comment );
 
             : comment_report( $comment );
 
@@ -105,8 +108,6 @@
         </div>
 
         : comment_body( $comment );
-
-
 
 :   for $comment.children -> $child {
 :       comment_content( $child, $child.level // 2 );
