@@ -1,52 +1,35 @@
-<div class="half-w left">
-<h2 class="left">
-    <span class="heavy">{{live_count}}</span> Live Instant Answers
-</h2>
-    <div class="btn--primary right"><a href="/ia">See All</a></div>
-    <span class="clearfix"></span>
-    
-    <ul class="iap-list">
-        {{#each live}}
-            <li class="ia-item">
-              <div class="ia_dev_milestone-{{dev_milestone}} ia_repo-{{repo}} ia-item__container">
+{{#each ias}}
+    <div class="half-w {{#if @first}}left{{else}}right{{/if}}">
+    <h2 class="left">
+        <span class="heavy">{{count}}</span> {{@key}} Instant Answers
+    </h2>
+        <div class="btn--primary right"><a href="/ia">See All</a></div>
+        <span class="clearfix"></span>
+        
+        <ul class="iap-list">
+            {{#each list}}
+                <li class="ia-item">
+                  <div class="ia_dev_milestone-{{dev_milestone}} ia_repo-{{repo}} ia-item__container">
+                        
+                    <div class="left ia-item--stamp circle stamp--{{repo}}"></div>
+                    <h3 class="left ia-item--header"><a href="/ia/view/{{id}}">{{name}}</a></h3>
                     
-                <div class="left ia-item--stamp circle stamp--{{repo}}"></div>
-                <h3 class="left ia-item--header"><a href="/ia/view/{{id}}">{{name}}</a></h3>
-                
-                {{#if issues}}
-                    <i class="icon-bug right"></i>
-                {{/if}}
-                {{#if edits}}
-                    <i class="icon-edit right"></i>
-                {{/if}}
-                
-                <span class="clearfix"></span>
-              </div>
-            </li>
-        {{/each}}
-    </ul>
-</div>
-
-<div class="half-w right">
-<h2 class="left">
-    <span class="heavy">{{dev_count}}</span> New Instant Answers
-</h2>
-    <div class="btn--primary right"><a href="/ia/pipeline/dev">See All</a></div>
-    <span class="clearfix"></span>
-    
-    <ul class="iap-list">
-        {{#each development}}
-            <li class="ia-item">
-              <div class="ia_dev_milestone-{{dev_milestone}} ia_repo-{{repo}} ia-item__container">
-                    
-                <div class="left ia-item--stamp circle stamp--{{repo}}"></div>
-                <h3 class="left ia-item--header"><a href="/ia/view/{{id}}">{{name}}</a></h3>
-                <span class="clearfix"></span>
-              </div>
-            </li>
-        {{/each}}
-    </ul>
-</div>
+                    {{#if issues}}
+                        <i class="icon-bug right"></i>
+                    {{/if}}
+                    {{#eq @key 'live'}}
+                        {{#if edits}}
+                            <i class="icon-edit right"></i>
+                        {{/if}}
+                    {{/eq}}
+                                    
+                    <span class="clearfix"></span>
+                  </div>
+                </li>
+            {{/each}}
+        </ul>
+    </div>
+{{/each}}
 
 <span class="clearfix"></span>
 

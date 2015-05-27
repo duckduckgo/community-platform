@@ -298,7 +298,7 @@ sub overview_json :Chained('overview_base') :PathPart('json') :Args(0) {
 
             if ($is_mine) {
                 $temp_ia->{edits} = scalar get_all_edits($c->d, $temp_ia->{id});
-                $temp_ia->{issues} = $c->d->rs('InstantAnswer::Issues')->search({instant_answer_id => $temp_ia->{id}})->count eq '0'? 0 : 1;
+                $temp_ia->{issues} = $c->d->rs('InstantAnswer::Issues')->search({is_pr => 0, instant_answer_id => $temp_ia->{id}})->count eq '0'? 0 : 1;
 
                 if ($temp_ia->{dev_milestone} eq 'live') {
                     push @live_ias, $temp_ia;
@@ -405,11 +405,13 @@ sub overview_json :Chained('overview_base') :PathPart('json') :Args(0) {
          lhf => { name => "Low-Hanging Fruit", list => \@lhf }
      );
 
+     my %ias = (
+         live => { count => $live_count, list => \@live_ias },
+         new => { count => $dev_count, list => \@dev_ias }
+     );
+
      $c->stash->{x} = {
-         live => \@live_ias,
-         live_count => $live_count,
-         development => \@dev_ias,
-         dev_count => $dev_count,
+         ias => \%ias,
          issues => \%top_issues
      };
 
