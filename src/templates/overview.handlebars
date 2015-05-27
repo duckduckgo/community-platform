@@ -35,14 +35,11 @@
 
 <div id="top-issues">
     <h2 class="top-issues__title">Top Issues on GitHub</h2>
-    <ul class="top-issues__list top-{{this}}">
+    <ul class="top-issues__list">
         {{#each issues}}
             <li class="top-issues__list__item main-tag">
                 <div class="list-container--left left main-tag__left">
-                    <h2 class="heavy">{{name}}</h2>
-                </div>
-                <div class="list-container--right left main-tag__right">
-                    <ul class="list-container--right__issues issues_col main-tag__right__list">
+                    <ul class="list-container--left__issues issues_col main-tag__left__list">
                         {{#loop_n 5 list}}
                             <li>
                                 <div class="left ia-item--stamp circle stamp--{{repo}}"></div>
@@ -61,6 +58,11 @@
                             </li>
                         {{/loop_n}}
                     </ul>
+                </div>
+                <div class="list-container--right right main-tag__right">
+                    <div class="tag-{{slug name}} tag-container right">
+                        <h3 class="heavy">{{name}}</h3>
+                    </div>
                 </div>
                 <span class="clearfix"></span>
             <li>
