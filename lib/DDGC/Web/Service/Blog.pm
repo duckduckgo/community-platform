@@ -33,6 +33,13 @@ sub posts_rset {
     rset('User::Blog')->company_blog;
 }
 
+sub title_to_slug {
+    my ( $title ) = @_;
+    $title = lc( $title );
+    $title =~ s/[^a-z]*/-/g;
+    return $title;
+}
+
 sub posts_page {
     my ( $params ) = @_;
     $params = validate('/blog.json', $params)->values;
@@ -278,6 +285,7 @@ sub post_update_or_create {
     my $error;
     my $user = var 'user';
     $params->{users_id} = $user->id;
+    $params->{uri} ||= title_to_slug( $params->{title} );
 
     my $v = validate('/blog.json/admin/post/new', $params);
     bailout( 400, [ $v->errors ] ) if (scalar $v->errors);
