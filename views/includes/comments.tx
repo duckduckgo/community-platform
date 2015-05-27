@@ -159,9 +159,9 @@
 
         : comment_body( $comment );
 
-:   for $comment.children -> $child {
-:       comment_content( $child, $child.level // 2 );
-:   }
+    : for $comment.children -> $child {
+        : comment_content( $child, $child.level // 2 );
+    : }
 
     </div>
 : }
