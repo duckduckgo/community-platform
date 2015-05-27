@@ -1,3 +1,5 @@
+: my $current_user_JSON = ( $vars.user )? $vars.user.TO_JSON : nil;
+
 : macro comment_body -> ( $comment ) {
         <div class="comment-body" id="comment_<: $comment.id :>">
             <div class="row content">
