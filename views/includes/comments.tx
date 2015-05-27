@@ -168,7 +168,22 @@
 
 <a name='comments'></a>
 
-: comment_reply_form( $comment, $context, $context_id, 'nohide' );
+: if $vars.user {
+    : comment_reply_form( $comment, $context, $context_id, 'nohide' );
+: } else {
+    <div class="notice alert warning">
+        <i class="icn icon-warning-sign"></i>
+        You must be logged in to comment. Please
+        <a href='/my/login' data-reveal-id="login-box">
+            Log in
+        </a>
+        or
+        <a href='/my/register'>
+            Register
+        </a>.
+    </div>
+: }
+
 
 : for $comments -> $comment {
     : comment_content( $comment, $comment.level // 1 );
