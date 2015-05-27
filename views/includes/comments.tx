@@ -98,6 +98,32 @@
     : }
 : }
 
+: macro comment_reply_form -> ( $comment, $context, $context_id, $hide ) {
+    : if $context and $context_id and $vars.user {
+        <form method='post'
+              class='comment_reply  js-reply_<: $context_id :>  <: ( $hide == 'hide' )? 'js-hide' : '' :>'
+              action='/comment/add/<: $context :>/<: $context_id :>'>
+
+            <input type='hidden' name='action_token' value='<: $session.action_token :>'>
+
+            <div class="user-avatar icon-user">
+                : include '/includes/user/avatar_comment.tx' { user => $current_user_JSON }
+            </div>
+
+            <div class='my_comment comment-body'>
+                <textarea rows='10'
+                          name='content'
+                          class='form-textarea  text  has-bbcode bbcode-editor'
+                          placeholder='Add your Comment'></textarea>
+                <input type='hidden' name='from' value='<: $request.uri :>' />
+            </div>
+
+            : include 'includes/bbcode_controls.tx'
+
+        </form>
+    : }
+: }
+
 : macro comment_meta -> ( $comment ) {
         <span class="comment-meta">
 
@@ -114,6 +140,10 @@
             : comment_report( $comment );
 
             : comment_collapse( $comment );
+
+            : comment_reply_form(
+                : $comment, 'DDGC::DB::Result::Comment', $comment.id, 'hide'
+            : );
 
         </span>
 : }
@@ -137,6 +167,8 @@
 : }
 
 <a name='comments'></a>
+
+: comment_reply_form( $comment, $context, $context_id, 'nohide' );
 
 : for $comments -> $comment {
     : comment_content( $comment, $comment.level // 1 );
