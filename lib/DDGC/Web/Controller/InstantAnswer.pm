@@ -276,9 +276,8 @@ sub overview_json :Chained('overview_base') :PathPart('json') :Args(0) {
          })->count;
 
      if ($c->user) {
-        my $username = $c->user->username;
         @ias = $rs->search({dev_milestone => {'!=' => 'deprecated'}})->all;
-
+        
         my $temp_ia;
         for my $ia (@ias) {
             $temp_ia = $ia->TO_JSON('pipeline');
@@ -286,6 +285,7 @@ sub overview_json :Chained('overview_base') :PathPart('json') :Args(0) {
             $temp_ia->{designer} = $temp_ia->{designer} || '';
             $temp_ia->{developer} = $temp_ia->{developer} || '';
 
+            my $username = $c->user->username;
             my $is_mine = ($c->user->admin && ($temp_ia->{producer} eq $username || $temp_ia->{designer} eq $username))? 1 : 0;
 
             if (!$is_mine && ref($temp_ia->{developer}) eq 'ARRAY') {
@@ -304,9 +304,42 @@ sub overview_json :Chained('overview_base') :PathPart('json') :Args(0) {
                 }
             }
         }
+     } 
+     
+     if (!$c->user || !@live_ias) {
+        @ias = $rs->search({
+             dev_milestone => 'live', 
+             'topic.name' => [{ '!=' => 'test' }, { '=' => undef}]
+         },
+         {   
+             prefetch => { instant_answer_topics => 'topic'},
+             rows => 5,
+             order_by => {-desc => 'live_date'}
+         })->all;
+
+         my $temp_ia;
+         for my $ia (@ias) {
+            $temp_ia = $ia->TO_JSON('pipeline');
+            push @live_ias, $temp_ia;
+         }
      }
 
-     my @issues = $c->d->rs('InstantAnswer::Issues')->search({'is_pr' => 0})->all;
+     if (!$c->user || !@dev_ias) {
+        @ias = $rs->search({
+                dev_milestone => { '=' => ['planning', 'development', 'testing', 'complete']}
+            },{
+                rows => 5,  
+                order_by => {-desc => 'created_date'}
+            })->all;
+
+        my $temp_ia;
+        for my $ia (@ias) {
+            $temp_ia = $ia->TO_JSON('pipeline');
+            push @dev_ias, $temp_ia;
+        }
+     }
+
+     my @issues = $c->d->rs('InstantAnswer::Issues')->search({'is_pr' => 0},{order_by => {-desc => 'date'}})->all;
 
      my @bugs;
      my @high_p;
