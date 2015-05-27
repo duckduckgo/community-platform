@@ -26,7 +26,7 @@
         margin-top: 0.5em;
         padding: 1em 0 0;
 
-        h2 { top: -0.19em; }
+        h2 { top: 0.25em; }
 
         .main-tag__left { width: 30%; margin-top: 11%}
 
@@ -36,7 +36,9 @@
 
         a:hover { color: #4896D2; }
 
-        .issue-title { margin-top: 0.5em; margin-bottom: 0; }
+        .issue-title { margin-top: 0.25em; margin-bottom: 0; }
+
+        .issues_col li { margin-bottom: 0.7em; }
 
         .issue-details { color: #aaa; }
     }
@@ -50,5 +52,9 @@
     }
 
     .ia-item--stamp { top: -4px; }
+
+    i { color: #aaa; }
+
+    i.icon-bug { margin-left: 0.5em; }
 }
 

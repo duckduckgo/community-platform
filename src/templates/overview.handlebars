@@ -12,6 +12,14 @@
                     
                 <div class="left ia-item--stamp circle stamp--{{repo}}"></div>
                 <h3 class="left ia-item--header"><a href="/ia/view/{{id}}">{{name}}</a></h3>
+                
+                {{#if issues}}
+                    <i class="icon-bug right"></i>
+                {{/if}}
+                {{#if edits}}
+                    <i class="icon-edit right"></i>
+                {{/if}}
+                
                 <span class="clearfix"></span>
               </div>
             </li>

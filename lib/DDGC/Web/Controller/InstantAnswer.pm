@@ -276,7 +276,7 @@ sub overview_json :Chained('overview_base') :PathPart('json') :Args(0) {
          })->count;
 
      if ($c->user) {
-        @ias = $rs->search({dev_milestone => {'!=' => 'deprecated'}})->all;
+        @ias = $rs->search({dev_milestone => {'!=' => 'deprecated'}},{order_by => 'name'})->all;
         
         my $temp_ia;
         for my $ia (@ias) {
@@ -297,6 +297,9 @@ sub overview_json :Chained('overview_base') :PathPart('json') :Args(0) {
             }
 
             if ($is_mine) {
+                $temp_ia->{edits} = scalar get_all_edits($c->d, $temp_ia->{id});
+                $temp_ia->{issues} = $c->d->rs('InstantAnswer::Issues')->search({instant_answer_id => $temp_ia->{id}})->count eq '0'? 0 : 1;
+
                 if ($temp_ia->{dev_milestone} eq 'live') {
                     push @live_ias, $temp_ia;
                 } else {
