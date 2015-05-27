@@ -23,7 +23,12 @@
 #top-issues {
     margin-top: 2.5em;
 
-    .top-issues__title { text-align: center; }
+    .top-issues__title { 
+        text-align: center; 
+        width: 25em;
+        margin-left: auto;
+        margin-right: auto;
+    }
 
     .main-tag { 
         border-bottom: 1px solid $platinum-dark;
