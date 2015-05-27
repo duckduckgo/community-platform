@@ -80,6 +80,15 @@
     : }
 : }
 
+: macro comment_collapse -> ( $comment ) {
+    : if $comment.children[0].id {
+        <a href='#' class='comment-toggle'>
+            <i class='icon-minus-sign max-msg'></i>
+            <i class='icon-plus-sign min-msg'></i>
+        </a>
+    : }
+: }
+
 : macro comment_meta -> ( $comment ) {
         <span class="comment-meta">
 
@@ -94,6 +103,8 @@
             : comment_link( $comment );
 
             : comment_report( $comment );
+
+            : comment_collapse( $comment );
 
         </span>
 : }
