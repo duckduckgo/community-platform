@@ -2,5 +2,4 @@
     <img src='<: $user.avatar48 :>'
          width='48'
          title='<: $user.username :>' />
-    : $user.username
 : }
