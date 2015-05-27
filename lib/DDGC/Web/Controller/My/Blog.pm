@@ -88,10 +88,6 @@ sub edit :Chained('base') :Args(1) {
 			}
 		}
 
-		if ($values{uri} !~ m/^[\w-]+$/g) {
-			$c->stash->{error_uri_invalid} = 1; $ok = 0;
-		}
-
 		if ($values{topics} && $values{topics} !~ m/^[\w\- ,]+$/g) {
 			$c->stash->{error_topics_invalid} = 1; $ok = 0;
 		}

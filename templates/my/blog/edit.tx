@@ -37,13 +37,6 @@
 					<div class="twothird">
 						<input type="text" name="uri" size="50" value="<: $post.uri :>" placeholder="(leave empty to take slug from title)" />
 					</div>
-					<: if $error_uri_invalid { :>
-					<div class="row">
-						<div class="notice error">
-							<i class="icn icon-warning-sign"></i> The URL may only contain letters, numbers and dashes!
-						</div>
-					</div>
-					<: } :>
 				</div>				
 				<div class="row">
 					<div class="third">
