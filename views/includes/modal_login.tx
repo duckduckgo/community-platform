@@ -1,11 +1,11 @@
 <div id="login-box" class="reveal-modal modal-form account-form">
     <h4>Login</h4>
-    <form action="" method="post">
+    <form action="/my/login" method="post">
 
         <div class="input-wrap">
             <input type="text"
                    placeholder="Your Username"
-                   name="<: $c.session.username_field :>"
+                   name="<: $session.username_field :>"
                    class="text"
                    value="<: $username :>"
             />
