@@ -42,6 +42,7 @@
 
         : if ($vars.user.is('admin') or $vars.user.id == $comment.user.id) {
             <span class="comment-meta__link">
+                : # TODO: Make this a POST
                 &bull;
                 <a href='<:
                     uri_for( '/comment/delete/' ~ $comment.id,
@@ -52,6 +53,19 @@
                 </a>
             </span>
         : }
+    : }
+: }
+
+: macro comment_report -> ( $comment ) {
+    : if $vars.user && $vars.user.id != $comment.user.id {
+        &bull;
+        <a href='#report_<: $comment.id :>'
+           class='js-reveal js-report-content'
+           data-reveal-id='report-content'
+           data-context='DDGC::DB::Result::Comment'
+           data-context-id='<: $comment.id :>' >
+            Report
+        </a>
     : }
 : }
 
@@ -76,9 +90,11 @@
                 </span>
             : }
 
-            : # TODO: Report and 
+            : comment_report( $comment );
+
         </span>
 : }
+
 
 : macro comment_content -> ( $comment, $level ) {
     <div class="row comment tier<: $level :>
@@ -102,6 +118,10 @@
 <a name='comments'></a>
 
 : for $comments -> $comment {
-  : comment_content( $comment, $comment.level // 1 );
+    : comment_content( $comment, $comment.level // 1 );
+: }
+
+: if $vars.user {
+    : include 'includes/report_dialog.tx'
 : }
 
