@@ -33,10 +33,17 @@
     : ) {
         <span class="comment-meta__link">
             &bull;
+
             <a class='js-reply_link_<: $comment.id :>  js-comment-reply no-js-hide'
                data-target='<: $comment.id :>'
                href='#'>
                 Reply
+            </a>
+
+            <a class='js-cancel_link_<: $comment.id :>  js-comment-cancel no-js-hide hide'
+               data-target='<: $comment.id :>'
+               href='#'>
+                Cancel
             </a>
         </span>
 

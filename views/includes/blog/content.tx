@@ -11,6 +11,7 @@
 
     <section class="post-body">
 
+        : # All blog posts are official, TODO: Make this go away when styles are pinned down
         <div class='pull-right'>
             <img src='/static/images/duckduckgo-icon.png'
                  width='32'
