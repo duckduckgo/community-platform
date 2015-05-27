@@ -36,7 +36,7 @@ sub posts_rset {
 sub title_to_slug {
     my ( $title ) = @_;
     $title = lc( $title );
-    $title =~ s/[^a-z]*/-/g;
+    $title =~ s/[^a-z]+/-/g;
     return $title;
 }
 
