@@ -240,9 +240,38 @@
                             }
                         });
                     });
+                    
+                    // Check if the IA has a test machine or is live.
+                    // If so, enable the screenshot button.
+                    var test_machine = ia_data.live.test_machine;
+                    function enableScreenshotButton() {
+                        console.log(test_machine);
+                        var $generate_screenshot = $(".generate-screenshot--button");
+                        if(test_machine || ia_data.live.dev_milestone === "live") {
+                            $generate_screenshot.removeClass("generate-screenshot--disabled");
+                        } else {
+                            $generate_screenshot.addClass("generate-screenshot--disabled");
+                        }
+                    }
+
+                    enableScreenshotButton();
+                    $("body").on("change", ".test_machine", function(evt) {
+                        if($(this).val()) {
+                            test_machine = $(".test_machine option[value='" +  $(this).val() + "']").text();
+                        } else {
+                            test_machine = null;
+                        }
+
+                        enableScreenshotButton();
+                    });
 
                     // Generate a screenshot when the button is clicked.
                     $("body").on("click", ".generate-screenshot--button", function(evt) {
+                        // If it's disabled, do nothing.
+                        if($(this).hasClass("generate-screenshot--disabled")) {
+                            return;
+                        }
+
                         var $button =  $(".generate-screenshot--button");
                         $button.text("Generating ...");
 

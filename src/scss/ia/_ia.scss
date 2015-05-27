@@ -1557,3 +1557,8 @@ input.saved, select.saved, .button.saved {
     font-weight: 600;
     background-color: rgb(246, 250, 209);
 }
+
+.generate-screenshot--button.generate-screenshot--disabled {
+    background-color: $grey;
+    border-color: $grey-dark;
+}
