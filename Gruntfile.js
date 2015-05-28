@@ -33,6 +33,7 @@ module.exports = function(grunt) {
         'Helpers.js',
         'IADevPipeline.js',
         'IAIndex.js',
+        'IAOverview.js',
         'IAPage.js',
         'IAPageCommit.js',
         'ready.js'
