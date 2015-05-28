@@ -45,6 +45,12 @@
             Ignore all his content and reports
           <: } :>
         </a>
+        : if $_.user_notifications.count {
+            <a href='<: $u('Admin::User', 'user', $_.lc_username, { unsub => 1, action_token => $action_token }) :>'
+               class='button'>
+                Unsubscribe from all notifications
+            </a>
+        : }
       </div>
     <: } :>
     <div class="row">
