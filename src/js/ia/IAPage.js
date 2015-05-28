@@ -240,9 +240,28 @@
                             }
                         });
                     });
+                    
+                    // Check if the IA has a test machine or is live.
+                    // If so, enable the screenshot button.
+                    var test_machine = ia_data.live.test_machine;
+                    var example_query = ia_data.live.example_query;
+                    function enableScreenshotButton() {
+                        var $generate_screenshot = $(".generate-screenshot--button");
+                        if((test_machine && example_query) || ia_data.live.dev_milestone === "live") {
+                            $generate_screenshot.removeClass("generate-screenshot--disabled");
+                        } else {
+                            $generate_screenshot.addClass("generate-screenshot--disabled");
+                        }
+                    }
+                    enableScreenshotButton();
 
                     // Generate a screenshot when the button is clicked.
                     $("body").on("click", ".generate-screenshot--button", function(evt) {
+                        // If it's disabled, do nothing.
+                        if($(this).hasClass("generate-screenshot--disabled")) {
+                            return;
+                        }
+
                         var $button =  $(".generate-screenshot--button");
                         $button.text("Generating ...");
 
@@ -705,6 +724,16 @@
                         })
                         .done(function(data) {
                             if (data.result) {
+                                if(data.result.example_query != null) {
+                                    example_query = data.result.example_query;
+                                    enableScreenshotButton();
+                                }
+
+                                if(data.result.test_machine != null) {
+                                    test_machine = data.result.test_machine;
+                                    enableScreenshotButton();
+                                }
+
                                 if (data.result.saved && field === "dev_milestone") {
                                     location.reload();
                                 } else if (data.result.saved && field === "id") {
