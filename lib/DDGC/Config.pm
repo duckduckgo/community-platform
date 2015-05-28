@@ -265,10 +265,10 @@ sub forums {
 			user_filter => sub { ($_[0] && $_[0]->is('translation_manager')) },
 		},
 		'4' => {
-			name => 'Admins',
-			notification => 'Admins Post',
+			name => 'Internal',
+			notification => 'Internal Forum Post',
 			button_img => '/static/images/admin_button.png',
-			url  => 'admins',
+			url  => 'internal',
 			user_filter => sub { ($_[0] && $_[0]->is('admin')) },
 		},
 		'5' => {
