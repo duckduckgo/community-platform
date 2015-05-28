@@ -2,4 +2,3 @@
          width='16'
          title='<: $user.username :>'
          class='userpic' />
-    : $user.username
