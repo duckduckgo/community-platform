@@ -269,7 +269,7 @@ sub forums {
 			notification => 'Internal Forum Post',
 			button_img => '/static/images/admin_button.png',
 			url  => 'internal',
-			user_filter => sub { ($_[0] && $_[0]->is('admin')) },
+			user_filter => sub { ($_[0] && $_[0]->is('patron')) },
 		},
 		'5' => {
 			name => 'Special Announcements',
