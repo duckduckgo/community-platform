@@ -1,3 +1,21 @@
+<div class="breadcrumb-nav">
+<div class='breadcrumbs'>
+    : # TODO - deprecate this phony breadcrumb
+    <a href='/'>
+        Home
+    </a>
+    &gt;
+    : if $post == nil {
+        DuckDuckGo Blog posts
+    : } else {
+        <a href='/blog'>
+            DuckDuckGo Blog posts
+        </a>
+        &gt;
+        : $post.title
+    : }
+</div>
+</div>
 <div class='blog-content  content'>
     : if $post == nil {
         : for $posts -> $post {
