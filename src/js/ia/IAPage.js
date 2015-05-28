@@ -253,22 +253,7 @@
                             $generate_screenshot.addClass("generate-screenshot--disabled");
                         }
                     }
-
                     enableScreenshotButton();
-                    $("body").on("change", ".test_machine", function(evt) {
-                        if($(this).val()) {
-                            test_machine = $(".test_machine option[value='" +  $(this).val() + "']").text();
-                        } else {
-                            test_machine = null;
-                        }
-
-                        enableScreenshotButton();
-                    });
-
-                    $("body").on("change", ".example_query", function(evt) {
-                        example_query = $(this).val();
-                        enableScreenshotButton();
-                    });
 
                     // Generate a screenshot when the button is clicked.
                     $("body").on("click", ".generate-screenshot--button", function(evt) {
@@ -739,6 +724,16 @@
                         })
                         .done(function(data) {
                             if (data.result) {
+                                if(data.result.example_query != null) {
+                                    example_query = data.result.example_query;
+                                    enableScreenshotButton();
+                                }
+
+                                if(data.result.test_machine != null) {
+                                    test_machine = data.result.test_machine;
+                                    enableScreenshotButton();
+                                }
+
                                 if (data.result.saved && field === "dev_milestone") {
                                     location.reload();
                                 } else if (data.result.saved && field === "id") {
