@@ -223,7 +223,7 @@ module.exports = function(grunt) {
             },
             templates: {
                 files: ['src/templates/*.handlebars'],
-                tasks: ['concat']
+                tasks: ['handlebars', 'concat']
             },
             scss: {
                 files: ['src/scss/ia/*.scss', 'src/scss/ddgc/*.scss', 'src/scss/content/*.scss'],
