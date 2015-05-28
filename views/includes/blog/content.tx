@@ -33,6 +33,7 @@
         <span class='post-meta'>
             <: $post.dur :> posted by
             : include 'includes/user/avatar_author.tx' { user => $post.user }
+            : include 'includes/user/username.tx' { user => $post.user }
         </span>
 
         : if $preview == 1 {
