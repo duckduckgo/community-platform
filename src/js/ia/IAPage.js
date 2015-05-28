@@ -244,10 +244,10 @@
                     // Check if the IA has a test machine or is live.
                     // If so, enable the screenshot button.
                     var test_machine = ia_data.live.test_machine;
+                    var example_query = ia_data.live.example_query;
                     function enableScreenshotButton() {
-                        console.log(test_machine);
                         var $generate_screenshot = $(".generate-screenshot--button");
-                        if(test_machine || ia_data.live.dev_milestone === "live") {
+                        if((test_machine && example_query) || ia_data.live.dev_milestone === "live") {
                             $generate_screenshot.removeClass("generate-screenshot--disabled");
                         } else {
                             $generate_screenshot.addClass("generate-screenshot--disabled");
@@ -262,6 +262,11 @@
                             test_machine = null;
                         }
 
+                        enableScreenshotButton();
+                    });
+
+                    $("body").on("change", ".example_query", function(evt) {
+                        example_query = $(this).val();
                         enableScreenshotButton();
                     });
 
