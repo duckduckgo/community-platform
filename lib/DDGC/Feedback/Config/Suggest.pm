@@ -29,7 +29,7 @@ sub feedback {[
   },
     # suggest_instant(),
   {
-	description => "A new Admin forum post",
+	description => "A new Internal forum post",
 	icon => "convo",
 	type => "link",
 	link => ['Forum::My','newthread','4'],
