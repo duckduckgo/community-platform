@@ -30,7 +30,7 @@ builder {
         expires => '+21600s',
         cookie_name => 'ddgc_session';
     enable 'Debug', panels => [
-        qw/ Environment Response Parameters Timer Memory Session DBITrace CatalystLog /
+        qw/ Environment Response Parameters Timer Session DBITrace CatalystLog /
     ];
     mount '/blog' => DDGC::Web::App::Blog->to_app;
     mount '/blog.json' => DDGC::Web::Service::Blog->to_app;
