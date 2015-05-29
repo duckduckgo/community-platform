@@ -37,6 +37,10 @@ sub user_base :Chained('base') :PathPart('view') :CaptureArgs(1) {
 			? $c->stash->{user}->ghosted(1)
 			: $c->stash->{user}->ghosted(0)
 	}
+	if (defined $c->req->params->{unsub}) {
+		$c->require_action_token;
+		$c->stash->{user}->unsubscribe_all_notifications;
+	}
 	if (defined $c->req->params->{ignore}) {
 		$c->require_action_token;
 		$c->req->param('ignore')
