@@ -33,6 +33,7 @@ module.exports = function(grunt) {
         'Helpers.js',
         'IADevPipeline.js',
         'IAIndex.js',
+        'IAOverview.js',
         'IAPage.js',
         'IAPageCommit.js',
         'ready.js'
@@ -83,6 +84,10 @@ module.exports = function(grunt) {
             ddgc_css: {
                 src: 'build/ddgc/main.css',
                 dest: static_dir + 'css/ddgc.css'
+            },
+            content_css: {
+                src: 'build/content/main.css',
+                dest: static_dir + 'css/content.css'
             }
         },
 
@@ -219,10 +224,10 @@ module.exports = function(grunt) {
             },
             templates: {
                 files: ['src/templates/*.handlebars'],
-                tasks: ['concat']
+                tasks: ['handlebars', 'concat']
             },
             scss: {
-                files: ['src/scss/ia/*.scss', 'src/scss/ddgc/*.scss'],
+                files: ['src/scss/ia/*.scss', 'src/scss/ddgc/*.scss', 'src/scss/content/*.scss'],
                 tasks: ['compass', 'concat']
             }
         },

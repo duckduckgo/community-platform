@@ -5,7 +5,6 @@ use Moose;
 use File::Path qw( make_path );
 use File::Spec;
 use File::ShareDir::ProjectDistDir;
-use DDGC::Static;
 use Path::Class;
 use Catalyst::Utils;
 use FindBin;
@@ -52,7 +51,6 @@ has_conf pid => DDGC_PID => $$;
 
 has_conf appdir_path => DDGC_APPDIR => "$FindBin::Bin/../";
 has_conf rootdir_path => DDGC_ROOTDIR => $ENV{HOME}.'/ddgc/';
-has_conf ddgc_static_path => DDGC_STATIC => DDGC::Static->sharedir;
 has_conf no_cache => DDGC_NOCACHE => 0;
 
 sub rootdir {
@@ -267,11 +265,11 @@ sub forums {
 			user_filter => sub { ($_[0] && $_[0]->is('translation_manager')) },
 		},
 		'4' => {
-			name => 'Admins',
-			notification => 'Admins Post',
+			name => 'Internal',
+			notification => 'Internal Forum Post',
 			button_img => '/static/images/admin_button.png',
-			url  => 'admins',
-			user_filter => sub { ($_[0] && $_[0]->is('admin')) },
+			url  => 'internal',
+			user_filter => sub { ($_[0] && $_[0]->is('patron')) },
 		},
 		'5' => {
 			name => 'Special Announcements',

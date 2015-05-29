@@ -223,6 +223,11 @@ sub add_default_notifications {
 	$self->add_type_notification(qw( idea_votes 3 1 ));
 }
 
+sub unsubscribe_all_notifications {
+	my ( $self ) = @_;
+	$self->user_notifications->delete;
+}
+
 # WORKAROUND
 sub db { return shift; }
 

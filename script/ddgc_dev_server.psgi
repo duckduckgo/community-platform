@@ -11,7 +11,6 @@ use lib $FindBin::Dir . "/../lib";
 
 use Plack::Builder;
 use DDGC::Web;
-use DDGC::Static;
 my $ddgc_home = '/home/' . (getpwuid($<))[0] . '/ddgc';
 
 builder {
@@ -22,7 +21,6 @@ builder {
 
     mount '/' => DDGC::Web->new->psgi_app;
 
-    mount "/ddgc_static" => Plack::App::File->new( root => DDGC::Static::sharedir )->to_app;
     mount "/static" => Plack::App::File->new( root => $FindBin::Dir . '/../root/static' )->to_app;
     mount "/media" => Plack::App::File->new( root => "$ddgc_home/media" )->to_app;
     mount "/thumbnail" => Plack::App::File->new( root => "$ddgc_home/media/thumbnail" )->to_app;

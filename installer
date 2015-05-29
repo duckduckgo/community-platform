@@ -11,4 +11,4 @@ postgres "9.3.0", port => $pgport, superuser_with_db => 'ddgc';
 cpanm qw( --notest GD Net::SSL Net::Server );
 export 'DDGC_DB_DSN="'.$dbi_ddgc_dsn.'"', 'DDGC_DB_USER="ddgc"';
 perldeps;
-run qw( duckpan DDGC::Static );
+

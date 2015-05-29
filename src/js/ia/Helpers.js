@@ -73,4 +73,24 @@
         return url;
     });
 
+    // Loop n times
+    Handlebars.registerHelper('loop_n', function(n, context, options) {
+        var result = '';
+        for(var i = 0; i < n; i++) {
+            result += options.fn(context[i]);
+        }
+
+        return result;
+    });
+
+    // Parse date
+    Handlebars.registerHelper('parse_date', function(date) {
+        date = date.replace(/T.*/, '').split('-');
+        var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
+        var year = date[0] || '';
+        var month = date[1]? months[parseInt(date[1].replace('0', '')) - 1] : '';
+        var day = date[2] || '';
+
+        return day + " " + month + " " + year;
+    });
 })(DDH);
