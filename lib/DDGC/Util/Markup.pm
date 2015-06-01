@@ -4,7 +4,6 @@ package DDGC::Util::Markup;
 # ABSTRACT: BBCode, Markdown and HTML renderer for comments and blog posts.
 
 use Text::Markdown;
-use Text::VimColor;
 use HTML::TreeBuilder::LibXML;
 use Hash::Merge::Simple qw/ merge /;
 use URI::Escape;
@@ -56,6 +55,7 @@ has bbcode_tags => (
 );
 sub _build_bbcode_tags {
     my $tags;
+
     my $sites = +{
         GitHub   => 'https://github.com/%{uri}A',
         Twitter  => 'https://twitter.com/%{uri}A',
@@ -72,7 +72,28 @@ sub _build_bbcode_tags {
              output  => "<a href='$url'>%{parse}s</a>",
         }
     }
+
+    $tags->{code} = {
+        parse => 0,
+        class => 'block',
+        code => \&_code_block,
+    };
+
     return $tags;
+}
+
+sub _code_block {
+    my ( $parser, $attr, $content ) = @_;
+    $attr ||= 'perl';
+    my $lang = lc(Parse::BBCode::escape_html($attr));
+    my $langname = ucfirst($lang);
+    $content = Parse::BBCode::escape_html($$content);
+    # TODO: Xslate these.
+    return <<"EOM";
+        <div class="bbcode_code_header">$langname Code:
+            <pre><code class="language-$lang">$content</code></pre>
+        </div>
+EOM
 }
 
 sub _ddg_bbcode {
@@ -138,18 +159,6 @@ sub html {
                 'src',
                 sprintf($self->image_proxy_url, uri_escape($src))
             );
-        }
-    }
-
-    if ( $opts->{highlight_code} ) {
-        for my $node ( $tree->findnodes('//code') ) {
-            my $lang = lc( trim( $node->attr('language') ) ) // 'perl';
-            my $syntax = Text::VimColor->new(
-                string   => $string,
-                filetype => $lang,
-            );
-            $node->delete_content;
-            $node->push_content( $syntax->html );
         }
     }
 
