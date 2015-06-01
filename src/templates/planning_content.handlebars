@@ -1,30 +1,4 @@
 <div class="dev_milestone-container__body__label ia-single--header">
-    TYPE
-</div>
-{{#unless future.planning}}
-    {{#if permissions.can_edit}}
-        <span>
-        <select class="dev_milestone-container__body__select js-autocommit repo" data-panel="planning" tabindex="-1" id="repo-select">
-            <option value="0">{{live.repo}}</option>
-            {{#not_eq live.repo 'fathead'}}<option value="1">fathead</option>{{/not_eq}}
-            {{#not_eq live.repo 'goodies'}}<option value="2">goodies</option>{{/not_eq}}
-            {{#not_eq live.repo 'longtail'}}<option value="3">longtail</option>{{/not_eq}}
-            {{#not_eq live.repo 'spice'}}<option value="4">spice</option>{{/not_eq}}
-        </select>
-        </span>
-    {{else}}
-        <div class="dev_milestone-container__body__readonly" id="repo-txt">
-            <a class="dev_milestone-container__body__readonly__a" href="https://github.com/duckduckgo/zeroclickinfo-{{live.repo}}">
-                {{live.repo}}
-            </a>
-            <a class="dev_milestone-container__body__readonly__a docs-link" href="https://duck.co/duckduckhack/{{live.repo}}_overview">
-                <i class="dev_milestone-container__body__readonly__a__icon docs-link-icon icon-question-sign" />
-            </a>
-        </div>
-    {{/if}}
-{{/unless}}
-
-<div class="dev_milestone-container__body__label ia-single--header">
     TRIGGER WORDS
 </div>
 {{#unless future.planning}}

@@ -180,6 +180,54 @@
         </tr>
 
         <tr>
+          <td>
+            <div class="dev_milestone-container__body__label ia-single--header">
+                TYPE
+            </div>
+          </td>
+          <td>
+            {{#if permissions.can_edit}}
+                <span>
+                <select class="dev_milestone-container__body__select js-autocommit repo" data-panel="planning" tabindex="-1" id="repo-select">
+                    <option value="0">{{live.repo}}</option>
+                    {{#not_eq live.repo 'fathead'}}<option value="1">fathead</option>{{/not_eq}}
+                    {{#not_eq live.repo 'goodies'}}<option value="2">goodies</option>{{/not_eq}}
+                    {{#not_eq live.repo 'longtail'}}<option value="3">longtail</option>{{/not_eq}}
+                    {{#not_eq live.repo 'spice'}}<option value="4">spice</option>{{/not_eq}}
+                </select>
+                </span>
+            {{else}}
+                <div class="dev_milestone-container__body__readonly" id="repo-txt">
+                    <a class="dev_milestone-container__body__readonly__a" href="https://github.com/duckduckgo/zeroclickinfo-{{live.repo}}">
+                        {{live.repo}}
+                    </a>
+                    <a class="dev_milestone-container__body__readonly__a docs-link" href="https://duck.co/duckduckhack/{{live.repo}}_overview">
+                        <i class="dev_milestone-container__body__readonly__a__icon docs-link-icon icon-question-sign" />
+                    </a>
+                </div>
+            {{/if}}
+          </td>  
+        </tr>
+
+        <tr>
+          <td>
+            <div class="dev_milestone-container__body__label ia-single--header">
+                PERL MODULE
+            </div>
+          </td>
+
+          <td>
+            {{#if permissions.can_edit}}
+                <input data-panel="development" type="text" class="perl_module dev_milestone-container__body__input js-autocommit" id="perl_module-input" value="{{live.perl_module}}" />
+            {{else}}
+                <div class="dev_milestone-container__body__readonly" id="perl_module-txt">
+                    {{live.perl_module}}        
+                </div>
+            {{/if}}
+          </td>
+        </tr>
+
+        <tr>
           <td class="{{#if permissions.admin}}up{{/if}}">
             <div class="ia-single--header">
               TOPICS
