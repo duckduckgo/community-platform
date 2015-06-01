@@ -76,6 +76,13 @@ sub _build_bbcode_tags {
         class => 'block',
         code => \&_bbcode_code_block,
     };
+
+    $tags->{url} = {
+        code  => \&_bbcode_url,
+        parse => 0,
+        class => 'url',
+    };
+
     return $tags;
 }
 
@@ -91,6 +98,23 @@ sub _bbcode_code_block {
             <pre><code class="language-$lang">$content</code></pre>
         </div>
 EOM
+}
+
+# Support for [url href=...]
+sub _bbcode_url {
+    my ( $parser, $attr, $content, $fallback, $tag ) = @_;
+
+    my $url = $attr;
+    $url ||= ( map {
+        ( $_->[0] eq 'href' ) ? $_->[1] : () ;
+    } @{ $tag->get_attr } )[0];
+
+    $content = Parse::BBCode::escape_html($$content);
+    $url or return '';
+    $content ||= $url;
+
+    # TODO: new window pref support and Xslate this:
+    return "<a href='$url' rel='nofollow'>$content</a>";
 }
 
 sub _ddg_bbcode {
