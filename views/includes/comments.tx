@@ -1,7 +1,6 @@
 : my $current_user_JSON = ( $vars.user )? $vars.user.TO_JSON : nil;
 
 : macro comment_body -> ( $comment ) {
-        <div class="comment-body" id="comment_<: $comment.id :>">
             <div class="row content">
                 <div class="p">
                     : if $comment.ghosted {
@@ -25,7 +24,6 @@
                 </div>
                 : comment_meta( $comment );
             </div>
-        </div>
 : }
 
 : macro comment_reply_delete -> ( $comment ) {
@@ -157,12 +155,14 @@
             : include 'includes/user/avatar_comment.tx' { user => $comment.user }
         </div>
 
-        : comment_body( $comment );
+        <div class="comment-body" id="comment_<: $comment.id :>">
+            : comment_body( $comment );
 
     : for $comment.children -> $child {
         : comment_content( $child, $child.level // 2 );
     : }
 
+        </div>
     </div>
 : }
 
