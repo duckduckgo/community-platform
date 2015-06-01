@@ -13,7 +13,6 @@
     <div id="wrapper">
         : include "includes/header/index.tx"
         <div class="site-main">
-            : #include "includes/topmessage.tx"
             : # TODO: Breadcrumb
             <div class="<: if !$no_wrap { :>content-wrap<: } :>">
                 : include "includes/flash.tx"
