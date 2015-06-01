@@ -11,15 +11,6 @@
 
     <section class="post-body">
 
-        : # All blog posts are official, TODO: Make this go away when styles are pinned down
-        <div class='pull-right'>
-            <img src='/static/images/duckduckgo-icon.png'
-                 width='32'
-                 height='32'
-                 title='Official DuckDuckGo Blog Post'
-                 class='admin-badge' />
-        </div>
-
         <h2>
             : if $preview == 1 {
                 <a href='<: $post.path :>'>
