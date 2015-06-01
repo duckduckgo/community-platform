@@ -460,23 +460,6 @@
                         }
                     });
 
-                    $("body").on('click', ".js-complete.button", function(evt) {
-                        var field = "dev_milestone";
-                        var value;
-                        var is_json = false;
-                        var panel = $.trim($(this).attr("data-panel"));
-
-                        if (ia_data.live.dev_milestone === "complete") {
-                            value = "live";
-                        } else {
-                            value = page.dev_milestones_order[$.inArray(ia_data.live.dev_milestone, page.dev_milestones_order) + 1];
-                        }
-                       
-                        if (value.length) { 
-                            autocommit(field, value, DDH_iaid, is_json, panel);
-                        }
-                    });
-
                     $(".special-permissions__toggle-view__button").on('click', function(evt) {
                         if (!$(this).hasClass("disabled")) {
                             $(".button-nav-current").removeClass("button-nav-current").removeClass("disabled");
@@ -734,7 +717,7 @@
                                     enableScreenshotButton();
                                 }
 
-                                if (data.result.saved && field === "dev_milestone") {
+                                if (data.result.saved && (field === "dev_milestone" || field === "repo")) {
                                     location.reload();
                                 } else if (data.result.saved && field === "id") {
                                     location.href = "/ia/view/" + data.result.id;
