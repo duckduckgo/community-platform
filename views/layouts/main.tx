@@ -26,6 +26,5 @@
     : if !$vars.user {
         : include "includes/modal_login.tx"
     : }
-    : #include "includes/report.tx"
 </body>
 </html>
