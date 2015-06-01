@@ -46,8 +46,6 @@ sub _build_opts {
     }
 }
 
-
-
 has bbcode_tags => (
     is => 'ro',
     lazy => 1,
@@ -76,13 +74,12 @@ sub _build_bbcode_tags {
     $tags->{code} = {
         parse => 0,
         class => 'block',
-        code => \&_code_block,
+        code => \&_bbcode_code_block,
     };
-
     return $tags;
 }
 
-sub _code_block {
+sub _bbcode_code_block {
     my ( $parser, $attr, $content ) = @_;
     $attr ||= 'perl';
     my $lang = lc(Parse::BBCode::escape_html($attr));
