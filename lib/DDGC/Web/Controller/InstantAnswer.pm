@@ -876,7 +876,9 @@ sub current_ia {
                 $combined_edits{$edit->field} = $value->{field};
             }
         }
-        else {
+        elsif ($edit->field eq 'meta_id') {
+            $combined_edits{id} = $value->{field};
+        } else {
             $combined_edits{$edit->field} = $value->{field};
         }
     }
