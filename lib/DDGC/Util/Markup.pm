@@ -169,7 +169,7 @@ sub html {
         }
     }
 
-    my $markup = $tree->guts->as_XML;
+    my $markup = $tree->guts->as_HTML;
 }
 
 1;
