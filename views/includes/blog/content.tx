@@ -1,4 +1,4 @@
-<article class="<: $preview == 1 ? 'post-snippet' : 'blog-content post' :>">
+<article class='post'>
 
     <div class='date-box'>
         <span class='num'>
@@ -87,7 +87,7 @@
 
         </div> <!-- post-actions -->
 
-    </section>
+    </section> <!-- post-body -->
 
     : if $preview != 1 {
         <section class='post-comments'>
