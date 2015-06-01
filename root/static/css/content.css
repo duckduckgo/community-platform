@@ -7341,7 +7341,7 @@ a.fill {
 }
 
 /* line 611, ../../src/scss/content/_global.scss */
-.header-nav .active a, .header-nav a:hover, .header-nav ul li:first-child a:hover, .page-home li.nav-home a, .page-blog li.nav-blog a, .page-translate li.nav-translate a, .page-forums li.nav-forums a, .page-help li.nav-help a {
+.header-nav .active a, .header-nav a:hover, .header-nav ul li:first-child a:hover, .page-home li.nav-home a, .page-blog li.nav-blog a, .page-translate li.nav-translate a, .page-develop li.nav-develop a, .page-forums li.nav-forums a, .page-help li.nav-help a {
   color: black;
   background: #cdcdcd;
   border-left-color: #bbb;
