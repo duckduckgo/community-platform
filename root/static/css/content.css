@@ -8019,7 +8019,7 @@ h1 + .intro, .intro--mg {
 
   /* line 917, ../../src/scss/content/_global.scss */
   .header-nav li {
-    width: 25%;
+    width: 20%;
     /* assuming 4 nav items */
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
