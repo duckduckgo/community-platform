@@ -127,7 +127,7 @@ sub dev_pipeline_base :Chained('base') :PathPart('pipeline') :CaptureArgs(1) {
     $c->stash->{ia_page} = "IADevPipeline";
     $c->stash->{title} = "Dev Pipeline";
    
-    if ($view eq 'dev') {
+    if ($view ne 'live' && $view ne 'deprecated') {
         $c->stash->{logged_in} = $c->user;
         $c->stash->{is_admin} = $c->user? $c->user->admin : 0;
     }
@@ -147,10 +147,10 @@ sub dev_pipeline_json :Chained('dev_pipeline_base') :PathPart('json') :Args(0) {
     my $view = $c->stash->{view};
     my $rs = $c->d->rs('InstantAnswer');
 
-    if ($view eq 'dev' || $view eq 'deprecated') {
+    if ($view ne 'live') {
         my @ias;
         my $key;
-        if ($view eq 'dev') {
+        if ($view ne 'deprecated') {
             @ias = $rs->search({'dev_milestone' => { '=' => ['planning', 'development', 'testing', 'complete']}});
             $key = 'dev_milestone';
         } else {
@@ -174,7 +174,7 @@ sub dev_pipeline_json :Chained('dev_pipeline_base') :PathPart('json') :Args(0) {
         $c->stash->{x} = {
             $key.'s' => \%dev_ias
         };
-    } elsif ($view eq 'live') {
+    } else {
         $rs = $c->d->rs('InstantAnswer::Issues');
 
         my @result = $rs->search({'is_pr' => 0})->all;
