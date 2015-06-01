@@ -188,7 +188,7 @@
           <td>
             {{#if permissions.can_edit}}
                 <span>
-                <select class="dev_milestone-container__body__select js-autocommit repo" data-panel="planning" tabindex="-1" id="repo-select">
+                <select class="dev_milestone-container__body__select js-autocommit repo" data-panel="metafields" tabindex="-1" id="repo-select">
                     <option value="0">{{live.repo}}</option>
                     {{#not_eq live.repo 'fathead'}}<option value="1">fathead</option>{{/not_eq}}
                     {{#not_eq live.repo 'goodies'}}<option value="2">goodies</option>{{/not_eq}}
@@ -212,13 +212,38 @@
         <tr>
           <td>
             <div class="dev_milestone-container__body__label ia-single--header">
+                DEV MILESTONE
+            </div>
+          </td>
+          <td>
+            {{#if permissions.admin}}
+                <span>
+                <select class="dev_milestone-container__body__select js-autocommit dev_milestone" data-panel="metafields" tabindex="-1" id="dev_milestone-select">
+                    <option value="0">{{live.dev_milestone}}</option>
+                    {{#not_eq live.dev_milestone 'planning'}}<option value="1">planning</option>{{/not_eq}}
+                    {{#not_eq live.dev_milestone 'development'}}<option value="2">development</option>{{/not_eq}}
+                    {{#not_eq live.dev_milestone 'testing'}}<option value="3">testing</option>{{/not_eq}}
+                    {{#not_eq live.dev_milestone 'complete'}}<option value="4">complete</option>{{/not_eq}}
+                </select>
+                </span>
+            {{else}}
+                <div class="dev_milestone-container__body__readonly" id="dev_milestone-txt">
+                        {{live.dev_milestone}}
+                </div>
+            {{/if}}
+          </td>  
+        </tr>
+
+        <tr>
+          <td>
+            <div class="dev_milestone-container__body__label ia-single--header">
                 PERL MODULE
             </div>
           </td>
 
           <td>
             {{#if permissions.can_edit}}
-                <input data-panel="development" type="text" class="perl_module dev_milestone-container__body__input js-autocommit" id="perl_module-input" value="{{live.perl_module}}" />
+                <input data-panel="metafields" type="text" class="perl_module dev_milestone-container__body__input js-autocommit" id="perl_module-input" value="{{live.perl_module}}" />
             {{else}}
                 <div class="dev_milestone-container__body__readonly" id="perl_module-txt">
                     {{live.perl_module}}        
