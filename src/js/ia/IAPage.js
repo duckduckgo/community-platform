@@ -54,7 +54,7 @@
                     // Readonly mode templates
                     var readonly_templates = {
                         live: {
-                            name : Handlebars.templates.name(latest_edits_data),
+                            name : Handlebars.templates.name(ia_data),
                             status : Handlebars.templates.status(latest_edits_data),
                             description : Handlebars.templates.description(latest_edits_data),
                             topic : Handlebars.templates.topic(latest_edits_data),
@@ -740,25 +740,33 @@
                                     location.href = "/ia/view/" + data.result.id;
                                 } else {
                                     ia_data.live[field] = (is_json && data.result[field])? $.parseJSON(data.result[field]) : data.result[field];
-                                    readonly_templates[panel + "_content"] = Handlebars.templates[panel + "_content"](ia_data);
-
-                                    var $panel_body = $("#" + panel + " .dev_milestone-container__body");
-                                    $panel_body.html(readonly_templates[panel + "_content"]);
-
-                                    if (page.imgHide) {
-                                        $("#" + panel).height($panel_body.height() + 50);
-                                        page.setMaxHeight($(".milestone-panel"));
-                                    }
+                                    var saved_class = data.result.saved? "saved" : "not_saved";
 
                                     if (field === "name") {
-                                        $(".ia-single--name h2").text(ia_data.live[field]);
+                                        $(".ia-single--name").remove();
+                                        $("#metafields").remove();
+                                        readonly_templates.live.name = Handlebars.templates.name(ia_data);
+                                        $(".ia-single--right").before(readonly_templates.live.name);
+                                        $(".ia-single--right").before(readonly_templates.metafields);
+                                        $("#metafields .dev_milestone-container__body").html(readonly_templates.metafields_content);
+
+                                        $(".ia-single--name .name").addClass(saved_class);
+                                    } else {
+                                        readonly_templates[panel + "_content"] = Handlebars.templates[panel + "_content"](ia_data);
+
+                                        var $panel_body = $("#" + panel + " .dev_milestone-container__body");
+                                        $panel_body.html(readonly_templates[panel + "_content"]);
+
+                                        if (page.imgHide) {
+                                            $("#" + panel).height($panel_body.height() + 50);
+                                            page.setMaxHeight($(".milestone-panel"));
+                                        }                                    
+                                    
+                                        page.appendTopics($(".topic-group"));
+                                        page.hideAssignToMe();
+                                    
+                                        $panel_body.find("." + field).addClass(saved_class);
                                     }
-
-                                    page.appendTopics($(".topic-group"));
-                                    page.hideAssignToMe();
-
-                                    var saved_class = data.result.saved? "saved" : "not_saved";
-                                    $panel_body.find("." + field).addClass(saved_class);
                                 } 
                             }
                         });
@@ -857,9 +865,10 @@
         },
 
         updateHandlebars: function(templates, ia_data, dev_milestone) {
+            templates.live.name = Handlebars.templates.name(ia_data);
+            
             if (dev_milestone === 'live') {
                 for (var i = 0; i < this.field_order.length; i++) {
-                    templates.live.name = Handlebars.templates.name(ia_data);
                     templates.live[this.field_order[i]] = Handlebars.templates[this.field_order[i]](ia_data);
                 }
             } else {

@@ -1,3 +1,10 @@
 <div class="ia-single--name">
-  <h2>{{name}}</h2> {{#if dev_milestone}}<span class="btn--wire dev_milestone--{{dev_milestone}} dev_milestone">{{replace dev_milestone '_' ' '}}</span>{{/if}}
+<h2>
+{{#if permissions.admin}}
+    {{#eq_or live.dev_milestone 'live' 'deprecated'}}
+        {{live.name}}
+    {{else}}
+        <input type="text" class="name js-autocommit" id="name-input" value="{{live.name}}" />
+    {{/eq_or}}
+{{else}} {{live.name}} {{/if}} </h2> {{#if live.dev_milestone}}<span class="btn--wire dev_milestone--{{live.dev_milestone}} dev_milestone">{{live.dev_milestone}}</span>{{/if}}
 </div>
