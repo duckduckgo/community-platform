@@ -106,6 +106,13 @@ sub _ddg_bbcode {
                 ? %{ $self->bbcode_tags }
                 : (),
         },
+        url_finder => {
+            # TODO: New window target option
+            max_length  => 80,
+            format      => '<a href="%s" rel="nofollow">%s</a>',
+        },
+        close_open_tags => 1,
+        attribute_quote => q/'"/,
     });
 }
 
