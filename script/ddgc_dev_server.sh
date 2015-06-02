@@ -22,17 +22,21 @@ help() {
     printf "Options:\n\n"
     printf " -p     Specify listen port. Default: 5000\n"
     printf " -m     Use local debug mail server on port 1025\n"
+    printf " -n     No Plack debug panels in rendered output\n"
     printf " -h     Show this text\n\n"
     exit 0;
 }
 
-while getopts "p:mh" o; do
+while getopts "p:mnh" o; do
     case "${o}" in
         p)
             p=${OPTARG}
             ;;
         m)
             m=1
+            ;;
+        n)
+            export DDGC_NO_DEBUG_PANEL=1
             ;;
         h)
             help
