@@ -66,14 +66,14 @@
                         screens : Handlebars.templates.screens(ia_data),
                         metafields : Handlebars.templates.metafields(ia_data),
                         metafields_content : Handlebars.templates.metafields_content(ia_data),
-                        planning : Handlebars.templates.planning(ia_data),
-                        planning_content : Handlebars.templates.planning_content(ia_data),
-                        development : Handlebars.templates.development(ia_data),
-                        development_content : Handlebars.templates.development_content(ia_data),
+                        contributors : Handlebars.templates.contributors(ia_data),
+                        contributors_content : Handlebars.templates.contributors_content(ia_data),
+                        back_end : Handlebars.templates.back_end(ia_data),
+                        back_end_content : Handlebars.templates.back_end_content(ia_data),
                         testing : Handlebars.templates.testing(ia_data),
                         testing_content : Handlebars.templates.testing_content(ia_data),
-                        complete : Handlebars.templates.complete(ia_data),
-                        complete_content : Handlebars.templates.complete_content(ia_data)
+                        front_end : Handlebars.templates.front_end(ia_data),
+                        front_end_content : Handlebars.templates.front_end_content(ia_data)
                     };
 
                     // Pre-Edit mode templates
@@ -824,10 +824,10 @@
         ],
 
         dev_milestones_order: [
-            'planning',
-            'development',
-            'testing',
-            'complete'
+            'contributors',
+            'back_end',
+            'front_end',
+            'testing'
         ],
 
         removeMaxHeight: function($obj_set) {

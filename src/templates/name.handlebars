@@ -3,8 +3,29 @@
 {{#if permissions.admin}}
     {{#eq_or live.dev_milestone 'live' 'deprecated'}}
         {{live.name}}
+        </h2>
+        {{#if live.dev_milestone}}
+            <span class="btn--wire dev_milestone--{{live.dev_milestone}} dev_milestone">{{live.dev_milestone}}</span>
+        {{/if}}
     {{else}}
-        <input type="text" class="name js-autocommit" id="name-input" value="{{live.name}}" />
+        <input type="text" class="name js-autocommit left" id="name-input" value="{{live.name}}" />
+        </h2>
+        <span>
+        <select class="dev_milestone-container__body__select js-autocommit dev_milestone" data-panel="metafields" tabindex="-1" id="dev_milestone-select">
+            <option value="0">{{live.dev_milestone}}</option>
+            {{#not_eq live.dev_milestone 'planning'}}<option value="1">planning</option>{{/not_eq}}
+            {{#not_eq live.dev_milestone 'development'}}<option value="2">development</option>{{/not_eq}}
+            {{#not_eq live.dev_milestone 'testing'}}<option value="3">testing</option>{{/not_eq}}
+            {{#not_eq live.dev_milestone 'complete'}}<option value="4">complete</option>{{/not_eq}}
+        </select>
+        </span>
+        <span class="clearfix"></span>
     {{/eq_or}}
-{{else}} {{live.name}} {{/if}} </h2> {{#if live.dev_milestone}}<span class="btn--wire dev_milestone--{{live.dev_milestone}} dev_milestone">{{live.dev_milestone}}</span>{{/if}}
+{{else}} 
+    {{live.name}} 
+    </h2> 
+    {{#if live.dev_milestone}}
+        <span class="btn--wire dev_milestone--{{live.dev_milestone}} dev_milestone">{{live.dev_milestone}}</span>
+    {{/if}}
+{{/if}}
 </div>
