@@ -134,7 +134,6 @@ sub getIssues{
                         id => $data->{name},
                         meta_id => $data->{name},
                         name => ucfirst $name,
-                        status => 'development',
                         dev_milestone => 'development',
                         description => $description || '',
                         created_date => $date,
