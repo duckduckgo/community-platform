@@ -197,7 +197,7 @@ sub html {
         }
     }
 
-    my $markup = $tree->guts->as_HTML;
+    $tree->guts->as_XML;
 }
 
 1;
