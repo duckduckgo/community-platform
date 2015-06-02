@@ -98,7 +98,7 @@ $form-text-color: $dark;
 		}
 		
 		select {
-			//@include experimental(appearance, none);
+			@include appearance(none);
 			background: none;
 			cursor: pointer;
 			
