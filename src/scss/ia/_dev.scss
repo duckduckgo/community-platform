@@ -5,10 +5,6 @@
     padding-left: 0;
 }
 
-input[type="text"] {
-    width: 100%;
-}
-
 .topic-separator {
     .frm__select {
         height: 1.84em;
@@ -16,8 +12,13 @@ input[type="text"] {
 }
 
 $frm__input-size: 24em;
+.frm__input {
+    width: 100%;
+}
+
 .frm__input--half {
-    width: $frm__input-size / 2em;
+    @extend .frm__input;
+    width: $frm__input-size / 2;
 }
 
 #producer-input {
@@ -30,10 +31,6 @@ $frm__input-size: 24em;
 
 #metafield_container {
     min-width: 1000px;
-
-    .frm__input {
-        width: $frm__input-size;
-    }
 }
 
 .ia-single--name {
@@ -45,6 +42,10 @@ $frm__input-size: 24em;
 #metafield_container {
     textarea {
         width: 24em;
+    }
+
+    .frm__input {
+        width: $frm__input-size;
     }
 }
 
