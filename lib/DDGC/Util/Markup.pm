@@ -91,7 +91,7 @@ sub _build_bbcode_tags {
     };
 
     $tags->{url} = {
-        code  => \&_bbcode_url,
+        code  => sub { $self->_bbcode_url( @_ ) },,
         parse => 0,
         class => 'url',
     };
@@ -114,19 +114,21 @@ sub _bbcode_code_block {
 
 # Support for [url href=...]
 sub _bbcode_url {
-    my ( $parser, $attr, $content, $fallback, $tag ) = @_;
+    my ( $self, $parser, $attr, $content, $fallback, $tag ) = @_;
 
     my $url = $attr;
     $url ||= ( map {
         ( $_->[0] eq 'href' ) ? $_->[1] : () ;
     } @{ $tag->get_attr } )[0];
 
-    $content = Parse::BBCode::escape_html($$content);
     $url or return '';
-    $content ||= $url;
 
-    # TODO: new window pref support and Xslate this:
-    return "<a href='$url' rel='nofollow'>$content</a>";
+    $self->xslate->render(
+        'includes/bbcode/url.tx', {
+            url     => $url,
+            content => $$content || $url,
+        }
+    );
 }
 
 sub _ddg_bbcode {
