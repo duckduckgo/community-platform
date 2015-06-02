@@ -16,6 +16,13 @@ on_plugin_import {
     $dsl->set(ddgc_config => $config);
     $dsl->set(charset => 'UTF-8');
 
+    if ( $config->is_live ) {
+        $dsl->set( environment => 'production' );
+    }
+    elsif ( $config->is_view ) {
+        $dsl->set( environment => 'staging' );
+    }
+
     $dsl->set(
         engines  => {
             ( $dsl->config->{engines} )
