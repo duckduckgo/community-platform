@@ -35,3 +35,9 @@ td:nth-child(2) {
 #metafield_container {
     min-width: 1000px;
 }
+
+.ia-single--name {
+    span[class="frm__select"] {
+        vertical-align: super;
+    }
+}
