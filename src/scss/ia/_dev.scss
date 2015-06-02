@@ -31,3 +31,9 @@ input[data-panel="metafields"] {
         vertical-align: super;
     }
 }
+
+#metafield_container {
+    textarea {
+        width: 24em;
+    }
+}

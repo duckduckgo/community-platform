@@ -1,5 +1,9 @@
 /*te-new-ia.button experimental and/or prototype */
 
+.half, .fifty {
+    width: 50%;
+}
+
 .iadata td {
     padding-right:0.5em;
 }
@@ -1265,7 +1269,7 @@ input.saved, select.saved, .button.saved {
 
 #metafield_container td:nth-child(2) {
     padding-left: 1.2em;
-    width: 77%;
+    width: 78%;
 }
 
 .dev_milestone-container__body__label {
