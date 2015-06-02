@@ -21,9 +21,9 @@
                         DuckDuck<i>Go</i>
                     </h2>
                     <h3>
-                        : if $is_live {
+                        : if $settings.environment == 'production' {
                             Community Platform
-                        : } elsif $is_view {
+                        : } elsif $settings.environment == 'staging' {
                             Preview community platform
                         : } else {
                             Your development platform
@@ -42,4 +42,3 @@
 
     </div>
 </div>
-
