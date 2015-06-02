@@ -9,3 +9,29 @@
 #metafields.dev_milestone-container {
     border: none;
 }
+
+input[data-panel="metafields"] {
+    width: 100%;
+}
+
+.topic-separator {
+    .frm__select {
+        height: 1.84em;
+    }
+}
+
+td:nth-child(2) {
+    width: 70%;
+}
+
+#producer-input {
+    width: 55%;
+}
+
+#developer-input {
+    width: 55%;
+}
+
+#metafield_container {
+    min-width: 1000px;
+}

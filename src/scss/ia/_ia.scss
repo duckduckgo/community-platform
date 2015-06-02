@@ -898,6 +898,7 @@ body.texture {
     cursor: default;
     display: inline-block;
     margin-top: 0.5em;
+    margin-bottom: 0.5em;
 }
 
 .ia-issues li {
@@ -1041,24 +1042,6 @@ body.texture {
     display: inline-block;
     margin-right: 0;
     cursor: pointer;
-}
-
-.btn--primary {
-    border: none;
-    background-color: $blue;
-    border-bottom: 2px solid $blue-dark;
-    color: $white;
-
-    @include border-radius(2px);
-    font-weight: normal;
-    max-width: 5em;
-    text-align: center;
-    font-size: 16px;
-    padding: 0 0.5em;
-
-        a {
-            color: $white;
-        }
 }
 
 @media (max-width: 980px) {
@@ -1498,7 +1481,6 @@ input.saved, select.saved, .button.saved {
 
 #view_json {
     margin-right: 0.5em;
-    height: 1.45em;
 }
 
 .ia-single--left--wide {
@@ -1528,16 +1510,10 @@ input.saved, select.saved, .button.saved {
 }
 
 .generate-screenshot--button {
-    margin: 1em;
     cursor: pointer;
-
-    background-color: #e37151;
-    border-color: #de5833;
 }
 
 .save-screenshot--button {
-    margin: 1em;
-    margin-left: 0;
     cursor: pointer;
 }
 

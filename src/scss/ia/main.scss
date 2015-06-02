@@ -1,6 +1,12 @@
 @import "compass/css3/border-radius";
 @import "compass/css3/text-shadow";
+@import "compass/css3/transition";
+@import "compass/css3/box-sizing";
 @import "../../../node_modules/duckduckgo-colors/_colors";
+@import "vars";
+@import "mixins";
+@import "buttons";
+@import "forms";
 @import "_fonts";
 @import "_ia";
 @import "_dev";
