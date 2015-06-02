@@ -10,6 +10,7 @@ use HTTP::Tiny;
 use Data::Dumper;
 use Try::Tiny;
 use Net::GitHub;
+use Time::Local;
 use Encode qw(decode_utf8);
 my $d = DDGC->new;
 
@@ -45,7 +46,7 @@ map{ $pr_hash{$_->{issue_id}.$_->{repo}} = $_ } @pull_requests;
 sub getIssues{
     foreach my $repo (@repos){
         my @issues = $gh->issue->repos_issues('duckduckgo', $repo, {state => 'open'});
-        
+
         while($gh->issue->has_next_page){
             push(@issues, $gh->issue->next_page)
         }
@@ -66,7 +67,7 @@ sub getIssues{
 			$repo =~ s/zeroclickinfo-//;
 
             my $is_pr = exists $issue->{pull_request} ? 1 : 0;
-            
+
 			# add entry to result array
 			my %entry = (
 			    name => $name_from_link || '',
@@ -81,11 +82,83 @@ sub getIssues{
 			);
 			push(@results, \%entry);
             delete $pr_hash{$issue->{'number'}.$issue->{repo}};
+            
+            my $create_page = sub {
+                my $data = \%entry;
+                return unless $data->{name};
+                my $ia = $d->rs('InstantAnswer')->find($data->{name});
+                return if $ia;
+
+                my @time = localtime(time);
+                my $date = "$time[4]/$time[3]/".($time[5]+1900);
+
+                $data->{body} =~ s/\n|\r//g;
+
+                # try to get a description from the PR text
+                my ($description) = $data->{body} =~ /What does your Instant Answer do\?\*\*(.*?)(?:\*|$)/i;
+                
+                # api documentation
+                my ($api_link) = $data->{body} =~ /What is the data source.*?\*\*.*?(https?:\/\/.*?)?(?:\>|\)|\*|$)/i;
+
+                # api documentation
+                my ($forum_link) = $data->{body} =~ /Is this instant answer connected.*?\*\*.*?(https?:\/\/.*?)?(?:\>|\)|\*|$)/i;
+                
+                # get the file info for the pr
+                $gh->set_default_user_repo('duckduckgo', "zeroclickinfo-$data->{repo}");
+                my $pr = $gh->pull_request->pull($data->{issue_id});
+                my @files_data = $gh->pull_request->files($data->{issue_id});
+
+                my $pm;
+                # look for the perl module
+                for my $file (@files_data){
+                    my $tmp_repo = ucfirst $data->{repo};
+                    $tmp_repo =~ s/s$//g;
+
+                    if(my ($name) = $file->{filename} =~ /lib\/DDG\/$tmp_repo\/(.+)\.pm/i ){
+                        $pm = "DDG::".$tmp_repo."::$name";
+                        last;
+                    }
+                }
+
+                my $developer = [{
+                        name => $data->{author},
+                        type => 'github',
+                        url => "https://github.com/$data->{author}"
+                    }];
+                $developer = to_json $developer;
+
+                my $name = $data->{name};
+                $name =~ s/_/ /g;
+                
+                $d->rs('InstantAnswer')->create({
+                        id => $data->{name},
+                        meta_id => $data->{name},
+                        name => ucfirst $name,
+                        dev_milestone => 'development',
+                        description => $description || '',
+                        created_date => $date,
+                        repo => $data->{repo},
+                        perl_module => $pm,
+                        forum_link => $forum_link,
+                        src_api_documentation => $api_link,
+                        developer => $developer,
+                });
+            };
+
+            # check for an existing IA page.  Create one if none are found
+            try {
+                $d->db->txn_do($create_page) if $is_pr;
+            } catch {
+                print "Update error $_ \n rolling back\n";
+                $d->errorlog("Error updating ghIssues: '$_'...");
+            }
+
 		}
 	}
     # warn Dumper @results;
     # warn Dumper %pr_hash;
 }
+
 
 # check the status of PRs in $pr_hash.  If they were merged
 # then update the file paths in the db

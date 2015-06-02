@@ -377,6 +377,11 @@ column created_date => {
     for_endpt => 1
 };
 
+column forum_link => {
+    data_type => 'text',
+    is_nullable => 1
+};
+
 has_many 'issues', 'DDGC::DB::Result::InstantAnswer::Issues', 'instant_answer_id';
 has_many 'blocks', 'DDGC::DB::Result::InstantAnswer::Blocks', 'instant_answer_id';
 has_many 'updates', 'DDGC::DB::Result::InstantAnswer::Updates', 'instant_answer_id';
