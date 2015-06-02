@@ -2,7 +2,7 @@
     TEMPLATE
 </div>
     {{#if permissions.can_edit}}
-        <input data-panel="front_end" type="text" class="template dev_milestone-container__body__input js-autocommit" id="template-input" value="{{live.template}}" />
+        <input data-panel="front_end" type="text" class="frm__input template dev_milestone-container__body__input js-autocommit" id="template-input" value="{{live.template}}" />
     {{else}}
         <div class="dev_milestone-container__body__readonly" id="template-txt">
            {{live.template}} 
@@ -15,7 +15,7 @@
         API DOCUMENTATION
     </div>
         {{#if permissions.can_edit}}
-            <input type="text" data-panel="front_end" class="src_api_documentation dev_milestone-container__body__input js-autocommit" id="src_api_documentation-input" value="{{live.src_api_documentation}}" />
+            <input type="text" data-panel="front_end" class="frm__input src_api_documentation dev_milestone-container__body__input js-autocommit" id="src_api_documentation-input" value="{{live.src_api_documentation}}" />
         {{else}}
             <div class="dev_milestone-container__body__readonly" id="src_api_documentation-txt">
                 {{live.src_api_documentation}}
@@ -31,7 +31,7 @@
             <li>
                 <label class="left">Fallback Timeout (ms):</label>
                     {{#if permissions.admin}}
-                        <input type="number" data-panel="front_end" class="answerbar clearfix section-group__item dev_milestone-container__body__input js-autocommit" id="fallback_timeout-input" value="{{live.answerbar.fallback_timeout}}" />
+                        <input type="number" data-panel="front_end" class="frm__input answerbar clearfix section-group__item dev_milestone-container__body__input js-autocommit" id="fallback_timeout-input" value="{{live.answerbar.fallback_timeout}}" />
                     {{else}}
                         <div class="clearfix dev_milestone-container__body__readonly" id="fallback_timeout-txt">
                             {{live.answerbar.fallback_timeout}}
@@ -46,7 +46,7 @@
         API STATUS PAGE
     </div>
         {{#if permissions.can_edit}}
-            <input type="text" data-panel="front_end" class="api_status_page dev_milestone-container__body__input js-autocommit" id="api_status_page-input" value="{{live.api_status_page}}" />
+            <input type="text" data-panel="front_end" class="frm__input api_status_page dev_milestone-container__body__input js-autocommit" id="api_status_page-input" value="{{live.api_status_page}}" />
         {{else}}
             <div class="dev_milestone-container__body__readonly" id="api_status_page-txt">
                 {{live.api_status_page}}
