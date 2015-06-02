@@ -69,7 +69,11 @@ register ddgcr_post => sub {
     $req->content( $data );
     _apply_session_to_req( $dsl, $req );
 
-    $ua->request( $req );
+    my $res = $ua->request( $req );
+    $res->{ddgcr} = ( $res->is_success )
+        ? JSON::from_json( $res->content, { utf8 => 1 } )
+        : undef;
+    return $res;
 };
 
 register_plugin;
