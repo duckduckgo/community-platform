@@ -15,6 +15,11 @@ input[type="text"] {
     }
 }
 
+$frm__input-size: 24em;
+.frm__input--half {
+    width: $frm__input-size / 2em;
+}
+
 #producer-input {
     width: 55%;
 }
@@ -25,6 +30,10 @@ input[type="text"] {
 
 #metafield_container {
     min-width: 1000px;
+
+    .frm__input {
+        width: $frm__input-size;
+    }
 }
 
 .ia-single--name {
@@ -43,6 +52,7 @@ input[type="text"] {
     h2 {
         .frm__input {
             font-size: 0.7em;
+            width: 15em;
         }
     }
 }
