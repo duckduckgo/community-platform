@@ -233,7 +233,28 @@
             {{/if}}
             {{/if}}
             
-        
+ 
+
+<div class="dev_milestone-container__body__label ia-single--header">
+    TRIGGER WORDS
+</div>
+    {{#if permissions.can_edit}}
+        <input type="text" data-panel="metafields" class="frm__input dev_milestone-container__body__input js-autocommit comma-separated triggers" id="triggers-input" value="{{live.triggers}}" />
+    {{else}}
+        <div class="dev_milestone-container__body__readonly" id="triggers-txt">
+            {{live.triggers}}
+        </div>
+    {{/if}}
+<div class="dev_milestone-container__body__label ia-single--header">
+    SAFE SEARCH
+</div>
+<div class="dev_milestone-container__body__div">
+    <i data-panel="metafields" class="unsafe dev_milestone-container__body__div__checkbox {{#if permissions.can_edit}}js-autocommit{{/if}} icon-check{{#is_false live.unsafe}}-empty{{/is_false}}" id="unsafe-check"/>
+    <span class="dev_milestone-container__body__readonly check-txt">
+        Unsafe
+    </span>
+</div>
+       
       
     
   </div>
