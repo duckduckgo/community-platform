@@ -183,7 +183,6 @@
                                 if(ia_data.permissions && ia_data.permissions.can_edit) {
                                     $(".ia-single--screenshots").addClass("hide");
                                     $(".generate-screenshot").addClass("dashed-border");
-                                    $(".ia-single--left--wide").removeClass("ia-single--left--wide").addClass("ia-single--left");
 
                                     page.removeMaxHeight($(".milestone-panel"));
                                 } else {
@@ -195,10 +194,6 @@
                                         $(".ia-single--screenshots").addClass("hide");
 
                                         $(".generate-screenshot").hide();
-                                        $(".ia-single--left").removeClass("ia-single--left").addClass("ia-single--left--wide");
-                                        $(".dev_milestone-container__body").removeClass("hide");
-
-                                        page.setMaxHeight($(".milestone-panel"));
                                     }                            
                                 }
 
@@ -739,11 +734,6 @@
 
                                         var $panel_body = $("#" + panel + " .dev_milestone-container__body");
                                         $panel_body.html(readonly_templates[panel + "_content"]);
-
-                                        if (page.imgHide) {
-                                            $("#" + panel).height($panel_body.height() + 50);
-                                            page.setMaxHeight($(".milestone-panel"));
-                                        }                                    
                                     
                                         page.appendTopics($(".topic-group"));
                                         page.hideAssignToMe();
@@ -834,17 +824,6 @@
             $obj_set.each(function(idx) {
                 $(this).css("height", "");
             });
-        },
-
-        setMaxHeight: function($obj_set) {
-            var max_height = 0;
-            $obj_set.each(function(idx) {
-                if ($(this).height() > max_height) {
-                    max_height = $(this).height();
-                }
-            });
-
-            $obj_set.height(max_height);
         },
 
         updateHandlebars: function(templates, ia_data, dev_milestone) {
