@@ -16,7 +16,7 @@ my $ddgc_home = '/home/' . (getpwuid($<))[0] . '/ddgc';
 builder {
 
     enable 'Debug', panels => [
-        qw/ Environment Response Parameters Timer Memory Session DBITrace CatalystLog /
+        qw/ Environment Response Parameters Timer Session DBITrace CatalystLog /
     ];
 
     mount '/' => DDGC::Web->new->psgi_app;
