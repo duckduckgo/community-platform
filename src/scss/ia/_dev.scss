@@ -61,3 +61,11 @@ $frm__input-size: 24em;
 #toggle-devpage-static {
     left: 4px;
 }
+
+#toggle-devpage-static.disabled {
+    color: white;
+}
+
+#toggle-devpage-editable.disabled {
+    color: white;
+}
