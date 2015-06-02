@@ -138,50 +138,6 @@
         <tr>
           <td>
             <div class="dev_milestone-container__body__label ia-single--header">
-              PRODUCER
-            </div>
-          </td>
-          <td>
-            {{#if permissions.admin}}
-              <input data-panel="metafields" type="text" class="producer dev_milestone-container__body__input js-autocommit team-input" id="producer-input" value="{{live.producer}}" />
-              <div data-panel="metafields" class="dev_milestone-container__body__button js-autocommit button assign-button" id="producer-button">
-                Assign to me
-              </div>
-              {{else}}
-              {{#if live.producer}}
-                <div class="dev_milestone-container__body__readonly" id="producer-txt">
-                  <a href="/user/{{live.producer}}">{{live.producer}}</a>
-                </div>
-              {{/if}}
-            {{/if}}
-          </td>
-        </tr>
-
-        <tr>
-          <td>
-            <div class="dev_milestone-container__body__label ia-single--header">
-              DEVELOPER
-            </div>
-          </td>
-          <td>
-            {{#if permissions.can_edit}}
-              <input data-panel="metafields" type="text" class="developer dev_milestone-container__body__input js-autocommit comma-separated team-input" 
-              id="developer-input" value="{{#each live.developer}}{{url}}{{#unless @last}},{{/unless}}{{/each}}" />
-            {{else}}
-              {{#if live.developer}}
-                <div class="dev_milestone-container__body__readonly" id="developer-txt">
-                  {{#each live.developer}}
-                    <a href="{{url}}">{{name}}</a>
-                  {{/each}}
-                </div>
-              {{/if}}
-            {{/if}}
-          </td>  
-        </tr>
-
-        <tr>
-          <td>
-            <div class="dev_milestone-container__body__label ia-single--header">
                 TYPE
             </div>
           </td>

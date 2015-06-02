@@ -1,0 +1,27 @@
+<div class="dev_milestone-container__body__label ia-single--header">
+    PERL DEPENDENCIES
+</div>
+{{#if permissions.can_edit}}
+    <input data-panel="back_end" type="text" class="perl_dependencies dev_milestone-container__body__input js-autocommit comma-separated" id="perl_dependencies-input" value="{{live.perl_dependencies}}" />
+{{else}}
+    <div class="dev_milestone-container__body__readonly" id="perl_dependencies-txt">
+       {{live.perl_dependencies}} 
+    </div>
+{{/if}}
+
+<div class="dev_milestone-container__body__label ia-single--header">
+    REVIEW
+</div>
+<div class="dev_milestone-container__body__div">
+    <i data-panel="back_end" class="code_review dev_milestone-container__body__div__checkbox {{#if permissions.admin}}js-autocommit{{/if}} icon-check{{#is_false live.code_review}}-empty{{/is_false}}" id="code_review-check"/>
+    <span class="dev_milestone-container__body__readonly check-txt">
+        Code looks good
+    </span>
+</div>
+<div class="dev_milestone-container__body__div">
+    <i data-panel="back_end" class="design_review dev_milestone-container__body__div__checkbox {{#if permissions.admin}}js-autocommit{{/if}} icon-check{{#is_false live.design_review}}-empty{{/is_false}}" id="design_review-check"/>
+    <span class="dev_milestone-container__body__readonly check-txt">
+        Layout looks good
+    </span>
+</div>
+
