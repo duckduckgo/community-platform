@@ -127,10 +127,13 @@ sub getIssues{
                     }];
                 $developer = to_json $developer;
 
+                my $name = $data->{name};
+                $name =~ s/_/ /g;
+                
                 $d->rs('InstantAnswer')->create({
                         id => $data->{name},
                         meta_id => $data->{name},
-                        name => $data->{name},
+                        name => ucfirst $name,
                         status => 'development',
                         dev_milestone => 'development',
                         description => $description || '',
