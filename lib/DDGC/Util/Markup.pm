@@ -8,6 +8,7 @@ use Text::Xslate;
 use HTML::TreeBuilder::LibXML;
 use Hash::Merge::Simple qw/ merge /;
 use URI::Escape;
+use URI;
 use String::Util 'trim';
 
 use Moo;
@@ -18,7 +19,7 @@ has xslate => (
     builder => '_build_xslate',
 );
 sub _build_xslate {
-    return Text::Xslate->new(
+    Text::Xslate->new(
         path => 'views',
     );
 }
@@ -42,6 +43,11 @@ sub _build_image_proxy_base {
     ( my $image_proxy_base = $self->image_proxy_url ) =~
       s{(https?://[A-Za-z.]+).*}{$1};
     return $image_proxy_base;
+}
+
+sub _canonical_uri {
+    my ( $self, $uri ) = @_;
+    URI->new($uri)->canonical =~ s/'/%27/gr;
 }
 
 has opts => (
@@ -125,7 +131,7 @@ sub _bbcode_url {
 
     $self->xslate->render(
         'includes/bbcode/url.tx', {
-            url     => $url,
+            url     => $self->_canonical_uri($url),
             content => $$content || $url,
         }
     );
