@@ -1,15 +1,12 @@
 <div id="metafield_container">
   <div id="metafield_container--left" class="left">
 
-    <table>
-      <tbody>
-        <tr>
           <td class="up">
             <div class="dev_milestone-container__body__label ia-single--header">
               DESCRIPTION
             </div>
-          </td>
-          <td>
+          
+          
             {{#if permissions.can_edit}}
               <textarea data-panel="metafields" rows="3" cols="40" class="frm__text description js-autocommit metafield" id="description-textarea">{{live.description}}</textarea>
               {{else}}
@@ -19,16 +16,16 @@
                   </div>
                 {{/if}}
               {{/if}}   
-          </td>
-        </tr>
+          
         
-        <tr>
-          <td>
+        
+        
+          
             <div class="dev_milestone-container__body__label ia-single--header">
               ID
             </div>
-          </td>
-          <td>
+          
+          
             {{#if permissions.admin}}
                 <input data-panel="metafields" type="text" class="frm__input id js-autocommit metafield" id="id-input" value="{{live.id}}" />
             {{else}}
@@ -38,17 +35,17 @@
                     </div>
                 {{/if}}
             {{/if}}
-          </td>
-        </tr>
+          
+        
  
  
-        <tr>
-          <td>
+        
+          
             <div class="dev_milestone-container__body__label ia-single--header">
               PULL REQUEST
             </div>
-          </td>
-          <td>
+          
+          
             {{#if live.pr.id}}    
               <div class="dev_milestone-container__body__readonly" id="pr-txt">
                 <a href="https://github.com/duckduckgo/zeroclickinfo-{{live.repo}}/issues/{{live.pr.id}}" class="dev_milestone-container__body__readonly__a" id="pr">
@@ -56,16 +53,16 @@
                 </a>
               </div>
             {{/if}}
-          </td>
-        </tr>
+          
         
-        <tr>
-          <td>
+        
+        
+          
             <div class="dev_milestone-container__body__label ia-single--header">
               TEST MACHINE
             </div>
-          </td>
-          <td>
+          
+          
             {{#if permissions.can_edit}}
             <span class="frm__select">
               <select data-panel="metafields" class="test_machine dev_milestone-container__body__select js-autocommit" tabindex="-1" id="test_machine-select">
@@ -90,16 +87,16 @@
                 </div>
               {{/if}}
             {{/if}}
-          </td>
-        </tr>
+          
+        
 
-        <tr>
-          <td>
+        
+          
             <div class="dev_milestone-container__body__label ia-single--header">
               EXAMPLE QUERY
             </div>
-          </td>
-          <td>
+          
+          
             {{#if permissions.can_edit}}
               <input data-panel="metafields" type="text" class="frm__input example_query dev_milestone-container__body__input js-autocommit" id="example_query-input" value="{{live.example_query}}" />
               {{else}}
@@ -109,16 +106,16 @@
                 </a>
               {{/if}}
             {{/if}}
-          </td>
-        </tr>
+          
+        
 
-        <tr>
-          <td>
+        
+          
             <div class="ia-single--header">
               TAB NAME
             </div>
-          </td>
-          <td>
+          
+          
             {{#if permissions.admin}}
               <input data-panel="metafields" type="text" class="frm__input tab js-autocommit" id="tab-input" value="{{live.tab}}" />
               {{else}}
@@ -128,22 +125,22 @@
                 </div>
               {{/if}}
             {{/if}}
-          </td>
-        </tr>
-      </tbody>
-    </table>        
+          
+        
+      
+            
   </div>
 
   <div id="metafield_container--right" class="left">
-    <table>
-      <tbody>
-        <tr>
-          <td>
+    
+      
+        
+          
             <div class="dev_milestone-container__body__label ia-single--header">
                 TYPE
             </div>
-          </td>
-          <td>
+          
+          
             {{#if permissions.can_edit}}
                 <span class="frm__select">
                   <select class="dev_milestone-container__body__select js-autocommit repo" data-panel="metafields" tabindex="-1" id="repo-select">
@@ -164,17 +161,17 @@
                     </a>
                 </div>
             {{/if}}
-          </td>  
-        </tr>
+            
+        
 
-        <tr>
-          <td>
+        
+          
             <div class="dev_milestone-container__body__label ia-single--header">
                 PERL MODULE
             </div>
-          </td>
+          
 
-          <td>
+          
             {{#if permissions.can_edit}}
                 <input data-panel="metafields" type="text" class="frm__input perl_module dev_milestone-container__body__input js-autocommit" id="perl_module-input" value="{{live.perl_module}}" />
             {{else}}
@@ -182,17 +179,17 @@
                     {{live.perl_module}}        
                 </div>
             {{/if}}
-          </td>
-        </tr>
+          
+        
 
-        <tr>
+        
           <td class="{{#if permissions.admin}}up{{/if}}">
             <div class="ia-single--header">
               TOPICS
             </div>
-          </td>
+          
 
-          <td>
+          
             {{#if permissions.can_edit}}
               <div class="separator topic-separator">
                 <div data-panel="metafields" class="topic button delete listbutton left js-autocommit" name="topic" title="Remove this topic">
@@ -235,10 +232,10 @@
               </div>
             {{/if}}
             {{/if}}
-          </td>  
-        </tr>
-      </tbody>
-    </table>
+            
+        
+      
+    
   </div>
   <span class="clearfix"></span>
 </div>
