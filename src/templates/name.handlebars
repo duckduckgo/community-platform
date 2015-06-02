@@ -10,7 +10,7 @@
     {{else}}
         <input type="text" class="name js-autocommit left" id="name-input" value="{{live.name}}" />
         </h2>
-        <span>
+        <span class="frm__select">
         <select class="dev_milestone-container__body__select js-autocommit dev_milestone" data-panel="metafields" tabindex="-1" id="dev_milestone-select">
             <option value="0">{{live.dev_milestone}}</option>
             {{#not_eq live.dev_milestone 'planning'}}<option value="1">planning</option>{{/not_eq}}
