@@ -1,0 +1,4 @@
+        <div class="bbcode_code_header"><: $langname :> Code:
+            <pre><code class="language-<: $lang :>"><: $content :></code></pre>
+        </div>
+

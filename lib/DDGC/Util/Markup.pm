@@ -4,12 +4,24 @@ package DDGC::Util::Markup;
 # ABSTRACT: BBCode, Markdown and HTML renderer for comments and blog posts.
 
 use Text::Markdown;
+use Text::Xslate;
 use HTML::TreeBuilder::LibXML;
 use Hash::Merge::Simple qw/ merge /;
 use URI::Escape;
 use String::Util 'trim';
 
 use Moo;
+
+has xslate => (
+    is => 'ro',
+    lazy => 1,
+    builder => '_build_xslate',
+);
+sub _build_xslate {
+    return Text::Xslate->new(
+        path => 'views',
+    );
+}
 
 has image_proxy_url => (
     is => 'ro',
@@ -52,6 +64,7 @@ has bbcode_tags => (
     builder => '_build_bbcode_tags',
 );
 sub _build_bbcode_tags {
+    my ( $self ) = @_;
     my $tags;
 
     my $sites = +{
@@ -74,7 +87,7 @@ sub _build_bbcode_tags {
     $tags->{code} = {
         parse => 0,
         class => 'block',
-        code => \&_bbcode_code_block,
+        code => sub { $self->_bbcode_code_block( @_ ) },
     };
 
     $tags->{url} = {
@@ -87,17 +100,16 @@ sub _build_bbcode_tags {
 }
 
 sub _bbcode_code_block {
-    my ( $parser, $attr, $content ) = @_;
-    $attr ||= 'perl';
-    my $lang = lc(Parse::BBCode::escape_html($attr));
+    my ( $self, $parser, $lang, $content ) = @_;
+    $lang ||= 'perl';
     my $langname = ucfirst($lang);
-    $content = Parse::BBCode::escape_html($$content);
-    # TODO: Xslate these.
-    return <<"EOM";
-        <div class="bbcode_code_header">$langname Code:
-            <pre><code class="language-$lang">$content</code></pre>
-        </div>
-EOM
+    $self->xslate->render(
+        'includes/bbcode/code.tx', {
+            lang        => $lang,
+            content     => $$content,
+            langname    => $langname,
+        }
+    );
 }
 
 # Support for [url href=...]
@@ -128,7 +140,6 @@ sub _ddg_bbcode {
                 : (),
         },
         url_finder => {
-            # TODO: New window target option
             max_length  => 80,
             format      => '<a href="%s" rel="nofollow">%s</a>',
         },
