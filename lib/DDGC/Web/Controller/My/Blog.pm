@@ -115,7 +115,7 @@ sub edit :Chained('base') :Args(1) {
 		}
 
 		if ($ok) {
-			$c->response->redirect('/blog/' . $post->{id});
+			$c->response->redirect('/blog/post/' . join '/', ( $post->{id}, $post->{uri} ) );
 			return $c->detach;
 		} else {
 			$c->stash->{not_ok} = 1;
