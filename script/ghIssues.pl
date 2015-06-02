@@ -10,6 +10,7 @@ use HTTP::Tiny;
 use Data::Dumper;
 use Try::Tiny;
 use Net::GitHub;
+use Time::Local;
 use Encode qw(decode_utf8);
 my $d = DDGC->new;
 
@@ -66,7 +67,7 @@ sub getIssues{
 			$repo =~ s/zeroclickinfo-//;
 
             my $is_pr = exists $issue->{pull_request} ? 1 : 0;
-            
+
 			# add entry to result array
 			my %entry = (
 			    name => $name_from_link || '',
@@ -81,10 +82,41 @@ sub getIssues{
 			);
 			push(@results, \%entry);
             delete $pr_hash{$issue->{'number'}.$issue->{repo}};
+
+            # check for an existing IA page.  Create one if none are found
+            create_page(\%entry) if $is_pr;
 		}
 	}
     # warn Dumper @results;
     # warn Dumper %pr_hash;
+}
+
+sub create_page {
+    my($data) = @_;
+    return unless $data->{name};
+    my $ia = $d->rs('InstantAnswer')->find($data->{name});
+    return if $ia;
+
+    my @time = localtime(time);
+    my $date = "$time[4]/$time[3]/".($time[5]+1900);
+
+    # try to get a description from the PR text
+    my ($description) = $data->{body} =~ /What does your Instant Answer do\?\*\*(.+)\*\*What problem/msi;
+    $description =~ s/\n\r\t\v\f//g;
+
+    # try to find the perl module in file list
+
+
+    $d->rs('InstantAnswer')->create({
+            id => $data->{name},
+            meta_id => $data->{name},
+            name => $data->{name},
+            status => 'development',
+            dev_milestone => 'development',
+            description => $description || '',
+            created_date => $date,
+            repo => $data->{repo}
+    });
 }
 
 # check the status of PRs in $pr_hash.  If they were merged
