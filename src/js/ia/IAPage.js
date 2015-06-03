@@ -698,7 +698,8 @@
                                     enableScreenshotButton();
                                 }
 
-                                if (data.result.saved && field === "repo") {
+                                if (data.result.saved && (field === "repo" ||
+                                    (field === "dev_milestone" && data.result[field] === "live"))) {
                                     location.reload();
                                 } else if (data.result.saved && field === "id") {
                                     location.href = "/ia/view/" + data.result.id;
