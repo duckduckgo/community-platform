@@ -54,12 +54,12 @@
                         metafields_content : Handlebars.templates.metafields_content(ia_data),
                         contributors : Handlebars.templates.contributors(ia_data),
                         contributors_content : Handlebars.templates.contributors_content(ia_data),
-                        back_end : Handlebars.templates.back_end(ia_data),
-                        back_end_content : Handlebars.templates.back_end_content(ia_data),
+                        advanced : Handlebars.templates.advanced(ia_data),
+                        advanced_content : Handlebars.templates.advanced_content(ia_data),
                         testing : Handlebars.templates.testing(ia_data),
                         testing_content : Handlebars.templates.testing_content(ia_data),
-                        front_end : Handlebars.templates.front_end(ia_data),
-                        front_end_content : Handlebars.templates.front_end_content(ia_data)
+                        base_info : Handlebars.templates.base_info(ia_data),
+                        base_info_content : Handlebars.templates.base_info_content(ia_data)
                     };
 
                     // Pre-Edit mode templates
@@ -712,13 +712,13 @@
                                         readonly_templates.live.name = Handlebars.templates.name(ia_data);
                                         $(".ia-single--right").before(readonly_templates.live.name);
                                         $(".ia-single--right").before(readonly_templates.metafields);
-                                        $("#metafields .dev_milestone-container__body").html(readonly_templates.metafields_content);
+                                        $("#metafields").html(readonly_templates.metafields_content);
 
                                         $(".ia-single--name .name").addClass(saved_class);
                                     } else {
                                         readonly_templates[panel + "_content"] = Handlebars.templates[panel + "_content"](ia_data);
 
-                                        var $panel_body = $("#" + panel + " .dev_milestone-container__body");
+                                        var $panel_body = $("#" + panel);
                                         $panel_body.html(readonly_templates[panel + "_content"]);
                                     
                                         page.appendTopics($(".topic-group"));
@@ -801,8 +801,6 @@
 
         dev_milestones_order: [
             'contributors',
-            'back_end',
-            'front_end',
             'testing'
         ],
 
@@ -822,6 +820,10 @@
             } else {
                 templates.metafields = Handlebars.templates.metafields(ia_data);
                 templates.metafields_content = Handlebars.templates.metafields_content(ia_data);
+                templates.base_info = Handlebars.templates.base_info(ia_data);
+                templates.base_info_content = Handlebars.templates.base_info_content(ia_data);
+                templates.advanced = Handlebars.templates.advanced(ia_data);
+                templates.advanced_content = Handlebars.templates.advanced_content(ia_data);
                 for (var i = 0; i < this.dev_milestones_order.length; i++) {
                     templates[this.dev_milestones_order[i]] = Handlebars.templates[this.dev_milestones_order[i]](ia_data);
                     templates[this.dev_milestones_order[i] + "_content"] = Handlebars.templates[this.dev_milestones_order[i] + "_content"](ia_data);
@@ -895,21 +897,27 @@
                     var $temp_panel_body;
                     for (var i = 0; i < this.dev_milestones_order.length; i++) {
                         $(".ia-single--left").append(templates[this.dev_milestones_order[i]]);
-                        $temp_panel_body = $("#" + this.dev_milestones_order[i] + " .dev_milestone-container__body");
+                        $temp_panel_body = $("#" + this.dev_milestones_order[i]);
                         $temp_panel_body.html(templates[this.dev_milestones_order[i] + "_content"]);
                     }
+
+                     $(".ia-single--right").append(templates.base_info);
+                     $("#base_info").html(templates.base_info_content);
                 }
 
                 $(".ia-single--right").before(templates.live.name);
+                $(".ia-single--right").append(templates.screens);
                 if (dev_milestone !== "live" && dev_milestone !== "deprecated") {
                     $(".ia-single--right").before(templates.metafields);
-                    $("#metafields .dev_milestone-container__body").html(templates.metafields_content);
+                    $("#metafields").html(templates.metafields_content);
+                    
+                    $(".ia-single--right").append(templates.advanced);
+                    $("#advanced").html(templates.advanced_content);
 
                     this.appendTopics($(".topic-group"));
                     this.hideAssignToMe();
                 }
 
-                $(".ia-single--right").append(templates.screens);
                 if (this.hideScreenshot) {
                     this.hideScreenshot();
                 }
