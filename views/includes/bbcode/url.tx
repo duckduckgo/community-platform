@@ -1,0 +1,1 @@
+    <a href='<: $url | raw :>' rel='nofollow'><: $content :></a>
