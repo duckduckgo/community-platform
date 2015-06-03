@@ -14,6 +14,7 @@
 $frm__input-size: 24em;
 .frm__input {
     width: 100%;
+    height: 2.3em;
 }
 
 .frm__input--half {
@@ -52,7 +53,7 @@ $frm__input-size: 24em;
 .ia-single--name {
     h2 {
         .frm__input {
-            font-size: 0.7em;
+            font-size: 0.45em;
             width: 15em;
         }
     }
@@ -62,10 +63,16 @@ $frm__input-size: 24em;
     left: 4px;
 }
 
+/* This is for the buttons at the top. Since they're black when they're clicked on, the text should be white. */
+
 #toggle-devpage-static.disabled {
     color: white;
 }
 
 #toggle-devpage-editable.disabled {
     color: white;
+}
+
+.field-container {
+    padding-right: 0.5em;
 }
