@@ -1,6 +1,7 @@
 <div class="dev_milestone-container__body">
     <div id="metafield_container">
         <div class="field-container left">          
+          {{#if live.pr.id}}
             <div class="dev_milestone-container__body__label ia-single--header">
               PULL REQUEST
             </div>
@@ -11,6 +12,7 @@
                 </a>
               </div>
             {{/if}}
+          {{/if}}
         </div>
 
         <div class="field-container left">
