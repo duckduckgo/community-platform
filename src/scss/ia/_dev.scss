@@ -17,7 +17,7 @@ $frm__input-size: 24em;
 }
 
 #producer-input {
-    width: 55%;
+    width: 59%;
 }
 
 #metafield_container {
@@ -78,4 +78,8 @@ div[data-panel="base_info"] {
 
 #example_query-input {
     width: 16em;
+}
+
+.dev_milestone-container__body__readonly__a {
+    text-transform: capitalize;
 }
