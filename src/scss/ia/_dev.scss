@@ -11,6 +11,10 @@ $frm__input-size: 24em;
     height: 2.3em;
 }
 
+#perl_module-input {
+    width: 18em;
+}
+
 .frm__input--half {
     @extend .frm__input;
     width: $frm__input-size / 2;
@@ -52,6 +56,14 @@ textarea[data-panel="base_info"] {
 }
 
 #toggle-devpage-editable.disabled {
+    color: white;
+}
+
+#toggle-edited.disabled {
+    color: white;
+}
+
+#toggle-live.disabled {
     color: white;
 }
 
