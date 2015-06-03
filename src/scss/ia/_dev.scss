@@ -28,6 +28,12 @@ $frm__input-size: 24em;
     min-width: 1000px;
 }
 
+#metafields {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    padding-top: 0;
+}
+
 textarea[data-panel="base_info"] {
     width: 100%;
 }
