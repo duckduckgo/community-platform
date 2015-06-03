@@ -24,11 +24,10 @@ my $app = builder {
             httponly => 1,
             expires => 21600,
             session_key => 'ddgc_session',
-        ),
+        );
     mount '/testutils' => t::lib::DDGC::TestUtils->to_app;
     mount '/blog' => DDGC::Web::App::Blog->to_app;
     mount '/blog.json' => DDGC::Web::Service::Blog->to_app;
-
 };
 
 test_psgi $app => sub {
