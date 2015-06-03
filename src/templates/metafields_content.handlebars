@@ -55,5 +55,20 @@
                 </div>
             {{/if}}
         </div>
+
+        <div class="field-container left">
+            <div class="dev_milestone-container__body__label ia-single--header">
+                PERL MODULE
+            </div>
+            {{#if permissions.can_edit}}
+                <input data-panel="metafields" type="text" class="frm__input perl_module dev_milestone-container__body__input js-autocommit" id="perl_module-input" value="{{live.perl_module}}" />
+            {{else}}
+                <div class="dev_milestone-container__body__readonly" id="perl_module-txt">
+                    {{live.perl_module}}        
+                </div>
+            {{/if}}
+        </div>
+
+        <span class="clearfix"></span>
     </div>
 </div>
