@@ -5,12 +5,6 @@
     padding-left: 0;
 }
 
-.topic-separator {
-    .frm__select {
-        height: 1.84em;
-    }
-}
-
 $frm__input-size: 24em;
 .frm__input {
     width: 100%;
@@ -79,4 +73,13 @@ $frm__input-size: 24em;
 
 .dev_milestone-container.milestone-panel.container-advanced > div {
     padding-right: 0.5em;
+}
+
+div[data-panel="base_info"] {
+    box-shadow: none;
+    height: 2.13em;
+
+    .ddgsi {
+        vertical-align: sub;
+    }
 }
