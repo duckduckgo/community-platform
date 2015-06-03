@@ -1,0 +1,139 @@
+    <div class="dev_milestone-container__header container-base_info__header">
+        <h3 class="dev_milestone-container__header__title left">
+            General
+        </h3>
+        <span class="clearfix"></span>
+    </div>
+
+    <div class="dev_milestone-container__body container-base_info__body">
+            <div class="dev_milestone-container__body__label ia-single--header">
+              DESCRIPTION
+            </div>
+            {{#if permissions.can_edit}}
+              <textarea data-panel="base_info" rows="2" cols="100" class="frm__text description js-autocommit metafield" id="description-textarea">{{live.description}}</textarea>
+              {{else}}
+                {{#if live.description}}
+                  <div class="dev_milestone-container__body__readonly" id="description_txt">
+                    {{live.description}}
+                  </div>
+                {{/if}}
+              {{/if}}
+          
+            <div class="ia-single--header">
+              TOPICS
+            </div>
+            {{#if permissions.can_edit}}
+              <div class="separator topic-separator left">
+                <div data-panel="base_info" class="topic button delete left js-autocommit" name="topic" title="Remove this topic">
+                  <i class="ddgsi ddgsi-close-bold">X</i>
+                </div>
+                <span class="frm__select">
+                  <select data-panel="base_info" class="topic js-autocommit topic-group left" id="first-topic-select">
+                    <option value="0">{{index live.topic 0}}</option>
+                  </select>
+                </span>
+                <span class="clearfix"></span>
+              </div>
+              <div class="separator topic-separator left">
+                <div data-panel="base_info" class="topic button delete left js-autocommit" name="topic" title="Remove this topic">
+                  <i class="ddgsi ddgsi-close-bold">X</i>
+                </div>
+                <span class="frm__select">
+                  <select data-panel="base_info" class="topic js-autocommit topic-group left" id="second-topic-select">
+                    <option value="0">{{index live.topic 1}}</option>
+                  </select>
+                </span>
+                <span class="clearfix"></span>
+              </div>
+              <div class="separator topic-separator left">
+                <div data-panel="base_info" class="topic button delete left js-autocommit" name="topic" title="Remove this topic">
+                  <i class="ddgsi ddgsi-close-bold">X</i>
+                </div>
+                <span class="frm__select">
+                  <select data-panel="base_info" class="topic js-autocommit topic-group left" id="third-topic-select">
+                    <option value="0">{{index live.topic 2}}</option>
+                  </select>
+                </span>
+                <span class="clearfix"></span>
+              </div>
+              <span class="clearfix"></span>
+              {{else}}
+            {{#if live.topic}}
+              <div id="topic-txt">
+                {{live.topic}} 
+              </div>
+            {{/if}}
+            {{/if}}
+
+<div class="dev_milestone-container__body__label ia-single--header">
+    TRIGGER WORDS
+</div>
+    {{#if permissions.can_edit}}
+        <input type="text" data-panel="base_info" class="frm__input dev_milestone-container__body__input js-autocommit comma-separated triggers" id="triggers-input" value="{{live.triggers}}" />
+    {{else}}
+        <div class="dev_milestone-container__body__readonly" id="triggers-txt">
+            {{live.triggers}}
+        </div>
+    {{/if}} 
+          
+        <div class="field-container left">
+            <div class="dev_milestone-container__body__label ia-single--header">
+              TEST MACHINE
+            </div>
+            {{#if permissions.can_edit}}
+            <span class="frm__select">
+              <select data-panel="base_info" class="test_machine dev_milestone-container__body__select js-autocommit" tabindex="-1" id="test_machine-select">
+                {{#if live.test_machine}}<option value="0">{{live.test_machine}}</option>{{/if}}
+                <option value=""> --- </option>
+                {{#not_eq live.test_machine 'ddh1'}}<option value="1">ddh1</option>{{/not_eq}}
+                {{#not_eq live.test_machine 'ddh2'}}<option value="2">ddh2</option>{{/not_eq}}
+                {{#not_eq live.test_machine 'ddh3'}}<option value="3">ddh3</option>{{/not_eq}}
+                {{#not_eq live.test_machine 'ddh4'}}<option value="4">ddh4</option>{{/not_eq}}
+                {{#not_eq live.test_machine 'ddh5'}}<option value="5">ddh5</option>{{/not_eq}}
+                {{#not_eq live.test_machine 'ddh6'}}<option value="6">ddh6</option>{{/not_eq}}
+                {{#not_eq live.test_machine 'ddh7'}}<option value="7">ddh7</option>{{/not_eq}}
+                {{#not_eq live.test_machine 'ddh8'}}<option value="8">ddh8</option>{{/not_eq}}
+                {{#not_eq live.test_machine 'ddh9'}}<option value="9">ddh9</option>{{/not_eq}}
+                {{#not_eq live.test_machine 'ddh10'}}<option value="10">ddh10</option>{{/not_eq}}
+              </select>
+            </span>
+            {{else}}
+              {{#if live.test_machine}}
+                <div class="dev_milestone-container__body__readonly" id="test_machine-txt">
+                  {{live.test_machine}}
+                </div>
+              {{/if}}
+            {{/if}}
+        </div>
+
+        <div class="field-container left">
+            <div class="dev_milestone-container__body__label ia-single--header">
+              EXAMPLE QUERY
+            </div>
+            {{#if permissions.can_edit}}
+              <input data-panel="base_info" type="text" class="frm__input example_query dev_milestone-container__body__input js-autocommit" id="example_query-input" value="{{live.example_query}}" />
+              {{else}}
+              {{#if live.example_query}}
+                <a href="{{#if live.test_machine}}https://{{live.test_machine}}.duckduckgo.com/?q={{encodeURIComponent live.example_query}}{{tab_url live.tab}}{{/if}}" class="dev_milestone-container__body__readonly" id="example_query-a">
+                  {{live.example_query}}
+                </a>
+              {{/if}}
+            {{/if}}
+        </div>
+
+        <div class="field-container left">
+            <div class="ia-single--header">
+              TAB NAME
+            </div>
+            {{#if permissions.admin}}
+              <input data-panel="base_info" type="text" class="frm__input tab js-autocommit" id="tab-input" value="{{live.tab}}" />
+              {{else}}
+              {{#if live.tab}}
+                <div id="tab-txt">
+                  {{live.tab}} 
+                </div>
+              {{/if}}
+            {{/if}}
+        </div>
+        <span class="clearfix"></span>
+    

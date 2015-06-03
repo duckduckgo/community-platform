@@ -719,7 +719,7 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
                 # meta_id must be unique, lowercase and without spaces
                 $value =~ s/\s//g;
                 $value = lc $value;
-                return $c->forward($c->view('JSON')) if $c->d->rs('InstantAnswer')->find({meta_id => $value});
+                return $c->forward($c->view('JSON')) if ($c->d->rs('InstantAnswer')->find({meta_id => $value}) || $value eq '');
             } elsif ($field eq "src_id") {
                 return $c->forward($c->view('JSON')) if $c->d->rs('InstantAnswer')->find({src_id => $value});
             }
