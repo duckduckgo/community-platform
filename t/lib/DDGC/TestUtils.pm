@@ -66,4 +66,9 @@ post '/user_session' => sub {
     return request->env->{'psgix.session.options'}->{id};
 };
 
+get '/debug_session' => sub {
+    use DDP; p session; p request->env;
+    return 1;
+};
+
 1;
