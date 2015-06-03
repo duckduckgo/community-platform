@@ -86,6 +86,8 @@ sub getIssues{
             my $create_page = sub {
                 my $data = \%entry;
                 return unless $data->{name};
+
+
                 my $ia = $d->rs('InstantAnswer')->find($data->{name});
                 return if $ia;
 
@@ -120,6 +122,13 @@ sub getIssues{
                     }
                 }
 
+                my $is_new_ia;
+                for my $tag (@{$data->{tags}}){
+                    $is_new_ia = 1 if $tag->{name} eq 'New Instant Answer';
+                    $pm = "DDG::Goodie::CheatSheets" if $tag->{name} eq 'CheatSheet';
+                }
+                return if !$is_new_ia;
+
                 my $developer = [{
                         name => $data->{author},
                         type => 'github',
@@ -134,7 +143,7 @@ sub getIssues{
                         id => $data->{name},
                         meta_id => $data->{name},
                         name => ucfirst $name,
-                        dev_milestone => 'development',
+                        dev_milestone => 'planning',
                         description => $description || '',
                         created_date => $date,
                         repo => $data->{repo},
