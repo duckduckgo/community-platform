@@ -499,6 +499,8 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
     my $is_admin;
     my $dev_milestone = $ia->dev_milestone; 
 
+    $ia_data{live} = $ia->TO_JSON;
+    
     for my $issue (@issues) {
         if ($issue) {
             if ($issue->is_pr) {
@@ -509,6 +511,8 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
                     tags => $issue->tags,
                     author => $issue->author
                );
+
+               $ia_data{live}->{pr} = \%pull_request;
 
                if ($dev_milestone ne 'live' && $dev_milestone ne 'deprecated' && !$ia->developer) {
                   my %dev_hash = (
@@ -542,8 +546,8 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
 
     warn Dumper $ia->TO_JSON if debug;
     
-    $ia_data{live} = $ia->TO_JSON;
     $ia_data{live}->{issues} = \@ia_issues;
+    
     if ($c->user) {
         $permissions = $c->stash->{ia}->users->find($c->user->id);
         $is_admin = $c->user->admin;
@@ -715,7 +719,7 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
                 # meta_id must be unique, lowercase and without spaces
                 $value =~ s/\s//g;
                 $value = lc $value;
-                return $c->forward($c->view('JSON')) if $c->d->rs('InstantAnswer')->find({meta_id => $value});
+                return $c->forward($c->view('JSON')) if ($c->d->rs('InstantAnswer')->find({meta_id => $value}) || $value eq '');
             } elsif ($field eq "src_id") {
                 return $c->forward($c->view('JSON')) if $c->d->rs('InstantAnswer')->find({src_id => $value});
             }

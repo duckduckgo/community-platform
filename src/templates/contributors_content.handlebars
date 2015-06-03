@@ -1,0 +1,43 @@
+<div class="dev_milestone-container__header container-contributors__header">
+    <h3 class="dev_milestone-container__header__title">
+        Contributors
+    </h3>
+    <span class="clearfix"></span>
+</div>
+
+<div class="dev_milestone-container__body container-contributors__body">
+    <div class="dev_milestone-container__body__label ia-single--header">
+      PRODUCER
+    </div>
+    {{#if permissions.admin}}
+    <div>
+      <input data-panel="contributors" type="text" class="frm__input producer dev_milestone-container__body__input js-autocommit team-input" id="producer-input" value="{{live.producer}}" />
+      <div data-panel="contributors" class="dev_milestone-container__body__button js-autocommit button assign-button btn" id="producer-button">
+        Assign to me
+      </div>
+    </div>
+      {{else}}
+      {{#if live.producer}}
+        <div class="dev_milestone-container__body__readonly" id="producer-txt">
+          <a href="/user/{{live.producer}}">{{live.producer}}</a>
+        </div>
+      {{/if}}
+    {{/if}}
+
+    <div class="dev_milestone-container__body__label ia-single--header">
+      DEVELOPER
+    </div>
+    {{#if permissions.can_edit}}
+      <input data-panel="contributors" type="text" class="frm__input developer dev_milestone-container__body__input js-autocommit comma-separated team-input" 
+      id="developer-input" value="{{#each live.developer}}{{url}}{{#unless @last}},{{/unless}}{{/each}}" />
+    {{else}}
+      {{#if live.developer}}
+        <div class="dev_milestone-container__body__readonly" id="developer-txt">
+          {{#each live.developer}}
+            <a href="{{url}}">{{name}}</a>
+          {{/each}}
+        </div>
+      {{/if}}
+    {{/if}}
+</div>
+

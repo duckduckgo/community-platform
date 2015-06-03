@@ -1,5 +1,9 @@
 /*te-new-ia.button experimental and/or prototype */
 
+.half, .fifty {
+    width: 50% !important;
+}
+
 .iadata td {
     padding-right:0.5em;
 }
@@ -814,6 +818,7 @@ body.texture {
     word-break: break-all;
     display: inline-block;
     margin-bottom: 0;
+    margin-right: 0.2em;
 }
 
 .ia-single p::first-letter {
@@ -898,6 +903,7 @@ body.texture {
     cursor: default;
     display: inline-block;
     margin-top: 0.5em;
+    margin-bottom: 0.5em;
 }
 
 .ia-issues li {
@@ -1041,24 +1047,6 @@ body.texture {
     display: inline-block;
     margin-right: 0;
     cursor: pointer;
-}
-
-.btn--primary {
-    border: none;
-    background-color: $blue;
-    border-bottom: 2px solid $blue-dark;
-    color: $white;
-
-    @include border-radius(2px);
-    font-weight: normal;
-    max-width: 5em;
-    text-align: center;
-    font-size: 16px;
-    padding: 0 0.5em;
-
-        a {
-            color: $white;
-        }
 }
 
 @media (max-width: 980px) {
@@ -1213,10 +1201,6 @@ body.texture {
     font-size: 1em;
 }
 
-.ia-single--name {
-    margin-bottom: 0.5em;
-}
-
 .ia-single--name .dev_milestone {
     display: inline-block;
     margin-left: 0.5em;
@@ -1242,13 +1226,6 @@ body.texture {
 #toggle-devpage-view .pager-wrap {
     height: 2.5em;
     width: 9.5em;
-}
-
-.dev_milestone-container {
-    border: 1px solid rgb(225, 225, 225);
-    border-radius: 5px;
-    padding: 5px;
-    margin-bottom: 0.5em;
 }
 
 .dev_milestone-container__header__button.js-expand {
@@ -1289,6 +1266,7 @@ input.saved, select.saved, .button.saved {
 
 #metafield_container td:nth-child(2) {
     padding-left: 1.2em;
+    width: 78%;
 }
 
 .dev_milestone-container__body__label {
@@ -1309,6 +1287,7 @@ input.saved, select.saved, .button.saved {
 .ia-single .dev_milestone-container .ia-single--header,
 #metafield_container .ia-single--header {
     margin: 0;
+    margin-top: 1em;
 }
 
 .ia-single .dev_milestone-container.current-container {
@@ -1330,10 +1309,6 @@ input.saved, select.saved, .button.saved {
 .ia-single .dev_milestone-container.future-container,
 .ia-single .docs-link-icon {
     color: #AAA;
-}
-
-.ia-single .assign-button {
-    margin-top: 0.5em;
 }
 
 #dev_pipeline .dev_pipeline-column {
@@ -1483,7 +1458,7 @@ input.saved, select.saved, .button.saved {
 }
 
 #metafield_container {
-    margin-bottom: 0.5em;
+    margin-bottom: 1.5em;
 }
 
 #metafield_container--left {
@@ -1505,7 +1480,6 @@ input.saved, select.saved, .button.saved {
 
 #view_json {
     margin-right: 0.5em;
-    height: 1.45em;
 }
 
 .ia-single--left--wide {
@@ -1535,16 +1509,10 @@ input.saved, select.saved, .button.saved {
 }
 
 .generate-screenshot--button {
-    margin: 1em;
     cursor: pointer;
-
-    background-color: #e37151;
-    border-color: #de5833;
 }
 
 .save-screenshot--button {
-    margin: 1em;
-    margin-left: 0;
     cursor: pointer;
 }
 
@@ -1565,4 +1533,8 @@ input.saved, select.saved, .button.saved {
 .generate-screenshot--button.generate-screenshot--disabled {
     background-color: $grey;
     border-color: $grey-dark;
+}
+
+#contributors, #base_info, #advanced, #testing {
+    margin-top: 1em;
 }

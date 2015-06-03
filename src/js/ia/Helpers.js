@@ -5,6 +5,8 @@
     Handlebars.registerHelper('eq', function(value1, value2, options) {
         if (value1 === value2) {
             return options.fn(this);
+        } else {
+            return options.inverse(this);
         }
     });
 
@@ -12,6 +14,8 @@
     Handlebars.registerHelper('not_eq', function(value1, value2, options) {
         if (value1 !== value2) {
             return options.fn(this);
+        } else {
+            return options.inverse(this);
         }
     });
 
@@ -20,6 +24,8 @@
     Handlebars.registerHelper('eq_or', function(value1, value2, value3, options) {
         if (value1 === value2 || value1 === value3) {
             return options.fn(this);
+        } else {
+            return options.inverse(this);
         }
     });
 
