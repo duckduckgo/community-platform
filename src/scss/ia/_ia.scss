@@ -1538,3 +1538,7 @@ input.saved, select.saved, .button.saved {
     background-color: $grey;
     border-color: $grey-dark;
 }
+
+#contributors, #base_info, #advanced, #testing {
+    margin-top: 2em;
+}
