@@ -87,7 +87,6 @@ requires 'Path::Class', '0.32';
 requires 'Plack', '1.0029';
 requires 'Plack::Middleware::Debug', '0.16';
 requires 'Plack::Middleware::Session', '0.30';
-requires 'Plack::Middleware::Session::Simple', '0.03';
 requires 'Prosody', '0.007';
 requires 'String::ProgressBar', '0.03';
 requires 'Test::WWW::Mechanize::Catalyst', '0.58';

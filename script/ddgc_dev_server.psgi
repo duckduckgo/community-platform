@@ -15,20 +15,22 @@ use DDGC::Web;
 use DDGC::Web::App::Blog;
 use DDGC::Web::Service::Blog;
 use DDGC::Static;
+use Plack::Session::State::Cookie;
+use Plack::Session::Store::File;
 my $ddgc_home = '/home/' . (getpwuid($<))[0] . '/ddgc';
 
 builder {
     enable 'StackTrace', force => 1;
-    enable 'Session::Simple',
-        store => CHI->new(
-            driver => 'File',
-            root_dir => '/tmp/ddgc_session',
+    enable 'Session',
+        store => Plack::Session::Store::File->new(
+            dir => "$ddgc_home/sessions/"
         ),
-        keep_empty => 0,
-        secure => 0,
-        httponly => 1,
-        expires => '+21600s',
-        cookie_name => 'ddgc_session';
+        state => Plack::Session::State::Cookie->new(
+            secure => 0,
+            httponly => 1,
+            expires => 21600,
+            session_key => 'ddgc_session',
+        );
     enable 'Debug', panels => [
         qw/ Environment Response Parameters Timer Session DBITrace CatalystLog /
     ];
