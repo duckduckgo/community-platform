@@ -87,11 +87,6 @@ sub getIssues{
                 my $data = \%entry;
                 return unless $data->{name};
 
-                my $is_new_ia;
-                for my $tag (@{$data->{tags}}){
-                    $is_new_ia = 1 if $tag->{name} eq 'New Instant Answer';
-                }
-                return if !$is_new_ia;
 
                 my $ia = $d->rs('InstantAnswer')->find($data->{name});
                 return if $ia;
@@ -127,10 +122,12 @@ sub getIssues{
                     }
                 }
 
-                # cheat sheet perl modules
-                if($pm =~ /DDG::Goodie::.+cheat_?sheets?/i){
-                    $pm = "DDG::Goodie::CheatSheets";
+                my $is_new_ia;
+                for my $tag (@{$data->{tags}}){
+                    $is_new_ia = 1 if $tag->{name} eq 'New Instant Answer';
+                    $pm = "DDG::Goodie::CheatSheets" if $tag->{name} eq 'CheatSheet';
                 }
+                return if !$is_new_ia;
 
                 my $developer = [{
                         name => $data->{author},
