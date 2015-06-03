@@ -698,7 +698,7 @@
                                     enableScreenshotButton();
                                 }
 
-                                if (data.result.saved && (field === "dev_milestone" || field === "repo")) {
+                                if (data.result.saved && field === "repo") {
                                     location.reload();
                                 } else if (data.result.saved && field === "id") {
                                     location.href = "/ia/view/" + data.result.id;
@@ -706,7 +706,7 @@
                                     ia_data.live[field] = (is_json && data.result[field])? $.parseJSON(data.result[field]) : data.result[field];
                                     var saved_class = data.result.saved? "saved" : "not_saved";
 
-                                    if (field === "name") {
+                                    if (field === "name" || field === "dev_milestone") {
                                         $(".ia-single--name").remove();
                                         $("#metafields").remove();
                                         readonly_templates.live.name = Handlebars.templates.name(ia_data);
@@ -714,7 +714,7 @@
                                         $(".ia-single--right").before(readonly_templates.metafields);
                                         $("#metafields").html(readonly_templates.metafields_content);
 
-                                        $(".ia-single--name .name").addClass(saved_class);
+                                        $(".ia-single--name ." + field).addClass(saved_class);
                                     } else {
                                         readonly_templates[panel + "_content"] = Handlebars.templates[panel + "_content"](ia_data);
 
