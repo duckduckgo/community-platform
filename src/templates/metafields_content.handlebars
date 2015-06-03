@@ -1,12 +1,63 @@
 <div id="metafield_container">
+    <div class="field-container left">          
+        <div class="dev_milestone-container__body__label ia-single--header">
+          PULL REQUEST
+        </div>
+        {{#if live.pr.id}}    
+          <div class="dev_milestone-container__body__readonly" id="pr-txt">
+            <a href="https://github.com/duckduckgo/zeroclickinfo-{{live.repo}}/issues/{{live.pr.id}}" class="dev_milestone-container__body__readonly__a" id="pr">
+            {{live.pr.title}}
+            </a>
+          </div>
+        {{/if}}
+    </div>
+
+    <div class="field-container left">
+        <div class="dev_milestone-container__body__label ia-single--header">
+          ID
+        </div>
+        {{#if permissions.admin}}
+            <input data-panel="metafields" type="text" class="frm__input id js-autocommit metafield" id="id-input" value="{{live.id}}" />
+        {{else}}
+            {{#if live.id}}    
+                <div class="dev_milestone-container__body__readonly" id="id-txt">
+                    {{live.id}}
+                </div>
+            {{/if}}
+        {{/if}}
+    </div>
+
+    <div class="field-container left">
+        <div class="dev_milestone-container__body__label ia-single--header">
+            TYPE
+        </div>
+        {{#if permissions.can_edit}}
+            <span class="frm__select">
+              <select class="dev_milestone-container__body__select js-autocommit repo" data-panel="metafields" tabindex="-1" id="repo-select">
+                <option value="0">{{live.repo}}</option>
+                {{#not_eq live.repo 'fathead'}}<option value="1">fathead</option>{{/not_eq}}
+                {{#not_eq live.repo 'goodies'}}<option value="2">goodies</option>{{/not_eq}}
+                {{#not_eq live.repo 'longtail'}}<option value="3">longtail</option>{{/not_eq}}
+                {{#not_eq live.repo 'spice'}}<option value="4">spice</option>{{/not_eq}}
+              </select>
+            </span>
+        {{else}}
+            <div class="dev_milestone-container__body__readonly" id="repo-txt">
+                <a class="dev_milestone-container__body__readonly__a" href="https://github.com/duckduckgo/zeroclickinfo-{{live.repo}}">
+                    {{live.repo}}
+                </a>
+                <a class="dev_milestone-container__body__readonly__a docs-link" href="https://duck.co/duckduckhack/{{live.repo}}_overview">
+                    <i class="dev_milestone-container__body__readonly__a__icon docs-link-icon icon-question-sign" />
+                </a>
+            </div>
+        {{/if}}
+    </div>
   <div id="metafield_container--left" class="left">
 
           <td class="up">
             <div class="dev_milestone-container__body__label ia-single--header">
               DESCRIPTION
             </div>
-          
-          
             {{#if permissions.can_edit}}
               <textarea data-panel="metafields" rows="3" cols="40" class="frm__text description js-autocommit metafield" id="description-textarea">{{live.description}}</textarea>
               {{else}}
@@ -17,52 +68,9 @@
                 {{/if}}
               {{/if}}   
           
-        
-        
-        
-          
-            <div class="dev_milestone-container__body__label ia-single--header">
-              ID
-            </div>
-          
-          
-            {{#if permissions.admin}}
-                <input data-panel="metafields" type="text" class="frm__input id js-autocommit metafield" id="id-input" value="{{live.id}}" />
-            {{else}}
-                {{#if live.id}}    
-                    <div class="dev_milestone-container__body__readonly" id="id-txt">
-                        {{live.id}}
-                    </div>
-                {{/if}}
-            {{/if}}
-          
-        
- 
- 
-        
-          
-            <div class="dev_milestone-container__body__label ia-single--header">
-              PULL REQUEST
-            </div>
-          
-          
-            {{#if live.pr.id}}    
-              <div class="dev_milestone-container__body__readonly" id="pr-txt">
-                <a href="https://github.com/duckduckgo/zeroclickinfo-{{live.repo}}/issues/{{live.pr.id}}" class="dev_milestone-container__body__readonly__a" id="pr">
-                {{live.pr.title}}
-                </a>
-              </div>
-            {{/if}}
-          
-        
-        
-        
-          
             <div class="dev_milestone-container__body__label ia-single--header">
               TEST MACHINE
             </div>
-          
-          
             {{#if permissions.can_edit}}
             <span class="frm__select">
               <select data-panel="metafields" class="test_machine dev_milestone-container__body__select js-autocommit" tabindex="-1" id="test_machine-select">
@@ -88,15 +96,9 @@
               {{/if}}
             {{/if}}
           
-        
-
-        
-          
             <div class="dev_milestone-container__body__label ia-single--header">
               EXAMPLE QUERY
             </div>
-          
-          
             {{#if permissions.can_edit}}
               <input data-panel="metafields" type="text" class="frm__input example_query dev_milestone-container__body__input js-autocommit" id="example_query-input" value="{{live.example_query}}" />
               {{else}}
@@ -107,15 +109,9 @@
               {{/if}}
             {{/if}}
           
-        
-
-        
-          
             <div class="ia-single--header">
               TAB NAME
             </div>
-          
-          
             {{#if permissions.admin}}
               <input data-panel="metafields" type="text" class="frm__input tab js-autocommit" id="tab-input" value="{{live.tab}}" />
               {{else}}
@@ -125,53 +121,13 @@
                 </div>
               {{/if}}
             {{/if}}
-          
-        
-      
-            
   </div>
 
   <div id="metafield_container--right" class="left">
-    
-      
-        
-          
-            <div class="dev_milestone-container__body__label ia-single--header">
-                TYPE
-            </div>
-          
-          
-            {{#if permissions.can_edit}}
-                <span class="frm__select">
-                  <select class="dev_milestone-container__body__select js-autocommit repo" data-panel="metafields" tabindex="-1" id="repo-select">
-                    <option value="0">{{live.repo}}</option>
-                    {{#not_eq live.repo 'fathead'}}<option value="1">fathead</option>{{/not_eq}}
-                    {{#not_eq live.repo 'goodies'}}<option value="2">goodies</option>{{/not_eq}}
-                    {{#not_eq live.repo 'longtail'}}<option value="3">longtail</option>{{/not_eq}}
-                    {{#not_eq live.repo 'spice'}}<option value="4">spice</option>{{/not_eq}}
-                  </select>
-                </span>
-            {{else}}
-                <div class="dev_milestone-container__body__readonly" id="repo-txt">
-                    <a class="dev_milestone-container__body__readonly__a" href="https://github.com/duckduckgo/zeroclickinfo-{{live.repo}}">
-                        {{live.repo}}
-                    </a>
-                    <a class="dev_milestone-container__body__readonly__a docs-link" href="https://duck.co/duckduckhack/{{live.repo}}_overview">
-                        <i class="dev_milestone-container__body__readonly__a__icon docs-link-icon icon-question-sign" />
-                    </a>
-                </div>
-            {{/if}}
-            
-        
-
-        
           
             <div class="dev_milestone-container__body__label ia-single--header">
                 PERL MODULE
             </div>
-          
-
-          
             {{#if permissions.can_edit}}
                 <input data-panel="metafields" type="text" class="frm__input perl_module dev_milestone-container__body__input js-autocommit" id="perl_module-input" value="{{live.perl_module}}" />
             {{else}}
@@ -179,17 +135,10 @@
                     {{live.perl_module}}        
                 </div>
             {{/if}}
-          
         
-
-        
-          <td class="{{#if permissions.admin}}up{{/if}}">
             <div class="ia-single--header">
               TOPICS
             </div>
-          
-
-          
             {{#if permissions.can_edit}}
               <div class="separator topic-separator">
                 <div data-panel="metafields" class="topic button delete listbutton left js-autocommit" name="topic" title="Remove this topic">
@@ -232,8 +181,6 @@
               </div>
             {{/if}}
             {{/if}}
-            
- 
 
 <div class="dev_milestone-container__body__label ia-single--header">
     TRIGGER WORDS
@@ -254,8 +201,6 @@
         Unsafe
     </span>
 </div>
-       
-      
     
   </div>
   <span class="clearfix"></span>
