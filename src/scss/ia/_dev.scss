@@ -24,12 +24,6 @@ $frm__input-size: 24em;
     min-width: 1000px;
 }
 
-.ia-single--name {
-    h2 {
-        vertical-align: middle;
-    }
-}
-
 textarea[data-panel="base_info"] {
     width: 100%;
 }
@@ -40,6 +34,10 @@ textarea[data-panel="base_info"] {
             font-size: 0.45em;
             width: 15em;
         }
+    }
+
+    .frm__select {
+        vertical-align: top;
     }
 }
 
