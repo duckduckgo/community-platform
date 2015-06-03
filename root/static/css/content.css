@@ -7016,7 +7016,7 @@ a.fill {
 
 /* line 382, ../../src/scss/content/_global.scss */
 .header-logo {
-  width: 300px;
+  width: 265px;
   float: left;
 }
 
@@ -7341,7 +7341,7 @@ a.fill {
 }
 
 /* line 611, ../../src/scss/content/_global.scss */
-.header-nav .active a, .header-nav a:hover, .header-nav ul li:first-child a:hover, .page-home li.nav-home a, .page-blog li.nav-blog a, .page-translate li.nav-translate a, .page-forums li.nav-forums a, .page-help li.nav-help a {
+.header-nav .active a, .header-nav a:hover, .header-nav ul li:first-child a:hover, .page-home li.nav-home a, .page-blog li.nav-blog a, .page-translate li.nav-translate a, .page-develop li.nav-develop a, .page-forums li.nav-forums a, .page-help li.nav-help a {
   color: black;
   background: #cdcdcd;
   border-left-color: #bbb;
@@ -8019,7 +8019,7 @@ h1 + .intro, .intro--mg {
 
   /* line 917, ../../src/scss/content/_global.scss */
   .header-nav li {
-    width: 25%;
+    width: 20%;
     /* assuming 4 nav items */
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
