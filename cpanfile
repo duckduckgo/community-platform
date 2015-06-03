@@ -127,3 +127,5 @@ requires 'Try::Tiny', '0.22';
 requires 'HTTP::Validate', '0.45';
 requires 'String::Util', '1.24';
 requires 'DBIx::Class::Helpers', '2.028000';
+requires 'CHI', '0.59';
+requires 'Cache::FastMmap', '1.40';
