@@ -20,10 +20,6 @@ $frm__input-size: 24em;
     width: 55%;
 }
 
-#developer-input {
-    width: 55%;
-}
-
 #metafield_container {
     min-width: 1000px;
 }
@@ -34,14 +30,8 @@ $frm__input-size: 24em;
     }
 }
 
-#metafield_container {
-    textarea {
-        width: 24em;
-    }
-
-    .frm__input {
-        width: $frm__input-size;
-    }
+textarea[data-panel="base_info"] {
+    width: 100%;
 }
 
 .ia-single--name {
@@ -87,3 +77,4 @@ div[data-panel="base_info"] {
 #repo-select {
     text-transform: capitalize;
 }
+

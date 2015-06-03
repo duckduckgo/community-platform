@@ -880,6 +880,7 @@
             $(".team-input").each(function(idx) {
                 if ($(this).val() === current_user) {
                     $("#" + $.trim($(this).attr("id").replace("-input", "")) + "-button").hide();
+                    $(this).css({width: "100%"});
                 }
             });
         },
