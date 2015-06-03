@@ -56,11 +56,11 @@ textarea[data-panel="base_info"] {
 }
 
 .field-container {
-    padding-right: 0.5em;
+    margin-right: 2em;
 }
 
 .dev_milestone-container.milestone-panel.container-advanced > div {
-    padding-right: 0.5em;
+    padding-right: 1em;
 }
 
 div[data-panel="base_info"] {
@@ -76,3 +76,6 @@ div[data-panel="base_info"] {
     text-transform: capitalize;
 }
 
+#example_query-input {
+    width: 16em;
+}
