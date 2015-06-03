@@ -97,3 +97,8 @@ div[data-panel="base_info"] {
 .dev_milestone-container__body__readonly__a {
     text-transform: capitalize;
 }
+
+#metafield_container {
+    border-bottom: 1px solid $silver-dark;
+    padding-bottom: 1.5em;
+}
