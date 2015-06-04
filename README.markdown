@@ -42,14 +42,12 @@ run:
 This will take some time. You can add `--notest` to the cpanm command, but
 this may result in fires later.
 
-To start, you must first initialize the base database. The default is to use
-SQLite if no Database configuration environment variables are found, but it
-is strongly recommended to use Postgresql. To do this, make sure you set
-the following 3 environment variables before proceeding further (and these
-variables need to be set permanently post this, so you need to put them in
-a `.bashrc` or correspdonding initialization scripts for your shell):
+## TEST DATA
 
-(Use your preferred database name / user / password values)
+Before running the dev server, we need a database schema.
+
+The default is to use SQLite if no DSN configuration environment
+variables are found, e.g.
 
 ```
   export DDGC_DB_DSN='dbi:Pg:database=ddgc';
@@ -57,34 +55,35 @@ a `.bashrc` or correspdonding initialization scripts for your shell):
   export DDGC_DB_PASSWORD='yourdbpass';
 ```
 
-Note: Do ensure that the user ('ddgc' in above example) has the 'createdb'
-and the 'login' permissions. To do this, login to psql as a superuser and run:
+To run the dev environment deployment script, your postgres user requires
+the following permissions:
 
 ```
   ALTER USER ddgc CREATEDB;
   ALTER USER ddgc LOGIN;
 ```
 
-Now, run the script to initialize the base database:
+This script deploys the schema and populates it with a test / dev data set:
 
 ```
   script/ddgc_deploy_dev.pl
 ```
 
-Do note that the script will complain if you already have an existing database
-at the target location. If this happens, you would need to use use the
-`--kill` switch to reset it:
+You can also roll over any existing schema with the `--kill` switch:
 
 ```
   script/ddgc_deploy_dev.pl --kill
 ```
 
-For the flags to work, you need to generate the sprites used for the flags. This
+For the flags to work, you need to generate their sprites. This
 process has to be repeated everytime the country flags are changed.
 
 ```
   script/ddgc_generate_flag_sprites.pl
 ```
+
+Community platform's generated static files, media uploads, caches, duckpan
+packages etc. live in `$HOME/ddgc/`
 
 ## DEVELOPING
 
