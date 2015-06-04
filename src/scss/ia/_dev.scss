@@ -53,19 +53,7 @@ textarea[data-panel="base_info"] {
 
 /* This is for the buttons at the top. Since they're black when they're clicked on, the text should be white. */
 
-#toggle-devpage-static.disabled {
-    color: white;
-}
-
-#toggle-devpage-editable.disabled {
-    color: white;
-}
-
-#toggle-edited.disabled {
-    color: white;
-}
-
-#toggle-live.disabled {
+#toggle-devpage-static.disabled, #toggle-devpage-editable.disabled, #toggle-edited.disabled, #toggle-live.disabled, #pipeline_toggle-dev.disabled, #pipeline_toggle-live.disabled, #pipeline_toggle-deprecated.disabled {
     color: white;
 }
 
