@@ -31,19 +31,15 @@ To proceed with installation, you will also need [Dist::Zilla](https://metacpan.
   cpanm -i Dist::Zilla
 ```
 
-## INSTALLATION
-
-After checking out, you will need to install the prerequisite modules. You must have
-installed [Dist::Zilla](https://metacpan.org/pod/Dist::Zilla).  Then, you can do the
-following to install the base Perl requirements (run this in the source root with
-dist.ini file):
+To install community-platform's Perl dependencies:
 
 ```
-  dzil authordeps --missing | cpanm
-  dzil listdeps --missing | grep -v abstract | cpanm
+  dzil authordeps --missing | cpanm --mirror http://duckpan.org/
+  dzil listdeps --missing | grep -v abstract | cpanm --mirror http://duckpan.org/
 ```
 
-If you're doing this on a fresh Perl install, this may take a while to install.
+This will take some time. You can add `--notest` to the cpanm command, but
+this may result in fires later.
 
 To start, you must first initialize the base database. The default is to use
 SQLite if no Database configuration environment variables are found, but it
