@@ -30,10 +30,6 @@ dist.ini file):
 
 If you're doing this on a fresh Perl install, this may take a while to install.
 
-Additionally, you must install DDGC deps from duckpan:
-
-  duckpan DDGC::Static
-
 To start, you must first initialize the base database. The default is to use
 SQLite if no Database configuration environment variables are found, but it
 is strongly recommended to use Postgresql. To do this, make sure you set
