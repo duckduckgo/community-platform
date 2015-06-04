@@ -111,10 +111,7 @@ To launch a task to rebuild static files when they change, use
 
 ### USER ACCOUNTS
 
-We prepared some accounts for testing in the default setup, those can all be
-accessed with random passwords (yes, you can't test wrong password yet, sorry).
-
-The following account exist:
+The following accounts are created by `ddgc_deploy_dev.pl`:
 
 - **testone** An admin, who is native German but also speaks English.
 
@@ -127,4 +124,7 @@ The following account exist:
 - **testfive** A normal user without public profile, who speaks Russian and
    English.
 
-- Additionally there are also **test1** to **test100** all without any setup.
+- Additionally there are also **test1** to **test40** all without any setup.
+
+Any random password will suffice, as a separate service is used to provide
+authentication in production.
