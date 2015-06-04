@@ -17,7 +17,6 @@ use DDGC::Help;
 use DDGC::Ideas;
 use DDGC::Util::DateTime;
 
-use IO::All;
 use File::Spec;
 use File::ShareDir::ProjectDistDir;
 use Net::AIML;
@@ -77,35 +76,6 @@ has config => (
 );
 sub _build_config { DDGC::Config->new }
 
-has js_version => (
-	isa => 'Str',
-	is => 'ro',
-	lazy_build => 1,
-);
-sub _build_js_version {
-	my ( $self ) = @_;
-	my $ROOT_PATH = $self->config->appdir_path;
-
-	# look for ia.js which doesn't exist in the repo.
-	# If it exists then we are building a debug version.
-	# If it doesn't then continue on to return the version
-	# number for release.
-	if( -f "$ROOT_PATH/root/static/js/ia.js"){
-		return '';
-	}
-
-	my $file = "$ROOT_PATH/package.json";
-	my $pkg < io($file);
-	my $json = decode_json($pkg);
-
-	if($json->{'version'} =~ /(\d+)\.(\d+)\.(\d+)/){
-		my $version = $2 - 1;
-		return qq($1.$version.$3);
-	} else {
-		$self->errorlog("Unable to ascertain JS version from $ROOT_PATH/package.json");
-		return '';
-	}
-}
 
 ####################################################################
 
