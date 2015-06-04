@@ -2,7 +2,7 @@
 
 This is the source code for the DuckDuckGo Community Platform at [duck.co](https://duck.co/)
 
-## REQUIREMENTS
+## REQUIREMENTS / INSTALLATION
 
 The DuckDuckGo Community Platform is built on [Perl](http://www.perl.org/),
 [Catalyst](https://metacpan.org/pod/Catalyst),
@@ -17,7 +17,7 @@ Requires perl 5.16.3 (or higher) and:
 - git
 - wget
 - imagemagick
-- postgresql (recommended, you may get away with mysql / sqlite for now)
+- postgresql (recommended, though you may get away with mysql or sqlite for now)
 
 To install these on Debian / Ubuntu:
 
@@ -31,7 +31,8 @@ To proceed with installation, you will also need [Dist::Zilla](https://metacpan.
   cpanm -i Dist::Zilla
 ```
 
-To install community-platform's Perl dependencies:
+To install community-platform's Perl dependencies, go to its directory and
+run:
 
 ```
   dzil authordeps --missing | cpanm --mirror http://duckpan.org/
