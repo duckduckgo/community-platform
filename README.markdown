@@ -1,6 +1,6 @@
 # DuckDuckGo - Community Platform
 
-**New documentation in progress! Please only try if you know what you are doing**
+This is the source code for the DuckDuckGo Community Platform at [duck.co](https://duck.co/)
 
 ## REQUIREMENTS
 
