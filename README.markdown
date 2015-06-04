@@ -85,31 +85,31 @@ process has to be repeated everytime the country flags are changed.
 Community platform's generated static files, media uploads, caches, duckpan
 packages etc. live in `$HOME/ddgc/`
 
-## DEVELOPING
+## DEVELOPMENT
 
-You can start the web server, if you are inside the repository with:
-
-```
-  script/ddgc_web_server.pl -r -d
-```
-
-If you want to do any of the above activities with intense debug logging you can
-use the following ENV variables before the command, like in this example:
+To launch the development web server:
 
 ```
-  DBIC_TRACE_PROFILE=console DBIC_TRACE=1 script/ddgc_web_server.pl -r -d
+script/ddgc_dev_server.sh
 ```
 
-The `-r` switch assures that it reloads itself, if some of the codefiles are
-changed. For changes on templates he will not restart. (If you work on the blog
-you sadly have to restart by hand if you change the data file).
+This, by default, launches a plack server bound to port 5001 with DBIC and
+Catalyst console debussing enabled with Plack debug panels in rendered output.
 
-The `-d` switch sets the web server into debugging mode. This activates a side
-bar with additional request informations, and also shows you much more
-informations on the terminal. If you don't want those, you can just deactivate
-it. For work on HTML/CSS or the blog it might disturb.
+It watches the `lib/` directory and restarts if there are any changes written.
+It supports the following options:
 
-### ACCOUNTS
+- -p <PORT> - Set port to bind to
+- -m - Use a debug mailer on localhost:1025 (python -m smtpd -n -c DebuggingServer localhost:1025)
+- -n - Don't render Plack debug panels (useful for frontend work)
+
+Front end elements (js, css...) in `src/` are managed by node.js / grunt.
+
+To launch a task to rebuild static files when they change, use
+
+`grunt watch`
+
+### USER ACCOUNTS
 
 We prepared some accounts for testing in the default setup, those can all be
 accessed with random passwords (yes, you can't test wrong password yet, sorry).
