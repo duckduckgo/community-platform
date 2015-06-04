@@ -21,6 +21,8 @@
         <div class="dev_milestone-container__body__readonly" id="producer-txt">
           <a href="/user/{{live.producer}}">{{live.producer}}</a>
         </div>
+      {{else}}
+        none
       {{/if}}
     {{/if}}
 
@@ -37,6 +39,8 @@
             <a href="{{url}}">{{name}}</a>
           {{/each}}
         </div>
+      {{else}}
+        none
       {{/if}}
     {{/if}}
 </div>
