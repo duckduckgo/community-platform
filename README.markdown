@@ -15,14 +15,14 @@ Requires perl 5.16.3 (or higher) and:
 - cpanm ([local::lib](https://metacpan.org/pod/local::lib) and/or [perlbrew](http://perlbrew.pl/) recommended)
 - gcc toolchain (gcc, make, lib headers)
 - git
-- wget
+- libcurl
 - imagemagick
 - postgresql (recommended, though you may get away with mysql or sqlite for now)
 
 To install these on Debian / Ubuntu:
 
 ```
-  apt-get install cpanm build-essential libgd2-xpm-dev libssl-dev git wget libxml2-dev imagemagick perl-doc postgresql libpq-dev
+  apt-get install cpanm build-essential libgd2-xpm-dev libssl-dev git libcurl4-gnutls-dev libxml2-dev imagemagick perl-doc postgresql libpq-dev
 ```
 
 To proceed with installation, you will also need [Dist::Zilla](https://metacpan.org/pod/Dist::Zilla)
