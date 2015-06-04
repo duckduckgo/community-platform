@@ -4,6 +4,12 @@ This is the source code for the DuckDuckGo Community Platform at [duck.co](https
 
 ## REQUIREMENTS
 
+The DuckDuckGo Community Platform is built on [Perl](http://www.perl.org/),
+[Catalyst](https://metacpan.org/pod/Catalyst),
+[DBIx::Class](https://metacpan.org/pod/DBIx::Class),
+[Text::Xslate](https://metacpan.org/pod/Text::Xslate) and
+[Dancer2](https://metacpan.org/pod/Dancer2).
+
 Requires perl 5.16.3 (or higher) and:
 
 - cpanm ([local::lib](https://metacpan.org/pod/local::lib) and/or [perlbrew](http://perlbrew.pl/) recommended)
