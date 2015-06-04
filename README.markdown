@@ -2,7 +2,7 @@
 
 This is the source code for the DuckDuckGo Community Platform at [duck.co](https://duck.co/)
 
-## REQUIREMENTS / INSTALLATION
+## Requirements / Installation
 
 The DuckDuckGo Community Platform is built on [Perl](http://www.perl.org/),
 [Catalyst](https://metacpan.org/pod/Catalyst),
@@ -42,7 +42,7 @@ run:
 This will take some time. You can add `--notest` to the cpanm command, but
 this may result in fires later.
 
-## TEST DATA
+## Test Data
 
 Before running the dev server, we need a database schema.
 
@@ -85,7 +85,7 @@ process has to be repeated everytime the country flags are changed.
 Community platform's generated static files, media uploads, caches, duckpan
 packages etc. live in `$HOME/ddgc/`
 
-## DEVELOPMENT
+## Development
 
 To launch the development web server:
 
@@ -109,7 +109,7 @@ To launch a task to rebuild static files when they change, use
 
 `grunt watch`
 
-### USER ACCOUNTS
+### User Accounts
 
 The following accounts are created by `ddgc_deploy_dev.pl`:
 
