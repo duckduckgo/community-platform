@@ -4,17 +4,26 @@ This is the source code for the DuckDuckGo Community Platform at [duck.co](https
 
 ## REQUIREMENTS
 
-Requires perl 5.14.2 (or higher) and:
+Requires perl 5.16.3 (or higher) and:
 
+- cpanm ([local::lib](https://metacpan.org/pod/local::lib) and/or [perlbrew](http://perlbrew.pl/) recommended)
+- gcc toolchain (gcc, make, lib headers)
+- git
+- wget
+- imagemagick
+- postgresql (recommended, you may get away with mysql / sqlite for now)
+
+To install these on Debian / Ubuntu:
+
+```
   apt-get install cpanm build-essential libgd2-xpm-dev libssl-dev git wget libxml2-dev imagemagick perl-doc postgresql libpq-dev
+```
 
-(This requires PostgreSQL for the recommended setup.)
-The above uses apt-get for Debian-based distributions including Ubuntu.
-If you're using a different distribution, the command may differ.
+To proceed with installation, you will also need [Dist::Zilla](https://metacpan.org/pod/Dist::Zilla)
 
-You'll next need to make sure you install Dist::Zilla module:
-
+```
   cpanm -i Dist::Zilla
+```
 
 ## INSTALLATION
 
