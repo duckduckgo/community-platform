@@ -39,8 +39,8 @@ run:
   dzil listdeps --missing | grep -v abstract | cpanm --mirror http://duckpan.org/
 ```
 
-This will take some time. You can add `--notest` to the cpanm command, but
-this may result in fires later.
+This will take some time. You can add `--notest` to the cpanm command to speed
+things up, but this may result in fires later.
 
 ## Test Data
 
