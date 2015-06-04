@@ -94,7 +94,7 @@ script/ddgc_dev_server.sh
 ```
 
 This, by default, launches a plack server bound to port 5001 with DBIC and
-Catalyst console debussing enabled with Plack debug panels in rendered output.
+Catalyst console debugging enabled with Plack debug panels in rendered output.
 
 It watches the `lib/` directory and restarts if there are any changes written.
 It supports the following options:
