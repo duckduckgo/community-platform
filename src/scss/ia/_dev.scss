@@ -102,3 +102,11 @@ div[data-panel="base_info"] {
     border-bottom: 1px solid $silver-dark;
     padding-bottom: 1.5em;
 }
+
+#contributors, #base_info, #advanced, #testing {
+    margin-top: 1em;
+
+    .dev_milestone-container__body > .dev_milestone-container__body__label.ia-single--header:nth-child(1) {
+        margin-top: 0;
+    }
+}
