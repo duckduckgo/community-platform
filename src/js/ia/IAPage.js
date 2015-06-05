@@ -19,16 +19,8 @@
                 //console.log("for ia id '%s'", DDH_iaid);
 
                 $.getJSON(json_url, function(ia_data) {
-
-                    // Show latest edits for admins and users with edit permissions
-                    var latest_edits_data = {};
-                    if (ia_data.edited) {
-                        latest_edits_data = page.updateData(ia_data, latest_edits_data, true);
-                    } else {
-                        latest_edits_data = ia_data.live;
-                    }
-
-
+                    
+                    //Get user permissions
                     if ($(".special-permissions").length) {
                         ia_data.permissions = {can_edit: 1};
                             
@@ -37,10 +29,19 @@
                         }
                     }
 
+
+                    // Show latest edits for admins and users with edit permissions
+                    var latest_edits_data = {};
+                    if (ia_data.edited || (ia_data.live.dev_milestone !== "live" && ia_data.live.dev_milestone !== "deprecated")) {
+                        latest_edits_data = page.updateData(ia_data, latest_edits_data, true);
+                    } else {
+                        latest_edits_data = ia_data.live;
+                    }
+
                     // Readonly mode templates
                     var readonly_templates = {
                         live: {
-                            name : Handlebars.templates.name(ia_data),
+                            name : Handlebars.templates.name(latest_edits_data),
                             status : Handlebars.templates.status(latest_edits_data),
                             description : Handlebars.templates.description(latest_edits_data),
                             topic : Handlebars.templates.topic(latest_edits_data),
@@ -456,7 +457,7 @@
                                  latest_edits_data = page.updateData(ia_data, latest_edits_data, true);
                             }
 
-                            page.updateHandlebars(readonly_templates, latest_edits_data, ia_data.live.dev_milestone);
+                            page.updateHandlebars(readonly_templates, ia_data, ia_data.live.dev_milestone);
                             page.updateAll(readonly_templates, ia_data.live.dev_milestone, false);
                         }
                     });
@@ -733,7 +734,8 @@
                                     if (field === "name" || field === "dev_milestone") {
                                         $(".ia-single--name").remove();
                                         $("#metafields").remove();
-                                        readonly_templates.live.name = Handlebars.templates.name(ia_data);
+                                        latest_edits_data = page.updateData(ia_data, latest_edits_data, false);
+                                        readonly_templates.live.name = Handlebars.templates.name(latest_edits_data);
                                         $(".ia-single--right").before(readonly_templates.live.name);
                                         $(".ia-single--right").before(readonly_templates.metafields);
                                         $("#metafields").html(readonly_templates.metafields_content);
@@ -839,11 +841,13 @@
         },
 
         updateHandlebars: function(templates, ia_data, dev_milestone) {
-            templates.live.name = Handlebars.templates.name(ia_data);
+            var latest_edits_data = {};
+            latest_edits_data = this.updateData(ia_data, latest_edits_data, false);
+            templates.live.name = Handlebars.templates.name(latest_edits_data);
             
             if (dev_milestone === 'live') {
                 for (var i = 0; i < this.field_order.length; i++) {
-                    templates.live[this.field_order[i]] = Handlebars.templates[this.field_order[i]](ia_data);
+                    templates.live[this.field_order[i]] = Handlebars.templates[this.field_order[i]](latest_edits_data);
                 }
             } else {
                 templates.metafields = Handlebars.templates.metafields(ia_data);
@@ -862,10 +866,16 @@
         updateData: function(ia_data, x, edited) {
             var edited_fields = 0;
             $.each(ia_data.live, function(key, value) {
-                if (edited && ia_data.edited[key]) {
+                if (edited && ia_data.edited && ia_data.edited[key]) {
                     x[key] = ia_data.edited[key];
                     edited_fields++;
                 } else {
+                    x[key] = value;
+                }
+            });
+
+            $.each(ia_data, function(key, value) {
+                if (key !== "live" && key !== "edited") {
                     x[key] = value;
                 }
             });
