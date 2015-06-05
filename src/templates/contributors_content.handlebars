@@ -78,7 +78,7 @@
       {{#if live.developer}}
         <div class="dev_milestone-container__body__readonly" id="developer-txt">
           {{#each live.developer}}
-            <a href="{{url}}">{{name}}</a>
+            <a href="{{url}}">{{name}}</a>{{#unless @last}}, {{/unless}}
           {{/each}}
         </div>
       {{else}}
