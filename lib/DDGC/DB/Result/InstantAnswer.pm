@@ -66,7 +66,8 @@ column perl_dependencies => {
 column dev_milestone => {
 	data_type => 'text',
 	is_nullable => 1,
-    pipeline => 1
+    pipeline => 1,
+    for_endpt => 1,
 };
 
 # is the IA live or not live?
