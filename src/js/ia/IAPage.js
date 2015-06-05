@@ -498,9 +498,7 @@
 
                     $("body").on('click', '.add_input', function(evt) {
                         var $ul = $(this).closest('ul');
-                        console.log($ul.attr('class'));
                         var $new_input = $ul.find('.new_input').first().clone();
-                        console.log($new_input.html());
                         var $last_li = $ul.children('li').last();
                         $last_li.before($new_input.removeClass("hide"));
                     });
@@ -634,6 +632,8 @@
                                 return false;
                             }
                         });
+
+                        return jqxhr;
                     }
 
                     function getGroupVals(field, $obj) {
