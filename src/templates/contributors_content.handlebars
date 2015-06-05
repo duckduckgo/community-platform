@@ -34,15 +34,17 @@
             {{#if live.developer}}
                 {{#each live.developer}}
                     <li class="js-autocommit developer">
-                        <div data-panel="contributors" class="developer button delete listbutton left" name="developer" title="Remove developer">
-                            <i class="icon-remove" />
+                        <div data-panel="contributors" class="developer button delete left" name="developer" title="Remove developer">
+                            <i class="ddgsi ddgsi-close-bold">X</i>
                         </div>
                         {{#eq_or type 'duck.co' 'github'}}
-                            <select data-panel="contributors" class="frm__select available_types left" tabindex="-1" {{#eq type 'legacy'}}disabled="disabled"{{/eq}}>
+                        <span class="frm__select">
+                            <select data-panel="contributors" class="available_types left" tabindex="-1" {{#eq type 'legacy'}}disabled="disabled"{{/eq}}>
                                 {{#if type}}<option value="0">{{type}}</option>{{/if}}
                                 {{#not_eq type 'duck.co'}}<option value="1">duck.co</option>{{/not_eq}}
                                 {{#not_eq type 'github'}}<option value="2">github</option>{{/not_eq}}
                             </select>
+                        </span>
                         {{/eq_or}}
                         <span class="developer_username left type-{{type}}">
                             <input type="text" data-panel="contributors" class="frm__input" {{#eq_or type 'duck.co' 'github'}}value="{{final_path url}}"{{/eq_or}} {{#eq type 'legacy'}}value="{{url}}" disabled="disabled"{{/eq}}/>
