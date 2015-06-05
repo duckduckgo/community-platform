@@ -122,20 +122,7 @@
                             var type = $.trim($available_types.find("option:selected").text());
                             var username = $.trim($dev_username.val());
 
-                            var valid = usercheck(type, username, $available_types, $dev_username);
-
-                            if (valid && $parent.hasClass("js-autocommit")) {
-                                var field = "developer";
-                                var value = getGroupVals(field);
-                                var is_json = true;
-                                var panel = $(this).attr("data-panel");
-
-                                value = JSON.stringify(value);
-
-                                if (field.length && value !== ia_data.live[field]) { 
-                                    autocommit(field, value, DDH_iaid, is_json, panel);
-                                }
-                            }
+                            usercheck(type, username, $available_types, $dev_username);
                         }
                     });
 
@@ -625,15 +612,24 @@
                             if (data.result) {
                                 $type.removeClass("invalid");
                                 $username.removeClass("invalid");
-                                return true;
+
+                                if (ia_data.live.dev_milestone !== "live" && ia_data.live.dev_milestone !== "deprecated") {
+                                    var field = "developer";
+                                    var value = getGroupVals(field);
+                                    var is_json = true;
+                                    var panel = "contributors";
+
+                                    value = JSON.stringify(value);
+
+                                    if (field.length && value !== ia_data.live[field]) { 
+                                        autocommit(field, value, DDH_iaid, is_json, panel);
+                                    }
+                                }
                             } else {
                                 $type.addClass("invalid");
                                 $username.addClass("invalid");
-                                return false;
                             }
                         });
-
-                        return jqxhr;
                     }
 
                     function getGroupVals(field, $obj) {
