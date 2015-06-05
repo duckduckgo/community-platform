@@ -379,7 +379,7 @@ a.fill {
 }
 	.lt-ie9 .site-header { background: #e2e2e2;}
 	.site-header .content-wrap { overflow: hidden; }
-	.header-logo { width: 300px; float: left; }
+	.header-logo { width: 265px; float: left; }
 		.header-logo__logo { 
 			width: 46px;
 			height: 46px; 
@@ -608,7 +608,7 @@ a.fill {
 				border-left: 1px solid #d5d5d5;
 			}
 			
-		.header-nav .active a, .header-nav a:hover, .header-nav ul li:first-child a:hover, .page-home li.nav-home a, .page-blog li.nav-blog a, .page-translate li.nav-translate a, .page-forums li.nav-forums a, .page-help li.nav-help a  { 
+		.header-nav .active a, .header-nav a:hover, .header-nav ul li:first-child a:hover, .page-home li.nav-home a, .page-blog li.nav-blog a, .page-translate li.nav-translate a, .page-develop li.nav-develop a, .page-forums li.nav-forums a, .page-help li.nav-help a  { 
 			color: black; 
 			background: #cdcdcd;
 			border-left-color: #bbb;
@@ -915,7 +915,7 @@ filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=2);
 	.header-nav, .header-notice { clear: both; float: none; padding-top: 4px;}
 		.header-nav ul { float: none; }
 		.header-nav li { 
-			width: 25%; /* assuming 4 nav items */ 
+			width: 20%; /* assuming 4 nav items */
 			-webkit-box-sizing: border-box;
 			-moz-box-sizing: border-box;
 			-ms-box-sizing: border-box;

@@ -111,12 +111,11 @@
     height: 2.21em;
 }
 .ia-single span input {
-    height: 1.52em;
     width: 8em;
 }
 
 .ia-single span.developer_username input {
-    width: 4.5em;
+    width: 9.55em;
     border-left: 0;
     border: 1px solid #5b9e4d;
 }
@@ -146,8 +145,6 @@
     border-bottom-right-radius: 0;
     height: 1.75em;
     color: #fff;
-    background-color: #5b9e4d;
-    border: 1px solid #5b9e4d;
  }
 
  .ia-single select.left.available_types.invalid {
@@ -1250,10 +1247,6 @@ input.not_saved, select.not_saved, .button.not_saved {
     color: #DE5833;
 }
 
-input.saved, select.saved, .button.saved {
-    border: 1px solid #5B9E4D;
-}
-
 .saved {
     color: #5B9E4D;
 }
@@ -1287,7 +1280,7 @@ input.saved, select.saved, .button.saved {
 .ia-single .dev_milestone-container .ia-single--header,
 #metafield_container .ia-single--header {
     margin: 0;
-    margin-top: 1em;
+    margin-top: 0.7em;
 }
 
 .ia-single .dev_milestone-container.current-container {

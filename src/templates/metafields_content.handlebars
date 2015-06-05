@@ -15,20 +15,14 @@
           {{/if}}
         </div>
 
-        <div class="field-container left">
-            <div class="dev_milestone-container__body__label ia-single--header">
-              ID
-            </div>
-            {{#if permissions.admin}}
+        {{#if permissions.admin}}
+            <div class="field-container left">
+                <div class="dev_milestone-container__body__label ia-single--header">
+                    ID
+                </div>
                 <input data-panel="metafields" type="text" class="frm__input id js-autocommit metafield" id="id-input" value="{{live.id}}" />
-            {{else}}
-                {{#if live.id}}    
-                    <div class="dev_milestone-container__body__readonly" id="id-txt">
-                        {{live.id}}
-                    </div>
-                {{/if}}
-            {{/if}}
-        </div>
+            </div>
+        {{/if}}
 
         <div class="field-container left">
             <div class="dev_milestone-container__body__label ia-single--header">
@@ -46,12 +40,16 @@
                 </span>
             {{else}}
                 <div class="dev_milestone-container__body__readonly" id="repo-txt">
-                    <a class="dev_milestone-container__body__readonly__a" href="https://github.com/duckduckgo/zeroclickinfo-{{live.repo}}">
-                        {{live.repo}}
-                    </a>
-                    <a class="dev_milestone-container__body__readonly__a docs-link" href="https://duck.co/duckduckhack/{{live.repo}}_overview">
-                        <i class="dev_milestone-container__body__readonly__a__icon docs-link-icon icon-question-sign" />
-                    </a>
+                    {{#if live.repo}}
+                        <a class="dev_milestone-container__body__readonly__a" href="https://github.com/duckduckgo/zeroclickinfo-{{live.repo}}">
+                            {{live.repo}}
+                        </a>
+                        <a class="dev_milestone-container__body__readonly__a docs-link" href="https://duck.co/duckduckhack/{{live.repo}}_overview">
+                            <i class="dev_milestone-container__body__readonly__a__icon docs-link-icon icon-question-sign" />
+                        </a>
+                    {{else}}
+                        none
+                    {{/if}}
                 </div>
             {{/if}}
         </div>
@@ -64,7 +62,11 @@
                 <input data-panel="metafields" type="text" class="frm__input perl_module dev_milestone-container__body__input js-autocommit" id="perl_module-input" value="{{live.perl_module}}" />
             {{else}}
                 <div class="dev_milestone-container__body__readonly" id="perl_module-txt">
-                    {{live.perl_module}}        
+                    {{#if live.perl_module}}
+                        {{live.perl_module}}
+                    {{else}}
+                        none
+                    {{/if}}
                 </div>
             {{/if}}
         </div>

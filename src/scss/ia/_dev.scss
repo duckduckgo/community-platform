@@ -53,19 +53,7 @@ textarea[data-panel="base_info"] {
 
 /* This is for the buttons at the top. Since they're black when they're clicked on, the text should be white. */
 
-#toggle-devpage-static.disabled {
-    color: white;
-}
-
-#toggle-devpage-editable.disabled {
-    color: white;
-}
-
-#toggle-edited.disabled {
-    color: white;
-}
-
-#toggle-live.disabled {
+#toggle-devpage-static.disabled, #toggle-devpage-editable.disabled, #toggle-edited.disabled, #toggle-live.disabled, #pipeline_toggle-dev.disabled, #pipeline_toggle-live.disabled, #pipeline_toggle-deprecated.disabled {
     color: white;
 }
 
@@ -100,5 +88,46 @@ div[data-panel="base_info"] {
 
 #metafield_container {
     border-bottom: 1px solid $silver-dark;
-    padding-bottom: 1.5em;
+    padding-bottom: 3.5em;
+}
+
+#contributors, #base_info, #advanced, #testing {
+    margin-top: 1em;
+
+    .dev_milestone-container__body > .dev_milestone-container__body__label.ia-single--header:nth-child(1) {
+        margin-top: 0;
+    }
+}
+
+#advanced {
+    margin-top: 2em;
+}
+
+.developer {
+    .frm__select {
+        background: $green;
+        width: 7em;
+    }
+
+    .frm__select.invalid {
+        background: $red-dark;
+    }
+
+    .invalid input.frm__input {
+        border-color: $red-dark;
+    }
+}
+
+.editpage span.developer_username input[type="text"] {
+    width: 4.5em;
+}
+
+select.available_types {
+    background-color: $green;
+}
+
+.invalid {
+    select.available_types {
+        background-color: $red-dark;
+    }
 }
