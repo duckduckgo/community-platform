@@ -103,13 +103,16 @@
                              || (evt.type === "focusout" && $(this).hasClass("focused"))) {
                             var $available_types;
                             var $dev_username;
+                            var $parent;
 
-                            if (evt.type !== "change") {
-                                $available_types = $(this).parent().parent().find(".available_types");
-                                $dev_username = $(this).parent().parent().find(".developer_username input");
+                            if (evt.type !== "change" || (ia_data.live.dev_milestone !== "live" && ia_data.live.dev_milestone !== "deprecated")) {
+                                $parent = $(this).parent().parent();
+                                $available_types = $parent.find(".available_types");
+                                $dev_username = $parent.find(".developer_username input");
                             } else {
-                                $available_types = $(this).parent().find(".available_types");
-                                $dev_username = $(this).parent().find(".developer_username input");
+                                $parent =  $(this).parent();
+                                $available_types = $parent.find(".available_types");
+                                $dev_username = $parent.find(".developer_username input");
                             }
 
                             if ($(this).hasClass("focused")) {
@@ -481,8 +484,10 @@
                     });
 
                     $("body").on('click', '.add_input', function(evt) {
-                        $new_input = $(this).parent().find('.new_input').first().clone();
-                        $(this).before($new_input.removeClass("hide"));
+                        var $ul = $(this).closest('ul');
+                        var $new_input = $ul.find('.new_input').first().clone();
+                        var $last_li = $ul.children('li').last();
+                        $last_li.before($new_input.removeClass("hide"));
                     });
 
                     $("body").on('click', '#add_topic', function(evt) {
@@ -495,41 +500,41 @@
                     });
 
                     $("body").on("click", ".button.delete", function(evt) {
-                        if (ia_data.live.dev_milestone === "live") {
-                            var field = $(this).attr('name');
+                        var field = $(this).attr('name');
+                        
+                        // If dev milestone is not 'live' it means we are in the dev page
+                        // and a topic has been deleted (it's the only field having a delete button in the dev page
+                        // so far) - so we must save
+                        if ($(this).hasClass("js-autocommit") || $(this).parent().hasClass("js-autocommit")) {
+                            var value = [];
+                            var is_json = true;
+                            var panel = $.trim($(this).attr("data-panel"));
+                            var temp;
+                            var $selector;
+                            var $parent = $(this).parent();
+                            
+                            if (field === "topic") {
+                                $parent.find('.topic-group option[value="0"]').empty();
+                                $parent.find('.topic-group').val('0');
+
+                                $selector = $("select.js-autocommit.topic-group");
+                            } else {
+                                $(this).parent().remove();
+                            }
+
+                            value = getGroupVals(field, $selector);
+                            value = JSON.stringify(value); 
+
+                            if (field.length && value.length) {
+                                autocommit(field, value, DDH_iaid, is_json, panel);
+                            }
+                        } else {
                             if (field !== "topic") {
                                 $(this).parent().remove();
                             } else {
                                 var $select = $(this).parent().find('.available_topics');
                                 $select.find('option[value="0"]').empty();
                                 $select.val('0');
-                            }
-                       } else {
-                            // If dev milestone is not 'live' it means we are in the dev page
-                            // and a topic has been deleted (it's the only field having a delete button in the dev page
-                            // so far) - so we must save
-                            if ($(this).hasClass("js-autocommit")) {
-                                var field = "topic";
-                                var value = [];
-                                var is_json = true;
-                                var panel = $.trim($(this).attr("data-panel"));
-                                var temp;
-                                var $parent = $(this).parent();
-                                $parent.find('.topic-group option[value="0"]').empty();
-                                $parent.find('.topic-group').val('0');
-                                $("select.js-autocommit.topic-group").each(function(idx) {
-                                    temp = $.trim($(this).find("option:selected").text());
-
-                                    if (temp.length) {
-                                        value.push(temp);
-                                    }
-                                });
-
-                                value = JSON.stringify(value); 
-
-                                if (field.length && value.length) {
-                                    autocommit(field, value, DDH_iaid, is_json, panel);
-                                }
                             }
                         }
                    });
@@ -570,34 +575,8 @@
                             if ((evt.type === "click"
                                 && (field === "topic" || field === "other_queries" || field === "triggers" || field === "perl_dependencies" || field === "src_options")) 
                                 || (field === "answerbar") || (field === "developer")) {
-                                value = [];
-                                var temp_val;
                                 if (field !== "answerbar" && field !== "src_options") {
-                                    var $selector = (field === "topic")? $(".ia_topic .available_topics option:selected") : $("." + field + " input");
-                                    $selector.each(function(index) {
-                                        if (field === "developer") {
-                                            var $li_item = $(this).parent().parent();
-                                            
-                                            temp_val = {};
-                                            temp_val.name = $.trim($(this).val());
-                                            temp_val.type = $.trim($li_item.find(".available_types").find("option:selected").text()) || "legacy";
-                                            temp_val.username = $.trim($li_item.find(".developer_username input").val());
-
-                                            if (!temp_val.username) {
-                                                return;
-                                            }
-                                        } else {
-                                            if (field === "topic") {
-                                                temp_val = $(this).attr("value").length? $.trim($(this).text()) : '';
-                                            } else {
-                                                temp_val = $.trim($(this).val());
-                                            }
-                                        }
-                                         
-                                        if (temp_val && $.inArray(temp_val, value) === -1) {
-                                            value.push(temp_val);
-                                        }
-                                    });
+                                    value = getGroupVals(field);
                                 } else if (field === "src_options") {
                                     value = {};
                                     value = getSectionVals(null, "src_options-group");
@@ -631,13 +610,57 @@
                         })
                         .done(function(data) {
                             if (data.result) {
-                                $type.removeClass("invalid");
-                                $username.removeClass("invalid");
+                                $type.parent().removeClass("invalid");
+                                $username.parent().removeClass("invalid");                                
+                                if (ia_data.live.dev_milestone !== "live" && ia_data.live.dev_milestone !== "deprecated") {
+                                    var field = "developer";
+                                    var value = getGroupVals(field);
+                                    var is_json = true;
+                                    var panel = "contributors";
+
+                                    value = JSON.stringify(value);
+
+                                    if (field.length && value !== ia_data.live[field]) { 
+                                        autocommit(field, value, DDH_iaid, is_json, panel);
+                                    }
+                                }
                             } else {
-                                $type.addClass("invalid");
-                                $username.addClass("invalid");
+                                $type.parent().addClass("invalid");
+                                $username.parent().addClass("invalid");
                             }
                         });
+                    }
+
+                    function getGroupVals(field, $obj) {
+                        var $selector = $obj || (field === "topic")? $(".ia_topic .available_topics option:selected") : $("." + field + " input");
+                        var temp_val;
+                        var value = [];
+                        $selector.each(function(index) {
+                            if (field === "developer") {
+                                var $li_item = $(this).parent().parent();
+                                    
+                                temp_val = {};
+                                temp_val.name = $.trim($(this).val());
+                                temp_val.type = $.trim($li_item.find(".available_types").find("option:selected").text()) || "legacy";
+                                temp_val.username = $.trim($li_item.find(".developer_username input").val());
+
+                                if (!temp_val.username) {
+                                    return;
+                                }
+                            } else {
+                                if (field === "topic") {
+                                    temp_val = $(this).attr("value").length? $.trim($(this).text()) : '';
+                                } else {
+                                    temp_val = $.trim($(this).val());
+                                }
+                            }
+                                 
+                            if (temp_val && $.inArray(temp_val, value) === -1) {
+                                value.push(temp_val);
+                            }
+                        });
+
+                        return value;
                     }
 
                     function getSectionVals($obj, parent_field) {
@@ -724,8 +747,12 @@
                                     
                                         page.appendTopics($(".topic-group"));
                                         page.hideAssignToMe();
-                                    
-                                        $panel_body.find("." + field).addClass(saved_class);
+                                   
+                                        // Developer field is already highlighted in green
+                                        // when the user check is successful
+                                        if (field !== "developer") { 
+                                            $panel_body.find("." + field).addClass(saved_class);
+                                        }
                                     }
                                 } 
                             }
