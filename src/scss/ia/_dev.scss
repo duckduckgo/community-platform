@@ -108,4 +108,12 @@ div[data-panel="base_info"] {
         background: $green;
         width: 7em;
     }
+
+    .frm__select.invalid {
+        background: $red-dark;
+    }
+
+    .invalid input.frm__input {
+        border-color: $red-dark;
+    }
 }
