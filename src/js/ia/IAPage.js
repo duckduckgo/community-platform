@@ -122,20 +122,7 @@
                             var type = $.trim($available_types.find("option:selected").text());
                             var username = $.trim($dev_username.val());
 
-                            var valid = usercheck(type, username, $available_types, $dev_username);
-
-                            if (valid && $parent.hasClass("js-autocommit")) {
-                                var field = "developer";
-                                var value = getGroupVals(field);
-                                var is_json = true;
-                                var panel = $(this).attr("data-panel");
-
-                                value = JSON.stringify(value);
-
-                                if (field.length && value !== ia_data.live[field]) { 
-                                    autocommit(field, value, DDH_iaid, is_json, panel);
-                                }
-                            }
+                            usercheck(type, username, $available_types, $dev_username);
                         }
                     });
 
@@ -498,9 +485,7 @@
 
                     $("body").on('click', '.add_input', function(evt) {
                         var $ul = $(this).closest('ul');
-                        console.log($ul.attr('class'));
                         var $new_input = $ul.find('.new_input').first().clone();
-                        console.log($new_input.html());
                         var $last_li = $ul.children('li').last();
                         $last_li.before($new_input.removeClass("hide"));
                     });
@@ -626,12 +611,22 @@
                         .done(function(data) {
                             if (data.result) {
                                 $type.parent().removeClass("invalid");
-                                $username.parent().removeClass("invalid");
-                                return true;
+                                $username.parent().removeClass("invalid");                                
+                                if (ia_data.live.dev_milestone !== "live" && ia_data.live.dev_milestone !== "deprecated") {
+                                    var field = "developer";
+                                    var value = getGroupVals(field);
+                                    var is_json = true;
+                                    var panel = "contributors";
+
+                                    value = JSON.stringify(value);
+
+                                    if (field.length && value !== ia_data.live[field]) { 
+                                        autocommit(field, value, DDH_iaid, is_json, panel);
+                                    }
+                                }
                             } else {
                                 $type.parent().addClass("invalid");
                                 $username.parent().addClass("invalid");
-                                return false;
                             }
                         });
                     }
