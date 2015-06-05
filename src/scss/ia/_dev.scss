@@ -117,3 +117,17 @@ div[data-panel="base_info"] {
         border-color: $red-dark;
     }
 }
+
+.editpage span.developer_username input[type="text"] {
+    width: 4.5em;
+}
+
+select.available_types {
+    background-color: $green;
+}
+
+.invalid {
+    select.available_types {
+        background-color: $red-dark;
+    }
+}
