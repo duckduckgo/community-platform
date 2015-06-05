@@ -105,7 +105,7 @@
                             var $dev_username;
                             var $parent;
 
-                            if (evt.type !== "change") {
+                            if (evt.type !== "change" || (ia_data.live.dev_milestone !== "live" && ia_data.live.dev_milestone !== "deprecated")) {
                                 $parent = $(this).parent().parent();
                                 $available_types = $parent.find(".available_types");
                                 $dev_username = $parent.find(".developer_username input");
