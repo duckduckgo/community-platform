@@ -52,21 +52,23 @@
                 {{/each}}
             {{/if}}
             <li class="hide new_input js-autocommit developer">
-                <div data-panel="contributors" class="button delete listbutton left" name="developer" title="Remove developer">
-                    <i class="icon-remove" />
+                <div data-panel="contributors" class="button delete left" name="developer" title="Remove developer">
+                    <i class="ddgsi ddgsi-close-bold">X</i>
                 </div>
-                <select data-panel="contributors" class="frm__select available_types left" tabindex="-1">
+                <span class="frm__select">
+                  <select data-panel="contributors" class="available_types left" tabindex="-1">
                     <option value="0">duck.co</option>
                     <option value="1">github</option>
-                </select>
+                  </select>
+                </span>
                 <span class="developer_username left">
                     <input data-panel="contributors" class="frm__input" type="text"/>
                 </span>
                 <span class="clearfix"></span>
             </li>
             <li class="add_input" id="add_developer">
-                <div class="button listbutton" id="add_developer_button" title="Add developer">
-                    <i class="icon-plus" />
+                <div class="button" id="add_developer_button" title="Add developer">
+                    <i class="ddgsi ddgsi-plus"></i>
                 </div>
             </li>
         </ul>
