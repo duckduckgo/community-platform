@@ -122,9 +122,9 @@
                             var type = $.trim($available_types.find("option:selected").text());
                             var username = $.trim($dev_username.val());
 
-                            usercheck(type, username, $available_types, $dev_username);
+                            var valid = usercheck(type, username, $available_types, $dev_username);
 
-                            if ($parent.hasClass("js-autocommit")) {
+                            if (valid && $parent.hasClass("js-autocommit")) {
                                 var field = "developer";
                                 var value = getGroupVals(field);
                                 var is_json = true;
@@ -627,9 +627,11 @@
                             if (data.result) {
                                 $type.removeClass("invalid");
                                 $username.removeClass("invalid");
+                                return true;
                             } else {
                                 $type.addClass("invalid");
                                 $username.addClass("invalid");
+                                return false;
                             }
                         });
                     }
