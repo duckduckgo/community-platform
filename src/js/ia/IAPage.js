@@ -625,12 +625,12 @@
                         })
                         .done(function(data) {
                             if (data.result) {
-                                $type.removeClass("invalid");
-                                $username.removeClass("invalid");
+                                $type.parent().removeClass("invalid");
+                                $username.parent().removeClass("invalid");
                                 return true;
                             } else {
-                                $type.addClass("invalid");
-                                $username.addClass("invalid");
+                                $type.parent().addClass("invalid");
+                                $username.parent().addClass("invalid");
                                 return false;
                             }
                         });
