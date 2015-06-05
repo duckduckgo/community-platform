@@ -497,8 +497,12 @@
                     });
 
                     $("body").on('click', '.add_input', function(evt) {
-                        $new_input = $(this).parent().find('.new_input').first().clone();
-                        $(this).before($new_input.removeClass("hide"));
+                        var $ul = $(this).closest('ul');
+                        console.log($ul.attr('class'));
+                        var $new_input = $ul.find('.new_input').first().clone();
+                        console.log($new_input.html());
+                        var $last_li = $ul.children('li').last();
+                        $last_li.before($new_input.removeClass("hide"));
                     });
 
                     $("body").on('click', '#add_topic', function(evt) {
