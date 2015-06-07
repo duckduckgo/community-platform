@@ -123,7 +123,9 @@
                             var type = $.trim($available_types.find("option:selected").text());
                             var username = $.trim($dev_username.val());
 
-                            usercheck(type, username, $available_types, $dev_username);
+                            if (username && type) {
+                                usercheck(type, username, $available_types, $dev_username);
+                            }
                         }
                     });
 
