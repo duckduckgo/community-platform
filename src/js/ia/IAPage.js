@@ -515,10 +515,11 @@
                             var $parent = $(this).parent();
                             
                             if (field === "topic") {
-                                $parent.find('.topic-group option[value="0"]').empty();
-                                $parent.find('.topic-group').val('0');
+                                var $select = $parent.find('.topic-group');
+                                $select.find('option[value="0"]').empty();
+                                $select.val('0');
 
-                                $selector = $("select.js-autocommit.topic-group");
+                                $selector = $("select.js-autocommit.topic-group option:selected");
                             } else {
                                 $(this).parent().remove();
                             }
@@ -633,9 +634,16 @@
                     }
 
                     function getGroupVals(field, $obj) {
-                        var $selector = $obj || (field === "topic")? $(".ia_topic .available_topics option:selected") : $("." + field + " input");
+                        var $selector;
                         var temp_val;
                         var value = [];
+                        
+                        if ($obj) {
+                            $selector = $obj;
+                        } else {
+                            $selector = (field === "topic")? $(".ia_topic .available_topics option:selected") : $("." + field + " input");
+                        }
+                        
                         $selector.each(function(index) {
                             if (field === "developer") {
                                 var $li_item = $(this).parent().parent();
@@ -650,7 +658,7 @@
                                 }
                             } else {
                                 if (field === "topic") {
-                                    temp_val = $(this).attr("value").length? $.trim($(this).text()) : '';
+                                    temp_val = $(this).attr("value").length? $.trim($(this).text()) : "";
                                 } else {
                                     temp_val = $.trim($(this).val());
                                 }
