@@ -10,7 +10,6 @@ use File::chdir;
 use JSON::MaybeXS;
 use DateTime;
 use IO::All -utf8;
-use CPAN::Documentation::HTML;
 use File::ShareDir::ProjectDistDir;
 use version;
 
@@ -30,17 +29,6 @@ sub cpan_repository {
 	});
 	$repo->initialize unless $repo->is_initialized;
 	return $repo;
-}
-
-sub cpan_documentation_html {
-	my ($self) = @_;
-	my $cdh = CPAN::Documentation::HTML->new({
-		root => $self->ddgc->config->duckpandir,
-                assets => {
-                    'default.css' => file(dist_dir('DDGC'), 'docroot_duckpan', 'duckpan.css'),
-                    'default.png' => file(dist_dir('DDGC'), 'docroot_duckpan', 'logo.png'),
-                },
-	});
 }
 
 sub modules { shift->cpan_repository->modules }
@@ -92,12 +80,6 @@ sub add_user_distribution {
 	my $distribution_filename_duckpan = $self->cpan_repository->add_author_distribution(uc($user->username),$distribution_filename);
 	$self->log("Adding release",$dist_data->name,$dist_data->version);
 	my $release = $self->add_release( $user, $dist_data->name, $dist_data->version, $distribution_filename_duckpan);
-        eval {
-		my $cdh = $self->cpan_documentation_html;
-		$cdh->add_dist($distribution_filename);
-		$cdh->save_cache;
-		$cdh->save_index;
-        };
         if ($@) {
             $self->log("ERROR",'Could not generate documentation for',$dist_data->name,$dist_data->version,$@);
             return "Failed to parse your POD. Perhaps you should test it first?";
