@@ -130,3 +130,12 @@ select.available_types {
 .docs-link-icon {
     color: $grey-light;
 }
+
+.third {
+    width: 28%;
+    margin-left: 4.7em;
+}
+
+#advanced > .third:first-child {
+    margin-left: 0;
+}

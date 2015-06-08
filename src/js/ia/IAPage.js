@@ -963,7 +963,7 @@
                     $(".ia-single--right").before(templates.metafields);
                     $("#metafields").html(templates.metafields_content);
                     
-                    $(".ia-single--right").append(templates.advanced);
+                    $(".ia-single--wide").append(templates.advanced);
                     $("#advanced").html(templates.advanced_content);
 
                     this.appendTopics($(".topic-group"));
