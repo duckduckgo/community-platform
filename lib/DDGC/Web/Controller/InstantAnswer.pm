@@ -896,12 +896,12 @@ sub add_edit {
     my ($c, $ia, $field, $value) = @_;
     warn Dumper("Field: $field, value $value") if debug;
     my $column_data = $ia->column_info($field);
-    $value = decode_json($value) if $column_data->{is_json} || $field eq 'topic';
+    $value = from_json($value) if $column_data->{is_json} || $field eq 'topic';
     
     $c->d->rs('InstantAnswer::Updates')->create({
                 instant_answer_id => $ia->id,
                 field => $field,
-                value => encode_json({field => $value}),
+                value => to_json({field => $value}),
                 timestamp => time
     });    
 }
