@@ -48,8 +48,8 @@
 <: } :>
 
 <div class="ia-single clearfix">
-     <div class="ia-single--right right"></div>
-     <div class="ia-single--left left"></div>
+     <div class="ia-single--right <: if $dev_milestone != 'live' && $dev_milestone != 'deprecated' { :> left <: } else { :> right <: } :>"></div>
+     <div class="ia-single--left <: if $dev_milestone != 'live' && $dev_milestone != 'deprecated' { :> right <: } else { :> left <: } :>"></div>
      <div class="ia-single--edits hide">
         <div id="row-title">
             <h2 class="left row-title__live" id="row-title-live">
