@@ -1,35 +1,12 @@
 <div class="dev_milestone-container__body">
     <div id="metafield_container">
-        <div class="field-container left">          
-          {{#if live.pr.id}}
-            <div class="dev_milestone-container__body__label ia-single--header">
-              PULL REQUEST
-            </div>
-            {{#if live.pr.id}}    
-              <div class="dev_milestone-container__body__readonly" id="pr-txt">
-                <a href="https://github.com/duckduckgo/zeroclickinfo-{{live.repo}}/issues/{{live.pr.id}}" class="dev_milestone-container__body__readonly__a" id="pr">
-                #{{live.pr.id}}
-                </a>
-              </div>
-            {{/if}}
-          {{/if}}
-        </div>
-
-        {{#if permissions.admin}}
-            <div class="field-container left">
-                <div class="dev_milestone-container__body__label ia-single--header">
-                    ID
-                </div>
-                <input data-panel="metafields" type="text" class="frm__input id js-autocommit metafield" id="id-input" value="{{live.id}}" />
-            </div>
-        {{/if}}
 
         <div class="field-container left">
-            <div class="dev_milestone-container__body__label ia-single--header">
-                TYPE
-            </div>
             {{#if permissions.can_edit}}
-                <span class="frm__select">
+                 <div class="left dev_milestone-container__body__label ia-single--label">
+                    Type
+                </div>
+                <span class="frm__select left">
                   <select class="dev_milestone-container__body__select js-autocommit repo" data-panel="metafields" tabindex="-1" id="repo-select">
                     <option value="0">{{live.repo}}</option>
                     {{#not_eq live.repo 'fathead'}}<option value="1">fathead</option>{{/not_eq}}
@@ -38,6 +15,7 @@
                     {{#not_eq live.repo 'spice'}}<option value="4">spice</option>{{/not_eq}}
                   </select>
                 </span>
+                <span class="clearfix"></span>
             {{else}}
                 <div class="dev_milestone-container__body__readonly" id="repo-txt">
                     {{#if live.repo}}
@@ -53,23 +31,76 @@
                 </div>
             {{/if}}
         </div>
-
+        
         <div class="field-container left">
-            <div class="dev_milestone-container__body__label ia-single--header">
-                PERL MODULE
-            </div>
-            {{#if permissions.can_edit}}
-                <input data-panel="metafields" type="text" class="frm__input perl_module dev_milestone-container__body__input js-autocommit" id="perl_module-input" value="{{live.perl_module}}" />
-            {{else}}
-                <div class="dev_milestone-container__body__readonly" id="perl_module-txt">
-                    {{#if live.perl_module}}
-                        {{live.perl_module}}
-                    {{else}}
-                        none
-                    {{/if}}
-                </div>
+            {{#if live.pr.id}}    
+              <div class="dev_milestone-container__body__readonly" id="pr-txt">
+                <a href="https://github.com/duckduckgo/zeroclickinfo-{{live.repo}}/issues/{{live.pr.id}}" class="dev_milestone-container__body__readonly__a" id="pr">
+                    PR #{{live.pr.id}}
+                </a>
+              </div>
             {{/if}}
         </div>
+
+        {{#if permissions.admin}}
+            <div class="field-container left">
+                <div class="left dev_milestone-container__body__label ia-single--label">
+                    ID
+                </div>
+                <input data-panel="metafields" type="text" class="left frm__input id js-autocommit metafield" id="id-input" value="{{live.id}}" />
+            </div>
+        {{/if}}
+  
+        
+        <div class="field-container left">
+            <div class="ia-single--label left">
+                Topics
+            </div>
+            {{#if permissions.can_edit}}
+              <div class="separator topic-separator left">
+                <div data-panel="metafields" class="topic button delete left js-autocommit" name="topic" title="Remove this topic">
+                  <i class="ddgsi ddgsi-close-bold">X</i>
+                </div>
+                <span class="frm__select">
+                  <select data-panel="metafields" class="topic js-autocommit topic-group left" id="first-topic-select">
+                    <option value="0">{{index live.topic 0}}</option>
+                  </select>
+                </span>
+                <span class="clearfix"></span>
+              </div>
+              <div class="separator topic-separator left">
+                <div data-panel="metafields" class="topic button delete left js-autocommit" name="topic" title="Remove this topic">
+                  <i class="ddgsi ddgsi-close-bold">X</i>
+                </div>
+                <span class="frm__select">
+                  <select data-panel="metafields" class="topic js-autocommit topic-group left" id="second-topic-select">
+                    <option value="0">{{index live.topic 1}}</option>
+                  </select>
+                </span>
+                <span class="clearfix"></span>
+              </div>
+              <div class="separator topic-separator left">
+                <div data-panel="metafields" class="topic button delete left js-autocommit" name="topic" title="Remove this topic">
+                  <i class="ddgsi ddgsi-close-bold">X</i>
+                </div>
+                <span class="frm__select">
+                  <select data-panel="metafields" class="topic js-autocommit topic-group left" id="third-topic-select">
+                    <option value="0">{{index live.topic 2}}</option>
+                  </select>
+                </span>
+                <span class="clearfix"></span>
+              </div>
+            {{else}}
+              <div id="topic-txt" class="left">
+                {{#if live.topic}}
+                        {{live.topic}} 
+                {{else}}
+                    none
+                {{/if}}
+              </div>
+            {{/if}}
+            <span class="clearfix"></span>
+          </div>
 
         <span class="clearfix"></span>
     </div>

@@ -8,6 +8,21 @@
 
     <div class="dev_milestone-container__body container-advanced__body">
         <div class="dev_milestone-container__body__label ia-single--header">
+            PERL MODULE
+        </div>
+        {{#if permissions.can_edit}}
+            <input data-panel="advanced" type="text" class="frm__input perl_module dev_milestone-container__body__input js-autocommit" id="perl_module-input" value="{{live.perl_module}}" />
+        {{else}}
+            <div class="dev_milestone-container__body__readonly" id="perl_module-txt">
+                {{#if live.perl_module}}
+                    {{live.perl_module}}
+                {{else}}
+                    none
+                {{/if}}
+            </div>
+        {{/if}}
+    
+        <div class="dev_milestone-container__body__label ia-single--header">
             PERL DEPENDENCIES
         </div>
         {{#if permissions.can_edit}}

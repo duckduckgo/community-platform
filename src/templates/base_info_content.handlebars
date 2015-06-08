@@ -20,55 +20,7 @@
                     none
                 {{/if}}
               {{/if}}
-          
-            <div class="ia-single--header">
-              TOPICS
-            </div>
-            {{#if permissions.can_edit}}
-              <div class="separator topic-separator left">
-                <div data-panel="base_info" class="topic button delete left js-autocommit" name="topic" title="Remove this topic">
-                  <i class="ddgsi ddgsi-close-bold">X</i>
-                </div>
-                <span class="frm__select">
-                  <select data-panel="base_info" class="topic js-autocommit topic-group left" id="first-topic-select">
-                    <option value="0">{{index live.topic 0}}</option>
-                  </select>
-                </span>
-                <span class="clearfix"></span>
-              </div>
-              <div class="separator topic-separator left">
-                <div data-panel="base_info" class="topic button delete left js-autocommit" name="topic" title="Remove this topic">
-                  <i class="ddgsi ddgsi-close-bold">X</i>
-                </div>
-                <span class="frm__select">
-                  <select data-panel="base_info" class="topic js-autocommit topic-group left" id="second-topic-select">
-                    <option value="0">{{index live.topic 1}}</option>
-                  </select>
-                </span>
-                <span class="clearfix"></span>
-              </div>
-              <div class="separator topic-separator left">
-                <div data-panel="base_info" class="topic button delete left js-autocommit" name="topic" title="Remove this topic">
-                  <i class="ddgsi ddgsi-close-bold">X</i>
-                </div>
-                <span class="frm__select">
-                  <select data-panel="base_info" class="topic js-autocommit topic-group left" id="third-topic-select">
-                    <option value="0">{{index live.topic 2}}</option>
-                  </select>
-                </span>
-                <span class="clearfix"></span>
-              </div>
-              <span class="clearfix"></span>
-            {{else}}
-                {{#if live.topic}}
-                    <div id="topic-txt">
-                        {{live.topic}} 
-                    </div>
-                {{else}}
-                    none
-                {{/if}}
-            {{/if}}
-
+              
             <div class="dev_milestone-container__body__label ia-single--header">
                 TRIGGER WORDS
             </div>
