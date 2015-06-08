@@ -40,7 +40,7 @@ sub filter_by_topic {
 # TODO: many-to-many rel with a topics entity
 sub topics {
     my ( $self ) = @_;
-    uniq sort map { @{$_->topics} } $self->search({}, {
+    uniq sort map { $_->topics ? @{$_->topics} : () } $self->search({}, {
         columns => [qw/ topics /],
         distinct => 1,
     })->all;
