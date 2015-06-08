@@ -30,7 +30,9 @@
         {{else}}
             <div class="dev_milestone-container__body__readonly" id="perl_dependencies-txt">
                {{#if live.perl_dependencies}}
-                 {{live.perl_dependencies}}
+                  {{#each live.perl_dependencies}}
+                    {{this}}{{#unless @last}}, {{/unless}}
+                  {{/each}}
                {{else}}
                  none
                {{/if}}
@@ -232,16 +234,6 @@
                 </ul>
             </div>
         {{/eq}}
-
-        <div class="dev_milestone-container__body__label ia-single--header">
-            SAFE SEARCH
-        </div>
-        <div class="dev_milestone-container__body__div">
-            <i data-panel="advanced" class="unsafe dev_milestone-container__body__div__checkbox {{#if permissions.can_edit}}js-autocommit{{/if}} icon-check{{#is_false live.unsafe}}-empty{{/is_false}}" id="unsafe-check"/>
-            <span class="dev_milestone-container__body__readonly check-txt">
-                Unsafe
-            </span>
-        </div>
     </div>
 </div>
 

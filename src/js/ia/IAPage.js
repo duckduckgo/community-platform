@@ -177,15 +177,18 @@
                                     $(".generate-screenshot").addClass("dashed-border");
 
                                     page.removeMaxHeight($(".milestone-panel"));
+                                    $("#testing").hide();
                                 } else {
                                     // Display default image if we found the live image.
                                     if(ia_data.live && ia_data.live.dev_milestone === "live") {
                                         $(".ia-single--screenshots").removeClass("hide");
                                         $(".ia-single--image-container img").attr("src",  "https://images.duckduckgo.com/iu/?u=" + encodeURIComponent("http://ia-screenshots.s3.amazonaws.com/default_index.png"));
+                                        $("#testing").show();
                                     } else {
                                         $(".ia-single--screenshots").addClass("hide");
 
                                         $(".generate-screenshot").hide();
+                                        $("#testing").hide();
                                     }                            
                                 }
 

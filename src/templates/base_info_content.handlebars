@@ -37,6 +37,13 @@
                     {{/if}}
                 </div>
             {{/if}} 
+
+            <div class="dev_milestone-container__body__div">
+                <i data-panel="base_indo" class="unsafe dev_milestone-container__body__div__checkbox {{#if permissions.can_edit}}js-autocommit{{/if}} icon-check{{#is_false live.unsafe}}-empty{{/is_false}}" id="unsafe-check"/>
+                <span class="dev_milestone-container__body__readonly check-txt">
+                    Requires safe search
+                </span>
+            </div>
           
         {{#if permissions.can_edit}}
             <div class="field-container left">
