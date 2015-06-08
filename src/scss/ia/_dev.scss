@@ -86,11 +86,6 @@ div[data-panel="base_info"] {
     text-transform: capitalize;
 }
 
-#metafield_container {
-    border-bottom: 1px solid $silver-dark;
-    padding-bottom: 3.5em;
-}
-
 #contributors, #base_info, #advanced, #testing {
     margin-top: 1em;
 
@@ -130,4 +125,8 @@ select.available_types {
     select.available_types {
         background-color: $red-dark;
     }
+}
+
+.docs-link-icon {
+    color: $grey-light;
 }

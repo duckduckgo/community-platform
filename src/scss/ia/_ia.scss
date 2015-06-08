@@ -1251,12 +1251,6 @@ input.not_saved, select.not_saved, .button.not_saved {
     color: #5B9E4D;
 }
 
-/* Set the height of the read-only fields so that 
-   the layout doesn't change when it switches to the input field */
-.dev_milestone-container__body__readonly {
-
-}
-
 #metafield_container td:nth-child(2) {
     padding-left: 1.2em;
     width: 78%;
@@ -1267,15 +1261,6 @@ input.not_saved, select.not_saved, .button.not_saved {
     margin-bottom: 0;
 }
 
-#metafield_container td {
-    vertical-align: initial;
-    padding-bottom: 1em;
-}
-
-#metafield_container td.up {
-    vertical-align: top;
-}
-
 /* Small adjustment to the spacing between the labels in the dev page. */
 .ia-single .dev_milestone-container .ia-single--header,
 #metafield_container .ia-single--header {
@@ -1283,25 +1268,8 @@ input.not_saved, select.not_saved, .button.not_saved {
     margin-top: 0.7em;
 }
 
-.ia-single .dev_milestone-container.current-container {
-    border: 1px solid #5b9e4d;
-}
-
-.ia-single .dev_milestone-container.future-container {
-    background-color: #f2f2f2;
-}
-
-.ia-single .dev_milestone-container.future-container .dev_milestone-container__header {
-    color: #888;
-}
-
 .ia-single .dev_milestone-container__body__complete {
     margin-top: 1em;
-}
-
-.ia-single .dev_milestone-container.future-container,
-.ia-single .docs-link-icon {
-    color: #AAA;
 }
 
 #dev_pipeline .dev_pipeline-column {
@@ -1530,4 +1498,13 @@ input.not_saved, select.not_saved, .button.not_saved {
 
 #contributors, #base_info, #advanced, #testing {
     margin-top: 1em;
+}
+
+.ia-single--label {
+    font-weight: 600;
+    margin-right: 0.5em;
+}
+
+#topic-txt {
+    text-transform: capitalize;
 }

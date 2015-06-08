@@ -29,7 +29,9 @@
             {{else}}
                 <div class="dev_milestone-container__body__readonly" id="triggers-txt">
                     {{#if live.triggers}}
-                        {{live.triggers}}
+                        {{#each live.triggers}}
+                            {{this}}{{#unless @last}}, {{/unless}}
+                        {{/each}}
                     {{else}}
                         none
                     {{/if}}

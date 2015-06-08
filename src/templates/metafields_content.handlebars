@@ -4,7 +4,7 @@
         <div class="field-container left">
             {{#if permissions.can_edit}}
                  <div class="left dev_milestone-container__body__label ia-single--label">
-                    Type
+                    Type:
                 </div>
                 <span class="frm__select left">
                   <select class="dev_milestone-container__body__select js-autocommit repo" data-panel="metafields" tabindex="-1" id="repo-select">
@@ -34,18 +34,22 @@
         
         <div class="field-container left">
             {{#if live.pr.id}}    
-              <div class="dev_milestone-container__body__readonly" id="pr-txt">
-                <a href="https://github.com/duckduckgo/zeroclickinfo-{{live.repo}}/issues/{{live.pr.id}}" class="dev_milestone-container__body__readonly__a" id="pr">
-                    PR #{{live.pr.id}}
-                </a>
-              </div>
+                <div class="left dev_milestone-container__body__label ia-single--label">
+                    PR
+                </div>
+                <div class="left dev_milestone-container__body__readonly" id="pr-txt">
+                  <a href="https://github.com/duckduckgo/zeroclickinfo-{{live.repo}}/issues/{{live.pr.id}}" class="dev_milestone-container__body__readonly__a" id="pr">
+                      #{{live.pr.id}}
+                  </a>
+                </div>
+                <span class="clearfix"></span>
             {{/if}}
         </div>
 
         {{#if permissions.admin}}
             <div class="field-container left">
                 <div class="left dev_milestone-container__body__label ia-single--label">
-                    ID
+                    ID:
                 </div>
                 <input data-panel="metafields" type="text" class="left frm__input id js-autocommit metafield" id="id-input" value="{{live.id}}" />
             </div>
@@ -54,7 +58,7 @@
         
         <div class="field-container left">
             <div class="ia-single--label left">
-                Topics
+                Topics:
             </div>
             {{#if permissions.can_edit}}
               <div class="separator topic-separator left">
@@ -93,7 +97,9 @@
             {{else}}
               <div id="topic-txt" class="left">
                 {{#if live.topic}}
-                        {{live.topic}} 
+                    {{#each live.topic}}
+                        {{this}}{{#unless @last}}, {{/unless}}
+                    {{/each}} 
                 {{else}}
                     none
                 {{/if}}
