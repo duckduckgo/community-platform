@@ -843,7 +843,11 @@
         ],
 
         dev_milestones_order: [
+            'base_info',
             'contributors',
+            'screens',
+            'testing',
+            'advanced'
         ],
 
         removeMaxHeight: function($obj_set) {
@@ -937,44 +941,39 @@
         updateAll: function(templates, dev_milestone, edit) {
             if (!edit) {
                 $(".ia-single--name").remove();
-                $("#metafields").remove();
-                $(".ia-single--left, .ia-single--right").show().empty();
-
+                
                 if (dev_milestone === "live" || dev_milestone === "deprecated") {
+                    $(".ia-single--right").before(templates.live.name);
+                    $(".ia-single--left, .ia-single--right").show().empty();
+                    
                     for (var i = 0; i < this.field_order.length; i++) {
                         $(".ia-single--left").append(templates.live[this.field_order[i]]);
                     }
-                } else {
-                    var $temp_panel_body;
-                    for (var i = 0; i < this.dev_milestones_order.length; i++) {
-                        $(".ia-single--left").append(templates[this.dev_milestones_order[i]]);
-                        $temp_panel_body = $("#" + this.dev_milestones_order[i]);
-                        $temp_panel_body.html(templates[this.dev_milestones_order[i] + "_content"]);
-                    }
 
-                     $(".ia-single--right").append(templates.base_info);
-                     $("#base_info").html(templates.base_info_content);
-                }
-
-                $(".ia-single--right").before(templates.live.name);
-                if (dev_milestone !== "live" && dev_milestone !== "deprecated") {
-                    $(".ia-single--right").before(templates.metafields);
-                    $("#metafields").html(templates.metafields_content);
-                    
-                    $(".ia-single--wide--advanced").append(templates.advanced);
-                    $("#advanced").html(templates.advanced_content);
-
-                    var $wide_testing = $(".ia-single--wide--testing");
-                    $wide_testing.html("");
-                    $wide_testing.append(templates.screens);
-                    $wide_testing.append(templates.testing);
-                    $("#testing").html(templates.testing_content);
-
-                    this.appendTopics($(".topic-group"));
-                    this.hideAssignToMe();
-                } else {
                     $(".ia-single--right").append(templates.screens);
                     $(".ia-single--screenshots").removeClass("twothirds");
+                } else {
+                    $(".ia-single--wide").before(templates.live.name);
+                    
+                    $("#metafields").remove();
+                    $(".ia-single--wide").before(templates.metafields);
+                    $("#metafields").html(templates.metafields_content);
+
+                    $("ia-single--wide").empty();
+
+                    var $temp_panel_body;
+                    for (var i = 0; i < this.dev_milestones_order.length; i++) {
+                        var template = this.dev_milestones_order[i];
+                        $(".ia-single--wide").append(templates[template]);
+
+                        if (template !== 'screens') {
+                            $temp_panel_body = $("#" + template);
+                            $temp_panel_body.html(templates[template + "_content"]);
+                        }
+                    }                    
+                    
+                    this.appendTopics($(".topic-group"));
+                    this.hideAssignToMe();
                 }
 
                 if (this.hideScreenshot) {
