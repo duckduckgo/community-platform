@@ -80,7 +80,7 @@
               <input data-panel="base_info" type="text" class="frm__input example_query dev_milestone-container__body__input js-autocommit" id="example_query-input" value="{{live.example_query}}" />
               {{else}}
               {{#if live.example_query}}
-                <div id="example_query-txt">
+                <div id="example_query-txt" class="mg-top">
                     <span class="ddgsi-loupe"></span>
                     {{#if live.test_machine}}
                         <a href="{{#if live.test_machine}}https://{{live.test_machine}}.duckduckgo.com/?q={{encodeURIComponent live.example_query}}{{tab_url live.tab}}{{/if}}" class="dev_milestone-container__body__readonly" id="example_query-a">
