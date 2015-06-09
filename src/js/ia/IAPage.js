@@ -93,7 +93,7 @@
                         id : Handlebars.templates.pre_edit_id(ia_data)
                     };
 
-                    page.updateAll(readonly_templates, ia_data.live.dev_milestone, false);
+                    page.updateAll(readonly_templates, ia_data, false);
 
                     $("#view_json").click(function(evt) {
                         location.href = json_url;
@@ -141,7 +141,7 @@
                             ia_data.permissions.admin = 0;
 
                             page.updateHandlebars(readonly_templates, ia_data, ia_data.live.dev_milestone);
-                            page.updateAll(readonly_templates, ia_data.live.dev_milestone, false);
+                            page.updateAll(readonly_templates, ia_data, false);
 
                             $(".button-nav-current").removeClass("disabled").removeClass("button-nav-current");
                             $(this).addClass("disabled").addClass("button-nav-current");
@@ -154,7 +154,7 @@
                             ia_data.permissions.admin = 1;
 
                             page.updateHandlebars(readonly_templates, ia_data, ia_data.live.dev_milestone);
-                            page.updateAll(readonly_templates, ia_data.live.dev_milestone, false);
+                            page.updateAll(readonly_templates, ia_data, false);
 
                             $(".button-nav-current").removeClass("disabled").removeClass("button-nav-current");
                             $(this).addClass("disabled").addClass("button-nav-current");
@@ -162,7 +162,7 @@
                     });
 
                     $("#edit_activate").on('click', function(evt) {
-                        page.updateAll(pre_templates, ia_data.live.dev_milestone, true);
+                        page.updateAll(pre_templates, ia_data, true);
                         $("#edit_disable").removeClass("hide");
                         $(this).hide();
                         $(".special-permissions__toggle-view").hide();
@@ -230,20 +230,6 @@
                             }
                         });
                     });
-                    
-                    // Check if the IA has a test machine or is live.
-                    // If so, enable the screenshot button.
-                    var test_machine = ia_data.live.test_machine;
-                    var example_query = ia_data.live.example_query;
-                    function enableScreenshotButton() {
-                        var $generate_screenshot = $(".generate-screenshot--button");
-                        if((test_machine && example_query) || ia_data.live.dev_milestone === "live") {
-                            $generate_screenshot.removeClass("generate-screenshot--disabled");
-                        } else {
-                            $generate_screenshot.addClass("generate-screenshot--disabled");
-                        }
-                    }
-                    enableScreenshotButton();
 
                     // Generate a screenshot when the button is clicked.
                     $("body").on("click", ".generate-screenshot--button", function(evt) {
@@ -463,7 +449,7 @@
                             }
 
                             page.updateHandlebars(readonly_templates, ia_data, ia_data.live.dev_milestone);
-                            page.updateAll(readonly_templates, ia_data.live.dev_milestone, false);
+                            page.updateAll(readonly_templates, ia_data, false);
                         }
                     });
 
@@ -725,16 +711,6 @@
                         })
                         .done(function(data) {
                             if (data.result) {
-                                if(data.result.example_query != null) {
-                                    example_query = data.result.example_query;
-                                    enableScreenshotButton();
-                                }
-
-                                if(data.result.test_machine != null) {
-                                    test_machine = data.result.test_machine;
-                                    enableScreenshotButton();
-                                }
-
                                 if (data.result.saved && (field === "repo" ||
                                     (field === "dev_milestone" && data.result[field] === "live"))) {
                                     location.reload();
@@ -755,6 +731,10 @@
 
                                         $(".ia-single--name ." + field).addClass(saved_class);
                                     } else {
+                                        if (field === "test_machine" || field === "example_query") {
+                                            page.enableScreenshotButton(ia_data);
+                                        }
+                                        
                                         readonly_templates[panel + "_content"] = Handlebars.templates[panel + "_content"](ia_data);
 
                                         var $panel_body = $("#" + panel);
@@ -938,7 +918,23 @@
             });
         },
 
-        updateAll: function(templates, dev_milestone, edit) {
+        // Check if the IA has a test machine or is live.
+        // If so, enable the screenshot button.
+        enableScreenshotButton: function(ia_data) {
+            var test_machine = ia_data.live.test_machine;
+            var example_query = ia_data.live.example_query;
+            var $generate_screenshot = $(".generate-screenshot--button");
+            
+            if((test_machine && example_query) || ia_data.live.dev_milestone === "live") {
+                $generate_screenshot.removeClass("generate-screenshot--disabled");
+            } else {
+                $generate_screenshot.addClass("generate-screenshot--disabled");
+            }
+        },
+
+        updateAll: function(templates, ia_data, edit) {
+            var dev_milestone = ia_data.live.dev_milestone;
+
             if (!edit) {
                 $(".ia-single--name").remove();
                 
@@ -971,7 +967,7 @@
                             $temp_panel_body.html(templates[template + "_content"]);
                         }
                     }                    
-                    
+        
                     this.appendTopics($(".topic-group"));
                     this.hideAssignToMe();
                 }
@@ -980,6 +976,8 @@
                     this.hideScreenshot();
                 }
 
+                this.enableScreenshotButton(ia_data);
+                
                 $(".show-more").click(function(e) {
                     e.preventDefault();
                 
