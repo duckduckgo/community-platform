@@ -50,8 +50,8 @@
 <div class="ia-single clearfix">
      <div class="ia-single--right <: if $dev_milestone != 'live' && $dev_milestone != 'deprecated' { :> left <: } else { :> right <: } :>"></div>
      <div class="ia-single--left <: if $dev_milestone != 'live' && $dev_milestone != 'deprecated' { :> right <: } else { :> left <: } :>"></div>
-     <div class="clearfix ia-single--wide--testing"></div>
      <: if $dev_milestone != 'live' && $dev_milestone != 'deprecated' { :>
+        <div class="clearfix ia-single--wide--testing"></div>
         <div class="clearfix ia-single--wide--advanced"></div>
      <: } else { :>
         <div class="ia-single--edits hide">

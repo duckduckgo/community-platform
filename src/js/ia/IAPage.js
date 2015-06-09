@@ -972,6 +972,9 @@
 
                     this.appendTopics($(".topic-group"));
                     this.hideAssignToMe();
+                } else {
+                    $(".ia-single--right").append(templates.screens);
+                    $(".ia-single--screenshots").removeClass("twothirds");
                 }
 
                 if (this.hideScreenshot) {
