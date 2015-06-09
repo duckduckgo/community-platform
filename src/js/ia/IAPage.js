@@ -151,7 +151,7 @@
                     $("#toggle-devpage-editable").click(function(evt) {
                         if (!$(this).hasClass("disabled")) {
                             ia_data.permissions.can_edit = 1;
-                            ia_data.permissions.admin = 1;
+                            ia_data.permissions.admin = $("#view_commits").length? 1 : 0;
 
                             page.updateHandlebars(readonly_templates, ia_data, ia_data.live.dev_milestone);
                             page.updateAll(readonly_templates, ia_data, false);
