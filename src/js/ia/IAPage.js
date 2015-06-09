@@ -844,7 +844,6 @@
 
         dev_milestones_order: [
             'contributors',
-            'testing'
         ],
 
         removeMaxHeight: function($obj_set) {
@@ -958,13 +957,16 @@
                 }
 
                 $(".ia-single--right").before(templates.live.name);
-                $(".ia-single--right").append(templates.screens);
                 if (dev_milestone !== "live" && dev_milestone !== "deprecated") {
                     $(".ia-single--right").before(templates.metafields);
                     $("#metafields").html(templates.metafields_content);
                     
-                    $(".ia-single--wide").append(templates.advanced);
+                    $(".ia-single--wide--advanced").append(templates.advanced);
                     $("#advanced").html(templates.advanced_content);
+
+                    $(".ia-single--wide--testing").append(templates.screens);
+                    $(".ia-single--wide--testing").append(templates.testing);
+                    $("#testing").html(templates.testing_content);
 
                     this.appendTopics($(".topic-group"));
                     this.hideAssignToMe();
