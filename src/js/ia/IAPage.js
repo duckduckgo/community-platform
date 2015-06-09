@@ -868,13 +868,13 @@
             } else {
                 templates.metafields = Handlebars.templates.metafields(ia_data);
                 templates.metafields_content = Handlebars.templates.metafields_content(ia_data);
-                templates.base_info = Handlebars.templates.base_info(ia_data);
-                templates.base_info_content = Handlebars.templates.base_info_content(ia_data);
-                templates.advanced = Handlebars.templates.advanced(ia_data);
-                templates.advanced_content = Handlebars.templates.advanced_content(ia_data);
                 for (var i = 0; i < this.dev_milestones_order.length; i++) {
-                    templates[this.dev_milestones_order[i]] = Handlebars.templates[this.dev_milestones_order[i]](ia_data);
-                    templates[this.dev_milestones_order[i] + "_content"] = Handlebars.templates[this.dev_milestones_order[i] + "_content"](ia_data);
+                    var template = this.dev_milestones_order[i];
+                    templates[template] = Handlebars.templates[template](ia_data);
+
+                    if (template !== "screens") {
+                        templates[template + "_content"] = Handlebars.templates[template + "_content"](ia_data);
+                    }
                 }
             }
         },
@@ -959,7 +959,7 @@
                     $(".ia-single--wide").before(templates.metafields);
                     $("#metafields").html(templates.metafields_content);
 
-                    $("ia-single--wide").empty();
+                    $(".ia-single--wide").empty();
 
                     var $temp_panel_body;
                     for (var i = 0; i < this.dev_milestones_order.length; i++) {
