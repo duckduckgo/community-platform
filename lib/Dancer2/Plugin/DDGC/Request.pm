@@ -6,6 +6,9 @@ use strict;
 use warnings;
 
 use LWP::Protocol::Net::Curl;
+use if ($ENV{DANCER_ENVIRONMENT} ne 'production'),
+    'LWP::Protocol::Net::Curl',
+    ssl_verifyhost => 0, ssl_verifypeer => 0;
 use LWP::UserAgent;
 use HTTP::Request;
 use JSON;
