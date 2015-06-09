@@ -48,7 +48,7 @@ textarea[data-panel="base_info"] {
 
 div[name="topic"].topic {
     box-shadow: none;
-    height: 2.13em;
+    height: 2.15em;
 
     .ddgsi {
         vertical-align: sub;
@@ -108,4 +108,8 @@ select.available_types {
 
 .ia-single--wide {
     margin-top: 2em;
+
+    h3 {
+        
+    }
 }
