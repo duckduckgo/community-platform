@@ -964,8 +964,10 @@
                     $(".ia-single--wide--advanced").append(templates.advanced);
                     $("#advanced").html(templates.advanced_content);
 
-                    $(".ia-single--wide--testing").append(templates.screens);
-                    $(".ia-single--wide--testing").append(templates.testing);
+                    var $wide_testing = $(".ia-single--wide--testing");
+                    $wide_testing.html("");
+                    $wide_testing.append(templates.screens);
+                    $wide_testing.append(templates.testing);
                     $("#testing").html(templates.testing_content);
 
                     this.appendTopics($(".topic-group"));

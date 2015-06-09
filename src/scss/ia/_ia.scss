@@ -18,9 +18,7 @@
     position:relative;
     margin-left: 1em;
 }
-.ia-single h3 {
-    margin-top: 0.2em;
-}
+
 .ia-single--edits #row-title {
     width: 98%;
 }
@@ -945,7 +943,7 @@ body.texture {
     border-radius: 3px 3px 0px 0px;
 }
 
-.ia-single--screenshots span {
+.ia-single--screenshots span.circle {
     height: 10px;
     width: 10px;
     background-color: #6D7278;
@@ -1496,10 +1494,6 @@ input.not_saved, select.not_saved, .button.not_saved {
     border-color: $grey-dark;
 }
 
-#contributors, #base_info, #advanced, #testing {
-    margin-top: 1em;
-}
-
 .ia-single--label {
     font-weight: 600;
     margin-right: 0.5em;
@@ -1508,3 +1502,4 @@ input.not_saved, select.not_saved, .button.not_saved {
 #topic-txt {
     text-transform: capitalize;
 }
+
