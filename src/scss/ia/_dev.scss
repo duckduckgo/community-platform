@@ -122,3 +122,13 @@ select.available_types {
 #contributors.fixheight {
     margin-bottom: 8em;
 }
+
+.field-container {
+    .frm__select {
+        width: 8.5em;
+    }
+}
+
+.fixlineheight {
+    line-height: 2.25em;
+}

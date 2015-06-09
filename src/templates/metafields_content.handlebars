@@ -1,7 +1,7 @@
 <div class="dev_milestone-container__body">
     <div id="metafield_container">
 
-        <div class="field-container quarter">
+        <div class="field-container twenty">
             {{#if permissions.can_edit}}
                 <span class="dev_milestone-container__body__label ia-single--label">
                     Type:
@@ -31,21 +31,21 @@
             {{/if}}
         </div>
         
-        <div class="field-container quarter">
+        <div class="field-container ten {{#if permissions.can_edit}}fixlineheight{{/if}}">
             {{#if live.pr.id}}    
-                <span class="left dev_milestone-container__body__label ia-single--label">
+                <span class="dev_milestone-container__body__label ia-single--label">
                     PR
                 </span>
-                <div class="dev_milestone-container__body__readonly" id="pr-txt">
+                <span class="dev_milestone-container__body__readonly" id="pr-txt">
                   <a href="https://github.com/duckduckgo/zeroclickinfo-{{live.repo}}/issues/{{live.pr.id}}" class="dev_milestone-container__body__readonly__a" id="pr">
                       #{{live.pr.id}}
                   </a>
-                </div>
+                </span>
             {{/if}}
         </div>
  
         
-        <div class="field-container twothird">
+        <div class="field-container sixty">
             <span class="ia-single--label left {{#if permissions.can_edit}}mg-top--small{{/if}}">
                 Topics:
             </span>
