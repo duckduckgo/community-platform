@@ -28,7 +28,7 @@
             {{#if permissions.can_edit}}
                 <input type="text" data-panel="base_info" class="frm__input dev_milestone-container__body__input js-autocommit comma-separated triggers" id="triggers-input" value="{{live.triggers}}" />
             {{else}}
-                <div class="dev_milestone-container__body__readonly left" id="triggers-txt">
+                <div class="dev_milestone-container__body__readonly" id="triggers-txt">
                     {{#if live.triggers}}
                         {{#each live.triggers}}
                             {{this}}{{#unless @last}}, {{/unless}}
@@ -72,7 +72,7 @@
             </div>
         {{/if}}
 
-        <div class="field-container g third">
+        <div class="field-container {{#if permissions.can_edit}}g{{/if}} third">
             {{#if permissions.can_edit}}
               <div class="dev_milestone-container__body__label ia-single--header">
                 EXAMPLE QUERY
