@@ -11,10 +11,6 @@ $frm__input-size: 24em;
     height: 2.3em;
 }
 
-#perl_module-input {
-    width: 18em;
-}
-
 .frm__input--half {
     @extend .frm__input;
     width: $frm__input-size / 2;
@@ -129,11 +125,6 @@ select.available_types {
 
 .docs-link-icon {
     color: $grey-light;
-}
-
-.third {
-    width: 28%;
-    margin-left: 4.7em;
 }
 
 #advanced > .third:first-child {
