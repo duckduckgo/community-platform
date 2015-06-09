@@ -1,8 +1,7 @@
     <div class="dev_milestone-container__header container-base_info__header">
-        <h3 class="dev_milestone-container__header__title left">
+        <h3 class="dev_milestone-container__header__title">
             Description
         </h3>
-        <span class="clearfix"></span>
     </div>
 
     <div class="dev_milestone-container__body container-base_info__body">
@@ -20,10 +19,9 @@
     </div>
 
      <div class="dev_milestone-container__header container-base_info__header">
-        <h3 class="dev_milestone-container__header__title left">
-            Triggering
-        </h3>
-        <span class="clearfix"></span>
+       <h3 class="dev_milestone-container__header__title mg-top">
+         Triggering
+       </h3>
     </div>
 
     <div class="dev_milestone-container__body container-base_info__body">     
@@ -51,7 +49,7 @@
             <span class="clearfix"></span>
           
         {{#if permissions.can_edit}}
-            <div class="field-container left">
+            <div class="field-container quarter">
                 <div class="dev_milestone-container__body__label ia-single--header">
                     TEST MACHINE
                 </div>
@@ -74,7 +72,7 @@
             </div>
         {{/if}}
 
-        <div class="field-container left">
+        <div class="field-container g third">
             {{#if permissions.can_edit}}
               <div class="dev_milestone-container__body__label ia-single--header">
                 EXAMPLE QUERY
@@ -95,13 +93,11 @@
         </div>
 
         {{#if permissions.admin}}
-            <div class="field-container left">
+            <div class="field-container g third">
                 <div class="ia-single--header">
                     TAB NAME
                 </div>
                 <input data-panel="base_info" type="text" class="frm__input tab js-autocommit" id="tab-input" value="{{live.tab}}" />
             </div>
         {{/if}}
-        
-        <span class="clearfix"></span>
    </div> 

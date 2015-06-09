@@ -59,10 +59,6 @@ div[name="topic"].topic {
     text-transform: capitalize;
 }
 
-#example_query-input {
-    width: 16em;
-}
-
 .dev_milestone-container__body__readonly__a {
     text-transform: capitalize;
 }
@@ -98,4 +94,14 @@ select.available_types {
 
 .docs-link-icon {
     color: $grey-light;
+}
+
+#advanced {
+    overflow: hidden;
+    width: 100%;
+    margin-top: 7em;
+}
+
+#contributors {
+    margin-bottom: 2em;
 }
