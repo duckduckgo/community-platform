@@ -46,11 +46,7 @@ textarea[data-panel="base_info"] {
     color: white;
 }
 
-.field-container {
-    margin-right: 2em;
-}
-
-div[data-panel="base_info"] {
+div[name="topic"].topic {
     box-shadow: none;
     height: 2.13em;
 
