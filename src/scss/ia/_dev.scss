@@ -57,10 +57,6 @@ textarea[data-panel="base_info"] {
     margin-right: 2em;
 }
 
-.dev_milestone-container.milestone-panel.container-advanced > div {
-    padding-right: 1em;
-}
-
 div[data-panel="base_info"] {
     box-shadow: none;
     height: 2.13em;
@@ -127,6 +123,11 @@ select.available_types {
     color: $grey-light;
 }
 
-#advanced > .third:first-child {
+.third_dev_align {
+    width: 28%;
+    margin-left: 4.7em;
+}
+
+#advanced > .third_dev_align:first-child {
     margin-left: 0;
 }
