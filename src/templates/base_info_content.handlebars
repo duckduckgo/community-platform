@@ -28,7 +28,7 @@
             {{#if permissions.can_edit}}
                 <input type="text" data-panel="base_info" class="frm__input dev_milestone-container__body__input js-autocommit comma-separated triggers" id="triggers-input" value="{{live.triggers}}" />
             {{else}}
-                <div class="dev_milestone-container__body__readonly" id="triggers-txt">
+                <div class="dev_milestone-container__body__readonly {{#unless permissions.can_edit}}left{{/unless}}" id="triggers-txt">
                     {{#if live.triggers}}
                         {{#each live.triggers}}
                             {{this}}{{#unless @last}}, {{/unless}}
@@ -39,7 +39,7 @@
                 </div>
             {{/if}} 
 
-            <div class="dev_milestone-container__body__div {{#unless permissions.can_edit}}left{{/unless}}">
+            <div class="dev_milestone-container__body__div {{#unless permissions.can_edit}}right{{/unless}}">
                 <i data-panel="base_info" class="unsafe dev_milestone-container__body__div__checkbox {{#if permissions.can_edit}}js-autocommit{{/if}} icon-check{{#is_false live.unsafe}}-empty{{/is_false}}" id="unsafe-check"/>
                 <span class="dev_milestone-container__body__readonly check-txt">
                     Requires safe search
@@ -80,14 +80,16 @@
               <input data-panel="base_info" type="text" class="frm__input example_query dev_milestone-container__body__input js-autocommit" id="example_query-input" value="{{live.example_query}}" />
               {{else}}
               {{#if live.example_query}}
-                <span class="ddgsi-loupe"></span>
-                {{#if live.test_machine}}
-                    <a href="{{#if live.test_machine}}https://{{live.test_machine}}.duckduckgo.com/?q={{encodeURIComponent live.example_query}}{{tab_url live.tab}}{{/if}}" class="dev_milestone-container__body__readonly" id="example_query-a">
-                    {{live.example_query}}
-                    </a>
-                {{else}}
-                    {{live.example_query}}
-                {{/if}}
+                <div id="example_query-txt">
+                    <span class="ddgsi-loupe"></span>
+                    {{#if live.test_machine}}
+                        <a href="{{#if live.test_machine}}https://{{live.test_machine}}.duckduckgo.com/?q={{encodeURIComponent live.example_query}}{{tab_url live.tab}}{{/if}}" class="dev_milestone-container__body__readonly" id="example_query-a">
+                            {{live.example_query}}
+                        </a>
+                    {{else}}
+                        {{live.example_query}}
+                    {{/if}}
+                </div>
               {{/if}}
             {{/if}}
         </div>
