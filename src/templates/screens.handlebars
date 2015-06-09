@@ -1,4 +1,5 @@
 {{#with live}}
+<div class="seventy">
   <div class="left small-description hide">
     <h2>{{name}}</h2>
     {{#each topic}}
@@ -8,6 +9,7 @@
       <p>{{description}}</p>
     {{/if}}
   </div>
+
   <a href="/edit" class="hide ia-single--edit btn--primary topic right ia-single--topic">Edit Page</a>
   <div class="ia-single--screenshots clearfix">
     <div class="window-buttons-container">
@@ -48,6 +50,7 @@
   </div>
   <div class="generate-screenshot--notif"></div>
   {{/if}}
+</div>
 {{/with}}
 
 <!--
