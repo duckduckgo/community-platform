@@ -725,8 +725,8 @@
                                         $("#metafields").remove();
                                         latest_edits_data = page.updateData(ia_data, latest_edits_data, false);
                                         readonly_templates.live.name = Handlebars.templates.name(latest_edits_data);
-                                        $(".ia-single--right").before(readonly_templates.live.name);
-                                        $(".ia-single--right").before(readonly_templates.metafields);
+                                        $(".ia-single--wide").before(readonly_templates.live.name);
+                                        $(".ia-single--wide").before(readonly_templates.metafields);
                                         $("#metafields").html(readonly_templates.metafields_content);
 
                                         $(".ia-single--name ." + field).addClass(saved_class);
