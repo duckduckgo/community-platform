@@ -24,6 +24,11 @@ sub legacy_redirect :Chained('base') :PathPart('en_US') :Args {
   $c->response->redirect('/help/'.join('/',@args));
 }
 
+sub old_url_redirect :Chained('base') :PathPart('customer/portal/articles/') :Args {
+  my ( $self, $c, $article ) = @_;
+  $c->response->redirect("/help/$article");
+}
+
 # sub language :Chained('base') :PathPart('') :CaptureArgs(1) {
 #   my ( $self, $c, $locale ) = @_;
 #   my $oldurl_help = $c->d->rs('Help')->search({
