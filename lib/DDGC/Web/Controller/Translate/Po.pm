@@ -69,6 +69,17 @@ sub upload :Chained('base') :Args(0) {
 	my $filename = $data{created}.'.'.$data{uploader}.( $domain ? '.'.$domain : '' ).'.json';
 	io($dir->file($filename))->print(encode_json(\%data));
 	$c->stash->{upload_filename} = $filename;
+
+	$c->d->postman->template_mail(
+		1,
+		$c->user->email,
+		'"DuckDuckGo Translations" <noreply@duck.co>',
+		'[DuckDuckGo Translations] New PO file uploaded',
+		'newpo',
+		$c->stash,
+		Cc => $c->d->config->error_email,
+	);
+
 }
 
 sub index :Chained('base') :PathPart('') :Args(0) {

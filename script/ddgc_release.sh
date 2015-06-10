@@ -47,7 +47,6 @@ ssh -t ddgc@$DDGC_RELEASE_HOSTNAME "(
 	cd $DDGC_RELEASE_DIRECTORY &&
 	tar xz --strip-components=1 -f $2 &&
 	cpanm --mirror https://ddgc-pinto.duckduckgo.com --mirror-only -n --installdeps . &&
-	duckpan DDGC::Static &&
 	touch ~/ddgc_web_maintenance &&
 	printf Stopping current system... && 
 	sudo /usr/local/sbin/stop_ddgc.sh && 

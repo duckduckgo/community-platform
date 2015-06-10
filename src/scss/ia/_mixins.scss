@@ -1,0 +1,599 @@
+/*
+	Mixins
+	
+	Please use sparingly. :)
+*/
+
+// parseInt, because damnit sometimes you need to
+@function parseInt($n) { /* 2 */
+  @return $n / ($n * 0 + 1);
+}
+
+// absolute center
+@mixin absolute-center() {
+	position: absolute;
+	margin: auto;
+	bottom: 0;
+	right: 0;
+	left: 0;
+	top: 0;
+}
+
+// inset transparent border like
+// used on about page team member pics + flag icons
+@mixin inset-image-border($w:2px, $o:0.15) {
+	&:before {
+		content: '';
+		top: 0;
+		right: 0;
+		bottom: 0;
+		left: 0;
+		border: $w solid #000;
+		position: absolute;
+		opacity: $o;
+		border-radius: 100%;
+		z-index: 1;
+	}
+}
+
+@mixin button() {
+	@include experimental(appearance, none); // override iOS wackyness
+	@include single-transition(none);
+	@include border-radius(0.25em);
+	outline: none !important;
+	text-decoration: none !important;
+	background-color: $button-bg;
+	border: 1px solid $button-border;
+	
+	cursor: pointer;
+	
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: -moz-none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+@mixin sticky() {
+	position: -webkit-sticky;
+	position: -moz-sticky;
+	position: -ms-sticky;
+	position: -o-sticky;
+	position: sticky;
+}
+
+// mixin to prevent crazy @extend situations when nesting
+@mixin kill-gutter() {
+	padding-left: 0;
+}
+
+/*
+	Media Query Mixin
+	
+	A lot of objects have the media queries written at the bottom
+	of their individual files, but you can also use a mixin if 
+	you're only modifying one item.
+	
+	Large (l) and Extra-Large (xl) are 'min-width' media queries,
+	meaning they'll only appear on screens that are big enough.
+	
+	Medium (m), Small (s), and Extra-Small (xs) are max-width queries,
+	meaning that they only appear on screens that are small enough.
+	
+	The 'density' queries are kind of heavy-duty, so use extra-sparingly. :)
+	
+	For high pixel-density images, you can use (retina) or (hdpi).
+	
+	
+	Usage:	@include media-query(size){ [styles here] }
+*/
+
+@mixin media-query($media-query){
+	
+	@if $media-query == sl {
+		@media only screen and (min-width:$media--l * 0.8) { @content; }
+	}
+	
+	@if $media-query == ml {
+		@media only screen and (min-width:$media--l * 0.9) { @content; }
+	}
+	
+	@if $media-query == l {
+		@media only screen and (min-width:$media--l) { @content; }
+	}
+	
+	@if $media-query == hl {
+		@media only screen and (min-width:$media--l * 1.1) { @content; }
+	}
+	
+	@if $media-query == xl {
+		@media only screen and (min-width:$media--xl) { @content; }
+	}
+	
+	@if $media-query == xxl {
+		@media only screen and (min-width:($media--xl * 1.1)) { @content; }
+	}
+	
+	@if $media-query == xxxl {
+		@media only screen and (min-width:($media--xl * 1.25)) { @content; }
+	}
+	
+	@if $media-query == xxxxl {
+		@media only screen and (min-width:($media--xl * 1.35)) { @content; }
+	}
+	
+	@if $media-query == min-m {
+		@media only screen and (min-width:$media--m) { @content; }
+	}
+	
+	@if $media-query == m {
+		@media only screen and (max-width:$media--m) { @content; }
+	}
+	
+	@if $media-query == min-sm { // halfway between 'medium' and 'small'
+		@media only screen and (min-width:($media--s + ($media--m - $media--s)/2)) { @content; }
+	}
+	
+	@if $media-query == min-s {
+		@media only screen and (min-width:$media--s) { @content; }
+	}
+	
+	@if $media-query == min-s--v-s or $media-query == teapot {
+		// short and stout like a little teapot
+		@media only screen and (min-width:$teapot-width) and (max-height:($teapot-height)) { @content; }
+	}
+	
+	@if $media-query == reverse-teapot or $media-query == breadbox {
+		// bigger than a breadbox?
+		@media only screen and (min-width:$breadbox-width) and (min-height:$breadbox-height) { @content; }
+	}
+	
+	@if $media-query == s {
+		@media only screen and (max-width:$media--s) { @content; }
+	}
+	
+	@if $media-query == min-xs {        
+		@media only screen and (min-width:$media--xs) { @content; }
+	}
+	
+	@if $media-query == ms {
+		@media only screen and (max-width:$media--s*0.85) { @content; }
+	}
+	
+	@if $media-query == xs {        
+		@media only screen and (max-width:$media--xs) { @content; }
+	}
+	
+	@if $media-query == v-m {
+		@media only screen and (max-height:$media--m) { @content; }
+	}
+	
+	@if $media-query == v-s {
+		@media only screen and (max-height:$media--s) { @content; }
+	}
+	
+	@if $media-query == v-xs {        
+		@media only screen and (max-height:$media--xs) { @content; }
+	}
+	
+	@if $media-query == v-xxs {
+		@media only screen and (max-height:$landscape1-height),
+			only screen and (max-height: $landscape2-height) and (min-width: $landscape2-width) { @content; }
+	}
+    
+	@if $media-query == home_logo {
+		@media only screen and (max-height: $media--xs * 0.9) and (max-width: $media--s),
+		   only screen and (max-height: ($media--xs * 0.85)) {
+				@content;
+		   }
+	}
+	
+	@if $media-query == hdpi {
+		@media only screen and (-webkit-min-device-pixel-ratio: 1.5),
+			   only screen and (-moz-min-device-pixel-ratio: 1.5),
+			   only screen and (min--moz-device-pixel-ratio: 1.5),
+			   only screen and (-ms-min-device-pixel-ratio: 1.5),
+			   only screen and (min-device-pixel-ratio: 1.5),
+			   only screen and (min-resolution: 144dppx) {
+			   /* should be 144dpi, could be switched to 96 to support IE8 phones */
+			@content;
+		}		
+	}
+	
+	@if $media-query == retina {
+		@media only screen and (-webkit-min-device-pixel-ratio: 2),
+			   only screen and (-moz-min-device-pixel-ratio: 2),
+			   only screen and (min--moz-device-pixel-ratio: 2),
+			   only screen and (-ms-min-device-pixel-ratio: 2),
+			   only screen and (min-device-pixel-ratio: 2),
+			   only screen and (min-resolution: 192dppx) {
+			@content;
+		}		
+	}
+
+  @if $media-query == retinahd {
+		@media only screen and (-webkit-min-device-pixel-ratio: 3),
+			   only screen and (-moz-min-device-pixel-ratio: 3),
+			   only screen and (min--moz-device-pixel-ratio: 3),
+			   only screen and (-ms-min-device-pixel-ratio: 3),
+			   only screen and (min-device-pixel-ratio: 3),
+			   only screen and (min-resolution: 192dppx) {
+			@content;
+		}	
+  }
+}
+
+/*
+	SVG Background Image
+*/
+@mixin svg($filename: '', $folder: '') {
+	background-image: url('/assets' + $folder + '/' + $filename + '.png');
+	.svg & {
+		background-image: url('/assets' + $folder + '/' + $filename + '.svg');
+	}
+}
+
+/* 
+	Custom Homepage Logo Mixin
+	
+	Assumes a very specific file structure, e.g: 
+	
+	logo_homepage.normal.v103.png
+	logo_homepage.normal.v103.svg
+	logo_homepage.normal.v103.retina.png
+	
+	logo_homepage_mobile.normal.v103.png
+	logo_homepage_mobile.normal.v103.svg
+	logo_homepage_mobile.normal.v103.retina.png
+	
+	For this mixin, you would only need to pass:
+	
+	@include logo_homepage('.normal.v103');
+	
+	As another example,
+	
+	/assets/logos/halloween/logo_homepage.png
+	/assets/logos/halloween/logo_homepage.retina.png
+	etc...
+	
+	@include logo_homepage($folder: '/logos/halloween');	
+		
+*/
+
+@mixin logo_homepage($url_part: '', $folder: '', $retina: 'true', $no_svg: null, $legacy_logo: null, $no_small: null, $alt: null) {
+	// display dark bg logo as well?
+	@if $alt != null {
+		$url_part: '.normal';
+	}
+	background-image: url('/assets' + $folder + '/logo_homepage' + $url_part + '.png');
+	.svg & {
+		@if $no_svg != null {
+			background-image: url('/assets' + $folder + '/logo_homepage' + $url_part + '.png'); // override for non-svg
+		} @else {
+			background-image: url('/assets' + $folder + '/logo_homepage' + $url_part + '.svg');
+		}
+	}
+	@if $alt != null {
+		.dark-bg & {
+			background-image: url('/assets' + $folder + '/logo_homepage.alt.png');
+		}
+		.svg.dark-bg & {
+			background-image: url('/assets' + $folder + '/logo_homepage.alt.svg');
+		}
+	}
+	@if $legacy_logo != null {
+		background-size: 202px 160px;
+	}
+	// 'small' logos - new for bttf
+	@if $legacy_logo == null and $no_small == null {
+		@include media-query(xs) {
+			background-image:url('/assets' + $folder + '/logo_homepage_small' + $url_part + '.png'); 
+			.svg & {
+				@if $no_svg != null {
+					background-image:url('/assets' + $folder + '/logo_homepage_small' + $url_part + '.png'); // override for non-svg
+				} @else {
+					background-image:url('/assets' + $folder + '/logo_homepage_small' + $url_part + '.svg'); 
+				}
+			}
+			@if $alt != null {
+				.dark-bg & {
+					background-image: url('/assets' + $folder + '/logo_homepage_small.alt.png');
+				}
+				.svg.dark-bg & {
+					background-image: url('/assets' + $folder + '/logo_homepage_small.alt.svg');
+				}
+			}
+		}
+	}
+	@include media-query(home_logo) { 
+		background-image:url('/assets' + $folder + '/logo_homepage_mobile' + $url_part + '.png'); 
+		.svg & {
+			@if $no_svg != null {
+				background-image:url('/assets' + $folder + '/logo_homepage_mobile' + $url_part + '.png'); // override for non-svg
+			} @else {
+				background-image:url('/assets' + $folder + '/logo_homepage_mobile' + $url_part + '.svg'); 
+			}
+		}
+		@if $alt != null {
+			.dark-bg & {
+				background-image: url('/assets' + $folder + '/logo_homepage_mobile.alt.png');
+			}
+			.svg.dark-bg & {
+				background-image: url('/assets' + $folder + '/logo_homepage_mobile.alt.svg');
+			}
+		}
+		@if $legacy_logo != null {
+			width: 275px;
+		}
+	}
+	@if $retina == 'true' {
+		@include media-query(retina) {
+			background-image: url('/assets' + $folder + '/logo_homepage' + $url_part + '.retina.png');
+			@if $alt != null {
+				.dark-bg & {
+					background-image: url('/assets' + $folder + '/logo_homepage.alt.retina.png');
+				}
+			}
+			@include media-query(xs) {
+				background-image:url('/assets' + $folder + '/logo_homepage_small' + $url_part + '.retina.png'); 
+				@if $alt != null {
+					.dark-bg & {
+						background-image: url('/assets' + $folder + '/logo_homepage_small.alt.retina.png');
+					}
+				}
+			}
+			@include media-query(home_logo) {
+				background-image:url('/assets' + $folder + '/logo_homepage_mobile' + $url_part + '.retina.png'); 
+				@if $alt != null {
+					.dark-bg & {
+						background-image: url('/assets' + $folder + '/logo_homepage_mobile.alt.retina.png');
+					}
+				}
+			}
+		}
+	}
+}
+
+/*
+	Flexbox Mixin
+	
+	From: http://css-tricks.com/snippets/css/a-guide-to-flexbox/
+	
+	# use:
+	.wrapper {
+	  @include flexbox();
+	}
+
+	.item {
+	  @include flex(1 200px);
+	  @include order(2);
+	}
+*/
+
+@mixin flexbox() {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+}
+
+@mixin flex($values) {
+  -webkit-box-flex: $values;
+  -moz-box-flex:  $values;
+  -webkit-flex:  $values;
+  -ms-flex:  $values;
+  flex:  $values;
+}
+
+@mixin order($val) {
+  -webkit-box-ordinal-group: $val;  
+  -moz-box-ordinal-group: $val;     
+  -ms-flex-order: $val;     
+  -webkit-order: $val;  
+  order: $val;
+}
+
+/*
+	REM font-sizing mixin
+	
+	Borrowed and modified, based on http://hugogiraudel.com/2013/03/18/ultimate-rem-mixin/
+*/
+
+$remsize: 16 * (parseInt($html-font-size) / 100);
+
+@mixin rem($property, $values) {
+  $px : ();
+  $rem: ();
+  
+  @each $value in $values {
+   
+    @if $value == 0 or $value == auto {
+      $px : append($px , $value);
+      $rem: append($rem, $value);
+    }
+    
+    @else { 
+      $unit: unit($value);
+      $val: parseInt($value);
+      
+      @if $unit == "px" {
+        $px : append($px,  $value);
+        $rem: append($rem, ($val / $remsize + rem));
+      }
+      
+      @if $unit == "rem" or unitless($value) {
+        $px : append($px,  ($val * $remsize + px));
+        $rem: append($rem, $value);
+      }
+
+    }
+  }
+  
+  @if $px == $rem {
+    #{$property}: $px;
+  } @else {
+    #{$property}: $px;
+    #{$property}: $rem;
+  }
+}
+
+
+
+@mixin icon($symbol: '', $no_font: null) {
+	@if $no_font == null {
+		// important so settings don't override:
+		font-family: 'ddg-serp-icons' !important;
+		speak: none;
+		font-style: normal;
+		font-weight: normal !important;
+		font-variant: normal;
+		text-transform: none;
+		text-decoration: none !important;
+
+		/* Better Font Rendering =========== */
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
+	}
+	@if $symbol == 'alert' {
+		content: "\21";
+	}
+	@if $symbol == 'plus' {
+		content: "\2b";
+	}
+	@if $symbol == 'minus' {
+		content: "\2d";
+	}
+	@if $symbol == 'more-sign' {
+		content: "\2295";
+	}
+	@if $symbol == 'less-sign' {
+		content: "\229d";
+	}
+	@if $symbol == 'check' {
+		content: "\2713";
+	}
+	@if $symbol == 'check-sign' {
+		content: "\2611";
+	}
+	@if $symbol == 'right-sign' {
+		content: "\25b7";
+	}
+	@if $symbol == 'left-sign' {
+		content: "\25c1";
+	}
+	@if $symbol == 'next' {
+		content: "\bb";
+	}
+	@if $symbol == 'prev' {
+		content: "\ab";
+	}
+	@if $symbol == 't-up' {
+		content: "\25b2";
+	}
+	@if $symbol == 't-down' {
+		content: "\25bc";
+	}
+	@if $symbol == 't-right' {
+		content: "\25b6";
+	}
+	@if $symbol == 't-left' {
+		content: "\25c0";
+	}
+	@if $symbol == 'right-big' {
+		content: "\203a";
+	}
+	@if $symbol == 'left-big' {
+		content: "\2039";
+	}
+	@if $symbol == 'arrow-top' {
+		content: "\2b06";
+	}
+	@if $symbol == 'left' {
+		content: "\3c";
+	}
+	@if $symbol == 'right' {
+		content: "\3e";
+	}
+	@if $symbol == 'up' {
+		content: "\5e";
+	}
+	@if $symbol == 'down' {
+		content: "\76";
+	}
+	@if $symbol == 'loupe' {
+		content: "\53";
+	}
+	@if $symbol == 'eye' {
+		content: "\69";
+	}
+	@if $symbol == 'clock' {
+		content: "\43";
+	}
+	@if $symbol == 'uploaded' {
+		content: "\21d1";
+	}
+	@if $symbol == 'upload' {
+		content: "\2912";
+	}
+	@if $symbol == 'download' {
+		content: "\2913";
+	}
+	@if $symbol == 'user' {
+		content: "\75";
+	}
+	@if $symbol == 'users' {
+		content: "\55";
+	}
+	@if $symbol == 'marker' {
+		content: "\40";
+	}
+	@if $symbol == 'move' {
+		content: "\2629";
+	}
+	@if $symbol == 'close' {
+		content: "\58";
+	}
+	@if $symbol == 'close-bold' {
+		content: "\d7";
+	}
+	@if $symbol == 'region' {
+		content: "\2637";
+	}
+	@if $symbol == 'cry' {
+		content: "\2639";
+	}
+	@if $symbol == 'heart' {
+		content: "\2665";
+	}
+	@if $symbol == 'home' {
+		content: "\2302";
+	}
+	@if $symbol == 'more' {
+		content: "\2026";
+	}
+	@if $symbol == 'menu' {
+		content: "\21f6";
+	}
+	@if $symbol == 'star' {
+		content: "\2605";
+	}
+	@if $symbol == 'grid' {
+		content: "\47";
+	}
+	@if $symbol == 'cloudsave' {
+		content: "\63";
+	}
+	@if $symbol == 'pause' {
+		content: "\2551";
+	}
+	@if $symbol == 'play' {
+		content: "\25ba";
+	}
+	@if $symbol == 'music-note' {
+		content: "\266b";
+	}
+	@if $symbol == 'comment' {
+		content: "\4F";
+	}
+}

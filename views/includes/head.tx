@@ -2,10 +2,10 @@
 
 <title><: $title :></title>
 
-: for ['/ddgc_static/css/reset','/ddgc_static/css/_ls/abstracts','/ddgc_static/css/font-face',
-:      '/ddgc_static/css/font-awesome','/ddgc_static/css/linkbox','/ddgc_static/css/modals',
-:      '/ddgc_static/css/forms-n-buttons','/ddgc_static/css/feedback','/ddgc_static/css/content',
-:      '/ddgc_static/css/litestrap','/ddgc_static/css/main','/static/js/sceditor/themes/modern',
+: for ['/static/css/reset','/static/css/_ls/abstracts','/static/css/font-face',
+:      '/static/css/font-awesome','/static/css/linkbox','/static/css/modals',
+:      '/static/css/forms-n-buttons','/static/css/feedback','/static/css/content',
+:      '/static/css/litestrap','/static/css/main','/static/js/sceditor/themes/modern',
 :      '/generated_css/flags.css'] -> $css {
     <link rel="stylesheet" media="screen, projection, handheld" href="<: $css :>.css" />
 : }

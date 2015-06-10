@@ -1,0 +1,14 @@
+<table border='1' >
+    <tr>
+        <th>Date</th>
+        <th>Coupon</th>
+    </tr>
+
+    : for $assigned_coupons -> $coupon {
+    <tr>
+        <td style="padding-left: 10px; padding-right: 10px; border:1px solid black;"><: $coupon[0] :></td>
+        <td style="padding-left: 10px; padding-right: 10px; border:1px solid black;"><: $coupon[1] :></td>
+    </tr>
+    : }
+</table>
+

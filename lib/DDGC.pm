@@ -625,24 +625,6 @@ sub template_styles {{
 
 ##############################
 
-##################################################
-#  ____       _           ____             _
-# |  _ \ ___ | |__   ___ |  _ \ _   _  ___| | __
-# | |_) / _ \| '_ \ / _ \| | | | | | |/ __| |/ /
-# |  _ < (_) | |_) | (_) | |_| | |_| | (__|   <
-# |_| \_\___/|_.__/ \___/|____/ \__,_|\___|_|\_\
-
-has roboduck => (
-    isa => 'Net::AIML',
-    is => 'ro',
-    lazy_build => 1,
-);
-sub _build_roboduck {
-    my ( $self ) = @_;
-    Net::AIML->new( botid => $self->config->roboduck_aiml_botid );
-}
-##################################################
-
 has forum => (
     isa => 'DDGC::Forum',
     is => 'ro',
@@ -680,6 +662,7 @@ sub all_roles {
 		translation_manager => "Translation Manager",
 		forum_manager => "Community Leader (Forum Manager)",
 		idea_manager => "Instant Answer Manager",
+		patron => "Patron",
 	);
 	return defined $arg
 		? $roles{$arg}

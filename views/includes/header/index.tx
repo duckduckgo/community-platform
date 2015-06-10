@@ -4,7 +4,7 @@
        : if $duckduckhack {
             <div class="header-logo">
                 <div class="header-logo__logo">
-                    <a href="/"><img src="/ddgc_static/img/logo_ddg_duckduckhack.png" alt="DuckDuckGo Community Platform" /></a>
+                    <a href="/"><img src="/static/img/logo_ddg_duckduckhack.png" alt="DuckDuckGo Community Platform" /></a>
                 </div>
                 <div class="header-logo__text">
                     <h2>DuckDuck<i>Hack</i></h2>

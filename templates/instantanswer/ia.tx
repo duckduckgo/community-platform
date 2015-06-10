@@ -1,4 +1,5 @@
 <select id="allowed_topics" class="hide">
+    <option value=""> --- </option>
     <: for $topic_list -> $topic { :>
         <option value="<: $topic.id :>">
             <: $topic.name :>
@@ -47,18 +48,22 @@
 <: } :>
 
 <div class="ia-single clearfix">
-     <div class="ia-single--right right"></div>
-     <div class="ia-single--left left"></div>
-     <div class="ia-single--edits hide">
-        <div id="row-title">
-            <h2 class="left row-title__live" id="row-title-live">
-                Live
-            </h2>
-            <h2 class="left row-title__edited" id="row-title-edited">
-                Edited
-            </h2>
+    <: if $dev_milestone != 'live' && $dev_milestone != 'deprecated' { :>
+        <div class="clearfix ia-single--wide"></div>
+     <: } else { :>
+        <div class="ia-single--right right"></div>
+        <div class="ia-single--left left"></div>
+        <div class="ia-single--edits hide">
+            <div id="row-title">
+                <h2 class="left row-title__live" id="row-title-live">
+                    Live
+                </h2>
+                <h2 class="left row-title__edited" id="row-title-edited">
+                    Edited
+                </h2>
+            </div>
+            <span class="clearfix"></span>
         </div>
-        <span class="clearfix"></span>
-     </div>
+    <: } :>
 </div>
 

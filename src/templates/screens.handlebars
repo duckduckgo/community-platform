@@ -1,56 +1,44 @@
-<div class="left small-description hide">
-  <h2>{{name}}</h2>
-  {{#each topic}}
-    <span class="btn--wire topic ia-single--topic">{{this}}</span>
-  {{/each}}
-  {{#if description}}
-    <p>{{description}}</p>
-  {{/if}}
-</div>
-<a href="/edit" class="hide ia-single--edit btn--primary topic right ia-single--topic">Edit Page</a>
-<div class="ia-single--screenshots clearfix">
-  <div class="window-buttons-container">
-    <span class="circle"></span>
-    <span class="circle"></span>
-    <span class="circle"></span>
-  </div>
-  <div class="ia-single--screenshots-top"></div>
-  <div class="ia-single--red-bar"></div>
-  <div class="ia-single--image-container">
-    <img src="https://images.duckduckgo.com/iu/?u={{encodeURIComponent 'https://ia-screenshots.s3.amazonaws.com/'}}{{id}}_index.png&f=1">
-    {{#eq_or dev_milestone 'live' 'deprecated'}}
-        <div class="ia-single--serp">
-          <div class="ia-single--serp-item">
-            <div class="serp-item"></div>
-            <div class="serp-item"></div>
-            <div class="serp-item"></div>
-            <div class="serp-item"></div>
-            <div class="serp-item"></div>
-          </div>
+{{#with live}}
+  <div class="ia-single--screenshots twothirds">
+    <div class="ia-single--screenshots__screen">
+        <div class="window-buttons-container">
+          <span class="circle"></span>
+          <span class="circle"></span>
+          <span class="circle"></span>
+        </div>
+        <div class="ia-single--screenshots-top"></div>
+        <div class="ia-single--red-bar"></div>
+        <div class="ia-single--image-container">
+          <img src="https://images.duckduckgo.com/iu/?u={{encodeURIComponent 'https://ia-screenshots.s3.amazonaws.com/'}}{{id}}_index.png&f=1" />
+          {{#eq_or dev_milestone 'live' 'deprecated'}}
+            <div class="ia-single--serp">
+                <div class="ia-single--serp-item">
+                  <div class="serp-item"></div>
+                  <div class="serp-item"></div>
+                  <div class="serp-item"></div>
+                  <div class="serp-item"></div>
+                  <div class="serp-item"></div>
+                </div>
+                
+                <div class="ia-single--serp-item">
+                  <div class="serp-item"></div>
+                  <div class="serp-item"></div>
+                  <div class="serp-item"></div>
+                  <div class="serp-item"></div>
+                  <div class="serp-item"></div>
+                </div>
+            </div>
+          {{/eq_or}}
+       </div>
+    </div>
 
-          <div class="ia-single--serp-item">
-            <div class="serp-item"></div>
-            <div class="serp-item"></div>
-            <div class="serp-item"></div>
-            <div class="serp-item"></div>
-            <div class="serp-item"></div>
-          </div>
-    {{/eq_or}}
-
+      {{#if ../permissions.can_edit}}
+      <div class="generate-screenshot">
+        <span class="generate-screenshot--button btn--critical btn ia-single--topic generate-screenshot--disabled">Generate Screenshot</span>
+        <span class="save-screenshot--button btn btn--primary ia-single--topic hide">Save</span>
+      </div>
+      <div class="generate-screenshot--notif"></div>
+      {{/if}}
     </div>
   </div>
-</div>
-
-<!--
-<div class="screens">
-    {{#if example_query}}
-        <div class="img_container open"><strong>Desktop</strong> <div class="button arrow"><span>&#x25B4;</span></div> </br>
-            <img class="desktop" src="https://images.duckduckgo.com/iu/?u={{encodeURIComponent 'https://ia-screenshots.s3.amazonaws.com/'}}{{id}}_desktop.png&f=1">
-        </div>
-
-        <div class="img_container"><strong>Mobile</strong> <div class="button arrow"><span>&#x25BE;</span></div> </br>
-            <img class="mobile hide" src="https://images.duckduckgo.com/iu/?u={{encodeURIComponent 'https://ia-screenshots.s3.amazonaws.com/'}}{{id}}_mobile.png&f=1">
-        </div>
-    {{/if}}
-</div>
--->
+{{/with}}

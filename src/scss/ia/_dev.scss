@@ -1,0 +1,142 @@
+$frm__input-size: 24em;
+.frm__input {
+    width: 100%;
+    height: 2.3em;
+}
+
+.frm__input--half {
+    @extend .frm__input;
+    width: $frm__input-size / 2;
+}
+
+#producer-input {
+    width: 12.79em;
+}
+
+#metafields {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    padding-top: 0;
+}
+
+textarea[data-panel="base_info"] {
+    width: 100%;
+}
+
+.ia-single--name {
+    h2 {
+        .frm__input {
+            font-size: 0.45em;
+            width: 15em;
+        }
+    }
+
+    .frm__select {
+        vertical-align: top;
+    }
+}
+
+#toggle-devpage-static {
+    left: 4px;
+}
+
+/* This is for the buttons at the top. Since they're black when they're clicked on, the text should be white. */
+
+#toggle-devpage-static.disabled, #toggle-devpage-editable.disabled, #toggle-edited.disabled, #toggle-live.disabled, #pipeline_toggle-dev.disabled, #pipeline_toggle-live.disabled, #pipeline_toggle-deprecated.disabled {
+    color: white;
+}
+
+div[name="topic"].topic {
+    box-shadow: none;
+    height: 2.15em;
+
+    .ddgsi {
+        vertical-align: sub;
+    }
+}
+
+#repo-select {
+    text-transform: capitalize;
+}
+
+.dev_milestone-container__body__readonly__a {
+    text-transform: capitalize;
+}
+
+.developer {
+    .frm__select {
+        background: $green;
+        width: 7em;
+    }
+
+    .frm__select.invalid {
+        background: $red-dark;
+    }
+
+    .invalid input.frm__input {
+        border-color: $red-dark;
+    }
+}
+
+.editpage span.developer_username input[type="text"] {
+    width: 4.5em;
+}
+
+select.available_types {
+    background-color: $green;
+}
+
+.invalid {
+    select.available_types {
+        background-color: $red-dark;
+    }
+}
+
+.docs-link-icon {
+    color: $grey-light;
+}
+
+#advanced {
+    overflow: hidden;
+    width: 100%;
+    margin-top: 2em;
+    
+    .check-txt {
+        height: 2.3em;
+        display: inline-block;
+    }
+}
+
+#contributors {
+    margin-bottom: 2.5em;
+}
+
+.ia-single--wide {
+    margin-top: 2em;
+}
+
+#contributors.minmargin {
+    margin-bottom: 2em;
+}
+
+#contributors.fixheight {
+    margin-bottom: 7.5em;
+}
+
+.field-container {
+    .frm__select {
+        width: 8.5em;
+    }
+}
+
+.fixlineheight {
+    line-height: 2.25em;
+}
+
+#triggers-input {
+    margin-bottom: 0.7em;
+}
+
+.fixexamplequery {
+    width: 59.3%;
+}
