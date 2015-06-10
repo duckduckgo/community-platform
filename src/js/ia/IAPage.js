@@ -291,9 +291,11 @@
 
                                 section_vals[field] = value;
                                
-                                field = parent_field.replace("-group", "");
+                                parent_field = parent_field.replace("-group", "");
                                 value = JSON.stringify(section_vals);
                                 is_json = true;
+                                
+                                autocommit(parent_field, value, DDH_iaid, is_json, panel, field);
                             }
                          
                             autocommit(field, value, DDH_iaid, is_json, panel);
@@ -406,9 +408,11 @@
                                     var section_vals = getSectionVals($(this), parent_field);
                                     section_vals[field] = value;
                                 
-                                    field = parent_field.replace("-group", "");
+                                    parent_field = parent_field.replace("-group", "");
                                     value = JSON.stringify(section_vals);
                                     is_json = true;
+                            
+                                    autocommit(parent_field, value, DDH_iaid, is_json, panel, field);
                                 }
                                 
                                 autocommit(field, value, DDH_iaid, is_json, panel);
@@ -700,7 +704,7 @@
                         }
                     }
 
-                    function autocommit(field, value, id, is_json, panel) {
+                    function autocommit(field, value, id, is_json, panel, subfield) {
                         var jqxhr = $.post("/ia/save", {
                             field : field,
                             value : value,
@@ -743,7 +747,8 @@
                                    
                                         // Developer field is already highlighted in green
                                         // when the user check is successful
-                                        if (field !== "developer") { 
+                                        if (field !== "developer") {
+                                            field = subfield? subfield : field;
                                             $panel_body.find("." + field).addClass(saved_class);
                                         }
                                     }
