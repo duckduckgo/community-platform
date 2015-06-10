@@ -443,12 +443,11 @@
                             $(this).addClass("button-nav-current").addClass("disabled");
 
                             if ($(this).attr("id") == "toggle-live") {
-                                 latest_edits_data = page.updateData(ia_data, latest_edits_data, false);       
+                                page.updateHandlebars(readonly_templates, ia_data, ia_data.live.dev_milestone, false);
                             } else {
-                                 latest_edits_data = page.updateData(ia_data, latest_edits_data, true);
+                                page.updateHandlebars(readonly_templates, ia_data, ia_data.live.dev_milestone, true);
                             }
 
-                            page.updateHandlebars(readonly_templates, ia_data, ia_data.live.dev_milestone);
                             page.updateAll(readonly_templates, ia_data, false);
                         }
                     });
@@ -836,9 +835,9 @@
             });
         },
 
-        updateHandlebars: function(templates, ia_data, dev_milestone) {
+        updateHandlebars: function(templates, ia_data, dev_milestone, staged) {
             var latest_edits_data = {};
-            latest_edits_data = this.updateData(ia_data, latest_edits_data, false);
+            latest_edits_data = this.updateData(ia_data, latest_edits_data, staged);
             templates.live.name = Handlebars.templates.name(latest_edits_data);
             
             if (dev_milestone === 'live') {
