@@ -9,6 +9,7 @@ use HTML::TreeBuilder::LibXML;
 use Hash::Merge::Simple qw/ merge /;
 use URI::Escape;
 use URI;
+use Parse::BBCode;
 use String::Util 'trim';
 
 use Moo;
@@ -215,8 +216,12 @@ sub html {
             $node->attr('target', '_blank');
         }
     }
+    my $guts = $tree->guts;
 
-    $tree->guts->as_XML;
+    if ($guts) {
+        return $guts->as_XML;
+    }
+    return ' ';
 }
 
 1;
