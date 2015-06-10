@@ -74,23 +74,6 @@ sub _build_bbcode_tags {
     my ( $self ) = @_;
     my $tags;
 
-    my $sites = +{
-        GitHub   => 'https://github.com/%{uri}A',
-        Twitter  => 'https://twitter.com/%{uri}A',
-        Facebook => 'https://facebook.com/%{uri}A',
-        CPAN     => 'https://metacpan.org/module/%{uri}A',
-        Help     => '/help/search?help_search=%{uri}A&ducky=1',
-        DDG      => 'https://duckduckgo.com/?q=%{uri}A',
-    };
-    while ( my ( $site, $url ) = each $sites ) {
-        $tags->{ $site } = {
-             short   => 1,
-             classic => 0,
-             class   => 'url',
-             output  => "<a href='$url'>%{parse}s</a>",
-        }
-    }
-
     $tags->{code} = {
         parse => 0,
         class => 'block',
