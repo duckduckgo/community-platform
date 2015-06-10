@@ -108,15 +108,19 @@ select.available_types {
 }
 
 #contributors {
-    margin-bottom: 2em;
+    margin-bottom: 2.5em;
 }
 
 .ia-single--wide {
     margin-top: 2em;
 }
 
+#contributors.minmargin {
+    margin-bottom: 2em;
+}
+
 #contributors.fixheight {
-    margin-bottom: 7em;
+    margin-bottom: 7.5em;
 }
 
 .field-container {
