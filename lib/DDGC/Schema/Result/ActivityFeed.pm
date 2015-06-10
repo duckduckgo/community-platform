@@ -54,7 +54,9 @@ sub TO_JSON {
     +{
         id          => $self->id,
         type        => $self->type,
-        description => $self->render_description
+        created     => $self->created->epoch,
+        description => $self->render_description,
+        raw_description => $self->description,
     }
 }
 
