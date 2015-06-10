@@ -176,7 +176,6 @@
                                     $(".ia-single--screenshots__screen").addClass("hide");
                                     $(".generate-screenshot").addClass("dashed-border");
 
-                                    page.removeMaxHeight($(".milestone-panel"));
                                     $("#testing").hide();
                                 } else {
                                     // Display default image if we found the live image.
@@ -829,12 +828,7 @@
             'advanced'
         ],
 
-        removeMaxHeight: function($obj_set) {
-            $obj_set.each(function(idx) {
-                $(this).css("height", "");
-            });
-        },
-
+        
         updateHandlebars: function(templates, ia_data, dev_milestone, staged) {
             var latest_edits_data = {};
             latest_edits_data = this.updateData(ia_data, latest_edits_data, staged);
