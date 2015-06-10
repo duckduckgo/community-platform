@@ -17,7 +17,6 @@ use DDGC::Help;
 use DDGC::Ideas;
 use DDGC::Util::DateTime;
 
-use IO::All;
 use File::Spec;
 use File::ShareDir::ProjectDistDir;
 use Net::AIML;
@@ -27,7 +26,12 @@ use IPC::Run qw/ run timeout /;
 use POSIX;
 use Cache::FileCache;
 use Cache::NullCache;
+use LWP::Protocol::Net::Curl;
+use if ($ENV{DDGC_PROSODY_USERHOST} ne 'dukgo.com'),
+    'LWP::Protocol::Net::Curl',
+    ssl_verifyhost => 0, ssl_verifypeer => 0;
 use LWP::UserAgent;
+use HTTP::Request;
 use Carp;
 use Data::Dumper;
 use String::Truncate 'elide';
@@ -75,35 +79,6 @@ has config => (
 );
 sub _build_config { DDGC::Config->new }
 
-has js_version => (
-	isa => 'Str',
-	is => 'ro',
-	lazy_build => 1,
-);
-sub _build_js_version {
-	my ( $self ) = @_;
-	my $ROOT_PATH = $self->config->appdir_path;
-
-	# look for ia.js which doesn't exist in the repo.
-	# If it exists then we are building a debug version.
-	# If it doesn't then continue on to return the version
-	# number for release.
-	if( -f "$ROOT_PATH/root/static/js/ia.js"){
-		return '';
-	}
-
-	my $file = "$ROOT_PATH/package.json";
-	my $pkg < io($file);
-	my $json = decode_json($pkg);
-
-	if($json->{'version'} =~ /(\d+)\.(\d+)\.(\d+)/){
-		my $version = $2 - 1;
-		return qq($1.$version.$3);
-	} else {
-		$self->errorlog("Unable to ascertain JS version from $ROOT_PATH/package.json");
-		return '';
-	}
-}
 
 ####################################################################
 
@@ -127,6 +102,51 @@ has uuid => (
 sub _build_uuid { Data::UUID->new };
 sub uid { md5_hex $_[0]->uuid->create_str . rand };
 
+sub _apply_session_to_req {
+	my ( $c, $req ) = @_;
+	$req->header(
+		Cookie => 'ddgc_session=' . $c->req->env->{'psgix.session.options'}->{id},
+	);
+}
+sub _ref_to_uri {
+	my ( $route ) = @_;
+	my $service = '/' . lc( shift @{$route} ) . '.json';
+	my ( $uri ) = join  '/', @{$route};
+	return "$service/$uri";
+}
+sub ddgcr_get {
+	my ( $self, $c, $route, $params ) = @_;
+	$route = _ref_to_uri( $route  ) if ( ref $route eq 'ARRAY' );
+
+	my $req = HTTP::Request->new(
+		GET => $c->uri_for( $route, $params )->canonical
+	);
+	_apply_session_to_req( $c, $req );
+
+	my $res = $self->http->request( $req );
+	$res->{ddgcr} = ( $res->is_success )
+		? JSON::from_json( $res->decoded_content, { utf8 => 1 } )
+		: undef;
+	return $res;
+}
+sub ddgcr_post {
+	my ( $self, $c, $route, $data ) = @_;
+	$route = _ref_to_uri( $route  ) if ( ref $route eq 'ARRAY' );
+
+	$data = JSON::to_json($data, { convert_blessed => 1, utf8 => 1 }) if ref $data;
+	my $req = HTTP::Request->new(
+		POST => $c->uri_for( $route )->canonical
+	);
+	$req->content_type( 'application/json' );
+	$req->content( $data );
+	_apply_session_to_req( $c, $req );
+
+	my $res = $self->http->request( $req );
+	$res->{ddgcr} = ( $res->is_success )
+		? JSON::from_json( $res->decoded_content, { utf8 => 1 } )
+		: undef;
+	return $res;
+}
 
 ############################################################
 #  ____        _    ____            _

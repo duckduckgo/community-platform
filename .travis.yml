@@ -2,14 +2,13 @@
 before_install:
   - export HARNESS_OPTIONS=j10:c HARNESS_TIMER=1
   - rm .travis.yml
-  - sudo apt-get install -qq build-essential libgd2-xpm-dev libssl-dev git wget libxml2-dev libpango1.0-dev imagemagick
+  - sudo apt-get install -qq build-essential libgd2-xpm-dev libssl-dev git libxml2-dev libpango1.0-dev imagemagick
   - git config --global user.name "Dist Zilla Plugin TravisCI"
   - git config --global user.email $HOSTNAME":not-for-mail@travis-ci.org"
 install:
   - cpanm  --quiet  --notest --skip-installed Dist::Zilla
-  - dzil authordeps | grep -ve '^\W' | xargs -n 5 -P 10 cpanm  --quiet   --notest  --skip-installed  --mirror http://www.cpan.org/  --mirror http://www.duckpan.org/
-  - dzil listdeps | grep -ve '^\W' | cpanm  --quiet   --notest  --skip-installed  --mirror http://www.cpan.org/  --mirror http://www.duckpan.org/
-  - cpanm App::DuckPAN
+  - dzil authordeps | grep -ve '^\W' | xargs -n 5 -P 10 cpanm  --quiet   --notest  --skip-installed --mirror http://www.cpan.org/ --mirror http://duckpan.org/
+  - dzil listdeps | grep -ve '^\W' | cpanm  --quiet   --notest  --skip-installed --mirror http://www.cpan.org/ --mirror http://duckpan.org/
 language: perl
 perl:
   - 5.16

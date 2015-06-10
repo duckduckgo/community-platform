@@ -1,0 +1,60 @@
+<div id='report-content' class='reveal-modal modal-form account-form'>
+    <h4>Report Content</h4>
+    <p class='report-subtitle'>
+        Report this content for:
+    </p>
+    <form action='/my/report' method='post'>
+        <input type='hidden' name='context' class='js-context' />
+        <input type='hidden' name='context_id' class='js-context-id' />
+        <input type='hidden' name='action_token' value='<: $session.action_token :>'>
+        <ul class='radio-list'>
+            <li>
+                <input type='radio' class='radio' name='type' id='report_reason__linkbait' value='1' />
+                <label class='button  radio--title' for='report_reason__linkbait'>Link Bait</label>
+                <div class='radio--description'>
+                    Attempting to drive traffic to a website by posting off-topic links to a
+                    personal/business website.
+                </div>
+            </li>
+            <li>
+                <input type='radio' class='radio' name='type' id='report_reason__harassment' value='2' />
+                <label class='button  radio--title' for='report_reason__harassment'>Harassment</label>
+                <div class='radio--description'>Insulting or provocative (and not in a good way).</div>
+            </li>
+            <li>
+                <input type='radio' class='radio' name='type' id='report_reason__badlanguage' value='3' />
+                <label class='button  radio--title' for='report_reason__badlanguage'>Bad Language</label>
+                <div class='radio--description'>Lewd or offensive language.</div>
+            </li>
+            <li>
+                <input type='radio' class='radio' name='type' id='report_reason__offtopic' value='4' />
+                <label class='button  radio--title' for='report_reason__offtopic'>Off Topic</label>
+                <div class='radio--description'>
+                    Post is entirely unrelated to the topic being discussed.
+                </div>
+            </li>
+            <li>
+                <input type='radio' class='radio' name='type' id='report_reason__contentfarming' value='5' />
+                <label class='button  radio--title' for='report_reason__contentfarming'>Content Farming</label>
+                <div class='radio--description'>
+                    Post is likely copy/pasted from another website and was meant for blackhat SEO.
+                </div>
+            </li>
+            <li>
+                <input type='radio' class='radio' name='type' id='report_reason__other' value='0' />
+                <label class='button  radio--title' for='report_reason__other'>Other Reasons</label>
+                <div class='radio--description'>Enter your own description of the flagged post.
+                    <textarea name='text' class='radio--textarea'></textarea>
+                </div>
+            </li>
+        </ul>
+        <fieldset class='buttons'>
+            <span class='half  palm-half'>
+                <input type='button' value='Cancel' class='button close-modal' />
+            </span>
+            <span class='half  palm-half'>
+                <input type='submit' value='Report' class='button blue submit' />
+            </span>
+        </fieldset>
+    </form>
+</div>

@@ -3,7 +3,7 @@
 SCRIPTDIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 PSGI_SCRIPT=$SCRIPTDIR/ddgc_dev_server.psgi
 LIBDIR=$SCRIPTDIR/../lib
-PORT=5000
+PORT=5001
 
 [ "$DDGC_UNSUB_KEY" == "" ]          && export DDGC_UNSUB_KEY="asdfasdf"
 [ "$DDGC_COMMENT_RATE_LIMIT" == "" ] && export DDGC_COMMENT_RATE_LIMIT=0
