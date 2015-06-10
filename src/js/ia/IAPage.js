@@ -250,7 +250,7 @@
 
                                 // Show preview image.
                                 $(".ia-single--image-container img").attr("src", data.screenshots.index);
-                                $(".ia-single--screenshots").show();
+                                $(".ia-single--screenshots__screen").show();
                                 $(".generate-screenshot").removeClass("dashed-border");
                             } else {
                                 $button.text("Generate Screenshot");
