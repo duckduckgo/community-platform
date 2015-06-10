@@ -1,33 +1,36 @@
 {{#with live}}
   <div class="ia-single--screenshots twothirds">
-    <div class="window-buttons-container">
-      <span class="circle"></span>
-      <span class="circle"></span>
-      <span class="circle"></span>
+    <div class="ia-single--screenshots__screen">
+        <div class="window-buttons-container">
+          <span class="circle"></span>
+          <span class="circle"></span>
+          <span class="circle"></span>
+        </div>
+        <div class="ia-single--screenshots-top"></div>
+        <div class="ia-single--red-bar"></div>
+        <div class="ia-single--image-container">
+          <img src="https://images.duckduckgo.com/iu/?u={{encodeURIComponent 'https://ia-screenshots.s3.amazonaws.com/'}}{{id}}_index.png&f=1" />
+          {{#eq_or dev_milestone 'live' 'deprecated'}}
+            <div class="ia-single--serp">
+                <div class="ia-single--serp-item">
+                  <div class="serp-item"></div>
+                  <div class="serp-item"></div>
+                  <div class="serp-item"></div>
+                  <div class="serp-item"></div>
+                  <div class="serp-item"></div>
+                </div>
+                
+                <div class="ia-single--serp-item">
+                  <div class="serp-item"></div>
+                  <div class="serp-item"></div>
+                  <div class="serp-item"></div>
+                  <div class="serp-item"></div>
+                  <div class="serp-item"></div>
+                </div>
+            </div>
+          {{/eq_or}}
+       </div>
     </div>
-    <div class="ia-single--screenshots-top"></div>
-    <div class="ia-single--red-bar"></div>
-    <div class="ia-single--image-container">
-      <img src="https://images.duckduckgo.com/iu/?u={{encodeURIComponent 'https://ia-screenshots.s3.amazonaws.com/'}}{{id}}_index.png&f=1">
-      {{#eq_or dev_milestone 'live' 'deprecated'}}
-      <div class="ia-single--serp">
-        <div class="ia-single--serp-item">
-          <div class="serp-item"></div>
-          <div class="serp-item"></div>
-          <div class="serp-item"></div>
-          <div class="serp-item"></div>
-          <div class="serp-item"></div>
-        </div>
-        
-        <div class="ia-single--serp-item">
-          <div class="serp-item"></div>
-          <div class="serp-item"></div>
-          <div class="serp-item"></div>
-          <div class="serp-item"></div>
-          <div class="serp-item"></div>
-        </div>
-      {{/eq_or}}
-      </div>
 
       {{#if ../permissions.can_edit}}
       <div class="generate-screenshot">
@@ -36,7 +39,6 @@
       </div>
       <div class="generate-screenshot--notif"></div>
       {{/if}}
-
     </div>
   </div>
 {{/with}}

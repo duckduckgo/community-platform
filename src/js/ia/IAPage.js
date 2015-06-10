@@ -173,7 +173,7 @@
                             $(".ia-single--image-container img").error(function() {
                                 // Show the dashed border if the image errored out and we have permissions.
                                 if(ia_data.permissions && ia_data.permissions.can_edit) {
-                                    $(".ia-single--screenshots").addClass("hide");
+                                    $(".ia-single--screenshots__screen").addClass("hide");
                                     $(".generate-screenshot").addClass("dashed-border");
 
                                     page.removeMaxHeight($(".milestone-panel"));
@@ -181,11 +181,11 @@
                                 } else {
                                     // Display default image if we found the live image.
                                     if(ia_data.live && ia_data.live.dev_milestone === "live") {
-                                        $(".ia-single--screenshots").removeClass("hide");
+                                        $(".ia-single--screenshots__screen").removeClass("hide");
                                         $(".ia-single--image-container img").attr("src",  "https://images.duckduckgo.com/iu/?u=" + encodeURIComponent("http://ia-screenshots.s3.amazonaws.com/default_index.png"));
                                         $("#testing").show();
                                     } else {
-                                        $(".ia-single--screenshots").addClass("hide");
+                                        $(".ia-single--screenshots__screen").addClass("hide");
 
                                         $(".generate-screenshot").hide();
                                         $("#testing").hide();
