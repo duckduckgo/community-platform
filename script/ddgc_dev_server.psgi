@@ -14,6 +14,7 @@ use CHI;
 use DDGC::Web;
 use DDGC::Web::App::Blog;
 use DDGC::Web::Service::Blog;
+use DDGC::Web::Service::ActivityFeed;
 use DDGC::Static;
 use Plack::Session::State::Cookie;
 use Plack::Session::Store::File;
@@ -36,6 +37,7 @@ builder {
     ];
     mount '/blog' => DDGC::Web::App::Blog->to_app;
     mount '/blog.json' => DDGC::Web::Service::Blog->to_app;
+    mount '/activityfeed.json' => DDGC::Web::Service::ActivityFeed->to_app;
     mount '/' => DDGC::Web->new->psgi_app;
     mount "/ddgc_static" => Plack::App::File->new(root => DDGC::Static::sharedir)->to_app;
     mount "/static" => Plack::App::File->new(root => $FindBin::Dir . '/../root/static')->to_app;
