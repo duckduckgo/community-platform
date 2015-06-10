@@ -112,6 +112,8 @@ has_conf smtp_ssl => DDGC_SMTP_SSL => 0;
 has_conf smtp_sasl_username => DDGC_SMTP_SASL_USERNAME => undef;
 has_conf smtp_sasl_password => DDGC_SMTP_SASL_PASSWORD => undef;
 
+has_conf shared_secret => DDGC_SHARED_SECRET => undef;
+
 has_conf templatedir => DDGC_TEMPLATEDIR => sub { dir( Catalyst::Utils::home('DDGC'), 'templates' )->resolve->absolute->stringify };
 
 has_conf duckpan_url => DDGC_DUCKPAN_URL => 'http://duckpan.org/';
