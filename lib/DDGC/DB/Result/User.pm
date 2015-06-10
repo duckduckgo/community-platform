@@ -51,6 +51,12 @@ column email_notification_content => {
 	default_value => 1,
 };
 
+column follow_commented_object => {
+	data_type => 'int',
+	is_nullable => 0,
+	default_value => 1,
+};
+
 column admin => {
 	data_type => 'int',
 	is_nullable => 0,
