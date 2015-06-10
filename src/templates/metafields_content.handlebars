@@ -1,7 +1,7 @@
 <div class="dev_milestone-container__body">
     <div id="metafield_container">
 
-        <div class="field-container twenty">
+        <div class="field-container {{#if permissions.can_edit}}twenty{{else}}ten{{/if}}">
             {{#if permissions.can_edit}}
                 <span class="dev_milestone-container__body__label ia-single--label">
                     Type:
