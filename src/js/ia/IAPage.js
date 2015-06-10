@@ -93,7 +93,7 @@
                         id : Handlebars.templates.pre_edit_id(ia_data)
                     };
 
-                    page.updateAll(readonly_templates, ia_data.live.dev_milestone, false);
+                    page.updateAll(readonly_templates, ia_data, false);
 
                     $("#view_json").click(function(evt) {
                         location.href = json_url;
@@ -141,7 +141,7 @@
                             ia_data.permissions.admin = 0;
 
                             page.updateHandlebars(readonly_templates, ia_data, ia_data.live.dev_milestone);
-                            page.updateAll(readonly_templates, ia_data.live.dev_milestone, false);
+                            page.updateAll(readonly_templates, ia_data, false);
 
                             $(".button-nav-current").removeClass("disabled").removeClass("button-nav-current");
                             $(this).addClass("disabled").addClass("button-nav-current");
@@ -151,10 +151,10 @@
                     $("#toggle-devpage-editable").click(function(evt) {
                         if (!$(this).hasClass("disabled")) {
                             ia_data.permissions.can_edit = 1;
-                            ia_data.permissions.admin = 1;
+                            ia_data.permissions.admin = $("#view_commits").length? 1 : 0;
 
                             page.updateHandlebars(readonly_templates, ia_data, ia_data.live.dev_milestone);
-                            page.updateAll(readonly_templates, ia_data.live.dev_milestone, false);
+                            page.updateAll(readonly_templates, ia_data, false);
 
                             $(".button-nav-current").removeClass("disabled").removeClass("button-nav-current");
                             $(this).addClass("disabled").addClass("button-nav-current");
@@ -162,7 +162,7 @@
                     });
 
                     $("#edit_activate").on('click', function(evt) {
-                        page.updateAll(pre_templates, ia_data.live.dev_milestone, true);
+                        page.updateAll(pre_templates, ia_data, true);
                         $("#edit_disable").removeClass("hide");
                         $(this).hide();
                         $(".special-permissions__toggle-view").hide();
@@ -173,19 +173,21 @@
                             $(".ia-single--image-container img").error(function() {
                                 // Show the dashed border if the image errored out and we have permissions.
                                 if(ia_data.permissions && ia_data.permissions.can_edit) {
-                                    $(".ia-single--screenshots").addClass("hide");
+                                    $(".ia-single--screenshots__screen").addClass("hide");
                                     $(".generate-screenshot").addClass("dashed-border");
 
-                                    page.removeMaxHeight($(".milestone-panel"));
+                                    $("#testing").hide();
                                 } else {
                                     // Display default image if we found the live image.
                                     if(ia_data.live && ia_data.live.dev_milestone === "live") {
-                                        $(".ia-single--screenshots").removeClass("hide");
+                                        $(".ia-single--screenshots__screen").removeClass("hide");
                                         $(".ia-single--image-container img").attr("src",  "https://images.duckduckgo.com/iu/?u=" + encodeURIComponent("http://ia-screenshots.s3.amazonaws.com/default_index.png"));
+                                        $("#testing").show();
                                     } else {
-                                        $(".ia-single--screenshots").addClass("hide");
+                                        $(".ia-single--screenshots__screen").addClass("hide");
 
                                         $(".generate-screenshot").hide();
+                                        $("#testing").hide();
                                     }                            
                                 }
 
@@ -227,20 +229,6 @@
                             }
                         });
                     });
-                    
-                    // Check if the IA has a test machine or is live.
-                    // If so, enable the screenshot button.
-                    var test_machine = ia_data.live.test_machine;
-                    var example_query = ia_data.live.example_query;
-                    function enableScreenshotButton() {
-                        var $generate_screenshot = $(".generate-screenshot--button");
-                        if((test_machine && example_query) || ia_data.live.dev_milestone === "live") {
-                            $generate_screenshot.removeClass("generate-screenshot--disabled");
-                        } else {
-                            $generate_screenshot.addClass("generate-screenshot--disabled");
-                        }
-                    }
-                    enableScreenshotButton();
 
                     // Generate a screenshot when the button is clicked.
                     $("body").on("click", ".generate-screenshot--button", function(evt) {
@@ -262,7 +250,7 @@
 
                                 // Show preview image.
                                 $(".ia-single--image-container img").attr("src", data.screenshots.index);
-                                $(".ia-single--screenshots").show();
+                                $(".ia-single--screenshots__screen").show();
                                 $(".generate-screenshot").removeClass("dashed-border");
                             } else {
                                 $button.text("Generate Screenshot");
@@ -303,9 +291,11 @@
 
                                 section_vals[field] = value;
                                
-                                field = parent_field.replace("-group", "");
+                                parent_field = parent_field.replace("-group", "");
                                 value = JSON.stringify(section_vals);
                                 is_json = true;
+                                
+                                autocommit(parent_field, value, DDH_iaid, is_json, panel, field);
                             }
                          
                             autocommit(field, value, DDH_iaid, is_json, panel);
@@ -418,9 +408,11 @@
                                     var section_vals = getSectionVals($(this), parent_field);
                                     section_vals[field] = value;
                                 
-                                    field = parent_field.replace("-group", "");
+                                    parent_field = parent_field.replace("-group", "");
                                     value = JSON.stringify(section_vals);
                                     is_json = true;
+                            
+                                    autocommit(parent_field, value, DDH_iaid, is_json, panel, field);
                                 }
                                 
                                 autocommit(field, value, DDH_iaid, is_json, panel);
@@ -454,13 +446,12 @@
                             $(this).addClass("button-nav-current").addClass("disabled");
 
                             if ($(this).attr("id") == "toggle-live") {
-                                 latest_edits_data = page.updateData(ia_data, latest_edits_data, false);       
+                                page.updateHandlebars(readonly_templates, ia_data, ia_data.live.dev_milestone, false);
                             } else {
-                                 latest_edits_data = page.updateData(ia_data, latest_edits_data, true);
+                                page.updateHandlebars(readonly_templates, ia_data, ia_data.live.dev_milestone, true);
                             }
 
-                            page.updateHandlebars(readonly_templates, ia_data, ia_data.live.dev_milestone);
-                            page.updateAll(readonly_templates, ia_data.live.dev_milestone, false);
+                            page.updateAll(readonly_templates, ia_data, false);
                         }
                     });
 
@@ -713,7 +704,7 @@
                         }
                     }
 
-                    function autocommit(field, value, id, is_json, panel) {
+                    function autocommit(field, value, id, is_json, panel, subfield) {
                         var jqxhr = $.post("/ia/save", {
                             field : field,
                             value : value,
@@ -722,16 +713,6 @@
                         })
                         .done(function(data) {
                             if (data.result) {
-                                if(data.result.example_query != null) {
-                                    example_query = data.result.example_query;
-                                    enableScreenshotButton();
-                                }
-
-                                if(data.result.test_machine != null) {
-                                    test_machine = data.result.test_machine;
-                                    enableScreenshotButton();
-                                }
-
                                 if (data.result.saved && (field === "repo" ||
                                     (field === "dev_milestone" && data.result[field] === "live"))) {
                                     location.reload();
@@ -746,12 +727,16 @@
                                         $("#metafields").remove();
                                         latest_edits_data = page.updateData(ia_data, latest_edits_data, false);
                                         readonly_templates.live.name = Handlebars.templates.name(latest_edits_data);
-                                        $(".ia-single--right").before(readonly_templates.live.name);
-                                        $(".ia-single--right").before(readonly_templates.metafields);
+                                        $(".ia-single--wide").before(readonly_templates.live.name);
+                                        $(".ia-single--wide").before(readonly_templates.metafields);
                                         $("#metafields").html(readonly_templates.metafields_content);
 
                                         $(".ia-single--name ." + field).addClass(saved_class);
                                     } else {
+                                        if (field === "test_machine" || field === "example_query") {
+                                            page.enableScreenshotButton(ia_data);
+                                        }
+                                        
                                         readonly_templates[panel + "_content"] = Handlebars.templates[panel + "_content"](ia_data);
 
                                         var $panel_body = $("#" + panel);
@@ -762,7 +747,8 @@
                                    
                                         // Developer field is already highlighted in green
                                         // when the user check is successful
-                                        if (field !== "developer") { 
+                                        if (field !== "developer") {
+                                            field = subfield? subfield : field;
                                             $panel_body.find("." + field).addClass(saved_class);
                                         }
                                     }
@@ -840,19 +826,17 @@
         ],
 
         dev_milestones_order: [
+            'base_info',
             'contributors',
-            'testing'
+            'screens',
+            'testing',
+            'advanced'
         ],
 
-        removeMaxHeight: function($obj_set) {
-            $obj_set.each(function(idx) {
-                $(this).css("height", "");
-            });
-        },
-
-        updateHandlebars: function(templates, ia_data, dev_milestone) {
+        
+        updateHandlebars: function(templates, ia_data, dev_milestone, staged) {
             var latest_edits_data = {};
-            latest_edits_data = this.updateData(ia_data, latest_edits_data, false);
+            latest_edits_data = this.updateData(ia_data, latest_edits_data, staged);
             templates.live.name = Handlebars.templates.name(latest_edits_data);
             
             if (dev_milestone === 'live') {
@@ -862,13 +846,13 @@
             } else {
                 templates.metafields = Handlebars.templates.metafields(ia_data);
                 templates.metafields_content = Handlebars.templates.metafields_content(ia_data);
-                templates.base_info = Handlebars.templates.base_info(ia_data);
-                templates.base_info_content = Handlebars.templates.base_info_content(ia_data);
-                templates.advanced = Handlebars.templates.advanced(ia_data);
-                templates.advanced_content = Handlebars.templates.advanced_content(ia_data);
                 for (var i = 0; i < this.dev_milestones_order.length; i++) {
-                    templates[this.dev_milestones_order[i]] = Handlebars.templates[this.dev_milestones_order[i]](ia_data);
-                    templates[this.dev_milestones_order[i] + "_content"] = Handlebars.templates[this.dev_milestones_order[i] + "_content"](ia_data);
+                    var template = this.dev_milestones_order[i];
+                    templates[template] = Handlebars.templates[template](ia_data);
+
+                    if (template !== "screens") {
+                        templates[template + "_content"] = Handlebars.templates[template + "_content"](ia_data);
+                    }
                 }
             }
         },
@@ -932,37 +916,56 @@
             });
         },
 
-        updateAll: function(templates, dev_milestone, edit) {
+        // Check if the IA has a test machine or is live.
+        // If so, enable the screenshot button.
+        enableScreenshotButton: function(ia_data) {
+            var test_machine = ia_data.live.test_machine;
+            var example_query = ia_data.live.example_query;
+            var $generate_screenshot = $(".generate-screenshot--button");
+            
+            if((test_machine && example_query) || ia_data.live.dev_milestone === "live") {
+                $generate_screenshot.removeClass("generate-screenshot--disabled");
+            } else {
+                $generate_screenshot.addClass("generate-screenshot--disabled");
+            }
+        },
+
+        updateAll: function(templates, ia_data, edit) {
+            var dev_milestone = ia_data.live.dev_milestone;
+
             if (!edit) {
                 $(".ia-single--name").remove();
-                $("#metafields").remove();
-                $(".ia-single--left, .ia-single--right").show().empty();
-
+                
                 if (dev_milestone === "live" || dev_milestone === "deprecated") {
+                    $(".ia-single--right").before(templates.live.name);
+                    $(".ia-single--left, .ia-single--right").show().empty();
+                    
                     for (var i = 0; i < this.field_order.length; i++) {
                         $(".ia-single--left").append(templates.live[this.field_order[i]]);
                     }
+
+                    $(".ia-single--right").append(templates.screens);
+                    $(".ia-single--screenshots").removeClass("twothirds");
                 } else {
+                    $(".ia-single--wide").before(templates.live.name);
+                    
+                    $("#metafields").remove();
+                    $(".ia-single--wide").before(templates.metafields);
+                    $("#metafields").html(templates.metafields_content);
+
+                    $(".ia-single--wide").empty();
+
                     var $temp_panel_body;
                     for (var i = 0; i < this.dev_milestones_order.length; i++) {
-                        $(".ia-single--left").append(templates[this.dev_milestones_order[i]]);
-                        $temp_panel_body = $("#" + this.dev_milestones_order[i]);
-                        $temp_panel_body.html(templates[this.dev_milestones_order[i] + "_content"]);
-                    }
+                        var template = this.dev_milestones_order[i];
+                        $(".ia-single--wide").append(templates[template]);
 
-                     $(".ia-single--right").append(templates.base_info);
-                     $("#base_info").html(templates.base_info_content);
-                }
-
-                $(".ia-single--right").before(templates.live.name);
-                $(".ia-single--right").append(templates.screens);
-                if (dev_milestone !== "live" && dev_milestone !== "deprecated") {
-                    $(".ia-single--right").before(templates.metafields);
-                    $("#metafields").html(templates.metafields_content);
-                    
-                    $(".ia-single--right").append(templates.advanced);
-                    $("#advanced").html(templates.advanced_content);
-
+                        if (template !== 'screens') {
+                            $temp_panel_body = $("#" + template);
+                            $temp_panel_body.html(templates[template + "_content"]);
+                        }
+                    }                    
+        
                     this.appendTopics($(".topic-group"));
                     this.hideAssignToMe();
                 }
@@ -971,6 +974,8 @@
                     this.hideScreenshot();
                 }
 
+                this.enableScreenshotButton(ia_data);
+                
                 $(".show-more").click(function(e) {
                     e.preventDefault();
                 

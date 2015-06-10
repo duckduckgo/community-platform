@@ -1,8 +1,19 @@
-<div class="dev_milestone-container__header container-contributors__header">
-    <h3 class="dev_milestone-container__header__title">
-        Contributors
-    </h3>
-    <span class="clearfix"></span>
+{{#if permissions.admin}}
+    <div class="dev_milestone-container__header container-contributors__header">
+      <h3 class="dev_milestone-container__header__title mg-bottom--small">
+          ID
+        </h3>
+    </div>
+
+    <div class="dev_milestone-container__body container-contributors__body">
+        <input data-panel="contributors" type="text" class="frm__input id js-autocommit metafield" id="id-input" value="{{live.id}}" />
+    </div>
+{{/if}}
+
+ <div class="dev_milestone-container__header container-contributors__header">
+   <h3 class="dev_milestone-container__header__title mg-top mg-bottom--none">
+     Contributors
+   </h3>
 </div>
 
 <div class="dev_milestone-container__body container-contributors__body">

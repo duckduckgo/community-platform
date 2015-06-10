@@ -1,18 +1,7 @@
-.dev_milestone-container {
-    border-radius: 5px;
-    padding: 5px;
-    margin-bottom: 0.5em;
-    padding-left: 0;
-}
-
 $frm__input-size: 24em;
 .frm__input {
     width: 100%;
     height: 2.3em;
-}
-
-#perl_module-input {
-    width: 18em;
 }
 
 .frm__input--half {
@@ -21,7 +10,7 @@ $frm__input-size: 24em;
 }
 
 #producer-input {
-    width: 11.5em;
+    width: 12.79em;
 }
 
 #metafields {
@@ -57,17 +46,9 @@ textarea[data-panel="base_info"] {
     color: white;
 }
 
-.field-container {
-    margin-right: 2em;
-}
-
-.dev_milestone-container.milestone-panel.container-advanced > div {
-    padding-right: 1em;
-}
-
-div[data-panel="base_info"] {
+div[name="topic"].topic {
     box-shadow: none;
-    height: 2.13em;
+    height: 2.15em;
 
     .ddgsi {
         vertical-align: sub;
@@ -78,29 +59,8 @@ div[data-panel="base_info"] {
     text-transform: capitalize;
 }
 
-#example_query-input {
-    width: 16em;
-}
-
 .dev_milestone-container__body__readonly__a {
     text-transform: capitalize;
-}
-
-#metafield_container {
-    border-bottom: 1px solid $silver-dark;
-    padding-bottom: 3.5em;
-}
-
-#contributors, #base_info, #advanced, #testing {
-    margin-top: 1em;
-
-    .dev_milestone-container__body > .dev_milestone-container__body__label.ia-single--header:nth-child(1) {
-        margin-top: 0;
-    }
-}
-
-#advanced {
-    margin-top: 2em;
 }
 
 .developer {
@@ -130,4 +90,53 @@ select.available_types {
     select.available_types {
         background-color: $red-dark;
     }
+}
+
+.docs-link-icon {
+    color: $grey-light;
+}
+
+#advanced {
+    overflow: hidden;
+    width: 100%;
+    margin-top: 2em;
+    
+    .check-txt {
+        height: 2.3em;
+        display: inline-block;
+    }
+}
+
+#contributors {
+    margin-bottom: 2.5em;
+}
+
+.ia-single--wide {
+    margin-top: 2em;
+}
+
+#contributors.minmargin {
+    margin-bottom: 2em;
+}
+
+#contributors.fixheight {
+    margin-bottom: 7.5em;
+}
+
+.field-container {
+    .frm__select {
+        width: 8.5em;
+    }
+}
+
+.fixlineheight {
+    line-height: 2.25em;
+}
+
+#triggers-input {
+    margin-bottom: 0.7em;
+}
+
+.fixexamplequery {
+    width: 59.3%;
 }
