@@ -1,26 +1,43 @@
-<div class="left half">
+<div class="left third {{#eq live.repo 'goodies'}}hide{{/eq}}">
     <div class="dev_milestone-container__header container-advanced__header">
-        <h3 class="dev_milestone-container__header__title left">
-            Back-End
-        </h3>
-        <span class="clearfix"></span>
+      <h3 class="dev_milestone-container__header__title left">
+        Data Source
+      </h3>
+      <span class="clearfix"></span>
     </div>
 
     <div class="dev_milestone-container__body container-advanced__body">
-        <div class="dev_milestone-container__body__label ia-single--header">
-            PERL DEPENDENCIES
-        </div>
-        {{#if permissions.can_edit}}
-            <input data-panel="advanced" type="text" class="frm__input perl_dependencies dev_milestone-container__body__input js-autocommit comma-separated" id="perl_dependencies-input" value="{{live.perl_dependencies}}" />
-        {{else}}
-            <div class="dev_milestone-container__body__readonly" id="perl_dependencies-txt">
-               {{#if live.perl_dependencies}}
-                 {{live.perl_dependencies}}
-               {{else}}
-                 none
-               {{/if}}
+        {{#eq live.repo 'spice'}}
+            <div class="dev_milestone-container__body__label ia-single--header">
+                API DOCUMENTATION
             </div>
-        {{/if}}
+            {{#if permissions.can_edit}}
+                <input type="text" data-panel="advanced" class="frm__input src_api_documentation dev_milestone-container__body__input js-autocommit" id="src_api_documentation-input" value="{{live.src_api_documentation}}" />
+            {{else}}
+                <div class="dev_milestone-container__body__readonly" id="src_api_documentation-txt">
+                    {{#if live.src_api_documentation}}
+                        {{live.src_api_documentation}}
+                    {{else}}
+                        none
+                    {{/if}}
+                </div>
+            {{/if}}
+            
+            <div class="dev_milestone-container__body__label ia-single--header">
+                API STATUS PAGE
+            </div>
+            {{#if permissions.can_edit}}
+                <input type="text" data-panel="advanced" class="frm__input api_status_page dev_milestone-container__body__input js-autocommit" id="api_status_page-input" value="{{live.api_status_page}}" />
+            {{else}}
+                <div class="dev_milestone-container__body__readonly" id="api_status_page-txt">
+                    {{#if live.api_status_page}}
+                        {{live.api_status_page}}
+                    {{else}}
+                        none
+                    {{/if}}
+                </div>
+            {{/if}}
+        {{/eq}}
 
         {{#eq live.repo 'longtail'}}    
             <div class="dev_milestone-container__body__label ia-single--header">
@@ -145,6 +162,7 @@
                             </div>
                         {{/if}}
                     </li>
+                    <li>
                         <label class="left">Skip query:</label>
                         {{#if permissions.can_edit}}
                             <input type="text" data-panel="advanced" class="frm__input skip_qr clearfix section-group__item dev_milestone-container__body__input js-autocommit" id="skip_qr-input" value="{{live.src_options.skip_qr}}" />
@@ -217,20 +235,52 @@
                 </ul>
             </div>
         {{/eq}}
+    </div>
+</div>
+<div class="left third {{#eq live.repo 'goodies'}}{{else}}g{{/eq}}">
+    <div class="dev_milestone-container__header container-advanced__header">
+        <h3 class="dev_milestone-container__header__title left">
+            Back-End
+        </h3>
+        <span class="clearfix"></span>
+    </div>
 
+    <div class="dev_milestone-container__body container-advanced__body">
         <div class="dev_milestone-container__body__label ia-single--header">
-            SAFE SEARCH
+            PERL MODULE
         </div>
-        <div class="dev_milestone-container__body__div">
-            <i data-panel="advanced" class="unsafe dev_milestone-container__body__div__checkbox {{#if permissions.can_edit}}js-autocommit{{/if}} icon-check{{#is_false live.unsafe}}-empty{{/is_false}}" id="unsafe-check"/>
-            <span class="dev_milestone-container__body__readonly check-txt">
-                Unsafe
-            </span>
+        {{#if permissions.can_edit}}
+            <input data-panel="advanced" type="text" class="frm__input perl_module dev_milestone-container__body__input js-autocommit" id="perl_module-input" value="{{live.perl_module}}" />
+        {{else}}
+            <div class="dev_milestone-container__body__readonly" id="perl_module-txt">
+                {{#if live.perl_module}}
+                    {{live.perl_module}}
+                {{else}}
+                    none
+                {{/if}}
+            </div>
+        {{/if}}
+    
+        <div class="dev_milestone-container__body__label ia-single--header">
+            PERL DEPENDENCIES
         </div>
+        {{#if permissions.can_edit}}
+            <input data-panel="advanced" type="text" class="frm__input perl_dependencies dev_milestone-container__body__input js-autocommit comma-separated" id="perl_dependencies-input" value="{{live.perl_dependencies}}" />
+        {{else}}
+            <div class="dev_milestone-container__body__readonly" id="perl_dependencies-txt">
+               {{#if live.perl_dependencies}}
+                  {{#each live.perl_dependencies}}
+                    {{this}}{{#unless @last}}, {{/unless}}
+                  {{/each}}
+               {{else}}
+                 none
+               {{/if}}
+            </div>
+        {{/if}}
     </div>
 </div>
 
-<div class="left half">
+<div class="left third g">
     <div class="dev_milestone-container__header container-advanced__header">
         <h3 class="dev_milestone-container__header__title left">
             Front-End
@@ -257,22 +307,6 @@
 
         {{#eq live.repo 'spice'}}
             <div class="dev_milestone-container__body__label ia-single--header">
-                API DOCUMENTATION
-            </div>
-            {{#if permissions.can_edit}}
-                <input type="text" data-panel="advanced" class="frm__input src_api_documentation dev_milestone-container__body__input js-autocommit" id="src_api_documentation-input" value="{{live.src_api_documentation}}" />
-            {{else}}
-                <div class="dev_milestone-container__body__readonly" id="src_api_documentation-txt">
-                    {{#if live.src_api_documentation}}
-                        {{live.src_api_documentation}}
-                    {{else}}
-                        none
-                    {{/if}}
-                </div>
-            {{/if}}
-            
-
-            <div class="dev_milestone-container__body__label ia-single--header">
                 ANSWERBAR
             </div>
             <div class="dev_milestone-container__body__div">
@@ -280,7 +314,7 @@
                     <li>
                         <label class="left">Fallback Timeout (ms):</label>
                         {{#if permissions.admin}}
-                            <input type="number" data-panel="advanced" class="frm__input answerbar clearfix section-group__item dev_milestone-container__body__input js-autocommit" id="fallback_timeout-input" value="{{live.answerbar.fallback_timeout}}" />
+                            <input type="number" data-panel="advanced" class="frm__input fallback_timeout clearfix section-group__item dev_milestone-container__body__input js-autocommit" id="fallback_timeout-input" value="{{live.answerbar.fallback_timeout}}" />
                         {{else}}
                             <div class="clearfix dev_milestone-container__body__readonly" id="fallback_timeout-txt">
                                 {{#if live.answerbar.fallback_timeout}}
@@ -293,23 +327,6 @@
                     </li>
                 </ul>
             </div>
-            
-            <div class="dev_milestone-container__body__label ia-single--header">
-                API STATUS PAGE
-            </div>
-            {{#if permissions.can_edit}}
-                <input type="text" data-panel="advanced" class="frm__input api_status_page dev_milestone-container__body__input js-autocommit" id="api_status_page-input" value="{{live.api_status_page}}" />
-            {{else}}
-                <div class="dev_milestone-container__body__readonly" id="api_status_page-txt">
-                    {{#if live.api_status_page}}
-                        {{live.api_status_page}}
-                    {{else}}
-                        none
-                    {{/if}}
-                </div>
-            {{/if}}
         {{/eq}}
     </div>
 </div>
-<span class="clearfix"></span>
-

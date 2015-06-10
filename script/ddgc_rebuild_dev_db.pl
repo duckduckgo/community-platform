@@ -36,13 +36,11 @@ my $update = sub {
     if($ia_to_delete){
         print "Deleting IA: $ia_to_delete\n";
         my $result = $d->rs('InstantAnswer')->search({id => $ia_to_delete});
-        die "IA not found!" unless $result;
         $result->delete;
     }
     # delete repo
     elsif($repo_to_delete){
-        my $result = $d->rs('InstantAnswer')->search({repo => $repo_to_delete});
-        die "No repo found" unless $result->count;
+        my $result = $d->rs('InstantAnswer')->search({repo => lc $repo_to_delete});
         print "Deleting repo: $repo_to_delete\n";
         $result->delete;
         my $res = get "http://duck.co/ia/repo/$repo_to_delete/json" or warn  "Didn't get repo: $repo_to_delete, try again";
@@ -107,6 +105,9 @@ my $update = sub {
                 $ia->{$column} = JSON->new->ascii(1)->encode($ia->{$column});
             }
         }
+
+        # run ghissues if you need the pr updated in the issues table
+        delete $ia->{pr};
 
         $d->rs('InstantAnswer')->update_or_create($ia);
 
