@@ -4,9 +4,6 @@
     {{#eq_or dev_milestone 'live' 'deprecated'}}
         {{name}}
         </h2>
-        {{#if dev_milestone}}
-            <span class="btn--wire dev_milestone--{{dev_milestone}} dev_milestone">{{dev_milestone}}</span>
-        {{/if}}
     {{else}}
         <input type="text" class="frm__input name js-autocommit left" id="name-input" value="{{name}}" />
         </h2>
@@ -25,8 +22,5 @@
 {{else}} 
     {{name}} 
     </h2> 
-    {{#if dev_milestone}}
-        <span class="btn--wire dev_milestone--{{dev_milestone}} dev_milestone">{{dev_milestone}}</span>
-    {{/if}}
 {{/if}}
 </div>

@@ -47,9 +47,8 @@
                     var readonly_templates = {
                         live: {
                             name : Handlebars.templates.name(latest_edits_data),
-                            status : Handlebars.templates.status(latest_edits_data),
+                            top_details : Handlebars.templates.top_details(latest_edits_data),
                             description : Handlebars.templates.description(latest_edits_data),
-                            topic : Handlebars.templates.topic(latest_edits_data),
                             template : Handlebars.templates.template(latest_edits_data),
                             examples : Handlebars.templates.examples(latest_edits_data),
                             devinfo : Handlebars.templates.devinfo(latest_edits_data),
@@ -800,7 +799,6 @@
         imgHide: false,
 
         field_order: [
-            'topic',
             'description',
             'github',
             'examples',
@@ -943,6 +941,7 @@
                 
                 if (dev_milestone === "live" || dev_milestone === "deprecated") {
                     $("#ia-single-top-name").html(templates.live.name);
+                    $("#ia-single-top-details").html(templates.live.top_details);
                     $(".ia-single--left, .ia-single--right").show().empty();
                     
                     for (var i = 0; i < this.field_order.length; i++) {
