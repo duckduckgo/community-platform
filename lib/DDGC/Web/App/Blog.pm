@@ -87,6 +87,9 @@ get '/topic/:topic' => sub {
 get '/post/:id/:uri' => sub {
     my $params = params('route');
     my $post;
+    # Since we have a login prompt on this page, set last_url
+    # TODO: Make this happen for everything (in login handler?)
+    session last_url => request->env->{REQUEST_URI};
     my $res = ddgcr_get [ 'Blog', 'post' ], { id => $params->{id} };
     if ( $res->is_success ) {
         $post = $res->{ddgcr}->{post};
