@@ -16,7 +16,7 @@ on_plugin_import {
             name => 'before',
 
             code => sub {
-                $dsl->request->var( user =>
+                $dsl->var( user =>
                     $schema->resultset('User')->find(
                         { username => $dsl->session('__user') || undef }
                     )
