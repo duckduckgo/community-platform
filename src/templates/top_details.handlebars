@@ -1,0 +1,20 @@
+{{#if topic}}
+    <div class="left">
+        Categories:
+        {{#each topic}}
+            {{this}}{{#unless @last}}, {{/unless}}
+        {{/each}}
+    </div>
+{{/if}}
+
+{{#if repo}}
+    <div class="left">
+        Type: {{repo}}
+    </div>
+{{/if}}
+
+{{#if dev_milestone}}
+    <div class="left">
+        Status: {{dev_milestone}}
+    </div>
+{{/if}}
