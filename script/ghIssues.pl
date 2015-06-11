@@ -161,6 +161,8 @@ sub getIssues{
                 while( my($k, $v) = each %new_data ){
                     # can't delete these ones
                     next if $k =~ /id|meta_id|name/;
+
+                    # this is not a new IA check if the field already has data
                     if(!$new_ia && $ia->$k){
                         delete $new_data{$k};
                         next;
