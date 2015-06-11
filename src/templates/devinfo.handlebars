@@ -10,10 +10,10 @@
 </div>
 
 <div class="ia-single--info">
-  {{#if code}}
-    <div class="ia-single--header">Source Files</div>
+  {{#if back_end}}
+    <div class="ia-single--header">Back-End &amp; Data Files</div>
     <ul>
-      {{#each code}}
+      {{#each back_end}}
         <li>
         <a class="one-line" href="https://github.com/duckduckgo/zeroclickinfo-{{../repo}}/tree/master/{{this}}">{{this}}</a>
         </li>
@@ -21,4 +21,18 @@
     </ul>
   {{/if}}
 </div>
+
+<div class="ia-single--info">
+  {{#if front_end}}
+    <div class="ia-single--header">Front-End Files</div>
+    <ul>
+      {{#each front_end}}
+        <li>
+        <a class="one-line" href="https://github.com/duckduckgo/zeroclickinfo-{{../repo}}/tree/master/{{this}}">{{this}}</a>
+        </li>
+      {{/each}}
+    </ul>
+  {{/if}}
+</div>
+
 

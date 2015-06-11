@@ -34,6 +34,22 @@
                         $(".site-main > .content-wrap").first().removeClass("content-wrap");
                         $(".breadcrumb-nav").remove();
                     }
+
+                    // Separate back-end files from front-end ones 
+                    ia_data.back_end = [];
+                    ia_data.front_end = [];
+                    front_end = ["handlebars", "js", "css", "json"];
+                    back_end = ["pm", "t"];
+                    $.each(ia_data.live.code, function(idx) {
+                        var file = ia_data.live.code[idx];
+                        var type = file.replace(/.*\.([^\.]*)$/,'$1');
+
+                        if ($.inArray(type, front_end) !== -1) {
+                            ia_data.front_end.push(file);
+                        } else if ($.inArray(type, back_end) !== -1) {
+                            ia_data.back_end.push(file);
+                        }
+                    });
                     
                     // Show latest edits for admins and users with edit permissions
                     var latest_edits_data = {};
