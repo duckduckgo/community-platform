@@ -25,6 +25,13 @@ sub feed {
     );
 }
 
+# This intercepts all routes to set a body class.
+# TODO: Get a better way to do this.
+get qr/^.*/ => sub {
+    var( page_class => 'page-blog texture' );
+    pass;
+};
+
 get '/' => sub {
     my $page = param_hmv('page') || 1;
     my $res = ddgcr_get( [ 'Blog' ], {
