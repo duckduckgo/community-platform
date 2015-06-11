@@ -87,9 +87,10 @@ sub getIssues{
                 my $data = \%entry;
                 return unless $data->{name};
 
-
+                # check to see if we have this IA already
                 my $ia = $d->rs('InstantAnswer')->find($data->{name});
-                return if $ia;
+                my $new_ia = 1 if !$ia;
+                warn "new ia $new_ia";
 
                 my @time = localtime(time);
                 my $date = "$time[4]/$time[3]/".($time[5]+1900);
@@ -139,19 +140,39 @@ sub getIssues{
                 my $name = $data->{name};
                 $name =~ s/_/ /g;
                 
-                $d->rs('InstantAnswer')->create({
-                        id => $data->{name},
-                        meta_id => $data->{name},
-                        name => ucfirst $name,
-                        dev_milestone => 'planning',
-                        description => $description || '',
-                        created_date => $date,
-                        repo => $data->{repo},
-                        perl_module => $pm,
-                        forum_link => $forum_link,
-                        src_api_documentation => $api_link,
-                        developer => $developer,
-                });
+                my %new_data = (
+                    id => $data->{name},
+                    meta_id => $data->{name},
+                    name => ucfirst $name,
+                    dev_milestone => 'planning',
+                    description => $description,
+                    created_date => $date, 
+                    repo => $data->{repo},
+                    perl_module => $pm,
+                    forum_link => $forum_link,
+                    src_api_documentation => $api_link,
+                    developer => $developer
+                );
+
+                # Only add the new data if
+                # 1. this is a new IA page
+                # 2. an existing IA page but this field is currently null in the DB
+                my $update; 
+                while( my($k, $v) = each %new_data ){
+                    # can't delete these ones
+                    next if $k =~ /id|meta_id|name/;
+
+                    # this is not a new IA check if the field already has data
+                    if(!$new_ia && $ia->$k){
+                        delete $new_data{$k};
+                        next;
+                    }
+                    # if we get here then set update flag
+                    # we have new data to add
+                    $update = 1;
+                }
+
+                $d->rs('InstantAnswer')->update_or_create({%new_data}) if $update;
             };
 
             # check for an existing IA page.  Create one if none are found
