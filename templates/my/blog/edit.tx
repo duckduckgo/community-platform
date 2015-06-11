@@ -130,7 +130,6 @@
 						<tt>[quote=superman]Look at me![/quote]</tt>: <div class='bbcode_quote_header'>Quote from <a href='/superman'>superman</a>:<div class='bbcode_quote_body'>Look at me!</div></div>
 						<tt>[code=perl]say "Hello, World";[/code]</tt>: <div class='bbcode_code_header'>Perl Code:<pre class='bbcode_code_body'><code><span class="synStatement">say</span> <span class="synConstant">"Hello, World"</span>;</code></pre></div>
 						<tt>[noparse][b]test[/b][/noparse]</tt>: [b]test[/b]<br/>
-						<tt>[size=5pt]test[/size]</tt>: <span style="font-size: 5">test</span>
 						<tt>[color=red]test[/color]</tt>: <span style="color: red">test</span>
 					</p>
 				</div>
