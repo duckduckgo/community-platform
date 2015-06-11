@@ -4,6 +4,8 @@ package Dancer2::Plugin::DDGC::Session;
 
 use Dancer2;
 use Dancer2::Plugin;
+use Data::UUID;
+use Digest::MD5 qw/ md5_hex /;
 
 on_plugin_import {
     my ( $dsl ) = @_;
@@ -16,13 +18,25 @@ on_plugin_import {
             name => 'before',
 
             code => sub {
-                $dsl->request->var( user =>
+                $dsl->var( user =>
                     $schema->resultset('User')->find(
                         { username => $dsl->session('__user') || undef }
                     )
                 );
+                # TODO: Make this XHR along with session init handling. See: #662
+                if ( !$dsl->session('username_field') ) {
+                    $dsl->session(
+                        username_field =>
+                        md5_hex( Data::UUID->new->create_str . rand )
+                    );
+                }
+                if ( !$dsl->session('action_token') ) {
+                    $dsl->session(
+                        action_token =>
+                        md5_hex( Data::UUID->new->create_str . rand )
+                    );
+                }
             },
-
         )
     );
 
