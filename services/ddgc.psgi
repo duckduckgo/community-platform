@@ -16,6 +16,6 @@ builder {
     enable 'Session',
         store => $deploy->session_store,
         state => $deploy->session_state;
-    mount '/' => DDGC::Web->new->psgi_app;
+    mount '/' => DDDGC::Web->apply_default_middlewares( DGC::Web->new->psgi_app(@_) ) ;
 };
 
