@@ -2,14 +2,7 @@
 
 <title><: $title :></title>
 
-: for ['/static/css/reset','/static/css/_ls/abstracts','/static/css/font-face',
-:      '/static/css/font-awesome','/static/css/linkbox','/static/css/modals',
-:      '/static/css/forms-n-buttons','/static/css/feedback','/static/css/content',
-:      '/static/css/litestrap','/static/css/main','/static/js/sceditor/themes/modern',
-:      '/generated_css/flags.css'] -> $css {
-    <link rel="stylesheet" media="screen, projection, handheld" href="<: $css :>.css" />
-: }
-
+<link rel="stylesheet" media="screen, projection, handheld" href="/static/css/content.css" />
 <link rel="stylesheet" media="screen, projection, handheld" href="/static/css/ddgc<: $settings.ddgc_config.js_version :>.css" />
 : if $ia_page {
     <link rel="stylesheet" media="screen, projection, handheld" href="/static/css/ia<: $settings.ddgc_config.js_version :>.css" />
