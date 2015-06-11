@@ -25,6 +25,13 @@ sub feed {
     );
 }
 
+# This intercepts all routes to set a body class.
+# TODO: Get a better way to do this.
+get qr/^.*/ => sub {
+    var( page_class => 'page-blog texture' );
+    pass;
+};
+
 get '/' => sub {
     my $page = param_hmv('page') || 1;
     my $res = ddgcr_get( [ 'Blog' ], {
@@ -80,6 +87,9 @@ get '/topic/:topic' => sub {
 get '/post/:id/:uri' => sub {
     my $params = params('route');
     my $post;
+    # Since we have a login prompt on this page, set last_url
+    # TODO: Make this happen for everything (in login handler?)
+    session last_url => request->env->{REQUEST_URI};
     my $res = ddgcr_get [ 'Blog', 'post' ], { id => $params->{id} };
     if ( $res->is_success ) {
         $post = $res->{ddgcr}->{post};
