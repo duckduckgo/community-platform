@@ -88,7 +88,11 @@ has http => (
 	lazy_build => 1,
 );
 sub _build_http {
-	my $ua = LWP::UserAgent->new;
+	my $ua = LWP::UserAgent->new(
+	($ENV{DDGC_PROSODY_USERHOST} ne 'dukgo.com')
+		? ( ssl_opts => { verify_hostname => 0 } )
+		: (),
+	);
 	$ua->timeout(5);
 	my $agent = (ref $_[0] ? ref $_[0] : $_[0]).'/'.$VERSION;
 	$ua->agent($agent);

@@ -14,7 +14,12 @@ use HTTP::Request;
 use JSON;
 use Dancer2::Plugin;
 
-my $ua = LWP::UserAgent->new( timeout => 5 );
+my $ua = LWP::UserAgent->new(
+    timeout => 5,
+    ($ENV{DANCER_ENVIRONMENT} ne 'production')
+        ? ( ssl_opts => { verify_hostname => 0 } )
+        : (),
+);
 
 sub _uri_for {
     my ( $dsl, $route, $params ) = @_;
