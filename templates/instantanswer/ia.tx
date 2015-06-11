@@ -40,8 +40,8 @@
         </div>
         
         <div class="ia-single__body content-wrap" id="ia-single-body">
-            <div class="ia-single--right right"></div>
-            <div class="ia-single--left left"></div>
+            <div class="ia-single--left twothirds"></div>
+            <div class="ia-single--right g right third"></div>
             <div class="ia-single--edits hide">
                 <div id="row-title">
                     <h2 class="left row-title__live" id="row-title-live">

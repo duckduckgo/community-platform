@@ -841,7 +841,7 @@ body.texture {
     list-style-type: none;
 }
 
-.ia-single .ia-single--left a {
+.ia-single a {
     color: #4896d2;
     line-height: 1.857em;
 }
@@ -991,10 +991,6 @@ body.texture {
     position: absolute;
 }
 
-.ia-single--left {
-    width: 30%;
-}
-
 .ia-single--info ul li a {
     display: block;
 }
@@ -1068,10 +1064,6 @@ body.texture {
     .big-description {
         display: none;
     }
-}
-
-.ia-single--right {
-    width: 67%;
 }
 
 @media (max-width: 910px) {

@@ -800,9 +800,9 @@
 
         field_order: [
             'description',
-            'github',
             'examples',
-            'devinfo'
+            'screens',
+            'github'
         ],
 
         edit_field_order: [
@@ -948,7 +948,8 @@
                         $(".ia-single--left").append(templates.live[this.field_order[i]]);
                     }
 
-                    $(".ia-single--right").append(templates.screens);
+                    $(".ia-single--left .ia-issues").before(templates.screens);
+                    $(".ia-single--right").append(templates.live.devinfo);
                     $(".ia-single--screenshots").removeClass("twothirds");
                 } else {
                     $(".ia-single--wide").before(templates.live.name);

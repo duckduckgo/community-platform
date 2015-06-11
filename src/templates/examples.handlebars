@@ -1,17 +1,12 @@
 {{#if example_query}}
   <div class="ia-examples ia-single--info">
-    <div class="ia-single--header">EXAMPLES</div>
-    <ul>
-      <li>
+    <div class="ia-single--header">Example Queries</div>
         <a class="one-line" href="https://duckduckgo.com/?q={{encodeURIComponent example_query}}{{tab_url tab}}" title="try this example on DuckDuckGo">{{example_query}}</a>
-      </li>
-      {{#if other_queries}}
+      {{#if other_queries}}, 
         {{#each other_queries}}
-          <li>
             <a class="one-line" href="https://duckduckgo.com/?q={{encodeURIComponent this}}{{tab_url ../tab}}" title="try this example on DuckDuckGo">{{this}}</a>
-          </li>
+            {{#unless @last}}, {{/unless}}
         {{/each}}
       {{/if}}
-    </ul>
   </div>
 {{/if}}
