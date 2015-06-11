@@ -29,7 +29,12 @@
                         }
                     }
 
-
+                    // Allow blue band to get 100% page width
+                    if (ia_data.live.dev_milestone === "live" || ia_data.live.dev_milestone === "deprecated") {
+                        $(".site-main > .content-wrap").first().removeClass("content-wrap");
+                        $(".breadcrumb-nav").remove();
+                    }
+                    
                     // Show latest edits for admins and users with edit permissions
                     var latest_edits_data = {};
                     if (ia_data.edited || (ia_data.live.dev_milestone !== "live" && ia_data.live.dev_milestone !== "deprecated")) {
@@ -937,7 +942,7 @@
                 $(".ia-single--name").remove();
                 
                 if (dev_milestone === "live" || dev_milestone === "deprecated") {
-                    $(".ia-single--right").before(templates.live.name);
+                    $("#ia-single-top-name").html(templates.live.name);
                     $(".ia-single--left, .ia-single--right").show().empty();
                     
                     for (var i = 0; i < this.field_order.length; i++) {
@@ -990,7 +995,7 @@
                     }
                 });
             } else {
-                $(".ia-single--left, .ia-single--right, .ia-single--name").hide();
+                $("#ia-single-top-name, #ia-single-top-details, .ia-single--left, .ia-single--right").hide();
                 $(".ia-single--edits").removeClass("hide");
                 for (var i = 0; i < this.edit_field_order.length; i++) {
                     $(".ia-single--edits").append(templates[this.edit_field_order[i]]);
