@@ -17,6 +17,7 @@ use DDGC::Help;
 use DDGC::Ideas;
 use DDGC::Util::DateTime;
 
+use IO::All;
 use File::Spec;
 use File::ShareDir::ProjectDistDir;
 use Net::AIML;
