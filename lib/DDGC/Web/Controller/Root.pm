@@ -187,7 +187,7 @@ sub wear :Chained('base') :PathPart('wear') :Args(0) {
 		duckduckgo.com
 	/,  lc( $c->request->env->{HTTP_HOST} ) );
 
-	if ( !$host || !grep { $_ eq $host } @domains ) {
+	if ( !$c->user && ( !$host || !grep { $_ eq $host } @domains ) ) {
 		$c->response->status(404);
 		return $c->detach;
 	}
