@@ -17,6 +17,7 @@ builder {
     enable 'Session',
         store => $deploy->session_store,
         state => $deploy->session_state;
+    enable 'ReverseProxy';
     mount '/blog' => DDGC::Web::App::Blog->to_app;
     mount '/blog.json' => DDGC::Web::Service::Blog->to_app;
 };
