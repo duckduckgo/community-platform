@@ -1,4 +1,4 @@
-@import "../../../node_modules/duckduckgo-colors/_colors";
+@import "../../../bower_components/duckduckgo-colors/_colors";
 @import "compass/css3/border-radius";
 @import "compass/css3/text-shadow";
 
@@ -17,6 +17,13 @@
     ul li { list-style: none; }
 
     h2, h3 { text-transform: capitalize; }
+
+    .btn--primary {
+        padding: 0 5px;
+        text-shadow: none;
+
+        a { color: $white; }
+    }
 }
 
 /* Top Issues */
@@ -73,7 +80,6 @@
         .issue-details { color: $grey-light; }
     }
 }
-
 
 /* Live and New IA Pages */
 .iap-list {

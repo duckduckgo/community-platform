@@ -1,13 +1,10 @@
 {
   "name": "ddg_community_platform",
-  "version": "0.89.0",
+  "version": "0.90.0",
   "engines": {
     "node": ">=0.10.0"
   },
   "repository": "duckduckgo/community-platform",
-  "dependencies": {
-    "duckduckgo-colors": "0.0.1"
-  },
   "devDependencies": {
     "grunt": "^0.4.5",
     "grunt-available-tasks": "^0.5.7",
