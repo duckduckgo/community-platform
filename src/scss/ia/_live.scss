@@ -1,0 +1,29 @@
+#ia-single-top {
+    background-color: $blue-light;
+    color: $white;
+    padding: 3em 0 1em 0;
+
+    .ia-single--name h2 { 
+        color: $white; 
+        font-size: 2em;
+        font-weight: 600;
+    }
+
+    .button {
+        background-color: transparent;
+        text-shadow: none;
+        color: white;
+        box-shadow: none;
+        border: 1px solid white;
+    }
+}
+
+.ia-single { margin-top: -1.1em; }
+
+.ia-issues.ia-single--info {
+    a { color: $slate; }
+
+    .tag-name, .date, .author {
+        color: $grey-light;
+    }
+}
