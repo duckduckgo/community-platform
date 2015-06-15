@@ -1,7 +1,6 @@
 #ia-single-top {
     background-color: $blue-light;
     color: $white;
-    padding: 3em 0 1em 0;
 
     .ia-single--name h2 { 
         color: $white; 
@@ -22,6 +21,8 @@
         color: $blue-light;
     }
 }
+
+#ia-single-top, #ia-single-top--edit { padding: 3em 0 1em 0; }
 
 .ia-single { margin-top: -1.1em; }
 
