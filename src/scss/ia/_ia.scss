@@ -831,10 +831,9 @@ body.texture {
 }
 
 .ia-single .ia-single--header {
-    color: #AAA;
-    font-size: 0.857em;
-    margin-bottom: 0.4em;
     margin-top: 2.4em;
+    font-weight: 600;
+    font-size: 1.1em;
 }
 
 .ia-single ul {
@@ -907,11 +906,6 @@ body.texture {
 
 .ia-issues li:last-child {
     border-bottom: none;
-}
-
-.ia-attribution li {
-    border-bottom: 1px solid #DBDBDB;
-    padding-bottom: 0.3em;
 }
 
 .ia-attribution li:last-child {
