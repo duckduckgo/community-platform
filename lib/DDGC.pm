@@ -128,9 +128,7 @@ sub ddgcr_get {
 	_apply_session_to_req( $c, $req );
 
 	my $res = $self->http->request( $req );
-	$res->{ddgcr} = ( $res->is_success )
-		? JSON::from_json( $res->decoded_content, { utf8 => 1 } )
-		: undef;
+	$res->{ddgcr} = JSON::from_json( $res->decoded_content, { utf8 => 1 } );
 	return $res;
 }
 sub ddgcr_post {
@@ -146,9 +144,7 @@ sub ddgcr_post {
 	_apply_session_to_req( $c, $req );
 
 	my $res = $self->http->request( $req );
-	$res->{ddgcr} = ( $res->is_success )
-		? JSON::from_json( $res->decoded_content, { utf8 => 1 } )
-		: undef;
+	$res->{ddgcr} = JSON::from_json( $res->decoded_content, { utf8 => 1 } );
 	return $res;
 }
 

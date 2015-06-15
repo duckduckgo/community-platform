@@ -59,9 +59,7 @@ register ddgcr_get => sub {
     _apply_session_to_req( $dsl, $req );
 
     my $res = $ua->request( $req );
-    $res->{ddgcr} = ( $res->is_success )
-        ? JSON::from_json( $res->content, { utf8 => 1 } )
-        : undef;
+    $res->{ddgcr} = JSON::from_json( $res->content, { utf8 => 1 } );
     return $res;
 };
 
@@ -78,9 +76,7 @@ register ddgcr_post => sub {
     _apply_session_to_req( $dsl, $req );
 
     my $res = $ua->request( $req );
-    $res->{ddgcr} = ( $res->is_success )
-        ? JSON::from_json( $res->content, { utf8 => 1 } )
-        : undef;
+    $res->{ddgcr} = JSON::from_json( $res->content, { utf8 => 1 } );
     return $res;
 };
 
