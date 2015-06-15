@@ -74,11 +74,8 @@ sub edit :Chained('base') :Args(1) {
 			$values{$_} = $c->req->param($_);
 		}
 
-		if ($c->user->admin) {
-			for (qw( company_blog raw_html )) {
-				$values{$_} = $c->req->param($_) ? 1 : 0;
-			}
-		}
+		$values{raw_html} = $c->req->param('raw_html') ? 1 : 0;
+		$values{company_blog} = 1;
 
 		my $ok = 1;
 

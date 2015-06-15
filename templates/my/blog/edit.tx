@@ -78,14 +78,6 @@
 							<input type="checkbox" name="raw_html" value="1" <: if $post.raw_html { :>checked="checked"<: } :>/>
 						</div>
 					</div>
-					<div class="row">
-						<div class="third">
-							<label for="company_blog">Company Blog</label>
-						</div>
-						<div class="twothird">
-							<input type="checkbox" name="company_blog" value="1" <: if $post.company_blog { :>checked="checked"<: } :>/>
-						</div>
-					</div>
 				<: } :>
 				<div class="row callout-row">
 					<label class="callout-row__text" for="teaser">Teaser</label>
