@@ -65,7 +65,6 @@
                             name : Handlebars.templates.name(latest_edits_data),
                             top_details : Handlebars.templates.top_details(latest_edits_data),
                             description : Handlebars.templates.description(latest_edits_data),
-                            template : Handlebars.templates.template(latest_edits_data),
                             examples : Handlebars.templates.examples(latest_edits_data),
                             devinfo : Handlebars.templates.devinfo(latest_edits_data),
                             github: Handlebars.templates.github(latest_edits_data)
