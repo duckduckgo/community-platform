@@ -509,7 +509,8 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
                     title => $issue->title,
                     body => $issue->body,
                     tags => $issue->tags,
-                    author => $issue->author
+                    author => $issue->author,
+                    date => $issue->date
                );
 
                $ia_data{live}->{pr} = \%pull_request;
@@ -536,7 +537,9 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
                     issue_id => $issue->issue_id,
                     title => $issue->title,
                     body => $issue->body,
-                    tags => $issue->tags
+                    tags => $issue->tags,
+                    author => $issue->author,
+                    date => $issue->date
                 });
             }
         }
