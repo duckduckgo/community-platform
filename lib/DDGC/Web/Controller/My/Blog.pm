@@ -78,6 +78,7 @@ sub edit :Chained('base') :Args(1) {
 		$values{company_blog} = 1;
 
 		my $ok = 1;
+		my $res;
 
 		if ($values{fixed_date}) {
 			unless (DateTime::Format::RSS->new->parse_datetime($values{fixed_date})) {
@@ -90,33 +91,24 @@ sub edit :Chained('base') :Args(1) {
 		}
 
 		if ($ok) {
-			my $res;
 			if ($post) {
 				$values{id} = $c->stash->{id};
-				my $res = $c->d->ddgcr_post( $c, [ 'Blog', 'admin', 'post', 'update' ], \%values );
-				if ( $res->is_success ) {
-					$post = $res->{ddgcr}->{post}
-				}
-				else {
-					$ok = 0;
-				}
+				$res = $c->d->ddgcr_post( $c, [ 'Blog', 'admin', 'post', 'update' ], \%values );
 			} else {
-				my $res = $c->d->ddgcr_post( $c, [ 'Blog', 'admin', 'post', 'new' ], \%values );
-				if ( $res->is_success ) {
-					$post = $res->{ddgcr}->{post}
-				}
-				else {
-					$ok = 0;
-				}
+				$res = $c->d->ddgcr_post( $c, [ 'Blog', 'admin', 'post', 'new' ], \%values );
 			}
 		}
 
-		if ($ok) {
+
+		if ($res->is_success) {
+			my $post = $res->{ddgcr}->{post};
 			$c->response->redirect('/blog/post/' . join '/', ( $post->{id}, $post->{uri} ) );
 			return $c->detach;
 		} else {
 			$c->stash->{not_ok} = 1;
 			$c->stash->{post} = \%values;
+			$c->stash->{errors} = $res->{ddgcr}->{errors}
+				if ($res->{ddgcr}->{errors});
 		}
 
 	}
