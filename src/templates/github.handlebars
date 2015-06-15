@@ -9,11 +9,11 @@
           <div class="left">
             <a class="one-line" href="https://github.com/duckduckgo/zeroclickinfo-{{../repo}}/issues/{{issue_id}}">{{title}} #{{issue_id}}</a>
             {{#each tags}}
-              <i class="icon-circle" style="color: #{{color}};" /> <span>{{name}}</span>
+              <i class="icon-circle" style="color: #{{color}};" /> <span class="tag-name">{{name}}</span>
             {{/each}}
           </div>
           <div class="right">
-            <span class="left">created {{parse_date date}} by </span><a class="left" href="https://github.com/{{author}}">{{author}}</a>
+            <span class="left date">created {{parse_date date}} by </span><a class="left author" href="https://github.com/{{author}}">{{author}}</a>
             <span class="clearfix"></span>
           </div>
           <span class="clearfix"></span>
