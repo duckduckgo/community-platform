@@ -16,6 +16,11 @@
         box-shadow: none;
         border: 1px solid white;
     }
+
+    .button.button-nav-current {
+        background-color: $white;
+        color: $blue-light;
+    }
 }
 
 .ia-single { margin-top: -1.1em; }
