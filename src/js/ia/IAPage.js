@@ -358,21 +358,11 @@
                         var $selected = $(this).find("option:selected");
 
                         if ($(this).hasClass("topic-group")) {
-                            value = [];
-                            var temp;
-                            $("select.js-autocommit.topic-group").each(function(idx) {
-                                $selected = $(this).find("option:selected");
-
-                                if ($selected.attr("value").length) {
-                                    temp = $.trim($selected.text());
-                                } else {
-                                    temp = '';
-                                }
-
-                                value.push(temp);
-                            });
-
+                           var $selector = $("select.js-autocommit.topic-group option:selected");
+                           
+                           value = [];
                            field = "topic";
+                           value = getGroupVals(field, $selector);
                            value = JSON.stringify(value);
                            is_json = true;
                         } else {
