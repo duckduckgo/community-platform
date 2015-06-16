@@ -14,7 +14,7 @@
                 <div id="ia-single-top-name"></div>
                 <div id="ia-single-top-details" class="pull-left"></div>
                 <: if $can_edit { :>
-                  <div class="pull-right">
+                  <div class="pull-right edit-buttons">
                     <span class="special-permissions__toggle-view" id="toggle-view">
                         <div class="pager-wrap">
                             <span class="btn-grp">
@@ -42,8 +42,8 @@
         </div>
         
         <div class="ia-single__body content-wrap" id="ia-single-body">
-            <div class="ia-single--left twothirds"></div>
-            <div class="ia-single--right g right third"></div>
+            <div class="ia-single--left seventy"></div>
+            <div class="ia-single--right g thirty"></div>
             <div class="ia-single--edits hide">
                 <div id="row-title">
                     <h2 class="left row-title__live" id="row-title-live">
