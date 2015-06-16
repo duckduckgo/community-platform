@@ -3,7 +3,7 @@
     color: $white;
 
     .content-wrap {
-        margin-top: 1.5em;
+        margin-top: 0.5em;
         margin-bottom: 2em;
     }
 
@@ -49,6 +49,10 @@
 .ia-single { 
     margin-top: -1.1em; 
 
+    .btn {
+        font-weight: 400;
+    }
+
     .ia-examples a:after {
         content: ',';
         color: $slate-light;
@@ -64,6 +68,11 @@
 
     .tag-name, .date, .author {
         color: $grey-light;
+    }
+
+    .date {
+        font-size: smaller;
+        line-height: 2em;
     }
 }
 
@@ -81,4 +90,17 @@
     margin-top: 2em;
     margin-bottom: 2em;
     text-transform: capitalize;
+}
+
+.ia-single .ia-issues {
+    padding-top: 2.4em;
+
+    .ia-single--header {
+        margin-top: 0;
+        line-height: 2em;
+    }
+}
+
+.ia-single--info ul li .date a {
+    display: inline;
 }
