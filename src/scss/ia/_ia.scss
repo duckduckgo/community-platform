@@ -1312,10 +1312,7 @@ input.not_saved, select.not_saved, .button.not_saved {
     font-size: 0.8em;
 }
 
-#pipeline_toggle-view,
-#pipeline-live-container {
-    padding-left: 1em;
-}
+#dev_pipeline #pipeline-planning, #deprecated #pipeline-fathead { padding-left: 0; }
 
 #pipeline-live-container {
     width: 70%;
