@@ -20,6 +20,24 @@
         background-color: $white;
         color: $blue-light;
     }
+
+    .pager-wrap {
+        overflow: initial;
+        padding-right: 0.25em;
+    }
+
+    #ia-single-top-details {
+        line-height: 2.15em;
+
+        span {
+            vertical-align: middle;
+            text-transform: capitalize;
+        }
+    }
+
+    .ia-single--name h2 {
+        font-weight: 500;
+    }
 }
 
 #ia-single-top, #ia-single-top--edit { padding: 3em 0 1em 0; }

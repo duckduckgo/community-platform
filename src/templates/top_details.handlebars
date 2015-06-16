@@ -1,20 +1,20 @@
 {{#if topic}}
-    <div class="left">
+    <span class="sep--after">
         Categories:
         {{#each topic}}
             {{this}}{{#unless @last}}, {{/unless}}
         {{/each}}
-    </div>
+    </span>
 {{/if}}
 
 {{#if repo}}
-    <div class="left">
+    <span class="sep--after">
         Type: {{repo}}
-    </div>
+    </span>
 {{/if}}
 
 {{#if dev_milestone}}
-    <div class="left">
+    <span>
         Status: {{dev_milestone}}
-    </div>
+    </span>
 {{/if}}

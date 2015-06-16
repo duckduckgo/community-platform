@@ -12,9 +12,10 @@
         <div class="ia-single__top nowrap" id="ia-single-top">
             <div class="content-wrap">
                 <div id="ia-single-top-name"></div>
-                <div id="ia-single-top-details" class="left"></div>
+                <div id="ia-single-top-details" class="pull-left"></div>
                 <: if $can_edit { :>
-                    <div class="special-permissions__toggle-view right" id="toggle-view">
+                  <div class="pull-right">
+                    <span class="special-permissions__toggle-view" id="toggle-view">
                         <div class="pager-wrap">
                             <span class="button-group  button-group--paging">
                                 <span class="button special-permissions__toggle-view__button" id="toggle-live">
@@ -25,15 +26,16 @@
                                 </span>
                             </span>
                         </div>
-                    </div>
+                    </span>
                     
-                    <div class="special-permissions right <: if $dev_milestone != 'live' && $dev_milestone != 'deprecated' { :>hide<: } :>">
+                    <span class="special-permissions <: if $dev_milestone != 'live' && $dev_milestone != 'deprecated' { :>hide<: } :>">
                         <: if $can_commit { :>
                             <div class="special-permissions__edit js-view-commits button <: $commit_class :>" id="view_commits">Commit edits</div>
                         <: } :>
-                        <div class="special-permissions__edit js-edit-enable button right" id="edit_activate">Enable edit mode</div>
-                        <div class="special-permissions__static hide js-edit-disable button right" id="edit_disable">Disable edit mode</div>
-                    </div>
+                        <div class="special-permissions__edit js-edit-enable button" id="edit_activate">Enable edit mode</div>
+                        <div class="special-permissions__static hide js-edit-disable button" id="edit_disable">Disable edit mode</div>
+                    </span>
+                  </div>
                 <: } :>
                 <span class="clearfix"></span>
             </div>
