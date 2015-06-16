@@ -46,7 +46,18 @@
 
 #ia-single-top, #ia-single-top--edit { padding: 3em 0 1em 0; }
 
-.ia-single { margin-top: -1.1em; }
+.ia-single { 
+    margin-top: -1.1em; 
+
+    .ia-examples a:after {
+        content: ',';
+        color: $slate-light;
+    }
+
+    .ia-examples a:last-of-type:after {
+        content: '';
+    }
+}
 
 .ia-issues.ia-single--info {
     a { color: $slate; }

@@ -815,9 +815,6 @@ body.texture {
     margin-right: 0.2em;
 }
 
-.ia-single p::first-letter {
-    text-transform: capitalize;
-}
 #row-diff-id p::first-letter {
     text-transform: none;
 }
@@ -825,14 +822,10 @@ body.texture {
 .ia-single .row-diff ul {
     color: #666;
 }
-.ia-single p {
-    margin-top: 1.1em;
-    font-size: 1.143em;
-}
 
 .ia-single .ia-single--header {
     margin-top: 2.4em;
-    font-weight: 600;
+    font-weight: 500;
     font-size: 1.1em;
 }
 
