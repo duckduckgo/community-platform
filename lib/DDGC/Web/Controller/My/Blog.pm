@@ -83,8 +83,12 @@ sub edit :Chained('base') :Args(1) {
 		my $ok = 1;
 
 		if ($values{fixed_date}) {
-			unless (DateTime::Format::RSS->new->parse_datetime($values{fixed_date})) {
+			my $d = DateTime::Format::RSS->new->parse_datetime($values{fixed_date});
+			if (!$d) {
 				$c->stash->{error_fixed_date_invalid} = 1; $ok = 0;
+			}
+			else {
+				$values{fixed_date} = $c->d->db->storage->datetime_parser->format_datetime($d);
 			}
 		}
 
