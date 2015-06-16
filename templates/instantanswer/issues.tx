@@ -1,0 +1,21 @@
+<div class="pipeline__toggle-view" id="pipeline_toggle-view">
+    <div class="pager-wrap">
+        <span class="button-group  button-group--paging">
+            <span class="button pipeline__toggle-view__button" id="pipeline_toggle-home">
+                Home
+            </span>
+            <span class="button pipeline__toggle-view__button" id="pipeline_toggle-dev">
+                Dev Pipeline
+            </span>
+            <span class="button pipeline__toggle-view__button  button-nav-current disabled" id="pipeline_toggle-live">
+                Issues
+            </span>
+            <span class="button pipeline__toggle-view__button" id="pipeline_toggle-deprecated">
+                Deprecated
+            </span>
+        </span>
+    </div>
+</div>
+
+<div id="issues">
+</div>
