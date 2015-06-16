@@ -901,6 +901,10 @@ body.texture {
     border-bottom: none;
 }
 
+.ia-issues li:first-child {
+    border-top: 1px solid #eee;
+}
+
 .ia-attribution li:last-child {
     border-bottom: none;
 }

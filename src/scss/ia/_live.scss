@@ -49,6 +49,10 @@
 .ia-single { 
     margin-top: -1.1em; 
 
+    .tag-grp {
+        margin-right: 1em;
+    }
+
     .btn {
         font-weight: 400;
     }
@@ -67,13 +71,18 @@
     a { color: $slate; }
 
     .tag-name, .date, .author {
-        color: $grey-light;
+        color: $slate-light;
     }
 
     .date {
         font-size: smaller;
-        line-height: 2em;
+        line-height: 3em;
     }
+}
+
+.ia-issues li {
+    padding-bottom: 0.5em;
+    padding-top: 0.5em;
 }
 
 .search-example:after {
