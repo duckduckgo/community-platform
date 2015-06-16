@@ -2,28 +2,28 @@
     background-color: $blue-light;
     color: $white;
 
+    .content-wrap {
+        margin-top: 1.5em;
+        margin-bottom: 2em;
+    }
+
     .ia-single--name h2 { 
         color: $white; 
         font-size: 2em;
         font-weight: 600;
     }
 
-    .button {
-        background-color: transparent;
-        text-shadow: none;
-        color: white;
-        box-shadow: none;
+    .btn {
         border: 1px solid white;
     }
 
-    .button.button-nav-current {
-        background-color: $white;
-        color: $blue-light;
+    .special-permissions .btn--wire--hero {
+        @include border-radius(0.25em);
     }
 
     .pager-wrap {
-        overflow: initial;
         padding-right: 0.25em;
+        overflow: initial;
     }
 
     #ia-single-top-details {
