@@ -4,15 +4,13 @@
   {{#if issues.length}}
     <ul class="clear">
       {{#each issues}}
-        <li>
-          <div class="twothird">
+        <li {{#gt @index 4}}class="hide"{{/gt}}>
+          <div class="pull-left twothird">
             <a class="one-line" href="https://github.com/duckduckgo/zeroclickinfo-{{../repo}}/issues/{{issue_id}}">{{title}} #{{issue_id}}</a>
             {{#loop_n 3 tags}}
-              {{#if this}}
-                <span class="tag-grp">
+              <span class="tag-grp">
                 <i class="icon-circle" style="color: #{{color}};" /> <span class="tag-name">{{name}}</span>
-                </span>
-              {{/if}}
+              </span>
             {{/loop_n}}
           </div>
           <div class="third g">
@@ -22,5 +20,10 @@
         </li>
       {{/each}}
     </ul>
+    {{#gt issues 5}}
+      <div class="btn btn--primary" id="show-all-issues">
+        Show All
+      </div>
+    {{/gt}}
   {{/if}}
 
