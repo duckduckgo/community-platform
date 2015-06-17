@@ -27,10 +27,6 @@ use IPC::Run qw/ run timeout /;
 use POSIX;
 use Cache::FileCache;
 use Cache::NullCache;
-use LWP::Protocol::Net::Curl;
-use if ($ENV{DDGC_PROSODY_USERHOST} ne 'dukgo.com'),
-    'LWP::Protocol::Net::Curl',
-    ssl_verifyhost => 0, ssl_verifypeer => 0;
 use LWP::UserAgent;
 use HTTP::Request;
 use Carp;
