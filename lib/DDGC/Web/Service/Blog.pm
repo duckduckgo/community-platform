@@ -212,7 +212,7 @@ get '/post' => sub {
     my $v = validate('/blog.json/post', params_hmv );
     if (
         !(scalar $v->errors) &&
-        (my $post = posts_rset
+        (my $post = rset('User::Blog')
             ->prefetch([
                 'user',
                 { comments => 'user' },
