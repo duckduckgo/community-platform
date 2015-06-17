@@ -97,6 +97,6 @@
         var month = date[1]? months[parseInt(date[1].replace('0', '')) - 1] : '';
         var day = date[2] || '';
 
-        return day + " " + month + " " + year;
+        return month + ", " + day + " " + year;
     });
 })(DDH);

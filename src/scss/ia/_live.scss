@@ -2,34 +2,122 @@
     background-color: $blue-light;
     color: $white;
 
+    .content-wrap {
+        margin-top: 0.5em;
+        margin-bottom: 2em;
+    }
+
     .ia-single--name h2 { 
         color: $white; 
         font-size: 2em;
         font-weight: 600;
     }
 
-    .button {
-        background-color: transparent;
-        text-shadow: none;
-        color: white;
-        box-shadow: none;
+    .btn {
         border: 1px solid white;
     }
 
-    .button.button-nav-current {
-        background-color: $white;
-        color: $blue-light;
+    .special-permissions .btn--wire--hero {
+        @include border-radius(0.25em);
+    }
+
+    .pager-wrap {
+        padding-right: 0.25em;
+        overflow: initial;
+    }
+
+    #ia-single-top-details {
+        line-height: 2.15em;
+
+        span {
+            vertical-align: middle;
+            text-transform: capitalize;
+        }
+    }
+
+    .ia-single--name h2 {
+        font-weight: 500;
+    }
+
+    .edit-buttons {
+        text-transform: capitalize;
     }
 }
 
 #ia-single-top, #ia-single-top--edit { padding: 3em 0 1em 0; }
 
-.ia-single { margin-top: -1.1em; }
+.ia-single { 
+    margin-top: -1.1em; 
+
+    .tag-grp {
+        margin-right: 1em;
+    }
+
+    .btn {
+        font-weight: 400;
+    }
+
+    .ia-examples a:after {
+        content: ',';
+        color: $slate-light;
+    }
+
+    .ia-examples a:last-of-type:after {
+        content: '';
+    }
+}
 
 .ia-issues.ia-single--info {
-    a { color: $slate; }
+    ul li a { 
+        color: $slate; 
+    }
+
+    /* This is the "Create Issue" button.
+       We override the color because, typically, <a> tags have a different color. */
+    #create-issue--link {
+        color: #fff;
+    }
 
     .tag-name, .date, .author {
-        color: $grey-light;
+        color: $slate-light;
     }
+
+    .date {
+        font-size: smaller;
+        line-height: 3em;
+    }
+}
+
+.ia-issues li {
+    padding-bottom: 0.5em;
+    padding-top: 0.5em;
+}
+
+.search-example:after {
+    content: "";
+    display: inline-block;
+    border-top: 1px solid #f2f2f2;
+    width: 73%;
+    position: relative;
+    top: 10px;
+    float: right;
+}
+
+.search-example {
+    margin-top: 2em;
+    margin-bottom: 2em;
+    text-transform: capitalize;
+}
+
+.ia-single .ia-issues {
+    padding-top: 2.4em;
+
+    .ia-single--header {
+        margin-top: 0;
+        line-height: 2em;
+    }
+}
+
+.ia-single--info ul li .date a {
+    display: inline;
 }

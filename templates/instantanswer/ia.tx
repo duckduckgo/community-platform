@@ -12,36 +12,38 @@
         <div class="ia-single__top nowrap" id="ia-single-top">
             <div class="content-wrap">
                 <div id="ia-single-top-name"></div>
-                <div id="ia-single-top-details" class="left"></div>
+                <div id="ia-single-top-details" class="pull-left"></div>
                 <: if $can_edit { :>
-                    <div class="special-permissions__toggle-view right" id="toggle-view">
+                  <div class="pull-right edit-buttons">
+                    <span class="special-permissions__toggle-view" id="toggle-view">
                         <div class="pager-wrap">
-                            <span class="button-group  button-group--paging">
-                                <span class="button special-permissions__toggle-view__button" id="toggle-live">
+                            <span class="btn-grp">
+                                <span class="btn btn--wire--hero special-permissions__toggle-view__button" id="toggle-live">
                                     Live
                                 </span>
-                                <span class="button special-permissions__toggle-view__button button-nav-current disabled" id="toggle-edited">
+                                <span class="btn btn--wire--hero special-permissions__toggle-view__button disabled" id="toggle-edited">
                                     Edited
                                 </span>
                             </span>
                         </div>
-                    </div>
+                    </span>
                     
-                    <div class="special-permissions right <: if $dev_milestone != 'live' && $dev_milestone != 'deprecated' { :>hide<: } :>">
+                    <span class="special-permissions <: if $dev_milestone != 'live' && $dev_milestone != 'deprecated' { :>hide<: } :>">
                         <: if $can_commit { :>
-                            <div class="special-permissions__edit js-view-commits button <: $commit_class :>" id="view_commits">Commit edits</div>
+                            <div class="special-permissions__edit js-view-commits btn btn--wire--hero <: $commit_class :>" id="view_commits">Commit edits</div>
                         <: } :>
-                        <div class="special-permissions__edit js-edit-enable button right" id="edit_activate">Enable edit mode</div>
-                        <div class="special-permissions__static hide js-edit-disable button right" id="edit_disable">Disable edit mode</div>
-                    </div>
+                        <div class="special-permissions__edit js-edit-enable btn btn--wire--hero" id="edit_activate">Enable edit mode</div>
+                        <div class="special-permissions__static hide js-edit-disable btn btn--wire--hero" id="edit_disable">Disable edit mode</div>
+                    </span>
+                  </div>
                 <: } :>
                 <span class="clearfix"></span>
             </div>
         </div>
         
         <div class="ia-single__body content-wrap" id="ia-single-body">
-            <div class="ia-single--left twothirds"></div>
-            <div class="ia-single--right g right third"></div>
+            <div class="ia-single--left seventy"></div>
+            <div class="ia-single--right g thirty"></div>
             <div class="ia-single--edits hide">
                 <div id="row-title">
                     <h2 class="left row-title__live" id="row-title-live">

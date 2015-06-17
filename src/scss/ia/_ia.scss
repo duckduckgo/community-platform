@@ -10,6 +10,8 @@
 .iadata li {
     list-style:none;
 }
+
+/*
 .special-permissions #edit_activate {
     margin-right: 0.7em;
     margin-bottom: 0;
@@ -18,6 +20,7 @@
     position:relative;
     margin-left: 1.2em;
 }
+*/
 
 .ia-single--edits #row-title {
     width: 98%;
@@ -490,10 +493,7 @@
 #view_commits {
     margin-right: 0.25em;
 }
-#edit_activate,
-#edit_disable {
-    margin-bottom: 1em;
-}
+
 #ia_index td {
     padding-left:4px;
 }
@@ -815,9 +815,6 @@ body.texture {
     margin-right: 0.2em;
 }
 
-.ia-single p::first-letter {
-    text-transform: capitalize;
-}
 #row-diff-id p::first-letter {
     text-transform: none;
 }
@@ -825,14 +822,10 @@ body.texture {
 .ia-single .row-diff ul {
     color: #666;
 }
-.ia-single p {
-    margin-top: 1.1em;
-    font-size: 1.143em;
-}
 
 .ia-single .ia-single--header {
     margin-top: 2.4em;
-    font-weight: 600;
+    font-weight: 500;
     font-size: 1.1em;
 }
 
@@ -908,12 +901,12 @@ body.texture {
     border-bottom: none;
 }
 
-.ia-attribution li:last-child {
-    border-bottom: none;
+.ia-issues li:first-child {
+    border-top: 1px solid #eee;
 }
 
-#create-issue--link {
-    color: #707070;
+.ia-attribution li:last-child {
+    border-bottom: none;
 }
 
 #show-more--link {
