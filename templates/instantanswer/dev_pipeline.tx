@@ -24,9 +24,9 @@
             <span class="new-ia-select" id="dev_milestone-select">
                 <select class="available_dev_milestones" tabindex="-1">
                     <option value="1">planning</option>
-                    <option value="2">in_development</option>
-                    <option value="3">qa</option>
-                    <option value="4">ready</option>
+                    <option value="2">development</option>
+                    <option value="3">testing</option>
+                    <option value="4">complete</option>
                     <option value="5">live</option>
                 </select>
             </span>
@@ -54,10 +54,10 @@
     <div class="pager-wrap">
         <span class="button-group  button-group--paging">
             <span class="button pipeline__toggle-view__button <: if $view == 'dev' { :>button-nav-current disabled<: } :>" id="pipeline_toggle-dev">
-                In Development
+                New
             </span>
             <span class="button pipeline__toggle-view__button <: if $view == 'live' { :>button-nav-current disabled<: } :>" id="pipeline_toggle-live">
-                Live with issues
+                Live
             </span>
             <span class="button pipeline__toggle-view__button <: if $view == 'deprecated' { :>button-nav-current disabled<: } :>" id="pipeline_toggle-deprecated">
                 Deprecated

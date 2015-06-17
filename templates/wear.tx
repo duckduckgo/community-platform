@@ -1,27 +1,27 @@
 <div class="shareit-top">
-	<h1 class="shareit-title">Share it + Wear it</h1>
-	<h3 class="shareit-subtitle">Get a t-shirt for sharing DuckDuckGo</h3>
+	<h1 class="shareit-title">Share it &amp; Wear it</h1>
+	<h3 class="shareit-subtitle">Get a T-shirt for sharing DuckDuckGo!</h3>
 	
 	<div class="shareit-overview group">
 		<div class="third">
 			<div class="shareit-overview__col">
 				<img src="/static/img/shareit.png" alt="share duckduckgo" class="shareit-overview__img" />
 				<h4 class="shareit-overview__title">Share DuckDuckGo</h4>
-				<p>Over the next 30 days, try anything and everything to get your friends to switch to DuckDuckGo.</p>
+				<p>In the next 30 days, get three of your friends and family to switch to DuckDuckGo.</p>
 			</div>
 		</div>
 		<div class="third">
 			<div class="shareit-overview__col">
 				<img src="/static/img/questions.png" alt="answer questions" class="shareit-overview__img" />
 				<h4 class="shareit-overview__title">Tell Us About It</h4>
-				<p>After 30 days, sign in to duck.co and answer a few questions about how you got them to make the switch.</p>
+				<p>After 30 days, sign in to duck.co and answer a few questions about how you got them to switch.</p>
 			</div>
 		</div>
 		<div class="third">
 			<div class="shareit-overview__col">
 				<img src="/static/img/t-shirt.png" alt="get a shirt" class="shareit-overview__img" />
 				<h4 class="shareit-overview__title">Rock Your T-shirt</h4>
-				<p>You'll get a coupon code for a free DuckDuckGo t-shirt! Wear it or use it as a flag to lead the duck revolution you started!</p>
+				<p>You'll get a code for a free DuckDuckGo T-shirt. Wear it or use it as a flag to lead the duck revolution you started!</p>
 			</div>
 		</div>
 	</div>
@@ -29,11 +29,12 @@
 	<: if !$user { :>
 	<div id="loginprompt" class="shareit-prompt">
 		<h4 class="shareit-overview__title">To Participate:</h4>
+		<h5 class="shareit-login-subtitle">You must be a current DuckDuckGo user!</h5>
 		<div>
 		<a href="#" id="loginlink" class="js-reveal button blue h5" data-reveal-id="login-box">Login</a> or
 		<a href="/my/register" id="registerlink" class="button blue h5">Register</a>
 		</div>
-		<h5 class="shareit-login-subtitle">(so we can send you shirts)</h5>
+		<h5 class="shareit-login-subtitle">(so we can send you a T-shirt)</h5>
 	</div>
 	<: } :>
 </div>

@@ -15,14 +15,22 @@ sub u { [ 'InstantAnswer', 'view', $_[0]->id ] }
 
 column id => {
 	data_type => 'text',
-    for_endpt => 1
 };
 primary_key 'id';
+
+# editable ID
+column meta_id => {
+    data_type => 'text',
+    for_endpt => 1,
+    pipeline => 1,
+    show_as => 'id',
+};
 
 # userland name
 column name => {
 	data_type => 'text',
-    for_endpt => 1
+    for_endpt => 1,
+    pipeline => 1
 };
 
 # userland description of what the IA does
@@ -58,6 +66,8 @@ column perl_dependencies => {
 column dev_milestone => {
 	data_type => 'text',
 	is_nullable => 1,
+    pipeline => 1,
+    for_endpt => 1,
 };
 
 # is the IA live or not live?
@@ -83,7 +93,8 @@ column status => {
 column repo => {
 	data_type => 'text',
 	is_nullable => 1,
-    for_endpt => 1
+    for_endpt => 1,
+    pipeline => 1
 };
 
 # aka team
@@ -104,6 +115,7 @@ column code => {
 column src_name => {
 	data_type => 'text',
 	is_nullable => 1,
+    for_endpt => 1
 };
 
 # top-level url of the source website
@@ -231,19 +243,25 @@ column type => {
 column producer => {
     data_type => 'text',
     is_nullable => 1,
+    pipeline => 1,
+    for_endpt => 1
 };
 
 # IA designer (must be an admin)
 column designer => {
     data_type => 'text',
     is_nullable => 1,
+    pipeline => 1,
+    for_endpt => 1
 };
 
 # IA developer
 column developer => {
     data_type => 'text',
     is_nullable => 1,
+    pipeline => 1,
     is_json => 1,
+    for_endpt => 1
 };
 
 # code review (can be completed, aka '1', or not completed, aka '0')
@@ -327,11 +345,42 @@ column src_options => {
 column src_id => {
     data_type => 'integer',
     is_nullable => 1,
+    for_endpt => 1
+};
+
+column is_stackexchange => {
+    data_type => 'integer',
+    is_nullable => 1,
+    for_endpt => 1
 };
 
 column src_domain => {
     data_type => 'text',
     is_nullable => 1,
+    for_endpt => 1
+};
+
+column dev_date => {
+    data_type => 'date',
+    is_nullable => 1,
+    for_endpt => 1
+};
+
+column live_date => {
+    data_type => 'date',
+    is_nullable => 1,
+    for_endpt => 1
+};
+
+column created_date => {
+    data_type => 'date',
+    is_nullable => 1,
+    for_endpt => 1
+};
+
+column forum_link => {
+    data_type => 'text',
+    is_nullable => 1
 };
 
 has_many 'issues', 'DDGC::DB::Result::InstantAnswer::Issues', 'instant_answer_id';
@@ -350,20 +399,27 @@ sub TO_JSON {
     my ($ia, $type) = @_;
     
     my %data = $ia->get_columns;
+    my %result;
     my @topics = map { $_->name } $ia->topics;
-    $data{topic} = \@topics;
+    $result{topic} = \@topics;
 
-    while( my($field,$value) = each %data ){
-        my $column_data = $ia->column_info($field);
-        
-        if ($type && !$column_data->{$type}){
-            delete $data{$field};
-            next;
+    while( my($key,$value) = each %data ){
+        my $column_data = $ia->column_info($key);
+
+        next if $result{$key};
+
+        if ($column_data->{show_as}) {
+            $key = $column_data->{show_as};
         }
-        next unless $data{$field} && $column_data->{is_json};
-        $data{$field} = from_json($data{$field});
+
+        next if ($type && !$column_data->{$type});
+
+        $result{$key} = $value;
+        
+        next unless $data{$key} && $column_data->{is_json};
+        $result{$key} = from_json($data{$key});
     }
-    return \%data;
+    return \%result;
 }
 
 no Moose;

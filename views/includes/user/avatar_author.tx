@@ -1,0 +1,4 @@
+    <img src='<: $user.avatar16 :>'
+         width='16'
+         title='<: $user.username :>'
+         class='userpic' />

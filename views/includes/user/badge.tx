@@ -1,0 +1,14 @@
+: if $user.badge {
+    : if $user.badge == 'admin' {
+        <span class='userbadge  userbadge--txt'
+              title='Admin'>
+            Staff
+        </span>
+    : } else {
+        <img src='/static/img/badges/<: $user.badge :>.png'
+             class='userbadge'
+             alt='<: $user.badge :>'
+             title='<: $user.badge :>'
+        />
+    : }
+: }

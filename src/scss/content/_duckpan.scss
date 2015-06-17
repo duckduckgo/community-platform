@@ -1,0 +1,27 @@
+.duckpan h1, .duckpan h2 { margin: 10px 0 18px; text-align: left; font-weight: bold; }
+.duckpan h1  { font-size: 20px; }
+.duckpan h2 { font-size: 16px; }
+
+.duckpan #index {
+	float: right;
+	list-style: none;
+	margin: 10px 10px 18px 18px;
+	border: 1px solid #d7d7d7;
+	background: #fff;	
+	padding: 10px 0;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+	position: relative;
+	z-index: 2;
+}
+	.duckpan #index li { list-style: none; }
+		.duckpan #index li a { display: block; padding: 0 16px; font-size: 12px; }
+	.duckpan #index ul { margin: 0; width: 100%; padding: 2px 0; }
+		.duckpan #index ul li { padding-left: 1.25em; }
+		
+@media only screen and (max-width: 521px) {
+	.duckpan #index {
+		float: none;
+		margin: 10px 10px 18px 0;
+	}
+}

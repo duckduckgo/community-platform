@@ -1,0 +1,18 @@
+{
+  "name": "duckduckgo-frontend",
+  "version": "0.0.1",
+  "authors": [
+    "Brian <brian@duckduckgo.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "duckduckgo-colors": "*"
+  }
+}

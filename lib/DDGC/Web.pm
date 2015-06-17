@@ -8,10 +8,10 @@ use Catalyst::Runtime 5.90;
 
 use Catalyst qw/
     ConfigLoader
+    Session
+    Session::State::PSGI
+    Session::Store::PSGI
     Static::Simple
-	Session
-	Session::Store::File
-	Session::State::Cookie
 	Authentication
 	Authorization::Roles
 	ChainedURI
@@ -53,7 +53,7 @@ __PACKAGE__->config(
 	},
 	'Plugin::ErrorCatcher::Email' => {
 		to => $ENV{DDGC_ERROR_EMAIL} // 'ddgc@duckduckgo.com',
-		from => 'noreply@dukgo.com',
+		from => 'noreply@duck.co',
 		subject => '[DuckDuckGo Community] %p %l CRASH!!!',
 		use_tags => 1,
 	},
@@ -82,12 +82,6 @@ __PACKAGE__->config(
 		'content-type' => 'text/html; charset=utf-8',
 		'view-name' => 'Xslate',
 		'response-status' => 500,
-	},
-	'Plugin::Session' => {
-		cookie_secure   => 2,
-		cookie_httponly => 1,
-		expires => 21600,
-		defined $ENV{DDGC_TMP} ? ( storage => $ENV{DDGC_TMP} ) : (),
 	},
 	'Plugin::Captcha' => {
 		session_name => 'captcha_string',
