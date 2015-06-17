@@ -128,3 +128,5 @@ requires 'DBIx::Class::Helpers', '2.028000';
 requires 'CHI', '0.59';
 requires 'Cache::FastMmap', '1.40';
 requires 'HTML::FormatText::WithLinks', '0.15';
+requires 'Cache::LRU', '0.04';
+requires 'Pithub', '0.01028';
