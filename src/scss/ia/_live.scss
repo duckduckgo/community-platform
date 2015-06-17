@@ -56,6 +56,17 @@
 
     margin-top: -1.1em; 
 
+    /*
+      Let's add some margin to the divs inside the right column.
+      We're doing this because we can't just add margins / padding to
+      .ia-single--right. It will mess up the grid.
+     */
+    .ia-single--right {
+        div {
+            margin-left: 65px;
+        }
+    }
+
     .tag-grp {
         margin-right: 1em;
     }
