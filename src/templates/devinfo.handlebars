@@ -15,7 +15,7 @@
     <ul>
       {{#each back_end}}
         <li>
-        <a class="one-line" href="https://github.com/duckduckgo/zeroclickinfo-{{../repo}}/tree/master/{{this}}">{{this}}</a>
+        <a class="one-line" href="https://github.com/duckduckgo/zeroclickinfo-{{../repo}}/tree/master/{{this}}">{{final_path this}}</a>
         </li>
       {{/each}}
     </ul>
@@ -28,7 +28,7 @@
     <ul>
       {{#each front_end}}
         <li>
-        <a class="one-line" href="https://github.com/duckduckgo/zeroclickinfo-{{../repo}}/tree/master/{{this}}">{{this}}</a>
+        <a class="one-line" href="https://github.com/duckduckgo/zeroclickinfo-{{../repo}}/tree/master/{{this}}">{{final_path this}}</a>
         </li>
       {{/each}}
     </ul>
