@@ -128,7 +128,13 @@
 }
 
 .ia-single .ia-issues {
+    /*
+      Add padding above and below this section.
+      We add more to the bottom (x2 to be exact) because
+      we don't want to be close to the footer.
+     */
     padding-top: 2.4em;
+    padding-bottom: 4.8em;
 
     .ia-single--header {
         margin-top: 0;
