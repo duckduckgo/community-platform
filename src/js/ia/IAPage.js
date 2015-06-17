@@ -36,8 +36,8 @@
                     }
 
                     // Separate back-end files from front-end ones 
-                    ia_data.back_end = [];
-                    ia_data.front_end = [];
+                    ia_data.live.back_end = [];
+                    ia_data.live.front_end = [];
                     front_end = ["handlebars", "js", "css", "json"];
                     back_end = ["pm", "t"];
                     $.each(ia_data.live.code, function(idx) {
@@ -45,9 +45,9 @@
                         var type = file.replace(/.*\.([^\.]*)$/,'$1');
 
                         if ($.inArray(type, front_end) !== -1) {
-                            ia_data.front_end.push(file);
+                            ia_data.live.front_end.push(file);
                         } else if ($.inArray(type, back_end) !== -1) {
-                            ia_data.back_end.push(file);
+                            ia_data.live.back_end.push(file);
                         }
                     });
                     
