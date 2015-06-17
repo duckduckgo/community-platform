@@ -490,7 +490,7 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
 
     my $ia = $c->stash->{ia};
     my $edited;
-    my @issues = $c->d->rs('InstantAnswer::Issues')->search({instant_answer_id => $ia->id});
+    my @issues = $c->d->rs('InstantAnswer::Issues')->search({instant_answer_id => $ia->id},{order_by => {'-desc' => 'date'}});
     my @ia_issues;
     my %pull_request;
     my @ia_pr;
