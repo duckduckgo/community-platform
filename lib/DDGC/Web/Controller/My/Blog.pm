@@ -19,7 +19,8 @@ sub base :Chained('/my/logged_in') :PathPart('blog') :CaptureArgs(0) {
 
 sub index :Chained('base') :PathPart('') :Args(0) {
 	my ( $self, $c ) = @_;
-	$c->stash->{blog} = $c->user->blog;
+	my $res = $c->d->ddgcr_get( $c, [ 'Blog', 'by_user' ], { id => $c->user->id } );
+	$c->stash->{blog} = $res->{ddgcr}->{posts} if ( $res->is_success );
 	$c->bc_index;
 }
 
@@ -51,9 +52,10 @@ sub edit :Chained('base') :Args(1) {
 
 	if ($id_or_new ne 'new' && $id_or_new+0 > 0) {
 		my $id = $id_or_new+0;
-		$post = $c->d->rs('User::Blog')->find($id);
+		my $res = $c->d->ddgcr_get( $c, [ 'Blog', 'admin', 'post', 'raw' ], { id => $id } );
+		$post = $res->{ddgcr}->{post} if ( $res->is_success );
 		unless ($c->user->admin) {
-			if ($post->users_id ne $c->user->id) {
+			if ($post->{users_id} ne $c->user->id) {
 				$c->response->redirect($c->chained_uri('My::Blog','index'));
 				return $c->detach;
 			}
@@ -72,22 +74,20 @@ sub edit :Chained('base') :Args(1) {
 			$values{$_} = $c->req->param($_);
 		}
 
-		if ($c->user->admin) {
-			for (qw( company_blog raw_html )) {
-				$values{$_} = $c->req->param($_) ? 1 : 0;
-			}
-		}
+		$values{raw_html} = $c->req->param('raw_html') ? 1 : 0;
+		$values{company_blog} = 1;
 
 		my $ok = 1;
+		my $res;
 
 		if ($values{fixed_date}) {
-			unless (DateTime::Format::RSS->new->parse_datetime($values{fixed_date})) {
-				$c->stash->{error_fixed_date_invalid} = 1; $ok = 0; $ok = 0;
+			my $d = DateTime::Format::RSS->new->parse_datetime($values{fixed_date});
+			if (!$d) {
+				$c->stash->{error_fixed_date_invalid} = 1; $ok = 0;
 			}
-		}
-
-		if ($values{uri} !~ m/^[\w-]+$/g) {
-			$c->stash->{error_uri_invalid} = 1; $ok = 0;
+			else {
+				$values{fixed_date} = $c->d->db->storage->datetime_parser->format_datetime($d);
+			}
 		}
 
 		if ($values{topics} && $values{topics} !~ m/^[\w\- ,]+$/g) {
@@ -96,15 +96,23 @@ sub edit :Chained('base') :Args(1) {
 
 		if ($ok) {
 			if ($post) {
-				$post->update_via_form(\%values);
+				$values{id} = $c->stash->{id};
+				$res = $c->d->ddgcr_post( $c, [ 'Blog', 'admin', 'post', 'update' ], \%values );
 			} else {
-				$post = $c->user->user_blogs_rs->create_via_form(\%values);
+				$res = $c->d->ddgcr_post( $c, [ 'Blog', 'admin', 'post', 'new' ], \%values );
 			}
-			$c->response->redirect($c->chained_uri(@{$post->u}));
+		}
+
+
+		if ($res->is_success) {
+			my $post = $res->{ddgcr}->{post};
+			$c->response->redirect('/blog/post/' . join '/', ( $post->{id}, $post->{uri} ) );
 			return $c->detach;
 		} else {
 			$c->stash->{not_ok} = 1;
 			$c->stash->{post} = \%values;
+			$c->stash->{errors} = $res->{ddgcr}->{errors}
+				if ($res->{ddgcr}->{errors});
 		}
 
 	}
@@ -115,17 +123,11 @@ sub edit :Chained('base') :Args(1) {
 	}
 
 	if ($post && !defined $c->stash->{post}) {
-		$c->stash->{post} = $post->form_values;
+		$c->stash->{post} = $post;
 	}
 
 	$c->add_bc($c->stash->{post}->{title} || "New blog post");
 }
-
-# sub json :Chained('base') :Args(0) {
-# 	my ( $self, $c ) = @_;
-# 	$c->stash->{x} = $c->stash->{blog}->export;
-# 	$c->forward('View::JSON');
-# }
 
 no Moose;
 __PACKAGE__->meta->make_immutable;

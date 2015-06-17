@@ -1,0 +1,31 @@
+<div class='comment-controls  button-group  pull-right'>
+
+    : if $submit || !defined $submit {
+            <input type='submit' name='add_comment' class='button submit' value='Submit' />
+    : }
+
+    <button class='button  no-js-hide' title='Bold Text (Ctrl+B)' data-bbcode='b'>
+        <i class='icon-bold'></i>
+    </button>
+
+    <button class='button  no-js-hide' title='Italic Text (Ctrl+I)' data-bbcode='i'>
+        <i class='icon-italic'></i>
+    </button>
+
+    <button class='button  palm-hide  no-js-hide' title='Underline Text (Ctrl+U)' data-bbcode='u'>
+        <i class='icon-underline'></i>
+    </button>
+
+    <button class='button  palm-hide  no-js-hide' title='Add an Image' data-bbcode='img'>
+        <i class='icon-picture'></i>
+    </button>
+
+    <button class='button  no-js-hide' title='Add a Link' data-bbcode='url'>
+        <i class='icon-link'></i>
+    </button>
+
+    <button class='button  palm-hide  no-js-hide' title='Add Example Code' data-bbcode='code'>
+        <i class='icon-code'></i>
+    </button>
+
+</div>

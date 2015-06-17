@@ -3,7 +3,7 @@
 SCRIPTDIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 PSGI_SCRIPT=$SCRIPTDIR/ddgc_dev_server.psgi
 LIBDIR=$SCRIPTDIR/../lib
-PORT=5000
+PORT=5001
 
 [ "$DDGC_UNSUB_KEY" == "" ]          && export DDGC_UNSUB_KEY="asdfasdf"
 [ "$DDGC_COMMENT_RATE_LIMIT" == "" ] && export DDGC_COMMENT_RATE_LIMIT=0
@@ -11,6 +11,7 @@ PORT=5000
 [ "$DDGC_DB_USER" == "" ]            && export DDGC_DB_USER="ddgc"
 [ "$DBIC_TRACE_PROFILE" == "" ]      && export DBIC_TRACE_PROFILE=console
 [ "$DBIC_TRACE" == "" ]              && export DBIC_TRACE=1
+[ "$DANCER_ENVIRONMENT" == "" ]      && export DANCER_ENVIRONMENT=development
 [ "$CATALYST_DEBUG" == "" ]          && export CATALYST_DEBUG=1
 
 usage() {

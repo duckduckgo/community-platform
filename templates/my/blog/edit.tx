@@ -32,18 +32,11 @@
 				</div>
 				<div class="row">
 					<div class="third">
-						<label for="url">URL</label>
+						<label for="url">Slug</label>
 					</div>
 					<div class="twothird">
-						<input type="text" name="uri" size="50" value="<: $post.uri :>" />
+						<input type="text" name="uri" size="50" value="<: $post.uri :>" placeholder="(leave empty to take slug from title)" />
 					</div>
-					<: if $error_uri_invalid { :>
-					<div class="row">
-						<div class="notice error">
-							<i class="icn icon-warning-sign"></i> The URL may only contain letters, numbers and dashes!
-						</div>
-					</div>
-					<: } :>
 				</div>				
 				<div class="row">
 					<div class="third">
@@ -83,14 +76,6 @@
 						</div>
 						<div class="twothird">
 							<input type="checkbox" name="raw_html" value="1" <: if $post.raw_html { :>checked="checked"<: } :>/>
-						</div>
-					</div>
-					<div class="row">
-						<div class="third">
-							<label for="company_blog">Company Blog</label>
-						</div>
-						<div class="twothird">
-							<input type="checkbox" name="company_blog" value="1" <: if $post.company_blog { :>checked="checked"<: } :>/>
 						</div>
 					</div>
 				<: } :>
@@ -134,10 +119,9 @@
 						<tt>[i]Hello[/i]</tt> : <i>Hello</i><br/>
 						<tt>[u]Hello[/u]</tt> : <u>Hello</u><br/>
 						<tt>[img]http://ddg.gg/favicon.ico[/img]</tt>: <img src="https://duckduckgo.com/favicon.ico" alt="https://duckduckgo.com/favicon.ico"></img><br/>
-						<tt>[quote=superman]Look at me![/quote]</tt>: <div class='bbcode_quote_header'>Quote from <a href='/superman'>superman</a>:<div class='bbcode_quote_body'>Look at me!</div></div>
+						<tt>[quote=superman]Look at me![/quote]</tt>: <div class='bbcode_quote_header'>superman:<div class='bbcode_quote_body'>Look at me!</div></div>
 						<tt>[code=perl]say "Hello, World";[/code]</tt>: <div class='bbcode_code_header'>Perl Code:<pre class='bbcode_code_body'><code><span class="synStatement">say</span> <span class="synConstant">"Hello, World"</span>;</code></pre></div>
 						<tt>[noparse][b]test[/b][/noparse]</tt>: [b]test[/b]<br/>
-						<tt>[size=5pt]test[/size]</tt>: <span style="font-size: 5">test</span>
 						<tt>[color=red]test[/color]</tt>: <span style="color: red">test</span>
 					</p>
 				</div>
