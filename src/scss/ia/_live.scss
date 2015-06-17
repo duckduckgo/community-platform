@@ -68,7 +68,15 @@
 }
 
 .ia-issues.ia-single--info {
-    a { color: $slate; }
+    ul li a { 
+        color: $slate; 
+    }
+
+    /* This is the "Create Issue" button.
+       We override the color because, typically, <a> tags have a different color. */
+    #create-issue--link {
+        color: #fff;
+    }
 
     .tag-name, .date, .author {
         color: $slate-light;
