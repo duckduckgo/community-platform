@@ -114,6 +114,11 @@
 
                     page.updateAll(readonly_templates, ia_data, false);
 
+                    $('body').on("click", "#show-all-issues", function(evt) {
+                        $(this).hide();
+                        $(".ia-issues ul li").show();
+                    });
+
                     $("#view_json").click(function(evt) {
                         location.href = json_url;
                     });

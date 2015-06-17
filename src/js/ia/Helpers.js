@@ -29,6 +29,20 @@
         }
     });
 
+    // True if the first value is greater than the second
+    Handlebars.registerHelper('gt', function(value1, value2, options) {
+        if (value1) {
+            value1 = (typeof value1 == 'number')? value1 : value1.length;
+            if (value1 > value2) {
+                return options.fn(this);
+            } else {
+                return options.inverse(this);
+            }
+        } else {
+            return options.inverse(this);
+        }
+    });
+
     // Return the array value at the specified index
     Handlebars.registerHelper('index', function(array, idx) {
         if (array[idx]) {
@@ -83,7 +97,9 @@
     Handlebars.registerHelper('loop_n', function(n, context, options) {
         var result = '';
         for(var i = 0; i < n; i++) {
-            result += options.fn(context[i]);
+            if (context[i]) {
+                result += options.fn(context[i]);
+            }
         }
 
         return result;
