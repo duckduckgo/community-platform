@@ -79,24 +79,6 @@
                     $(".dev_pipeline-column__list li." + teamrole + "-" + username).show();
                 }
             });
-
-            $("#pipeline_toggle-home").click(function(evt) {
-                if (!$(this).hasClass("disabled")) {
-                    window.location = "/ia/dev";
-                }   
-            });
-
-            $("#pipeline_toggle-live").click(function(evt) {
-                if (!$(this).hasClass("disabled")) {
-                    window.location = "/ia/dev/issues";
-                }
-            });
-
-            $("#pipeline_toggle-deprecated").click(function(evt) {
-                if (!$(this).hasClass("disabled")) {
-                    window.location = "/ia/dev/deprecated";
-                }
-            });
         }
     };
 })(DDH);

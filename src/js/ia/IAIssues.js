@@ -43,24 +43,6 @@
                     $("#pipeline-live__list .pipeline-live__list__item .list-container--right__issues li").show();
                 }
             });
-
-            $("#pipeline_toggle-dev").click(function(evt) {
-                if (!$(this).hasClass("disabled")) {
-                    window.location = "/ia/dev/pipeline";
-                }   
-            });
-
-            $("#pipeline_toggle-deprecated").click(function(evt) {
-                if (!$(this).hasClass("disabled")) {
-                    window.location = "/ia/dev/deprecated";
-                }
-            });
-
-            $("#pipeline_toggle-home").click(function(evt) {
-                if (!$(this).hasClass("disabled")) {
-                    window.location = "/ia/dev";
-                }
-            });
         }
     };
 })(DDH);

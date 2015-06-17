@@ -17,25 +17,6 @@
 
                 $("#ia-overview").html(template);
             });
-
-            $("#pipeline_toggle-dev").click(function(evt) {
-                if (!$(this).hasClass("disabled")) {
-                    window.location = "/ia/dev/pipeline";
-                }   
-            });
-
-            $("#pipeline_toggle-live").click(function(evt) {
-                if (!$(this).hasClass("disabled")) {
-                    window.location = "/ia/dev/issues";
-                }
-            });
-
-            $("#pipeline_toggle-deprecated").click(function(evt) {
-                if (!$(this).hasClass("disabled")) {
-                    window.location = "/ia/dev/deprecated";
-                }
-            });
- 
         }
     };
 })(DDH); 

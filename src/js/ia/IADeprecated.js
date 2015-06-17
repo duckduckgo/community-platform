@@ -17,24 +17,6 @@
                 ia_deprecated = Handlebars.templates.dev_pipeline_deprecated(data.repos);
                 $("#deprecated").html(ia_deprecated);
             });
-
-            $("#pipeline_toggle-dev").click(function(evt) {
-                if (!$(this).hasClass("disabled")) {
-                    window.location = "/ia/dev/pipeline";
-                }   
-            });
-
-            $("#pipeline_toggle-live").click(function(evt) {
-                if (!$(this).hasClass("disabled")) {
-                    window.location = "/ia/dev/issues";
-                }
-            });
-
-            $("#pipeline_toggle-home").click(function(evt) {
-                if (!$(this).hasClass("disabled")) {
-                    window.location = "/ia/dev";
-                }
-            });
         }
     };
 })(DDH);
