@@ -5,7 +5,7 @@
     <ul class="clear">
       {{#each issues}}
         <li>
-          <div class="pull-left">
+          <div class="twothird">
             <a class="one-line" href="https://github.com/duckduckgo/zeroclickinfo-{{../repo}}/issues/{{issue_id}}">{{title}} #{{issue_id}}</a>
             {{#loop_n 3 tags}}
               {{#if this}}
@@ -15,8 +15,8 @@
               {{/if}}
             {{/loop_n}}
           </div>
-          <div class="pull-right">
-            <span class="date">created {{parse_date date}} by <a class="author" href="https://github.com/{{author}}">{{author}}</a></span>
+          <div class="third g">
+            <span class="date one-line">created {{parse_date date}} by <a class="author" href="https://github.com/{{author}}">{{author}}</a></span>
           </div>
           <span class="clearfix"></span>
         </li>
