@@ -47,6 +47,13 @@
 #ia-single-top, #ia-single-top--edit { padding: 3em 0 1em 0; }
 
 .ia-single { 
+    /* 
+       Experimental.
+       I'd like the fonts to look a bit thinner and these do the job.
+     */
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+
     margin-top: -1.1em; 
 
     .tag-grp {
