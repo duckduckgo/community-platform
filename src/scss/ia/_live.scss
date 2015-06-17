@@ -136,6 +136,17 @@
     padding-top: 2.4em;
     padding-bottom: 4.8em;
 
+    /* Make the circle icon font 9px and align it
+       with the .tag-name.
+     */
+    .icon-circle {
+        font-size: 9px;
+    }
+
+    .tag-name {
+        vertical-align: middle;
+    }
+
     .ia-single--header {
         margin-top: 0;
         line-height: 2em;
