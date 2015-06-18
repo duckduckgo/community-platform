@@ -35,8 +35,8 @@ To install community-platform's Perl dependencies, go to its directory and
 run:
 
 ```
-  dzil authordeps --missing | cpanm --mirror http://duckpan.org/
-  dzil listdeps --missing | grep -v abstract | cpanm --mirror http://duckpan.org/
+  dzil authordeps --missing | cpanm
+  dzil listdeps --missing | grep -v abstract | cpanm
 ```
 
 This will take some time. You can add `--notest` to the cpanm command to speed
