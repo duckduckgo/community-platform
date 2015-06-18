@@ -139,20 +139,18 @@
     padding-top: 0.5em;
 }
 
-.search-example:after {
-    content: "";
-    display: inline-block;
-    border-top: 1px solid #f2f2f2;
-    width: 73%;
-    position: relative;
-    top: 10px;
-    float: right;
-}
-
-.search-example {
+.example-container {
     margin-top: 2em;
     margin-bottom: 2em;
-    text-transform: capitalize;
+
+    .search-example {
+        text-transform: capitalize;
+        line-height: 2em;
+    }
+
+    .btn {
+        min-width: 1em;
+    }
 }
 
 .ia-single .ia-issues {
