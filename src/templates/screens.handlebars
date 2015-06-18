@@ -1,25 +1,13 @@
 {{#with live}}
-  <div class="ia-single--screenshots twothirds">
-    <div class="ia-single--screenshots__screen">
-        <div class="window-buttons-container">
-          <span class="circle"></span>
-          <span class="circle"></span>
-          <span class="circle"></span>
-        </div>
-        <div class="ia-single--screenshots-top"></div>
-        <div class="ia-single--red-bar"></div>
-        <div class="ia-single--image-container">
-          <img src="https://images.duckduckgo.com/iu/?u={{encodeURIComponent 'https://ia-screenshots.s3.amazonaws.com/'}}{{id}}_index.png&f=1" />
-       </div>
-    </div>
-
-      {{#if ../permissions.can_edit}}
-      <div class="generate-screenshot">
-        <span class="generate-screenshot--button btn--critical btn ia-single--topic generate-screenshot--disabled">Generate Screenshot</span>
-        <span class="save-screenshot--button btn btn--primary ia-single--topic hide">Save</span>
-      </div>
-      <div class="generate-screenshot--notif"></div>
-      {{/if}}
-    </div>
+  <div class="ia-single--screenshots">
+    <img src="https://images.duckduckgo.com/iu/?u={{encodeURIComponent 'https://ia-screenshots.s3.amazonaws.com/'}}{{id}}_index.png&f=1">
   </div>
+  
+  {{#if ../permissions.can_edit}}
+    <span class="generate-screenshot pull-right">
+      <i class="btn btn--primary icon-refresh"></i>
+    </span>
+    <div class="generate-screenshot--notif"></div>
+  {{/if}}
+
 {{/with}}

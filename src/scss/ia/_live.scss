@@ -75,6 +75,7 @@
         font-weight: 400;
     }
 
+    /* Add commas in the list */
     .ia-examples a:after {
         content: ',';
         color: $slate-light;
@@ -82,6 +83,32 @@
 
     .ia-examples a:last-of-type:after {
         content: '';
+    }
+
+    /* Add some space above the "Show All Issues" button. */
+    #show-all-issues {
+        margin-top: 1em;
+    }
+
+    .ia-single--screenshots {
+        overflow: hidden;
+        border: 1px solid #e0e0e0;
+        border-radius: 5px;
+        background-color: #f2f2f2;
+        width: 100%;
+
+        img {
+            margin-left: -55px;
+            max-width: initial;
+            width: 727px;
+        }
+    }
+
+    /* Position the bottom on the screenshot itself. */
+    .generate-screenshot {
+        position: relative;
+        bottom: 38px;
+        right: 2px;
     }
 }
 
