@@ -12,7 +12,7 @@ use Dancer2::Plugin;
 
 my $ua = LWP::UserAgent->new(
     timeout => 5,
-    ($ENV{DANCER_ENVIRONMENT} ne 'production')
+    (!$ENV{DANCER_ENVIRONMENT} || $ENV{DANCER_ENVIRONMENT} ne 'production')
         ? ( ssl_opts => { verify_hostname => 0 } )
         : (),
 );
