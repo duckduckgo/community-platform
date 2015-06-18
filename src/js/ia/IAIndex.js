@@ -39,8 +39,6 @@
                 //right_pane_left = $right_pane.offset().left;
                 $dropdown_header = $right_pane.children(".dropdown").children(".dropdown_header");
                 $input_query = $('#filters input[name="query"]');
-
-                ind.filter($list_item, query);
                 
                 var parameters = window.location.search.replace("?", "");
                 parameters = $.trim(parameters.replace(/\/$/, ''));
@@ -53,7 +51,10 @@
                         var value = temp[1];
                         if (field && value && ind.selected_filter.hasOwnProperty(field)) {
                             if (ind.selected_filter.hasOwnProperty(field)) {
-                                $("#ia_" + field + "-" + value).parent().trigger("click");
+                                var selector = "ia_" + field + "-" + value;
+                                selector = (field === 'topic')? "." + selector : "#" + selector;
+                                console.log(selector);
+                                $(selector).parent().trigger("click");
                             } else if ((field === "q") && value) {
                                 $(".filters--search-button").trigger("click");
                             }
@@ -262,7 +263,14 @@
                 $obj.hide();
                 $.each(this.selected_filter, function(key, val) {
                     if (val) {
-                        url += "&" + key + "=" + val.replace(".ia_" + key + "-", "");
+                        if (key === "topic") {
+                            val = val.replace(".", "#");
+                            val = $(val).attr("class").replace("ia_topic-", "");
+                        } else {
+                            val = val.replace(".ia_" + key + "-", "");
+                        }
+                        
+                        url += "&" + key + "=" + val;
                     }
                 });
 
@@ -284,7 +292,7 @@
                 }
             }
 
-            url = url.length? "?" + url : "/ia";
+            url = url.length? "?" + url.replace("#", "") : "/ia";
             
             // Allows changing URL without reloading, since it doesn't add the new URL to history;
             // Not supported on IE8 and IE9.

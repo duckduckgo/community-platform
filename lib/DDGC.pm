@@ -402,7 +402,12 @@ sub _build_xslate {
 				$source =~ s/$from/$to/g;
 				return $source;
 			},
-			urify => sub { lc(join('-',split(/\s+/,join(' ',@_)))) },
+			urify => sub {
+                my $value = shift;
+                $value = lc $value;
+                $value =~ s/[^a-zA-Z]+/-/g;
+                return $value;
+            },
 
 			floor => sub { floor($_[0]) },
 			ceil => sub { ceil($_[0]) },
