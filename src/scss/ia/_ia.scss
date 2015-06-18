@@ -1244,47 +1244,50 @@ input.not_saved, select.not_saved, .button.not_saved {
     margin-top: 1em;
 }
 
-#dev_pipeline .dev_pipeline-column {
+#dev_pipeline .dev_pipeline-column, #deprecated .dev_pipeline-column {
     width: 21%;
     text-align: left;
     padding: 0 1em;
 }
 
-#dev_pipeline .dev_pipeline-column:not(#pipeline-planning) {
+#dev_pipeline .dev_pipeline-column:not(#pipeline-planning),
+#deprecated .dev_pipeline-column:not(#pipeline-fathead){
     margin-left: 0.5em;
 }
 
-#dev_pipeline .dev_pipeline-column__title {
+#dev_pipeline .dev_pipeline-column__title,
+#deprecated .dev_pipeline-column__title {
     font-weight: 600;
     font-size: 1.87em;
 }
 
-#dev_pipeline .dev_pipeline-column__list li {
+#dev_pipeline .dev_pipeline-column__list li,
+#deprecated .dev_pipeline-column__list li {
     list-style: none;
     padding: 0.3em 0;
     font-size: 1.1em;
     border-bottom: 1px solid #cdcdcd;
 }
 
-#dev_pipeline .dev_pipeline-column__list li a {
+#dev_pipeline .dev_pipeline-column__list li a,
+#deprecated  .dev_pipeline-column__list li a {
     color: #333;
 }
 
-#dev_pipeline .dev_pipeline-column__list li .item-name {
+#dev_pipeline .dev_pipeline-column__list li .item-name,
+#deprecated .dev_pipeline-column__list li .item-name {
     max-width: 9em;
 }
 
-#dev_pipeline .dev_pipeline-column__list .ia-item--stamp {
+#dev_pipeline .dev_pipeline-column__list .ia-item--stamp,
+#deprecated .dev_pipeline-column__list .ia-item--stamp {
     width: 20px;
     height: 20px;
     position: inherit;
     font-size: 0.8em;
 }
 
-#pipeline_toggle-view,
-#pipeline-live-container {
-    padding-left: 1em;
-}
+#dev_pipeline #pipeline-planning, #deprecated #pipeline-fathead { padding-left: 0; }
 
 #pipeline-live-container {
     width: 70%;
@@ -1307,10 +1310,14 @@ input.not_saved, select.not_saved, .button.not_saved {
     box-shadow: none;
 }
 
+#pipeline_toggle-dev {
+    margin-left: 2em;
+    width: 6em;
+}
+
 #pipeline_toggle-live {
-    margin-left: 1em;
     margin-right: 4em;
-    width: 5em;
+    width: 4em;
 }
 
 #pipeline-live-container .list-container--left {

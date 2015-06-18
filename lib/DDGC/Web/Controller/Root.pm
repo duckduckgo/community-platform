@@ -75,23 +75,11 @@ sub base :Chained('/') :PathPart('') :CaptureArgs(0) {
 	$c->stash->{is_view} = $c->d->is_view;
 	$c->stash->{is_dev} = ( $c->d->is_live || $c->d->is_view ) ? 1 : 0;
 	$c->stash->{errors} = [];
-    $c->stash->{js_version} = $c->d->js_version;
+    $c->stash->{js_version} = $c->d->config->js_version;
 
 	$c->set_new_action_token unless defined $c->session->{action_token};
 	$c->check_action_token;
 	$c->wiz_check;
-
-	$c->response->header( 'X-Frame-Options' => 'DENY' );
-	$c->response->header( 'Content-Security-Policy' => "default-src 'self' https://*.duckduckgo.com ; img-src 'self' https://*.duckduckgo.com https://duckduckgo.com ; script-src 'self' 'unsafe-inline' ; style-src 'self' 'unsafe-inline' ;" );
-
-	# Should not be necessary, is not harmful
-	$c->response->header( 'X-Permitted-Cross-Domain-Policies' => 'master-only' );
-
-	# IE Only
-	$c->response->header( 'X-Content-Type-Options' => 'nosniff' );
-	$c->response->header( 'X-Download-Options' => 'noopen' );
-	$c->response->header( 'X-XSS-Protection' => "1; 'mode=block'" );
-
 
 	$c->stash->{action_token} = $c->session->{action_token};
 

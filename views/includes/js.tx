@@ -1,0 +1,20 @@
+: for ['jquery-1.11.1.min','select2-3.3.2/select2.min','jquery.addplaceholder.clean',
+:        'jquery.atooltip','handlebars.runtime-v1.3.0.min', 'dropzone',
+:        'sceditor/jquery.sceditor.bbcode.min'] -> $js {
+    <script src="/static/js/<: $js :>.js" type="text/javascript"></script>
+: }
+
+<script src="/static/js/ddgc<: $settings.ddgc_config.js_version :>.js" type="text/javascript"></script>
+
+: if $ia_page {
+    <script type="text/javascript">
+        var DDH_iapage = "<: $ia_page :>";
+        : if $ia && $ia.id {
+            var DDH_iaid = "<: $ia.id :>";
+        : }
+    </script>
+    <script src="/static/js/ia<: $settings.ddgc_config.js_version :>.js" type="text/javascript"></script>
+: }
+
+<script src="/static/js/highlight.pack.js" type="text/javascript"></script>
+<script>hljs.initHighlightingOnLoad();</script>
