@@ -1,6 +1,10 @@
 (function(env) {
     // Handlebars helpers for IA Pages
 
+    Handlebars.registerHelper('random', function() {
+        return Math.floor(Math.random(10) * 10000);
+    });
+
     // Check if two values are equal
     Handlebars.registerHelper('eq', function(value1, value2, options) {
         if (value1 === value2) {

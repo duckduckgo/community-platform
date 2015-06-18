@@ -194,94 +194,40 @@
 
                     page.hideScreenshot = (function(ia_data) {
                         return function() {
-                            $(".ia-single--image-container img").error(function() {
-                                // Show the dashed border if the image errored out and we have permissions.
-                                if(ia_data.permissions && ia_data.permissions.can_edit) {
-                                    $(".ia-single--screenshots__screen").addClass("hide");
-                                    $(".generate-screenshot").addClass("dashed-border");
+                            // Check if the image errored out.
+                            // If it did, show "There are no screenshots generated for this output yet."
+                            $(".ia-single--screenshots img").error(function() {
+                                // Show the default message.
+                                $(".default-message").show();
 
-                                    $("#testing").hide();
-                                } else {
-                                    // Display default image if we found the live image.
-                                    if(ia_data.live && ia_data.live.dev_milestone === "live") {
-                                        $(".ia-single--screenshots__screen").removeClass("hide");
-                                        $(".ia-single--image-container img").attr("src",  "https://images.duckduckgo.com/iu/?u=" + encodeURIComponent("http://ia-screenshots.s3.amazonaws.com/default_index.png"));
-                                        $("#testing").show();
-                                    } else {
-                                        $(".ia-single--screenshots__screen").addClass("hide");
-
-                                        $(".generate-screenshot").hide();
-                                        $("#testing").hide();
-                                    }                            
-                                }
-
-                                if (ia_data.live.dev_milestone !== "live" && ia_data.live.dev_milestone !== "deprecated"
-                                    && (!ia_data.permissions.can_edit) && (!ia_data.permissions.admin)) {
-                                    page.imgHide = true;
-                                    $(".button.js-expand").hide();
-                                }
+                                // Also remove the screenshot button overlay.
+                                $(".generate-screenshot").hide();
+                                $(".screenshot-switcher").hide();
+                                $(".screenshot-switcher--generate").show();
                             });
                         };
                     }(ia_data));
 
                     page.hideScreenshot();
 
-                    function setNotification(message) {
-                        var $notif = $(".generate-screenshot--notif");
-                        // Send notification.
-                        $notif.text(message);
-                        
-                        // Revert button to its original state.
-                        // Add a little delay.
-                        setTimeout(function() {
-                            $(".generate-screenshot--button").text("Generate Screenshot");
-                            $notif.text("");
-                        }, 1500);
-                    }
-
-                    // Saves the screenshot to S3.
-                    $("body").on("click", ".save-screenshot--button", function(evt) {
-                        $.post("https://ranger.duckduckgo.com/screenshot/save/" + DDH_iaid, function(data) {
-                            // Check if the request was successful.
-                            if(data && data.status === "ok" && data.screenshots && data.screenshots.index) {
-                                // Hide the save button.
-                                $(".save-screenshot--button").addClass("hide");
-                                // Put in the image from S3.
-                                $(".ia-single--image-container img").attr("src", "https://images.duckduckgo.com/iu/?u=" + encodeURIComponent(data.screenshots.index));
-                            } else {
-                                setNotification(data.status);
-                            }
-                        });
-                    });
-
                     // Generate a screenshot when the button is clicked.
-                    $("body").on("click", ".generate-screenshot--button", function(evt) {
-                        // If it's disabled, do nothing.
-                        if($(this).hasClass("generate-screenshot--disabled")) {
-                            return;
-                        }
-
-                        var $button =  $(".generate-screenshot--button");
-                        $button.text("Generating ...");
-
+                    $("body").on("click", ".generate-screenshot.btn, .screenshot-switcher--generate .btn", function(evt) {
                         // Send a POST request with the ID of the IA.
-                        $.post("https://ranger.duckduckgo.com/screenshot/create/" + DDH_iaid, function(data) {
+                        $.post("https://jag.duckduckgo.com/screenshot/create/" + DDH_iaid, function(data) {
                             // Check if the screenshot that we want is available.
                             // If it isn't there must be something wrong.
                             if(data && data.status === "ok" && data.screenshots && data.screenshots.index) {
-                                $button.text("Generate Screenshot");
-                                $(".save-screenshot--button").removeClass("hide");
+                                $.post("https://jag.duckduckgo.com/screenshot/save/" + DDH_iaid, function(data) {
+                                    $(".ia-single--screenshots img").attr("src", "https://images.duckduckgo.com/iu/?u=" + encodeURIComponent(data.screenshots.index) + "?lol=" + Math.floor(Math.random(10) * 10000));
 
-                                // Show preview image.
-                                $(".ia-single--image-container img").attr("src", data.screenshots.index);
-                                $(".ia-single--screenshots__screen").show();
-                                $(".generate-screenshot").removeClass("dashed-border");
-                            } else {
-                                $button.text("Generate Screenshot");
-                                setNotification(data.status);
+                                    // Hide the default message.
+                                    $(".default-message").hide();
+
+                                    $(".generate-screenshot").show();
+                                    $(".screenshot-switcher").show();
+                                    $(".screenshot-switcher--generate").hide();
+                                });
                             }
-                        }).error(function() {
-                            setNotification("Screenshot service is down.");
                         });
                     });
                     

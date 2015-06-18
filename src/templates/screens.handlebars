@@ -1,11 +1,12 @@
 {{#with live}}
   <div class="ia-single--screenshots">
-    <img src="https://images.duckduckgo.com/iu/?u={{encodeURIComponent 'https://ia-screenshots.s3.amazonaws.com/'}}{{id}}_index.png&f=1">
+    <div class="hide default-message">There are no screenshots generated for this output yet.</div>
+    <img src="https://images.duckduckgo.com/iu/?u=https%3A%2F%2Fia-screenshots.s3.amazonaws.com%2F{{id}}_index.png&f=1">
   </div>
   
   {{#if ../permissions.can_edit}}
-    <span class="generate-screenshot pull-right">
-      <i class="btn btn--primary icon-refresh"></i>
+    <span class="generate-screenshot pull-right btn btn--primary">
+      <i class="icon-refresh"></i>
     </span>
   {{/if}}
 {{/with}}

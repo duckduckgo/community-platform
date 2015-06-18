@@ -111,6 +111,15 @@
         bottom: 38px;
         right: 2px;
     }
+
+    .ia-single--screenshots {
+        .default-message  {
+            text-align: center;
+            margin-top: 5em;
+            margin-bottom: 3em;
+            color: #999;
+        }
+    }
 }
 
 .ia-issues.ia-single--info {
@@ -146,10 +155,10 @@
 
     .search-example {
         text-transform: capitalize;
-        line-height: 2em;
+        line-height: 2.5em;
     }
 
-    .btn {
+    .btn.switcher-icon {
         line-height: 1;
         padding-right: 0.5em;
         padding-left: 0.5em;
