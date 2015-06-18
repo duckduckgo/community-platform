@@ -108,7 +108,7 @@ sub _bbcode_url {
 
     my $url = $attr;
     $url ||= ( map {
-        ( $_->[0] eq 'href' ) ? $_->[1] : () ;
+        ( $_->[0] && $_->[0] eq 'href' ) ? $_->[1] : () ;
     } @{ $tag->get_attr } )[0];
 
     $url or return '';
