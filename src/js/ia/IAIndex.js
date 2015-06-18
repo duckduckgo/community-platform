@@ -51,11 +51,12 @@
                         var temp = parameters[idx].split("=");
                         var field = temp[0];
                         var value = temp[1];
-                        console.log(field);
-                        console.log(value);
                         if (field && value && ind.selected_filter.hasOwnProperty(field)) {
-                            //ind.selected_filter[field] = ".ia_" + field + "-" + value;
-                            $("#ia_" + field + "-" + value).parent().trigger("click");
+                            if (ind.selected_filter.hasOwnProperty(field)) {
+                                $("#ia_" + field + "-" + value).parent().trigger("click");
+                            } else if ((field === "q") && value) {
+                                $(".filters--search-button").trigger("click");
+                            }
                         }
                     });
                 }
@@ -247,17 +248,24 @@
             var topic = this.selected_filter.topic;
             var template = this.selected_filter.template;
             var regex;
+            var url = "";
 
             if (query) {
                 query = query.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
                 regex = new RegExp(query, "gi");
+                url += "&q=" + query;
             }
 
             if (!query && !repo.length && !topic.length && !dev_milestone.length && !template.length) {
                 $obj.show();
             } else {
                 $obj.hide();
-                 
+                $.each(this.selected_filter, function(key, val) {
+                    if (val) {
+                        url += "&" + key + "=" + val.replace(".ia_" + key + "-", "");
+                    }
+                });
+
                 var $children = $obj.children(dev_milestone + repo + topic + template);
                
                 var temp_name;
@@ -275,7 +283,13 @@
                     $children.parent().show();
                 }
             }
- 
+
+            url = url.length? "?" + url : "/ia";
+            
+            // Allows changing URL without reloading, since it doesn't add the new URL to history;
+            // Not supported on IE8 and IE9.
+            history.pushState({}, "Index: Instant Answers", url);
+
             this.count($obj, $("#filter_repo ul li a"), regex, dev_milestone + topic + template);
             this.count($obj, $("#filter_topic ul li a"), regex, dev_milestone + repo + template);
             this.count($obj, $("#filter_template ul li a"), regex, dev_milestone + repo + topic);
