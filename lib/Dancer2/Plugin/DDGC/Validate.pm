@@ -26,6 +26,7 @@ on_plugin_import {
         { optional => 'id', valid => POS_VALUE },
         { optional => 'topics', valid => ANY_VALUE, split => ',' },
         { optional => 'fixed_date', valid => ANY_VALUE },
+        { param    => 'company_blog', valid => POS_ZERO_VALUE },
         { param    => 'raw_html', valid => POS_ZERO_VALUE },
         { param    => 'live', valid => POS_ZERO_VALUE },
         { param    => 'users_id', valid => POS_VALUE },

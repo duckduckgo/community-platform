@@ -108,7 +108,7 @@ sub _bbcode_url {
 
     my $url = $attr;
     $url ||= ( map {
-        ( $_->[0] eq 'href' ) ? $_->[1] : () ;
+        ( $_->[0] && $_->[0] eq 'href' ) ? $_->[1] : () ;
     } @{ $tag->get_attr } )[0];
 
     $url or return '';
@@ -183,13 +183,13 @@ sub html {
 
     if ( $opts->{proxify_images} ) {
         for my $node ( $tree->findnodes('//img') ) {
-            my $src = trim($node->attr('src'));
-            next if $src =~ /^$self->image_proxy_base/;
-            next if $src !~ /^http/i;
-            $node->attr(
-                'src',
-                sprintf($self->image_proxy_url, uri_escape($src))
-            );
+            my $src = lc(trim($node->attr('src')));
+            if (index($src, $self->image_proxy_base) != 0 && index($src, 'http') == 0) {
+                $node->attr(
+                    'src',
+                    sprintf($self->image_proxy_url, uri_escape($src))
+                );
+            }
         }
     }
 

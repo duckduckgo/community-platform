@@ -187,7 +187,7 @@ sub TO_JSON {
         date_m  => $date->month_abbr,
         date_d  => $date->day,
         dur     => dur( $date ),
-        comment_count => $self->comments->count,
+        comment_count => $self->comments->ghostbusted->count,
     };
 }
 
