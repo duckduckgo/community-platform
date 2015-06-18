@@ -16,3 +16,4 @@ root/static/js/ia.js
 src/templates/handlebars_tmp
 build/*
 bower_components/*
+*.db
