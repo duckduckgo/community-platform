@@ -2,14 +2,16 @@
     <span class="sep--after">
         Categories:
         {{#each topic}}
-            {{this}}{{#unless @last}}, {{/unless}}
+            <a href="/ia?&topic={{urify this}}">
+                {{this}}{{#unless @last}}, {{/unless}}
+            </a>
         {{/each}}
     </span>
 {{/if}}
 
 {{#if repo}}
     <span class="sep--after">
-        Type: {{repo}}
+        Type: <a href="/ia?&repo={{repo}}">{{repo}}</a>
     </span>
 {{/if}}
 

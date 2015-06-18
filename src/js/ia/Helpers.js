@@ -62,6 +62,12 @@
         return txt;
     });
 
+    // Urify string
+    Handlebars.registerHelper('urify', function(txt) {
+        txt = txt.toLowerCase().replace(/[^a-z]+/g, '-');
+        return txt;
+    });
+
     // Remove specified chars from a given string 
     // and replace it with specified char/string (optional)
     Handlebars.registerHelper('replace', function(txt, to_remove, replacement) {
