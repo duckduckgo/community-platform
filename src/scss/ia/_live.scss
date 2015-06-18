@@ -54,6 +54,16 @@
     -moz-osx-font-smoothing: grayscale;
     -webkit-font-smoothing: antialiased;
 
+    /* Add padding left and right of the wrapper. 
+       This is so that when the screen gets smaller the content won't
+       touch the side of the screen.
+     */
+    .content-wrap {
+        padding-left: 2em;
+        padding-right: 2em;
+        width: auto;
+    }
+
     margin-top: -1.1em; 
 
     /*
