@@ -149,7 +149,13 @@
     }
 
     .btn {
-        min-width: 1em;
+        line-height: 1;
+        padding-right: 0.5em;
+        padding-left: 0.5em;
+
+        span {
+            font-size: 1.4em;
+        }
     }
 }
 
