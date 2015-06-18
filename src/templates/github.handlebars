@@ -5,7 +5,7 @@
     <ul class="clear">
       {{#each issues}}
         <li {{#gt @index 4}}class="hide"{{/gt}}>
-          <div class="pull-left twothird">
+          <div class="pull-left twothird sixty--screen-m sixty--screen-s">
             <a class="one-line" href="https://github.com/duckduckgo/zeroclickinfo-{{../repo}}/issues/{{issue_id}}">{{title}} #{{issue_id}}</a>
             {{#loop_n 3 tags}}
               <span class="tag-grp">
@@ -13,7 +13,7 @@
               </span>
             {{/loop_n}}
           </div>
-          <div class="third g">
+          <div class="third g thirty--screen-m thirty--screen-s">
             <span class="date one-line">created {{parse_date date}} by <a class="author" href="https://github.com/{{author}}">{{author}}</a></span>
           </div>
           <span class="clearfix"></span>

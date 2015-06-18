@@ -209,3 +209,17 @@
 .ia-single--info ul li .date a {
     display: inline;
 }
+
+@media only screen and (max-width: 730px) {
+    .ia-single .ia-single--right div {
+        margin: 0;
+    }
+
+    .ia-single--right {
+        padding-left: 0;
+    }
+
+    .ia-single .ia-issues {
+        padding-bottom: 0;
+    }
+}
