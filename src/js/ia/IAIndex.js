@@ -41,7 +41,25 @@
                 $input_query = $('#filters input[name="query"]');
 
                 ind.filter($list_item, query);
-            });
+                
+                var parameters = window.location.search.replace("?", "");
+                parameters = $.trim(parameters.replace(/\/$/, ''));
+                if (parameters) {
+                    parameters = parameters.split("&");
+
+                    $.each(parameters, function(idx) {
+                        var temp = parameters[idx].split("=");
+                        var field = temp[0];
+                        var value = temp[1];
+                        console.log(field);
+                        console.log(value);
+                        if (field && value && ind.selected_filter.hasOwnProperty(field)) {
+                            //ind.selected_filter[field] = ".ia_" + field + "-" + value;
+                            $("#ia_" + field + "-" + value).parent().trigger("click");
+                        }
+                    });
+                }
+           });
 
             $(document).click(function(evt) {
                 if (!$(evt.target).closest(".dropdown").length) {
@@ -228,7 +246,6 @@
             var dev_milestone = this.selected_filter.dev_milestone;
             var topic = this.selected_filter.topic;
             var template = this.selected_filter.template;
-
             var regex;
 
             if (query) {
