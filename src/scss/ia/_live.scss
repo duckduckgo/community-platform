@@ -95,6 +95,10 @@
         content: '';
     }
 
+    .special-permissions {
+
+    }
+
     /* Add some space above the "Show All Issues" button. */
     #show-all-issues {
         margin-top: 1em;
@@ -221,5 +225,22 @@
 
     .ia-single .ia-issues {
         padding-bottom: 0;
+    }
+}
+
+@media only screen and (max-width: 1015px) {
+    #ia-single-top #ia-single-top-details {
+          width: 100%;
+          float: none;
+    }
+
+    #ia-single-top .edit-buttons {
+          width: 100%;
+          float: none;
+          margin-top: 1em;
+    }
+
+    #ia-single-top .pager-wrap {
+        padding-left: 0;
     }
 }
