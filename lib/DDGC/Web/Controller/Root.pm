@@ -81,18 +81,6 @@ sub base :Chained('/') :PathPart('') :CaptureArgs(0) {
 	$c->check_action_token;
 	$c->wiz_check;
 
-	$c->response->header( 'X-Frame-Options' => 'DENY' );
-	$c->response->header( 'Content-Security-Policy' => "default-src 'self' https://*.duckduckgo.com ; img-src 'self' https://*.duckduckgo.com https://duckduckgo.com ; script-src 'self' 'unsafe-inline' ; style-src 'self' 'unsafe-inline' ;" );
-
-	# Should not be necessary, is not harmful
-	$c->response->header( 'X-Permitted-Cross-Domain-Policies' => 'master-only' );
-
-	# IE Only
-	$c->response->header( 'X-Content-Type-Options' => 'nosniff' );
-	$c->response->header( 'X-Download-Options' => 'noopen' );
-	$c->response->header( 'X-XSS-Protection' => "1; 'mode=block'" );
-
-
 	$c->stash->{action_token} = $c->session->{action_token};
 
 	$c->add_bc('Home', $c->chained_uri('Root','index'));
