@@ -1,0 +1,144 @@
+<div class="breadcrumb-nav">
+<div class='breadcrumbs'>
+    : # TODO - deprecate this phony breadcrumb
+    <a href='/'>
+        Home
+    </a>
+    &gt;
+    : if $post == nil {
+        DuckDuckGo Blog posts
+    : } else {
+        <a href='/blog'>
+            DuckDuckGo Blog posts
+        </a>
+        &gt;
+        : $post.title
+    : }
+</div>
+</div>
+<div class='blog-content  content'>
+    : if $post == nil {
+        : for $posts -> $post {
+            <section class="daily-posts">
+                : include 'includes/blog/content.tx' { post => $post, preview => 1 };
+            </section>
+        : }
+        <div class="post-snippet text-right">
+            : include 'includes/pager.tx' {
+              : uri => '/blog' ~ ( $topic ? '/topic/' ~ $topic : '' ),
+              : page => $page,
+              : pages => $pages
+            : }
+        </div>
+    : } else {
+        <section class="daily-posts">
+            : include 'includes/blog/content.tx' { post => $post };
+        </section>
+    : }
+</div>
+
+<aside class='sidebar sidebar--blog'>
+
+    <a href='javascript:' class='button  hide  palm-block  js-palm-toggle'>
+        <i class='icon  icon-list-ul'></i>
+        Show More Links
+    </a>
+
+    <div class='sidebar-contents  group  palm-hide'>
+
+        <section class='menu-list tab-third'>
+            <h5>Topics</h5>
+            <ul>
+                : for $topics -> $topic {
+                    <li>
+                        <a href='/blog/topic/<: $topic :>'>
+                            : $topic
+                        </a>
+
+                        <a class='icon rss'
+                           href='/blog/topic/<: $topic :>/rss'
+                           title='DuckDuckGo Blog RSS feed for <: $topic :>'>
+                            <i class="icon-rss-sign"></i>
+                        </a>
+                    </li>
+                : }
+            </ul>
+        </section>
+
+        <section class='menu-list tab-third'>
+            <h5>Contribute to <abbr title='DuckDuckGo'>DDG</abbr></h5>
+            <ul>
+
+                <li>
+                    <a href='https://github.com/duckduckgo'>
+                        Github <i class='icon  icon-github'></i>
+                    </a>
+                </li>
+                <li>
+                    <a href='https://duck.co/'>
+                        Community Platform
+                    </a>
+                </li>
+                <li>
+                    <a href='https://duckduckgo.com/feedback'>
+                        Feedback
+                    </a>
+                </li>
+                <li>
+                    <a href='https://duckduckgo.com/spread'>
+                        Spread <abbr title='DuckDuckGo'>DDG</abbr>
+                    </a>
+                </li>
+
+            </ul>
+        </section>
+
+        <section class='clear tab-half'>
+            <h5>Some things you should know&hellip;</h5>
+            <a href='http://donttrack.us'>
+                <img src='https://images.duckduckgo.com/iu/?u=http%3A%2F%2Fdonttrack.us%2Fimages%2Fdont-track-us.png&f=1'
+                     alt="DON'T TRACK US" />
+            </a>
+        </section>
+
+        <section class='sidebar-social tab-half'>
+            <h5>Feeds</h5>
+            <div class='icons'>
+                <a class='icon tw'
+                   href='https://twitter.com/duckduckgo'
+                   title='DuckDuckGo on twitter'>
+                    Twitter
+                </a>
+
+                <a class='icon re'
+                   href='http://www.reddit.com/r/duckduckgo'
+                   title='DuckDuckGo on reddit'>
+                    reddit /r/duckduckgo
+                </a>
+
+                <a class='icon rss'
+                   href='/blog/rss'>
+                   title='DuckDuckGo Blog RSS feed'>
+                    RSS
+                </a>
+            </div>
+        </section>
+
+        <section class='clear tab-mid'>
+            <h5>Monthly Newsletter</h5>
+            <form class='one-field'
+                  action='https://flash.duckduckgo.com/e.js'
+                  method='post'>
+                <input type='hidden' name='add' value='1'>
+                <input type='email'
+                       class='text'
+                       placeholder='email'
+                       name='from' />
+                <button type='submit' class='button'>
+                    GO
+                </button>
+            </form>
+        </section>
+    </div>
+</aside>
+

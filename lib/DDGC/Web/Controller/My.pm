@@ -97,7 +97,7 @@ sub login :Chained('logged_out') :Args(0) {
 				username => $username,
 				password => $password,
 			}, 'users')) {
-				$c->change_session_id;
+				$c->req->env->{'psgix.session.options'}{change_id} = 1;
 				my $data = $c->user->data;
 				delete $data->{token};
 				$c->set_new_action_token;

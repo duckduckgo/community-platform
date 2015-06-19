@@ -1,0 +1,49 @@
+: my $pager = pager( $page, $pages )
+
+: macro button -> ( $text, $href ) {
+:   if $href == '' {
+        <span class='button button-nav-current disabled'>
+:           $text
+        </span>
+:   } else {
+        <a class='button' href='<: $href :>'>
+:           $text
+        </a>
+:   }
+: }
+
+<span class='button-group  button-group--paging'>
+
+    : if $pager.current_page == $pager.first_page {
+        : button( '«', '' );
+    : } else {
+        : button( '«', uri_for( $uri, { page => $pager.first_page } ) );
+    : }
+
+    : if $pager.current_page > $pager.first_page {
+        : button( '‹', uri_for( $uri, { page => $pager.previous_page } ) );
+    : } else {
+        : button( '‹', '' );
+    : }
+
+    : for $pager.pages_in_set -> $page_in_set {
+        : if $page_in_set == $pager.current_page {
+            : button( $page_in_set, '' );
+        : } else {
+            : button( $page_in_set, uri_for( $uri, { page => $page_in_set } ) );
+        : }
+    : }
+
+    : if $pager.current_page < $pager.last_page {
+        : button( '›', uri_for( $uri, { page => $pager.next_page } ) );
+    : } else {
+        : button( '›', '' );
+    : }
+
+    : if $pager.current_page == $pager.last_page {
+        : button( '»', '' );
+    : } else {
+        : button( '»', uri_for( $uri, { page => $pager.last_page } ) );
+    : }
+
+</span>

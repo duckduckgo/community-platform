@@ -1,0 +1,22 @@
+<div class="header-account-info">
+    <div class="user-avatar">
+        : include 'includes/user/current/avatar.tx' { userpic_size => 32 }
+    </div>
+    <div class="user-notifications">
+        : my $notification_count = $vars.user.unread_notifications || 0;
+        : if $notification_count {
+            <a class="user-notifications__num" href='/my/notifications'>
+                : $notification_count
+            </a>
+        : }
+    </div>
+    <span class="user-name">
+        <a href="/my/account" class="first">
+            : $vars.user.username
+        </a>
+    </span>
+    <span class="account-links">
+        <a class="first" href="<: uri_for('/my/logout', { action_token => $session.action_token }) :>">Logout</a>
+    </span>
+</div>
+

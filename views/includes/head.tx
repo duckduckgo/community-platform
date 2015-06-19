@@ -1,0 +1,26 @@
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<title><: $title :></title>
+
+<link rel="stylesheet" media="screen, projection, handheld" href="/static/css/content.css" />
+<link rel="stylesheet" media="screen, projection, handheld" href="/static/css/ddgc<: $settings.ddgc_config.js_version :>.css" />
+: if $ia_page {
+    <link rel="stylesheet" media="screen, projection, handheld" href="/static/css/ia<: $settings.ddgc_config.js_version :>.css" />
+: }
+
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1" />
+
+<!--[if lt IE 9]>
+<script src="/static/js/html5shiv.js"></script>
+<![endif]-->
+
+<meta name="twitter:site" value="@duckco" />
+<meta property="og:site_name" content="DuckDuckGo Community Platform" />
+<meta name="description" content="Community Platform of DuckDuckGo - Translate DuckDuckGo, Develop Instant Answers, Discuss" />
+
+: if $userpage_home {
+    : if $up.field('openid_server').value && $up.field('openid_delegate').value {
+        <link rel="openid.server" href="<: $up.field('openid_server').value :>">
+        <link rel="openid.delegate" href="<: $up.field('openid_delegate').value :>">
+    : }
+: }
