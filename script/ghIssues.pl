@@ -112,14 +112,20 @@ sub getIssues{
                 my @files_data = $gh->pull_request->files($data->{issue_id});
 
                 my $pm;
-                # look for the perl module
+                my $template;
+                # look for the perl module and template
                 for my $file (@files_data){
                     my $tmp_repo = ucfirst $data->{repo};
                     $tmp_repo =~ s/s$//g;
 
                     if(my ($name) = $file->{filename} =~ /lib\/DDG\/$tmp_repo\/(.+)\.pm/i ){
                         $pm = "DDG::".$tmp_repo."::$name";
-                        last;
+                    }
+
+                    if($data->{repo} eq 'spice'){
+                       if( $file->{patch} =~ /group:\s?(?:'|")(.*)(?:'|")/){
+                           $template = $1;
+                       }
                     }
                 }
 
@@ -151,7 +157,8 @@ sub getIssues{
                     perl_module => $pm,
                     forum_link => $forum_link,
                     src_api_documentation => $api_link,
-                    developer => $developer
+                    developer => $developer,
+                    template => $template,
                 );
 
                 # Only add the new data if
@@ -171,6 +178,8 @@ sub getIssues{
                     # we have new data to add
                     $update = 1;
                 }
+
+                warn Dumper \%new_data if $update;
 
                 $d->rs('InstantAnswer')->update_or_create({%new_data}) if $update;
             };
