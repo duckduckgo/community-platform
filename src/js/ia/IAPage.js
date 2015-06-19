@@ -3,7 +3,7 @@
     Handlebars.registerHelper('encodeURIComponent', encodeURIComponent);
 
     DDH.IAPage = function(ops) {
-        this.init(ops); 
+        this.init(ops);
     };
 
     // this could get the single IA json like the index.
@@ -19,11 +19,11 @@
                 //console.log("for ia id '%s'", DDH_iaid);
 
                 $.getJSON(json_url, function(ia_data) {
-                    
+
                     //Get user permissions
                     if ($(".special-permissions").length) {
                         ia_data.permissions = {can_edit: 1};
-                            
+
                         if ($("#view_commits").length) {
                             ia_data.permissions.admin = 1;
                         }
@@ -35,7 +35,7 @@
                         $(".breadcrumb-nav").remove();
                     }
 
-                    // Separate back-end files from front-end ones 
+                    // Separate back-end files from front-end ones
                     ia_data.live.back_end = [];
                     ia_data.live.front_end = [];
                     if (ia_data.live.code) {
@@ -52,7 +52,7 @@
                             }
                         });
                     }
-                    
+
                     // Show latest edits for admins and users with edit permissions
                     var latest_edits_data = {};
                     if (ia_data.edited || (ia_data.live.dev_milestone !== "live" && ia_data.live.dev_milestone !== "deprecated")) {
@@ -145,7 +145,7 @@
                             if ($(this).hasClass("focused")) {
                                 $(this).removeClass("focused");
                             }
-                            
+
                             var type = $.trim($available_types.find("option:selected").text());
                             var username = $.trim($dev_username.val());
 
@@ -194,13 +194,16 @@
                         $(".special-permissions__toggle-view").hide();
                     });
 
+                    var hasImage = true;
                     page.hideScreenshot = (function(ia_data) {
                         return function() {
                             // Check if the image errored out.
                             // If it did, show "There are no screenshots generated for this output yet."
-                            $(".ia-single--screenshots img").error(function() {
+                            $(".ia-single--screenshots img.screenshot").error(function() {
+                                hasImage = false;
+
                                 // Show the default message.
-                                $(".default-message").show();
+                                $(".screenshot--status").show();
 
                                 // Also remove the screenshot button overlay.
                                 $(".generate-screenshot").hide();
@@ -214,16 +217,22 @@
 
                     // Generate a screenshot when the button is clicked.
                     $("body").on("click", ".generate-screenshot.btn, .screenshot-switcher--generate .btn", function(evt) {
+
+                        if(!hasImage) {
+                            $(".default-message").hide();
+                            $(".loader").show();
+                        }
+
                         // Send a POST request with the ID of the IA.
                         $.post("https://jag.duckduckgo.com/screenshot/create/" + DDH_iaid, function(data) {
                             // Check if the screenshot that we want is available.
                             // If it isn't there must be something wrong.
                             if(data && data.status === "ok" && data.screenshots && data.screenshots.index) {
                                 $.post("https://jag.duckduckgo.com/screenshot/save/" + DDH_iaid, function(data) {
-                                    $(".ia-single--screenshots img").attr("src", "https://images.duckduckgo.com/iu/?u=" + encodeURIComponent(data.screenshots.index) + "?lol=" + Math.floor(Math.random(10) * 10000));
+                                    $(".ia-single--screenshots img.screenshot").attr("src", "https://images.duckduckgo.com/iu/?u=" + encodeURIComponent(data.screenshots.index) + "?lol=" + Math.floor(Math.random(10) * 10000));
 
                                     // Hide the default message.
-                                    $(".default-message").hide();
+                                    $(".screenshot--status").hide();
 
                                     $(".generate-screenshot").show();
                                     $(".screenshot-switcher").show();
@@ -232,7 +241,7 @@
                             }
                         });
                     });
-                    
+
                     $("body").on('click', ".js-expand.button", function(evt) {
                         var milestone = $(this).parent().parent().attr("id");
                         $(".container-" + milestone + "__body").toggleClass("hide");
@@ -262,14 +271,14 @@
                                 var section_vals = getSectionVals($(this), parent_field);
 
                                 section_vals[field] = value;
-                               
+
                                 parent_field = parent_field.replace("-group", "");
                                 value = JSON.stringify(section_vals);
                                 is_json = true;
-                                
+
                                 autocommit(parent_field, value, DDH_iaid, is_json, panel, field);
                             }
-                         
+
                             autocommit(field, value, DDH_iaid, is_json, panel);
                         }
                     });
@@ -298,7 +307,7 @@
                         } else {
                             $obj = $(this);
                         }
-                        
+
                         resetSaved($obj);
                     });
 
@@ -311,7 +320,7 @@
 
                         if ($(this).hasClass("topic-group")) {
                            var $selector = $("select.js-autocommit.topic-group option:selected");
-                           
+
                            value = [];
                            field = "topic";
                            value = getGroupVals(field, $selector);
@@ -322,7 +331,7 @@
                            value = $selected.attr("value").length? $.trim($selected.text()) : '';
                         }
 
-                        if (field.length && value !== ia_data.live[field]) { 
+                        if (field.length && value !== ia_data.live[field]) {
                              autocommit(field, value, DDH_iaid, is_json, panel);
                         }
                     });
@@ -359,24 +368,24 @@
 
                                     value = dev_array;
                                 }
-                                
+
                                 value = JSON.stringify(value);
                                 is_json = true;
                             }
-                            
+
                             if (field.length && value !== ia_data.live[field]) {
                                 if ($(this).hasClass("section-group__item")) {
                                     var parent_field = $.trim($(this).parent().parent().attr("id"));
                                     var section_vals = getSectionVals($(this), parent_field);
                                     section_vals[field] = value;
-                                
+
                                     parent_field = parent_field.replace("-group", "");
                                     value = JSON.stringify(section_vals);
                                     is_json = true;
-                            
+
                                     autocommit(parent_field, value, DDH_iaid, is_json, panel, field);
                                 }
-                                
+
                                 autocommit(field, value, DDH_iaid, is_json, panel);
                             }
 
@@ -422,7 +431,7 @@
                         var $row = $(this).parent();
                         var $obj = $("#column-edits-" + field);
                         var value = {};
-                       
+
                         value[field] = ia_data.edited[field]? ia_data.edited[field] : ia_data.live[field];
 
                         $obj.replaceWith(Handlebars.templates['edit_' + field](value));
@@ -457,7 +466,7 @@
 
                     $("body").on("click", ".button.delete", function(evt) {
                         var field = $(this).attr('name');
-                        
+
                         // If dev milestone is not 'live' it means we are in the dev page
                         // and a topic has been deleted (it's the only field having a delete button in the dev page
                         // so far) - so we must save
@@ -468,7 +477,7 @@
                             var temp;
                             var $selector;
                             var $parent = $(this).parent();
-                            
+
                             if (field === "topic") {
                                 var $select = $parent.find('.topic-group');
                                 $select.find('option[value="0"]').empty();
@@ -480,7 +489,7 @@
                             }
 
                             value = getGroupVals(field, $selector);
-                            value = JSON.stringify(value); 
+                            value = JSON.stringify(value);
 
                             if (field.length && value.length) {
                                 autocommit(field, value, DDH_iaid, is_json, panel);
@@ -517,7 +526,7 @@
                             if ($(this).hasClass("js-input")) {
                                 value = $.trim($(this).val());
                             } else if ($(this).hasClass("js-check")) {
-                                value = $("#" + field + "-check").hasClass("icon-check")? 1 : 0; 
+                                value = $("#" + field + "-check").hasClass("icon-check")? 1 : 0;
                             } else {
                                 var input;
                                 if (field === "dev_milestone" || field === "repo") {
@@ -530,7 +539,7 @@
                             }
 
                             if ((evt.type === "click"
-                                && (field === "topic" || field === "other_queries" || field === "triggers" || field === "perl_dependencies" || field === "src_options")) 
+                                && (field === "topic" || field === "other_queries" || field === "triggers" || field === "perl_dependencies" || field === "src_options"))
                                 || (field === "answerbar") || (field === "developer")) {
                                 if (field !== "answerbar" && field !== "src_options") {
                                     value = getGroupVals(field);
@@ -568,7 +577,7 @@
                         .done(function(data) {
                             if (data.result) {
                                 $type.parent().removeClass("invalid");
-                                $username.parent().removeClass("invalid");                                
+                                $username.parent().removeClass("invalid");
                                 if (ia_data.live.dev_milestone !== "live" && ia_data.live.dev_milestone !== "deprecated") {
                                     var field = "developer";
                                     var value = getGroupVals(field);
@@ -577,7 +586,7 @@
 
                                     value = JSON.stringify(value);
 
-                                    if (field.length && value !== ia_data.live[field]) { 
+                                    if (field.length && value !== ia_data.live[field]) {
                                         autocommit(field, value, DDH_iaid, is_json, panel);
                                     }
                                 }
@@ -592,17 +601,17 @@
                         var $selector;
                         var temp_val;
                         var value = [];
-                        
+
                         if ($obj) {
                             $selector = $obj;
                         } else {
                             $selector = (field === "topic")? $(".ia_topic .available_topics option:selected") : $("." + field + " input");
                         }
-                        
+
                         $selector.each(function(index) {
                             if (field === "developer") {
                                 var $li_item = $(this).parent().parent();
-                                    
+
                                 temp_val = {};
                                 temp_val.name = $.trim($(this).val());
                                 temp_val.type = $.trim($li_item.find(".available_types").find("option:selected").text()) || "legacy";
@@ -618,7 +627,7 @@
                                     temp_val = $.trim($(this).val());
                                 }
                             }
-                                 
+
                             if (temp_val && $.inArray(temp_val, value) === -1) {
                                 value.push(temp_val);
                             }
@@ -654,7 +663,7 @@
                                 section_vals[temp_field] = temp_value;
                             }
                         });
-                        
+
                         return section_vals;
                     }
 
@@ -698,15 +707,15 @@
                                         if (field === "test_machine" || field === "example_query") {
                                             page.enableScreenshotButton(ia_data);
                                         }
-                                        
+
                                         readonly_templates[panel + "_content"] = Handlebars.templates[panel + "_content"](ia_data);
 
                                         var $panel_body = $("#" + panel);
                                         $panel_body.html(readonly_templates[panel + "_content"]);
-                                    
+
                                         page.appendTopics($(".topic-group"));
                                         page.hideAssignToMe();
-                                   
+
                                         // Developer field is already highlighted in green
                                         // when the user check is successful
                                         if (field !== "developer") {
@@ -714,14 +723,14 @@
                                             $panel_body.find("." + field).addClass(saved_class);
                                         }
                                     }
-                                } 
+                                }
                             }
                         });
                     }
 
                     function save(field, value, id, $obj, is_json) {
                         var jqxhr = $.post("/ia/save", {
-                            field : field, 
+                            field : field,
                             value : value,
                             id : id,
                             autocommit: 0
@@ -794,12 +803,12 @@
             'advanced'
         ],
 
-        
+
         updateHandlebars: function(templates, ia_data, dev_milestone, staged) {
             var latest_edits_data = {};
             latest_edits_data = this.updateData(ia_data, latest_edits_data, staged);
             templates.live.name = Handlebars.templates.name(latest_edits_data);
-            
+
             if (dev_milestone === 'live') {
                 for (var i = 0; i < this.field_order.length; i++) {
                     templates.live[this.field_order[i]] = Handlebars.templates[this.field_order[i]](latest_edits_data);
@@ -836,9 +845,9 @@
             });
 
             if (edited && edited_fields === 0) {
-                $(".special-permissions__toggle-view").hide();       
+                $(".special-permissions__toggle-view").hide();
             }
- 
+
             return x;
         },
 
@@ -883,7 +892,7 @@
             var test_machine = ia_data.live.test_machine;
             var example_query = ia_data.live.example_query;
             var $generate_screenshot = $(".generate-screenshot--button");
-            
+
             if((test_machine && example_query) || ia_data.live.dev_milestone === "live") {
                 $generate_screenshot.removeClass("generate-screenshot--disabled");
             } else {
@@ -896,12 +905,12 @@
 
             if (!edit) {
                 $(".ia-single--name").remove();
-                
+
                 if (dev_milestone === "live" || dev_milestone === "deprecated") {
                     $("#ia-single-top-name").html(templates.live.name);
                     $("#ia-single-top-details").html(templates.live.top_details);
                     $(".ia-single--left, .ia-single--right").show().empty();
-                    
+
                     for (var i = 0; i < this.field_order.length; i++) {
                         $(".ia-single--left").append(templates.live[this.field_order[i]]);
                     }
@@ -911,7 +920,7 @@
                     $(".ia-single--screenshots").removeClass("twothirds");
                 } else {
                     $(".ia-single--wide").before(templates.live.name);
-                    
+
                     $("#metafields").remove();
                     $(".ia-single--wide").before(templates.metafields);
                     $("#metafields").html(templates.metafields_content);
@@ -927,8 +936,8 @@
                             $temp_panel_body = $("#" + template);
                             $temp_panel_body.html(templates[template + "_content"]);
                         }
-                    }                    
-        
+                    }
+
                     this.appendTopics($(".topic-group"));
                     this.hideAssignToMe();
                 }
@@ -938,10 +947,10 @@
                 }
 
                 this.enableScreenshotButton(ia_data);
-                
+
                 $(".show-more").click(function(e) {
                     e.preventDefault();
-                
+
                     if($(".ia-single--info li").hasClass("hide")) {
                         $(".ia-single--info li").removeClass("hide");
                         $("#show-more--link").text("Show Less");
@@ -970,7 +979,7 @@
                     $(".ia-single--edits").append(templates.id);
                 }
             }
-        }    
+        }
     };
 
 })(DDH);

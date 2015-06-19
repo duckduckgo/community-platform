@@ -58,11 +58,26 @@
         background-color: $silver;
         width: 100%;
 
-        img {
+        img.screenshot {
             margin-left: -55px;
             max-width: initial;
             width: 727px;
             margin-top: 5px;
+        }
+
+        img.loader {
+            margin: auto;
+            display: block;
+        }
+
+        .screenshot--status {
+            margin-top: 5em;
+            margin-bottom: 3em;
+
+            .default-message  {
+                text-align: center;
+                color: #999;
+            }
         }
     }
 
@@ -71,15 +86,6 @@
         position: relative;
         bottom: 38px;
         right: 2px;
-    }
-
-    .ia-single--screenshots {
-        .default-message  {
-            text-align: center;
-            margin-top: 5em;
-            margin-bottom: 3em;
-            color: #999;
-        }
     }
 
     #ia-single-top, #ia-single-top--edit {
