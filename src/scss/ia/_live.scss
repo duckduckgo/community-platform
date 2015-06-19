@@ -1,76 +1,23 @@
-#ia-single-top {
-    background-color: $blue-light;
-    color: $white;
-
-    .content-wrap {
-        margin-top: 0.5em;
-        margin-bottom: 2em;
-    }
-
-    .ia-single--name h2 { 
-        color: $white; 
-        font-size: 2em;
-        font-weight: 600;
-    }
-
-    .btn {
-        border: 1px solid white;
-    }
-
-    .special-permissions .btn--wire--hero {
-        @include border-radius(0.25em);
-    }
-
-    .pager-wrap {
-        padding-right: 0.25em;
-        overflow: initial;
-    }
-
-    #ia-single-top-details {
-        line-height: 2.15em;
-
-        span {
-            vertical-align: middle;
-            text-transform: capitalize;
-        }
-    }
-
-    .ia-single--name h2 {
-        font-weight: 500;
-    }
-
-    .edit-buttons {
-        text-transform: capitalize;
-    }
-}
-
-#ia-single-top, #ia-single-top--edit { padding: 3em 0 1em 0; }
-
-.ia-single { 
-    /* 
-       Experimental.
-       I'd like the fonts to look a bit thinner and these do the job.
-     */
+.ia-single {
+    /* I'd like the fonts to look a bit thinner and these do the job. */
     -moz-osx-font-smoothing: grayscale;
     -webkit-font-smoothing: antialiased;
 
-    /* Add padding left and right of the wrapper. 
+    /* Add padding left and right of the wrapper.
        This is so that when the screen gets smaller the content won't
-       touch the side of the screen.
-     */
+       touch the side of the screen. */
     .content-wrap {
         padding-left: 2em;
         padding-right: 2em;
         width: auto;
     }
 
-    margin-top: -1.1em; 
+    /* The whole thing should be close to the header. */
+    margin-top: -1.1em;
 
-    /*
-      Let's add some margin to the divs inside the right column.
-      We're doing this because we can't just add margins / padding to
-      .ia-single--right. It will mess up the grid.
-     */
+    /* Let's add some margin to the divs inside the right column.
+       We're doing this because we can't just add margins / padding to
+       .ia-single--right. It will mess up the grid. */
     .ia-single--right {
         div {
             margin-left: 65px;
@@ -134,85 +81,138 @@
             color: #999;
         }
     }
-}
 
-.ia-issues.ia-single--info {
-    ul li a { 
-        color: $slate; 
+    #ia-single-top, #ia-single-top--edit {
+        padding: 3em 0 1em 0;
     }
 
-    /* This is the "Create Issue" button.
-       We override the color because, typically, <a> tags have a different color. */
-    #create-issue--link {
-        color: #fff;
-    }
+    /* These are the CSS properties for the elements in the blue band. */
+    #ia-single-top {
+        background-color: $blue-light;
+        color: $white;
 
-    .tag-name, .date, .author {
-        color: $slate-light;
-    }
+        .content-wrap {
+            margin-top: 0.5em;
+            margin-bottom: 2em;
+        }
 
-    .date {
-        font-size: smaller;
-        line-height: 3em;
-        display: block;
-    }
-}
+        .ia-single--name h2 {
+            color: $white;
+            font-size: 2em;
+            font-weight: 600;
+        }
 
-.ia-issues li {
-    padding-bottom: 0.5em;
-    padding-top: 0.5em;
-}
+        .btn {
+            border: 1px solid white;
+        }
 
-.example-container {
-    margin-top: 2em;
-    margin-bottom: 2em;
+        .special-permissions .btn--wire--hero {
+            @include border-radius(0.25em);
+        }
 
-    .search-example {
-        text-transform: capitalize;
-        line-height: 2.5em;
-    }
+        .pager-wrap {
+            padding-right: 0.25em;
+            overflow: initial;
+        }
 
-    .btn.switcher-icon {
-        line-height: 1;
-        padding-right: 0.5em;
-        padding-left: 0.5em;
-        background-color: #fff;
+        #ia-single-top-details {
+            line-height: 2.15em;
 
-        span {
-            font-size: 1.4em;
+            span {
+                vertical-align: middle;
+                text-transform: capitalize;
+            }
+        }
+
+        .ia-single--name h2 {
+            font-weight: 500;
+        }
+
+        .edit-buttons {
+            text-transform: capitalize;
         }
     }
-}
 
-.ia-single .ia-issues {
-    /*
-      Add padding above and below this section.
-      We add more to the bottom (x2 to be exact) because
-      we don't want to be close to the footer.
-     */
-    padding-top: 2.4em;
-    padding-bottom: 4.8em;
+    .ia-issues {
+        /*
+          Add padding above and below this section.
+          We add more to the bottom (x2 to be exact) because
+          we don't want to be close to the footer.
+         */
+        padding-top: 2.4em;
+        padding-bottom: 4.8em;
 
-    /* Make the circle icon font 9px and align it
-       with the .tag-name.
-     */
-    .icon-circle {
-        font-size: 9px;
+        /* Make the circle icon font 9px and align it
+           with the .tag-name.
+         */
+        .icon-circle {
+            font-size: 9px;
+        }
+
+        .tag-name {
+            vertical-align: middle;
+        }
+
+        .ia-single--header {
+            margin-top: 0;
+            line-height: 2em;
+        }
     }
 
-    .tag-name {
-        vertical-align: middle;
+    .ia-issues.ia-single--info {
+        ul li a {
+            color: $slate;
+        }
+
+        /* This is the "Create Issue" button.
+           We override the color because, typically, <a> tags have a different color. */
+        #create-issue--link {
+            color: #fff;
+        }
+
+        .tag-name, .date, .author {
+            color: $slate-light;
+        }
+
+        .date {
+            font-size: smaller;
+            line-height: 3em;
+            display: block;
+        }
     }
 
-    .ia-single--header {
-        margin-top: 0;
-        line-height: 2em;
+    .ia-issues li {
+        padding-bottom: 0.5em;
+        padding-top: 0.5em;
+    }
+
+    .example-container {
+        margin-top: 2em;
+        margin-bottom: 2em;
+
+        .search-example {
+            text-transform: capitalize;
+            line-height: 2.5em;
+        }
+
+        .btn.switcher-icon {
+            line-height: 1;
+            padding-right: 0.5em;
+            padding-left: 0.5em;
+            background-color: #fff;
+
+            span {
+                font-size: 1.4em;
+            }
+        }
+    }
+
+    .ia-single--info ul li .date a {
+        display: inline;
     }
 }
 
-.ia-single--info ul li .date a {
-    display: inline;
-}
+/* Media queries */
 
 @media only screen and (max-width: 730px) {
     .ia-single .ia-single--right div {
