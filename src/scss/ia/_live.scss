@@ -89,7 +89,12 @@
     /* These are the CSS properties for the elements in the blue band. */
     #ia-single-top {
         background-color: $blue-light;
-        color: $white;
+        color: rgba(255,255,255, 0.6);
+
+        /* The links here should also be white */
+        a {
+            color: white;
+        }
 
         .content-wrap {
             margin-top: 0.5em;
