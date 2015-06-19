@@ -12,6 +12,7 @@ use Email::Valid;
 
 sub base :Chained('/base') :PathPart('campaign') :CaptureArgs(0) {
 	my ( $self, $c ) = @_;
+	$c->stash->{not_last_url} = 1;
 	if (!$c->user) {
 		$c->response->status(403);
 		$c->stash->{x} = { ok => 0, errstr => "Not logged in!"};
