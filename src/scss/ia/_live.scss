@@ -89,11 +89,14 @@
     /* These are the CSS properties for the elements in the blue band. */
     #ia-single-top {
         background-color: $blue-light;
-        color: rgba(255,255,255, 0.6);
+        color: white;
 
-        /* The links here should also be white */
         a {
             color: white;
+        }
+
+        span.detail-title {
+            color: rgba(255,255,255, 0.6);
         }
 
         .content-wrap {
@@ -121,10 +124,9 @@
         }
 
         #ia-single-top-details {
-            line-height: 2.15em;
+            line-height: 2.4em;
 
             span {
-                vertical-align: middle;
                 text-transform: capitalize;
             }
         }
