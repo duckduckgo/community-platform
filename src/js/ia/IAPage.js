@@ -216,30 +216,40 @@
                     page.hideScreenshot();
 
                     // Generate a screenshot when the button is clicked.
+                    var isClicked = false;
                     $("body").on("click", ".generate-screenshot.btn, .screenshot-switcher--generate .btn", function(evt) {
-
-                        if(!hasImage) {
-                            $(".default-message").hide();
-                            $(".loader").show();
-                        }
-
-                        // Send a POST request with the ID of the IA.
-                        $.post("https://jag.duckduckgo.com/screenshot/create/" + DDH_iaid, function(data) {
-                            // Check if the screenshot that we want is available.
-                            // If it isn't there must be something wrong.
-                            if(data && data.status === "ok" && data.screenshots && data.screenshots.index) {
-                                $.post("https://jag.duckduckgo.com/screenshot/save/" + DDH_iaid, function(data) {
-                                    $(".ia-single--screenshots img.screenshot").attr("src", "https://images.duckduckgo.com/iu/?u=" + encodeURIComponent(data.screenshots.index) + "?lol=" + Math.floor(Math.random(10) * 10000));
-
-                                    // Hide the default message.
-                                    $(".screenshot--status").hide();
-
-                                    $(".generate-screenshot").show();
-                                    $(".screenshot-switcher").show();
-                                    $(".screenshot-switcher--generate").hide();
-                                });
+                        if(!isClicked) {
+                            isClicked = true;
+                            if(!hasImage) {
+                                $(".default-message").hide();
+                                $(".loader").show();
                             }
-                        });
+
+                            $(this).removeClass("btn--primary").addClass("btn--wire");
+                            $(".screenshot-switcher--generate .btn").text("Generating ...");
+
+                            // Send a POST request with the ID of the IA.
+                            $.post("https://jag.duckduckgo.com/screenshot/create/" + DDH_iaid, function(data) {
+                                // Check if the screenshot that we want is available.
+                                // If it isn't there must be something wrong.
+                                if(data && data.status === "ok" && data.screenshots && data.screenshots.index) {
+                                    $.post("https://jag.duckduckgo.com/screenshot/save/" + DDH_iaid, function(data) {
+                                        hasImage = true;
+                                        $(".ia-single--screenshots img.screenshot").attr("src", "https://images.duckduckgo.com/iu/?u=" + encodeURIComponent(data.screenshots.index) + "?lol=" + Math.floor(Math.random(10) * 10000));
+
+                                        // Hide the default message.
+                                        $(".screenshot--status").hide();
+
+                                        $(".generate-screenshot").show();
+                                        $(".screenshot-switcher").show();
+                                        $(".screenshot-switcher--generate").hide();
+
+                                        isClicked = false;
+                                        $(this).removeClass("btn--wire").addClass("btn--primary");
+                                    });
+                                }
+                            });
+                        }
                     });
 
                     $("body").on('click', ".js-expand.button", function(evt) {
