@@ -42,8 +42,8 @@ textarea[data-panel="base_info"] {
 
 /* This is for the buttons at the top. Since they're black when they're clicked on, the text should be white. */
 
-#toggle-devpage-static.disabled, #toggle-devpage-editable.disabled, #toggle-edited.disabled, #toggle-live.disabled, #pipeline_toggle-dev.disabled, #pipeline_toggle-live.disabled, #pipeline_toggle-deprecated.disabled {
-    color: white;
+.dev-special-permissions__toggle-view__button.disabled, .special-permissions__toggle-view__button.disabled, .pipeline__toggle-view__button.disabled {
+    color: $white;
 }
 
 div[name="topic"].topic {
