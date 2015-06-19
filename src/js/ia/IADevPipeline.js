@@ -15,15 +15,7 @@
             $.getJSON(url, function(data) { 
                 // console.log(window.location.pathname);
                 var iadp;
-
-                if (data.hasOwnProperty("dev_milestones")) {
-                    iadp = Handlebars.templates.dev_pipeline(data.dev_milestones);
-                } else if (data.hasOwnProperty("repos")) {
-                    iadp = Handlebars.templates.dev_pipeline_deprecated(data.repos);
-                }else {
-                    iadp = Handlebars.templates.dev_pipeline_live(data);
-                }
-
+                iadp = Handlebars.templates.dev_pipeline(data.dev_milestones);
                 $("#dev_pipeline").html(iadp);
             });
 
@@ -58,32 +50,6 @@
                 }
             });
 
-            $("body").on('click', ".filter-issues__item__checkbox", function(evt) {
-                if ($(this).hasClass("icon-check-empty")) {
-                    $(".icon-check").removeClass("icon-check").addClass("icon-check-empty");
-
-                    $(this).removeClass("icon-check-empty");
-                    $(this).addClass("icon-check");
-
-                    var issue_tag = $(this).attr("id");
-
-                    $("#pipeline-live__list .pipeline-live__list__item").hide();
-                    $("#pipeline-live__list .pipeline-live__list__item .list-container--right__issues li").hide();
-                    $("#pipeline-live__list .pipeline-live__list__item." + issue_tag).show();
-                    $("#pipeline-live__list .pipeline-live__list__item .list-container--right__issues li").each(function(idx) {
-                        if ($(this).find(".issues_col__tags." + issue_tag).length) {
-                            $(this).show();
-                        }
-                    });
-                } else {
-                    $(this).removeClass("icon-check");
-                    $(this).addClass("icon-check-empty");
-
-                    $("#pipeline-live__list .pipeline-live__list__item").show();
-                    $("#pipeline-live__list .pipeline-live__list__item .list-container--right__issues li").show();
-                }
-            });
-
             $("#filter-team_checkbox").click(function(evt) {
                 $(this).toggleClass("icon-check");
                 $(this).toggleClass("icon-check-empty");
@@ -111,24 +77,6 @@
 
                     var teamrole = $(this).find("option:selected").text();
                     $(".dev_pipeline-column__list li." + teamrole + "-" + username).show();
-                }
-            });
-
-            $("#pipeline_toggle-dev").click(function(evt) {
-                if (!$(this).hasClass("disabled")) {
-                    window.location = "/ia/pipeline/dev";
-                }   
-            });
-
-            $("#pipeline_toggle-live").click(function(evt) {
-                if (!$(this).hasClass("disabled")) {
-                    window.location = "/ia/pipeline/live";
-                }
-            });
-
-            $("#pipeline_toggle-deprecated").click(function(evt) {
-                if (!$(this).hasClass("disabled")) {
-                    window.location = "/ia/pipeline/deprecated";
                 }
             });
         }

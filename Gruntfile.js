@@ -31,8 +31,10 @@ module.exports = function(grunt) {
     var ia_page_js = [
         'DDH.js',
         'Helpers.js',
+        'IADeprecated.js',
         'IADevPipeline.js',
         'IAIndex.js',
+        'IAIssues.js',
         'IAOverview.js',
         'IAPage.js',
         'IAPageCommit.js',
