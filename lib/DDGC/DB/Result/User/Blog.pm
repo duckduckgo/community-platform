@@ -20,11 +20,6 @@ column users_id => {
     is_nullable => 0,
 };
 
-column translation_of_id => {
-    data_type   => 'bigint',
-    is_nullable => 1,
-};
-
 column title => {
     data_type   => 'text',
     is_nullable => 0,
@@ -74,17 +69,6 @@ column seen_live => {
     data_type     => 'int',
     is_nullable   => 0,
     default_value => 0,
-};
-
-column language_id => {
-    data_type   => 'bigint',
-    is_nullable => 1,
-};
-
-column data => {
-    data_type        => 'text',
-    is_nullable      => 1,
-    serializer_class => 'JSON',
 };
 
 column fixed_date => {
