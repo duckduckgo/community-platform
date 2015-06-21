@@ -70,11 +70,10 @@ sub edit :Chained('base') :Args(1) {
 
 		my %values;
 
-		for (qw( title uri topics teaser content live fixed_date )) {
+		for (qw( format title uri topics teaser content live fixed_date )) {
 			$values{$_} = $c->req->param($_);
 		}
 
-		$values{raw_html} = $c->req->param('raw_html') ? 1 : 0;
 		$values{company_blog} = 1;
 
 		my $ok = 1;

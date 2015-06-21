@@ -126,7 +126,6 @@ belongs_to 'parent', 'DDGC::DB::Result::Language', 'parent_id', { join_type => '
 belongs_to 'country', 'DDGC::DB::Result::Country', 'country_id', { join_type => 'left' };
 
 has_many 'user_languages', 'DDGC::DB::Result::User::Language', 'language_id';
-has_many 'user_blogs', 'DDGC::DB::Result::User::Blog', 'language_id';
 has_many 'token_domains', 'DDGC::DB::Result::Token::Domain', 'source_language_id';
 has_many 'token_domain_languages', 'DDGC::DB::Result::Token::Domain::Language', 'language_id';
 has_many 'help_contents', 'DDGC::DB::Result::Help::Content', 'language_id';
