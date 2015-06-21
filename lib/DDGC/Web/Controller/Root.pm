@@ -177,7 +177,7 @@ sub wear :Chained('base') :PathPart('wear') :Args(0) {
 
 	if ( !$c->user && ( !$host || !grep { $_ eq $host } @domains ) ) {
 		$c->response->status(404);
-		return $c->detach;
+		return $c->response->redirect('/static/pages/404.html');
 	}
 
 	$c->stash->{no_breadcrumb} = 1;
