@@ -74,10 +74,10 @@ column company_blog => {
     default_value => 0,
 };
 
-column raw_html => {
-    data_type     => 'int',
+column format => {
+    data_type     => 'varchar(8)',
     is_nullable   => 0,
-    default_value => 0,
+    default_value => 'markdown',
 };
 
 column live => {
@@ -151,7 +151,7 @@ sub for_edit {
         $self->topics
             ? ( topics => join( ', ', @{ $self->topics } ) )
             : (),
-        raw_html => $self->raw_html,
+        format => $self->format,
         $self->fixed_date
             ? ( fixed_date =>
               DateTime::Format::RSS->new->format_datetime(
