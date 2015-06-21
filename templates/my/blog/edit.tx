@@ -72,10 +72,14 @@
 				<: if $c.user.admin { :>
 					<div class="row">
 						<div class="third">
-							<label for="raw_html">Raw HTML post</label>
+							<label for="format">Format</label>
 						</div>
 						<div class="twothird">
-							<input type="checkbox" name="raw_html" value="1" <: if $post.raw_html { :>checked="checked"<: } :>/>
+							<select name="format">
+								: for [ 'markdown', 'html', 'bbcode' ] -> $format {
+									<option value="<: $format :>" <: if $post.format == $format { :>selected="selected"<: } :>><: $format :></option>
+								: }
+							</select>
 						</div>
 					</div>
 				<: } :>
