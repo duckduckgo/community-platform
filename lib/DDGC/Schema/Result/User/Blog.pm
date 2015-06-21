@@ -40,8 +40,8 @@ column teaser => {
 sub html_teaser {
     my ($self) = @_;
     my $markup = DDGC::Util::Markup->new;
-    return $markup->html( $self->teaser ) if $self->raw_html;
-    return $markup->bbcode( $self->teaser );
+    my $format = $self->format;
+    return $markup->$format( $self->teaser );
 }
 
 column content => {
@@ -52,8 +52,8 @@ column content => {
 sub html {
     my ($self) = @_;
     my $markup = DDGC::Util::Markup->new;
-    return $markup->html( $self->content ) if $self->raw_html;
-    return $markup->bbcode( $self->content );
+    my $format = $self->format;
+    return $markup->$format( $self->content );
 }
 
 column topics => {
