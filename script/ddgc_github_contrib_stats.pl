@@ -117,51 +117,19 @@ my $core_team_github = {
 # Should come from API in future:
 my @projects = qw/
     chrome-zeroclickinfo
-    duckduckgo-publisher
     zeroclickinfo-goodies
     zeroclickinfo-spice
-    community-platform
     firefox-zeroclickinfo
-    android
-    duckduckgo-documentation
-    p5-app-duckpan
-    ios
-    duckpan-docker
     zeroclickinfo-longtail
     zeroclickinfo-fathead
-    duckduckgo
     safari-zeroclickinfo
     windows-zeroclickinfo
     opera-zeroclickinfo
-    community-platform-static
-    p5-www-duckduckgo
-    p5-dist-zilla-plugin-uploadtoduckpan
-    chrome-filterbubble
-    p5-dist-zilla-plugin-duckpanmeta
     zeroclickinfo-goodie-spell
-    opera-speeddial
-    p5-app-duckduckgo-ui
-    cpp-libface
     zeroclickinfo-goodie-math
-    p5-duckpan-installer
     zeroclickinfo-goodie-isvalid
-    p5-app-duckduckgo
     zeroclickinfo-goodie-chords
-    DuckDuckBox
-    duckduckgo-browser
     zeroclickinfo-goodie-qrcode
-    duckduckcrawl
-    chrome-webstore
-    logos
-    ddg_smileys
-    duckduckgo-translate
-    php5-duckduckgo
-    replaceawordinafamousquotewithduck
-    p5-www-wolframalpha
-    Launchpad
-    walpha
-    api
-    nodejs-duckpan-npm
 /;
 
 sub github_creds {
