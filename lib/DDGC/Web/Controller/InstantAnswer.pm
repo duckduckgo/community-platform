@@ -361,6 +361,7 @@ sub overview_json :Chained('overview_base') :PathPart('json') :Args(0) {
          my $temp_ia;
          for my $ia (@ias) {
             $temp_ia = $ia->TO_JSON('pipeline');
+            $temp_ia->{most_recent} = 1;
             push @live_ias, $temp_ia;
          }
      }
@@ -377,6 +378,7 @@ sub overview_json :Chained('overview_base') :PathPart('json') :Args(0) {
         my $temp_ia;
         for my $ia (@ias) {
             $temp_ia = $ia->TO_JSON('pipeline');
+            $temp_ia->{most_recent} = 1;
             push @dev_ias, $temp_ia;
         }
      }

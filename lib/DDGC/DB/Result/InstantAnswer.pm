@@ -369,13 +369,15 @@ column dev_date => {
 column live_date => {
     data_type => 'date',
     is_nullable => 1,
-    for_endpt => 1
+    for_endpt => 1,
+    pipeline => 1
 };
 
 column created_date => {
     data_type => 'date',
     is_nullable => 1,
-    for_endpt => 1
+    for_endpt => 1,
+    pipeline => 1
 };
 
 column forum_link => {
