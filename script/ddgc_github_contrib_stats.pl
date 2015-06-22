@@ -98,6 +98,20 @@ my $core_team_github = {
     thm => {
         name =>  'Thom',
     },
+    tommytommytommy => {
+        name => 'Tommy Leung',
+    },
+    'AdamSC1-ddg' => {
+    },
+    'andrey-p' => {
+        name => 'Andrey Pissantchev',
+    },
+    MariagraziaAlastra => {
+        name => 'Maria Grazia Alastra',
+    },
+    zachthompson => {
+        name => 'Zach Thompson',
+    },
 };
 
 # Should come from API in future:
