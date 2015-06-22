@@ -116,15 +116,10 @@ my $core_team_github = {
 
 # Should come from API in future:
 my @projects = qw/
-    chrome-zeroclickinfo
     zeroclickinfo-goodies
     zeroclickinfo-spice
-    firefox-zeroclickinfo
     zeroclickinfo-longtail
     zeroclickinfo-fathead
-    safari-zeroclickinfo
-    windows-zeroclickinfo
-    opera-zeroclickinfo
     zeroclickinfo-goodie-spell
     zeroclickinfo-goodie-math
     zeroclickinfo-goodie-isvalid
