@@ -348,7 +348,8 @@ sub overview_json :Chained('overview_base') :PathPart('json') :Args(0) {
      
      if (!$c->user || !@live_ias) {
         @ias = $rs->search({
-             dev_milestone => 'live', 
+             dev_milestone => 'live',
+             live_date => { '!=' => undef }, 
              'topic.name' => [{ '!=' => 'test' }, { '=' => undef}]
          },
          {   
@@ -366,7 +367,8 @@ sub overview_json :Chained('overview_base') :PathPart('json') :Args(0) {
 
      if (!$c->user || !@dev_ias) {
         @ias = $rs->search({
-                dev_milestone => { '=' => ['planning', 'development', 'testing', 'complete']}
+                dev_milestone => { '=' => ['planning', 'development', 'testing', 'complete']},
+                created_date => { '!=' => undef }
             },{
                 rows => 5,  
                 order_by => {-desc => 'created_date'}
