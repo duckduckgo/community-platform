@@ -45,7 +45,7 @@ sub posts_page {
     $params = validate('/blog.json', $params)->values;
 
     my $posts_rset = posts_rset->search_rs({}, {
-        order_by => { -desc => \'concat( me.fixed_date, me.created )' },
+        order_by => { -desc => \'coalesce( me.fixed_date, me.created )' },
         rows     => $params->{pagesize} || pagesize,
         page     => $params->{page} || 1,
     });
