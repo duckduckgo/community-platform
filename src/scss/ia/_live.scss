@@ -65,6 +65,12 @@
             margin-top: 5px;
         }
 
+        img#screenshot-mobile {
+            margin: auto;
+            margin-top: 5px;
+            width: initial;
+        }
+
         img.loader {
             margin: auto;
             display: block;
@@ -84,6 +90,10 @@
             display: block;
             text-align: center;
         }
+    }
+
+    .add-opacity {
+        opacity: 0.2;
     }
 
     /* Position the bottom on the screenshot itself. */

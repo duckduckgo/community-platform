@@ -256,8 +256,9 @@
                         },
                         data: {
                             url: function() {
+                                var image = Screens.state.isMobile ? 'mobile' : 'index';
                                 return 'https://images.duckduckgo.com/iu/?u=' +
-                                       encodeURIComponent('https://ia-screenshots.s3.amazonaws.com/' + DDH_iaid + '_index.png?nocache=' + Math.floor(Math.random() * 10000))
+                                       encodeURIComponent('https://ia-screenshots.s3.amazonaws.com/' + DDH_iaid + '_' + image + '.png?nocache=' + Math.floor(Math.random() * 10000))
                             },
                             createImageEndpoint: 'https://jag.duckduckgo.com/screenshot/create/' + DDH_iaid,
                             saveImageEndpoint: 'https://jag.duckduckgo.com/screenshot/save/' + DDH_iaid
@@ -306,14 +307,46 @@
                                     $('.default-message').hide();
                                     Screens.render();
                                 }
+                            },
+                            mobileClick: {
+                                evt: 'click',
+                                selector: '.screenshot-switcher .icon-extra-mobile',
+                                fn: function(event) {
+                                    Screens.state.isMobile = true;
+                                    $('.screenshot').attr('id', 'screenshot-mobile');
+                                    Screens.setScreenshotImage();
+
+                                    Screens.setOpacity();
+                                }
+                            },
+                            desktopClick: {
+                                evt: 'click',
+                                selector: '.screenshot-switcher .icon-extra-desktop',
+                                fn: function(event) {
+                                    Screens.state.isMobile = false;
+                                    $('.screenshot').removeAttr('id');
+                                    Screens.setScreenshotImage();
+
+                                    Screens.setOpacity();
+                                }
                             }
                         },
                         state: {
                             refreshClicked: false,
-                            generateClicked: false
+                            generateClicked: false,
+                            isMobile: false
                         },
                         toggleState: function(state) {
                             Screens.state[state] = !Screens.state[state];
+                        },
+                        setOpacity: function() {
+                            if(Screens.state.isMobile) {
+                                $('.screenshot-switcher .icon-extra-mobile').removeClass('add-opacity');
+                                $('.screenshot-switcher .icon-extra-desktop').addClass('add-opacity');
+                            } else {
+                                $('.screenshot-switcher .icon-extra-mobile').addClass('add-opacity');
+                                $('.screenshot-switcher .icon-extra-desktop').removeClass('add-opacity');
+                            }
                         },
                         generateImage: function(callback, isFirst) {
                             function failedMessage() {
@@ -341,9 +374,6 @@
                             $('.screenshot-switcher--generate .btn')
                                 .removeClass('btn--wire')
                                 .addClass('btn--primary');
-                        },
-                        setFailedToLoadMessage: function() {
-
                         },
                         setMessage: function(message, enableRevert, isFirst) {
                             $('.screenshot--status').show();
@@ -377,6 +407,8 @@
                         },
                         setSwitcherButtons: function() {
                             $('.screenshot-switcher').show();
+                            Screens.setEvent(Screens.events.mobileClick);
+                            Screens.setEvent(Screens.events.desktopClick);
                         },
                         setScreenshotImage: function() {
                             var screenshotImage = $('.ia-single--screenshots img.screenshot');
