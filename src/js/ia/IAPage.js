@@ -236,6 +236,8 @@
 
                     var Screens = {
                         render: function() {
+                            this.resetState();
+
                             this.hasScreenshot(function() {
                                 this.setScreenshotImage();
                                 this.setRefreshButton();
@@ -244,12 +246,21 @@
 
                             });
                         },
+                        resetState: function() {
+
+                        },
                         data: {
-                            url: 'https://images.duckduckgo.com/iu/?u=' +
-                                 encodeURIComponent('https://ia-screenshots.s3.amazonaws.com/' + DDH_iaid + '_index.png?nocache=' + Math.floor(Math.random() * 10000))
+                            url: function() {
+                                return 'https://images.duckduckgo.com/iu/?u=' +
+                                       encodeURIComponent('https://ia-screenshots.s3.amazonaws.com/' + DDH_iaid + '_index.png?nocache=' + Math.floor(Math.random() * 10000))
+                            },
+                            refreshButtonSelector: '.generate-screenshot'
                         },
                         states: {
-
+                            refreshClick: {
+                                evt: 'click',
+                                selector: '.generate-screenshot'
+                            }
                         },
                         events: {
 
@@ -258,17 +269,20 @@
 
                         },
                         setRefreshButton: function() {
-
+                            $(this.data.refreshButtonSelector).show();
+                            this.setEvent(this.states.refreshClick, function() {
+                                console.log("Yay");
+                            });
                         },
                         setTakeScreenshotButton: function() {
 
                         },
                         setSwitcherButtons: function() {
-
+                            $('.screenshot-switcher').show();
                         },
                         setScreenshotImage: function() {
                             var screenshotImage = $('.ia-single--screenshots img.screenshot');
-                            screenshotImage.attr('src', this.data.url);
+                            screenshotImage.attr('src', this.data.url());
                             screenshotImage.show();
 
                         },
@@ -281,12 +295,13 @@
                         disableMessage() {
 
                         },
-                        setEvent: function() {
-
+                        setEvent: function(eventData, callback) {
+                            $(eventData.selector).on(eventData.evt, callback);
                         },
                         hasScreenshot: function(succeed, failed) {
                             var that = this;
-                            $("<img src='" + this.data.url + "'>")
+
+                            $("<img src='" + this.data.url() + "'>")
                                 .on("load", function() {
                                     succeed.call(that);
                                 })
