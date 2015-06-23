@@ -267,13 +267,13 @@ column developer => {
 # code review (can be completed, aka '1', or not completed, aka '0')
 column code_review => {
     data_type => 'integer',
-    is_nullalbe => 1,
+    is_nullable => 1,
 };
 
 # design review (can be completed, aka '1', or not completed, aka '0')
 column design_review => {
     data_type => 'integer',
-    is_nullalbe => 1,
+    is_nullable => 1,
 };
 
 # name of the test machine on which the IA is on when in QA
