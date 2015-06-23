@@ -243,7 +243,8 @@
                                 Screens.setRefreshButton();
                                 Screens.setSwitcherButtons();
                             }, function() {
-
+                                Screens.setMessage("There are no screenshots generated for this output yet.");
+                                Screens.setTakeScreenshotButton();
                             });
                         },
                         resetState: function() {
@@ -276,10 +277,33 @@
                                         });
                                     }
                                 }
+                            },
+                            generateClick: {
+                                evt: 'click',
+                                selector: '.screenshot-switcher--generate .btn',
+                                fn: function() {
+                                    if(!Screens.state.generateClicked) {
+                                        Screens.toggleState("generateClicked");
+
+                                        Screens.disableTakeScreenshotButton();
+                                        Screens.disableMessage();
+                                        Screens.setLoadingAnimation();
+                                        Screens.generateImage(function() {
+                                            Screens.disableLoadingAnimation();
+                                            Screens.setScreenshotImage();
+                                            Screens.setRefreshButton();
+                                            Screens.enableTakeScreenshotButton();
+                                            Screens.toggleState("generateClicked");
+
+                                            Screens.render();
+                                        });
+                                    }
+                                }
                             }
                         },
                         state: {
-                            refreshClicked: false
+                            refreshClicked: false,
+                            generateClicked: false
                         },
                         toggleState: function(state) {
                             Screens.state[state] = !Screens.state[state];
@@ -300,8 +324,17 @@
                                 .removeClass('btn--alternative')
                                 .addClass('btn--primary');
                         },
+                        enableTakeScreenshotButton: function() {
+                            $('.screenshot-switcher--generate .btn')
+                                .removeClass('btn--wire')
+                                .addClass('btn--primary');
+                        },
                         setFailedToLoadMessage: function() {
 
+                        },
+                        setMessage: function(message) {
+                            $('.screenshot--status').show();
+                            $('.screenshot--status .default-message').show().text(message);
                         },
                         setLoadingAnimation: function() {
                             $('.screenshot--status').show();
@@ -310,9 +343,14 @@
                         setRefreshButton: function() {
                             $('.generate-screenshot').show();
                             this.setEvent(this.events.refreshClick);
+
+                            $('.screenshot-switcher--generate').hide();
                         },
                         setTakeScreenshotButton: function() {
+                            $('.screenshot-switcher').hide();
+                            $('.screenshot-switcher--generate').show();
 
+                            this.setEvent(this.events.generateClick);
                         },
                         setSwitcherButtons: function() {
                             $('.screenshot-switcher').show();
@@ -338,10 +376,13 @@
                                 .addClass('btn--alternative');
                         },
                         disableTakeScreenshotButton: function() {
-
+                            $('.screenshot-switcher--generate .btn')
+                                .removeClass('btn--primary')
+                                .addClass('btn--wire');
                         },
                         disableMessage: function() {
-
+                            $('.screenshot--status').hide();
+                            $('.screenshot--status .default-message').hide();
                         },
                         hasScreenshot: function(succeed, failed) {
                             $("<img src='" + this.data.url() + "'>")
