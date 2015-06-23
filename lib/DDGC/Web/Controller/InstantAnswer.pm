@@ -212,13 +212,14 @@ sub issues_json :Chained('issues_base') :PathPart('json') :Args(0) {
     my ( $self, $c ) = @_;        
 
     my $rs = $c->d->rs('InstantAnswer::Issues');
-    my @result = $rs->search({'is_pr' => 0})->all;
+    my @result = $rs->search({'is_pr' => 0},{order_by => { -desc => 'date'}})->all;
     my %ial;
     my $ia;
     my $id;
     my $dev_milestone;
     my @tags;
     my %temp_tags;
+    my @issues_by_date;
 
     for my $issue (@result) {
         $id = $issue->instant_answer_id;
@@ -234,22 +235,27 @@ sub issues_json :Chained('issues_base') :PathPart('json') :Args(0) {
                         };
                 }
             }
+            
+            my %temp_issue = (
+                    issue_id => $issue->issue_id,
+                    title => $issue->title,
+                    tags => $issue->tags,
+                    date => $issue->date,
+                    author => $issue->author,
+                    ia_id => $id,
+                    ia_name => $ia->name,
+                    repo => $issue->repo
+            );
+
+            push @issues_by_date, \%temp_issue;
 
             if (defined $ial{$id}) {
                 my @existing_issues = @{$ial{$id}->{issues}};
-                push(@existing_issues, {
-                        issue_id => $issue->issue_id,
-                        title => $issue->title,
-                        tags => $issue->tags
-                    });
+                push @existing_issues, \%temp_issue;
 
                 $ial{$id}->{issues} = \@existing_issues;
             } else {
-                push(@issues, {
-                        issue_id => $issue->issue_id,
-                        title => $issue->title,
-                        tags => $issue->tags
-                    });
+                push @issues, \%temp_issue;;
 
                 $ial{$id}  = {
                         name => $ia->name,
@@ -277,7 +283,8 @@ sub issues_json :Chained('issues_base') :PathPart('json') :Args(0) {
 
     $c->stash->{x} = {
         ia => \@sorted_ial,
-        tags => \@tags
+        tags => \@tags,
+        by_date => \@issues_by_date
     };
 
     $c->stash->{not_last_url} = 1;

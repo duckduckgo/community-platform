@@ -8,13 +8,13 @@
 
         init: function() {
             // console.log("IAIssues init()");
-            var dev_p = this;
+            var issues_p = this;
             var url = window.location.pathname.replace(/\/$/, '') + "/json";
 
             $.getJSON(url, function(data) { 
                 // console.log(window.location.pathname);
                 var ia_issues;
-                ia_issues = Handlebars.templates.dev_pipeline_live(data);
+                ia_issues = Handlebars.templates.issues(data);
                 $("#issues").html(ia_issues);
 
                 var parameters = window.location.search.replace("?", "");
