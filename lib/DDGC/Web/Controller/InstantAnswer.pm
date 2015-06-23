@@ -828,7 +828,7 @@ sub usercheck :Chained('base') :PathPart('usercheck') :Args() {
 sub create_ia :Chained('base') :PathPart('create') :Args() {
     my ( $self, $c ) = @_;
 
-    my $ia = $c->d->rs('InstantAnswer')->find({lc id => $c->req->params->{id}}) || $c->d->rs('InstantAnswer')->find({lc meta_id => $c->req->params->{id}});
+    my $ia = $c->d->rs('InstantAnswer')->find({id => lc($c->req->params->{id})}) || $c->d->rs('InstantAnswer')->find({meta_id => lc($c->req->params->{id})});
     my $is_admin;
     my $result = '';
 
@@ -844,8 +844,8 @@ sub create_ia :Chained('base') :PathPart('create') :Args() {
             }
 
             my $new_ia = $c->d->rs('InstantAnswer')->create({
-                lc id => $c->req->params->{id},
-                lc meta_id => $c->req->params->{id},
+                id => lc($c->req->params->{id}),
+                meta_id => lc($c->req->params->{id}),
                 name => $c->req->params->{name},
                 status => $status,
                 dev_milestone => $dev_milestone,
