@@ -118,7 +118,7 @@
 	</div>
 </div>
 <: } :>
-to
+
 <div id="thankyou1" class="shareit-thanks  hide">
 	<div class="shareit-responded  notice info"><i class="icn icon-thumbs-up-alt"></i>
 		<p class="shareit-thanks__return">Thanks for your support! Come back to <a href="https://duck.co/wear">duck.co/wear</a> on <span id="returndate" class="shareit-thanks__return__date"></span> for your final questions and coupon code! (Limit 1 per household)</p>
