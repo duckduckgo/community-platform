@@ -262,16 +262,27 @@
                                 evt: 'click',
                                 selector: '.generate-screenshot',
                                 fn: function() {
-                                    Screens.disableRefreshButton();
-                                    Screens.disableScreenshotImage();
-                                    Screens.setLoadingAnimation();
-                                    Screens.generateImage(function() {
-                                        Screens.disableLoadingAnimation();
-                                        Screens.setScreenshotImage();
-                                        Screens.enableRefreshButton();
-                                    });
+                                    if(!Screens.state.refreshClicked) {
+                                        Screens.toggleState("refreshClicked");
+
+                                        Screens.disableRefreshButton();
+                                        Screens.disableScreenshotImage();
+                                        Screens.setLoadingAnimation();
+                                        Screens.generateImage(function() {
+                                            Screens.disableLoadingAnimation();
+                                            Screens.setScreenshotImage();
+                                            Screens.enableRefreshButton();
+                                            Screens.toggleState("refreshClicked");
+                                        });
+                                    }
                                 }
                             }
+                        },
+                        state: {
+                            refreshClicked: false
+                        },
+                        toggleState: function(state) {
+                            Screens.state[state] = !Screens.state[state];
                         },
                         generateImage: function(callback) {
                             $.post(Screens.data.createImageEndpoint, function(data) {
@@ -279,10 +290,17 @@
                                     $.post(Screens.data.saveImageEndpoint, function() {
                                         callback();
                                     });
+                                } else {
+                                    Screens.setFailedToLoadMessage();
                                 }
                             });
                         },
                         enableRefreshButton: function() {
+                            $('.generate-screenshot')
+                                .removeClass('btn--alternative')
+                                .addClass('btn--primary');
+                        },
+                        setFailedToLoadMessage: function() {
 
                         },
                         setLoadingAnimation: function() {
@@ -315,12 +333,14 @@
                             $('.screenshot--status .loader').hide();
                         },
                         disableRefreshButton: function() {
-
+                            $('.generate-screenshot')
+                                .removeClass('btn--primary')
+                                .addClass('btn--alternative');
                         },
                         disableTakeScreenshotButton: function() {
 
                         },
-                        disableMessage() {
+                        disableMessage: function() {
 
                         },
                         hasScreenshot: function(succeed, failed) {
