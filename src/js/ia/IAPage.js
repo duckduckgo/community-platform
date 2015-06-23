@@ -194,63 +194,109 @@
                         $(".special-permissions__toggle-view").hide();
                     });
 
-                    var hasImage = true;
-                    page.hideScreenshot = (function(ia_data) {
-                        return function() {
-                            // Check if the image errored out.
-                            // If it did, show "There are no screenshots generated for this output yet."
-                            $(".ia-single--screenshots img.screenshot").error(function() {
-                                hasImage = false;
+                    // Generate a screenshot
+                    //
+                    // UI States:
+                    // - If we're logged in
+                    //     - There is no screenshot at all
+                    //         - Show top generate button part
+                    //         - Hide the desktop/mobile switcher buttons
+                    //         - Show there-is-no-screenshot message
+                    //         - When the generate button is clicked:
+                    //             - The screenshot loads.
+                    //                 - While the screenshot loads, disable the "Generate Screenshot" button.
+                    //                 - The screenshot succeeds
+                    //                     - Show desktop view as a default
+                    //                 - The screenshot fails
+                    //                     - When the screenshot fails, show an error message
+                    //     - There is a screenshot and we want to take another
+                    //         - Show refresh screenshot button over the image.
+                    //         - Show the desktop/mobile switcher buttons
+                    //         - When the refresh button is clicked:
+                    //             - The screenshot loads
+                    //                 - While the screenshot loads, disable the refresh button and the switcher buttons
+                    //                 - The screenshot succeeds
+                    //                     - When the new screenshot loads, make sure we stay on the current view, i.e., stay on desktop
+                    //                       if we're on desktop view and stay on mobile if we're on the mobile view
+                    //                 - The screenshot fails
+                    //                     - When the screenshot fails, show an error message
+                    //                     - Show a message that the user can click on to revert back to the old screenshot
+                    //                         - When the user clicks on the revert button, make sure to return to the old view (desktop/mobile)
+                    // - If we're not logged in
+                    //     - If there is a screenshot
+                    //         - Show the screenshots
+                    //         - Show the switcher buttons
+                    //         - Don't show the refresh button
+                    //         - Don't show the generate screenshot button
+                    //     - If there is no screenshot
+                    //         - Show the screenshot
+                    //         - Don't show the switcher buttons
+                    //         - Don't show the generate screenshot button
+                    //         - Don't show the refresh button
 
-                                // Show the default message.
-                                $(".screenshot--status").show();
+                    var Screens = {
+                        render: function() {
+                            this.hasScreenshot(function() {
+                                this.setScreenshotImage();
+                                this.setRefreshButton();
+                                this.setSwitcherButtons();
+                            }, function() {
 
-                                // Also remove the screenshot button overlay.
-                                $(".generate-screenshot").hide();
-                                $(".screenshot-switcher").hide();
-                                $(".screenshot-switcher--generate").show();
                             });
-                        };
-                    }(ia_data));
+                        },
+                        data: {
+                            url: 'https://images.duckduckgo.com/iu/?u=' +
+                                 encodeURIComponent('https://ia-screenshots.s3.amazonaws.com/' + DDH_iaid + '_index.png?nocache=' + Math.floor(Math.random() * 10000))
+                        },
+                        states: {
 
-                    page.hideScreenshot();
+                        },
+                        events: {
 
-                    // Generate a screenshot when the button is clicked.
-                    var isClicked = false;
-                    $("body").on("click", ".generate-screenshot.btn, .screenshot-switcher--generate .btn", function(evt) {
-                        if(!isClicked) {
-                            isClicked = true;
-                            if(!hasImage) {
-                                $(".default-message").hide();
-                                $(".loader").show();
-                            }
+                        },
+                        setLoadingAnimation: function() {
 
-                            $(this).removeClass("btn--primary").addClass("btn--wire");
-                            $(".screenshot-switcher--generate .btn").text("Generating ...");
+                        },
+                        setRefreshButton: function() {
 
-                            // Send a POST request with the ID of the IA.
-                            $.post("https://jag.duckduckgo.com/screenshot/create/" + DDH_iaid, function(data) {
-                                // Check if the screenshot that we want is available.
-                                // If it isn't there must be something wrong.
-                                if(data && data.status === "ok" && data.screenshots && data.screenshots.index) {
-                                    $.post("https://jag.duckduckgo.com/screenshot/save/" + DDH_iaid, function(data) {
-                                        hasImage = true;
-                                        $(".ia-single--screenshots img.screenshot").attr("src", "https://images.duckduckgo.com/iu/?u=" + encodeURIComponent(data.screenshots.index) + "?lol=" + Math.floor(Math.random(10) * 10000));
+                        },
+                        setTakeScreenshotButton: function() {
 
-                                        // Hide the default message.
-                                        $(".screenshot--status").hide();
+                        },
+                        setSwitcherButtons: function() {
 
-                                        $(".generate-screenshot").show();
-                                        $(".screenshot-switcher").show();
-                                        $(".screenshot-switcher--generate").hide();
+                        },
+                        setScreenshotImage: function() {
+                            var screenshotImage = $('.ia-single--screenshots img.screenshot');
+                            screenshotImage.attr('src', this.data.url);
+                            screenshotImage.show();
 
-                                        isClicked = false;
-                                        $(this).removeClass("btn--wire").addClass("btn--primary");
-                                    });
-                                }
-                            });
+                        },
+                        disableRefreshButton: function() {
+
+                        },
+                        disableTakeScreenshotButton: function() {
+
+                        },
+                        disableMessage() {
+
+                        },
+                        setEvent: function() {
+
+                        },
+                        hasScreenshot: function(succeed, failed) {
+                            var that = this;
+                            $("<img src='" + this.data.url + "'>")
+                                .on("load", function() {
+                                    succeed.call(that);
+                                })
+                                .error(function() {
+                                    failed.call(that);
+                                });
                         }
-                    });
+                    };
+
+                    Screens.render();
 
                     $("body").on('click', ".js-expand.button", function(evt) {
                         var milestone = $(this).parent().parent().attr("id");

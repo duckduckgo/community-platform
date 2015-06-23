@@ -1,10 +1,6 @@
 (function(env) {
     // Handlebars helpers for IA Pages
 
-    Handlebars.registerHelper('random', function() {
-        return Math.floor(Math.random(10) * 10000);
-    });
-
     // Check if two values are equal
     Handlebars.registerHelper('eq', function(value1, value2, options) {
         if (value1 === value2) {
@@ -72,7 +68,7 @@
         return txt;
     });
 
-    // Remove specified chars from a given string 
+    // Remove specified chars from a given string
     // and replace it with specified char/string (optional)
     Handlebars.registerHelper('replace', function(txt, to_remove, replacement) {
         replacement = replacement? replacement : '';
