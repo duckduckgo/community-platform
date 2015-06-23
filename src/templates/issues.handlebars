@@ -4,14 +4,18 @@
             <li id="pipeline-live__list__{{id}}" class="pipeline-live__list__item {{#each issues}}{{#each tags}} issue-{{slug name}} {{/each}}{{/each}}
             {{#if producer}}producer-{{producer}}{{/if}} {{#if designer}}designer-{{designer}}{{/if}} {{#if developer.name}}developer-{{developer.name}}{{/if}}">
                 <div class="list-container--left left">
-                    <h3><a href="/ia/view/{{id}}">{{name}}</a></h3>
+                    <div class="left ia-item--stamp circle stamp--{{repo}}"></div>
+                    <h3 class="left"><a href="/ia/view/{{id}}">{{name}}</a></h3>
                 </div>
                 <div class="list-container--right left">
                     <ul class="list-container--right__issues issues_col">
                         {{#each issues}}
                             <li>
-                                <div class="one-line left">
+                                <div class="one-line clearfix">
                                     <a href="https://github.com/duckduckgo/zeroclickinfo-{{../repo}}/issues/{{issue_id}}">{{title}}</a>
+                                </div>
+                                <div class="issue_date left">
+                                    #{{issue_id}} created by {{author}} on {{parse_date date}}
                                 </div>
                                 {{#each tags}}
                                     <div class="list-container--right__issues__tags issues_col__tags left issue-{{slug name}}" style="background-color: #{{color}};">
