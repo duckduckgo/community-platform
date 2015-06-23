@@ -247,6 +247,8 @@
                             });
                         },
                         resetState: function() {
+                            Screens.state.refreshClicked = false;
+                            Screens.state.generateClicked = false;
                             Screens.disableLoadingAnimation();
                             Screens.enableRefreshButton();
                             Screens.enableTakeScreenshotButton();
@@ -291,8 +293,18 @@
                                         Screens.generateImage(function() {
                                             Screens.toggleState("generateClicked");
                                             Screens.render();
-                                        });
+                                        }, true);
                                     }
+                                }
+                            },
+                            revertClick: {
+                                evt: 'click',
+                                selector: '.revert',
+                                fn: function(event) {
+                                    event.preventDefault();
+                                    $('.revert').hide();
+                                    $('.default-message').hide();
+                                    Screens.render();
                                 }
                             }
                         },
@@ -303,16 +315,22 @@
                         toggleState: function(state) {
                             Screens.state[state] = !Screens.state[state];
                         },
-                        generateImage: function(callback) {
+                        generateImage: function(callback, isFirst) {
+                            function failedMessage() {
+                                Screens.disableScreenshotImage();
+                                Screens.disableLoadingAnimation();
+                                Screens.setMessage("Screenshot Failed", true, isFirst);
+                            }
+
                             $.post(Screens.data.createImageEndpoint, function(data) {
                                 if(data && data.status === "ok" && data.screenshots && data.screenshots.index) {
                                     $.post(Screens.data.saveImageEndpoint, function() {
                                         callback();
                                     });
                                 } else {
-                                    Screens.setFailedToLoadMessage();
+                                    failedMessage();
                                 }
-                            });
+                            }).fail(failedMessage);
                         },
                         enableRefreshButton: function() {
                             $('.generate-screenshot')
@@ -327,9 +345,19 @@
                         setFailedToLoadMessage: function() {
 
                         },
-                        setMessage: function(message) {
+                        setMessage: function(message, enableRevert, isFirst) {
                             $('.screenshot--status').show();
                             $('.screenshot--status .default-message').show().text(message);
+
+                            if(enableRevert) {
+                                this.setEvent(this.events.revertClick);
+                                if(isFirst) {
+                                    Screens.toggleState("generateClicked");
+                                    Screens.enableTakeScreenshotButton();
+                                } else {
+                                    $('.revert').show();
+                                }
+                            }
                         },
                         setLoadingAnimation: function() {
                             $('.screenshot--status').show();
