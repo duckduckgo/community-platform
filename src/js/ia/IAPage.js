@@ -237,7 +237,6 @@
                     var Screens = {
                         render: function() {
                             Screens.resetState();
-
                             Screens.hasScreenshot(function() {
                                 Screens.setScreenshotImage();
                                 Screens.setRefreshButton();
@@ -248,7 +247,10 @@
                             });
                         },
                         resetState: function() {
-
+                            Screens.disableLoadingAnimation();
+                            Screens.enableRefreshButton();
+                            Screens.enableTakeScreenshotButton();
+                            Screens.disableScreenshotImage();
                         },
                         data: {
                             url: function() {
@@ -270,10 +272,8 @@
                                         Screens.disableScreenshotImage();
                                         Screens.setLoadingAnimation();
                                         Screens.generateImage(function() {
-                                            Screens.disableLoadingAnimation();
-                                            Screens.setScreenshotImage();
-                                            Screens.enableRefreshButton();
                                             Screens.toggleState("refreshClicked");
+                                            Screens.render();
                                         });
                                     }
                                 }
@@ -289,12 +289,7 @@
                                         Screens.disableMessage();
                                         Screens.setLoadingAnimation();
                                         Screens.generateImage(function() {
-                                            Screens.disableLoadingAnimation();
-                                            Screens.setScreenshotImage();
-                                            Screens.setRefreshButton();
-                                            Screens.enableTakeScreenshotButton();
                                             Screens.toggleState("generateClicked");
-
                                             Screens.render();
                                         });
                                     }
