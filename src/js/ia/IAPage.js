@@ -236,12 +236,12 @@
 
                     var Screens = {
                         render: function() {
-                            this.resetState();
+                            Screens.resetState();
 
-                            this.hasScreenshot(function() {
-                                this.setScreenshotImage();
-                                this.setRefreshButton();
-                                this.setSwitcherButtons();
+                            Screens.hasScreenshot(function() {
+                                Screens.setScreenshotImage();
+                                Screens.setRefreshButton();
+                                Screens.setSwitcherButtons();
                             }, function() {
 
                             });
@@ -254,25 +254,44 @@
                                 return 'https://images.duckduckgo.com/iu/?u=' +
                                        encodeURIComponent('https://ia-screenshots.s3.amazonaws.com/' + DDH_iaid + '_index.png?nocache=' + Math.floor(Math.random() * 10000))
                             },
-                            refreshButtonSelector: '.generate-screenshot'
-                        },
-                        states: {
-                            refreshClick: {
-                                evt: 'click',
-                                selector: '.generate-screenshot'
-                            }
+                            createImageEndpoint: 'https://jag.duckduckgo.com/screenshot/create/' + DDH_iaid,
+                            saveImageEndpoint: 'https://jag.duckduckgo.com/screenshot/save/' + DDH_iaid
                         },
                         events: {
+                            refreshClick: {
+                                evt: 'click',
+                                selector: '.generate-screenshot',
+                                fn: function() {
+                                    Screens.disableRefreshButton();
+                                    Screens.disableScreenshotImage();
+                                    Screens.setLoadingAnimation();
+                                    Screens.generateImage(function() {
+                                        Screens.disableLoadingAnimation();
+                                        Screens.setScreenshotImage();
+                                        Screens.enableRefreshButton();
+                                    });
+                                }
+                            }
+                        },
+                        generateImage: function(callback) {
+                            $.post(Screens.data.createImageEndpoint, function(data) {
+                                if(data && data.status === "ok" && data.screenshots && data.screenshots.index) {
+                                    $.post(Screens.data.saveImageEndpoint, function() {
+                                        callback();
+                                    });
+                                }
+                            });
+                        },
+                        enableRefreshButton: function() {
 
                         },
                         setLoadingAnimation: function() {
-
+                            $('.screenshot--status').show();
+                            $('.screenshot--status .loader').show();
                         },
                         setRefreshButton: function() {
-                            $(this.data.refreshButtonSelector).show();
-                            this.setEvent(this.states.refreshClick, function() {
-                                console.log("Yay");
-                            });
+                            $('.generate-screenshot').show();
+                            this.setEvent(this.events.refreshClick);
                         },
                         setTakeScreenshotButton: function() {
 
@@ -284,7 +303,16 @@
                             var screenshotImage = $('.ia-single--screenshots img.screenshot');
                             screenshotImage.attr('src', this.data.url());
                             screenshotImage.show();
-
+                        },
+                        disableScreenshotImage: function() {
+                            $('.ia-single--screenshots img.screenshot').hide();
+                        },
+                        setEvent: function(eventData) {
+                            $(eventData.selector).on(eventData.evt, eventData.fn);
+                        },
+                        disableLoadingAnimation: function() {
+                            $('.screenshot--status').hide();
+                            $('.screenshot--status .loader').hide();
                         },
                         disableRefreshButton: function() {
 
@@ -295,18 +323,13 @@
                         disableMessage() {
 
                         },
-                        setEvent: function(eventData, callback) {
-                            $(eventData.selector).on(eventData.evt, callback);
-                        },
                         hasScreenshot: function(succeed, failed) {
-                            var that = this;
-
                             $("<img src='" + this.data.url() + "'>")
                                 .on("load", function() {
-                                    succeed.call(that);
+                                    succeed();
                                 })
                                 .error(function() {
-                                    failed.call(that);
+                                    failed();
                                 });
                         }
                     };
