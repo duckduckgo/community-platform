@@ -54,7 +54,7 @@ $(document).ready(function() {
 
 	$("a[href^='http']").mousedown(function() {
 		current_hostname = location.hostname;
-		current_hostname.replace(/\./g, '\\.');
+		current_hostname.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
 		hostname_re = new RegExp("^https?:\\/\\/(\\w+\\.)?(duckduckgo\\.com|" + current_hostname + ")");
 		if (this.href.search(hostname_re) === -1) {
 			set_url_to_redirect(this);
