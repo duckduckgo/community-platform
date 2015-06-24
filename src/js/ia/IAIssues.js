@@ -6,6 +6,9 @@
 
     DDH.IAIssues.prototype = {
 
+        sort_by_date: false,
+        selected_tag: '',
+
         init: function() {
             // console.log("IAIssues init()");
             var issues_p = this;
@@ -33,33 +36,45 @@
                 }
             });
 
+            $("body").on('click', "#sort_date", function(evt) {
+                if ($(this).hasClass("icon-check-empty")) {
+                    $("#sort_ia").removeClass("icon-check").addClass("icon-check-empty");
+                    $(this).removeClass("icon-check-empty").addClass("icon-check");
+                    issues_p.sort_by_date = true;
+                    $("#pipeline-live__list .by_ia_item").addClass("hide");
+                    issues_p.filter();
+                }
+            });
+
+            $("body").on('click', "#sort_ia", function(evt) {
+                if ($(this).hasClass("icon-check-empty")) {
+                    $("#sort_date").removeClass("icon-check").addClass("icon-check-empty");
+                    $(this).removeClass("icon-check-empty").addClass("icon-check");
+                    issues_p.sort_by_date = false;
+                    $("#pipeline-live__list .by_date_item").addClass("hide");
+                    issues_p.filter();
+                }
+            });
+
             $("body").on('click', ".filter-issues__item__checkbox", function(evt) {
                 var url = "";
 
                 if ($(this).hasClass("icon-check-empty")) {
-                    $(".icon-check").removeClass("icon-check").addClass("icon-check-empty");
+                    $(".filter-issues__item__checkbox.icon-check").removeClass("icon-check").addClass("icon-check-empty");
 
                     $(this).removeClass("icon-check-empty");
                     $(this).addClass("icon-check");
 
-                    var issue_tag = $(this).attr("id");
-                    url += "&tag=" + issue_tag.replace("issue-", "");
-                    
-                    $("#pipeline-live__list .pipeline-live__list__item").hide();
-                    $("#pipeline-live__list .pipeline-live__list__item .list-container--right__issues li").hide();
-                    $("#pipeline-live__list .pipeline-live__list__item." + issue_tag).show();
-                    $("#pipeline-live__list .pipeline-live__list__item .list-container--right__issues li").each(function(idx) {
-                        if ($(this).find(".issues_col__tags." + issue_tag).length) {
-                            $(this).show();
-                        }
-                    });
+                    issues_p.selected_tag = "." + $(this).attr("id");
+                    var value = issues_p.selected_tag.replace("issue-", "");
+                    url += "&tag=" + value;
                 } else {
                     $(this).removeClass("icon-check");
                     $(this).addClass("icon-check-empty");
-
-                    $("#pipeline-live__list .pipeline-live__list__item").show();
-                    $("#pipeline-live__list .pipeline-live__list__item .list-container--right__issues li").show();
+                    issues_p.selected_tag = '';
                 }
+
+                issues_p.filter();
 
                 url = url.length? "?" + url.replace("#", "") : "issues";
                 
@@ -67,6 +82,20 @@
                 // Not supported on IE8 and IE9.
                 history.pushState({}, "IA Pages Issues", url);
             });
+        },
+
+        filter: function() {
+            var selector = this.sort_by_date? "#pipeline-live__list .by_date_item" : "#pipeline-live__list .by_ia_item";
+
+            if (this.selected_tag.length) {
+                $(selector).addClass("hide");
+                $(selector + " .list-container--right__issues li").addClass("hide");
+                $(selector + this.selected_tag).removeClass("hide");
+                $(selector + " .list-container--right__issues li" + this.selected_tag).removeClass("hide");
+            } else {
+                $(selector).removeClass("hide");
+                $(selector + " .list-container--right__issues li").removeClass("hide");
+            }
         }
     };
 })(DDH);
