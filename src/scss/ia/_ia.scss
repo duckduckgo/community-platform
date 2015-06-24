@@ -1350,15 +1350,18 @@ input.not_saved, select.not_saved, .button.not_saved {
 }
 
 #pipeline-live-container .by_ia_item--left {
-    width: 37%;
+    width: 38%;
 }
 
 #pipeline-live-container .by_date_item--left {
-    width: 63%;
+    width: 60%;
 }
 
-#pipeline-live-container .list-container--left {
+#pipeline-live-container .list-container--left,
+#issues_sort_by {
     padding-left: 1em;
+
+    i { margin-left: 0.5em; }
 }
 
 #pipeline-live__list .pipeline-live__list__item {
@@ -1376,13 +1379,15 @@ input.not_saved, select.not_saved, .button.not_saved {
     color: #333;
 }
 
+#pipeline-live-container a { color: $slate; }
+
 #pipeline-live-container .list-container--right li .one-line,
-#pipeline-live-container .list-container--right li .one-line a {
-    color: $slate;
+#pipeline-live-container .list-container--right li .one-line a,
+#pipeline-live-container .by_date_item--left .one-line a {
     font-size: 1.05em;
 }
 
-#pipeline-live-container .list-container--right li .issue_date {
+#pipeline-live-container .issue_date {
     color: $grey;
     margin-right: 0.7em;
     margin-bottom: 0.7em;

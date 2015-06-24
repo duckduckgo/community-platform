@@ -31,6 +31,8 @@
                         var value = temp[1];
                         if ((field === "tag") && value) {
                             $("#issue-" + value).trigger("click");
+                        } else if ((field === "sort") && (value === "date")) {
+                            $("#sort_date").trigger("click");
                         }
                     });
                 }
@@ -66,8 +68,6 @@
                     $(this).addClass("icon-check");
 
                     issues_p.selected_tag = "." + $(this).attr("id");
-                    var value = issues_p.selected_tag.replace("issue-", "");
-                    url += "&tag=" + value;
                 } else {
                     $(this).removeClass("icon-check");
                     $(this).addClass("icon-check-empty");
@@ -75,19 +75,17 @@
                 }
 
                 issues_p.filter();
-
-                url = url.length? "?" + url.replace("#", "") : "issues";
-                
-                // Allows changing URL without reloading, since it doesn't add the new URL to history;
-                // Not supported on IE8 and IE9.
-                history.pushState({}, "IA Pages Issues", url);
             });
         },
 
         filter: function() {
             var selector = this.sort_by_date? "#pipeline-live__list .by_date_item" : "#pipeline-live__list .by_ia_item";
+            var url = this.sort_by_date? "&sort=date" : "";
 
             if (this.selected_tag.length) {
+                var value = this.selected_tag.replace(".issue-", "");
+                url += "&tag=" + value;
+                
                 $(selector).addClass("hide");
                 $(selector + " .list-container--right__issues li").addClass("hide");
                 $(selector + this.selected_tag).removeClass("hide");
@@ -96,6 +94,12 @@
                 $(selector).removeClass("hide");
                 $(selector + " .list-container--right__issues li").removeClass("hide");
             }
+
+            url = url.length? "?" + url.replace("#", "") : "issues";
+            
+            // Allows changing URL without reloading, since it doesn't add the new URL to history;
+            // Not supported on IE8 and IE9.
+            history.pushState({}, "IA Pages Issues", url);
         }
     };
 })(DDH);
