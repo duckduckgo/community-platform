@@ -7,9 +7,9 @@
 	position: relative;
 	height: 20px;
 	width: 46px;
-	background: $silver-light;
+	background: $blue-light;
 	.is-on & {
-		background: $silver-light;
+		background: $blue-light;
 	}
 }
 	.switch__knob {
@@ -21,7 +21,7 @@
 		top: 2px;
 		height: 16px;
 		width: 16px;
-		background-color: $blue-light;
+		background-color: $silver-light;
 		.is-on & {
 			left: 28px;
 		}

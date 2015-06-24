@@ -2,7 +2,9 @@
     // Handlebars helpers for IA Pages
 
     Handlebars.registerHelper('countKeys', function(object) {
-        return Object.keys(object).length;
+        if(object) {
+            return Object.keys(object).length;
+        }
     });
 
     // Check if two values are equal
