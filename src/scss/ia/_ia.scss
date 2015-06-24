@@ -1354,12 +1354,14 @@ input.not_saved, select.not_saved, .button.not_saved {
 }
 
 #pipeline-live-container .by_date_item--left {
-    width: 60%;
+    width: 61%;
 }
 
 #pipeline-live-container .list-container--left,
 #issues_sort_by {
     padding-left: 1em;
+    padding-bottom: 0.25em;
+    font-size: 1.05em;
 
     i { margin-left: 0.5em; }
 }
