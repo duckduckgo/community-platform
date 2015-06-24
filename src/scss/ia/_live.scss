@@ -149,7 +149,7 @@
         }
 
         #ia-single-top-details {
-            line-height: 2.4;
+            line-height: 2.8;
 
             span {
                 text-transform: capitalize;
@@ -184,11 +184,6 @@
             display: inline-block;
         }
 
-        #edit_activate {
-            margin-right: 40px;
-            margin-top: 33px;
-        }
-
         .very-top {
             overflow: hidden;
         }
@@ -199,6 +194,11 @@
 
         .edit-container {
             display: inline-block;
+            margin-left: 65px;
+        }
+
+        .pending-edits {
+            color: rgba(255, 255, 255, 0.6);
         }
     }
 
@@ -301,12 +301,10 @@
 @media only screen and (max-width: 1015px) {
     #ia-single-top #ia-single-top-details {
           width: 100%;
-          float: none;
     }
 
     #ia-single-top .edit-buttons {
           width: 100%;
-          float: none;
           margin-top: 1em;
     }
 

@@ -11,19 +11,18 @@
     <div class="ia-single">
         <div class="ia-single__top nowrap" id="ia-single-top">
             <div class="content-wrap">
-                <div class="very-top pull-left">
+                <div class="very-top seventy">
                     <div id="ia-single-top-name"></div>
                     <div id="ia-single-top-details"></div>
                 </div>
                 <: if $can_edit { :>
-                  <div class="pull-right edit-buttons">
+                  <div class="thirty g edit-buttons">
                     <span class="special-permissions <: if $dev_milestone != 'live' && $dev_milestone != 'deprecated' { :>hide<: } :>">
                         <: if $can_commit { :>
                             <div class="edit-container">
 
                             </div>
                         <: } :>
-                        <div class="special-permissions__edit js-edit-enable btn btn--wire--hero pull-left btn--inline" id="edit_activate">Edit</div>
                     </span>
                   </div>
                 <: } :>

@@ -8,19 +8,19 @@
         <input type="text" class="frm__input name js-autocommit left" id="name-input" value="{{name}}" />
         </h2>
         <span class="frm__select">
-        <select class="dev_milestone-container__body__select js-autocommit dev_milestone" data-panel="metafields" tabindex="-1" id="dev_milestone-select">
-            <option value="0">{{dev_milestone}}</option>
-            {{#not_eq dev_milestone 'planning'}}<option value="1">planning</option>{{/not_eq}}
-            {{#not_eq dev_milestone 'development'}}<option value="2">development</option>{{/not_eq}}
-            {{#not_eq dev_milestone 'testing'}}<option value="3">testing</option>{{/not_eq}}
-            {{#not_eq dev_milestone 'complete'}}<option value="4">complete</option>{{/not_eq}}
-            {{#not_eq dev_milestone 'live'}}<option value="5">live</option>{{/not_eq}}
-        </select>
+            <select class="dev_milestone-container__body__select js-autocommit dev_milestone" data-panel="metafields" tabindex="-1" id="dev_milestone-select">
+                <option value="0">{{dev_milestone}}</option>
+                {{#not_eq dev_milestone 'planning'}}<option value="1">planning</option>{{/not_eq}}
+                {{#not_eq dev_milestone 'development'}}<option value="2">development</option>{{/not_eq}}
+                {{#not_eq dev_milestone 'testing'}}<option value="3">testing</option>{{/not_eq}}
+                {{#not_eq dev_milestone 'complete'}}<option value="4">complete</option>{{/not_eq}}
+                {{#not_eq dev_milestone 'live'}}<option value="5">live</option>{{/not_eq}}
+            </select>
         </span>
         <span class="clearfix"></span>
     {{/eq_or}}
-{{else}} 
-    {{name}} 
-    </h2> 
+{{else}}
+    {{name}}
+    </h2>
 {{/if}}
 </div>

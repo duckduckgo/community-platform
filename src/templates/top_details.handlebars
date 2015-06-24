@@ -1,24 +1,27 @@
-{{#if topic}}
-    <span class="sep--after">
-        <span class="detail-title">Categories:</span>
-        {{#each topic}}
-            <a href="/ia?&topic={{urify this}}">
-                {{this}}{{#unless @last}}, {{/unless}}
-            </a>
-        {{/each}}
-    </span>
-{{/if}}
+<div class="ninety">
+    {{#if topic}}
+        <span class="sep--after">
+            <span class="detail-title">Categories:</span>
+            {{#each topic}}
+                <a href="/ia?&topic={{urify this}}">
+                    {{this}}{{#unless @last}}, {{/unless}}
+                </a>
+            {{/each}}
+        </span>
+    {{/if}}
 
-{{#if repo}}
-    <span class="sep--after">
-        <span class="detail-title">Type:</span>
-        <a href="/ia?&repo={{repo}}">{{repo}}</a>
-    </span>
-{{/if}}
+    {{#if repo}}
+        <span class="sep--after">
+            <span class="detail-title">Type:</span>
+            <a href="/ia?&repo={{repo}}">{{repo}}</a>
+        </span>
+    {{/if}}
 
-{{#if dev_milestone}}
-    <span>
-        <span class="detail-title">Status:</span>
-        {{dev_milestone}}
-    </span>
-{{/if}}
+    {{#if dev_milestone}}
+        <span>
+            <span class="detail-title">Status:</span>
+            {{dev_milestone}}
+        </span>
+    {{/if}}
+</div>
+<div class="special-permissions__edit js-edit-enable btn btn--wire--hero ten g btn--inline" id="edit_activate">Edit</div>

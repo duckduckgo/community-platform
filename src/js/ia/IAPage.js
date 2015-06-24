@@ -197,7 +197,6 @@
 
                     $('body').on('click', '.switch.js-switch', function(evt) {
                         $(this).parent().toggleClass('is-on');
-                        console.log("asdf");
                     });
 
                     // Generate a screenshot
