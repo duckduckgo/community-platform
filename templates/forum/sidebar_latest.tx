@@ -3,7 +3,7 @@
 			<ul>
 				<li><a href="<: $u('Forum','general') :>">General Ramblings</a></li>
 				<: if $c.user.is('admin') { :>
-					<li><a href="<: $u('Forum','admins') :>">Admins Forum</a></li>
+					<li><a href="<: $u('Forum','internal') :>">Internal Forum</a></li>
 				<: } :>
 				<: if $c.user.is('forum_manager') { :>
 					<li><a href="<: $u('Forum','community_leaders') :>">Community Leaders</a></li>
