@@ -1363,7 +1363,10 @@ input.not_saved, select.not_saved, .button.not_saved {
     padding-bottom: 0.25em;
     font-size: 1.05em;
 
-    i { margin-left: 0.5em; }
+    input[type="radio"] { 
+        margin-left: 0.5em;
+        vertical-align: baseline;
+    }
 }
 
 #pipeline-live__list .pipeline-live__list__item {

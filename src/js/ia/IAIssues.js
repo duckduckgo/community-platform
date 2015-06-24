@@ -39,23 +39,15 @@
             });
 
             $("body").on('click', "#sort_date", function(evt) {
-                if ($(this).hasClass("icon-check-empty")) {
-                    $("#sort_ia").removeClass("icon-check").addClass("icon-check-empty");
-                    $(this).removeClass("icon-check-empty").addClass("icon-check");
-                    issues_p.sort_by_date = true;
-                    $("#pipeline-live__list .by_ia_item").addClass("hide");
-                    issues_p.filter();
-                }
+                issues_p.sort_by_date = true;
+                $("#pipeline-live__list .by_ia_item").addClass("hide");
+                issues_p.filter();
             });
 
             $("body").on('click', "#sort_ia", function(evt) {
-                if ($(this).hasClass("icon-check-empty")) {
-                    $("#sort_date").removeClass("icon-check").addClass("icon-check-empty");
-                    $(this).removeClass("icon-check-empty").addClass("icon-check");
-                    issues_p.sort_by_date = false;
-                    $("#pipeline-live__list .by_date_item").addClass("hide");
-                    issues_p.filter();
-                }
+                issues_p.sort_by_date = false;
+                $("#pipeline-live__list .by_date_item").addClass("hide");
+                issues_p.filter();
             });
 
             $("body").on('click', ".filter-issues__item__checkbox", function(evt) {
