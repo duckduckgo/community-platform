@@ -1,7 +1,7 @@
 <span class='user-name'>
 
 : if $user.username == nil {
-    &lt;nobody&gt;
+    &lt;hidden&gt;
 : } elsif $user.public != 1 {
     : if $vars.user != nil {
         : if $vars.user.admin {
