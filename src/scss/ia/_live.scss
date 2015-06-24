@@ -96,6 +96,10 @@
         opacity: 0.2;
     }
 
+    .remove-border {
+        border-color: transparent;
+    }
+
     /* Position the bottom on the screenshot itself. */
     .generate-screenshot {
         position: relative;
@@ -132,7 +136,7 @@
         }
 
         .btn {
-            border: 1px solid white;
+            border: 1px solid rgba(255,255,255,0.4);
         }
 
         .special-permissions .btn--wire--hero {
@@ -145,7 +149,7 @@
         }
 
         #ia-single-top-details {
-            line-height: 2.4em;
+            line-height: 2.4;
 
             span {
                 text-transform: capitalize;
@@ -158,6 +162,43 @@
 
         .edit-buttons {
             text-transform: capitalize;
+        }
+
+        .preview-switch {
+            display: inline-block;
+            line-height: 2.5;
+        }
+
+        .preview-switch .switch {
+            float: left;
+            margin-right: 5px;
+            line-height: 1.3;
+            margin-top: 8px;
+        }
+
+        .preview-switch__label {
+            margin-right: 5px;
+        }
+
+        .preview-stats {
+            display: inline-block;
+        }
+
+        #edit_activate {
+            margin-right: 40px;
+            margin-top: 33px;
+        }
+
+        .very-top {
+            overflow: hidden;
+        }
+
+        .preview-edits {
+            margin-top: 7px;
+        }
+
+        .edit-container {
+            display: inline-block;
         }
     }
 
@@ -204,8 +245,8 @@
 
         .date {
             font-size: smaller;
-            line-height: 3em;
             display: block;
+            padding-top: 29px;
         }
     }
 

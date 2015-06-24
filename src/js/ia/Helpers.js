@@ -1,6 +1,10 @@
 (function(env) {
     // Handlebars helpers for IA Pages
 
+    Handlebars.registerHelper('countKeys', function(object) {
+        return Object.keys(object).length;
+    });
+
     // Check if two values are equal
     Handlebars.registerHelper('eq', function(value1, value2, options) {
         if (value1 === value2) {

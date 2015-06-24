@@ -71,6 +71,7 @@
                             devinfo : Handlebars.templates.devinfo(latest_edits_data),
                             github: Handlebars.templates.github(latest_edits_data)
                         },
+                        edit: Handlebars.templates.edit_buttons(ia_data),
                         screens : Handlebars.templates.screens(ia_data),
                         metafields : Handlebars.templates.metafields(ia_data),
                         metafields_content : Handlebars.templates.metafields_content(ia_data),
@@ -194,6 +195,11 @@
                         $(".special-permissions__toggle-view").hide();
                     });
 
+                    $('body').on('click', '.switch.js-switch', function(evt) {
+                        $(this).parent().toggleClass('is-on');
+                        console.log("asdf");
+                    });
+
                     // Generate a screenshot
                     //
                     // UI States:
@@ -258,7 +264,7 @@
                             url: function() {
                                 var image = Screens.state.isMobile ? 'mobile' : 'index';
                                 return 'https://images.duckduckgo.com/iu/?u=' +
-                                       encodeURIComponent('https://ia-screenshots.s3.amazonaws.com/' + DDH_iaid + '_' + image + '.png?nocache=' + Math.floor(Math.random() * 10000))
+                                       encodeURIComponent('https://ia-screenshots.s3.amazonaws.com/' + DDH_iaid + '_' + image + '.png?nocache=' + Math.floor(Math.random() * 10000));
                             },
                             createImageEndpoint: 'https://jag.duckduckgo.com/screenshot/create/' + DDH_iaid,
                             saveImageEndpoint: 'https://jag.duckduckgo.com/screenshot/save/' + DDH_iaid
@@ -313,8 +319,8 @@
                                 selector: '.screenshot-switcher .icon-extra-mobile',
                                 fn: function(event) {
                                     Screens.state.isMobile = true;
-                                    $('.screenshot').attr('id', 'screenshot-mobile');
                                     Screens.setScreenshotImage();
+                                    $('.screenshot').attr('id', 'screenshot-mobile');
 
                                     Screens.setOpacity();
                                 }
@@ -324,8 +330,8 @@
                                 selector: '.screenshot-switcher .icon-extra-desktop',
                                 fn: function(event) {
                                     Screens.state.isMobile = false;
-                                    $('.screenshot').removeAttr('id');
                                     Screens.setScreenshotImage();
+                                    $('.screenshot').removeAttr('id');
 
                                     Screens.setOpacity();
                                 }
@@ -341,9 +347,15 @@
                         },
                         setOpacity: function() {
                             if(Screens.state.isMobile) {
+                                $('.screenshot-switcher .icon-extra-desktop').parent().addClass('remove-border');
+                                $('.screenshot-switcher .icon-extra-mobile').parent().removeClass('remove-border');
+
                                 $('.screenshot-switcher .icon-extra-mobile').removeClass('add-opacity');
                                 $('.screenshot-switcher .icon-extra-desktop').addClass('add-opacity');
                             } else {
+                                $('.screenshot-switcher .icon-extra-desktop').parent().removeClass('remove-border');
+                                $('.screenshot-switcher .icon-extra-mobile').parent().addClass('remove-border');
+
                                 $('.screenshot-switcher .icon-extra-mobile').addClass('add-opacity');
                                 $('.screenshot-switcher .icon-extra-desktop').removeClass('add-opacity');
                             }
@@ -1119,6 +1131,7 @@
                 if (dev_milestone === "live" || dev_milestone === "deprecated") {
                     $("#ia-single-top-name").html(templates.live.name);
                     $("#ia-single-top-details").html(templates.live.top_details);
+                    $('.edit-container').html(templates.edit);
                     $(".ia-single--left, .ia-single--right").show().empty();
 
                     for (var i = 0; i < this.field_order.length; i++) {
