@@ -11,6 +11,5 @@
 				<li><a href="<: $u('Forum','ideas') :>">Instant Answers</a></li>
 				<li><a href="<: $u('Forum','blog') :>">Company Blog</a></li>
 				<li><a href="<: $u('Forum','translation') :>">Translations</a></li>
-				<li><a href="<: $u('Forum','all') :>">Everything</a></li>
 			</ul>
 		</section>
