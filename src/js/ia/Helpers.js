@@ -1,10 +1,36 @@
 (function(env) {
     // Handlebars helpers for IA Pages
 
-    Handlebars.registerHelper('countKeys', function(object) {
-        if(object) {
-            return Object.keys(object).length;
+    /**
+     * @function plural
+     *
+     * Returns the value of `context` (assuming `context` is a **number**)
+     * and appends the singular or plural form of the specified word,
+     * depending on the value of `context`
+     *
+     * @param {string} singular Indicates the singular form to use
+     * @param {string} plural   Indicates the plural form to use
+     * @param {string} delimiter **[optional]** Format the number with the `numFormat` helper
+     *
+     * Example:
+     *
+     * `{plural star_rating singular="star" plural="stars"}}`
+     *
+     * Will produce:
+     * - `{{star_rating}} star`  if the value of `star_rating` is `1`, or
+     * - `{{star_rating}} stars` if `star_rating` > `1`
+     *
+     */
+    Handlebars.registerHelper("plural", function(num, options) {
+        var singular = options.hash.singular || '',
+            plural   = options.hash.plural || '',
+            word = (num === 1) ? singular : plural;
+
+        if (options.hash.delimiter){
+            num = Handlebars.helpers.numFormat(num, options);
         }
+
+        return word;
     });
 
     // Check if two values are equal

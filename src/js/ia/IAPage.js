@@ -61,6 +61,8 @@
                         latest_edits_data = ia_data.live;
                     }
 
+                    ia_data.edit_count = ia_data.edited ? Object.keys(ia_data.edited).length : 0;
+
                     // Readonly mode templates
                     var readonly_templates = {
                         live: {
