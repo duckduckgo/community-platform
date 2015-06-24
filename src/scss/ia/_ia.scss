@@ -1366,6 +1366,7 @@ input.not_saved, select.not_saved, .button.not_saved {
     input[type="radio"] { 
         margin-left: 0.5em;
         vertical-align: baseline;
+        cursor: pointer;
     }
 }
 
