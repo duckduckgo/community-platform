@@ -15,6 +15,7 @@ use Dancer2::Plugin::Params::HashMultiValue;
 use Dancer2::Plugin::DDGC::Config;
 use Dancer2::Plugin::DDGC::Session;
 use Dancer2::Plugin::DDGC::Request;
+use Dancer2::Plugin::DDGC::Markup;
 use Dancer2::Plugin::DDGC::Validate;
 use Dancer2::Plugin::DDGC::UserRole;
 use Dancer2::Plugin::DDGC::SchemaApp;
@@ -34,6 +35,7 @@ use Dancer2::Plugin::DDGC::SchemaApp;
             Dancer2::Plugin::DDGC::Config
             Dancer2::Plugin::DDGC::Session
             Dancer2::Plugin::DDGC::Request
+            Dancer2::Plugin::DDGC::Markup
             Dancer2::Plugin::DDGC::Validate
             Dancer2::Plugin::DDGC::UserRole
             Dancer2::Plugin::DDGC::SchemaApp
