@@ -61,7 +61,6 @@
                         latest_edits_data = ia_data.live;
                     }
 
-                    console.log(ia_data.edited);
                     ia_data.edit_count = ia_data.edited ? Object.keys(ia_data.edited).length : 0;
 
                     // Readonly mode templates
