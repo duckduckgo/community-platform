@@ -1,5 +1,7 @@
 <div class="pull-right">
-    <div class="special-permissions__edit js-edit-enable btn btn--wire--hero btn--inline" id="edit_activate">Edit</div>
+    {{#if permissions.can_edit}}
+        <div class="special-permissions__edit js-edit-enable btn btn--wire--hero btn--inline" id="edit_activate">Edit</div>
+    {{/if}}
 </div>
 
 <div class="ninety">
