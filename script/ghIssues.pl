@@ -90,9 +90,6 @@ sub getIssues{
                 # check to see if we have this IA already
                 # First lookup by ID.  This can fail if an admin updates the ID on the IA page later
                 my $ia = $d->rs('InstantAnswer')->find($data->{name}, {result_class => 'DBIx::Class::ResultClass::HashRefInflator'}) || {};
-
-                # try look up by name if ID fails
-                #  $ia = $d->rs('InstantAnswer')->find({name => $data->{name}}) if !$ia;
                 my $new_ia = 1 if !keys $ia;
 
                 my @time = localtime(time);
