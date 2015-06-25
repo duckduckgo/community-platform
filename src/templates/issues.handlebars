@@ -1,0 +1,77 @@
+<div id="issues_sort_by">
+    Sort by 
+    <input type="radio" name="sort_group" id="sort_ia" checked="checked" /> IA name
+    <input type="radio" name="sort_group" id="sort_date" /> Creation date
+</div>
+
+<div id="pipeline-live-container" class="pipeline-container left">
+    <ul class="dev_pipeline-container__list" id="pipeline-live__list">
+        {{#each ia}}
+            <li id="pipeline-live__list__{{id}}" class="pipeline-live__list__item by_ia_item {{#each issues}}{{#each tags}} issue-{{slug name}} {{/each}}{{/each}}
+            {{#if producer}}producer-{{producer}}{{/if}} {{#if designer}}designer-{{designer}}{{/if}} {{#if developer.name}}developer-{{developer.name}}{{/if}}">
+                <div class="list-container--left left by_ia_item--left">
+                    <div class="left ia-item--stamp circle stamp--{{repo}}"></div>
+                    <h3 class="left"><a href="/ia/view/{{id}}">{{name}}</a></h3>
+                </div>
+                <div class="list-container--right left">
+                    <ul class="list-container--right__issues issues_col">
+                        {{#each issues}}
+                            <li class="{{#each tags}} issue-{{slug name}} {{/each}}">
+                                <div class="one-line clearfix">
+                                    <a href="https://github.com/duckduckgo/zeroclickinfo-{{../repo}}/issues/{{issue_id}}">{{title}}</a>
+                                </div>
+                                <div class="issue_date left">
+                                    #{{issue_id}} created by {{author}} on {{parse_date date}}
+                                </div>
+                                {{#each tags}}
+                                    <div title="{{name}}" class="list-container--right__issues__tags issues_col__tags left issue-{{slug name}}" style="background-color: #{{color}};">
+                                    </div>
+                                {{/each}}
+                            </li>
+                        {{/each}}
+                    </ul>
+                </div>
+                <span class="clearfix"></span>
+            </li>
+        {{/each}}
+        
+        {{#each by_date}}
+             <li id="pipeline-issue__list__{{issue_id}}" class="hide pipeline-live__list__item by_date_item {{#each tags}} issue-{{slug name}} {{/each}}">
+                <div class="list-container--left left by_date_item--left">
+                    <div class="left ia-item--stamp circle stamp--{{repo}}"></div>
+                    <div class="left">
+                        <div class="one-line">
+                            <a href="https://github.com/duckduckgo/zeroclickinfo-{{../repo}}/issues/{{issue_id}}">{{title}}</a>
+                        </div>
+                        <span class="clearfix"></span>
+                        <div class="issue_date left">
+                            #{{issue_id}} created by {{author}} on {{parse_date date}}
+                        </div>
+                        {{#each tags}}
+                            <div title="{{name}}" class="list-container--right__issues__tags issues_col__tags left issue-{{slug name}}" style="background-color: #{{color}};">
+                            </div>
+                        {{/each}}
+                    </div>
+                    <span class="clearfix"></span>
+                </div>
+                <div class="list-container--right left {{#each tags}} issue-{{slug name}} {{/each}}">
+                    <h3 class="left"><a href="/ia/view/{{ia_id}}">{{ia_name}}</a></h3>
+                </div>
+                <span class="clearfix"></span>
+             </li>
+        {{/each}}
+    </ul>
+</div>
+
+<div class="filter-issues left">
+    {{#each tags}}
+        <div class="filter-issues__item">
+            <i class="filter-issues__item__checkbox icon-check-empty left" id="issue-{{slug name}}"></i>
+            <div class="filter-issues__item__tag left" style="background-color: #{{color}};">
+                {{name}}
+            </div>
+        </div>
+        <span class="clearfix"></span>
+    {{/each}}
+</div>
+
