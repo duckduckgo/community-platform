@@ -6,7 +6,6 @@ use Moo;
 extends 'DDGC::Schema::Result';
 use DBIx::Class::Candy;
 use DateTime::Format::RSS;
-use DDGC::Util::Markup;
 use DDGC::Util::DateTime qw/ dur /;
 
 table 'user_blog';
@@ -39,9 +38,8 @@ column teaser => {
 
 sub html_teaser {
     my ($self) = @_;
-    my $markup = DDGC::Util::Markup->new;
     my $format = $self->format;
-    return $markup->$format( $self->teaser );
+    return $self->app->markup->$format( $self->teaser );
 }
 
 column content => {
@@ -51,9 +49,8 @@ column content => {
 
 sub html {
     my ($self) = @_;
-    my $markup = DDGC::Util::Markup->new;
     my $format = $self->format;
-    return $markup->$format( $self->content );
+    return $self->app->markup->$format( $self->content );
 }
 
 column topics => {
