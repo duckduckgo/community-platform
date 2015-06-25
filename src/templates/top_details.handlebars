@@ -4,27 +4,33 @@
 
 <div class="ninety">
     {{#if topic}}
-        <span class="sep--after">
-            <span class="detail-title">Categories:</span>
-            {{#each topic}}
-                <a href="/ia?&topic={{urify this}}">
-                    {{this}}{{#unless @last}}, {{/unless}}
-                </a>
-            {{/each}}
+        <span class="top__categories one-line">
+            <span class="sep--after">
+                <span class="detail-title">Categories:</span>
+                {{#each topic}}
+                    <a href="/ia?&topic={{urify this}}">
+                        {{this}}{{#unless @last}}, {{/unless}}
+                    </a>
+                {{/each}}
+            </span>
         </span>
     {{/if}}
 
     {{#if repo}}
-        <span class="sep--after">
-            <span class="detail-title">Type:</span>
-            <a href="/ia?&repo={{repo}}">{{repo}}</a>
+        <span class="top__repo">
+            <span class="sep--after">
+                <span class="detail-title">Type:</span>
+                <a href="/ia?&repo={{repo}}">{{repo}}</a>
+            </span>
         </span>
     {{/if}}
 
     {{#if dev_milestone}}
-        <span>
-            <span class="detail-title">Status:</span>
-            {{dev_milestone}}
+        <span class="top__milestone">
+            <span>
+                <span class="detail-title">Status:</span>
+                {{dev_milestone}}
+            </span>
         </span>
     {{/if}}
 </div>
