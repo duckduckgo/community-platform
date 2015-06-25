@@ -319,6 +319,7 @@
                                 evt: 'click',
                                 selector: '.screenshot-switcher .icon-extra-mobile',
                                 fn: function(event) {
+                                    $('.screenshot').removeAttr('src');
                                     Screens.state.isMobile = true;
                                     Screens.setScreenshotImage();
                                     $('.screenshot').attr('id', 'screenshot-mobile');
@@ -330,6 +331,7 @@
                                 evt: 'click',
                                 selector: '.screenshot-switcher .icon-extra-desktop',
                                 fn: function(event) {
+                                    $('.screenshot').removeAttr('src');
                                     Screens.state.isMobile = false;
                                     Screens.setScreenshotImage();
                                     $('.screenshot').removeAttr('id');
