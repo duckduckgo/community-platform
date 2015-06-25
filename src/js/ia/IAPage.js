@@ -256,6 +256,8 @@
                         resetState: function() {
                             Screens.state.refreshClicked = false;
                             Screens.state.generateClicked = false;
+                            Screens.state.isError = false;
+                            Screens.state.isLoading = false;
                             Screens.disableLoadingAnimation();
                             Screens.enableRefreshButton();
                             Screens.enableTakeScreenshotButton();
@@ -281,9 +283,11 @@
                                         Screens.disableRefreshButton();
                                         Screens.disableScreenshotImage();
                                         Screens.setLoadingAnimation();
+                                        Screens.state.isLoading = true;
                                         Screens.generateImage(function() {
                                             Screens.toggleState("refreshClicked");
                                             Screens.render();
+                                            Screens.state.isLoading = false;
                                         });
                                     }
                                 }
@@ -298,9 +302,11 @@
                                         Screens.disableTakeScreenshotButton();
                                         Screens.disableMessage();
                                         Screens.setLoadingAnimation();
+                                        Screens.state.isLoading = true;
                                         Screens.generateImage(function() {
                                             Screens.toggleState("generateClicked");
                                             Screens.render();
+                                            Screens.state.isLoading = false;
                                         }, true);
                                     }
                                 }
@@ -319,31 +325,35 @@
                                 evt: 'click',
                                 selector: '.screenshot-switcher .icon-extra-mobile',
                                 fn: function(event) {
-                                    $('.screenshot').removeAttr('src');
-                                    Screens.state.isMobile = true;
-                                    Screens.setScreenshotImage();
-                                    $('.screenshot').attr('id', 'screenshot-mobile');
-
-                                    Screens.setOpacity();
+                                    if(!Screens.state.isError && !Screens.state.isLoading) {
+                                        $('.screenshot').removeAttr('src');
+                                        Screens.state.isMobile = true;
+                                        Screens.setScreenshotImage();
+                                        $('.screenshot').attr('id', 'screenshot-mobile');
+                                        Screens.setOpacity();
+                                    }
                                 }
                             },
                             desktopClick: {
                                 evt: 'click',
                                 selector: '.screenshot-switcher .icon-extra-desktop',
                                 fn: function(event) {
-                                    $('.screenshot').removeAttr('src');
-                                    Screens.state.isMobile = false;
-                                    Screens.setScreenshotImage();
-                                    $('.screenshot').removeAttr('id');
-
-                                    Screens.setOpacity();
+                                    if(!Screens.state.isError && !Screens.state.isLoading) {
+                                        $('.screenshot').removeAttr('src');
+                                        Screens.state.isMobile = false;
+                                        Screens.setScreenshotImage();
+                                        $('.screenshot').removeAttr('id');
+                                        Screens.setOpacity();
+                                    }
                                 }
                             }
                         },
                         state: {
                             refreshClicked: false,
                             generateClicked: false,
-                            isMobile: false
+                            isMobile: false,
+                            isError: false,
+                            isLoading: false
                         },
                         toggleState: function(state) {
                             Screens.state[state] = !Screens.state[state];
@@ -368,12 +378,15 @@
                                 Screens.disableScreenshotImage();
                                 Screens.disableLoadingAnimation();
                                 Screens.setMessage("Screenshot Failed", true, isFirst);
+
+                                Screens.state.isError = true;
                             }
 
                             var nocache = Math.floor(Math.random() * 10000);
                             $.post(Screens.data.createImageEndpoint + "?nocache=" + nocache, function(data) {
                                 if(data && data.status === "ok" && data.screenshots && data.screenshots.index) {
                                     $.post(Screens.data.saveImageEndpoint + "?nocache=" + nocache, function() {
+                                        Screens.state.isError = false;
                                         callback();
                                     });
                                 } else {
