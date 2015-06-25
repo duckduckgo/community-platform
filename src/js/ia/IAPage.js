@@ -370,9 +370,10 @@
                                 Screens.setMessage("Screenshot Failed", true, isFirst);
                             }
 
-                            $.post(Screens.data.createImageEndpoint, function(data) {
+                            var nocache = Math.floor(Math.random() * 10000);
+                            $.post(Screens.data.createImageEndpoint + "?nocache=" + nocache, function(data) {
                                 if(data && data.status === "ok" && data.screenshots && data.screenshots.index) {
-                                    $.post(Screens.data.saveImageEndpoint, function() {
+                                    $.post(Screens.data.saveImageEndpoint + "?nocache=" + nocache, function() {
                                         callback();
                                     });
                                 } else {
