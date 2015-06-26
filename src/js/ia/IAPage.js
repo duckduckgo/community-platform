@@ -23,10 +23,10 @@
                     //Get user permissions
                     if ($(".special-permissions").length) {
                         ia_data.permissions = {can_edit: 1};
-                        
+
                         // Preview switch must be on "edited" by default
                         ia_data.preview = 1;
-                    
+
                         ia_data.edit_count = ia_data.edited ? Object.keys(ia_data.edited).length : 0;
 
                         if ($("#view_commits").length) {
@@ -281,6 +281,7 @@
                             Screens.state.generateClicked = false;
                             Screens.state.isError = false;
                             Screens.state.isLoading = false;
+                            Screens.state.isMobile = false;
                             Screens.disableLoadingAnimation();
                             Screens.enableRefreshButton();
                             Screens.enableTakeScreenshotButton();
