@@ -176,6 +176,8 @@
                             page.updateHandlebars(readonly_templates, ia_data, ia_data.live.dev_milestone);
                             page.updateAll(readonly_templates, ia_data, false);
 
+                            Screens.render();
+
                             $(".button-nav-current").removeClass("disabled").removeClass("button-nav-current");
                             $(this).addClass("disabled").addClass("button-nav-current");
                         }
@@ -188,6 +190,8 @@
 
                             page.updateHandlebars(readonly_templates, ia_data, ia_data.live.dev_milestone);
                             page.updateAll(readonly_templates, ia_data, false);
+
+                            Screens.render();
 
                             $(".button-nav-current").removeClass("disabled").removeClass("button-nav-current");
                             $(this).addClass("disabled").addClass("button-nav-current");
@@ -218,6 +222,7 @@
                         }
 
                         page.updateAll(readonly_templates, ia_data, false);
+                        Screens.render();
                     });
 
                     // Generate a screenshot
@@ -260,7 +265,7 @@
                     //         - Don't show the generate screenshot button
                     //         - Don't show the refresh button
 
-                    var Screens = {
+                    Screens = {
                         render: function() {
                             Screens.resetState();
                             Screens.hasScreenshot(function() {
