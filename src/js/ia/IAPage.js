@@ -1076,7 +1076,7 @@
         updateData: function(ia_data, x, edited) {
             var edited_fields = 0;
             $.each(ia_data.live, function(key, value) {
-                if (edited && ia_data.edited && ia_data.edited[key]) {
+                if (edited && ia_data.edited && ia_data.edited[key] && (key !== "id")) {
                     x[key] = ia_data.edited[key];
                     edited_fields++;
                 } else {
