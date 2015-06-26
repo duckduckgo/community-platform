@@ -24,6 +24,10 @@
                     if ($(".special-permissions").length) {
                         ia_data.permissions = {can_edit: 1};
 
+                        if(ia_data.live.test_machine && ia_data.live.example_query) {
+                            ia_data.can_show = 1;
+                        }
+
                         // Preview switch must be on "edited" by default
                         ia_data.preview = 1;
 
@@ -32,10 +36,6 @@
                         if ($("#view_commits").length) {
                             ia_data.permissions.admin = 1;
                         }
-                    }
-
-                    if(ia_data.live.test_machine && ia_data.live.example_query) {
-                        ia_data.live.can_show = true;
                     }
 
                     // Allow blue band to get 100% page width
@@ -954,6 +954,12 @@
 
                                         $(".ia-single--name ." + field).addClass(saved_class);
                                     } else {
+                                        if (!ia_data.can_show && (ia_data.live.test_machine && ia_data.live.example_query)) {
+                                            ia_data.can_show = 1;
+                                        } else if (!ia_data.live.test_machine || !ia_data.live.example_query) {
+                                            ia_data.can_show = 0;
+                                        }
+                                        
                                         Screens.render();
 
                                         readonly_templates[panel + "_content"] = Handlebars.templates[panel + "_content"](ia_data);

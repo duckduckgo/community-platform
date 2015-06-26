@@ -10,19 +10,17 @@
   </div>
 
   {{#ne_and dev_milestone 'live' 'deprecated'}}
-    {{#if can_show}}
+    {{#if ../../can_show}}
         <span class="generate-screenshot pull-right btn btn--primary hide">
           <i class="icon-refresh"></i>
         </span>
     {{/if}}
-  {{/ne_and}}
-
-  {{#eq_or dev_milestone 'live' 'deprecated'}}
-      {{#if ../permissions.can_edit}}
+  {{else}}
+      {{#if ../../permissions.can_edit}}
         <span class="generate-screenshot pull-right btn btn--primary hide">
           <i class="icon-refresh"></i>
         </span>
       {{/if}}
-  {{/eq_or}}
+  {{/ne_and}}
 </div>
 {{/with}}
