@@ -9,10 +9,20 @@
     <img class="screenshot hide" src="" style="display: block;">
   </div>
 
-  {{#if ../permissions.can_edit}}
-    <span class="generate-screenshot pull-right btn btn--primary hide">
-      <i class="icon-refresh"></i>
-    </span>
-  {{/if}}
+  {{#ne_eq dev milestone 'live' 'deprecated'}}
+    {{#if can_show}}
+        <span class="generate-screenshot pull-right btn btn--primary hide">
+          <i class="icon-refresh"></i>
+        </span>
+    {{/if}}
+  {{/ne_eq}}
+
+  {{#eq_or dev milestone 'live' 'deprecated'}}
+      {{#if ../permissions.can_edit}}
+        <span class="generate-screenshot pull-right btn btn--primary hide">
+          <i class="icon-refresh"></i>
+        </span>
+      {{/if}}
+  {{/eq_or}}
 </div>
 {{/with}}

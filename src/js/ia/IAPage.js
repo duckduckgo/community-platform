@@ -34,6 +34,9 @@
                         }
                     }
 
+                    if(ia_data.live.test_machine && ia_data.live.example_query) {
+                        ia_data.live.can_show = true;
+                    }
 
                     // Allow blue band to get 100% page width
                     if (ia_data.live.dev_milestone === "live" || ia_data.live.dev_milestone === "deprecated") {
@@ -264,7 +267,7 @@
                     //         - Don't show the generate screenshot button
                     //         - Don't show the refresh button
 
-                    Screens = {
+                    window.Screens = {
                         render: function() {
                             Screens.resetState();
                             Screens.hasScreenshot(function() {
@@ -952,7 +955,7 @@
                                         $(".ia-single--name ." + field).addClass(saved_class);
                                     } else {
                                         if (field === "test_machine" || field === "example_query") {
-                                            page.enableScreenshotButton(ia_data);
+
                                         }
 
                                         readonly_templates[panel + "_content"] = Handlebars.templates[panel + "_content"](ia_data);
@@ -1050,7 +1053,6 @@
             'advanced'
         ],
 
-
         updateHandlebars: function(templates, ia_data, dev_milestone, staged) {
             var latest_edits_data = {};
             latest_edits_data = this.updateData(ia_data, latest_edits_data, staged);
@@ -1138,7 +1140,6 @@
         enableScreenshotButton: function(ia_data) {
             var test_machine = ia_data.live.test_machine;
             var example_query = ia_data.live.example_query;
-            var $generate_screenshot = $(".generate-screenshot--button");
 
             if((test_machine && example_query) || ia_data.live.dev_milestone === "live") {
                 $generate_screenshot.removeClass("generate-screenshot--disabled");
@@ -1189,12 +1190,6 @@
                     this.appendTopics($(".topic-group"));
                     this.hideAssignToMe();
                 }
-
-                if (this.hideScreenshot) {
-                    this.hideScreenshot();
-                }
-
-                this.enableScreenshotButton(ia_data);
 
                 $(".show-more").click(function(e) {
                     e.preventDefault();
