@@ -212,13 +212,14 @@ sub issues_json :Chained('issues_base') :PathPart('json') :Args(0) {
     my ( $self, $c ) = @_;        
 
     my $rs = $c->d->rs('InstantAnswer::Issues');
-    my @result = $rs->search({'is_pr' => 0})->all;
+    my @result = $rs->search({'is_pr' => 0},{order_by => { -desc => 'date'}})->all;
     my %ial;
     my $ia;
     my $id;
     my $dev_milestone;
     my @tags;
     my %temp_tags;
+    my @issues_by_date;
 
     for my $issue (@result) {
         $id = $issue->instant_answer_id;
@@ -234,22 +235,27 @@ sub issues_json :Chained('issues_base') :PathPart('json') :Args(0) {
                         };
                 }
             }
+            
+            my %temp_issue = (
+                    issue_id => $issue->issue_id,
+                    title => $issue->title,
+                    tags => $issue->tags,
+                    date => $issue->date,
+                    author => $issue->author,
+                    ia_id => $id,
+                    ia_name => $ia->name,
+                    repo => $issue->repo
+            );
+
+            push @issues_by_date, \%temp_issue;
 
             if (defined $ial{$id}) {
                 my @existing_issues = @{$ial{$id}->{issues}};
-                push(@existing_issues, {
-                        issue_id => $issue->issue_id,
-                        title => $issue->title,
-                        tags => $issue->tags
-                    });
+                push @existing_issues, \%temp_issue;
 
                 $ial{$id}->{issues} = \@existing_issues;
             } else {
-                push(@issues, {
-                        issue_id => $issue->issue_id,
-                        title => $issue->title,
-                        tags => $issue->tags
-                    });
+                push @issues, \%temp_issue;;
 
                 $ial{$id}  = {
                         name => $ia->name,
@@ -277,7 +283,8 @@ sub issues_json :Chained('issues_base') :PathPart('json') :Args(0) {
 
     $c->stash->{x} = {
         ia => \@sorted_ial,
-        tags => \@tags
+        tags => \@tags,
+        by_date => \@issues_by_date
     };
 
     $c->stash->{not_last_url} = 1;
@@ -348,7 +355,8 @@ sub overview_json :Chained('overview_base') :PathPart('json') :Args(0) {
      
      if (!$c->user || !@live_ias) {
         @ias = $rs->search({
-             dev_milestone => 'live', 
+             dev_milestone => 'live',
+             live_date => { '!=' => undef }, 
              'topic.name' => [{ '!=' => 'test' }, { '=' => undef}]
          },
          {   
@@ -360,13 +368,15 @@ sub overview_json :Chained('overview_base') :PathPart('json') :Args(0) {
          my $temp_ia;
          for my $ia (@ias) {
             $temp_ia = $ia->TO_JSON('pipeline');
+            $temp_ia->{most_recent} = 1;
             push @live_ias, $temp_ia;
          }
      }
 
      if (!$c->user || !@dev_ias) {
         @ias = $rs->search({
-                dev_milestone => { '=' => ['planning', 'development', 'testing', 'complete']}
+                dev_milestone => { '=' => ['planning', 'development', 'testing', 'complete']},
+                created_date => { '!=' => undef }
             },{
                 rows => 5,  
                 order_by => {-desc => 'created_date'}
@@ -375,6 +385,7 @@ sub overview_json :Chained('overview_base') :PathPart('json') :Args(0) {
         my $temp_ia;
         for my $ia (@ias) {
             $temp_ia = $ia->TO_JSON('pipeline');
+            $temp_ia->{most_recent} = 1;
             push @dev_ias, $temp_ia;
         }
      }
@@ -824,7 +835,7 @@ sub usercheck :Chained('base') :PathPart('usercheck') :Args() {
 sub create_ia :Chained('base') :PathPart('create') :Args() {
     my ( $self, $c ) = @_;
 
-    my $ia = $c->d->rs('InstantAnswer')->find({lc id => $c->req->params->{id}}) || $c->d->rs('InstantAnswer')->find({lc meta_id => $c->req->params->{id}});
+    my $ia = $c->d->rs('InstantAnswer')->find({id => lc($c->req->params->{id})}) || $c->d->rs('InstantAnswer')->find({meta_id => lc($c->req->params->{id})});
     my $is_admin;
     my $result = '';
 
@@ -840,8 +851,8 @@ sub create_ia :Chained('base') :PathPart('create') :Args() {
             }
 
             my $new_ia = $c->d->rs('InstantAnswer')->create({
-                lc id => $c->req->params->{id},
-                lc meta_id => $c->req->params->{id},
+                id => lc($c->req->params->{id}),
+                meta_id => lc($c->req->params->{id}),
                 name => $c->req->params->{name},
                 status => $status,
                 dev_milestone => $dev_milestone,
