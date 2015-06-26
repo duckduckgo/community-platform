@@ -1,5 +1,6 @@
 {{#with live}}
-  <div class="ia-single--screenshots {{#eq_or dev_milestone 'live' 'deprecated'}}screens--wide{{else}}twothirds{{/eq_or}}">
+<div class="{{#eq_or dev_milestone 'live' 'deprecated'}}screens--wide{{else}}twothirds{{/eq_or}}">
+  <div class="ia-single--screenshots">
     <div class="screenshot--status hide">
         <div class="default-message hide"></div>
         <div class="revert hide"><a href="#">Restore previous screenshot</a></div>
@@ -13,4 +14,5 @@
       <i class="icon-refresh"></i>
     </span>
   {{/if}}
+</div>
 {{/with}}
