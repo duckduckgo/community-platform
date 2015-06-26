@@ -75,7 +75,7 @@
         </div>
     <: } :>
 
-    <div class="ia-single clearfix">
+    <div class="ia-single devpage clearfix">
         <div class="clearfix ia-single--wide"></div>
     </div>
 <: } :>

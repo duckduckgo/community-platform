@@ -140,3 +140,19 @@ select.available_types {
 .fixexamplequery {
     width: 59.3%;
 }
+
+.ia-single.devpage .ia-single--header {
+    color: $grey;
+    font-size: 0.857em;
+    margin: 0.7em 0px 0px;
+}
+
+.ia-single.devpage h2 {
+    font-size: 2.3em;
+    word-break: break-all;
+    display: inline-block;
+    margin-bottom: 0px;
+    margin-right: 0.2em;
+    margin-top: 0.5em;
+}
+
