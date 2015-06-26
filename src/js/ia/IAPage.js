@@ -199,6 +199,10 @@
                         $("#edit_disable").removeClass("hide");
                         $(this).hide();
                         $(".special-permissions__toggle-view").hide();
+
+                        if (ia_data.permissions.admin && ia_data.edit_count) {
+                            $("#view_commits").removeClass("hide");
+                        }
                     });
 
                     $('body').on('click', '.switch.js-switch', function(evt) {
