@@ -358,12 +358,20 @@
 
     span.top__categories {
         display: block;
+
+        .detail-title {
+            display: none;
+        }
     }
 }
 
 @media only screen and (max-width: 414px) {
     span.top__categories {
         display: block;
+
+        .detail-title {
+            display: none;
+        }
     }
 
     span.top__categories .sep--after:after {
