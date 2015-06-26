@@ -636,20 +636,14 @@
                         }
                     });
 
-                    $(".special-permissions__toggle-view__button").on('click', function(evt) {
-                        if (!$(this).hasClass("disabled")) {
-                            $(".button-nav-current").removeClass("button-nav-current").removeClass("disabled");
-
-                            $(this).addClass("button-nav-current").addClass("disabled");
-
-                            if ($(this).attr("id") == "toggle-live") {
-                                page.updateHandlebars(readonly_templates, ia_data, ia_data.live.dev_milestone, false);
-                            } else {
-                                page.updateHandlebars(readonly_templates, ia_data, ia_data.live.dev_milestone, true);
-                            }
-
-                            page.updateAll(readonly_templates, ia_data, false);
+                    $("body").on('click', ".preview-switch", function(evt) {
+                        if ($(this).hasClass("is-on")) {
+                            page.updateHandlebars(readonly_templates, ia_data, ia_data.live.dev_milestone, false);
+                        } else {
+                            page.updateHandlebars(readonly_templates, ia_data, ia_data.live.dev_milestone, true);
                         }
+
+                        page.updateAll(readonly_templates, ia_data, false);
                     });
 
                     $("body").on('click', '.js-pre-editable.button', function(evt) {
