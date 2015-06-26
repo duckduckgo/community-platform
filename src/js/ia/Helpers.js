@@ -51,6 +51,15 @@
         }
     });
 
+    // True if first value is different both from the second and from the third
+    Handlebars.registerHelper('ne_and', function(value1, value2, value3, options) {
+        if (value1 !== value2 && value1 !== value3) {
+            return options.fn(this);
+        } else {
+            return options.inverse(this);
+        }
+    });
+
     // True if the first value is equal to the second
     // or to the third
     Handlebars.registerHelper('eq_or', function(value1, value2, value3, options) {

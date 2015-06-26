@@ -22,5 +22,10 @@
 {{else}}
     {{name}}
     </h2>
+    {{#if dev_milestone}}
+        {{#ne_and dev_milestone 'live' 'deprecated'}}
+            <span class="btn--wire dev_milestone--{{dev_milestone}} dev_milestone">{{dev_milestone}}</span>
+        {{/ne_and}}
+    {{/if}}
 {{/if}}
 </div>
