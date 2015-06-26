@@ -23,11 +23,17 @@
                     //Get user permissions
                     if ($(".special-permissions").length) {
                         ia_data.permissions = {can_edit: 1};
+                        
+                        // Preview switch must be on "edited" by default
+                        ia_data.preview = 1;
+                    
+                        ia_data.edit_count = ia_data.edited ? Object.keys(ia_data.edited).length : 0;
 
                         if ($("#view_commits").length) {
                             ia_data.permissions.admin = 1;
                         }
                     }
+
 
                     // Allow blue band to get 100% page width
                     if (ia_data.live.dev_milestone === "live" || ia_data.live.dev_milestone === "deprecated") {
@@ -61,8 +67,6 @@
                         latest_edits_data = ia_data.live;
                     }
 
-                    ia_data.edit_count = ia_data.edited ? Object.keys(ia_data.edited).length : 0;
-
                     // Readonly mode templates
                     var readonly_templates = {
                         live: {
@@ -71,9 +75,9 @@
                             description : Handlebars.templates.description(latest_edits_data),
                             examples : Handlebars.templates.examples(latest_edits_data),
                             devinfo : Handlebars.templates.devinfo(latest_edits_data),
-                            github: Handlebars.templates.github(latest_edits_data)
+                            github: Handlebars.templates.github(latest_edits_data),
+                            edit_buttons: Handlebars.templates.edit_buttons(latest_edits_data),
                         },
-                        edit: Handlebars.templates.edit_buttons(ia_data),
                         screens : Handlebars.templates.screens(ia_data),
                         metafields : Handlebars.templates.metafields(ia_data),
                         metafields_content : Handlebars.templates.metafields_content(ia_data),
@@ -198,7 +202,18 @@
                     });
 
                     $('body').on('click', '.switch.js-switch', function(evt) {
-                        $(this).parent().toggleClass('is-on');
+                        var $preview =  $(this).parent();
+                        if (!$preview.hasClass("is-on")) {
+                            $preview.addClass("is-on");
+                            ia_data.preview = 0;
+                            page.updateHandlebars(readonly_templates, ia_data, ia_data.live.dev_milestone, false);
+                        } else {
+                            $preview.removeClass("is-on");
+                            ia_data.preview = 1;
+                            page.updateHandlebars(readonly_templates, ia_data, ia_data.live.dev_milestone, true);
+                        }
+
+                        page.updateAll(readonly_templates, ia_data, false);
                     });
 
                     // Generate a screenshot
@@ -649,16 +664,6 @@
                         }
                     });
 
-                    $("body").on('click', ".preview-switch", function(evt) {
-                        if ($(this).hasClass("is-on")) {
-                            page.updateHandlebars(readonly_templates, ia_data, ia_data.live.dev_milestone, false);
-                        } else {
-                            page.updateHandlebars(readonly_templates, ia_data, ia_data.live.dev_milestone, true);
-                        }
-
-                        page.updateAll(readonly_templates, ia_data, false);
-                    });
-
                     $("body").on('click', '.js-pre-editable.button', function(evt) {
                         var field = $(this).attr('name');
                         var $row = $(this).parent();
@@ -1043,9 +1048,9 @@
             templates.live.name = Handlebars.templates.name(latest_edits_data);
 
             if (dev_milestone === 'live') {
-                for (var i = 0; i < this.field_order.length; i++) {
-                    templates.live[this.field_order[i]] = Handlebars.templates[this.field_order[i]](latest_edits_data);
-                }
+                $.each(templates.live, function(key, val) {
+                    templates.live[key] = Handlebars.templates[key](latest_edits_data);
+                });
             } else {
                 templates.metafields = Handlebars.templates.metafields(ia_data);
                 templates.metafields_content = Handlebars.templates.metafields_content(ia_data);
@@ -1142,7 +1147,7 @@
                 if (dev_milestone === "live" || dev_milestone === "deprecated") {
                     $("#ia-single-top-name").html(templates.live.name);
                     $("#ia-single-top-details").html(templates.live.top_details);
-                    $('.edit-container').html(templates.edit);
+                    $('.edit-container').html(templates.live.edit_buttons);
                     $(".ia-single--left, .ia-single--right").show().empty();
 
                     for (var i = 0; i < this.field_order.length; i++) {
