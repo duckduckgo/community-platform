@@ -956,26 +956,30 @@
                                     } else {
                                         if (!ia_data.can_show && (ia_data.live.test_machine && ia_data.live.example_query)) {
                                             ia_data.can_show = 1;
-                                        } else if (!ia_data.live.test_machine || !ia_data.live.example_query) {
+                                            page.updateHandlebars(readonly_templates, ia_data, ia_data.live.dev_milestone);
+                                            page.updateAll(readonly_templates, ia_data, false);
+                                        } else if (ia_data.can_show && (!ia_data.live.test_machine || !ia_data.live.example_query)) {
                                             ia_data.can_show = 0;
+                                            page.updateHandlebars(readonly_templates, ia_data, ia_data.live.dev_milestone);
+                                            page.updateAll(readonly_templates, ia_data, false);
+                                        } else {
+                                            readonly_templates[panel + "_content"] = Handlebars.templates[panel + "_content"](ia_data);
+
+                                            var $panel_body = $("#" + panel);
+                                            $panel_body.html(readonly_templates[panel + "_content"]);
+
+                                            page.appendTopics($(".topic-group"));
+                                            page.hideAssignToMe();
+
+                                            // Developer field is already highlighted in green
+                                            // when the user check is successful
+                                            if (field !== "developer") {
+                                                field = subfield? subfield : field;
+                                                $panel_body.find("." + field).addClass(saved_class);
+                                            }
                                         }
                                         
                                         Screens.render();
-
-                                        readonly_templates[panel + "_content"] = Handlebars.templates[panel + "_content"](ia_data);
-
-                                        var $panel_body = $("#" + panel);
-                                        $panel_body.html(readonly_templates[panel + "_content"]);
-
-                                        page.appendTopics($(".topic-group"));
-                                        page.hideAssignToMe();
-
-                                        // Developer field is already highlighted in green
-                                        // when the user check is successful
-                                        if (field !== "developer") {
-                                            field = subfield? subfield : field;
-                                            $panel_body.find("." + field).addClass(saved_class);
-                                        }
                                     }
                                 }
                             }
