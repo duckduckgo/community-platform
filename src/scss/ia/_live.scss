@@ -57,12 +57,15 @@
         margin-top: 1em;
     }
 
+    .ia-single--screenshots.screens--wide {
+        width: 100%;
+    }
+
     .ia-single--screenshots {
         overflow: hidden;
         border: 1px solid $platinum;
         border-radius: 5px;
         background-color: $silver;
-        width: 100%;
 
         img.screenshot {
             margin-left: -55px;
