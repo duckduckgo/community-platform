@@ -954,9 +954,7 @@
 
                                         $(".ia-single--name ." + field).addClass(saved_class);
                                     } else {
-                                        if (field === "test_machine" || field === "example_query") {
-
-                                        }
+                                        Screens.render();
 
                                         readonly_templates[panel + "_content"] = Handlebars.templates[panel + "_content"](ia_data);
 
@@ -1133,19 +1131,6 @@
                     $(this).css({width: "100%"});
                 }
             });
-        },
-
-        // Check if the IA has a test machine or is live.
-        // If so, enable the screenshot button.
-        enableScreenshotButton: function(ia_data) {
-            var test_machine = ia_data.live.test_machine;
-            var example_query = ia_data.live.example_query;
-
-            if((test_machine && example_query) || ia_data.live.dev_milestone === "live") {
-                $generate_screenshot.removeClass("generate-screenshot--disabled");
-            } else {
-                $generate_screenshot.addClass("generate-screenshot--disabled");
-            }
         },
 
         updateAll: function(templates, ia_data, edit) {

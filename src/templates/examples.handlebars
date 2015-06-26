@@ -25,15 +25,15 @@
     </span>
   </div>
 
-  {{#ne_eq dev milestone 'live' 'deprecated'}}
+  {{#ne_and dev_milestone 'live' 'deprecated'}}
     {{#if can_show}}
         <div class="pull-right screenshot-switcher--generate hide">
           <span class="btn btn--primary">Generate Screenshot</span>
         </div>
     {{/if}}
-  {{/ne_eq}}
+  {{/ne_and}}
 
-  {{#eq_or dev milestone 'live' 'deprecated'}}
+  {{#eq_or dev_milestone 'live' 'deprecated'}}
       {{#if ../permissions.can_edit}}
           <div class="pull-right screenshot-switcher--generate hide">
             <span class="btn btn--primary">Generate Screenshot</span>
