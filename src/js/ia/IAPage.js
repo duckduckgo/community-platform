@@ -198,11 +198,10 @@
                         }
                     });
 
-                    $("#edit_activate").on('click', function(evt) {
+                    $("body").on('click', "#edit_activate", function(evt) {
                         page.updateAll(pre_templates, ia_data, true);
                         $("#edit_disable").removeClass("hide");
                         $(this).hide();
-                        $(".special-permissions__toggle-view").hide();
 
                         if (ia_data.permissions.admin && ia_data.edit_count) {
                             $("#view_commits").removeClass("hide");
@@ -1054,13 +1053,13 @@
         updateHandlebars: function(templates, ia_data, dev_milestone, staged) {
             var latest_edits_data = {};
             latest_edits_data = this.updateData(ia_data, latest_edits_data, staged);
-            templates.live.name = Handlebars.templates.name(latest_edits_data);
 
             if (dev_milestone === 'live') {
                 $.each(templates.live, function(key, val) {
                     templates.live[key] = Handlebars.templates[key](latest_edits_data);
                 });
             } else {
+                templates.live.name = Handlebars.templates.name(latest_edits_data);
                 templates.metafields = Handlebars.templates.metafields(ia_data);
                 templates.metafields_content = Handlebars.templates.metafields_content(ia_data);
                 for (var i = 0; i < this.dev_milestones_order.length; i++) {
