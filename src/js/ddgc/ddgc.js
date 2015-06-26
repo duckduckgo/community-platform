@@ -53,7 +53,10 @@ $(document).ready(function() {
 	});
 
 	$("a[href^='http']").mousedown(function() {
-		if (( this.href.indexOf(location.hostname) === -1 ) && ( this.href.indexOf('https://duckduckgo.com') === -1 )) {
+		current_hostname = location.hostname;
+		current_hostname.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
+		hostname_re = new RegExp("^https?:\\/\\/(\\w+\\.)?(duckduckgo\\.com|" + current_hostname + ")");
+		if (this.href.search(hostname_re) === -1) {
 			set_url_to_redirect(this);
 		}
 	});

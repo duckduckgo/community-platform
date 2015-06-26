@@ -3,7 +3,7 @@
 			<ul>
 				<li><a href="<: $u('Forum','general') :>">General Ramblings</a></li>
 				<: if $c.user.is('admin') { :>
-					<li><a href="<: $u('Forum','admins') :>">Admins Forum</a></li>
+					<li><a href="<: $u('Forum','internal') :>">Internal Forum</a></li>
 				<: } :>
 				<: if $c.user.is('forum_manager') { :>
 					<li><a href="<: $u('Forum','community_leaders') :>">Community Leaders</a></li>
@@ -11,6 +11,5 @@
 				<li><a href="<: $u('Forum','ideas') :>">Instant Answers</a></li>
 				<li><a href="<: $u('Forum','blog') :>">Company Blog</a></li>
 				<li><a href="<: $u('Forum','translation') :>">Translations</a></li>
-				<li><a href="<: $u('Forum','all') :>">Everything</a></li>
 			</ul>
 		</section>

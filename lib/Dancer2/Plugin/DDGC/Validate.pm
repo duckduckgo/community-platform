@@ -27,7 +27,7 @@ on_plugin_import {
         { optional => 'topics', valid => ANY_VALUE, split => ',' },
         { optional => 'fixed_date', valid => ANY_VALUE },
         { param    => 'company_blog', valid => POS_ZERO_VALUE },
-        { param    => 'raw_html', valid => POS_ZERO_VALUE },
+        { param    => 'format', valid => ENUM_VALUE(qw/ html markdown bbcode /) },
         { param    => 'live', valid => POS_ZERO_VALUE },
         { param    => 'users_id', valid => POS_VALUE },
         { param    => 'uri', valid => ANY_VALUE },
