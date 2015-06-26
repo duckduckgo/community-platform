@@ -186,22 +186,6 @@
 				<div class="row">
 					<div class="twothird">
 						<label>
-							<: $l('Open forum links in new window:') :>
-						</label>
-					</div>
-					<div class="third">
-						<a href="<: $u('my','forum_links_same_window', { action_token => $action_token }) :>" class="button button--right">
-							<: if $c.user.forum_links_same_window { :>
-								<: $l('Off') :>
-							<: } else { :>
-								<: $l('On') :>
-							<: } :>
-						</a>
-					</div>
-				</div>
-				<div class="row">
-					<div class="twothird">
-						<label>
 							Your <a href="<: $u('Userpage','home',$c.user.username) :>">userpage</a> (<a href="<: $u('Userpage','json',$c.user.username) :>">JSON</a>)
 						</label>
 					</div>
