@@ -53,7 +53,7 @@ $(document).ready(function() {
 	});
 
 	$("a[href^='http']").mousedown(function() {
-		if (this.href.indexOf(location.hostname) === -1) {
+		if (( this.href.indexOf(location.hostname) === -1 ) && ( this.href.indexOf('https://duckduckgo.com') === -1 )) {
 			set_url_to_redirect(this);
 		}
 	});
