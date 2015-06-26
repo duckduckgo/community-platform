@@ -17,7 +17,7 @@
 		<div class="icons">
 			<a class="icon tw" href="https://twitter.com/duckduckgo" title="DuckDuckGo on twitter">Twitter</a>
 			<a class="icon re" href="http://www.reddit.com/r/duckduckgo" title="DuckDuckGo on reddit">reddit /r/duckduckgo</a>
-			<a class="icon rss" href="<: $u('Blog','index_rss') :>" title="DuckDuckGo Blog RSS feed">RSS</a>
+			<a class="icon rss" href="/blog/rss" title="DuckDuckGo Blog RSS feed">RSS</a>
 		</div>
 	</section>
 </div>
