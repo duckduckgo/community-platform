@@ -10,6 +10,36 @@
   </div>
 {{/if}}
 
-<div class="search-example">
-  <span class="ddgsi-loupe"></span> <span>{{example_query}}</span>
+<div class="example-container">
+  <div class="search-example pull-left">
+    <span class="ddgsi-loupe"></span> <span>{{example_query}}</span>
+  </div>
+
+  <div class="pull-right screenshot-switcher">
+    <span class="btn switcher-icon">
+      <span class="icon-extra-desktop"><span class="path1"></span><span class="path2"></span></span>
+    </span>
+
+    <span class="btn switcher-icon remove-border">
+      <span class="icon-extra-mobile add-opacity"><span class="path1"></span><span class="path2"></span></span>
+    </span>
+  </div>
+
+  {{#ne_and dev_milestone 'live' 'deprecated'}}
+    {{#if can_show}}
+        <div class="pull-right screenshot-switcher--generate hide">
+          <span class="btn btn--primary">Generate Screenshot</span>
+        </div>
+    {{/if}}
+  {{/ne_and}}
+
+  {{#eq_or dev_milestone 'live' 'deprecated'}}
+      {{#if ../permissions.can_edit}}
+          <div class="pull-right screenshot-switcher--generate hide">
+            <span class="btn btn--primary">Generate Screenshot</span>
+          </div>
+      {{/if}}
+  {{/eq_or}}
+
+  <span class="clearfix"></span>
 </div>

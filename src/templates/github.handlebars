@@ -1,11 +1,17 @@
 <div class="ia-issues ia-single--info">
-  <h3 class="ia-single--header left">Issues on Github</h3>
+  <h3 class="ia-single--header left">
+      {{#if issues.length}}
+        {{issues.length}} {{plural issues.length plural="Issues" singular="Issue"}} on Github
+      {{else}}
+        No Issues on Github
+      {{/if}}
+  </h3>
   <a id="create-issue--link" class="btn btn--primary right" href="https://github.com/duckduckgo/zeroclickinfo-{{repo}}/issues/new?&title={{name}}%3A%20&body=%0A%0A------%0AIA%20Page%3A%20%20http%3A%2F%2Fduck.co%2Fia%2Fview%2F{{id}}">Create Issue</a>
   {{#if issues.length}}
     <ul class="clear">
       {{#each issues}}
         <li {{#gt @index 4}}class="hide"{{/gt}}>
-          <div class="pull-left">
+          <div class="pull-left twothird sixty--screen-m sixty--screen-s">
             <a class="one-line" href="https://github.com/duckduckgo/zeroclickinfo-{{../repo}}/issues/{{issue_id}}">{{title}} #{{issue_id}}</a>
             {{#loop_n 3 tags}}
               <span class="tag-grp">
@@ -13,17 +19,16 @@
               </span>
             {{/loop_n}}
           </div>
-          <div class="pull-right">
-            <span class="date">created {{parse_date date}} by <a class="author" href="https://github.com/{{author}}">{{author}}</a></span>
+          <div class="third g thirty--screen-m thirty--screen-s">
+            <span class="date one-line pull-right">created {{parse_date date}} by <a class="author" href="https://github.com/{{author}}">{{author}}</a></span>
           </div>
           <span class="clearfix"></span>
         </li>
       {{/each}}
     </ul>
     {{#gt issues 5}}
-      <div class="btn btn--primary" id="show-all-issues">
-        Show All
-      </div>
+      <a href="#" id="show-all-issues">
+        Show All Issues
+      </a>
     {{/gt}}
   {{/if}}
-

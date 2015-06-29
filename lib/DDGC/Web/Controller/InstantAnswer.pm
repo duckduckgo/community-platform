@@ -893,7 +893,11 @@ sub save {
                 $saved = add_topic($c, $ia, $topic);
                 return unless $saved;
             }
-        } else {           
+        } else {          
+            if ($field eq 'id') {
+               $field = 'meta_id';
+            }
+            
             commit_edit($c->d, $ia, $field, $value);
             $saved = '1';
         }

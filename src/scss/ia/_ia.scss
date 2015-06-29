@@ -229,7 +229,7 @@
 .ia_src_column {
     max-width:18em;
     overflow:hidden;
-} 
+}
 .ia-single .desktop {
     width: 99.75%;
 }
@@ -348,7 +348,7 @@
    -moz-border-radius: 3px;
    -o-border-radius: 3px;
    -webkit-border-radius: 3px;
-} 
+}
 
 #filters .button-group-vertical ul {
     margin-bottom: 0;
@@ -488,7 +488,7 @@
     margin-bottom: 0;
 }
 .ia-single .button.cancel[name="description"] {
-    margin: 0.35em 0 1em;   
+    margin: 0.35em 0 1em;
 }
 #view_commits {
     margin-right: 0.25em;
@@ -572,7 +572,7 @@
     font-size: 1.1em;
     margin-right: 0.75em;
     color: #777;
-    
+
     position: relative;
     top: 8px;
 }
@@ -909,6 +909,10 @@ body.texture {
     border-top: 1px solid #eee;
 }
 
+.ia-issues li:last-child {
+    border-bottom: 1px solid #eee;
+}
+
 .ia-attribution li:last-child {
     border-bottom: none;
 }
@@ -924,62 +928,6 @@ body.texture {
 
 .ia-single {
     margin-bottom: 7em;
-}
-
-.ia-single--screenshots-top {
-    display: block;
-    height: 23px;
-    background-color: #383C45;
-    border-radius: 3px 3px 0px 0px;
-}
-
-.ia-single--screenshots span.circle {
-    height: 10px;
-    width: 10px;
-    background-color: #6D7278;
-    display: inline-block;
-    position: relative;
-    top: 2px;
-    right: -6px;
-}
-
-.ia-single--image-container {
-    border: 1px solid #DBDBDB;
-    border-top-style: none;
-    border-bottom-style: none;
-    position: relative;
-    top: -4px;
-    z-index: -1;
-}
-
-.ia-single--red-bar {
-    height: 3px;
-    background-color: #DE5833;
-}
-
-.ia-single--serp {
-    height: 18em;
-}
-
-.ia-single--serp-item {
-    height: 7em;
-    padding-left: 4em;
-    margin-top: 2em;
-}
-
-.serp-item {
-    background-color: #E5E5E5;
-    width: 92%;
-    display: inline-block;
-    height: 13px;
-}
-
-.serp-item:first-child {
-    width: 50%;
-}
-
-.window-buttons-container {
-    position: absolute;
 }
 
 .ia-single--info ul li a {
@@ -1028,13 +976,6 @@ body.texture {
     display: inline-block;
     margin-right: 0;
     cursor: pointer;
-}
-
-@media (max-width: 980px) {
-    .site-main .content-wrap {
-        margin-left: 0.7em;
-        margin-right: 0.7em;
-    }
 }
 
 @media (max-width: 730px) {
@@ -1131,7 +1072,7 @@ body.texture {
     .ia-item--details .topic {
         display: none;
     }
-    
+
     #filters {
         padding-right: 0.5em;
     }
@@ -1467,21 +1408,9 @@ input.not_saved, select.not_saved, .button.not_saved {
     margin-left: 0;
 }
 
-.generate-screenshot {
-    text-align: center;
-}
-
 .dashed-border {
     border-radius: 3px;
     border: 2px dashed #999;
-}
-
-.generate-screenshot--button {
-    cursor: pointer;
-}
-
-.save-screenshot--button {
-    cursor: pointer;
 }
 
 .dev_milestone-container__body__readonly {
@@ -1511,4 +1440,3 @@ input.not_saved, select.not_saved, .button.not_saved {
 #topic-txt {
     text-transform: capitalize;
 }
-

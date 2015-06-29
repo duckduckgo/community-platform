@@ -24,4 +24,5 @@ Inline separators to split lines of text.
 .sep--after:after {
 	@extend %sep;
 	content: "";
+	opacity: 0.4;
 }
