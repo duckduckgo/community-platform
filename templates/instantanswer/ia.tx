@@ -11,6 +11,7 @@
     <div class="ia-single">
         <div class="ia-single__top nowrap" id="ia-single-top">
             <div class="content-wrap">
+                <div id="ia-breadcrumbs"></div>
                 <div class="very-top seventy">
                     <div id="ia-single-top-name"></div>
                     <div id="ia-single-top-details"></div>
@@ -20,7 +21,7 @@
                     <span class="special-permissions <: if $dev_milestone != 'live' && $dev_milestone != 'deprecated' { :>hide<: } :>">
                         <div class="edit-container">
                         </div>
-                        
+
                         <: if $can_commit { :>
                             <div class="special-permissions__edit js-view-commits btn hide" id="view_commits">Commit edits</div>
                         <: } :>

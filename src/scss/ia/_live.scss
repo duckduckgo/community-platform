@@ -77,7 +77,6 @@
         }
 
         img.screenshot-mobile {
-            padding-bottom: 10px;
             margin-left: auto;
             margin-right: auto;
             width: initial;
@@ -108,9 +107,11 @@
         }
 
         .mobile-faux__padding {
-            border-left: 24px solid #f7f7f7;
-            border-right: 24px solid #f7f7f7;
+            border-left: 24px solid #fcfcfc;
+            border-right: 24px solid #fcfcfc;
             display: inline-block;
+            padding-left: 2px;
+            padding-right: 2px;
         }
 
         .mobile-faux__edge {
@@ -136,11 +137,11 @@
     .generate-screenshot {
         position: relative;
         bottom: 38px;
-        right: 2px;
+        right: 4px;
     }
 
     #ia-single-top, #ia-single-top--edit {
-        padding: 3em 0 1em 0;
+        padding: 2em 0 2em 0;
     }
 
     /* These are the CSS properties for the elements in the blue band. */
@@ -152,13 +153,17 @@
             color: white;
         }
 
-        span.detail-title {
-            color: rgba(255,255,255, 0.6);
+        span.less-than {
+            color: rgba(255,255,255,0.4);
         }
 
-        .content-wrap {
-            margin-top: 0.5em;
-            margin-bottom: 2em;
+        #ia-breadcrumbs {
+            color: rgba(255,255,255,0.6);
+            padding-bottom: 2em;
+        }
+
+        span.detail-title {
+            color: rgba(255,255,255, 0.6);
         }
 
         .ia-single--name h2 {
