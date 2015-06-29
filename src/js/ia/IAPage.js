@@ -24,10 +24,6 @@
                     if ($(".special-permissions").length) {
                         ia_data.permissions = {can_edit: 1};
 
-                        if(ia_data.live.test_machine && ia_data.live.example_query) {
-                            ia_data.can_show = 1;
-                        }
-
                         // Preview switch must be on "edited" by default
                         ia_data.preview = 1;
 
@@ -36,6 +32,10 @@
                         if ($("#view_commits").length) {
                             ia_data.permissions.admin = 1;
                         }
+                    }
+
+                    if(ia_data.live.test_machine && ia_data.live.example_query) {
+                        ia_data.live.can_show = true;
                     }
 
                     // Allow blue band to get 100% page width
@@ -267,6 +267,10 @@
                     //         - Don't show the generate screenshot button
                     //         - Don't show the refresh button
 
+                    var capitalize = function(str) {
+                        return str.charAt(0).toUpperCase() + str.slice(1);
+                    };
+
                     window.Screens = {
                         render: function() {
                             Screens.resetState();
@@ -275,7 +279,7 @@
                                 Screens.setRefreshButton();
                                 Screens.setSwitcherButtons();
                             }, function() {
-                                Screens.setMessage("There are no screenshots generated for this output yet.");
+                                Screens.setMessage("There are no screenshots for the query '" + capitalize(ia_data.live.example_query) + "'.");
                                 Screens.setTakeScreenshotButton();
                             });
                         },
@@ -353,10 +357,10 @@
                                 selector: '.screenshot-switcher .icon-extra-mobile',
                                 fn: function(event) {
                                     if(!Screens.state.isError && !Screens.state.isLoading) {
-                                        $('.screenshot').removeAttr('src');
                                         Screens.state.isMobile = true;
+                                        $('.mobile-faux__container').show();
+                                        $('.screenshot-desktop').hide();
                                         Screens.setScreenshotImage();
-                                        $('.screenshot').attr('id', 'screenshot-mobile');
                                         Screens.setOpacity();
                                     }
                                 }
@@ -366,10 +370,10 @@
                                 selector: '.screenshot-switcher .icon-extra-desktop',
                                 fn: function(event) {
                                     if(!Screens.state.isError && !Screens.state.isLoading) {
-                                        $('.screenshot').removeAttr('src');
                                         Screens.state.isMobile = false;
+                                        $('.mobile-faux__container').hide();
+                                        $('.screenshot-desktop').show();
                                         Screens.setScreenshotImage();
-                                        $('.screenshot').removeAttr('id');
                                         Screens.setOpacity();
                                     }
                                 }
@@ -467,12 +471,15 @@
                             Screens.setEvent(Screens.events.desktopClick);
                         },
                         setScreenshotImage: function() {
-                            var screenshotImage = $('.ia-single--screenshots img.screenshot');
+                            var image = Screens.state.isMobile ? 'mobile' : 'desktop';
+
+                            var screenshotImage = $('.ia-single--screenshots img.screenshot-' + image);
                             screenshotImage.attr('src', this.data.url());
                             screenshotImage.show();
                         },
                         disableScreenshotImage: function() {
-                            $('.ia-single--screenshots img.screenshot').hide();
+                            $('.ia-single--screenshots img.screenshot-desktop').hide();
+                            $('.mobile-faux__container').hide();
                         },
                         setEvent: function(eventData) {
                             $(eventData.selector).on(eventData.evt, eventData.fn);
@@ -954,32 +961,22 @@
 
                                         $(".ia-single--name ." + field).addClass(saved_class);
                                     } else {
-                                        if (!ia_data.can_show && (ia_data.live.test_machine && ia_data.live.example_query)) {
-                                            ia_data.can_show = 1;
-                                            page.updateHandlebars(readonly_templates, ia_data, ia_data.live.dev_milestone);
-                                            page.updateAll(readonly_templates, ia_data, false);
-                                        } else if (ia_data.can_show && (!ia_data.live.test_machine || !ia_data.live.example_query)) {
-                                            ia_data.can_show = 0;
-                                            page.updateHandlebars(readonly_templates, ia_data, ia_data.live.dev_milestone);
-                                            page.updateAll(readonly_templates, ia_data, false);
-                                        } else {
-                                            readonly_templates[panel + "_content"] = Handlebars.templates[panel + "_content"](ia_data);
-
-                                            var $panel_body = $("#" + panel);
-                                            $panel_body.html(readonly_templates[panel + "_content"]);
-
-                                            page.appendTopics($(".topic-group"));
-                                            page.hideAssignToMe();
-
-                                            // Developer field is already highlighted in green
-                                            // when the user check is successful
-                                            if (field !== "developer") {
-                                                field = subfield? subfield : field;
-                                                $panel_body.find("." + field).addClass(saved_class);
-                                            }
-                                        }
-                                        
                                         Screens.render();
+
+                                        readonly_templates[panel + "_content"] = Handlebars.templates[panel + "_content"](ia_data);
+
+                                        var $panel_body = $("#" + panel);
+                                        $panel_body.html(readonly_templates[panel + "_content"]);
+
+                                        page.appendTopics($(".topic-group"));
+                                        page.hideAssignToMe();
+
+                                        // Developer field is already highlighted in green
+                                        // when the user check is successful
+                                        if (field !== "developer") {
+                                            field = subfield? subfield : field;
+                                            $panel_body.find("." + field).addClass(saved_class);
+                                        }
                                     }
                                 }
                             }

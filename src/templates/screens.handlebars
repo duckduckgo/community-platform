@@ -6,7 +6,18 @@
         <div class="revert hide"><a href="#">Restore previous screenshot</a></div>
         <img class="loader" style="display: none;" src="/static/img/ia/loader_f2f2f2.gif">
     </div>
-    <img class="screenshot hide" src="" style="display: block;">
+
+    <!-- Mobile image -->
+    <div class="mobile-faux__container hide">
+        <div class="mobile-faux__edge">
+            <div class="mobile-faux__padding">
+                <img class="screenshot-mobile" src="" style="display: inline-block;">
+            </div>
+        </div>
+    </div>
+
+    <!-- Desktop image -->
+    <img class="screenshot-desktop hide" src="" style="display: block;">
   </div>
 
   {{#ne_and dev_milestone 'live' 'deprecated'}}

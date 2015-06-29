@@ -44,6 +44,10 @@
         color: $slate-light;
     }
 
+    .ia-examples a {
+        text-transform: capitalize;
+    }
+
     .ia-examples a:last-of-type:after {
         content: '';
     }
@@ -67,16 +71,20 @@
         border-radius: 5px;
         background-color: $silver;
 
-        img.screenshot {
-            margin-left: -55px;
+        img.screenshot-desktop {
+            margin-left: -42px;
             max-width: inherit;
-            margin-top: 5px;
         }
 
-        img#screenshot-mobile {
-            margin: auto;
-            margin-top: 5px;
+        img.screenshot-mobile {
+            padding-bottom: 10px;
+            margin-left: auto;
+            margin-right: auto;
             width: initial;
+            padding-left: 6px;
+            padding-right: 6px;
+            padding-top: 10px;
+            padding-bottom: 10px;
         }
 
         img.loader {
@@ -85,7 +93,7 @@
         }
 
         .screenshot--status {
-            margin-top: 7em;
+            margin-top: 6em;
             margin-bottom: 6em;
 
             .default-message  {
@@ -96,6 +104,22 @@
 
         .revert a {
             display: block;
+            text-align: center;
+        }
+
+        .mobile-faux__padding {
+            border-left: 24px solid #f7f7f7;
+            border-right: 24px solid #f7f7f7;
+            display: inline-block;
+        }
+
+        .mobile-faux__edge {
+            border-left: 6px solid #e0e0e0;
+            border-right: 6px solid #e0e0e0;
+            display: inline-block;
+        }
+
+        .mobile-faux__container {
             text-align: center;
         }
     }
@@ -224,7 +248,6 @@
             padding-top: 0.3em;
             padding-bottom: 0.4em;
         }
-
     }
 
     .ia-issues {
@@ -285,7 +308,7 @@
 
     .example-container {
         margin-top: 2em;
-        margin-bottom: 2em;
+        margin-bottom: 1em;
 
         .search-example {
             text-transform: capitalize;
