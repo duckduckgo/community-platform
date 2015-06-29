@@ -13,15 +13,27 @@
                         
                     <div class="left ia-item--stamp circle stamp--{{repo}}"></div>
                     <h3 class="left ia-item--header"><a href="/ia/view/{{id}}">{{name}}</a></h3>
-                    
-                    {{#if issues}}
-                        <i class="icon-bug right"></i>
-                    {{/if}}
-                    {{#eq @key 'live'}}
-                        {{#if edits}}
-                            <i class="icon-edit right"></i>
+
+                    {{#if most_recent}}
+                        {{#eq @key 'live'}}
+                            {{#if live_date}}
+                                <span class="ia_date right">launched on {{parse_date live_date}}</span>
+                            {{/if}}
+                        {{else}}
+                            {{#if created_date}}
+                                <span class="ia_date right">created on {{parse_date created_date}}</span>
+                            {{/if}}
+                        {{/eq}}
+                    {{else}}                    
+                        {{#if issues}}
+                            <i class="icon-bug right"></i>
                         {{/if}}
-                    {{/eq}}
+                        {{#eq @key 'live'}}
+                            {{#if edits}}
+                                <i class="icon-edit right"></i>
+                            {{/if}}
+                        {{/eq}}
+                    {{/if}}
                                     
                     <span class="clearfix"></span>
                   </div>
