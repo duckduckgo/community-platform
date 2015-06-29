@@ -1199,6 +1199,7 @@
             } else {
                 $("#ia-single-top").attr("id", "ia-single-top--edit");
                 $("#ia-single-top-name, #ia-single-top-details, .ia-single--left, .ia-single--right, .edit-container").hide();
+                $(".special-permissions .btn--wire--hero").removeClass("btn--wire--hero").addClass("button");
                 $(".ia-single--edits").removeClass("hide");
                 for (var i = 0; i < this.edit_field_order.length; i++) {
                     $(".ia-single--edits").append(templates[this.edit_field_order[i]]);
