@@ -202,7 +202,15 @@ sub html {
     my $guts = $tree->guts;
 
     if ($guts) {
-        return $guts->as_XML;
+        # as_HTML reliably closes empty tags supplied by BBCode and other
+        # generators, e.g. [b][/b] -> <b></b>
+        # as_XML would return a self-closed tag, <b /> which is interpreted
+        # by renderer as <b>, so we have an open tag hanging.
+        # as_HTML does *not* currently understand non-nested tags (like img,
+        # hr, br) and generates closing tags for these. Only </br> is
+        # actually problematic in our case so we ditch these by hand.
+        # Is this worth it for a fast performing HTML munger?
+        return $guts->as_HTML =~ s{</br>}{}gmr;
     }
     return ' ';
 }
