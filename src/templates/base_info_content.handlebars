@@ -102,4 +102,24 @@
                 <input data-panel="base_info" type="text" class="frm__input tab js-autocommit" id="tab-input" value="{{live.tab}}" />
             </div>
         {{/if}}
+
+    <div class="example-container">
+      <div class="pull-right screenshot-switcher">
+        <span class="btn switcher-icon">
+          <span class="icon-extra-desktop"><span class="path1"></span><span class="path2"></span></span>
+        </span>
+
+        <span class="btn switcher-icon remove-border">
+          <span class="icon-extra-mobile add-opacity"><span class="path1"></span><span class="path2"></span></span>
+        </span>
+      </div>
+
+      {{#if permissions.can_edit}}
+          <div class="pull-right screenshot-switcher--generate hide">
+            <span class="btn btn--primary">Generate Screenshot</span>
+          </div>
+      {{/if}}
+
+      <span class="clearfix"></span>
+    </div>
    </div> 

@@ -1,0 +1,436 @@
+.ia-single {
+    /* I'd like the fonts to look a bit thinner and these do the job. */
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+
+    /* Add padding left and right of the wrapper.
+       This is so that when the screen gets smaller the content won't
+       touch the side of the screen. */
+    .content-wrap {
+        padding-left: 2em;
+        padding-right: 2em;
+        width: auto;
+    }
+
+    .ddgsi-loupe {
+        padding-right: 0.5em;
+        position: relative;
+        top: 1px;
+    }
+
+    /* The whole thing should be close to the header. */
+    margin-top: -1.1em;
+
+    /* Let's add some margin to the divs inside the right column.
+       We're doing this because we can't just add margins / padding to
+       .ia-single--right. It will mess up the grid. */
+    .ia-single--right {
+        div {
+            margin-left: 65px;
+        }
+    }
+
+    .tag-grp {
+        margin-right: 1em;
+    }
+
+    .btn {
+        font-weight: 400;
+    }
+
+    /* Add commas in the list */
+    .ia-examples a:after {
+        content: ',';
+        color: $slate-light;
+    }
+
+    .ia-examples a {
+        text-transform: capitalize;
+    }
+
+    .ia-examples a:last-of-type:after {
+        content: '';
+    }
+
+    .special-permissions {
+
+    }
+
+    /* Add some space above the "Show All Issues" button. */
+    #show-all-issues {
+        margin-top: 1em;
+    }
+
+    .ia-single--screenshots.screens--wide {
+        width: 100%;
+    }
+
+    .ia-single--screenshots {
+        overflow: hidden;
+        border: 1px solid $platinum;
+        border-radius: 5px;
+        background-color: $silver;
+
+        img.screenshot-desktop {
+            margin-left: -42px;
+            max-width: inherit;
+        }
+
+        img.screenshot-mobile {
+            padding-bottom: 10px;
+            margin-left: auto;
+            margin-right: auto;
+            width: initial;
+            padding-left: 6px;
+            padding-right: 6px;
+            padding-top: 10px;
+            padding-bottom: 10px;
+        }
+
+        img.loader {
+            margin: auto;
+            display: block;
+        }
+
+        .screenshot--status {
+            margin-top: 6em;
+            margin-bottom: 6em;
+
+            .default-message  {
+                text-align: center;
+                color: #999;
+            }
+        }
+
+        .revert a {
+            display: block;
+            text-align: center;
+        }
+
+        .mobile-faux__padding {
+            border-left: 24px solid #f7f7f7;
+            border-right: 24px solid #f7f7f7;
+            display: inline-block;
+        }
+
+        .mobile-faux__edge {
+            border-left: 6px solid #e0e0e0;
+            border-right: 6px solid #e0e0e0;
+            display: inline-block;
+        }
+
+        .mobile-faux__container {
+            text-align: center;
+        }
+    }
+
+    .add-opacity {
+        opacity: 0.2;
+    }
+
+    .remove-border {
+        border-color: transparent;
+    }
+
+    /* Position the bottom on the screenshot itself. */
+    .generate-screenshot {
+        position: relative;
+        bottom: 38px;
+        right: 2px;
+    }
+
+    #ia-single-top, #ia-single-top--edit {
+        padding: 3em 0 1em 0;
+    }
+
+    /* These are the CSS properties for the elements in the blue band. */
+    #ia-single-top {
+        background-color: $blue-light;
+        color: white;
+
+        a {
+            color: white;
+        }
+
+        span.detail-title {
+            color: rgba(255,255,255, 0.6);
+        }
+
+        .content-wrap {
+            margin-top: 0.5em;
+            margin-bottom: 2em;
+        }
+
+        .ia-single--name h2 {
+            color: $white;
+            font-size: 2em;
+            font-weight: 600;
+        }
+
+        .btn {
+            border: 1px solid rgba(255,255,255,0.4);
+        }
+
+        .special-permissions .btn--wire--hero {
+            @include border-radius(0.25em);
+        }
+
+        .pager-wrap {
+            padding-right: 0.25em;
+            overflow: initial;
+        }
+
+        #ia-single-top-details {
+            line-height: 2.8;
+
+            span {
+                text-transform: capitalize;
+            }
+        }
+
+        .ia-single--name h2 {
+            font-weight: 500;
+        }
+
+        .edit-buttons {
+            text-transform: capitalize;
+        }
+
+        .preview-switch {
+            display: inline-block;
+            line-height: 2.5;
+        }
+
+        .preview-switch .switch {
+            float: left;
+            margin-right: 5px;
+            line-height: 1.3;
+            margin-top: 8px;
+        }
+
+        .preview-switch__label {
+            margin-right: 5px;
+        }
+
+        .switch__bar {
+            height: 4px;
+            width: 90%;
+            position: relative;
+            top: 8px;
+            background-color: $silver-light;
+            border-radius: 10px;
+            margin: auto;
+        }
+
+        .preview-stats {
+            display: inline-block;
+        }
+
+        .very-top {
+            overflow: hidden;
+        }
+
+        .preview-edits {
+            margin-top: 7px;
+        }
+
+        .edit-container {
+            display: inline-block;
+            margin-left: 65px;
+        }
+
+        .pending-edits {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .btn--wire--hero {
+            border-radius: 3px;
+            padding-top: 0.3em;
+            padding-bottom: 0.4em;
+        }
+    }
+
+    .ia-issues {
+        /*
+          Add padding above and below this section.
+          We add more to the bottom (x2 to be exact) because
+          we don't want to be close to the footer.
+         */
+        padding-top: 2.4em;
+        padding-bottom: 4.8em;
+
+        /* Make the circle icon font 9px and align it
+           with the .tag-name.
+         */
+        .icon-circle {
+            font-size: 9px;
+        }
+
+        .tag-name {
+            vertical-align: middle;
+        }
+
+        .ia-single--header {
+            margin-top: 0;
+            line-height: 2em;
+        }
+    }
+
+    .ia-issues.ia-single--info {
+        ul li a {
+            color: $slate;
+        }
+
+        /* This is the "Create Issue" button.
+           We override the color because, typically, <a> tags have a different color. */
+        #create-issue--link {
+            color: #fff;
+        }
+
+        .tag-name, .date, .author {
+            color: $slate-light;
+        }
+
+        .date {
+            font-size: smaller;
+            display: block;
+            padding-top: 27px;
+            padding-bottom: 4px;
+            width: 100%;
+            text-align: right;
+        }
+    }
+
+    .ia-issues li {
+        padding-bottom: 0.5em;
+        padding-top: 0.5em;
+    }
+
+    .example-container {
+        margin-top: 2em;
+        margin-bottom: 1em;
+
+        .search-example {
+            text-transform: capitalize;
+            line-height: 2.5em;
+        }
+
+        .btn.switcher-icon {
+            line-height: 1;
+            padding: 3px 3px 3px 3px;
+            background-color: #fff;
+
+            span {
+                font-size: 32px;
+            }
+        }
+    }
+
+    .ia-single--info ul li .date a {
+        display: inline;
+    }
+}
+
+/* Media queries */
+
+@media only screen and (max-width: 730px) {
+    .ia-single .ia-single--right div {
+        margin: 0;
+    }
+
+    .ia-single--right {
+        padding-left: 0;
+        border-top: 1px solid $silver;
+        margin-top: 2em;
+    }
+
+    .ia-single .ia-issues {
+        padding-bottom: 0;
+    }
+}
+
+@media only screen and (max-width: 883px) {
+    .pending-edits.sep--after:after {
+        opacity: 0;
+    }
+}
+
+@media only screen and (max-width: 763px) {
+    .pending-edits.sep--after:after {
+        opacity: 0;
+    }
+
+    .ia-single #ia-single-top .preview-switch, .edit-buttons, #edit_activate {
+        display: none;
+    }
+
+    .ia-single #ia-single-top .very-top {
+        width: 100%;
+    }
+
+    span.top__categories {
+        display: initial;
+    }
+
+    span.top__categories .sep--after:after {
+        opacity: 0.4;
+    }
+}
+
+@media only screen and (max-width: 320px) {
+    .ia-single .content-wrap {
+        min-width: 80%;
+    }
+
+    span.top__categories {
+        display: block;
+
+        .detail-title {
+            display: none;
+        }
+    }
+}
+
+@media only screen and (max-width: 414px) {
+    span.top__categories {
+        display: block;
+
+        .detail-title {
+            display: none;
+        }
+    }
+
+    span.top__categories .sep--after:after {
+        opacity: 0;
+    }
+}
+
+@media only screen and (max-width: 576px) {
+    span.top__categories {
+        display: block;
+    }
+
+    span.top__categories .sep--after:after {
+        opacity: 0;
+    }
+}
+
+@media only screen and (max-width: 885px) {
+    .top__categories {
+        display: block;
+    }
+
+    .top__categories .sep--after:after {
+        opacity: 0;
+    }
+}
+
+@media only screen and (max-width: 1015px) {
+    #ia-single-top #ia-single-top-details {
+          width: 100%;
+    }
+
+    #ia-single-top .pager-wrap {
+        padding-left: 0;
+    }
+}

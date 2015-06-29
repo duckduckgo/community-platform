@@ -63,7 +63,7 @@ div[name="topic"].topic {
     text-transform: capitalize;
 }
 
-.developer {
+.ia-single.devpage .developer {
     .frm__select {
         background: $green;
         width: 7em;
@@ -75,6 +75,10 @@ div[name="topic"].topic {
 
     .invalid input.frm__input {
         border-color: $red-dark;
+    }
+
+    span.developer_username input.frm__input {
+        width: 10.5em;
     }
 }
 
@@ -140,3 +144,15 @@ select.available_types {
 .fixexamplequery {
     width: 59.3%;
 }
+
+.ia-single.devpage .ia-single--header {
+    color: $grey;
+    font-size: 0.857em;
+    margin: 0.7em 0px 0px;
+}
+
+.ia-single.devpage .ia-single--name {
+    margin-bottom: 0px;
+    margin-top: 0.5em;
+}
+

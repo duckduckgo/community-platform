@@ -1,0 +1,18 @@
+{{#if permissions.can_edit}}
+    {{#if edit_count}}
+        <div class="preview-edits">
+            <span class="{{#if permissions.admin}}sep--after{{/if}} pending-edits">{{edit_count}} Pending {{plural edit_count plural="Edits" singular="Edit"}}</span>
+            {{#if permissions.admin}}
+                <a href="/ia/commit/{{id}}">Commit</a>
+            {{/if}}
+        </div>
+        <div class="preview-switch {{#is_false preview}}is-on{{/is_false}}">
+            <span class="preview-switch__label pull-left">Edited</span>
+            <a class="switch js-switch" href="#">
+                <div class="switch__bar"></div>
+                <span class="switch__knob"></span>
+            </a>
+            <span class="preview-switch__label">Live</span>
+        </div>
+    {{/if}}
+{{/if}}

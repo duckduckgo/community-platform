@@ -1,0 +1,43 @@
+@font-face {
+	font-family: 'extra';
+	src:url('../../static/fonts/extra.eot?he67j2');
+	src:url('../../static/fonts/extra.eot?#iefixhe67j2') format('embedded-opentype'),
+		url('../../static/fonts/extra.ttf?he67j2') format('truetype'),
+		url('../../static/fonts/extra.woff?he67j2') format('woff'),
+		url('../../static/fonts/extra.svg?he67j2#extra') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+[class^="icon-extra-"], [class*=" icon-extra-"] {
+	font-family: 'extra';
+	speak: none;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	line-height: 1;
+
+	/* Better Font Rendering =========== */
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+.icon-extra-mobile .path1:before {
+	content: "\e600";
+	color: rgb(237, 237, 237);
+}
+.icon-extra-mobile .path2:before {
+	content: "\e601";
+	margin-left: -1em;
+	color: rgb(51, 51, 51);
+}
+.icon-extra-desktop .path1:before {
+	content: "\e602";
+	color: rgb(51, 51, 51);
+}
+.icon-extra-desktop .path2:before {
+	content: "\e603";
+	margin-left: -1em;
+	color: rgb(237, 237, 237);
+}
