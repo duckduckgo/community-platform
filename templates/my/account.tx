@@ -221,7 +221,7 @@
 		</div>
 		<div class="body">
 			<div class="row">			
-				<p>We provide a public XMPP server with this account, which you can add to your favourite client. You can find a list of clients <a href="http://xmpp.org/xmpp-software/clients/">here</a>. XMPP is an open-standard instant communication protocol like ICQ, MSN or Yahoo. You can find more information on <a href="http://wikipedia.org/wiki/XMPP">Wikipedia</a>. To get set up, check out our tutorial for <a href="<: $u('Blog','post','using-pidgin-with-xmpp-jabber') :>">using the Pidgin client</a>.</p>
+				<p>We provide a public XMPP server with this account, which you can add to your favourite client. You can find a list of clients <a href="http://xmpp.org/xmpp-software/clients/">here</a>. XMPP is an open-standard instant communication protocol like ICQ, MSN or Yahoo. You can find more information on <a href="http://wikipedia.org/wiki/XMPP">Wikipedia</a>.
 				<p>
 					<strong>Username:</strong> <: $c.user.lowercase_username :><br/>
 					<strong>Domain:</strong> <: $xmpp_userhost :><br/>

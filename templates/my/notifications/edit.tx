@@ -17,7 +17,7 @@
 <: my $notification_count = $undone_notifications_count || $c.user.undone_notifications_count :>
 <div class="content-box">
 	<div class="head">
-		<h3>How often would you like to be notified about ...<a class="icn icn--sup" href="<: $u('Blog','post','notification-system') :>" title="Get more information about the notification system"><i class="icon-question-sign"></i></a></h3>
+		<h3>How often would you like to be notified about ...<a class="icn icn--sup" href="https://duck.co/blog/post/8/notification-system" title="Get more information about the notification system"><i class="icon-question-sign"></i></a></h3>
 	</div>
 	<div class="body">
 		<div class="row callout-row">

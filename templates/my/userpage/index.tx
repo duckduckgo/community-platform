@@ -29,26 +29,6 @@
 
 <div class="content-box">
 	<div class="head">
-		<h3><a href="https://wikipedia.org/wiki/OpenID">OpenID</a></h3>
-	</div>
-	<div class="body">
-		<: for ['openid_server','openid_delegate'] -> $field { :>
-			<: i($fields[$field], 'edit') :>
-		<: } :>
-		<div class="account-box"> <!-- That shouldnt be necessary TODO -->
-		<div class="row callout-row">
-			<a class="callout-link" href="<: $u('Blog','post','openid-delegation') :>">
-				<i class="icon-circle-arrow-right  callout-row__icn--right"></i>
-				<i class="callout-row__icn--left icon-info"></i>
-				<h3 class="callout-row__text  has-icon">Click here for more information about OpenID delegation.</h3>
-			</a>
-		</div>
-		</div>
-	</div>
-</div>
-
-<div class="content-box">
-	<div class="head">
 		<h3>Other widgets</h3>
 	</div>
 	<div class="body">

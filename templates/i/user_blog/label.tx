@@ -1,1 +1,1 @@
-the blog post <a href="<: $u($_.u) :>"><b><: i($_,'name') :></b></a>
+the blog post <a href="/blog/post/<: $_.id :>/<: $_.url :>"><b><: i($_,'name') :></b></a>
