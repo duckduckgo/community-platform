@@ -13,6 +13,14 @@
     "tests"
   ],
   "dependencies": {
-    "duckduckgo-colors": "*"
-  }
+    "duckduckgo-colors": "duckduckgo/duckduckgo-colors",
+    "_ls": "duckduckgo/litestrap"
+  },
+  "homepage": "https://github.com/duckduckgo/community-platform",
+  "description": "Frontend files for duck.co",
+  "main": "src/",
+  "keywords": [
+    "duckduckgo",
+    "community"
+  ]
 }

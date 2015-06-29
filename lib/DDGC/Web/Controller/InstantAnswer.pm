@@ -540,7 +540,7 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
 
     my $ia = $c->stash->{ia};
     my $edited;
-    my @issues = $c->d->rs('InstantAnswer::Issues')->search({instant_answer_id => $ia->id});
+    my @issues = $c->d->rs('InstantAnswer::Issues')->search({instant_answer_id => $ia->id},{order_by => {'-desc' => 'date'}});
     my @ia_issues;
     my %pull_request;
     my @ia_pr;
@@ -559,7 +559,8 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
                     title => $issue->title,
                     body => $issue->body,
                     tags => $issue->tags,
-                    author => $issue->author
+                    author => $issue->author,
+                    date => $issue->date
                );
 
                $ia_data{live}->{pr} = \%pull_request;
@@ -586,7 +587,9 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
                     issue_id => $issue->issue_id,
                     title => $issue->title,
                     body => $issue->body,
-                    tags => $issue->tags
+                    tags => $issue->tags,
+                    author => $issue->author,
+                    date => $issue->date
                 });
             }
         }
@@ -890,7 +893,11 @@ sub save {
                 $saved = add_topic($c, $ia, $topic);
                 return unless $saved;
             }
-        } else {           
+        } else {          
+            if ($field eq 'id') {
+               $field = 'meta_id';
+            }
+            
             commit_edit($c->d, $ia, $field, $value);
             $saved = '1';
         }
