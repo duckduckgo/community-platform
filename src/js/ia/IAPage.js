@@ -299,7 +299,8 @@
                             url: function() {
                                 var image = Screens.state.isMobile ? 'mobile' : 'index';
                                 return 'https://images.duckduckgo.com/iu/?u=' +
-                                       encodeURIComponent('https://ia-screenshots.s3.amazonaws.com/' + DDH_iaid + '_' + image + '.png?nocache=' + Math.floor(Math.random() * 10000));
+                                       encodeURIComponent('https://ia-screenshots.s3.amazonaws.com/' + DDH_iaid + '_' + image + '.png?nocache=' + Math.floor(Math.random() * 10000)) +
+                                       '&f=1';
                             },
                             createImageEndpoint: 'https://jag.duckduckgo.com/screenshot/create/' + DDH_iaid,
                             saveImageEndpoint: 'https://jag.duckduckgo.com/screenshot/save/' + DDH_iaid
