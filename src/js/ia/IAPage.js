@@ -80,6 +80,7 @@
                             devinfo : Handlebars.templates.devinfo(latest_edits_data),
                             github: Handlebars.templates.github(latest_edits_data),
                             edit_buttons: Handlebars.templates.edit_buttons(latest_edits_data),
+                            breadcrumbs: Handlebars.templates.breadcrumbs(latest_edits_data)
                         },
                         screens : Handlebars.templates.screens(ia_data),
                         metafields : Handlebars.templates.metafields(ia_data),
@@ -1148,6 +1149,7 @@
 
                 if (dev_milestone === "live" || dev_milestone === "deprecated") {
                     $("#ia-single-top-name").html(templates.live.name);
+                    $('#ia-breadcrumbs').html(templates.live.breadcrumbs);
                     $("#ia-single-top-details").html(templates.live.top_details);
                     $('.edit-container').html(templates.live.edit_buttons);
                     $(".ia-single--left, .ia-single--right").show().empty();
@@ -1198,7 +1200,7 @@
                 });
             } else {
                 $("#ia-single-top").attr("id", "ia-single-top--edit");
-                $("#ia-single-top-name, #ia-single-top-details, .ia-single--left, .ia-single--right, .edit-container").hide();
+                $("#ia-single-top-name, #ia-single-top-details, .ia-single--left, .ia-single--right, .edit-container, #ia-breadcrumbs").hide();
                 $(".ia-single--edits").removeClass("hide");
                 for (var i = 0; i < this.edit_field_order.length; i++) {
                     $(".ia-single--edits").append(templates[this.edit_field_order[i]]);
