@@ -282,54 +282,55 @@ sub update_repo_branches {
 }
 
 sub update_repo_commits {
-  my ( $self, $gh_repo ) = @_;
-  return unless $gh_repo->pushed_at && $gh_repo->gh_data->{size} > 48;
-  my @gh_commits;
-  my $latest = $gh_repo->search_related('github_commits',{},{
-    rows => 1,
-    order_by => { -desc => 'author_date' },
-  })->first;
-  my $gh = $self->gh;
-  printf "Updating %s/%s...\n", $gh_repo->owner_name, $gh_repo->repo_name;
-  my @commits = $latest
-    ? (@{$gh->commits_since(
-      $gh_repo->owner_name,$gh_repo->repo_name,datetime_str(
-        $latest->author_date + DateTime::Duration->new( seconds => 1 )
-      )
-    )})
-    : (@{$gh->commits($gh_repo->owner_name,$gh_repo->repo_name)});
-  for (@commits) {
-    push @gh_commits, $self->update_repo_commit_from_data($gh_repo,$_);
-  }
-  while ($gh->has_next_page) {
-    for (@{$gh->next_page}) {
-      push @gh_commits, $self->update_repo_commit_from_data($gh_repo,$_);
-    }
-  }
-  return \@gh_commits;
+    my ($self, $gh_repo) = @_;
+
+    return unless $gh_repo->pushed_at && $gh_repo->gh_data->{size} > 48;
+
+    printf "Updating %s/%s...\n", $gh_repo->owner_name, $gh_repo->repo_name;
+
+    my $latest_commit = $gh_repo
+        ->related_resultset('github_commits')
+        ->most_recent;
+
+    my %params;
+    $params{owner}  = $gh_repo->owner_name;
+    $params{repo}   = $gh_repo->repo_name;
+    $params{since}  = datetime_str($latest_commit->author_date + $self->one_second)
+        if $latest_commit;
+
+    my $commits_data = $self->gh->commits(%params);
+
+    my @gh_commits;
+    push @gh_commits, $self->update_repo_commit_from_data($gh_repo, $_)
+        for @$commits_data;
+
+    return \@gh_commits;
 }
 
 sub update_repo_commit_from_data {
-  my ( $self, $gh_repo, $commit ) = @_;
-  return $gh_repo->update_or_create_related('github_commits',{
-    defined $commit->{author}
-      ? ( github_user_id_author => $self->find_or_update_user($commit->{author}->{login})->id )
-      : (),
-    defined $commit->{committer}
-      ? ( github_user_id_committer => $self->find_or_update_user($commit->{committer}->{login})->id )
-      : (),
-    author_date => parse_datetime($commit->{commit}->{author}->{date}),
-    author_email => $commit->{commit}->{author}->{email},
-    author_name => $commit->{commit}->{author}->{name},
-    committer_date => parse_datetime($commit->{commit}->{committer}->{date}),
-    committer_email => $commit->{commit}->{committer}->{email},
-    committer_name => $commit->{commit}->{committer}->{name},
-    sha => $commit->{sha},
-    message => $commit->{message},
-    gh_data => $commit,
-  },{
-    key => 'github_commit_sha_github_repo_id',
-  });
+    my ($self, $gh_repo, $commit) = @_;
+
+    my %columns;
+    $columns{author_date}     = parse_datetime($commit->{commit}->{author}->{date});
+    $columns{author_email}    = $commit->{commit}->{author}->{email};
+    $columns{author_name}     = $commit->{commit}->{author}->{name};
+    $columns{committer_date}  = parse_datetime($commit->{commit}->{committer}->{date});
+    $columns{committer_email} = $commit->{commit}->{committer}->{email};
+    $columns{committer_name}  = $commit->{commit}->{committer}->{name};
+    $columns{sha}             = $commit->{sha};
+    $columns{message}         = $commit->{message};
+    $columns{gh_data}         = $commit;
+
+    $columns{github_user_id_author} = $self->find_or_update_user($commit->{author}->{login})->id
+        if defined $commit->{author};
+
+    $columns{github_user_id_committer} = $self->find_or_update_user($commit->{committer}->{login})->id
+        if defined $commit->{committer};
+
+    return $gh_repo->related_resultset('github_commits')->update_or_create(
+        \%columns,
+        { key => 'github_commit_sha_github_repo_id' }
+    );
 }
 
 sub one_second {
@@ -377,6 +378,7 @@ sub update_repo_issue_from_data {
     $columns{updated_at}     = parse_datetime($issue->{updated_at});
     $columns{closed_at}      = parse_datetime($issue->{closed_at});
     $columns{gh_data}        = $issue;
+
     $columns{github_user_id_assignee} = $self->find_or_update_user($issue->{assignee}->{login})->id
         if defined $issue->{assignee};
 
