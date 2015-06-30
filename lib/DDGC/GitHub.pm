@@ -194,7 +194,7 @@ sub update_user_repo_from_data {
   $self->update_repo_pulls($gh_repo);
 # $self->update_repo_pulls_comments($gh_repo);
   $self->update_repo_issues($gh_repo);
-  $self->update_repo_issue_comments($gh_repo);
+# $self->update_repo_issue_comments($gh_repo);
   $self->update_repo_branches($gh_repo);
   return $gh_repo;
 }
@@ -332,57 +332,58 @@ sub update_repo_commit_from_data {
   });
 }
 
+sub one_second {
+    return DateTime::Duration->new(seconds => 1);
+}
+
 sub update_repo_issues {
-  my ( $self, $gh_repo ) = @_;
-  return unless $gh_repo->gh_data->{has_issues};
-  my @gh_issues;
-  my $latest = $gh_repo->search_related('github_issues',{},{
-    rows => 1,
-    order_by => { -desc => 'updated_at' },
-  })->first;
-  my $gh = $self->gh;
-  my @issues = $latest
-    ? (@{$gh->issues_since(
-      $gh_repo->owner_name,$gh_repo->repo_name,datetime_str(
-        $latest->updated_at + DateTime::Duration->new( seconds => 1 )
-      )
-    )})
-    : (@{$gh->issues($gh_repo->owner_name,$gh_repo->repo_name)});
-  for (@issues) {
-    push @gh_issues, $self->update_repo_issue_from_data($gh_repo,$_);
-  }
-  while ($gh->has_next_page) {
-    for (@{$gh->next_page}) {
-      push @gh_issues, $self->update_repo_issue_from_data($gh_repo,$_);
-    }
-  }
-  return \@gh_issues;
+    my ($self, $gh_repo) = @_;
+
+    return unless $gh_repo->gh_data->{has_issues};
+
+    my $latest_issue = $gh_repo
+        ->related_resultset('github_issues')
+        ->most_recent;
+
+    my %params;
+    $params{owner}  = $gh_repo->owner_name;
+    $params{repo}   = $gh_repo->repo_name;
+    $params{filter} = 'all';
+    $params{state}  = 'all';
+    $params{since}  = datetime_str($latest_issue->updated_at + $self->one_second)
+        if $latest_issue;
+
+    my $issues_data = $self->gh->issues(%params);
+
+    my @gh_issues;
+    push @gh_issues, $self->update_repo_issue_from_data($gh_repo, $_)
+        for @$issues_data;
+
+    return \@gh_issues;
 }
 
 sub update_repo_issue_from_data {
-  my ( $self, $gh_repo, $issue ) = @_;
-  return $gh_repo->update_or_create_related('github_issues',{
-    github_id => $issue->{id},
-    github_user_id => $self->find_or_update_user($issue->{user}->{login})->id,
-    (map { $_ => $issue->{$_} } qw(
-      title
-      body
-      state
-      comments
-      number
-    )),
-    (map { $_ => parse_datetime($issue->{$_}) } qw(
-      created_at
-      updated_at
-      closed_at
-    )),
-    defined $issue->{assignee}
-      ? ( github_user_id_assignee => $self->find_or_update_user($issue->{assignee}->{login})->id )
-      : (),
-    gh_data => $issue,
-  },{
-    key => 'github_issue_github_id',
-  });
+    my ($self, $gh_repo, $issue) = @_;
+
+    my %columns;
+    $columns{github_id}      = $issue->{id};
+    $columns{github_user_id} = $self->find_or_update_user($issue->{user}->{login})->id;
+    $columns{title}          = $issue->{title};
+    $columns{body}           = $issue->{body};
+    $columns{state}          = $issue->{state};
+    $columns{comments}       = $issue->{comments};
+    $columns{number}         = $issue->{number};
+    $columns{created_at}     = parse_datetime($issue->{created_at});
+    $columns{updated_at}     = parse_datetime($issue->{updated_at});
+    $columns{closed_at}      = parse_datetime($issue->{closed_at});
+    $columns{gh_data}        = $issue;
+    $columns{github_user_id_assignee} = $self->find_or_update_user($issue->{assignee}->{login})->id
+        if defined $issue->{assignee};
+
+    return $gh_repo->related_resultset('github_issues')->update_or_create(
+        \%columns,
+        { key => 'github_issue_github_id' }
+    );
 }
 
 1;
