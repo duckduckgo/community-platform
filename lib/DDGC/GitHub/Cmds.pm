@@ -32,11 +32,19 @@ sub list_org {
 
 sub issues {
     my ($self, %args) = @_;
+
     my $owner = $args{owner} || die "owner param required";
     my $repo  = $args{repo}  || die "repo param required";
     my $uri   = URI->new("/repos/$owner/$repo/issues");
     $uri->query_form(%args);
-    return $self->query($uri->as_string);
+
+    my $issues = $self->query($uri->as_string);
+
+    while ($self->has_next_page) {
+        push @$issues, @{ $self->next_page };
+    }
+
+    return $issues;
 }
 
 sub issue_comments {
@@ -55,7 +63,6 @@ __build_methods(__PACKAGE__, (
   commits_since   => { url => "/repos/%s/%s/commits?since=%s"   },
   pulls           => { url => "/repos/%s/%s/pulls?state=all"    },
   pulls_comments  => { url => "/repos/%s/%s/pulls/%s/comments"  },
-  issues_since    => { url => "/repos/%s/%s/issues?since=%s"    },
 ));
 
 1;
