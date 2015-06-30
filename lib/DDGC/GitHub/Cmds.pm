@@ -38,13 +38,7 @@ sub commits {
     my $uri   = URI->new("/repos/$owner/$repo/commits");
     $uri->query_form(%args);
 
-    my $commits = $self->query($uri->as_string);
-
-    while ($self->has_next_page) {
-        push @$commits, @{ $self->next_page };
-    }
-
-    return $commits;
+    return $self->_drain_api($uri);
 }
 
 sub issues {
@@ -55,23 +49,31 @@ sub issues {
     my $uri   = URI->new("/repos/$owner/$repo/issues");
     $uri->query_form(%args);
 
-    my $issues = $self->query($uri->as_string);
-
-    while ($self->has_next_page) {
-        push @$issues, @{ $self->next_page };
-    }
-
-    return $issues;
+    return $self->_drain_api($uri);
 }
 
-sub issue_comments {
+sub issues_comments {
     my ($self, %args) = @_;
+
     my $owner  = $args{owner}  || die "owner param required";
     my $repo   = $args{repo}   || die "repo param required";
     my $number = $args{number} || die "number param required";
     my $uri = URI->new("/repos/$owner/$repo/issues/$number/comments");
     $uri->query_form(%args);
-    return $self->query($uri->as_string);
+
+    return $self->_drain_api($uri);
+}
+
+sub _drain_api {
+    my ($self, $uri) = @_;
+
+    my $results = $self->query($uri->as_string);
+
+    while ($self->has_next_page) {
+        push @$results, @{ $self->next_page };
+    }
+
+    return $results;
 }
 
 __build_methods(__PACKAGE__, (
