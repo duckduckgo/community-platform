@@ -10,5 +10,16 @@ use namespace::autoclean;
 #	$self->search({ author_date => { $operator => $date } });
 #}
 
+sub most_recent {
+    my ($self) = @_;
+    return $self->search(
+        {},
+        {
+            rows => 1,
+            order_by => { -desc => 'updated_at' },
+        }
+    )->first;
+}
+
 no Moose;
 __PACKAGE__->meta->make_immutable( inline_constructor => 0 );
