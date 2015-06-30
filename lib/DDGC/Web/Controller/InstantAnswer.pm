@@ -1042,6 +1042,18 @@ sub save_milestone_date {
     update_ia($ia, $field, $date);
 }
 
+sub dashboard :Chained('base') :Args(0) {
+    my ( $self, $c ) = @_;
+    $c->add_bc('Instant Answers', $c->chained_uri('InstantAnswer','index'));
+
+    my %commits = DDGC::Stats::GitHub::Commits->report(ddgc => $c->ddgc);
+
+    $c->stash->{yesterday} = {
+        first_response => '55mins',
+        %commits,
+    };
+}
+
 no Moose;
 __PACKAGE__->meta->make_immutable;
 
