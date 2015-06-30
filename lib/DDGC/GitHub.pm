@@ -143,7 +143,30 @@ sub update_repos {
         next unless $company;
         $self->update_user_repo_from_data($owner,$repo,$company) unless $repo->{private};
     }
+    else {
+        my $company = $self->want_repo($repo->{full_name}) || next;
+        $self->update_user_repo_from_data($owner,$repo,$company);
+    }
   }
+}
+
+sub wanted_repos {
+    return qw|
+        duckduckgo/zeroclickinfo-fathead
+        duckduckgo/zeroclickinfo-goodies
+        duckduckgo/zeroclickinfo-longtail
+        duckduckgo/zeroclickinfo-spice
+    |;
+}
+
+sub want_repo {
+    my ($self, $name) = @_;
+
+    for my $wanted ($self->wanted_repos) {
+        return $wanted if $name =~ /$wanted/;
+    }
+
+    return 0;
 }
 
 sub update_user_repo_from_data {
@@ -169,17 +192,19 @@ sub update_user_repo_from_data {
   });
   $self->update_repo_commits($gh_repo);
   $self->update_repo_pulls($gh_repo);
+# $self->update_repo_pulls_comments($gh_repo);
   $self->update_repo_issues($gh_repo);
+  $self->update_repo_issue_comments($gh_repo);
   $self->update_repo_branches($gh_repo);
   return $gh_repo;
 }
 
-sub update_repo_pulls {
+sub update_issue_comments {
   my ( $self, $gh_repo ) = @_;
   return unless $gh_repo->pushed_at;
   my @gh_pulls;
   my $gh = $self->gh;
-  my @pulls = @{$gh->pulls_open($gh_repo->owner_name,$gh_repo->repo_name)};
+  my @pulls = @{$gh->pulls($gh_repo->owner_name,$gh_repo->repo_name)};
   for (@pulls) {
     push @gh_pulls, $self->update_repo_pull_from_data($gh_repo,$_);
   }
@@ -188,8 +213,33 @@ sub update_repo_pulls {
       push @gh_pulls, $self->update_repo_pull_from_data($gh_repo,$_);
     }
   }
-  my @closed_pulls = @{$gh->pulls_closed($gh_repo->owner_name,$gh_repo->repo_name)};
-  for (@closed_pulls) {
+  return \@gh_pulls;
+}
+
+sub update_repo_pulls_comments {
+  my ( $self, $gh_repo ) = @_;
+  return unless $gh_repo->pushed_at;
+  my @gh_pulls;
+  my $gh = $self->gh;
+  my @pulls = @{$gh->pulls($gh_repo->owner_name,$gh_repo->repo_name)};
+  for (@pulls) {
+    push @gh_pulls, $self->update_repo_pull_from_data($gh_repo,$_);
+  }
+  while ($gh->has_next_page) {
+    for (@{$gh->next_page}) {
+      push @gh_pulls, $self->update_repo_pull_from_data($gh_repo,$_);
+    }
+  }
+  return \@gh_pulls;
+}
+
+sub update_repo_pulls {
+  my ( $self, $gh_repo ) = @_;
+  return unless $gh_repo->pushed_at;
+  my @gh_pulls;
+  my $gh = $self->gh;
+  my @pulls = @{$gh->pulls($gh_repo->owner_name,$gh_repo->repo_name)};
+  for (@pulls) {
     push @gh_pulls, $self->update_repo_pull_from_data($gh_repo,$_);
   }
   while ($gh->has_next_page) {
