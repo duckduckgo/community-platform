@@ -29,16 +29,14 @@ sub list_org {
   return $self->query($u);
 }
 
-__build_methods(__PACKAGE__,(
-
-  branches => { url => "/repos/%s/%s/branches" },
-  commits => { url => "/repos/%s/%s/commits" },
-  commits_since => { url => "/repos/%s/%s/commits?since=%s" },
-  pulls_open => { url => "/repos/%s/%s/pulls" },
-  pulls_closed => { url => "/repos/%s/%s/pulls?state=closed" },
-  issues => { url => "/repos/%s/%s/issues" },
-  issues_since => { url => "/repos/%s/%s/issues?since=%s" },
-
+__build_methods(__PACKAGE__, (
+  branches       => { url => "/repos/%s/%s/branches"           },
+  commits        => { url => "/repos/%s/%s/commits"            },
+  commits_since  => { url => "/repos/%s/%s/commits?since=%s"   },
+  pulls          => { url => "/repos/%s/%s/pulls?state=all"    },
+  pulls_comments => { url => "/repos/%s/%s/pulls/%s/comments"  },
+  issues         => { url => "/repos/%s/%s/issues"             },
+  issues_since   => { url => "/repos/%s/%s/issues?since=%s"    },
 ));
 
 1;
