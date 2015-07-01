@@ -8,6 +8,7 @@ use DateTime::Format::ISO8601;
 use DateTime::Duration;
 use HTTP::Request;
 use JSON::MaybeXS;
+use DDP;
 
 has ddgc => (
   isa => 'DDGC',
@@ -76,9 +77,13 @@ sub datetime_str {
   $_[0]->strftime("%FT%TZ");
 }
 
+sub one_second {
+    return DateTime::Duration->new(seconds => 1);
+}
+
 sub update_database {
   my ( $self ) = @_;
-  $self->update_repos($self->ddgc->config->github_org,1);
+  $self->update_repos($self->ddgc->config->github_org, 1);
 }
 
 sub find_or_update_user {
@@ -124,8 +129,8 @@ sub update_repos {
   my $owner = $self->update_user($login);
   my $gh = $self->gh;
   my @repos = $owner->type eq 'Organization'
-    ? @{$gh->list_org($login)}
-    : @{$gh->list_user($login)};
+    ? @{$gh->list_org_repos($login)}
+    : @{$gh->list_user_repos($login)};
   while ($gh->has_next_page) {
     push @repos, @{$gh->next_page};
   }
@@ -170,106 +175,85 @@ sub want_repo {
 }
 
 sub update_user_repo_from_data {
-  my ( $self, $gh_user, $repo, $company ) = @_;
-  my $gh_repo = $gh_user->update_or_create_related('github_repos',{
-    github_id => $repo->{id},
-    company_repo => $company ? 1 : 0,
-    (map { $_ => $repo->{$_} } qw(
-      forks_count
-      full_name
-      description
-      watchers_count
-      open_issues_count
-    )),
-    (map { $_ => parse_datetime($repo->{$_}) } qw(
-      created_at
-      updated_at
-      pushed_at
-    )),
-    gh_data => $repo,
-  },{
-    key => 'github_repo_github_id',
-  });
-  $self->update_repo_commits($gh_repo);
-  $self->update_repo_pulls($gh_repo);
-# $self->update_repo_pulls_comments($gh_repo);
-  $self->update_repo_issues($gh_repo);
-# $self->update_repo_issue_comments($gh_repo);
-  $self->update_repo_branches($gh_repo);
-  return $gh_repo;
+    my ($self, $gh_user, $repo, $company) = @_;
+
+    my %columns;
+    $columns{github_id}         = $repo->{id};
+    $columns{company_repo}      = $company ? 1 : 0;
+    $columns{forks_count}       = $repo->{forks_count};
+    $columns{full_name}         = $repo->{full_name};
+    $columns{description}       = $repo->{description};
+    $columns{watchers_count}    = $repo->{watchers_count};
+    $columns{open_issues_count} = $repo->{open_issues_count};
+    $columns{created_at}        = parse_datetime($repo->{created_at});
+    $columns{updated_at}        = parse_datetime($repo->{updated_at});
+    $columns{pushed_at}         = parse_datetime($repo->{pushed_at});
+    $columns{gh_data}           = $repo;
+    
+    my $gh_repo = $gh_user
+        ->related_resultset('github_repos')
+        ->update_or_create(\%columns, { key => 'github_repo_github_id' });
+
+    printf "Updating %s/%s\n", $gh_repo->owner_name, $gh_repo->repo_name;
+
+    print "   commits...\n";
+    $self->update_repo_commits($gh_repo);
+    print "   issues...\n";
+    $self->update_repo_issues($gh_repo);
+    print "   comments...\n";
+    $self->update_repo_comments($gh_repo);
+    print "   branches...\n";
+    $self->update_repo_branches($gh_repo);
+    return $gh_repo;
 }
 
-sub update_issue_comments {
-  my ( $self, $gh_repo ) = @_;
-  return unless $gh_repo->pushed_at;
-  my @gh_pulls;
-  my $gh = $self->gh;
-  my @pulls = @{$gh->pulls($gh_repo->owner_name,$gh_repo->repo_name)};
-  for (@pulls) {
-    push @gh_pulls, $self->update_repo_pull_from_data($gh_repo,$_);
-  }
-  while ($gh->has_next_page) {
-    for (@{$gh->next_page}) {
-      push @gh_pulls, $self->update_repo_pull_from_data($gh_repo,$_);
-    }
-  }
-  return \@gh_pulls;
+sub update_repo_comments {
+    my ($self, $gh_repo) = @_;
+
+    my $latest_comment = $gh_repo
+        ->related_resultset('github_comments')
+        ->most_recent;
+
+    my %params;
+    $params{owner}  = $gh_repo->owner_name;
+    $params{repo}   = $gh_repo->repo_name;
+    $params{since}  = datetime_str($latest_comment->updated_at + $self->one_second)
+        if $latest_comment;
+
+    my $comments_data = $self->gh->comments(%params);
+
+    my @gh_comments;
+    push @gh_comments, $self->update_repo_comments_from_data($gh_repo, $_)
+        for @$comments_data;
+
+    return \@gh_comments;
 }
 
-sub update_repo_pulls_comments {
-  my ( $self, $gh_repo ) = @_;
-  return unless $gh_repo->pushed_at;
-  my @gh_pulls;
-  my $gh = $self->gh;
-  my @pulls = @{$gh->pulls($gh_repo->owner_name,$gh_repo->repo_name)};
-  for (@pulls) {
-    push @gh_pulls, $self->update_repo_pull_from_data($gh_repo,$_);
-  }
-  while ($gh->has_next_page) {
-    for (@{$gh->next_page}) {
-      push @gh_pulls, $self->update_repo_pull_from_data($gh_repo,$_);
-    }
-  }
-  return \@gh_pulls;
+# get the issue/pull number by parsing a url like:
+# https://api.github.com/repos/duckduckgo/zeroclickinfo-spice/issues/1977
+sub number_from_url {
+    my ($self, $string) = @_;
+    my $uri  = URI->new($string);
+    my $path = $uri->path;
+    die unless $path =~ m|/issues/(\d+)$|;
+    return $1;
 }
 
-sub update_repo_pulls {
-  my ( $self, $gh_repo ) = @_;
-  return unless $gh_repo->pushed_at;
-  my @gh_pulls;
-  my $gh = $self->gh;
-  my @pulls = @{$gh->pulls($gh_repo->owner_name,$gh_repo->repo_name)};
-  for (@pulls) {
-    push @gh_pulls, $self->update_repo_pull_from_data($gh_repo,$_);
-  }
-  while ($gh->has_next_page) {
-    for (@{$gh->next_page}) {
-      push @gh_pulls, $self->update_repo_pull_from_data($gh_repo,$_);
-    }
-  }
-  return \@gh_pulls;
-}
+sub update_repo_comments_from_data {
+    my ($self, $gh_repo, $comment) = @_;
 
-sub update_repo_pull_from_data {
-  my ( $self, $gh_repo, $pull ) = @_;
-  return $gh_repo->update_or_create_related('github_pulls',{
-    github_id => $pull->{id},
-    github_user_id => $self->find_or_update_user($pull->{user}->{login})->id,
-    (map { $_ => $pull->{$_} } qw(
-      title
-      body
-      state
-    )),
-    (map { $_ => parse_datetime($pull->{$_}) } qw(
-      created_at
-      updated_at
-      closed_at
-      merged_at
-    )),
-    gh_data => $pull,
-  },{
-    key => 'github_pull_github_id',
-  });
+    my %columns;
+    $columns{github_id}      = $comment->{id};
+    $columns{github_user_id} = $self->find_or_update_user($comment->{user}->{login})->id;
+    $columns{number}         = $self->number_from_url($comment->{issue_url});
+    $columns{body}           = $comment->{body};
+    $columns{created_at}     = parse_datetime($comment->{created_at});
+    $columns{updated_at}     = parse_datetime($comment->{updated_at});
+    $columns{gh_data}        = $comment;
+
+    return $gh_repo
+        ->related_resultset('github_comments')
+        ->update_or_create(\%columns, { key => 'github_comment_github_id' });
 }
 
 sub update_repo_branches {
@@ -284,9 +268,7 @@ sub update_repo_branches {
 sub update_repo_commits {
     my ($self, $gh_repo) = @_;
 
-    return unless $gh_repo->pushed_at && $gh_repo->gh_data->{size} > 48;
-
-    printf "Updating %s/%s...\n", $gh_repo->owner_name, $gh_repo->repo_name;
+    return unless $gh_repo->gh_data->{size} > 48;
 
     my $latest_commit = $gh_repo
         ->related_resultset('github_commits')
@@ -327,20 +309,13 @@ sub update_repo_commit_from_data {
     $columns{github_user_id_committer} = $self->find_or_update_user($commit->{committer}->{login})->id
         if defined $commit->{committer};
 
-    return $gh_repo->related_resultset('github_commits')->update_or_create(
-        \%columns,
-        { key => 'github_commit_sha_github_repo_id' }
-    );
-}
-
-sub one_second {
-    return DateTime::Duration->new(seconds => 1);
+    return $gh_repo
+        ->related_resultset('github_commits')
+        ->update_or_create(\%columns, { key => 'github_commit_sha_github_repo_id' });
 }
 
 sub update_repo_issues {
     my ($self, $gh_repo) = @_;
-
-    return unless $gh_repo->gh_data->{has_issues};
 
     my $latest_issue = $gh_repo
         ->related_resultset('github_issues')
@@ -382,10 +357,9 @@ sub update_repo_issue_from_data {
     $columns{github_user_id_assignee} = $self->find_or_update_user($issue->{assignee}->{login})->id
         if defined $issue->{assignee};
 
-    return $gh_repo->related_resultset('github_issues')->update_or_create(
-        \%columns,
-        { key => 'github_issue_github_id' }
-    );
+    return $gh_repo
+        ->related_resultset('github_issues')
+        ->update_or_create(\%columns, { key => 'github_issue_github_id' });
 }
 
 1;
