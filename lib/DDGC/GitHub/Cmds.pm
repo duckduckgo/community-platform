@@ -13,7 +13,7 @@ sub user {
     return $self->query($u);
 }
 
-sub list_user {
+sub list_user_repos {
     my ($self, $user, $type) = @_;
     $user ||= $self->u;
     $type ||= 'all';
@@ -22,7 +22,7 @@ sub list_user {
     return $self->query($u);
 }
 
-sub list_org {
+sub list_org_repos {
     my ($self, $org, $type) = @_;
     $type ||= 'all';
     my $u = "/orgs/" . uri_escape($org) . "/repos";
@@ -52,13 +52,12 @@ sub issues {
     return $self->_drain_api($uri);
 }
 
-sub issues_comments {
+sub comments {
     my ($self, %args) = @_;
 
     my $owner  = $args{owner}  || die "owner param required";
     my $repo   = $args{repo}   || die "repo param required";
-    my $number = $args{number} || die "number param required";
-    my $uri = URI->new("/repos/$owner/$repo/issues/$number/comments");
+    my $uri = URI->new("/repos/$owner/$repo/issues/comments");
     $uri->query_form(%args);
 
     return $self->_drain_api($uri);
