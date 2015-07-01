@@ -22,6 +22,9 @@
 				<: } :>
 			</div>
 			<div class="body">
+				: if $post.user_id {
+					<input type="hidden" name="users_id" value="<: $post.user_id :>" />
+				: }
 				<div class="row">
 					<div class="third">
 						<label for="name">Title</label>
