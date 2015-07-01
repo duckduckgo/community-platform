@@ -285,7 +285,6 @@ sub _add_blog_post_notification_bits {
     my ( $post ) = @_;
     my $dbh = schema->storage->dbh;
     my $now = schema->storage->datetime_parser->format_datetime(DateTime->now);
-    use DDP; p $now;
 
     my $cycle = $dbh->selectrow_hashref(
         'SELECT cycle from user_notification
