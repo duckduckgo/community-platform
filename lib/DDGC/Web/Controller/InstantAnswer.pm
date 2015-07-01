@@ -885,12 +885,10 @@ sub save {
             my $field = $param->{field};
             my $value = $param->{value};
 
-        warn $field;
         if ($field eq "topic") {
             my @topic_values = $value;
             $ia->instant_answer_topics->delete;
            
-            warn scalar @{@topic_values[0]}; 
             if (scalar @{@topic_values[0]} gt 0) {
                 for my $topic (@{$topic_values[0]}) {
                     $saved = add_topic($c, $ia, $topic);
