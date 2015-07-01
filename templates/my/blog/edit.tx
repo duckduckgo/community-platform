@@ -94,7 +94,6 @@
 				</div>
 				<div class="row">
 					<textarea rows="30" cols="80" name="content" id="content" class="text has-bbcode form-textarea"><: $post.content :></textarea>
-                                        <: i('bbcode_controls', {submit => 0}) :>
 				</div>
 				<div class="row">
 					<div class="third">
