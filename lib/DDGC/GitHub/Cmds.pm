@@ -33,8 +33,8 @@ sub list_org_repos {
 sub commits {
     my ($self, %args) = @_;
 
-    my $owner = $args{owner} || die "owner param required";
-    my $repo  = $args{repo}  || die "repo param required";
+    my $owner = uri_escape $args{owner} || die "owner param required";
+    my $repo  = uri_escape $args{repo}  || die "repo param required";
     my $uri   = URI->new("/repos/$owner/$repo/commits");
     $uri->query_form(%args);
 
@@ -44,8 +44,8 @@ sub commits {
 sub issues {
     my ($self, %args) = @_;
 
-    my $owner = $args{owner} || die "owner param required";
-    my $repo  = $args{repo}  || die "repo param required";
+    my $owner = uri_escape $args{owner} || die "owner param required";
+    my $repo  = uri_escape $args{repo}  || die "repo param required";
     my $uri   = URI->new("/repos/$owner/$repo/issues");
     $uri->query_form(%args);
 
@@ -55,8 +55,8 @@ sub issues {
 sub pulls {
     my ($self, %args) = @_;
 
-    my $owner = $args{owner} || die "owner param required";
-    my $repo  = $args{repo}  || die "repo param required";
+    my $owner = uri_escape $args{owner} || die "owner param required";
+    my $repo  = uri_escape $args{repo}  || die "repo param required";
     my $uri   = URI->new("/repos/$owner/$repo/pulls");
     $uri->query_form(%args);
 
@@ -66,8 +66,8 @@ sub pulls {
 sub forks {
     my ($self, %args) = @_;
 
-    my $owner = $args{owner} || die "owner param required";
-    my $repo  = $args{repo}  || die "repo param required";
+    my $owner = uri_escape $args{owner} || die "owner param required";
+    my $repo  = uri_escape $args{repo}  || die "repo param required";
     my $uri   = URI->new("/repos/$owner/$repo/forks");
     $uri->query_form(%args);
 
@@ -77,8 +77,8 @@ sub forks {
 sub comments {
     my ($self, %args) = @_;
 
-    my $owner  = $args{owner}  || die "owner param required";
-    my $repo   = $args{repo}   || die "repo param required";
+    my $owner  = uri_escape $args{owner}  || die "owner param required";
+    my $repo   = uri_escape $args{repo}   || die "repo param required";
     my $uri = URI->new("/repos/$owner/$repo/issues/comments");
     $uri->query_form(%args);
 
