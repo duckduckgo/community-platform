@@ -51,7 +51,7 @@
                         var temp = parameters[idx].split("=");
                         var field = temp[0];
                         var value = temp[1];
-                        if (field && value && ind.selected_filter.hasOwnProperty(field)) {
+                        if (field && value && (ind.selected_filter.hasOwnProperty(field) || field === "q")) {
                             if (ind.selected_filter.hasOwnProperty(field)) {
                                 var selector = "ia_" + field + "-" + value;
                                 selector = (field === 'topic')? "." + selector : "#" + selector;
@@ -59,7 +59,8 @@
                                 $(selector).parent().trigger("click");
                                 param_count++;
                             } else if ((field === "q") && value) {
-                                $(".filters--search-button").trigger("click");
+                                query = value;
+                                ind.filter($list_item, query);
                                 param_count++;
                             }
                         }
