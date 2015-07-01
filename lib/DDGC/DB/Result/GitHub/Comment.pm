@@ -24,6 +24,10 @@ column gh_data             => {
     default_value    => '{}',
 };
 
+belongs_to github_repo => 'DDGC::DB::Result::GitHub::Repo',
+    { 'foreign.id' => 'self.github_repo_id' },
+    { on_delete => 'cascade' };
+
 belongs_to github_user => 'DDGC::DB::Result::GitHub::User',
     { 'foreign.id' => 'self.github_user_id' },
     { on_delete => 'cascade' };
