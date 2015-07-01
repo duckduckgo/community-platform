@@ -1,0 +1,165 @@
+<style>
+    /* typography */
+/*
+    body, table {
+        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    }
+    h1 { 
+        font-size: 1.5rem;
+    }
+*/
+    h2 {
+        font-size: 1rem;
+        text-transform : uppercase;
+    }
+    .number {
+        font-size   : 3rem;
+        font-weight : bold;
+    }
+    #last_updated {
+        font-size : .8rem;
+    }
+    a {
+        text-decoration : none;
+    }
+
+    /* layout */
+    h1 {
+/*
+        margin-top     : 2rem;
+*/
+        margin-bottom  : 0;
+        padding-bottom : 0;
+    }
+    h2 {
+        margin-bottom  : 0;
+        padding-bottom : 0;
+    }
+    .data {
+        height : 6rem;
+    }
+    #last_updated {
+        margin-top    : 0;
+        padding-top   : 0;
+        margin-bottom : 2rem;
+        text-align    : center;
+    }
+    .tabs {
+        border-bottom : 1px solid #e8e8e8;
+        margin-top    : 1rem;
+        margin-bottom : 1rem;
+        font-size     : .8rem;
+        font-weight   : bold;
+        color         : #999;
+    }
+    .tabs .tab {
+        display : inline-block;
+        margin  : 0 0 -1px;
+    }
+    .tabs .tab a {
+        color   : #999;
+        display : block;
+        padding : 8px 15px 9px;
+    }
+    .tabs .tab.selected {
+        color         : #333;
+        border        : 1px solid #e8e8e8;
+        border-bottom : none;
+        border-radius : 3px 3px 0 0;
+        background    : #fff;
+    }
+    .space {
+        height : 2rem;
+    }
+
+
+    /* colors */
+/*
+    h1 {
+        color : greenyellow;
+    }
+*/
+    h2 {
+        color : #aaa;
+    }
+/*
+    #last_updated {
+        color : green;
+    }
+*/
+
+    /* state */
+    .loader {
+        visibility : hidden;
+    }
+
+</style>
+
+<div id="header" class="wrap">
+    <h1>GitHub Community Stats Dashboard</h1>
+    <h2 id="last_updated">Updated about 8 hours ago</h2>
+</div>
+
+<div id="graph-list" class="wrap">
+  <div id="graph_data">
+    <div class="tabs">
+      <div class="tab selected"><a href="/admin/stats/github/yesterday">Yesterday</a></div>
+      <div class="tab "><a href="/admin/stats/github/last_week">Last Week</a></div>
+      <div class="tab "><a href="/admin/stats/github/last_month">Last Month</a></div>
+    </div>
+    <div id="graphs">
+      <div class="loader"><img src="/images/spinner.gif" /></div>
+        <div class="graph">
+          <div class="data">
+            <h2>Avg time to first response</h2>
+            <span class="number" title="Updated about 38 seconds ago"><: $yesterday.first_response :></span>
+          </div>
+          <div class="graph"><div class="graph-container" data-string="[[1432470000.0, 51.459883813131185], [1432470300.0, 49.61553083687538]]"></div></div>
+        </div>
+        <div class="graph">
+          <div class="data">
+            <h2>Avg time to first code review</h2>
+            <span class="number" title="Updated about 37 seconds ago">1dy 12hrs</span>
+          </div>
+          <div class="graph"><div class="graph-container" data-string="[[1432470000.0, 28.978194669834146], [1432470300.0, 30.118406643021416]]"></div></div>
+        </div>
+        <div class="graph">
+          <div class="data">
+            <h2>Avg pull request lifespan</h2>
+            <span class="number" title="Updated about 37 seconds ago">2months 3dys</span>
+          </div>
+          <div class="graph"><div class="graph-container" data-string="[[1432470000.0, 255.92171016666668], [1432470300.0, 240.3828763]]"></div></div>
+        </div>
+        <div class="graph">
+          <div class="data">
+            <h2>Commits</h2>
+            <span class="number" title="Updated about 37 seconds ago"><: $yesterday.commits :></span>
+          </div>
+          <div class="graph"><div class="graph-container" data-string="[[1432470000.0, 1.6666666666666667], [1432470300.0, 0.0]]"></div></div>
+        </div>
+        <div class="graph">
+          <div class="data">
+            <h2>Committers</h2>
+            <span class="number" title="Updated about 37 seconds ago"><: $yesterday.committers :></span>
+          </div>
+          <div class="graph"><div class="graph-container" data-string="[[1432470000.0, 1.6666666666666667], [1432470300.0, 0.0]]"></div></div>
+        </div>
+        <div class="graph">
+          <div class="data">
+            <h2>Commenters</h2>
+            <span class="number" title="Updated about 37 seconds ago">25</span>
+          </div>
+          <div class="graph"><div class="graph-container" data-string="[[1432470000.0, 1.6666666666666667], [1432470300.0, 0.0]]"></div></div>
+        </div>
+        <div class="graph">
+          <div class="data">
+            <h2>Forks w/&nbsp;&nbsp;&nbsp;&nbsp;commits vs<br>Forks w/o commits</h2>
+            <span class="number" title="Updated about 31 seconds ago">1 vs 3</span>
+          </div>
+          <div class="graph"><div class="graph-container" data-string="[[1432470000.0, 0.0005908780778992517], [1432470300.0, 0.0003049466712481028]]"></div></div>
+        </div>
+    </div>
+  </div>
+</div>
+
+<div class="space"></div>
