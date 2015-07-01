@@ -14,7 +14,7 @@ unique_column github_id => {data_type => 'bigint', is_nullable => 0};
 column github_repo_id   => {data_type => 'bigint', is_nullable => 0};
 column github_user_id   => {data_type => 'bigint', is_nullable => 0};
 column idea_id          => {data_type => 'bigint', is_nullable => 1};
-unique_column number    => {data_type => 'int',    is_nullable => 0};
+column number    => {data_type => 'int',    is_nullable => 0};
 column comments         => {data_type => 'int',    is_nullable => 0};
 column title            => {data_type => 'text',   is_nullable => 0};
 column body             => {data_type => 'text',   is_nullable => 0};
@@ -31,6 +31,8 @@ column gh_data          => {
   serializer_class => 'AnyJSON',
   default_value    => '{}',
 };
+
+unique_constraint  [qw/number github_repo_id/];
 
 belongs_to github_repo => 'DDGC::DB::Result::GitHub::Repo',
     { 'foreign.id' => 'self.github_repo_id' },

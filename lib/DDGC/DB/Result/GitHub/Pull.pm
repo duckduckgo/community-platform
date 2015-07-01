@@ -17,7 +17,7 @@ column idea_id          => {data_type => 'bigint', is_nullable => 1};
 column title            => {data_type => 'text',   is_nullable       => 0};
 column body             => {data_type => 'text',   is_nullable       => 0};
 column state            => {data_type => 'text',   is_nullable       => 0};
-unique_column number    => {data_type => 'text',   is_nullable       => 0};
+column number           => {data_type => 'text',   is_nullable       => 0};
 column created_at       => {data_type => 'timestamp without time zone', is_nullable => 0};
 column updated_at       => {data_type => 'timestamp without time zone', is_nullable => 1};
 column closed_at        => {data_type => 'timestamp without time zone', is_nullable => 1};
@@ -30,6 +30,8 @@ column gh_data          => {
   serializer_class => 'AnyJSON',
   default_value    => '{}',
 };
+
+unique_constraint  [qw/number github_repo_id/];
 
 belongs_to idea => 'DDGC::DB::Result::Idea',
     { 'foreign.id' => 'self.idea_id' },

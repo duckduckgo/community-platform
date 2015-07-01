@@ -33,7 +33,9 @@ belongs_to github_user => 'DDGC::DB::Result::GitHub::User',
     { on_delete => 'cascade' };
 
 belongs_to github_issue => 'DDGC::DB::Result::GitHub::Issue',
-    { 'foreign.number' => 'self.number' },
+    { 'foreign.number'         => 'self.number',
+      'foreign.github_repo_id' => 'self.github_repo_id',
+    },
     { on_delete => 'cascade' };
 
 no Moose;
