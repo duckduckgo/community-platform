@@ -9,11 +9,11 @@ BEGIN {extends 'Catalyst::Controller'; }
 sub base :Chained('/base') :PathPart('help') :CaptureArgs(0) {
   my ( $self, $c ) = @_;
   $c->stash->{page_class} = "page-help  texture-ducksymbol";
-  $c->stash->{help_categories} = $c->d->rs('Help::Category')->search({},{
+  $c->stash->{help_categories} = [ $c->d->rs('Help::Category')->search({},{
     order_by => { -asc => 'me.sort' },
     prefetch => [ 'help_category_contents', { helps => 'help_contents' } ],
     cache_for => 600,
-  });
+  })->all ];
   $c->stash->{title} = 'Help pages';
   $c->stash->{help_language} = $c->d->rs('Language')->search({ locale => 'en_US' })->first;
   $c->stash->{help_language_id} = $c->stash->{help_language}->id;
