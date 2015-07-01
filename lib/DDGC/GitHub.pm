@@ -348,7 +348,7 @@ sub update_repo_commit_from_data {
     $columns{committer_email} = $commit->{commit}->{committer}->{email};
     $columns{committer_name}  = $commit->{commit}->{committer}->{name};
     $columns{sha}             = $commit->{sha};
-    $columns{message}         = $commit->{message};
+    $columns{message}         = $commit->{commit}->{message};
     $columns{gh_data}         = $commit;
 
     $columns{github_user_id_author} = $self->find_or_update_user($commit->{author}->{login})->id
@@ -431,7 +431,7 @@ sub update_repo_fork_from_data {
 
     my %columns;
     $columns{github_id}      = $fork->{id};
-    $columns{github_user_id} = $self->find_or_update_user($fork->{user}->{login})->id;
+    $columns{github_user_id} = $self->find_or_update_user($fork->{owner}->{login})->id;
     $columns{full_name}      = $fork->{full_name};
     $columns{pushed_at}      = parse_datetime($fork->{pushed_at});
     $columns{created_at}     = parse_datetime($fork->{created_at});
