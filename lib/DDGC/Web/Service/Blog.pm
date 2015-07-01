@@ -333,7 +333,12 @@ sub post_update_or_create {
     }
 
     try {
+        my $this_is_a_new_post = 0;
+        if ( (!$params->{id} && $params->{live}) || ( $post && !$post->live && $params->{live} ) ) { # new post
+            $this_is_a_new_post = 1;
+        }
         $post = rset('User::Blog')->update_or_create( $params );
+        _add_blog_post_notification_bits( $post ) if $this_is_a_new_post;
     } catch {
         $error = $_;
     };
