@@ -284,7 +284,7 @@ sub post_update_or_create {
     my $post;
     my $error;
     my $user = var 'user';
-    $params->{users_id} = $user->id;
+    $params->{users_id} //= $user->id;
     $params->{uri} = ( $params->{uri} )
         ? text_to_slug( $params->{uri} )
         : text_to_slug( $params->{title} );
