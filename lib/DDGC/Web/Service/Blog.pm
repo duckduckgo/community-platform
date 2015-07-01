@@ -297,9 +297,6 @@ sub post_update_or_create {
         $post = rset('User::Blog')->find( $params->{id} );
         bailout( 404, sprintf "Blog post %s not found", $params->{id} )
             if (!$post);
-
-        bailout( 403, "You do not have permission to update this post" )
-            if ($post->users_id != $params->{users_id});
     }
 
     try {
