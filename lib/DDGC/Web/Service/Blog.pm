@@ -338,7 +338,7 @@ sub post_update_or_create {
             $this_is_a_new_post = 1;
         }
         $post = rset('User::Blog')->update_or_create( $params );
-        _add_blog_post_notification_bits( $post ) if $this_is_a_new_post;
+        eval '_add_blog_post_notification_bits( $post ) if $this_is_a_new_post';
     } catch {
         $error = $_;
     };
