@@ -1063,6 +1063,8 @@ sub save_milestone_date {
     my @time = localtime(time);
     my $date = "$time[4]/$time[3]/".($time[5]+1900);
     update_ia($ia, $field, $date);
+
+    update_ia($ia, 'test_machine', undef) if ($milestone eq 'live');
 }
 
 no Moose;
