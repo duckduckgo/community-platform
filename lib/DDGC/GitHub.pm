@@ -10,23 +10,32 @@ use HTTP::Request;
 use JSON::MaybeXS;
 use DDP;
 
-has ddgc => (
-  isa => 'DDGC',
-  is => 'ro',
-  weak_ref => 1,
-  required => 1,
-);
 
-sub gh_api { DDGC::GitHub::Cmds->new($_[0]->net_github->args_to_pass) }
+=head1 SYNOPSIS
 
-has net_github => (
-  is => 'ro',
-  lazy_build => 1,
-);
+    use DDGC::GitHub;
+
+    my $github = DDGC::GitHub->new(ddgc => $ddgc);
+
+    # update all the github_* databases
+    $github->update_database;
+
+    # something to do with users giving us access to their github accounts via oath
+    $github->validate_session_code($code, $user);
+
+    # find or update github_user table for this user
+    $github->find_or_update_user($login);
+
+=cut
+
+has ddgc       => (isa => 'DDGC', is => 'ro', weak_ref => 1, required => 1);
+has net_github => (is => 'ro', lazy_build => 1);
 
 sub _build_net_github {
-  Net::GitHub->new( access_token => $_[0]->ddgc->config->github_token )
+  Net::GitHub->new(access_token => shift->ddgc->config->github_token)
 }
+
+sub gh_api { DDGC::GitHub::Cmds->new(shift->net_github->args_to_pass) }
 
 sub validate_session_code {
   my ( $self, $code, $user ) = @_;
@@ -68,13 +77,13 @@ sub user_net_github {
 }
 
 sub parse_datetime {
-  $_[0]
-    ? DateTime::Format::ISO8601->parse_datetime( $_[0] ) 
-    : undef
+    $_[0]
+        ? DateTime::Format::ISO8601->parse_datetime( $_[0] ) 
+        : undef
 }
 
 sub datetime_str {
-  $_[0]->strftime("%FT%TZ");
+    $_[0]->strftime("%FT%TZ");
 }
 
 sub one_second {
@@ -82,46 +91,44 @@ sub one_second {
 }
 
 sub update_database {
-  my ( $self ) = @_;
-  $self->update_repos($self->ddgc->config->github_org, 1);
+    my ($self) = @_;
+    $self->update_repos($self->ddgc->config->github_org, 1);
 }
 
 sub find_or_update_user {
-  my ( $self, $login ) = @_;
-  my $user = $self->ddgc->rs('GitHub::User')->find({ login => $login });
-  return $user if $user;
-  return $self->update_user($login);
+    my ($self, $login) = @_;
+    my $user = $self->ddgc->rs('GitHub::User')->find({ login => $login });
+    return $user if $user;
+    return $self->update_user($login);
 }
 
 sub update_user {
-  my ( $self, $login ) = @_;
-  my $user = $self->gh_api->user($login);
-  return $self->update_user_from_data($user);
+    my ( $self, $login ) = @_;
+    my $user = $self->gh_api->user($login);
+    return $self->update_user_from_data($user);
 }
 
 sub update_user_from_data {
-  my ( $self, $user ) = @_;
-  return $self->ddgc->rs('GitHub::User')->update_or_create({
-    github_id => $user->{id},
-    (map { $_ => $user->{$_} } qw(
-      login
-      gravatar_id
-      name
-      company
-      blog
-      location
-      email
-      bio
-      type
-    )),
-    (map { $_ => parse_datetime($user->{$_}) } qw(
-      created_at
-      updated_at
-    )),
-    gh_data => $user,
-  },{
-    key => 'github_user_github_id',
-  });
+    my ($self, $user) = @_;
+
+    my %columns;
+    $columns{github_id}   = $user->{id};
+    $columns{login}       = $user->{login};
+    $columns{gravatar_id} = $user->{gravatar_id};
+    $columns{name}        = $user->{name};
+    $columns{company}     = $user->{company};
+    $columns{blog}        = $user->{blog};
+    $columns{location}    = $user->{location};
+    $columns{email}       = $user->{email};
+    $columns{bio}         = $user->{bio};
+    $columns{type}        = $user->{type};
+    $columns{created_at}  = parse_datetime($user->{created_at});
+    $columns{updated_at}  = parse_datetime($user->{updated_at});
+    $columns{gh_data}     = $user;
+
+    return $self->ddgc
+        ->rs('GitHub::User')
+        ->update_or_create(\%columns, { key => 'github_user_github_id' });
 }
 
 sub update_repos {
@@ -146,11 +153,11 @@ sub update_repos {
             $_->full_name eq $self->ddgc->config->github_org.'/'.$repo->{name}
         } @company_repos;
         next unless $company;
-        $self->update_user_repo_from_data($owner,$repo,$company) unless $repo->{private};
+        $self->update_repo_from_data($owner,$repo,$company) unless $repo->{private};
     }
     else {
         my $company = $self->want_repo($repo->{full_name}) || next;
-        $self->update_user_repo_from_data($owner,$repo,$company);
+        $self->update_repo_from_data($owner, $repo, $company);
     }
   }
 }
@@ -158,10 +165,10 @@ sub update_repos {
 sub wanted_repos {
     return qw|
         duckduckgo/zeroclickinfo-spice
+        duckduckgo/zeroclickinfo-fathead
+        duckduckgo/zeroclickinfo-goodies
+        duckduckgo/zeroclickinfo-longtail
     |;
-#        duckduckgo/zeroclickinfo-fathead
-#        duckduckgo/zeroclickinfo-goodies
-#        duckduckgo/zeroclickinfo-longtail
 }
 
 sub want_repo {
@@ -174,7 +181,7 @@ sub want_repo {
     return 0;
 }
 
-sub update_user_repo_from_data {
+sub update_repo_from_data {
     my ($self, $gh_user, $repo, $company) = @_;
 
     my %columns;
@@ -195,7 +202,6 @@ sub update_user_repo_from_data {
         ->update_or_create(\%columns, { key => 'github_repo_github_id' });
 
     printf "Updating %s/%s\n", $gh_repo->owner_name, $gh_repo->repo_name;
-
     print "   commits...\n";
     $self->update_repo_commits($gh_repo);
     print "   issues...\n";
