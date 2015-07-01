@@ -52,6 +52,28 @@ sub issues {
     return $self->_drain_api($uri);
 }
 
+sub pulls {
+    my ($self, %args) = @_;
+
+    my $owner = $args{owner} || die "owner param required";
+    my $repo  = $args{repo}  || die "repo param required";
+    my $uri   = URI->new("/repos/$owner/$repo/pulls");
+    $uri->query_form(%args);
+
+    return $self->_drain_api($uri);
+}
+
+sub forks {
+    my ($self, %args) = @_;
+
+    my $owner = $args{owner} || die "owner param required";
+    my $repo  = $args{repo}  || die "repo param required";
+    my $uri   = URI->new("/repos/$owner/$repo/forks");
+    $uri->query_form(%args);
+
+    return $self->_drain_api($uri);
+}
+
 sub comments {
     my ($self, %args) = @_;
 
@@ -77,8 +99,6 @@ sub _drain_api {
 
 __build_methods(__PACKAGE__, (
   branches        => { url => "/repos/%s/%s/branches"           },
-  pulls           => { url => "/repos/%s/%s/pulls?state=all"    },
-  pulls_comments  => { url => "/repos/%s/%s/pulls/%s/comments"  },
 ));
 
 1;
