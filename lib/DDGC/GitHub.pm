@@ -17,7 +17,7 @@ has ddgc => (
   required => 1,
 );
 
-sub gh { DDGC::GitHub::Cmds->new($_[0]->net_github->args_to_pass) }
+sub gh_api { DDGC::GitHub::Cmds->new($_[0]->net_github->args_to_pass) }
 
 has net_github => (
   is => 'ro',
@@ -61,9 +61,9 @@ sub validate_session_code {
 sub user_net_github {
   my ( $self, $access_token ) = @_;
   my $net_github = Net::GitHub->new( access_token => $access_token );
-  my $gh = DDGC::GitHub::Cmds->new($net_github->args_to_pass);
+  my $gh_api = DDGC::GitHub::Cmds->new($net_github->args_to_pass);
   return wantarray
-    ? ($net_github, $gh)
+    ? ($net_github, $gh_api)
     : $net_github;
 }
 
@@ -95,7 +95,7 @@ sub find_or_update_user {
 
 sub update_user {
   my ( $self, $login ) = @_;
-  my $user = $self->gh->user($login);
+  my $user = $self->gh_api->user($login);
   return $self->update_user_from_data($user);
 }
 
@@ -127,12 +127,12 @@ sub update_user_from_data {
 sub update_repos {
   my ( $self, $login, $company ) = @_;
   my $owner = $self->update_user($login);
-  my $gh = $self->gh;
+  my $gh_api = $self->gh_api;
   my @repos = $owner->type eq 'Organization'
-    ? @{$gh->list_org_repos($login)}
-    : @{$gh->list_user_repos($login)};
-  while ($gh->has_next_page) {
-    push @repos, @{$gh->next_page};
+    ? @{$gh_api->list_org_repos($login)}
+    : @{$gh_api->list_user_repos($login)};
+  while ($gh_api->has_next_page) {
+    push @repos, @{$gh_api->next_page};
   }
   my @company_repos = $self->ddgc->rs('GitHub::Repo')->search({
       company_repo => 1,
@@ -157,11 +157,11 @@ sub update_repos {
 
 sub wanted_repos {
     return qw|
-        duckduckgo/zeroclickinfo-fathead
-        duckduckgo/zeroclickinfo-goodies
-        duckduckgo/zeroclickinfo-longtail
         duckduckgo/zeroclickinfo-spice
     |;
+#        duckduckgo/zeroclickinfo-fathead
+#        duckduckgo/zeroclickinfo-goodies
+#        duckduckgo/zeroclickinfo-longtail
 }
 
 sub want_repo {
@@ -220,7 +220,7 @@ sub update_repo_comments {
     $params{since}  = datetime_str($latest_comment->updated_at + $self->one_second)
         if $latest_comment;
 
-    my $comments_data = $self->gh->comments(%params);
+    my $comments_data = $self->gh_api->comments(%params);
 
     my @gh_comments;
     push @gh_comments, $self->update_repo_comments_from_data($gh_repo, $_)
@@ -258,7 +258,7 @@ sub update_repo_comments_from_data {
 
 sub update_repo_branches {
     my ($self, $gh_repo) = @_;
-    my @branches = $self->gh->branches($gh_repo->owner_name,$gh_repo->repo_name);
+    my @branches = $self->gh_api->branches($gh_repo->owner_name,$gh_repo->repo_name);
     my $d = $gh_repo->gh_data;
     $d->{branches} = \@branches;
     $gh_repo->gh_data($d);
@@ -280,7 +280,7 @@ sub update_repo_commits {
     $params{since}  = datetime_str($latest_commit->author_date + $self->one_second)
         if $latest_commit;
 
-    my $commits_data = $self->gh->commits(%params);
+    my $commits_data = $self->gh_api->commits(%params);
 
     my @gh_commits;
     push @gh_commits, $self->update_repo_commit_from_data($gh_repo, $_)
@@ -329,7 +329,7 @@ sub update_repo_issues {
     $params{since}  = datetime_str($latest_issue->updated_at + $self->one_second)
         if $latest_issue;
 
-    my $issues_data = $self->gh->issues(%params);
+    my $issues_data = $self->gh_api->issues(%params);
 
     my @gh_issues;
     push @gh_issues, $self->update_repo_issue_from_data($gh_repo, $_)
