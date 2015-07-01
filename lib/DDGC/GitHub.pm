@@ -200,11 +200,59 @@ sub update_user_repo_from_data {
     $self->update_repo_commits($gh_repo);
     print "   issues...\n";
     $self->update_repo_issues($gh_repo);
+    print "   pulls...\n";
+    $self->update_repo_pulls($gh_repo);
     print "   comments...\n";
     $self->update_repo_comments($gh_repo);
+    print "   forks...\n";
+    $self->update_repo_forks($gh_repo);
     print "   branches...\n";
     $self->update_repo_branches($gh_repo);
     return $gh_repo;
+}
+
+sub update_repo_pulls {
+    my ($self, $gh_repo) = @_;
+
+    my $latest_pull = $gh_repo
+        ->related_resultset('github_pulls')
+        ->most_recent;
+
+    my %params;
+    $params{owner}  = $gh_repo->owner_name;
+    $params{repo}   = $gh_repo->repo_name;
+    $params{state}  = 'all';
+    $params{since}  = datetime_str($latest_pull->updated_at + $self->one_second)
+        if $latest_pull;
+
+    my $pulls_data = $self->gh_api->pulls(%params);
+
+    my @gh_pulls;
+    push @gh_pulls, $self->update_repo_pull_from_data($gh_repo, $_)
+        for @$pulls_data;
+
+    return \@gh_pulls;
+}
+
+sub update_repo_pull_from_data {
+    my ( $self, $gh_repo, $pull ) = @_;
+
+    my %columns;
+    $columns{github_id}      = $pull->{id};
+    $columns{github_user_id} = $self->find_or_update_user($pull->{user}->{login})->id;
+    $columns{title}          = $pull->{title};
+    $columns{body}           = $pull->{body};
+    $columns{state}          = $pull->{state};
+    $columns{number}         = $pull->{number};
+    $columns{created_at}     = parse_datetime($pull->{created_at});
+    $columns{updated_at}     = parse_datetime($pull->{updated_at});
+    $columns{closed_at}      = parse_datetime($pull->{closed_at});
+    $columns{merged_at}      = parse_datetime($pull->{merged_at});
+    $columns{gh_data}        = $pull;
+
+    return $gh_repo
+        ->related_resultset('github_pulls')
+        ->update_or_create(\%columns, { key => 'github_pull_github_id' });
 }
 
 sub update_repo_comments {
@@ -223,7 +271,7 @@ sub update_repo_comments {
     my $comments_data = $self->gh_api->comments(%params);
 
     my @gh_comments;
-    push @gh_comments, $self->update_repo_comments_from_data($gh_repo, $_)
+    push @gh_comments, $self->update_repo_comment_from_data($gh_repo, $_)
         for @$comments_data;
 
     return \@gh_comments;
@@ -239,7 +287,7 @@ sub number_from_url {
     return $1;
 }
 
-sub update_repo_comments_from_data {
+sub update_repo_comment_from_data {
     my ($self, $gh_repo, $comment) = @_;
 
     my %columns;
@@ -360,6 +408,39 @@ sub update_repo_issue_from_data {
     return $gh_repo
         ->related_resultset('github_issues')
         ->update_or_create(\%columns, { key => 'github_issue_github_id' });
+}
+
+sub update_repo_forks {
+    my ($self, $gh_repo) = @_;
+
+    my %params;
+    $params{owner}  = $gh_repo->owner_name;
+    $params{repo}   = $gh_repo->repo_name;
+
+    my $forks_data = $self->gh_api->forks(%params);
+
+    my @gh_forks;
+    push @gh_forks, $self->update_repo_fork_from_data($gh_repo, $_)
+        for @$forks_data;
+
+    return \@gh_forks;
+}
+
+sub update_repo_fork_from_data {
+    my ($self, $gh_repo, $fork) = @_;
+
+    my %columns;
+    $columns{github_id}      = $fork->{id};
+    $columns{github_user_id} = $self->find_or_update_user($fork->{user}->{login})->id;
+    $columns{full_name}      = $fork->{full_name};
+    $columns{pushed_at}      = parse_datetime($fork->{pushed_at});
+    $columns{created_at}     = parse_datetime($fork->{created_at});
+    $columns{updated_at}     = parse_datetime($fork->{updated_at});
+    $columns{gh_data}        = $fork;
+
+    return $gh_repo
+        ->related_resultset('github_forks')
+        ->update_or_create(\%columns, { key => 'github_fork_github_id' });
 }
 
 1;
