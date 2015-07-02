@@ -18,10 +18,10 @@ column title            => {data_type => 'text',   is_nullable       => 0};
 column body             => {data_type => 'text',   is_nullable       => 0};
 column state            => {data_type => 'text',   is_nullable       => 0};
 column number           => {data_type => 'text',   is_nullable       => 0};
-column created_at       => {data_type => 'timestamp without time zone', is_nullable => 0};
-column updated_at       => {data_type => 'timestamp without time zone', is_nullable => 1};
-column closed_at        => {data_type => 'timestamp without time zone', is_nullable => 1};
-column merged_at        => {data_type => 'timestamp without time zone', is_nullable => 1};
+column created_at       => {data_type => 'timestamp with time zone', is_nullable => 0};
+column updated_at       => {data_type => 'timestamp with time zone', is_nullable => 1};
+column closed_at        => {data_type => 'timestamp with time zone', is_nullable => 1};
+column merged_at        => {data_type => 'timestamp with time zone', is_nullable => 1};
 column created          => {data_type => 'timestamp with time zone', set_on_create  => 1};
 column updated          => {data_type => 'timestamp with time zone', set_on_create  => 1, set_on_update => 1};
 column gh_data          => {

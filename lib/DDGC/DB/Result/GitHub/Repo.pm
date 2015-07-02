@@ -21,9 +21,9 @@ column forks_count       => {data_type => 'int', is_nullable => 0};
 column company_repo      => {data_type => 'int', is_nullable => 0, default_value => 0};
 column forkable          => {data_type => 'int', is_nullable => 0, default_value => 0};
 column used_in_stats     => {data_type => 'int', is_nullable => 0, default_value => 0};
-column created_at        => {data_type => 'timestamp without time zone', is_nullable => 0};
-column updated_at        => {data_type => 'timestamp without time zone', is_nullable => 1};
-column pushed_at         => {data_type => 'timestamp without time zone', is_nullable => 1};
+column created_at        => {data_type => 'timestamp with time zone', is_nullable => 0};
+column updated_at        => {data_type => 'timestamp with time zone', is_nullable => 1};
+column pushed_at         => {data_type => 'timestamp with time zone', is_nullable => 1};
 column created           => {data_type => 'timestamp with time zone', set_on_create  => 1};
 column updated           => {data_type => 'timestamp with time zone', set_on_create  => 1, set_on_update => 1};
 column gh_data           => {
