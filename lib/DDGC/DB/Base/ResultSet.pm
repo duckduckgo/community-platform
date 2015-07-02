@@ -43,4 +43,8 @@ sub prefetch_context_config {
   return \%prefetch;
 }
 
+sub all_ref {
+  [ $_[0]->all ];
+}
+
 1;
