@@ -1,7 +1,7 @@
 <: include admin::help::menu :>
 <h2>Help Categories</h2>
 <hr/>
-<: for results($categories) -> $category { :>
+<: for $categories -> $category { :>
   <form method="POST" action="<: $u('Admin::Help','categories') :>">
     <div class="content-box content-box-toggleclick only">
       <div id="help_<: $category.id :>_clicker" class="head">
