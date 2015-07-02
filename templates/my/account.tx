@@ -28,7 +28,7 @@
 			</div>
 		</div>
 		<div class="body">
-			<: for results($c.user.user_languages) -> $user_language { :>
+			<: for $c.user.user_languages.all_ref -> $user_language { :>
 				<div class="row">
 					<div class="forty">
 						<span class="locale locale--account">
@@ -60,7 +60,7 @@
 			<div class="row">
 				<p>Trying to add a language that's not on the list? <a href="<: $u('My','requestlanguage') :>">Request it here!</a></p>
 			</div>
-			<: if my $size = results($c.user.user_languages).size() { :>
+			<: if my $size = $c.user.user_languages.count { :>
 				<div class="row callout-row">
 					<: if $c.user.translation_manager { :>
 						<a class="callout-link" href="http://duckpan.org/perldoc/DDG::Manual::Translation">
@@ -225,7 +225,7 @@
 
 </form>
 
-<: for results($c.user.user_languages) -> $user_language { :>
+<: for $c.user.user_languages.all_ref -> $user_language { :>
 	<: include "my/account/language_remove.tx" { lang_id => $user_language.language.id } :> 
 <: } :>
 <: include "my/account/language_tip.tx" :>
