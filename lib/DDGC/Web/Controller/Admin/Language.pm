@@ -58,9 +58,9 @@ sub index :Chained('base') :PathPart('') :Args(0) {
 		}
 	}
 
-	$c->stash->{languages} = $c->d->rs('Language')->search({},{
+	$c->stash->{languages} = [ $c->d->rs('Language')->search({},{
 		order_by => { -desc => 'me.updated' },
-	});
+	})->all ];
 
 }
 
@@ -101,9 +101,9 @@ sub countries :Chained('base') :Args(0) {
 		}
 	}
 
-	$c->stash->{countries} = $c->d->rs('Country')->search({},{
+	$c->stash->{countries} = [ $c->d->rs('Country')->search({},{
 		order_by => { -desc => 'me.updated' },
-	});
+	})->all ];
 
 }
 

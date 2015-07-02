@@ -1,5 +1,5 @@
 <: include admin::language::menu :>
-<: for results($countries) -> $country { :>
+<: for $countries -> $country { :>
   <form method="POST" action="<: $u('Admin::Language','countries') :>">
     <div class="content-box content-box-toggleclick only">
       <div id="country_<: $country.id :>_clicker" class="head">
