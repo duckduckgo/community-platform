@@ -878,14 +878,14 @@ sub create_ia :Chained('base') :PathPart('create') :Args() {
 sub format_id {
     my( $id ) = @_;
 
-    # id must be unique, lowercase and without weird chars
-    $id =~ s/[^a-zA-Z0-9]+/_/g;
-    $id =~ s/^[^a-zA-Z]//;
+    # id must be lowercase and without weird chars
+    $id = lc $id;
+    $id =~ s/[^a-z0-9]+/_/g;
+    $id =~ s/^[^a-zA-Z]+//;
     $id =~ s/[^a-zA-Z0-9]$//;
 
     # make the id string empty if it only contains non-alphabetic chars
     $id =~ s/^[^a-zA-Z]+$//;
-    $id = lc $id;
 
     return $id;
 }
