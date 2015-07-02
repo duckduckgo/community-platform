@@ -29,30 +29,6 @@ sub old_url_redirect :Chained('base') :PathPart('customer/portal/articles/') :Ar
   $c->response->redirect("/help/$article");
 }
 
-# sub language :Chained('base') :PathPart('') :CaptureArgs(1) {
-#   my ( $self, $c, $locale ) = @_;
-#   my $oldurl_help = $c->d->rs('Help')->search({
-#     old_url => { -like => 'http://help.dukgo.com/customer/portal/articles/'.$locale.'%' }
-#   },{
-#     cache_for => 86400,
-#   })->first;
-#   if ($oldurl_help) {
-#     $c->response->redirect($c->chained_uri('Help','help','en_US',$oldurl_help->help_category->key,$oldurl_help->key));
-#     return $c->detach;
-#   }
-#   unless ($locale eq 'en_US') {
-#     $c->response->redirect($c->chained_uri('Root','index',{ help_language_notfound => 1 }));
-#     return $c->detach;
-#   }
-#   $c->stash->{help_language} = $c->d->rs('Language')->search({ locale => $locale })->first;
-#   if (!$c->stash->{help_language}) {
-#     $c->response->redirect($c->chained_uri('Root','index',{ help_language_notfound => 1 }));
-#     return $c->detach;
-#   }
-#   $c->add_bc('Help articles', $c->chained_uri('Help','index',$locale));
-#   $c->stash->{help_language_id} = $c->stash->{help_language}->id;
-# }
-
 sub index :Chained('base') :PathPart('') :Args(0) {
   my ( $self, $c ) = @_;
   $c->bc_index;
