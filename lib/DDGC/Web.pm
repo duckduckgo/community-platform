@@ -32,7 +32,6 @@ use DDGC::Web::Wizard::Unvoted;
 use DDGC::Web::Wizard::Untranslated;
 use DDGC::Web::Wizard::UnvotedAll;
 use DDGC::Web::Wizard::UntranslatedAll;
-use DDGC::Web::Table;
 
 use namespace::autoclean;
 

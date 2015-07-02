@@ -950,12 +950,6 @@ for directly submitting feedback to DuckDuckGo.
 
 The Catalyst app which powers this whole thing.
 
-=item L<DDGC::Web::Table>
-
-Magic for dealing with pagination, sorting, etc. in web-based displays
-of resultsets. For example, the forum/ideas use this to sort and paginate
-themselves.
-
 =item L<DDGC::Search::Client>
 
 The search engine client for searching through things in DDGC.
