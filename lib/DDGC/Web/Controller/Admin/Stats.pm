@@ -246,11 +246,5 @@ sub coupons :Chained('base') :Args(0) {
     ") or die $dbh->errstr;
 }
 
-sub github :Chained('base') :Args(0) {
-    my ( $self, $c ) = @_;
-    $c->add_bc('Github Stats');
-    $c->stash->{stats} = "yay";
-}
-
 no Moose;
 __PACKAGE__->meta->make_immutable;
