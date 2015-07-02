@@ -1,5 +1,5 @@
 <div  <: style("quote") :>>
-<: for results($_.event_notifications) -> $event_notification { :>
+<: for $_.event_notifications.all_ref -> $event_notification { :>
   <: i('msgctxtid',$event_notification.event.get_context_obj) :>
   <: if !$~event_notification.is_last { :><hr <: style("hr") :>><: } :>
 <: } :>
