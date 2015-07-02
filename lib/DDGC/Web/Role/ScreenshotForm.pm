@@ -16,9 +16,9 @@ sub screenshot_form {
 		@screenshot_ids = $c->stash->{thread}->sorted_screenshots->ids;
 		$c->session->{forms}->{$c->stash->{form_id}}->{screenshots} = [@screenshot_ids];
 	}
-	$c->stash->{screenshots} = $c->d->rs('Screenshot')->search({
+	$c->stash->{screenshots} = [ $c->d->rs('Screenshot')->search({
 		id => { -in => [@screenshot_ids] },
-	});
+	})->all ];
 }
 
 sub screenshot_ids {
