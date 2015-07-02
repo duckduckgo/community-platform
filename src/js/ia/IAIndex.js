@@ -303,7 +303,7 @@
                 }
             }
 
-            url = url.length? "?" + url.replace("#", "") : "/ia";
+            url = url.length? "?" + url.replace("#", "").replace("&", "") : "/ia";
             
             // Allows changing URL without reloading, since it doesn't add the new URL to history;
             // Not supported on IE8 and IE9.
