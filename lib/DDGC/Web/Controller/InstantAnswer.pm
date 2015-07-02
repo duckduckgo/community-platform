@@ -882,7 +882,7 @@ sub format_id {
     $id = lc $id;
     $id =~ s/[^a-z0-9]+/_/g;
     $id =~ s/^[^a-zA-Z]+//;
-    $id =~ s/[^a-zA-Z0-9]$//;
+    $id =~ s/_$//;
 
     # make the id string empty if it only contains non-alphabetic chars
     $id =~ s/^[^a-zA-Z]+$//;
