@@ -28,7 +28,7 @@ sub index :Chained('base') :PathPart('') :Args(0) {
 	}
 	my $limit = $c->req->param('all') && $c->user->admin
 		? undef : 40;
-	$c->stash->{undone_notifications} = $c->user->undone_notifications($limit);
+	$c->stash->{undone_notifications} = [ $c->user->undone_notifications($limit)->all ];
 	$c->stash->{undone_notifications_count} = $c->user->undone_notifications_count;
 	$c->bc_index;
 }
