@@ -20,8 +20,8 @@ column updated_at          => {data_type => 'timestamp without time zone', is_nu
 column gh_data             => {
     data_type        => 'text',
     is_nullable      => 0,
-    serializer_class => 'AnyJSON',
-    default_value    => '{}',
+    serializer_class   => 'JSON',
+    serializer_options => { convert_blessed => 1, utf8 => 1, pretty => 1 },
 };
 
 belongs_to github_repo => 'DDGC::DB::Result::GitHub::Repo',

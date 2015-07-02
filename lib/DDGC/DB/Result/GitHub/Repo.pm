@@ -27,10 +27,10 @@ column pushed_at         => {data_type => 'timestamp without time zone', is_null
 column created           => {data_type => 'timestamp with time zone', set_on_create  => 1};
 column updated           => {data_type => 'timestamp with time zone', set_on_create  => 1, set_on_update => 1};
 column gh_data           => {
-    data_type        => 'text',
-    is_nullable      => 0,
-    serializer_class => 'AnyJSON',
-    default_value    => '{}',
+    data_type          => 'text',
+    is_nullable        => 0,
+    serializer_class   => 'JSON',
+    serializer_options => { convert_blessed => 1, utf8 => 1, pretty => 1 },
 };
 
 belongs_to github_user => 'DDGC::DB::Result::GitHub::User',
