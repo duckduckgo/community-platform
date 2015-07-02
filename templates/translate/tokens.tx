@@ -24,7 +24,7 @@
 				<: include "translate/tokens/nav_paging.tx" :>
 				<: include "translate/tokens/nav.tx" :>
 			</div>
-			<: for results($token_languages) -> $token_language { :>
+			<: for $token_languages -> $token_language { :>
 				<: include "translate/tokens/token_language.tx" { token_language => $token_language } :>
 			<: } :>
 			<: if $user_can_speak { :>

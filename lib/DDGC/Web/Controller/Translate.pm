@@ -88,19 +88,18 @@ sub token :Chained('logged_in') :Args(1) {
 	}
 	$c->add_bc('Token #'.$c->stash->{token}->id);
 
-	$c->stash->{token_languages} = $c->stash->{token}->token_languages->search({},{
+	my @token_languages = $c->stash->{token}->token_languages->search({},{
 		prefetch => [
 			{
 				token_domain_language => [ 'token_domain', 'language' ],
 			},
 			'token',
 		],
-	});
+	})->all;
+	$c->stash->{token_languages} = \@token_languages;
 
 	my @token_languages_can;
 	my @token_languages_not;
-
-	my @token_languages = $c->stash->{token_languages}->all;
 
 	for my $token_language (@token_languages) {
 		if ($c->user->can_speak($token_language->token_domain_language->language->locale)) {
@@ -235,15 +234,15 @@ sub domainsearch :Chained('domain') :PathPart('search') :Args(0) {
 	$c->add_bc('Search');
 	$c->stash->{search} = $c->req->param('search');
 	if ($c->req->param('submit_search')) {
-		$c->stash->{token_results} = $c->stash->{token_domain}->tokens->search([
+		$c->stash->{token_results} = [ $c->stash->{token_domain}->tokens->search([
 			msgid => { -ilike => '%'.$c->stash->{search}.'%' },
 			msgid_plural => { -ilike => '%'.$c->stash->{search}.'%' },
-		]);
-		$c->stash->{token_language_translation_results} = $c->d->rs('Token::Language::Translation')->search([
+		])->all ];
+		$c->stash->{token_language_translation_results} = [ $c->d->rs('Token::Language::Translation')->search([
 			map {
 				'msgstr'.$_ => { -ilike => '%'.$c->stash->{search}.'%' },
 			} (0..5)
-		]),
+		])->all ],
 	}
 }
 
@@ -290,7 +289,7 @@ sub admin :Chained('domain') :Args(0) {
 	}
 
 	$c->pager_init($c->action.$c->stash->{token_domain}->id,20);
-	$c->stash->{latest_comments} = $c->stash->{token_domain}->comments($c->stash->{page},$c->stash->{pagesize});
+	$c->stash->{latest_comments} = [ $c->stash->{token_domain}->comments($c->stash->{page},$c->stash->{pagesize})->all ];
 }
 
 
@@ -333,12 +332,12 @@ sub unvoted :Chained('locale') :Args(0) {
 sub alltokens :Chained('locale') :Args(0) {
     my ( $self, $c ) = @_;
     $c->add_bc('Token overview', '');
-	$c->stash->{token_languages} = $c->stash->{locales}->{$c->stash->{locale}}->{tcl}->token_languages->search({
+	$c->stash->{token_languages} = [ $c->stash->{locales}->{$c->stash->{locale}}->{tcl}->token_languages->search({
 		'token.type' => 1,
 	},{
 		order_by => 'me.created',
 		prefetch => 'token',
-	});
+	})->all ];
 	$c->stash->{breadcrumb_right_url} =	$c->chained_uri('Translate','alltokens',$c->stash->{token_domain}->key,'LOCALE');
 	$c->stash->{breadcrumb_right} = 'language';
 }
@@ -388,7 +387,7 @@ sub localecomments :Chained('discuss') :PathPart('comments') :Args(0) {
 sub tokenscomments :Chained('discuss') :Args(0) {
     my ( $self, $c ) = @_;
     $c->pager_init($c->action.$c->stash->{token_domain_language}->id,20);
-    $c->stash->{latest_comments} = $c->stash->{token_domain_language}->comments($c->stash->{page},$c->stash->{pagesize});
+    $c->stash->{latest_comments} = [ $c->stash->{token_domain_language}->comments($c->stash->{page},$c->stash->{pagesize})->all ];
     $c->add_bc('Latest comments', '');
 }
 

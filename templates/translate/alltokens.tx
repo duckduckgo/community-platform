@@ -11,7 +11,7 @@
 		<div class="row nav">
 			<: include "translate/tokens/nav.tx" { overview => 1 } :>
 		</div>
-		<: for results($token_languages) -> $token_language { :>
+		<: for $token_languages -> $token_language { :>
 			<: include "translate/tokens/token_overview.tx" { token_language => $token_language } :>
 		<: } :>
 		<div class="row nav">
