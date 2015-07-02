@@ -24,7 +24,7 @@
 			<section class="menu-list tab-mid">
 				<h5>Newest Ideas:</h5>
 				<ul>
-					<: for results($latest_ideas) -> $idea { :>
+					<: for $latest_ideas -> $idea { :>
 						<li><a href="<: $u($idea.u) :>"><: $idea.title :></a></li>
 					<: } else { :>
 						Nothing here yet!

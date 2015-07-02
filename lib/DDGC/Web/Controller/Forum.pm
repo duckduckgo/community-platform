@@ -51,12 +51,12 @@ sub userbase : Chained('base') PathPart('') CaptureArgs(0) {
 
 sub get_sticky_threads {
   my ( $self, $c ) = @_;
-  $c->stash->{sticky_threads} = $c->d->rs('Thread')->search_rs({
+  $c->stash->{sticky_threads} = [ $c->d->rs('Thread')->search_rs({
     sticky => 1,
     forum  => $c->stash->{forum_index} // 1,
   },{
     cache_for => 3600,
-  });
+  })->all ];
 }
 
 sub set_grouped_comments {
