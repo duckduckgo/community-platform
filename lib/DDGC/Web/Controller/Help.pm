@@ -48,7 +48,7 @@ sub search :Chained('base') :Args(0) {
   );
 
   $c->stash->{articles} = $articles;
-  $c->stash->{search_helps} = $articles_rs;
+  $c->stash->{search_helps} = [ $articles_rs->all ];
   $c->stash->{title} = 'Search help pages';
 }
 
@@ -73,6 +73,7 @@ sub category_base :Chained('base') :PathPart('') :CaptureArgs(1) {
     return $c->detach;
   }
   $c->stash->{help_category_content} = $c->stash->{help_category}->content_by_language_id_cached($c->stash->{help_language_id});
+  $c->stash->{help_category_helps} = [ $c->stash->{help_category}->helps->all ];
   $c->add_bc($c->stash->{help_category_content}->title, $c->chained_uri('Help','category',$c->stash->{help_category}->key));
   $c->stash->{title} = $c->stash->{help_category_content}->title;
 }
@@ -94,6 +95,7 @@ sub help_base :Chained('category_base') :PathPart('') :CaptureArgs(1) {
 		$c->response->redirect($c->chained_uri('Help','index',{ help_notfound => 1 }));
 		return $c->detach;
 	}
+  $c->stash->{help_related_helps} = [ $c->stash->{help}->related_helps->all ];
   $c->stash->{help_content} = $c->stash->{help}->search_related('help_contents',{
     language_id => $c->stash->{help_language}->id
   },{
