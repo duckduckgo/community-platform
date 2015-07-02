@@ -838,6 +838,7 @@ sub create_ia :Chained('base') :PathPart('create') :Args() {
     my $ia = $c->d->rs('InstantAnswer')->find({id => lc($c->req->params->{id})}) || $c->d->rs('InstantAnswer')->find({meta_id => lc($c->req->params->{id})});
     my $is_admin;
     my $result = '';
+    my $id = '';
 
     if ($c->user && (!$ia)) {
        $is_admin = $c->user->admin;
@@ -846,25 +847,28 @@ sub create_ia :Chained('base') :PathPart('create') :Args() {
             my $dev_milestone = $c->req->params->{dev_milestone};
             my $status = $dev_milestone;
 
-            my $id = format_id($c->req->params->{id});
-            
-            my $new_ia = $c->d->rs('InstantAnswer')->create({
-                id => $id,
-                meta_id => $id,
-                name => $c->req->params->{name},
-                status => $status,
-                dev_milestone => $dev_milestone,
-                description => $c->req->params->{description},
-            });
+            $id = format_id($c->req->params->{id});
+           
+            if (length $id) { 
+                my $new_ia = $c->d->rs('InstantAnswer')->create({
+                    id => $id,
+                    meta_id => $id,
+                    name => $c->req->params->{name},
+                    status => $status,
+                    dev_milestone => $dev_milestone,
+                    description => $c->req->params->{description},
+                });
 
-            save_milestone_date($new_ia, 'created');
+                save_milestone_date($new_ia, 'created');
 
-            $result = 1;
+                $result = 1;
+            }
         }
     }
 
     $c->stash->{x} = {
         result => $result,
+        id => $id
     };
 
     $c->stash->{not_last_url} = 1;
@@ -875,9 +879,12 @@ sub format_id {
     my( $id ) = @_;
 
     # id must be unique, lowercase and without weird chars
-    $id =~ s/[^a-zA-Z]+/_/g;
+    $id =~ s/[^a-zA-Z0-9]+/_/g;
     $id =~ s/^[^a-zA-Z]//;
-    $id =~ s/[^a-zA-Z]$//;
+    $id =~ s/[^a-zA-Z0-9]$//;
+
+    # make the id string empty if it only contains non-alphabetic chars
+    $id =~ s/^[^a-zA-Z]+$//;
     $id = lc $id;
 
     return $id;
