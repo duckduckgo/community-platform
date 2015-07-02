@@ -888,10 +888,15 @@ sub save {
         if ($field eq "topic") {
             my @topic_values = $value;
             $ia->instant_answer_topics->delete;
-                
-            for my $topic (@{$topic_values[0]}) {
-                $saved = add_topic($c, $ia, $topic);
-                return unless $saved;
+           
+            if (scalar @{@topic_values[0]} gt 0) {
+                for my $topic (@{$topic_values[0]}) {
+                    $saved = add_topic($c, $ia, $topic);
+                    return unless $saved;
+                }
+            } else {
+                remove_edits($c->d, $ia, 'topic');
+                $saved = 1;
             }
         } else {          
             if ($field eq 'id') {
@@ -1058,6 +1063,8 @@ sub save_milestone_date {
     my @time = localtime(time);
     my $date = "$time[4]/$time[3]/".($time[5]+1900);
     update_ia($ia, $field, $date);
+
+    update_ia($ia, 'test_machine', undef) if ($milestone eq 'live');
 }
 
 no Moose;
