@@ -87,7 +87,7 @@
                 $(selector + " .list-container--right__issues li").removeClass("hide");
             }
 
-            url = url.length? "?" + url.replace("#", "") : "issues";
+            url = url.length? "?" + url.replace("#", "").replace("&", "") : "issues";
             
             // Allows changing URL without reloading, since it doesn't add the new URL to history;
             // Not supported on IE8 and IE9.
