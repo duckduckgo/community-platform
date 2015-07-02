@@ -768,10 +768,7 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
                 return $c->forward($c->view('JSON')) unless $complat_user_admin || $value eq '';
             } elsif ($field eq "id") {
                 $field = "meta_id";
-
-                # meta_id must be unique, lowercase and without spaces
-                $value =~ s/\s//g;
-                $value = lc $value;
+                $value = format_id($value);
                 return $c->forward($c->view('JSON')) if ($c->d->rs('InstantAnswer')->find({meta_id => $value}) || $value eq '');
             } elsif ($field eq "src_id") {
                 return $c->forward($c->view('JSON')) if $c->d->rs('InstantAnswer')->find({src_id => $value});
@@ -848,14 +845,12 @@ sub create_ia :Chained('base') :PathPart('create') :Args() {
         if ($is_admin) {
             my $dev_milestone = $c->req->params->{dev_milestone};
             my $status = $dev_milestone;
-            
-            if ($dev_milestone eq 'development') {
-                $status =~ s/_/ /g;
-            }
 
+            my $id = format_id($c->req->params->{id});
+            
             my $new_ia = $c->d->rs('InstantAnswer')->create({
-                id => lc($c->req->params->{id}),
-                meta_id => lc($c->req->params->{id}),
+                id => $id,
+                meta_id => $id,
                 name => $c->req->params->{name},
                 status => $status,
                 dev_milestone => $dev_milestone,
@@ -874,6 +869,18 @@ sub create_ia :Chained('base') :PathPart('create') :Args() {
 
     $c->stash->{not_last_url} = 1;
     return $c->forward($c->view('JSON'));
+}
+
+sub format_id {
+    my( $id ) = @_;
+
+    # id must be unique, lowercase and without weird chars
+    $id =~ s/[^a-zA-Z]+/_/g;
+    $id =~ s/^[^a-zA-Z]//;
+    $id =~ s/[^a-zA-Z]$//;
+    $id = lc $id;
+
+    return $id;
 }
 
 sub save {
