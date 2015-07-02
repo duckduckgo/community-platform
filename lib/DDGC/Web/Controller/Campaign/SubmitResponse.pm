@@ -9,10 +9,10 @@ use Try::Tiny;
 use DateTime;
 use DateTime::Duration;
 use Email::Valid;
-use Lingua::Identify qw(:language_identification);
 
 sub base :Chained('/base') :PathPart('campaign') :CaptureArgs(0) {
 	my ( $self, $c ) = @_;
+	$c->stash->{not_last_url} = 1;
 	if (!$c->user) {
 		$c->response->status(403);
 		$c->stash->{x} = { ok => 0, errstr => "Not logged in!"};
@@ -60,10 +60,6 @@ sub respond : Chained('base') : PathPart('respond') : Args(0) {
 	my $short_response = 0;
 	my $flag_response = 0;
 	my $response_length = length($c->req->param( 'question1' ) . $c->req->param( 'question2' ) . $c->req->param( 'question3' ));
-	my @languages = langof join " ", ( $c->req->param( 'question1' ) , $c->req->param( 'question2' ) , $c->req->param( 'question3' ) );
-	my $language = $languages[0] // 'unknown';
-	my $confidence = confidence(@languages);
-
 
 	if ( $response_length < $campaign->{min_length} + 20 ) {
 		$flag_response = 1;
@@ -136,12 +132,27 @@ sub respond : Chained('base') : PathPart('respond') : Args(0) {
 	}
 
 	my $subject_extra = '';
+	my $bad_response;
 	if ($campaign_name eq 'share') {
-		($language ne "en" || $confidence < 0.57) && ($subject_extra = '** POSSIBLE SPAM ** ');
+		my @first = ('coupon', 'facebook');
+		my @second = (
+			'now',
+			'right now',
+			'just did',
+			'just now',
+			'just signed up',
+			'just downloaded',
+			'just started',
+			'new',
+			"i'm new",
+		);
+		$bad_response = grep { _answer_is_mostly( lc($c->req->param('question1')), $_ ) } @first;
+		$bad_response = grep { _answer_is_mostly( lc($c->req->param('question2')), $_ ) } @second if !$bad_response;
+
 		($flag_response) && ($subject_extra = '** SHORT RESPONSE ** ');
+		($bad_response) && ($subject_extra = '** BAD RESPONSE ** ');
 		my $report_url = $c->chained_uri( 'Admin::Campaign', 'bad_user_response', { user => $username, campaign => $campaign_name} );
 		$c->stash->{'extra'} = <<"BAD_RESPONSE_LINK"
-		Language: $language, Confidence: $confidence<br />
 		<a href="$report_url">
 			Report bad responses
 		</a>
@@ -174,6 +185,7 @@ BAD_RESPONSE_LINK
 		{ campaign_email_is_account_email => 1 } :
 		{ campaign_email => $c->stash->{campaign_email} }
 	);
+	($bad_response) && $response->update({ bad_response => 1 });
 
 	my $return_on;
 	my $coupon;
@@ -190,6 +202,13 @@ BAD_RESPONSE_LINK
 	};
 	$c->forward( $c->view('JSON') );
 	return $c->detach;
+}
+
+sub _answer_is_mostly {
+	my ($answer, $text) = @_;
+	return 0 if (length($answer) > (length($text) + 10));
+	return 1 if (index($answer, $text) >= 0);
+	return 0;
 }
 
 __PACKAGE__->meta->make_immutable;

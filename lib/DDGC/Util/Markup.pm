@@ -183,8 +183,8 @@ sub html {
 
     if ( $opts->{proxify_images} ) {
         for my $node ( $tree->findnodes('//img') ) {
-            my $src = lc(trim($node->attr('src')));
-            if (index($src, $self->image_proxy_base) != 0 && index($src, 'http') == 0) {
+            my $src = trim($node->attr('src'));
+            if (index(lc($src), $self->image_proxy_base) != 0 && index(lc($src), 'http') == 0) {
                 $node->attr(
                     'src',
                     sprintf($self->image_proxy_url, uri_escape($src))

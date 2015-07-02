@@ -1,5 +1,5 @@
 module.exports = function(grunt) {
-    
+
     var static_dir = 'root/static/';
     var templates_dir = 'src/templates/';
 
@@ -117,8 +117,8 @@ module.exports = function(grunt) {
         uglify: {
             js: {
                 files: {
-                    '<%= static_dir + "js/ia" +  pkg.version %>.js': static_dir + 'js/ia.js', 
-                    '<%= static_dir + "js/ddgc" +  pkg.version %>.js': static_dir + 'js/ddgc.js' 
+                    '<%= static_dir + "js/ia" +  pkg.version %>.js': static_dir + 'js/ia.js',
+                    '<%= static_dir + "js/ddgc" +  pkg.version %>.js': static_dir + 'js/ddgc.js'
                 }
             }
         },
@@ -129,9 +129,9 @@ module.exports = function(grunt) {
         remove: {
             dev: {
                 trace: true,
-                fileList: [ 
+                fileList: [
                     templates_dir + 'handlebars_tmp',
-                    static_dir + 'js/ia.js', 
+                    static_dir + 'js/ia.js',
                     static_dir + 'js/ddgc.js',
                     static_dir + 'css/ddgc.css',
                     static_dir + 'css/ia.css'
@@ -148,7 +148,7 @@ module.exports = function(grunt) {
                 src: [ ],
                // src: [ static_dir + 'ia.js'],
                 tasks: release_tasks
-            } 
+            }
         },
 
         /*
@@ -161,9 +161,9 @@ module.exports = function(grunt) {
                     message: 'Release IA pages version: <%= pkg.version %>'
                 },
                 files: {
-                    src: [ 
-                        static_dir + 'js/ia0.*.0.js', 
-                        static_dir + 'js/ddgc0.*.0.js', 
+                    src: [
+                        static_dir + 'js/ia0.*.0.js',
+                        static_dir + 'js/ddgc0.*.0.js',
                         static_dir + 'css/ddgc0.*.0.css',
                         static_dir + 'css/ia0.*.0.css',
                         static_dir + 'css/content.css',
@@ -171,7 +171,7 @@ module.exports = function(grunt) {
                     ]
                 }
             }
-        
+
         },
 
         /*
@@ -230,7 +230,7 @@ module.exports = function(grunt) {
                 tasks: ['handlebars', 'concat']
             },
             scss: {
-                files: ['src/scss/ia/*.scss', 'src/scss/ddgc/*.scss', 'src/scss/content/*.scss'],
+                files: ['src/scss/ia/*.scss', 'src/scss/ddgc/*.scss', 'src/scss/content/*.scss', 'src/scss/*.scss'],
                 tasks: ['compass', 'concat']
             }
         },
@@ -272,14 +272,14 @@ module.exports = function(grunt) {
 
         // commit files to the repo for release
         grunt.registerTask('commit', 'commit the versioned files to the repo, still needs to be manually pushed', commit_tasks);
- 
+
         // default task runs build
         grunt.registerTask('default', build_tasks);
 
         grunt.registerTask('revert', ['exec:revert']);
-        
+
         grunt.registerTask('revert-release', ['exec:revert_release']);
-        
+
         // add modules here
         grunt.loadNpmTasks('grunt-contrib-concat');
         grunt.loadNpmTasks('grunt-contrib-handlebars');
