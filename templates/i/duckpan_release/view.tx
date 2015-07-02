@@ -11,7 +11,7 @@
     </h2>
   </div>
   <div class="body">
-    <: for results($_.duckpan_modules) -> $duckpan_module { :>
+    <: for $_.duckpan_modules.all_ref -> $duckpan_module { :>
       <: if $~duckpan_module % 2 == 0 { :>
         <div class="row">
       <: } :>

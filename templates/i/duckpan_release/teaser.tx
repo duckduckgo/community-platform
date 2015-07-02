@@ -12,7 +12,7 @@
 	</div>
 	<div class="body">
 		<div class="row">
-			<: for results($_.duckpan_modules) -> $duckpan_module { :>
+			<: for $_.duckpan_modules.all_ref -> $duckpan_module { :>
 				<: $duckpan_module.name :>
 				<: if !$~duckpan_module.is_last { :>&nbsp;|&nbsp;<: } :>
 			<: } :>
