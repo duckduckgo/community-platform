@@ -24,8 +24,6 @@ column gh_data           => {
     serializer_options => { convert_blessed => 1, utf8 => 1, pretty => 1 },
 };
 
-unique_constraint  [qw/number github_repo_id/];
-
 belongs_to github_repo => 'DDGC::DB::Result::GitHub::Repo',
     { 'foreign.id' => 'self.github_repo_id' },
     { on_delete    => 'cascade' };
