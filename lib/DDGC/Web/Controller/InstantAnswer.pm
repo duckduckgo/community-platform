@@ -6,6 +6,11 @@ use Try::Tiny;
 use Time::Local;
 use JSON;
 use Net::GitHub::V3;
+use DDGC::Stats::GitHub::Commits;
+use DDGC::Stats::GitHub::PullRequests;
+use DDGC::Stats::GitHub::Comments;
+use DDGC::Stats::GitHub::Issues;
+use DDGC::Stats::GitHub::Forks;
 
 my $INST = DDGC::Config->new->appdir_path."/root/static/js";
 
@@ -1044,13 +1049,23 @@ sub save_milestone_date {
 
 sub dashboard :Chained('base') :Args(0) {
     my ( $self, $c ) = @_;
+
     $c->add_bc('Instant Answers', $c->chained_uri('InstantAnswer','index'));
 
-    my %commits = DDGC::Stats::GitHub::Commits->report(ddgc => $c->ddgc);
-
     $c->stash->{yesterday} = {
-        first_response => '55mins',
-        %commits,
+        first_response        => '--',
+        first_review          => '--',
+        lifespan              => '--',
+        commits               => '--',
+        committers            => '--',
+        commenters            => '--',
+        forks_with_commits    => '--',
+        forks_without_commits => '--',
+        DDGC::Stats::GitHub::PullRequests->report(db => $c->ddgc->db),
+        DDGC::Stats::GitHub::Comments->report(db => $c->ddgc->db),
+        DDGC::Stats::GitHub::Issues->report(db => $c->ddgc->db),
+        DDGC::Stats::GitHub::Commits->report(db => $c->ddgc->db),
+        DDGC::Stats::GitHub::Forks->report(db => $c->ddgc->db),
     };
 }
 

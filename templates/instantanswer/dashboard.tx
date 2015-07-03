@@ -119,14 +119,14 @@
         <div class="graph">
           <div class="data">
             <h2>Avg time to first code review</h2>
-            <span class="number" title="Updated about 37 seconds ago">1dy 12hrs</span>
+            <span class="number" title="Updated about 37 seconds ago"><: $yesterday.first_review :></span>
           </div>
           <div class="graph"><div class="graph-container" data-string="[[1432470000.0, 28.978194669834146], [1432470300.0, 30.118406643021416]]"></div></div>
         </div>
         <div class="graph">
           <div class="data">
             <h2>Avg pull request lifespan</h2>
-            <span class="number" title="Updated about 37 seconds ago">2months 3dys</span>
+            <span class="number" title="Updated about 37 seconds ago"><: $yesterday.lifespan :></span>
           </div>
           <div class="graph"><div class="graph-container" data-string="[[1432470000.0, 255.92171016666668], [1432470300.0, 240.3828763]]"></div></div>
         </div>
@@ -147,14 +147,21 @@
         <div class="graph">
           <div class="data">
             <h2>Commenters</h2>
-            <span class="number" title="Updated about 37 seconds ago">25</span>
+            <span class="number" title="Updated about 37 seconds ago"><: $yesterday.commenters :></span>
           </div>
           <div class="graph"><div class="graph-container" data-string="[[1432470000.0, 1.6666666666666667], [1432470300.0, 0.0]]"></div></div>
         </div>
         <div class="graph">
           <div class="data">
-            <h2>Forks w/&nbsp;&nbsp;&nbsp;&nbsp;commits vs<br>Forks w/o commits</h2>
-            <span class="number" title="Updated about 31 seconds ago">1 vs 3</span>
+            <h2>Forks w/commits</h2>
+            <span class="number" title="Updated about 31 seconds ago"><: $yesterday.forks_with_commits :></span>
+          </div>
+          <div class="graph"><div class="graph-container" data-string="[[1432470000.0, 0.0005908780778992517], [1432470300.0, 0.0003049466712481028]]"></div></div>
+        </div>
+        <div class="graph">
+          <div class="data">
+            <h2>Forks w/out commits</h2>
+            <span class="number" title="Updated about 31 seconds ago"><: $yesterday.forks_without_commits :></span>
           </div>
           <div class="graph"><div class="graph-container" data-string="[[1432470000.0, 0.0005908780778992517], [1432470300.0, 0.0003049466712481028]]"></div></div>
         </div>
