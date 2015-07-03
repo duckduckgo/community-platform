@@ -56,7 +56,9 @@ has_many github_issue_attributions => 'DDGC::DB::Result::GitHub::Issue::Attribut
     { cascade_delete => 0 };
 
 has_many github_comments => 'DDGC::DB::Result::GitHub::Comment',
-    { 'foreign.number' => 'self.number' },
+    { 'foreign.number'         => 'self.number',
+      'foreign.github_repo_id' => 'self.github_repo_id',
+    },
     { cascade_delete => 0 };
 
 no Moose;
