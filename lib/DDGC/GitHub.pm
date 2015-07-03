@@ -396,17 +396,18 @@ sub update_repo_issue_from_data {
     my ($self, $gh_repo, $issue) = @_;
 
     my %columns;
-    $columns{github_id}      = $issue->{id};
-    $columns{github_user_id} = $self->find_or_update_user($issue->{user}->{login})->id;
-    $columns{title}          = $issue->{title};
-    $columns{body}           = $issue->{body};
-    $columns{state}          = $issue->{state};
-    $columns{comments}       = $issue->{comments};
-    $columns{number}         = $issue->{number};
-    $columns{created_at}     = parse_datetime($issue->{created_at});
-    $columns{updated_at}     = parse_datetime($issue->{updated_at});
-    $columns{closed_at}      = parse_datetime($issue->{closed_at});
-    $columns{gh_data}        = $issue;
+    $columns{github_id}        = $issue->{id};
+    $columns{github_user_id}   = $self->find_or_update_user($issue->{user}->{login})->id;
+    $columns{title}            = $issue->{title};
+    $columns{body}             = $issue->{body};
+    $columns{state}            = $issue->{state};
+    $columns{isa_pull_request} = $issue->{pull_request} ? 1 : 0;
+    $columns{comments}         = $issue->{comments};
+    $columns{number}           = $issue->{number};
+    $columns{created_at}       = parse_datetime($issue->{created_at});
+    $columns{updated_at}       = parse_datetime($issue->{updated_at});
+    $columns{closed_at}        = parse_datetime($issue->{closed_at});
+    $columns{gh_data}          = $issue;
 
     $columns{github_user_id_assignee} = $self->find_or_update_user($issue->{assignee}->{login})->id
         if defined $issue->{assignee};
