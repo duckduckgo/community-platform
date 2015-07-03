@@ -7,7 +7,7 @@ use namespace::autoclean;
 
 sub with_created_at {
     my ($self, $operator, $date) = @_;
-	$self->search({ created_at => { $operator => $date } });
+	$self->search({ 'me.created_at' => { $operator => $date } });
 }
 
 sub most_recent {
