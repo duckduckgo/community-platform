@@ -93,7 +93,9 @@ get '/post/by_url' => sub {
     ) {
         return {
             post     => $post,
-            comments => $post->comments->prefetch('user')->threaded,
+            comments => $post->comments->prefetch('user')
+                        ->order_by({ -desc => 'me.created' })
+                        ->threaded,
             topics   => topics,
         };
     }
@@ -217,9 +219,6 @@ get '/post' => sub {
                 'user',
                 { comments => 'user' },
             ])
-            ->order_by(
-                { -desc => 'comments.id' }
-            )
             ->find(
                 $v->values->{id}
             )
@@ -227,7 +226,9 @@ get '/post' => sub {
     ) {
         return {
             post     => $post,
-            comments => $post->comments->prefetch('user')->threaded,
+            comments => $post->comments->prefetch('user')
+                        ->order_by({ -desc => 'me.created' })
+                        ->threaded,
             topics   => topics,
         };
     }
