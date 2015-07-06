@@ -29,9 +29,14 @@
                 $("#create-new-ia").show();
             });
 
+            $("body").on("focusin", "#id-input.not_saved", function(evt) {
+                $(this).removeClass("not_saved");
+            });
+
             $("body").on('click', "#new-ia-form-save", function(evt) {
+                var $id_input = $("#id-input");
                 var name = $.trim($("#name-input").val());
-                var id = $.trim($("#id-input").val());
+                var id = $.trim($id_input.val());
                 var description = $.trim($("#description-input").val());
                 var dev_milestone = $.trim($("#dev_milestone-select .available_dev_milestones option:selected").text());
                 
@@ -45,7 +50,11 @@
                         dev_milestone : dev_milestone
                     })
                     .done(function(data) {
-                        window.location = '/ia/view/' + id;
+                        if (data.result && data.id) {
+                            window.location = '/ia/view/' + data.id;
+                        } else {
+                            $id_input.addClass("not_saved");
+                        }
                     });
                 }
             });
