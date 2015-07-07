@@ -25,13 +25,13 @@ sub base :Chained('/base') :PathPart('ideas') :CaptureArgs(0) {
 
 sub add_latest_ideas {
 	my ( $self, $c ) = @_;
-	$c->stash->{latest_ideas} = $c->d->rs('Idea')->ghostbusted->search_rs({
+	$c->stash->{latest_ideas} = [ $c->d->rs('Idea')->ghostbusted->search_rs({
 			migrated_to_thread => undef,
 		},{
 		order_by => { -desc => 'me.created' },
 		rows => 5,
 		page => 1,
-	});
+	})->all ];
 }
 
 sub add_ideas_table {

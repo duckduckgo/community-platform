@@ -14,7 +14,7 @@
 	  <: include 'i/head_icons.tx' :>
     </div>
     <div class="body">
-      <: for results($token_results) -> $token { :>
+      <: for $token_results -> $token { :>
         <: i($token,'search') :>
       <: } :>
     </div>
@@ -28,7 +28,7 @@
 	  <: include 'i/head_icons.tx' :>
     </div>
     <div class="body">
-      <: for results($token_language_translation_results) -> $token_language_translation { :>
+      <: for $token_language_translation_results -> $token_language_translation { :>
         <: i($token_language_translation,'search') :>
       <: } :>
     </div>

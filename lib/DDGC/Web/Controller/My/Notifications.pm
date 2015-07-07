@@ -28,7 +28,7 @@ sub index :Chained('base') :PathPart('') :Args(0) {
 	}
 	my $limit = $c->req->param('all') && $c->user->admin
 		? undef : 40;
-	$c->stash->{undone_notifications} = $c->user->undone_notifications($limit);
+	$c->stash->{undone_notifications} = [ $c->user->undone_notifications($limit)->all ];
 	$c->stash->{undone_notifications_count} = $c->user->undone_notifications_count;
 	$c->bc_index;
 }
@@ -58,11 +58,11 @@ sub following :Chained('base') :Args(0) {
 	my ( $self, $c ) = @_;
 	$c->add_bc('Following');
 	$c->pager_init($c->action,'30');
-	$c->stash->{user_notification_matrixes} = $c->user->search_related('user_notification_matrixes',{
+	$c->stash->{user_notification_matrixes} = [ $c->user->search_related('user_notification_matrixes',{
 		'me.context_id' => { '!=' => undef },
 	},{
 		order_by => { -desc => 'me.created' },
-	})->prefetch_all->paging($c->stash->{page},$c->stash->{pagesize});
+	})->prefetch_all->paging($c->stash->{page},$c->stash->{pagesize}) -> all ];
 }
 
 sub all_done :Chained('base') :Args(0) {

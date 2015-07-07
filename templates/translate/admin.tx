@@ -9,7 +9,7 @@
 		<h2>Latest comments on <: $token_domain.name :></h2>
 	</div>
 	<div class="body">
-		<: for results($latest_comments) -> $comment { :>
+		<: for $latest_comments -> $comment { :>
 			<div class="row">
 				<: i($comment.get_context_obj.token_domain_language.language,'flag') :>
 				<: $comment.get_context_obj.token_domain_language.language.name_in_english :>

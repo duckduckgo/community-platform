@@ -2,7 +2,7 @@
 <h2>Help Articles</h2>
 <hr/>
 
-<: for results($helps) -> $help { :>
+<: for $helps -> $help { :>
   <form method="POST" action="<: $u('Admin::Help','index') :>">
     <div class="content-box content-box-toggleclick only">
       <div id="help_<: $help.id :>_clicker" class="head">

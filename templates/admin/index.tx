@@ -9,7 +9,7 @@
 		<div class="g twothirds">
 			<h3 class="mg-top--small">User management</h3>
 			<p>Latest updates:
-				<: for results($latest_updated_users) -> $user { :>
+				<: for $latest_updated_users -> $user { :>
 					<a href="<: $u('Admin::User','user',$user.username) :>">
 						<: $user.username :>
 					</a>

@@ -6,7 +6,7 @@
 	<div class="head">
 		<h2>Your Notifications</h2>
 		<span class="button-group pull-right">			
-		<: if $undone_notifications.count { :>
+		<: if $undone_notifications_count { :>
 			<a class="button red" href="<: $u('My::Notifications','all_done') :>">
 				<i class="icon-folder-open"></i><span class="button__label">Mark All Read</span>
 			</a>	
@@ -14,7 +14,7 @@
 		</span>
 	</div>
 	<div class="body">
-		<: for results($undone_notifications) -> $event_notification_group { :>
+		<: for $undone_notifications -> $event_notification_group { :>
 			<: i($event_notification_group,'view') :>
 		<: } :>
 		<: if $undone_notifications_count > 40 { :>
