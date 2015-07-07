@@ -3,12 +3,19 @@
 @import "compass/css3/transition";
 @import "compass/css3/box-sizing";
 @import "compass/css3/appearance";
+
 @import "../../../bower_components/duckduckgo-colors/_colors";
-@import "vars";
-@import "mixins";
-@import "buttons";
-@import "forms";
+@import "../../../bower_components/_ls/_buttons";
+@import "../_vars";
+@import "../_sep";
+@import "../_fonts-extra";
+@import "../_switch";
+
+@import "_mixins";
+@import "_buttons";
+@import "_forms";
 @import "_fonts";
 @import "_ia";
 @import "_dev";
-@import "overview";
+@import "_live";
+@import "_overview";

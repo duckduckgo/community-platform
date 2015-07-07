@@ -540,7 +540,7 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
 
     my $ia = $c->stash->{ia};
     my $edited;
-    my @issues = $c->d->rs('InstantAnswer::Issues')->search({instant_answer_id => $ia->id});
+    my @issues = $c->d->rs('InstantAnswer::Issues')->search({instant_answer_id => $ia->id},{order_by => {'-desc' => 'date'}});
     my @ia_issues;
     my %pull_request;
     my @ia_pr;
@@ -559,7 +559,8 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
                     title => $issue->title,
                     body => $issue->body,
                     tags => $issue->tags,
-                    author => $issue->author
+                    author => $issue->author,
+                    date => $issue->date
                );
 
                $ia_data{live}->{pr} = \%pull_request;
@@ -586,7 +587,9 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
                     issue_id => $issue->issue_id,
                     title => $issue->title,
                     body => $issue->body,
-                    tags => $issue->tags
+                    tags => $issue->tags,
+                    author => $issue->author,
+                    date => $issue->date
                 });
             }
         }
@@ -765,10 +768,7 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
                 return $c->forward($c->view('JSON')) unless $complat_user_admin || $value eq '';
             } elsif ($field eq "id") {
                 $field = "meta_id";
-
-                # meta_id must be unique, lowercase and without spaces
-                $value =~ s/\s//g;
-                $value = lc $value;
+                $value = format_id($value);
                 return $c->forward($c->view('JSON')) if ($c->d->rs('InstantAnswer')->find({meta_id => $value}) || $value eq '');
             } elsif ($field eq "src_id") {
                 return $c->forward($c->view('JSON')) if $c->d->rs('InstantAnswer')->find({src_id => $value});
@@ -838,6 +838,7 @@ sub create_ia :Chained('base') :PathPart('create') :Args() {
     my $ia = $c->d->rs('InstantAnswer')->find({id => lc($c->req->params->{id})}) || $c->d->rs('InstantAnswer')->find({meta_id => lc($c->req->params->{id})});
     my $is_admin;
     my $result = '';
+    my $id = '';
 
     if ($c->user && (!$ia)) {
        $is_admin = $c->user->admin;
@@ -845,32 +846,48 @@ sub create_ia :Chained('base') :PathPart('create') :Args() {
         if ($is_admin) {
             my $dev_milestone = $c->req->params->{dev_milestone};
             my $status = $dev_milestone;
-            
-            if ($dev_milestone eq 'development') {
-                $status =~ s/_/ /g;
+
+            $id = format_id($c->req->params->{id});
+           
+            if (length $id) { 
+                my $new_ia = $c->d->rs('InstantAnswer')->create({
+                    id => $id,
+                    meta_id => $id,
+                    name => $c->req->params->{name},
+                    status => $status,
+                    dev_milestone => $dev_milestone,
+                    description => $c->req->params->{description},
+                });
+
+                save_milestone_date($new_ia, 'created');
+
+                $result = 1;
             }
-
-            my $new_ia = $c->d->rs('InstantAnswer')->create({
-                id => lc($c->req->params->{id}),
-                meta_id => lc($c->req->params->{id}),
-                name => $c->req->params->{name},
-                status => $status,
-                dev_milestone => $dev_milestone,
-                description => $c->req->params->{description},
-            });
-
-            save_milestone_date($new_ia, 'created');
-
-            $result = 1;
         }
     }
 
     $c->stash->{x} = {
         result => $result,
+        id => $id
     };
 
     $c->stash->{not_last_url} = 1;
     return $c->forward($c->view('JSON'));
+}
+
+sub format_id {
+    my( $id ) = @_;
+
+    # id must be lowercase and without weird chars
+    $id = lc $id;
+    $id =~ s/[^a-z0-9]+/_/g;
+    $id =~ s/^[^a-zA-Z]+//;
+    $id =~ s/_$//;
+
+    # make the id string empty if it only contains non-alphabetic chars
+    $id =~ s/^[^a-zA-Z]+$//;
+
+    return $id;
 }
 
 sub save {
@@ -885,12 +902,21 @@ sub save {
         if ($field eq "topic") {
             my @topic_values = $value;
             $ia->instant_answer_topics->delete;
-                
-            for my $topic (@{$topic_values[0]}) {
-                $saved = add_topic($c, $ia, $topic);
-                return unless $saved;
+           
+            if (scalar @{@topic_values[0]} gt 0) {
+                for my $topic (@{$topic_values[0]}) {
+                    $saved = add_topic($c, $ia, $topic);
+                    return unless $saved;
+                }
+            } else {
+                remove_edits($c->d, $ia, 'topic');
+                $saved = 1;
             }
-        } else {           
+        } else {          
+            if ($field eq 'id') {
+               $field = 'meta_id';
+            }
+            
             commit_edit($c->d, $ia, $field, $value);
             $saved = '1';
         }
@@ -1051,6 +1077,8 @@ sub save_milestone_date {
     my @time = localtime(time);
     my $date = "$time[4]/$time[3]/".($time[5]+1900);
     update_ia($ia, $field, $date);
+
+    update_ia($ia, 'test_machine', undef) if ($milestone eq 'live');
 }
 
 no Moose;

@@ -7,21 +7,50 @@
     <: } :>
 </select>
 
-<: if $can_edit { :>
-    <: if $dev_milestone == 'live' || $dev_milestone == 'deprecated' { :>
-        <div class="special-permissions__toggle-view right" id="toggle-view">
-            <div class="pager-wrap">
-                <span class="button-group  button-group--paging">
-                    <span class="button special-permissions__toggle-view__button" id="toggle-live">
-                        Live
+<: if $dev_milestone == 'live' || $dev_milestone == 'deprecated' { :>
+    <div class="ia-single">
+        <div class="ia-single__top nowrap" id="ia-single-top">
+            <div class="content-wrap">
+                <div id="ia-breadcrumbs"></div>
+                <div class="very-top seventy">
+                    <div id="ia-single-top-name"></div>
+                    <div id="ia-single-top-details"></div>
+                </div>
+                <: if $can_edit { :>
+                  <div class="thirty g edit-buttons">
+                    <span class="special-permissions <: if $dev_milestone != 'live' && $dev_milestone != 'deprecated' { :>hide<: } :>">
+                        <div class="edit-container">
+                        </div>
+
+                        <: if $can_commit { :>
+                            <div class="special-permissions__edit js-view-commits btn hide" id="view_commits">Commit edits</div>
+                        <: } :>
+                        <div class="special-permissions__static hide js-edit-disable btn" id="edit_disable">Disable edit mode</div>
                     </span>
-                    <span class="button special-permissions__toggle-view__button button-nav-current disabled" id="toggle-edited">
-                        Edited
-                    </span>
-                </span>
+                  </div>
+                <: } :>
+                <span class="clearfix"></span>
             </div>
         </div>
-    <: } else { :>
+
+        <div class="ia-single__body content-wrap" id="ia-single-body">
+            <div class="ia-single--left seventy"></div>
+            <div class="ia-single--right g thirty"></div>
+            <div class="ia-single--edits hide">
+                <div id="row-title">
+                    <h2 class="left row-title__live" id="row-title-live">
+                        Live
+                    </h2>
+                    <h2 class="left row-title__edited" id="row-title-edited">
+                        Edited
+                    </h2>
+                </div>
+                <span class="clearfix"></span>
+            </div>
+        </div>
+    </div>
+<: } else { :>
+    <: if $can_edit { :>
         <div class="dev-special-permissions__toggle-view right" id="toggle-devpage-view">
             <div class="pager-wrap">
                 <span class="button-group  button-group--paging">
@@ -37,33 +66,17 @@
         <div class="dev-special-permissions__json button right" id="view_json">
             View as JSON
         </div>
-    <: } :>
-    <div class="special-permissions right <: if $dev_milestone != 'live' && $dev_milestone != 'deprecated' { :>hide<: } :>">
-        <: if $can_commit { :>
-            <div class="special-permissions__edit js-view-commits button <: $commit_class :>" id="view_commits">Commit edits</div>
-        <: } :>
-        <div class="special-permissions__edit js-edit-enable button right" id="edit_activate">Enable edit mode</div>
-        <div class="special-permissions__static hide js-edit-disable button right" id="edit_disable">Disable edit mode</div>
-    </div>
-<: } :>
 
-<div class="ia-single clearfix">
-    <: if $dev_milestone != 'live' && $dev_milestone != 'deprecated' { :>
-        <div class="clearfix ia-single--wide"></div>
-     <: } else { :>
-        <div class="ia-single--right right"></div>
-        <div class="ia-single--left left"></div>
-        <div class="ia-single--edits hide">
-            <div id="row-title">
-                <h2 class="left row-title__live" id="row-title-live">
-                    Live
-                </h2>
-                <h2 class="left row-title__edited" id="row-title-edited">
-                    Edited
-                </h2>
-            </div>
-            <span class="clearfix"></span>
+        <div class="special-permissions right <: if $dev_milestone != 'live' && $dev_milestone != 'deprecated' { :>hide<: } :>">
+            <: if $can_commit { :>
+                <div class="special-permissions__edit js-view-commits button <: $commit_class :>" id="view_commits">Commit edits</div>
+            <: } :>
+            <div class="special-permissions__edit js-edit-enable button right" id="edit_activate">Enable edit mode</div>
+            <div class="special-permissions__static hide js-edit-disable button right" id="edit_disable">Disable edit mode</div>
         </div>
     <: } :>
-</div>
 
+    <div class="ia-single devpage clearfix">
+        <div class="clearfix ia-single--wide"></div>
+    </div>
+<: } :>
