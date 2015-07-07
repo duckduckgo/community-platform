@@ -39,10 +39,8 @@
                     }
 
                     // Allow blue band to get 100% page width
-                    if (ia_data.live.dev_milestone === "live" || ia_data.live.dev_milestone === "deprecated") {
-                        $(".site-main > .content-wrap").first().removeClass("content-wrap");
-                        $(".breadcrumb-nav").remove();
-                    }
+                    $(".site-main > .content-wrap").first().removeClass("content-wrap");
+                    $(".breadcrumb-nav").remove();
 
                     // Separate back-end files from front-end ones
                     ia_data.live.back_end = [];
@@ -1148,13 +1146,14 @@
             if (!edit) {
                 $(".ia-single--name").remove();
 
-                if (dev_milestone === "live" || dev_milestone === "deprecated") {
-                    $("#ia-single-top-name").html(templates.live.name);
-                    $('#ia-breadcrumbs').html(templates.live.breadcrumbs);
-                    $("#ia-single-top-details").html(templates.live.top_details);
-                    $('.edit-container').html(templates.live.edit_buttons);
-                    $(".ia-single--left, .ia-single--right").show().empty();
+                $("#ia-single-top-name").html(templates.live.name);
+                $('#ia-breadcrumbs').html(templates.live.breadcrumbs);
+                $("#ia-single-top-details").html(templates.live.top_details);
+                $('.edit-container').html(templates.live.edit_buttons);
 
+                if (dev_milestone === "live" || dev_milestone === "deprecated") {
+                    $(".ia-single--left, .ia-single--right").show().empty();
+                    
                     for (var i = 0; i < this.field_order.length; i++) {
                         $(".ia-single--left").append(templates.live[this.field_order[i]]);
                     }
@@ -1163,13 +1162,7 @@
                     $(".ia-single--right").append(templates.live.devinfo);
                     $(".ia-single--screenshots").removeClass("twothirds");
                 } else {
-                    $(".ia-single--wide").before(templates.live.name);
-
-                    $("#metafields").remove();
-                    $(".ia-single--wide").before(templates.metafields);
-                    $("#metafields").html(templates.metafields_content);
-
-                    $(".ia-single--wide").empty();
+                   $(".ia-single--wide").empty();
 
                     var $temp_panel_body;
                     for (var i = 0; i < this.dev_milestones_order.length; i++) {
