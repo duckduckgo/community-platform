@@ -21,6 +21,7 @@
                 $.getJSON(json_url, function(ia_data) {
 
                     //Get user permissions
+                    ia_data.permissions = {};
                     if ($(".special-permissions").length) {
                         ia_data.permissions = {can_edit: 1};
 
@@ -68,6 +69,8 @@
                         latest_edits_data = ia_data.live;
                     }
 
+                    console.log(latest_edits_data);
+
                     // Readonly mode templates
                     var readonly_templates = {
                         live: {
@@ -81,8 +84,6 @@
                             breadcrumbs: Handlebars.templates.breadcrumbs(latest_edits_data)
                         },
                         screens : Handlebars.templates.screens(ia_data),
-                        metafields : Handlebars.templates.metafields(ia_data),
-                        metafields_content : Handlebars.templates.metafields_content(ia_data),
                         contributors : Handlebars.templates.contributors(ia_data),
                         contributors_content : Handlebars.templates.contributors_content(ia_data),
                         advanced : Handlebars.templates.advanced(ia_data),
@@ -1068,8 +1069,6 @@
                 });
             } else {
                 templates.live.name = Handlebars.templates.name(latest_edits_data);
-                templates.metafields = Handlebars.templates.metafields(ia_data);
-                templates.metafields_content = Handlebars.templates.metafields_content(ia_data);
                 for (var i = 0; i < this.dev_milestones_order.length; i++) {
                     var template = this.dev_milestones_order[i];
                     templates[template] = Handlebars.templates[template](ia_data);
