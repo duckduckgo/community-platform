@@ -125,6 +125,7 @@ sub for_edit {
     my ($self) = @_;
     +{
         id      => $self->id,
+        user_id => $self->users_id,
         title   => $self->title,
         uri     => lc( $self->uri ),
         teaser  => $self->teaser,

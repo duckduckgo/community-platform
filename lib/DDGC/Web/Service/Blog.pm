@@ -26,6 +26,7 @@ This service is expected to be mounted on '/blog.json'
 use DDGC::Base::Web::Service;
 use Try::Tiny;
 use POSIX;
+use DateTime;
 
 sub pagesize { 20 }
 
@@ -280,12 +281,43 @@ get '/admin/post/raw/:id' => sub {
     forward '/admin/post/raw', { params('route') };
 };
 
+# TODO: Deprecate this
+sub _add_blog_post_notification_bits {
+    my ( $post ) = @_;
+    my $dbh = schema->storage->dbh;
+    my $now = schema->storage->datetime_parser->format_datetime(DateTime->now);
+
+    my $cycle = $dbh->selectrow_hashref(
+        'SELECT cycle from user_notification
+         WHERE  users_id = ?
+         AND    context_id is NULL
+         AND    user_notification_group_id = 2', {},
+        $post->users_id
+    );
+
+    $dbh->do(
+        'INSERT INTO user_notification(
+            users_id, user_notification_group_id, context_id, cycle, created, last_check
+         )
+         VALUES(?, 2, ?, ?, ?, ?)', {},
+        $post->users_id, $post->id, $cycle->{cycle}, $now, $now
+    ) if $cycle->{cycle};
+
+     $dbh->do(
+        'INSERT INTO event(
+            users_id, action, context, context_id, created, updated, nid, pid
+         )
+         VALUES(?, ?, \'DDGC::DB::Result::User::Blog\', ?, ?, ?, 1, ?)', {},
+        $post->users_id, $_, $post->id, $now, $now, $$
+    ) for (qw/ create live /);
+}
+
 sub post_update_or_create {
     my ( $params ) = @_;
     my $post;
     my $error;
     my $user = var 'user';
-    $params->{users_id} = $user->id;
+    $params->{users_id} //= $user->id;
     $params->{uri} = ( $params->{uri} )
         ? text_to_slug( $params->{uri} )
         : text_to_slug( $params->{title} );
@@ -298,13 +330,15 @@ sub post_update_or_create {
         $post = rset('User::Blog')->find( $params->{id} );
         bailout( 404, sprintf "Blog post %s not found", $params->{id} )
             if (!$post);
-
-        bailout( 403, "You do not have permission to update this post" )
-            if ($post->users_id != $params->{users_id});
     }
 
     try {
+        my $this_is_a_new_post = 0;
+        if ( (!$params->{id} && $params->{live}) || ( $post && !$post->live && $params->{live} ) ) { # new post
+            $this_is_a_new_post = 1;
+        }
         $post = rset('User::Blog')->update_or_create( $params );
+        eval '_add_blog_post_notification_bits( $post ) if $this_is_a_new_post';
     } catch {
         $error = $_;
     };
