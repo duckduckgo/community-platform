@@ -9,11 +9,57 @@
         <span class="top__categories one-line">
             <span class="sep--after">
                 <span class="detail-title">Categories:</span>
-                {{#each topic}}
-                    <a href="/ia?&topic={{urify this}}">
-                        {{this}}{{#unless @last}}, {{/unless}}
-                    </a>
-                {{/each}}
+                {{#if permissions.can_edit}}
+                    {{#ne_and dev_milestone 'live' 'deprecated'}}
+                        <div>
+                          <div class="separator topic-separator left">
+                            <div data-panel="" class="topic button delete left js-autocommit" name="topic" title="Remove this topic">
+                              <i class="ddgsi ddgsi-close-bold">X</i>
+                            </div>
+                            <span class="frm__select">
+                              <select data-panel="" class="topic js-autocommit topic-group left" id="first-topic-select">
+                                <option value="0">{{index topic 0}}</option>
+                              </select>
+                            </span>
+                            <span class="clearfix"></span>
+                          </div>
+                          <div class="separator topic-separator left">
+                            <div data-panel="" class="topic button delete left js-autocommit" name="topic" title="Remove this topic">
+                              <i class="ddgsi ddgsi-close-bold">X</i>
+                            </div>
+                            <span class="frm__select">
+                              <select data-panel="" class="topic js-autocommit topic-group left" id="second-topic-select">
+                                <option value="0">{{index topic 1}}</option>
+                              </select>
+                            </span>
+                            <span class="clearfix"></span>
+                          </div>
+                          <div class="separator topic-separator left">
+                            <div data-panel="" class="topic button delete left js-autocommit" name="topic" title="Remove this topic">
+                              <i class="ddgsi ddgsi-close-bold">X</i>
+                            </div>
+                            <span class="frm__select">
+                              <select data-panel="" class="topic js-autocommit topic-group left" id="third-topic-select">
+                                <option value="0">{{index topic 2}}</option>
+                              </select>
+                            </span>
+                            <span class="clearfix"></span>
+                          </div>
+                        </div>
+                    {{else}}
+                        {{#each topic}}
+                            <a href="/ia?&topic={{urify this}}">
+                                {{this}}{{#unless @last}}, {{/unless}}
+                            </a>
+                        {{/each}}
+                    {{/ne_and}}
+                {{else}}
+                    {{#each topic}}
+                        <a href="/ia?&topic={{urify this}}">
+                            {{this}}{{#unless @last}}, {{/unless}}
+                        </a>
+                    {{/each}}
+                {{/if}}
             </span>
         </span>
     {{/if}}
