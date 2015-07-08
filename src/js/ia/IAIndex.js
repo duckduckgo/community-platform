@@ -59,7 +59,7 @@
                                 $(selector).parent().trigger("click");
                                 param_count++;
                             } else if ((field === "q") && value) {
-                                query = value;
+                                query = decodeURIComponent(value.replace(/\+/g, " "));
                                 ind.filter($list_item, query);
                                 param_count++;
                             }
@@ -265,7 +265,7 @@
             if (query) {
                 query = query.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
                 regex = new RegExp(query, "gi");
-                url += "&q=" + query;
+                url += "&q=" + encodeURIComponent(query.replace(/\s/g, /\s/).replace(/\t/g, ""));
             }
 
             if (!query && !repo.length && !topic.length && !dev_milestone.length && !template.length) {
