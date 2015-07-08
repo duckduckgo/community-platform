@@ -23,9 +23,9 @@
                         </div>
 
                         <: if $can_commit { :>
-                            <div class="special-permissions__edit js-view-commits btn hide" id="view_commits">Commit edits</div>
+                            <div class="special-permissions__edit js-view-commits btn hide left" id="view_commits">Commit edits</div>
                         <: } :>
-                        <div class="special-permissions__static hide js-edit-disable btn" id="edit_disable">Disable edit mode</div>
+                        <div class="special-permissions__static hide js-edit-disable btn left" id="edit_disable">Disable edit mode</div>
                     </span>
                   </div>
                 <: } :>
