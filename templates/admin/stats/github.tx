@@ -75,7 +75,7 @@
 </style>
 
 <div id="header" class="wrap">
-    <h1>GitHub Community Stats Dashboard</h1>
+    <h1>GitHub Community Stats</h1>
     <h2 id="last_updated">Updated about 8 hours ago</h2>
 </div>
 
@@ -83,69 +83,34 @@
   <div id="graph_data">
 
     <div class="tabs">
-      <div class="tab <: $tabs.last_week    :>"><a href="/admin/stats/github/last_week"   >Last week</a></div>
-      <div class="tab <: $tabs.last_month   :>"><a href="/admin/stats/github/last_month"  >Last month</a></div>
-      <div class="tab <: $tabs.last_90_days :>"><a href="/admin/stats/github/last_90_days">Last 90 days</a></div>
+      <center>
+        <div class="tab <: $tabs.last_week    :>"><a href="/admin/stats/github/last_week"   >Last week</a></div>
+        <div class="tab <: $tabs.last_month   :>"><a href="/admin/stats/github/last_month"  >Last month</a></div>
+        <div class="tab <: $tabs.last_90_days :>"><a href="/admin/stats/github/last_90_days">Last 90 days</a></div>
+      </center>
     </div>
 
     <div id="graphs">
       <div class="loader"><img src="/images/spinner.gif" /></div>
-        <div class="graph">
-          <div class="data">
-            <h2>Avg time to first response</h2>
-            <span class="number" title="Updated about 38 seconds ago"><: $stats.first_response :></span>
-          </div>
-          <div class="graph"><div class="graph-container" data-string="[[1432470000.0, 51.459883813131185], [1432470300.0, 49.61553083687538]]"></div></div>
-        </div>
+      <center>
+
         <div class="graph">
           <div class="data">
             <h2>Avg time to first code review</h2>
-            <span class="number" title="Updated about 37 seconds ago"><: $stats.first_review :></span>
+            <span class="number">--</span>
           </div>
-          <div class="graph"><div class="graph-container" data-string="[[1432470000.0, 28.978194669834146], [1432470300.0, 30.118406643021416]]"></div></div>
         </div>
+
+: for $stats -> $stat {
         <div class="graph">
           <div class="data">
-            <h2>Avg pull request lifespan</h2>
-            <span class="number" title="Updated about 37 seconds ago"><: $stats.lifespan :></span>
+            <h2><: $stat.label :></h2>
+            <span class="number"><: $stat.value // '--' :></span>
           </div>
-          <div class="graph"><div class="graph-container" data-string="[[1432470000.0, 255.92171016666668], [1432470300.0, 240.3828763]]"></div></div>
         </div>
-        <div class="graph">
-          <div class="data">
-            <h2>Commits</h2>
-            <span class="number" title="Updated about 37 seconds ago"><: $stats.commits :></span>
-          </div>
-          <div class="graph"><div class="graph-container" data-string="[[1432470000.0, 1.6666666666666667], [1432470300.0, 0.0]]"></div></div>
-        </div>
-        <div class="graph">
-          <div class="data">
-            <h2>Committers</h2>
-            <span class="number" title="Updated about 37 seconds ago"><: $stats.committers :></span>
-          </div>
-          <div class="graph"><div class="graph-container" data-string="[[1432470000.0, 1.6666666666666667], [1432470300.0, 0.0]]"></div></div>
-        </div>
-        <div class="graph">
-          <div class="data">
-            <h2>Commenters</h2>
-            <span class="number" title="Updated about 37 seconds ago"><: $stats.commenters :></span>
-          </div>
-          <div class="graph"><div class="graph-container" data-string="[[1432470000.0, 1.6666666666666667], [1432470300.0, 0.0]]"></div></div>
-        </div>
-        <div class="graph">
-          <div class="data">
-            <h2>Forks w/commits</h2>
-            <span class="number" title="Updated about 31 seconds ago"><: $stats.forks_with_commits :></span>
-          </div>
-          <div class="graph"><div class="graph-container" data-string="[[1432470000.0, 0.0005908780778992517], [1432470300.0, 0.0003049466712481028]]"></div></div>
-        </div>
-        <div class="graph">
-          <div class="data">
-            <h2>Forks w/out commits</h2>
-            <span class="number" title="Updated about 31 seconds ago"><: $stats.forks_without_commits :></span>
-          </div>
-          <div class="graph"><div class="graph-container" data-string="[[1432470000.0, 0.0005908780778992517], [1432470300.0, 0.0003049466712481028]]"></div></div>
-        </div>
+: }
+
+      </center>
     </div>
   </div>
 </div>

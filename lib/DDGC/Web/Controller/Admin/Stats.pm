@@ -262,7 +262,7 @@ sub github :Chained('base') {
     %subtract = (months =>  1) if $since eq 'last_month';
     %subtract = (days   => 90) if $since eq 'last_90_days';
 
-    my %report = DDGC::Stats::GitHub->report(
+    my @stats = DDGC::Stats::GitHub->report(
         db      => $c->ddgc->db, 
         between => [
             DateTime->now->subtract(%subtract),
@@ -270,7 +270,7 @@ sub github :Chained('base') {
         ],
     );
 
-    $c->stash->{stats} = \%report;
+    $c->stash->{stats} = \@stats;
     $c->stash->{tabs}  = {
         last_week    => "",
         last_month   => "",

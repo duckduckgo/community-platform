@@ -21,21 +21,12 @@ has between => (is => 'ro', required => 1);
 sub report {
     my ($class, %args) = @_;
     my $self = $class->new(%args);
-
     return
-        first_response        => '--',
-        first_review          => '--',
-        lifespan              => '--',
-        commits               => '--',
-        committers            => '--',
-        commenters            => '--',
-        forks_with_commits    => '--',
-        forks_without_commits => '--',
-        $self->comments_report,
-        $self->commits_report,
-        $self->forks_report,
         $self->issues_report,
-        $self->pull_requests_report;
+        $self->pull_requests_report,
+        $self->commits_report,
+        $self->comments_report,
+        $self->forks_report;
 }
 
 sub comments_report {
@@ -57,10 +48,9 @@ sub comments_report {
         $authors{$user_id}++;
     }
 
-    return ( 
-        comments       => $rs->count,
-        commenters     => $commenters,
-    );
+    return
+        { label => 'Comments',   value => $rs->count },
+        { label => 'Commenters', value => $commenters };
 }
 
 # This is a fine way to get the number of committers
@@ -82,10 +72,9 @@ sub commits_report {
         $authors{$name}++;
     }
 
-    return ( 
-        commits    => $rs->count,
-        committers => $committers,
-    );
+    return
+        { label => 'Commits',    value => $rs->count },
+        { label => 'Committers', value => $committers };
 }
 
 sub forks_report {
@@ -107,10 +96,9 @@ sub forks_report {
 
     my $forks_without_commits = $forks - $forks_with_commits;
 
-    return (
-        forks_with_commits    => $forks_with_commits,
-        forks_without_commits => $forks_without_commits,
-    );
+    return
+        { label => 'Forks w/commits',     value => $forks_with_commits },
+        { label => 'Forks w/out commits', value => $forks_without_commits };
 }
 
 sub issues_report {
@@ -140,7 +128,7 @@ sub issues_report {
 
     my $avg = human_duration($total_mins / $count);
 
-    return (first_response => $avg);
+    return { label => 'Avg time to first response', value => $avg };
 }
 
 sub pull_requests_report {
@@ -165,7 +153,7 @@ sub pull_requests_report {
     my $avg = round($total / $count, 2);
     my $lifespan = human_duration($avg);
 
-    return (lifespan => $lifespan);
+    return { label => 'Avg pull request lifespan', value => $lifespan };
 }
 
 1;
