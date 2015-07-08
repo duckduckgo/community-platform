@@ -1097,7 +1097,8 @@
                 }
             });
 
-            if (edited && edited_fields === 0) {
+            if (edited && edited_fields === 0 && 
+                (ia_data.live.dev_milestone === "live" || ia_data.live.dev_milestone === "deprecated")) {
                 $(".special-permissions__toggle-view").hide();
             }
 

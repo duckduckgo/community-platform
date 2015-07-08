@@ -17,7 +17,7 @@
             </div>
             <: if $can_edit { :>
               <div class="thirty g edit-buttons">
-                <span class="special-permissions <: if $dev_milestone != 'live' && $dev_milestone != 'deprecated' { :>hide<: } :>">
+                <span class="special-permissions">
                     <div class="edit-container">
                     </div>
 
