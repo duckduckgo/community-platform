@@ -5,6 +5,7 @@ use Moose;
 use Time::Piece;
 use Time::Seconds;
 use List::MoreUtils qw/ uniq /;
+use DDGC::Stats::GitHub;
 
 BEGIN { extends 'Catalyst::Controller'; }
 
@@ -244,6 +245,38 @@ sub coupons :Chained('base') :Args(0) {
           and  cn.responded is not null
         order  by cn.responded desc
     ") or die $dbh->errstr;
+}
+
+sub github :Chained('base') {
+    my ($self, $c, $since) = @_;
+
+    die unless 
+        $since eq 'last_week'
+     || $since eq 'last_month'
+     || $since eq 'last_90_days';
+
+    $c->add_bc('GitHub');
+
+    my %subtract;
+    %subtract = (weeks  =>  1);
+    %subtract = (months =>  1) if $since eq 'last_month';
+    %subtract = (days   => 90) if $since eq 'last_90_days';
+
+    my %report = DDGC::Stats::GitHub->report(
+        db      => $c->ddgc->db, 
+        between => [
+            DateTime->now->subtract(%subtract),
+            DateTime->now,
+        ],
+    );
+
+    $c->stash->{stats} = \%report;
+    $c->stash->{tabs}  = {
+        last_week    => "",
+        last_month   => "",
+        last_90_days => "",
+    };
+    $c->stash->{tabs}->{$since} = "selected";
 }
 
 no Moose;
