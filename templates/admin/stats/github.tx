@@ -1,13 +1,5 @@
 <style>
     /* typography */
-/*
-    body, table {
-        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    }
-    h1 { 
-        font-size: 1.5rem;
-    }
-*/
     h2 {
         font-size: 1rem;
         text-transform : uppercase;
@@ -25,9 +17,6 @@
 
     /* layout */
     h1 {
-/*
-        margin-top     : 2rem;
-*/
         margin-bottom  : 0;
         padding-bottom : 0;
     }
@@ -74,19 +63,9 @@
 
 
     /* colors */
-/*
-    h1 {
-        color : greenyellow;
-    }
-*/
     h2 {
         color : #aaa;
     }
-/*
-    #last_updated {
-        color : green;
-    }
-*/
 
     /* state */
     .loader {
