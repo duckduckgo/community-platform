@@ -23,6 +23,7 @@ This service is expected to be mounted on '/activityfeed.json'
 
 use DDGC::Base::Web::Service;
 use Try::Tiny;
+use List::MoreUtils qw/ uniq /;
 
 sub pagesize { 40 }
 
@@ -34,6 +35,7 @@ sub activity_page {
         ( $params->{filter} )
             ? ( type => { -like => $params->{filter} =~ s/\*/%/gr } )
             : (),
+        for_user => { '=' => [ uniq( undef, $params->{user} ) ] }
     }, {
         order_by => { -desc => 'me.id' },
         rows     => $params->{pagesize},
@@ -42,9 +44,12 @@ sub activity_page {
 }
 
 get '/' => sub {
+    my $params = params_hmv;
+    my $user = var 'user';
+    $params->{for_user} = $user->id if $user;
     +{
         activity => [
-            activity_page(params_hmv)->all,
+            activity_page($params)->all,
         ]
     };
 };
@@ -63,6 +68,9 @@ post '/new' => sub {
             description => $params->{description},
             ( $params->{format} )
                 ? { format => $params->{format} }
+                : (),
+            ( $params->{for_user} )
+                ? { for_user => $params->{for_user} }
                 : (),
         });
     } catch {

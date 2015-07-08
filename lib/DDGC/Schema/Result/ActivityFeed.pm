@@ -34,6 +34,11 @@ column format => {
     default_value => 'markdown',
 };
 
+column for_user => {
+    data_type => 'bigint',
+    is_nullable => 1,
+};
+
 has renderer => (
     is => 'ro',
     lazy => 1,

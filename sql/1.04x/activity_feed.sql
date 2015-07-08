@@ -6,6 +6,7 @@ CREATE TABLE "activity_feed" (
   "type" text NOT NULL,
   "description" text NOT NULL,
   "format" text DEFAULT 'markdown' NOT NULL,
+  "for_user" bigint,
   PRIMARY KEY ("id")
 );
 
