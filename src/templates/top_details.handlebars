@@ -1,6 +1,8 @@
 <div class="pull-right">
     {{#if permissions.can_edit}}
-        <div class="special-permissions__edit js-edit-enable btn btn--wire--hero btn--inline" id="edit_activate">Edit</div>
+        {{#eq_or dev_milestone 'live' 'deprecated'}}
+            <div class="special-permissions__edit js-edit-enable btn btn--wire--hero btn--inline" id="edit_activate">Edit</div>
+        {{/eq_or}}
     {{/if}}
 </div>
 
