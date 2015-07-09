@@ -903,7 +903,7 @@ sub save {
             my @topic_values = $value;
             $ia->instant_answer_topics->delete;
            
-            if (scalar @{@topic_values[0]} gt 0) {
+            if (scalar @{$topic_values[0]} gt 0) {
                 for my $topic (@{$topic_values[0]}) {
                     $saved = add_topic($c, $ia, $topic);
                     return unless $saved;
