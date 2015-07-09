@@ -805,6 +805,12 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
         }
     }
 
+    $c->ddgcr_post( [ 'ActivityFeed', 'new' ], {
+        secret  => $c->ddgc->config->shared_secret,
+        type    => sprintf("iapage_update_%s", $ia->id),
+        description => sprintf("Instant Answer Page updated : [%s](%s)", $ia->name, '/ia/view/' . $ia->id),
+    } ) if $saved;
+
     $c->stash->{x}->{result} = $result;
 
     return $c->forward($c->view('JSON'));
