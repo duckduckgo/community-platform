@@ -82,7 +82,8 @@
                             github: Handlebars.templates.github(latest_edits_data),
                             edit_buttons: Handlebars.templates.edit_buttons(latest_edits_data),
                             breadcrumbs: Handlebars.templates.breadcrumbs(latest_edits_data),
-                            triggers: Handlebars.templates.triggers(latest_edits_data)
+                            triggers: Handlebars.templates.triggers(latest_edits_data),
+                            test: Handlebars.templates.test(latest_edits_data)
                         },
                         screens : Handlebars.templates.screens(ia_data),
                     };
@@ -1019,7 +1020,7 @@
             'screens',
             'github',
             'triggers',
-            'testing'
+            'test'
         ],
 
         edit_field_order: [
