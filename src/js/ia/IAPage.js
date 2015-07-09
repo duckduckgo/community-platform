@@ -1150,34 +1150,22 @@
                 $('#ia-breadcrumbs').html(templates.live.breadcrumbs);
                 $("#ia-single-top-details").html(templates.live.top_details);
                 $('.edit-container').html(templates.live.edit_buttons);
+                $(".ia-single--left, .ia-single--right").show().empty();
 
+                var order;
                 if (dev_milestone === "live" || dev_milestone === "deprecated") {
-                    $(".ia-single--left, .ia-single--right").show().empty();
-                    
-                    for (var i = 0; i < this.field_order.length; i++) {
-                        $(".ia-single--left").append(templates.live[this.field_order[i]]);
-                    }
-
-                    $(".ia-single--left .ia-issues").before(templates.screens);
-                    $(".ia-single--right").append(templates.live.devinfo);
-                    $(".ia-single--screenshots").removeClass("twothirds");
+                    order = this.field_order;
                 } else {
-                   $(".ia-single--wide").empty();
-
-                    var $temp_panel_body;
-                    for (var i = 0; i < this.dev_milestones_order.length; i++) {
-                        var template = this.dev_milestones_order[i];
-                        $(".ia-single--wide").append(templates[template]);
-
-                        if (template !== 'screens') {
-                            $temp_panel_body = $("#" + template);
-                            $temp_panel_body.html(templates[template + "_content"]);
-                        }
-                    }
-
-                    this.appendTopics($(".topic-group"));
-                    this.hideAssignToMe();
+                    order = this.dev_milestones_order;
                 }
+                    
+                for (var i = 0; i < this.field_order.length; i++) {
+                    $(".ia-single--left").append(templates.live[this.field_order[i]]);
+                }
+
+                $(".ia-single--left .ia-issues").before(templates.screens);
+                $(".ia-single--right").append(templates.live.devinfo);
+                $(".ia-single--screenshots").removeClass("twothirds");
 
                 $(".show-more").click(function(e) {
                     e.preventDefault();

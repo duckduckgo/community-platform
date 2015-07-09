@@ -32,23 +32,19 @@
         </div>
     </div>
 
-<: if $dev_milestone == 'live' || $dev_milestone == 'deprecated' { :>
-        <div class="ia-single__body content-wrap" id="ia-single-body">
-            <div class="ia-single--left seventy"></div>
-            <div class="ia-single--right g thirty"></div>
-            <div class="ia-single--edits hide">
-                <div id="row-title">
-                    <h2 class="left row-title__live" id="row-title-live">
-                        Live
-                    </h2>
-                    <h2 class="left row-title__edited" id="row-title-edited">
-                        Edited
-                    </h2>
-                </div>
-                <span class="clearfix"></span>
+    <div class="ia-single__body content-wrap" id="ia-single-body">
+        <div class="ia-single--left seventy"></div>
+        <div class="ia-single--right g thirty"></div>
+        <div class="ia-single--edits hide">
+            <div id="row-title">
+                <h2 class="left row-title__live" id="row-title-live">
+                    Live
+                </h2>
+                <h2 class="left row-title__edited" id="row-title-edited">
+                    Edited
+                </h2>
             </div>
+            <span class="clearfix"></span>
         </div>
-<: } else { :>
-    <div class="clearfix ia-single--wide content-wrap"></div>
-<: } :>
+    </div>
 </div>
