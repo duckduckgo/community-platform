@@ -1,6 +1,22 @@
+{{#ne_and dev_milestone 'live' 'deprecated'}}
+    <div class="ia-single--info">
+        <h3 class="ia-single--header">ID {{#if permissions.admin}}<a href="#" class="devpage-edit" id="dev-edit-id">Edit</a>{{/if}}</h3>
+        {{id}}
+    </div>
+
+    {{#if pr}}
+        <div class="ia-single--info">
+            <h3 class="ia-single--header">PR #</h3>
+            <a href="https://github.com/duckduckgo/zeroclickinfo-{{repo}}/issues/{{pr.id}}" class="one-line" id="pr">
+                {{pr.id}}
+            </a>
+        </div>
+    {{/if}}
+{{/ne_and}}
+
 <div class="ia-attribution ia-single--info">
   {{#if developer}}
-    <h3 class="ia-single--header">Contributors</h3>
+    <h3 class="ia-single--header">Contributors {{#if permissions.can_edit}}<a href="#" class="devpage-edit" id="dev-edit-id">Edit</a>{{/if}}</h3>
     <ul>
       {{#each developer}}
         <li><a href="{{url}}" class="one-line">{{name}}</a></li>
@@ -34,5 +50,4 @@
     </ul>
   {{/if}}
 </div>
-
 
