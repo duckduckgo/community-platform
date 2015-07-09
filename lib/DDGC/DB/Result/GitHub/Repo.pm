@@ -30,7 +30,7 @@ column gh_data           => {
     data_type          => 'text',
     is_nullable        => 0,
     serializer_class   => 'JSON',
-    serializer_options => { convert_blessed => 1, utf8 => 1, pretty => 1 },
+    serializer_options => { convert_blessed => 1, pretty => 1 },
 };
 
 belongs_to github_user => 'DDGC::DB::Result::GitHub::User',
