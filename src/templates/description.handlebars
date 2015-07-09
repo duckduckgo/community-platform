@@ -1,6 +1,6 @@
 <div id="big-description">
   {{#if description}}
-    <h3 class="ia-single--header">Description</h3>
+    <h3 class="ia-single--header">Description {{#if permissions.can_edit}}{{#ne_and dev_milestone 'live' 'deprecated'}}Edit{{/ne_and}}{{/if}}</h3>
     <p>{{description}}</p>
   {{/if}}
 </div>

@@ -81,17 +81,10 @@
                             devinfo : Handlebars.templates.devinfo(latest_edits_data),
                             github: Handlebars.templates.github(latest_edits_data),
                             edit_buttons: Handlebars.templates.edit_buttons(latest_edits_data),
-                            breadcrumbs: Handlebars.templates.breadcrumbs(latest_edits_data)
+                            breadcrumbs: Handlebars.templates.breadcrumbs(latest_edits_data),
+                            triggers: Handlebars.templates.triggers(latest_edits_data)
                         },
                         screens : Handlebars.templates.screens(ia_data),
-                        contributors : Handlebars.templates.contributors(ia_data),
-                        contributors_content : Handlebars.templates.contributors_content(ia_data),
-                        advanced : Handlebars.templates.advanced(ia_data),
-                        advanced_content : Handlebars.templates.advanced_content(ia_data),
-                        testing : Handlebars.templates.testing(ia_data),
-                        testing_content : Handlebars.templates.testing_content(ia_data),
-                        base_info : Handlebars.templates.base_info(ia_data),
-                        base_info_content : Handlebars.templates.base_info_content(ia_data)
                     };
 
                     // Pre-Edit mode templates
@@ -953,17 +946,15 @@
 
                                     if (field === "name" || field === "dev_milestone") {
                                         $(".ia-single--name").remove();
-                                        $("#metafields").remove();
                                         latest_edits_data = page.updateData(ia_data, latest_edits_data, false);
                                         readonly_templates.live.name = Handlebars.templates.name(latest_edits_data);
-                                        $(".ia-single--wide").before(readonly_templates.live.name);
-                                        $(".ia-single--wide").before(readonly_templates.metafields);
-                                        $("#metafields").html(readonly_templates.metafields_content);
+                                        $(".ia-single--right").before(readonly_templates.live.name);
 
                                         $(".ia-single--name ." + field).addClass(saved_class);
                                     } else {
                                         Screens.render();
-
+                                        
+                                        /*
                                         readonly_templates[panel + "_content"] = Handlebars.templates[panel + "_content"](ia_data);
 
                                         var $panel_body = $("#" + panel);
@@ -978,6 +969,7 @@
                                             field = subfield? subfield : field;
                                             $panel_body.find("." + field).addClass(saved_class);
                                         }
+                                        */
                                     }
                                 }
                             }
@@ -1025,7 +1017,9 @@
             'description',
             'examples',
             'screens',
-            'github'
+            'github',
+            'triggers',
+            'testing'
         ],
 
         edit_field_order: [
@@ -1051,33 +1045,13 @@
             'perl_dependencies'
         ],
 
-        dev_milestones_order: [
-            'base_info',
-            'contributors',
-            'screens',
-            'testing',
-            'advanced'
-        ],
-
         updateHandlebars: function(templates, ia_data, dev_milestone, staged) {
             var latest_edits_data = {};
             latest_edits_data = this.updateData(ia_data, latest_edits_data, staged);
 
-            if (dev_milestone === 'live') {
-                $.each(templates.live, function(key, val) {
-                    templates.live[key] = Handlebars.templates[key](latest_edits_data);
-                });
-            } else {
-                templates.live.name = Handlebars.templates.name(latest_edits_data);
-                for (var i = 0; i < this.dev_milestones_order.length; i++) {
-                    var template = this.dev_milestones_order[i];
-                    templates[template] = Handlebars.templates[template](ia_data);
-
-                    if (template !== "screens") {
-                        templates[template + "_content"] = Handlebars.templates[template + "_content"](ia_data);
-                    }
-                }
-            }
+            $.each(templates.live, function(key, val) {
+                templates.live[key] = Handlebars.templates[key](latest_edits_data);
+            });
         },
 
         updateData: function(ia_data, x, edited) {
@@ -1152,13 +1126,6 @@
                 $('.edit-container').html(templates.live.edit_buttons);
                 $(".ia-single--left, .ia-single--right").show().empty();
 
-                var order;
-                if (dev_milestone === "live" || dev_milestone === "deprecated") {
-                    order = this.field_order;
-                } else {
-                    order = this.dev_milestones_order;
-                }
-                    
                 for (var i = 0; i < this.field_order.length; i++) {
                     $(".ia-single--left").append(templates.live[this.field_order[i]]);
                 }

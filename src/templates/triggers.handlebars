@@ -1,0 +1,14 @@
+{{#ne_and dev_milestone 'live' 'deprecated'}}
+    {{#if triggers}}
+      <div class="ia-examples ia-single--info">
+        <h3 class="ia-single--header">Triggers {{#if permissions.can_edit}}Edit{{/if}}</h3>
+        {{#if triggers}}
+            {{#each triggers}}
+                {{this}}{{#unless @last}}, {{/unless}}
+            {{/each}}
+        {{else}}
+            No triggers applied
+        {{/if}}
+      </div>
+    {{/if}}
+{{/ne_and}}

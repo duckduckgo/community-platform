@@ -16,7 +16,13 @@
 
 <div class="ia-attribution ia-single--info">
   {{#if developer}}
-    <h3 class="ia-single--header">Contributors {{#if permissions.can_edit}}<a href="#" class="devpage-edit" id="dev-edit-id">Edit</a>{{/if}}</h3>
+    <h3 class="ia-single--header">Contributors 
+    {{#if permissions.can_edit}}
+        {{#ne_and dev_milestone 'live' 'deprecated'}}
+            <a href="#" class="devpage-edit" id="dev-edit-id">Edit</a>
+        {{/ne_and}}
+    {{/if}}
+    </h3>
     <ul>
       {{#each developer}}
         <li><a href="{{url}}" class="one-line">{{name}}</a></li>
