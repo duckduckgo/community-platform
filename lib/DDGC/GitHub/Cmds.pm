@@ -52,6 +52,17 @@ sub issues {
     return $self->_drain_api($uri);
 }
 
+sub comments {
+    my ($self, %args) = @_;
+
+    my $owner  = uri_escape $args{owner}  || die "owner param required";
+    my $repo   = uri_escape $args{repo}   || die "repo param required";
+    my $uri = URI->new("/repos/$owner/$repo/issues/comments");
+    $uri->query_form(%args);
+
+    return $self->_drain_api($uri);
+}
+
 sub pulls {
     my ($self, %args) = @_;
 
@@ -63,23 +74,23 @@ sub pulls {
     return $self->_drain_api($uri);
 }
 
+sub review_comments {
+    my ($self, %args) = @_;
+
+    my $owner = uri_escape $args{owner} || die "owner param required";
+    my $repo  = uri_escape $args{repo}  || die "repo param required";
+    my $uri   = URI->new("/repos/$owner/$repo/pulls/comments");
+    $uri->query_form(%args);
+
+    return $self->_drain_api($uri);
+}
+
 sub forks {
     my ($self, %args) = @_;
 
     my $owner = uri_escape $args{owner} || die "owner param required";
     my $repo  = uri_escape $args{repo}  || die "repo param required";
     my $uri   = URI->new("/repos/$owner/$repo/forks");
-    $uri->query_form(%args);
-
-    return $self->_drain_api($uri);
-}
-
-sub comments {
-    my ($self, %args) = @_;
-
-    my $owner  = uri_escape $args{owner}  || die "owner param required";
-    my $repo   = uri_escape $args{repo}   || die "repo param required";
-    my $uri = URI->new("/repos/$owner/$repo/issues/comments");
     $uri->query_form(%args);
 
     return $self->_drain_api($uri);
