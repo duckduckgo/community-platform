@@ -7,6 +7,8 @@ extends 'DDGC::DB::Base::Result';
 use DBIx::Class::Candy;
 use namespace::autoclean;
 
+use List::MoreUtils qw/any/;
+
 table 'github_issue';
 
 primary_column id       => {data_type => 'bigint',  is_auto_increment => 1};
@@ -46,6 +48,11 @@ belongs_to github_user => 'DDGC::DB::Result::GitHub::User',
 belongs_to github_user_assignee => 'DDGC::DB::Result::GitHub::User',
     { 'foreign.id' => 'self.github_user_id_assignee' },
     { on_delete => 'cascade', join_type => 'left' };
+
+might_have github_pull => 'DDGC::DB::Result::GitHub::Pull',
+    { 'foreign.number'         => 'self.number',
+      'foreign.github_repo_id' => 'self.github_repo_id' },
+    { cascade_delete => 1 };
 
 has_many github_issue_events => 'DDGC::DB::Result::GitHub::Issue::Event',
     { 'foreign.github_issue_id' => 'self.id' },
