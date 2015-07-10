@@ -33,6 +33,11 @@ column gh_data          => {
 
 unique_constraint  [qw/number github_repo_id/];
 
+belongs_to github_issue => 'DDGC::DB::Result::GitHub::Issue',
+    { 'foreign.number'         => 'self.number',
+      'foreign.github_repo_id' => 'self.github_repo_id' },
+    { cascade_delete => 1 };
+
 belongs_to idea => 'DDGC::DB::Result::Idea',
     { 'foreign.id' => 'self.idea_id' },
     { on_delete => 'cascade', join_type => 'left'};
@@ -44,6 +49,12 @@ belongs_to github_repo => 'DDGC::DB::Result::GitHub::Repo',
 belongs_to github_user => 'DDGC::DB::Result::GitHub::User',
     { 'foreign.id' => 'self.github_user_id' },
     { on_delete => 'cascade' };
+
+has_many github_review_comments => 'DDGC::DB::Result::GitHub::ReviewComment',
+    { 'foreign.number'         => 'self.number',
+      'foreign.github_repo_id' => 'self.github_repo_id',
+    },
+    { cascade_delete => 0 };
 
 no Moose;
 __PACKAGE__->meta->make_immutable;
