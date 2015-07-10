@@ -1,7 +1,7 @@
 package DDGC::GitHub;
 # ABSTRACT: 
 
-use Moose;
+use Moo;
 use Net::GitHub;
 use DDGC::GitHub::Cmds;
 use DateTime::Format::ISO8601;
@@ -17,7 +17,7 @@ use DDP;
 
     my $github = DDGC::GitHub->new(ddgc => $ddgc);
 
-    # update all the github_* databases
+    # update all the github_* tables
     $github->update_database;
 
     # something to do with users giving us access to their github accounts via oath
@@ -28,8 +28,8 @@ use DDP;
 
 =cut
 
-has ddgc       => (isa => 'DDGC', is => 'ro', weak_ref => 1, required => 1);
-has net_github => (is => 'ro', lazy_build => 1);
+has ddgc       => (is => 'ro', weak_ref => 1, required => 1);
+has net_github => (is => 'lazy');
 
 sub _build_net_github {
   Net::GitHub->new(access_token => shift->ddgc->config->github_token)
@@ -90,8 +90,13 @@ sub one_second {
     return DateTime::Duration->new(seconds => 1);
 }
 
+# only called from ddgc_import_github.pl
 sub update_database {
     my ($self) = @_;
+
+    print "Updating github_user table\n";
+    $self->update_users;
+
     $self->update_repos($self->ddgc->config->github_org, 1);
 }
 
@@ -104,8 +109,38 @@ sub find_or_update_user {
 
 sub update_user {
     my ( $self, $login ) = @_;
-    my $user = $self->gh_api->user($login);
+    my $user = $self->net_github->user->show($login);
     return $self->update_user_from_data($user);
+}
+
+# these should probably be in the db or cached in redis
+has owners_team_id      => (is => 'lazy'); 
+has owners_team_members => (is => 'lazy');
+
+sub _build_owners_team_id {
+    my $self = shift;
+    my $teams_data = $self->net_github->org->teams('DuckDuckGo');
+
+    for my $team_data (@$teams_data) {
+        next unless $team_data->{name} eq 'Owners';
+        return $team_data->{id};
+    }
+
+    die "could not find the owners team in the duckduckgo organizaiton";
+}
+
+sub _build_owners_team_members {
+    my $self = shift;
+    my $team_members_data = $self->net_github
+        ->org
+        ->team_members($self->owners_team_id);
+    return { map { $_->{id} => 1 } @$team_members_data };
+}
+
+sub isa_team_member {
+    my ($self, $team_name, $user_id) = @_;
+    return 1 if $self->owners_team_members->{$user_id};
+    return 0;
 }
 
 sub update_user_from_data {
@@ -125,6 +160,7 @@ sub update_user_from_data {
     $columns{created_at}  = parse_datetime($user->{created_at});
     $columns{updated_at}  = parse_datetime($user->{updated_at});
     $columns{gh_data}     = $user;
+    $columns{isa_owners_team_member} = $self->isa_team_member('owners', $user->{id});
 
     return $self->ddgc
         ->rs('GitHub::User')
@@ -215,6 +251,14 @@ sub update_repo_from_data {
     print "   branches...\n";
     $self->update_repo_branches($gh_repo);
     return $gh_repo;
+}
+
+sub update_users {
+    my ($self) = @_;
+    my $rs = $self->ddgc->rs('GitHub::User')->search;
+    while (my $user = $rs->next) {
+        $self->update_user($user->login);
+    }
 }
 
 sub update_repo_pulls {
