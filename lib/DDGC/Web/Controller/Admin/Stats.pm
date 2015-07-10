@@ -250,31 +250,37 @@ sub coupons :Chained('base') :Args(0) {
 sub github :Chained('base') {
     my ($self, $c, $since) = @_;
 
-    die unless 
-        $since eq 'last_week'
-     || $since eq 'last_month'
-     || $since eq 'last_90_days';
+    #die unless 
+    #    $since eq 'last_week'
+    # || $since eq 'last_month'
+    # || $since eq 'last_90_days';
 
     $c->add_bc('GitHub');
 
     my %subtract;
     %subtract = (weeks  =>  1);
+    %subtract = (weeks  =>  2) if $since eq 'week_before';
+    %subtract = (weeks  =>  3) if $since eq 'week_before_that';
     %subtract = (months =>  1) if $since eq 'last_month';
     %subtract = (days   => 90) if $since eq 'last_90_days';
 
+    my $start_date = DateTime->now->subtract(%subtract);
+    my $end_date   = DateTime->now;
+    $end_date = DateTime->now->subtract(weeks => 1) if $since eq 'week_before';
+    $end_date = DateTime->now->subtract(weeks => 2) if $since eq 'week_before_that';
+
     my @stats = DDGC::Stats::GitHub->report(
         db      => $c->ddgc->db, 
-        between => [
-            DateTime->now->subtract(%subtract),
-            DateTime->now,
-        ],
+        between => [$start_date, $end_date],
     );
 
     $c->stash->{stats} = \@stats;
     $c->stash->{tabs}  = {
-        last_week    => "",
-        last_month   => "",
-        last_90_days => "",
+        last_week        => "",
+        week_before      => "",
+        week_before_that => "",
+        last_month       => "",
+        last_90_days     => "",
     };
     $c->stash->{tabs}->{$since} = "selected";
 }
