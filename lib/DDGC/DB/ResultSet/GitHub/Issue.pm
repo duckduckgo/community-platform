@@ -20,6 +20,33 @@ sub with_closed_at {
 	$self->search({ closed_at => { $operator => $date } });
 }
 
+sub with_isa_pull_request {
+    my ($self, $bool) = @_;
+	$self->search({ isa_pull_request => $bool });
+}
+
+# ignore users who are members of the owners team on github.  these users are
+# usually ddg employees:
+# https://github.com/orgs/duckduckgo/teams/owners
+sub ignore_staff_commits {
+    my ($self) = @_;
+    $self->search(
+        { 'github_user_author.isa_owners_team_member' => 0 },
+        { prefetch => 'github_user_author' }
+    );
+}
+
+sub prefetch_comments_not_by_issue_author {
+    my ($self) = @_;
+    $self->search({
+    }, {
+        prefetch => 'github_comments',
+        # ignore comments made by the person who created the issue
+        'github_comments.github_user_id' => { '!=' => 'me.github_user_id' },
+        order_by => 'github_comments.created_at'
+    });
+}
+
 sub most_recent {
     my ($self) = @_;
     return $self->search(

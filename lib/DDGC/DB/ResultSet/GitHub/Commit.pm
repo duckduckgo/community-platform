@@ -13,8 +13,12 @@ sub with_author_date {
 # ignore users who are members of the owners team on github.  these users are
 # usually ddg employees:
 # https://github.com/orgs/duckduckgo/teams/owners
-sub with_no_owners {
-	shift->search({ author_login => { -not_in => [qw//]} });
+sub ignore_staff_commits {
+    my ($self) = @_;
+    $self->search(
+        { 'github_user_author.isa_owners_team_member' => 0 },
+        { prefetch => 'github_user_author' }
+    );
 }
 
 sub with_state { 

@@ -15,6 +15,17 @@ sub with_merged_at {
 	$self->search({ merged_at => { $operator => $date } });
 }
 
+# ignore users who are members of the owners team on github.  these users are
+# usually ddg employees:
+# https://github.com/orgs/duckduckgo/teams/owners
+sub ignore_staff_pull_requests {
+    my ($self) = @_;
+    $self->search(
+        { 'github_user.isa_owners_team_member' => 0 },
+        { prefetch => 'github_user' }
+    );
+}
+
 sub most_recent {
     my ($self) = @_;
     return $self->search(
