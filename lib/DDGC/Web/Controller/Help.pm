@@ -48,7 +48,7 @@ sub search :Chained('base') :Args(0) {
   );
 
   $c->stash->{articles} = $articles;
-  $c->stash->{search_helps} = [ $articles_rs->all ];
+  $c->stash->{search_helps} = [ $articles_rs->all ] if $articles_rs;
   $c->stash->{title} = 'Search help pages';
 }
 
