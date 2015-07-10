@@ -34,7 +34,8 @@ sub comments_report {
 
     my $rs = $self->db->rs('GitHub::Comment')
         ->search
-        ->with_created_at('-between' => $self->between);
+        ->with_created_at('-between' => $self->between)
+        ->ignore_staff_comments();
 
     my %authors;
     my $comments;
@@ -61,7 +62,8 @@ sub commits_report {
 
     my $rs = $self->db->rs('GitHub::Commit')
         ->search
-        ->with_author_date('-between' => $self->between);
+        ->with_author_date('-between' => $self->between)
+        ->ignore_staff_commits();
 
     my %authors;
     my $committers;
@@ -96,9 +98,7 @@ sub forks_report {
 
     my $forks_without_commits = $forks - $forks_with_commits;
 
-    return
-        { label => 'Forks w/commits',     value => $forks_with_commits },
-        { label => 'Forks w/out commits', value => $forks_without_commits };
+    return { label => 'Forks created', value => $forks };
 }
 
 sub issues_report {
@@ -108,18 +108,19 @@ sub issues_report {
         ->search({}, {
             prefetch => 'github_comments',
             order_by => 'github_comments.created_at'
-          })
-        ->with_closed_at('-between' => $self->between);
-
+        })
+        ->with_closed_at('-between' => $self->between)
+        ->with_isa_pull_request(1)
+        ->prefetch_comments_not_by_issue_author;
 
     my $count = 0;
     my $total_mins = 0;
 
-    while (my $row = $rs->next) {
-        my $first_comment = $row->github_comments->first;
+    while (my $github_issue = $rs->next) {
+        my $first_comment = $github_issue->github_comments->first;
         next unless $first_comment;  # FIXME  - should us a duration of zero instead of skipping?
 
-        my $duration = $first_comment->created_at - $row->created_at;
+        my $duration = $first_comment->created_at - $github_issue->created_at;
 #p $duration;
         my $mins     = duration_to_minutes($duration);
         $total_mins += $mins;
@@ -137,7 +138,8 @@ sub pull_requests_report {
     my $rs = $self->db->rs('GitHub::Pull')
         ->search
         ->with_state('closed')
-        ->with_merged_at('-between' => $self->between);
+        ->with_merged_at('-between' => $self->between)
+        ->ignore_staff_pull_requests;
 
     my $total  = 0;
     my $count  = 0;
@@ -153,7 +155,9 @@ sub pull_requests_report {
     my $avg = round($total / $count, 2);
     my $lifespan = human_duration($avg);
 
-    return { label => 'Avg pull request lifespan', value => $lifespan };
+    return 
+        { label => 'Avg pull request lifespan', value => $lifespan },
+        { label => 'Pull requests merged', value => $count };
 }
 
 1;
