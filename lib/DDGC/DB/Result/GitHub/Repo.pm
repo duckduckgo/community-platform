@@ -45,6 +45,10 @@ has_many github_pulls => 'DDGC::DB::Result::GitHub::Pull',
     { 'foreign.github_repo_id' => 'self.id' },
     { cascade_delete => 1 };
 
+has_many github_review_comments => 'DDGC::DB::Result::GitHub::Comment',
+    { 'foreign.github_repo_id' => 'self.id' },
+    { cascade_delete => 1 };
+
 has_many github_issues => 'DDGC::DB::Result::GitHub::Issue',
     { 'foreign.github_repo_id' => 'self.id' },
     { cascade_delete => 1 };
