@@ -33,12 +33,14 @@
             </select>
             </span>
         {{/if}}
-        
-        {{#if test_machine}}
-            <span class="readonly--info" id="test_machine--readonly">{{test_machine}}</span>
-        {{else}}
-            No dev machine
-        {{/if}}
+
+        <span class="readonly--info" id="test_machine--readonly">        
+            {{#if test_machine}}
+                {{test_machine}}
+            {{else}}
+                No dev machine
+            {{/if}}
+        </span>
     </div>
 {{/ne_and}}
 

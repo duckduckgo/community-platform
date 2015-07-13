@@ -1,6 +1,19 @@
 <div id="big-description">
-  {{#if description}}
-    <h3 class="ia-single--header">Description {{#if permissions.can_edit}}{{#ne_and dev_milestone 'live' 'deprecated'}}Edit{{/ne_and}}{{/if}}</h3>
-    <p>{{description}}</p>
-  {{/if}}
+    <h3 class="ia-single--header">Description 
+    {{#if permissions.can_edit}}
+        {{#ne_and dev_milestone 'live' 'deprecated'}}<a href="#" class="edit-show">Edit</a>{{/ne_and}}
+    {{/if}}
+    </h3>
+    
+    <p  class="readonly--info" id="description--readonly">
+        {{#if description}}
+            {{description}}
+        {{else}}
+            No description provided.
+        {{/if}}
+    </p>
+    
+    {{#if permissions.can_edit}}
+        <textarea rows="2" cols="100" class="hide frm__text description js-autocommit" id="description-textarea">{{description}}</textarea>
+    {{/if}}
 </div>
