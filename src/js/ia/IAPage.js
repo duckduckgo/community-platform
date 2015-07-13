@@ -129,6 +129,15 @@
                         location.href = json_url;
                     });
 
+                    $("body").on("click", ".devpage-edit", function(evt) {
+                        var $parent = $(this).parent().parent();
+
+                        $(this).hide();
+
+                        $parent.children(".js-autocommit").removeClass("hide");
+                        $parent.children(".readonly--info").addClass("hide");
+                    });
+
                     $('body').on("change keypress focusout", ".available_types, .developer_username input", function(evt) {
                         if ((evt.type === "change" && $(this).hasClass("available_types")) || (evt.type === "keypress" && evt.which === 13)
                              || (evt.type === "focusout" && $(this).hasClass("focused"))) {

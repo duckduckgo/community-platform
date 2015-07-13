@@ -22,7 +22,7 @@
     <div class="ia-single--info">
         <h3 class="ia-single--header">Dev Machine {{#if permissions.admin}}<a href="#" class="devpage-edit" id="dev-edit-test_machine">Edit</a>{{/if}}</h3>
         {{#if permissions.admin}}
-            <span class="frm__select hide">
+            <span class="frm__select js-autocommit hide">
             <select class="test_machine js-autocommit" tabindex="-1" id="test_machine-select">
                 {{#if test_machine}}<option value="0">{{test_machine}}</option>{{/if}}
                 <option value=""> --- </option>
