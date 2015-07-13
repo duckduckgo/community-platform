@@ -1,7 +1,13 @@
 {{#ne_and dev_milestone 'live' 'deprecated'}}
     <div class="ia-single--info">
         <h3 class="ia-single--header">ID {{#if permissions.admin}}<a href="#" class="devpage-edit" id="dev-edit-id">Edit</a>{{/if}}</h3>
-        {{id}}
+        <span class="readonly--info" id="meta_id--readonly">
+            {{id}}
+        </span>
+
+        {{#if permissions.admin}}
+            <input type="text" class="hide frm__input meta_id js-autocommit" id="meta_id-input" value="{{id}}" />
+        {{/if}}
     </div>
 
     {{#if pr}}
@@ -14,7 +20,7 @@
     {{/if}}
 
     <div class="ia-single--info">
-        <h3 class="ia-single--header">Dev Machine {{#if permissions.admin}}<a href="#" class="devpage-edit" id="dev-edit-id">Edit</a>{{/if}}</h3>
+        <h3 class="ia-single--header">Dev Machine {{#if permissions.admin}}<a href="#" class="devpage-edit" id="dev-edit-test_machine">Edit</a>{{/if}}</h3>
         {{#if permissions.admin}}
             <span class="frm__select hide">
             <select class="test_machine js-autocommit" tabindex="-1" id="test_machine-select">
@@ -49,7 +55,7 @@
     <h3 class="ia-single--header">Contributors 
     {{#if permissions.can_edit}}
         {{#ne_and dev_milestone 'live' 'deprecated'}}
-            <a href="#" class="devpage-edit" id="dev-edit-id">Edit</a>
+            <a href="#" class="devpage-edit" id="dev-edit-contributors">Edit</a>
         {{/ne_and}}
     {{/if}}
     </h3>

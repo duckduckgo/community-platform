@@ -49,18 +49,26 @@
                           </div>
                         </div>
                     {{else}}
+                        {{#if topic}}
+                            {{#each topic}}
+                                <a href="/ia?&topic={{urify this}}">
+                                    {{this}}{{#unless @last}}, {{/unless}}
+                                </a>
+                            {{/each}}
+                        {{else}}
+                            No topic
+                        {{/if}}
+                    {{/ne_and}}
+                {{else}}
+                    {{#if topic}}
                         {{#each topic}}
                             <a href="/ia?&topic={{urify this}}">
                                 {{this}}{{#unless @last}}, {{/unless}}
                             </a>
                         {{/each}}
-                    {{/ne_and}}
-                {{else}}
-                    {{#each topic}}
-                        <a href="/ia?&topic={{urify this}}">
-                            {{this}}{{#unless @last}}, {{/unless}}
-                        </a>
-                    {{/each}}
+                    {{else}}
+                        No topic
+                    {{/if}}
                 {{/if}}
             </span>
         </span>
