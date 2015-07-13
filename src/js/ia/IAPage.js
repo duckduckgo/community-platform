@@ -133,6 +133,7 @@
                         var $parent = $(this).parent().parent();
 
                         $(this).hide();
+                        $(this).siblings(".devpage-commit, .devpage-cancel").removeClass("hide");
 
                         $parent.children(".js-autocommit").removeClass("hide");
                         $parent.children(".readonly--info").addClass("hide");

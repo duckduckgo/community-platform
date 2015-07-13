@@ -1,7 +1,11 @@
 <div id="big-description">
     <h3 class="ia-single--header">Description 
     {{#if permissions.can_edit}}
-        {{#ne_and dev_milestone 'live' 'deprecated'}}<a href="#" class="devpage-edit" id="dev-edit-description">Edit</a>{{/ne_and}}
+        {{#ne_and dev_milestone 'live' 'deprecated'}}
+            <a href="#" class="devpage-edit" id="dev-edit-description">Edit</a>
+            <a href="#" class="devpage-commit sep--after hide" id="dev-commit-description">Commit</a>
+            <a href="#" class="devpage-cancel hide" id="dev-cancel-description">Cancel</a>
+        {{/ne_and}}
     {{/if}}
     </h3>
     

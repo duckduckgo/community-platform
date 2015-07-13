@@ -1,6 +1,15 @@
 {{#ne_and dev_milestone 'live' 'deprecated'}}
     <div class="ia-single--info">
-        <h3 class="ia-single--header">ID {{#if permissions.admin}}<a href="#" class="devpage-edit" id="dev-edit-id">Edit</a>{{/if}}</h3>
+        <h3 class="ia-single--header">ID 
+        {{#if permissions.admin}}
+            {{#ne_and dev_milestone 'live' 'deprecated'}}
+                <a href="#" class="devpage-edit" id="dev-edit-meta_id">Edit</a>
+                <a href="#" class="devpage-commit sep--after hide" id="dev-commit-meta_id">Commit</a>
+                <a href="#" class="devpage-cancel hide" id="dev-cancel-meta_id">Cancel</a>
+            {{/ne_and}}
+        {{/if}}
+        </h3>
+        
         <span class="readonly--info" id="meta_id--readonly">
             {{id}}
         </span>
@@ -20,7 +29,16 @@
     {{/if}}
 
     <div class="ia-single--info">
-        <h3 class="ia-single--header">Dev Machine {{#if permissions.admin}}<a href="#" class="devpage-edit" id="dev-edit-test_machine">Edit</a>{{/if}}</h3>
+        <h3 class="ia-single--header">Dev Machine 
+        {{#if permissions.admin}}
+            {{#ne_and dev_milestone 'live' 'deprecated'}}
+                <a href="#" class="devpage-edit" id="dev-edit-test_machine">Edit</a>
+                <a href="#" class="devpage-commit sep--after hide" id="dev-commit-test_machine">Commit</a>
+                <a href="#" class="devpage-cancel hide" id="dev-cancel-test_machine">Cancel</a>
+            {{/ne_and}}
+        {{/if}}
+        </h3>
+        
         {{#if permissions.admin}}
             <span class="frm__select js-autocommit hide">
             <select class="test_machine js-autocommit" tabindex="-1" id="test_machine-select">
