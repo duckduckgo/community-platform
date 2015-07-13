@@ -139,6 +139,17 @@
                         $parent.children(".readonly--info").addClass("hide");
                     });
 
+                    $("body").on("click", ".devpage-cancel", function(evt) {
+                        var $parent = $(this).parent().parent();
+
+                        $(this).addClass("hide");
+                        $(this).siblings(".devpage-commit").addClass("hide");
+                        $(this).siblings(".devpage-edit").show();
+
+                        $parent.children(".js-autocommit").addClass("hide");
+                        $parent.children(".readonly--info").removeClass("hide");
+                    });
+
                     $('body').on("change keypress focusout", ".available_types, .developer_username input", function(evt) {
                         if ((evt.type === "change" && $(this).hasClass("available_types")) || (evt.type === "keypress" && evt.which === 13)
                              || (evt.type === "focusout" && $(this).hasClass("focused"))) {
