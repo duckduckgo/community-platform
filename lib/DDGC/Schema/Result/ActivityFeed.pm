@@ -19,11 +19,6 @@ column created => {
     set_on_create => 1,
 };
 
-column type => {
-    data_type => 'text',
-    is_nullable => 0,
-};
-
 column description => {
     data_type => 'text',
     is_nullable => 0,
@@ -36,6 +31,11 @@ column format => {
 
 column for_user => {
     data_type => 'bigint',
+    is_nullable => 1,
+};
+
+column for_role => {
+    data_type => 'int',
     is_nullable => 1,
 };
 
