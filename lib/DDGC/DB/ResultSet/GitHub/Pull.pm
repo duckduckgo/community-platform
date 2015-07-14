@@ -37,7 +37,7 @@ sub most_recent {
     )->first;
 }
 
-sub prefetch_comments_not_by_pull_author {
+sub prefetch_review_comments_not_by_pull_author {
     my ($self) = @_;
     $self->search({
     }, {
