@@ -20,6 +20,11 @@ sub with_closed_at {
 	$self->search({ closed_at => { $operator => $date } });
 }
 
+sub with_created_at {
+    my ($self, $operator, $date) = @_;
+	$self->search({ created_at => { $operator => $date } });
+}
+
 # ignore users who are members of the owners team on github.  these users are
 # usually ddg employees:
 # https://github.com/orgs/duckduckgo/teams/owners
