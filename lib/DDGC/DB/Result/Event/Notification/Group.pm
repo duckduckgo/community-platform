@@ -70,7 +70,7 @@ sub u {
 	}
 	my $group_object = $self->group_object;
 	if ($group_object) {
-		return $group_object->u(@args);
+		return $group_object->u(@args) if ($group_object && $group_object->can('u'));;
 	}
 	return ['Root','index',{ notification_link_error => 1 }]
 }
