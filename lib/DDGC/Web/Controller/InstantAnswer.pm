@@ -724,6 +724,10 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
                             return $c->forward($c->view('JSON')) unless check_github($temp_username);
 
                             $temp_url = 'https://github.com/'.$temp_username;
+                        } elsif ($temp_type eq 'ddg') {
+                            #IA was developed internally - set default values
+                            $temp_username = "DDG Team";
+                            $temp_url = "http://www.duckduckhack.com";
                         } else {
                             # Type is 'legacy', so the username contains the url to 
                             # a personal website or twitter account etc,
