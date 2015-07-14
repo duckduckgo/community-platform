@@ -63,7 +63,7 @@
 			<: if my $size = $c.user.user_languages.count { :>
 				<div class="row callout-row">
 					<: if $c.user.translation_manager { :>
-						<a class="callout-link" href="http://duckpan.org/perldoc/DDG::Manual::Translation">
+						<a class="callout-link" href="https://github.com/duckduckgo/community-platform/wiki/Translation">
 							<i class="icon-circle-arrow-right  callout-row__icn--right"></i>
 							<i class="callout-row__icn--left  icon-leaf"></i>
 							<h3 class="callout-row__text  has-icon">You are a translation manager! Click here for translation documentation.</h3>
