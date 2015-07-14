@@ -98,6 +98,8 @@ column updated => {
     set_on_update => 1,
 };
 
+has_many 'roles', 'DDGC::Schema::Result::User::Role', 'users_id';
+
 # TODO: Migrate 'flags' to 'roles'
 sub is {
     my ( $self, $role ) = @_;

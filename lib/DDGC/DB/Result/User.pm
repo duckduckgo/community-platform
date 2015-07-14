@@ -182,6 +182,8 @@ has_many 'github_users', 'DDGC::DB::Result::GitHub::User', 'users_id', {
 
 has_many 'failedlogins', 'DDGC::DB::Result::User::FailedLogin', 'users_id';
 
+has_many 'roles', 'DDGC::DB::Result::User::Role', 'users_id';
+
 has_many 'instant_answer_users', 'DDGC::DB::Result::InstantAnswer::Users', 'users_id';
 many_to_many 'instant_answers', 'instant_answer_users', 'instant_answer';
 
