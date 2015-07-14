@@ -51,12 +51,6 @@ column email_notification_content => {
 	default_value => 1,
 };
 
-column admin => {
-	data_type => 'int',
-	is_nullable => 0,
-	default_value => 0,
-};
-
 column ghosted => {
 	data_type => 'int',
 	is_nullable => 0,
@@ -111,19 +105,6 @@ column updated => {
 	data_type => 'timestamp with time zone',
 	set_on_create => 1,
 	set_on_update => 1,
-};
-
-column roles => {
-	data_type => 'text',
-	is_nullable => 1,
-	default_value => '',
-};
-
-column flags => {
-	data_type => 'text',
-	is_nullable => 0,
-	serializer_class => 'JSON',
-	default_value => '[]',
 };
 
 has xmpp => (
