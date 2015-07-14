@@ -293,16 +293,29 @@ sub id_for_forum {
 sub roles {
 	my ( $self ) = @_;
 	+{
-		'1' => 'admin',
-		'2' => 'forum_manager',
-		'3' => 'translation_manager',
-		'4' => 'patron',
+		'1' => {
+			role => 'admin',
+			name => 'Community Platform Admin',
+		},
+		'2' => {
+			role => 'forum_manager',
+			name => 'Community Leader (Forum Manager)',
+		},
+		'3' => {
+			role => 'translation_manager',
+			name => 'Translation Manager',
+		},
+		'4' => {
+			role => 'patron',
+			name => 'Patron',
+		},
 	};
 }
 sub id_for_role {
 	my ( $self, $role_name ) = @_;
+	my $roles = $self->roles;
 	$role_name = 'forum_manager' if ($role_name eq 'community_leader');
-	+{ reverse %{ $self->roles } }->{$role_name} // 0;
+	(grep { $roles->{$_}->{role} eq $role_name } keys $roles)[0] // 0;
 }
 
 sub campaign_config { $_[0]->campaigns->{$_[0]->campaign} }
