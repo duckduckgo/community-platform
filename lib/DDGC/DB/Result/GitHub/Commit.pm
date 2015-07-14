@@ -2,7 +2,6 @@ package DDGC::DB::Result::GitHub::Commit;
 # ABSTRACT:
 
 use Moose;
-use MooseX::NonMoose;
 extends 'DDGC::DB::Base::Result';
 use DBIx::Class::Candy;
 use namespace::autoclean;
@@ -45,4 +44,4 @@ belongs_to github_user_committer => 'DDGC::DB::Result::GitHub::User',
     { on_delete => 'cascade', join_type => 'left' };
 
 no Moose;
-__PACKAGE__->meta->make_immutable;
+__PACKAGE__->meta->make_immutable( inline_constructor => 0 );

@@ -2,7 +2,6 @@ package DDGC::DB::Result::GitHub::Pull;
 # ABSTRACT:
 
 use Moose;
-use MooseX::NonMoose;
 extends 'DDGC::DB::Base::Result';
 use DBIx::Class::Candy;
 use namespace::autoclean;
@@ -36,7 +35,7 @@ unique_constraint  [qw/number github_repo_id/];
 belongs_to github_issue => 'DDGC::DB::Result::GitHub::Issue',
     { 'foreign.number'         => 'self.number',
       'foreign.github_repo_id' => 'self.github_repo_id' },
-    { cascade_delete => 1 };
+    { cascade_delete => 0 };
 
 belongs_to idea => 'DDGC::DB::Result::Idea',
     { 'foreign.id' => 'self.idea_id' },
@@ -57,4 +56,4 @@ has_many github_review_comments => 'DDGC::DB::Result::GitHub::ReviewComment',
     { cascade_delete => 0 };
 
 no Moose;
-__PACKAGE__->meta->make_immutable;
+__PACKAGE__->meta->make_immutable( inline_constructor => 0 );

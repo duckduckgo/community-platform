@@ -2,7 +2,6 @@ package DDGC::DB::Result::GitHub::ReviewComment;
 # ABSTRACT:
 
 use Moose;
-use MooseX::NonMoose;
 extends 'DDGC::DB::Base::Result';
 use DBIx::Class::Candy;
 use namespace::autoclean;
@@ -16,8 +15,6 @@ column github_user_id     => {data_type => 'bigint', is_nullable => 0};
 column number             => {data_type => 'bigint', is_nullable => 0};
 column diff_hunk          => {data_type => 'text',   is_nullable => 0};
 column path               => {data_type => 'text',   is_nullable => 0};
-column commit_id          => {data_type => 'bigint', is_nullable => 0};
-column original_commit_id => {data_type => 'bigint', is_nullable => 0};
 column body               => {data_type => 'text',   is_nullable => 0};
 column created_at         => {data_type => 'timestamp with time zone', is_nullable => 0};
 column updated_at         => {data_type => 'timestamp with time zone', is_nullable => 0};
@@ -43,4 +40,4 @@ belongs_to github_pull => 'DDGC::DB::Result::GitHub::Pull',
     { on_delete => 'cascade' };
 
 no Moose;
-__PACKAGE__->meta->make_immutable;
+__PACKAGE__->meta->make_immutable( inline_constructor => 0 );

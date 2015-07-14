@@ -2,7 +2,6 @@ package DDGC::DB::Result::GitHub::Issue;
 # ABSTRACT:
 
 use Moose;
-use MooseX::NonMoose;
 extends 'DDGC::DB::Base::Result';
 use DBIx::Class::Candy;
 use namespace::autoclean;
@@ -49,10 +48,14 @@ belongs_to github_user_assignee => 'DDGC::DB::Result::GitHub::User',
     { 'foreign.id' => 'self.github_user_id_assignee' },
     { on_delete => 'cascade', join_type => 'left' };
 
-might_have github_pull => 'DDGC::DB::Result::GitHub::Pull',
-    { 'foreign.number'         => 'self.number',
-      'foreign.github_repo_id' => 'self.github_repo_id' },
-    { cascade_delete => 1 };
+## If I use a might_have() relationship it breaks loading the schema from the code
+## because it creates a foreign key in the db which is more like has_one() than
+## might_have().  I didn't want to break ddgc_deploy_dev.pl so, I this is
+## commented out.
+#might_have github_pull => 'DDGC::DB::Result::GitHub::Pull',
+#    { 'foreign.number'         => 'self.number',
+#      'foreign.github_repo_id' => 'self.github_repo_id' },
+#    { cascade_delete => 0 };
 
 has_many github_issue_events => 'DDGC::DB::Result::GitHub::Issue::Event',
     { 'foreign.github_issue_id' => 'self.id' },
@@ -68,5 +71,13 @@ has_many github_comments => 'DDGC::DB::Result::GitHub::Comment',
     },
     { cascade_delete => 0 };
 
+sub isa_new_instant_answer {
+    my ($self) = @_;
+    my $labels = $self->gh_data->{labels};
+    return 1 if any { $_->{name} eq 'New Instant Answer' } @$labels;
+    return 0;
+}
+
+
 no Moose;
-__PACKAGE__->meta->make_immutable;
+__PACKAGE__->meta->make_immutable( inline_constructor => 0 );

@@ -2,7 +2,6 @@ package DDGC::DB::Result::GitHub::Repo;
 # ABSTRACT:
 
 use Moose;
-use MooseX::NonMoose;
 extends 'DDGC::DB::Base::Result';
 use DBIx::Class::Candy;
 use namespace::autoclean;
@@ -45,7 +44,7 @@ has_many github_pulls => 'DDGC::DB::Result::GitHub::Pull',
     { 'foreign.github_repo_id' => 'self.id' },
     { cascade_delete => 1 };
 
-has_many github_review_comments => 'DDGC::DB::Result::GitHub::Comment',
+has_many github_review_comments => 'DDGC::DB::Result::GitHub::ReviewComment',
     { 'foreign.github_repo_id' => 'self.id' },
     { cascade_delete => 1 };
 
@@ -65,4 +64,4 @@ sub owner_name { my @p = split('/',$_[0]->full_name); return $p[0]; }
 sub repo_name  { my @p = split('/',$_[0]->full_name); return $p[1]; }
 
 no Moose;
-__PACKAGE__->meta->make_immutable;
+__PACKAGE__->meta->make_immutable( inline_constructor => 0 );

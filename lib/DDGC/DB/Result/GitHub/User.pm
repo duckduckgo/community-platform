@@ -2,7 +2,6 @@ package DDGC::DB::Result::GitHub::User;
 # ABSTRACT:
 
 use Moose;
-use MooseX::NonMoose;
 extends 'DDGC::DB::Base::Result';
 use DBIx::Class::Candy;
 use namespace::autoclean;
@@ -65,4 +64,4 @@ has_many github_issue_events => 'DDGC::DB::Result::GitHub::Issue::Event',
     { cascade_delete => 1 };
 
 no Moose;
-__PACKAGE__->meta->make_immutable;
+__PACKAGE__->meta->make_immutable( inline_constructor => 0 );

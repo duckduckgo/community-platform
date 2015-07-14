@@ -2,7 +2,6 @@ package DDGC::DB::Result::GitHub::Fork;
 # ABSTRACT:
 
 use Moose;
-use MooseX::NonMoose;
 extends 'DDGC::DB::Base::Result';
 use DBIx::Class::Candy;
 use namespace::autoclean;
@@ -36,4 +35,4 @@ sub owner_name { my @p = split('/',$_[0]->full_name); return $p[0]; }
 sub repo_name  { my @p = split('/',$_[0]->full_name); return $p[1]; }
 
 no Moose;
-__PACKAGE__->meta->make_immutable;
+__PACKAGE__->meta->make_immutable( inline_constructor => 0 );
