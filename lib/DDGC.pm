@@ -605,19 +605,6 @@ sub _build_idea { DDGC::Ideas->new( ddgc => shift ) }
 # ======== User ====================
 #
 
-sub all_roles {
-	my ( $self, $arg ) = @_;
-	my %roles = (
-		translation_manager => "Translation Manager",
-		forum_manager => "Community Leader (Forum Manager)",
-		idea_manager => "Instant Answer Manager",
-		patron => "Patron",
-	);
-	return defined $arg
-		? $roles{$arg}
-		: \%roles;
- }
-
 has current_user => (
   isa => 'DDGC::DB::Result::User',
   is => 'rw',
