@@ -246,6 +246,8 @@ sub update_repo_from_data {
     $self->update_repo_pulls($gh_repo);
     print "   comments...\n";
     $self->update_repo_comments($gh_repo);
+    print "   review comments...\n";
+    $self->update_repo_review_comments($gh_repo);
     print "   forks...\n";
     $self->update_repo_forks($gh_repo);
     print "   branches...\n";
@@ -305,6 +307,47 @@ sub update_repo_pull_from_data {
         ->update_or_create(\%columns, { key => 'github_pull_github_id' });
 }
 
+sub update_repo_review_comments {
+    my ($self, $gh_repo) = @_;
+
+    my $latest_comment = $gh_repo
+        ->related_resultset('github_review_comments')
+        ->most_recent;
+
+    my %params;
+    $params{owner}  = $gh_repo->owner_name;
+    $params{repo}   = $gh_repo->repo_name;
+    $params{since}  = datetime_str($latest_comment->updated_at + $self->one_second)
+        if $latest_comment;
+
+    my $comments_data = $self->gh_api->review_comments(%params);
+
+    my @gh_comments;
+    push @gh_comments, $self->update_repo_review_comment_from_data($gh_repo, $_)
+        for @$comments_data;
+
+    return \@gh_comments;
+}
+
+sub update_repo_review_comment_from_data {
+    my ($self, $gh_repo, $comment) = @_;
+
+    my %columns;
+    $columns{github_id}          = $comment->{id};
+    $columns{github_user_id}     = $self->find_or_update_user($comment->{user}->{login})->id;
+    $columns{number}             = $self->number_from_url($comment->{pull_request_url});
+    $columns{diff_hunk}          = $comment->{diff_hunk};
+    $columns{path}               = $comment->{path};
+    $columns{body}               = $comment->{body};
+    $columns{created_at}         = parse_datetime($comment->{created_at});
+    $columns{updated_at}         = parse_datetime($comment->{updated_at});
+    $columns{gh_data}            = $comment;
+
+    return $gh_repo
+        ->related_resultset('github_review_comments')
+        ->update_or_create(\%columns, { key => 'github_review_comment_github_id' });
+}
+
 sub update_repo_comments {
     my ($self, $gh_repo) = @_;
 
@@ -333,8 +376,9 @@ sub number_from_url {
     my ($self, $string) = @_;
     my $uri  = URI->new($string);
     my $path = $uri->path;
-    die unless $path =~ m|/issues/(\d+)$|;
-    return $1;
+    die unless $path =~ m#/(pulls|issues)/(\d+)$#;
+    die unless $2;
+    return $2;
 }
 
 sub update_repo_comment_from_data {
