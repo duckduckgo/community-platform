@@ -290,6 +290,21 @@ sub id_for_forum {
 	return (grep { $forums->{$_}->{name} =~ m/$forum_name/i } keys $forums)[0];
 }
 
+sub roles {
+	my ( $self ) = @_;
+	+{
+		'1' => 'admin',
+		'2' => 'forum_manager',
+		'3' => 'translation_manager',
+		'4' => 'patron',
+	};
+}
+sub id_for_role {
+	my ( $self, $role_name ) = @_;
+	$role_name = 'forum_manager' if ($role_name eq 'community_leader');
+	+{ reverse %{ $self->roles } }->{$role_name} // 0;
+}
+
 sub campaign_config { $_[0]->campaigns->{$_[0]->campaign} }
 sub campaigns {
 	my ( $self ) = @_;
