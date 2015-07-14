@@ -729,8 +729,14 @@
                     });
 
                     $("body").on('click', '#add_topic', function(evt) {
-                        $(this).addClass("hide");
-                        $("#add_topic_select").removeClass("hide");
+                        var topics = $(".topic-separator").length;
+                        var $empty_topic = $(".new_empty_topic").clone();
+                        
+                        $(this).before($empty_topic.removeClass("hide").removeClass("new_empty_topic"));
+
+                        if (topics > 2) {
+                            $(this).addClass("hide");
+                        }
                     });
 
                     $("body").on('click', '#view_commits', function(evt) {
