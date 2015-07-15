@@ -2,10 +2,9 @@
     /* typography */
     h2 {
         font-size: 1rem;
-        text-transform : uppercase;
     }
     .number {
-        font-size   : 3rem;
+        font-size   : 2rem;
         font-weight : bold;
     }
     #last_updated {
@@ -17,7 +16,7 @@
 
     /* layout */
     h1 {
-        margin-bottom  : 0;
+        margin-bottom  : 2;
         padding-bottom : 0;
     }
     h2 {
@@ -25,7 +24,7 @@
         padding-bottom : 0;
     }
     .data {
-        height : 6rem;
+        height : 4rem;
     }
     #last_updated {
         margin-top    : 0;
@@ -76,43 +75,32 @@
 
 <div id="header" class="wrap">
     <h1>GitHub Community Stats</h1>
-    <h2 id="last_updated">Updated about 8 hours ago</h2>
 </div>
 
 <div id="graph-list" class="wrap">
   <div id="graph_data">
 
     <div class="tabs">
-      <center>
-        <div class="tab <: $tabs.last_week    :>"><a href="/admin/stats/github/last_week"   >Last week</a></div>
-        <div class="tab <: $tabs.week_before  :>"><a href="/admin/stats/github/week_before" >Week before</a></div>
-        <div class="tab <: $tabs.week_before_that :>"><a href="/admin/stats/github/week_before_that"   >Week before that</a></div>
-        <div class="tab <: $tabs.last_month   :>"><a href="/admin/stats/github/last_month"  >Last month</a></div>
-        <div class="tab <: $tabs.last_90_days :>"><a href="/admin/stats/github/last_90_days">Last 90 days</a></div>
-      </center>
+        <div class="tab <: $tabs.last_24_hours    :>"><a href="/admin/stats/github/last_24_hours"   >Last 24 hours</a></div>
+        <div class="tab <: $tabs.last_week        :>"><a href="/admin/stats/github/last_week"       >Last week</a></div>
+        <div class="tab <: $tabs.week_before      :>"><a href="/admin/stats/github/week_before"     >Week before</a></div>
+        <div class="tab <: $tabs.week_before_that :>"><a href="/admin/stats/github/week_before_that">Week before that</a></div>
+        <div class="tab <: $tabs.last_month       :>"><a href="/admin/stats/github/last_month"      >Last month</a></div>
+        <div class="tab <: $tabs.last_90_days     :>"><a href="/admin/stats/github/last_90_days"    >Last 90 days</a></div>
     </div>
 
     <div id="graphs">
       <div class="loader"><img src="/images/spinner.gif" /></div>
-      <center>
-
-        <div class="graph">
-          <div class="data">
-            <h2>Avg time to first code review</h2>
-            <span class="number">--</span>
-          </div>
-        </div>
 
 : for $stats -> $stat {
         <div class="graph">
           <div class="data">
             <h2><: $stat.label :></h2>
-            <span class="number"><: $stat.value // '--' :></span>
+            <span class="number"><: $stat.value // '' :></span>
           </div>
         </div>
 : }
 
-      </center>
     </div>
   </div>
 </div>
