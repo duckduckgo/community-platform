@@ -117,6 +117,21 @@ sub unread_notifications {
     0;
 }
 
+sub add_role {
+    my ( $self, $role ) = @_;
+    my $role_id = $self->app->config->{ddgc_config}->id_for_role($role);
+    return 0 if !$role_id;
+    $self->roles->find_or_create({ role => $role_id });
+}
+
+sub del_role {
+    my ( $self, $role ) = @_;
+    my $role_id = $self->app->config->{ddgc_config}->id_for_role($role);
+    return 0 if !$role_id;
+    my $has_role = $self->roles->find({ role => $role_id });
+    $has_role->delete if $has_role;
+}
+
 sub remove_role {
     my ( $self, $role ) = @_;
     return $self->update({ admin => 0 }) if $role eq 'admin';
