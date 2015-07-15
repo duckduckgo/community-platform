@@ -215,6 +215,7 @@ sub unsubscribe_all_notifications {
 sub db { return shift; }
 
 sub translation_manager { shift->is('translation_manager') }
+sub admin { shift->is('admin') }
 
 sub github_user {
 	my ( $self ) = @_;
