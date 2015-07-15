@@ -139,6 +139,17 @@
                         $parent.children(".readonly--info").addClass("hide");
                     });
 
+                    $("body").on("click", ".devpage-edit-popup", function(evt) {
+                        var field = $(this).attr("id").replace("dev-edit-", "");
+                        var $popup = $("#" + field + "-popup");
+
+                        $popup.removeClass("hide");
+                    });
+
+                    $("body").on("click", ".cancel-button-popup", function(evt) {
+                        $(this).parent().addClass("hide");
+                    });
+
                     $("body").on("click", ".devpage-cancel", function(evt) {
                         var $parent = $(this).parent().parent();
 
