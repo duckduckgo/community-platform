@@ -96,4 +96,9 @@ sub html_teaser {
     DDGC::Util::Markup->new->$format( $self->teaser );
 }
 
+sub u {
+    my ($self) = @_;
+    return sprintf "/blog/post/%s/%s", $self->id, $self->uri;
+}
+
 1;
