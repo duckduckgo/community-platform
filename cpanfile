@@ -80,7 +80,7 @@ requires 'MooseX::Storage', '0.43';
 requires 'namespace::autoclean', '0.14';
 requires 'Net::AIML', '0.0.5';
 requires 'JSON::Any', '1.32';
-requires 'Net::GitHub', '0.57';
+requires 'Net::GitHub', '0.77';
 requires 'Parallel::ForkManager', '1.05';
 requires 'Parse::BBCode', '0.14';
 requires 'Path::Class', '0.32';
