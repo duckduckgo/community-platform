@@ -258,7 +258,8 @@ sub github :Chained('base') {
     $c->add_bc('GitHub');
 
     my %subtract;
-    %subtract = (weeks  =>  1);
+    %subtract = (hours  => 24);
+    %subtract = (weeks  =>  1) if $since eq 'last_week';
     %subtract = (weeks  =>  2) if $since eq 'week_before';
     %subtract = (weeks  =>  3) if $since eq 'week_before_that';
     %subtract = (months =>  1) if $since eq 'last_month';
@@ -276,6 +277,7 @@ sub github :Chained('base') {
 
     $c->stash->{stats} = \@stats;
     $c->stash->{tabs}  = {
+        last_24_hours    => "",
         last_week        => "",
         week_before      => "",
         week_before_that => "",
