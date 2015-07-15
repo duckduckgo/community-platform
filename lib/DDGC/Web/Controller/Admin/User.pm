@@ -34,8 +34,8 @@ sub user_base :Chained('base') :PathPart('view') :CaptureArgs(1) {
 		if (defined $c->req->params->{$_}) {
 			$c->require_action_token;
 			$c->req->param($_)
-				? $c->stash->{user}->add_flag($_)
-				: $c->stash->{user}->del_flag($_)
+				? $c->stash->{user}->add_role($_)
+				: $c->stash->{user}->del_role($_)
 		}
 	}
 	if (defined $c->req->params->{ghosted}) {
