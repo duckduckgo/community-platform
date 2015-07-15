@@ -250,11 +250,6 @@ sub coupons :Chained('base') :Args(0) {
 sub github :Chained('base') {
     my ($self, $c, $since) = @_;
 
-    #die unless 
-    #    $since eq 'last_week'
-    # || $since eq 'last_month'
-    # || $since eq 'last_90_days';
-
     $c->add_bc('GitHub');
 
     my %subtract;
