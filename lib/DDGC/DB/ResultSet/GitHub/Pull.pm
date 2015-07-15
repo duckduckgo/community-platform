@@ -7,12 +7,17 @@ use namespace::autoclean;
 
 sub with_state {
     my ($self, $state) = @_;
-	$self->search({ state => $state });
+	$self->search({ 'me.state' => $state });
 }
 
 sub with_merged_at {
     my ($self, $operator, $date) = @_;
 	$self->search({ merged_at => { $operator => $date } });
+}
+
+sub with_created_at {
+    my ($self, $operator, $date) = @_;
+	$self->search({ 'me.created_at' => { $operator => $date } });
 }
 
 # ignore users who are members of the owners team on github.  these users are
