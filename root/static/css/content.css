@@ -357,14 +357,8 @@ button {
 }
 
 /* End Reset */
-/* 
- *  _litestrap abstracts
- *
- * Abstracted objects for multi-purpose use
- *
- */
 /* makin' a circle.. */
-/* line 9, ../../bower_components/_ls/_abstracts.scss */
+/* line 2, ../../bower_components/_ls/objects/_circle.scss */
 .circle {
   -moz-border-radius: 50%;
   -webkit-border-radius: 50%;
@@ -373,55 +367,23 @@ button {
   /* protip: if the height != the width, you'll end up with an elipse. */
 }
 
-/*
-    the media object
-    - http://www.stubbornella.org/content/2010/06/25/the-media-object-saves-hundreds-of-lines-of-code/
-*/
-/* line 24, ../../bower_components/_ls/_abstracts.scss */
-.media {
-  display: block;
-}
-
-/* line 27, ../../bower_components/_ls/_abstracts.scss */
-.media__img {
-  float: left;
-  margin-right: 0.5em;
-}
-
-/* line 31, ../../bower_components/_ls/_abstracts.scss */
-.media__img--rev {
-  float: right;
-  margin-left: 0.5em;
-}
-
-/* line 35, ../../bower_components/_ls/_abstracts.scss */
-.media__img img,
-.media__img--rev img {
-  display: block;
-}
-
-/* line 39, ../../bower_components/_ls/_abstracts.scss */
-.media__body {
-  overflow: hidden;
-}
-
 /* 
 	faux tables for image/text display 
 	- the 'flag' object with a different name: 
 	   http://csswizardry.com/2013/05/the-flag-object/ 
 */
-/* line 48, ../../bower_components/_ls/_abstracts.scss */
+/* line 6, ../../bower_components/_ls/objects/_faux.scss */
 .faux {
   display: table;
   width: 100%;
 }
 
-/* line 52, ../../bower_components/_ls/_abstracts.scss */
+/* line 10, ../../bower_components/_ls/objects/_faux.scss */
 .faux--mid {
   text-align: center;
 }
 
-/* line 54, ../../bower_components/_ls/_abstracts.scss */
+/* line 12, ../../bower_components/_ls/objects/_faux.scss */
 .faux__image,
 .faux__img,
 .faux__body {
@@ -429,51 +391,51 @@ button {
   vertical-align: middle;
 }
 
-/* line 60, ../../bower_components/_ls/_abstracts.scss */
+/* line 18, ../../bower_components/_ls/objects/_faux.scss */
 .faux--top .faux__image,
 .faux--top .faux__img,
 .faux--top .faux__body {
   vertical-align: top;
 }
 
-/* line 66, ../../bower_components/_ls/_abstracts.scss */
+/* line 24, ../../bower_components/_ls/objects/_faux.scss */
 .faux--bottom .faux__image,
 .faux--bottom .faux__img,
 .faux--bottom .faux__body {
   vertical-align: bottom;
 }
 
-/* line 71, ../../bower_components/_ls/_abstracts.scss */
+/* line 29, ../../bower_components/_ls/objects/_faux.scss */
 .faux--mid .faux__image,
 .faux--mid .faux__img,
 .faux--mid .faux__body {
   display: inline-table;
 }
 
-/* line 77, ../../bower_components/_ls/_abstracts.scss */
+/* line 35, ../../bower_components/_ls/objects/_faux.scss */
 .faux__image, .faux__img {
   padding-right: 0.5em;
 }
 
-/* line 80, ../../bower_components/_ls/_abstracts.scss */
+/* line 38, ../../bower_components/_ls/objects/_faux.scss */
 .faux__image > img, .faux__img > img {
   display: block;
   max-width: none;
 }
 
-/* line 85, ../../bower_components/_ls/_abstracts.scss */
+/* line 43, ../../bower_components/_ls/objects/_faux.scss */
 .faux--rev .faux__image,
 .faux--rev .faux__img {
   padding-right: 0;
   padding-left: 0.5em;
 }
 
-/* line 91, ../../bower_components/_ls/_abstracts.scss */
+/* line 49, ../../bower_components/_ls/objects/_faux.scss */
 .faux__body {
   width: 100%;
 }
 
-/* line 94, ../../bower_components/_ls/_abstracts.scss */
+/* line 52, ../../bower_components/_ls/objects/_faux.scss */
 .faux--mid .faux__body {
   width: auto;
   text-align: left;
