@@ -100,14 +100,16 @@ column updated => {
 
 has_many 'roles', 'DDGC::Schema::Result::User::Role', 'users_id';
 
-# TODO: Migrate 'flags' to 'roles'
 sub is {
     my ( $self, $role ) = @_;
-    $role = 'forum_manager' if ( $role eq 'community_leader' );
-    return 1 if ( $role eq 'user' );
     return 0 if !$role;
-    return 1 if $self->admin;
-    return 1 if grep { $_ eq $role } @{ $self->flags };
+    return 1 if ( $role eq 'user' );
+    return 1 if $self->roles->find({
+        role => $self->app->config->{ddgc_config}->id_for_role('admin')
+    });
+    return 1 if $self->roles->find({
+        role => $self->app->config->{ddgc_config}->id_for_role($role)
+    });
     return 0;
 }
 

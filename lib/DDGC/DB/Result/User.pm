@@ -224,9 +224,11 @@ sub github_user {
 }
 
 sub is {
-	my ( $self, $flag ) = @_;
-	return 1 if $self->admin;
-	return $self->has_flag($flag);
+	my ( $self, $role ) = @_;
+	return 0 if !$role;
+	return 1 if ( $role eq 'user' );
+	return 1 if $self->roles->find({ role => $self->ddgc->config->id_for_role('admin') });
+	return $self->roles->find({ role => $self->ddgc->config->id_for_role( $role ) });
 }
 
 sub has_flag {
@@ -236,21 +238,19 @@ sub has_flag {
 	return 0;
 }
 
-sub add_flag {
-	my ( $self, $flag ) = @_;
-	return 0 if grep { $_ eq $flag } @{$self->flags};
-	push @{$self->flags}, $flag;
-	$self->make_column_dirty("flags");
-	return 1;
+sub add_role {
+	my ( $self, $role ) = @_;
+	my $role_id = $self->ddgc->config->id_for_role($role);
+	return 0 if !$role_id;
+	$self->roles->find_or_create({ role => $role_id });
 }
 
-sub del_flag {
-	my ( $self, $flag ) = @_;
-	return 0 unless grep { $_ eq $flag } @{$self->flags};
-	my @newflags = grep { $_ ne $flag } @{$self->flags};
-	$self->flags(\@newflags);
-	$self->make_column_dirty("flags");
-	return 1;
+sub del_role {
+	my ( $self, $role ) = @_;
+	my $role_id = $self->ddgc->config->id_for_role($role);
+	return 0 if !$role_id;
+	my $has_role = $self->roles->find({ role => $role_id });
+	$has_role->delete if $has_role;
 }
 
 has _locale_user_languages => (
