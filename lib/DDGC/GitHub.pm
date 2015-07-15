@@ -8,8 +8,6 @@ use DateTime::Format::ISO8601;
 use DateTime::Duration;
 use HTTP::Request;
 use JSON::MaybeXS;
-use DDP;
-
 
 =head1 SYNOPSIS
 
@@ -35,6 +33,9 @@ sub _build_net_github {
   Net::GitHub->new(access_token => shift->ddgc->config->github_token)
 }
 
+# Instead of using Net::GitHub ui, this seems to build our own ui in
+# DDGC::GitHub::Cmds.  Presumably there was functionality missing from the
+# cpanm module when this was originally written.
 sub gh_api { DDGC::GitHub::Cmds->new(shift->net_github->args_to_pass) }
 
 sub validate_session_code {
