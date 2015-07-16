@@ -550,52 +550,20 @@
                     });
 
                     $("body").on('click', ".dev_milestone-container__body__div__checkbox.js-autocommit", function(evt) {
-                        var field = $.trim($(this).attr("id").replace("-check", ""));
-                        var value;
-                        var is_json = false;
-                        var panel = $.trim($(this).attr("data-panel"));
-
                         resetSaved($(this));
 
                         if ($(this).hasClass("icon-check-empty")) {
-                            value = 1;
                             $(this).removeClass("icon-check-empty").addClass("icon-check");
                         } else {
-                            value = 0;
                             $(this).removeClass("icon-check").addClass("icon-check-empty");
-                        }
-
-                        if (field.length) {
-                            if ($(this).hasClass("section-group__item")) {
-                                var parent_field = $.trim($(this).parent().parent().attr("id"));
-                                var section_vals = getSectionVals($(this), parent_field);
-
-                                section_vals[field] = value;
-
-                                parent_field = parent_field.replace("-group", "");
-                                value = JSON.stringify(section_vals);
-                                is_json = true;
-
-                                autocommit(parent_field, value, DDH_iaid, is_json, panel, field);
-                            }
-
-                            autocommit(field, value, DDH_iaid, is_json, panel);
                         }
                     });
 
                     $("body").on("change", 'input[type="number"].js-autocommit', function(evt) {
-                        if (!$(this).hasClass("js-autocommit-focused")) {
-                            $(this).focus();
-                        }
-
                         resetSaved($(this));
                     });
 
                     $("body").on("focusin", "textarea.js-autocommit, input.js-autocommit", function(evt) {
-                        if (!$(this).hasClass("js-autocommit-focused")) {
-                            $(this).addClass("js-autocommit-focused");
-                        }
-
                         resetSaved($(this));
                     });
 
@@ -611,89 +579,22 @@
                         resetSaved($obj);
                     });
 
-                    $("body").on('change', "select.js-autocommit", function(evt) {
-                        var field;
+                    $("body").on('click', ".devpage-commit", function(evt) {
+                        var $parent = $(this).parent().parent();
+                        var field = $(this).attr("id").replace("dev-commit-", "");
+                        var $editable = $parent().children("." + field + ".autocommit");
+                        var editable_type = $.trim($editable.attr("id").replace(field + "-", "");
                         var value;
-                        var is_json = false;
-                        var panel = $.trim($(this).attr("data-panel"));
-                        var $selected = $(this).find("option:selected");
+                        var is_json;
 
-                        if ($(this).hasClass("topic-group")) {
-                           var $selector = $("select.js-autocommit.topic-group option:selected");
+                        var result = getUnsavedValue($editable, field, editable_type);
+                        //autocommit(parent_field, value, DDH_iaid, is_json, field);
 
-                           value = [];
-                           field = "topic";
-                           value = getGroupVals(field, $selector);
-                           value = JSON.stringify(value);
-                           is_json = true;
-                        } else {
-                           field = $.trim($(this).attr("id").replace("-select", ""));
-                           value = $selected.attr("value").length? $.trim($selected.text()) : '';
-                        }
+                        value = result.value;
+                        is_json = result.is_json;
 
-                        if (field.length && value !== ia_data.live[field]) {
-                             autocommit(field, value, DDH_iaid, is_json, panel);
-                        }
-                    });
-
-                    $("body").on('keypress focusout', "textarea.js-autocommit-focused, input.js-autocommit-focused", function(evt) {
-                        if ((evt.type === 'keypress' && evt.which === 13) || (evt.type === "focusout")) {
-                            var field;
-                            var value = $.trim($(this).val());
-                            var id = $.trim($(this).attr("id"));
-                            var is_json = false;
-                            var panel = $.trim($(this).attr("data-panel"));
-
-                            if (id.match(/.*-input/)) {
-                                field = id.replace("-input", "");
-                            } else {
-                                field = id.replace("-textarea", "");
-                            }
-
-                            if ($(this).hasClass("comma-separated") && value.length) {
-                                value = value.split(/\s*,\s*/);
-
-                                if (field === "developer") {
-                                    var dev_array = [];
-
-                                    $.each(value, function(idx, val) {
-                                        var temp_dev = {};
-                                        temp_dev.username = val.replace(/.*\/([^\/]*)$/,'$1');
-                                        temp_dev.type = val.match(/github/)? 'github' : 'duck.co';
-
-                                        if (temp_dev.type && temp_dev.username && $.inArray(temp_dev, dev_array) === -1) {
-                                            dev_array.push(temp_dev);
-                                        }
-                                    });
-
-                                    value = dev_array;
-                                }
-
-                                value = JSON.stringify(value);
-                                is_json = true;
-                            }
-
-                            if (field.length && value !== ia_data.live[field]) {
-                                if ($(this).hasClass("section-group__item")) {
-                                    var parent_field = $.trim($(this).parent().parent().attr("id"));
-                                    var section_vals = getSectionVals($(this), parent_field);
-                                    section_vals[field] = value;
-
-                                    parent_field = parent_field.replace("-group", "");
-                                    value = JSON.stringify(section_vals);
-                                    is_json = true;
-
-                                    autocommit(parent_field, value, DDH_iaid, is_json, panel, field);
-                                }
-
-                                autocommit(field, value, DDH_iaid, is_json, panel);
-                            }
-
-                            if (evt.type === 'keypress') {
-                                $(this).blur();
-                            }
-
-                            $(this).removeClass("js-autocommit-focused");
+                        if (field && (ia_data[field] !== value)) {
+                            autocommit(field, value, DDH_iaid, is_json);
                         }
                     });
 
@@ -887,6 +788,53 @@
                         });
                     }
 
+                    function getUnsavedValue($editable, field, editable_type) {
+                        var result = {};
+                        var value;
+                        var is_json = false;
+
+                        if (editable_type === "check") {
+                            value = $editable.hasClass("icon-check")? 1 : 0;
+                        } else if (editable_type === "select") {
+                            var $selected = $(this).find("option:selected");
+
+                            if ($(this).hasClass("topic-group")) {
+                               var $selector = $("select.js-autocommit.topic-group option:selected");
+
+                               value = [];
+                               field = "topic";
+                               value = getGroupVals(field, $selector);
+                               value = JSON.stringify(value);
+                               is_json = true;
+                            } else {
+                                value = $selected.attr("value").length? $.trim($selected.text()) : '';
+                            }
+                        } else if (editable_type === "input" || editable_type === "textarea") {
+                            value = $.trim($editable.val());
+
+                            if ($editable.hasClass("comma-separated") && value.length) {
+                                value = value.split(/\s*,\s*/);
+                                value = JSON.stringify(value);
+                                is_json = true;
+                            }
+                        } 
+                        
+                        if ($(editable.hasClass("section-group__item")) {
+                            var parent_field = $.trim($editable.parent().parent().attr("id"));
+                            var section_vals = getSectionVals($editable, parent_field);
+                            section_vals[field] = value;
+
+                            parent_field = parent_field.replace("-group", "");
+                            value = JSON.stringify(section_vals);
+                            is_json = true;
+                        }
+
+                        result.value = value;
+                        result.is_json = is_json;
+
+                        return result;
+                    }
+
                     function getGroupVals(field, $obj) {
                         var $selector;
                         var temp_val;
@@ -965,7 +913,7 @@
                         }
                     }
 
-                    function autocommit(field, value, id, is_json, panel, subfield) {
+                    function autocommit(field, value, id, is_json, subfield) {
                         var jqxhr = $.post("/ia/save", {
                             field : field,
                             value : value,
@@ -988,27 +936,29 @@
                                         latest_edits_data = page.updateData(ia_data, latest_edits_data, false);
                                         readonly_templates.live.name = Handlebars.templates.name(latest_edits_data);
                                         $(".ia-single--right").before(readonly_templates.live.name);
-
-                                        $(".ia-single--name ." + field).addClass(saved_class);
                                     } else {
                                         Screens.render();
-                                        
-                                        /*
-                                        readonly_templates[panel + "_content"] = Handlebars.templates[panel + "_content"](ia_data);
 
-                                        var $panel_body = $("#" + panel);
-                                        $panel_body.html(readonly_templates[panel + "_content"]);
+                                        if (data.result.saved) {
+                                            var $commit_open = $(".devpage-edit.hide").parent().parent();
+                                            var $unsaved_edits = $commit_open.children(".js-autocommit");
+                                            ia_data.staged = {};
 
-                                        page.appendTopics($(".topic-group"));
-                                        page.hideAssignToMe();
+                                            $unsaved_edits.each(function(idx) {
+                                                var temp_field = $(this).attr("id").replace(/\-[a-z]+/, "");
+                                                var temp_editable = $(this).attr("id").replace(/[a-z]+\-/, "");
 
-                                        // Developer field is already highlighted in green
-                                        // when the user check is successful
-                                        if (field !== "developer") {
-                                            field = subfield? subfield : field;
-                                            $panel_body.find("." + field).addClass(saved_class);
-                                        }
-                                        */
+                                                var temp_result = getUnsavedValue($(this), temp_field, temp_editable);
+                                                var temp_value = temp_result.value;
+
+                                                ia_data.staged[temp_field] = temp_value;
+                                            });
+                                            
+                                            page.updateHandlebars(readonly_templates, ia_data, ia_data.live.dev_milestone, false);
+                                            page.updateAll(readonly_templates, ia_data, false);
+
+                                            $commit_open.find(".devpage-edit").trigger("click");
+                                        }                                       
                                     }
                                 }
                             }
