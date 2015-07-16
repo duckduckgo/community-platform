@@ -98,7 +98,7 @@ sub html_teaser {
 
 sub u {
     my ($self) = @_;
-    return sprintf "/blog/post/%s/%s", $self->id, $self->uri;
+    [ 'Blog', 'post', $self->id, $self->uri ];
 }
 
 1;
