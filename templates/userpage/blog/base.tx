@@ -1,2 +1,0 @@
-<: include $next_template() :>
-<: include "userpage/blog/sidebar.tx" :>
