@@ -129,3 +129,4 @@ requires 'CHI', '0.59';
 requires 'Cache::FastMmap', '1.40';
 requires 'HTML::FormatText::WithLinks', '0.15';
 requires 'Cache::LRU', '0.04';
+requires 'Number::Format', '1.73';
