@@ -1,5 +1,5 @@
 package DDGC::GitHub;
-# ABSTRACT: 
+# ABSTRACT: Updates ddgc db tables with data from GitHub
 
 use Moo;
 use Net::GitHub;

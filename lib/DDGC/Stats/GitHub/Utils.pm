@@ -1,4 +1,5 @@
 package DDGC::Stats::GitHub::Utils;
+# ABSTRACT: Utilities for displaying datetimes to humans
 use Moo;
 
 use v5.16.0;

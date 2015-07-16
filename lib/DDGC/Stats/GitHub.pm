@@ -1,4 +1,5 @@
 package DDGC::Stats::GitHub;
+# ABSTRACT: Calculate GitHub stats
 use Moo;
 use 5.16.0;
 
