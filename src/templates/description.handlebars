@@ -18,6 +18,12 @@
     </p>
     
     {{#if permissions.can_edit}}
-        <textarea rows="2" cols="100" class="hide frm__text description js-autocommit" id="description-textarea">{{description}}</textarea>
+        <textarea rows="2" cols="100" class="hide frm__text description js-autocommit" id="description-textarea">
+            {{#if staged.description}}
+                {{staged.description}}
+            {{else}}
+                {{description}}
+            {{/if}}
+        </textarea>
     {{/if}}
 </div>

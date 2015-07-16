@@ -582,8 +582,8 @@
                     $("body").on('click', ".devpage-commit", function(evt) {
                         var $parent = $(this).parent().parent();
                         var field = $(this).attr("id").replace("dev-commit-", "");
-                        var $editable = $parent().children("." + field + ".autocommit");
-                        var editable_type = $.trim($editable.attr("id").replace(field + "-", "");
+                        var $editable = $parent.find("." + field + ".js-autocommit");
+                        var editable_type = $.trim($editable.attr("id").replace(field + "-", ""));
                         var value;
                         var is_json;
 
@@ -796,9 +796,9 @@
                         if (editable_type === "check") {
                             value = $editable.hasClass("icon-check")? 1 : 0;
                         } else if (editable_type === "select") {
-                            var $selected = $(this).find("option:selected");
+                            var $selected = $editable.find("option:selected");
 
-                            if ($(this).hasClass("topic-group")) {
+                            if ($editable.hasClass("topic-group")) {
                                var $selector = $("select.js-autocommit.topic-group option:selected");
 
                                value = [];
@@ -819,7 +819,7 @@
                             }
                         } 
                         
-                        if ($(editable.hasClass("section-group__item")) {
+                        if ($editable.hasClass("section-group__item")) {
                             var parent_field = $.trim($editable.parent().parent().attr("id"));
                             var section_vals = getSectionVals($editable, parent_field);
                             section_vals[field] = value;
