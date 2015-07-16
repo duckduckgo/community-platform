@@ -83,8 +83,8 @@
     <div class="tabs">
         <div class="tab <: $tabs.last_24_hours    :>"><a href="/admin/stats/github/last_24_hours"   >Last 24 hours</a></div>
         <div class="tab <: $tabs.last_week        :>"><a href="/admin/stats/github/last_week"       >Last week</a></div>
-        <div class="tab <: $tabs.week_before      :>"><a href="/admin/stats/github/week_before"     >Week before</a></div>
-        <div class="tab <: $tabs.week_before_that :>"><a href="/admin/stats/github/week_before_that">Week before that</a></div>
+        <div class="tab <: $tabs.week_before      :>"><a href="/admin/stats/github/week_before"     >2 weeks ago</a></div>
+        <div class="tab <: $tabs.week_before_that :>"><a href="/admin/stats/github/week_before_that">3 weeks ago</a></div>
         <div class="tab <: $tabs.last_month       :>"><a href="/admin/stats/github/last_month"      >Last month</a></div>
         <div class="tab <: $tabs.last_90_days     :>"><a href="/admin/stats/github/last_90_days"    >Last 90 days</a></div>
     </div>
