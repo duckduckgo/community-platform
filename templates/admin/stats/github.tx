@@ -20,7 +20,7 @@
 : for $stats -> $stat {
         <div class="graph">
           <div class="data">
-            <h2><: $stat.label :></h2>
+            <div class="stat-label"><: $stat.label :></div>
             <span class="number"><: $stat.value // '' :></span>
           </div>
         </div>
