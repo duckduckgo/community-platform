@@ -176,7 +176,7 @@
 				<: if cur_user().admin { :>
 					<div class="row">
 						<div class="twothird">
-							<label>Your <a href="<: $u('Userpage::Blog','index',$c.user.username) :>">blog</a> [AdminOnly]</label>
+							<label>Your company blog posts [AdminOnly]</label>
 						</div>
 						<div class="third">
 							<a href="<: $u('My::Blog','index') :>" class="button button--right">Edit posts</a>
