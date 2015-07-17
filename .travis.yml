@@ -1,8 +1,18 @@
 ---
+sudo: false
+addons:
+  apt:
+    packages:
+    - build-essential
+    - libgd2-xpm-dev
+    - libssl-dev
+    - git
+    - libxml2-dev
+    - libpango1.0-dev
+    - imagemagick
 before_install:
   - export HARNESS_OPTIONS=j10:c HARNESS_TIMER=1
   - rm .travis.yml
-  - sudo apt-get install -qq build-essential libgd2-xpm-dev libssl-dev git libxml2-dev libpango1.0-dev imagemagick
   - git config --global user.name "Dist Zilla Plugin TravisCI"
   - git config --global user.email $HOSTNAME":not-for-mail@travis-ci.org"
 install:

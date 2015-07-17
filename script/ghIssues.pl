@@ -11,7 +11,6 @@ use Data::Dumper;
 use Try::Tiny;
 use Net::GitHub;
 use Time::Local;
-use Encode qw(decode_utf8);
 my $d = DDGC->new;
 
 # JSON response from GH API
@@ -74,8 +73,8 @@ sub getIssues{
 				repo => $repo || '',
 				issue_id => $issue->{'number'} || '',
                 author => $issue->{user}->{login} || '', 
-				title => decode_utf8($issue->{'title'}) || '',
-				body => decode_utf8($issue->{'body'}) || '',
+				title => $issue->{'title'} || '',
+				body => $issue->{'body'} || '',
 				tags => $issue->{'labels'} || '',
 				date => $issue->{'created_at'} || '',
                 is_pr => $is_pr,

@@ -6,6 +6,7 @@ use Try::Tiny;
 use Time::Local;
 use JSON;
 use Net::GitHub::V3;
+use DateTime;
 
 my $INST = DDGC::Config->new->appdir_path."/root/static/js";
 
@@ -564,25 +565,7 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
                );
 
                $ia_data{live}->{pr} = \%pull_request;
-
-               if ($dev_milestone ne 'live' && $dev_milestone ne 'deprecated' && !$ia->developer) {
-                  my %dev_hash = (
-                      name => $pull_request{author},
-                      url => 'https://github.com/'.$pull_request{author}
-                  );
-
-                  my @dev_array = [\%dev_hash];
-
-                  my $value = to_json \@dev_array;
-
-                  try {
-                      $ia->update({developer => $value});
-                  }
-                  catch {
-                      $c->d->errorlog("Error updating the database");
-                  };
-               }
-            } else {
+                } else {
                 push(@ia_issues, {
                     issue_id => $issue->issue_id,
                     title => $issue->title,
@@ -903,7 +886,7 @@ sub save {
             my @topic_values = $value;
             $ia->instant_answer_topics->delete;
            
-            if (scalar @{@topic_values[0]} gt 0) {
+            if (scalar @{$topic_values[0]} gt 0) {
                 for my $topic (@{$topic_values[0]}) {
                     $saved = add_topic($c, $ia, $topic);
                     return unless $saved;
