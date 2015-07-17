@@ -6,6 +6,7 @@ use Moo;
 extends 'DBIx::Class::Core';
 use DBIx::Class::Candy;
 use DateTime::Format::RSS;
+use DDGC::Util::Markup;
 
 table 'user_blog';
 
@@ -88,5 +89,16 @@ column updated => {
 };
 
 belongs_to 'user', 'DDGC::DB::Result::User', 'users_id';
+
+sub html_teaser {
+    my ($self) = @_;
+    my $format = $self->format;
+    DDGC::Util::Markup->new->$format( $self->teaser );
+}
+
+sub u {
+    my ($self) = @_;
+    [ 'Blog', 'post', $self->id, $self->uri ];
+}
 
 1;

@@ -1,4 +1,4 @@
-<: for results($token_domains) -> $token_domain { :>
+<: for $token_domains -> $token_domain { :>
 	<form method="POST" action="<: $u('Admin::Token','index') :>">
 		<div class="content-box content-box-toggleclick only">
 			<div id="token_domain_<: $token_domain.id :>_clicker" class="head">

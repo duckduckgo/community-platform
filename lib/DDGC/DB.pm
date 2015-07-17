@@ -18,6 +18,7 @@ has _ddgc => (
 	isa => 'DDGC',
 	is => 'rw',
 );
+
 sub ddgc { shift->_ddgc }
 
 sub connect {
@@ -64,6 +65,8 @@ sub get_by_i_param {
 }
 
 sub format_datetime { shift->storage->datetime_parser->format_datetime(shift) }
+
+sub rs { shift->resultset(@_) }
 
 no Moose;
 __PACKAGE__->meta->make_immutable( inline_constructor => 0 );

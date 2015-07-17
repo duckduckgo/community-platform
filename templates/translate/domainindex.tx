@@ -20,7 +20,7 @@
 	<i class="icn icn--large icon-search"></i><h3>Search through all tokens and translations!</h3>
 </a>
 
-<a class="notice contrast" href="<: $u('Blog','post','help-managing-translations') :>">
+<a class="notice contrast" href="https://duck.co/blog/post/9/help-managing-translations">
 	<i class="icn icn--large icon-flag"></i><h3>Become a Translation Manager!</h3>
 </a>
 

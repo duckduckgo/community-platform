@@ -1,0 +1,72 @@
+@import "../../../bower_components/duckduckgo-colors/_colors";
+
+/* typography */
+.stat-label {
+    font-size: 1rem;
+}
+.number {
+    font-size   : 2rem;
+    font-weight : bold;
+}
+#last_updated {
+    font-size : .8rem;
+}
+
+/* layout */
+.header {
+    margin-bottom  : 2;
+    padding-bottom : 0;
+}
+.stat-label {
+    margin-bottom  : 0;
+    padding-bottom : 0;
+}
+.data {
+    height : 4rem;
+}
+#last_updated {
+    margin-top    : 0;
+    padding-top   : 0;
+    margin-bottom : 2rem;
+    text-align    : center;
+}
+.tabs {
+    margin-top    : 1rem;
+    margin-bottom : 1rem;
+    font-size     : .8rem;
+    font-weight   : bold;
+    color         : $grey;
+}
+.tabs .tab {
+    display : inline-block;
+    margin  : 0 0 -1px;
+}
+.tabs .tab a {
+    color   : $grey;
+    display : block;
+    padding : 8px 15px 9px;
+}
+.tabs .tab.selected {
+    color         : $slate;
+    border        : 1px solid $platinum;
+    border-bottom : none;
+    border-radius : 3px 3px 0 0;
+    background    : $white;
+}
+.space {
+    height : 2rem;
+}
+
+
+/* colors */
+.stat-label {
+    color : $grey-light;
+}
+.tabs {
+    border-bottom : 1px solid $platinum;
+}
+
+/* state */
+.loader {
+    visibility : hidden;
+}

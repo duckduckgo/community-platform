@@ -21,7 +21,7 @@
     <: } :>
   </div>
   <div class="body">
-    <: for results($reports) -> $report { :>
+    <: for $reports -> $report { :>
       <div class="report  row">
         <div class="row">
           <: i($report) :>

@@ -27,7 +27,7 @@
                 </div>
             </div>
             <div class="body">
-                <: for results($comments.paged_rs) -> $comment { :>
+                <: for $comments.paged_rs.all_ref -> $comment { :>
                     <div class="row">
                         <: i($comment,'label') :>
                         <span class="pull-right" title="<: $dur_precise($comment.created) :>"><: $dur($comment.created) :></span>

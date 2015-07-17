@@ -1,4 +1,4 @@
-<: for results($user.user_languages) -> $user_language { :>
+<: for $user.user_languages.all_ref -> $user_language { :>
 	<div class="row">
     <: i($_.token_domain_language.language,'flag',{ flag_size => 24 }) :>
 		<: $user_language.language.name_in_local :>

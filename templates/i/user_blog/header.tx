@@ -1,9 +1,0 @@
-<div class="pull-right">
-	<: if $_.company_blog { :>
-		<img src="/static/images/duckduckgo-icon.png" width="32" height="32" title="Official DuckDuckGo Blog Post" class="admin-badge" />
-	<: } :>
-</div>
-<h2><a href="<: $u($_.u) :>"><: $_.title :></a></h2>
-<span class="post-meta">
-	<: $dur($_.date) :> posted by <: i($_.user,'userinfo') :>
-</span>
