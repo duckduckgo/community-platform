@@ -135,7 +135,7 @@
                         $(this).addClass("hide");
                         $(this).siblings(".devpage-commit, .devpage-cancel").removeClass("hide");
 
-                        $parent.children(".js-autocommit").removeClass("hide");
+                        $parent.children(".hidden-toshow").removeClass("hide");
                         $parent.children(".readonly--info").addClass("hide");
                     });
 
@@ -157,7 +157,7 @@
                         $(this).siblings(".devpage-commit").addClass("hide");
                         $(this).siblings(".devpage-edit").removeClass("hide");
 
-                        $parent.children(".js-autocommit").addClass("hide");
+                        $parent.children(".hidden-toshow").addClass("hide");
                         $parent.children(".readonly--info").removeClass("hide");
                     });
 
@@ -948,20 +948,22 @@
                                         if (data.result.saved) {
                                             var $commit_open = $(".devpage-edit.hide").parent().parent();
                                             console.log($commit_open.length);
-                                            var $unsaved_edits = $commit_open.children(".js-autocommit");
+                                            var $unsaved_edits = $commit_open.find(".js-autocommit");
                                             ia_data.staged = {};
 
                                             $unsaved_edits.each(function(idx) {
                                                 var temp_field = $(this).attr("id").replace(/\-[a-z]+/, "");
-                                                var temp_editable = $(this).attr("id").replace(/[a-z]+\-/, "");
+                                                if (temp_field !== field) {
+                                                    var temp_editable = $(this).attr("id").replace(/[a-z]+\-/, "");
 
-                                                var temp_result = getUnsavedValue($(this), temp_field, temp_editable);
-                                                var temp_value = temp_result.value;
+                                                    var temp_result = getUnsavedValue($(this), temp_field, temp_editable);
+                                                    var temp_value = temp_result.value;
 
-                                                ia_data.staged[temp_field] = temp_value;
-                                                console.log(temp_field);
-                                                console.log(temp_editable);
-                                                console.log(temp_value);
+                                                    ia_data.staged[temp_field] = temp_value;
+                                                    console.log(temp_field);
+                                                    console.log(temp_editable);
+                                                    console.log(temp_value);
+                                                }
                                             });
                                             
                                             page.updateHandlebars(readonly_templates, ia_data, ia_data.live.dev_milestone, false);

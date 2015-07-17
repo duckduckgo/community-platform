@@ -2,14 +2,14 @@
     <h3 class="ia-single--header">Description 
     {{#if permissions.can_edit}}
         {{#ne_and dev_milestone 'live' 'deprecated'}}
-            <a href="#" class="devpage-edit" id="dev-edit-description">Edit</a>
-            <a href="#" class="devpage-commit sep--after hide" id="dev-commit-description">Commit</a>
-            <a href="#" class="devpage-cancel hide" id="dev-cancel-description">Cancel</a>
+            <a href="#" class="devpage-edit {{#if staged.description}}hide{{/if}}" id="dev-edit-description">Edit</a>
+            <a href="#" class="devpage-commit sep--after {{#unless staged.description}}hide{{/unless}}" id="dev-commit-description">Commit</a>
+            <a href="#" class="devpage-cancel {{#unless staged.description}}hide{{/unless}}" id="dev-cancel-description">Cancel</a>
         {{/ne_and}}
     {{/if}}
     </h3>
     
-    <p  class="readonly--info" id="description--readonly">
+    <p  class="readonly--info {{#if staged.description}}hide{{/if}}" id="description--readonly">
         {{#if description}}
             {{description}}
         {{else}}
@@ -18,7 +18,7 @@
     </p>
     
     {{#if permissions.can_edit}}
-        <textarea rows="2" cols="100" class="hide frm__text description js-autocommit" id="description-textarea">
+        <textarea rows="2" cols="100" class="{{#unless staged.description}}hide{{/unless}} frm__text description js-autocommit hidden-toshow" id="description-textarea">
             {{#if staged.description}}
                 {{staged.description}}
             {{else}}
