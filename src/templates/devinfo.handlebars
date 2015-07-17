@@ -3,19 +3,19 @@
         <h3 class="ia-single--header">ID 
         {{#if permissions.admin}}
             {{#ne_and dev_milestone 'live' 'deprecated'}}
-                <a href="#" class="devpage-edit" id="dev-edit-meta_id">Edit</a>
-                <a href="#" class="devpage-commit sep--after hide" id="dev-commit-meta_id">Commit</a>
-                <a href="#" class="devpage-cancel hide" id="dev-cancel-meta_id">Cancel</a>
+                <a href="#" class="devpage-edit {{#if staged.meta_id}}hide{{/if}}" id="dev-edit-meta_id">Edit</a>
+                <a href="#" class="devpage-commit sep--after {{#unless staged.meta_id}}hide{{/unless}}" id="dev-commit-meta_id">Commit</a>
+                <a href="#" class="devpage-cancel {{#unless staged.meta_id}}hide{{/unless}}" id="dev-cancel-meta_id">Cancel</a>
             {{/ne_and}}
         {{/if}}
         </h3>
         
-        <span class="readonly--info" id="meta_id--readonly">
+        <span class="readonly--info {{#if staged.meta_id}}hide{{/if}}" id="meta_id--readonly">
             {{id}}
         </span>
 
         {{#if permissions.admin}}
-            <input type="text" class="hide frm__input meta_id js-autocommit hidden-toshow" id="meta_id-input" value="{{#if staged.meta_id}}{{staged.meta_id}}{{else}}{{id}}{{/if}}" />
+            <input type="text" class=" {{#unless staged.meta_id}}hide{{/unless}} frm__input meta_id js-autocommit hidden-toshow" id="meta_id-input" value="{{#if staged.meta_id}}{{staged.meta_id}}{{else}}{{id}}{{/if}}" />
         {{/if}}
     </div>
 
@@ -32,26 +32,20 @@
         <h3 class="ia-single--header">Dev Machine 
         {{#if permissions.admin}}
             {{#ne_and dev_milestone 'live' 'deprecated'}}
-                <a href="#" class="devpage-edit" id="dev-edit-test_machine">Edit</a>
-                <a href="#" class="devpage-commit sep--after hide" id="dev-commit-test_machine">Commit</a>
-                <a href="#" class="devpage-cancel hide" id="dev-cancel-test_machine">Cancel</a>
+                <a href="#" class="devpage-edit {{#if staged.test_machine}}hide{{/if}}" id="dev-edit-test_machine">Edit</a>
+                <a href="#" class="devpage-commit sep--after {{#unless staged.test_machine}}hide{{/unless}}" id="dev-commit-test_machine">Commit</a>
+                <a href="#" class="devpage-cancel {{#unless staged.test_machine}}hide{{/unless}}" id="dev-cancel-test_machine">Cancel</a>
             {{/ne_and}}
         {{/if}}
         </h3>
         
         {{#if permissions.admin}}
-            <span class="frm__select  hidden-toshow hide">
+            <span class="frm__select hidden-toshow {{#unless staged.test_machine}}hide{{/unless}}">
             <select class="test_machine js-autocommit" tabindex="-1" id="test_machine-select">
-                {{#if test_machine}}<option value="0">
-                    {{#if staged.test_machine}}
-                        {{staged.test_machine}}
-                    {{else}}
-                        {{test_machine}}
-                    {{/if}}
-                </option>{{/if}}
-                <option value=""> --- </option>
                 {{#if staged.test_machine}}
                     {{#with staged}}
+                        {{#if test_machine}}<option value="0">{{test_machine}}</option>{{/if}}
+                        <option value=""> --- </option>
                         {{#not_eq test_machine 'ddh1'}}<option value="1">ddh1</option>{{/not_eq}}
                         {{#not_eq test_machine 'ddh2'}}<option value="2">ddh2</option>{{/not_eq}}
                         {{#not_eq test_machine 'ddh3'}}<option value="3">ddh3</option>{{/not_eq}}
@@ -64,6 +58,8 @@
                         {{#not_eq test_machine 'ddh10'}}<option value="10">ddh10</option>{{/not_eq}}
                     {{/with}}
                 {{else}}
+                    {{#if test_machine}}<option value="0">{{test_machine}}</option>{{/if}}
+                    <option value=""> --- </option>
                     {{#not_eq test_machine 'ddh1'}}<option value="1">ddh1</option>{{/not_eq}}
                     {{#not_eq test_machine 'ddh2'}}<option value="2">ddh2</option>{{/not_eq}}
                     {{#not_eq test_machine 'ddh3'}}<option value="3">ddh3</option>{{/not_eq}}
@@ -79,7 +75,7 @@
             </span>
         {{/if}}
 
-        <span class="readonly--info" id="test_machine--readonly">        
+        <span class="readonly--info {{#if staged.test_machine}}hide{{/if}}" id="test_machine--readonly">        
             {{#if test_machine}}
                 {{test_machine}}
             {{else}}

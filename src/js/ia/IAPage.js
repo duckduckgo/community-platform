@@ -152,11 +152,10 @@
 
                     $("body").on("click", ".devpage-cancel", function(evt) {
                         var $parent = $(this).parent().parent();
-                        var field = $parent.find(".js-autocommit").attr("id").replace(/\-[a-z]+/, "");
+                        var field = $parent.find(".js-autocommit").attr("id").replace(/\-.+/, "");
 
-                        if (ia_data.staged[field]) {
+                        if (ia_data.staged && ia_data.staged[field]) {
                             delete ia_data.staged[field];
-
                             keepUnsavedEdits(field);
                         } else {
                             $(this).addClass("hide");
@@ -928,22 +927,18 @@
 
                     function keepUnsavedEdits(field) {
                         var $commit_open = $(".devpage-edit.hide").parent().parent();
-                        console.log($commit_open.length);
                         var $unsaved_edits = $commit_open.find(".js-autocommit");
                         ia_data.staged = {};
 
                         $unsaved_edits.each(function(idx) {
-                            var temp_field = $(this).attr("id").replace(/\-[a-z]+/, "");
+                            var temp_field = $(this).attr("id").replace(/\-.+/, "");
                             if (temp_field !== field) {
-                                var temp_editable = $(this).attr("id").replace(/[a-z]+\-/, "");
+                                var temp_editable = $(this).attr("id").replace(/.+\-/, "");
 
                                 var temp_result = getUnsavedValue($(this), temp_field, temp_editable);
                                 var temp_value = temp_result.value;
 
                                 ia_data.staged[temp_field] = temp_value;
-                                console.log(temp_field);
-                                console.log(temp_editable);
-                                console.log(temp_value);
                             }
                         });
                         
