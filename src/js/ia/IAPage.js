@@ -152,13 +152,20 @@
 
                     $("body").on("click", ".devpage-cancel", function(evt) {
                         var $parent = $(this).parent().parent();
+                        var field = $parent.find(".js-autocommit").attr("id").replace(/\-[a-z]+/, "");
 
-                        $(this).addClass("hide");
-                        $(this).siblings(".devpage-commit").addClass("hide");
-                        $(this).siblings(".devpage-edit").removeClass("hide");
+                        if (ia_data.staged[field]) {
+                            delete ia_data.staged[field];
 
-                        $parent.children(".hidden-toshow").addClass("hide");
-                        $parent.children(".readonly--info").removeClass("hide");
+                            keepUnsavedEdits(field);
+                        } else {
+                            $(this).addClass("hide");
+                            $(this).siblings(".devpage-commit").addClass("hide");
+                            $(this).siblings(".devpage-edit").removeClass("hide");
+
+                            $parent.children(".hidden-toshow").addClass("hide");
+                            $parent.children(".readonly--info").removeClass("hide");
+                        }
                     });
 
                     $('body').on("change keypress focusout", ".available_types, .developer_username input", function(evt) {
@@ -919,6 +926,33 @@
                         }
                     }
 
+                    function keepUnsavedEdits(field) {
+                        var $commit_open = $(".devpage-edit.hide").parent().parent();
+                        console.log($commit_open.length);
+                        var $unsaved_edits = $commit_open.find(".js-autocommit");
+                        ia_data.staged = {};
+
+                        $unsaved_edits.each(function(idx) {
+                            var temp_field = $(this).attr("id").replace(/\-[a-z]+/, "");
+                            if (temp_field !== field) {
+                                var temp_editable = $(this).attr("id").replace(/[a-z]+\-/, "");
+
+                                var temp_result = getUnsavedValue($(this), temp_field, temp_editable);
+                                var temp_value = temp_result.value;
+
+                                ia_data.staged[temp_field] = temp_value;
+                                console.log(temp_field);
+                                console.log(temp_editable);
+                                console.log(temp_value);
+                            }
+                        });
+                        
+                        page.updateHandlebars(readonly_templates, ia_data, ia_data.live.dev_milestone, false);
+                        page.updateAll(readonly_templates, ia_data, false);
+
+                        $commit_open.find(".devpage-edit").trigger("click");
+                    }
+
                     function autocommit(field, value, id, is_json, subfield) {
                         var jqxhr = $.post("/ia/save", {
                             field : field,
@@ -946,30 +980,7 @@
                                         Screens.render();
 
                                         if (data.result.saved) {
-                                            var $commit_open = $(".devpage-edit.hide").parent().parent();
-                                            console.log($commit_open.length);
-                                            var $unsaved_edits = $commit_open.find(".js-autocommit");
-                                            ia_data.staged = {};
-
-                                            $unsaved_edits.each(function(idx) {
-                                                var temp_field = $(this).attr("id").replace(/\-[a-z]+/, "");
-                                                if (temp_field !== field) {
-                                                    var temp_editable = $(this).attr("id").replace(/[a-z]+\-/, "");
-
-                                                    var temp_result = getUnsavedValue($(this), temp_field, temp_editable);
-                                                    var temp_value = temp_result.value;
-
-                                                    ia_data.staged[temp_field] = temp_value;
-                                                    console.log(temp_field);
-                                                    console.log(temp_editable);
-                                                    console.log(temp_value);
-                                                }
-                                            });
-                                            
-                                            page.updateHandlebars(readonly_templates, ia_data, ia_data.live.dev_milestone, false);
-                                            page.updateAll(readonly_templates, ia_data, false);
-
-                                            $commit_open.find(".devpage-edit").trigger("click");
+                                            keepUnsavedEdits(field);
                                         }                                       
                                     }
                                 }
