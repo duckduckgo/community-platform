@@ -132,7 +132,7 @@
                     $("body").on("click", ".devpage-edit", function(evt) {
                         var $parent = $(this).parent().parent();
 
-                        $(this).hide();
+                        $(this).addClass("hide");
                         $(this).siblings(".devpage-commit, .devpage-cancel").removeClass("hide");
 
                         $parent.children(".js-autocommit").removeClass("hide");
@@ -155,7 +155,7 @@
 
                         $(this).addClass("hide");
                         $(this).siblings(".devpage-commit").addClass("hide");
-                        $(this).siblings(".devpage-edit").show();
+                        $(this).siblings(".devpage-edit").removeClass("hide");
 
                         $parent.children(".js-autocommit").addClass("hide");
                         $parent.children(".readonly--info").removeClass("hide");
@@ -941,6 +941,7 @@
 
                                         if (data.result.saved) {
                                             var $commit_open = $(".devpage-edit.hide").parent().parent();
+                                            console.log($commit_open.length);
                                             var $unsaved_edits = $commit_open.children(".js-autocommit");
                                             ia_data.staged = {};
 
@@ -952,6 +953,9 @@
                                                 var temp_value = temp_result.value;
 
                                                 ia_data.staged[temp_field] = temp_value;
+                                                console.log(temp_field);
+                                                console.log(temp_editable);
+                                                console.log(temp_value);
                                             });
                                             
                                             page.updateHandlebars(readonly_templates, ia_data, ia_data.live.dev_milestone, false);
