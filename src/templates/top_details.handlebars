@@ -15,11 +15,11 @@
                     <div>
                       {{#loop_n 3 topic}}
                         <div class="separator topic-separator left">
-                          <div data-panel="" class="topic button delete left js-autocommit" name="topic" title="Remove this topic">
+                          <div class="topic button delete left js-autocommit" name="topic" title="Remove this topic">
                             <i class="ddgsi ddgsi-close-bold">X</i>
                           </div>
                           <span class="frm__select">
-                            <select data-panel="" class="topic js-autocommit topic-group left" id="first-topic-select">
+                            <select class="top-details topic js-autocommit topic-group left" id="first-topic-select">
                               <option value="0">{{this}}</option>
                             </select>
                           </span>
@@ -32,11 +32,11 @@
                       </div>
                       
                       <div class="hide separator topic-separator left new_empty_topic">
-                        <div data-panel="" class="topic button delete left js-autocommit" name="topic" title="Remove this topic">
+                        <div class="topic button delete left js-autocommit" name="topic" title="Remove this topic">
                           <i class="ddgsi ddgsi-close-bold">X</i>
                         </div>
                         <span class="frm__select">
-                         <select data-panel="" class="topic js-autocommit topic-group left" id="first-topic-select">
+                         <select class="topic top-details js-autocommit topic-group left" id="first-topic-select">
                           <option value="0"></option>
                          </select>
                          </span>
@@ -70,7 +70,7 @@
             {{#if permissions.can_edit}}
                 {{#ne_and dev_milestone 'live' 'deprecated'}}
                     <span class="frm__select">
-                      <select class="dev_milestone-container__body__select js-autocommit repo" tabindex="-1" id="repo-select">
+                      <select class="top-details js-autocommit repo" tabindex="-1" id="repo-select">
                         <option value="0">{{repo}}</option>
                         {{#not_eq repo 'fathead'}}<option value="1">fathead</option>{{/not_eq}}
                         {{#not_eq repo 'goodies'}}<option value="2">goodies</option>{{/not_eq}}
@@ -97,7 +97,7 @@
             {{#if permissions.admin}}
                 {{#ne_and dev_milestone 'live' 'deprecated'}}
                     <span class="frm__select">
-                        <select class="dev_milestone-container__body__select js-autocommit dev_milestone" tabindex="-1" id="dev_milestone-select">
+                        <select class="top-details js-autocommit dev_milestone" tabindex="-1" id="dev_milestone-select">
                             <option value="0">{{dev_milestone}}</option>
                             {{#not_eq dev_milestone 'planning'}}<option value="1">planning</option>{{/not_eq}}
                             {{#not_eq dev_milestone 'development'}}<option value="2">development</option>{{/not_eq}}

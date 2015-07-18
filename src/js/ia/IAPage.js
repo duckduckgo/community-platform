@@ -591,6 +591,10 @@
                         resetSaved($obj);
                     });
 
+                    $("body").on("change", ".top-details.js-autocommit", function(evt) {
+                        $("#js-top-details-submit, #js-top-details-cancel").removeClass("hide");
+                    });
+
                     $("body").on('click', ".devpage-commit", function(evt) {
                         var $parent = $(this).parent().parent();
                         var field = $(this).attr("id").replace("dev-commit-", "");
@@ -657,6 +661,7 @@
                         var $empty_topic = $(".new_empty_topic").clone();
                         
                         $(this).before($empty_topic.removeClass("hide").removeClass("new_empty_topic"));
+                        $("#js-top-details-submit, #js-top-details-cancel").removeClass("hide");
 
                         if (topics > 2) {
                             $(this).addClass("hide");
@@ -672,31 +677,17 @@
 
                         // If dev milestone is not 'live' it means we are in the dev page
                         // and a topic has been deleted (it's the only field having a delete button in the dev page
-                        // so far) - so we must save
+                        // so far)
                         if ($(this).hasClass("js-autocommit") || $(this).parent().hasClass("js-autocommit")) {
-                            var value = [];
-                            var is_json = true;
-                            var panel = $.trim($(this).attr("data-panel"));
-                            var temp;
-                            var $selector;
-                            var $parent = $(this).parent();
+                            $(this).parent().remove();
+                            $("#js-top-details-submit, #js-top-details-cancel").removeClass("hide");
 
-                            if (field === "topic") {
-                                var $select = $parent.find('.topic-group');
-                                $select.find('option[value="0"]').empty();
-                                $select.val('0');
+                            //value = getGroupVals(field, $selector);
+                            //value = JSON.stringify(value);
 
-                                $selector = $("select.js-autocommit.topic-group option:selected");
-                            } else {
-                                $(this).parent().remove();
-                            }
-
-                            value = getGroupVals(field, $selector);
-                            value = JSON.stringify(value);
-
-                            if (field.length && value.length) {
+                            /*if (field.length && value.length) {
                                 autocommit(field, value, DDH_iaid, is_json, panel);
-                            }
+                            }*/
                         } else {
                             if (field !== "topic") {
                                 $(this).parent().remove();
