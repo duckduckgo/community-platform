@@ -135,6 +135,7 @@
                         $(this).addClass("hide");
                         $(this).siblings(".devpage-commit, .devpage-cancel").removeClass("hide");
 
+                        // Show editable field and hide readonly field
                         $parent.children(".hidden-toshow").removeClass("hide");
                         $parent.children(".readonly--info").addClass("hide");
                     });
@@ -155,9 +156,12 @@
                         var field = $parent.find(".js-autocommit").attr("id").replace(/\-.+/, "");
 
                         if (ia_data.staged && ia_data.staged[field]) {
+                            // Remove any unsaved edits and then refresh Handlebars
                             delete ia_data.staged[field];
                             keepUnsavedEdits(field);
                         } else {
+                            // No unsaved edits: just hide the editable field and the commit | cancel elements,
+                            // and show the readonly version with the "edit" element instead
                             $(this).addClass("hide");
                             $(this).siblings(".devpage-commit").addClass("hide");
                             $(this).siblings(".devpage-edit").removeClass("hide");
@@ -165,6 +169,25 @@
                             $parent.children(".hidden-toshow").addClass("hide");
                             $parent.children(".readonly--info").removeClass("hide");
                         }
+                    });
+
+                    $("body").on("click", "#js-top-details-cancel", function(evt) {
+                        // Remove any unsaved edits
+                        if (ia_data.staged && ia_data.staged.top_details) {
+                            delete ia_data.staged.top_details;
+                        }
+                        
+                        page.updateHandlebars(readonly_templates, ia_data, ia_data.live.dev_milestone, false);
+                        
+                        // Remove and then append again all the templates for the top blue band
+                        $(".ia-single--name").remove();
+
+                        $("#ia-single-top-name").html(readonly_templates.live.name);
+                        $('#ia-breadcrumbs').html(readonly_templates.live.breadcrumbs);
+                        $("#ia-single-top-details").html(readonly_templates.live.top_details);
+                        $('.edit-container').html(readonly_templates.live.edit_buttons);
+
+                        $(this, "#js-top-details-submit").addClass("hide");
                     });
 
                     $('body').on("change keypress focusout", ".available_types, .developer_username input", function(evt) {
