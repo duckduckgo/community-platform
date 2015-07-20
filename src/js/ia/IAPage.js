@@ -1007,7 +1007,36 @@
                                 ia_data.staged[temp_field] = temp_value;
                             }
                         });
-                        
+
+                        // If the submit button is visible it means at least one field
+                        // in the top blue band was edited.
+                        // Those fields are saved all at once when clicking on submit,
+                        // and are always editable for people with permissions,
+                        // so we don't know which fields have been modified and which haven't:
+                        // let's just take all the current values as unsaved
+                        if (!$("#js-top-details-submit").hasClass("hide")) {
+                            ia_data.staged.top_fields = {};
+                            $(".top-details.js-autocommit").each(function(idx) {
+                                var temp_field;
+                                var temp_editable;
+                                if (!$(this).hasClass("topic")) {
+                                    temp_field = $(this).attr("id").replace(/\-.+/, "");
+                                    temp_editable = $(this).attr("id").replace(/.+\-/, "");
+                                } else {
+                                    temp_field = "topic";
+                                    temp_editable = "select";
+                                }
+                                
+                                if (!ia_data.staged.top_fields[temp_field] && (temp_field !== field)) {
+                                    temp_result = getUnsavedValue($(this), field, temp_editable);
+                                    temp_value = temp_field === "topic"? $.parseJSON(temp_result.value) : temp_result.value;
+
+                                    ia_data.staged.top_fields[temp_field] = temp_value;
+                                }
+                            });
+                        }
+                       
+                        console.log(ia_data.staged); 
                         page.updateHandlebars(readonly_templates, ia_data, ia_data.live.dev_milestone, false);
                         page.updateAll(readonly_templates, ia_data, false);
 
@@ -1036,8 +1065,9 @@
                                     Screens.render();
 
                                     // No need to refresh the Handlebars if the saved field was part of the blue band,
-                                    // since those fields stay editable
-                                    if (data.result.saved && (!$("." + field + ".top-details").length)) {
+                                    // since those fields stay editable, unless it was the repo field, on which depends
+                                    // the rendering of type-specific editable data
+                                    if (data.result.saved && (!$("." + field + ".top-details").length) || field === "repo") {
                                         keepUnsavedEdits(field);
                                     } 
                                 }
@@ -1120,7 +1150,9 @@
 
             $.each(templates.live, function(key, val) {
                 templates.live[key] = Handlebars.templates[key](latest_edits_data);
+                console.log("template: " + key);
             });
+
         },
 
         updateData: function(ia_data, x, edited) {
@@ -1144,6 +1176,8 @@
                 (ia_data.live.dev_milestone === "live" || ia_data.live.dev_milestone === "deprecated")) {
                 $(".special-permissions__toggle-view").hide();
             }
+
+            console.log(x);
 
             return x;
         },
