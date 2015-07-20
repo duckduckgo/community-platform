@@ -8,7 +8,7 @@ ALTER TABLE github_commit ALTER COLUMN gh_data DROP DEFAULT;
 
 ALTER TABLE github_issue ADD COLUMN idea_id bigint;
 
-ALTER TABLE github_issue ADD COLUMN isa_pull_request boolean NOT NULL;
+ALTER TABLE github_issue ADD COLUMN isa_pull_request integer NOT NULL default 0;
 
 ALTER TABLE github_issue ALTER COLUMN number TYPE bigint;
 
