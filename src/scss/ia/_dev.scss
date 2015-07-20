@@ -156,3 +156,13 @@ select.available_types {
     margin-top: 0.5em;
 }
 
+.ia-single .edit-popup {
+    position: fixed;
+    z-index: 1000;
+    padding: 1em;
+    top: 15em;
+    left: 30em;
+    background-color: $white;
+    width: 30em;
+    box-shadow: 2px 5px 20px 5px $grey;
+}
