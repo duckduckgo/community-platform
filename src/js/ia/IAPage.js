@@ -618,6 +618,43 @@
                         $("#js-top-details-submit, #js-top-details-cancel").removeClass("hide");
                     });
 
+                    // Dev Page: commit fields in the blue band
+                    $("body").on('click', "#js-top-details-submit", function(evt) {
+                        var $editable = $(".top-details.js-autocommit");
+                        var field;
+                        var editable_type;
+                        var value;
+                        var is_json;
+                        var saved_vals = [];
+
+
+                        $editable.each(function(idx) {
+                            if (!$(this).hasClass("topic")) {
+                                field = $(this).attr("id").replace(/\-.+/, "");
+                                editable_type = $(this).attr("id").replace(/.+\-/, "");
+                            } else {
+                                field = "topic";
+                                editable_type = "select";
+                            }
+                            
+                            if (saved_vals.indexOf(field) === -1) {
+                                var temp_result = getUnsavedValue($(this), field, editable_type);
+
+                                saved_vals.push(field);
+
+                                value = temp_result.value;
+                                is_json = temp_result.is_json;
+
+                                if (field && (ia_data[field] !== value)) {
+                                    autocommit(field, value, DDH_iaid, is_json);
+                                }
+                            }
+                        });
+
+                        $("#js-top-details-submit, #js-top-details-cancel").addClass("hide");
+                    });
+
+                    // Dev Page: commit any field inside .ia-single--left and .ia-single--right (except popup fields)
                     $("body").on('click', ".devpage-commit", function(evt) {
                         var $parent = $(this).parent().parent();
                         var field = $(this).attr("id").replace("dev-commit-", "");
@@ -627,7 +664,6 @@
                         var is_json;
 
                         var result = getUnsavedValue($editable, field, editable_type);
-                        //autocommit(parent_field, value, DDH_iaid, is_json, field);
 
                         value = result.value;
                         is_json = result.is_json;
@@ -684,7 +720,6 @@
                         var $empty_topic = $(".new_empty_topic").clone();
                         
                         $(this).before($empty_topic.removeClass("hide").removeClass("new_empty_topic"));
-                        $("#js-top-details-submit, #js-top-details-cancel").removeClass("hide");
 
                         if (topics > 2) {
                             $(this).addClass("hide");
@@ -786,6 +821,7 @@
                         }
                     });
 
+                    // Check if username exists for the given account type (either github or duck.co)
                     function usercheck(type, username, $type, $username) {
                         var jqxhr = $.post("/ia/usercheck", {
                             type: type,
@@ -814,11 +850,16 @@
                         });
                     }
 
+                    // Get a value for an editable field in the dev page
+                    // This is used both for getting a value to commit
+                    // and also inside keepUnsavedEdits(), for collecting each unsaved value after commit
+                    // before refreshing the Handlebars templates.
                     function getUnsavedValue($editable, field, editable_type) {
                         var result = {};
                         var value;
                         var is_json = false;
 
+                        console.log(field + ", " + editable_type);
                         if (editable_type === "check") {
                             value = $editable.hasClass("icon-check")? 1 : 0;
                         } else if (editable_type === "select") {
@@ -835,6 +876,7 @@
                             } else {
                                 value = $selected.attr("value").length? $.trim($selected.text()) : '';
                             }
+                            console.log(value);
                         } else if (editable_type === "input" || editable_type === "textarea") {
                             value = $.trim($editable.val());
 
@@ -861,6 +903,8 @@
                         return result;
                     }
 
+                    // Gets values for fields such as topic, developer, other queries
+                    // which have an array of values instead of just a single value
                     function getGroupVals(field, $obj) {
                         var $selector;
                         var temp_val;
@@ -900,6 +944,8 @@
                         return value;
                     }
 
+                    // Gets values for section fields, which can contain mixed types of values,
+                    // such as src_options, which has both input fields and checkboxes
                     function getSectionVals($obj, parent_field) {
                         var section_vals = {};
                         var temp_field;
@@ -939,6 +985,12 @@
                         }
                     }
 
+                    // After saving a field inside .ia-single--left or .ia-single--right,
+                    // we need to refresh the Handlebars templates: this means that we'd lose any unsaved
+                    // edits if other fields were open for editing at the same time.
+                    // So before refreshing we collect all the unsaved data and we pass it to the Handlebars
+                    // templates, so they will retain the unsaved data and will display those fields as editable
+                    // like we left them.
                     function keepUnsavedEdits(field) {
                         var $commit_open = $(".devpage-edit.hide").parent().parent();
                         var $unsaved_edits = $commit_open.find(".js-autocommit");
@@ -962,6 +1014,7 @@
                         $commit_open.find(".devpage-edit").trigger("click");
                     }
 
+                    // Saves values for editable fields on the dev page
                     function autocommit(field, value, id, is_json, subfield) {
                         var jqxhr = $.post("/ia/save", {
                             field : field,
@@ -973,25 +1026,20 @@
                             if (data.result) {
                                 if (data.result.saved && (field === "repo" ||
                                     (field === "dev_milestone" && data.result[field] === "live"))) {
-                                    location.reload();
+                                    //location.reload();
                                 } else if (data.result.saved && field === "id") {
                                     location.href = "/ia/view/" + data.result.id;
                                 } else {
                                     ia_data.live[field] = (is_json && data.result[field])? $.parseJSON(data.result[field]) : data.result[field];
                                     var saved_class = data.result.saved? "saved" : "not_saved";
 
-                                    if (field === "name" || field === "dev_milestone") {
-                                        $(".ia-single--name").remove();
-                                        latest_edits_data = page.updateData(ia_data, latest_edits_data, false);
-                                        readonly_templates.live.name = Handlebars.templates.name(latest_edits_data);
-                                        $(".ia-single--right").before(readonly_templates.live.name);
-                                    } else {
-                                        Screens.render();
+                                    Screens.render();
 
-                                        if (data.result.saved) {
-                                            keepUnsavedEdits(field);
-                                        }                                       
-                                    }
+                                    // No need to refresh the Handlebars if the saved field was part of the blue band,
+                                    // since those fields stay editable
+                                    if (data.result.saved && (!$("." + field + ".top-details").length)) {
+                                        keepUnsavedEdits(field);
+                                    } 
                                 }
                             }
                         });
