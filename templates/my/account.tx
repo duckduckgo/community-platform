@@ -178,7 +178,7 @@
 				<div class="row">
 					<div class="twothird">
 						<label>
-							Your <a href="<: $u('Userpage','home',$c.user.username) :>">userpage</a> (<a href="<: $u('Userpage','json',$c.user.username) :>">JSON</a>)
+							Your <a href="<: $u('Userpage','home',$c.user.username) :>">userpage</a>
 						</label>
 					</div>
 					<div class="third">
