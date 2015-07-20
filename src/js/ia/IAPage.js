@@ -1168,6 +1168,10 @@
                         $(".ia-single--info").find(".ddgsi").removeClass("ddgsi-chev-up").addClass("ddgsi-chev-down");
                     }
                 });
+
+                if (ia_data.live.dev_milestone !== "live" && ia_data.live.dev_milestone !== "deprecated") {
+                    this.appendTopics($(".topic.js-autocommit"));
+                }
             } else {
                 $("#ia-single-top").attr("id", "ia-single-top--edit");
                 $("#ia-single-top-name, #ia-single-top-details, .ia-single--left, .ia-single--right, .edit-container, #ia-breadcrumbs").hide();
