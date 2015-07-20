@@ -111,21 +111,6 @@
 					<a href="<: $u('My','changepw') :>" class="button button--right">Change password</a>
 				</div>
 			</div>
-			<: my $github_user = cur_user().github_user :>
-			<div class="row">
-				<div class="twothird">
-					<label>
-						<: if $github_user { :>
-							Update your Github link <: i($github_user) :>:
-						<: } else { :>
-							Link your GitHub:
-						<: } :>
-					</label>
-				</div>
-				<div class="third">
-					<a href="<: $u('My::GitHub','index', { action_token => $action_token }) :>" class="button button--right">GitHub Link</a>
-				</div>
-			</div>
 			<div class="row">
 				<div class="twothird">
 					<label>
