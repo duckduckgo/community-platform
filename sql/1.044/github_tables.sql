@@ -55,17 +55,11 @@ ALTER TABLE github_repo ALTER COLUMN updated_at TYPE timestamp with time zone;
 
 ALTER TABLE github_repo ALTER COLUMN gh_data DROP DEFAULT;
 
-ALTER TABLE github_user DROP COLUMN scope_public_repo;
-
 ALTER TABLE github_user ADD COLUMN isa_owners_team_member boolean NOT NULL;
-
-ALTER TABLE github_user ADD COLUMN scope_pulic_repo text DEFAULT '0' NOT NULL;
 
 ALTER TABLE github_user ALTER COLUMN created_at TYPE timestamp with time zone;
 
 ALTER TABLE github_user ALTER COLUMN updated_at TYPE timestamp with time zone;
-
-ALTER TABLE github_user ALTER COLUMN scope_user_email TYPE text;
 
 ALTER TABLE github_user ALTER COLUMN gh_data DROP DEFAULT;
 
