@@ -7,6 +7,8 @@ use DBIx::Class::Candy;
 
 table 'activity_feed';
 
+
+
 column id => {
     data_type => 'bigint',
     is_auto_increment => 1,
@@ -56,6 +58,11 @@ column format => {
 
 column for_user => {
     data_type => 'bigint',
+    is_nullable => 1,
+};
+
+column for_role => {
+    data_type => 'int',
     is_nullable => 1,
 };
 
