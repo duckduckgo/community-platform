@@ -661,7 +661,6 @@
                     // Dev Page: commit fields inside a popup
                     $("body").on('click', ".save-button-popup", function(evt) {
                         //We only have a popup for the contributors fields, so far
-
                         if (ia_data.permissions && ia_data.permissions.admin) {
                             var temp_field = "producer";
                             var temp_editable = "input";
@@ -709,17 +708,11 @@
                         }
                     });
 
-                    $("body").on('click', ".dev_milestone-container__body__button.js-autocommit", function(evt) {
-                        var field = $.trim($(this).attr("id").replace("-button", ""));
-                        var value = $.trim($(".header-account-info .user-name").text());
-                        var is_json = false;
-                        var panel = $.trim($(this).attr("data-panel"));
-
+                    $("body").on('click', ".assign-button.js-autocommit", function(evt) {
+                        var $input = $(this).parent().find(".team-input");
+                        
+                        $input.val($.trim($(".header-account-info .user-name").text()));
                         $(this).hide();
-
-                        if (field.length && value.length) {
-                            autocommit(field, value, DDH_iaid, is_json, panel);
-                        }
                     });
 
                     $("body").on('click', '.js-pre-editable.button', function(evt) {
