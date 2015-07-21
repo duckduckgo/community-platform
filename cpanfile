@@ -42,7 +42,7 @@ requires 'DBIx::Class::AlwaysUpdate', '0.001';
 requires 'DBIx::Class::Candy', '0.002104';
 requires 'DBIx::Class::Cursor::Cached', '1.001002';
 requires 'DBIx::Class::EncodedColumn', '0.00012';
-requires 'DBIx::Class::InflateColumn::Serializer', '0.06';
+requires 'DBIx::Class::InflateColumn::Serializer', '0.07';
 requires 'DBIx::Class::Schema::Loader', '0.07036';
 requires 'DBIx::Class::TimeStamp', '0.14';
 requires 'Digest::MD5', '2.53';
