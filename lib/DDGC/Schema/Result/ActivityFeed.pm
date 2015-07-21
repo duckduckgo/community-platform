@@ -51,7 +51,9 @@ sub _build_renderer {
 sub render_description{
     my ( $self ) = @_;
     my $format = $self->format || 'markdown';
-    $self->renderer->$format( $self->description );
+    return $self->renderer->$format( $self->description ) if
+        $self->renderer->can($format);
+    return sprintf '<pre>%s</pre>', $self->description;
 }
 
 sub TO_JSON {
