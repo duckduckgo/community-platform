@@ -132,8 +132,8 @@
     <h3 class="ia-single--header">Contributors</h3>
     {{#if permissions.admin}}
         <div>
-          <input type="text" class="frm__input producer dev_milestone-container__body__input js-autocommit hidden-toshow team-input" id="producer-input" value="{{producer}}" />
-          <div data-panel="contributors" class="dev_milestone-container__body__button js-autocommit hidden-toshow button assign-button btn" id="producer-button">
+          <input type="text" class="frm__input producer js-autocommit hidden-toshow team-input" id="producer-input" value="{{producer}}" />
+          <div class="js-autocommit hidden-toshow button assign-button btn" id="producer-button">
             Assign to me
           </div>
         </div>
@@ -143,12 +143,12 @@
         {{#if developer}}
             {{#each developer}}
                 <li class="js-autocommit hidden-toshow developer">
-                    <div data-panel="contributors" class="developer button delete left" name="developer" title="Remove developer">
+                    <div class="developer button delete left" name="developer" title="Remove developer">
                         <i class="ddgsi ddgsi-close-bold">X</i>
                     </div>
                     {{#eq_or type 'duck.co' 'github'}}
                     <span class="frm__select">
-                        <select data-panel="contributors" class="available_types left" tabindex="-1" {{#eq type 'legacy'}}disabled="disabled"{{/eq}}>
+                        <select class="available_types left" tabindex="-1" {{#eq type 'legacy'}}disabled="disabled"{{/eq}}>
                             {{#if type}}<option value="0">{{type}}</option>{{/if}}
                             {{#not_eq type 'duck.co'}}<option value="1">duck.co</option>{{/not_eq}}
                             {{#not_eq type 'github'}}<option value="2">github</option>{{/not_eq}}
@@ -156,24 +156,24 @@
                     </span>
                     {{/eq_or}}
                     <span class="developer_username left type-{{type}}">
-                        <input type="text" data-panel="contributors" class="frm__input" {{#eq_or type 'duck.co' 'github'}}value="{{final_path url}}"{{/eq_or}} {{#eq type 'legacy'}}value="{{url}}" disabled="disabled"{{/eq}}/>
+                        <input type="text" class="group-vals frm__input" {{#eq_or type 'duck.co' 'github'}}value="{{final_path url}}"{{/eq_or}} {{#eq type 'legacy'}}value="{{url}}" disabled="disabled"{{/eq}}/>
                     </span>
                 </li>
                 <span class="clearfix"></span>
             {{/each}}
         {{/if}}
         <li class="hide new_input js-autocommit hidden-toshow developer">
-            <div data-panel="contributors" class="button delete left" name="developer" title="Remove developer">
+            <div class="button delete left" name="developer" title="Remove developer">
                 <i class="ddgsi ddgsi-close-bold">X</i>
             </div>
             <span class="frm__select">
-              <select data-panel="contributors" class="available_types left" tabindex="-1">
+              <select class="available_types left" tabindex="-1">
                 <option value="0">duck.co</option>
                 <option value="1">github</option>
               </select>
             </span>
             <span class="developer_username left">
-                <input data-panel="contributors" class="frm__input" type="text"/>
+                <input class="group-vals frm__input" type="text"/>
             </span>
             <span class="clearfix"></span>
         </li>
