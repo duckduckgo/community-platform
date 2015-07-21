@@ -86,7 +86,6 @@
 {{/ne_and}}
 
 <div class="ia-attribution ia-single--info">
-  {{#if developer}}
     <h3 class="ia-single--header">Contributors 
     {{#if permissions.can_edit}}
         {{#ne_and dev_milestone 'live' 'deprecated'}}
@@ -95,11 +94,14 @@
     {{/if}}
     </h3>
     <ul>
-      {{#each developer}}
-        <li><a href="{{url}}" class="one-line">{{name}}</a></li>
-      {{/each}}
+      {{#if developer}}
+        {{#each developer}}
+          <li><a href="{{url}}" class="one-line">{{name}}</a></li>
+        {{/each}}
+      {{else}}
+        No contributors yet
+      {{/if}}
     </ul>
-  {{/if}}
 </div>
 
 <div class="ia-single--info">
