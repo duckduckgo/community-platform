@@ -146,17 +146,16 @@
                     <div class="developer button delete left" name="developer" title="Remove developer">
                         <i class="ddgsi ddgsi-close-bold">X</i>
                     </div>
-                    {{#eq_or type 'duck.co' 'github'}}
                     <span class="frm__select">
                         <select class="available_types left" tabindex="-1" {{#eq type 'legacy'}}disabled="disabled"{{/eq}}>
                             {{#if type}}<option value="0">{{type}}</option>{{/if}}
                             {{#not_eq type 'duck.co'}}<option value="1">duck.co</option>{{/not_eq}}
                             {{#not_eq type 'github'}}<option value="2">github</option>{{/not_eq}}
+                            {{#not_eq type 'ddg'}}<option value="3">ddg</option>{{/not_eq}}
                         </select>
                     </span>
-                    {{/eq_or}}
                     <span class="developer_username left type-{{type}}">
-                        <input type="text" class="group-vals frm__input" {{#eq_or type 'duck.co' 'github'}}value="{{final_path url}}"{{/eq_or}} {{#eq type 'legacy'}}value="{{url}}" disabled="disabled"{{/eq}}/>
+                        <input type="text" class="group-vals frm__input" {{#eq type 'legacy'}}value="{{url}}" disabled="disabled"{{else}}value="{{final_path url}}"{{/eq}}/>
                     </span>
                 </li>
                 <span class="clearfix"></span>
@@ -170,6 +169,7 @@
               <select class="available_types left" tabindex="-1">
                 <option value="0">duck.co</option>
                 <option value="1">github</option>
+                <option value="3">ddg</option>
               </select>
             </span>
             <span class="developer_username left">
