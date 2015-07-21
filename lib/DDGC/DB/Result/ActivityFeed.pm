@@ -7,7 +7,7 @@ use DBIx::Class::Candy;
 
 table 'activity_feed';
 
-
+# See DDGC::Schema::Result::ActivityFeed for docs
 
 column id => {
     data_type => 'bigint',
