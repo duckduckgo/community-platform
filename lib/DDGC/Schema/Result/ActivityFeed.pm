@@ -19,6 +19,32 @@ column created => {
     set_on_create => 1,
 };
 
+column category => {
+    data_type => 'text',
+    is_nullable => 0,
+};
+
+column action => {
+    data_type => 'text',
+    is_nullable => 0,
+    default_value => 'created',
+};
+
+column meta1 => {
+    data_type => 'text',
+    is_nullable => 1,
+};
+
+column meta2 => {
+    data_type => 'text',
+    is_nullable => 1,
+};
+
+column meta3 => {
+    data_type => 'text',
+    is_nullable => 1,
+};
+
 column description => {
     data_type => 'text',
     is_nullable => 0,
