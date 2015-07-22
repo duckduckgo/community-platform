@@ -45,5 +45,45 @@ column meta3 => {
 
 belongs_to 'user', 'DDGC::Schema::Result::User', 'users_id';
 
+has_many 'activity', 'DDGC::Schema::Result::ActivityFeed', sub {
+    my ( $args ) = @_;
+
+    my $activity = $args->{foreign_alias};
+    my $subscription = $args->{self_alias};
+
+    +{
+        -and => {
+            "$activity.category" => "$subscription.category",
+            -or => [
+                "$subscription.action" => { '=' => undef },
+                "$activity.action" => "$subscription.action",
+            ],
+            -or => [
+                "$subscription.meta1" => { '=' => undef },
+                "$activity.meta1" => { 'like' => "$subscription.meta1" },
+            ],
+            -or => [
+                "$subscription.meta2" => { '=' => undef },
+                "$activity.meta2" => { 'like' => "$subscription.meta2" },
+            ],
+            -or => [
+                "$subscription.meta3" => { '=' => undef },
+                "$activity.meta3" => { 'like' => "$subscription.meta3" },
+            ],
+            -or => [
+                "$activity.for_user" => { '=' => undef },
+                "$activity.for_user" => { '=' => "$subscription.users_id" },
+            ],
+            -or => [
+                "$activity.for_role" => { '=' => undef },
+                "$activity.for_role" => {
+                    -in => \"SELECT role FROM user_role WHERE users_id = $subscription.users_id",
+                }
+            ]
+        }
+    };
+
+};
+
 1;
 
