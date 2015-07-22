@@ -66,7 +66,7 @@ requires 'HTML::TokeParser', '3.69';
 requires 'IO::All', '0.50';
 requires 'IO::Socket::SSL', '1.955';
 requires 'IPC::Run', '0.92';
-requires 'JSON::MaybeXS', '1.000000';
+requires 'JSON::MaybeXS', '1.003005';
 requires 'Lingua::Identify', '0.56';
 requires 'List::MoreUtils', '0.33';
 requires 'Locale::Country', '3.27';
