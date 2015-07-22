@@ -5,18 +5,28 @@
             background-color: transparent;
             border-color: transparent;
             color: $white;
+
+            padding-right: 30px;
+
             select {
                 color: $white;
                 text-transform: capitalize;
+                /* There's too much space inside the dropdown. */
+                padding: 0;
+                min-width: 0;
             }
         }
 
+        /* The + button should have a custom color. */
         #add_topic {
             background-color: #3a7fb4;
             border-color: transparent;
             color: $white;
         }
 
+        /* The input text for the name shouldn't look like an input field.
+           This means transparent background and bigger text.
+          */
         .ia-single--name input.frm__input {
             background-color: transparent;
             border-color: transparent;
@@ -28,6 +38,15 @@
             line-height: 1;
             position: relative;
             bottom: 7px;
+        }
+
+        .topic-remove {
+            position: relative;
+            top: 2px;
+        }
+
+        .topic-container {
+            display: inline-block;
         }
     }
 }
