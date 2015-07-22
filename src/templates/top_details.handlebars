@@ -12,7 +12,7 @@
             <span class="detail-title">Categories:</span>
             {{#if permissions.can_edit}}
                 {{#ne_and dev_milestone 'live' 'deprecated'}}
-                    <div>
+                    <div class="parent-group" id="topic-group">
                       {{#if staged.top_fields.topic}}
                         {{#with staged.top_fields}}
                               {{#loop_n 2 topic}}
@@ -54,7 +54,7 @@
                           <i class="ddgsi ddgsi-close-bold">X</i>
                         </div>
                         <span class="frm__select">
-                         <select class="topic top-details js-autocommit topic-group left">
+                         <select class="group-vals topic top-details js-autocommit topic-group left">
                           <option value="0"></option>
                          </select>
                          </span>

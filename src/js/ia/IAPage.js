@@ -631,23 +631,17 @@
                         var is_json;
                         var saved_vals = [];
 
-
+                        console.log($editable.length);
                         $editable.each(function(idx) {
-                            if (!$(this).hasClass("topic")) {
-                                field = $(this).attr("id").replace(/\-.+/, "");
-                                editable_type = $(this).attr("id").replace(/.+\-/, "");
-                            } else {
-                                field = "topic";
-                                editable_type = "select";
-                            }
+                            console.log($(this).attr("id") + " Before committing");
+                            var temp_result = getUnsavedValue($(this));
+                            field = temp_result.field;
                             
                             if (saved_vals.indexOf(field) === -1) {
-                                var temp_result = getUnsavedValue($(this), field, editable_type);
-
-                                saved_vals.push(field);
-
                                 value = temp_result.value;
                                 is_json = temp_result.is_json;
+                                
+                                saved_vals.push(field);
 
                                 if (field && (ia_data.live[field] !== value)) {
                                     autocommit(field, value, DDH_iaid, is_json);
@@ -662,11 +656,11 @@
                     $("body").on('click', ".save-button-popup", function(evt) {
                         //We only have a popup for the contributors fields, so far
                         if (ia_data.permissions && ia_data.permissions.admin) {
-                            var temp_field = "producer";
-                            var temp_editable = "input";
                             var $editable = $("#producer-input");
 
-                            var temp_result = getUnsavedValue($editable, temp_field, temp_editable);
+                            console.log($editable.attr("id") + " Before committing");
+                            var temp_result = getUnsavedValue($editable);
+                            var temp_field = temp_result.field;
                             var temp_val =  temp_result.value;
                             var is_json =  temp_result.is_json;
 
@@ -675,14 +669,13 @@
                             }
                         }
 
-                        var field = "developer";
-                        var editable_type = "input";
                         var $editable = $(".developer_username input");
+                        console.log($editable.attr("id") + " Before committing");
+                        var result = getUnsavedValue($editable);
 
-                        var result = getUnsavedValue($editable, field, editable_type);
-
-                        value = result.value;
-                        is_json = result.is_json;
+                        var field = result.field;
+                        var value = result.value;
+                        var is_json = result.is_json;
 
                         if (field && ia_data.live[field] !== value) {
                             autocommit(field, value, DDH_iaid, is_json);
@@ -692,14 +685,15 @@
                     // Dev Page: commit any field inside .ia-single--left and .ia-single--right (except popup fields)
                     $("body").on('click', ".devpage-commit", function(evt) {
                         var $parent = $(this).parent().parent();
-                        var field = $(this).attr("id").replace("dev-commit-", "");
-                        var $editable = $parent.find("." + field + ".js-autocommit");
-                        var editable_type = $.trim($editable.attr("id").replace(field + "-", ""));
+                        var $editable = $parent.find(".js-autocommit").first();
+                        var field;
                         var value;
                         var is_json;
 
-                        var result = getUnsavedValue($editable, field, editable_type);
+                        console.log($editable.attr("id") + " Before committing");
+                        var result = getUnsavedValue($editable);
 
+                        field = result.field;
                         value = result.value;
                         is_json = result.is_json;
 
@@ -864,17 +858,21 @@
                     // This is used both for getting a value to commit
                     // and also inside keepUnsavedEdits(), for collecting each unsaved value after commit
                     // before refreshing the Handlebars templates.
-                    function getUnsavedValue($editable, field, editable_type) {
+                    function getUnsavedValue($editable) {
+                        var field;
                         var result = {};
                         var value;
                         var is_json = false;
 
                         if ($editable.hasClass("group-vals")) {
                             is_json = true;
+                            field = $editable.parents(".parent-group").attr("id").replace(/\-.+/, "");
                             value = getGroupVals(field);
                             value = JSON.stringify(value);
-                            console.log(value);
+                            console.log("Group val: " + value);
                         } else {
+                            field = $editable.attr("id").replace(/\-.+/, "");
+                            var editable_type = $editable.attr("id").replace(/.+\-/, "");
                             if (editable_type === "check") {
                                 value = $editable.hasClass("icon-check")? 1 : 0;
                             } else if (editable_type === "select") {
@@ -903,6 +901,7 @@
 
                         result.value = value;
                         result.is_json = is_json;
+                        result.field = field;
 
                         return result;
                     }
@@ -1001,13 +1000,12 @@
                         ia_data.staged = {};
 
                         $unsaved_edits.each(function(idx) {
-                            var temp_field = $(this).attr("id").replace(/\-.+/, "");
+                            console.log($(this).attr("id") + " After committing");
+                            var temp_result = getUnsavedValue($(this));
+                            var temp_field = temp_result.field;
+                            
                             if (temp_field !== field) {
-                                var temp_editable = $(this).attr("id").replace(/.+\-/, "");
-
-                                var temp_result = getUnsavedValue($(this), temp_field, temp_editable);
                                 var temp_value = temp_result.value;
-
                                 ia_data.staged[temp_field] = temp_value;
                             }
                         });
@@ -1040,7 +1038,7 @@
                             });
                         }
                        
-                        console.log(ia_data.staged); 
+                        console.log("Unsaved: " + ia_data.staged); 
                         page.updateHandlebars(readonly_templates, ia_data, ia_data.live.dev_milestone, false);
                         page.updateAll(readonly_templates, ia_data, false);
 
@@ -1256,7 +1254,7 @@
                 });
 
                 if (ia_data.live.dev_milestone !== "live" && ia_data.live.dev_milestone !== "deprecated") {
-                    this.appendTopics($(".topic.js-autocommit"));
+                    this.appendTopics($(".topic-group.js-autocommit"));
                 }
             } else {
                 $("#ia-single-top").attr("id", "ia-single-top--edit");
