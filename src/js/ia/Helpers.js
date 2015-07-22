@@ -162,4 +162,11 @@
 
         return month + ", " + day + " " + year;
     });
+
+    // Returns true if value1 % value2 equals zero
+    Handlebars.registerHelper('module_zero', function(value1, value2, options) {
+        if ((value1 % value2 === 0) && (value1 > 1)) {
+             return options.fn(this);
+        }
+    });
 })(DDH);
