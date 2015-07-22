@@ -1,3 +1,4 @@
+@charset "UTF-8";
 /* DDG Compass Vars */
 /* for compass */
 /*
@@ -4862,6 +4863,7 @@ Buttons/Tags
 
 /* line 669, ../../src/scss/content/_forms-n-buttons.scss */
 .vote {
+  float: right;
   display: inline-block;
   border: 1px solid #c6c6c6;
   -moz-border-radius: 3px;
@@ -4872,7 +4874,7 @@ Buttons/Tags
   position: relative;
 }
 
-/* line 679, ../../src/scss/content/_forms-n-buttons.scss */
+/* line 680, ../../src/scss/content/_forms-n-buttons.scss */
 .vote__button {
   float: none;
   height: 28px;
@@ -4887,19 +4889,19 @@ Buttons/Tags
   border-radius: 0;
 }
 
-/* line 692, ../../src/scss/content/_forms-n-buttons.scss */
+/* line 693, ../../src/scss/content/_forms-n-buttons.scss */
 .vote__button--first {
   -moz-border-radius: 3px 0 0 3px;
   -webkit-border-radius: 3px 0 0 3px;
   border-radius: 3px 0 0 3px;
 }
 
-/* line 697, ../../src/scss/content/_forms-n-buttons.scss */
+/* line 698, ../../src/scss/content/_forms-n-buttons.scss */
 .vote__button, .vote__icon {
   color: #999;
 }
 
-/* line 698, ../../src/scss/content/_forms-n-buttons.scss */
+/* line 699, ../../src/scss/content/_forms-n-buttons.scss */
 .vote__button:hover,
 .vote__check:hover,
 .vote__button:hover .vote__check,
@@ -4907,19 +4909,19 @@ Buttons/Tags
   color: #2d76dd;
 }
 
-/* line 702, ../../src/scss/content/_forms-n-buttons.scss */
+/* line 703, ../../src/scss/content/_forms-n-buttons.scss */
 .vote__button[disabled="disabled"] .vote__check, .vote__check--disabled {
   color: #eee !important;
 }
 
-/* line 704, ../../src/scss/content/_forms-n-buttons.scss */
+/* line 705, ../../src/scss/content/_forms-n-buttons.scss */
 .vote__check {
   font-size: 1.5em;
   position: relative;
   top: 2px;
 }
 
-/* line 709, ../../src/scss/content/_forms-n-buttons.scss */
+/* line 710, ../../src/scss/content/_forms-n-buttons.scss */
 .vote__tally {
   color: #464541;
   height: 28px;
@@ -4931,7 +4933,7 @@ Buttons/Tags
   display: inline-block;
 }
 
-/* line 719, ../../src/scss/content/_forms-n-buttons.scss */
+/* line 720, ../../src/scss/content/_forms-n-buttons.scss */
 .vote-wrap .loading-image {
   position: absolute;
   top: 50%;
@@ -4946,56 +4948,56 @@ Buttons/Tags
 */
 @media only screen and (max-width: 40em) {
   /* Same width as when the grid is broken up in main.css */
-  /* line 734, ../../src/scss/content/_forms-n-buttons.scss */
+  /* line 735, ../../src/scss/content/_forms-n-buttons.scss */
   .button__label {
     display: none;
   }
 
-  /* line 736, ../../src/scss/content/_forms-n-buttons.scss */
+  /* line 737, ../../src/scss/content/_forms-n-buttons.scss */
   .form-wrap.halves {
     padding: 20px 25px;
   }
 
-  /* line 737, ../../src/scss/content/_forms-n-buttons.scss */
+  /* line 738, ../../src/scss/content/_forms-n-buttons.scss */
   .form-wrap .third {
     margin-right: auto;
   }
 
-  /* line 739, ../../src/scss/content/_forms-n-buttons.scss */
+  /* line 740, ../../src/scss/content/_forms-n-buttons.scss */
   .half .input-wrap, .third .input-wrap, .twothird .input-wrap, .robo-blaster-wrap {
     width: 100%;
     left: -5px;
   }
 
-  /* line 742, ../../src/scss/content/_forms-n-buttons.scss */
+  /* line 743, ../../src/scss/content/_forms-n-buttons.scss */
   .agree-terms {
     padding-top: 15px;
   }
 
-  /* line 743, ../../src/scss/content/_forms-n-buttons.scss */
+  /* line 744, ../../src/scss/content/_forms-n-buttons.scss */
   .agree-terms input {
     float: left;
     margin-bottom: 14px;
   }
 
-  /* line 744, ../../src/scss/content/_forms-n-buttons.scss */
+  /* line 745, ../../src/scss/content/_forms-n-buttons.scss */
   .robo-blaster-wrap {
     padding: 10px 5px;
   }
 
-  /* line 747, ../../src/scss/content/_forms-n-buttons.scss */
+  /* line 748, ../../src/scss/content/_forms-n-buttons.scss */
   .captcha {
     width: 75%;
     float: none;
     margin: 0 auto 14px;
   }
 
-  /* line 748, ../../src/scss/content/_forms-n-buttons.scss */
+  /* line 749, ../../src/scss/content/_forms-n-buttons.scss */
   .captcha img {
     max-height: auto;
   }
 
-  /* line 749, ../../src/scss/content/_forms-n-buttons.scss */
+  /* line 750, ../../src/scss/content/_forms-n-buttons.scss */
   .captcha-validate {
     width: 90%;
     margin: 0 auto;

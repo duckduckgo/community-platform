@@ -667,7 +667,8 @@ Buttons/Tags
 		display: block;        
 	}
 	.vote { 			
-		display: inline-block;
+        float: right;	
+	display: inline-block;
         border: 1px solid #c6c6c6;
 		-moz-border-radius: 3px;
 		-webkit-border-radius: 3px;
