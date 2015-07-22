@@ -15,7 +15,7 @@
                     <div>
                       {{#if staged.top_fields.topic}}
                         {{#with staged.top_fields}}
-                              {{#loop_n 3 topic}}
+                              {{#loop_n 2 topic}}
                                 <div class="separator topic-separator left">
                                   <div class="topic button delete left js-autocommit" name="topic" title="Remove this topic">
                                     <i class="ddgsi ddgsi-close-bold">X</i>
@@ -30,7 +30,7 @@
                               {{/loop_n}}
                         {{/with}}
                       {{else}}
-                          {{#loop_n 3 topic}}
+                          {{#loop_n 2 topic}}
                             <div class="separator topic-separator left">
                               <div class="topic button delete left js-autocommit" name="topic" title="Remove this topic">
                                 <i class="ddgsi ddgsi-close-bold">X</i>

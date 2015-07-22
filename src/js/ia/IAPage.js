@@ -750,7 +750,7 @@
                         
                         $(this).before($empty_topic.removeClass("hide").removeClass("new_empty_topic"));
 
-                        if (topics > 2) {
+                        if (topics > 1) {
                             $(this).addClass("hide");
                         }
                     });
@@ -767,7 +767,7 @@
                         // so far)
                         if ($(this).hasClass("js-autocommit") || $(this).parent().hasClass("js-autocommit")) {
                             $(this).parent().remove();
-                            $("#js-top-details-submit, #js-top-details-cancel").removeClass("hide");
+                            $("#js-top-details-submit, #js-top-details-cancel, #add_topic").removeClass("hide");
                         } else {
                             if (field !== "topic") {
                                 $(this).parent().remove();
