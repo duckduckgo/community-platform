@@ -1,3 +1,34 @@
+.ia-single {
+    #ia-single-top {
+        /* We need to set the color of the dropdown to the background color. */
+        .frm__select {
+            background-color: transparent;
+            border-color: transparent;
+            color: $white;
+            select {
+                color: $white;
+                text-transform: capitalize;
+            }
+        }
+
+        #add_topic {
+            background-color: #3a7fb4;
+            border-color: transparent;
+            color: $white;
+        }
+
+        .ia-single--name input.frm__input {
+            background-color: transparent;
+            border-color: transparent;
+            font-size: 2em;
+            padding: 0;
+            color: #fff;
+            font-weight: 500;
+            height: auto;
+        }
+    }
+}
+
 $frm__input-size: 24em;
 .frm__input {
     width: 100%;
@@ -104,7 +135,7 @@ select.available_types {
     overflow: hidden;
     width: 100%;
     margin-top: 2em;
-    
+
     .check-txt {
         height: 2.3em;
         display: inline-block;

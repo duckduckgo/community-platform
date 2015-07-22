@@ -8,7 +8,8 @@
 
 <div class="ninety">
     <span class="top__categories one-line {{#eq_or dev_milestone 'live' 'deprecated'}}{{#unless topic}}hide{{/unless}}{{/eq_or}}">
-        <span class="sep--after">
+        <!-- Don't add any separators when we're editing. -->
+        <span class="{{#eq_or dev_milestone 'live' 'deprecated'}}sep--after{{/eq_or}}">
             <span class="detail-title">Categories:</span>
             {{#if permissions.can_edit}}
                 {{#ne_and dev_milestone 'live' 'deprecated'}}
@@ -40,15 +41,14 @@
                                   <option value="0">{{this}}</option>
                                 </select>
                               </span>
-                              <span class="clearfix"></span>
                             </div>
                           {{/loop_n}}
                       {{/if}}
 
-                      <div class="button {{#gt topic 2}}hide{{/gt}}" id="add_topic">
+                      <div class="btn {{#gt topic 2}}hide{{/gt}}" id="add_topic">
                         <i class="ddgsi-plus" />
                       </div>
-                      
+
                       <div class="hide separator topic-separator left new_empty_topic">
                         <div class="topic button delete left js-autocommit" name="topic" title="Remove this topic">
                           <i class="ddgsi ddgsi-close-bold">X</i>
@@ -58,7 +58,6 @@
                           <option value="0"></option>
                          </select>
                          </span>
-                         <span class="clearfix"></span>
                       </div>
                     </div>
                 {{else}}
@@ -83,7 +82,8 @@
     </span>
 
     <span class="top__repo">
-        <span class="sep--after">
+        <!-- Don't add any separators when we're editing. -->
+        <span class="{{#eq_or dev_milestone 'live' 'deprecated'}}sep--after{{/eq_or}}">
             <span class="detail-title">Type:</span>
             {{#if permissions.can_edit}}
                 {{#ne_and dev_milestone 'live' 'deprecated'}}

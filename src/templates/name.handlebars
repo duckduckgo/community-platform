@@ -1,15 +1,11 @@
 <div class="ia-single--name">
-<h2>
-{{#if permissions.admin}}
-    {{#eq_or dev_milestone 'live' 'deprecated'}}
-        {{name}}
-        </h2>
+    {{#if permissions.admin}}
+        {{#eq_or dev_milestone 'live' 'deprecated'}}
+            <h2>{{name}}</h2>
+        {{else}}
+            <input type="text" class="frm__input name js-autocommit" id="name-input" value="{{name}}" />
+        {{/eq_or}}
     {{else}}
-        <input type="text" class="frm__input name js-autocommit" id="name-input" value="{{name}}" />
-        </h2>
-    {{/eq_or}}
-{{else}}
-    {{name}}
-    </h2>
-{{/if}}
+        <h2>{{name}}</h2>
+    {{/if}}
 </div>
