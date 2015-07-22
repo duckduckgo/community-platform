@@ -99,6 +99,7 @@ column updated => {
 };
 
 has_many 'roles', 'DDGC::Schema::Result::User::Role', 'users_id';
+has_many 'subscriptions', 'DDGC::Schema::Result::User::Subscription', 'users_id';
 
 sub is {
     my ( $self, $role ) = @_;
