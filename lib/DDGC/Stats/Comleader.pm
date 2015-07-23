@@ -52,8 +52,10 @@ sub support {
         ->order_by({ -desc => 'number_of_comments' });
 
     while (my $comment = $rs->next) {
-        next if !$comment->user->public;
+        next unless $comment->user->public;
         next if $comment->user->ghosted;
+        last unless $comment->get_column('number_of_comments') >= 50;
+
         say sprintf "username: %-50s   comments: %-5s   email: %-50s",
             $comment->user->username,
             $comment->get_column('number_of_comments'),
