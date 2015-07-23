@@ -1,3 +1,4 @@
+@charset "UTF-8";
 /* DDG Compass Vars */
 /* for compass */
 /*
@@ -439,6 +440,38 @@ button {
 .faux--mid .faux__body {
   width: auto;
   text-align: left;
+}
+
+/*
+    the media object
+    - http://www.stubbornella.org/content/2010/06/25/the-media-object-saves-hundreds-of-lines-of-code/
+*/
+/* line 5, ../../bower_components/_ls/objects/_media.scss */
+.media {
+  display: block;
+}
+
+/* line 8, ../../bower_components/_ls/objects/_media.scss */
+.media__img {
+  float: left;
+  margin-right: 0.5em;
+}
+
+/* line 12, ../../bower_components/_ls/objects/_media.scss */
+.media__img--rev {
+  float: right;
+  margin-left: 0.5em;
+}
+
+/* line 16, ../../bower_components/_ls/objects/_media.scss */
+.media__img img,
+.media__img--rev img {
+  display: block;
+}
+
+/* line 20, ../../bower_components/_ls/objects/_media.scss */
+.media__body {
+  overflow: hidden;
 }
 
 /*
