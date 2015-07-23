@@ -1,3 +1,5 @@
+<h3>Back soon...</h3>
+: if 0 {
 <: if $github_user { :>
   <: i($github_user,'view') :>
   <: if cur_user().admin { :>
@@ -8,4 +10,4 @@
     Link your GitHub account
   </a>
 <: } :>
-
+: }
