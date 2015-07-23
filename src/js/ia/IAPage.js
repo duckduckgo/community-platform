@@ -633,20 +633,7 @@
 
                         console.log($editable.length);
                         $editable.each(function(idx) {
-                            console.log($(this).attr("id") + " Before committing");
-                            var temp_result = getUnsavedValue($(this));
-                            field = temp_result.field;
-                            
-                            if (saved_vals.indexOf(field) === -1) {
-                                value = temp_result.value;
-                                is_json = temp_result.is_json;
-                                
-                                saved_vals.push(field);
-
-                                if (field && (ia_data.live[field] !== value)) {
-                                    autocommit(field, value, DDH_iaid, is_json);
-                                }
-                            }
+                            commitEdit($this);
                         });
 
                         $("#js-top-details-submit, #js-top-details-cancel").addClass("hide");
@@ -657,48 +644,24 @@
                         //We only have a popup for the contributors fields, so far
                         if (ia_data.permissions && ia_data.permissions.admin) {
                             var $editable = $("#producer-input");
-
-                            console.log($editable.attr("id") + " Before committing");
-                            var temp_result = getUnsavedValue($editable);
-                            var temp_field = temp_result.field;
-                            var temp_val =  temp_result.value;
-                            var is_json =  temp_result.is_json;
-
-                            if (ia_data.live.producer !== temp_val) {
-                                autocommit(temp_field, temp_val, DDH_iaid, is_json);
-                            }
+                            commitEdit($editable);
                         }
 
                         var $editable = $(".developer_username input");
-                        console.log($editable.attr("id") + " Before committing");
-                        var result = getUnsavedValue($editable);
-
-                        var field = result.field;
-                        var value = result.value;
-                        var is_json = result.is_json;
-
-                        if (field && ia_data.live[field] !== value) {
-                            autocommit(field, value, DDH_iaid, is_json);
-                        }
+                        commitEdit($editable);
                     });
 
                     // Dev Page: commit any field inside .ia-single--left and .ia-single--right (except popup fields)
                     $("body").on('click', ".devpage-commit", function(evt) {
                         var $parent = $(this).parent().parent();
                         var $editable = $parent.find(".js-autocommit").first();
-                        var field;
-                        var value;
-                        var is_json;
+                        var $edit_parent = $editable.parent();
 
-                        console.log($editable.attr("id") + " Before committing");
-                        var result = getUnsavedValue($editable);
-
-                        field = result.field;
-                        value = result.value;
-                        is_json = result.is_json;
-
-                        if (field && (ia_data.live[field] !== value)) {
-                            autocommit(field, value, DDH_iaid, is_json);
+                        commitEdit($editable);
+                        
+                        if ($edit_parent.hasClass("example_query") || $edit_parent.hasClass("other_queries")) {
+                            $editable = $edit_parent.hasClass("example_query")? $(".other_queries input") : $(".example_query input");
+                            commitEdit($editable);
                         }
                     });
 
@@ -854,6 +817,27 @@
                         });
                     }
 
+                    // Gather data needed for committing an edit and call autocommit
+                    function commitEdit($editable) {
+                        var field;
+                        var value;
+                        var is_json;
+
+                        console.log($editable.attr("id") + " Before committing");
+                        
+                        var result = getUnsavedValue($editable);
+
+                        field = result.field;
+                        value = result.value;
+                        is_json = result.is_json;
+
+                        var live_data = (ia_data.live[field] && is_json)? JSON.stringify(ia_data.live[field]) : ia_data.live[field];
+
+                        if (field && (live_data !== value)) {
+                            autocommit(field, value, DDH_iaid, is_json);
+                        }
+                    }
+
                     // Get a value for an editable field in the dev page
                     // This is used both for getting a value to commit
                     // and also inside keepUnsavedEdits(), for collecting each unsaved value after commit
@@ -916,7 +900,7 @@
                         if ($obj) {
                             $selector = $obj;
                         } else {
-                            $selector = (field === "topic")? $(".ia_topic .available_topics option:selected") : $("." + field + " input");
+                            $selector = (field === "topic")? $(".ia_topic .available_topics option:selected") : $("." + field).children("input");
                         }
 
                         $selector.each(function(index) {
@@ -997,14 +981,19 @@
                     function keepUnsavedEdits(field) {
                         var $commit_open = $(".devpage-edit.hide").parent().parent();
                         var $unsaved_edits = $commit_open.find(".js-autocommit");
+                        var secondary_field = "";
                         ia_data.staged = {};
+
+                        if ((field === "example_query") || (field === "other_queries")) {
+                            secondary_field = (field === "example_query")? "other_queries" : "example_query";
+                        }
 
                         $unsaved_edits.each(function(idx) {
                             console.log($(this).attr("id") + " After committing");
                             var temp_result = getUnsavedValue($(this));
                             var temp_field = temp_result.field;
                             
-                            if (temp_field !== field) {
+                            if ((temp_field !== field) && (temp_field !== secondary_field)) {
                                 var temp_value = temp_result.value;
                                 ia_data.staged[temp_field] = temp_value;
                             }
