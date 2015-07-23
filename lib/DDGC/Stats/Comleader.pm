@@ -52,6 +52,7 @@ sub support {
         ->order_by({ -desc => 'comments' });
 
     while (my $comment = $rs->next) {
+        next unless $comment->user->public;
         say sprintf "username %-50s %-50s",
             $comment->user->username,
             $comment->user->email // '';
