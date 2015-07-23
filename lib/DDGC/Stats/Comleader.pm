@@ -60,7 +60,6 @@ sub support {
 sub translations {
     my ($self) = @_;
 
-
     my $rs = $self->db->resultset('Token::Language')
         ->search_rs({}, {
             select   => [ { count => 'me.id', -as => 'translation_count' }, 'translator_users_id' ],
