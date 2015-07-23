@@ -15,12 +15,7 @@ sub current_user {
 
 __PACKAGE__->load_components(qw/
     Helper::ResultSet::Me
-    Helper::ResultSet::Shortcut::HRI
-    Helper::ResultSet::Shortcut::Prefetch
-    Helper::ResultSet::Shortcut::GroupBy
-    Helper::ResultSet::Shortcut::OrderBy
-    Helper::ResultSet::Shortcut::Page
-    Helper::ResultSet::Shortcut::Rows
+    Helper::ResultSet::Shortcut
 /);
 
 1;
