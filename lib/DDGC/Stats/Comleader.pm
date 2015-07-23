@@ -75,10 +75,10 @@ sub translations {
         last unless $token_language->get_column('translation_count') >= 50;
 
         my $username = $user->username;
-        $username .="*" if $user->has_flag('translation_manager');
+        $username   .= "*" if $user->has_flag('translation_manager');
 
         say sprintf "username: %-30s   live translations: %-5s   email: %-50s",
-            $user->username,
+            $username,
             $token_language->get_column('translation_count'),
             $user->email // '';
     }
