@@ -47,14 +47,10 @@ sub github_contributers {
             ->ignore_staff_comments();
 
         while (my $comment = $comment_rs->next) {
-            my $user      = $comment->github_user->login;
-            my $ddgc_user = $comment->github_user->user;
-            say "link" if $ddgc_user;
-            #warn "$user is not public" unless $ddgc_user->public;
+            my $user = $comment->github_user->login;
             $contributers{$user}->{both}++;
             $contributers{$user}->{comments}++;
-            $contributers{$user}->{$week} = 1;
-            #$contributers{$user}->{email} = $ddgc_user->email;
+            $contributers{$user}->{week}->{$week} = 1;
         }
 
         my $commit_rs = $self->db->resultset('GitHub::Commit')
@@ -64,33 +60,24 @@ sub github_contributers {
 
         while (my $commit = $commit_rs->next) {
             my $user      = $commit->github_user_author->login;
-            my $ddgc_user = $commit->github_user_author->user;
-            say "link" if $ddgc_user;
-            #warn "$user is not public" unless $ddgc_user->public;
             $contributers{$user}->{both}++;
             $contributers{$user}->{commits}++;
-            $contributers{$user}->{$week} = 1;
-            #$contributers{$user}->{email} = $ddgc_user->email;
+            $contributers{$user}->{week}->{$week} = 1;
         }
     }
 
-    for my $user (keys %contributers) {
-        next unless 
-            $contributers{$user}->{1} &&
-            $contributers{$user}->{2} &&
-            $contributers{$user}->{3} &&
-            $contributers{$user}->{4} &&
-            $contributers{$user}->{5} &&
-            $contributers{$user}->{6} &&
-            $contributers{$user}->{7} &&
-            $contributers{$user}->{8};
+    # sort by commits
+    my @users = sort { ($contributers{$b}->{commits} // 0) <=> ($contributers{$a}->{commits} // 0) } keys %contributers;
 
-        say sprintf "username: %-30s   commits: %-5s   comments: %-5s   both: %-5s   email: %-50s",
+    for my $user (@users) {
+        my $weeks = scalar keys %{ $contributers{$user}->{week} };
+        next unless $weeks == 8;
+
+        say sprintf "username: %-30s   commits: %-5s   comments: %-5s   both: %-5s",
             $user,
             $contributers{$user}->{commits}  // 0,
             $contributers{$user}->{comments} // 0,
-            $contributers{$user}->{both}     // 0,
-            $contributers{$user}->{email}    // '';
+            $contributers{$user}->{both}     // 0;
     }
 }
 
