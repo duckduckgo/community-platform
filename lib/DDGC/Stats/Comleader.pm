@@ -42,19 +42,21 @@ sub support {
                 context      => [qw/DDGC::DB::Result::Idea DDGC::DB::Result::Thread/],
             },
             { 
-                select => [ { count => 'me.id', -as => 'comments' }, 'users_id' ],
+                select   => [ { count => 'me.id', -as => 'number_of_comments' }, 'users_id' ],
                 group_by => 'users_id',
             },
         )
 #       ->prefetch('user')
 #       ->columns([qw/users_id/])
 #       ->group_by('users_id')
-        ->order_by({ -desc => 'comments' });
+        ->order_by({ -desc => 'number_of_comments' });
 
     while (my $comment = $rs->next) {
-        next unless $comment->user->public;
-        say sprintf "username %-50s %-50s",
+        next if !$comment->user->public;
+        next if $comment->user->ghosted;
+        say sprintf "username: %-50s   comments: %-5s   email: %-50s",
             $comment->user->username,
+            $comment->get_column('number_of_comments'),
             $comment->user->email // '';
     }
 
