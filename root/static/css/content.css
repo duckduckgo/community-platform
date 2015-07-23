@@ -280,7 +280,7 @@ input[type="radio"] {
 }
 
 /* line 95, ../../src/scss/content/_reset.scss */
-input[type="checkbox"] {
+input[type="checkbox"].chk {
   vertical-align: bottom;
 }
 
