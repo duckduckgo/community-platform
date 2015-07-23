@@ -15,6 +15,8 @@ use DDGC;
 
     my %report = DDGC::Stats::Comleader->report();
 
+    # TODO: exclude staff from reports
+
 =cut
 
 has db => (is => 'lazy');
@@ -25,57 +27,62 @@ sub report {
     my ($class, %args) = @_;
     my $self = $class->new(%args);
 
-    my $report = $self->support();
-
-    return $report;
+    #$self->support;
+    $self->translations;
 }
 
 sub support {
     my ($self) = @_;
 
-    # TODO: exclude staff
     my $rs = $self->db->resultset('Comment')
-        ->search_rs(
-            { 
-                'me.ghosted' => 0,
-                seen_live    => 1,
-                context      => [qw/DDGC::DB::Result::Idea DDGC::DB::Result::Thread/],
-            },
-            { 
-                select   => [ { count => 'me.id', -as => 'number_of_comments' }, 'users_id' ],
-                group_by => 'users_id',
-            },
-        )
-#       ->prefetch('user')
-#       ->columns([qw/users_id/])
-#       ->group_by('users_id')
-        ->order_by({ -desc => 'number_of_comments' });
+        ->search_rs({ 
+            'me.ghosted' => 0,
+            seen_live    => 1,
+            context      => [qw/DDGC::DB::Result::Idea DDGC::DB::Result::Thread/],
+        }, { 
+            select => [{ count => 'me.id', -as => 'comment_count' }, 'users_id'],
+        })
+        ->group_by('users_id')
+        ->order_by({ -desc => 'comment_count' });
 
     while (my $comment = $rs->next) {
         next unless $comment->user->public;
-        next if $comment->user->ghosted;
-        last unless $comment->get_column('number_of_comments') >= 50;
+        next if     $comment->user->ghosted;
+        last unless $comment->get_column('comment_count') >= 50;
 
-        say sprintf "username: %-50s   comments: %-5s   email: %-50s",
+        say sprintf "username: %-30s   comments: %-5s   email: %-50s",
             $comment->user->username,
-            $comment->get_column('number_of_comments'),
+            $comment->get_column('comment_count'),
             $comment->user->email // '';
     }
-
 }
 
+sub translations {
+    my ($self) = @_;
 
-# query flags column for translation_manager
 
-# 50 live translations
-#sub translations {
-#    my ($self) = @_;
-#
-#    # live translations live in token_language
-#    # publicy viewable users (ignore hidden users -- see public flag)
-#    # not staff
-#    # ghosted 0
-#}
+    my $rs = $self->db->resultset('Token::Language')
+        ->search_rs({}, {
+            select   => [ { count => 'me.id', -as => 'translation_count' }, 'translator_users_id' ],
+            group_by => 'translator_users_id',
+        })
+        ->order_by({ -desc => 'translation_count' });
 
+    while (my $token_language = $rs->next) {
+        my $user = $token_language->translator_user || next;
+
+        next unless $user->public;
+        next if $user->ghosted;
+        last unless $token_language->get_column('translation_count') >= 50;
+
+        my $username = $user->username;
+        $username .="*" if $user->has_flag('translation_manager');
+
+        say sprintf "username: %-30s   live translations: %-5s   email: %-50s",
+            $user->username,
+            $token_language->get_column('translation_count'),
+            $user->email // '';
+    }
+}
 
 1;
