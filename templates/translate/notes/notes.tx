@@ -1,10 +1,10 @@
-<: for results($token_domains) -> $token_domain { :>
+<: for $token_domains -> $token_domain { :>
 	<div class="content-box translate-overview">
 		<div class="head">
 			<h2><: $token_domain.name :></h2>
 		</div>
 		<div class="body">
-			<: for results($token_domain.tokens) -> $token { :>
+			<: for $token_domain.tokens -> $token { :>
 				<div class="row">		
 					<a href="<: $u('Translate','token', $token.id) :>"><: i('msgctxtid', $token) :></a>
 				</div>

@@ -3,7 +3,7 @@
 		<h2>Your Blog Posts</h2>
 		<span class="button-group pull-right">
 			<a class="button" href="<: $u('My::Blog','edit','new') :>"><i class="icon-pencil"></i><span class="button__label">New Blog Post</span></a>
-			<a class="button" href="<: $u('Userpage::Blog','index',$c.user.username) :>"><i class="icon-eye-open"></i><span class="button__label">View Blog</span></a>
+			<a class="button" href="/blog"><i class="icon-eye-open"></i><span class="button__label">View Blog</span></a>
 		</span>
 	</div>
 	<div class="body">		

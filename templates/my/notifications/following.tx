@@ -11,10 +11,10 @@
 <: my $notification_count = $undone_notifications_count || $c.user.undone_notifications_count :>
 <div class="content-box">
 	<div class="head">
-		<h3>Currently Receiving Notifications For ...<a class="icn icn--sup" href="<: $u('Blog','post','notification-system') :>" title="Get more information about the notification system"><i class="icon-question-sign"></i></a></h3>
+		<h3>Currently Receiving Notifications For ...<a class="icn icn--sup" href="https://duck.co/blog/post/8/notification-system" title="Get more information about the notification system"><i class="icon-question-sign"></i></a></h3>
 	</div>
 	<div class="body">
-		<: for results($user_notification_matrixes) -> $user_notification_matrix { :>
+		<: for $user_notification_matrixes -> $user_notification_matrix { :>
 			<div class="row notification">				
 				<i class="notification__following  icon-eye-open"></i> 
 				<a href="<: $u('My::Notifications','unfollow',$user_notification_matrix.id, { action_token => $action_token }) :>" title="Stop following this item" class="notification__unfollow  button">Unfollow</a>

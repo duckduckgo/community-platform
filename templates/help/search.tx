@@ -9,8 +9,8 @@
 </div>
 <div class="help-search-results  twothird  block-mid">
 <: if $help_search { :>
-  <: if $search_helps.count { :>    
-      <: for results($search_helps) -> $help { :>        
+  <: if $search_helps { :>
+      <: for $search_helps -> $help { :>
 		<a class="linkbox  linkbox--result" href="<: $u('Help','help',$help.help_category.key,$help.key) :>">
 			<i class="linkbox__icon  icon-file-alt"></i>
 			<div class="linkbox__body">

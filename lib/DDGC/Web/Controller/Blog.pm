@@ -1,22 +1,13 @@
 package DDGC::Web::Controller::Blog;
-# ABSTRACT:
+# ABSTRACT: Legacy blog controller shim to allow chained_uri to work.
 
 use Moose;
-BEGIN {extends 'DDGC::Web::ControllerBase::Blog'; }
+BEGIN { extends 'Catalyst::Controller'; }
 
-use namespace::autoclean;
+sub base :Chained('/base') :PathPart('blog') :CaptureArgs(0) {}
 
-sub index_title { 'Latest DuckDuckGo Blog posts' }
+sub post_base :Chained('base') :PathPart('post') :CaptureArgs(0) {}
 
-sub base :Chained('/base') :PathPart('blog') :CaptureArgs(0) {
-	my ( $self, $c ) = @_;
-	$c->stash->{title} = 'DuckDuckGo Blog';
-	push @{$c->stash->{template_layout}}, 'blog/base.tx';
-	$c->stash->{page_class} = "page-blog texture";
-	$c->stash->{blog_resultset} = $c->d->rs('User::Blog')->company_blog(
-		$c->user_exists ? $c->user : undef
-	);
-	$c->add_bc('DuckDuckGo Blog posts', $c->chained_uri('Blog', 'index'));
-}
+sub post :Chained('post_base') :PathPart('') :Args(0) {}
 
 1;

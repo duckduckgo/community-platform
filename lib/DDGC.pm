@@ -369,17 +369,6 @@ sub _build_xslate {
 			# Mark text as raw HTML
 			r => sub { mark_raw(@_) },
 
-			# trick function for DBIx::Class::ResultSet
-			results => sub {
-				my ( $rs, $sorting, $order ) = @_;
-				my @results = $rs->all;
-				$sorting
-					? ( ($order // '') eq 'asc' )
-						? [ sort { $a->$sorting <=> $b->$sorting } @results ]
-						: [ sort { $b->$sorting <=> $a->$sorting } @results ]
-					: [ @results ];
-			},
-
 			# general functions avoiding xslates problems
 			call => sub {
 				my $thing = shift;

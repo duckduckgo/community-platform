@@ -6,6 +6,7 @@ use Moo;
 extends 'DBIx::Class::Core';
 use DBIx::Class::Candy;
 use DateTime::Format::RSS;
+use DDGC::Util::Markup;
 
 table 'user_blog';
 
@@ -18,11 +19,6 @@ primary_key 'id';
 column users_id => {
     data_type   => 'bigint',
     is_nullable => 0,
-};
-
-column translation_of_id => {
-    data_type   => 'bigint',
-    is_nullable => 1,
 };
 
 column title => {
@@ -57,10 +53,10 @@ column company_blog => {
     default_value => 0,
 };
 
-column raw_html => {
-    data_type     => 'int',
+column format => {
+    data_type     => 'varchar(8)',
     is_nullable   => 0,
-    default_value => 0,
+    default_value => 'markdown',
 };
 
 column live => {
@@ -74,17 +70,6 @@ column seen_live => {
     data_type     => 'int',
     is_nullable   => 0,
     default_value => 0,
-};
-
-column language_id => {
-    data_type   => 'bigint',
-    is_nullable => 1,
-};
-
-column data => {
-    data_type        => 'text',
-    is_nullable      => 1,
-    serializer_class => 'JSON',
 };
 
 column fixed_date => {
@@ -104,5 +89,16 @@ column updated => {
 };
 
 belongs_to 'user', 'DDGC::DB::Result::User', 'users_id';
+
+sub html_teaser {
+    my ($self) = @_;
+    my $format = $self->format;
+    DDGC::Util::Markup->new->$format( $self->teaser );
+}
+
+sub u {
+    my ($self) = @_;
+    [ 'Blog', 'post', $self->id, $self->uri ];
+}
 
 1;

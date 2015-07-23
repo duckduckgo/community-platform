@@ -30,6 +30,8 @@
 	<div id="loginprompt" class="shareit-prompt">
 		<h4 class="shareit-overview__title">To Participate:</h4>
 		<h5 class="shareit-login-subtitle">You must be a current DuckDuckGo user!</h5>
+		<h5 class="shareit-login-subtitle">You'll get a coupon code for 1 t-shirt</h5>
+		<h5 class="shareit-login-subtitle">...and a $5 shipping credit (free in U.S.)</h5>
 		<div>
 		<a href="#" id="loginlink" class="js-reveal button blue h5" data-reveal-id="login-box">Login</a> or
 		<a href="/my/register" id="registerlink" class="button blue h5">Register</a>

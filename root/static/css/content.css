@@ -1,3 +1,76 @@
+/* DDG Compass Vars */
+/* for compass */
+/*
+    Spacing Units
+    Base spacing units for uniform spacing
+*/
+/*
+	Color Palette
+*/
+/*
+	Customs
+*/
+/*
+	Specific to the main Search Form
+*/
+/*
+	'Tile' Vars
+*/
+/*
+	'Detail Pane' Colors
+*/
+/*
+	Media Query Break Points
+	litestrap (and other components) use variable-controlled media queries.
+	Change these values to set different breakpoints.
+*/
+/*
+	Example Media Query Block:
+	
+	Note that Large is above Extra-Large, 
+	so that the extra large styles will override the large ones.
+	(CSS is read and applied top to bottom).
+	
+@media only screen and (min-width: $media--l) {}
+	
+@media only screen and (min-width: $media--xl) {}
+	
+@media only screen and (max-width: $media--m) {}
+		
+@media only screen and (max-width: $media--s) {}
+	
+@media only screen and (max-width: $media--xs) {}
+
+*/
+/* 
+   'Gutter' Widths 
+    The SERP layout has a fixed-size left gutter.  
+	Internal pages also use this gutter width on the right.
+    Adjust that size, and the header (menu) gutter here.
+*/
+/* these fixed gutters will need to adjust for mobile.  set sizes here: */
+/* 'medium' size screens */
+/* 'small' size screens */
+/* 'extra-small' screens */
+/*
+	Content Controllers
+*/
+/* 
+	Fixed Header Sizes
+
+	the "default" is to have a fixed-position header,
+	but only because .set-header--fixed is in the document
+*/
+/* 
+	that last $quarter-unit is the difference between .header__search-wrap's 
+	margin-bottom and .zcm-wrap's negative top margin
+*/
+/* 
+	Compass Settings
+*/
+/*
+	Spacing unit aliases (I mean who is going to remember this stuff, right?)
+*/
 /* line 1, ../../src/scss/content/_reset.scss */
 html, body, div, span, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
@@ -284,14 +357,8 @@ button {
 }
 
 /* End Reset */
-/* 
- *  _litestrap abstracts
- *
- * Abstracted objects for multi-purpose use
- *
- */
 /* makin' a circle.. */
-/* line 9, ../../src/scss/content/_ls/_abstracts.scss */
+/* line 2, ../../bower_components/_ls/objects/_circle.scss */
 .circle {
   -moz-border-radius: 50%;
   -webkit-border-radius: 50%;
@@ -300,56 +367,23 @@ button {
   /* protip: if the height != the width, you'll end up with an elipse. */
 }
 
-/*
-    the media object
-    - http://www.stubbornella.org/content/2010/06/25/the-media-object-saves-hundreds-of-lines-of-code/
-*/
-/* line 21, ../../src/scss/content/_ls/_abstracts.scss */
-.media {
-  display: block;
-}
-
-/* line 24, ../../src/scss/content/_ls/_abstracts.scss */
-.media__img {
-  float: left;
-  margin-right: 0.5em;
-}
-
-/* line 28, ../../src/scss/content/_ls/_abstracts.scss */
-.media__img--rev {
-  float: right;
-  margin-left: 0.5em;
-}
-
-/* line 32, ../../src/scss/content/_ls/_abstracts.scss */
-.media__img img,
-.media__img--rev img {
-  display: block;
-}
-
-/* line 36, ../../src/scss/content/_ls/_abstracts.scss */
-.media__body {
-  overflow: hidden;
-  display: block;
-}
-
 /* 
 	faux tables for image/text display 
 	- the 'flag' object with a different name: 
 	   http://csswizardry.com/2013/05/the-flag-object/ 
 */
-/* line 46, ../../src/scss/content/_ls/_abstracts.scss */
+/* line 6, ../../bower_components/_ls/objects/_faux.scss */
 .faux {
   display: table;
   width: 100%;
 }
 
-/* line 50, ../../src/scss/content/_ls/_abstracts.scss */
+/* line 10, ../../bower_components/_ls/objects/_faux.scss */
 .faux--mid {
   text-align: center;
 }
 
-/* line 52, ../../src/scss/content/_ls/_abstracts.scss */
+/* line 12, ../../bower_components/_ls/objects/_faux.scss */
 .faux__image,
 .faux__img,
 .faux__body {
@@ -357,51 +391,51 @@ button {
   vertical-align: middle;
 }
 
-/* line 58, ../../src/scss/content/_ls/_abstracts.scss */
+/* line 18, ../../bower_components/_ls/objects/_faux.scss */
 .faux--top .faux__image,
 .faux--top .faux__img,
 .faux--top .faux__body {
   vertical-align: top;
 }
 
-/* line 64, ../../src/scss/content/_ls/_abstracts.scss */
+/* line 24, ../../bower_components/_ls/objects/_faux.scss */
 .faux--bottom .faux__image,
 .faux--bottom .faux__img,
 .faux--bottom .faux__body {
   vertical-align: bottom;
 }
 
-/* line 69, ../../src/scss/content/_ls/_abstracts.scss */
+/* line 29, ../../bower_components/_ls/objects/_faux.scss */
 .faux--mid .faux__image,
 .faux--mid .faux__img,
 .faux--mid .faux__body {
   display: inline-table;
 }
 
-/* line 75, ../../src/scss/content/_ls/_abstracts.scss */
+/* line 35, ../../bower_components/_ls/objects/_faux.scss */
 .faux__image, .faux__img {
   padding-right: 0.5em;
 }
 
-/* line 78, ../../src/scss/content/_ls/_abstracts.scss */
+/* line 38, ../../bower_components/_ls/objects/_faux.scss */
 .faux__image > img, .faux__img > img {
   display: block;
   max-width: none;
 }
 
-/* line 83, ../../src/scss/content/_ls/_abstracts.scss */
+/* line 43, ../../bower_components/_ls/objects/_faux.scss */
 .faux--rev .faux__image,
 .faux--rev .faux__img {
   padding-right: 0;
   padding-left: 0.5em;
 }
 
-/* line 89, ../../src/scss/content/_ls/_abstracts.scss */
+/* line 49, ../../bower_components/_ls/objects/_faux.scss */
 .faux__body {
   width: 100%;
 }
 
-/* line 92, ../../src/scss/content/_ls/_abstracts.scss */
+/* line 52, ../../bower_components/_ls/objects/_faux.scss */
 .faux--mid .faux__body {
   width: auto;
   text-align: left;
@@ -5635,74 +5669,73 @@ you can use the generic selector below, but it's slower:
  *
  */
 /* ok this isn't a class, but it's good */
-/* line 10, ../../src/scss/content/_litestrap.scss */
+/* line 10, ../../bower_components/_ls/_litestrap.scss */
 img {
   max-width: 100%;
 }
 
 /* here are the classes... */
-/* line 13, ../../src/scss/content/_litestrap.scss */
+/* line 13, ../../bower_components/_ls/_litestrap.scss */
 .site-wrapper {
   width: 100%;
   overflow: hidden;
 }
 
-/* line 14, ../../src/scss/content/_litestrap.scss */
-.content-wrap, .cw {
-  max-width: 50em;
+/* line 14, ../../bower_components/_ls/_litestrap.scss */
+.content-wrap {
   margin: 0 auto;
   position: relative;
 }
 
-/* line 16, ../../src/scss/content/_litestrap.scss */
+/* line 16, ../../bower_components/_ls/_litestrap.scss */
 .text-center, .text-mid {
   text-align: center;
 }
 
-/* line 17, ../../src/scss/content/_litestrap.scss */
+/* line 17, ../../bower_components/_ls/_litestrap.scss */
 .text-left {
   text-align: left;
 }
 
-/* line 18, ../../src/scss/content/_litestrap.scss */
+/* line 18, ../../bower_components/_ls/_litestrap.scss */
 .text-right {
   text-align: right;
 }
 
 /* .r- rules */
-/* line 21, ../../src/scss/content/_litestrap.scss */
+/* line 21, ../../bower_components/_ls/_litestrap.scss */
 .r-block {
   display: block;
 }
 
-/* line 22, ../../src/scss/content/_litestrap.scss */
+/* line 22, ../../bower_components/_ls/_litestrap.scss */
 .r-inline {
   display: inline;
 }
 
-/* line 23, ../../src/scss/content/_litestrap.scss */
+/* line 23, ../../bower_components/_ls/_litestrap.scss */
 .r-inline-block, .r-iblock {
   display: inline-block;
 }
 
 /* vertical alignment for inline-block and table elements */
-/* line 26, ../../src/scss/content/_litestrap.scss */
+/* line 26, ../../bower_components/_ls/_litestrap.scss */
 .r-valign--top {
   vertical-align: top;
 }
 
-/* line 27, ../../src/scss/content/_litestrap.scss */
+/* line 27, ../../bower_components/_ls/_litestrap.scss */
 .r-valign--mid {
   vertical-align: middle;
 }
 
-/* line 28, ../../src/scss/content/_litestrap.scss */
+/* line 28, ../../bower_components/_ls/_litestrap.scss */
 .r-valign--bottom {
   vertical-align: bottom;
 }
 
 /* border-box sizing */
-/* line 31, ../../src/scss/content/_litestrap.scss */
+/* line 31, ../../bower_components/_ls/_litestrap.scss */
 .r-border-box {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -5711,7 +5744,7 @@ img {
   box-sizing: border-box;
 }
 
-/* line 38, ../../src/scss/content/_litestrap.scss */
+/* line 38, ../../bower_components/_ls/_litestrap.scss */
 .r-content-box, .r-grid-pad {
   /* for when you *intentionally* want to break the grid with padding */
   -webkit-box-sizing: content-box;
@@ -5722,10 +5755,9 @@ img {
 }
 
 /* grid sizes */
-/* line 48, ../../src/scss/content/_litestrap.scss */
+/* line 48, ../../bower_components/_ls/_litestrap.scss */
 .whole, .half, .third, .twothird, .twothirds, .quarter, .threequarter, .threequarters, .sixth, .eighth, .ninety, .eighty, .seventy, .sixty, .fifty, .forty, .thirty, .twenty, .ten {
   float: left;
-  display: block;
   position: relative;
   /* Just in case someone tries to get cute and add padding to grid elements... */
   -webkit-box-sizing: border-box;
@@ -5735,106 +5767,100 @@ img {
   box-sizing: border-box;
 }
 
-/* line 59, ../../src/scss/content/_litestrap.scss */
+/* line 58, ../../bower_components/_ls/_litestrap.scss */
 .whole {
   width: 100%;
 }
 
-/* line 60, ../../src/scss/content/_litestrap.scss */
+/* line 59, ../../bower_components/_ls/_litestrap.scss */
 .half, .fifty {
   width: 50%;
 }
 
-/* line 62, ../../src/scss/content/_litestrap.scss */
+/* line 61, ../../bower_components/_ls/_litestrap.scss */
 .third {
   width: 33.3%;
 }
 
-/* line 63, ../../src/scss/content/_litestrap.scss */
+/* line 62, ../../bower_components/_ls/_litestrap.scss */
 .twothird, .twothirds {
   width: 66.6%;
 }
 
-/* line 65, ../../src/scss/content/_litestrap.scss */
+/* line 64, ../../bower_components/_ls/_litestrap.scss */
 .quarter {
   width: 25%;
 }
 
-/* line 66, ../../src/scss/content/_litestrap.scss */
+/* line 65, ../../bower_components/_ls/_litestrap.scss */
 .threequarter, .threequarters {
   width: 75%;
 }
 
-/* line 68, ../../src/scss/content/_litestrap.scss */
+/* line 67, ../../bower_components/_ls/_litestrap.scss */
 .sixth {
   width: 16.6%;
 }
 
-/* line 69, ../../src/scss/content/_litestrap.scss */
+/* line 68, ../../bower_components/_ls/_litestrap.scss */
 .eighth {
   width: 12.5%;
 }
 
-/* line 71, ../../src/scss/content/_litestrap.scss */
+/* line 70, ../../bower_components/_ls/_litestrap.scss */
 .ninety {
   width: 90%;
 }
 
-/* line 72, ../../src/scss/content/_litestrap.scss */
+/* line 71, ../../bower_components/_ls/_litestrap.scss */
 .eighty {
   width: 80%;
 }
 
-/* line 73, ../../src/scss/content/_litestrap.scss */
+/* line 72, ../../bower_components/_ls/_litestrap.scss */
 .seventy {
   width: 70%;
 }
 
-/* line 74, ../../src/scss/content/_litestrap.scss */
+/* line 73, ../../bower_components/_ls/_litestrap.scss */
 .sixty {
   width: 60%;
 }
 
-/* line 75, ../../src/scss/content/_litestrap.scss */
+/* line 74, ../../bower_components/_ls/_litestrap.scss */
 .forty {
   width: 40%;
 }
 
-/* line 76, ../../src/scss/content/_litestrap.scss */
+/* line 75, ../../bower_components/_ls/_litestrap.scss */
 .thirty {
   width: 30%;
 }
 
-/* line 77, ../../src/scss/content/_litestrap.scss */
+/* line 76, ../../bower_components/_ls/_litestrap.scss */
 .twenty {
   width: 20%;
 }
 
-/* line 78, ../../src/scss/content/_litestrap.scss */
+/* line 77, ../../bower_components/_ls/_litestrap.scss */
 .ten {
   width: 10%;
 }
 
 /* grid spacing */
-/* line 81, ../../src/scss/content/_litestrap.scss */
+/* line 80, ../../bower_components/_ls/_litestrap.scss */
 .gw {
   margin-left: -1em;
   /* letter-spacing fix for inline-block grid elements borrowed from @csswizardry grids */
   letter-spacing: -0.31em;
-  /* webkit */
-  *letter-spacing: normal;
-  /* reset IE < 8 */
-  word-spacing: -0.43em;
-  /* IE < 8 && gecko */
 }
 
-/* line 88, ../../src/scss/content/_litestrap.scss */
+/* line 85, ../../bower_components/_ls/_litestrap.scss */
 .g {
   padding-left: 1em;
   display: inline-block;
   vertical-align: top;
   letter-spacing: normal;
-  word-spacing: normal;
   /* reset the default floating behaviour on grid widths */
   float: none;
   /* border-box sizing in case you don't use a standard grid width */
@@ -5846,18 +5872,18 @@ img {
 }
 
 /* half-spacing grid */
-/* line 105, ../../src/scss/content/_litestrap.scss */
+/* line 101, ../../bower_components/_ls/_litestrap.scss */
 .gw--h {
   margin-left: -0.5em;
 }
 
-/* line 106, ../../src/scss/content/_litestrap.scss */
+/* line 102, ../../bower_components/_ls/_litestrap.scss */
 .gw--h .g {
   padding-left: 0.5em;
 }
 
 /* after grids so that you can apply it and it should kill/apply the float */
-/* line 109, ../../src/scss/content/_litestrap.scss */
+/* line 105, ../../bower_components/_ls/_litestrap.scss */
 .block-mid {
   margin-left: auto;
   margin-right: auto;
@@ -5865,496 +5891,516 @@ img {
   float: none;
 }
 
-/* line 111, ../../src/scss/content/_litestrap.scss */
+/* line 107, ../../bower_components/_ls/_litestrap.scss */
 .pull-left, .fl, .float--left {
   float: left;
 }
 
-/* line 112, ../../src/scss/content/_litestrap.scss */
+/* line 108, ../../bower_components/_ls/_litestrap.scss */
 .pull-right, .fr, .float--right {
   float: right;
 }
 
-/* line 113, ../../src/scss/content/_litestrap.scss */
+/* line 109, ../../bower_components/_ls/_litestrap.scss */
 .pull-none, .killfloat {
   float: none;
 }
 
-/* line 115, ../../src/scss/content/_litestrap.scss */
+/* line 111, ../../bower_components/_ls/_litestrap.scss */
 .clear, .r-clear {
   clear: both;
 }
 
-/* line 116, ../../src/scss/content/_litestrap.scss */
+/* line 112, ../../bower_components/_ls/_litestrap.scss */
 .hide, .r-hide {
   display: none;
 }
 
-/* line 117, ../../src/scss/content/_litestrap.scss */
+/* line 113, ../../bower_components/_ls/_litestrap.scss */
 .hide--important {
   display: none !important;
 }
 
 /* now I'm f'ing serious!! */
-/* line 118, ../../src/scss/content/_litestrap.scss */
+/* line 114, ../../bower_components/_ls/_litestrap.scss */
 .allcaps {
   text-transform: uppercase;
 }
 
 /* basic clearfix - comes in many flavours! */
-/* line 121, ../../src/scss/content/_litestrap.scss */
+/* line 117, ../../bower_components/_ls/_litestrap.scss */
 .clearfix:after, .fix:after, .group:after, .row:after, .gw:after, .media:after {
   content: "";
-  display: table;
+  display: block;
   clear: both;
 }
 
 /* responsive stuff.  snip here if you don't want to go down this rabbit hole */
-@media only screen and (min-width: 80em) {
+@media only screen and (min-width: 1079px) {
   /* (l) trigger classes */
-  /* line 130, ../../src/scss/content/_litestrap.scss */
-  .block-mid--l {
+  /* line 126, ../../bower_components/_ls/_litestrap.scss */
+  .hide--screen-l {
+    display: none;
+  }
+
+  /* line 127, ../../bower_components/_ls/_litestrap.scss */
+  .show--screen-l, .r-block--screen-l {
+    display: block;
+  }
+
+  /* line 128, ../../bower_components/_ls/_litestrap.scss */
+  .block-mid--screen-l {
     margin-left: auto;
     margin-right: auto;
     display: block;
     float: none;
   }
 
-  /* line 131, ../../src/scss/content/_litestrap.scss */
-  .pull-left--l, .fl--l {
+  /* line 129, ../../bower_components/_ls/_litestrap.scss */
+  .pull-left--screen-l, .fl--screen-l {
     float: left;
   }
 
-  /* line 132, ../../src/scss/content/_litestrap.scss */
-  .pull-right--l, .fr--l {
+  /* line 130, ../../bower_components/_ls/_litestrap.scss */
+  .pull-right--screen-l, .fr--screen-l {
     float: right;
   }
 
-  /* line 133, ../../src/scss/content/_litestrap.scss */
-  .pull-none--l, .killfloat--l {
+  /* line 131, ../../bower_components/_ls/_litestrap.scss */
+  .pull-none--screen-l, .killfloat--screen-l {
     float: none;
   }
 
-  /* line 135, ../../src/scss/content/_litestrap.scss */
-  .whole--l {
+  /* line 133, ../../bower_components/_ls/_litestrap.scss */
+  .whole--screen-l {
     width: 100%;
   }
 
-  /* line 136, ../../src/scss/content/_litestrap.scss */
-  .ninety--l {
+  /* line 134, ../../bower_components/_ls/_litestrap.scss */
+  .ninety--screen-l {
     width: 90%;
   }
 
-  /* line 137, ../../src/scss/content/_litestrap.scss */
-  .eighty--l {
+  /* line 135, ../../bower_components/_ls/_litestrap.scss */
+  .eighty--screen-l {
     width: 80%;
   }
 
-  /* line 138, ../../src/scss/content/_litestrap.scss */
-  .seventy--l {
+  /* line 136, ../../bower_components/_ls/_litestrap.scss */
+  .seventy--screen-l {
     width: 70%;
   }
 
-  /* line 139, ../../src/scss/content/_litestrap.scss */
-  .sixty--l {
+  /* line 137, ../../bower_components/_ls/_litestrap.scss */
+  .sixty--screen-l {
     width: 60%;
   }
 
-  /* line 140, ../../src/scss/content/_litestrap.scss */
-  .half--l, .fifty--l {
+  /* line 138, ../../bower_components/_ls/_litestrap.scss */
+  .half--screen-l, .fifty--screen-l {
     width: 50%;
   }
 
-  /* line 142, ../../src/scss/content/_litestrap.scss */
-  .forty--l {
+  /* line 140, ../../bower_components/_ls/_litestrap.scss */
+  .forty--screen-l {
     width: 40%;
   }
 
-  /* line 143, ../../src/scss/content/_litestrap.scss */
-  .thirty--l {
+  /* line 141, ../../bower_components/_ls/_litestrap.scss */
+  .thirty--screen-l {
     width: 30%;
   }
 
-  /* line 144, ../../src/scss/content/_litestrap.scss */
-  .quarter--l {
+  /* line 142, ../../bower_components/_ls/_litestrap.scss */
+  .quarter--screen-l {
     width: 25%;
   }
 
-  /* line 145, ../../src/scss/content/_litestrap.scss */
-  .twenty--l {
+  /* line 143, ../../bower_components/_ls/_litestrap.scss */
+  .twenty--screen-l {
     width: 20%;
   }
 
-  /* line 146, ../../src/scss/content/_litestrap.scss */
-  .ten--l {
+  /* line 144, ../../bower_components/_ls/_litestrap.scss */
+  .ten--screen-l {
     width: 10%;
   }
 }
-@media only screen and (min-width: 100em) {
+@media only screen and (min-width: 1440px) {
   /* (xl) trigger classes */
-  /* line 150, ../../src/scss/content/_litestrap.scss */
-  .block-mid--xl {
+  /* line 148, ../../bower_components/_ls/_litestrap.scss */
+  .hide--screen-xl {
+    display: none;
+  }
+
+  /* line 149, ../../bower_components/_ls/_litestrap.scss */
+  .show--screen-xl, .r-block--screen-xl {
+    display: block;
+  }
+
+  /* line 150, ../../bower_components/_ls/_litestrap.scss */
+  .block-mid--screen-xl {
     margin-left: auto;
     margin-right: auto;
     display: block;
     float: none;
   }
 
-  /* line 151, ../../src/scss/content/_litestrap.scss */
-  .pull-left--xl, .fl--xl {
+  /* line 151, ../../bower_components/_ls/_litestrap.scss */
+  .pull-left--screen-xl, .fl--screen-xl {
     float: left;
   }
 
-  /* line 152, ../../src/scss/content/_litestrap.scss */
-  .pull-right--xl, .fr--xl {
+  /* line 152, ../../bower_components/_ls/_litestrap.scss */
+  .pull-right--screen-xl, .fr--screen-xl {
     float: right;
   }
 
-  /* line 153, ../../src/scss/content/_litestrap.scss */
-  .pull-none--xl, .killfloat--xl {
+  /* line 153, ../../bower_components/_ls/_litestrap.scss */
+  .pull-none--screen-xl, .killfloat--screen-xl {
     float: none;
   }
 
-  /* line 155, ../../src/scss/content/_litestrap.scss */
-  .whole--xl {
+  /* line 155, ../../bower_components/_ls/_litestrap.scss */
+  .whole--screen-xl {
     width: 100%;
   }
 
-  /* line 156, ../../src/scss/content/_litestrap.scss */
-  .ninety--xl {
+  /* line 156, ../../bower_components/_ls/_litestrap.scss */
+  .ninety--screen-xl {
     width: 90%;
   }
 
-  /* line 157, ../../src/scss/content/_litestrap.scss */
-  .eighty--xl {
+  /* line 157, ../../bower_components/_ls/_litestrap.scss */
+  .eighty--screen-xl {
     width: 80%;
   }
 
-  /* line 158, ../../src/scss/content/_litestrap.scss */
-  .seventy--xl {
+  /* line 158, ../../bower_components/_ls/_litestrap.scss */
+  .seventy--screen-xl {
     width: 70%;
   }
 
-  /* line 159, ../../src/scss/content/_litestrap.scss */
-  .sixty--xl {
+  /* line 159, ../../bower_components/_ls/_litestrap.scss */
+  .sixty--screen-xl {
     width: 60%;
   }
 
-  /* line 160, ../../src/scss/content/_litestrap.scss */
-  .half--xl, .fifty--xl {
+  /* line 160, ../../bower_components/_ls/_litestrap.scss */
+  .half--screen-xl, .fifty--screen-xl {
     width: 50%;
   }
 
-  /* line 162, ../../src/scss/content/_litestrap.scss */
-  .forty--xl {
+  /* line 162, ../../bower_components/_ls/_litestrap.scss */
+  .forty--screen-xl {
     width: 40%;
   }
 
-  /* line 163, ../../src/scss/content/_litestrap.scss */
-  .thirty--xl {
+  /* line 163, ../../bower_components/_ls/_litestrap.scss */
+  .thirty--screen-xl {
     width: 30%;
   }
 
-  /* line 164, ../../src/scss/content/_litestrap.scss */
-  .quarter--xl {
+  /* line 164, ../../bower_components/_ls/_litestrap.scss */
+  .quarter--screen-xl {
     width: 25%;
   }
 
-  /* line 165, ../../src/scss/content/_litestrap.scss */
-  .twenty--xl {
+  /* line 165, ../../bower_components/_ls/_litestrap.scss */
+  .twenty--screen-xl {
     width: 20%;
   }
 
-  /* line 166, ../../src/scss/content/_litestrap.scss */
-  .ten--xl {
+  /* line 166, ../../bower_components/_ls/_litestrap.scss */
+  .ten--screen-xl {
     width: 10%;
   }
 }
-@media only screen and (max-width: 60em) {
+@media only screen and (max-width: 864px) {
   /* 'portrait mode' (m) trigger classes */
-  /* line 171, ../../src/scss/content/_litestrap.scss */
-  .port-half, .half--m {
+  /* line 171, ../../bower_components/_ls/_litestrap.scss */
+  .port-half, .half--screen-m {
     width: 50%;
     float: left;
     clear: none;
   }
 
-  /* line 173, ../../src/scss/content/_litestrap.scss */
-  .block-mid--m {
+  /* line 173, ../../bower_components/_ls/_litestrap.scss */
+  .block-mid--screen-m {
     margin-left: auto;
     margin-right: auto;
     display: block;
     float: none;
   }
 
-  /* line 174, ../../src/scss/content/_litestrap.scss */
-  .port-hide, .hide--m {
+  /* line 174, ../../bower_components/_ls/_litestrap.scss */
+  .port-hide, .hide--screen-m {
     display: none;
   }
 
-  /* line 175, ../../src/scss/content/_litestrap.scss */
-  .port-block, .r-block--m {
+  /* line 175, ../../bower_components/_ls/_litestrap.scss */
+  .port-block, .show--screen-m, .r-block--screen-m {
     display: block;
   }
 
-  /* line 176, ../../src/scss/content/_litestrap.scss */
-  .port-clear, .clear--m, .r-clear--m {
+  /* line 176, ../../bower_components/_ls/_litestrap.scss */
+  .port-clear, .clear--screen-m, .r-clear--screen-m {
     clear: both;
   }
 
-  /* line 177, ../../src/scss/content/_litestrap.scss */
+  /* line 177, ../../bower_components/_ls/_litestrap.scss */
   .port-killfloat, .port-pull-none, .port-float--none,
-  .pull-none--m, .killfloat--m {
+  .pull-none--screen-m, .killfloat--screen-m {
     float: none;
   }
 
-  /* line 180, ../../src/scss/content/_litestrap.scss */
-  .whole--m {
+  /* line 180, ../../bower_components/_ls/_litestrap.scss */
+  .whole--screen-m {
     width: 100%;
   }
 
-  /* line 181, ../../src/scss/content/_litestrap.scss */
-  .ninety--m {
+  /* line 181, ../../bower_components/_ls/_litestrap.scss */
+  .ninety--screen-m {
     width: 90%;
   }
 
-  /* line 182, ../../src/scss/content/_litestrap.scss */
-  .eighty--m {
+  /* line 182, ../../bower_components/_ls/_litestrap.scss */
+  .eighty--screen-m {
     width: 80%;
   }
 
-  /* line 183, ../../src/scss/content/_litestrap.scss */
-  .seventy--m {
+  /* line 183, ../../bower_components/_ls/_litestrap.scss */
+  .seventy--screen-m {
     width: 70%;
   }
 
-  /* line 184, ../../src/scss/content/_litestrap.scss */
-  .sixty--m {
+  /* line 184, ../../bower_components/_ls/_litestrap.scss */
+  .sixty--screen-m {
     width: 60%;
   }
 
-  /* line 185, ../../src/scss/content/_litestrap.scss */
-  .half--m, .fifty--m {
+  /* line 185, ../../bower_components/_ls/_litestrap.scss */
+  .half--screen-m, .fifty--screen-m {
     width: 50%;
   }
 
-  /* line 187, ../../src/scss/content/_litestrap.scss */
-  .forty--m {
+  /* line 187, ../../bower_components/_ls/_litestrap.scss */
+  .forty--screen-m {
     width: 40%;
   }
 
-  /* line 188, ../../src/scss/content/_litestrap.scss */
-  .thirty--m {
+  /* line 188, ../../bower_components/_ls/_litestrap.scss */
+  .thirty--screen-m {
     width: 30%;
   }
 
-  /* line 189, ../../src/scss/content/_litestrap.scss */
-  .quarter--m {
+  /* line 189, ../../bower_components/_ls/_litestrap.scss */
+  .quarter--screen-m {
     width: 25%;
   }
 
-  /* line 190, ../../src/scss/content/_litestrap.scss */
-  .twenty--m {
+  /* line 190, ../../bower_components/_ls/_litestrap.scss */
+  .twenty--screen-m {
     width: 20%;
   }
 
-  /* line 191, ../../src/scss/content/_litestrap.scss */
-  .ten--m {
+  /* line 191, ../../bower_components/_ls/_litestrap.scss */
+  .ten--screen-m {
     width: 10%;
   }
 }
-@media only screen and (max-width: 40em) {
-  /* line 194, ../../src/scss/content/_litestrap.scss */
+@media only screen and (max-width: 634px) {
+  /* line 194, ../../bower_components/_ls/_litestrap.scss */
   html {
-    min-width: auto;
+    min-width: initial;
   }
 
   /* death to floating columns on mobile! */
-  /* line 197, ../../src/scss/content/_litestrap.scss */
+  /* line 197, ../../bower_components/_ls/_litestrap.scss */
   .whole, .half, .third, .twothird, .twothirds, .quarter, .threequarter, .threequarters, .sixth, .eighth, .ninety, .eighty, .seventy, .sixty, .fifty, .forty, .thirty, .twenty, .ten {
     width: 100%;
     margin: 0 auto;
   }
 
   /* just in-case silly people apply the grids to images and it breaks things... */
-  /* line 199, ../../src/scss/content/_litestrap.scss */
+  /* line 199, ../../bower_components/_ls/_litestrap.scss */
   img.half, img.third, img.twothird, img.quarter, img.threequarter, img.sixth {
     width: auto;
   }
 
-  /* line 200, ../../src/scss/content/_litestrap.scss */
-  .palm-half, .half--s {
+  /* line 200, ../../bower_components/_ls/_litestrap.scss */
+  .palm-half, .half--screen-s {
     width: 50%;
     float: left;
     clear: none;
   }
 
   /* mobile-only (s) trigger classes */
-  /* line 203, ../../src/scss/content/_litestrap.scss */
-  .block-mid--s {
+  /* line 203, ../../bower_components/_ls/_litestrap.scss */
+  .block-mid--screen-s {
     margin-left: auto;
     margin-right: auto;
     display: block;
     float: none;
   }
 
-  /* line 204, ../../src/scss/content/_litestrap.scss */
-  .palm-hide, .hide--s {
+  /* line 204, ../../bower_components/_ls/_litestrap.scss */
+  .palm-hide, .hide--screen-s {
     display: none;
   }
 
-  /* line 205, ../../src/scss/content/_litestrap.scss */
-  .palm-block, .r-block--s {
+  /* line 205, ../../bower_components/_ls/_litestrap.scss */
+  .palm-block, .show--screen-s, .r-block--screen-s {
     display: block;
   }
 
-  /* line 206, ../../src/scss/content/_litestrap.scss */
-  .palm-clear, .clear--s, .r-clear--s {
+  /* line 206, ../../bower_components/_ls/_litestrap.scss */
+  .palm-clear, .clear--screen-s, .r-clear--screen-s {
     clear: both;
   }
 
-  /* line 207, ../../src/scss/content/_litestrap.scss */
+  /* line 207, ../../bower_components/_ls/_litestrap.scss */
   .palm-killfloat, .palm-pull-none, .palm-float--none,
-  .killfloat-s, .pull-none--s {
+  .killfloat-s, .pull-none--screen-s {
     float: none;
   }
 
-  /* line 210, ../../src/scss/content/_litestrap.scss */
-  .whole--s {
+  /* line 210, ../../bower_components/_ls/_litestrap.scss */
+  .whole--screen-s {
     width: 100%;
   }
 
-  /* line 211, ../../src/scss/content/_litestrap.scss */
-  .ninety--s {
+  /* line 211, ../../bower_components/_ls/_litestrap.scss */
+  .ninety--screen-s {
     width: 90%;
   }
 
-  /* line 212, ../../src/scss/content/_litestrap.scss */
-  .eighty--s {
+  /* line 212, ../../bower_components/_ls/_litestrap.scss */
+  .eighty--screen-s {
     width: 80%;
   }
 
-  /* line 213, ../../src/scss/content/_litestrap.scss */
-  .seventy--s {
+  /* line 213, ../../bower_components/_ls/_litestrap.scss */
+  .seventy--screen-s {
     width: 70%;
   }
 
-  /* line 214, ../../src/scss/content/_litestrap.scss */
-  .sixty--s {
+  /* line 214, ../../bower_components/_ls/_litestrap.scss */
+  .sixty--screen-s {
     width: 60%;
   }
 
-  /* line 215, ../../src/scss/content/_litestrap.scss */
-  .half--s, .fifty--s {
+  /* line 215, ../../bower_components/_ls/_litestrap.scss */
+  .half--screen-s, .fifty--screen-s {
     width: 50%;
   }
 
-  /* line 217, ../../src/scss/content/_litestrap.scss */
-  .forty--s {
+  /* line 217, ../../bower_components/_ls/_litestrap.scss */
+  .forty--screen-s {
     width: 40%;
   }
 
-  /* line 218, ../../src/scss/content/_litestrap.scss */
-  .thirty--s {
+  /* line 218, ../../bower_components/_ls/_litestrap.scss */
+  .thirty--screen-s {
     width: 30%;
   }
 
-  /* line 219, ../../src/scss/content/_litestrap.scss */
-  .quarter--s {
+  /* line 219, ../../bower_components/_ls/_litestrap.scss */
+  .quarter--screen-s {
     width: 25%;
   }
 
-  /* line 220, ../../src/scss/content/_litestrap.scss */
-  .twenty--s {
+  /* line 220, ../../bower_components/_ls/_litestrap.scss */
+  .twenty--screen-s {
     width: 20%;
   }
 
-  /* line 221, ../../src/scss/content/_litestrap.scss */
-  .ten--s {
+  /* line 221, ../../bower_components/_ls/_litestrap.scss */
+  .ten--screen-s {
     width: 10%;
   }
 }
-@media only screen and (max-width: 20em) {
+@media only screen and (max-width: 425px) {
   /* (xs) trigger classes */
-  /* line 225, ../../src/scss/content/_litestrap.scss */
-  .half--xs {
+  /* line 225, ../../bower_components/_ls/_litestrap.scss */
+  .half--screen-xs {
     width: 50%;
     float: left;
     clear: none;
   }
 
-  /* line 227, ../../src/scss/content/_litestrap.scss */
-  .hide--xs {
+  /* line 227, ../../bower_components/_ls/_litestrap.scss */
+  .hide--screen-xs {
     display: none;
   }
 
-  /* line 228, ../../src/scss/content/_litestrap.scss */
-  .r-block--xs {
+  /* line 228, ../../bower_components/_ls/_litestrap.scss */
+  .show--screen-xs, .r-block--screen-xs {
     display: block;
   }
 
-  /* line 229, ../../src/scss/content/_litestrap.scss */
-  .clear--xs, .r-clear--xs {
+  /* line 229, ../../bower_components/_ls/_litestrap.scss */
+  .clear--screen-xs, .r-clear--screen-xs {
     clear: both;
   }
 
-  /* line 230, ../../src/scss/content/_litestrap.scss */
-  .killfloat-xs, .pull-none--xs {
+  /* line 230, ../../bower_components/_ls/_litestrap.scss */
+  .killfloat-xs, .pull-none--screen-xs {
     float: none;
   }
 
-  /* line 232, ../../src/scss/content/_litestrap.scss */
-  .whole--xs {
+  /* line 232, ../../bower_components/_ls/_litestrap.scss */
+  .whole--screen-xs {
     width: 100%;
   }
 
-  /* line 233, ../../src/scss/content/_litestrap.scss */
-  .ninety--xs {
+  /* line 233, ../../bower_components/_ls/_litestrap.scss */
+  .ninety--screen-xs {
     width: 90%;
   }
 
-  /* line 234, ../../src/scss/content/_litestrap.scss */
-  .eighty--xs {
+  /* line 234, ../../bower_components/_ls/_litestrap.scss */
+  .eighty--screen-xs {
     width: 80%;
   }
 
-  /* line 235, ../../src/scss/content/_litestrap.scss */
-  .seventy--xs {
+  /* line 235, ../../bower_components/_ls/_litestrap.scss */
+  .seventy--screen-xs {
     width: 70%;
   }
 
-  /* line 236, ../../src/scss/content/_litestrap.scss */
-  .sixty--xs {
+  /* line 236, ../../bower_components/_ls/_litestrap.scss */
+  .sixty--screen-xs {
     width: 60%;
   }
 
-  /* line 237, ../../src/scss/content/_litestrap.scss */
-  .half--xs, .fifty--xs {
+  /* line 237, ../../bower_components/_ls/_litestrap.scss */
+  .half--screen-xs, .fifty--screen-xs {
     width: 50%;
   }
 
-  /* line 239, ../../src/scss/content/_litestrap.scss */
-  .forty--xs {
+  /* line 239, ../../bower_components/_ls/_litestrap.scss */
+  .forty--screen-xs {
     width: 40%;
   }
 
-  /* line 240, ../../src/scss/content/_litestrap.scss */
-  .thirty--xs {
+  /* line 240, ../../bower_components/_ls/_litestrap.scss */
+  .thirty--creen-xs {
     width: 30%;
   }
 
-  /* line 241, ../../src/scss/content/_litestrap.scss */
-  .quarter--xs {
+  /* line 241, ../../bower_components/_ls/_litestrap.scss */
+  .quarter--screen-xs {
     width: 25%;
   }
 
-  /* line 242, ../../src/scss/content/_litestrap.scss */
-  .twenty--xs {
+  /* line 242, ../../bower_components/_ls/_litestrap.scss */
+  .twenty--screen-xs {
     width: 20%;
   }
 
-  /* line 243, ../../src/scss/content/_litestrap.scss */
-  .ten--xs {
+  /* line 243, ../../bower_components/_ls/_litestrap.scss */
+  .ten--screen-xs {
     width: 10%;
   }
 }

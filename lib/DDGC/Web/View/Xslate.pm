@@ -21,6 +21,7 @@ __PACKAGE__->config(
 		l
 		dur
 		dur_precise
+		uri_for
 	)],
 );
 
@@ -69,6 +70,11 @@ sub u {
 		}
 	}
 	return $c->chained_uri(@args);
+}
+
+sub uri_for {
+	my ( $self, $c, $uri ) = @_;
+	$c->uri_for( $uri );
 }
 
 # current url

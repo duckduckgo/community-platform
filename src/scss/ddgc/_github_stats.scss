@@ -1,7 +1,7 @@
 @import "../../../bower_components/duckduckgo-colors/_colors";
 
 /* typography */
-h2 {
+.stat-label {
     font-size: 1rem;
 }
 .number {
@@ -11,16 +11,13 @@ h2 {
 #last_updated {
     font-size : .8rem;
 }
-a {
-    text-decoration : none;
-}
 
 /* layout */
-h1 {
+.header {
     margin-bottom  : 2;
     padding-bottom : 0;
 }
-h2 {
+.stat-label {
     margin-bottom  : 0;
     padding-bottom : 0;
 }
@@ -62,7 +59,7 @@ h2 {
 
 
 /* colors */
-h2 {
+.stat-label {
     color : $grey-light;
 }
 .tabs {

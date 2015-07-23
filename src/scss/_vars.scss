@@ -1,0 +1,321 @@
+/* DDG Compass Vars */
+
+$default-font: 'DDG_ProximaNova', 'DDG_ProximaNova_UI_0', 'DDG_ProximaNova_UI_1', 'DDG_ProximaNova_UI_2', 'DDG_ProximaNova_UI_3', 'DDG_ProximaNova_UI_4', 'DDG_ProximaNova_UI_5', 'DDG_ProximaNova_UI_6', "Proxima Nova", "Helvetica Neue", "Helvetica", "Segoe UI", "Nimbus Sans L", "Liberation Sans", "Open Sans", FreeSans, Arial, sans-serif;
+$header-font: $default-font;
+
+$default-border-radius: 2px; /* for compass */
+$radius: $default-border-radius;
+
+$default-transition-duration: 0.3s;
+$default-transition-function: ease-in-out;
+$default-transition-delay: 0;
+
+$experimental-support-for-svg: true;
+
+/*
+    Spacing Units
+    Base spacing units for uniform spacing
+*/
+$base-unit: 1em;
+$three-quarter-unit: $base-unit * 0.75;
+$half-unit: $base-unit / 2;
+$quarter-unit: $base-unit / 4;
+$double-unit: $base-unit * 2;
+$big-unit: $base-unit * 1.25;
+$small-unit: $base-unit / 1.25;
+
+// standard spacing between the edge of the screen and any content wrappers
+$cw-spacing: 7px;
+// standard horizontal spacing for left-aligned elements on the serp
+// using this standard measure helps to keep everything flush
+$serp-spacing: 10px;
+
+/*
+	Color Palette
+*/
+
+@import "../../bower_components/duckduckgo-colors/_colors";
+
+$divider-gray: $platinum-dark;
+
+$button-bg: #fafafa;
+$button-color: $slate;
+$button-border: #dddddd;
+
+$button-bg-alt: $platinum-light;
+$button-color-alt: $slate-light;
+$button-border-alt: $platinum-darker;
+
+$button-icon-bg: #dfdfdf;
+
+$button-show-more-font-size: 1em;
+$button-show-more-line-height: 3;
+
+/*
+	Customs
+*/
+
+$html-font-size: 90%;
+
+$main-bg: $white;
+$alt-bg: $silver-light;
+
+$body-bg: $main-bg;
+$form-bg: $main-bg;
+
+$header-bg: $main-bg;
+$header-form-bg: $alt-bg;
+
+$home-bg: $alt-bg;
+$home-form-bg: $main-bg;
+
+$zci-bg: $silver; // $alt-bg
+$acp-bg: $main-bg;
+$acp-active-bg: $alt-bg;
+
+// Standard Greys
+$dark: $slate;
+$dark-alt: $slate-light;
+$light: $grey-dark;
+$light-alt: $grey-light;
+
+$ddg-red: $red;
+$ddg-green: $green;
+$contrast-red: $red;
+$contrast-blue: $blue-light;
+$hero-red: $red-light;
+$hero-dark: $red-dark;
+$hero-link: lighten($red-light,30%);
+
+$base-color: $dark;
+$aux-color: $light-alt;
+$zci-color: $dark-alt;
+$zci-aux-color: $dark;
+$zci-link-color: $light;
+
+$link-color: $blue;
+$link-color-visited: $purple;
+$link-color-hover: $blue-dark;
+
+$result-color: $dark;
+$result-visited-color: $result-color;
+$result-visited-color--screen-s: $light;
+$result-url-color: $light; 
+$result-url-visited-color: $result-url-color;
+$result-url-hover-color: $blue-dark;
+$result-check-color: #c3c3c3;
+$result-sponsored-bg: $main-bg;
+$result-badge-color: $plat-dark;
+$result-sponsored-badge-color: #f0a630;
+
+$result-spacing: $base-unit * 0.5;
+$result-side-spacing: $serp-spacing;
+$result-margin: $small-unit;
+$result-content-margins: 0.1em;
+
+$header-border-color: #dbdbdb;
+$header-border-color-rgba: rgba(black,0.15);
+$header-border-width: 4px;
+$header-wrap-padding: 16px;
+$header-wrap-padding-mobile: 9px;
+$header-search-margin: 10px;
+
+$slideout-nav-width: 14em;
+
+$zcm-link-color: $dark-alt;
+$zcm-size: 1em;
+
+$zcm-left-padding: 3px;
+$zcm-item-height: 37px;
+$zcm-spacing: $serp-spacing - $zcm-left-padding;
+$zcm-max-height: $zcm-item-height + 1;
+
+$zci-mobile-button-height: $base-unit*4;
+$zci-mobile-aux-height: 7.85em;
+$zci-content-spacing: $three-quarter-unit;
+
+$menu-arrow-size: 7px;
+$menu-arrow-padding: 1px;
+$menu-arrow-area: $menu-arrow-size + $menu-arrow-padding;
+
+$metabar-height: 33px;
+$metabar-top-padding: 5px;
+$metabar-bottom-padding: 1px;
+$metabar-total-height: $metabar-height+$metabar-top-padding+$metabar-bottom-padding;
+
+// circle nav items on static pages
+$nav-size: 64px;
+
+/*
+	Specific to the main Search Form
+*/
+
+$search-height: 2.8em;
+$search-form-text-size: 1.1; // integer so that we can use it as a multiplier easier
+$search-spacing: $three-quarter-unit;
+$search-button-spacing: 0.35em;
+$search-border-color: #cccdc8;
+
+// header requires a fixed pixel height for the search form
+$header-search-height: 38px;
+
+/*
+	'Tile' Vars
+*/
+
+$tile-bg: $main-bg;
+$tile-alt-bg: #424242;
+$tile-border: #e3e3e3;
+$tile-shadow: 0 0 2px rgba(0,0,0,0.2), 0 1px 0 rgba(0,0,0,0.1);
+$tile-border-bottom: darken($tile-border,10%);
+$tile-border-radius: 2px;
+$tile-alt-border: #282828;
+$tile-outline-h: #595959;
+$tile-outline-s: #494949;
+$tile-spacing: $base-unit;
+$tile-sizing: 0.87; // font size
+
+$tile-rating-bottom-margin: -$quarter-unit;
+$tile-rating-line-height: 1.5;
+
+$tile-v-margin: 8px;
+$tile-h-margin: 5px;
+
+/*
+	'Detail Pane' Colors
+*/
+$detail-bg: #e5e5e5;
+$detail-alt-bg: #fafafa;
+$detail-border: #c7c7c7;
+$detail-alt-border: $header-border-color;
+$detail-control-hover-bg: #6d6d6d;
+$detail-control-active-bg: #555555;
+
+
+/*
+	Media Query Break Points
+	litestrap (and other components) use variable-controlled media queries.
+	Change these values to set different breakpoints.
+*/
+
+$media--xl: 1440px;
+$media--l: 	1079px;
+$media--m: 	864px;
+$media--s: 	634px;
+$media--xs: 425px;
+
+$teapot-width: $media--s;
+$teapot-height: ceil($media--s * 1.25);
+$breadbox-width: $media--s;
+$breadbox-height: $media--s;
+
+$landscape1-height: $media--xs * 0.7;
+$landscape2-height: $media--xs * 0.9;
+$landscape2-width:  $media--xs;
+
+
+$t-4xl:    3em;
+$t-3xl:    2em;
+$t-2xl:    1.75em;
+$t-xl:     1.5em;
+$t-l:      1.33em;
+$t-m:      1.1667em;
+$t-n:      1em;
+$t-s:      0.9176em;
+$t-xs:     0.8333em;
+$t-2xs:    0.75em;
+$t-3xs:    0.66em;
+$t-4xs:    0.5833em;
+$t-5xs:    0.5em;
+
+/*
+	Example Media Query Block:
+	
+	Note that Large is above Extra-Large, 
+	so that the extra large styles will override the large ones.
+	(CSS is read and applied top to bottom).
+	
+@media only screen and (min-width: $media--l) {}
+	
+@media only screen and (min-width: $media--xl) {}
+	
+@media only screen and (max-width: $media--m) {}
+		
+@media only screen and (max-width: $media--s) {}
+	
+@media only screen and (max-width: $media--xs) {}
+
+*/
+
+/* 
+   'Gutter' Widths 
+    The SERP layout has a fixed-size left gutter.  
+	Internal pages also use this gutter width on the right.
+    Adjust that size, and the header (menu) gutter here.
+*/
+
+$gutter-width: 94px;
+
+$gutter-body-pad: $half-unit + $quarter-unit;
+$header-right-gutter: $gutter-width / 2;
+/* these fixed gutters will need to adjust for mobile.  set sizes here: */
+/* 'medium' size screens */
+$gutter-width--m: 50px;
+$header-right-gutter--m: $gutter-width / 2;
+/* 'small' size screens */
+$gutter-width--s: 50px;
+$header-right-gutter--s: $gutter-width--s;
+/* 'extra-small' screens */
+$gutter-width--xs: 50px;
+$header-right-gutter--xs: $search-height;
+
+/*
+	Content Controllers
+*/
+$cw-width: 1008px;
+$max-content-width: $media--s;
+
+$wide-cw-width: 1282px;
+$wide-max-content-width: 864px;
+
+$x-wide-cw-width: 1483px;
+$x-wide-max-content-width: 1152px;
+
+/* 
+	Fixed Header Sizes
+
+	the "default" is to have a fixed-position header,
+	but only because .set-header--fixed is in the document
+*/
+$header-height: $header-wrap-padding + $header-search-margin + $header-search-height;
+$header-height-mobile: $header-wrap-padding-mobile + $header-search-margin + $header-search-height;
+$duckbar-height: $zcm-item-height;
+/* 
+	that last $quarter-unit is the difference between .header__search-wrap's 
+	margin-bottom and .zcm-wrap's negative top margin
+*/
+$header-diff: $menu-arrow-area - $header-border-width;
+
+/* 
+	Compass Settings
+*/
+$legacy-support-for-ie: true;
+
+/*
+	Spacing unit aliases (I mean who is going to remember this stuff, right?)
+*/
+$base-spacing: $base-unit;
+$three-quarter-spacing: $three-quarter-unit;
+$half-spacing: $half-unit;
+$quarter-spacing: $quarter-unit;
+$double-spacing: $double-unit;
+$big-spacing: $big-unit;
+$small-spacing: $small-unit;
+
+$base-spacing-unit: $base-unit;
+$three-quarter-spacing-unit: $three-quarter-unit;
+$half-spacing-unit: $half-unit;
+$quarter-spacing-unit: $quarter-unit;
+$double-spacing-unit: $double-unit;
+$big-spacing-unit: $big-unit;
+$small-spacing-unit: $small-unit;

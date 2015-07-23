@@ -45,21 +45,32 @@
                 if (parameters) {
                     parameters = parameters.split("&");
 
+                    var param_count = 0;
+
                     $.each(parameters, function(idx) {
                         var temp = parameters[idx].split("=");
                         var field = temp[0];
                         var value = temp[1];
-                        if (field && value && ind.selected_filter.hasOwnProperty(field)) {
+                        if (field && value && (ind.selected_filter.hasOwnProperty(field) || field === "q")) {
                             if (ind.selected_filter.hasOwnProperty(field)) {
                                 var selector = "ia_" + field + "-" + value;
                                 selector = (field === 'topic')? "." + selector : "#" + selector;
                                 console.log(selector);
                                 $(selector).parent().trigger("click");
+                                param_count++;
                             } else if ((field === "q") && value) {
-                                $(".filters--search-button").trigger("click");
+                                query = decodeURIComponent(value.replace(/\+/g, " "));
+                                ind.filter($list_item, query);
+                                param_count++;
                             }
                         }
                     });
+
+                    if (param_count === 0) {
+                        ind.filter($list_item, query);
+                    }
+                } else {
+                    ind.filter($list_item, query);
                 }
            });
 
@@ -254,7 +265,7 @@
             if (query) {
                 query = query.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
                 regex = new RegExp(query, "gi");
-                url += "&q=" + query;
+                url += "&q=" + encodeURIComponent(query.replace(/\x5c/g, "")).replace(/%20/g, "+");
             }
 
             if (!query && !repo.length && !topic.length && !dev_milestone.length && !template.length) {
@@ -292,7 +303,7 @@
                 }
             }
 
-            url = url.length? "?" + url.replace("#", "") : "/ia";
+            url = url.length? "?" + url.replace("#", "").replace("&", ""): "/ia";
             
             // Allows changing URL without reloading, since it doesn't add the new URL to history;
             // Not supported on IE8 and IE9.

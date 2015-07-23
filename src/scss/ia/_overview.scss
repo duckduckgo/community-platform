@@ -1,0 +1,96 @@
+@import "../../../bower_components/duckduckgo-colors/_colors";
+@import "compass/css3/border-radius";
+@import "compass/css3/text-shadow";
+
+.heavy {
+    font-weight: 700;
+}
+
+.half-w {
+    width: 42%;
+}
+
+/* General page style */
+#ia-overview { 
+    margin-top: 3.5em; 
+
+    ul li { list-style: none; }
+
+    h2, h3 { text-transform: capitalize; }
+
+    .btn--primary {
+        padding: 0 5px;
+        text-shadow: none;
+
+        a { color: $white; }
+    }
+}
+
+/* Top Issues */
+#top-issues {
+    margin-top: 2.5em;
+
+    .top-issues__title { 
+        text-align: center; 
+        width: 25em;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .main-tag { 
+        border-bottom: 1px solid $platinum-dark;
+        margin-top: 0.5em;
+        padding: 1em 0 0;
+
+        h2 { top: 0.25em; }
+
+        .main-tag__right { 
+            width: 30%; 
+            margin-top: 11%;
+            color: $white;
+        }
+
+        .tag-container { 
+            padding: 0.15em 0.5em; 
+            @include border-radius(3px);
+            text-align: center;
+            max-width: 15em;
+            min-width: 5em;
+
+            h3 { 
+                margin-top: 0.25em; 
+                @include text-shadow(2px 2px 2px $slate);
+            }
+        }
+
+        .tag-bugs { background-color: $red; }
+
+        .tag-lowhangingfruit { background-color: $green; }
+
+        .tag-priorityhigh { background-color: $gold; }
+
+        a { color: $slate; }
+
+        a:hover { color: $blue-light; }
+
+        .issue-title { margin-top: 0.25em; margin-bottom: 0; }
+
+        .issues_col li { margin-bottom: 0.7em; }
+
+        .issue-details { color: $grey-light; }
+    }
+}
+
+/* Live and New IA Pages */
+.iap-list {
+    li.ia-item { 
+        padding: 1em 0.25em 0.25em;
+    }
+
+    .ia-item--stamp { top: -4px; }
+
+    i, .ia_date { color: $grey-light; }
+
+    i.icon-bug { margin-left: 0.5em; }
+}
+

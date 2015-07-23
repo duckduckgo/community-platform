@@ -58,7 +58,7 @@
 <: if $_.get_context_obj.sorted_screenshots.count { # added .count to ensure there's at least 1 :>
 	<h6 class="uploaded--title"><em>Attached Files: <: $_.get_context_obj.sorted_screenshots.count :></em></h6>
 	<div class="uploaded">
-	<: for results($_.get_context_obj.sorted_screenshots) -> $screenshot { :>
+	<: for $_.get_context_obj.sorted_screenshots.all_ref -> $screenshot { :>
 		<:# loop through the thumbs for each item :>		
 		<a class="uploaded__link" href="<: $screenshot.media.url :>" target="ddgc_screenshot" data-reveal-id="img-<: $screenshot.media.id:>" data-animation="popDown" data-lazyload="true">
 			<img src="<: $screenshot.media.url_thumbnail :>" title="<: $screenshot.media.upload_filename :>" alt="<: $screenshot.media.upload_filename :>" class="uploaded__thumb">
@@ -67,7 +67,7 @@
 		</a>
 	<: } :>
 	</div>
-	<: for results($_.get_context_obj.sorted_screenshots) -> $screenshot { :>
+	<: for $_.get_context_obj.sorted_screenshots.all_ref -> $screenshot { :>
 		<:# create a modal for each item :>
 		<img id="img-<: $screenshot.media.id:>" src="/static/img/spinner.gif" data-src="<: $screenshot.media.url :>" alt="<: $screenshot.media.upload_filename :> - Full" class="reveal-modal reveal-modal--img" />
 	<: } :>

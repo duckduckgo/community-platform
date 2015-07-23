@@ -12,7 +12,7 @@
 	</div>
   </div>
   <div class="body  body--round">
-    <: for results($_) -> $comment { :>
+    <: for $_.all_ref -> $comment { :>
       <: my $context_obj = $comment.get_context_obj :>
       <: my $reply_count = $comment.comments_count :>
       <: # my $children_count = $context_obj.comment.children.count :>

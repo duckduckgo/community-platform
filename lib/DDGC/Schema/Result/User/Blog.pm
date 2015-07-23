@@ -6,7 +6,6 @@ use Moo;
 extends 'DDGC::Schema::Result';
 use DBIx::Class::Candy;
 use DateTime::Format::RSS;
-use DDGC::Util::Markup;
 use DDGC::Util::DateTime qw/ dur /;
 
 table 'user_blog';
@@ -20,11 +19,6 @@ primary_key 'id';
 column users_id => {
     data_type   => 'bigint',
     is_nullable => 0,
-};
-
-column translation_of_id => {
-    data_type   => 'bigint',
-    is_nullable => 1,
 };
 
 column title => {
@@ -44,9 +38,8 @@ column teaser => {
 
 sub html_teaser {
     my ($self) = @_;
-    my $markup = DDGC::Util::Markup->new;
-    return $markup->html( $self->teaser ) if $self->raw_html;
-    return $markup->bbcode( $self->teaser );
+    my $format = $self->format;
+    return $self->app->markup->$format( $self->teaser );
 }
 
 column content => {
@@ -56,9 +49,8 @@ column content => {
 
 sub html {
     my ($self) = @_;
-    my $markup = DDGC::Util::Markup->new;
-    return $markup->html( $self->content ) if $self->raw_html;
-    return $markup->bbcode( $self->content );
+    my $format = $self->format;
+    return $self->app->markup->$format( $self->content );
 }
 
 column topics => {
@@ -74,10 +66,10 @@ column company_blog => {
     default_value => 0,
 };
 
-column raw_html => {
-    data_type     => 'int',
+column format => {
+    data_type     => 'varchar(8)',
     is_nullable   => 0,
-    default_value => 0,
+    default_value => 'markdown',
 };
 
 column live => {
@@ -91,17 +83,6 @@ column seen_live => {
     data_type     => 'int',
     is_nullable   => 0,
     default_value => 0,
-};
-
-column language_id => {
-    data_type   => 'bigint',
-    is_nullable => 1,
-};
-
-column data => {
-    data_type        => 'text',
-    is_nullable      => 1,
-    serializer_class => 'JSON',
 };
 
 column fixed_date => {
@@ -144,6 +125,7 @@ sub for_edit {
     my ($self) = @_;
     +{
         id      => $self->id,
+        user_id => $self->users_id,
         title   => $self->title,
         uri     => lc( $self->uri ),
         teaser  => $self->teaser,
@@ -151,7 +133,7 @@ sub for_edit {
         $self->topics
             ? ( topics => join( ', ', @{ $self->topics } ) )
             : (),
-        raw_html => $self->raw_html,
+        format => $self->format,
         $self->fixed_date
             ? ( fixed_date =>
               DateTime::Format::RSS->new->format_datetime(

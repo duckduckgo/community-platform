@@ -10,17 +10,16 @@
                         <span name="developer" class="developer left">
                             <input type="text" value="{{this.name}}" {{#eq this.type 'legacy'}}disabled="disabled"{{/eq}}/>
                         </span>
-                        {{#eq_or this.type 'duck.co' 'github'}}
                         <span>
                             <select class="available_types left" tabindex="-1" {{#eq this.type 'legacy'}}disabled="disabled"{{/eq}}>
                                 {{#if this.type}}<option value="0">{{this.type}}</option>{{/if}}
                                 {{#not_eq this.type 'duck.co'}}<option value="1">duck.co</option>{{/not_eq}}
                                 {{#not_eq this.type 'github'}}<option value="2">github</option>{{/not_eq}}
+                                {{#not_eq this.type 'ddg'}}<option value="3">ddg</option>{{/not_eq}}
                             </select>
                         </span>
-                        {{/eq_or}}
                         <span class="developer_username left type-{{this.type}}">
-                            <input type="text" {{#eq_or this.type 'duck.co' 'github'}}value="{{final_path this.url}}"{{/eq_or}} {{#eq this.type 'legacy'}}value="{{this.url}}" disabled="disabled"{{/eq}}/>
+                            <input type="text" {{#eq this.type 'legacy'}}value="{{this.url}}" disabled="disabled"{{else}}value="{{final_path this.url}}"{{/eq}}/>
                         </span>
                     </li>
                     <span class="clearfix"></span>
@@ -36,6 +35,7 @@
                 <select class="available_types left" tabindex="-1">
                     <option value="0">duck.co</option>
                     <option value="1">github</option>
+                    <option value="2">ddg</option>
                 </select>
                 <span class="developer_username left">
                     <input type="text"/>

@@ -1,4 +1,4 @@
-<: for results($user.user_blogs.sorted.live) -> $user_blog { :>
+<: for $user.user_blogs.sorted.live.all_ref -> $user_blog { :>
 	<div class="row">
 		<div class="row">
 			<: if $user_blog.company_blog { :>

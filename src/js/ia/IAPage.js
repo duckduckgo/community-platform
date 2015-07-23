@@ -3,7 +3,7 @@
     Handlebars.registerHelper('encodeURIComponent', encodeURIComponent);
 
     DDH.IAPage = function(ops) {
-        this.init(ops); 
+        this.init(ops);
     };
 
     // this could get the single IA json like the index.
@@ -19,16 +19,48 @@
                 //console.log("for ia id '%s'", DDH_iaid);
 
                 $.getJSON(json_url, function(ia_data) {
-                    
+
                     //Get user permissions
                     if ($(".special-permissions").length) {
                         ia_data.permissions = {can_edit: 1};
-                            
+
+                        // Preview switch must be on "edited" by default
+                        ia_data.preview = 1;
+
+                        ia_data.edit_count = ia_data.edited ? Object.keys(ia_data.edited).length : 0;
+
                         if ($("#view_commits").length) {
                             ia_data.permissions.admin = 1;
                         }
                     }
 
+                    if(ia_data.live.test_machine && ia_data.live.example_query) {
+                        ia_data.live.can_show = true;
+                    }
+
+                    // Allow blue band to get 100% page width
+                    if (ia_data.live.dev_milestone === "live" || ia_data.live.dev_milestone === "deprecated") {
+                        $(".site-main > .content-wrap").first().removeClass("content-wrap");
+                        $(".breadcrumb-nav").remove();
+                    }
+
+                    // Separate back-end files from front-end ones
+                    ia_data.live.back_end = [];
+                    ia_data.live.front_end = [];
+                    if (ia_data.live.code) {
+                        front_end = ["handlebars", "js", "css", "json"];
+                        back_end = ["pm", "t"];
+                        $.each(ia_data.live.code, function(idx) {
+                            var file = ia_data.live.code[idx];
+                            var type = file.replace(/.*\.([^\.]*)$/,'$1');
+
+                            if ($.inArray(type, front_end) !== -1) {
+                                ia_data.live.front_end.push(file);
+                            } else if ($.inArray(type, back_end) !== -1) {
+                                ia_data.live.back_end.push(file);
+                            }
+                        });
+                    }
 
                     // Show latest edits for admins and users with edit permissions
                     var latest_edits_data = {};
@@ -42,13 +74,13 @@
                     var readonly_templates = {
                         live: {
                             name : Handlebars.templates.name(latest_edits_data),
-                            status : Handlebars.templates.status(latest_edits_data),
+                            top_details : Handlebars.templates.top_details(latest_edits_data),
                             description : Handlebars.templates.description(latest_edits_data),
-                            topic : Handlebars.templates.topic(latest_edits_data),
-                            template : Handlebars.templates.template(latest_edits_data),
                             examples : Handlebars.templates.examples(latest_edits_data),
                             devinfo : Handlebars.templates.devinfo(latest_edits_data),
-                            github: Handlebars.templates.github(latest_edits_data)
+                            github: Handlebars.templates.github(latest_edits_data),
+                            edit_buttons: Handlebars.templates.edit_buttons(latest_edits_data),
+                            breadcrumbs: Handlebars.templates.breadcrumbs(latest_edits_data)
                         },
                         screens : Handlebars.templates.screens(ia_data),
                         metafields : Handlebars.templates.metafields(ia_data),
@@ -95,6 +127,11 @@
 
                     page.updateAll(readonly_templates, ia_data, false);
 
+                    $('body').on("click", "#show-all-issues", function(evt) {
+                        $(this).hide();
+                        $(".ia-issues ul li").show();
+                    });
+
                     $("#view_json").click(function(evt) {
                         location.href = json_url;
                     });
@@ -119,12 +156,18 @@
                             if ($(this).hasClass("focused")) {
                                 $(this).removeClass("focused");
                             }
-                            
+
                             var type = $.trim($available_types.find("option:selected").text());
                             var username = $.trim($dev_username.val());
 
-                            if (username && type) {
+                            if (username && type && (type !== "ddg")) {
                                 usercheck(type, username, $available_types, $dev_username);
+                            } else if (type && (type === "ddg")) {
+                                $dev_username.val("http://www.duckduckhack.com");
+                                $parent.find(".developer input").val("DDG Team");
+                                $dev_username.parent().removeClass("invalid");
+                                $available_types.parent().removeClass("invalid");
+
                             }
                         }
                     });
@@ -143,6 +186,8 @@
                             page.updateHandlebars(readonly_templates, ia_data, ia_data.live.dev_milestone);
                             page.updateAll(readonly_templates, ia_data, false);
 
+                            Screens.render();
+
                             $(".button-nav-current").removeClass("disabled").removeClass("button-nav-current");
                             $(this).addClass("disabled").addClass("button-nav-current");
                         }
@@ -156,111 +201,328 @@
                             page.updateHandlebars(readonly_templates, ia_data, ia_data.live.dev_milestone);
                             page.updateAll(readonly_templates, ia_data, false);
 
+                            Screens.render();
+
                             $(".button-nav-current").removeClass("disabled").removeClass("button-nav-current");
                             $(this).addClass("disabled").addClass("button-nav-current");
                         }
                     });
 
-                    $("#edit_activate").on('click', function(evt) {
+                    $("body").on('click', "#edit_activate", function(evt) {
                         page.updateAll(pre_templates, ia_data, true);
                         $("#edit_disable").removeClass("hide");
                         $(this).hide();
-                        $(".special-permissions__toggle-view").hide();
+
+                        if (ia_data.permissions.admin && ia_data.edit_count) {
+                            $("#view_commits").removeClass("hide");
+                        }
                     });
 
-                    page.hideScreenshot = (function(ia_data) {
-                        return function() {
-                            $(".ia-single--image-container img").error(function() {
-                                // Show the dashed border if the image errored out and we have permissions.
-                                if(ia_data.permissions && ia_data.permissions.can_edit) {
-                                    $(".ia-single--screenshots__screen").addClass("hide");
-                                    $(".generate-screenshot").addClass("dashed-border");
-
-                                    $("#testing").hide();
-                                } else {
-                                    // Display default image if we found the live image.
-                                    if(ia_data.live && ia_data.live.dev_milestone === "live") {
-                                        $(".ia-single--screenshots__screen").removeClass("hide");
-                                        $(".ia-single--image-container img").attr("src",  "https://images.duckduckgo.com/iu/?u=" + encodeURIComponent("http://ia-screenshots.s3.amazonaws.com/default_index.png"));
-                                        $("#testing").show();
-                                    } else {
-                                        $(".ia-single--screenshots__screen").addClass("hide");
-
-                                        $(".generate-screenshot").hide();
-                                        $("#testing").hide();
-                                    }                            
-                                }
-
-                                if (ia_data.live.dev_milestone !== "live" && ia_data.live.dev_milestone !== "deprecated"
-                                    && (!ia_data.permissions.can_edit) && (!ia_data.permissions.admin)) {
-                                    page.imgHide = true;
-                                    $(".button.js-expand").hide();
-                                }
-                            });
-                        };
-                    }(ia_data));
-
-                    page.hideScreenshot();
-
-                    function setNotification(message) {
-                        var $notif = $(".generate-screenshot--notif");
-                        // Send notification.
-                        $notif.text(message);
-                        
-                        // Revert button to its original state.
-                        // Add a little delay.
-                        setTimeout(function() {
-                            $(".generate-screenshot--button").text("Generate Screenshot");
-                            $notif.text("");
-                        }, 1500);
-                    }
-
-                    // Saves the screenshot to S3.
-                    $("body").on("click", ".save-screenshot--button", function(evt) {
-                        $.post("https://ranger.duckduckgo.com/screenshot/save/" + DDH_iaid, function(data) {
-                            // Check if the request was successful.
-                            if(data && data.status === "ok" && data.screenshots && data.screenshots.index) {
-                                // Hide the save button.
-                                $(".save-screenshot--button").addClass("hide");
-                                // Put in the image from S3.
-                                $(".ia-single--image-container img").attr("src", "https://images.duckduckgo.com/iu/?u=" + encodeURIComponent(data.screenshots.index));
-                            } else {
-                                setNotification(data.status);
-                            }
-                        });
-                    });
-
-                    // Generate a screenshot when the button is clicked.
-                    $("body").on("click", ".generate-screenshot--button", function(evt) {
-                        // If it's disabled, do nothing.
-                        if($(this).hasClass("generate-screenshot--disabled")) {
-                            return;
+                    $('body').on('click', '.switch.js-switch', function(evt) {
+                        var $preview =  $(this).parent();
+                        if (!$preview.hasClass("is-on")) {
+                            $preview.addClass("is-on");
+                            ia_data.preview = 0;
+                            page.updateHandlebars(readonly_templates, ia_data, ia_data.live.dev_milestone, false);
+                        } else {
+                            $preview.removeClass("is-on");
+                            ia_data.preview = 1;
+                            page.updateHandlebars(readonly_templates, ia_data, ia_data.live.dev_milestone, true);
                         }
 
-                        var $button =  $(".generate-screenshot--button");
-                        $button.text("Generating ...");
-
-                        // Send a POST request with the ID of the IA.
-                        $.post("https://ranger.duckduckgo.com/screenshot/create/" + DDH_iaid, function(data) {
-                            // Check if the screenshot that we want is available.
-                            // If it isn't there must be something wrong.
-                            if(data && data.status === "ok" && data.screenshots && data.screenshots.index) {
-                                $button.text("Generate Screenshot");
-                                $(".save-screenshot--button").removeClass("hide");
-
-                                // Show preview image.
-                                $(".ia-single--image-container img").attr("src", data.screenshots.index);
-                                $(".ia-single--screenshots__screen").show();
-                                $(".generate-screenshot").removeClass("dashed-border");
-                            } else {
-                                $button.text("Generate Screenshot");
-                                setNotification(data.status);
-                            }
-                        }).error(function() {
-                            setNotification("Screenshot service is down.");
-                        });
+                        page.updateAll(readonly_templates, ia_data, false);
+                        Screens.render();
                     });
-                    
+
+                    // Generate a screenshot
+                    //
+                    // UI States:
+                    // - If we're logged in
+                    //     - There is no screenshot at all
+                    //         - Show top generate button part
+                    //         - Hide the desktop/mobile switcher buttons
+                    //         - Show there-is-no-screenshot message
+                    //         - When the generate button is clicked:
+                    //             - The screenshot loads.
+                    //                 - While the screenshot loads, disable the "Generate Screenshot" button.
+                    //                 - The screenshot succeeds
+                    //                     - Show desktop view as a default
+                    //                 - The screenshot fails
+                    //                     - When the screenshot fails, show an error message
+                    //     - There is a screenshot and we want to take another
+                    //         - Show refresh screenshot button over the image.
+                    //         - Show the desktop/mobile switcher buttons
+                    //         - When the refresh button is clicked:
+                    //             - The screenshot loads
+                    //                 - While the screenshot loads, disable the refresh button and the switcher buttons
+                    //                 - The screenshot succeeds
+                    //                     - When the new screenshot loads, make sure we stay on the current view, i.e., stay on desktop
+                    //                       if we're on desktop view and stay on mobile if we're on the mobile view
+                    //                 - The screenshot fails
+                    //                     - When the screenshot fails, show an error message
+                    //                     - Show a message that the user can click on to revert back to the old screenshot
+                    //                         - When the user clicks on the revert button, make sure to return to the old view (desktop/mobile)
+                    // - If we're not logged in
+                    //     - If there is a screenshot
+                    //         - Show the screenshots
+                    //         - Show the switcher buttons
+                    //         - Don't show the refresh button
+                    //         - Don't show the generate screenshot button
+                    //     - If there is no screenshot
+                    //         - Show the screenshot
+                    //         - Don't show the switcher buttons
+                    //         - Don't show the generate screenshot button
+                    //         - Don't show the refresh button
+
+                    var capitalize = function(str) {
+                        return str.charAt(0).toUpperCase() + str.slice(1);
+                    };
+
+                    window.Screens = {
+                        render: function() {
+                            Screens.resetState();
+                            Screens.hasScreenshot(function() {
+                                Screens.setScreenshotImage();
+                                Screens.setRefreshButton();
+                                Screens.setSwitcherButtons();
+                            }, function() {
+                                Screens.setMessage("There are no screenshots for the query '" + capitalize(ia_data.live.example_query) + "'.");
+                                Screens.setTakeScreenshotButton();
+                            });
+                        },
+                        resetState: function() {
+                            Screens.state.refreshClicked = false;
+                            Screens.state.generateClicked = false;
+                            Screens.state.isError = false;
+                            Screens.state.isLoading = false;
+                            Screens.state.isMobile = false;
+                            Screens.disableLoadingAnimation();
+                            Screens.enableRefreshButton();
+                            Screens.enableTakeScreenshotButton();
+                            Screens.disableScreenshotImage();
+                        },
+                        data: {
+                            url: function() {
+                                var image = Screens.state.isMobile ? 'mobile' : 'index';
+                                return 'https://images.duckduckgo.com/iu/?u=' +
+                                       encodeURIComponent('https://ia-screenshots.s3.amazonaws.com/' + DDH_iaid + '_' + image + '.png?nocache=' + Math.floor(Math.random() * 10000)) +
+                                       '&f=1';
+                            },
+                            createImageEndpoint: 'https://jag.duckduckgo.com/screenshot/create/' + DDH_iaid,
+                            saveImageEndpoint: 'https://jag.duckduckgo.com/screenshot/save/' + DDH_iaid
+                        },
+                        events: {
+                            refreshClick: {
+                                evt: 'click',
+                                selector: '.generate-screenshot',
+                                fn: function() {
+                                    if(!Screens.state.refreshClicked) {
+                                        Screens.toggleState("refreshClicked");
+
+                                        Screens.disableRefreshButton();
+                                        Screens.disableScreenshotImage();
+                                        Screens.setLoadingAnimation();
+                                        Screens.state.isLoading = true;
+                                        Screens.generateImage(function() {
+                                            Screens.toggleState("refreshClicked");
+                                            Screens.render();
+                                            Screens.state.isLoading = false;
+                                        });
+                                    }
+                                }
+                            },
+                            generateClick: {
+                                evt: 'click',
+                                selector: '.screenshot-switcher--generate .btn',
+                                fn: function() {
+                                    if(!Screens.state.generateClicked) {
+                                        Screens.toggleState("generateClicked");
+
+                                        Screens.disableTakeScreenshotButton();
+                                        Screens.disableMessage();
+                                        Screens.setLoadingAnimation();
+                                        Screens.state.isLoading = true;
+                                        Screens.generateImage(function() {
+                                            Screens.toggleState("generateClicked");
+                                            Screens.render();
+                                            Screens.state.isLoading = false;
+                                        }, true);
+                                    }
+                                }
+                            },
+                            revertClick: {
+                                evt: 'click',
+                                selector: '.revert',
+                                fn: function(event) {
+                                    event.preventDefault();
+                                    $('.revert').hide();
+                                    $('.default-message').hide();
+                                    Screens.render();
+                                }
+                            },
+                            mobileClick: {
+                                evt: 'click',
+                                selector: '.screenshot-switcher .icon-extra-mobile',
+                                fn: function(event) {
+                                    if(!Screens.state.isError && !Screens.state.isLoading) {
+                                        Screens.state.isMobile = true;
+                                        $('.mobile-faux__container').show();
+                                        $('.screenshot-desktop').hide();
+                                        Screens.setScreenshotImage();
+                                        Screens.setOpacity();
+                                    }
+                                }
+                            },
+                            desktopClick: {
+                                evt: 'click',
+                                selector: '.screenshot-switcher .icon-extra-desktop',
+                                fn: function(event) {
+                                    if(!Screens.state.isError && !Screens.state.isLoading) {
+                                        Screens.state.isMobile = false;
+                                        $('.mobile-faux__container').hide();
+                                        $('.screenshot-desktop').show();
+                                        Screens.setScreenshotImage();
+                                        Screens.setOpacity();
+                                    }
+                                }
+                            }
+                        },
+                        state: {
+                            refreshClicked: false,
+                            generateClicked: false,
+                            isMobile: false,
+                            isError: false,
+                            isLoading: false
+                        },
+                        toggleState: function(state) {
+                            Screens.state[state] = !Screens.state[state];
+                        },
+                        setOpacity: function() {
+                            if(Screens.state.isMobile) {
+                                $('.screenshot-switcher .icon-extra-desktop').parent().addClass('remove-border');
+                                $('.screenshot-switcher .icon-extra-mobile').parent().removeClass('remove-border');
+
+                                $('.screenshot-switcher .icon-extra-mobile').removeClass('add-opacity');
+                                $('.screenshot-switcher .icon-extra-desktop').addClass('add-opacity');
+                            } else {
+                                $('.screenshot-switcher .icon-extra-desktop').parent().removeClass('remove-border');
+                                $('.screenshot-switcher .icon-extra-mobile').parent().addClass('remove-border');
+
+                                $('.screenshot-switcher .icon-extra-mobile').addClass('add-opacity');
+                                $('.screenshot-switcher .icon-extra-desktop').removeClass('add-opacity');
+                            }
+                        },
+                        generateImage: function(callback, isFirst) {
+                            function failedMessage() {
+                                Screens.disableScreenshotImage();
+                                Screens.disableLoadingAnimation();
+                                Screens.setMessage("Screenshot Failed", true, isFirst);
+
+                                Screens.state.isError = true;
+                            }
+
+                            var nocache = Math.floor(Math.random() * 10000);
+                            $.post(Screens.data.createImageEndpoint + "?nocache=" + nocache, function(data) {
+                                if(data && data.status === "ok" && data.screenshots && data.screenshots.index) {
+                                    $.post(Screens.data.saveImageEndpoint + "?nocache=" + nocache, function() {
+                                        Screens.state.isError = false;
+                                        callback();
+                                    });
+                                } else {
+                                    failedMessage();
+                                }
+                            }).fail(failedMessage);
+                        },
+                        enableRefreshButton: function() {
+                            $('.generate-screenshot')
+                                .removeClass('btn--alternative')
+                                .addClass('btn--primary');
+                        },
+                        enableTakeScreenshotButton: function() {
+                            $('.screenshot-switcher--generate .btn')
+                                .removeClass('btn--wire')
+                                .addClass('btn--primary');
+                        },
+                        setMessage: function(message, enableRevert, isFirst) {
+                            $('.screenshot--status').show();
+                            $('.screenshot--status .default-message').show().text(message);
+
+                            if(enableRevert) {
+                                this.setEvent(this.events.revertClick);
+                                if(isFirst) {
+                                    Screens.toggleState("generateClicked");
+                                    Screens.enableTakeScreenshotButton();
+                                } else {
+                                    $('.revert').show();
+                                }
+                            }
+                        },
+                        setLoadingAnimation: function() {
+                            $('.screenshot--status').show();
+                            $('.screenshot--status .loader').show();
+                        },
+                        setRefreshButton: function() {
+                            $('.generate-screenshot').show();
+                            this.setEvent(this.events.refreshClick);
+
+                            $('.screenshot-switcher--generate').hide();
+                        },
+                        setTakeScreenshotButton: function() {
+                            $('.screenshot-switcher').hide();
+                            $('.screenshot-switcher--generate').show();
+
+                            this.setEvent(this.events.generateClick);
+                        },
+                        setSwitcherButtons: function() {
+                            $('.screenshot-switcher').show();
+                            Screens.setEvent(Screens.events.mobileClick);
+                            Screens.setEvent(Screens.events.desktopClick);
+                        },
+                        setScreenshotImage: function() {
+                            var image = Screens.state.isMobile ? 'mobile' : 'desktop';
+
+                            var screenshotImage = $('.ia-single--screenshots img.screenshot-' + image);
+                            screenshotImage.attr('src', this.data.url());
+                            screenshotImage.show();
+                        },
+                        disableScreenshotImage: function() {
+                            $('.ia-single--screenshots img.screenshot-desktop').hide();
+                            $('.mobile-faux__container').hide();
+                        },
+                        setEvent: function(eventData) {
+                            $(eventData.selector).on(eventData.evt, eventData.fn);
+                        },
+                        disableLoadingAnimation: function() {
+                            $('.screenshot--status').hide();
+                            $('.screenshot--status .loader').hide();
+                        },
+                        disableRefreshButton: function() {
+                            $('.generate-screenshot')
+                                .removeClass('btn--primary')
+                                .addClass('btn--alternative');
+                        },
+                        disableTakeScreenshotButton: function() {
+                            $('.screenshot-switcher--generate .btn')
+                                .removeClass('btn--primary')
+                                .addClass('btn--wire');
+                        },
+                        disableMessage: function() {
+                            $('.screenshot--status').hide();
+                            $('.screenshot--status .default-message').hide();
+                        },
+                        hasScreenshot: function(succeed, failed) {
+                            $("<img src='" + this.data.url() + "'>")
+                                .on("load", function() {
+                                    succeed();
+                                })
+                                .error(function() {
+                                    failed();
+                                });
+                        }
+                    };
+
+                    Screens.render();
+
                     $("body").on('click', ".js-expand.button", function(evt) {
                         var milestone = $(this).parent().parent().attr("id");
                         $(".container-" + milestone + "__body").toggleClass("hide");
@@ -290,14 +552,14 @@
                                 var section_vals = getSectionVals($(this), parent_field);
 
                                 section_vals[field] = value;
-                               
+
                                 parent_field = parent_field.replace("-group", "");
                                 value = JSON.stringify(section_vals);
                                 is_json = true;
-                                
+
                                 autocommit(parent_field, value, DDH_iaid, is_json, panel, field);
                             }
-                         
+
                             autocommit(field, value, DDH_iaid, is_json, panel);
                         }
                     });
@@ -326,7 +588,7 @@
                         } else {
                             $obj = $(this);
                         }
-                        
+
                         resetSaved($obj);
                     });
 
@@ -339,7 +601,7 @@
 
                         if ($(this).hasClass("topic-group")) {
                            var $selector = $("select.js-autocommit.topic-group option:selected");
-                           
+
                            value = [];
                            field = "topic";
                            value = getGroupVals(field, $selector);
@@ -350,7 +612,7 @@
                            value = $selected.attr("value").length? $.trim($selected.text()) : '';
                         }
 
-                        if (field.length && value !== ia_data.live[field]) { 
+                        if (field.length && value !== ia_data.live[field]) {
                              autocommit(field, value, DDH_iaid, is_json, panel);
                         }
                     });
@@ -387,24 +649,24 @@
 
                                     value = dev_array;
                                 }
-                                
+
                                 value = JSON.stringify(value);
                                 is_json = true;
                             }
-                            
+
                             if (field.length && value !== ia_data.live[field]) {
                                 if ($(this).hasClass("section-group__item")) {
                                     var parent_field = $.trim($(this).parent().parent().attr("id"));
                                     var section_vals = getSectionVals($(this), parent_field);
                                     section_vals[field] = value;
-                                
+
                                     parent_field = parent_field.replace("-group", "");
                                     value = JSON.stringify(section_vals);
                                     is_json = true;
-                            
+
                                     autocommit(parent_field, value, DDH_iaid, is_json, panel, field);
                                 }
-                                
+
                                 autocommit(field, value, DDH_iaid, is_json, panel);
                             }
 
@@ -429,28 +691,12 @@
                         }
                     });
 
-                    $(".special-permissions__toggle-view__button").on('click', function(evt) {
-                        if (!$(this).hasClass("disabled")) {
-                            $(".button-nav-current").removeClass("button-nav-current").removeClass("disabled");
-
-                            $(this).addClass("button-nav-current").addClass("disabled");
-
-                            if ($(this).attr("id") == "toggle-live") {
-                                page.updateHandlebars(readonly_templates, ia_data, ia_data.live.dev_milestone, false);
-                            } else {
-                                page.updateHandlebars(readonly_templates, ia_data, ia_data.live.dev_milestone, true);
-                            }
-
-                            page.updateAll(readonly_templates, ia_data, false);
-                        }
-                    });
-
                     $("body").on('click', '.js-pre-editable.button', function(evt) {
                         var field = $(this).attr('name');
                         var $row = $(this).parent();
                         var $obj = $("#column-edits-" + field);
                         var value = {};
-                       
+
                         value[field] = ia_data.edited[field]? ia_data.edited[field] : ia_data.live[field];
 
                         $obj.replaceWith(Handlebars.templates['edit_' + field](value));
@@ -485,7 +731,7 @@
 
                     $("body").on("click", ".button.delete", function(evt) {
                         var field = $(this).attr('name');
-                        
+
                         // If dev milestone is not 'live' it means we are in the dev page
                         // and a topic has been deleted (it's the only field having a delete button in the dev page
                         // so far) - so we must save
@@ -496,7 +742,7 @@
                             var temp;
                             var $selector;
                             var $parent = $(this).parent();
-                            
+
                             if (field === "topic") {
                                 var $select = $parent.find('.topic-group');
                                 $select.find('option[value="0"]').empty();
@@ -508,7 +754,7 @@
                             }
 
                             value = getGroupVals(field, $selector);
-                            value = JSON.stringify(value); 
+                            value = JSON.stringify(value);
 
                             if (field.length && value.length) {
                                 autocommit(field, value, DDH_iaid, is_json, panel);
@@ -545,7 +791,7 @@
                             if ($(this).hasClass("js-input")) {
                                 value = $.trim($(this).val());
                             } else if ($(this).hasClass("js-check")) {
-                                value = $("#" + field + "-check").hasClass("icon-check")? 1 : 0; 
+                                value = $("#" + field + "-check").hasClass("icon-check")? 1 : 0;
                             } else {
                                 var input;
                                 if (field === "dev_milestone" || field === "repo") {
@@ -558,7 +804,7 @@
                             }
 
                             if ((evt.type === "click"
-                                && (field === "topic" || field === "other_queries" || field === "triggers" || field === "perl_dependencies" || field === "src_options")) 
+                                && (field === "topic" || field === "other_queries" || field === "triggers" || field === "perl_dependencies" || field === "src_options"))
                                 || (field === "answerbar") || (field === "developer")) {
                                 if (field !== "answerbar" && field !== "src_options") {
                                     value = getGroupVals(field);
@@ -596,7 +842,7 @@
                         .done(function(data) {
                             if (data.result) {
                                 $type.parent().removeClass("invalid");
-                                $username.parent().removeClass("invalid");                                
+                                $username.parent().removeClass("invalid");
                                 if (ia_data.live.dev_milestone !== "live" && ia_data.live.dev_milestone !== "deprecated") {
                                     var field = "developer";
                                     var value = getGroupVals(field);
@@ -605,7 +851,7 @@
 
                                     value = JSON.stringify(value);
 
-                                    if (field.length && value !== ia_data.live[field]) { 
+                                    if (field.length && value !== ia_data.live[field]) {
                                         autocommit(field, value, DDH_iaid, is_json, panel);
                                     }
                                 }
@@ -620,17 +866,17 @@
                         var $selector;
                         var temp_val;
                         var value = [];
-                        
+
                         if ($obj) {
                             $selector = $obj;
                         } else {
                             $selector = (field === "topic")? $(".ia_topic .available_topics option:selected") : $("." + field + " input");
                         }
-                        
+
                         $selector.each(function(index) {
                             if (field === "developer") {
                                 var $li_item = $(this).parent().parent();
-                                    
+
                                 temp_val = {};
                                 temp_val.name = $.trim($(this).val());
                                 temp_val.type = $.trim($li_item.find(".available_types").find("option:selected").text()) || "legacy";
@@ -646,7 +892,7 @@
                                     temp_val = $.trim($(this).val());
                                 }
                             }
-                                 
+
                             if (temp_val && $.inArray(temp_val, value) === -1) {
                                 value.push(temp_val);
                             }
@@ -682,7 +928,7 @@
                                 section_vals[temp_field] = temp_value;
                             }
                         });
-                        
+
                         return section_vals;
                     }
 
@@ -723,18 +969,16 @@
 
                                         $(".ia-single--name ." + field).addClass(saved_class);
                                     } else {
-                                        if (field === "test_machine" || field === "example_query") {
-                                            page.enableScreenshotButton(ia_data);
-                                        }
-                                        
+                                        Screens.render();
+
                                         readonly_templates[panel + "_content"] = Handlebars.templates[panel + "_content"](ia_data);
 
                                         var $panel_body = $("#" + panel);
                                         $panel_body.html(readonly_templates[panel + "_content"]);
-                                    
+
                                         page.appendTopics($(".topic-group"));
                                         page.hideAssignToMe();
-                                   
+
                                         // Developer field is already highlighted in green
                                         // when the user check is successful
                                         if (field !== "developer") {
@@ -742,14 +986,14 @@
                                             $panel_body.find("." + field).addClass(saved_class);
                                         }
                                     }
-                                } 
+                                }
                             }
                         });
                     }
 
                     function save(field, value, id, $obj, is_json) {
                         var jqxhr = $.post("/ia/save", {
-                            field : field, 
+                            field : field,
                             value : value,
                             id : id,
                             autocommit: 0
@@ -785,11 +1029,10 @@
         imgHide: false,
 
         field_order: [
-            'topic',
             'description',
-            'github',
             'examples',
-            'devinfo'
+            'screens',
+            'github'
         ],
 
         edit_field_order: [
@@ -823,17 +1066,16 @@
             'advanced'
         ],
 
-        
         updateHandlebars: function(templates, ia_data, dev_milestone, staged) {
             var latest_edits_data = {};
             latest_edits_data = this.updateData(ia_data, latest_edits_data, staged);
-            templates.live.name = Handlebars.templates.name(latest_edits_data);
-            
+
             if (dev_milestone === 'live') {
-                for (var i = 0; i < this.field_order.length; i++) {
-                    templates.live[this.field_order[i]] = Handlebars.templates[this.field_order[i]](latest_edits_data);
-                }
+                $.each(templates.live, function(key, val) {
+                    templates.live[key] = Handlebars.templates[key](latest_edits_data);
+                });
             } else {
+                templates.live.name = Handlebars.templates.name(latest_edits_data);
                 templates.metafields = Handlebars.templates.metafields(ia_data);
                 templates.metafields_content = Handlebars.templates.metafields_content(ia_data);
                 for (var i = 0; i < this.dev_milestones_order.length; i++) {
@@ -850,7 +1092,7 @@
         updateData: function(ia_data, x, edited) {
             var edited_fields = 0;
             $.each(ia_data.live, function(key, value) {
-                if (edited && ia_data.edited && ia_data.edited[key]) {
+                if (edited && ia_data.edited && ia_data.edited[key] && (key !== "id")) {
                     x[key] = ia_data.edited[key];
                     edited_fields++;
                 } else {
@@ -865,9 +1107,9 @@
             });
 
             if (edited && edited_fields === 0) {
-                $(".special-permissions__toggle-view").hide();       
+                $(".special-permissions__toggle-view").hide();
             }
- 
+
             return x;
         },
 
@@ -906,39 +1148,29 @@
             });
         },
 
-        // Check if the IA has a test machine or is live.
-        // If so, enable the screenshot button.
-        enableScreenshotButton: function(ia_data) {
-            var test_machine = ia_data.live.test_machine;
-            var example_query = ia_data.live.example_query;
-            var $generate_screenshot = $(".generate-screenshot--button");
-            
-            if((test_machine && example_query) || ia_data.live.dev_milestone === "live") {
-                $generate_screenshot.removeClass("generate-screenshot--disabled");
-            } else {
-                $generate_screenshot.addClass("generate-screenshot--disabled");
-            }
-        },
-
         updateAll: function(templates, ia_data, edit) {
             var dev_milestone = ia_data.live.dev_milestone;
 
             if (!edit) {
                 $(".ia-single--name").remove();
-                
+
                 if (dev_milestone === "live" || dev_milestone === "deprecated") {
-                    $(".ia-single--right").before(templates.live.name);
+                    $("#ia-single-top-name").html(templates.live.name);
+                    $('#ia-breadcrumbs').html(templates.live.breadcrumbs);
+                    $("#ia-single-top-details").html(templates.live.top_details);
+                    $('.edit-container').html(templates.live.edit_buttons);
                     $(".ia-single--left, .ia-single--right").show().empty();
-                    
+
                     for (var i = 0; i < this.field_order.length; i++) {
                         $(".ia-single--left").append(templates.live[this.field_order[i]]);
                     }
 
-                    $(".ia-single--right").append(templates.screens);
+                    $(".ia-single--left .ia-issues").before(templates.screens);
+                    $(".ia-single--right").append(templates.live.devinfo);
                     $(".ia-single--screenshots").removeClass("twothirds");
                 } else {
                     $(".ia-single--wide").before(templates.live.name);
-                    
+
                     $("#metafields").remove();
                     $(".ia-single--wide").before(templates.metafields);
                     $("#metafields").html(templates.metafields_content);
@@ -954,21 +1186,15 @@
                             $temp_panel_body = $("#" + template);
                             $temp_panel_body.html(templates[template + "_content"]);
                         }
-                    }                    
-        
+                    }
+
                     this.appendTopics($(".topic-group"));
                     this.hideAssignToMe();
                 }
 
-                if (this.hideScreenshot) {
-                    this.hideScreenshot();
-                }
-
-                this.enableScreenshotButton(ia_data);
-                
                 $(".show-more").click(function(e) {
                     e.preventDefault();
-                
+
                     if($(".ia-single--info li").hasClass("hide")) {
                         $(".ia-single--info li").removeClass("hide");
                         $("#show-more--link").text("Show Less");
@@ -980,7 +1206,9 @@
                     }
                 });
             } else {
-                $(".ia-single--left, .ia-single--right, .ia-single--name").hide();
+                $("#ia-single-top").attr("id", "ia-single-top--edit");
+                $("#ia-single-top-name, #ia-single-top-details, .ia-single--left, .ia-single--right, .edit-container, #ia-breadcrumbs").hide();
+                $(".special-permissions .btn--wire--hero").removeClass("btn--wire--hero").addClass("button");
                 $(".ia-single--edits").removeClass("hide");
                 for (var i = 0; i < this.edit_field_order.length; i++) {
                     $(".ia-single--edits").append(templates[this.edit_field_order[i]]);
@@ -996,7 +1224,7 @@
                     $(".ia-single--edits").append(templates.id);
                 }
             }
-        }    
+        }
     };
 
 })(DDH);

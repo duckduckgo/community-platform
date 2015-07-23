@@ -311,7 +311,7 @@ sub campaigns {
 			min_length => 50,
 			url => '/wear/',
 			notification => "You've been sharing DuckDuckGo for 30 days. Ready to answer your final questions?",
-			question1 => "How did you get your friend to switch to DuckDuckGo?",
+			question1 => "How did you get your friends to switch to DuckDuckGo?",
 			question2 => "What did they most like about DuckDuckGo?",
 			question3 => "How long did it take them to switch?",
 		}

@@ -11,7 +11,6 @@ use Data::Dumper;
 use Try::Tiny;
 use Net::GitHub;
 use Time::Local;
-use Encode qw(decode_utf8);
 my $d = DDGC->new;
 
 # JSON response from GH API
@@ -74,8 +73,8 @@ sub getIssues{
 				repo => $repo || '',
 				issue_id => $issue->{'number'} || '',
                 author => $issue->{user}->{login} || '', 
-				title => decode_utf8($issue->{'title'}) || '',
-				body => decode_utf8($issue->{'body'}) || '',
+				title => $issue->{'title'} || '',
+				body => $issue->{'body'} || '',
 				tags => $issue->{'labels'} || '',
 				date => $issue->{'created_at'} || '',
                 is_pr => $is_pr,
@@ -88,9 +87,9 @@ sub getIssues{
                 return unless $data->{name};
 
                 # check to see if we have this IA already
-                my $ia = $d->rs('InstantAnswer')->find($data->{name});
-                my $new_ia = 1 if !$ia;
-                warn "new ia $new_ia";
+                # First lookup by ID.  This can fail if an admin updates the ID on the IA page later
+                my $ia = $d->rs('InstantAnswer')->find($data->{name}, {result_class => 'DBIx::Class::ResultClass::HashRefInflator'}) || {};
+                my $new_ia = 1 if !keys $ia;
 
                 my @time = localtime(time);
                 my $date = "$time[4]/$time[3]/".($time[5]+1900);
@@ -139,40 +138,22 @@ sub getIssues{
 
                 my $name = $data->{name};
                 $name =~ s/_/ /g;
-                
+
                 my %new_data = (
-                    id => $data->{name},
-                    meta_id => $data->{name},
-                    name => ucfirst $name,
-                    dev_milestone => 'planning',
-                    description => $description,
-                    created_date => $date, 
-                    repo => $data->{repo},
-                    perl_module => $pm,
-                    forum_link => $forum_link,
-                    src_api_documentation => $api_link,
-                    developer => $developer
+                    id => $ia->{id} || $data->{name},
+                    meta_id => $ia->{meta_id} || $data->{name},
+                    name => $ia->{name} || ucfirst $name,
+                    dev_milestone => $ia->{dev_milestone} || 'planning',
+                    description => $ia->{description} || $description,
+                    created_date => $ia->{created_date} || $date, 
+                    repo => $ia->{repo} || $data->{repo},
+                    perl_module => $ia->{perl_module} || $pm,
+                    forum_link => $ia->{forum_link} || $forum_link,
+                    src_api_documentation => $ia->{src_api_documentation} || $api_link,
+                    developer => $ia->{developer} || $developer
                 );
 
-                # Only add the new data if
-                # 1. this is a new IA page
-                # 2. an existing IA page but this field is currently null in the DB
-                my $update; 
-                while( my($k, $v) = each %new_data ){
-                    # can't delete these ones
-                    next if $k =~ /id|meta_id|name/;
-
-                    # this is not a new IA check if the field already has data
-                    if(!$new_ia && $ia->$k){
-                        delete $new_data{$k};
-                        next;
-                    }
-                    # if we get here then set update flag
-                    # we have new data to add
-                    $update = 1;
-                }
-
-                $d->rs('InstantAnswer')->update_or_create({%new_data}) if $update;
+                $d->rs('InstantAnswer')->update_or_create({%new_data});
             };
 
             # check for an existing IA page.  Create one if none are found

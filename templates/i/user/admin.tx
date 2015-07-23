@@ -76,7 +76,7 @@
     </div>
     <div class="row">
       <h2><: $_.token_language_translations.count :> translations (<: $_.token_languages.count :> in use) and <: $_.translation_votes.count :> votes.</h2>
-      <: for results($_.user_languages) -> $user_language { :>
+      <: for $_.user_languages.all_ref -> $user_language { :>
         <span class="button"><: $user_language.language.name_in_english :></span>
         <span class="tag green circle"><: $user_language.grade :></span>
       <: } :>

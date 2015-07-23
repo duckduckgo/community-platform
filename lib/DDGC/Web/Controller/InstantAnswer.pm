@@ -213,13 +213,14 @@ sub issues_json :Chained('issues_base') :PathPart('json') :Args(0) {
     my ( $self, $c ) = @_;        
 
     my $rs = $c->d->rs('InstantAnswer::Issues');
-    my @result = $rs->search({'is_pr' => 0})->all;
+    my @result = $rs->search({'is_pr' => 0},{order_by => { -desc => 'date'}})->all;
     my %ial;
     my $ia;
     my $id;
     my $dev_milestone;
     my @tags;
     my %temp_tags;
+    my @issues_by_date;
 
     for my $issue (@result) {
         $id = $issue->instant_answer_id;
@@ -235,22 +236,27 @@ sub issues_json :Chained('issues_base') :PathPart('json') :Args(0) {
                         };
                 }
             }
+            
+            my %temp_issue = (
+                    issue_id => $issue->issue_id,
+                    title => $issue->title,
+                    tags => $issue->tags,
+                    date => $issue->date,
+                    author => $issue->author,
+                    ia_id => $id,
+                    ia_name => $ia->name,
+                    repo => $issue->repo
+            );
+
+            push @issues_by_date, \%temp_issue;
 
             if (defined $ial{$id}) {
                 my @existing_issues = @{$ial{$id}->{issues}};
-                push(@existing_issues, {
-                        issue_id => $issue->issue_id,
-                        title => $issue->title,
-                        tags => $issue->tags
-                    });
+                push @existing_issues, \%temp_issue;
 
                 $ial{$id}->{issues} = \@existing_issues;
             } else {
-                push(@issues, {
-                        issue_id => $issue->issue_id,
-                        title => $issue->title,
-                        tags => $issue->tags
-                    });
+                push @issues, \%temp_issue;;
 
                 $ial{$id}  = {
                         name => $ia->name,
@@ -278,7 +284,8 @@ sub issues_json :Chained('issues_base') :PathPart('json') :Args(0) {
 
     $c->stash->{x} = {
         ia => \@sorted_ial,
-        tags => \@tags
+        tags => \@tags,
+        by_date => \@issues_by_date
     };
 
     $c->stash->{not_last_url} = 1;
@@ -349,7 +356,8 @@ sub overview_json :Chained('overview_base') :PathPart('json') :Args(0) {
      
      if (!$c->user || !@live_ias) {
         @ias = $rs->search({
-             dev_milestone => 'live', 
+             dev_milestone => 'live',
+             live_date => { '!=' => undef }, 
              'topic.name' => [{ '!=' => 'test' }, { '=' => undef}]
          },
          {   
@@ -361,13 +369,15 @@ sub overview_json :Chained('overview_base') :PathPart('json') :Args(0) {
          my $temp_ia;
          for my $ia (@ias) {
             $temp_ia = $ia->TO_JSON('pipeline');
+            $temp_ia->{most_recent} = 1;
             push @live_ias, $temp_ia;
          }
      }
 
      if (!$c->user || !@dev_ias) {
         @ias = $rs->search({
-                dev_milestone => { '=' => ['planning', 'development', 'testing', 'complete']}
+                dev_milestone => { '=' => ['planning', 'development', 'testing', 'complete']},
+                created_date => { '!=' => undef }
             },{
                 rows => 5,  
                 order_by => {-desc => 'created_date'}
@@ -376,6 +386,7 @@ sub overview_json :Chained('overview_base') :PathPart('json') :Args(0) {
         my $temp_ia;
         for my $ia (@ias) {
             $temp_ia = $ia->TO_JSON('pipeline');
+            $temp_ia->{most_recent} = 1;
             push @dev_ias, $temp_ia;
         }
      }
@@ -530,7 +541,7 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
 
     my $ia = $c->stash->{ia};
     my $edited;
-    my @issues = $c->d->rs('InstantAnswer::Issues')->search({instant_answer_id => $ia->id});
+    my @issues = $c->d->rs('InstantAnswer::Issues')->search({instant_answer_id => $ia->id},{order_by => {'-desc' => 'date'}});
     my @ia_issues;
     my %pull_request;
     my @ia_pr;
@@ -549,34 +560,19 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
                     title => $issue->title,
                     body => $issue->body,
                     tags => $issue->tags,
-                    author => $issue->author
+                    author => $issue->author,
+                    date => $issue->date
                );
 
                $ia_data{live}->{pr} = \%pull_request;
-
-               if ($dev_milestone ne 'live' && $dev_milestone ne 'deprecated' && !$ia->developer) {
-                  my %dev_hash = (
-                      name => $pull_request{author},
-                      url => 'https://github.com/'.$pull_request{author}
-                  );
-
-                  my @dev_array = [\%dev_hash];
-
-                  my $value = to_json \@dev_array;
-
-                  try {
-                      $ia->update({developer => $value});
-                  }
-                  catch {
-                      $c->d->errorlog("Error updating the database");
-                  };
-               }
-            } else {
+                } else {
                 push(@ia_issues, {
                     issue_id => $issue->issue_id,
                     title => $issue->title,
                     body => $issue->body,
-                    tags => $issue->tags
+                    tags => $issue->tags,
+                    author => $issue->author,
+                    date => $issue->date
                 });
             }
         }
@@ -729,6 +725,10 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
                             return $c->forward($c->view('JSON')) unless check_github($temp_username);
 
                             $temp_url = 'https://github.com/'.$temp_username;
+                        } elsif ($temp_type eq 'ddg') {
+                            #IA was developed internally - set default values
+                            $temp_username = "DDG Team";
+                            $temp_url = "http://www.duckduckhack.com";
                         } else {
                             # Type is 'legacy', so the username contains the url to 
                             # a personal website or twitter account etc,
@@ -755,10 +755,7 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
                 return $c->forward($c->view('JSON')) unless $complat_user_admin || $value eq '';
             } elsif ($field eq "id") {
                 $field = "meta_id";
-
-                # meta_id must be unique, lowercase and without spaces
-                $value =~ s/\s//g;
-                $value = lc $value;
+                $value = format_id($value);
                 return $c->forward($c->view('JSON')) if ($c->d->rs('InstantAnswer')->find({meta_id => $value}) || $value eq '');
             } elsif ($field eq "src_id") {
                 return $c->forward($c->view('JSON')) if $c->d->rs('InstantAnswer')->find({src_id => $value});
@@ -825,9 +822,10 @@ sub usercheck :Chained('base') :PathPart('usercheck') :Args() {
 sub create_ia :Chained('base') :PathPart('create') :Args() {
     my ( $self, $c ) = @_;
 
-    my $ia = $c->d->rs('InstantAnswer')->find({lc id => $c->req->params->{id}}) || $c->d->rs('InstantAnswer')->find({lc meta_id => $c->req->params->{id}});
+    my $ia = $c->d->rs('InstantAnswer')->find({id => lc($c->req->params->{id})}) || $c->d->rs('InstantAnswer')->find({meta_id => lc($c->req->params->{id})});
     my $is_admin;
     my $result = '';
+    my $id = '';
 
     if ($c->user && (!$ia)) {
        $is_admin = $c->user->admin;
@@ -835,32 +833,48 @@ sub create_ia :Chained('base') :PathPart('create') :Args() {
         if ($is_admin) {
             my $dev_milestone = $c->req->params->{dev_milestone};
             my $status = $dev_milestone;
-            
-            if ($dev_milestone eq 'development') {
-                $status =~ s/_/ /g;
+
+            $id = format_id($c->req->params->{id});
+           
+            if (length $id) { 
+                my $new_ia = $c->d->rs('InstantAnswer')->create({
+                    id => $id,
+                    meta_id => $id,
+                    name => $c->req->params->{name},
+                    status => $status,
+                    dev_milestone => $dev_milestone,
+                    description => $c->req->params->{description},
+                });
+
+                save_milestone_date($new_ia, 'created');
+
+                $result = 1;
             }
-
-            my $new_ia = $c->d->rs('InstantAnswer')->create({
-                lc id => $c->req->params->{id},
-                lc meta_id => $c->req->params->{id},
-                name => $c->req->params->{name},
-                status => $status,
-                dev_milestone => $dev_milestone,
-                description => $c->req->params->{description},
-            });
-
-            save_milestone_date($new_ia, 'created');
-
-            $result = 1;
         }
     }
 
     $c->stash->{x} = {
         result => $result,
+        id => $id
     };
 
     $c->stash->{not_last_url} = 1;
     return $c->forward($c->view('JSON'));
+}
+
+sub format_id {
+    my( $id ) = @_;
+
+    # id must be lowercase and without weird chars
+    $id = lc $id;
+    $id =~ s/[^a-z0-9]+/_/g;
+    $id =~ s/^[^a-zA-Z]+//;
+    $id =~ s/_$//;
+
+    # make the id string empty if it only contains non-alphabetic chars
+    $id =~ s/^[^a-zA-Z]+$//;
+
+    return $id;
 }
 
 sub save {
@@ -875,12 +889,21 @@ sub save {
         if ($field eq "topic") {
             my @topic_values = $value;
             $ia->instant_answer_topics->delete;
-                
-            for my $topic (@{$topic_values[0]}) {
-                $saved = add_topic($c, $ia, $topic);
-                return unless $saved;
+           
+            if (scalar @{$topic_values[0]} gt 0) {
+                for my $topic (@{$topic_values[0]}) {
+                    $saved = add_topic($c, $ia, $topic);
+                    return unless $saved;
+                }
+            } else {
+                remove_edits($c->d, $ia, 'topic');
+                $saved = 1;
             }
-        } else {           
+        } else {          
+            if ($field eq 'id') {
+               $field = 'meta_id';
+            }
+            
             commit_edit($c->d, $ia, $field, $value);
             $saved = '1';
         }
@@ -1041,6 +1064,8 @@ sub save_milestone_date {
     my @time = localtime(time);
     my $date = "$time[4]/$time[3]/".($time[5]+1900);
     update_ia($ia, $field, $date);
+
+    update_ia($ia, 'test_machine', undef) if ($milestone eq 'live');
 }
 
 no Moose;

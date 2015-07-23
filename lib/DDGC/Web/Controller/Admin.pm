@@ -27,11 +27,11 @@ sub base :Chained('/base') :PathPart('admin') :CaptureArgs(0) {
 sub index :Chained('base') :PathPart('') :Args(0) {
     my ( $self, $c ) = @_;
 	$c->bc_index;
-	$c->stash->{latest_updated_users} = $c->d->rs('User')->search({},{
+	$c->stash->{latest_updated_users} = [ $c->d->rs('User')->search({},{
 		order_by => { -desc => 'me.updated' },
 		rows => 5,
 		page => 1,
-	});
+	})->all ];
 	$c->stash->{day_registrations_count} = $c->d->rs('User')->search({
 		created => { ">" => $c->d->db->storage->datetime_parser->format_datetime(
 			DateTime->now - DateTime::Duration->new( days => 1 )

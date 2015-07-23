@@ -20,7 +20,7 @@
 		<section class="menu-list">
 			<h5>Sticky threads</h5>
 			<ul>
-				<: for results($sticky_threads) -> $thread { :>
+				<: for $sticky_threads -> $thread { :>
 					<li><a href="<: $u($thread.u) :>"><: $thread.title :></a></li>
 				<: } else { :>
 					Nothing here yet!

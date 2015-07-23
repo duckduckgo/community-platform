@@ -175,12 +175,14 @@ sub wear :Chained('base') :PathPart('wear') :Args(0) {
 		duckduckgo.com
 	/,  lc( $c->request->env->{HTTP_HOST} =~ s/:.*//r ) );
 
+	$c->stash->{no_breadcrumb} = 1;
+
 	if ( !$c->user && ( !$host || !grep { $_ eq $host } @domains ) ) {
 		$c->response->status(404);
+		push @{$c->stash->{template_layout}}, 'wear404.tx';
 		return $c->detach;
 	}
 
-	$c->stash->{no_breadcrumb} = 1;
 	$c->stash->{share_page} = 1;
 	$c->session->{last_url} = $c->req->uri;
 	$c->stash->{title} = "DuckDuckGo : Share it & Wear it!";

@@ -8,7 +8,7 @@
 		</div>
 	</div>
 	<div class="body  body--round">
-		<: for results($_.paged_rs) -> $idea { :>
+		<: for $_.paged_rs.all_ref -> $idea { :>
 			<div class="row">
 				<: i($idea,'teaser') :>
 			</div>
