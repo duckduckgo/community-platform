@@ -21,9 +21,9 @@ column bio                    => {data_type => 'text',   is_nullable       => 1}
 column type                   => {data_type => 'text',   is_nullable       => 0};
 column created_at             => {data_type => 'timestamp with time zone', is_nullable => 0};
 column updated_at             => {data_type => 'timestamp with time zone', is_nullable => 1};
-column isa_owners_team_member => {data_type => 'boolean', is_nullable => 0};
-column scope_pulic_repo       => {data_type => 'text',   is_nullable       => 0, default_value => 0};
-column scope_user_email       => {data_type => 'text',   is_nullable       => 0, default_value => 0};
+column isa_owners_team_member => {data_type => 'int',    is_nullable       => 0, default_value => 0};
+column scope_public_repo      => {data_type => 'int',    is_nullable       => 0, default_value => 0};
+column scope_user_email       => {data_type => 'int',    is_nullable       => 0, default_value => 0};
 column access_token           => {data_type => 'text',   is_nullable       => 1};
 column users_id               => {data_type => 'bigint', is_nullable       => 1};
 column created                => {data_type => 'timestamp with time zone', set_on_create  => 1};
