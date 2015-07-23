@@ -27,12 +27,77 @@ sub report {
     my ($class, %args) = @_;
     my $self = $class->new(%args);
 
+    $self->github_contributers;
     #$self->support;
-    $self->translations;
+    #$self->translations;
+}
+
+sub github_contributers {
+    my ($self) = @_;
+
+    say "Github contributers with more than 2 months of active development";
+
+    my %contributers;
+
+    for my $week (1..8) {
+
+        my $comment_rs = $self->db->resultset('GitHub::Comment')
+            ->search
+            ->with_created_at('>' => DateTime->now->subtract(weeks => $week))
+            ->ignore_staff_comments();
+
+        while (my $comment = $comment_rs->next) {
+            my $user      = $comment->github_user->login;
+            my $ddgc_user = $comment->github_user->user;
+            say "link" if $ddgc_user;
+            #warn "$user is not public" unless $ddgc_user->public;
+            $contributers{$user}->{both}++;
+            $contributers{$user}->{comments}++;
+            $contributers{$user}->{$week} = 1;
+            #$contributers{$user}->{email} = $ddgc_user->email;
+        }
+
+        my $commit_rs = $self->db->resultset('GitHub::Commit')
+            ->search
+            ->with_author_date('>' => DateTime->now->subtract(weeks => $week))
+            ->ignore_staff_commits();
+
+        while (my $commit = $commit_rs->next) {
+            my $user      = $commit->github_user_author->login;
+            my $ddgc_user = $commit->github_user_author->user;
+            say "link" if $ddgc_user;
+            #warn "$user is not public" unless $ddgc_user->public;
+            $contributers{$user}->{both}++;
+            $contributers{$user}->{commits}++;
+            $contributers{$user}->{$week} = 1;
+            #$contributers{$user}->{email} = $ddgc_user->email;
+        }
+    }
+
+    for my $user (keys %contributers) {
+        next unless 
+            $contributers{$user}->{1} &&
+            $contributers{$user}->{2} &&
+            $contributers{$user}->{3} &&
+            $contributers{$user}->{4} &&
+            $contributers{$user}->{5} &&
+            $contributers{$user}->{6} &&
+            $contributers{$user}->{7} &&
+            $contributers{$user}->{8};
+
+        say sprintf "username: %-30s   commits: %-5s   comments: %-5s   both: %-5s   email: %-50s",
+            $user,
+            $contributers{$user}->{commits}  // 0,
+            $contributers{$user}->{comments} // 0,
+            $contributers{$user}->{both}     // 0,
+            $contributers{$user}->{email}    // '';
+    }
 }
 
 sub support {
     my ($self) = @_;
+
+    say "Support contributers with more than 50 comments in the forums";
 
     my $rs = $self->db->resultset('Comment')
         ->search_rs({ 
@@ -59,6 +124,8 @@ sub support {
 
 sub translations {
     my ($self) = @_;
+
+    say "Translations contributers with more than 50 live translations";
 
     my $rs = $self->db->resultset('Token::Language')
         ->search_rs({}, {
