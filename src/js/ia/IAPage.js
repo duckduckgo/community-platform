@@ -626,14 +626,11 @@
                     $("body").on('click', "#js-top-details-submit", function(evt) {
                         var $editable = $(".top-details.js-autocommit");
                         var field;
-                        var editable_type;
-                        var value;
-                        var is_json;
-                        var saved_vals = [];
 
                         console.log($editable.length);
                         $editable.each(function(idx) {
-                            commitEdit($this);
+                            field = $(this).hasClass("topic-group")? "topic" : "";
+                            commitEdit($(this), field, true);
                         });
 
                         $("#js-top-details-submit, #js-top-details-cancel").addClass("hide");
@@ -648,7 +645,7 @@
                         }
 
                         var $editable = $(".developer_username input");
-                        commitEdit($editable);
+                        commitEdit($editable, "developer", true);
                     });
 
                     // Dev Page: commit any field inside .ia-single--left and .ia-single--right (except popup fields)
@@ -656,11 +653,14 @@
                         var $parent = $(this).parent().parent();
                         var $editable = $parent.find(".js-autocommit").first();
                         var $edit_parent = $editable.parent();
-
-                        commitEdit($editable);
                         
                         if ($edit_parent.hasClass("example_query") || $edit_parent.hasClass("other_queries")) {
-                            $editable = $edit_parent.hasClass("example_query")? $(".other_queries input") : $(".example_query input");
+                            // We pass the fields names as well in case all of them are removed
+                            // so we'll be able to commit the empty value for these fields anyway
+                            commitEdit($(".other_queries input"), "other_queries", true);
+                            console.log("example_query incoming");
+                            commitEdit($("#example_query-input"), "example_query");
+                        } else {
                             commitEdit($editable);
                         }
                     });
@@ -818,14 +818,14 @@
                     }
 
                     // Gather data needed for committing an edit and call autocommit
-                    function commitEdit($editable) {
-                        var field;
+                    function commitEdit($editable, field, is_json) {
+                        var field = field? field : "";
                         var value;
-                        var is_json;
+                        var is_json = is_json? is_json : false;
 
-                        console.log($editable.attr("id") + " Before committing");
+                        console.log($editable.selector + " Before committing");
                         
-                        var result = getUnsavedValue($editable);
+                        var result = getUnsavedValue($editable, field, is_json);
 
                         field = result.field;
                         value = result.value;
@@ -833,6 +833,7 @@
 
                         var live_data = (ia_data.live[field] && is_json)? JSON.stringify(ia_data.live[field]) : ia_data.live[field];
 
+                        console.log("After getUnsaved... " + field + " " + value);
                         if (field && (live_data !== value)) {
                             autocommit(field, value, DDH_iaid, is_json);
                         }
@@ -842,45 +843,49 @@
                     // This is used both for getting a value to commit
                     // and also inside keepUnsavedEdits(), for collecting each unsaved value after commit
                     // before refreshing the Handlebars templates.
-                    function getUnsavedValue($editable) {
-                        var field;
+                    function getUnsavedValue($editable, field, is_json) {
+                        console.log("field: " + field);
+                        field = field? field : "";
                         var result = {};
-                        var value;
-                        var is_json = false;
+                        var value = "";
+                        is_json = is_json? is_json : false;
+                        console.log("field: " + field);
 
-                        if ($editable.hasClass("group-vals")) {
-                            is_json = true;
-                            field = $editable.parents(".parent-group").attr("id").replace(/\-.+/, "");
-                            value = getGroupVals(field);
-                            value = JSON.stringify(value);
-                            console.log("Group val: " + value);
-                        } else {
-                            field = $editable.attr("id").replace(/\-.+/, "");
-                            var editable_type = $editable.attr("id").replace(/.+\-/, "");
-                            if (editable_type === "check") {
-                                value = $editable.hasClass("icon-check")? 1 : 0;
-                            } else if (editable_type === "select") {
-                                var $selected = $editable.find("option:selected");
-                                value = $selected.attr("value").length? $.trim($selected.text()) : '';
-                            } else if (editable_type === "input" || editable_type === "textarea") {
-                                value = $.trim($editable.val());
+                        if ($editable.length) {
+                            if ($editable.hasClass("group-vals")) {
+                                is_json = true;
+                                field = $editable.parents(".parent-group").attr("id").replace(/\-.+/, "");
+                                value = getGroupVals(field);
+                                value = JSON.stringify(value);
+                                console.log("Group val: " + value);
+                            } else {
+                                field = $editable.attr("id").replace(/\-.+/, "");
+                                var editable_type = $editable.attr("id").replace(/.+\-/, "");
+                                if (editable_type === "check") {
+                                    value = $editable.hasClass("icon-check")? 1 : 0;
+                                } else if (editable_type === "select") {
+                                    var $selected = $editable.find("option:selected");
+                                    value = $selected.attr("value").length? $.trim($selected.text()) : '';
+                                } else if (editable_type === "input" || editable_type === "textarea") {
+                                    value = $.trim($editable.val());
 
-                                if ($editable.hasClass("comma-separated") && value.length) {
-                                    value = value.split(/\s*,\s*/);
-                                    value = JSON.stringify(value);
-                                    is_json = true;
+                                    if ($editable.hasClass("comma-separated") && value.length) {
+                                        value = value.split(/\s*,\s*/);
+                                        value = JSON.stringify(value);
+                                        is_json = true;
+                                    }
                                 }
-                            }
-                        } 
-                        
-                        if ($editable.hasClass("section-group__item")) {
-                            var parent_field = $.trim($editable.parent().parent().attr("id"));
-                            var section_vals = getSectionVals($editable, parent_field);
-                            section_vals[field] = value;
+                            } 
+                            
+                            if ($editable.hasClass("section-group__item")) {
+                                var parent_field = $.trim($editable.parent().parent().attr("id"));
+                                var section_vals = getSectionVals($editable, parent_field);
+                                section_vals[field] = value;
 
-                            parent_field = parent_field.replace("-group", "");
-                            value = JSON.stringify(section_vals);
-                            is_json = true;
+                                parent_field = parent_field.replace("-group", "");
+                                value = JSON.stringify(section_vals);
+                                is_json = true;
+                            }
                         }
 
                         result.value = value;

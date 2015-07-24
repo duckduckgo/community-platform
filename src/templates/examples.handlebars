@@ -37,10 +37,10 @@
                 
                 {{#each other_queries}}
                     <li>
-                        <span class="other_queries left">
-                            <input type="text" value="{{this}}" class="js-autocommit {{#if example_query}}group-vals{{else}}{{#if @first}}example_query{{/if}}{{/if}}" {{#unless example_query}}{{#if @first}}id="example_query-input"{{/if}}{{/unless}}/>
+                        <span class="{{#if @first}}{{#if ../example_query}}other_queries{{else}}example_query{{/if}}{{else}}other_queries{{/if}} left">
+                            <input type="text" value="{{this}}" class="js-autocommit {{#if @first}}{{#if ../example_query}}group-vals{{else}}example_query{{/if}}{{else}}group-vals{{/if}}" {{#unless ../example_query}}{{#if @first}}id="example_query-input"{{/if}}{{/unless}}/>
                         </span>
-                        <div class="button delete listbutton left {{#if example_query}}other_queries{{else}}{{#if @first}}example_query{{/if}}{{/if}}" title="Remove trigger">
+                        <div class="button delete listbutton left {{#if @first}}{{#if ../example_query}}other_queries{{else}}example_query{{/if}}{{else}}other_queries{{/if}}" title="Remove trigger">
                             <i class="icon-remove" />
                         </div>
                     </li>
