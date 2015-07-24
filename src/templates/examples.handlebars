@@ -37,10 +37,10 @@
                 
                 {{#each other_queries}}
                     <li>
-                        <span class="{{#if @first}}{{#if ../example_query}}other_queries{{else}}example_query{{/if}}{{else}}other_queries{{/if}} left">
-                            <input type="text" value="{{this}}" class="js-autocommit {{#if @first}}{{#if ../example_query}}group-vals{{else}}example_query{{/if}}{{else}}group-vals{{/if}}" {{#unless ../example_query}}{{#if @first}}id="example_query-input"{{/if}}{{/unless}}/>
+                        <span class="{{#if @first}}{{#if ../../example_query}}other_queries{{else}}example_query{{/if}}{{else}}other_queries{{/if}} left">
+                            <input type="text" value="{{this}}" class="js-autocommit {{#if @first}}{{#if ../../example_query}}group-vals{{else}}example_query{{/if}}{{else}}group-vals{{/if}}" {{#unless ../../example_query}}{{#if @first}}id="example_query-input"{{/if}}{{/unless}}/>
                         </span>
-                        <div class="button delete listbutton left {{#if @first}}{{#if ../example_query}}other_queries{{else}}example_query{{/if}}{{else}}other_queries{{/if}}" title="Remove trigger">
+                        <div class="button delete listbutton left {{#if @first}}{{#if ../../example_query}}other_queries{{else}}example_query{{/if}}{{else}}other_queries{{/if}}" title="Remove trigger">
                             <i class="icon-remove" />
                         </div>
                     </li>
@@ -68,7 +68,9 @@
  
 
     <div class="readonly--info {{#if staged.example_query}}hide{{/if}}" id="example_query--readonly">
-        <a class="one-line" href="https://duckduckgo.com/?q={{encodeURIComponent example_query}}{{tab_url tab}}" title="try this example on DuckDuckGo">{{example_query}}</a>
+        {{#if example_query}}
+            <a class="one-line" href="https://duckduckgo.com/?q={{encodeURIComponent example_query}}{{tab_url tab}}" title="try this example on DuckDuckGo">{{example_query}}</a>
+        {{/if}}
         {{#if other_queries}}
             {{#each other_queries}}
                 <a class="one-line" href="https://duckduckgo.com/?q={{encodeURIComponent this}}{{tab_url ../tab}}" title="try this example on DuckDuckGo">{{this}}</a>

@@ -720,11 +720,19 @@
                         var field = $(this).attr('name');
 
                         // If dev milestone is not 'live' it means we are in the dev page
-                        // and a topic has been deleted (it's the only field having a delete button in the dev page
-                        // so far)
-                        if ($(this).hasClass("js-autocommit") || $(this).parent().hasClass("js-autocommit")) {
+                        if (ia_data.live.dev_milestone !== "live" && ia_data.live.dev_milestone !== "deprecated") {
+                            if ($(this).hasClass("topic")) {
+                                $("#js-top-details-submit, #js-top-details-cancel, #add_topic").removeClass("hide");
+                            } else if ($(this).hasClass("example_query")) {
+                                console.log("delete button has example_query class");
+                                var $first_query = $(".other_queries input.js-autocommit.group-vals").first();
+                                console.log($first_query.attr("classs"));
+                                $first_query.removeClass("group-vals").addClass("example_query");
+                                $first_query.parent().removeClass("other_queries").addClass("example_query");
+                                $first_query.attr("id", "example_query-input");
+                            }
+                            
                             $(this).parent().remove();
-                            $("#js-top-details-submit, #js-top-details-cancel, #add_topic").removeClass("hide");
                         } else {
                             if (field !== "topic") {
                                 $(this).parent().remove();
