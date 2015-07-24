@@ -1,2 +1,332 @@
-<div class="dev_milestone-container milestone-panel container-advanced" id="advanced">
-</div> 
+<div class="left third {{#eq repo 'goodies'}}hide{{/eq}}">
+    <div class="
+      <h3 class="
+        Data Source
+      </h3>
+      <span class="clearfix"></span>
+    </div>
+
+    <div class="
+        {{#eq repo 'spice'}}
+            <div class="
+                API DOCUMENTATION
+            </div>
+            {{#if permissions.can_edit}}
+                <input type="text" data-panel="advanced" class="frm__input src_api_documentation 
+            {{else}}
+                <div class="
+                    {{#if src_api_documentation}}
+                        {{src_api_documentation}}
+                    {{else}}
+                        none
+                    {{/if}}
+                </div>
+            {{/if}}
+            
+            <div class="
+                API STATUS PAGE
+            </div>
+            {{#if permissions.can_edit}}
+                <input type="text" data-panel="advanced" class="frm__input api_status_page 
+            {{else}}
+                <div class="
+                    {{#if api_status_page}}
+                        {{api_status_page}}
+                    {{else}}
+                        none
+                    {{/if}}
+                </div>
+            {{/if}}
+        {{/eq}}
+
+        {{#eq repo 'longtail'}}    
+            <div class="
+                STACK EXCHANGE
+            </div>
+            <i data-panel="advanced" class="is_stackexchange 
+            <span class="
+                Is Stack Exchange
+            </span>
+        {{/eq}} 
+           
+        {{#eq_or repo 'fathead' 'longtail'}} 
+            <div class="
+                SOURCE DOMAIN
+            </div>
+            {{#if permissions.can_edit}}
+                <input type="text" data-panel="advanced" class="frm__input src_domain 
+            {{else}}
+                <div class="
+                    {{#if src_domain}}
+                        {{src_domain}}
+                    {{else}}
+                        none
+                    {{/if}}
+                </div>
+            {{/if}}
+            
+        {{/eq_or}}
+
+        {{#eq repo 'fathead'}}
+            <div class="
+                SOURCE ID
+            </div>
+            {{#if permissions.can_edit}}
+                <input type="number" data-panel="advanced" class="frm__input src_id 
+            {{else}}
+                <div class="
+                    {{#if src_id}}
+                        {{src_id}}
+                    {{else}}
+                        none
+                    {{/if}}
+                </div>
+            {{/if}}
+            
+           
+            <div class="
+                SOURCE NAME
+            </div>
+            {{#if permissions.can_edit}}
+                <input type="text" data-panel="advanced" class="frm__input src_name 
+            {{else}}
+                <div class="
+                    {{#if src_name}}
+                        {{src_name}}
+                    {{else}}
+                        none
+                    {{/if}}
+                </div>
+            {{/if}}
+            
+
+            <div class="
+                SOURCE OPTIONS
+            </div>
+            <div class="
+                <ul class="section-group" id="src_options-group">
+                    <li>
+                        <i data-panel="advanced" class="skip_abstract section-group__item 
+                        <span class="
+                            Skip abstract
+                        </span>
+                    </li>
+                    <li>
+                        <i data-panel="advanced" class="skip_abstract_paren section-group__item 
+                        <span class="
+                            Skip abstract parent
+                        </span>
+                    </li>
+                    <li>
+                        <i data-panel="advanced" class="skip_icon section-group__item 
+                        <span class="
+                            Skip icon
+                        </span>
+                    </li>
+                    <li>
+                        <i data-panel="advanced" class="skip_image_name section-group__item 
+                        <span class="
+                            Skip image name
+                        </span>
+                    </li>
+                    <li>
+                        <i data-panel="advanced" class="is_wikipedia section-group__item 
+                        <span class="
+                            Is Wikipedia
+                        </span>
+                    </li>
+                    <li>
+                        <i data-panel="advanced" class="is_mediawiki section-group__item 
+                        <span class="
+                            Is MediaWiki
+                        </span>
+                    </li>
+                    <li>
+                    <li>
+                        <i data-panel="advanced" class="is_fanon section-group__item 
+                        <span class="
+                            Is Fanon
+                        </span>
+                    </li>
+                    <li>
+                        <label class="left">Source Skip:</label>
+                        {{#if permissions.can_edit}}
+                            <input type="text" data-panel="advanced" class="frm__input source_skip clearfix section-group__item 
+                        {{else}}
+                            <div class="clearfix 
+                                {{#if src_options.source_skip}}
+                                    {{src_options.source_skip}}
+                                {{else}}
+                                    none
+                                {{/if}}
+                            </div>
+                        {{/if}}
+                    </li>
+                    <li>
+                        <label class="left">Skip query:</label>
+                        {{#if permissions.can_edit}}
+                            <input type="text" data-panel="advanced" class="frm__input skip_qr clearfix section-group__item 
+                        {{else}}
+                            <div class="clearfix 
+                                {{#if src_options.skip_qr}}
+                                    {{src_options.skip_qr}}
+                                {{else}}
+                                    none
+                                {{/if}}
+                            </div>
+                        {{/if}}
+                    </li>
+                    <li>
+                        <label class="left">Directory:</label>
+                        {{#if permissions.can_edit}}
+                            <input type="text" data-panel="advanced" class="frm__input directory clearfix section-group__item 
+                        {{else}}
+                            <div class="clearfix 
+                                {{#if src_options.directory}}
+                                    {{src_options.directory}}
+                                {{else}}
+                                    none
+                                {{/if}}
+                            </div>
+                        {{/if}}
+                    </li>
+                    <li>
+                        <label class="left">Minimum abstract length:</label>
+                        {{#if permissions.can_edit}}
+                            <input type="number" step="1" data-panel="advanced" class="frm__input min_abstract_length clearfix section-group__item 
+                        {{else}}
+                            <div class="clearfix 
+                                {{#if src_options.min_abstract_length}}
+                                    {{src_options.min_abstract_length}}
+                                {{else}}
+                                    none
+                                {{/if}}
+                            </div>
+                        {{/if}}
+                    </li>
+                    <li>
+                        <label class="left">Source info:</label>
+                        {{#if permissions.can_edit}}
+                            <input type="text" data-panel="advanced" class="frm__input src_info clearfix section-group__item 
+                        {{else}}
+                            <div class="clearfix 
+                                {{#if src_options.src_info}}
+                                    {{src_options.src_info}}
+                                {{else}}
+                                    none
+                                {{/if}}
+                            </div>
+                        {{/if}}
+                    </li>
+                    <li>
+                        <label class="left">Language:</label>
+                        {{#if permissions.can_edit}}
+                            <input type="text" data-panel="advanced" class="frm__input language clearfix section-group__item 
+                        {{else}}
+                            <div class="clearfix 
+                                {{#if src_options.language}}
+                                    {{src_options.language}}
+                                {{else}}
+                                    none
+                                {{/if}}
+                            </div>
+                        {{/if}}
+                    </li>
+                </ul>
+            </div>
+        {{/eq}}
+    </div>
+</div>
+<div class="left third {{#eq repo 'goodies'}}{{else}}g{{/eq}}">
+    <div class="
+        <h3 class="
+            Back-End
+        </h3>
+        <span class="clearfix"></span>
+    </div>
+
+    <div class="
+        <div class="
+            PERL MODULE
+        </div>
+        {{#if permissions.can_edit}}
+            <input data-panel="advanced" type="text" class="frm__input perl_module 
+        {{else}}
+            <div class="
+                {{#if perl_module}}
+                    {{perl_module}}
+                {{else}}
+                    none
+                {{/if}}
+            </div>
+        {{/if}}
+    
+        <div class="
+            PERL DEPENDENCIES
+        </div>
+        {{#if permissions.can_edit}}
+            <input data-panel="advanced" type="text" class="frm__input perl_dependencies 
+        {{else}}
+            <div class="
+               {{#if perl_dependencies}}
+                  {{#each perl_dependencies}}
+                    {{this}}{{#unless @last}}, {{/unless}}
+                  {{/each}}
+               {{else}}
+                 none
+               {{/if}}
+            </div>
+        {{/if}}
+    </div>
+</div>
+
+<div class="left third g">
+    <div class="
+        <h3 class="
+            Front-End
+        </h3>
+        <span class="clearfix"></span>
+    </div>
+
+    <div class="
+        <div class="
+            TEMPLATE
+        </div>
+        {{#if permissions.can_edit}}
+            <input data-panel="advanced" type="text" class="frm__input template 
+        {{else}}
+            <div class="
+                {{#if template}}
+                   {{template}} 
+                {{else}}
+                    none
+                {{/if}}
+            </div>
+        {{/if}}
+
+
+        {{#eq repo 'spice'}}
+            <div class="
+                ANSWERBAR
+            </div>
+            <div class="
+                <ul class="section-group" id="answerbar-group">
+                    <li>
+                        <label class="left">Fallback Timeout (ms):</label>
+                        {{#if permissions.admin}}
+                            <input type="number" data-panel="advanced" class="frm__input fallback_timeout clearfix section-group__item 
+                        {{else}}
+                            <div class="clearfix 
+                                {{#if answerbar.fallback_timeout}}
+                                    {{answerbar.fallback_timeout}}
+                                {{else}}
+                                    none
+                                {{/if}}
+                            </div>
+                        {{/if}}
+                    </li>
+                </ul>
+            </div>
+        {{/eq}}
+    </div>
+</div>

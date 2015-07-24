@@ -83,7 +83,8 @@
                             edit_buttons: Handlebars.templates.edit_buttons(latest_edits_data),
                             breadcrumbs: Handlebars.templates.breadcrumbs(latest_edits_data),
                             triggers: Handlebars.templates.triggers(latest_edits_data),
-                            test: Handlebars.templates.test(latest_edits_data)
+                            test: Handlebars.templates.test(latest_edits_data),
+                            advanced:  Handlebars.templates.advanced(latest_edits_data)
                         },
                         screens : Handlebars.templates.screens(ia_data),
                     };
@@ -1122,6 +1123,7 @@
             'screens',
             'github',
             'triggers',
+            'advanced',
             'test'
         ],
 
