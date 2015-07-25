@@ -1,334 +1,316 @@
-<div class="left third {{#eq repo 'goodies'}}hide{{/eq}}">
-    <div>
-      <h3>
-        Data Source
-      </h3>
-      <span class="clearfix"></span>
-    </div>
-
-    <div>
-        {{#eq repo 'spice'}}
+<div class="ia-single--details">
+    <h3 class="ia-single--header">Details</h3>
+        <div class="left third {{#eq repo 'goodies'}}hide{{/eq}}">
             <div>
-                API DOCUMENTATION
-            </div>
-            {{#if permissions.can_edit}}
-                <input type="text" data-panel="advanced" class="frm__input src_api_documentation">
-            {{else}}
-                <div>
-                    {{#if src_api_documentation}}
-                        {{src_api_documentation}}
+                {{#eq repo 'spice'}}
+                    <div>
+                        API DOCUMENTATION
+                    </div>
+                    {{#if permissions.can_edit}}
+                        <input type="text" data-panel="advanced" class="frm__input src_api_documentation">
                     {{else}}
-                        none
+                        <div>
+                            {{#if src_api_documentation}}
+                                {{src_api_documentation}}
+                            {{else}}
+                                none
+                            {{/if}}
+                        </div>
                     {{/if}}
-                </div>
-            {{/if}}
-            
-            <div>
-                API STATUS PAGE
-            </div>
-            {{#if permissions.can_edit}}
-                <input type="text" data-panel="advanced" class="frm__input api_status_page">
-            {{else}}
-                <div>
-                    {{#if api_status_page}}
-                        {{api_status_page}}
+                    
+                    <div>
+                        API STATUS PAGE
+                    </div>
+                    {{#if permissions.can_edit}}
+                        <input type="text" data-panel="advanced" class="frm__input api_status_page">
                     {{else}}
-                        none
+                        <div>
+                            {{#if api_status_page}}
+                                {{api_status_page}}
+                            {{else}}
+                                none
+                            {{/if}}
+                        </div>
                     {{/if}}
-                </div>
-            {{/if}}
-        {{/eq}}
+                {{/eq}}
 
-        {{#eq repo 'longtail'}}    
-            <div>
-                STACK EXCHANGE
-            </div>
-            <i data-panel="advanced" class="is_stackexchange">
-            <span>
-                Is Stack Exchange
-            </span>
-        {{/eq}} 
-           
-        {{#eq_or repo 'fathead' 'longtail'}} 
-            <div>
-                SOURCE DOMAIN
-            </div>
-            {{#if permissions.can_edit}}
-                <input type="text" data-panel="advanced" class="frm__input src_domain">
-            {{else}}
-                <div>
-                    {{#if src_domain}}
-                        {{src_domain}}
+                {{#eq repo 'longtail'}}    
+                    <div>
+                        STACK EXCHANGE
+                    </div>
+                    <i data-panel="advanced" class="is_stackexchange">
+                    <span>
+                        Is Stack Exchange
+                    </span>
+                {{/eq}} 
+                   
+                {{#eq_or repo 'fathead' 'longtail'}} 
+                    <div>
+                        SOURCE DOMAIN
+                    </div>
+                    {{#if permissions.can_edit}}
+                        <input type="text" data-panel="advanced" class="frm__input src_domain">
                     {{else}}
-                        none
+                        <div>
+                            {{#if src_domain}}
+                                {{src_domain}}
+                            {{else}}
+                                none
+                            {{/if}}
+                        </div>
                     {{/if}}
-                </div>
-            {{/if}}
-            
-        {{/eq_or}}
+                    
+                {{/eq_or}}
 
-        {{#eq repo 'fathead'}}
-            <div>
-                SOURCE ID
-            </div>
-            {{#if permissions.can_edit}}
-                <input type="number" data-panel="advanced" class="frm__input src_id">
-            {{else}}
-                <div>
-                    {{#if src_id}}
-                        {{src_id}}
+                {{#eq repo 'fathead'}}
+                    <div>
+                        SOURCE ID
+                    </div>
+                    {{#if permissions.can_edit}}
+                        <input type="number" data-panel="advanced" class="frm__input src_id">
                     {{else}}
-                        none
+                        <div>
+                            {{#if src_id}}
+                                {{src_id}}
+                            {{else}}
+                                none
+                            {{/if}}
+                        </div>
                     {{/if}}
-                </div>
-            {{/if}}
-            
-           
-            <div>
-                SOURCE NAME
-            </div>
-            {{#if permissions.can_edit}}
-                <input type="text" data-panel="advanced" class="frm__input src_name">
-            {{else}}
-                <div>
-                    {{#if src_name}}
-                        {{src_name}}
+                    
+                   
+                    <div>
+                        SOURCE NAME
+                    </div>
+                    {{#if permissions.can_edit}}
+                        <input type="text" data-panel="advanced" class="frm__input src_name">
                     {{else}}
-                        none
+                        <div>
+                            {{#if src_name}}
+                                {{src_name}}
+                            {{else}}
+                                none
+                            {{/if}}
+                        </div>
                     {{/if}}
-                </div>
-            {{/if}}
-            
+                    
 
-            <div>
-                SOURCE OPTIONS
+                    <div>
+                        SOURCE OPTIONS
+                    </div>
+                    <div>
+                        <ul class="section-group" id="src_options-group">
+                            <li>
+                                <label class="frm__label">
+                                    <input id="skip_abstract-check" class="skip_abstract section-group__item frm__label__chk {{#if permissions.can_edit}}js-autocommit{{/if}}" type="checkbox" {{#if src_options.skip_abstract}}checked="checked"{{/if}}>
+                                    <span class="frm__label__txt">Skip Abstract</span>
+                                </label>
+                            </li>
+                            <li>
+                                <label class="frm__label">
+                                    <input id="skip_abstract_paren-check" class="skip_abstract_paren section-group__item frm__label__chk {{#if permissions.can_edit}}js-autocommit{{/if}}" type="checkbox" {{#if src_options.skip_abstract_paren}}checked="checked"{{/if}}>
+                                    <span class="frm__label__txt">Skip Abstract Parent</span>
+                                </label>
+                            </li>
+                            <li>
+                                <label class="frm__label">
+                                    <input id="skip_icon-check" class="skip_icon section-group__item frm__label__chk {{#if permissions.can_edit}}js-autocommit{{/if}}" type="checkbox" {{#if src_options.skip_icon}}checked="checked"{{/if}}>
+                                    <span class="frm__label__txt">Skip Icon</span>
+                                </label>
+                            </li>
+                            <li>
+                                <label class="frm__label">
+                                    <input id="skip_image_name-check" class="skip_image_name section-group__item frm__label__chk {{#if permissions.can_edit}}js-autocommit{{/if}}" type="checkbox" {{#if src_options.skip_image_name}}checked="checked"{{/if}}>
+                                    <span class="frm__label__txt">Skip Image Name</span>
+                                </label>
+                            </li>
+                            <li>
+                                <label class="frm__label">
+                                    <input id="is_wikipedia-check" class="is_wikipedia section-group__item frm__label__chk {{#if permissions.can_edit}}js-autocommit{{/if}}" type="checkbox" {{#if src_options.is_wikipedia}}checked="checked"{{/if}}>
+                                    <span class="frm__label__txt">Is Wikipedia</span>
+                                </label>
+                            </li>
+                            <li>
+                                <label class="frm__label">
+                                    <input id="is_mediawiki-check" class="is_mediawiki section-group__item frm__label__chk {{#if permissions.can_edit}}js-autocommit{{/if}}" type="checkbox" {{#if src_options.is_mediawiki}}checked="checked"{{/if}}>
+                                    <span class="frm__label__txt">Is MediaWiki</span>
+                                </label>
+                            </li>
+                            <li>
+                                <label class="frm__label">
+                                    <input id="is_fanon-check" class="is_fanon section-group__item frm__label__chk {{#if permissions.can_edit}}js-autocommit{{/if}}" type="checkbox" {{#if src_options.fanon}}checked="checked"{{/if}}>
+                                    <span class="frm__label__txt">Is Fanon</span>
+                                </label>
+                            </li>
+                            <li>
+                                <label class="left">Source Skip:</label>
+                                {{#if permissions.can_edit}}
+                                    <input type="text" data-panel="advanced" class="frm__input source_skip clearfix section-group__item">
+                                {{else}}
+                                    <div class="clearfix">
+                                        {{#if src_options.source_skip}}
+                                            {{src_options.source_skip}}
+                                        {{else}}
+                                            none
+                                        {{/if}}
+                                    </div>
+                                {{/if}}
+                            </li>
+                            <li>
+                                <label class="left">Skip query:</label>
+                                {{#if permissions.can_edit}}
+                                    <input type="text" data-panel="advanced" class="frm__input skip_qr clearfix section-group__item">
+                                {{else}}
+                                    <div class="clearfix">
+                                        {{#if src_options.skip_qr}}
+                                            {{src_options.skip_qr}}
+                                        {{else}}
+                                            none
+                                        {{/if}}
+                                    </div>
+                                {{/if}}
+                            </li>
+                            <li>
+                                <label class="left">Directory:</label>
+                                {{#if permissions.can_edit}}
+                                    <input type="text" data-panel="advanced" class="frm__input directory clearfix section-group__item">
+                                {{else}}
+                                    <div class="clearfix">
+                                        {{#if src_options.directory}}
+                                            {{src_options.directory}}
+                                        {{else}}
+                                            none
+                                        {{/if}}
+                                    </div>
+                                {{/if}}
+                            </li>
+                            <li>
+                                <label class="left">Minimum abstract length:</label>
+                                {{#if permissions.can_edit}}
+                                    <input type="number" step="1" data-panel="advanced" class="frm__input min_abstract_length clearfix section-group__item">
+                                {{else}}
+                                    <div class="clearfix">
+                                        {{#if src_options.min_abstract_length}}
+                                            {{src_options.min_abstract_length}}
+                                        {{else}}
+                                            none
+                                        {{/if}}
+                                    </div>
+                                {{/if}}
+                            </li>
+                            <li>
+                                <label class="left">Source info:</label>
+                                {{#if permissions.can_edit}}
+                                    <input type="text" data-panel="advanced" class="frm__input src_info clearfix section-group__item">
+                                {{else}}
+                                    <div class="clearfix">
+                                        {{#if src_options.src_info}}
+                                            {{src_options.src_info}}
+                                        {{else}}
+                                            none
+                                        {{/if}}
+                                    </div>
+                                {{/if}}
+                            </li>
+                            <li>
+                                <label class="left">Language:</label>
+                                {{#if permissions.can_edit}}
+                                    <input type="text" data-panel="advanced" class="frm__input language clearfix section-group__item">
+                                {{else}}
+                                    <div class="clearfix">
+                                        {{#if src_options.language}}
+                                            {{src_options.language}}
+                                        {{else}}
+                                            none
+                                        {{/if}}
+                                    </div>
+                                {{/if}}
+                            </li>
+                        </ul>
+                    </div>
+                {{/eq}}
             </div>
-            <div>
-                <ul class="section-group" id="src_options-group">
-                    <li>
-                        <i data-panel="advanced" class="skip_abstract section-group__item">
-                        <span>
-                            Skip abstract
-                        </span>
-                    </li>
-                    <li>
-                        <i data-panel="advanced" class="skip_abstract_paren section-group__item">
-                        <span>
-                            Skip abstract parent
-                        </span>
-                    </li>
-                    <li>
-                        <i data-panel="advanced" class="skip_icon section-group__item">
-                        <span class="
-                            Skip icon
-                        </span>
-                    </li>
-                    <li>
-                        <i data-panel="advanced" class="skip_image_name section-group__item">
-                        <span>
-                            Skip image name
-                        </span>
-                    </li>
-                    <li>
-                        <i data-panel="advanced" class="is_wikipedia section-group__item">
-                        <span>
-                            Is Wikipedia
-                        </span>
-                    </li>
-                    <li>
-                        <i data-panel="advanced" class="is_mediawiki section-group__item">
-                        <span>
-                            Is MediaWiki
-                        </span>
-                    </li>
-                    <li>
-                    <li>
-                        <i data-panel="advanced" class="is_fanon section-group__item">
-                        <span>
-                            Is Fanon
-                        </span>
-                    </li>
-                    <li>
-                        <label class="left">Source Skip:</label>
-                        {{#if permissions.can_edit}}
-                            <input type="text" data-panel="advanced" class="frm__input source_skip clearfix section-group__item">
-                        {{else}}
-                            <div class="clearfix">
-                                {{#if src_options.source_skip}}
-                                    {{src_options.source_skip}}
-                                {{else}}
-                                    none
-                                {{/if}}
-                            </div>
-                        {{/if}}
-                    </li>
-                    <li>
-                        <label class="left">Skip query:</label>
-                        {{#if permissions.can_edit}}
-                            <input type="text" data-panel="advanced" class="frm__input skip_qr clearfix section-group__item">
-                        {{else}}
-                            <div class="clearfix">
-                                {{#if src_options.skip_qr}}
-                                    {{src_options.skip_qr}}
-                                {{else}}
-                                    none
-                                {{/if}}
-                            </div>
-                        {{/if}}
-                    </li>
-                    <li>
-                        <label class="left">Directory:</label>
-                        {{#if permissions.can_edit}}
-                            <input type="text" data-panel="advanced" class="frm__input directory clearfix section-group__item">
-                        {{else}}
-                            <div class="clearfix">
-                                {{#if src_options.directory}}
-                                    {{src_options.directory}}
-                                {{else}}
-                                    none
-                                {{/if}}
-                            </div>
-                        {{/if}}
-                    </li>
-                    <li>
-                        <label class="left">Minimum abstract length:</label>
-                        {{#if permissions.can_edit}}
-                            <input type="number" step="1" data-panel="advanced" class="frm__input min_abstract_length clearfix section-group__item">
-                        {{else}}
-                            <div class="clearfix">
-                                {{#if src_options.min_abstract_length}}
-                                    {{src_options.min_abstract_length}}
-                                {{else}}
-                                    none
-                                {{/if}}
-                            </div>
-                        {{/if}}
-                    </li>
-                    <li>
-                        <label class="left">Source info:</label>
-                        {{#if permissions.can_edit}}
-                            <input type="text" data-panel="advanced" class="frm__input src_info clearfix section-group__item">
-                        {{else}}
-                            <div class="clearfix">
-                                {{#if src_options.src_info}}
-                                    {{src_options.src_info}}
-                                {{else}}
-                                    none
-                                {{/if}}
-                            </div>
-                        {{/if}}
-                    </li>
-                    <li>
-                        <label class="left">Language:</label>
-                        {{#if permissions.can_edit}}
-                            <input type="text" data-panel="advanced" class="frm__input language clearfix section-group__item">
-                        {{else}}
-                            <div class="clearfix">
-                                {{#if src_options.language}}
-                                    {{src_options.language}}
-                                {{else}}
-                                    none
-                                {{/if}}
-                            </div>
-                        {{/if}}
-                    </li>
-                </ul>
-            </div>
-        {{/eq}}
-    </div>
-</div>
-<div class="left third {{#eq repo 'goodies'}}{{else}}g{{/eq}}">
-    <div>
-        <h3>
-            Back-End
-        </h3>
-        <span class="clearfix"></span>
-    </div>
-
-    <div>
-        <div>
-            PERL MODULE
         </div>
-        {{#if permissions.can_edit}}
-            <input data-panel="advanced" type="text" class="frm__input perl_module">
-        {{else}}
+        
+        <div class="left third {{#eq repo 'goodies'}}{{else}}g{{/eq}}">
             <div>
-                {{#if perl_module}}
-                    {{perl_module}}
+                <div>
+                    PERL MODULE
+                </div>
+                {{#if permissions.can_edit}}
+                    <input data-panel="advanced" type="text" class="frm__input perl_module">
                 {{else}}
-                    none
+                    <div>
+                        {{#if perl_module}}
+                            {{perl_module}}
+                        {{else}}
+                            none
+                        {{/if}}
+                    </div>
+                {{/if}}
+            
+                <div>
+                    PERL DEPENDENCIES
+                </div>
+                {{#if permissions.can_edit}}
+                    <input data-panel="advanced" type="text" class="frm__input perl_dependencies">
+                {{else}}
+                    <div>
+                       {{#if perl_dependencies}}
+                          {{#each perl_dependencies}}
+                            {{this}}{{#unless @last}}, {{/unless}}
+                          {{/each}}
+                       {{else}}
+                         none
+                       {{/if}}
+                    </div>
                 {{/if}}
             </div>
-        {{/if}}
-    
-        <div>
-            PERL DEPENDENCIES
         </div>
-        {{#if permissions.can_edit}}
-            <input data-panel="advanced" type="text" class="frm__input perl_dependencies">
-        {{else}}
-            <div>
-               {{#if perl_dependencies}}
-                  {{#each perl_dependencies}}
-                    {{this}}{{#unless @last}}, {{/unless}}
-                  {{/each}}
-               {{else}}
-                 none
-               {{/if}}
-            </div>
-        {{/if}}
-    </div>
-</div>
 
-<div class="left third g">
-    <div>
-        <h3>
-            Front-End
-        </h3>
-        <span class="clearfix"></span>
-    </div>
-
-    <div>
-        <div>
-            TEMPLATE
-        </div>
-        {{#if permissions.can_edit}}
-            <input data-panel="advanced" type="text" class="frm__input template">
-        {{else}}
+        <div class="left third g">
             <div>
-                {{#if template}}
-                   {{template}} 
+                <div>
+                    TEMPLATE
+                </div>
+                {{#if permissions.can_edit}}
+                    <input data-panel="advanced" type="text" class="frm__input template">
                 {{else}}
-                    none
-                {{/if}}
-            </div>
-        {{/if}}
-
-
-        {{#eq repo 'spice'}}
-            <div>
-                ANSWERBAR
-            </div>
-            <div>
-                <ul class="section-group" id="answerbar-group">
-                    <li>
-                        <label class="left">Fallback Timeout (ms):</label>
-                        {{#if permissions.admin}}
-                            <input type="number" data-panel="advanced" class="frm__input fallback_timeout clearfix section-group__item">
+                    <div>
+                        {{#if template}}
+                           {{template}} 
                         {{else}}
-                            <div class="clearfix">
-                                {{#if answerbar.fallback_timeout}}
-                                    {{answerbar.fallback_timeout}}
-                                {{else}}
-                                    none
-                                {{/if}}
-                            </div>
+                            none
                         {{/if}}
-                    </li>
-                </ul>
+                    </div>
+                {{/if}}
+
+
+                {{#eq repo 'spice'}}
+                    <div>
+                        ANSWERBAR
+                    </div>
+                    <div>
+                        <ul class="section-group" id="answerbar-group">
+                            <li>
+                                <label class="left">Fallback Timeout (ms):</label>
+                                {{#if permissions.admin}}
+                                    <input type="number" data-panel="advanced" class="frm__input fallback_timeout clearfix section-group__item">
+                                {{else}}
+                                    <div class="clearfix">
+                                        {{#if answerbar.fallback_timeout}}
+                                            {{answerbar.fallback_timeout}}
+                                        {{else}}
+                                            none
+                                        {{/if}}
+                                    </div>
+                                {{/if}}
+                            </li>
+                        </ul>
+                    </div>
+                {{/eq}}
             </div>
-        {{/eq}}
+        </div>
     </div>
-</div>
 </div>
 <span class="clearfix"></span>
