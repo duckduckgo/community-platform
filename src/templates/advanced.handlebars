@@ -1,5 +1,5 @@
 {{#if permissions.can_edit}}
-    <div class="ia-single--details">
+    <div class="ia-single--details" tabindex="0" id="ia-single--details">
         <h3 class="ia-single--header">Details</h3>
         <div class="left twothirds">
             <div>
@@ -19,7 +19,7 @@
             <div>
                 PERL DEPENDENCIES
             </div>
-            <input type="text" value="{{perl_dependencies}}" class="js-autocommit frm__input perl_dependencies" id="perl_dependencies-input">
+            <input type="text" value="{{perl_dependencies}}" class="comma-separated js-autocommit frm__input perl_dependencies" id="perl_dependencies-input">
         </div>
         {{#if permissions.admin}}
             <div class="left third g">
@@ -43,7 +43,7 @@
                 <span class="clearfix"></span>
             {{/unless}}
         
-            <div class="left third">            
+            <div class="left third {{#if permissions.admin}}g{{/if}}">            
                 <div>
                     API STATUS PAGE
                 </div>
@@ -87,99 +87,101 @@
 
                 <span class="clearfix"></span>
 
-                <div class="left third">
-                    <div>
-                        SOURCE SKIP
+                <div class="section-group" id="src_options-group">
+                    <div class="left third">
+                        <div>
+                            SOURCE SKIP
+                        </div>
+                        <input type="text" value="{{src_options.src_skip}}" class="js-autocommit frm__input src_skip clearfix section-group__item" id="src_skip-input">
                     </div>
-                    <input type="text" value="{{src_options.src_skip}}" class="js-autocommit frm__input src_skip clearfix section-group__item" id="src_skip-input">
-                </div>
 
-                <div class="left third g">
-                    <div>
-                        SKIP QUERY
+                    <div class="left third g">
+                        <div>
+                            SKIP QUERY
+                        </div>
+                        <input type="text" value="{{src_options.skip_qr}}" class="js-autocommit frm__input skip_qr clearfix section-group__item" id="skip_qr">
                     </div>
-                    <input type="text" value="{{src_options.skip_qr}}" class="js-autocommit frm__input skip_qr clearfix section-group__item" id="skip_qr">
-                </div>
 
-                <div class="left third g">
-                    <ul class="section-group" id="src_options-group">
-                        <li>
-                            <label class="frm__label">
-                                <input id="skip_abstract-check" class="skip_abstract section-group__item frm__label__chk js-autocommit" type="checkbox" {{#if src_options.skip_abstract}}checked="checked"{{/if}}>
-                                <span class="frm__label__txt">Skip Abstract</span>
-                            </label>
-                        </li>
-                        <li>
-                            <label class="frm__label">
-                                <input id="skip_abstract_paren-check" class="skip_abstract_paren section-group__item frm__label__chk js-autocommit" type="checkbox" {{#if src_options.skip_abstract_paren}}checked="checked"{{/if}}>
-                                <span class="frm__label__txt">Skip Abstract Parent</span>
-                            </label>
-                        </li>
-                        <li>
-                            <label class="frm__label">
-                                <input id="skip_icon-check" class="skip_icon section-group__item frm__label__chk js-autocommit" type="checkbox" {{#if src_options.skip_icon}}checked="checked"{{/if}}>
-                                <span class="frm__label__txt">Skip Icon</span>
-                            </label>
-                        </li>
-                        <li>
-                            <label class="frm__label">
-                                <input id="skip_image_name-check" class="skip_image_name section-group__item frm__label__chk js-autocommit" type="checkbox" {{#if src_options.skip_image_name}}checked="checked"{{/if}}>
-                                <span class="frm__label__txt">Skip Image Name</span>
-                            </label>
-                        </li>
-                        <li>
-                            <label class="frm__label">
-                                <input id="is_wikipedia-check" class="is_wikipedia section-group__item frm__label__chk js-autocommit" type="checkbox" {{#if src_options.is_wikipedia}}checked="checked"{{/if}}>
-                                <span class="frm__label__txt">Is Wikipedia</span>
-                            </label>
-                        </li>
-                        <li>
-                            <label class="frm__label">
-                                <input id="is_mediawiki-check" class="is_mediawiki section-group__item frm__label__chk js-autocommit" type="checkbox" {{#if src_options.is_mediawiki}}checked="checked"{{/if}}>
-                                <span class="frm__label__txt">Is MediaWiki</span>
-                            </label>
-                        </li>
-                        <li>
-                            <label class="frm__label">
-                                <input id="is_fanon-check" class="is_fanon section-group__item frm__label__chk js-autocommit" type="checkbox" {{#if src_options.fanon}}checked="checked"{{/if}}>
-                                <span class="frm__label__txt">Is Fanon</span>
-                            </label>
-                        </li>
-                    </ul>
-                </div>
-
-                <span class="clearfix"></span>
-
-                <div class="left third">
-                    <div>
-                        DIRECTORY
+                    <div class="left third g">
+                        <ul>
+                            <li>
+                                <label class="frm__label">
+                                    <input id="skip_abstract-check" class="skip_abstract section-group__item frm__label__chk js-autocommit" type="checkbox" {{#if src_options.skip_abstract}}checked="checked"{{/if}}>
+                                    <span class="frm__label__txt">Skip Abstract</span>
+                                </label>
+                            </li>
+                            <li>
+                                <label class="frm__label">
+                                    <input id="skip_abstract_paren-check" class="skip_abstract_paren section-group__item frm__label__chk js-autocommit" type="checkbox" {{#if src_options.skip_abstract_paren}}checked="checked"{{/if}}>
+                                    <span class="frm__label__txt">Skip Abstract Parent</span>
+                                </label>
+                            </li>
+                            <li>
+                                <label class="frm__label">
+                                    <input id="skip_icon-check" class="skip_icon section-group__item frm__label__chk js-autocommit" type="checkbox" {{#if src_options.skip_icon}}checked="checked"{{/if}}>
+                                    <span class="frm__label__txt">Skip Icon</span>
+                                </label>
+                            </li>
+                            <li>
+                                <label class="frm__label">
+                                    <input id="skip_image_name-check" class="skip_image_name section-group__item frm__label__chk js-autocommit" type="checkbox" {{#if src_options.skip_image_name}}checked="checked"{{/if}}>
+                                    <span class="frm__label__txt">Skip Image Name</span>
+                                </label>
+                            </li>
+                            <li>
+                                <label class="frm__label">
+                                    <input id="is_wikipedia-check" class="is_wikipedia section-group__item frm__label__chk js-autocommit" type="checkbox" {{#if src_options.is_wikipedia}}checked="checked"{{/if}}>
+                                    <span class="frm__label__txt">Is Wikipedia</span>
+                                </label>
+                            </li>
+                            <li>
+                                <label class="frm__label">
+                                    <input id="is_mediawiki-check" class="is_mediawiki section-group__item frm__label__chk js-autocommit" type="checkbox" {{#if src_options.is_mediawiki}}checked="checked"{{/if}}>
+                                    <span class="frm__label__txt">Is MediaWiki</span>
+                                </label>
+                            </li>
+                            <li>
+                                <label class="frm__label">
+                                    <input id="is_fanon-check" class="is_fanon section-group__item frm__label__chk js-autocommit" type="checkbox" {{#if src_options.is_fanon}}checked="checked"{{/if}}>
+                                    <span class="frm__label__txt">Is Fanon</span>
+                                </label>
+                            </li>
+                        </ul>
                     </div>
-                    <input type="text" value="{{src_options.directory}}" class="js-autocommit frm__input directory clearfix section-group__item" id="directory-input">
-                </div>
 
-                <div class="left third g">
-                    <div>
-                        MINIMUM ABSTRACT LENGTH
-                    </div>
-                    <input type="number" step="1" value="{{src_options.min_abstract_length}}" class="js-autocommit frm__input min_abstract_length clearfix section-group__item" id="min_abstract_length-input">
-                </div>
+                    <span class="clearfix"></span>
 
-                <div class="left third g">
-                    <div>
-                        SOURCE INFO
+                    <div class="left third">
+                        <div>
+                            DIRECTORY
+                        </div>
+                        <input type="text" value="{{src_options.directory}}" class="js-autocommit frm__input directory clearfix section-group__item" id="directory-input">
                     </div>
-                    <input type="text" value="{{src_options.src_info}}" class="js-autocommit frm__input src_info clearfix section-group__item" id="src_info-input">
-                </div>
-                
-                <span class="clearfix"></span>
 
-                <div class="left third">
-                    <div>
-                        LANGUAGE
+                    <div class="left third g">
+                        <div>
+                            MINIMUM ABSTRACT LENGTH
+                        </div>
+                        <input type="number" step="1" value="{{src_options.min_abstract_length}}" class="js-autocommit frm__input min_abstract_length clearfix section-group__item" id="min_abstract_length-input">
                     </div>
-                    <input type="text" value="{{src_options.language}}" class="js-autocommit frm__input language clearfix section-group__item" id="language-input">
-                </div>
-            {{/eq}}
+
+                    <div class="left third g">
+                        <div>
+                            SOURCE INFO
+                        </div>
+                        <input type="text" value="{{src_options.src_info}}" class="js-autocommit frm__input src_info clearfix section-group__item" id="src_info-input">
+                    </div>
+                    
+                    <span class="clearfix"></span>
+
+                    <div class="left third">
+                        <div>
+                            LANGUAGE
+                        </div>
+                        <input type="text" value="{{src_options.language}}" class="js-autocommit frm__input language clearfix section-group__item" id="language-input">
+                    </div>
+                {{/eq}}
+            </div>
         
             {{#eq repo 'spice'}}
                 <div class="left third g">
