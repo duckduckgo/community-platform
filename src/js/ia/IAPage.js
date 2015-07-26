@@ -623,6 +623,21 @@
                         $(this).parent().addClass("hide");
                     });
 
+                    $("body").on("focusin", ".ia-single--details", function(evt) {
+                        $(this).addClass("focused");
+                    });
+
+                    //Dev Page: commit fields in the details section
+                    $("body").on("focusout", ".ia-single--details.focused", function(evt) {
+                        $(this).removeClass("focused");
+
+                        var $editable = $(".ia-single--details .js-autocommit");
+
+                        $editable.each(function(idx) {
+                            commitEdit($(this));
+                        });
+                    });
+
                     // Dev Page: commit fields in the blue band
                     $("body").on('click', "#js-top-details-submit", function(evt) {
                         var $editable = $(".top-details.js-autocommit");
