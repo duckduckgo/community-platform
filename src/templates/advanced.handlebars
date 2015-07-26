@@ -5,13 +5,13 @@
             <div>
                 PERL MODULE
             </div>
-            <input type="text" class="js-autocommit frm__input perl_module" id="perl_module-input">
+            <input type="text" class="js-autocommit frm__input perl_module" id="perl_module-input" value="{{perl_module}}">
         </div>
         <div class="left third g">
             <div>
                 TEMPLATE
             </div>
-            <input type="text" class="js-autocommit frm__input template" id="template-input">
+            <input type="text" class="js-autocommit frm__input template" id="template-input" value="{{template}}">
         </div>
         <span class="clearfix"></span>
         
@@ -19,14 +19,14 @@
             <div>
                 PERL DEPENDENCIES
             </div>
-            <input type="text" class="js-autocommit frm__input perl_dependencies" id="perl_dependencies-input">
+            <input type="text" value="{{perl_dependencies}}" class="js-autocommit frm__input perl_dependencies" id="perl_dependencies-input">
         </div>
         {{#if permissions.admin}}
             <div class="left third g">
                 <div>
                     TAB NAME
                 </div>
-                <input type="text" class="js-autocommit frm__input tab" id="tab-input">
+                <input type="text" value="{{tab}}" class="js-autocommit frm__input tab" id="tab-input">
             </div>
             <span class="clearfix"></span>
         {{/if}}
@@ -36,7 +36,7 @@
                 <div>
                     API DOCUMENTATION
                 </div>
-                <input type="text" class="js-autocommit frm__input src_api_documentation" id="src_api_documentation-input">
+                <input type="text" value="{{src_api_documentation}}" class="js-autocommit frm__input src_api_documentation" id="src_api_documentation-input">
             </div>
             
             {{#unless permissions.admin}}
@@ -47,7 +47,7 @@
                 <div>
                     API STATUS PAGE
                 </div>
-                <input type="text" class="js-autocommit frm__input api_status_page" id="api_status_page-input">
+                <input type="text" value="{{api_status_page}}" class="js-autocommit frm__input api_status_page" id="api_status_page-input">
             </div>        
         {{/eq}}
 
@@ -66,7 +66,7 @@
                     <div>
                         SOURCE DOMAIN
                     </div>
-                    <input type="text" class="js-autocommit frm__input src_domain" id="src_domain-input">
+                    <input type="text" value="{{src_domain}}" class="js-autocommit frm__input src_domain" id="src_domain-input">
                 </div>
             {{/eq_or}}
 
@@ -75,14 +75,14 @@
                     <div>
                         SOURCE ID
                     </div>
-                    <input type="number" class="js-autocommit frm__input src_id" id="src_id-input">
+                    <input type="number" value="{{src_id}}" class="js-autocommit frm__input src_id" id="src_id-input">
                 </div>
                    
                 <div class="left third g">
                     <div>
                         SOURCE NAME
                     </div>
-                    <input type="text" class="js-autocommit frm__input src_name" id="src_name-input">
+                    <input type="text" value="{{src_name}}" class="js-autocommit frm__input src_name" id="src_name-input">
                 </div>
 
                 <span class="clearfix"></span>
@@ -91,14 +91,14 @@
                     <div>
                         SOURCE SKIP
                     </div>
-                    <input type="text" class="js-autocommit frm__input source_skip clearfix section-group__item" id="src_skip-input">
+                    <input type="text" value="{{src_options.src_skip}}" class="js-autocommit frm__input src_skip clearfix section-group__item" id="src_skip-input">
                 </div>
 
                 <div class="left third g">
                     <div>
                         SKIP QUERY
                     </div>
-                    <input type="text" class="js-autocommit frm__input skip_qr clearfix section-group__item" id="skip_qr">
+                    <input type="text" value="{{src_options.skip_qr}}" class="js-autocommit frm__input skip_qr clearfix section-group__item" id="skip_qr">
                 </div>
 
                 <div class="left third g">
@@ -154,21 +154,21 @@
                     <div>
                         DIRECTORY
                     </div>
-                    <input type="text" class="js-autocommit frm__input directory clearfix section-group__item" id="directory-input">
+                    <input type="text" value="{{src_options.directory}}" class="js-autocommit frm__input directory clearfix section-group__item" id="directory-input">
                 </div>
 
                 <div class="left third g">
                     <div>
                         MINIMUM ABSTRACT LENGTH
                     </div>
-                    <input type="number" step="1" class="js-autocommit frm__input min_abstract_length clearfix section-group__item" id="min_abstract_length-input">
+                    <input type="number" step="1" value="{{src_options.min_abstract_length}}" class="js-autocommit frm__input min_abstract_length clearfix section-group__item" id="min_abstract_length-input">
                 </div>
 
                 <div class="left third g">
                     <div>
                         SOURCE INFO
                     </div>
-                    <input type="text" class="js-autocommit frm__input src_info clearfix section-group__item" id="src_info-input">
+                    <input type="text" value="{{src_options.src_info}}" class="js-autocommit frm__input src_info clearfix section-group__item" id="src_info-input">
                 </div>
                 
                 <span class="clearfix"></span>
@@ -177,7 +177,7 @@
                     <div>
                         LANGUAGE
                     </div>
-                    <input type="text" class="js-autocommit frm__input language clearfix section-group__item" id="language-input">
+                    <input type="text" value="{{src_options.language}}" class="js-autocommit frm__input language clearfix section-group__item" id="language-input">
                 </div>
             {{/eq}}
         
@@ -190,7 +190,7 @@
                         <ul class="section-group" id="answerbar-group">
                             <li>
                                 <label class="left">Fallback Timeout (ms):</label>
-                                <input type="number" class="js-autocommit frm__input fallback_timeout clearfix section-group__item">
+                                <input type="number" value="{{answerbar.fallback_timeout}}" class="js-autocommit frm__input fallback_timeout clearfix section-group__item">
                             </li>
                         </ul>
                     </div>
