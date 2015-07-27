@@ -260,7 +260,12 @@ sub update_users {
     my ($self) = @_;
     my $rs = $self->ddgc->rs('GitHub::User')->search;
     while (my $user = $rs->next) {
-        $self->update_user($user->login);
+        eval { $self->update_user($user->login) };
+        if ($@) {
+            # ignore errors about users who are not found because they changed
+            # their username or deleted their account
+            die $@ unless $@ eq 'Not Found';
+        }
     }
 }
 
