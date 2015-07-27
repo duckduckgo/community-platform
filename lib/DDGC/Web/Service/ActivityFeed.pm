@@ -52,6 +52,25 @@ get '/all' => sub {
     };
 };
 
+get '/mine' => user_is 'user' => sub {
+    my $params = params_hmv;
+    my $user = var 'user';
+
+    $params->{page} //= 1;
+    $params->{pagesize} //= pagesize;
+
+    my $activity = $user->subscriptions->activity
+        ->order_by( { -desc => 'me.id' } )
+        ->rows( $params->{pagesize} )
+        ->page( $params->{page} );
+
+    +{
+        activity => [
+            $activity->all,
+        ],
+    };
+};
+
 post '/new' => sub {
     my $params = params_hmv;
     if ($params->{secret} ne config->{ddgc_config}->shared_secret) {
