@@ -191,7 +191,7 @@
 				</p>			
 			</div>
 			<div class="row callout-row">
-				<a class="callout-link" href="<: $u('Blog','post','xmpp-services-at-duckduckgo') :>">
+				<a class="callout-link" href="https://duck.co/blog/post/4/xmpp-services-at-duckduckgo">
 					<i class="icon-circle-arrow-right  callout-row__icn--right"></i>
 					<i class="callout-row__icn--left  icon-bubbles"></i>
 					<h3 class="callout-row__text  has-icon">Click here for more information about our XMPP service.</h3>
