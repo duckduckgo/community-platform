@@ -39,9 +39,12 @@ sub activity_page {
 }
 
 get '/' => sub {
+    forward '/all';
+};
+
+get '/all' => sub {
     my $params = params_hmv;
     my $user = var 'user';
-    $params->{for_user} = $user->id if $user;
     +{
         activity => [
             activity_page($params)->all,
