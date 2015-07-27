@@ -31,16 +31,11 @@ sub activity_page {
     my ( $params ) = @_;
     $params->{page} //= 1;
     $params->{pagesize} //= pagesize;
-    rset('ActivityFeed')->search_rs({
-        ( $params->{filter} )
-            ? ( type => { -like => $params->{filter} =~ s/\*/%/gr } )
-            : (),
-        for_user => { '=' => [ uniq( undef, $params->{user} ) ] }
-    }, {
-        order_by => { -desc => 'me.id' },
-        rows     => $params->{pagesize},
-        page     => $params->{page},
-    });
+    rset('ActivityFeed')
+        ->for_user
+        ->order_by( { -desc => 'me.id' } )
+        ->rows( $params->{pagesize} )
+        ->page( $params->{page} )
 }
 
 get '/' => sub {
