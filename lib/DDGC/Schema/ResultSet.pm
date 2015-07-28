@@ -18,6 +18,8 @@ sub format_datetime {
     $self->result_source->schema->storage->datetime_parser->format_datetime(@_);
 }
 
+sub having { shift->search_rs( undef, { having => shift } ) }
+
 __PACKAGE__->load_components(qw/
     Helper::ResultSet::Me
     Helper::ResultSet::Shortcut
