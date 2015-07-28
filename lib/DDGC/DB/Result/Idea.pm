@@ -19,7 +19,7 @@ primary_key 'id';
 
 column claimed_by => {
 	data_type => 'bigint',
-	is_nullable => 0,
+	is_nullable => 1,
 };
 
 column users_id => {
@@ -138,6 +138,7 @@ column migrated_to_thread => {
 
 column instant_answer_id => {
 	data_type => 'text',
+	is_nullable => 1,
 };
 
 __PACKAGE__->add_antispam_functionality;
