@@ -13,6 +13,11 @@ sub current_user {
     return $self->app->var('user');
 }
 
+sub format_datetime {
+    my $self = shift;
+    $self->result_source->schema->storage->datetime_parser->format_datetime(@_);
+}
+
 __PACKAGE__->load_components(qw/
     Helper::ResultSet::Me
     Helper::ResultSet::Shortcut
