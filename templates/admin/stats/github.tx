@@ -12,21 +12,63 @@
         <div class="tab <: $tabs.week_before_that :>"><a href="/admin/stats/github/week_before_that">3 weeks ago</a></div>
         <div class="tab <: $tabs.last_month       :>"><a href="/admin/stats/github/last_month"      >Last month</a></div>
         <div class="tab <: $tabs.last_90_days     :>"><a href="/admin/stats/github/last_90_days"    >Last 90 days</a></div>
+        <div class="tab <: $tabs.custom           :>"><a href="/admin/stats/github/custom"          >Custom</a></div>
     </div>
 
     <div id="graphs">
-      <div class="loader"><img src="/images/spinner.gif" /></div>
+: if ($start_date) {
+        <br>
+        <p class="stats-timespan">
+          start date &nbsp;<b><: $start_date :></b><br>
+          end date &nbsp;&nbsp;<b><: $end_date :></b>
+        </p>
+: }
+: if ($stats) {
+      <div class="loader"><img src="/images/spinner.gif"></div>
 
-: for $stats -> $stat {
+:   for $stats -> $stat {
+:     if ($stat.label == ' ') {
+        <div class="graph"></div>
+:     }
+:     else {
         <div class="graph">
           <div class="data">
-            <div class="stat-label"><: $stat.label :></div>
+            <span class="stat-label"><: $stat.label :></span>
             <span class="number"><: $stat.value // '' :></span>
           </div>
         </div>
-: }
-
+        <div class="graph"></div>
+:     }
+:   }
     </div>
+: }
+: else {
+    <form class="custom-date-form" action="">
+      <h2 class="custom-date-heading">Calculate stats for a custom date range</h2>
+    
+      <p>
+        <label class="stats-label">
+          <span>Start Date</span>
+          <input type="date" class="stats-input" autofocus name="start" value="<: $default_start :>">
+        </label>
+      </p>
+    
+      <p>
+        <label class="stats-label">
+          <span>End Date</span>
+          <input type="date" class="stats-input" name="end" value="<: $default_end :>">
+        </label>
+      </p>
+    
+      <p>
+        <label class="stats-label">
+          <span>&nbsp;</span>
+          <button class="stats-button">Crunch the numbers</button>
+        </label>
+      </p>
+    
+    </form>
+: }
   </div>
 </div>
 
