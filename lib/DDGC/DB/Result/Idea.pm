@@ -145,9 +145,9 @@ __PACKAGE__->add_antispam_functionality;
 
 belongs_to 'user', 'DDGC::DB::Result::User', 'users_id';
 
-belongs_to 'user', 'DDGC::DB::Result::User', 'claimed_by';
+belongs_to 'user_claimed_by', 'DDGC::DB::Result::User', 'claimed_by';
 
-belongs_to 'instant_answer', 'DDGC::DB::Result::User', 'instant_answer_id';
+belongs_to 'instant_answer', 'DDGC::DB::Result::InstantAnswer', 'instant_answer_id';
 
 has_many 'idea_votes', 'DDGC::DB::Result::Idea::Vote', 'idea_id', {
 	cascade_delete => 1,
