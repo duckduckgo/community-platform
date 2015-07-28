@@ -17,6 +17,11 @@ column id => {
 };
 primary_key 'id';
 
+column claimed_by => {
+	data_type => 'bigint',
+	is_nullable => 0,
+};
+
 column users_id => {
 	data_type => 'bigint',
 	is_nullable => 0,
@@ -134,6 +139,8 @@ column migrated_to_thread => {
 __PACKAGE__->add_antispam_functionality;
 
 belongs_to 'user', 'DDGC::DB::Result::User', 'users_id';
+
+belongs_to 'user', 'DDGC::DB::Result::User', 'claimed_by';
 
 has_many 'idea_votes', 'DDGC::DB::Result::Idea::Vote', 'idea_id', {
 	cascade_delete => 1,

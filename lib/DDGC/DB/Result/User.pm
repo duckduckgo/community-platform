@@ -179,6 +179,7 @@ has_many 'events', 'DDGC::DB::Result::Event', 'users_id', {
 has_many 'medias', 'DDGC::DB::Result::Media', 'users_id', {
   cascade_delete => 0,
 };
+has_many 'claimed_ideas', 'DDGC::DB::Result::Idea', 'claimed_by';
 
 has_many 'user_languages', 'DDGC::DB::Result::User::Language', { 'foreign.username' => 'self.username' }, {
   cascade_delete => 1,
