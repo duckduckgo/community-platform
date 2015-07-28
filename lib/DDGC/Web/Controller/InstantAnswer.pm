@@ -805,12 +805,6 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
         }
     }
 
-    $c->ddgcr_post( [ 'ActivityFeed', 'new' ], {
-        secret  => $c->ddgc->config->shared_secret,
-        type    => sprintf("iapage_update_%s", $ia->id),
-        description => sprintf("Instant Answer Page updated : [%s](%s)", $ia->name, '/ia/view/' . $ia->id),
-    } ) if $saved;
-
     $c->stash->{x}->{result} = $result;
 
     return $c->forward($c->view('JSON'));
@@ -842,7 +836,6 @@ sub create_ia :Chained('base') :PathPart('create') :Args() {
     my ( $self, $c ) = @_;
 
     my $ia = $c->d->rs('InstantAnswer')->find({id => lc($c->req->params->{id})}) || $c->d->rs('InstantAnswer')->find({meta_id => lc($c->req->params->{id})});
-    my $new_ia;
     my $is_admin;
     my $result = '';
     my $id = '';
@@ -857,7 +850,7 @@ sub create_ia :Chained('base') :PathPart('create') :Args() {
             $id = format_id($c->req->params->{id});
            
             if (length $id) { 
-                $new_ia = $c->d->rs('InstantAnswer')->create({
+                my $new_ia = $c->d->rs('InstantAnswer')->create({
                     id => $id,
                     meta_id => $id,
                     name => $c->req->params->{name},
@@ -872,12 +865,6 @@ sub create_ia :Chained('base') :PathPart('create') :Args() {
             }
         }
     }
-
-    $c->ddgcr_post( [ 'ActivityFeed', 'new' ], {
-        secret  => $c->ddgc->config->shared_secret,
-        type    => sprintf("iapage_new_%s", $new_ia->id),
-        description => sprintf("New Instant Answer Page created : [%s](%s)", $new_ia->name, '/ia/view/' . $new_ia->id),
-    } ) if $new_ia;
 
     $c->stash->{x} = {
         result => $result,
