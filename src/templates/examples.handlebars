@@ -7,67 +7,70 @@
         {{/if}}
     </h3>
 
-        {{#if permissions.can_edit}}
-            <ul class="hidden-toshow {{#unless staged.example_query}}hide{{/unless}} example_query parent-group" id="example_query-group">
-                {{#if  staged.example_query}}
-                    {{#each staged.example_query}}
-                        <li>
-                            <span name="example_query" class="other_queries left">
-                                <input type="text" value="{{this}}" class="js-autocommit group-vals" />
-                            </span>
-                            <div class="button delete listbutton left other_queries" name="example_query" title="Remove trigger">
-                                <i class="icon-remove" />
-                            </div>
-                        </li>
-                        {{#module_zero @index 3}}
-                            <span class="clearfix"></span>
-                        {{/module_zero}}
-                    {{/each}}
-                {{else}}
-                    {{#if example_query}}
-                        <li>
-                            <span name="example_query" class="other_queries left">
-                                <input type="text" value="example_query" class="js-autocommit group-vals" />
-                            </span>
-                            <div class="button delete listbutton left other_queries" name="example_query" title="Remove trigger">
-                                <i class="icon-remove" />
-                            </div>
-                        </li>
-                    {{/if}}
-                    
-                    {{#each other_queries}}
-                        <li>
-                            <span name="example_query" class="other_queries left">
-                                <input type="text" value="{{this}}" class="js-autocommit group-vals" />
-                            </span>
-                            <div class="button delete listbutton left other_queries" name="example_query" title="Remove trigger">
-                                <i class="icon-remove" />
-                            </div>
-                        </li>
-                        {{#module_zero @index 3}}
-                            <span class="clearfix"></span>
-                        {{/module_zero}}
-                    {{/each}}
+    {{#if permissions.can_edit}}
+        <ul class="hidden-toshow {{#unless staged.example_query}}hide{{/unless}} other_queries parent-group" id="other_queries-group">
+            {{#if  staged.example_query}}
+                {{#each staged.example_query}}
+                    <li>
+                        <span class="{{#if @first}}example_query{{else}}other_queries{{/if}} left">
+                            <input type="text" value="{{this}}" {{#if @first}}id="example_query-input"{{/if}} class="js-autocommit {{#if @first}}example_query{{else}}group-vals{{/if}}" />
+                        </span>
+                        <div class="button delete listbutton left {{#if @first}}example_query{{else}}other_queries{{/if}}" title="Remove trigger">
+                            <i class="icon-remove" />
+                        </div>
+                    </li>
+                    {{#module_zero @index 3}}
+                        <span class="clearfix"></span>
+                    {{/module_zero}}
+                {{/each}}
+            {{else}}
+                {{#if example_query}}
+                    <li>
+                        <span class="example_query left">
+                            <input type="text" id="example_query-input" value="{{example_query}}" class="example_query js-autocommit" />
+                        </span>
+                        <div class="button delete listbutton left example_query" title="Remove trigger">
+                            <i class="icon-remove" />
+                        </div>
+                    </li>
                 {{/if}}
-                <li class="editpage hide left new_input" id="input_other_queries">
-                    <span name="example_query" class="other_queries left"">
-                        <input type="text" value="" class="js-autocommit group-vals" />
-                    </span>
-                    <div class="button delete listbutton left other_queries" title="Remove trigger">
-                        <i class="icon-remove" />
-                    </div>
-                </li>
-                <li class="editpage left add_input" id="add_trigger">
-                    <div class="button listbutton left" id="add_trigger_button" title="Add trigger">
-                        <i class="icon-plus" />
-                    </div>
-                </li>
-            </ul>
-        {{/if}}
+                
+                {{#each other_queries}}
+                    <li>
+                        <span class="{{#if @first}}{{#if ../../example_query}}other_queries{{else}}example_query{{/if}}{{else}}other_queries{{/if}} left">
+                            <input type="text" value="{{this}}" class="js-autocommit {{#if @first}}{{#if ../../example_query}}group-vals{{else}}example_query{{/if}}{{else}}group-vals{{/if}}" {{#unless ../../example_query}}{{#if @first}}id="example_query-input"{{/if}}{{/unless}}/>
+                        </span>
+                        <div class="button delete listbutton left {{#if @first}}{{#if ../../example_query}}other_queries{{else}}example_query{{/if}}{{else}}other_queries{{/if}}" title="Remove trigger">
+                            <i class="icon-remove" />
+                        </div>
+                    </li>
+                    {{#module_zero @index 3}}
+                        <span class="clearfix"></span>
+                    {{/module_zero}}
+                {{/each}}
+            {{/if}}
+            
+            <li class="editpage hide left new_input">
+                <span class="other_queries left"">
+                    <input type="text" value="" class="js-autocommit group-vals" />
+                </span>
+                <div class="button delete listbutton left other_queries" title="Remove trigger">
+                    <i class="icon-remove" />
+                </div>
+            </li>
+            <li class="editpage left add_input" id="add_trigger">
+                <div class="button listbutton left" id="add_trigger_button" title="Add trigger">
+                    <i class="icon-plus" />
+                </div>
+            </li>
+        </ul>
+    {{/if}}
  
 
     <div class="readonly--info {{#if staged.example_query}}hide{{/if}}" id="example_query--readonly">
-        <a class="one-line" href="https://duckduckgo.com/?q={{encodeURIComponent example_query}}{{tab_url tab}}" title="try this example on DuckDuckGo">{{example_query}}</a>
+        {{#if example_query}}
+            <a class="one-line" href="https://duckduckgo.com/?q={{encodeURIComponent example_query}}{{tab_url tab}}" title="try this example on DuckDuckGo">{{example_query}}</a>
+        {{/if}}
         {{#if other_queries}}
             {{#each other_queries}}
                 <a class="one-line" href="https://duckduckgo.com/?q={{encodeURIComponent this}}{{tab_url ../tab}}" title="try this example on DuckDuckGo">{{this}}</a>

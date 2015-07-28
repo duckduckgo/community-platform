@@ -83,7 +83,8 @@
                             edit_buttons: Handlebars.templates.edit_buttons(latest_edits_data),
                             breadcrumbs: Handlebars.templates.breadcrumbs(latest_edits_data),
                             triggers: Handlebars.templates.triggers(latest_edits_data),
-                            test: Handlebars.templates.test(latest_edits_data)
+                            test: Handlebars.templates.test(latest_edits_data),
+                            advanced:  Handlebars.templates.advanced(latest_edits_data)
                         },
                         screens : Handlebars.templates.screens(ia_data),
                     };
@@ -584,18 +585,10 @@
                         $(this).children("i").toggleClass("icon-caret-down");
                     });
 
-                    $("body").on('click', ".dev_milestone-container__body__div__checkbox.js-autocommit", function(evt) {
+                    $("body").on("change", '.ia-single--details .input[type="number"].js-autocommit', function(evt) {
                         resetSaved($(this));
 
-                        if ($(this).hasClass("icon-check-empty")) {
-                            $(this).removeClass("icon-check-empty").addClass("icon-check");
-                        } else {
-                            $(this).removeClass("icon-check").addClass("icon-check-empty");
-                        }
-                    });
-
-                    $("body").on("change", 'input[type="number"].js-autocommit', function(evt) {
-                        resetSaved($(this));
+                        $(this).addClass("focused");
                     });
 
                     $("body").on("focusin", "textarea.js-autocommit, input.js-autocommit", function(evt) {
@@ -622,31 +615,37 @@
                         $(this).parent().addClass("hide");
                     });
 
+                    $("body").on("focusin", "#ia-single--details .frm__input.js-autocommit", function(evt) {
+                        console.log("DETAILS FOCUSED");
+                        if (!$(this).hasClass("focused")) {
+                            console.log("ADD FOCUS");
+                            $(this).addClass("focused");
+                        }
+                    });
+
+                    /*$("body").on("blur", "#ia-single--details .js-autocommit", function(evt) {
+                        evt.stopPropagation();
+                    });*/
+
+                    //Dev Page: commit fields in the details section
+                    $("body").on("blur", "#ia-single--details .focused.frm__input.js-autocommit", function(evt) {
+                        $(this).removeClass("focused");
+                        commitEdit($(this));
+                    });
+
+                    $("body").on("click", "#ia-single--details .frm__label__chk.js-autocommit", function(evt) {
+                        commitEdit($(this));
+                    });
+                    
                     // Dev Page: commit fields in the blue band
                     $("body").on('click', "#js-top-details-submit", function(evt) {
                         var $editable = $(".top-details.js-autocommit");
                         var field;
-                        var editable_type;
-                        var value;
-                        var is_json;
-                        var saved_vals = [];
 
                         console.log($editable.length);
                         $editable.each(function(idx) {
-                            console.log($(this).attr("id") + " Before committing");
-                            var temp_result = getUnsavedValue($(this));
-                            field = temp_result.field;
-                            
-                            if (saved_vals.indexOf(field) === -1) {
-                                value = temp_result.value;
-                                is_json = temp_result.is_json;
-                                
-                                saved_vals.push(field);
-
-                                if (field && (ia_data.live[field] !== value)) {
-                                    autocommit(field, value, DDH_iaid, is_json);
-                                }
-                            }
+                            field = $(this).hasClass("topic-group")? "topic" : "";
+                            commitEdit($(this), field, true);
                         });
 
                         $("#js-top-details-submit, #js-top-details-cancel").addClass("hide");
@@ -657,48 +656,27 @@
                         //We only have a popup for the contributors fields, so far
                         if (ia_data.permissions && ia_data.permissions.admin) {
                             var $editable = $("#producer-input");
-
-                            console.log($editable.attr("id") + " Before committing");
-                            var temp_result = getUnsavedValue($editable);
-                            var temp_field = temp_result.field;
-                            var temp_val =  temp_result.value;
-                            var is_json =  temp_result.is_json;
-
-                            if (ia_data.live.producer !== temp_val) {
-                                autocommit(temp_field, temp_val, DDH_iaid, is_json);
-                            }
+                            commitEdit($editable);
                         }
 
                         var $editable = $(".developer_username input");
-                        console.log($editable.attr("id") + " Before committing");
-                        var result = getUnsavedValue($editable);
-
-                        var field = result.field;
-                        var value = result.value;
-                        var is_json = result.is_json;
-
-                        if (field && ia_data.live[field] !== value) {
-                            autocommit(field, value, DDH_iaid, is_json);
-                        }
+                        commitEdit($editable, "developer", true);
                     });
 
                     // Dev Page: commit any field inside .ia-single--left and .ia-single--right (except popup fields)
                     $("body").on('click', ".devpage-commit", function(evt) {
                         var $parent = $(this).parent().parent();
                         var $editable = $parent.find(".js-autocommit").first();
-                        var field;
-                        var value;
-                        var is_json;
-
-                        console.log($editable.attr("id") + " Before committing");
-                        var result = getUnsavedValue($editable);
-
-                        field = result.field;
-                        value = result.value;
-                        is_json = result.is_json;
-
-                        if (field && (ia_data.live[field] !== value)) {
-                            autocommit(field, value, DDH_iaid, is_json);
+                        var $edit_parent = $editable.parent();
+                        
+                        if ($edit_parent.hasClass("example_query") || $edit_parent.hasClass("other_queries")) {
+                            // We pass the fields names as well in case all of them are removed
+                            // so we'll be able to commit the empty value for these fields anyway
+                            commitEdit($(".other_queries input"), "other_queries", true);
+                            console.log("example_query incoming");
+                            commitEdit($("#example_query-input"), "example_query");
+                        } else {
+                            commitEdit($editable);
                         }
                     });
 
@@ -757,11 +735,19 @@
                         var field = $(this).attr('name');
 
                         // If dev milestone is not 'live' it means we are in the dev page
-                        // and a topic has been deleted (it's the only field having a delete button in the dev page
-                        // so far)
-                        if ($(this).hasClass("js-autocommit") || $(this).parent().hasClass("js-autocommit")) {
+                        if (ia_data.live.dev_milestone !== "live" && ia_data.live.dev_milestone !== "deprecated") {
+                            if ($(this).hasClass("topic")) {
+                                $("#js-top-details-submit, #js-top-details-cancel, #add_topic").removeClass("hide");
+                            } else if ($(this).hasClass("example_query")) {
+                                console.log("delete button has example_query class");
+                                var $first_query = $(".other_queries input.js-autocommit.group-vals").first();
+                                console.log($first_query.attr("classs"));
+                                $first_query.removeClass("group-vals").addClass("example_query");
+                                $first_query.parent().removeClass("other_queries").addClass("example_query");
+                                $first_query.attr("id", "example_query-input");
+                            }
+                            
                             $(this).parent().remove();
-                            $("#js-top-details-submit, #js-top-details-cancel, #add_topic").removeClass("hide");
                         } else {
                             if (field !== "topic") {
                                 $(this).parent().remove();
@@ -854,54 +840,85 @@
                         });
                     }
 
+                    // Gather data needed for committing an edit and call autocommit
+                    function commitEdit($editable, field, is_json) {
+                        var field = field? field : "";
+                        var parent_field;
+                        var value;
+                        var is_json = is_json? is_json : false;
+
+                        //console.log($editable.selector + " Before committing");
+                        
+                        var result = getUnsavedValue($editable, field, is_json);
+
+                        field = result.field;
+                        value = result.value;
+                        is_json = result.is_json;
+                        parent_field = result.parent_field;
+
+                        var live_data = (ia_data.live[field] && is_json)? JSON.stringify(ia_data.live[field]) : ia_data.live[field];
+
+                        //console.log("After getUnsaved... " + field + " " + value);
+                        if (field && (live_data !== value)) {
+                            if (parent_field) {
+                                autocommit(parent_field, value, DDH_iaid, is_json, field);
+                            } else {
+                                autocommit(field, value, DDH_iaid, is_json);
+                            }
+                        }
+                    }
+
                     // Get a value for an editable field in the dev page
                     // This is used both for getting a value to commit
                     // and also inside keepUnsavedEdits(), for collecting each unsaved value after commit
                     // before refreshing the Handlebars templates.
-                    function getUnsavedValue($editable) {
-                        var field;
+                    function getUnsavedValue($editable, field, is_json) {
+                        field = field? field : "";
+                        var parent_field;
                         var result = {};
-                        var value;
-                        var is_json = false;
+                        var value = "";
+                        is_json = is_json? is_json : false;
 
-                        if ($editable.hasClass("group-vals")) {
-                            is_json = true;
-                            field = $editable.parents(".parent-group").attr("id").replace(/\-.+/, "");
-                            value = getGroupVals(field);
-                            value = JSON.stringify(value);
-                            console.log("Group val: " + value);
-                        } else {
-                            field = $editable.attr("id").replace(/\-.+/, "");
-                            var editable_type = $editable.attr("id").replace(/.+\-/, "");
-                            if (editable_type === "check") {
-                                value = $editable.hasClass("icon-check")? 1 : 0;
-                            } else if (editable_type === "select") {
-                                var $selected = $editable.find("option:selected");
-                                value = $selected.attr("value").length? $.trim($selected.text()) : '';
-                            } else if (editable_type === "input" || editable_type === "textarea") {
-                                value = $.trim($editable.val());
+                        if ($editable.length) {
+                            if ($editable.hasClass("group-vals")) {
+                                is_json = true;
+                                field = $editable.parents(".parent-group").attr("id").replace(/\-.+/, "");
+                                value = getGroupVals(field);
+                                value = JSON.stringify(value);
+                            } else {
+                                field = $editable.attr("id").replace(/\-.+/, "");
+                                var editable_type = $editable.attr("id").replace(/.+\-/, "");
+                                if (editable_type === "check") {
+                                    value = $editable.is(":checked")? 1 : 0;
+                                } else if (editable_type === "select") {
+                                    var $selected = $editable.find("option:selected");
+                                    value = $selected.attr("value").length? $.trim($selected.text()) : '';
+                                } else if (editable_type === "input" || editable_type === "textarea") {
+                                    value = $.trim($editable.val());
 
-                                if ($editable.hasClass("comma-separated") && value.length) {
-                                    value = value.split(/\s*,\s*/);
-                                    value = JSON.stringify(value);
-                                    is_json = true;
+                                    if ($editable.hasClass("comma-separated") && value.length) {
+                                        value = value.split(/\s*,\s*/);
+                                        value = JSON.stringify(value);
+                                        is_json = true;
+                                    }
                                 }
-                            }
-                        } 
-                        
-                        if ($editable.hasClass("section-group__item")) {
-                            var parent_field = $.trim($editable.parent().parent().attr("id"));
-                            var section_vals = getSectionVals($editable, parent_field);
-                            section_vals[field] = value;
+                            } 
+                            
+                            if ($editable.hasClass("section-group__item")) {
+                                parent_field = $.trim($editable.parents(".section-group").attr("id"));
+                                var section_vals = getSectionVals($editable, parent_field);
+                                section_vals[field] = value;
 
-                            parent_field = parent_field.replace("-group", "");
-                            value = JSON.stringify(section_vals);
-                            is_json = true;
+                                parent_field = parent_field.replace("-group", "");
+                                value = JSON.stringify(section_vals);
+                                is_json = true;
+                            }
                         }
 
                         result.value = value;
                         result.is_json = is_json;
                         result.field = field;
+                        result.parent_field = parent_field;
 
                         return result;
                     }
@@ -916,7 +933,7 @@
                         if ($obj) {
                             $selector = $obj;
                         } else {
-                            $selector = (field === "topic")? $(".ia_topic .available_topics option:selected") : $("." + field + " input");
+                            $selector = (field === "topic")? $(".ia_topic .available_topics option:selected") : $("." + field).children("input");
                         }
 
                         $selector.each(function(index) {
@@ -956,7 +973,7 @@
 
                         $("#" + parent_field + " .section-group__item").each(function(idx) {
                             if ($(this) !== $obj) {
-                                if ($(this).hasClass("dev_milestone-container__body__input")
+                                if ($(this).hasClass("frm__input")
                                     || $(this).hasClass("selection-group__item-input")) {
                                     temp_field = $.trim($(this).attr("id").replace("-input", ""));
                                     temp_value = $.trim($(this).val());
@@ -966,10 +983,10 @@
                                     }
                                 } else {
                                     temp_field = $.trim($(this).attr("id").replace("-check", ""));
-                                    if ($(this).hasClass("icon-check-empty")) {
-                                        temp_value = 0;
-                                    } else {
+                                    if ($(this).is(":checked")) {
                                         temp_value = 1;
+                                    } else {
+                                        temp_value = 0;
                                     }
                                 }
 
@@ -997,14 +1014,19 @@
                     function keepUnsavedEdits(field) {
                         var $commit_open = $(".devpage-edit.hide").parent().parent();
                         var $unsaved_edits = $commit_open.find(".js-autocommit");
+                        var secondary_field = "";
                         ia_data.staged = {};
 
+                        if ((field === "example_query") || (field === "other_queries")) {
+                            secondary_field = (field === "example_query")? "other_queries" : "example_query";
+                        }
+
                         $unsaved_edits.each(function(idx) {
-                            console.log($(this).attr("id") + " After committing");
+                            //console.log($(this).attr("id") + " After committing");
                             var temp_result = getUnsavedValue($(this));
                             var temp_field = temp_result.field;
                             
-                            if (temp_field !== field) {
+                            if ((temp_field !== field) && (temp_field !== secondary_field)) {
                                 var temp_value = temp_result.value;
                                 ia_data.staged[temp_field] = temp_value;
                             }
@@ -1038,7 +1060,7 @@
                             });
                         }
                        
-                        console.log("Unsaved: " + ia_data.staged); 
+                        //console.log("Unsaved: " + ia_data.staged); 
                         page.updateHandlebars(readonly_templates, ia_data, ia_data.live.dev_milestone, false);
                         page.updateAll(readonly_templates, ia_data, false);
 
@@ -1054,6 +1076,7 @@
                             autocommit: 1
                         })
                         .done(function(data) {
+                            subfield = subfield? subfield : "";
                             if (data.result) {
                                 if (data.result.saved && (field === "repo" ||
                                     (field === "dev_milestone" && data.result[field] === "live"))) {
@@ -1069,7 +1092,9 @@
                                     // No need to refresh the Handlebars if the saved field was part of the blue band,
                                     // since those fields stay editable, unless it was the repo field, on which depends
                                     // the rendering of type-specific editable data
-                                    if (data.result.saved && (!$("." + field + ".top-details").length) || field === "repo") {
+                                    var $details = subfield? $("#ia-single--details").find("." + subfield) : $("#ia-single--details").find("." + field);
+                                    if (data.result.saved && (!$details.length) 
+                                        && (!$("." + field + ".top-details").length) || field === "repo") {
                                         keepUnsavedEdits(field);
                                     } 
                                 }
@@ -1120,6 +1145,7 @@
             'screens',
             'github',
             'triggers',
+            'advanced',
             'test'
         ],
 
@@ -1152,7 +1178,6 @@
 
             $.each(templates.live, function(key, val) {
                 templates.live[key] = Handlebars.templates[key](latest_edits_data);
-                console.log("template: " + key);
             });
 
         },
