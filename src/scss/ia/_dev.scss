@@ -31,6 +31,13 @@
         &:focus {
             outline: none;
         }
+
+        label.details__label {
+            font-weight: 500;
+            margin-top: 10px;
+            margin-bottom: 5px;
+            display: inline-block;
+        }
     }
 
     #ia-single-top {

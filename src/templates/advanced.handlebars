@@ -3,31 +3,31 @@
         <h3 class="ia-single--header">Details</h3>
         <div class="gw">
             <div class="twothirds g">
-                <div>
+                <label class="details__label">
                     Perl Module
-                </div>
+                </label>
                 <input type="text" class="js-autocommit frm__input perl_module" id="perl_module-input" value="{{perl_module}}">
             </div>
             <div class="third g">
-                <div>
+                <label class="details__label">
                     Template
-                </div>
+                </label>
                 <input type="text" class="js-autocommit frm__input template" id="template-input" value="{{template}}">
             </div>
         </div>
 
         <div class="gw">
             <div class="twothirds g">
-                <div>
+                <label class="details__label">
                     Perl Dependencies
-                </div>
+                </label>
                 <input type="text" value="{{perl_dependencies}}" class="comma-separated js-autocommit frm__input perl_dependencies" id="perl_dependencies-input">
             </div>
             {{#if permissions.admin}}
                 <div class="third g">
-                    <div>
+                    <label class="details__label">
                         Tab Name
-                    </div>
+                    </label>
                     <input type="text" value="{{tab}}" class="js-autocommit frm__input tab" id="tab-input">
                 </div>
             {{/if}}
@@ -36,28 +36,26 @@
         {{#eq repo 'spice'}}
             <div class="gw">
                 <div class="third g">
-                    <div>
+                    <label class="details__label">
                         API Documentation
-                    </div>
+                    </label>
                     <input type="text" value="{{src_api_documentation}}" class="js-autocommit frm__input src_api_documentation" id="src_api_documentation-input">
                 </div>
 
                 <div class="third g">
-                    <div>
+                    <label class="details__label">
                         API Status Page
-                    </div>
+                    </label>
                     <input type="text" value="{{api_status_page}}" class="js-autocommit frm__input api_status_page" id="api_status_page-input">
                 </div>
 
                 <div class="third g">
-                    <div>
-                        <ul class="section-group" id="answerbar-group">
-                            <li>
-                                <label class="left">Fallback Timeout (ms):</label>
-                                <input type="number" value="{{answerbar.fallback_timeout}}" class="js-autocommit frm__input fallback_timeout section-group__item">
-                            </li>
-                        </ul>
-                    </div>
+                    <ul class="section-group" id="answerbar-group">
+                        <li>
+                            <label class="details__label">Fallback Timeout (ms):</label>
+                            <input type="number" value="{{answerbar.fallback_timeout}}" class="js-autocommit frm__input fallback_timeout section-group__item">
+                        </li>
+                    </ul>
                 </div>
             </div>
         {{/eq}}
@@ -74,25 +72,25 @@
 
             {{#eq_or repo 'fathead' 'longtail'}}
                 <div class="third {{#eq repo 'longtail'}}g{{/eq}}">
-                    <div>
+                    <label class="details__label">
                         Source Domain
-                    </div>
+                    </label>
                     <input type="text" value="{{src_domain}}" class="js-autocommit frm__input src_domain" id="src_domain-input">
                 </div>
             {{/eq_or}}
 
             {{#eq repo 'fathead'}}
                 <div class="third g">
-                    <div>
+                    <label  class="details__label">
                         Source ID
-                    </div>
+                    </label>
                     <input type="number" value="{{src_id}}" class="js-autocommit frm__input src_id" id="src_id-input">
                 </div>
 
                 <div class="third g">
-                    <div>
+                    <label class="details__label">
                         Source Name
-                    </div>
+                    </label>
                     <input type="text" value="{{src_name}}" class="js-autocommit frm__input src_name" id="src_name-input">
                 </div>
 
@@ -100,16 +98,16 @@
 
                 <div class="section-group" id="src_options-group">
                     <div class="third">
-                        <div>
+                        <label class="details__label">
                             Source Skip
-                        </div>
+                        </label>
                         <input type="text" value="{{src_options.src_skip}}" class="js-autocommit frm__input src_skip clearfix section-group__item" id="src_skip-input">
                     </div>
 
                     <div class="third g">
-                        <div>
+                        <label class="details__label">
                             Skip Query
-                        </div>
+                        </label>
                         <input type="text" value="{{src_options.skip_qr}}" class="js-autocommit frm__input skip_qr clearfix section-group__item" id="skip_qr">
                     </div>
 
@@ -161,36 +159,34 @@
                     </div>
 
                     <div class="third">
-                        <div>
+                        <label class="details__label">
                             Directory
-                        </div>
+                        </label>
                         <input type="text" value="{{src_options.directory}}" class="js-autocommit frm__input directory clearfix section-group__item" id="directory-input">
                     </div>
 
                     <div class="third g">
-                        <div>
+                        <label class="details__label">
                             Minimum Abstract Length
-                        </div>
+                        </label>
                         <input type="number" step="1" value="{{src_options.min_abstract_length}}" class="js-autocommit frm__input min_abstract_length clearfix section-group__item" id="min_abstract_length-input">
                     </div>
 
                     <div class="third g">
-                        <div>
+                        <label class="details__label">
                             Source Info
-                        </div>
+                        </label>
                         <input type="text" value="{{src_options.src_info}}" class="js-autocommit frm__input src_info clearfix section-group__item" id="src_info-input">
                     </div>
 
                     <div class="third">
-                        <div>
+                        <label class="details__label">
                             Language
-                        </div>
+                        </label>
                         <input type="text" value="{{src_options.language}}" class="js-autocommit frm__input language clearfix section-group__item" id="language-input">
                     </div>
                 {{/eq}}
             </div>
         {{/if}}
     </div>
-
-    <span class="clearfix"></span>
 {{/if}}
