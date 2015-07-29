@@ -50,11 +50,11 @@
 				<a href="<: $u('Ideas','edit',$_.id) :>" class="button"><i class="icon icon-edit"></i> Edit</a>
 				<: } :>
 				: if !$_.claimed_by {
-					<a href="<: $u('Ideas','claim',$_.id), { action_token => $action_token } :>" class="button">
+					<a href="<: $u('Ideas','claim',$_.id, { action_token => $action_token } ) :>" class="button">
 						<i class="icon icon-thumbs-up-alt"></i> Develop this Instant Answer!
 					</a>
 				: } elsif $_.claimed_by == $c.user.id || $c.user.is('admin') {
-					<a href="<: $u('Ideas','claim',$_.id), { action_token => $action_token } :>" class="button">
+					<a href="<: $u('Ideas','claim',$_.id, { action_token => $action_token } ) :>" class="button">
 						<i class="icon icon-remove"></i> Unclaim this Instant Answer
 					</a>
 				: }
