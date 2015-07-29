@@ -32,7 +32,7 @@
     </p>
 
     {{#if permissions.can_edit}}
-        <textarea rows="2" cols="100" class="{{#unless staged.description}}hide{{/unless}} frm__text description js-autocommit hidden-toshow" id="description-textarea">
+        <textarea rows="4" cols="100" class="{{#unless staged.description}}hide{{/unless}} frm__text description js-autocommit hidden-toshow" id="description-textarea">
             {{~#if staged.description~}}
                 {{staged.description}}
             {{~else~}}

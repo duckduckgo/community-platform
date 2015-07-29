@@ -6,6 +6,11 @@
 
     .devpage-edit, .devpage-edit-popup, .devpage-commit, .devpage-cancel {
         font-weight: initial;
+        font-size: 95%;
+    }
+
+    #description-textarea {
+        border-radius: 3px;
     }
 
     #ia-single-top {
