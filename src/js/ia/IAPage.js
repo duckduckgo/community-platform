@@ -863,7 +863,10 @@
                             if (parent_field) {
                                 autocommit(parent_field, value, DDH_iaid, is_json, field);
                             } else {
-                                autocommit(field, value, DDH_iaid, is_json);
+                                // Ensure name has always a value
+                                if (value || (field !== "name")) {
+                                    autocommit(field, value, DDH_iaid, is_json);
+                                }
                             }
                         }
                     }
