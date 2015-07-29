@@ -607,12 +607,33 @@
                         resetSaved($obj);
                     });
 
+                    $("body").on("focusin", ".topic-group.js-autocommit", function(evt) {
+                        $(".top__repo, .top__milestone").hide();
+                        $("#topic-cancel").removeClass("hide");
+                    });
+
+                    $("body").on("blur", ".topic-group.js-autocommit", function(evt) {
+                        $(".top__repo, .top__milestone").show();
+                        $("#topic-cancel").addClass("hide");
+                    });
+
                     $("body").on("change", ".top-details.js-autocommit", function(evt) {
                         $("#js-top-details-submit, #js-top-details-cancel").removeClass("is-disabled");
+
+                        // Display topics as tags
+                        if ($(this).hasClass("topic-group")) {
+                            $(".topic-group.js-autocommit").trigger("blur");
+                        }
                     });
 
                     $("body").on('click', ".cancel-button-popup", function(evt) {
                         $(this).parent().addClass("hide");
+                    });
+
+                    $("body").on("keypress", ".other_queries.js-autocommit, #example_query-input", function(evt) {
+                        if (evt.keyCode === 13) {
+                            $(".other_queries.js-autocommit, #example_query-input").trigger("blur");
+                        }
                     });
 
                     $("body").on("focusin", "#ia-single--details .frm__input.js-autocommit", function(evt) {
@@ -729,6 +750,8 @@
                         var $empty_topic = $(".new_empty_topic").clone();
                         
                         $(this).before($empty_topic.removeClass("hide").removeClass("new_empty_topic"));
+                        $(".top__repo, .top__milestone").hide();
+                        $("#topic-cancel").removeClass("hide");
 
                         if (topics > 1) {
                             $(this).addClass("hide");
