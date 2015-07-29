@@ -17,6 +17,12 @@
         border-radius: 3px;
     }
 
+    #description-textarea {
+        max-width: 100%;
+        height: 5em;
+        width: 100%;
+    }
+
     #ia-single-top {
         /* We need to set the color of the dropdown to the background color. */
         .frm__select {
