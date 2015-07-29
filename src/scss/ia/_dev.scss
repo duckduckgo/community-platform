@@ -57,6 +57,16 @@
         .topic-container {
             display: inline-block;
         }
+
+        .edit-container {
+            .view-json {
+                margin-bottom: 1em;
+            }
+
+            #js-top-details-submit {
+                margin-right: 0.5em;
+            }
+        }
     }
 }
 
