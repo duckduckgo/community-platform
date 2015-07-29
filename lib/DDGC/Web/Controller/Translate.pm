@@ -413,20 +413,23 @@ sub tokens :Chained('locale') :Args(0) {
 	my $save_translations = $c->req->params->{save_translations} || $c->req->params->{save_translations_next_page} ? 1 : 0;
 	my $next_page = $c->req->params->{save_translations_next_page} ? 1 : 0;
 	$self->save_translate_params($c) if ($save_translations);
+	my $lang_rs = $c->stash->{locales}->{$c->stash->{locale}}->{tcl};
 	if ($c->req->params->{token_search}) {
 		$c->stash->{token_search} = $c->req->params->{token_search};
-		$c->stash->{token_languages} = $c->stash->{locales}->{$c->stash->{locale}}->{tcl}->search_tokens($c->stash->{page},$c->stash->{pagesize},$c->stash->{token_search});
+		$lang_rs = $lang_rs->search_tokens($c->stash->{page},$c->stash->{pagesize},$c->stash->{token_search});
 	} elsif ($c->req->params->{only_untranslated}+0) {
 		$c->stash->{only_untranslated} = 1;
-		$c->stash->{token_languages} = $c->stash->{locales}->{$c->stash->{locale}}->{tcl}->untranslated_tokens($c->stash->{page},$c->stash->{pagesize});
+		$lang_rs = $lang_rs->untranslated_tokens($c->stash->{page},$c->stash->{pagesize});
 	} elsif (defined $c->req->params->{only_msgctxt}) {
 		$c->stash->{only_msgctxt} = $c->req->params->{only_msgctxt};
-		$c->stash->{token_languages} = $c->stash->{locales}->{$c->stash->{locale}}->{tcl}->msgctxt_tokens($c->stash->{page},$c->stash->{pagesize},$c->stash->{only_msgctxt});
+		$lang_rs = $lang_rs->msgctxt_tokens($c->stash->{page},$c->stash->{pagesize},$c->stash->{only_msgctxt});
 	} else {
-		$c->stash->{token_languages} = $c->stash->{locales}->{$c->stash->{locale}}->{tcl}->all_tokens($c->stash->{page},$c->stash->{pagesize});
+		$lang_rs = $lang_rs->all_tokens($c->stash->{page},$c->stash->{pagesize});
 	}
-	if ($save_translations && $next_page && $c->stash->{token_languages}->pager->next_page) {
-		$c->res->redirect($c->chained_uri('Translate','tokens',$c->stash->{token_domain}->key,$c->stash->{locale},{ page => $c->stash->{token_languages}->pager->next_page }));
+	$c->stash->{token_languages} = [ $lang_rs->all ];
+	$c->stash->{token_languages_pager} = $lang_rs->pager;
+	if ($save_translations && $next_page && $c->stash->{token_languages_pager}->next_page) {
+		$c->res->redirect($c->chained_uri('Translate','tokens',$c->stash->{token_domain}->key,$c->stash->{locale},{ page => $c->stash->{token_languages_pager}->next_page }));
 		return $c->detach;
 	}
 }
