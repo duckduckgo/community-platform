@@ -80,6 +80,7 @@ sub statuses {{
 	9 => "Not an Instant Answer idea",
 	10 => "Improvement",
 	11 => "Declined",
+	12 => "Quack and Hack!"
 }}
 
 sub status_name { $_[0]->statuses->{$_[0]->status} }
@@ -96,6 +97,7 @@ sub status_colors {{
 	9 => "#af5d9c",
 	10 => "#d83677",
 	11 => "#9e8b75",
+	12 => "#de5833",
 }}
 
 sub status_color { $_[0]->status_colors->{$_[0]->status} }
