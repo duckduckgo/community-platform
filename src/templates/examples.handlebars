@@ -72,6 +72,8 @@
             {{#ne_and dev_milestone 'live' 'deprecated'}}
                 {{#if test_machine}}
                     <a class="one-line" href="https://{{test_machine}}.duckduckgo.com/?q={{encodeURIComponent example_query}}{{tab_url tab}}" title="try this example on DuckDuckGo">{{example_query}}</a>
+                {{else}}
+                    {{example_query}}
                 {{/if}}
             {{else}}
                 <a class="one-line" href="https://duckduckgo.com/?q={{encodeURIComponent example_query}}{{tab_url tab}}" title="try this example on DuckDuckGo">{{example_query}}</a>
@@ -82,6 +84,8 @@
                 {{#ne_and ../../dev_milestone 'live' 'deprecated'}}
                     {{#if ../../test_machine}}
                         <a class="one-line" href="https://{{../../../test_machine}}.duckduckgo.com/?q={{encodeURIComponent this}}{{tab_url ../../../tab}}" title="try this example on DuckDuckGo">{{this}}</a>
+                    {{else}}
+                        {{this}}
                     {{/if}}
                 {{else}}
                     <a class="one-line" href="https://duckduckgo.com/?q={{encodeURIComponent this}}{{tab_url ../../tab}}" title="try this example on DuckDuckGo">{{this}}</a>
