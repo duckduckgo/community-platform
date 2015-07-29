@@ -186,6 +186,26 @@ sub idea : Chained('idea_id') PathPart('') Args(1) {
 	$c->stash->{title} = $c->stash->{idea}->title;
 }
 
+sub claim : Chained('idea_id') Args(0) {
+	my ( $self, $c ) = @_;
+	$c->require_action_token;
+	return $c->detach if (!$c->user);
+
+	if ( !$c->stash->{idea}->claimed_by ) {
+		$c->stash->{idea}->update( {
+			claimed_by => $c->user->id,
+		} );
+	}
+	elsif ( $c->stash->{idea}->claimed_by &&
+	     ( $c->stash->{idea}->claimed_by == $c->user->id ||
+	       $c->user->is('admin') ) ) {
+		$c->stash->{idea}->update( {
+			claimed_by => undef,
+		} );
+	}
+	$c->response->redirect( $c->chained_uri(@{ $c->stash->{idea}->u }) );
+}
+
 sub delete : Chained('idea_id') Args(0) {
 	my ( $self, $c ) = @_;
 	unless ($c->user) {
