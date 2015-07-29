@@ -27,6 +27,12 @@
         border-radius: 3px;
     }
 
+    .ia-single--details {
+        &:focus {
+            outline: none;
+        }
+    }
+
     #ia-single-top {
         /* We need to set the color of the dropdown to the background color. */
         .frm__select {
