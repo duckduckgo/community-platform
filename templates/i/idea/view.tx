@@ -1,6 +1,11 @@
 <: my $reply_count = $_.all_comments.count :>
 
-<div class="idea-header  idea-header--title"><div class="idea-title  media"><i class="idea-title__icon  icon-lightbulb"></i> <h1 class="idea-title__text"><: $_.title :></h1></div></div>
+<div class="idea-header  idea-header--title">
+	<div class="idea-title  media">
+		<i class="idea-title__icon  icon-lightbulb"></i>
+		<h1 class="idea-title__text"><: $_.title :></h1>
+	</div>
+</div>
 
 <div class="media  idea  idea--has-title  mg-bottom">
 	<div class="idea__votes  idea__votes--rev  text-mid">	
