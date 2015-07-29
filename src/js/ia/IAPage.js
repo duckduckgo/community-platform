@@ -615,6 +615,9 @@
                     $("body").on("blur", ".topic-group.js-autocommit", function(evt) {
                         $(".top__repo, .top__milestone").show();
                         $("#topic-cancel").addClass("hide");
+                        if ($(".topic-group.js-autocommit").length < 2) {
+                            $("#add_topic").removeClass("hide");
+                        }
                     });
 
                     $("body").on("change", ".top-details.js-autocommit", function(evt) {
@@ -624,6 +627,17 @@
                         if ($(this).hasClass("topic-group")) {
                             $(".topic-group.js-autocommit").trigger("blur");
                         }
+                    });
+
+                    // Cancel an editing attempt on topics and remove any new empty topics
+                    $("body").on("click", "#topic-cancel", function(evt) {
+                        $(".topic-group.js-autocommit").each(function(idx) {
+                            if ((!$(this).val()) && (!$(this).hasClass("new_empty_topic"))) {
+                                $(this).parent().parent().addClass("hide").removeClass("js-autocommit");
+                            }
+                        });
+
+                        $(".topic-group.js-autocommit").trigger("blur");
                     });
 
                     $("body").on('click', ".cancel-button-popup", function(evt) {
@@ -746,12 +760,19 @@
                     });
 
                     $("body").on('click', '#add_topic', function(evt) {
-                        var topics = $(".topic-separator").length;
+                        var topics;
+                        
+                        if (ia_data.live.dev_milestone === 'live' ||  ia_data.live.dev_milestone === 'deprecated') {
+                            topics = $(".topic-separator").length;
+                        } else {
+                            topics = $("topic-group.js-autocommit").length;
+                            $(".top__repo, .top__milestone").hide();
+                            $("#topic-cancel").removeClass("hide");
+                        }
+                        
                         var $empty_topic = $(".new_empty_topic").clone();
                         
                         $(this).before($empty_topic.removeClass("hide").removeClass("new_empty_topic"));
-                        $(".top__repo, .top__milestone").hide();
-                        $("#topic-cancel").removeClass("hide");
 
                         if (topics > 1) {
                             $(this).addClass("hide");
