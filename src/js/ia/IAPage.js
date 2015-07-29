@@ -188,7 +188,7 @@
                         $("#ia-single-top-details").html(readonly_templates.live.top_details);
                         $('.edit-container').html(readonly_templates.live.edit_buttons);
 
-                        $(this, "#js-top-details-submit").addClass("hide");
+                        $(this, "#js-top-details-submit").addClass("is-disabled");
                     });
 
                     $('body').on("change keypress focusout", ".available_types, .developer_username input", function(evt) {
@@ -608,7 +608,7 @@
                     });
 
                     $("body").on("change", ".top-details.js-autocommit", function(evt) {
-                        $("#js-top-details-submit, #js-top-details-cancel").removeClass("hide");
+                        $("#js-top-details-submit, #js-top-details-cancel").removeClass("is-disabled");
                     });
 
                     $("body").on('click', ".cancel-button-popup", function(evt) {
@@ -656,7 +656,7 @@
                             }
                         });
 
-                        $("#js-top-details-submit, #js-top-details-cancel").addClass("hide");
+                        $("#js-top-details-submit, #js-top-details-cancel").addClass("is-disabled");
                     });
 
                     // Dev Page: commit fields inside a popup
