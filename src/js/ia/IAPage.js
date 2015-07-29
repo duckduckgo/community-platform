@@ -157,6 +157,8 @@
                     });
 
                     $("body").on("click", ".devpage-cancel", function(evt) {
+                        evt.preventDefault();
+
                         var $parent = $(this).parent().parent();
                         var field = $parent.find(".js-autocommit").attr("id").replace(/\-.+/, "");
 
@@ -677,6 +679,8 @@
 
                     // Dev Page: commit any field inside .ia-single--left and .ia-single--right (except popup fields)
                     $("body").on('click', ".devpage-commit", function(evt) {
+                        evt.preventDefault();
+
                         var $parent = $(this).parent().parent();
                         var $editable = $parent.find(".js-autocommit").first();
                         var $edit_parent = $editable.parent();
