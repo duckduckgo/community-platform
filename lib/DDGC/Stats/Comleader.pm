@@ -99,7 +99,6 @@ sub support {
 
     while (my $comment = $rs->next) {
         next unless $comment->user->public;
-        next if     $comment->user->ghosted;
         last unless $comment->get_column('comment_count') >= 50;
 
         say sprintf "username: %-30s   comments: %-5s   email: %-50s",
@@ -125,7 +124,6 @@ sub translations {
         my $user = $token_language->translator_user || next;
 
         next unless $user->public;
-        next if $user->ghosted;
         last unless $token_language->get_column('translation_count') >= 50;
 
         my $username = $user->username;
