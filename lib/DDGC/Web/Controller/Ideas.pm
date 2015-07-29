@@ -198,7 +198,7 @@ sub claim : Chained('idea_id') Args(0) {
 	}
 	elsif ( $c->stash->{idea}->claimed_by &&
 	     ( $c->stash->{idea}->claimed_by == $c->user->id ||
-	       $c->user->is('admin') ) ) {
+	       $c->user->is('forum_manager') ) ) {
 		$c->stash->{idea}->update( {
 			claimed_by => undef,
 		} );

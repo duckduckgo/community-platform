@@ -53,7 +53,7 @@
 					<a href="<: $u('Ideas','claim',$_.id, { action_token => $action_token } ) :>" class="button">
 						<i class="icon icon-thumbs-up-alt"></i> Develop this Instant Answer!
 					</a>
-				: } elsif $_.claimed_by == $c.user.id || $c.user.is('admin') {
+				: } elsif $_.claimed_by && ( $_.claimed_by == $c.user.id || $c.user.is('forum_manager') ) {
 					<a href="<: $u('Ideas','claim',$_.id, { action_token => $action_token } ) :>" class="button">
 						<i class="icon icon-remove"></i> Unclaim this Instant Answer
 					</a>
