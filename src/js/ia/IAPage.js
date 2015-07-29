@@ -131,6 +131,8 @@
                     });
 
                     $("body").on("click", ".devpage-edit", function(evt) {
+                        evt.preventDefault();
+
                         var $parent = $(this).parent().parent();
 
                         $(this).addClass("hide");
@@ -142,6 +144,8 @@
                     });
 
                     $("body").on("click", ".devpage-edit-popup", function(evt) {
+                        evt.preventDefault();
+
                         var field = $(this).attr("id").replace("dev-edit-", "");
                         var $popup = $("#" + field + "-popup");
 
@@ -177,9 +181,9 @@
                         if (ia_data.staged && ia_data.staged.top_details) {
                             delete ia_data.staged.top_details;
                         }
-                        
+
                         page.updateHandlebars(readonly_templates, ia_data, ia_data.live.dev_milestone, false);
-                        
+
                         // Remove and then append again all the templates for the top blue band
                         $(".ia-single--name").remove();
 
@@ -636,7 +640,7 @@
                     $("body").on("click", "#ia-single--details .frm__label__chk.js-autocommit", function(evt) {
                         commitEdit($(this));
                     });
-                    
+
                     // Dev Page: commit fields in the blue band
                     $("body").on('click', "#js-top-details-submit", function(evt) {
                         var $editable = $(".top-details.js-autocommit");
@@ -676,7 +680,7 @@
                         var $parent = $(this).parent().parent();
                         var $editable = $parent.find(".js-autocommit").first();
                         var $edit_parent = $editable.parent();
-                        
+
                         if ($edit_parent.hasClass("example_query") || $edit_parent.hasClass("other_queries")) {
                             // We pass the fields names as well in case all of them are removed
                             // so we'll be able to commit the empty value for these fields anyway
@@ -690,7 +694,7 @@
 
                     $("body").on('click', ".assign-button.js-autocommit", function(evt) {
                         var $input = $(this).parent().find(".team-input");
-                        
+
                         $input.val($.trim($(".header-account-info .user-name").text()));
                         $(this).hide();
                     });
@@ -727,7 +731,7 @@
                     $("body").on('click', '#add_topic', function(evt) {
                         var topics = $(".topic-separator").length;
                         var $empty_topic = $(".new_empty_topic").clone();
-                        
+
                         $(this).before($empty_topic.removeClass("hide").removeClass("new_empty_topic"));
 
                         if (topics > 1) {
@@ -754,7 +758,7 @@
                                 $first_query.parent().removeClass("other_queries").addClass("example_query");
                                 $first_query.attr("id", "example_query-input");
                             }
-                            
+
                             $(this).parent().remove();
                         } else {
                             if (field !== "topic") {
@@ -856,7 +860,7 @@
                         var is_json = is_json? is_json : false;
 
                         //console.log($editable.selector + " Before committing");
-                       console.log("IS JSON " + is_json); 
+                       console.log("IS JSON " + is_json);
                         var result = getUnsavedValue($editable, field, is_json);
 
                         field = result.field;
@@ -916,8 +920,8 @@
                                         is_json = true;
                                     }
                                 }
-                            } 
-                            
+                            }
+
                             if ($editable.hasClass("section-group__item")) {
                                 parent_field = $.trim($editable.parents(".section-group").attr("id"));
                                 var section_vals = getSectionVals($editable, parent_field);
@@ -1039,7 +1043,7 @@
                             //console.log($(this).attr("id") + " After committing");
                             var temp_result = getUnsavedValue($(this));
                             var temp_field = temp_result.field;
-                            
+
                             if ((temp_field !== field) && (temp_field !== secondary_field)) {
                                 var temp_value = temp_result.value;
                                 ia_data.staged[temp_field] = temp_value;
@@ -1064,7 +1068,7 @@
                                     temp_field = "topic";
                                     temp_editable = "select";
                                 }
-                                
+
                                 if (!ia_data.staged.top_fields[temp_field] && (temp_field !== field)) {
                                     temp_result = getUnsavedValue($(this), field, temp_editable);
                                     temp_value = temp_field === "topic"? $.parseJSON(temp_result.value) : temp_result.value;
@@ -1073,8 +1077,8 @@
                                 }
                             });
                         }
-                       
-                        //console.log("Unsaved: " + ia_data.staged); 
+
+                        //console.log("Unsaved: " + ia_data.staged);
                         page.updateHandlebars(readonly_templates, ia_data, ia_data.live.dev_milestone, false);
                         page.updateAll(readonly_templates, ia_data, false);
 
@@ -1107,10 +1111,10 @@
                                     // since those fields stay editable, unless it was the repo field, on which depends
                                     // the rendering of type-specific editable data
                                     var $details = subfield? $("#ia-single--details").find("." + subfield) : $("#ia-single--details").find("." + field);
-                                    if (data.result.saved && (!$details.length) 
+                                    if (data.result.saved && (!$details.length)
                                         && (!$("." + field + ".top-details").length) || field === "repo") {
                                         keepUnsavedEdits(field);
-                                    } 
+                                    }
                                 }
                             }
                         });
@@ -1213,7 +1217,7 @@
                 }
             });
 
-            if (edited && edited_fields === 0 && 
+            if (edited && edited_fields === 0 &&
                 (ia_data.live.dev_milestone === "live" || ia_data.live.dev_milestone === "deprecated")) {
                 $(".special-permissions__toggle-view").hide();
             }
