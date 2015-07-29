@@ -69,11 +69,23 @@
 
     <div class="readonly--info {{#if staged.example_query}}hide{{/if}}" id="example_query--readonly">
         {{#if example_query}}
-            <a class="one-line" href="https://duckduckgo.com/?q={{encodeURIComponent example_query}}{{tab_url tab}}" title="try this example on DuckDuckGo">{{example_query}}</a>
+            {{#ne_and dev_milestone 'live' 'deprecated'}}
+                {{#if test_machine}}
+                    <a class="one-line" href="https://{{test_machine}}.duckduckgo.com/?q={{encodeURIComponent example_query}}{{tab_url tab}}" title="try this example on DuckDuckGo">{{example_query}}</a>
+                {{/if}}
+            {{else}}
+                <a class="one-line" href="https://duckduckgo.com/?q={{encodeURIComponent example_query}}{{tab_url tab}}" title="try this example on DuckDuckGo">{{example_query}}</a>
+            {{/ne_and}}
         {{/if}}
         {{#if other_queries}}
             {{#each other_queries}}
-                <a class="one-line" href="https://duckduckgo.com/?q={{encodeURIComponent this}}{{tab_url ../tab}}" title="try this example on DuckDuckGo">{{this}}</a>
+                {{#ne_and ../../dev_milestone 'live' 'deprecated'}}
+                    {{#if ../../test_machine}}
+                        <a class="one-line" href="https://{{../../../test_machine}}.duckduckgo.com/?q={{encodeURIComponent this}}{{tab_url ../../../tab}}" title="try this example on DuckDuckGo">{{this}}</a>
+                    {{/if}}
+                {{else}}
+                    <a class="one-line" href="https://duckduckgo.com/?q={{encodeURIComponent this}}{{tab_url ../../tab}}" title="try this example on DuckDuckGo">{{this}}</a>
+                {{/ne_and}}
             {{/each}}
         {{/if}}
     </div>
