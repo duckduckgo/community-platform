@@ -69,11 +69,27 @@
 
     <div class="readonly--info {{#if staged.example_query}}hide{{/if}}" id="example_query--readonly">
         {{#if example_query}}
-            <a class="one-line" href="https://duckduckgo.com/?q={{encodeURIComponent example_query}}{{tab_url tab}}" title="try this example on DuckDuckGo">{{example_query}}</a>
+            {{#ne_and dev_milestone 'live' 'deprecated'}}
+                {{#if test_machine}}
+                    <a class="one-line" href="https://{{test_machine}}.duckduckgo.com/?q={{encodeURIComponent example_query}}{{tab_url tab}}" title="try this example on DuckDuckGo">{{example_query}}</a>
+                {{else}}
+                    {{example_query}}
+                {{/if}}
+            {{else}}
+                <a class="one-line" href="https://duckduckgo.com/?q={{encodeURIComponent example_query}}{{tab_url tab}}" title="try this example on DuckDuckGo">{{example_query}}</a>
+            {{/ne_and}}
         {{/if}}
         {{#if other_queries}}
             {{#each other_queries}}
-                <a class="one-line" href="https://duckduckgo.com/?q={{encodeURIComponent this}}{{tab_url ../tab}}" title="try this example on DuckDuckGo">{{this}}</a>
+                {{#ne_and ../../dev_milestone 'live' 'deprecated'}}
+                    {{#if ../../test_machine}}
+                        <a class="one-line" href="https://{{../../../test_machine}}.duckduckgo.com/?q={{encodeURIComponent this}}{{tab_url ../../../tab}}" title="try this example on DuckDuckGo">{{this}}</a>
+                    {{else}}
+                        {{this}}
+                    {{/if}}
+                {{else}}
+                    <a class="one-line" href="https://duckduckgo.com/?q={{encodeURIComponent this}}{{tab_url ../../tab}}" title="try this example on DuckDuckGo">{{this}}</a>
+                {{/ne_and}}
             {{/each}}
         {{/if}}
     </div>
@@ -81,34 +97,38 @@
 
 <div class="example-container">
   <div class="search-example pull-left">
-    <span class="ddgsi-loupe"></span> <span>{{example_query}}</span>
-  </div>
-
-  <div class="pull-right screenshot-switcher">
-    <span class="btn switcher-icon">
-      <span class="icon-extra-desktop"><span class="path1"></span><span class="path2"></span></span>
-    </span>
-
-    <span class="btn switcher-icon remove-border">
-      <span class="icon-extra-mobile add-opacity"><span class="path1"></span><span class="path2"></span></span>
-    </span>
-  </div>
-
-  {{#ne_and dev_milestone 'live' 'deprecated'}}
-    {{#if can_show}}
-        <div class="pull-right screenshot-switcher--generate hide">
-          <span class="btn btn--primary">Generate Screenshot</span>
-        </div>
+    {{#if example_query}}
+        <span class="ddgsi-loupe"></span> <span>{{example_query}}</span>
     {{/if}}
-  {{/ne_and}}
+  </div>
 
-  {{#eq_or dev_milestone 'live' 'deprecated'}}
-      {{#if ../permissions.can_edit}}
-          <div class="pull-right screenshot-switcher--generate hide">
-            <span class="btn btn--primary">Generate Screenshot</span>
-          </div>
-      {{/if}}
-  {{/eq_or}}
+  {{#ne_and dev_milestone 'planning' 'development'}}
+      <div class="pull-right screenshot-switcher">
+        <span class="btn switcher-icon">
+          <span class="icon-extra-desktop"><span class="path1"></span><span class="path2"></span></span>
+        </span>
+
+        <span class="btn switcher-icon remove-border">
+          <span class="icon-extra-mobile add-opacity"><span class="path1"></span><span class="path2"></span></span>
+        </span>
+      </div>
+
+      {{#ne_and dev_milestone 'live' 'deprecated'}}
+        {{#if can_show}}
+            <div class="pull-right screenshot-switcher--generate hide">
+              <span class="btn btn--primary">Generate Screenshot</span>
+            </div>
+        {{/if}}
+      {{/ne_and}}
+
+      {{#eq_or dev_milestone 'live' 'deprecated'}}
+          {{#if ../permissions.can_edit}}
+              <div class="pull-right screenshot-switcher--generate hide">
+                <span class="btn btn--primary">Generate Screenshot</span>
+              </div>
+          {{/if}}
+      {{/eq_or}}
+    {{/ne_and}}
 
   <span class="clearfix"></span>
 </div>

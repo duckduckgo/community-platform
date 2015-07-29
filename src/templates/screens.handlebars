@@ -1,4 +1,5 @@
 {{#with live}}
+{{#ne_and dev_milestone 'planning' 'development'}}
 <div class="{{#eq_or dev_milestone 'live' 'deprecated'}}screens--wide{{else}}twothirds{{/eq_or}}">
   <div class="ia-single--screenshots">
     <div class="screenshot--status hide">
@@ -34,4 +35,5 @@
       {{/if}}
   {{/ne_and}}
 </div>
+{{/ne_and}}
 {{/with}}
