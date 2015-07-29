@@ -641,11 +641,19 @@
                     $("body").on('click', "#js-top-details-submit", function(evt) {
                         var $editable = $(".top-details.js-autocommit");
                         var field;
+                        var is_json = false;
+                        var topic_done = false;
 
                         console.log($editable.length);
                         $editable.each(function(idx) {
                             field = $(this).hasClass("topic-group")? "topic" : "";
-                            commitEdit($(this), field, true);
+                            is_json = field === "topic"? true : false;
+
+                            // Make sure we try to commit topics just once
+                            if ((field !== "topic") || (!topic_done)) {
+                                commitEdit($(this), field, is_json);
+                                topic_done = field === "topic"? true : topic_done;
+                            }
                         });
 
                         $("#js-top-details-submit, #js-top-details-cancel").addClass("hide");
@@ -848,7 +856,7 @@
                         var is_json = is_json? is_json : false;
 
                         //console.log($editable.selector + " Before committing");
-                        
+                       console.log("IS JSON " + is_json); 
                         var result = getUnsavedValue($editable, field, is_json);
 
                         field = result.field;
@@ -858,7 +866,9 @@
 
                         var live_data = (ia_data.live[field] && is_json)? JSON.stringify(ia_data.live[field]) : ia_data.live[field];
 
-                        //console.log("After getUnsaved... " + field + " " + value);
+                        console.log("After getUnsaved... " + field + " " + value);
+                        console.log("Live data: " + live_data);
+                        console.log("Live data without JSON " + ia_data.live[field]);
                         if (field && (live_data !== value)) {
                             if (parent_field) {
                                 autocommit(parent_field, value, DDH_iaid, is_json, field);
@@ -886,7 +896,8 @@
                             if ($editable.hasClass("group-vals")) {
                                 is_json = true;
                                 field = $editable.parents(".parent-group").attr("id").replace(/\-.+/, "");
-                                value = getGroupVals(field);
+                                var $obj = field === "topic"? $(".topic-group.js-autocommit option:selected") : "";
+                                value = getGroupVals(field, $obj);
                                 value = JSON.stringify(value);
                             } else {
                                 field = $editable.attr("id").replace(/\-.+/, "");
@@ -933,7 +944,7 @@
                         var temp_val;
                         var value = [];
 
-                        if ($obj) {
+                        if ($obj.length) {
                             $selector = $obj;
                         } else {
                             $selector = (field === "topic")? $(".ia_topic .available_topics option:selected") : $("." + field).children("input");
