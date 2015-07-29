@@ -9,7 +9,7 @@
 <div class="ninety">
     <span class="top__categories one-line {{#eq_or dev_milestone 'live' 'deprecated'}}{{#unless topic}}hide{{/unless}}{{/eq_or}}">
         <!-- Don't add any separators when we're editing. -->
-        <span class="{{#eq_or dev_milestone 'live' 'deprecated'}}sep--after{{/eq_or}}">
+        <span class="{{#if permissions.can_edit}}{{#eq_or dev_milestone 'live' 'deprecated'}}sep--after{{/eq_or}}{{else}}sep--after{{/if}}">
             <span class="detail-title">Categories:</span>
             {{#if permissions.can_edit}}
                 {{#ne_and dev_milestone 'live' 'deprecated'}}
@@ -83,7 +83,7 @@
 
     <span class="top__repo">
         <!-- Don't add any separators when we're editing. -->
-        <span class="{{#eq_or dev_milestone 'live' 'deprecated'}}sep--after{{/eq_or}}">
+        <span class="{{#if permissions.can_edit}}{{#eq_or dev_milestone 'live' 'deprecated'}}sep--after{{/eq_or}}{{else}}sep--after{{/if}}">
             <span class="detail-title">Type:</span>
             {{#if permissions.can_edit}}
                 {{#ne_and dev_milestone 'live' 'deprecated'}}
