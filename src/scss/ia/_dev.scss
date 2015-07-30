@@ -1,3 +1,107 @@
+.ia-single {
+    .frm__label {
+        display: block;
+        font-weight: initial;
+    }
+
+    /* Make the text smaller and thinner */
+    .devpage-edit, .devpage-edit-popup, .devpage-commit, .devpage-cancel {
+        font-weight: initial;
+        font-size: 95%;
+    }
+
+    /* Add some space between the header and the "Edit" / "Commit" buttons */
+    .devpage-edit, .devpage-commit {
+        margin-left: 3px;
+    }
+
+    /* The textarea should have a maximum width to prevent it from overlapping
+       on the right column
+       */
+    #description-textarea {
+        max-width: 100%;
+        height: 5em;
+        width: 100%;
+
+        /* The design calls for a rounded border */
+        border-radius: 3px;
+    }
+
+    .ia-single--details {
+        &:focus {
+            outline: none;
+        }
+
+        label.details__label {
+            font-weight: 500;
+            margin-top: 10px;
+            margin-bottom: 5px;
+            display: inline-block;
+        }
+    }
+
+    #ia-single-top {
+        /* We need to set the color of the dropdown to the background color. */
+        .frm__select {
+            background-color: transparent;
+            border-color: transparent;
+            color: $white;
+
+            padding-right: 30px;
+
+            select {
+                color: $white;
+                text-transform: capitalize;
+                /* There's too much space inside the dropdown. */
+                padding: 0;
+                min-width: 0;
+            }
+        }
+
+        /* The + button should have a custom color. */
+        #add_topic {
+            background-color: #3a7fb4;
+            border-color: transparent;
+            color: $white;
+        }
+
+        /* The input text for the name shouldn't look like an input field.
+           This means transparent background and bigger text.
+          */
+        .ia-single--name input.frm__input {
+            background-color: transparent;
+            border-color: transparent;
+            font-size: 2em;
+            padding: 0;
+            color: #fff;
+            font-weight: 500;
+            height: auto;
+            line-height: 1;
+            position: relative;
+            bottom: 7px;
+        }
+
+        .topic-remove {
+            position: relative;
+            top: 2px;
+        }
+
+        .topic-container {
+            display: inline-block;
+        }
+
+        .edit-container {
+            .view-json {
+                margin-bottom: 1em;
+            }
+
+            #js-top-details-submit {
+                margin-right: 0.5em;
+            }
+        }
+    }
+}
+
 $frm__input-size: 24em;
 .frm__input {
     width: 100%;
@@ -104,7 +208,7 @@ select.available_types {
     overflow: hidden;
     width: 100%;
     margin-top: 2em;
-    
+
     .check-txt {
         height: 2.3em;
         display: inline-block;

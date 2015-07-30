@@ -1,205 +1,283 @@
 {{#if permissions.can_edit}}
     <div class="ia-single--details" tabindex="0" id="ia-single--details">
         <h3 class="ia-single--header">Details</h3>
-        <div class="left twothirds">
-            <div>
-                PERL MODULE
-            </div>
-            <input type="text" class="js-autocommit frm__input perl_module" id="perl_module-input" value="{{perl_module}}">
-        </div>
-        <div class="left third g">
-            <div>
-                TEMPLATE
-            </div>
-            <input type="text" class="js-autocommit frm__input template" id="template-input" value="{{template}}">
-        </div>
-        <span class="clearfix"></span>
-        
-        <div class="left twothirds">
-            <div>
-                PERL DEPENDENCIES
-            </div>
-            <input type="text" value="{{perl_dependencies}}" class="comma-separated js-autocommit frm__input perl_dependencies" id="perl_dependencies-input">
-        </div>
-        {{#if permissions.admin}}
-            <div class="left third g">
-                <div>
-                    TAB NAME
-                </div>
-                <input type="text" value="{{tab}}" class="js-autocommit frm__input tab" id="tab-input">
-            </div>
-            <span class="clearfix"></span>
-        {{/if}}
-        
+
+        <!-- Spice -->
         {{#eq repo 'spice'}}
-            <div class="left third {{#unless permissions.admin}}g{{/unless}}">
-                <div>
-                    API DOCUMENTATION
+            <div class="gw">
+                <div class="twothirds g">
+                    <label class="details__label">
+                        Perl Module
+                    </label>
+                    <input type="text" class="js-autocommit frm__input perl_module" id="perl_module-input" value="{{perl_module}}">
                 </div>
-                <input type="text" value="{{src_api_documentation}}" class="js-autocommit frm__input src_api_documentation" id="src_api_documentation-input">
+                <div class="third g">
+                    <label class="details__label">
+                        Template
+                    </label>
+                    <input type="text" class="js-autocommit frm__input template" id="template-input" value="{{template}}">
+                </div>
             </div>
-            
-            {{#unless permissions.admin}}
-                <span class="clearfix"></span>
-            {{/unless}}
-        
-            <div class="left third {{#if permissions.admin}}g{{/if}}">            
-                <div>
-                    API STATUS PAGE
+
+            <div class="gw">
+                <div class="twothirds g">
+                    <label class="details__label">
+                        Perl Dependencies
+                    </label>
+                    <input type="text" value="{{perl_dependencies}}" class="comma-separated js-autocommit frm__input perl_dependencies" id="perl_dependencies-input">
                 </div>
-                <input type="text" value="{{api_status_page}}" class="js-autocommit frm__input api_status_page" id="api_status_page-input">
-            </div>        
+                {{#if permissions.admin}}
+                    <div class="third g">
+                        <label class="details__label">
+                            Tab Name
+                        </label>
+                        <input type="text" value="{{tab}}" class="js-autocommit frm__input tab" id="tab-input">
+                    </div>
+                {{/if}}
+            </div>
+
+            <div class="gw">
+                <div class="third g">
+                    <label class="details__label">
+                        API Documentation
+                    </label>
+                    <input type="text" value="{{src_api_documentation}}" class="js-autocommit frm__input src_api_documentation" id="src_api_documentation-input">
+                </div>
+
+                <div class="third g">
+                    <label class="details__label">
+                        API Status Page
+                    </label>
+                    <input type="text" value="{{api_status_page}}" class="js-autocommit frm__input api_status_page" id="api_status_page-input">
+                </div>
+
+                <div class="third g">
+                    <ul class="section-group" id="answerbar-group">
+                        <li>
+                            <label class="details__label">Fallback Timeout (ms):</label>
+                            <input type="number" value="{{answerbar.fallback_timeout}}" class="js-autocommit frm__input fallback_timeout section-group__item">
+                        </li>
+                    </ul>
+                </div>
+            </div>
         {{/eq}}
 
-        {{#if permissions.admin}}
-            {{#eq repo 'longtail'}}
-                <div class="left third">   
+        <!-- Goodies -->
+        {{#eq repo 'goodies'}}
+            <div class="gw">
+                <div class="twothirds g">
+                    <label class="details__label">
+                        Perl Module
+                    </label>
+                    <input type="text" class="js-autocommit frm__input perl_module" id="perl_module-input" value="{{perl_module}}">
+                </div>
+                <div class="third g">
+                    <label class="details__label">
+                        Template
+                    </label>
+                    <input type="text" class="js-autocommit frm__input template" id="template-input" value="{{template}}">
+                </div>
+            </div>
+
+            <div class="gw">
+                <div class="twothirds g">
+                    <label class="details__label">
+                        Perl Dependencies
+                    </label>
+                    <input type="text" value="{{perl_dependencies}}" class="comma-separated js-autocommit frm__input perl_dependencies" id="perl_dependencies-input">
+                </div>
+                {{#if permissions.admin}}
+                    <div class="third g">
+                        <label class="details__label">
+                            Tab Name
+                        </label>
+                        <input type="text" value="{{tab}}" class="js-autocommit frm__input tab" id="tab-input">
+                    </div>
+                {{/if}}
+            </div>
+        {{/eq}}
+
+        {{#eq repo 'fathead'}}
+            <div class="gw">
+                <div class="twothird g">
+                    <div>
+                        <label class="details__label">
+                            Perl Module
+                        </label>
+                        <input type="text" class="js-autocommit frm__input perl_module" id="perl_module-input" value="{{perl_module}}">
+                    </div>
+                    <div>
+                        <label class="details__label">
+                            Template
+                        </label>
+                        <input type="text" class="js-autocommit frm__input template" id="template-input" value="{{template}}">
+                    </div>
+
+                    <div class="half">
+                        <label  class="details__label">
+                            Source ID
+                        </label>
+                        <input type="number" value="{{src_id}}" class="js-autocommit frm__input src_id" id="src_id-input">
+                    </div>
+                    <div class="half g">
+                        <label class="details__label">
+                            Directory
+                        </label>
+                        <input type="text" value="{{src_options.directory}}" class="js-autocommit frm__input directory clearfix section-group__item" id="directory-input">
+                    </div>
+                </div>
+                <div class="third g">
+                    <label class="details__label">
+                        Options
+                    </label>
+                    <ul>
+                        <li>
+                            <label class="frm__label">
+                                <input id="skip_abstract-check" class="skip_abstract section-group__item frm__label__chk js-autocommit" type="checkbox" {{#if src_options.skip_abstract}}checked="checked"{{/if}}>
+                                <span class="frm__label__txt">Skip Abstract</span>
+                            </label>
+                        </li>
+                        <li>
+                            <label class="frm__label">
+                                <input id="skip_abstract_paren-check" class="skip_abstract_paren section-group__item frm__label__chk js-autocommit" type="checkbox" {{#if src_options.skip_abstract_paren}}checked="checked"{{/if}}>
+                                <span class="frm__label__txt">Skip Abstract Parent</span>
+                            </label>
+                        </li>
+                        <li>
+                            <label class="frm__label">
+                                <input id="skip_icon-check" class="skip_icon section-group__item frm__label__chk js-autocommit" type="checkbox" {{#if src_options.skip_icon}}checked="checked"{{/if}}>
+                                <span class="frm__label__txt">Skip Icon</span>
+                            </label>
+                        </li>
+                        <li>
+                            <label class="frm__label">
+                                <input id="skip_image_name-check" class="skip_image_name section-group__item frm__label__chk js-autocommit" type="checkbox" {{#if src_options.skip_image_name}}checked="checked"{{/if}}>
+                                <span class="frm__label__txt">Skip Image Name</span>
+                            </label>
+                        </li>
+                        <li>
+                            <label class="frm__label">
+                                <input id="is_wikipedia-check" class="is_wikipedia section-group__item frm__label__chk js-autocommit" type="checkbox" {{#if src_options.is_wikipedia}}checked="checked"{{/if}}>
+                                <span class="frm__label__txt">Is Wikipedia</span>
+                            </label>
+                        </li>
+                        <li>
+                            <label class="frm__label">
+                                <input id="is_mediawiki-check" class="is_mediawiki section-group__item frm__label__chk js-autocommit" type="checkbox" {{#if src_options.is_mediawiki}}checked="checked"{{/if}}>
+                                <span class="frm__label__txt">Is MediaWiki</span>
+                            </label>
+                        </li>
+                        <li>
+                            <label class="frm__label">
+                                <input id="is_fanon-check" class="is_fanon section-group__item frm__label__chk js-autocommit" type="checkbox" {{#if src_options.is_fanon}}checked="checked"{{/if}}>
+                                <span class="frm__label__txt">Is Fanon</span>
+                            </label>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="gw">
+                <div class="third g">
+                    <label class="details__label">
+                        Source Name
+                    </label>
+                    <input type="text" value="{{src_name}}" class="js-autocommit frm__input src_name" id="src_name-input">
+                </div>
+
+                <div class="third g">
+                    <label class="details__label">
+                        Minimum Abstract Length
+                    </label>
+                    <input type="number" step="1" value="{{src_options.min_abstract_length}}" class="js-autocommit frm__input min_abstract_length clearfix section-group__item" id="min_abstract_length-input">
+                </div>
+
+                <div class="third g">
+                    <label class="details__label">
+                        Source Skip
+                    </label>
+                    <input type="text" value="{{src_options.src_skip}}" class="js-autocommit frm__input src_skip clearfix section-group__item" id="src_skip-input">
+                </div>
+            </div>
+            <div class="gw">
+                <div class="third g">
+                    <label class="details__label">
+                        Source Domain
+                    </label>
+                    <input type="text" value="{{src_domain}}" class="js-autocommit frm__input src_domain" id="src_domain-input">
+                </div>
+                <div class="third g">
+                    <label class="details__label">
+                        Language
+                    </label>
+                    <input type="text" value="{{src_options.language}}" class="js-autocommit frm__input language clearfix section-group__item" id="language-input">
+                </div>
+                <div class="third g">
+                    <label class="details__label">
+                        Source Info
+                    </label>
+                    <input type="text" value="{{src_options.src_info}}" class="js-autocommit frm__input src_info clearfix section-group__item" id="src_info-input">
+                </div>
+            </div>
+            <div>
+                <label class="details__label">
+                    Skip Query
+                </label>
+                <input type="text" value="{{src_options.skip_qr}}" class="js-autocommit frm__input skip_qr clearfix section-group__item" id="skip_qr">
+            </div>
+        {{/eq}}
+
+        <!-- Longtail -->
+        {{#eq repo 'longtail'}}
+            <div class="gw">
+                <div class="twothirds g">
+                    <label class="details__label">
+                        Perl Module
+                    </label>
+                    <input type="text" class="js-autocommit frm__input perl_module" id="perl_module-input" value="{{perl_module}}">
+                </div>
+                <div class="third g">
+                    <label class="details__label">
+                        Template
+                    </label>
+                    <input type="text" class="js-autocommit frm__input template" id="template-input" value="{{template}}">
+                </div>
+            </div>
+
+            <div class="gw">
+                <div class="twothirds g">
+                    <label class="details__label">
+                        Perl Dependencies
+                    </label>
+                    <input type="text" value="{{perl_dependencies}}" class="comma-separated js-autocommit frm__input perl_dependencies" id="perl_dependencies-input">
+                </div>
+                {{#if permissions.admin}}
+                    <div class="third g">
+                        <label class="details__label">
+                            Tab Name
+                        </label>
+                        <input type="text" value="{{tab}}" class="js-autocommit frm__input tab" id="tab-input">
+                    </div>
+                {{/if}}
+            </div>
+
+            <div class="gw">
+                <div class="twothirds g">
+                    <label class="details__label">
+                        Source Domain
+                    </label>
+                    <input type="text" value="{{src_domain}}" class="js-autocommit frm__input src_domain" id="src_domain-input">
+                </div>
+                <div class="third g">
+                    <label class="details__label">
+                        Is StackExchange
+                    </label>
                     <label class="frm__label">
                         <input id="is_stackexchange-check" class="is_stackexchange frm__label__chk js-autocommit" type="checkbox" {{#if is_stackexchange}}checked="checked"{{/if}}>
                         <span class="frm__label__txt">Is StackExchange</span>
                     </label>
                 </div>
-            {{/eq}} 
-                   
-            {{#eq_or repo 'fathead' 'longtail'}} 
-                <div class="left third {{#eq repo 'longtail'}}g{{/eq}}">
-                    <div>
-                        SOURCE DOMAIN
-                    </div>
-                    <input type="text" value="{{src_domain}}" class="js-autocommit frm__input src_domain" id="src_domain-input">
-                </div>
-            {{/eq_or}}
-
-            {{#eq repo 'fathead'}}
-                <div class="left third g">
-                    <div>
-                        SOURCE ID
-                    </div>
-                    <input type="number" value="{{src_id}}" class="js-autocommit frm__input src_id" id="src_id-input">
-                </div>
-                   
-                <div class="left third g">
-                    <div>
-                        SOURCE NAME
-                    </div>
-                    <input type="text" value="{{src_name}}" class="js-autocommit frm__input src_name" id="src_name-input">
-                </div>
-
-                <span class="clearfix"></span>
-
-                <div class="section-group" id="src_options-group">
-                    <div class="left third">
-                        <div>
-                            SOURCE SKIP
-                        </div>
-                        <input type="text" value="{{src_options.src_skip}}" class="js-autocommit frm__input src_skip clearfix section-group__item" id="src_skip-input">
-                    </div>
-
-                    <div class="left third g">
-                        <div>
-                            SKIP QUERY
-                        </div>
-                        <input type="text" value="{{src_options.skip_qr}}" class="js-autocommit frm__input skip_qr clearfix section-group__item" id="skip_qr">
-                    </div>
-
-                    <div class="left third g">
-                        <ul>
-                            <li>
-                                <label class="frm__label">
-                                    <input id="skip_abstract-check" class="skip_abstract section-group__item frm__label__chk js-autocommit" type="checkbox" {{#if src_options.skip_abstract}}checked="checked"{{/if}}>
-                                    <span class="frm__label__txt">Skip Abstract</span>
-                                </label>
-                            </li>
-                            <li>
-                                <label class="frm__label">
-                                    <input id="skip_abstract_paren-check" class="skip_abstract_paren section-group__item frm__label__chk js-autocommit" type="checkbox" {{#if src_options.skip_abstract_paren}}checked="checked"{{/if}}>
-                                    <span class="frm__label__txt">Skip Abstract Parent</span>
-                                </label>
-                            </li>
-                            <li>
-                                <label class="frm__label">
-                                    <input id="skip_icon-check" class="skip_icon section-group__item frm__label__chk js-autocommit" type="checkbox" {{#if src_options.skip_icon}}checked="checked"{{/if}}>
-                                    <span class="frm__label__txt">Skip Icon</span>
-                                </label>
-                            </li>
-                            <li>
-                                <label class="frm__label">
-                                    <input id="skip_image_name-check" class="skip_image_name section-group__item frm__label__chk js-autocommit" type="checkbox" {{#if src_options.skip_image_name}}checked="checked"{{/if}}>
-                                    <span class="frm__label__txt">Skip Image Name</span>
-                                </label>
-                            </li>
-                            <li>
-                                <label class="frm__label">
-                                    <input id="is_wikipedia-check" class="is_wikipedia section-group__item frm__label__chk js-autocommit" type="checkbox" {{#if src_options.is_wikipedia}}checked="checked"{{/if}}>
-                                    <span class="frm__label__txt">Is Wikipedia</span>
-                                </label>
-                            </li>
-                            <li>
-                                <label class="frm__label">
-                                    <input id="is_mediawiki-check" class="is_mediawiki section-group__item frm__label__chk js-autocommit" type="checkbox" {{#if src_options.is_mediawiki}}checked="checked"{{/if}}>
-                                    <span class="frm__label__txt">Is MediaWiki</span>
-                                </label>
-                            </li>
-                            <li>
-                                <label class="frm__label">
-                                    <input id="is_fanon-check" class="is_fanon section-group__item frm__label__chk js-autocommit" type="checkbox" {{#if src_options.is_fanon}}checked="checked"{{/if}}>
-                                    <span class="frm__label__txt">Is Fanon</span>
-                                </label>
-                            </li>
-                        </ul>
-                    </div>
-
-                    <span class="clearfix"></span>
-
-                    <div class="left third">
-                        <div>
-                            DIRECTORY
-                        </div>
-                        <input type="text" value="{{src_options.directory}}" class="js-autocommit frm__input directory clearfix section-group__item" id="directory-input">
-                    </div>
-
-                    <div class="left third g">
-                        <div>
-                            MINIMUM ABSTRACT LENGTH
-                        </div>
-                        <input type="number" step="1" value="{{src_options.min_abstract_length}}" class="js-autocommit frm__input min_abstract_length clearfix section-group__item" id="min_abstract_length-input">
-                    </div>
-
-                    <div class="left third g">
-                        <div>
-                            SOURCE INFO
-                        </div>
-                        <input type="text" value="{{src_options.src_info}}" class="js-autocommit frm__input src_info clearfix section-group__item" id="src_info-input">
-                    </div>
-                    
-                    <span class="clearfix"></span>
-
-                    <div class="left third">
-                        <div>
-                            LANGUAGE
-                        </div>
-                        <input type="text" value="{{src_options.language}}" class="js-autocommit frm__input language clearfix section-group__item" id="language-input">
-                    </div>
-                {{/eq}}
             </div>
-        
-            {{#eq repo 'spice'}}
-                <div class="left third g">
-                    <div>
-                        ANSWERBAR
-                    </div>
-                    <div>
-                        <ul class="section-group" id="answerbar-group">
-                            <li>
-                                <label class="left">Fallback Timeout (ms):</label>
-                                <input type="number" value="{{answerbar.fallback_timeout}}" class="js-autocommit frm__input fallback_timeout clearfix section-group__item">
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            {{/eq}}
-        {{/if}}
+        {{/eq}}
+
     </div>
-    
-    <span class="clearfix"></span>
 {{/if}}

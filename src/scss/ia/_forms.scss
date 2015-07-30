@@ -1,6 +1,6 @@
 /*
 	Forms
-	
+
 	For anything that isn't the search form
 	(Newsletter signup, etc)
 */
@@ -27,7 +27,7 @@ $form-text-color: $dark;
 			display: inline-block;
 			overflow: hidden;
 		}
-	
+
 	.frm__text,
 	.frm__input {
 		@include box-sizing('border-box');
@@ -36,13 +36,13 @@ $form-text-color: $dark;
 		background-color: $alt-bg;
 		border: 1px solid $form-border-color;
 		color: $form-text-color;
-		
+
 		outline: none;
 	}
 		.frm__input--disabled {
 			background-color: $form-border-color;
 		}
-	
+
 	.frm__input {
 		height: 2em;
 		line-height: 2em;
@@ -74,42 +74,42 @@ $form-text-color: $dark;
 	.frm__text {
 		padding: $small-unit;
 	}
-	
+
 	.frm__select {
 		@include border-radius();
 		display: inline-block;
 		position: relative;
 		overflow: hidden;
-		
+
 		line-height: 2.1;
 		height: 2.2em;
 
 		border: 1px solid $button-border;
 		background-color: $button-bg;
 		color: $button-color;
-		
+
 		padding: 0;
 		vertical-align: middle;
 		margin-bottom: 0;
 		cursor: pointer;
-		
+
 		&:hover {
 			background-color: $white;
 		}
-		
+
 		select {
 			@include appearance(none);
 			background: none;
 			cursor: pointer;
-			
+
 			margin: 0;
 			padding: 0 28px 0 $three-quarter-unit;
 			position: relative;
 			display: block;
-			
+
 			font-size: 1em;
 			line-height: inherit;
-			
+
 			// yucky hacks to override browser junk
 			min-width: 10em;
 			width: 140% !important;
@@ -121,24 +121,24 @@ $form-text-color: $dark;
 				padding-bottom: 0.4em;
 			}
 		}
-		
+
 		&:after {
 			@include icon('down');
-			
+
 			margin-top: -5px;
 			font-size: 12px;
 			line-height: 1;
-			
+
 			pointer-events: none;
 			vertical-align: middle;
 			display: inline-block;
-			
+
 			position: absolute;
 			right: 10px;
 			top: 50%;
 		}
 	}
-	
+
 	.frm__buttons {
 		clear: both;
 		padding-top: $base-unit;
@@ -237,7 +237,7 @@ $form-text-color: $dark;
 		display: block;
 		width: 100%;
 	}
-	
+
 	.frm__label {
 		margin-top: $big-unit;
 		margin-bottom: $half-unit;

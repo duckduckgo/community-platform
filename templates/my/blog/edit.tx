@@ -18,7 +18,7 @@
 					<: } :>
 				</h3>
 				<: if $post.company_blog { :>
-					<img src="/static/images/duckduckgo-icon.png" width="32" height="32" title="Official DuckDuckGo" class="admin-badge pull-right" />				
+					<img src="/static/images/duckduckgo-icon.png" width="32" height="32" title="Official DuckDuckGo" class="admin-badge pull-right" />
 				<: } :>
 			</div>
 			<div class="body">
@@ -40,7 +40,7 @@
 					<div class="twothird">
 						<input type="text" name="uri" size="50" value="<: $post.uri :>" placeholder="(leave empty to take slug from title)" />
 					</div>
-				</div>				
+				</div>
 				<div class="row">
 					<div class="third">
 						<label for="fixed_date">Date of Post <br/><small>(like 'Dec 21 2003 18:00')</small><label>
@@ -55,7 +55,7 @@
 						</div>
 					</div>
 					<: } :>
-				</div>				
+				</div>
 				<div class="row">
 					<div class="third">
 						<label for="topics">Topics</label>
@@ -71,7 +71,7 @@
 					</div>
 					<: } :>
 				</div>
-				
+
 				<: if $c.user.admin { :>
 					<div class="row">
 						<div class="third">
@@ -103,7 +103,7 @@
 						<label for="live">Make this post LIVE</label>
 					</div>
 					<div class="twothird">
-						<input type="checkbox" name="live" value="1" <: if $post.live { :>checked="checked"<: } :>/>
+						<input type="checkbox" class="chk" name="live" value="1" <: if $post.live { :>checked="checked"<: } :>/>
 					</div>
 				</div>
 				<div class="row">

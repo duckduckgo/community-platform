@@ -34,7 +34,7 @@
                         </div>
                     </li>
                 {{/if}}
-                
+
                 {{#each other_queries}}
                     <li>
                         <span class="{{#if @first}}{{#if ../../example_query}}other_queries{{else}}example_query{{/if}}{{else}}other_queries{{/if}} left">
@@ -49,9 +49,9 @@
                     {{/module_zero}}
                 {{/each}}
             {{/if}}
-            
+
             <li class="editpage hide left new_input">
-                <span class="other_queries left"">
+                <span class="other_queries left">
                     <input type="text" value="" class="js-autocommit group-vals" />
                 </span>
                 <div class="button delete listbutton left other_queries" title="Remove trigger">
@@ -65,7 +65,7 @@
             </li>
         </ul>
     {{/if}}
- 
+
 
     <div class="readonly--info {{#if staged.example_query}}hide{{/if}}" id="example_query--readonly">
         {{#if example_query}}

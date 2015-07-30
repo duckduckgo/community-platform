@@ -1,5 +1,5 @@
 <div id="big-description">
-    <h3 class="ia-single--header">Description 
+    <h3 class="ia-single--header">Description
     {{#if permissions.can_edit}}
         {{#ne_and dev_milestone 'live' 'deprecated'}}
             <a href="#" class="devpage-edit {{#if staged.description}}hide{{/if}}" id="dev-edit-description">Edit</a>
@@ -14,7 +14,7 @@
         {{/if}}
     {{/if}}
     </h3>
-    
+
     <p  class="readonly--info {{#if staged.description}}hide{{/if}}" id="description--readonly">
         {{#if description}}
             {{description}}
@@ -30,14 +30,14 @@
             {{/if}}
         {{/if}}
     </p>
-    
+
     {{#if permissions.can_edit}}
-        <textarea rows="2" cols="100" class="{{#unless staged.description}}hide{{/unless}} frm__text description js-autocommit hidden-toshow" id="description-textarea">
-            {{#if staged.description}}
+        <textarea class="{{#unless staged.description}}hide{{/unless}} frm__text description js-autocommit hidden-toshow" id="description-textarea">
+            {{~#if staged.description~}}
                 {{staged.description}}
-            {{else}}
+            {{~else~}}
                 {{description}}
-            {{/if}}
+            {{~/if~}}
         </textarea>
     {{/if}}
 </div>

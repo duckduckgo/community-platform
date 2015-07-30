@@ -10,14 +10,14 @@
 				<: } :>
 			</b></h3>
 			<hr class="clear" />
-			<p>Your account can either be public or private.  If it's private, you show as <i>&lt;anonymous&gt;</i> whenever you make a comment on this platform.  You're free to switch back and forth as you please, but we've added this extra step so that it's harder to do accidentally.</p>				
+			<p>Your account can either be public or private.  If it's private, you show as <i>&lt;anonymous&gt;</i> whenever you make a comment on this platform.  You're free to switch back and forth as you please, but we've added this extra step so that it's harder to do accidentally.</p>
 			<: if $wrong_captcha { :>
 				<div class="notice error">
-					<i class="icn icon-warning-sign"></i> 
+					<i class="icn icon-warning-sign"></i>
 					You got the captcha wrong!  That probably means you're a robot.  If you're not, try try again.
 				</div>
 			<: } :>
-			
+
 			<hr class="clear" />
 			<div class="half">
 				<div class="robo-blaster-wrap group">
@@ -30,7 +30,7 @@
 				</div>
 			</div>
 			<div class="half">
-				<p class="agree-terms"><input type="checkbox" /> Check this box.  Or don't.  Doesn't matter really.</p>
+				<p class="agree-terms"><input type="checkbox" class="chk"/> Check this box.  Or don't.  Doesn't matter really.</p>
 				<div class="half">
 					<div class="input-wrap"><input type="submit" value="Make <: $c.user.public ? 'Private' : 'Public' :>" class="button blue submit" name="<: $c.user.public ? 'hide' : 'show' :>_profile" /></div>
 				</div>
