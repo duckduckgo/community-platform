@@ -135,7 +135,7 @@
 
                         if($(this).attr("id") === "dev-edit-example_query") {
                             $(".ia-examples input[type='text']").each(function() {
-                                $(this).css("width", this.value.length * 7);
+                                $(this).css("width", (this.value.length * 8 || 100) + "px");
                             });
                         }
 

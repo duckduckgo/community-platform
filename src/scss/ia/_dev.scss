@@ -42,6 +42,11 @@
 
     #other_queries-group {
         overflow: auto;
+
+        li {
+            display: inline-block;
+            margin-top: 10px;
+        }
     }
 
     #add_trigger_button {
@@ -49,14 +54,18 @@
         padding-bottom: 0;
     }
 
-    #example_query-input {
-        background-color: #f7f7f7;
+    input.example_query, input.group-vals {
+        background-color: $silver;
         border: none;
         outline: none;
         padding: 0.6em;
         width: auto;
-        color: #666;
+        color: $slate-light;
         border-radius: 3px;
+
+        &:focus {
+            background-color: $silver-light;
+        }
     }
 
     .example_query--delete {
