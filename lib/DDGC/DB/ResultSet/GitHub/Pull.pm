@@ -42,16 +42,5 @@ sub most_recent {
     )->first;
 }
 
-sub prefetch_review_comments_not_by_pull_author {
-    my ($self) = @_;
-    $self->search({
-    }, {
-        prefetch => 'github_review_comments',
-        # ignore comments made by the person who created the pr
-        'github_review_comments.github_user_id' => { '!=' => 'me.github_user_id' },
-        order_by => 'github_review_comments.created_at'
-    });
-}
-
 no Moose;
 __PACKAGE__->meta->make_immutable( inline_constructor => 0 );

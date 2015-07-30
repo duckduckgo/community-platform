@@ -137,22 +137,34 @@ sub forks_report {
 
 sub issues_report {
     my $self = shift;
+print STDERR "======================== issues_report ==============================================\n";
 
     my $rs = $self->db->rs('GitHub::Issue')
         ->search
         ->with_created_at('-between' => $self->between)
         ->with_isa_pull_request(1)
-        ->prefetch_comments_not_by_issue_author;
+        ->prefetch('github_comments');
 
     my $count = 0;
     my $total_mins = 0;
 
     while (my $github_issue = $rs->next) {
-        my $first_comment = $github_issue->github_comments->first;
+        my $first_comment = $github_issue->github_comments
+            ->with_github_user_id('!=' => $github_issue->github_user_id)
+            ->order_by('created_at')
+            ->first;
+
         next unless $first_comment;  # FIXME  - should us a duration of zero instead of skipping?
+
+print STDERR sprintf "======================== issue : %s\n", $github_issue->number;
+print STDERR sprintf "======================== repo  : %s\n", $github_issue->github_repo->full_name;
+print STDERR sprintf "================================== first comment : %s\n", $first_comment->number;
+print STDERR sprintf "================================== author        : %s\n", $first_comment->github_user->login;
+print STDERR sprintf "================================== created       : %s\n", $first_comment->created_at;
 
         my $duration = $first_comment->created_at - $github_issue->created_at;
         my $mins     = duration_to_minutes($duration);
+print STDERR sprintf "================================== duration      : %s\n", $mins;
         $total_mins += $mins;
         $count++;
     }
@@ -174,7 +186,7 @@ sub code_review_report {
         ->search
         ->with_created_at('-between' => $self->between)
         ->ignore_staff_pull_requests
-        ->prefetch_review_comments_not_by_pull_author;
+        ->prefetch('github_review_comments');
 
     my $review_total = 0;
     my $review_count = 0;
@@ -195,7 +207,12 @@ sub code_review_report {
             $count++;
         }
 
-        my $comment  = $github_pull->github_review_comments->first || next;
+        my $comment = $github_pull->github_review_comments
+            ->with_github_user_id('!=' => $github_pull->github_user_id)
+            ->order_by('created_at')
+            ->first
+            || next;
+
         my $duration = $comment->created_at - $github_pull->created_at;
         my $mins = duration_to_minutes($duration);
 
