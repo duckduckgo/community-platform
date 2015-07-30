@@ -28,10 +28,8 @@
                     <li>
                         <span class="example_query left">
                             <input type="text" id="example_query-input" value="{{example_query}}" class="example_query js-autocommit" />
+                            <span><i class="ddgsi-close">X</i></span>
                         </span>
-                        <div class="button delete listbutton left example_query" title="Remove trigger">
-                            <i class="icon-remove" />
-                        </div>
                     </li>
                 {{/if}}
 
@@ -39,10 +37,8 @@
                     <li>
                         <span class="{{#if @first}}{{#if ../../example_query}}other_queries{{else}}example_query{{/if}}{{else}}other_queries{{/if}} left">
                             <input type="text" value="{{this}}" class="js-autocommit {{#if @first}}{{#if ../../example_query}}group-vals{{else}}example_query{{/if}}{{else}}group-vals{{/if}}" {{#unless ../../example_query}}{{#if @first}}id="example_query-input"{{/if}}{{/unless}}/>
+                            <span><i class="ddgsi-close">X</i></span>
                         </span>
-                        <div class="button delete listbutton left {{#if @first}}{{#if ../../example_query}}other_queries{{else}}example_query{{/if}}{{else}}other_queries{{/if}}" title="Remove trigger">
-                            <i class="icon-remove" />
-                        </div>
                     </li>
                     {{#module_zero @index 3}}
                         <span class="clearfix"></span>
@@ -54,9 +50,6 @@
                 <span class="other_queries left">
                     <input type="text" value="" class="js-autocommit group-vals" />
                 </span>
-                <div class="button delete listbutton left other_queries" title="Remove trigger">
-                    <i class="icon-remove" />
-                </div>
             </li>
             <li class="editpage left add_input" id="add_trigger">
                 <div class="button listbutton left" id="add_trigger_button" title="Add trigger">
