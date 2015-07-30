@@ -3,19 +3,19 @@
         <h3 class="ia-single--header">ID 
         {{#if permissions.admin}}
             {{#ne_and dev_milestone 'live' 'deprecated'}}
-                <a href="#" class="devpage-edit {{#if staged.meta_id}}hide{{/if}}" id="dev-edit-meta_id">Edit</a>
-                <a href="#" class="devpage-commit sep--after {{#unless staged.meta_id}}hide{{/unless}}" id="dev-commit-meta_id">Commit</a>
-                <a href="#" class="devpage-cancel {{#unless staged.meta_id}}hide{{/unless}}" id="dev-cancel-meta_id">Cancel</a>
+                <a href="#" class="devpage-edit {{#if staged.id}}hide{{/if}}" id="dev-edit-id">Edit</a>
+                <a href="#" class="devpage-commit sep--after {{#unless staged.id}}hide{{/unless}}" id="dev-commit-id">Commit</a>
+                <a href="#" class="devpage-cancel {{#unless staged.id}}hide{{/unless}}" id="dev-cancel-id">Cancel</a>
             {{/ne_and}}
         {{/if}}
         </h3>
         
-        <span class="readonly--info {{#if staged.meta_id}}hide{{/if}}" id="meta_id--readonly">
+        <span class="readonly--info {{#if staged.id}}hide{{/if}}" id="id--readonly">
             {{id}}
         </span>
 
         {{#if permissions.admin}}
-            <input type="text" class=" {{#unless staged.meta_id}}hide{{/unless}} frm__input meta_id js-autocommit hidden-toshow" id="meta_id-input" value="{{#if staged.meta_id}}{{staged.meta_id}}{{else}}{{id}}{{/if}}" />
+            <input type="text" class=" {{#unless staged.id}}hide{{/unless}} frm__input id js-autocommit hidden-toshow" id="id-input" value="{{#if staged.id}}{{staged.id}}{{else}}{{id}}{{/if}}" />
         {{/if}}
     </div>
 

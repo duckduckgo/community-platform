@@ -1087,7 +1087,7 @@
                         var $unsaved_edits = $commit_open.find(".js-autocommit");
                         var secondary_field = "";
                         ia_data.staged = {};
-                        var $error_save = [];
+                        var error_save = [];
 
                         if ((field === "example_query") || (field === "other_queries")) {
                             secondary_field = (field === "example_query")? "other_queries" : "example_query";
@@ -1102,8 +1102,8 @@
                                 var temp_value = temp_result.value;
                                 ia_data.staged[temp_field] = temp_value;
                             
-                                if ($(this).hasClass("not_saved")) {
-                                    $error_save.push($(this));
+                                if ($(this).hasClass("not_saved") && ($.inArray(temp_field, error_save) === -1)) {
+                                    error_save.push(temp_field);
                                 }
                             }
                         });
@@ -1140,7 +1140,10 @@
                         page.updateAll(readonly_templates, ia_data, false);
 
                         $commit_open.find(".devpage-edit").trigger("click");
-                        $($error_save).addClass("not_saved");
+
+                        $.each(error_save, function(idx, val) {
+                            $("." + val).addClass("not_saved");
+                        });
                     }
 
                     // Saves values for editable fields on the dev page
