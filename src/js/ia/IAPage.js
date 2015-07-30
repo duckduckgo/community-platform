@@ -678,6 +678,11 @@
                         commitEdit($(this));
                     });
 
+                    // Dev Page: commit checkboxes in the testing section
+                    $("body").on("click", ".testing-section .js-autocommit", function(evt) {
+                        commitEdit($(this));
+                    });
+
                     // Dev Page: commit fields in the blue band
                     $("body").on('click', "#js-top-details-submit", function(evt) {
                         var $editable = $(".top-details.js-autocommit");
