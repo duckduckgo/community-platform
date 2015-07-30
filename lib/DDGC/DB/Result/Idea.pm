@@ -210,6 +210,23 @@ sub set_user_vote {
 	}
 }
 
+sub toggle_claim {
+	my ( $self, $user ) = @_;
+	if ( !$self->claimed_by ) {
+		$self->update( {
+			claimed_by => $user->id,
+		} );
+		return 1;
+	}
+	elsif ( $self->claimed_by == $user->id || $user->is('forum_manager') ) {
+		$self->update( {
+			claimed_by => undef,
+		} );
+		return -1;
+	}
+	return 0;
+}
+
 sub get_url {
 	my $self = shift;
 	my $key = substr(lc($self->title),0,50);
