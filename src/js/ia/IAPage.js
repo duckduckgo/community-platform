@@ -802,7 +802,7 @@
                         window.location = "/ia/commit/" + DDH_iaid;
                     });
 
-                    $("body").on("click", ".button.delete", function(evt) {
+                    $("body").on("click", ".delete", function(evt) {
                         var field = $(this).attr('name');
 
                         // If dev milestone is not 'live' it means we are in the dev page

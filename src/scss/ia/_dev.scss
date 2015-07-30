@@ -62,9 +62,11 @@
         width: auto;
         color: $slate-light;
         border-radius: 3px;
+        border: 1px solid $silver;
 
         &:focus {
             background-color: $silver-light;
+            border: 1px solid $grey;
         }
     }
 
