@@ -820,7 +820,7 @@
                                 $first_query.attr("id", "example_query-input");
                             }
 
-                            $(this).parent().remove();
+                            $(this).parent().parent().remove();
                         } else {
                             if (field !== "topic") {
                                 $(this).parent().remove();
