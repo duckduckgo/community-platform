@@ -45,9 +45,13 @@
                           {{/loop_n}}
                       {{/if}}
 
-                      <div class="btn {{#gt topic 2}}hide{{/gt}}" id="add_topic">
+                      <div class="button {{#gt topic 1}}hide{{/gt}}" id="add_topic">
                         <i class="ddgsi-plus" />
                       </div>
+
+                      <span class="hide" id="topic-cancel">
+                        <a href="#">Cancel</a>
+                      </span>
 
                       <div class="hide separator topic-separator left new_empty_topic">
                         <div class="left topic-remove hide" name="topic" title="Remove this topic">
@@ -55,7 +59,7 @@
                         </div>
                         <span class="frm__select">
                          <select class="group-vals topic top-details js-autocommit topic-group left">
-                          <option value="0"></option>
+                          <option value="" disabled selected>Select a Category</option>
                          </select>
                          </span>
                       </div>
