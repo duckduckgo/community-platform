@@ -51,11 +51,11 @@
 				<: } :>
 				: if !$_.claimed_by && ( $_.status == 3 || $_.status == 10 || $_.status == 12 ) {
 					<a href="<: $u('Ideas','claim',$_.id, { action_token => $action_token } ) :>" class="button">
-						<i class="icon icon-thumbs-up-alt"></i> Develop this Instant Answer!
+						<i class="icon icon-thumbs-up-alt"></i> Develop this IA!
 					</a>
 				: } elsif $_.claimed_by && ( $_.claimed_by == $c.user.id || $c.user.is('forum_manager') ) {
 					<a href="<: $u('Ideas','claim',$_.id, { action_token => $action_token } ) :>" class="button">
-						<i class="icon icon-remove"></i> Unclaim this Instant Answer
+						<i class="icon icon-remove"></i> Unclaim this IA
 					</a>
 				: }
 				</span>
