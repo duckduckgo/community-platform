@@ -166,7 +166,7 @@
                         evt.preventDefault();
 
                         var $parent = $(this).parent().parent();
-                        var field = $parent.find(".js-autocommit").attr("id").replace(/\-.+/, "");
+                        var field = $(this).attr("id").replace(/dev\-cancel\-/, "");
 
                         if (ia_data.staged && ia_data.staged[field]) {
                             // Remove any unsaved edits and then refresh Handlebars
