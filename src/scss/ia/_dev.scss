@@ -40,16 +40,22 @@
         }
     }
 
-    #other_queries-group {
+    #other_queries-group, #triggers-group {
         overflow: auto;
+        overflow-y: hidden;
 
         li {
             display: inline-block;
             margin-top: 10px;
+            margin-bottom: 1px;
+        }
+
+        li.hide {
+            display: none;
         }
     }
 
-    #add_trigger_button {
+    #add_example_button, #add_trigger_button {
         padding-top: 0;
         padding-bottom: 0;
     }
@@ -70,7 +76,7 @@
         }
     }
 
-    .example_query--delete {
+    .delete-tag {
         display: inline-block;
         position: relative;
         right: 21px;

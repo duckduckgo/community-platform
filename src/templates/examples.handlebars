@@ -28,7 +28,7 @@
                     <li>
                         <span class="example_query">
                             <input type="text" id="example_query-input" value="{{example_query}}" class="example_query js-autocommit" />
-                            <span class="example_query--delete delete {{#if @first}}example_query{{else}}other_queries{{/if}}"><i class="ddgsi-close">X</i></span>
+                            <span class="delete-tag delete {{#if @first}}example_query{{else}}other_queries{{/if}}"><i class="ddgsi-close">X</i></span>
                         </span>
                     </li>
                 {{/if}}
@@ -37,7 +37,7 @@
                     <li>
                         <span class="{{#if @first}}{{#if ../../example_query}}other_queries{{else}}example_query{{/if}}{{else}}other_queries{{/if}}">
                             <input type="text" value="{{this}}" class="js-autocommit {{#if @first}}{{#if ../../example_query}}group-vals{{else}}example_query{{/if}}{{else}}group-vals{{/if}}" {{#unless ../../example_query}}{{#if @first}}id="example_query-input"{{/if}}{{/unless}}/>
-                            <span class="example_query--delete delete {{#if @first}}example_query{{else}}other_queries{{/if}}"><i class="ddgsi-close">X</i></span>
+                            <span class="delete-tag delete {{#if @first}}example_query{{else}}other_queries{{/if}}"><i class="ddgsi-close">X</i></span>
                         </span>
                     </li>
                     {{#module_zero @index 3}}
@@ -49,7 +49,7 @@
             <li class="editpage hide new_input">
                 <span class="other_queries">
                     <input type="text" value="" class="js-autocommit group-vals" />
-                    <span class="example_query--delete delete {{#if @first}}example_query{{else}}other_queries{{/if}}"><i class="ddgsi-close">X</i></span>
+                    <span class="delete-tag delete {{#if @first}}example_query{{else}}other_queries{{/if}}"><i class="ddgsi-close">X</i></span>
                 </span>
             </li>
             <li class="editpage add_input" id="add_example">

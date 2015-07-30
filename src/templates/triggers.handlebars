@@ -1,6 +1,6 @@
 {{#ne_and dev_milestone 'live' 'deprecated'}}
     <div class="ia-triggers ia-single--info">
-        <h3 class="ia-single--header">Triggers 
+        <h3 class="ia-single--header">Triggers
         {{#if permissions.can_edit}}
             <a href="#" class="devpage-edit {{#if staged.triggers}}hide{{/if}}" id="dev-edit-triggers">Edit</a>
             <a href="#" class="devpage-commit sep--after {{#unless staged.triggers}}hide{{/unless}}" id="dev-commit-triggers">Commit</a>
@@ -12,34 +12,30 @@
             <ul class="hidden-toshow {{#unless staged.triggers}}hide{{/unless}} triggers parent-group" id="triggers-group">
                 {{#each triggers}}
                     <li>
-                        <span name="triggers" class="triggers left">
+                        <span name="triggers" class="triggers">
                             <input type="text" value="{{this}}" class="js-autocommit group-vals" />
+                            <span class="delete-tag delete triggers"><i class="ddgsi-close">X</i></span>
                         </span>
-                        <div class="button delete listbutton left triggers" name="triggers" title="Remove trigger">
-                            <i class="icon-remove" />
-                        </div>
                     </li>
                     {{#module_zero @index 3}}
                         <span class="clearfix"></span>
                     {{/module_zero}}
                 {{/each}}
-                <li class="editpage hide left new_input" id="input_triggers">
-                    <span name="triggers" class="triggers left"">
+                <li class="editpage hide new_input" id="input_triggers">
+                    <span name="triggers" class="triggers">
                         <input type="text" value="" class="js-autocommit group-vals" />
+                        <span class="delete-tag delete triggers"><i class="ddgsi-close">X</i></span>
                     </span>
-                    <div class="button delete listbutton left triggers" title="Remove trigger">
-                        <i class="icon-remove" />
-                    </div>
                 </li>
-                <li class="editpage left add_input" id="add_trigger">
-                    <div class="button listbutton left" id="add_trigger_button" title="Add trigger">
+                <li class="editpage add_input" id="add_trigger">
+                    <div class="btn btn--secondary listbutton" id="add_trigger_button" title="Add trigger">
                         <i class="icon-plus" />
                     </div>
                 </li>
             </ul>
         {{/if}}
-          
-        <span class="readonly--info {{#if staged.triggers}}hide{{/if}}" id="triggers--readonly">  
+
+        <span class="readonly--info {{#if staged.triggers}}hide{{/if}}" id="triggers--readonly">
             {{#if triggers}}
                 {{#each triggers}}
                     {{this}}{{#unless @last}}, {{/unless}}
