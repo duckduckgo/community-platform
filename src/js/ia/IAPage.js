@@ -133,6 +133,12 @@
                     $("body").on("click", ".devpage-edit", function(evt) {
                         evt.preventDefault();
 
+                        if($(this).attr("id") === "dev-edit-example_query") {
+                            $(".ia-examples input[type='text']").each(function() {
+                                $(this).css("width", this.value.length * 7);
+                            });
+                        }
+
                         var $parent = $(this).parent().parent();
 
                         $(this).addClass("hide");
@@ -1101,7 +1107,7 @@
                             if ((temp_field !== field) && (temp_field !== secondary_field)) {
                                 var temp_value = temp_result.value;
                                 ia_data.staged[temp_field] = temp_value;
-                            
+
                                 if ($(this).hasClass("not_saved") && ($.inArray(temp_field, error_save) === -1)) {
                                     error_save.push(temp_field);
                                 }

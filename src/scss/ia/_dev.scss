@@ -40,6 +40,15 @@
         }
     }
 
+    #other_queries-group {
+        overflow: auto;
+    }
+
+    #add_trigger_button {
+        padding-top: 0;
+        padding-bottom: 0;
+    }
+
     #example_query-input {
         background-color: #f7f7f7;
         border: none;
@@ -50,11 +59,16 @@
         border-radius: 3px;
     }
 
-    .ia-examples {
-        li {
-            overflow: auto;
-        }
+    .example_query--delete {
+        display: inline-block;
+        position: relative;
+        right: 21px;
+        font-size: 9px;
+        cursor: pointer;
+        height: 100%;
+    }
 
+    .ia-examples {
         .example_query {
             display: inline-block;
         }
