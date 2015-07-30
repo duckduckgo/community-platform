@@ -128,6 +128,17 @@ sub status :Chained('base') :Args(1) {
 	$c->add_bc('Filtered');
 }
 
+sub claimed :Chained('base') :Args(0) {
+	my ( $self, $c ) = @_;
+	$c->stash->{ideas_rs} = $c->stash->{ideas_rs}->search_rs({
+		claimed_by => { '!=' => undef },
+		instant_answer_id => undef,
+	});
+	$self->add_ideas_table($c,'claimed');
+	$self->add_latest_ideas($c);
+	$c->add_bc('Claimed');
+}
+
 sub idea_id : Chained('base') PathPart('idea') CaptureArgs(1) {
 	my ( $self, $c, $id ) = @_;
 	$c->stash->{idea} = $c->d->rs('Idea')->find($id);
