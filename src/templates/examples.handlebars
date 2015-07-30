@@ -14,10 +14,10 @@
                     <li>
                         <span class="{{#if @first}}example_query{{else}}other_queries{{/if}} left">
                             <input type="text" value="{{this}}" {{#if @first}}id="example_query-input"{{/if}} class="js-autocommit {{#if @first}}example_query{{else}}group-vals{{/if}}" />
-                        </span>
-                        <div class="button delete listbutton left {{#if @first}}example_query{{else}}other_queries{{/if}}" title="Remove trigger">
-                            <i class="icon-remove" />
-                        </div>
+                            <span class="delete example_query--delete {{#if @first}}example_query{{else}}other_queries{{/if}}" title="Remove example">
+                                <i class="ddgsi-close">X</i>
+                            </span>
+                       </span>
                     </li>
                     {{#module_zero @index 3}}
                         <span class="clearfix"></span>
@@ -52,8 +52,8 @@
                     <span class="delete-tag delete {{#if @first}}example_query{{else}}other_queries{{/if}}"><i class="ddgsi-close">X</i></span>
                 </span>
             </li>
-            <li class="editpage add_input" id="add_trigger">
-                <div class="btn btn--secondary listbutton add_trigger_button" title="Add trigger">
+            <li class="editpage add_input" id="add_example">
+                <div class="btn btn--secondary listbutton" id="add_example_button" title="Add example">
                     <i class="icon-plus" />
                 </div>
             </li>

@@ -600,11 +600,15 @@
                     $("body").on("change", '.ia-single--details .input[type="number"].js-autocommit', function(evt) {
                         resetSaved($(this));
 
-                        $(this).addClass("focused");
+                        $("#devpage-commit-details, #devpage-cancel-details").removeClass("hide");
                     });
 
                     $("body").on("focusin", "textarea.js-autocommit, input.js-autocommit", function(evt) {
                         resetSaved($(this));
+                    });
+
+                    $("body").on("change", ".ia-single--details .js-autocommit", function(evt) {
+                        $("#devpage-commit-details, #devpage-cancel-details").removeClass("hide");
                     });
 
                     $("body").on("click", "select.js-autocommit", function(evt) {
@@ -662,22 +666,20 @@
                         }
                     });
 
-                    $("body").on("focusin", "#ia-single--details .frm__input.js-autocommit", function(evt) {
-                        console.log("DETAILS FOCUSED");
-                        if (!$(this).hasClass("focused")) {
-                            console.log("ADD FOCUS");
-                            $(this).addClass("focused");
-                        }
+                    //Dev Page: commit fields in the details section
+                    $("body").on("click", "#devpage-commit-details", function(evt) {
+                        var $details = $("#ia-single--details .js-autocommit");
+                        
+                        $details.each(function(idx) {
+                            commitEdit($(this));
+                        });
+
+                        $("#devpage-commit-details, #devpage-cancel-details").addClass("hide");
                     });
 
-                    /*$("body").on("blur", "#ia-single--details .js-autocommit", function(evt) {
-                        evt.stopPropagation();
-                    });*/
-
-                    //Dev Page: commit fields in the details section
-                    $("body").on("blur", "#ia-single--details .focused.frm__input.js-autocommit", function(evt) {
-                        $(this).removeClass("focused");
-                        commitEdit($(this));
+                    // Dev Page: cancel edits in the details section
+                    $("body").on("click", "#devpage-cancel-details", function(evt) {
+                        keepUnsavedEdits();
                     });
 
                     $("body").on("click", "#ia-single--details .frm__label__chk.js-autocommit", function(evt) {
@@ -818,7 +820,7 @@
                                 $first_query.attr("id", "example_query-input");
                             }
 
-                            $(this).parent().remove();
+                            $(this).parent().parent().remove();
                         } else {
                             if (field !== "topic") {
                                 $(this).parent().remove();
@@ -963,6 +965,7 @@
                                 value = getGroupVals(field, $obj);
                                 value = JSON.stringify(value);
                             } else {
+                                console.log($editable.selector);
                                 field = $editable.attr("id").replace(/\-.+/, "");
                                 var editable_type = $editable.attr("id").replace(/.+\-/, "");
                                 if (editable_type === "check") {
@@ -1094,13 +1097,13 @@
                         var secondary_field = "";
                         ia_data.staged = {};
                         var error_save = [];
+                        field = field? field : "";
 
                         if ((field === "example_query") || (field === "other_queries")) {
                             secondary_field = (field === "example_query")? "other_queries" : "example_query";
                         }
 
                         $unsaved_edits.each(function(idx) {
-                            //console.log($(this).attr("id") + " After committing");
                             var temp_result = getUnsavedValue($(this));
                             var temp_field = temp_result.field;
 
