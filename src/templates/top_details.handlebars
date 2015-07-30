@@ -13,7 +13,7 @@
             <span class="detail-title">Categories:</span>
             {{#if permissions.can_edit}}
                 {{#ne_and dev_milestone 'live' 'deprecated'}}
-                    <div class="topic-container">
+                    <div class="topic-container parent-group" id="topic-group">
                       {{#if staged.top_fields.topic}}
                         {{#with staged.top_fields}}
                               {{#loop_n 2 topic}}
@@ -135,7 +135,7 @@
                     {{#if staged.top_fields.dev_milestone}}
                         {{#with staged.top_fields}}
                             <span class="frm__select">
-                              <select class="top-details js-autocommit repo" tabindex="-1" id="repo-select">
+                              <select class="top-details js-autocommit dev_milestone" tabindex="-1" id="dev_milestone-select">
                                 <option value="0">{{dev_milestone}}</option>
                                 {{#not_eq dev_milestone 'planning'}}<option value="1">planning</option>{{/not_eq}}
                                 {{#not_eq dev_milestone 'development'}}<option value="2">development</option>{{/not_eq}}

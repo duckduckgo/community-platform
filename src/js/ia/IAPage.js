@@ -1087,6 +1087,7 @@
                         var $unsaved_edits = $commit_open.find(".js-autocommit");
                         var secondary_field = "";
                         ia_data.staged = {};
+                        var $error_save = [];
 
                         if ((field === "example_query") || (field === "other_queries")) {
                             secondary_field = (field === "example_query")? "other_queries" : "example_query";
@@ -1100,6 +1101,10 @@
                             if ((temp_field !== field) && (temp_field !== secondary_field)) {
                                 var temp_value = temp_result.value;
                                 ia_data.staged[temp_field] = temp_value;
+                            
+                                if ($(this).hasClass("not_saved")) {
+                                    $error_save.push($(this));
+                                }
                             }
                         });
 
@@ -1131,11 +1136,11 @@
                             });
                         }
 
-                        //console.log("Unsaved: " + ia_data.staged);
                         page.updateHandlebars(readonly_templates, ia_data, ia_data.live.dev_milestone, false);
                         page.updateAll(readonly_templates, ia_data, false);
 
                         $commit_open.find(".devpage-edit").trigger("click");
+                        $($error_save).addClass("not_saved");
                     }
 
                     // Saves values for editable fields on the dev page
@@ -1149,15 +1154,12 @@
                         .done(function(data) {
                             subfield = subfield? subfield : "";
                             if (data.result) {
-                                if (data.result.saved && (field === "repo" ||
-                                    (field === "dev_milestone" && data.result[field] === "live"))) {
-                                    //location.reload();
+                                if (data.result.saved && (field === "dev_milestone" && data.result[field] === "live")) {
+                                    location.reload();
                                 } else if (data.result.saved && field === "id") {
                                     location.href = "/ia/view/" + data.result.id;
                                 } else {
                                     ia_data.live[field] = (is_json && data.result[field])? $.parseJSON(data.result[field]) : data.result[field];
-                                    var saved_class = data.result.saved? "saved" : "not_saved";
-
                                     Screens.render();
 
                                     // No need to refresh the Handlebars if the saved field was part of the blue band,
@@ -1167,6 +1169,8 @@
                                     if (data.result.saved && (!$details.length)
                                         && (!$("." + field + ".top-details").length) || field === "repo") {
                                         keepUnsavedEdits(field);
+                                    } else if (!data.result.saved) {
+                                         $("." + field).addClass("not_saved");
                                     }
                                 }
                             }
