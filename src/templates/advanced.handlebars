@@ -225,5 +225,59 @@
                 <input type="text" value="{{src_options.skip_qr}}" class="js-autocommit frm__input skip_qr clearfix section-group__item" id="skip_qr">
             </div>
         {{/eq}}
+
+        <!-- Longtail -->
+        {{#eq repo 'longtail'}}
+            <div class="gw">
+                <div class="twothirds g">
+                    <label class="details__label">
+                        Perl Module
+                    </label>
+                    <input type="text" class="js-autocommit frm__input perl_module" id="perl_module-input" value="{{perl_module}}">
+                </div>
+                <div class="third g">
+                    <label class="details__label">
+                        Template
+                    </label>
+                    <input type="text" class="js-autocommit frm__input template" id="template-input" value="{{template}}">
+                </div>
+            </div>
+
+            <div class="gw">
+                <div class="twothirds g">
+                    <label class="details__label">
+                        Perl Dependencies
+                    </label>
+                    <input type="text" value="{{perl_dependencies}}" class="comma-separated js-autocommit frm__input perl_dependencies" id="perl_dependencies-input">
+                </div>
+                {{#if permissions.admin}}
+                    <div class="third g">
+                        <label class="details__label">
+                            Tab Name
+                        </label>
+                        <input type="text" value="{{tab}}" class="js-autocommit frm__input tab" id="tab-input">
+                    </div>
+                {{/if}}
+            </div>
+
+            <div class="gw">
+                <div class="twothirds g">
+                    <label class="details__label">
+                        Source Domain
+                    </label>
+                    <input type="text" value="{{src_domain}}" class="js-autocommit frm__input src_domain" id="src_domain-input">
+                </div>
+                <div class="third g">
+                    <label class="details__label">
+                        Is StackExchange
+                    </label>
+                    <label class="frm__label">
+                        <input id="is_stackexchange-check" class="is_stackexchange frm__label__chk js-autocommit" type="checkbox" {{#if is_stackexchange}}checked="checked"{{/if}}>
+                        <span class="frm__label__txt">Is StackExchange</span>
+                    </label>
+                </div>
+            </div>
+        {{/eq}}
+
     </div>
 {{/if}}
