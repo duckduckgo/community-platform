@@ -133,6 +133,12 @@
                     $("body").on("click", ".devpage-edit", function(evt) {
                         evt.preventDefault();
 
+                        if($(this).attr("id") === "dev-edit-example_query") {
+                            $(".ia-examples input[type='text']").each(function() {
+                                $(this).css("width", (this.value.length * 8 || 100) + "px");
+                            });
+                        }
+
                         var $parent = $(this).parent().parent();
 
                         $(this).addClass("hide");
@@ -776,7 +782,7 @@
 
                     $("body").on('click', '#add_topic', function(evt) {
                         var topics;
-                        
+
                         if (ia_data.live.dev_milestone === 'live' ||  ia_data.live.dev_milestone === 'deprecated') {
                             topics = $(".topic-separator").length;
                         } else {
@@ -784,7 +790,7 @@
                             $(".top__repo, .top__milestone").hide();
                             $("#topic-cancel").removeClass("hide");
                         }
-                        
+
                         var $empty_topic = $(".new_empty_topic").clone();
 
                         $(this).before($empty_topic.removeClass("hide").removeClass("new_empty_topic"));
@@ -798,7 +804,7 @@
                         window.location = "/ia/commit/" + DDH_iaid;
                     });
 
-                    $("body").on("click", ".button.delete", function(evt) {
+                    $("body").on("click", ".delete", function(evt) {
                         var field = $(this).attr('name');
 
                         // If dev milestone is not 'live' it means we are in the dev page
@@ -1104,7 +1110,7 @@
                             if ((temp_field !== field) && (temp_field !== secondary_field)) {
                                 var temp_value = temp_result.value;
                                 ia_data.staged[temp_field] = temp_value;
-                            
+
                                 if ($(this).hasClass("not_saved") && ($.inArray(temp_field, error_save) === -1)) {
                                     error_save.push(temp_field);
                                 }

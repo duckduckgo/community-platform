@@ -40,6 +40,51 @@
         }
     }
 
+    #other_queries-group {
+        overflow: auto;
+
+        li {
+            display: inline-block;
+            margin-top: 10px;
+        }
+    }
+
+    #add_trigger_button {
+        padding-top: 0;
+        padding-bottom: 0;
+    }
+
+    input.example_query, input.group-vals {
+        background-color: $silver;
+        border: none;
+        outline: none;
+        padding: 0.6em;
+        width: auto;
+        color: $slate-light;
+        border-radius: 3px;
+        border: 1px solid $silver;
+
+        &:focus {
+            background-color: $silver-light;
+            border: 1px solid $grey;
+        }
+    }
+
+    .example_query--delete {
+        display: inline-block;
+        position: relative;
+        right: 21px;
+        font-size: 9px;
+        cursor: pointer;
+        height: 100%;
+    }
+
+    .ia-examples {
+        .example_query {
+            display: inline-block;
+        }
+    }
+
     #ia-single-top {
         /* We need to set the color of the dropdown to the background color. */
         .frm__select {
