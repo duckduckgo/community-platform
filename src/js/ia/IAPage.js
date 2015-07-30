@@ -774,7 +774,7 @@
 
                     $("body").on('click', '#add_topic', function(evt) {
                         var topics;
-                        
+
                         if (ia_data.live.dev_milestone === 'live' ||  ia_data.live.dev_milestone === 'deprecated') {
                             topics = $(".topic-separator").length;
                         } else {
@@ -782,7 +782,7 @@
                             $(".top__repo, .top__milestone").hide();
                             $("#topic-cancel").removeClass("hide");
                         }
-                        
+
                         var $empty_topic = $(".new_empty_topic").clone();
 
                         $(this).before($empty_topic.removeClass("hide").removeClass("new_empty_topic"));

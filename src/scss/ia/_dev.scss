@@ -45,9 +45,19 @@
         border: none;
         outline: none;
         padding: 0.6em;
-        width: 100%;
+        width: auto;
         color: #666;
         border-radius: 3px;
+    }
+
+    .ia-examples {
+        li {
+            overflow: auto;
+        }
+
+        .example_query {
+            display: inline-block;
+        }
     }
 
     #ia-single-top {
