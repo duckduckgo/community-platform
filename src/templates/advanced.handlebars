@@ -1,6 +1,9 @@
 {{#if permissions.can_edit}}
     <div class="ia-single--details" tabindex="0" id="ia-single--details">
-        <h3 class="ia-single--header">Details</h3>
+        <h3 class="ia-single--header">Details 
+            <a href="#" class="devpage-commit-details sep--after hide" id="devpage-commit-details">Commit Changes</a>
+            <a href="#" class="devpage-cancel-details hide" id="devpage-cancel-details">Revert All</a>
+        </h3>
 
         <!-- Spice -->
         {{#eq repo 'spice'}}
@@ -55,7 +58,7 @@
                     <ul class="section-group" id="answerbar-group">
                         <li>
                             <label class="details__label">Fallback Timeout (ms):</label>
-                            <input type="number" value="{{answerbar.fallback_timeout}}" class="js-autocommit frm__input fallback_timeout section-group__item">
+                            <input type="number" value="{{answerbar.fallback_timeout}}" id="fallback_timeout-input" class="js-autocommit frm__input fallback_timeout section-group__item">
                         </li>
                     </ul>
                 </div>
