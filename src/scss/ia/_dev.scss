@@ -40,6 +40,16 @@
         }
     }
 
+    #example_query-input {
+        background-color: #f7f7f7;
+        border: none;
+        outline: none;
+        padding: 0.6em;
+        width: 100%;
+        color: #666;
+        border-radius: 3px;
+    }
+
     #ia-single-top {
         /* We need to set the color of the dropdown to the background color. */
         .frm__select {
