@@ -171,17 +171,9 @@
                         if (ia_data.staged && ia_data.staged[field]) {
                             // Remove any unsaved edits and then refresh Handlebars
                             delete ia_data.staged[field];
-                            keepUnsavedEdits(field);
-                        } else {
-                            // No unsaved edits: just hide the editable field and the commit | cancel elements,
-                            // and show the readonly version with the "edit" element instead
-                            $(this).addClass("hide");
-                            $(this).siblings(".devpage-commit").addClass("hide");
-                            $(this).siblings(".devpage-edit").removeClass("hide");
-
-                            $parent.children(".hidden-toshow").addClass("hide");
-                            $parent.children(".readonly--info").removeClass("hide");
                         }
+                        
+                        keepUnsavedEdits(field);
                     });
 
                     $("body").on("click", "#js-top-details-cancel", function(evt) {
@@ -994,7 +986,7 @@
                                 is_json = true;
                             }
                         }
-
+                        
                         result.value = value;
                         result.is_json = is_json;
                         result.field = field;
