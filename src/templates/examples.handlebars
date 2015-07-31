@@ -8,7 +8,7 @@
     </h3>
 
     {{#if permissions.can_edit}}
-        <ul class="hidden-toshow {{#unless staged.example_query}}hide{{/unless}} other_queries parent-group" id="other_queries-group">
+        <ul class="hidden-toshow {{#unless staged.example_query}}hide{{/unless}} parent-group" id="other_queries-group">
             {{#if  staged.example_query}}
                 {{#each staged.example_query}}
                     <li>
