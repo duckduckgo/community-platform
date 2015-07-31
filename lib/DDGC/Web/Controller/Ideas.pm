@@ -1,6 +1,8 @@
 package DDGC::Web::Controller::Ideas;
 # ABSTRACT: Idea controller
 
+use Scalar::Util qw/ looks_like_number /;
+
 use Moose;
 BEGIN { extends 'Catalyst::Controller'; }
 
@@ -118,8 +120,19 @@ sub type :Chained('base') :Args(1) {
 	$c->add_bc('Filtered');
 }
 
+sub status_name_to_id {
+	my ( $self, $c, $status ) = @_;
+	my $idea = $c->d->rs('Idea')->first;
+	my $statuses = $idea->statuses;
+	$status =~ s/-/ /g;
+	return ( grep { index( lc($statuses->{$_}), lc($status) ) == 0 } keys $statuses )[0];
+}
+
 sub status :Chained('base') :Args(1) {
 	my ( $self, $c, $status ) = @_;
+	if ( !looks_like_number( $status ) ) {
+		$status = $self->status_name_to_id( $c, $status );
+	}
 	$c->stash->{ideas_rs} = $c->stash->{ideas_rs}->search_rs({
 		status => $status,
 	});
