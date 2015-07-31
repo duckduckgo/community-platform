@@ -98,7 +98,7 @@
             border-color: transparent;
             color: $white;
 
-            padding-right: 30px;
+            padding-right: 10px;
 
             select {
                 color: $white;
@@ -106,6 +106,8 @@
                 /* There's too much space inside the dropdown. */
                 padding: 0;
                 min-width: 0;
+
+                width: 100% !important;
             }
         }
 
@@ -114,6 +116,9 @@
                 &:after {
                     content: "";
                 }
+
+                background-color: $blue;
+                padding-left: 5px;
             }
         }
 
