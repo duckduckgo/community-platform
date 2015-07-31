@@ -1,11 +1,11 @@
 <div class="paging-menu">
 	<div class="page-select">
 		<label for="page">Page</label>
-		<: include "pager/page.tx" { pager => $token_languages.pager } :>
+		<: include "pager/page.tx" { pager => $token_languages_pager } :>
 	</div>
 	<div class="page-size">
 		<label for="pagesize">Show</label> 
-		<: include "pager/pagesize.tx" { pager => $token_languages.pager } :>
+		<: include "pager/pagesize.tx" { pager => $token_languages_pager } :>
 		<label for="pagesize">per page</label> 
 	</div>
 	<input type="submit" value="Go" class="button js-hide" />
