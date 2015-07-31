@@ -7,7 +7,7 @@
 </div>
 
 <div class="ninety">
-    <span class="top__categories one-line {{#eq_or dev_milestone 'live' 'deprecated'}}{{#unless topic}}hide{{/unless}}{{/eq_or}}">
+    <span class="top__categories left {{#eq_or dev_milestone 'live' 'deprecated'}}{{#unless topic}}hide{{/unless}}{{/eq_or}}">
         <!-- Don't add any separators when we're editing. -->
         <span class="{{#if permissions.can_edit}}{{#eq_or dev_milestone 'live' 'deprecated'}}sep--after{{/eq_or}}{{else}}sep--after{{/if}}">
             <span class="detail-title">Categories:</span>
@@ -17,12 +17,12 @@
                       {{#if staged.top_fields.topic}}
                         {{#with staged.top_fields}}
                               {{#loop_n 2 topic}}
-                                <div class="separator topic-separator left btn-grp">
-                                  <div class="left topic-remove hide" name="topic" title="Remove this topic">
+                                <div class="separator topic-separator btn-grp">
+                                  <div class="topic-remove hide" name="topic" title="Remove this topic">
                                     <i class="ddgsi ddgsi-close-bold">X</i>
                                   </div>
                                   <span class="frm__select">
-                                    <select class="group-vals top-details topic js-autocommit topic-group left">
+                                    <select class="group-vals top-details topic js-autocommit topic-group">
                                       <option value="0">{{this}}</option>
                                     </select>
                                   </span>
@@ -32,12 +32,12 @@
                         {{/with}}
                       {{else}}
                           {{#loop_n 2 topic}}
-                            <div class="separator topic-separator left btn-grp">
+                            <div class="separator topic-separator btn-grp">
                               <div class="left topic-remove hide" name="topic" title="Remove this topic">
                                 <i class="ddgsi ddgsi-close-bold">X</i>
                               </div>
                               <span class="frm__select">
-                                <select class="group-vals top-details topic js-autocommit topic-group left">
+                                <select class="group-vals top-details topic js-autocommit topic-group">
                                   <option value="0">{{this}}</option>
                                 </select>
                               </span>
@@ -53,12 +53,12 @@
                         <a href="#">Cancel</a>
                       </span>
 
-                      <div class="hide separator topic-separator left new_empty_topic">
-                        <div class="left topic-remove hide" name="topic" title="Remove this topic">
+                      <div class="hide separator topic-separator new_empty_topic">
+                        <div class="topic-remove hide" name="topic" title="Remove this topic">
                           <i class="ddgsi ddgsi-close-bold">X</i>
                         </div>
                         <span class="frm__select">
-                         <select class="group-vals topic top-details js-autocommit topic-group left">
+                         <select class="group-vals topic top-details js-autocommit topic-group">
                           <option value="" disabled selected>Select a Category</option>
                          </select>
                          </span>
@@ -85,7 +85,7 @@
         </span>
     </span>
 
-    <span class="top__repo">
+    <span class="top__repo left">
         <!-- Don't add any separators when we're editing. -->
         <span class="{{#if permissions.can_edit}}{{#eq_or dev_milestone 'live' 'deprecated'}}sep--after{{/eq_or}}{{else}}sep--after{{/if}}">
             <span class="detail-title">Type:</span>
@@ -127,7 +127,7 @@
         </span>
     </span>
 
-    <span class="top__milestone">
+    <span class="top__milestone left">
         <span>
             <span class="detail-title">Status:</span>
             {{#if permissions.admin}}
