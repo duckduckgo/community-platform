@@ -128,6 +128,17 @@ sub status :Chained('base') :Args(1) {
 	$c->add_bc('Filtered');
 }
 
+sub unclaimed :Chained('base') :Args(0) {
+	my ( $self, $c ) = @_;
+	$c->stash->{ideas_rs} = $c->stash->{ideas_rs}->search_rs({
+		claimed_by  => undef,
+		status => { -in => [qw/ 3 10 12 /] },
+	});
+	$self->add_ideas_table($c,'unclaimed');
+	$self->add_latest_ideas($c);
+	$c->add_bc('Unclaimed');
+}
+
 sub claimed :Chained('base') :Args(0) {
 	my ( $self, $c ) = @_;
 	$c->stash->{ideas_rs} = $c->stash->{ideas_rs}->search_rs({
