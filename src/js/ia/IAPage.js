@@ -1115,7 +1115,7 @@
                         // and are always editable for people with permissions,
                         // so we don't know which fields have been modified and which haven't:
                         // let's just take all the current values as unsaved
-                        if (!$("#js-top-details-submit").hasClass("hide")) {
+                        if (!$("#js-top-details-submit").hasClass("is-disabled")) {
                             ia_data.staged.top_fields = {};
                             $(".top-details.js-autocommit").each(function(idx) {
                                 var temp_field;
