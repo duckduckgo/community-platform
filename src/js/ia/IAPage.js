@@ -521,14 +521,14 @@
                             $('.screenshot--status .loader').show();
                         },
                         setRefreshButton: function() {
-                            $('.generate-screenshot').show();
+                            $('.generate-screenshot').hide();
                             this.setEvent(this.events.refreshClick);
 
-                            $('.screenshot-switcher--generate').hide();
+                            $('.screenshot-switcher--generate').addClass("hide");
                         },
                         setTakeScreenshotButton: function() {
                             $('.screenshot-switcher').hide();
-                            $('.screenshot-switcher--generate').show();
+                            $('.screenshot-switcher--generate').removeClass("hide");
 
                             this.setEvent(this.events.generateClick);
                         },
@@ -1337,11 +1337,13 @@
 
                 for (var i = 0; i < this.field_order.length; i++) {
                     $(".ia-single--left").append(templates.live[this.field_order[i]]);
-                }
 
-                $(".ia-single--left .ia-issues").before(templates.screens);
+                    if (this.field_order[i] === "examples") {
+                        $(".ia-single--left").append(templates.screens);
+                    }
+                }
+                
                 $(".ia-single--right").append(templates.live.devinfo);
-                $(".ia-single--screenshots").removeClass("twothirds");
 
                 $(".show-more").click(function(e) {
                     e.preventDefault();
