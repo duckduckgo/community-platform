@@ -165,7 +165,6 @@
                     $("body").on("click", ".devpage-cancel", function(evt) {
                         evt.preventDefault();
 
-                        var $parent = $(this).parent().parent();
                         var field = $(this).attr("id").replace(/dev\-cancel\-/, "");
 
                         if (ia_data.staged && ia_data.staged[field]) {
@@ -1146,6 +1145,8 @@
                         page.updateHandlebars(readonly_templates, ia_data, ia_data.live.dev_milestone, false);
                         page.updateAll(readonly_templates, ia_data, false);
 
+                        Screens.render();
+
                         $commit_open.find(".devpage-edit").trigger("click");
 
                         $.each(error_save, function(idx, val) {
@@ -1170,7 +1171,6 @@
                                     location.href = "/ia/view/" + data.result.id;
                                 } else {
                                     ia_data.live[field] = (is_json && data.result[field])? $.parseJSON(data.result[field]) : data.result[field];
-                                    Screens.render();
 
                                     // No need to refresh the Handlebars if the saved field was part of the blue band,
                                     // since those fields stay editable, unless it was the repo field, on which depends
