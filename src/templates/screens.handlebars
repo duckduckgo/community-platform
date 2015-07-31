@@ -22,14 +22,14 @@
   </div>
 
   {{#ne_and dev_milestone 'live' 'deprecated'}}
-    {{#if ../../can_show}}
-        <span class="generate-screenshot pull-right btn btn--primary hide">
+    {{#if ../can_show}}
+        <span class="generate-screenshot pull-right btn btn--primary">
           <i class="icon-refresh"></i>
         </span>
     {{/if}}
   {{else}}
-      {{#if ../../permissions.can_edit}}
-        <span class="generate-screenshot pull-right btn btn--primary hide">
+      {{#if ../permissions.can_edit}}
+        <span class="generate-screenshot pull-right btn btn--primary">
           <i class="icon-refresh"></i>
         </span>
       {{/if}}

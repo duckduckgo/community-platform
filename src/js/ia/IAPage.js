@@ -517,11 +517,11 @@
                             }
                         },
                         setLoadingAnimation: function() {
-                            $('.screenshot--status').show();
+                            $('.screenshot--status').removeClass("hide");
                             $('.screenshot--status .loader').show();
                         },
                         setRefreshButton: function() {
-                            $('.generate-screenshot').hide();
+                            $('.generate-screenshot').removeClass("hide");
                             this.setEvent(this.events.refreshClick);
 
                             $('.screenshot-switcher--generate').addClass("hide");
@@ -552,7 +552,7 @@
                             $(eventData.selector).on(eventData.evt, eventData.fn);
                         },
                         disableLoadingAnimation: function() {
-                            $('.screenshot--status').hide();
+                            $('.screenshot--status').addClass("hide");
                             $('.screenshot--status .loader').hide();
                         },
                         disableRefreshButton: function() {
@@ -566,7 +566,7 @@
                                 .addClass('btn--wire');
                         },
                         disableMessage: function() {
-                            $('.screenshot--status').hide();
+                            $('.screenshot--status').addClass("hide");
                             $('.screenshot--status .default-message').hide();
                         },
                         hasScreenshot: function(succeed, failed) {
@@ -1137,6 +1137,12 @@
                             });
                         }
 
+                        if (ia_data.live.test_machine && ia_data.live.example_query && ia_data.permissions.can_edit) {
+                            ia_data.can_show = 1;
+                        } else {
+                             ia_data.can_show = 0;
+                        }
+
                         page.updateHandlebars(readonly_templates, ia_data, ia_data.live.dev_milestone, false);
                         page.updateAll(readonly_templates, ia_data, false);
 
@@ -1258,6 +1264,8 @@
             $.each(templates.live, function(key, val) {
                 templates.live[key] = Handlebars.templates[key](latest_edits_data);
             });
+
+            templates.screens = Handlebars.templates.screens(ia_data);
 
         },
 
