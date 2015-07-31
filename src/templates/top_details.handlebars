@@ -18,9 +18,6 @@
                         {{#with staged.top_fields}}
                               {{#loop_n 2 topic}}
                                 <div class="separator topic-separator btn-grp">
-                                  <div class="topic-remove hide" name="topic" title="Remove this topic">
-                                    <i class="ddgsi ddgsi-close-bold">X</i>
-                                  </div>
                                   <span class="frm__select">
                                     <select class="group-vals top-details topic js-autocommit topic-group">
                                       <option value="0">{{this}}</option>
@@ -33,9 +30,6 @@
                       {{else}}
                           {{#loop_n 2 topic}}
                             <div class="separator topic-separator btn-grp">
-                              <div class="left topic-remove hide" name="topic" title="Remove this topic">
-                                <i class="ddgsi ddgsi-close-bold">X</i>
-                              </div>
                               <span class="frm__select">
                                 <select class="group-vals top-details topic js-autocommit topic-group">
                                   <option value="0">{{this}}</option>

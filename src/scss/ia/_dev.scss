@@ -109,6 +109,14 @@
             }
         }
 
+        .topic-container {
+            .frm__select {
+                &:after {
+                    content: "X";
+                }
+            }
+        }
+
         /* The + button should have a custom color. */
         #add_topic {
             background-color: #3a7fb4;
