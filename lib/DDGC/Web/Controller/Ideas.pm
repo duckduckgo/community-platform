@@ -225,7 +225,7 @@ sub claim : Chained('idea_id') Args(0) {
 			sprintf( '[Instant Answer] IA Idea claimed by %s',
 				( $c->user->public )
 					? $c->user->username
-					: sprinf('private user %s', $c->user->username) ),
+					: sprintf('private user %s', $c->user->username) ),
 			'iaclaim',
 			{ user => $c->user, idea => $c->stash->{idea} },
 			Cc => $c->d->config->ia_email,
