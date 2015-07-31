@@ -133,11 +133,9 @@
                     $("body").on("click", ".devpage-edit", function(evt) {
                         evt.preventDefault();
 
-                        if($(this).attr("id") === "dev-edit-example_query") {
-                            $(".ia-examples input[type='text']").each(function() {
-                                $(this).css("width", (this.value.length * 8 || 100) + "px");
-                            });
-                        }
+                        $(".ia-examples input[type='text'], .ia-triggers input[type='text']").each(function() {
+                            $(this).css("width", (this.value.length * 8 || 150) + "px");
+                        });
 
                         var $parent = $(this).parent().parent();
 
@@ -171,7 +169,7 @@
                             // Remove any unsaved edits and then refresh Handlebars
                             delete ia_data.staged[field];
                         }
-                        
+
                         keepUnsavedEdits(field);
                     });
 
@@ -660,7 +658,7 @@
                     //Dev Page: commit fields in the details section
                     $("body").on("click", "#devpage-commit-details", function(evt) {
                         var $details = $("#ia-single--details .js-autocommit");
-                        
+
                         $details.each(function(idx) {
                             commitEdit($(this));
                         });
@@ -990,7 +988,7 @@
                                 is_json = true;
                             }
                         }
-                        
+
                         result.value = value;
                         result.is_json = is_json;
                         result.field = field;
@@ -1355,7 +1353,7 @@
                         $(".ia-single--left").append(templates.screens);
                     }
                 }
-                
+
                 $(".ia-single--right").append(templates.live.devinfo);
 
                 $(".show-more").click(function(e) {
