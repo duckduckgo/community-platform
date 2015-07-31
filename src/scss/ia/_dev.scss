@@ -139,6 +139,10 @@
 
         .topic-container, .topic-separator {
             display: inline-block;
+
+            .hide {
+                display: none;
+            }
         }
 
         .edit-container {
