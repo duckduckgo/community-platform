@@ -1,0 +1,2 @@
+IA Idea &quot;<: $idea.title :>&quot;
+<a href="https://duck.co/ideas/idea/<: $idea.id :>">claimed by <: $user.username:></a>

@@ -213,8 +213,21 @@ sub claim : Chained('idea_id') Args(0) {
 	$c->require_action_token;
 	return $c->detach if (!$c->user);
 
-	if ( $c->stash->{idea}->toggle_claim( $c->user ) > 1 ) {
+	if ( $c->stash->{idea}->toggle_claim( $c->user ) == 1 ) {
+		$c->d->postman->template_mail(
+			1,
+			'ddgc-ia@duckduckgo.com',
+			'"Community Platform" <noreply@duck.co>',
+			sprintf( '[Instant Answer] IA Idea claimed by %s',
+				( $c->user->public )
+					? $c->user->username
+					: sprinf('private user %s', $c->user->username) ),
+			'iaclaim',
+			{ user => $c->user, idea => $c->stash->{idea} },
+			Cc => $c->d->config->ia_email,
+	);
 	}
+
 	$c->response->redirect( $c->chained_uri(@{ $c->stash->{idea}->u }) );
 }
 
