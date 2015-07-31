@@ -35,6 +35,7 @@
 		<section class="menu-list">
 			<h5>View by Status:</h5>
 			<ul>
+				<li><a href="<: $u('Ideas','status',12) :>">Quack and Hack!</a></li>
 				<li><a href="<: $u('Ideas','status',3) :>">Needs a Developer</a></li>
 				<li><a href="<: $u('Ideas','status',2) :>">Needs Source</a></li>
 				<li><a href="<: $u('Ideas','status',1) :>">Needs Definition</a></li>
