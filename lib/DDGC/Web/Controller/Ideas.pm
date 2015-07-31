@@ -141,6 +141,28 @@ sub status :Chained('base') :Args(1) {
 	$c->add_bc('Filtered');
 }
 
+sub unclaimed :Chained('base') :Args(0) {
+	my ( $self, $c ) = @_;
+	$c->stash->{ideas_rs} = $c->stash->{ideas_rs}->search_rs({
+		claimed_by  => undef,
+		status => { -in => [qw/ 3 10 12 /] },
+	});
+	$self->add_ideas_table($c,'unclaimed');
+	$self->add_latest_ideas($c);
+	$c->add_bc('Unclaimed');
+}
+
+sub claimed :Chained('base') :Args(0) {
+	my ( $self, $c ) = @_;
+	$c->stash->{ideas_rs} = $c->stash->{ideas_rs}->search_rs({
+		claimed_by => { '!=' => undef },
+		instant_answer_id => undef,
+	});
+	$self->add_ideas_table($c,'claimed');
+	$self->add_latest_ideas($c);
+	$c->add_bc('Claimed');
+}
+
 sub idea_id : Chained('base') PathPart('idea') CaptureArgs(1) {
 	my ( $self, $c, $id ) = @_;
 	$c->stash->{idea} = $c->d->rs('Idea')->find($id);
@@ -175,6 +197,10 @@ sub idea : Chained('idea_id') PathPart('') Args(1) {
 	$c->bc_index;
 	if ($c->user && $c->user->is('idea_manager') && $c->req->params->{change_status}) {
 		$c->stash->{idea}->status($c->req->params->{status});
+		if ( lc($c->stash->{idea_statuses}->[ $c->req->params->{status} ]->[1])
+		     eq 'needs a developer') {
+			$c->stash->{idea}->claimed_by(undef);
+		}
 		$c->stash->{idea}->update;
 		if ( lc($c->stash->{idea_statuses}->[ $c->req->params->{status} ]->[1])
 		     eq 'not an instant answer idea') {
@@ -197,6 +223,29 @@ sub idea : Chained('idea_id') PathPart('') Args(1) {
 		return $c->detach;
 	}
 	$c->stash->{title} = $c->stash->{idea}->title;
+}
+
+sub claim : Chained('idea_id') Args(0) {
+	my ( $self, $c ) = @_;
+	$c->require_action_token;
+	return $c->detach if (!$c->user);
+
+	if ( $c->stash->{idea}->toggle_claim( $c->user ) == 1 ) {
+		$c->d->postman->template_mail(
+			1,
+			'ddgc-ia@duckduckgo.com',
+			'"Community Platform" <noreply@duck.co>',
+			sprintf( '[Instant Answer] IA Idea claimed by %s',
+				( $c->user->public )
+					? $c->user->username
+					: sprintf('private user %s', $c->user->username) ),
+			'iaclaim',
+			{ user => $c->user, idea => $c->stash->{idea} },
+			Cc => $c->d->config->ia_email,
+	);
+	}
+
+	$c->response->redirect( $c->chained_uri(@{ $c->stash->{idea}->u }) );
 }
 
 sub delete : Chained('idea_id') Args(0) {

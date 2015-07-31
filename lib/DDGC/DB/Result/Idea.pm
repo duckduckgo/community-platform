@@ -17,6 +17,11 @@ column id => {
 };
 primary_key 'id';
 
+column claimed_by => {
+	data_type => 'bigint',
+	is_nullable => 1,
+};
+
 column users_id => {
 	data_type => 'bigint',
 	is_nullable => 0,
@@ -133,9 +138,18 @@ column migrated_to_thread => {
 	is_nullable => 1,
 };
 
+column instant_answer_id => {
+	data_type => 'text',
+	is_nullable => 1,
+};
+
 __PACKAGE__->add_antispam_functionality;
 
 belongs_to 'user', 'DDGC::DB::Result::User', 'users_id';
+
+belongs_to 'user_claimed_by', 'DDGC::DB::Result::User', 'claimed_by';
+
+belongs_to 'instant_answer', 'DDGC::DB::Result::InstantAnswer', 'instant_answer_id';
 
 has_many 'idea_votes', 'DDGC::DB::Result::Idea::Vote', 'idea_id', {
 	cascade_delete => 1,
@@ -196,6 +210,23 @@ sub set_user_vote {
 			users_id => $user->id,
 		})->delete;
 	}
+}
+
+sub toggle_claim {
+	my ( $self, $user ) = @_;
+	if ( !$self->claimed_by ) {
+		$self->update( {
+			claimed_by => $user->id,
+		} );
+		return 1;
+	}
+	elsif ( $self->claimed_by == $user->id || $user->is('forum_manager') ) {
+		$self->update( {
+			claimed_by => undef,
+		} );
+		return -1;
+	}
+	return 0;
 }
 
 sub get_url {
