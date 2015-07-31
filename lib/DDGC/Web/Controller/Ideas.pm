@@ -184,6 +184,10 @@ sub idea : Chained('idea_id') PathPart('') Args(1) {
 	$c->bc_index;
 	if ($c->user && $c->user->is('idea_manager') && $c->req->params->{change_status}) {
 		$c->stash->{idea}->status($c->req->params->{status});
+		if ( lc($c->stash->{idea_statuses}->[ $c->req->params->{status} ]->[1])
+		     eq 'needs a developer') {
+			$c->stash->{idea}->claimed_by(undef);
+		}
 		$c->stash->{idea}->update;
 		if ( lc($c->stash->{idea_statuses}->[ $c->req->params->{status} ]->[1])
 		     eq 'not an instant answer idea') {
