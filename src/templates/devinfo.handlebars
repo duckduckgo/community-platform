@@ -90,7 +90,7 @@
     {{#if permissions.can_edit}}
         {{#ne_and dev_milestone 'live' 'deprecated'}}
             <a href="#" class="devpage-edit-popup" id="dev-edit-contributors">Edit</a>
-            <div id="edit-modal" class="hide"></div> 
+            <div id="edit-modal" class="hide"></div>
         {{/ne_and}}
     {{/if}}
     </h3>
@@ -145,10 +145,10 @@
     <ul>
         {{#if developer}}
             {{#each developer}}
-                <li class="js-autocommit hidden-toshow developer">
+                <!-- <li class="js-autocommit hidden-toshow developer">
                     <div class="developer button delete left" name="developer" title="Remove developer">
                         <i class="ddgsi ddgsi-close-bold">X</i>
-                    </div>
+                    </div> -->
                     <span class="frm__select">
                         <select class="available_types left" tabindex="-1" {{#eq type 'legacy'}}disabled="disabled"{{/eq}}>
                             {{#if type}}<option value="0">{{type}}</option>{{/if}}
@@ -165,9 +165,9 @@
             {{/each}}
         {{/if}}
         <li class="hide new_input js-autocommit hidden-toshow developer">
-            <div class="button delete left" name="developer" title="Remove developer">
+            <!-- <div class="button delete left" name="developer" title="Remove developer">
                 <i class="ddgsi ddgsi-close-bold">X</i>
-            </div>
+            </div> -->
             <span class="frm__select">
               <select class="available_types left" tabindex="-1">
                 <option value="0">duck.co</option>

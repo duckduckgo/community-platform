@@ -114,12 +114,6 @@
     width: 8em;
 }
 
-.ia-single span.developer_username input {
-    width: 10.84em;
-    border-left: 0;
-    border: 1px solid #5b9e4d;
-}
-
 .ia-single span.developer_username input.invalid {
     border: 1px solid #bd4b2b;
 }
@@ -1279,7 +1273,7 @@ input.not_saved, select.not_saved, .button.not_saved {
     padding-bottom: 0.25em;
     font-size: 1.05em;
 
-    input[type="radio"] { 
+    input[type="radio"] {
         margin-left: 0.5em;
         vertical-align: baseline;
         cursor: pointer;
