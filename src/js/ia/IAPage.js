@@ -182,22 +182,24 @@
                     });
 
                     $("body").on("click", "#js-top-details-cancel", function(evt) {
-                        // Remove any unsaved edits
-                        if (ia_data.staged && ia_data.staged.top_details) {
-                            delete ia_data.staged.top_details;
+                        if (!$(this).hasClass("is-disabled")) {
+                            // Remove any unsaved edits
+                            if (ia_data.staged && ia_data.staged.top_details) {
+                                delete ia_data.staged.top_details;
+                            }
+
+                            page.updateHandlebars(readonly_templates, ia_data, ia_data.live.dev_milestone, false);
+
+                            // Remove and then append again all the templates for the top blue band
+                            $(".ia-single--name").remove();
+
+                            $("#ia-single-top-name").html(readonly_templates.live.name);
+                            $('#ia-breadcrumbs').html(readonly_templates.live.breadcrumbs);
+                            $("#ia-single-top-details").html(readonly_templates.live.top_details);
+                            $('.edit-container').html(readonly_templates.live.edit_buttons);
+
+                            $(this, "#js-top-details-submit").addClass("is-disabled");
                         }
-
-                        page.updateHandlebars(readonly_templates, ia_data, ia_data.live.dev_milestone, false);
-
-                        // Remove and then append again all the templates for the top blue band
-                        $(".ia-single--name").remove();
-
-                        $("#ia-single-top-name").html(readonly_templates.live.name);
-                        $('#ia-breadcrumbs').html(readonly_templates.live.breadcrumbs);
-                        $("#ia-single-top-details").html(readonly_templates.live.top_details);
-                        $('.edit-container').html(readonly_templates.live.edit_buttons);
-
-                        $(this, "#js-top-details-submit").addClass("is-disabled");
                     });
 
                     $('body').on("change keypress focusout", ".available_types, .developer_username input", function(evt) {
@@ -690,24 +692,26 @@
 
                     // Dev Page: commit fields in the blue band
                     $("body").on('click', "#js-top-details-submit", function(evt) {
-                        var $editable = $(".top-details.js-autocommit");
-                        var field;
-                        var is_json = false;
-                        var topic_done = false;
+                        if (!$(this).hasClass("is-disabled")) {
+                            var $editable = $(".top-details.js-autocommit");
+                            var field;
+                            var is_json = false;
+                            var topic_done = false;
 
-                        console.log($editable.length);
-                        $editable.each(function(idx) {
-                            field = $(this).hasClass("topic-group")? "topic" : "";
-                            is_json = field === "topic"? true : false;
+                            console.log($editable.length);
+                            $editable.each(function(idx) {
+                                field = $(this).hasClass("topic-group")? "topic" : "";
+                                is_json = field === "topic"? true : false;
 
-                            // Make sure we try to commit topics just once
-                            if ((field !== "topic") || (!topic_done)) {
-                                commitEdit($(this), field, is_json);
-                                topic_done = field === "topic"? true : topic_done;
-                            }
-                        });
+                                // Make sure we try to commit topics just once
+                                if ((field !== "topic") || (!topic_done)) {
+                                    commitEdit($(this), field, is_json);
+                                    topic_done = field === "topic"? true : topic_done;
+                                }
+                            });
 
-                        $("#js-top-details-submit, #js-top-details-cancel").addClass("is-disabled");
+                            $("#js-top-details-submit, #js-top-details-cancel").addClass("is-disabled");
+                        }
                     });
 
                     // Dev Page: commit fields inside a popup
