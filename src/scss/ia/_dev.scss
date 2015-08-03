@@ -7,7 +7,7 @@
         left: 31%;
         background-color: $white;
         width: 30em;
-        box-shadow: 2px 5px 20px 5px $grey;
+        box-shadow: 0 0 10px $grey;
         margin-left: 0;
 
         div {
@@ -20,7 +20,7 @@
         width: 100%;
         position: fixed;
         zoom: 1;
-        background-color: rgba(115, 181, 227, 0.6);
+        background-color: rgba(68, 149, 212, 0.6);
         z-index: 100;
         top: 0;
         left: 0;
