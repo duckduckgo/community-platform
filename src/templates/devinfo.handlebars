@@ -135,53 +135,64 @@
     <h3 class="ia-single--header">Contributors</h3>
     {{#if permissions.admin}}
         <div>
-          <input type="text" class="frm__input producer js-autocommit hidden-toshow team-input" id="producer-input" value="{{producer}}" />
-          <div class="js-autocommit hidden-toshow button assign-button btn" id="producer-button">
-            Assign to me
-          </div>
+            <div class="half">
+                <input type="text" class="frm__input producer js-autocommit hidden-toshow team-input" id="producer-input" value="{{producer}}" />
+            </div>
+            <div class="half g">
+              <div class="js-autocommit hidden-toshow button assign-button btn" id="producer-button">
+                Assign to me
+              </div>
+            </div>
         </div>
     {{/if}}
 
     <ul>
         {{#if developer}}
             {{#each developer}}
-                <!-- <li class="js-autocommit hidden-toshow developer">
+                <li class="js-autocommit hidden-toshow developer">
+                    <!--
                     <div class="developer button delete left" name="developer" title="Remove developer">
                         <i class="ddgsi ddgsi-close-bold">X</i>
                     </div> -->
-                    <span class="frm__select">
-                        <select class="available_types left" tabindex="-1" {{#eq type 'legacy'}}disabled="disabled"{{/eq}}>
-                            {{#if type}}<option value="0">{{type}}</option>{{/if}}
-                            {{#not_eq type 'duck.co'}}<option value="1">duck.co</option>{{/not_eq}}
-                            {{#not_eq type 'github'}}<option value="2">github</option>{{/not_eq}}
-                            {{#not_eq type 'ddg'}}<option value="3">ddg</option>{{/not_eq}}
-                        </select>
-                    </span>
-                    <span class="developer_username left type-{{type}}">
-                        <input type="text" class="group-vals frm__input" {{#eq type 'legacy'}}value="{{url}}" disabled="disabled"{{else}}value="{{final_path url}}"{{/eq}}/>
-                    </span>
+                    <div class="half">
+                        <span class="developer_username left type-{{type}}">
+                            <input type="text" class="group-vals frm__input" {{#eq type 'legacy'}}value="{{url}}" disabled="disabled"{{else}}value="{{final_path url}}"{{/eq}}/>
+                        </span>
+                    </div>
+                    <div class="half g">
+                        <span class="frm__select">
+                            <select class="available_types left" tabindex="-1" {{#eq type 'legacy'}}disabled="disabled"{{/eq}}>
+                                {{#if type}}<option value="0">{{type}}</option>{{/if}}
+                                {{#not_eq type 'duck.co'}}<option value="1">duck.co</option>{{/not_eq}}
+                                {{#not_eq type 'github'}}<option value="2">github</option>{{/not_eq}}
+                                {{#not_eq type 'ddg'}}<option value="3">ddg</option>{{/not_eq}}
+                            </select>
+                        </span>
+                    </div>
                 </li>
-                <span class="clearfix"></span>
             {{/each}}
         {{/if}}
         <li class="hide new_input js-autocommit hidden-toshow developer">
             <!-- <div class="button delete left" name="developer" title="Remove developer">
                 <i class="ddgsi ddgsi-close-bold">X</i>
             </div> -->
-            <span class="frm__select">
-              <select class="available_types left" tabindex="-1">
-                <option value="0">duck.co</option>
-                <option value="1">github</option>
-                <option value="3">ddg</option>
-              </select>
-            </span>
-            <span class="developer_username left">
-                <input class="group-vals frm__input" type="text"/>
-            </span>
-            <span class="clearfix"></span>
+            <div class="half">
+                <span class="developer_username">
+                    <input class="group-vals frm__input" type="text"/>
+                </span>
+            </div>
+            <div class="half g">
+                <span class="frm__select">
+                  <select class="available_types" tabindex="-1">
+                    <option value="0">duck.co</option>
+                    <option value="1">github</option>
+                    <option value="3">ddg</option>
+                  </select>
+                </span>
+            </div>
         </li>
-        <li id="add_developer">
-            <div class="button add_input" id="add_developer_button" title="Add developer">
+        <li id="add_developer" class="">
+            <div class="btn add_input" id="add_developer_button" title="Add developer">
                 <i class="ddgsi ddgsi-plus"></i>
             </div>
         </li>
