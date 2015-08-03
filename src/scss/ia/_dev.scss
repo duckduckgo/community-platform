@@ -19,6 +19,14 @@
         }
     }
 
+    .developer_username {
+        width: 100%;
+
+        .frm__input {
+            width: 100%;
+        }
+    }
+
     #edit-modal {
         height: 100%;
         width: 100%;
@@ -311,10 +319,6 @@ div[name="topic"].topic {
 
 .editpage span.developer_username input[type="text"] {
     width: 4.5em;
-}
-
-select.available_types {
-    background-color: $green;
 }
 
 .invalid {

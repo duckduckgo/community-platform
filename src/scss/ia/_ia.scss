@@ -133,19 +133,6 @@
     margin-left: 0.5em;
 }
 
- .ia-single select.left.available_types {
-    margin-left: 0.5em;
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
-    height: 1.75em;
-    color: #fff;
- }
-
- .ia-single select.left.available_types.invalid {
-    background-color: #bd4b2b;
-    border: 1px solid #bd4b2b;
- }
-
 .ia-single .row-diff .button.js-pre-editable,
 .ia-single .row-diff .button.js-editable {
     float: right;
