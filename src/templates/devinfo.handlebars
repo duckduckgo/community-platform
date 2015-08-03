@@ -161,7 +161,7 @@
                             <input type="text" class="group-vals frm__input" {{#eq type 'legacy'}}value="{{url}}" disabled="disabled"{{else}}value="{{final_path url}}"{{/eq}}/>
                         </span>
                     </div>
-                    <div class="half g">
+                    <div class="twenty g">
                         <span class="frm__select">
                             <select class="available_types left" tabindex="-1" {{#eq type 'legacy'}}disabled="disabled"{{/eq}}>
                                 {{#if type}}<option value="0">{{type}}</option>{{/if}}
@@ -170,6 +170,9 @@
                                 {{#not_eq type 'ddg'}}<option value="3">ddg</option>{{/not_eq}}
                             </select>
                         </span>
+                    </div>
+                    <div class="btn add_input right" id="add_developer_button" title="Add developer">
+                        <i class="ddgsi ddgsi-plus"></i>
                     </div>
                 </li>
             {{/each}}
@@ -193,13 +196,13 @@
                 </span>
             </div>
         </li>
-        <li id="add_developer" class="">
-            <div class="btn add_input" id="add_developer_button" title="Add developer">
-                <i class="ddgsi ddgsi-plus"></i>
-            </div>
-        </li>
+        <!-- <li id="add_developer">
+
+        </li> -->
     </ul>
 
-    <div class="button left cancel-button-popup">Cancel</div>
-    <div class="button left save-button-popup">Save</div>
+    <div class="cancel-save">
+        <div class="btn pull-left cancel-button-popup">Cancel</div>
+        <div class="btn btn--primary pull-right save-button-popup">Save</div>
+    </div>
 </div>

@@ -11,6 +11,18 @@
         width: 11.5em;
     }
 
+    .cancel-save {
+        margin-top: 1em;
+
+        .cancel-button-popup, .save-button-popup {
+            width: 25%;
+        }
+    }
+
+    .new_input {
+        margin-top: 0.5em;
+    }
+
     #contributors-popup {
         position: fixed;
         z-index: 1000;
