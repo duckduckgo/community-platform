@@ -147,6 +147,7 @@
                         $parent.children(".readonly--info").addClass("hide");
                     });
 
+                    // This shows the contributor's popup.
                     $("body").on("click", ".devpage-edit-popup", function(evt) {
                         evt.preventDefault();
 
@@ -154,6 +155,13 @@
                         var $popup = $("#" + field + "-popup");
 
                         $popup.removeClass("hide");
+
+                        // It should also show a blue background.
+                        $("#edit-modal").show();
+                        $("#edit-modal").click(function() {
+                            $("#edit-modal").hide();
+                            $("#contributors-popup").addClass("hide");
+                        });
                     });
 
                     $("body").on("click", ".cancel-button-popup", function(evt) {

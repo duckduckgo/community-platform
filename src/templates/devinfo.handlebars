@@ -1,6 +1,6 @@
 {{#ne_and dev_milestone 'live' 'deprecated'}}
     <div class="ia-single--info">
-        <h3 class="ia-single--header">ID 
+        <h3 class="ia-single--header">ID
         {{#if permissions.admin}}
             {{#ne_and dev_milestone 'live' 'deprecated'}}
                 <a href="#" class="devpage-edit {{#if staged.id}}hide{{/if}}" id="dev-edit-id">Edit</a>
@@ -9,7 +9,7 @@
             {{/ne_and}}
         {{/if}}
         </h3>
-        
+
         <span class="readonly--info {{#if staged.id}}hide{{/if}}" id="id--readonly">
             {{id}}
         </span>
@@ -29,7 +29,7 @@
     {{/if}}
 
     <div class="ia-single--info">
-        <h3 class="ia-single--header">Dev Machine 
+        <h3 class="ia-single--header">Dev Machine
         {{#if permissions.admin}}
             {{#ne_and dev_milestone 'live' 'deprecated'}}
                 <a href="#" class="devpage-edit {{#if staged.test_machine}}hide{{/if}}" id="dev-edit-test_machine">Edit</a>
@@ -38,7 +38,7 @@
             {{/ne_and}}
         {{/if}}
         </h3>
-        
+
         {{#if permissions.admin}}
             <span class="frm__select hidden-toshow {{#unless staged.test_machine}}hide{{/unless}}">
             <select class="test_machine js-autocommit" tabindex="-1" id="test_machine-select">
@@ -75,7 +75,7 @@
             </span>
         {{/if}}
 
-        <span class="readonly--info {{#if staged.test_machine}}hide{{/if}}" id="test_machine--readonly">        
+        <span class="readonly--info {{#if staged.test_machine}}hide{{/if}}" id="test_machine--readonly">
             {{#if test_machine}}
                 {{test_machine}}
             {{else}}
@@ -86,10 +86,11 @@
 {{/ne_and}}
 
 <div class="ia-attribution ia-single--info">
-    <h3 class="ia-single--header">Contributors 
+    <h3 class="ia-single--header">Contributors
     {{#if permissions.can_edit}}
         {{#ne_and dev_milestone 'live' 'deprecated'}}
             <a href="#" class="devpage-edit-popup" id="dev-edit-contributors">Edit</a>
+            <div id="edit-modal" class="hide"></div> 
         {{/ne_and}}
     {{/if}}
     </h3>
@@ -140,7 +141,7 @@
           </div>
         </div>
     {{/if}}
-    
+
     <ul>
         {{#if developer}}
             {{#each developer}}

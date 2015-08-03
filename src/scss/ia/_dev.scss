@@ -1,4 +1,36 @@
 .ia-single {
+    #contributors-popup {
+        position: fixed;
+        z-index: 1000;
+        padding: 1em;
+        top: 27%;
+        left: 31%;
+        background-color: $white;
+        width: 30em;
+        box-shadow: 2px 5px 20px 5px $grey;
+        margin-left: 0;
+
+        div {
+            margin-left: 0;
+        }
+    }
+
+    #edit-modal {
+        height: 100%;
+        width: 100%;
+        position: fixed;
+        zoom: 1;
+        background-color: rgba(115, 181, 227, 0.6);
+        z-index: 100;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        cursor: pointer;
+
+        margin-left: 0;
+    }
+
     .frm__label {
         display: block;
         font-weight: initial;
@@ -347,15 +379,4 @@ select.available_types {
 .ia-single.devpage .ia-single--name {
     margin-bottom: 0px;
     margin-top: 0.5em;
-}
-
-.ia-single .edit-popup {
-    position: fixed;
-    z-index: 1000;
-    padding: 1em;
-    top: 15em;
-    left: 30em;
-    background-color: $white;
-    width: 30em;
-    box-shadow: 2px 5px 20px 5px $grey;
 }
