@@ -6,13 +6,10 @@
             <a href="#" class="devpage-commit sep--after {{#unless staged.description}}hide{{/unless}}" id="dev-commit-description">Commit</a>
             <a href="#" class="devpage-cancel {{#unless staged.description}}hide{{/unless}}" id="dev-cancel-description">Cancel</a>
         {{/ne_and}}
-    {{else}}
-        {{#if forum_link}}
-            <span class="sep--before">
-                <a href="{{forum_link}}">Forum Thread</a>
-            </span>
-        {{/if}}
     {{/if}}
+        {{#if forum_link}}
+            <a href="{{forum_link}}" {{#if permissions.can_edit}}{{#ne_and dev_milestone 'live' 'deprecated'}}class="sep--before"{{/ne_and}}{{/if}}>Forum Thread</a>
+        {{/if}}
     </h3>
 
     <p  class="readonly--info {{#if staged.description}}hide{{/if}}" id="description--readonly">
@@ -20,14 +17,6 @@
             {{description}}
         {{else}}
             No description provided.
-        {{/if}}
-
-        {{#if permissions.can_edit}}
-            {{#if forum_link}}
-                <span class="sep--before">
-                    <a href="{{forum_link}}">Forum Thread</a>
-                </span>
-            {{/if}}
         {{/if}}
     </p>
 
