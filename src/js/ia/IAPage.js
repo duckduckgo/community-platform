@@ -720,9 +720,8 @@
 
                         var $parent = $(this).parent().parent();
                         var $editable = $parent.find(".js-autocommit").first();
-                        var $edit_parent = $editable.parent();
 
-                        if ($edit_parent.hasClass("example_query") || $edit_parent.hasClass("other_queries")) {
+                        if ($parent.hasClass("ia-examples")) {
                             // We pass the fields names as well in case all of them are removed
                             // so we'll be able to commit the empty value for these fields anyway
                             commitEdit($(".other_queries input"), "other_queries", true);
@@ -767,6 +766,11 @@
                         var $new_input = $ul.find('.new_input').first().clone();
                         var $last_li = $ul.children('li').last();
                         $last_li.before($new_input.removeClass("hide"));
+
+                        if (($(this).attr("id") === "add_example") && ($("#example_query-input").length === 0)) {
+                            $new_input.attr("id", "example_query-input");
+                            $new_input.removeClass("group-vals").removeClass("other_queries").addClass("example_query");
+                        }
                     });
 
                     $("body").on('click', '#add_topic', function(evt) {
@@ -792,7 +796,7 @@
                     $("body").on('click', '#view_commits', function(evt) {
                         window.location = "/ia/commit/" + DDH_iaid;
                     });
-                    
+
                     $("body").on("click", ".delete", function(evt) {
                         var field = $(this).attr('name');
 
@@ -910,7 +914,7 @@
                         var is_json = is_json? is_json : false;
 
                         //console.log($editable.selector + " Before committing");
-                       console.log("IS JSON " + is_json);
+                        console.log("IS JSON " + is_json);
                         var result = getUnsavedValue($editable, field, is_json);
 
                         field = result.field;
@@ -923,7 +927,7 @@
                         console.log("After getUnsaved... " + field + " " + value);
                         console.log("Live data: " + live_data);
                         console.log("Live data without JSON " + ia_data.live[field]);
-                        if (field && (live_data !== value)) {
+                       // if (field && (live_data !== value)) {
                             if (parent_field) {
                                 autocommit(parent_field, value, DDH_iaid, is_json, field);
                             } else {
@@ -932,7 +936,7 @@
                                     autocommit(field, value, DDH_iaid, is_json);
                                 }
                             }
-                        }
+                        //}
                     }
 
                     // Get a value for an editable field in the dev page
@@ -943,7 +947,7 @@
                         field = field? field : "";
                         var parent_field;
                         var result = {};
-                        var value = "";
+                        var value = is_json? JSON.stringify([""]) : "";
                         is_json = is_json? is_json : false;
 
                         if ($editable.length) {
@@ -974,6 +978,7 @@
                             }
 
                             if ($editable.hasClass("section-group__item")) {
+                                value = {};
                                 parent_field = $.trim($editable.parents(".section-group").attr("id"));
                                 var section_vals = getSectionVals($editable, parent_field);
                                 section_vals[field] = value;
