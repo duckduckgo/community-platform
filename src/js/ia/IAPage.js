@@ -787,17 +787,8 @@
 
                     $("body").on('click', '#add_topic', function(evt) {
                         var topics;
-
-                        if (ia_data.live.dev_milestone === 'live' ||  ia_data.live.dev_milestone === 'deprecated') {
-                            topics = $(".topic-separator").length;
-                        } else {
-                            topics = $("topic-group.js-autocommit").length;
-                            $(".top__repo, .top__milestone").hide();
-                            $("#topic-cancel").removeClass("hide");
-                        }
-
+                        topics = $(".topic-separator").length;
                         var $empty_topic = $(".new_empty_topic").clone();
-
                         $(this).before($empty_topic.removeClass("hide").removeClass("new_empty_topic"));
 
                         if (topics > 1) {
