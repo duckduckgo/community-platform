@@ -52,7 +52,7 @@
 				<: if $c.user.is('idea_manager') || $c.user.id == $_.user.id { :>
 				<a href="<: $u('Ideas','edit',$_.id) :>" class="button"><i class="icon icon-edit"></i> Edit</a>
 				<: } :>
-				: if !$_.claimed_by && ( $_.status == 3 || $_.status == 10 || $_.status == 12 ) {
+				: if $c.user.claimed_ideas.count <= 5 && !$_.claimed_by && ( $_.status == 3 || $_.status == 10 || $_.status == 12 ) {
 					<a href="<: $u('Ideas','claim',$_.id, { action_token => $action_token } ) :>" class="button">
 						<i class="icon icon-thumbs-up-alt"></i> Develop this IA!
 					</a>
