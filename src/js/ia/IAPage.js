@@ -814,8 +814,9 @@
 
                         // If dev milestone is not 'live' it means we are in the dev page
                         if (ia_data.live.dev_milestone !== "live" && ia_data.live.dev_milestone !== "deprecated") {
-                            if ($(this).hasClass("topic")) {
-                                $("#js-top-details-submit, #js-top-details-cancel, #add_topic").removeClass("hide");
+                            if ($(this).parent().parent().hasClass("topic-separator")) {
+                                $("#js-top-details-submit, #js-top-details-cancel").removeClass("is-disabled");
+                                $("#add_topic").removeClass("hide");
                             } else if ($(this).hasClass("example_query")) {
                                 console.log("delete button has example_query class");
                                 var $first_query = $(".other_queries input.js-autocommit.group-vals").first();
