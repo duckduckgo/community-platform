@@ -135,6 +135,7 @@
     <h3 class="ia-single--header">Contributors</h3>
     {{#if permissions.admin}}
         <div>
+            <h3 class="second-header">Producer</h3>
             <div class="half">
                 <input type="text" class="frm__input producer js-autocommit hidden-toshow team-input" id="producer-input" value="{{producer}}" />
             </div>
@@ -146,6 +147,7 @@
         </div>
     {{/if}}
 
+    <h3 class="second-header">Developer</h3>
     <ul>
         {{#if developer}}
             {{#each developer}}
