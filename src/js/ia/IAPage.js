@@ -205,15 +205,14 @@
                             var $dev_username;
                             var $parent;
 
-                            if (evt.type !== "change" || (ia_data.live.dev_milestone !== "live" && ia_data.live.dev_milestone !== "deprecated")) {
-                                $parent = $(this).parent().parent();
-                                $available_types = $parent.find(".available_types");
-                                $dev_username = $parent.find(".developer_username input");
+                            if (ia_data.live.dev_milestone !== "live" && ia_data.live.dev_milestone !== "deprecated") {
+                                $parent = $(this).parent().parent().parent();
                             } else {
                                 $parent =  $(this).parent();
-                                $available_types = $parent.find(".available_types");
-                                $dev_username = $parent.find(".developer_username input");
                             }
+
+                            $dev_username = $parent.find(".developer_username input");
+                            $available_types = $parent.find(".available_types");
 
                             if ($(this).hasClass("focused")) {
                                 $(this).removeClass("focused");
@@ -229,14 +228,31 @@
                                 $parent.find(".developer input").val("DDG Team");
                                 $dev_username.parent().removeClass("invalid");
                                 $available_types.parent().removeClass("invalid");
-
                             }
                         }
                     });
 
-                    $('body').on("focusin", ".developer_username input", function(evt) {
+                    $("body").on("focusout keypress", "#producer-input", function(evt) {
+                        if ((evt.type === "keypress" && evt.which === 13) || (evt.type === "focusout" && $(this).hasClass("focused"))) {
+                            var username = $(this).val();
+
+                            if (username) {
+                                usercheck("duck.co", username, null, $(this));
+                            }
+                        }
+                    });
+
+                    $('body').on("focusin", ".developer_username input, #producer-input", function(evt) {
                         if (!$(this).hasClass("focused")) {
                             $(this).addClass("focused");
+                            var $parent = $username.hasClass("group-vals")? $username.parent().parent() : $username.parent();
+                            var $error = $parent.find(".ddgsi-close-bold").parent();
+                            var $valid = $parent.find(".ddgsi-check-sign").parent();
+                            var $remove = $parent.find(".ddgsi-close").parent();
+
+                            $error.addClass("hide");
+                            $valid.addClass("hide");
+                            $remove.removeClass("hide");
                         }
                     });
 
@@ -743,8 +759,9 @@
 
                     $("body").on('click', ".assign-button.js-autocommit", function(evt) {
                         var $input = $(".team-input");
-
-                        $input.val($.trim($(".header-account-info .user-name").text()));
+                        var username = $.trim($(".header-account-info .user-name").text());
+                        $input.val(username);
+                        usercheck("duck.co", username, null, $("#producer-input"));
                     });
 
                     $("body").on('click', '.js-pre-editable.button', function(evt) {
@@ -896,12 +913,17 @@
                             username: username
                         })
                         .done(function(data) {
+                            var $parent =  $username.hasClass("group-vals")? $username.parent().parent() : $username.parent();
+                            var $error = $parent.find(".ddgsi-close-bold").parent();
+                            var $valid = $parent.find(".ddgsi-check-sign").parent();
+                            var $remove = $parent.find(".ddgsi-close").parent();
+                            $remove.addClass("hide");
                             if (data.result) {
-                                $type.parent().removeClass("invalid");
-                                $username.parent().removeClass("invalid");
+                                $error.addClass("hide");
+                                $valid.removeClass("hide");
                             } else {
-                                $type.parent().addClass("invalid");
-                                $username.parent().addClass("invalid");
+                                $error.removeClass("hide");
+                                $valid.addClass("hide");
                             }
                         });
                     }
