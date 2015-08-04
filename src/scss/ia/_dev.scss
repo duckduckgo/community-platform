@@ -1,10 +1,19 @@
 .ia-single {
 
     .edit-popup {
-        .frm__input input {
-            background-color: transparent;
-            border: none;
-            outline: none;
+        .frm__input {
+            input {
+                background-color: transparent;
+                border: none;
+                outline: none;
+            }
+
+            .ddgsi-close {
+                position: relative;
+                top: 1px;
+                right: 5px;
+                font-size: 10px;
+            }
         }
     }
 
