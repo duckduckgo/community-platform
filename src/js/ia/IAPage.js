@@ -198,7 +198,12 @@
 
                         if (ia_data.staged && ia_data.staged[field]) {
                             // Remove any unsaved edits and then refresh Handlebars
-                            delete ia_data.staged[field];
+                            if (field === "example_query" || field === "other_queries") {
+                                delete ia_data.staged.example_query;
+                                delete ia_data.staged.other_queries;
+                            } else {
+                                delete ia_data.staged[field];
+                            }
                         }
 
                         keepUnsavedEdits(field);
@@ -820,8 +825,8 @@
                         $last_li.before($new_input.removeClass("hide"));
 
                         if (($(this).attr("id") === "add_example") && ($("#example_query-input").length === 0)) {
-                            $new_input.attr("id", "example_query-input");
-                            $new_input.removeClass("group-vals").removeClass("other_queries").addClass("example_query");
+                            $new_input.find("input").attr("id", "example_query-input");
+                            $new_input.find("input").removeClass("group-vals").removeClass("other_queries").addClass("example_query");
                         }
                     });
 
