@@ -85,6 +85,8 @@
                     <a class="one-line" href="https://duckduckgo.com/?q={{encodeURIComponent this}}{{tab_url ../../tab}}" title="try this example on DuckDuckGo">{{this}}</a>
                 {{/ne_and}}
             {{/each}}
+        {{else}}
+            <span class="no-available {{#if example_query}}hide{{/if}}">No example queries.</span>
         {{/if}}
     </div>
 </div>
