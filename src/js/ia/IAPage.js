@@ -138,6 +138,10 @@
                     }
 
                     function dropdownLength(value) {
+                        if(value.length <= 5 && value.length > 0) {
+                            return (value.length + 3) * 8;
+                        }
+
                         return value.length * 8 || 150;
                     }
 
