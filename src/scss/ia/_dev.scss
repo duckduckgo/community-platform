@@ -1,5 +1,10 @@
 .ia-single {
 
+    .asterisk:after {
+        content: " *";
+        color: $red;
+    }
+
     .edit-popup {
         .frm__input {
             input {
