@@ -164,10 +164,6 @@
                         });
                     });
 
-                    $("body").on("click", ".cancel-button-popup", function(evt) {
-                        $(this).parent().addClass("hide");
-                    });
-
                     $("body").on("click", ".devpage-cancel", function(evt) {
                         evt.preventDefault();
 
@@ -656,7 +652,8 @@
                     });
 
                     $("body").on('click', ".cancel-button-popup", function(evt) {
-                        $(this).parent().addClass("hide");
+                        $("#contributors-popup").addClass("hide");
+                        $("#edit-modal").hide();
                     });
 
                     $("body").on("keypress", ".other_queries.js-autocommit, #example_query-input", function(evt) {
