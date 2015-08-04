@@ -742,10 +742,9 @@
                     });
 
                     $("body").on('click', ".assign-button.js-autocommit", function(evt) {
-                        var $input = $(this).parent().find(".team-input");
+                        var $input = $(".team-input");
 
                         $input.val($.trim($(".header-account-info .user-name").text()));
-                        $(this).hide();
                     });
 
                     $("body").on('click', '.js-pre-editable.button', function(evt) {
