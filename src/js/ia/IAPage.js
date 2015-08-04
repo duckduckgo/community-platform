@@ -1029,12 +1029,18 @@
                         if ($obj.length) {
                             $selector = $obj;
                         } else {
-                            $selector = (field === "topic")? $(".ia_topic .available_topics option:selected") : $("." + field).children("input");
+                            if (field === "topic") {
+                                $selector = $(".ia_topic .available_topics option:selected");
+                            } else if ((ia_data.live.dev_milestone !== "live" && ia_data.live.dev_milestone !== "deprecated") && (field === "developer")) {
+                                $selector = $(".developer_username input");
+                            } else {
+                                $selector = $("." + field).children("input");
+                            }
                         }
 
                         $selector.each(function(index) {
                             if (field === "developer") {
-                                var $li_item = $(this).parent().parent();
+                                var $li_item = (ia_data.live.dev_milestone !== "live" && ia_data.live.dev_milestone !== "deprecated")? $(this).parent().parent().parent() : $(this).parent().parent();
 
                                 temp_val = {};
                                 temp_val.name = $.trim($(this).val());
