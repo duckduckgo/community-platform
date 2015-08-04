@@ -130,11 +130,30 @@
                         location.href = json_url;
                     });
 
+                    function tagLength(value) {
+                        if(value.length <= 5 && value.length > 0) {
+                            return (value.length + 5) * 10;
+                        }
+                        return value.length * 10 || 150;
+                    }
+
+                    function dropdownLength(value) {
+                        return value.length * 10 || 150;
+                    }
+
+                    $("select.top-details.js-autocommit").each(function() {
+                        $(this).parent().css("width", dropdownLength($.trim($(this).children("option:selected").text())) + "px");
+                    });
+
+                    $("body").on("change", "select.top-details.js-autocommit", function(evt) {
+                        $(this).parent().css("width", dropdownLength($.trim($(this).children("option:selected").text())) + "px");
+                    });
+
                     $("body").on("click", ".devpage-edit", function(evt) {
                         evt.preventDefault();
 
                         $(".ia-examples input[type='text'], .ia-triggers input[type='text']").each(function() {
-                            $(this).css("width", (this.value.length * 8 || 150) + "px");
+                            $(this).css("width", tagLength(this.value) + "px");
                         });
 
                         var $parent = $(this).parent().parent();
