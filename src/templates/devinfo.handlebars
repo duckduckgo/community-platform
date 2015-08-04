@@ -16,7 +16,7 @@
         </span>
 
         {{#if permissions.admin}}
-            <input type="text" class=" {{#unless staged.id}}hide{{/unless}} frm__input id js-autocommit hidden-toshow" id="id-input" value="{{#if staged.id}}{{staged.id}}{{else}}{{id}}{{/if}}" />
+            <input type="text" class=" {{#unless staged.id}}hide{{/unless}} frm__input id js-autocommit hidden-toshow" id="id-input" value="{{#if staged.id}}{{#eq staged.id 'n---d'}} {{else}}{{staged.id}}{{/eq}}{{else}}{{id}}{{/if}}" />
         {{/if}}
     </div>
 

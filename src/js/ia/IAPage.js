@@ -1162,7 +1162,7 @@
                             var temp_field = temp_result.field;
 
                             if ((temp_field !== field) && (temp_field !== secondary_field)) {
-                                var temp_value = temp_result.value;
+                                var temp_value = temp_result.value? temp_result.value : "n---d";
                                 ia_data.staged[temp_field] = temp_value;
 
                                 if ($(this).hasClass("not_saved") && ($.inArray(temp_field, error_save) === -1)) {

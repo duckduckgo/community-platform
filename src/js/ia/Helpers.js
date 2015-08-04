@@ -33,6 +33,25 @@
         return word;
     });
 
+    // True if v1 or v2 (or both) are true
+    Handlebars.registerHelper('or', function(v1, v2, options) {
+        if (v1 || v2) {
+            return options.fn(this);
+        } else {
+            return options.inverse(this);
+        }
+    });
+
+
+    // True if the two vals are false
+    Handlebars.registerHelper('unless_and', function(v1, v2, options) {
+        if ((!v1) && (!v2)) {
+            return options.fn(this);
+        } else {
+             return options.inverse(this);
+        }
+    });
+
     // Check if two values are equal
     Handlebars.registerHelper('eq', function(value1, value2, options) {
         if (value1 === value2) {

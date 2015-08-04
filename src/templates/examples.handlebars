@@ -2,16 +2,16 @@
     <h3 class="ia-single--header">
         <span class="{{#ne_and dev_milestone 'live' 'deprecated'}}asterisk{{/ne_and}}">Example Queries</span>
         {{#if permissions.can_edit}}
-            <a href="#" class="devpage-edit {{#if staged.example_query}}hide{{/if}}" id="dev-edit-example_query">Edit</a>
-            <a href="#" class="devpage-commit sep--after {{#unless staged.example_query}}hide{{/unless}}" id="dev-commit-example_query">Commit</a>
-            <a href="#" class="devpage-cancel {{#unless staged.example_query}}hide{{/unless}}" id="dev-cancel-example_query">Cancel</a>
+            <a href="#" class="devpage-edit {{#or staged.example_query staged.other_queries}}hide{{/or}}" id="dev-edit-example_query">Edit</a>
+            <a href="#" class="devpage-commit sep--after {{#unless_and staged.example_query staged.other_queries}}hide{{/unless_and}}" id="dev-commit-example_query">Commit</a>
+            <a href="#" class="devpage-cancel {{#unless_and staged.example_query staged.other_queries}}hide{{/unless_and}}" id="dev-cancel-example_query">Cancel</a>
         {{/if}}
     </h3>
 
     {{#if permissions.can_edit}}
-        <ul class="hidden-toshow {{#unless staged.example_query}}hide{{/unless}} parent-group" id="other_queries-group">
+        <ul class="hidden-toshow {{#unless_and staged.example_query staged.other_queries}}hide{{/unless_and}} parent-group" id="other_queries-group">
             {{#if  staged.example_query}}
-                    <li>
+                    <li {{#eq staged.example_query 'n---d'}}class="hide"{{/eq}}>
                         <span class="example_query">
                             <input type="text" id="example_query-input" value="{{staged.example_query}}" class="example_query js-autocommit" />
                             <span class="delete-tag delete example_query"><i class="ddgsi-close">X</i></span>
@@ -20,7 +20,7 @@
              {{/if}}
              {{#if staged.other_queries}}
                 {{#each staged.other_queries}}
-                    <li>
+                    <li {{#eq staged.other_queries '[]'}}class="hide"{{/eq}}>
                         <span class="{{#if @first}}{{#unless ../../staged.example_query}}example_query{{else}}other_queries{{/unless}}{{else}}example_query{{/if}} left">
                             <input type="text" value="{{this}}" {{#if @first}}{{#unless ../../staged.example_query}}id="example_query-input"{{/unless}}{{/if}} 
                             class="js-autocommit {{#if @first}}{{#unless ../../staged.example_query}}example_query{{else}}group-vals{{/unless}}{{else}}example_query{{/if}}" />
@@ -70,7 +70,7 @@
         </ul>
     {{/if}}
 
-    <div class="readonly--info {{#if staged.example_query}}hide{{/if}}" id="example_query--readonly">
+    <div class="readonly--info {{#or staged.example_query staged.other_queries}}hide{{/or}}" id="example_query--readonly">
         {{#if example_query}}
             {{#ne_and dev_milestone 'live' 'deprecated'}}
                 {{#if test_machine}}
