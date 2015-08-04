@@ -1,4 +1,5 @@
 {{#if permissions.can_edit}}
+    {{#ne_and dev_milestone 'live' 'deprecated'}}
     <div class="ia-single--details" tabindex="0" id="ia-single--details">
         <h3 class="ia-single--header">Details
             <a href="#" class="devpage-commit-details sep--after hide" id="devpage-commit-details">Commit Changes</a>
@@ -283,4 +284,5 @@
         {{/eq}}
 
     </div>
+    {{/ne_and}}
 {{/if}}
