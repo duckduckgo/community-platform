@@ -6,13 +6,15 @@
                 background-color: transparent;
                 border: none;
                 outline: none;
+                width: 14em;
             }
 
             .ddgsi-close {
                 position: relative;
                 top: 1px;
-                right: 5px;
+                right: 6px;
                 font-size: 10px;
+                cursor: pointer;
             }
         }
     }
