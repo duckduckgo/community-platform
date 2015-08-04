@@ -5,8 +5,12 @@
         color: $red;
     }
 
-    .no-triggers {
+    .no-available {
         color: $grey;
+    }
+
+    .ia-single--details {
+        margin-bottom: 2em;
     }
 
     .edit-popup {
@@ -49,6 +53,10 @@
 
     .ia-single--testing {
         margin-bottom: 2em;
+
+        .ia-single--header {
+            margin-top: 0;
+        }
     }
 
     h3.second-header {
