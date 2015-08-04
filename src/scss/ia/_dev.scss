@@ -1,5 +1,13 @@
 .ia-single {
 
+    .edit-popup {
+        .frm__input input {
+            background-color: transparent;
+            border: none;
+            outline: none;
+        }
+    }
+
     .ia-single--testing {
         margin-bottom: 2em;
     }

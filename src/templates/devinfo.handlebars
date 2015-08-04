@@ -136,8 +136,9 @@
     {{#if permissions.admin}}
         <div>
             <h3 class="second-header">Producer</h3>
-            <div class="half">
-                <input type="text" class="frm__input producer js-autocommit hidden-toshow team-input" id="producer-input" value="{{producer}}" />
+            <div class="half frm__input">
+                <input type="text" class="producer js-autocommit hidden-toshow team-input" id="producer-input" value="{{producer}}" />
+                <span class="pull-right"><i class="ddgsi-close">X</i></span>
             </div>
             <div class="half g">
               <div class="js-autocommit hidden-toshow assign-button btn" id="producer-button">
