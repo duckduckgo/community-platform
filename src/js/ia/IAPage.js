@@ -138,7 +138,7 @@
                     }
 
                     function dropdownLength(value) {
-                        return value.length * 10 || 150;
+                        return value.length * 8 || 150;
                     }
 
                     $("body").on("click", ".edit-popup .ddgsi-close", function(evt) {
