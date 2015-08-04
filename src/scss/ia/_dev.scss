@@ -5,6 +5,14 @@
         color: $red;
     }
 
+    .no-available {
+        color: $grey;
+    }
+
+    .ia-single--details {
+        margin-bottom: 2em;
+    }
+
     .edit-popup {
         .frm__input {
             input {
@@ -45,6 +53,10 @@
 
     .ia-single--testing {
         margin-bottom: 2em;
+
+        .ia-single--header {
+            margin-top: 0;
+        }
     }
 
     h3.second-header {
