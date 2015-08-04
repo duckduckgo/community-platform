@@ -1,6 +1,6 @@
 <div id="big-description">
     <h3 class="ia-single--header">
-            <span class="asterisk">Description</span>
+            <span class="{{#ne_and dev_milestone 'live' 'deprecated'}}asterisk{{/ne_and}}">Description</span>
     {{#if permissions.can_edit}}
         {{#ne_and dev_milestone 'live' 'deprecated'}}
             <a href="#" class="devpage-edit {{#if staged.description}}hide{{/if}}" id="dev-edit-description">Edit</a>

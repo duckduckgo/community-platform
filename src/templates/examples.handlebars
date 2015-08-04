@@ -1,6 +1,6 @@
 <div class="ia-examples ia-single--info {{#eq_or dev_milestone 'live' 'deprecated'}}{{#unless example_query}}hide{{/unless}}{{/eq_or}}">
     <h3 class="ia-single--header">
-        <span class="asterisk">Example Queries</span>
+        <span class="{{#ne_and dev_milestone 'live' 'deprecated'}}asterisk{{/ne_and}}">Example Queries</span>
         {{#if permissions.can_edit}}
             <a href="#" class="devpage-edit {{#if staged.example_query}}hide{{/if}}" id="dev-edit-example_query">Edit</a>
             <a href="#" class="devpage-commit sep--after {{#unless staged.example_query}}hide{{/unless}}" id="dev-commit-example_query">Commit</a>

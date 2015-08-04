@@ -1,7 +1,7 @@
 {{#ne_and dev_milestone 'live' 'deprecated'}}
     <div class="ia-single--info">
         <h3 class="ia-single--header">
-            <span class="asterisk">ID</span>
+            <span class="{{#ne_and dev_milestone 'live' 'deprecated'}}asterisk{{/ne_and}}">ID</span>
         {{#if permissions.admin}}
             {{#ne_and dev_milestone 'live' 'deprecated'}}
                 <a href="#" class="devpage-edit {{#if staged.id}}hide{{/if}}" id="dev-edit-id">Edit</a>
