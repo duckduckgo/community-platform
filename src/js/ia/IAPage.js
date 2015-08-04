@@ -141,6 +141,10 @@
                         return value.length * 10 || 150;
                     }
 
+                    $("body").on("click", ".edit-popup .ddgsi-close", function(evt) {
+                        $(this).parent().parent().find("input[type='text']").val('');
+                    });
+
                     $("select.top-details.js-autocommit").each(function() {
                         $(this).parent().css("width", dropdownLength($.trim($(this).children("option:selected").text())) + "px");
                     });
