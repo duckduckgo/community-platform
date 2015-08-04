@@ -1,11 +1,13 @@
-<div id="header" class="wrap">
+<div id="stats_github">
+  
+  <div id="header" class="wrap">
     <h1>GitHub Community Stats</h1>
-</div>
-
-<div id="graph-list" class="wrap">
-  <div id="graph_data">
-
-    <div class="tabs">
+  </div>
+  
+  <div id="graph-list" class="wrap">
+    <div id="graph_data">
+  
+      <div class="tabs">
         <div class="tab <: $tabs.last_24_hours    :>"><a href="/admin/stats/github/last_24_hours"   >Last 24 hours</a></div>
         <div class="tab <: $tabs.last_week        :>"><a href="/admin/stats/github/last_week"       >Last week</a></div>
         <div class="tab <: $tabs.week_before      :>"><a href="/admin/stats/github/week_before"     >2 weeks ago</a></div>
@@ -13,9 +15,9 @@
         <div class="tab <: $tabs.last_month       :>"><a href="/admin/stats/github/last_month"      >Last month</a></div>
         <div class="tab <: $tabs.last_90_days     :>"><a href="/admin/stats/github/last_90_days"    >Last 90 days</a></div>
         <div class="tab <: $tabs.custom           :>"><a href="/admin/stats/github/custom"          >Custom</a></div>
-    </div>
-
-    <div id="graphs">
+      </div>
+  
+      <div id="graphs">
 : if ($start_date) {
         <br>
         <p class="stats-timespan">
@@ -24,8 +26,8 @@
         </p>
 : }
 : if ($stats) {
-      <div class="loader"><img src="/images/spinner.gif"></div>
-
+        <div class="loader"><img src="/images/spinner.gif"></div>
+  
 :   for $stats -> $stat {
 :     if ($stat.label == ' ') {
         <div class="graph"></div>
@@ -40,36 +42,37 @@
         <div class="graph"></div>
 :     }
 :   }
-    </div>
+      </div>
 : }
 : else {
-    <form class="custom-date-form" action="">
-      <h2 class="custom-date-heading">Calculate stats for a custom date range</h2>
-    
-      <p>
-        <label class="stats-label">
-          <span>Start Date</span>
-          <input type="date" class="stats-input" autofocus name="start" value="<: $default_start :>">
-        </label>
-      </p>
-    
-      <p>
-        <label class="stats-label">
-          <span>End Date</span>
-          <input type="date" class="stats-input" name="end" value="<: $default_end :>">
-        </label>
-      </p>
-    
-      <p>
-        <label class="stats-label">
-          <span>&nbsp;</span>
-          <button class="stats-button">Crunch the numbers</button>
-        </label>
-      </p>
-    
-    </form>
+      <form class="custom-date-form" action="">
+        <h2 class="custom-date-heading">Calculate stats for a custom date range</h2>
+      
+        <p>
+          <label class="stats-label">
+            <span>Start Date</span>
+            <input type="date" class="stats-input" autofocus name="start" value="<: $default_start :>">
+          </label>
+        </p>
+      
+        <p>
+          <label class="stats-label">
+            <span>End Date</span>
+            <input type="date" class="stats-input" name="end" value="<: $default_end :>">
+          </label>
+        </p>
+      
+        <p>
+          <label class="stats-label">
+            <span>&nbsp;</span>
+            <button class="stats-button">Crunch the numbers</button>
+          </label>
+        </p>
+      
+      </form>
 : }
+    </div>
   </div>
+  
+  <div class="space"></div>
 </div>
-
-<div class="space"></div>
