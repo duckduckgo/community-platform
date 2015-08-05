@@ -666,6 +666,11 @@
                         resetSaved($obj);
                     });
 
+                    // Dev Page: commit test machine on change
+                    $("body").on("change", ".test_machine.js-autocommit", function(evt) {
+                        commitEdit($(this));
+                    });
+
                     $("body").on("focusin", ".topic-group.js-autocommit", function(evt) {
                         $(".top__repo, .top__milestone").hide();
                         $("#topic-cancel").removeClass("hide");
