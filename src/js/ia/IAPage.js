@@ -985,7 +985,7 @@
                         console.log("After getUnsaved... " + field + " " + value);
                         console.log("Live data: " + live_data);
                         console.log("Live data without JSON " + ia_data.live[field]);
-                       // if (field && (live_data !== value)) {
+                        if (field && (live_data !== value)) {
                             if (parent_field) {
                                 autocommit(parent_field, value, DDH_iaid, is_json, field);
                             } else {
@@ -994,7 +994,7 @@
                                     autocommit(field, value, DDH_iaid, is_json);
                                 }
                             }
-                        //}
+                        }
                     }
 
                     // Get a value for an editable field in the dev page
@@ -1244,7 +1244,7 @@
                                     // the rendering of type-specific editable data
                                     var $details = subfield? $("#ia-single--details").find("." + subfield) : $("#ia-single--details").find("." + field);
                                     if (data.result.saved && (!$details.length)
-                                        && (!$("." + field + ".top-details").length) || field === "repo") {
+                                        && (!$("." + field + ".top-details").length || field === "repo" || field === "dev_milestone")) {
                                         keepUnsavedEdits(field);
                                     } else if (!data.result.saved) {
                                          $("." + field).addClass("not_saved");
