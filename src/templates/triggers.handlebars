@@ -1,7 +1,7 @@
 {{#ne_and dev_milestone 'live' 'deprecated'}}
     <div class="ia-triggers ia-single--info">
         <h3 class="ia-single--header">
-            <span class="{{#ne_and dev_milestone 'live' 'deprecated'}}asterisk{{/ne_and}}">Triggers</span>
+            <span {{#ne_and dev_milestone 'live' 'deprecated'}}{{#if permissions.can_edit}}class="asterisk"{{/if}}{{/ne_and}}>Triggers</span>
         {{#if permissions.can_edit}}
             <a href="#" class="devpage-edit {{#if staged.triggers}}hide{{/if}}" id="dev-edit-triggers">Edit</a>
             <a href="#" class="devpage-commit sep--after {{#unless staged.triggers}}hide{{/unless}}" id="dev-commit-triggers">Commit</a>
