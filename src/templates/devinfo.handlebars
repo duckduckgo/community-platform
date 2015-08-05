@@ -154,9 +154,11 @@
                             </select>
                         </span>
                     </div>
-                    <div class="btn add_input right" id="add_developer_button" title="Add developer">
-                        <i class="ddgsi ddgsi-plus"></i>
-                    </div>
+                    {{#if @first}}
+                        <div class="btn add_input right" id="add_developer_button" title="Add developer">
+                            <i class="ddgsi ddgsi-plus"></i>
+                        </div>
+                     {{/if}}
                 </li>
             {{/each}}
         {{/if}}
