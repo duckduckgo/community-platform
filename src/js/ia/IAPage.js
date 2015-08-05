@@ -823,6 +823,7 @@
                         var $new_input = $ul.find('.new_input').first().clone();
                         var $last_li = $ul.children('li').last();
                         $last_li.before($new_input.removeClass("hide"));
+                        $new_input.removeClass("new_input");
 
                         if (($(this).attr("id") === "add_example") && ($("#example_query-input").length === 0) 
                             && (ia_data.live.dev_milestone !== "live" && ia_data.live.dev_milestone !== "deprecated")) {
