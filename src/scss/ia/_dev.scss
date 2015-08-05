@@ -242,6 +242,11 @@
                 /* There's too much space inside the dropdown. */
                 padding: 0;
                 min-width: 0;
+
+                option {
+                    background-color: #FAFAFA;
+                    color: #333;
+                }
             }
         }
 
