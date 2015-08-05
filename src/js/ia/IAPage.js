@@ -1243,8 +1243,7 @@
                                     // since those fields stay editable, unless it was the repo field, on which depends
                                     // the rendering of type-specific editable data
                                     var $details = subfield? $("#ia-single--details").find("." + subfield) : $("#ia-single--details").find("." + field);
-                                    if (data.result.saved && (!$details.length)
-                                        && (!$("." + field + ".top-details").length || field === "repo" || field === "dev_milestone")) {
+                                    if (data.result.saved && (!$details.length)) {
                                         keepUnsavedEdits(field);
                                     } else if (!data.result.saved) {
                                          $("." + field).addClass("not_saved");
