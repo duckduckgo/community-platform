@@ -96,7 +96,6 @@ post '/new' => sub {
 
     bailout( 500, "Something went wrong" ) if ( $error );
 
-    use DDP; p $result;
     return { ok => 1, result => $result };
 };
 
