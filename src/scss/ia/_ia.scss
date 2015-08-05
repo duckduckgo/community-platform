@@ -1138,11 +1138,7 @@ body.texture {
 }
 
 input.not_saved, select.not_saved, .button.not_saved {
-    border: 1px solid #DE5833;
-}
-
-.not_saved {
-    color: #DE5833;
+    border: 1px solid $red;
 }
 
 .saved {

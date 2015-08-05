@@ -1,5 +1,9 @@
 .ia-single {
 
+    .error-notification {
+        color: $red;
+    }
+
     input[type="text"]{
         &::-ms-clear { display: none; } // For IE 10
     }

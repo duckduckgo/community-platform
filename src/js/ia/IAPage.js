@@ -1248,6 +1248,7 @@
                                         keepUnsavedEdits(field);
                                     } else if (!data.result.saved) {
                                          $("." + field).addClass("not_saved");
+                                         $("." + field).siblings(".error-notification").removeClass("hide");
                                     }
                                 }
                             }
