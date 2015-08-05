@@ -6,7 +6,7 @@
     {{/if}}
 </div>
 
-<div class="ninety">
+<div class="{{#eq_or dev_milestone 'live' 'deprecated'}}ninety{{/eq_or}}">
     <span class="top__categories left {{#eq_or dev_milestone 'live' 'deprecated'}}{{#unless topic}}hide{{/unless}}{{/eq_or}}">
         <!-- Don't add any separators when we're editing. -->
         <span class="{{#if permissions.can_edit}}{{#eq_or dev_milestone 'live' 'deprecated'}}sep--after{{/eq_or}}{{else}}sep--after{{/if}}">
