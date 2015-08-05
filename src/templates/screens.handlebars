@@ -1,5 +1,6 @@
 {{#with live}}
 {{#ne_and dev_milestone 'planning' 'development'}}
+{{#if example_query}}
 <div class="screens--wide">
   <div class="ia-single--screenshots">
     <div class="screenshot--status hide">
@@ -35,5 +36,6 @@
       {{/if}}
   {{/ne_and}}
 </div>
+{{/if}}
 {{/ne_and}}
 {{/with}}
