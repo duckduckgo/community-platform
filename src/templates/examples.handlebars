@@ -100,40 +100,40 @@
     </div>
 </div>
 
-<div class="example-container">
-  <div class="search-example pull-left">
-    {{#if example_query}}
-        <span class="ddgsi-loupe"></span> <span>{{example_query}}</span>
-    {{/if}}
-  </div>
-
-  {{#ne_and dev_milestone 'planning' 'development'}}
-      <div class="pull-right screenshot-switcher">
-        <span class="btn switcher-icon">
-          <span class="icon-extra-desktop"><span class="path1"></span><span class="path2"></span></span>
-        </span>
-
-        <span class="btn switcher-icon remove-border">
-          <span class="icon-extra-mobile add-opacity"><span class="path1"></span><span class="path2"></span></span>
-        </span>
+{{#if example_query}}
+    <div class="example-container">
+      <div class="search-example pull-left">
+            <span class="ddgsi-loupe"></span> <span>{{example_query}}</span>
       </div>
 
-      {{#ne_and dev_milestone 'live' 'deprecated'}}
-        {{#if can_show}}
-            <div class="pull-right screenshot-switcher--generate hide">
-              <span class="btn btn--primary">Generate Screenshot</span>
-            </div>
-        {{/if}}
-      {{/ne_and}}
+      {{#ne_and dev_milestone 'planning' 'development'}}
+          <div class="pull-right screenshot-switcher">
+            <span class="btn switcher-icon">
+              <span class="icon-extra-desktop"><span class="path1"></span><span class="path2"></span></span>
+            </span>
 
-      {{#eq_or dev_milestone 'live' 'deprecated'}}
-          {{#if ../permissions.can_edit}}
-              <div class="pull-right screenshot-switcher--generate hide">
-                <span class="btn btn--primary">Generate Screenshot</span>
-              </div>
-          {{/if}}
-      {{/eq_or}}
-    {{/ne_and}}
+            <span class="btn switcher-icon remove-border">
+              <span class="icon-extra-mobile add-opacity"><span class="path1"></span><span class="path2"></span></span>
+            </span>
+          </div>
 
-  <span class="clearfix"></span>
-</div>
+          {{#ne_and dev_milestone 'live' 'deprecated'}}
+            {{#if can_show}}
+                <div class="pull-right screenshot-switcher--generate hide">
+                  <span class="btn btn--primary">Generate Screenshot</span>
+                </div>
+            {{/if}}
+          {{/ne_and}}
+
+          {{#eq_or dev_milestone 'live' 'deprecated'}}
+              {{#if ../permissions.can_edit}}
+                  <div class="pull-right screenshot-switcher--generate hide">
+                    <span class="btn btn--primary">Generate Screenshot</span>
+                  </div>
+              {{/if}}
+          {{/eq_or}}
+        {{/ne_and}}
+
+      <span class="clearfix"></span>
+    </div>
+{{/if}}
