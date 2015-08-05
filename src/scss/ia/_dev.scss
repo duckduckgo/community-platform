@@ -1,5 +1,12 @@
 .ia-single {
 
+    .top__categories, .top__repo, .top__milestone {
+        .frm__select {
+            position: relative;
+            bottom: 1px;
+        }
+    }
+
     .error-notification {
         color: $red;
     }

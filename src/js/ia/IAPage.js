@@ -1,10 +1,10 @@
 (function(env) {
-    function dropdownLength(value) {
+    function dropdownLength(value, add) {
         if(value.length <= 5 && value.length > 0) {
-            return (value.length + 3) * 8;
+            return (value.length + (add || 0)) * 8;
         }
 
-        return value.length * 8 || 150;
+        return (value.length + (add || 0)) * 8 || 150;
     }
 
     // Handlebars helpers
@@ -150,7 +150,11 @@
                     });
 
                     $("body").on("change", "select.top-details.js-autocommit", function(evt) {
-                        $(this).parent().css("width", dropdownLength($.trim($(this).children("option:selected").text())) + "px");
+                        if($(this).hasClass("topic")) {
+                            $(this).parent().css("width", dropdownLength($.trim($(this).children("option:selected").text()), 1) + "px");
+                        } else {
+                            $(this).parent().css("width", dropdownLength($.trim($(this).children("option:selected").text())) + "px");
+                        }
                     });
 
                     $("body").on("keydown", ".ia-examples input[type='text'], .ia-triggers input[type='text']", function() {
@@ -1449,7 +1453,11 @@
                 }
 
                 $("select.top-details.js-autocommit").each(function() {
-                    $(this).parent().css("width", dropdownLength($.trim($(this).children("option:selected").text())) + "px");
+                    if($(this).hasClass("topic")) {
+                        $(this).parent().css("width", dropdownLength($.trim($(this).children("option:selected").text()), 1) + "px");
+                    } else {
+                        $(this).parent().css("width", dropdownLength($.trim($(this).children("option:selected").text())) + "px");
+                    }
                 });
             } else {
                 $("#ia-single-top").attr("id", "ia-single-top--edit");
