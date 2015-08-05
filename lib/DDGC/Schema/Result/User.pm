@@ -133,24 +133,6 @@ sub del_role {
     $has_role->delete if $has_role;
 }
 
-sub remove_role {
-    my ( $self, $role ) = @_;
-    return $self->update({ admin => 0 }) if $role eq 'admin';
-    $role = 'forum_manager' if ( $role eq 'community_leader' );
-    return 0 if grep { $_ eq $role } @{$self->flags};
-    my @roles = grep { $_ ne $role } @{$self->flags};
-    $self->update({ flags => \@roles });
-}
-
-sub add_role {
-    my ( $self, $role ) = @_;
-    return $self->update({ admin => 1 }) if $role eq 'admin';
-    $role = 'forum_manager' if ( $role eq 'community_leader' );
-    return 0 if grep { $_ eq $role } @{$self->flags};
-    push @{$self->flags}, $role;
-    $self->update;
-}
-
 sub username_filesystem_clean {
     my ( $self ) = @_;
     ( my $n = $self->username ) =~ s/[^A-Za-z0-9_-]+/_/g;
