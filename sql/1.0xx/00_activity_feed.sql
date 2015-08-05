@@ -25,7 +25,7 @@ CREATE TABLE "activity_feed" (
   "description" text NOT NULL,
   "format" text DEFAULT 'markdown' NOT NULL,
   "for_user" bigint,
-  "for_role" int,
+  "for_role" integer,
   PRIMARY KEY ("id")
 );
 
