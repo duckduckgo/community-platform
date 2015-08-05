@@ -139,10 +139,10 @@
                     });
 
                     function tagLength(value) {
-                        if(value.length <= 5 && value.length > 0) {
-                            return (value.length + 5) * 10;
+                        if(value.length <= 10 && value.length > 0) {
+                            return (value.length + 5) * 7;
                         }
-                        return value.length * 10 || 150;
+                        return value.length * 7 || 100;
                     }
 
                     $("body").on("click", ".edit-popup .ddgsi-close", function(evt) {
@@ -151,6 +151,12 @@
 
                     $("body").on("change", "select.top-details.js-autocommit", function(evt) {
                         $(this).parent().css("width", dropdownLength($.trim($(this).children("option:selected").text())) + "px");
+                    });
+
+                    $("body").on("keydown", ".ia-examples input[type='text'], .ia-triggers input[type='text']", function() {
+                        if(tagLength(this.value) > 100) {
+                            $(this).css("width", tagLength(this.value) + "px");
+                        }
                     });
 
                     $("body").on("click", ".devpage-edit", function(evt) {
