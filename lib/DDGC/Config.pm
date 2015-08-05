@@ -11,11 +11,21 @@ use FindBin;
 use IO::All;
 use JSON;
 
+use DDGC::Config::Subscriptions;
+
 has always_use_default => (
 	is => 'ro',
 	lazy => 1,
 	default => sub { 0 },
 );
+
+has subscriptions => (
+	is => 'ro',
+	lazy_build => 1,
+);
+sub _build_subscriptions {
+	DDGC::Config::Subscriptions->new;
+}
 
 sub has_conf {
 	my ( $name, $env_key, $default ) = @_;
