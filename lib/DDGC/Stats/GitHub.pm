@@ -137,7 +137,6 @@ sub forks_report {
 
 sub issues_report {
     my $self = shift;
-print STDERR "======================== issues_report ==============================================\n";
 
     my $rs = $self->db->rs('GitHub::Issue')
         ->search
@@ -156,15 +155,8 @@ print STDERR "======================== issues_report ===========================
 
         next unless $first_comment;  # FIXME  - should us a duration of zero instead of skipping?
 
-print STDERR sprintf "======================== issue : %s\n", $github_issue->number;
-print STDERR sprintf "======================== repo  : %s\n", $github_issue->github_repo->full_name;
-print STDERR sprintf "================================== first comment : %s\n", $first_comment->number;
-print STDERR sprintf "================================== author        : %s\n", $first_comment->github_user->login;
-print STDERR sprintf "================================== created       : %s\n", $first_comment->created_at;
-
         my $duration = $first_comment->created_at - $github_issue->created_at;
         my $mins     = duration_to_minutes($duration);
-print STDERR sprintf "================================== duration      : %s\n", $mins;
         $total_mins += $mins;
         $count++;
     }
