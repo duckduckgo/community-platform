@@ -19,7 +19,6 @@
         padding-bottom : 0;
     }
     .data {
-        height : 2rem;
     }
     #last_updated {
         margin-top    : 0;
@@ -61,6 +60,24 @@
         text-transform : lowercase;
         vertical-align : top;
         padding-top    : .5rem;
+        padding-bottom : .5rem;
+    }
+    a.info {
+        float: right;
+        color            : $white;
+        background-color : $slate;
+        padding          : .5rem;
+        vertical-align   : bottom;
+    }
+    .info:hover + .stat-definition {
+        display    : block;
+        background : $slate;
+        color      : $white;
+        padding    : 1rem;
+        z-index    : 99;
+    }
+    .stat-definition {
+        display : none;
     }
     .custom-date-form {
         padding    : 1.2rem;

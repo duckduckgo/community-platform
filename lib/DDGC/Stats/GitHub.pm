@@ -53,9 +53,15 @@ sub comments_report {
     }
 
     return
-        {label => ' '},
-        { label => 'Comments',   value => $rs->count },
-        { label => 'Commenters', value => $commenters };
+        { label => ' '},
+        { label       => 'Comments',
+          value       => $rs->count,
+          description => 'The number of comments by non staff members.',
+        },
+        { label       => 'Commenters',
+          value       => $commenters,
+          description => 'The number of commenters who are not staff members.',
+        };
 }
 
 sub committers_report {
@@ -97,11 +103,23 @@ sub committers_report {
 
     return
         { label => ' '},
-        { label => 'Unique contributers: non IA PRs', value => $unique_committers},
-        { label => 'Unique contributers: IA PRs',     value => $unique_committers_ia},
+        { label       => 'Unique contributers: non IA PRs',
+          value       => $unique_committers,
+          description => 'The number of unique contributers.<br>Excludes staff members.<br>Excludes prs tagged with "New Instant Answer".',
+        },
+        { label       => 'Unique contributers: IA PRs', 
+          value       => $unique_committers_ia,
+          description => 'The number of unique contributers.<br>Excludes staff members.<br>Excludes prs not tagged with "New Instant Answer".',
+        },
         { label => ' '},
-        { label => 'Repeat contributers: non IA PRs', value => $repeat_committers},
-        { label => 'Repeat contributers: IA PRs',     value => $repeat_committers_ia};
+        { label       => 'Repeat contributers: non IA PRs',
+          value       => $repeat_committers,
+          description => 'The number of people who contributed during this time period and at some point in the past.<br>Excludes staff members.<br>Excludes prs tagged with "New Instant Answer".',
+        },
+        { label       => 'Repeat contributers: IA PRs',
+          value       => $repeat_committers_ia,
+          description => 'The number of people who contributed during this time period and at some point in the past.<br>Excludes staff members.<br>Excludes prs not tagged with "New Instant Answer".',
+        };
 }
 
 # + avg time to first response - daily
@@ -131,8 +149,11 @@ sub forks_report {
     my $forks_without_commits = $forks - $forks_with_commits;
 
     return
-        { label => ' ' },
-        { label => 'Forks created', value => $forks };
+        { label       => ' ' },
+        { label       => 'Forks created',
+          value       => $forks,
+          description => 'The number of forks created',
+        };
 }
 
 sub issues_report {
@@ -165,7 +186,11 @@ sub issues_report {
         ? human_duration($total_mins / $count)
         : 0;
 
-    return { label => 'Avg time to first response', value => $avg };
+    return { 
+        label       => 'Avg time to first response',
+        value       => $avg,
+        description => 'The avg time between the creation of a pull request and first comment by a staff member.<br>Excludes prs created by staff.<br>Includes prs with and without a "New Instant Answer" tag."',
+     };
 }
 
 has authors    => (is => 'rw', default => sub { {} });
@@ -192,7 +217,7 @@ sub code_review_report {
 
         if ($github_pull->github_issue->isa_new_instant_answer) {
             $self->ia_authors->{$user_id}++;
-            $ia_count++
+            $ia_count++;
         }
         else {
             $self->authors->{$user_id}++ ;
@@ -222,12 +247,24 @@ sub code_review_report {
     my $ia_code_review = $self->avg_human_duration($ia_review_total, $ia_review_count);
 
     return 
-        {label => ' '},
-        {label => 'Avg time to first code review: IAs', value => $ia_code_review},
-        {label => 'Avg time to first code review: Other PRs', value => $code_review},
-        {label => ' '},
-        {label => 'PRs created: IAs',       value => $ia_count},
-        {label => 'PRs created: Other PRs', value => $count};
+        { label => ' '},
+        { label       => 'Avg time to first code review: IAs',
+          value       => $ia_code_review,
+          description => 'The avg time between the creation of a pull request and the first inline comment by a staff member. <br>Excludes prs created by staff.<br>Excludes prs not tagged with "New Instant Answer"',
+        },
+        { label       => 'Avg time to first code review: Other PRs',
+          value       => $code_review,
+          description => 'The avg time between the creation of a pull request and the first inline comment by a staff member. <br>Excludes prs created by staff.<br>Excludes prs tagged with "New Instant Answer"',
+        },
+        { label => ' '},
+        { label       => 'PRs created: IAs',
+          value       => $ia_count,
+          description => 'The number of pull requests created.<br>Excludes prs created by staff.<br>Excludes prs not tagged with "New Instant Answer".',
+        },
+        { label       => 'PRs created: Other PRs',
+          value       => $count,
+          description => 'The number of pull requests created.<br>Excludes prs created by staff.<br>Excludes prs tagged with "New Instant Answer".',
+        };
 }
 
 sub lifespan_report {
@@ -267,12 +304,24 @@ sub lifespan_report {
     my $ia_lifespan = $self->avg_human_duration($ia_lifespan_total, $ia_lifespan_count);
 
     return 
-        {label => ' '},
-        {label => 'Avg PR lifespan: IAs',       value => $ia_lifespan},
-        {label => 'Avg PR lifespan: Other PRs', value => $lifespan},
-        {label => ' '},
-        {label => 'PRs merged: IAs',            value => $ia_count},
-        {label => 'PRs merged: Other PRs',      value => $count};
+        { label => ' '},
+        { label       => 'Avg PR lifespan: IAs',
+          value       => $ia_lifespan,
+          description => 'The avg lifespan of a pull request.<br>Excludes prs created by staff.<br>Excludes prs not tagged with "New Instant Answer"',
+        },
+        { label       => 'Avg PR lifespan: Other PRs',
+          value       => $lifespan,
+          description => 'The avg lifespan of a pull request.<br>Excludes prs created by staff.<br>Excludes prs tagged with "New Instant Answer"',
+        },
+        { label       => ' '},
+        { label       => 'PRs merged: IAs',
+          value       => $ia_count,
+          description => 'The number of pull requests merged.<br>Excludes prs created by staff.<br>Excludes prs not tagged with "New Instant Answer".',
+        },
+        { label       => 'PRs merged: Other PRs',
+          value       => $count,
+          description => 'The number of pull requests merged.<br>Excludes prs created by staff.<br>Excludes prs tagged with "New Instant Answer".',
+        };
 }
 
 sub avg_human_duration {

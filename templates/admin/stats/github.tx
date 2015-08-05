@@ -26,8 +26,6 @@
         </p>
 : }
 : if ($stats) {
-        <div class="loader"><img src="/images/spinner.gif"></div>
-  
 :   for $stats -> $stat {
 :     if ($stat.label == ' ') {
         <div class="graph"></div>
@@ -37,6 +35,8 @@
           <div class="data">
             <span class="stat-label"><: $stat.label :></span>
             <span class="number"><: $stat.value // '' :></span>
+            <a class="info">info</a>
+            <div class="stat-definition"><: $stat.description |raw :></div>
           </div>
         </div>
         <div class="graph"></div>
