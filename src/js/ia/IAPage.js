@@ -608,7 +608,7 @@
                             $(eventData.selector).on(eventData.evt, eventData.fn);
                         },
                         disableLoadingAnimation: function() {
-                            $('.screenshot--status').addClass("hide");
+                            $('.screenshot--status').hide();
                             $('.screenshot--status .loader').hide();
                         },
                         disableRefreshButton: function() {
