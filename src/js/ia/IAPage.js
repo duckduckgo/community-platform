@@ -573,7 +573,7 @@
                             }
                         },
                         setLoadingAnimation: function() {
-                            $('.screenshot--status').removeClass("hide");
+                            $('.screenshot--status').show();
                             $('.screenshot--status .loader').show();
                         },
                         setRefreshButton: function() {
@@ -622,7 +622,7 @@
                                 .addClass('btn--wire');
                         },
                         disableMessage: function() {
-                            $('.screenshot--status').addClass("hide");
+                            $('.screenshot--status').hide();
                             $('.screenshot--status .default-message').hide();
                         },
                         hasScreenshot: function(succeed, failed) {
