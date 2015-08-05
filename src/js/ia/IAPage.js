@@ -824,9 +824,12 @@
                         var $last_li = $ul.children('li').last();
                         $last_li.before($new_input.removeClass("hide"));
 
-                        if (($(this).attr("id") === "add_example") && ($("#example_query-input").length === 0)) {
-                            $new_input.find("input").attr("id", "example_query-input");
-                            $new_input.find("input").removeClass("group-vals").removeClass("other_queries").addClass("example_query");
+                        if (($(this).attr("id") === "add_example") && ($("#example_query-input").length === 0) 
+                            && (ia_data.live.dev_milestone !== "live" && ia_data.live.dev_milestone !== "deprecated")) {
+                            var $input = $new_input.find("input");
+                            $input.attr("id", "example_query-input");
+                            $input.removeClass("group-vals").removeClass("other_queries").addClass("example_query");
+                            $new_input.find(".other_queries").removeClass("other_queries").addClass("example_query");
                         }
                     });
 
