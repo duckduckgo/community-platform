@@ -1,5 +1,9 @@
 .ia-single {
 
+    input[type="text"]{
+        &::-ms-clear { display: none; } // For IE 10
+    }
+
     .asterisk:after {
         content: " *";
         color: $red;
