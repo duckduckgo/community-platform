@@ -241,7 +241,6 @@
                 text-transform: capitalize;
                 /* There's too much space inside the dropdown. */
                 padding: 0;
-                min-width: 0;
 
                 option {
                     background-color: #FAFAFA;
@@ -259,10 +258,6 @@
                 background-color: $blue;
                 padding-left: 5px;
                 padding-right: 20px;
-
-                select {
-                    width: 100% !important;
-                }
             }
         }
 
