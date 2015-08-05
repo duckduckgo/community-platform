@@ -14,7 +14,7 @@
                     <li {{#eq staged.example_query 'n---d'}}class="hide"{{/eq}}>
                         <span class="example_query">
                             <input type="text" id="example_query-input" value="{{staged.example_query}}" class="example_query js-autocommit" />
-                            <span class="delete-tag delete example_query"><i class="ddgsi-close">X</i></span>
+                            <span class="delete-tag delete"><i class="ddgsi-close">X</i></span>
                         </span>
                     </li>
              {{/if}}
@@ -24,7 +24,7 @@
                         <span class="{{#if @first}}{{#unless ../../staged.example_query}}example_query{{else}}other_queries{{/unless}}{{else}}example_query{{/if}} left">
                             <input type="text" value="{{this}}" {{#if @first}}{{#unless ../../staged.example_query}}id="example_query-input"{{/unless}}{{/if}} 
                             class="js-autocommit {{#if @first}}{{#unless ../../staged.example_query}}example_query{{else}}group-vals{{/unless}}{{else}}example_query{{/if}}" />
-                            <span class="delete example_query--delete {{#if @first}}{{#unless ../../staged.example_query}}example_query{{else}}other_queries{{/unless}}{{else}}example_query}}{{/if}}" title="Remove example">
+                            <span class="delete delete-tag" title="Remove example">
                                 <i class="ddgsi-close">X</i>
                             </span>
                        </span>
@@ -38,7 +38,7 @@
                     <li {{#if staged.example_query}}class="hide"{{/if}}>
                         <span class="example_query">
                             <input type="text" id="example_query-input" value="{{example_query}}" class="example_query js-autocommit" />
-                            <span class="delete-tag delete {{#if @first}}example_query{{else}}other_queries{{/if}}"><i class="ddgsi-close">X</i></span>
+                            <span class="delete-tag delete"><i class="ddgsi-close">X</i></span>
                         </span>
                     </li>
                 {{/if}}
@@ -47,7 +47,7 @@
                     <li {{#if staged.example_query}}class="hide"{{/if}}>
                         <span class="{{#if @first}}{{#if ../../example_query}}other_queries{{else}}example_query{{/if}}{{else}}other_queries{{/if}}">
                             <input type="text" value="{{this}}" class="js-autocommit {{#if @first}}{{#if ../../example_query}}group-vals{{else}}example_query{{/if}}{{else}}group-vals{{/if}}" {{#unless ../../example_query}}{{#if @first}}id="example_query-input"{{/if}}{{/unless}}/>
-                            <span class="delete-tag delete {{#if @first}}{{#if ../../example_query}}other_queries{{else}}example_query{{/if}}{{else}}other_queries{{/if}}"><i class="ddgsi-close">X</i></span>
+                            <span class="delete-tag delete"><i class="ddgsi-close">X</i></span>
                         </span>
                     </li>
                     {{#module_zero @index 3}}
@@ -59,7 +59,7 @@
             <li class="editpage hide new_input">
                 <span class="other_queries">
                     <input type="text" value="" class="js-autocommit group-vals" />
-                    <span class="delete-tag delete {{#if @first}}{{#if ../../example_query}}other_queries{{else}}example_query{{/if}}{{else}}other_queries{{/if}}"><i class="ddgsi-close">X</i></span>
+                    <span class="delete-tag delete"><i class="ddgsi-close">X</i></span>
                 </span>
             </li>
             <li class="editpage add_input" id="add_example">

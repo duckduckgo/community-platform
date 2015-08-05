@@ -856,10 +856,10 @@
                             if ($(this).parent().parent().hasClass("topic-separator")) {
                                 $("#js-top-details-submit, #js-top-details-cancel").removeClass("is-disabled");
                                 $("#add_topic").removeClass("hide");
-                            } else if ($(this).hasClass("example_query")) {
+                            } else if ($(this).parent().hasClass("example_query")) {
                                 console.log("delete button has example_query class");
                                 var $first_query = $(".other_queries input.js-autocommit.group-vals").first();
-                                console.log($first_query.attr("classs"));
+                                console.log($first_query.attr("class"));
                                 $first_query.removeClass("group-vals").addClass("example_query");
                                 $first_query.parent().removeClass("other_queries").addClass("example_query");
                                 $first_query.attr("id", "example_query-input");
