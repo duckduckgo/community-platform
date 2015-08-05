@@ -1,4 +1,12 @@
 (function(env) {
+    function dropdownLength(value) {
+        if(value.length <= 5 && value.length > 0) {
+            return (value.length + 3) * 8;
+        }
+
+        return value.length * 8 || 150;
+    }
+
     // Handlebars helpers
     Handlebars.registerHelper('encodeURIComponent', encodeURIComponent);
 
@@ -137,20 +145,8 @@
                         return value.length * 10 || 150;
                     }
 
-                    function dropdownLength(value) {
-                        if(value.length <= 5 && value.length > 0) {
-                            return (value.length + 3) * 8;
-                        }
-
-                        return value.length * 8 || 150;
-                    }
-
                     $("body").on("click", ".edit-popup .ddgsi-close", function(evt) {
                         $(this).parent().parent().find("input[type='text']").val('');
-                    });
-
-                    $("select.top-details.js-autocommit").each(function() {
-                        $(this).parent().css("width", dropdownLength($.trim($(this).children("option:selected").text())) + "px");
                     });
 
                     $("body").on("change", "select.top-details.js-autocommit", function(evt) {
@@ -830,7 +826,7 @@
                         $last_li.before($new_input.removeClass("hide"));
                         $new_input.removeClass("new_input");
 
-                        if (($(this).attr("id") === "add_example") && ($("#example_query-input").length === 0) 
+                        if (($(this).attr("id") === "add_example") && ($("#example_query-input").length === 0)
                             && (ia_data.live.dev_milestone !== "live" && ia_data.live.dev_milestone !== "deprecated")) {
                             var $input = $new_input.find("input");
                             $input.attr("id", "example_query-input");
@@ -1441,6 +1437,10 @@
                 if (ia_data.live.dev_milestone !== "live" && ia_data.live.dev_milestone !== "deprecated") {
                     this.appendTopics($(".topic-group.js-autocommit"));
                 }
+
+                $("select.top-details.js-autocommit").each(function() {
+                    $(this).parent().css("width", dropdownLength($.trim($(this).children("option:selected").text())) + "px");
+                });
             } else {
                 $("#ia-single-top").attr("id", "ia-single-top--edit");
                 $("#ia-single-top-name, #ia-single-top-details, .ia-single--left, .ia-single--right, .edit-container, #ia-breadcrumbs").hide();
