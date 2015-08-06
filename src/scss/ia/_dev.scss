@@ -160,6 +160,8 @@
         background-color: $white;
         width: 330px;
         box-shadow: 0 0 10px $grey;
+        max-height: 24em;
+        overflow: auto;
 
         div {
             margin-left: 0;

@@ -22,7 +22,7 @@
                 {{#each staged.other_queries}}
                     <li {{#eq staged.other_queries '[]'}}class="hide"{{/eq}}>
                         <span class="{{#if @first}}{{#unless ../../staged.example_query}}example_query{{else}}other_queries{{/unless}}{{else}}example_query{{/if}} left">
-                            <input type="text" value="{{this}}" {{#if @first}}{{#unless ../../staged.example_query}}id="example_query-input"{{/unless}}{{/if}} 
+                            <input type="text" value="{{this}}" {{#if @first}}{{#unless ../../staged.example_query}}id="example_query-input"{{/unless}}{{/if}}
                             class="js-autocommit {{#if @first}}{{#unless ../../staged.example_query}}example_query{{else}}group-vals{{/unless}}{{else}}example_query{{/if}}" />
                             <span class="delete delete-tag" title="Remove example">
                                 <i class="ddgsi-close">X</i>
