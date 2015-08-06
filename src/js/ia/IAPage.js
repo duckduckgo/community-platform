@@ -1008,6 +1008,8 @@
                                     autocommit(field, value, DDH_iaid, is_json);
                                 }
                             }
+                        } else {
+                            keepUnsavedEdits(field);
                         }
                     }
 
