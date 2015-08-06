@@ -222,18 +222,17 @@
                                 delete ia_data.staged.top_details;
                             }
 
-                            page.updateHandlebars(readonly_templates, ia_data, ia_data.live.dev_milestone, false);
-
                             // Remove and then append again all the templates for the top blue band
-                            $(".ia-single--name").remove();
 
+                            $(".ia-single--name").remove();
                             $("#ia-single-top-name").html(readonly_templates.live.name);
                             $('#ia-breadcrumbs').html(readonly_templates.live.breadcrumbs);
                             $("#ia-single-top-details").html(readonly_templates.live.top_details);
                             $('.edit-container').html(readonly_templates.live.edit_buttons);
 
                             $(this, "#js-top-details-submit").addClass("is-disabled");
-
+                            page.appendTopics($(".topic-group.js-autocommit"));
+                            
                             // Make sure to update the widths of the topics.
                             $("select.top-details.js-autocommit").each(function() {
                                 if($(this).hasClass("topic")) {
@@ -1059,6 +1058,7 @@
 
                                     if ($editable.hasClass("comma-separated") && value.length) {
                                         value = value.split(/\s*,\s*/);
+                                        value = value? value : [""];
                                         value = JSON.stringify(value);
                                         is_json = true;
                                     }
@@ -1066,7 +1066,7 @@
                             }
 
                             if ($editable.hasClass("section-group__item")) {
-                                value = {};
+                                value = "";
                                 parent_field = $.trim($editable.parents(".section-group").attr("id"));
                                 var section_vals = getSectionVals($editable, parent_field);
                                 section_vals[field] = value;
