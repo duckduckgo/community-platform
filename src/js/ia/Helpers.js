@@ -146,6 +146,14 @@
         }
     });
 
+    // Returns true for values equal to 1, evaluating to true
+    Handlebars.registerHelper('is_true', function(value, options) {
+        value = parseInt(value);
+        if (value) {
+            return options.fn(this);
+        }
+    });
+
     // Check if object has key
     Handlebars.registerHelper('not_null', function(key, options) {
         if (key || key === '') {
