@@ -1055,10 +1055,8 @@
                                 } else if (editable_type === "input" || editable_type === "textarea") {
                                     value = $.trim($editable.val());
 
-                                    if ($editable.hasClass("comma-separated") && value.length) {
-                                        value = value.split(/\s*,\s*/);
-                                        value = value? value : [""];
-                                        value = JSON.stringify(value);
+                                    if ($editable.hasClass("comma-separated")) {
+                                        value = value.length? JSON.stringify(value.split(/\s*,\s*/)) : "[]";
                                         is_json = true;
                                     }
                                 }
@@ -1273,11 +1271,8 @@
                                 } else {
                                     ia_data.live[field] = (is_json && data.result[field])? $.parseJSON(data.result[field]) : data.result[field];
 
-                                    // No need to refresh the Handlebars if the saved field was part of the blue band,
-                                    // since those fields stay editable, unless it was the repo field, on which depends
-                                    // the rendering of type-specific editable data
-                                    var $details = subfield? $("#ia-single--details").find("." + subfield) : $("#ia-single--details").find("." + field);
-                                    if (data.result.saved && (!$details.length)) {
+                                    // Refresh all the page's Handlebars
+                                    if (data.result.saved) {
                                         keepUnsavedEdits(field);
                                     } else if (!data.result.saved) {
                                          $("." + field).addClass("not_saved");
