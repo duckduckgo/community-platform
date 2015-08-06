@@ -7,6 +7,24 @@
         }
     }
 
+    .wicked-border {
+        border: 1px solid $platinum;
+        border-radius: 3px;
+        padding: 2em;
+        padding-top: 0;
+
+        .ia-single--header {
+            margin-top: 0;
+            position: relative;
+            bottom: 12px;
+            right: 1em;
+            background-color: white;
+            display: inline-block;
+            padding-left: 1em;
+            padding-right: 1em;
+        }
+    }
+
     .ia-triggers {
         margin-bottom: 2em;
     }
