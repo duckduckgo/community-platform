@@ -667,7 +667,7 @@
                         resetSaved($(this));
                     });
 
-                    $("body").on("change", ".ia-single--details .js-autocommit", function(evt) {
+                    $("body").on("keydown", ".ia-single--details .js-autocommit", function(evt) {
                         $("#devpage-commit-details, #devpage-cancel-details").removeClass("hide");
                     });
 
@@ -701,13 +701,17 @@
                         }
                     });
 
-                    $("body").on("change", ".top-details.js-autocommit", function(evt) {
+                    $("body").on("change", "select.top-details.js-autocommit", function(evt) {
                         $("#js-top-details-submit, #js-top-details-cancel").removeClass("is-disabled");
 
                         // Display topics as tags
                         if ($(this).hasClass("topic-group")) {
                             $(".topic-group.js-autocommit").trigger("blur");
                         }
+                    });
+
+                    $("body").on("keydown", "#name-input", function(evt) {
+                        $("#js-top-details-submit, #js-top-details-cancel").removeClass("is-disabled");
                     });
 
                     // Cancel an editing attempt on topics and remove any new empty topics
