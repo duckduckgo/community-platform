@@ -1263,24 +1263,20 @@
                         })
                         .done(function(data) {
                             subfield = subfield? subfield : "";
-                            if (data.result) {
-                                if (data.result.saved && (field === "dev_milestone" && data.result[field] === "live")) {
+                            if (data.result && data.result.saved) {
+                                if (field === "dev_milestone" && data.result[field] === "live") {
                                     location.reload();
-                                } else if (data.result.saved && field === "id") {
+                                } else if (field === "id") {
                                     location.href = "/ia/view/" + data.result.id;
                                 } else {
                                     ia_data.live[field] = (is_json && data.result[field])? $.parseJSON(data.result[field]) : data.result[field];
-
-                                    // Refresh all the page's Handlebars
-                                    if (data.result.saved) {
-                                        keepUnsavedEdits(field);
-                                    } else if (!data.result.saved) {
-                                         $("." + field).addClass("not_saved");
-                                         var $error_msg = $("." + field).siblings(".error-notification");
-                                         $error_msg.removeClass("hide");
-                                         $error_msg.text(data.result.msg);
-                                    }
-                                }
+                                    keepUnsavedEdits(field);
+                                } 
+                            } else if (data.result && (!data.result.saved)) {
+                                 $("." + field).addClass("not_saved");
+                                 var $error_msg = $("." + field).siblings(".error-notification");
+                                 $error_msg.removeClass("hide");
+                                 $error_msg.text(data.result.msg);
                             }
                         });
                     }
