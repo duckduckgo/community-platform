@@ -5,9 +5,9 @@
             <div class="gw">
                 <div class="g third testing-section">
                     <div class="frm">
-                        <div class="ia-single--header">
+                        <label class="details__label">
                             Browser Testing
-                        </div>
+                        </label>
                         <label class="frm__label">
                             <input data-panel="testing" id="browsers_ie-check" {{#unless permissions.can_edit}}disabled="disabled"{{/unless}} class="browsers_ie frm__label__chk {{#is_true permissions.can_edit}}js-autocommit{{/is_true}}" type="checkbox" {{#is_true browseru_ie}}checked="checked"{{/is_true}}>
                             <span class="frm__label__txt">IE</span>
@@ -33,9 +33,9 @@
 
                 <div class="g third testing-section">
                     <div class="frm">
-                        <div class="ia-single--header">
+                        <label class="details__label">
                             Mobile Testing
-                        </div>
+                        </label>
                         <label class="frm__label">
                             <input data-panel="testing" id="mobile_ios-check" {{#unless permissions.can_edit}}disabled="disabled"{{/unless}} class="mobile_ios frm__label__chk {{#is_true permissions.can_edit}}js-autocommit{{/is_true}}" type="checkbox" {{#is_true mobile_ios}}checked="checked"{{/is_true}}>
                             <span class="frm__label__txt">iOS</span>
@@ -49,9 +49,9 @@
 
                 <div class="g third testing-section">
                     <div class="frm">
-                        <div class="ia-single--header">
+                        <label class="details__label">
                             Miscellaneous
-                        </div>
+                        </label>
                         <label class="frm__label">
                             <input data-panel="testing" id="unsafe-check" {{#unless permissions.can_edit}}disabled="disabled"{{/unless}} class="unsafe frm__label__chk {{#is_true permissions.can_edit}}js-autocommit{{/is_true}}" type="checkbox" {{#is_true unsafe}}checked="checked"{{/is_true}}>
                             <span class="frm__label__txt">Requires Safe Search</span>
