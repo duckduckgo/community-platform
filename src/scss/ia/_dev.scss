@@ -29,6 +29,12 @@
         }
     }
 
+    .ia-single--testing {
+        &.wicked-border > .ia-single--header {
+            padding-bottom: 1em;
+        }
+    }
+
     .ia-triggers {
         margin-bottom: 2em;
     }
