@@ -163,7 +163,9 @@
 
     //Return final path of URL
     Handlebars.registerHelper('final_path', function(url) {
-        url = url.replace(/.*\/([^\/]*)$/,'$1');
+        if(url) {
+            url = url.replace(/.*\/([^\/]*)$/,'$1');
+        }
         return url;
     });
 
