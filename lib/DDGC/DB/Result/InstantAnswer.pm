@@ -395,6 +395,20 @@ many_to_many 'users', 'instant_answer_users', 'user';
 has_many 'instant_answer_topics', 'DDGC::DB::Result::InstantAnswer::Topics', 'instant_answer_id';
 many_to_many 'topics', 'instant_answer_topics', 'topic';
 
+after insert => sub {
+    my ( $self ) = @_;
+    my $schema = $self->result_source->schema;
+    $schema->resultset('ActivityFeed')->create(
+        $self->ddgc->config->subscriptions->created_ia_page( {
+            meta1        => $self->id,
+            meta2        => join('', map { sprintf ':%s:', $_ }
+                $self->topics->columns([qw/ name /])->all),
+            description  => sprintf('Instant Answer Page [%s](%s) created!',
+                $self->name, sprintf('https://duck.co/ia/view/%s',
+                    $self->id)),
+    } ) );
+};
+
 # returns a hash ref of all IA data.  Same idea as hashRefInflator
 # but this takes care of deserialization for you.
 sub TO_JSON {
