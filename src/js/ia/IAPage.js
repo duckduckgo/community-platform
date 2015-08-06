@@ -667,7 +667,7 @@
                         resetSaved($(this));
                     });
 
-                    $("body").on("change", ".ia-single--details .js-autocommit", function(evt) {
+                    $("body").on("keydown", ".ia-single--details .js-autocommit", function(evt) {
                         $("#devpage-commit-details, #devpage-cancel-details").removeClass("hide");
                     });
 
@@ -701,13 +701,17 @@
                         }
                     });
 
-                    $("body").on("change", ".top-details.js-autocommit", function(evt) {
+                    $("body").on("change", "select.top-details.js-autocommit", function(evt) {
                         $("#js-top-details-submit, #js-top-details-cancel").removeClass("is-disabled");
 
                         // Display topics as tags
                         if ($(this).hasClass("topic-group")) {
                             $(".topic-group.js-autocommit").trigger("blur");
                         }
+                    });
+
+                    $("body").on("keydown", "#name-input", function(evt) {
+                        $("#js-top-details-submit, #js-top-details-cancel").removeClass("is-disabled");
                     });
 
                     // Cancel an editing attempt on topics and remove any new empty topics
@@ -1055,10 +1059,8 @@
                                 } else if (editable_type === "input" || editable_type === "textarea") {
                                     value = $.trim($editable.val());
 
-                                    if ($editable.hasClass("comma-separated") && value.length) {
-                                        value = value.split(/\s*,\s*/);
-                                        value = value? value : [""];
-                                        value = JSON.stringify(value);
+                                    if ($editable.hasClass("comma-separated")) {
+                                        value = value.length? JSON.stringify(value.split(/\s*,\s*/)) : "[]";
                                         is_json = true;
                                     }
                                 }
@@ -1265,27 +1267,20 @@
                         })
                         .done(function(data) {
                             subfield = subfield? subfield : "";
-                            if (data.result) {
-                                if (data.result.saved && (field === "dev_milestone" && data.result[field] === "live")) {
+                            if (data.result && data.result.saved) {
+                                if (field === "dev_milestone" && data.result[field] === "live") {
                                     location.reload();
-                                } else if (data.result.saved && field === "id") {
+                                } else if (field === "id") {
                                     location.href = "/ia/view/" + data.result.id;
                                 } else {
                                     ia_data.live[field] = (is_json && data.result[field])? $.parseJSON(data.result[field]) : data.result[field];
-
-                                    // No need to refresh the Handlebars if the saved field was part of the blue band,
-                                    // since those fields stay editable, unless it was the repo field, on which depends
-                                    // the rendering of type-specific editable data
-                                    var $details = subfield? $("#ia-single--details").find("." + subfield) : $("#ia-single--details").find("." + field);
-                                    if (data.result.saved && (!$details.length)) {
-                                        keepUnsavedEdits(field);
-                                    } else if (!data.result.saved) {
-                                         $("." + field).addClass("not_saved");
-                                         var $error_msg = $("." + field).siblings(".error-notification");
-                                         $error_msg.removeClass("hide");
-                                         $error_msg.text(data.result.msg);
-                                    }
-                                }
+                                    keepUnsavedEdits(field);
+                                } 
+                            } else if (data.result && (!data.result.saved)) {
+                                 $("." + field).addClass("not_saved");
+                                 var $error_msg = $("." + field).siblings(".error-notification");
+                                 $error_msg.removeClass("hide");
+                                 $error_msg.text(data.result.msg);
                             }
                         });
                     }
