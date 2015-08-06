@@ -5,6 +5,11 @@ use Moo;
 extends 'DBIx::Class::Core';
 use DBIx::Class::Candy;
 
+__PACKAGE__->load_components(qw/
+    TimeStamp
+    InflateColumn::DateTime
+/);
+
 table 'activity_feed';
 
 # See DDGC::Schema::Result::ActivityFeed for docs
