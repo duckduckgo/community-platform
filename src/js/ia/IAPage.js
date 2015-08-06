@@ -1150,10 +1150,9 @@
                     }
 
                     function resetSaved($obj) {
-                        if ($obj.hasClass("saved")) {
-                            $obj.removeClass("saved");
-                        } else if ($obj.hasClass("not_saved")) {
+                        if ($obj.hasClass("not_saved")) {
                             $obj.removeClass("not_saved");
+                            $obj.siblings(".error-notification").addClass("hide");
                         }
                     }
 
@@ -1184,7 +1183,11 @@
                                 ia_data.staged[temp_field] = temp_value;
 
                                 if ($(this).hasClass("not_saved") && ($.inArray(temp_field, error_save) === -1)) {
-                                    error_save.push(temp_field);
+                                    var temp_error = {};
+                                    temp_error.field = temp_field;
+                                    var $notif = $("." + temp_field).siblings(".error-notification");
+                                    temp_error.msg = $notif.text()? $notif.text() : "";
+                                    error_save.push(temp_error);
                                 }
                             }
                         });
@@ -1231,7 +1234,9 @@
                         $commit_open.find(".devpage-edit").trigger("click");
 
                         $.each(error_save, function(idx, val) {
-                            $("." + val).addClass("not_saved");
+                            $("." + val.field).addClass("not_saved");
+                            var $error_msg = $("." + val.field).siblings(".error-notification");
+                            $error_msg.removeClass("hide").text(val.msg);
                         });
                     }
 
@@ -1261,7 +1266,9 @@
                                         keepUnsavedEdits(field);
                                     } else if (!data.result.saved) {
                                          $("." + field).addClass("not_saved");
-                                         $("." + field).siblings(".error-notification").removeClass("hide");
+                                         var $error_msg = $("." + field).siblings(".error-notification");
+                                         $error_msg.removeClass("hide");
+                                         $error_msg.text(data.result.msg);
                                     }
                                 }
                             }
