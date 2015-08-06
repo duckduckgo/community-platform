@@ -22,7 +22,7 @@ sub feedback {[
   },
     # suggest_idea(),
   {
-	description => "It's an idea for an instant answer (not a general suggestion!)",
+	description => "It's an idea for an Instant Answer (not a general suggestion!)",
 	icon => "sun",
 	type => "link",
 	link => ['Ideas','newidea'],
@@ -48,17 +48,17 @@ sub feedback {[
 
 sub suggest_instant {[
   {
-    description => "Please view the current instant answers at our goodies page on: https://duckduckgo.com/goodies",
+    description => "Please view the current Instant Answers at our goodies page on: https://duckduckgo.com/goodies",
     icon => "search", type => "external",
     link => "https://duckduckgo.com/goodies",
   },
   {
-    description => "Check if someone already has suggested your idea at our instant answer ideas page.",
+    description => "Check if someone already has suggested your idea at our Instant Answer ideas page.",
     icon => "sun", type => "link",
     link => ['Ideas','index'],
   },
   {
-    description => "I can't find it, I want to share my instant answer idea",
+    description => "I can't find it, I want to share my Instant Answer idea",
     icon => "chat", type => "link",
     link => ['Ideas','newidea'],
   },

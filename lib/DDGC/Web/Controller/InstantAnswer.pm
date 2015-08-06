@@ -1019,7 +1019,7 @@ sub add_topic {
 # removes that entry from the updates column
 sub commit_edit {
     my ($d, $ia, $field, $value) = @_;
-    # update the IA data in instant answer table
+    # update the IA data in Instant Answer table
     my $update_field = $field eq 'id'? 'meta_id' : $field;
     update_ia($ia, $update_field, $value);
     # remove the edit from the updates table
@@ -1039,7 +1039,7 @@ sub remove_edit {
     $ia->update({updates => $edits});
 }
 
-# update the instant answer table
+# update the Instant Answer table
 sub update_ia {
     my ($ia, $field, $value) = @_;
     $ia->update({$field => $value});
