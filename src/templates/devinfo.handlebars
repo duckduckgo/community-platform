@@ -113,19 +113,21 @@
     {{#if permissions.admin}}
         <div>
             <h3 class="second-header">Producer</h3>
-            <div class="half frm__input">
+            <div class="half half--screen-s frm__input">
                 <input type="text" class="producer js-autocommit hidden-toshow team-input" id="producer-input" value="{{producer}}" />
                 <span class="pull-right"><i class="ddgsi-close">X</i></span>
                 <span class="pull-right hide"><i class="ddgsi-check-sign"></i></span>
                 <span class="pull-right hide"><i class="ddgsi ddgsi-close-bold">x</i></span>
             </div>
-            <div class="half g">
+            <div class="half half--screen-s g">
               <div class="js-autocommit hidden-toshow assign-button btn" id="producer-button">
                 Assign to me
               </div>
             </div>
         </div>
     {{/if}}
+
+    <span class="clearfix"></span>
 
     <h3 class="second-header">Developer</h3>
     <ul class="parent-group" id="developer-group">
@@ -136,7 +138,7 @@
                     <div class="developer button delete left" name="developer" title="Remove developer">
                         <i class="ddgsi ddgsi-close-bold">X</i>
                     </div> -->
-                    <div class="half frm__input">
+                    <div class="half half--screen-s frm__input">
                         <span class="developer_username type-{{type}}">
                             <input type="text" class="group-vals" {{#eq type 'legacy'}}value="{{url}}" disabled="disabled"{{else}}value="{{final_path url}}"{{/eq}}/>
                         </span>
@@ -144,7 +146,7 @@
                         <span class="pull-right hide"><i class="ddgsi-check-sign"></i></span>
                         <span class="pull-right hide"><i class="ddgsi-close-bold">x</i></span>
                     </div>
-                    <div class="twenty g">
+                    <div class="twenty twenty--screen-s g">
                         <span class="frm__select">
                             <select class="available_types left" tabindex="-1" {{#eq type 'legacy'}}disabled="disabled"{{/eq}}>
                                 {{#if type}}<option value="0">{{type}}</option>{{/if}}
@@ -161,7 +163,7 @@
             <!-- <div class="button delete left" name="developer" title="Remove developer">
                 <i class="ddgsi ddgsi-close-bold">X</i>
             </div> -->
-            <div class="half frm__input">
+            <div class="half half--screen-s frm__input">
                 <span class="developer_username">
                     <input class="group-vals" type="text"/>
                 </span>
@@ -169,7 +171,7 @@
                 <span class="pull-right hide"><i class="ddgsi-check-sign"></i></span>
                 <span class="pull-right hide"><i class="ddgsi-close-bold">x</i></span>
             </div>
-            <div class="half g">
+            <div class="half half--screen-s g">
                 <span class="frm__select">
                   <select class="available_types" tabindex="-1">
                     <option value="0">duck.co</option>
@@ -185,6 +187,8 @@
             </div>
         </li>
     </ul>
+
+    <span class="clearfix"></span>
 
     <div class="cancel-save">
         <div class="btn pull-left cancel-button-popup">Cancel</div>
