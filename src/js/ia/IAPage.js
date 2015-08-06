@@ -726,6 +726,8 @@
 
                     //Dev Page: commit fields in the details section
                     $("body").on("click", "#devpage-commit-details", function(evt) {
+                        evt.preventDefault();
+
                         var $details = $("#ia-single--details .js-autocommit");
 
                         $details.each(function(idx) {
@@ -737,15 +739,18 @@
 
                     // Dev Page: cancel edits in the details section
                     $("body").on("click", "#devpage-cancel-details", function(evt) {
+                        evt.preventDefault();
                         keepUnsavedEdits();
                     });
 
                     $("body").on("click", "#ia-single--details .frm__label__chk.js-autocommit", function(evt) {
+                        evt.preventDefault();
                         commitEdit($(this));
                     });
 
                     // Dev Page: commit checkboxes in the testing section
                     $("body").on("click", ".testing-section .js-autocommit", function(evt) {
+                        evt.preventDefault();
                         commitEdit($(this));
                     });
 
