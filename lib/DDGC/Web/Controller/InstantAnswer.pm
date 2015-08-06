@@ -758,12 +758,13 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
             } elsif ($field eq "id") {
                 $field = "meta_id";
                 $value = format_id($value);
-                if ($c->d->rs('InstantAnswer')->find({meta_id => $value}) || $value eq '') {
-                    $msg = "ID already in use";
+                
+                if (!$value) {
+                    $msg = "ID can't be empty";
                     $c->stash->{x}->{result}->{msg} = $msg;
                     return $c->forward($c->view('JSON'));
-                } elsif (!$value) {
-                    $msg = "ID can't be empty";
+                } elsif ($c->d->rs('InstantAnswer')->find({meta_id => $value}) || $value eq '') {
+                    $msg = "ID already in use";
                     $c->stash->{x}->{result}->{msg} = $msg;
                     return $c->forward($c->view('JSON'));
                 }
