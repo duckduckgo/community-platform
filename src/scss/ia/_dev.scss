@@ -300,6 +300,10 @@
     }
 
     #ia-single-top {
+        .fix-height {
+            margin-bottom: 0.5em;
+        }
+
         /* We need to set the color of the dropdown to the background color. */
         .frm__select {
             background-color: transparent;

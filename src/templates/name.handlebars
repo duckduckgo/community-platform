@@ -1,4 +1,4 @@
-<div class="ia-single--name">
+<div class="ia-single--name {{#ne_and dev_milestone 'live' 'deprecated'}}{{#if permissions.can_edit}}{{#unless permissions.admin}}fix-height{{/unless}}{{/if}}{{/ne_and}}">
     {{#if permissions.admin}}
         {{#eq_or dev_milestone 'live' 'deprecated'}}
             <h2>{{name}}</h2>
