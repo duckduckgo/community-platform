@@ -1,5 +1,12 @@
 .ia-single {
 
+    label.details__label {
+        font-weight: 500;
+        margin-top: 10px;
+        margin-bottom: 5px;
+        display: inline-block;
+    }
+
     .top__categories, .top__repo, .top__milestone {
         .frm__select {
             position: relative;
@@ -13,7 +20,7 @@
         padding: 2em;
         padding-top: 0;
 
-        .ia-single--header {
+        > .ia-single--header {
             margin-top: 0;
             position: relative;
             bottom: 12px;
@@ -30,8 +37,8 @@
     }
 
     .ia-single--testing {
-        &.wicked-border > .ia-single--header {
-            padding-bottom: 1em;
+        .testing-section {
+            margin-bottom: 1em;
         }
     }
 
@@ -206,13 +213,6 @@
         &:focus {
             outline: none;
         }
-
-        label.details__label {
-            font-weight: 500;
-            margin-top: 10px;
-            margin-bottom: 5px;
-            display: inline-block;
-        }
     }
 
     #other_queries-group, #triggers-group {
@@ -267,6 +267,7 @@
         font-size: 9px;
         cursor: pointer;
         height: 100%;
+        top: 1px;
     }
 
     .ia-examples {
