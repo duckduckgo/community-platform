@@ -1,5 +1,12 @@
 .ia-single {
 
+    #add_developer {
+        overflow: auto;
+        .btn {
+            margin-top: 1px;
+        }
+    }
+
     label.details__label {
         font-weight: 500;
         margin-top: 10px;
@@ -68,6 +75,10 @@
     }
 
     .edit-popup {
+        .developer {
+            margin-bottom: 1em;
+        }
+
         .frm__input {
             input {
                 background-color: transparent;
@@ -78,29 +89,29 @@
 
             .ddgsi-close {
                 position: relative;
-                top: 1px;
                 right: 6px;
                 font-size: 10px;
                 cursor: pointer;
+                bottom: 26px;
             }
 
             .ddgsi-check-sign {
                 color: $green;
                 position: relative;
-                top: 4px;
                 right: 3px;
                 font-size: 16px;
                 cursor: pointer;
+                bottom: 23px;
             }
 
             .ddgsi-close-bold {
                 color: $red;
                 position: relative;
-                top: 4px;
                 right: 3px;
                 font-size: 15px;
                 cursor: pointer;
                 font-weight: bold;
+                bottom: 24px;
             }
         }
     }
@@ -121,7 +132,7 @@
     }
 
     #producer-button {
-        width: 11.5em;
+        width: 78%;
     }
 
     .cancel-save {
@@ -140,12 +151,13 @@
         position: fixed;
         z-index: 1000;
         padding: 1em;
-        top: 27%;
-        left: 31%;
+        top: 50%;
+        left: 50%;
+        margin-left: -177px;
+        margin-top: -181px;
         background-color: $white;
-        width: 30em;
+        width: 330px;
         box-shadow: 0 0 10px $grey;
-        margin-left: 0;
 
         div {
             margin-left: 0;

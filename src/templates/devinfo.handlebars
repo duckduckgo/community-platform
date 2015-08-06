@@ -154,11 +154,6 @@
                             </select>
                         </span>
                     </div>
-                    {{#if @first}}
-                        <div class="btn add_input right" id="add_developer_button" title="Add developer">
-                            <i class="ddgsi ddgsi-plus"></i>
-                        </div>
-                     {{/if}}
                 </li>
             {{/each}}
         {{/if}}
@@ -184,9 +179,11 @@
                 </span>
             </div>
         </li>
-        <!-- <li id="add_developer">
-
-        </li> -->
+        <li id="add_developer">
+            <div class="btn add_input left" id="add_developer_button" title="Add developer">
+                <i class="ddgsi ddgsi-plus"></i>
+            </div>
+        </li>
     </ul>
 
     <div class="cancel-save">
