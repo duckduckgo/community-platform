@@ -233,6 +233,15 @@
                             $('.edit-container').html(readonly_templates.live.edit_buttons);
 
                             $(this, "#js-top-details-submit").addClass("is-disabled");
+
+                            // Make sure to update the widths of the topics.
+                            $("select.top-details.js-autocommit").each(function() {
+                                if($(this).hasClass("topic")) {
+                                    $(this).parent().css("width", dropdownLength($.trim($(this).children("option:selected").text()), 1) + "px");
+                                } else {
+                                    $(this).parent().css("width", dropdownLength($.trim($(this).children("option:selected").text())) + "px");
+                                }
+                            });
                         }
                     });
 
@@ -1361,7 +1370,6 @@
             });
 
             templates.screens = Handlebars.templates.screens(ia_data);
-
         },
 
         updateData: function(ia_data, x, edited) {
@@ -1465,14 +1473,6 @@
                 if (ia_data.live.dev_milestone !== "live" && ia_data.live.dev_milestone !== "deprecated") {
                     this.appendTopics($(".topic-group.js-autocommit"));
                 }
-
-                $("select.top-details.js-autocommit").each(function() {
-                    if($(this).hasClass("topic")) {
-                        $(this).parent().css("width", dropdownLength($.trim($(this).children("option:selected").text()), 1) + "px");
-                    } else {
-                        $(this).parent().css("width", dropdownLength($.trim($(this).children("option:selected").text())) + "px");
-                    }
-                });
             } else {
                 $("#ia-single-top").attr("id", "ia-single-top--edit");
                 $("#ia-single-top-name, #ia-single-top-details, .ia-single--left, .ia-single--right, .edit-container, #ia-breadcrumbs").hide();
@@ -1492,6 +1492,15 @@
                     $(".ia-single--edits").append(templates.id);
                 }
             }
+
+            // Make sure to update the widths of the topics.
+            $("select.top-details.js-autocommit").each(function() {
+                if($(this).hasClass("topic")) {
+                    $(this).parent().css("width", dropdownLength($.trim($(this).children("option:selected").text()), 1) + "px");
+                } else {
+                    $(this).parent().css("width", dropdownLength($.trim($(this).children("option:selected").text())) + "px");
+                }
+            });
         }
     };
 
