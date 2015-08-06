@@ -752,8 +752,7 @@
                     });
 
                     $("body").on("click", "#ia-single--details .frm__label__chk.js-autocommit", function(evt) {
-                        evt.preventDefault();
-                        commitEdit($(this));
+                        $("#devpage-commit-details, #devpage-cancel-details").removeClass("hide");
                     });
 
                     // Dev Page: commit checkboxes in the testing section

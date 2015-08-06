@@ -1,4 +1,4 @@
-{{#if permissions.can_edit}}
+{{#is_true permissions.can_edit}}
     {{#ne_and dev_milestone 'live' 'deprecated'}}
     <div class="ia-single--details {{#ne_and dev_milestone 'live' 'deprecated'}}wicked-border{{/ne_and}}" tabindex="0" id="ia-single--details">
         <h3 class="ia-single--header">Details
@@ -30,14 +30,14 @@
                     </label>
                     <input type="text" value="{{perl_dependencies}}" class="comma-separated js-autocommit frm__input perl_dependencies" id="perl_dependencies-input">
                 </div>
-                {{#if permissions.admin}}
+                {{#is_true permissions.admin}}
                     <div class="third g">
                         <label class="details__label">
                             Tab Name
                         </label>
                         <input type="text" value="{{tab}}" class="js-autocommit frm__input tab" id="tab-input">
                     </div>
-                {{/if}}
+                {{/is_true}}
             </div>
 
             <div class="gw">
@@ -90,14 +90,14 @@
                     </label>
                     <input type="text" value="{{perl_dependencies}}" class="comma-separated js-autocommit frm__input perl_dependencies" id="perl_dependencies-input">
                 </div>
-                {{#if permissions.admin}}
+                {{#is_true permissions.admin}}
                     <div class="third g">
                         <label class="details__label">
                             Tab Name
                         </label>
                         <input type="text" value="{{tab}}" class="js-autocommit frm__input tab" id="tab-input">
                     </div>
-                {{/if}}
+                {{/is_true}}
             </div>
         {{/eq}}
 
@@ -137,43 +137,43 @@
                     <ul>
                         <li>
                             <label class="frm__label">
-                                <input id="skip_abstract-check" class="skip_abstract section-group__item frm__label__chk js-autocommit" type="checkbox" {{#if src_options.skip_abstract}}checked="checked"{{/if}}>
+                                <input id="skip_abstract-check" class="skip_abstract section-group__item frm__label__chk js-autocommit" type="checkbox" {{#is_true src_options.skip_abstract}}checked="checked"{{/is_true}}>
                                 <span class="frm__label__txt">Skip Abstract</span>
                             </label>
                         </li>
                         <li>
                             <label class="frm__label">
-                                <input id="skip_abstract_paren-check" class="skip_abstract_paren section-group__item frm__label__chk js-autocommit" type="checkbox" {{#if src_options.skip_abstract_paren}}checked="checked"{{/if}}>
+                                <input id="skip_abstract_paren-check" class="skip_abstract_paren section-group__item frm__label__chk js-autocommit" type="checkbox" {{#is_true src_options.skip_abstract_paren}}checked="checked"{{/is_true}}>
                                 <span class="frm__label__txt">Skip Abstract Parent</span>
                             </label>
                         </li>
                         <li>
                             <label class="frm__label">
-                                <input id="skip_icon-check" class="skip_icon section-group__item frm__label__chk js-autocommit" type="checkbox" {{#if src_options.skip_icon}}checked="checked"{{/if}}>
+                                <input id="skip_icon-check" class="skip_icon section-group__item frm__label__chk js-autocommit" type="checkbox" {{#is_true src_options.skip_icon}}checked="checked"{{/is_true}}>
                                 <span class="frm__label__txt">Skip Icon</span>
                             </label>
                         </li>
                         <li>
                             <label class="frm__label">
-                                <input id="skip_image_name-check" class="skip_image_name section-group__item frm__label__chk js-autocommit" type="checkbox" {{#if src_options.skip_image_name}}checked="checked"{{/if}}>
+                                <input id="skip_image_name-check" class="skip_image_name section-group__item frm__label__chk js-autocommit" type="checkbox" {{#is_true src_options.skip_image_name}}checked="checked"{{/is_true}}>
                                 <span class="frm__label__txt">Skip Image Name</span>
                             </label>
                         </li>
                         <li>
                             <label class="frm__label">
-                                <input id="is_wikipedia-check" class="is_wikipedia section-group__item frm__label__chk js-autocommit" type="checkbox" {{#if src_options.is_wikipedia}}checked="checked"{{/if}}>
+                                <input id="is_wikipedia-check" class="is_wikipedia section-group__item frm__label__chk js-autocommit" type="checkbox" {{#is_true src_options.is_wikipedia}}checked="checked"{{/is_true}}>
                                 <span class="frm__label__txt">Is Wikipedia</span>
                             </label>
                         </li>
                         <li>
                             <label class="frm__label">
-                                <input id="is_mediawiki-check" class="is_mediawiki section-group__item frm__label__chk js-autocommit" type="checkbox" {{#if src_options.is_mediawiki}}checked="checked"{{/if}}>
+                                <input id="is_mediawiki-check" class="is_mediawiki section-group__item frm__label__chk js-autocommit" type="checkbox" {{#is_true src_options.is_mediawiki}}checked="checked"{{/is_true}}>
                                 <span class="frm__label__txt">Is MediaWiki</span>
                             </label>
                         </li>
                         <li>
                             <label class="frm__label">
-                                <input id="is_fanon-check" class="is_fanon section-group__item frm__label__chk js-autocommit" type="checkbox" {{#if src_options.is_fanon}}checked="checked"{{/if}}>
+                                <input id="is_fanon-check" class="is_fanon section-group__item frm__label__chk js-autocommit" type="checkbox" {{#is_true src_options.is_fanon}}checked="checked"{{/is_true}}>
                                 <span class="frm__label__txt">Is Fanon</span>
                             </label>
                         </li>
@@ -254,14 +254,14 @@
                     </label>
                     <input type="text" value="{{perl_dependencies}}" class="comma-separated js-autocommit frm__input perl_dependencies" id="perl_dependencies-input">
                 </div>
-                {{#if permissions.admin}}
+                {{#is_true permissions.admin}}
                     <div class="third g">
                         <label class="details__label">
                             Tab Name
                         </label>
                         <input type="text" value="{{tab}}" class="js-autocommit frm__input tab" id="tab-input">
                     </div>
-                {{/if}}
+                {{/is_true}}
             </div>
 
             <div class="gw">
@@ -276,7 +276,7 @@
                         Is StackExchange
                     </label>
                     <label class="frm__label">
-                        <input id="is_stackexchange-check" class="is_stackexchange frm__label__chk js-autocommit" type="checkbox" {{#if is_stackexchange}}checked="checked"{{/if}}>
+                        <input id="is_stackexchange-check" class="is_stackexchange frm__label__chk js-autocommit" type="checkbox" {{#is_true is_stackexchange}}checked="checked"{{/is_true}}>
                         <span class="frm__label__txt">Is StackExchange</span>
                     </label>
                 </div>
@@ -285,4 +285,4 @@
 
     </div>
     {{/ne_and}}
-{{/if}}
+{{/is_true}}
