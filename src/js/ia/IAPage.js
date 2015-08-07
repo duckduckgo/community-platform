@@ -41,10 +41,10 @@
                         if ($("#view_commits").length) {
                             ia_data.permissions.admin = 1;
                         }
-                    }
 
-                    if(ia_data.live.test_machine && ia_data.live.example_query) {
-                        ia_data.live.can_show = true;
+                        if(ia_data.live.test_machine && ia_data.live.example_query) {
+                            ia_data.live.can_show = true;
+                        }
                     }
 
                     // Allow blue band to get 100% page width
