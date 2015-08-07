@@ -1,6 +1,33 @@
 <div id="big-description">
-  {{#if description}}
-    <h3 class="ia-single--header">Description</h3>
-    <p>{{description}}</p>
-  {{/if}}
+    <h3 class="ia-single--header">
+            <span {{#ne_and dev_milestone 'live' 'deprecated'}}{{#if permissions.can_edit}}class="asterisk"{{/if}}{{/ne_and}}>Description</span>
+    {{#if permissions.can_edit}}
+        {{#ne_and dev_milestone 'live' 'deprecated'}}
+            <a href="#" class="devpage-edit {{#if staged.description}}hide{{/if}}" id="dev-edit-description">Edit</a>
+            <a href="#" class="devpage-commit sep--after {{#unless staged.description}}hide{{/unless}}" id="dev-commit-description">Commit</a>
+            <a href="#" class="devpage-cancel {{#unless staged.description}}hide{{/unless}}" id="dev-cancel-description">Cancel</a>
+        {{/ne_and}}
+    {{/if}}
+        {{#if forum_link}}
+            <a href="{{forum_link}}" {{#if permissions.can_edit}}{{#ne_and dev_milestone 'live' 'deprecated'}}class="sep--before devpage-forum"{{/ne_and}}{{/if}}>Forum Thread</a>
+        {{/if}}
+    </h3>
+
+    <p  class="readonly--info {{#if staged.description}}hide{{/if}}" id="description--readonly">
+        {{#if description}}
+            {{description}}
+        {{else}}
+            <span class="no-available">No description provided.</span>
+        {{/if}}
+    </p>
+
+    {{#if permissions.can_edit}}
+        <textarea class="{{#unless staged.description}}hide{{/unless}} frm__text description js-autocommit hidden-toshow" id="description-textarea">
+            {{~#if staged.description~}}
+                {{staged.description}}
+            {{~else~}}
+                {{description}}
+            {{~/if~}}
+        </textarea>
+    {{/if}}
 </div>

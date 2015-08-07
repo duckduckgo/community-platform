@@ -1,0 +1,64 @@
+{{#ne_and dev_milestone 'live' 'deprecated'}}
+    {{#ne_and dev_milestone 'planning' 'development'}}
+        <div class="ia-single--testing {{#ne_and dev_milestone 'live' 'deprecated'}}wicked-border{{/ne_and}}">
+            <h3 class="ia-single--header">Testing</h3>
+            <div class="gw">
+                <div class="g third testing-section">
+                    <div class="frm">
+                        <label class="details__label">
+                            Browser Testing
+                        </label>
+                        <label class="frm__label">
+                            <input  id="browsers_ie-check" {{#unless permissions.can_edit}}disabled="disabled"{{/unless}} class="browsers_ie frm__label__chk {{#is_true permissions.can_edit}}js-autocommit{{/is_true}}" type="checkbox" {{#is_true browsers_ie}}checked="checked"{{/is_true}}>
+                            <span class="frm__label__txt">IE</span>
+                        </label>
+                        <label class="frm__label">
+                            <input  id="browsers_chrome-check" {{#unless permissions.can_edit}}disabled="disabled"{{/unless}} class="browsers_chrome frm__label__chk {{#is_true permissions.can_edit}}js-autocommit{{/is_true}}" type="checkbox" {{#is_true browsers_chrome}}checked="checked"{{/is_true}}>
+                            <span class="frm__label__txt">Chrome</span>
+                        </label>
+                        <label class="frm__label">
+                            <input  id="browsers_firefox-check" {{#unless permissions.can_edit}}disabled="disabled"{{/unless}} class="browsers_firefox frm__label__chk {{#is_true permissions.can_edit}}js-autocommit{{/is_true}}" type="checkbox" {{#is_true browsers_firefox}}checked="checked"{{/is_true}}>
+                            <span class="frm__label__txt">Firefox</span>
+                        </label>
+                        <label class="frm__label">
+                            <input  id="browsers_safari-check" {{#unless permissions.can_edit}}disabled="disabled"{{/unless}} class="browsers_safari frm__label__chk {{#is_true permissions.can_edit}}js-autocommit{{/is_true}}" type="checkbox" {{#is_true browsers_safari}}checked="checked"{{/is_true}}>
+                            <span class="frm__label__txt">Safari</span>
+                        </label>
+                        <label class="frm__label">
+                            <input  id="browsers_opera-check" {{#unless permissions.can_edit}}disabled="disabled"{{/unless}} class="browsers_opera frm__label__chk {{#is_true permissions.can_edit}}js-autocommit{{/is_true}}" type="checkbox" {{#is_true browsers_opera}}checked="checked"{{/is_true}}>
+                            <span class="frm__label__txt">Opera</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="g third testing-section">
+                    <div class="frm">
+                        <label class="details__label">
+                            Mobile Testing
+                        </label>
+                        <label class="frm__label">
+                            <input  id="mobile_ios-check" {{#unless permissions.can_edit}}disabled="disabled"{{/unless}} class="mobile_ios frm__label__chk {{#is_true permissions.can_edit}}js-autocommit{{/is_true}}" type="checkbox" {{#is_true mobile_ios}}checked="checked"{{/is_true}}>
+                            <span class="frm__label__txt">iOS</span>
+                        </label>
+                        <label class="frm__label">
+                            <input  id="mobile_android-check" {{#unless permissions.can_edit}}disabled="disabled"{{/unless}} class="mobile_android frm__label__chk {{#is_true permissions.can_edit}}js-autocommit{{/is_true}}" type="checkbox" {{#is_true mobile_android}}checked="checked"{{/is_true}}>
+                            <span class="frm__label__txt">Android</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="g third testing-section">
+                    <div class="frm">
+                        <label class="details__label">
+                            Miscellaneous
+                        </label>
+                        <label class="frm__label">
+                            <input  id="unsafe-check" {{#unless permissions.can_edit}}disabled="disabled"{{/unless}} class="unsafe frm__label__chk {{#is_true permissions.can_edit}}js-autocommit{{/is_true}}" type="checkbox" {{#is_true unsafe}}checked="checked"{{/is_true}}>
+                            <span class="frm__label__txt">Requires Safe Search</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {{/ne_and}}
+{{/ne_and}}

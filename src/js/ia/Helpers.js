@@ -33,6 +33,25 @@
         return word;
     });
 
+    // True if v1 or v2 (or both) are true
+    Handlebars.registerHelper('or', function(v1, v2, options) {
+        if (v1 || v2) {
+            return options.fn(this);
+        } else {
+            return options.inverse(this);
+        }
+    });
+
+
+    // True if the two vals are false
+    Handlebars.registerHelper('unless_and', function(v1, v2, options) {
+        if ((!v1) && (!v2)) {
+            return options.fn(this);
+        } else {
+             return options.inverse(this);
+        }
+    });
+
     // Check if two values are equal
     Handlebars.registerHelper('eq', function(value1, value2, options) {
         if (value1 === value2) {
@@ -127,6 +146,14 @@
         }
     });
 
+    // Returns true for values equal to 1, evaluating to true
+    Handlebars.registerHelper('is_true', function(value, options) {
+        value = parseInt(value);
+        if (value) {
+            return options.fn(this);
+        }
+    });
+
     // Check if object has key
     Handlebars.registerHelper('not_null', function(key, options) {
         if (key || key === '') {
@@ -136,7 +163,9 @@
 
     //Return final path of URL
     Handlebars.registerHelper('final_path', function(url) {
-        url = url.replace(/.*\/([^\/]*)$/,'$1');
+        if(url) {
+            url = url.replace(/.*\/([^\/]*)$/,'$1');
+        }
         return url;
     });
 
@@ -161,5 +190,12 @@
         var day = date[2] || '';
 
         return month + ", " + day + " " + year;
+    });
+
+    // Returns true if value1 % value2 equals zero
+    Handlebars.registerHelper('module_zero', function(value1, value2, options) {
+        if ((value1 % value2 === 0) && (value1 > 1)) {
+             return options.fn(this);
+        }
     });
 })(DDH);

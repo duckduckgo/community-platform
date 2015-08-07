@@ -1,3 +1,433 @@
+.ia-single {
+
+    #add_developer {
+        overflow: auto;
+        .btn {
+            margin-top: 1px;
+        }
+        margin-bottom: 1em;
+    }
+
+    label.details__label {
+        font-weight: 500;
+        margin-top: 10px;
+        margin-bottom: 5px;
+        display: inline-block;
+        cursor: default;
+    }
+
+    .top__categories, .top__repo, .top__milestone {
+        .frm__select {
+            position: relative;
+            bottom: 1px;
+        }
+    }
+
+    .wicked-border {
+        border: 1px solid $platinum;
+        border-radius: 3px;
+        padding: 2em;
+        padding-top: 0;
+
+        > .ia-single--header {
+            margin-top: 0;
+            position: relative;
+            bottom: 12px;
+            right: 1em;
+            background-color: white;
+            display: inline-block;
+            padding-left: 1em;
+            padding-right: 1em;
+
+            #devpage-commit-details {
+                padding-left: 1em;
+            }
+        }
+    }
+
+    .ia-single--testing {
+        .testing-section {
+            margin-bottom: 1em;
+        }
+    }
+
+    .ia-triggers {
+        margin-bottom: 2em;
+    }
+
+    .error-notification {
+        color: $red;
+    }
+
+    input[type="text"]{
+        &::-ms-clear { display: none; } // For IE 10
+    }
+
+    .asterisk:after {
+        content: " *";
+        color: $red;
+    }
+
+    .no-available {
+        color: $grey;
+    }
+
+    .ia-single--details {
+        margin-bottom: 2em;
+    }
+
+    .edit-popup {
+
+        .developer {
+            margin-bottom: 1em;
+        }
+
+        .frm__input {
+            input {
+                background-color: transparent;
+                border: none;
+                outline: none;
+                width: 14em;
+            }
+
+            .ddgsi-close {
+                position: relative;
+                right: 6px;
+                font-size: 10px;
+                cursor: pointer;
+                bottom: 26px;
+            }
+
+            .ddgsi-check-sign {
+                color: $green;
+                position: relative;
+                right: 3px;
+                font-size: 16px;
+                cursor: pointer;
+                bottom: 23px;
+            }
+
+            .ddgsi-close-bold {
+                color: $red;
+                position: relative;
+                right: 3px;
+                font-size: 15px;
+                cursor: pointer;
+                font-weight: bold;
+                bottom: 24px;
+            }
+        }
+    }
+
+    .ia-single--testing {
+        margin-bottom: 2em;
+
+        .ia-single--header {
+            margin-top: 0;
+        }
+    }
+
+    h3.second-header {
+        text-transform: uppercase;
+        font-size: 12px;
+        color: $grey;
+        margin-top: 1em;
+    }
+
+    #producer-button {
+        width: 78%;
+    }
+
+    .cancel-save {
+        margin-top: 1em;
+
+        .cancel-button-popup, .save-button-popup {
+            width: 25%;
+        }
+    }
+
+    .new_input {
+        margin-top: 0.5em;
+    }
+
+    #contributors-popup {
+        position: fixed;
+        z-index: 1000;
+        padding: 2.5em;
+        top: 40%;
+        left: 50%;
+        margin-left: -177px;
+        margin-top: -181px;
+        background-color: $white;
+        width: 330px;
+        box-shadow: 0 0 10px rgba(0,0,0,.2);
+        max-height: 24em;
+        overflow: auto;
+
+        .producer-contributor {
+            margin-bottom: 1.5em;
+        }
+
+        div {
+            margin-left: 0;
+        }
+
+        .ia-single--header {
+            margin-top: 0;
+            margin-bottom: 2em;
+        }
+    }
+
+    .developer_username {
+        width: 100%;
+
+        .frm__input {
+            width: 100%;
+        }
+    }
+
+    #edit-modal {
+        height: 100%;
+        width: 100%;
+        position: fixed;
+        zoom: 1;
+        background-color: rgba(68, 149, 212, 0.6);
+        z-index: 100;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        cursor: pointer;
+
+        margin-left: 0;
+    }
+
+    .frm__label {
+        display: block;
+        font-weight: initial;
+        font-size: 1em;
+    }
+
+    /* Make the text smaller and thinner */
+    .devpage-edit, .devpage-edit-popup, .devpage-commit, .devpage-cancel, .devpage-commit-details, .devpage-cancel-details, .devpage-forum {
+        font-weight: initial;
+        font-size: 95%;
+    }
+
+    /* Add some space between the header and the "Edit" / "Commit" buttons */
+    .devpage-edit, .devpage-commit {
+        margin-left: 3px;
+    }
+
+    /* The textarea should have a maximum width to prevent it from overlapping
+       on the right column
+       */
+    #description-textarea {
+        max-width: 100%;
+        height: 5em;
+        width: 100%;
+
+        /* The design calls for a rounded border */
+        border-radius: 3px;
+    }
+
+    .ia-single--details {
+        &:focus {
+            outline: none;
+        }
+    }
+
+    #other_queries-group, #triggers-group {
+        overflow: auto;
+        overflow-y: hidden;
+
+        li {
+            display: inline-block;
+            margin-top: 10px;
+            margin-bottom: 1px;
+        }
+
+        li.hide {
+            display: none;
+        }
+    }
+
+    #add_example_button, #add_trigger_button {
+        padding-right: 8px;
+        padding-left: 8px;
+        padding-top: 1px;
+        padding-bottom: 1px;
+
+        .ddgsi-plus {
+            position: relative;
+            top: 2px;
+        }
+    }
+
+    .ia-examples, .ia-triggers {
+        li {
+            margin-right: -10px;
+        }
+
+        input {
+            &.example_query {
+                text-transform: capitalize;
+            }
+        }
+
+        .other_queries input {
+            text-transform: capitalize;
+        }
+
+        input.example_query, input.group-vals {
+            background-color: $silver;
+            border: none;
+            outline: none;
+            padding: 0.6em;
+            width: auto;
+            color: $slate-light;
+            border-radius: 3px;
+            border: 1px solid $silver;
+            padding-left: 0.7em;
+
+            &:focus {
+                background-color: $silver-light;
+                border: 1px solid $grey;
+            }
+        }
+    }
+
+    .delete-tag {
+        display: inline-block;
+        position: relative;
+        right: 25px;
+        font-size: 9px;
+        cursor: pointer;
+        height: 100%;
+        top: 50%;
+    }
+
+    .ia-examples {
+        .example_query {
+            display: inline-block;
+        }
+    }
+
+    #ia-single-top {
+        .top__categories {
+            .detail-title {
+                padding-right: 0.5em;
+            }
+        }
+
+        .fix-height {
+            margin-bottom: 0.5em;
+        }
+
+        /* We need to set the color of the dropdown to the background color. */
+        .frm__select {
+            background-color: transparent;
+            border-color: transparent;
+            color: $white;
+
+            padding-right: 30px;
+
+            select {
+                color: $white;
+                text-transform: capitalize;
+                /* There's too much space inside the dropdown. */
+                padding: 0;
+                padding-left: 6px;
+
+                option {
+                    background-color: #FAFAFA;
+                    color: #333;
+                }
+            }
+        }
+
+        .top__repo.add-width {
+            margin-left: 1em;
+        }
+
+        .topic-container {
+            .frm__select {
+                &:after {
+                    content: "";
+                }
+
+                background-color: #5297CC;
+                padding-left: 5px;
+                padding-right: 30px;
+            }
+
+            .topic-separator {
+                margin-right: -9px;
+            }
+        }
+
+        /* The + button should have a custom color. */
+        #add_topic {
+            background-color: #3a7fb4;
+            border-color: transparent;
+            color: $white;
+
+            position: relative;
+            bottom: 1px;
+
+            padding-right: 8px;
+            padding-left: 8px;
+            padding-top: 1px;
+            padding-bottom: 1px;
+            margin-right: 10px;
+
+            .ddgsi-plus {
+                position: relative;
+                top: 2px;
+            }
+        }
+
+        /* The input text for the name shouldn't look like an input field.
+           This means transparent background and bigger text.
+          */
+        .ia-single--name input.frm__input {
+            background-color: transparent;
+            border-color: transparent;
+            font-size: 2em;
+            padding: 0;
+            color: #fff;
+            font-weight: 500;
+            height: 1.5em;
+            line-height: 1;
+            position: relative;
+            bottom: 7px;
+        }
+
+        .topic-remove {
+            position: relative;
+            top: 2px;
+        }
+
+        .topic-container, .topic-separator {
+            display: inline-block;
+
+            .hide {
+                display: none;
+            }
+        }
+
+        .edit-container {
+            .view-json {
+                margin-bottom: 1em;
+            }
+
+            #js-top-details-submit {
+                margin-right: 0.5em;
+            }
+        }
+    }
+}
+
 $frm__input-size: 24em;
 .frm__input {
     width: 100%;
@@ -7,10 +437,6 @@ $frm__input-size: 24em;
 .frm__input--half {
     @extend .frm__input;
     width: $frm__input-size / 2;
-}
-
-#producer-input {
-    width: 12.79em;
 }
 
 #metafields {
@@ -86,10 +512,6 @@ div[name="topic"].topic {
     width: 4.5em;
 }
 
-select.available_types {
-    background-color: $green;
-}
-
 .invalid {
     select.available_types {
         background-color: $red-dark;
@@ -104,7 +526,7 @@ select.available_types {
     overflow: hidden;
     width: 100%;
     margin-top: 2em;
-    
+
     .check-txt {
         height: 2.3em;
         display: inline-block;
@@ -155,4 +577,3 @@ select.available_types {
     margin-bottom: 0px;
     margin-top: 0.5em;
 }
-
