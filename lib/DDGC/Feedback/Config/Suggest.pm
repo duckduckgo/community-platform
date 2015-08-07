@@ -22,7 +22,7 @@ sub feedback {[
   },
     # suggest_idea(),
   {
-	description => "It's an idea for an instant answer (not a general suggestion!)",
+	description => "It's an idea for an Instant Answer (not a general suggestion!)",
 	icon => "sun",
 	type => "link",
 	link => ['Ideas','newidea'],
