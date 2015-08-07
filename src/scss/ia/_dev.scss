@@ -77,6 +77,7 @@
     }
 
     .edit-popup {
+
         .developer {
             margin-bottom: 1em;
         }
@@ -152,23 +153,28 @@
     #contributors-popup {
         position: fixed;
         z-index: 1000;
-        padding: 1em;
-        top: 50%;
+        padding: 2.5em;
+        top: 40%;
         left: 50%;
         margin-left: -177px;
         margin-top: -181px;
         background-color: $white;
         width: 330px;
-        box-shadow: 0 0 10px $grey;
+        box-shadow: 0 0 10px rgba(0,0,0,.2);
         max-height: 24em;
         overflow: auto;
+
+        .producer-contributor {
+            margin-bottom: 1.5em;
+        }
 
         div {
             margin-left: 0;
         }
 
         .ia-single--header {
-            margin-top: 0.5em;
+            margin-top: 0;
+            margin-bottom: 2em;
         }
     }
 
@@ -259,6 +265,10 @@
     }
 
     .ia-examples, .ia-triggers {
+        li {
+            margin-right: -10px;
+        }
+
         input {
             &.example_query {
                 text-transform: capitalize;
@@ -278,6 +288,7 @@
             color: $slate-light;
             border-radius: 3px;
             border: 1px solid $silver;
+            padding-left: 0.7em;
 
             &:focus {
                 background-color: $silver-light;
@@ -289,7 +300,7 @@
     .delete-tag {
         display: inline-block;
         position: relative;
-        right: 21px;
+        right: 25px;
         font-size: 9px;
         cursor: pointer;
         height: 100%;
@@ -303,6 +314,12 @@
     }
 
     #ia-single-top {
+        .top__categories {
+            .detail-title {
+                padding-right: 0.5em;
+            }
+        }
+
         .fix-height {
             margin-bottom: 0.5em;
         }
@@ -320,6 +337,7 @@
                 text-transform: capitalize;
                 /* There's too much space inside the dropdown. */
                 padding: 0;
+                padding-left: 6px;
 
                 option {
                     background-color: #FAFAFA;
@@ -328,15 +346,23 @@
             }
         }
 
+        .top__repo.add-width {
+            margin-left: 1em;
+        }
+
         .topic-container {
             .frm__select {
                 &:after {
                     content: "";
                 }
 
-                background-color: $blue;
+                background-color: #5297CC;
                 padding-left: 5px;
-                padding-right: 20px;
+                padding-right: 30px;
+            }
+
+            .topic-separator {
+                margin-right: -9px;
             }
         }
 

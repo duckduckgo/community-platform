@@ -10,7 +10,7 @@
     <span class="top__categories left {{#eq_or dev_milestone 'live' 'deprecated'}}{{#unless topic}}hide{{/unless}}{{/eq_or}}">
         <!-- Don't add any separators when we're editing. -->
         <span class="{{#if permissions.can_edit}}{{#eq_or dev_milestone 'live' 'deprecated'}}sep--after{{/eq_or}}{{else}}sep--after{{/if}}">
-            <span class="detail-title">Categories:</span>
+            <span class="detail-title">Topics:</span>
             {{#if permissions.can_edit}}
                 {{#ne_and dev_milestone 'live' 'deprecated'}}
                     <div class="topic-container parent-group" id="topic-group">
@@ -83,7 +83,7 @@
         </span>
     </span>
 
-    <span class="top__repo left">
+    <span class="top__repo left {{#ne_and dev_milestone 'live' 'deprecated'}}{{#if permissions.can_edit}}add-width{{/if}}{{/ne_and}}">
         <!-- Don't add any separators when we're editing. -->
         <span class="{{#if permissions.can_edit}}{{#eq_or dev_milestone 'live' 'deprecated'}}sep--after{{/eq_or}}{{else}}sep--after{{/if}}">
             <span class="detail-title">Type:</span>

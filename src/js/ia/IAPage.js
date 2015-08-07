@@ -140,9 +140,9 @@
 
                     function tagLength(value) {
                         if(value.length <= 10 && value.length > 0) {
-                            return (value.length + 5) * 7;
+                            return (value.length + 5) * 8;
                         }
-                        return value.length * 7 || 100;
+                        return value.length * 8 || 100;
                     }
 
                     $("body").on("click", ".edit-popup .ddgsi-close", function(evt) {
@@ -232,7 +232,7 @@
 
                             $(this, "#js-top-details-submit").addClass("is-disabled");
                             page.appendTopics($(".topic-group.js-autocommit"));
-                            
+
                             // Make sure to update the widths of the topics.
                             $("select.top-details.js-autocommit").each(function() {
                                 if($(this).hasClass("topic")) {
@@ -1275,7 +1275,7 @@
                                 } else {
                                     ia_data.live[field] = (is_json && data.result[field])? $.parseJSON(data.result[field]) : data.result[field];
                                     keepUnsavedEdits(field);
-                                } 
+                                }
                             } else if (data.result && (!data.result.saved)) {
                                  $("." + field).addClass("not_saved");
                                  var $error_msg = $("." + field).siblings(".error-notification");
