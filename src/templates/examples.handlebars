@@ -102,9 +102,11 @@
 
 {{#if example_query}}
     <div class="example-container">
-      <div class="search-example pull-left">
+      {{#ne_and dev_milestone 'planning' 'development'}}
+        <div class="search-example pull-left">
             <span class="ddgsi-loupe"></span> <span>{{example_query}}</span>
-      </div>
+        </div>
+      {{/ne_and}}
 
       {{#ne_and dev_milestone 'planning' 'development'}}
           <div class="pull-right screenshot-switcher">
