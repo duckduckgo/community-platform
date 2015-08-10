@@ -114,6 +114,19 @@
                 bottom: 24px;
             }
         }
+
+        .half.g {
+            .delete {
+                vertical-align: middle;
+                top: 0.8em;
+                font-size: 12px;
+                cursor: pointer;
+            }
+
+            .frm__select {
+                height: 2.3em;
+            }
+        }
     }
 
     .ia-single--testing {
