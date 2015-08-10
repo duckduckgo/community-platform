@@ -145,10 +145,6 @@
                         return value.length * 8 || 100;
                     }
 
-                    $("body").on("click", ".edit-popup .ddgsi-close", function(evt) {
-                        $(this).parent().parent().find("input[type='text']").val('');
-                    });
-
                     $("body").on("change", "select.top-details.js-autocommit", function(evt) {
                         if($(this).hasClass("topic")) {
                             $(this).parent().css("width", dropdownLength($.trim($(this).children("option:selected").text()), 1) + "px");
@@ -292,13 +288,11 @@
                         if (!$(this).hasClass("focused")) {
                             $(this).addClass("focused");
                             var $parent = $(this).hasClass("group-vals")? $(this).parent().parent() : $(this).parent();
-                            var $error = $parent.find(".ddgsi-close-bold").parent();
+                            var $error = $parent.find(".ddgsi-warning").parent();
                             var $valid = $parent.find(".ddgsi-check-sign").parent();
-                            var $remove = $parent.find(".ddgsi-close").parent();
 
                             $error.addClass("hide");
                             $valid.addClass("hide");
-                            $remove.removeClass("hide");
                         }
                     });
 
@@ -849,6 +843,8 @@
                     });
 
                     $("body").on('click', '.add_input', function(evt) {
+                        evt.preventDefault();
+
                         var $ul = $(this).closest('ul');
                         var $new_input = $ul.find('.new_input').first().clone();
                         var $last_li = $ul.children('li').last();
@@ -980,10 +976,9 @@
                         })
                         .done(function(data) {
                             var $parent =  $username.hasClass("group-vals")? $username.parent().parent() : $username.parent();
-                            var $error = $parent.find(".ddgsi-close-bold").parent();
+                            var $error = $parent.find(".ddgsi-warning").parent();
                             var $valid = $parent.find(".ddgsi-check-sign").parent();
-                            var $remove = $parent.find(".ddgsi-close").parent();
-                            $remove.addClass("hide");
+
                             if (data.result) {
                                 $error.addClass("hide");
                                 $valid.removeClass("hide");

@@ -104,7 +104,7 @@
                 bottom: 23px;
             }
 
-            .ddgsi-close-bold {
+            .ddgsi-warning {
                 color: $red;
                 position: relative;
                 right: 3px;
@@ -117,10 +117,10 @@
 
         .half.g {
             .delete {
-                vertical-align: middle;
-                top: 0.8em;
-                font-size: 12px;
+                position: relative;
+                top: 10px;
                 cursor: pointer;
+                font-size: 10px;
             }
 
             .frm__select {
@@ -143,7 +143,7 @@
     }
 
     #producer-button {
-        width: 78%;
+        width: 60%;
     }
 
     .cancel-save {
