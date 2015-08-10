@@ -291,7 +291,7 @@
                     $('body').on("focusin", ".developer_username input, #producer-input", function(evt) {
                         if (!$(this).hasClass("focused")) {
                             $(this).addClass("focused");
-                            var $parent = $username.hasClass("group-vals")? $username.parent().parent() : $username.parent();
+                            var $parent = $(this).hasClass("group-vals")? $(this).parent().parent() : $(this).parent();
                             var $error = $parent.find(".ddgsi-close-bold").parent();
                             var $valid = $parent.find(".ddgsi-check-sign").parent();
                             var $remove = $parent.find(".ddgsi-close").parent();
@@ -1046,9 +1046,9 @@
                                 field = $editable.parents(".parent-group").attr("id").replace(/\-.+/, "");
                                 var $obj = field === "topic"? $(".topic-group.js-autocommit option:selected") : "";
                                 value = getGroupVals(field, $obj);
+                                console.log(value);
                                 value = JSON.stringify(value);
                             } else {
-                                console.log($editable.selector);
                                 field = $editable.attr("id").replace(/\-.+/, "");
                                 var editable_type = $editable.attr("id").replace(/.+\-/, "");
                                 if (editable_type === "check") {
