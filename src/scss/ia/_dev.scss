@@ -118,7 +118,9 @@
         .half.g {
             .delete {
                 position: relative;
-                top: 7px;
+                top: 10px;
+                cursor: pointer;
+                font-size: 10px;
             }
 
             .frm__select {
