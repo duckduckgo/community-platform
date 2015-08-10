@@ -117,10 +117,8 @@
 
         .half.g {
             .delete {
-                vertical-align: middle;
-                top: 0.8em;
-                font-size: 12px;
-                cursor: pointer;
+                position: relative;
+                top: 7px;
             }
 
             .frm__select {
@@ -143,7 +141,7 @@
     }
 
     #producer-button {
-        width: 78%;
+        width: 60%;
     }
 
     .cancel-save {
