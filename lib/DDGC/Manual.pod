@@ -74,8 +74,8 @@ incorrect translations, and offering new translations.
 
 If you have a few moments to spare, we could use help managing spam and
 answering questions on the Forum and in other community homes. Vote on your
-favourite instant answer ideas and suggest new ideas so we get more and better
-instant answers.
+favourite Instant Answer ideas and suggest new ideas so we get more and better
+Instant Answers.
 
 If you are a developer (or wish to learn!), take a look at the community
 platform's L<issue|https://github.com/duckduckgo/community-platform/issues> page

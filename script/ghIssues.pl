@@ -103,7 +103,7 @@ sub getIssues{
                 my ($api_link) = $data->{body} =~ /What is the data source.*?\*\*.*?(https?:\/\/.*?)?(?:\>|\)|\*|$)/i;
 
                 # api documentation
-                my ($forum_link) = $data->{body} =~ /Is this instant answer connected.*?\*\*.*?(https?:\/\/.*?)?(?:\>|\)|\*|$)/i;
+                my ($forum_link) = $data->{body} =~ /Is this Instant Answer connected.*?\*\*.*?(https?:\/\/.*?)?(?:\>|\)|\*|$)/i;
                 
                 # get the file info for the pr
                 $gh->set_default_user_repo('duckduckgo', "zeroclickinfo-$data->{repo}");

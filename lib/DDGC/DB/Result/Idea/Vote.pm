@@ -1,5 +1,5 @@
 package DDGC::DB::Result::Idea::Vote;
-# ABSTRACT: A vote of a user on an instant answer idea
+# ABSTRACT: A vote of a user on an Instant Answer idea
 
 use Moose;
 use MooseX::NonMoose;

@@ -203,7 +203,7 @@ sub idea : Chained('idea_id') PathPart('') Args(1) {
 		}
 		$c->stash->{idea}->update;
 		if ( lc($c->stash->{idea_statuses}->[ $c->req->params->{status} ]->[1])
-		     eq 'not an instant answer idea') {
+		     eq 'not an Instant Answer idea') {
 			my $thread = $c->stash->{idea}->migrate_to_ramblings;
 			if ($thread) {
 				$c->response->redirect($c->chained_uri('Forum','thread',$thread->id,$thread->key));

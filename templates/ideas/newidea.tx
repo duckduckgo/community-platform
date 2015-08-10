@@ -1,1 +1,1 @@
-<: include "ideas/idea_form.tx" { form_title => "Suggest new instant answer" } :>
+<: include "ideas/idea_form.tx" { form_title => "Suggest new Instant Answer" } :>
