@@ -28,6 +28,7 @@
         border-radius: 3px;
         padding: 2em;
         padding-top: 0;
+        margin-bottom: 3em;
 
         > .ia-single--header {
             margin-top: 0;
@@ -52,7 +53,7 @@
     }
 
     .ia-triggers {
-        margin-bottom: 2em;
+        margin-bottom: 3em;
     }
 
     .error-notification {
@@ -70,10 +71,6 @@
 
     .no-available {
         color: $grey;
-    }
-
-    .ia-single--details {
-        margin-bottom: 2em;
     }
 
     .edit-popup {
@@ -120,8 +117,6 @@
     }
 
     .ia-single--testing {
-        margin-bottom: 2em;
-
         .ia-single--header {
             margin-top: 0;
         }
@@ -211,12 +206,8 @@
     /* Make the text smaller and thinner */
     .devpage-edit, .devpage-edit-popup, .devpage-commit, .devpage-cancel, .devpage-commit-details, .devpage-cancel-details, .devpage-forum {
         font-weight: initial;
-        font-size: 95%;
-    }
-
-    /* Add some space between the header and the "Edit" / "Commit" buttons */
-    .devpage-edit, .devpage-commit {
-        margin-left: 3px;
+        font-size: 14px;
+        margin-left: 7px;
     }
 
     /* The textarea should have a maximum width to prevent it from overlapping
