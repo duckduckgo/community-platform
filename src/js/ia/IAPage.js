@@ -843,6 +843,8 @@
                     });
 
                     $("body").on('click', '.add_input', function(evt) {
+                        evt.preventDefault();
+
                         var $ul = $(this).closest('ul');
                         var $new_input = $ul.find('.new_input').first().clone();
                         var $last_li = $ul.children('li').last();
