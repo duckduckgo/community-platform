@@ -28,6 +28,19 @@ if [[ -z $DDGC_RELEASE_VERSION ]] ; then
 	exit -1
 fi
 
+PG_DUMP_PID=$(ssh -t ddgc@$DDGC_RELEASE_HOSTNAME "pgrep pg_dump");
+if [ -n "$PG_DUMP_PID" ] ; then
+	printf "************* W A R N I N G *************\n\n"
+	printf "It appears a database backup is in progress\n"
+	printf "This will BLOCK schema changes from deploying\n\n"
+	read -p "Continue deployment [y/N]?" response
+	case $response in
+		[Yy]* ) break;;
+		*) exit;;
+	esac
+fi
+
+
 DDGC_RELEASE_DIRECTORY="/mnt/md0/deploy/$DDGC_RELEASE_VERSION-$CURRENT_DATE_FILENAME"
 
 printf "\n*** Releasing DDGC $DDGC_RELEASE_VERSION to $DDGC_RELEASE_HOSTNAME...\n\n"
