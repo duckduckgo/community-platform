@@ -908,6 +908,8 @@
                                 value = $.trim($(this).val());
                             } else if ($(this).hasClass("js-check")) {
                                 value = $("#" + field + "-check").hasClass("icon-check")? 1 : 0;
+                                console.log("#" + field + "-check");
+                                console.log(value);
                             } else {
                                 var input;
                                 if (field === "dev_milestone" || field === "repo") {
@@ -1133,7 +1135,7 @@
                                     console.log("GETSECTIONVALS " + $(this).attr("class") + " " + $(this).val());
                                 } else {
                                     temp_field = $.trim($(this).attr("id").replace("-check", ""));
-                                    if ($(this).attr("checked")) {
+                                    if ($(this).attr("checked") || $(this).hasClass("icon-check")) {
                                         temp_value = 1;
                                     } else {
                                         temp_value = 0;
