@@ -87,31 +87,35 @@
                 width: 14em;
             }
 
-            .ddgsi-close {
-                position: relative;
-                right: 6px;
-                font-size: 10px;
-                cursor: pointer;
-                bottom: 26px;
-            }
-
             .ddgsi-check-sign {
                 color: $green;
                 position: relative;
-                right: 3px;
+                right: 7px;
                 font-size: 16px;
                 cursor: pointer;
                 bottom: 23px;
             }
 
-            .ddgsi-close-bold {
+            .ddgsi-warning {
                 color: $red;
                 position: relative;
-                right: 3px;
-                font-size: 15px;
+                right: 7px;
+                font-size: 16px;
                 cursor: pointer;
-                font-weight: bold;
                 bottom: 24px;
+            }
+        }
+
+        .half.g {
+            .delete {
+                position: relative;
+                top: 10px;
+                cursor: pointer;
+                font-size: 10px;
+            }
+
+            .frm__select {
+                height: 2.3em;
             }
         }
     }
@@ -130,7 +134,7 @@
     }
 
     #producer-button {
-        width: 78%;
+        width: 60%;
     }
 
     .cancel-save {

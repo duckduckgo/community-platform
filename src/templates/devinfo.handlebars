@@ -115,12 +115,11 @@
             <h3 class="second-header">Producer</h3>
             <div class="half half--screen-s frm__input">
                 <input type="text" class="producer js-autocommit hidden-toshow team-input" id="producer-input" value="{{producer}}" />
-                <span class="pull-right"><i class="ddgsi-close"></i></span>
                 <span class="pull-right hide"><i class="ddgsi-check-sign"></i></span>
-                <span class="pull-right hide"><i class="ddgsi ddgsi-close-bold"></i></span>
+                <span class="pull-right hide"><i class="ddgsi ddgsi-warning"></i></span>
             </div>
             <div class="half half--screen-s g">
-              <div class="js-autocommit hidden-toshow assign-button btn" id="producer-button">
+              <div class="js-autocommit hidden-toshow assign-button btn eighty" id="producer-button">
                 Assign to me
               </div>
             </div>
@@ -134,20 +133,15 @@
         {{#if developer}}
             {{#each developer}}
                 <li class="js-autocommit hidden-toshow developer">
-                    <!--
-                    <div class="developer button delete left" name="developer" title="Remove developer">
-                        <i class="ddgsi ddgsi-close-bold">X</i>
-                    </div> -->
                     <div class="half half--screen-s frm__input">
                         <span class="developer_username type-{{type}}">
                             <input type="text" class="group-vals" {{#eq type 'legacy'}}value="{{url}}" disabled="disabled"{{else}}value="{{final_path url}}"{{/eq}}/>
                         </span>
-                        <span class="pull-right"><i class="ddgsi-close"></i></span>
                         <span class="pull-right hide"><i class="ddgsi-check-sign"></i></span>
-                        <span class="pull-right hide"><i class="ddgsi-close-bold"></i></span>
+                        <span class="pull-right hide"><i class="ddgsi-warning"></i></span>
                     </div>
-                    <div class="twenty twenty--screen-s g">
-                        <span class="frm__select">
+                    <div class="half half--screen-s g">
+                        <span class="frm__select eighty">
                             <select class="available_types left" tabindex="-1" {{#eq type 'legacy'}}disabled="disabled"{{/eq}}>
                                 {{#if type}}<option value="0">{{type}}</option>{{/if}}
                                 {{#not_eq type 'duck.co'}}<option value="1">duck.co</option>{{/not_eq}}
@@ -155,36 +149,34 @@
                                 {{#not_eq type 'ddg'}}<option value="3">ddg</option>{{/not_eq}}
                             </select>
                         </span>
+                        <span class="delete twenty g"><i class="ddgsi-close"></i></span>
                     </div>
                 </li>
             {{/each}}
         {{/if}}
         <li class="hide new_input js-autocommit hidden-toshow developer">
-            <!-- <div class="button delete left" name="developer" title="Remove developer">
-                <i class="ddgsi ddgsi-close-bold">X</i>
-            </div> -->
             <div class="half half--screen-s frm__input">
                 <span class="developer_username">
                     <input class="group-vals" type="text"/>
                 </span>
-                <span class="pull-right"><i class="ddgsi-close"></i></span>
                 <span class="pull-right hide"><i class="ddgsi-check-sign"></i></span>
-                <span class="pull-right hide"><i class="ddgsi-close-bold"></i></span>
+                <span class="pull-right hide"><i class="ddgsi-warning"></i></span>
             </div>
             <div class="half half--screen-s g">
-                <span class="frm__select">
+                <span class="frm__select eighty">
                   <select class="available_types" tabindex="-1">
                     <option value="0">duck.co</option>
                     <option value="1">github</option>
                     <option value="3">ddg</option>
                   </select>
                 </span>
+                <span class="delete twenty g"><i class="ddgsi-close"></i></span>
             </div>
         </li>
         <li id="add_developer">
-            <div class="btn add_input left" id="add_developer_button" title="Add developer">
-                <i class="ddgsi ddgsi-plus"></i>
-            </div>
+            <a href="#" class="one-line add_input left" id="add_developer" title="Add developer">
+               Add Developer
+            </a>
         </li>
     </ul>
 

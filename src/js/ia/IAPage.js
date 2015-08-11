@@ -145,10 +145,6 @@
                         return value.length * 8 || 100;
                     }
 
-                    $("body").on("click", ".edit-popup .ddgsi-close", function(evt) {
-                        $(this).parent().parent().find("input[type='text']").val('');
-                    });
-
                     $("body").on("change", "select.top-details.js-autocommit", function(evt) {
                         if($(this).hasClass("topic")) {
                             $(this).parent().css("width", dropdownLength($.trim($(this).children("option:selected").text()), 1) + "px");
@@ -157,7 +153,7 @@
                         }
                     });
 
-                    $("body").on("keydown", ".ia-examples input[type='text'], .ia-triggers input[type='text']", function() {
+                    $("body").on("keydown", ".ia-examples input[type='text'], .ia-triggers input[type='text']", function(evt) {
                         if(tagLength(this.value) > 100) {
                             $(this).css("width", tagLength(this.value) + "px");
                         }
@@ -190,11 +186,11 @@
                         $popup.removeClass("hide");
 
                         // It should also show a blue background.
-                        $("#edit-modal").show();
-                        $("#edit-modal").click(function() {
-                            $("#edit-modal").hide();
-                            $("#contributors-popup").addClass("hide");
-                        });
+                        $("#edit-modal").removeClass("hide");
+                    });
+
+                    $("body").on("click", "#edit-modal", function(evt) {
+                        $(this, "#contributors-popup").addClass("hide");
                     });
 
                     $("body").on("click", ".devpage-cancel", function(evt) {
@@ -291,44 +287,12 @@
                     $('body').on("focusin", ".developer_username input, #producer-input", function(evt) {
                         if (!$(this).hasClass("focused")) {
                             $(this).addClass("focused");
-                            var $parent = $username.hasClass("group-vals")? $username.parent().parent() : $username.parent();
-                            var $error = $parent.find(".ddgsi-close-bold").parent();
+                            var $parent = $(this).hasClass("group-vals")? $(this).parent().parent() : $(this).parent();
+                            var $error = $parent.find(".ddgsi-warning").parent();
                             var $valid = $parent.find(".ddgsi-check-sign").parent();
-                            var $remove = $parent.find(".ddgsi-close").parent();
 
                             $error.addClass("hide");
                             $valid.addClass("hide");
-                            $remove.removeClass("hide");
-                        }
-                    });
-
-                    $("#toggle-devpage-static").click(function(evt) {
-                        if (!$(this).hasClass("disabled")) {
-                            ia_data.permissions.can_edit = 0;
-                            ia_data.permissions.admin = 0;
-
-                            page.updateHandlebars(readonly_templates, ia_data, ia_data.live.dev_milestone);
-                            page.updateAll(readonly_templates, ia_data, false);
-
-                            Screens.render();
-
-                            $(".button-nav-current").removeClass("disabled").removeClass("button-nav-current");
-                            $(this).addClass("disabled").addClass("button-nav-current");
-                        }
-                    });
-
-                    $("#toggle-devpage-editable").click(function(evt) {
-                        if (!$(this).hasClass("disabled")) {
-                            ia_data.permissions.can_edit = 1;
-                            ia_data.permissions.admin = $("#view_commits").length? 1 : 0;
-
-                            page.updateHandlebars(readonly_templates, ia_data, ia_data.live.dev_milestone);
-                            page.updateAll(readonly_templates, ia_data, false);
-
-                            Screens.render();
-
-                            $(".button-nav-current").removeClass("disabled").removeClass("button-nav-current");
-                            $(this).addClass("disabled").addClass("button-nav-current");
                         }
                     });
 
@@ -725,7 +689,7 @@
                         $(".topic-group.js-autocommit").trigger("blur");
                     });
 
-                    $("body").on('click', ".cancel-button-popup", function(evt) {
+                    $("body").on('click', "#contributors-popup .cancel-button-popup", function(evt) {
                         $("#contributors-popup").addClass("hide");
                         $("#edit-modal").hide();
                     });
@@ -790,15 +754,15 @@
                     });
 
                     // Dev Page: commit fields inside a popup
-                    $("body").on('click', ".save-button-popup", function(evt) {
-                        //We only have a popup for the contributors fields, so far
-                        if (ia_data.permissions && ia_data.permissions.admin) {
-                            var $editable = $("#producer-input");
-                            commitEdit($editable);
-                        }
-
+                    $("body").on('click', "#contributors-popup .save-button-popup", function(evt) {
                         var $editable = $(".developer_username input");
                         commitEdit($editable, "developer", true);
+                        
+                        //We only have a popup for the contributors fields, so far
+                        if (ia_data.permissions && ia_data.permissions.admin) {
+                            var $producer = $("#producer-input");
+                            commitEdit($producer, "producer");
+                        }
                     });
 
                     // Dev Page: commit any field inside .ia-single--left and .ia-single--right (except popup fields)
@@ -823,6 +787,7 @@
                         var $input = $(".team-input");
                         var username = $.trim($(".header-account-info .user-name").text());
                         $input.val(username);
+                        $("#producer-input").removeClass("focused");
                         usercheck("duck.co", username, null, $("#producer-input"));
                     });
 
@@ -849,6 +814,8 @@
                     });
 
                     $("body").on('click', '.add_input', function(evt) {
+                        evt.preventDefault();
+
                         var $ul = $(this).closest('ul');
                         var $new_input = $ul.find('.new_input').first().clone();
                         var $last_li = $ul.children('li').last();
@@ -980,10 +947,9 @@
                         })
                         .done(function(data) {
                             var $parent =  $username.hasClass("group-vals")? $username.parent().parent() : $username.parent();
-                            var $error = $parent.find(".ddgsi-close-bold").parent();
+                            var $error = $parent.find(".ddgsi-warning").parent();
                             var $valid = $parent.find(".ddgsi-check-sign").parent();
-                            var $remove = $parent.find(".ddgsi-close").parent();
-                            $remove.addClass("hide");
+
                             if (data.result) {
                                 $error.addClass("hide");
                                 $valid.removeClass("hide");
@@ -1046,9 +1012,9 @@
                                 field = $editable.parents(".parent-group").attr("id").replace(/\-.+/, "");
                                 var $obj = field === "topic"? $(".topic-group.js-autocommit option:selected") : "";
                                 value = getGroupVals(field, $obj);
+                                console.log(value);
                                 value = JSON.stringify(value);
                             } else {
-                                console.log($editable.selector);
                                 field = $editable.attr("id").replace(/\-.+/, "");
                                 var editable_type = $editable.attr("id").replace(/.+\-/, "");
                                 if (editable_type === "check") {
@@ -1093,13 +1059,13 @@
                         var temp_val;
                         var value = [];
 
-                        if ($obj.length) {
+                        if ($obj && $obj.length) {
                             $selector = $obj;
                         } else {
                             if (field === "topic") {
                                 $selector = $(".ia_topic .available_topics option:selected");
                             } else if ((ia_data.live.dev_milestone !== "live" && ia_data.live.dev_milestone !== "deprecated") && (field === "developer")) {
-                                $selector = $(".developer_username input");
+                                $selector = $(".developer_username input[type='text']");
                             } else {
                                 $selector = $("." + field).children("input");
                             }
@@ -1112,7 +1078,9 @@
                                 temp_val = {};
                                 temp_val.name = $.trim($(this).val());
                                 temp_val.type = $.trim($li_item.find(".available_types").find("option:selected").text()) || "legacy";
-                                temp_val.username = $.trim($li_item.find(".developer_username input").val());
+                                temp_val.username = $.trim($li_item.find(".developer_username input[type='text']").val());
+
+                                console.log("username " + temp_val.username);
 
                                 if (!temp_val.username) {
                                     return;
