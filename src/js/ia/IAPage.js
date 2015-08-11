@@ -190,7 +190,8 @@
                     });
 
                     $("body").on("click", "#edit-modal", function(evt) {
-                        $(this, "#contributors-popup").addClass("hide");
+                        $(this).addClass("hide");
+                        $("#contributors-popup").addClass("hide");
                     });
 
                     $("body").on("click", ".devpage-cancel", function(evt) {
@@ -755,14 +756,11 @@
 
                     // Dev Page: commit fields inside a popup
                     $("body").on('click', "#contributors-popup .save-button-popup", function(evt) {
+                        // We only have a popup for the contributors fields, so far:
+                        // try committing developer and then commitEdit() and autocommit() will take care of whether
+                        // to commit producer as well (if user has permissions etc).
                         var $editable = $(".developer_username input");
-                        commitEdit($editable, "developer", true);
-                        
-                        //We only have a popup for the contributors fields, so far
-                        if (ia_data.permissions && ia_data.permissions.admin) {
-                            var $producer = $("#producer-input");
-                            commitEdit($producer, "producer");
-                        }
+                        commitEdit($editable, "developer", true); 
                     });
 
                     // Dev Page: commit any field inside .ia-single--left and .ia-single--right (except popup fields)
@@ -991,7 +989,11 @@
                                 }
                             }
                         } else {
-                            keepUnsavedEdits(field);
+                            if (field === "developer" && ia_data.permissions && ia_data.permissions.admin) {
+                                commitEdit($("#producer-input"));
+                            } else {
+                                keepUnsavedEdits(field);
+                            }
                         }
                     }
 
@@ -1235,20 +1237,26 @@
                         })
                         .done(function(data) {
                             subfield = subfield? subfield : "";
-                            if (data.result && data.result.saved) {
-                                if (field === "dev_milestone" && data.result[field] === "live") {
-                                    location.reload();
-                                } else if (field === "id") {
-                                    location.href = "/ia/view/" + data.result.id;
+                            if (data.result) {
+                                if (field === "developer" && ia_data.permissions && ia_data.permissions.admin) {
+                                    ia_data.live.developer = data.result.saved? $.parseJSON(data.result.developer) : ia_data.live.developer;
+                                    page.updateHandlebars(readonly_templates, ia_data, ia_data.live.dev_milestone, false);
+                                    commitEdit($("#producer-input"));
+                                } else if (data.result.saved) {
+                                    if (field === "dev_milestone" && data.result[field] === "live") {
+                                        location.reload();
+                                    } else if (field === "id") {
+                                        location.href = "/ia/view/" + data.result.id;
+                                    } else {
+                                        ia_data.live[field] = (is_json && data.result[field])? $.parseJSON(data.result[field]) : data.result[field];
+                                        keepUnsavedEdits(field);
+                                    }
                                 } else {
-                                    ia_data.live[field] = (is_json && data.result[field])? $.parseJSON(data.result[field]) : data.result[field];
-                                    keepUnsavedEdits(field);
+                                    $("." + field).addClass("not_saved");
+                                    var $error_msg = $("." + field).siblings(".error-notification");
+                                    $error_msg.removeClass("hide");
+                                    $error_msg.text(data.result.msg);
                                 }
-                            } else if (data.result && (!data.result.saved)) {
-                                 $("." + field).addClass("not_saved");
-                                 var $error_msg = $("." + field).siblings(".error-notification");
-                                 $error_msg.removeClass("hide");
-                                 $error_msg.text(data.result.msg);
                             }
                         });
                     }
