@@ -43,7 +43,7 @@
     }
 
     /* Add commas in the list */
-    .ia-examples a:after {
+    .ia-examples .readonly--info a:after {
         content: ',';
         color: $slate-light;
     }
@@ -52,7 +52,7 @@
         text-transform: capitalize;
     }
 
-    .ia-examples a:last-of-type:after {
+    .ia-examples .readonly--info a:last-of-type:after {
         content: '';
     }
 
@@ -93,6 +93,7 @@
         img.loader {
             margin: auto;
             display: block;
+            visibility: visible;
         }
 
         .screenshot--status {

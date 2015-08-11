@@ -22,6 +22,26 @@
 }
 */
 
+.ia-single .ia-single--edits select.left.available_types {
+    margin-left: .5em;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    height: 1.75em;
+    color: #fff;
+}
+
+.ia-single--edits select.available_types {
+    background-color: #589e4d;
+}
+
+.ia-single--edits .invalid select.available_types {
+    background-color: #bd4b2b;
+}
+
+.ia-single .ia-single--edits .developer_username {
+    width: auto;
+}
+
 .ia-single--edits #row-title {
     width: 98%;
 }
@@ -114,12 +134,6 @@
     width: 8em;
 }
 
-.ia-single span.developer_username input {
-    width: 10.84em;
-    border-left: 0;
-    border: 1px solid #5b9e4d;
-}
-
 .ia-single span.developer_username input.invalid {
     border: 1px solid #bd4b2b;
 }
@@ -138,19 +152,6 @@
     width: 8em;
     margin-left: 0.5em;
 }
-
- .ia-single select.left.available_types {
-    margin-left: 0.5em;
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
-    height: 1.75em;
-    color: #fff;
- }
-
- .ia-single select.left.available_types.invalid {
-    background-color: #bd4b2b;
-    border: 1px solid #bd4b2b;
- }
 
 .ia-single .row-diff .button.js-pre-editable,
 .ia-single .row-diff .button.js-editable {
@@ -831,6 +832,7 @@ body.texture {
     margin-top: 2.4em;
     font-weight: 500;
     font-size: 1.1em;
+    margin-bottom: 0.5em;
 }
 
 .ia-single ul {
@@ -839,7 +841,6 @@ body.texture {
 
 .ia-single a {
     color: #4896d2;
-    line-height: 1.857em;
 }
 
 .ia-single--icon {
@@ -1157,11 +1158,7 @@ body.texture {
 }
 
 input.not_saved, select.not_saved, .button.not_saved {
-    border: 1px solid #DE5833;
-}
-
-.not_saved {
-    color: #DE5833;
+    border: 1px solid $red;
 }
 
 .saved {
@@ -1279,7 +1276,7 @@ input.not_saved, select.not_saved, .button.not_saved {
     padding-bottom: 0.25em;
     font-size: 1.05em;
 
-    input[type="radio"] { 
+    input[type="radio"] {
         margin-left: 0.5em;
         vertical-align: baseline;
         cursor: pointer;

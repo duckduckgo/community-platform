@@ -55,12 +55,11 @@
                             if (ind.selected_filter.hasOwnProperty(field)) {
                                 var selector = "ia_" + field + "-" + value;
                                 selector = (field === 'topic')? "." + selector : "#" + selector;
-                                console.log(selector);
                                 $(selector).parent().trigger("click");
                                 param_count++;
                             } else if ((field === "q") && value) {
-                                query = decodeURIComponent(value.replace(/\+/g, " "));
-                                ind.filter($list_item, query);
+                                $input_query.val(decodeURIComponent(value.replace(/\+/g, " ")));
+                                $(".filters--search-button").trigger("click");
                                 param_count++;
                             }
                         }
@@ -263,6 +262,7 @@
             var url = "";
 
             if (query) {
+                console.log("filter: query " + query);
                 query = query.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
                 regex = new RegExp(query, "gi");
                 url += "&q=" + encodeURIComponent(query.replace(/\x5c/g, "")).replace(/%20/g, "+");

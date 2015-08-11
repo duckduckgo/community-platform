@@ -676,13 +676,15 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
     my $is_admin = 0;
     my $saved = 0;
     my $field = $c->req->params->{field};
+    my $msg = "";
 
     # if the update fails because of invalid values
     # we still return some info
     # so the handlebars can be updated accordingly
     my $result = {
         is_admin => $is_admin, 
-        saved => $saved
+        saved => $saved,
+        msg => $msg
     };
 
     $c->stash->{x} = {
@@ -727,7 +729,7 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
                             $temp_url = 'https://github.com/'.$temp_username;
                         } elsif ($temp_type eq 'ddg') {
                             #IA was developed internally - set default values
-                            $temp_username = "DDG Team";
+                            $temp_fullname = "DDG Team";
                             $temp_url = "http://www.duckduckhack.com";
                         } else {
                             # Type is 'legacy', so the username contains the url to 
@@ -756,9 +758,22 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
             } elsif ($field eq "id") {
                 $field = "meta_id";
                 $value = format_id($value);
-                return $c->forward($c->view('JSON')) if ($c->d->rs('InstantAnswer')->find({meta_id => $value}) || $value eq '');
+                
+                if (!$value) {
+                    $msg = "ID can't be empty";
+                    $c->stash->{x}->{result}->{msg} = $msg;
+                    return $c->forward($c->view('JSON'));
+                } elsif ($c->d->rs('InstantAnswer')->find({meta_id => $value}) || $value eq '') {
+                    $msg = "ID already in use";
+                    $c->stash->{x}->{result}->{msg} = $msg;
+                    return $c->forward($c->view('JSON'));
+                }
             } elsif ($field eq "src_id") {
-                return $c->forward($c->view('JSON')) if $c->d->rs('InstantAnswer')->find({src_id => $value});
+                if ($c->d->rs('InstantAnswer')->find({src_id => $value})) {
+                    $msg = "ID already in use";
+                    $c->stash->{x}->{result}->{msg} = $msg;
+                    return $c->forward($c->view('JSON'));
+                }
             }
 
             my $edits = add_edit($c, $ia,  $field, $value);

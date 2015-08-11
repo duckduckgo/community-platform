@@ -18,14 +18,14 @@
 <: if $need_username { :>
 	<p class="notice error">
 		<i class="icn icon-warning-sign"></i>Please enter a username.
-	</p>				
+	</p>
 <:  } :>
 <: # This is not currently used, but TODO: Fix it before it is used. # :>
 <: if $user_exist { :>
 	<p class="notice error">
 		<i class="icn icon-warning-sign"></i>The username <: $username :> exists already. Please try again.
-	</p>				
-<:  } :> 
+	</p>
+<:  } :>
 <: if $not_valid_chars { :>
 	<p class="notice warning">
 		<i class="icn icon-warning-sign"></i>The username may only contain standard latin letters (A-Z), numbers, "." and "_".
@@ -35,13 +35,13 @@
 	<p class="notice error">
 		<i class="icn icon-warning-sign"></i>The email you have given is not properly formatted, please give a valid email address.
 	</p>
-<: } :>	
-<: if $password_too_short {  :> 
+<: } :>
+<: if $password_too_short {  :>
 	<p class="notice error">
 		<i class="icn icon-warning-sign"></i>Password must be at least 8 characters.
 	</p>
 <: } # with l(), this should be l($string,3) :>
-<: if $password_different {  :> 
+<: if $password_different {  :>
 	<p class="notice error">
 		<i class="icn icon-warning-sign"></i>The passwords do not match. Please try again.
 	</p>
@@ -66,7 +66,7 @@
 				<div class="half">
 					<label for="password" class="hide palm-block">Password</label>
 					<div class="input-wrap"><input type="password" placeholder="Create Password" title="Create Password" name="password" class="text password" /></div>
-				</div>			
+				</div>
 				<div class="half">
 					<label for="repeat_password" class="hide palm-block">Repeat Password</label>
 					<div class="input-wrap"><input type="password" placeholder="Confirm Password" title="Confirm Password" name="repeat_password" class="text password" /></div>
@@ -80,10 +80,10 @@
 				</div>
 			</div>
 			<div class="half">
-				: # <p class="agree-terms"><input type="checkbox" name="agree-terms" /> I agree to the DuckDuckGo Community Platform <a href="https://duckduckgo.com/privacy" target="ddg-policy" title="DuckDuckGo Terms of use and Privacy Policy">Terms of Use</a></p>
+				: # <p class="agree-terms"><input type="checkbox" class="chk" name="agree-terms" /> I agree to the DuckDuckGo Community Platform <a href="https://duckduckgo.com/privacy" target="ddg-policy" title="DuckDuckGo Terms of use and Privacy Policy">Terms of Use</a></p>
 				<p class="agree-terms">A magical world awaits you&hellip;</p>
 				<div class="half"><div class="input-wrap"><input type="submit" value="Create my account" class="button blue submit" name="register" /></div></div>
-			</div>		
-		</form>		
+			</div>
+		</form>
 	</div>
 </div>
