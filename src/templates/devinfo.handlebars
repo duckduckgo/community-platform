@@ -133,10 +133,6 @@
         {{#if developer}}
             {{#each developer}}
                 <li class="js-autocommit hidden-toshow developer">
-                    <!--
-                    <div class="developer button delete left" name="developer" title="Remove developer">
-                        <i class="ddgsi ddgsi-close-bold">X</i>
-                    </div> -->
                     <div class="half half--screen-s frm__input">
                         <span class="developer_username type-{{type}}">
                             <input type="text" class="group-vals" {{#eq type 'legacy'}}value="{{url}}" disabled="disabled"{{else}}value="{{final_path url}}"{{/eq}}/>
@@ -159,9 +155,6 @@
             {{/each}}
         {{/if}}
         <li class="hide new_input js-autocommit hidden-toshow developer">
-            <!-- <div class="button delete left" name="developer" title="Remove developer">
-                <i class="ddgsi ddgsi-close-bold">X</i>
-            </div> -->
             <div class="half half--screen-s frm__input">
                 <span class="developer_username">
                     <input class="group-vals" type="text"/>
