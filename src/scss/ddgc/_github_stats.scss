@@ -1,72 +1,134 @@
-@import "../../../bower_components/duckduckgo-colors/_colors";
+#stats_github {
 
-/* typography */
-.stat-label {
-    font-size: 1rem;
-}
-.number {
-    font-size   : 2rem;
-    font-weight : bold;
-}
-#last_updated {
-    font-size : .8rem;
-}
+    /* typography */
+    .number {
+        font-size   : 1.5rem;
+        font-weight : bold;
+    }
+    #last_updated {
+        font-size : .8rem;
+    }
 
-/* layout */
-.header {
-    margin-bottom  : 2;
-    padding-bottom : 0;
-}
-.stat-label {
-    margin-bottom  : 0;
-    padding-bottom : 0;
-}
-.data {
-    height : 4rem;
-}
-#last_updated {
-    margin-top    : 0;
-    padding-top   : 0;
-    margin-bottom : 2rem;
-    text-align    : center;
-}
-.tabs {
-    margin-top    : 1rem;
-    margin-bottom : 1rem;
-    font-size     : .8rem;
-    font-weight   : bold;
-    color         : $grey;
-}
-.tabs .tab {
-    display : inline-block;
-    margin  : 0 0 -1px;
-}
-.tabs .tab a {
-    color   : $grey;
-    display : block;
-    padding : 8px 15px 9px;
-}
-.tabs .tab.selected {
-    color         : $slate;
-    border        : 1px solid $platinum;
-    border-bottom : none;
-    border-radius : 3px 3px 0 0;
-    background    : $white;
-}
-.space {
-    height : 2rem;
-}
+    /* layout */
+    .header {
+        margin-bottom  : 0;
+        padding-bottom : 0;
+    }
+    .stat-label {
+        margin-bottom  : 0;
+        padding-bottom : 0;
+    }
+    .data {
+    }
+    #last_updated {
+        margin-top    : 0;
+        padding-top   : 0;
+        margin-bottom : 2rem;
+        text-align    : center;
+    }
+    .tabs {
+        margin-top    : 1rem;
+        margin-bottom : 1rem;
+        font-size     : .8rem;
+        font-weight   : bold;
+        color         : $gray-light;
+    }
+    .tabs .tab {
+        display : inline-block;
+        margin  : 0 0 -1px;
+    }
+    .tabs .tab a {
+        color   : $platinum-dark;
+        display : block;
+        padding : 8px 15px 9px;
+    }
+    .tabs .tab.selected a {
+        color      : $black;
+        background : $white;
+    }
+    .tabs .tab.selected {
+        border        : 1px solid $platinum;
+        border-bottom : none;
+        border-radius : 3px 3px 0 0;
+    }
+    .space {
+        height : 2rem;
+    }
+    .stat-label {
+        width          : 18rem;
+        display        : inline-block;
+        text-transform : lowercase;
+        vertical-align : top;
+        padding-top    : .5rem;
+        padding-bottom : .5rem;
+    }
+    a.info {
+        float: right;
+        color            : $white;
+        background-color : $slate;
+        padding          : .5rem;
+        vertical-align   : bottom;
+    }
+    .info:hover + .stat-definition {
+        display    : block;
+        background : $slate;
+        color      : $white;
+        padding    : 1rem;
+        z-index    : 99;
+    }
+    .stat-definition {
+        display : none;
+    }
+    .custom-date-form {
+        padding    : 1.2rem;
+        margin-top : 3rem;
+    }
+    .stats-label {
+        width   : 16rem;
+        display : inline-block;
+    }
+    .stats-label span {
+        padding-top    : .5rem;
+        padding-bottom : .5rem;
+        display        : inline-block;
+    }
+    .stats-input {
+        padding : .5rem;
+        width   : 8rem;
+        display : inline-block;
+        float   : right;
+    }
+    .stats-button {
+        padding : .5rem;
+        width   : 9.3rem;
+        display : inline-block;
+        float   : right;
+    }
+    .custom-date-heading {
+        margin-bottom : 2rem;
+    }
+    .graph {
+        padding-left : 1rem;
+    }
+    .stats-timespan {
+        padding-left : 1rem;
+    }
 
 
-/* colors */
-.stat-label {
-    color : $grey-light;
-}
-.tabs {
-    border-bottom : 1px solid $platinum;
-}
+    /* colors */
+    .stat-label {
+        color   : $slate;
+    }
+    .tabs {
+        border-bottom : 1px solid $platinum;
+    }
+    .graph:nth-child(odd) {
+        background : $platinum;
+    }
 
-/* state */
-.loader {
-    visibility : hidden;
+
+    /* state */
+    .loader {
+        visibility : hidden;
+    }
 }

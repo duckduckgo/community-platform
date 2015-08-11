@@ -10,6 +10,11 @@ sub with_created_at {
 	$self->search({ 'me.created_at' => { $operator => $date } });
 }
 
+sub with_github_user_id {
+    my ($self, $operator, $github_user_id) = @_;
+	$self->search({ 'me.github_user_id' => { $operator => $github_user_id } });
+}
+
 # ignore users who are members of the owners team on github.  these users are
 # usually ddg employees:
 # https://github.com/orgs/duckduckgo/teams/owners

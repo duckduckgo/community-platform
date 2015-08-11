@@ -6,6 +6,7 @@ use Time::Piece;
 use Time::Seconds;
 use List::MoreUtils qw/ uniq /;
 use DDGC::Stats::GitHub;
+use DateTime::Format::Flexible;
 
 BEGIN { extends 'Catalyst::Controller'; }
 
@@ -247,39 +248,51 @@ sub coupons :Chained('base') :Args(0) {
     ") or die $dbh->errstr;
 }
 
+# controller should do one thing, this is more than one thing
 sub github :Chained('base') {
     my ($self, $c, $since) = @_;
+    my $params = $c->req->params;
 
     $c->add_bc('GitHub');
 
-    my %subtract;
-    %subtract = (hours  => 24);
-    %subtract = (weeks  =>  1) if $since eq 'last_week';
-    %subtract = (weeks  =>  2) if $since eq 'week_before';
-    %subtract = (weeks  =>  3) if $since eq 'week_before_that';
-    %subtract = (months =>  1) if $since eq 'last_month';
-    %subtract = (days   => 90) if $since eq 'last_90_days';
+    $c->stash->{default_start} = DateTime->now->subtract(months => 1)->ymd('-');
+    $c->stash->{default_end}   = DateTime->now->ymd('-');
+    $c->stash->{tabs}->{$since} = "selected";
 
-    my $start_date = DateTime->now->subtract(%subtract);
-    my $end_date   = DateTime->now;
-    $end_date = DateTime->now->subtract(weeks => 1) if $since eq 'week_before';
-    $end_date = DateTime->now->subtract(weeks => 2) if $since eq 'week_before_that';
+    return if 
+        $since eq 'custom' &&
+        (!$params->{start} || !$params->{end});
+
+    my $start_date;
+    my $end_date;
+
+    if ($since eq 'custom') {
+        $start_date = DateTime::Format::Flexible->parse_datetime( $params->{start} );
+        $end_date   = DateTime::Format::Flexible->parse_datetime( $params->{end} );
+    }
+    else {
+        my %subtract;
+        %subtract = (hours  => 24);
+        %subtract = (weeks  =>  1) if $since eq 'last_week';
+        %subtract = (weeks  =>  2) if $since eq 'week_before';
+        %subtract = (weeks  =>  3) if $since eq 'week_before_that';
+        %subtract = (months =>  1) if $since eq 'last_month';
+        %subtract = (days   => 90) if $since eq 'last_90_days';
+
+        $start_date = DateTime->now->subtract(%subtract);
+        $end_date   = DateTime->now;
+        $end_date   = DateTime->now->subtract(weeks => 1) if $since eq 'week_before';
+        $end_date   = DateTime->now->subtract(weeks => 2) if $since eq 'week_before_that';
+    }
 
     my @stats = DDGC::Stats::GitHub->report(
         db      => $c->ddgc->db, 
         between => [$start_date, $end_date],
     );
 
-    $c->stash->{stats} = \@stats;
-    $c->stash->{tabs}  = {
-        last_24_hours    => "",
-        last_week        => "",
-        week_before      => "",
-        week_before_that => "",
-        last_month       => "",
-        last_90_days     => "",
-    };
-    $c->stash->{tabs}->{$since} = "selected";
+    $c->stash->{stats}      = \@stats;
+    $c->stash->{start_date} = $start_date->ymd('-') . " " . $start_date->hms(':');
+    $c->stash->{end_date}   = $end_date->ymd('-')   . " " . $end_date->hms(':');
 }
 
 no Moose;

@@ -36,17 +36,6 @@ sub ignore_staff_issues {
     );
 }
 
-sub prefetch_comments_not_by_issue_author {
-    my ($self) = @_;
-    $self->search({
-    }, {
-        prefetch => 'github_comments',
-        # ignore comments made by the person who created the issue
-        'github_comments.github_user_id' => { '!=' => 'me.github_user_id' },
-        order_by => 'github_comments.created_at'
-    });
-}
-
 sub most_recent {
     my ($self) = @_;
     return $self->search(
