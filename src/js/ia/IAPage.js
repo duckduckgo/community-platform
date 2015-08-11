@@ -1059,7 +1059,7 @@
                         var temp_val;
                         var value = [];
 
-                        if ($obj.length) {
+                        if ($obj && $obj.length) {
                             $selector = $obj;
                         } else {
                             if (field === "topic") {
