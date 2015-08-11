@@ -6,6 +6,8 @@
             <a href="#" class="devpage-cancel-details hide" id="devpage-cancel-details">Revert All</a>
         </h3>
 
+        <div class="section-group" {{#eq repo 'spice'}}id="answerbar-group"{{/eq}} {{#eq repo 'fathead'}}id="src_options-group"{{/eq}}>
+
         <!-- Spice -->
         {{#eq repo 'spice'}}
             <div class="gw">
@@ -56,7 +58,7 @@
                 </div>
 
                 <div class="third g">
-                    <ul class="section-group" id="answerbar-group">
+                    <ul>
                         <li>
                             <label class="details__label">Fallback Timeout (ms):</label>
                             <input type="number" value="{{answerbar.fallback_timeout}}" id="fallback_timeout-input" class="js-autocommit frm__input fallback_timeout section-group__item">
@@ -283,6 +285,7 @@
             </div>
         {{/eq}}
 
+        </div>
     </div>
     {{/ne_and}}
 {{/is_true}}
