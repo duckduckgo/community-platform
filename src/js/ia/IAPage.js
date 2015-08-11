@@ -622,7 +622,7 @@
                         $(this).children("i").toggleClass("icon-caret-down");
                     });
 
-                    $("body").on("change", '.ia-single--details .input[type="number"].js-autocommit', function(evt) {
+                    $("body").on("change", '.ia-single--details input[type="number"].js-autocommit', function(evt) {
                         resetSaved($(this));
 
                         $("#devpage-commit-details, #devpage-cancel-details").removeClass("hide");
@@ -706,9 +706,17 @@
                         evt.preventDefault();
 
                         var $details = $("#ia-single--details .js-autocommit");
+                        
+                        // There's only one section group for fatheads and one for spices,
+                        // so we check if it's been saved already in order to avoid useless 
+                        // multiple POST requests
+                        var section_done = false;
 
                         $details.each(function(idx) {
-                            commitEdit($(this));
+                            if ((!section_done) || (!$(this).hasClass("section-group__item"))) {
+                                section_done = $(this).hasClass("section-group__item")? true : false;
+                                commitEdit($(this));
+                            }
                         });
 
                         $("#devpage-commit-details, #devpage-cancel-details").addClass("hide");
@@ -722,6 +730,11 @@
 
                     $("body").on("click", "#ia-single--details .frm__label__chk.js-autocommit", function(evt) {
                         $("#devpage-commit-details, #devpage-cancel-details").removeClass("hide");
+                        if (!$(this).attr("checked")) {
+                            $(this).attr("checked", ":checked");
+                        } else {
+                            $(this).removeAttr("checked");
+                        }
                     });
 
                     // Dev Page: commit checkboxes in the testing section
@@ -991,7 +1004,7 @@
                         } else {
                             if (field === "developer" && ia_data.permissions && ia_data.permissions.admin) {
                                 commitEdit($("#producer-input"));
-                            } else {
+                            } else if (!$("#ia-single--details ." + field).length) {
                                 keepUnsavedEdits(field);
                             }
                         }
@@ -1021,6 +1034,7 @@
                                 var editable_type = $editable.attr("id").replace(/.+\-/, "");
                                 if (editable_type === "check") {
                                     value = $editable.is(":checked")? 1 : 0;
+                                    console.log(field + " getUnsaved checked: " + value);
                                 } else if (editable_type === "select") {
                                     var $selected = $editable.find("option:selected");
                                     value = $selected.attr("value").length? $.trim($selected.text()) : '';
@@ -1038,10 +1052,10 @@
                                 value = "";
                                 parent_field = $.trim($editable.parents(".section-group").attr("id"));
                                 var section_vals = getSectionVals($editable, parent_field);
-                                section_vals[field] = value;
+                                console.log(parent_field);
 
                                 parent_field = parent_field.replace("-group", "");
-                                value = JSON.stringify(section_vals);
+                                value = section_vals? JSON.stringify(section_vals) : value;
                                 is_json = true;
                             }
                         }
@@ -1115,18 +1129,17 @@
                                 if ($(this).hasClass("frm__input")
                                     || $(this).hasClass("selection-group__item-input")) {
                                     temp_field = $.trim($(this).attr("id").replace("-input", ""));
-                                    temp_value = $.trim($(this).val());
-
-                                    if ($(this).attr("type") === "number") {
-                                        temp_value = parseInt(temp_value);
-                                    }
+                                    temp_value = ($(this).attr("type") === "number")? parseInt($(this).val()) : $.trim($(this).val());
+                                    console.log("GETSECTIONVALS " + $(this).attr("class") + " " + $(this).val());
                                 } else {
                                     temp_field = $.trim($(this).attr("id").replace("-check", ""));
-                                    if ($(this).is(":checked")) {
+                                    if ($(this).attr("checked")) {
                                         temp_value = 1;
                                     } else {
                                         temp_value = 0;
                                     }
+
+                                    console.log(temp_field + " SectionVals checked: " + temp_value);
                                 }
 
                                 section_vals[temp_field] = temp_value;
@@ -1238,10 +1251,15 @@
                         .done(function(data) {
                             subfield = subfield? subfield : "";
                             if (data.result) {
-                                if (field === "developer" && ia_data.permissions && ia_data.permissions.admin) {
-                                    ia_data.live.developer = data.result.saved? $.parseJSON(data.result.developer) : ia_data.live.developer;
-                                    page.updateHandlebars(readonly_templates, ia_data, ia_data.live.dev_milestone, false);
-                                    commitEdit($("#producer-input"));
+                                if ((field === "developer" || $("#ia-single--details ." + field).length) && ia_data.permissions) {
+                                    if (data.result[field] && data.result.saved) {
+                                        ia_data.live[field] = is_json? $.parseJSON(data.result[field]) : data.result[field];
+                                        page.updateHandlebars(readonly_templates, ia_data, ia_data.live.dev_milestone, false);
+                                    }
+
+                                    if (field === "developer" && ia_data.permissions.admin) {
+                                        commitEdit($("#producer-input"));
+                                    }
                                 } else if (data.result.saved) {
                                     if (field === "dev_milestone" && data.result[field] === "live") {
                                         location.reload();
