@@ -55,27 +55,27 @@ has_many 'activity', 'DDGC::Schema::Result::ActivityFeed', sub {
         -and => {
             "$activity.category" => "$subscription.category",
             -or => [
-                "$subscription.action" => { '=' => undef },
+                "$subscription.action" => undef,
                 "$activity.action" => "$subscription.action",
             ],
             -or => [
-                "$subscription.meta1" => { '=' => undef },
+                "$subscription.meta1" => undef,
                 "$activity.meta1" => { 'like' => "$subscription.meta1" },
             ],
             -or => [
-                "$subscription.meta2" => { '=' => undef },
+                "$subscription.meta2" => undef,
                 "$activity.meta2" => { 'like' => "$subscription.meta2" },
             ],
             -or => [
-                "$subscription.meta3" => { '=' => undef },
+                "$subscription.meta3" => undef,
                 "$activity.meta3" => { 'like' => "$subscription.meta3" },
             ],
             -or => [
-                "$activity.for_user" => { '=' => undef },
-                "$activity.for_user" => { '=' => "$subscription.users_id" },
+                "$activity.for_user" => undef,
+                "$activity.for_user" => "$subscription.users_id",
             ],
             -or => [
-                "$activity.for_role" => { '=' => undef },
+                "$activity.for_role" => undef,
                 "$activity.for_role" => {
                     -in => \"SELECT role FROM user_role WHERE users_id = $subscription.users_id",
                 }
