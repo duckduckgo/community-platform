@@ -52,7 +52,7 @@ has_many 'activity', 'DDGC::Schema::Result::ActivityFeed', sub {
     my $subscription = $args->{self_alias};
 
     +{
-        -and => {
+        -and => [
             "$activity.category" => { -ident => "$subscription.category" },
             "$subscription.action" => [ undef, { -ident => "$activity.action" } ],
             -or => [
@@ -77,7 +77,7 @@ has_many 'activity', 'DDGC::Schema::Result::ActivityFeed', sub {
                     -in => \"SELECT role FROM user_role WHERE users_id = $subscription.users_id",
                 }
             ]
-        }
+        ]
     };
 
 };
