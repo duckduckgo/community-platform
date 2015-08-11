@@ -54,10 +54,7 @@ has_many 'activity', 'DDGC::Schema::Result::ActivityFeed', sub {
     +{
         -and => {
             "$activity.category" => { -ident => "$subscription.category" },
-            -or => [
-                "$subscription.action" => undef,
-                "$activity.action" => { -ident => "$subscription.action" },
-            ],
+            "$subscription.action" => [ undef, { -ident => "$activity.action" } ],
             -or => [
                 "$subscription.meta1" => undef,
                 "$activity.meta1" => { 'like' => { -ident => "$subscription.meta1" } },
