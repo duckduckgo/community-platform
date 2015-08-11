@@ -53,26 +53,26 @@ has_many 'activity', 'DDGC::Schema::Result::ActivityFeed', sub {
 
     +{
         -and => {
-            "$activity.category" => "$subscription.category",
+            "$activity.category" => { -ident => "$subscription.category" },
             -or => [
                 "$subscription.action" => undef,
-                "$activity.action" => "$subscription.action",
+                "$activity.action" => { -ident => "$subscription.action" },
             ],
             -or => [
                 "$subscription.meta1" => undef,
-                "$activity.meta1" => { 'like' => "$subscription.meta1" },
+                "$activity.meta1" => { 'like' => { -ident => "$subscription.meta1" } },
             ],
             -or => [
                 "$subscription.meta2" => undef,
-                "$activity.meta2" => { 'like' => "$subscription.meta2" },
+                "$activity.meta2" => { 'like' => { -ident => "$subscription.meta2" } },
             ],
             -or => [
                 "$subscription.meta3" => undef,
-                "$activity.meta3" => { 'like' => "$subscription.meta3" },
+                "$activity.meta3" => { 'like' => { -ident => "$subscription.meta3" } },
             ],
             -or => [
                 "$activity.for_user" => undef,
-                "$activity.for_user" => "$subscription.users_id",
+                "$activity.for_user" => { -ident => "$subscription.users_id" },
             ],
             -or => [
                 "$activity.for_role" => undef,
