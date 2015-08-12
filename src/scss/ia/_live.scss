@@ -43,17 +43,21 @@
     }
 
     /* Add commas in the list */
-    .ia-examples .readonly--info a:after {
-        content: ',';
-        color: $slate-light;
+    .ia-examples .readonly--info {
+        a:after, span:after {
+            content: ',';
+            color: $slate-light;
+        }
     }
 
     .ia-examples a {
         text-transform: capitalize;
     }
 
-    .ia-examples .readonly--info a:last-of-type:after {
-        content: '';
+    .ia-examples .readonly--info {
+        a:last-of-type:after, span:last-of-type:after {
+            content: '';
+        }
     }
 
     .special-permissions {
