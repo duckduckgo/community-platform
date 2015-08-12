@@ -76,7 +76,7 @@
                 {{#if test_machine}}
                     <a class="one-line" href="https://{{test_machine}}.duckduckgo.com/?q={{encodeURIComponent example_query}}{{tab_url tab}}" title="try this example on DuckDuckGo">{{example_query}}</a>
                 {{else}}
-                    {{example_query}}
+                    <span>{{example_query}}</span>
                 {{/if}}
             {{else}}
                 <a class="one-line" href="https://duckduckgo.com/?q={{encodeURIComponent example_query}}{{tab_url tab}}" title="try this example on DuckDuckGo">{{example_query}}</a>
@@ -88,7 +88,7 @@
                     {{#if ../../test_machine}}
                         <a class="one-line" href="https://{{../../../test_machine}}.duckduckgo.com/?q={{encodeURIComponent this}}{{tab_url ../../../tab}}" title="try this example on DuckDuckGo">{{this}}</a>
                     {{else}}
-                        {{this}}
+                        <span>{{this}}</span>
                     {{/if}}
                 {{else}}
                     <a class="one-line" href="https://duckduckgo.com/?q={{encodeURIComponent this}}{{tab_url ../../tab}}" title="try this example on DuckDuckGo">{{this}}</a>
