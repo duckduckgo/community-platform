@@ -1,11 +1,11 @@
 use strict;
 use warnings;
-
 package DDGC::Util::Script::AddUserSubscription;
 
-use DDGC::Base::Web::Common;
 use Carp;
 use Moo;
+
+with 'DDGC::Util::Script::Base::Service';
 
 has subscriptions => (
     is      => 'ro',
@@ -14,7 +14,7 @@ has subscriptions => (
 );
 
 sub _build_subscriptions {
-    config->{ddgc_config}->subscriptions;
+    $_[0]->ddgc_config->subscriptions;
 }
 
 has user => (
