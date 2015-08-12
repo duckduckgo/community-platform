@@ -1,6 +1,6 @@
 use strict;
 use warnings;
-package DDGC::Util::Script::Base::Service;
+package DDGC::Util::Script::Base::ServiceEmail;
 
 # ABSTRACT: Common elements of service architecture based email script modules
 
