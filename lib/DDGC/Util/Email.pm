@@ -9,7 +9,7 @@ use Email::MIME;
 use Email::Sender::Simple qw/ try_to_sendmail /;
 use Email::Sender::Transport::SMTP::Persistent;
 use Email::Simple;
-use HTTP::Validate;
+use HTTP::Validate qw/ :keywords :validators /;
 
 use Moo;
 
