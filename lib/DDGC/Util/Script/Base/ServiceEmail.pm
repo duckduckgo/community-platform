@@ -5,7 +5,6 @@ package DDGC::Util::Script::Base::ServiceEmail;
 # ABSTRACT: Common elements of service architecture based email script modules
 
 use Moo::Role;
-with 'DDGC::Util::Script::Base::Service';
 
 use DDGC::Util::Email;
 
