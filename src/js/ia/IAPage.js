@@ -794,13 +794,15 @@
 
                         var $parent = $(this).parent().parent();
                         var $editable = $parent.find(".js-autocommit").first();
+                        var to_commit = [];
 
                         if ($parent.hasClass("ia-examples")) {
                             // We pass the fields names as well in case all of them are removed
                             // so we'll be able to commit the empty value for these fields anyway
-                            commitEdit($(".other_queries input"), "other_queries", true);
-                            console.log("example_query incoming");
-                            commitEdit($("#example_query-input"), "example_query");
+                            to_commit.push(getUnsavedValue($(".other_queries input"), "other_queries", true));
+                            to_commit.push(getUnsavedValue($("#example_query-input"), "example_query"));
+
+                            commitMultiple(to_commit, true);
                         } else {
                             commitEdit($editable);
                         }
@@ -882,9 +884,11 @@
                                 console.log("delete button has example_query class");
                                 var $first_query = $(".other_queries input.js-autocommit.group-vals").first();
                                 console.log($first_query.attr("class"));
-                                $first_query.removeClass("group-vals").addClass("example_query");
-                                $first_query.parent().removeClass("other_queries").addClass("example_query");
-                                $first_query.attr("id", "example_query-input");
+                                if ($first_query.length && (!$first_query.parent().parent().hasClass("new_input"))) {
+                                    $first_query.removeClass("group-vals").addClass("example_query");
+                                    $first_query.parent().removeClass("other_queries").addClass("example_query");
+                                    $first_query.attr("id", "example_query-input");
+                                }
                             }
 
                             $(this).parent().parent().remove();
@@ -989,20 +993,25 @@
                     // Autocommit multiple fields
                     // to_commit is an array of hashes,
                     // each containing field, value, is_json and parent_field (for section group fields)
-                    function commitMultiple(to_commit) {
+                    function commitMultiple(to_commit, refresh) {
                         var field;
                         var parent_field;
                         var value;
                         var is_json;
+                        refresh = refresh? true : false;
 
                         $.each(to_commit, function(idx, val) {
                             field = val.field;
                             value = val.value;
                             is_json = val.is_json;
                             parent_field = val.parent_field;
+                            var temp_refresh = (idx === (to_commit.length - 1))? refresh : false;
                            
                             var live_data = (ia_data.live[field] && is_json)? JSON.stringify(ia_data.live[field]) : ia_data.live[field];
-                            
+     
+                            console.log("Inside commitMultiple... " + field + " " + value);
+                            console.log("Live data: " + live_data);
+                            console.log("Live data without JSON " + ia_data.live[field]);                           
                             if (field && (live_data != value)) {
                                 if (parent_field) {
                                     autocommit(parent_field, value, DDH_iaid, is_json, field);
@@ -1012,6 +1021,12 @@
                                         autocommit(field, value, DDH_iaid, is_json);
                                     }
                                 }
+                            } else if (temp_refresh && ia_data.examples_saved) {
+                                // For now we're using this only for example queries
+                                // so it's ok to avoid checking for the field here
+                                keepUnsavedEdits();
+                            } else if (!ia_data.examples_saved && (field === "example_query" || field === "other_queries")) {
+                                ia_data.examples_saved = 1;
                             }
                         });
                     }
@@ -1063,7 +1078,7 @@
                         field = field? field : "";
                         var parent_field;
                         var result = {};
-                        var value = is_json? JSON.stringify([""]) : "";
+                        var value = is_json? JSON.stringify([]) : "";
                         is_json = is_json? is_json : false;
 
                         if ($editable.length) {
@@ -1213,6 +1228,10 @@
                             secondary_field = (field === "example_query")? "other_queries" : "example_query";
                         }
 
+                        if (ia_data.examples_saved) {
+                            delete ia_data.examples_saved;
+                        }
+
                         $unsaved_edits.each(function(idx) {
                             var temp_result = getUnsavedValue($(this));
                             var temp_field = temp_result.field;
@@ -1298,7 +1317,12 @@
                                     } else {
                                         ia_data.live[field] = (is_json && data.result[field])? $.parseJSON(data.result[field]) : data.result[field];
                                         if ((field === "developer" && ia_data.permissions && ia_data.permissions.admin)
-                                            || ($("#ia-single--details ." + field).length || (subfield && $("#ia-single--details ." + subfield).length))) {
+                                            || ($("#ia-single--details ." + field).length || (subfield && $("#ia-single--details ." + subfield).length))
+                                            || ((field === "example_query" || field === "other_queries") && (!ia_data.examples_saved))) {
+                                             if (field === "example_query" || field === "other_queries") {
+                                                 ia_data.examples_saved = 1;
+                                             }
+                                             
                                              page.updateHandlebars(readonly_templates, ia_data, ia_data.live.dev_milestone, false);
                                         } else {
                                             console.log("CALLING keepUnsavedEdits " + field + " " + ia_data.live[field]);
