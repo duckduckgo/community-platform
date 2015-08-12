@@ -8,7 +8,7 @@ extends 'DDGC::Schema::ResultSet';
 sub unsent_activity_from_date {
     my ( $self, $datetime ) = @_;
 
-    if ( ref $datetime && $datetime->isa('DateTime') ) {
+    if ( ref $datetime eq 'DateTime' ) {
         $datetime = $self->format_datetime( $datetime );
     }
 
