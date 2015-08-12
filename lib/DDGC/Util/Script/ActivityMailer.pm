@@ -6,6 +6,7 @@ use DDGC::Util::Email;
 use DateTime;
 use Moo;
 
+with 'DDGC::Util::Script::Base::Service';
 with 'DDGC::Util::Script::Base::ServiceEmail';
 
 has now => (
