@@ -119,7 +119,7 @@ sub send {
         body => $plaintext_body,
     );
 
-    my $header => [
+    my $header = [
         map { $_ => $params->{$_} } (qw/ to from subject /),
     ];
 
