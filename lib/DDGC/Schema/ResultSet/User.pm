@@ -20,7 +20,9 @@ sub unsent_activity_from_to_date {
 
     $self->search_rs({
         'activity.created' => {
-            -between => [ $from, $to ],
+            ( $to )
+            ? ( -between => [ $from, $to ] )
+            : ( '>=' => $from ),
         },
     })->prefetch( { subscriptions => 'activity' } )
       ->having( \[ 'count(activity.*) > 0' ] )
