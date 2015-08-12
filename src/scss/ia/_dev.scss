@@ -264,16 +264,6 @@
             margin-right: -10px;
         }
 
-        input {
-            &.example_query {
-                text-transform: capitalize;
-            }
-        }
-
-        .other_queries input {
-            text-transform: capitalize;
-        }
-
         input.example_query, input.group-vals {
             background-color: $silver;
             border: none;
