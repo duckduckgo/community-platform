@@ -46,6 +46,7 @@ has transport => (
 );
 sub _build_transport {
     my ( $self ) = @_;
+    return Email::Sender::Transport::Test->new if $ENV{DDGC_EMAIL_TEST};
     Email::Sender::Transport::SMTP::Persistent->new({
         $self->transport_config,
     });
