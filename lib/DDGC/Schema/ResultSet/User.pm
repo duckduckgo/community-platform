@@ -19,4 +19,10 @@ sub unsent_activity_from_date {
       ->group_by( 'users' );
 }
 
+sub find_by_username {
+    my ( $self, $username ) = @_;
+    $self->search( \[ 'LOWER(username) = ?', ( lc( $username ) ) ], )
+         ->first;
+}
+
 1;
