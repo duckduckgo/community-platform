@@ -14,12 +14,13 @@ has smtp => (
     builder => '_build_now_rounded'
 );
 sub _build_smtp {
+    my ( $self ) = @_;
     DDGC::Util::Email->new(
         smtp_config => {
-            host          => $ddgc_config->smtp_host,
-            ssl           => $ddgc_config->smtp_ssl,
-            sasl_username => $ddgc_config->smtp_username,
-            sasl_password => $ddgc_config->smtp_password,
+            host          => $self->ddgc_config->smtp_host,
+            ssl           => $self->ddgc_config->smtp_ssl,
+            sasl_username => $self->ddgc_config->smtp_username,
+            sasl_password => $self->ddgc_config->smtp_password,
         }
     );
 }
