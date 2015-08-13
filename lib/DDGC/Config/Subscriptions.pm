@@ -21,9 +21,9 @@ sub created_ia_page {
     +{
         category     => 'instant_answer',
         action       => 'created',
-        meta1        => $meta->{1} // undef,
-        meta2        => $meta->{2} // undef,
-        meta3        => $meta->{3} // undef,
+        meta1        => $meta->{meta1} // undef,
+        meta2        => $meta->{meta2} // undef,
+        meta3        => $meta->{meta3} // undef,
         ( $meta->{description} )
             ? ( description  => $meta->{description} )
             : (),
@@ -46,9 +46,9 @@ sub updated_ia_page {
     +{
         category     => 'instant_answer',
         action       => 'updated',
-        meta1        => $meta->{1} // undef,
-        meta2        => $meta->{2} // undef,
-        meta3        => $meta->{3} // undef,
+        meta1        => $meta->{meta1} // undef,
+        meta2        => $meta->{meta2} // undef,
+        meta3        => $meta->{meta3} // undef,
         ( $meta->{description} )
             ? ( description  => $meta->{description} )
             : (),
