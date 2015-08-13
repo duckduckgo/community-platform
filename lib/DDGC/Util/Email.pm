@@ -8,6 +8,7 @@ use HTML::FormatText::WithLinks;
 use Email::MIME;
 use Email::Sender::Simple qw/ try_to_sendmail /;
 use Email::Sender::Transport::SMTP::Persistent;
+use Email::Sender::Transport::Test;
 use Email::Simple;
 use HTTP::Validate qw/ :keywords :validators /;
 
@@ -46,7 +47,7 @@ has transport => (
 );
 sub _build_transport {
     my ( $self ) = @_;
-    return Email::Sender::Transport::Test->new if $ENV{DDGC_EMAIL_TEST};
+    return Email::Sender::Transport::Test->new if $ENV{DDGC_MAIL_TEST};
     Email::Sender::Transport::SMTP::Persistent->new({
         $self->transport_config,
     });
