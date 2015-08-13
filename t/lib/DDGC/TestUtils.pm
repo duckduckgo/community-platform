@@ -57,7 +57,7 @@ sub new_user {
         return not_ok sprintf( "Something went wrong: %s", $error );
     }
     $user->add_role( $role ) if $role;
-    return ok ( user_id => $user->id );
+    return ok ( user_id => $user->id, user => $user );
 }
 
 # Create user, return user_id
