@@ -45,17 +45,11 @@ sub add_user_subscription {
     my $sub = $self->sub->{sub};
 
     $self->user->find_or_create_related( 'subscriptions',
-         $self->subscriptions->$sub(
-             ( $self->sub->{meta1} )
-                ? ( meta1 => $self->sub->{meta1} )
-                : (),
-             ( $self->sub->{meta2} )
-                ? ( meta2 => $self->sub->{meta2} )
-                : (),
-             ( $self->sub->{meta3} )
-                ? ( meta3 => $self->sub->{meta3} )
-                : (),
-         )
+         $self->subscriptions->$sub({
+            meta1 => $self->sub->{meta1},
+            meta2 => $self->sub->{meta2},
+            meta3 => $self->sub->{meta3},
+        })
     );
 }
 
