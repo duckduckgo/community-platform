@@ -21,22 +21,32 @@ sub deploy {
     return $success;
 }
 
-# Create user, return user_id
+sub ok {
+    +{
+        ok => 1,
+        @_,
+    }
+}
 
-post '/new_user' => sub {
-    my $params = params('body');
-    if (!$params->{username}) {
-        send_error "'username' parameter not supplied", 400;
+sub not_ok {
+    +{
+        ok => 0,
+        msg => shift,
+        @_,
     }
-    if (rset('User')->find({ username => $params->{username} })) {
-        send_error( (sprintf "User %s exists", $params->{username}), 403);
-    }
+}
+
+sub new_user {
+    my ( $username, $role ) = @_;
+    return not_ok "'username' parameter not supplied" if !$username;
+    return not_ok sprintf( "User %s exists", $username )
+        if rset('User')->find_by_username( $username );
 
     my $error;
     my $user;
     try {
         $user = rset('User')->create({
-            username => $params->{username},
+            username => $username,
         });
     }
     catch {
@@ -44,10 +54,19 @@ post '/new_user' => sub {
     };
 
     if (!$user || $error) {
-        send_error "Something went wrong: $error", 500;
+        return not_ok sprintf( "Something went wrong: %s", $error );
     }
-    $user->add_role( $params->{role} ) if ($params->{role});
-    return $user->id;
+    $user->add_role( $role ) if $role;
+    return ok ( user_id => $user->id );
+}
+
+# Create user, return user_id
+
+post '/new_user' => sub {
+    my $params = params('body');
+    my $result = new_user( $params->{username}, $params->{role} );
+    return $result->{user_id} if $result->{ok};
+    send_error $result->{msg}, 500;
 };
 
 # Adds user to session, returns session id.
