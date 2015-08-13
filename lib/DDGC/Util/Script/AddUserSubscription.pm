@@ -33,7 +33,11 @@ sub _build_user {
 }
 
 has sub => (
-    is  => 'ro',
+    is  => 'rw',
+    isa     => sub {
+        croak "'sub' should be a hashref"
+          if ref $_[0] ne 'HASH';
+    }
 );
 
 sub add_user_subscription {
