@@ -56,7 +56,7 @@ sub add_user_subscription {
 sub execute {
     my ( $self ) = @_;
 
-    croak sprintf( "Unknown subscription type %s", $self->sub->{sub} )
+    croak sprintf( "Unknown subscription type %s", $self->sub->{sub} // "" )
       if !$self->subscriptions->can( $self->sub->{sub} );
     return $self->add_user_subscription;
 }
