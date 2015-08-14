@@ -2,7 +2,6 @@ use strict;
 use warnings;
 package DDGC::Util::Script::ActivityMailer;
 
-use DDGC::Util::Email;
 use DateTime;
 use Moo;
 
