@@ -10,6 +10,7 @@ use Test::More;
 use t::lib::DDGC::TestUtils;
 use DDGC;
 use DDGC::DB;
+use DDGC::Base::Web::Common;
 use DDGC::Util::Script::AddUserSubscription;
 use DDGC::Util::Script::ActivityMailer;
 
@@ -60,6 +61,21 @@ new_subscription('af.admin', 'updated_ia_page', 'pokemon');
 new_subscription('af.admin', 'updated_ia_page', 'apples');
 new_subscription('af.admin', 'created_ia_page');
 new_subscription('af.comleader', 'updated_ia_page', 'bananas');
+
+sub update_latest_activity {
+    my ( $update ) = @_;
+    my $max_id = rset('ActivityFeed')->search(
+        {},
+        {
+            select => {
+                max => 'me.id',
+                -as => 'max_id'
+            }
+        }
+      )->one_row->get_column('max_id');
+    ok( rset('ActivityFeed')->find( $max_id )->update( $update ),
+        'Update ActivityFeed entry');
+}
 
 sub new_ia {
     my ( $id, $name ) = @_;
