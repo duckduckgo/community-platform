@@ -51,5 +51,12 @@ sub new_subscription {
 }
 new_subscription('af.user1', 'updated_ia_page', 'pokemon');
 new_subscription('af.user2', 'updated_ia_page', 'pokemon');
+new_subscription('af.user3', 'updated_ia_page', 'bananas');
+new_subscription('af.user3', 'created_ia_page');
+new_subscription('af.admin', 'updated_ia_page', 'pokemon');
+new_subscription('af.admin', 'updated_ia_page', 'apples');
+new_subscription('af.admin', 'created_ia_page');
+new_subscription('af.comleader', 'updated_ia_page', 'bananas');
+
 
 done_testing;
