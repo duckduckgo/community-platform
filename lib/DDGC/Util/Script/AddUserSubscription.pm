@@ -26,14 +26,13 @@ has user => (
           if ref $_[0] ne 'DDGC::Schema::Result::User';
     }
 );
-
 sub _build_user {
     my ( $self ) = @_;
     rset('User')->find_by_username( $self->sub->{user} );
 }
 
 has sub => (
-    is  => 'rw',
+    is  => 'ro',
     isa     => sub {
         croak "'sub' should be a hashref"
           if ref $_[0] ne 'HASH';
