@@ -25,7 +25,7 @@ sub unsent_activity_from_to_date {
             : ( '>=' => $from ),
         },
     })->prefetch( { subscriptions => 'activity' } )
-      ->having( \[ 'count(activity.*) > 0' ] )
+      ->having( \[ 'count(activity.id) > 0' ] )
       ->group_by( 'users' );
 }
 
