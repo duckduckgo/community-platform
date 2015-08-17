@@ -36,11 +36,5 @@ SELECT "id", 4
   FROM "users"
  WHERE "flags" LIKE '%patron%';
 
-ALTER TABLE users DROP COLUMN admin;
-
-ALTER TABLE users DROP COLUMN roles;
-
-ALTER TABLE users DROP COLUMN flags;
-
 COMMIT;
 
