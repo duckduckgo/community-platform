@@ -11,7 +11,7 @@ use DDGC::Util::Email;
 has smtp => (
     is => 'ro',
     lazy => 1,
-    builder => '_build_now_rounded'
+    builder => '_build_smtp'
 );
 sub _build_smtp {
     my ( $self ) = @_;
@@ -19,8 +19,8 @@ sub _build_smtp {
         smtp_config => {
             host          => $self->ddgc_config->smtp_host,
             ssl           => $self->ddgc_config->smtp_ssl,
-            sasl_username => $self->ddgc_config->smtp_username,
-            sasl_password => $self->ddgc_config->smtp_password,
+            sasl_username => $self->ddgc_config->smtp_sasl_username,
+            sasl_password => $self->ddgc_config->smtp_sasl_password,
         }
     );
 }
