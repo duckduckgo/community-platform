@@ -62,5 +62,16 @@ new_subscription('af.admin', 'updated_ia_page', 'apples');
 new_subscription('af.admin', 'created_ia_page');
 new_subscription('af.comleader', 'updated_ia_page', 'bananas');
 
+sub new_ia {
+    my ( $id, $name ) = @_;
+    $d->rs('InstantAnswer')->create(
+        {
+            id      => $id,
+            meta_id => $id,
+            name    => $name,
+        }
+    );
+}
+new_ia( 'pokemon', 'Pokemon' );
 
 done_testing;
