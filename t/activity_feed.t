@@ -63,12 +63,14 @@ new_subscription('af.comleader', 'updated_ia_page', 'bananas');
 
 sub new_ia {
     my ( $id, $name ) = @_;
-    $d->rs('InstantAnswer')->create(
-        {
-            id      => $id,
-            meta_id => $id,
-            name    => $name,
-        }
+    ok( $d->rs('InstantAnswer')->create(
+            {
+                id      => $id,
+                meta_id => $id,
+                name    => $name,
+            }
+        ),
+        sprintf('Create %s IA Page', $name),
     );
 }
 new_ia( 'pokemon', 'Pokemon' );
