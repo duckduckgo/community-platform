@@ -23,6 +23,7 @@ sub having { shift->search_rs( undef, { having => shift } ) }
 __PACKAGE__->load_components(qw/
     Helper::ResultSet::Me
     Helper::ResultSet::Shortcut
+    Helper::ResultSet::OneRow
 /);
 
 1;
