@@ -2,6 +2,7 @@ package DDGC::Web::Controller::Ideas;
 # ABSTRACT: Idea controller
 
 use Scalar::Util qw/ looks_like_number /;
+use Time::Local;
 
 use Moose;
 BEGIN { extends 'Catalyst::Controller'; }
@@ -243,6 +244,26 @@ sub claim : Chained('idea_id') Args(0) {
 			{ user => $c->user, idea => $c->stash->{idea} },
 			Cc => $c->d->config->ia_email,
 	);
+
+        my @time = localtime(time);
+        my $date = "$time[4]/$time[3]/".($time[5]+1900);
+
+        my $ia = $c->d->rs('InstantAnswer')->find($c->stash->{idea}->id, {result_class => 'DBIx::Class::ResultClass::HashRefInflator'}) || {};
+
+        # If the idea was claimed, then unclaimed and then claimed by a different user, the page
+        # will already exist, so we make sure we don't overwrite any values in that case
+        my %ia_data = (
+            id => $ia->{id} || $c->stash->{idea}->id,
+            meta_id => $ia->{meta_id} || $c->stash->{idea}->id,
+            dev_milestone => $ia->{dev_milestone} || 'planning',
+            name => $ia->{name} || ucfirst $c->stash->{idea}->title,
+            description => $ia->{description} || ucfirst $c->stash->{idea}->content,
+            created_date => $ia->{created_date} || $date,
+            forum_link => $ia->{forum_link} || $c->stash->{idea}->id,
+        );
+
+        $ia = $c->d->rs('InstantAnswer')->update_or_create({%ia_data});
+        $ia->add_to_users($c->user);
 	}
 
 	$c->response->redirect( $c->chained_uri(@{ $c->stash->{idea}->u }) );
