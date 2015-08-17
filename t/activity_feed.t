@@ -9,12 +9,16 @@ BEGIN {
 use Test::More;
 use t::lib::DDGC::TestUtils;
 use DDGC;
+use DDGC::DB;
 use DDGC::Util::Script::AddUserSubscription;
 use DDGC::Util::Script::ActivityMailer;
 
 my $d = DDGC->new;
 my $s = DDGC::Util::Script::AddUserSubscription->new;
 my $m = DDGC::Util::Script::ActivityMailer->new;
+
+my $schema = DDGC::DB->connect( $d );
+t::lib::DDGC::TestUtils::deploy( { drop => 1 }, $schema );
 
 # Create users
 sub new_user {
