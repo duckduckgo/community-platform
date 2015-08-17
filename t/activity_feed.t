@@ -14,7 +14,6 @@ use DDGC::Util::Script::AddUserSubscription;
 use DDGC::Util::Script::ActivityMailer;
 
 my $d = DDGC->new;
-my $s = DDGC::Util::Script::AddUserSubscription->new;
 my $m = DDGC::Util::Script::ActivityMailer->new;
 
 my $schema = DDGC::DB->connect( $d );
@@ -42,14 +41,14 @@ new_user( 'af.user3', undef, undef, undef );
 
 sub new_subscription {
     my ( $user, $sub, $meta1, $meta2, $meta3 ) = @_;
-    $s->sub({
-        user => $user,
-        sub  => $sub,
-        meta1 => $meta1,
-        meta2 => $meta2,
-        meta3 => $meta3,
-    });
-    ok ($s->execute,
+    ok( DDGC::Util::Script::AddUserSubscription->new(
+        sub => {
+            user => $user,
+            sub  => $sub,
+            meta1 => $meta1,
+            meta2 => $meta2,
+            meta3 => $meta3,
+        })->execute,
         sprintf('Subscribe %s to %s', $user, $sub),
     );
 }
