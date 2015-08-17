@@ -6,10 +6,15 @@ use DDGC::Base::Web::Common;
 use Try::Tiny;
 
 sub deploy {
-    my ( $opts ) = @_;
+    my ( $opts, $schema ) = @_;
     my $success = 1;
     try {
         if ($ENV{DDGC_DB_DSN} =~ /^dbi:SQLite/) {
+            if ( $schema ) {
+                $schema->deploy({
+                    add_drop_table => $opts->{drop} || 0
+                });
+            }
             DDGC::Schema->connect($ENV{DDGC_DB_DSN})->deploy({
                 add_drop_table => $opts->{drop} || 0
             });
