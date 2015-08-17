@@ -32,7 +32,7 @@ sub unsent_activity_from_to_date {
 sub find_by_username {
     my ( $self, $username ) = @_;
     $self->search( \[ 'LOWER(username) = ?', ( lc( $username ) ) ], )
-         ->first;
+         ->one_row;
 }
 
 1;
