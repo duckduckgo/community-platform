@@ -166,7 +166,8 @@ sub claimed :Chained('base') :Args(0) {
 
 sub idea_id : Chained('base') PathPart('idea') CaptureArgs(1) {
 	my ( $self, $c, $id ) = @_;
-	$c->stash->{idea} = $c->d->rs('Idea')->find($id);
+	
+    $c->stash->{idea} = $c->d->rs('Idea')->find($id);
 
 	unless ($c->stash->{idea}) {
 		$c->response->redirect($c->chained_uri('Ideas','index',{ idea_notfound => 1 }));
@@ -248,7 +249,7 @@ sub claim : Chained('idea_id') Args(0) {
         my @time = localtime(time);
         my $date = "$time[4]/$time[3]/".($time[5]+1900);
 
-        my $ia = $c->d->rs('InstantAnswer')->find($c->stash->{idea}->id, {result_class => 'DBIx::Class::ResultClass::HashRefInflator'}) || {};
+        my $ia = $c->d->rs('InstantAnswer')->find($c->stash->{idea}->id, {result_class => 'DBIx::Class::ResultClass::HashRefInflator'});
 
         # If the idea was claimed, then unclaimed and then claimed by a different user, the page
         # will already exist, so we make sure we don't overwrite any values in that case
@@ -263,7 +264,13 @@ sub claim : Chained('idea_id') Args(0) {
         );
 
         $ia = $c->d->rs('InstantAnswer')->update_or_create({%ia_data});
-        $ia->add_to_users($c->user);
+
+        if (!$ia->users || !$ia->users->find({username => $c->user->username})) {
+            $ia->add_to_users($c->user);
+        }
+
+        $c->stash->{idea}->instant_answer($ia);
+        $c->stash->{idea}->update;
 	}
 
 	$c->response->redirect( $c->chained_uri(@{ $c->stash->{idea}->u }) );
