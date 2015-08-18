@@ -91,4 +91,12 @@ sub new_ia {
 }
 new_ia( 'pokemon', 'Pokemon' );
 
+my $users = rset('User')->unsent_activity_from_to_date(
+    DateTime->now->subtract( hours =>  1 )
+);
+
+my $transport = DDGC::Util::Script::ActivityMailer
+                    ->new( users => $users )
+                    ->execute;
+
 done_testing;
