@@ -19,12 +19,8 @@ SELECT "id", 1
 INSERT INTO "user_role" ("users_id", "role")
 SELECT "id", 2
   FROM "users"
- WHERE "flags" LIKE '%idea_manager%';
-
-INSERT INTO "user_role" ("users_id", "role")
-SELECT "id", 2
-  FROM "users"
- WHERE "flags" LIKE '%forum_manager%';
+ WHERE "flags" LIKE '%idea_manager%'
+    OR "flags" LIKE '%forum_manager%';
 
 INSERT INTO "user_role" ("users_id", "role")
 SELECT "id", 3
