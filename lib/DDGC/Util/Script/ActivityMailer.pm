@@ -3,6 +3,7 @@ use warnings;
 package DDGC::Util::Script::ActivityMailer;
 
 use DateTime;
+use List::Util qw/ sum /;
 use Moo;
 
 with 'DDGC::Util::Script::Base::Service';
@@ -59,7 +60,9 @@ sub _build_users {
 
 sub email {
     my ( $self, $user ) = @_;
-    my $activity_count = $user->subscriptions->activity->count;
+    my $activity_count = sum map
+        { $_->activity->count }
+        $user->subscriptions->all;
     my $subject = sprintf '[DuckDuckGo Community] %s new update%s!',
         $activity_count, ($activity_count == 1) ? '' : 's';
 
