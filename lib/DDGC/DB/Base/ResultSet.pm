@@ -45,4 +45,9 @@ sub all_ref {
   [ $_[0]->all ];
 }
 
+sub join_for_activity_meta {
+  my ( $self, $column ) = @_;
+  join( '', map { sprintf ':%s:', $_ } $self->columns( [$column] )->all );
+}
+
 1;

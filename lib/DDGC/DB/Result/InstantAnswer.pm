@@ -399,15 +399,14 @@ many_to_many 'topics', 'instant_answer_topics', 'topic';
 after insert => sub {
     my ( $self ) = @_;
     my $schema = $self->result_source->schema;
-    $schema->resultset('ActivityFeed')->create(
-        $self->ddgc->config->subscriptions->created_ia_page( {
-            meta1        => $self->id,
-            meta2        => join('', map { sprintf ':%s:', $_ }
-                $self->topics->columns([qw/ name /])->all),
-            description  => sprintf('Instant Answer Page [%s](%s) created!',
-                $self->name, sprintf('https://duck.co/ia/view/%s',
-                    $self->id)),
-    } ) );
+    $schema->resultset('ActivityFeed')->created_ia( {
+        meta1        => $self->id,
+        meta2        => join('', map { sprintf ':%s:', $_ }
+            $self->topics->columns([qw/ name /])->all),
+        description  => sprintf('Instant Answer Page [%s](%s) created!',
+            $self->name, sprintf('https://duck.co/ia/view/%s',
+                $self->id)),
+    } );
 };
 
 around update => sub {
@@ -417,31 +416,35 @@ around update => sub {
     my $ret = $self->$next( @extra );
     return $ret if (!$ret);
 
-    my $meta3;
-    while ( my ($column, $value) = each $update ) {
-        # Add updates we are not interested in to this array
-        next if grep { $column eq $_ }
-            (qw/ created_date /);
-        $meta3 .= sprintf ':%s:',
-            join ',', ( $column, $value );
-    }
+    my $meta3 = _updates_to_meta( $extra[0] );
 
     if ($meta3) {
         my $schema = $self->result_source->schema;
-        $schema->resultset('ActivityFeed')->create(
-            $self->ddgc->config->subscriptions->updated_ia_page( {
-                meta1        => $self->id,
-                meta2        => join('', map { sprintf ':%s:', $_ }
-                    $self->topics->columns([qw/ name /])->all),
-                meta3        => $meta3,
-                description  => sprintf('Instant Answer Page [%s](%s) updated!',
-                    $self->meta_id, sprintf('https://duck.co/ia/view/%s',
-                        $self->id)),
-        } ) );
+        $schema->resultset('ActivityFeed')->updated_ia( {
+            meta1        => $self->id,
+            meta2        => $self->topics->join_for_activity_meta( 'name' ),
+            meta3        => $meta3,
+            description  => sprintf('Instant Answer Page [%s](%s) updated!',
+                $self->meta_id, sprintf('https://duck.co/ia/view/%s',
+                    $self->id)),
+        } );
     }
 
     return $ret;
 };
+
+sub _updates_to_meta {
+    my ( $updates ) = @_;
+    my $meta;
+    while ( my ($column, $value) = each $updates ) {
+        # Add updates we are not interested in to this array
+        next if grep { $column eq $_ }
+            (qw/ created_date /);
+        $meta .= sprintf ':%s:',
+            join ',', ( $column, $value );
+    }
+    return $meta;
+}
 
 # returns a hash ref of all IA data.  Same idea as hashRefInflator
 # but this takes care of deserialization for you.
