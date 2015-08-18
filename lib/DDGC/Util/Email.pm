@@ -94,7 +94,7 @@ sub _build_validator {
 
 sub send {
     my ( $self, $params ) = @_;
-    my $v = $self->validator->check_params( 'send_parameters', $params );
+    my $v = $self->validator->check_params( 'send_parameters', {}, $params );
 
     if ( scalar $v->errors ) {
         return +{
