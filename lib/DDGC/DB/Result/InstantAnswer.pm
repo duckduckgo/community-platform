@@ -416,14 +416,7 @@ around update => sub {
     my $ret = $self->$next( @extra );
     return $ret if (!$ret);
 
-    my $meta3;
-    while ( my ($column, $value) = each $update ) {
-        # Add updates we are not interested in to this array
-        next if grep { $column eq $_ }
-            (qw/ created_date /);
-        $meta3 .= sprintf ':%s:',
-            join ',', ( $column, $value );
-    }
+    my $meta3 = _updates_to_meta( $extra[0] );
 
     if ($meta3) {
         my $schema = $self->result_source->schema;
@@ -440,6 +433,19 @@ around update => sub {
 
     return $ret;
 };
+
+sub _updates_to_meta {
+    my ( $updates ) = @_;
+    my $meta;
+    while ( my ($column, $value) = each $updates ) {
+        # Add updates we are not interested in to this array
+        next if grep { $column eq $_ }
+            (qw/ created_date /);
+        $meta .= sprintf ':%s:',
+            join ',', ( $column, $value );
+    }
+
+}
 
 # returns a hash ref of all IA data.  Same idea as hashRefInflator
 # but this takes care of deserialization for you.
