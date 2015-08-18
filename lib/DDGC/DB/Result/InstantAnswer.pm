@@ -430,8 +430,7 @@ around update => sub {
         $schema->resultset('ActivityFeed')->create(
             $self->ddgc->config->subscriptions->updated_ia_page( {
                 meta1        => $self->id,
-                meta2        => join('', map { sprintf ':%s:', $_ }
-                    $self->topics->columns([qw/ name /])->all),
+                meta2        => $self->topics->join_for_activity_meta( 'name' ),
                 meta3        => $meta3,
                 description  => sprintf('Instant Answer Page [%s](%s) updated!',
                     $self->meta_id, sprintf('https://duck.co/ia/view/%s',
