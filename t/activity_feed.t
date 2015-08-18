@@ -173,9 +173,9 @@ ok( $comleader_email_body =~ /bananas created/i,
 ok( $comleader_email_body !~ /apples updated/i,
     'comleader not subscribed to apples updates' );
 ok( $comleader_email_body !~ /pokemon updated/i,
-    'comleader knows about pokemon updated' );
-ok( $comleader_email_body !~ /bananas updated/i,
-    'comleader not subscribed to banana updates' );
+    'comleader not subscribed to pokemon updates' );
+ok( $comleader_email_body =~ /bananas updated/i,
+    'comleader knows about banana updates' );
 
 my $user1_delivery = (grep {
     'user1@example.org' eq lc($_->{envelope}->{to}->[0])
