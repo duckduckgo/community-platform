@@ -88,6 +88,8 @@ sub _build_validator {
             errmsg    => 'Template filename required',
         },
     );
+
+    return $v;
 }
 
 sub send {
