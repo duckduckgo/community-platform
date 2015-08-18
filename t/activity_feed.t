@@ -120,7 +120,7 @@ ok( scalar @deliveries == 3, 'Correct number of emails sent' );
 sub got_email {
     my ( $address ) = @_;
     return grep { lc($address) eq lc($_) }
-           map { $_->{envelope}->{to}->[0] }
+           map { $_->{successes}->[0] }
            @deliveries;
 }
 ok( got_email( 'comleader@example.org' ),
