@@ -133,7 +133,7 @@ sub send {
         },
         header_str => $header,
         parts => [
-            $html_part.
+            $html_part,
             $plaintext_part,
         ],
     );
