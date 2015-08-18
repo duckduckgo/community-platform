@@ -150,7 +150,7 @@ sub send {
 
 sub DESTROY {
     my ( $self ) = @_;
-    $self->smtp->disconnect;
+    $self->transport->disconnect if $self->transport->can('disconnect');
 }
 
 1;
