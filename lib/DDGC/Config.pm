@@ -11,11 +11,21 @@ use FindBin;
 use IO::All;
 use JSON;
 
+use DDGC::Config::Subscriptions;
+
 has always_use_default => (
 	is => 'ro',
 	lazy => 1,
 	default => sub { 0 },
 );
+
+has subscriptions => (
+	is => 'ro',
+	lazy_build => 1,
+);
+sub _build_subscriptions {
+	DDGC::Config::Subscriptions->new;
+}
 
 sub has_conf {
 	my ( $name, $env_key, $default ) = @_;
@@ -111,6 +121,8 @@ has_conf smtp_host => DDGC_SMTP_HOST => undef;
 has_conf smtp_ssl => DDGC_SMTP_SSL => 0;
 has_conf smtp_sasl_username => DDGC_SMTP_SASL_USERNAME => undef;
 has_conf smtp_sasl_password => DDGC_SMTP_SASL_PASSWORD => undef;
+
+has_conf shared_secret => DDGC_SHARED_SECRET => undef;
 
 has_conf templatedir => DDGC_TEMPLATEDIR => sub { dir( Catalyst::Utils::home('DDGC'), 'templates' )->resolve->absolute->stringify };
 
@@ -286,6 +298,34 @@ sub id_for_forum {
 	my ( $self, $forum_name ) = @_;
 	my $forums = $self->forums;
 	return (grep { $forums->{$_}->{name} =~ m/$forum_name/i } keys $forums)[0];
+}
+
+sub roles {
+	my ( $self ) = @_;
+	+{
+		'1' => {
+			role => 'admin',
+			name => 'Community Platform Admin',
+		},
+		'2' => {
+			role => 'forum_manager',
+			name => 'Community Leader (Forum Manager)',
+		},
+		'3' => {
+			role => 'translation_manager',
+			name => 'Translation Manager',
+		},
+		'4' => {
+			role => 'patron',
+			name => 'Patron',
+		},
+	};
+}
+sub id_for_role {
+	my ( $self, $role_name ) = @_;
+	my $roles = $self->roles;
+	$role_name = 'forum_manager' if ($role_name eq 'community_leader');
+	(grep { $roles->{$_}->{role} eq $role_name } keys $roles)[0] // 0;
 }
 
 sub campaign_config { $_[0]->campaigns->{$_[0]->campaign} }

@@ -396,6 +396,53 @@ many_to_many 'users', 'instant_answer_users', 'user';
 has_many 'instant_answer_topics', 'DDGC::DB::Result::InstantAnswer::Topics', 'instant_answer_id';
 many_to_many 'topics', 'instant_answer_topics', 'topic';
 
+after insert => sub {
+    my ( $self ) = @_;
+    my $schema = $self->result_source->schema;
+    $schema->resultset('ActivityFeed')->create(
+        $self->ddgc->config->subscriptions->created_ia_page( {
+            meta1        => $self->id,
+            meta2        => join('', map { sprintf ':%s:', $_ }
+                $self->topics->columns([qw/ name /])->all),
+            description  => sprintf('Instant Answer Page [%s](%s) created!',
+                $self->name, sprintf('https://duck.co/ia/view/%s',
+                    $self->id)),
+    } ) );
+};
+
+around update => sub {
+    my ( $next, $self, @extra ) = @_;
+    my $update = $extra[0];
+
+    my $ret = $self->$next( @extra );
+    return $ret if (!$ret);
+
+    my $meta3;
+    while ( my ($column, $value) = each $update ) {
+        # Add updates we are not interested in to this array
+        next if grep { $column eq $_ }
+            (qw/ created_date /);
+        $meta3 .= sprintf ':%s:',
+            join ',', ( $column, $value );
+    }
+
+    if ($meta3) {
+        my $schema = $self->result_source->schema;
+        $schema->resultset('ActivityFeed')->create(
+            $self->ddgc->config->subscriptions->updated_ia_page( {
+                meta1        => $self->id,
+                meta2        => join('', map { sprintf ':%s:', $_ }
+                    $self->topics->columns([qw/ name /])->all),
+                meta3        => $meta3,
+                description  => sprintf('Instant Answer Page [%s](%s) updated!',
+                    $self->meta_id, sprintf('https://duck.co/ia/view/%s',
+                        $self->id)),
+        } ) );
+    }
+
+    return $ret;
+};
+
 # returns a hash ref of all IA data.  Same idea as hashRefInflator
 # but this takes care of deserialization for you.
 sub TO_JSON {

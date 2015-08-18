@@ -18,3 +18,4 @@ bower_components/*
 *.db
 cpanfile.snapshot
 local/
+.prove

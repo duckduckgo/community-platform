@@ -19,7 +19,7 @@ my $user = $schema->resultset('User')->find({ username => $username });
 
 die "user not found" unless $user;
 
-$user->admin(1);
+$user->add_role('admin');
 $user->update;
 
 print "User ".$username." is now admin...\n";
