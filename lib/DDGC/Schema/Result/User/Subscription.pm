@@ -75,6 +75,9 @@ has_many 'activity', 'DDGC::Schema::Result::ActivityFeed', sub {
                 "$activity.for_role" => undef,
                 "$activity.for_role" => {
                     -in => \"SELECT role FROM user_role WHERE users_id = $subscription.users_id",
+                },
+                '1' => { # admin
+                    -in => \"SELECT role FROM user_role WHERE users_id = $subscription.users_id",
                 }
             ]
         ]
