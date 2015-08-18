@@ -54,6 +54,7 @@ sub new_subscription {
     );
 }
 new_subscription('af.user1', 'updated_ia_page', 'pokemon');
+new_subscription('af.user1', 'created_ia_page');
 new_subscription('af.user2', 'updated_ia_page', 'pokemon');
 new_subscription('af.user3', 'updated_ia_page', 'bananas');
 new_subscription('af.user3', 'created_ia_page');
@@ -61,6 +62,7 @@ new_subscription('af.admin', 'updated_ia_page', 'pokemon');
 new_subscription('af.admin', 'updated_ia_page', 'apples');
 new_subscription('af.admin', 'created_ia_page');
 new_subscription('af.comleader', 'updated_ia_page', 'bananas');
+new_subscription('af.comleader', 'created_ia_page');
 
 sub update_latest_activity {
     my ( $update ) = @_;
@@ -112,5 +114,30 @@ my $users = rset('User')->unsent_activity_from_to_date(
 my $transport = DDGC::Util::Script::ActivityMailer
                     ->new( users => $users )
                     ->execute;
+my @deliveries = $transport->deliveries;
+ok( scalar @deliveries == 3, 'Correct number of emails sent' );
+
+sub got_email {
+    my ( $deliveries, $address ) = @_;
+    return grep { lc($address) eq lc($_) }
+           map { $_->{envelope}->{to}->[0] }
+           @{$deliveries};
+}
+ok( got_email( \@deliveries, 'comleader@example.org' ),
+    'comleader@example.org received email'
+);
+ok( got_email( \@deliveries, 'comleader@example.org' ),
+    'admin@example.org received email'
+);
+ok( got_email( \@deliveries, 'user1@example.org' ),
+    'user1@example.org received email'
+);
+ok( got_email( \@deliveries, 'user1@example.org' ),
+    'user1@example.org received email'
+);
+ok( !got_email( \@deliveries, 'user2@example.org' ),
+    'user2@example.org did not receive email'
+);
+
 
 done_testing;
