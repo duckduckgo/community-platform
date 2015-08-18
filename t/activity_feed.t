@@ -90,6 +90,20 @@ sub new_ia {
     );
 }
 new_ia( 'pokemon', 'Pokemon' );
+new_ia( 'bananas', 'Bananas' );
+update_latest_activity({ for_role => 2 });
+new_ia( 'apples', 'Apples' );
+new_ia( 'donuts', 'Donuts' );
+
+sub update_ia {
+    my ( $id, $update ) = @_;
+    ok( $d->rs('InstantAnswer')->find( $id )->update( $update ),
+        sprintf('Update %s IA Page', $id) );
+}
+update_ia( 'pokemon', { dev_milestone => 'planning' } );
+update_ia( 'apples', { dev_milestone => 'planning' } );
+update_ia( 'donuts', { dev_milestone => 'planning' } );
+update_ia( 'bananas', { dev_milestone => 'planning' } );
 
 my $users = rset('User')->unsent_activity_from_to_date(
     DateTime->now->subtract( hours =>  1 )
