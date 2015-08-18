@@ -16,3 +16,4 @@ src/templates/handlebars_tmp
 build/*
 bower_components/*
 *.db
+.prove
