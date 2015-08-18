@@ -118,24 +118,24 @@ my @deliveries = $transport->deliveries;
 ok( scalar @deliveries == 3, 'Correct number of emails sent' );
 
 sub got_email {
-    my ( $deliveries, $address ) = @_;
+    my ( $address ) = @_;
     return grep { lc($address) eq lc($_) }
            map { $_->{envelope}->{to}->[0] }
-           @{$deliveries};
+           @deliveries;
 }
-ok( got_email( \@deliveries, 'comleader@example.org' ),
+ok( got_email( 'comleader@example.org' ),
     'comleader@example.org received email'
 );
-ok( got_email( \@deliveries, 'comleader@example.org' ),
+ok( got_email( 'comleader@example.org' ),
     'admin@example.org received email'
 );
-ok( got_email( \@deliveries, 'user1@example.org' ),
+ok( got_email( 'user1@example.org' ),
     'user1@example.org received email'
 );
-ok( got_email( \@deliveries, 'user1@example.org' ),
+ok( got_email( 'user1@example.org' ),
     'user1@example.org received email'
 );
-ok( !got_email( \@deliveries, 'user2@example.org' ),
+ok( !got_email( 'user2@example.org' ),
     'user2@example.org did not receive email'
 );
 
