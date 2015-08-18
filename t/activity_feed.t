@@ -139,5 +139,59 @@ ok( !got_email( 'user2@example.org' ),
     'user2@example.org did not receive email'
 );
 
+my $admin_delivery = (grep {
+    'admin@example.org' eq lc($_->{envelope}->{to}->[0])
+} @deliveries )[0];
+my $admin_email_body = $admin_delivery->{email}->object->body_raw;
+ok( $admin_email_body =~ /pokemon created/i,
+    'admin knows about pokemon created' );
+ok( $admin_email_body =~ /apples created/i,
+    'admin knows about apples created' );
+ok( $admin_email_body =~ /donuts created/i,
+    'admin knows about donuts created' );
+ok( $admin_email_body =~ /bananas created/i,
+    'admin knows about bananas created' );
+ok( $admin_email_body =~ /apples updated/i,
+    'admin knows about apples updated' );
+ok( $admin_email_body =~ /pokemon updated/i,
+    'admin knows about pokemon updated' );
+ok( $admin_email_body !~ /bananas updated/i,
+    'admin not subscribed to banana updates' );
+
+my $comleader_delivery = (grep {
+    'comleader@example.org' eq lc($_->{envelope}->{to}->[0])
+} @deliveries )[0];
+my $comleader_email_body = $comleader_delivery->{email}->object->body_raw;
+ok( $comleader_email_body =~ /pokemon created/i,
+    'comleader knows about pokemon created' );
+ok( $comleader_email_body =~ /apples created/i,
+    'comleader knows about apples created' );
+ok( $comleader_email_body =~ /donuts created/i,
+    'comleader knows about donuts created' );
+ok( $comleader_email_body =~ /bananas created/i,
+    'comleader gets activity for privileged role' );
+ok( $comleader_email_body !~ /apples updated/i,
+    'comleader not subscribed to apples updates' );
+ok( $comleader_email_body !~ /pokemon updated/i,
+    'comleader knows about pokemon updated' );
+ok( $comleader_email_body !~ /bananas updated/i,
+    'comleader not subscribed to banana updates' );
+
+my $user1_delivery = (grep {
+    'user1@example.org' eq lc($_->{envelope}->{to}->[0])
+} @deliveries )[0];
+my $user1_email_body = $user1_delivery->{email}->object->body_raw;
+ok( $user1_email_body =~ /pokemon created/i,
+    'user1 knows about pokemon created' );
+ok( $user1_email_body =~ /apples created/i,
+    'user1 knows about apples created' );
+ok( $user1_email_body =~ /donuts created/i,
+    'user1 knows about donuts created' );
+ok( $user1_email_body !~ /bananas created/i,
+    'user1 not getting created activity for privileged role' );
+ok( $user1_email_body !~ /apples updated/i,
+    'user1 not subscribed to apples updates' );
+ok( $user1_email_body =~ /pokemon updated/i,
+    'user1 knows about pokemon updated' );
 
 done_testing;
