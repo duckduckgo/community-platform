@@ -41,7 +41,6 @@ sub postlist_rss {
 	$self->postlist_resultset($c);
 	my @posts = $c->stash->{posts_resultset}->all;
 	$c->encoding(undef);
-	use DDP; p $posts[0]->user->username;
 	$c->stash->{feed} = {
 		format      => 'Atom',
 		id          => 'dukgo.com/'.$c->action,
