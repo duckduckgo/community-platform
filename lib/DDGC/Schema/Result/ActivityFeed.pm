@@ -21,7 +21,7 @@ DDGC::Schema::Result::ActivityFeed - interface to community platform activity fe
         category => 'ia',
         action   => 'updated',
         meta1    => $ia->name,
-        meta2    => join ( '', map { sprintf ':%s:', $_ }, $ia->topics ),
+        meta2    => $self->topics->join_for_activity_meta( 'name' ),
         description => sprintf( 'Instant answer [%s updated](%s)',
                         $ia->name, $ia->url ),
     });
@@ -57,11 +57,11 @@ activity. Potential examples:
 
 =over
 
-=item forum
+=item comment
 
 =item translation
 
-=item ia
+=item instant_answer
 
 =back
 
