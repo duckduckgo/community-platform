@@ -76,9 +76,8 @@ has_many 'activity', 'DDGC::Schema::Result::ActivityFeed', sub {
                 "$activity.for_role" => {
                     -in => \"SELECT role FROM user_role WHERE users_id = $subscription.users_id",
                 },
-                '1' => { # admin
-                    -in => \"SELECT role FROM user_role WHERE users_id = $subscription.users_id",
-                }
+                # Override all roles if user has admin role:
+                \"1 in ( SELECT role FROM user_role WHERE users_id = $subscription.users_id )",
             ]
         ]
     };
