@@ -108,7 +108,7 @@ sub send {
     my $body = $self->xslate->render( $params->{template}, $params->{content} );
     my $html_part = Email::MIME->create(
         attributes => {
-            content_type => 'text/plain; charset="UTF-8"',
+            content_type => 'text/html; charset="UTF-8"',
             content_transfer_encoding => '8bit',
         },
         body => $body,
@@ -117,7 +117,7 @@ sub send {
     my $plaintext_body = $self->plaintext_renderer->parse( $body );
     my $plaintext_part = Email::MIME->create(
         attributes => {
-            content_type => 'text/html; charset="UTF-8"',
+            content_type => 'text/plain; charset="UTF-8"',
             content_transfer_encoding => '8bit',
         },
         body => $plaintext_body,
