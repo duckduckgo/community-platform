@@ -134,4 +134,4 @@ has_many 'help_category_contents', 'DDGC::DB::Result::Help::Category::Content', 
 many_to_many 'users', 'user_languages', 'user';
 
 no Moose;
-__PACKAGE__->meta->make_immutable;
+__PACKAGE__->meta->make_immutable ( inline_constructor => 0 );

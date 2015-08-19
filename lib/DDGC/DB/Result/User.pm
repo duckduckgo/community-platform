@@ -51,12 +51,6 @@ column email_notification_content => {
 	default_value => 1,
 };
 
-column admin => {
-	data_type => 'int',
-	is_nullable => 0,
-	default_value => 0,
-};
-
 column ghosted => {
 	data_type => 'int',
 	is_nullable => 0,
@@ -111,19 +105,6 @@ column updated => {
 	data_type => 'timestamp with time zone',
 	set_on_create => 1,
 	set_on_update => 1,
-};
-
-column roles => {
-	data_type => 'text',
-	is_nullable => 1,
-	default_value => '',
-};
-
-column flags => {
-	data_type => 'text',
-	is_nullable => 0,
-	serializer_class => 'JSON',
-	default_value => '[]',
 };
 
 has xmpp => (
@@ -202,6 +183,10 @@ has_many 'github_users', 'DDGC::DB::Result::GitHub::User', 'users_id', {
 
 has_many 'failedlogins', 'DDGC::DB::Result::User::FailedLogin', 'users_id';
 
+has_many 'roles', 'DDGC::DB::Result::User::Role', 'users_id';
+
+has_many 'subscriptions', 'DDGC::DB::Result::User::Subscription', 'users_id';
+
 has_many 'instant_answer_users', 'DDGC::DB::Result::InstantAnswer::Users', 'users_id';
 many_to_many 'instant_answers', 'instant_answer_users', 'instant_answer';
 
@@ -233,6 +218,7 @@ sub unsubscribe_all_notifications {
 sub db { return shift; }
 
 sub translation_manager { shift->is('translation_manager') }
+sub admin { shift->is('admin') }
 
 sub github_user {
 	my ( $self ) = @_;
@@ -242,9 +228,11 @@ sub github_user {
 }
 
 sub is {
-	my ( $self, $flag ) = @_;
-	return 1 if $self->admin;
-	return $self->has_flag($flag);
+	my ( $self, $role ) = @_;
+	return 0 if !$role;
+	return 1 if ( $role eq 'user' );
+	return 1 if $self->roles->find({ role => $self->ddgc->config->id_for_role('admin') });
+	return $self->roles->find({ role => $self->ddgc->config->id_for_role( $role ) });
 }
 
 sub has_flag {
@@ -254,21 +242,19 @@ sub has_flag {
 	return 0;
 }
 
-sub add_flag {
-	my ( $self, $flag ) = @_;
-	return 0 if grep { $_ eq $flag } @{$self->flags};
-	push @{$self->flags}, $flag;
-	$self->make_column_dirty("flags");
-	return 1;
+sub add_role {
+	my ( $self, $role ) = @_;
+	my $role_id = $self->ddgc->config->id_for_role($role);
+	return 0 if !$role_id;
+	$self->roles->find_or_create({ role => $role_id });
 }
 
-sub del_flag {
-	my ( $self, $flag ) = @_;
-	return 0 unless grep { $_ eq $flag } @{$self->flags};
-	my @newflags = grep { $_ ne $flag } @{$self->flags};
-	$self->flags(\@newflags);
-	$self->make_column_dirty("flags");
-	return 1;
+sub del_role {
+	my ( $self, $role ) = @_;
+	my $role_id = $self->ddgc->config->id_for_role($role);
+	return 0 if !$role_id;
+	my $has_role = $self->roles->find({ role => $role_id });
+	$has_role->delete if $has_role;
 }
 
 has _locale_user_languages => (
@@ -895,4 +881,4 @@ sub get {
 ### END
 
 no Moose;
-__PACKAGE__->meta->make_immutable;
+__PACKAGE__->meta->make_immutable ( inline_constructor => 0 );

@@ -1,0 +1,9 @@
+<ul>
+    : for $user.subscriptions.all_ref -> $subscription {
+        : for $subscription.activity.all_ref -> $activity {
+            <li>
+                : $activity.render_description | raw
+            </li>
+        : }
+    : }
+</ul>

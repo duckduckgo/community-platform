@@ -122,4 +122,4 @@ has_many 'event_notification_groups', 'DDGC::DB::Result::Event::Notification::Gr
 };
 
 no Moose;
-__PACKAGE__->meta->make_immutable;
+__PACKAGE__->meta->make_immutable ( inline_constructor => 0 );
