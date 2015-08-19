@@ -24,4 +24,4 @@ belongs_to 'instant_answer', 'DDGC::DB::Result::InstantAnswer', 'instant_answer_
 belongs_to 'topic', 'DDGC::DB::Result::Topic', 'topics_id', {on_delete => 'cascade'};
 
 no Moose;
-__PACKAGE__->meta->make_immutable;
+__PACKAGE__->meta->make_immutable ( inline_constructor => 0 );

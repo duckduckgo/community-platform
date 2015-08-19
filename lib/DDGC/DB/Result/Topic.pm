@@ -34,4 +34,4 @@ has_many 'instant_answer_topics', 'DDGC::DB::Result::InstantAnswer::Topics', 'to
 many_to_many 'instant_answers', 'instant_answer_topics', 'instant_answer';
 
 no Moose;
-__PACKAGE__->meta->make_immutable;
+__PACKAGE__->meta->make_immutable ( inline_constructor => 0 );

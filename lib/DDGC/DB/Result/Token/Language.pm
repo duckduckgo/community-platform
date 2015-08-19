@@ -316,4 +316,4 @@ sub _build_translations { [sort { $a->vote_count <=> $b->vote_count } shift->tok
 # }
 
 no Moose;
-__PACKAGE__->meta->make_immutable;
+__PACKAGE__->meta->make_immutable ( inline_constructor => 0 );
