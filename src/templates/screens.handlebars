@@ -1,5 +1,7 @@
 {{#with live}}
-<div class="{{#eq_or dev_milestone 'live' 'deprecated'}}screens--wide{{else}}twothirds{{/eq_or}}">
+{{#ne_and dev_milestone 'planning' 'development'}}
+{{#if example_query}}
+<div class="screens--wide">
   <div class="ia-single--screenshots">
     <div class="screenshot--status hide">
         <div class="default-message hide"></div>
@@ -22,16 +24,18 @@
 
   {{#ne_and dev_milestone 'live' 'deprecated'}}
     {{#if ../../can_show}}
-        <span class="generate-screenshot pull-right btn btn--primary hide">
+        <span class="generate-screenshot pull-right btn btn--primary">
           <i class="icon-refresh"></i>
         </span>
     {{/if}}
   {{else}}
-      {{#if ../../permissions.can_edit}}
-        <span class="generate-screenshot pull-right btn btn--primary hide">
+      {{#if ../../../../permissions.can_edit}}
+        <span class="generate-screenshot pull-right btn btn--primary">
           <i class="icon-refresh"></i>
         </span>
       {{/if}}
   {{/ne_and}}
 </div>
+{{/if}}
+{{/ne_and}}
 {{/with}}

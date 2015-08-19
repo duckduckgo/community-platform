@@ -26,6 +26,7 @@
 		</span>
 		<div class="content">
 		<div class="p"><: r($_.html) :></div>
+        <: if $_.instant_answer { :><div class="p"><a href="/ia/view/<: $_.instant_answer.meta_id :>"> IA Page </a></div><: } :>
 		</div>
 		<: if $_.source { :>
 		<div class="idea__label">

@@ -1,12 +1,85 @@
+{{#ne_and dev_milestone 'live' 'deprecated'}}
+    <div class="ia-single--info">
+        <h3 class="ia-single--header">
+            <span {{#ne_and dev_milestone 'live' 'deprecated'}}{{#if permissions.admin}}class="asterisk"{{/if}}{{/ne_and}}>ID</span>
+        {{#if permissions.admin}}
+            {{#ne_and dev_milestone 'live' 'deprecated'}}
+                <a href="#" class="devpage-edit {{#if staged.id}}hide{{/if}}" id="dev-edit-id">Edit</a>
+                <a href="#" class="devpage-commit sep--after {{#unless staged.id}}hide{{/unless}}" id="dev-commit-id">Commit</a>
+                <a href="#" class="devpage-cancel {{#unless staged.id}}hide{{/unless}}" id="dev-cancel-id">Cancel</a>
+            {{/ne_and}}
+        {{/if}}
+        </h3>
+
+        <span class="readonly--info {{#if staged.id}}hide{{/if}}" id="id--readonly">
+            {{id}}
+        </span>
+
+        {{#if permissions.admin}}
+            <input type="text" class="{{#unless staged.id}}hide{{/unless}} frm__input id js-autocommit hidden-toshow" id="id-input" value="{{#if staged.id}}{{#eq staged.id 'n---d'}} {{else}}{{staged.id}}{{/eq}}{{else}}{{id}}{{/if}}" />
+            <span class="error-notification hide">ID can't be empty</span>
+        {{/if}}
+    </div>
+
+    {{#if pr}}
+        <div class="ia-single--info">
+            <h3 class="ia-single--header">PR #</h3>
+            <a href="https://github.com/duckduckgo/zeroclickinfo-{{repo}}/issues/{{pr.id}}" class="one-line" id="pr">
+                {{pr.id}}
+            </a>
+        </div>
+    {{/if}}
+
+    <div class="ia-single--info">
+        <h3 class="ia-single--header">Dev Machine</h3>
+
+        {{#if permissions.admin}}
+            <span class="frm__select">
+            <select class="test_machine js-autocommit" tabindex="-1" id="test_machine-select">
+                {{#if test_machine}}<option value="0">{{test_machine}}</option>{{/if}}
+                <option value=""> --- </option>
+                {{#not_eq test_machine 'ddh1'}}<option value="1">ddh1</option>{{/not_eq}}
+                {{#not_eq test_machine 'ddh2'}}<option value="2">ddh2</option>{{/not_eq}}
+                {{#not_eq test_machine 'ddh3'}}<option value="3">ddh3</option>{{/not_eq}}
+                {{#not_eq test_machine 'ddh4'}}<option value="4">ddh4</option>{{/not_eq}}
+                {{#not_eq test_machine 'ddh5'}}<option value="5">ddh5</option>{{/not_eq}}
+                {{#not_eq test_machine 'ddh6'}}<option value="6">ddh6</option>{{/not_eq}}
+                {{#not_eq test_machine 'ddh7'}}<option value="7">ddh7</option>{{/not_eq}}
+                {{#not_eq test_machine 'ddh8'}}<option value="8">ddh8</option>{{/not_eq}}
+                {{#not_eq test_machine 'ddh9'}}<option value="9">ddh9</option>{{/not_eq}}
+                {{#not_eq test_machine 'ddh10'}}<option value="10">ddh10</option>{{/not_eq}}
+            </select>
+            </span>
+        {{else}}
+            <span class="readonly--info" id="test_machine--readonly">
+                {{#if test_machine}}
+                    {{test_machine}}
+                {{else}}
+                    <span class="no-available">No dev machine.</span>
+                {{/if}}
+            </span>
+        {{/if}}
+    </div>
+{{/ne_and}}
+
 <div class="ia-attribution ia-single--info">
-  {{#if developer}}
-    <h3 class="ia-single--header">Contributors</h3>
+    <h3 class="ia-single--header">Contributors
+    {{#if permissions.can_edit}}
+        {{#ne_and dev_milestone 'live' 'deprecated'}}
+            <a href="#" class="devpage-edit-popup" id="dev-edit-contributors">Edit</a>
+            <div id="edit-modal" class="hide"></div>
+        {{/ne_and}}
+    {{/if}}
+    </h3>
     <ul>
-      {{#each developer}}
-        <li><a href="{{url}}" class="one-line">{{name}}</a></li>
-      {{/each}}
+      {{#if developer}}
+        {{#each developer}}
+          <li><a href="{{url}}" class="one-line">{{name}}</a></li>
+        {{/each}}
+      {{else}}
+        <span class="no-available">No contributors yet.</span>
+      {{/if}}
     </ul>
-  {{/if}}
 </div>
 
 <div class="ia-single--info">
@@ -35,4 +108,82 @@
   {{/if}}
 </div>
 
+<div class="hide edit-popup" id="contributors-popup">
+    <h3 class="ia-single--header">Contributors</h3>
+    {{#if permissions.admin}}
+        <div class="producer-contributor">
+            <h3 class="second-header">Producer</h3>
+            <div class="half half--screen-s frm__input">
+                <input type="text" class="producer js-autocommit hidden-toshow team-input" id="producer-input" value="{{producer}}" />
+                <span class="pull-right hide"><i class="ddgsi-check-sign"></i></span>
+                <span class="pull-right hide"><i class="ddgsi ddgsi-warning"></i></span>
+            </div>
+            <div class="half half--screen-s g">
+              <div class="js-autocommit hidden-toshow assign-button btn eighty" id="producer-button">
+                Assign to me
+              </div>
+            </div>
+        </div>
+    {{/if}}
 
+    <span class="clearfix"></span>
+
+    <h3 class="second-header">Developer</h3>
+    <ul class="parent-group" id="developer-group">
+        {{#if developer}}
+            {{#each developer}}
+                <li class="js-autocommit hidden-toshow developer">
+                    <div class="half half--screen-s frm__input">
+                        <span class="developer_username type-{{type}}">
+                            <input type="text" class="group-vals" {{#eq type 'legacy'}}value="{{url}}" disabled="disabled"{{else}}value="{{final_path url}}"{{/eq}}/>
+                        </span>
+                        <span class="pull-right hide"><i class="ddgsi-check-sign"></i></span>
+                        <span class="pull-right hide"><i class="ddgsi-warning"></i></span>
+                    </div>
+                    <div class="half half--screen-s g">
+                        <span class="frm__select eighty">
+                            <select class="available_types left" tabindex="-1" {{#eq type 'legacy'}}disabled="disabled"{{/eq}}>
+                                {{#if type}}<option value="0">{{type}}</option>{{/if}}
+                                {{#not_eq type 'duck.co'}}<option value="1">duck.co</option>{{/not_eq}}
+                                {{#not_eq type 'github'}}<option value="2">github</option>{{/not_eq}}
+                                {{#not_eq type 'ddg'}}<option value="3">ddg</option>{{/not_eq}}
+                            </select>
+                        </span>
+                        <span class="delete twenty g"><i class="ddgsi-close"></i></span>
+                    </div>
+                </li>
+            {{/each}}
+        {{/if}}
+        <li class="hide new_input js-autocommit hidden-toshow developer">
+            <div class="half half--screen-s frm__input">
+                <span class="developer_username">
+                    <input class="group-vals" type="text"/>
+                </span>
+                <span class="pull-right hide"><i class="ddgsi-check-sign"></i></span>
+                <span class="pull-right hide"><i class="ddgsi-warning"></i></span>
+            </div>
+            <div class="half half--screen-s g">
+                <span class="frm__select eighty">
+                  <select class="available_types" tabindex="-1">
+                    <option value="0">duck.co</option>
+                    <option value="1">github</option>
+                    <option value="3">ddg</option>
+                  </select>
+                </span>
+                <span class="delete twenty g"><i class="ddgsi-close"></i></span>
+            </div>
+        </li>
+        <li id="add_developer">
+            <a href="#" class="one-line add_input left" id="add_developer" title="Add developer">
+               Add Developer
+            </a>
+        </li>
+    </ul>
+
+    <span class="clearfix"></span>
+
+    <div class="cancel-save">
+        <div class="btn pull-left cancel-button-popup">Cancel</div>
+        <div class="btn btn--primary pull-right save-button-popup">Save</div>
+    </div>
+</div>

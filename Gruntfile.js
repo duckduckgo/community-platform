@@ -22,6 +22,8 @@ module.exports = function(grunt) {
 
     // tasks that run when building
     var build_tasks = [
+        'exec:bower',
+        'exec:deleteBuildFiles',
         'handlebars:compile',
         'compass',
         'concat',
@@ -217,7 +219,9 @@ module.exports = function(grunt) {
          */
         exec: {
             revert: "./script/revert_pkg_version.pl",
-            revert_release: "./script/revert_pkg_version.pl release"
+            revert_release: "./script/revert_pkg_version.pl release",
+            deleteBuildFiles: "rm -r build",
+            bower: "bower install"
         },
 
         watch: {

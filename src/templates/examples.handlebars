@@ -1,45 +1,141 @@
-{{#if example_query}}
-  <div class="ia-examples ia-single--info">
-    <h3 class="ia-single--header">Example Queries</h3>
-    <a class="one-line" href="https://duckduckgo.com/?q={{encodeURIComponent example_query}}{{tab_url tab}}" title="try this example on DuckDuckGo">{{example_query}}</a>
-    {{#if other_queries}}
-        {{#each other_queries}}
-            <a class="one-line" href="https://duckduckgo.com/?q={{encodeURIComponent this}}{{tab_url ../tab}}" title="try this example on DuckDuckGo">{{this}}</a>
-        {{/each}}
+<div class="ia-examples ia-single--info {{#eq_or dev_milestone 'live' 'deprecated'}}{{#unless example_query}}hide{{/unless}}{{/eq_or}}">
+    <h3 class="ia-single--header">
+        <span {{#ne_and dev_milestone 'live' 'deprecated'}}{{#if permissions.can_edit}}class="asterisk"{{/if}}{{/ne_and}}>Example Queries</span>
+        {{#if permissions.can_edit}}
+            <a href="#" class="devpage-edit {{#or staged.example_query staged.other_queries}}hide{{/or}}" id="dev-edit-example_query">Edit</a>
+            <a href="#" class="devpage-commit sep--after {{#unless_and staged.example_query staged.other_queries}}hide{{/unless_and}}" id="dev-commit-example_query">Commit</a>
+            <a href="#" class="devpage-cancel {{#unless_and staged.example_query staged.other_queries}}hide{{/unless_and}}" id="dev-cancel-example_query">Cancel</a>
+        {{/if}}
+    </h3>
+
+    {{#if permissions.can_edit}}
+        <ul class="hidden-toshow {{#unless_and staged.example_query staged.other_queries}}hide{{/unless_and}} parent-group" id="other_queries-group">
+            {{#if  staged.example_query}}
+                    <li {{#eq staged.example_query 'n---d'}}class="hide"{{/eq}}>
+                        <span class="example_query">
+                            <input type="text" id="example_query-input" value="{{staged.example_query}}" class="example_query js-autocommit" />
+                            <span class="delete-tag delete"><i class="ddgsi-close"></i></span>
+                        </span>
+                    </li>
+             {{/if}}
+             {{#if staged.other_queries}}
+                {{#each staged.other_queries}}
+                    <li {{#eq staged.other_queries '[]'}}class="hide"{{/eq}}>
+                        <span class="{{#if @first}}{{#unless ../../staged.example_query}}example_query{{else}}other_queries{{/unless}}{{else}}example_query{{/if}} left">
+                            <input type="text" value="{{this}}" {{#if @first}}{{#unless ../../staged.example_query}}id="example_query-input"{{/unless}}{{/if}}
+                            class="js-autocommit {{#if @first}}{{#unless ../../staged.example_query}}example_query{{else}}group-vals{{/unless}}{{else}}example_query{{/if}}" />
+                            <span class="delete delete-tag" title="Remove example">
+                                <i class="ddgsi-close"></i>
+                            </span>
+                       </span>
+                    </li>
+                    {{#module_zero @index 3}}
+                        <span class="clearfix"></span>
+                    {{/module_zero}}
+                {{/each}}
+            {{else}}
+                {{#if example_query}}
+                    <li {{#if staged.example_query}}class="hide"{{/if}}>
+                        <span class="example_query">
+                            <input type="text" id="example_query-input" value="{{example_query}}" class="example_query js-autocommit" />
+                            <span class="delete-tag delete"><i class="ddgsi-close"></i></span>
+                        </span>
+                    </li>
+                {{/if}}
+
+                {{#each other_queries}}
+                    <li {{#if staged.example_query}}class="hide"{{/if}}>
+                        <span class="{{#if @first}}{{#if ../../example_query}}other_queries{{else}}example_query{{/if}}{{else}}other_queries{{/if}}">
+                            <input type="text" value="{{this}}" class="js-autocommit {{#if @first}}{{#if ../../example_query}}group-vals{{else}}example_query{{/if}}{{else}}group-vals{{/if}}" {{#unless ../../example_query}}{{#if @first}}id="example_query-input"{{/if}}{{/unless}}/>
+                            <span class="delete-tag delete"><i class="ddgsi-close"></i></span>
+                        </span>
+                    </li>
+                    {{#module_zero @index 3}}
+                        <span class="clearfix"></span>
+                    {{/module_zero}}
+                {{/each}}
+            {{/if}}
+
+            <li class="editpage hide new_input">
+                <span class="other_queries">
+                    <input type="text" value="" class="js-autocommit group-vals" />
+                    <span class="delete-tag delete"><i class="ddgsi-close"></i></span>
+                </span>
+            </li>
+            <li class="editpage add_input" id="add_example">
+                <div class="btn btn--secondary listbutton" id="add_example_button" title="Add example">
+                    <i class="ddgsi-plus" />
+                </div>
+            </li>
+        </ul>
     {{/if}}
-  </div>
-{{/if}}
 
-<div class="example-container">
-  <div class="search-example pull-left">
-    <span class="ddgsi-loupe"></span> <span>{{example_query}}</span>
-  </div>
-
-  <div class="pull-right screenshot-switcher">
-    <span class="btn switcher-icon">
-      <span class="icon-extra-desktop"><span class="path1"></span><span class="path2"></span></span>
-    </span>
-
-    <span class="btn switcher-icon remove-border">
-      <span class="icon-extra-mobile add-opacity"><span class="path1"></span><span class="path2"></span></span>
-    </span>
-  </div>
-
-  {{#ne_and dev_milestone 'live' 'deprecated'}}
-    {{#if can_show}}
-        <div class="pull-right screenshot-switcher--generate hide">
-          <span class="btn btn--primary">Generate Screenshot</span>
-        </div>
-    {{/if}}
-  {{/ne_and}}
-
-  {{#eq_or dev_milestone 'live' 'deprecated'}}
-      {{#if ../permissions.can_edit}}
-          <div class="pull-right screenshot-switcher--generate hide">
-            <span class="btn btn--primary">Generate Screenshot</span>
-          </div>
-      {{/if}}
-  {{/eq_or}}
-
-  <span class="clearfix"></span>
+    <div class="readonly--info {{#or staged.example_query staged.other_queries}}hide{{/or}}" id="example_query--readonly">
+        {{#if example_query}}
+            {{#ne_and dev_milestone 'live' 'deprecated'}}
+                {{#if test_machine}}
+                    <a class="one-line" href="https://{{test_machine}}.duckduckgo.com/?q={{encodeURIComponent example_query}}{{tab_url tab}}" title="try this example on DuckDuckGo">{{example_query}}</a>
+                {{else}}
+                    <span>{{example_query}}</span>
+                {{/if}}
+            {{else}}
+                <a class="one-line" href="https://duckduckgo.com/?q={{encodeURIComponent example_query}}{{tab_url tab}}" title="try this example on DuckDuckGo">{{example_query}}</a>
+            {{/ne_and}}
+        {{/if}}
+        {{#if other_queries}}
+            {{#each other_queries}}
+                {{#ne_and ../../dev_milestone 'live' 'deprecated'}}
+                    {{#if ../../test_machine}}
+                        <a class="one-line" href="https://{{../../../test_machine}}.duckduckgo.com/?q={{encodeURIComponent this}}{{tab_url ../../../tab}}" title="try this example on DuckDuckGo">{{this}}</a>
+                    {{else}}
+                        <span>{{this}}</span>
+                    {{/if}}
+                {{else}}
+                    <a class="one-line" href="https://duckduckgo.com/?q={{encodeURIComponent this}}{{tab_url ../../tab}}" title="try this example on DuckDuckGo">{{this}}</a>
+                {{/ne_and}}
+            {{/each}}
+        {{else}}
+            <div class="no-available {{#if example_query}}hide{{/if}}">No example queries.</div>
+        {{/if}}
+    </div>
 </div>
+
+{{#if example_query}}
+    <div class="example-container">
+      {{#ne_and dev_milestone 'planning' 'development'}}
+        <div class="search-example pull-left">
+            <span class="ddgsi-loupe"></span> <span>{{example_query}}</span>
+        </div>
+      {{/ne_and}}
+
+      {{#ne_and dev_milestone 'planning' 'development'}}
+          <div class="pull-right screenshot-switcher">
+            <span class="btn switcher-icon">
+              <span class="icon-extra-desktop"><span class="path1"></span><span class="path2"></span></span>
+            </span>
+
+            <span class="btn switcher-icon remove-border">
+              <span class="icon-extra-mobile add-opacity"><span class="path1"></span><span class="path2"></span></span>
+            </span>
+          </div>
+
+          {{#ne_and dev_milestone 'live' 'deprecated'}}
+            {{#if can_show}}
+                <div class="pull-right screenshot-switcher--generate hide">
+                  <span class="btn btn--primary">Generate Screenshot</span>
+                </div>
+            {{/if}}
+          {{/ne_and}}
+
+          {{#eq_or dev_milestone 'live' 'deprecated'}}
+              {{#if ../permissions.can_edit}}
+                  <div class="pull-right screenshot-switcher--generate hide">
+                    <span class="btn btn--primary">Generate Screenshot</span>
+                  </div>
+              {{/if}}
+          {{/eq_or}}
+        {{/ne_and}}
+
+      <span class="clearfix"></span>
+    </div>
+{{/if}}
