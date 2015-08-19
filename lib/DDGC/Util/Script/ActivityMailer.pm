@@ -15,7 +15,7 @@ has now => (
     builder => '_build_now'
 );
 sub _build_now {
-    DateTime->now;
+    DateTime->now( time_zone => 'US/Eastern' );
 }
 
 has now_rounded => (
