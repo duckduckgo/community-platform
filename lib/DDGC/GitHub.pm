@@ -95,8 +95,8 @@ sub one_second {
 sub update_database {
     my ($self) = @_;
 
-    print "Updating github_user table\n";
-    $self->update_users;
+    #print "Updating github_user table\n";
+    #$self->update_users;
 
     $self->update_repos($self->ddgc->config->github_org, 1);
 }
@@ -264,7 +264,7 @@ sub update_users {
         if ($@) {
             # ignore errors about users who are not found because they changed
             # their username or deleted their account
-            die $@ unless $@ eq 'Not Found';
+            die $@ unless $@ =~ 'Not Found';
         }
     }
 }
