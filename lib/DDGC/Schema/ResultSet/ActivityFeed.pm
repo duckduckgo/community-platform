@@ -20,7 +20,7 @@ sub for_user {
         -or => [
             for_role => { '=' => undef },
             for_role => {
-                -in => $user->roles->columns([qw/ id /])->all
+                -in => $user->roles->get_column('role')->as_query,
             }
         ],
     } );
