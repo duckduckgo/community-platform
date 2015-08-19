@@ -1,0 +1,21 @@
+BEGIN;
+update instant_answer set tab = 'UV Index' where meta_id = 'uv';
+update instant_answer set tab = 'Answer' where meta_id = 'expand_url';
+update instant_answer set tab = 'Whois' where meta_id = 'whois';
+update instant_answer set tab = 'Kids Books' where meta_id = 'dogo_books';
+update instant_answer set tab = 'Air Quality Index' where meta_id = 'aqi';
+update instant_answer set tab = 'Answer' where meta_id = 'iplookup';
+update instant_answer set tab = 'Envato Marketplace' where meta_id = 'envato';
+update instant_answer set tab = 'Answer' where meta_id = 'people_in_space';
+update instant_answer set tab = 'Software' where meta_id = 'fedora_project_package_db';
+update instant_answer set tab = 'Kids News' where meta_id = 'dogo_news';
+update instant_answer set tab = 'Events' where meta_id = 'wgha';
+update instant_answer set tab = 'Answer' where meta_id = 'rand_pos';
+update instant_answer set tab = 'Software' where meta_id = 'meta_cpan';
+update instant_answer set tab = 'Yacht Info' where meta_id = 'yacht_specs';
+update instant_answer set tab = 'Leaks' where meta_id = 'leak_db';
+update instant_answer set tab = 'Books' where meta_id = 'isbn';
+update instant_answer set tab = 'Answer' where meta_id = 'dns';
+update instant_answer set tab = 'Kids Movies' where meta_id = 'dogo_movies';
+COMMIT;
+
