@@ -282,4 +282,4 @@ sub all_tokens {
 }
 
 no Moose;
-__PACKAGE__->meta->make_immutable;
+__PACKAGE__->meta->make_immutable ( inline_constructor => 0 );

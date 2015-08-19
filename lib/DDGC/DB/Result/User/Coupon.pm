@@ -27,7 +27,7 @@ column users_id => {
 primary_key ( qw/coupon/ );
 
 no Moose;
-__PACKAGE__->meta->make_immutable;
+__PACKAGE__->meta->make_immutable ( inline_constructor => 0 );
 
 1;
 
