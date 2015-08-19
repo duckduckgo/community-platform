@@ -6,4 +6,9 @@ use Moo;
 extends 'DDGC::Schema::ResultSet';
 use List::MoreUtils qw( uniq );
 
+sub activity {
+    my ( $self ) = @_;
+    map { $_->activity } $self->all;
+}
+
 1;
