@@ -1,6 +1,8 @@
 #!/usr/bin/env perl
 # scan ddh repos and update files for each IA
 package FindCodeLinks;
+use strict;
+use warnings;
 use FindBin;
 use lib $FindBin::Dir . "/../lib";
 use JSON;
@@ -11,6 +13,7 @@ use DDG::Meta::Data;
 
 my $rule = File::Find::Rule->new;
 my $meta = DDG::Meta::Data->by_id;
+my $results;
 
 $rule->or(
     $rule->new
@@ -33,7 +36,7 @@ my @repos = (
 
 my %process = (
     spice => \&normal_process,
-    goodies => \&goodies_process,
+    goodies => \&normal_process,
     fathead => \&normal_process,
     longtail => \&normal_process,
 );
@@ -42,13 +45,10 @@ sub normal_process {
     my ($data, $files, $share) = @_;
     my $repo = $data->{repo};
     my $zci = "zeroclickinfo-$repo";
-
-    warn "pm $data->{perl_module} path $share";
-
-    #find share files
     my @matches;
-    push(@matches, File::Find::Rule->file->in("/usr/local/ddh/$zci/$share/")) if $share;
     
+    push(@matches, File::Find::Rule->file->in("/usr/local/ddh/$zci/$share/")) if $share;
+ 
     push(@matches, File::Find::Rule
         ->name('*.t')
         ->grep( qr/$data->{perl_module}/)
@@ -56,28 +56,11 @@ sub normal_process {
     );
     
     #find lib files
-    $repo = ucfirst $repo;
-    push(@matches, grep { $_ =~ /lib\/DDG\/$repo\/$data->{name}\./} @{$files->{$zci}} );
-
-    my $result;
-
-    $result->{$data->{id}} = \@matches;
-
-    warn Dumper $result;
-}
-
-sub goodies_process {
-    my ($data, $files, $share) = @_;
-    my $repo = 'goodie';
-    my $zci = "zeroclickinfo-goodies";
-
-    #find share files
-    my @matches = grep{ $_ =~ /share\/$repo\/(?:.+\/)?$data->{id}\./ } @{$files->{$zci}};
-    #find test files
-    push(@matches, grep { $_ =~ /t\/$data->{name}\./} @{$files->{$zci}} );
-    #find lib files
-    $repo = ucfirst $repo;
-    push(@matches, grep { $_ =~ /lib\/DDG\/$repo\/$data->{name}\./} @{$files->{$zci}} );
+    push(@matches, File::Find::Rule
+            ->grep( qr/$data->{perl_module}/)
+            ->relative
+            ->in("/usr/local/ddh/$zci/lib")
+        );
 
     # file cheat sheet json files
     if($data->{perl_module} =~ /cheatsheet/i){
@@ -89,11 +72,27 @@ sub goodies_process {
         );
     }
 
-    my $result;
+    clean_matches(\@matches);
+    normalize_paths(\@matches);
 
-    $result->{$data->{id}} = \@matches;
+    $results->{$data->{id}} = \@matches;
 
-#    warn Dumper $result;
+    if($data->{perl_module} =~ /fathead|longtail/i){
+        return;
+    }
+
+    if(!@matches ||scalar @matches < 2 && $data->{perl_module} !~ /cheatsheet/i){
+        warn $data->{id}, $data->{perl_module}, $share;;
+        warn Dumper @matches if @matches;
+    }
+}
+
+sub clean_matches {
+    my ($matches) = @_;
+}
+
+sub normalize_paths {
+    my ($matches) = @_;
 }
 
 
@@ -110,10 +109,7 @@ foreach my $repo (@repos){
         my @parts = split '/', $dir;
         next if scalar @parts == 1;
 
-        map{ 
-            s/_([a-z0-9])/\u$1/g;
-            s/^([a-z0-9])/\u$1/;
-        }@parts;
+        s/_//g for @parts;
 
         my $pm = join('::', @parts);
         $pm = "DDG::$pm";
@@ -123,7 +119,7 @@ foreach my $repo (@repos){
         # on our metadata should find the right one.
         foreach my $id (keys $meta){
             my $module = $meta->{$id}->{perl_module};
-            if($module =~ /$pm/i){
+            if(lc $module eq lc $pm){
                 $pm = $module;
             }
         }
@@ -132,14 +128,11 @@ foreach my $repo (@repos){
     $files->{$repo} = \@repo_files;
 }
 
-warn Dumper \$module_to_share;
-
 while(my($id, $data) = each $meta){
     next unless $data->{dev_milestone} =~ /live/i;
     my $repo = $data->{repo};
     my $pm = $data->{perl_module};
-
     $process{$repo}->($data, $files, $module_to_share->{$pm});
 }
 
-
+warn Dumper \$results;
