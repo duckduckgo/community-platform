@@ -271,9 +271,8 @@ sub claim : Chained('idea_id') Args(0) {
 
         $c->stash->{idea}->instant_answer($ia);
         $c->stash->{idea}->update;
+        $c->user->subscribe_to_instant_answer( $ia->id );
 	}
-
-	$c->user->subscribe_to_instant_answer( $ia->id );
 
 	$c->response->redirect( $c->chained_uri(@{ $c->stash->{idea}->u }) );
 }
