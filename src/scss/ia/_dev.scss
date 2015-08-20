@@ -9,7 +9,10 @@
             background: url(/static/images/box-unchecked.svg) left center no-repeat;
             background-size: 16px 16px;
             display: inline-block;
-            padding: 3px 0 0.25em 24px;
+            line-height: 1.4;
+            padding: 0 0 0 24px;
+            top: 5px;
+            position: relative;
         }
 
         input[type=checkbox].frm__label__chk:checked + .frm__label__txt {
