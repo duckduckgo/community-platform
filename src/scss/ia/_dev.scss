@@ -3,18 +3,17 @@
     .ia-single--testing, .ia-single--details {
         input[type=checkbox].frm__label__chk {
             display: none;
-            width: 16px;
-            height: 16px;
         }
 
         input[type=checkbox].frm__label__chk + .frm__label__txt {
-            background: url(/static/images/box-unchecked.png) left center no-repeat;
-            display:inline-block;
+            background: url(/static/images/box-unchecked.svg) left center no-repeat;
+            background-size: 16px 16px;
+            display: inline-block;
             padding: 0 0 0 24px;
         }
 
         input[type=checkbox].frm__label__chk:checked + .frm__label__txt {
-            background-image: url(/static/images/box-checked.png);
+            background-image: url(/static/images/box-checked.svg);
         }
     }
 
