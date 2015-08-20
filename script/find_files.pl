@@ -39,14 +39,22 @@ my %process = (
 );
 
 sub normal_process {
-    my ($data, $files) = @_;
+    my ($data, $files, $share) = @_;
     my $repo = $data->{repo};
     my $zci = "zeroclickinfo-$repo";
 
+    warn "pm $data->{perl_module} path $share";
+
     #find share files
-    my @matches = grep{ $_ =~ /share\/$repo\/(?:.+\/)?$data->{id}/ } @{$files->{$zci}};
-    #find test files
-    push(@matches, grep { $_ =~ /t\/$data->{name}\./} @{$files->{$zci}} );
+    my @matches;
+    push(@matches, File::Find::Rule->file->in("/usr/local/ddh/$zci/$share/")) if $share;
+    
+    push(@matches, File::Find::Rule
+        ->name('*.t')
+        ->grep( qr/$data->{perl_module}/)
+        ->in("/usr/local/ddh/$zci/t/")
+    );
+    
     #find lib files
     $repo = ucfirst $repo;
     push(@matches, grep { $_ =~ /lib\/DDG\/$repo\/$data->{name}\./} @{$files->{$zci}} );
@@ -59,7 +67,7 @@ sub normal_process {
 }
 
 sub goodies_process {
-    my ($data, $files) = @_;
+    my ($data, $files, $share) = @_;
     my $repo = 'goodie';
     my $zci = "zeroclickinfo-goodies";
 
@@ -85,22 +93,53 @@ sub goodies_process {
 
     $result->{$data->{id}} = \@matches;
 
-    warn Dumper $result;
+#    warn Dumper $result;
 }
 
 
 my $files;
+my $module_to_share;
 foreach my $repo (@repos){
+    # file all files in the repo
     my @repo_files = $rule->relative->in("/usr/local/ddh/$repo");
+
+    my @repo_share_dirs = File::Find::Rule->relative->directory->in("/usr/local/ddh/$repo/share");
+
+    # map perl module to share dir to reliably look up share files later
+    foreach my $dir (@repo_share_dirs){
+        my @parts = split '/', $dir;
+        next if scalar @parts == 1;
+
+        map{ 
+            s/_([a-z0-9])/\u$1/g;
+            s/^([a-z0-9])/\u$1/;
+        }@parts;
+
+        my $pm = join('::', @parts);
+        $pm = "DDG::$pm";
+
+        # we have a potential module from share dir path but the actual
+        # module names are not well standardized. case insensitive match 
+        # on our metadata should find the right one.
+        foreach my $id (keys $meta){
+            my $module = $meta->{$id}->{perl_module};
+            if($module =~ /$pm/i){
+                $pm = $module;
+            }
+        }
+        $module_to_share->{$pm} = "share/$dir";
+    }
     $files->{$repo} = \@repo_files;
 }
 
-
+warn Dumper \$module_to_share;
 
 while(my($id, $data) = each $meta){
     next unless $data->{dev_milestone} =~ /live/i;
     my $repo = $data->{repo};
-    $process{$repo}->($data, $files);
+    my $pm = $data->{perl_module};
+
+    $process{$repo}->($data, $files, $module_to_share->{$pm});
 }
 
 
