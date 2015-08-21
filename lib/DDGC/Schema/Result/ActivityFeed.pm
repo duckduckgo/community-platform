@@ -3,6 +3,8 @@ package DDGC::Schema::Result::ActivityFeed;
 
 use Moo;
 extends 'DDGC::Schema::Result';
+with 'DDGC::Schema::Role::Result::ActivityFeed::AdvancedDescription';
+
 use DBIx::Class::Candy;
 use DDGC::Util::Markup;
 

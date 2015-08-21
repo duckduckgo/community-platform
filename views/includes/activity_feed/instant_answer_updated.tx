@@ -1,0 +1,7 @@
+<p>
+    : $activity.render_description | raw
+</p>
+<p>
+    Updated fields :
+    : $updates
+</p>
