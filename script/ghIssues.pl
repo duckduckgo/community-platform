@@ -117,6 +117,8 @@ sub getIssues{
                     $tmp_repo =~ s/s$//g;
 
                     if(my ($name) = $file->{filename} =~ /lib\/DDG\/$tmp_repo\/(.+)\.pm/i ){
+                        my @parts = split('/', $name);
+                        $name = join('::', @parts);
                         $pm = "DDG::".$tmp_repo."::$name";
                         last;
                     }
