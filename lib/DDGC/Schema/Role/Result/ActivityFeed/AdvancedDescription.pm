@@ -27,7 +27,6 @@ sub describe {
 sub describe_instant_answer_updated {
     my ( $self ) = @_;
     my $updates = { map { split ',', $_ } ( $self->meta3 =~ /:(.*?):/g ) };
-    use DDP; p $updates;
 
     $self->xslate->render(
         'includes/activity_feed/instant_answer_updated.tx', {
