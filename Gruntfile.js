@@ -220,7 +220,7 @@ module.exports = function(grunt) {
         exec: {
             revert: "./script/revert_pkg_version.pl",
             revert_release: "./script/revert_pkg_version.pl release",
-            deleteBuildFiles: "rm -r build",
+            deleteBuildFiles: "mkdir -p build && rm -r build",
             bower: "bower install"
         },
 
