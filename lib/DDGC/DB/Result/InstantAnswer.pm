@@ -415,7 +415,7 @@ around update => sub {
 
     my $ret = $self->$next( @extra );
     return $ret if (!$ret);
-    return $ret if ( $ENV{DDGC_RUNNING_GHISSUES} );
+    return $ret if $ENV{DDGC_IA_AUTOUPDATES};
 
     my $meta3 = _updates_to_meta( $extra[0] );
 
