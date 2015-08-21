@@ -69,7 +69,7 @@ sub email {
     $self->smtp->send( {
         to       => $user->email,
         verified => $user->email_verified,
-        from     => 'ddgc@duckduckgo.com',
+        from     => '"DuckDuckGo Community" <ddgc@duckduckgo.com>',
         subject  => $subject,
         template => 'email/activity.tx',
         content  => {

@@ -10,6 +10,7 @@ extends qw(
   DBIx::Class::Helper::ResultSet::Shortcut
   DBIx::Class::Helper::ResultSet::CorrelateRelationship
   DBIx::Class::Helper::ResultSet::SetOperations
+  DBIx::Class::Helper::ResultSet::OneRow
 );
 
 sub ddgc { shift->result_source->schema->ddgc }

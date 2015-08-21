@@ -4,6 +4,7 @@ package DDGC::DB::Result::User;
 use Moose;
 use MooseX::NonMoose;
 extends 'DDGC::DB::Base::Result';
+with 'DDGC::Schema::Role::Result::User::Subscription';
 use DBIx::Class::Candy;
 use DDGC::User::Page;
 use Path::Class;
@@ -19,6 +20,18 @@ use DateTime;
 use DateTime::Duration;
 
 table 'users';
+
+# Override subscription_types from Role::Result::User::Subscription
+#  - our reference to config is elsewhere
+has '+subscription_types' => (
+    is => 'ro',
+    lazy => 1,
+    builder => '_build_subscriptions',
+);
+sub _build_subscriptions {
+    $_[0]->ddgc->config->subscriptions;
+}
+
 
 sub u_userpage {
 	my ( $self ) = @_;

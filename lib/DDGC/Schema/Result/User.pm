@@ -4,6 +4,8 @@ package DDGC::Schema::Result::User;
 
 use Moo;
 extends 'DDGC::Schema::Result';
+with 'DDGC::Schema::Role::Result::User::Subscription';
+
 use DBIx::Class::Candy;
 use Scalar::Util qw/ looks_like_number /;
 use namespace::autoclean;
