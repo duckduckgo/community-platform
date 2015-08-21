@@ -29,7 +29,7 @@ sub unsubscribe_from_instant_answer {
     my ( $self, $ia_id ) = @_;
 
     return 0 if ( !$ia_id );
-    my $sub = $self->search(
+    my $sub = $self->subscriptions->search(
         $self->subscription_types->updated_ia_page({
             meta1 => $ia_id,
         })
