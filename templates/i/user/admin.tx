@@ -20,10 +20,10 @@
   <div class="body">
     <: if !$_.admin { :>
       <div class="row">
-        <: for d().all_roles.keys() -> $role { :>
+        <: for $roles.keys() -> $role { :>
           <a href="<: $u('Admin::User','user',$_.lc_username,{
-            $role, $_.is($role) ? 0 : 1,
-          action_token => $action_token }) :>" class="button <: if $_.is($role) { :>blue<: } else { :>grey<: } :>"><: d().all_roles($role) :></a>
+            $roles[$role].role, $_.is($roles[$role].role) ? 0 : 1,
+          action_token => $action_token }) :>" class="button <: if $_.is($roles[$role].role) { :>blue<: } else { :>grey<: } :>"><: $roles[$role].name :></a>
         <: } :>
       </div>
       <div class="row">

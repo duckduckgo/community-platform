@@ -13,14 +13,21 @@ sub current_user {
     return $self->app->var('user');
 }
 
+sub format_datetime {
+    my $self = shift;
+    $self->result_source->schema->storage->datetime_parser->format_datetime(@_);
+}
+
+sub all_ref {
+  [ $_[0]->all ];
+}
+
+sub having { shift->search_rs( undef, { having => shift } ) }
+
 __PACKAGE__->load_components(qw/
     Helper::ResultSet::Me
-    Helper::ResultSet::Shortcut::HRI
-    Helper::ResultSet::Shortcut::Prefetch
-    Helper::ResultSet::Shortcut::GroupBy
-    Helper::ResultSet::Shortcut::OrderBy
-    Helper::ResultSet::Shortcut::Page
-    Helper::ResultSet::Shortcut::Rows
+    Helper::ResultSet::Shortcut
+    Helper::ResultSet::OneRow
 /);
 
 1;

@@ -7,12 +7,10 @@ use namespace::autoclean;
 extends qw(
   DBIx::Class::ResultSet
   DBIx::Class::Helper::ResultSet::Me
-  DBIx::Class::Helper::ResultSet::Shortcut::GroupBy
-  DBIx::Class::Helper::ResultSet::Shortcut::Limit
-  DBIx::Class::Helper::ResultSet::Shortcut::OrderBy
-  DBIx::Class::Helper::ResultSet::Shortcut::Prefetch
+  DBIx::Class::Helper::ResultSet::Shortcut
   DBIx::Class::Helper::ResultSet::CorrelateRelationship
   DBIx::Class::Helper::ResultSet::SetOperations
+  DBIx::Class::Helper::ResultSet::OneRow
 );
 
 sub ddgc { shift->result_source->schema->ddgc }
@@ -46,6 +44,11 @@ sub prefetch_context_config {
 
 sub all_ref {
   [ $_[0]->all ];
+}
+
+sub join_for_activity_meta {
+  my ( $self, $column ) = @_;
+  join( '', map { sprintf ':%s:', $_ } $self->columns( [$column] )->all );
 }
 
 1;

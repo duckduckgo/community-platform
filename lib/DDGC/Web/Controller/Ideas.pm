@@ -205,7 +205,7 @@ sub idea : Chained('idea_id') PathPart('') Args(1) {
 		}
 		$c->stash->{idea}->update;
 		if ( lc($c->stash->{idea_statuses}->[ $c->req->params->{status} ]->[1])
-		     eq 'not an Instant Answer idea') {
+		     eq 'not an instant answer idea') {
 			my $thread = $c->stash->{idea}->migrate_to_ramblings;
 			if ($thread) {
 				$c->response->redirect($c->chained_uri('Forum','thread',$thread->id,$thread->key));
@@ -271,6 +271,7 @@ sub claim : Chained('idea_id') Args(0) {
 
         $c->stash->{idea}->instant_answer($ia);
         $c->stash->{idea}->update;
+        $c->user->subscribe_to_instant_answer( $ia->id );
 	}
 
 	$c->response->redirect( $c->chained_uri(@{ $c->stash->{idea}->u }) );

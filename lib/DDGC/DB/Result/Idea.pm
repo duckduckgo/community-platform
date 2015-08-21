@@ -221,6 +221,13 @@ sub toggle_claim {
 		return 1;
 	}
 	elsif ( $self->claimed_by == $user->id || $user->is('forum_manager') ) {
+		my $claimant = ( $self->claimed_by == $user->id )
+		    ? $user
+		    : $self->schema->resultset('User')->find( $self->claimed_by );
+		my $ia = $self->instant_answer;
+		if ( $claimant && $ia ) {
+			$claimant->unsubscribe_from_instant_answer( $ia->id );
+		}
 		$self->update( {
 			claimed_by => undef,
 		} );
@@ -281,4 +288,4 @@ sub migrate_to_ramblings {
 }
 
 no Moose;
-__PACKAGE__->meta->make_immutable;
+__PACKAGE__->meta->make_immutable ( inline_constructor => 0 );

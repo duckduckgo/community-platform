@@ -396,6 +396,57 @@ many_to_many 'users', 'instant_answer_users', 'user';
 has_many 'instant_answer_topics', 'DDGC::DB::Result::InstantAnswer::Topics', 'instant_answer_id';
 many_to_many 'topics', 'instant_answer_topics', 'topic';
 
+after insert => sub {
+    my ( $self ) = @_;
+    my $schema = $self->result_source->schema;
+    $schema->resultset('ActivityFeed')->created_ia( {
+        meta1        => $self->id,
+        meta2        => join('', map { sprintf ':%s:', $_ }
+            $self->topics->columns([qw/ name /])->all),
+        description  => sprintf('Instant Answer Page [%s](%s) created!',
+            $self->name, sprintf('https://duck.co/ia/view/%s',
+                $self->id)),
+    } );
+};
+
+around update => sub {
+    my ( $next, $self, @extra ) = @_;
+    my $update = $extra[0];
+
+    my $ret = $self->$next( @extra );
+    return $ret if (!$ret);
+    return $ret if ( $ENV{DDGC_RUNNING_GHISSUES} );
+
+    my $meta3 = _updates_to_meta( $extra[0] );
+
+    if ($meta3) {
+        my $schema = $self->result_source->schema;
+        $schema->resultset('ActivityFeed')->updated_ia( {
+            meta1        => $self->id,
+            meta2        => $self->topics->join_for_activity_meta( 'name' ),
+            meta3        => $meta3,
+            description  => sprintf('Instant Answer Page [%s](%s) updated!',
+                $self->meta_id, sprintf('https://duck.co/ia/view/%s',
+                    $self->id)),
+        } );
+    }
+
+    return $ret;
+};
+
+sub _updates_to_meta {
+    my ( $updates ) = @_;
+    my $meta;
+    while ( my ($column, $value) = each $updates ) {
+        # Add updates we are not interested in to this array
+        next if grep { $column eq $_ }
+            (qw/ created_date /);
+        $meta .= sprintf ':%s:',
+            join ',', ( $column, $value );
+    }
+    return $meta;
+}
+
 # returns a hash ref of all IA data.  Same idea as hashRefInflator
 # but this takes care of deserialization for you.
 sub TO_JSON {
@@ -426,5 +477,5 @@ sub TO_JSON {
 }
 
 no Moose;
-__PACKAGE__->meta->make_immutable;
+__PACKAGE__->meta->make_immutable ( inline_constructor => 0 );
 

@@ -25,5 +25,5 @@ primary_key (qw/instant_answer_id blockgroup/);
 belongs_to 'instant_answer', 'DDGC::DB::Result::InstantAnswer', 'instant_answer_id', {on_delete => 'cascade'};
 
 no Moose;
-__PACKAGE__->meta->make_immutable;
+__PACKAGE__->meta->make_immutable ( inline_constructor => 0 );
 
