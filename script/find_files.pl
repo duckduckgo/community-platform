@@ -41,10 +41,10 @@ sub process {
     my @matches;
 
     # find share files
-    if($share && $data->{perl_module} !~ /cheatsheet/i){
+    if($share && $data->{perl_module} !~ /cheatsheet/i && $repo !~ /longtail|fathead/){
         push(@matches, File::Find::Rule->file->in("/usr/local/ddh/$zci/$share/"));
     }
-    elsif($share){
+    elsif($share && $repo eq 'goodies'){
         # file cheat sheet json files
         push(@matches, File::Find::Rule
             ->name('*.json')
@@ -73,6 +73,7 @@ sub process {
 
     if($repo =~ /fathead|longtail/){
         push(@matches, File::Find::Rule
+            ->name('fetch*', 'parse*')
             ->file
             ->in("/usr/local/ddh/$zci/share/$repo/$data->{id}/")
         );
