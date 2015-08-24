@@ -9,7 +9,7 @@ use JSON;
 use Data::Dumper;
 use File::Find::Rule;
 use DDG::Meta::Data;
-
+use IO::All;
 
 my $rule = File::Find::Rule->new;
 my $meta = DDG::Meta::Data->by_id;
@@ -34,21 +34,31 @@ my @repos = (
     'zeroclickinfo-fathead',
 );
 
-my %process = (
-    spice => \&normal_process,
-    goodies => \&normal_process,
-    fathead => \&normal_process,
-    longtail => \&normal_process,
-);
-
-sub normal_process {
+sub process {
     my ($data, $files, $share) = @_;
     my $repo = $data->{repo};
     my $zci = "zeroclickinfo-$repo";
     my @matches;
-    
-    push(@matches, File::Find::Rule->file->in("/usr/local/ddh/$zci/$share/")) if $share;
- 
+
+    # find share files
+    if($share && $data->{perl_module} !~ /cheatsheet/i){
+        push(@matches, File::Find::Rule->file->in("/usr/local/ddh/$zci/$share/"));
+    }
+    elsif($share){
+        # file cheat sheet json files
+        push(@matches, File::Find::Rule
+            ->name('*.json')
+            ->grep( qr/$data->{id}/)
+            ->in("/usr/local/ddh/$zci/share/goodie/cheat_sheets")
+        );
+
+        # special case for cheat sheet controller
+        push(@matches, File::Find::Rule
+            ->file
+            ->maxdepth(1)
+            ->in("/usr/local/ddh/$zci/share/goodie/cheat_sheets/")
+        ) if $data->{id} eq "cheat_sheets";
+    }
     push(@matches, File::Find::Rule
         ->name('*.t')
         ->grep( qr/$data->{perl_module}/)
@@ -58,43 +68,33 @@ sub normal_process {
     #find lib files
     push(@matches, File::Find::Rule
             ->grep( qr/$data->{perl_module}/)
-            ->relative
             ->in("/usr/local/ddh/$zci/lib")
         );
 
-    # file cheat sheet json files
-    if($data->{perl_module} =~ /cheatsheet/i){
+    if($repo =~ /fathead|longtail/){
         push(@matches, File::Find::Rule
-            ->name('*.json')
-            ->grep( qr/$data->{id}/)
-            ->relative
-            ->in("/usr/local/ddh/$zci/")
+            ->file
+            ->in("/usr/local/ddh/$zci/share/$repo/$data->{id}/")
         );
     }
 
-    clean_matches(\@matches);
-    normalize_paths(\@matches);
+    @matches = clean_and_normalize(@matches);
+    $results->{$data->{id}} = to_json(\@matches);
+}
 
-    $results->{$data->{id}} = \@matches;
-
-    if($data->{perl_module} =~ /fathead|longtail/i){
-        return;
+sub clean_and_normalize {
+    my (@matches) = @_;
+    my $skip_qr = qr/\.(?:png|svg|flf)$/;
+    my @clean;
+    
+    foreach my $file (@matches){
+        next if $file =~ $skip_qr;
+        $file =~ s/\/usr\/local\/ddh\/zeroclickinfo-.+?\///;
+        push (@clean, $file);
     }
 
-    if(!@matches ||scalar @matches < 2 && $data->{perl_module} !~ /cheatsheet/i){
-        warn $data->{id}, $data->{perl_module}, $share;;
-        warn Dumper @matches if @matches;
-    }
+    return @clean;
 }
-
-sub clean_matches {
-    my ($matches) = @_;
-}
-
-sub normalize_paths {
-    my ($matches) = @_;
-}
-
 
 my $files;
 my $module_to_share;
@@ -132,7 +132,16 @@ while(my($id, $data) = each $meta){
     next unless $data->{dev_milestone} =~ /live/i;
     my $repo = $data->{repo};
     my $pm = $data->{perl_module};
-    $process{$repo}->($data, $files, $module_to_share->{$pm});
+    process($data, $files, $module_to_share->{$pm});
 }
 
-warn Dumper \$results;
+# write sql 
+my $sql = "BEGIN;\n";
+while(my($id, $files) = each $results){
+    $sql = $sql . qq(update instant_answer set code = '$files' where meta_id = '$id';\n);
+}
+
+$sql = $sql . "COMMIT;";
+
+$sql > io("files.sql");
+
