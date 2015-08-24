@@ -426,7 +426,7 @@ around update => sub {
             meta2        => $self->topics->join_for_activity_meta( 'name' ),
             meta3        => $meta3,
             description  => sprintf('Instant Answer Page [%s](%s) updated!',
-                $self->meta_id, sprintf('https://duck.co/ia/view/%s',
+                $self->name, sprintf('https://duck.co/ia/view/%s',
                     $self->id)),
         } );
     }
