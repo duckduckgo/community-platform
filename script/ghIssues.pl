@@ -14,7 +14,7 @@ use Time::Local;
 my $d = DDGC->new;
 
 BEGIN {
-    $ENV{DDGC_RUNNING_GHISSUES} = 1;
+    $ENV{DDGC_IA_AUTOUPDATES} = 1;
 }
 
 # JSON response from GH API

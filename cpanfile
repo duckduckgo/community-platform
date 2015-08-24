@@ -37,7 +37,7 @@ requires 'DateTime::Format::RSS', '0.03000';
 requires 'DateTime::Format::Strptime', '1.5000';
 requires 'DBD::Pg', '0';
 requires 'DBICx::Indexing', '0.002';
-requires 'DBIx::Class', '0.08250';
+requires 'DBIx::Class', '0.082820';
 requires 'DBIx::Class::AlwaysUpdate', '0.001';
 requires 'DBIx::Class::Candy', '0.002104';
 requires 'DBIx::Class::Cursor::Cached', '1.001002';
