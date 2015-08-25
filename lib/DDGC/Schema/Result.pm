@@ -7,7 +7,7 @@ use Moo;
 extends 'DBIx::Class::Core';
 
 sub schema { $_[0]->result_source->schema; }
-sub app { $_[0]->schema->app };
+sub app { $_[0]->schema->app }
 sub ddgc_config { $_[0]->schema->ddgc_config }
 
 sub current_user {
