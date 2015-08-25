@@ -4,14 +4,15 @@ package DDGC::DB::Base::ResultSet;
 use Moose;
 use namespace::autoclean;
 
-extends qw(
-  DBIx::Class::ResultSet
-  DBIx::Class::Helper::ResultSet::Me
-  DBIx::Class::Helper::ResultSet::Shortcut
-  DBIx::Class::Helper::ResultSet::CorrelateRelationship
-  DBIx::Class::Helper::ResultSet::SetOperations
-  DBIx::Class::Helper::ResultSet::OneRow
-);
+extends 'DBIx::Class::ResultSet';
+
+__PACKAGE__->load_components(qw/
+    Helper::ResultSet::Me
+    Helper::ResultSet::Shortcut
+    Helper::ResultSet::CorrelateRelationship
+    Helper::ResultSet::SetOperations
+    Helper::ResultSet::OneRow
+/);
 
 sub ddgc { shift->result_source->schema->ddgc }
 sub schema { shift->result_source->schema }
