@@ -22,18 +22,6 @@ use DateTime::Duration;
 
 table 'users';
 
-# Override subscription_types from Role::Result::User::Subscription
-#  - our reference to config is elsewhere
-has '+subscription_types' => (
-    is => 'ro',
-    lazy => 1,
-    builder => '_build_subscriptions',
-);
-sub _build_subscriptions {
-    $_[0]->ddgc->config->subscriptions;
-}
-
-
 sub u_userpage {
 	my ( $self ) = @_;
 	return ['Root','default'] unless $self->public_username;

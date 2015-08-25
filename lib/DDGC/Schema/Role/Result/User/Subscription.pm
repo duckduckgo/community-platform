@@ -11,7 +11,7 @@ has subscription_types => (
     builder => '_build_subscriptions',
 );
 sub _build_subscriptions {
-    $_[0]->app->config->{ddgc_config}->subscriptions;
+    $_[0]->ddgc_config->subscriptions;
 }
 
 sub subscribe_to_instant_answer {
