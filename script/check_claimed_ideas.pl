@@ -3,12 +3,7 @@
 # if not then make one
 use FindBin;
 use lib $FindBin::Dir . "/../lib";
-use JSON;
 use DDGC;
-use HTTP::Tiny;
-use Data::Dumper;
-use Try::Tiny;
-use Net::GitHub;
 use Time::Local;
 my $d = DDGC->new;
 
@@ -48,5 +43,7 @@ MAIN: {
 
         $ia = $d->rs('InstantAnswer')->update_or_create({%ia_page});
         $idea->update({instant_answer_id => $ia_page{id}});
+
+        print "Created IA page: $ia_page{id}\n";
     }
 }
