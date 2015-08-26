@@ -14,7 +14,7 @@ BEGIN {
 MAIN: {
     my $claimed_without_page = $d->rs('Idea')
         ->search({
-            claimed_by          => !undef,
+            claimed_by          => {'!=' => undef},
             instant_answer_id   => undef,
         });
 
