@@ -43,6 +43,7 @@ MAIN: {
 
         $ia = $d->rs('InstantAnswer')->update_or_create({%ia_page});
         $idea->update({instant_answer_id => $ia_page{id}});
+        $idea->user->subscribe_to_instant_answer( $ia->id );
 
         print "Created IA page: $ia_page{id}\n";
     }
