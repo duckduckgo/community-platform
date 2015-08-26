@@ -1,25 +1,5 @@
 .ia-single {
 
-    .ia-single--testing, .ia-single--details {
-        input[type=checkbox].frm__label__chk {
-            display: none;
-        }
-
-        input[type=checkbox].frm__label__chk + .frm__label__txt {
-            background: url(/static/images/box-unchecked.svg) left center no-repeat;
-            background-size: 16px 16px;
-            display: inline-block;
-            line-height: 1.4;
-            padding: 0 0 0 24px;
-            top: 5px;
-            position: relative;
-        }
-
-        input[type=checkbox].frm__label__chk:checked + .frm__label__txt {
-            background-image: url(/static/images/box-checked.svg);
-        }
-    }
-
     #add_developer {
         overflow: auto;
         .btn {
