@@ -19,7 +19,7 @@ MAIN: {
         });
 
     my @time = localtime(time);
-    my $date = "$time[4]/$time[3]/".($time[5]+1900);
+    my $date = $d->db->format_datetime( DateTime->now );
 
     while (my $idea = $claimed_without_page->next){
 
@@ -44,6 +44,7 @@ MAIN: {
         $ia = $d->rs('InstantAnswer')->update_or_create({%ia_page});
         $idea->update({instant_answer_id => $ia_page{id}});
         $idea->user->subscribe_to_instant_answer( $ia->id );
+        $ia->add_to_users($idea->user);
 
         print "Created IA page: $ia_page{id}\n";
     }
