@@ -1,44 +1,41 @@
 {{#with live}}
-  <div class="ia-single--screenshots twothirds">
-    <div class="ia-single--screenshots__screen">
-        <div class="window-buttons-container">
-          <span class="circle"></span>
-          <span class="circle"></span>
-          <span class="circle"></span>
-        </div>
-        <div class="ia-single--screenshots-top"></div>
-        <div class="ia-single--red-bar"></div>
-        <div class="ia-single--image-container">
-          <img src="https://images.duckduckgo.com/iu/?u={{encodeURIComponent 'https://ia-screenshots.s3.amazonaws.com/'}}{{id}}_index.png&f=1" />
-          {{#eq_or dev_milestone 'live' 'deprecated'}}
-            <div class="ia-single--serp">
-                <div class="ia-single--serp-item">
-                  <div class="serp-item"></div>
-                  <div class="serp-item"></div>
-                  <div class="serp-item"></div>
-                  <div class="serp-item"></div>
-                  <div class="serp-item"></div>
-                </div>
-                
-                <div class="ia-single--serp-item">
-                  <div class="serp-item"></div>
-                  <div class="serp-item"></div>
-                  <div class="serp-item"></div>
-                  <div class="serp-item"></div>
-                  <div class="serp-item"></div>
-                </div>
-            </div>
-          {{/eq_or}}
-       </div>
+{{#ne_and dev_milestone 'planning' 'development'}}
+{{#if example_query}}
+<div class="screens--wide">
+  <div class="ia-single--screenshots">
+    <div class="screenshot--status hide">
+        <div class="default-message hide"></div>
+        <div class="revert hide"><a href="#">Restore previous screenshot</a></div>
+        <img class="loader" style="display: none;" src="/static/img/ia/loader_f2f2f2.gif">
     </div>
 
-      {{#if ../permissions.can_edit}}
-      <div class="generate-screenshot">
-        <span class="generate-screenshot--button btn--critical btn ia-single--topic generate-screenshot--disabled">Generate Screenshot</span>
-        <span class="save-screenshot--button btn btn--primary ia-single--topic hide">Save</span>
-      </div>
-      <div class="generate-screenshot--notif"></div>
-      {{/if}}
+    <!-- Mobile image -->
+    <div class="mobile-faux__container hide">
+        <div class="mobile-faux__edge">
+            <div class="mobile-faux__padding">
+                <img class="screenshot-mobile" src="" style="display: inline-block;">
+            </div>
+        </div>
     </div>
+
+    <!-- Desktop image -->
+    <img class="screenshot-desktop hide" src="" style="display: block;">
   </div>
+
+  {{#ne_and dev_milestone 'live' 'deprecated'}}
+    {{#if ../../can_show}}
+        <span class="generate-screenshot pull-right btn btn--primary">
+          <i class="icon-refresh"></i>
+        </span>
+    {{/if}}
+  {{else}}
+      {{#if ../../../../permissions.can_edit}}
+        <span class="generate-screenshot pull-right btn btn--primary">
+          <i class="icon-refresh"></i>
+        </span>
+      {{/if}}
+  {{/ne_and}}
+</div>
+{{/if}}
+{{/ne_and}}
 {{/with}}

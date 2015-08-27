@@ -1,6 +1,9 @@
 package DDGC::Web::Controller::Ideas;
 # ABSTRACT: Idea controller
 
+use Scalar::Util qw/ looks_like_number /;
+use Time::Local;
+
 use Moose;
 BEGIN { extends 'Catalyst::Controller'; }
 
@@ -25,13 +28,13 @@ sub base :Chained('/base') :PathPart('ideas') :CaptureArgs(0) {
 
 sub add_latest_ideas {
 	my ( $self, $c ) = @_;
-	$c->stash->{latest_ideas} = $c->d->rs('Idea')->ghostbusted->search_rs({
+	$c->stash->{latest_ideas} = [ $c->d->rs('Idea')->ghostbusted->search_rs({
 			migrated_to_thread => undef,
 		},{
 		order_by => { -desc => 'me.created' },
 		rows => 5,
 		page => 1,
-	});
+	})->all ];
 }
 
 sub add_ideas_table {
@@ -118,8 +121,19 @@ sub type :Chained('base') :Args(1) {
 	$c->add_bc('Filtered');
 }
 
+sub status_name_to_id {
+	my ( $self, $c, $status ) = @_;
+	my $idea = $c->d->rs('Idea')->first;
+	my $statuses = $idea->statuses;
+	$status =~ s/-/ /g;
+	return ( grep { index( lc($statuses->{$_}), lc($status) ) == 0 } keys $statuses )[0];
+}
+
 sub status :Chained('base') :Args(1) {
 	my ( $self, $c, $status ) = @_;
+	if ( !looks_like_number( $status ) ) {
+		$status = $self->status_name_to_id( $c, $status );
+	}
 	$c->stash->{ideas_rs} = $c->stash->{ideas_rs}->search_rs({
 		status => $status,
 	});
@@ -128,9 +142,32 @@ sub status :Chained('base') :Args(1) {
 	$c->add_bc('Filtered');
 }
 
+sub unclaimed :Chained('base') :Args(0) {
+	my ( $self, $c ) = @_;
+	$c->stash->{ideas_rs} = $c->stash->{ideas_rs}->search_rs({
+		claimed_by  => undef,
+		status => { -in => [qw/ 3 10 12 /] },
+	});
+	$self->add_ideas_table($c,'unclaimed');
+	$self->add_latest_ideas($c);
+	$c->add_bc('Unclaimed');
+}
+
+sub claimed :Chained('base') :Args(0) {
+	my ( $self, $c ) = @_;
+	$c->stash->{ideas_rs} = $c->stash->{ideas_rs}->search_rs({
+		claimed_by => { '!=' => undef },
+		instant_answer_id => undef,
+	});
+	$self->add_ideas_table($c,'claimed');
+	$self->add_latest_ideas($c);
+	$c->add_bc('Claimed');
+}
+
 sub idea_id : Chained('base') PathPart('idea') CaptureArgs(1) {
 	my ( $self, $c, $id ) = @_;
-	$c->stash->{idea} = $c->d->rs('Idea')->find($id);
+	
+    $c->stash->{idea} = $c->d->rs('Idea')->find($id);
 
 	unless ($c->stash->{idea}) {
 		$c->response->redirect($c->chained_uri('Ideas','index',{ idea_notfound => 1 }));
@@ -162,6 +199,10 @@ sub idea : Chained('idea_id') PathPart('') Args(1) {
 	$c->bc_index;
 	if ($c->user && $c->user->is('idea_manager') && $c->req->params->{change_status}) {
 		$c->stash->{idea}->status($c->req->params->{status});
+		if ( lc($c->stash->{idea_statuses}->[ $c->req->params->{status} ]->[1])
+		     eq 'needs a developer') {
+			$c->stash->{idea}->claimed_by(undef);
+		}
 		$c->stash->{idea}->update;
 		if ( lc($c->stash->{idea_statuses}->[ $c->req->params->{status} ]->[1])
 		     eq 'not an instant answer idea') {
@@ -184,6 +225,56 @@ sub idea : Chained('idea_id') PathPart('') Args(1) {
 		return $c->detach;
 	}
 	$c->stash->{title} = $c->stash->{idea}->title;
+}
+
+sub claim : Chained('idea_id') Args(0) {
+	my ( $self, $c ) = @_;
+	$c->require_action_token;
+	return $c->detach if (!$c->user);
+
+	if ( $c->stash->{idea}->toggle_claim( $c->user ) == 1 ) {
+		$c->d->postman->template_mail(
+			1,
+			'ddgc-ia@duckduckgo.com',
+			'"Community Platform" <noreply@duck.co>',
+			sprintf( '[Instant Answer] IA Idea claimed by %s',
+				( $c->user->public )
+					? $c->user->username
+					: sprintf('private user %s', $c->user->username) ),
+			'iaclaim',
+			{ user => $c->user, idea => $c->stash->{idea} },
+			Cc => $c->d->config->ia_email,
+	);
+
+        my @time = localtime(time);
+        my $date = "$time[4]/$time[3]/".($time[5]+1900);
+
+        my $ia = $c->d->rs('InstantAnswer')->find($c->stash->{idea}->id, {result_class => 'DBIx::Class::ResultClass::HashRefInflator'});
+
+        # If the idea was claimed, then unclaimed and then claimed by a different user, the page
+        # will already exist, so we make sure we don't overwrite any values in that case
+        my %ia_data = (
+            id => $ia->{id} || $c->stash->{idea}->id,
+            meta_id => $ia->{meta_id} || $c->stash->{idea}->id,
+            dev_milestone => $ia->{dev_milestone} || 'planning',
+            name => $ia->{name} || ucfirst $c->stash->{idea}->title,
+            description => $ia->{description} || ucfirst $c->stash->{idea}->content,
+            created_date => $ia->{created_date} || $date,
+            forum_link => $ia->{forum_link} || $c->stash->{idea}->id,
+        );
+
+        $ia = $c->d->rs('InstantAnswer')->update_or_create({%ia_data});
+
+        if (!$ia->users || !$ia->users->find({username => $c->user->username})) {
+            $ia->add_to_users($c->user);
+        }
+
+        $c->stash->{idea}->instant_answer($ia);
+        $c->stash->{idea}->update;
+        $c->user->subscribe_to_instant_answer( $ia->id );
+	}
+
+	$c->response->redirect( $c->chained_uri(@{ $c->stash->{idea}->u }) );
 }
 
 sub delete : Chained('idea_id') Args(0) {

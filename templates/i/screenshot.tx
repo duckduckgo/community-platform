@@ -25,7 +25,7 @@
             init: function() {
 
                 <: if $screenshots { :>
-                    <: for results($screenshots) -> $screenshot { :>
+                    <: for $screenshots -> $screenshot { :>
                         var mockFile<: $screenshot.id :> = {
                             name: "<: $screenshot.upload_filename :>",
                             screenshot_id: <: $screenshot.id :>,

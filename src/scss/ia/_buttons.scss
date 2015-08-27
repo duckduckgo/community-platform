@@ -1,6 +1,6 @@
 /*
 	Buttons
-	(Most of the basics are handled by litestrap - this is for custom stuff)	
+	(Most of the basics are handled by litestrap - this is for custom stuff)
 */
 %btn,
 %btn--base {
@@ -29,7 +29,7 @@
 
 .btn, .button {
 	@extend %btn;
-	
+
 	&.is-disabled {
 		border-color: $button-border-alt;
 		background-color: $button-border-alt;
@@ -42,15 +42,15 @@
 		font-weight: 300;
 	}
 }
-	
+
 	// bright button
 	%btn--primary {
 		background-color: $contrast-blue;
 		border-color: $blue;
 		color: $white;
-		
+
 		font-weight: 600;
-		
+
 		&:hover, &:focus {
 			color: $white;
 			background-color: $blue;
@@ -65,14 +65,14 @@
 	.btn--primary {
 		@extend %btn--primary;
 	}
-	
+
 	.btn--primary--alt {
 		background-color: $blue;
 		border-color: $blue-dark;
 		color: $white;
-		
+
 		font-weight: 600;
-		
+
 		&:hover, &:focus {
 			color: $white;
 			background-color: $blue-dark;
@@ -83,14 +83,14 @@
 			border-color: $blue-darker;
 		}
 	}
-	
+
 	.btn--critical {
 		background-color: $red-light;
 		border-color: $red;
 		color: $white;
-		
+
 		font-weight: 600;
-		
+
 		&:hover, &:focus {
 			color: $white;
 			background-color: $red;
@@ -101,15 +101,15 @@
 			border-color: $red-dark;
 		}
 	}
-	
+
 	// gray button, blue hover
 	.btn--secondary {
 		border-color: $button-border;
 		background-color: $silver;
 		color: $slate-light;
-		
+
 		font-weight: 600;
-		
+
 		&:hover, &:focus {
 			background-color: $contrast-blue;
 			border-color: $blue;
@@ -120,13 +120,13 @@
 			color: $white;
 		}
 	}
-	
+
 	// alternative shade, mostly default look
 	.btn--alt {
 		border-color: $button-border-alt;
 		background-color: $button-bg-alt;
 		color: $button-color-alt;
-		
+
 		&:hover, &:focus {
 			color: $button-color-alt;
 			background-color: darken($button-bg-alt,5%);
@@ -136,7 +136,7 @@
 			border-color: $button-bg-alt;
 		}
 	}
-	
+
 	.btn--wire {
 		@include border-radius(2px);
 		background: none;
@@ -144,86 +144,93 @@
 		font-weight: normal;
 		border: 1px solid $button-border;
 		color: $grey-light;
-		
+
 		&:hover, &:focus {
 			border-color: $grey-light;
 			background-color: $grey-light;
 			color: $white;
 		}
 	}
-	
+
 	.btn--wire--hero {
 		@include border-radius(6px);
 		background: none;
 		background-color: transparent;
 		border: 2px solid $white;
 		color: $white;
-		
+
 		&:hover, &:focus {
 			border-color: $white;
 			background: none;
 			background-color: transparent;
 			color: $white;
 		}
+
+		&.is-disabled {
+			opacity: 0.5;
+			background-color: transparent;
+			color: $white;
+			cursor: default;
+		}
 	}
-	
+
 	.btn--wire--dark {
 		border-color: $dark;
 		color: $dark;
-		
+
 		&:hover {
 			border-color: $dark;
 			background-color: $dark;
 		}
 	}
-	
+
 	%btn--icon {
 		@extend %btn--base;
 		@include icon();
 		@include transition(background-color 0.1s, color 0.1s);
 		@include border-radius(2px);
 		-webkit-tap-highlight-color: rgba(0,0,0,0);
-		
+
 		padding: 0;
 		border: none;
 		background: none;
 		text-align: center;
 		text-shadow: none;
 		vertical-align: middle;
-		
+
 		position: relative;
-		
+
 		width: 33px;
 		height: 33px;
 		line-height: 34px;
 		text-indent: 1px;
-		
+
 		// all icons are aligned to a pixel grid,
 		// and most of those are on a 16px grid.
 		// this can be adjusted on a per-use basis.
 		font-size: 16px;
-		
+
 		// hover/active effects only for non-touch or js-disabled eevices
 		.no-touch &,
 		.no-js & {
 			&:hover,
-			&:focus { 
+			&:focus {
 				color: white;
 				background-color: $detail-control-hover-bg;
 			}
-			&:active { 
+			&:active {
 				@include single-transition(none);
 				color: white;
 				background-color: $detail-control-active-bg;
 			}
 		}
 	}
-	
+
 	.btn--icon,
 	.btn--top {
 		@extend %btn--icon;
 	}
-	
+
 	.btn__icon,
 	.btn__icon--sm {
 		margin-right: $quarter-unit/2;
@@ -243,7 +250,7 @@
 		position: relative;
 		top: -0.05em;
 	}
-	
+
 	.btn--inline {
 		display: inline;
 		line-height: inherit;
@@ -251,7 +258,7 @@
 		padding-right: 0.75em;
 		top: -1px;
 	}
-	
+
 .btn-stack {
 	margin-bottom: -$half-unit;
 	padding: 0;
@@ -260,4 +267,3 @@
 		margin-bottom: $half-unit;
 	}
 }
-

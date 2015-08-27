@@ -66,7 +66,7 @@
 		</div>
 		<: if $children_count { :>
 			<: if !$no_kids { :>
-				<: for results($_.children,'updated','asc') -> $child { :>
+				<: for $_.children.order_by({ '-asc' => 'me.updated' }).all_ref -> $child { :>
 					<: i($child,'view', {tier => $tier_level+1}) :>				
 				<: } :>
 			<: } :>

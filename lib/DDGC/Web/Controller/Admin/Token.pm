@@ -45,7 +45,7 @@ sub index :Chained('base') :PathPart('') :Args(0) {
 		}
 	}
 
-	$c->stash->{token_domains} = $c->d->rs('Token::Domain')->search({},{
+	$c->stash->{token_domains} = [ $c->d->rs('Token::Domain')->search({},{
 		'+columns' => {
 			token_count => $c->d->rs('Token')->search({
 				'token_domain_id' => { -ident => 'me.id' },
@@ -72,7 +72,7 @@ sub index :Chained('base') :PathPart('') :Args(0) {
 			})->count_rs->as_query,
 		},
 		order_by => { -asc => 'sorting' },
-	});
+	})->all ];
 
 }
 

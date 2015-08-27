@@ -1,6 +1,14 @@
 <: my $reply_count = $_.all_comments.count :>
 
-<div class="idea-header  idea-header--title"><div class="idea-title  media"><i class="idea-title__icon  icon-lightbulb"></i> <h1 class="idea-title__text"><: $_.title :></h1></div></div>
+<div class="idea-header  idea-header--title">
+	<div class="idea-title  media">
+		<i class="idea-title__icon  icon-lightbulb"></i>
+		<h1 class="idea-title__text">
+			<: $_.title :>
+			<: if $_.claimed_by { :>(Claimed<: if $_.user_claimed_by.public { :> by <: $_.user_claimed_by.username } :>!)<: } :>
+		</h1>
+	</div>
+</div>
 
 <div class="media  idea  idea--has-title  mg-bottom">
 	<div class="idea__votes  idea__votes--rev  text-mid">	
@@ -18,6 +26,7 @@
 		</span>
 		<div class="content">
 		<div class="p"><: r($_.html) :></div>
+        <: if $_.instant_answer { :><div class="p"><a href="/ia/view/<: $_.instant_answer.meta_id :>"> IA Page </a></div><: } :>
 		</div>
 		<: if $_.source { :>
 		<div class="idea__label">
@@ -44,8 +53,17 @@
 				<: if $c.user.is('idea_manager') || $c.user.id == $_.user.id { :>
 				<a href="<: $u('Ideas','edit',$_.id) :>" class="button"><i class="icon icon-edit"></i> Edit</a>
 				<: } :>
-			</span>
-		<: } :>
+				: if $c.user.claimed_ideas.count <= 5 && !$_.claimed_by && ( $_.status == 3 || $_.status == 10 || $_.status == 12 ) {
+					<a href="<: $u('Ideas','claim',$_.id, { action_token => $action_token } ) :>" class="button">
+						<i class="icon icon-thumbs-up-alt"></i> Develop this IA!
+					</a>
+				: } elsif $_.claimed_by && ( $_.claimed_by == $c.user.id || $c.user.is('forum_manager') ) {
+					<a href="<: $u('Ideas','claim',$_.id, { action_token => $action_token } ) :>" class="button">
+						<i class="icon icon-remove"></i> Unclaim this IA
+					</a>
+				: }
+				</span>
+			<: } :>
 		</div>
 		
 	</div>

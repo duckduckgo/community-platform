@@ -4,15 +4,15 @@ package DDGC::DB::Base::ResultSet;
 use Moose;
 use namespace::autoclean;
 
-extends qw(
-  DBIx::Class::ResultSet
-  DBIx::Class::Helper::ResultSet::Me
-  DBIx::Class::Helper::ResultSet::Shortcut::Limit
-  DBIx::Class::Helper::ResultSet::Shortcut::OrderBy
-  DBIx::Class::Helper::ResultSet::Shortcut::Prefetch
-  DBIx::Class::Helper::ResultSet::CorrelateRelationship
-  DBIx::Class::Helper::ResultSet::SetOperations
-);
+extends 'DBIx::Class::ResultSet';
+
+__PACKAGE__->load_components(qw/
+    Helper::ResultSet::Me
+    Helper::ResultSet::Shortcut
+    Helper::ResultSet::CorrelateRelationship
+    Helper::ResultSet::SetOperations
+    Helper::ResultSet::OneRow
+/);
 
 sub ddgc { shift->result_source->schema->ddgc }
 sub schema { shift->result_source->schema }
@@ -41,6 +41,15 @@ sub prefetch_context_config {
       ) : ()
   } keys %{$self->result_class->context_config};
   return \%prefetch;
+}
+
+sub all_ref {
+  [ $_[0]->all ];
+}
+
+sub join_for_activity_meta {
+  my ( $self, $column ) = @_;
+  join( '', map { sprintf ':%s:', $_ } $self->columns( [$column] )->all );
 }
 
 1;

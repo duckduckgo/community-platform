@@ -176,18 +176,18 @@ sub reports : Chained('base') Args(0) {
 
   unless ($c->req->param('json')) {
     if ($c->stash->{show_checked}) {
-      $c->stash->{reports} = $c->d->rs('User::Report')->search_rs({
+      $c->stash->{reports} = [ $c->d->rs('User::Report')->search_rs({
         'me.checked' => { '!=' => undef },
       },{
         order_by => { -desc => 'me.created' },
-      })->prefetch_all;
+      })->prefetch_all->all ];
     } else {
-      $c->stash->{reports} = $c->d->rs('User::Report')->search_rs({
+      $c->stash->{reports} = [ $c->d->rs('User::Report')->search_rs({
         'me.checked' => undef,
         'me.ignore' => $c->stash->{show_ignore},
       },{
         order_by => { -desc => 'me.created' },
-      })->prefetch_all;
+      })->prefetch_all->all ];
     }
   }
 }

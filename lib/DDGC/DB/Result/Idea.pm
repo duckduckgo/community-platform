@@ -17,6 +17,11 @@ column id => {
 };
 primary_key 'id';
 
+column claimed_by => {
+	data_type => 'bigint',
+	is_nullable => 1,
+};
+
 column users_id => {
 	data_type => 'bigint',
 	is_nullable => 0,
@@ -80,6 +85,7 @@ sub statuses {{
 	9 => "Not an Instant Answer idea",
 	10 => "Improvement",
 	11 => "Declined",
+	12 => "Quack and Hack!"
 }}
 
 sub status_name { $_[0]->statuses->{$_[0]->status} }
@@ -96,6 +102,7 @@ sub status_colors {{
 	9 => "#af5d9c",
 	10 => "#d83677",
 	11 => "#9e8b75",
+	12 => "#de5833",
 }}
 
 sub status_color { $_[0]->status_colors->{$_[0]->status} }
@@ -131,9 +138,18 @@ column migrated_to_thread => {
 	is_nullable => 1,
 };
 
+column instant_answer_id => {
+	data_type => 'text',
+	is_nullable => 1,
+};
+
 __PACKAGE__->add_antispam_functionality;
 
 belongs_to 'user', 'DDGC::DB::Result::User', 'users_id';
+
+belongs_to 'user_claimed_by', 'DDGC::DB::Result::User', 'claimed_by';
+
+belongs_to 'instant_answer', 'DDGC::DB::Result::InstantAnswer', 'instant_answer_id';
 
 has_many 'idea_votes', 'DDGC::DB::Result::Idea::Vote', 'idea_id', {
 	cascade_delete => 1,
@@ -196,6 +212,30 @@ sub set_user_vote {
 	}
 }
 
+sub toggle_claim {
+	my ( $self, $user ) = @_;
+	if ( !$self->claimed_by ) {
+		$self->update( {
+			claimed_by => $user->id,
+		} );
+		return 1;
+	}
+	elsif ( $self->claimed_by == $user->id || $user->is('forum_manager') ) {
+		my $claimant = ( $self->claimed_by == $user->id )
+		    ? $user
+		    : $self->schema->resultset('User')->find( $self->claimed_by );
+		my $ia = $self->instant_answer;
+		if ( $claimant && $ia ) {
+			$claimant->unsubscribe_from_instant_answer( $ia->id );
+		}
+		$self->update( {
+			claimed_by => undef,
+		} );
+		return -1;
+	}
+	return 0;
+}
+
 sub get_url {
 	my $self = shift;
 	my $key = substr(lc($self->title),0,50);
@@ -248,4 +288,4 @@ sub migrate_to_ramblings {
 }
 
 no Moose;
-__PACKAGE__->meta->make_immutable;
+__PACKAGE__->meta->make_immutable ( inline_constructor => 0 );

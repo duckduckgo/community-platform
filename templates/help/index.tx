@@ -6,7 +6,7 @@
 </div>
 
 <div class="gw  mg-bottom--big">
-  <: for results($help_categories) -> $category { :>    
+  <: for $help_categories -> $category { :>
 	<div class="g half">	  
 		<a class="linkbox  linkbox--category" href="<: $u('Help','category',$category.key) :>">
 			<i class="linkbox__icon  icon-question-sign"></i>

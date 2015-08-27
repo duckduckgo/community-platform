@@ -11,7 +11,7 @@
 		<h2><: $token_domain_language.language.name_in_english :></h2>
 	</div>
 	<div class="body">
-		<: if !$token_languages.count && $only_untranslated { :>
+		<: if !$token_languages && $only_untranslated { :>
 			<div class="row nav">
 				<h1 class="text-left">No untranslated tokens left!</h1>
 				<div class="clear">&nbsp;</div>
@@ -24,7 +24,7 @@
 				<: include "translate/tokens/nav_paging.tx" :>
 				<: include "translate/tokens/nav.tx" :>
 			</div>
-			<: for results($token_languages) -> $token_language { :>
+			<: for $token_languages -> $token_language { :>
 				<: include "translate/tokens/token_language.tx" { token_language => $token_language } :>
 			<: } :>
 			<: if $user_can_speak { :>

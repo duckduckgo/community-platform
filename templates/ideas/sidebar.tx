@@ -24,7 +24,7 @@
 			<section class="menu-list tab-mid">
 				<h5>Newest Ideas:</h5>
 				<ul>
-					<: for results($latest_ideas) -> $idea { :>
+					<: for $latest_ideas -> $idea { :>
 						<li><a href="<: $u($idea.u) :>"><: $idea.title :></a></li>
 					<: } else { :>
 						Nothing here yet!
@@ -35,12 +35,15 @@
 		<section class="menu-list">
 			<h5>View by Status:</h5>
 			<ul>
+				<li><a href="<: $u('Ideas','status',12) :>">Quack and Hack!</a></li>
 				<li><a href="<: $u('Ideas','status',3) :>">Needs a Developer</a></li>
 				<li><a href="<: $u('Ideas','status',2) :>">Needs Source</a></li>
 				<li><a href="<: $u('Ideas','status',1) :>">Needs Definition</a></li>
 				<li><a href="<: $u('Ideas','status',5) :>">Under Review</a></li>
 				<li><a href="<: $u('Ideas','status',4) :>">In Development</a></li>
 				<li><a href="<: $u('Ideas','status',8) :>">Live</a></li>	
+				<li><a href="<: $u('Ideas','claimed') :>">Claimed</a></li>
+				<li><a href="<: $u('Ideas','unclaimed') :>">Unclaimed</a></li>
 			</ul>
 		</section>
 		<: include "forum/sidebar_latest.tx" :>

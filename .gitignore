@@ -9,9 +9,13 @@ local-lib
 *.index
 node_modules/*
 .sass-cache
-root/static/css/ddgc.css
 root/static/css/ia.css
 root/static/js/ddgc.js
 root/static/js/ia.js
 src/templates/handlebars_tmp
 build/*
+bower_components/*
+*.db
+cpanfile.snapshot
+local/
+.prove

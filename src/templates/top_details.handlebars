@@ -1,0 +1,166 @@
+<div class="pull-right">
+    {{#if permissions.can_edit}}
+        {{#eq_or dev_milestone 'live' 'deprecated'}}
+            <div class="special-permissions__edit js-edit-enable btn btn--wire--hero btn--inline" id="edit_activate">Edit</div>
+        {{/eq_or}}
+    {{/if}}
+</div>
+
+<div class="{{#eq_or dev_milestone 'live' 'deprecated'}}{{#if permissions.can_edit}}ninety{{/if}}{{/eq_or}}">
+    <span class="top__categories left {{#eq_or dev_milestone 'live' 'deprecated'}}{{#unless topic}}hide{{/unless}}{{/eq_or}}">
+        <!-- Don't add any separators when we're editing. -->
+        <span class="{{#if permissions.can_edit}}{{#eq_or dev_milestone 'live' 'deprecated'}}sep--after{{/eq_or}}{{else}}sep--after{{/if}}">
+            <span class="detail-title">Topics:</span>
+            {{#if permissions.can_edit}}
+                {{#ne_and dev_milestone 'live' 'deprecated'}}
+                    <div class="topic-container parent-group" id="topic-group">
+                      {{#if staged.top_fields.topic}}
+                        {{#with staged.top_fields}}
+                            {{#not_eq topic 'n---d'}}
+                              {{#loop_n 2 topic}}
+                                <div class="separator topic-separator btn-grp">
+                                  <span class="frm__select">
+                                    <select class="group-vals top-details topic js-autocommit topic-group">
+                                      <option value="0">{{this}}</option>
+                                    </select>
+                                  </span>
+                                  <span class="delete-tag"><i class="delete ddgsi ddgsi-close"></i></span>
+                                </div>
+                              {{/loop_n}}
+                            {{/not_eq}}
+                        {{/with}}
+                      {{else}}
+                          {{#loop_n 2 topic}}
+                            <div class="separator topic-separator btn-grp">
+                              <span class="frm__select">
+                                <select class="group-vals top-details topic js-autocommit topic-group">
+                                  <option value="0">{{this}}</option>
+                                </select>
+                              </span>
+                              <span class="delete-tag"><i class="delete ddgsi ddgsi-close"></i></span>
+                            </div>
+                          {{/loop_n}}
+                      {{/if}}
+
+                      <div class="btn {{#gt topic 1}}hide{{/gt}}" id="add_topic">
+                        <i class="ddgsi-plus" />
+                      </div>
+
+                      <span class="hide" id="topic-cancel">
+                        <a href="#">Cancel</a>
+                      </span>
+
+                      <div class="hide separator topic-separator new_empty_topic">
+                        <div class="topic-remove hide" name="topic" title="Remove this topic">
+                          <i class="ddgsi ddgsi-close-bold">X</i>
+                        </div>
+                        <span class="frm__select">
+                         <select class="group-vals topic top-details js-autocommit topic-group">
+                          <option value="" disabled selected>Select a Topic</option>
+                         </select>
+                        </span>
+                        <span class="delete-tag"><i class="delete ddgsi ddgsi-close"></i></span>
+                      </div>
+                    </div>
+                {{else}}
+                    {{#each topic}}
+                        <a href="/ia?&topic={{urify this}}">
+                            {{this}}{{#unless @last}}, {{/unless}}
+                        </a>
+                    {{/each}}
+                {{/ne_and}}
+            {{else}}
+                {{#if topic}}
+                    {{#each topic}}
+                        <a href="/ia?&topic={{urify this}}">
+                            {{this}}{{#unless @last}}, {{/unless}}
+                        </a>
+                    {{/each}}
+                {{else}}
+                    No topic
+                {{/if}}
+            {{/if}}
+        </span>
+    </span>
+
+    <span class="top__repo left {{#ne_and dev_milestone 'live' 'deprecated'}}{{#if permissions.can_edit}}add-width{{/if}}{{/ne_and}}">
+        <!-- Don't add any separators when we're editing. -->
+        <span class="{{#if permissions.can_edit}}{{#eq_or dev_milestone 'live' 'deprecated'}}sep--after{{/eq_or}}{{else}}sep--after{{/if}}">
+            <span class="detail-title">Type:</span>
+            {{#if permissions.can_edit}}
+                {{#ne_and dev_milestone 'live' 'deprecated'}}
+                    {{#if staged.top_fields.repo}}
+                        {{#with staged.top_fields}}
+                            <span class="frm__select">
+                              <select class="top-details js-autocommit repo" tabindex="-1" id="repo-select">
+                                <option value="0">{{repo}}</option>
+                                {{#not_eq repo 'fathead'}}<option value="1">fathead</option>{{/not_eq}}
+                                {{#not_eq repo 'goodies'}}<option value="2">goodies</option>{{/not_eq}}
+                                {{#not_eq repo 'longtail'}}<option value="3">longtail</option>{{/not_eq}}
+                                {{#not_eq repo 'spice'}}<option value="4">spice</option>{{/not_eq}}
+                              </select>
+                            </span>
+                        {{/with}}
+                    {{else}}
+                        <span class="frm__select">
+                          <select class="top-details js-autocommit repo" tabindex="-1" id="repo-select">
+                            <option value="0">{{repo}}</option>
+                            {{#not_eq repo 'fathead'}}<option value="1">fathead</option>{{/not_eq}}
+                            {{#not_eq repo 'goodies'}}<option value="2">goodies</option>{{/not_eq}}
+                            {{#not_eq repo 'longtail'}}<option value="3">longtail</option>{{/not_eq}}
+                            {{#not_eq repo 'spice'}}<option value="4">spice</option>{{/not_eq}}
+                          </select>
+                        </span>
+                    {{/if}}
+                 {{else}}
+                    {{#if repo}}
+                        <a href="/ia?&repo={{repo}}">{{repo}}</a>
+                    {{/if}}
+                 {{/ne_and}}
+            {{else}}
+                {{#if repo}}
+                    <a href="/ia?&repo={{repo}}">{{repo}}</a>
+                {{/if}}
+            {{/if}}
+        </span>
+    </span>
+
+    <span class="top__milestone left">
+        <span>
+            <span class="detail-title">Status:</span>
+            {{#if permissions.admin}}
+                {{#ne_and dev_milestone 'live' 'deprecated'}}
+                    {{#if staged.top_fields.dev_milestone}}
+                        {{#with staged.top_fields}}
+                            <span class="frm__select">
+                              <select class="top-details js-autocommit dev_milestone" tabindex="-1" id="dev_milestone-select">
+                                <option value="0">{{dev_milestone}}</option>
+                                {{#not_eq dev_milestone 'planning'}}<option value="1">planning</option>{{/not_eq}}
+                                {{#not_eq dev_milestone 'development'}}<option value="2">development</option>{{/not_eq}}
+                                {{#not_eq dev_milestone 'testing'}}<option value="3">testing</option>{{/not_eq}}
+                                {{#not_eq dev_milestone 'complete'}}<option value="4">complete</option>{{/not_eq}}
+                                {{#not_eq dev_milestone 'live'}}<option value="5">live</option>{{/not_eq}}
+                              </select>
+                            </span>
+                        {{/with}}
+                    {{else}}
+                        <span class="frm__select">
+                            <select class="top-details js-autocommit dev_milestone" tabindex="-1" id="dev_milestone-select">
+                                <option value="0">{{dev_milestone}}</option>
+                                {{#not_eq dev_milestone 'planning'}}<option value="1">planning</option>{{/not_eq}}
+                                {{#not_eq dev_milestone 'development'}}<option value="2">development</option>{{/not_eq}}
+                                {{#not_eq dev_milestone 'testing'}}<option value="3">testing</option>{{/not_eq}}
+                                {{#not_eq dev_milestone 'complete'}}<option value="4">complete</option>{{/not_eq}}
+                                {{#not_eq dev_milestone 'live'}}<option value="5">live</option>{{/not_eq}}
+                            </select>
+                        </span>
+                    {{/if}}
+                {{else}}
+                        {{dev_milestone}}
+                {{/ne_and}}
+            {{else}}
+                    {{dev_milestone}}
+            {{/if}}
+        </span>
+    </span>
+</div>

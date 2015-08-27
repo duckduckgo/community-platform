@@ -6,6 +6,7 @@ use Try::Tiny;
 use Time::Local;
 use JSON;
 use Net::GitHub::V3;
+use DateTime;
 
 my $INST = DDGC::Config->new->appdir_path."/root/static/js";
 
@@ -114,150 +115,194 @@ sub queries :Chained('base') :PathPart('queries') :Args(0) {
 
 }
 
-sub dev_pipeline_redirect :Chained('base') :PathPart('pipeline') :Args(0) {
-    my ( $self, $c, $view ) = @_;
-
-    $c->res->redirect($c->chained_uri('InstantAnswer', 'dev_pipeline', 'dev'));
-}
-
-sub dev_pipeline_base :Chained('base') :PathPart('pipeline') :CaptureArgs(1) {
-    my ( $self, $c, $view ) = @_;
+sub dev_pipeline_base :Chained('overview_base') :PathPart('pipeline') :CaptureArgs(0) {
+    my ( $self, $c ) = @_;
     
-    $c->stash->{view} = $view;
     $c->stash->{ia_page} = "IADevPipeline";
     $c->stash->{title} = "Dev Pipeline";
    
-    if ($view ne 'live' && $view ne 'deprecated') {
-        $c->stash->{logged_in} = $c->user;
-        $c->stash->{is_admin} = $c->user? $c->user->admin : 0;
-    }
-    
-    $c->add_bc('Instant Answers', $c->chained_uri('InstantAnswer','index'));
-    $c->add_bc('Dev Pipeline', $c->chained_uri('InstantAnswer', 'dev_pipeline', $view));
+    $c->stash->{logged_in} = $c->user;
+    $c->stash->{is_admin} = $c->user? $c->user->admin : 0;
+
+    $c->add_bc('Dev Pipeline', $c->chained_uri('InstantAnswer', 'dev_pipeline'));
 }
 
 sub dev_pipeline :Chained('dev_pipeline_base') :PathPart('') :Args(0) {
     my ( $self, $c ) = @_;
-    
 }
 
 sub dev_pipeline_json :Chained('dev_pipeline_base') :PathPart('json') :Args(0) {
     my ( $self, $c ) = @_;
 
-    my $view = $c->stash->{view};
     my $rs = $c->d->rs('InstantAnswer');
 
-    if ($view ne 'live') {
-        my @ias;
-        my $key;
-        if ($view ne 'deprecated') {
-            @ias = $rs->search({'dev_milestone' => { '=' => ['planning', 'development', 'testing', 'complete']}});
-            $key = 'dev_milestone';
-        } else {
-            @ias = $rs->search({'dev_milestone' => { '=' => 'deprecated'}});
-            $key = 'repo';
+    my @ias;
+    my $key;
+    @ias = $rs->search({'dev_milestone' => { '=' => ['planning', 'development', 'testing', 'complete']}});
+    $key = 'dev_milestone';
+
+    my %dev_ias;
+    my $temp_ia;
+    for my $ia (@ias) {
+        $temp_ia = $ia->TO_JSON('pipeline');
+        
+        if ($c->user && (!$c->user->admin)) {
+            my $can_edit = $ia->users->find($c->user->id)? 1 : undef;
+            $temp_ia->{"can_edit"} = $can_edit;
         }
-
-        my %dev_ias;
-        my $temp_ia;
-        for my $ia (@ias) {
-            $temp_ia = $ia->TO_JSON('pipeline');
-            
-            if ($c->user && (!$c->user->admin)) {
-                my $can_edit = $ia->users->find($c->user->id)? 1 : undef;
-                $temp_ia->{"can_edit"} = $can_edit;
-            }
-            
-            push @{$dev_ias{$ia->$key}}, $temp_ia;
-        }
-
-        $c->stash->{x} = {
-            $key.'s' => \%dev_ias
-        };
-    } else {
-        $rs = $c->d->rs('InstantAnswer::Issues');
-
-        my @result = $rs->search({'is_pr' => 0})->all;
-
-        my %ial;
-        my $ia;
-        my $id;
-        my $dev_milestone;
-        my @tags;
-        my %temp_tags;
-
-        for my $issue (@result) {
-            $id = $issue->instant_answer_id;
-            $ia = $c->d->rs('InstantAnswer')->find($id);
-            $dev_milestone = $ia->dev_milestone;
-            my @issues;
-            if ($dev_milestone eq 'live') {
-                for my $tag (@{$issue->tags}) {
-                    if (!$temp_tags{$tag->{name}}) {
-                        $temp_tags{$tag->{name}} = {
-                                name => $tag->{name},
-                                color => $tag->{color}
-                            };
-                    }
-                }
-
-                if (defined $ial{$id}) {
-                    my @existing_issues = @{$ial{$id}->{issues}};
-                    push(@existing_issues, {
-                            issue_id => $issue->issue_id,
-                            title => $issue->title,
-                            tags => $issue->tags
-                        });
-
-                    $ial{$id}->{issues} = \@existing_issues;
-                } else {
-                    push(@issues, {
-                            issue_id => $issue->issue_id,
-                            title => $issue->title,
-                            tags => $issue->tags
-                        });
-
-                    $ial{$id}  = {
-                            name => $ia->name,
-                            id => $ia->meta_id,
-                            repo => $ia->repo,
-                            dev_milestone => $ia->dev_milestone,
-                            producer => $ia->producer,
-                            designer => $ia->designer,
-                            developer => $ia->developer? from_json($ia->developer) : undef,
-                            issues => \@issues
-                        };
-
-                    
-                }
-            }
-        }
-
-        my @sorted_ial;
-
-        foreach my $ia_id (sort keys %ial) {
-            push(@sorted_ial, $ial{$ia_id});
-        }
-
-        foreach my $tag_name (sort keys %temp_tags) {
-            push(@tags, $temp_tags{$tag_name});
-        }
-
-        $c->stash->{x} = {
-            ia => \@sorted_ial,
-            tags => \@tags
-        };
+        
+        push @{$dev_ias{$ia->$key}}, $temp_ia;
     }
+
+    $c->stash->{x} = {
+        $key.'s' => \%dev_ias
+    };
 
     $c->stash->{not_last_url} = 1;
     $c->forward($c->view('JSON'));
 }
 
-sub overview_base :Chained('base') :PathPart('home') :CaptureArgs(0) {
+sub deprecated_base :Chained('overview_base') :PathPart('deprecated') :CaptureArgs(0) {
+    my ( $self, $c ) = @_;
+    
+    $c->stash->{ia_page} = "IADeprecated";
+    $c->stash->{title} = "Deprecated IA Pages";
+   
+    $c->add_bc('Deprecated', $c->chained_uri('InstantAnswer', 'deprecated'));
+}
+
+sub deprecated :Chained('deprecated_base') :PathPart('') :Args(0) {
+    my ( $self, $c ) = @_;
+}
+
+sub deprecated_json :Chained('deprecated_base') :PathPart('json') :Args(0) {
+    my ( $self, $c ) = @_;
+
+    my $rs = $c->d->rs('InstantAnswer');
+
+    my @ias;
+    my $key;
+    @ias = $rs->search({'dev_milestone' => { '=' => 'deprecated'}});
+    $key = 'repo';
+
+    my %dev_ias;
+    my $temp_ia;
+    for my $ia (@ias) {
+        $temp_ia = $ia->TO_JSON('pipeline');
+        push @{$dev_ias{$ia->$key}}, $temp_ia;
+    }
+
+    $c->stash->{x} = {
+        $key.'s' => \%dev_ias
+    };
+
+    $c->stash->{not_last_url} = 1;
+    $c->forward($c->view('JSON'));
+}
+
+sub issues_base :Chained('overview_base') :PathPart('issues') :CaptureArgs(0) {
+    my ( $self, $c ) = @_;
+    
+    $c->stash->{ia_page} = "IAIssues";
+    $c->stash->{title} = "IA Pages Issues";
+   
+    $c->add_bc('Issues', $c->chained_uri('InstantAnswer', 'issues'));
+}
+
+sub issues_json :Chained('issues_base') :PathPart('json') :Args(0) {
+    my ( $self, $c ) = @_;        
+
+    my $rs = $c->d->rs('InstantAnswer::Issues');
+    my @result = $rs->search({'is_pr' => 0},{order_by => { -desc => 'date'}})->all;
+    my %ial;
+    my $ia;
+    my $id;
+    my $dev_milestone;
+    my @tags;
+    my %temp_tags;
+    my @issues_by_date;
+
+    for my $issue (@result) {
+        $id = $issue->instant_answer_id;
+        $ia = $c->d->rs('InstantAnswer')->find($id);
+        $dev_milestone = $ia->dev_milestone;
+        my @issues;
+        if ($dev_milestone eq 'live') {
+            for my $tag (@{$issue->tags}) {
+                if (!$temp_tags{$tag->{name}}) {
+                    $temp_tags{$tag->{name}} = {
+                            name => $tag->{name},
+                            color => $tag->{color}
+                        };
+                }
+            }
+            
+            my %temp_issue = (
+                    issue_id => $issue->issue_id,
+                    title => $issue->title,
+                    tags => $issue->tags,
+                    date => $issue->date,
+                    author => $issue->author,
+                    ia_id => $id,
+                    ia_name => $ia->name,
+                    repo => $issue->repo
+            );
+
+            push @issues_by_date, \%temp_issue;
+
+            if (defined $ial{$id}) {
+                my @existing_issues = @{$ial{$id}->{issues}};
+                push @existing_issues, \%temp_issue;
+
+                $ial{$id}->{issues} = \@existing_issues;
+            } else {
+                push @issues, \%temp_issue;;
+
+                $ial{$id}  = {
+                        name => $ia->name,
+                        id => $ia->meta_id,
+                        repo => $ia->repo,
+                        dev_milestone => $ia->dev_milestone,
+                        producer => $ia->producer,
+                        designer => $ia->designer,
+                        developer => $ia->developer? from_json($ia->developer) : undef,
+                        issues => \@issues
+                    };
+            }
+        }
+    }
+
+    my @sorted_ial;
+
+    foreach my $ia_id (sort keys %ial) {
+        push(@sorted_ial, $ial{$ia_id});
+    }
+
+    foreach my $tag_name (sort keys %temp_tags) {
+        push(@tags, $temp_tags{$tag_name});
+    }
+
+    $c->stash->{x} = {
+        ia => \@sorted_ial,
+        tags => \@tags,
+        by_date => \@issues_by_date
+    };
+
+    $c->stash->{not_last_url} = 1;
+    $c->forward($c->view('JSON'));
+}
+
+sub issues :Chained('issues_base') :PathPart('') :Args(0) {
+    my ( $self, $c ) = @_;
+}
+
+sub overview_base :Chained('base') :PathPart('dev') :CaptureArgs(0) {
     my ( $self, $c ) = @_;
 
     $c->stash->{ia_page} = "IAOverview";
     $c->stash->{title} = "IA Pages Overview";
+    
+    $c->add_bc('IA Pages Home', $c->chained_uri('InstantAnswer','overview'));
 }
 
 sub overview_json :Chained('overview_base') :PathPart('json') :Args(0) {
@@ -311,7 +356,8 @@ sub overview_json :Chained('overview_base') :PathPart('json') :Args(0) {
      
      if (!$c->user || !@live_ias) {
         @ias = $rs->search({
-             dev_milestone => 'live', 
+             dev_milestone => 'live',
+             live_date => { '!=' => undef }, 
              'topic.name' => [{ '!=' => 'test' }, { '=' => undef}]
          },
          {   
@@ -323,13 +369,15 @@ sub overview_json :Chained('overview_base') :PathPart('json') :Args(0) {
          my $temp_ia;
          for my $ia (@ias) {
             $temp_ia = $ia->TO_JSON('pipeline');
+            $temp_ia->{most_recent} = 1;
             push @live_ias, $temp_ia;
          }
      }
 
      if (!$c->user || !@dev_ias) {
         @ias = $rs->search({
-                dev_milestone => { '=' => ['planning', 'development', 'testing', 'complete']}
+                dev_milestone => { '=' => ['planning', 'development', 'testing', 'complete']},
+                created_date => { '!=' => undef }
             },{
                 rows => 5,  
                 order_by => {-desc => 'created_date'}
@@ -338,6 +386,7 @@ sub overview_json :Chained('overview_base') :PathPart('json') :Args(0) {
         my $temp_ia;
         for my $ia (@ias) {
             $temp_ia = $ia->TO_JSON('pipeline');
+            $temp_ia->{most_recent} = 1;
             push @dev_ias, $temp_ia;
         }
      }
@@ -478,9 +527,11 @@ sub ia_base :Chained('base') :PathPart('view') :CaptureArgs(1) {  # /ia/view/cal
     if ($dev_milestone eq 'live') {
         $c->add_bc('Instant Answers', $c->chained_uri('InstantAnswer','index'));
     } elsif ($dev_milestone eq 'deprecated') {
-        $c->add_bc('Dev Pipeline', $c->chained_uri('InstantAnswer','dev_pipeline', 'deprecated'));
+        $c->add_bc('IA Pages Overview', $c->chained_uri('InstantAnswer','overview'));
+        $c->add_bc('Deprecated', $c->chained_uri('InstantAnswer','deprecated'));
     } else {
-        $c->add_bc('Dev Pipeline', $c->chained_uri('InstantAnswer','dev_pipeline', 'dev'));
+        $c->add_bc('IA Pages Overview', $c->chained_uri('InstantAnswer','overview'));
+        $c->add_bc('Dev Pipeline', $c->chained_uri('InstantAnswer','dev_pipeline'));
     }
     $c->add_bc($c->stash->{ia}->name);
 }
@@ -490,7 +541,7 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
 
     my $ia = $c->stash->{ia};
     my $edited;
-    my @issues = $c->d->rs('InstantAnswer::Issues')->search({instant_answer_id => $ia->id});
+    my @issues = $c->d->rs('InstantAnswer::Issues')->search({instant_answer_id => $ia->id},{order_by => {'-desc' => 'date'}});
     my @ia_issues;
     my %pull_request;
     my @ia_pr;
@@ -509,34 +560,19 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
                     title => $issue->title,
                     body => $issue->body,
                     tags => $issue->tags,
-                    author => $issue->author
+                    author => $issue->author,
+                    date => $issue->date
                );
 
                $ia_data{live}->{pr} = \%pull_request;
-
-               if ($dev_milestone ne 'live' && $dev_milestone ne 'deprecated' && !$ia->developer) {
-                  my %dev_hash = (
-                      name => $pull_request{author},
-                      url => 'https://github.com/'.$pull_request{author}
-                  );
-
-                  my @dev_array = [\%dev_hash];
-
-                  my $value = to_json \@dev_array;
-
-                  try {
-                      $ia->update({developer => $value});
-                  }
-                  catch {
-                      $c->d->errorlog("Error updating the database");
-                  };
-               }
-            } else {
+                } else {
                 push(@ia_issues, {
                     issue_id => $issue->issue_id,
                     title => $issue->title,
                     body => $issue->body,
-                    tags => $issue->tags
+                    tags => $issue->tags,
+                    author => $issue->author,
+                    date => $issue->date
                 });
             }
         }
@@ -640,13 +676,15 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
     my $is_admin = 0;
     my $saved = 0;
     my $field = $c->req->params->{field};
+    my $msg = "";
 
     # if the update fails because of invalid values
     # we still return some info
     # so the handlebars can be updated accordingly
     my $result = {
         is_admin => $is_admin, 
-        saved => $saved
+        saved => $saved,
+        msg => $msg
     };
 
     $c->stash->{x} = {
@@ -689,6 +727,10 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
                             return $c->forward($c->view('JSON')) unless check_github($temp_username);
 
                             $temp_url = 'https://github.com/'.$temp_username;
+                        } elsif ($temp_type eq 'ddg') {
+                            #IA was developed internally - set default values
+                            $temp_fullname = "DDG Team";
+                            $temp_url = "http://www.duckduckhack.com";
                         } else {
                             # Type is 'legacy', so the username contains the url to 
                             # a personal website or twitter account etc,
@@ -715,13 +757,23 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
                 return $c->forward($c->view('JSON')) unless $complat_user_admin || $value eq '';
             } elsif ($field eq "id") {
                 $field = "meta_id";
-
-                # meta_id must be unique, lowercase and without spaces
-                $value =~ s/\s//g;
-                $value = lc $value;
-                return $c->forward($c->view('JSON')) if ($c->d->rs('InstantAnswer')->find({meta_id => $value}) || $value eq '');
+                $value = format_id($value);
+                
+                if (!$value) {
+                    $msg = "ID can't be empty";
+                    $c->stash->{x}->{result}->{msg} = $msg;
+                    return $c->forward($c->view('JSON'));
+                } elsif ($c->d->rs('InstantAnswer')->find({meta_id => $value}) || $value eq '') {
+                    $msg = "ID already in use";
+                    $c->stash->{x}->{result}->{msg} = $msg;
+                    return $c->forward($c->view('JSON'));
+                }
             } elsif ($field eq "src_id") {
-                return $c->forward($c->view('JSON')) if $c->d->rs('InstantAnswer')->find({src_id => $value});
+                if ($c->d->rs('InstantAnswer')->find({src_id => $value})) {
+                    $msg = "ID already in use";
+                    $c->stash->{x}->{result}->{msg} = $msg;
+                    return $c->forward($c->view('JSON'));
+                }
             }
 
             my $edits = add_edit($c, $ia,  $field, $value);
@@ -785,9 +837,10 @@ sub usercheck :Chained('base') :PathPart('usercheck') :Args() {
 sub create_ia :Chained('base') :PathPart('create') :Args() {
     my ( $self, $c ) = @_;
 
-    my $ia = $c->d->rs('InstantAnswer')->find({lc id => $c->req->params->{id}}) || $c->d->rs('InstantAnswer')->find({lc meta_id => $c->req->params->{id}});
+    my $ia = $c->d->rs('InstantAnswer')->find({id => lc($c->req->params->{id})}) || $c->d->rs('InstantAnswer')->find({meta_id => lc($c->req->params->{id})});
     my $is_admin;
     my $result = '';
+    my $id = '';
 
     if ($c->user && (!$ia)) {
        $is_admin = $c->user->admin;
@@ -795,32 +848,48 @@ sub create_ia :Chained('base') :PathPart('create') :Args() {
         if ($is_admin) {
             my $dev_milestone = $c->req->params->{dev_milestone};
             my $status = $dev_milestone;
-            
-            if ($dev_milestone eq 'development') {
-                $status =~ s/_/ /g;
+
+            $id = format_id($c->req->params->{id});
+           
+            if (length $id) { 
+                my $new_ia = $c->d->rs('InstantAnswer')->create({
+                    id => $id,
+                    meta_id => $id,
+                    name => $c->req->params->{name},
+                    status => $status,
+                    dev_milestone => $dev_milestone,
+                    description => $c->req->params->{description},
+                });
+
+                save_milestone_date($new_ia, 'created');
+
+                $result = 1;
             }
-
-            my $new_ia = $c->d->rs('InstantAnswer')->create({
-                lc id => $c->req->params->{id},
-                lc meta_id => $c->req->params->{id},
-                name => $c->req->params->{name},
-                status => $status,
-                dev_milestone => $dev_milestone,
-                description => $c->req->params->{description},
-            });
-
-            save_milestone_date($new_ia, 'created');
-
-            $result = 1;
         }
     }
 
     $c->stash->{x} = {
         result => $result,
+        id => $id
     };
 
     $c->stash->{not_last_url} = 1;
     return $c->forward($c->view('JSON'));
+}
+
+sub format_id {
+    my( $id ) = @_;
+
+    # id must be lowercase and without weird chars
+    $id = lc $id;
+    $id =~ s/[^a-z0-9]+/_/g;
+    $id =~ s/^[^a-zA-Z]+//;
+    $id =~ s/_$//;
+
+    # make the id string empty if it only contains non-alphabetic chars
+    $id =~ s/^[^a-zA-Z]+$//;
+
+    return $id;
 }
 
 sub save {
@@ -835,12 +904,21 @@ sub save {
         if ($field eq "topic") {
             my @topic_values = $value;
             $ia->instant_answer_topics->delete;
-                
-            for my $topic (@{$topic_values[0]}) {
-                $saved = add_topic($c, $ia, $topic);
-                return unless $saved;
+           
+            if (scalar @{$topic_values[0]} gt 0) {
+                for my $topic (@{$topic_values[0]}) {
+                    $saved = add_topic($c, $ia, $topic);
+                    return unless $saved;
+                }
+            } else {
+                remove_edits($c->d, $ia, 'topic');
+                $saved = 1;
             }
-        } else {           
+        } else {          
+            if ($field eq 'id') {
+               $field = 'meta_id';
+            }
+            
             commit_edit($c->d, $ia, $field, $value);
             $saved = '1';
         }
@@ -943,7 +1021,7 @@ sub add_topic {
 # removes that entry from the updates column
 sub commit_edit {
     my ($d, $ia, $field, $value) = @_;
-    # update the IA data in instant answer table
+    # update the IA data in Instant Answer table
     my $update_field = $field eq 'id'? 'meta_id' : $field;
     update_ia($ia, $update_field, $value);
     # remove the edit from the updates table
@@ -963,7 +1041,7 @@ sub remove_edit {
     $ia->update({updates => $edits});
 }
 
-# update the instant answer table
+# update the Instant Answer table
 sub update_ia {
     my ($ia, $field, $value) = @_;
     $ia->update({$field => $value});
@@ -1001,6 +1079,8 @@ sub save_milestone_date {
     my @time = localtime(time);
     my $date = "$time[4]/$time[3]/".($time[5]+1900);
     update_ia($ia, $field, $date);
+
+    update_ia($ia, 'test_machine', undef) if ($milestone eq 'live');
 }
 
 no Moose;

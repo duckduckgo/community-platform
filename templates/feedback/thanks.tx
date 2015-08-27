@@ -9,7 +9,7 @@
 		<div class="fb-step__body  fb-step__body--info"> 
 			<h2>Thanks for the feedback!</h2>
 
-			<p>We'd love for you to join the rest of the community in helping DuckDuckGo get better. Check out the other ways <a href="https://duck.co/">you can improve DuckDuckGo</a>, including <a href="http://duckduckhack.com/">instant answers!</a></p>			
+			<p>We'd love for you to join the rest of the community in helping DuckDuckGo get better. Check out the other ways <a href="https://duck.co/">you can improve DuckDuckGo</a>, including <a href="http://duckduckhack.com/">Instant Answers!</a></p>			
 			<i class="fb-step__arrow  ddgi-newspaper"></i>
 		</div>  	  
 	</div>
@@ -17,7 +17,7 @@
 		<div class="icons">
 			<a class="icon tw" href="https://twitter.com/duckduckgo" title="DuckDuckGo on twitter">Twitter</a>
 			<a class="icon re" href="http://www.reddit.com/r/duckduckgo" title="DuckDuckGo on reddit">reddit /r/duckduckgo</a>
-			<a class="icon rss" href="<: $u('Blog','index_rss') :>" title="DuckDuckGo Blog RSS feed">RSS</a>
+			<a class="icon rss" href="/blog/rss" title="DuckDuckGo Blog RSS feed">RSS</a>
 		</div>
 	</section>
 </div>

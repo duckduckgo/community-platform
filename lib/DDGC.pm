@@ -27,10 +27,6 @@ use IPC::Run qw/ run timeout /;
 use POSIX;
 use Cache::FileCache;
 use Cache::NullCache;
-use LWP::Protocol::Net::Curl;
-use if ($ENV{DDGC_PROSODY_USERHOST} ne 'dukgo.com'),
-    'LWP::Protocol::Net::Curl',
-    ssl_verifyhost => 0, ssl_verifypeer => 0;
 use LWP::UserAgent;
 use HTTP::Request;
 use Carp;
@@ -106,48 +102,6 @@ has uuid => (
 );
 sub _build_uuid { Data::UUID->new };
 sub uid { md5_hex $_[0]->uuid->create_str . rand };
-
-sub _apply_session_to_req {
-	my ( $c, $req ) = @_;
-	$req->header(
-		Cookie => 'ddgc_session=' . $c->req->env->{'psgix.session.options'}->{id},
-	);
-}
-sub _ref_to_uri {
-	my ( $route ) = @_;
-	my $service = '/' . lc( shift @{$route} ) . '.json';
-	my ( $uri ) = join  '/', @{$route};
-	return "$service/$uri";
-}
-sub ddgcr_get {
-	my ( $self, $c, $route, $params ) = @_;
-	$route = _ref_to_uri( $route  ) if ( ref $route eq 'ARRAY' );
-
-	my $req = HTTP::Request->new(
-		GET => $c->uri_for( $route, $params )->canonical
-	);
-	_apply_session_to_req( $c, $req );
-
-	my $res = $self->http->request( $req );
-	$res->{ddgcr} = JSON::from_json( $res->decoded_content, { utf8 => 1 } );
-	return $res;
-}
-sub ddgcr_post {
-	my ( $self, $c, $route, $data ) = @_;
-	$route = _ref_to_uri( $route  ) if ( ref $route eq 'ARRAY' );
-
-	$data = JSON::to_json($data, { convert_blessed => 1, utf8 => 1 }) if ref $data;
-	my $req = HTTP::Request->new(
-		POST => $c->uri_for( $route )->canonical
-	);
-	$req->content_type( 'application/json' );
-	$req->content( $data );
-	_apply_session_to_req( $c, $req );
-
-	my $res = $self->http->request( $req );
-	$res->{ddgcr} = JSON::from_json( $res->decoded_content, { utf8 => 1 } );
-	return $res;
-}
 
 ############################################################
 #  ____        _    ____            _
@@ -373,17 +327,6 @@ sub _build_xslate {
 			# Mark text as raw HTML
 			r => sub { mark_raw(@_) },
 
-			# trick function for DBIx::Class::ResultSet
-			results => sub {
-				my ( $rs, $sorting, $order ) = @_;
-				my @results = $rs->all;
-				$sorting
-					? ( ($order // '') eq 'asc' )
-						? [ sort { $a->$sorting <=> $b->$sorting } @results ]
-						: [ sort { $b->$sorting <=> $a->$sorting } @results ]
-					: [ @results ];
-			},
-
 			# general functions avoiding xslates problems
 			call => sub {
 				my $thing = shift;
@@ -402,7 +345,12 @@ sub _build_xslate {
 				$source =~ s/$from/$to/g;
 				return $source;
 			},
-			urify => sub { lc(join('-',split(/\s+/,join(' ',@_)))) },
+			urify => sub {
+                my $value = shift;
+                $value = lc $value;
+                $value =~ s/[^a-zA-Z]+/-/g;
+                return $value;
+            },
 
 			floor => sub { floor($_[0]) },
 			ceil => sub { ceil($_[0]) },
@@ -656,19 +604,6 @@ sub _build_idea { DDGC::Ideas->new( ddgc => shift ) }
 #
 # ======== User ====================
 #
-
-sub all_roles {
-	my ( $self, $arg ) = @_;
-	my %roles = (
-		translation_manager => "Translation Manager",
-		forum_manager => "Community Leader (Forum Manager)",
-		idea_manager => "Instant Answer Manager",
-		patron => "Patron",
-	);
-	return defined $arg
-		? $roles{$arg}
-		: \%roles;
- }
 
 has current_user => (
   isa => 'DDGC::DB::Result::User',

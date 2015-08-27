@@ -9,7 +9,7 @@
   <div class="notice alert warning"><i class="icn icon-warning-sign"></i> You must be logged in to comment. Please, <a href="<: $u('My','login') :>" data-reveal-id="login-box">Log in</a> or <a href="<: $u('My','register') :>">Register</a>.</div>
 <: } :>
 <: if $_.count { :>	
-	<: for results($_,'updated','asc') -> $comment { :>
+	<: for $_.order_by({ '-asc' => 'me.updated' }).all_ref -> $comment { :>
 		<: i($comment,'view', { userpic_size => 48 }) :>
 	<: } :>	
 <: } :>

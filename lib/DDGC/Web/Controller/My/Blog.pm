@@ -19,7 +19,7 @@ sub base :Chained('/my/logged_in') :PathPart('blog') :CaptureArgs(0) {
 
 sub index :Chained('base') :PathPart('') :Args(0) {
 	my ( $self, $c ) = @_;
-	my $res = $c->d->ddgcr_get( $c, [ 'Blog', 'by_user' ], { id => $c->user->id } );
+	my $res = $c->ddgcr_get( [ 'Blog', 'by_user' ], { id => $c->user->id } );
 	$c->stash->{blog} = $res->{ddgcr}->{posts} if ( $res->is_success );
 	$c->bc_index;
 }
@@ -52,7 +52,7 @@ sub edit :Chained('base') :Args(1) {
 
 	if ($id_or_new ne 'new' && $id_or_new+0 > 0) {
 		my $id = $id_or_new+0;
-		my $res = $c->d->ddgcr_get( $c, [ 'Blog', 'admin', 'post', 'raw' ], { id => $id } );
+		my $res = $c->ddgcr_get( [ 'Blog', 'admin', 'post', 'raw' ], { id => $id } );
 		$post = $res->{ddgcr}->{post} if ( $res->is_success );
 		unless ($c->user->admin) {
 			if ($post->{users_id} ne $c->user->id) {
@@ -70,11 +70,10 @@ sub edit :Chained('base') :Args(1) {
 
 		my %values;
 
-		for (qw( title uri topics teaser content live fixed_date )) {
+		for (qw( format title uri topics teaser content live fixed_date users_id )) {
 			$values{$_} = $c->req->param($_);
 		}
 
-		$values{raw_html} = $c->req->param('raw_html') ? 1 : 0;
 		$values{company_blog} = 1;
 
 		my $ok = 1;
@@ -97,9 +96,9 @@ sub edit :Chained('base') :Args(1) {
 		if ($ok) {
 			if ($post) {
 				$values{id} = $c->stash->{id};
-				$res = $c->d->ddgcr_post( $c, [ 'Blog', 'admin', 'post', 'update' ], \%values );
+				$res = $c->ddgcr_post( [ 'Blog', 'admin', 'post', 'update' ], \%values );
 			} else {
-				$res = $c->d->ddgcr_post( $c, [ 'Blog', 'admin', 'post', 'new' ], \%values );
+				$res = $c->ddgcr_post( [ 'Blog', 'admin', 'post', 'new' ], \%values );
 			}
 		}
 

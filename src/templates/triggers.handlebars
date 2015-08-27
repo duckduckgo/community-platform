@@ -1,0 +1,63 @@
+{{#ne_and dev_milestone 'live' 'deprecated'}}
+    <div class="ia-triggers ia-single--info">
+        <h3 class="ia-single--header">
+            <span {{#ne_and dev_milestone 'live' 'deprecated'}}{{#if permissions.can_edit}}class="asterisk"{{/if}}{{/ne_and}}>Triggers</span>
+        {{#if permissions.can_edit}}
+            <a href="#" class="devpage-edit {{#if staged.triggers}}hide{{/if}}" id="dev-edit-triggers">Edit</a>
+            <a href="#" class="devpage-commit sep--after {{#unless staged.triggers}}hide{{/unless}}" id="dev-commit-triggers">Commit</a>
+            <a href="#" class="devpage-cancel {{#unless staged.triggers}}hide{{/unless}}" id="dev-cancel-triggers">Cancel</a>
+        {{/if}}
+        </h3>
+
+        {{#if permissions.can_edit}}
+            <ul class="hidden-toshow {{#unless staged.triggers}}hide{{/unless}} {{#eq staged.triggers 'n---d'}}hide{{/eq}}triggers parent-group" id="triggers-group">
+                {{#if staged.triggers}}
+                    {{#each staged.triggers}}
+                        <li>
+                            <span name="triggers" class="triggers">
+                                <input type="text" value="{{this}}" class="js-autocommit group-vals" />
+                                <span class="delete-tag delete triggers"><i class="ddgsi-close"></i></span>
+                            </span>
+                        </li>
+                        {{#module_zero @index 3}}
+                            <span class="clearfix"></span>
+                        {{/module_zero}}
+                    {{/each}}
+                {{else}}
+                    {{#each triggers}}
+                        <li>
+                            <span name="triggers" class="triggers">
+                                <input type="text" value="{{this}}" class="js-autocommit group-vals" />
+                                <span class="delete-tag delete triggers"><i class="ddgsi-close"></i></span>
+                            </span>
+                        </li>
+                        {{#module_zero @index 3}}
+                            <span class="clearfix"></span>
+                        {{/module_zero}}
+                    {{/each}}
+                {{/if}}
+                <li class="editpage hide new_input" id="input_triggers">
+                    <span name="triggers" class="triggers">
+                        <input type="text" value="" class="js-autocommit group-vals" />
+                        <span class="delete-tag delete triggers"><i class="ddgsi-close"></i></span>
+                    </span>
+                </li>
+                <li class="editpage add_input" id="add_trigger">
+                    <div class="btn btn--secondary listbutton" id="add_trigger_button" title="Add trigger">
+                        <i class="ddgsi-plus" />
+                    </div>
+                </li>
+            </ul>
+        {{/if}}
+
+        <span class="readonly--info {{#if staged.triggers}}hide{{/if}}" id="triggers--readonly">
+            {{#if triggers}}
+                {{#each triggers}}
+                    {{this}}{{#unless @last}}, {{/unless}}
+                {{/each}}
+            {{else}}
+                <span class="no-available">No triggers applied.</span>
+            {{/if}}
+        </span>
+    </div>
+{{/ne_and}}

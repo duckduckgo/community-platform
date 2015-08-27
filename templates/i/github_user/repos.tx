@@ -18,7 +18,7 @@
         <: if !$repos || !$repos.count { :>
             <div class="notice contrast">You have no DuckDuckGo repos! Get forking!</div>
         <: } else { :>
-            <: for results($repos) -> $repo { :>
+            <: for $repos.all_ref -> $repo { :>
                 <div class="row">
                     <div class="quarter"><a href="<: $repo.gh_data.html_url :>"><: $repo.gh_data.name :></a></div>
                     <div class="half"><: $repo.description :></div>

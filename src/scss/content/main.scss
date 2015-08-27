@@ -1,5 +1,10 @@
+@import "../_vars";
 @import "_reset";
-@import "_ls/_abstracts";
+
+@import "../../../bower_components/_ls/objects/_circle";
+@import "../../../bower_components/_ls/objects/_faux";
+@import "../../../bower_components/_ls/objects/_media";
+
 @import "_font-face";
 @import "_font-awesome";
 @import "_linkbox";
@@ -7,6 +12,6 @@
 @import "_forms-n-buttons";
 @import "_feedback";
 @import "_content";
-@import "_litestrap";
+@import "../../../bower_components/_ls/_litestrap";
 @import "_global";
 

@@ -1,4 +1,4 @@
-<: for results($_.event_notifications) -> $event_notification { :>
+<: for $_.event_notifications.all_ref -> $event_notification { :>
   <div <: style("quote") :>>
     <: i($event_notification.event.get_context_obj) :>
     <hr <: style("hr") :>>

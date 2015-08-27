@@ -28,7 +28,7 @@
 			</div>
 		</div>
 		<div class="body">
-			<: for results($c.user.user_languages) -> $user_language { :>
+			<: for $c.user.user_languages.all_ref -> $user_language { :>
 				<div class="row">
 					<div class="forty">
 						<span class="locale locale--account">
@@ -60,10 +60,10 @@
 			<div class="row">
 				<p>Trying to add a language that's not on the list? <a href="<: $u('My','requestlanguage') :>">Request it here!</a></p>
 			</div>
-			<: if my $size = results($c.user.user_languages).size() { :>
+			<: if my $size = $c.user.user_languages.count { :>
 				<div class="row callout-row">
 					<: if $c.user.translation_manager { :>
-						<a class="callout-link" href="http://duckpan.org/perldoc/DDG::Manual::Translation">
+						<a class="callout-link" href="https://github.com/duckduckgo/community-platform/wiki/Translation">
 							<i class="icon-circle-arrow-right  callout-row__icn--right"></i>
 							<i class="callout-row__icn--left  icon-leaf"></i>
 							<h3 class="callout-row__text  has-icon">You are a translation manager! Click here for translation documentation.</h3>
@@ -111,21 +111,6 @@
 					<a href="<: $u('My','changepw') :>" class="button button--right">Change password</a>
 				</div>
 			</div>
-			<: my $github_user = cur_user().github_user :>
-			<div class="row">
-				<div class="twothird">
-					<label>
-						<: if $github_user { :>
-							Update your Github link <: i($github_user) :>:
-						<: } else { :>
-							Link your GitHub:
-						<: } :>
-					</label>
-				</div>
-				<div class="third">
-					<a href="<: $u('My::GitHub','index', { action_token => $action_token }) :>" class="button button--right">GitHub Link</a>
-				</div>
-			</div>
 			<div class="row">
 				<div class="twothird">
 					<label>
@@ -147,14 +132,6 @@
 				</div>
 			</div>
 			<: if $c.user.public { :>
-				<div class="row">
-					<div class="twothird">
-						<label>Your Username:</label>
-					</div>
-					<div class="third">
-						<a href="<: $u('My','capitalize') :>" class="button button--right">Capitalize</a>
-					</div>
-				</div>
 				<: if !$c.user.admin && ($c.user.is('forum_manager') || $c.user.is('idea_manager') || $c.user.is('translation_manager')) { :>
 					<div class="row">
 						<div class="twothird">
@@ -176,7 +153,7 @@
 				<: if cur_user().admin { :>
 					<div class="row">
 						<div class="twothird">
-							<label>Your <a href="<: $u('Userpage::Blog','index',$c.user.username) :>">blog</a> [AdminOnly]</label>
+							<label>Your company blog posts [AdminOnly]</label>
 						</div>
 						<div class="third">
 							<a href="<: $u('My::Blog','index') :>" class="button button--right">Edit posts</a>
@@ -186,23 +163,7 @@
 				<div class="row">
 					<div class="twothird">
 						<label>
-							<: $l('Open forum links in new window:') :>
-						</label>
-					</div>
-					<div class="third">
-						<a href="<: $u('my','forum_links_same_window', { action_token => $action_token }) :>" class="button button--right">
-							<: if $c.user.forum_links_same_window { :>
-								<: $l('Off') :>
-							<: } else { :>
-								<: $l('On') :>
-							<: } :>
-						</a>
-					</div>
-				</div>
-				<div class="row">
-					<div class="twothird">
-						<label>
-							Your <a href="<: $u('Userpage','home',$c.user.username) :>">userpage</a> (<a href="<: $u('Userpage','json',$c.user.username) :>">JSON</a>)
+							Your <a href="<: $u('Userpage','home',$c.user.username) :>">userpage</a>
 						</label>
 					</div>
 					<div class="third">
@@ -221,7 +182,7 @@
 		</div>
 		<div class="body">
 			<div class="row">			
-				<p>We provide a public XMPP server with this account, which you can add to your favourite client. You can find a list of clients <a href="http://xmpp.org/xmpp-software/clients/">here</a>. XMPP is an open-standard instant communication protocol like ICQ, MSN or Yahoo. You can find more information on <a href="http://wikipedia.org/wiki/XMPP">Wikipedia</a>. To get set up, check out our tutorial for <a href="<: $u('Blog','post','using-pidgin-with-xmpp-jabber') :>">using the Pidgin client</a>.</p>
+				<p>We provide a public XMPP server with this account, which you can add to your favourite client. You can find a list of clients <a href="http://xmpp.org/xmpp-software/clients/">here</a>. XMPP is an open-standard instant communication protocol like ICQ, MSN or Yahoo. You can find more information on <a href="http://wikipedia.org/wiki/XMPP">Wikipedia</a>.
 				<p>
 					<strong>Username:</strong> <: $c.user.lowercase_username :><br/>
 					<strong>Domain:</strong> <: $xmpp_userhost :><br/>
@@ -230,7 +191,7 @@
 				</p>			
 			</div>
 			<div class="row callout-row">
-				<a class="callout-link" href="<: $u('Blog','post','xmpp-services-at-duckduckgo') :>">
+				<a class="callout-link" href="https://duck.co/blog/post/4/xmpp-services-at-duckduckgo">
 					<i class="icon-circle-arrow-right  callout-row__icn--right"></i>
 					<i class="callout-row__icn--left  icon-bubbles"></i>
 					<h3 class="callout-row__text  has-icon">Click here for more information about our XMPP service.</h3>
@@ -241,7 +202,7 @@
 
 </form>
 
-<: for results($c.user.user_languages) -> $user_language { :>
+<: for $c.user.user_languages.all_ref -> $user_language { :>
 	<: include "my/account/language_remove.tx" { lang_id => $user_language.language.id } :> 
 <: } :>
 <: include "my/account/language_tip.tx" :>

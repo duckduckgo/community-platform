@@ -39,9 +39,39 @@
                 //right_pane_left = $right_pane.offset().left;
                 $dropdown_header = $right_pane.children(".dropdown").children(".dropdown_header");
                 $input_query = $('#filters input[name="query"]');
+                
+                var parameters = window.location.search.replace("?", "");
+                parameters = $.trim(parameters.replace(/\/$/, ''));
+                if (parameters) {
+                    parameters = parameters.split("&");
 
-                ind.filter($list_item, query);
-            });
+                    var param_count = 0;
+
+                    $.each(parameters, function(idx) {
+                        var temp = parameters[idx].split("=");
+                        var field = temp[0];
+                        var value = temp[1];
+                        if (field && value && (ind.selected_filter.hasOwnProperty(field) || field === "q")) {
+                            if (ind.selected_filter.hasOwnProperty(field)) {
+                                var selector = "ia_" + field + "-" + value;
+                                selector = (field === 'topic')? "." + selector : "#" + selector;
+                                $(selector).parent().trigger("click");
+                                param_count++;
+                            } else if ((field === "q") && value) {
+                                $input_query.val(decodeURIComponent(value.replace(/\+/g, " ")));
+                                $(".filters--search-button").trigger("click");
+                                param_count++;
+                            }
+                        }
+                    });
+
+                    if (param_count === 0) {
+                        ind.filter($list_item, query);
+                    }
+                } else {
+                    ind.filter($list_item, query);
+                }
+           });
 
             $(document).click(function(evt) {
                 if (!$(evt.target).closest(".dropdown").length) {
@@ -228,19 +258,33 @@
             var dev_milestone = this.selected_filter.dev_milestone;
             var topic = this.selected_filter.topic;
             var template = this.selected_filter.template;
-
             var regex;
+            var url = "";
 
             if (query) {
+                console.log("filter: query " + query);
                 query = query.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
                 regex = new RegExp(query, "gi");
+                url += "&q=" + encodeURIComponent(query.replace(/\x5c/g, "")).replace(/%20/g, "+");
             }
 
             if (!query && !repo.length && !topic.length && !dev_milestone.length && !template.length) {
                 $obj.show();
             } else {
                 $obj.hide();
-                 
+                $.each(this.selected_filter, function(key, val) {
+                    if (val) {
+                        if (key === "topic") {
+                            val = val.replace(".", "#");
+                            val = $(val).attr("class").replace("ia_topic-", "");
+                        } else {
+                            val = val.replace(".ia_" + key + "-", "");
+                        }
+                        
+                        url += "&" + key + "=" + val;
+                    }
+                });
+
                 var $children = $obj.children(dev_milestone + repo + topic + template);
                
                 var temp_name;
@@ -258,7 +302,13 @@
                     $children.parent().show();
                 }
             }
- 
+
+            url = url.length? "?" + url.replace("#", "").replace("&", ""): "/ia";
+            
+            // Allows changing URL without reloading, since it doesn't add the new URL to history;
+            // Not supported on IE8 and IE9.
+            history.pushState({}, "Index: Instant Answers", url);
+
             this.count($obj, $("#filter_repo ul li a"), regex, dev_milestone + topic + template);
             this.count($obj, $("#filter_topic ul li a"), regex, dev_milestone + repo + template);
             this.count($obj, $("#filter_template ul li a"), regex, dev_milestone + repo + topic);

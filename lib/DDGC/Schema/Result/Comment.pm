@@ -4,7 +4,6 @@ package DDGC::Schema::Result::Comment;
 use Moo;
 extends 'DDGC::Schema::Result';
 use DBIx::Class::Candy;
-use DDGC::Util::Markup;
 use DDGC::Util::DateTime qw/ dur /;
 
 table 'comment';
@@ -79,9 +78,8 @@ belongs_to 'parent',   'DDGC::Schema::Result::Comment', 'parent_id';
 
 sub html {
     my ( $self ) = @_;
-    my $markup = DDGC::Util::Markup->new;
-    return $markup->html( $self->content ) if $self->is_html;
-    return $markup->bbcode( $self->content );
+    return $self->app->markup->html( $self->content ) if $self->is_html;
+    return $self->app->markup->bbcode( $self->content );
 }
 
 sub TO_JSON {

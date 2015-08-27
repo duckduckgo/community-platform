@@ -1,2 +1,293 @@
-<div class="dev_milestone-container milestone-panel container-advanced" id="advanced">
-</div> 
+{{#if repo}}
+{{#is_true permissions.can_edit}}
+    {{#ne_and dev_milestone 'live' 'deprecated'}}
+    <div class="ia-single--details {{#ne_and dev_milestone 'live' 'deprecated'}}wicked-border{{/ne_and}}" tabindex="0" id="ia-single--details">
+        <h3 class="ia-single--header">Details
+            <a href="#" class="devpage-commit-details sep--after hide" id="devpage-commit-details">Commit Changes</a>
+            <a href="#" class="devpage-cancel-details hide" id="devpage-cancel-details">Revert All</a>
+        </h3>
+
+        <div class="section-group" {{#eq repo 'spice'}}id="answerbar-group"{{/eq}} {{#eq repo 'fathead'}}id="src_options-group"{{/eq}}>
+
+        <!-- Spice -->
+        {{#eq repo 'spice'}}
+            <div class="gw">
+                <div class="twothirds g">
+                    <label class="details__label">
+                        <span {{#ne_and dev_milestone 'live' 'deprecated'}}class="asterisk"{{/ne_and}}>Perl Module</span>
+                    </label>
+                    <input type="text" class="js-autocommit frm__input perl_module" id="perl_module-input" value="{{perl_module}}">
+                </div>
+                <div class="third g">
+                    <label class="details__label">
+                        Template
+                    </label>
+                    <input type="text" class="js-autocommit frm__input template" id="template-input" value="{{template}}">
+                </div>
+            </div>
+
+            <div class="gw">
+                <div class="twothirds g">
+                    <label class="details__label">
+                        Perl Dependencies
+                    </label>
+                    <input type="text" value="{{perl_dependencies}}" class="comma-separated js-autocommit frm__input perl_dependencies" id="perl_dependencies-input">
+                </div>
+                {{#is_true permissions.admin}}
+                    <div class="third g">
+                        <label class="details__label">
+                            Tab Name
+                        </label>
+                        <input type="text" value="{{tab}}" class="js-autocommit frm__input tab" id="tab-input">
+                    </div>
+                {{/is_true}}
+            </div>
+
+            <div class="gw">
+                <div class="third g">
+                    <label class="details__label">
+                        API Documentation
+                    </label>
+                    <input type="text" value="{{src_api_documentation}}" class="js-autocommit frm__input src_api_documentation" id="src_api_documentation-input">
+                </div>
+
+                <div class="third g">
+                    <label class="details__label">
+                        API Status Page
+                    </label>
+                    <input type="text" value="{{api_status_page}}" class="js-autocommit frm__input api_status_page" id="api_status_page-input">
+                </div>
+
+                <div class="third g">
+                    <ul>
+                        <li>
+                            <label class="details__label">Fallback Timeout (ms):</label>
+                            <input type="number" value="{{answerbar.fallback_timeout}}" id="fallback_timeout-input" class="js-autocommit frm__input fallback_timeout section-group__item">
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        {{/eq}}
+
+        <!-- Goodies -->
+        {{#eq repo 'goodies'}}
+            <div class="gw">
+                <div class="twothirds g">
+                    <label class="details__label">
+                        <span {{#ne_and dev_milestone 'live' 'deprecated'}}class="asterisk"{{/ne_and}}>Perl Module</span>
+                    </label>
+                    <input type="text" class="js-autocommit frm__input perl_module" id="perl_module-input" value="{{perl_module}}">
+                </div>
+                <div class="third g">
+                    <label class="details__label">
+                        Template
+                    </label>
+                    <input type="text" class="js-autocommit frm__input template" id="template-input" value="{{template}}">
+                </div>
+            </div>
+
+            <div class="gw">
+                <div class="twothirds g">
+                    <label class="details__label">
+                        Perl Dependencies
+                    </label>
+                    <input type="text" value="{{perl_dependencies}}" class="comma-separated js-autocommit frm__input perl_dependencies" id="perl_dependencies-input">
+                </div>
+                {{#is_true permissions.admin}}
+                    <div class="third g">
+                        <label class="details__label">
+                            Tab Name
+                        </label>
+                        <input type="text" value="{{tab}}" class="js-autocommit frm__input tab" id="tab-input">
+                    </div>
+                {{/is_true}}
+            </div>
+        {{/eq}}
+
+        {{#eq repo 'fathead'}}
+            <div class="gw">
+                <div class="twothird g">
+                    <div>
+                        <label class="details__label">
+                            <span class="{{#ne_and dev_milestone 'live' 'deprecated'}}asterisk{{/ne_and}}">Perl Module</span>
+                        </label>
+                        <input type="text" class="js-autocommit frm__input perl_module" id="perl_module-input" value="{{perl_module}}">
+                    </div>
+                    <div>
+                        <label class="details__label">
+                            Template
+                        </label>
+                        <input type="text" class="js-autocommit frm__input template" id="template-input" value="{{template}}">
+                    </div>
+
+                    <div class="half">
+                        <label  class="details__label">
+                            Source ID
+                        </label>
+                        <input type="number" value="{{src_id}}" class="js-autocommit frm__input src_id" id="src_id-input">
+                    </div>
+                    <div class="half g">
+                        <label class="details__label">
+                            Directory
+                        </label>
+                        <input type="text" value="{{src_options.directory}}" class="js-autocommit frm__input directory clearfix section-group__item" id="directory-input">
+                    </div>
+                </div>
+                <div class="third g">
+                    <label class="details__label">
+                        Options
+                    </label>
+                    <ul>
+                        <li>
+                            <label class="frm__label">
+                                <input id="skip_abstract-check" class="skip_abstract section-group__item frm__label__chk js-autocommit" type="checkbox" {{#is_true src_options.skip_abstract}}checked="checked"{{/is_true}}>
+                                <span class="frm__label__txt">Skip Abstract</span>
+                            </label>
+                        </li>
+                        <li>
+                            <label class="frm__label">
+                                <input id="skip_abstract_paren-check" class="skip_abstract_paren section-group__item frm__label__chk js-autocommit" type="checkbox" {{#is_true src_options.skip_abstract_paren}}checked="checked"{{/is_true}}>
+                                <span class="frm__label__txt">Skip Abstract Parent</span>
+                            </label>
+                        </li>
+                        <li>
+                            <label class="frm__label">
+                                <input id="skip_icon-check" class="skip_icon section-group__item frm__label__chk js-autocommit" type="checkbox" {{#is_true src_options.skip_icon}}checked="checked"{{/is_true}}>
+                                <span class="frm__label__txt">Skip Icon</span>
+                            </label>
+                        </li>
+                        <li>
+                            <label class="frm__label">
+                                <input id="skip_image_name-check" class="skip_image_name section-group__item frm__label__chk js-autocommit" type="checkbox" {{#is_true src_options.skip_image_name}}checked="checked"{{/is_true}}>
+                                <span class="frm__label__txt">Skip Image Name</span>
+                            </label>
+                        </li>
+                        <li>
+                            <label class="frm__label">
+                                <input id="is_wikipedia-check" class="is_wikipedia section-group__item frm__label__chk js-autocommit" type="checkbox" {{#is_true src_options.is_wikipedia}}checked="checked"{{/is_true}}>
+                                <span class="frm__label__txt">Is Wikipedia</span>
+                            </label>
+                        </li>
+                        <li>
+                            <label class="frm__label">
+                                <input id="is_mediawiki-check" class="is_mediawiki section-group__item frm__label__chk js-autocommit" type="checkbox" {{#is_true src_options.is_mediawiki}}checked="checked"{{/is_true}}>
+                                <span class="frm__label__txt">Is MediaWiki</span>
+                            </label>
+                        </li>
+                        <li>
+                            <label class="frm__label">
+                                <input id="is_fanon-check" class="is_fanon section-group__item frm__label__chk js-autocommit" type="checkbox" {{#is_true src_options.is_fanon}}checked="checked"{{/is_true}}>
+                                <span class="frm__label__txt">Is Fanon</span>
+                            </label>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="gw">
+                <div class="third g">
+                    <label class="details__label">
+                        Source Name
+                    </label>
+                    <input type="text" value="{{src_name}}" class="js-autocommit frm__input src_name" id="src_name-input">
+                </div>
+
+                <div class="third g">
+                    <label class="details__label">
+                        Minimum Abstract Length
+                    </label>
+                    <input type="number" step="1" value="{{src_options.min_abstract_length}}" class="js-autocommit frm__input min_abstract_length clearfix section-group__item" id="min_abstract_length-input">
+                </div>
+
+                <div class="third g">
+                    <label class="details__label">
+                        Source Skip
+                    </label>
+                    <input type="text" value="{{src_options.src_skip}}" class="js-autocommit frm__input src_skip clearfix section-group__item" id="src_skip-input">
+                </div>
+            </div>
+            <div class="gw">
+                <div class="third g">
+                    <label class="details__label">
+                        Source Domain
+                    </label>
+                    <input type="text" value="{{src_domain}}" class="js-autocommit frm__input src_domain" id="src_domain-input">
+                </div>
+                <div class="third g">
+                    <label class="details__label">
+                        Language
+                    </label>
+                    <input type="text" value="{{src_options.language}}" class="js-autocommit frm__input language clearfix section-group__item" id="language-input">
+                </div>
+                <div class="third g">
+                    <label class="details__label">
+                        Source Info
+                    </label>
+                    <input type="text" value="{{src_options.src_info}}" class="js-autocommit frm__input src_info clearfix section-group__item" id="src_info-input">
+                </div>
+            </div>
+            <div>
+                <label class="details__label">
+                    Skip Query
+                </label>
+                <input type="text" value="{{src_options.skip_qr}}" class="js-autocommit frm__input skip_qr clearfix section-group__item" id="skip_qr">
+            </div>
+        {{/eq}}
+
+        <!-- Longtail -->
+        {{#eq repo 'longtail'}}
+            <div class="gw">
+                <div class="twothirds g">
+                    <label class="details__label">
+                        <span {{#ne_and dev_milestone 'live' 'deprecated'}}class="asterisk"{{/ne_and}}>Perl Module</span>
+                    </label>
+                    <input type="text" class="js-autocommit frm__input perl_module" id="perl_module-input" value="{{perl_module}}">
+                </div>
+                <div class="third g">
+                    <label class="details__label">
+                        Template
+                    </label>
+                    <input type="text" class="js-autocommit frm__input template" id="template-input" value="{{template}}">
+                </div>
+            </div>
+
+            <div class="gw">
+                <div class="twothirds g">
+                    <label class="details__label">
+                        Perl Dependencies
+                    </label>
+                    <input type="text" value="{{perl_dependencies}}" class="comma-separated js-autocommit frm__input perl_dependencies" id="perl_dependencies-input">
+                </div>
+                {{#is_true permissions.admin}}
+                    <div class="third g">
+                        <label class="details__label">
+                            Tab Name
+                        </label>
+                        <input type="text" value="{{tab}}" class="js-autocommit frm__input tab" id="tab-input">
+                    </div>
+                {{/is_true}}
+            </div>
+
+            <div class="gw">
+                <div class="twothirds g">
+                    <label class="details__label">
+                        Source Domain
+                    </label>
+                    <input type="text" value="{{src_domain}}" class="js-autocommit frm__input src_domain" id="src_domain-input">
+                </div>
+                <div class="third g">
+                    <label class="details__label">
+                        Is StackExchange
+                    </label>
+                    <label class="frm__label">
+                        <input id="is_stackexchange-check" class="is_stackexchange frm__label__chk js-autocommit" type="checkbox" {{#is_true is_stackexchange}}checked="checked"{{/is_true}}>
+                        <span class="frm__label__txt">Is StackExchange</span>
+                    </label>
+                </div>
+            </div>
+        {{/eq}}
+
+        </div>
+    </div>
+    {{/ne_and}}
+{{/is_true}}
+{{/if}}

@@ -30,7 +30,7 @@
 			  <h5><strong>Related Help Articles</strong></h5>
 			</div>
 			<div class="body">
-			  <: for results($help.related_helps) -> $related_help { :>
+			  <: for $help_related_helps -> $related_help { :>
 				<div class="row">
 				  <a href="<: $u('Help','help',$related_help.category.key,$related_help.key) :>" class="fill">
 					<: $related_help.content_by_language_id($help_language_id).title :>
@@ -42,7 +42,7 @@
 		<: } :>		
 		<a href="javascript:" class="button  hide  palm-block  js-palm-toggle"><i class="icon  icon-list-ul"></i> Show More Links</a>
 		<ul class="nav  nav--panels  palm-hide">
-		  <: for results($help_categories) -> $category { :>
+		  <: for $help_categories -> $category { :>
 			<li class="nav-item <: if $category.key == $help_category.key { :> nav-item--active<:}:>">
 			  <: if $category.key != $help_category.key { :>
 				<a href="<: $u('Help','category',$category.key) :>" class="nav-item__title  nav-item__link  js-toggle-sibling  is-exclusive"><: $category.content_by_language_id($help_language_id).title :></a>
@@ -50,7 +50,7 @@
 				<span class="nav-item__title  js-toggle-sibling  is-exclusive"><: $category.content_by_language_id($help_language_id).title :></span>
 			  <: } :>
 				<ul class="nav  nav--sub <: if $category.key == $help_category.key { :> is-open <: } else {:> is-closed <:}:>">
-					<: for results($category.helps) -> $help_nav { :>
+					<: for $category.helps.all_ref -> $help_nav { :>
 					  <li class="sub-item <: if $help_nav.key == $help.key { :> sub-item--active<:}:>">
 						<: if $help_nav.key == $help.key { :>
 						  <span class="sub-item__title"><: $help_nav.content_by_language_id($help_language_id).title :></span>

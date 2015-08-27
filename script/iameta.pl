@@ -8,6 +8,10 @@ use Data::Dumper;
 use Try::Tiny;
 use File::Copy qw( move );
 
+BEGIN {
+    $ENV{DDGC_IA_AUTOUPDATES} = 1;
+}
+
 sub debug { 0 };
 
 my $upload_meta = DDGC::Config->new->rootdir_path . "cache/all_meta.json";

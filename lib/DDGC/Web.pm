@@ -272,6 +272,52 @@ sub finalize_error {
 	$c->next::method();
 }
 
+sub _apply_session_to_req {
+	my ( $c, $req ) = @_;
+	$req->header(
+		Cookie => 'ddgc_session=' . $c->req->env->{'psgix.session.options'}->{id},
+	);
+}
+sub _ref_to_uri {
+	my ( $route ) = @_;
+	my $service = '/' . lc( shift @{$route} ) . '.json';
+	my ( $uri ) = join  '/', @{$route};
+	return "$service/$uri";
+}
+
+sub ddgcr_get {
+	my ( $c, $route, $params ) = @_;
+	$route = _ref_to_uri( $route ) if ( ref $route eq 'ARRAY' );
+
+	my $req = HTTP::Request->new(
+		GET => $c->uri_for( $route, $params )->canonical
+	);
+	$c->_apply_session_to_req( $req );
+
+	my $res = $c->d->http->request( $req );
+	$res->{ddgcr} = JSON::from_json( $res->decoded_content, { utf8 => 1 } );
+	return $res;
+}
+
+sub ddgcr_post {
+	my ( $c, $route, $data ) = @_;
+	$route = _ref_to_uri( $route ) if ( ref $route eq 'ARRAY' );
+
+	$data = JSON::to_json($data, { convert_blessed => 1, utf8 => 1 }) if ref $data;
+	my $req = HTTP::Request->new(
+		POST => $c->uri_for( $route )->canonical
+	);
+	$req->content_type( 'application/json' );
+	$req->content( $data );
+	$c->_apply_session_to_req( $req );
+
+	my $res = $c->d->http->request( $req );
+	$res->{ddgcr} = JSON::from_json( $res->decoded_content, { utf8 => 1 } );
+	return $res;
+}
+
+
+
 # Start the application
 __PACKAGE__->setup();
 

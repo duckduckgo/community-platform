@@ -18,10 +18,13 @@
 					<: } :>
 				</h3>
 				<: if $post.company_blog { :>
-					<img src="/static/images/duckduckgo-icon.png" width="32" height="32" title="Official DuckDuckGo" class="admin-badge pull-right" />				
+					<img src="/static/images/duckduckgo-icon.png" width="32" height="32" title="Official DuckDuckGo" class="admin-badge pull-right" />
 				<: } :>
 			</div>
 			<div class="body">
+				: if $post.user_id {
+					<input type="hidden" name="users_id" value="<: $post.user_id :>" />
+				: }
 				<div class="row">
 					<div class="third">
 						<label for="name">Title</label>
@@ -37,7 +40,7 @@
 					<div class="twothird">
 						<input type="text" name="uri" size="50" value="<: $post.uri :>" placeholder="(leave empty to take slug from title)" />
 					</div>
-				</div>				
+				</div>
 				<div class="row">
 					<div class="third">
 						<label for="fixed_date">Date of Post <br/><small>(like 'Dec 21 2003 18:00')</small><label>
@@ -52,7 +55,7 @@
 						</div>
 					</div>
 					<: } :>
-				</div>				
+				</div>
 				<div class="row">
 					<div class="third">
 						<label for="topics">Topics</label>
@@ -68,14 +71,18 @@
 					</div>
 					<: } :>
 				</div>
-				
+
 				<: if $c.user.admin { :>
 					<div class="row">
 						<div class="third">
-							<label for="raw_html">Raw HTML post</label>
+							<label for="format">Format</label>
 						</div>
 						<div class="twothird">
-							<input type="checkbox" name="raw_html" value="1" <: if $post.raw_html { :>checked="checked"<: } :>/>
+							<select name="format">
+								: for [ 'markdown', 'html', 'bbcode' ] -> $format {
+									<option value="<: $format :>" <: if $post.format == $format { :>selected="selected"<: } :>><: $format :></option>
+								: }
+							</select>
 						</div>
 					</div>
 				<: } :>
@@ -90,14 +97,13 @@
 				</div>
 				<div class="row">
 					<textarea rows="30" cols="80" name="content" id="content" class="text has-bbcode form-textarea"><: $post.content :></textarea>
-                                        <: i('bbcode_controls', {submit => 0}) :>
 				</div>
 				<div class="row">
 					<div class="third">
 						<label for="live">Make this post LIVE</label>
 					</div>
 					<div class="twothird">
-						<input type="checkbox" name="live" value="1" <: if $post.live { :>checked="checked"<: } :>/>
+						<input type="checkbox" class="chk" name="live" value="1" <: if $post.live { :>checked="checked"<: } :>/>
 					</div>
 				</div>
 				<div class="row">

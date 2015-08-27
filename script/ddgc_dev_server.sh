@@ -6,6 +6,7 @@ LIBDIR=$SCRIPTDIR/../lib
 PORT=5001
 
 [ "$DDGC_UNSUB_KEY" == "" ]          && export DDGC_UNSUB_KEY="asdfasdf"
+[ "$DDGC_SHARED_SECRET" == "" ]      && export DDGC_SHARED_SECRET="asdfasdf"
 [ "$DDGC_COMMENT_RATE_LIMIT" == "" ] && export DDGC_COMMENT_RATE_LIMIT=0
 [ "$DDGC_DB_DSN" == "" ]             && export DDGC_DB_DSN="dbi:Pg:database=ddgc"
 [ "$DDGC_DB_USER" == "" ]            && export DDGC_DB_USER="ddgc"
@@ -54,7 +55,7 @@ fi
 
 if [ "$m" == "1" ] ; then
     # python -m smtpd -n -c DebuggingServer localhost:1025
-    DDGC_SMTP_HOST="localhost:1025"
+    export DDGC_SMTP_HOST="localhost:1025"
 fi
 
 plackup -R $LIBDIR -p $PORT -s Starman $PSGI_SCRIPT
