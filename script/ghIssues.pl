@@ -9,7 +9,7 @@ use DDGC;
 use HTTP::Tiny;
 use Data::Dumper;
 use Try::Tiny;
-use Net::GitHub;
+use Net::GitHub::V3;
 use Time::Local;
 my $d = DDGC->new;
 
@@ -59,6 +59,7 @@ sub getIssues{
             # get the IA name from the link in the first comment
 			# Update this later for whatever format we decide on
 			my $name_from_link = '';
+
             if($issue->{'body'} =~ /(http(s)?:\/\/(duck\.co|duckduckgo.com))?\/ia\/(view)?\/(\w+)/im){
 				$name_from_link = $5;
 			}
@@ -71,7 +72,16 @@ sub getIssues{
 
             my $is_pr = exists $issue->{pull_request} ? 1 : 0;
 
-			# add entry to result array
+            $pulls = $gh->pull_request;
+            my @commits = $pulls->commits('duckduckgo', "zeroclickinfo-$repo", $issue->{number}) if $is_pr;
+            my $commit = pop @commits;
+            my $last_commit = { 
+                diff => $commit->{html_url}, 
+                user => $commit->{commit}->{committer}->{name},
+                date => $commit->{commit}->{committer}->{date},
+            };
+
+            # add entry to result array
 			my %entry = (
 			    name => $name_from_link || '',
 				repo => $repo || '',
@@ -82,6 +92,9 @@ sub getIssues{
 				tags => $issue->{'labels'} || '',
 				date => $issue->{'created_at'} || '',
                 is_pr => $is_pr,
+                last_update => $issue->{updated_at},
+                last_commit => $last_commit,
+                last_comment => "",
 			);
 			push(@results, \%entry);
             delete $pr_hash{$issue->{'number'}.$issue->{repo}};
@@ -144,6 +157,10 @@ sub getIssues{
 
                 my $name = $data->{name};
                 $name =~ s/_/ /g;
+
+                # get dates for last activity
+                my $last_comment;
+                my $last_push;
 
                 my %new_data = (
                     id => $ia->{id} || $data->{name},
