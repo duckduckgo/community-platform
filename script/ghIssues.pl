@@ -2,6 +2,8 @@
 # Get the GH issues for DDG repos
 #
 #
+use strict;
+use warnings;
 use FindBin;
 use lib $FindBin::Dir . "/../lib";
 use JSON;
@@ -9,7 +11,7 @@ use DDGC;
 use HTTP::Tiny;
 use Data::Dumper;
 use Try::Tiny;
-use Net::GitHub;
+use Net::GitHub::V3;
 use Time::Local;
 my $d = DDGC->new;
 
@@ -59,6 +61,7 @@ sub getIssues{
             # get the IA name from the link in the first comment
 			# Update this later for whatever format we decide on
 			my $name_from_link = '';
+
             if($issue->{'body'} =~ /(http(s)?:\/\/(duck\.co|duckduckgo.com))?\/ia\/(view)?\/(\w+)/im){
 				$name_from_link = $5;
 			}
@@ -71,7 +74,15 @@ sub getIssues{
 
             my $is_pr = exists $issue->{pull_request} ? 1 : 0;
 
-			# add entry to result array
+            # get last commit and user info
+            my $last_commit;
+            $last_commit = get_last_commit($repo, $issue->{number}) if $is_pr;
+
+            # get last comment
+            my $last_comment;
+            $last_comment = get_last_comment($repo, $issue->{number}) if $is_pr;
+
+            # add entry to result array
 			my %entry = (
 			    name => $name_from_link || '',
 				repo => $repo || '',
@@ -82,9 +93,13 @@ sub getIssues{
 				tags => $issue->{'labels'} || '',
 				date => $issue->{'created_at'} || '',
                 is_pr => $is_pr,
+                last_update => $issue->{updated_at},
+                last_commit => $last_commit,
+                last_comment => $last_comment,
 			);
+
 			push(@results, \%entry);
-            delete $pr_hash{$issue->{'number'}.$issue->{repo}};
+            delete $pr_hash{$issue->{'number'}.$repo};
             
             my $create_page = sub {
                 my $data = \%entry;
@@ -156,7 +171,10 @@ sub getIssues{
                     perl_module => $ia->{perl_module} || $pm,
                     forum_link => $ia->{forum_link} || $forum_link,
                     src_api_documentation => $ia->{src_api_documentation} || $api_link,
-                    developer => $ia->{developer} || $developer
+                    developer => $ia->{developer} || $developer,
+                    last_update => $issue->{updated_at},
+                    last_commit => $data->{last_commit},
+                    last_comment => $data->{last_comment},
                 );
 
                 $d->rs('InstantAnswer')->update_or_create({%new_data});
@@ -176,6 +194,41 @@ sub getIssues{
     # warn Dumper %pr_hash;
 }
 
+sub get_last_commit {
+    my ($repo, $issue) = @_;
+    my $pulls = $gh->pull_request;
+    my @commits = $pulls->commits('duckduckgo', "zeroclickinfo-$repo", $issue);
+    my $commit = pop @commits;
+
+    return unless $commit;
+
+    my $last_commit = { 
+        diff => $commit->{html_url}, 
+        user => $commit->{commit}->{committer}->{name},
+        date => $commit->{commit}->{committer}->{date},
+        message => $commit->{commit}->{message},
+    };
+
+    return to_json $last_commit;
+}
+
+sub get_last_comment {
+    my ($repo, $issue) = @_;
+    my $issues = $gh->issue;
+    my @comments = $issues->comments('duckduckgo', "zeroclickinfo-$repo", $issue);
+    my $comment = pop @comments;
+
+    return unless $comment;
+
+    my $last_comment = { 
+        user => $comment->{user}->{login},
+        date => $comment->{created_at},
+        text => $comment->{body},
+        id => $comment->{id}
+    };
+
+    return to_json $last_comment;
+}
 
 # check the status of PRs in $pr_hash.  If they were merged
 # then update the file paths in the db
@@ -203,7 +256,7 @@ my $update = sub {
 
     foreach my $result (@results){
         # check if the IA is in our table so we dont die on a foreign key error
-        $ia = $d->rs('InstantAnswer')->find( $result->{name});
+        my $ia = $d->rs('InstantAnswer')->find( $result->{name});
 
         if(exists $result->{name} && $ia){
             $d->rs('InstantAnswer::Issues')->create({
@@ -232,3 +285,4 @@ try {
     print "Update error $_ \n rolling back\n";
     $d->errorlog("Error updating ghIssues: '$_'...");
 }
+
