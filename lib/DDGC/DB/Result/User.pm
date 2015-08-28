@@ -248,13 +248,6 @@ sub is {
 	return $self->roles->find({ role => $self->ddgc->config->id_for_role( $role ) });
 }
 
-sub has_flag {
-	my ( $self, $flag ) = @_;
-	return 0 unless $flag;
-	return 1 if grep { $_ eq $flag } @{$self->flags};
-	return 0;
-}
-
 sub add_role {
 	my ( $self, $role ) = @_;
 	my $role_id = $self->ddgc->config->id_for_role($role);
