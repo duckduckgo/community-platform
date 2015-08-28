@@ -160,13 +160,6 @@ sub getIssues{
                 my $name = $data->{name};
                 $name =~ s/_/ /g;
 
-                # get dates for last activity
-                my $last_comment;
-                my $last_push;
-
-                warn Dumper $data->{last_comment};
-                warn Dumper $data->{last_commit};
-
                 my %new_data = (
                     id => $ia->{id} || $data->{name},
                     meta_id => $ia->{meta_id} || $data->{name},
