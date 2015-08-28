@@ -1,10 +1,12 @@
 #!/usr/bin/env perl
 # check all claimed ideas and make sure they have an IA page.
 # if not then make one
+use strict;
+use warnings;
 use FindBin;
 use lib $FindBin::Dir . "/../lib";
 use DDGC;
-use Time::Local;
+use DateTime;
 my $d = DDGC->new;
 
 BEGIN {
@@ -18,18 +20,11 @@ MAIN: {
             instant_answer_id   => undef,
         });
 
-    my @time = localtime(time);
     my $date = $d->db->format_datetime( DateTime->now );
 
     while (my $idea = $claimed_without_page->next){
 
-        my $ia = $d->rs('InstantAnswer')
-            ->find(
-                $idea->id,
-                {
-                    result_class =>  'DBIx::Class::ResultClass::HashRefInflator'
-                },
-            );
+        my $ia = $d->rs('InstantAnswer')->search({ id => $idea->id })->hri;
 
         my %ia_page = (
             id              => $ia->{id} || $idea->id,
