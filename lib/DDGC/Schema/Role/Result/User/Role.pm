@@ -41,7 +41,8 @@ sub del_role {
 }
 
 sub admin { $_[0]->is('admin') }
-sub community_leader { $_[0]->is('translation_manager') }
+sub community_leader { $_[0]->is('forum_manager') }
+sub forum_manager { $_[0]->is('forum_manager') }
 sub translation_manager { $_[0]->is('translation_manager') }
 
 sub badge {
