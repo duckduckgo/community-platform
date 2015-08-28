@@ -5,6 +5,10 @@ use Moose;
 use MooseX::NonMoose;
 extends 'DDGC::DB::Base::Result';
 with 'DDGC::Schema::Role::Result::User::Subscription';
+with 'DDGC::Schema::Role::Result::User::Role';
+with 'DDGC::Schema::Role::Result::User::Avatar';
+with 'DDGC::Schema::Role::Result::User::ToJSON';
+
 use DBIx::Class::Candy;
 use DDGC::User::Page;
 use Path::Class;
@@ -20,18 +24,6 @@ use DateTime;
 use DateTime::Duration;
 
 table 'users';
-
-# Override subscription_types from Role::Result::User::Subscription
-#  - our reference to config is elsewhere
-has '+subscription_types' => (
-    is => 'ro',
-    lazy => 1,
-    builder => '_build_subscriptions',
-);
-sub _build_subscriptions {
-    $_[0]->ddgc->config->subscriptions;
-}
-
 
 sub u_userpage {
 	my ( $self ) = @_;
@@ -230,9 +222,6 @@ sub unsubscribe_all_notifications {
 # WORKAROUND
 sub db { return shift; }
 
-sub translation_manager { shift->is('translation_manager') }
-sub admin { shift->is('admin') }
-
 sub github_user {
 	my ( $self ) = @_;
 	return $self->search_related('github_users',{},{
@@ -240,34 +229,11 @@ sub github_user {
 	})->first;
 }
 
-sub is {
-	my ( $self, $role ) = @_;
-	return 0 if !$role;
-	return 1 if ( $role eq 'user' );
-	return 1 if $self->roles->find({ role => $self->ddgc->config->id_for_role('admin') });
-	return $self->roles->find({ role => $self->ddgc->config->id_for_role( $role ) });
-}
-
 sub has_flag {
 	my ( $self, $flag ) = @_;
 	return 0 unless $flag;
 	return 1 if grep { $_ eq $flag } @{$self->flags};
 	return 0;
-}
-
-sub add_role {
-	my ( $self, $role ) = @_;
-	my $role_id = $self->ddgc->config->id_for_role($role);
-	return 0 if !$role_id;
-	$self->roles->find_or_create({ role => $role_id });
-}
-
-sub del_role {
-	my ( $self, $role ) = @_;
-	my $role_id = $self->ddgc->config->id_for_role($role);
-	return 0 if !$role_id;
-	my $has_role = $self->roles->find({ role => $role_id });
-	$has_role->delete if $has_role;
 }
 
 has _locale_user_languages => (

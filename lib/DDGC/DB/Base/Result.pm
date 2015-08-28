@@ -140,8 +140,10 @@ sub add_antispam_functionality {
 
 sub default_result_namespace { 'DDGC::DB::Result' }
 
-sub ddgc { shift->result_source->schema->ddgc }
-sub schema { shift->result_source->schema }
+sub schema { $_[0]->result_source->schema }
+sub ddgc { $_[0]->schema->ddgc }
+sub ddgc_config { $_[0]->schema->ddgc_config; }
+sub app { $_[0]->schema->app; }
 
 sub add_event {
 	my ( $self, $action, %args ) = @_;

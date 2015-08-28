@@ -5,6 +5,9 @@ package DDGC::Schema::Result::User;
 use Moo;
 extends 'DDGC::Schema::Result';
 with 'DDGC::Schema::Role::Result::User::Subscription';
+with 'DDGC::Schema::Role::Result::User::Role';
+with 'DDGC::Schema::Role::Result::User::Avatar';
+with 'DDGC::Schema::Role::Result::User::ToJSON';
 
 use DBIx::Class::Candy;
 use Scalar::Util qw/ looks_like_number /;
@@ -12,13 +15,7 @@ use namespace::autoclean;
 
 table 'users';
 
-sub u_userpage {
-    my ( $self ) = @_;
-    return ['Root','default'] unless $self->public_username;
-    return ['Userpage','home',$self->public_username];
-}
-
-column id => {
+primary_column id => {
     data_type => 'bigint',
     is_auto_increment => 1,
 };
@@ -72,7 +69,6 @@ column userpage => {
     serializer_class => 'JSON',
 };
 
-# TODO: Make this JSON or anything else
 column data => {
     data_type => 'text',
     is_nullable => 1,
@@ -103,73 +99,8 @@ column updated => {
 has_many 'roles', 'DDGC::Schema::Result::User::Role', 'users_id';
 has_many 'subscriptions', 'DDGC::Schema::Result::User::Subscription', 'users_id';
 
-sub is {
-    my ( $self, $role ) = @_;
-    return 0 if !$role;
-    return 1 if ( $role eq 'user' );
-    return 1 if $self->roles->find({
-        role => $self->app->config->{ddgc_config}->id_for_role('admin')
-    });
-    return 1 if $self->roles->find({
-        role => $self->app->config->{ddgc_config}->id_for_role($role)
-    });
-    return 0;
-}
-
 sub unread_notifications {
     0;
-}
-
-sub add_role {
-    my ( $self, $role ) = @_;
-    my $role_id = $self->app->config->{ddgc_config}->id_for_role($role);
-    return 0 if !$role_id;
-    $self->roles->find_or_create({ role => $role_id });
-}
-
-sub del_role {
-    my ( $self, $role ) = @_;
-    my $role_id = $self->app->config->{ddgc_config}->id_for_role($role);
-    return 0 if !$role_id;
-    my $has_role = $self->roles->find({ role => $role_id });
-    $has_role->delete if $has_role;
-}
-
-sub username_filesystem_clean {
-    my ( $self ) = @_;
-    ( my $n = $self->username ) =~ s/[^A-Za-z0-9_-]+/_/g;
-    return $n;
-}
-
-sub avatar_path {
-    my ( $self, $size ) = @_;
-    my $username = $self->username_filesystem_clean;
-    my $fn = '/media/avatar/' . join '/', (
-        ( split '', $username )[0..1],
-        $username,
-    );
-    return $fn . (( $size )
-        ? "/${username}_${size}"
-        : '');
-}
-
-sub avatar {
-    my ( $self, $size ) = @_;
-    return '/static/images/profile.anonymous.png' if ( !$self->public );
-    $size ||= 32;
-    $size = 32 if ( !looks_like_number( $size ) );
-    my $avatar = $self->avatar_path( $size );
-    my $fullpath = join '/', ($self->app->config->{ddgc_config}->rootdir, $avatar);
-    return '/static/images/profile.male.png' if ( !-f $fullpath );
-    return $avatar;
-}
-
-sub badge {
-    my ( $self ) = @_;
-    for my $role (qw/ admin community_leader translation_manager /) {
-        return $role if $self->is($role)
-    }
-    return '';
 }
 
 sub TO_JSON {

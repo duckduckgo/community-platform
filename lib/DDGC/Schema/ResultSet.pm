@@ -6,7 +6,11 @@ use Carp;
 use Moo;
 extends 'DBIx::Class::ResultSet';
 
-sub app { $_[0]->result_source->schema->app };
+sub schema { $_[0]->result_source->schema };
+sub app { $_[0]->schema->app };
+sub ddgc_config { $_[0]->schema->ddgc_config };
+
+
 sub current_user {
     my ( $self ) = @_;
     return if !$self->app->can('var');

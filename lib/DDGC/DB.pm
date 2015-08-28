@@ -19,7 +19,9 @@ has _ddgc => (
 	is => 'rw',
 );
 
-sub ddgc { shift->_ddgc }
+sub ddgc { $_[0]->_ddgc }
+sub ddgc_config { $_[0]->ddgc->ddgc_config; }
+sub app { $_[0]->ddgc }
 
 sub connect {
 	my ( $self, $ddgc ) = @_;
