@@ -240,9 +240,17 @@ sub github_user {
 	})->first;
 }
 
+sub normalise_role {
+	my ( $role ) = @_;
+	return 'forum_manager' if ( lc( $role ) eq 'idea_manager' );
+	return 'forum_manager' if ( lc( $role ) eq 'community_leader' );
+	return $role;
+}
+
 sub is {
 	my ( $self, $role ) = @_;
 	return 0 if !$role;
+	$role = normalise_role( $role );
 	return 1 if ( $role eq 'user' );
 	return 1 if $self->roles->find({ role => $self->ddgc->config->id_for_role('admin') });
 	return $self->roles->find({ role => $self->ddgc->config->id_for_role( $role ) });
@@ -250,6 +258,7 @@ sub is {
 
 sub add_role {
 	my ( $self, $role ) = @_;
+	$role = normalise_role( $role );
 	my $role_id = $self->ddgc->config->id_for_role($role);
 	return 0 if !$role_id;
 	$self->roles->find_or_create({ role => $role_id });
@@ -257,6 +266,7 @@ sub add_role {
 
 sub del_role {
 	my ( $self, $role ) = @_;
+	$role = normalise_role( $role );
 	my $role_id = $self->ddgc->config->id_for_role($role);
 	return 0 if !$role_id;
 	my $has_role = $self->roles->find({ role => $role_id });
