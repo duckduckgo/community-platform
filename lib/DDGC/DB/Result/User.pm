@@ -6,6 +6,9 @@ use MooseX::NonMoose;
 extends 'DDGC::DB::Base::Result';
 with 'DDGC::Schema::Role::Result::User::Subscription';
 with 'DDGC::Schema::Role::Result::User::Role';
+with 'DDGC::Schema::Role::Result::User::Avatar';
+with 'DDGC::Schema::Role::Result::User::ToJSON';
+
 use DBIx::Class::Candy;
 use DDGC::User::Page;
 use Path::Class;
