@@ -252,7 +252,7 @@ my $merge_files = sub {
 
         #update code in db
         my $result = $d->rs('InstantAnswer')->find({id => $data->{instant_answer_id}});
-        $result->update({code => JSON->new->ascii(1)->encode(\@files)});
+        $result->update({code => JSON->new->ascii(1)->encode(\@files)}) if $result;
     }
 };
 
@@ -261,11 +261,17 @@ my $update = sub {
 
     foreach my $result (@results){
         # check if the IA is in our table so we dont die on a foreign key error
-        my $ia = $d->rs('InstantAnswer')->find( $result->{name});
 
+        $ia = $d->rs('InstantAnswer')->search( {
+            -or => [
+                id => $result->{name},
+                meta_id => $result->{name},
+            ]
+        } )->one_row;
+ 
         if(exists $result->{name} && $ia){
             $d->rs('InstantAnswer::Issues')->create({
-                instant_answer_id => $result->{name},
+                instant_answer_id => $ia->id,
                 repo => $result->{repo},
                 issue_id => $result->{issue_id},
                 title => $result->{title},
