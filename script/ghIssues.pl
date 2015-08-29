@@ -113,7 +113,7 @@ sub getIssues{
                         meta_id => $data->{name},
                     ]
                 } )->hri->one_row;
-                my $new_ia = 1 if !keys $ia;
+                my $new_ia = 1 if !$ia;
 
                 my @time = localtime(time);
                 my $date = "$time[4]/$time[3]/".($time[5]+1900);
