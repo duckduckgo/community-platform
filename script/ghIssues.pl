@@ -113,7 +113,6 @@ sub getIssues{
                         meta_id => $data->{name},
                     ]
                 } )->hri->one_row;
-                use DDP; p $ia;
                 my $new_ia = 1 if !keys $ia;
 
                 my @time = localtime(time);
