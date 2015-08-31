@@ -16,3 +16,4 @@ while (my $ia = $ias->next) {
         $ia->update({forum_link => $forum_link});
     }
 }
+
