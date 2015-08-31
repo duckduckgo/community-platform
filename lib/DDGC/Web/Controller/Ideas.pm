@@ -157,7 +157,7 @@ sub claimed :Chained('base') :Args(0) {
 	my ( $self, $c ) = @_;
 	$c->stash->{ideas_rs} = $c->stash->{ideas_rs}->search_rs({
 		claimed_by => { '!=' => undef },
-		instant_answer_id => undef,
+		instant_answer_id => { '!=' => undef },
 	});
 	$self->add_ideas_table($c,'claimed');
 	$self->add_latest_ideas($c);
