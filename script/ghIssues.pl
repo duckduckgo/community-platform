@@ -127,7 +127,7 @@ sub getIssues{
                 my ($api_link) = $data->{body} =~ /What is the data source.*?\*\*.*?(https?:\/\/.*?)?(?:\>|\)|\*|$)/i;
 
                 # api documentation
-                my ($forum_link) = $data->{body} =~ /Is this Instant Answer connected.*?\*\*.*?(https?:\/\/.*?)?(?:\>|\)|\*|$)/i;
+                my ($forum_link) = $data->{body} =~ /Is this Instant Answer connected.*?\*\*.*?(?:https?:\/\/duck\.co\/ideas\/idea\/([0-9]+).*?)?(?:\>|\)|\*|$)/i;
                 
                 # get the file info for the pr
                 $gh->set_default_user_repo('duckduckgo', "zeroclickinfo-$data->{repo}");
@@ -262,7 +262,7 @@ my $update = sub {
     foreach my $result (@results){
         # check if the IA is in our table so we dont die on a foreign key error
 
-        $ia = $d->rs('InstantAnswer')->search( {
+        my $ia = $d->rs('InstantAnswer')->search( {
             -or => [
                 id => $result->{name},
                 meta_id => $result->{name},
