@@ -739,7 +739,7 @@
                             delete ia_data.staged.details;
                         }
                         
-                        keepUnsavedEdits();
+                        keepUnsavedEdits("details");
                     });
 
                     $("body").on("click", "#ia-single--details .frm__label__chk.js-autocommit", function(evt) {
@@ -1300,7 +1300,7 @@
                         // in the details section was edited.
                         // These fields have the same behaviour as the blue band fields, too,
                         // so we perform the same actions for them as well
-                        if (!$("#devpage-commit-details").hasClass("hide")) {
+                        if (!$("#devpage-commit-details").hasClass("hide") && (field !== "details")) {
                             ia_data.staged.details = {};
                             var section_done = false;
                             var $details = $("#ia-single--details .js-autocommit");
