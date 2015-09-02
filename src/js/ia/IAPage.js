@@ -804,6 +804,7 @@
 
                             commitMultiple(to_commit, true);
                         } else {
+                            console.log($editable.attr("class"));
                             commitEdit($editable);
                         }
                     });
@@ -1038,8 +1039,6 @@
                         var value;
                         var is_json = is_json? is_json : false;
 
-                        //console.log($editable.selector + " Before committing");
-                        console.log("IS JSON " + is_json);
                         var result = getUnsavedValue($editable, field, is_json);
 
                         field = result.field;
@@ -1047,6 +1046,7 @@
                         is_json = result.is_json;
                         parent_field = result.parent_field;
 
+                        console.log("IS JSON " + is_json);
                         var live_data = (ia_data.live[field] && is_json)? JSON.stringify(ia_data.live[field]) : ia_data.live[field];
 
                         console.log("After getUnsaved... " + field + " " + value);
@@ -1143,6 +1143,9 @@
                                 $selector = $(".developer_username input[type='text']");
                             } else {
                                 $selector = $("." + field).children("input");
+
+                                console.log($selector.parent().attr("class"));
+                                console.log($selector.length);
                             }
                         }
 
@@ -1218,7 +1221,6 @@
                     // like we left them.
                     function keepUnsavedEdits(field) {
                         var $commit_open = $(".devpage-edit.hide").parent().parent();
-                        var $unsaved_edits = $commit_open.find(".js-autocommit");
                         var secondary_field = "";
                         ia_data.staged = {};
                         var error_save = [];
@@ -1232,15 +1234,24 @@
                             delete ia_data.examples_saved;
                         }
 
-                        $unsaved_edits.each(function(idx) {
-                            var temp_result = getUnsavedValue($(this));
+                        $commit_open.each(function(idx) {
+                            var $unsaved_edits = $(this).find(".js-autocommit").first();
+                            console.log($unsaved_edits.attr("class"));
+                            var temp_result = getUnsavedValue($unsaved_edits);
                             var temp_field = temp_result.field;
+
+                            console.log(temp_result);
 
                             if ((temp_field !== field) && (temp_field !== secondary_field)) {
                                 var temp_value = temp_result.value? temp_result.value : "n---d";
+
+                                if (temp_value && temp_result.is_json) {
+                                    temp_value = JSON.parse(temp_value);
+                                }
+                                
                                 ia_data.staged[temp_field] = temp_value;
 
-                                if ($(this).hasClass("not_saved") && ($.inArray(temp_field, error_save) === -1)) {
+                                if ($unsaved_edits.hasClass("not_saved") && ($.inArray(temp_field, error_save) === -1)) {
                                     var temp_error = {};
                                     temp_error.field = temp_field;
                                     var $notif = $("." + temp_field).siblings(".error-notification");

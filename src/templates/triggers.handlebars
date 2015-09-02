@@ -10,11 +10,11 @@
         </h3>
 
         {{#if permissions.can_edit}}
-            <ul class="hidden-toshow {{#unless staged.triggers}}hide{{/unless}} {{#eq staged.triggers 'n---d'}}hide{{/eq}}triggers parent-group" id="triggers-group">
+            <ul class="hidden-toshow {{#unless staged.triggers}}hide{{/unless}} {{#eq staged.triggers 'n---d'}}hide{{/eq}} parent-group" id="triggers-group">
                 {{#if staged.triggers}}
                     {{#each staged.triggers}}
                         <li>
-                            <span name="triggers" class="triggers">
+                            <span class="triggers">
                                 <input type="text" value="{{this}}" class="js-autocommit group-vals" />
                                 <span class="delete-tag delete triggers"><i class="ddgsi-close"></i></span>
                             </span>
@@ -26,7 +26,7 @@
                 {{else}}
                     {{#each triggers}}
                         <li>
-                            <span name="triggers" class="triggers">
+                            <span class="triggers">
                                 <input type="text" value="{{this}}" class="js-autocommit group-vals" />
                                 <span class="delete-tag delete triggers"><i class="ddgsi-close"></i></span>
                             </span>
@@ -36,7 +36,7 @@
                         {{/module_zero}}
                     {{/each}}
                 {{/if}}
-                <li class="editpage hide new_input" id="input_triggers">
+                <li class="editpage hide new_input">
                     <span name="triggers" class="triggers">
                         <input type="text" value="" class="js-autocommit group-vals" />
                         <span class="delete-tag delete triggers"><i class="ddgsi-close"></i></span>
