@@ -42,7 +42,7 @@
                           {{/loop_n}}
                       {{/if}}
 
-                      <div class="btn {{#gt topic 1}}hide{{/gt}}" id="add_topic">
+                      <div class="btn {{#if staged.top_fields.topic}}{{#gt staged.top_fields.topic 1}}hide{{/gt}}{{else}}{{#gt topic 1}}hide{{/gt}}{{/if}}" id="add_topic">
                         <i class="ddgsi-plus" />
                       </div>
 
