@@ -1051,7 +1051,6 @@
                         is_json = result.is_json;
                         parent_field = result.parent_field;
 
-                        console.log("IS JSON " + is_json);
                         var live_data = (ia_data.live[field] && is_json)? JSON.stringify(ia_data.live[field]) : ia_data.live[field];
 
                         console.log("After getUnsaved... " + field + " " + value);
@@ -1092,7 +1091,6 @@
                                 field = $editable.parents(".parent-group").attr("id").replace(/\-.+/, "");
                                 var $obj = field === "topic"? $(".topic-group.js-autocommit option:selected") : "";
                                 value = getGroupVals(field, $obj);
-                                console.log(value);
                                 value = JSON.stringify(value);
                             } else {
                                 field = $editable.attr("id").replace(/\-.+/, "");
@@ -1148,9 +1146,6 @@
                                 $selector = $(".developer_username input[type='text']");
                             } else {
                                 $selector = $("." + field).children("input");
-
-                                console.log($selector.parent().attr("class"));
-                                console.log($selector.length);
                             }
                         }
 
@@ -1245,8 +1240,6 @@
                             var temp_result = getUnsavedValue($unsaved_edits);
                             var temp_field = temp_result.field;
 
-                            console.log(temp_result);
-
                             if ((temp_field !== field) && (temp_field !== secondary_field)) {
                                 var temp_value = temp_result.value;
 
@@ -1313,6 +1306,7 @@
                                     
                                     var temp_result = getUnsavedValue($(this));
                                     var temp_field = temp_result.field;
+                                    var temp_parent = temp_result.parent_field;
 
                                     if ((temp_field !== field) && (temp_field !== secondary_field)) {
                                         var temp_value = temp_result.value;
@@ -1321,7 +1315,7 @@
                                             temp_value = $.parseJSON(temp_value);
                                         }
 
-                                        ia_data.staged.details[temp_field] = temp_value;
+                                        ia_data.staged.details[temp_field] = temp_parent? temp_value[temp_field] : temp_value;
                                     }
 
                                 }
