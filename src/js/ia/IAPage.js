@@ -734,6 +734,11 @@
                     // Dev Page: cancel edits in the details section
                     $("body").on("click", "#devpage-cancel-details", function(evt) {
                         evt.preventDefault();
+
+                        if (ia_data.staged && ia_data.staged.details) {
+                            delete ia_data.staged.details;
+                        }
+                        
                         keepUnsavedEdits();
                     });
 
