@@ -1247,7 +1247,7 @@
 
                                 if (temp_result.is_json && temp_value) {
                                     temp_value = $.parseJSON(temp_value);
-                                } else if (!temp_value) {
+                                } else if (!temp_value && (temp_field === "example_query") || (temp_field === "triggers")) {
                                     temp_value = "n---d";
                                 }
                                 
@@ -1314,8 +1314,6 @@
 
                                         if (temp_result.is_json && temp_value) {
                                             temp_value = $.parseJSON(temp_value);
-                                        } else if (!temp_value) {
-                                            temp_value = "n---d";
                                         }
 
                                         ia_data.staged.details[temp_field] = temp_value;
