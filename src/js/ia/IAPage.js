@@ -220,16 +220,7 @@
                                 delete ia_data.staged.top_details;
                             }
 
-                            // Remove and then append again all the templates for the top blue band
-
-                            $(".ia-single--name").remove();
-                            $("#ia-single-top-name").html(readonly_templates.live.name);
-                            $('#ia-breadcrumbs').html(readonly_templates.live.breadcrumbs);
-                            $("#ia-single-top-details").html(readonly_templates.live.top_details);
-                            $('.edit-container').html(readonly_templates.live.edit_buttons);
-
-                            $(this, "#js-top-details-submit").addClass("is-disabled");
-                            page.appendTopics($(".topic-group.js-autocommit"));
+                            keepUnsavedEdits("top_details");
 
                             // Make sure to update the widths of the topics.
                             $("select.top-details.js-autocommit").each(function() {
@@ -1267,7 +1258,7 @@
                         // and are always editable for people with permissions,
                         // so we don't know which fields have been modified and which haven't:
                         // let's just take all the current values as unsaved
-                        if (!$("#js-top-details-submit").hasClass("is-disabled")) {
+                        if (!$("#js-top-details-submit").hasClass("is-disabled") && (field !== "top_details")) {
                             ia_data.staged.top_fields = {};
                             $(".top-details.js-autocommit").each(function(idx) {
                                 var temp_field;
