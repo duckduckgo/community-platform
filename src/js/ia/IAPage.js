@@ -1243,10 +1243,12 @@
                             console.log(temp_result);
 
                             if ((temp_field !== field) && (temp_field !== secondary_field)) {
-                                var temp_value = temp_result.value? temp_result.value : "n---d";
+                                var temp_value = temp_result.value;
 
-                                if (temp_value && temp_result.is_json) {
-                                    temp_value = JSON.parse(temp_value);
+                                if (temp_result.is_json && temp_value) {
+                                    temp_value = $.parseJSON(temp_value);
+                                } else if (!temp_value) {
+                                    temp_value = "n---d";
                                 }
                                 
                                 ia_data.staged[temp_field] = temp_value;
@@ -1287,6 +1289,41 @@
                                     ia_data.staged.top_fields[temp_field] = temp_value;
                                 }
                             });
+                        }
+
+                        // If the details commit button is visible it means at least one field
+                        // in the details section was edited.
+                        // These fields have the same behaviour as the blue band fields, too,
+                        // so we perform the same actions for them as well
+                        if (!$("#devpage-commit-details").hasClass("hide")) {
+                            ia_data.staged.details = {};
+                            var section_done = false;
+                            var $details = $("#ia-single--details .js-autocommit");
+
+                            $details.each(function(idx) {
+                                if ((!section_done) || (!$(this).hasClass("section-group__item"))) {
+                                    if ($(this).hasClass("section-group__item")) {
+                                        section_done = true;
+                                    }
+                                    
+                                    var temp_result = getUnsavedValue($(this));
+                                    var temp_field = temp_result.field;
+
+                                    if ((temp_field !== field) && (temp_field !== secondary_field)) {
+                                        var temp_value = temp_result.value;
+
+                                        if (temp_result.is_json && temp_value) {
+                                            temp_value = $.parseJSON(temp_value);
+                                        } else if (!temp_value) {
+                                            temp_value = "n---d";
+                                        }
+
+                                        ia_data.staged.details[temp_field] = temp_value;
+                                    }
+
+                                }
+                            });
+
                         }
 
                         if (ia_data.live.test_machine && ia_data.live.example_query && ia_data.permissions.can_edit) {
