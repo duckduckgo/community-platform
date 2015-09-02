@@ -220,16 +220,7 @@
                                 delete ia_data.staged.top_details;
                             }
 
-                            // Remove and then append again all the templates for the top blue band
-
-                            $(".ia-single--name").remove();
-                            $("#ia-single-top-name").html(readonly_templates.live.name);
-                            $('#ia-breadcrumbs').html(readonly_templates.live.breadcrumbs);
-                            $("#ia-single-top-details").html(readonly_templates.live.top_details);
-                            $('.edit-container').html(readonly_templates.live.edit_buttons);
-
-                            $(this, "#js-top-details-submit").addClass("is-disabled");
-                            page.appendTopics($(".topic-group.js-autocommit"));
+                            keepUnsavedEdits("top_details");
 
                             // Make sure to update the widths of the topics.
                             $("select.top-details.js-autocommit").each(function() {
@@ -734,7 +725,12 @@
                     // Dev Page: cancel edits in the details section
                     $("body").on("click", "#devpage-cancel-details", function(evt) {
                         evt.preventDefault();
-                        keepUnsavedEdits();
+
+                        if (ia_data.staged && ia_data.staged.details) {
+                            delete ia_data.staged.details;
+                        }
+                        
+                        keepUnsavedEdits("details");
                     });
 
                     $("body").on("click", "#ia-single--details .frm__label__chk.js-autocommit", function(evt) {
@@ -1025,7 +1021,7 @@
                             } else if (temp_refresh && ia_data.examples_saved) {
                                 // For now we're using this only for example queries
                                 // so it's ok to avoid checking for the field here
-                                keepUnsavedEdits();
+                                keepUnsavedEdits("example_query");
                             } else if (!ia_data.examples_saved && (field === "example_query" || field === "other_queries")) {
                                 ia_data.examples_saved = 1;
                             }
@@ -1046,7 +1042,6 @@
                         is_json = result.is_json;
                         parent_field = result.parent_field;
 
-                        console.log("IS JSON " + is_json);
                         var live_data = (ia_data.live[field] && is_json)? JSON.stringify(ia_data.live[field]) : ia_data.live[field];
 
                         console.log("After getUnsaved... " + field + " " + value);
@@ -1087,7 +1082,6 @@
                                 field = $editable.parents(".parent-group").attr("id").replace(/\-.+/, "");
                                 var $obj = field === "topic"? $(".topic-group.js-autocommit option:selected") : "";
                                 value = getGroupVals(field, $obj);
-                                console.log(value);
                                 value = JSON.stringify(value);
                             } else {
                                 field = $editable.attr("id").replace(/\-.+/, "");
@@ -1143,9 +1137,6 @@
                                 $selector = $(".developer_username input[type='text']");
                             } else {
                                 $selector = $("." + field).children("input");
-
-                                console.log($selector.parent().attr("class"));
-                                console.log($selector.length);
                             }
                         }
 
@@ -1224,6 +1215,7 @@
                         var secondary_field = "";
                         ia_data.staged = {};
                         var error_save = [];
+                        var examples_done = false;
                         field = field? field : "";
 
                         if ((field === "example_query") || (field === "other_queries")) {
@@ -1240,16 +1232,31 @@
                             var temp_result = getUnsavedValue($unsaved_edits);
                             var temp_field = temp_result.field;
 
-                            console.log(temp_result);
-
                             if ((temp_field !== field) && (temp_field !== secondary_field)) {
-                                var temp_value = temp_result.value? temp_result.value : "n---d";
+                                var temp_value = temp_result.value;
 
-                                if (temp_value && temp_result.is_json) {
-                                    temp_value = JSON.parse(temp_value);
+                                if (temp_result.is_json && temp_value) {
+                                    temp_value = $.parseJSON(temp_value);
+                                } else if (!temp_value && (temp_field === "example_query") || (temp_field === "triggers")) {
+                                    temp_value = "n---d";
                                 }
                                 
-                                ia_data.staged[temp_field] = temp_value;
+                                if (!examples_done || (temp_field !== "example_query" && temp_field !== "other_examples")) {
+                                    ia_data.staged[temp_field] = temp_value;
+
+                                    if (temp_field === "example_query") {
+                                        temp_result = getUnsavedValue($(".other_queries input"), "other_queries", true);
+                                        temp_value = temp_result.value? $.parseJSON(temp_result.value) : temp_result.value;
+
+                                        ia_data.staged.other_queries = temp_value;
+                                        examples_done = true;
+                                    } else if (temp_field === "other_queries") {
+                                        temp_result = getUnsavedValue($("#example_query-input"), "example_query");
+                                        ia_data.staged.example_query = temp_result.value;
+
+                                        examples_done = true;
+                                    }
+                                }
 
                                 if ($unsaved_edits.hasClass("not_saved") && ($.inArray(temp_field, error_save) === -1)) {
                                     var temp_error = {};
@@ -1267,7 +1274,7 @@
                         // and are always editable for people with permissions,
                         // so we don't know which fields have been modified and which haven't:
                         // let's just take all the current values as unsaved
-                        if (!$("#js-top-details-submit").hasClass("is-disabled")) {
+                        if (!$("#js-top-details-submit").hasClass("is-disabled") && (field !== "top_details")) {
                             ia_data.staged.top_fields = {};
                             $(".top-details.js-autocommit").each(function(idx) {
                                 var temp_field;
@@ -1287,6 +1294,40 @@
                                     ia_data.staged.top_fields[temp_field] = temp_value;
                                 }
                             });
+                        }
+
+                        // If the details commit button is visible it means at least one field
+                        // in the details section was edited.
+                        // These fields have the same behaviour as the blue band fields, too,
+                        // so we perform the same actions for them as well
+                        if (!$("#devpage-commit-details").hasClass("hide") && (field !== "details")) {
+                            ia_data.staged.details = {};
+                            var section_done = false;
+                            var $details = $("#ia-single--details .js-autocommit");
+
+                            $details.each(function(idx) {
+                                if ((!section_done) || (!$(this).hasClass("section-group__item"))) {
+                                    if ($(this).hasClass("section-group__item")) {
+                                        section_done = true;
+                                    }
+                                    
+                                    var temp_result = getUnsavedValue($(this));
+                                    var temp_field = temp_result.field;
+                                    var temp_parent = temp_result.parent_field;
+
+                                    if ((temp_field !== field) && (temp_field !== secondary_field)) {
+                                        var temp_value = temp_result.value;
+
+                                        if (temp_result.is_json && temp_value) {
+                                            temp_value = $.parseJSON(temp_value);
+                                        }
+
+                                        ia_data.staged.details[temp_field] = temp_parent? temp_value[temp_field] : temp_value;
+                                    }
+
+                                }
+                            });
+
                         }
 
                         if (ia_data.live.test_machine && ia_data.live.example_query && ia_data.permissions.can_edit) {

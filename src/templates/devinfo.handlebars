@@ -4,19 +4,19 @@
             <span {{#ne_and dev_milestone 'live' 'deprecated'}}{{#if permissions.admin}}class="asterisk"{{/if}}{{/ne_and}}>ID</span>
         {{#if permissions.admin}}
             {{#ne_and dev_milestone 'live' 'deprecated'}}
-                <a href="#" class="devpage-edit {{#if staged.id}}hide{{/if}}" id="dev-edit-id">Edit</a>
-                <a href="#" class="devpage-commit sep--after {{#unless staged.id}}hide{{/unless}}" id="dev-commit-id">Commit</a>
-                <a href="#" class="devpage-cancel {{#unless staged.id}}hide{{/unless}}" id="dev-cancel-id">Cancel</a>
+                <a href="#" class="devpage-edit {{#exists staged 'id'}}hide{{/exists}}" id="dev-edit-id">Edit</a>
+                <a href="#" class="devpage-commit sep--after {{#n_exists staged 'id'}}hide{{/n_exists}}" id="dev-commit-id">Commit</a>
+                <a href="#" class="devpage-cancel {{#n_exists staged 'id'}}hide{{/n_exists}}" id="dev-cancel-id">Cancel</a>
             {{/ne_and}}
         {{/if}}
         </h3>
 
-        <span class="readonly--info {{#if staged.id}}hide{{/if}}" id="id--readonly">
+        <span class="readonly--info {{#exists staged 'id'}}hide{{/exists}}" id="id--readonly">
             {{id}}
         </span>
 
         {{#if permissions.admin}}
-            <input type="text" class="{{#unless staged.id}}hide{{/unless}} frm__input id js-autocommit hidden-toshow" id="id-input" value="{{#if staged.id}}{{#eq staged.id 'n---d'}} {{else}}{{staged.id}}{{/eq}}{{else}}{{id}}{{/if}}" />
+            <input type="text" class="{{#n_exists staged 'id'}}hide{{/n_exists}} frm__input id js-autocommit hidden-toshow" id="id-input" value="{{#exists staged 'id'}}{{staged.id}}{{else}}{{id}}{{/exists}}" />
             <span class="error-notification hide">ID can't be empty</span>
         {{/if}}
     </div>

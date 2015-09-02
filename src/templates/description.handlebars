@@ -3,9 +3,9 @@
             <span {{#ne_and dev_milestone 'live' 'deprecated'}}{{#if permissions.can_edit}}class="asterisk"{{/if}}{{/ne_and}}>Description</span>
     {{#if permissions.can_edit}}
         {{#ne_and dev_milestone 'live' 'deprecated'}}
-            <a href="#" class="devpage-edit {{#if staged.description}}hide{{/if}}" id="dev-edit-description">Edit</a>
-            <a href="#" class="devpage-commit sep--after {{#unless staged.description}}hide{{/unless}}" id="dev-commit-description">Commit</a>
-            <a href="#" class="devpage-cancel {{#unless staged.description}}hide{{/unless}}" id="dev-cancel-description">Cancel</a>
+            <a href="#" class="devpage-edit {{#exists staged 'description'}}hide{{/exists}}" id="dev-edit-description">Edit</a>
+            <a href="#" class="devpage-commit sep--after {{#n_exists staged 'description'}}hide{{/n_exists}}" id="dev-commit-description">Commit</a>
+            <a href="#" class="devpage-cancel {{#n_exists staged 'description'}}hide{{/n_exists}}" id="dev-cancel-description">Cancel</a>
         {{/ne_and}}
     {{/if}}
         {{#if forum_link}}
@@ -13,7 +13,7 @@
         {{/if}}
     </h3>
 
-    <p  class="readonly--info {{#if staged.description}}hide{{/if}}" id="description--readonly">
+    <p  class="readonly--info {{#exists staged 'description'}}hide{{/exists}}" id="description--readonly">
         {{#if description}}
             {{description}}
         {{else}}
@@ -22,12 +22,12 @@
     </p>
 
     {{#if permissions.can_edit}}
-        <textarea class="{{#unless staged.description}}hide{{/unless}} frm__text description js-autocommit hidden-toshow" id="description-textarea">
-            {{~#if staged.description~}}
+        <textarea class="{{#n_exists staged 'description'}}hide{{/n_exists}} frm__text description js-autocommit hidden-toshow" id="description-textarea">
+            {{~#exists staged 'description'~}}
                 {{staged.description}}
             {{~else~}}
                 {{description}}
-            {{~/if~}}
+            {{~/exists~}}
         </textarea>
     {{/if}}
 </div>

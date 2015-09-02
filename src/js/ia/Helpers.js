@@ -33,6 +33,38 @@
         return word;
     });
 
+    Handlebars.registerHelper("exists", function(obj, key, options) {
+       if (obj && obj.hasOwnProperty(key)) {
+           return options.fn(this);
+       } else {
+           return options.inverse(this);
+       }
+    });
+
+    Handlebars.registerHelper("exists_subkey", function(obj, key, subkey, options) {
+        if (obj && obj[key] && obj[key].hasOwnProperty(subkey)) {
+            return options.fn(this);
+        } else {
+            return options.inverse(this);
+        }
+    });
+
+    Handlebars.registerHelper("n_exists", function(obj, key, options) {
+        if (!obj || !obj.hasOwnProperty(key)) {
+            return options.fn(this);
+        } else {
+            return options.inverse(this);
+        }
+    });
+
+    Handlebars.registerHelper("n_exists_subkey", function(obj, key, subkey, options) {
+        if (!obj || !obj[key] || !obj[key].hasOwnProperty(subkey)) {
+            return options.fn(this);
+        } else {
+            return options.inverse(this);
+        }
+    });
+
     // True if v1 or v2 (or both) are true
     Handlebars.registerHelper('or', function(v1, v2, options) {
         if (v1 || v2) {
