@@ -1021,7 +1021,7 @@
                             } else if (temp_refresh && ia_data.examples_saved) {
                                 // For now we're using this only for example queries
                                 // so it's ok to avoid checking for the field here
-                                keepUnsavedEdits();
+                                keepUnsavedEdits("example_query");
                             } else if (!ia_data.examples_saved && (field === "example_query" || field === "other_queries")) {
                                 ia_data.examples_saved = 1;
                             }
