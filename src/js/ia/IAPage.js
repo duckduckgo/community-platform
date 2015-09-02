@@ -1215,6 +1215,7 @@
                         var secondary_field = "";
                         ia_data.staged = {};
                         var error_save = [];
+                        var examples_done = false;
                         field = field? field : "";
 
                         if ((field === "example_query") || (field === "other_queries")) {
@@ -1240,7 +1241,22 @@
                                     temp_value = "n---d";
                                 }
                                 
-                                ia_data.staged[temp_field] = temp_value;
+                                if (!examples_done || (temp_field !== "example_query" && temp_field !== "other_examples")) {
+                                    ia_data.staged[temp_field] = temp_value;
+
+                                    if (temp_field === "example_query") {
+                                        temp_result = getUnsavedValue($(".other_queries input"), "other_queries", true);
+                                        temp_value = temp_result.value? $.parseJSON(temp_result.value) : temp_result.value;
+
+                                        ia_data.staged.other_queries = temp_value;
+                                        examples_done = true;
+                                    } else if (temp_field === "other_queries") {
+                                        temp_result = getUnsavedValue($("#example_query-input"), "example_query");
+                                        ia_data.staged.example_query = temp_result.value;
+
+                                        examples_done = true;
+                                    }
+                                }
 
                                 if ($unsaved_edits.hasClass("not_saved") && ($.inArray(temp_field, error_save) === -1)) {
                                     var temp_error = {};
