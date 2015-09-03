@@ -13,8 +13,9 @@
     "tests"
   ],
   "dependencies": {
+    "_ls": "duckduckgo/litestrap#v0.0.3",
     "duckduckgo-colors": "duckduckgo/duckduckgo-colors#v0.0.1",
-    "_ls": "duckduckgo/litestrap#v0.0.3"
+    "moment": "~2.10.6"
   },
   "homepage": "https://github.com/duckduckgo/community-platform",
   "description": "Frontend files for duck.co",
