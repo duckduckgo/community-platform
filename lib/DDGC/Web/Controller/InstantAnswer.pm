@@ -138,7 +138,12 @@ sub dev_pipeline_json :Chained('dev_pipeline_base') :PathPart('json') :Args(0) {
 
     my @ias;
     my $key;
-    @ias = $rs->search({'dev_milestone' => { '=' => ['planning', 'development', 'testing', 'complete']}});
+    @ias = $rs->search(
+        {'dev_milestone' => { '=' => ['planning', 'development', 'testing', 'complete']}},
+        {
+                order_by => \[ 'me.last_update DESC NULLS LAST'],
+        }
+    );
     $key = 'dev_milestone';
 
     my %dev_ias;
