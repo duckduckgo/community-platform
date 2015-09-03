@@ -5,7 +5,6 @@
     };
 
     DDH.IADevPipeline.prototype = {
-
         init: function() {
             // console.log("IADevPipeline init()");
             var dev_p = this;
@@ -56,6 +55,29 @@
                             $id_input.addClass("not_saved");
                         }
                     });
+                }
+            });
+
+            $("body").on("keypress", ".search-thing", function(evt) {
+                if(evt.type === "keypress" && evt.which === 13) {
+                    var query = $(this).val();
+                    var re = new RegExp(query, 'i');
+                    var isBlank = query === "";
+
+                    var showHideFunc = function(a, b) {
+                        var $ia = $(b);
+                        
+                        if(!re.test($ia.text()) && !isBlank) {
+                            $ia.parent().parent().hide();
+                        } else {
+                            $ia.parent().parent().show();
+                        }
+                    };
+
+                    $("#pipeline-planning .item-name a").each(showHideFunc);
+                    $("#pipeline-development .item-name a").each(showHideFunc);
+	            $("#pipeline-testing .item-name a").each(showHideFunc);
+                    $("#pipeline-complete .item-name a").each(showHideFunc);
                 }
             });
 
