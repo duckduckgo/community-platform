@@ -4,7 +4,9 @@
     Handlebars.registerHelper("timeago", function(date) {
         if (date) {
             date = date.replace("T", " ").replace("Z", " ");
-            return moment(date, "YYYY-MM-DD HH:mm:ss Z").fromNow();   
+            date = moment(date, "YYYY-MM-DD HH:mm:ss Z").fromNow();
+            date = date.replace(/\sago/, "").replace(/a\s/, "1 ");
+            return date;
         }
     });
 

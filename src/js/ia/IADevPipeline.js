@@ -16,6 +16,9 @@
                 var iadp;
                 iadp = Handlebars.templates.dev_pipeline(data.dev_milestones);
                 $("#dev_pipeline").html(iadp);
+
+                // 100% width
+                $(".site-main > .content-wrap").first().removeClass("content-wrap").addClass("wrap-pipeline");
             });
 
             $("#create-new-ia").click(function(evt) {
