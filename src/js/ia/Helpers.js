@@ -3,6 +3,7 @@
     
     Handlebars.registerHelper("timeago", function(date) {
         if (date) {
+            // expected date format: YYYY-MM-DDTHH:mm:ssZ e.g. 2011-04-22T13:33:48Z
             date = date.replace("T", " ").replace("Z", " ");
             date = moment(date, "YYYY-MM-DD HH:mm:ss Z").fromNow();
             date = date.replace(/\sago/, "").replace(/a\s/, "1 ");
