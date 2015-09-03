@@ -389,17 +389,20 @@ column last_commit => {
     data_type => 'text',
     is_nullable => 1,
     is_json => 1,
+    pipeline => 1
 };
 
 column last_comment => {
     data_type => 'text',
     is_nullable => 1,
     is_json => 1,
+    pipeline => 1
 };
 
 column last_update => {
     data_type => 'text',
     is_nullable => 1,
+    pipeline => 1
 };
 
 has_many 'issues', 'DDGC::DB::Result::InstantAnswer::Issues', 'instant_answer_id';

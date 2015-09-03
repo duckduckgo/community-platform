@@ -3,6 +3,8 @@ module.exports = function(grunt) {
     var static_dir = 'root/static/';
     var templates_dir = 'src/templates/';
 
+    var moment = 'bower_components/moment/moment.js';
+
     // tasks that run after diff
     // to release a new version
     var release_tasks = [
@@ -74,7 +76,7 @@ module.exports = function(grunt) {
          */
         concat: {
             ia_pages: {
-                src: [templates_dir + 'handlebars_tmp', ia_page_js],
+                src: [templates_dir + 'handlebars_tmp', ia_page_js, moment],
                 dest: static_dir + 'js/ia.js'
             },
             ddgc_pages: {

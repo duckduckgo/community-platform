@@ -231,7 +231,10 @@ a.fill {
 		border-bottom-color: transparent;
 	}
 		.sortby:hover:after { border-top-color: #444; }
-
+/*
+    special note: .content-wrap is removed in the single IA Page (e.g. duck.co/ia/view/airlines) and Dev Pipeline (duck.co/ia/dev/pipeline).
+    see the following files: src/ia/js/IAPage.js and src/ia/js/IADevPipeline.js
+*/
 .content-wrap {
 	width: 100%;
 	min-width: 600px;
