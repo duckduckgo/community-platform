@@ -199,8 +199,8 @@ sub idea : Chained('idea_id') PathPart('') Args(1) {
 	$c->bc_index;
 	if ($c->user && $c->user->is('idea_manager') && $c->req->params->{change_status}) {
 		$c->stash->{idea}->status($c->req->params->{status});
-		if ( lc($c->stash->{idea_statuses}->[ $c->req->params->{status} ]->[1])
-		     eq 'needs a developer') {
+        my $status_lc = lc($c->stash->{idea_statuses}->[ $c->req->params->{status} ]->[1]);
+		if ( $status_lc eq 'needs a developer' || $status_lc eq 'live' || $status_lc eq 'declined') {
 			$c->stash->{idea}->claimed_by(undef);
 		}
 		$c->stash->{idea}->update;
