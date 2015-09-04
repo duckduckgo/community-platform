@@ -13,6 +13,7 @@ use Data::Dumper;
 use Try::Tiny;
 use Net::GitHub::V3;
 use Time::Local;
+use Term::ProgressBar;
 my $d = DDGC->new;
 
 BEGIN {
@@ -50,13 +51,16 @@ map{ $pr_hash{$_->{issue_id}.$_->{repo}} = $_ } @pull_requests;
 # get the GH issues
 sub getIssues{
     foreach my $repo (@repos){
+        my $line = 1;
         my @issues = $gh->issue->repos_issues('duckduckgo', $repo, {state => 'open'});
 
         while($gh->issue->has_next_page){
             push(@issues, $gh->issue->next_page)
         }
 
-		# add all the data we care about to an array
+        my $progress = Term::ProgressBar->new(scalar @issues);
+		
+        # add all the data we care about to an array
 		for my $issue (@issues){
             # get the IA name from the link in the first comment
 			# Update this later for whatever format we decide on
@@ -183,15 +187,19 @@ sub getIssues{
                 );
 
                 $d->rs('InstantAnswer')->update_or_create({%new_data});
+                $progress->update($line);
+                $line++;
             };
 
             # check for an existing IA page.  Create one if none are found
             try {
                 $d->db->txn_do($create_page) if $is_pr;
+                
             } catch {
                 print "Update error $_ \n rolling back\n";
                 $d->errorlog("Error updating ghIssues: '$_'...");
             }
+
 
 		}
 	}
