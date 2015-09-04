@@ -5,6 +5,12 @@
     text-align: left;
     padding: 0px 1em;
 
-    .item-activity { color: $grey-light; }
+    .item-activity { 
+        color: $grey-light; 
+
+        a {
+            color: $blue;
+        }
+    }
 }
 
