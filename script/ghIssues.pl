@@ -61,11 +61,9 @@ sub getIssues{
             # get the IA name from the link in the first comment
 			# Update this later for whatever format we decide on
 			my $name_from_link = '';
-
-            if($issue->{'body'} =~ /(http(s)?:\/\/(duck\.co|duckduckgo.com))?\/ia\/(view)?\/(\w+)/im){
-				$name_from_link = $5;
-			}
-			# remove special chars from title and body
+            ($name_from_link) = $issue->{'body'} =~ /https?:\/\/duck\.co\/ia\/view\/(\w+)/i;
+			
+            # remove special chars from title and body
 			$issue->{'body'} =~ s/\'//g;
 			$issue->{'title'} =~ s/\'//g;
 
@@ -96,6 +94,7 @@ sub getIssues{
                 last_update => $issue->{updated_at},
                 last_commit => $last_commit,
                 last_comment => $last_comment,
+                producer => $issue->{assignee}->{login} || undef,
 			);
 
 			push(@results, \%entry);
@@ -180,6 +179,7 @@ sub getIssues{
                     last_update => $issue->{updated_at},
                     last_commit => $data->{last_commit},
                     last_comment => $data->{last_comment},
+                    producer => $data->{producer},
                 );
 
                 $d->rs('InstantAnswer')->update_or_create({%new_data});
