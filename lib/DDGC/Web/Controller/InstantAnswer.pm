@@ -154,6 +154,8 @@ sub dev_pipeline_json :Chained('dev_pipeline_base') :PathPart('json') :Args(0) {
     for my $ia (@ias) {
         $temp_ia = $ia->TO_JSON('pipeline');
         
+        $temp_ia->{"pr"} = $c->d->rs('InstantAnswer::Issues')->search({is_pr => 1},{instant_answer_id => $temp_ia->{id}})->first;
+
         if ($c->user && (!$c->user->admin)) {
             my $can_edit = $ia->users->find($c->user->id)? 1 : undef;
             $temp_ia->{"can_edit"} = $can_edit;
