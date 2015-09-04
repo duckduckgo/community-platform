@@ -58,10 +58,15 @@ sub getIssues{
             push(@issues, $gh->issue->next_page)
         }
 
+        print "Starting $repo\n";
         my $progress = Term::ProgressBar->new(scalar @issues);
 		
         # add all the data we care about to an array
 		for my $issue (@issues){
+
+            $progress->update($line);
+            $line++;
+
             # get the IA name from the link in the first comment
 			# Update this later for whatever format we decide on
 			my $name_from_link = '';
@@ -187,8 +192,6 @@ sub getIssues{
                 );
 
                 $d->rs('InstantAnswer')->update_or_create({%new_data});
-                $progress->update($line);
-                $line++;
             };
 
             # check for an existing IA page.  Create one if none are found
