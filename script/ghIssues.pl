@@ -47,6 +47,7 @@ map{ $pr_hash{$_->{issue_id}.$_->{repo}} = $_ } @pull_requests;
 
 #warn Dumper keys %pr_hash;
 
+#
 # get the GH issues
 sub getIssues{
     foreach my $repo (@repos){
@@ -134,8 +135,10 @@ sub getIssues{
                 my $pr = $gh->pull_request->pull($data->{issue_id});
                 my @files_data = $gh->pull_request->files($data->{issue_id});
 
+                my $template = find_template(\@files_data);
+                warn "Got Template: $template" if $template;
+
                 my $pm;
-                my $template;
                 # look for the perl module and template
                 for my $file (@files_data){
                     my $tmp_repo = ucfirst $data->{repo};
@@ -145,12 +148,6 @@ sub getIssues{
                         my @parts = split('/', $name);
                         $name = join('::', @parts);
                         $pm = "DDG::".$tmp_repo."::$name";
-                    }
-
-                    if($data->{repo} eq 'spice'){
-                       if( $file->{patch} =~ /group:\s?(?:'|")(.*)(?:'|")/){
-                           $template = $1;
-                       }
                     }
                 }
 
@@ -292,8 +289,22 @@ my $update = sub {
     }
 };
 
-getIssues;
+sub find_template {
+    my ($files) = @_;
 
+    return unless $files;
+
+    foreach my $file_data (@$files){
+        # goodies templats
+        my ($template) = $file_data->{patch} =~ /group =>\s?(?:'|")([[:alpha:]])(?:'|")/;
+        return lc $template if $template;
+        # spice templates
+        ($template) = $file_data->{patch} =~ /group:\s?(?:'|")([[:alpha:]])(?:'|")/;
+        return lc $template if $template;
+    }
+}
+
+getIssues;
 
 try {
     $d->db->txn_do($merge_files);
