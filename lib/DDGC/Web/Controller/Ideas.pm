@@ -126,7 +126,7 @@ sub status_name_to_id {
 	my $idea = $c->d->rs('Idea')->first;
 	my $statuses = $idea->statuses;
 	$status =~ s/-/ /g;
-	return ( grep { index( lc($statuses->{$_}), lc($status) ) == 0 } keys $statuses )[0];
+	return ( grep { Core::index( lc($statuses->{$_}), lc($status) ) == 0 } keys $statuses )[0];
 }
 
 sub status :Chained('base') :Args(1) {
@@ -157,7 +157,7 @@ sub claimed :Chained('base') :Args(0) {
 	my ( $self, $c ) = @_;
 	$c->stash->{ideas_rs} = $c->stash->{ideas_rs}->search_rs({
 		claimed_by => { '!=' => undef },
-		instant_answer_id => undef,
+		instant_answer_id => { '!=' => undef },
 	});
 	$self->add_ideas_table($c,'claimed');
 	$self->add_latest_ideas($c);

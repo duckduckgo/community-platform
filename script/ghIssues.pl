@@ -2,6 +2,8 @@
 # Get the GH issues for DDG repos
 #
 #
+use strict;
+use warnings;
 use FindBin;
 use lib $FindBin::Dir . "/../lib";
 use JSON;
@@ -9,7 +11,7 @@ use DDGC;
 use HTTP::Tiny;
 use Data::Dumper;
 use Try::Tiny;
-use Net::GitHub;
+use Net::GitHub::V3;
 use Time::Local;
 my $d = DDGC->new;
 
@@ -59,6 +61,7 @@ sub getIssues{
             # get the IA name from the link in the first comment
 			# Update this later for whatever format we decide on
 			my $name_from_link = '';
+
             if($issue->{'body'} =~ /(http(s)?:\/\/(duck\.co|duckduckgo.com))?\/ia\/(view)?\/(\w+)/im){
 				$name_from_link = $5;
 			}
@@ -71,7 +74,15 @@ sub getIssues{
 
             my $is_pr = exists $issue->{pull_request} ? 1 : 0;
 
-			# add entry to result array
+            # get last commit and user info
+            my $last_commit;
+            $last_commit = get_last_commit($repo, $issue->{number}) if $is_pr;
+
+            # get last comment
+            my $last_comment;
+            $last_comment = get_last_comment($repo, $issue->{number}) if $is_pr;
+
+            # add entry to result array
 			my %entry = (
 			    name => $name_from_link || '',
 				repo => $repo || '',
@@ -82,9 +93,13 @@ sub getIssues{
 				tags => $issue->{'labels'} || '',
 				date => $issue->{'created_at'} || '',
                 is_pr => $is_pr,
+                last_update => $issue->{updated_at},
+                last_commit => $last_commit,
+                last_comment => $last_comment,
 			);
+
 			push(@results, \%entry);
-            delete $pr_hash{$issue->{'number'}.$issue->{repo}};
+            delete $pr_hash{$issue->{'number'}.$repo};
             
             my $create_page = sub {
                 my $data = \%entry;
@@ -92,8 +107,13 @@ sub getIssues{
 
                 # check to see if we have this IA already
                 # First lookup by ID.  This can fail if an admin updates the ID on the IA page later
-                my $ia = $d->rs('InstantAnswer')->find($data->{name}, {result_class => 'DBIx::Class::ResultClass::HashRefInflator'}) || {};
-                my $new_ia = 1 if !keys $ia;
+                my $ia = $d->rs('InstantAnswer')->search( {
+                    -or => [
+                        id => $data->{name},
+                        meta_id => $data->{name},
+                    ]
+                } )->hri->one_row;
+                my $new_ia = 1 if !$ia;
 
                 my @time = localtime(time);
                 my $date = "$time[4]/$time[3]/".($time[5]+1900);
@@ -107,7 +127,7 @@ sub getIssues{
                 my ($api_link) = $data->{body} =~ /What is the data source.*?\*\*.*?(https?:\/\/.*?)?(?:\>|\)|\*|$)/i;
 
                 # api documentation
-                my ($forum_link) = $data->{body} =~ /Is this Instant Answer connected.*?\*\*.*?(https?:\/\/.*?)?(?:\>|\)|\*|$)/i;
+                my ($forum_link) = $data->{body} =~ /Is this Instant Answer connected.*?\*\*.*?(?:https?:\/\/duck\.co\/ideas\/idea\/([0-9]+).*?)?(?:\>|\)|\*|$)/i;
                 
                 # get the file info for the pr
                 $gh->set_default_user_repo('duckduckgo', "zeroclickinfo-$data->{repo}");
@@ -162,7 +182,10 @@ sub getIssues{
                     perl_module => $ia->{perl_module} || $pm,
                     forum_link => $ia->{forum_link} || $forum_link,
                     src_api_documentation => $ia->{src_api_documentation} || $api_link,
-                    developer => $ia->{developer} || $developer
+                    developer => $ia->{developer} || $developer,
+                    last_update => $issue->{updated_at},
+                    last_commit => $data->{last_commit},
+                    last_comment => $data->{last_comment},
                 );
 
                 $d->rs('InstantAnswer')->update_or_create({%new_data});
@@ -182,6 +205,41 @@ sub getIssues{
     # warn Dumper %pr_hash;
 }
 
+sub get_last_commit {
+    my ($repo, $issue) = @_;
+    my $pulls = $gh->pull_request;
+    my @commits = $pulls->commits('duckduckgo', "zeroclickinfo-$repo", $issue);
+    my $commit = pop @commits;
+
+    return unless $commit;
+
+    my $last_commit = { 
+        diff => $commit->{html_url}, 
+        user => $commit->{commit}->{committer}->{name},
+        date => $commit->{commit}->{committer}->{date},
+        message => $commit->{commit}->{message},
+    };
+
+    return to_json $last_commit;
+}
+
+sub get_last_comment {
+    my ($repo, $issue) = @_;
+    my $issues = $gh->issue;
+    my @comments = $issues->comments('duckduckgo', "zeroclickinfo-$repo", $issue);
+    my $comment = pop @comments;
+
+    return unless $comment;
+
+    my $last_comment = { 
+        user => $comment->{user}->{login},
+        date => $comment->{created_at},
+        text => $comment->{body},
+        id => $comment->{id}
+    };
+
+    return to_json $last_comment;
+}
 
 # check the status of PRs in $pr_hash.  If they were merged
 # then update the file paths in the db
@@ -200,7 +258,7 @@ my $merge_files = sub {
 
         #update code in db
         my $result = $d->rs('InstantAnswer')->find({id => $data->{instant_answer_id}});
-        $result->update({code => JSON->new->ascii(1)->encode(\@files)});
+        $result->update({code => JSON->new->ascii(1)->encode(\@files)}) if $result;
     }
 };
 
@@ -209,11 +267,17 @@ my $update = sub {
 
     foreach my $result (@results){
         # check if the IA is in our table so we dont die on a foreign key error
-        $ia = $d->rs('InstantAnswer')->find( $result->{name});
 
+        my $ia = $d->rs('InstantAnswer')->search( {
+            -or => [
+                id => $result->{name},
+                meta_id => $result->{name},
+            ]
+        } )->one_row;
+ 
         if(exists $result->{name} && $ia){
             $d->rs('InstantAnswer::Issues')->create({
-                instant_answer_id => $result->{name},
+                instant_answer_id => $ia->id,
                 repo => $result->{repo},
                 issue_id => $result->{issue_id},
                 title => $result->{title},
@@ -238,3 +302,4 @@ try {
     print "Update error $_ \n rolling back\n";
     $d->errorlog("Error updating ghIssues: '$_'...");
 }
+

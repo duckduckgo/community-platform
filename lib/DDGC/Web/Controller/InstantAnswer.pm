@@ -138,7 +138,15 @@ sub dev_pipeline_json :Chained('dev_pipeline_base') :PathPart('json') :Args(0) {
 
     my @ias;
     my $key;
-    @ias = $rs->search({'dev_milestone' => { '=' => ['planning', 'development', 'testing', 'complete']}});
+    # Get IAs not yet live
+    # and sort them by last activity (newest activity on top - ones with null activity value last)
+    # the sorting here is temporary, just for demonstrational purposes
+    @ias = $rs->search(
+        {'dev_milestone' => { '=' => ['planning', 'development', 'testing', 'complete']}},
+        {
+                order_by => \[ 'me.last_update DESC NULLS LAST'],
+        }
+    );
     $key = 'dev_milestone';
 
     my %dev_ias;
@@ -146,6 +154,9 @@ sub dev_pipeline_json :Chained('dev_pipeline_base') :PathPart('json') :Args(0) {
     for my $ia (@ias) {
         $temp_ia = $ia->TO_JSON('pipeline');
         
+        my $pr = $c->d->rs('InstantAnswer::Issues')->search({is_pr => 1, instant_answer_id => $ia->id}, {result_class => 'DBIx::Class::ResultClass::HashRefInflator'})->first;
+        $temp_ia->{"pr"} = $pr;
+
         if ($c->user && (!$c->user->admin)) {
             my $can_edit = $ia->users->find($c->user->id)? 1 : undef;
             $temp_ia->{"can_edit"} = $can_edit;

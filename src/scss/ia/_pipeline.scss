@@ -1,0 +1,16 @@
+.wrap-pipeline { padding: 0 2em; }
+
+#dev_pipeline .dev_pipeline-column {
+    width: 22.5%;
+    text-align: left;
+    padding: 0px 1em;
+
+    .item-activity { 
+        color: $grey-light; 
+
+        a {
+            color: $blue;
+        }
+    }
+}
+

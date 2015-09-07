@@ -1,3 +1,4 @@
+<div>
 <div class="dev_pipeline-column left" id="pipeline-planning">
     <h2 class="dev_pipeline-column__title">
         Planning
@@ -9,6 +10,15 @@
                 <div class="ia-item--stamp circle stamp--{{repo}} left"></div>
                 <div class="left item-name">
                     <a href="/ia/view/{{id}}">{{name}}</a>
+                </div>
+                <div class="right item-activity">
+                    {{#if pr}}
+                        <a href="https://github.com/duckduckgo/zeroclickinfo-{{repo}}/issues/{{pr.issue_id}}" class="one-line" id="pr">
+                            PR 
+                        </a>
+                        
+                    {{/if}}
+                    {{timeago last_update}}
                 </div>
                 <span class="clearfix"></span>
             </li>
@@ -28,6 +38,15 @@
                 <div class="left item-name">
                     <a href="/ia/view/{{id}}">{{name}}</a>
                 </div>
+                <div class="right item-activity">
+                    {{#if pr}}
+                        <a href="https://github.com/duckduckgo/zeroclickinfo-{{repo}}/issues/{{pr.issue_id}}" class="one-line" id="pr">
+                            PR
+                        </a>
+                        
+                    {{/if}}
+                    {{timeago last_update}}
+                </div>
                 <span class="clearfix"></span>
             </li>
         {{/each}}
@@ -45,6 +64,15 @@
                 <div class="ia-item--stamp circle stamp--{{repo}} left"></div>
                 <div class="left item-name">
                     <a href="/ia/view/{{id}}">{{name}}</a>
+                </div>
+                <div class="right item-activity">
+                    {{#if pr}}
+                        <a href="https://github.com/duckduckgo/zeroclickinfo-{{repo}}/issues/{{pr.issue_id}}" class="one-line" id="pr">
+                            PR
+                        </a>
+                        
+                    {{/if}}
+                    {{timeago last_update}}
                 </div>
                 <span class="clearfix"></span>
             </li>
@@ -64,8 +92,18 @@
                 <div class="left item-name">
                     <a href="/ia/view/{{id}}">{{name}}</a>
                 </div>
+                <div class="right item-activity">
+                    {{#if pr}}
+                        <a href="https://github.com/duckduckgo/zeroclickinfo-{{repo}}/issues/{{pr.issue_id}}" class="one-line" id="pr">
+                            PR
+                        </a>
+                        
+                    {{/if}}
+                    {{timeago last_update}}
+                </div>
                 <span class="clearfix"></span>
             </li>
         {{/each}}
     </ul>
+</div>
 </div>

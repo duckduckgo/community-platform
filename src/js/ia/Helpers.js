@@ -1,5 +1,15 @@
 (function(env) {
     // Handlebars helpers for IA Pages
+    
+    Handlebars.registerHelper("timeago", function(date) {
+        if (date) {
+            // expected date format: YYYY-MM-DDTHH:mm:ssZ e.g. 2011-04-22T13:33:48Z
+            date = date.replace("T", " ").replace("Z", " ");
+            date = moment(date, "YYYY-MM-DD HH:mm:ss Z").fromNow();
+            date = date.replace(/\sago/, "").replace(/a\s/, "1 ");
+            return date;
+        }
+    });
 
     /**
      * @function plural
@@ -31,6 +41,38 @@
         }
 
         return word;
+    });
+
+    Handlebars.registerHelper("exists", function(obj, key, options) {
+       if (obj && obj.hasOwnProperty(key)) {
+           return options.fn(this);
+       } else {
+           return options.inverse(this);
+       }
+    });
+
+    Handlebars.registerHelper("exists_subkey", function(obj, key, subkey, options) {
+        if (obj && obj[key] && obj[key].hasOwnProperty(subkey)) {
+            return options.fn(this);
+        } else {
+            return options.inverse(this);
+        }
+    });
+
+    Handlebars.registerHelper("n_exists", function(obj, key, options) {
+        if (!obj || !obj.hasOwnProperty(key)) {
+            return options.fn(this);
+        } else {
+            return options.inverse(this);
+        }
+    });
+
+    Handlebars.registerHelper("n_exists_subkey", function(obj, key, subkey, options) {
+        if (!obj || !obj[key] || !obj[key].hasOwnProperty(subkey)) {
+            return options.fn(this);
+        } else {
+            return options.inverse(this);
+        }
     });
 
     // True if v1 or v2 (or both) are true

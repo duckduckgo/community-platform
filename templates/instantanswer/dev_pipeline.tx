@@ -2,6 +2,7 @@
     <div id="create-new-ia" class="button right">
         New IA Page
     </div>
+    <input type="text" class="search-thing right">
     <div id="create-new-ia-form" class="new-ia-form hide">
         <div class="new-ia-form-section left">
             <div class="label">
@@ -48,6 +49,8 @@
         </div>
         <span class="clearfix"></span>
     </div>
+<: } else { :>
+  <input type="text" class="search-thing right">
 <: } :>
 
 <div class="pipeline__toggle-view" id="pipeline_toggle-view">

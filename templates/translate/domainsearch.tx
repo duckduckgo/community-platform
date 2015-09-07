@@ -7,7 +7,7 @@
 	</form>
 </div>  
 
-<: if $token_results.count { :>
+<: if $token_results { :>
   <div class="content-box translate-overview content-box-toggleclick content-box-click">
     <div class="head">
       <h2>Found the following tokens:</h2>
@@ -21,7 +21,7 @@
   </div>
 <: } :>
 
-<: if $token_language_translation_results.count { :>
+<: if $token_language_translation_results { :>
   <div class="content-box translate-overview content-box-toggleclick content-box-click">
     <div class="head">
       <h2>Found the following translations:</h2>
