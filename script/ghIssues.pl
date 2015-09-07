@@ -302,12 +302,21 @@ my $update = sub {
 sub assign_producer {
     my ($gh_user) = @_;
 
-    return unless $gh_user;
+    # all IAs must have a producer - temporary fallback
+    my @producers = ('Moollaza', 'Jag');
+    return $producers[int(rand(@producers))] unless $gh_user;
 
     # look for linked duck.co account
-    # my $user = $d->rs('Users')->search(
-    #     {data => { like => "github: $gh_user" }}
-    # );
+    my $result = $d->rs('GitHub::User')->find({login => $gh_user});
+
+    if ($result && $result->user && $result->user->admin) {
+        $gh_user = $result->user->username;
+    } else {
+        # If no linked account found, we can't be sure whether 
+        # the user is an admin or not.
+        # But producers can only be admins, so use the temporary fallback
+        $gh_user = $producers[int(rand(@producers))];
+    }
 
     return $gh_user;
 }
