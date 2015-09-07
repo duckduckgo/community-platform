@@ -89,6 +89,8 @@ sub getIssues{
             my $last_comment;
             $last_comment = get_last_comment($repo, $issue->{number}) if $is_pr;
 
+            my $producer = assign_producer($issue->{assignee}->{login});
+
             # add entry to result array
 			my %entry = (
 			    name => $name_from_link || '',
@@ -103,7 +105,7 @@ sub getIssues{
                 last_update => $issue->{updated_at},
                 last_commit => $last_commit,
                 last_comment => $last_comment,
-                producer => $issue->{assignee}->{login} || undef,
+                producer => $producer,
 			);
 
 			push(@results, \%entry);
@@ -296,6 +298,19 @@ my $update = sub {
         }
     }
 };
+
+sub assign_producer {
+    my ($gh_user) = @_;
+
+    return unless $gh_user;
+
+    # look for linked duck.co account
+    # my $user = $d->rs('Users')->search(
+    #     {data => { like => "github: $gh_user" }}
+    # );
+
+    return $gh_user;
+}
 
 getIssues;
 
