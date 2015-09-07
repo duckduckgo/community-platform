@@ -4,9 +4,23 @@
     Handlebars.registerHelper("timeago", function(date) {
         if (date) {
             // expected date format: YYYY-MM-DDTHH:mm:ssZ e.g. 2011-04-22T13:33:48Z
+            date = date.replace("/T.*Z/", " ");
+            date = moment.utc(date, "YYYY-MM-DD");
+            date = date.fromNow(true);
+            date = date.replace(/a\s/, "1 ").replace(/days?/, "");
+            return date;
+        }
+    });
+
+    Handlebars.registerHelper("format_time", function(date) {
+        if (date) {
+            var offset = moment().local().utcOffset();
+
+            // expected date format: YYYY-MM-DDTHH:mm:ssZ e.g. 2011-04-22T13:33:48Z
             date = date.replace("T", " ").replace("Z", " ");
-            date = moment(date, "YYYY-MM-DD HH:mm:ss Z").fromNow();
-            date = date.replace(/\sago/, "").replace(/a\s/, "1 ");
+            date = moment.utc(date, "YYYY-MM-DD HH:mm:ss");
+            date = date.add(offset, "m");
+            date = date.format('D MMM YYYY HH:mm');
             return date;
         }
     });
