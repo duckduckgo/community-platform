@@ -6,8 +6,16 @@
             // expected date format: YYYY-MM-DDTHH:mm:ssZ e.g. 2011-04-22T13:33:48Z
             date = date.replace("/T.*Z/", " ");
             date = moment.utc(date, "YYYY-MM-DD");
-            date = date.fromNow(true);
-            date = date.replace(/a\s/, "1 ").replace(/days?/, "");
+            
+            var elapsed = parseInt(moment().diff(date, "days", true));
+            if (elapsed === 1) {
+                date = elapsed + " day";
+            } else if (!elapsed) {
+                date = "today";
+            } else {
+                date = elapsed + " days";
+            }
+
             return date;
         }
     });
