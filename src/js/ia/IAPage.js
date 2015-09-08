@@ -1,10 +1,10 @@
 (function(env) {
     function dropdownLength(value, add) {
         if(value.length <= 5 && value.length > 0) {
-            return (value.length + (add || 0)) * 8;
+            return (value.length + (add || 0)) * 13;
         }
 
-        return (value.length + (add || 0)) * 8 || 150;
+        return (value.length + (add || 0)) * 13 || 150;
     }
 
     // Handlebars helpers
