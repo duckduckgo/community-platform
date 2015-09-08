@@ -5,6 +5,10 @@
 	(Newsletter signup, etc)
 */
 
+.frm__select {
+    @include border-radius(2px);
+}
+
 // Override the checkboxes to display an image to make the look consistent across browsers.
 .frm__label__chk {
     display: none;
