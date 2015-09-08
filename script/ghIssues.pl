@@ -144,6 +144,8 @@ sub getIssues{
                 my $pr = $gh->pull_request->pull($data->{issue_id});
                 my @files_data = $gh->pull_request->files($data->{issue_id});
 
+                my $template = find_template(\@files_data);
+
                 my $pm;
                 # look for the perl module
                 for my $file (@files_data){
@@ -191,6 +193,7 @@ sub getIssues{
                     last_commit => $data->{last_commit},
                     last_comment => $data->{last_comment},
                     producer => $data->{producer},
+                    template => $template,
                 );
 
                 $d->rs('InstantAnswer')->update_or_create({%new_data});
@@ -321,8 +324,22 @@ sub assign_producer {
     return $gh_user;
 }
 
-getIssues;
+sub find_template {
+    my ($files) = @_;
 
+    return unless $files;
+
+    foreach my $file_data (@$files){
+        # goodies templats
+        my ($template) = $file_data->{patch} =~ /group =>\s?(?:'|")([[:alpha:]]+)(?:'|")/;
+        return lc $template if $template;
+        # spice templates
+        ($template) = $file_data->{patch} =~ /group:\s?(?:'|")([[:alpha:]]+)(?:'|")/;
+        return lc $template if $template;
+    }
+}
+
+getIssues;
 
 try {
     $d->db->txn_do($merge_files);
