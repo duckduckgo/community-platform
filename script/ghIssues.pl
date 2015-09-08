@@ -48,7 +48,6 @@ map{ $pr_hash{$_->{issue_id}.$_->{repo}} = $_ } @pull_requests;
 
 #warn Dumper keys %pr_hash;
 
-#
 # get the GH issues
 sub getIssues{
     foreach my $repo (@repos){
@@ -148,7 +147,7 @@ sub getIssues{
                 my $template = find_template(\@files_data);
 
                 my $pm;
-                # look for the perl module and template
+                # look for the perl module
                 for my $file (@files_data){
                     my $tmp_repo = ucfirst $data->{repo};
                     $tmp_repo =~ s/s$//g;
@@ -157,6 +156,7 @@ sub getIssues{
                         my @parts = split('/', $name);
                         $name = join('::', @parts);
                         $pm = "DDG::".$tmp_repo."::$name";
+                        last;
                     }
                 }
 
