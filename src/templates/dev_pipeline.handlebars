@@ -22,7 +22,22 @@
                         {{timeago last_update}}
                     </span>
                 </div>
-                <span class="clearfix"></span>
+                <div class="clearfix activity-details">
+                    {{#is_before last_comment.date last_commit.date}}
+                        <div class="new-commit one-line">
+                            <i class="icon icon-circle" />
+                            New commit: <a href="{{last_commit.diff}}">{{last_commit.message}}</a>
+                        </div>
+                    {{/is_before}}
+                    {{#if last_comment}}
+                        <div class="last-comment one-line">
+                            <a href="https://github.com/duckduckgo/zeroclickinfo-{{repo}}/issues/{{pr.issue_id}}#issuecomment-{{last_comment.id}}">
+                                <i class="icon icon-bubbles" />
+                                Last comment by {{last_comment.user}}
+                            </a>
+                       </div>
+                    {{/if}}
+                </div>
             </li>
         {{/each}}
     </ul>

@@ -7,10 +7,28 @@
 
     .item-activity { 
         color: $grey-light; 
+    }
 
-        a {
-            color: $blue;
-        }
+    .item-activity, .activity-details {
+        a { color: $blue; }
+    }
+
+    .activity-details {
+        font-size: 0.75em;
+        margin-left: 2.3em;
+    }
+
+    .icon-circle {
+        color: $red;
+    }
+
+    .icon-bubbles {
+        color: $grey-light;
+    }
+
+    .icon {
+        margin-right: 0.5em;
+        padding-left: 0.25em;
     }
 }
 
