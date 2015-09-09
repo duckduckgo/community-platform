@@ -1,6 +1,7 @@
 (function(env) {
     // Handlebars helpers for IA Pages
     
+    // Return elapsed time expressed as days from now (e.g. 5 days, 1 day, today)
     Handlebars.registerHelper("timeago", function(date) {
         if (date) {
             // expected date format: YYYY-MM-DDTHH:mm:ssZ e.g. 2011-04-22T13:33:48Z
@@ -20,6 +21,7 @@
         }
     });
 
+    // Format the full date and convert time to local timezone time
     Handlebars.registerHelper("format_time", function(date) {
         if (date) {
             var offset = moment().local().utcOffset();
@@ -31,7 +33,16 @@
             date = date.format('D MMM YYYY HH:mm');
             return date;
         }
-    });
+     });
+
+     // Return true if date1 is before date2
+     Handlebars.registerHelper("is_before", function(date1, date2, options) {
+        if (moment.utc(date1).isBefore(date2)) {
+            return options.fn(this);
+        } else {
+            return options.inverse(this);
+        }
+     });
 
     /**
      * @function plural
