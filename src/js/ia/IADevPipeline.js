@@ -85,8 +85,7 @@
             });
 
             $("#filter-team_checkbox").click(function(evt) {
-                $(this).toggleClass("icon-check");
-                $(this).toggleClass("icon-check-empty");
+                 toggleCheck($(this));
 
                 if ($(this).hasClass("icon-check-empty")) {
                     $(".dev_pipeline-column__list li").show();
@@ -105,6 +104,12 @@
                 }
             });
 
+            $(".toggle-details i").click(function(evt) {
+                toggleCheck($(this));
+
+                $(".activity-details").toggleClass("hide");
+            });
+
             $("#select-teamrole").change(function(evt) {
                 if ($("#filter-team_checkbox").hasClass("icon-check")) {
                     $(".dev_pipeline-column__list li").hide();
@@ -113,6 +118,11 @@
                     $(".dev_pipeline-column__list li." + teamrole + "-" + username).show();
                 }
             });
+
+            function toggleCheck($obj) {
+                $obj.toggleClass("icon-check");
+                $obj.toggleClass("icon-check-empty");
+            }
         }
     };
 })(DDH);
