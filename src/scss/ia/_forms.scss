@@ -7,6 +7,7 @@
 
 .frm__select {
     @include border-radius(2px);
+    @include box-sizing('initial');
 }
 
 // Override the checkboxes to display an image to make the look consistent across browsers.
