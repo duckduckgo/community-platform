@@ -3,24 +3,24 @@
 @import "compass/css3"; // vendor/cross-browser mixins
 @import "compass/support"; // automatic legacy browser support (kinda)
 
-@import "../../../bower_components/duckduckgo-colors/_colors";
-@import "../../../bower_components/_ls/objects/_buttons";
-@import "../../../bower_components/_ls/_vars";
-@import "../../../bower_components/duckduckgo-styles/_vars";
-@import "../../../bower_components/duckduckgo-styles/objects/_sep";
-@import "../_fonts-extra";
-@import "../../../bower_components/duckduckgo-styles/objects/_switch";
-@import "../_switch";
+@import "../../../bower_components/duckduckgo-colors/colors";
+@import "../../../bower_components/_ls/objects/buttons";
+@import "../../../bower_components/_ls/vars";
+@import "../../../bower_components/duckduckgo-styles/vars";
+@import "../../../bower_components/duckduckgo-styles/objects/sep";
+@import "../fonts-extra";
+@import "../../../bower_components/duckduckgo-styles/objects/switch";
+@import "../switch";
 
-@import "../../../bower_components/duckduckgo-styles/_mixins";
-@import "../../../bower_components/duckduckgo-styles/objects/_buttons";
-@import "_buttons";
-@import "../../../bower_components/duckduckgo-styles/objects/_forms";
-@import "_forms";
+@import "../../../bower_components/duckduckgo-styles/mixins";
+@import "../../../bower_components/duckduckgo-styles/objects/buttons";
+@import "buttons";
+@import "../../../bower_components/duckduckgo-styles/objects/forms";
+@import "forms";
 
-@import "_fonts";
-@import "_ia";
-@import "_dev";
-@import "_live";
-@import "_overview";
-@import "_pipeline";
+@import "fonts";
+@import "ia";
+@import "dev";
+@import "live";
+@import "overview";
+@import "pipeline";
