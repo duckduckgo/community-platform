@@ -1,40 +1,14 @@
 /*
 	On/Off Switch
 */
-
 .switch {
-	@include border-radius(10px);
-	position: relative;
-	height: 20px;
-	width: 46px;
 	background: $blue-light;
 	.is-on & {
 		background: $blue-light;
 	}
 }
 	.switch__knob {
-		@include border-radius(9px);
-		@include single-transition(0.1s linear left);
-		position: absolute;
-		display: block;
-		left: 2px;
-		top: 2px;
-		height: 16px;
-		width: 16px;
 		background-color: $silver-light;
-		.is-on & {
-			left: 28px;
-		}
-        box-shadow: 0px 0px 3px #60a5da;
+                box-shadow: 0px 0px 3px #60a5da;
 	}
-	.switch__on {
-		position: absolute;
-		color: $white;
-		line-height: 20px;
-		left: 10px;
-		display: none;
-		font-size: 14px;
-		.is-on & {
-			display: block;
-		}
-	}
+
