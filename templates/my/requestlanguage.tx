@@ -3,6 +3,7 @@
 <: } :>
 
 <form action="<: $u('My','requestlanguage') :>" method="post" id="formRequestLanguage" class="content-box column-form">
+	<input type="hidden" name="action_token" value="<: $action_token :>">
     <div class="head">		
 		<h2><: $l('Request a new language') :></h2>
 	</div>	
