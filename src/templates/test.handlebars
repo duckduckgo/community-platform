@@ -1,4 +1,4 @@
-{{#ne_and dev_milestone 'live' 'deprecated'}}
+{{#ne_and dev_milestone 'live' 'deprecated'}}{{#not_eq dev_milestone 'ghosted'}}
     {{#ne_and dev_milestone 'planning' 'development'}}
         <div class="ia-single--testing {{#ne_and dev_milestone 'live' 'deprecated'}}wicked-border{{/ne_and}}">
             <h3 class="ia-single--header">Testing</h3>
@@ -61,4 +61,5 @@
             </div>
         </div>
     {{/ne_and}}
+    {{/not_eq}}
 {{/ne_and}}
