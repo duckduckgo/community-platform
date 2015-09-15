@@ -1,3 +1,17 @@
+<div class="dev_pipeline-column left" id="pipeline-none">
+    <h2 class="dev_pipeline-column__title">
+        None
+    </h2>
+
+    <ul class="dev_pipeline-column__list" id="pipeline-none__list">
+        {{#each none}}
+            <li id="pipeline-planning__list__{{id}}" class="producer-{{producer}} designer-{{designer}} {{#each developer}}developer-{{name}} {{/each}}">
+                <a href="/ia/view/{{id}}">{{name}}</a>
+            </li>
+        {{/each}}
+    </ul>
+</div>
+
 <div class="dev_pipeline-column left" id="pipeline-fathead">
     <h2 class="dev_pipeline-column__title">
         Fathead

@@ -15,7 +15,20 @@
             </a>
         </span>
     </div>
+
+    <: if $is_admin { :>
+        <span class="clearfix"></span>
+        <div class="toggle-ghosted left">
+            <i class="icon-check-empty"></i>
+            Show ghosted pages
+        </div>
+    <: } :>
 </div>
 
-<div id="deprecated">
+<: if $is_admin { :>
+    <div id="ghosted" class="clearfix">
+    </div>
+<: } :>
+
+<div id="deprecated" class="clearfix">
 </div>

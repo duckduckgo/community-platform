@@ -179,6 +179,9 @@ sub deprecated_base :Chained('overview_base') :PathPart('deprecated') :CaptureAr
     $c->stash->{ia_page} = "IADeprecated";
     $c->stash->{title} = "Deprecated IA Pages";
    
+    $c->stash->{logged_in} = $c->user;
+    $c->stash->{is_admin} = $c->user? $c->user->admin : 0;
+
     $c->add_bc('Deprecated', $c->chained_uri('InstantAnswer', 'deprecated'));
 }
 
@@ -193,14 +196,20 @@ sub deprecated_json :Chained('deprecated_base') :PathPart('json') :Args(0) {
 
     my @ias;
     my $key;
-    @ias = $rs->search({'dev_milestone' => { '=' => 'deprecated'}});
+    if ($c->stash->{is_admin}) {
+        @ias = $rs->search({'dev_milestone' => { '=' => ['deprecated', 'ghosted']}});
+    } else {
+        @ias = $rs->search({'dev_milestone' => { '=' => 'deprecated'}});
+    }
+    
     $key = 'repo';
 
     my %dev_ias;
     my $temp_ia;
     for my $ia (@ias) {
         $temp_ia = $ia->TO_JSON('pipeline');
-        push @{$dev_ias{$ia->$key}}, $temp_ia;
+        my $repo = $ia->$key? $ia->$key : 'none';
+        push @{$dev_ias{$repo}}, $temp_ia;
     }
 
     $c->stash->{x} = {
