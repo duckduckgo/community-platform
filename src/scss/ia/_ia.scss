@@ -1184,52 +1184,7 @@ input.not_saved, select.not_saved, .button.not_saved {
 
 .ia-single .dev_milestone-container__body__complete {
     margin-top: 1em;
-}
-
-#deprecated .dev_pipeline-column {
-    width: 21%;
-    text-align: left;
-    padding: 0 1em;
-}
-
-#dev_pipeline .dev_pipeline-column:not(#pipeline-planning),
-#deprecated .dev_pipeline-column:not(#pipeline-fathead){
-    margin-left: 0.5em;
-}
-
-#dev_pipeline .dev_pipeline-column__title,
-#deprecated .dev_pipeline-column__title {
-    font-weight: 600;
-    font-size: 1.87em;
-}
-
-#dev_pipeline .dev_pipeline-column__list li,
-#deprecated .dev_pipeline-column__list li {
-    list-style: none;
-    padding: 0.3em 0;
-    font-size: 1.1em;
-    border-bottom: 1px solid #cdcdcd;
-}
-
-#dev_pipeline .dev_pipeline-column__list li a,
-#deprecated  .dev_pipeline-column__list li a {
-    color: #333;
-}
-
-#dev_pipeline .dev_pipeline-column__list li .item-name,
-#deprecated .dev_pipeline-column__list li .item-name {
-    max-width: 9em;
-}
-
-#dev_pipeline .dev_pipeline-column__list .ia-item--stamp,
-#deprecated .dev_pipeline-column__list .ia-item--stamp {
-    width: 20px;
-    height: 20px;
-    position: inherit;
-    font-size: 0.8em;
-}
-
-#dev_pipeline #pipeline-planning, #deprecated #pipeline-fathead { padding-left: 0; }
+}#dev_pipeline #pipeline-planning, #deprecated #pipeline-fathead { padding-left: 0; }
 
 #pipeline-live-container {
     width: 70%;

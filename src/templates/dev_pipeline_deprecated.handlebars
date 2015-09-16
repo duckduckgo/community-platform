@@ -1,55 +1,69 @@
-<div class="dev_pipeline-column left" id="pipeline-fathead">
+<div class="dev_pipeline-column repo-none left">
     <h2 class="dev_pipeline-column__title">
-        Fathead
+        None
     </h2>
 
-    <ul class="dev_pipeline-column__list" id="pipeline-fathead__list">
-        {{#each fathead}}
-            <li id="pipeline-planning__list__{{id}}" class="producer-{{producer}} designer-{{designer}} {{#each developer}}developer-{{name}} {{/each}}">
+    <ul class="dev_pipeline-column__list" >
+        {{#each none}}
+            <li >
                 <a href="/ia/view/{{id}}">{{name}}</a>
             </li>
         {{/each}}
     </ul>
 </div>
 
-<div class="dev_pipeline-column left" id="pipeline-goodies">
+<div class="dev_pipeline-column repo-fathead left" >
+    <h2 class="dev_pipeline-column__title">
+        Fathead
+    </h2>
+
+    <ul class="dev_pipeline-column__list" >
+        {{#each fathead}}
+            <li >
+                <a href="/ia/view/{{id}}">{{name}}</a>
+            </li>
+        {{/each}}
+    </ul>
+</div>
+
+<div class="dev_pipeline-column repo-goodies left" >
     <h2 class="dev_pipeline-column__title">
         Goodies
     </h2>
 
 
-    <ul class="dev_pipeline-column__list" id="pipeline-goodies__list">
+    <ul class="dev_pipeline-column__list" >
         {{#each goodies}}
-            <li id="pipeline-in_development__list__{{id}}" class="producer-{{producer}} designer-{{designer}} {{#each developer}}developer-{{name}} {{/each}}">
+            <li >
                 <a href="/ia/view/{{id}}">{{name}}</a>
             </li>
         {{/each}}
     </ul>
 </div>
 
-<div class="dev_pipeline-column left" id="pipeline-longtail">
+<div class="dev_pipeline-column repo-longtail left" >
     <h2 class="dev_pipeline-column__title">
         Longtail
     </h2>
 
 
-    <ul class="dev_pipeline-column__list" id="pipeline-longtail__list">
+    <ul class="dev_pipeline-column__list" >
         {{#each longtail}}
-            <li id="pipeline-qa__list__{{id}}" class="producer-{{producer}} designer-{{designer}} {{#each developer}}developer-{{name}} {{/each}}">
+            <li >
                 <a href="/ia/view/{{id}}">{{name}}</a>
             </li>
         {{/each}}
     </ul>
 </div>
 
-<div class="dev_pipeline-column left" id="pipeline-spice">
+<div class="dev_pipeline-column repo-spice left" >
     <h2 class="dev_pipeline-column__title">
         Spice
     </h2>
 
-    <ul class="dev_pipeline-column__list" id="pipeline-spice__list">
+    <ul class="dev_pipeline-column__list" >
         {{#each spice}}
-            <li id="pipeline-qa__list__{{id}}" class="producer-{{producer}} designer-{{designer}} {{#each developer}}developer-{{name}} {{/each}}">
+            <li >
                 <a href="/ia/view/{{id}}">{{name}}</a>
             </li>
         {{/each}}

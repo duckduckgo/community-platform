@@ -34,3 +34,32 @@
     }
 }
 
+.dev_pipeline-column:not(#pipeline-planning) {
+    margin-left: 0.5em;
+}
+
+.dev_pipeline-column__title {
+    font-weight: 600;
+    font-size: 1.87em;
+}
+
+.dev_pipeline-column__list {
+    li {
+        list-style: none;
+        padding: 0.3em 0;
+        font-size: 1.1em;
+        border-bottom: 1px solid #cdcdcd;
+
+        a { color: #333; }
+
+        .item-name { max-width: 9em; }
+    }
+
+    .ia-item--stamp {
+        width: 20px;
+        height: 20px;
+        position: inherit;
+        font-size: 0.8em;
+    }
+}
+

@@ -1,0 +1,12 @@
+#deprecated, #ghosted {
+    .dev_pipeline-column {
+        width: 15.5%;
+        text-align: left;
+        padding: 1em;
+    }
+
+    .repo-none { padding-left: 0; }
+}
+
+#ghosted, #ghosted .dev_pipeline-column__list li a { color: $grey-light; }
+

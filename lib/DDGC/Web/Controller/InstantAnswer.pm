@@ -7,7 +7,9 @@ use Time::Local;
 use JSON;
 use Net::GitHub::V3;
 use DateTime;
+use DDGC;
 
+my $ddgc = DDGC->new;
 my $INST = DDGC::Config->new->appdir_path."/root/static/js";
 
 BEGIN {extends 'Catalyst::Controller'; }
@@ -179,6 +181,9 @@ sub deprecated_base :Chained('overview_base') :PathPart('deprecated') :CaptureAr
     $c->stash->{ia_page} = "IADeprecated";
     $c->stash->{title} = "Deprecated IA Pages";
    
+    $c->stash->{logged_in} = $c->user;
+    $c->stash->{is_admin} = $c->user? $c->user->admin : 0;
+
     $c->add_bc('Deprecated', $c->chained_uri('InstantAnswer', 'deprecated'));
 }
 
@@ -190,22 +195,37 @@ sub deprecated_json :Chained('deprecated_base') :PathPart('json') :Args(0) {
     my ( $self, $c ) = @_;
 
     my $rs = $c->d->rs('InstantAnswer');
-
     my @ias;
     my $key;
-    @ias = $rs->search({'dev_milestone' => { '=' => 'deprecated'}});
+    
+    if ($c->stash->{is_admin}) {
+        @ias = $rs->search({'dev_milestone' => { '=' => ['deprecated', 'ghosted']}});
+    } else {
+        @ias = $rs->search({'dev_milestone' => { '=' => 'deprecated'}});
+    }
+    
     $key = 'repo';
 
-    my %dev_ias;
+    my %dep_ias;
+    my %ghosted;
     my $temp_ia;
     for my $ia (@ias) {
         $temp_ia = $ia->TO_JSON('pipeline');
-        push @{$dev_ias{$ia->$key}}, $temp_ia;
+        my $repo = $ia->$key? $ia->$key : 'none';
+
+        if ($ia->dev_milestone eq 'deprecated') {
+            push @{$dep_ias{$repo}}, $temp_ia;
+        } else {
+             push @{$ghosted{$repo}}, $temp_ia;
+        }
     }
 
-    $c->stash->{x} = {
-        $key.'s' => \%dev_ias
-    };
+    my %dev_ias = (
+        deprecated => \%dep_ias,
+        ghosted => \%ghosted
+    );
+    
+    $c->stash->{x} = \%dev_ias;
 
     $c->stash->{not_last_url} = 1;
     $c->forward($c->view('JSON'));
@@ -764,6 +784,8 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
                 }
             }
 
+            my $new_meta_id;
+
             if ($field =~ /designer|producer/){
                 return $c->forward($c->view('JSON')) unless $complat_user_admin || $value eq '';
             } elsif ($field eq "id") {
@@ -779,6 +801,11 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
                     $c->stash->{x}->{result}->{msg} = $msg;
                     return $c->forward($c->view('JSON'));
                 }
+            } elsif ($field eq "dev_milestone" && $value eq "ghosted") {
+                # by changing the meta_id we allow the former one to be used again for
+                # other IA Pages
+                $new_meta_id = $ia->meta_id . "_ghosted_" . $ddgc->uuid->create_str;
+                my $meta_id_edit = add_edit($c, $ia, "meta_id", $new_meta_id);
             } elsif ($field eq "src_id") {
                 if ($c->d->rs('InstantAnswer')->find({src_id => $value})) {
                     $msg = "ID already in use";
@@ -799,11 +826,16 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
                     $tmp_val= $value;
                 }
 
-                if($field eq 'topic'){
+                if ($field eq 'topic'){
                     $tmp_val = from_json($c->req->params->{value});
                 }
 
                 push(@update, {value => $tmp_val // $value, field => $field} );
+                
+                if ($field eq "dev_milestone" && $value eq "ghosted" && $new_meta_id) {
+                    push(@update, {value => $new_meta_id, field => "meta_id"} );
+                }
+                
                 save($c, \@update, $ia);
                 $saved = 1;
                 
