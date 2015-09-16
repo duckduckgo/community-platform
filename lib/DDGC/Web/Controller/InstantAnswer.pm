@@ -7,7 +7,9 @@ use Time::Local;
 use JSON;
 use Net::GitHub::V3;
 use DateTime;
+use DDGC;
 
+my $ddgc = DDGC->new;
 my $INST = DDGC::Config->new->appdir_path."/root/static/js";
 
 BEGIN {extends 'Catalyst::Controller'; }
@@ -797,6 +799,11 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
                     $c->stash->{x}->{result}->{msg} = $msg;
                     return $c->forward($c->view('JSON'));
                 }
+            } elsif ($field eq "dev_milestone" && $value eq "ghosted") {
+                # by changing the meta_id we allow the former one to be used again for
+                # other IA Pages
+                my $new_meta_id = $ia->meta_id . "_ghosted_" . $ddgc->uuid->create_str;
+                my $meta_id_edit = add_edit($c, $ia, "meta_id", $new_meta_id);
             } elsif ($field eq "src_id") {
                 if ($c->d->rs('InstantAnswer')->find({src_id => $value})) {
                     $msg = "ID already in use";
