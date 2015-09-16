@@ -13,9 +13,13 @@
 
             $.getJSON(url, function(data) { 
                 // console.log(window.location.pathname);
-                var ia_deprecated;
-                ia_deprecated = Handlebars.templates.dev_pipeline_deprecated(data.repos);
+                var ia_deprecated = Handlebars.templates.dev_pipeline_deprecated(data.deprecated);
                 $("#deprecated").html(ia_deprecated);
+
+                if (data.ghosted) {
+                    var ia_ghosted = Handlebars.templates.dev_pipeline_deprecated(data.ghosted);
+                    $("#ghosted").html(ia_ghosted);
+                }
             });
         }
     };

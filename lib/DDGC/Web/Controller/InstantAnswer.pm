@@ -193,9 +193,9 @@ sub deprecated_json :Chained('deprecated_base') :PathPart('json') :Args(0) {
     my ( $self, $c ) = @_;
 
     my $rs = $c->d->rs('InstantAnswer');
-
     my @ias;
     my $key;
+    
     if ($c->stash->{is_admin}) {
         @ias = $rs->search({'dev_milestone' => { '=' => ['deprecated', 'ghosted']}});
     } else {
@@ -204,17 +204,26 @@ sub deprecated_json :Chained('deprecated_base') :PathPart('json') :Args(0) {
     
     $key = 'repo';
 
-    my %dev_ias;
+    my %dep_ias;
+    my %ghosted;
     my $temp_ia;
     for my $ia (@ias) {
         $temp_ia = $ia->TO_JSON('pipeline');
         my $repo = $ia->$key? $ia->$key : 'none';
-        push @{$dev_ias{$repo}}, $temp_ia;
+
+        if ($ia->dev_milestone eq 'deprecated') {
+            push @{$dep_ias{$repo}}, $temp_ia;
+        } else {
+             push @{$ghosted{$repo}}, $temp_ia;
+        }
     }
 
-    $c->stash->{x} = {
-        $key.'s' => \%dev_ias
-    };
+    my %dev_ias = (
+        deprecated => \%dep_ias,
+        ghosted => \%ghosted
+    );
+    
+    $c->stash->{x} = \%dev_ias;
 
     $c->stash->{not_last_url} = 1;
     $c->forward($c->view('JSON'));
