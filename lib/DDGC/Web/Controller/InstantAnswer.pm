@@ -784,6 +784,8 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
                 }
             }
 
+            my $new_meta_id;
+
             if ($field =~ /designer|producer/){
                 return $c->forward($c->view('JSON')) unless $complat_user_admin || $value eq '';
             } elsif ($field eq "id") {
@@ -802,7 +804,7 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
             } elsif ($field eq "dev_milestone" && $value eq "ghosted") {
                 # by changing the meta_id we allow the former one to be used again for
                 # other IA Pages
-                my $new_meta_id = $ia->meta_id . "_ghosted_" . $ddgc->uuid->create_str;
+                $new_meta_id = $ia->meta_id . "_ghosted_" . $ddgc->uuid->create_str;
                 my $meta_id_edit = add_edit($c, $ia, "meta_id", $new_meta_id);
             } elsif ($field eq "src_id") {
                 if ($c->d->rs('InstantAnswer')->find({src_id => $value})) {
@@ -824,11 +826,16 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
                     $tmp_val= $value;
                 }
 
-                if($field eq 'topic'){
+                if ($field eq 'topic'){
                     $tmp_val = from_json($c->req->params->{value});
                 }
 
                 push(@update, {value => $tmp_val // $value, field => $field} );
+                
+                if ($field eq "dev_milestone" && $value eq "ghosted" && $new_meta_id) {
+                    push(@update, {value => $new_meta_id, field => "meta_id"} );
+                }
+                
                 save($c, \@update, $ia);
                 $saved = 1;
                 
