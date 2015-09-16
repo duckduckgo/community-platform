@@ -176,7 +176,7 @@
                         </li>
                         <li>
                             <label class="frm__label">
-                                <input id="is_fanon-check" class="is_fanon section-group__item frm__label__chk js-autocommit" type="checkbox" {{#exists_subkey staged 'details' 'is_fanon'}}{{#is_true staged.details.is_fanon}}checked="checked"{{/is_true}}{{#is_true src_options.is_fanon}}checked="checked"{{/is_true}}{{/exists_subkey}}>
+                                <input id="is_fanon-check" class="is_fanon section-group__item frm__label__chk js-autocommit" type="checkbox" {{#exists_subkey staged 'details' 'is_fanon'}}{{#is_true staged.details.is_fanon}}checked="checked"{{/is_true}}{{else}}{{#is_true src_options.is_fanon}}checked="checked"{{/is_true}}{{/exists_subkey}}>
                                 <span class="frm__label__txt">Is Fanon</span>
                             </label>
                         </li>
