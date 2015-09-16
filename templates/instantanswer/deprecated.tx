@@ -26,7 +26,7 @@
 </div>
 
 <: if $is_admin { :>
-    <div id="ghosted" class="clearfix">
+    <div id="ghosted" class="clearfix hide">
     </div>
 <: } :>
 

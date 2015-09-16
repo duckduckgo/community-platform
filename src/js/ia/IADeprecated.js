@@ -21,6 +21,12 @@
                     $("#ghosted").html(ia_ghosted);
                 }
             });
+
+            $(".toggle-ghosted").click(function() {
+                $(this).children("i").toggleClass("icon-check-empty");
+                $(this).children("i").toggleClass("icon-check");
+                $("#ghosted").toggleClass("hide");
+            });
         }
     };
 })(DDH);
