@@ -255,7 +255,8 @@ sub claim : Chained('idea_id') Args(0) {
         # If possible, we use ia_name to construct the meta_id;
         # if an IA Page with this meta_id already exists, we use the idea thread id instead.
         my $meta_id;
-        if ($c->d->rs('InstantAnswer')->find({meta_id => $c->stash->{idea}->ia_name})) {
+        my $name = $c->stash->{idea}->ia_name? $c->stash->{idea}->ia_name : $c->stash->{idea}->title;
+        if ($c->d->rs('InstantAnswer')->find({meta_id => $c->stash->{idea}->ia_name}) || !$c->stash->{idea}->ia_name) {
             $meta_id = $c->stash->{idea}->id;
         } else {
             $meta_id = format_meta_id($c->stash->{idea}->ia_name);
@@ -267,7 +268,7 @@ sub claim : Chained('idea_id') Args(0) {
             id => $ia->{id} || $c->stash->{idea}->id,
             meta_id => $ia->{meta_id} || $meta_id,
             dev_milestone => $ia->{dev_milestone} || 'planning',
-            name => $ia->{name} || ucfirst $c->stash->{idea}->ia_name,
+            name => $ia->{name} || ucfirst $name,
             description => $ia->{description} || ucfirst $c->stash->{idea}->content,
             created_date => $ia->{created_date} || $date,
             forum_link => $ia->{forum_link} || $c->stash->{idea}->id,
