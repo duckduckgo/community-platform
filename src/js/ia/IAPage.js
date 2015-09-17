@@ -1364,7 +1364,7 @@
                                 if (data.result.saved) {
                                     if (field === "dev_milestone" && data.result[field] === "live") {
                                         location.reload();
-                                    } else if (field === "id") {
+                                    } else if (field === "id" || data.result.id) {
                                         location.href = "/ia/view/" + data.result.id;
                                     } else {
                                         ia_data.live[field] = (is_json && data.result[field])? $.parseJSON(data.result[field]) : data.result[field];

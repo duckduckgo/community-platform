@@ -832,6 +832,10 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
                 
                 if ($field eq "dev_milestone" && $value eq "ghosted" && $new_meta_id) {
                     push(@update, {value => $new_meta_id, field => "meta_id"} );
+                    # we send only the meta_id field and value in the response to the front-end
+                    # so the page will be reloaded using the new meta_id
+                    $field = "id";
+                    $value = $new_meta_id;
                 }
                 
                 save($c, \@update, $ia);
