@@ -5,11 +5,11 @@ package DDGC::Config::Subscriptions;
 
 use Moo;
 
-sub created_ia_page {
-    my ( $self, $meta ) = @_;
+sub _subscription {
+    my ( $self, $category, $action, $meta ) = @_;
     +{
-        category     => 'instant_answer',
-        action       => 'created',
+        category     => $category,
+        action       => $action,
         meta1        => $meta->{meta1} // undef,
         meta2        => $meta->{meta2} // undef,
         meta3        => $meta->{meta3} // undef,
@@ -19,18 +19,27 @@ sub created_ia_page {
     };
 }
 
+sub created_ia_page {
+    my ( $self, $meta ) = @_;
+    $self->_subscription(
+        'instant_answer',
+        'created',
+        $meta,
+    );
+}
+
 sub updated_ia_page {
     my ( $self, $meta ) = @_;
-    +{
-        category     => 'instant_answer',
-        action       => 'updated',
-        meta1        => $meta->{meta1} // undef,
-        meta2        => $meta->{meta2} // undef,
-        meta3        => $meta->{meta3} // undef,
-        ( $meta->{description} )
-            ? ( description  => $meta->{description} )
-            : (),
-    };
+    $self->_subscription(
+        'instant_answer',
+        'updated',
+        $meta,
+    );
+}
+
+sub ia_page {
+    my ( $self, $id ) = @_;
+    $self->updated_ia_page( { meta1 => $id } );
 }
 
 1;
