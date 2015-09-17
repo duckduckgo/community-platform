@@ -252,13 +252,22 @@ sub claim : Chained('idea_id') Args(0) {
 
         my $ia = $c->d->rs('InstantAnswer')->find($c->stash->{idea}->id, {result_class => 'DBIx::Class::ResultClass::HashRefInflator'});
 
+        # If possible, we use ia_name to construct the meta_id;
+        # if an IA Page with this meta_id already exists, we use the idea thread id instead.
+        my $meta_id;
+        if ($c->d->rs('InstantAnswer')->find({meta_id => $c->stash->{idea}->ia_name})) {
+            $meta_id = $c->stash->{idea}->id;
+        } else {
+            $meta_id = format_meta_id($c->stash->{idea}->ia_name);
+        }
+
         # If the idea was claimed, then unclaimed and then claimed by a different user, the page
         # will already exist, so we make sure we don't overwrite any values in that case
         my %ia_data = (
             id => $ia->{id} || $c->stash->{idea}->id,
-            meta_id => $ia->{meta_id} || $c->stash->{idea}->id,
+            meta_id => $ia->{meta_id} || $meta_id,
             dev_milestone => $ia->{dev_milestone} || 'planning',
-            name => $ia->{name} || ucfirst $c->stash->{idea}->title,
+            name => $ia->{name} || ucfirst $c->stash->{idea}->ia_name,
             description => $ia->{description} || ucfirst $c->stash->{idea}->content,
             created_date => $ia->{created_date} || $date,
             forum_link => $ia->{forum_link} || $c->stash->{idea}->id,
@@ -352,6 +361,20 @@ sub vote_view :Chained('vote') :PathPart('') :Args(0) {
 		vote_count => $c->stash->{idea}->vote_count
 	};
 	$c->forward( $c->view('JSON') );
+}
+sub format_meta_id {
+    my( $id ) = @_;
+
+    # meta_id must be lowercase and without weird chars
+    $id = lc $id;
+    $id =~ s/[^a-z0-9]+/_/g;
+    $id =~ s/^[^a-zA-Z]+//;
+    $id =~ s/_$//;
+
+    # make the id string empty if it only contains non-alphabetic chars
+    $id =~ s/^[^a-zA-Z]+$//;
+
+    return $id;
 }
 
 no Moose;
