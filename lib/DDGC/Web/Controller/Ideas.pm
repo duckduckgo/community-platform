@@ -69,6 +69,7 @@ sub newidea : Chained('base') Args(0) {
 	} elsif ($c->req->params->{save_idea}) {
 		my $idea = $c->user->create_related('ideas',{
 			title => $c->req->params->{title},
+            ia_name => $c->req->params->{ia_name},
 			content => $c->req->params->{content},
 			source => $c->req->params->{source},
 			type => $c->req->params->{type},

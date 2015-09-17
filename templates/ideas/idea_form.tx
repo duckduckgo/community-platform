@@ -22,6 +22,7 @@
 					</div>
                 <: } :>
                 <div class="input-wrap"><input value="<: $idea.title || $c.req.params.title :>" type="text" name="title" placeholder="Your Instant Answer in one sentence." title="Your Instant Answer in one sentence." autofocus></input></div>
+                <div class="input-wrap"><input value="<: $idea.ia_name || $c.req.params.ia_name :>" type="text" name="ia_name" placeholder="The name of your Instant Answer" title="The name of your Instant Answer"></input></div>
                 <div class="input-wrap"><textarea name="content" class="js-bbcode" placeholder="What is your Instant Answer idea?" title="What is your Instant Answer idea?" rows="15"><: $idea.content || $c.req.params.content :></textarea></div>
                 <div class="input-wrap"><textarea name="source" class="js-bbcode" title="Do you know of a source that can be used for this Instant Answer?  (e.g. Rotten Tomatoes for movie information or Yelp for restaurants)" placeholder="Do you know of a source that can be used for this Instant Answer?  (e.g. Rotten Tomatoes for movie information or Yelp for restaurants)" rows="15"><: $idea.source || $c.req.params.source :></textarea></div>
                 <div class="right"><input type="submit" value="<: if $idea.id { :>Update Instant Answer idea<: } else { :>Suggest new Instant Answer<: } :>" class="big blue button" name="save_idea"></input></div>
