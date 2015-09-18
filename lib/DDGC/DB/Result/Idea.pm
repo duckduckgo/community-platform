@@ -143,6 +143,11 @@ column instant_answer_id => {
 	is_nullable => 1,
 };
 
+column ia_name => {
+    data_type => 'text',
+    is_nullable => 1,
+};
+
 __PACKAGE__->add_antispam_functionality;
 
 belongs_to 'user', 'DDGC::DB::Result::User', 'users_id';
