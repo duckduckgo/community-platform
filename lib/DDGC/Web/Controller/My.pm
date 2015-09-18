@@ -785,6 +785,7 @@ sub requestlanguage :Chained('logged_in') :Args(0) {
 		$c->add_bc($c->stash->{title}, '');
 	
 	if ($c->req->params->{submit}) {
+		$c->require_action_token;
 
 		my $error = 0;
 	
