@@ -20,7 +20,7 @@ sub base :Chained('/base') :PathPart('ia') :CaptureArgs(0) {
     my ( $self, $c ) = @_;
 
     my $last_modified = $c->d->rs('InstantAnswer')->last_modified;
-    $last_modified->formatter( 'DateTime::Format::HTTP' );
+    $last_modified->set_formatter( 'DateTime::Format::HTTP' );
 
     $c->response->header (
         'Last-Modified' => $last_modified;
