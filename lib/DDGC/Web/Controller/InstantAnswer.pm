@@ -18,15 +18,6 @@ use if debug, 'Data::Dumper';
 
 sub base :Chained('/base') :PathPart('ia') :CaptureArgs(0) {
     my ( $self, $c ) = @_;
-
-    my $last_modified = $c->d->rs('InstantAnswer')->last_modified;
-    $last_modified->set_formatter( 'DateTime::Format::HTTP' );
-
-    $c->response->header (
-        'Last-Modified' => $last_modified;
-    );
-
-    return $c->detach if ( $c->request->method eq 'HEAD' );
 }
 
 sub index :Chained('base') :PathPart('') :Args(0) {
@@ -65,6 +56,15 @@ sub ialist_json :Chained('base') :PathPart('json') :Args() {
     my ( $self, $c ) = @_;
 
     my $rs = $c->d->rs('InstantAnswer');
+
+    my $last_modified = $rs->last_modified;
+    $last_modified->set_formatter( 'DateTime::Format::HTTP' );
+
+    $c->response->header(
+        'Last-Modified' => $last_modified,
+    );
+
+    return $c->detach if ( $c->request->method eq 'HEAD' );
 
     my @ial = $rs->search(
         {'topic.name' => [{ '!=' => 'test' }, { '=' => undef}],
