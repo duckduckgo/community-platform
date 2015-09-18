@@ -1,16 +1,36 @@
 .wrap-pipeline { padding: 0 2em; }
 
+.toggle-details { margin-right: 2em; }
+
 #dev_pipeline .dev_pipeline-column {
     width: 22.5%;
     text-align: left;
-    padding: 0px 1em;
+    padding: 1em;
 
     .item-activity { 
         color: $grey-light; 
+    }
 
-        a {
-            color: $blue;
-        }
+    .item-activity, .activity-details {
+        a { color: $blue; }
+    }
+
+    .activity-details {
+        font-size: 0.75em;
+        margin-left: 2.3em;
+    }
+
+    .icon-circle {
+        color: $red;
+    }
+
+    .icon-bubbles {
+        color: $grey-light;
+    }
+
+    .icon {
+        margin-right: 0.5em;
+        padding-left: 0.25em;
     }
 }
 

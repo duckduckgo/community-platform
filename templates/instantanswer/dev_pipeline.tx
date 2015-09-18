@@ -71,8 +71,14 @@
         </span>
     </div>
 
+    <span class="clearfix"></span>
+    <div class="toggle-details left">
+        <i class="icon-check-empty"></i>
+        Show activity details
+    </div>
+
     <: if $logged_in { :>
-        <div class="filter-team">
+        <div class="filter-team left">
             <i class="filter-team__checkbox icon-check-empty" id="filter-team_checkbox"></i>
             <span class="filter-team__span">
                 Show IAs of which I am the 
@@ -90,6 +96,5 @@
     <: } :>
 </div>
 
-<div id="dev_pipeline">
-    
+<div id="dev_pipeline" class="clearfix">
 </div>

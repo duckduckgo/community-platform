@@ -13,6 +13,7 @@ use Data::Dumper;
 use Try::Tiny;
 use Net::GitHub::V3;
 use Time::Local;
+use Term::ProgressBar;
 my $d = DDGC->new;
 
 BEGIN {
@@ -50,22 +51,28 @@ map{ $pr_hash{$_->{issue_id}.$_->{repo}} = $_ } @pull_requests;
 # get the GH issues
 sub getIssues{
     foreach my $repo (@repos){
+        my $line = 1;
         my @issues = $gh->issue->repos_issues('duckduckgo', $repo, {state => 'open'});
 
         while($gh->issue->has_next_page){
             push(@issues, $gh->issue->next_page)
         }
 
-		# add all the data we care about to an array
+        print "Starting $repo\n";
+        my $progress = Term::ProgressBar->new(scalar @issues);
+		
+        # add all the data we care about to an array
 		for my $issue (@issues){
+
+            $progress->update($line);
+            $line++;
+
             # get the IA name from the link in the first comment
 			# Update this later for whatever format we decide on
 			my $name_from_link = '';
-
-            if($issue->{'body'} =~ /(http(s)?:\/\/(duck\.co|duckduckgo.com))?\/ia\/(view)?\/(\w+)/im){
-				$name_from_link = $5;
-			}
-			# remove special chars from title and body
+            ($name_from_link) = $issue->{'body'} =~ /https?:\/\/duck\.co\/ia\/view\/(\w+)/i;
+			
+            # remove special chars from title and body
 			$issue->{'body'} =~ s/\'//g;
 			$issue->{'title'} =~ s/\'//g;
 
@@ -82,6 +89,8 @@ sub getIssues{
             my $last_comment;
             $last_comment = get_last_comment($repo, $issue->{number}) if $is_pr;
 
+            my $producer = assign_producer($issue->{assignee}->{login});
+
             # add entry to result array
 			my %entry = (
 			    name => $name_from_link || '',
@@ -96,6 +105,7 @@ sub getIssues{
                 last_update => $issue->{updated_at},
                 last_commit => $last_commit,
                 last_comment => $last_comment,
+                producer => $producer,
 			);
 
 			push(@results, \%entry);
@@ -133,6 +143,8 @@ sub getIssues{
                 $gh->set_default_user_repo('duckduckgo', "zeroclickinfo-$data->{repo}");
                 my $pr = $gh->pull_request->pull($data->{issue_id});
                 my @files_data = $gh->pull_request->files($data->{issue_id});
+
+                my $template = find_template(\@files_data);
 
                 my $pm;
                 # look for the perl module
@@ -180,6 +192,8 @@ sub getIssues{
                     last_update => $issue->{updated_at},
                     last_commit => $data->{last_commit},
                     last_comment => $data->{last_comment},
+                    producer => $data->{producer},
+                    template => $template,
                 );
 
                 $d->rs('InstantAnswer')->update_or_create({%new_data});
@@ -188,10 +202,12 @@ sub getIssues{
             # check for an existing IA page.  Create one if none are found
             try {
                 $d->db->txn_do($create_page) if $is_pr;
+                
             } catch {
                 print "Update error $_ \n rolling back\n";
                 $d->errorlog("Error updating ghIssues: '$_'...");
             }
+
 
 		}
 	}
@@ -286,8 +302,44 @@ my $update = sub {
     }
 };
 
-getIssues;
+sub assign_producer {
+    my ($gh_user) = @_;
 
+    # all IAs must have a producer - temporary fallback
+    my @producers = ('Moollaza', 'Jag');
+    return $producers[int(rand(@producers))] unless $gh_user;
+
+    # look for linked duck.co account
+    my $result = $d->rs('GitHub::User')->find({login => $gh_user});
+
+    if ($result && $result->user && $result->user->admin) {
+        $gh_user = $result->user->username;
+    } else {
+        # If no linked account found, we can't be sure whether 
+        # the user is an admin or not.
+        # But producers can only be admins, so use the temporary fallback
+        $gh_user = $producers[int(rand(@producers))];
+    }
+
+    return $gh_user;
+}
+
+sub find_template {
+    my ($files) = @_;
+
+    return unless $files;
+
+    foreach my $file_data (@$files){
+        # goodies templats
+        my ($template) = $file_data->{patch} =~ /group =>\s?(?:'|")([[:alpha:]]+)(?:'|")/;
+        return lc $template if $template;
+        # spice templates
+        ($template) = $file_data->{patch} =~ /group:\s?(?:'|")([[:alpha:]]+)(?:'|")/;
+        return lc $template if $template;
+    }
+}
+
+getIssues;
 
 try {
     $d->db->txn_do($merge_files);
