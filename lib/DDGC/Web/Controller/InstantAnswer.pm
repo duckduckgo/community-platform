@@ -7,6 +7,7 @@ use Time::Local;
 use JSON;
 use Net::GitHub::V3;
 use DateTime;
+use DateTime::Format::HTTP;
 
 my $INST = DDGC::Config->new->appdir_path."/root/static/js";
 
@@ -17,10 +18,20 @@ use if debug, 'Data::Dumper';
 
 sub base :Chained('/base') :PathPart('ia') :CaptureArgs(0) {
     my ( $self, $c ) = @_;
+
+    my $last_modified = $c->d->rs('InstantAnswer')->last_modified;
+    $last_modified->formatter( 'DateTime::Format::HTTP' );
+
+    $c->response->header (
+        'Last-Modified' => $last_modified;
+    );
+
+    return $c->detach if ( $c->request->method eq 'HEAD' );
 }
 
 sub index :Chained('base') :PathPart('') :Args(0) {
     my ( $self, $c ) = @_;
+
     # Retrieve / stash all IAs for index page here?
 
     # my @x = $c->d->rs('InstantAnswer')->all();
