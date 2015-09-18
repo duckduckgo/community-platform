@@ -236,7 +236,7 @@ sub claim : Chained('idea_id') Args(0) {
 	if ( $c->stash->{idea}->toggle_claim( $c->user ) == 1 ) {
 		$c->d->postman->template_mail(
 			1,
-			'ddgc-ia@duckduckgo.com',
+			$c->d->config->ia_email,
 			'"Community Platform" <noreply@duck.co>',
 			sprintf( '[Instant Answer] IA Idea claimed by %s',
 				( $c->user->public )
@@ -244,7 +244,6 @@ sub claim : Chained('idea_id') Args(0) {
 					: sprintf('private user %s', $c->user->username) ),
 			'iaclaim',
 			{ user => $c->user, idea => $c->stash->{idea} },
-			Cc => $c->d->config->ia_email,
 	);
 
         my @time = localtime(time);
