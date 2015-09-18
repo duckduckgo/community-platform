@@ -425,7 +425,7 @@ after insert => sub {
             $self->topics->columns([qw/ name /])->all),
         description  => sprintf('Instant Answer Page [%s](%s) created!',
             $self->name, sprintf('https://duck.co/ia/view/%s',
-                $self->id)),
+                $self->meta_id)),
     } );
 };
 
@@ -447,7 +447,7 @@ around update => sub {
             meta3        => $meta3,
             description  => sprintf('Instant Answer Page [%s](%s) updated!',
                 $self->name, sprintf('https://duck.co/ia/view/%s',
-                    $self->id)),
+                    $self->meta_id)),
         } );
     }
 

@@ -19,9 +19,7 @@ sub subscribe_to_instant_answer {
 
     return 0 if ( !$ia_id );
     $self->find_or_create_related( 'subscriptions',
-         $self->subscription_types->updated_ia_page({
-            meta1 => $ia_id,
-        })
+        $self->subscription_types->ia_page( $ia_id ),
     );
 }
 
@@ -30,9 +28,7 @@ sub unsubscribe_from_instant_answer {
 
     return 0 if ( !$ia_id );
     my $sub = $self->subscriptions->search(
-        $self->subscription_types->updated_ia_page({
-            meta1 => $ia_id,
-        })
+        $self->subscription_types->ia_page( $ia_id ),
     )->one_row;
     return 0 if ( !$sub );
     return $sub->delete;
