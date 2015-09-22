@@ -13,8 +13,16 @@
 
             $.getJSON(url, function(data) { 
                 // console.log(window.location.pathname);
+
+                // Check user permissions and add to the data
+                if ($("#create-new-ia").length) {
+                    data.permissions = {};
+                    data.permissions.admin = 1;
+                }
+
                 var iadp;
-                iadp = Handlebars.templates.dev_pipeline(data.dev_milestones);
+                iadp = Handlebars.templates.dev_pipeline(data);
+
                 $("#dev_pipeline").html(iadp);
 
                 // 100% width
@@ -102,6 +110,10 @@
                         $(".dev_pipeline-column__list li.designer-" + username).show();
                     }
                 }
+            });
+
+            $("body").on("click", ".dev_pipeline-column__list .icon-check, .dev_pipeline-column__list .icon-check-empty", function(evt) {
+                toggleCheck($(this));
             });
 
             $(".toggle-details i").click(function(evt) {
