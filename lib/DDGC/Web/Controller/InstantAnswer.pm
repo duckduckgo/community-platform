@@ -100,6 +100,15 @@ sub iarepo_json :Chained('iarepo') :PathPart('json') :Args(0) {
         {dev_milestone => 'complete'}]
     });
 
+    my $last_modified = $iarepo->last_modified;
+    $last_modified->set_formatter( 'DateTime::Format::HTTP' );
+
+    $c->response->header(
+        'Last-Modified' => $last_modified,
+    );
+
+    return $c->detach if ( $c->request->method eq 'HEAD' );
+
     my %iah;
     while (my $ia = $iarepo->next) {
         $iah{$ia->meta_id} = $ia->TO_JSON('for_endpt');
