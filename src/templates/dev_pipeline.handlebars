@@ -7,7 +7,7 @@
 
     <ul class="dev_pipeline-column__list" id="pipeline-planning__list">
         {{#each planning}}
-            <li id="pipeline-planning__list__{{id}}" class="{{#if can_edit}}can_edit{{/if}} producer-{{producer}} designer-{{designer}} {{#each developer}}developer-{{name}} {{/each}}">
+            <li id="pipeline-list__{{id}}" class="{{#if can_edit}}can_edit{{/if}} producer-{{producer}} designer-{{designer}} {{#each developer}}developer-{{name}} {{/each}}">
                 {{#if ../../permissions.admin}}
                     <i class="icon-check-empty left" />
                 {{/if}}
@@ -55,7 +55,7 @@
 
     <ul class="dev_pipeline-column__list" id="pipeline-development__list">
         {{#each development}}
-            <li id="pipeline-development__list__{{id}}" class="{{#if can_edit}}can_edit{{/if}} producer-{{producer}} designer-{{designer}} {{#each developer}}developer-{{name}} {{/each}}">
+            <li id="pipeline-list__{{id}}" class="{{#if can_edit}}can_edit{{/if}} producer-{{producer}} designer-{{designer}} {{#each developer}}developer-{{name}} {{/each}}">
                 {{#if ../../permissions.admin}}
                     <i class="icon-check-empty left" />
                 {{/if}}
@@ -103,7 +103,7 @@
 
     <ul class="dev_pipeline-column__list" id="pipeline-testing__list">
         {{#each testing}}
-            <li id="pipeline-testing__list__{{id}}" class="{{#if can_edit}}can_edit{{/if}} producer-{{producer}} designer-{{designer}} {{#each developer}}developer-{{name}} {{/each}}">
+            <li id="pipeline-list__{{id}}" class="{{#if can_edit}}can_edit{{/if}} producer-{{producer}} designer-{{designer}} {{#each developer}}developer-{{name}} {{/each}}">
                  {{#if ../../permissions.admin}}
                     <i class="icon-check-empty left" />
                 {{/if}}         
@@ -151,7 +151,7 @@
 
     <ul class="dev_pipeline-column__list" id="pipeline-complete__list">
         {{#each complete}}
-            <li id="pipeline-complete__list__{{id}}" class="{{#if can_edit}}can_edit{{/if}} producer-{{producer}} designer-{{designer}} {{#each developer}}developer-{{name}} {{/each}}">
+            <li id="pipeline-list__{{id}}" class="{{#if can_edit}}can_edit{{/if}} producer-{{producer}} designer-{{designer}} {{#each developer}}developer-{{name}} {{/each}}">
                 {{#if ../../permissions.admin}}
                     <i class="icon-check-empty left" />
                 {{/if}}

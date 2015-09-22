@@ -694,28 +694,33 @@ sub commit_save :Chained('commit_base') :PathPart('save') :Args(0) {
 
 # Save values for multiple IAs at once (just one field for each IA).
 # This is used only in the dev pipeline and for now it's only available to admins
-sub autosave_multiple :Chained('base') :PathPart('save_multiple') :Args(0) {
+sub save_multiple :Chained('base') :PathPart('save_multiple') :Args(0) {
     my ( $self, $c ) = @_;
 
     my %result;
-    return %result unless ($c->req->params->{ias} && $c->user && $c->user->admin);
+    $c->stash->{x}->{result} = '';
+    return $c->forward($c->view('JSON')) unless ($c->req->params->{ias} && $c->user && $c->user->admin);
     my $ias = from_json($c->req->params->{ias});
+    my $field = $c->req->params->{field};
+    my $value = $c->req->params->{value};
 
-    for my $ia (@{$ias}) {
-        my $id = $ia->{id};
-        my $field = $ia->{field};
-        my $value = $ia->{value};
-        
-        my $edits = add_edit($c, $id,  $field, $value);
+    for my $id (@{$ias}) {
+        my $ia = $c->d->rs('InstantAnswer')->find({meta_id => $id});
+
+        return $c->forward($c->view('JSON')) unless $ia;
+
+        my $edits = add_edit($c, $ia, $field, $value);
         my @update;
         
         push(@update, {value => $value, field => $field});
-        save($c, \@update, $id);
+        save($c, \@update, $ia);
+        save_milestone_date($ia, $value);
 
         $result{$id} = 1;
     }
 
-    return %result;
+    $c->stash->{x}->{result} = \%result;
+    $c->forward($c->view('JSON'));
 }
 
 sub save_edit :Chained('base') :PathPart('save') :Args(0) {
