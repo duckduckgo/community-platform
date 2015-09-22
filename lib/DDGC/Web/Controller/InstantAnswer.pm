@@ -35,7 +35,7 @@ sub index :Chained('base') :PathPart('') :Args(0) {
     #}
 
     my $rs = $c->d->rs('Topic');
-    
+
     my @topics = $rs->search(
         {'name' => { '!=' => 'test' }},
         {
@@ -54,12 +54,18 @@ sub index :Chained('base') :PathPart('') :Args(0) {
 
 sub _add_json_last_modified_header {
     my ( $self, $c, $last_modified ) = @_;
-    $last_modified->set_formatter( 'DateTime::Format::HTTP' );
+    $last_modified->set_formatter( 'DateTime::Format::HTTP' ) if $last_modified;
+    my $if_modified_since = $c->req->header('If-Modified-Since');
+
+    $if_modified_since = DateTime::Format::HTTP->parse_datetime(
+        $if_modified_since,
+    ) if $if_modified_since;;
 
     $c->response->header(
         'Last-Modified' => "$last_modified",
     );
-    if ( $last_modified eq $c->req->header('If-Modified-Since') ) {
+    if ( ( $if_modified_since && $last_modified ) &&
+         DateTime->compare( $if_modified_since, $last_modified ) <= 0 ) {
         $c->response->status('304');
         return $c->detach;
     }
