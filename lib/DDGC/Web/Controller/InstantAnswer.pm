@@ -59,7 +59,7 @@ sub _add_json_last_modified_header {
 
     $if_modified_since = DateTime::Format::HTTP->parse_datetime(
         $if_modified_since,
-    ) if $if_modified_since;
+    )->truncate( to => 'second' ) if $if_modified_since;
 
     $c->response->header(
         'Last-Modified' => "$last_modified",

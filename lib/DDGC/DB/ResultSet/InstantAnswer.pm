@@ -12,7 +12,7 @@ sub last_modified {
     my $last_modified = $self->get_column('updated')->max;
     return DateTime::Format::Pg->parse_datetime(
         $last_modified
-    ) if $last_modified;
+    )->truncate( to => 'second' ) if $last_modified;
 
     return DateTime->new( year => 1970 );
 }
