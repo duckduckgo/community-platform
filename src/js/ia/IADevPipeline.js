@@ -13,8 +13,16 @@
 
             $.getJSON(url, function(data) { 
                 // console.log(window.location.pathname);
+
+                // Check user permissions and add to the data
+                if ($("#create-new-ia").length) {
+                    data.permissions = {};
+                    data.permissions.admin = 1;
+                }
+
                 var iadp;
-                iadp = Handlebars.templates.dev_pipeline(data.dev_milestones);
+                iadp = Handlebars.templates.dev_pipeline(data);
+
                 $("#dev_pipeline").html(iadp);
 
                 // 100% width
@@ -103,6 +111,63 @@
                     }
                 }
             });
+
+            $("body").on("click", ".dev_pipeline-column__list .icon-check, .dev_pipeline-column__list .icon-check-empty", function(evt) {
+                toggleCheck($(this));
+
+                if ($(".dev_pipeline-column__list .icon-check").length) {
+                    $(".pipeline-actions").removeClass("hide");
+                } else {
+                    $(".pipeline-actions").addClass("hide");
+                }
+            });
+
+            $("body").on("change", "#select-action", function(evt) {
+                if ($.trim($(this).find("option:selected").text()) === "type") {
+                    $("#select-type").removeClass("hide");
+                    $("#select-milestone").addClass("hide");
+                } else {
+                    $("#select-milestone").removeClass("hide");
+                    $("#select-type").addClass("hide");
+                }
+            });
+
+            $("body").on("click", "#pipeline-action-submit", function(evt)  {
+                var ias = [];
+                var field = $.trim($("#select-action").find("option:selected").text().replace(/\s/g, "_"));
+                var $select_value;
+                
+                if (field === "type") {
+                    field = "repo";
+                    $select_value = $("#select-type");
+                } else {
+                    $select_value = $("#select-milestone");
+                }
+                
+                var value = $.trim($select_value.find("option:selected").text());
+
+                $(".dev_pipeline-column__list .icon-check").each(function(idx) {
+                    var temp_id = $.trim($(this).parent().attr("id").replace("pipeline-list__", ""));
+                    
+                    ias.push(temp_id);
+                });
+
+                ias = JSON.stringify(ias);
+                save_multiple(ias, field, value);
+            });
+
+            function save_multiple(ias, field, value) {
+                var jqxhr = $.post("/ia/save_multiple", {
+                    field : field,
+                    value : value,
+                    ias : ias
+                })
+                .done(function(data) {
+                    if (data.result) {
+                        location.reload();
+                    }
+                });
+            }
 
             $(".toggle-details i").click(function(evt) {
                 toggleCheck($(this));
