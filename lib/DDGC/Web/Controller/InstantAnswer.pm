@@ -57,7 +57,7 @@ sub _add_json_last_modified_header {
     $last_modified->set_formatter( 'DateTime::Format::HTTP' );
 
     $c->response->header(
-        'Last-Modified' => $last_modified,
+        'Last-Modified' => "$last_modified",
     );
 
     return $c->detach if ( $c->request->method eq 'HEAD' );
