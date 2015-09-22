@@ -52,12 +52,8 @@ sub index :Chained('base') :PathPart('') :Args(0) {
     # @{$c->stash->{ialist}} = $c->d->rs('InstantAnswer')->all();
 }
 
-sub ialist_json :Chained('base') :PathPart('json') :Args() {
-    my ( $self, $c ) = @_;
-
-    my $rs = $c->d->rs('InstantAnswer');
-
-    my $last_modified = $rs->last_modified;
+sub _add_json_last_modified_header {
+    my ( $self, $c, $last_modified ) = @_;
     $last_modified->set_formatter( 'DateTime::Format::HTTP' );
 
     $c->response->header(
@@ -65,6 +61,15 @@ sub ialist_json :Chained('base') :PathPart('json') :Args() {
     );
 
     return $c->detach if ( $c->request->method eq 'HEAD' );
+}
+
+
+sub ialist_json :Chained('base') :PathPart('json') :Args() {
+    my ( $self, $c ) = @_;
+
+    my $rs = $c->d->rs('InstantAnswer');
+
+    $self->_add_json_last_modified_header( $c, $rs->last_modified );
 
     my @ial = $rs->search(
         {'topic.name' => [{ '!=' => 'test' }, { '=' => undef}],
@@ -100,14 +105,7 @@ sub iarepo_json :Chained('iarepo') :PathPart('json') :Args(0) {
         {dev_milestone => 'complete'}]
     });
 
-    my $last_modified = $iarepo->last_modified;
-    $last_modified->set_formatter( 'DateTime::Format::HTTP' );
-
-    $c->response->header(
-        'Last-Modified' => $last_modified,
-    );
-
-    return $c->detach if ( $c->request->method eq 'HEAD' );
+    $self->_add_json_last_modified_header( $c, $iarepo->last_modified );
 
     my %iah;
     while (my $ia = $iarepo->next) {
@@ -570,14 +568,7 @@ sub ia_base :Chained('base') :PathPart('view') :CaptureArgs(1) {  # /ia/view/cal
 sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
     my ( $self, $c) = @_;
 
-    my $last_modified = $c->stash->{ia}->updated;
-    $last_modified->set_formatter( 'DateTime::Format::HTTP' );
-
-    $c->response->header(
-        'Last-Modified' => $last_modified,
-    );
-
-    return $c->detach if ( $c->request->method eq 'HEAD' );
+    $self->_add_json_last_modified_header( $c, $c->stash->{ia}->updated );
 
     my $ia = $c->stash->{ia};
     my $edited;
