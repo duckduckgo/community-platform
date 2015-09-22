@@ -9,12 +9,7 @@ use DateTime::Format::Pg;
 
 sub last_modified {
     my ( $self ) = @_;
-    my $last_modified =  $self->search( {}, {
-        columns => [
-            { last_modified => { max => 'updated' } },
-        ],
-    } )->one_row->get_column('last_modified');
-
+    my $last_modified = $self->get_column('updated')->max;
     return DateTime::Format::Pg->parse_datetime(
         $last_modified
     ) if $last_modified;
