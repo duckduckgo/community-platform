@@ -7,6 +7,7 @@ use Time::Local;
 use JSON;
 use Net::GitHub::V3;
 use DateTime;
+use DateTime::Format::HTTP;
 
 my $INST = DDGC::Config->new->appdir_path."/root/static/js";
 
@@ -21,6 +22,7 @@ sub base :Chained('/base') :PathPart('ia') :CaptureArgs(0) {
 
 sub index :Chained('base') :PathPart('') :Args(0) {
     my ( $self, $c ) = @_;
+
     # Retrieve / stash all IAs for index page here?
 
     # my @x = $c->d->rs('InstantAnswer')->all();
@@ -33,7 +35,7 @@ sub index :Chained('base') :PathPart('') :Args(0) {
     #}
 
     my $rs = $c->d->rs('Topic');
-    
+
     my @topics = $rs->search(
         {'name' => { '!=' => 'test' }},
         {
@@ -50,10 +52,34 @@ sub index :Chained('base') :PathPart('') :Args(0) {
     # @{$c->stash->{ialist}} = $c->d->rs('InstantAnswer')->all();
 }
 
+sub _add_json_last_modified_header {
+    my ( $self, $c, $last_modified ) = @_;
+    $last_modified->set_formatter( 'DateTime::Format::HTTP' ) if $last_modified;
+    my $if_modified_since = $c->req->header('If-Modified-Since');
+
+    $if_modified_since = DateTime::Format::HTTP->parse_datetime(
+        $if_modified_since,
+    )->truncate( to => 'second' ) if $if_modified_since;
+
+    $c->response->header(
+        'Last-Modified' => "$last_modified",
+    );
+    if ( ( $if_modified_since && $last_modified ) &&
+         DateTime->compare( $if_modified_since, $last_modified ) >= 0 ) {
+        $c->response->status('304');
+        return $c->detach;
+    }
+
+    return $c->detach if ( $c->request->method eq 'HEAD' );
+}
+
+
 sub ialist_json :Chained('base') :PathPart('json') :Args() {
     my ( $self, $c ) = @_;
 
     my $rs = $c->d->rs('InstantAnswer');
+
+    $self->_add_json_last_modified_header( $c, $rs->last_modified );
 
     my @ial = $rs->search(
         {'topic.name' => [{ '!=' => 'test' }, { '=' => undef}],
@@ -81,16 +107,21 @@ sub iarepo_json :Chained('iarepo') :PathPart('json') :Args(0) {
     my ( $self, $c ) = @_;
 
     my $repo = $c->stash->{ia_repo};
-    my @x = $c->d->rs('InstantAnswer')->search({
-        repo => $repo,
+    my $iarepo = $c->d->rs('InstantAnswer')->search({
+        ( $repo ne 'all' )
+            ? ( repo => $repo )
+            : (),
         -or => [{dev_milestone => 'live'},
         {dev_milestone => 'development'},
         {dev_milestone => 'testing'},
         {dev_milestone => 'complete'}]
     });
 
+    $self->_add_json_last_modified_header( $c, $iarepo->last_modified );
+
+    $iarepo = $iarepo->prefetch( { instant_answer_topics => 'topic' });
     my %iah;
-    for my $ia (@x) {
+    while (my $ia = $iarepo->next) {
         $iah{$ia->meta_id} = $ia->TO_JSON('for_endpt');
 
         # fathead specific
@@ -567,6 +598,8 @@ sub ia_base :Chained('base') :PathPart('view') :CaptureArgs(1) {  # /ia/view/cal
 
 sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
     my ( $self, $c) = @_;
+
+    $self->_add_json_last_modified_header( $c, $c->stash->{ia}->updated );
 
     my $ia = $c->stash->{ia};
     my $edited;

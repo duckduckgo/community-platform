@@ -31,6 +31,7 @@ requires 'Data::Validate::URI', '0.06';
 requires 'DateTime::Format::Epoch', '0.13';
 requires 'DateTime::Format::Flexible', '0.25';
 requires 'DateTime::Format::Human::Duration', '0.60';
+requires 'DateTime::Format::HTTP', '0.40';
 requires 'DateTime::Format::ISO8601', '0.08';
 requires 'DateTime::Format::Pg', '0.16007';
 requires 'DateTime::Format::RSS', '0.03000';

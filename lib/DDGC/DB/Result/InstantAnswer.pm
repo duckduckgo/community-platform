@@ -405,6 +405,13 @@ column last_update => {
     pipeline => 1
 };
 
+column updated => {
+    data_type => 'timestamp with time zone',
+    set_on_create => 1,
+    set_on_update => 1,
+};
+
+
 has_many 'issues', 'DDGC::DB::Result::InstantAnswer::Issues', 'instant_answer_id';
 has_many 'blocks', 'DDGC::DB::Result::InstantAnswer::Blocks', 'instant_answer_id';
 has_many 'updates', 'DDGC::DB::Result::InstantAnswer::Updates', 'instant_answer_id';
