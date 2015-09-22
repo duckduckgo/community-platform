@@ -59,6 +59,10 @@ sub _add_json_last_modified_header {
     $c->response->header(
         'Last-Modified' => "$last_modified",
     );
+    if ( $last_modified eq $c->req->header('If-Modified-Since') ) {
+        $c->response->status('304');
+        return $c->detach;
+    }
 
     return $c->detach if ( $c->request->method eq 'HEAD' );
 }
