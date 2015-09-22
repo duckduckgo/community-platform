@@ -59,13 +59,13 @@ sub _add_json_last_modified_header {
 
     $if_modified_since = DateTime::Format::HTTP->parse_datetime(
         $if_modified_since,
-    ) if $if_modified_since;;
+    ) if $if_modified_since;
 
     $c->response->header(
         'Last-Modified' => "$last_modified",
     );
     if ( ( $if_modified_since && $last_modified ) &&
-         DateTime->compare( $if_modified_since, $last_modified ) <= 0 ) {
+         DateTime->compare( $if_modified_since, $last_modified ) >= 0 ) {
         $c->response->status('304');
         return $c->detach;
     }
