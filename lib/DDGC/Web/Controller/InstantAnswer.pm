@@ -108,7 +108,9 @@ sub iarepo_json :Chained('iarepo') :PathPart('json') :Args(0) {
 
     my $repo = $c->stash->{ia_repo};
     my $iarepo = $c->d->rs('InstantAnswer')->search({
-        repo => $repo,
+        ( $repo ne 'all' )
+            ? ( repo => $repo )
+            : (),
         -or => [{dev_milestone => 'live'},
         {dev_milestone => 'development'},
         {dev_milestone => 'testing'},
