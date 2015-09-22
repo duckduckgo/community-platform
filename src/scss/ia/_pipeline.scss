@@ -53,6 +53,10 @@
         a { color: #333; }
 
         .item-name { max-width: 9em; }
+
+        .icon-check, .icon-check-empty {
+            margin: 0.25em 0.25em 0 0;
+        }
     }
 
     .ia-item--stamp {
@@ -60,6 +64,16 @@
         height: 20px;
         position: inherit;
         font-size: 0.8em;
+    }
+}
+
+.pipeline-actions { 
+    margin-left: 2em;
+
+    #pipeline-action-submit {
+        height: 1.6em;
+        padding-top: 0;
+        padding-bottom: 0.27em;
     }
 }
 

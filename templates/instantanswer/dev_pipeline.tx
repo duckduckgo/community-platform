@@ -97,12 +97,13 @@
 
     <: if $is_admin { :>
         <div class="pipeline-actions left hide">
-            <span>Update </span>
+            <span>Change </span>
             <select class="pipeline-actions__select" id="select-action">
                 <option value="0">dev milestone</option>
                 <option value="1">type</option>
             </select>
 
+            <span> to </span>
             <select class="pipeline-actions__select" id="select-milestone">
                 <option value="0">planning</option>
                 <option value="1">development</option>
