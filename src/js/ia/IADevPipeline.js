@@ -114,6 +114,22 @@
 
             $("body").on("click", ".dev_pipeline-column__list .icon-check, .dev_pipeline-column__list .icon-check-empty", function(evt) {
                 toggleCheck($(this));
+
+                if ($(".dev_pipeline-column__list .icon-check").length) {
+                    $(".pipeline-actions").removeClass("hide");
+                } else {
+                    $(".pipeline-actions").addClass("hide");
+                }
+            });
+
+            $("body").on("change", "#select-action", function(evt) {
+                if ($.trim($(this).find("option:selected").text()) === "type") {
+                    $("#select-type").removeClass("hide");
+                    $("#select-milestone").addClass("hide");
+                } else {
+                    $("#select-milestone").removeClass("hide");
+                    $("#select-type").addClass("hide");
+                }
             });
 
             $(".toggle-details i").click(function(evt) {
