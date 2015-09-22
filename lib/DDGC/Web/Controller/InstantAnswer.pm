@@ -119,6 +119,7 @@ sub iarepo_json :Chained('iarepo') :PathPart('json') :Args(0) {
 
     $self->_add_json_last_modified_header( $c, $iarepo->last_modified );
 
+    $iarepo = $iarepo->prefetch( { instant_answer_topics => 'topic' });
     my %iah;
     while (my $ia = $iarepo->next) {
         $iah{$ia->meta_id} = $ia->TO_JSON('for_endpt');
