@@ -92,7 +92,7 @@ sub iarepo_json :Chained('iarepo') :PathPart('json') :Args(0) {
     my ( $self, $c ) = @_;
 
     my $repo = $c->stash->{ia_repo};
-    my @x = $c->d->rs('InstantAnswer')->search({
+    my $iarepo = $c->d->rs('InstantAnswer')->search({
         repo => $repo,
         -or => [{dev_milestone => 'live'},
         {dev_milestone => 'development'},
@@ -101,7 +101,7 @@ sub iarepo_json :Chained('iarepo') :PathPart('json') :Args(0) {
     });
 
     my %iah;
-    for my $ia (@x) {
+    while (my $ia = $iarepo->next) {
         $iah{$ia->meta_id} = $ia->TO_JSON('for_endpt');
 
         # fathead specific
