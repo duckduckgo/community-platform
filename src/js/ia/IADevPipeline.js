@@ -25,6 +25,8 @@
 
                 $("#dev_pipeline").html(iadp);
 
+                appendTeam(data.dev_milestones);
+
                 // 100% width
                 $(".site-main > .content-wrap").first().removeClass("content-wrap").addClass("wrap-pipeline");
             });
@@ -213,6 +215,39 @@
                     $(".dev_pipeline-column__list li." + teamrole + "-" + username).show();
                 }
             });
+
+            function appendTeam(data) {
+                var producers = [];
+                var developers = [];
+                $.each(data, function(idx, val) {
+                    if (val !== "permissions") {
+                        $.each(val, function(sub_id, sub_val) {
+                            //var sub_val = data[idx][sub_id];
+                            var temp_producer = sub_val.producer;
+                            var devs = sub_val.developer;
+
+                            if (($.inArray(temp_producer, producers) === -1) && temp_producer) {
+                                producers.push(temp_producer);
+
+                                $("#select-producer").append("<option>" + temp_producer + "</option>");
+                            }
+
+                            if (devs) {
+                                $.each(devs, function(dev_id, temp_dev) {
+                                    if (temp_dev && temp_dev.name && ($.inArray(temp_dev.name, developers)  === -1)) {
+                                        developers.push(temp_dev.name);
+
+                                        $("#select-developer").append("<option>" + temp_dev.name + "</option>");
+                                    }
+                                });
+                            }
+                        });
+                    }
+                });
+
+                var team = {producers : producers, developers : developers};
+                return team;
+            }
 
             function toggleCheck($obj) {
                 $obj.toggleClass("icon-check");
