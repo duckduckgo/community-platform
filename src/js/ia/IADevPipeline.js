@@ -134,8 +134,21 @@
                 }
             });
 
+            $("body").on("change", "#select-producer, #select-developer", function(evt) {
+                var value = $.trim($(this).find("option:selected").text().toLowerCase().replace(/[^a-z0-9]/g, ""));
+                var field = $(this).attr("id").replace("select-", "");
+
+                if (value.toLowerCase() === "all") {
+                    $(".dev_pipeline-column__list li").show();
+                    $(".dev_pipeline-column__list li." + field + "-none").hide();
+                } else {
+                    $(".dev_pipeline-column__list li").hide();
+                    $(".dev_pipeline-column__list li." + field + "-" + value).show();
+                }
+            });
+
             $("body").on("click change", "#filter-info i, #select-info", function(evt) {
-                if (evt.type === "click" && $(evt.target).is("#filter-info i")) {
+                if (evt.type === "click" && $(this).is("#filter-info i")) {
                     toggleCheck($(this));
                 }
 

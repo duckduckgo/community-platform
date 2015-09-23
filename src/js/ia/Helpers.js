@@ -193,7 +193,7 @@
 
     // Strip non-alphanumeric chars from a string and transform it to lowercase
     Handlebars.registerHelper('slug', function(txt) {
-        txt = txt.toLowerCase().replace(/[^a-z0-9]/g, '');
+        txt = txt? txt.toLowerCase().replace(/[^a-z0-9]/g, '') : '';
         return txt;
     });
 

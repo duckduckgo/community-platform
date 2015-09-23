@@ -7,7 +7,7 @@
 
     <ul class="dev_pipeline-column__list" id="pipeline-planning__list">
         {{#each planning}}
-            <li id="pipeline-list__{{id}}" class="{{#if can_edit}}can_edit{{/if}} producer-{{producer}} designer-{{designer}} {{#each developer}}developer-{{name}} {{/each}}
+            <li id="pipeline-list__{{id}}" class="{{#if can_edit}}can_edit{{/if}} producer-{{#if producer}}{{slug producer}}{{else}}none{{/if}} designer-{{designer}} {{#if developer}}{{#each developer}}developer-{{slug name}} {{/each}}{{else}}developer-none{{/if}}
              {{#unless perl_module}}missing-perl_module{{/unless}} {{#unless name}}missing-name{{/unless}} {{#unless repo}}missing-type{{/unless}} {{#unless example_query}}missing-example_query{{/unless}}">
                 {{#if ../../permissions.admin}}
                     <i class="icon-check-empty left" />
@@ -56,7 +56,7 @@
 
     <ul class="dev_pipeline-column__list" id="pipeline-development__list">
         {{#each development}}
-            <li id="pipeline-list__{{id}}" class="{{#if can_edit}}can_edit{{/if}} producer-{{producer}} designer-{{designer}} {{#each developer}}developer-{{name}} {{/each}}
+            <li id="pipeline-list__{{id}}" class="{{#if can_edit}}can_edit{{/if}} producer-{{#if producer}}{{slug producer}}{{else}}none{{/if}} designer-{{designer}} {{#if developer}}{{#each developer}}developer-{{slug name}} {{/each}}{{else}}developer-none{{/if}}
              {{#unless perl_module}}missing-perl_module{{/unless}} {{#unless name}}missing-name{{/unless}} {{#unless repo}}missing-type{{/unless}} {{#unless example_query}}missing-example_query{{/unless}}">
                    {{#if ../../permissions.admin}}
                     <i class="icon-check-empty left" />
@@ -105,7 +105,7 @@
 
     <ul class="dev_pipeline-column__list" id="pipeline-testing__list">
         {{#each testing}}
-            <li id="pipeline-list__{{id}}" class="{{#if can_edit}}can_edit{{/if}} producer-{{producer}} designer-{{designer}} {{#each developer}}developer-{{name}} {{/each}}
+            <li id="pipeline-list__{{id}}" class="{{#if can_edit}}can_edit{{/if}} producer-{{#if producer}}{{slug producer}}{{else}}none{{/if}} designer-{{designer}} {{#if developer}}{{#each developer}}developer-{{slug name}} {{/each}}{{else}}developer-none{{/if}}
              {{#unless perl_module}}missing-perl_module{{/unless}} {{#unless name}}missing-name{{/unless}} {{#unless repo}}missing-type{{/unless}} {{#unless example_query}}missing-example_query{{/unless}}">
                   {{#if ../../permissions.admin}}
                     <i class="icon-check-empty left" />
@@ -154,7 +154,7 @@
 
     <ul class="dev_pipeline-column__list" id="pipeline-complete__list">
         {{#each complete}}
-            <li id="pipeline-list__{{id}}" class="{{#if can_edit}}can_edit{{/if}} producer-{{producer}} designer-{{designer}} {{#each developer}}developer-{{name}} {{/each}}
+            <li id="pipeline-list__{{id}}" class="{{#if can_edit}}can_edit{{/if}} producer-{{#if producer}}{{slug producer}}{{else}}none{{/if}} designer-{{designer}} {{#if developer}}{{#each developer}}developer-{{slug name}} {{/each}}{{else}}developer-none{{/if}}
              {{#unless perl_module}}missing-perl_module{{/unless}} {{#unless name}}missing-name{{/unless}} {{#unless repo}}missing-type{{/unless}} {{#unless example_query}}missing-example_query{{/unless}}">
                  {{#if ../../permissions.admin}}
                     <i class="icon-check-empty left" />
