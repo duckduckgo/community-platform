@@ -78,7 +78,7 @@
     </div>
 
     <div class="filter-team left">
-        <span class="filter-team__span">
+        <span class="filter-team__span" id="filter-producer">
             Producer:  
             <select class="filter-team__span__select" id="select-producer">
                 <option value="0">All</option>
@@ -86,18 +86,18 @@
             </select>
         </span> 
         
-        <span class="filter-team__span">
+        <span class="filter-team__span" id="filter-developer">
             Developer:  
-            <select class="filter-team__span__select" id="select-producer">
+            <select class="filter-team__span__select" id="select-developer">
                 <option value="0">All</option>
                 <option value="1">None</option>
             </select>
         </span> 
         
-        <span class="filter-team__span">
+        <span class="filter-info__span" id="filter-info">
             <i class="icon-check-empty"></i>
             Missing info:  
-            <select class="filter-team__span__select" id="select-producer">
+            <select class="filter-team__span__select" id="select-info">
                 <option value="0">All</option>
                 <option value="1">None</option>
                 <option value="2">Perl Module</option>

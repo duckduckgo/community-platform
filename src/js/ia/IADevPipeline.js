@@ -87,7 +87,7 @@
 
                     $("#pipeline-planning .item-name a").each(showHideFunc);
                     $("#pipeline-development .item-name a").each(showHideFunc);
-	            $("#pipeline-testing .item-name a").each(showHideFunc);
+	                $("#pipeline-testing .item-name a").each(showHideFunc);
                     $("#pipeline-complete .item-name a").each(showHideFunc);
                 }
             });
@@ -129,6 +129,36 @@
                 } else {
                     $("#select-milestone").removeClass("hide");
                     $("#select-type").addClass("hide");
+                }
+            });
+
+            $("body").on("click change", "#filter-info i, #select-info", function(evt) {
+                if (evt.type === "click" && $(evt.target).is("#filter-info i")) {
+                    toggleCheck($(this));
+                }
+
+                if ($("#filter-info i").hasClass("icon-check")) {
+                    $(".dev_pipeline-column__list li").hide();
+
+                    var info = $.trim($("#select-info option:selected").text().toLowerCase().replace(/\s/g, "_"));
+                    var selector_prefix = ".dev_pipeline-column__list li.missing-";
+                    if (info === "all") {
+                        $(selector_prefix + "perl_module").show();
+                        $(selector_prefix + "type").show();
+                        $(selector_prefix + "name").show();
+                        $(selector_prefix + "example_query").show();
+                    } else if (info === "none") {
+                        $(".dev_pipeline-column__list li").show();
+
+                        $(selector_prefix + "perl_module").hide();
+                        $(selector_prefix + "type").hide();
+                        $(selector_prefix + "name").hide();
+                        $(selector_prefix + "example_query").hide();
+                    } else {
+                        $(selector_prefix + info).show();
+                    }
+                } else {
+                    $(".dev_pipeline-column__list li").show();
                 }
             });
 
