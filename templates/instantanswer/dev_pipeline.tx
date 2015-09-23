@@ -77,26 +77,39 @@
         Show activity details
     </div>
 
-    <: if $logged_in { :>
-        <div class="filter-team left">
-            <i class="filter-team__checkbox icon-check-empty" id="filter-team_checkbox"></i>
-            <span class="filter-team__span">
-                Show IAs of which I am the 
-                <: if $is_admin { :>
-                    <select class="filter-team__span__select" id="select-teamrole">
-                        <option value="0">producer</option>
-                        <option value="1">designer</option>
-                        <option value="2">developer</option>
-                    </select>
-                <: } else { :>
-                    developer
-                <: } :>
-            </span> 
-        </div>
-    <: } :>
+    <div class="filter-team left">
+        <span class="filter-team__span">
+            Producer:  
+            <select class="filter-team__span__select" id="select-producer">
+                <option value="0">All</option>
+                <option value="1">None</option>
+            </select>
+        </span> 
+        
+        <span class="filter-team__span">
+            Developer:  
+            <select class="filter-team__span__select" id="select-producer">
+                <option value="0">All</option>
+                <option value="1">None</option>
+            </select>
+        </span> 
+        
+        <span class="filter-team__span">
+            <i class="icon-check-empty"></i>
+            Missing info:  
+            <select class="filter-team__span__select" id="select-producer">
+                <option value="0">All</option>
+                <option value="1">None</option>
+                <option value="2">Perl Module</option>
+                <option value="3">Name</option>
+                <option value="4">Type</option>
+                <option value="5">Example Query</option>
+            </select>
+        </span> 
+    </div>
 
     <: if $is_admin { :>
-        <div class="pipeline-actions left hide">
+        <div class="pipeline-actions right hide">
             <span>Change </span>
             <select class="pipeline-actions__select" id="select-action">
                 <option value="0">dev milestone</option>
