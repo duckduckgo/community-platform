@@ -273,4 +273,10 @@
              return options.fn(this);
         }
     });
+
+    // return the length of an array
+    Handlebars.registerHelper('length', function(n) {
+        console.log(n);
+        return n.length;
+    });
 })(DDH);

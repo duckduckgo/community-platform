@@ -4,8 +4,8 @@
     <h2 class="dev_pipeline-column__title">
         Planning
     </h2>
-
     <ul class="dev_pipeline-column__list" id="pipeline-planning__list">
+    <h2>{{length planning}}</h2>
         {{#each planning}}
             <li id="pipeline-list__{{id}}" class="{{#if can_edit}}can_edit{{/if}} producer-{{producer}} designer-{{designer}} {{#each developer}}developer-{{name}} {{/each}}">
                 {{#if ../../permissions.admin}}
