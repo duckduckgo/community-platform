@@ -293,4 +293,38 @@
         return total;
     });
 
+    // return total number of IAs since a given number of days
+    // obj: array of IA objects
+    // days: int
+    // operator: 'less-than' 'greater-than'
+    Handlebars.registerHelper('stats_from_day', function(obj, days, operator) {
+        var calc = function(date, operator) {
+            var days_from = function(tmpdate){
+                var dateObj = moment.utc(tmpdate, "YYYY-MM-DD");
+                var elapsed = parseInt(moment().diff(dateObj, "days", true));
+                return elapsed;
+            };
+
+            if(operator == 'less-than'){
+                if(days_from(date) < days){
+                    return 1;
+                }
+            }
+            if(operator == 'greater-than'){
+                if(days_from(date) > days){
+                    return 1;
+                }
+            }
+            
+        };
+
+        var total = 0;
+        for(var i = 0; i < obj.length; i++){
+            if( calc(obj[i].created_date, operator) ){
+                    total++;
+            }
+        }
+        return total;
+    });
+
 })(DDH);
