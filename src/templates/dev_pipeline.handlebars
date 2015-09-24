@@ -7,7 +7,8 @@
 
     <ul class="dev_pipeline-column__list" id="pipeline-planning__list">
         {{#each planning}}
-            <li id="pipeline-list__{{id}}" class="{{#if can_edit}}can_edit{{/if}} producer-{{producer}} designer-{{designer}} {{#each developer}}developer-{{name}} {{/each}}">
+            <li id="pipeline-list__{{id}}" class="{{#if can_edit}}can_edit{{/if}} producer-{{#if producer}}{{slug producer}}{{/if}} designer-{{designer}} {{#if developer}}{{#each developer}}developer-{{slug name}} {{/each}}{{else}}developer-{{/if}}
+             {{#is_false_array perl_module name repo example_query}} missing-all {{#unless perl_module}}missing-perl_module{{/unless}} {{#unless name}}missing-name{{/unless}} {{#unless repo}}missing-type{{/unless}} {{#unless example_query}}missing-example_query{{/unless}} {{else}}missing-{{/is_false_array}}">
                 {{#if ../../permissions.admin}}
                     <i class="icon-check-empty left" />
                 {{/if}}
@@ -55,8 +56,9 @@
 
     <ul class="dev_pipeline-column__list" id="pipeline-development__list">
         {{#each development}}
-            <li id="pipeline-list__{{id}}" class="{{#if can_edit}}can_edit{{/if}} producer-{{producer}} designer-{{designer}} {{#each developer}}developer-{{name}} {{/each}}">
-                {{#if ../../permissions.admin}}
+            <li id="pipeline-list__{{id}}" class="{{#if can_edit}}can_edit{{/if}} producer-{{#if producer}}{{slug producer}}{{/if}} designer-{{designer}} {{#if developer}}{{#each developer}}developer-{{slug name}} {{/each}}{{else}}developer-{{/if}}
+             {{#is_false_array perl_module name repo example_query}} missing-all {{#unless perl_module}}missing-perl_module{{/unless}} {{#unless name}}missing-name{{/unless}} {{#unless repo}}missing-type{{/unless}} {{#unless example_query}}missing-example_query{{/unless}} {{else}}missing-{{/is_false_array}}">
+                   {{#if ../../permissions.admin}}
                     <i class="icon-check-empty left" />
                 {{/if}}
                 <div class="ia-item--stamp circle stamp--{{repo}} left"></div>
@@ -103,8 +105,9 @@
 
     <ul class="dev_pipeline-column__list" id="pipeline-testing__list">
         {{#each testing}}
-            <li id="pipeline-list__{{id}}" class="{{#if can_edit}}can_edit{{/if}} producer-{{producer}} designer-{{designer}} {{#each developer}}developer-{{name}} {{/each}}">
-                 {{#if ../../permissions.admin}}
+            <li id="pipeline-list__{{id}}" class="{{#if can_edit}}can_edit{{/if}} producer-{{#if producer}}{{slug producer}}{{/if}} designer-{{designer}} {{#if developer}}{{#each developer}}developer-{{slug name}} {{/each}}{{else}}developer-{{/if}}
+             {{#is_false_array perl_module name repo example_query}} missing-all {{#unless perl_module}}missing-perl_module{{/unless}} {{#unless name}}missing-name{{/unless}} {{#unless repo}}missing-type{{/unless}} {{#unless example_query}}missing-example_query{{/unless}} {{else}}missing-{{/is_false_array}}">
+                  {{#if ../../permissions.admin}}
                     <i class="icon-check-empty left" />
                 {{/if}}         
                 <div class="ia-item--stamp circle stamp--{{repo}} left"></div>
@@ -151,8 +154,9 @@
 
     <ul class="dev_pipeline-column__list" id="pipeline-complete__list">
         {{#each complete}}
-            <li id="pipeline-list__{{id}}" class="{{#if can_edit}}can_edit{{/if}} producer-{{producer}} designer-{{designer}} {{#each developer}}developer-{{name}} {{/each}}">
-                {{#if ../../permissions.admin}}
+            <li id="pipeline-list__{{id}}" class="{{#if can_edit}}can_edit{{/if}} producer-{{#if producer}}{{slug producer}}{{/if}} designer-{{designer}} {{#if developer}}{{#each developer}}developer-{{slug name}} {{/each}}{{else}}developer-{{/if}}
+             {{#is_false_array perl_module name repo example_query}} missing-all {{#unless perl_module}}missing-perl_module{{/unless}} {{#unless name}}missing-name{{/unless}} {{#unless repo}}missing-type{{/unless}} {{#unless example_query}}missing-example_query{{/unless}} {{else}}missing-{{/is_false_array}}">
+                 {{#if ../../permissions.admin}}
                     <i class="icon-check-empty left" />
                 {{/if}}
                 <div class="ia-item--stamp circle stamp--{{repo}} left"></div>

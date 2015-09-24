@@ -193,7 +193,7 @@
 
     // Strip non-alphanumeric chars from a string and transform it to lowercase
     Handlebars.registerHelper('slug', function(txt) {
-        txt = txt.toLowerCase().replace(/[^a-z0-9]/g, '');
+        txt = txt? txt.toLowerCase().replace(/[^a-z0-9]/g, '') : '';
         return txt;
     });
 
@@ -217,6 +217,20 @@
     Handlebars.registerHelper('is_false', function(value, options) {
         value = parseInt(value);
         if (!value) {
+            return options.fn(this);
+        }
+    });
+
+    // Returns true if all the values in the array are false
+    Handlebars.registerHelper('is_false_array', function(val1, val2, val3, val4, options) {
+        var arr = [val1, val2, val3, val4];
+        if (arr.length) {
+            $.each(arr, function(idx) {
+                if (arr[idx]) {
+                    return options.inverse(this);
+                }
+            });
+
             return options.fn(this);
         }
     });
