@@ -37,6 +37,45 @@
 
                 // 100% width
                 $(".site-main > .content-wrap").first().removeClass("content-wrap").addClass("wrap-pipeline");
+
+                var parameters = window.location.search.replace("?", "");
+                parameters = $.trim(parameters.replace(/\/$/, ''));
+                if (parameters) {
+                    parameters = parameters.split("&");
+
+                    var param_count = 0;
+
+                    $.each(parameters, function(idx) {
+                        var temp = parameters[idx].split("=");
+                        var field = temp[0];
+                        var value = temp[1];
+
+                        if (field && value && (dev_p.filters.hasOwnProperty(field) || field === "q")) {
+                            if ((field === "q") && value) {
+                                $(".search-thing").val(decodeURIComponent(value.replace(/\+/g, " ")));
+
+                                //create return keypress event
+                                var evt = $.Event("keypress");
+                                evt.which = 13;
+                                $(".search-thing").trigger(evt);
+                                param_count++;
+                            } else if (field === "missing") {
+                                $("#select-info").val(value);
+                                $("#filter-info i").trigger("click");
+                            } else {
+                                var $select = $("#select-" + field);
+                                $select.val(value);
+                                $select.trigger("change");
+                            }
+                        }
+                    });
+
+                    if (param_count === 0) {
+                        filter();
+                    }
+                } else {
+                    filter();
+                }
             });
 
             $("#create-new-ia").click(function(evt) {
@@ -236,16 +275,18 @@
 
                             if (($.inArray(temp_producer, producers) === -1) && temp_producer) {
                                 producers.push(temp_producer);
+                                var slug_producer = temp_producer.toLowerCase().replace(/[^a-z0-9]/g, "");
 
-                                $("#select-producer").append("<option>" + temp_producer + "</option>");
+                                $("#select-producer").append('<option value="' + slug_producer + '">' + temp_producer + '</option>');
                             }
 
                             if (devs) {
                                 $.each(devs, function(dev_id, temp_dev) {
                                     if (temp_dev && temp_dev.name && ($.inArray(temp_dev.name, developers)  === -1)) {
                                         developers.push(temp_dev.name);
+                                        var slug_dev = temp_dev.name.toLowerCase().replace(/[^a-z0-9]/g, "");
 
-                                        $("#select-developer").append("<option>" + temp_dev.name + "</option>");
+                                        $("#select-developer").append('<option value="' + slug_dev + '">' + temp_dev.name + '</option>');
                                     }
                                 });
                             }
