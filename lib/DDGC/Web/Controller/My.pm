@@ -15,6 +15,7 @@ BEGIN {extends 'Catalyst::Controller'; }
 sub base :Chained('/base') :PathPart('my') :CaptureArgs(0) {
 	my ( $self, $c ) = @_;
 	$c->stash->{page_class} = "page-account";
+	$c->nocache;
 }
 
 sub logout :Chained('base') :Args(0) {
