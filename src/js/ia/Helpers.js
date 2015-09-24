@@ -221,6 +221,20 @@
         }
     });
 
+    // Returns true if all the values in the array are false
+    Handlebars.registerHelper('is_false_array', function(val1, val2, val3, val4, options) {
+        var arr = [val1, val2, val3, val4];
+        if (arr.length) {
+            $.each(arr, function(idx) {
+                if (arr[idx]) {
+                    return options.inverse(this);
+                }
+            });
+
+            return options.fn(this);
+        }
+    });
+
     // Returns true for values equal to 1, evaluating to true
     Handlebars.registerHelper('is_true', function(value, options) {
         value = parseInt(value);

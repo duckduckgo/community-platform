@@ -5,6 +5,14 @@
     };
 
     DDH.IADevPipeline.prototype = {
+        filters: {
+            producer: '',
+            developer: '',
+            missing: '',
+        },
+
+        query: '',
+
         init: function() {
             // console.log("IADevPipeline init()");
             var dev_p = this;
@@ -73,44 +81,8 @@
 
             $("body").on("keypress", ".search-thing", function(evt) {
                 if(evt.type === "keypress" && evt.which === 13) {
-                    var query = $(this).val();
-                    var re = new RegExp(query, 'i');
-                    var isBlank = query === "";
-
-                    var showHideFunc = function(a, b) {
-                        var $ia = $(b);
-                        
-                        if(!re.test($ia.text()) && !isBlank) {
-                            $ia.parent().parent().hide();
-                        } else {
-                            $ia.parent().parent().show();
-                        }
-                    };
-
-                    $("#pipeline-planning .item-name a").each(showHideFunc);
-                    $("#pipeline-development .item-name a").each(showHideFunc);
-	                $("#pipeline-testing .item-name a").each(showHideFunc);
-                    $("#pipeline-complete .item-name a").each(showHideFunc);
-                }
-            });
-
-            $("#filter-team_checkbox").click(function(evt) {
-                 toggleCheck($(this));
-
-                if ($(this).hasClass("icon-check-empty")) {
-                    $(".dev_pipeline-column__list li").show();
-                } else {
-                    $(".dev_pipeline-column__list li").hide();
-
-                    if ($("#select-teamrole").length) {
-                        var teamrole = $("#select-teamrole option:selected").text();
-                        $(".dev_pipeline-column__list li." + teamrole + "-" + username).show();
-                    } else {
-                        // If the select elements doesn't exist
-                        // then the user isn't an admin
-                        // and therefore the only role he can fulfill is the developer
-                        $(".dev_pipeline-column__list li.designer-" + username).show();
-                    }
+                    dev_p.query = $(this).val();
+                    filter();
                 }
             });
 
@@ -138,13 +110,13 @@
                 var value = $.trim($(this).find("option:selected").text().toLowerCase().replace(/[^a-z0-9]/g, ""));
                 var field = $(this).attr("id").replace("select-", "");
 
-                if (value.toLowerCase() === "all") {
-                    $(".dev_pipeline-column__list li").show();
-                    $(".dev_pipeline-column__list li." + field + "-none").hide();
+                if (value === "all") {
+                    dev_p.filters[field] = "";
                 } else {
-                    $(".dev_pipeline-column__list li").hide();
-                    $(".dev_pipeline-column__list li." + field + "-" + value).show();
+                    dev_p.filters[field] = value;
                 }
+
+                filter();
             });
 
             $("body").on("click change", "#filter-info i, #select-info", function(evt) {
@@ -153,28 +125,13 @@
                 }
 
                 if ($("#filter-info i").hasClass("icon-check")) {
-                    $(".dev_pipeline-column__list li").hide();
-
-                    var info = $.trim($("#select-info option:selected").text().toLowerCase().replace(/\s/g, "_"));
-                    var selector_prefix = ".dev_pipeline-column__list li.missing-";
-                    if (info === "all") {
-                        $(selector_prefix + "perl_module").show();
-                        $(selector_prefix + "type").show();
-                        $(selector_prefix + "name").show();
-                        $(selector_prefix + "example_query").show();
-                    } else if (info === "none") {
-                        $(".dev_pipeline-column__list li").show();
-
-                        $(selector_prefix + "perl_module").hide();
-                        $(selector_prefix + "type").hide();
-                        $(selector_prefix + "name").hide();
-                        $(selector_prefix + "example_query").hide();
-                    } else {
-                        $(selector_prefix + info).show();
-                    }
+                    var value = $.trim($("#select-info option:selected").text().toLowerCase().replace(/\s/g, "_"));
+                    dev_p.filters.missing = value;
                 } else {
-                    $(".dev_pipeline-column__list li").show();
+                    dev_p.filters.missing = "";
                 }
+
+                filter();
             });
 
             $("body").on("click", "#pipeline-action-submit", function(evt)  {
@@ -201,19 +158,6 @@
                 save_multiple(ias, field, value);
             });
 
-            function save_multiple(ias, field, value) {
-                var jqxhr = $.post("/ia/save_multiple", {
-                    field : field,
-                    value : value,
-                    ias : ias
-                })
-                .done(function(data) {
-                    if (data.result) {
-                        location.reload();
-                    }
-                });
-            }
-
             $(".toggle-details i").click(function(evt) {
                 toggleCheck($(this));
 
@@ -228,6 +172,57 @@
                     $(".dev_pipeline-column__list li." + teamrole + "-" + username).show();
                 }
             });
+
+            function filter() {
+                var query = dev_p.query? dev_p.query.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&") : '';
+                var url = "";
+                var $obj = $(".dev_pipeline-column__list li");
+                var class_sel = "";
+
+                $obj.hide();
+                $.each(dev_p.filters, function(key, val) {
+                    if (val) {
+                        class_sel += "." + key + "-";
+                        class_sel += (val === "none")? "" : val;
+                        url += "&" + key + "=" + val;
+                    }
+                });
+
+                $obj = $(".dev_pipeline-column__list li" + class_sel);
+                var $children = $obj.children(".item-name");
+
+                if (query) {
+                    var regex = new RegExp(query, "gi");
+                    url = "&q=" + encodeURIComponent(query.replace(/\x5c/g, "")).replace(/%20/g, "+") + url;
+                    
+                    $children.each(function(idx) {
+                        if (regex.test($(this).text())) {
+                            $(this).parent().show();
+                        }
+                    });
+                } else {
+                    $obj.show();
+                }
+
+                url = url.length? "?" + url.replace("#", "").replace("&", ""): "/ia/dev/pipeline";
+
+                // Allows changing URL without reloading, since it doesn't add the new URL to history;
+                // Not supported on IE8 and IE9.
+                history.pushState({}, "Index: Instant Answers", url);
+            }
+
+            function save_multiple(ias, field, value) {
+                var jqxhr = $.post("/ia/save_multiple", {
+                    field : field,
+                    value : value,
+                    ias : ias
+                })
+                .done(function(data) {
+                    if (data.result) {
+                        location.reload();
+                    }
+                });
+            }
 
             function appendTeam(data) {
                 var producers = [];
