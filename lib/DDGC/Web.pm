@@ -329,7 +329,9 @@ sub return_if_not_modified {
 		'Last-Modified' => "$dt",
 	);
 	if ( ( $if_modified_since && $dt ) &&
-		 DateTime->compare( $if_modified_since, $dt ) >= 0 ) {
+		DateTime->compare( $if_modified_since, $dt ) >= 0 ) {
+		$c->response->headers->remove_header($_)
+		    for ( qw/ Content-Type Content-Length Content-Disposition / );
 		$c->response->status('304');
 		return $c->detach;
 	}
