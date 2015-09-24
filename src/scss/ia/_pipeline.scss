@@ -1,6 +1,9 @@
+.hide { display: none; }
 .wrap-pipeline { padding: 0 2em; }
 
 .toggle-details { margin-right: 2em; }
+
+.filter-team span, #pipeline-clear-filters { margin-left: 1em; }
 
 #dev_pipeline .dev_pipeline-column {
     width: 22.5%;
@@ -30,7 +33,6 @@
 
     .icon {
         margin-right: 0.5em;
-        padding-left: 0.25em;
     }
 }
 
@@ -55,7 +57,7 @@
         .item-name { max-width: 9em; }
 
         .icon-check, .icon-check-empty {
-            margin: 0.25em 0.25em 0 0;
+            margin: 0.25em 0.6em 0 0;
         }
     }
 
@@ -64,16 +66,17 @@
         height: 20px;
         position: inherit;
         font-size: 0.8em;
+        margin-right: 0.6em;
     }
 }
 
 .pipeline-actions { 
     margin-left: 2em;
+}
 
-    #pipeline-action-submit {
-        height: 1.6em;
-        padding-top: 0;
-        padding-bottom: 0.27em;
-    }
+#pipeline-action-submit, #pipeline-clear-filters {
+    height: 1.6em;
+    padding-top: 0;
+    padding-bottom: 0.27em;
 }
 
