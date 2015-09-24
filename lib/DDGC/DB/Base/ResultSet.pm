@@ -60,13 +60,12 @@ sub last_modified {
   my $last_modified;
 
   try {
-    $last_modified = $self->get_column('updated')->max;
-    return DateTime::Format::Pg->parse_datetime(
-      $last_modified
-    )->truncate( to => 'second' ) if $last_modified;
+    $last_modified = DateTime::Format::Pg->parse_datetime(
+      $self->get_column('updated')->max
+    )->truncate( to => 'second' );
   };
 
-  return $last_modified || DateTime->new( year => 1970 );
+  return $last_modified // DateTime->new( year => 1970 );
 }
 
 1;
