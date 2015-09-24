@@ -2,10 +2,9 @@
 {{#with dev_milestones}}
 <div class="dev_pipeline-column left" id="pipeline-planning">
     <h2 class="dev_pipeline-column__title">
-        Planning
+        Planning ({{length planning}})
     </h2>
     <ul class="dev_pipeline-column__list" id="pipeline-planning__list">
-    <h2>{{length planning}}</h2>
         {{#each planning}}
             <li id="pipeline-list__{{id}}" class="{{#if can_edit}}can_edit{{/if}} producer-{{producer}} designer-{{designer}} {{#each developer}}developer-{{name}} {{/each}}">
                 {{#if ../../permissions.admin}}
@@ -50,7 +49,7 @@
 
 <div class="dev_pipeline-column left" id="pipeline-development">
     <h2 class="dev_pipeline-column__title">
-        Development
+        Development ({{length development}})
     </h2>
 
     <ul class="dev_pipeline-column__list" id="pipeline-development__list">
@@ -98,7 +97,7 @@
 
 <div class="dev_pipeline-column left" id="pipeline-testing">
     <h2 class="dev_pipeline-column__title">
-        Testing
+        Testing ({{length testing}})
     </h2>
 
     <ul class="dev_pipeline-column__list" id="pipeline-testing__list">
@@ -146,7 +145,7 @@
 
 <div class="dev_pipeline-column left" id="pipeline-complete">
     <h2 class="dev_pipeline-column__title">
-        Complete
+        Complete ({{length complete}})
     </h2>
 
     <ul class="dev_pipeline-column__list" id="pipeline-complete__list">
