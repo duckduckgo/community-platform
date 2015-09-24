@@ -3,6 +3,8 @@
 
 .toggle-details { margin-right: 2em; }
 
+.filter-team span, #pipeline-clear-filters { margin-left: 1em; }
+
 #dev_pipeline .dev_pipeline-column {
     width: 22.5%;
     text-align: left;
@@ -70,11 +72,11 @@
 
 .pipeline-actions { 
     margin-left: 2em;
+}
 
-    #pipeline-action-submit {
-        height: 1.6em;
-        padding-top: 0;
-        padding-bottom: 0.27em;
-    }
+#pipeline-action-submit, #pipeline-clear-filters {
+    height: 1.6em;
+    padding-top: 0;
+    padding-bottom: 0.27em;
 }
 
