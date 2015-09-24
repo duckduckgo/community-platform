@@ -281,6 +281,7 @@
         }
     });
 
+    // return sum of up to 4 values
     Handlebars.registerHelper('sum', function(v1, v2, v3, v4) {
         var values = [v1, v2, v3, v4];
         var total = 0;
