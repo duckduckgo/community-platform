@@ -316,7 +316,10 @@ sub ddgcr_post {
 	return $res;
 }
 
-
+sub nocache {
+	my ( $c ) = @_;
+	$c->response->header('Cache-Control' => 'no-cache, max-age=0, must-revalidate, no-store');
+}
 
 # Start the application
 __PACKAGE__->setup();
