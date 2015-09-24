@@ -108,6 +108,10 @@
         </span> 
     </div>
 
+    <div class="left button hide" id="pipeline-clear-filters">
+        Clear Filters
+    </div>
+
     <: if $is_admin { :>
         <div class="pipeline-actions right hide">
             <span>Change </span>
