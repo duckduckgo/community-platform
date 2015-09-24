@@ -275,8 +275,21 @@
     });
 
     // return the length of an array
-    Handlebars.registerHelper('length', function(n) {
-        console.log(n);
-        return n.length;
+    Handlebars.registerHelper('length', function(obj) {
+        if(Array.isArray(obj)){
+            return obj.length;
+        }
     });
+
+    Handlebars.registerHelper('sum', function(v1, v2, v3, v4) {
+        var values = [v1, v2, v3, v4];
+        var total = 0;
+        for(var i = 0; i < values.length; i++){
+            if( typeof values[i] == 'number' ){
+                total += values[i];
+            }
+        }
+        return total;
+    });
+
 })(DDH);
