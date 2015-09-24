@@ -36,6 +36,9 @@ use DDGC::Web::Table;
 
 use namespace::autoclean;
 
+use DateTime;
+use DateTime::Format::HTTP;
+
 our $VERSION ||= '0.0development';
 
 __PACKAGE__->config(
@@ -328,8 +331,8 @@ sub return_if_not_modified {
 	$c->response->header(
 		'Last-Modified' => "$dt",
 	);
-	if ( ( $if_modified_since && $dt ) &&
-		DateTime->compare( $if_modified_since, $dt ) >= 0 ) {
+
+	if ( $if_modified_since eq "$dt" ) {
 		$c->response->headers->remove_header($_)
 		    for ( qw/ Content-Type Content-Length Content-Disposition / );
 		$c->response->status('304');
