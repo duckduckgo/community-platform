@@ -337,6 +337,10 @@ sub return_if_not_modified {
 	}
 
 	return $c->detach if ( $c->request->method eq 'HEAD' );
+
+sub nocache {
+	my ( $c ) = @_;
+	$c->response->header('Cache-Control' => 'no-cache, max-age=0, must-revalidate, no-store');
 }
 
 # Start the application
