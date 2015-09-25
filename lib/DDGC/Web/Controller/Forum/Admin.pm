@@ -6,6 +6,7 @@ BEGIN { extends 'Catalyst::Controller'; }
 
 sub base : Chained('/forum/base') PathPart('admin') CaptureArgs(0) {
   my ( $self, $c ) = @_;
+  $c->nocache;
   if (!$c->user) {
     $c->response->redirect($c->chained_uri('My','login'));
     return $c->detach;

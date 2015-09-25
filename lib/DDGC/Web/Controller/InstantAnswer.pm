@@ -21,6 +21,7 @@ sub base :Chained('/base') :PathPart('ia') :CaptureArgs(0) {
 
 sub index :Chained('base') :PathPart('') :Args(0) {
     my ( $self, $c ) = @_;
+
     # Retrieve / stash all IAs for index page here?
 
     # my @x = $c->d->rs('InstantAnswer')->all();
@@ -33,7 +34,7 @@ sub index :Chained('base') :PathPart('') :Args(0) {
     #}
 
     my $rs = $c->d->rs('Topic');
-    
+
     my @topics = $rs->search(
         {'name' => { '!=' => 'test' }},
         {
@@ -54,6 +55,8 @@ sub ialist_json :Chained('base') :PathPart('json') :Args() {
     my ( $self, $c ) = @_;
 
     my $rs = $c->d->rs('InstantAnswer');
+
+    $c->return_if_not_modified( $rs->last_modified );
 
     my @ial = $rs->search(
         {'topic.name' => [{ '!=' => 'test' }, { '=' => undef}],
@@ -81,16 +84,21 @@ sub iarepo_json :Chained('iarepo') :PathPart('json') :Args(0) {
     my ( $self, $c ) = @_;
 
     my $repo = $c->stash->{ia_repo};
-    my @x = $c->d->rs('InstantAnswer')->search({
-        repo => $repo,
+    my $iarepo = $c->d->rs('InstantAnswer')->search({
+        ( $repo ne 'all' )
+            ? ( repo => $repo )
+            : (),
         -or => [{dev_milestone => 'live'},
         {dev_milestone => 'development'},
         {dev_milestone => 'testing'},
         {dev_milestone => 'complete'}]
     });
 
+    $c->return_if_not_modified( $iarepo->last_modified );
+
+    $iarepo = $iarepo->prefetch( { instant_answer_topics => 'topic' });
     my %iah;
-    for my $ia (@x) {
+    while (my $ia = $iarepo->next) {
         $iah{$ia->meta_id} = $ia->TO_JSON('for_endpt');
 
         # fathead specific
@@ -179,6 +187,9 @@ sub deprecated_base :Chained('overview_base') :PathPart('deprecated') :CaptureAr
     $c->stash->{ia_page} = "IADeprecated";
     $c->stash->{title} = "Deprecated IA Pages";
    
+    $c->stash->{logged_in} = $c->user;
+    $c->stash->{is_admin} = $c->user? $c->user->admin : 0;
+
     $c->add_bc('Deprecated', $c->chained_uri('InstantAnswer', 'deprecated'));
 }
 
@@ -190,22 +201,37 @@ sub deprecated_json :Chained('deprecated_base') :PathPart('json') :Args(0) {
     my ( $self, $c ) = @_;
 
     my $rs = $c->d->rs('InstantAnswer');
-
     my @ias;
     my $key;
-    @ias = $rs->search({'dev_milestone' => { '=' => 'deprecated'}});
+    
+    if ($c->stash->{is_admin}) {
+        @ias = $rs->search({'dev_milestone' => { '=' => ['deprecated', 'ghosted']}});
+    } else {
+        @ias = $rs->search({'dev_milestone' => { '=' => 'deprecated'}});
+    }
+    
     $key = 'repo';
 
-    my %dev_ias;
+    my %dep_ias;
+    my %ghosted;
     my $temp_ia;
     for my $ia (@ias) {
         $temp_ia = $ia->TO_JSON('pipeline');
-        push @{$dev_ias{$ia->$key}}, $temp_ia;
+        my $repo = $ia->$key? $ia->$key : 'none';
+
+        if ($ia->dev_milestone eq 'deprecated') {
+            push @{$dep_ias{$repo}}, $temp_ia;
+        } else {
+             push @{$ghosted{$repo}}, $temp_ia;
+        }
     }
 
-    $c->stash->{x} = {
-        $key.'s' => \%dev_ias
-    };
+    my %dev_ias = (
+        deprecated => \%dep_ias,
+        ghosted => \%ghosted
+    );
+    
+    $c->stash->{x} = \%dev_ias;
 
     $c->stash->{not_last_url} = 1;
     $c->forward($c->view('JSON'));
@@ -550,6 +576,8 @@ sub ia_base :Chained('base') :PathPart('view') :CaptureArgs(1) {  # /ia/view/cal
 sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
     my ( $self, $c) = @_;
 
+    $c->return_if_not_modified( $c->stash->{ia}->updated );
+
     my $ia = $c->stash->{ia};
     my $edited;
     my @issues = $c->d->rs('InstantAnswer::Issues')->search({instant_answer_id => $ia->id},{order_by => {'-desc' => 'date'}});
@@ -674,6 +702,37 @@ sub commit_save :Chained('commit_base') :PathPart('save') :Args(0) {
     return $c->forward($c->view('JSON'));
 }
 
+# Save values for multiple IAs at once (just one field for each IA).
+# This is used only in the dev pipeline and for now it's only available to admins
+sub save_multiple :Chained('base') :PathPart('save_multiple') :Args(0) {
+    my ( $self, $c ) = @_;
+
+    my %result;
+    $c->stash->{x}->{result} = '';
+    return $c->forward($c->view('JSON')) unless ($c->req->params->{ias} && $c->user && $c->user->admin);
+    my $ias = from_json($c->req->params->{ias});
+    my $field = $c->req->params->{field};
+    my $value = $c->req->params->{value};
+
+    for my $id (@{$ias}) {
+        my $ia = $c->d->rs('InstantAnswer')->find({meta_id => $id});
+
+        return $c->forward($c->view('JSON')) unless $ia;
+
+        my $edits = add_edit($c, $ia, $field, $value);
+        my @update;
+        
+        push(@update, {value => $value, field => $field});
+        save($c, \@update, $ia);
+        save_milestone_date($ia, $value);
+
+        $result{$id} = 1;
+    }
+
+    $c->stash->{x}->{result} = \%result;
+    $c->forward($c->view('JSON'));
+}
+
 sub save_edit :Chained('base') :PathPart('save') :Args(0) {
     my ( $self, $c ) = @_;
     my $ia = $c->d->rs('InstantAnswer')->find({meta_id => $c->req->params->{id}});
@@ -764,6 +823,8 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
                 }
             }
 
+            my $new_meta_id;
+
             if ($field =~ /designer|producer/){
                 return $c->forward($c->view('JSON')) unless $complat_user_admin || $value eq '';
             } elsif ($field eq "id") {
@@ -779,6 +840,11 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
                     $c->stash->{x}->{result}->{msg} = $msg;
                     return $c->forward($c->view('JSON'));
                 }
+            } elsif ($field eq "dev_milestone" && $value eq "ghosted") {
+                # by changing the meta_id we allow the former one to be used again for
+                # other IA Pages
+                $new_meta_id = $ia->meta_id . "_ghosted_" . $c->d->uuid->create_str;
+                my $meta_id_edit = add_edit($c, $ia, "meta_id", $new_meta_id);
             } elsif ($field eq "src_id") {
                 if ($c->d->rs('InstantAnswer')->find({src_id => $value})) {
                     $msg = "ID already in use";
@@ -799,11 +865,20 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
                     $tmp_val= $value;
                 }
 
-                if($field eq 'topic'){
+                if ($field eq 'topic'){
                     $tmp_val = from_json($c->req->params->{value});
                 }
 
                 push(@update, {value => $tmp_val // $value, field => $field} );
+                
+                if ($field eq "dev_milestone" && $value eq "ghosted" && $new_meta_id) {
+                    push(@update, {value => $new_meta_id, field => "meta_id"} );
+                    # we send only the meta_id field and value in the response to the front-end
+                    # so the page will be reloaded using the new meta_id
+                    $field = "id";
+                    $value = $new_meta_id;
+                }
+                
                 save($c, \@update, $ia);
                 $saved = 1;
                 

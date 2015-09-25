@@ -1,6 +1,26 @@
+.hide { display: none; }
 .wrap-pipeline { padding: 0 2em; }
 
 .toggle-details { margin-right: 2em; }
+
+.filter-team span, #pipeline-clear-filters { margin-left: 1em; }
+
+#pipeline-stats {
+    text-align: center;
+    margin-top: -1em;
+
+    #created-stats { 
+        font-weight: 600; 
+        margin-bottom: 2em;
+    }
+
+    h1 { 
+        margin-bottom: 0.3em;
+        margin-top: 0;
+    }
+}
+
+#dev_pipeline { margin-top: 1em; }
 
 #dev_pipeline .dev_pipeline-column {
     width: 22.5%;
@@ -30,7 +50,50 @@
 
     .icon {
         margin-right: 0.5em;
-        padding-left: 0.25em;
     }
+}
+
+.dev_pipeline-column:not(#pipeline-planning) {
+    margin-left: 0.5em;
+}
+
+.dev_pipeline-column__title {
+    font-weight: 600;
+    font-size: 1.7em;
+}
+
+.dev_pipeline-column__list {
+    li {
+        list-style: none;
+        padding: 0.3em 0;
+        font-size: 1.1em;
+        border-bottom: 1px solid #cdcdcd;
+
+        a { color: #333; }
+
+        .item-name { max-width: 9em; }
+
+        .icon-check, .icon-check-empty {
+            margin: 0.25em 0.6em 0 0;
+        }
+    }
+
+    .ia-item--stamp {
+        width: 20px;
+        height: 20px;
+        position: inherit;
+        font-size: 0.8em;
+        margin-right: 0.6em;
+    }
+}
+
+.pipeline-actions { 
+    margin-left: 2em;
+}
+
+#pipeline-action-submit, #pipeline-clear-filters {
+    height: 1.6em;
+    padding-top: 0;
+    padding-bottom: 0.27em;
 }
 

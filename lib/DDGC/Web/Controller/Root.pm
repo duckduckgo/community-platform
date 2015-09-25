@@ -25,7 +25,6 @@ sub base :Chained('/') :PathPart('') :CaptureArgs(0) {
 	}
 
 	if ($c->user) {
-		$c->response->header('Cache-Control' => 'no-cache, max-age=0, must-revalidate, no-store');
 		$c->d->current_user($c->user);
 
 		if (

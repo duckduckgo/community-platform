@@ -52,7 +52,8 @@ column answerbar => {
 column perl_module => {
 	data_type => 'text',
 	is_nullable => 1,
-    for_endpt => 1
+    for_endpt => 1,
+    pipeline => 1
 };
 
 # JSON array of dependencies
@@ -177,7 +178,8 @@ column triggers => {
 column example_query => {
 	data_type => 'text',
 	is_nullable => 1,
-    for_endpt => 1
+    for_endpt => 1,
+    pipeline => 1
 };
 
 # json, aka secondary queries

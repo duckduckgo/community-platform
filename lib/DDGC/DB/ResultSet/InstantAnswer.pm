@@ -6,4 +6,3 @@ extends 'DDGC::DB::Base::ResultSet';
 use namespace::autoclean;
 
 1;
-

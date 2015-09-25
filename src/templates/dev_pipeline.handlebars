@@ -1,12 +1,17 @@
 <div>
+{{#with dev_milestones}}
+
 <div class="dev_pipeline-column left" id="pipeline-planning">
     <h2 class="dev_pipeline-column__title">
-        Planning
+        Planning ({{length planning}})
     </h2>
-
     <ul class="dev_pipeline-column__list" id="pipeline-planning__list">
         {{#each planning}}
-            <li id="pipeline-planning__list__{{id}}" class="{{#if can_edit}}can_edit{{/if}} producer-{{producer}} designer-{{designer}} {{#each developer}}developer-{{name}} {{/each}}">
+            <li id="pipeline-list__{{id}}" class="{{#if can_edit}}can_edit{{/if}} producer-{{#if producer}}{{slug producer}}{{/if}} designer-{{designer}} {{#if developer}}{{#each developer}}developer-{{slug name}} {{/each}}{{else}}developer-{{/if}}
+             {{#is_false_array perl_module name repo example_query}} missing-all {{#unless perl_module}}missing-perl_module{{/unless}} {{#unless name}}missing-name{{/unless}} {{#unless repo}}missing-type{{/unless}} {{#unless example_query}}missing-example_query{{/unless}} {{else}}missing-{{/is_false_array}}">
+                {{#if ../../permissions.admin}}
+                    <i class="icon-check-empty left" />
+                {{/if}}
                 <div class="ia-item--stamp circle stamp--{{repo}} left"></div>
                 <div class="left item-name">
                     <a href="/ia/view/{{id}}">{{name}}</a>
@@ -46,12 +51,16 @@
 
 <div class="dev_pipeline-column left" id="pipeline-development">
     <h2 class="dev_pipeline-column__title">
-        Development
+        Development ({{length development}})
     </h2>
 
     <ul class="dev_pipeline-column__list" id="pipeline-development__list">
         {{#each development}}
-            <li id="pipeline-development__list__{{id}}" class="{{#if can_edit}}can_edit{{/if}} producer-{{producer}} designer-{{designer}} {{#each developer}}developer-{{name}} {{/each}}">
+            <li id="pipeline-list__{{id}}" class="{{#if can_edit}}can_edit{{/if}} producer-{{#if producer}}{{slug producer}}{{/if}} designer-{{designer}} {{#if developer}}{{#each developer}}developer-{{slug name}} {{/each}}{{else}}developer-{{/if}}
+             {{#is_false_array perl_module name repo example_query}} missing-all {{#unless perl_module}}missing-perl_module{{/unless}} {{#unless name}}missing-name{{/unless}} {{#unless repo}}missing-type{{/unless}} {{#unless example_query}}missing-example_query{{/unless}} {{else}}missing-{{/is_false_array}}">
+                   {{#if ../../permissions.admin}}
+                    <i class="icon-check-empty left" />
+                {{/if}}
                 <div class="ia-item--stamp circle stamp--{{repo}} left"></div>
                 <div class="left item-name">
                     <a href="/ia/view/{{id}}">{{name}}</a>
@@ -91,12 +100,16 @@
 
 <div class="dev_pipeline-column left" id="pipeline-testing">
     <h2 class="dev_pipeline-column__title">
-        Testing
+        Testing ({{length testing}})
     </h2>
 
     <ul class="dev_pipeline-column__list" id="pipeline-testing__list">
         {{#each testing}}
-            <li id="pipeline-testing__list__{{id}}" class="{{#if can_edit}}can_edit{{/if}} producer-{{producer}} designer-{{designer}} {{#each developer}}developer-{{name}} {{/each}}">
+            <li id="pipeline-list__{{id}}" class="{{#if can_edit}}can_edit{{/if}} producer-{{#if producer}}{{slug producer}}{{/if}} designer-{{designer}} {{#if developer}}{{#each developer}}developer-{{slug name}} {{/each}}{{else}}developer-{{/if}}
+             {{#is_false_array perl_module name repo example_query}} missing-all {{#unless perl_module}}missing-perl_module{{/unless}} {{#unless name}}missing-name{{/unless}} {{#unless repo}}missing-type{{/unless}} {{#unless example_query}}missing-example_query{{/unless}} {{else}}missing-{{/is_false_array}}">
+                  {{#if ../../permissions.admin}}
+                    <i class="icon-check-empty left" />
+                {{/if}}         
                 <div class="ia-item--stamp circle stamp--{{repo}} left"></div>
                 <div class="left item-name">
                     <a href="/ia/view/{{id}}">{{name}}</a>
@@ -136,12 +149,16 @@
 
 <div class="dev_pipeline-column left" id="pipeline-complete">
     <h2 class="dev_pipeline-column__title">
-        Complete
+        Complete ({{length complete}})
     </h2>
 
     <ul class="dev_pipeline-column__list" id="pipeline-complete__list">
         {{#each complete}}
-            <li id="pipeline-complete__list__{{id}}" class="{{#if can_edit}}can_edit{{/if}} producer-{{producer}} designer-{{designer}} {{#each developer}}developer-{{name}} {{/each}}">
+            <li id="pipeline-list__{{id}}" class="{{#if can_edit}}can_edit{{/if}} producer-{{#if producer}}{{slug producer}}{{/if}} designer-{{designer}} {{#if developer}}{{#each developer}}developer-{{slug name}} {{/each}}{{else}}developer-{{/if}}
+             {{#is_false_array perl_module name repo example_query}} missing-all {{#unless perl_module}}missing-perl_module{{/unless}} {{#unless name}}missing-name{{/unless}} {{#unless repo}}missing-type{{/unless}} {{#unless example_query}}missing-example_query{{/unless}} {{else}}missing-{{/is_false_array}}">
+                 {{#if ../../permissions.admin}}
+                    <i class="icon-check-empty left" />
+                {{/if}}
                 <div class="ia-item--stamp circle stamp--{{repo}} left"></div>
                 <div class="left item-name">
                     <a href="/ia/view/{{id}}">{{name}}</a>
@@ -178,4 +195,5 @@
         {{/each}}
     </ul>
 </div>
+{{/with}}
 </div>

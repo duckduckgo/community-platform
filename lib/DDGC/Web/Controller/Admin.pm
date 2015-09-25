@@ -10,6 +10,7 @@ BEGIN {extends 'Catalyst::Controller'; }
 
 sub base :Chained('/base') :PathPart('admin') :CaptureArgs(0) {
     my ( $self, $c ) = @_;
+	$c->nocache;
 	if (!$c->user) {
 		$c->response->redirect($c->chained_uri('My','login',{ admin_required => 1 }));
 		return $c->detach;

@@ -72,29 +72,81 @@
     </div>
 
     <span class="clearfix"></span>
+
+    <div id="pipeline-stats"></div>
+
     <div class="toggle-details left">
         <i class="icon-check-empty"></i>
         Show activity details
     </div>
 
-    <: if $logged_in { :>
-        <div class="filter-team left">
-            <i class="filter-team__checkbox icon-check-empty" id="filter-team_checkbox"></i>
-            <span class="filter-team__span">
-                Show IAs of which I am the 
-                <: if $is_admin { :>
-                    <select class="filter-team__span__select" id="select-teamrole">
-                        <option value="0">producer</option>
-                        <option value="1">designer</option>
-                        <option value="2">developer</option>
-                    </select>
-                <: } else { :>
-                    developer
-                <: } :>
-            </span> 
+    <div class="filter-team left">
+        <span class="filter-team__span" id="filter-producer">
+            Producer:  
+            <select class="filter-team__span__select" id="select-producer">
+                <option value="all">All</option>
+                <option value="none">None</option>
+            </select>
+        </span> 
+        
+        <span class="filter-team__span" id="filter-developer">
+            Developer:  
+            <select class="filter-team__span__select" id="select-developer">
+                <option value="all">All</option>
+                <option value="none">None</option>
+            </select>
+        </span> 
+        
+        <span class="filter-info__span" id="filter-info">
+            <i class="icon-check-empty"></i>
+            Missing info:  
+            <select class="filter-team__span__select" id="select-info">
+                <option value="all">All</option>
+                <option value="none">None</option>
+                <option value="perl_module">Perl Module</option>
+                <option value="name">Name</option>
+                <option value="type">Type</option>
+                <option value="example_query">Example Query</option>
+            </select>
+        </span> 
+    </div>
+
+    <div class="left button hide" id="pipeline-clear-filters">
+        Clear Filters
+    </div>
+
+    <: if $is_admin { :>
+        <div class="pipeline-actions right hide">
+            <span>Change </span>
+            <select class="pipeline-actions__select" id="select-action">
+                <option value="0">dev milestone</option>
+                <option value="1">type</option>
+            </select>
+
+            <span> to </span>
+            <select class="pipeline-actions__select" id="select-milestone">
+                <option value="0">planning</option>
+                <option value="1">development</option>
+                <option value="2">testing</option>
+                <option value="3">complete</option>
+                <option value="4">ghosted</option>
+            </select>
+
+            <select class="pipeline-actions__select hide" id="select-type">
+                <option value="0">fathead</option>
+                <option value="1">goodies</option>
+                <option value="2">longtail</option>
+                <option value="3">spice</option>
+            </select>
+
+            <div class="button pipeline-actions__button" id="pipeline-action-submit">
+                Ok
+            </div>
         </div>
     <: } :>
 </div>
 
-<div id="dev_pipeline" class="clearfix">
+<div class="clearfix"></div>
+
+<div id="dev_pipeline">
 </div>

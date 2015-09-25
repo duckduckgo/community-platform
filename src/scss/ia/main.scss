@@ -1,22 +1,28 @@
-@import "compass/css3/border-radius";
-@import "compass/css3/text-shadow";
-@import "compass/css3/transition";
-@import "compass/css3/box-sizing";
-@import "compass/css3/appearance";
+// now compass to do some of the heavy lifting
+@import 'compass'; 
+@import "compass/css3"; // vendor/cross-browser mixins
+@import "compass/support"; // automatic legacy browser support (kinda)
 
-@import "../../../bower_components/duckduckgo-colors/_colors";
-@import "../../../bower_components/_ls/objects/_buttons";
-@import "../_vars";
-@import "../_sep";
-@import "../_fonts-extra";
-@import "../_switch";
+@import "../../../bower_components/duckduckgo-colors/colors";
+@import "../../../bower_components/_ls/objects/buttons";
+@import "../../../bower_components/_ls/vars";
+@import "../../../bower_components/duckduckgo-styles/vars";
+@import "../../../bower_components/duckduckgo-styles/objects/sep";
+@import "../sep";
+@import "../fonts-extra";
+@import "../../../bower_components/duckduckgo-styles/objects/switch";
+@import "../switch";
 
-@import "_mixins";
-@import "_buttons";
-@import "_forms";
-@import "_fonts";
-@import "_ia";
-@import "_dev";
-@import "_live";
-@import "_overview";
-@import "_pipeline";
+@import "../../../bower_components/duckduckgo-styles/mixins";
+@import "../../../bower_components/duckduckgo-styles/objects/buttons";
+@import "buttons";
+@import "../../../bower_components/duckduckgo-styles/objects/forms";
+@import "forms";
+
+@import "fonts";
+@import "ia";
+@import "dev";
+@import "live";
+@import "overview";
+@import "pipeline";
+@import "deprecated";
