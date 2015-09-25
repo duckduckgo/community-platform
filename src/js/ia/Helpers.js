@@ -221,17 +221,12 @@
         }
     });
 
-    // Returns true if all the values in the array are false
+    // Returns true if any value in the array is false
     Handlebars.registerHelper('is_false_array', function(val1, val2, val3, val4, options) {
-        var arr = [val1, val2, val3, val4];
-        if (arr.length) {
-            $.each(arr, function(idx) {
-                if (arr[idx]) {
-                    return options.inverse(this);
-                }
-            });
-
+        if ((!val1) || (!val2) || (!val3) || (!val4)) {
             return options.fn(this);
+        } else {
+            return options.inverse(this);
         }
     });
 
