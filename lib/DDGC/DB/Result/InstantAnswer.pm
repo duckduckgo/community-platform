@@ -405,6 +405,17 @@ column last_update => {
     pipeline => 1
 };
 
+column updated => {
+    data_type => 'timestamp with time zone',
+    set_on_create => 1,
+    set_on_update => 1,
+};
+
+column release_version => {
+    data_type => 'numeric',
+    is_nullable => 1,
+};
+
 has_many 'issues', 'DDGC::DB::Result::InstantAnswer::Issues', 'instant_answer_id';
 has_many 'blocks', 'DDGC::DB::Result::InstantAnswer::Blocks', 'instant_answer_id';
 has_many 'updates', 'DDGC::DB::Result::InstantAnswer::Updates', 'instant_answer_id';
@@ -425,7 +436,7 @@ after insert => sub {
             $self->topics->columns([qw/ name /])->all),
         description  => sprintf('Instant Answer Page [%s](%s) created!',
             $self->name, sprintf('https://duck.co/ia/view/%s',
-                $self->id)),
+                $self->meta_id)),
     } );
 };
 
@@ -447,7 +458,7 @@ around update => sub {
             meta3        => $meta3,
             description  => sprintf('Instant Answer Page [%s](%s) updated!',
                 $self->name, sprintf('https://duck.co/ia/view/%s',
-                    $self->id)),
+                    $self->meta_id)),
         } );
     }
 
