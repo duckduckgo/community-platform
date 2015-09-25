@@ -149,13 +149,12 @@ sub update_release_versions {
 		}
 
 		if($where && (my $ia = $ias->single($where))){
-			my $meta_id = $ia->meta_id;
 			$ia->update({
 				release_version => $version,
 				dev_milestone => 'released'
 			});
 			$rvs->create({
-				instant_answer_id => $meta_id,
+				instant_answer_id => $ia->meta_id,
 				release_version => $version,
 				status => 'released'
 			});
