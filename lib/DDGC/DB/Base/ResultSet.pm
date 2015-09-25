@@ -3,6 +3,9 @@ package DDGC::DB::Base::ResultSet;
 
 use Moose;
 use namespace::autoclean;
+use DateTime;
+use DateTime::Format::Pg;
+use Try::Tiny;
 
 extends 'DBIx::Class::ResultSet';
 
@@ -50,6 +53,19 @@ sub all_ref {
 sub join_for_activity_meta {
   my ( $self, $column ) = @_;
   join( '', map { sprintf ':%s:', $_ } $self->columns( [$column] )->all );
+}
+
+sub last_modified {
+  my ( $self ) = @_;
+  my $last_modified;
+
+  try {
+    $last_modified = DateTime::Format::Pg->parse_datetime(
+      $self->get_column('updated')->max
+    )->truncate( to => 'second' );
+  };
+
+  return $last_modified // DateTime->new( year => 1970 );
 }
 
 1;

@@ -36,6 +36,9 @@ use DDGC::Web::Table;
 
 use namespace::autoclean;
 
+use DateTime;
+use DateTime::Format::HTTP;
+
 our $VERSION ||= '0.0development';
 
 __PACKAGE__->config(
@@ -316,7 +319,29 @@ sub ddgcr_post {
 	return $res;
 }
 
+sub return_if_not_modified {
+	my ( $c, $dt ) = @_;
+	$dt->set_formatter( 'DateTime::Format::HTTP' ) if $dt;
+	my $if_modified_since = $c->req->header('If-Modified-Since');
+	$if_modified_since =~ s/;.*$//;
 
+	$c->response->header(
+		'Last-Modified' => "$dt",
+	);
+
+	if ( $if_modified_since eq "$dt" ) {
+		$c->response->headers->remove_header($_)
+		    for ( qw/ Content-Type Content-Length Content-Disposition / );
+		$c->response->status('304');
+		return $c->detach;
+	}
+
+	return $c->detach if ( $c->request->method eq 'HEAD' );
+
+sub nocache {
+	my ( $c ) = @_;
+	$c->response->header('Cache-Control' => 'no-cache, max-age=0, must-revalidate, no-store');
+}
 
 # Start the application
 __PACKAGE__->setup();
