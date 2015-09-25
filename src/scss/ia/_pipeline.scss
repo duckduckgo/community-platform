@@ -5,6 +5,23 @@
 
 .filter-team span, #pipeline-clear-filters { margin-left: 1em; }
 
+#pipeline-stats {
+    text-align: center;
+    margin-top: -1em;
+
+    #created-stats { 
+        font-weight: 600; 
+        margin-bottom: 2em;
+    }
+
+    h1 { 
+        margin-bottom: 0.3em;
+        margin-top: 0;
+    }
+}
+
+#dev_pipeline { margin-top: 1em; }
+
 #dev_pipeline .dev_pipeline-column {
     width: 22.5%;
     text-align: left;
@@ -42,7 +59,7 @@
 
 .dev_pipeline-column__title {
     font-weight: 600;
-    font-size: 1.87em;
+    font-size: 1.7em;
 }
 
 .dev_pipeline-column__list {
