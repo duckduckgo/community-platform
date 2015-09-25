@@ -28,9 +28,10 @@
                     data.permissions.admin = 1;
                 }
 
-                var iadp;
-                iadp = Handlebars.templates.dev_pipeline(data);
+                var stats = Handlebars.templates.dev_pipeline_stats(data.dev_milestones);
+                var iadp = Handlebars.templates.dev_pipeline(data);
 
+                $("#pipeline-stats").html(stats);
                 $("#dev_pipeline").html(iadp);
 
                 appendTeam(data.dev_milestones);
@@ -86,7 +87,7 @@
                     dev_p.filters[key] = "";
                 });
 
-                $("select").val("all");
+                $(".filter-team select").val("all");
                 $(".search-thing").val("");
 
                 $("#filter-info i").removeClass("icon-check").addClass("icon-check-empty");

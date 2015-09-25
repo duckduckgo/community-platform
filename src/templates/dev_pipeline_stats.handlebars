@@ -1,0 +1,44 @@
+<h1>{{sum (length planning) (length testing) (length development) (length complete)}} New Instant Answers </h1>
+
+<div class="pipeline-stats__created" id="created-stats">
+<span>Created Today: 
+    {{sum 
+        (stats_from_day planning    1 'less-than') 
+        (stats_from_day development 1 'less-than') 
+        (stats_from_day testing     1 'less-than') 
+        (stats_from_day complete    1 'less-than') 
+    }}
+</span>
+<span class="sep--before">Created This week: 
+    {{sum 
+        (stats_from_day planning    7 'less-than') 
+        (stats_from_day development 7 'less-than') 
+        (stats_from_day testing     7 'less-than') 
+        (stats_from_day complete    7 'less-than') 
+    }}
+</span>
+<span class="sep--before">Created in last 30 days: 
+    {{sum 
+        (stats_from_day planning    30 'less-than') 
+        (stats_from_day development 30 'less-than') 
+        (stats_from_day testing     30 'less-than') 
+        (stats_from_day complete    30 'less-than') 
+    }}
+</span>
+<span class="sep--before">Created in last 60 days: 
+    {{sum 
+        (stats_from_day planning    60 'less-than') 
+        (stats_from_day development 60 'less-than') 
+        (stats_from_day testing     60 'less-than') 
+        (stats_from_day complete    60 'less-than') 
+    }}
+</span>
+<span class="sep--before">Older than 60 days: 
+    {{sum 
+        (stats_from_day planning    60 'greater-than') 
+        (stats_from_day development 60 'greater-than') 
+        (stats_from_day testing     60 'greater-than') 
+        (stats_from_day complete    60 'greater-than') 
+    }}
+</span>
+</div>

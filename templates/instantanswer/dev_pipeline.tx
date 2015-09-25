@@ -72,6 +72,9 @@
     </div>
 
     <span class="clearfix"></span>
+
+    <div id="pipeline-stats"></div>
+
     <div class="toggle-details left">
         <i class="icon-check-empty"></i>
         Show activity details
@@ -143,5 +146,7 @@
     <: } :>
 </div>
 
-<div id="dev_pipeline" class="clearfix">
+<div class="clearfix"></div>
+
+<div id="dev_pipeline">
 </div>
