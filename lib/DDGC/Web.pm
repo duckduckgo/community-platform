@@ -337,6 +337,7 @@ sub return_if_not_modified {
 	}
 
 	return $c->detach if ( $c->request->method eq 'HEAD' );
+}
 
 sub nocache {
 	my ( $c ) = @_;
