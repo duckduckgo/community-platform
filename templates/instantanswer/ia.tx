@@ -22,9 +22,9 @@
                     </div>
 
                     <: if $can_commit { :>
-                        <div class="special-permissions__edit js-view-commits btn hide" id="view_commits">Commit edits</div>
+                        <div class="special-permissions__edit js-view-commits btn btn--primary hide" id="view_commits">Save</div>
                     <: } :>
-                    <div class="special-permissions__static hide js-edit-disable btn" id="edit_disable">Disable edit mode</div>
+                    <div class="special-permissions__static hide js-edit-disable btn btn--secondary" id="edit_disable">Cancel</div>
                 </span>
               </div>
             <: } :>
@@ -36,14 +36,6 @@
         <div class="ia-single--left seventy"></div>
         <div class="ia-single--right g thirty"></div>
         <div class="ia-single--edits hide">
-            <div id="row-title">
-                <h2 class="left row-title__live" id="row-title-live">
-                    Live
-                </h2>
-                <h2 class="left row-title__edited" id="row-title-edited">
-                    Edited
-                </h2>
-            </div>
             <span class="clearfix"></span>
         </div>
     </div>
