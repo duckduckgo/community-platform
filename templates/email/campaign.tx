@@ -7,5 +7,17 @@
 <:$question3:><br />
 <:$answer3:><br /><br />
 
+<:$question4:><br />
+<:$answer4:><br /><br />
+
+<:$question5:><br />
+<:$answer5:><br /><br />
+
+<:$question6:><br />
+<:$answer6:><br /><br />
+
+<:$question7:><br />
+<:$answer7:><br /><br />
+
 <: r($extra) :>
 

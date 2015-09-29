@@ -68,7 +68,7 @@ sub respond : Chained('base') : PathPart('respond') : Args(0) {
 		}
 	}
 
-	for (1..3) {
+	for (1..7) {
 		if (!$c->req->param( 'question' . $_ )) {
 			$short_response = 1;
 		}
