@@ -61,7 +61,8 @@ sub respond : Chained('base') : PathPart('respond') : Args(0) {
 	my $short_response = 0;
 	my $flag_response = 0;
 
-	if ( length( $c->req->param( 'question1' ) ) < 35 ) {
+	if ( $campaign_name eq 'share' && length( $c->req->param( 'question1' ) ) < 35 ) {
+		$c->response->status(403);
 		$c->stash->{x} = {
 			ok => 0, fields_empty => 1,
 			errstr => "Please provide a little more info on how you discovered DuckDuckGo.",
@@ -73,8 +74,7 @@ sub respond : Chained('base') : PathPart('respond') : Args(0) {
 	my $response_length = length(
 		$c->req->param( 'question1' ) . $c->req->param( 'question2' ) .
 		$c->req->param( 'question3' ) . $c->req->param( 'question4' ) .
-		$c->req->param( 'question5' ) . $c->req->param( 'question6' ) .
-		$c->req->param( 'question7' )
+		$c->req->param( 'question5' ) . $c->req->param( 'question6' )
 	);
 
 	if ( $response_length < $campaign->{min_length} + 20 ) {
@@ -84,7 +84,7 @@ sub respond : Chained('base') : PathPart('respond') : Args(0) {
 		}
 	}
 
-	for (1..7) {
+	for (1..6) {
 		next if ( ! $campaign->{ 'question' . $_ } );
 		if (!$c->req->param( 'question' . $_ )) {
 			$short_response = 1;
@@ -104,7 +104,7 @@ sub respond : Chained('base') : PathPart('respond') : Args(0) {
 	}
 
 	if ($c->req->param('question7')) {
-		$c->stash->{campaign_email} = Email::Valid->address($c->req->param('question4'));
+		$c->stash->{campaign_email} = Email::Valid->address($c->req->param('question7'));
 		if (!$c->stash->{campaign_email}) {
 			$c->response->status(403);
 			$c->stash->{x} = {
@@ -151,7 +151,10 @@ sub respond : Chained('base') : PathPart('respond') : Args(0) {
 	my $subject_extra = '';
 	my $bad_response;
 	if ($campaign_name eq 'share') {
-		my @first = ('coupon', 'facebook','asd','qwe','zxc');
+		my @first = (
+			'coupon', 'facebook',
+			'freebie', 'free',
+		);
 		my @second = (
 			'now',
 			'right now',
@@ -163,9 +166,6 @@ sub respond : Chained('base') : PathPart('respond') : Args(0) {
 			'new',
 			"i'm new",
 			'im new',
-			'asd',
-			'qwe',
-			'zxc',
 		);
 		$bad_response = grep { _answer_is_mostly( lc($c->req->param('question1')), $_ ) } @first;
 		$bad_response = grep { _answer_is_mostly( lc($c->req->param('question2')), $_ ) } @second if !$bad_response;
@@ -201,9 +201,6 @@ sub respond : Chained('base') : PathPart('respond') : Args(0) {
 			"duckduckgo",
 			"google",
 			"answer",
-			'asd',
-			'qwe',
-			'zxc',
 			'?',
 		);
 		$flag_response = grep { _answer_is_mostly( $q5, $_ ) } @fifth if !$flag_response;
@@ -220,12 +217,15 @@ sub respond : Chained('base') : PathPart('respond') : Args(0) {
 			"duckduckgo",
 			"google",
 			"bang",
-			'asd',
-			'qwe',
-			'zxc',
 			'?'
 		);
 		$flag_response = grep { _answer_is_mostly( $q6, $_ ) } @sixth if !$flag_response;
+
+		for my $n (1..6) {
+			my $q = lc( $c->req->param( "question$n" ) );
+			$flag_response = grep { index( $q, $_ ) >= 0 }
+				( qw/ qwe asd zxc / );
+		}
 
 		($flag_response) && ($subject_extra = '** NEEDS REVIEW ** ');
 		($bad_response) && ($subject_extra = '** BAD RESPONSE ** ');
