@@ -170,7 +170,7 @@ sub end : ActionClass('RenderView') {
 sub wear :Chained('base') :PathPart('wear') :Args(0) {
 	my ( $self, $c ) = @_;
 
-	$c->session->{wear_referer} = lc( $c->req->headers->referer );
+	$c->session->{wear_referer} = lc( $c->req->headers->referer ) if !$c->session->{wear_referer};
 
 	$c->stash->{no_breadcrumb} = 1;
 
