@@ -15,10 +15,10 @@
 <:$question4:><br />
 <:$answer4:><br /><br />
 
-<:$question5:><br />
+<:$question5 | raw:><br />
 <:$answer5:><br /><br />
 
-<:$question6:><br />
+<:$question6 | raw:><br />
 <:$answer6:><br /><br />
 
 <:$question7:><br />
