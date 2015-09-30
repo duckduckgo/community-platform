@@ -167,28 +167,36 @@ sub respond : Chained('base') : PathPart('respond') : Args(0) {
 			"i'm new",
 			'im new',
 		);
-		$bad_response = grep { _answer_is_mostly( lc($c->req->param('question1')), $_ ) } @first;
+		$bad_response = grep { _answer_is_mostly( lc($c->req->param('question1')), $_ ) } @first if !$bad_response;
 		$bad_response = grep { _answer_is_mostly( lc($c->req->param('question2')), $_ ) } @second if !$bad_response;
+
+		printf STDERR "\n\n\n\n\n\n\n\n";
+		use DDP; p $c->stash->{referer};
 
 		if ( $c->stash->{referer} ) {
 
 			$bad_response =
 				grep { index( $c->stash->{referer}, $_ ) >= 0 }
-					( qw/ coupon freebie free deal steal discount / );
+					( qw/ coupon freebie free deal steal discount / )
+						if !$bad_response;
+			printf STDERR "\n\n\n\n\n\n\n\n";
+			use DDP; p $bad_response;
 
 			my $uri = URI->new( $c->stash->{referer} );
 			my $domain = $uri->host;
 			$bad_response =
 				grep { $domain =~ /$_$/ }
-					( qw/ .biz .info .deals / );
+					( qw/ .biz .info .deals / )
+						if !$bad_response;;
 
 			$flag_response =
 				grep { $domain =~ /$_/ }
-					(qw/ facebook twitter reddit /);
+					(qw/ facebook twitter reddit /)
+						if !$flag_response;
 
 		}
 
-		$flag_response = ( lc( $c->req->param( 'question4' ) ) ne 'yes' );
+		$flag_response = ( lc( $c->req->param( 'question4' ) ) ne 'yes' ) if !$flag_response;
 
 		my $q5 = lc( $c->req->param( 'question5' ) );
 		my @fifth = (
@@ -224,17 +232,20 @@ sub respond : Chained('base') : PathPart('respond') : Args(0) {
 		for my $n (1..6) {
 			my $q = lc( $c->req->param( "question$n" ) );
 			$flag_response = grep { index( $q, $_ ) >= 0 }
-				( qw/ qwe asd zxc / );
+				( qw/ qwe asd zxc / )
+					if !$flag_response;
 		}
 
 		($flag_response) && ($subject_extra = '** NEEDS REVIEW ** ');
 		($bad_response) && ($subject_extra = '** BAD RESPONSE ** ');
 		my $report_url = $c->chained_uri( 'Admin::Campaign', 'bad_user_response', { user => $username, campaign => $campaign_name} );
-		$c->stash->{'extra'} = <<"BAD_RESPONSE_LINK"
-		<a href="$report_url">
-			Report bad responses
-		</a>
+		if (!$bad_response) {
+			$c->stash->{'extra'} = <<"BAD_RESPONSE_LINK"
+			<a href="$report_url">
+				Report bad responses
+			</a>
 BAD_RESPONSE_LINK
+		}
 	}
 
 	my $subject = "${subject_extra}$campaign_name response from $username";
