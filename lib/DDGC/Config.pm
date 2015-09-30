@@ -336,7 +336,7 @@ sub campaigns {
 			id => 1,
 			active => 1,
 			notification_active => 0,
-			min_length => 20,
+			min_length => 45,
 			url => '/wear/',
 			notification => "Help share DuckDuckGo! Find out more...",
 			question1 => "How did you hear about DuckDuckGo? (Try to be as descriptive as possible)",
