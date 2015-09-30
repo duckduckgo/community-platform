@@ -1,3 +1,8 @@
+: if $referer {
+    HTTP_REFERER: <a href="<: $referer :>"><: $referer :></a>
+    <br /><br />
+: }
+
 <:$question1:><br />
 <:$answer1:><br /><br />
 
