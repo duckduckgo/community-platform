@@ -429,6 +429,8 @@ many_to_many 'users', 'instant_answer_users', 'user';
 has_many 'instant_answer_topics', 'DDGC::DB::Result::InstantAnswer::Topics', 'instant_answer_id';
 many_to_many 'topics', 'instant_answer_topics', 'topic';
 
+has_many 'release_versions', 'DDGC::DB::Result::ReleaseVersion', 'instant_answer_id';
+
 after insert => sub {
     my ( $self ) = @_;
     my $schema = $self->result_source->schema;

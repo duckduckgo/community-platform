@@ -132,6 +132,10 @@ sub update_release_versions {
 	});
 
 	my $a = Archive::Tar->new($file);
+	unless($a){
+		return "Failed to extract $file: $Archive::Tar::error";
+	}
+
 	for my $f ($a->list_files){
 		my $where;
 		if($f =~ m{lib/(DDG/$ia_types/.+)\.pm$}){
