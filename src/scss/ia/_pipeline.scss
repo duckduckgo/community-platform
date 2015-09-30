@@ -51,15 +51,16 @@
     .icon {
         margin-right: 0.5em;
     }
+
+    & > .dev_pipeline-column__title {
+	font-size: 1em;
+	font-weight: 500;
+	color: $grey-dark;
+    }
 }
 
 .dev_pipeline-column:not(#pipeline-planning) {
     margin-left: 0.5em;
-}
-
-.dev_pipeline-column__title {
-    font-weight: 600;
-    font-size: 1.7em;
 }
 
 .dev_pipeline-column__list {
