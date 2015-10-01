@@ -13,6 +13,8 @@
 
         query: '',
 
+        data: {},
+
         init: function() {
             // console.log("IADevPipeline init()");
             var dev_p = this;
@@ -21,6 +23,8 @@
 
             $.getJSON(url, function(data) { 
                 // console.log(window.location.pathname);
+
+                dev_p.data = data.dev_milestones;
 
                 // Check user permissions and add to the data
                 if ($("#create-new-ia").length) {
@@ -151,13 +155,17 @@
             $("body").on("click", ".dev_pipeline-column__list .icon-check, .dev_pipeline-column__list .icon-check-empty", function(evt) {
                 toggleCheck($(this));
 
+                var meta_id = $(this).parent().attr("id").replace("pipeline-list__", "");
+                var milestone = $(this).parents(".dev_pipeline-column").attr("id").replace("pipeline-", "");
                 var selected = $(".dev_pipeline-column__list .icon-check").length;
                 
-                if (selected) {
+                if (selected > 1) {
                     $(".pipeline-actions").removeClass("hide");
                 } else {
                     $(".pipeline-actions").addClass("hide");
                 }
+
+                appendSidebar(selected, meta_id, milestone);
 
                 $(".count-txt").text(selected);
             });
@@ -247,6 +255,32 @@
                     $(".dev_pipeline-column__list li." + teamrole + "-" + username).show();
                 }
             });
+
+            function appendSidebar(selected, meta_id, milestone) {
+                if (selected === 1) {
+                    var page_data = getPageData(meta_id, milestone);
+                    console.log(page_data);
+                    if (page_data) {
+                        var sidebar = Handlebars.templates.dev_pipeline_detail(page_data);            
+                    
+                        $("#dev_pipeline").append(sidebar);
+                    }
+                } else {
+                    $("#pipeline-sidebar-page").remove();
+                }
+            }
+
+            function getPageData(meta_id, milestone) {
+                console.log(meta_id);
+                console.log(milestone);
+                for (var idx = 0; idx < dev_p.data[milestone].length; idx++) {
+                    var temp_ia = dev_p.data[milestone][idx];
+
+                    if (temp_ia.id === meta_id) {
+                        return temp_ia;
+                    }
+                }
+            }
 
             function filter() {
                 var query = dev_p.query? dev_p.query.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&") : '';
