@@ -66,11 +66,16 @@
 }
 
 .dev_pipeline-column__list {
+    margin-bottom: 0;
+
     li {
         list-style: none;
         padding: 0.3em 0;
         font-size: 1.1em;
-        border-bottom: 1px solid #cdcdcd;
+	background-color: white;
+	margin-bottom: 0.5em;
+	border-radius: 3px;
+	padding: 0.5em;
 
         a { color: #333; }
 
@@ -79,6 +84,10 @@
         .icon-check, .icon-check-empty {
             margin: 0.25em 0.6em 0 0;
         }
+
+	&:last-child {
+	    margin-bottom: 0;
+	}
     }
 
     .ia-item--stamp {
