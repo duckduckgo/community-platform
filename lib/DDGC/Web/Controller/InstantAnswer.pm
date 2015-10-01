@@ -576,8 +576,6 @@ sub ia_base :Chained('base') :PathPart('view') :CaptureArgs(1) {  # /ia/view/cal
 sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
     my ( $self, $c) = @_;
 
-    $c->return_if_not_modified( $c->stash->{ia}->updated );
-
     my $ia = $c->stash->{ia};
     my $edited;
     my @issues = $c->d->rs('InstantAnswer::Issues')->search({instant_answer_id => $ia->id},{order_by => {'-desc' => 'date'}});
