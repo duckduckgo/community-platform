@@ -28,11 +28,13 @@
 #dev_pipeline { margin-top: 1em; }
 
 #dev_pipeline .dev_pipeline-column {
-    width: 22.5%;
     text-align: left;
-    padding: 1em;
-    background-color: $silver;
     border-radius: 3px;
+
+    .dev_pipeline-column--container {
+	padding: 1em;
+	background-color: $silver;
+    }
 
     .item-activity { 
         color: $grey-dark; 
@@ -59,15 +61,11 @@
         margin-right: 0.5em;
     }
 
-    & > .dev_pipeline-column__title {
+    .dev_pipeline-column__title {
 	font-size: 1em;
 	font-weight: 600;
 	color: $slate-light;
     }
-}
-
-.dev_pipeline-column:not(#pipeline-planning) {
-    margin-left: 0.5em;
 }
 
 .dev_pipeline-column__list {
