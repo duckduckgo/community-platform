@@ -37,7 +37,8 @@ column name => {
 column description => {
 	data_type => 'text',
 	is_nullable => 1,
-    for_endpt => 1
+    for_endpt => 1,
+    pipeline => 1
 };
 
 # JSON string cointaining parameters such as
