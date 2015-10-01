@@ -26,6 +26,8 @@
     width: 22.5%;
     text-align: left;
     padding: 1em;
+    background-color: $silver;
+    border-radius: 3px;
 
     .item-activity { 
         color: $grey-light; 
@@ -55,7 +57,7 @@
     & > .dev_pipeline-column__title {
 	font-size: 1em;
 	font-weight: 500;
-	color: $grey-dark;
+	color: $slate-light;
     }
 }
 
