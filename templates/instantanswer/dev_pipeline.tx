@@ -144,8 +144,8 @@
                 Ok
             </span>
  
-            <span class="count-txt sep--before">0</span>
-            <span class="deselect-all"> selected <i class="deselect ddgsi ddgsi-close"></i> </span>
+            <span class="count-txt sep--before">0</span> <span> Selected </span>
+            <span class="deselect-all sep--before"> <i class="deselect ddgsi ddgsi-close"></i> </span>
         </div>
     <: } :>
 </div>

@@ -153,6 +153,11 @@
                 }
             });
 
+            $(".deselect-all").click(function(evt) {
+                $(".dev_pipeline-column__list .icon-check").removeClass("icon-check").addClass("icon-check-empty");
+                $(".pipeline-actions").addClass("hide");
+            });
+
             $("body").on("change", "#select-action", function(evt) {
                 if ($.trim($(this).find("option:selected").text()) === "type") {
                     $("#select-type").removeClass("hide");
