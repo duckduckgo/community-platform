@@ -51,6 +51,7 @@ sub base :Chained('/base') :PathPart('campaign') :CaptureArgs(0) {
 sub respond : Chained('base') : PathPart('respond') : Args(0) {
 	my ( $self, $c ) = @_;
 	$c->require_action_token;
+	$c->stash->{referer} = $c->session->{wear_referer};
 
 	my $to = $c->d->config->share_email // 'sharewear@duckduckgo.com';
 	my $from = 'noreply@duck.co';
@@ -59,7 +60,22 @@ sub respond : Chained('base') : PathPart('respond') : Args(0) {
 	my $campaign = $c->d->config->campaigns->{ $campaign_name };
 	my $short_response = 0;
 	my $flag_response = 0;
-	my $response_length = length($c->req->param( 'question1' ) . $c->req->param( 'question2' ) . $c->req->param( 'question3' ));
+
+	if ( $campaign_name eq 'share' && length( $c->req->param( 'question1' ) ) < 35 ) {
+		$c->response->status(403);
+		$c->stash->{x} = {
+			ok => 0, fields_empty => 1,
+			errstr => "Please provide a little more info on how you discovered DuckDuckGo.",
+		};
+		$c->forward( $c->view('JSON') );
+		return $c->detach;
+	}
+
+	my $response_length = length(
+		$c->req->param( 'question1' ) . $c->req->param( 'question2' ) .
+		$c->req->param( 'question3' ) . $c->req->param( 'question4' ) .
+		$c->req->param( 'question5' ) . $c->req->param( 'question6' )
+	);
 
 	if ( $response_length < $campaign->{min_length} + 20 ) {
 		$flag_response = 1;
@@ -68,7 +84,8 @@ sub respond : Chained('base') : PathPart('respond') : Args(0) {
 		}
 	}
 
-	for (1..3) {
+	for (1..6) {
+		next if ( ! $campaign->{ 'question' . $_ } );
 		if (!$c->req->param( 'question' . $_ )) {
 			$short_response = 1;
 		}
@@ -86,8 +103,8 @@ sub respond : Chained('base') : PathPart('respond') : Args(0) {
 		return $c->detach;
 	}
 
-	if ($c->req->param('question4')) {
-		$c->stash->{campaign_email} = Email::Valid->address($c->req->param('question4'));
+	if ($c->req->param('question7')) {
+		$c->stash->{campaign_email} = Email::Valid->address($c->req->param('question7'));
 		if (!$c->stash->{campaign_email}) {
 			$c->response->status(403);
 			$c->stash->{x} = {
@@ -134,7 +151,10 @@ sub respond : Chained('base') : PathPart('respond') : Args(0) {
 	my $subject_extra = '';
 	my $bad_response;
 	if ($campaign_name eq 'share') {
-		my @first = ('coupon', 'facebook');
+		my @first = (
+			'coupon', 'facebook',
+			'freebie', 'free',
+		);
 		my @second = (
 			'now',
 			'right now',
@@ -145,18 +165,87 @@ sub respond : Chained('base') : PathPart('respond') : Args(0) {
 			'just started',
 			'new',
 			"i'm new",
+			'im new',
 		);
-		$bad_response = grep { _answer_is_mostly( lc($c->req->param('question1')), $_ ) } @first;
+		$bad_response = grep { _answer_is_mostly( lc($c->req->param('question1')), $_ ) } @first if !$bad_response;
 		$bad_response = grep { _answer_is_mostly( lc($c->req->param('question2')), $_ ) } @second if !$bad_response;
 
-		($flag_response) && ($subject_extra = '** SHORT RESPONSE ** ');
+		printf STDERR "\n\n\n\n\n\n\n\n";
+		use DDP; p $c->stash->{referer};
+
+		if ( $c->stash->{referer} ) {
+
+			$bad_response =
+				grep { index( $c->stash->{referer}, $_ ) >= 0 }
+					( qw/ coupon freebie free deal steal discount / )
+						if !$bad_response;
+			printf STDERR "\n\n\n\n\n\n\n\n";
+			use DDP; p $bad_response;
+
+			my $uri = URI->new( $c->stash->{referer} );
+			my $domain = $uri->host;
+			$bad_response =
+				grep { $domain =~ /$_$/ }
+					( qw/ .biz .info .deals / )
+						if !$bad_response;;
+
+			$flag_response =
+				grep { $domain =~ /$_/ }
+					(qw/ facebook twitter reddit /)
+						if !$flag_response;
+
+		}
+
+		$flag_response = ( lc( $c->req->param( 'question4' ) ) ne 'yes' ) if !$flag_response;
+
+		my $q5 = lc( $c->req->param( 'question5' ) );
+		my @fifth = (
+			'none',
+			"don't know",
+			'dont know',
+			"all of them",
+			"all",
+			"unsure",
+			"duckduckgo",
+			"google",
+			"answer",
+			'?',
+		);
+		$flag_response = grep { _answer_is_mostly( $q5, $_ ) } @fifth if !$flag_response;
+
+		my $q6 = lc( $c->req->param( 'question6' ) );
+		my @sixth = (
+			'!bang',
+			'none',
+			"don't know",
+			'dont know',
+			"all of them",
+			"all",
+			"unsure",
+			"duckduckgo",
+			"google",
+			"bang",
+			'?'
+		);
+		$flag_response = grep { _answer_is_mostly( $q6, $_ ) } @sixth if !$flag_response;
+
+		for my $n (1..6) {
+			my $q = lc( $c->req->param( "question$n" ) );
+			$flag_response = grep { index( $q, $_ ) >= 0 }
+				( qw/ qwe asd zxc / )
+					if !$flag_response;
+		}
+
+		($flag_response) && ($subject_extra = '** NEEDS REVIEW ** ');
 		($bad_response) && ($subject_extra = '** BAD RESPONSE ** ');
 		my $report_url = $c->chained_uri( 'Admin::Campaign', 'bad_user_response', { user => $username, campaign => $campaign_name} );
-		$c->stash->{'extra'} = <<"BAD_RESPONSE_LINK"
-		<a href="$report_url">
-			Report bad responses
-		</a>
+		if (!$bad_response) {
+			$c->stash->{'extra'} = <<"BAD_RESPONSE_LINK"
+			<a href="$report_url">
+				Report bad responses
+			</a>
 BAD_RESPONSE_LINK
+		}
 	}
 
 	my $subject = "${subject_extra}$campaign_name response from $username";
@@ -206,7 +295,7 @@ BAD_RESPONSE_LINK
 
 sub _answer_is_mostly {
 	my ($answer, $text) = @_;
-	return 0 if (length($answer) > (length($text) + 10));
+	return 0 if (length($answer) > (length($text) + 5));
 	return 1 if (index($answer, $text) >= 0);
 	return 0;
 }

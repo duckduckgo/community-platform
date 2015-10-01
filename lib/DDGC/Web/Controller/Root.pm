@@ -170,22 +170,9 @@ sub end : ActionClass('RenderView') {
 sub wear :Chained('base') :PathPart('wear') :Args(0) {
 	my ( $self, $c ) = @_;
 
-	my $host = ($c->req->headers->referer)
-		? lc( URI->new( $c->req->headers->referer )->host )
-		: '';
-
-	my @domains = ( qw/
-		duck.co
-		duckduckgo.com
-	/,  lc( $c->request->env->{HTTP_HOST} =~ s/:.*//r ) );
+	$c->session->{wear_referer} = lc( $c->req->headers->referer ) if !$c->session->{wear_referer};
 
 	$c->stash->{no_breadcrumb} = 1;
-
-	if ( !$c->user && ( !$host || !grep { $_ eq $host } @domains ) ) {
-		$c->response->status(404);
-		push @{$c->stash->{template_layout}}, 'wear404.tx';
-		return $c->detach;
-	}
 
 	$c->stash->{share_page} = 1;
 	$c->session->{last_url} = $c->req->uri;

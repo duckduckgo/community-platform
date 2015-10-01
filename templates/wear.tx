@@ -68,7 +68,23 @@
 			</div>
 			<label class="shareit-form__lbl" for="question4"><: $campaign_config.question4 :></label>
 			<div class="input-wrap">
-				<input name="question4" type="text" value="<: $user.email :>" />
+				<select name="question4" style="width: 897px">
+					<option value="">Please Select</option>
+					<option value="Yes">Yes</option>
+					<option value="No">No</option>
+				</select>
+			</div>
+			<label class="shareit-form__lbl" for="question5"><: $campaign_config.question5 |raw :></label>
+			<div class="input-wrap">
+				<textarea name="question5"></textarea>
+			</div>
+			<label class="shareit-form__lbl" for="question6"><: $campaign_config.question6 |raw :></label>
+			<div class="input-wrap">
+				<textarea name="question6"></textarea>
+			</div>
+			<label class="shareit-form__lbl" for="question7"><: $campaign_config.question7 :></label>
+			<div class="input-wrap">
+				<input name="question7" type="text" value="<: $user.email :>" />
 			</div>
 			<input type="hidden" name="campaign_id" value="1">
 			<input type="hidden" name="campaign_name" value="share">
