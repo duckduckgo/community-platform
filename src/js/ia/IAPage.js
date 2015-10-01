@@ -102,15 +102,15 @@
                         name : Handlebars.templates.pre_edit_name(ia_data),
                         status : Handlebars.templates.pre_edit_status(ia_data),
                         description : Handlebars.templates.pre_edit_description(ia_data),
-                        topic : Handlebars.templates.pre_edit_topic(ia_data),
+                        producer : Handlebars.templates.pre_edit_producer(ia_data),
+                        designer : Handlebars.templates.pre_edit_designer(ia_data),
+                        developer : Handlebars.templates.pre_edit_developer(ia_data),
+			topic : Handlebars.templates.pre_edit_topic(ia_data),
                         example_query : Handlebars.templates.pre_edit_example_query(ia_data),
                         other_queries : Handlebars.templates.pre_edit_other_queries(ia_data),
                         dev_milestone : Handlebars.templates.pre_edit_dev_milestone(ia_data),
                         template : Handlebars.templates.pre_edit_template(ia_data),
                         perl_module : Handlebars.templates.pre_edit_perl_module(ia_data),
-                        producer : Handlebars.templates.pre_edit_producer(ia_data),
-                        designer : Handlebars.templates.pre_edit_designer(ia_data),
-                        developer : Handlebars.templates.pre_edit_developer(ia_data),
                         tab : Handlebars.templates.pre_edit_tab(ia_data),
                         repo : Handlebars.templates.pre_edit_repo(ia_data),
                         src_api_documentation : Handlebars.templates.pre_edit_src_api_documentation(ia_data),
@@ -1443,15 +1443,15 @@
         ],
 
         edit_field_order: [
-            'name',
-            'status',
+	    'name',
             'description',
-            'repo',
-            'topic',
             'example_query',
             'other_queries',
-            'perl_module',
             'template',
+            'perl_module',
+            'repo',
+            'type',
+            'topic',
             'src_api_documentation',
             'api_status_page',
             'src_id',
@@ -1462,7 +1462,7 @@
             'unsafe',
             'answerbar',
             'triggers',
-            'perl_dependencies'
+            'perl_dependencies'            
         ],
 
         updateHandlebars: function(templates, ia_data, dev_milestone, staged) {
@@ -1539,8 +1539,8 @@
         },
 
         updateAll: function(templates, ia_data, edit) {
-            var dev_milestone = ia_data.live.dev_milestone;
-
+            var dev_milestone = ia_data.live.dev_milestone;		
+	    console.log(templates);
             if (!edit) {
                 $(".ia-single--name").remove();
 
@@ -1588,12 +1588,12 @@
 
                 // Only admins can edit these fields
                 if ($("#view_commits").length) {
-                    $(".ia-single--edits").append(templates.dev_milestone);
-                    $(".ia-single--edits").append(templates.producer);
-                    $(".ia-single--edits").append(templates.designer);
-                    $(".ia-single--edits").append(templates.developer);
-                    $(".ia-single--edits").append(templates.tab);
-                    $(".ia-single--edits").append(templates.id);
+                    $(templates.id).insertAfter("#row-diff-name");   
+		    $(templates.tab).insertAfter("#row-diff-name");
+		    $(templates.dev_milestone).insertAfter("#row-diff-name");
+		    $(templates.producer).insertAfter("#row-diff-topic");
+		    $(templates.designer).insertAfter("#row-diff-topic");
+		    $(templates.developer).insertAfter("#row-diff-topic");
                 }
             }
 
