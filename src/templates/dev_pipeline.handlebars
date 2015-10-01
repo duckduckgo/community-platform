@@ -1,7 +1,8 @@
-<div>
+<div class="gw">
 {{#with dev_milestones}}
 
-<div class="dev_pipeline-column left" id="pipeline-planning">
+<div class="dev_pipeline-column quarter g" id="pipeline-planning">
+  <div class="dev_pipeline-column--container">
     <h2 class="dev_pipeline-column__title">
         Planning ({{length planning}})
     </h2>
@@ -47,9 +48,11 @@
             </li>
         {{/each}}
     </ul>
+    </div>
 </div>
 
-<div class="dev_pipeline-column left" id="pipeline-development">
+<div class="dev_pipeline-column quarter g" id="pipeline-development">
+  <div class="dev_pipeline-column--container">
     <h2 class="dev_pipeline-column__title">
         Development ({{length development}})
     </h2>
@@ -96,9 +99,11 @@
             </li>
         {{/each}}
     </ul>
+    </div>
 </div>
 
-<div class="dev_pipeline-column left" id="pipeline-testing">
+<div class="dev_pipeline-column quarter g" id="pipeline-testing">
+  <div class="dev_pipeline-column--container">
     <h2 class="dev_pipeline-column__title">
         Testing ({{length testing}})
     </h2>
@@ -145,9 +150,11 @@
             </li>
         {{/each}}
     </ul>
+    </div>
 </div>
 
-<div class="dev_pipeline-column left" id="pipeline-complete">
+<div class="dev_pipeline-column quarter g" id="pipeline-complete">
+   <div class="dev_pipeline-column--container">
     <h2 class="dev_pipeline-column__title">
         Complete ({{length complete}})
     </h2>
@@ -194,6 +201,7 @@
             </li>
         {{/each}}
     </ul>
+    </div>
 </div>
 {{/with}}
 </div>
