@@ -116,6 +116,7 @@
     </div>
 
     <: if $is_admin { :>
+
         <div class="pipeline-actions right hide">
             <span>Change </span>
             <select class="pipeline-actions__select" id="select-action">
@@ -139,9 +140,12 @@
                 <option value="3">spice</option>
             </select>
 
-            <div class="button pipeline-actions__button" id="pipeline-action-submit">
+            <span class="button pipeline-actions__button" id="pipeline-action-submit">
                 Ok
-            </div>
+            </span>
+ 
+            <span class="count-txt sep--before">0</span>
+            <span class="deselect-all"> selected <i class="deselect ddgsi ddgsi-close"></i> </span>
         </div>
     <: } :>
 </div>
