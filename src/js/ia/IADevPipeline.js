@@ -34,6 +34,11 @@
                 $("#pipeline-stats").html(stats);
                 $("#dev_pipeline").html(iadp);
 
+                if ($.trim($("#select-action option:selected").text()) === "type") {
+                    $("#select-milestone").addClass("hide");
+                    $("#select-type").removeClass("hide");
+                }
+
                 appendTeam(data.dev_milestones);
 
                 // 100% width
