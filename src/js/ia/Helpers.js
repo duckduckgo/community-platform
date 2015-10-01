@@ -9,13 +9,7 @@
             date = moment.utc(date, "YYYY-MM-DD");
             
             var elapsed = parseInt(moment().diff(date, "days", true));
-            if (elapsed === 1) {
-                date = elapsed + " day";
-            } else if (!elapsed) {
-                date = "today";
-            } else {
-                date = elapsed + " days";
-            }
+            date = elapsed + "d";
 
             return date;
         }
