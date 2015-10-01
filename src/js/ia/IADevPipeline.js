@@ -146,11 +146,21 @@
             $("body").on("click", ".dev_pipeline-column__list .icon-check, .dev_pipeline-column__list .icon-check-empty", function(evt) {
                 toggleCheck($(this));
 
-                if ($(".dev_pipeline-column__list .icon-check").length) {
+                var selected = $(".dev_pipeline-column__list .icon-check").length;
+                
+                if (selected) {
                     $(".pipeline-actions").removeClass("hide");
                 } else {
                     $(".pipeline-actions").addClass("hide");
                 }
+
+                $(".count-txt").text(selected);
+            });
+
+            $(".deselect-all").click(function(evt) {
+                $(".dev_pipeline-column__list .icon-check").removeClass("icon-check").addClass("icon-check-empty");
+                $(".pipeline-actions").addClass("hide");
+                $(".count-txt").text("0");
             });
 
             $("body").on("change", "#select-action", function(evt) {
