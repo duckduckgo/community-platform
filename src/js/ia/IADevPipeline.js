@@ -269,6 +269,21 @@
                 // Allows changing URL without reloading, since it doesn't add the new URL to history;
                 // Not supported on IE8 and IE9.
                 history.pushState({}, "Index: Instant Answers", url);
+                updateCount();
+            }
+
+            function updateCount() {
+                var all_visible = $("#dev_pipeline .item-name:visible").length;
+                var planning_visible = $("#dev_pipeline #pipeline-planning__list .item-name:visible").length;
+                var development_visible =  $("#dev_pipeline #pipeline-development__list .item-name:visible").length;
+                var testing_visible = $("#dev_pipeline #pipeline-testing__list .item-name:visible").length;
+                var complete_visible = $("#dev_pipeline #pipeline-complete__list .item-name:visible").length;
+                
+                $("#pipeline-stats h1").text(all_visible + " Instant Answers in progress");
+                $("#pipeline-planning h2").text("Planning (" + planning_visible + ")");
+                $("#pipeline-development h2").text("Development (" + development_visible + ")");
+                $("#pipeline-testing h2").text("Testing (" + testing_visible + ")");
+                $("#pipeline-complete h2").text("Complete (" + complete_visible + ")");
             }
 
             function save_multiple(ias, field, value) {
