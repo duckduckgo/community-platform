@@ -4,7 +4,8 @@
 <div class="dev_pipeline-column quarter g" id="pipeline-planning">
   <div class="dev_pipeline-column--container">
     <h2 class="dev_pipeline-column__title">
-        Planning ({{length planning}})
+        <span class="left">Planning </span> <span class="milestone-count right">{{length planning}}</span>
+        <span class="clearfix"></span>
     </h2>
     <ul class="dev_pipeline-column__list" id="pipeline-planning__list">
         {{#each planning}}
@@ -54,7 +55,8 @@
 <div class="dev_pipeline-column quarter g" id="pipeline-development">
   <div class="dev_pipeline-column--container">
     <h2 class="dev_pipeline-column__title">
-        Development ({{length development}})
+        <span class="left">Development </span> <span class="milestone-count right">{{length development}}</span>
+        <span class="clearfix">
     </h2>
 
     <ul class="dev_pipeline-column__list" id="pipeline-development__list">
@@ -105,7 +107,8 @@
 <div class="dev_pipeline-column quarter g" id="pipeline-testing">
   <div class="dev_pipeline-column--container">
     <h2 class="dev_pipeline-column__title">
-        Testing ({{length testing}})
+        <span class="left">Testing </span> <span class="milestone-count right"> {{length testing}} </span>
+        <span class="clearfix"></span>
     </h2>
 
     <ul class="dev_pipeline-column__list" id="pipeline-testing__list">
@@ -156,7 +159,8 @@
 <div class="dev_pipeline-column quarter g" id="pipeline-complete">
    <div class="dev_pipeline-column--container">
     <h2 class="dev_pipeline-column__title">
-        Complete ({{length complete}})
+        <span class="left">Complete </span> <span class="milestone-count right"> {{length complete}} </span>
+        <span class="clearfix"></span>
     </h2>
 
     <ul class="dev_pipeline-column__list" id="pipeline-complete__list">

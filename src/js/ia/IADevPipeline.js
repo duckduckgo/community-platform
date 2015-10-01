@@ -34,6 +34,11 @@
                 $("#pipeline-stats").html(stats);
                 $("#dev_pipeline").html(iadp);
 
+                if ($.trim($("#select-action option:selected").text()) === "type") {
+                    $("#select-milestone").addClass("hide");
+                    $("#select-type").removeClass("hide");
+                }
+
                 appendTeam(data.dev_milestones);
 
                 // 100% width
@@ -290,10 +295,10 @@
                 var complete_visible = $("#dev_pipeline #pipeline-complete__list .item-name:visible").length;
                 
                 $("#pipeline-stats h1").text(all_visible + " Instant Answers in progress");
-                $("#pipeline-planning h2").text("Planning (" + planning_visible + ")");
-                $("#pipeline-development h2").text("Development (" + development_visible + ")");
-                $("#pipeline-testing h2").text("Testing (" + testing_visible + ")");
-                $("#pipeline-complete h2").text("Complete (" + complete_visible + ")");
+                $("#pipeline-planning .milestone-count").text(planning_visible);
+                $("#pipeline-development .milestone-count").text(development_visible);
+                $("#pipeline-testing .milestone-count").text(testing_visible);
+                $("#pipeline-complete .milestone-count").text(complete_visible);
             }
 
             function save_multiple(ias, field, value) {
