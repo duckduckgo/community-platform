@@ -81,22 +81,6 @@
     </div>
 
     <div class="filter-team left">
-        <span class="filter-team__span" id="filter-producer">
-            Producer:  
-            <select class="filter-team__span__select" id="select-producer">
-                <option value="all">All</option>
-                <option value="none">None</option>
-            </select>
-        </span> 
-        
-        <span class="filter-team__span" id="filter-developer">
-            Developer:  
-            <select class="filter-team__span__select" id="select-developer">
-                <option value="all">All</option>
-                <option value="none">None</option>
-            </select>
-        </span> 
-        
         <span class="filter-info__span" id="filter-info">
             <i class="icon-check-empty"></i>
             Missing info:  
@@ -106,6 +90,8 @@
                 <option value="perl_module">Perl Module</option>
                 <option value="name">Name</option>
                 <option value="type">Type</option>
+                <option value="producer">Producer</option>
+                <option value="developer">Developer</option>
                 <option value="example_query">Example Query</option>
             </select>
         </span> 

@@ -6,8 +6,6 @@
 
     DDH.IADevPipeline.prototype = {
         filters: {
-            producer: '',
-            developer: '',
             missing: '',
         },
 
@@ -39,8 +37,6 @@
                     $("#select-type").removeClass("hide");
                 }
 
-                appendTeam(data.dev_milestones);
-
                 // 100% width
                 $(".site-main > .content-wrap").first().removeClass("content-wrap").addClass("wrap-pipeline");
 
@@ -68,10 +64,6 @@
                             } else if (field === "missing") {
                                 $("#select-info").val(value);
                                 $("#filter-info i").trigger("click");
-                            } else {
-                                var $select = $("#select-" + field);
-                                $select.val(value);
-                                $select.trigger("change");
                             }
                         }
                     });
@@ -178,21 +170,6 @@
                     $("#select-milestone").removeClass("hide");
                     $("#select-type").addClass("hide");
                 }
-            });
-
-            $("body").on("change", "#select-producer, #select-developer", function(evt) {
-                var value = $.trim($(this).find("option:selected").text().toLowerCase().replace(/[^a-z0-9]/g, ""));
-                var field = $(this).attr("id").replace("select-", "");
-
-                if (value === "all") {
-                    dev_p.filters[field] = "";
-                } else {
-                    dev_p.filters[field] = value;
-                }
-
-                $("#pipeline-clear-filters").removeClass("hide");
-
-                filter();
             });
 
             $("body").on("click change", "#filter-info i, #select-info", function(evt) {
@@ -314,41 +291,6 @@
                         location.reload();
                     }
                 });
-            }
-
-            function appendTeam(data) {
-                var producers = [];
-                var developers = [];
-                $.each(data, function(idx, val) {
-                    if (val !== "permissions") {
-                        $.each(val, function(sub_id, sub_val) {
-                            //var sub_val = data[idx][sub_id];
-                            var temp_producer = sub_val.producer;
-                            var devs = sub_val.developer;
-
-                            if (($.inArray(temp_producer, producers) === -1) && temp_producer) {
-                                producers.push(temp_producer);
-                                var slug_producer = temp_producer.toLowerCase().replace(/[^a-z0-9]/g, "");
-
-                                $("#select-producer").append('<option value="' + slug_producer + '">' + temp_producer + '</option>');
-                            }
-
-                            if (devs) {
-                                $.each(devs, function(dev_id, temp_dev) {
-                                    if (temp_dev && temp_dev.name && ($.inArray(temp_dev.name, developers)  === -1)) {
-                                        developers.push(temp_dev.name);
-                                        var slug_dev = temp_dev.name.toLowerCase().replace(/[^a-z0-9]/g, "");
-
-                                        $("#select-developer").append('<option value="' + slug_dev + '">' + temp_dev.name + '</option>');
-                                    }
-                                });
-                            }
-                        });
-                    }
-                });
-
-                var team = {producers : producers, developers : developers};
-                return team;
             }
 
             function toggleCheck($obj) {
