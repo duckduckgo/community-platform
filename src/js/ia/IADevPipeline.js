@@ -386,6 +386,7 @@
             function toggleCheck($obj) {
                 $obj.toggleClass("icon-check");
                 $obj.toggleClass("icon-check-empty");
+                $obj.parent().toggleClass("selected");
             }
         }
     };
