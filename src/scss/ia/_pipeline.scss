@@ -90,6 +90,8 @@
 
 	&.important {
 	    box-shadow: inset 3px 0px $gold;
+	    border-top-left-radius: 0;
+	    border-bottom-left-radius: 0;
 	}
 
 	&.selected {
