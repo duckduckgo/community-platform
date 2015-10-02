@@ -88,6 +88,12 @@
 	    color: black; 
 	}
 
+	&.selected {
+	    background-color: lighten($blue-light, 30%);
+	    outline: 1px solid $blue-light;
+	    border-radius: 0;
+	}
+
         .item-name { 
 	    & > a {
 		display: inline-block;
