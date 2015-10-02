@@ -14,19 +14,19 @@
                 {{#if ../../permissions.admin}}
                     <i class="icon-check-empty left" />
                 {{/if}}
-                <div class="left item-name pipeline__stamp-{{repo}}">
+                <div class="item-name pipeline__stamp-{{repo}}">
                     <a href="/ia/view/{{id}}">{{name}}</a>
-                </div>
-                <div class="right item-activity">
-                    {{#if pr}}
-                        <a href="https://github.com/duckduckgo/zeroclickinfo-{{repo}}/issues/{{pr.issue_id}}" class="one-line" id="pr">
-                            PR 
-                        </a>
-                        
-                    {{/if}}
-                    <span title="{{format_time last_update}}">
+                    <div class="right item-activity">
+                      {{#if pr}}
+                      <a href="https://github.com/duckduckgo/zeroclickinfo-{{repo}}/issues/{{pr.issue_id}}" class="one-line" id="pr">
+                        PR 
+                      </a>
+                      
+                      {{/if}}
+                      <span title="{{format_time last_update}}">
                         {{timeago last_update}}
-                    </span>
+                      </span>
+                    </div>
                 </div>
                 <span class="clearfix"></span>
                 <div class="activity-details hide">
@@ -65,19 +65,19 @@
                    {{#if ../../permissions.admin}}
                     <i class="icon-check-empty left" />
                 {{/if}}
-                <div class="left item-name pipeline__stamp-{{repo}}">
+                <div class="item-name pipeline__stamp-{{repo}}">
                     <a href="/ia/view/{{id}}">{{name}}</a>
-                </div>
-                <div class="right item-activity">
-                    {{#if pr}}
-                        <a href="https://github.com/duckduckgo/zeroclickinfo-{{repo}}/issues/{{pr.issue_id}}" class="one-line" id="pr">
-                            PR
-                        </a>
-                        
-                    {{/if}}
-                    <span title="{{format_time last_update}}">
-                        {{timeago last_update}}
-                    </span>
+                    <div class="right item-activity">
+                      {{#if pr}}
+                      <a href="https://github.com/duckduckgo/zeroclickinfo-{{repo}}/issues/{{pr.issue_id}}" class="one-line" id="pr">
+			PR 
+                      </a>
+                  
+                      {{/if}}
+                      <span title="{{format_time last_update}}">
+			{{timeago last_update}}
+                      </span>
+                    </div>
                 </div>
                 <span class="clearfix"></span>
                 <div class="activity-details hide">
@@ -116,19 +116,19 @@
                   {{#if ../../permissions.admin}}
                     <i class="icon-check-empty left" />
                 {{/if}}         
-                <div class="left item-name pipeline__stamp-{{repo}}">
+                <div class="item-name pipeline__stamp-{{repo}}">
                     <a href="/ia/view/{{id}}">{{name}}</a>
-                </div>
-                <div class="right item-activity">
-                    {{#if pr}}
-                        <a href="https://github.com/duckduckgo/zeroclickinfo-{{repo}}/issues/{{pr.issue_id}}" class="one-line" id="pr">
-                            PR
-                        </a>
-                        
-                    {{/if}}
-                    <span title="{{format_time last_update}}">
+                    <div class="right item-activity">
+                      {{#if pr}}
+                      <a href="https://github.com/duckduckgo/zeroclickinfo-{{repo}}/issues/{{pr.issue_id}}" class="one-line" id="pr">
+                        PR
+                      </a>
+                      
+                      {{/if}}
+                      <span title="{{format_time last_update}}">
                         {{timeago last_update}}
-                    </span>
+                      </span>
+                    </div>
                 </div>
                 <span class="clearfix"></span>
                 <div class="activity-details hide">
@@ -167,19 +167,19 @@
                  {{#if ../../permissions.admin}}
                     <i class="icon-check-empty left" />
                 {{/if}}
-                <div class="left item-name pipeline__stamp-{{repo}}">
+                <div class="item-name pipeline__stamp-{{repo}}">
                     <a href="/ia/view/{{id}}">{{name}}</a>
-                </div>
-                <div class="right item-activity">
-                    {{#if pr}}
-                        <a href="https://github.com/duckduckgo/zeroclickinfo-{{repo}}/issues/{{pr.issue_id}}" class="one-line" id="pr">
-                            PR
-                        </a>
-                        
-                    {{/if}}
-                    <span title="{{format_time last_update}}">
+                    <div class="right item-activity">
+                      {{#if pr}}
+                      <a href="https://github.com/duckduckgo/zeroclickinfo-{{repo}}/issues/{{pr.issue_id}}" class="one-line" id="pr">
+                        PR
+                      </a>
+                      
+                      {{/if}}
+                      <span title="{{format_time last_update}}">
                         {{timeago last_update}}
-                    </span>
+                      </span>
+                    </div>
                 </div>
                 <span class="clearfix"></span>
                 <div class="activity-details hide">
