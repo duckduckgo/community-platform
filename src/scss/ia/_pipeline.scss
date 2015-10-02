@@ -1,10 +1,12 @@
 .wrap-pipeline {
+    /* Make the fonts look snazzy. */
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+
+    padding: 0 2em;
 }
 
 .hide { display: none; }
-.wrap-pipeline { padding: 0 2em; }
 
 .toggle-details { margin-right: 2em; }
 
@@ -86,7 +88,37 @@
 	    color: black; 
 	}
 
-        .item-name { max-width: 9em; }
+        .item-name { 
+	    max-width: 80%; 
+	    
+	    /* Display the type of repo */
+	    &:before {
+		display: inline;
+		color: $grey;
+		content: "N";
+		font-weight: 500;
+		padding: 0 0.3em 0 0.2em;
+	    }
+
+	    /* Change content to match the repo. */
+	    &.pipeline__stamp {
+		&-spice:before {
+		    content: "S";
+		}
+
+		&-goodies:before {
+		    content: "G";
+		}
+
+		&-fathead {
+		    content: "F";
+		}
+
+		&-longtail {
+		    content: "L";
+		}
+	    }
+	}
 
         .icon-check, .icon-check-empty {
             margin: 0.25em 0.6em 0 0;
