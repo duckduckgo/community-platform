@@ -216,8 +216,8 @@
     });
 
     // Returns true if any value in the array is false
-    Handlebars.registerHelper('is_false_array', function(val1, val2, val3, val4, options) {
-        if ((!val1) || (!val2) || (!val3) || (!val4)) {
+    Handlebars.registerHelper('is_false_array', function(val1, val2, val3, val4, val5, val6, options) {
+        if ((!val1) || (!val2) || (!val3) || (!val4) || (!val5) || (!(val6 && val6.length))) {
             return options.fn(this);
         } else {
             return options.inverse(this);
