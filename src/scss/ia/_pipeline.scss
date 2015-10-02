@@ -81,11 +81,15 @@
         font-size: 1em;
 	background-color: white;
 	margin-bottom: 0.5em;
-	border-radius: 3px;
+	border-radius: 2px;
 	padding: 0.5em;
 
         a { 
 	    color: black; 
+	}
+
+	&.important {
+	    box-shadow: inset 3px 0px $gold;
 	}
 
 	&.selected {
