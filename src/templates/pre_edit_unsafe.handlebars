@@ -9,22 +9,18 @@
     <div class="column-center-live left">
         <div class="column-center-live__child">
             <p class="column-center-live__child__p">
-                <i class="icon-check{{#is_false live.unsafe}}-empty{{/is_false}}"/>
-                Unsafe
-            </p>
-        </div>
-    </div>
-    <div class="column-right-edits left" id="column-edits-unsafe">
-        <div class="column-right-edits__child" id="unsafe" name="unsafe">
-            <p class="column-right-edits__child__p">
-                {{#not_null edited.unsafe}}
-                    <i class="icon-check{{#is_false edited.unsafe}}-empty{{/is_false}}"/>
+                {{#if edited.unsafe}}
+		     {{#not_null edited.unsafe}}
+                         <span class="edited"><i class="icon-check{{#is_false edited.unsafe}}-empty{{/is_false}}"/>
+                         Unsafe</span>
+		    {{/not_null}}
+		{{else}}
+		    <i class="icon-check{{#is_false live.unsafe}}-empty{{/is_false}}"/>
                     Unsafe
-                {{/not_null}}
+		{{/if}}
             </p>
         </div>
     </div>
-
     <div class="button js-pre-editable" name="unsafe">
         <i class="js-pre-editable__icon icon-edit"></i>
         <span class="js-pre-editable__text">Edit</span>

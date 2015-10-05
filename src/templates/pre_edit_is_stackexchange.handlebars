@@ -10,12 +10,19 @@
     <div class="column-center-live left">
         <div class="column-center-live__child">
             <p class="column-center-live__child__p">
-                <i class="icon-check{{#is_false live.is_stackexchange}}-empty{{/is_false}}"/>
-                Is Stack Exchange
-            </p>
+		{{#if edited.is_stackexchange}}
+		    {{#not_null edited.is_stackexchange}}
+		        <span class="edited"><i class="icon-check{{#is_false edited.is_stackexchange}}-empty{{/is_false}}"/>
+                        Is Stack Exchange</span>
+		    {{/not_null}}
+                {{else}}
+		    <i class="icon-check{{#is_false live.is_stackexchange}}-empty{{/is_false}}"/>
+                    Is Stack Exchange
+            	{{/if}}
+	    </p>
         </div>
     </div>
-    <div class="column-right-edits left" id="column-edits-is_stackexchange">
+    {{!-- <div class="column-right-edits left" id="column-edits-is_stackexchange">
         <div class="column-right-edits__child" id="is_stackexchange" name="is_stackexchange">
             <p class="column-right-edits__child__p">
                 {{#not_null edited.is_stackexchange}}
@@ -24,7 +31,7 @@
                 {{/not_null}}
             </p>
         </div>
-    </div>
+    </div> --}}
 
     <div class="button js-pre-editable" name="is_stackexchange">
         <i class="js-pre-editable__icon icon-edit"></i>
