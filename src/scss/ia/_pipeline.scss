@@ -1,3 +1,9 @@
+#sidebar-top {
+    padding: 2em 0;
+    text-transform: capitalize;
+    color: $grey;
+}
+
 .search-container {
     width: 20%;
 
@@ -49,12 +55,13 @@
 .deselect-all .ddgsi-close { cursor: pointer; }
 
 #page_sidebar {
+    box-sizing: border-box;
     position: absolute;
     z-index: 3000;
     right: 0px;
     top: 15em;
     background-color: $white;
-    padding: 1em;
+    padding: 2em;
     height: 100%;
     width: 30%;
 
