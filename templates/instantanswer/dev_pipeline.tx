@@ -104,11 +104,10 @@
       <span class="button hide" id="pipeline-clear-filters">
         Clear Filters
       </span>
-    </div>
 
     <: if $is_admin { :>
 
-        <div class="pipeline-actions right hide">
+        <span class="pipeline-actions hide">
             <span>Change </span>
             <select class="pipeline-actions__select" id="select-action">
                 <option value="0">dev milestone</option>
@@ -139,6 +138,7 @@
             <span class="deselect-all sep--before"> <i class="deselect ddgsi ddgsi-close"></i> </span>
         </div>
     <: } :>
+    </span>
 </div>
 
 <div class="clearfix"></div>
