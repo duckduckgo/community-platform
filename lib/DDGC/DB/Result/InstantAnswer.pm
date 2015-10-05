@@ -455,6 +455,25 @@ sub create_update_activity {
     );
 }
 
+sub _generate_updates {
+    my ( $self, $update ) = @_;
+
+    while ( my ($column, $value) = each $update ) {
+
+        if ( $column eq 'dev_milestone' ) {
+            $self->create_update_activity(
+                $column,
+                sprintf( 'Instant Answer [%s](%s) dev milestone changed to %s',
+                    $self->name,
+                    $self->uri( { activity_feed => 1 } )
+                    $value
+                ),
+            )
+        }
+
+    }
+}
+
 around update => sub {
     my ( $next, $self, @extra ) = @_;
     my $update = $extra[0];
@@ -463,16 +482,7 @@ around update => sub {
     return $ret if (!$ret);
     return $ret if $ENV{DDGC_IA_AUTOUPDATES};
 
-    if ($meta3) {
-        my $schema = $self->result_source->schema;
-        $schema->resultset('ActivityFeed')->updated_ia( {
-            meta1        => $self->id,
-            meta2        => $self->topics->join_for_activity_meta( 'name' ),
-            description  => sprintf('Instant Answer Page [%s](%s) updated!',
-                $self->name, sprintf('https://duck.co/ia/view/%s',
-                    $self->meta_id)),
-        } );
-    }
+    $self->_generate_updates( $update );
 
     return $ret;
 };
