@@ -12,6 +12,13 @@ use JSON;
 table 'instant_answer';
 
 sub u { [ 'InstantAnswer', 'view', $_[0]->id ] }
+sub uri {
+    my ( $self, $params ) = @_;
+    $self->ddgc->uri_for(
+        sprintf( '/ia/view/%s', $self->meta_id ),
+        $params
+    );
+}
 
 column id => {
 	data_type => 'text',
