@@ -154,9 +154,7 @@
 
             $("body").on("click", ".dev_pipeline-column__list .icon-check, .dev_pipeline-column__list .icon-check-empty", function(evt) {
                 toggleCheck($(this));
-
-                var meta_id = $(this).parent().attr("id").replace("pipeline-list__", "");
-                var milestone = $(this).parents(".dev_pipeline-column").attr("id").replace("pipeline-", "");
+                
                 var selected = $(".dev_pipeline-column__list .icon-check").length;
                 
                 if (selected > 1) {
@@ -165,7 +163,7 @@
                     $(".pipeline-actions").addClass("hide");
                 }
 
-                appendSidebar(selected, meta_id, milestone);
+                appendSidebar(selected);
 
                 $(".count-txt").text(selected);
             });
@@ -258,8 +256,11 @@
                 }
             });
 
-            function appendSidebar(selected, meta_id, milestone) {
+            function appendSidebar(selected) {
                 if (selected === 1) {
+                    var $item = $(".dev_pipeline-column__list .selected");
+                    var meta_id = $item.attr("id").replace("pipeline-list__", "");
+                    var milestone = $item.parents(".dev_pipeline-column").attr("id").replace("pipeline-", "");
                     var page_data = getPageData(meta_id, milestone);
                     console.log(page_data);
                     if (page_data) {
