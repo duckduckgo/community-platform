@@ -168,12 +168,15 @@
                 $(".count-txt").text(selected);
             });
 
-            $(".deselect-all").click(function(evt) {
+            $("body").on("click", "#sidebar-close, .deselect-all", function(evt) {
                 var $selected = $(".dev_pipeline-column__list .selected");
                 $selected.find(".icon-check").removeClass("icon-check").addClass("icon-check-empty");
                 $selected.removeClass("selected");
                 $(".pipeline-actions").addClass("hide");
                 $(".count-txt").text("0");
+
+                // remove sidebar
+                appendSidebar(0);
             });
 
             $("body").on("change", "#select-action", function(evt) {
