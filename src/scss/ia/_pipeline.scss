@@ -14,6 +14,17 @@
 
 .deselect-all .ddgsi-close { cursor: pointer; }
 
+#page_sidebar {
+    position: absolute;
+    z-index: 3000;
+    right: 0px;
+    top: 15em;
+    background-color: white;
+    padding: 1em;
+    height: 100%;
+    width: 30%;
+}
+
 #pipeline-stats {
     text-align: center;
     margin-top: -1em;

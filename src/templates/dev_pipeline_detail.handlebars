@@ -1,53 +1,51 @@
-<div id="pipeline-sidebar-page">
-    <div id="sidebar-top">
-        <span> {{repo}} </span>
-        <span class="sep--before"> {{dev_milestone}} </span>
-    </div>
-
-    <div id="sidebar-name">
-        <h2> {{name}} </h2>
-    </div>
-    <div id="sidebar-id">
-        <span> {{id}} </span>
-    </div>
-
-    <div id="sidebar-desc">
-        <span class="field-label"> Description </span>
-        <span class="readonly"> {{description}} </span>
-    </div>
-
-    <div id="sidebar-example">
-        <span class="field-label"> Example Query </span>
-        <span class="readonly"> {{example_query}} </span>
-    </div>
-
-    <div id="sidebar-perl_module">
-        <span class="field-label"> Perl Module </span>
-        <span class="readonly"> {{perl_module}} </span>
-    </div>
-
-    <hr />
-
-    {{#if pr}}
-        <div id="sidebar-pr">
-            <span class="left">
-                <a href="https://github.com/duckduckgo/zeroclickinfo-{{repo}}/issues/{{pr.issue_id}}" class="one-line" id="pr">
-                    PR #{{pr.issue_id}}
-                </a>
-            </span>
-            <span class="right" title="{{format_time last_update}}">
-                {{timeago last_update}}
-            </span>
-
-            {{#if last_comment}}
-                <p>
-                    <a href="https://github.com/duckduckgo/zeroclickinfo-{{repo}}/issues/{{pr.issue_id}}#issuecomment-{{last_comment.id}}">
-                        {{last_comment.text}}
-                    </a>
-                </p>
-                <div>{{timeago last_comment.date}}</div>
-            {{/if}}
-        </div>        
-    {{/if}}
-
+<div id="sidebar-top">
+    <span> {{repo}} </span>
+    <span class="sep--before"> {{dev_milestone}} </span>
 </div>
+
+<div id="sidebar-name">
+    <h2> {{name}} </h2>
+</div>
+<div id="sidebar-id">
+    <span> {{id}} </span>
+</div>
+
+<div id="sidebar-desc">
+    <span class="field-label"> Description </span>
+    <span class="readonly"> {{description}} </span>
+</div>
+
+<div id="sidebar-example">
+    <span class="field-label"> Example Query </span>
+    <span class="readonly"> {{example_query}} </span>
+</div>
+
+<div id="sidebar-perl_module">
+    <span class="field-label"> Perl Module </span>
+    <span class="readonly"> {{perl_module}} </span>
+</div>
+
+<hr />
+
+{{#if pr}}
+    <div id="sidebar-pr">
+        <span class="left">
+            <a href="https://github.com/duckduckgo/zeroclickinfo-{{repo}}/issues/{{pr.issue_id}}" class="one-line" id="pr">
+                PR #{{pr.issue_id}}
+            </a>
+        </span>
+        <span class="right" title="{{format_time last_update}}">
+            {{timeago last_update}}
+        </span>
+
+        {{#if last_comment}}
+            <p>
+                <a href="https://github.com/duckduckgo/zeroclickinfo-{{repo}}/issues/{{pr.issue_id}}#issuecomment-{{last_comment.id}}">
+                    {{last_comment.text}}
+                </a>
+            </p>
+            <div>{{timeago last_comment.date}}</div>
+        {{/if}}
+    </div>        
+{{/if}}
+

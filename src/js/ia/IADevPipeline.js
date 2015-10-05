@@ -265,10 +265,10 @@
                     if (page_data) {
                         var sidebar = Handlebars.templates.dev_pipeline_detail(page_data);            
                     
-                        $("#dev_pipeline").append(sidebar);
+                        $("#page_sidebar").html(sidebar).removeClass("hide");
                     }
                 } else {
-                    $("#pipeline-sidebar-page").remove();
+                    $("#page_sidebar").addClass("hide").empty();
                 }
             }
 
