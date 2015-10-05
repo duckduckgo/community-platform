@@ -954,7 +954,7 @@
                                 is_json = true;
                             }
 
-                            if (value !== edited_value && value !== live_value) {
+			    if (value !== edited_value && value !== live_value || value !== edited_value && value === live_value) {
                                 save(field, value, DDH_iaid, $obj, is_json);
                             } else {
                                 $obj.replaceWith(pre_templates[field]);
