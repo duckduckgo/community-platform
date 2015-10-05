@@ -3,15 +3,16 @@
 
     .ddgsi-loupe {
 	color: $grey;
+	font-weight: bold;
+
 	position: relative;
 	top: 2px;
-	font-weight: bold;
 	padding-right: 0.5em;
     }
     
     .search-thing {
 	margin-right: 1em;
-	color: $grey;
+	color: $slate;
 	width: 80%;
 	
 	/* Remove some of the default styles. */
@@ -19,13 +20,11 @@
 	outline: none;
     }
 
+    /* Style the placeholder. */
     .search-thing::-webkit-input-placeholder {
 	opacity: 0.5;
     }
     .search-thing::-moz-placeholder {
-	opacity: 0.5;
-    }
-    .search-thing:-moz-placeholder {   /* Older versions of Firefox */
 	opacity: 0.5;
     }
     .search-thing:-ms-input-placeholder { 
