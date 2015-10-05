@@ -19,10 +19,22 @@
     z-index: 3000;
     right: 0px;
     top: 15em;
-    background-color: white;
+    background-color: $white;
     padding: 1em;
     height: 100%;
     width: 30%;
+
+    .sidebar-field {
+        margin-top: 1em;
+    }
+
+    .field-label, #sidebar-pr, #pr {
+        color: $grey-light;
+    }
+
+    #sidebar-pr .comment a {
+        color: $slate;
+    }
 }
 
 #pipeline-stats {
