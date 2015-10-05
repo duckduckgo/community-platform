@@ -138,5 +138,8 @@
 
 <div class="clearfix"></div>
 
+<div id="page_sidebar" class="hide">
+</div>
+
 <div id="dev_pipeline">
 </div>

@@ -1,0 +1,66 @@
+<div id="sidebar-top">
+    {{#if repo}} <span class="sep--after left"> {{repo}} </span> {{/if}}
+    <span class="left"> {{dev_milestone}} </span>
+    <span id="sidebar-close" class="right"> <i class="ddgsi ddgsi-close"></i> </span>
+    <span class="clearfix"></span>
+</div>
+
+{{#if name}}
+    <div id="sidebar-name">
+        <h2> {{name}} </h2>
+    </div>
+{{/if}}
+
+{{#if id}}
+    <div id="sidebar-id">
+        <span> {{id}} </span>
+    </div>
+{{/if}}
+
+{{#if description}}
+    <div id="sidebar-desc" class="sidebar-field">
+        <div class="field-label"> Description </div>
+        <span class="readonly"> {{description}} </span>
+    </div>
+{{/if}}
+
+{{#if example_query}}
+    <div id="sidebar-example" class="sidebar-field">
+        <div class="field-label"> Example Query </div>
+        <span class="readonly"> {{example_query}} </span>
+    </div>
+{{/if}}
+
+{{#if perl_module}}
+    <div id="sidebar-perl_module" class="sidebar-field">
+        <div class="field-label"> Perl Module </div>
+        <span class="readonly"> {{perl_module}} </span>
+    </div>
+{{/if}}
+
+{{#if pr}}
+    <hr />
+
+    <div id="sidebar-pr">
+        <div class="left">
+            <a href="https://github.com/duckduckgo/zeroclickinfo-{{repo}}/issues/{{pr.issue_id}}" class="one-line" id="pr">
+                PR #{{pr.issue_id}}
+            </a>
+        </div>
+        <div class="right" title="{{format_time last_update}}">
+            {{timeago last_update}}
+        </div>
+
+        <span class="clearfix"></span>
+        
+        {{#if last_comment}}
+            <p class="comment">
+                <a href="https://github.com/duckduckgo/zeroclickinfo-{{repo}}/issues/{{pr.issue_id}}#issuecomment-{{last_comment.id}}">
+                    {{last_comment.text}}
+                </a>
+            </p>
+            <div>{{timeago last_comment.date}}</div>
+        {{/if}}
+    </div>        
+{{/if}}
+
