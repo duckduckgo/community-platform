@@ -2,7 +2,6 @@
     <div id="create-new-ia" class="button right">
         New IA Page
     </div>
-    <input type="text" class="search-thing right">
     <div id="create-new-ia-form" class="new-ia-form hide">
         <div class="new-ia-form-section left">
             <div class="label">
@@ -49,8 +48,6 @@
         </div>
         <span class="clearfix"></span>
     </div>
-<: } else { :>
-  <input type="text" class="search-thing right">
 <: } :>
 
 <div class="pipeline__toggle-view" id="pipeline_toggle-view">
@@ -75,35 +72,42 @@
 
     <div id="pipeline-stats"></div>
 
-    <div class="toggle-details left">
+    <div class="left search-container">
+      <i class="ddgsi-loupe"></i>
+      <input type="text" class="search-thing" placeholder="Filter by title or description">
+    </div>
+
+
+    <div class="right">
+      <span class="toggle-details">
         <i class="icon-check-empty"></i>
         Show activity details
-    </div>
+      </span>
 
-    <div class="filter-team left">
+      <span class="filter-team">
         <span class="filter-info__span" id="filter-info">
-            <i class="icon-check-empty"></i>
-            Missing info:  
-            <select class="filter-team__span__select" id="select-info">
-                <option value="all">All</option>
-                <option value="none">None</option>
-                <option value="perl_module">Perl Module</option>
-                <option value="name">Name</option>
-                <option value="type">Type</option>
-                <option value="producer">Producer</option>
-                <option value="developer">Developer</option>
-                <option value="example_query">Example Query</option>
-            </select>
+          <i class="icon-check-empty"></i>
+          Missing info:  
+          <select class="filter-team__span__select" id="select-info">
+            <option value="all">All</option>
+            <option value="none">None</option>
+            <option value="perl_module">Perl Module</option>
+            <option value="name">Name</option>
+            <option value="type">Type</option>
+            <option value="producer">Producer</option>
+            <option value="developer">Developer</option>
+            <option value="example_query">Example Query</option>
+          </select>
         </span> 
-    </div>
-
-    <div class="left button hide" id="pipeline-clear-filters">
+      </span>
+      
+      <span class="button hide" id="pipeline-clear-filters">
         Clear Filters
-    </div>
+      </span>
 
     <: if $is_admin { :>
 
-        <div class="pipeline-actions right hide">
+        <span class="pipeline-actions hide">
             <span>Change </span>
             <select class="pipeline-actions__select" id="select-action">
                 <option value="0">dev milestone</option>
@@ -134,6 +138,7 @@
             <span class="deselect-all sep--before"> <i class="deselect ddgsi ddgsi-close"></i> </span>
         </div>
     <: } :>
+    </span>
 </div>
 
 <div class="clearfix"></div>

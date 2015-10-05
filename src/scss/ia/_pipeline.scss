@@ -1,3 +1,37 @@
+.search-container {
+    width: 20%;
+
+    .ddgsi-loupe {
+	color: $grey;
+	font-weight: bold;
+
+	position: relative;
+	top: 2px;
+	padding-right: 0.5em;
+    }
+    
+    .search-thing {
+	margin-right: 1em;
+	color: $slate;
+	width: 80%;
+	
+	/* Remove some of the default styles. */
+	border: none;
+	outline: none;
+    }
+
+    /* Style the placeholder. */
+    .search-thing::-webkit-input-placeholder {
+	opacity: 0.5;
+    }
+    .search-thing::-moz-placeholder {
+	opacity: 0.5;
+    }
+    .search-thing:-ms-input-placeholder { 
+	opacity: 0.5;
+    }
+}
+
 .wrap-pipeline {
     /* Make the fonts look snazzy. */
     -webkit-font-smoothing: antialiased;
