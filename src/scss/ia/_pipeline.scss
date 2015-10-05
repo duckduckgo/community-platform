@@ -4,6 +4,15 @@
     color: $grey;
 }
 
+#sidebar-name {
+    font-size: 1.1em;
+    font-weight: 500;
+}
+
+#sidebar-id {
+    color: $grey;
+}
+
 .search-container {
     width: 20%;
 
@@ -63,7 +72,7 @@
     background-color: $white;
     padding: 2em;
     height: 100%;
-    width: 30%;
+    width: 33.33%;
 
     .sidebar-field {
         margin-top: 1em;
@@ -71,6 +80,8 @@
 
     .field-label, #sidebar-pr, #pr {
         color: $grey-light;
+	font-size: 0.95em;
+	font-weight: 500;
     }
 
     #sidebar-pr .comment a {
