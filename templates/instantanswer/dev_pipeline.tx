@@ -2,7 +2,9 @@
     <div id="create-new-ia" class="button right">
         New IA Page
     </div>
-    <input type="text" class="search-thing right">
+    <div class="right">
+      <input type="text" class="search-thing">
+    </div>
     <div id="create-new-ia-form" class="new-ia-form hide">
         <div class="new-ia-form-section left">
             <div class="label">
@@ -50,7 +52,10 @@
         <span class="clearfix"></span>
     </div>
 <: } else { :>
-  <input type="text" class="search-thing right">
+  <div class="right search-container">
+    <i class="ddgsi-loupe"></i>
+    <input type="text" class="search-thing" placeholder="Filter by title or description">
+  </div>
 <: } :>
 
 <div class="pipeline__toggle-view" id="pipeline_toggle-view">

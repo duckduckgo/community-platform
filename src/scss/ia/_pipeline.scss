@@ -1,3 +1,25 @@
+.search-container {
+    width: 16%;
+
+    .ddgsi-loupe {
+	color: $grey;
+	position: relative;
+	top: 2px;
+	font-weight: bold;
+	padding-right: 0.5em;
+    }
+    
+    .search-thing {
+	margin-right: 1em;
+	color: $grey;
+	width: 80%;
+	
+	/* Remove some of the default styles. */
+	border: none;
+	outline: none;
+    }
+}
+
 .wrap-pipeline {
     /* Make the fonts look snazzy. */
     -webkit-font-smoothing: antialiased;
