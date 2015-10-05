@@ -440,8 +440,7 @@ after insert => sub {
         meta2        => join('', map { sprintf ':%s:', $_ }
             $self->topics->columns([qw/ name /])->all),
         description  => sprintf('Instant Answer Page [%s](%s) created!',
-            $self->name, sprintf('https://duck.co/ia/view/%s',
-                $self->meta_id)),
+            $self->name, $self->uri( { activity_feed => 1 } ) ),
     } );
 };
 
