@@ -1,3 +1,19 @@
+#sidebar-top {
+    padding: 2em 0;
+    text-transform: capitalize;
+    color: $grey;
+}
+
+#sidebar-name {
+    font-size: 1.1em;
+    font-weight: 500;
+    margin-bottom: 0;
+}
+
+#sidebar-id {
+    color: $grey;
+}
+
 .search-container {
     width: 20%;
 
@@ -49,14 +65,16 @@
 .deselect-all .ddgsi-close { cursor: pointer; }
 
 #page_sidebar {
+    box-sizing: border-box;
     position: absolute;
     z-index: 3000;
     right: 0px;
     top: 15em;
     background-color: $white;
-    padding: 1em;
+    padding: 2em;
     height: 100%;
-    width: 30%;
+    width: 33.33%;
+    border: 1px solid rgba(200,200,200,0.2);
 
     .sidebar-field {
         margin-top: 1em;
@@ -64,6 +82,8 @@
 
     .field-label, #sidebar-pr, #pr {
         color: $grey-light;
+	font-size: 0.95em;
+	font-weight: 500;
     }
 
     #sidebar-pr .comment a {

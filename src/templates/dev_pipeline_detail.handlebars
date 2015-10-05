@@ -1,14 +1,16 @@
-<div id="sidebar-top">
-    {{#if repo}} <span class="sep--after left"> {{repo}} </span> {{/if}}
-    <span class="left"> {{dev_milestone}} </span>
+<div id="sidebar-top" class="clearfix">
+  <span class="left">
+    {{#if repo}}
+      <span class="sep--after"> {{repo}} </span>
+    {{/if}}
+    <span> {{dev_milestone}} </span>
+  </span>
+
     <span id="sidebar-close" class="right"> <i class="ddgsi ddgsi-close"></i> </span>
-    <span class="clearfix"></span>
 </div>
 
 {{#if name}}
-    <div id="sidebar-name">
-        <h2> {{name}} </h2>
-    </div>
+  <h2 id="sidebar-name"> {{name}} </h2>
 {{/if}}
 
 {{#if id}}
