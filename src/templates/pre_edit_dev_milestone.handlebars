@@ -9,22 +9,14 @@
     <div class="column-center-live left">
         <div class="column-center-live__child">
             <p class="column-center-live__child__p">
-                {{#if live.dev_milestone}}
-                    {{live.dev_milestone}}
+                {{#if edited.dev_milestone}}
+                    <span class="edited">{{edited.dev_milestone}}</span>
                 {{else}}
-                    —
+                    {{live.dev_milestone}}
                 {{/if}}
             </p>
         </div>
     </div>
-    <div class="column-right-edits left" id="column-edits-dev_milestone">
-        <div class="column-right-edits__child">
-            <p class="column-right-edits__child__p">
-                {{edited.dev_milestone}}
-            </p>
-        </div>
-    </div>
-
     <div class="button js-pre-editable" name="dev_milestone">
         <i class="js-pre-editable__icon icon-edit"></i>
         <span class="js-pre-editable__text">Edit</span>

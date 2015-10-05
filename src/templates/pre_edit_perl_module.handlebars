@@ -9,22 +9,14 @@
     <div class="column-center-live left">
         <div class="column-center-live__child">
             <p class="column-center-live__child__p">
-                {{#if live.perl_module}}
-                    {{live.perl_module}}
+                {{#if edited.perl_module}}
+                    <span class"edited">{{edited.perl_module}}</span>
                 {{else}}
-                    —
+                    {{live.perl_module}}
                 {{/if}}
             </p>
         </div>
     </div>
-    <div class="column-right-edits left" id="column-edits-perl_module">
-        <div class="column-right-edits__child">
-            <p class="column-right-edits__child__p">
-                {{edited.perl_module}}
-            </p>
-        </div>
-    </div>
-
     <div class="button js-pre-editable" name="perl_module">
         <i class="js-pre-editable__icon icon-edit"></i>
         <span class="js-pre-editable__text">Edit</span>

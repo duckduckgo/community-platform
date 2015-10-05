@@ -9,22 +9,14 @@
     <div class="column-center-live left">
         <div class="column-center-live__child">
             <p class="column-center-live__child__p">
-                {{#if live.producer}}
-                    {{live.producer}}
+                {{#if edited.producer}}
+                    <span class="edited">{{edited.producer}}</span>
                 {{else}}
-                    —
+                    {{live.producer}}
                 {{/if}}
             </p>
         </div>
     </div>
-    <div class="column-right-edits left" id="column-edits-producer">
-        <div class="column-right-edits__child">
-            <p class="column-right-edits__child__p">
-                {{edited.producer}}
-            </p>
-        </div>
-    </div>
-
     <div class="button js-pre-editable" name="producer">
         <i class="js-pre-editable__icon icon-edit"></i>
         <span class="js-pre-editable__text">Edit</span>

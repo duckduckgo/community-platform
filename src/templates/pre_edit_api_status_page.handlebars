@@ -10,22 +10,14 @@
         <div class="column-center-live left">
             <div class="column-center-live__child">
                 <p class="column-center-live__child__p">
-                    {{#if live.api_status_page}}
-                        {{live.api_status_page}}
+                    {{#if edited.api_status_page}}
+                        <span class="edited">{{edited.api_status_page}}</span>
                     {{else}}
-                        —
+			{{live.api_status_page}}
                     {{/if}}
                 </p>
             </div>
         </div>
-        <div class="column-right-edits left" id="column-edits-api_status_page">
-            <div class="column-right-edits__child" id="api_status_page" name="api_status_page">
-                <p class="column-right-edits__child__p">
-                    {{edited.api_status_page}}
-                </p>
-            </div>
-        </div>
-
         <div class="button js-pre-editable" name="api_status_page">
             <i class="js-pre-editable__icon icon-edit"></i>
             <span class="js-pre-editable__text">Edit</span>

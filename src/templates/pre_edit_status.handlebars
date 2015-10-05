@@ -9,22 +9,14 @@
     <div class="column-center-live left">
         <div class="column-center-live__child">
             <p class="column-center-live__child__p">
-                {{#if live.status}}
-                    {{live.status}}
+                {{#if edited.status}}
+                    <span class="edited">{{edited.status}}</span>
                 {{else}}
-                    —
+                    {{live.status}}
                 {{/if}}
             </p>
         </div>
     </div>
-    <div class="column-right-edits left" id="column-edits-status">
-        <div class="column-right-edits__child" id="status" name="status">
-            <p class="column-right-edits__child__p">
-                {{edited.status}}
-            </p>
-        </div>
-    </div>
-
     <div class="button js-pre-editable" name="status">
         <i class="js-pre-editable__icon icon-edit"></i>
         <span class="js-pre-editable__text">Edit</span>

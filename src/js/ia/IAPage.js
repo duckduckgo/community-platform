@@ -817,7 +817,7 @@
                     $("body").on('click', '.js-pre-editable.button', function(evt) {
                         var field = $(this).attr('name');
                         var $row = $(this).parent();
-                        var $obj = $("#column-edits-" + field);
+                        var $obj = $("#row-diff-" + field + " .column-center-live");
                         var value = {};
 
                         value[field] = ia_data.edited[field]? ia_data.edited[field] : ia_data.live[field];
