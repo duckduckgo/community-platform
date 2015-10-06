@@ -145,8 +145,21 @@
             });
 
             $("body").on("click", ".dev_pipeline-column__list .icon-check, .dev_pipeline-column__list .icon-check-empty", function(evt) {
-                toggleCheck($(this));
+                var $items = $(".dev_pipeline-column__list .icon-check");
+                var was_selected = $(this).hasClass("icon-check");
                 
+                if (evt.shiftKey || was_selected) {
+                    toggleCheck($(this));
+                } else {
+                    toggleCheck($items); 
+                
+                    if (!was_selected) {
+                        toggleCheck($(this));
+                    }
+                }
+                
+                // can't use caching here since the set of selected IAs changed
+                // in the meantime
                 var selected = $(".dev_pipeline-column__list .icon-check").length;
                 
                 if (selected > 1) {
@@ -156,7 +169,6 @@
                 }
 
                 appendSidebar(selected);
-
                 $(".count-txt").text(selected);
             });
 
