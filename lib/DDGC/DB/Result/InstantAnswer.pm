@@ -464,7 +464,7 @@ sub _generate_updates {
                 $column,
                 sprintf( 'Instant Answer [%s](%s) dev milestone changed to %s',
                     $self->name,
-                    $self->uri( { activity_feed => 1 } ),
+                    $self->uri( { from => 'notification' } ),
                     $value
                 ),
             );
