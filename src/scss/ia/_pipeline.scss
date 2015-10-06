@@ -158,10 +158,11 @@
         list-style: none;
         padding: 0.3em 0;
         font-size: 1em;
-	background-color: white;
-	margin-bottom: 0.5em;
-	border-radius: 2px;
-	padding: 0.5em;
+        background-color: white;
+        margin-bottom: 0.5em;
+        border-radius: 2px;
+        padding: 0.5em;
+        @include user-select(none);
 
         a { 
 	    color: black; 
