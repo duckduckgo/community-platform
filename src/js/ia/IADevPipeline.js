@@ -22,14 +22,14 @@
             $.getJSON(url, function(data) { 
                 // console.log(window.location.pathname);
 
-                dev_p.data = data.dev_milestones;
-
                 // Check user permissions and add to the data
                 if ($("#create-new-ia").length) {
                     data.permissions = {};
                     data.permissions.admin = 1;
                 }
 
+                dev_p.data = data;
+                
                 var stats = Handlebars.templates.dev_pipeline_stats(data.dev_milestones);
                 var iadp = Handlebars.templates.dev_pipeline(data);
 
@@ -144,37 +144,38 @@
                 }
             });
 
-            $("body").on("click", ".dev_pipeline-column__list .icon-check, .dev_pipeline-column__list .icon-check-empty", function(evt) {
-                var $items = $(".dev_pipeline-column__list .icon-check");
-                var was_selected = $(this).hasClass("icon-check");
-                
-                if (evt.shiftKey || was_selected) {
-                    toggleCheck($(this));
-                } else {
-                    toggleCheck($items); 
-                
-                    if (!was_selected) {
-                        toggleCheck($(this));
+            $("body").on("click", ".dev_pipeline-column__list li", function(evt) {
+                if (dev_p.data.permissions && dev_p.data.permissions.admin) {
+                    var $items = $(".dev_pipeline-column__list .selected");
+                    var was_selected = $(this).hasClass("selected");
+                    
+                    if (evt.shiftKey || was_selected) {
+                        $(this).toggleClass("selected");
+                    } else {
+                        $items.toggleClass("selected"); 
+                    
+                        if (!was_selected) {
+                            $(this).toggleClass("selected");
+                        }
                     }
-                }
-                
-                // can't use caching here since the set of selected IAs changed
-                // in the meantime
-                var selected = $(".dev_pipeline-column__list .icon-check").length;
-                
-                if (selected > 1) {
-                    $(".pipeline-actions").removeClass("hide");
-                } else {
-                    $(".pipeline-actions").addClass("hide");
-                }
+                    
+                    // can't use caching here since the set of selected IAs changed
+                    // in the meantime
+                    var selected = $(".dev_pipeline-column__list .selected").length;
+                    
+                    if (selected > 1) {
+                        $(".pipeline-actions").removeClass("hide");
+                    } else {
+                        $(".pipeline-actions").addClass("hide");
+                    }
 
-                appendSidebar(selected);
-                $(".count-txt").text(selected);
+                    appendSidebar(selected);
+                    $(".count-txt").text(selected);
+                }
             });
 
             $("body").on("click", "#sidebar-close, .deselect-all", function(evt) {
                 var $selected = $(".dev_pipeline-column__list .selected");
-                $selected.find(".icon-check").removeClass("icon-check").addClass("icon-check-empty");
                 $selected.removeClass("selected");
                 $(".pipeline-actions").addClass("hide");
                 $(".count-txt").text("0");
@@ -195,7 +196,7 @@
 
             $("body").on("click change", "#filter-info i, #select-info", function(evt) {
                 if (evt.type === "click" && $(this).is("#filter-info i")) {
-                    toggleCheck($(this));
+                    toggleSelected($(this));
                 }
 
                 if ($("#filter-info i").hasClass("icon-check")) {
@@ -223,8 +224,8 @@
                 
                 var value = $.trim($select_value.find("option:selected").text());
 
-                $(".dev_pipeline-column__list .icon-check").each(function(idx) {
-                    var temp_id = $.trim($(this).parent().attr("id").replace("pipeline-list__", ""));
+                $(".dev_pipeline-column__list .selected").each(function(idx) {
+                    var temp_id = $.trim($(this).attr("id").replace("pipeline-list__", ""));
                     
                     ias.push(temp_id);
                 });
@@ -234,7 +235,7 @@
             });
 
             $(".toggle-details i").click(function(evt) {
-                toggleCheck($(this));
+                toggleSelected($(this));
 
                 $(".activity-details").toggleClass("hide");
             });
@@ -268,8 +269,8 @@
             function getPageData(meta_id, milestone) {
                 console.log(meta_id);
                 console.log(milestone);
-                for (var idx = 0; idx < dev_p.data[milestone].length; idx++) {
-                    var temp_ia = dev_p.data[milestone][idx];
+                for (var idx = 0; idx < dev_p.data.dev_milestones[milestone].length; idx++) {
+                    var temp_ia = dev_p.data.dev_milestones[milestone][idx];
 
                     if (temp_ia.id === meta_id) {
                         return temp_ia;
@@ -341,12 +342,6 @@
                         location.reload();
                     }
                 });
-            }
-
-            function toggleCheck($obj) {
-                $obj.toggleClass("icon-check");
-                $obj.toggleClass("icon-check-empty");
-                $obj.parent().toggleClass("selected");
             }
         }
     };
