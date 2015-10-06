@@ -446,12 +446,12 @@ after insert => sub {
 
 sub create_update_activity {
     my ( $self, $meta3, $description ) = @_;
-    $self->result_source->schema->resultset('ActivityFeed')->updated_ia(
+    $self->result_source->schema->resultset('ActivityFeed')->updated_ia( {
         meta1        => $self->id,
         meta2        => $self->topics->join_for_activity_meta( 'name' ),
         meta3        => $meta3,
         description  => $description,
-    );
+    } );
 }
 
 sub _generate_updates {

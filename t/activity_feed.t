@@ -151,11 +151,11 @@ ok( $admin_email_body =~ /donuts created/i,
     'admin knows about donuts created' );
 ok( $admin_email_body =~ /bananas created/i,
     'admin knows about bananas created' );
-ok( $admin_email_body =~ /apples updated/i,
-    'admin knows about apples updated' );
-ok( $admin_email_body =~ /pokemon updated/i,
-    'admin knows about pokemon updated' );
-ok( $admin_email_body !~ /bananas updated/i,
+ok( $admin_email_body =~ /apples.*dev milestone changed/i,
+    'admin knows about apples dev milestone update' );
+ok( $admin_email_body =~ /pokemon.*dev milestone changed/i,
+    'admin knows about pokemon dev milestone update' );
+ok( $admin_email_body !~ /bananas.*dev milestone changed/i,
     'admin not subscribed to banana updates' );
 
 my $comleader_delivery = (grep {
@@ -170,12 +170,12 @@ ok( $comleader_email_body =~ /donuts created/i,
     'comleader knows about donuts created' );
 ok( $comleader_email_body =~ /bananas created/i,
     'comleader gets activity for privileged role' );
-ok( $comleader_email_body !~ /apples updated/i,
+ok( $comleader_email_body !~ /apples.*dev milestone changed/i,
     'comleader not subscribed to apples updates' );
-ok( $comleader_email_body !~ /pokemon updated/i,
+ok( $comleader_email_body !~ /pokemon.*dev milestone changed/i,
     'comleader not subscribed to pokemon updates' );
-ok( $comleader_email_body =~ /bananas updated/i,
-    'comleader knows about banana updates' );
+ok( $comleader_email_body =~ /bananas.*dev milestone changed/i,
+    'comleader knows about banana dev milestone update' );
 
 my $user1_delivery = (grep {
     'user1@example.org' eq lc($_->{envelope}->{to}->[0])
@@ -189,9 +189,9 @@ ok( $user1_email_body =~ /donuts created/i,
     'user1 knows about donuts created' );
 ok( $user1_email_body !~ /bananas created/i,
     'user1 not getting created activity for privileged role' );
-ok( $user1_email_body !~ /apples updated/i,
+ok( $user1_email_body !~ /apples.*dev milestone changed/i,
     'user1 not subscribed to apples updates' );
-ok( $user1_email_body =~ /pokemon updated/i,
-    'user1 knows about pokemon updated' );
+ok( $user1_email_body =~ /pokemon.*dev milestone changed/i,
+    'user1 knows about pokemon dev milestone update' );
 
 done_testing;
