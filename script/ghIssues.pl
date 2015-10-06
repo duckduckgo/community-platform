@@ -86,8 +86,12 @@ sub getIssues{
             $last_commit = get_last_commit($repo, $issue->{number}) if $is_pr;
 
             # get last comment
-            my $last_comment;
-            $last_comment = get_last_comment($repo, $issue->{number}) if $is_pr;
+            my $comments;
+            $comments = get_comments($repo, $issue->{number}) if $is_pr;
+            my $last_comment = $comments->[-1] if $comments;
+
+            $comments = to_json $comments if $comments;
+            $last_comment = to_json $last_comment if $last_comment;
 
             my $producer = assign_producer($issue->{assignee}->{login});
 
@@ -105,6 +109,7 @@ sub getIssues{
                 last_update => $issue->{updated_at},
                 last_commit => $last_commit,
                 last_comment => $last_comment,
+                all_comments => $comments,
                 producer => $producer,
 			);
 
@@ -192,6 +197,7 @@ sub getIssues{
                     last_update => $issue->{updated_at},
                     last_commit => $data->{last_commit},
                     last_comment => $data->{last_comment},
+                    all_comments => $data->{all_comments},
                     producer => $data->{producer},
                     template => $template,
                 );
@@ -233,22 +239,23 @@ sub get_last_commit {
     return to_json $last_commit;
 }
 
-sub get_last_comment {
+sub get_comments {
     my ($repo, $issue) = @_;
     my $issues = $gh->issue;
     my @comments = $issues->comments('duckduckgo', "zeroclickinfo-$repo", $issue);
-    my $comment = pop @comments;
 
-    return unless $comment;
+    my $formatted_comments;
+    foreach my $comment (@comments){
+        push(@$formatted_comments,
+            { 
+                user => $comment->{user}->{login},
+                date => $comment->{created_at},
+                text => $comment->{body},
+                id => $comment->{id}
+            });
+    }
 
-    my $last_comment = { 
-        user => $comment->{user}->{login},
-        date => $comment->{created_at},
-        text => $comment->{body},
-        id => $comment->{id}
-    };
-
-    return to_json $last_comment;
+    return $formatted_comments;
 }
 
 # check the status of PRs in $pr_hash.  If they were merged

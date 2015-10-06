@@ -408,6 +408,13 @@ column last_update => {
     pipeline => 1
 };
 
+column all_comments => {
+    data_type => 'text',
+    is_nullable => 1,
+    is_json => 1,
+    pipeline => 1
+};
+
 column updated => {
     data_type => 'timestamp with time zone',
     set_on_create => 1,
