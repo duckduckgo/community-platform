@@ -4,6 +4,7 @@ SCRIPTDIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 PSGI_SCRIPT=$SCRIPTDIR/ddgc_dev_server.psgi
 LIBDIR=$SCRIPTDIR/../lib
 PORT=5001
+HOSTNAME=$(hostname)
 
 [ "$DDGC_UNSUB_KEY" == "" ]          && export DDGC_UNSUB_KEY="asdfasdf"
 [ "$DDGC_SHARED_SECRET" == "" ]      && export DDGC_SHARED_SECRET="asdfasdf"
@@ -57,5 +58,7 @@ if [ "$m" == "1" ] ; then
     # python -m smtpd -n -c DebuggingServer localhost:1025
     export DDGC_SMTP_HOST="localhost:1025"
 fi
+
+export DDGC_WEB_BASE=$( printf 'http://%s:%s' $HOSTNAME $PORT )
 
 plackup -R $LIBDIR -p $PORT -s Starman $PSGI_SCRIPT
