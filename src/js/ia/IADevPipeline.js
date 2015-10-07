@@ -255,6 +255,7 @@
                     var meta_id = $item.attr("id").replace("pipeline-list__", "");
                     var milestone = $item.parents(".dev_pipeline-column").attr("id").replace("pipeline-", "");
                     var page_data = getPageData(meta_id, milestone);
+                    page_data.permissions = dev_p.data.permissions;
                     console.log(page_data);
                     if (page_data) {
                         var sidebar = Handlebars.templates.dev_pipeline_detail(page_data);            
