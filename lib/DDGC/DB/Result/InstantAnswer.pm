@@ -415,6 +415,13 @@ column all_comments => {
     pipeline => 1
 };
 
+column at_mentions => {
+    data_type => 'text',
+    is_nullable => 1,
+    is_json => 1,
+    pipeline => 1
+};
+
 column updated => {
     data_type => 'timestamp with time zone',
     set_on_create => 1,

@@ -90,8 +90,11 @@ sub getIssues{
             $comments = get_comments($repo, $issue->{number}) if $is_pr;
             my $last_comment = $comments->[-1] if $comments;
 
+            my $mentions = get_mentions($last_comment->{text}) if $last_comment;
+            
             $comments = to_json $comments if $comments;
             $last_comment = to_json $last_comment if $last_comment;
+
 
             my $producer = assign_producer($issue->{assignee}->{login});
 
@@ -110,6 +113,7 @@ sub getIssues{
                 last_commit => $last_commit,
                 last_comment => $last_comment,
                 all_comments => $comments,
+                mentions => $mentions,
                 producer => $producer,
 			);
 
@@ -198,6 +202,7 @@ sub getIssues{
                     last_commit => $data->{last_commit},
                     last_comment => $data->{last_comment},
                     all_comments => $data->{all_comments},
+                    at_mentions => $data->{mentions},
                     producer => $data->{producer},
                     template => $template,
                 );
@@ -343,6 +348,28 @@ sub find_template {
         # spice templates
         ($template) = $file_data->{patch} =~ /group:\s?(?:'|")([[:alpha:]]+)(?:'|")/;
         return lc $template if $template;
+    }
+}
+
+sub get_mentions {
+    my ($comment) = @_;
+
+    # remove github inline comment blocks
+    $comment =~ s/^>.+\n//g;
+    my @mentions = $comment =~ /@(\w+)/g;
+
+    my $duck_users;
+    # get duck.co id for each
+    foreach my $gh_user (@mentions){
+        my $result = $d->rs('GitHub::User')->find({login => $gh_user});
+        
+        if($result && $result->user){
+            push(@$duck_users, {name => $result->user->username} );
+        }
+    }
+
+    if($duck_users){
+        return to_json $duck_users;
     }
 }
 
