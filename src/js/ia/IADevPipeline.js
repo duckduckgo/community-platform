@@ -175,13 +175,28 @@
             });
 
             $("body").on("click", "#sidebar-close, .deselect-all", function(evt) {
-                var $selected = $(".dev_pipeline-column__list .selected");
-                $selected.removeClass("selected");
-                $(".pipeline-actions").addClass("hide");
-                $(".count-txt").text("0");
+                if (dev_p.saved) {
+                    var jqxhr = $.getJSON(url, function (data) {
+                        dev_p.saved = false;
+                        dev_p.data.dev_milestones = data.dev_milestones;
+                    
+                        $(".pipeline-actions").addClass("hide");
+                        $(".count-txt").text("0");
 
-                // remove sidebar
-                appendSidebar(0);
+                        var iadp = Handlebars.templates.dev_pipeline(data);
+                        $("#dev_pipeline").html(iadp);
+
+                        // remove sidebar
+                        appendSidebar(0);
+                    });
+                } else {
+                    var $selected = $(".dev_pipeline-column__list .selected");
+                    $selected.removeClass("selected");
+                    $(".pipeline-actions").addClass("hide");
+                    $(".count-txt").text("0");
+
+                    appendSidebar(0);
+                }
             });
 
             $("body").on("change", "#select-action", function(evt) {
@@ -248,6 +263,20 @@
                     $(".dev_pipeline-column__list li." + teamrole + "-" + username).show();
                 }
             });
+
+            function autocommit(field, value, id) {
+               var jqxhr = $.post("/ia/save", {
+                   field : field,
+                   value : value,
+                   id : id,
+                   autocommit : 1
+               })
+               .done(function(data) {
+                   if (data.result.saved) {
+                       dev_p.saved = true;
+                   }
+               });
+            }
 
             function appendSidebar(selected) {
                 if (selected === 1) {
