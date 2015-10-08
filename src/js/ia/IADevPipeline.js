@@ -145,33 +145,35 @@
             });
 
             $("body").on("click", ".dev_pipeline-column__list li", function(evt) {
-                if (dev_p.data.permissions && dev_p.data.permissions.admin) {
-                    var $items = $(".dev_pipeline-column__list .selected");
-                    var was_selected = $(this).hasClass("selected");
+                var $items = $(".dev_pipeline-column__list .selected");
+                var was_selected = $(this).hasClass("selected");
+                
+                if (evt.shiftKey || was_selected || (!dev_p.data.hasOwnProperty("permissions"))) {
+                    if ((!dev_p.data.hasOwnProperty("permissions"))) {
+                        $(".selected").removeClass("selected");
+                    }
                     
-                    if (evt.shiftKey || was_selected) {
+                    $(this).toggleClass("selected");
+                } else {
+                    $items.toggleClass("selected"); 
+                
+                    if (!was_selected) {
                         $(this).toggleClass("selected");
-                    } else {
-                        $items.toggleClass("selected"); 
-                    
-                        if (!was_selected) {
-                            $(this).toggleClass("selected");
-                        }
                     }
-                    
-                    // can't use caching here since the set of selected IAs changed
-                    // in the meantime
-                    var selected = $(".dev_pipeline-column__list .selected").length;
-                    
-                    if (selected > 1) {
-                        $(".pipeline-actions").removeClass("hide");
-                    } else {
-                        $(".pipeline-actions").addClass("hide");
-                    }
-
-                    appendSidebar(selected);
-                    $(".count-txt").text(selected);
                 }
+                
+                // can't use caching here since the set of selected IAs changed
+                // in the meantime
+                var selected = $(".dev_pipeline-column__list .selected").length;
+                
+                if (selected > 1) {
+                    $(".pipeline-actions").removeClass("hide");
+                } else {
+                    $(".pipeline-actions").addClass("hide");
+                }
+
+                appendSidebar(selected);
+                $(".count-txt").text(selected);
             });
 
             $("body").on("keypress change", ".edit-sidebar", function(evt) {
