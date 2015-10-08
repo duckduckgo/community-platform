@@ -174,7 +174,25 @@
                 }
             });
 
+            $("body").on("keypress change", ".edit-sidebar", function(evt) {
+                if ((evt.type === "keypress" && evt.which === 13) || (evt.type === "change" && $(this).children("select").length)) {
+                   var field = $(this).attr("id").replace("edit-sidebar-", "");
+                   var value = (evt.type === "change")? $.trim($(this).find("option:selected").text()) : $.trim($(this).val());
+                   var id = $("#page_sidebar").attr("ia_id");
+
+                   autocommit(field, value, id);
+                }
+            });
+
             $("body").on("click", "#sidebar-close, .deselect-all", function(evt) {
+                var $selected = $(".dev_pipeline-column__list .selected");
+                $selected.removeClass("selected");
+                $(".pipeline-actions").addClass("hide");
+                $(".count-txt").text("0");
+
+                // remove sidebar
+                appendSidebar(0);
+                
                 if (dev_p.saved) {
                     var jqxhr = $.getJSON(url, function (data) {
                         dev_p.saved = false;
@@ -185,17 +203,7 @@
 
                         var iadp = Handlebars.templates.dev_pipeline(data);
                         $("#dev_pipeline").html(iadp);
-
-                        // remove sidebar
-                        appendSidebar(0);
                     });
-                } else {
-                    var $selected = $(".dev_pipeline-column__list .selected");
-                    $selected.removeClass("selected");
-                    $(".pipeline-actions").addClass("hide");
-                    $(".count-txt").text("0");
-
-                    appendSidebar(0);
                 }
             });
 
@@ -290,9 +298,11 @@
                         var sidebar = Handlebars.templates.dev_pipeline_detail(page_data);            
                     
                         $("#page_sidebar").html(sidebar).removeClass("hide");
+                        $("#page_sidebar").attr("ia_id", page_data.id);
                     }
                 } else {
                     $("#page_sidebar").addClass("hide").empty();
+                    $("#page_sidebar").attr("ia_id", "");
                 }
             }
 

@@ -3,6 +3,7 @@
     {{#if permissions.admin}}
         <span class="sep--after edit-sidebar" id="edit-sidebar-repo">
             <select>
+                <option value="0">{{repo}}</option>
                 {{#not_eq repo 'fathead'}}<option value="1">fathead</option>{{/not_eq}}
                 {{#not_eq repo 'goodies'}}<option value="2">goodies</option>{{/not_eq}}
                 {{#not_eq repo 'longtail'}}<option value="3">longtail</option>{{/not_eq}}
@@ -12,6 +13,7 @@
 
         <span class="sep--after edit-sidebar" id="edit-sidebar-dev_milestone">
             <select>
+                <option value="0">{{dev_milestone}}</option>
                 {{#not_eq dev_milestone 'planning'}}<option value="1">planning</option>{{/not_eq}}
                 {{#not_eq dev_milestone 'development'}}<option value="2">development</option>{{/not_eq}}
                 {{#not_eq dev_milestone 'testing'}}<option value="3">testing</option>{{/not_eq}}
