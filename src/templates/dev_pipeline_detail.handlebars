@@ -1,43 +1,92 @@
 <div id="sidebar-top" class="clearfix">
   <span class="left">
-    {{#if repo}}
-      <span class="sep--after"> {{repo}} </span>
+    {{#if permissions.admin}}
+        <span class="sep--after edit-sidebar" id="edit-sidebar-repo">
+            <select>
+                <option value="0">{{repo}}</option>
+                {{#not_eq repo 'fathead'}}<option value="1">fathead</option>{{/not_eq}}
+                {{#not_eq repo 'goodies'}}<option value="2">goodies</option>{{/not_eq}}
+                {{#not_eq repo 'longtail'}}<option value="3">longtail</option>{{/not_eq}}
+                {{#not_eq repo 'spice'}}<option value="4">spice</option>{{/not_eq}}
+            </select>
+        </span>
+
+        <span class="sep--after edit-sidebar" id="edit-sidebar-dev_milestone">
+            <select>
+                <option value="0">{{dev_milestone}}</option>
+                {{#not_eq dev_milestone 'planning'}}<option value="1">planning</option>{{/not_eq}}
+                {{#not_eq dev_milestone 'development'}}<option value="2">development</option>{{/not_eq}}
+                {{#not_eq dev_milestone 'testing'}}<option value="3">testing</option>{{/not_eq}}
+                {{#not_eq dev_milestone 'complete'}}<option value="4">complete</option>{{/not_eq}}
+                <option value="5">live</option>
+                <option value="6">ghosted</option>
+            </select>
+        </span>
+    {{else}}
+        {{#if repo}}
+            <span class="sep--after"> {{repo}} </span>
+            
+        {{/if}}
+        <span> {{dev_milestone}} </span>
     {{/if}}
-    <span> {{dev_milestone}} </span>
   </span>
 
     <span id="sidebar-close" class="right"> <i class="ddgsi ddgsi-close"></i> </span>
 </div>
 
-{{#if name}}
-  <h2 id="sidebar-name"> {{name}} </h2>
-{{/if}}
+{{#if permissions.admin}}
 
-{{#if id}}
-    <div id="sidebar-id">
-        <span> {{id}} </span>
-    </div>
-{{/if}}
+    <h2 id="sidebar-name">
+        <input class="edit-sidebar" id="edit-sidebar-name" value="{{name}}" />
+    </h2>
 
-{{#if description}}
-    <div id="sidebar-desc" class="sidebar-field">
+    <input class="edit-sidebar" id="edit-sidebar-id" value="{{id}}" />
+
+    <div class="sidebar-field">
         <div class="field-label"> Description </div>
-        <span class="readonly"> {{description}} </span>
+        <textarea rows="3" cols="50" class="edit-sidebar" id="edit-sidebar-description">{{description}}</textarea>
     </div>
-{{/if}}
 
-{{#if example_query}}
-    <div id="sidebar-example" class="sidebar-field">
+    <div class="sidebar-field">
         <div class="field-label"> Example Query </div>
-        <span class="readonly"> {{example_query}} </span>
+        <input class="edit-sidebar" id="edit-sidebar-example_query" value="{{example_query}}" />
     </div>
-{{/if}}
 
-{{#if perl_module}}
-    <div id="sidebar-perl_module" class="sidebar-field">
+    <div class="sidebar-field">
         <div class="field-label"> Perl Module </div>
-        <span class="readonly"> {{perl_module}} </span>
+        <input class="edit-sidebar" id="edit-sidebar-perl_module" value="{{perl_module}}" />
     </div>
+{{else}}
+    {{#if name}}
+      <h2 id="sidebar-name"> {{name}} </h2>
+    {{/if}}
+
+    {{#if id}}
+        <div id="sidebar-id">
+            <span> {{id}} </span>
+        </div>
+    {{/if}}
+
+    {{#if description}}
+        <div id="sidebar-desc" class="sidebar-field">
+            <div class="field-label"> Description </div>
+            <span class="readonly"> {{description}} </span>
+        </div>
+    {{/if}}
+
+    {{#if example_query}}
+        <div id="sidebar-example" class="sidebar-field">
+            <div class="field-label"> Example Query </div>
+            <span class="readonly"> {{example_query}} </span>
+        </div>
+    {{/if}}
+
+    {{#if perl_module}}
+        <div id="sidebar-perl_module" class="sidebar-field">
+            <div class="field-label"> Perl Module </div>
+            <span class="readonly"> {{perl_module}} </span>
+        </div>
+    {{/if}}
 {{/if}}
 
 {{#if pr}}
