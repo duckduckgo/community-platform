@@ -36,25 +36,24 @@
 
 {{#if permissions.admin}}
 
-    <div>
+    <h2 id="sidebar-name">
         <input class="edit-sidebar" id="edit-sidebar-name" value="{{name}}" />
+    </h2>
+
+    <input class="edit-sidebar" id="edit-sidebar-id" value="{{id}}" />
+
+    <div class="sidebar-field">
+        <div class="field-label"> Description </div>
+        <textarea rows="3" cols="50" class="edit-sidebar" id="edit-sidebar-description">{{description}}</textarea>
     </div>
 
-    <div>
-        <input class="edit-sidebar" id="edit-sidebar-id" value="{{id}}" />
-    </div>
-
-    <div>
-        <textarea class="edit-sidebar" id="edit-sidebar-description"> 
-            {{description}}
-        </textarea>
-    </div>
-
-    <div>
+    <div class="sidebar-field">
+        <div class="field-label"> Example Query </div>
         <input class="edit-sidebar" id="edit-sidebar-example_query" value="{{example_query}}" />
     </div>
 
-    <div>
+    <div class="sidebar-field">
+        <div class="field-label"> Perl Module </div>
         <input class="edit-sidebar" id="edit-sidebar-perl_module" value="{{perl_module}}" />
     </div>
 {{else}}
