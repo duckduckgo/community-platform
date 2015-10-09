@@ -37,6 +37,7 @@ use Time::Piece;
 use Data::UUID;
 use Digest::MD5 'md5_hex';
 use JSON;
+use URI;
 use namespace::autoclean;
 
 our $VERSION ||= '0.000';
@@ -102,6 +103,18 @@ has uuid => (
 );
 sub _build_uuid { Data::UUID->new };
 sub uid { md5_hex $_[0]->uuid->create_str . rand };
+
+sub uri_for {
+	my ( $self, $part, $params ) = @_;
+	my $uri = URI->new( $self->config->web_base );
+
+	$part =~ s{^/*}{/};
+	$uri->path("$part");
+
+	$uri->query_form($params) if $params;
+
+	return ${ $uri->canonical };
+}
 
 ############################################################
 #  ____        _    ____            _

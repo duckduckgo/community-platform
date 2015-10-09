@@ -12,6 +12,13 @@ use JSON;
 table 'instant_answer';
 
 sub u { [ 'InstantAnswer', 'view', $_[0]->id ] }
+sub uri {
+    my ( $self, $params ) = @_;
+    $self->ddgc->uri_for(
+        sprintf( '/ia/view/%s', $self->meta_id ),
+        $params
+    );
+}
 
 column id => {
 	data_type => 'text',
@@ -448,10 +455,38 @@ after insert => sub {
         meta2        => join('', map { sprintf ':%s:', $_ }
             $self->topics->columns([qw/ name /])->all),
         description  => sprintf('Instant Answer Page [%s](%s) created!',
-            $self->name, sprintf('https://duck.co/ia/view/%s',
-                $self->meta_id)),
+            $self->name, $self->uri( { activity_feed => 1 } ) ),
     } );
 };
+
+sub create_update_activity {
+    my ( $self, $meta3, $description ) = @_;
+    $self->result_source->schema->resultset('ActivityFeed')->updated_ia( {
+        meta1        => $self->id,
+        meta2        => $self->topics->join_for_activity_meta( 'name' ),
+        meta3        => $meta3,
+        description  => $description,
+    } );
+}
+
+sub _generate_updates {
+    my ( $self, $update ) = @_;
+
+    while ( my ($column, $value) = each $update ) {
+
+        if ( $column eq 'dev_milestone' ) {
+            $self->create_update_activity(
+                $column,
+                sprintf( 'Instant Answer [%s](%s) dev milestone changed to %s',
+                    $self->name,
+                    $self->uri( { from => 'notification' } ),
+                    $value
+                ),
+            );
+        }
+
+    }
+}
 
 around update => sub {
     my ( $next, $self, @extra ) = @_;
@@ -461,35 +496,10 @@ around update => sub {
     return $ret if (!$ret);
     return $ret if $ENV{DDGC_IA_AUTOUPDATES};
 
-    my $meta3 = _updates_to_meta( $extra[0] );
-
-    if ($meta3) {
-        my $schema = $self->result_source->schema;
-        $schema->resultset('ActivityFeed')->updated_ia( {
-            meta1        => $self->id,
-            meta2        => $self->topics->join_for_activity_meta( 'name' ),
-            meta3        => $meta3,
-            description  => sprintf('Instant Answer Page [%s](%s) updated!',
-                $self->name, sprintf('https://duck.co/ia/view/%s',
-                    $self->meta_id)),
-        } );
-    }
+    $self->_generate_updates( $update );
 
     return $ret;
 };
-
-sub _updates_to_meta {
-    my ( $updates ) = @_;
-    my $meta;
-    while ( my ($column, $value) = each $updates ) {
-        # Add updates we are not interested in to this array
-        next if grep { $column eq $_ }
-            (qw/ created_date /);
-        $meta .= sprintf ':%s:',
-            join ',', ( $column, $value );
-    }
-    return $meta;
-}
 
 # returns a hash ref of all IA data.  Same idea as hashRefInflator
 # but this takes care of deserialization for you.
