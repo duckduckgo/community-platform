@@ -260,7 +260,7 @@
             });
 
             $(".toggle-details i").click(function(evt) {
-                toggleSelected($(this));
+                toggleCheck($(this));
 
                 $(".activity-details").toggleClass("hide");
             });
@@ -286,6 +286,11 @@
                        dev_p.saved = true;
                    }
                });
+            }
+
+            function toggleCheck($obj) {
+                $obj.toggleClass("icon-check");
+                $obj.toggleClass("icon-check-empty");
             }
 
             function appendSidebar(selected) {
