@@ -221,7 +221,7 @@
 
             $("body").on("click change", "#filter-info i, #select-info", function(evt) {
                 if (evt.type === "click" && $(this).is("#filter-info i")) {
-                    toggleSelected($(this));
+                    toggleCheck($(this));
                 }
 
                 if ($("#filter-info i").hasClass("icon-check")) {
