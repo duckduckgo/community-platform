@@ -1,31 +1,33 @@
-<div>
+<div class="gw">
 {{#with dev_milestones}}
 
-<div class="dev_pipeline-column left" id="pipeline-planning">
+<div class="dev_pipeline-column quarter g" id="pipeline-planning">
+  <div class="dev_pipeline-column--container">
     <h2 class="dev_pipeline-column__title">
-        Planning ({{length planning}})
+        <span class="left">Planning </span> <span class="milestone-count right">{{length planning}}</span>
+        <span class="clearfix"></span>
     </h2>
     <ul class="dev_pipeline-column__list" id="pipeline-planning__list">
         {{#each planning}}
             <li id="pipeline-list__{{id}}" class="{{#if can_edit}}can_edit{{/if}} producer-{{#if producer}}{{slug producer}}{{/if}} designer-{{designer}} {{#if developer}}{{#each developer}}developer-{{slug name}} {{/each}}{{else}}developer-{{/if}}
-             {{#is_false_array perl_module name repo example_query}} missing-all {{#unless perl_module}}missing-perl_module{{/unless}} {{#unless name}}missing-name{{/unless}} {{#unless repo}}missing-type{{/unless}} {{#unless example_query}}missing-example_query{{/unless}} {{else}}missing-{{/is_false_array}}">
+             {{#is_false_array perl_module name repo example_query producer developer}} missing-all {{#unless perl_module}}missing-perl_module{{/unless}} {{#unless name}}missing-name{{/unless}} 
+             {{#unless repo}}missing-type{{/unless}} {{#unless example_query}}missing-example_query{{/unless}} {{#unless producer}}missing-producer{{/unless}} {{#unless developer}}missing-developer{{/unless}} {{else}}missing-{{/is_false_array}}">
                 {{#if ../../permissions.admin}}
                     <i class="icon-check-empty left" />
                 {{/if}}
-                <div class="ia-item--stamp circle stamp--{{repo}} left"></div>
-                <div class="left item-name">
+                <div class="item-name pipeline__stamp-{{repo}}">
                     <a href="/ia/view/{{id}}">{{name}}</a>
-                </div>
-                <div class="right item-activity">
-                    {{#if pr}}
-                        <a href="https://github.com/duckduckgo/zeroclickinfo-{{repo}}/issues/{{pr.issue_id}}" class="one-line" id="pr">
-                            PR 
-                        </a>
-                        
-                    {{/if}}
-                    <span title="{{format_time last_update}}">
+                    <div class="right item-activity">
+                      {{#if pr}}
+                      <a href="https://github.com/duckduckgo/zeroclickinfo-{{repo}}/issues/{{pr.issue_id}}" class="one-line" id="pr">
+                        PR 
+                      </a>
+                      
+                      {{/if}}
+                      <span title="{{format_time last_update}}">
                         {{timeago last_update}}
-                    </span>
+                      </span>
+                    </div>
                 </div>
                 <span class="clearfix"></span>
                 <div class="activity-details hide">
@@ -47,34 +49,37 @@
             </li>
         {{/each}}
     </ul>
+    </div>
 </div>
 
-<div class="dev_pipeline-column left" id="pipeline-development">
+<div class="dev_pipeline-column quarter g" id="pipeline-development">
+  <div class="dev_pipeline-column--container">
     <h2 class="dev_pipeline-column__title">
-        Development ({{length development}})
+        <span class="left">Development </span> <span class="milestone-count right">{{length development}}</span>
+        <span class="clearfix">
     </h2>
 
     <ul class="dev_pipeline-column__list" id="pipeline-development__list">
         {{#each development}}
             <li id="pipeline-list__{{id}}" class="{{#if can_edit}}can_edit{{/if}} producer-{{#if producer}}{{slug producer}}{{/if}} designer-{{designer}} {{#if developer}}{{#each developer}}developer-{{slug name}} {{/each}}{{else}}developer-{{/if}}
-             {{#is_false_array perl_module name repo example_query}} missing-all {{#unless perl_module}}missing-perl_module{{/unless}} {{#unless name}}missing-name{{/unless}} {{#unless repo}}missing-type{{/unless}} {{#unless example_query}}missing-example_query{{/unless}} {{else}}missing-{{/is_false_array}}">
+             {{#is_false_array perl_module name repo example_query producer developer}} missing-all {{#unless perl_module}}missing-perl_module{{/unless}} {{#unless name}}missing-name{{/unless}} 
+             {{#unless repo}}missing-type{{/unless}} {{#unless example_query}}missing-example_query{{/unless}} {{#unless producer}}missing-producer{{/unless}} {{#unless developer}}missing-developer{{/unless}} {{else}}missing-{{/is_false_array}}">
                    {{#if ../../permissions.admin}}
                     <i class="icon-check-empty left" />
                 {{/if}}
-                <div class="ia-item--stamp circle stamp--{{repo}} left"></div>
-                <div class="left item-name">
+                <div class="item-name pipeline__stamp-{{repo}}">
                     <a href="/ia/view/{{id}}">{{name}}</a>
-                </div>
-                <div class="right item-activity">
-                    {{#if pr}}
-                        <a href="https://github.com/duckduckgo/zeroclickinfo-{{repo}}/issues/{{pr.issue_id}}" class="one-line" id="pr">
-                            PR
-                        </a>
-                        
-                    {{/if}}
-                    <span title="{{format_time last_update}}">
-                        {{timeago last_update}}
-                    </span>
+                    <div class="right item-activity">
+                      {{#if pr}}
+                      <a href="https://github.com/duckduckgo/zeroclickinfo-{{repo}}/issues/{{pr.issue_id}}" class="one-line" id="pr">
+			            PR 
+                      </a>
+                  
+                      {{/if}}
+                      <span title="{{format_time last_update}}">
+			            {{timeago last_update}}
+                      </span>
+                    </div>
                 </div>
                 <span class="clearfix"></span>
                 <div class="activity-details hide">
@@ -96,34 +101,37 @@
             </li>
         {{/each}}
     </ul>
+    </div>
 </div>
 
-<div class="dev_pipeline-column left" id="pipeline-testing">
+<div class="dev_pipeline-column quarter g" id="pipeline-testing">
+  <div class="dev_pipeline-column--container">
     <h2 class="dev_pipeline-column__title">
-        Testing ({{length testing}})
+        <span class="left">Testing </span> <span class="milestone-count right"> {{length testing}} </span>
+        <span class="clearfix"></span>
     </h2>
 
     <ul class="dev_pipeline-column__list" id="pipeline-testing__list">
         {{#each testing}}
             <li id="pipeline-list__{{id}}" class="{{#if can_edit}}can_edit{{/if}} producer-{{#if producer}}{{slug producer}}{{/if}} designer-{{designer}} {{#if developer}}{{#each developer}}developer-{{slug name}} {{/each}}{{else}}developer-{{/if}}
-             {{#is_false_array perl_module name repo example_query}} missing-all {{#unless perl_module}}missing-perl_module{{/unless}} {{#unless name}}missing-name{{/unless}} {{#unless repo}}missing-type{{/unless}} {{#unless example_query}}missing-example_query{{/unless}} {{else}}missing-{{/is_false_array}}">
+             {{#is_false_array perl_module name repo example_query producer developer}} missing-all {{#unless perl_module}}missing-perl_module{{/unless}} {{#unless name}}missing-name{{/unless}} 
+             {{#unless repo}}missing-type{{/unless}} {{#unless example_query}}missing-example_query{{/unless}} {{#unless producer}}missing-producer{{/unless}} {{#unless developer}}missing-developer{{/unless}} {{else}}missing-{{/is_false_array}}">
                   {{#if ../../permissions.admin}}
                     <i class="icon-check-empty left" />
                 {{/if}}         
-                <div class="ia-item--stamp circle stamp--{{repo}} left"></div>
-                <div class="left item-name">
+                <div class="item-name pipeline__stamp-{{repo}}">
                     <a href="/ia/view/{{id}}">{{name}}</a>
-                </div>
-                <div class="right item-activity">
-                    {{#if pr}}
-                        <a href="https://github.com/duckduckgo/zeroclickinfo-{{repo}}/issues/{{pr.issue_id}}" class="one-line" id="pr">
-                            PR
-                        </a>
-                        
-                    {{/if}}
-                    <span title="{{format_time last_update}}">
+                    <div class="right item-activity">
+                      {{#if pr}}
+                      <a href="https://github.com/duckduckgo/zeroclickinfo-{{repo}}/issues/{{pr.issue_id}}" class="one-line" id="pr">
+                        PR
+                      </a>
+                      
+                      {{/if}}
+                      <span title="{{format_time last_update}}">
                         {{timeago last_update}}
-                    </span>
+                      </span>
+                    </div>
                 </div>
                 <span class="clearfix"></span>
                 <div class="activity-details hide">
@@ -145,34 +153,37 @@
             </li>
         {{/each}}
     </ul>
+    </div>
 </div>
 
-<div class="dev_pipeline-column left" id="pipeline-complete">
+<div class="dev_pipeline-column quarter g" id="pipeline-complete">
+   <div class="dev_pipeline-column--container">
     <h2 class="dev_pipeline-column__title">
-        Complete ({{length complete}})
+        <span class="left">Complete </span> <span class="milestone-count right"> {{length complete}} </span>
+        <span class="clearfix"></span>
     </h2>
 
     <ul class="dev_pipeline-column__list" id="pipeline-complete__list">
         {{#each complete}}
             <li id="pipeline-list__{{id}}" class="{{#if can_edit}}can_edit{{/if}} producer-{{#if producer}}{{slug producer}}{{/if}} designer-{{designer}} {{#if developer}}{{#each developer}}developer-{{slug name}} {{/each}}{{else}}developer-{{/if}}
-             {{#is_false_array perl_module name repo example_query}} missing-all {{#unless perl_module}}missing-perl_module{{/unless}} {{#unless name}}missing-name{{/unless}} {{#unless repo}}missing-type{{/unless}} {{#unless example_query}}missing-example_query{{/unless}} {{else}}missing-{{/is_false_array}}">
+             {{#is_false_array perl_module name repo example_query producer developer}} missing-all {{#unless perl_module}}missing-perl_module{{/unless}} {{#unless name}}missing-name{{/unless}} 
+             {{#unless repo}}missing-type{{/unless}} {{#unless example_query}}missing-example_query{{/unless}} {{#unless producer}}missing-producer{{/unless}} {{#unless developer}}missing-developer{{/unless}} {{else}}missing-{{/is_false_array}}">
                  {{#if ../../permissions.admin}}
                     <i class="icon-check-empty left" />
                 {{/if}}
-                <div class="ia-item--stamp circle stamp--{{repo}} left"></div>
-                <div class="left item-name">
+                <div class="item-name pipeline__stamp-{{repo}}">
                     <a href="/ia/view/{{id}}">{{name}}</a>
-                </div>
-                <div class="right item-activity">
-                    {{#if pr}}
-                        <a href="https://github.com/duckduckgo/zeroclickinfo-{{repo}}/issues/{{pr.issue_id}}" class="one-line" id="pr">
-                            PR
-                        </a>
-                        
-                    {{/if}}
-                    <span title="{{format_time last_update}}">
+                    <div class="right item-activity">
+                      {{#if pr}}
+                      <a href="https://github.com/duckduckgo/zeroclickinfo-{{repo}}/issues/{{pr.issue_id}}" class="one-line" id="pr">
+                        PR
+                      </a>
+                      
+                      {{/if}}
+                      <span title="{{format_time last_update}}">
                         {{timeago last_update}}
-                    </span>
+                      </span>
+                    </div>
                 </div>
                 <span class="clearfix"></span>
                 <div class="activity-details hide">
@@ -194,6 +205,7 @@
             </li>
         {{/each}}
     </ul>
+    </div>
 </div>
 {{/with}}
 </div>

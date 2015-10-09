@@ -1,9 +1,52 @@
-.hide { display: none; }
-.wrap-pipeline { padding: 0 2em; }
+.search-container {
+    width: 20%;
 
-.toggle-details { margin-right: 2em; }
+    .ddgsi-loupe {
+	color: $grey;
+	font-weight: bold;
+
+	position: relative;
+	top: 2px;
+	padding-right: 0.5em;
+    }
+    
+    .search-thing {
+	margin-right: 1em;
+	color: $slate;
+	width: 80%;
+	
+	/* Remove some of the default styles. */
+	border: none;
+	outline: none;
+    }
+
+    /* Style the placeholder. */
+    .search-thing::-webkit-input-placeholder {
+	opacity: 0.5;
+    }
+    .search-thing::-moz-placeholder {
+	opacity: 0.5;
+    }
+    .search-thing:-ms-input-placeholder { 
+	opacity: 0.5;
+    }
+}
+
+.wrap-pipeline {
+    /* Make the fonts look snazzy. */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+
+    padding: 0 2em;
+}
+
+.hide { display: none; }
+
+.toggle-details { margin-right: 1em; }
 
 .filter-team span, #pipeline-clear-filters { margin-left: 1em; }
+
+.deselect-all .ddgsi-close { cursor: pointer; }
 
 #pipeline-stats {
     text-align: center;
@@ -23,12 +66,16 @@
 #dev_pipeline { margin-top: 1em; }
 
 #dev_pipeline .dev_pipeline-column {
-    width: 22.5%;
     text-align: left;
-    padding: 1em;
+    border-radius: 3px;
+
+    .dev_pipeline-column--container {
+	padding: 1em;
+	background-color: $silver;
+    }
 
     .item-activity { 
-        color: $grey-light; 
+        color: $grey-dark; 
     }
 
     .item-activity, .activity-details {
@@ -51,31 +98,86 @@
     .icon {
         margin-right: 0.5em;
     }
-}
 
-.dev_pipeline-column:not(#pipeline-planning) {
-    margin-left: 0.5em;
-}
-
-.dev_pipeline-column__title {
-    font-weight: 600;
-    font-size: 1.7em;
+    .dev_pipeline-column__title {
+	font-size: 1em;
+	font-weight: 600;
+	color: $slate-light;
+    }
 }
 
 .dev_pipeline-column__list {
+    margin-bottom: 0;
+
     li {
         list-style: none;
         padding: 0.3em 0;
-        font-size: 1.1em;
-        border-bottom: 1px solid #cdcdcd;
+        font-size: 1em;
+	background-color: white;
+	margin-bottom: 0.5em;
+	border-radius: 2px;
+	padding: 0.5em;
 
-        a { color: #333; }
+        a { 
+	    color: black; 
+	}
 
-        .item-name { max-width: 9em; }
+	&.important {
+	    box-shadow: inset 3px 0px $gold;
+	    border-top-left-radius: 0;
+	    border-bottom-left-radius: 0;
+	}
+
+	&.selected {
+	    background-color: lighten($blue-light, 30%);
+	    outline: 1px solid $blue-light;
+	    border-radius: 0;
+	}
+
+        .item-name { 
+	    & > a {
+		display: inline-block;
+		/* Text should wrap if it's reached N% in the item. */
+		max-width: 65%; 
+	    }
+	    
+	    /* Display the type of repo */
+	    &:before {
+		display: inline;
+		color: $grey;
+		content: "N";
+		font-weight: 500;
+		padding: 0 0.5em 0 0.2em;
+		float: left;
+	    }
+
+	    /* Change content to match the repo. */
+	    &.pipeline__stamp {
+		&-spice:before {
+		    content: "S";
+		}
+
+		&-goodies:before {
+		    content: "G";
+		}
+
+		&-fathead {
+		    content: "F";
+		}
+
+		&-longtail {
+		    content: "L";
+		}
+	    }
+	}
 
         .icon-check, .icon-check-empty {
             margin: 0.25em 0.6em 0 0;
         }
+
+	&:last-child {
+	    margin-bottom: 0;
+	}
     }
 
     .ia-item--stamp {

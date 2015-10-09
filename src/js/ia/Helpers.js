@@ -9,13 +9,7 @@
             date = moment.utc(date, "YYYY-MM-DD");
             
             var elapsed = parseInt(moment().diff(date, "days", true));
-            if (elapsed === 1) {
-                date = elapsed + " day";
-            } else if (!elapsed) {
-                date = "today";
-            } else {
-                date = elapsed + " days";
-            }
+            date = elapsed + "d";
 
             return date;
         }
@@ -222,8 +216,8 @@
     });
 
     // Returns true if any value in the array is false
-    Handlebars.registerHelper('is_false_array', function(val1, val2, val3, val4, options) {
-        if ((!val1) || (!val2) || (!val3) || (!val4)) {
+    Handlebars.registerHelper('is_false_array', function(val1, val2, val3, val4, val5, val6, options) {
+        if ((!val1) || (!val2) || (!val3) || (!val4) || (!val5) || (!(val6 && val6.length))) {
             return options.fn(this);
         } else {
             return options.inverse(this);
