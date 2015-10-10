@@ -12,6 +12,7 @@ use DateTime;
 use IO::All -utf8;
 use File::ShareDir::ProjectDistDir;
 use Archive::Tar;
+use YAML::XS 'Load';
 use version;
 
 has ddgc => (
@@ -88,7 +89,7 @@ sub add_user_distribution {
 		return "Failed to parse your POD. Perhaps you should test it first?";
 	}
 
-	if($release){
+	if($release && ($distribution_filename =~ /Bundle/)){
 		if(my $e = $self->update_release_versions($dist_data_version, $distribution_filename)){
 			$self->log("ERROR",$e,$dist_data_name,$dist_data_version);
 			return $e;
@@ -115,9 +116,10 @@ sub update_release_versions {
 
 	my $ia_types = qr{(?:Goodie|Spice|Fathead|Longtail)};
 
-	my $repo;
-	if($file =~ m{-($ia_types)Bundle-}){
+	my ($base_file, $repo);
+	if($file =~ m{^(DDG-($ia_types)Bundle-.+)\.tar.gz$}){
 		$repo = lc $1;
+		$base_file = $2;
 		$repo = 'goodies' if $repo eq 'goodie';
 	}
 	else{
@@ -127,8 +129,7 @@ sub update_release_versions {
 	my $db = $s->ddgc->db;
 	my $rvs = $db->resultset('ReleaseVersion');
 	my $ias = $db->resultset('InstantAnswer')->search({
-		repo => $repo,
-		dev_milestone => 'complete'
+		repo => $repo
 	});
 
 	my $a = Archive::Tar->new($file);
@@ -136,31 +137,30 @@ sub update_release_versions {
 		return "Failed to extract $file: $Archive::Tar::error";
 	}
 
-	for my $f ($a->list_files){
-		my $where;
-		if($f =~ m{lib/(DDG/$ia_types/.+)\.pm$}){
-			my $m = $1;
-			$m =~ s|/|::|g;
-			$where = {perl_module => $m};
-			if($m =~ /CheatSheets$/){
-				$where->{id} = 'cheat_sheets';
-			}
-		}
-		elsif($f =~ m{share/goodie/cheat_sheets/json/.+\.json$}){
-			my $c = $a->get_content($f);
-			my $cs = decode_json($c);
-			$where = {meta_id => $cs->{id}};
-		}
+	my $yml = $a->get_content("$base_file/ia_changelog.yml");
+	unless($yml){
+		return "Failed to extract contents of $base_file/ia_changelog.yml: " . $a->error;
+	}
+	my $changelog = Load($yml);
+
+	my %status_map = qw(
+		added    released
+		modified updated
+		deleted  removed
+	);
+
+	while(my ($id, $change) = each %$changelog){
+
+		my $where = {meta_id => $id};
+		my $update = {release_version => $version};
+		$update->{status} = 'released' if $change eq 'added';
 
 		if($where && (my $ia = $ias->single($where))){
-			$ia->update({
-				release_version => $version,
-				dev_milestone => 'released'
-			});
+			$ia->update($update);
 			$rvs->create({
-				instant_answer_id => $ia->meta_id,
+				instant_answer_id => $id,
 				release_version => $version,
-				status => 'released'
+				status => $status_map{$change}; 
 			});
 		}
 	}
