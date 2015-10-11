@@ -117,9 +117,9 @@ sub update_release_versions {
 	my $ia_types = qr{(?:Goodie|Spice|Fathead|Longtail)};
 
 	my ($base_file, $repo);
-	if($file =~ m{^(DDG-($ia_types)Bundle-.+)\.tar.gz$}){
-		$repo = lc $1;
-		$base_file = $2;
+	if($file =~ m{/(DDG-($ia_types)Bundle-.+-$version)\.tar.gz$}){
+		$base_file = $1;
+		$repo = lc $2;
 		$repo = 'goodies' if $repo eq 'goodie';
 	}
 	else{
@@ -150,17 +150,16 @@ sub update_release_versions {
 	);
 
 	while(my ($id, $change) = each %$changelog){
-
 		my $where = {meta_id => $id};
 		my $update = {release_version => $version};
 		$update->{status} = 'released' if $change eq 'added';
 
-		if($where && (my $ia = $ias->single($where))){
+		if(my $ia = $ias->single($where)){
 			$ia->update($update);
 			$rvs->create({
 				instant_answer_id => $id,
 				release_version => $version,
-				status => $status_map{$change}; 
+				status => $status_map{$change}
 			});
 		}
 	}
