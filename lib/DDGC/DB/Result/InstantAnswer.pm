@@ -413,8 +413,16 @@ column updated => {
     set_on_update => 1,
 };
 
+# Latest release in which an IA was updated
 column release_version => {
     data_type => 'numeric',
+    is_nullable => 1,
+};
+
+# Is it live or not?
+column deployment_state => {
+    data_type => 'varchar',
+    size => 15,
     is_nullable => 1,
 };
 

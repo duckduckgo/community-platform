@@ -95,6 +95,7 @@ sub add_user_distribution {
 			return $e;
 		}
 	}
+
 	return $release // "This... this is not possible.";
 }
 
@@ -151,11 +152,16 @@ sub update_release_versions {
 
 	while(my ($id, $change) = each %$changelog){
 		my $where = {meta_id => $id};
-		my $update = {release_version => $version};
-		$update->{status} = 'released' if $change eq 'added';
+		my %update = (release_version => $version);
+		if($change eq 'added'){
+			$update{deployment_state} = 'released';
+		}
+		elsif($change eq 'deleted'){
+			$update{deployment_state} = 'deprecated';
+		}
 
 		if(my $ia = $ias->single($where)){
-			$ia->update($update);
+			$ia->update(\%update);
 			$rvs->create({
 				instant_answer_id => $id,
 				release_version => $version,
@@ -163,6 +169,8 @@ sub update_release_versions {
 			});
 		}
 	}
+
+	return;
 }
 
 no Moose;

@@ -1,6 +1,8 @@
 BEGIN:
 
-alter table instant_answer add column release_version numeric(8,3);
+alter table instant_answer
+    add column release_version numeric(8,3),
+    add column deployment_state varchar(15);
 
 create unique index ia_unique_meta_id on instant_answer (meta_id);
 
