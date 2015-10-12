@@ -435,6 +435,12 @@ column updated => {
     set_on_update => 1,
 };
 
+column blockgroup => {
+	date_type => 'varchar',
+	size => 20,
+	is_nullable => 1
+};
+
 
 has_many 'issues', 'DDGC::DB::Result::InstantAnswer::Issues', 'instant_answer_id';
 has_many 'blocks', 'DDGC::DB::Result::InstantAnswer::Blocks', 'instant_answer_id';
@@ -500,6 +506,14 @@ around update => sub {
 
     return $ret;
 };
+
+around repo => sub {
+  my ($orig, $self) = (shift, shift);
+
+  $self->blockgroup($_[0]) if @_ && (not defined $self->blockgroup);;
+  $self->$orig(@_);
+};
+
 
 # returns a hash ref of all IA data.  Same idea as hashRefInflator
 # but this takes care of deserialization for you.
