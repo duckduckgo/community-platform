@@ -294,22 +294,28 @@
             }
 
             function appendSidebar(selected) {
+                $("#page_sidebar, #actions_sidebar").addClass("hide").empty();
+                $("#page_sidebar").attr("ia_id", "");
+                
                 if (selected === 1) {
                     var $item = $(".dev_pipeline-column__list .selected");
                     var meta_id = $item.attr("id").replace("pipeline-list__", "");
                     var milestone = $item.parents(".dev_pipeline-column").attr("id").replace("pipeline-", "");
                     var page_data = getPageData(meta_id, milestone);
                     page_data.permissions = dev_p.data.permissions;
-                    console.log(page_data);
                     if (page_data) {
                         var sidebar = Handlebars.templates.dev_pipeline_detail(page_data);            
                     
                         $("#page_sidebar").html(sidebar).removeClass("hide");
                         $("#page_sidebar").attr("ia_id", page_data.id);
                     }
-                } else {
-                    $("#page_sidebar").addClass("hide").empty();
-                    $("#page_sidebar").attr("ia_id", "");
+                } else if (selected > 1) {
+                   var actions_data = {};
+                   actions_data.permissions = dev_p.data.permissions;
+                   actions_data.selected = selected;
+
+                   var actions_sidebar = Handlebars.templates.dev_pipeline_actions(actions_data);
+                   $("#actions_sidebar").html(actions_sidebar).removeClass("hide");
                 }
             }
 

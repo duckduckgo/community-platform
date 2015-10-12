@@ -1,0 +1,32 @@
+{{#if permissions.admin}}
+        <span class="pipeline-actions">
+            <span class="count-txt sep--before">0</span> <span> Selected </span>
+            <span class="deselect-all sep--before"> <i class="deselect ddgsi ddgsi-close"></i> </span>
+            
+            <span>Change </span>
+            <select class="pipeline-actions__select" id="select-action">
+                <option value="0">dev milestone</option>
+                <option value="1">type</option>
+            </select>
+
+            <span> to </span>
+            <select class="pipeline-actions__select" id="select-milestone">
+                <option value="0">planning</option>
+                <option value="1">development</option>
+                <option value="2">testing</option>
+                <option value="3">complete</option>
+                <option value="4">ghosted</option>
+            </select>
+
+            <select class="pipeline-actions__select hide" id="select-type">
+                <option value="0">fathead</option>
+                <option value="1">goodies</option>
+                <option value="2">longtail</option>
+                <option value="3">spice</option>
+            </select>
+
+            <span class="button pipeline-actions__button" id="pipeline-action-submit">
+                Ok
+            </span>
+        </span>
+{{/if}}

@@ -69,7 +69,7 @@
 
 .deselect-all .ddgsi-close { cursor: pointer; }
 
-#page_sidebar {
+#page_sidebar, #actions_sidebar {
     box-sizing: border-box;
     position: absolute;
     z-index: 3000;
