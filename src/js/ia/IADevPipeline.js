@@ -219,19 +219,28 @@
                 filter();
             });
 
-            $("body").on("change", ".pipeline-actions__select", function(evt)  {
-                var ias = [];
-                var field = $.trim($(this).attr("id").replace("select-", ""));
-                var value = $.trim($(this).find("option:selected").text().replace(/\s/g, "_"));
+            $("body").on("keypress change", ".pipeline-actions__select, .pipeline-actions__input", function(evt)  {
+                if ((evt.type === "keypress" && evt.which === 13 && $(this).hasClass("pipeline-actions__input")) 
+                   || (evt.type === "change" && $(this).hasClass("pipeline-actions__select"))) {
+                    var ias = [];
+                    var field, value;
+                    if (evt.type === "change") {
+                        field = $.trim($(this).attr("id").replace("select-", ""));
+                        value = $.trim($(this).find("option:selected").text().replace(/\s/g, "_"));
+                    } else {
+                        field = $.trim($(this).attr("id").replace("input-", ""));
+                        value = $.trim($(this).val());
+                    }
 
-                $(".dev_pipeline-column__list .selected").each(function(idx) {
-                    var temp_id = $.trim($(this).attr("id").replace("pipeline-list__", ""));
-                    
-                    ias.push(temp_id);
-                });
+                    $(".dev_pipeline-column__list .selected").each(function(idx) {
+                        var temp_id = $.trim($(this).attr("id").replace("pipeline-list__", ""));
+                        
+                        ias.push(temp_id);
+                    });
 
-                ias = JSON.stringify(ias);
-                save_multiple(ias, field, value);
+                    ias = JSON.stringify(ias);
+                    save_multiple(ias, field, value);
+                }
             });
 
             $(".toggle-details i").click(function(evt) {
