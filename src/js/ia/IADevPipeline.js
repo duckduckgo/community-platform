@@ -173,7 +173,6 @@
                 }
 
                 appendSidebar(selected);
-                $(".count-txt").text(selected);
             });
 
             $("body").on("keypress change", ".edit-sidebar", function(evt) {
@@ -189,8 +188,6 @@
             $("body").on("click", "#sidebar-close, .deselect-all", function(evt) {
                 var $selected = $(".dev_pipeline-column__list .selected");
                 $selected.removeClass("selected");
-                $(".pipeline-actions").addClass("hide");
-                $(".count-txt").text("0");
 
                 // remove sidebar
                 appendSidebar(0);
@@ -199,23 +196,10 @@
                     var jqxhr = $.getJSON(url, function (data) {
                         dev_p.saved = false;
                         dev_p.data.dev_milestones = data.dev_milestones;
-                    
-                        $(".pipeline-actions").addClass("hide");
-                        $(".count-txt").text("0");
 
                         var iadp = Handlebars.templates.dev_pipeline(data);
                         $("#dev_pipeline").html(iadp);
                     });
-                }
-            });
-
-            $("body").on("change", "#select-action", function(evt) {
-                if ($.trim($(this).find("option:selected").text()) === "type") {
-                    $("#select-type").removeClass("hide");
-                    $("#select-milestone").addClass("hide");
-                } else {
-                    $("#select-milestone").removeClass("hide");
-                    $("#select-type").addClass("hide");
                 }
             });
 
@@ -235,19 +219,10 @@
                 filter();
             });
 
-            $("body").on("click", "#pipeline-action-submit", function(evt)  {
+            $("body").on("change", ".pipeline-actions__select", function(evt)  {
                 var ias = [];
-                var field = $.trim($("#select-action").find("option:selected").text().replace(/\s/g, "_"));
-                var $select_value;
-                
-                if (field === "type") {
-                    field = "repo";
-                    $select_value = $("#select-type");
-                } else {
-                    $select_value = $("#select-milestone");
-                }
-                
-                var value = $.trim($select_value.find("option:selected").text());
+                var field = $.trim($(this).attr("id").replace("select-", ""));
+                var value = $.trim($(this).find("option:selected").text().replace(/\s/g, "_"));
 
                 $(".dev_pipeline-column__list .selected").each(function(idx) {
                     var temp_id = $.trim($(this).attr("id").replace("pipeline-list__", ""));
@@ -391,9 +366,7 @@
                     ias : ias
                 })
                 .done(function(data) {
-                    if (data.result) {
-                        location.reload();
-                    }
+                    dev_p.saved = true;
                 });
             }
         }

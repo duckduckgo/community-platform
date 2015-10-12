@@ -1,6 +1,6 @@
 {{#if permissions.admin}}
         <div class="pipeline-actions">
-            <span class="left"><span class="count-txt">0</span> <span> Selected </span></span>
+            <span class="left"><span class="count-txt">{{selected}}</span> <span> Selected </span></span>
             <span class="deselect-all right"> <i class="deselect ddgsi ddgsi-close"></i> </span>
             
             <span class="clearfix"></span>
@@ -8,7 +8,7 @@
             <div class="field-section">
                 <div class="primary-label">Update </div>
                 <div class="field-label"> Dev Milestone </div>
-                <select class="pipeline-actions__select" id="select-milestone">
+                <select class="pipeline-actions__select" id="select-dev_milestone">
                     <option value="0">planning</option>
                     <option value="1">development</option>
                     <option value="2">testing</option>
@@ -19,7 +19,7 @@
 
             <div class="field-section">
                 <div class="field-label"> Type </div>
-                <select class="pipeline-actions__select" id="select-type">
+                <select class="pipeline-actions__select" id="select-repo">
                     <option value="0">fathead</option>
                     <option value="1">goodies</option>
                     <option value="2">longtail</option>
