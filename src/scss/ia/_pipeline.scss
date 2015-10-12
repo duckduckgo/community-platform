@@ -68,6 +68,15 @@
 .filter-team span, #pipeline-clear-filters { margin-left: 1em; }
 
 .deselect-all .ddgsi-close { cursor: pointer; }
+#page_sidebar {
+    width: 33.33%;
+}
+
+#actions_sidebar {
+    width: 16%;
+
+    .field-section { margin-top: 1em; }
+}
 
 #page_sidebar, #actions_sidebar {
     box-sizing: border-box;
@@ -78,17 +87,16 @@
     background-color: $white;
     padding: 2em;
     height: 100%;
-    width: 33.33%;
     border: 1px solid rgba(200,200,200,0.2);
 
     .sidebar-field {
         margin-top: 1em;
     }
 
-    .field-label, #sidebar-pr, #pr {
+    #sidebar-pr, #pr, .primary-label {
         color: $grey-light;
-	font-size: 0.95em;
-	font-weight: 500;
+	    font-size: 0.95em;
+	    font-weight: 500;
     }
 
     #sidebar-pr .comment a {
@@ -238,10 +246,6 @@
         font-size: 0.8em;
         margin-right: 0.6em;
     }
-}
-
-.pipeline-actions { 
-    margin-left: 2em;
 }
 
 #pipeline-action-submit, #pipeline-clear-filters {
