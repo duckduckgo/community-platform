@@ -29,7 +29,9 @@
     height: 1.75em;
     color: #fff;
 }
-
+.ia-simgle--edits {
+    margin-left: 7em;
+}
 .ia-single--edits select.available_types {
     background-color: #589e4d;
 }
@@ -73,20 +75,11 @@
 }
 .ia-single .row-diff {
     overflow-y: hidden;
-    border: 1px solid #babec9;
     display: table;
-    margin-bottom: 1em;
-    border-radius: 3px;
-    -moz-border-radius: 3px;
-    -webkit-border-radius: 3px;
-    -o-border-radius: 3px;
-    padding: 1em;
-    vertical-align: middle;
+    margin-bottom: 2em;
+    margin-left: 7em;
+    vertical-align: top;
     width: 98%;
-}
-.ia-single .row-diff-edit,
-.ia-single .row-diff .button.js-editable {
-    border: 1px solid #5b9e4d;
 }
 .ia-single .row-diff p {
     margin: 0;
@@ -100,13 +93,17 @@
 }
 .ia-single .row-diff input,
 .ia-single .row-diff textarea {
+    width: 100%;
     border-radius: 3px;
     -moz-border-radius: 3px;
     -webkit-border-radius: 3px;
     -o-border-radius: 3px;
-
+	
     border: 1px solid #babec9;
     padding-left: 0.2em;
+}
+.ia-single .row-diff .editpage span {
+    width: 95%;
 }
 .ia-single .row-diff .available_topics,
 .ia-single .topic-group,
@@ -158,9 +155,8 @@
 
 .ia-single .row-diff .button.js-pre-editable,
 .ia-single .row-diff .button.js-editable {
-    float: right;
-    top: -1em;
-    right: -1em;
+    position: absolute;
+    left: 3em;
     border-top: 0;
     border-right: 0;
     border-radius: 0;
@@ -197,14 +193,9 @@
     font-weight: 600;
     width: 15%;
 }
-.ia-single .row-diff .column-center-live {
-    width: 30%;
-}
-.ia-single .row-diff .column-right-edits {
-    width: 40%;
-}
 .ia-single .row-diff .column-center-live,
 .ia-single .row-diff .column-right-edits {
+    width: 65%;
     margin-left: 1em;
 }
 .ia-single .row-diff .column-right-edits .editpage:first-child {
@@ -1114,8 +1105,7 @@ body.texture {
 
 .ia-single--edits #description textarea {
     height: 4em;
-    width: 21.5em;
-    max-width: 21.5em;
+    width: 100%;
     font-size: 1em;
 }
 
