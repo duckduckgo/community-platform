@@ -966,6 +966,29 @@
                         }
                     });
 
+		    $('body').on("change", "[data-field='text']", function() {
+               		var $elem = $(this),
+                   	    field = $elem.data('name'),
+                   	    value = ia_data.live[field],
+                  	    newVal = $elem.val();
+                  
+			console.log('new: ' + newVal);
+                 	preSaveValues(ia_data, field, newVal);
+               	    });
+			
+		    function preSaveValues(ia_data, field, value) {
+                      var edited_value = ia_data.edited[field],
+                          live_value = ia_data.live[field],
+                          $field = $('[data-name="'+field+'"]');
+
+                      if (value !== edited_value && value !== live_value) {
+                        save(field, value, DDH_iaid, $field, false);
+                      } else if (value == live_value) {
+                        $field.removeClass('edited');
+                      }
+                    }
+
+
                     // Check if username exists for the given account type (either github or duck.co)
                     function usercheck(type, username, $type, $username) {
                         var jqxhr = $.post("/ia/usercheck", {
@@ -1415,11 +1438,15 @@
                                 } else {
                                     ia_data.edited[field] = data.result[field];
                                 }
-
-                                pre_templates[field] = Handlebars.templates['pre_edit_' + field](ia_data);
-
-                                $obj.replaceWith(pre_templates[field]);
-                            } else {
+				
+				if($obj.is('[data-field="text"]')) {
+				    $obj.val(value);
+              			    $obj.addClass('edited');
+				} else {
+                                    pre_templates[field] = Handlebars.templates['pre_edit_' + field](ia_data);
+                                    $obj.replaceWith(pre_templates[field]);
+                                }
+			    } else {
                                 if ($("#error").hasClass("hide")) {
                                     $("#error").removeClass("hide");
                                 }
@@ -1596,6 +1623,12 @@
 		    $(templates.developer).insertAfter("#row-diff-topic");
                 }
             }
+	    
+	    $('[data-field="text"]').each(function() {
+                 var $elem = $(this),
+                     field = $elem.data('name');
+                  $elem.val(ia_data.live[field]);
+            });
 
             // Make sure to update the widths of the topics.
             $("select.top-details.js-autocommit").each(function() {

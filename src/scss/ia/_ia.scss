@@ -85,7 +85,8 @@
     margin: 0;
     font-size: 1em;
 }
-.ia-single .row-diff span.edited {
+.ia-single .row-diff span.edited,
+.ia-single .row-diff input.edited {
     color: $gold;
 }
 .ia-single .row-diff .js-input {
