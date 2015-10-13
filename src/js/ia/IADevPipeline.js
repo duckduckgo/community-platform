@@ -173,7 +173,6 @@
                 }
 
                 appendSidebar(selected);
-                $(".count-txt").text(selected);
             });
 
             $("body").on("keypress change", ".edit-sidebar", function(evt) {
@@ -189,8 +188,6 @@
             $("body").on("click", "#sidebar-close, .deselect-all", function(evt) {
                 var $selected = $(".dev_pipeline-column__list .selected");
                 $selected.removeClass("selected");
-                $(".pipeline-actions").addClass("hide");
-                $(".count-txt").text("0");
 
                 // remove sidebar
                 appendSidebar(0);
@@ -199,23 +196,10 @@
                     var jqxhr = $.getJSON(url, function (data) {
                         dev_p.saved = false;
                         dev_p.data.dev_milestones = data.dev_milestones;
-                    
-                        $(".pipeline-actions").addClass("hide");
-                        $(".count-txt").text("0");
 
                         var iadp = Handlebars.templates.dev_pipeline(data);
                         $("#dev_pipeline").html(iadp);
                     });
-                }
-            });
-
-            $("body").on("change", "#select-action", function(evt) {
-                if ($.trim($(this).find("option:selected").text()) === "type") {
-                    $("#select-type").removeClass("hide");
-                    $("#select-milestone").addClass("hide");
-                } else {
-                    $("#select-milestone").removeClass("hide");
-                    $("#select-type").addClass("hide");
                 }
             });
 
@@ -235,28 +219,28 @@
                 filter();
             });
 
-            $("body").on("click", "#pipeline-action-submit", function(evt)  {
-                var ias = [];
-                var field = $.trim($("#select-action").find("option:selected").text().replace(/\s/g, "_"));
-                var $select_value;
-                
-                if (field === "type") {
-                    field = "repo";
-                    $select_value = $("#select-type");
-                } else {
-                    $select_value = $("#select-milestone");
+            $("body").on("keypress change", ".pipeline-actions__select, .pipeline-actions__input", function(evt)  {
+                if ((evt.type === "keypress" && evt.which === 13 && $(this).hasClass("pipeline-actions__input")) 
+                   || (evt.type === "change" && $(this).hasClass("pipeline-actions__select"))) {
+                    var ias = [];
+                    var field, value;
+                    if (evt.type === "change") {
+                        field = $.trim($(this).attr("id").replace("select-", ""));
+                        value = $.trim($(this).find("option:selected").text().replace(/\s/g, "_"));
+                    } else {
+                        field = $.trim($(this).attr("id").replace("input-", ""));
+                        value = $.trim($(this).val());
+                    }
+
+                    $(".dev_pipeline-column__list .selected").each(function(idx) {
+                        var temp_id = $.trim($(this).attr("id").replace("pipeline-list__", ""));
+                        
+                        ias.push(temp_id);
+                    });
+
+                    ias = JSON.stringify(ias);
+                    save_multiple(ias, field, value);
                 }
-                
-                var value = $.trim($select_value.find("option:selected").text());
-
-                $(".dev_pipeline-column__list .selected").each(function(idx) {
-                    var temp_id = $.trim($(this).attr("id").replace("pipeline-list__", ""));
-                    
-                    ias.push(temp_id);
-                });
-
-                ias = JSON.stringify(ias);
-                save_multiple(ias, field, value);
             });
 
             $(".toggle-details i").click(function(evt) {
@@ -294,22 +278,28 @@
             }
 
             function appendSidebar(selected) {
+                $("#page_sidebar, #actions_sidebar").addClass("hide").empty();
+                $("#page_sidebar").attr("ia_id", "");
+                
                 if (selected === 1) {
                     var $item = $(".dev_pipeline-column__list .selected");
                     var meta_id = $item.attr("id").replace("pipeline-list__", "");
                     var milestone = $item.parents(".dev_pipeline-column").attr("id").replace("pipeline-", "");
                     var page_data = getPageData(meta_id, milestone);
                     page_data.permissions = dev_p.data.permissions;
-                    console.log(page_data);
                     if (page_data) {
                         var sidebar = Handlebars.templates.dev_pipeline_detail(page_data);            
                     
                         $("#page_sidebar").html(sidebar).removeClass("hide");
                         $("#page_sidebar").attr("ia_id", page_data.id);
                     }
-                } else {
-                    $("#page_sidebar").addClass("hide").empty();
-                    $("#page_sidebar").attr("ia_id", "");
+                } else if (selected > 1) {
+                   var actions_data = {};
+                   actions_data.permissions = dev_p.data.permissions;
+                   actions_data.selected = selected;
+
+                   var actions_sidebar = Handlebars.templates.dev_pipeline_actions(actions_data);
+                   $("#actions_sidebar").html(actions_sidebar).removeClass("hide");
                 }
             }
 
@@ -385,9 +375,7 @@
                     ias : ias
                 })
                 .done(function(data) {
-                    if (data.result) {
-                        location.reload();
-                    }
+                    dev_p.saved = true;
                 });
             }
         }

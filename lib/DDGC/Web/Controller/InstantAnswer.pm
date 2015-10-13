@@ -712,6 +712,12 @@ sub save_multiple :Chained('base') :PathPart('save_multiple') :Args(0) {
     my $field = $c->req->params->{field};
     my $value = $c->req->params->{value};
 
+    if ($field eq 'producer'){
+        my $complat_user = $c->d->rs('User')->find({username => $value});
+        my $complat_user_admin = $complat_user? $complat_user->admin : '';
+        return $c->forward($c->view('JSON')) unless $complat_user_admin || $value eq '';
+    }
+
     for my $id (@{$ias}) {
         my $ia = $c->d->rs('InstantAnswer')->find({meta_id => $id});
 
