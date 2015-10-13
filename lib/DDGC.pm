@@ -709,6 +709,7 @@ sub delete_user {
 			$_->ghosted(1);
 			$_->update({ 'updated' => $_->created });
 		}
+		$user->update({ email_verified => 0 });
 		$guard->commit;
 		($prosody_user_rs) && $prosody_user_rs->delete;
 	}
