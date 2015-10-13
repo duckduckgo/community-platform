@@ -1,4 +1,4 @@
-BEGIN:
+BEGIN;
 
 alter table instant_answer
     add column release_version numeric(8,3),
