@@ -144,6 +144,23 @@
                 }
             });
 
+            $("body").on("click", "#beta_install", function(evt) {
+                var prs = {};
+                $(".dev_pipeline-column__list .selected").each(function(idx) {
+                    var temp_pr = $.trim($(this).find(".item-activity a").attr("href");
+                    var temp_pr_id = temp_pr.replace(/.*\//, ""));
+                    var temp_repo = temp_pr.replace(/.*zeroclickinfo\-/, "").replace(/\\/.*$/, "");
+
+                    if (!prs.hasOwnProperty(temp_repo)) {
+                        prs[temp_repo] = [];
+                    }
+
+                    prs[temp_repo].push(temp_pr_id);
+                });
+
+                send_to_beta(prs);
+            }):
+
             $("body").on("click", ".dev_pipeline-column__list li", function(evt) {
                 var $items = $(".dev_pipeline-column__list .selected");
                 var was_selected = $(this).hasClass("selected");
@@ -257,6 +274,14 @@
                     $(".dev_pipeline-column__list li." + teamrole + "-" + username).show();
                 }
             });
+
+            function send_to_beta(prs) {
+                var jqxhr = $.post("/ia/send_to_beta", {
+                    data : prs
+                })
+                .done(function(data) {
+                });
+            }
 
             function autocommit(field, value, id) {
                var jqxhr = $.post("/ia/save", {
