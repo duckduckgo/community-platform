@@ -7,6 +7,7 @@ use Time::Local;
 use JSON;
 use Net::GitHub::V3;
 use DateTime;
+use LWP::UserAgent;
 
 my $INST = DDGC::Config->new->appdir_path."/root/static/js";
 
@@ -697,6 +698,36 @@ sub commit_save :Chained('commit_base') :PathPart('save') :Args(0) {
     };
 
     $c->stash->{not_last_url} = 1;
+    return $c->forward($c->view('JSON'));
+}
+
+# Install the data on the beta server
+# Data is an hash of arrays
+# {goodies: [#pr1, #pr2, #pr3], spice: [#pr1, #pr2] ... and so on
+sub send_to_beta :Chained('base') :PathPart('send_to_beta') :Args(0) {
+    my ( $self, $c ) = @_;
+    
+    my $ua = LWP::UserAgent->new;
+
+    my $result = "";
+    $c->stash->{x}->{result} = $result;
+    my $data = $c->req->params->{data};
+
+    return $c->forward($c->view('JSON')) unless ($data && $c->user && $c->user->admin);
+
+    my $server = "beta.duckduckgo.com/install";
+    my $req = HTTP::Request->new(POST => $server);
+
+    my $key = 'EtOJgkDdsKz41U3GU5EwSWodv';
+    my $header_data = hmac_sha1_hex($data, $key);
+    $req->header("x-hub-signature" => $header_data);
+    $req->content($data);
+
+    my $resp = $ua->request($req);
+    if ($resp->is_success) {
+        $result = 1;
+    } 
+
     return $c->forward($c->view('JSON'));
 }
 
