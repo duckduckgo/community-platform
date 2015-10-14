@@ -718,7 +718,7 @@ sub send_to_beta :Chained('base') :PathPart('send_to_beta') :Args(0) {
     my $server = "beta.duckduckgo.com/install";
     my $req = HTTP::Request->new(POST => $server);
 
-    my $key = 'EtOJgkDdsKz41U3GU5EwSWodv';
+    my $key = $ENV{'BETA_KEY'};
     my $header_data = hmac_sha1_hex($data, $key);
     $req->header("x-hub-signature" => $header_data);
     $req->content($data);
