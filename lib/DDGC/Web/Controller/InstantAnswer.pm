@@ -721,7 +721,7 @@ sub send_to_beta :Chained('base') :PathPart('send_to_beta') :Args(0) {
     my $key = $ENV{'BETA_KEY'};
     my $header_data = hmac_sha1_hex($data, $key);
     $req->header("x-hub-signature" => $header_data);
-    $req->content($data);
+    $req->content('{"payload" : $data}');
 
     my $resp = $ua->request($req);
     if ($resp->is_success) {
