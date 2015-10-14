@@ -151,16 +151,17 @@
                     var temp_pr_id = temp_pr.replace(/.*\//, "");
                     var temp_repo = temp_pr.replace(/.*zeroclickinfo\-/, "").replace(/\/[a-zA-Z0-9]*\/[a-zA-Z0-9]*\/?/, "");
 
-                    var temp_hash = {
-                        "action" : "install",
-                        "number" : temp_pr_id,
-                        "repo" : temp_repo
-                    };
+                    var temp_hash = 
+                        {
+                            "action" : "install",
+                            "number" : temp_pr_id,
+                            "repo" : temp_repo
+                        };
 
                     prs.push(temp_hash);
                 });
 
-                send_to_beta(prs);
+                send_to_beta(JSON.stringify(prs[0]));
             });
 
             $("body").on("click", ".dev_pipeline-column__list li", function(evt) {
