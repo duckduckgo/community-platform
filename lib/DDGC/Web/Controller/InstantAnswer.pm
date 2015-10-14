@@ -8,6 +8,7 @@ use JSON;
 use Net::GitHub::V3;
 use DateTime;
 use LWP::UserAgent;
+use Digest::SHA qw( hmac_sha1_hex );
 
 my $INST = DDGC::Config->new->appdir_path."/root/static/js";
 
