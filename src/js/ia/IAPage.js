@@ -448,7 +448,7 @@
                             },
                             mobileClick: {
                                 evt: 'click',
-                                selector: '.screenshot-switcher .icon-extra-mobile',
+                                selector: '.screenshot-switcher .platform-mobile',
                                 fn: function(event) {
                                     if(!Screens.state.isError && !Screens.state.isLoading) {
                                         Screens.state.isMobile = true;
@@ -461,7 +461,7 @@
                             },
                             desktopClick: {
                                 evt: 'click',
-                                selector: '.screenshot-switcher .icon-extra-desktop',
+                                selector: '.screenshot-switcher .platform-desktop',
                                 fn: function(event) {
                                     if(!Screens.state.isError && !Screens.state.isLoading) {
                                         Screens.state.isMobile = false;
@@ -485,17 +485,17 @@
                         },
                         setOpacity: function() {
                             if(Screens.state.isMobile) {
-                                $('.screenshot-switcher .icon-extra-desktop').parent().addClass('remove-border');
-                                $('.screenshot-switcher .icon-extra-mobile').parent().removeClass('remove-border');
+                                $('.screenshot-switcher .platform-desktop').parent().addClass('remove-border');
+                                $('.screenshot-switcher .platform-mobile').parent().removeClass('remove-border');
 
-                                $('.screenshot-switcher .icon-extra-mobile').removeClass('add-opacity');
-                                $('.screenshot-switcher .icon-extra-desktop').addClass('add-opacity');
+                                $('.screenshot-switcher .platform-mobile').removeClass('add-opacity');
+                                $('.screenshot-switcher .platform-desktop').addClass('add-opacity');
                             } else {
-                                $('.screenshot-switcher .icon-extra-desktop').parent().removeClass('remove-border');
-                                $('.screenshot-switcher .icon-extra-mobile').parent().addClass('remove-border');
+                                $('.screenshot-switcher .platform-desktop').parent().removeClass('remove-border');
+                                $('.screenshot-switcher .platform-mobile').parent().addClass('remove-border');
 
-                                $('.screenshot-switcher .icon-extra-mobile').addClass('add-opacity');
-                                $('.screenshot-switcher .icon-extra-desktop').removeClass('add-opacity');
+                                $('.screenshot-switcher .platform-mobile').addClass('add-opacity');
+                                $('.screenshot-switcher .platform-desktop').removeClass('add-opacity');
                             }
                         },
                         generateImage: function(callback, isFirst) {
