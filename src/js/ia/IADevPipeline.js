@@ -322,6 +322,18 @@
                    var actions_data = {};
                    actions_data.permissions = dev_p.data.permissions;
                    actions_data.selected = selected;
+                   actions_data.beta = 1;
+
+                   $(".dev_pipeline-column__list .selected").each(function(idx) {
+                       var meta_id = $(this).attr("id").replace("pipeline-list__", "");
+                       var milestone = $(this).parents(".dev_pipeline-column").attr("id").replace("pipeline-", "");
+                       var page_data = getPageData(meta_id, milestone);
+                        
+                       // If at least one of the selected IAs isn't on beta we show the "install on beta" button
+                       if (page_data.test_machine !== "beta") {
+                           actions_data.beta = 0;
+                       }
+                   });
 
                    var actions_sidebar = Handlebars.templates.dev_pipeline_actions(actions_data);
                    $("#actions_sidebar").html(actions_sidebar).removeClass("hide");
