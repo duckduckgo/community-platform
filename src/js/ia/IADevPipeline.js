@@ -145,17 +145,19 @@
             });
 
             $("body").on("click", "#beta_install", function(evt) {
-                var prs = {};
+                var prs = [];
                 $(".dev_pipeline-column__list .selected").each(function(idx) {
                     var temp_pr = $.trim($(this).find(".item-activity a").attr("href"));
                     var temp_pr_id = temp_pr.replace(/.*\//, "");
                     var temp_repo = temp_pr.replace(/.*zeroclickinfo\-/, "").replace(/\/[a-zA-Z0-9]*\/[a-zA-Z0-9]*\/?/, "");
 
-                    if (!prs.hasOwnProperty(temp_repo)) {
-                        prs[temp_repo] = [];
-                    }
+                    var temp_hash = {
+                        "action" : "install",
+                        "number" : temp_pr_id,
+                        "repo" : temp_repo
+                    };
 
-                    prs[temp_repo].push(temp_pr_id);
+                    prs.push(temp_hash);
                 });
 
                 send_to_beta(prs);
