@@ -59,7 +59,7 @@
 
                     var param_count = 0;
 
-                    $.each(parameters, function(idx) {
+                    for (var idx = 0; idx < parameters.length; idx++) {
                         var temp = parameters[idx].split("=");
                         var field = temp[0];
                         var value = temp[1];
@@ -75,15 +75,16 @@
                                 param_count++;
                             } else if (field === "filter") {
                                 $("#filter-" + value).trigger("click");
+                                param_count++;
                             }
                         }
-                    });
+                    }
 
                     if (param_count === 0) {
-                        filter('');
+                        filter();
                     }
                 } else {
-                    filter('');
+                    filter();
                 }
             });
 
@@ -92,8 +93,9 @@
 
                 dev_p.query = "";
 
+                $(".search-thing").val("");
                 $(".active-filter").removeClass("active-filter");
-                filter("");
+                filter();
             });
 
             $("#create-new-ia").click(function(evt) {
@@ -210,6 +212,7 @@
                     var which_filter = $(this).attr("id").replace("filter-", "");
                     
                     filter(which_filter);
+                    console.log("filtering from triggered event");
                     $("#pipeline-clear-filters").removeClass("hide");
                 }
             });
@@ -319,6 +322,8 @@
                 if (which_filter) {
                     url += "&filter=" + which_filter;
                     which_filter = "." + which_filter;
+                } else {
+                    which_filter = "";
                 }
 
                 $obj = $(".dev_pipeline-column__list li" + which_filter);
