@@ -7,23 +7,14 @@
         </div>
     </div>
     <div class="column-center-live left">
-        <div class="column-center-live__child">
-            <p class="column-center-live__child__p">
-                {{#if edited.dev_milestone}}
-                    <span class="edited">{{edited.dev_milestone}}</span>
-                {{else}}
-                    {{live.dev_milestone}}
-                {{/if}}
-            </p>
-        </div>
-    </div>
-    <div class="button js-pre-editable" name="dev_milestone">
-        <i class="js-pre-editable__icon icon-edit"></i>
-        <span class="js-pre-editable__text">Edit</span>
-    </div>
-
-    <div class="button hide js-editable" name="dev_milestone">
-        <i class="js-editable__icon icon-check"></i>
-        <span class="js-editable__text">Done</span>
+	<select class="js-input" data-field="select" data-name="dev_milestone">
+	   <option value="1">planning</option>
+           <option value="2">development</option>
+           <option value="3">testing</option>
+           <option value="4">complete</option>
+           <option value="5">live</option>
+           <option value="6">deprecated</option>
+           <option value="7">ghosted</option>
+	</select>
     </div>
 </div>

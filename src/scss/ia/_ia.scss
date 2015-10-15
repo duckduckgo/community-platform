@@ -29,9 +29,7 @@
     height: 1.75em;
     color: #fff;
 }
-.ia-simgle--edits {
-    margin-left: 7em;
-}
+
 .ia-single--edits select.available_types {
     background-color: #589e4d;
 }
@@ -85,8 +83,11 @@
     margin: 0;
     font-size: 1em;
 }
-.ia-single .row-diff span.edited,
-.ia-single .row-diff input.edited {
+
+.ia-single .row-diff.edited ul,
+.ia-single .row-diff.edited p,
+.ia-single .row-diff.edited input,
+.ia-single .row-diff.edited textarea {
     color: $gold;
 }
 .ia-single .row-diff .js-input {
@@ -99,10 +100,23 @@
     -moz-border-radius: 3px;
     -webkit-border-radius: 3px;
     -o-border-radius: 3px;
-	
-    border: 1px solid #babec9;
+
+    color: #666;
+    border: 1px solid $white;	
     padding-left: 0.2em;
+    transition: 0.2s all ease;
+    -moz-transition: 0.2s all ease;
+    -webkit-transition: 0.2s all ease;
+    -o-transition: 0.2s all ease;
 }
+
+.ia-single .row-diff input:hover,
+.is-single .row-diff input:focus,
+.ia-single .row-diff textarea:hover,
+.ia-single .row-diff textarea:focus {
+    border: 1px solid $platinum;
+}
+
 .ia-single .row-diff .editpage span {
     width: 95%;
 }

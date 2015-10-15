@@ -955,7 +955,8 @@
                             }
 
 			    if (value !== edited_value && value !== live_value || value !== edited_value && value === live_value) {
-                                save(field, value, DDH_iaid, $obj, is_json);
+                                console.log('are we saving');
+				save(field, value, DDH_iaid, $obj, is_json);
                             } else {
                                 $obj.replaceWith(pre_templates[field]);
                             }
@@ -965,16 +966,30 @@
                             }
                         }
                     });
-
-		    $('body').on("change", "[data-field='text']", function() {
+		    
+		    $("body").on("change", ".js-input", function() {
                		var $elem = $(this),
-                   	    field = $elem.data('name'),
-                   	    value = ia_data.live[field],
-                  	    newVal = $elem.val();
-                  
-			console.log('new: ' + newVal);
-                 	preSaveValues(ia_data, field, newVal);
+                   	    type = $elem.data("field"),
+			    field = $elem.data("name");
+
+			if (type == "text") {
+			    valueText(field, $elem);
+			} else if (type == "select") {
+			    valueSelect(field, $elem);
+			}                 
                	    });
+		    
+		    function valueText(field, $elem) {
+		      var newVal = $elem.val();
+  		      preSaveValues(ia_data, field, newVal);
+		    }
+
+		    function valueSelect(field, $elem) {
+		      var $option = $elem.find("option:selected"),
+                          newVal = $.trim($option.text());
+  		      preSaveValues(ia_data, field, newVal);
+		    }			
+
 			
 		    function preSaveValues(ia_data, field, value) {
                       var edited_value = ia_data.edited[field],
@@ -984,7 +999,7 @@
                       if (value !== edited_value && value !== live_value) {
                         save(field, value, DDH_iaid, $field, false);
                       } else if (value == live_value) {
-                        $field.removeClass('edited');
+                        $field.parent().parent().removeClass('edited');
                       }
                     }
 
@@ -1426,22 +1441,21 @@
                             autocommit: 0
                         })
                         .done(function(data) {
-                            if (data.result && data.result[field]) {
+                            console.log(data.result);
+			    if (data.result && data.result[field]) {
                                 if (data.result.is_admin) {
                                     if ($("#view_commits").hasClass("hide")) {
                                         $("#view_commits").removeClass("hide");
                                     }
                                 }
-
-                                if (is_json) {
+                                if (is_json === true) {
                                     ia_data.edited[field] = $.parseJSON(data.result[field]);
                                 } else {
                                     ia_data.edited[field] = data.result[field];
                                 }
 				
-				if($obj.is('[data-field="text"]')) {
-				    $obj.val(value);
-              			    $obj.addClass('edited');
+				if($obj.is("[data-field='text']") || $obj.is("[data-field='select']")) {
+              			    $obj.parent().parent().addClass("edited");
 				} else {
                                     pre_templates[field] = Handlebars.templates['pre_edit_' + field](ia_data);
                                     $obj.replaceWith(pre_templates[field]);
@@ -1623,11 +1637,19 @@
 		    $(templates.developer).insertAfter("#row-diff-topic");
                 }
             }
-	    
-	    $('[data-field="text"]').each(function() {
+	    $("[data-field='select']").each(function() {
+	        var $elem = $(this),
+		    field = $elem.data("name"),
+		    val = ia_data.edited[field] ? ia_data.edited[field] : ia_data.live[field],
+		    htmlString = "<option value='0' selected>" + val + "</option>";
+	    	$(htmlString).insertBefore($elem.find($("option:first-of-type")));
+	    });
+
+	    $("[data-field='text']").each(function() {
                  var $elem = $(this),
                      field = $elem.data('name');
-                  $elem.val(ia_data.live[field]);
+		     val = ia_data.edited[field] ? ia_data.edited[field] : ia_data.live[field];
+                  $elem.val(val);
             });
 
             // Make sure to update the widths of the topics.
