@@ -5,9 +5,10 @@
     };
 
     DDH.IADevPipeline.prototype = {
-        filters: {
-            missing: '',
-        },
+        filters: [
+            'missing',
+            'important'
+        ],
 
         query: '',
 
@@ -44,6 +45,13 @@
                 // 100% width
                 $(".site-main > .content-wrap").first().removeClass("content-wrap").addClass("wrap-pipeline");
 
+                // Add counts to filters
+                $(".pipeline-filter").each(function(idx) {
+                    var temp_filter = $(this).attr("id").replace("filter-", "");
+                    var temp_count = $(".dev_pipeline-column__list li." + temp_filter).length;
+                    $("#count-" + temp_filter).text(temp_count);
+                });
+
                 var parameters = window.location.search.replace("?", "");
                 parameters = $.trim(parameters.replace(/\/$/, ''));
                 if (parameters) {
@@ -56,7 +64,7 @@
                         var field = temp[0];
                         var value = temp[1];
 
-                        if (field && value && (dev_p.filters.hasOwnProperty(field) || field === "q")) {
+                        if (field && value && ((dev_p.filters.indexOf(value) !== -1) || field === "q")) {
                             if ((field === "q") && value) {
                                 $(".search-thing").val(decodeURIComponent(value.replace(/\+/g, " ")));
 
@@ -65,18 +73,17 @@
                                 evt.which = 13;
                                 $(".search-thing").trigger(evt);
                                 param_count++;
-                            } else if (field === "missing") {
-                                $("#select-info").val(value);
-                                $("#filter-info i").trigger("click");
+                            } else if (field === "filter") {
+                                $("#filter-" + value).trigger("click");
                             }
                         }
                     });
 
                     if (param_count === 0) {
-                        filter();
+                        filter('');
                     }
                 } else {
-                    filter();
+                    filter('');
                 }
             });
 
@@ -84,16 +91,9 @@
                 $(this).addClass("hide");
 
                 dev_p.query = "";
-                $.each(dev_p.filters, function(key, val) {
-                    dev_p.filters[key] = "";
-                });
 
-                $(".filter-team select").val("all");
-                $(".search-thing").val("");
-
-                $("#filter-info i").removeClass("icon-check").addClass("icon-check-empty");
-
-                filter();
+                $(".active-filter").removeClass("active-filter");
+                filter("");
             });
 
             $("#create-new-ia").click(function(evt) {
@@ -203,20 +203,15 @@
                 }
             });
 
-            $("body").on("click change", "#filter-info i, #select-info", function(evt) {
-                if (evt.type === "click" && $(this).is("#filter-info i")) {
-                    toggleCheck($(this));
-                }
-
-                if ($("#filter-info i").hasClass("icon-check")) {
-                    var value = $.trim($("#select-info option:selected").text().toLowerCase().replace(/\s/g, "_"));
-                    dev_p.filters.missing = value;
+            $(".pipeline-filter").click(function(evt) {
+                if (!$(this).hasClass("active-filter")) {
+                    $(".active-filter").removeClass("active-filter");
+                    $(this).addClass("active-filter");
+                    var which_filter = $(this).attr("id").replace("filter-", "");
+                    
+                    filter(which_filter);
                     $("#pipeline-clear-filters").removeClass("hide");
-                } else {
-                    dev_p.filters.missing = "";
                 }
-
-                filter();
             });
 
             $("body").on("keypress change", ".pipeline-actions__select, .pipeline-actions__input", function(evt)  {
@@ -315,22 +310,18 @@
                 }
             }
 
-            function filter() {
+            function filter(which_filter) {
                 var query = dev_p.query? dev_p.query.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&") : '';
                 var url = "";
                 var $obj = $(".dev_pipeline-column__list li");
-                var class_sel = "";
 
                 $obj.hide();
-                $.each(dev_p.filters, function(key, val) {
-                    if (val) {
-                        class_sel += "." + key + "-";
-                        class_sel += (val === "none")? "" : val;
-                        url += "&" + key + "=" + val;
-                    }
-                });
+                if (which_filter) {
+                    url += "&filter=" + which_filter;
+                    which_filter = "." + which_filter;
+                }
 
-                $obj = $(".dev_pipeline-column__list li" + class_sel);
+                $obj = $(".dev_pipeline-column__list li" + which_filter);
                 var $children = $obj.children(".item-name");
 
                 if (query) {
