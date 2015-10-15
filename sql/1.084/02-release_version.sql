@@ -418,6 +418,6 @@ from (values
 	('country_languages', 0.018),
 	('julia', 0.018),
 	('fuel_economy', 0.004),
-	('yoga_asanas_api', 0.009),
+	('yoga_asanas_api', 0.009)
 ) as a(id, release_version)
 where ia.id = a.id;
