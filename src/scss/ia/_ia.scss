@@ -39,7 +39,7 @@
 }
 
 .ia-single .ia-single--edits .developer_username {
-    width: auto;
+    width: 40%;
 }
 
 .ia-single--edits #row-title {
@@ -90,12 +90,26 @@
 .ia-single .row-diff.edited textarea {
     color: $gold;
 }
+.ia-single .row-diff.edited select {
+    border-color: $gold;
+    color: $gold;
+}
 .ia-single .row-diff .js-input {
     font-size: 1em;
 }
+.ia-single .row-diff .js-input.js-input--heading {
+    margin-left: -3em;
+    font-size: 2em;
+    font-weight: 600;
+}
+
+.ia-single .row-diff input.js-input,
+.ia-single .row-diff textarea.js-input {
+    width: 100%;
+}
+
 .ia-single .row-diff input,
 .ia-single .row-diff textarea {
-    width: 100%;
     border-radius: 3px;
     -moz-border-radius: 3px;
     -webkit-border-radius: 3px;
@@ -117,9 +131,6 @@
     border: 1px solid $platinum;
 }
 
-.ia-single .row-diff .editpage span {
-    width: 95%;
-}
 .ia-single .row-diff .available_topics,
 .ia-single .topic-group,
 .ia-single .row-diff .editpage span input {
@@ -145,9 +156,6 @@
 .ia-single .topic-group {
     height: 2.21em;
 }
-.ia-single span input {
-    width: 8em;
-}
 
 .ia-single span.developer_username input.invalid {
     border: 1px solid #bd4b2b;
@@ -164,7 +172,7 @@
     -webkit-border-bottom-left-radius: 3px;
     -o-border-bottom-left-radius: 3px;
     border: 1px solid #babec9;
-    width: 8em;
+    width: 100%;
     margin-left: 0.5em;
 }
 
