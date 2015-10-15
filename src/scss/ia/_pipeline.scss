@@ -204,6 +204,10 @@
 	    border-radius: 0;
 	}
 
+	&.on-hold {
+	    opacity: 0.5;
+	}
+
         .item-name { 
 	    & > a {
 		display: inline-block;
