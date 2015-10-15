@@ -70,10 +70,15 @@
 .pipeline-filter { 
     color: $grey-light;
     cursor: pointer;
+    padding-bottom: 4px;
 
     .platform-no-info .path2:before { margin-left: -1.5em; }
 
     #count-missing { margin-left: -0.65em; }
+
+    &.active-filter {
+	box-shadow: inset 0px -3px $blue;
+    }
 }
 
 .fix-float { visibility: hidden; }
