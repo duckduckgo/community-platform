@@ -220,11 +220,11 @@
 		    content: "G";
 		}
 
-		&-fathead {
+		&-fathead:before {
 		    content: "F";
 		}
 
-		&-longtail {
+		&-longtail:before {
 		    content: "L";
 		}
 	    }
