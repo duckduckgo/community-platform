@@ -85,17 +85,18 @@
       </span>
 
       <span class="filter-team">
-        <span class="pipeline-filter" id="filter-missing">
+        <span class="pipeline-filter" id="filter-missing" title="Filter by missing info">
             <span class="platform-no-info">
                 <span class="path1"></span>
                 <span class="path2"></span>
             </span>
-            <span class="count" id="count-missing"></span>
+            <span class="filter-count" id="count-missing"></span>
         </span> 
       </span>
 
-      <span class="pipeline-filter" id="filter-important">
+      <span class="pipeline-filter" id="filter-important" title="Filter by priority">
         <i class="icon-star"></i>
+        <span class="filter-count" id="count-important"></span>
       </span>
       
       <span class="button hide" id="pipeline-clear-filters">

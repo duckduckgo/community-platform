@@ -45,6 +45,13 @@
                 // 100% width
                 $(".site-main > .content-wrap").first().removeClass("content-wrap").addClass("wrap-pipeline");
 
+                // Add counts to filters
+                $(".pipeline-filter").each(function(idx) {
+                    var temp_filter = $(this).attr("id").replace("filter-", "");
+                    var temp_count = $(".dev_pipeline-column__list lii." + temp_filter).length;
+                    $("#count-" + temp_filter).text(temp_count);
+                });
+
                 var parameters = window.location.search.replace("?", "");
                 parameters = $.trim(parameters.replace(/\/$/, ''));
                 if (parameters) {

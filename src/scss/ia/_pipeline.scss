@@ -65,9 +65,16 @@
 
 .toggle-details { margin-right: 1em; }
 
-.pipeline-filter, #pipeline-clear-filters { margin-left: 1em; }
+.pipeline-filter, #pipeline-clear-filters { margin-left: 1.5em; }
 
-.pipeline-filter .platform-no-info .path2:before { margin-left: -1.5em; }
+.pipeline-filter { 
+    color: $grey-light;
+    cursor: pointer;
+
+    .platform-no-info .path2:before { margin-left: -1.5em; }
+
+    #count-missing { margin-left: -0.65em; }
+}
 
 .fix-float { visibility: hidden; }
 
@@ -87,10 +94,10 @@
     position: absolute;
     z-index: 3000;
     right: 0px;
-    top: 16.64em;
+    top: 17.12em;
     background-color: $white;
     padding: 2em;
-    height: 100%;
+    height: 91.8%;
     border: 1px solid rgba(200,200,200,0.2);
 
     .sidebar-field {
