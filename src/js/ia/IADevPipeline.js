@@ -48,7 +48,7 @@
                 // Add counts to filters
                 $(".pipeline-filter").each(function(idx) {
                     var temp_filter = $(this).attr("id").replace("filter-", "");
-                    var temp_count = $(".dev_pipeline-column__list lii." + temp_filter).length;
+                    var temp_count = $(".dev_pipeline-column__list li." + temp_filter).length;
                     $("#count-" + temp_filter).text(temp_count);
                 });
 
