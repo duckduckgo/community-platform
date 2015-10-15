@@ -7,23 +7,11 @@
         </div>
     </div>
     <div class="column-center-live left">
-        <div class="column-center-live__child">
-            <p class="column-center-live__child__p">
-                {{#if edited.repo}}
-                    <span class="edited">{{edited.repo}}</span>
-                {{else}}
-                    {{live.repo}}
-                {{/if}}
-            </p>
-        </div>
-    </div>
-    <div class="button js-pre-editable" name="repo">
-        <i class="js-pre-editable__icon icon-edit"></i>
-        <span class="js-pre-editable__text">Edit</span>
-    </div>
-
-    <div class="button hide js-editable" name="repo">
-        <i class="js-editable__icon icon-check"></i>
-        <span class="js-editable__text">Done</span>
+	<select class="js-input" data-field="select" data-name="repo">
+            <option value="1">spice</option>
+            <option value="2">goodies</option>
+            <option value="3">fathead</option>
+            <option value="4">longtail</option>
+        </select>
     </div>
 </div>
