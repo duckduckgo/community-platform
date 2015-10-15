@@ -197,13 +197,13 @@
             });
 
             $(".pipeline-filter").click(function(evt) {
-                console.log("triggered");
                 if (!$(this).hasClass("active-filter")) {
                     $(".active-filter").removeClass("active-filter");
                     $(this).addClass("active-filter");
                     var which_filter = $(this).attr("id").replace("filter-", "");
-                    console.log(which_filter);
+                    
                     filter(which_filter);
+                    $("#pipeline-clear-filters").removeClass("hide");
                 }
             });
 

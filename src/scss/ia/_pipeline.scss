@@ -65,7 +65,11 @@
 
 .toggle-details { margin-right: 1em; }
 
-.filter-team span, #pipeline-clear-filters { margin-left: 1em; }
+.pipeline-filter, #pipeline-clear-filters { margin-left: 1em; }
+
+.pipeline-filter .platform-no-info .path2:before { margin-left: -1.5em; }
+
+.fix-float { visibility: hidden; }
 
 .deselect-all .ddgsi-close { cursor: pointer; }
 #page_sidebar {
@@ -121,7 +125,7 @@
     }
 }
 
-#dev_pipeline { margin-top: 1em; }
+#dev_pipeline { margin-top: 0.5em; }
 
 #dev_pipeline .dev_pipeline-column {
     text-align: left;
