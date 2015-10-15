@@ -7,7 +7,8 @@
     DDH.IADevPipeline.prototype = {
         filters: [
             'missing',
-            'important'
+            'important',
+            'mentioned'
         ],
 
         query: '',
@@ -28,6 +29,10 @@
                     data.permissions = {};
                     data.permissions.admin = 1;
                 }
+
+                // Get username for the at mentions filter
+                var username = $.trim($(".header-account-info .user-name").text());
+                data.username = username;
 
                 dev_p.data = data;
                 
