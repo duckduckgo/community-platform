@@ -900,14 +900,6 @@
                         }
                    });
 
-                    $("body").on("click", ".column-right-edits i.icon-check.js-editable", function(evt) {
-                        $(this).removeClass("icon-check").addClass("icon-check-empty");
-                    });
-
-                    $("body").on("click", ".column-right-edits i.icon-check-empty.js-editable", function(evt) {
-                        $(this).removeClass("icon-check-empty").addClass("icon-check");
-                    });
-
                     $("body").on('keypress click', '.js-input, .button.js-editable', function(evt) {
                         if ((evt.type === 'keypress' && (evt.which === 13 && $(this).hasClass("js-input")))
                             || (evt.type === 'click' && $(this).hasClass("js-editable"))) {
@@ -967,22 +959,41 @@
                         }
                     });
 		    
-		    $("body").on("change", ".js-input", function() {
+		    $("body").on("change", ".ia-single .js-input", function() {
                		var $elem = $(this),
                    	    type = $elem.data("field"),
 			    field = $elem.data("name");
 
 			if (type == "text") {
 			    valueText(field, $elem);
+			
 			} else if (type == "select") {
 			    valueSelect(field, $elem);
-			}                 
+			
+			}
                	    });
+
+		    $("body").on("click", ".ia-single .js-input[data-field='checkbox']", function(){
+			var $elem = $(this),
+		            field = $elem.data("name");
+			
+			if ($elem.hasClass("icon-check-empty")) { 
+          		    $elem.removeClass("icon-check-empty").addClass("icon-check");
+        		} else {
+          		    $elem.removeClass("icon-check").addClass("icon-check-empty");
+        		}
+			valueCheckbox(field, $elem);
+		    });
 		    
 		    function valueText(field, $elem) {
 		      var newVal = $elem.val();
   		      preSaveValues(ia_data, field, newVal);
 		    }
+
+		    function valueCheckbox(field, $elem) {
+			var newVal = $elem.hasClass("icon-check") ? 1 : 0;
+			preSaveValues(ia_data, field, newVal);                   
+                    }
 
 		    function valueSelect(field, $elem) {
 		      var $option = $elem.find("option:selected"),
@@ -999,9 +1010,15 @@
                       if (value !== edited_value && value !== live_value) {
                         save(field, value, DDH_iaid, $field, false);
                       } else if (value == live_value) {
-                        $field.parent().parent().removeClass('edited');
+			// save(field, value, DDH_iaid, $field, false);
+			assignEditedClass($field).removeClass("edited");
                       }
                     }
+		
+		    function assignEditedClass(element) {
+			var $target = element.is("[data-field='checkbox']") ? element.parent().parent().parent() : element.parent().parent();
+			return $target;	
+		    }
 
 
                     // Check if username exists for the given account type (either github or duck.co)
@@ -1453,9 +1470,12 @@
                                 } else {
                                     ia_data.edited[field] = data.result[field];
                                 }
-				
-				if($obj.is("[data-field='text']") || $obj.is("[data-field='select']")) {
-              			    $obj.parent().parent().addClass("edited");
+
+			
+				if($obj.is("[data-field='text']") || $obj.is("[data-field='checkbox']") || $obj.is("[data-field='select']")) {
+              			    if (ia_data.edited[field] !== ia_data.live[field]) {
+					assignEditedClass($obj).addClass("edited");
+				    }
 				} else {
                                     pre_templates[field] = Handlebars.templates['pre_edit_' + field](ia_data);
                                     $obj.replaceWith(pre_templates[field]);
@@ -1643,14 +1663,31 @@
 		    val = ia_data.edited[field] ? ia_data.edited[field] : ia_data.live[field],
 		    htmlString = "<option value='0' selected>" + val + "</option>";
 	    	$(htmlString).insertBefore($elem.find($("option:first-of-type")));
-	    });
+		if (ia_data.edited[field] && ia_data.edited[field] !==  ia_data.live[field]) {
+		    $elem.parent().parent().addClass("edited");
+		}
+ 	    });
 
 	    $("[data-field='text']").each(function() {
                  var $elem = $(this),
                      field = $elem.data('name');
 		     val = ia_data.edited[field] ? ia_data.edited[field] : ia_data.live[field];
                   $elem.val(val);
+		  if (ia_data.edited[field] && ia_data.edited[field] !== ia_data.live[field]) {
+                    $elem.parent().parent().addClass("edited");
+                }
             });
+
+	    $("[data-field='checkbox']").each(function() {
+	    	var $elem = $(this),
+		    field = $elem.data('name'),
+		    val = ia_data.edited[field] ? ia_data.edited[field] : ia_data.live[field],
+		    className = val ? "icon-check" : "icon-check-empty";
+		$elem.addClass(className);
+		if (ia_data.edited[field] && ia_data.edited[field] !==  ia_data.live[field]) {
+                    $elem.parent().parent().parent().addClass("edited");
+                }
+	    });
 
             // Make sure to update the widths of the topics.
             $("select.top-details.js-autocommit").each(function() {

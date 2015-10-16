@@ -83,16 +83,11 @@
     margin: 0;
     font-size: 1em;
 }
-
-.ia-single .row-diff.edited ul,
-.ia-single .row-diff.edited p,
-.ia-single .row-diff.edited input,
-.ia-single .row-diff.edited textarea {
+.ia-single .row-diff.edited * {
     color: $gold;
 }
 .ia-single .row-diff.edited select {
     border-color: $gold;
-    color: $gold;
 }
 .ia-single .row-diff .js-input {
     font-size: 1em;
