@@ -128,19 +128,26 @@
             </a>
         </div>
         <div class="right" title="{{format_time last_update}}">
+            <i class="ddgsi-clock" />
             {{timeago last_update}}
         </div>
+        {{#if last_comment}}
+            <div class="right" id="all_comments">
+                <i class="ddgsi-comment" />
+                {{length all_comments}}
+            </div>
+        {{/if}}
 
         <span class="clearfix"></span>
         
-        {{#if last_comment}}
+        {{#each all_comments}}
             <p class="comment">
-                <a href="https://github.com/duckduckgo/zeroclickinfo-{{repo}}/issues/{{pr.issue_id}}#issuecomment-{{last_comment.id}}">
-                    {{last_comment.text}}
+                <a href="https://github.com/duckduckgo/zeroclickinfo-{{../repo}}/issues/{{../pr.issue_id}}#issuecomment-{{id}}">
+                    {{text}}
                 </a>
             </p>
-            <div>{{timeago last_comment.date}}</div>
-        {{/if}}
+            <div>{{timeago date}}</div>
+        {{/each}}
     </div>        
 {{/if}}
 
