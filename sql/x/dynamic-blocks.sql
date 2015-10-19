@@ -46,4 +46,5 @@ update instant_answer as ia set
     ) as a(id, blockgroup)
     where ia.id = a.id;
 
-update instant_answer set blockgroup = repo where repo is not null and blockgroup is null;
+update instant_answer set blockgroup = 'goodie' where repo = 'goodies' and blockgroup is null;
+update instant_answer set blockgroup = repo where blockgroup is null and repo is not null and repo != 'goodies';
