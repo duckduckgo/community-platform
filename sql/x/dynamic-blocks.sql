@@ -48,3 +48,4 @@ update instant_answer as ia set
 
 update instant_answer set blockgroup = 'goodie' where repo = 'goodies' and blockgroup is null;
 update instant_answer set blockgroup = repo where blockgroup is null and repo is not null and repo != 'goodies';
+update instant_answer set deployment_state = 'live' where blockgroup is not null;
