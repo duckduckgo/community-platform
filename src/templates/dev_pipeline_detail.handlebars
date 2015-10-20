@@ -1,5 +1,10 @@
 <div id="sidebar-top" class="clearfix">
   <span class="left">
+    {{#if pr}}{{#each pr.tags}}{{#eq (slug name) 'priorityhigh'}} 
+        <span class="sep--after">
+            <i class="icon-star-empty" />
+        </span>
+    {{/eq}}{{/each}}{{/if}}
     {{#if permissions.admin}}
         <span class="sep--after edit-sidebar" id="edit-sidebar-repo">
             <select>
