@@ -342,6 +342,7 @@ sub find_template {
     return unless $files;
 
     foreach my $file_data (@$files){
+        next unless exists $file_data->{patch};
         # goodies templats
         my ($template) = $file_data->{patch} =~ /group =>\s?(?:'|")([[:alpha:]]+)(?:'|")/;
         return lc $template if $template;
