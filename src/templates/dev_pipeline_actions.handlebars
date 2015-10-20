@@ -43,15 +43,17 @@
                 <input class="pipeline-actions__input" id="input-template" />
             </div>
 
-            <div class="field-section">
-                <div class="field-label"> Dev Machine </div>
-                {{#if installed}}
-                    Installed on <a href="https://beta.duckduckgo.com">beta</a>
-                {{else}}
-                    <div class="pipeline-actions__button button btn--primary" id="beta_install">
-                        Install on beta
-                    </div>
-                {{/if}}
-            </div>
+            {{#if got_prs}}
+                <div class="field-section">
+                    <div class="field-label"> Dev Machine </div>
+                    {{#if installed}}
+                        Installed on <a href="https://beta.duckduckgo.com">beta</a>
+                    {{else}}
+                        <div class="pipeline-actions__button button btn--primary" id="beta_install">
+                            Install on beta
+                        </div>
+                    {{/if}}
+                </div>
+            {{/if}}
         </div>
 {{/if}}

@@ -330,6 +330,7 @@
                    actions_data.permissions = dev_p.data.permissions;
                    actions_data.selected = selected;
                    actions_data.beta = 1;
+                   actions_data.got_prs = 0;
 
                    $(".dev_pipeline-column__list .selected").each(function(idx) {
                        var meta_id = $(this).attr("id").replace("pipeline-list__", "");
@@ -339,6 +340,10 @@
                        // If at least one of the selected IAs isn't on beta we show the "install on beta" button
                        if (page_data.test_machine !== "beta") {
                            actions_data.beta = 0;
+                       }
+
+                       if (page_data.pr && page_data.pr.issue_id) {
+                           actions_data.got_prs = 1;
                        }
                    });
 
