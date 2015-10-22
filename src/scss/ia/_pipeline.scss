@@ -85,15 +85,17 @@
 
 .fix-float { visibility: hidden; }
 
-.deselect-all .ddgsi-close { cursor: pointer; }
+.deselect-all .ddgsi-close { 
+    cursor: pointer; 
+    position: relative;
+    top: 2px;
+}
 #page_sidebar {
     width: 33.33%;
 }
 
 #actions_sidebar {
-    width: 16%;
-
-    .field-section { margin-top: 1em; }
+    width: 12%;
 }
 
 #page_sidebar, #actions_sidebar {
@@ -113,8 +115,10 @@
 
     #sidebar-pr, #pr, .primary-label {
         color: $grey-light;
-	    font-size: 0.95em;
-	    font-weight: 500;
+	font-size: 0.95em;
+	font-weight: 500;
+	padding-top: 2em;
+	padding-bottom: 0.5em;
     }
 
     #sidebar-pr .comment {
@@ -282,6 +286,29 @@
 .pipeline-actions {
     .count-txt {
 	color: $grey;
+	padding-bottom: 2em;
+    }
+
+    .frm__select {
+	background-color: transparent;
+	border-color: transparent;
+
+	& > select {
+	    position: relative;
+	    bottom: 30px;
+	    padding-left: 0;
+	    text-transform: capitalize;
+	    color: transparent;
+	}
+
+	&:after {
+	    color: $grey;
+	    top: 43%;
+	}
+    }
+
+    .frm__input {
+	margin: 0.4em 0;
     }
 }
 
