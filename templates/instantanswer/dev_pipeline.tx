@@ -1,7 +1,4 @@
 <: if $is_admin { :>
-    <div id="create-new-ia" class="button right">
-        New IA Page
-    </div>
     <div id="create-new-ia-form" class="new-ia-form hide">
         <div class="new-ia-form-section left">
             <div class="label">
@@ -66,6 +63,10 @@
                 Deprecated
             </a>
         </span>
+    </div>
+
+    <div id="create-new-ia" class="button right">
+        New IA Page
     </div>
 
     <span class="clearfix"></span>

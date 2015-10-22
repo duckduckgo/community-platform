@@ -278,7 +278,7 @@
                 }
             });
 
-            $(".toggle-details i").click(function(evt) {
+            $("body").on("click", ".toggle-details i", function(evt) {
                 toggleCheck($(this));
 
                 $(".activity-details").toggleClass("hide");

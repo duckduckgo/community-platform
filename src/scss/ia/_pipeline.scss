@@ -338,3 +338,14 @@
 .filters-bar {
     padding-bottom: 1em;
 }
+
+.pipeline__toggle-view {
+    background-color: $blue-light;
+    padding: 1em 1em;
+    margin-top: -1em;
+    color: white;
+
+    h1 {
+	color: white;
+    }
+}
