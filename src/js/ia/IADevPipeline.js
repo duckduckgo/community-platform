@@ -336,6 +336,8 @@
                    actions_data.selected = selected;
                    actions_data.beta = 1;
                    actions_data.got_prs = 0;
+                   var same_type = true;
+                   var temp_type = '';
 
                    $(".dev_pipeline-column__list .selected").each(function(idx) {
                        var meta_id = $(this).attr("id").replace("pipeline-list__", "");
@@ -350,7 +352,17 @@
                        if (page_data.pr && page_data.pr.issue_id) {
                            actions_data.got_prs = 1;
                        }
+
+                       if ((page_data.repo !== temp_type) && (temp_type !== '')) {
+                           same_type = false;
+                       } else if (temp_type === '') {
+                           temp_type = page_data.repo;
+                       }
                    });
+
+                   if (!same_type) {
+                       actions_data.got_prs = 0;
+                   }
 
                    var actions_sidebar = Handlebars.templates.dev_pipeline_actions(actions_data);
                    $("#actions_sidebar").html(actions_sidebar).removeClass("hide");
