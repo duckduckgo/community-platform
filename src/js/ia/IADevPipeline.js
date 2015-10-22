@@ -180,6 +180,7 @@
             $("body").on("click", ".dev_pipeline-column__list li", function(evt) {
                 var $items = $(".dev_pipeline-column__list .selected");
                 var was_selected = $(this).hasClass("selected");
+                var multiselect = false;
                 
                 if (evt.shiftKey || was_selected || (!dev_p.data.hasOwnProperty("permissions"))) {
                     if ((!dev_p.data.hasOwnProperty("permissions"))) {
@@ -187,6 +188,10 @@
                     }
                     
                     $(this).toggleClass("selected");
+                    if (evt.shiftKey) {
+                        evt.preventDefault();
+                        multiselect = true;
+                    }
                 } else {
                     $items.toggleClass("selected"); 
                 
@@ -205,7 +210,7 @@
                     $(".pipeline-actions").addClass("hide");
                 }
 
-                appendSidebar(selected);
+                appendSidebar(selected, multiselect);
             });
 
             $("body").on("keypress change", ".edit-sidebar", function(evt) {
@@ -314,11 +319,11 @@
                 $obj.toggleClass("icon-check-empty");
             }
 
-            function appendSidebar(selected) {
+            function appendSidebar(selected, multi) {
                 $("#page_sidebar, #actions_sidebar").addClass("hide").empty();
                 $("#page_sidebar").attr("ia_id", "");
                 
-                if (selected === 1) {
+                if ((!multi) && selected > 0) {
                     var $item = $(".dev_pipeline-column__list .selected");
                     var meta_id = $item.attr("id").replace("pipeline-list__", "");
                     var milestone = $item.parents(".dev_pipeline-column").attr("id").replace("pipeline-", "");
@@ -330,7 +335,7 @@
                         $("#page_sidebar").html(sidebar).removeClass("hide");
                         $("#page_sidebar").attr("ia_id", page_data.id);
                     }
-                } else if (selected > 1) {
+                } else if (multi) {
                    var actions_data = {};
                    actions_data.permissions = dev_p.data.permissions;
                    actions_data.selected = selected;
