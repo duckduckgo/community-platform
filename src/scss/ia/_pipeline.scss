@@ -74,6 +74,12 @@
     cursor: pointer;
     padding-bottom: 4px;
 
+    .platform-no-info {
+	position: relative;
+	top: 1px;
+	padding-right: 3px;
+    }
+
     .platform-no-info .path2:before { margin-left: -1.5em; }
 
     #count-missing { margin-left: -0.6em; }
@@ -309,6 +315,10 @@
 
     .frm__input {
 	margin: 0.4em 0;
+    }
+
+    .frm__label {
+	font-size: 1em;
     }
 }
 
