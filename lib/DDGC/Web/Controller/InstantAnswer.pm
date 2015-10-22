@@ -718,7 +718,6 @@ sub send_to_beta :Chained('base') :PathPart('send_to_beta') :Args(0) {
     my $server = "http://beta.duckduckgo.com/install";
     my $key = $ENV{'BETA_KEY'};
     my $decoded_data = from_json($c->req->params->{data});
-    warn $key;
 
     for my $data (@{$decoded_data}) {
         my $req = HTTP::Request->new(GET => $server);
@@ -729,7 +728,6 @@ sub send_to_beta :Chained('base') :PathPart('send_to_beta') :Args(0) {
         $req->content(to_json($data));
 
         my $resp = $ua->request($req);
-        warn $resp;
         if ($resp->is_success) {
             $result = 1;
             $c->stash->{x}->{result} = $result;
