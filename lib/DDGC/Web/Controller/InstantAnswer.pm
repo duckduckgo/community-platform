@@ -722,7 +722,7 @@ sub send_to_beta :Chained('base') :PathPart('send_to_beta') :Args(0) {
 
     for my $data (@{$decoded_data}) {
         my $req = HTTP::Request->new(GET => $server);
-        my $header_data = "sha1=".Digest::SHA::hmac_sha1_hex(to_json($data, $key));
+        my $header_data = "sha1=".Digest::SHA::hmac_sha1_hex(to_json($data), $key);
         
         $req->header('content-type' => 'application/json');
         $req->header("x-hub-signature" => $header_data);
