@@ -60,6 +60,11 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 
+    // Limit the size of the whole thing.
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+
     padding: 0 2em;
 }
 

@@ -16,6 +16,8 @@
         data: {},
 
         init: function() {
+	    $('#wrapper').css('min-width', '1200px');
+
             // console.log("IADevPipeline init()");
             var dev_p = this;
             var url = window.location.pathname.replace(/\/$/, '') + "/json";
