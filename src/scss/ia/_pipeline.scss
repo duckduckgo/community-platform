@@ -233,6 +233,16 @@
 	    opacity: 0.5;
 	}
 
+	&.dog-ear {
+	    background-color: white;
+	    @include background-image(linear-gradient(
+					  -140deg, 
+					  $blue-light,
+					  $blue-light 5%,
+					  white 5%,
+					  white 95%));
+	}
+
         .item-name { 
 	    & > a {
 		display: inline-block;
