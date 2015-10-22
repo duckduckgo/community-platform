@@ -717,15 +717,16 @@ sub send_to_beta :Chained('base') :PathPart('send_to_beta') :Args(0) {
 
     my $server = "http://beta.duckduckgo.com/install";
     my $key = $ENV{'BETA_KEY'};
+    my $decoded_data = from_json($c->req->params->{data});
     warn $key;
 
-    for my $data (@{$c->req->params->{data}}) {
+    for my $data (@{$decoded_data}) {
         my $req = HTTP::Request->new(GET => $server);
-        my $header_data = "sha1=".Digest::SHA::hmac_sha1_hex($data, $key);
+        my $header_data = "sha1=".Digest::SHA::hmac_sha1_hex(to_json($data, $key));
         
         $req->header('content-type' => 'application/json');
         $req->header("x-hub-signature" => $header_data);
-        $req->content($data);
+        $req->content(to_json($data));
 
         my $resp = $ua->request($req);
         warn $resp;
