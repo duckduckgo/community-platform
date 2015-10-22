@@ -51,6 +51,7 @@
 
                 // 100% width
                 $(".site-main > .content-wrap").first().removeClass("content-wrap").addClass("wrap-pipeline");
+		$(".breadcrumb-nav").remove();
 
                 // Add counts to filters
                 $(".pipeline-filter").each(function(idx) {
@@ -95,7 +96,7 @@
                 }
             });
 
-            $("#pipeline-clear-filters").click(function(evt) {
+            $("body").on("click", "#pipeline-clear-filters", function(evt) {
                 $(this).addClass("hide");
 
                 dev_p.query = "";
@@ -105,7 +106,7 @@
                 filter();
             });
 
-            $("#create-new-ia").click(function(evt) {
+             $("body").on("click", "#create-new-ia", function(evt) {
                 $(this).hide();
                 $("#create-new-ia-form").removeClass("hide");
             });
@@ -241,7 +242,7 @@
                 }
             });
 
-            $(".pipeline-filter").click(function(evt) {
+             $("body").on("click", ".pipeline-filter", function(evt) {
                 if (!$(this).hasClass("active-filter")) {
                     $(".active-filter").removeClass("active-filter");
                     $(this).addClass("active-filter");

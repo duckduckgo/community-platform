@@ -59,13 +59,6 @@
     /* Make the fonts look snazzy. */
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-
-    // Limit the size of the whole thing.
-    max-width: 1200px;
-    margin-left: auto;
-    margin-right: auto;
-
-    padding: 0 2em;
 }
 
 .hide { display: none; }
@@ -157,7 +150,12 @@
     }
 }
 
-#dev_pipeline { margin-top: 0.5em; }
+#dev_pipeline { 
+    margin-top: 0.5em; 
+    max-width: 1200px;
+    margin-right: auto;
+    margin-left: auto;
+}
 
 #dev_pipeline .dev_pipeline-column {
     text-align: left;
@@ -337,3 +335,6 @@
     }
 }
 
+.filters-bar {
+    padding-bottom: 1em;
+}

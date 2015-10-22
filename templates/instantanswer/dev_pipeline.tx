@@ -71,48 +71,7 @@
     <span class="clearfix"></span>
 
     <div id="pipeline-stats"></div>
-
-    <div class="left search-container">
-      <i class="ddgsi-loupe"></i>
-      <input type="text" class="search-thing" placeholder="Filter by title or description">
-    </div>
-
-
-    <div class="right">
-      <span class="toggle-details">
-        <i class="icon-check-empty"></i>
-        Show activity details
-      </span>
-
-      <span class="pipeline-filter" id="filter-missing" title="Filter by missing info">
-          <span class="platform-no-info">
-              <span class="path1"></span>
-              <span class="path2"></span>
-          </span>
-          <span class="filter-count" id="count-missing"></span>
-      </span> 
-
-      <span class="pipeline-filter" id="filter-important" title="Filter by priority">
-        <i class="icon-star"></i>
-        <span class="filter-count" id="count-important"></span>
-      </span>
-    
-      <: if ($logged_in) { :>
-        <span class="pipeline-filter" id="filter-mentioned" title="Filter by mentions">
-            <i class="platform-at-mention"></i>
-            <span class="filter-count" id="count-mentioned"></span>
-        </span>
-      <: } :>
-      
-      <span class="button hide" id="pipeline-clear-filters">
-        Clear Filters
-      </span>
-      <span class="button fix-float"></span>
-    </span>
-  </div>
 </div>
-
-<div class="clearfix"></div>
 
 <div id="page_sidebar" class="hide">
 </div>
