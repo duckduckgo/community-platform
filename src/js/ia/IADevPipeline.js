@@ -188,7 +188,10 @@
                     }
                     
                     $(this).toggleClass("selected");
-                    multiselect = evt.shiftKey? true : false;
+                    if (evt.shiftKey) {
+                        evt.preventDefault();
+                        multiselect = true;
+                    }
                 } else {
                     $items.toggleClass("selected"); 
                 
