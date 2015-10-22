@@ -222,8 +222,8 @@
 	    background-color: white;
 	    @include background-image(linear-gradient(
 					  -140deg, 
-					  #4495d4,
-					  #4495d4 5%,
+					  $blue-light,
+					  $blue-light 5%,
 					  white 5%,
 					  white 95%));
 	}
