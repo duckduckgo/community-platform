@@ -711,27 +711,32 @@ sub send_to_beta :Chained('base') :PathPart('send_to_beta') :Args(0) {
     
     my $ua = LWP::UserAgent->new;
 
-    my $result = "";
+    my $result = '';
     $c->stash->{x}->{result} = $result;
     return $c->forward($c->view('JSON')) unless ($c->req->params->{data} && $c->user && $c->user->admin);
-    my $data = $c->req->params->{data};
 
     my $server = "http://beta.duckduckgo.com/install";
-    my $req = HTTP::Request->new(GET => $server);
-
     my $key = $ENV{'BETA_KEY'};
     warn $key;
-    my $header_data = "sha1=".Digest::SHA::hmac_sha1_hex($data, $key);
-    $req->header('content-type' => 'application/json');
-    $req->header("x-hub-signature" => $header_data);
-    $req->content($data);
 
-    my $resp = $ua->request($req);
-    warn $resp;
-    if ($resp->is_success) {
-        $result = 1;
-        $c->stash->{x}->{result} = $result;
-    } 
+    for my $data (@{$c->req->params->{data}}) {
+        my $req = HTTP::Request->new(GET => $server);
+        my $header_data = "sha1=".Digest::SHA::hmac_sha1_hex($data, $key);
+        
+        $req->header('content-type' => 'application/json');
+        $req->header("x-hub-signature" => $header_data);
+        $req->content($data);
+
+        my $resp = $ua->request($req);
+        warn $resp;
+        if ($resp->is_success) {
+            $result = 1;
+            $c->stash->{x}->{result} = $result;
+        } else {
+            $result = '';
+            $c->stash->{x}->{result} = $result;
+        }
+    }
 
     return $c->forward($c->view('JSON'));
 }

@@ -163,7 +163,7 @@
                     if (temp_pr_id && temp_repo) {
                         var temp_hash = 
                             {
-                                "action" : "install",
+                                "action" : "duckco",
                                 "number" : temp_pr_id,
                                 "repo" : temp_repo
                             };
@@ -173,7 +173,7 @@
                 });
 
                 if (prs.length) {
-                    send_to_beta(JSON.stringify(prs[0]));
+                    send_to_beta(JSON.stringify(prs));
                 }
             });
 
