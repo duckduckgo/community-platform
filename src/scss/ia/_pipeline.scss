@@ -100,11 +100,11 @@
     box-sizing: border-box;
     position: absolute;
     z-index: 1;
-    right: 0px;
-    top: 17.12em;
+    right: 0;
+    top: 12em;
+    bottom: 0;
     background-color: $white;
     padding: 2em;
-    height: 91.8%;
     border: 1px solid rgba(200,200,200,0.2);
 
     .sidebar-field {

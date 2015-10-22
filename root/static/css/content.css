@@ -7739,6 +7739,7 @@ h1 + .intro, .intro--mg {
 */
 /* line 810, ../../src/scss/content/_global.scss */
 .site-bottom {
+  z-index: 2;
   background: #f4f4f4 url("../img/bg-site-bottom-texture.jpg");
   border-top: 1px solid #d4d4d4;
   box-shadow: inset 0 1px 0 255, 255, 255, 0.3;
@@ -7746,12 +7747,12 @@ h1 + .intro, .intro--mg {
   overflow: hidden;
 }
 
-/* line 817, ../../src/scss/content/_global.scss */
+/* line 819, ../../src/scss/content/_global.scss */
 .site-bottom .nav-col {
   padding-left: 25px;
 }
 
-/* line 818, ../../src/scss/content/_global.scss */
+/* line 820, ../../src/scss/content/_global.scss */
 .site-bottom h4 {
   margin: 0 0 16px;
   color: #565656;
@@ -7759,7 +7760,7 @@ h1 + .intro, .intro--mg {
   font-weight: bold;
 }
 
-/* line 819, ../../src/scss/content/_global.scss */
+/* line 821, ../../src/scss/content/_global.scss */
 .site-bottom ul {
   list-style: none;
   padding: 0;
@@ -7767,7 +7768,7 @@ h1 + .intro, .intro--mg {
   font-size: 0.95em;
 }
 
-/* line 820, ../../src/scss/content/_global.scss */
+/* line 822, ../../src/scss/content/_global.scss */
 .site-bottom li {
   list-style: none;
   margin: 0 0 6px;
@@ -7775,13 +7776,13 @@ h1 + .intro, .intro--mg {
   line-height: 1;
 }
 
-/* line 821, ../../src/scss/content/_global.scss */
+/* line 823, ../../src/scss/content/_global.scss */
 .site-bottom a {
   color: #3363b3;
   text-decoration: none;
 }
 
-/* line 822, ../../src/scss/content/_global.scss */
+/* line 824, ../../src/scss/content/_global.scss */
 .site-bottom a:hover {
   color: #3e77d5;
 }
@@ -7789,31 +7790,32 @@ h1 + .intro, .intro--mg {
 /* 
 	Site Footer
 */
-/* line 827, ../../src/scss/content/_global.scss */
+/* line 829, ../../src/scss/content/_global.scss */
 .site-footer {
+  z-index: 2;
   background: #2b2b2b;
   color: #c3c3c3;
   padding: 12px 0 25px;
   overflow: hidden;
 }
 
-/* line 833, ../../src/scss/content/_global.scss */
+/* line 837, ../../src/scss/content/_global.scss */
 .site-footer a {
   color: #93beff;
 }
 
-/* line 834, ../../src/scss/content/_global.scss */
+/* line 838, ../../src/scss/content/_global.scss */
 .site-footer a:hover {
   color: #c5dcff;
 }
 
-/* line 836, ../../src/scss/content/_global.scss */
+/* line 840, ../../src/scss/content/_global.scss */
 .site-footer p {
   margin-bottom: 0;
   padding-left: 25px;
 }
 
-/* line 837, ../../src/scss/content/_global.scss */
+/* line 841, ../../src/scss/content/_global.scss */
 .footer-nav a {
   display: inline-block;
   padding-right: 16px;
@@ -7823,62 +7825,62 @@ h1 + .intro, .intro--mg {
 	Margin Helpers
 	At the bottom of this file to be more helpful :)
 */
-/* line 843, ../../src/scss/content/_global.scss */
+/* line 847, ../../src/scss/content/_global.scss */
 .mg-top {
   margin-top: 10px;
 }
 
-/* line 844, ../../src/scss/content/_global.scss */
+/* line 848, ../../src/scss/content/_global.scss */
 .mg-top--base {
   margin-top: 18px;
 }
 
-/* line 845, ../../src/scss/content/_global.scss */
+/* line 849, ../../src/scss/content/_global.scss */
 .mg-top--big {
   margin-top: 30px;
 }
 
-/* line 846, ../../src/scss/content/_global.scss */
+/* line 850, ../../src/scss/content/_global.scss */
 .mg-top--double {
   margin-top: 20px;
 }
 
-/* line 847, ../../src/scss/content/_global.scss */
+/* line 851, ../../src/scss/content/_global.scss */
 .mg-top--small {
   margin-top: 5px;
 }
 
-/* line 848, ../../src/scss/content/_global.scss */
+/* line 852, ../../src/scss/content/_global.scss */
 .mg-top--none {
   margin-top: 0;
 }
 
-/* line 850, ../../src/scss/content/_global.scss */
+/* line 854, ../../src/scss/content/_global.scss */
 .mg-bottom {
   margin-bottom: 10px;
 }
 
-/* line 851, ../../src/scss/content/_global.scss */
+/* line 855, ../../src/scss/content/_global.scss */
 .mg-bottom--base {
   margin-bottom: 18px;
 }
 
-/* line 852, ../../src/scss/content/_global.scss */
+/* line 856, ../../src/scss/content/_global.scss */
 .mg-bottom--big {
   margin-bottom: 30px;
 }
 
-/* line 853, ../../src/scss/content/_global.scss */
+/* line 857, ../../src/scss/content/_global.scss */
 .mg-bottom--double {
   margin-bottom: 20px;
 }
 
-/* line 854, ../../src/scss/content/_global.scss */
+/* line 858, ../../src/scss/content/_global.scss */
 .mg-bottom--small {
   margin-bottom: 5px;
 }
 
-/* line 855, ../../src/scss/content/_global.scss */
+/* line 859, ../../src/scss/content/_global.scss */
 .mg-bottom--none {
   margin-bottom: 0;
 }
@@ -7886,7 +7888,7 @@ h1 + .intro, .intro--mg {
 /* 
 	Fun fun Rotation!
 */
-/* line 861, ../../src/scss/content/_global.scss */
+/* line 865, ../../src/scss/content/_global.scss */
 .rotate {
   -webkit-transform: rotate(90deg);
   -moz-transform: rotate(90deg);
@@ -7896,7 +7898,7 @@ h1 + .intro, .intro--mg {
   filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=1);
 }
 
-/* line 870, ../../src/scss/content/_global.scss */
+/* line 874, ../../src/scss/content/_global.scss */
 .rotate--ccw {
   -webkit-transform: rotate(-90deg);
   -moz-transform: rotate(-90deg);
@@ -7906,7 +7908,7 @@ h1 + .intro, .intro--mg {
   filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
 }
 
-/* line 879, ../../src/scss/content/_global.scss */
+/* line 883, ../../src/scss/content/_global.scss */
 .rotate--180 {
   -webkit-transform: rotate(180deg);
   -moz-transform: rotate(180deg);
@@ -7921,60 +7923,60 @@ h1 + .intro, .intro--mg {
 */
 @media only screen and (min-width: 1000px) {
   /* keep the footer at the bottom for larger screens where the height is known */
-  /* line 893, ../../src/scss/content/_global.scss */
+  /* line 897, ../../src/scss/content/_global.scss */
   html, body {
     height: 100%;
     min-height: 100%;
   }
 
-  /* line 894, ../../src/scss/content/_global.scss */
+  /* line 898, ../../src/scss/content/_global.scss */
   #wrapper {
     min-height: 100%;
   }
 
-  /* line 895, ../../src/scss/content/_global.scss */
+  /* line 899, ../../src/scss/content/_global.scss */
   .site-main {
     padding-bottom: 200px;
   }
 
-  /* line 896, ../../src/scss/content/_global.scss */
+  /* line 900, ../../src/scss/content/_global.scss */
   .site-footer, .site-bottom {
     position: absolute;
     left: 0;
     width: 100%;
   }
 
-  /* line 897, ../../src/scss/content/_global.scss */
+  /* line 901, ../../src/scss/content/_global.scss */
   .site-bottom {
     position: absolute;
     bottom: 50px;
     margin-top: -320px;
   }
 
-  /* line 898, ../../src/scss/content/_global.scss */
+  /* line 902, ../../src/scss/content/_global.scss */
   .site-footer {
     bottom: 0;
     left: 0;
   }
 }
 @media only screen and (max-width: 1060px) {
-  /* line 902, ../../src/scss/content/_global.scss */
+  /* line 906, ../../src/scss/content/_global.scss */
   .topmsg + .content-wrap h1 {
     max-width: 85%;
   }
 }
 @media only screen and (max-width: 930px) {
-  /* line 905, ../../src/scss/content/_global.scss */
+  /* line 909, ../../src/scss/content/_global.scss */
   .header-logo {
     width: 220px;
   }
 
-  /* line 906, ../../src/scss/content/_global.scss */
+  /* line 910, ../../src/scss/content/_global.scss */
   .header-logo.wide {
     width: 300px;
   }
 
-  /* line 907, ../../src/scss/content/_global.scss */
+  /* line 911, ../../src/scss/content/_global.scss */
   .header-account-info {
     position: absolute;
     top: 0;
@@ -7982,51 +7984,51 @@ h1 + .intro, .intro--mg {
   }
 }
 @media only screen and (max-width: 830px) {
-  /* line 910, ../../src/scss/content/_global.scss */
+  /* line 914, ../../src/scss/content/_global.scss */
   .site-header .user-avatar {
     visibility: hidden;
   }
 }
 @media only screen and (max-width: 788px) {
-  /* line 913, ../../src/scss/content/_global.scss */
+  /* line 917, ../../src/scss/content/_global.scss */
   .site-main .content-wrap {
     width: 98%;
   }
 
-  /* line 914, ../../src/scss/content/_global.scss */
+  /* line 918, ../../src/scss/content/_global.scss */
   .topmsg {
     zoom: 0.85;
   }
 
-  /* line 915, ../../src/scss/content/_global.scss */
+  /* line 919, ../../src/scss/content/_global.scss */
   .header-login {
     position: absolute;
     right: 0;
   }
 
-  /* line 916, ../../src/scss/content/_global.scss */
+  /* line 920, ../../src/scss/content/_global.scss */
   .site-header .user-avatar {
     visibility: visible;
   }
 
-  /* line 917, ../../src/scss/content/_global.scss */
+  /* line 921, ../../src/scss/content/_global.scss */
   .header-notice {
     padding-bottom: 4px;
   }
 
-  /* line 918, ../../src/scss/content/_global.scss */
+  /* line 922, ../../src/scss/content/_global.scss */
   .header-nav, .header-notice {
     clear: both;
     float: none;
     padding-top: 4px;
   }
 
-  /* line 919, ../../src/scss/content/_global.scss */
+  /* line 923, ../../src/scss/content/_global.scss */
   .header-nav ul {
     float: none;
   }
 
-  /* line 920, ../../src/scss/content/_global.scss */
+  /* line 924, ../../src/scss/content/_global.scss */
   .header-nav li {
     width: 20%;
     /* assuming 4 nav items */
@@ -8037,7 +8039,7 @@ h1 + .intro, .intro--mg {
     box-sizing: border-box;
   }
 
-  /* line 928, ../../src/scss/content/_global.scss */
+  /* line 932, ../../src/scss/content/_global.scss */
   .header-nav a {
     border-top: 1px solid #d5d5d5;
     padding-left: 0;
@@ -8046,12 +8048,12 @@ h1 + .intro, .intro--mg {
   }
 }
 @media only screen and (max-width: 60em) {
-  /* line 936, ../../src/scss/content/_global.scss */
+  /* line 940, ../../src/scss/content/_global.scss */
   body, .content-wrap {
     min-width: 320px;
   }
 
-  /* line 940, ../../src/scss/content/_global.scss */
+  /* line 944, ../../src/scss/content/_global.scss */
   .head.group .pull-left,
   .head.group .pull-right {
     float: none;
@@ -8059,24 +8061,24 @@ h1 + .intro, .intro--mg {
     padding: 4px 0;
   }
 
-  /* line 947, ../../src/scss/content/_global.scss */
+  /* line 951, ../../src/scss/content/_global.scss */
   .language_nav {
     margin-top: 6px;
   }
 
-  /* line 950, ../../src/scss/content/_global.scss */
+  /* line 954, ../../src/scss/content/_global.scss */
   .site-bottom .nav-col {
     padding-left: 0;
     text-align: center;
   }
 
-  /* line 951, ../../src/scss/content/_global.scss */
+  /* line 955, ../../src/scss/content/_global.scss */
   .nav-col h4 {
     font-size: 17px;
     padding-top: 14px;
   }
 
-  /* line 952, ../../src/scss/content/_global.scss */
+  /* line 956, ../../src/scss/content/_global.scss */
   .nav-col li {
     display: inline-block;
     padding: 0 7px;
@@ -8089,20 +8091,20 @@ h1 + .intro, .intro--mg {
   		.header-account-info { width: 13em; }
   			.header-account-info .user-avatar { margin-right: 19px; }
   */
-  /* line 962, ../../src/scss/content/_global.scss */
+  /* line 966, ../../src/scss/content/_global.scss */
   .header-nav ul {
     border: none;
     border-top: 1px solid #d5d5d5;
   }
 
-  /* line 963, ../../src/scss/content/_global.scss */
+  /* line 967, ../../src/scss/content/_global.scss */
   .header-nav li {
     width: 100%;
     float: none;
     clear: both;
   }
 
-  /* line 964, ../../src/scss/content/_global.scss */
+  /* line 968, ../../src/scss/content/_global.scss */
   .header-nav ul li a, .header-nav ul li:first-child a {
     border-left: none;
     border-right: none;
@@ -8111,40 +8113,40 @@ h1 + .intro, .intro--mg {
     border-bottom: 1px solid #d5d5d5;
   }
 
-  /* line 971, ../../src/scss/content/_global.scss */
+  /* line 975, ../../src/scss/content/_global.scss */
   .header-login .account-actions a {
     font-size: 12px;
     padding: 8px 12px 9px;
   }
 
-  /* line 975, ../../src/scss/content/_global.scss */
+  /* line 979, ../../src/scss/content/_global.scss */
   .header-account-info .user-avatar, .header-account-info .user-notifications {
     visibility: hidden;
   }
 
-  /* line 978, ../../src/scss/content/_global.scss */
+  /* line 982, ../../src/scss/content/_global.scss */
   .breadcrumb-right {
     margin-top: 0;
   }
 }
 @media only screen and (max-width: 375px) {
-  /* line 981, ../../src/scss/content/_global.scss */
+  /* line 985, ../../src/scss/content/_global.scss */
   .header-logo {
     width: 180px;
   }
 
-  /* line 984, ../../src/scss/content/_global.scss */
+  /* line 988, ../../src/scss/content/_global.scss */
   .header-logo__logo {
     padding-right: 9px;
   }
 
-  /* line 987, ../../src/scss/content/_global.scss */
+  /* line 991, ../../src/scss/content/_global.scss */
   .header-logo h2 {
     font-size: 18px;
     padding-top: 10px;
   }
 
-  /* line 991, ../../src/scss/content/_global.scss */
+  /* line 995, ../../src/scss/content/_global.scss */
   .header-account-info {
     margin-right: -5px;
   }
