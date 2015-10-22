@@ -290,6 +290,7 @@ column design_review => {
 column test_machine => {
     data_type => 'text',
     is_nullable => 1,
+    pipeline => 1
 };
 
 # test results on IE 8

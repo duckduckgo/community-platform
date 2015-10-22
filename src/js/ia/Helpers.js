@@ -322,9 +322,11 @@
         };
 
         var total = 0;
-        for(var i = 0; i < obj.length; i++){
-            if( calc(obj[i].created_date, operator) ){
-                    total++;
+        if(obj){
+            for(var i = 0; i < obj.length; i++){
+                if( calc(obj[i].created_date, operator) ){
+                        total++;
+                }
             }
         }
         return total;
