@@ -322,10 +322,10 @@ sub assign_producer {
     return $producers[int(rand(@producers))] unless $gh_user;
 
     # look for linked duck.co account
-    my $result = $d->rs('GitHub::User')->find({login => $gh_user});
+    my $user = $d->rs('User')->find({github_user => $gh_user});
 
-    if ($result && $result->user && $result->user->admin) {
-        $gh_user = $result->user->username;
+    if ($user && $user->admin) {
+        $gh_user = $user->username;
     } else {
         # If no linked account found, we can't be sure whether 
         # the user is an admin or not.
@@ -361,10 +361,10 @@ sub get_mentions {
     my $duck_users;
     # get duck.co id for each
     foreach my $gh_user (@mentions){
-        my $result = $d->rs('GitHub::User')->find({login => $gh_user});
+        my $user = $d->rs('User')->find({github_user => $gh_user});
         
-        if($result && $result->user){
-            push(@$duck_users, {name => $result->user->username} );
+        if($user){
+            push(@$duck_users, {name => $user->username} );
         }
     }
 
