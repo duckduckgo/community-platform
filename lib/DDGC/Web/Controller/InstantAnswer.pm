@@ -1207,7 +1207,8 @@ sub save_milestone_date {
     return unless $field;
     
     my @time = localtime(time);
-    my $date = "$time[4]/$time[3]/".($time[5]+1900);
+    my $month = $time[4] + 1;
+    my $date = "$month/$time[3]/".($time[5]+1900);
     update_ia($ia, $field, $date);
 
     update_ia($ia, 'test_machine', undef) if ($milestone eq 'live');
