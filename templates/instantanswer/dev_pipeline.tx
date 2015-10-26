@@ -48,6 +48,7 @@
 <: } :>
 
 <div class="pipeline__toggle-view" id="pipeline_toggle-view">
+  <!--
     <div class="pager-wrap">
         <span class="button-group  button-group--paging">
             <a href="/ia/dev" class="button pipeline__toggle-view__button" id="pipeline_toggle-home">
@@ -64,7 +65,7 @@
             </a>
         </span>
     </div>
-
+  -->
     <: if $is_admin { :>
       <div id="create-new-ia" class="button right">
         New IA Page

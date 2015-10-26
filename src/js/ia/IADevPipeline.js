@@ -430,7 +430,7 @@
                 var testing_visible = $("#dev_pipeline #pipeline-testing__list .item-name:visible").length;
                 var complete_visible = $("#dev_pipeline #pipeline-complete__list .item-name:visible").length;
                 
-                $("#pipeline-stats h1").text(all_visible + " Instant Answers in progress");
+                //$("#pipeline-stats h1").text(all_visible + " Instant Answers in progress");
                 $("#pipeline-planning .milestone-count").text(planning_visible);
                 $("#pipeline-development .milestone-count").text(development_visible);
                 $("#pipeline-testing .milestone-count").text(testing_visible);

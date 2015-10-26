@@ -113,7 +113,7 @@
     background-color: $white;
     padding: 2em;
     border: 1px solid rgba(200,200,200,0.2);
-    padding-top: 13em;
+    padding-top: 15.2em;
 
     .sidebar-field {
         margin-top: 1em;
@@ -140,15 +140,25 @@
 #pipeline-stats {
     text-align: center;
     margin-top: -1em;
+    padding-bottom: 3em;
 
+    a {
+	padding: 0em 1em;
+	color: white;
+    }
+
+    .pipeline__toggle-view__button {
+	margin: 0;
+    }
+    
     #created-stats { 
         font-weight: 600; 
         margin-bottom: 2em;
     }
 
-    h1 { 
-        margin-bottom: 0.3em;
-        margin-top: 0;
+    h1 {
+	margin-bottom: 0.5em;
+	margin-top: 2em;
     }
 }
 
@@ -354,4 +364,8 @@
     h1 {
 	color: white;
     }
+}
+
+#create-new-ia {
+    position: absolute;
 }
