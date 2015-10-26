@@ -809,7 +809,7 @@ a.fill {
 */
 .site-bottom {
     // The sidebar for the dev page (which has a z-index of 1) needs to be underneath the footer.
-    z-index: 2;
+    z-index: $site-bottom-z-index;
 	background: #f4f4f4 url('../img/bg-site-bottom-texture.jpg');
 	border-top: 1px solid #d4d4d4;
 	box-shadow: inset 0 1px 0 (255,255,255,0.3);
