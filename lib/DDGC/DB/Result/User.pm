@@ -120,6 +120,11 @@ column updated => {
 	set_on_update => 1,
 };
 
+column github_user => {
+    data_type => 'text',
+    is_nullable => 1
+};
+
 has xmpp => (
 	isa => 'HashRef',
 	is => 'ro',
