@@ -9,6 +9,6 @@ use namespace::autoclean;
 table 'github_user_link';
 
 primary_column users_id       => {data_type => 'bigint', is_nullable => 0};
-column data                   => {data_type => 'text',   is_nullable => 0, serializer_class => 'JSON'};
+column gh_data                   => {data_type => 'text',   is_nullable => 0, serializer_class => 'JSON'};
 
 1;
