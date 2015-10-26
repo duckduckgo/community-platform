@@ -65,9 +65,11 @@
         </span>
     </div>
 
-    <div id="create-new-ia" class="button right">
+    <: if $is_admin { :>
+      <div id="create-new-ia" class="button right">
         New IA Page
-    </div>
+      </div>
+    <: } :>
 
     <span class="clearfix"></span>
 
