@@ -2,6 +2,7 @@
     padding: 2em 0;
     text-transform: capitalize;
     color: $grey;
+    padding-top: 0;
 }
 
 #sidebar-name, #edit-sidebar-name {
@@ -112,6 +113,7 @@
     background-color: $white;
     padding: 2em;
     border: 1px solid rgba(200,200,200,0.2);
+    padding-top: 13em;
 
     .sidebar-field {
         margin-top: 1em;
@@ -343,6 +345,11 @@
     padding: 1em 1em;
     margin-top: -1em;
     color: white;
+
+    // Adjust z-index.
+    // It has to be above the actions sidebar.
+    position: relative;
+    z-index: $pipeline-blue-bar;
 
     h1 {
 	color: white;
