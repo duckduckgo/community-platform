@@ -386,6 +386,37 @@
                 }
             }
 
+            // Sort each milestone array by priority
+            function sort_priority() {
+                $.each(dev_p.data.dev_milestones, function (key, val) {
+                    $.each(dev_p.data.dev_milestones[key], function (ia) {
+                        var priority_val = 0;
+                        $.each(dev_p.priority_fields, function(idx) {
+                            var temp_val = dev_p.data.dev_milestones[key][idx];
+                            priority_val += dev_p.priority_vals[temp_val];
+                        });
+
+                        dev_p.data.dev_milestones[key][ia]["priority"] = priority_val;
+
+                        dev_p.data.dev_milestones[key].sort(function l, r) {
+                            var a = l;
+                            var b = r;
+
+                            if (a["priority"] > b["priority"]) {
+                                return 1;
+                            } else if (b["priority"] > a["priority"]) {
+                                return -1;
+                            }
+                                
+                            return 0;
+                        });
+                    });
+                });
+            
+                var iadp = Handlebars.templates.dev_pipeline(data);
+                $("#dev_pipeline").html(iadp);
+            }
+
             function filter(which_filter) {
                 var query = dev_p.query? dev_p.query.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&") : '';
                 var url = "";
