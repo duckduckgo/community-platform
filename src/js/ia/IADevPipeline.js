@@ -25,7 +25,6 @@
 
             $.getJSON(url, function(data) { 
                 // console.log(window.location.pathname);
-
                 // Check user permissions and add to the data
                 if ($("#create-new-ia").length) {
                     data.permissions = {};
