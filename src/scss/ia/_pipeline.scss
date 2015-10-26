@@ -14,6 +14,8 @@
     color: $grey;
 }
 
+#all_comments { margin-right: 1em; }
+
 .edit-sidebar {
     border: 0;
     width: 26em;
@@ -58,6 +60,11 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 
+    // Limit the size of the whole thing.
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+
     padding: 0 2em;
 }
 
@@ -72,6 +79,12 @@
     cursor: pointer;
     padding-bottom: 4px;
 
+    .platform-no-info {
+	position: relative;
+	top: 1px;
+	padding-right: 3px;
+    }
+
     .platform-no-info .path2:before { margin-left: -1.5em; }
 
     #count-missing { margin-left: -0.6em; }
@@ -83,26 +96,28 @@
 
 .fix-float { visibility: hidden; }
 
-.deselect-all .ddgsi-close { cursor: pointer; }
+.deselect-all .ddgsi-close { 
+    cursor: pointer; 
+    position: relative;
+    top: 2px;
+}
 #page_sidebar {
-    width: 33.33%;
+    width: 395px;
 }
 
 #actions_sidebar {
-    width: 16%;
-
-    .field-section { margin-top: 1em; }
+    width: 183px;
 }
 
 #page_sidebar, #actions_sidebar {
     box-sizing: border-box;
     position: absolute;
-    z-index: 3000;
-    right: 0px;
-    top: 17.12em;
+    z-index: 1;
+    right: 0;
+    top: 0;
+    bottom: 0;
     background-color: $white;
     padding: 2em;
-    height: 91.8%;
     border: 1px solid rgba(200,200,200,0.2);
 
     .sidebar-field {
@@ -111,12 +126,17 @@
 
     #sidebar-pr, #pr, .primary-label {
         color: $grey-light;
-	    font-size: 0.95em;
-	    font-weight: 500;
+	font-size: 0.95em;
+	font-weight: 500;
+	padding-top: 2em;
+	padding-bottom: 0.5em;
     }
 
-    #sidebar-pr .comment a {
-        color: $slate;
+    #sidebar-pr .comment {
+        margin-bottom: 0;
+        margin-top: 1em;
+
+        a { color: $slate; }
     }
 
     .ddgsi-close { cursor: pointer; }
@@ -213,6 +233,16 @@
 	    opacity: 0.5;
 	}
 
+	&.dog-ear {
+	    background-color: white;
+	    @include background-image(linear-gradient(
+					  -140deg, 
+					  $blue-light,
+					  $blue-light 5%,
+					  white 5%,
+					  white 95%));
+	}
+
         .item-name { 
 	    & > a {
 		display: inline-block;
@@ -272,5 +302,38 @@
     height: 1.6em;
     padding-top: 0;
     padding-bottom: 0.27em;
+}
+
+.pipeline-actions {
+    .count-txt {
+	color: $grey;
+	padding-bottom: 2em;
+    }
+
+    .frm__select {
+	background-color: transparent;
+	border-color: transparent;
+
+	& > select {
+	    position: relative;
+	    bottom: 30px;
+	    padding-left: 0;
+	    text-transform: capitalize;
+	    color: transparent;
+	}
+
+	&:after {
+	    color: $grey;
+	    top: 43%;
+	}
+    }
+
+    .frm__input {
+	margin: 0.4em 0;
+    }
+
+    .frm__label {
+	font-size: 1em;
+    }
 }
 

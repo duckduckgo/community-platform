@@ -16,6 +16,8 @@
         data: {},
 
         init: function() {
+	    $('#wrapper').css('min-width', '1200px');
+
             // console.log("IADevPipeline init()");
             var dev_p = this;
             var url = window.location.pathname.replace(/\/$/, '') + "/json";
@@ -151,9 +153,34 @@
                 }
             });
 
+            $("body").on("click", "#beta_install", function(evt) {
+                var prs = [];
+                $(".dev_pipeline-column__list .selected").each(function(idx) {
+                    var temp_pr = $.trim($(this).find(".item-activity a").attr("href"));
+                    var temp_pr_id = temp_pr.replace(/.*\//, "");
+                    var temp_repo = temp_pr.replace(/^.*\/duckduckgo\//, "").replace(/\/[a-zA-Z0-9]*\/[a-zA-Z0-9]*\/?/, "");
+
+                    if (temp_pr_id && temp_repo) {
+                        var temp_hash = 
+                            {
+                                "action" : "duckco",
+                                "number" : temp_pr_id,
+                                "repo" : temp_repo
+                            };
+
+                        prs.push(temp_hash);
+                    }
+                });
+
+                if (prs.length) {
+                    send_to_beta(JSON.stringify(prs));
+                }
+            });
+
             $("body").on("click", ".dev_pipeline-column__list li", function(evt) {
                 var $items = $(".dev_pipeline-column__list .selected");
                 var was_selected = $(this).hasClass("selected");
+                var multiselect = false;
                 
                 if (evt.shiftKey || was_selected || (!dev_p.data.hasOwnProperty("permissions"))) {
                     if ((!dev_p.data.hasOwnProperty("permissions"))) {
@@ -161,6 +188,10 @@
                     }
                     
                     $(this).toggleClass("selected");
+                    if (evt.shiftKey) {
+                        evt.preventDefault();
+                        multiselect = true;
+                    }
                 } else {
                     $items.toggleClass("selected"); 
                 
@@ -179,7 +210,7 @@
                     $(".pipeline-actions").addClass("hide");
                 }
 
-                appendSidebar(selected);
+                appendSidebar(selected, multiselect);
             });
 
             $("body").on("keypress change", ".edit-sidebar", function(evt) {
@@ -261,6 +292,14 @@
                 }
             });
 
+            function send_to_beta(prs) {
+                var jqxhr = $.post("/ia/send_to_beta", {
+                    data : prs
+                })
+                .done(function(data) {
+                });
+            }
+
             function autocommit(field, value, id) {
                var jqxhr = $.post("/ia/save", {
                    field : field,
@@ -280,11 +319,11 @@
                 $obj.toggleClass("icon-check-empty");
             }
 
-            function appendSidebar(selected) {
+            function appendSidebar(selected, multi) {
                 $("#page_sidebar, #actions_sidebar").addClass("hide").empty();
                 $("#page_sidebar").attr("ia_id", "");
                 
-                if (selected === 1) {
+                if ((!multi) && selected > 0) {
                     var $item = $(".dev_pipeline-column__list .selected");
                     var meta_id = $item.attr("id").replace("pipeline-list__", "");
                     var milestone = $item.parents(".dev_pipeline-column").attr("id").replace("pipeline-", "");
@@ -296,10 +335,39 @@
                         $("#page_sidebar").html(sidebar).removeClass("hide");
                         $("#page_sidebar").attr("ia_id", page_data.id);
                     }
-                } else if (selected > 1) {
+                } else if (multi) {
                    var actions_data = {};
                    actions_data.permissions = dev_p.data.permissions;
                    actions_data.selected = selected;
+                   actions_data.beta = 1;
+                   actions_data.got_prs = 0;
+                   var same_type = true;
+                   var temp_type = '';
+
+                   $(".dev_pipeline-column__list .selected").each(function(idx) {
+                       var meta_id = $(this).attr("id").replace("pipeline-list__", "");
+                       var milestone = $(this).parents(".dev_pipeline-column").attr("id").replace("pipeline-", "");
+                       var page_data = getPageData(meta_id, milestone);
+                        
+                       // If at least one of the selected IAs isn't on beta we show the "install on beta" button
+                       if (page_data.test_machine !== "beta") {
+                           actions_data.beta = 0;
+                       }
+
+                       if (page_data.pr && page_data.pr.issue_id) {
+                           actions_data.got_prs = 1;
+                       }
+
+                       if ((page_data.repo !== temp_type) && (temp_type !== '')) {
+                           same_type = false;
+                       } else if (temp_type === '') {
+                           temp_type = page_data.repo;
+                       }
+                   });
+
+                   if (!same_type) {
+                       actions_data.got_prs = 0;
+                   }
 
                    var actions_sidebar = Handlebars.templates.dev_pipeline_actions(actions_data);
                    $("#actions_sidebar").html(actions_sidebar).removeClass("hide");
