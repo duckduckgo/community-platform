@@ -14,10 +14,12 @@
         <span class="filter-count" id="count-mentioned"></span>
       </span>
 
-      <span class="pipeline-filter right" id="filter-attention" title="Filter by last activity author">
-        <i class="platform-warning"></i>
-        <span class="filter-count" id="count-attention"></span>
-      </span>
+      {{#if permissions.admin}}
+        <span class="pipeline-filter right" id="filter-attention" title="Filter by last activity author">
+            <i class="platform-warning"></i>
+            <span class="filter-count" id="count-attention"></span>
+        </span>
+      {{/if}}
 
       <span class="pipeline-filter right" id="filter-important" title="Filter by priority">
         <i class="icon-star"></i>
