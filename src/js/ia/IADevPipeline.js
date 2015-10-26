@@ -324,7 +324,7 @@
                 $("#page_sidebar, #actions_sidebar").addClass("hide").empty();
                 $("#page_sidebar").attr("ia_id", "");
                 
-                if ((!multi) && selected > 0) {
+                if ((!multi) && selected === 1) {
                     var $item = $(".dev_pipeline-column__list .selected");
                     var meta_id = $item.attr("id").replace("pipeline-list__", "");
                     var milestone = $item.parents(".dev_pipeline-column").attr("id").replace("pipeline-", "");
@@ -336,7 +336,7 @@
                         $("#page_sidebar").html(sidebar).removeClass("hide");
                         $("#page_sidebar").attr("ia_id", page_data.id);
                     }
-                } else if (multi) {
+                } else if (multi && selected > 1) {
                    var actions_data = {};
                    actions_data.permissions = dev_p.data.permissions;
                    actions_data.selected = selected;
