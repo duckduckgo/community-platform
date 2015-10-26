@@ -223,7 +223,7 @@ Reveal Modals
 	width: 100%;	
 	background: rgba(49,54,66,.6);
 	-pie-background: rgba(49,54,66,.6);
-	z-index: 100;
+	z-index: $reveal-modal-z-index;
 	display: none;
 	top: 0;
 	left: 0; 

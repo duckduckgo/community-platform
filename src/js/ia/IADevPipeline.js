@@ -25,7 +25,6 @@
 
             $.getJSON(url, function(data) { 
                 // console.log(window.location.pathname);
-
                 // Check user permissions and add to the data
                 if ($("#create-new-ia").length) {
                     data.permissions = {};
@@ -51,6 +50,7 @@
 
                 // 100% width
                 $(".site-main > .content-wrap").first().removeClass("content-wrap").addClass("wrap-pipeline");
+		$(".breadcrumb-nav").remove();
 
                 // Add counts to filters
                 $(".pipeline-filter").each(function(idx) {
@@ -95,7 +95,7 @@
                 }
             });
 
-            $("#pipeline-clear-filters").click(function(evt) {
+            $("body").on("click", "#pipeline-clear-filters", function(evt) {
                 $(this).addClass("hide");
 
                 dev_p.query = "";
@@ -105,7 +105,7 @@
                 filter();
             });
 
-            $("#create-new-ia").click(function(evt) {
+             $("body").on("click", "#create-new-ia", function(evt) {
                 $(this).hide();
                 $("#create-new-ia-form").removeClass("hide");
             });
@@ -241,7 +241,7 @@
                 }
             });
 
-            $(".pipeline-filter").click(function(evt) {
+             $("body").on("click", ".pipeline-filter", function(evt) {
                 if (!$(this).hasClass("active-filter")) {
                     $(".active-filter").removeClass("active-filter");
                     $(this).addClass("active-filter");
@@ -277,7 +277,7 @@
                 }
             });
 
-            $(".toggle-details i").click(function(evt) {
+            $("body").on("click", ".toggle-details i", function(evt) {
                 toggleCheck($(this));
 
                 $(".activity-details").toggleClass("hide");
@@ -430,7 +430,7 @@
                 var testing_visible = $("#dev_pipeline #pipeline-testing__list .item-name:visible").length;
                 var complete_visible = $("#dev_pipeline #pipeline-complete__list .item-name:visible").length;
                 
-                $("#pipeline-stats h1").text(all_visible + " Instant Answers in progress");
+                //$("#pipeline-stats h1").text(all_visible + " Instant Answers in progress");
                 $("#pipeline-planning .milestone-count").text(planning_visible);
                 $("#pipeline-development .milestone-count").text(development_visible);
                 $("#pipeline-testing .milestone-count").text(testing_visible);

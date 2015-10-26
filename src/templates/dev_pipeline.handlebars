@@ -1,5 +1,46 @@
+<div class="filters-bar clearfix">
+  <div class="left search-container">
+    <i class="ddgsi-loupe"></i>
+    <input type="text" class="search-thing" placeholder="Filter by title or description">
+  </div>
+
+    <div class="right">
+      <span class="button hide right" id="pipeline-clear-filters">
+        Clear Filters
+      </span>
+
+      <span class="pipeline-filter right" id="filter-mentioned" title="Filter by mentions">
+        <i class="platform-at-mention"></i>
+        <span class="filter-count" id="count-mentioned"></span>
+      </span>
+
+      <span class="pipeline-filter right" id="filter-important" title="Filter by priority">
+        <i class="icon-star"></i>
+        <span class="filter-count" id="count-important"></span>
+      </span>
+
+
+      <span class="pipeline-filter right" id="filter-missing" title="Filter by missing info">
+          <span class="platform-no-info">
+              <span class="path1"></span>
+              <span class="path2"></span>
+          </span>
+          <span class="filter-count" id="count-missing"></span>
+      </span> 
+
+      
+      <span class="toggle-details right">
+        <i class="icon-check-empty"></i>
+        Show activity details
+      </span>
+          
+      <span class="button fix-float"></span>
+    </span>
+  </div>
+</div>
+
 <div class="gw">
-{{#with dev_milestones}}
+  {{#with dev_milestones}}
 
 <div class="dev_pipeline-column quarter g" id="pipeline-planning">
   <div class="dev_pipeline-column--container">
