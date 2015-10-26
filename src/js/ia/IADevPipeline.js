@@ -8,7 +8,8 @@
         filters: [
             'missing',
             'important',
-            'mentioned'
+            'mentioned',
+            'attention'
         ],
 
         query: '',
