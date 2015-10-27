@@ -12,6 +12,8 @@
             'attention'
         ],
 
+        current_filter: '',
+
         query: '',
 
         data: {},
@@ -96,9 +98,7 @@
                 }
             });
 
-            $("body").on("click", "#pipeline-clear-filters", function(evt) {
-                $(this).addClass("hide");
-
+            $("body").on("click", "#pipeline_toggle-dev", function(evt) {
                 dev_p.query = "";
 
                 $(".search-thing").val("");
@@ -250,7 +250,9 @@
                     
                     filter(which_filter);
                     console.log("filtering from triggered event");
-                    $("#pipeline-clear-filters").removeClass("hide");
+                } else {
+                    $(this).removeClass("active-filter");
+                    filter();
                 }
             });
 
@@ -387,7 +389,7 @@
                 }
             }
 
-            function filter(which_filter) {
+            function filter(which_filter, reset) {
                 var query = dev_p.query? dev_p.query.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&") : '';
                 var url = "";
                 var $obj = $(".dev_pipeline-column__list li");
@@ -397,9 +399,10 @@
                     url += "&filter=" + which_filter;
                     which_filter = "." + which_filter;
                 } else {
-                    which_filter = "";
+                    which_filter = reset? "" : dev_p.current_filter;
                 }
 
+                dev_p.current_filter = which_filter;
                 $obj = $(".dev_pipeline-column__list li" + which_filter);
                 var $children = $obj.children(".item-name");
 
