@@ -1,3 +1,8 @@
+{{#if permissions.admin}}
+    <div class="btn btn--wire--hero" id="asana_button">
+        Create a task
+    </div>
+{{/if}}
 {{#if permissions.can_edit}}
     {{#eq_or dev_milestone 'live' 'deprecated'}}
         {{#if edit_count}}
@@ -26,7 +31,4 @@
             <span class="clearfix"></span>
         </div>
     {{/eq_or}}
-    <div class="btn btn--wire--hero btn--inline left" id="asana_button">
-        Create a task
-    </div>
 {{/if}}
