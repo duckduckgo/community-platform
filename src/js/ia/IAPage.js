@@ -195,6 +195,10 @@
                         $("#contributors-popup").addClass("hide");
                     });
 
+                    $("body").on("click", "#asana_button", function(evt) {
+                        create_task(DDH_iaid);
+                    });
+
                     $("body").on("click", ".devpage-cancel", function(evt) {
                         evt.preventDefault();
 
@@ -1347,6 +1351,14 @@
                             $("." + val.field).addClass("not_saved");
                             var $error_msg = $("." + val.field).siblings(".error-notification");
                             $error_msg.removeClass("hide").text(val.msg);
+                        });
+                    }
+
+                    function create_task(id) {
+                        var jqxhr = $.post("/ia/asana", {
+                            id : id
+                        })
+                        .done(function(data) {
                         });
                     }
 

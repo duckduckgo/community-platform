@@ -740,6 +740,31 @@ sub send_to_beta :Chained('base') :PathPart('send_to_beta') :Args(0) {
     return $c->forward($c->view('JSON'));
 }
 
+sub asana :Chained('base') :PathPart('asana') :Args(0) {
+    my ($self, $c) = @_;
+
+    my $meta_id = $c->req->params{id};
+    $c->stash->{x}->{result} = '';
+    return $c->forward($c->view('JSON')) unless ($meta_id && $c->user && $c->user->admin);
+
+    my %data = (
+        id => $meta_id,
+        user => $c->user->username
+    );
+    my $json_data = to_json(\%data);
+    my $server = "http://beta.duckduckgo.com/install?asana";
+    my $key = $ENV{'BETA_KEY'};
+    my $req = HTTP::Request->new(GET => $server);
+    my $header_data = "sha1=".Digest::SHA::hmac_sha1_hex($json_data, $key);
+
+    $req->header('content-type' => 'application/json');
+    $req->header("x-hub-signature" => $header_data);
+    $req->content($json_data);
+
+    $c->stash->{x}->{result} = $ua->request($req);
+    return $c->forward($c->view('JSON'));
+}
+
 # Save values for multiple IAs at once (just one field for each IA).
 # This is used only in the dev pipeline and for now it's only available to admins
 sub save_multiple :Chained('base') :PathPart('save_multiple') :Args(0) {
