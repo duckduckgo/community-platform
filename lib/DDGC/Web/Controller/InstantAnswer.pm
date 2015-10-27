@@ -743,10 +743,11 @@ sub send_to_beta :Chained('base') :PathPart('send_to_beta') :Args(0) {
 sub asana :Chained('base') :PathPart('asana') :Args(0) {
     my ($self, $c) = @_;
 
-    my $meta_id = $c->req->params{id};
+    my $meta_id = $c->req->params->{id};
     $c->stash->{x}->{result} = '';
     return $c->forward($c->view('JSON')) unless ($meta_id && $c->user && $c->user->admin);
 
+    my $ua = LWP::UserAgent->new;
     my %data = (
         id => $meta_id,
         user => $c->user->username
