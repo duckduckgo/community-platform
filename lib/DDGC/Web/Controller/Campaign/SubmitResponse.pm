@@ -170,17 +170,12 @@ sub respond : Chained('base') : PathPart('respond') : Args(0) {
 		$bad_response = grep { _answer_is_mostly( lc($c->req->param('question1')), $_ ) } @first if !$bad_response;
 		$bad_response = grep { _answer_is_mostly( lc($c->req->param('question2')), $_ ) } @second if !$bad_response;
 
-		printf STDERR "\n\n\n\n\n\n\n\n";
-		use DDP; p $c->stash->{referer};
-
 		if ( $c->stash->{referer} ) {
 
 			$bad_response =
 				grep { index( $c->stash->{referer}, $_ ) >= 0 }
 					( qw/ coupon freebie free deal steal discount / )
 						if !$bad_response;
-			printf STDERR "\n\n\n\n\n\n\n\n";
-			use DDP; p $bad_response;
 
 			my $uri = URI->new( $c->stash->{referer} );
 			my $domain = $uri->host;
