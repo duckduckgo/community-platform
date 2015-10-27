@@ -61,13 +61,14 @@
                     <a href="/ia/view/{{id}}">{{name}}</a>
                     <div class="right item-activity">
                       {{#exists pr 'issue_id'}}
-                      <a href="https://github.com/duckduckgo/zeroclickinfo-{{repo}}/issues/{{pr.issue_id}}" class="one-line" id="pr">
-                        PR 
-                      </a>
+                          <a href="https://github.com/duckduckgo/zeroclickinfo-{{repo}}/issues/{{pr.issue_id}}" class="one-line" id="pr" title="{{format_time last_update}}">
+                            {{timeago last_update}}
+                          </a>
+                      {{else}}
+                          <span title="{{format_time last_update}}">
+                            {{timeago last_update}}
+                          </span>
                       {{/exists}}
-                      <span title="{{format_time last_update}}">
-                        {{timeago last_update}}
-                      </span>
                     </div>
                 </div>
                 <span class="clearfix"></span>
@@ -110,14 +111,14 @@
                     <a href="/ia/view/{{id}}">{{name}}</a>
                     <div class="right item-activity">
                       {{#exists pr 'issue_id'}}
-                      <a href="https://github.com/duckduckgo/zeroclickinfo-{{repo}}/issues/{{pr.issue_id}}" class="one-line" id="pr">
-			            PR 
-                      </a>
-                  
+                          <a href="https://github.com/duckduckgo/zeroclickinfo-{{repo}}/issues/{{pr.issue_id}}" class="one-line" id="pr" title="{{format_time last_update}}">
+                            {{timeago last_update}}
+                          </a>
+                      {{else}}
+                          <span title="{{format_time last_update}}">
+                            {{timeago last_update}}
+                          </span>
                       {{/exists}}
-                      <span title="{{format_time last_update}}">
-			            {{timeago last_update}}
-                      </span>
                     </div>
                 </div>
                 <span class="clearfix"></span>
@@ -160,14 +161,14 @@
                     <a href="/ia/view/{{id}}">{{name}}</a>
                     <div class="right item-activity">
                       {{#exists pr 'issue_id'}}
-                      <a href="https://github.com/duckduckgo/zeroclickinfo-{{repo}}/issues/{{pr.issue_id}}" class="one-line" id="pr">
-                        PR
-                      </a>
-                      
+                          <a href="https://github.com/duckduckgo/zeroclickinfo-{{repo}}/issues/{{pr.issue_id}}" class="one-line" id="pr" title="{{format_time last_update}}">
+                            {{timeago last_update}}
+                          </a>
+                      {{else}}
+                          <span title="{{format_time last_update}}">
+                            {{timeago last_update}}
+                          </span>
                       {{/exists}}
-                      <span title="{{format_time last_update}}">
-                        {{timeago last_update}}
-                      </span>
                     </div>
                 </div>
                 <span class="clearfix"></span>
@@ -210,14 +211,14 @@
                     <a href="/ia/view/{{id}}">{{name}}</a>
                     <div class="right item-activity">
                       {{#exists pr 'issue_id'}}
-                      <a href="https://github.com/duckduckgo/zeroclickinfo-{{repo}}/issues/{{pr.issue_id}}" class="one-line" id="pr">
-                        PR
-                      </a>
-                      
+                          <a href="https://github.com/duckduckgo/zeroclickinfo-{{repo}}/issues/{{pr.issue_id}}" class="one-line" id="pr" title="{{format_time last_update}}">
+                            {{timeago last_update}}
+                          </a>
+                      {{else}}
+                          <span title="{{format_time last_update}}">
+                            {{timeago last_update}}
+                          </span>
                       {{/exists}}
-                      <span title="{{format_time last_update}}">
-                        {{timeago last_update}}
-                      </span>
                     </div>
                 </div>
                 <span class="clearfix"></span>
