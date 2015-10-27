@@ -91,10 +91,10 @@
                     }
 
                     if (param_count === 0) {
-                        filter();
+                        filter('', true);
                     }
                 } else {
-                    filter();
+                    filter('', true);
                 }
             });
 
@@ -103,7 +103,7 @@
 
                 $(".search-thing").val("");
                 $(".active-filter").removeClass("active-filter");
-                filter();
+                filter('', true);
             });
 
              $("body").on("click", "#create-new-ia", function(evt) {
@@ -252,7 +252,7 @@
                     console.log("filtering from triggered event");
                 } else {
                     $(this).removeClass("active-filter");
-                    filter();
+                    filter('', true);
                 }
             });
 
