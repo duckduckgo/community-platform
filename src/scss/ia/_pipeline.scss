@@ -105,9 +105,9 @@
 .fix-float { visibility: hidden; }
 
 .deselect-all .ddgsi-close { 
-    cursor: pointer; 
     position: relative;
-    top: 2px;
+    color: $grey;
+    position: relative;
 }
 #page_sidebar {
     width: 395px;
@@ -127,10 +127,15 @@
     background-color: $white;
     padding: 2em;
     border: 1px solid rgba(200,200,200,0.2);
-    padding-top: 15.2em;
+    padding-top: 16.8em;
 
     .sidebar-field {
         margin-top: 1em;
+    }
+
+    #sidebar-close {
+	position: relative;
+	top: 6px;
     }
 
     #sidebar-pr, #pr, .primary-label {
@@ -328,6 +333,8 @@
 }
 
 .pipeline-actions {
+    padding-top: 0.3em;
+
     .count-txt {
 	color: $grey;
 	padding-bottom: 2em;
