@@ -54,15 +54,9 @@
 
                 // 100% width
                 $(".site-main > .content-wrap").first().removeClass("content-wrap").addClass("wrap-pipeline");
-		$(".breadcrumb-nav").remove();
+		        $(".breadcrumb-nav").remove();
 
-                // Add counts to filters
-                $(".pipeline-filter").each(function(idx) {
-                    var temp_filter = $(this).attr("id").replace("filter-", "");
-                    var temp_count = $(".dev_pipeline-column__list li." + temp_filter).length;
-                    $("#count-" + temp_filter).text(temp_count);
-                });
-
+                filterCounts();
                 var parameters = window.location.search.replace("?", "");
                 parameters = $.trim(parameters.replace(/\/$/, ''));
                 if (parameters) {
@@ -238,8 +232,11 @@
                         dev_p.saved = false;
                         dev_p.data.dev_milestones = data.dev_milestones;
 
-                        var iadp = Handlebars.templates.dev_pipeline(data);
-                        $("#dev_pipeline").html(iadp);
+                        //var iadp = Handlebars.templates.dev_pipeline(data);
+                        //$("#dev_pipeline").html(iadp);
+                        sort_priority();
+                        filterCounts();
+                        filter();
                     });
                 }
             });
@@ -473,6 +470,15 @@
             
                 var iadp = Handlebars.templates.dev_pipeline(dev_p.data);
                 $("#dev_pipeline").html(iadp);
+            }
+
+            // Add counts to filters
+            function filterCounts() {
+                $(".pipeline-filter").each(function(idx) {
+                    var temp_filter = $(this).attr("id").replace("filter-", "");
+                    var temp_count = $(".dev_pipeline-column__list li." + temp_filter).length;
+                    $("#count-" + temp_filter).text(temp_count);
+                });
             }
 
             function filter(which_filter, reset) {
