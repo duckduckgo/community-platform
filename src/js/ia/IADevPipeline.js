@@ -146,12 +146,10 @@
                 }
             });
 
-            $("body").on("keypress", ".search-thing", function(evt) {
-                if(evt.type === "keypress" && evt.which === 13) {
-                    dev_p.query = $(this).val();
-                    $("#pipeline-clear-filters").removeClass("hide");
-                    filter();
-                }
+            $("body").on("keyup", ".search-thing", function(evt) {
+                dev_p.query = $(this).val();
+                $("#pipeline-clear-filters").removeClass("hide");
+                filter();
             });
 
             $("body").on("click", "#beta_install", function(evt) {
