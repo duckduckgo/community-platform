@@ -14,7 +14,7 @@
 
         current_filter: '',
 
-        by_priority: true,
+        by_priority: false,
 
         query: '',
 
@@ -34,6 +34,8 @@
                 if ($("#create-new-ia").length) {
                     data.permissions = {};
                     data.permissions.admin = 1;
+                    $("#sort_pipeline select option:selected").val(0);
+                    dev_p.by_priority = true;
                 }
 
                 // Get username for the at mentions filter
@@ -43,9 +45,8 @@
                 dev_p.data = data;
                 
                 var stats = Handlebars.templates.dev_pipeline_stats(data.dev_milestones);
-                $("#sort_pipeline select option:selected").val(0);
-                sort_pipeline();
 
+                sort_pipeline();
 
                 $("#pipeline-stats").html(stats);
 

@@ -37,6 +37,7 @@
         Show activity details
       </span> --->
 
+    {{#if permissions.admin}}
       <span class="right" id="sort_pipeline">
         <select>
             {{#if by_priority}}
@@ -48,6 +49,7 @@
             {{/if}}
         </select>
       </span>
+    {{/if}}
           
       <span class="button fix-float"></span>
     </span>
