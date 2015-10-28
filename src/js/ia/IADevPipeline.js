@@ -418,6 +418,7 @@
                 $.each(dev_p.data.dev_milestones, function (key, val) {
                     $.each(dev_p.data.dev_milestones[key], function (temp_ia) {
                         var priority_val = 0;
+                        var priority_msg = '';
 
                         var ia = dev_p.data.dev_milestones[key][temp_ia];
 
@@ -432,16 +433,20 @@
                                     if (ia.last_comment.admin) {
                                         priority_val -= 20;
                                         priority_val += idle_comment;
+                                        priority_msg += "- 20 (last comment by admin) \n+ elapsed time since last comment \n";
                                     } else {
                                         priority_val += 20;
                                         priority_val += (2 * idle_comment);
+                                        priority_msg += "+ 20 (last comment by contributor) \n+ twice the elapsed time since last comment \n";
                                     }
                                 } if (ia.last_commit) {
                                     var idle_commit = elapsed_time(ia.last_commit.date);
                                     if (ia.last_comment &&  moment.utc(ia.last_comment.date).isBefore(ia.last_commit.date)) {
                                         priority_val += idle_commit;
+                                        priority_msg += "+ elapsed time since last commit (made after last comment) \n";
                                     } else if ((!ia.last_comment) && (!ia.last_commit.admin)) {
                                         priority_val += (2 * idle_commit);
+                                        priority_msg += "+ twice the elapsed time since last commit (there are no comments in the PR) \n";
                                     }
                                 }
 
@@ -453,8 +458,10 @@
                                         var tag = tags[idx];
                                         if (tag.name.toLowerCase() === "on hold") {
                                             priority_val -= 100;
+                                             priority_msg += "- 100: the PR is on hold \n";
                                         } else if (tag.name.toLowerCase() === "priority: high") {
                                             priority_val += 20;
+                                             priority_msg += "+ 20: the PR is high priority \n";
                                         }
                                     });
                                 }
@@ -462,15 +469,18 @@
                                 // Priority is higher if the user has been mentioned in the last comment
                                 if (ia.at_mentions && ia.at_mentions.indexOf(dev_p.data.username) !== -1) {
                                     priority_val += 50;
+                                     priority_msg += "+ 50: you have been @ mentioned in the last comment \n";
                                 }
 
                                 // Has a PR, so it still has more priority than IAs which don't have one
                                 if (priority_val <= 0) {
                                     priority_val = 1;
+                                    priority_msg += "final value is 1: there's a PR, so it's higher priority than IAs without a PR \n";
                                 }
                             }
 
                             dev_p.data.dev_milestones[key][temp_ia].priority = priority_val;
+                            dev_p.data.dev_milestones[key][temp_ia].priority_msg = priority_msg;
                             console.log(ia.name + ": " + dev_p.data.dev_milestones[key][temp_ia].priority);
                         }
                     });

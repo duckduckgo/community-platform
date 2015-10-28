@@ -94,6 +94,13 @@
           </select>
 	</span>
     </div>
+
+    {{#if priority_msg}}
+        <div class="sidebar-field">
+            <div class="field-label primary-label">Priority</div>
+            <span class="readonly">{{newlines priority_msg}}</span>
+        </div>
+    {{/if}}
 {{else}}
     {{#if name}}
       <h2 id="sidebar-name"> {{name}} </h2>

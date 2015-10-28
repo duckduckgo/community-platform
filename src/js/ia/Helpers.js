@@ -1,6 +1,13 @@
 (function(env) {
     // Handlebars helpers for IA Pages
-    
+
+    // Return the string correctly formatted with newlines
+    Handlebars.registerHelper("newlines", function(string) {
+        string = string.replace(/\n/g, "<br />");
+
+        return new Handlebars.SafeString(string);
+    });
+
     // Return elapsed time expressed as days from now (e.g. 5 days, 1 day, today)
     Handlebars.registerHelper("timeago", function(date, full) {
         var timestring = full? " days ago" : "d";
