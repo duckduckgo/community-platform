@@ -32,9 +32,21 @@
       </span> 
 
       
-      <span class="toggle-details right">
+      <!--- <span class="toggle-details right">
         <i class="icon-check-empty"></i>
         Show activity details
+      </span> --->
+
+      <span class="right" id="sort_pipeline">
+        <select>
+            {{#if by_priority}}
+                <option value="0">Sort by Priority</option>
+                <option value="1">Sort by Recently Updated</option>
+            {{else}}
+                <option value="1">Sort by Recently Updated</option>
+                <option value="0">Sort by Priority</option>
+            {{/if}}
+        </select>
       </span>
           
       <span class="button fix-float"></span>

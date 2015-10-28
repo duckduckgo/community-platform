@@ -14,6 +14,8 @@
 
         current_filter: '',
 
+        by_priority: true,
+
         query: '',
 
         data: {},
@@ -41,11 +43,11 @@
                 dev_p.data = data;
                 
                 var stats = Handlebars.templates.dev_pipeline_stats(data.dev_milestones);
-                //var iadp = Handlebars.templates.dev_pipeline(data);
-                sort_priority();
+                $("#sort_pipeline select option:selected").val(0);
+                sort_pipeline();
+
 
                 $("#pipeline-stats").html(stats);
-                //$("#dev_pipeline").html(iadp);
 
                 if ($.trim($("#select-action option:selected").text()) === "type") {
                     $("#select-milestone").addClass("hide");
@@ -56,7 +58,6 @@
                 $(".site-main > .content-wrap").first().removeClass("content-wrap").addClass("wrap-pipeline");
 		        $(".breadcrumb-nav").remove();
 
-                filterCounts();
                 var parameters = window.location.search.replace("?", "");
                 parameters = $.trim(parameters.replace(/\/$/, ''));
                 if (parameters) {
@@ -105,6 +106,14 @@
              $("body").on("click", "#create-new-ia", function(evt) {
                 $(this).hide();
                 $("#create-new-ia-form").removeClass("hide");
+            });
+
+            $("body").on("change", "#sort_pipeline select", function(evt) {
+                var option = parseInt($(this).find("option:selected").val());
+                console.log("option: " + option);
+                dev_p.by_priority = option? false : true;
+                console.log("priority: " + dev_p.by_priority);
+                sort_pipeline();
             });
 
             $("body").on('click', "#new-ia-form-cancel", function(evt) {
@@ -234,8 +243,7 @@
 
                         //var iadp = Handlebars.templates.dev_pipeline(data);
                         //$("#dev_pipeline").html(iadp);
-                        sort_priority();
-                        filterCounts();
+                        sort_pipeline();
                         filter();
                     });
                 }
@@ -394,82 +402,92 @@
             }
 
             // Sort each milestone array by priority
-            function sort_priority() {
+            function sort_pipeline() {
                 $.each(dev_p.data.dev_milestones, function (key, val) {
                     $.each(dev_p.data.dev_milestones[key], function (temp_ia) {
                         var priority_val = 0;
 
                         var ia = dev_p.data.dev_milestones[key][temp_ia];
 
-                        // Priority is higher when:
-                        // - last activity (especially comment) is by a contributor (non-admin)
-                        // - last activity happened long ago (the older the activity, the higher the priority)
-                        if (ia.pr && ia.pr.issue_id) {
-                            if (ia.last_comment) {
-                                priority_val += ia.last_comment.admin? -20 : 20;
-                                var idle_comment = elapsed_time(ia.last_comment.date);
-                                if (ia.last_comment.admin) {
-                                    priority_val -= 20;
-                                    priority_val += idle_comment;
-                                } else {
-                                    priority_val += 20;
-                                    priority_val += (2 * idle_comment);
-                                }
-                            } if (ia.last_commit) {
-                                var idle_commit = elapsed_time(ia.last_commit.date);
-                                if (ia.last_comment &&  moment.utc(ia.last_comment.date).isBefore(ia.last_commit.date)) {
-                                    priority_val += idle_commit;
-                                } else if ((!ia.last_comment) && (!ia.last_commit.admin)) {
-                                    priority_val += (2 * idle_commit);
-                                }
-                            }
-
-                            // Priority drops if the PR is on hold
+                        if (dev_p.by_priority) {
+                            // Priority is higher when:
+                            // - last activity (especially comment) is by a contributor (non-admin)
+                            // - last activity happened long ago (the older the activity, the higher the priority)
                             if (ia.pr && ia.pr.issue_id) {
-                                var tags = ia.pr.tags;
-
-                                $.each(tags, function(idx) {
-                                    var tag = tags[idx];
-                                    if (tag.name.toLowerCase() === "on hold") {
-                                        priority_val -= 100;
-                                    } else if (tag.name.toLowerCase() === "priority: high") {
+                                if (ia.last_comment) {
+                                    priority_val += ia.last_comment.admin? -20 : 20;
+                                    var idle_comment = elapsed_time(ia.last_comment.date);
+                                    if (ia.last_comment.admin) {
+                                        priority_val -= 20;
+                                        priority_val += idle_comment;
+                                    } else {
                                         priority_val += 20;
+                                        priority_val += (2 * idle_comment);
                                     }
-                                });
+                                } if (ia.last_commit) {
+                                    var idle_commit = elapsed_time(ia.last_commit.date);
+                                    if (ia.last_comment &&  moment.utc(ia.last_comment.date).isBefore(ia.last_commit.date)) {
+                                        priority_val += idle_commit;
+                                    } else if ((!ia.last_comment) && (!ia.last_commit.admin)) {
+                                        priority_val += (2 * idle_commit);
+                                    }
+                                }
+
+                                // Priority drops if the PR is on hold
+                                if (ia.pr && ia.pr.issue_id) {
+                                    var tags = ia.pr.tags;
+
+                                    $.each(tags, function(idx) {
+                                        var tag = tags[idx];
+                                        if (tag.name.toLowerCase() === "on hold") {
+                                            priority_val -= 100;
+                                        } else if (tag.name.toLowerCase() === "priority: high") {
+                                            priority_val += 20;
+                                        }
+                                    });
+                                }
+
+                                // Priority is higher if the user has been mentioned in the last comment
+                                if (ia.at_mentions && ia.at_mentions.indexOf(dev_p.data.username) !== -1) {
+                                    priority_val += 50;
+                                }
+
+                                // Has a PR, so it still has more priority than IAs which don't have one
+                                if (priority_val <= 0) {
+                                    priority_val = 1;
+                                }
                             }
 
-                            // Priority is higher if the user has been mentioned in the last comment
-                            if (ia.at_mentions && ia.at_mentions.indexOf(dev_p.data.username) !== -1) {
-                                priority_val += 50;
-                            }
-
-                            // Has a PR, so it still has more priority than IAs which don't have one
-                            if (priority_val <= 0) {
-                                priority_val = 1;
-                            }
+                            dev_p.data.dev_milestones[key][temp_ia].priority = priority_val;
+                            console.log(ia.name + ": " + dev_p.data.dev_milestones[key][temp_ia].priority);
+                        }
+                    });
+                        
+                    dev_p.data.dev_milestones[key].sort(function (l, r) {
+                        var a, b;
+                        if (dev_p.by_priority) {
+                            a = l.priority;
+                            b = r.priority;
+                        } else {
+                            a = l.last_update? - elapsed_time(l.last_update) : -100;
+                            b = r.last_update? - elapsed_time(r.last_update) : -100;
+                            console.log(a + ", " + b);
                         }
 
-                        dev_p.data.dev_milestones[key][temp_ia].priority = priority_val;
-                        console.log(ia.name + ": " + dev_p.data.dev_milestones[key][temp_ia].priority);
-                    });
-                    
-                    dev_p.data.dev_milestones[key].sort(function (l, r) {
-                        var a = l;
-                        var b = r;
-                        console.log(a.priority + ", " + b.priority);
-
-                        if (a.priority > b.priority) {
+                        if (a > b) {
                             return -1;
-                        } else if (b.priority > a.priority) {
+                        } else if (b > a) {
                             return 1;
                         }
                             
                         return 0;
                     });
                 });
-            
+
+                dev_p.data.by_priority = dev_p.by_priority;
                 var iadp = Handlebars.templates.dev_pipeline(dev_p.data);
                 $("#dev_pipeline").html(iadp);
+                filterCounts();
             }
 
             // Add counts to filters
