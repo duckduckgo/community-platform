@@ -5,6 +5,7 @@
     select {
 	text-transform: capitalize;
 	color: $grey;
+	padding-left: 0;
     }
 
     &:after {
@@ -33,7 +34,9 @@
 
 .edit-sidebar {
     border: 0;
-    width: 26em;
+    width: 100%;
+    padding-left: 0;
+    font-size: 1em;
 }    
 
 .search-container {
@@ -74,6 +77,10 @@
     /* Make the fonts look snazzy. */
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+
+    input, textarea {
+	outline: none;
+    }
 }
 
 .hide { display: none; }
