@@ -32,10 +32,24 @@
       </span> 
 
       
-      <span class="toggle-details right">
+      <!--- <span class="toggle-details right">
         <i class="icon-check-empty"></i>
         Show activity details
+      </span> --->
+
+    {{#if permissions.admin}}
+      <span class="right frm__select" id="sort_pipeline">
+        <select>
+            {{#if by_priority}}
+                <option value="0">Sort by Priority</option>
+                <option value="1">Sort by Recently Updated</option>
+            {{else}}
+                <option value="1">Sort by Recently Updated</option>
+                <option value="0">Sort by Priority</option>
+            {{/if}}
+        </select>
       </span>
+    {{/if}}
           
       <span class="button fix-float"></span>
     </span>
@@ -62,11 +76,11 @@
                     <div class="right item-activity">
                       {{#exists pr 'issue_id'}}
                           <a href="https://github.com/duckduckgo/zeroclickinfo-{{repo}}/issues/{{pr.issue_id}}" class="one-line" id="pr" title="{{format_time last_update}}">
-                            {{timeago last_update}}
+                            {{timeago last_update 0}}
                           </a>
                       {{else}}
                           <span title="{{format_time last_update}}">
-                            {{timeago last_update}}
+                            {{timeago last_update 0}}
                           </span>
                       {{/exists}}
                     </div>
@@ -112,11 +126,11 @@
                     <div class="right item-activity">
                       {{#exists pr 'issue_id'}}
                           <a href="https://github.com/duckduckgo/zeroclickinfo-{{repo}}/issues/{{pr.issue_id}}" class="one-line" id="pr" title="{{format_time last_update}}">
-                            {{timeago last_update}}
+                            {{timeago last_update 0}}
                           </a>
                       {{else}}
                           <span title="{{format_time last_update}}">
-                            {{timeago last_update}}
+                            {{timeago last_update 0}}
                           </span>
                       {{/exists}}
                     </div>
@@ -162,11 +176,11 @@
                     <div class="right item-activity">
                       {{#exists pr 'issue_id'}}
                           <a href="https://github.com/duckduckgo/zeroclickinfo-{{repo}}/issues/{{pr.issue_id}}" class="one-line" id="pr" title="{{format_time last_update}}">
-                            {{timeago last_update}}
+                            {{timeago last_update 0}}
                           </a>
                       {{else}}
                           <span title="{{format_time last_update}}">
-                            {{timeago last_update}}
+                            {{timeago last_update 0}}
                           </span>
                       {{/exists}}
                     </div>
@@ -212,11 +226,11 @@
                     <div class="right item-activity">
                       {{#exists pr 'issue_id'}}
                           <a href="https://github.com/duckduckgo/zeroclickinfo-{{repo}}/issues/{{pr.issue_id}}" class="one-line" id="pr" title="{{format_time last_update}}">
-                            {{timeago last_update}}
+                            {{timeago last_update 0}}
                           </a>
                       {{else}}
                           <span title="{{format_time last_update}}">
-                            {{timeago last_update}}
+                            {{timeago last_update 0}}
                           </span>
                       {{/exists}}
                     </div>

@@ -177,14 +177,16 @@ textarea.edit-sidebar {
 
     #sidebar-pr, #pr, .primary-label {
         color: $grey-light;
-	font-size: 0.95em;
-	font-weight: 500;
-	padding-top: 2em;
-	padding-bottom: 0.5em;
-	
-	.ddgsi {
-	    vertical-align: middle;
-	}
+        font-size: 0.95em;
+        font-weight: 500;
+        padding-top: 2em;
+        padding-bottom: 0.5em;
+        
+        a { color: $grey-light; }
+        
+        .ddgsi {
+            vertical-align: middle;
+        }
     }
 
     #sidebar-pr .comment {
