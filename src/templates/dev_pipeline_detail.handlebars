@@ -44,34 +44,34 @@
 {{#if permissions.admin}}
 
     <h2 id="sidebar-name">
-        <input class="edit-sidebar" id="edit-sidebar-name" value="{{name}}" />
+        <input class="edit-sidebar" data-focus-class="frm__input" id="edit-sidebar-name" value="{{name}}" />
     </h2>
 
-    <input class="edit-sidebar" id="edit-sidebar-id" value="{{id}}" />
+    <input class="edit-sidebar" style="height: initial" id="edit-sidebar-id" value="{{id}}" />
 
     <div class="sidebar-field">
         <div class="field-label primary-label"> Description </div>
-        <textarea rows="3" cols="50" class="edit-sidebar" id="edit-sidebar-description">{{description}}</textarea>
+        <textarea rows="3" cols="50" data-focus-class="frm__text" class="edit-sidebar" id="edit-sidebar-description">{{description}}</textarea>
     </div>
 
     <div class="sidebar-field">
         <div class="field-label primary-label"> Example Query </div>
-        <input class="edit-sidebar" id="edit-sidebar-example_query" value="{{example_query}}" />
+        <input class="edit-sidebar" data-focus-class="frm__input" id="edit-sidebar-example_query" value="{{example_query}}" />
     </div>
 
     <div class="sidebar-field">
         <div class="field-label primary-label"> Perl Module </div>
-        <input class="edit-sidebar" id="edit-sidebar-perl_module" value="{{perl_module}}" />
+        <input class="edit-sidebar" data-focus-class="frm__input" id="edit-sidebar-perl_module" value="{{perl_module}}" />
     </div>
 
     <div class="sidebar-field">
         <div class="field-label primary-label"> Producer </div>
-        <input class="edit-sidebar" id="edit-sidebar-producer" value="{{producer}}" />
+        <input class="edit-sidebar" data-focus-class="frm__input" id="edit-sidebar-producer" value="{{producer}}" />
     </div>
 
     <div class="sidebar-field">
         <div class="field-label primary-label"> Template </div>
-        <input class="edit-sidebar" id="edit-sidebar-template" value="{{template}}" />
+        <input class="edit-sidebar" data-focus-class="frm__input" id="edit-sidebar-template" value="{{template}}" />
     </div>
 
     <div class="sidebar-field">

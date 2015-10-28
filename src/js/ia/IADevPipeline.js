@@ -214,6 +214,17 @@
                 appendSidebar(selected, multiselect);
             });
 
+	    $('body').on('focus', '.edit-sidebar', function(evt) {
+		var focus_class = $(this).data('focus-class');
+		if(focus_class) {
+		    $(this).addClass(focus_class);
+		}
+	    });
+
+	    $('body').on('blur', '.edit-sidebar', function(evt) {
+		$(this).removeClass('frm__input').removeClass('frm__text');
+	    });
+
             $("body").on("keypress change", ".edit-sidebar", function(evt) {
                 if ((evt.type === "keypress" && evt.which === 13) || (evt.type === "change" && $(this).children("select").length)) {
                    var field = $(this).attr("id").replace("edit-sidebar-", "");

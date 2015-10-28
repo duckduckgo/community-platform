@@ -47,9 +47,27 @@
 .edit-sidebar {
     border: 0;
     width: 100%;
-    padding-left: 0;
     font-size: 1em;
-}    
+
+    &.frm__input {
+	margin-left: -0.8em;
+	background-color: lighten($blue-light, 30%);
+    }
+
+    &.frm__text {
+	margin-left: -0.8em;
+	background-color: lighten($blue-light, 30%);
+    }
+}
+
+input.edit-sidebar {
+    height: 2.3em;
+}
+
+textarea.edit-sidebar {
+    padding-top: 0.8em;
+    padding-bottom: 2em;
+}
 
 .search-container {
     width: 20%;
