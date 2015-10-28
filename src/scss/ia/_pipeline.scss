@@ -1,3 +1,7 @@
+.sidebar-field .frm__select {
+    width: 100%;
+}
+
 .frm__select.edit-sidebar {
     width: 7em;
     background-color: transparent;
@@ -157,7 +161,10 @@
         margin-bottom: 0;
         margin-top: 1em;
 
-        a { color: $slate; }
+        a { 
+	    color: $slate; 
+	    font-weight: normal;
+	}
     }
 
     .ddgsi-close { cursor: pointer; }

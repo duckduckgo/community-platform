@@ -76,7 +76,8 @@
 
     <div class="sidebar-field">
         <div class="field-label primary-label"> Dev Machine </div>
-        <select class="edit-sidebar select-sidebar" id="edit-sidebar-test_machine">
+	<span class="frm__select">
+          <select class="edit-sidebar select-sidebar" id="edit-sidebar-test_machine">
             {{#if test_machine}}<option value="0">{{test_machine}}</option>{{/if}}
             <option></option>
             {{#not_eq test_machine 'ddh1'}}<option value="1">ddh1</option>{{/not_eq}}
@@ -90,7 +91,8 @@
             {{#not_eq test_machine 'ddh9'}}<option value="9">ddh9</option>{{/not_eq}}
             {{#not_eq test_machine 'ddh10'}}<option value="10">ddh10</option>{{/not_eq}}
             {{#not_eq test_machine 'beta'}}<option value="11">beta</option>{{/not_eq}}
-        </select>
+          </select>
+	</span>
     </div>
 {{else}}
     {{#if name}}
