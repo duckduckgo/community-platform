@@ -1,4 +1,4 @@
-<div id="sidebar-top" class="clearfix">
+<div id="sidebar-top" class="clearfix {{#unless permissions.admin}}sidebar-logged-out{{/unless}}">
   <span class="left">
     {{#if pr}}{{#each pr.tags}}{{#eq (slug name) 'priorityhigh'}} 
         <span class="sep--after">

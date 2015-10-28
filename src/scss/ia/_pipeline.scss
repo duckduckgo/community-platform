@@ -22,6 +22,14 @@
     text-transform: capitalize;
     color: $grey;
     padding-top: 0;
+
+    &.sidebar-logged-out {
+	padding-top: 0.3em;
+	
+	#sidebar-close {
+	    position: initial;
+	}
+    }
 }
 
 #sidebar-name, #edit-sidebar-name {
