@@ -1,8 +1,35 @@
+.sidebar-field .frm__select {
+    width: 100%;
+}
+
+.frm__select.edit-sidebar {
+    width: 7em;
+    background-color: transparent;
+
+    select {
+	text-transform: capitalize;
+	color: $grey;
+	padding-left: 0;
+    }
+
+    &:after {
+	color: $grey;
+    }
+}
+
 #sidebar-top {
     padding: 2em 0;
     text-transform: capitalize;
     color: $grey;
     padding-top: 0;
+
+    &.sidebar-logged-out {
+	padding-top: 0.3em;
+	
+	#sidebar-close {
+	    position: initial;
+	}
+    }
 }
 
 #sidebar-name, #edit-sidebar-name {
@@ -19,8 +46,28 @@
 
 .edit-sidebar {
     border: 0;
-    width: 26em;
-}    
+    width: 100%;
+    font-size: 1em;
+
+    &.frm__input {
+	margin-left: -0.8em;
+	background-color: lighten($blue-light, 30%);
+    }
+
+    &.frm__text {
+	margin-left: -0.8em;
+	background-color: lighten($blue-light, 30%);
+    }
+}
+
+input.edit-sidebar {
+    height: 2.3em;
+}
+
+textarea.edit-sidebar {
+    padding-top: 0.8em;
+    padding-bottom: 2em;
+}
 
 .search-container {
     width: 20%;
@@ -60,6 +107,10 @@
     /* Make the fonts look snazzy. */
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+
+    input, textarea {
+	outline: none;
+    }
 }
 
 .hide { display: none; }
@@ -91,9 +142,9 @@
 .fix-float { visibility: hidden; }
 
 .deselect-all .ddgsi-close { 
-    cursor: pointer; 
     position: relative;
-    top: 2px;
+    color: $grey;
+    position: relative;
 }
 #page_sidebar {
     width: 395px;
@@ -113,27 +164,39 @@
     background-color: $white;
     padding: 2em;
     border: 1px solid rgba(200,200,200,0.2);
-    padding-top: 15.2em;
+    padding-top: 16.8em;
 
     .sidebar-field {
         margin-top: 1em;
     }
 
+    #sidebar-close {
+	position: relative;
+	top: 6px;
+    }
+
     #sidebar-pr, #pr, .primary-label {
         color: $grey-light;
-	    font-size: 0.95em;
-	    font-weight: 500;
-	    padding-top: 2em;
-	    padding-bottom: 0.5em;
-
+        font-size: 0.95em;
+        font-weight: 500;
+        padding-top: 2em;
+        padding-bottom: 0.5em;
+        
         a { color: $grey-light; }
+        
+        .ddgsi {
+            vertical-align: middle;
+        }
     }
 
     #sidebar-pr .comment {
         margin-bottom: 0;
         margin-top: 1em;
 
-        a { color: $slate; }
+        a { 
+	    color: $slate; 
+	    font-weight: normal;
+	}
     }
 
     .ddgsi-close { cursor: pointer; }
@@ -316,6 +379,8 @@
 }
 
 .pipeline-actions {
+    padding-top: 0.3em;
+
     .count-txt {
 	color: $grey;
 	padding-bottom: 2em;
@@ -349,7 +414,8 @@
 }
 
 .filters-bar {
-    padding-bottom: 1em;
+    padding-bottom: 2em;
+    padding-top: 2em;
 }
 
 .wrap-pipeline .pipeline__toggle-view {
