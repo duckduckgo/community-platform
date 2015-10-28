@@ -6,17 +6,19 @@
         </span>
     {{/eq}}{{/each}}{{/if}}
     {{#if permissions.admin}}
-        <span class="sep--after edit-sidebar" id="edit-sidebar-repo">
+	<span class="sep--after">
+          <span class="edit-sidebar frm__select" id="edit-sidebar-repo">
             <select>
-                <option value="0">{{repo}}</option>
-                {{#not_eq repo 'fathead'}}<option value="1">fathead</option>{{/not_eq}}
-                {{#not_eq repo 'goodies'}}<option value="2">goodies</option>{{/not_eq}}
-                {{#not_eq repo 'longtail'}}<option value="3">longtail</option>{{/not_eq}}
-                {{#not_eq repo 'spice'}}<option value="4">spice</option>{{/not_eq}}
+              <option value="0">{{repo}}</option>
+              {{#not_eq repo 'fathead'}}<option value="1">fathead</option>{{/not_eq}}
+              {{#not_eq repo 'goodies'}}<option value="2">goodies</option>{{/not_eq}}
+              {{#not_eq repo 'longtail'}}<option value="3">longtail</option>{{/not_eq}}
+              {{#not_eq repo 'spice'}}<option value="4">spice</option>{{/not_eq}}
             </select>
-        </span>
+          </span>
+	</span>
 
-        <span class="sep--after edit-sidebar" id="edit-sidebar-dev_milestone">
+        <span class="edit-sidebar frm__select" id="edit-sidebar-dev_milestone">
             <select>
                 <option value="0">{{dev_milestone}}</option>
                 {{#not_eq dev_milestone 'planning'}}<option value="1">planning</option>{{/not_eq}}

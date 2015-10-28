@@ -1,3 +1,17 @@
+.frm__select.edit-sidebar {
+    width: 7em;
+    background-color: transparent;
+
+    select {
+	text-transform: capitalize;
+	color: $grey;
+    }
+
+    &:after {
+	color: $grey;
+    }
+}
+
 #sidebar-top {
     padding: 2em 0;
     text-transform: capitalize;
