@@ -5,14 +5,17 @@
   </div>
 
     <div class="right">
-      <span class="button hide right" id="pipeline-clear-filters">
-        Clear Filters
-      </span>
-
       <span class="pipeline-filter right" id="filter-mentioned" title="Filter by mentions">
         <i class="platform-at-mention"></i>
         <span class="filter-count" id="count-mentioned"></span>
       </span>
+
+      {{#if permissions.admin}}
+        <span class="pipeline-filter right" id="filter-attention" title="Filter by last activity author">
+            <i class="platform-warning"></i>
+            <span class="filter-count" id="count-attention"></span>
+        </span>
+      {{/if}}
 
       <span class="pipeline-filter right" id="filter-important" title="Filter by priority">
         <i class="icon-star"></i>
@@ -50,20 +53,22 @@
     </h2>
     <ul class="dev_pipeline-column__list" id="pipeline-planning__list">
         {{#each planning}}
-            <li id="pipeline-list__{{id}}" class="{{#if pr}}{{#each pr.tags}}{{#eq (slug name) 'priorityhigh'}} important {{/eq}}{{/each}}{{/if}}{{#if can_edit}}can_edit{{/if}} producer-{{#if producer}}{{slug producer}}{{/if}} designer-{{designer}} {{#if developer}}{{#each developer}}developer-{{slug name}} {{/each}}{{else}}developer-{{/if}}
+            <li id="pipeline-list__{{id}}" class="{{#if pr.issue_id}} {{#if last_update}} {{#is_before last_comment.date last_commit.date}}{{#unless last_commit.admin}} attention {{/unless}} {{else}} {{#unless last_comment.admin}} attention {{/unless}} {{/is_before}} {{/if}}
+            {{#each pr.tags}}{{#eq (slug name) 'priorityhigh'}} important {{/eq}}{{/each}}{{/if}}{{#if can_edit}}can_edit{{/if}} producer-{{#if producer}}{{slug producer}}{{/if}} designer-{{designer}} {{#if developer}}{{#each developer}}developer-{{slug name}} {{/each}}{{else}}developer-{{/if}}
              {{#is_false_array perl_module name repo example_query producer developer}} missing {{/is_false_array}}
              {{#each at_mentions}}{{#eq ../../../username name}} mentioned {{/eq}}{{/each}}">
                 <div class="item-name pipeline__stamp-{{repo}}">
                     <a href="/ia/view/{{id}}">{{name}}</a>
                     <div class="right item-activity">
                       {{#exists pr 'issue_id'}}
-                      <a href="https://github.com/duckduckgo/zeroclickinfo-{{repo}}/issues/{{pr.issue_id}}" class="one-line" id="pr">
-                        PR 
-                      </a>
+                          <a href="https://github.com/duckduckgo/zeroclickinfo-{{repo}}/issues/{{pr.issue_id}}" class="one-line" id="pr" title="{{format_time last_update}}">
+                            {{timeago last_update}}
+                          </a>
+                      {{else}}
+                          <span title="{{format_time last_update}}">
+                            {{timeago last_update}}
+                          </span>
                       {{/exists}}
-                      <span title="{{format_time last_update}}">
-                        {{timeago last_update}}
-                      </span>
                     </div>
                 </div>
                 <span class="clearfix"></span>
@@ -98,21 +103,22 @@
 
     <ul class="dev_pipeline-column__list" id="pipeline-development__list">
         {{#each development}}
-            <li id="pipeline-list__{{id}}" class="{{#if pr}}{{#each pr.tags}}{{#eq (slug name) 'priorityhigh'}} important {{/eq}}{{/each}}{{/if}} {{#if can_edit}}can_edit{{/if}} producer-{{#if producer}}{{slug producer}}{{/if}} designer-{{designer}} {{#if developer}}{{#each developer}}developer-{{slug name}} {{/each}}{{else}}developer-{{/if}}
+            <li id="pipeline-list__{{id}}" class="{{#if pr.issue_id}} {{#if last_update}} {{#is_before last_comment.date last_commit.date}}{{#unless last_commit.admin}} attention {{/unless}} {{else}} {{#unless last_comment.admin}} attention {{/unless}} {{/is_before}} {{/if}}
+            {{#each pr.tags}}{{#eq (slug name) 'priorityhigh'}} important {{/eq}}{{/each}}{{/if}}{{#if can_edit}}can_edit{{/if}} producer-{{#if producer}}{{slug producer}}{{/if}} designer-{{designer}} {{#if developer}}{{#each developer}}developer-{{slug name}} {{/each}}{{else}}developer-{{/if}}
              {{#is_false_array perl_module name repo example_query producer developer}} missing {{/is_false_array}}
              {{#each at_mentions}}{{#eq ../../../username name}} mentioned {{/eq}}{{/each}}">
                 <div class="item-name pipeline__stamp-{{repo}}">
                     <a href="/ia/view/{{id}}">{{name}}</a>
                     <div class="right item-activity">
                       {{#exists pr 'issue_id'}}
-                      <a href="https://github.com/duckduckgo/zeroclickinfo-{{repo}}/issues/{{pr.issue_id}}" class="one-line" id="pr">
-			            PR 
-                      </a>
-                  
+                          <a href="https://github.com/duckduckgo/zeroclickinfo-{{repo}}/issues/{{pr.issue_id}}" class="one-line" id="pr" title="{{format_time last_update}}">
+                            {{timeago last_update}}
+                          </a>
+                      {{else}}
+                          <span title="{{format_time last_update}}">
+                            {{timeago last_update}}
+                          </span>
                       {{/exists}}
-                      <span title="{{format_time last_update}}">
-			            {{timeago last_update}}
-                      </span>
                     </div>
                 </div>
                 <span class="clearfix"></span>
@@ -147,21 +153,22 @@
 
     <ul class="dev_pipeline-column__list" id="pipeline-testing__list">
         {{#each testing}}
-            <li id="pipeline-list__{{id}}" class="{{#if pr}}{{#each pr.tags}}{{#eq (slug name) 'priorityhigh'}} important {{/eq}}{{/each}}{{/if}} {{#if can_edit}}can_edit{{/if}} producer-{{#if producer}}{{slug producer}}{{/if}} designer-{{designer}} {{#if developer}}{{#each developer}}developer-{{slug name}} {{/each}}{{else}}developer-{{/if}}
+            <li id="pipeline-list__{{id}}" class="{{#if pr.issue_id}} {{#if last_update}} {{#is_before last_comment.date last_commit.date}}{{#unless last_commit.admin}} attention {{/unless}} {{else}} {{#unless last_comment.admin}} attention {{/unless}} {{/is_before}} {{/if}}
+            {{#each pr.tags}}{{#eq (slug name) 'priorityhigh'}} important {{/eq}}{{/each}}{{/if}}{{#if can_edit}}can_edit{{/if}} producer-{{#if producer}}{{slug producer}}{{/if}} designer-{{designer}} {{#if developer}}{{#each developer}}developer-{{slug name}} {{/each}}{{else}}developer-{{/if}}
              {{#is_false_array perl_module name repo example_query producer developer}} missing {{/is_false_array}}
              {{#each at_mentions}}{{#eq ../../../username name}} mentioned {{/eq}}{{/each}}">
                 <div class="item-name pipeline__stamp-{{repo}}">
                     <a href="/ia/view/{{id}}">{{name}}</a>
                     <div class="right item-activity">
                       {{#exists pr 'issue_id'}}
-                      <a href="https://github.com/duckduckgo/zeroclickinfo-{{repo}}/issues/{{pr.issue_id}}" class="one-line" id="pr">
-                        PR
-                      </a>
-                      
+                          <a href="https://github.com/duckduckgo/zeroclickinfo-{{repo}}/issues/{{pr.issue_id}}" class="one-line" id="pr" title="{{format_time last_update}}">
+                            {{timeago last_update}}
+                          </a>
+                      {{else}}
+                          <span title="{{format_time last_update}}">
+                            {{timeago last_update}}
+                          </span>
                       {{/exists}}
-                      <span title="{{format_time last_update}}">
-                        {{timeago last_update}}
-                      </span>
                     </div>
                 </div>
                 <span class="clearfix"></span>
@@ -196,21 +203,22 @@
 
     <ul class="dev_pipeline-column__list" id="pipeline-complete__list">
         {{#each complete}}
-            <li id="pipeline-list__{{id}}" class="{{#if pr}}{{#each pr.tags}}{{#eq (slug name) 'priorityhigh'}} important {{/eq}}{{/each}}{{/if}} {{#if can_edit}}can_edit{{/if}} producer-{{#if producer}}{{slug producer}}{{/if}} designer-{{designer}} {{#if developer}}{{#each developer}}developer-{{slug name}} {{/each}}{{else}}developer-{{/if}}
+            <li id="pipeline-list__{{id}}" class="{{#if pr.issue_id}} {{#if last_update}} {{#is_before last_comment.date last_commit.date}}{{#unless last_commit.admin}} attention {{/unless}} {{else}} {{#unless last_comment.admin}} attention {{/unless}} {{/is_before}} {{/if}}
+            {{#each pr.tags}}{{#eq (slug name) 'priorityhigh'}} important {{/eq}}{{/each}}{{/if}}{{#if can_edit}}can_edit{{/if}} producer-{{#if producer}}{{slug producer}}{{/if}} designer-{{designer}} {{#if developer}}{{#each developer}}developer-{{slug name}} {{/each}}{{else}}developer-{{/if}}
              {{#is_false_array perl_module name repo example_query producer developer}} missing {{/is_false_array}}
              {{#each at_mentions}}{{#eq ../../../username name}} mentioned {{/eq}}{{/each}}">
                 <div class="item-name pipeline__stamp-{{repo}}">
                     <a href="/ia/view/{{id}}">{{name}}</a>
                     <div class="right item-activity">
                       {{#exists pr 'issue_id'}}
-                      <a href="https://github.com/duckduckgo/zeroclickinfo-{{repo}}/issues/{{pr.issue_id}}" class="one-line" id="pr">
-                        PR
-                      </a>
-                      
+                          <a href="https://github.com/duckduckgo/zeroclickinfo-{{repo}}/issues/{{pr.issue_id}}" class="one-line" id="pr" title="{{format_time last_update}}">
+                            {{timeago last_update}}
+                          </a>
+                      {{else}}
+                          <span title="{{format_time last_update}}">
+                            {{timeago last_update}}
+                          </span>
                       {{/exists}}
-                      <span title="{{format_time last_update}}">
-                        {{timeago last_update}}
-                      </span>
                     </div>
                 </div>
                 <span class="clearfix"></span>

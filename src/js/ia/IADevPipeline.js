@@ -8,8 +8,11 @@
         filters: [
             'missing',
             'important',
-            'mentioned'
+            'mentioned',
+            'attention'
         ],
+
+        current_filter: '',
 
         query: '',
 
@@ -89,22 +92,20 @@
                     }
 
                     if (param_count === 0) {
-                        filter();
+                        filter('', true);
                     }
                 } else {
-                    filter();
+                    filter('', true);
                 }
 
             });
 
-            $("body").on("click", "#pipeline-clear-filters", function(evt) {
-                $(this).addClass("hide");
-
+            $("body").on("click", "#pipeline_toggle-dev", function(evt) {
                 dev_p.query = "";
 
                 $(".search-thing").val("");
                 $(".active-filter").removeClass("active-filter");
-                filter();
+                filter('', true);
             });
 
              $("body").on("click", "#create-new-ia", function(evt) {
@@ -251,7 +252,9 @@
                     
                     filter(which_filter);
                     console.log("filtering from triggered event");
-                    $("#pipeline-clear-filters").removeClass("hide");
+                } else {
+                    $(this).removeClass("active-filter");
+                    filter('', true);
                 }
             });
 
@@ -325,7 +328,7 @@
                 $("#page_sidebar, #actions_sidebar").addClass("hide").empty();
                 $("#page_sidebar").attr("ia_id", "");
                 
-                if ((!multi) && selected > 0) {
+                if ((!multi) && selected === 1) {
                     var $item = $(".dev_pipeline-column__list .selected");
                     var meta_id = $item.attr("id").replace("pipeline-list__", "");
                     var milestone = $item.parents(".dev_pipeline-column").attr("id").replace("pipeline-", "");
@@ -337,7 +340,7 @@
                         $("#page_sidebar").html(sidebar).removeClass("hide");
                         $("#page_sidebar").attr("ia_id", page_data.id);
                     }
-                } else if (multi) {
+                } else if (multi && selected > 1) {
                    var actions_data = {};
                    actions_data.permissions = dev_p.data.permissions;
                    actions_data.selected = selected;
@@ -387,7 +390,7 @@
                     }
                 }
             }
-
+            
             function elapsed_time(date) {
                 date = moment.utc(date.replace("/T.*Z/", " "), "YYYY-MM-DD");
                 return parseInt(moment().diff(date, "days", true));
@@ -442,6 +445,11 @@
                             if (ia.at_mentions && ia.at_mentions.indexOf(dev_p.data.username) !== -1) {
                                 priority_val += 50;
                             }
+
+                            // Has a PR, so it still has more priority than IAs which don't have one
+                            if (priority_val <= 0) {
+                                priority_val = 1;
+                            }
                         }
 
                         dev_p.data.dev_milestones[key][temp_ia].priority = priority_val;
@@ -454,9 +462,9 @@
                         console.log(a.priority + ", " + b.priority);
 
                         if (a.priority > b.priority) {
-                            return 1;
-                        } else if (b.priority > a.priority) {
                             return -1;
+                        } else if (b.priority > a.priority) {
+                            return 1;
                         }
                             
                         return 0;
@@ -467,7 +475,7 @@
                 $("#dev_pipeline").html(iadp);
             }
 
-            function filter(which_filter) {
+            function filter(which_filter, reset) {
                 var query = dev_p.query? dev_p.query.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&") : '';
                 var url = "";
                 var $obj = $(".dev_pipeline-column__list li");
@@ -477,9 +485,10 @@
                     url += "&filter=" + which_filter;
                     which_filter = "." + which_filter;
                 } else {
-                    which_filter = "";
+                    which_filter = reset? "" : dev_p.current_filter;
                 }
 
+                dev_p.current_filter = which_filter;
                 $obj = $(".dev_pipeline-column__list li" + which_filter);
                 var $children = $obj.children(".item-name");
 
