@@ -79,7 +79,7 @@
                                 $(".search-thing").val(decodeURIComponent(value.replace(/\+/g, " ")));
 
                                 //create return keypress event
-                                var evt = $.Event("keypress");
+                                var evt = $.Event("keyup");
                                 evt.which = 13;
                                 $(".search-thing").trigger(evt);
                                 param_count++;
