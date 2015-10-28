@@ -1,4 +1,4 @@
-<div id="sidebar-top" class="clearfix">
+<div id="sidebar-top" class="clearfix {{#unless permissions.admin}}sidebar-logged-out{{/unless}}">
   <span class="left">
     {{#if pr}}{{#each pr.tags}}{{#eq (slug name) 'priorityhigh'}} 
         <span class="sep--after">
@@ -6,17 +6,19 @@
         </span>
     {{/eq}}{{/each}}{{/if}}
     {{#if permissions.admin}}
-        <span class="sep--after edit-sidebar" id="edit-sidebar-repo">
+	<span class="sep--after">
+          <span class="edit-sidebar frm__select" id="edit-sidebar-repo">
             <select>
-                <option value="0">{{repo}}</option>
-                {{#not_eq repo 'fathead'}}<option value="1">fathead</option>{{/not_eq}}
-                {{#not_eq repo 'goodies'}}<option value="2">goodies</option>{{/not_eq}}
-                {{#not_eq repo 'longtail'}}<option value="3">longtail</option>{{/not_eq}}
-                {{#not_eq repo 'spice'}}<option value="4">spice</option>{{/not_eq}}
+              <option value="0">{{repo}}</option>
+              {{#not_eq repo 'fathead'}}<option value="1">fathead</option>{{/not_eq}}
+              {{#not_eq repo 'goodies'}}<option value="2">goodies</option>{{/not_eq}}
+              {{#not_eq repo 'longtail'}}<option value="3">longtail</option>{{/not_eq}}
+              {{#not_eq repo 'spice'}}<option value="4">spice</option>{{/not_eq}}
             </select>
-        </span>
+          </span>
+	</span>
 
-        <span class="sep--after edit-sidebar" id="edit-sidebar-dev_milestone">
+        <span class="edit-sidebar frm__select" id="edit-sidebar-dev_milestone" style="width: 9em">
             <select>
                 <option value="0">{{dev_milestone}}</option>
                 {{#not_eq dev_milestone 'planning'}}<option value="1">planning</option>{{/not_eq}}
@@ -42,39 +44,40 @@
 {{#if permissions.admin}}
 
     <h2 id="sidebar-name">
-        <input class="edit-sidebar" id="edit-sidebar-name" value="{{name}}" />
+        <input class="edit-sidebar" data-focus-class="frm__input" id="edit-sidebar-name" value="{{name}}" />
     </h2>
 
-    <input class="edit-sidebar" id="edit-sidebar-id" value="{{id}}" />
+    <input class="edit-sidebar" style="height: initial" id="edit-sidebar-id" value="{{id}}" />
 
     <div class="sidebar-field">
         <div class="field-label primary-label"> Description </div>
-        <textarea rows="3" cols="50" class="edit-sidebar" id="edit-sidebar-description">{{description}}</textarea>
+        <textarea rows="3" cols="50" data-focus-class="frm__text" class="edit-sidebar" id="edit-sidebar-description">{{description}}</textarea>
     </div>
 
     <div class="sidebar-field">
         <div class="field-label primary-label"> Example Query </div>
-        <input class="edit-sidebar" id="edit-sidebar-example_query" value="{{example_query}}" />
+        <input class="edit-sidebar" data-focus-class="frm__input" id="edit-sidebar-example_query" value="{{example_query}}" />
     </div>
 
     <div class="sidebar-field">
         <div class="field-label primary-label"> Perl Module </div>
-        <input class="edit-sidebar" id="edit-sidebar-perl_module" value="{{perl_module}}" />
+        <input class="edit-sidebar" data-focus-class="frm__input" id="edit-sidebar-perl_module" value="{{perl_module}}" />
     </div>
 
     <div class="sidebar-field">
         <div class="field-label primary-label"> Producer </div>
-        <input class="edit-sidebar" id="edit-sidebar-producer" value="{{producer}}" />
+        <input class="edit-sidebar" data-focus-class="frm__input" id="edit-sidebar-producer" value="{{producer}}" />
     </div>
 
     <div class="sidebar-field">
         <div class="field-label primary-label"> Template </div>
-        <input class="edit-sidebar" id="edit-sidebar-template" value="{{template}}" />
+        <input class="edit-sidebar" data-focus-class="frm__input" id="edit-sidebar-template" value="{{template}}" />
     </div>
 
     <div class="sidebar-field">
         <div class="field-label primary-label"> Dev Machine </div>
-        <select class="edit-sidebar select-sidebar" id="edit-sidebar-test_machine">
+	<span class="frm__select">
+          <select class="edit-sidebar select-sidebar" id="edit-sidebar-test_machine">
             {{#if test_machine}}<option value="0">{{test_machine}}</option>{{/if}}
             <option></option>
             {{#not_eq test_machine 'ddh1'}}<option value="1">ddh1</option>{{/not_eq}}
@@ -88,7 +91,8 @@
             {{#not_eq test_machine 'ddh9'}}<option value="9">ddh9</option>{{/not_eq}}
             {{#not_eq test_machine 'ddh10'}}<option value="10">ddh10</option>{{/not_eq}}
             {{#not_eq test_machine 'beta'}}<option value="11">beta</option>{{/not_eq}}
-        </select>
+          </select>
+	</span>
     </div>
 {{else}}
     {{#if name}}
@@ -133,12 +137,12 @@
             </a>
         </div>
         <div class="right" title="{{format_time last_update}}">
-            <i class="ddgsi-clock" />
+            <i class="ddgsi ddgsi-clock" />
             {{timeago last_update}}
         </div>
         {{#if last_comment}}
             <div class="right" id="all_comments">
-                <i class="ddgsi-comment" />
+                <i class="ddgsi ddgsi-comment" />
                 {{length all_comments}}
             </div>
         {{/if}}
