@@ -1,3 +1,18 @@
+#sort_pipeline {
+    background-color: transparent;
+    border: none;
+    position: relative;
+    bottom: 5px;
+
+    select {
+	color: $grey;
+    }
+
+    &:after {
+	color: $grey;
+    }
+}
+
 .sidebar-field .frm__select {
     width: 100%;
 }
