@@ -341,7 +341,10 @@ sub overview_base :Chained('base') :PathPart('dev') :CaptureArgs(0) {
 
     $c->stash->{ia_page} = "IAOverview";
     $c->stash->{title} = "IA Pages Overview";
-    
+   
+    $c->stash->{logged_in} = $c->user;
+    $c->stash->{is_admin} = $c->user? $c->user->admin : 0;
+
     $c->add_bc('IA Pages Home', $c->chained_uri('InstantAnswer','overview'));
 }
 
