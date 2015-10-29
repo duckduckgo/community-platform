@@ -507,11 +507,15 @@ around update => sub {
     return $ret;
 };
 
-around repo => sub {
-  my ($orig, $self) = (shift, shift);
+around perl_module => sub {
+	my ($orig, $self) = (shift, shift);
 
-  $self->blockgroup($_[0]) if @_ && (not defined $self->blockgroup);;
-  $self->$orig(@_);
+	warn "we are around perl_module";
+	my $bg = $self->blockgroup;
+	warn "have $bg, should we set to $_[0]";
+	
+	$self->blockgroup($_[0]) if @_ && (not defined $self->blockgroup);;
+	$self->$orig(@_);
 };
 
 
