@@ -3,6 +3,10 @@ $gold-variant: #F6BE68;
 
 #filter-missing {
     width: 9%;
+
+    &.filter-logged-out {
+	width: 20%;
+    }
 }
 
 #sort_pipeline {

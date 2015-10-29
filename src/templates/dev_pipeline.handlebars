@@ -23,7 +23,7 @@
       </span>
 
 
-      <span class="pipeline-filter right" id="filter-missing" title="Filter by missing info">
+      <span class="pipeline-filter right {{#unless permissions.admin}}filter-logged-out{{/unless}}" id="filter-missing" title="Filter by missing info">
           <span class="platform-no-info">
               <span class="path1"></span>
               <span class="path2"></span>
