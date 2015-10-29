@@ -90,6 +90,17 @@
             {{#not_eq test_machine 'beta'}}<option value="11">beta</option>{{/not_eq}}
         </select>
     </div>
+
+    <div class="sidebar-field">
+        <div class="field-label primary-label"> Asana Tasks </div>
+        {{#if asana}}
+            <span class="readonly">
+                <a href="https://app.asana.com/0/0/{{asana.asana_id}}">One open task</a>
+            </span>
+        {{else}}
+            <div class="button btn--primary" id="asana-create">Create Task</div>
+        {{/if}}
+    </div>
 {{else}}
     {{#if name}}
       <h2 id="sidebar-name"> {{name}} </h2>

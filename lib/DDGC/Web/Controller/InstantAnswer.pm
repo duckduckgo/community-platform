@@ -159,6 +159,11 @@ sub dev_pipeline_json :Chained('dev_pipeline_base') :PathPart('json') :Args(0) {
     );
     $key = 'dev_milestone';
 
+    my $server = "http://jason.duckduckgo.com/install?asana&ia=everything";
+
+    my $result = asana_req('', $server);
+    $result = $result ? from_json($result->content) : "";
+
     my %dev_ias;
     my $temp_ia;
     for my $ia (@ias) {
@@ -172,14 +177,13 @@ sub dev_pipeline_json :Chained('dev_pipeline_base') :PathPart('json') :Args(0) {
             my $can_edit = $ia->users->find($c->user->id)? 1 : undef;
             $temp_ia->{can_edit} = $can_edit;
         }
+
+        if ($result->{$ia->id}) {
+            $temp_ia->{asana} = $result->{$ia->id};
+        }
         
         push @{$dev_ias{$ia->$key}}, $temp_ia;
     }
-
-    my $server = "http://jason.duckduckgo.com/install?asana&ia=everything";
-
-    my $result = asana_req('', $server);
-    $result = $result ? $result->content : "";
 
     use Data::Dumper;
     warn "##### Response from Beta ####";
