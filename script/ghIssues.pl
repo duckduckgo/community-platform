@@ -244,6 +244,7 @@ sub get_last_commit {
         comleader => $result->{comleader},
         date => $commit->{commit}->{committer}->{date},
         message => $commit->{commit}->{message},
+        issue_id => $issue
     };
 
     return to_json $last_commit;
