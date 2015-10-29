@@ -176,9 +176,14 @@ sub dev_pipeline_json :Chained('dev_pipeline_base') :PathPart('json') :Args(0) {
         push @{$dev_ias{$ia->$key}}, $temp_ia;
     }
 
-    my $server = "http://beta.duckduckgo.com/install?asana&id=everything";
+    my $server = "http://jason.duckduckgo.com/install?asana&ia=everything";
 
     my $result = asana_req('', $server);
+    $result = $result ? $result->content : "";
+
+    use Data::Dumper;
+    warn "##### Response from Beta ####";
+    warn Dumper $result;
 
     $c->stash->{x} = {
         $key.'s' => \%dev_ias,
@@ -766,7 +771,7 @@ sub asana :Chained('base') :PathPart('asana') :Args(0) {
 
     $c->stash->{x}->{result} = '';
     return $c->forward($c->view('JSON')) unless ($ia && $c->user && $c->user->admin);
-    
+
     my %data = (
           repo      => $ia->{repo},
           user      => $c->user->username,
@@ -777,18 +782,32 @@ sub asana :Chained('base') :PathPart('asana') :Args(0) {
           title     => $pr->{title},
     );
 
-    my $server = "http://beta.duckduckgo.com/install?asana";
+    my $server = "http://jason.duckduckgo.com/install?asana";
 
     my $result = asana_req(\%data, $server);
+
+    warn "#### got asana task id #####";
+    warn $result->content;
+
     $c->stash->{x}->{result} = $result;
     return $c->forward($c->view('JSON'));
 }
 
-sub asana_req() {
+sub asana_req {
     my ($data, $server) = @_;
+
+    use Data::Dumper;
+    warn Dumper $data;
+
+    if(!$data){
+     $data = { stuff => "nothing"};
+ }
+
+    warn Dumper $data;
 
     my $ua = LWP::UserAgent->new;
     my $json_data = $data? to_json($data) : '';
+
     my $key = $ENV{'BETA_KEY'};
     my $req = HTTP::Request->new(GET => $server);
     my $header_data = "sha1=".Digest::SHA::hmac_sha1_hex($json_data, $key);
@@ -797,7 +816,12 @@ sub asana_req() {
     $req->header("x-hub-signature" => $header_data);
     $req->content($json_data);
 
-    return $ua->request($req);
+    my $result = $ua->request($req);
+    use Data::Dumper;
+    warn "##### Response ######";
+    warn Dumper $result if $result;
+
+    return $result;
 }
 
 # Save values for multiple IAs at once (just one field for each IA).
