@@ -748,13 +748,33 @@ sub send_to_beta :Chained('base') :PathPart('send_to_beta') :Args(0) {
 sub asana :Chained('base') :PathPart('asana') :Args(0) {
     my ($self, $c) = @_;
 
-    my $meta_id = $c->req->params->{id};
+    my @ia = $c->d->rs('InstantAnswer')->search(
+        {meta_id => $c->req->params->{id}},
+        {
+            prefetch => qw/issues/,
+            result_class => 'DBIx::Class::ResultClass::HashRefInflator',
+        }
+    );
+    my $ia = $ia[0];
+
+    my $pr;
+    foreach my $issue (@{$ia->{issues}}){
+        if($issue->{is_pr}){
+            $pr = $issue;
+        }
+    }
+
     $c->stash->{x}->{result} = '';
-    return $c->forward($c->view('JSON')) unless ($meta_id && $c->user && $c->user->admin);
+    return $c->forward($c->view('JSON')) unless ($ia && $c->user && $c->user->admin);
     
     my %data = (
-        id => $meta_id,
-        user => $c->user->username
+          repo      => $ia->{repo},
+          user      => $c->user->username,
+          producer  => $ia->{producer},
+          action    => 'duckco',
+          number    => $pr->{issue_id},
+          id        => $c->req->params->{id},
+          title     => $pr->{title},
     );
 
     my $server = "http://beta.duckduckgo.com/install?asana";
