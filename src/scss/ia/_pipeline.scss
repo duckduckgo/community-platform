@@ -316,8 +316,7 @@ textarea.edit-sidebar {
 
 	&.selected {
 	    background-color: lighten($blue-light, 30%);
-	    outline: 1px solid $blue-light;
-	    border-radius: 0;
+	    box-shadow: 0px 0px 0px 1px #60a5da;
 	}
 
 	&.on-hold {
