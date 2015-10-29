@@ -161,6 +161,19 @@ sub dev_pipeline_json :Chained('dev_pipeline_base') :PathPart('json') :Args(0) {
 
     my %dev_ias;
     my $temp_ia;
+
+    my $ua = LWP::UserAgent->new;
+    my $server = "http://beta.duckduckgo.com/installed.json";
+    my $env_key = $ENV{'BETA_KEY'};
+    my $req = HTTP::Request->new(GET => $server);
+    my $header_data = "sha1=".Digest::SHA::hmac_sha1_hex(to_json({test => 'test' }), $env_key);
+    $req->header('content-type' => 'application/json');
+    $req->header("x-hub-signature" => $header_data);
+    $req->content(to_json({test => 'test' }));
+
+    my $resp = $ua->request($req);
+    $resp = $resp->decoded_content? from_json($resp->decoded_content) : undef;
+
     for my $ia (@ias) {
         $temp_ia = $ia->TO_JSON('pipeline');
         
@@ -176,6 +189,12 @@ sub dev_pipeline_json :Chained('dev_pipeline_base') :PathPart('json') :Args(0) {
             } elsif ($closed_pr->{closed_at}) {
                 $temp_ia->{pr_closed} = 1;
             }
+       } elsif ($pr->{issue_id} && $resp) {
+            my $pr_id = $pr->{issue_id};
+            my $repo = $ia->repo;
+            my $beta_pr = $resp->{$repo}->{$pr_id};
+            warn $beta_pr->{install_status};
+            $temp_ia->{beta_install} = $beta_pr? $beta_pr->{install_status} : 0;
        }
 
         push @{$dev_ias{$ia->$key}}, $temp_ia;
