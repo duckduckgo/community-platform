@@ -342,34 +342,51 @@ textarea.edit-sidebar {
     &:hover { 
 	box-shadow: 0px 0px 0px 1px #60a5da;
 
-        .item-name {
-            .icon-link { 
-                display: inline; 
-                color: $blue;
-		        padding: 0 0.5em 0 0.2em;
-            }
+	.invisible-link a {
+	    position: relative;
+	    display: inline-block;
+	    width: 16px;
+	    height: 16px;
+	    right: 20px;
+	    top: 2px;
+	}
 
+        .item-name {
             .no-pr { text-decoration: line-through; }
             
-            .item-activity a, .item-activity-details a { color: $blue !important; }
-
-            &:before { content: ""; }
-
             /* Change content to match the repo. */
             &.pipeline__stamp {
                 &-spice:before,  &-goodies:before, &-fathead:before, &-longtail:before {
-                    content: "";
+                    content: "\f0c1";
+		    font-family: FontAwesome;
+		    font-weight: normal;
+		    font-style: normal;
+		    text-decoration: inherit;
+		    -webkit-font-smoothing: antialiased;
+		    margin-left: -2px;
+		    color: $blue;
                 }
+
+		&-goodies:before {
+		    margin-left: -2px;
+		}
+
+		&-spice:before {
+		    margin-left: -4px;
+		}
+
+		&-fathead:before, &-longtail:before {
+		    margin-left: -5px;
+		}
             } 
         }
     }
 
         .item-name { 
-	    & > a {
+	    .item-title {
 		display: inline-block;
 		/* Text should wrap if it's reached N% in the item. */
 		max-width: 65%; 
-        color: $grey-light;
 	    }
 	    
 	    /* Display the type of repo */
