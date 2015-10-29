@@ -257,6 +257,10 @@ textarea.edit-sidebar {
 	background-color: $silver;
     }
 
+    .platform-pr-merged { color: $purple; }
+
+    .platform-pr-closed { color: $red; }
+
     .item-activity { 
         color: $grey-dark; 
     }
