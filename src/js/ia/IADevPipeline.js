@@ -406,8 +406,8 @@
                                 } if (ia.last_commit) {
                                     var idle_commit = elapsed_time(ia.last_commit.date);
                                     if (ia.last_comment &&  moment.utc(ia.last_comment.date).isBefore(ia.last_commit.date)) {
-                                        priority_val += idle_commit;
-                                        priority_msg += "+ elapsed time since last commit (made after last comment) \n";
+                                        priority_val += (1.5 * idle_commit);
+                                        priority_msg += "+ 1.5 times the elapsed time since last commit (made after last comment) \n";
                                     } else if ((!ia.last_comment) && (!ia.last_commit.admin)) {
                                         priority_val += (2 * idle_commit);
                                         priority_msg += "+ twice the elapsed time since last commit (there are no comments in the PR) \n";
