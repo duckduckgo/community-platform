@@ -152,23 +152,38 @@ sub respond : Chained('base') : PathPart('respond') : Args(0) {
 	my $bad_response;
 	if ($campaign_name eq 'share') {
 		my @first = (
-			'coupon', 'facebook',
-			'freebie', 'free',
+			'coupon', 'facebook', 'colleague',
+			'freebie', 'free', 'friend', 'a friend',
 		);
 		my @second = (
-			'now',
-			'right now',
-			'just did',
-			'just now',
-			'just signed up',
-			'just downloaded',
-			'just started',
-			'new',
+			"10 years",
+			"9 years",
+			"8 years",
+			"7 years",
+			"6 years",
+			"5 years",
+			"4 years",
+			"3 years",
+			"now",
+			"right now",
+			"just did",
+			"just now",
+			"just signed up",
+			"just downloaded",
+			"just started",
+			"new",
 			"i'm new",
+			"second",
+			"seconds",
+			"seconds",
+			"days",
+			"weeks",
+			"minutes",
+			"hours",
 			'im new',
 		);
-		$bad_response = grep { _answer_is_mostly( lc($c->req->param('question1')), $_ ) } @first if !$bad_response;
-		$bad_response = grep { _answer_is_mostly( lc($c->req->param('question2')), $_ ) } @second if !$bad_response;
+		$flag_response = grep { _answer_is_mostly( lc($c->req->param('question1')), $_ ) } @first if !$flag_response;
+		$flag_response = grep { _answer_is_mostly( lc($c->req->param('question2')), $_ ) } @second if !$flag_response;
 
 		if ( $c->stash->{referer} ) {
 
@@ -195,10 +210,31 @@ sub respond : Chained('base') : PathPart('respond') : Args(0) {
 
 		my $q5 = lc( $c->req->param( 'question5' ) );
 		my @fifth = (
-			'none',
-			"don't know",
-			'dont know',
+			"24",
+			"abc",
+			"abbreviations",
+			"adobe",
+			"adobe brackets",
+			"affinity",
+			"age of mythology",
+			"air quality",
+			"airlines",
+			"amazon",
+			"na",
+			"n/a",
+			"none",
+			"not sure",
 			"all of them",
+			"google",
+			"don't know",
+			"goodies",
+			"spice",
+			"fathead",
+			"longtail",
+			"f",
+			"g",
+			'none',
+			'dont know',
 			"all",
 			"unsure",
 			"duckduckgo",
@@ -210,12 +246,32 @@ sub respond : Chained('base') : PathPart('respond') : Args(0) {
 
 		my $q6 = lc( $c->req->param( 'question6' ) );
 		my @sixth = (
-			'!bang',
-			'none',
+			"!a",
+			"!w",
+			"!yelp",
+			"!ebay",
+			"!wa",
+			"!twitter",
+			"!facebook",
+			"!yt",
+			"!stackoverflow",
+			"!maps",
+			"Amazon",
+			"Wikipedia",
+			"None",
+			"not sure",
 			"don't know",
+			"none",
+			"all",
+			"google",
+			"abc",
+			"random",
+			"everything",
+			"N/A",
+			"no idea",
+			'!bang',
 			'dont know',
 			"all of them",
-			"all",
 			"unsure",
 			"duckduckgo",
 			"google",
@@ -223,6 +279,13 @@ sub respond : Chained('base') : PathPart('respond') : Args(0) {
 			'?'
 		);
 		$flag_response = grep { _answer_is_mostly( $q6, $_ ) } @sixth if !$flag_response;
+
+		$flag_response = $c->req->param('question1') =~ /[^\x00-\x7F]/ if !$flag_response;
+		$flag_response = $c->req->param('question2') =~ /[^\x00-\x7F]/ if !$flag_response;
+		$flag_response = $c->req->param('question5') =~ /[^\x00-\x7F]/ if !$flag_response;
+		$flag_response = $c->req->param('question6') =~ /[^\x00-\x7F]/ if !$flag_response;
+		$flag_response = $c->req->param('question6') =~ /[0-9]/ if !$flag_response;
+		$flag_response = $c->req->param('question6') =~ /^a/i if !$flag_response;
 
 		for my $n (1..6) {
 			my $q = lc( $c->req->param( "question$n" ) );
