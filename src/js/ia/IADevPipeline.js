@@ -96,6 +96,13 @@
                 }
             });
 
+            $("body").on("click", "#asana-create", function(evt) {
+                if (!$(this).hasClass("disabled")) {
+                    create_task($.trim($("#edit-sidebar-id").val()));
+                    $(this).addClass("disabled");
+                }
+            });
+
             $("body").on("click", "#pipeline-clear-filters", function(evt) {
                 $(this).addClass("hide");
 
@@ -230,7 +237,8 @@
 
                 // remove sidebar
                 appendSidebar(0);
-                
+               
+                console.log("Saved: " + dev_p.saved);
                 if (dev_p.saved) {
                     var jqxhr = $.getJSON(url, function (data) {
                         dev_p.saved = false;
@@ -385,6 +393,17 @@
                         return temp_ia;
                     }
                 }
+            }
+
+            function create_task(id) {
+                var jhxqr = $.post("/ia/asana", {
+                    id : id
+                })
+                .done(function(data) {
+                    console.log("Got so far");
+                    dev_p.saved = true;
+                });
+                    
             }
 
             function filter(which_filter) {

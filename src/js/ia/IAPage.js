@@ -196,7 +196,10 @@
                     });
 
                     $("body").on("click", "#asana_button", function(evt) {
-                        create_task(DDH_iaid);
+                        if(!$(this).hasClass("is-disabled")) {
+                            create_task(DDH_iaid);
+                            $(this).addClass("is-disabled");
+                        }
                     });
 
                     $("body").on("click", ".devpage-cancel", function(evt) {

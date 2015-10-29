@@ -791,9 +791,9 @@ sub asana :Chained('base') :PathPart('asana') :Args(0) {
     my $result = asana_req(\%data, $server);
 
     warn "#### got asana task id #####";
-    warn $result->content;
+    #warn $result->content;
 
-    $c->stash->{x}->{result} = $result;
+    $c->stash->{x}->{result} = $result->decoded_content;
     return $c->forward($c->view('JSON'));
 }
 
