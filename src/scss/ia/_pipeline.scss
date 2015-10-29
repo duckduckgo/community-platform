@@ -332,6 +332,8 @@ textarea.edit-sidebar {
 					  white 95%));
 	}
 
+    &:hover { outline: 1px solid $blue; }
+
         .item-name { 
 	    & > a {
 		display: inline-block;
