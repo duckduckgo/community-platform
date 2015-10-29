@@ -1,52 +1,3 @@
-<: if $is_admin { :>
-    <div id="create-new-ia-form" class="new-ia-form hide">
-        <div class="new-ia-form-section left">
-            <div class="label">
-                Name
-            </div>
-            <input id="name-input" class="new-ia-input">
-        </div>
-
-        <div class="new-ia-form-section left">
-            <div class="label">
-                ID
-            </div>
-            <input id="id-input" class="new-ia-input">
-        </div>
-
-        <div class="new-ia-form-section left">
-            <div class="label">
-                Dev Milestone
-            </div>
-            <span class="new-ia-select" id="dev_milestone-select">
-                <select class="available_dev_milestones" tabindex="-1">
-                    <option value="1">planning</option>
-                    <option value="2">development</option>
-                    <option value="3">testing</option>
-                    <option value="4">complete</option>
-                    <option value="5">live</option>
-                </select>
-            </span>
-        </div>
-
-        <div class="new-ia-form-section clearfix">
-            <div class="label">
-                Description
-            </div>
-            <textarea id="description-input" class="new-ia-input" rows="5"></textarea>
-        </div>
-
-        <div class="button left" id="new-ia-form-save">
-            Save
-        </div>
-
-        <div class="button left" id="new-ia-form-cancel">
-            Cancel
-        </div>
-        <span class="clearfix"></span>
-    </div>
-<: } :>
-
 <div class="pipeline__toggle-view" id="pipeline_toggle-view">
   <!--
     <div class="pager-wrap">
@@ -67,7 +18,7 @@
     </div>
   -->
     <: if $is_admin { :>
-      <div id="create-new-ia" class="button right">
+      <div id="create-new-ia" class="button right hide">
         New IA Page
       </div>
     <: } :>
