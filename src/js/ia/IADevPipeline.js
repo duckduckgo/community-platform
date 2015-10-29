@@ -445,7 +445,6 @@
 
                             dev_p.data.dev_milestones[key][temp_ia].priority = priority_val;
                             dev_p.data.dev_milestones[key][temp_ia].priority_msg = priority_msg;
-                            console.log(ia.name + ": " + dev_p.data.dev_milestones[key][temp_ia].priority);
                         }
                     });
                         
@@ -457,7 +456,6 @@
                         } else {
                             a = l.last_update? - elapsed_time(l.last_update) : -100;
                             b = r.last_update? - elapsed_time(r.last_update) : -100;
-                            console.log(a + ", " + b);
                         }
 
                         if (a > b) {
@@ -474,6 +472,7 @@
                 var iadp = Handlebars.templates.dev_pipeline(dev_p.data);
                 $("#dev_pipeline").html(iadp);
                 filterCounts();
+                $(".mentioned, .attention").addClass("dog-ear");
             }
 
             // Add counts to filters
