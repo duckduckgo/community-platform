@@ -86,11 +86,27 @@ $gold-variant: #F6BE68;
 
 input.edit-sidebar {
     height: 2.3em;
+
+    &:hover {
+	outline: 1px solid #ddd;
+    }
+
+    &.frm__input:hover {
+	outline: 1px solid #B3D5EF;
+    }
 }
 
 textarea.edit-sidebar {
     padding-top: 0.8em;
     padding-bottom: 2em;
+
+    &:hover {
+        outline: 1px solid #ddd;
+    }
+
+    &.frm__text:hover {
+	outline: 1px solid #B3D5EF;
+    }
 }
 
 .search-container {
