@@ -1,3 +1,10 @@
+$blue-variant: #7AB4E3;
+$gold-variant: #F6BE68;
+
+#filter-missing {
+    width: 9%;
+}
+
 #sort_pipeline {
     background-color: transparent;
     border: none;
@@ -66,22 +73,40 @@
 
     &.frm__input {
 	margin-left: -0.8em;
-	background-color: lighten($blue-light, 30%);
+	background-color: #EDF5FB;
+	outline: 1px solid #B3D5EF;
     }
 
     &.frm__text {
 	margin-left: -0.8em;
-	background-color: lighten($blue-light, 30%);
+	background-color: #EDF5FB;
+	outline: 1px solid #B3D5EF;
     }
 }
 
 input.edit-sidebar {
     height: 2.3em;
+
+    &:hover {
+	outline: 1px solid #ddd;
+    }
+
+    &.frm__input:hover {
+	outline: 1px solid #B3D5EF;
+    }
 }
 
 textarea.edit-sidebar {
     padding-top: 0.8em;
     padding-bottom: 2em;
+
+    &:hover {
+        outline: 1px solid #ddd;
+    }
+
+    &.frm__text:hover {
+	outline: 1px solid #B3D5EF;
+    }
 }
 
 .search-container {
@@ -123,6 +148,8 @@ textarea.edit-sidebar {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 
+    min-height: 100vh;
+
     input, textarea {
 	outline: none;
     }
@@ -150,7 +177,7 @@ textarea.edit-sidebar {
     #count-missing { margin-left: -0.6em; }
 
     &.active-filter {
-	box-shadow: inset 0px -3px $blue;
+	box-shadow: inset 0px -2px $blue;
     }
 }
 
@@ -163,6 +190,8 @@ textarea.edit-sidebar {
 }
 #page_sidebar {
     width: 395px;
+    overflow: auto;
+    margin-bottom: 13em;
 }
 
 #actions_sidebar {
@@ -305,21 +334,19 @@ textarea.edit-sidebar {
         border-radius: 2px;
         padding: 0.5em;
         @include user-select(none);
+	border-left: 2px solid transparent;
 
         a { 
 	    color: black; 
 	}
 
 	&.important {
-	    box-shadow: inset 3px 0px $gold;
-	    border-top-left-radius: 0;
-	    border-bottom-left-radius: 0;
+	    border-left: 2px solid $gold-variant;
 	}
 
 	&.selected {
 	    background-color: lighten($blue-light, 30%);
-	    outline: 1px solid $blue-light;
-	    border-radius: 0;
+	    box-shadow: 0px 0px 0px 1px #60a5da;
 	}
 
 	&.on-hold {
@@ -327,46 +354,63 @@ textarea.edit-sidebar {
 	}
 
 	&.dog-ear {
-	    background-color: white;
 	    @include background-image(linear-gradient(
-					  -140deg, 
-					  $blue-light,
-					  $blue-light 5%,
-					  white 5%,
-					  white 95%));
+					  -135deg, 
+					  $blue-variant,
+					  $blue-variant 2%,
+					  transparent 2%,
+					  transparent));
+	    background-origin: border-box;
 	}
 
     &:hover { 
-        outline: 1px solid $blue;
+	box-shadow: 0px 0px 0px 1px #60a5da;
+
+	.invisible-link a {
+	    position: relative;
+	    display: inline-block;
+	    width: 16px;
+	    height: 16px;
+	    right: 20px;
+	    top: 2px;
+	}
 
         .item-name {
-            .icon-link { 
-                display: inline; 
-                color: $blue;
-		        padding: 0 0.5em 0 0.2em;
-            }
-
             .no-pr { text-decoration: line-through; }
             
-            .item-activity a, .item-activity-details a { color: $blue !important; }
-
-            &:before { content: ""; }
-
             /* Change content to match the repo. */
             &.pipeline__stamp {
                 &-spice:before,  &-goodies:before, &-fathead:before, &-longtail:before {
-                    content: "";
+                    content: "\f0c1";
+		    font-family: FontAwesome;
+		    font-weight: normal;
+		    font-style: normal;
+		    text-decoration: inherit;
+		    -webkit-font-smoothing: antialiased;
+		    margin-left: -2px;
+		    color: $blue;
                 }
+
+		&-goodies:before {
+		    margin-left: -2px;
+		}
+
+		&-spice:before {
+		    margin-left: -4px;
+		}
+
+		&-fathead:before, &-longtail:before {
+		    margin-left: -5px;
+		}
             } 
         }
     }
 
         .item-name { 
-	    & > a {
+	    .item-title {
 		display: inline-block;
 		/* Text should wrap if it's reached N% in the item. */
 		max-width: 65%; 
-        color: $grey-light;
 	    }
 	    
 	    /* Display the type of repo */
