@@ -1,4 +1,5 @@
 $blue-variant: #7AB4E3;
+$gold-variant: #F6BE68;
 
 #sort_pipeline {
     background-color: transparent;
@@ -309,7 +310,7 @@ textarea.edit-sidebar {
 	}
 
 	&.important {
-	    box-shadow: inset 3px 0px $gold;
+	    box-shadow: inset 2px 0px $gold-variant;
 	    border-top-left-radius: 0;
 	    border-bottom-left-radius: 0;
 	}
