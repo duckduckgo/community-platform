@@ -72,14 +72,16 @@
              {{#is_false_array perl_module name repo example_query producer developer}} missing {{/is_false_array}}
              {{#each at_mentions}}{{#eq ../../../username name}} mentioned {{/eq}}{{/each}}">
                 <div class="item-name pipeline__stamp-{{repo}}">
-                    <a href="/ia/view/{{id}}">{{name}}</a>
+                    <a href="/ia/view/{{id}}"><i class="icon-link hide"></i></a>
+                    {{name}}
                     <div class="right item-activity">
                       {{#exists pr 'issue_id'}}
                           <a href="https://github.com/duckduckgo/zeroclickinfo-{{repo}}/issues/{{pr.issue_id}}" class="one-line" id="pr" title="{{format_time last_update}}">
                             {{timeago last_update 0}}
                           </a>
                       {{else}}
-                          <span title="{{format_time last_update}}">
+                          {{#if last_update}}<i class="{{#if pr_merged}} platform-pr-merged {{else}} platform-pr-closed {{/if}}"></i>{{/if}}
+                          <span class="no-pr" title="{{format_time last_update}}">
                             {{timeago last_update 0}}
                           </span>
                       {{/exists}}
@@ -122,14 +124,16 @@
              {{#is_false_array perl_module name repo example_query producer developer}} missing {{/is_false_array}}
              {{#each at_mentions}}{{#eq ../../../username name}} mentioned {{/eq}}{{/each}}">
                 <div class="item-name pipeline__stamp-{{repo}}">
-                    <a href="/ia/view/{{id}}">{{name}}</a>
+                    <a href="/ia/view/{{id}}"><i class="icon-link hide"></i></a>
+                    {{name}}
                     <div class="right item-activity">
                       {{#exists pr 'issue_id'}}
                           <a href="https://github.com/duckduckgo/zeroclickinfo-{{repo}}/issues/{{pr.issue_id}}" class="one-line" id="pr" title="{{format_time last_update}}">
                             {{timeago last_update 0}}
                           </a>
                       {{else}}
-                          <span title="{{format_time last_update}}">
+                          {{#if last_update}}<i class="{{#if pr_merged}} platform-pr-merged {{else}} platform-pr-closed {{/if}}"></i>{{/if}}
+                          <span class="no-pr" title="{{format_time last_update}}">
                             {{timeago last_update 0}}
                           </span>
                       {{/exists}}
@@ -172,14 +176,16 @@
              {{#is_false_array perl_module name repo example_query producer developer}} missing {{/is_false_array}}
              {{#each at_mentions}}{{#eq ../../../username name}} mentioned {{/eq}}{{/each}}">
                 <div class="item-name pipeline__stamp-{{repo}}">
-                    <a href="/ia/view/{{id}}">{{name}}</a>
+                    <a href="/ia/view/{{id}}"><i class="icon-link hide"></i></a>
+                    {{name}}
                     <div class="right item-activity">
                       {{#exists pr 'issue_id'}}
                           <a href="https://github.com/duckduckgo/zeroclickinfo-{{repo}}/issues/{{pr.issue_id}}" class="one-line" id="pr" title="{{format_time last_update}}">
                             {{timeago last_update 0}}
                           </a>
                       {{else}}
-                          <span title="{{format_time last_update}}">
+                          {{#if last_update}}<i class="{{#if pr_merged}} platform-pr-merged {{else}} platform-pr-closed {{/if}}"></i>{{/if}}
+                          <span class="no-pr" title="{{format_time last_update}}">
                             {{timeago last_update 0}}
                           </span>
                       {{/exists}}
@@ -222,14 +228,16 @@
              {{#is_false_array perl_module name repo example_query producer developer}} missing {{/is_false_array}}
              {{#each at_mentions}}{{#eq ../../../username name}} mentioned {{/eq}}{{/each}}">
                 <div class="item-name pipeline__stamp-{{repo}}">
-                    <a href="/ia/view/{{id}}">{{name}}</a>
+                    <a href="/ia/view/{{id}}"><i class="icon-link hide"></i></a>
+                    {{name}}
                     <div class="right item-activity">
                       {{#exists pr 'issue_id'}}
                           <a href="https://github.com/duckduckgo/zeroclickinfo-{{repo}}/issues/{{pr.issue_id}}" class="one-line" id="pr" title="{{format_time last_update}}">
                             {{timeago last_update 0}}
                           </a>
                       {{else}}
-                          <span title="{{format_time last_update}}">
+                          {{#if last_update}}<i class="{{#if pr_merged}} platform-pr-merged {{else}} platform-pr-closed {{/if}}"></i>{{/if}}
+                          <span class="no-pr" title="{{format_time last_update}}">
                             {{timeago last_update 0}}
                           </span>
                       {{/exists}}

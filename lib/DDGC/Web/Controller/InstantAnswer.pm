@@ -168,11 +168,16 @@ sub dev_pipeline_json :Chained('dev_pipeline_base') :PathPart('json') :Args(0) {
         $pr->{tags} = $pr->{tags}? from_json($pr->{tags}) : undef;
         $temp_ia->{pr} = $pr;
 
-        if ($c->user && (!$c->user->admin)) {
-            my $can_edit = $ia->users->find($c->user->id)? 1 : undef;
-            $temp_ia->{can_edit} = $can_edit;
-        }
-        
+        if ($ia->last_update && $ia->last_commit && (!$pr->{issue_id})) {
+            my $last_commit = from_json($ia->last_commit);
+            my $closed_pr = $c->d->rs('GitHub::Pull')->search({github_id => $last_commit->{issue_id}}, {result_class => 'DBIx::Class::ResultClass::HashRefInflator'})->first;
+            if ($closed_pr->{merged_at}) {
+                $temp_ia->{pr_merged} = 1;
+            } elsif ($closed_pr->{closed_at}) {
+                $temp_ia->{pr_closed} = 1;
+            }
+       }
+
         push @{$dev_ias{$ia->$key}}, $temp_ia;
     }
 
@@ -341,7 +346,10 @@ sub overview_base :Chained('base') :PathPart('dev') :CaptureArgs(0) {
 
     $c->stash->{ia_page} = "IAOverview";
     $c->stash->{title} = "IA Pages Overview";
-    
+   
+    $c->stash->{logged_in} = $c->user;
+    $c->stash->{is_admin} = $c->user? $c->user->admin : 0;
+
     $c->add_bc('IA Pages Home', $c->chained_uri('InstantAnswer','overview'));
 }
 

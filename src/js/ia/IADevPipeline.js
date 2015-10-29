@@ -104,11 +104,6 @@
                 filter('', true);
             });
 
-             $("body").on("click", "#create-new-ia", function(evt) {
-                $(this).hide();
-                $("#create-new-ia-form").removeClass("hide");
-            });
-
             $("body").on("change", "#sort_pipeline select", function(evt) {
                 var option = parseInt($(this).find("option:selected").val());
                 console.log("option: " + option);
@@ -117,39 +112,8 @@
                 sort_pipeline();
             });
 
-            $("body").on('click', "#new-ia-form-cancel", function(evt) {
-                $("#create-new-ia-form").addClass("hide");
-                $("#create-new-ia").show();
-            });
-
             $("body").on("focusin", "#id-input.not_saved", function(evt) {
                 $(this).removeClass("not_saved");
-            });
-
-            $("body").on('click', "#new-ia-form-save", function(evt) {
-                var $id_input = $("#id-input");
-                var name = $.trim($("#name-input").val());
-                var id = $.trim($id_input.val());
-                var description = $.trim($("#description-input").val());
-                var dev_milestone = $.trim($("#dev_milestone-select .available_dev_milestones option:selected").text());
-                
-                if (name.length && id.length && dev_milestone.length && description.length) {
-                    id = id.replace(/\s/g, '');
-
-                    var jqxhr = $.post("/ia/create", {
-                        name : name,
-                        id : id,
-                        description : description,
-                        dev_milestone : dev_milestone
-                    })
-                    .done(function(data) {
-                        if (data.result && data.id) {
-                            window.location = '/ia/view/' + data.id;
-                        } else {
-                            $id_input.addClass("not_saved");
-                        }
-                    });
-                }
             });
 
             $("body").on("keypress", ".search-thing", function(evt) {
@@ -442,8 +406,8 @@
                                 } if (ia.last_commit) {
                                     var idle_commit = elapsed_time(ia.last_commit.date);
                                     if (ia.last_comment &&  moment.utc(ia.last_comment.date).isBefore(ia.last_commit.date)) {
-                                        priority_val += idle_commit;
-                                        priority_msg += "+ elapsed time since last commit (made after last comment) \n";
+                                        priority_val += (1.5 * idle_commit);
+                                        priority_msg += "+ 1.5 times the elapsed time since last commit (made after last comment) \n";
                                     } else if ((!ia.last_comment) && (!ia.last_commit.admin)) {
                                         priority_val += (2 * idle_commit);
                                         priority_msg += "+ twice the elapsed time since last commit (there are no comments in the PR) \n";
@@ -481,7 +445,6 @@
 
                             dev_p.data.dev_milestones[key][temp_ia].priority = priority_val;
                             dev_p.data.dev_milestones[key][temp_ia].priority_msg = priority_msg;
-                            console.log(ia.name + ": " + dev_p.data.dev_milestones[key][temp_ia].priority);
                         }
                     });
                         
@@ -493,7 +456,6 @@
                         } else {
                             a = l.last_update? - elapsed_time(l.last_update) : -100;
                             b = r.last_update? - elapsed_time(r.last_update) : -100;
-                            console.log(a + ", " + b);
                         }
 
                         if (a > b) {
@@ -510,6 +472,9 @@
                 var iadp = Handlebars.templates.dev_pipeline(dev_p.data);
                 $("#dev_pipeline").html(iadp);
                 filterCounts();
+                if (dev_p.data.permissions && dev_p.data.permissions.admin) {
+                    $(".mentioned, .attention").addClass("dog-ear");
+                }
             }
 
             // Add counts to filters
