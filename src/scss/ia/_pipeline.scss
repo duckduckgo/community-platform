@@ -325,11 +325,11 @@ textarea.edit-sidebar {
 	&.dog-ear {
 	    background-color: white;
 	    @include background-image(linear-gradient(
-					  -140deg, 
+					  -135deg, 
 					  $blue-light,
-					  $blue-light 5%,
-					  white 5%,
-					  white 95%));
+					  $blue-light 3%,
+					  white 3%,
+					  white));
 	}
 
         .item-name { 
