@@ -336,7 +336,30 @@ textarea.edit-sidebar {
 					  white 95%));
 	}
 
-    &:hover { outline: 1px solid $blue; }
+    &:hover { 
+        outline: 1px solid $blue;
+
+        .item-name {
+            .icon-link { 
+                display: inline; 
+                color: $blue;
+		        padding: 0 0.5em 0 0.2em;
+            }
+
+            .no-pr { text-decoration: line-through; }
+            
+            .item-activity a, .item-activity-details a { color: $blue !important; }
+
+            &:before { content: ""; }
+
+            /* Change content to match the repo. */
+            &.pipeline__stamp {
+                &-spice:before,  &-goodies:before, &-fathead:before, &-longtail:before {
+                    content: "";
+                }
+            } 
+        }
+    }
 
         .item-name { 
 	    & > a {
@@ -356,45 +379,23 @@ textarea.edit-sidebar {
 		float: left;
 	    }
 
-        &:hover {
-            .icon-link { 
-                display: inline; 
-                color: $blue;
-		        padding: 0 0.5em 0 0.2em;
-            }
-
-            .no-pr { text-decoration: line-through; }
-            
-            .item-activity a, .item-activity-details a { color: $blue !important; }
-        }
-
-        &:hover:before { content: ""; }
-
 	    /* Change content to match the repo. */
 	    &.pipeline__stamp {
 		&-spice:before {
 		    content: "S";
 		}
 
-        &-spice:hover:before { content: ""; }
-
 		&-goodies:before {
 		    content: "G";
 		}
-
-        &-goodies:hover:before { content: ""; }
 
 		&-fathead:before {
 		    content: "F";
 		}
 
-        &-fathead:hover:before { content: ""; }
-
 		&-longtail:before {
 		    content: "L";
 		}
-
-        &-longtail:hover:before { content: ""; }
 	    }
 	}
 
