@@ -472,7 +472,9 @@
                 var iadp = Handlebars.templates.dev_pipeline(dev_p.data);
                 $("#dev_pipeline").html(iadp);
                 filterCounts();
-                $(".mentioned, .attention").addClass("dog-ear");
+                if (dev_p.data.permissions && dev_p.data.permissions.admin) {
+                    $(".mentioned, .attention").addClass("dog-ear");
+                }
             }
 
             // Add counts to filters
