@@ -74,7 +74,7 @@ $gold-variant: #F6BE68;
 
     &.frm__text {
 	margin-left: -0.8em;
-	background-color: lighten($blue-light, 30%);
+	background-color: $blue-lightest;
     }
 }
 
@@ -324,13 +324,13 @@ textarea.edit-sidebar {
 	}
 
 	&.dog-ear {
-	    background-color: white;
 	    @include background-image(linear-gradient(
 					  -135deg, 
 					  $blue-variant,
 					  $blue-variant 2%,
-					  white 2%,
-					  white));
+					  transparent 2%,
+					  transparent));
+	    background-origin: border-box;
 	}
 
         .item-name { 
