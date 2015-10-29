@@ -356,6 +356,8 @@ textarea.edit-sidebar {
                 color: $blue;
 		        padding: 0 0.5em 0 0.2em;
             }
+
+            .no-pr { text-decoration: line-through; }
             
             .item-activity a, .item-activity-details a { color: $blue !important; }
         }
