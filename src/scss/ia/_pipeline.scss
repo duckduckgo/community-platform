@@ -262,7 +262,7 @@ textarea.edit-sidebar {
     }
 
     .item-activity, .activity-details {
-        a { color: $blue; }
+        a { color: $grey-dark; }
     }
 
     .activity-details {
@@ -337,6 +337,7 @@ textarea.edit-sidebar {
 		display: inline-block;
 		/* Text should wrap if it's reached N% in the item. */
 		max-width: 65%; 
+        color: $grey-light;
 	    }
 	    
 	    /* Display the type of repo */
@@ -349,23 +350,43 @@ textarea.edit-sidebar {
 		float: left;
 	    }
 
+        &:hover {
+            .icon-link { 
+                display: inline; 
+                color: $blue;
+		        padding: 0 0.5em 0 0.2em;
+            }
+            
+            .item-activity a, .item-activity-details a { color: $blue !important; }
+        }
+
+        &:hover:before { content: ""; }
+
 	    /* Change content to match the repo. */
 	    &.pipeline__stamp {
 		&-spice:before {
 		    content: "S";
 		}
 
+        &-spice:hover:before { content: ""; }
+
 		&-goodies:before {
 		    content: "G";
 		}
+
+        &-goodies:hover:before { content: ""; }
 
 		&-fathead:before {
 		    content: "F";
 		}
 
+        &-fathead:hover:before { content: ""; }
+
 		&-longtail:before {
 		    content: "L";
 		}
+
+        &-longtail:hover:before { content: ""; }
 	    }
 	}
 
