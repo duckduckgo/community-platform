@@ -69,12 +69,14 @@ $gold-variant: #F6BE68;
 
     &.frm__input {
 	margin-left: -0.8em;
-	background-color: lighten($blue-light, 30%);
+	background-color: #EDF5FB;
+	outline: 1px solid #B3D5EF;
     }
 
     &.frm__text {
 	margin-left: -0.8em;
-	background-color: $blue-lightest;
+	background-color: #EDF5FB;
+	outline: 1px solid #B3D5EF;
     }
 }
 
