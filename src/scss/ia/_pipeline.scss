@@ -304,15 +304,14 @@ textarea.edit-sidebar {
         border-radius: 2px;
         padding: 0.5em;
         @include user-select(none);
+	border-left: 2px solid transparent;
 
         a { 
 	    color: black; 
 	}
 
 	&.important {
-	    box-shadow: inset 2px 0px $gold-variant;
-	    border-top-left-radius: 0;
-	    border-bottom-left-radius: 0;
+	    border-left: 2px solid $gold-variant;
 	}
 
 	&.selected {
