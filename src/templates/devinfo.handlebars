@@ -40,7 +40,11 @@
                 {{#if beta_install}}
                     <p class="not-saved">Install on beta failed: {{beta_install}}</p>
                 {{/if}}
-                <div class="button btn--primary" id="beta-install">Install on beta</div>
+                {{#if pr.id}}
+                    <div class="button btn--primary" id="beta-install">Install on beta</div>
+                {{else}}
+                    <p> Can't install on beta without a PR </p>
+                {{/if}}
             {{/eq}}
         {{else}}
             <span class="readonly--info" id="test_machine--readonly">
