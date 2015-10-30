@@ -688,6 +688,7 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
 
     my $result = asana_req('', $server);
     $ia_data{live}->{asana} = $result->decoded_content ? from_json($result->decoded_content) : undef;
+    $ia_data{live}->{asana} = $ia_data{live}->{asana}? $ia_data{live}->{asana}->{$ia->id} : undef;
 
     $c->stash->{x} = \%ia_data;
 
