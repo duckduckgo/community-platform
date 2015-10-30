@@ -1,14 +1,6 @@
 $blue-variant: #7AB4E3;
 $gold-variant: #F6BE68;
 
-#filter-missing {
-    width: 9%;
-
-    &.filter-logged-out {
-	width: 20%;
-    }
-}
-
 #sort_pipeline {
     background-color: transparent;
     border: none;
@@ -172,13 +164,10 @@ textarea.edit-sidebar {
 
     .platform-no-info {
 	position: relative;
-	top: 1px;
+	top: 2px;
 	padding-right: 3px;
     }
 
-    .platform-no-info .path2:before { margin-left: -1.5em; }
-
-    #count-missing { margin-left: -0.6em; }
 
     &.active-filter {
 	box-shadow: inset 0px -2px $blue;
