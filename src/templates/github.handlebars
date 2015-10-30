@@ -7,7 +7,8 @@
         No Issues on Github
       {{/if}}
   </h3>
-  <a id="create-issue--link" class="btn btn--primary right" href="https://github.com/duckduckgo/zeroclickinfo-{{repo}}/issues/new?&title={{name}}%3A%20&body=%0A%0A------%0AIA%20Page%3A%20%20http%3A%2F%2Fduck.co%2Fia%2Fview%2F{{id}}">Create Issue</a>
+  <a id="create-issue--link" class="btn btn--primary right" 
+  href="https://github.com/duckduckgo/zeroclickinfo-{{repo}}/issues/new?&title={{name}}%3A%20&body=%0A%0A{{#each developers}}{{#eq type 'github'}}@{{name}} {{/eq}}{{/each}}------%0AIA%20Page%3A%20%20http%3A%2F%2Fduck.co%2Fia%2Fview%2F{{id}}">Create Issue</a>
   {{#if issues.length}}
     <ul class="clear">
       {{#each issues}}
