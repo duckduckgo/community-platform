@@ -363,7 +363,7 @@
                        var page_data = getPageData(meta_id, milestone);
                         
                        // If at least one of the selected IAs isn't on beta we show the "install on beta" button
-                       if (page_data.test_machine !== "beta") {
+                       if (page_data.beta_install !== "success") {
                            actions_data.beta = 0;
                        }
 
