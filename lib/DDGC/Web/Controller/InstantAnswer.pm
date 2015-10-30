@@ -162,10 +162,23 @@ sub dev_pipeline_json :Chained('dev_pipeline_base') :PathPart('json') :Args(0) {
     my $server = "http://jason.duckduckgo.com/install?asana&ia=everything";
 
     my $result = asana_req('', $server);
-    $result = $result ? from_json($result->content) : "";
+    $result = $result->decoded_content ? from_json($result->decoded_content) : undef;
 
     my %dev_ias;
     my $temp_ia;
+
+    my $ua = LWP::UserAgent->new;
+    my $server = "http://beta.duckduckgo.com/installed.json";
+    my $env_key = $ENV{'BETA_KEY'};
+    my $req = HTTP::Request->new(GET => $server);
+    my $header_data = "sha1=".Digest::SHA::hmac_sha1_hex(to_json({test => 'test' }), $env_key);
+    $req->header('content-type' => 'application/json');
+    $req->header("x-hub-signature" => $header_data);
+    $req->content(to_json({test => 'test' }));
+
+    my $resp = $ua->request($req);
+    $resp = $resp->decoded_content? from_json($resp->decoded_content) : undef;
+
     for my $ia (@ias) {
         $temp_ia = $ia->TO_JSON('pipeline');
         
@@ -178,10 +191,30 @@ sub dev_pipeline_json :Chained('dev_pipeline_base') :PathPart('json') :Args(0) {
             $temp_ia->{can_edit} = $can_edit;
         }
 
-        if ($result->{$ia->id}) {
+        if ($result && $result->{$ia->id}) {
             $temp_ia->{asana} = $result->{$ia->id};
         }
         
+        if ($ia->last_update && $ia->last_commit && (!$pr->{issue_id})) {
+            my $last_commit = from_json($ia->last_commit);
+            my $closed_pr = $c->d->rs('GitHub::Pull')->search({github_id => $last_commit->{issue_id}}, {result_class => 'DBIx::Class::ResultClass::HashRefInflator'})->first;
+            if ($closed_pr->{merged_at}) {
+                $temp_ia->{pr_merged} = 1;
+            } elsif ($closed_pr->{closed_at}) {
+                $temp_ia->{pr_closed} = 1;
+            }
+       } elsif ($pr->{issue_id} && $resp) {
+            my $pr_id = $pr->{issue_id};
+            my $repo = $ia->repo;
+            my $beta_pr = $resp->{$repo}->{$pr_id};
+            $temp_ia->{beta_install} = 0;
+            warn $beta_pr->{install_status};
+            if ($beta_pr) {
+                $temp_ia->{beta_install} = $beta_pr->{install_status};
+                $temp_ia->{beta_query} = $beta_pr->{meta}? $beta_pr->{meta}->{example_query} : 0;
+            }
+       }
+
         push @{$dev_ias{$ia->$key}}, $temp_ia;
     }
 
@@ -355,7 +388,10 @@ sub overview_base :Chained('base') :PathPart('dev') :CaptureArgs(0) {
 
     $c->stash->{ia_page} = "IAOverview";
     $c->stash->{title} = "IA Pages Overview";
-    
+   
+    $c->stash->{logged_in} = $c->user;
+    $c->stash->{is_admin} = $c->user? $c->user->admin : 0;
+
     $c->add_bc('IA Pages Home', $c->chained_uri('InstantAnswer','overview'));
 }
 
@@ -742,13 +778,9 @@ sub send_to_beta :Chained('base') :PathPart('send_to_beta') :Args(0) {
         $req->content(to_json($data));
 
         my $resp = $ua->request($req);
-        if ($resp->is_success) {
-            $result = 1;
-            $c->stash->{x}->{result} = $result;
-        } else {
-            $result = '';
-            $c->stash->{x}->{result} = $result;
-        }
+        
+        $result = $resp->is_success? 1 : 0;
+        $c->stash->{x}->{result} = $result;
     }
 
     return $c->forward($c->view('JSON'));
