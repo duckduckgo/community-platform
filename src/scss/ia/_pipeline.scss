@@ -1,14 +1,6 @@
 $blue-variant: #7AB4E3;
 $gold-variant: #F6BE68;
 
-#filter-missing {
-    width: 9%;
-
-    &.filter-logged-out {
-	width: 20%;
-    }
-}
-
 #sort_pipeline {
     background-color: transparent;
     border: none;
@@ -172,13 +164,10 @@ textarea.edit-sidebar {
 
     .platform-no-info {
 	position: relative;
-	top: 1px;
+	top: 2px;
 	padding-right: 3px;
     }
 
-    .platform-no-info .path2:before { margin-left: -1.5em; }
-
-    #count-missing { margin-left: -0.6em; }
 
     &.active-filter {
 	box-shadow: inset 0px -2px $blue;
@@ -281,6 +270,11 @@ textarea.edit-sidebar {
     margin: 0 auto;
 }
 
+.item-activity a { 
+    color: $grey-dark; 
+}
+
+
 #dev_pipeline .dev_pipeline-column {
     text-align: left;
     border-radius: 3px;
@@ -294,12 +288,13 @@ textarea.edit-sidebar {
 
     .platform-pr-closed { color: $red; }
 
-    .item-activity { 
-        color: $grey-dark; 
-    }
-
-    .item-activity, .activity-details {
-        a { color: $grey-dark; }
+    .activity-details {
+        a { 
+	    color: $grey-dark; 
+	    &:hover {
+		color: $blue;
+	    }
+	}
     }
 
     .activity-details {
@@ -340,10 +335,6 @@ textarea.edit-sidebar {
         @include user-select(none);
 	border-left: 2px solid transparent;
 
-        a { 
-	    color: black; 
-	}
-
 	&.important {
 	    border-left: 2px solid $gold-variant;
 	}
@@ -381,6 +372,10 @@ textarea.edit-sidebar {
 
         .item-name {
             .no-pr { text-decoration: line-through; }
+
+	    .item-activity a {
+		color: $blue;
+	    }
             
             /* Change content to match the repo. */
             &.pipeline__stamp {
