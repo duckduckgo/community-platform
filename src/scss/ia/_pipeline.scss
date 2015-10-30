@@ -270,6 +270,11 @@ textarea.edit-sidebar {
     margin: 0 auto;
 }
 
+.item-activity a { 
+    color: $grey-dark; 
+}
+
+
 #dev_pipeline .dev_pipeline-column {
     text-align: left;
     border-radius: 3px;
@@ -283,11 +288,7 @@ textarea.edit-sidebar {
 
     .platform-pr-closed { color: $red; }
 
-    .item-activity { 
-        color: $grey-dark; 
-    }
-
-    .item-activity, .activity-details {
+    .activity-details {
         a { 
 	    color: $grey-dark; 
 	    &:hover {
@@ -334,10 +335,6 @@ textarea.edit-sidebar {
         @include user-select(none);
 	border-left: 2px solid transparent;
 
-        a { 
-	    color: black; 
-	}
-
 	&.important {
 	    border-left: 2px solid $gold-variant;
 	}
@@ -375,6 +372,10 @@ textarea.edit-sidebar {
 
         .item-name {
             .no-pr { text-decoration: line-through; }
+
+	    .item-activity a {
+		color: $blue;
+	    }
             
             /* Change content to match the repo. */
             &.pipeline__stamp {
