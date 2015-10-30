@@ -684,6 +684,11 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
         }
     }
 
+    my $server = "http://jason.duckduckgo.com/install?asana&ia=" . $ia->id;
+
+    my $result = asana_req('', $server);
+    $ia_data{asana} = $result->decoded_content ? from_json($result->decoded_content) : undef;
+
     $c->stash->{x} = \%ia_data;
 
     $c->stash->{not_last_url} = 1;

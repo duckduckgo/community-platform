@@ -1,7 +1,11 @@
 {{#if permissions.admin}}
-    <div class="btn btn--wire--hero" id="asana_button">
-        Create a task
-    </div>
+    {{#if asana}}
+        <a href="https://app.asana.com/0/0/{{asana.asana_id}}">One open task</a>
+    {{else}}
+        <div class="btn btn--wire--hero" id="asana_button">
+            Create a task
+        </div>
+     {{/if}}
 {{/if}}
 {{#if permissions.can_edit}}
     {{#eq_or dev_milestone 'live' 'deprecated'}}
