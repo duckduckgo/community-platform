@@ -74,6 +74,17 @@
         <input class="edit-sidebar" data-focus-class="frm__input" id="edit-sidebar-template" value="{{template}}" />
     </div>
 
+    <div class="sidebar-field">
+        <div class="field-label primary-label"> Asana Tasks </div>
+        {{#if asana}}
+            <span class="readonly">
+                <a href="https://app.asana.com/0/0/{{asana.asana_id}}">One open task</a>
+            </span>
+        {{else}}
+            <div class="button btn--primary" id="asana-create">Create Task</div>
+        {{/if}}
+    </div>
+    
     {{#if pr.issue_id}}
         <div class="sidebar-field">
             <div class="field-label primary-label"> Dev Machine </div>

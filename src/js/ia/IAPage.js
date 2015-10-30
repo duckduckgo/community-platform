@@ -207,6 +207,13 @@
                         $("#contributors-popup").addClass("hide");
                     });
 
+                    $("body").on("click", "#asana_button", function(evt) {
+                        if(!$(this).hasClass("is-disabled")) {
+                            create_task(DDH_iaid);
+                            $(this).addClass("is-disabled");
+                        }
+                    });
+
                     $("body").on("click", ".devpage-cancel", function(evt) {
                         evt.preventDefault();
 
@@ -1378,6 +1385,13 @@
                             }
                                 
                             ia_data.staged.beta = 1;
+                        });
+                    }
+                    function create_task(id) {
+                        var jqxhr = $.post("/ia/asana", {
+                            id : id
+                        })
+                        .done(function(data) {
                         });
                     }
 
