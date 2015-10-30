@@ -145,6 +145,18 @@
                         return value.length * 8 || 100;
                     }
 
+                    $("body").on("click", "#beta-install", function(evt) {
+                        if (!$(this).hasClass("disabled")) {
+                            $(this).addClass("disabled");
+                            var temp_hash = {
+                                "action" : "duck.co",
+                                "number" : ia_data.live.pr.id,
+                                "repo" : "zeroclickinfo-" + ia_data.live.repo
+                            };
+                            beta_install(temp_hash);
+                        }
+                    });
+
                     $("body").on("change", "select.top-details.js-autocommit", function(evt) {
                         if($(this).hasClass("topic")) {
                             $(this).parent().css("width", dropdownLength($.trim($(this).children("option:selected").text()), 1) + "px");
@@ -193,6 +205,13 @@
                     $("body").on("click", "#edit-modal", function(evt) {
                         $(this).addClass("hide");
                         $("#contributors-popup").addClass("hide");
+                    });
+
+                    $("body").on("click", "#asana_button", function(evt) {
+                        if(!$(this).hasClass("is-disabled")) {
+                            create_task(DDH_iaid);
+                            $(this).addClass("is-disabled");
+                        }
                     });
 
                     $("body").on("click", ".devpage-cancel", function(evt) {
@@ -1226,6 +1245,10 @@
                             delete ia_data.examples_saved;
                         }
 
+                        if ($("#beta-install").hasClass("disabled")) {
+                            ia_data.staged.beta = 1;
+                        }
+
                         $commit_open.each(function(idx) {
                             var $unsaved_edits = $(this).find(".js-autocommit").first();
                             console.log($unsaved_edits.attr("class"));
@@ -1347,6 +1370,28 @@
                             $("." + val.field).addClass("not_saved");
                             var $error_msg = $("." + val.field).siblings(".error-notification");
                             $error_msg.removeClass("hide").text(val.msg);
+                        });
+                    }
+
+                    //Install pr on beta
+                    function beta_install(pr) {
+                        var prs = [pr];
+                        var jqxhr = $.post("/ia/send_to_beta", {
+                            data : JSON.stringify(prs)
+                        })
+                        .done(function (data) {
+                            if (!ia_data.staged) {
+                                ia_data.staged = {};
+                            }
+                                
+                            ia_data.staged.beta = 1;
+                        });
+                    }
+                    function create_task(id) {
+                        var jqxhr = $.post("/ia/asana", {
+                            id : id
+                        })
+                        .done(function(data) {
                         });
                     }
 

@@ -1,5 +1,69 @@
+<div class="filters-bar clearfix">
+  <div class="left search-container">
+    <i class="ddgsi-loupe"></i>
+    <input type="text" class="search-thing" placeholder="Filter by title or description">
+  </div>
+
+    <div class="right">
+      {{#if username}}
+          <span class="pipeline-filter right" id="filter-mentioned" title="Filter by mentions">
+            <i class="platform-at-mention"></i>
+            <span class="filter-count" id="count-mentioned"></span>
+          </span>
+      {{/if}}
+
+      {{#if permissions.admin}}
+        <span class="pipeline-filter right" id="filter-attention" title="Filter by last activity author">
+            <i class="platform-warning"></i>
+            <span class="filter-count" id="count-attention"></span>
+        </span>
+      {{/if}}
+
+      <span class="pipeline-filter right" id="filter-important" title="Filter by priority">
+        <i class="icon-star"></i>
+        <span class="filter-count" id="count-important"></span>
+      </span>
+
+
+      <span class="pipeline-filter right {{#unless permissions.admin}}filter-logged-out{{/unless}}" id="filter-missing" title="Filter by missing info">
+          <span class="platform-no-info">
+	    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="15" height="15" viewBox="0 0 15 15">
+	      <g id="icon-no_info">
+		<path id="circle-slash" d="M11.895,9.461 C11.639,10.065 11.294,10.585 10.860,11.019 C10.425,11.454 9.909,11.800 9.310,12.059 C8.712,12.318 8.083,12.448 7.422,12.448 C6.470,12.448 5.586,12.183 4.770,11.653 C4.770,11.653 11.502,4.930 11.502,4.930 C12.020,5.727 12.279,6.605 12.279,7.564 C12.279,8.224 12.151,8.857 11.895,9.461 zM2.565,7.564 C2.565,6.683 2.782,5.867 3.217,5.117 C3.651,4.367 4.240,3.775 4.985,3.340 C5.729,2.906 6.541,2.689 7.422,2.689 C8.404,2.689 9.297,2.960 10.101,3.501 C10.101,3.501 3.360,10.233 3.360,10.233 C2.830,9.418 2.565,8.528 2.565,7.564 C2.565,7.564 2.565,7.564 2.565,7.564 zM12.275,2.698 C11.665,2.085 10.935,1.596 10.087,1.233 C9.239,0.870 8.351,0.689 7.422,0.689 C6.494,0.689 5.605,0.870 4.757,1.233 C3.909,1.596 3.179,2.085 2.569,2.698 C1.959,3.311 1.473,4.041 1.110,4.890 C0.746,5.738 0.565,6.629 0.565,7.564 C0.565,8.498 0.746,9.391 1.110,10.242 C1.473,11.093 1.959,11.826 2.569,12.439 C3.179,13.052 3.909,13.540 4.757,13.903 C5.605,14.266 6.494,14.448 7.422,14.448 C8.351,14.448 9.239,14.266 10.087,13.903 C10.935,13.540 11.665,13.052 12.275,12.439 C12.885,11.826 13.371,11.093 13.735,10.242 C14.098,9.391 14.279,8.498 14.279,7.564 C14.279,6.629 14.098,5.738 13.735,4.890 C13.371,4.041 12.885,3.311 12.275,2.698 z" fill="#DDDDDD" />
+		<path id="i" d="M8.766,9.247 C8.709,9.190 8.642,9.162 8.565,9.162 C8.565,9.162 8.279,9.162 8.279,9.162 C8.279,9.162 8.279,6.590 8.279,6.590 C8.279,6.513 8.251,6.446 8.194,6.390 C8.138,6.333 8.071,6.305 7.993,6.305 C7.993,6.305 6.279,6.305 6.279,6.305 C6.202,6.305 6.135,6.333 6.078,6.390 C6.022,6.446 5.993,6.513 5.993,6.590 C5.993,6.590 5.993,7.162 5.993,7.162 C5.993,7.239 6.022,7.306 6.078,7.363 C6.135,7.419 6.202,7.448 6.279,7.448 C6.279,7.448 6.565,7.448 6.565,7.448 L6.565,9.162 C6.565,9.162 6.279,9.162 6.279,9.162 C6.202,9.162 6.135,9.190 6.078,9.247 C6.022,9.303 5.993,9.370 5.993,9.448 C5.993,9.448 5.993,10.019 5.993,10.019 C5.993,10.096 6.022,10.163 6.078,10.220 C6.135,10.276 6.202,10.305 6.279,10.305 C6.279,10.305 8.565,10.305 8.565,10.305 C8.642,10.305 8.709,10.276 8.766,10.220 C8.822,10.163 8.851,10.096 8.851,10.019 C8.851,10.019 8.851,9.448 8.851,9.448 C8.851,9.370 8.822,9.303 8.766,9.247 zM8.194,4.104 C8.138,4.047 8.071,4.019 7.993,4.019 C7.993,4.019 6.851,4.019 6.851,4.019 C6.773,4.019 6.706,4.047 6.650,4.104 C6.593,4.160 6.565,4.227 6.565,4.305 C6.565,4.305 6.565,5.162 6.565,5.162 C6.565,5.239 6.593,5.306 6.650,5.363 C6.706,5.419 6.773,5.448 6.851,5.448 C6.851,5.448 7.993,5.448 7.993,5.448 C8.071,5.448 8.138,5.419 8.194,5.363 C8.251,5.306 8.279,5.239 8.279,5.162 C8.279,5.162 8.279,4.305 8.279,4.305 C8.279,4.227 8.251,4.160 8.194,4.104 z" fill="#999999" />
+	      </g>
+	    </svg>
+          </span>
+          <span class="filter-count right" id="count-missing"></span>
+      </span> 
+
+      
+      <!--- <span class="toggle-details right">
+        <i class="icon-check-empty"></i>
+        Show activity details
+      </span> --->
+
+    {{#if permissions.admin}}
+      <span class="right frm__select" id="sort_pipeline">
+        <select>
+            {{#if by_priority}}
+                <option value="0">Sort by Priority</option>
+                <option value="1">Sort by Recently Updated</option>
+            {{else}}
+                <option value="1">Sort by Recently Updated</option>
+                <option value="0">Sort by Priority</option>
+            {{/if}}
+        </select>
+      </span>
+    {{/if}}
+          
+      <span class="button fix-float"></span>
+    </span>
+  </div>
+</div>
+
 <div class="gw">
-{{#with dev_milestones}}
+  {{#with dev_milestones}}
 
 <div class="dev_pipeline-column quarter g" id="pipeline-planning">
   <div class="dev_pipeline-column--container">
@@ -9,20 +73,24 @@
     </h2>
     <ul class="dev_pipeline-column__list" id="pipeline-planning__list">
         {{#each planning}}
-            <li id="pipeline-list__{{id}}" class="{{#if pr}}{{#each pr.tags}}{{#eq (slug name) 'priorityhigh'}} important {{/eq}}{{/each}}{{/if}}{{#if can_edit}}can_edit{{/if}} producer-{{#if producer}}{{slug producer}}{{/if}} designer-{{designer}} {{#if developer}}{{#each developer}}developer-{{slug name}} {{/each}}{{else}}developer-{{/if}}
+            <li id="pipeline-list__{{id}}" class="{{#if pr.issue_id}} {{#if last_update}} {{#is_before last_comment.date last_commit.date}}{{#unless last_commit.admin}} attention {{/unless}} {{else}} {{#unless last_comment.admin}} attention {{/unless}} {{/is_before}} {{/if}}
+            {{#each pr.tags}}{{#eq (slug name) 'priorityhigh'}} important {{/eq}}{{/each}}{{/if}}{{#if can_edit}}can_edit{{/if}} producer-{{#if producer}}{{slug producer}}{{/if}} designer-{{designer}} {{#if developer}}{{#each developer}}developer-{{slug name}} {{/each}}{{else}}developer-{{/if}}
              {{#is_false_array perl_module name repo example_query producer developer}} missing {{/is_false_array}}
              {{#each at_mentions}}{{#eq ../../../username name}} mentioned {{/eq}}{{/each}}">
                 <div class="item-name pipeline__stamp-{{repo}}">
-                    <a href="/ia/view/{{id}}">{{name}}</a>
+		  <span class="invisible-link" style="position:absolute"><a href="/ia/view/{{id}}"></a></span>
+                  <span class="item-title">{{name}}</span>
                     <div class="right item-activity">
                       {{#exists pr 'issue_id'}}
-                      <a href="https://github.com/duckduckgo/zeroclickinfo-{{repo}}/issues/{{pr.issue_id}}" class="one-line" id="pr">
-                        PR 
-                      </a>
+                          <a href="https://github.com/duckduckgo/zeroclickinfo-{{repo}}/issues/{{pr.issue_id}}" class="one-line" id="pr" title="{{format_time last_update}}">
+                            {{timeago last_update 0}}
+                          </a>
+                      {{else}}
+                          {{#if last_update}}<i class="{{#if pr_merged}} platform-pr-merged {{else}} platform-pr-closed {{/if}}"></i>{{/if}}
+                          <span class="no-pr" title="{{format_time last_update}}">
+                            {{timeago last_update 0}}
+                          </span>
                       {{/exists}}
-                      <span title="{{format_time last_update}}">
-                        {{timeago last_update}}
-                      </span>
                     </div>
                 </div>
                 <span class="clearfix"></span>
@@ -57,21 +125,24 @@
 
     <ul class="dev_pipeline-column__list" id="pipeline-development__list">
         {{#each development}}
-            <li id="pipeline-list__{{id}}" class="{{#if pr}}{{#each pr.tags}}{{#eq (slug name) 'priorityhigh'}} important {{/eq}}{{/each}}{{/if}} {{#if can_edit}}can_edit{{/if}} producer-{{#if producer}}{{slug producer}}{{/if}} designer-{{designer}} {{#if developer}}{{#each developer}}developer-{{slug name}} {{/each}}{{else}}developer-{{/if}}
+            <li id="pipeline-list__{{id}}" class="{{#if pr.issue_id}} {{#if last_update}} {{#is_before last_comment.date last_commit.date}}{{#unless last_commit.admin}} attention {{/unless}} {{else}} {{#unless last_comment.admin}} attention {{/unless}} {{/is_before}} {{/if}}
+            {{#each pr.tags}}{{#eq (slug name) 'priorityhigh'}} important {{/eq}}{{/each}}{{/if}}{{#if can_edit}}can_edit{{/if}} producer-{{#if producer}}{{slug producer}}{{/if}} designer-{{designer}} {{#if developer}}{{#each developer}}developer-{{slug name}} {{/each}}{{else}}developer-{{/if}}
              {{#is_false_array perl_module name repo example_query producer developer}} missing {{/is_false_array}}
              {{#each at_mentions}}{{#eq ../../../username name}} mentioned {{/eq}}{{/each}}">
                 <div class="item-name pipeline__stamp-{{repo}}">
-                    <a href="/ia/view/{{id}}">{{name}}</a>
+		  <span class="invisible-link" style="position:absolute"><a href="/ia/view/{{id}}"></a></span>
+                  <span class="item-title">{{name}}</span>
                     <div class="right item-activity">
                       {{#exists pr 'issue_id'}}
-                      <a href="https://github.com/duckduckgo/zeroclickinfo-{{repo}}/issues/{{pr.issue_id}}" class="one-line" id="pr">
-			            PR 
-                      </a>
-                  
+                          <a href="https://github.com/duckduckgo/zeroclickinfo-{{repo}}/issues/{{pr.issue_id}}" class="one-line" id="pr" title="{{format_time last_update}}">
+                            {{timeago last_update 0}}
+                          </a>
+                      {{else}}
+                          {{#if last_update}}<i class="{{#if pr_merged}} platform-pr-merged {{else}} platform-pr-closed {{/if}}"></i>{{/if}}
+                          <span class="no-pr" title="{{format_time last_update}}">
+                            {{timeago last_update 0}}
+                          </span>
                       {{/exists}}
-                      <span title="{{format_time last_update}}">
-			            {{timeago last_update}}
-                      </span>
                     </div>
                 </div>
                 <span class="clearfix"></span>
@@ -106,21 +177,24 @@
 
     <ul class="dev_pipeline-column__list" id="pipeline-testing__list">
         {{#each testing}}
-            <li id="pipeline-list__{{id}}" class="{{#if pr}}{{#each pr.tags}}{{#eq (slug name) 'priorityhigh'}} important {{/eq}}{{/each}}{{/if}} {{#if can_edit}}can_edit{{/if}} producer-{{#if producer}}{{slug producer}}{{/if}} designer-{{designer}} {{#if developer}}{{#each developer}}developer-{{slug name}} {{/each}}{{else}}developer-{{/if}}
+            <li id="pipeline-list__{{id}}" class="{{#if pr.issue_id}} {{#if last_update}} {{#is_before last_comment.date last_commit.date}}{{#unless last_commit.admin}} attention {{/unless}} {{else}} {{#unless last_comment.admin}} attention {{/unless}} {{/is_before}} {{/if}}
+            {{#each pr.tags}}{{#eq (slug name) 'priorityhigh'}} important {{/eq}}{{/each}}{{/if}}{{#if can_edit}}can_edit{{/if}} producer-{{#if producer}}{{slug producer}}{{/if}} designer-{{designer}} {{#if developer}}{{#each developer}}developer-{{slug name}} {{/each}}{{else}}developer-{{/if}}
              {{#is_false_array perl_module name repo example_query producer developer}} missing {{/is_false_array}}
              {{#each at_mentions}}{{#eq ../../../username name}} mentioned {{/eq}}{{/each}}">
                 <div class="item-name pipeline__stamp-{{repo}}">
-                    <a href="/ia/view/{{id}}">{{name}}</a>
+		  <span class="invisible-link" style="position:absolute"><a href="/ia/view/{{id}}"></a></span>
+                  <span class="item-title">{{name}}</span>
                     <div class="right item-activity">
                       {{#exists pr 'issue_id'}}
-                      <a href="https://github.com/duckduckgo/zeroclickinfo-{{repo}}/issues/{{pr.issue_id}}" class="one-line" id="pr">
-                        PR
-                      </a>
-                      
+                          <a href="https://github.com/duckduckgo/zeroclickinfo-{{repo}}/issues/{{pr.issue_id}}" class="one-line" id="pr" title="{{format_time last_update}}">
+                            {{timeago last_update 0}}
+                          </a>
+                      {{else}}
+                          {{#if last_update}}<i class="{{#if pr_merged}} platform-pr-merged {{else}} platform-pr-closed {{/if}}"></i>{{/if}}
+                          <span class="no-pr" title="{{format_time last_update}}">
+                            {{timeago last_update 0}}
+                          </span>
                       {{/exists}}
-                      <span title="{{format_time last_update}}">
-                        {{timeago last_update}}
-                      </span>
                     </div>
                 </div>
                 <span class="clearfix"></span>
@@ -155,21 +229,24 @@
 
     <ul class="dev_pipeline-column__list" id="pipeline-complete__list">
         {{#each complete}}
-            <li id="pipeline-list__{{id}}" class="{{#if pr}}{{#each pr.tags}}{{#eq (slug name) 'priorityhigh'}} important {{/eq}}{{/each}}{{/if}} {{#if can_edit}}can_edit{{/if}} producer-{{#if producer}}{{slug producer}}{{/if}} designer-{{designer}} {{#if developer}}{{#each developer}}developer-{{slug name}} {{/each}}{{else}}developer-{{/if}}
+            <li id="pipeline-list__{{id}}" class="{{#if pr.issue_id}} {{#if last_update}} {{#is_before last_comment.date last_commit.date}}{{#unless last_commit.admin}} attention {{/unless}} {{else}} {{#unless last_comment.admin}} attention {{/unless}} {{/is_before}} {{/if}}
+            {{#each pr.tags}}{{#eq (slug name) 'priorityhigh'}} important {{/eq}}{{/each}}{{/if}}{{#if can_edit}}can_edit{{/if}} producer-{{#if producer}}{{slug producer}}{{/if}} designer-{{designer}} {{#if developer}}{{#each developer}}developer-{{slug name}} {{/each}}{{else}}developer-{{/if}}
              {{#is_false_array perl_module name repo example_query producer developer}} missing {{/is_false_array}}
              {{#each at_mentions}}{{#eq ../../../username name}} mentioned {{/eq}}{{/each}}">
                 <div class="item-name pipeline__stamp-{{repo}}">
-                    <a href="/ia/view/{{id}}">{{name}}</a>
+		  <span class="invisible-link" style="position:absolute"><a href="/ia/view/{{id}}"></a></span>
+                  <span class="item-title">{{name}}</span>
                     <div class="right item-activity">
                       {{#exists pr 'issue_id'}}
-                      <a href="https://github.com/duckduckgo/zeroclickinfo-{{repo}}/issues/{{pr.issue_id}}" class="one-line" id="pr">
-                        PR
-                      </a>
-                      
+                          <a href="https://github.com/duckduckgo/zeroclickinfo-{{repo}}/issues/{{pr.issue_id}}" class="one-line" id="pr" title="{{format_time last_update}}">
+                            {{timeago last_update 0}}
+                          </a>
+                      {{else}}
+                          {{#if last_update}}<i class="{{#if pr_merged}} platform-pr-merged {{else}} platform-pr-closed {{/if}}"></i>{{/if}}
+                          <span class="no-pr" title="{{format_time last_update}}">
+                            {{timeago last_update 0}}
+                          </span>
                       {{/exists}}
-                      <span title="{{format_time last_update}}">
-                        {{timeago last_update}}
-                      </span>
                     </div>
                 </div>
                 <span class="clearfix"></span>

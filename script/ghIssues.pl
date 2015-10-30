@@ -234,11 +234,17 @@ sub get_last_commit {
 
     return unless $commit;
 
+    my $gh_user = $commit->{commit}->{committer}->{name};
+    my $result = duckco_user($gh_user);
     my $last_commit = { 
         diff => $commit->{html_url}, 
-        user => $commit->{commit}->{committer}->{name},
+        user => $gh_user,
+        duckco => $result->{gh_user},
+        admin => $result->{admin},
+        comleader => $result->{comleader},
         date => $commit->{commit}->{committer}->{date},
         message => $commit->{commit}->{message},
+        issue_id => $issue
     };
 
     return to_json $last_commit;
@@ -251,9 +257,15 @@ sub get_comments {
 
     my $formatted_comments;
     foreach my $comment (@comments){
-        push(@$formatted_comments,
+ 
+    my $gh_user = $comment->{user}->{login};
+    my $result = duckco_user($gh_user);
+    push(@$formatted_comments,
             { 
-                user => $comment->{user}->{login},
+                user => $gh_user,
+                duckco => $result->{user},
+                admin => $result->{admin},
+                comleader => $result->{comleader},
                 date => $comment->{created_at},
                 text => $comment->{body},
                 id => $comment->{id}
@@ -261,6 +273,29 @@ sub get_comments {
     }
 
     return $formatted_comments;
+}
+
+sub duckco_user {
+    my ($gh_user) = @_;
+
+    my $user = $d->rs('User')->find({github_user => $gh_user});
+    my $admin = 0;
+    my $comleader = 0;
+    my $username;
+
+    if ($user) {
+        $username = $user->username;
+        $admin = $user->admin;
+        $comleader = $user->is('community_leader');
+    }
+
+    my %result = (
+        user => $username,
+        admin => $admin,
+        comleader => $comleader
+    );
+
+    return \%result;
 }
 
 # check the status of PRs in $pr_hash.  If they were merged
