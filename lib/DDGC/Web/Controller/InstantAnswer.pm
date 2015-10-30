@@ -218,10 +218,6 @@ sub dev_pipeline_json :Chained('dev_pipeline_base') :PathPart('json') :Args(0) {
         push @{$dev_ias{$ia->$key}}, $temp_ia;
     }
 
-    use Data::Dumper;
-    warn "##### Response from Beta ####";
-    warn Dumper $result;
-
     $c->stash->{x} = {
         $key.'s' => \%dev_ias,
         asana => $result
@@ -828,9 +824,6 @@ sub asana :Chained('base') :PathPart('asana') :Args(0) {
 
     my $result = asana_req(\%data, $server);
 
-    warn "#### got asana task id #####";
-    #warn $result->content;
-
     $c->stash->{x}->{result} = $result->decoded_content;
     return $c->forward($c->view('JSON'));
 }
@@ -838,14 +831,9 @@ sub asana :Chained('base') :PathPart('asana') :Args(0) {
 sub asana_req {
     my ($data, $server) = @_;
 
-    use Data::Dumper;
-    warn Dumper $data;
-
     if(!$data){
-     $data = { stuff => "nothing"};
- }
-
-    warn Dumper $data;
+        $data = { stuff => "nothing"};
+    }
 
     my $ua = LWP::UserAgent->new;
     my $json_data = $data? to_json($data) : '';
@@ -859,10 +847,6 @@ sub asana_req {
     $req->content($json_data);
 
     my $result = $ua->request($req);
-    use Data::Dumper;
-    warn "##### Response ######";
-    warn Dumper $result if $result;
-
     return $result;
 }
 
