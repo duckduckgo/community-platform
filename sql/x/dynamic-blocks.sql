@@ -45,7 +45,11 @@ update instant_answer as ia set
         ('rand_word', 'spice_killresult'),
         ('stopwatch', 'spice_killresult'),
         ('timer', 'spice_killresult'),
-        ('xkcd', 'spice_killresult')
+        ('xkcd', 'spice_killresult'),
+        ('code_search', 'spice_nonexclusive'),
+        ('Lastfm::Artist', 'spice_nonexclusive'),
+        ('Quixey', 'spice_nonexclusive'),
+        ('Zanran', 'spice_nonexclusive')
     ) as a(id, blockgroup)
     where ia.id = a.id;
 
