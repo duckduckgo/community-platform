@@ -759,13 +759,9 @@ sub send_to_beta :Chained('base') :PathPart('send_to_beta') :Args(0) {
         $req->content(to_json($data));
 
         my $resp = $ua->request($req);
-        if ($resp->is_success) {
-            $result = 1;
-            $c->stash->{x}->{result} = $result;
-        } else {
-            $result = '';
-            $c->stash->{x}->{result} = $result;
-        }
+        
+        $result = $resp->is_success? 1 : 0;
+        $c->stash->{x}->{result} = $result;
     }
 
     return $c->forward($c->view('JSON'));

@@ -125,26 +125,35 @@
             });
 
             $("body").on("click", "#beta_install", function(evt) {
-                var prs = [];
-                $(".dev_pipeline-column__list .selected").each(function(idx) {
-                    var temp_pr = $.trim($(this).find(".item-activity a").attr("href"));
-                    var temp_pr_id = temp_pr.replace(/.*\//, "");
-                    var temp_repo = temp_pr.replace(/^.*\/duckduckgo\//, "").replace(/\/[a-zA-Z0-9]*\/[a-zA-Z0-9]*\/?/, "");
+                if (!$(this).hasClass("disabled")) {
+                    $(this).addClass("disabled");
+                    var prs = [];
+                    $(".dev_pipeline-column__list .selected").each(function(idx) {
+                        var temp_pr = $.trim($(this).find(".item-activity a").attr("href"));
+                        var temp_hash = pr_hash(temp_pr);
 
-                    if (temp_pr_id && temp_repo) {
-                        var temp_hash = 
-                            {
-                                "action" : "duckco",
-                                "number" : temp_pr_id,
-                                "repo" : temp_repo
-                            };
+                        if (temp_hash) {
+                            prs.push(temp_hash);
+                        }
+                    });
 
-                        prs.push(temp_hash);
+                    if (prs.length) {
+                        send_to_beta(JSON.stringify(prs));
                     }
-                });
+                }
+            });
 
-                if (prs.length) {
-                    send_to_beta(JSON.stringify(prs));
+            $("body").on("click", "#beta-single", function(evt) {
+                if (!$(this).hasClass("disabled")) {
+                    $(this).addClass("disabled");
+                    var prs = [];
+                    var pr = $.trim($("#pr").attr("href"));
+                    var tmp_hash = pr_hash(pr);
+
+                    if (pr_hash) {
+                        prs.push(tmp_hash);
+                        send_to_beta(JSON.stringify(prs));
+                    }
                 }
             });
 
@@ -278,11 +287,29 @@
                 }
             });
 
+            function pr_hash(href) {
+                var temp_pr_id = href.replace(/.*\//, "");
+                var temp_repo = href.replace(/^.*\/duckduckgo\//, "").replace(/\/[a-zA-Z0-9]*\/[a-zA-Z0-9]*\/?/, "");
+
+                if (temp_pr_id && temp_repo) {
+                    var temp_hash = 
+                        {
+                            "action" : "duckco",
+                            "number" : temp_pr_id,
+                            "repo" : temp_repo
+                        };
+                    return temp_hash;
+                }
+
+                return false;
+            }
+
             function send_to_beta(prs) {
                 var jqxhr = $.post("/ia/send_to_beta", {
                     data : prs
                 })
                 .done(function(data) {
+                    dev_p.saved = true;
                 });
             }
 
