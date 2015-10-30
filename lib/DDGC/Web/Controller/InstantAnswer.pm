@@ -159,7 +159,7 @@ sub dev_pipeline_json :Chained('dev_pipeline_base') :PathPart('json') :Args(0) {
     );
     $key = 'dev_milestone';
 
-    my $asana_server = "http://jason.duckduckgo.com/install?asana&ia=everything";
+    my $asana_server = "http://beta.duckduckgo.com/install?asana&ia=everything";
 
     my $result = asana_req('', $asana_server);
     $result = $result->decoded_content ? from_json($result->decoded_content) : undef;
@@ -684,7 +684,7 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
         }
     }
 
-    my $server = "http://jason.duckduckgo.com/install?asana&ia=" . $ia->id;
+    my $server = "http://beta.duckduckgo.com/install?asana&ia=" . $ia->id;
 
     my $result = asana_req('', $server);
     $ia_data{live}->{asana} = $result->decoded_content ? from_json($result->decoded_content) : undef;
@@ -824,7 +824,7 @@ sub asana :Chained('base') :PathPart('asana') :Args(0) {
           title     => $pr->{title},
     );
 
-    my $server = "http://jason.duckduckgo.com/install?asana";
+    my $server = "http://beta.duckduckgo.com/install?asana";
 
     my $result = asana_req(\%data, $server);
 
