@@ -752,6 +752,16 @@ sub set_responded_campaign {
 	});
 }
 
+sub set_good_response {
+	my ($self, $campaign) = @_;
+	$self->schema->resultset('User::CampaignNotice')->update_or_create({
+		users_id => $self->id,
+		campaign_id => $self->ddgc->config->id_for_campaign($campaign),
+		campaign_source => 'campaign',
+		bad_response => 0,
+	});
+}
+
 sub set_bad_response {
 	my ($self, $campaign) = @_;
 	$self->schema->resultset('User::CampaignNotice')->update_or_create({
