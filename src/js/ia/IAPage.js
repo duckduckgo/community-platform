@@ -1238,6 +1238,10 @@
                             delete ia_data.examples_saved;
                         }
 
+                        if ($("#beta-install").hasClass("disabled")) {
+                            ia_data.staged.beta = 1;
+                        }
+
                         $commit_open.each(function(idx) {
                             var $unsaved_edits = $(this).find(".js-autocommit").first();
                             console.log($unsaved_edits.attr("class"));
@@ -1369,6 +1373,11 @@
                             data : JSON.stringify(prs)
                         })
                         .done(function (data) {
+                            if (!ia_data.staged) {
+                                ia_data.staged = {};
+                            }
+                                
+                            ia_data.staged.beta = 1;
                         });
                     }
 
