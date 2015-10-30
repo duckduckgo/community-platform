@@ -193,8 +193,12 @@ sub dev_pipeline_json :Chained('dev_pipeline_base') :PathPart('json') :Args(0) {
             my $pr_id = $pr->{issue_id};
             my $repo = $ia->repo;
             my $beta_pr = $resp->{$repo}->{$pr_id};
+            $temp_ia->{beta_install} = 0;
             warn $beta_pr->{install_status};
-            $temp_ia->{beta_install} = $beta_pr? $beta_pr->{install_status} : 0;
+            if ($beta_pr) {
+                $temp_ia->{beta_install} = $beta_pr->{install_status};
+                $temp_ia->{beta_query} = $beta_pr->{meta}? $beta_pr->{meta}->{example_query} : 0;
+            }
        }
 
         push @{$dev_ias{$ia->$key}}, $temp_ia;

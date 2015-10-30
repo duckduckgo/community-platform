@@ -78,9 +78,9 @@
         <div class="sidebar-field">
             <div class="field-label primary-label"> Dev Machine </div>
             {{#eq beta_install 'success'}}
-                Installed on <a href="http://beta.duckduckgo.com/?={{example_query}}">beta</a>
+                Installed on <a href="http://beta.duckduckgo.com/{{#if beta_query}}?q={{beta_query}}{{/if}}">beta</a>
             {{else}}
-                {{#if beta_install}}<span class="readonly">{{beta_install}}</span>{{/if}}
+                {{#if beta_install}}Install on beta failed: <div class="readonly">{{beta_install}}</div>{{/if}}
                 <div class="button btn--primary" id="beta-single">Install on beta</div>
             {{/eq}}
         </div>
