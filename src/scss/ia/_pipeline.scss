@@ -299,7 +299,12 @@ textarea.edit-sidebar {
     }
 
     .item-activity, .activity-details {
-        a { color: $grey-dark; }
+        a { 
+	    color: $grey-dark; 
+	    &:hover {
+		color: $blue;
+	    }
+	}
     }
 
     .activity-details {
