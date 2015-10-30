@@ -637,6 +637,18 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
     my $dev_milestone = $ia->dev_milestone; 
 
     $ia_data{live} = $ia->TO_JSON;
+
+    my $ua = LWP::UserAgent->new;
+    my $server = "http://beta.duckduckgo.com/installed.json";
+    my $env_key = $ENV{'BETA_KEY'};
+    my $req = HTTP::Request->new(GET => $server);
+    my $header_data = "sha1=".Digest::SHA::hmac_sha1_hex(to_json({test => 'test' }), $env_key);
+    $req->header('content-type' => 'application/json');
+    $req->header("x-hub-signature" => $header_data);
+    $req->content(to_json({test => 'test' }));
+
+    my $resp = $ua->request($req);
+    $resp = $resp->decoded_content? from_json($resp->decoded_content) : undef;
     
     for my $issue (@issues) {
         if ($issue) {
@@ -651,7 +663,19 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
                );
 
                $ia_data{live}->{pr} = \%pull_request;
-                } else {
+
+               if ($resp) {
+                   my $pr_id = $pull_request{id};
+                   my $repo = $ia->repo;
+                   my $beta_pr = $resp->{$repo}->{$pr_id};
+                   $ia_data{live}->{beta_install} = 0;
+
+                   if ($beta_pr) {
+                       $ia_data{live}->{beta_install} = $beta_pr->{install_status};
+                       $ia_data{live}->{beta_query} = $beta_pr->{meta}? $beta_pr->{meta}->{example_query} : 0;
+                   }
+               }
+            } else {
                 push(@ia_issues, {
                     issue_id => $issue->issue_id,
                     title => $issue->title,
