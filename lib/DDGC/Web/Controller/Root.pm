@@ -201,6 +201,14 @@ sub wear :Chained('base') :PathPart('wear') :Args(0) {
 	}
 }
 
+sub status :Chained('base') :PathPart('status') :Args(0) {
+	my ( $self, $c ) = @_;
+	$c->add_bc('Community Platform Status');
+	$c->stash->{version} = $DDGC::VERSION;
+	$c->stash->{db}      = eval { $c->d->rs('User')->one_row; };
+	$c->stash->{prosody} = eval { $c->d->xmpp->mod_data_access->get('ddgc') };
+}
+
 sub error :Chained('base') :PathPart('error') :Args(0) {
 	my ( $self, $c ) = @_;
 	$c->stash->{error_msg} = $c->session->{error_msg};

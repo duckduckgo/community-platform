@@ -1,0 +1,16 @@
+
+  <div id="header" class="wrap">
+    <h1>Community Platform Status</h1>
+  </div>
+
+  <p>
+    Version : <: $version :>
+  </p>
+
+  <p>
+    Database : <: $db ? 'Available' : 'Unavailable' :>
+  </p>
+
+  <p>
+    Prosody : <: $prosody ? 'Available' : 'Unavailable' :>
+  </p>
