@@ -14,6 +14,7 @@ use Try::Tiny;
 use Net::GitHub::V3;
 use Time::Local;
 use Term::ProgressBar;
+use Date::Parse;
 my $d = DDGC->new;
 
 BEGIN {
@@ -255,8 +256,16 @@ sub get_comments {
     my $issues = $gh->issue;
     my @comments = $issues->comments('duckduckgo', "zeroclickinfo-$repo", $issue);
 
+    # get the diff comments
+    my @diff_comments = $gh->pull_request->comments('duckduckgo', "zeroclickinfo-$repo", $issue);
+
+    my @all_comments = (@comments, @diff_comments);
+
+    # sort comments by time
+    my @sorted = sort { str2time($a->{created_at}) <=> str2time($b->{created_at}) } @all_comments;
+
     my $formatted_comments;
-    foreach my $comment (@comments){
+    foreach my $comment (@sorted){
  
     my $gh_user = $comment->{user}->{login};
     my $result = duckco_user($gh_user);
