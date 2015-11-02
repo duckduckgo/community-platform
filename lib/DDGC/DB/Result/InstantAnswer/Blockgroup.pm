@@ -12,6 +12,7 @@ table 'instant_answer_blockgroup';
 
 column id => {
 	data_type => 'serial',
+	is_auto_increment => 1,
 	is_nullable => 0,
 };
 
