@@ -4,6 +4,10 @@
   </div>
 
   <p>
+    Date : <: $dt_utc :>
+  </p>
+
+  <p>
     Version : <: $version :>
   </p>
 
