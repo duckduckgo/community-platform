@@ -1,5 +1,22 @@
+drop table if exists instant_answer_blocks;
+
+create table instant_answer_blockgroup (
+    id serial primary key,
+    blockgroup varchar(20) not null unique
+);
+
+copy instant_answer_blockgroup (blockgroup) from stdin;
+goodie_exlusive
+spice_killresult
+spice_nonexclusive
+goodie
+spice
+fathead
+longtail
+\.
+
 alter table instant_answer
-    add column blockgroup varchar(20);
+    add column blockgroup varchar(20) references instant_answer_blockgroup (blockgroup);
     
 update instant_answer set blockgroup = 'goodie' where repo = 'goodies';
 update instant_answer set blockgroup = repo where repo is not null and repo != 'goodies';
