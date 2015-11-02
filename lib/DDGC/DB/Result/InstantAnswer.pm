@@ -453,7 +453,8 @@ column deployment_state => {
 column blockgroup => {
 	date_type => 'varchar',
 	size => 20,
-	is_nullable => 1
+	is_nullable => 1,
+	for_endpt => 1
 };
 
 has_many 'issues', 'DDGC::DB::Result::InstantAnswer::Issues', 'instant_answer_id';
