@@ -21,7 +21,7 @@ column blockgroup => {
 	is_nullable => 0
 };
 
-primary_key (id);
+primary_key ('id');
 
 no Moose;
 __PACKAGE__->meta->make_immutable ( inline_constructor => 0 );
