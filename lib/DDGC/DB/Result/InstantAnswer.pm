@@ -507,18 +507,6 @@ around update => sub {
     return $ret;
 };
 
-around perl_module => sub {
-	my ($orig, $self) = (shift, shift);
-
-	warn "we are around perl_module";
-	my $bg = $self->blockgroup;
-	warn "have $bg, should we set to $_[0]";
-	
-	$self->blockgroup($_[0]) if @_ && (not defined $self->blockgroup);;
-	$self->$orig(@_);
-};
-
-
 # returns a hash ref of all IA data.  Same idea as hashRefInflator
 # but this takes care of deserialization for you.
 sub TO_JSON {
