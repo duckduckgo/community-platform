@@ -1,3 +1,4 @@
+BEGIN;
 drop table if exists instant_answer_blocks;
 
 create table instant_answer_blockgroup (
@@ -71,3 +72,4 @@ update instant_answer as ia set
     where ia.id = a.id;
 
 update instant_answer set deployment_state = 'live' where blockgroup is not null;
+COMMIT;

@@ -470,6 +470,8 @@ many_to_many 'topics', 'instant_answer_topics', 'topic';
 
 has_many 'release_versions', 'DDGC::DB::Result::ReleaseVersion', 'instant_answer_id';
 
+has_one 'blockgroup', 'DDGC::DB::Result::InstantAnswer::Blockgroup', 'blockgroup';
+
 after insert => sub {
     my ( $self ) = @_;
     my $schema = $self->result_source->schema;
