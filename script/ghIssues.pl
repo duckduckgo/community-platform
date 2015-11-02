@@ -14,6 +14,7 @@ use Try::Tiny;
 use Net::GitHub::V3;
 use Time::Local;
 use Term::ProgressBar;
+use Date::Parse;
 my $d = DDGC->new;
 
 BEGIN {
@@ -234,11 +235,17 @@ sub get_last_commit {
 
     return unless $commit;
 
+    my $gh_user = $commit->{commit}->{committer}->{name};
+    my $result = duckco_user($gh_user);
     my $last_commit = { 
         diff => $commit->{html_url}, 
-        user => $commit->{commit}->{committer}->{name},
+        user => $gh_user,
+        duckco => $result->{gh_user},
+        admin => $result->{admin},
+        comleader => $result->{comleader},
         date => $commit->{commit}->{committer}->{date},
         message => $commit->{commit}->{message},
+        issue_id => $issue
     };
 
     return to_json $last_commit;
@@ -249,11 +256,25 @@ sub get_comments {
     my $issues = $gh->issue;
     my @comments = $issues->comments('duckduckgo', "zeroclickinfo-$repo", $issue);
 
+    # get the diff comments
+    my @diff_comments = $gh->pull_request->comments('duckduckgo', "zeroclickinfo-$repo", $issue);
+
+    my @all_comments = (@comments, @diff_comments);
+
+    # sort comments by time
+    my @sorted = sort { str2time($a->{created_at}) <=> str2time($b->{created_at}) } @all_comments;
+
     my $formatted_comments;
-    foreach my $comment (@comments){
-        push(@$formatted_comments,
+    foreach my $comment (@sorted){
+ 
+    my $gh_user = $comment->{user}->{login};
+    my $result = duckco_user($gh_user);
+    push(@$formatted_comments,
             { 
-                user => $comment->{user}->{login},
+                user => $gh_user,
+                duckco => $result->{user},
+                admin => $result->{admin},
+                comleader => $result->{comleader},
                 date => $comment->{created_at},
                 text => $comment->{body},
                 id => $comment->{id}
@@ -261,6 +282,29 @@ sub get_comments {
     }
 
     return $formatted_comments;
+}
+
+sub duckco_user {
+    my ($gh_user) = @_;
+
+    my $user = $d->rs('User')->find({github_user => $gh_user});
+    my $admin = 0;
+    my $comleader = 0;
+    my $username;
+
+    if ($user) {
+        $username = $user->username;
+        $admin = $user->admin;
+        $comleader = $user->is('community_leader');
+    }
+
+    my %result = (
+        user => $username,
+        admin => $admin,
+        comleader => $comleader
+    );
+
+    return \%result;
 }
 
 # check the status of PRs in $pr_hash.  If they were merged
@@ -322,10 +366,10 @@ sub assign_producer {
     return $producers[int(rand(@producers))] unless $gh_user;
 
     # look for linked duck.co account
-    my $result = $d->rs('GitHub::User')->find({login => $gh_user});
+    my $user = $d->rs('User')->find({github_user => $gh_user});
 
-    if ($result && $result->user && $result->user->admin) {
-        $gh_user = $result->user->username;
+    if ($user && $user->admin) {
+        $gh_user = $user->username;
     } else {
         # If no linked account found, we can't be sure whether 
         # the user is an admin or not.
@@ -342,6 +386,7 @@ sub find_template {
     return unless $files;
 
     foreach my $file_data (@$files){
+        next unless exists $file_data->{patch};
         # goodies templats
         my ($template) = $file_data->{patch} =~ /group =>\s?(?:'|")([[:alpha:]]+)(?:'|")/;
         return lc $template if $template;
@@ -361,10 +406,10 @@ sub get_mentions {
     my $duck_users;
     # get duck.co id for each
     foreach my $gh_user (@mentions){
-        my $result = $d->rs('GitHub::User')->find({login => $gh_user});
+        my $user = $d->rs('User')->find({github_user => $gh_user});
         
-        if($result && $result->user){
-            push(@$duck_users, {name => $result->user->username} );
+        if($user){
+            push(@$duck_users, {name => $user->username} );
         }
     }
 

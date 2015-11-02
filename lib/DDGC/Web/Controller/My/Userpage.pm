@@ -19,6 +19,7 @@ sub base :Chained('/my/logged_in') :PathPart('userpage') :CaptureArgs(0) {
 		$c->stash->{userpage_saved} = 1;
 		$c->stash->{up}->update;
 		$c->user->set_avatar;
+        $c->user->update({ github_user => $c->req->params->{github} }) if $c->req->params->{github};
 	}
 
 	if ($c->user->profile_picture(80)) {

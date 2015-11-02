@@ -32,8 +32,13 @@
 		<: } :>
 		<input type="hidden" name="user" value="<: $user :>">
 		<input type="hidden" name="campaign" value="<: $campaign :>">
+		: if $already_bad {
+		<p>Responses <: if $user { :> from user <strong><: $user :></strong> <: } :> for campaign <: $campaign :> were good?</p>
+		<input type="submit" class="button green big" name="save_good_response" value="Mark responses as good" />
+		: } else {
 		<p>Responses <: if $user { :> from user <strong><: $user :></strong> <: } :> for campaign <: $campaign :> were bad?</p>
 		<input type="submit" class="button red big" name="save_bad_response" value="Mark responses as bad" />
+		: }
 	</form>
 <: } else { :>
 	Thanks for reporting.

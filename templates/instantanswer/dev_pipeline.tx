@@ -1,56 +1,5 @@
-<: if $is_admin { :>
-    <div id="create-new-ia" class="button right">
-        New IA Page
-    </div>
-    <div id="create-new-ia-form" class="new-ia-form hide">
-        <div class="new-ia-form-section left">
-            <div class="label">
-                Name
-            </div>
-            <input id="name-input" class="new-ia-input">
-        </div>
-
-        <div class="new-ia-form-section left">
-            <div class="label">
-                ID
-            </div>
-            <input id="id-input" class="new-ia-input">
-        </div>
-
-        <div class="new-ia-form-section left">
-            <div class="label">
-                Dev Milestone
-            </div>
-            <span class="new-ia-select" id="dev_milestone-select">
-                <select class="available_dev_milestones" tabindex="-1">
-                    <option value="1">planning</option>
-                    <option value="2">development</option>
-                    <option value="3">testing</option>
-                    <option value="4">complete</option>
-                    <option value="5">live</option>
-                </select>
-            </span>
-        </div>
-
-        <div class="new-ia-form-section clearfix">
-            <div class="label">
-                Description
-            </div>
-            <textarea id="description-input" class="new-ia-input" rows="5"></textarea>
-        </div>
-
-        <div class="button left" id="new-ia-form-save">
-            Save
-        </div>
-
-        <div class="button left" id="new-ia-form-cancel">
-            Cancel
-        </div>
-        <span class="clearfix"></span>
-    </div>
-<: } :>
-
 <div class="pipeline__toggle-view" id="pipeline_toggle-view">
+  <!--
     <div class="pager-wrap">
         <span class="button-group  button-group--paging">
             <a href="/ia/dev" class="button pipeline__toggle-view__button" id="pipeline_toggle-home">
@@ -67,83 +16,22 @@
             </a>
         </span>
     </div>
+  -->
+    <: if $is_admin { :>
+      <div id="create-new-ia" class="button right hide">
+        New IA Page
+      </div>
+    <: } :>
 
     <span class="clearfix"></span>
 
     <div id="pipeline-stats"></div>
-
-    <div class="left search-container">
-      <i class="ddgsi-loupe"></i>
-      <input type="text" class="search-thing" placeholder="Filter by title or description">
-    </div>
-
-
-    <div class="right">
-      <span class="toggle-details">
-        <i class="icon-check-empty"></i>
-        Show activity details
-      </span>
-
-      <span class="filter-team">
-        <span class="filter-info__span" id="filter-info">
-          <i class="icon-check-empty"></i>
-          Missing info:  
-          <select class="filter-team__span__select" id="select-info">
-            <option value="all">All</option>
-            <option value="none">None</option>
-            <option value="perl_module">Perl Module</option>
-            <option value="name">Name</option>
-            <option value="type">Type</option>
-            <option value="producer">Producer</option>
-            <option value="developer">Developer</option>
-            <option value="example_query">Example Query</option>
-          </select>
-        </span> 
-      </span>
-      
-      <span class="button hide" id="pipeline-clear-filters">
-        Clear Filters
-      </span>
-
-    <: if $is_admin { :>
-
-        <span class="pipeline-actions hide">
-            <span>Change </span>
-            <select class="pipeline-actions__select" id="select-action">
-                <option value="0">dev milestone</option>
-                <option value="1">type</option>
-            </select>
-
-            <span> to </span>
-            <select class="pipeline-actions__select" id="select-milestone">
-                <option value="0">planning</option>
-                <option value="1">development</option>
-                <option value="2">testing</option>
-                <option value="3">complete</option>
-                <option value="4">ghosted</option>
-            </select>
-
-            <select class="pipeline-actions__select hide" id="select-type">
-                <option value="0">fathead</option>
-                <option value="1">goodies</option>
-                <option value="2">longtail</option>
-                <option value="3">spice</option>
-            </select>
-
-            <span class="button pipeline-actions__button" id="pipeline-action-submit">
-                Ok
-            </span>
- 
-            <span class="count-txt sep--before">0</span> <span> Selected </span>
-            <span class="deselect-all sep--before"> <i class="deselect ddgsi ddgsi-close"></i> </span>
-        </div>
-    <: } :>
-    </span>
 </div>
 
-<div class="clearfix"></div>
-
 <div id="page_sidebar" class="hide">
+</div>
+
+<div id="actions_sidebar" class="hide">
 </div>
 
 <div id="dev_pipeline">

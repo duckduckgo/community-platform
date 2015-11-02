@@ -1,15 +1,23 @@
 (function(env) {
     // Handlebars helpers for IA Pages
-    
+
+    // Return the string correctly formatted with newlines
+    Handlebars.registerHelper("newlines", function(string) {
+        string = string.replace(/\n/g, "<br />");
+
+        return new Handlebars.SafeString(string);
+    });
+
     // Return elapsed time expressed as days from now (e.g. 5 days, 1 day, today)
-    Handlebars.registerHelper("timeago", function(date) {
+    Handlebars.registerHelper("timeago", function(date, full) {
+        var timestring = full? " days ago" : "d";
         if (date) {
             // expected date format: YYYY-MM-DDTHH:mm:ssZ e.g. 2011-04-22T13:33:48Z
             date = date.replace("/T.*Z/", " ");
             date = moment.utc(date, "YYYY-MM-DD");
             
             var elapsed = parseInt(moment().diff(date, "days", true));
-            date = elapsed + "d";
+            date = elapsed + timestring;
 
             return date;
         }
@@ -322,9 +330,11 @@
         };
 
         var total = 0;
-        for(var i = 0; i < obj.length; i++){
-            if( calc(obj[i].created_date, operator) ){
-                    total++;
+        if(obj){
+            for(var i = 0; i < obj.length; i++){
+                if( calc(obj[i].created_date, operator) ){
+                        total++;
+                }
             }
         }
         return total;

@@ -120,6 +120,11 @@ column updated => {
 	set_on_update => 1,
 };
 
+column github_user => {
+    data_type => 'text',
+    is_nullable => 1
+};
+
 has xmpp => (
 	isa => 'HashRef',
 	is => 'ro',
@@ -744,6 +749,16 @@ sub set_responded_campaign {
 		campaign_id => $self->ddgc->config->id_for_campaign($campaign),
 		campaign_source => 'campaign',
 		responded => $self->ddgc->db->format_datetime( DateTime->now ),
+	});
+}
+
+sub set_good_response {
+	my ($self, $campaign) = @_;
+	$self->schema->resultset('User::CampaignNotice')->update_or_create({
+		users_id => $self->id,
+		campaign_id => $self->ddgc->config->id_for_campaign($campaign),
+		campaign_source => 'campaign',
+		bad_response => 0,
 	});
 }
 

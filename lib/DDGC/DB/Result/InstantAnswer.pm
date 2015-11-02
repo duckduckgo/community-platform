@@ -290,6 +290,7 @@ column design_review => {
 column test_machine => {
     data_type => 'text',
     is_nullable => 1,
+    pipeline => 1
 };
 
 # test results on IE 8
@@ -435,6 +436,20 @@ column updated => {
     set_on_update => 1,
 };
 
+	
+# Latest release in which an IA was updated
+column release_version => {
+    data_type => 'numeric',
+    is_nullable => 1,
+};
+
+# Is it live or not?
+column deployment_state => {
+    data_type => 'varchar',
+    size => 15,
+    is_nullable => 1,
+};
+
 column blockgroup => {
 	date_type => 'varchar',
 	size => 20,
@@ -451,6 +466,8 @@ many_to_many 'users', 'instant_answer_users', 'user';
 
 has_many 'instant_answer_topics', 'DDGC::DB::Result::InstantAnswer::Topics', 'instant_answer_id';
 many_to_many 'topics', 'instant_answer_topics', 'topic';
+
+has_many 'release_versions', 'DDGC::DB::Result::ReleaseVersion', 'instant_answer_id';
 
 after insert => sub {
     my ( $self ) = @_;

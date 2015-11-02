@@ -7,6 +7,8 @@ use Time::Local;
 use JSON;
 use Net::GitHub::V3;
 use DateTime;
+use LWP::UserAgent;
+use Digest::SHA;
 
 my $INST = DDGC::Config->new->appdir_path."/root/static/js";
 
@@ -157,24 +159,68 @@ sub dev_pipeline_json :Chained('dev_pipeline_base') :PathPart('json') :Args(0) {
     );
     $key = 'dev_milestone';
 
+    my $asana_server = "http://beta.duckduckgo.com/install?asana&ia=everything";
+
+    my $result = asana_req('', $asana_server);
+    $result = $result->decoded_content ? from_json($result->decoded_content) : undef;
+
     my %dev_ias;
     my $temp_ia;
+
+    my $ua = LWP::UserAgent->new;
+    my $server = "http://beta.duckduckgo.com/installed.json";
+    my $env_key = $ENV{'BETA_KEY'};
+    my $req = HTTP::Request->new(GET => $server);
+    my $header_data = "sha1=".Digest::SHA::hmac_sha1_hex(to_json({test => 'test' }), $env_key);
+    $req->header('content-type' => 'application/json');
+    $req->header("x-hub-signature" => $header_data);
+    $req->content(to_json({test => 'test' }));
+
+    my $resp = $ua->request($req);
+    $resp = $resp->decoded_content? from_json($resp->decoded_content) : undef;
+
     for my $ia (@ias) {
         $temp_ia = $ia->TO_JSON('pipeline');
         
         my $pr = $c->d->rs('InstantAnswer::Issues')->search({is_pr => 1, instant_answer_id => $ia->id}, {result_class => 'DBIx::Class::ResultClass::HashRefInflator'})->first;
-        $temp_ia->{"pr"} = $pr;
+        $pr->{tags} = $pr->{tags}? from_json($pr->{tags}) : undef;
+        $temp_ia->{pr} = $pr;
 
         if ($c->user && (!$c->user->admin)) {
             my $can_edit = $ia->users->find($c->user->id)? 1 : undef;
-            $temp_ia->{"can_edit"} = $can_edit;
+            $temp_ia->{can_edit} = $can_edit;
+        }
+
+        if ($result && $result->{$ia->id}) {
+            $temp_ia->{asana} = $result->{$ia->id};
         }
         
+        if ($ia->last_update && $ia->last_commit && (!$pr->{issue_id})) {
+            my $last_commit = from_json($ia->last_commit);
+            my $closed_pr = $c->d->rs('GitHub::Pull')->search({github_id => $last_commit->{issue_id}}, {result_class => 'DBIx::Class::ResultClass::HashRefInflator'})->first;
+            if ($closed_pr->{merged_at}) {
+                $temp_ia->{pr_merged} = 1;
+            } elsif ($closed_pr->{closed_at}) {
+                $temp_ia->{pr_closed} = 1;
+            }
+       } elsif ($pr->{issue_id} && $resp) {
+            my $pr_id = $pr->{issue_id};
+            my $repo = $ia->repo;
+            my $beta_pr = $resp->{$repo}->{$pr_id};
+            $temp_ia->{beta_install} = 0;
+            warn $beta_pr->{install_status};
+            if ($beta_pr) {
+                $temp_ia->{beta_install} = $beta_pr->{install_status};
+                $temp_ia->{beta_query} = $beta_pr->{meta}? $beta_pr->{meta}->{example_query} : 0;
+            }
+       }
+
         push @{$dev_ias{$ia->$key}}, $temp_ia;
     }
 
     $c->stash->{x} = {
-        $key.'s' => \%dev_ias
+        $key.'s' => \%dev_ias,
+        asana => $result
     };
 
     $c->stash->{not_last_url} = 1;
@@ -338,7 +384,10 @@ sub overview_base :Chained('base') :PathPart('dev') :CaptureArgs(0) {
 
     $c->stash->{ia_page} = "IAOverview";
     $c->stash->{title} = "IA Pages Overview";
-    
+   
+    $c->stash->{logged_in} = $c->user;
+    $c->stash->{is_admin} = $c->user? $c->user->admin : 0;
+
     $c->add_bc('IA Pages Home', $c->chained_uri('InstantAnswer','overview'));
 }
 
@@ -588,6 +637,18 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
     my $dev_milestone = $ia->dev_milestone; 
 
     $ia_data{live} = $ia->TO_JSON;
+
+    my $ua = LWP::UserAgent->new;
+    my $server = "http://beta.duckduckgo.com/installed.json";
+    my $env_key = $ENV{'BETA_KEY'};
+    my $req = HTTP::Request->new(GET => $server);
+    my $header_data = "sha1=".Digest::SHA::hmac_sha1_hex(to_json({test => 'test' }), $env_key);
+    $req->header('content-type' => 'application/json');
+    $req->header("x-hub-signature" => $header_data);
+    $req->content(to_json({test => 'test' }));
+
+    my $resp = $ua->request($req);
+    $resp = $resp->decoded_content? from_json($resp->decoded_content) : undef;
     
     for my $issue (@issues) {
         if ($issue) {
@@ -602,7 +663,19 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
                );
 
                $ia_data{live}->{pr} = \%pull_request;
-                } else {
+
+               if ($resp) {
+                   my $pr_id = $pull_request{id};
+                   my $repo = $ia->repo;
+                   my $beta_pr = $resp->{$repo}->{$pr_id};
+                   $ia_data{live}->{beta_install} = 0;
+
+                   if ($beta_pr) {
+                       $ia_data{live}->{beta_install} = $beta_pr->{install_status};
+                       $ia_data{live}->{beta_query} = $beta_pr->{meta}? $beta_pr->{meta}->{example_query} : 0;
+                   }
+               }
+            } else {
                 push(@ia_issues, {
                     issue_id => $issue->issue_id,
                     title => $issue->title,
@@ -630,6 +703,12 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
             $ia_data{edited} = $edited;
         }
     }
+
+    $server = "http://beta.duckduckgo.com/install?asana&ia=" . $ia->id;
+
+    my $result = asana_req('', $server);
+    $ia_data{live}->{asana} = $result->decoded_content ? from_json($result->decoded_content) : undef;
+    $ia_data{live}->{asana} = $ia_data{live}->{asana}? $ia_data{live}->{asana}->{$ia->id} : undef;
 
     $c->stash->{x} = \%ia_data;
 
@@ -700,6 +779,101 @@ sub commit_save :Chained('commit_base') :PathPart('save') :Args(0) {
     return $c->forward($c->view('JSON'));
 }
 
+# Install the data on the beta server
+# Data is an hash of arrays
+# {goodies: [#pr1, #pr2, #pr3], spice: [#pr1, #pr2] ... and so on
+sub send_to_beta :Chained('base') :PathPart('send_to_beta') :Args(0) {
+    my ( $self, $c ) = @_;
+    
+    my $ua = LWP::UserAgent->new;
+
+    my $result = '';
+    $c->stash->{x}->{result} = $result;
+    return $c->forward($c->view('JSON')) unless ($c->req->params->{data} && $c->user && $c->user->admin);
+
+    my $server = "http://beta.duckduckgo.com/install";
+    my $key = $ENV{'BETA_KEY'};
+    my $decoded_data = from_json($c->req->params->{data});
+
+    for my $data (@{$decoded_data}) {
+        my $req = HTTP::Request->new(GET => $server);
+        my $header_data = "sha1=".Digest::SHA::hmac_sha1_hex(to_json($data), $key);
+        
+        $req->header('content-type' => 'application/json');
+        $req->header("x-hub-signature" => $header_data);
+        $req->content(to_json($data));
+
+        my $resp = $ua->request($req);
+        
+        $result = $resp->is_success? 1 : 0;
+        $c->stash->{x}->{result} = $result;
+    }
+
+    return $c->forward($c->view('JSON'));
+}
+
+sub asana :Chained('base') :PathPart('asana') :Args(0) {
+    my ($self, $c) = @_;
+
+    my @ia = $c->d->rs('InstantAnswer')->search(
+        {meta_id => $c->req->params->{id}},
+        {
+            prefetch => qw/issues/,
+            result_class => 'DBIx::Class::ResultClass::HashRefInflator',
+        }
+    );
+    my $ia = $ia[0];
+
+    my $pr;
+    foreach my $issue (@{$ia->{issues}}){
+        if($issue->{is_pr}){
+            $pr = $issue;
+        }
+    }
+
+    $c->stash->{x}->{result} = '';
+    return $c->forward($c->view('JSON')) unless ($ia && $c->user && $c->user->admin);
+
+    my %data = (
+          repo      => $ia->{repo},
+          user      => $c->user->username,
+          producer  => $ia->{producer},
+          action    => 'duckco',
+          number    => $pr->{issue_id},
+          id        => $c->req->params->{id},
+          title     => $pr->{title},
+    );
+
+    my $server = "http://beta.duckduckgo.com/install?asana";
+
+    my $result = asana_req(\%data, $server);
+
+    $c->stash->{x}->{result} = $result->decoded_content;
+    return $c->forward($c->view('JSON'));
+}
+
+sub asana_req {
+    my ($data, $server) = @_;
+
+    if(!$data){
+        $data = { stuff => "nothing"};
+    }
+
+    my $ua = LWP::UserAgent->new;
+    my $json_data = $data? to_json($data) : '';
+
+    my $key = $ENV{'BETA_KEY'};
+    my $req = HTTP::Request->new(GET => $server);
+    my $header_data = "sha1=".Digest::SHA::hmac_sha1_hex($json_data, $key);
+
+    $req->header('content-type' => 'application/json');
+    $req->header("x-hub-signature" => $header_data);
+    $req->content($json_data);
+
+    my $result = $ua->request($req);
+    return $result;
+}
+
 # Save values for multiple IAs at once (just one field for each IA).
 # This is used only in the dev pipeline and for now it's only available to admins
 sub save_multiple :Chained('base') :PathPart('save_multiple') :Args(0) {
@@ -711,6 +885,12 @@ sub save_multiple :Chained('base') :PathPart('save_multiple') :Args(0) {
     my $ias = from_json($c->req->params->{ias});
     my $field = $c->req->params->{field};
     my $value = $c->req->params->{value};
+
+    if ($field eq 'producer'){
+        my $complat_user = $c->d->rs('User')->find({username => $value});
+        my $complat_user_admin = $complat_user? $complat_user->admin : '';
+        return $c->forward($c->view('JSON')) unless $complat_user_admin || $value eq '';
+    }
 
     for my $id (@{$ias}) {
         my $ia = $c->d->rs('InstantAnswer')->find({meta_id => $id});

@@ -1,17 +1,24 @@
-<div id="sidebar-top" class="clearfix">
+<div id="sidebar-top" class="clearfix {{#unless permissions.admin}}sidebar-logged-out{{/unless}}">
   <span class="left">
-    {{#if permissions.admin}}
-        <span class="sep--after edit-sidebar" id="edit-sidebar-repo">
-            <select>
-                <option value="0">{{repo}}</option>
-                {{#not_eq repo 'fathead'}}<option value="1">fathead</option>{{/not_eq}}
-                {{#not_eq repo 'goodies'}}<option value="2">goodies</option>{{/not_eq}}
-                {{#not_eq repo 'longtail'}}<option value="3">longtail</option>{{/not_eq}}
-                {{#not_eq repo 'spice'}}<option value="4">spice</option>{{/not_eq}}
-            </select>
+    {{#if pr}}{{#each pr.tags}}{{#eq (slug name) 'priorityhigh'}} 
+        <span class="sep--after">
+            <i class="icon-star-empty" />
         </span>
+    {{/eq}}{{/each}}{{/if}}
+    {{#if permissions.admin}}
+	<span class="sep--after">
+          <span class="edit-sidebar frm__select" id="edit-sidebar-repo">
+            <select>
+              <option value="0">{{repo}}</option>
+              {{#not_eq repo 'fathead'}}<option value="1">fathead</option>{{/not_eq}}
+              {{#not_eq repo 'goodies'}}<option value="2">goodies</option>{{/not_eq}}
+              {{#not_eq repo 'longtail'}}<option value="3">longtail</option>{{/not_eq}}
+              {{#not_eq repo 'spice'}}<option value="4">spice</option>{{/not_eq}}
+            </select>
+          </span>
+	</span>
 
-        <span class="sep--after edit-sidebar" id="edit-sidebar-dev_milestone">
+        <span class="edit-sidebar frm__select" id="edit-sidebar-dev_milestone" style="width: 9em">
             <select>
                 <option value="0">{{dev_milestone}}</option>
                 {{#not_eq dev_milestone 'planning'}}<option value="1">planning</option>{{/not_eq}}
@@ -37,25 +44,65 @@
 {{#if permissions.admin}}
 
     <h2 id="sidebar-name">
-        <input class="edit-sidebar" id="edit-sidebar-name" value="{{name}}" />
+        <input class="edit-sidebar" data-focus-class="frm__input" id="edit-sidebar-name" value="{{name}}" />
     </h2>
 
-    <input class="edit-sidebar" id="edit-sidebar-id" value="{{id}}" />
+    <input class="edit-sidebar" style="height: initial" id="edit-sidebar-id" value="{{id}}" />
 
     <div class="sidebar-field">
-        <div class="field-label"> Description </div>
-        <textarea rows="3" cols="50" class="edit-sidebar" id="edit-sidebar-description">{{description}}</textarea>
+        <div class="field-label primary-label"> Description </div>
+        <textarea rows="3" cols="50" data-focus-class="frm__text" class="edit-sidebar" id="edit-sidebar-description">{{description}}</textarea>
     </div>
 
     <div class="sidebar-field">
-        <div class="field-label"> Example Query </div>
-        <input class="edit-sidebar" id="edit-sidebar-example_query" value="{{example_query}}" />
+        <div class="field-label primary-label"> Example Query </div>
+        <input class="edit-sidebar" data-focus-class="frm__input" id="edit-sidebar-example_query" value="{{example_query}}" />
     </div>
 
     <div class="sidebar-field">
-        <div class="field-label"> Perl Module </div>
-        <input class="edit-sidebar" id="edit-sidebar-perl_module" value="{{perl_module}}" />
+        <div class="field-label primary-label"> Perl Module </div>
+        <input class="edit-sidebar" data-focus-class="frm__input" id="edit-sidebar-perl_module" value="{{perl_module}}" />
     </div>
+
+    <div class="sidebar-field">
+        <div class="field-label primary-label"> Producer </div>
+        <input class="edit-sidebar" data-focus-class="frm__input" id="edit-sidebar-producer" value="{{producer}}" />
+    </div>
+
+    <div class="sidebar-field">
+        <div class="field-label primary-label"> Template </div>
+        <input class="edit-sidebar" data-focus-class="frm__input" id="edit-sidebar-template" value="{{template}}" />
+    </div>
+
+    <div class="sidebar-field">
+        <div class="field-label primary-label"> Asana Tasks </div>
+        {{#if asana}}
+            <span class="readonly">
+                <a href="https://app.asana.com/0/0/{{asana.asana_id}}">One open task</a>
+            </span>
+        {{else}}
+            <div class="button btn--primary" id="asana-create">Create Task</div>
+        {{/if}}
+    </div>
+    
+    {{#if pr.issue_id}}
+        <div class="sidebar-field">
+            <div class="field-label primary-label"> Dev Machine </div>
+            {{#eq beta_install 'success'}}
+                Installed on <a href="http://beta.duckduckgo.com/{{#if beta_query}}?q={{beta_query}}{{/if}}">beta</a>
+            {{else}}
+                {{#if beta_install}}Install on beta failed: <div class="readonly">{{beta_install}}</div>{{/if}}
+                <div class="button btn--primary" id="beta-single">Install on beta</div>
+            {{/eq}}
+        </div>
+    {{/if}}
+
+    {{#if priority_msg}}
+        <div class="sidebar-field">
+            <div class="field-label primary-label">Priority</div>
+            <span class="readonly">{{newlines priority_msg}}</span>
+        </div>
+    {{/if}}
 {{else}}
     {{#if name}}
       <h2 id="sidebar-name"> {{name}} </h2>
@@ -69,27 +116,27 @@
 
     {{#if description}}
         <div id="sidebar-desc" class="sidebar-field">
-            <div class="field-label"> Description </div>
+            <div class="field-label primary-label"> Description </div>
             <span class="readonly"> {{description}} </span>
         </div>
     {{/if}}
 
     {{#if example_query}}
         <div id="sidebar-example" class="sidebar-field">
-            <div class="field-label"> Example Query </div>
+            <div class="field-label primary-label"> Example Query </div>
             <span class="readonly"> {{example_query}} </span>
         </div>
     {{/if}}
 
     {{#if perl_module}}
         <div id="sidebar-perl_module" class="sidebar-field">
-            <div class="field-label"> Perl Module </div>
+            <div class="field-label primary-label"> Perl Module </div>
             <span class="readonly"> {{perl_module}} </span>
         </div>
     {{/if}}
 {{/if}}
 
-{{#if pr}}
+{{#if pr.issue_id}}
     <hr />
 
     <div id="sidebar-pr">
@@ -99,19 +146,26 @@
             </a>
         </div>
         <div class="right" title="{{format_time last_update}}">
+            <i class="ddgsi ddgsi-clock" />
             {{timeago last_update}}
         </div>
+        {{#if last_comment}}
+            <div class="right" id="all_comments">
+                <i class="ddgsi ddgsi-comment" />
+                {{length all_comments}}
+            </div>
+        {{/if}}
 
         <span class="clearfix"></span>
         
-        {{#if last_comment}}
+        {{#each all_comments}}
             <p class="comment">
-                <a href="https://github.com/duckduckgo/zeroclickinfo-{{repo}}/issues/{{pr.issue_id}}#issuecomment-{{last_comment.id}}">
-                    {{last_comment.text}}
+                <a href="https://github.com/duckduckgo/zeroclickinfo-{{../repo}}/issues/{{../pr.issue_id}}#issuecomment-{{id}}">
+                    {{text}}
                 </a>
             </p>
-            <div>{{timeago last_comment.date}}</div>
-        {{/if}}
+            <div>by <a href="https://github.com/{{user}}">{{user}}</a> {{timeago date 1}}</div>
+        {{/each}}
     </div>        
 {{/if}}
 

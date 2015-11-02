@@ -1,0 +1,55 @@
+{{#if permissions.admin}}
+        <div class="pipeline-actions">
+            <span class="left count-txt">
+	      <span>{{selected}}</span> <span> Selected </span>
+	    </span>
+            <span class="deselect-all right"> <i class="deselect ddgsi ddgsi-close"></i> </span>
+            
+            <span class="clearfix"></span>
+
+            <div class="field-section">
+                <div class="primary-label"> Assign </div>
+                <div class="frm__label"> Producer </div>
+                <input class="pipeline-actions__input frm__input" id="input-producer" />
+            </div>
+
+            <div class="field-section">
+                <div class="primary-label">Update </div>
+		<span class="frm__select">
+                  <div class="frm__label "> Dev Milestone </div>
+                  <select class="pipeline-actions__select" id="select-dev_milestone">
+                    <option value="0">planning</option>
+                    <option value="1">development</option>
+                    <option value="2">testing</option>
+                    <option value="3">complete</option>
+                    <option value="4">ghosted</option>
+                  </select>
+		</span>
+            </div>
+
+            <div class="field-section">
+		<span class="frm__select">
+                  <div class="frm__label "> Type </div>
+                  <select class="pipeline-actions__select" id="select-repo">
+                    <option value="0">fathead</option>
+                    <option value="1">goodies</option>
+                    <option value="2">longtail</option>
+                    <option value="3">spice</option>
+                  </select>
+		</span>
+            </div>
+
+            {{#if got_prs}}
+                <div class="field-section">
+                    <div class="frm__label field-label"> Dev Machine </div>
+                    {{#if beta}}
+                        Installed on <a href="https://beta.duckduckgo.com">beta</a>
+                    {{else}}
+                        <div class="pipeline-actions__button button btn--primary" id="beta_install">
+                            Install on beta
+                        </div>
+                    {{/if}}
+                </div>
+            {{/if}}
+        </div>
+{{/if}}

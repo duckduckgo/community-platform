@@ -1,3 +1,8 @@
+#asana_button {
+    display: inline;
+    bottom: 0.8em;
+}
+
 .ia-single {
     /* I'd like the fonts to look a bit thinner and these do the job. */
     -moz-osx-font-smoothing: grayscale;
@@ -11,6 +16,8 @@
         padding-right: 2em;
         width: auto;
     }
+
+    #beta-install { margin-left: 0; }
 
     .ddgsi-loupe {
         padding-right: 0.5em;
