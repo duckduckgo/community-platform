@@ -112,6 +112,9 @@ my $core_team_github = {
     zachthompson => {
         name => 'Zach Thompson',
     },
+    tagawa => {
+        name => 'Daniel Davis',
+    },
 };
 
 # Should come from API in future:
