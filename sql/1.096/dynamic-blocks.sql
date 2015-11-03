@@ -1,5 +1,7 @@
 BEGIN;
 drop table if exists instant_answer_blocks;
+alter table instant_answer drop column if exists blockgroup;
+drop table if exists instant_answer_blockgroup;
 
 create table instant_answer_blockgroup (
     id serial primary key,
@@ -15,6 +17,7 @@ spice
 fathead
 longtail
 \.
+
 
 alter table instant_answer
     add column blockgroup varchar(20) references instant_answer_blockgroup (blockgroup);
