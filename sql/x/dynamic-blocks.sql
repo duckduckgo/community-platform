@@ -20,7 +20,7 @@ alter table instant_answer
     add column blockgroup varchar(20) references instant_answer_blockgroup (blockgroup);
     
 update instant_answer set blockgroup = 'goodie' where repo = 'goodies';
-update instant_answer set blockgroup = repo where repo is not null and repo != 'goodies';
+update instant_answer set blockgroup = repo where repo != 'goodies' and char_length(repo) > 0;
 
 update instant_answer as ia set
     blockgroup = a.blockgroup
