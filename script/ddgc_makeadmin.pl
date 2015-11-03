@@ -15,11 +15,10 @@ die "please give a username" unless $username;
 my $ddgc = DDGC->new;
 my $schema = $ddgc->db;
 
-my $user = $schema->resultset('User')->find({ username => $username });
+my $user = $schema->resultset('User')->search( \[ 'LOWER(me.username) = ?', ( lc($username) ) ] )->one_row;
 
 die "user not found" unless $user;
 
 $user->add_role('admin');
-$user->update;
 
 print "User ".$username." is now admin...\n";
