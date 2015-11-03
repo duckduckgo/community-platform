@@ -125,6 +125,59 @@ sub queries :Chained('base') :PathPart('queries') :Args(0) {
 
 }
 
+sub topics_base :Chained('base') :PathPart('topics') :CaptureArgs(0) {
+    my ($self, $c) = @_;
+
+    $c->stash->{ia_page} = "IATopics";
+    $c->stash->{title} = "Topics";
+
+    $c->add_bc('Topics', $c->chained_uri('InstantAnswer', 'topics'));
+}
+
+sub topics :Chained('topics_base') :PathPart('') :Args(0) {
+    my ($self, $c) = @_;
+    
+    my $user = $c->user;
+    unless ($user && $user->admin) {
+        $c->response->redirect($c->chained_uri('InstantAnswer','index'));
+        return $c->detach;
+    }
+}
+
+sub topics_json :Chained('topics_base') :PathPart('json') :Args(0) {
+    my ($self, $c) = @_;
+
+    my $rs = $c->d->rs('Topic');
+
+    my @ial = $rs->search(
+        {'me.name' => [{ '!=' => 'test' }, { '=' => undef}]
+        },
+        {
+            join => {
+                instant_answer_topics => 'instant_answer'
+            },
+            columns => [ 
+                qw/ me.name me.id /,
+                {
+                    'instant_answer_topics.instant_answer_id' => 
+                        'instant_answer.meta_id'
+                },
+                {
+                    'instant_answer_topics.instant_answer_name' =>
+                    'instant_answer.name'
+                }
+            ],
+            collapse => 1,
+            result_class => 'DBIx::Class::ResultClass::HashRefInflator',
+        }
+    )->all;
+
+
+    $c->stash->{x} = \@ial;
+    $c->stash->{not_last_url} = 1;
+    $c->forward($c->view('JSON'));
+}
+
 sub dev_pipeline_base :Chained('overview_base') :PathPart('pipeline') :CaptureArgs(0) {
     my ( $self, $c ) = @_;
     
