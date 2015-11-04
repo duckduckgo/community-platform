@@ -15,8 +15,8 @@
 
             <div class="field-section">
                 <div class="primary-label">Update </div>
+                <div class="frm__label overlap"> Dev Milestone </div>
 		<span class="frm__select">
-                  <div class="frm__label "> Dev Milestone </div>
                   <select class="pipeline-actions__select" id="select-dev_milestone">
                     <option value="0">planning</option>
                     <option value="1">development</option>
@@ -28,8 +28,8 @@
             </div>
 
             <div class="field-section">
+              <div class="frm__label overlap"> Type </div>
 		<span class="frm__select">
-                  <div class="frm__label "> Type </div>
                   <select class="pipeline-actions__select" id="select-repo">
                     <option value="0">fathead</option>
                     <option value="1">goodies</option>
@@ -40,8 +40,8 @@
             </div>
 
             {{#if got_prs}}
+            <div class="frm__label field-label"> Dev Machine </div>
                 <div class="field-section">
-                    <div class="frm__label field-label"> Dev Machine </div>
                     {{#if beta}}
                         Installed on <a href="https://beta.duckduckgo.com">beta</a>
                     {{else}}
