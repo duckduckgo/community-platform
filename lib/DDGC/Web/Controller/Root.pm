@@ -5,6 +5,7 @@ use Moose;
 use Path::Class;
 use DateTime;
 use DateTime::Duration;
+use DateTime::Format::Mail;
 use URI;
 
 use namespace::autoclean;
@@ -199,6 +200,18 @@ sub wear :Chained('base') :PathPart('wear') :Args(0) {
 			}
 		}
 	}
+}
+
+sub status :Chained('base') :PathPart('status') :Args(0) {
+	my ( $self, $c ) = @_;
+	$c->add_bc('Community Platform Status');
+	my $dt_now = DateTime->now;
+	#$dt_now->formatter( DateTime::Format::Mail->new );
+	$c->stash->{title}   = "Community Platform Status",
+	$c->stash->{dt_utc}  = DateTime::Format::Mail->format_datetime( $dt_now );
+	$c->stash->{version} = $DDGC::VERSION;
+	$c->stash->{db}      = eval { $c->d->rs('User')->one_row; };
+	$c->stash->{prosody} = eval { $c->d->xmpp->mod_data_access->get('ddgc') };
 }
 
 sub error :Chained('base') :PathPart('error') :Args(0) {
