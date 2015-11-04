@@ -26,14 +26,7 @@ sub index :Chained('base') :PathPart('') :Args(0) {
 
     # Retrieve / stash all IAs for index page here?
 
-    # my @x = $c->d->rs('InstantAnswer')->all();
-    # $c->stash->{ialist} = \@x;
     $c->stash->{ia_page} = "IAIndex";
-
-    #if ($field && $value) {
-    #   $c->stash->{field} = $field;
-    #   $c->stash->{value} = $value;
-    #}
 
     my $rs = $c->d->rs('Topic');
 
