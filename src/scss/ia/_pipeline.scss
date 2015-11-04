@@ -203,6 +203,10 @@ textarea.edit-sidebar {
     border: 1px solid rgba(200,200,200,0.2);
     padding-top: 16.8em;
 
+    hr {
+	@include scaleX(2);
+    }
+    
     .sidebar-field {
         margin-top: 1em;
     }
