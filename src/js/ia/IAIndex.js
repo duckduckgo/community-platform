@@ -27,51 +27,49 @@
             var window_top;
             var $dropdown_header;
             var $input_query;
-            var query = ""; 
+            var query = "";
+            ind.ia_list = ia_init;
 
-            $.getJSON(url, function(x) { 
-                ind.ia_list = x;
-                ind.sort('name');
-                $list_item = $("#ia-list .ia-item");
-                $clear_filters = $("#clear_filters");
-                $right_pane = $("#filters");
-                //right_pane_top = $right_pane.offset().top;
-                //right_pane_left = $right_pane.offset().left;
-                $dropdown_header = $right_pane.children(".dropdown").children(".dropdown_header");
-                $input_query = $('#filters input[name="query"]');
-                
-                var parameters = window.location.search.replace("?", "");
-                parameters = $.trim(parameters.replace(/\/$/, ''));
-                if (parameters) {
-                    parameters = parameters.split("&");
+            ind.sort('name');
+            $list_item = $("#ia-list .ia-item");
+            $clear_filters = $("#clear_filters");
+            $right_pane = $("#filters");
+            //right_pane_top = $right_pane.offset().top;
+            //right_pane_left = $right_pane.offset().left;
+            $dropdown_header = $right_pane.children(".dropdown").children(".dropdown_header");
+            $input_query = $('#filters input[name="query"]');
 
-                    var param_count = 0;
+            var parameters = window.location.search.replace("?", "");
+            parameters = $.trim(parameters.replace(/\/$/, ''));
+            if (parameters) {
+                parameters = parameters.split("&");
 
-                    $.each(parameters, function(idx) {
-                        var temp = parameters[idx].split("=");
-                        var field = temp[0];
-                        var value = temp[1];
-                        if (field && value && (ind.selected_filter.hasOwnProperty(field) || field === "q")) {
-                            if (ind.selected_filter.hasOwnProperty(field)) {
-                                var selector = "ia_" + field + "-" + value;
-                                selector = (field === 'topic')? "." + selector : "#" + selector;
-                                $(selector).parent().trigger("click");
-                                param_count++;
-                            } else if ((field === "q") && value) {
-                                $input_query.val(decodeURIComponent(value.replace(/\+/g, " ")));
-                                $(".filters--search-button").trigger("click");
-                                param_count++;
-                            }
+                var param_count = 0;
+
+                $.each(parameters, function(idx) {
+                    var temp = parameters[idx].split("=");
+                    var field = temp[0];
+                    var value = temp[1];
+                    if (field && value && (ind.selected_filter.hasOwnProperty(field) || field === "q")) {
+                        if (ind.selected_filter.hasOwnProperty(field)) {
+                            var selector = "ia_" + field + "-" + value;
+                            selector = (field === 'topic')? "." + selector : "#" + selector;
+                            $(selector).parent().trigger("click");
+                            param_count++;
+                        } else if ((field === "q") && value) {
+                            $input_query.val(decodeURIComponent(value.replace(/\+/g, " ")));
+                            $(".filters--search-button").trigger("click");
+                            param_count++;
                         }
-                    });
-
-                    if (param_count === 0) {
-                        ind.filter($list_item, query);
                     }
-                } else {
+                });
+
+                if (param_count === 0) {
                     ind.filter($list_item, query);
                 }
-           });
+            } else {
+                ind.filter($list_item, query);
+            }
 
             $(document).click(function(evt) {
                 if (!$(evt.target).closest(".dropdown").length) {
