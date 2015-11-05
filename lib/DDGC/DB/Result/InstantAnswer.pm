@@ -436,6 +436,7 @@ column updated => {
     set_on_update => 1,
 };
 
+	
 # Latest release in which an IA was updated
 column release_version => {
     data_type => 'numeric',
@@ -447,6 +448,13 @@ column deployment_state => {
     data_type => 'varchar',
     size => 15,
     is_nullable => 1,
+};
+
+column blockgroup => {
+	date_type => 'varchar',
+	size => 20,
+	is_nullable => 1,
+	for_endpt => 1
 };
 
 has_many 'issues', 'DDGC::DB::Result::InstantAnswer::Issues', 'instant_answer_id';
@@ -461,6 +469,8 @@ has_many 'instant_answer_topics', 'DDGC::DB::Result::InstantAnswer::Topics', 'in
 many_to_many 'topics', 'instant_answer_topics', 'topic';
 
 has_many 'release_versions', 'DDGC::DB::Result::ReleaseVersion', 'instant_answer_id';
+
+has_one 'blockgroup', 'DDGC::DB::Result::InstantAnswer::Blockgroup', 'blockgroup';
 
 after insert => sub {
     my ( $self ) = @_;
