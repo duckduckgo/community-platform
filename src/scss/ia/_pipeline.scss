@@ -506,6 +506,12 @@ textarea.edit-sidebar {
 
     .frm__label {
 	font-size: 1em;
+	background-color: transparent;
+
+	&.overlap {
+	    position: relative;
+	    top: 26px;
+	}
     }
 }
 
