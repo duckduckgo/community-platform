@@ -53,12 +53,20 @@ sub ia_index_pg_json {
                                        WHERE  inner_topics.id = instant_answer_topics.topics_id
                                     ) inner_topic_row
                                ) AS topic
-                        FROM   instant_answer_topics, topics
+                        FROM   instant_answer_topics
                         WHERE  instant_answer_topics.instant_answer_id = instant_answer.id
-                          AND  instant_answer_topics.topics_id = topics.id
                     ) topic_row
                 ) AS instant_answer_topics
             FROM instant_answer
+            WHERE instant_answer.id IN (
+                SELECT instant_answer.id from instant_answer
+                LEFT JOIN instant_answer_topics
+                       ON instant_answer_topics.instant_answer_id = instant_answer.id
+                LEFT JOIN topics
+                       ON instant_answer_topics.topics_id = topics.id
+                WHERE topics.name != 'test'
+                AND instant_answer.dev_milestone = 'live'
+            )
             ORDER BY instant_answer.name
         ) instant_answer_row
 QUERY
