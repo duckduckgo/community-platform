@@ -47,7 +47,6 @@ sub index :Chained('base') :PathPart('') :Args(0) {
     $c->stash->{topic_list} = \@topics;
     $c->add_bc('Instant Answers', $c->chained_uri('InstantAnswer','index'));
 
-    # @{$c->stash->{ialist}} = $c->d->rs('InstantAnswer')->all();
 }
 
 sub ialist_json :Chained('base') :PathPart('json') :Args() {
@@ -57,18 +56,8 @@ sub ialist_json :Chained('base') :PathPart('json') :Args() {
 
     $c->return_if_not_modified( $rs->last_modified );
 
-    my @ial = $rs->search(
-        {'topic.name' => [{ '!=' => 'test' }, { '=' => undef}],
-         'me.dev_milestone' => { '=' => 'live'},
-        },
-        {
-            columns => [ qw/ name repo src_name dev_milestone description template /, {id => 'meta_id'} ],
-            prefetch => { instant_answer_topics => 'topic' },
-            result_class => 'DBIx::Class::ResultClass::HashRefInflator',
-        }
-    )->all;
+    $c->stash->{x} = $rs->ia_index_hri;
 
-    $c->stash->{x} = \@ial;
     $c->stash->{not_last_url} = 1;
     $c->forward($c->view('JSON'));
 }
