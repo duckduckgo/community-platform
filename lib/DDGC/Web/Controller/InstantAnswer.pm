@@ -52,11 +52,10 @@ sub index :Chained('base') :PathPart('') :Args(0) {
 sub ialist_json :Chained('base') :PathPart('json') :Args() {
     my ( $self, $c ) = @_;
 
-    my $rs = $c->d->rs('InstantAnswer');
-
-    $c->return_if_not_modified( $rs->last_modified );
-
-    $c->stash->{x} = $rs->ia_index_hri;
+    $c->stash->{x} = $c->d->rs('InstantAnswer')->ia_index_hri(
+        $c->req->params->{limit},
+        $c->req->params->{last},
+    );
 
     $c->stash->{not_last_url} = 1;
     $c->forward($c->view('JSON'));
