@@ -30,7 +30,7 @@
             var query = "";
             ind.ia_list = ia_init;
 
-            ind.sort('name');
+            ind.refresh();
             $list_item = $("#ia-list .ia-item");
             $clear_filters = $("#clear_filters");
             $right_pane = $("#filters");
