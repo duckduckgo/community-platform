@@ -32,12 +32,10 @@ sub index :Chained('base') :PathPart('') :Args(0) {
 
     my @topics = $rs->search(
         {'name' => { '!=' => 'test' }},
-        {
-            columns => [ qw/ name id /],
-            order_by => [ qw/ name /],
-            result_class => 'DBIx::Class::ResultClass::HashRefInflator',
-        }
-    )->all;
+    )->columns( [ qw/ name id /] )
+     ->order_by( [ qw/ name /] )
+     ->hri
+     ->all;
 
     $c->stash->{title} = "Index: Instant Answers";
     $c->stash->{topic_list} = \@topics;
