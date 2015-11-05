@@ -37,9 +37,7 @@ sub index :Chained('base') :PathPart('') :Args(0) {
      ->hri
      ->all;
 
-    $c->stash->{ia_init} = encode_json(
-        $c->d->rs('InstantAnswer')->ia_index_hri
-    );
+    $c->stash->{ia_init} = $c->d->rs('InstantAnswer')->ia_index_pg_json->[0]->[0];
     $c->stash->{ia_init} =~ s/'/\\'/g;
     $c->stash->{ia_init} =~ s/\\"/\\\\"/g;
 
@@ -51,6 +49,9 @@ sub index :Chained('base') :PathPart('') :Args(0) {
 
 sub ialist_json :Chained('base') :PathPart('json') :Args() {
     my ( $self, $c ) = @_;
+    $c->res->content_type("application/json");
+    $c->response->body( $c->d->rs('InstantAnswer')->ia_index_pg_json->[0]->[0] );
+    return $c->detach;
 
     $c->stash->{x} = $c->d->rs('InstantAnswer')->ia_index_hri(
         $c->req->params->{limit},
