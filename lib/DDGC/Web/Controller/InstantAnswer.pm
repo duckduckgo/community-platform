@@ -4,7 +4,7 @@ use Moose;
 use namespace::autoclean;
 use Try::Tiny;
 use Time::Local;
-use JSON;
+use JSON::MaybeXS ':legacy';
 use Net::GitHub::V3;
 use DateTime;
 use LWP::UserAgent;
@@ -36,6 +36,12 @@ sub index :Chained('base') :PathPart('') :Args(0) {
      ->order_by( [ qw/ name /] )
      ->hri
      ->all;
+
+    $c->stash->{ia_init} = to_json(
+        $c->d->rs('InstantAnswer')->ia_index_hri,
+    );
+    $c->stash->{ia_init} =~ s/'/&#39;/g;
+    $c->stash->{ia_init} =~ s/\\"/\\\\"/g;
 
     $c->stash->{title} = "Index: Instant Answers";
     $c->stash->{topic_list} = \@topics;

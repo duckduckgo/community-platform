@@ -1,3 +1,7 @@
+<script>
+  var ia_init = JSON.parse('<: $ia_init | raw :>');
+</script>
+
 <div class="left ia-index--left">
   <div class="ia-index-container">
     <div id="ia_index_header">
