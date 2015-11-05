@@ -188,7 +188,7 @@ textarea.edit-sidebar {
 }
 
 #actions_sidebar {
-    width: 183px;
+    width: 240px;
 }
 
 #page_sidebar, #actions_sidebar {
@@ -202,6 +202,14 @@ textarea.edit-sidebar {
     padding: 2em;
     border: 1px solid rgba(200,200,200,0.2);
     padding-top: 16.8em;
+
+    .frm__label {
+	font-weight: 400;
+    }
+
+    .frm__select {
+	width: 100%;
+    }
 
     .sidebar-field {
         margin-top: 1em;
