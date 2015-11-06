@@ -458,7 +458,6 @@ column blockgroup => {
 };
 
 has_many 'issues', 'DDGC::DB::Result::InstantAnswer::Issues', 'instant_answer_id';
-has_many 'blocks', 'DDGC::DB::Result::InstantAnswer::Blocks', 'instant_answer_id';
 has_many 'updates', 'DDGC::DB::Result::InstantAnswer::Updates', 'instant_answer_id';
 has_many 'ideas', 'DDGC::DB::Result::Idea', 'instant_answer_id';
 
