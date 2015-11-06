@@ -451,7 +451,7 @@ column deployment_state => {
 };
 
 column blockgroup => {
-	date_type => 'varchar',
+	data_type => 'varchar',
 	size => 20,
 	is_nullable => 1,
 	for_endpt => 1
