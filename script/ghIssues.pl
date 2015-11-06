@@ -295,7 +295,8 @@ sub duckco_user {
     if ($user) {
         $username = $user->username;
         $admin = $user->admin;
-        $comleader = $user->is('community_leader');
+        $comleader = 0;
+        #$user->is('community_leader');
     }
 
     my %result = (
