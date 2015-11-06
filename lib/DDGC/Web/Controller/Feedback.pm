@@ -135,6 +135,7 @@ sub step :Chained('feedback') :PathPart('') :Args(1) {
   $c->stash->{steps} = \@steps;
   $c->stash->{step} = $current_step;
   if ($submit) {
+    $c->require_action_token;
     my $step_session_key_base = $c->stash->{feedback_name}.'/';
     my %data = defined $c->session->{feedback}->{$step_session_key_base}
       ? %{$c->session->{feedback}->{$step_session_key_base}}
