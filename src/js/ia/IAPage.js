@@ -149,7 +149,7 @@
                         if (!$(this).hasClass("disabled")) {
                             $(this).addClass("disabled");
                             var temp_hash = {
-                                "action" : "duck.co",
+                                "action" : "duckco",
                                 "number" : ia_data.live.pr.id,
                                 "repo" : "zeroclickinfo-" + ia_data.live.repo
                             };
