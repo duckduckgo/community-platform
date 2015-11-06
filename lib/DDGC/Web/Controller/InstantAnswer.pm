@@ -40,8 +40,6 @@ sub index :Chained('base') :PathPart('') :Args(0) {
     $c->stash->{ia_init} = encode_json(
         $c->d->rs('InstantAnswer')->ia_index_hri
     );
-    $c->stash->{ia_init} =~ s/'/\\'/g;
-    $c->stash->{ia_init} =~ s/\\"/\\\\"/g;
 
     $c->stash->{title} = "Index: Instant Answers";
     $c->stash->{topic_list} = \@topics;
