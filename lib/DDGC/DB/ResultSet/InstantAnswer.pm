@@ -8,7 +8,7 @@ use namespace::autoclean;
 sub ia_index_hri {
     my ( $self, $limit, $last ) = @_;
     my $ial = $self->search( {
-            'topic.name' => { '!=' => 'test' },
+            'topic.name' => [ { '!=' => 'test' }, undef ],
             'me.dev_milestone' => { '=' => 'live'},
         },
         {
