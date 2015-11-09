@@ -11,6 +11,7 @@ use Net::GitHub;
 use Time::Piece;
 use Time::Seconds;
 use Try::Tiny;
+use Set::Scalar;
 
 $|=1;
 
@@ -112,9 +113,6 @@ my $core_team_github = {
     zachthompson => {
         name => 'Zach Thompson',
     },
-    tagawa => {
-        name => 'Daniel Davis',
-    },
 };
 
 # Should come from API in future:
@@ -151,6 +149,8 @@ my $today = localtime;
 my $periods = [
     { start => $today - (ONE_DAY * 90),  end => $today },
     { start => $today - (ONE_DAY * 180), end => $today - (ONE_DAY * 90) },
+    { start => $today - (ONE_DAY * 270), end => $today - (ONE_DAY * 180) },
+    { start => $today - (ONE_DAY * 360), end => $today - (ONE_DAY * 270) },
 ];
 my $log;
 
@@ -162,26 +162,13 @@ MONTH:
     for (0..$#$periods) {
         my $since = $periods->[$_]->{start}->ymd . "T00:00:00Z";
         my $until = $periods->[$_]->{end}->ymd . "T00:00:00Z";
-        my $commits = undef;
-        do {
-            my $request = "/repos/duckduckgo/$project/commits";
-            $request .= "?since=" . $since;
-            $request .= "&until=" . $until;
-            $request .= "&per_page=100";
-            my $page = 1;
-            my $err = 0;
+        my @commits = $gh->repos->commits('duckduckgo', $project, { since => $since, until => $until });
 
-            try {
-                $commits = $gh->query('GET', $request);
-            } catch {
-                $err = 1;
-                print STDERR "$request failed - skipping\n";
-            };
-            next if $err;
+            while($gh->repos->has_next_page){
+                push(@commits, $gh->repos->next_page);
+            }
 
-            print ".";
-
-            for my $commit (@{$commits}) {
+            for my $commit (@commits) {
                 #my $author = $commit->{author}->{login} || $commit->{committer}->{login} || "";
                 my $author = $commit->{author}->{login} || $commit->{committer}->{login} ||
                     $commit->{commit}->{author}->{name} || $commit->{commit}->{committer}->{name} || "";
@@ -194,31 +181,18 @@ MONTH:
                     $log->[$_]->{authors}->{$author} = 1;
                 }
             }
-            $page++; #print "$project commits : " . scalar @{$commits} . "\n";
-            if ( scalar @{$commits} >= 100 ) {
-                $until = $commits->[-1]->{commit}->{author}->{date} ||
-                         $commits->[-1]->{commit}->{committer}->{date} || die; # pagination really not working... Move date pointer
-                next MONTH if ($until le $since);
-                #print "New $since\n";
-            }
-        } while (scalar @{$commits} >= 100);
     }
-
-    my $request = "/repos/duckduckgo/$project/pulls?state=open&sort=created";
-    my $pulls = undef;
-
-    try {
-        $pulls = $gh->query('GET', $request);
-    } catch {
-        print "$request failed - skipping\n";
-        next;
-    };
 
     for (0..$#$periods) {
         my $since = $periods->[$_]->{start}->ymd . "T00:00:00Z";
         my $until = $periods->[$_]->{end}->ymd . "T00:00:00Z";
+        my @pulls = $gh->pull_request->pulls('duckduckgo', $project, { state  => 'open', sort => 'created', });
 
-        for my $pull (@{$pulls}) {
+        while($gh->pull_request->has_next_page){
+            push(@pulls, $gh->pull_request->next_page);
+        }
+
+        for my $pull (@pulls) {
 
             next unless ( $pull->{created_at} lt $until &&
                           $pull->{created_at} ge $since );
@@ -232,6 +206,9 @@ MONTH:
         }
     }
 }
+
+# do some set stuff
+#
 
 for (0..$#$periods) {
     print "\nUnique GitHub contributors " . $periods->[$_]->{start}->mdy . " through " . ($periods->[$_]->{end} - ONE_DAY )->mdy . "\t";
