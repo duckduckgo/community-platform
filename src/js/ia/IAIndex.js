@@ -28,7 +28,7 @@
             var $dropdown_header;
             var $input_query;
             var query = "";
-            ind.ia_list = ia_init;
+            ind.ia_list = ia_init();
 
             ind.refresh();
             $list_item = $("#ia-list .ia-item");

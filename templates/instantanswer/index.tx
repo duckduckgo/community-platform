@@ -1,5 +1,5 @@
 <script>
-  var ia_init = <: $ia_init | raw :>;
+  function ia_init() { return( <: $ia_init | raw :> ) }
 </script>
 
 <div class="left ia-index--left">
