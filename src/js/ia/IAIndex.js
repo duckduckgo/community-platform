@@ -28,10 +28,9 @@
             var $dropdown_header;
             var $input_query;
             var query = ""; 
+            ind.ia_list = ia_init();
 
-            $.getJSON(url, function(x) { 
-                ind.ia_list = x;
-                ind.sort('name');
+                ind.refresh();
                 $list_item = $("#ia-list .ia-item");
                 $clear_filters = $("#clear_filters");
                 $right_pane = $("#filters");
@@ -71,7 +70,6 @@
                 } else {
                     ind.filter($list_item, query);
                 }
-           });
 
             $(document).click(function(evt) {
                 if (!$(evt.target).closest(".dropdown").length) {
