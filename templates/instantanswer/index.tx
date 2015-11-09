@@ -1,3 +1,7 @@
+<script>
+  function ia_init() { return( <: $ia_init | raw :> ) }
+</script>
+
 <div class="left ia-index--left">
   <div class="ia-index-container">
     <div id="ia_index_header">
