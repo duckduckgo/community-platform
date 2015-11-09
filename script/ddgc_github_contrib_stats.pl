@@ -113,6 +113,9 @@ my $core_team_github = {
     zachthompson => {
         name => 'Zach Thompson',
     },
+    tagawa => {
+        name => 'Daniel Davis',
+    },
 };
 
 # Should come from API in future:
@@ -153,13 +156,14 @@ my $periods = [
     { start => $today - (ONE_DAY * 360), end => $today - (ONE_DAY * 270) },
 ];
 my $log;
-
+my @sets;
 print "working";
 
 for my $project (@projects) {
     next if $project eq 'nodejs-duckpan-npm'; # empty, API bombs
 MONTH:
     for (0..$#$periods) {
+        my $set = Set::Scalar->new;
         my $since = $periods->[$_]->{start}->ymd . "T00:00:00Z";
         my $until = $periods->[$_]->{end}->ymd . "T00:00:00Z";
         my @commits = $gh->repos->commits('duckduckgo', $project, { since => $since, until => $until });
@@ -179,13 +183,10 @@ MONTH:
                                   $core_team_github->{$_}->{name} =~ /$author/ )
                               } (keys $core_team_github) ) {
                     $log->[$_]->{authors}->{$author} = 1;
+                    $set->insert($author);
                 }
             }
-    }
 
-    for (0..$#$periods) {
-        my $since = $periods->[$_]->{start}->ymd . "T00:00:00Z";
-        my $until = $periods->[$_]->{end}->ymd . "T00:00:00Z";
         my @pulls = $gh->pull_request->pulls('duckduckgo', $project, { state  => 'open', sort => 'created', });
 
         while($gh->pull_request->has_next_page){
@@ -202,13 +203,18 @@ MONTH:
 
             unless ( grep { $_ =~ /^$author$/i } (keys $core_team_github) ) {
                 $log->[$_]->{authors}->{$author} = 1;
+                $set->insert($author);
             }
         }
+        push(@sets, $set);
     }
 }
 
-# do some set stuff
-#
+# do some set stuff with the sets
+for(my $i = 0; $i < scalar @sets -1; $i++){
+    my $union = $sets[$i] * $sets[$i+1];
+    print "Contributions for $i ". scalar $union->size. "\n";
+}
 
 for (0..$#$periods) {
     print "\nUnique GitHub contributors " . $periods->[$_]->{start}->mdy . " through " . ($periods->[$_]->{end} - ONE_DAY )->mdy . "\t";
