@@ -189,6 +189,10 @@ textarea.edit-sidebar {
 
 #actions_sidebar {
     width: 240px;
+
+    .frm__select {
+	width: 100%;
+    }
 }
 
 #page_sidebar, #actions_sidebar {
@@ -205,10 +209,6 @@ textarea.edit-sidebar {
 
     .frm__label {
 	font-weight: 400;
-    }
-
-    .frm__select {
-	width: 100%;
     }
 
     .sidebar-field {
