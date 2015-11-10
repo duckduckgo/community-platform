@@ -9,7 +9,15 @@
     <div class="column-center-live left">
         <div class="column-center-live__child">
             <ul class="column-center-live__child__ul">
-                {{#if live.other_queries}}
+                {{#if edited.other_queries}}
+		   {{#each edited.other_queries}}
+                        <li class="editpage">
+                            <span title="try this example on DuckDuckGo" name="other_queries" class="pre_edit other queries edited">
+                                {{this}}
+                            </span>
+                        </li>
+                    {{/each}}
+                {{else}}
                     {{#each live.other_queries}}
                         <li class="editpage">
                             <span title="try this example on DuckDuckGo" name="other_queries" class="pre_edit other_queries">
@@ -17,28 +25,10 @@
                             </span>
                         </li>
                     {{/each}}
-                {{else}}
-                    —
                 {{/if}}
             </ul>
         </div>
     </div>
-    <div class="column-right-edits left" id="column-edits-other_queries">
-        <div class="column-right-edits__child" id="examples">
-            <ul class="column-center-live__child__ul">
-                {{#if edited.other_queries}}
-                    {{#each edited.other_queries}}
-                        <li class="editpage">
-                            <span title="try this example on DuckDuckGo" name="other_queries" class="pre_edit other_queries">
-                                {{this}}
-                            </span>
-                        </li>
-                    {{/each}}
-                {{/if}}
-            </ul>
-        </div>
-    </div>
-
     <div class="button js-pre-editable" name="other_queries">
         <i class="js-pre-editable__icon icon-edit"></i>
         <span class="js-pre-editable__text">Edit</span>

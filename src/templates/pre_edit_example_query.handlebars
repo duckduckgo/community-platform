@@ -7,31 +7,7 @@
         </div>
     </div>
     <div class="column-center-live left">
-        <div class="column-center-live__child">
-            <p name="example_query" class="column-center-live__child__p" id="primary">
-                {{#if live.example_query}}
-                    {{live.example_query}}
-                {{else}}
-                    —
-                {{/if}}
-            </p>
-        </div>
-    </div>
-    <div class="column-right-edits left" id="column-edits-example_query">
-        <div class="column-right-edits__child" id="example_query">
-            <p name="example_query" class="column-right-edits__child__p" id="primary">
-                {{edited.example_query}}
-            </p>
-        </div>
+        <input type="text" class="column-right-edits__child__input js-input" data-field="text" data-name="example_query"/>
     </div>
 
-    <div class="button js-pre-editable" name="example_query">
-        <i class="js-pre-editable__icon icon-edit"></i>
-        <span class="js-pre-editable__text">Edit</span>
-    </div>
-
-    <div class="button hide js-editable" name="example_query">
-        <i class="js-editable__icon icon-check"></i>
-        <span class="js-editable__text">Done</span>
-    </div>
 </div>

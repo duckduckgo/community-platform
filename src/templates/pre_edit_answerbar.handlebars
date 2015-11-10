@@ -9,22 +9,14 @@
     <div class="column-center-live left">
         <div class="column-center-live__child">
             <p class="column-center-live__child__p">
-                {{#if live.answerbar.fallback_timeout}}
-                    {{live.answerbar.fallback_timeout}}
-                {{else}}
-                    —
+                {{#if edited.answerbar.fallback_timeout}}
+                  <span class="edited">{{edited.answerbar.fallback_timeout}}</span>
+                {{else}}    
+		  {{live.answerbar.fallback_timeout}}
                 {{/if}}
             </p>
         </div>
     </div>
-    <div class="column-right-edits left" id="column-edits-answerbar">
-        <div class="column-right-edits__child" id="answerbar" name="answerbar">
-            <p class="column-right-edits__child__p">
-                {{edited.answerbar.fallback_timeout}}
-            </p>
-        </div>
-    </div>
-
     <div class="button js-pre-editable" name="answerbar">
         <i class="js-pre-editable__icon icon-edit"></i>
         <span class="js-pre-editable__text">Edit</span>

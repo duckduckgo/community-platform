@@ -8,7 +8,15 @@
     </div>
     <div class="column-center-live left">
         <div class="column-center-live__child">
-            {{#if live.topic}}
+            {{#if edited.topic}}
+                <ul class="column-center-live__child__ul">
+                    {{#each edited.topic}}
+                        <li>
+                            <span class="edited">{{this}}</span>
+                        </li>
+                    {{/each}}
+                </ul>
+            {{else}}
                 <ul class="column-center-live__child__ul">
                     {{#each live.topic}}
                         <li>
@@ -16,25 +24,9 @@
                         </li>
                     {{/each}}
                 </ul>
-            {{else}}
-                —
             {{/if}}
         </div>
     </div>
-    <div class="column-right-edits left" id="column-edits-topic">
-        <div class="column-right-edits__child" id="topic" name="topic">
-            {{#if edited.topic}}
-                <ul>
-                    {{#each edited.topic}}
-                        <li>
-                            {{this}}
-                        </li> 
-                    {{/each}}
-                </ul>
-            {{/if}}
-        </div>
-    </div>
-
     <div class="button js-pre-editable" name="topic">
         <i class="js-pre-editable__icon icon-edit"></i>
         <span class="js-pre-editable__text">Edit</span>

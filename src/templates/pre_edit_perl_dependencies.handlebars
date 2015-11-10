@@ -9,7 +9,15 @@
     <div class="column-center-live left">
         <div class="column-center-live__child">
             <ul class="column-center-live__child__ul">
-                {{#if live.perl_dependencies}}
+		{{#if edited.perl_dependencies}}
+                    {{#each edited.perl_dependencies}}
+                        <li class="editpage">
+                            <span title="try this example on DuckDuckGo" name="perl_dependencies" class="pre_edit perl_dependencies edited">
+                                {{this}}
+                            </span>
+                        </li>
+                    {{/each}}
+                {{else}}
                     {{#each live.perl_dependencies}}
                         <li class="editpage">
                             <span name="perl_dependencies" class="pre_edit perl_dependencies">
@@ -17,28 +25,10 @@
                             </span>
                         </li>
                     {{/each}}
-                {{else}}
-                    —
                 {{/if}}
             </ul>
         </div>
     </div>
-    <div class="column-right-edits left" id="column-edits-perl_dependencies">
-        <div class="column-right-edits__child" id="examples">
-            <ul class="column-center-live__child__ul">
-                {{#if edited.perl_dependencies}}
-                    {{#each edited.perl_dependencies}}
-                        <li class="editpage">
-                            <span title="try this example on DuckDuckGo" name="perl_dependencies" class="pre_edit perl_dependencies">
-                                {{this}}
-                            </span>
-                        </li>
-                    {{/each}}
-                {{/if}}
-            </ul>
-        </div>
-    </div>
-
     <div class="button js-pre-editable" name="perl_dependencies">
         <i class="js-pre-editable__icon icon-edit"></i>
         <span class="js-pre-editable__text">Edit</span>
