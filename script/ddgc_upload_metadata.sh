@@ -5,7 +5,8 @@
 [ "$DDGC_REPO_JSON_URL" == "" ]   && \
     export DDGC_REPO_JSON_URL='https://duck.co/ia/repo/all/json'
 [ "$DDGC_REPO_JSON_S3URL" == "" ] && \
-    export DDGC_REPO_JSON_S3URL='s3://ddg-community/metadata/repo_all.json'
+    export DDGC_REPO_JSON_S3URL='s3://ddg-community/metadata/repo_all.json.bz2'
+DDGC_REPO_BZIP2_OUT="$DDGC_REPO_JSON_OUT.bz2"
 
 CURL_CMD="
     curl $DDGC_REPO_JSON_URL \
@@ -22,7 +23,10 @@ fi
 
 $CURL_CMD
 if [ "$?" == "0" ] ; then
-    s3cmd put --force $DDGC_REPO_JSON_OUT $DDGC_REPO_JSON_S3URL > /dev/null
-    s3cmd setacl --acl-public $DDGC_REPO_JSON_S3URL > /dev/null
+    bzip2 --best --force --keep $DDGC_REPO_JSON_OUT
+    [ "$?" == "0" ] && \
+        s3cmd put --force $DDGC_REPO_BZIP2_OUT $DDGC_REPO_JSON_S3URL > /dev/null
+    [ "$?" == "0" ] && \
+        s3cmd setacl --acl-public $DDGC_REPO_JSON_S3URL > /dev/null
 fi
 
