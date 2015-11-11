@@ -683,16 +683,15 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
     my $today = DateTime->today();
     my $month_ago = $today->clone->subtract( days => 30 )->date();
     my @issues = $c->d->rs('InstantAnswer::Issues')->search({instant_answer_id => $ia->id},{order_by => {'-desc' => 'date'}});
-    my @traffic = $c->d->rs('InstantAnswer::Traffic')->search(
+    my $traffic_rs = $c->d->rs('InstantAnswer::Traffic')->search(
         {
             answer_id => $ia->meta_id, 
             date => { '<' => $today->date()}, 
             date => { '>' => $month_ago},
-            pixel_type => [{ '=' => 'iaoi'}, { '=' => 'ias'}]
-        },
-        {
-            result_class => 'DBIx::Class::ResultClass::HashRefInflator'
+            pixel_type => [{ '=' => 'iaoi'}]
         });
+    
+    my $iaoi = $traffic_rs->get_array_by_pixel();
     my @ia_issues;
     my %pull_request;
     my @ia_pr;
@@ -702,7 +701,7 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
     my $dev_milestone = $ia->dev_milestone; 
 
     $ia_data{live} = $ia->TO_JSON;
-    $ia_data{live}->{traffic} = \@traffic;
+    $ia_data{live}->{traffic} = $iaoi;
 
     my $ua = LWP::UserAgent->new;
     my $server = "http://beta.duckduckgo.com/installed.json";
