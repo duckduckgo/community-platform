@@ -84,7 +84,7 @@ sub deploy {
 	$self->add_distributions;
 	$self->add_threads;
 	$self->add_comments;
-	$self->add_blogs;
+    #$self->add_blogs;
 	$self->add_ideas;
 	$self->update_notifications;
 	if ($self->test) {
