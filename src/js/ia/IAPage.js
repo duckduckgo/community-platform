@@ -92,7 +92,8 @@
                             breadcrumbs: Handlebars.templates.breadcrumbs(latest_edits_data),
                             triggers: Handlebars.templates.triggers(latest_edits_data),
                             test: Handlebars.templates.test(latest_edits_data),
-                            advanced:  Handlebars.templates.advanced(latest_edits_data)
+                            advanced:  Handlebars.templates.advanced(latest_edits_data),
+                            traffic: Handlebars.templates.traffic(latest_edits_data)
                         },
                         screens : Handlebars.templates.screens(ia_data),
                     };
@@ -1484,7 +1485,8 @@
             'github',
             'triggers',
             'advanced',
-            'test'
+            'test',
+            'traffic'
         ],
 
         edit_field_order: [
@@ -1602,6 +1604,23 @@
                         $(".ia-single--left").append(templates.screens);
                     }
                 }
+
+                $("#ia_traffic").highcharts({
+                    title: {
+                        text: "Traffic Data"
+                    },
+                    xAxis: {
+                        categories: ia_data.live.traffic.dates
+                    },
+                    yAxis: {
+                        title: {
+                            text: "Counts"
+                        }
+                    },
+                    series: [{
+                        data: ia_data.live.traffic.counts
+                    }]
+                });
 
                 $(".ia-single--right").append(templates.live.devinfo);
 
