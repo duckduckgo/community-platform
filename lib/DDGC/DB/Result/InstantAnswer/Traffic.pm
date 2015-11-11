@@ -1,5 +1,5 @@
 package DDGC::DB::Result::InstantAnswer::Traffic;
-# ABSTRACT: Users with write access to IA pages
+# ABSTRACT: IA Pages traffic data
 
 use Moose;
 use MooseX::NonMoose;
