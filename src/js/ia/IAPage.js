@@ -27,7 +27,6 @@
                 //console.log("for ia id '%s'", DDH_iaid);
 
                 $.getJSON(json_url, function(ia_data) {
-
                     //Get user permissions
                     ia_data.permissions = {};
                     if ($(".special-permissions").length) {
@@ -45,6 +44,8 @@
                         if(ia_data.live.test_machine && ia_data.live.example_query) {
                             ia_data.live.can_show = true;
                         }
+                    
+                        ia_data.edited_dev_milestone = ia_data.edited.dev_milestone;
                     }
 
                     // Allow blue band to get 100% page width
@@ -1524,7 +1525,7 @@
         updateData: function(ia_data, x, edited) {
             var edited_fields = 0;
             $.each(ia_data.live, function(key, value) {
-                if (edited && ia_data.edited && ia_data.edited[key] && (key !== "id")) {
+                if (edited && ia_data.edited && ia_data.edited[key] && (key !== "id") && (key !== "dev_milestone")) {
                     x[key] = ia_data.edited[key];
                     edited_fields++;
                 } else {
