@@ -539,6 +539,19 @@
                 </td>
             </tr>
         {{/not_null}}
+
+        {{#not_null blockgroup}}
+            <tr class="updates_list">
+                <th>Blockgroup</th>
+
+                <td name="blockgroup"  id="blockgroup_original">
+                    {{original.blockgroup}}
+                </td>
+                <td name="blockgroup">
+                    {{blockgroup}}
+                </td>
+            </tr>
+        {{/not_null}}
     </tbody>
 </table>
 
