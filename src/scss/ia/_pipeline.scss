@@ -358,8 +358,8 @@ textarea.edit-sidebar {
 	}
 
 	&.selected {
-	    background-color: lighten($blue-light, 30%);
-	    box-shadow: 0px 0px 0px 1px #60a5da;
+	    background-color: #EDF5FB;
+	    box-shadow: 0px 0px 0px 1px #B3D5EF;
 	}
 
 	&.on-hold {
@@ -377,7 +377,7 @@ textarea.edit-sidebar {
 	}
 
     &:hover { 
-	box-shadow: 0px 0px 0px 1px #60a5da;
+	box-shadow: 0px 0px 0px 1px #B3D5EF;
 
 	.invisible-link a {
 	    position: relative;
