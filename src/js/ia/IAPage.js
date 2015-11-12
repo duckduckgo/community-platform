@@ -850,6 +850,8 @@
 
                         if (field === "topic") {
                             page.appendTopics($(".available_topics"));
+                        } else if (field === "blockgroup") {
+                            page.appendBlockgroup($(".available_blockgroups"));
                         }
                     });
 
@@ -947,7 +949,7 @@
                                 console.log(value);
                             } else {
                                 var input;
-                                if (field === "dev_milestone" || field === "repo") {
+                                if (field === "dev_milestone" || field === "repo" || field === "blockgroup") {
                                      $input = $obj.find(".available_" + field + "s option:selected");
                                      value = $.trim($input.text());
                                 } else {
@@ -1654,7 +1656,6 @@
                     $(".ia-single--edits").append(templates.tab);
                     $(".ia-single--edits").append(templates.id);
                     $(".ia-single--edits").append(templates.blockgroup);
-
                 }
             }
 
