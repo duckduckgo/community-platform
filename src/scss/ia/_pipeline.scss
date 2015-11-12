@@ -211,6 +211,10 @@ textarea.edit-sidebar {
 	font-weight: 400;
     }
 
+    hr {
+	@include scaleX(2);
+    }
+    
     .sidebar-field {
         margin-top: 1em;
     }
