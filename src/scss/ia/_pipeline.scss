@@ -510,7 +510,7 @@ textarea.edit-sidebar {
 	    position: relative;
 	    padding-left: 0;
 	    text-transform: capitalize;
-	    color: transparent;
+	    opacity: 0; // For IE and Edge
 	}
 
 	&:after {
