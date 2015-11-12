@@ -183,7 +183,8 @@ textarea.edit-sidebar {
 }
 #page_sidebar {
     width: 395px;
-    overflow: auto;
+    overflow-x: hidden;
+    overflow-y: auto;
     margin-bottom: 13em;
 }
 
@@ -211,6 +212,10 @@ textarea.edit-sidebar {
 	font-weight: 400;
     }
 
+    hr {
+	@include scaleX(2);
+    }
+    
     .sidebar-field {
         margin-top: 1em;
     }
@@ -237,6 +242,7 @@ textarea.edit-sidebar {
     #sidebar-pr .comment {
         margin-bottom: 0;
         margin-top: 1em;
+	word-wrap: break-word;
 
         a { 
 	    color: $slate; 
@@ -385,17 +391,27 @@ textarea.edit-sidebar {
 		color: $blue;
 	    }
             
+	    @mixin pipeline_stamp() {
+		content: "\f0c1";
+		font-family: FontAwesome;
+		font-weight: normal;
+		font-style: normal;
+		text-decoration: inherit;
+		-webkit-font-smoothing: antialiased;
+		margin-left: 2px;
+		color: $blue;
+	    }
+
             /* Change content to match the repo. */
             &.pipeline__stamp {
+
+		&-:before {
+		    @include pipeline_stamp();
+		    margin-left: -3px;
+		}
+
                 &-spice:before,  &-goodies:before, &-fathead:before, &-longtail:before {
-                    content: "\f0c1";
-		    font-family: FontAwesome;
-		    font-weight: normal;
-		    font-style: normal;
-		    text-decoration: inherit;
-		    -webkit-font-smoothing: antialiased;
-		    margin-left: -2px;
-		    color: $blue;
+		    @include pipeline_stamp();
                 }
 
 		&-goodies:before {
