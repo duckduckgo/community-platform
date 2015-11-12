@@ -125,7 +125,8 @@
                         src_name : Handlebars.templates.pre_edit_src_name(ia_data),
                         src_domain : Handlebars.templates.pre_edit_src_domain(ia_data),
                         is_stackexchange : Handlebars.templates.pre_edit_is_stackexchange(ia_data),
-                        id : Handlebars.templates.pre_edit_id(ia_data)
+                        id : Handlebars.templates.pre_edit_id(ia_data),
+                        blockgroup: Handlebars.templates.pre_edit_blockgroup(ia_data)
                     };
 
                     page.updateAll(readonly_templates, ia_data, false);
@@ -1553,7 +1554,20 @@
             if ($obj.length) {
                 $obj.append($("#allowed_topics").html());
 
-                // Hide duplicated dropdown values
+                this.hideDupes($obj);
+            }
+        },
+
+        appendBlockgroup: function($obj) {
+            if ($obj.length) {
+                $obj.append($("#allowed_blockgroups").html());
+
+                this.hideDupes($obj);
+            }
+        },
+
+        // Hide duplicated dropdown values
+        hideDupes: function($obj) {
                 $obj.each(function(idx) {
                     $first_opt = $(this).find('option[value="0"]');
                     var opt_0 = $.trim($first_opt.text()) || '';
@@ -1569,7 +1583,6 @@
                         $first_opt.show();
                     }
                 });
-            }
         },
 
         hideAssignToMe: function() {
@@ -1640,6 +1653,8 @@
                     $(".ia-single--edits").append(templates.developer);
                     $(".ia-single--edits").append(templates.tab);
                     $(".ia-single--edits").append(templates.id);
+                    $(".ia-single--edits").append(templates.blockgroup);
+
                 }
             }
 

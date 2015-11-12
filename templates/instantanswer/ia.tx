@@ -7,6 +7,15 @@
     <: } :>
 </select>
 
+<select id="allowed_blockgroups" class="hide">
+    <option value=""> --- </option>
+    <: for $blockgroup_list -> $blockgroup { :>
+        <option value="<: $blockgroup.id :>">
+            <: $blockgroup.blockgroup :>
+        </option>
+    <: } :>
+</select>
+
 <div class="ia-single">
     <div class="ia-single__top nowrap" id="ia-single-top">
         <div class="content-wrap">

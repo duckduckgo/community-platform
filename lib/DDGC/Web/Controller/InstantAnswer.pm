@@ -643,6 +643,17 @@ sub ia_base :Chained('base') :PathPart('view') :CaptureArgs(1) {  # /ia/view/cal
                 my @edits = get_all_edits($c->d, $answer_id);
                 $can_commit = 1;
                 $commit_class = '' if @edits;
+
+                my @blockgroups = $c->d->rs('InstantAnswer::Blockgroup')->search(
+                    {},
+                    {
+                        columns => [ qw/ blockgroup id / ],
+                        order_by => [ qw / blockgroup / ],
+                        result_class => 'DBIx::Class::ResultClass::HashRefInflator',
+                    }
+                )->all;
+
+                $c->stash->{blockgroup_list} = \@blockgroups;
             }
         }
     }
