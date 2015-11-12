@@ -8,21 +8,16 @@
     export DDGC_REPO_JSON_S3URL='s3://ddg-community/metadata/repo_all.json.bz2'
 DDGC_REPO_BZIP2_OUT="$DDGC_REPO_JSON_OUT.bz2"
 
-CURL_CMD="
-    curl $DDGC_REPO_JSON_URL \
-    --create-dirs \
-    --output $DDGC_REPO_JSON_OUT \
-    --location \
-    --silent \
-"
-
-if [ -f $DDGC_REPO_JSON_OUT ] ; then
-    # Only re-download if-modified-since file's mtime
-    CURL_CMD="$CURL_CMD --time-cond $DDGC_REPO_JSON_OUT"
+LAST_MODIFIED_TIME=0
+if [ -f $DDGC_REPO_JSON_OUT ]
+then
+  LAST_MODIFIED_TIME=$(/usr/bin/stat --format=%Y $DDGC_REPO_JSON_OUT)
 fi
 
-$CURL_CMD
-if [ "$?" == "0" ] ; then
+perl -MLWP::Simple -e "mirror \"$DDGC_REPO_JSON_URL\", \"$DDGC_REPO_JSON_OUT\""
+NEW_MODIFIED_TIME=$(/usr/bin/stat --format=%Y $DDGC_REPO_JSON_OUT)
+
+if [ $NEW_MODIFIED_TIME -gt $LAST_MODIFIED_TIME ] ; then
     bzip2 --best --force --keep $DDGC_REPO_JSON_OUT
     [ "$?" == "0" ] && \
         s3cmd -P -m 'application/x-bzip2' --add-header='Content-Encoding: bzip2' --force put $DDGC_REPO_BZIP2_OUT $DDGC_REPO_JSON_S3URL > /dev/null
