@@ -18,13 +18,16 @@ use DDGC::Web::Service::ActivityFeed;
 use Plack::App::File;
 use Plack::Session::State::Cookie;
 use Plack::Session::Store::File;
+
 my $ddgc_home = '/home/' . (getpwuid($<))[0] . '/ddgc';
+my $ddgc_sessions = "$ddgc_home/sessions/";
+mkdir $ddgc_sessions unless -d $ddgc_sessions;
 
 builder {
     enable 'StackTrace', force => 1;
     enable 'Session',
         store => Plack::Session::Store::File->new(
-            dir => "$ddgc_home/sessions/"
+            dir => $ddgc_sessions,
         ),
         state => Plack::Session::State::Cookie->new(
             secure => 0,
