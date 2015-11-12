@@ -680,18 +680,7 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
 
     my $ia = $c->stash->{ia};
     my $edited;
-    my $today = DateTime->today();
-    my $month_ago = $today->clone->subtract( days => 30 )->date();
     my @issues = $c->d->rs('InstantAnswer::Issues')->search({instant_answer_id => $ia->id},{order_by => {'-desc' => 'date'}});
-    my $traffic_rs = $c->d->rs('InstantAnswer::Traffic')->search(
-        {
-            answer_id => $ia->meta_id, 
-            date => { '<' => $today->date()}, 
-            date => { '>' => $month_ago},
-            pixel_type => [{ '=' => 'iaoi'}]
-        });
-    
-    my $iaoi = $traffic_rs->get_array_by_pixel();
     my @ia_issues;
     my %pull_request;
     my @ia_pr;
@@ -701,7 +690,6 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
     my $dev_milestone = $ia->dev_milestone; 
 
     $ia_data{live} = $ia->TO_JSON;
-    $ia_data{live}->{traffic} = $iaoi;
 
     my $ua = LWP::UserAgent->new;
     my $server = "http://beta.duckduckgo.com/installed.json";
@@ -766,6 +754,28 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
         if (($is_admin || $permissions) && ($ia->dev_milestone eq 'live' || $ia->dev_milestone eq 'deprecated')) {
             $edited = current_ia($c->d, $ia);
             $ia_data{edited} = $edited;
+            my $is_dev = 0;
+
+            foreach my $dev (@{$ia_data{live}->{developer}}) {
+                if ($dev->{name} eq $c->user->username) {
+                    $is_dev = 1;
+                }
+            }
+            
+            if ($is_dev || $is_admin) {
+                my $today = DateTime->today();
+                my $month_ago = $today->clone->subtract( days => 30 )->date();
+                my $traffic_rs = $c->d->rs('InstantAnswer::Traffic')->search(
+                    {
+                        answer_id => $ia->meta_id, 
+                        date => { '<' => $today->date()}, 
+                        date => { '>' => $month_ago},
+                        pixel_type => [{ '=' => 'iaoi'}]
+                    });
+                
+                my $iaoi = $traffic_rs->get_array_by_pixel();
+                $ia_data{live}->{traffic} = $iaoi;
+            }
         }
     }
 

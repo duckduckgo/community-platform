@@ -1605,22 +1605,24 @@
                     }
                 }
 
-                $("#ia_traffic").highcharts({
-                    title: {
-                        text: "Traffic Data"
-                    },
-                    xAxis: {
-                        categories: ia_data.live.traffic.dates
-                    },
-                    yAxis: {
+                if (ia_data.live.hasOwnProperty("traffic") && ia_data.live.traffic) {
+                    $("#ia_traffic").highcharts({
                         title: {
-                            text: "Counts"
-                        }
-                    },
-                    series: [{
-                        data: ia_data.live.traffic.counts
-                    }]
-                });
+                            text: "Traffic Data"
+                        },
+                        xAxis: {
+                            categories: ia_data.live.traffic.dates
+                        },
+                        yAxis: {
+                            title: {
+                                text: "Counts"
+                            }
+                        },
+                        series: [{
+                            data: ia_data.live.traffic.counts
+                        }]
+                    });
+                }
 
                 $(".ia-single--right").append(templates.live.devinfo);
 
