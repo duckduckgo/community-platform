@@ -12,7 +12,6 @@
         : }
     </script>
 	<script src="/static/js/ia<: $js_version :>.js" type="text/javascript"></script>
-    <script src="/static/js/highcharts.js" type="text/javascript"></script>
 : }
 
 : if $duckduckhack {
