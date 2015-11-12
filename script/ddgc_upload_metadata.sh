@@ -25,8 +25,5 @@ $CURL_CMD
 if [ "$?" == "0" ] ; then
     bzip2 --best --force --keep $DDGC_REPO_JSON_OUT
     [ "$?" == "0" ] && \
-        s3cmd put --force $DDGC_REPO_BZIP2_OUT $DDGC_REPO_JSON_S3URL > /dev/null
-    [ "$?" == "0" ] && \
-        s3cmd setacl --acl-public $DDGC_REPO_JSON_S3URL > /dev/null
+        s3cmd -P -m 'application/x-bzip2' --add-header='Content-Encoding: bzip2' --force put $DDGC_REPO_BZIP2_OUT $DDGC_REPO_JSON_S3URL > /dev/null
 fi
-
