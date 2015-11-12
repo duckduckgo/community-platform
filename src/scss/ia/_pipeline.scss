@@ -391,17 +391,28 @@ textarea.edit-sidebar {
 		color: $blue;
 	    }
             
+	    @mixin pipeline_stamp() {
+		content: "\f0c1";
+		font-family: FontAwesome;
+		font-weight: normal;
+		font-style: normal;
+		text-decoration: inherit;
+		-webkit-font-smoothing: antialiased;
+		margin-left: 2px;
+		color: $blue;
+	    }
+
             /* Change content to match the repo. */
             &.pipeline__stamp {
+
+
+		&:before {
+		    @include pipeline_stamp();
+		    margin-left: -3px;
+		}
+
                 &-spice:before,  &-goodies:before, &-fathead:before, &-longtail:before {
-                    content: "\f0c1";
-		    font-family: FontAwesome;
-		    font-weight: normal;
-		    font-style: normal;
-		    text-decoration: inherit;
-		    -webkit-font-smoothing: antialiased;
-		    margin-left: -2px;
-		    color: $blue;
+		    @include pipeline_stamp();
                 }
 
 		&-goodies:before {
