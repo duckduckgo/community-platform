@@ -1606,22 +1606,23 @@
                 }
 
                 if (ia_data.live.hasOwnProperty("traffic") && ia_data.live.traffic) {
-                    $("#ia_traffic").highcharts({
-                        title: {
-                            text: "Traffic Data"
-                        },
-                        xAxis: {
-                            categories: ia_data.live.traffic.dates
-                        },
-                        yAxis: {
-                            title: {
-                                text: "Counts"
+                    var traffic = $("#ia_traffic").get(0).getContext("2d");
+                    var chart_data = {
+                        labels: ia_data.live.traffic.dates,
+                        datasets: [
+                            {
+                                label: "Last 30 days traffic",
+                                fillColor: "#60a5da",
+                                strokeColor: "#4495d4",
+                                pointColor: "#4495d4",
+                                pointStrokeColor: "#fff",
+                                pointHighlightFill: "#fff",
+                                pointHighlightStroke: "#4495d4",
+                                data: ia_data.live.traffic.counts
                             }
-                        },
-                        series: [{
-                            data: ia_data.live.traffic.counts
-                        }]
-                    });
+                        ]
+                    };
+                    var chart = new Chart(traffic).Line(chart_data);
                 }
 
                 $(".ia-single--right").append(templates.live.devinfo);

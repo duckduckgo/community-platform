@@ -4,6 +4,7 @@ module.exports = function(grunt) {
     var templates_dir = 'src/templates/';
 
     var moment = 'bower_components/moment/moment.js';
+    var charts = 'bower_components/Chart.js/Chart.min.js';
 
     // tasks that run after diff
     // to release a new version
@@ -76,7 +77,7 @@ module.exports = function(grunt) {
          */
         concat: {
             ia_pages: {
-                src: [templates_dir + 'handlebars_tmp', ia_page_js, moment],
+                src: [templates_dir + 'handlebars_tmp', ia_page_js, moment, charts],
                 dest: static_dir + 'js/ia.js'
             },
             ddgc_pages: {
