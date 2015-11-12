@@ -405,8 +405,7 @@ textarea.edit-sidebar {
             /* Change content to match the repo. */
             &.pipeline__stamp {
 
-
-		&:before {
+		&-:before {
 		    @include pipeline_stamp();
 		    margin-left: -3px;
 		}
