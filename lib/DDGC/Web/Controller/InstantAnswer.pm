@@ -757,6 +757,7 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
             my $is_dev = 0;
 
             foreach my $dev (@{$ia_data{live}->{developer}}) {
+                $dev->{name} =~ s/.*\/([^\/]*)$/$1/;
                 if ($dev->{name} eq $c->user->username) {
                     $is_dev = 1;
                 }
