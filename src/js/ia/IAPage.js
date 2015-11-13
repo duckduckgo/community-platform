@@ -125,7 +125,9 @@
                         src_name : Handlebars.templates.pre_edit_src_name(ia_data),
                         src_domain : Handlebars.templates.pre_edit_src_domain(ia_data),
                         is_stackexchange : Handlebars.templates.pre_edit_is_stackexchange(ia_data),
-                        id : Handlebars.templates.pre_edit_id(ia_data)
+                        id : Handlebars.templates.pre_edit_id(ia_data),
+                        blockgroup: Handlebars.templates.pre_edit_blockgroup(ia_data),
+                        deployment_state: Handlebars.templates.pre_edit_deployment_state(ia_data)
                     };
 
                     page.updateAll(readonly_templates, ia_data, false);
@@ -849,6 +851,8 @@
 
                         if (field === "topic") {
                             page.appendTopics($(".available_topics"));
+                        } else if (field === "blockgroup") {
+                            page.appendBlockgroup($(".available_blockgroups"));
                         }
                     });
 
@@ -946,9 +950,11 @@
                                 console.log(value);
                             } else {
                                 var input;
-                                if (field === "dev_milestone" || field === "repo") {
+                                if (field === "dev_milestone" || field === "repo" || field === "blockgroup" || field === "deployment_state") {
                                      $input = $obj.find(".available_" + field + "s option:selected");
                                      value = $.trim($input.text());
+                                     value = (value === "---")? null : value;
+                                     console.log(value);
                                 } else {
                                     $input = $obj.find("input.js-input,#description textarea");
                                     value = $.trim($input.val());
@@ -1449,7 +1455,9 @@
                             autocommit: 0
                         })
                         .done(function(data) {
-                            if (data.result && data.result[field]) {
+                            console.log(data);
+                            if (data.result && data.result.staged) {
+                                console.log(data.result);
                                 if (data.result.is_admin) {
                                     if ($("#view_commits").hasClass("hide")) {
                                         $("#view_commits").removeClass("hide");
@@ -1553,7 +1561,20 @@
             if ($obj.length) {
                 $obj.append($("#allowed_topics").html());
 
-                // Hide duplicated dropdown values
+                this.hideDupes($obj);
+            }
+        },
+
+        appendBlockgroup: function($obj) {
+            if ($obj.length) {
+                $obj.append($("#allowed_blockgroups").html());
+
+                this.hideDupes($obj);
+            }
+        },
+
+        // Hide duplicated dropdown values
+        hideDupes: function($obj) {
                 $obj.each(function(idx) {
                     $first_opt = $(this).find('option[value="0"]');
                     var opt_0 = $.trim($first_opt.text()) || '';
@@ -1569,7 +1590,6 @@
                         $first_opt.show();
                     }
                 });
-            }
         },
 
         hideAssignToMe: function() {
@@ -1640,6 +1660,8 @@
                     $(".ia-single--edits").append(templates.developer);
                     $(".ia-single--edits").append(templates.tab);
                     $(".ia-single--edits").append(templates.id);
+                    $(".ia-single--edits").append(templates.blockgroup);
+                    $(".ia-single--edits").append(templates.deployment_state);
                 }
             }
 

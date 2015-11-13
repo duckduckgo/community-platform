@@ -643,6 +643,17 @@ sub ia_base :Chained('base') :PathPart('view') :CaptureArgs(1) {  # /ia/view/cal
                 my @edits = get_all_edits($c->d, $answer_id);
                 $can_commit = 1;
                 $commit_class = '' if @edits;
+
+                my @blockgroups = $c->d->rs('InstantAnswer::Blockgroup')->search(
+                    {},
+                    {
+                        columns => [ qw/ blockgroup id / ],
+                        order_by => [ qw / blockgroup / ],
+                        result_class => 'DBIx::Class::ResultClass::HashRefInflator',
+                    }
+                )->all;
+
+                $c->stash->{blockgroup_list} = \@blockgroups;
             }
         }
     }
@@ -1085,6 +1096,7 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
             }
 
             my $edits = add_edit($c, $ia,  $field, $value);
+            my $staged = defined $edits? 1 : 0;
 
             if($autocommit){
                 my $params = $c->req->params;
@@ -1120,7 +1132,7 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
                 $field = "id";
             }
 
-            $result = {$field => $value, is_admin => $is_admin, saved => $saved};
+            $result = {$field => $value, is_admin => $is_admin, saved => $saved, staged => $staged};
         }
     }
 
