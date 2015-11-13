@@ -954,6 +954,7 @@
                                      $input = $obj.find(".available_" + field + "s option:selected");
                                      value = $.trim($input.text());
                                      value = (value === "---")? null : value;
+                                     console.log(value);
                                 } else {
                                     $input = $obj.find("input.js-input,#description textarea");
                                     value = $.trim($input.val());
@@ -1454,7 +1455,8 @@
                             autocommit: 0
                         })
                         .done(function(data) {
-                            if (data.result && data.result[field]) {
+                            console.log(data);
+                            if (data.result && data.result.staged) {
                                 console.log(data.result);
                                 if (data.result.is_admin) {
                                     if ($("#view_commits").hasClass("hide")) {

@@ -1096,6 +1096,7 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
             }
 
             my $edits = add_edit($c, $ia,  $field, $value);
+            my $staged = $edits? 1 : 0;
 
             if($autocommit){
                 my $params = $c->req->params;
@@ -1131,7 +1132,7 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
                 $field = "id";
             }
 
-            $result = {$field => $value, is_admin => $is_admin, saved => $saved};
+            $result = {$field => $value, is_admin => $is_admin, saved => $saved, staged => $staged};
         }
     }
 
