@@ -1096,7 +1096,7 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
             }
 
             my $edits = add_edit($c, $ia,  $field, $value);
-            my $staged = $edits? 1 : 0;
+            my $staged = defined $edits? 1 : 0;
 
             if($autocommit){
                 my $params = $c->req->params;

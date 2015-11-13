@@ -87,6 +87,8 @@
 
                                     if (temp_field === "src_id") {
                                         temp_value = parseInt(temp_value);
+                                    } else if ((temp_field === "blockgroup" || temp_field === "deployment_state") && temp_value === "") {
+                                        temp_value = null;
                                     }
                                 }
                                 

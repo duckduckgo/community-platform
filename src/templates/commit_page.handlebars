@@ -540,7 +540,7 @@
             </tr>
         {{/not_null}}
 
-        {{#not_null blockgroup}}
+        {{#not_eq blockgroup original.blockgroup}}
             <tr class="updates_list">
                 <th>Blockgroup</th>
 
@@ -551,7 +551,20 @@
                     {{blockgroup}}
                 </td>
             </tr>
-        {{/not_null}}
+        {{/not_eq}}
+
+        {{#not_eq deployment_state original.deployment_state}}
+            <tr class="updates_list">
+                <th>Deployment State</th>
+
+                <td name="deployment_statee"  id="deployment_state_original">
+                    {{original.deployment_state}}
+                </td>
+                <td name="deployment_state">
+                    {{deployment_state}}
+                </td>
+            </tr>
+        {{/not_eq}}
     </tbody>
 </table>
 
