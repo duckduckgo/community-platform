@@ -12,8 +12,8 @@ module.exports = function(grunt) {
         'build',
         'cssmin:ddgc_css',
         'cssmin:ia_css',
-        'removelogging',
         'uglify:js',
+        'removelogging',
         'remove:dev',
         'bump:minor',
     ];
