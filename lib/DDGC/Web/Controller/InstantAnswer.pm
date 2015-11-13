@@ -5,6 +5,7 @@ use namespace::autoclean;
 use Try::Tiny;
 use Time::Local;
 use JSON;
+use JSON::MaybeXS ':all';
 use Net::GitHub::V3;
 use DateTime;
 use LWP::UserAgent;
@@ -50,7 +51,9 @@ sub index :Chained('base') :PathPart('') :Args(0) {
     $c->stash->{topic_list} = \@topics;
     $c->add_bc('Instant Answers', $c->chained_uri('InstantAnswer','index'));
 
-    # @{$c->stash->{ialist}} = $c->d->rs('InstantAnswer')->all();
+    $c->stash->{ia_init} = encode_json(
+        $c->d->rs('InstantAnswer')->ia_index_hri
+    );
 }
 
 sub ialist_json :Chained('base') :PathPart('json') :Args() {

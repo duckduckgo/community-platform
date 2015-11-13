@@ -328,8 +328,11 @@ sub return_if_not_modified {
 	$c->response->header(
 		'Last-Modified' => "$dt",
 	);
+	return if !$if_modified_since;
 
-	if ( $if_modified_since eq "$dt" ) {
+	my $if_modified_since_dt = DateTime::Format::HTTP->parse_datetime( $if_modified_since );
+
+	if ( DateTime->compare( $dt, $if_modified_since_dt ) <= 0 ) {
 		$c->response->headers->remove_header($_)
 		    for ( qw/ Content-Type Content-Length Content-Disposition / );
 		$c->response->status('304');

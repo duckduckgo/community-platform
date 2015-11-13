@@ -258,7 +258,7 @@ sub is {
 	$role = normalise_role( $role );
 	return 1 if ( $role eq 'user' );
 	return 1 if $self->roles->find({ role => $self->ddgc->config->id_for_role('admin') });
-	return $self->roles->find({ role => $self->ddgc->config->id_for_role( $role ) });
+	return ( $self->roles->find({ role => $self->ddgc->config->id_for_role( $role ) }) ) ? 1 : 0;
 }
 
 sub add_role {

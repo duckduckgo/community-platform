@@ -14,6 +14,14 @@ sub _build_subscriptions {
     $_[0]->app->config->{ddgc_config}->subscriptions;
 }
 
+sub _find_ia_sub {
+    my ( $self, $ia_id ) = @_;
+
+    $self->subscriptions->search(
+        $self->subscription_types->ia_page( $ia_id ),
+    )->one_row;
+}
+
 sub subscribe_to_instant_answer {
     my ( $self, $ia_id ) = @_;
 
@@ -27,11 +35,17 @@ sub unsubscribe_from_instant_answer {
     my ( $self, $ia_id ) = @_;
 
     return 0 if ( !$ia_id );
-    my $sub = $self->subscriptions->search(
-        $self->subscription_types->ia_page( $ia_id ),
-    )->one_row;
+    my $sub = $self->_find_ia_sub( $ia_id );
     return 0 if ( !$sub );
-    return $sub->delete;
+
+    $sub->delete;
+}
+
+sub is_subscribed_to_instant_answer {
+    my ( $self, $ia_id ) = @_;
+
+    return 0 if ( !$ia_id );
+    return ( $self->_find_ia_sub( $ia_id ) ) ? 1 : 0;
 }
 
 1;
