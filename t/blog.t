@@ -42,13 +42,13 @@ test_psgi $app => sub {
     # Create user, get session cookie
     my $user_request = $cb->(
         POST '/testutils/new_user',
-        { username => 'adminuser', role => 'admin' }
+        { username => 'blogadminuser', role => 'admin' }
     );
     ok( $user_request->is_success, 'Creating an admin user' );
 
     my $session_request = $cb->(
         POST '/testutils/user_session',
-        { username => 'adminuser' }
+        { username => 'blogadminuser' }
     );
     ok( $session_request->is_success, 'Getting admin user Cookie' );
     my $admin_cookie_header = 'ddgc_session=' . $session_request->content;
