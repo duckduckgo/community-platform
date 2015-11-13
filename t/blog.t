@@ -11,6 +11,8 @@ use HTTP::Request::Common;
 use Plack::Test;
 use Plack::Builder;
 use Plack::Session::State::Cookie;
+use Plack::Session::Store::File;
+use File::Temp qw/ tempdir /;
 use JSON::MaybeXS qw/:all/;
 
 use DDGC::Web::App::Blog;
@@ -20,7 +22,9 @@ use DDGC::Web::Service::Blog;
 
 my $app = builder {
     enable 'Session',
-        store => 'File',
+        store => Plack::Session::Store::File->new(
+            dir => tempdir,
+        ),
         state => Plack::Session::State::Cookie->new(
             secure => 0,
             httponly => 1,
