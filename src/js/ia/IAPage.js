@@ -126,7 +126,8 @@
                         src_domain : Handlebars.templates.pre_edit_src_domain(ia_data),
                         is_stackexchange : Handlebars.templates.pre_edit_is_stackexchange(ia_data),
                         id : Handlebars.templates.pre_edit_id(ia_data),
-                        blockgroup: Handlebars.templates.pre_edit_blockgroup(ia_data)
+                        blockgroup: Handlebars.templates.pre_edit_blockgroup(ia_data),
+                        deployment_state: Handlebars.templates.pre_edit_deployment_state(ia_data)
                     };
 
                     page.updateAll(readonly_templates, ia_data, false);
@@ -949,9 +950,10 @@
                                 console.log(value);
                             } else {
                                 var input;
-                                if (field === "dev_milestone" || field === "repo" || field === "blockgroup") {
+                                if (field === "dev_milestone" || field === "repo" || field === "blockgroup" || field === "deployment_state") {
                                      $input = $obj.find(".available_" + field + "s option:selected");
                                      value = $.trim($input.text());
+                                     value = (value === "---")? null : value;
                                 } else {
                                     $input = $obj.find("input.js-input,#description textarea");
                                     value = $.trim($input.val());
@@ -1453,6 +1455,7 @@
                         })
                         .done(function(data) {
                             if (data.result && data.result[field]) {
+                                console.log(data.result);
                                 if (data.result.is_admin) {
                                     if ($("#view_commits").hasClass("hide")) {
                                         $("#view_commits").removeClass("hide");
@@ -1656,6 +1659,7 @@
                     $(".ia-single--edits").append(templates.tab);
                     $(".ia-single--edits").append(templates.id);
                     $(".ia-single--edits").append(templates.blockgroup);
+                    $(".ia-single--edits").append(templates.deployment_state);
                 }
             }
 
