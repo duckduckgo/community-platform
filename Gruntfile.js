@@ -14,6 +14,7 @@ module.exports = function(grunt) {
         'cssmin:ia_css',
         'removelogging',
         'uglify:js',
+	'concat:charts',
         'remove:dev',
         'bump:minor',
     ];
@@ -29,7 +30,11 @@ module.exports = function(grunt) {
         'exec:deleteBuildFiles',
         'handlebars:compile',
         'compass',
-        'concat',
+        'concat:ia_pages',
+	'concat:ddgc_pages',
+	'concat:ia_css',
+	'concat:ddgc_css',
+	'concat:content_css',
         'jshint'
     ];
 
@@ -64,7 +69,7 @@ module.exports = function(grunt) {
                     groups: {
                         'Utils:': ['watch'],
                         'Build:' : ['handlebars', 'concat'],
-                        'Release:' : ['handlebars', 'concat', 'cssmin', 'removelogging', 'uglify', 'remove:dev', 'version'],
+                        'Release:' : ['handlebars', 'concat', 'cssmin', 'removelogging', 'uglify', 'concatCharts', 'remove:dev', 'version'],
                         'Commit:' : ['gitcommit'],
                         'Revert:' : ['exec:revert']
                     }
@@ -77,7 +82,7 @@ module.exports = function(grunt) {
          */
         concat: {
             ia_pages: {
-                src: [templates_dir + 'handlebars_tmp', ia_page_js, moment, charts],
+                src: [templates_dir + 'handlebars_tmp', ia_page_js, moment],
                 dest: static_dir + 'js/ia.js'
             },
             ddgc_pages: {
@@ -95,6 +100,10 @@ module.exports = function(grunt) {
             content_css: {
                 src: 'build/content/main.css',
                 dest: static_dir + 'css/content.css'
+            },
+	    charts: {
+                src: [static_dir + 'js/ia.js', charts],
+                dest: '<%= static_dir + "js/ia" +  pkg.version %>.js'
             }
         },
 
