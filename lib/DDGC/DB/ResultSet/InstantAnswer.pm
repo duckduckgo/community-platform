@@ -13,10 +13,15 @@ sub ia_index_hri {
         },
         {
             prefetch => { instant_answer_topics => 'topic' },
-            columns => [
+            'select' => [
                 qw/ name repo src_name
                     dev_milestone description
-                    template id meta_id
+                    template meta_id
+                /, ],
+             'as' => [
+                qw/ name repo src_name
+                    dev_milestone description
+                    template id
                 /, ],
             collapse => 1,
         },
