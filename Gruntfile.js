@@ -14,7 +14,7 @@ module.exports = function(grunt) {
         'cssmin:ia_css',
         'removelogging',
         'uglify:js',
-	'concat:charts',
+	'concat:libs_release',
         'remove:dev',
         'bump:minor',
     ];
@@ -35,6 +35,7 @@ module.exports = function(grunt) {
 	'concat:ia_css',
 	'concat:ddgc_css',
 	'concat:content_css',
+	'concat:libs_build',
         'jshint'
     ];
 
@@ -82,7 +83,7 @@ module.exports = function(grunt) {
          */
         concat: {
             ia_pages: {
-                src: [templates_dir + 'handlebars_tmp', ia_page_js, moment],
+                src: [templates_dir + 'handlebars_tmp', ia_page_js],
                 dest: static_dir + 'js/ia.js'
             },
             ddgc_pages: {
@@ -101,8 +102,12 @@ module.exports = function(grunt) {
                 src: 'build/content/main.css',
                 dest: static_dir + 'css/content.css'
             },
-	    charts: {
-                src: [static_dir + 'js/ia.js', charts],
+	    libs_build: {
+		src: [static_dir + 'js/ia.js', moment, charts],
+		dest: static_dir + 'js/ia.js'
+	    },
+	    libs_release: {
+                src: [static_dir + 'js/ia.js', moment, charts],
                 dest: '<%= static_dir + "js/ia" +  pkg.version %>.js'
             }
         },
