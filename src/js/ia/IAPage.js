@@ -93,7 +93,8 @@
                             breadcrumbs: Handlebars.templates.breadcrumbs(latest_edits_data),
                             triggers: Handlebars.templates.triggers(latest_edits_data),
                             test: Handlebars.templates.test(latest_edits_data),
-                            advanced:  Handlebars.templates.advanced(latest_edits_data)
+                            advanced:  Handlebars.templates.advanced(latest_edits_data),
+                            traffic: Handlebars.templates.traffic(latest_edits_data)
                         },
                         screens : Handlebars.templates.screens(ia_data),
                     };
@@ -1493,7 +1494,8 @@
             'github',
             'triggers',
             'advanced',
-            'test'
+            'test',
+            'traffic'
         ],
 
         edit_field_order: [
@@ -1622,6 +1624,26 @@
                     if (this.field_order[i] === "examples") {
                         $(".ia-single--left").append(templates.screens);
                     }
+                }
+
+                if (ia_data.live.hasOwnProperty("traffic") && ia_data.live.traffic) {
+                    var traffic = $("#ia_traffic").get(0).getContext("2d");
+                    var chart_data = {
+                        labels: ia_data.live.traffic.dates,
+                        datasets: [
+                            {
+                                label: "Last 30 days traffic",
+                                fillColor: "#60a5da",
+                                strokeColor: "#4495d4",
+                                pointColor: "#4495d4",
+                                pointStrokeColor: "#fff",
+                                pointHighlightFill: "#fff",
+                                pointHighlightStroke: "#4495d4",
+                                data: ia_data.live.traffic.counts
+                            }
+                        ]
+                    };
+                    var chart = new Chart(traffic).Line(chart_data);
                 }
 
                 $(".ia-single--right").append(templates.live.devinfo);
