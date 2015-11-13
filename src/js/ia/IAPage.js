@@ -1494,8 +1494,7 @@
             'github',
             'triggers',
             'advanced',
-            'test',
-            'traffic'
+            'test'
         ],
 
         edit_field_order: [
@@ -1626,6 +1625,7 @@
                     }
                 }
 
+                /*
                 if (ia_data.live.hasOwnProperty("traffic") && ia_data.live.traffic) {
                     var traffic = $("#ia_traffic").get(0).getContext("2d");
                     var chart_data = {
@@ -1645,6 +1645,7 @@
                     };
                     var chart = new Chart(traffic).Line(chart_data);
                 }
+                */
 
                 $(".ia-single--right").append(templates.live.devinfo);
 
