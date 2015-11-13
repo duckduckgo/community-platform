@@ -3,18 +3,22 @@ module.exports = function(grunt) {
     var static_dir = 'root/static/';
     var templates_dir = 'src/templates/';
 
-    var moment = 'bower_components/moment/min/moment.min.js';
+    var moment = 'bower_components/moment/moment.js';
     var charts = 'bower_components/Chart.js/Chart.min.js';
 
     // tasks that run after diff
     // to release a new version
     var release_tasks = [
-        'build_release',
+        'exec:bower',
+        'exec:deleteBuildFiles',
+        'handlebars:compile',
+        'compass',
+        'removelogging',
+        'concat',
+        'jshint',
         'cssmin:ddgc_css',
         'cssmin:ia_css',
-        'removelogging',
         'uglify:js',
-	'concat:libs_release',
         'remove:dev',
         'bump:minor',
     ];
@@ -30,25 +34,7 @@ module.exports = function(grunt) {
         'exec:deleteBuildFiles',
         'handlebars:compile',
         'compass',
-        'concat:ia_pages',
-	'concat:ddgc_pages',
-	'concat:ia_css',
-	'concat:ddgc_css',
-	'concat:content_css',
-	'concat:libs_build',
-        'jshint'
-    ];
-
-    var build_tasks_release = [
-        'exec:bower',
-        'exec:deleteBuildFiles',
-        'handlebars:compile',
-        'compass',
-        'concat:ia_pages',
-        'concat:ddgc_pages',
-        'concat:ia_css',
-        'concat:ddgc_css',
-        'concat:content_css',
+        'concat',
         'jshint'
     ];
 
@@ -96,7 +82,7 @@ module.exports = function(grunt) {
          */
         concat: {
             ia_pages: {
-                src: [templates_dir + 'handlebars_tmp', ia_page_js],
+                src: [templates_dir + 'handlebars_tmp', ia_page_js, moment, charts],
                 dest: static_dir + 'js/ia.js'
             },
             ddgc_pages: {
@@ -114,14 +100,6 @@ module.exports = function(grunt) {
             content_css: {
                 src: 'build/content/main.css',
                 dest: static_dir + 'css/content.css'
-            },
-	    libs_build: {
-		src: [static_dir + 'js/ia.js', moment, charts],
-		dest: static_dir + 'js/ia.js'
-	    },
-	    libs_release: {
-                src: [static_dir + 'js/ia.js', moment, charts],
-                dest: '<%= static_dir + "js/ia" +  pkg.version %>.js'
             }
         },
 
@@ -211,7 +189,7 @@ module.exports = function(grunt) {
          */
         removelogging: {
             dist: {
-                src: static_dir + 'js/ia.js'
+                src: ia_page_js
             }
         },
 
@@ -303,7 +281,6 @@ module.exports = function(grunt) {
         // compile handlebars and concat js files
         // to ia.js
         grunt.registerTask('build', 'compiles templates, builds JS and CSS files', build_tasks);
-        grunt.registerTask('build_release', 'compiles templates, builds JS and CSS files', build_tasks_release);
 
         // commit files to the repo for release
         grunt.registerTask('commit', 'commit the versioned files to the repo, still needs to be manually pushed', commit_tasks);
