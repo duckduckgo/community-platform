@@ -2,12 +2,12 @@
 use FindBin;
 use lib $FindBin::Dir . "/../lib";
 use strict;
-use warnings;
 use Data::Dumper;
 use DDGC;
 use IO::All;
 use File::Find::Rule;
 use Try::Tiny;
+use Cwd 'getcwd';
 
 my $d = DDGC->new;
 
@@ -19,8 +19,8 @@ my $update = sub {
 
     my ($file) = File::Find::Rule
         ->file
-        ->name("*.sql")
-        ->in('/home/ddgc/community-platform/script');
+        ->name("statistics*.sql")
+        ->in( getcwd($0) );
 
     # process data from s3 and add to traffic db
     my @lines = io($file)->slurp;
@@ -49,12 +49,15 @@ my $update = sub {
 
     system(qq(psql -U ddgc -f traffic.sql) );
 
+    unlink 'traffic.sql';
+    unlink $file;
 };
 
 try{
     $d->db->txn_do( $update );
 } catch {
     print "Update error, rolling back\n";
+    warn $_;
     $d->errorlog("Error updating iameta, Rolling back update: $_");
 };
 
