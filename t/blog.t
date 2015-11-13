@@ -11,10 +11,12 @@ use HTTP::Request::Common;
 use Plack::Test;
 use Plack::Builder;
 use Plack::Session::State::Cookie;
-use JSON;
+use JSON::MaybeXS qw/:all/;
 
 use DDGC::Web::App::Blog;
 use DDGC::Web::Service::Blog;
+
+
 
 my $app = builder {
     enable 'Session',
@@ -48,14 +50,13 @@ test_psgi $app => sub {
     my $admin_cookie_header = 'ddgc_session=' . $session_request->content;
 
     # Posting
-    my $blog_post = JSON::to_json({
+    my $blog_post = encode_json({
         title       => 'A blog post',
         uri         => 'a-blog-post',
         teaser      => 'This is a blog post karble warble snarble',
         content     => 'This is a blog post',
         topics      => [qw/blogs posts this/],
-    },
-    { utf8 => 1 });
+    });
 
     my $new_post_request = $cb->(
         POST '/blog.json/admin/post/new',
