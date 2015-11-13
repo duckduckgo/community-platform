@@ -120,7 +120,7 @@ module.exports = function(grunt) {
 		dest: static_dir + 'js/ia.js'
 	    },
 	    libs_release: {
-                src: [static_dir + 'js/ia.js', moment, charts],
+                src: ['<%= static_dir + "js/ia" +  pkg.version %>.js', moment, charts],
                 dest: '<%= static_dir + "js/ia" +  pkg.version %>.js'
             }
         },
