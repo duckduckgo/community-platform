@@ -539,6 +539,32 @@
                 </td>
             </tr>
         {{/not_null}}
+
+        {{#exists this 'blockgroup'}}
+            <tr class="updates_list">
+                <th>Blockgroup</th>
+
+                <td name="blockgroup"  id="blockgroup_original">
+                    {{original.blockgroup}}
+                </td>
+                <td name="blockgroup">
+                    {{blockgroup}}
+                </td>
+            </tr>
+        {{/exists}}
+
+        {{#exists this 'deployment_state'}}
+            <tr class="updates_list">
+                <th>Deployment State</th>
+
+                <td name="deployment_statee"  id="deployment_state_original">
+                    {{original.deployment_state}}
+                </td>
+                <td name="deployment_state">
+                    {{deployment_state}}
+                </td>
+            </tr>
+        {{/exists}}
     </tbody>
 </table>
 

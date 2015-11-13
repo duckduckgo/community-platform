@@ -1,0 +1,14 @@
+<div class="column-right-edits left" id="column-edits-deployment_state">
+    <div class="column-right-edits__child js-editable" id="deployment_state" deployment_state="deployment_state">
+        <div class="ia_deployment_state left">
+            <span class="editable left" name="deployment_state">
+                <select class="available_deployment_states" tabindex="-1">
+                    <option value="0">{{deployment_state}}</option>
+                    {{#if deployment_state}}<option value="1"> --- </option>{{/if}}
+                    {{#not_eq deployment_state 'live'}}<option value="2">live</option>{{/not_eq}}
+                </select>
+            </span>
+        </div>
+    </div>
+</div>
+

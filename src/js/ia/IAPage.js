@@ -27,7 +27,6 @@
                 //console.log("for ia id '%s'", DDH_iaid);
 
                 $.getJSON(json_url, function(ia_data) {
-
                     //Get user permissions
                     ia_data.permissions = {};
                     if ($(".special-permissions").length) {
@@ -45,6 +44,8 @@
                         if(ia_data.live.test_machine && ia_data.live.example_query) {
                             ia_data.live.can_show = true;
                         }
+                    
+                        ia_data.edited_dev_milestone = ia_data.edited.dev_milestone;
                     }
 
                     // Allow blue band to get 100% page width
@@ -92,7 +93,8 @@
                             breadcrumbs: Handlebars.templates.breadcrumbs(latest_edits_data),
                             triggers: Handlebars.templates.triggers(latest_edits_data),
                             test: Handlebars.templates.test(latest_edits_data),
-                            advanced:  Handlebars.templates.advanced(latest_edits_data)
+                            advanced:  Handlebars.templates.advanced(latest_edits_data),
+                            traffic: Handlebars.templates.traffic(latest_edits_data)
                         },
                         screens : Handlebars.templates.screens(ia_data),
                     };
@@ -124,7 +126,9 @@
                         src_name : Handlebars.templates.pre_edit_src_name(ia_data),
                         src_domain : Handlebars.templates.pre_edit_src_domain(ia_data),
                         is_stackexchange : Handlebars.templates.pre_edit_is_stackexchange(ia_data),
-                        id : Handlebars.templates.pre_edit_id(ia_data)
+                        id : Handlebars.templates.pre_edit_id(ia_data),
+                        blockgroup: Handlebars.templates.pre_edit_blockgroup(ia_data),
+                        deployment_state: Handlebars.templates.pre_edit_deployment_state(ia_data)
                     };
 
                     page.updateAll(readonly_templates, ia_data, false);
@@ -848,6 +852,8 @@
 
                         if (field === "topic") {
                             page.appendTopics($(".available_topics"));
+                        } else if (field === "blockgroup") {
+                            page.appendBlockgroup($(".available_blockgroups"));
                         }
                     });
 
@@ -945,9 +951,11 @@
                                 console.log(value);
                             } else {
                                 var input;
-                                if (field === "dev_milestone" || field === "repo") {
+                                if (field === "dev_milestone" || field === "repo" || field === "blockgroup" || field === "deployment_state") {
                                      $input = $obj.find(".available_" + field + "s option:selected");
                                      value = $.trim($input.text());
+                                     value = (value === "---")? null : value;
+                                     console.log(value);
                                 } else {
                                     $input = $obj.find("input.js-input,#description textarea");
                                     value = $.trim($input.val());
@@ -1448,7 +1456,9 @@
                             autocommit: 0
                         })
                         .done(function(data) {
-                            if (data.result && data.result[field]) {
+                            console.log(data);
+                            if (data.result && data.result.staged) {
+                                console.log(data.result);
                                 if (data.result.is_admin) {
                                     if ($("#view_commits").hasClass("hide")) {
                                         $("#view_commits").removeClass("hide");
@@ -1484,7 +1494,8 @@
             'github',
             'triggers',
             'advanced',
-            'test'
+            'test',
+            'traffic'
         ],
 
         edit_field_order: [
@@ -1524,7 +1535,7 @@
         updateData: function(ia_data, x, edited) {
             var edited_fields = 0;
             $.each(ia_data.live, function(key, value) {
-                if (edited && ia_data.edited && ia_data.edited[key] && (key !== "id")) {
+                if (edited && ia_data.edited && ia_data.edited[key] && (key !== "id") && (key !== "dev_milestone")) {
                     x[key] = ia_data.edited[key];
                     edited_fields++;
                 } else {
@@ -1552,7 +1563,20 @@
             if ($obj.length) {
                 $obj.append($("#allowed_topics").html());
 
-                // Hide duplicated dropdown values
+                this.hideDupes($obj);
+            }
+        },
+
+        appendBlockgroup: function($obj) {
+            if ($obj.length) {
+                $obj.append($("#allowed_blockgroups").html());
+
+                this.hideDupes($obj);
+            }
+        },
+
+        // Hide duplicated dropdown values
+        hideDupes: function($obj) {
                 $obj.each(function(idx) {
                     $first_opt = $(this).find('option[value="0"]');
                     var opt_0 = $.trim($first_opt.text()) || '';
@@ -1568,7 +1592,6 @@
                         $first_opt.show();
                     }
                 });
-            }
         },
 
         hideAssignToMe: function() {
@@ -1601,6 +1624,26 @@
                     if (this.field_order[i] === "examples") {
                         $(".ia-single--left").append(templates.screens);
                     }
+                }
+
+                if (ia_data.live.hasOwnProperty("traffic") && ia_data.live.traffic) {
+                    var traffic = $("#ia_traffic").get(0).getContext("2d");
+                    var chart_data = {
+                        labels: ia_data.live.traffic.dates,
+                        datasets: [
+                            {
+                                label: "Last 30 days traffic",
+                                fillColor: "#60a5da",
+                                strokeColor: "#4495d4",
+                                pointColor: "#4495d4",
+                                pointStrokeColor: "#fff",
+                                pointHighlightFill: "#fff",
+                                pointHighlightStroke: "#4495d4",
+                                data: ia_data.live.traffic.counts
+                            }
+                        ]
+                    };
+                    var chart = new Chart(traffic).Line(chart_data);
                 }
 
                 $(".ia-single--right").append(templates.live.devinfo);
@@ -1639,6 +1682,8 @@
                     $(".ia-single--edits").append(templates.developer);
                     $(".ia-single--edits").append(templates.tab);
                     $(".ia-single--edits").append(templates.id);
+                    $(".ia-single--edits").append(templates.blockgroup);
+                    $(".ia-single--edits").append(templates.deployment_state);
                 }
             }
 
