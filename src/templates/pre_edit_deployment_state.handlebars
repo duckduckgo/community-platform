@@ -1,0 +1,37 @@
+<div class="row-diff" id="row-diff-deployment_state">
+    <div class="column-left-labels left">
+        <div class="column-left-labels__child">
+            <p class="column-left-labels__child__p">
+                Deployment State
+            </p>
+        </div>
+    </div>
+    <div class="column-center-live left">
+        <div class="column-center-live__child">
+            <p class="column-center-live__child__p">
+                {{#if live.deployment_state}}
+                    {{live.deployment_state}}
+                {{else}}
+                    —
+                {{/if}}
+            </p>
+        </div>
+    </div>
+    <div class="column-right-edits left" id="column-edits-deployment_state">
+        <div class="column-right-edits__child">
+            <p class="column-right-edits__child__p">
+                {{edited.deployment_state}}
+            </p>
+        </div>
+    </div>
+
+    <div class="button js-pre-editable" name="deployment_state">
+        <i class="js-pre-editable__icon icon-edit"></i>
+        <span class="js-pre-editable__text">Edit</span>
+    </div>
+
+    <div class="button hide js-editable" name="deployment_state">
+        <i class="js-editable__icon icon-check"></i>
+        <span class="js-editable__text">Done</span>
+    </div>
+</div>
