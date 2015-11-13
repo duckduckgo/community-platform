@@ -69,7 +69,7 @@ module.exports = function(grunt) {
                     groups: {
                         'Utils:': ['watch'],
                         'Build:' : ['handlebars', 'concat'],
-                        'Release:' : ['handlebars', 'concat', 'cssmin', 'removelogging', 'uglify', 'concatCharts', 'remove:dev', 'version'],
+                        'Release:' : ['handlebars', 'concat', 'cssmin', 'removelogging', 'uglify', 'remove:dev', 'version'],
                         'Commit:' : ['gitcommit'],
                         'Revert:' : ['exec:revert']
                     }
