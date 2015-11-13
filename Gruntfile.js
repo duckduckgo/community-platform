@@ -3,7 +3,7 @@ module.exports = function(grunt) {
     var static_dir = 'root/static/';
     var templates_dir = 'src/templates/';
 
-    var moment = 'bower_components/moment/moment.js';
+    var moment = 'bower_components/moment/min/moment.min.js';
     var charts = 'bower_components/Chart.js/Chart.min.js';
 
     // tasks that run after diff
