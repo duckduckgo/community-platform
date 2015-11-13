@@ -9,7 +9,7 @@ module.exports = function(grunt) {
     // tasks that run after diff
     // to release a new version
     var release_tasks = [
-        'build',
+        'build_release',
         'cssmin:ddgc_css',
         'cssmin:ia_css',
         'removelogging',
@@ -36,6 +36,19 @@ module.exports = function(grunt) {
 	'concat:ddgc_css',
 	'concat:content_css',
 	'concat:libs_build',
+        'jshint'
+    ];
+
+    var build_tasks_release = [
+        'exec:bower',
+        'exec:deleteBuildFiles',
+        'handlebars:compile',
+        'compass',
+        'concat:ia_pages',
+        'concat:ddgc_pages',
+        'concat:ia_css',
+        'concat:ddgc_css',
+        'concat:content_css',
         'jshint'
     ];
 
@@ -290,6 +303,7 @@ module.exports = function(grunt) {
         // compile handlebars and concat js files
         // to ia.js
         grunt.registerTask('build', 'compiles templates, builds JS and CSS files', build_tasks);
+        grunt.registerTask('build_release', 'compiles templates, builds JS and CSS files', build_tasks_release);
 
         // commit files to the repo for release
         grunt.registerTask('commit', 'commit the versioned files to the repo, still needs to be manually pushed', commit_tasks);
