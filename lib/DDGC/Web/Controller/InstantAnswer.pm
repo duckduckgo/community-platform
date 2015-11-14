@@ -1067,7 +1067,7 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
                             $temp_url = 'https://github.com/'.$temp_username;
                         } elsif ($temp_type eq 'ddg') {
                             #IA was developed internally - set default values
-                            $temp_fullname = "DDG Team";
+                            $temp_fullname = "DuckDuckGo";
                             $temp_url = "http://www.duckduckhack.com";
                         } else {
                             # Type is 'legacy', so the username contains the url to 
