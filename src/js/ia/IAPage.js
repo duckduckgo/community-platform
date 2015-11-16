@@ -44,8 +44,14 @@
                         if(ia_data.live.test_machine && ia_data.live.example_query) {
                             ia_data.live.can_show = true;
                         }
-                    
-                        ia_data.edited_dev_milestone = ia_data.edited.dev_milestone;
+
+                        // Avoid using the edited dev milestone to decide what page layout
+                        // to show, if the live version or the dev version
+                        if (ia_data.hasOwnProperty("edited") && ia_data.edited && ia_data.edited.dev_milestone) {
+                            ia_data.edited_dev_milestone = ia_data.edited.dev_milestone;
+                        } else {
+                            ia_data.edited_dev_milestone = ia_data.live.dev_milestone;
+                        }
                     }
 
                     // Allow blue band to get 100% page width
