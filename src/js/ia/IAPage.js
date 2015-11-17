@@ -306,6 +306,11 @@
                         }
                     });
 
+                    // Dev Page: commit blockgroup on change
+                    $("body").on("change", ".blockgroup.js-autocommit", function(evt) {
+                        commitEdit($(this));
+                    });
+
                     $('body').on("focusin", ".developer_username input, #producer-input", function(evt) {
                         if (!$(this).hasClass("focused")) {
                             $(this).addClass("focused");
