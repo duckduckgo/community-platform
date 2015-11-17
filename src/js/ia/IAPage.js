@@ -306,6 +306,11 @@
                         }
                     });
 
+                    // Dev Page: commit blockgroup on change
+                    $("body").on("change", ".blockgroup.js-autocommit", function(evt) {
+                        commitEdit($(this));
+                    });
+
                     $('body').on("focusin", ".developer_username input, #producer-input", function(evt) {
                         if (!$(this).hasClass("focused")) {
                             $(this).addClass("focused");
@@ -1124,6 +1129,9 @@
                                 } else if (editable_type === "select") {
                                     var $selected = $editable.find("option:selected");
                                     value = $selected.attr("value").length? $.trim($selected.text()) : '';
+                                    if (value === "---") {
+                                        value = null;
+                                    }
                                 } else if (editable_type === "input" || editable_type === "textarea") {
                                     value = ($editable.attr("type") === "number")? parseInt($editable.val()) : $.trim($editable.val());
 
@@ -1671,6 +1679,7 @@
 
                 if (ia_data.live.dev_milestone !== "live" && ia_data.live.dev_milestone !== "deprecated") {
                     this.appendTopics($(".topic-group.js-autocommit"));
+                    this.appendBlockgroup($(".available_blockgroups.js-autocommit"));
                 }
             } else {
                 $("#ia-single-top").attr("id", "ia-single-top--edit");
