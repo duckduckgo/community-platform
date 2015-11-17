@@ -1671,6 +1671,7 @@
 
                 if (ia_data.live.dev_milestone !== "live" && ia_data.live.dev_milestone !== "deprecated") {
                     this.appendTopics($(".topic-group.js-autocommit"));
+                    this.appendBlockgroup($(".available_blockgroups.js-autocommit"));
                 }
             } else {
                 $("#ia-single-top").attr("id", "ia-single-top--edit");
