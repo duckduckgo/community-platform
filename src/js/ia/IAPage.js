@@ -1129,6 +1129,9 @@
                                 } else if (editable_type === "select") {
                                     var $selected = $editable.find("option:selected");
                                     value = $selected.attr("value").length? $.trim($selected.text()) : '';
+                                    if (value === "---") {
+                                        value = null;
+                                    }
                                 } else if (editable_type === "input" || editable_type === "textarea") {
                                     value = ($editable.attr("type") === "number")? parseInt($editable.val()) : $.trim($editable.val());
 

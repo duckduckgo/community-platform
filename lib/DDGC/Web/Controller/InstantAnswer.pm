@@ -1119,6 +1119,8 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
                     $c->stash->{x}->{result}->{msg} = $msg;
                     return $c->forward($c->view('JSON'));
                 }
+            } elsif (($field eq "blockgroup") && ($value eq "")) {
+                $value = undef;
             }
 
             my $edits = add_edit($c, $ia,  $field, $value);
