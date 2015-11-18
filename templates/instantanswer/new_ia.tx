@@ -1,0 +1,37 @@
+<div id="new_ia_wizard">
+    <: if ($user) { :>
+        <h1> New Instant Answer </h1>
+        <div class="wizard_field">
+            <h3 class="label"> Example Query </h3>
+            <p class="field_desc"> What example search query would you like to answer?</p>
+            <input class="frm__input" id="example_query-input" />
+        </div>
+        
+        <div class="wizard_field">
+            <h3 class="label"> Description </h3>
+            <p class="field_desc"> What does your Instant Answer do, what's its target?</p>
+            <textarea cols="149" class="frm__text" id="description-input" ></textarea>
+        </div>
+        
+        <div class="wizard_field">
+            <h3 class="label"> Data Source </h3>
+            <p class="field_desc">What's the data source for your IA?</p>
+            <input class="frm__input" id="src_url-input" />
+        </div>
+        
+        <div class="wizard_field">
+            <h3 class="label"> Type </h3>
+            <p class="field_desc">Depending on the scale of the data and how often it might change, your IA will be best suited for a specific type.</p>
+            <span class="frm__select">
+                <select id="repo-select">
+                    <option>Goodies</option>
+                    <option>Spice</option>
+                    <option>Fathead</option>
+                    <option>Longtail</option>
+                </select>
+            </span>
+        </div>
+
+        <div id="new_ia_wizard_save" class="button btn--primary"> Save </div>
+    <: } :>
+</div>
