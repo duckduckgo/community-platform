@@ -1201,6 +1201,7 @@ sub new_ia :Chained('base') :PathPart('new_ia') :Args() {
 
     $c->stash->{ia_page} = "IAPageNew";
     $c->stash->{title} = "Create New Instant Answer";
+    $c->stash->{user} = $c->user;
 }
 
 sub create_ia :Chained('base') :PathPart('create') :Args() {
