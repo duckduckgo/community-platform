@@ -24,12 +24,14 @@
             });
 
             $("body").on('click', "#new-ia-form-cancel, #create-ia-from-pr-cancel", function(evt) {
-                $(this).parent().addClass("hide");
+                var $modal = $(this).parent();
+                $modal.addClass("hide");
+                $modal.find("input, textarea").val("").removeClass("not_saved");
                 $("#create-new-ia, #create-ia-from-pr").removeClass("hide");
             });
 
             $("body").on("click", "#create-ia-from-pr-save", function(evt) {
-                var $pr_input = $("#pr-link");
+                var $pr_input = $("#pr-input");
                 var pr = $.trim($pr_input.val());
                 if (pr.length) {
                     var jqxhr = $.post("/ia/create_from_pr", {
@@ -63,7 +65,7 @@
                 }
             });
 
-            function checkRedirect(data) {
+            function checkRedirect(data, $input) {
                 if (data.result && data.id) {
                     window.location = '/ia/view/' + data.id;
                 } else {

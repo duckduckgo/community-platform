@@ -1234,6 +1234,21 @@ sub create_ia :Chained('base') :PathPart('create') :Args() {
     return $c->forward($c->view('JSON'));
 }
 
+sub create_ia_from_pr :Chained('base') :PathPart('create_from_pr') :Args() {
+    my ( $self, $c ) = @_;
+
+    my $result = '';
+    my $id = '';
+
+    $c->stash->{x} = {
+        result => $result,
+        id => $id
+    };
+
+    $c->stash->{not_last_url} = 1;
+    return $c->forward($c->view('JSON'));
+}
+
 sub format_id {
     my( $id ) = @_;
 
