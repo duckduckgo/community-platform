@@ -1191,6 +1191,13 @@ sub usercheck :Chained('base') :PathPart('usercheck') :Args() {
     return $c->forward($c->view('JSON'));
 }
 
+sub new_ia :Chained('base') :PathPart('new_ia') :Args() {
+    my ( $self, $c ) = @_;
+
+    $c->stash->{ia_page} = "IAPageNew";
+    $c->stash->{title} = "Create an IA";
+}
+
 sub create_ia :Chained('base') :PathPart('create') :Args() {
     my ( $self, $c ) = @_;
 
