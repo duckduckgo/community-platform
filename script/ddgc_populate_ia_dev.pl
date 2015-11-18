@@ -15,7 +15,7 @@ use Carp;
 
 my $d = DDGC->new;
 my $h = HTTP::Tiny->new;
-my $r = $h->get('https://duck.co/ia/repo/all/json');
+my $r = $h->get('https://duck.co/ia/repo/all/json?all_milestones=1');
 
 croak sprintf("GET failed, %s: %s", $r->{status}, $r->{reason}) if !$r->{success};
 
