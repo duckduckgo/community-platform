@@ -10,16 +10,28 @@
     width: 42%;
 }
 
+#create-ia-from-pr { margin-right: 1em; }
+
+#create-ia-from-pr-form {
+    width: 40em;
+    left: 43em;
+
+    input { margin-bottom: 1em; }
+}
+
+#create-new-ia-form {
+    width: 31em;
+    left: 50em;
+}
+
 #create-new-ia-form, #create-ia-from-pr-form {
     position: fixed;
     background-color: #fff;
-    width: 31em;
     z-index: 1000;
     border: 1px solid #dbdbdb;
     top: 11em;
-    left: 33em;
     box-shadow: 2px 5px 20px 5px #888;
-    padding: 20px 0 20px 25px;
+    padding: 20px;
 
     #description-input {
         width: 94%;
@@ -33,6 +45,8 @@
     #create-new-ia-form-cancel, #create-ia-from-pr-form-cancel {
         margin-left: 0.5em;
     }
+    
+    .button { margin-right: 1em; }
 }
 
 /* General page style */

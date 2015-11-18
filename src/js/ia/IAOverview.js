@@ -19,15 +19,13 @@
             });
 
              $("body").on("click", "#create-new-ia, #create-ia-from-pr", function(evt) {
-                $(this).hide();
+                $("#create-new-ia, #create-ia-from-pr").addClass("hide");
                 $("#" + $(this).attr("id") + "-form").removeClass("hide");
             });
 
             $("body").on('click', "#new-ia-form-cancel, #create-ia-from-pr-cancel", function(evt) {
-                var $modal = $(this).parent();
-                    
-                $modal.addClass("hide");
-                $("#" + $modal.attr("id").replace("-form", "")).show();
+                $(this).parent().addClass("hide");
+                $("#create-new-ia, #create-ia-from-pr").removeClass("hide");
             });
 
             $("body").on("click", "#create-ia-from-pr-save", function(evt) {

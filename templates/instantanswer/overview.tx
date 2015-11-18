@@ -1,24 +1,24 @@
 <: if $is_admin { :>
     <div id="create-new-ia-form" class="new-ia-form hide">
-        <div class="new-ia-form-section left">
+        <div class="new-ia-form-section">
             <div class="label">
                 Name
             </div>
-            <input id="name-input" class="new-ia-input">
+            <input id="name-input" class="new-ia-inputi frm__input">
         </div>
 
         <div class="new-ia-form-section left">
             <div class="label">
                 ID
             </div>
-            <input id="id-input" class="new-ia-input">
+            <input id="id-input" class="new-ia-input frm__input">
         </div>
 
         <div class="new-ia-form-section left">
             <div class="label">
                 Dev Milestone
             </div>
-            <span class="new-ia-select" id="dev_milestone-select">
+            <span class="new-ia-select frm__select" id="dev_milestone-select">
                 <select class="available_dev_milestones" tabindex="-1">
                     <option value="1">planning</option>
                     <option value="2">development</option>
@@ -33,10 +33,10 @@
             <div class="label">
                 Description
             </div>
-            <textarea id="description-input" class="new-ia-input" rows="5"></textarea>
+            <textarea id="description-input" class="new-ia-input frm__text" rows="5"></textarea>
         </div>
 
-        <div class="button left" id="new-ia-form-save">
+        <div class="button btn--primary left" id="new-ia-form-save">
             Save
         </div>
 
@@ -49,10 +49,10 @@
     <div id="create-ia-from-pr-form" class="new-ia-form hide">
         <div>
             <div class="label"> PR link </div>
-            <input id="pr-input" class="new-ia-input" />
+            <input id="pr-input" class="new-ia-input frm__input" />
         </div>
 
-        <div class="button left" id="create-ia-from-pr-save">
+        <div class="button btn--primary left" id="create-ia-from-pr-save">
             Save
         </div>
 
