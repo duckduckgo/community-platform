@@ -20,8 +20,17 @@
 }
 
 #create-new-ia-form {
-    width: 31em;
+    width: 29.5em;
     left: 50em;
+
+    #description-input {
+        width: 100%;
+        margin-bottom: 0.5em;
+    }
+
+    #id-input { width: 18.25em; }
+
+    #name-input { width: 29em; }
 }
 
 #create-new-ia-form, #create-ia-from-pr-form {
@@ -33,17 +42,8 @@
     box-shadow: 2px 5px 20px 5px #888;
     padding: 20px;
 
-    #description-input {
-        width: 94%;
-        margin-bottom: 0.5em;
-    }
-
     .new-ia-form-section {
         margin-right: 0.5em;
-    }
-
-    #create-new-ia-form-cancel, #create-ia-from-pr-form-cancel {
-        margin-left: 0.5em;
     }
     
     .button { margin-right: 1em; }
