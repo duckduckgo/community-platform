@@ -45,6 +45,22 @@
         </div>
         <span class="clearfix"></span>
     </div>
+
+    <div id="create-ia-from-pr-form" class="new-ia-form hide">
+        <div>
+            <div class="label"> PR link </div>
+            <input id="pr-input" class="new-ia-input" />
+        </div>
+
+        <div class="button left" id="create-ia-from-pr-save">
+            Save
+        </div>
+
+        <div class="button left" id="create-ia-from-pr-cancel">
+            Cancel
+        </div>
+        <span class="clearfix"></span>
+    </div>
 <: } :>
 
 <div class="pipeline__toggle-view" id="pipeline_toggle-view">
@@ -68,6 +84,10 @@
     <: if $is_admin { :>
       <div id="create-new-ia" class="button right">
         New IA Page
+      </div>
+
+      <div id="create-ia-from-pr" class="button right">
+        New IA Page from GitHub PR
       </div>
     <: } :>
 </div>

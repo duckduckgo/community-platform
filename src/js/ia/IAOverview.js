@@ -18,14 +18,29 @@
                 $("#ia-overview").html(template);
             });
 
-             $("body").on("click", "#create-new-ia", function(evt) {
+             $("body").on("click", "#create-new-ia, #create-ia-from-pr", function(evt) {
                 $(this).hide();
-                $("#create-new-ia-form").removeClass("hide");
+                $("#" + $(this).attr("id") + "-form").removeClass("hide");
             });
 
-            $("body").on('click', "#new-ia-form-cancel", function(evt) {
-                $("#create-new-ia-form").addClass("hide");
-                $("#create-new-ia").show();
+            $("body").on('click', "#new-ia-form-cancel, #create-ia-from-pr-cancel", function(evt) {
+                var $modal = $(this).parent();
+                    
+                $modal.addClass("hide");
+                $("#" + $modal.attr("id").replace("-form", "")).show();
+            });
+
+            $("body").on("click", "#create-ia-from-pr-save", function(evt) {
+                var $pr_input = $("#pr-link");
+                var pr = $.trim($pr_input.val());
+                if (pr.length) {
+                    var jqxhr = $.post("/ia/create_from_pr", {
+                        pr : pr
+                    })
+                    .done(function(data) {
+                        checkRedirect(data, $pr_input);
+                    });
+                }
             });
 
             $("body").on('click', "#new-ia-form-save", function(evt) {
@@ -45,14 +60,18 @@
                         dev_milestone : dev_milestone
                     })
                     .done(function(data) {
-                        if (data.result && data.id) {
-                            window.location = '/ia/view/' + data.id;
-                        } else {
-                            $id_input.addClass("not_saved");
-                        }
+                        checkRedirect(data, $id_input);
                     });
                 }
             });
+
+            function checkRedirect(data) {
+                if (data.result && data.id) {
+                    window.location = '/ia/view/' + data.id;
+                } else {
+                    $input.addClass("not_saved");
+                }
+            }
         }
     };
 })(DDH); 

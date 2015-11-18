@@ -10,6 +10,31 @@
     width: 42%;
 }
 
+#create-new-ia-form, #create-ia-from-pr-form {
+    position: fixed;
+    background-color: #fff;
+    width: 31em;
+    z-index: 1000;
+    border: 1px solid #dbdbdb;
+    top: 11em;
+    left: 33em;
+    box-shadow: 2px 5px 20px 5px #888;
+    padding: 20px 0 20px 25px;
+
+    #description-input {
+        width: 94%;
+        margin-bottom: 0.5em;
+    }
+
+    .new-ia-form-section {
+        margin-right: 0.5em;
+    }
+
+    #create-new-ia-form-cancel, #create-ia-from-pr-form-cancel {
+        margin-left: 0.5em;
+    }
+}
+
 /* General page style */
 #ia-overview { 
     margin-top: 3.5em; 
