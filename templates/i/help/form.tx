@@ -19,7 +19,7 @@
   form_row_label => 'Sorting value:',
   form_row_left => 'third',
   form_row_right => 'twothird',
-  form_row_value => $_.sort,
+  form_row_value => $_.sort || 99,
 } :>
 <: include form::row {
   form_row_id => 'help_' ~ ( $_.id || 0 ) ~ '_old_url',
