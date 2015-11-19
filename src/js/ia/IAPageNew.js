@@ -29,9 +29,10 @@
 
                 if (data.id) {
                     var jqxhr = $.post("/ia/create", {
-                        data : data
+                        data : JSON.stringify(data)
                     })
                     .done(function(data) {
+                        console.log(data);
                         if (data.result && data.id) {
                             window.location = '/ia/view/' + data.id;
                         }
