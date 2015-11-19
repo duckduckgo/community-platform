@@ -4,26 +4,32 @@
         <div class="wizard_field">
             <h3 class="label"> Example Query </h3>
             <p class="field_desc"> What example search query would you like to answer?</p>
-            <input class="frm__input" id="example_query-input" />
+            <input class="frm__input wizard_field_insert" id="example_query-input" />
+        </div>
+        
+        <div class="wizard_field">
+            <h3 class="label"> Name </h3>
+            <p class="field_desc"> Good names have typically one or two words in them (e.g. Airlines, BBC, GitHub Status)</p>
+            <input class="frm__input wizard_field_insert" id="name-input" />
         </div>
         
         <div class="wizard_field">
             <h3 class="label"> Description </h3>
             <p class="field_desc"> What does your Instant Answer do, what's its target?</p>
-            <textarea cols="149" class="frm__text" id="description-input" ></textarea>
+            <textarea cols="149" class="frm__text wizard_field_insert" id="description-input" ></textarea>
         </div>
         
         <div class="wizard_field">
             <h3 class="label"> Data Source </h3>
             <p class="field_desc">What's the data source for your IA?</p>
-            <input class="frm__input" id="src_url-input" />
+            <input class="frm__input wizard_field_insert" id="src_url-input" />
         </div>
         
         <div class="wizard_field">
             <h3 class="label"> Type </h3>
             <p class="field_desc">Depending on the scale of the data and how often it might change, your IA will be best suited for a specific type.</p>
             <span class="frm__select">
-                <select id="repo-select">
+                <select id="repo-select" class="wizard_field_insert">
                     <option>Goodies</option>
                     <option>Spice</option>
                     <option>Fathead</option>
