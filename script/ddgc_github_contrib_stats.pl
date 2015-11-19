@@ -11,6 +11,8 @@ use Net::GitHub;
 use Time::Piece;
 use Time::Seconds;
 use Try::Tiny;
+use Set::Scalar;
+use Data::Dumper;
 
 $|=1;
 
@@ -149,39 +151,30 @@ sub github_creds {
 my $gh = Net::GitHub->new( github_creds() );
 my $today = localtime;
 my $periods = [
-    { start => $today - (ONE_DAY * 90),  end => $today },
+    { start => $today - (ONE_DAY * 360), end => $today - (ONE_DAY * 270) },
+    { start => $today - (ONE_DAY * 270), end => $today - (ONE_DAY * 180) },
     { start => $today - (ONE_DAY * 180), end => $today - (ONE_DAY * 90) },
+    { start => $today - (ONE_DAY * 90),  end => $today },
 ];
-my $log;
 
+my $log;
+my @sets;
 print "working";
 
-for my $project (@projects) {
-    next if $project eq 'nodejs-duckpan-npm'; # empty, API bombs
-MONTH:
-    for (0..$#$periods) {
+for (0..$#$periods) {
+    my $set = Set::Scalar->new;
+    
+    for my $project (@projects) {
+    
         my $since = $periods->[$_]->{start}->ymd . "T00:00:00Z";
         my $until = $periods->[$_]->{end}->ymd . "T00:00:00Z";
-        my $commits = undef;
-        do {
-            my $request = "/repos/duckduckgo/$project/commits";
-            $request .= "?since=" . $since;
-            $request .= "&until=" . $until;
-            $request .= "&per_page=100";
-            my $page = 1;
-            my $err = 0;
+        my @commits = $gh->repos->commits('duckduckgo', $project, { since => $since, until => $until });
 
-            try {
-                $commits = $gh->query('GET', $request);
-            } catch {
-                $err = 1;
-                print STDERR "$request failed - skipping\n";
-            };
-            next if $err;
+            while($gh->repos->has_next_page){
+                push(@commits, $gh->repos->next_page);
+            }
 
-            print ".";
-
-            for my $commit (@{$commits}) {
+            for my $commit (@commits) {
                 #my $author = $commit->{author}->{login} || $commit->{committer}->{login} || "";
                 my $author = $commit->{author}->{login} || $commit->{committer}->{login} ||
                     $commit->{commit}->{author}->{name} || $commit->{commit}->{committer}->{name} || "";
@@ -192,33 +185,17 @@ MONTH:
                                   $core_team_github->{$_}->{name} =~ /$author/ )
                               } (keys $core_team_github) ) {
                     $log->[$_]->{authors}->{$author} = 1;
+                    $set->insert($author);
                 }
             }
-            $page++; #print "$project commits : " . scalar @{$commits} . "\n";
-            if ( scalar @{$commits} >= 100 ) {
-                $until = $commits->[-1]->{commit}->{author}->{date} ||
-                         $commits->[-1]->{commit}->{committer}->{date} || die; # pagination really not working... Move date pointer
-                next MONTH if ($until le $since);
-                #print "New $since\n";
-            }
-        } while (scalar @{$commits} >= 100);
-    }
 
-    my $request = "/repos/duckduckgo/$project/pulls?state=open&sort=created";
-    my $pulls = undef;
+        my @pulls = $gh->pull_request->pulls('duckduckgo', $project, { state  => 'open', sort => 'created', });
 
-    try {
-        $pulls = $gh->query('GET', $request);
-    } catch {
-        print "$request failed - skipping\n";
-        next;
-    };
+        while($gh->pull_request->has_next_page){
+            push(@pulls, $gh->pull_request->next_page);
+        }
 
-    for (0..$#$periods) {
-        my $since = $periods->[$_]->{start}->ymd . "T00:00:00Z";
-        my $until = $periods->[$_]->{end}->ymd . "T00:00:00Z";
-
-        for my $pull (@{$pulls}) {
+        for my $pull (@pulls) {
 
             next unless ( $pull->{created_at} lt $until &&
                           $pull->{created_at} ge $since );
@@ -228,14 +205,76 @@ MONTH:
 
             unless ( grep { $_ =~ /^$author$/i } (keys $core_team_github) ) {
                 $log->[$_]->{authors}->{$author} = 1;
+                $set->insert($author);
             }
         }
+        print ". ";
     }
+    push(@sets, $set);
 }
 
-for (0..$#$periods) {
-    print "\nUnique GitHub contributors " . $periods->[$_]->{start}->mdy . " through " . ($periods->[$_]->{end} - ONE_DAY )->mdy . "\t";
-    print scalar (keys $log->[$_]->{authors}) . "\n";
-    print "Logins : " . join(', ', sort keys $log->[$_]->{authors}) . "\n";
+
+ for (0..$#$periods) {
+     printf ("cycle %d: %s through %s\n", $_+1, $periods->[$_]->{start}->mdy, ($periods->[$_]->{end} - ONE_DAY )->mdy);
+ }
+
+# 1 time period window
+printf "\n\nParticipation in 2 consecutive 90-day cycles\n";
+for(my $i = 0; $i < scalar @sets; $i++){
+    next unless $sets[$i]->members;
+    my $p2 = $i+1;
+    next unless $p2 < scalar @sets;
+
+    my $intersection_1 = $sets[$i] * $sets[$p2];
+
+    printf ("Cycles %d and %d: %d\n", $i+1, $p2+1, $intersection_1->size);
+    printf ("%s\n\n", join(', ', $intersection_1->members));
 }
+
+my $three_1 =  $sets[0] * $sets[1] * $sets[2];
+my $three_2 =  $sets[1] * $sets[2] * $sets[3];
+
+
+printf ("\nParticipation in 3 consecutive cycles 1-3: %d\n", $three_1->size);
+printf ("%s\n", join(', ', $three_1->members));
+printf ("\nParticipation in 3 consecutive cycles 2-4: %d\n", $three_2->size);
+printf ("%s\n", join(', ', $three_2->members));
+
+my $four = $sets[0] * $sets[1] * $sets[2] * $sets[3];
+
+printf ("\nParticipation in 4 consecutive cycles 1-4: %d\n", $four->size);
+printf ("%s\n\n", join(', ', $four->members));
+
+
+# 2 time period window
+for(my $i = 0; $i < scalar @sets; $i++){
+    next unless $sets[$i]->members;
+    my $p2 = $i+2;
+    next unless $p2 < scalar @sets;
+
+    my $intersection_1 = $sets[$i] * $sets[$p2];
+    
+    printf ("\nParticipation in cycles %d and %d: %d\n", $i+1, $p2+1,  scalar $intersection_1->size);
+    printf ("%s\n\n", join(', ', $intersection_1->members));
+}
+
+# 3 time period window
+for(my $i = 0; $i < scalar @sets; $i++){
+    next unless $sets[$i]->members;
+    my $p2 = $i+3;
+
+    next unless $p2 < scalar @sets;
+
+    my $intersection_1 = $sets[$i] * $sets[$p2];
+
+    printf ("\nParticipation in cycles %d and %d: %d\n", $i+1, $p2+1,  scalar $intersection_1->size);
+    printf ("%s\n\n", join(', ', $intersection_1->members));
+}
+
+
+ for (0..$#$periods) {
+     print "\nUnique GitHub contributors " . $periods->[$_]->{start}->mdy . " through " . ($periods->[$_]->{end} - ONE_DAY )->mdy . "\t";
+     print scalar (keys $log->[$_]->{authors}) . "\n";
+     print "Logins : " . join(', ', sort keys $log->[$_]->{authors}) . "\n";
+ }
 

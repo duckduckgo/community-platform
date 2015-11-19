@@ -1,5 +1,10 @@
 ---
 sudo: false
+cache:
+  directories:
+    - $HOME/.cpanm
+    - $HOME/perl5/perlbrew/perls/5.16/lib/site_perl
+    - /var/tmp
 addons:
   apt:
     packages:
@@ -12,7 +17,6 @@ addons:
     - imagemagick
 before_install:
   - export HARNESS_OPTIONS=j10:c HARNESS_TIMER=1
-  - rm .travis.yml
   - git config --global user.name "Dist Zilla Plugin TravisCI"
   - git config --global user.email $HOSTNAME":not-for-mail@travis-ci.org"
 install:
@@ -22,6 +26,5 @@ install:
 language: perl
 perl:
   - 5.16
-  - 5.18
 script:
   - dzil smoke --release --author

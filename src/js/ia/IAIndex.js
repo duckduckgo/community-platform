@@ -28,18 +28,18 @@
             var $dropdown_header;
             var $input_query;
             var query = ""; 
+            ind.ia_list = ia_init();
 
-            $.getJSON(url, function(x) { 
-                ind.ia_list = x;
-                ind.sort('name');
-                $list_item = $("#ia-list .ia-item");
-                $clear_filters = $("#clear_filters");
-                $right_pane = $("#filters");
-                //right_pane_top = $right_pane.offset().top;
-                //right_pane_left = $right_pane.offset().left;
-                $dropdown_header = $right_pane.children(".dropdown").children(".dropdown_header");
-                $input_query = $('#filters input[name="query"]');
-                
+            ind.refresh();
+            $list_item = $("#ia-list .ia-item");
+            $clear_filters = $("#clear_filters");
+            $right_pane = $("#filters");
+            //right_pane_top = $right_pane.offset().top;
+            //right_pane_left = $right_pane.offset().left;
+            $dropdown_header = $right_pane.children(".dropdown").children(".dropdown_header");
+            $input_query = $('#filters input[name="query"]');
+
+            $(document).ready(function() {
                 var parameters = window.location.search.replace("?", "");
                 parameters = $.trim(parameters.replace(/\/$/, ''));
                 if (parameters) {
@@ -55,6 +55,9 @@
                             if (ind.selected_filter.hasOwnProperty(field)) {
                                 var selector = "ia_" + field + "-" + value;
                                 selector = (field === 'topic')? "." + selector : "#" + selector;
+                                var $filter = $($(selector).parent().get(0));
+                                console.log($filter);
+                                console.log($filter.length);
                                 $(selector).parent().trigger("click");
                                 param_count++;
                             } else if ((field === "q") && value) {
@@ -71,9 +74,10 @@
                 } else {
                     ind.filter($list_item, query);
                 }
-           });
+            });
 
             $(document).click(function(evt) {
+                evt.stopPropagation();
                 if (!$(evt.target).closest(".dropdown").length) {
                     $right_pane.children(".dropdown").children("ul").addClass("hide");
                 }
@@ -98,8 +102,8 @@
             });
             
             $("body").on("click keypress", "#search-ias, #filters .one-field input.text, .filters--search-button", function(evt) {
-                
-                //console.log(evt.type, this);
+                evt.stopPropagation(); 
+                console.log(evt.type, this);
 
                 if (((evt.type === "keypress" && evt.which === 13) && $(this).hasClass("text"))
                     || (evt.type === "click" && $(this).hasClass("filters--search-button"))) {
@@ -186,9 +190,9 @@
                 ind.filter($list_item);
             });
 
-            $("body").on("click", ".button-group .button, .button-group-vertical .row, .topic", function(evt) {
-
-                //console.log(this);
+            $(".button-group .button, .button-group-vertical .row, .topic").click(function(evt) {
+                evt.stopPropagation();
+                console.log(this);
 
                 if (!$(this).hasClass("disabled") && !$(this).parent().parent().parent().hasClass("disabled")) { 
                     if($(this).hasClass("row")) {

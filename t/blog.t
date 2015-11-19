@@ -11,14 +11,20 @@ use HTTP::Request::Common;
 use Plack::Test;
 use Plack::Builder;
 use Plack::Session::State::Cookie;
-use JSON;
+use Plack::Session::Store::File;
+use File::Temp qw/ tempdir /;
+use JSON::MaybeXS qw/:all/;
 
 use DDGC::Web::App::Blog;
 use DDGC::Web::Service::Blog;
 
+
+
 my $app = builder {
     enable 'Session',
-        store => 'File',
+        store => Plack::Session::Store::File->new(
+            dir => tempdir,
+        ),
         state => Plack::Session::State::Cookie->new(
             secure => 0,
             httponly => 1,
@@ -36,26 +42,25 @@ test_psgi $app => sub {
     # Create user, get session cookie
     my $user_request = $cb->(
         POST '/testutils/new_user',
-        { username => 'adminuser', role => 'admin' }
+        { username => 'blogadminuser', role => 'admin' }
     );
     ok( $user_request->is_success, 'Creating an admin user' );
 
     my $session_request = $cb->(
         POST '/testutils/user_session',
-        { username => 'adminuser' }
+        { username => 'blogadminuser' }
     );
     ok( $session_request->is_success, 'Getting admin user Cookie' );
     my $admin_cookie_header = 'ddgc_session=' . $session_request->content;
 
     # Posting
-    my $blog_post = JSON::to_json({
+    my $blog_post = encode_json({
         title       => 'A blog post',
         uri         => 'a-blog-post',
         teaser      => 'This is a blog post karble warble snarble',
         content     => 'This is a blog post',
         topics      => [qw/blogs posts this/],
-    },
-    { utf8 => 1 });
+    });
 
     my $new_post_request = $cb->(
         POST '/blog.json/admin/post/new',
