@@ -41,6 +41,16 @@
 	<: } :>
 </div>
 
+: if !$user {
+<div id="shareit-disclaimer" class="shareit-disclaimer">
+	<p><em>Disclaimer:</em></p>
+	<p>We started the Spread campaign to allow our loyal and engaged users to share our journey and showcase DuckDuckGo to their family &amp; friends.</p>
+	<p>It's recently come to our attention that spammers have been using this campaign just for the free shirt - how uncool!</p>
+	<p>Therefore, we've had to make a few changes to cut down on spammers. These changes include screening answers in more detail, disabling entries from spammers, and requiring a small shipping fee.</p>
+	<p>Thanks to our genuine users for helping spread DuckDuckGo and understanding the changes that continue to allow us to give away awesome freebies to the fans we love!</p>
+</div>
+: }
+
 
 <: if $no_campaign { :>
 	<div id="responded">
