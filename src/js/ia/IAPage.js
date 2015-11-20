@@ -41,7 +41,7 @@
                             ia_data.permissions.admin = 1;
                         }
 
-                        if(ia_data.live.test_machine && ia_data.live.example_query) {
+                        if(ia_data.live.beta_install.match(/^success/) && ia_data.live.example_query) {
                             ia_data.live.can_show = true;
                         }
 
