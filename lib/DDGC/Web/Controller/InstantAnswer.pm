@@ -1194,14 +1194,18 @@ sub usercheck :Chained('base') :PathPart('usercheck') :Args() {
 sub new_ia :Chained('base') :PathPart('new_ia') :Args() {
     my ( $self, $c ) = @_;
 
-    if (!$c->user) {
+    my $user = $c->user;
+    if (!$user) {
         $c->response->redirect($c->chained_uri('My','login',{ admin_required => 1 }));
         return $c->detach;
     }
 
+    unless ($user && $user->admin) {
+        $c->response->redirect($c->chained_uri('InstantAnswer','index'));
+    }
+
     $c->stash->{ia_page} = "IAPageNew";
     $c->stash->{title} = "Create New Instant Answer";
-    $c->stash->{user} = $c->user;
 }
 
 sub create_ia :Chained('base') :PathPart('create') :Args() {
