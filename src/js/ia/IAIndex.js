@@ -39,39 +39,45 @@
             $dropdown_header = $right_pane.children(".dropdown").children(".dropdown_header");
             $input_query = $('#filters input[name="query"]');
 
-            var parameters = window.location.search.replace("?", "");
-            parameters = $.trim(parameters.replace(/\/$/, ''));
-            if (parameters) {
-                parameters = parameters.split("&");
+            $(document).ready(function() {
+                var parameters = window.location.search.replace("?", "");
+                parameters = $.trim(parameters.replace(/\/$/, ''));
+                if (parameters) {
+                    parameters = parameters.split("&");
 
-                var param_count = 0;
+                    var param_count = 0;
 
-                $.each(parameters, function(idx) {
-                    var temp = parameters[idx].split("=");
-                    var field = temp[0];
-                    var value = temp[1];
-                    if (field && value && (ind.selected_filter.hasOwnProperty(field) || field === "q")) {
-                        if (ind.selected_filter.hasOwnProperty(field)) {
-                            var selector = "ia_" + field + "-" + value;
-                            selector = (field === 'topic')? "." + selector : "#" + selector;
-                            $(selector).parent().trigger("click");
-                            param_count++;
-                        } else if ((field === "q") && value) {
-                            $input_query.val(decodeURIComponent(value.replace(/\+/g, " ")));
-                            $(".filters--search-button").trigger("click");
-                            param_count++;
+                    $.each(parameters, function(idx) {
+                        var temp = parameters[idx].split("=");
+                        var field = temp[0];
+                        var value = temp[1];
+                        if (field && value && (ind.selected_filter.hasOwnProperty(field) || field === "q")) {
+                            if (ind.selected_filter.hasOwnProperty(field)) {
+                                var selector = "ia_" + field + "-" + value;
+                                selector = (field === 'topic')? "." + selector : "#" + selector;
+                                var $filter = $($(selector).parent().get(0));
+                                console.log($filter);
+                                console.log($filter.length);
+                                $(selector).parent().trigger("click");
+                                param_count++;
+                            } else if ((field === "q") && value) {
+                                $input_query.val(decodeURIComponent(value.replace(/\+/g, " ")));
+                                $(".filters--search-button").trigger("click");
+                                param_count++;
+                            }
                         }
-                    }
-                });
+                    });
 
-                if (param_count === 0) {
+                    if (param_count === 0) {
+                        ind.filter($list_item, query);
+                    }
+                } else {
                     ind.filter($list_item, query);
                 }
-            } else {
-                ind.filter($list_item, query);
-            }
+            });
 
             $(document).click(function(evt) {
+                evt.stopPropagation();
                 if (!$(evt.target).closest(".dropdown").length) {
                     $right_pane.children(".dropdown").children("ul").addClass("hide");
                 }
@@ -96,8 +102,8 @@
             });
             
             $("body").on("click keypress", "#search-ias, #filters .one-field input.text, .filters--search-button", function(evt) {
-                
-                //console.log(evt.type, this);
+                evt.stopPropagation(); 
+                console.log(evt.type, this);
 
                 if (((evt.type === "keypress" && evt.which === 13) && $(this).hasClass("text"))
                     || (evt.type === "click" && $(this).hasClass("filters--search-button"))) {
@@ -184,9 +190,9 @@
                 ind.filter($list_item);
             });
 
-            $("body").on("click", ".button-group .button, .button-group-vertical .row, .topic", function(evt) {
-
-                //console.log(this);
+            $(".button-group .button, .button-group-vertical .row, .topic").click(function(evt) {
+                evt.stopPropagation();
+                console.log(this);
 
                 if (!$(this).hasClass("disabled") && !$(this).parent().parent().parent().hasClass("disabled")) { 
                     if($(this).hasClass("row")) {

@@ -10,6 +10,7 @@ use Net::GitHub::V3;
 use DateTime;
 use LWP::UserAgent;
 use Digest::SHA;
+use Date::Parse;
 
 my $INST = DDGC::Config->new->appdir_path."/root/static/js";
 
@@ -1122,6 +1123,8 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
                     $c->stash->{x}->{result}->{msg} = $msg;
                     return $c->forward($c->view('JSON'));
                 }
+            } elsif (($field eq "blockgroup") && ($value eq "")) {
+                $value = undef;
             }
 
             my $edits = add_edit($c, $ia,  $field, $value);
@@ -1192,31 +1195,54 @@ sub usercheck :Chained('base') :PathPart('usercheck') :Args() {
     return $c->forward($c->view('JSON'));
 }
 
+sub new_ia :Chained('base') :PathPart('new_ia') :Args() {
+    my ( $self, $c ) = @_;
+
+    my $user = $c->user;
+    if (!$user) {
+        $c->response->redirect($c->chained_uri('My','login',{ admin_required => 1 }));
+        return $c->detach;
+    }
+
+    unless ($user && $user->admin) {
+        $c->response->redirect($c->chained_uri('InstantAnswer','index'));
+    }
+
+    $c->stash->{ia_page} = "IAPageNew";
+    $c->stash->{title} = "Create New Instant Answer";
+}
+
 sub create_ia :Chained('base') :PathPart('create') :Args() {
     my ( $self, $c ) = @_;
 
-    my $ia = $c->d->rs('InstantAnswer')->find({id => lc($c->req->params->{id})}) || $c->d->rs('InstantAnswer')->find({meta_id => lc($c->req->params->{id})});
     my $is_admin;
     my $result = '';
-    my $id = '';
+    my $data = $c->req->params->{data}? from_json($c->req->params->{data}) : "";
+    use Data::Dumper;
+    print Dumper $c->req->params;
+    my $meta_id = format_id($data->{id});
+    warn $meta_id;
+    my $ia = $c->d->rs('InstantAnswer')->find({id => $meta_id}) || $c->d->rs('InstantAnswer')->find({meta_id => $meta_id});
 
     if ($c->user && (!$ia)) {
        $is_admin = $c->user->admin;
 
         if ($is_admin) {
-            my $dev_milestone = $c->req->params->{dev_milestone};
-            my $status = $dev_milestone;
+            my $dev_milestone = $data->{dev_milestone}? $data->{dev_milestone} : "planning";
+            my $name = $data->{name};
+            my $repo = $data->{repo}? lc $data->{repo} : undef;
 
-            $id = format_id($c->req->params->{id});
-           
-            if (length $id) { 
+            # Capitalize each word in the name string
+            $name =~ s/([\w']+)/\u\L$1/g; 
+            
+            if (length $meta_id) { 
                 my $new_ia = $c->d->rs('InstantAnswer')->create({
-                    id => $id,
-                    meta_id => $id,
-                    name => $c->req->params->{name},
-                    status => $status,
+                    id => $meta_id,
+                    meta_id => $meta_id,
+                    name => $name,
                     dev_milestone => $dev_milestone,
-                    description => $c->req->params->{description},
+                    description => $data->{description},
+                    repo => $repo
                 });
 
                 save_milestone_date($new_ia, 'created');
@@ -1226,6 +1252,91 @@ sub create_ia :Chained('base') :PathPart('create') :Args() {
         }
     }
 
+    $c->stash->{x} = {
+        result => $result,
+        id => $meta_id
+    };
+
+    $c->stash->{not_last_url} = 1;
+    return $c->forward($c->view('JSON'));
+}
+
+sub create_ia_from_pr :Chained('base') :PathPart('create_from_pr') :Args() {
+    my ( $self, $c ) = @_;
+    my $url = $c->req->params->{pr};
+    my ($id, $result) = '';
+
+    if(my ($repo, $pr_number) = $url =~ /https?:\/\/github.com\/duckduckgo\/zeroclickinfo-(.+)\/pull\/(.+)$/){
+        # get data form this pr
+        my $token = $ENV{DDGC_GITHUB_TOKEN} || $ENV{DDG_GITHUB_BASIC_OAUTH_TOKEN};
+        my $gh = Net::GitHub->new(access_token => $token);
+        $gh->set_default_user_repo('duckduckgo', "zeroclickinfo-$repo");
+
+        my @files = $gh->pull_request->files($pr_number);
+        my $pr_data = $gh->pull_request->pull($pr_number);
+
+            # spice
+        if($repo =~ /spice/i){
+            foreach my $file (@files){
+                ($id) = $file->{patch} =~ /id:\s?(?:'|")(.+)(?:'|")/;
+                last if $id;
+            }
+        }
+        elsif( $repo =~ /goodie/i ){
+            # check for cheat sheets
+            my $is_cheatsheet;
+            my $cheat_sheet_json;
+
+            foreach my $file (@files){
+                ($is_cheatsheet) = $file->{filename} =~ /cheat_sheets\/json/;
+                $cheat_sheet_json = $file->{patch};
+                last if $is_cheatsheet;
+            }
+
+            # cheat sheets
+            if($is_cheatsheet){
+                ($id) = $cheat_sheet_json =~ /(?:'|")id(?:'|"):\s?(?:'|")(.+)(?:'|"),/;
+            }else{
+                # find from perl module
+                foreach my $file (@files){
+                    my $tmp_repo = $repo;
+                    $tmp_repo =~ s/s$//;
+                    ($id) = $file->{filename} =~ /lib\/DDG\/$tmp_repo\/(.+)\.pm/i;
+                    last if $id;
+                }
+            }
+
+        }
+
+        if($id){
+            $result = 1;
+
+            $c->d->rs('InstantAnswer')->update_or_create({
+                id => $id,
+                meta_id => $id,
+                name => $id,
+                repo => $repo,
+                dev_milestone => 'planning'
+            });
+
+            $c->d->rs('InstantAnswer::Issues')->update_or_create({
+                instant_answer_id => $id,
+                repo => $repo,
+                issue_id => $pr_number,
+                is_pr => 1,
+                tags => {},
+            });
+
+            # update first comment with link to IA page
+            my $has_link = $pr_data->{body} =~ /https?:\/\/duck.co\/ia\/view\/.+$/;
+
+            if(!$has_link){
+                $gh->pull_request->update_pull($pr_number, {
+                        body => "$pr_data->{body}\n---\nhttps://duck.co/ia/view/$id"
+                        });
+            }
+        }
+    }
     $c->stash->{x} = {
         result => $result,
         id => $id

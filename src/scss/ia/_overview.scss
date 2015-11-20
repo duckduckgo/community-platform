@@ -10,6 +10,45 @@
     width: 42%;
 }
 
+#create-ia-from-pr { margin-right: 1em; }
+
+#create-ia-from-pr-form {
+    width: 40em;
+    left: 43em;
+
+    input { margin-bottom: 1em; }
+}
+
+#create-new-ia-form {
+    width: 29.5em;
+    left: 50em;
+
+    #description-input {
+        width: 100%;
+        margin-bottom: 0.5em;
+    }
+
+    #id-input { width: 18.25em; }
+
+    #name-input { width: 29em; }
+}
+
+#create-new-ia-form, #create-ia-from-pr-form {
+    position: fixed;
+    background-color: #fff;
+    z-index: 1000;
+    border: 1px solid #dbdbdb;
+    top: 11em;
+    box-shadow: 2px 5px 20px 5px #888;
+    padding: 20px;
+
+    .new-ia-form-section {
+        margin-right: 0.5em;
+    }
+    
+    .button { margin-right: 1em; }
+}
+
 /* General page style */
 #ia-overview { 
     margin-top: 3.5em; 
