@@ -262,15 +262,15 @@ module.exports = function(grunt) {
         watch: {
             scripts: {
                 files: ['src/js/ia/*.js', 'src/js/ddgc/*.js'],
-                tasks: ['concat']
+                tasks: ['concat:libs_build', 'concat_tasks']
             },
             templates: {
                 files: ['src/templates/*.handlebars'],
-                tasks: ['handlebars', 'concat']
+                tasks: ['handlebars', 'concat:libs_build', 'concat_tasks']
             },
             scss: {
                 files: ['src/scss/ia/*.scss', 'src/scss/ddgc/*.scss', 'src/scss/content/*.scss', 'src/scss/*.scss'],
-                tasks: ['compass', 'concat']
+                tasks: ['compass', 'concat:libs_build', 'concat_tasks']
             }
         },
 
