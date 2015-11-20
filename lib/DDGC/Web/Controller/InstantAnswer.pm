@@ -1237,23 +1237,17 @@ sub create_ia :Chained('base') :PathPart('create') :Args() {
 
 sub create_ia_from_pr :Chained('base') :PathPart('create_from_pr') :Args() {
     my ( $self, $c ) = @_;
-
-    use Data::Dumper;
-
     my $url = $c->req->params->{pr};
     my ($id, $result) = '';
 
     if(my ($repo, $pr_number) = $url =~ /https?:\/\/github.com\/duckduckgo\/zeroclickinfo-(.+)\/pull\/(.+)$/){
-        warn "Got valid link";
-
         # get data form this pr
         my $token = $ENV{DDGC_GITHUB_TOKEN} || $ENV{DDG_GITHUB_BASIC_OAUTH_TOKEN};
         my $gh = Net::GitHub->new(access_token => $token);
+        $gh->set_default_user_repo('duckduckgo', "zeroclickinfo-$repo");
 
-        my @files = $gh->pull_request->files('duckduckgo', 'zeroclickinfo-'.$repo, $pr_number);
-        my $pr_data = $gh->pull_request->pull('duckduckgo', 'zeroclickinfo-'.$repo, $pr_number);
-        
-        # warn Dumper @files;
+        my @files = $gh->pull_request->files($pr_number);
+        my $pr_data = $gh->pull_request->pull($pr_number);
 
         # try to find an id in the files
         my $id;
@@ -1291,6 +1285,8 @@ sub create_ia_from_pr :Chained('base') :PathPart('create_from_pr') :Args() {
         }
 
         if($id){
+            $result = 1;
+
             $c->d->rs('InstantAnswer')->update_or_create({
                 id => $id,
                 meta_id => $id,
@@ -1308,11 +1304,15 @@ sub create_ia_from_pr :Chained('base') :PathPart('create_from_pr') :Args() {
             });
 
             # update first comment with link to IA page
-            warn Dumper $pr_data->{body};
-            warn Dumper $pr_data->{id};
+            my $has_link = $pr_data->{body} =~ /https?:\/\/duck.co\/ia\/view\/.+$/;
+
+            if(!$has_link){
+                $gh->pull_request->update_pull($pr_number, {
+                        body => "$pr_data->{body}\n---\nhttps://duck.co/ia/view/$id"
+                        });
+            }
         }
     }
-
     $c->stash->{x} = {
         result => $result,
         id => $id
