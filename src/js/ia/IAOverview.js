@@ -34,15 +34,19 @@
                 var id = $.trim($id_input.val());
                 var description = $.trim($("#description-input").val());
                 var dev_milestone = $.trim($("#dev_milestone-select .available_dev_milestones option:selected").text());
+
+                var data = {
+                    name : name,
+                    id : id,
+                    description : description,
+                    dev_milestone : dev_milestone
+                };
                 
                 if (name.length && id.length && dev_milestone.length && description.length) {
                     id = id.replace(/\s/g, '');
 
                     var jqxhr = $.post("/ia/create", {
-                        name : name,
-                        id : id,
-                        description : description,
-                        dev_milestone : dev_milestone
+                        data : JSON.stringify(data) 
                     })
                     .done(function(data) {
                         if (data.result && data.id) {

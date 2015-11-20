@@ -66,6 +66,7 @@ module.exports = function(grunt) {
         'IAOverview.js',
         'IAPage.js',
         'IAPageCommit.js',
+        'IAPageNew.js',
         'ready.js'
     ];
 
