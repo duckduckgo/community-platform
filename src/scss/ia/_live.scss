@@ -105,10 +105,16 @@
             padding-bottom: 10px;
         }
 
-        img.loader {
+        .loader {
             margin: auto;
             display: block;
             visibility: visible;
+	    background-image: url('../images/gray-sef8a01da81.png');
+	    margin-bottom: 2em;
+	    @include animation(loader-animate 0.5s steps(16) infinite);
+	    width: 64px;
+	    height: 40px;
+	    @include scale(.5);
         }
 
         .screenshot--status {
@@ -449,5 +455,14 @@
 
     #ia-single-top .pager-wrap {
         padding-left: 0;
+    }
+}
+
+@include keyframes(loader-animate) {
+    0% {
+        background-position: 1024px;
+    }
+    100% {
+        background-position: 0px;
     }
 }
