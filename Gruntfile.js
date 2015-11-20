@@ -14,6 +14,7 @@ module.exports = function(grunt) {
         'cssmin:ia_css',
         'removelogging',
         'uglify:js',
+	'concat_tasks',
 	'concat:libs_release',
         'remove:dev',
         'bump:minor',
@@ -24,17 +25,24 @@ module.exports = function(grunt) {
         'gitcommit'
     ];
 
+    // Short-hand for the common concat tasks.
+    // This doesn't include the libraries because the 
+    // inclusion of those depends on the kind of build.
+    var concat_tasks = [
+	'concat:ia_pages',
+        'concat:ddgc_pages',
+        'concat:ia_css',
+        'concat:ddgc_css',
+        'concat:content_css'
+    ];
+
     // tasks that run when building
     var build_tasks = [
         'exec:bower',
         'exec:deleteBuildFiles',
         'handlebars:compile',
         'compass',
-        'concat:ia_pages',
-	'concat:ddgc_pages',
-	'concat:ia_css',
-	'concat:ddgc_css',
-	'concat:content_css',
+	'concat_tasks',
 	'concat:libs_build',
         'jshint'
     ];
@@ -44,11 +52,7 @@ module.exports = function(grunt) {
         'exec:deleteBuildFiles',
         'handlebars:compile',
         'compass',
-        'concat:ia_pages',
-        'concat:ddgc_pages',
-        'concat:ia_css',
-        'concat:ddgc_css',
-        'concat:content_css',
+	'concat_tasks',
         'jshint'
     ];
 
@@ -74,6 +78,7 @@ module.exports = function(grunt) {
         static_dir: static_dir,
         templates_dir: templates_dir,
         release_tasks: release_tasks,
+	concat_tasks: concat_tasks,
 
         availabletasks: {
             tasks: {
@@ -82,7 +87,7 @@ module.exports = function(grunt) {
                     tasks: ['compass', 'diff'], // not using this yet
                     groups: {
                         'Utils:': ['watch'],
-                        'Build:' : ['handlebars', 'concat'],
+                        'Build:' : ['handlebars', 'concat:libs_build', 'concat_tasks'],
                         'Release:' : ['handlebars', 'concat', 'cssmin', 'removelogging', 'uglify', 'remove:dev', 'version'],
                         'Commit:' : ['gitcommit'],
                         'Revert:' : ['exec:revert']
@@ -304,6 +309,8 @@ module.exports = function(grunt) {
         // to ia.js
         grunt.registerTask('build', 'compiles templates, builds JS and CSS files', build_tasks);
         grunt.registerTask('build_release', 'compiles templates, builds JS and CSS files', build_tasks_release);
+
+        grunt.registerTask('concat_tasks', 'commmon concat tasks', concat_tasks);
 
         // commit files to the repo for release
         grunt.registerTask('commit', 'commit the versioned files to the repo, still needs to be manually pushed', commit_tasks);
