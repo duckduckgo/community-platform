@@ -142,7 +142,6 @@ my $update = sub {
 try{
     $d->db->txn_do( $update );
 } catch {
-    print "Update error, rolling back\n";
-    $d->errorlog("Error updating iameta, Rolling back update: $_");
+    print STDERR "Update error, rolling back: $_\n";
 };
 

@@ -93,10 +93,13 @@ sub iarepo_json :Chained('iarepo') :PathPart('json') :Args(0) {
         ( $repo ne 'all' )
             ? ( repo => $repo )
             : (),
-        -or => [{dev_milestone => 'live'},
-        {dev_milestone => 'development'},
-        {dev_milestone => 'testing'},
-        {dev_milestone => 'complete'}]
+        ( $c->req->params->{all_milestones} )
+            ? ()
+            : ( -or => [{dev_milestone => 'live'},
+                        {dev_milestone => 'development'},
+                        {dev_milestone => 'testing'},
+                        {dev_milestone => 'complete'}]
+              ),
     });
 
     $c->return_if_not_modified( $iarepo->last_modified );
