@@ -1249,8 +1249,6 @@ sub create_ia_from_pr :Chained('base') :PathPart('create_from_pr') :Args() {
         my @files = $gh->pull_request->files($pr_number);
         my $pr_data = $gh->pull_request->pull($pr_number);
 
-        # try to find an id in the files
-        my $id;
             # spice
         if($repo =~ /spice/i){
             foreach my $file (@files){

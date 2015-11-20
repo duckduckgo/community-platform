@@ -38,6 +38,7 @@
                         pr : pr
                     })
                     .done(function(data) {
+                        console.log(data);
                         checkRedirect(data, $pr_input);
                     });
                 }
