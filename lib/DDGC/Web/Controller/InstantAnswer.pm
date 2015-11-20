@@ -10,6 +10,7 @@ use Net::GitHub::V3;
 use DateTime;
 use LWP::UserAgent;
 use Digest::SHA;
+use Date::Parse;
 
 my $INST = DDGC::Config->new->appdir_path."/root/static/js";
 
@@ -1251,6 +1252,91 @@ sub create_ia :Chained('base') :PathPart('create') :Args() {
     $c->stash->{x} = {
         result => $result,
         id => $meta_id
+    };
+
+    $c->stash->{not_last_url} = 1;
+    return $c->forward($c->view('JSON'));
+}
+
+sub create_ia_from_pr :Chained('base') :PathPart('create_from_pr') :Args() {
+    my ( $self, $c ) = @_;
+    my $url = $c->req->params->{pr};
+    my ($id, $result) = '';
+
+    if(my ($repo, $pr_number) = $url =~ /https?:\/\/github.com\/duckduckgo\/zeroclickinfo-(.+)\/pull\/(.+)$/){
+        # get data form this pr
+        my $token = $ENV{DDGC_GITHUB_TOKEN} || $ENV{DDG_GITHUB_BASIC_OAUTH_TOKEN};
+        my $gh = Net::GitHub->new(access_token => $token);
+        $gh->set_default_user_repo('duckduckgo', "zeroclickinfo-$repo");
+
+        my @files = $gh->pull_request->files($pr_number);
+        my $pr_data = $gh->pull_request->pull($pr_number);
+
+            # spice
+        if($repo =~ /spice/i){
+            foreach my $file (@files){
+                ($id) = $file->{patch} =~ /id:\s?(?:'|")(.+)(?:'|")/;
+                last if $id;
+            }
+        }
+        elsif( $repo =~ /goodie/i ){
+            # check for cheat sheets
+            my $is_cheatsheet;
+            my $cheat_sheet_json;
+
+            foreach my $file (@files){
+                ($is_cheatsheet) = $file->{filename} =~ /cheat_sheets\/json/;
+                $cheat_sheet_json = $file->{patch};
+                last if $is_cheatsheet;
+            }
+
+            # cheat sheets
+            if($is_cheatsheet){
+                ($id) = $cheat_sheet_json =~ /(?:'|")id(?:'|"):\s?(?:'|")(.+)(?:'|"),/;
+            }else{
+                # find from perl module
+                foreach my $file (@files){
+                    my $tmp_repo = $repo;
+                    $tmp_repo =~ s/s$//;
+                    ($id) = $file->{filename} =~ /lib\/DDG\/$tmp_repo\/(.+)\.pm/i;
+                    last if $id;
+                }
+            }
+
+        }
+
+        if($id){
+            $result = 1;
+
+            $c->d->rs('InstantAnswer')->update_or_create({
+                id => $id,
+                meta_id => $id,
+                name => $id,
+                repo => $repo,
+                dev_milestone => 'planning'
+            });
+
+            $c->d->rs('InstantAnswer::Issues')->update_or_create({
+                instant_answer_id => $id,
+                repo => $repo,
+                issue_id => $pr_number,
+                is_pr => 1,
+                tags => {},
+            });
+
+            # update first comment with link to IA page
+            my $has_link = $pr_data->{body} =~ /https?:\/\/duck.co\/ia\/view\/.+$/;
+
+            if(!$has_link){
+                $gh->pull_request->update_pull($pr_number, {
+                        body => "$pr_data->{body}\n---\nhttps://duck.co/ia/view/$id"
+                        });
+            }
+        }
+    }
+    $c->stash->{x} = {
+        result => $result,
+        id => $id
     };
 
     $c->stash->{not_last_url} = 1;
