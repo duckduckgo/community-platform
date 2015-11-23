@@ -1377,10 +1377,10 @@
 
                         }
 
-                        if (ia_data.live.test_machine && ia_data.live.example_query && ia_data.permissions.can_edit) {
+                        if (ia_data.live.example_query && ia_data.permissions.can_edit) {
                             ia_data.can_show = 1;
                         } else {
-                             ia_data.can_show = 0;
+                            ia_data.can_show = 0;
                         }
 
                         page.updateHandlebars(readonly_templates, ia_data, ia_data.live.dev_milestone, false);
