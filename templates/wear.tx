@@ -41,7 +41,13 @@
 	<: } :>
 </div>
 
-: if !$user {
+<: if $no_campaign { :>
+	<div id="responded">
+		<div class="shareit-responded  notice success"><i class="icn icon-thumbs-up-alt"></i>We have no questions for you right now. Please check back later. Thank you!</div>
+	</div>
+<: } :>
+
+: if !$user || $no_campaign {
 <div id="shareit-disclaimer" class="shareit-disclaimer">
 	<p><em>Disclaimer:</em></p>
 	<p>We started the Spread campaign to allow our loyal and engaged users to share our journey and showcase DuckDuckGo to their family &amp; friends.</p>
@@ -51,12 +57,6 @@
 </div>
 : }
 
-
-<: if $no_campaign { :>
-	<div id="responded">
-		<div class="shareit-responded  notice success"><i class="icn icon-thumbs-up-alt"></i>We have no questions for you right now. Please check back later. Thank you!</div>
-	</div>
-<: } :>
 
 <: if $campaign == 'share' { :>
 <div id="mailform1" class="shareit-form  form-border">
