@@ -41,8 +41,10 @@
                             ia_data.permissions.admin = 1;
                         }
 
-                        if(ia_data.live.beta_install.match(/^success/) && ia_data.live.example_query) {
-                            ia_data.live.can_show = true;
+                        if (ia_data.live.hasOwnProperty("beta_install") && ia_data.live.beta_install) {
+                            if(ia_data.live.beta_install.match(/^success/) && ia_data.live.example_query) {
+                                ia_data.live.can_show = true;
+                            }
                         }
 
                         // Avoid using the edited dev milestone to decide what page layout
