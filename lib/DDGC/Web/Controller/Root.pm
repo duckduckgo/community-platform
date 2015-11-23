@@ -187,6 +187,9 @@ sub wear :Chained('base') :PathPart('wear') :Args(0) {
 		$c->stash->{user} = $c->user;
 		$c->stash->{campaign} = $c->user->get_first_available_campaign;
 		if ($c->stash->{campaign}) {
+			if ($c->stash->{campaign} eq 'share' && !$c->user->responded_campaign('share')) {
+				goto REDIRECT;
+			}
 			$c->stash->{campaign_config} = $c->d->config->campaigns->{ $c->stash->{campaign} };
 			$c->user->set_seen_campaign($c->stash->{campaign}, 'campaign');
 		}
@@ -199,7 +202,12 @@ sub wear :Chained('base') :PathPart('wear') :Args(0) {
 				$c->stash->{no_campaign} = 1;
 			}
 		}
+		return $c->detach;
 	}
+
+REDIRECT:
+	$c->response->redirect( 'https://duckduckgo.com/about' );
+	return $c->detach;
 }
 
 sub status :Chained('base') :PathPart('status') :Args(0) {
