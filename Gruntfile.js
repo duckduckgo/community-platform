@@ -18,12 +18,13 @@ module.exports = function(grunt) {
 	    'concat_tasks',
 	    'concat:libs_release',
         'remove:dev',
-        'bump:minor'
+        'bump:minor',
+        'gitadd'
     ];
 
     // commit files for release
     var commit_tasks = [
-        'gitcommit'
+        'exec:commit_static'
     ];
 
     // Short-hand for the common concat tasks.
@@ -90,8 +91,8 @@ module.exports = function(grunt) {
                     groups: {
                         'Utils:': ['watch'],
                         'Build:' : ['handlebars', 'concat:libs_build', 'concat_tasks'],
-                        'Release:' : ['handlebars', 'concat', 'cssmin', 'removelogging', 'uglify', 'remove:dev', 'gitrm:old_releases', 'version'],
-                        'Commit:' : ['gitcommit'],
+                        'Release:' : ['handlebars', 'concat', 'cssmin', 'removelogging', 'uglify', 'remove:dev', 'gitrm:old_releases', 'version', 'gitadd'],
+                        'Commit:' : ['exec:commit_static'],
                         'Revert:' : ['exec:revert']
                     }
                 }
@@ -194,6 +195,20 @@ module.exports = function(grunt) {
             }
         },
 
+        gitadd: {
+            options: {
+                force: 'true'
+            },
+            files: {
+                src: [
+                    static_dir + 'js/ia0.*.0.js',
+                    static_dir + 'js/ddgc0.*.0.js',
+                    static_dir + 'css/ddgc0.*.0.css',
+                    static_dir + 'css/ia0.*.0.css'
+                ]
+            }
+        },
+
         /*
          * for release check ia.js to see if it has changed.  If true then
          * run the tasks.  If not then stop here.
@@ -274,6 +289,7 @@ module.exports = function(grunt) {
             revert: "./script/revert_pkg_version.pl",
             revert_release: "./script/revert_pkg_version.pl release",
             deleteBuildFiles: "mkdir -p build && rm -r build",
+            commit_static: "git commit root/static -m 'Release IA pages version: <%= pkg.version %>'",
             bower: "bower install"
         },
 
