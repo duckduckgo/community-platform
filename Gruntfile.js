@@ -289,7 +289,7 @@ module.exports = function(grunt) {
             revert: "./script/revert_pkg_version.pl",
             revert_release: "./script/revert_pkg_version.pl release",
             deleteBuildFiles: "mkdir -p build && rm -r build",
-            commit_static: "git commit root/static -m 'Release IA pages version: <%= pkg.version %>'",
+            commit_static: "git commit root/static package.json -m 'Release IA pages version: <%= pkg.version %>'",
             bower: "bower install"
         },
 
