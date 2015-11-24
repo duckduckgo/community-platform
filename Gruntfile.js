@@ -222,29 +222,6 @@ module.exports = function(grunt) {
         },
 
         /*
-         * commits the ia.js version file and package.json
-         * still needs to be pushed
-         */
-        gitcommit: {
-            ia_pages: {
-                options: {
-                    message: 'Release IA pages version: <%= pkg.version %>'
-                },
-                files: {
-                    src: [
-                        static_dir + 'js/ia0.*.0.js',
-                        static_dir + 'js/ddgc0.*.0.js',
-                        static_dir + 'css/ddgc0.*.0.css',
-                        static_dir + 'css/ia0.*.0.css',
-                        static_dir + 'css/ddgc.css',
-                        'package.json'
-                    ]
-                }
-            }
-
-        },
-
-        /*
          * removes console.log
          */
         removelogging: {
