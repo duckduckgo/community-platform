@@ -219,7 +219,7 @@ sub dev_pipeline_json :Chained('dev_pipeline_base') :PathPart('json') :Args(0) {
     );
     $key = 'dev_milestone';
 
-    my $asana_server = "http://beta.duckduckgo.com/install?asana&ia=everything";
+    my $asana_server = "http://jason.duckduckgo.com/install?asana&ia=everything";
 
     my $result = asana_req('', $asana_server);
     $result = $result->decoded_content ? from_json($result->decoded_content) : undef;
@@ -228,7 +228,7 @@ sub dev_pipeline_json :Chained('dev_pipeline_base') :PathPart('json') :Args(0) {
     my $temp_ia;
 
     my $ua = LWP::UserAgent->new;
-    my $server = "http://beta.duckduckgo.com/installed.json";
+    my $server = "http://jason.duckduckgo.com/installed.json";
     my $env_key = $ENV{'BETA_KEY'};
     my $req = HTTP::Request->new(GET => $server);
     my $header_data = "sha1=".Digest::SHA::hmac_sha1_hex(to_json({test => 'test' }), $env_key);
@@ -710,7 +710,7 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
     $ia_data{live} = $ia->TO_JSON;
 
     my $ua = LWP::UserAgent->new;
-    my $server = "http://beta.duckduckgo.com/installed.json";
+    my $server = "http://jason.duckduckgo.com/installed.json";
     my $env_key = $ENV{'BETA_KEY'};
     my $req = HTTP::Request->new(GET => $server);
     my $header_data = "sha1=".Digest::SHA::hmac_sha1_hex(to_json({test => 'test' }), $env_key);
@@ -798,7 +798,7 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
         }
     }
 
-    $server = "http://beta.duckduckgo.com/install?asana&ia=" . $ia->id;
+    $server = "http://jason.duckduckgo.com/install?asana&ia=" . $ia->id;
 
     my $result = asana_req('', $server);
     $ia_data{live}->{asana} = $result->decoded_content ? from_json($result->decoded_content) : undef;
@@ -885,7 +885,7 @@ sub send_to_beta :Chained('base') :PathPart('send_to_beta') :Args(0) {
     $c->stash->{x}->{result} = $result;
     return $c->forward($c->view('JSON')) unless ($c->req->params->{data} && $c->user && $c->user->admin);
 
-    my $server = "http://beta.duckduckgo.com/install";
+    my $server = "http://jason.duckduckgo.com/install";
     my $key = $ENV{'BETA_KEY'};
     my $decoded_data = from_json($c->req->params->{data});
 
@@ -938,7 +938,7 @@ sub asana :Chained('base') :PathPart('asana') :Args(0) {
           title     => $pr->{title},
     );
 
-    my $server = "http://beta.duckduckgo.com/install?asana";
+    my $server = "http://jason.duckduckgo.com/install?asana";
 
     my $result = asana_req(\%data, $server);
 

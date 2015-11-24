@@ -30,10 +30,11 @@ my @results;
 
 # the repos we care about
 my @repos = (
-    'zeroclickinfo-spice',
-    'zeroclickinfo-goodies',
-    'zeroclickinfo-longtail',
-    'zeroclickinfo-fathead'
+    'zeroclickinfo-spice'
+    # ,
+    # 'zeroclickinfo-goodies',
+    #'zeroclickinfo-longtail',
+    #'zeroclickinfo-fathead'
 );
 
 my $token = $ENV{DDGC_GITHUB_TOKEN} || $ENV{DDG_GITHUB_BASIC_OAUTH_TOKEN};
@@ -53,7 +54,11 @@ map{ $pr_hash{$_->{issue_id}.$_->{repo}} = $_ } @pull_requests;
 sub getIssues{
     foreach my $repo (@repos){
         my $line = 1;
-        my @issues = $gh->issue->repos_issues('duckduckgo', $repo, {state => 'open'});
+        my @issues = $gh->issue->repos_issues('duckduckgo', $repo, {
+                state => 'all',
+                since => "2015-04-10T20:09:31Z"
+            }
+        );
 
         while($gh->issue->has_next_page){
             push(@issues, $gh->issue->next_page)
@@ -72,7 +77,7 @@ sub getIssues{
 			# Update this later for whatever format we decide on
 			my $name_from_link = '';
             ($name_from_link) = $issue->{'body'} =~ /https?:\/\/duck\.co\/ia\/view\/(\w+)/i;
-			
+
             # remove special chars from title and body
 			$issue->{'body'} =~ s/\'//g;
 			$issue->{'title'} =~ s/\'//g;
@@ -330,7 +335,7 @@ my $merge_files = sub {
 };
 
 my $update = sub {
-    $d->rs('InstantAnswer::Issues')->delete_all();
+    #$d->rs('InstantAnswer::Issues')->delete_all();
 
     foreach my $result (@results){
         # check if the IA is in our table so we dont die on a foreign key error
@@ -343,7 +348,7 @@ my $update = sub {
         } )->one_row;
  
         if(exists $result->{name} && $ia){
-            $d->rs('InstantAnswer::Issues')->create({
+            $d->rs('InstantAnswer::Issues')->update_or_create({
                 instant_answer_id => $ia->id,
                 repo => $result->{repo},
                 issue_id => $result->{issue_id},
