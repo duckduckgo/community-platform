@@ -15,6 +15,9 @@ use Net::GitHub::V3;
 use Time::Local;
 use Term::ProgressBar;
 use Date::Parse;
+use Time::Piece;
+use Time::Seconds;
+
 my $d = DDGC->new;
 
 BEGIN {
@@ -30,11 +33,10 @@ my @results;
 
 # the repos we care about
 my @repos = (
-    'zeroclickinfo-spice'
-    # ,
-    # 'zeroclickinfo-goodies',
-    #'zeroclickinfo-longtail',
-    #'zeroclickinfo-fathead'
+    'zeroclickinfo-spice',
+    'zeroclickinfo-goodies',
+    'zeroclickinfo-longtail',
+    'zeroclickinfo-fathead'
 );
 
 my $token = $ENV{DDGC_GITHUB_TOKEN} || $ENV{DDG_GITHUB_BASIC_OAUTH_TOKEN};
@@ -50,13 +52,17 @@ map{ $pr_hash{$_->{issue_id}.$_->{repo}} = $_ } @pull_requests;
 
 #warn Dumper keys %pr_hash;
 
+my $today = localtime;
+# get last days worth of issues
+my $since = $today - ONE_DAY;
+
 # get the GH issues
 sub getIssues{
     foreach my $repo (@repos){
         my $line = 1;
         my @issues = $gh->issue->repos_issues('duckduckgo', $repo, {
                 state => 'all',
-                since => "2015-04-10T20:09:31Z"
+                since => $since->datetime
             }
         );
 
