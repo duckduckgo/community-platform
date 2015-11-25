@@ -355,7 +355,6 @@ my $update = sub {
         } )->one_row;
  
         if(exists $result->{name} && $ia){
-            warn "updating issue status $result->{state}";
             $d->rs('InstantAnswer::Issues')->update_or_create({
                 instant_answer_id => $ia->id,
                 repo => $result->{repo},
