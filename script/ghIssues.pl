@@ -54,7 +54,7 @@ map{ $pr_hash{$_->{issue_id}.$_->{repo}} = $_ } @pull_requests;
 
 my $today = localtime;
 # get last days worth of issues
-my $since = $today - ONE_DAY;
+my $since = $today - (1 * ONE_DAY);
 
 # get the GH issues
 sub getIssues{
@@ -127,6 +127,7 @@ sub getIssues{
                 all_comments => $comments,
                 mentions => $mentions,
                 producer => $producer,
+                state => $issue->{state},
 			);
 
 			push(@results, \%entry);
@@ -354,6 +355,7 @@ my $update = sub {
         } )->one_row;
  
         if(exists $result->{name} && $ia){
+            warn "updating issue status $result->{state}";
             $d->rs('InstantAnswer::Issues')->update_or_create({
                 instant_answer_id => $ia->id,
                 repo => $result->{repo},
@@ -364,6 +366,7 @@ my $update = sub {
                 is_pr => $result->{is_pr},
                 date => $result->{date},
                 author => $result->{author},
+                status => $result->{state},
 	        });
 
         }
