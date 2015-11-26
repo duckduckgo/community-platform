@@ -2,11 +2,11 @@ module.exports = function(grunt) {
     var static_dir = 'root/static/';
     var templates_dir = 'src/templates/';
 
+    // Libraries that we need.
     var moment = 'bower_components/moment/min/moment.min.js';
     var charts = 'bower_components/Chart.js/Chart.min.js';
 
-    // tasks that run after diff
-    // to release a new version
+    // Tasks that run when releasing.
     var release_tasks = [
         'build_release',
         'cssmin:ddgc_css',
@@ -18,7 +18,7 @@ module.exports = function(grunt) {
         'bump:minor',
     ];
 
-    // commit files for release
+    // Commit files for release.
     var commit_tasks = [
         'gitcommit'
     ];
@@ -37,7 +37,7 @@ module.exports = function(grunt) {
         'concat:ddgc_pages'
     ];
 
-    // tasks that run when building
+    // Tasks that run when building.
     var build_tasks = [
         'exec:bower',
         'exec:deleteBuildFiles',
@@ -88,11 +88,9 @@ module.exports = function(grunt) {
             tasks: {
                 options: {
                     filter: 'exclude',
-                    tasks: ['sass', 'diff'], // not using this yet
+                    tasks: ['sass', 'diff'],
                     groups: {
                         'Utils:': ['watch'],
-                        'Build:' : ['handlebars', 'concat:libs_build', 'concat_tasks'],
-                        'Release:' : ['handlebars', 'concat', 'cssmin', 'removelogging', 'uglify', 'remove:dev', 'version'],
                         'Commit:' : ['gitcommit'],
                         'Revert:' : ['exec:revert']
                     }
@@ -153,7 +151,7 @@ module.exports = function(grunt) {
         },
 
         /*
-         * uglify ia.js and give it a version number for release
+         * Uglify ia.js and ddgc.js and give it a version number for release.
          */
         uglify: {
             js: {
@@ -165,7 +163,7 @@ module.exports = function(grunt) {
         },
 
         /*
-         * removes dev versions of JS and CSS files
+         * Removes dev versions of JS and CSS files
          */
         remove: {
             dev: {
@@ -181,8 +179,8 @@ module.exports = function(grunt) {
         },
 
         /*
-         * for release check ia.js to see if it has changed.  If true then
-         * run the tasks.  If not then stop here.
+         * For release check ia.js to see if it has changed. If true then
+         * run the tasks. If not then stop here.
          */
         diff: {
             ia_js: {
@@ -193,7 +191,7 @@ module.exports = function(grunt) {
         },
 
         /*
-         * commits the ia.js version file and package.json
+         * Commits the ia.js version file and package.json
          * still needs to be pushed
          */
         gitcommit: {
@@ -216,7 +214,7 @@ module.exports = function(grunt) {
         },
 
         /*
-         * removes console.log
+         * Removes console.log
          */
         removelogging: {
             dist: {
@@ -225,7 +223,7 @@ module.exports = function(grunt) {
         },
 
         /*
-         * not used yet
+         * Build Sass files.
          */
 	sass: {
 	    options: {
@@ -243,7 +241,7 @@ module.exports = function(grunt) {
 	},
 
         /*
-         * minify and version css files
+         * Minify and version CSS files.
          */
         cssmin: {
             ddgc_css: {
@@ -254,9 +252,6 @@ module.exports = function(grunt) {
             }
         },
 
-        /*
-         * revert the version number in package.json
-         */
         exec: {
             revert: "./script/revert_pkg_version.pl",
             revert_release: "./script/revert_pkg_version.pl release",
@@ -264,14 +259,15 @@ module.exports = function(grunt) {
             bower: "bower install"
         },
 
+	// Build again if any of the JS / SCSS files changed.
         watch: {
             scripts: {
                 files: ['src/js/ia/*.js', 'src/js/ddgc/*.js'],
-                tasks: ['concat:libs_build', 'concat_js']
+                tasks: ['concat_js', 'concat:libs_build']
             },
             templates: {
                 files: ['src/templates/*.handlebars'],
-                tasks: ['handlebars', 'concat:libs_build', 'concat_js']
+                tasks: ['handlebars', 'concat_js', 'concat:libs_build']
             },
             scss_ia: {
                 files: ['src/scss/ia/*.scss', 'src/scss/ddgc/*.scss', 'src/scss/content/*.scss', 'src/scss/*.scss'],
@@ -280,7 +276,7 @@ module.exports = function(grunt) {
         },
 
         /*
-         * bumps the version number in package.json
+         * Bumps the version number in package.json
          */
         bump: {
             options: {
@@ -306,29 +302,17 @@ module.exports = function(grunt) {
 
     });
 
-    // check diff on ia.js.  Diff runs rest
-    // of release process if the file has changed
-    grunt.registerTask('release', 'same as build but creates versioned JS and CSS files', release_tasks);
-
-    // compile handlebars and concat js files
-    // to ia.js
-    grunt.registerTask('build', 'compiles templates, builds JS and CSS files', build_tasks);
-    grunt.registerTask('build_release', 'compiles templates, builds JS and CSS files', build_tasks_release);
-
+    grunt.registerTask('release', 'Same as build but creates versioned JS and CSS files.', release_tasks);
+    grunt.registerTask('build', 'Compiles templates, builds JS and CSS files.', build_tasks);
+    grunt.registerTask('build_release', 'Compiles templates, builds JS and CSS files for release.', build_tasks_release);
     grunt.registerTask('concat_js', 'Concatenate JS files', concat_js);
     grunt.registerTask('concat_css', 'Concatenate CSS files', concat_css);
-
-    // commit files to the repo for release
     grunt.registerTask('commit', 'commit the versioned files to the repo, still needs to be manually pushed', commit_tasks);
-
-    // default task runs build
     grunt.registerTask('default', build_tasks);
-
     grunt.registerTask('revert', ['exec:revert']);
-
     grunt.registerTask('revert-release', ['exec:revert_release']);
 
-    // add modules here
+    // Add modules here
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-contrib-handlebars');
     grunt.loadNpmTasks('grunt-contrib-uglify');
