@@ -1459,9 +1459,9 @@ sub add_edit {
 }
 
 sub user_contributed {
-    my ($c) = @_;
+    my ($user) = @_;
 
-    $c->user->update({'new_contributor' => 0});
+    $user->update({'new_contributor' => 0});
 }
 
 sub check_github {

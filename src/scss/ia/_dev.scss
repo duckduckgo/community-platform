@@ -142,7 +142,7 @@
         margin-top: 0.5em;
     }
 
-    #contributors-popup {
+    #contributors-popup, #next-steps-overlay {
         position: fixed;
         z-index: 1000;
         padding: 2.5em;
@@ -178,7 +178,7 @@
         }
     }
 
-    #edit-modal {
+    #edit-modal, #next-steps-bg {
         height: 100%;
         width: 100%;
         position: fixed;

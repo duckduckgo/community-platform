@@ -7,38 +7,6 @@
     <: } :>
 </select>
 
-<: if $new_contributor { :>
-    <div id="next-steps-overlay">
-        <h3> Congratulations! </h3>
-        <p> The page you just created is the home of your Instant Answer </p>
-        <hr />
-        <h4> Next Steps: </h4>
-        <ul>
-            <li>
-                <label> Make sure that basic information is filled out </label>
-                <p> Write a good description, add various example queries </p>
-            </li>
-            <li> 
-                <label> Fork the appropriate repository for your IA type </label>
-                <p> Link1, link2 </p>
-            </li>
-            <li>
-                <label> Set up your environment </label>
-                <p> Link to the docs </p>
-            </li>
-            <li>
-                <label> Create a Pull Request </label>
-                <p> Don't forget to include the link to this IA Page in the PR description.</p>
-                <p> Dax will post to your PR from time to time: when you open your PR, when it gets deployed
-                to the beta server, and when it's merged. </p>
-            </li>
-        </ul>
-        <p>Thanks for contributing, we hope you'll have fun!</p>
-        <p> If you have any questions, feel free to ask them on (link to slack) </p>
-        <span class="clearfix"></span>
-    </div>
-<: } :>
-
 <select id="allowed_blockgroups" class="hide">
     <option value=""> --- </option>
     <: for $blockgroup_list -> $blockgroup { :>
@@ -74,6 +42,40 @@
     </div>
 
     <div class="ia-single__body content-wrap" id="ia-single-body">
+
+<: if $new_contributor { :>
+    <div id="next-steps-bg"></div>
+    <div id="next-steps-overlay">
+        <h3> Congratulations! </h3>
+        <p> The page you just created is the home of your Instant Answer </p>
+        <hr />
+        <h4> Next Steps: </h4>
+        <ul>
+            <li>
+                <label> Make sure that basic information is filled out </label>
+                <p> Write a good description, add various example queries </p>
+            </li>
+            <li> 
+                <label> Fork the appropriate repository for your IA type </label>
+                <p> Link1, link2 </p>
+            </li>
+            <li>
+                <label> Set up your environment </label>
+                <p> Link to the docs </p>
+            </li>
+            <li>
+                <label> Create a Pull Request </label>
+                <p> Don't forget to include the link to this IA Page in the PR description.</p>
+                <p> Dax will post to your PR from time to time: when you open your PR, when it gets deployed
+                to the beta server, and when it's merged. </p>
+            </li>
+        </ul>
+        <p>Thanks for contributing, we hope you'll have fun!</p>
+        <p> If you have any questions, feel free to ask them on (link to slack) </p>
+        <div class="button btn--primary" id="next-steps-close"> Ok </div>
+        <span class="clearfix"></span>
+    </div>
+<: } :>
         <div class="ia-single--left seventy"></div>
         <div class="ia-single--right g thirty"></div>
         <div class="ia-single--edits hide">
