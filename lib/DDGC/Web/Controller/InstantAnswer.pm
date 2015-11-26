@@ -661,6 +661,11 @@ sub ia_base :Chained('base') :PathPart('view') :CaptureArgs(1) {  # /ia/view/cal
                 )->all;
 
                 $c->stash->{blockgroup_list} = \@blockgroups;
+            } else {
+                if ($c->user->new_contributor) {
+                    $c->stash->{new_contributor} = 1;
+                    user_contributed($c->user);
+                }
             }
         }
     }
@@ -1451,6 +1456,12 @@ sub add_edit {
                 value => to_json({field => $value}),
                 timestamp => time
     });    
+}
+
+sub user_contributed {
+    my ($c) = @_;
+
+    $c->user->update({'new_contributor' => 0});
 }
 
 sub check_github {
