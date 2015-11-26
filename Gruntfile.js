@@ -1,5 +1,4 @@
 module.exports = function(grunt) {
-
     var static_dir = 'root/static/';
     var templates_dir = 'src/templates/';
 
@@ -14,7 +13,6 @@ module.exports = function(grunt) {
         'cssmin:ia_css',
         'removelogging',
         'uglify:js',
-	'concat_tasks',
 	'concat:libs_release',
         'remove:dev',
         'bump:minor',
@@ -28,12 +26,15 @@ module.exports = function(grunt) {
     // Short-hand for the common concat tasks.
     // This doesn't include the libraries because the 
     // inclusion of those depends on the kind of build.
-    var concat_tasks = [
-	'concat:ia_pages',
-        'concat:ddgc_pages',
+    var concat_css = [
         'concat:ia_css',
         'concat:ddgc_css',
         'concat:content_css'
+    ];
+
+    var concat_js = [
+	'concat:ia_pages',
+        'concat:ddgc_pages'
     ];
 
     // tasks that run when building
@@ -41,9 +42,10 @@ module.exports = function(grunt) {
         'exec:bower',
         'exec:deleteBuildFiles',
         'handlebars:compile',
-        'compass',
-	'concat_tasks',
+        'sass',
+	'concat_js',
 	'concat:libs_build',
+	'concat_css',
         'jshint'
     ];
 
@@ -51,8 +53,9 @@ module.exports = function(grunt) {
         'exec:bower',
         'exec:deleteBuildFiles',
         'handlebars:compile',
-        'compass',
-	'concat_tasks',
+        'sass',
+	'concat_js',
+	'concat_css',
         'jshint'
     ];
 
@@ -74,18 +77,18 @@ module.exports = function(grunt) {
         ia_page_js[file] = "src/js/ia/" + ia_page_js[file];
     }
 
+    var compass = require('compass-importer');
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
         static_dir: static_dir,
         templates_dir: templates_dir,
         release_tasks: release_tasks,
-	concat_tasks: concat_tasks,
 
         availabletasks: {
             tasks: {
                 options: {
                     filter: 'exclude',
-                    tasks: ['compass', 'diff'], // not using this yet
+                    tasks: ['sass', 'diff'], // not using this yet
                     groups: {
                         'Utils:': ['watch'],
                         'Build:' : ['handlebars', 'concat:libs_build', 'concat_tasks'],
@@ -184,7 +187,7 @@ module.exports = function(grunt) {
         diff: {
             ia_js: {
                 src: [ ],
-               // src: [ static_dir + 'ia.js'],
+		// src: [ static_dir + 'ia.js'],
                 tasks: release_tasks
             }
         },
@@ -224,19 +227,20 @@ module.exports = function(grunt) {
         /*
          * not used yet
          */
-        compass: {
-            options: {
-                sassDir: 'src/scss',
-                cssDir: 'build'
+	sass: {
+	    options: {
+		importer: compass
             },
-            dist: {
-                options: {
-                    ia: {
-                        cssDir: 'build'
-                    },
-                }
-            }
-        },
+	    dist: {
+		files: [{
+		    expand: true,
+		    cwd: 'src/scss',
+		    src: ['*.scss'],
+		    dest: '../../build',
+		    ext: '.css'
+		}]
+	    }
+	},
 
         /*
          * minify and version css files
@@ -263,15 +267,15 @@ module.exports = function(grunt) {
         watch: {
             scripts: {
                 files: ['src/js/ia/*.js', 'src/js/ddgc/*.js'],
-                tasks: ['concat:libs_build', 'concat_tasks']
+                tasks: ['concat:libs_build', 'concat_js']
             },
             templates: {
                 files: ['src/templates/*.handlebars'],
-                tasks: ['handlebars', 'concat:libs_build', 'concat_tasks']
+                tasks: ['handlebars', 'concat:libs_build', 'concat_js']
             },
-            scss: {
+            scss_ia: {
                 files: ['src/scss/ia/*.scss', 'src/scss/ddgc/*.scss', 'src/scss/content/*.scss', 'src/scss/*.scss'],
-                tasks: ['compass', 'concat:libs_build', 'concat_tasks']
+                tasks: ['sass', 'concat_css']
             }
         },
 
@@ -302,40 +306,41 @@ module.exports = function(grunt) {
 
     });
 
-        // check diff on ia.js.  Diff runs rest
-        // of release process if the file has changed
-        grunt.registerTask('release', 'same as build but creates versioned JS and CSS files', release_tasks);
+    // check diff on ia.js.  Diff runs rest
+    // of release process if the file has changed
+    grunt.registerTask('release', 'same as build but creates versioned JS and CSS files', release_tasks);
 
-        // compile handlebars and concat js files
-        // to ia.js
-        grunt.registerTask('build', 'compiles templates, builds JS and CSS files', build_tasks);
-        grunt.registerTask('build_release', 'compiles templates, builds JS and CSS files', build_tasks_release);
+    // compile handlebars and concat js files
+    // to ia.js
+    grunt.registerTask('build', 'compiles templates, builds JS and CSS files', build_tasks);
+    grunt.registerTask('build_release', 'compiles templates, builds JS and CSS files', build_tasks_release);
 
-        grunt.registerTask('concat_tasks', 'commmon concat tasks', concat_tasks);
+    grunt.registerTask('concat_js', 'Concatenate JS files', concat_js);
+    grunt.registerTask('concat_css', 'Concatenate CSS files', concat_css);
 
-        // commit files to the repo for release
-        grunt.registerTask('commit', 'commit the versioned files to the repo, still needs to be manually pushed', commit_tasks);
+    // commit files to the repo for release
+    grunt.registerTask('commit', 'commit the versioned files to the repo, still needs to be manually pushed', commit_tasks);
 
-        // default task runs build
-        grunt.registerTask('default', build_tasks);
+    // default task runs build
+    grunt.registerTask('default', build_tasks);
 
-        grunt.registerTask('revert', ['exec:revert']);
+    grunt.registerTask('revert', ['exec:revert']);
 
-        grunt.registerTask('revert-release', ['exec:revert_release']);
+    grunt.registerTask('revert-release', ['exec:revert_release']);
 
-        // add modules here
-        grunt.loadNpmTasks('grunt-contrib-concat');
-        grunt.loadNpmTasks('grunt-contrib-handlebars');
-        grunt.loadNpmTasks('grunt-contrib-uglify');
-        grunt.loadNpmTasks('grunt-diff');
-        grunt.loadNpmTasks('grunt-remove');
-        grunt.loadNpmTasks('grunt-git');
-        grunt.loadNpmTasks('grunt-remove-logging');
-        grunt.loadNpmTasks('grunt-contrib-compass');
-        grunt.loadNpmTasks('grunt-contrib-cssmin');
-        grunt.loadNpmTasks('grunt-exec');
-        grunt.loadNpmTasks('grunt-available-tasks');
-        grunt.loadNpmTasks('grunt-bump');
-        grunt.loadNpmTasks('grunt-contrib-jshint');
-        grunt.loadNpmTasks('grunt-contrib-watch');
+    // add modules here
+    grunt.loadNpmTasks('grunt-contrib-concat');
+    grunt.loadNpmTasks('grunt-contrib-handlebars');
+    grunt.loadNpmTasks('grunt-contrib-uglify');
+    grunt.loadNpmTasks('grunt-diff');
+    grunt.loadNpmTasks('grunt-remove');
+    grunt.loadNpmTasks('grunt-git');
+    grunt.loadNpmTasks('grunt-remove-logging');
+    grunt.loadNpmTasks('grunt-contrib-cssmin');
+    grunt.loadNpmTasks('grunt-exec');
+    grunt.loadNpmTasks('grunt-available-tasks');
+    grunt.loadNpmTasks('grunt-bump');
+    grunt.loadNpmTasks('grunt-contrib-jshint');
+    grunt.loadNpmTasks('grunt-contrib-watch');
+    grunt.loadNpmTasks('grunt-contrib-sass');
 }
