@@ -9,27 +9,29 @@ module.exports = function(grunt) {
     // tasks that run after diff
     // to release a new version
     var release_tasks = [
+        'gitrm:old_releases',
         'build_release',
         'cssmin:ddgc_css',
         'cssmin:ia_css',
         'removelogging',
         'uglify:js',
-	'concat_tasks',
-	'concat:libs_release',
+	    'concat_tasks',
+	    'concat:libs_release',
         'remove:dev',
         'bump:minor',
+        'gitadd'
     ];
 
     // commit files for release
     var commit_tasks = [
-        'gitcommit'
+        'exec:commit_static'
     ];
 
     // Short-hand for the common concat tasks.
     // This doesn't include the libraries because the 
     // inclusion of those depends on the kind of build.
     var concat_tasks = [
-	'concat:ia_pages',
+	    'concat:ia_pages',
         'concat:ddgc_pages',
         'concat:ia_css',
         'concat:ddgc_css',
@@ -42,8 +44,8 @@ module.exports = function(grunt) {
         'exec:deleteBuildFiles',
         'handlebars:compile',
         'compass',
-	'concat_tasks',
-	'concat:libs_build',
+	    'concat_tasks',
+	    'concat:libs_build',
         'jshint'
     ];
 
@@ -52,7 +54,7 @@ module.exports = function(grunt) {
         'exec:deleteBuildFiles',
         'handlebars:compile',
         'compass',
-	'concat_tasks',
+	    'concat_tasks',
         'jshint'
     ];
 
@@ -79,7 +81,7 @@ module.exports = function(grunt) {
         static_dir: static_dir,
         templates_dir: templates_dir,
         release_tasks: release_tasks,
-	concat_tasks: concat_tasks,
+	    concat_tasks: concat_tasks,
 
         availabletasks: {
             tasks: {
@@ -89,8 +91,8 @@ module.exports = function(grunt) {
                     groups: {
                         'Utils:': ['watch'],
                         'Build:' : ['handlebars', 'concat:libs_build', 'concat_tasks'],
-                        'Release:' : ['handlebars', 'concat', 'cssmin', 'removelogging', 'uglify', 'remove:dev', 'version'],
-                        'Commit:' : ['gitcommit'],
+                        'Release:' : ['handlebars', 'concat', 'cssmin', 'removelogging', 'uglify', 'remove:dev', 'gitrm:old_releases', 'version', 'gitadd'],
+                        'Commit:' : ['exec:commit_static'],
                         'Revert:' : ['exec:revert']
                     }
                 }
@@ -176,6 +178,37 @@ module.exports = function(grunt) {
                 ]
             }
         },
+        
+        gitrm: {
+            old_releases: {
+                options: { 
+                    force: 'true'
+                },
+                files: {
+                    src: [
+                        static_dir + 'js/ia0.*.0.js',
+                        static_dir + 'js/ddgc0.*.0.js',
+                        static_dir + 'css/ddgc0.*.0.css',
+                        static_dir + 'css/ia0.*.0.css'
+                    ]
+                }
+            }
+        },
+
+        gitadd: {
+            options: {
+                force: 'true'
+            },
+            files: {
+                src: [
+                    static_dir + 'js/ia0.*.0.js',
+                    static_dir + 'js/ddgc0.*.0.js',
+                    static_dir + 'css/ddgc0.*.0.css',
+                    static_dir + 'css/ia0.*.0.css',
+                    static_dir + 'css/content.css'
+                ]
+            }
+        },
 
         /*
          * for release check ia.js to see if it has changed.  If true then
@@ -187,29 +220,6 @@ module.exports = function(grunt) {
                // src: [ static_dir + 'ia.js'],
                 tasks: release_tasks
             }
-        },
-
-        /*
-         * commits the ia.js version file and package.json
-         * still needs to be pushed
-         */
-        gitcommit: {
-            ia_pages: {
-                options: {
-                    message: 'Release IA pages version: <%= pkg.version %>'
-                },
-                files: {
-                    src: [
-                        static_dir + 'js/ia0.*.0.js',
-                        static_dir + 'js/ddgc0.*.0.js',
-                        static_dir + 'css/ddgc0.*.0.css',
-                        static_dir + 'css/ia0.*.0.css',
-                        static_dir + 'css/ddgc.css',
-                        'package.json'
-                    ]
-                }
-            }
-
         },
 
         /*
@@ -257,6 +267,7 @@ module.exports = function(grunt) {
             revert: "./script/revert_pkg_version.pl",
             revert_release: "./script/revert_pkg_version.pl release",
             deleteBuildFiles: "mkdir -p build && rm -r build",
+            commit_static: "git commit root/static package.json -m 'Release IA pages version: <%= pkg.version %>'",
             bower: "bower install"
         },
 

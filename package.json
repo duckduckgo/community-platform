@@ -20,7 +20,7 @@
     "grunt-copy": "^0.1.0",
     "grunt-diff": "^0.1.5",
     "grunt-exec": "^0.4.6",
-    "grunt-git": "^0.2.14",
+    "grunt-git": "^0.3.7",
     "grunt-remove": "^0.1.0",
     "grunt-remove-logging": "^0.2.0",
     "grunt-version": "~0.2.2"
