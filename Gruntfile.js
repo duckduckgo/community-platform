@@ -205,6 +205,7 @@ module.exports = function(grunt) {
                     static_dir + 'js/ddgc0.*.0.js',
                     static_dir + 'css/ddgc0.*.0.css',
                     static_dir + 'css/ia0.*.0.css'
+                    static_dir + 'css/content.css'
                 ]
             }
         },
