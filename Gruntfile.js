@@ -276,7 +276,7 @@ module.exports = function(grunt) {
                 tasks: ['handlebars', 'concat_js', 'concat:libs_build'],
 		options: reload
             },
-            scss_ia: {
+            scss: {
                 files: ['src/scss/ia/*.scss', 'src/scss/ddgc/*.scss', 'src/scss/content/*.scss', 'src/scss/*.scss'],
                 tasks: ['sass', 'concat_css'],
 		options: reload
