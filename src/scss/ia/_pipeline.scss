@@ -346,7 +346,7 @@ textarea.edit-sidebar {
         list-style: none;
         padding: 0.3em 0;
         font-size: 1em;
-        background-color: white;
+        background-color: black;
         margin-bottom: 0.5em;
         border-radius: 2px;
         padding: 0.5em;
@@ -367,12 +367,11 @@ textarea.edit-sidebar {
 	}
 
 	&.dog-ear {
-	    @include background(linear-gradient(
-					  -135deg, 
-					  $blue-variant,
-					  $blue-variant 2%,
-					  transparent 2%,
-					  transparent));
+	    background-image: linear-gradient(-135deg, 
+					$blue-variant,
+					$blue-variant 2%,
+					transparent 2%,
+					transparent);
 	    background-origin: border-box;
 	}
 

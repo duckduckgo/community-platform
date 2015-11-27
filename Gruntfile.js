@@ -1,8 +1,17 @@
+var os = require('os');
+
 module.exports = function(grunt) {
     require('load-grunt-tasks')(grunt);
 
     var static_dir = 'root/static/';
     var templates_dir = 'src/templates/';
+
+    var reload = {
+	livereload: {
+	    host: os.hostname(),
+	    port: 5000
+	}
+    };
 
     // Libraries that we need.
     var moment = 'bower_components/moment/min/moment.min.js';
@@ -259,15 +268,18 @@ module.exports = function(grunt) {
         watch: {
             scripts: {
                 files: ['src/js/ia/*.js', 'src/js/ddgc/*.js'],
-                tasks: ['concat_js', 'concat:libs_build']
+                tasks: ['concat_js', 'concat:libs_build'],
+		options: reload
             },
             templates: {
                 files: ['src/templates/*.handlebars'],
-                tasks: ['handlebars', 'concat_js', 'concat:libs_build']
+                tasks: ['handlebars', 'concat_js', 'concat:libs_build'],
+		options: reload
             },
             scss_ia: {
                 files: ['src/scss/ia/*.scss', 'src/scss/ddgc/*.scss', 'src/scss/content/*.scss', 'src/scss/*.scss'],
-                tasks: ['sass', 'concat_css']
+                tasks: ['sass', 'concat_css'],
+		options: reload
             }
         },
 
