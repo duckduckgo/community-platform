@@ -1,4 +1,6 @@
 module.exports = function(grunt) {
+    require('load-grunt-tasks')(grunt);
+
     var static_dir = 'root/static/';
     var templates_dir = 'src/templates/';
 
@@ -77,7 +79,6 @@ module.exports = function(grunt) {
         ia_page_js[file] = "src/js/ia/" + ia_page_js[file];
     }
 
-    var compass = require('compass-importer');
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
         static_dir: static_dir,
@@ -226,17 +227,12 @@ module.exports = function(grunt) {
          * Build Sass files.
          */
 	sass: {
-	    options: {
-		importer: compass
-            },
 	    dist: {
-		files: [{
-		    expand: true,
-		    cwd: 'src/scss',
-		    src: ['*.scss'],
-		    dest: '../../build',
-		    ext: '.css'
-		}]
+		files: {
+		    'build/ia/main.css': 'src/scss/ia/main.scss',
+		    'build/ddgc/main.css': 'src/scss/ddgc/main.scss',
+		    'build/content/main.css': 'src/scss/content/main.scss',
+		}
 	    }
 	},
 
@@ -311,20 +307,4 @@ module.exports = function(grunt) {
     grunt.registerTask('default', build_tasks);
     grunt.registerTask('revert', ['exec:revert']);
     grunt.registerTask('revert-release', ['exec:revert_release']);
-
-    // Add modules here
-    grunt.loadNpmTasks('grunt-contrib-concat');
-    grunt.loadNpmTasks('grunt-contrib-handlebars');
-    grunt.loadNpmTasks('grunt-contrib-uglify');
-    grunt.loadNpmTasks('grunt-diff');
-    grunt.loadNpmTasks('grunt-remove');
-    grunt.loadNpmTasks('grunt-git');
-    grunt.loadNpmTasks('grunt-remove-logging');
-    grunt.loadNpmTasks('grunt-contrib-cssmin');
-    grunt.loadNpmTasks('grunt-exec');
-    grunt.loadNpmTasks('grunt-available-tasks');
-    grunt.loadNpmTasks('grunt-bump');
-    grunt.loadNpmTasks('grunt-contrib-jshint');
-    grunt.loadNpmTasks('grunt-contrib-watch');
-    grunt.loadNpmTasks('grunt-contrib-sass');
 }

@@ -1,7 +1,8 @@
 // now compass to do some of the heavy lifting
-@import 'compass'; 
-@import "compass/css3"; // vendor/cross-browser mixins
-@import "compass/support"; // automatic legacy browser support (kinda)
+@import "bower_components/compass-sass-mixins/lib/compass";
+/* @import "bower_components/compass-sass-mixins/lib/compass/css3"; // vendor/cross-browser mixins */
+@import "bower_components/compass-sass-mixins/lib/compass/support"; // automatic legacy browser support (kinda)
+@import "bower_components/compass-sass-mixins/lib/animation/core";
 
 @import "../../../bower_components/duckduckgo-colors/colors";
 @import "../../../bower_components/_ls/objects/buttons";
