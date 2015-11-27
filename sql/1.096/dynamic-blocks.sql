@@ -9,7 +9,7 @@ create table instant_answer_blockgroup (
 );
 
 copy instant_answer_blockgroup (blockgroup) from stdin;
-goodie_exlusive
+goodie_exclusive
 spice_killresult
 spice_nonexclusive
 goodie
@@ -28,21 +28,21 @@ update instant_answer set blockgroup = repo where repo != 'goodies' and char_len
 update instant_answer as ia set
     blockgroup = a.blockgroup
     from (values
-        ('conversions', 'goodie_exlusive'),
-        ('convert_lat_lon', 'goodie_exlusive'),
-        ('help_line', 'goodie_exlusive'),
-        ('laser_ship', 'goodie_exlusive'),
-        ('latex', 'goodie_exlusive'),
-        ('make_me_asandwich', 'goodie_exlusive'),
-        ('moon_phases', 'goodie_exlusive'),
-        ('passphrase', 'goodie_exlusive'),
-        ('password', 'goodie_exlusive'),
-        ('private_network', 'goodie_exlusive'),
-        ('random_number', 'goodie_exlusive'),
-        ('sha', 'goodie_exlusive'),
-        ('subnet_calc', 'goodie_exlusive'),
-        ('unix_time', 'goodie_exlusive'),
-        ('zapp_brannigan', 'goodie_exlusive'),
+        ('conversions', 'goodie_exclusive'),
+        ('convert_lat_lon', 'goodie_exclusive'),
+        ('help_line', 'goodie_exclusive'),
+        ('laser_ship', 'goodie_exclusive'),
+        ('latex', 'goodie_exclusive'),
+        ('make_me_asandwich', 'goodie_exclusive'),
+        ('moon_phases', 'goodie_exclusive'),
+        ('passphrase', 'goodie_exclusive'),
+        ('password', 'goodie_exclusive'),
+        ('private_network', 'goodie_exclusive'),
+        ('random_number', 'goodie_exclusive'),
+        ('sha', 'goodie_exclusive'),
+        ('subnet_calc', 'goodie_exclusive'),
+        ('unix_time', 'goodie_exclusive'),
+        ('zapp_brannigan', 'goodie_exclusive'),
         ('alternative_to', 'spice_killresult'),
         ('products', 'spice_killresult'),
         ('bitcoin', 'spice_killresult'),
