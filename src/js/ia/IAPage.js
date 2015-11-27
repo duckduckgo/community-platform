@@ -32,6 +32,13 @@
                     if ($(".special-permissions").length) {
                         ia_data.permissions = {can_edit: 1};
 
+			// See if we can show the generate screenshot button.
+                        if (ia_data.live.example_query && ia_data.permissions.can_edit) {
+                            ia_data.can_show = 1;
+                        } else {
+                            ia_data.can_show = 0;
+                        }
+
                         // Preview switch must be on "edited" by default
                         ia_data.preview = 1;
 
@@ -725,6 +732,10 @@
                         $("#edit-modal").hide();
                     });
 
+                    $("#next-steps-close").click(function(evt) {
+                        $("#next-steps-overlay, #next-steps-bg").addClass("hide");
+                    });
+
                     $("body").on("keypress", ".other_queries.js-autocommit, #example_query-input", function(evt) {
                         if (evt.keyCode === 13) {
                             $(".other_queries.js-autocommit, #example_query-input").trigger("blur");
@@ -1375,12 +1386,6 @@
                                 }
                             });
 
-                        }
-
-                        if (ia_data.live.test_machine && ia_data.live.example_query && ia_data.permissions.can_edit) {
-                            ia_data.can_show = 1;
-                        } else {
-                             ia_data.can_show = 0;
                         }
 
                         page.updateHandlebars(readonly_templates, ia_data, ia_data.live.dev_milestone, false);

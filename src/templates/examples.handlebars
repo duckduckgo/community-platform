@@ -1,11 +1,13 @@
 <div class="ia-examples ia-single--info {{#eq_or dev_milestone 'live' 'deprecated'}}{{#unless example_query}}hide{{/unless}}{{/eq_or}}">
     <h3 class="ia-single--header">
         <span {{#ne_and dev_milestone 'live' 'deprecated'}}{{#if permissions.can_edit}}class="asterisk"{{/if}}{{/ne_and}}>Example Queries</span>
-        {{#if permissions.can_edit}}
-            <a href="#" class="devpage-edit {{#or staged.example_query staged.other_queries}}hide{{/or}}" id="dev-edit-example_query">Edit</a>
-            <a href="#" class="devpage-commit sep--after {{#unless_and staged.example_query staged.other_queries}}hide{{/unless_and}}" id="dev-commit-example_query">Commit</a>
-            <a href="#" class="devpage-cancel {{#unless_and staged.example_query staged.other_queries}}hide{{/unless_and}}" id="dev-cancel-example_query">Cancel</a>
-        {{/if}}
+        {{#ne_and dev_milestone 'live' 'deprecated'}}
+            {{#if permissions.can_edit}}
+                <a href="#" class="devpage-edit {{#or staged.example_query staged.other_queries}}hide{{/or}}" id="dev-edit-example_query">Edit</a>
+                <a href="#" class="devpage-commit sep--after {{#unless_and staged.example_query staged.other_queries}}hide{{/unless_and}}" id="dev-commit-example_query">Commit</a>
+                <a href="#" class="devpage-cancel {{#unless_and staged.example_query staged.other_queries}}hide{{/unless_and}}" id="dev-cancel-example_query">Cancel</a>
+            {{/if}}
+        {{/ne_and}}
     </h3>
 
     {{#if permissions.can_edit}}
@@ -120,7 +122,7 @@
           </div>
 
           {{#ne_and dev_milestone 'live' 'deprecated'}}
-            {{#if can_show}}
+            {{#if ../can_show}}
                 <div class="pull-right screenshot-switcher--generate hide">
                   <span class="btn btn--primary">Generate Screenshot</span>
                 </div>
