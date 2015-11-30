@@ -605,4 +605,11 @@ $remsize: 16 * (parseInt($html-font-size) / 100);
 
     font-size: 13px;
     min-height: 100vh;
+    padding-bottom: 200px;
+}
+
+@mixin center-content() {
+    max-width: 1200px;
+    margin: 0px auto;
+    overflow: auto;
 }

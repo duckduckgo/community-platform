@@ -278,9 +278,7 @@ textarea.edit-sidebar {
 }
 
 #dev_pipeline { 
-    margin-top: 0.5em; 
-    max-width: 1200px;
-    margin: 0 auto;
+    @include center-content();
 }
 
 .item-activity a { 

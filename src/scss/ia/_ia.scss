@@ -563,11 +563,7 @@
 }
 
 #issues {
-    max-width: 1200px;
-    margin: 0px auto;
-    overflow: auto;
-    padding: 2em 0px;
-    padding-bottom: 200px;
+    @include center-content();
 }
 
 .issues-wrap {
