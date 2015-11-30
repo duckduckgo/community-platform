@@ -1,6 +1,5 @@
 // now compass to do some of the heavy lifting
 @import "bower_components/compass-sass-mixins/lib/compass";
-/* @import "bower_components/compass-sass-mixins/lib/compass/css3"; // vendor/cross-browser mixins */
 @import "bower_components/compass-sass-mixins/lib/compass/support"; // automatic legacy browser support (kinda)
 @import "bower_components/compass-sass-mixins/lib/animation/core";
 
@@ -20,6 +19,9 @@
 @import "../../../bower_components/duckduckgo-styles/objects/forms";
 @import "forms";
 @import "../z-index";
+
+@import "dev-nav";
+@import "mixins";
 
 @import "fonts";
 @import "ia";

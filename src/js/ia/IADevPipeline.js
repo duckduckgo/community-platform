@@ -28,6 +28,12 @@
             var url = window.location.pathname.replace(/\/$/, '') + "/json";
             var username = $(".user-name").text();
 
+	    // 100% width
+            $(".site-main > .content-wrap").first().removeClass("content-wrap").addClass("wrap-pipeline");
+	    $(".breadcrumb-nav").remove();
+	    $(".site-main").addClass("developer-main");
+
+
             $.getJSON(url, function(data) { 
                 // console.log(window.location.pathname);
                 // Check user permissions and add to the data
@@ -48,16 +54,10 @@
 
                 sort_pipeline();
 
-                $("#pipeline-stats").html(stats);
-
                 if ($.trim($("#select-action option:selected").text()) === "type") {
                     $("#select-milestone").addClass("hide");
                     $("#select-type").removeClass("hide");
                 }
-
-                // 100% width
-                $(".site-main > .content-wrap").first().removeClass("content-wrap").addClass("wrap-pipeline");
-		        $(".breadcrumb-nav").remove();
 
                 var parameters = window.location.search.replace("?", "");
                 parameters = $.trim(parameters.replace(/\/$/, ''));

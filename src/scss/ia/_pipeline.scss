@@ -143,12 +143,7 @@ textarea.edit-sidebar {
 }
 
 .wrap-pipeline {
-    /* Make the fonts look snazzy. */
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-
-    font-size: 13px;
-    min-height: 100vh;
+    @include wrapper();
 
     input, textarea {
 	outline: none;
@@ -283,9 +278,7 @@ textarea.edit-sidebar {
 }
 
 #dev_pipeline { 
-    margin-top: 0.5em; 
-    max-width: 1200px;
-    margin: 0 auto;
+    @include center-content();
 }
 
 .item-activity a { 
@@ -537,20 +530,3 @@ textarea.edit-sidebar {
     padding-bottom: 2em;
     padding-top: 2em;
 }
-
-.wrap-pipeline .pipeline__toggle-view {
-    background-color: $blue-light;
-    padding: 1em 1em;
-    margin-top: -1.2em;
-    color: white;
-
-    // Adjust z-index.
-    // It has to be above the actions sidebar.
-    position: relative;
-    z-index: $pipeline-blue-bar;
-
-    h1 {
-	color: white;
-    }
-}
-

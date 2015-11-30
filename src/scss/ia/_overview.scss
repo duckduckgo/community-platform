@@ -1,5 +1,9 @@
 @import "../../../bower_components/duckduckgo-colors/_colors";
 
+.overview-wrap {
+    @include wrapper();
+}
+
 .heavy {
     font-weight: 700;
 }
@@ -49,6 +53,8 @@
 
 /* General page style */
 #ia-overview { 
+    @include center-content();
+
     margin-top: 3.5em; 
 
     ul li { list-style: none; }

@@ -12,6 +12,11 @@
             var url = window.location.pathname.replace(/\/$/, '') + "/json";
             var username = $(".user-name").text();
 
+	    // 100% width
+            $(".site-main > .content-wrap").first().removeClass("content-wrap").addClass("overview-wrap");
+	    $(".breadcrumb-nav").remove();
+	    $(".site-main").addClass("developer-main");
+
             $.getJSON(url, function(data) { 
                 var template = Handlebars.templates.overview(data);
 

@@ -6,6 +6,7 @@ module.exports = function(grunt) {
     var static_dir = 'root/static/';
     var templates_dir = 'src/templates/';
 
+    // Set proxy for the live reload assets, i.e., livereload.js
     var reload = {
 	livereload: {
 	    host: os.hostname(),

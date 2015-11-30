@@ -11,6 +11,11 @@
             var dev_p = this;
             var url = window.location.pathname.replace(/\/$/, '') + "/json";
 
+	    // 100% width
+            $(".site-main > .content-wrap").first().removeClass("content-wrap").addClass("deprecated-wrap");
+	    $(".breadcrumb-nav").remove();
+	    $(".site-main").addClass("developer-main");
+
             $.getJSON(url, function(data) { 
                 // console.log(window.location.pathname);
                 var ia_deprecated = Handlebars.templates.dev_pipeline_deprecated(data.deprecated);
