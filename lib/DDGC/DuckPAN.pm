@@ -163,7 +163,7 @@ sub update_release_versions {
 		if(my $ia = $ias->single($where)){
 			$ia->update(\%update);
 			$rvs->create({
-				instant_answer_id => $id,
+				instant_answer_id => $ia->id,
 				release_version => $version,
 				status => $status_map{$change}
 			});

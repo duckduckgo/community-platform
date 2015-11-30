@@ -42,6 +42,61 @@
     </div>
 
     <div class="ia-single__body content-wrap" id="ia-single-body">
+        <: if $new_contributor { :>
+            <div id="next-steps-bg"></div>
+            <div id="next-steps-overlay">
+                <h2> Welcome! </h2>
+                <p> This is the home of your Instant Answer. </p>
+                <hr />
+                <ul>
+                    <li>
+                        <h3 class="ia-single--header"> Make sure that basic information is filled out </h3>
+                        <p> Write a good description, add various example queries. </p>
+                    </li>
+                    <: if !$repo { :>
+                        <li>
+                            <h3 class="ia-single--header"> Choose your Instant Answer type </h3>
+                            <p> Not sure which type to pick?
+                                <a href="https://duck.co/duckduckhack/determine_your_instant_answer_type">Take a look here.</a>
+                            </p>
+                        </li>
+                    <: } :>
+                    <li> 
+                        <h3 class="ia-single--header"> Fork the <: if $repo { :>
+                            <a href="https://github.com/duckduckgo/zeroclickinfo-<: $repo :>#fork-destination-box">
+                                zeroclickinfo-<: $repo :>
+                            </a> repo
+                        <: } else { :> correct repo for your IA type <: } :> </h3>
+                        <p> Read <a href="https://duck.co/duckduckhack/setup_dev_environment#fork-the-correct-duckduckhack-repository-on-github">
+                            the docs </a>
+                            in case you need help.
+                        </p>
+                    </li>
+                    <li>
+                        <h3 class="ia-single--header"> Set up your development environment </h3>
+                        <p> 
+                            <a href="https://duck.co/duckduckhack/setup_dev_environment"> Here </a> you'll find a quick explanation. 
+                        </p>
+                    </li>
+                    <li>
+                        <h3 class="ia-single--header">Create a Pull Request </h3>
+                        <p> Don't forget to include the link to this 
+                            <a href="https://duck.co/ia/view/<: $id :>"> IA Page</a>
+                            in the PR description.<br/>
+                            Dax will post to your PR from time to time: when you open your PR, when it gets deployed
+                            to the beta server, and when it's merged. 
+                        </p>
+                    </li>
+                </ul>
+                <p>
+                    If you have any questions, feel free to ask them on our 
+                        <a href="https://duckduckhack.slack.com/messages/ask-anything/">Slack channel</a>.<br />
+                    Thanks for contributing, we hope you'll have fun!
+                </p>
+                <div class="button btn--primary" id="next-steps-close"> Ok </div>
+                <span class="clearfix"></span>
+            </div>
+        <: } :>
         <div class="ia-single--left seventy"></div>
         <div class="ia-single--right g thirty"></div>
         <div class="ia-single--edits hide">

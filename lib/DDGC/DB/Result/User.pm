@@ -125,6 +125,12 @@ column github_user => {
     is_nullable => 1
 };
 
+column new_contributor => {
+    data_type => 'smallint',
+    is_nullable => 0,
+    default_value => 1
+};
+
 has xmpp => (
 	isa => 'HashRef',
 	is => 'ro',

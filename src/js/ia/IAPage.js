@@ -732,6 +732,10 @@
                         $("#edit-modal").hide();
                     });
 
+                    $("#next-steps-close").click(function(evt) {
+                        $("#next-steps-overlay, #next-steps-bg").addClass("hide");
+                    });
+
                     $("body").on("keypress", ".other_queries.js-autocommit, #example_query-input", function(evt) {
                         if (evt.keyCode === 13) {
                             $(".other_queries.js-autocommit, #example_query-input").trigger("blur");

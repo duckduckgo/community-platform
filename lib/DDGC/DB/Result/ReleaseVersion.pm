@@ -36,7 +36,7 @@ column updated => {
     set_on_update => 1,
 };
 
-has_one 'meta_id', 'DDGC::DB::Result::InstantAnswer', 'meta_id';
+has_one 'permanent_id', 'DDGC::DB::Result::InstantAnswer', 'id';
 
 no Moose;
 __PACKAGE__->meta->make_immutable ( inline_constructor => 0 );
