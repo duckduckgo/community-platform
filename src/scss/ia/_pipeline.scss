@@ -537,20 +537,3 @@ textarea.edit-sidebar {
     padding-bottom: 2em;
     padding-top: 2em;
 }
-
-.wrap-pipeline .pipeline__toggle-view {
-    background-color: $blue-light;
-    padding: 1em 1em;
-    margin-top: -1.2em;
-    color: white;
-
-    // Adjust z-index.
-    // It has to be above the actions sidebar.
-    position: relative;
-    z-index: $pipeline-blue-bar;
-
-    h1 {
-	color: white;
-    }
-}
-

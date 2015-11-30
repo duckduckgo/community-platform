@@ -48,8 +48,6 @@
 
                 sort_pipeline();
 
-                $("#pipeline-stats").html(stats);
-
                 if ($.trim($("#select-action option:selected").text()) === "type") {
                     $("#select-milestone").addClass("hide");
                     $("#select-type").removeClass("hide");
@@ -57,7 +55,8 @@
 
                 // 100% width
                 $(".site-main > .content-wrap").first().removeClass("content-wrap").addClass("wrap-pipeline");
-		        $(".breadcrumb-nav").remove();
+		$(".breadcrumb-nav").remove();
+		$(".site-main").addClass("developer-main");
 
                 var parameters = window.location.search.replace("?", "");
                 parameters = $.trim(parameters.replace(/\/$/, ''));
