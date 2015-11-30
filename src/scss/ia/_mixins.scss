@@ -597,3 +597,19 @@ $remsize: 16 * (parseInt($html-font-size) / 100);
 		content: "\4F";
 	}
 }
+
+@mixin wrapper() {
+    /* Make the fonts look snazzy. */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+
+    font-size: 13px;
+    min-height: 100vh;
+    padding-bottom: 200px;
+}
+
+@mixin center-content() {
+    max-width: 1200px;
+    margin: 0px auto;
+    overflow: auto;
+}

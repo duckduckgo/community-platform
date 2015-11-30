@@ -1,6 +1,8 @@
 @import "../../../bower_components/duckduckgo-colors/_colors";
-@import "compass/css3/border-radius";
-@import "compass/css3/text-shadow";
+
+.overview-wrap {
+    @include wrapper();
+}
 
 .heavy {
     font-weight: 700;
@@ -51,6 +53,8 @@
 
 /* General page style */
 #ia-overview { 
+    @include center-content();
+
     margin-top: 3.5em; 
 
     ul li { list-style: none; }
@@ -91,14 +95,14 @@
 
         .tag-container { 
             padding: 0.15em 0.5em; 
-            @include border-radius(3px);
+            border-radius: 3px;
             text-align: center;
             max-width: 15em;
             min-width: 5em;
 
             h3 { 
                 margin-top: 0.25em; 
-                @include text-shadow(2px 2px 2px $slate);
+                text-shadow: 2px 2px 2px $slate;
             }
         }
 

@@ -1,3 +1,8 @@
+// This removes the padding from the .site-main class.
+.developer-main {
+    padding: 0;
+}
+
 /*te-new-ia.button experimental and/or prototype */
 
 .half, .fifty {
@@ -555,6 +560,14 @@
 
     position: relative;
     top: 8px;
+}
+
+#issues {
+    @include center-content();
+}
+
+.issues-wrap {
+    @include wrapper();
 }
 
 #issues .by_ia_item .ia-item--stamp {
@@ -1172,18 +1185,6 @@ input.not_saved, select.not_saved, .button.not_saved {
 .filter-issues {
     width: 23%;
     margin-left: 3em;
-}
-
-#pipeline_toggle-view {
-    margin-bottom: 1em;
-}
-
-#pipeline_toggle-view .pager-wrap {
-    height: 4em;
-}
-
-#pipeline_toggle-view .pipeline__toggle-view__button {
-    box-shadow: none;
 }
 
 #pipeline_toggle-dev {

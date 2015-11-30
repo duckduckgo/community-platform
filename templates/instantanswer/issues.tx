@@ -1,19 +1,11 @@
-<div class="pipeline__toggle-view" id="pipeline_toggle-view">
-    <div class="pager-wrap">
-        <span class="button-group  button-group--paging">
-            <a href="/ia/dev" class="button pipeline__toggle-view__button" id="pipeline_toggle-home">
-                Home
-            </a>
-            <a href="/ia/dev/pipeline" class="button pipeline__toggle-view__button" id="pipeline_toggle-dev">
-                Dev Pipeline
-            </a>
-            <a href="#" class="button pipeline__toggle-view__button  button-nav-current disabled" id="pipeline_toggle-live">
-                Issues
-            </a>
-            <a href="/ia/dev/deprecated" class="button pipeline__toggle-view__button" id="pipeline_toggle-deprecated">
-                Deprecated
-            </a>
-        </span>
+<div class="developer-nav">
+    <h1>Developer Pages</h1>
+
+    <div class="pages">
+      <a href="/ia/dev">Home</a>
+      <a href="/ia/dev/pipeline">Dev Pipeline</a>
+      <a href="/ia/dev/issues" class="active-link">Issues</a>
+      <a href="/ia/dev/deprecated">Deprecated</a>
     </div>
 </div>
 

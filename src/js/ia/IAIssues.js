@@ -14,6 +14,11 @@
             var issues_p = this;
             var url = window.location.pathname.replace(/\/$/, '') + "/json";
 
+	    // 100% width
+            $(".site-main > .content-wrap").first().removeClass("content-wrap").addClass("issues-wrap");
+	    $(".breadcrumb-nav").remove();
+	    $(".site-main").addClass("developer-main");
+
             $.getJSON(url, function(data) { 
                 // console.log(window.location.pathname);
                 var ia_issues;
