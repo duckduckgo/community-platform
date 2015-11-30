@@ -20,5 +20,5 @@
 : }
 
 : if $is_dev {
-  <script src="//jag.duckduckgo.com:5000/livereload.js"></script>
+  <script src="<: d().config.livereload_js_uri :>"></script>
 : }

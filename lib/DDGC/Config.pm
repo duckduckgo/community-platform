@@ -10,6 +10,7 @@ use Catalyst::Utils;
 use FindBin;
 use IO::All;
 use JSON;
+use Sys::Hostname;
 
 use DDGC::Config::Subscriptions;
 
@@ -61,6 +62,7 @@ sub has_conf {
 has_conf nid => DDGC_NID => 1;
 has_conf pid => DDGC_PID => $$;
 
+has_conf livereload_js_uri => DDGC_LIVERELOAD_JS_URI => sprintf( 'http://%s:5000/livereload.js', hostname() );
 has_conf appdir_path => DDGC_APPDIR => "$FindBin::Bin/../";
 has_conf rootdir_path => DDGC_ROOTDIR => $ENV{HOME}.'/ddgc/';
 has_conf no_cache => DDGC_NOCACHE => 0;
