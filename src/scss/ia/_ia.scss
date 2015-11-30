@@ -562,6 +562,18 @@
     top: 8px;
 }
 
+#issues {
+    max-width: 1200px;
+    margin: 0px auto;
+    overflow: auto;
+    padding: 2em 0px;
+    padding-bottom: 200px;
+}
+
+.issues-wrap {
+    @include wrapper();
+}
+
 #issues .by_ia_item .ia-item--stamp {
     top: -3px;
 }

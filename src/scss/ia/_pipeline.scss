@@ -143,12 +143,7 @@ textarea.edit-sidebar {
 }
 
 .wrap-pipeline {
-    /* Make the fonts look snazzy. */
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-
-    font-size: 13px;
-    min-height: 100vh;
+    @include wrapper();
 
     input, textarea {
 	outline: none;

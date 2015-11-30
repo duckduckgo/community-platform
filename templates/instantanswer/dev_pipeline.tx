@@ -1,10 +1,4 @@
 <div class="developer-nav">
-    <: if $is_admin { :>
-      <div id="create-new-ia" class="button right hide">
-        New IA Page
-      </div>
-    <: } :>
-
     <h1>Developer Pages</h1>
 
     <div class="pages">
