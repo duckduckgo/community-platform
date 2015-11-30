@@ -5,7 +5,6 @@
 		<i class="idea-title__icon  icon-lightbulb"></i>
 		<h1 class="idea-title__text">
 			<: $_.title :>
-			<: if $_.claimed_by { :>(Claimed<: if $_.user_claimed_by.public { :> by <: $_.user_claimed_by.username } :>!)<: } :>
 		</h1>
 	</div>
 </div>
