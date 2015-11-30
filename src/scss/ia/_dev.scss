@@ -142,20 +142,32 @@
         margin-top: 0.5em;
     }
 
-    #contributors-popup {
+    #next-steps-overlay {
+        width: 600px;
+        top: 30%;
+        left: 41%;
+        max-height: 40em;
+
+        .button { margin-bottom: 1em; }
+    }
+
+    #contributors-popup, #next-steps-overlay {
         position: fixed;
         z-index: 1000;
         padding: 2.5em;
-        top: 40%;
-        left: 50%;
         margin-left: -177px;
         margin-top: -181px;
         background-color: $white;
-        width: 330px;
         box-shadow: 0 0 10px rgba(0,0,0,.2);
-        max-height: 24em;
         overflow: auto;
+    }
 
+    #contributors-popup {
+        max-height: 24em;
+        top: 40%;
+        left: 50%;
+        width: 330px;
+        
         .producer-contributor {
             margin-bottom: 1.5em;
         }
@@ -178,7 +190,7 @@
         }
     }
 
-    #edit-modal {
+    #edit-modal, #next-steps-bg {
         height: 100%;
         width: 100%;
         position: fixed;
