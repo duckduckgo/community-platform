@@ -92,8 +92,12 @@
                 <p>Installed on <a href="http://beta.duckduckgo.com/{{#if beta_query}}?q={{beta_query}}{{/if}}">beta</a></p>
                 <div class="button btn--primary" id="beta-single">Re-install on beta</div>
             {{else}}
-                {{#if beta_install}}Install on beta failed: <div class="readonly">{{beta_install}}</div>{{/if}}
-                <div class="button btn--primary" id="beta-single">Install on beta</div>
+                {{#eq pr.status 'open'}}
+                    {{#if beta_install}}Install on beta failed: <div class="readonly">{{beta_install}}</div>{{/if}}
+                    <div class="button btn--primary" id="beta-single">Install on beta</div>
+                {{else}}
+                    <span></span>
+                {{/eq}}
             {{/eq}}
         </div>
     {{/if}}
@@ -137,36 +141,38 @@
     {{/if}}
 {{/if}}
 
-{{#if pr.issue_id}}
-    <hr />
+{{#if pr.status}}
+    {{#eq pr.status 'open'}}
+        <hr />
 
-    <div id="sidebar-pr">
-        <div class="left">
-            <a href="https://github.com/duckduckgo/zeroclickinfo-{{repo}}/issues/{{pr.issue_id}}" class="one-line" id="pr">
-                PR #{{pr.issue_id}}
-            </a>
-        </div>
-        <div class="right" title="{{format_time last_update}}">
-            <i class="ddgsi ddgsi-clock" />
-            {{timeago last_update}}
-        </div>
-        {{#if last_comment}}
-            <div class="right" id="all_comments">
-                <i class="ddgsi ddgsi-comment" />
-                {{length all_comments}}
-            </div>
-        {{/if}}
-
-        <span class="clearfix"></span>
-        
-        {{#each all_comments}}
-            <p class="comment">
-                <a href="https://github.com/duckduckgo/zeroclickinfo-{{../repo}}/issues/{{../pr.issue_id}}#issuecomment-{{id}}">
-                    {{text}}
+        <div id="sidebar-pr">
+            <div class="left">
+                <a href="https://github.com/duckduckgo/zeroclickinfo-{{repo}}/issues/{{pr.issue_id}}" class="one-line" id="pr">
+                    PR #{{pr.issue_id}}
                 </a>
-            </p>
-            <div>by <a href="https://github.com/{{user}}">{{user}}</a> {{timeago date 1}}</div>
-        {{/each}}
-    </div>        
+            </div>
+            <div class="right" title="{{format_time last_update}}">
+                <i class="ddgsi ddgsi-clock" />
+                {{timeago last_update}}
+            </div>
+            {{#if last_comment}}
+                <div class="right" id="all_comments">
+                    <i class="ddgsi ddgsi-comment" />
+                    {{length all_comments}}
+                </div>
+            {{/if}}
+
+            <span class="clearfix"></span>
+            
+            {{#each all_comments}}
+                <p class="comment">
+                    <a href="https://github.com/duckduckgo/zeroclickinfo-{{../repo}}/issues/{{../pr.issue_id}}#issuecomment-{{id}}">
+                        {{text}}
+                    </a>
+                </p>
+                <div>by <a href="https://github.com/{{user}}">{{user}}</a> {{timeago date 1}}</div>
+            {{/each}}
+        </div>
+    {{/eq}}
 {{/if}}
 
