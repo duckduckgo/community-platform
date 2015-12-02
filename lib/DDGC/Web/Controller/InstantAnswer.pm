@@ -551,6 +551,7 @@ sub overview_json :Chained('overview_base') :PathPart('json') :Args(0) {
             issue_id => $issue->issue_id,
             ia_id => $issue->instant_answer_id,
             repo => $issue->repo,
+            status => $issue->status? $issue->status : undef,
             author => $issue->author
         );
 
@@ -737,6 +738,7 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
                     body => $issue->body,
                     tags => $issue->tags,
                     author => $issue->author,
+                    status => $issue->status? $issue->status : undef,
                     date => $issue->date
                );
 
@@ -760,6 +762,7 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
                     body => $issue->body,
                     tags => $issue->tags,
                     author => $issue->author,
+                    status => $issue->status? $issue->status : undef,
                     date => $issue->date
                 });
             }
