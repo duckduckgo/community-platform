@@ -245,6 +245,15 @@ sub cachedir {
 	return File::Spec->rel2abs( $dir );
 }
 
+sub docsdir {
+	my ( $self ) = @_;
+	my $dir = defined $ENV{'DDGC_DOCSDIR'}
+		? $ENV{'DDGC_DOCSDIR'}
+		: File::Spec->catdir( $self->cachedir, 'docs' );
+	make_path($dir) if !-d $dir;
+	return File::Spec->rel2abs( $dir );
+}
+
 sub mediadir {
 	my ( $self ) = @_;
 	my $dir = defined $ENV{'DDGC_MEDIADIR'} ? $ENV{'DDGC_MEDIADIR'} : $self->rootdir().'/media/';

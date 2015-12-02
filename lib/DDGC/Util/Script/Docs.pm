@@ -1,23 +1,37 @@
 package DDGC::Util::Script::Docs;
 
 use Moo;
-use File::Copy qw/ mv /;
 
 use File::Find;
 use File::Spec;
 use File::chdir;
+use File::Temp qw/ tempdir /;
+use File::Copy qw/ mv /;
+use File::Path qw/ make_path /;
 use Path::Class;
 use IO::All;
 use Markdent::Handler::HTMLStream::Document;
 use Markdent::Parser;
 use Text::Trim;
 use JSON;
+use Text::Xslate;
 use IPC::Run qw{run timeout};
 
 with qw/
     DDGC::Util::Script::Base::Service
     DDGC::Util::Script::Base::ServiceEmail
 /;
+
+has xslate => (
+    is => 'ro',
+    lazy => 1,
+    builder => sub {
+        Text::Xslate->new(
+            path => 'views/duckduckgo-documentation',
+            verbose => 2,
+        );
+    },
+);
 
 has docs_dir => (
     is => 'ro',
@@ -316,7 +330,7 @@ s/(<h\d>)(.*?)(<\/h\d>)/$1 . '<a name="' . make_anchor($2) . '" class="anchor"><
             warn qq(NO PREV: $file\n) if !$prev;
             warn qq(NO NEXT: $file\n) if !$next;
 
-            $pages{$file} = sub {
+            $pages{$file} = {
                 file       => $file,
                   file_dir => $dir_rel,
                   file_path =>
@@ -328,7 +342,7 @@ s/(<h\d>)(.*?)(<\/h\d>)/$1 . '<a name="' . make_anchor($2) . '" class="anchor"><
                   maintemplate => 'doc.tx',
                   prev         => $prev,
                   next         => $next,
-                  ;
+                  raw_output   => 1,
             };
 
         },
@@ -349,6 +363,24 @@ sub make_anchor {
     return $anchor;
 }
 
-sub execute { $_[0]->pages }
+sub execute {
+    my ( $self ) = @_;
+    my $tmp = tempdir;
+
+    for my $file ( keys $self->pages ) {
+        my $page = $self->pages->{$file};
+
+        next if !$page->{maintemplate};
+
+        $self->xslate->render(
+            $page->{maintemplate}, $page
+        ) > io(File::Spec->catfile(
+            $tmp, $page->{file}
+        ))->utf8;
+    }
+
+    mv( $_, $self->ddgc_config->docsdir )
+        for glob File::Spec->catfile( $tmp, '*' );
+}
 
 1;
