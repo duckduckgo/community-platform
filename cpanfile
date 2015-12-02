@@ -74,6 +74,7 @@ requires 'Locale::Country', '3.27';
 requires 'Locale::PO::Callback', '0.04';
 requires 'Locale::Simple', '0.016';
 requires 'LWP::Simple', '6.00';
+requires 'Markdent', '0.26';
 requires 'Moose', '2.1005';
 requires 'MooseX::Getopt', '0.58';
 requires 'MooseX::NonMoose', '0.24';
