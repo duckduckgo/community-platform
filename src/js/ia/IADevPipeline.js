@@ -376,7 +376,7 @@
                            actions_data.beta = 0;
                        }
 
-                       if (page_data.pr && page_data.pr.issue_id) {
+                       if (page_data.pr && (page_data.pr.status === "open" || page_data.pr.status === "merged")) {
                            actions_data.got_prs = 1;
                        }
 
