@@ -72,7 +72,7 @@ sub fetch_doc {
     }
   }
 
-  $c->d->cache->set($file,[$title,$content],"1 hour");
+  $c->d->cache->set($file,[$title,$content],"15 minutes");
   $c->d->cache->set('permcache:'.$file,[$title,$content]);
 
   return [$title,$content];
