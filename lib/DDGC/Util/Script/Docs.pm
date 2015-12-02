@@ -14,6 +14,7 @@ use Markdent::Parser;
 use Text::Trim;
 use JSON;
 use Text::Xslate;
+use Try::Tiny;
 use IPC::Run qw{run timeout};
 
 with qw/
@@ -243,22 +244,40 @@ sub make_anchor {
 sub execute {
     my ( $self ) = @_;
     my $tmp = tempdir;
-    my $pages = $self->pages;
+    my $error = 0;
 
-    for my $file ( keys $pages ) {
-        my $page = $pages->{$file};
+    try {
+        my $pages = $self->pages;
 
-        next if !$page->{maintemplate};
+        for my $file ( keys $pages ) {
+            my $page = $pages->{$file};
 
-        $self->xslate->render(
-            $page->{maintemplate}, $page
-        ) > io(File::Spec->catfile(
-            $tmp, $page->{file}
-        ))->utf8;
+            next if !$page->{maintemplate};
+
+            $self->xslate->render(
+                $page->{maintemplate}, $page
+            ) > io(File::Spec->catfile(
+                $tmp, $page->{file}
+            ))->utf8;
+        }
+    } catch {
+        $error = 1;
+        $self->smtp->send( {
+            to       => $self->ddgc_config->error_email,
+            verified => 1,
+            from     => '"DuckDuckGo Community" <ddgc@duckduckgo.com>',
+            subject  => '[DuckDuckGo Community] Docs build FAILED!',
+            template => 'email/pre.tx',
+            content  => {
+                text => $_,
+            },
+        } );
+    };
+
+    if ( !$error ) {
+        mv( $_, $self->ddgc_config->docsdir )
+            for glob File::Spec->catfile( $tmp, '*' );
     }
-
-    mv( $_, $self->ddgc_config->docsdir )
-        for glob File::Spec->catfile( $tmp, '*' );
 }
 
 1;
