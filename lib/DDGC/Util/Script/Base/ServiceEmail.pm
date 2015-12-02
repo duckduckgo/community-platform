@@ -17,7 +17,7 @@ sub _build_smtp {
     my ( $self ) = @_;
     DDGC::Util::Email->new(
         smtp_config => {
-            host          => $self->ddgc_config->smtp_host,
+            host          => $self->ddgc_config->smtp_host // 'localhost',
             ssl           => $self->ddgc_config->smtp_ssl // 0,
             sasl_username => $self->ddgc_config->smtp_sasl_username // '',
             sasl_password => $self->ddgc_config->smtp_sasl_password // '',
