@@ -1,0 +1,95 @@
+<: if !$raw_output { :>
+<head>	
+	<: include "inc/head_doc.tx" :>	
+	<title><: $title :><: if $category { :> / <: $category } :> / DuckDuckHack</title>
+</head>
+<body class="pg-duckduckhack  texture">
+	<div id="wrapper" class="site-wrapper">		
+		<div class="site-main">
+			<div class="content-wrap">
+<: } :>		
+			<:# snip here :>
+				<div id="duckduckhack-body">
+					<div class="breadcrumb-nav">
+						<div class="breadcrumbs">
+							 <a href="/">Home</a> &gt; <a href="/duckduckhack">DuckDuckHack</a> &gt; <: if $category { $category :> &gt; <: } $title :> 
+						</div>												
+					</div>
+					<div class="gw  gw--sm  mg-bottom">
+						<div class="g  seventy  pull-right">
+							<div class="content-box">
+							  <div class="head">								
+								<h2><: if $category { $category :> &mdash; <: } $title :>
+								<a class="" href="<: $file_path :>/<: if $file_dir { $file_dir :>/<: } $file :>.md" title="Edit this article on GitHub">
+									<i class="icon-pencil  icn  icn--sup"></i>
+								</a>
+								</h2>
+								
+								<: if $prev.0 || $next.0 { :>
+								<span class="pull-right  button-group">									
+									<: if $prev.0 { :>
+									<a class="button" title="Previous Article" href="<: $prev.0 :>">
+										<i class="icon-caret-left "></i>
+									</a>
+								  <: } if $next.0 { :>
+									<a class="button" title="Next Article" href="<: $next.0 :>">
+										<i class="icon-caret-right"></i>
+									</a>
+								  <: } :>
+								</span>
+								<: } :>
+							  </div>
+							  <div class="body">	
+								<div class="row  content">									
+									<: $html | raw :>
+								</div>
+								<div class="row  callout-row">
+									<: if $prev.0 || $next.0 { :>
+									<span class="pull-right  button-group">									
+										<: if $prev.0 { :>
+										<a class="button" title="Previous Article" href="<: $prev.0 :>">
+											<i class="icon-caret-left "></i>
+										</a>
+									  <: } if $next.0 { :>
+										<a class="button" title="Next Article" href="<: $next.0 :>">
+											<i class="icon-caret-right"></i>
+										</a>
+									  <: } :>
+									</span>
+									<: } :>
+									<h5 class="callout-row__text  icon" style="font-weight: bold;overflow:hidden;margin: 0;line-height:30px;/* dirty workaround -temp */">
+									Not helpful?  Help <a href="<: $file_path :>/<: if $file_dir { $file_dir :>/<: } $file :>.md">Edit</a> or <a href="http://duck.co/forum">Ask the Community</a></h5>									
+								</div>
+							  </div>
+							</div>							
+						</div>
+						<div class="g  thirty">
+							<: include "inc/side_nav.tx" {nav_ref=>$nav_ref, file=>$file, title=>$title, category=>$category} :>
+						</div>
+					</div>
+				</div>	
+			<:# snip here :>	
+<: if !$raw_output { :>				
+			</div>
+		</div>
+	</div>
+	<:# for testing only - don't try this at home, kids! :>
+	<script src="/static/js/jquery-1.9.1.js" type="text/javascript"></script>
+	<script type="text/javascript">
+		$('.js-toggle-sibling').click(function(e){
+			e.preventDefault();			
+			var target = $(this).parent().find('.is-closed, .is-open');
+			if ($(target).hasClass('is-open')) {
+				target.addClass('is-closed').removeClass('is-open');		
+			}
+			else {
+				if ($(this).hasClass('is-exclusive')) {
+					$(this).parent().parent().find('.is-open')
+					  .addClass('is-closed').removeClass('is-open');
+				}
+				target.toggleClass('is-closed').toggleClass('is-open');	
+			}
+		});
+	</script>
+</body>
+<: } :>

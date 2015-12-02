@@ -1,0 +1,17 @@
+<title><: lp("title","DuckDuckHack - an open source community for DuckDuckGo Instant Answers") :></title>
+
+<meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+<meta http-equiv="content-type" content="text/html; charset=UTF-8;charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=1" />
+<meta name="HandheldFriendly" content="true"/>
+
+<link rel="canonical" href="https://duckduckhack.com">
+
+<link rel="stylesheet" href="<: $asset_path :><: $ENV.DDG_DYNAMIC_CSS_FILE || '/style.css' :>" type="text/css">
+<link rel="stylesheet" href="<: $asset_path :><: $ENV.DDG_DYNAMIC_CSS_2_FILE || '/static.css' :>" type="text/css">
+
+<meta name="twitter:site" value="@duckduckhack">
+<meta name="twitter:url" value="https://duckduckhack.com">
+
+<meta property="og:url" content="https://duckduckhack.com" />
+<meta property="og:site_name" content="DuckDuckHack" />
