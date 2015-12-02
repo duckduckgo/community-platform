@@ -7,7 +7,6 @@ use File::Spec;
 use File::chdir;
 use File::Temp qw/ tempdir /;
 use File::Copy qw/ mv /;
-use File::Path qw/ make_path /;
 use Path::Class;
 use IO::All;
 use Markdent::Handler::HTMLStream::Document;
