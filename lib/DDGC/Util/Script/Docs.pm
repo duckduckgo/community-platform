@@ -220,7 +220,6 @@ s/(<h\d>)(.*?)(<\/h\d>)/$1 . '<a name="' . make_anchor($2) . '" class="anchor"><
                   maintemplate => 'doc.tx',
                   prev         => $prev,
                   next         => $next,
-                  raw_output   => 1,
             };
 
         },
