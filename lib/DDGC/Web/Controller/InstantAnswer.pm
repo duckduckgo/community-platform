@@ -255,23 +255,18 @@ sub dev_pipeline_json :Chained('dev_pipeline_base') :PathPart('json') :Args(0) {
             $temp_ia->{asana} = $result->{$ia->id};
         }
         
-        if ($ia->last_update && $ia->last_commit && (!$pr->{issue_id})) {
+        if ($ia->last_update && $ia->last_commit && $pr->{issue_id}) {
             my $last_commit = from_json($ia->last_commit);
-            my $closed_pr = $c->d->rs('GitHub::Pull')->search({github_id => $last_commit->{issue_id}}, {result_class => 'DBIx::Class::ResultClass::HashRefInflator'})->first;
-            if ($closed_pr->{merged_at}) {
-                $temp_ia->{pr_merged} = 1;
-            } elsif ($closed_pr->{closed_at}) {
-                $temp_ia->{pr_closed} = 1;
-            }
-       } elsif ($pr->{issue_id} && $resp) {
-            my $pr_id = $pr->{issue_id};
-            my $repo = $ia->repo;
-            my $beta_pr = $resp->{$repo}->{$pr_id};
-            $temp_ia->{beta_install} = 0;
-            warn $beta_pr->{install_status};
-            if ($beta_pr) {
-                $temp_ia->{beta_install} = $beta_pr->{install_status};
-                $temp_ia->{beta_query} = $beta_pr->{meta}? $beta_pr->{meta}->{example_query} : 0;
+            if (($pr->{status} eq 'open' ||$pr->{status} eq 'merged') && $resp) {
+                my $pr_id = $pr->{issue_id};
+                my $repo = $ia->repo;
+                my $beta_pr = $resp->{$repo}->{$pr_id};
+                $temp_ia->{beta_install} = 0;
+                warn $beta_pr->{install_status};
+                if ($beta_pr) {
+                    $temp_ia->{beta_install} = $beta_pr->{install_status};
+                    $temp_ia->{beta_query} = $beta_pr->{meta}? $beta_pr->{meta}->{example_query} : 0;
+                }
             }
        }
 
