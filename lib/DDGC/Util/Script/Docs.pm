@@ -244,9 +244,10 @@ sub make_anchor {
 sub execute {
     my ( $self ) = @_;
     my $tmp = tempdir;
+    my $pages = $self->pages;
 
-    for my $file ( keys $self->pages ) {
-        my $page = $self->pages->{$file};
+    for my $file ( keys $pages ) {
+        my $page = $pages->{$file};
 
         next if !$page->{maintemplate};
 
