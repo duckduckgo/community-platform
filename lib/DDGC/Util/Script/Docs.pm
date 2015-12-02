@@ -75,7 +75,7 @@ sub _build_source_dir {
         } else {
             local $CWD = $cache_dir;
             run [
-                'git', 'clone', 'https://github.com/duckduckgo/duckduckgo-documentation.git'
+                'git', 'clone', '--depth=1', 'https://github.com/duckduckgo/duckduckgo-documentation.git'
             ], \$in, \$out, \$err, timeout(60) or die "$err (error $?) $out";
         }
     }
