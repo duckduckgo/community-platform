@@ -254,11 +254,11 @@ sub execute {
 
             next if !$page->{maintemplate};
 
-            $self->xslate->render(
-                $page->{maintemplate}, $page
-            ) > io(File::Spec->catfile(
-                $tmp, $page->{file}
-            ))->utf8;
+            io(File::Spec->catfile($tmp, $page->{file}))
+            ->utf8
+            ->print(
+                $self->xslate->render($page->{maintemplate}, $page)
+            );
         }
     } catch {
         $error = 1;
