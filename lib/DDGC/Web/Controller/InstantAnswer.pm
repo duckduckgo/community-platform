@@ -1231,29 +1231,30 @@ sub create_ia :Chained('base') :PathPart('create') :Args() {
 
     if ($c->user && (!$ia)) {
        $is_admin = $c->user->admin;
+        my $dev_milestone = $data->{dev_milestone}? $data->{dev_milestone} : "planning";
+        my $name = $data->{name};
+        my $repo = $data->{repo}? lc $data->{repo} : undef;
 
-        if ($is_admin) {
-            my $dev_milestone = $data->{dev_milestone}? $data->{dev_milestone} : "planning";
-            my $name = $data->{name};
-            my $repo = $data->{repo}? lc $data->{repo} : undef;
+        # Capitalize each word in the name string
+        $name =~ s/([\w']+)/\u\L$1/g; 
+        
+        if (length $meta_id) { 
+            my $new_ia = $c->d->rs('InstantAnswer')->create({
+                id => $meta_id,
+                meta_id => $meta_id,
+                name => $name,
+                dev_milestone => $dev_milestone,
+                description => $data->{description},
+                repo => $repo
+            });
 
-            # Capitalize each word in the name string
-            $name =~ s/([\w']+)/\u\L$1/g; 
-            
-            if (length $meta_id) { 
-                my $new_ia = $c->d->rs('InstantAnswer')->create({
-                    id => $meta_id,
-                    meta_id => $meta_id,
-                    name => $name,
-                    dev_milestone => $dev_milestone,
-                    description => $data->{description},
-                    repo => $repo
-                });
+            save_milestone_date($new_ia, 'created');
 
-                save_milestone_date($new_ia, 'created');
-
-                $result = 1;
+            if (!$is_admin) {
+                $new_ia->add_to_users($user);
             }
+
+            $result = 1;
         }
     }
 
@@ -1270,78 +1271,86 @@ sub create_ia_from_pr :Chained('base') :PathPart('create_from_pr') :Args() {
     my ( $self, $c ) = @_;
     my $url = $c->req->params->{pr};
     my ($id, $result) = '';
+    my $user = $c->user;
 
-    if(my ($repo, $pr_number) = $url =~ /https?:\/\/github.com\/duckduckgo\/zeroclickinfo-(.+)\/pull\/(.+)$/){
-        # get data form this pr
-        my $token = $ENV{DDGC_GITHUB_TOKEN} || $ENV{DDG_GITHUB_BASIC_OAUTH_TOKEN};
-        my $gh = Net::GitHub->new(access_token => $token);
-        $gh->set_default_user_repo('duckduckgo', "zeroclickinfo-$repo");
+    if ($user) {
+        if(my ($repo, $pr_number) = $url =~ /https?:\/\/github.com\/duckduckgo\/zeroclickinfo-(.+)\/pull\/(.+)$/){
+            # get data form this pr
+            my $token = $ENV{DDGC_GITHUB_TOKEN} || $ENV{DDG_GITHUB_BASIC_OAUTH_TOKEN};
+            my $gh = Net::GitHub->new(access_token => $token);
+            $gh->set_default_user_repo('duckduckgo', "zeroclickinfo-$repo");
 
-        my @files = $gh->pull_request->files($pr_number);
-        my $pr_data = $gh->pull_request->pull($pr_number);
+            my @files = $gh->pull_request->files($pr_number);
+            my $pr_data = $gh->pull_request->pull($pr_number);
 
-            # spice
-        if($repo =~ /spice/i){
-            foreach my $file (@files){
-                ($id) = $file->{patch} =~ /id:\s?(?:'|")(.+)(?:'|")/;
-                last if $id;
-            }
-        }
-        elsif( $repo =~ /goodie/i ){
-            # check for cheat sheets
-            my $is_cheatsheet;
-            my $cheat_sheet_json;
-
-            foreach my $file (@files){
-                ($is_cheatsheet) = $file->{filename} =~ /cheat_sheets\/json/;
-                $cheat_sheet_json = $file->{patch};
-                last if $is_cheatsheet;
-            }
-
-            # cheat sheets
-            if($is_cheatsheet){
-                ($id) = $cheat_sheet_json =~ /(?:'|")id(?:'|"):\s?(?:'|")(.+)(?:'|"),/;
-            }else{
-                # find from perl module
+                # spice
+            if($repo =~ /spice/i){
                 foreach my $file (@files){
-                    my $tmp_repo = $repo;
-                    $tmp_repo =~ s/s$//;
-                    ($id) = $file->{filename} =~ /lib\/DDG\/$tmp_repo\/(.+)\.pm/i;
+                    ($id) = $file->{patch} =~ /id:\s?(?:'|")(.+)(?:'|")/;
                     last if $id;
                 }
             }
+            elsif( $repo =~ /goodie/i ){
+                # check for cheat sheets
+                my $is_cheatsheet;
+                my $cheat_sheet_json;
 
-        }
+                foreach my $file (@files){
+                    ($is_cheatsheet) = $file->{filename} =~ /cheat_sheets\/json/;
+                    $cheat_sheet_json = $file->{patch};
+                    last if $is_cheatsheet;
+                }
 
-        if($id){
-            $result = 1;
+                # cheat sheets
+                if($is_cheatsheet){
+                    ($id) = $cheat_sheet_json =~ /(?:'|")id(?:'|"):\s?(?:'|")(.+)(?:'|"),/;
+                }else{
+                    # find from perl module
+                    foreach my $file (@files){
+                        my $tmp_repo = $repo;
+                        $tmp_repo =~ s/s$//;
+                        ($id) = $file->{filename} =~ /lib\/DDG\/$tmp_repo\/(.+)\.pm/i;
+                        last if $id;
+                    }
+                }
 
-            $c->d->rs('InstantAnswer')->update_or_create({
-                id => $id,
-                meta_id => $id,
-                name => $id,
-                repo => $repo,
-                dev_milestone => 'planning'
-            });
+            }
 
-            $c->d->rs('InstantAnswer::Issues')->update_or_create({
-                instant_answer_id => $id,
-                repo => $repo,
-                issue_id => $pr_number,
-                is_pr => 1,
-                tags => {},
-            });
+            if($id){
+                $result = 1;
 
-            # update first comment with link to IA page
-            my $has_link = $pr_data->{body} =~ /https?:\/\/duck.co\/ia\/view\/.+$/;
+                my $new_ia = $c->d->rs('InstantAnswer')->update_or_create({
+                    id => $id,
+                    meta_id => $id,
+                    name => $id,
+                    repo => $repo,
+                    dev_milestone => 'planning'
+                });
 
-            if(!$has_link){
-                $gh->pull_request->update_pull($pr_number, {
-                        body => "$pr_data->{body}\n---\nhttps://duck.co/ia/view/$id"
-                        });
+                $c->d->rs('InstantAnswer::Issues')->update_or_create({
+                    instant_answer_id => $id,
+                    repo => $repo,
+                    issue_id => $pr_number,
+                    is_pr => 1,
+                    tags => {},
+                });
+
+                # update first comment with link to IA page
+                my $has_link = $pr_data->{body} =~ /https?:\/\/duck.co\/ia\/view\/.+$/;
+
+                if(!$has_link){
+                    $gh->pull_request->update_pull($pr_number, {
+                            body => "$pr_data->{body}\n---\nhttps://duck.co/ia/view/$id"
+                            });
+                }
+
+                if (!$user->admin) {
+                    $new_ia->add_to_users($user);
+                }
             }
         }
     }
+    
     $c->stash->{x} = {
         result => $result,
         id => $id
