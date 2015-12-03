@@ -91,13 +91,22 @@ belongs_to 'inside_country', 'DDGC::DB::Result::Country', 'inside_country_id', {
 
 has_many 'languages', 'DDGC::DB::Result::Language', 'country_id';
 
+sub mirror_flag {
+	my ( $self ) = @_;
+	my $target = file( $self->ddgc->config->cachedir, 'flag_' . $self->country_code . '.orig' )->stringify;
+	my $response = $self->ddgc->http->mirror( $self->flag_source, $target );
+	return $target if ( $response->code eq '304' || $response->is_success );
+	return undef;
+}
+
 sub write_flag_to {
 	my ( $self, $filename ) = @_;
 	return 0 unless $self->flag_source;
 	my ( $in, $out, $err );
 	my ( $fh1, $tempflag1 ) = tempfile;
+	my $source = $self->mirror_flag;
 	run [ convert => (
-		$self->flag_source,
+		$source,
 		'-resize','512x320^',
 		'-gravity','Center','-extent','512x320',
 		'-bordercolor','black','-border','2x2',
