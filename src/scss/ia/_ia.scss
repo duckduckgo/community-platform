@@ -554,10 +554,11 @@
     width: 26px;
     height: 26px;
     vertical-align: top;
-    font-size: 1.1em;
+    font-size: 1em;
     margin-right: 0.75em;
     color: #777;
 
+    border-box: box-sizing;
     position: relative;
     top: 8px;
 }
@@ -577,7 +578,7 @@
 .ia-item--stamp::before {
     content: "N";
     position: relative;
-    top: 1px;
+    top: 3px;
 }
 
 .ia-item--stamp.stamp--goodies::before {

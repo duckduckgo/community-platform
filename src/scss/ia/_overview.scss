@@ -1,15 +1,51 @@
-@import "../../../bower_components/duckduckgo-colors/_colors";
-
 .overview-wrap {
     @include wrapper();
 }
 
-.heavy {
-    font-weight: 700;
-}
+#ia-overview {
+    & > header {
+	overflow: auto;
+	padding-bottom: 2em;
 
-.half-w {
-    width: 42%;
+	& > * {
+	    font-size: 1.6em;
+	    font-weight: bold;
+	}
+
+	.btn {
+	    font-size: 1.1em;
+	    padding: 0 0.5em;
+	    font-weight: 500;
+	}
+    }
+
+    .overview__clm--left {
+	padding-right: 4em;
+    }
+
+    .overview__clm--right {
+	padding-left: 4em;
+    }
+
+    a {
+	&:hover {
+	    color: $blue;
+	}
+    }
+
+    ul {
+	padding-top: 0.5em;
+	margin-top: 2.5em;
+
+	li {
+	    padding: .5em 0;
+	}
+    }
+
+    .iap-list {
+	border-top: 1px solid $silver-dark;
+	border-bottom: 1px solid $silver-dark;
+    }
 }
 
 #create-ia-from-pr { margin-right: 1em; }

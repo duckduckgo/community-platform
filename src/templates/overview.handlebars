@@ -1,51 +1,61 @@
-{{#each ias}}
-    <div class="half-w {{#if @first}}left{{else}}right{{/if}}">
-    <h2 class="left">
-        <span class="heavy">{{count}}</span> {{@key}} Instant Answers
-    </h2>
-        <div class="button btn--primary right"><a href="/ia{{#eq @key 'new'}}/dev/pipeline{{/eq}}">See All</a></div>
-        <span class="clearfix"></span>
-        
-        <ul class="iap-list">
-            {{#each list}}
-                <li class="ia-item">
-                  <div class="ia_dev_milestone-{{dev_milestone}} ia_repo-{{repo}} ia-item__container">
-                        
-                    <div class="left ia-item--stamp circle stamp--{{repo}}"></div>
-                    <h3 class="left ia-item--header"><a href="/ia/view/{{id}}">{{name}}</a></h3>
+<header>
+  <span class="pull-left">Instant Answers</span>
+  <span class="btn btn--primary pull-right">
+    <a href="https://github.com/duckduckgo/zeroclickinfo-spice/blob/master/CONTRIBUTING.md">Create Instant Answer</a>
+  </span>
+</header>
 
-                    {{#if most_recent}}
-                        {{#eq @key 'live'}}
-                            {{#if live_date}}
-                                <span class="ia_date right">launched on {{parse_date live_date}}</span>
-                            {{/if}}
-                        {{else}}
-                            {{#if created_date}}
-                                <span class="ia_date right">created on {{parse_date created_date}}</span>
-                            {{/if}}
-                        {{/eq}}
-                    {{else}}                    
-                        {{#if issues}}
-                            <i class="icon-bug right"></i>
-                        {{/if}}
-                        {{#eq @key 'live'}}
-                            {{#if edits}}
-                                <i class="icon-edit right"></i>
-                            {{/if}}
-                        {{/eq}}
+<section class="clearfix">
+{{#each ias}}
+    <div class="half {{#if @first}}overview__clm--left{{else}}overview__clm--right{{/if}}">
+      <header>
+	<strong>
+	  <span class="pull-left">
+	    {{#if @first}}
+	      Recently Created
+	    {{else}}
+	      Recently Live
+	    {{/if}}
+	  </span>
+          <a class="pull-right tx-clr--lt" href="/ia{{#eq @key 'new'}}/dev/pipeline{{/eq}}">{{count}} Total</a>
+	</strong>
+      </header>
+        
+      <ul class="iap-list clearfix">
+        {{#each list}}
+        <li>
+          <div class="ia_dev_milestone-{{dev_milestone}} ia_repo-{{repo}} ia-item__container clearfix">
+            <div class="left ia-item--stamp circle stamp--{{repo}}"></div>
+            <a class="left tx-clr--dk" href="/ia/view/{{id}}">{{name}}</a>
+              {{#if most_recent}}
+                {{#eq @key 'live'}}
+                  {{#if live_date}}
+                    <span class="ia_date right">{{parse_date live_date}}</span>
+                  {{/if}}
+                {{else}}
+                  {{#if created_date}}
+                    <span class="ia_date right">{{parse_date created_date}}</span>
+                  {{/if}}
+                {{/eq}}
+              {{else}}                    
+                {{#if issues}}
+                    <i class="icon-bug right"></i>
+                {{/if}}
+                {{#eq @key 'live'}}
+                    {{#if edits}}
+                      <i class="icon-edit right"></i>
                     {{/if}}
-                                    
-                    <span class="clearfix"></span>
-                  </div>
-                </li>
-            {{/each}}
-        </ul>
+                {{/eq}}
+              {{/if}}                      
+          </div>
+        </li>
+        {{/each}}
+      </ul>
     </div>
 {{/each}}
+</section>
 
-<span class="clearfix"></span>
-
-<div id="top-issues">
+<div id="top-issues clearfix">
     <div class="top-issues__title">
         <h2 class="left">Top Issues on GitHub</h2>
         <div class="button btn--primary right"><a href="/ia/dev/issues">See All</a></div>
