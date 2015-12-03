@@ -2,10 +2,10 @@
     <h1>Developer Pages</h1>
 
     <div class="pages">
-      <a href="/ia/dev">Home</a>
-      <a href="/ia/dev/pipeline">Dev Pipeline</a>
-      <a href="/ia/dev/issues" class="active-link">Issues</a>
-      <a href="/ia/dev/deprecated">Deprecated</a>
+      <a href="/ia/dev">Overview</a>
+      <a href="/ia/dev/pipeline">In-Development</a>
+      <a href="/ia/dev/issues" class="active-link">Live Issues</a>
+      <a href="/ia/dev/deprecated">Archives</a>
     </div>
 </div>
 
