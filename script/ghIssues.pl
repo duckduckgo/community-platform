@@ -110,6 +110,11 @@ sub getIssues{
 
             my $producer = assign_producer($issue->{assignee}->{login});
 
+            my $state = $issue->{state};
+            if ($state ne 'open') {
+                $state = $gh->pull_request->is_merged($issue->{number})? 'merged' : $state;
+            }
+
             # add entry to result array
 			my %entry = (
 			    name => $name_from_link || '',
@@ -127,7 +132,7 @@ sub getIssues{
                 all_comments => $comments,
                 mentions => $mentions,
                 producer => $producer,
-                state => $issue->{state},
+                state => $state,
 			);
 
 			push(@results, \%entry);
