@@ -7,6 +7,7 @@ extends 'DDGC::DB::Base::Result';
 use DBIx::Class::Candy;
 use IPC::Run qw{run timeout};
 use File::Temp qw/ tempfile /;
+use File::Copy qw/ cp /;
 use Path::Class;
 use File::stat;
 use DateTime;
@@ -136,7 +137,7 @@ sub flag_filename {
 sub flag_url {
 	my ( $self, $size ) = @_;
 	$size = 24 unless $size;
-	'/country_flag/'.$size.'/'.$self->country_code.'.png';
+	'/generated_images/flag_'.$self->country_code.'.'.$size.'.png';
 }
 
 sub flag {
@@ -150,6 +151,8 @@ sub flag {
 		$self->write_flag_to($self->flag_filename);
 	}
 	my $filename = file($self->ddgc->config->cachedir,'flag_'.$self->country_code.'.'.$size.'.png')->stringify;
+	my $thumb = file($self->ddgc->config->cachedir,'generated_images','flag_'.$self->country_code.'.'.$size.'.png')->stringify;
+
 	$size = $size - 2;
 	return unless $size > 0;
 	if (-f $filename) {
@@ -166,6 +169,7 @@ sub flag {
 		'-bordercolor','black','-border','1x1',
 		$filename
 	) ], \$in, \$out, \$err, timeout(10) or die "$err (error $?)";
+	cp $filename, $thumb;
 	return $filename;
 }
 
