@@ -1209,10 +1209,6 @@ sub new_ia :Chained('base') :PathPart('new_ia') :Args() {
         return $c->detach;
     }
 
-    unless ($user && $user->admin) {
-        $c->response->redirect($c->chained_uri('InstantAnswer','index'));
-    }
-
     $c->stash->{ia_page} = "IAPageNew";
     $c->stash->{title} = "Create New Instant Answer";
 }
@@ -1251,7 +1247,7 @@ sub create_ia :Chained('base') :PathPart('create') :Args() {
             save_milestone_date($new_ia, 'created');
 
             if (!$is_admin) {
-                $new_ia->add_to_users($user);
+                $new_ia->add_to_users($c->user);
             }
 
             $result = 1;
