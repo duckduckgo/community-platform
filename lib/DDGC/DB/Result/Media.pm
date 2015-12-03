@@ -78,6 +78,7 @@ belongs_to 'user', 'DDGC::DB::Result::User', 'users_id';
 
 after insert => sub {
   my ( $self ) = @_;
+  $self->generate_thumbnail;
   $self->add_event('create');
 };
 
