@@ -82,14 +82,16 @@
                   <span class="item-title">{{name}}</span>
                     <div class="right item-activity">
                       {{#exists pr 'issue_id'}}
-                          <a href="https://github.com/duckduckgo/zeroclickinfo-{{repo}}/issues/{{pr.issue_id}}" class="one-line" id="pr" title="{{format_time last_update}}">
-                            {{timeago last_update 0}}
-                          </a>
-                      {{else}}
-                          {{#if last_update}}<i class="{{#if pr_merged}} platform-pr-merged {{else}} platform-pr-closed {{/if}}"></i>{{/if}}
-                          <span class="no-pr" title="{{format_time last_update}}">
-                            {{timeago last_update 0}}
-                          </span>
+                        {{#eq pr.status 'open'}}
+                              <a href="https://github.com/duckduckgo/zeroclickinfo-{{repo}}/issues/{{pr.issue_id}}" class="one-line" id="pr" title="{{format_time last_update}}">
+                                {{timeago last_update 0}}
+                              </a>
+                          {{else}}
+                              {{#if last_update}}<i class="{{#eq pr.status 'merged'}} platform-pr-merged {{else}} platform-pr-closed {{/eq}}"></i>{{/if}}
+                              <span class="no-pr" title="{{format_time last_update}}">
+                                {{timeago last_update 0}}
+                              </span>
+                          {{/eq}}
                       {{/exists}}
                     </div>
                 </div>
@@ -134,14 +136,16 @@
                   <span class="item-title">{{name}}</span>
                     <div class="right item-activity">
                       {{#exists pr 'issue_id'}}
-                          <a href="https://github.com/duckduckgo/zeroclickinfo-{{repo}}/issues/{{pr.issue_id}}" class="one-line" id="pr" title="{{format_time last_update}}">
-                            {{timeago last_update 0}}
-                          </a>
-                      {{else}}
-                          {{#if last_update}}<i class="{{#if pr_merged}} platform-pr-merged {{else}} platform-pr-closed {{/if}}"></i>{{/if}}
-                          <span class="no-pr" title="{{format_time last_update}}">
-                            {{timeago last_update 0}}
-                          </span>
+                        {{#eq pr.status 'open'}}
+                              <a href="https://github.com/duckduckgo/zeroclickinfo-{{repo}}/issues/{{pr.issue_id}}" class="one-line" id="pr" title="{{format_time last_update}}">
+                                {{timeago last_update 0}}
+                              </a>
+                          {{else}}
+                              {{#if last_update}}<i class="{{#eq pr.status 'merged'}} platform-pr-merged {{else}} platform-pr-closed {{/eq}}"></i>{{/if}}
+                              <span class="no-pr" title="{{format_time last_update}}">
+                                {{timeago last_update 0}}
+                              </span>
+                          {{/eq}}
                       {{/exists}}
                     </div>
                 </div>
@@ -186,14 +190,16 @@
                   <span class="item-title">{{name}}</span>
                     <div class="right item-activity">
                       {{#exists pr 'issue_id'}}
-                          <a href="https://github.com/duckduckgo/zeroclickinfo-{{repo}}/issues/{{pr.issue_id}}" class="one-line" id="pr" title="{{format_time last_update}}">
-                            {{timeago last_update 0}}
-                          </a>
-                      {{else}}
-                          {{#if last_update}}<i class="{{#if pr_merged}} platform-pr-merged {{else}} platform-pr-closed {{/if}}"></i>{{/if}}
-                          <span class="no-pr" title="{{format_time last_update}}">
-                            {{timeago last_update 0}}
-                          </span>
+                        {{#eq pr.status 'open'}}
+                              <a href="https://github.com/duckduckgo/zeroclickinfo-{{repo}}/issues/{{pr.issue_id}}" class="one-line" id="pr" title="{{format_time last_update}}">
+                                {{timeago last_update 0}}
+                              </a>
+                          {{else}}
+                              {{#if last_update}}<i class="{{#eq pr.status 'merged'}} platform-pr-merged {{else}} platform-pr-closed {{/eq}}"></i>{{/if}}
+                              <span class="no-pr" title="{{format_time last_update}}">
+                                {{timeago last_update 0}}
+                              </span>
+                          {{/eq}}
                       {{/exists}}
                     </div>
                 </div>
@@ -238,14 +244,16 @@
                   <span class="item-title">{{name}}</span>
                     <div class="right item-activity">
                       {{#exists pr 'issue_id'}}
-                          <a href="https://github.com/duckduckgo/zeroclickinfo-{{repo}}/issues/{{pr.issue_id}}" class="one-line" id="pr" title="{{format_time last_update}}">
-                            {{timeago last_update 0}}
-                          </a>
-                      {{else}}
-                          {{#if last_update}}<i class="{{#if pr_merged}} platform-pr-merged {{else}} platform-pr-closed {{/if}}"></i>{{/if}}
-                          <span class="no-pr" title="{{format_time last_update}}">
-                            {{timeago last_update 0}}
-                          </span>
+                        {{#eq pr.status 'open'}}
+                              <a href="https://github.com/duckduckgo/zeroclickinfo-{{repo}}/issues/{{pr.issue_id}}" class="one-line" id="pr" title="{{format_time last_update}}">
+                                {{timeago last_update 0}}
+                              </a>
+                          {{else}}
+                              {{#if last_update}}<i class="{{#eq pr.status 'merged'}} platform-pr-merged {{else}} platform-pr-closed {{/eq}}"></i>{{/if}}
+                              <span class="no-pr" title="{{format_time last_update}}">
+                                {{timeago last_update 0}}
+                              </span>
+                          {{/eq}}
                       {{/exists}}
                     </div>
                 </div>
