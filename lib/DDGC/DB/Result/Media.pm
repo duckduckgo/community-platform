@@ -86,6 +86,7 @@ sub generate_thumbnail {
   my ( $self ) = @_;
   my $source = file($self->ddgc->config->mediadir, $self->filename)->stringify;
   my $target = file($self->ddgc->config->mediadir, 'thumbnail', $self->filename);
+  return if ( -f $target->stringify );
   $target->dir->mkpath;
   my $size='100x100';
   my ( $in, $out, $err );
