@@ -15,6 +15,9 @@ use Net::GitHub::V3;
 use Time::Local;
 use Term::ProgressBar;
 use Date::Parse;
+use Time::Piece;
+use Time::Seconds;
+
 my $d = DDGC->new;
 
 BEGIN {
@@ -49,11 +52,19 @@ map{ $pr_hash{$_->{issue_id}.$_->{repo}} = $_ } @pull_requests;
 
 #warn Dumper keys %pr_hash;
 
+my $today = localtime;
+# get last days worth of issues
+my $since = $today - (1 * ONE_DAY);
+
 # get the GH issues
 sub getIssues{
     foreach my $repo (@repos){
         my $line = 1;
-        my @issues = $gh->issue->repos_issues('duckduckgo', $repo, {state => 'open'});
+        my @issues = $gh->issue->repos_issues('duckduckgo', $repo, {
+                state => 'all',
+                since => $since->datetime
+            }
+        );
 
         while($gh->issue->has_next_page){
             push(@issues, $gh->issue->next_page)
@@ -72,7 +83,7 @@ sub getIssues{
 			# Update this later for whatever format we decide on
 			my $name_from_link = '';
             ($name_from_link) = $issue->{'body'} =~ /https?:\/\/duck\.co\/ia\/view\/(\w+)/i;
-			
+
             # remove special chars from title and body
 			$issue->{'body'} =~ s/\'//g;
 			$issue->{'title'} =~ s/\'//g;
@@ -99,6 +110,11 @@ sub getIssues{
 
             my $producer = assign_producer($issue->{assignee}->{login});
 
+            my $state = $issue->{state};
+            if ($state ne 'open') {
+                $state = $gh->pull_request->is_merged($issue->{number})? 'merged' : $state;
+            }
+
             # add entry to result array
 			my %entry = (
 			    name => $name_from_link || '',
@@ -116,6 +132,7 @@ sub getIssues{
                 all_comments => $comments,
                 mentions => $mentions,
                 producer => $producer,
+                state => $state,
 			);
 
 			push(@results, \%entry);
@@ -330,7 +347,7 @@ my $merge_files = sub {
 };
 
 my $update = sub {
-    $d->rs('InstantAnswer::Issues')->delete_all();
+    #$d->rs('InstantAnswer::Issues')->delete_all();
 
     foreach my $result (@results){
         # check if the IA is in our table so we dont die on a foreign key error
@@ -343,7 +360,7 @@ my $update = sub {
         } )->one_row;
  
         if(exists $result->{name} && $ia){
-            $d->rs('InstantAnswer::Issues')->create({
+            $d->rs('InstantAnswer::Issues')->update_or_create({
                 instant_answer_id => $ia->id,
                 repo => $result->{repo},
                 issue_id => $result->{issue_id},
@@ -353,6 +370,7 @@ my $update = sub {
                 is_pr => $result->{is_pr},
                 date => $result->{date},
                 author => $result->{author},
+                status => $result->{state},
 	        });
 
         }

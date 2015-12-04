@@ -143,28 +143,6 @@ sub status :Chained('base') :Args(1) {
 	$c->add_bc('Filtered');
 }
 
-sub unclaimed :Chained('base') :Args(0) {
-	my ( $self, $c ) = @_;
-	$c->stash->{ideas_rs} = $c->stash->{ideas_rs}->search_rs({
-		claimed_by  => undef,
-		status => { -in => [qw/ 3 10 12 /] },
-	});
-	$self->add_ideas_table($c,'unclaimed');
-	$self->add_latest_ideas($c);
-	$c->add_bc('Unclaimed');
-}
-
-sub claimed :Chained('base') :Args(0) {
-	my ( $self, $c ) = @_;
-	$c->stash->{ideas_rs} = $c->stash->{ideas_rs}->search_rs({
-		claimed_by => { '!=' => undef },
-		instant_answer_id => { '!=' => undef },
-	});
-	$self->add_ideas_table($c,'claimed');
-	$self->add_latest_ideas($c);
-	$c->add_bc('Claimed');
-}
-
 sub idea_id : Chained('base') PathPart('idea') CaptureArgs(1) {
 	my ( $self, $c, $id ) = @_;
 	
@@ -226,65 +204,6 @@ sub idea : Chained('idea_id') PathPart('') Args(1) {
 		return $c->detach;
 	}
 	$c->stash->{title} = $c->stash->{idea}->title;
-}
-
-sub claim : Chained('idea_id') Args(0) {
-	my ( $self, $c ) = @_;
-	$c->require_action_token;
-	return $c->detach if (!$c->user);
-
-	if ( $c->stash->{idea}->toggle_claim( $c->user ) == 1 ) {
-		$c->d->postman->template_mail(
-			1,
-			$c->d->config->ia_email,
-			'"Community Platform" <noreply@duck.co>',
-			sprintf( '[Instant Answer] IA Idea claimed by %s',
-				( $c->user->public )
-					? $c->user->username
-					: sprintf('private user %s', $c->user->username) ),
-			'iaclaim',
-			{ user => $c->user, idea => $c->stash->{idea} },
-	);
-
-        my @time = localtime(time);
-        my $date = "$time[4]/$time[3]/".($time[5]+1900);
-
-        my $ia = $c->d->rs('InstantAnswer')->find($c->stash->{idea}->id, {result_class => 'DBIx::Class::ResultClass::HashRefInflator'});
-
-        # If possible, we use ia_name to construct the meta_id;
-        # if an IA Page with this meta_id already exists, we use the idea thread id instead.
-        my $meta_id;
-        my $name = $c->stash->{idea}->ia_name? $c->stash->{idea}->ia_name : $c->stash->{idea}->title;
-        if ($c->d->rs('InstantAnswer')->find({meta_id => $c->stash->{idea}->ia_name}) || !$c->stash->{idea}->ia_name) {
-            $meta_id = $c->stash->{idea}->id;
-        } else {
-            $meta_id = format_meta_id($c->stash->{idea}->ia_name);
-        }
-
-        # If the idea was claimed, then unclaimed and then claimed by a different user, the page
-        # will already exist, so we make sure we don't overwrite any values in that case
-        my %ia_data = (
-            id => $ia->{id} || $c->stash->{idea}->id,
-            meta_id => $ia->{meta_id} || $meta_id,
-            dev_milestone => $ia->{dev_milestone} || 'planning',
-            name => $ia->{name} || ucfirst $name,
-            description => $ia->{description} || ucfirst $c->stash->{idea}->content,
-            created_date => $ia->{created_date} || $date,
-            forum_link => $ia->{forum_link} || $c->stash->{idea}->id,
-        );
-
-        $ia = $c->d->rs('InstantAnswer')->update_or_create({%ia_data});
-
-        if (!$ia->users || !$ia->users->find({username => $c->user->username})) {
-            $ia->add_to_users($c->user);
-        }
-
-        $c->stash->{idea}->instant_answer($ia);
-        $c->stash->{idea}->update;
-        $c->user->subscribe_to_instant_answer( $ia->id );
-	}
-
-	$c->response->redirect( $c->chained_uri(@{ $c->stash->{idea}->u }) );
 }
 
 sub delete : Chained('idea_id') Args(0) {
@@ -361,20 +280,6 @@ sub vote_view :Chained('vote') :PathPart('') :Args(0) {
 		vote_count => $c->stash->{idea}->vote_count
 	};
 	$c->forward( $c->view('JSON') );
-}
-sub format_meta_id {
-    my( $id ) = @_;
-
-    # meta_id must be lowercase and without weird chars
-    $id = lc $id;
-    $id =~ s/[^a-z0-9]+/_/g;
-    $id =~ s/^[^a-zA-Z]+//;
-    $id =~ s/_$//;
-
-    # make the id string empty if it only contains non-alphabetic chars
-    $id =~ s/^[^a-zA-Z]+$//;
-
-    return $id;
 }
 
 no Moose;
