@@ -20,6 +20,7 @@
 	    $(".site-main").addClass("developer-main");
 
             $.getJSON(url, function(data) { 
+		console.log(data);
                 // console.log(window.location.pathname);
                 var ia_issues;
                 ia_issues = Handlebars.templates.issues(data);
