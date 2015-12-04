@@ -87,7 +87,7 @@ has http => (
 );
 sub _build_http {
 	my $ua = LWP::UserAgent->new(
-	($ENV{DDGC_PROSODY_USERHOST} ne 'dukgo.com')
+	($ENV{DDGC_PROSODY_USERHOST} && $ENV{DDGC_PROSODY_USERHOST} ne 'dukgo.com')
 		? ( ssl_opts => { verify_hostname => 0 } )
 		: (),
 	);
