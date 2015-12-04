@@ -18,6 +18,7 @@
 	    $(".site-main").addClass("developer-main");
 
             $.getJSON(url, function(data) { 
+		console.log(data);
                 var template = Handlebars.templates.overview(data);
 
                 $("#ia-overview").html(template);

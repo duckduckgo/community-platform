@@ -12,3 +12,9 @@
 		}
 	}
 
+.btn--wire__blue {
+    @extend .btn;
+    color: $blue-light;
+    border-color: $blue-light;
+    background-color: transparent;
+}

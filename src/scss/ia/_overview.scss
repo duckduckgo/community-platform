@@ -19,6 +19,10 @@
 	}
     }
 
+    & > section {
+	padding-bottom: 2em;
+    }
+
     .overview__clm--left {
 	padding-right: 4em;
     }
@@ -37,6 +41,18 @@
 	padding-top: 0.5em;
 	margin-top: 2.5em;
 
+	&.issues_col {
+	    margin-top: 0;
+
+	    li {
+		border-bottom: 1px solid $silver-dark;
+	    }
+
+	    li:nth-of-type(1) {
+		border-top: 1px solid $silver-dark;
+	    }
+	}
+
 	li {
 	    padding: .5em 0;
 	}
@@ -45,6 +61,22 @@
     .iap-list {
 	border-top: 1px solid $silver-dark;
 	border-bottom: 1px solid $silver-dark;
+    }
+}
+
+#top-issues {
+    & > section {
+	padding-bottom: 1em;
+	
+	.issue-name {
+	    display: inline-block;
+	    vertical-align: bottom;
+	    max-width: 80%;
+	}
+
+	header {
+	    padding-bottom: 2em;
+	}
     }
 }
 
@@ -107,8 +139,6 @@
 
 /* Top Issues */
 #top-issues {
-    margin-top: 2.5em;
-
     .top-issues__title { 
         text-align: center; 
         width: 25em;

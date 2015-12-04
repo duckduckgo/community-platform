@@ -1,8 +1,6 @@
 <header>
   <span class="pull-left">Instant Answers</span>
-  <span class="btn btn--primary pull-right">
-    <a href="https://github.com/duckduckgo/zeroclickinfo-spice/blob/master/CONTRIBUTING.md">Create Instant Answer</a>
-  </span>
+  <a class="btn btn--primary pull-right" href="https://github.com/duckduckgo/zeroclickinfo-spice/blob/master/CONTRIBUTING.md">Create Instant Answer</a>
 </header>
 
 <section class="clearfix">
@@ -55,43 +53,41 @@
 {{/each}}
 </section>
 
-<div id="top-issues clearfix">
-    <div class="top-issues__title">
-        <h2 class="left">Top Issues on GitHub</h2>
-        <div class="button btn--primary right"><a href="/ia/dev/issues">See All</a></div>
-        <span class="clearfix"></span>
+<header>
+  <span class="pull-left">Top Issues on GitHub</span>
+  <a href="/ia/dev" class="btn btn--wire__blue pull-right">Learn How To Contribute</a>
+</header>
+
+<div id="top-issues" class="clearfix">
+  {{#each issues}}
+  <section>
+    <header>
+      <span class="pull-left tx-clr--dk"><strong>{{name}}</strong></span>
+      <span class="pull-right">
+	<strong>
+	  <a class="tx-clr--lt" href="/ia/dev/issues?tag={{issueToFilter @key}}">{{list.length}} Total</a>
+        </strong>
+      </span>
+    </header>
+    <div class="list-container--left main-tag__left">
+      <ul class="list-container--left__issues issues_col main-tag__left__list">
+        {{#loop_n 5 list}}
+        <li class="clearfix">
+          <span class="pull-left">
+	    <a class="tx-clr--dk one-line issue-name" href="https://github.com/duckduckgo/zeroclickinfo-{{repo}}/issues/{{issue_id}}">
+              {{title}}
+            </a>
+	    <span class="tx-clr--lt">
+              opened {{timeago date false}} ago by <a class="tx-clr--lt" href="https://github.com/{{author}}">{{author}}</a> 
+	    </span>
+	  </span>
+          <span class="issue-details pull-right">
+            <a href="/ia/view/{{ia_id}}" class="tx-clr--lt">{{ia_name}}</a>
+          </span>
+        </li>
+        {{/loop_n}}
+      </ul>
     </div>
-    <ul class="top-issues__list">
-        {{#each issues}}
-            <li class="top-issues__list__item main-tag">
-                <div class="list-container--left left main-tag__left">
-                    <ul class="list-container--left__issues issues_col main-tag__left__list">
-                        {{#loop_n 5 list}}
-                            <li>
-                                <div class="left ia-item--stamp circle stamp--{{repo}}"></div>
-                                <div class="one-line left">
-                                    <h5 class="issue-title">
-                                        <a href="https://github.com/duckduckgo/zeroclickinfo-{{repo}}/issues/{{issue_id}}">
-                                            {{title}}
-                                        </a>
-                                    </h5>
-                                    <span class="issue-details">
-                                        #{{issue_id}} opened on {{parse_date date}} by <a href="https://github.com/{{author}}">{{author}}</a> 
-                                        &middot; IA Page: <a href="/ia/view/{{ia_id}}">{{ia_name}}</a>
-                                    </span>
-                                </div>
-                                <span class="clearfix"></span>
-                            </li>
-                        {{/loop_n}}
-                    </ul>
-                </div>
-                <div class="list-container--right right main-tag__right">
-                    <div class="tag-{{slug name}} tag-container right">
-                        <h3 class="heavy">{{name}}</h3>
-                    </div>
-                </div>
-                <span class="clearfix"></span>
-            <li>
-        {{/each}}
-    </ul>
+    </section>
+    {{/each}}
 </div>
