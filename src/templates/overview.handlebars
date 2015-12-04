@@ -58,7 +58,7 @@
   <a href="https://github.com/duckduckgo/zeroclickinfo-spice/blob/master/CONTRIBUTING.md" class="btn btn--wire__blue pull-right">Learn How To Contribute</a>
 </header>
 
-<div id="top-issues" class="clearfix">
+<div id="top-issues" class="issues-list clearfix">
   {{#each issues}}
   <section>
     <header>
@@ -69,7 +69,6 @@
         </strong>
       </span>
     </header>
-    <div class="list-container--left main-tag__left">
       <ul class="list-container--left__issues issues_col main-tag__left__list">
         {{#loop_n 5 list}}
         <li class="clearfix">
@@ -87,7 +86,6 @@
         </li>
         {{/loop_n}}
       </ul>
-    </div>
     </section>
     {{/each}}
 </div>

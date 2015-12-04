@@ -9,6 +9,7 @@ a {
 }
 
 #ia-overview {
+    /* This provides the spacing between the two columns */
     .overview__clm--left {
 	padding-right: 4em;
     }
@@ -17,6 +18,7 @@ a {
 	padding-left: 4em;
     }
 
+    /* This styles the headers before each section such as "Top Issues on GitHub" and "Instant Answers" */
     & > header {
 	overflow: auto;
 	padding-bottom: 2em;
@@ -33,49 +35,21 @@ a {
 	}
     }
 
+    /* This gives each section some breathing room */
     & > section {
 	padding-bottom: 2em;
     }
 
-    ul {
-	padding-top: 0.5em;
-	margin-top: 2.5em;
-
-	&.issues_col {
-	    margin-top: 0;
-
-	    li {
-		border-bottom: 1px solid $silver-dark;
-	    }
-
-	    li:nth-of-type(1) {
-		border-top: 1px solid $silver-dark;
-	    }
-	}
-
-	li {
-	    padding: .5em 0;
-	}
-    }
-
+    /* This gives each issue a 1px separator */
     .iap-list {
 	border-top: 1px solid $silver-dark;
 	border-bottom: 1px solid $silver-dark;
-    }
-}
 
-#top-issues {
-    & > section {
-	padding-bottom: 1em;
-	
-	.issue-name {
-	    display: inline-block;
-	    vertical-align: bottom;
-	    max-width: 80%;
-	}
+	padding-top: 0.5em;
+	margin-top: 2.5em;
 
-	header {
-	    padding-bottom: 2em;
+	li {
+	    padding: .5em 0;
 	}
     }
 }

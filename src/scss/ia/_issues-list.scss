@@ -1,0 +1,29 @@
+/* Style for the list of issues that can be found in the Developer Pages. */
+.issues-list {
+    & > section {
+	padding-bottom: 1em;
+	
+	.issue-name {
+	    display: inline-block;
+	    vertical-align: bottom;
+	    max-width: 80%;
+	}
+
+	header {
+	    padding-bottom: 2em;
+	}
+    }
+
+    ul {
+	padding-top: .5em;
+	
+	li {
+	    padding: .5em 0;
+	    border-bottom: 1px solid $silver-dark;
+	}
+
+	li:nth-of-type(1) {
+	    border-top: 1px solid $silver-dark;
+	}
+    }
+}
