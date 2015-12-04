@@ -242,7 +242,13 @@ sub unsubscribe_all_notifications {
 sub db { return shift; }
 
 sub translation_manager { shift->is('translation_manager') }
-sub admin { shift->is('admin') }
+sub admin {
+	my ( $self, $set ) = @_;
+	return shift->is('admin') if (!defined $set);
+	( $set )
+		? $self->add_role('admin')
+		: $self->del_role('admin');
+}
 
 sub github_user {
 	my ( $self ) = @_;
