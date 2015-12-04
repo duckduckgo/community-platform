@@ -3,27 +3,28 @@
     & > section {
 	padding-bottom: 1em;
 	
+	/* Set name to inline-block so that we can truncate the text. */
 	.issue-name {
 	    display: inline-block;
 	    vertical-align: bottom;
 	    max-width: 80%;
 	}
 
-	header {
+	& > header {
 	    padding-bottom: 2em;
 	}
-    }
 
-    ul {
-	padding-top: .5em;
-	
-	li {
+	& > ul {
 	    padding: .5em 0;
-	    border-bottom: 1px solid $silver-dark;
-	}
+	
+	    & > li {
+		padding: .5em 0;
+		border-bottom: 1px solid $silver-dark;
+	    }
 
-	li:nth-of-type(1) {
-	    border-top: 1px solid $silver-dark;
+	    & > li:nth-of-type(1) {
+		border-top: 1px solid $silver-dark;
+	    }
 	}
     }
 }
