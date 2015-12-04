@@ -4,6 +4,8 @@ package DDGC::Web::Controller::Duckduckhack;
 use Moose;
 use namespace::autoclean;
 use Web::Scraper;
+use File::Spec;
+use IO::All -utf8;
 
 BEGIN {extends 'Catalyst::Controller'; }
 
@@ -38,38 +40,40 @@ sub doc :Chained('base') :PathPart('') :Args(1) {
 
 sub fetch_doc {
   my ( $self, $c, $doc ) = @_;
-  my $url = $c->d->config->duckduckhack_url.'/'.$doc;
 
-  return $c->d->cache->get($url) if defined $c->d->cache->get($url);
+  $c->response->redirect($c->chained_uri('Duckduckhack','doc','ddh-intro'))
+    if ( $doc =~ /[^[:alnum:]_-]/ );
 
-  my $response = $c->d->http->get($url);
+  my $file = File::Spec->catfile( $c->d->config->docsdir, $doc );
+
+  return $c->d->cache->get($file) if defined $c->d->cache->get($file);
 
   my $content;
   my $title;
 
-  if ($response->is_success) {
-    my $http_content = $response->decoded_content;
+  if ( -f $file ) {
+    my $html_content = io->file($file)->slurp;
     my $scraper = scraper {
       process "#duckduckhack-body", doc => "HTML";
       process "title", title => "TEXT";
     };
-    my $res = $scraper->scrape($http_content);
+    my $res = $scraper->scrape($html_content);
     $content = $res->{doc};
     $title = $res->{title};
   }
 
   unless ($content) {
-    if ($c->d->cache->get('permcache:'.$url)) {
-      ( $title, $content ) = @{$c->d->cache->get('permcache:'.$url)};
-      $c->d->cache->set($url,[$title,$content],"5 minutes");
+    if ($c->d->cache->get('permcache:'.$file)) {
+      ( $title, $content ) = @{$c->d->cache->get('permcache:'.$file)};
+      $c->d->cache->set($file,[$title,$content],"5 minutes");
       return $content;
     } else {
       die "can't fetch documentation";
     }
   }
 
-  $c->d->cache->set($url,[$title,$content],"1 hour");
-  $c->d->cache->set('permcache:'.$url,[$title,$content]);
+  $c->d->cache->set($file,[$title,$content],"15 minutes");
+  $c->d->cache->set('permcache:'.$file,[$title,$content]);
 
   return [$title,$content];
 }

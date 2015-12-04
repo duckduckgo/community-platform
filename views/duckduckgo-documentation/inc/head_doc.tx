@@ -1,0 +1,8 @@
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<link rel="stylesheet" media="screen, projection, handheld" href="/static/css/content.css" />
+<meta name="viewport" content="width=100, initial-scale=1.0" />
+
+<meta name="twitter:site" value="@duckco" />
+<meta property="og:site_name" content="DuckDuckHack Documentation" />
+<meta name="description" content="Developing Plugins for DuckDuckGo - How-Tos and FAQs" />

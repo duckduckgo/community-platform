@@ -1,0 +1,11 @@
+<div class="ddh-feature  media">
+	<img src="" data-src="/users/<: $item.user :>.jpg" class="ddh-feature__img  media__img  js-lazyload" />
+	<div class="ddh-feature__body  media__body">
+		<h6 class="ddh-feature__title">
+			<a href="<: if $item.link { $item.link } else { :>https://github.com/<:$item.user } :>" target="_ddh<:$item.user:>">
+				<: $item.name :>
+			</a>
+		</h6>
+		<p class="ddh-feature__sub"><: if !$item.desc { :>@<: $item.user :><: } else { :><a class="ddh-feature__sub__link" href="<: $item.example_link :>" target="_example"><:$item.desc :></a> by <a href="https://github.com/<:$item.user:>" class="ddh-feature__userlink" target="_github<: $item.user :>"><: $item.user :></a><: } :></p>
+	</div>
+</div>

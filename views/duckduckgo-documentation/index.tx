@@ -1,0 +1,14 @@
+<head>
+    <: include "inc/head.tx" :>
+</head>
+<body id="pg-duckduckhack" class="page-duckduckhack">
+	<: include "head_js.tx" :>
+	<div class="site-wrapper  site-wrapper--duckduckhack  js-site-wrapper">
+		<: include "header.tx" :>
+		<div class="content-wrap">
+			<: include "index_content.tx" :>
+			<: include "footer_nav.tx" :>
+			<: include "footer_copyright.tx" :>
+		</div>
+	</div>
+</body>
