@@ -17,4 +17,8 @@
     color: $blue-light;
     border-color: $blue-light;
     background-color: transparent;
+
+    &:hover {
+	color: $blue-light;
+    }
 }

@@ -1,8 +1,22 @@
+a {
+    &:hover {
+	color: $blue;
+    }
+}
+
 .overview-wrap {
     @include wrapper();
 }
 
 #ia-overview {
+    .overview__clm--left {
+	padding-right: 4em;
+    }
+
+    .overview__clm--right {
+	padding-left: 4em;
+    }
+
     & > header {
 	overflow: auto;
 	padding-bottom: 2em;
@@ -21,20 +35,6 @@
 
     & > section {
 	padding-bottom: 2em;
-    }
-
-    .overview__clm--left {
-	padding-right: 4em;
-    }
-
-    .overview__clm--right {
-	padding-left: 4em;
-    }
-
-    a {
-	&:hover {
-	    color: $blue;
-	}
     }
 
     ul {
