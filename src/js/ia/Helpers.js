@@ -145,6 +145,16 @@
         }
     });
 
+    // Check if val1 matches val2 using a regex
+    Handlebars.registerHelper('match', function(val1, val2, options) {
+       val2 = new RegExp(val2);
+       if (val1.match(val2)) {
+           return options.fn(this);
+       } else {
+           return options.inverse(this);
+       }
+    });
+
     // Check if two values are equal
     Handlebars.registerHelper('eq', function(value1, value2, options) {
         if (value1 === value2) {

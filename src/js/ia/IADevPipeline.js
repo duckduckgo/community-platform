@@ -376,7 +376,7 @@
                            actions_data.beta = 0;
                        }
 
-                       if (page_data.pr && page_data.pr.issue_id) {
+                       if (page_data.pr && (page_data.pr.status === "open" || page_data.pr.status === "merged")) {
                            actions_data.got_prs = 1;
                        }
 
@@ -426,7 +426,7 @@
                             // Priority is higher when:
                             // - last activity (especially comment) is by a contributor (non-admin)
                             // - last activity happened long ago (the older the activity, the higher the priority)
-                            if (ia.pr && ia.pr.issue_id) {
+                            if (ia.pr && (ia.pr.status === "open")) {
                                 if (ia.last_comment) {
                                     priority_val += ia.last_comment.admin? -20 : 20;
                                     var idle_comment = elapsed_time(ia.last_comment.date);
@@ -451,7 +451,7 @@
                                 }
 
                                 // Priority drops if the PR is on hold
-                                if (ia.pr && ia.pr.issue_id) {
+                                if (ia.pr && (ia.pr.status === "open")) {
                                     var tags = ia.pr.tags;
 
                                     $.each(tags, function(idx) {

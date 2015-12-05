@@ -1,0 +1,19 @@
+	  
+		<ul class="nav  nav--panels  ">
+		  <: for $nav_ref -> $nav { :>
+			<li class="nav-item <: if $nav.title == $category { :> nav-item--active<:}:>">			  			
+				<span class="nav-item__title  nav-item__link  js-toggle-sibling  is-exclusive"><: $nav.title :></span>			  
+				<ul class="nav  nav--sub <: if $nav.title == $category { :> is-open <: } else {:> is-closed <:}:>">
+					<: for $nav.sections -> $section { :>
+					  <li class="sub-item <: if $section.link == $file { :> sub-item--active<:}:>">
+						<: if $section.link == $file { :>
+						  <span class="sub-item__title"><: $section.title :></span>
+						<: } else { :>
+						  <a href="<: $section.link :>" class="sub-item__title  sub-item__link"><: $section.title :></a>
+						<: } :>
+					</li>
+					<: } :>
+				</ul>
+			</li>			
+		  <: } :>	
+		</ul>

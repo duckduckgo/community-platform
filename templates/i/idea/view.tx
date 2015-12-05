@@ -5,7 +5,6 @@
 		<i class="idea-title__icon  icon-lightbulb"></i>
 		<h1 class="idea-title__text">
 			<: $_.title :>
-			<: if $_.claimed_by { :>(Claimed<: if $_.user_claimed_by.public { :> by <: $_.user_claimed_by.username } :>!)<: } :>
 		</h1>
 	</div>
 </div>
@@ -59,15 +58,6 @@
 				<: if $c.user.is('idea_manager') || $c.user.id == $_.user.id { :>
 				<a href="<: $u('Ideas','edit',$_.id) :>" class="button"><i class="icon icon-edit"></i> Edit</a>
 				<: } :>
-				: if $c.user.claimed_ideas.count <= 2 && !$_.claimed_by && ( $_.status == 3 || $_.status == 10 || $_.status == 12 ) {
-					<a href="<: $u('Ideas','claim',$_.id, { action_token => $action_token } ) :>" class="button">
-						<i class="icon icon-thumbs-up-alt"></i> Develop this IA!
-					</a>
-				: } elsif $_.claimed_by && ( $_.claimed_by == $c.user.id || $c.user.is('forum_manager') ) {
-					<a href="<: $u('Ideas','claim',$_.id, { action_token => $action_token } ) :>" class="button">
-						<i class="icon icon-remove"></i> Unclaim this IA
-					</a>
-				: }
 				</span>
 			<: } :>
 		</div>

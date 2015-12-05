@@ -20,16 +20,18 @@
             <span class="error-notification hide">ID can't be empty</span>
         {{/if}}
     </div>
+{{/ne_and}}
 
-    {{#if pr}}
+    {{#exists pr 'id'}}
         <div class="ia-single--info">
             <h3 class="ia-single--header">PR #</h3>
             <a href="https://github.com/duckduckgo/zeroclickinfo-{{repo}}/issues/{{pr.id}}" class="one-line" id="pr">
                 {{pr.id}}
             </a>
         </div>
-    {{/if}}
+    {{/exists}}
 
+{{#ne_and dev_milestone 'live' 'deprecated'}}
     {{#if permissions.admin}}
         <div class="ia-single--info">
             <h3 class="ia-single--header">Blockgroup</h3>

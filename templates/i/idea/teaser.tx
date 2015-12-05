@@ -6,7 +6,6 @@
   </div>
   <div class="media__body  idea-preview__body">
       <h3 class="idea--preview__title"><a href="<: $u($_.u) :>"><: $_.title :>
-          <: if $_.claimed_by { :>(Claimed<: if $_.user_claimed_by.public { :> by <: $_.user_claimed_by.username } :>!)<: } :>
       </a></h3>
    
       <span class="comment-meta">

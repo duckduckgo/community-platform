@@ -78,18 +78,23 @@ belongs_to 'user', 'DDGC::DB::Result::User', 'users_id';
 
 after insert => sub {
   my ( $self ) = @_;
+  $self->generate_thumbnail;
   $self->add_event('create');
 };
 
 sub generate_thumbnail {
-  my ( $self, $size, $target ) = @_;
-  my $source = file($self->ddgc->config->mediadir,$self->filename)->stringify;
+  my ( $self ) = @_;
+  my $source = file($self->ddgc->config->mediadir, $self->filename)->stringify;
+  my $target = file($self->ddgc->config->mediadir, 'thumbnail', $self->filename);
+  return if ( -f $target->stringify );
+  $target->dir->mkpath;
+  my $size='100x100';
   my ( $in, $out, $err );
   return run [ convert => ( $source,
     '-resize', $size."^",
     '-gravity', 'center',
     '-crop', $size."+0+0",
-    '+repage', $target
+    '+repage', $target->stringify
   )], \$in, \$out, \$err, timeout(60) or die "$err (error $?) $out";
 }
 
