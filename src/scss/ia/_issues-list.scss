@@ -20,10 +20,30 @@
 	    & > li {
 		padding: .5em 0;
 		border-bottom: 1px solid $silver-dark;
-	    }
 
-	    & > li:nth-of-type(1) {
-		border-top: 1px solid $silver-dark;
+		&:nth-of-type(1) {
+		    border-top: 1px solid $silver-dark;
+		}
+
+		$repo-list: ('spice', 'S'),
+		            ('goodies', 'G'),
+		            ('fathead', 'F'),
+		            ('longtail', 'L');
+		
+		&.repo-tag:before {
+		    content: 'N';
+		    display: inline;
+		    float: left;
+		    padding-right: 1em;
+		    color: $grey;
+		    width: 15px;
+		}
+
+		@each $repo, $label in $repo-list {
+		    &.repo-tag--#{$repo}:before {
+			content: '#{$label}';
+		    }
+		}
 	    }
 	}
     }
