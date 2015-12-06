@@ -1,12 +1,17 @@
 <div class="issues-list">
   <section>
-    <header>
+    <header class="more-space">
       <span class="pull-left tx-clr--dk"><strong>Issues</strong></span>
+      <span class="pull-right">
+	<a href="#" class="filter-all tx-clr--lt" data-type="all" data-filter="">All</a>
+	<a href="#" class="filter-lhf tx-clr--lt" data-type="lhf" data-filter=".tag-lowhangingfruit">Low-Hanging Fruit</a>
+	<a href="#" class="filter-bugs tx-clr--lt" data-type="bugs" data-filter=".tag-bug">Bugs</a>
+      </span>
     </header>
     <ul>
       {{#each ia}}
       {{#each issues}}
-      <li class="clearfix repo-tag repo-tag--{{repo}}">
+      <li class="clearfix {{#each tags}}tag-{{slug name}} {{/each}}" data-repo="{{repo}}">
 	<span class="pull-left">
 	  <a class="tx-clr--dk one-line issue-name" href="https://github.com/duckduckgo/zeroclickinfo-{{repo}}/issues/{{issue_id}}">
             {{title}}

@@ -12,6 +12,26 @@
 
 	& > header {
 	    padding-bottom: 2em;
+
+	    &.more-space {
+		padding-bottom: 4em;
+	    }
+	}
+
+	a[data-filter] {
+	    margin-left: 1em;
+	    padding-bottom: 0.4em;
+	    font-weight: 500;
+
+	    &.selected {
+		border-bottom: 2px solid $blue-light;
+	    }
+
+	    &:before {
+		content: attr(data-count);
+		display: inline;
+		padding-right: 0.3em;
+	    }
 	}
 
 	& > ul {
@@ -30,17 +50,18 @@
 		            ('fathead', 'F'),
 		            ('longtail', 'L');
 		
-		&.repo-tag:before {
+		&[data-repo]:before {
 		    content: 'N';
 		    display: inline;
 		    float: left;
 		    padding-right: 1em;
 		    color: $grey;
 		    width: 15px;
+		    font-weight: 500;
 		}
 
 		@each $repo, $label in $repo-list {
-		    &.repo-tag--#{$repo}:before {
+		    &[data-repo=#{$repo}]:before {
 			content: '#{$label}';
 		    }
 		}

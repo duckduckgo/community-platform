@@ -8,6 +8,15 @@
 
         sort_by_date: false,
         selected_tag: '',
+	ia_issues: {},
+
+	render: function() {
+	    $('#issues').html(this.ia_issues);
+	    
+	    $('.filter-all').attr('data-count', $('.issues-list li[data-repo]').length);
+	    $('.filter-lhf').attr('data-count', $('.issues-list .tag-lowhangingfruit').length);
+	    $('.filter-bugs').attr('data-count', $('.issues-list .tag-bug').length);
+	},
 
         init: function() {
             // console.log("IAIssues init()");
@@ -24,7 +33,11 @@
                 // console.log(window.location.pathname);
                 var ia_issues;
                 ia_issues = Handlebars.templates.issues(data);
-                $("#issues").html(ia_issues);
+
+		issues_p.ia_issues = ia_issues;
+		issues_p.render();
+
+		$('.filter-all').addClass('selected');
 
                 var parameters = window.location.search.replace("?", "");
                 parameters = $.trim(parameters.replace(/\/$/, ''));
@@ -74,6 +87,16 @@
 
                 issues_p.filter();
             });
+
+	    $('#issues').on('click', 'a[data-filter]', function(evt) {
+		evt.preventDefault();
+		issues_p.render();
+
+		$('.issues-list .filter-' + $(this).data('type')).addClass('selected');
+		if($(this).data('filter')) {
+		    $('li[data-repo]').not($(this).data('filter')).hide();
+		}
+	    });
         },
 
         filter: function() {
