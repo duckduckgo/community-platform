@@ -1241,7 +1241,8 @@ sub create_ia :Chained('base') :PathPart('create') :Args() {
                 name => $name,
                 dev_milestone => $dev_milestone,
                 description => $data->{description},
-                repo => $repo
+                repo => $repo,
+                src_url => $data->{src_url}
             });
 
             save_milestone_date($new_ia, 'created');
