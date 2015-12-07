@@ -61,6 +61,11 @@ sub respond : Chained('base') : PathPart('respond') : Args(0) {
 	my $short_response = 0;
 	my $flag_response = 0;
 
+	if ( $campaign_name eq 'share' ) {
+		$c->response->status(403);
+		return $c->detach;
+	}
+
 	if ( $campaign_name eq 'share' && length( $c->req->param( 'question1' ) ) < 35 ) {
 		$c->response->status(403);
 		$c->stash->{x} = {
