@@ -28,6 +28,8 @@
 	    $(".breadcrumb-nav").remove();
 	    $(".site-main").addClass("developer-main");
 
+	    $('#wrapper').css('min-width', '1200px');
+	    
             $.getJSON(url, function(data) { 
 		console.log(data);
                 // console.log(window.location.pathname);

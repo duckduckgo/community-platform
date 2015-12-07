@@ -11,7 +11,7 @@
     <ul>
       {{#each ia}}
       {{#each issues}}
-      <li class="clearfix {{#each tags}}tag-{{slug name}} {{/each}}" data-repo="{{repo}}">
+      <li class="{{#each tags}}tag-{{slug name}} {{/each}}" data-repo="{{repo}}">
 	<span class="pull-left">
 	  <a class="tx-clr--dk one-line issue-name" href="https://github.com/duckduckgo/zeroclickinfo-{{repo}}/issues/{{issue_id}}">
             {{title}}
