@@ -16,6 +16,7 @@
 	    $('.filter-all').attr('data-count', $('.issues-list li[data-repo]').length);
 	    $('.filter-lhf').attr('data-count', $('.issues-list .tag-lowhangingfruit').length);
 	    $('.filter-bugs').attr('data-count', $('.issues-list .tag-bug').length);
+	    $('.filter-high').attr('data-count', $('.issues-list .tag-priorityhigh').length);
 	},
 
         init: function() {
