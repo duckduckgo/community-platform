@@ -140,7 +140,7 @@
     });
 
     // Check if val1 matches val2 (not conditional)
-    Handlebars.registerHelper('match', function(val1, val2) {
+    Handlebars.registerHelper('match_fn', function(val1, val2) {
          var result = false;
          if (val1 && val2) {
              val2 = new RegExp(val2);
