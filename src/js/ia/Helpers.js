@@ -132,11 +132,24 @@
     // Check if val1 matches val2 using a regex
     Handlebars.registerHelper('match', function(val1, val2, options) {
        val2 = new RegExp(val2);
-       if (val1.match(val2)) {
+       if ((val1 && val2) && val1.match(val2)) {
            return options.fn(this);
        } else {
            return options.inverse(this);
        }
+    });
+
+    // Check if val1 matches val2 (not conditional)
+    Handlebars.registerHelper('match_fn', function(val1, val2) {
+         var result = false;
+         if (val1 && val2) {
+             val2 = new RegExp(val2);
+             if (val1.match(val2)) {
+                  result = true;
+             } 
+         }
+
+         return result;
     });
 
     // Check if two values are equal
