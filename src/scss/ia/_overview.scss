@@ -95,7 +95,7 @@ a {
 
 /* General page style */
 #ia-overview { 
-    @include center-content();
+    @include center-content(962px);
 
     margin-top: 3.5em; 
 

@@ -608,8 +608,8 @@ $remsize: 16 * (parseInt($html-font-size) / 100);
     padding-bottom: 200px;
 }
 
-@mixin center-content() {
-    max-width: 1200px;
+@mixin center-content($width: 1200px) {
+    width: $width;
     margin: 0px auto;
     overflow: auto;
 }

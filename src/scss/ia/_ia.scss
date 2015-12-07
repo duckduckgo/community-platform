@@ -565,7 +565,7 @@
 
 #issues {
     padding-top: 2em;
-    @include center-content();
+    @include center-content(962px);
 }
 
 .issues-wrap {
