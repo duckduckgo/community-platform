@@ -157,15 +157,7 @@ sub getIssues{
 
                 $data->{body} =~ s/\n|\r//g;
 
-                # try to get a description from the PR text
-                my ($description) = $data->{body} =~ /What does your Instant Answer do\?\*\*(.*?)(?:\*|$)/i;
-                
-                # api documentation
-                my ($api_link) = $data->{body} =~ /What is the data source.*?\*\*.*?(https?:\/\/.*?)?(?:\>|\)|\*|$)/i;
 
-                # api documentation
-                my ($forum_link) = $data->{body} =~ /Is this Instant Answer connected.*?\*\*.*?(?:https?:\/\/duck\.co\/ideas\/idea\/([0-9]+).*?)?(?:\>|\)|\*|$)/i;
-                
                 # get the file info for the pr
                 $gh->set_default_user_repo('duckduckgo', "zeroclickinfo-$data->{repo}");
                 my $pr = $gh->pull_request->pull($data->{issue_id});
@@ -226,6 +218,9 @@ sub getIssues{
                 );
 
                 $d->rs('InstantAnswer')->update_or_create({%new_data});
+
+                update_pr_template(\%new_data, $data->{issue_id}, $ia->{src_url});
+
             };
 
             # check for an existing IA page.  Create one if none are found
@@ -435,6 +430,31 @@ sub get_mentions {
     if($duck_users){
         return to_json $duck_users;
     }
+}
+
+sub update_pr_template {
+    my ($data, $pr_number, $source) = @_;
+
+    return unless $pr_number eq '1234';
+
+    warn "Found Test PR";
+
+    # find dax comment at spot #1 or bail
+    my @comments = $gh->issue->comments($pr_number);
+    my $first = $comments[0];
+    return unless $first->{user}->{login};
+
+    my $message = qq(
+Description: $data->{description}
+Example Query: $data->{example_query}
+Tab Name: $data->{tab_name}
+Source: $source
+);
+    # update the comment
+    $gh->issue->create_comment($pr_number, {
+            "body" => $message
+        }
+    );
 }
 
 getIssues;
