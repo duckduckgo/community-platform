@@ -75,11 +75,11 @@
     <div class="readonly--info {{#or staged.example_query staged.other_queries}}hide{{/or}}" id="example_query--readonly">
         {{#if example_query}}
             {{#ne_and dev_milestone 'live' 'deprecated'}}
-                {{#if test_machine}}
+                {{#or test_machine (match beta_install 'success')}}
                     <a class="one-line" href="https://{{test_machine}}.duckduckgo.com/?q={{encodeURIComponent example_query}}{{tab_url tab}}" title="try this example on DuckDuckGo">{{example_query}}</a>
                 {{else}}
                     <span>{{example_query}}</span>
-                {{/if}}
+                {{/or}}
             {{else}}
                 <a class="one-line" href="https://duckduckgo.com/?q={{encodeURIComponent example_query}}{{tab_url tab}}" title="try this example on DuckDuckGo">{{example_query}}</a>
             {{/ne_and}}
