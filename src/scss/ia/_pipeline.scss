@@ -367,12 +367,11 @@ textarea.edit-sidebar {
 	}
 
 	&.dog-ear {
-	    @include background-image(linear-gradient(
-					  -135deg, 
-					  $blue-variant,
-					  $blue-variant 2%,
-					  transparent 2%,
-					  transparent));
+	    background-image: linear-gradient(-135deg, 
+					$blue-variant,
+					$blue-variant 2%,
+					transparent 2%,
+					transparent);
 	    background-origin: border-box;
 	}
 
@@ -407,26 +406,26 @@ textarea.edit-sidebar {
 	    }
 
             /* Change content to match the repo. */
-            &.pipeline__stamp {
+            &.pipeline__stamp- {
 
-		&-:before {
+		&:before {
 		    @include pipeline_stamp();
 		    margin-left: -3px;
 		}
 
-                &-spice:before,  &-goodies:before, &-fathead:before, &-longtail:before {
+                &spice:before,  &goodies:before, &fathead:before, &longtail:before {
 		    @include pipeline_stamp();
                 }
 
-		&-goodies:before {
+		&goodies:before {
 		    margin-left: -2px;
 		}
 
-		&-spice:before {
+		&spice:before {
 		    margin-left: -4px;
 		}
 
-		&-fathead:before, &-longtail:before {
+		&fathead:before, &longtail:before {
 		    margin-left: -5px;
 		}
             } 
