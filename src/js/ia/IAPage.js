@@ -109,7 +109,8 @@
                             triggers: Handlebars.templates.triggers(latest_edits_data),
                             test: Handlebars.templates.test(latest_edits_data),
                             advanced:  Handlebars.templates.advanced(latest_edits_data),
-                            traffic: Handlebars.templates.traffic(latest_edits_data)
+                            traffic: Handlebars.templates.traffic(latest_edits_data),
+                            src_url: Handlebars.templates.src_url(latest_edits_data)
                         },
                         screens : Handlebars.templates.screens(ia_data),
                     };
@@ -1513,6 +1514,7 @@
             'examples',
             'screens',
             'github',
+            'src_url',
             'triggers',
             'advanced',
             'test'
