@@ -1,5 +1,7 @@
 <div id="new_ia_wizard">
-    <h1> New Instant Answer </h1>
+    <div id="new_ia_header">
+        <h1> New Instant Answer </h1>
+    </div>
     <div class="wizard_field">
         <h3 class="label"> Description </h3>
         <p class="field_desc"> What does your Instant Answer do?</p>

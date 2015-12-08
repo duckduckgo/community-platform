@@ -9,6 +9,10 @@
         init: function() {
             // console.log("IAPageNew init()");
             var page_new = this;
+                
+            // 100% width
+            $(".site-main > .content-wrap").first().removeClass("content-wrap").addClass("wrap-pipeline");
+            $(".breadcrumb-nav").remove();
 
             $("#new_ia_wizard_save").click(function(evt) {
                 var data = {};
