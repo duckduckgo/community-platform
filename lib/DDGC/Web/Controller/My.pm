@@ -690,11 +690,6 @@ sub register :Chained('logged_out') :Args(0) {
 	$c->stash->{username} = $c->req->params->{username};
 	$c->stash->{email} = $c->req->params->{email};
 
-	if (!$c->validate_captcha($c->req->params->{captcha})) {
-		$c->stash->{wrong_captcha} = 1;
-		return $c->detach;
-	}
-
 	my $error = 0;
 
 	if ($c->req->params->{repeat_password} ne $c->req->params->{password}) {
