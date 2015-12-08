@@ -1,28 +1,29 @@
-<div id="new_ia_wizard">
-    <div id="new_ia_header">
+<div id="new_ia_header">
+    <div class="content-wrap">
         <h1> New Instant Answer </h1>
     </div>
+</div>
+<div id="new_ia_wizard" class="content-wrap">
     <div class="wizard_field">
-        <h3 class="label"> Description </h3>
-        <p class="field_desc"> What does your Instant Answer do?</p>
-        <textarea cols="149" class="frm__text wizard_field_insert" id="description-input" ></textarea>
-    </div>
+        <h3 class="label"> Title </h3>
+        <input class="frm__input wizard_field_insert" id="name-input" placeholder="eg: Forecast" />
+    </div>   
     
     <div class="wizard_field">
-        <h3 class="label"> Name </h3>
-        <p class="field_desc"> Good names have typically one or two words in them (e.g. Airlines, BBC, GitHub Status)</p>
-        <input class="frm__input wizard_field_insert" id="name-input" />
-    </div>   
+        <h3 class="label"> Description </h3>
+        <p class="field_desc"> What is the purpose for your Instant Answer?</p>
+        <textarea cols="149" class="frm__text wizard_field_insert" id="description-input" ></textarea>
+    </div>
  
     <div class="wizard_field">
         <h3 class="label"> Example Query </h3>
-        <p class="field_desc"> What example search query would you like to answer?</p>
+        <p class="field_desc"> Which query (or queries) will trigger your Instant Answer?</p>
         <input class="frm__input wizard_field_insert" id="example_query-input" />
     </div>
     
     <div class="wizard_field">
         <h3 class="label"> Data Source </h3>
-        <p class="field_desc">What's the data source for your IA?</p>
+        <p class="field_desc">Where are you getting your info from (webpage, API, etc)?</p>
         <input class="frm__input wizard_field_insert" id="src_url-input" />
     </div>
     

@@ -2,3 +2,11 @@
     .wizard_field { margin-bottom: 3em; }
     .button { width: 3em; }
 }
+
+#new_ia_header {
+    background-color: $blue-light;
+    padding: 1em;
+    margin-top: -1.2em;
+    margin-bottom: 2em;
+    h1 { color: $white; }
+}
