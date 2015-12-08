@@ -288,8 +288,16 @@ sub deprecated_base :Chained('overview_base') :PathPart('deprecated') :CaptureAr
     $c->stash->{ia_page} = "IADeprecated";
     $c->stash->{title} = "Deprecated IA Pages";
    
-    $c->stash->{logged_in} = $c->user;
-    $c->stash->{is_admin} = $c->user? $c->user->admin : 0;
+    my $user = $c->user;
+    my $is_admin = $c->user? $c->user->admin : 0;
+    
+    if ((!$user) || (!$is_admin)) {
+        $c->response->redirect($c->chained_uri('My','login',{ admin_required => 1 }));
+        return $c->detach;
+    }
+
+    $c->stash->{logged_in} = $user;
+    $c->stash->{is_admin} = $is_admin;
 
     $c->add_bc('Deprecated', $c->chained_uri('InstantAnswer', 'deprecated'));
 }
