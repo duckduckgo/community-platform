@@ -144,7 +144,8 @@
                         is_stackexchange : Handlebars.templates.pre_edit_is_stackexchange(ia_data),
                         id : Handlebars.templates.pre_edit_id(ia_data),
                         blockgroup: Handlebars.templates.pre_edit_blockgroup(ia_data),
-                        deployment_state: Handlebars.templates.pre_edit_deployment_state(ia_data)
+                        deployment_state: Handlebars.templates.pre_edit_deployment_state(ia_data),
+                        src_url: Handlebars.templates.pre_edit_src_url(ia_data)
                     };
 
                     page.updateAll(readonly_templates, ia_data, false);
@@ -1511,10 +1512,10 @@
 
         field_order: [
             'description',
+            'src_url',
             'examples',
             'screens',
             'github',
-            'src_url',
             'triggers',
             'advanced',
             'test'
@@ -1535,6 +1536,7 @@
             'src_id',
             'src_name',
             'src_domain',
+            'src_url',
             'is_stackexchange',
             'src_options',
             'unsafe',
