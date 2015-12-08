@@ -9,6 +9,9 @@ use Time::HiRes qw/ sleep /;
 use Email::Valid;
 use Digest::MD5 qw( md5_hex );
 use Try::Tiny;
+use JSON::MaybeXS;
+use URI;
+use HTTP::Request::Common;
 
 BEGIN {extends 'Catalyst::Controller'; }
 
@@ -125,6 +128,106 @@ sub login :Chained('logged_out') :Args(0) {
 			}
 		}
 	}
+}
+
+sub github_oauth :Chained('logged_out') :Args(0) {
+	my ( $self, $c ) = @_;
+	$c->stash->{not_last_url} = 1;
+	my $params = $c->req->params;
+
+	if ( !$params->{code} || !$params->{state} ) {
+		$c->session->{gh_oauth_state} = $c->d->uid;
+		my $uri = URI->new('https://github.com/login/oauth/authorize');
+		$uri->query_form( {
+			client_id => $c->d->config->github_client_id,
+			redirect_uri => $c->chained_uri('My','github_oauth'),
+			state => $c->session->{gh_oauth_state},
+		} );
+		$c->response->redirect( $uri );
+		return $c->detach;
+	}
+
+	if ( $params->{state} ne $c->session->{gh_oauth_state} ) {
+		$c->stash->{state_not_matching} = 1;
+		return $c->detach;
+	}
+
+	my $response = $c->d->http->request(
+		POST 'https://github.com/login/oauth/access_token', {
+			client_id => $c->d->config->github_client_id,
+			client_secret => $c->d->config->github_client_secret,
+			code => $params->{code},
+			state => $c->session->{gh_oauth_state},
+		}, Accept => 'application/json',
+	);
+
+	if ( !$response->is_success ) {
+		$c->stash->{no_user_info} = 1;
+		return $c->detach;
+	}
+
+	my $access_token  = JSON::MaybeXS->new->utf8(1)->decode($response->content)->{access_token};
+	if ( !$access_token ) {
+		$c->stash->{no_user_info} = 1;
+		return $c->detach;
+	}
+
+	$response = $c->d->http->request(
+		GET 'https://api.github.com/user',
+		Authorization => "token $access_token",
+	);
+
+	if ( !$response->is_success ) {
+		$c->stash->{no_user_info} = 1;
+		return $c->detach;
+	}
+
+	my $user_info = JSON::MaybeXS->new->utf8(1)->decode($response->content);
+
+	if ( !$user_info->{login} ) {
+		$c->stash->{no_user_info} = 1;
+		return $c->detach;
+	}
+
+	my $user = $c->d->rs('User')->search(
+		github_access_token => $access_token,
+	)->order_by({ -desc => 'id' })->one_row;
+
+	if ( $user_info->{email} && !$user ) {
+		$user = $c->d->rs('User')->search(
+			 \[ 'LOWER(email) = ? AND email_verified = 1', ( lc( $$user_info->{email} ) ) ],
+		)->order_by({ -desc => 'id' })->one_row;
+		if ( $user ) {
+			$user->update({ github_access_token => $access_token });
+		}
+	}
+
+	if ( !$user ) {
+		try {
+			$user = $c->d->create_user( $user_info->{login}, $c->d->uid );
+			$self->_verify_email( $c, $user, $user_info->{email} )
+				if ( $user && $user_info->{email} );
+		}
+		catch {
+			if ( $_ eq 'user exists' ) {
+				$c->stash->{username_taken} = 1;
+			}
+			else {
+				$c->stash->{unknown_error} = 1;
+			}
+			return $c->detach;
+		};
+	}
+
+	if ($c->authenticate({
+		username => $user->username,
+		password => $access_token,
+	}, 'github')) {
+		$c->response->redirect( $c->session->{last_url} // $c->chained_uri('My','account') );
+		return $c->detach;
+	}
+
+	$c->stash->{error} = 1;
 }
 
 sub logged_in :Chained('base') :PathPart('') :CaptureArgs(0) {
