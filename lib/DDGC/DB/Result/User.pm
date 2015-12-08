@@ -131,6 +131,11 @@ column new_contributor => {
     default_value => 1
 };
 
+column github_access_token => {
+	data_type => 'text',
+	is_nullable => 1
+};
+
 has xmpp => (
 	isa => 'HashRef',
 	is => 'ro',
