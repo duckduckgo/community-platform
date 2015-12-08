@@ -131,6 +131,7 @@ column src_name => {
 column src_url => {
 	data_type => 'text',
 	is_nullable => 1,
+        for_endpt => 1
 };
 
 # documentation url
