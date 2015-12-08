@@ -5,7 +5,9 @@
       <a href="/ia/dev">Overview</a>
       <a href="/ia/dev/pipeline">In-Development</a>
       <a href="/ia/dev/issues" class="active-link">Live Issues</a>
-      <a href="/ia/dev/deprecated">Archives</a>
+      <: if $is_admin { :>
+	<a href="/ia/dev/deprecated">Archives</a>
+      <: } :>
     </div>
 </div>
 
