@@ -281,6 +281,7 @@ textarea.edit-sidebar {
     @include center-content();
     width: auto;
     margin: 0px 20px;
+    overflow: initial;
 }
 
 .item-activity a { 
