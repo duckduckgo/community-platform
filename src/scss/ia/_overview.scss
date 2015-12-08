@@ -9,6 +9,8 @@ a {
 }
 
 #ia-overview {
+    font-size: 1.15384615384615em;
+
     /* This provides the spacing between the two columns */
     .overview__clm--left {
 	padding-right: 4em;
@@ -18,18 +20,22 @@ a {
 	padding-left: 4em;
     }
 
+    .tx-size--small {
+	font-size: 0.866em;
+    }
+
     /* This styles the headers before each section such as "Top Issues on GitHub" and "Instant Answers" */
     & > header {
 	overflow: auto;
 	padding-bottom: 2em;
 
 	& > * {
-	    font-size: 1.6em;
+	    font-size: 1.61538461538462em;
 	    font-weight: bold;
 	}
 
 	.btn {
-	    font-size: 1.1em;
+	    font-size: 1.15384615384615em;
 	    padding: 0 0.5em;
 	    font-weight: 500;
 	}
