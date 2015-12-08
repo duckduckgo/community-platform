@@ -473,12 +473,12 @@ Automated data from [IA page](https://duck.co/ia/view/$data->{meta_id})
     my $dax_comment = Net::GitHub->new(access_token => $dax);
     if(!$comment_number){
         # update the comment
-        $dax_comment->issue->create_comment('duckduckgo', 'zeroclickinfo-fathead', $pr_number, {
+        $dax_comment->issue->create_comment('duckduckgo', 'zeroclickinfo-'.$data->{repo}, $pr_number, {
             "body" => $message
             }
         );
     }else{
-        $dax_comment->issue->update_comment('duckduckgo', 'zeroclickinfo-fathead', $comment_number, {
+        $dax_comment->issue->update_comment('duckduckgo', 'zeroclickinfo-'.$data->{repo}, $comment_number, {
             "body" => $message
             }
         );
