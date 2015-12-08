@@ -287,7 +287,6 @@ textarea.edit-sidebar {
     color: $grey-dark; 
 }
 
-
 #dev_pipeline .dev_pipeline-column {
     text-align: left;
     border-radius: 3px;
@@ -531,4 +530,8 @@ textarea.edit-sidebar {
 .filters-bar {
     padding-bottom: 2em;
     padding-top: 2em;
+}
+
+.filter-count {
+    padding-left: 0.4em;
 }
