@@ -1,5 +1,11 @@
 /* Style for the list of issues that can be found in the Developer Pages. */
 .issues-list {
+    font-size: 1.15384615384615em; // 15px;
+
+    .tx-size--small {
+        font-size: 0.866em; // 13px;
+    }
+
     & > section {
 	padding-bottom: 1em;
 	

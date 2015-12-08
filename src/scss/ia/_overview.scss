@@ -9,14 +9,14 @@ a {
 }
 
 #ia-overview {
-    font-size: 1.15384615384615em;
-
     /* This provides the spacing between the two columns */
     .overview__clm--left {
+	font-size: 1.15384615384615em; // 15px;
 	padding-right: 4em;
     }
 
     .overview__clm--right {
+	font-size: 1.15384615384615em; // 15px;
 	padding-left: 4em;
     }
 
@@ -28,6 +28,8 @@ a {
     & > header {
 	overflow: auto;
 	padding-bottom: 2em;
+	font-size: 1.15384615384615em; // 15px;
+
 
 	& > * {
 	    font-size: 1.4em;

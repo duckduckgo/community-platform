@@ -279,6 +279,8 @@ textarea.edit-sidebar {
 
 #dev_pipeline { 
     @include center-content();
+    width: auto;
+    margin: 0px 20px;
 }
 
 .item-activity a { 
