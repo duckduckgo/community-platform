@@ -33,9 +33,9 @@ my @results;
 
 # the repos we care about
 my @repos = (
-    'zeroclickinfo-spice',
-    'zeroclickinfo-goodies',
-    'zeroclickinfo-longtail',
+#    'zeroclickinfo-spice',
+#    'zeroclickinfo-goodies',
+#    'zeroclickinfo-longtail',
     'zeroclickinfo-fathead'
 );
 
@@ -70,11 +70,14 @@ sub getIssues{
             push(@issues, $gh->issue->next_page)
         }
 
+        
         print "Starting $repo\n";
         my $progress = Term::ProgressBar->new(scalar @issues);
 		
         # add all the data we care about to an array
 		for my $issue (@issues){
+
+            warn Dumper $issue;
 
             $progress->update($line);
             $line++;
@@ -134,6 +137,8 @@ sub getIssues{
                 producer => $producer,
                 state => $state,
 			);
+
+            warn Dumper \%entry;
 
 			push(@results, \%entry);
             delete $pr_hash{$issue->{'number'}.$repo};
@@ -201,12 +206,12 @@ sub getIssues{
                     meta_id => $ia->{meta_id} || $data->{name},
                     name => $ia->{name} || ucfirst $name,
                     dev_milestone => $ia->{dev_milestone} || 'planning',
-                    description => $ia->{description} || $description,
+                    description => $ia->{description},
                     created_date => $ia->{created_date} || $date, 
                     repo => $ia->{repo} || $data->{repo},
                     perl_module => $ia->{perl_module} || $pm,
-                    forum_link => $ia->{forum_link} || $forum_link,
-                    src_api_documentation => $ia->{src_api_documentation} || $api_link,
+                    forum_link => $ia->{forum_link},
+                    src_api_documentation => $ia->{src_api_documentation},
                     developer => $ia->{developer} || $developer,
                     last_update => $issue->{updated_at},
                     last_commit => $data->{last_commit},
@@ -215,8 +220,12 @@ sub getIssues{
                     at_mentions => $data->{mentions},
                     producer => $data->{producer},
                     template => $template,
+                    example_query => $ia->{example_query} || '',
+                    tab => $ia->{tab} || '',
                 );
 
+                warn "###########3 IA ##############33";
+                warn Dumper $ia;
                 $d->rs('InstantAnswer')->update_or_create({%new_data});
 
                 update_pr_template(\%new_data, $data->{issue_id}, $ia->{src_url});
@@ -435,26 +444,41 @@ sub get_mentions {
 sub update_pr_template {
     my ($data, $pr_number, $source) = @_;
 
-    return unless $pr_number eq '1234';
-
-    warn "Found Test PR";
-
     # find dax comment at spot #1 or bail
     my @comments = $gh->issue->comments($pr_number);
-    my $first = $comments[0];
-    return unless $first->{user}->{login};
+    my $comment_number;
+    if(scalar @comments){
+        my $first = $comments[0];
+        return unless $first->{user}->{login} eq 'daxtheduck';
+        $comment_number = $first->{id};
+    }
 
     my $message = qq(
+Automated data from [IA page](https://duck.co/ia/view/$data->{meta_id})
+
+---
 Description: $data->{description}
 Example Query: $data->{example_query}
-Tab Name: $data->{tab_name}
-Source: $source
+Tab Name: $data->{tab}
+Source: $data->{src_api_documentation}
 );
-    # update the comment
-    $gh->issue->create_comment($pr_number, {
+
+    my $dax = $ENV{DAX_TOKEN};
+    return unless $dax;
+
+    my $dax_comment = Net::GitHub->new(access_token => $dax);
+    if(!$comment_number){
+        # update the comment
+        $dax_comment->issue->create_comment('duckduckgo', 'zeroclickinfo-fathead', $pr_number, {
             "body" => $message
-        }
-    );
+            }
+        );
+    }else{
+        $dax_comment->issue->update_comment('duckduckgo', 'zeroclickinfo-fathead', $comment_number, {
+            "body" => $message
+            }
+        );
+    }
 }
 
 getIssues;
