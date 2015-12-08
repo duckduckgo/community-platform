@@ -52,7 +52,7 @@
                         var field = temp[0];
                         var value = temp[1];
                         if ((field === "tag") && value) {
-                            $("#issue-" + value).trigger("click");
+                            $('a[data-filter=".tag-' + value + '"]').trigger("click");
                         } else if ((field === "sort") && (value === "date")) {
                             $("#sort_date").trigger("click");
                         }
@@ -103,6 +103,7 @@
         },
 
         filter: function() {
+	    console.log("this");
             var selector = this.sort_by_date? "#pipeline-live__list .by_date_item" : "#pipeline-live__list .by_ia_item";
             var url = this.sort_by_date? "&sort=date" : "";
 
