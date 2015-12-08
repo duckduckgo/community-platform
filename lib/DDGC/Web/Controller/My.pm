@@ -672,6 +672,28 @@ sub forgotpw :Chained('logged_out') :Args(0) {
 	$c->stash->{sentok} = 1;
 }
 
+sub _verify_email {
+	my ( $c, $user, $email ) = @_;
+	$user->data({}) if !$user->data;
+	my $data = $user->data();
+	$c->stash->{email_verify_token} = $data->{email_verify_token} = $c->d->uid;
+	$c->stash->{email_verify_link} =
+	    $c->chained_uri('My','email_verify',$user->lowercase_username, $c->stash->{email_verify_token});
+	$user->data($data);
+	$user->email($email);
+	$user->email_verified(0);
+	$user->update;
+	$c->d->postman->template_mail(
+		1,
+		$user->email,
+		'"DuckDuckGo Community" <noreply@duck.co>',
+		'[DuckDuckGo Community] ' . $user->username . ', thank you for registering. Please verify your email address',
+		'register',
+		$c->stash,
+	);
+}
+
+
 sub register :Chained('logged_out') :Args(0) {
 	my ( $self, $c ) = @_;
 	$c->stash->{not_last_url} = 1;
@@ -740,23 +762,7 @@ sub register :Chained('logged_out') :Args(0) {
 		if ($user) {
 			$user->check_password($password);
 			if ($email) {
-				$user->data({}) if !$user->data;
-				my $data = $user->data();
-				$c->stash->{email_verify_token} = $data->{email_verify_token} = $c->d->uid;
-				$c->stash->{email_verify_link} =
-				    $c->chained_uri('My','email_verify',$user->lowercase_username, $c->stash->{email_verify_token});
-				$user->data($data);
-				$user->email($email);
-				$user->email_verified(0);
-				$user->update;
-				$c->d->postman->template_mail(
-					1,
-					$user->email,
-					'"DuckDuckGo Community" <noreply@duck.co>',
-					'[DuckDuckGo Community] ' . $user->username . ', thank you for registering. Please verify your email address',
-					'register',
-					$c->stash,
-				);
+				$self->_verify_email();
 			}
 			$c->session->{action_token} = undef;
 			$c->session->{captcha_string} = undef;
