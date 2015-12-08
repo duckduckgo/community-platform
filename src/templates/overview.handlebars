@@ -28,11 +28,11 @@
               {{#if most_recent}}
                 {{#eq @key 'live'}}
                   {{#if live_date}}
-                    <span class="tx-clr--lt tx-size--small ia_date right">{{parse_date live_date}}</span>
+                    <span class="tx-clr--lt tx-size--small ia_date right">{{timeago live_date}}</span>
                   {{/if}}
                 {{else}}
                   {{#if created_date}}
-                    <span class="tx-clr--lt tx-size--small ia_date right">{{parse_date created_date}}</span>
+                    <span class="tx-clr--lt tx-size--small ia_date right">{{timeago created_date}}</span>
                   {{/if}}
                 {{/eq}}
               {{else}}                    
