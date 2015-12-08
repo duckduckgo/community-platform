@@ -331,6 +331,19 @@
             </tr>
         {{/not_null}}
 
+        {{#not_null src_url}}
+            <tr class="updates_list">
+                <th>Data Source</th>
+
+                <td name="src_url"  id="src_url_original">
+                    {{original.src_url}}
+                </td>
+                <td name="src_url">
+                    {{src_url}}
+                </td>
+            </tr>
+        {{/not_null}}
+        
         {{#not_null src_domain}}
             <tr class="updates_list">
                 <th>Source Domain</th>
