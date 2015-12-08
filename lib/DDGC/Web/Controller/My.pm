@@ -76,14 +76,13 @@ sub login :Chained('logged_out') :Args(0) {
 
 	my $last_url = $c->session->{last_url};
 
-	if ($c->stash->{username} = $c->req->params->{ $c->session->{username_field} }) {
+	if ($c->stash->{username} = $c->req->params->{ username }) {
 
 		if ($c->stash->{username} =~ /@/) {
 			$c->stash->{username_at} = 1;
 			return $c->detach;
 		}
 
-		$c->session->{username_field} = $c->d->uid;
 		my $user = $c->d->find_user($c->stash->{username});
 		if (($user && $user->rate_limit_login)
 		    || ($c->session->{failed_logins} && $c->session->{failed_logins} > $c->d->config->login_failure_session_limit) ) {
@@ -94,6 +93,7 @@ sub login :Chained('logged_out') :Args(0) {
 
 		if ( my $username = lc($c->stash->{username}) and
 		     my $password = $c->req->params->{password} ) {
+			$c->require_action_token;
 			if ($c->authenticate({
 				username => $username,
 				password => $password,
@@ -628,15 +628,13 @@ sub forgotpw :Chained('logged_out') :Args(0) {
 		return $c->detach;
 	}
 
-	$c->stash->{forgotpw_username} = lc($c->req->params->{ $c->session->{username_field} });
+	$c->stash->{forgotpw_username} = lc($c->req->params->{ username });
 
 	if ($c->stash->{forgotpw_username} =~ /@/) {
 		$c->stash->{username_at} = 1;
 		return $c->detach;
 	}
 
-	$c->session->{username_field} = $c->d->uid;
-	
 	my $user = $c->d->find_user($c->stash->{forgotpw_username});
 	if (!$user || !$user->email ) {
 		sleep .5;
@@ -689,9 +687,8 @@ sub register :Chained('logged_out') :Args(0) {
 		return $c->detach;
 	}
 
-	$c->stash->{username} = $c->req->params->{$c->session->{username_field}};
+	$c->stash->{username} = $c->req->params->{username};
 	$c->stash->{email} = $c->req->params->{email};
-	$c->session->{username_field} = $c->d->uid;
 
 	if (!$c->validate_captcha($c->req->params->{captcha})) {
 		$c->stash->{wrong_captcha} = 1;
@@ -727,7 +724,7 @@ sub register :Chained('logged_out') :Args(0) {
 	}
 
 	return $c->detach if $error;
-	
+
 	my $username = $c->stash->{username};
 	my $password = $c->req->params->{password};
 	
@@ -742,6 +739,7 @@ sub register :Chained('logged_out') :Args(0) {
 
 	# Skip actual account creation if this field is filled
 	unless ($c->req->params->{emailagain}) {
+		$c->require_action_token;
 		my $user = $c->d->create_user($username,$password);
 
 		if ($user) {
@@ -767,7 +765,6 @@ sub register :Chained('logged_out') :Args(0) {
 			}
 			$c->session->{action_token} = undef;
 			$c->session->{captcha_string} = undef;
-			$c->session->{username_field} = undef;
 		} else {
 			$c->stash->{register_failed} = 1;
 			return $c->detach;

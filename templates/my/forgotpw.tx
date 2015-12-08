@@ -31,7 +31,7 @@
 					</p>
 				<: } :>
 				<div class="third">
-					<div class="input-wrap"><input placeholder="Your Username" type="text" name="<: $c.session.username_field :>" value="<: $forgotpw_username :>" /></div>
+					<div class="input-wrap"><input placeholder="Your Username" type="text" name="username" value="<: $forgotpw_username :>" /></div>
 				</div>
 				<div class="sixth">
 					<div class="input-wrap"><input type="submit" name="requestpw" class="button submit" value="Submit" /></div>

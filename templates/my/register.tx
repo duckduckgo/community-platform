@@ -50,10 +50,11 @@
 	<div class="form-wrap account-form halves">
 		<h2>Create a new account</h2>
 		<form action="<: $u('My', 'register') :>" class="group" method="post">
+			<input type="hidden" name="action_token" class="text" value="<: $c.session.action_token :>" />
 			<div class="account-items group">
 				<div class="half">
-					<label for="<: $c.session.username_field :>" class="hide palm-block">Username</label>
-					<div class="input-wrap"><input type="text" placeholder="Your Username" title="Your Username" name="<: $c.session.username_field :>" value="<: $username :>" class="text"/></div>
+					<label for="username" class="hide palm-block">Username</label>
+					<div class="input-wrap"><input type="text" placeholder="Your Username" title="Your Username" name="username" value="<: $username :>" class="text"/></div>
 				</div>
 				<div class="half">
 					<label for="email" class="hide palm-block">Email</label>
