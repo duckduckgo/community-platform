@@ -183,7 +183,6 @@ sub getIssues{
                     $is_new_ia = 1 if $tag->{name} eq 'New Instant Answer';
                     $pm = "DDG::Goodie::CheatSheets" if $tag->{name} eq 'CheatSheet';
                 }
-                return if !$is_new_ia;
 
                 my $developer = [{
                         name => $data->{author},
@@ -219,9 +218,11 @@ sub getIssues{
                     src_url => $ia->{src_url} || '',
                 );
 
+                update_pr_template(\%new_data, $data->{issue_id}, $ia->{src_url});
+
+                return if !$is_new_ia;
                 $d->rs('InstantAnswer')->update_or_create({%new_data});
 
-                update_pr_template(\%new_data, $data->{issue_id}, $ia->{src_url});
 
             };
 
@@ -441,9 +442,19 @@ sub update_pr_template {
     my @comments = $gh->issue->comments($pr_number);
     my $comment_number;
     if(scalar @comments){
-        my $first = $comments[0];
-        return unless $first->{user}->{login} eq 'daxtheduck';
-        $comment_number = $first->{id};
+        my $comment = $comments[0];
+        return unless $comment->{user}->{login} eq 'daxtheduck';
+
+        # skip dax welcome message if it exists
+        if($comment->{body} =~ /Thanks for taking the time to contribute!/){
+            if(scalar @comments > 1){
+                $comment = $comments[1];
+                return unless $comment->{user}->{login} eq 'daxtheduck';
+                $comment_number = $comment->{id};
+            }
+        }else{
+            $comment_number = $comment->{id};
+        }
     }
 
     my $message = qq(
