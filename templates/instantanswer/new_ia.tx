@@ -12,19 +12,20 @@
     <div class="wizard_field">
         <h3 class="label"> Description </h3>
         <p class="field_desc"> What is the purpose for your Instant Answer?</p>
-        <textarea cols="149" class="frm__text wizard_field_insert" id="description-input" ></textarea>
+        <textarea cols="149" class="frm__text wizard_field_insert" id="description-input" placeholder="
+eg: The Forecast IA is a spice that displays the current weather and a 7-day forecast for your local city (ie. ‘Weather’), or a queried city triggered by city name (eg. ‘Weather in Paris’) or zip code (eg. Weather 92501). Data is provided by our friends at Forecast.io. "></textarea>
     </div>
  
     <div class="wizard_field">
         <h3 class="label"> Example Query </h3>
         <p class="field_desc"> Which query (or queries) will trigger your Instant Answer?</p>
-        <input class="frm__input wizard_field_insert" id="example_query-input" />
+        <input class="frm__input wizard_field_insert" id="example_query-input" placeholder="eg: Weather in Encinitas, Weather 12180, Weather" />
     </div>
     
     <div class="wizard_field">
         <h3 class="label"> Data Source </h3>
         <p class="field_desc">Where are you getting your info from (webpage, API, etc)?</p>
-        <input class="frm__input wizard_field_insert" id="src_url-input" />
+        <input class="frm__input wizard_field_insert" id="src_url-input" placeholder="https://api.forecast.io/forecast/APIKEY/LATITUDE,LONGITUDE,TIME" />
     </div>
     
     <div class="wizard_field">
@@ -40,5 +41,6 @@
         </span>
     </div>
 
-    <div id="new_ia_wizard_save" class="button btn--primary"> Save </div>
+    <hr></hr>
+    <div id="new_ia_wizard_save" class="button btn--primary right"> Create Instant Answer Page </div>
 </div>
