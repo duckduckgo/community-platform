@@ -33,9 +33,9 @@ my @results;
 
 # the repos we care about
 my @repos = (
-    'zeroclickinfo-spice',
-    'zeroclickinfo-goodies',
-    'zeroclickinfo-longtail',
+#    'zeroclickinfo-spice',
+#    'zeroclickinfo-goodies',
+#    'zeroclickinfo-longtail',
     'zeroclickinfo-fathead'
 );
 
@@ -216,6 +216,7 @@ sub getIssues{
                     template => $template,
                     example_query => $ia->{example_query} || '',
                     tab => $ia->{tab} || '',
+                    src_url => $ia->{src_url} || '',
                 );
 
                 $d->rs('InstantAnswer')->update_or_create({%new_data});
@@ -449,10 +450,10 @@ sub update_pr_template {
 Automated data from [IA page](https://duck.co/ia/view/$data->{meta_id})
 
 ---
-Description: $data->{description}
-Example Query: $data->{example_query}
-Tab Name: $data->{tab}
-Source: $data->{src_api_documentation}
+**Description**: $data->{description}
+**Example Query**: $data->{example_query}
+**Tab Name**: $data->{tab}
+**Source**: $data->{src_url}
 );
 
     my $dax = $ENV{DAX_TOKEN};
