@@ -33,9 +33,9 @@ my @results;
 
 # the repos we care about
 my @repos = (
-#    'zeroclickinfo-spice',
-#    'zeroclickinfo-goodies',
-#    'zeroclickinfo-longtail',
+    'zeroclickinfo-spice',
+    'zeroclickinfo-goodies',
+    'zeroclickinfo-longtail',
     'zeroclickinfo-fathead'
 );
 
@@ -70,15 +70,11 @@ sub getIssues{
             push(@issues, $gh->issue->next_page)
         }
 
-        
         print "Starting $repo\n";
         my $progress = Term::ProgressBar->new(scalar @issues);
 		
         # add all the data we care about to an array
 		for my $issue (@issues){
-
-            warn Dumper $issue;
-
             $progress->update($line);
             $line++;
 
@@ -137,8 +133,6 @@ sub getIssues{
                 producer => $producer,
                 state => $state,
 			);
-
-            warn Dumper \%entry;
 
 			push(@results, \%entry);
             delete $pr_hash{$issue->{'number'}.$repo};
@@ -224,8 +218,6 @@ sub getIssues{
                     tab => $ia->{tab} || '',
                 );
 
-                warn "###########3 IA ##############33";
-                warn Dumper $ia;
                 $d->rs('InstantAnswer')->update_or_create({%new_data});
 
                 update_pr_template(\%new_data, $data->{issue_id}, $ia->{src_url});
