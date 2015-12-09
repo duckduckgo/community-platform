@@ -1,0 +1,32 @@
+<div>
+    <h3 class="ia-single--header">
+            <span>Data Source</span>
+    {{#if permissions.can_edit}}
+        {{#ne_and dev_milestone 'live' 'deprecated'}}
+            <a href="#" class="devpage-edit {{#exists staged 'src_url'}}hide{{/exists}}" id="dev-edit-src_url">Edit</a>
+            <a href="#" class="devpage-commit sep--after {{#n_exists staged 'src_url'}}hide{{/n_exists}}" id="dev-commit-src_url">Commit</a>
+            <a href="#" class="devpage-cancel {{#n_exists staged 'src_url'}}hide{{/n_exists}}" id="dev-cancel-src_url">Cancel</a>
+        {{/ne_and}}
+    {{/if}}
+        {{#if forum_link}}
+            <a href="/ideas/idea/{{forum_link}}" {{#ne_and dev_milestone 'live' 'deprecated'}}class="sep--before devpage-forum"{{/ne_and}}>Forum Thread</a>
+        {{/if}}
+    </h3>
+
+    <p  class="readonly--info {{#exists staged 'src_url'}}hide{{/exists}}" id="src_url--readonly">
+        {{#if src_url}}
+            {{src_url}}
+        {{else}}
+            <span class="no-available">No data source provided.</span>
+        {{/if}}
+    </p>
+
+    {{#if permissions.can_edit}}
+        <input class="{{#n_exists staged 'src_url'}}hide{{/n_exists}} frm__input src_url js-autocommit hidden-toshow" id="src_url-input"
+            value="{{~#exists staged 'src_url'~}}
+                {{staged.src_url}}
+            {{~else~}}
+                {{src_url}}
+            {{~/exists~}}" />
+    {{/if}}
+</div>
