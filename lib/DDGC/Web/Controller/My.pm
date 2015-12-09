@@ -133,7 +133,11 @@ sub login :Chained('logged_out') :Args(0) {
 sub github_oauth :Chained('logged_out') :Args(0) {
 	my ( $self, $c ) = @_;
 	$c->stash->{not_last_url} = 1;
+
 	my $params = $c->req->params;
+
+	$c->stash->{title} = 'Login with Github';
+	$c->add_bc($c->stash->{title}, '');
 
 	if ( !$params->{code} || !$params->{state} ) {
 		$c->session->{gh_oauth_state} = $c->d->uid;
