@@ -822,7 +822,7 @@ sub forgotpw :Chained('logged_out') :Args(0) {
 }
 
 sub _verify_email {
-	my ( $c, $user, $email ) = @_;
+	my ( $self, $c, $user, $email ) = @_;
 	$user->data({}) if !$user->data;
 	my $data = $user->data();
 	$c->stash->{email_verify_token} = $data->{email_verify_token} = $c->d->uid;
