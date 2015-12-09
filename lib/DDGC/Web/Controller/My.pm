@@ -256,7 +256,7 @@ sub github_oauth :Chained('logged_out') :Args(0) {
 	}
 
 	if ( !$user ) {
-		my $user = $self->_github_oauth_register(
+		$user = $self->_github_oauth_register(
 			$c, $user_info->{login}, $user_info
 		);
 		return $c->detach if !$user;
