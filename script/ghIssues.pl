@@ -110,7 +110,7 @@ sub getIssues{
 
             my $state = $issue->{state};
             if ($state ne 'open') {
-                $state = $gh->pull_request->is_merged($issue->{number})? 'merged' : $state;
+                $state = $gh->pull_request->is_merged('duckduckgo', 'zeroclickinfo-'.$repo, $issue->{number})? 'merged' : $state;
             }
 
             # add entry to result array
@@ -460,8 +460,9 @@ sub update_pr_template {
 
     my $examples = $data->{example_query};
 
-    if(exists $ia->{other_queries}){
+    if(defined $ia->{other_queries}){
         $ia->{other_queries} =~ s/"|\[|\]//g;
+        $ia->{other_queries} =~ s/,/, /g;
         $examples .=", ". $ia->{other_queries};
     }
 
@@ -476,18 +477,15 @@ sub update_pr_template {
         $browsers .= '['.$val.'] ' . $browser. "\n";
     }
 
-    my $other_tests;
-    foreach my $test (qw(code_review design_review)){
-        my $val = $ia->{$test};
-        my $name = $test;
-        $name =~ s/_/ /g;
-
+    my $mobile;
+    foreach my $type (qw(android ios)){
+        my $val = $ia->{"mobile_$type"};
         if($val){
             $val = '&#10003;';
         }else{
             $val = ' ';
         }
-        $other_tests .= '['.$val.'] '. $name. "\n";
+        $mobile .= '['.$val.'] '. $type. "\n";
     }
 
     my $message = qq(
@@ -507,8 +505,8 @@ Automated data from [IA page](https://duck.co/ia/view/$data->{meta_id})
 **Browsers**
 $browsers
 
-**Review**
-$other_tests
+**Mobile**
+$mobile
 );
 
     my $dax = $ENV{DAX_TOKEN};
@@ -532,7 +530,7 @@ $other_tests
 getIssues;
 
 try {
-    $d->db->txn_do($merge_files);
+ #   $d->db->txn_do($merge_files);
     $d->db->txn_do($update);
 } catch {
     print "Update error $_ \n rolling back\n";
