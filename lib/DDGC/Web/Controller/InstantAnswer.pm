@@ -547,6 +547,7 @@ sub overview_json :Chained('overview_base') :PathPart('json') :Args(0) {
                         if (scalar @dev_ias < 5) {
                             $temp_ia = $issue_ia->TO_JSON('pipeline');
                             $temp_ia->{most_recent} = 1;
+                            $temp_ia->{beta_date} = $beta_pr->{date};
                             push @dev_ias, $temp_ia;
                         }
                         
@@ -564,6 +565,9 @@ sub overview_json :Chained('overview_base') :PathPart('json') :Args(0) {
          high_p => { name => "Priority: High", list => \@high_p },
          lhf => { name => "Low-Hanging Fruit", list => \@lhf }
      );
+
+     #Sort IAs in beta by date
+     @dev_ias = reverse sort { str2time($a->{beta_date}) <=> str2time($b->{beta_date}) } @dev_ias;
 
      my %ias = (
          live => { count => $live_count, list => \@live_ias },
