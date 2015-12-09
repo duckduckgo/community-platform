@@ -133,6 +133,12 @@ sub login :Chained('logged_out') :Args(0) {
 sub _github_oauth_register {
 	my ( $self, $c, $username, $user_info ) = @_;
 	my $user;
+
+	if ( $username !~ /^[a-zA-Z0-9_\.]+$/ ) {
+		$c->stash->{invalid_username} = 1;
+		$c->stash->{username_taken} = 1;
+		return 0;
+	}
 	try {
 		$user = $c->d->create_user( $username, $c->d->uid );
 		$self->_verify_email( $c, $user, $user_info->{email} )
@@ -147,6 +153,12 @@ sub _github_oauth_register {
 		}
 		return 0;
 	};
+	if ( !$user ) {
+		$c->stash->{unknown_error} = 1;
+		return 0;
+	}
+
+	$user->update({ github_access_token => $user_info->{access_token} });
 	return $user;
 }
 
