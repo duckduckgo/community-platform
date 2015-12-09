@@ -451,6 +451,7 @@ sub overview_json :Chained('overview_base') :PathPart('json') :Args(0) {
     my @live_ias;
     my @dev_ias;
     my $rs = $c->d->rs('InstantAnswer');
+    my $dev_count = 0;
     my $live_count = $rs->search({
             dev_milestone => 'live', 
             'topic.name' => [{ '!=' => 'test' }, { '=' => undef}]
@@ -536,16 +537,20 @@ sub overview_json :Chained('overview_base') :PathPart('json') :Args(0) {
             }
          } else {
             my $pr = $issue;
-            if (($pr->status eq 'open' || $pr->status eq 'merged') && $resp && (scalar @dev_ias < 5)) {
+            if (($pr->status eq 'open' || $pr->status eq 'merged') && $resp && (($issue_ia->dev_milestone ne 'live') && ($issue_ia->dev_milestone ne 'deprecated'))) {
                 my $pr_id = $pr->issue_id;
                 my $repo = $issue_ia->repo;
                 my $beta_pr = $resp->{$repo}->{$pr_id};
                 if ($beta_pr) {
                     my $beta_install = $beta_pr->{install_status};
                     if ($beta_install =~ /success/i) {
-                        $temp_ia = $issue_ia->TO_JSON('pipeline');
-                        $temp_ia->{most_recent} = 1;
-                        push @dev_ias, $temp_ia;
+                        if (scalar @dev_ias < 5) {
+                            $temp_ia = $issue_ia->TO_JSON('pipeline');
+                            $temp_ia->{most_recent} = 1;
+                            push @dev_ias, $temp_ia;
+                        }
+                        
+                        $dev_count++;
                     }
                 }
 
@@ -562,7 +567,7 @@ sub overview_json :Chained('overview_base') :PathPart('json') :Args(0) {
 
      my %ias = (
          live => { count => $live_count, list => \@live_ias },
-         new => { count =>  scalar @dev_ias, list => \@dev_ias }
+         new => { count =>  $dev_count, list => \@dev_ias }
      );
 
      $c->stash->{x} = {
