@@ -40,24 +40,6 @@
         </div>
     </div>
 
-    <div>
-        <h2>Log into your existing duck.co account with Github:</h2>
-        <ul>
-            <li>
-                Your duck.co account's email address needs to be verified.
-            </li>
-            <li>
-                Your duck.co account's email address needs to match your <strong>public</strong> Github email address.
-            </li>
-            <li>
-                If your Github address is not public, you can set it to public during this authentication, then set it private again - we only need to do this once.
-            </li>
-            <li>
-                If you do not wish to make your email address public, you may temporarily use <a href="http://mailinator.com/">Mailinator</a> or a similar throwaway account.
-            </li>
-        </ul>
-    </div>
-
 : } elsif $no_user_info {
 
     <div class="notice error">
