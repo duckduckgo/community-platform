@@ -536,6 +536,7 @@ sub unsubscribe :Chained('base') :Args(2) {
 
 sub email_verify :Chained('base') :Args(2) {
 	my ( $self, $c, $username, $token ) = @_;
+	$c->stash->{not_last_url} = 1;
 
 	$c->stash->{title} = 'Email confirmation token check';
 		$c->add_bc($c->stash->{title}, '');
