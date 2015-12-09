@@ -486,9 +486,9 @@ sub overview_json :Chained('overview_base') :PathPart('json') :Args(0) {
      my @lhf;
 
      for my $issue (@issues) {
-        my $is_pr = $issue->{is_pr};
+        my $is_pr = $issue->is_pr;
         my $issue_ia = $c->d->rs('InstantAnswer')->find($issue->instant_answer_id);
-        if ($is_pr) {
+        if ($is_pr ne 1) {
             my %temp_issue = (
                 title => $issue->title,
                 body => $issue->body,
