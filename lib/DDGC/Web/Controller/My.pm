@@ -213,7 +213,7 @@ sub github_oauth :Chained('logged_out') :Args(0) {
 				if ( $user && $user_info->{email} );
 		}
 		catch {
-			if ( $_ eq 'user exists' ) {
+			if ( $_ =~ /^user exists/ ) {
 				$c->stash->{username_taken} = 1;
 			}
 			else {
