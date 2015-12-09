@@ -216,14 +216,11 @@ sub getIssues{
                     example_query => $ia->{example_query} || '',
                     tab => $ia->{tab} || '',
                     src_url => $ia->{src_url} || '',
-                    other_queries => $ia->{other_queries},
                 );
-
-                warn Dumper $ia;
 
                 update_pr_template(\%new_data, $data->{issue_id}, $ia);
 
-                return if !$is_new_ia;
+                #return 1 if !$is_new_ia;
                 $d->rs('InstantAnswer')->update_or_create({%new_data});
 
 
@@ -443,6 +440,7 @@ sub update_pr_template {
 
     # find dax comment at spot #1 or bail
     my @comments = $gh->issue->comments($pr_number);
+
     my $comment_number;
     if(scalar @comments){
         my $comment = $comments[0];
@@ -461,8 +459,11 @@ sub update_pr_template {
     }
 
     my $examples = $data->{example_query};
-    $data->{other_queries} =~ s/"|\[|\]//g;
-    $examples .=", ". $data->{other_queries};
+
+    if(exists $ia->{other_queries}){
+        $ia->{other_queries} =~ s/"|\[|\]//g;
+        $examples .=", ". $ia->{other_queries};
+    }
 
     my $browsers;
     foreach my $browser (qw(safari firefox ie opera chrome)){
@@ -493,17 +494,20 @@ sub update_pr_template {
 Automated data from [IA page](https://duck.co/ia/view/$data->{meta_id})
 
 ---
+**Basic Info**
+
 **Description**: $data->{description}
 **Example Query**: $examples
 **Tab Name**: $data->{tab}
 **Source**: $data->{src_url}
 
+---
 **Testing**
 
-Browsers
+**Browsers**
 $browsers
 
-Review
+**Review**
 $other_tests
 );
 
@@ -534,4 +538,3 @@ try {
     print "Update error $_ \n rolling back\n";
     $d->errorlog("Error updating ghIssues: '$_'...");
 }
-
