@@ -235,7 +235,7 @@ sub github_oauth :Chained('logged_out') :Args(0) {
 
 	if ($c->authenticate({
 		username => $user->username,
-		password => $access_token,
+		github_access_token => $access_token,
 	}, 'github')) {
 		$c->response->redirect( $c->session->{last_url} // $c->chained_uri('My','account') );
 		return $c->detach;
