@@ -7,6 +7,8 @@ use DateTime;
 use DateTime::Duration;
 use DateTime::Format::Mail;
 use URI;
+use HTTP::Request::Common;
+use JSON::MaybeXS;
 
 use namespace::autoclean;
 
@@ -220,6 +222,29 @@ sub status :Chained('base') :PathPart('status') :Args(0) {
 	$c->stash->{version} = $DDGC::VERSION;
 	$c->stash->{db}      = eval { $c->d->rs('User')->one_row; };
 	$c->stash->{prosody} = eval { $c->d->xmpp->mod_data_access->get('ddgc') };
+}
+
+sub slack_usercount :Chained('base') :Args(0) {
+	my ( $self, $c ) = @_;
+	my $slack_usercount = $c->d->cache->get('slack_usercount') if defined $c->d->cache->get('slack_usercount');
+	if ( !$slack_usercount ) {
+		my $response = $c->d->http->request(
+			GET sprintf( 'https://slack.com/api/users.list?token=%s', $c->d->config->slack_key )
+		);
+		if ( $response->is_success ) {
+			my $users = JSON::MaybeXS->new->utf8(1)->decode($response->content);
+			if ( $users->{ok} ) {
+				$slack_usercount = scalar @{ $users->{members} };
+				$c->d->cache->set( 'slack_usercount', $slack_usercount, '15 minutes' );
+			}
+		}
+		$slack_usercount = 0 if !$slack_usercount;
+	}
+	$c->stash->{x} = {
+		slack_usercount => $slack_usercount,
+		ok => !!$slack_usercount,
+	};
+	$c->forward('View::JSON');
 }
 
 sub error :Chained('base') :PathPart('error') :Args(0) {
