@@ -530,7 +530,7 @@ $mobile
 getIssues;
 
 try {
- #   $d->db->txn_do($merge_files);
+    $d->db->txn_do($merge_files);
     $d->db->txn_do($update);
 } catch {
     print "Update error $_ \n rolling back\n";
