@@ -267,6 +267,8 @@ LOGIN:
 		username => $user->username,
 		github_access_token => $access_token,
 	}, 'github')) {
+		$c->req->env->{'psgix.session.options'}{change_id} = 1;
+		delete $c->session->{github_user_info};
 		$c->response->redirect( $c->session->{last_url} // $c->chained_uri('My','account') );
 		return $c->detach;
 	}
