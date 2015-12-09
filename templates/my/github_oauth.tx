@@ -18,12 +18,20 @@
             <form action='/my/github_oauth' method="post">
                 <h2>Choose a Username</h2>
 
-                <div class="twothirds">
+                <div class="third">
                     <div class="input-wrap">
-                        <input placeholder="Choose a Username"
+                        <input placeholder="Your duck.co Username"
                                type="text"
                                name="username"
                         />
+                    </div>
+                </div>
+
+                <div class="third">
+                    <div class="input-wrap">
+                        <input type="submit"
+                               class="button submit"
+                               value="Submit" />
                     </div>
                 </div>
 
