@@ -5,17 +5,17 @@
 
 <section class="clearfix">
 {{#each ias}}
-    <div class="half {{#if @first}}overview__clm--left{{else}}overview__clm--right{{/if}}">
+    <div class="half {{#eq @key 'new'}}overview__clm--left left{{else}}overview__clm--right right{{/eq}}">
       <header>
 	<strong>
 	  <span class="pull-left">
-	    {{#if @first}}
-	      Recently Created
+	    {{#eq @key 'new'}}
+	      Recently on Beta
 	    {{else}}
 	      Recently Live
-	    {{/if}}
+	    {{/eq}}
 	  </span>
-          <a class="pull-right tx-clr--lt" href="/ia{{#eq @key 'new'}}/dev/pipeline{{/eq}}">{{count}} Total</a>
+          <a class="pull-right tx-clr--lt" href="/ia{{#eq @key 'new'}}/dev/pipeline?filter=beta{{/eq}}">{{count}} Total</a>
 	</strong>
       </header>
         
@@ -35,16 +35,7 @@
                     <span class="tx-clr--lt tx-size--small ia_date right">{{timeago created_date}}</span>
                   {{/if}}
                 {{/eq}}
-              {{else}}                    
-                {{#if issues}}
-                    <i class="icon-bug right"></i>
-                {{/if}}
-                {{#eq @key 'live'}}
-                    {{#if edits}}
-                      <i class="icon-edit right"></i>
-                    {{/if}}
-                {{/eq}}
-              {{/if}}                      
+              {{/if}}
           </div>
         </li>
         {{/each}}
