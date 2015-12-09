@@ -33,9 +33,9 @@ my @results;
 
 # the repos we care about
 my @repos = (
-#    'zeroclickinfo-spice',
-#    'zeroclickinfo-goodies',
-#    'zeroclickinfo-longtail',
+    'zeroclickinfo-spice',
+    'zeroclickinfo-goodies',
+    'zeroclickinfo-longtail',
     'zeroclickinfo-fathead'
 );
 
@@ -105,7 +105,6 @@ sub getIssues{
             
             $comments = to_json $comments if $comments;
             $last_comment = to_json $last_comment if $last_comment;
-
 
             my $producer = assign_producer($issue->{assignee}->{login});
 
@@ -326,6 +325,7 @@ sub duckco_user {
 # check the status of PRs in $pr_hash.  If they were merged
 # then update the file paths in the db
 my $merge_files = sub {
+
     PR: while ( my ($pr, $data) = each %pr_hash){
         $gh->set_default_user_repo('duckduckgo', "zeroclickinfo-$data->{repo}");
         my $pr = $gh->pull_request->pull($data->{issue_id});
