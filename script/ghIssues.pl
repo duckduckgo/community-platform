@@ -458,7 +458,7 @@ sub update_pr_template {
         }
     }
 
-    my $examples = $data->{example_query};
+    my $examples = $data->{example_query} || ' ';
 
     if(defined $ia->{other_queries}){
         $ia->{other_queries} =~ s/"|\[|\]//g;
@@ -466,7 +466,7 @@ sub update_pr_template {
         $examples .=", ". $ia->{other_queries};
     }
 
-    my $browsers;
+    my $browsers = ' ';
     foreach my $browser (qw(safari firefox ie opera chrome)){
         my $val = $ia->{"browsers_$browser"};
         if($val){
@@ -477,7 +477,7 @@ sub update_pr_template {
         $browsers .= '['.$val.'] ' . $browser. "\n";
     }
 
-    my $mobile;
+    my $mobile = ' ';
     foreach my $type (qw(android ios)){
         my $val = $ia->{"mobile_$type"};
         if($val){
@@ -488,6 +488,8 @@ sub update_pr_template {
         $mobile .= '['.$val.'] '. $type. "\n";
     }
 
+    map{ $data->{$_} = ' ' unless $data->{$_}; warn $data->{$_}; } qw(src_url description tab);
+    
     my $message = qq(
 Automated data from [IA page](https://duck.co/ia/view/$data->{meta_id})
 
