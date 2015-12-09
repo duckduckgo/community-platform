@@ -103,7 +103,6 @@ sub getIssues{
 
             my $state = $issue->{state};
             if ($state ne 'open') {
-                warn $issue->{number};
                 $state = $gh->pull_request->is_merged('duckduckgo','zeroclickinfo-'.$repo, $issue->{number})? 'merged' : $state;
             }
 
@@ -336,7 +335,6 @@ sub merge_files {
         my @files;
         map{ push(@files, $_->{filename}) } @files_changed;
 
-        warn "updating files for ". $data->id;
         #update code in db
         my $result = $d->rs('InstantAnswer')->find({id => $data->id});
         $result->update({code => JSON->new->ascii(1)->encode(\@files)}) if $result;
