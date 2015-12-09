@@ -130,6 +130,26 @@ sub login :Chained('logged_out') :Args(0) {
 	}
 }
 
+sub _github_oauth_register {
+	my ( $self, $c, $username, $user_info ) = @_;
+	my $user;
+	try {
+		$user = $c->d->create_user( $username, $c->d->uid );
+		$self->_verify_email( $c, $user, $user_info->{email} )
+			if ( $user && $user_info->{email} );
+	}
+	catch {
+		if ( $_ =~ /^user exists/ ) {
+			$c->stash->{username_taken} = 1;
+		}
+		else {
+			$c->stash->{unknown_error} = 1;
+		}
+		return 0;
+	};
+	return $user;
+}
+
 sub github_oauth :Chained('logged_out') :Args(0) {
 	my ( $self, $c ) = @_;
 	$c->stash->{not_last_url} = 1;
@@ -207,20 +227,10 @@ sub github_oauth :Chained('logged_out') :Args(0) {
 	}
 
 	if ( !$user ) {
-		try {
-			$user = $c->d->create_user( $user_info->{login}, $c->d->uid );
-			$self->_verify_email( $c, $user, $user_info->{email} )
-				if ( $user && $user_info->{email} );
-		}
-		catch {
-			if ( $_ =~ /^user exists/ ) {
-				$c->stash->{username_taken} = 1;
-			}
-			else {
-				$c->stash->{unknown_error} = 1;
-			}
-			return $c->detach;
-		};
+		my $user = $self->_github_oauth_register(
+			$c, $user_info->{login}, $user_info
+		);
+		return $c->detach if !$user;
 	}
 
 	if ($c->authenticate({
