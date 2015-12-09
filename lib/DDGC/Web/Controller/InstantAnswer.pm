@@ -227,17 +227,7 @@ sub dev_pipeline_json :Chained('dev_pipeline_base') :PathPart('json') :Args(0) {
     my %dev_ias;
     my $temp_ia;
 
-    my $ua = LWP::UserAgent->new;
-    my $server = "http://beta.duckduckgo.com/installed.json";
-    my $env_key = $ENV{'BETA_KEY'};
-    my $req = HTTP::Request->new(GET => $server);
-    my $header_data = "sha1=".Digest::SHA::hmac_sha1_hex(to_json({test => 'test' }), $env_key);
-    $req->header('content-type' => 'application/json');
-    $req->header("x-hub-signature" => $header_data);
-    $req->content(to_json({test => 'test' }));
-
-    my $resp = $ua->request($req);
-    $resp = $resp->decoded_content? from_json($resp->decoded_content) : undef;
+    my $resp = beta_req();
 
     for my $ia (@ias) {
         $temp_ia = $ia->TO_JSON('pipeline');
@@ -686,17 +676,7 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
 
     $ia_data{live} = $ia->TO_JSON;
 
-    my $ua = LWP::UserAgent->new;
-    my $server = "http://beta.duckduckgo.com/installed.json";
-    my $env_key = $ENV{'BETA_KEY'};
-    my $req = HTTP::Request->new(GET => $server);
-    my $header_data = "sha1=".Digest::SHA::hmac_sha1_hex(to_json({test => 'test' }), $env_key);
-    $req->header('content-type' => 'application/json');
-    $req->header("x-hub-signature" => $header_data);
-    $req->content(to_json({test => 'test' }));
-
-    my $resp = $ua->request($req);
-    $resp = $resp->decoded_content? from_json($resp->decoded_content) : undef;
+    my $resp = beta_req();
     
     for my $issue (@issues) {
         if ($issue) {
@@ -777,7 +757,7 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
         }
     }
 
-    $server = "http://beta.duckduckgo.com/install?asana&ia=" . $ia->id;
+    my $server = "http://beta.duckduckgo.com/install?asana&ia=" . $ia->id;
 
     my $result = asana_req('', $server);
     $ia_data{live}->{asana} = $result->decoded_content ? from_json($result->decoded_content) : undef;
@@ -952,12 +932,7 @@ sub beta_req {
 
     my $ua = LWP::UserAgent->new;
     my $server = "http://beta.duckduckgo.com/installed.json";
-    my $env_key = $ENV{'BETA_KEY'};
     my $req = HTTP::Request->new(GET => $server);
-    my $header_data = "sha1=".Digest::SHA::hmac_sha1_hex(to_json({test => 'test' }), $env_key);
-    $req->header('content-type' => 'application/json');
-    $req->header("x-hub-signature" => $header_data);
-    $req->content(to_json({test => 'test' }));
 
     my $resp = $ua->request($req);
     $resp = $resp->decoded_content? from_json($resp->decoded_content) : undef;
