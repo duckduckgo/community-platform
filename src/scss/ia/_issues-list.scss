@@ -20,7 +20,8 @@
 	    padding-bottom: 2em;
 
 	    &.more-space {
-		padding-bottom: 4em;
+		padding-bottom: 49px;
+		padding-top: 43px;
 	    }
 	}
 
@@ -60,7 +61,7 @@
 		    content: 'N';
 		    display: inline;
 		    float: left;
-		    padding-right: 1em;
+		    padding-right: 11px;
 		    color: $grey;
 		    width: 15px;
 		    font-weight: 500;
