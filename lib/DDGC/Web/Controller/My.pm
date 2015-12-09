@@ -911,7 +911,7 @@ sub register :Chained('logged_out') :Args(0) {
 		if ($user) {
 			$user->check_password($password);
 			if ($email) {
-				$self->_verify_email();
+				$self->_verify_email( $c, $user, $email );
 			}
 			$c->session->{action_token} = undef;
 			$c->session->{captcha_string} = undef;
