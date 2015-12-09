@@ -170,6 +170,19 @@ sub github_oauth :Chained('logged_out') :Args(0) {
 
 	$c->stash->{title} = 'Login with Github';
 	$c->add_bc($c->stash->{title}, '');
+	my $user;
+	my $user_info;
+	my $access_token;
+
+	if ( $params->{username} && $c->session->{github_user_info}->{login} ) {
+		$user = $self->_github_oauth_register(
+			$c, $params->{username}, $c->session->{github_user_info}
+		);
+		return $c->detach if !$user;
+		$user_info = $c->session->{github_user_info};
+		$access_token = $c->session->{github_user_info}->{access_token};
+		goto LOGIN;
+	}
 
 	if ( !$params->{code} || !$params->{state} ) {
 		$c->session->{gh_oauth_state} = $c->d->uid;
@@ -202,7 +215,7 @@ sub github_oauth :Chained('logged_out') :Args(0) {
 		return $c->detach;
 	}
 
-	my $access_token  = JSON::MaybeXS->new->utf8(1)->decode($response->content)->{access_token};
+	$access_token  = JSON::MaybeXS->new->utf8(1)->decode($response->content)->{access_token};
 	if ( !$access_token ) {
 		$c->stash->{no_user_info} = 1;
 		return $c->detach;
@@ -218,14 +231,18 @@ sub github_oauth :Chained('logged_out') :Args(0) {
 		return $c->detach;
 	}
 
-	my $user_info = JSON::MaybeXS->new->utf8(1)->decode($response->content);
+	$user_info = JSON::MaybeXS->new->utf8(1)->decode($response->content);
 
 	if ( !$user_info->{login} ) {
 		$c->stash->{no_user_info} = 1;
 		return $c->detach;
 	}
 
-	my $user = $c->d->rs('User')->search({
+	$user_info->{access_token} = $access_token;
+	$user_info->{login} =~ s/-/_/g;
+	$c->session->{github_user_info} = $user_info;
+
+	$user = $c->d->rs('User')->search({
 		github_access_token => $access_token,
 	})->order_by({ -desc => 'id' })->one_row;
 
@@ -245,6 +262,7 @@ sub github_oauth :Chained('logged_out') :Args(0) {
 		return $c->detach if !$user;
 	}
 
+LOGIN:
 	if ($c->authenticate({
 		username => $user->username,
 		github_access_token => $access_token,

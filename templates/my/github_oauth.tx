@@ -1,0 +1,57 @@
+: if $username_taken {
+
+    <div class="notice warning">
+        <i class="icn icon-warning-sign"></i>
+        Your Github username is unavailable, please choose another.
+    </div>
+
+    <div class="form-border">
+        <div class="form-wrap account-form">
+
+            : if $invalid_username {
+                <div class="notice error">
+                    <i class="icn icon-warning-sign"></i>
+                    The username may only contain standard latin letters
+                    (A-Z), numbers, "." and "_".
+                </div>
+            : }
+            <form action='/my/github_oauth' method="post">
+                <h2>Choose a Username</h2>
+
+                <div class="twothirds">
+                    <div class="input-wrap">
+                        <input placeholder="Choose a Username"
+                               type="text"
+                               name="username"
+                        />
+                    </div>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+
+: } elsif $no_user_info {
+
+    <div class="notice error">
+        <i class="icn icon-warning-sign"></i>
+        No user info returned from Github.
+    </div>
+
+: } elsif $state_not_matching {
+
+    <div class="notice error">
+        <i class="icn icon-warning-sign"></i>
+        Authentication error.
+    </div>
+
+: } elsif $unknown_error {
+
+    <div class="notice error">
+        <i class="icn icon-warning-sign"></i>
+        An unknown error occurred. Please try again later.
+    </div>
+
+: }
+
