@@ -162,7 +162,7 @@ sub _github_oauth_register {
 	return $user;
 }
 
-sub github_oauth :Chained('logged_out') :Args(0) {
+sub github_oauth :Chained('base') :Args(0) {
 	my ( $self, $c ) = @_;
 	$c->stash->{not_last_url} = 1;
 
@@ -236,6 +236,13 @@ sub github_oauth :Chained('logged_out') :Args(0) {
 	if ( !$user_info->{login} ) {
 		$c->stash->{no_user_info} = 1;
 		return $c->detach;
+	}
+
+	if ($c->user) {
+		$c->user->update({
+			github_access_token => $access_token
+		});
+		$c->response->redirect( $c->session->{last_url} // $c->chained_uri('My','account') );
 	}
 
 	$user_info->{access_token} = $access_token;
