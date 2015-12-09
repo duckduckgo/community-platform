@@ -189,13 +189,13 @@ sub github_oauth :Chained('logged_out') :Args(0) {
 		return $c->detach;
 	}
 
-	my $user = $c->d->rs('User')->search(
+	my $user = $c->d->rs('User')->search({
 		github_access_token => $access_token,
-	)->order_by({ -desc => 'id' })->one_row;
+	})->order_by({ -desc => 'id' })->one_row;
 
 	if ( $user_info->{email} && !$user ) {
 		$user = $c->d->rs('User')->search(
-			 \[ 'LOWER(email) = ? AND email_verified = 1', ( lc( $$user_info->{email} ) ) ],
+			 \[ 'LOWER(email) = ? AND email_verified = 1', ( lc( $user_info->{email} ) ) ],
 		)->order_by({ -desc => 'id' })->one_row;
 		if ( $user ) {
 			$user->update({ github_access_token => $access_token });
