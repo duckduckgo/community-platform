@@ -216,9 +216,12 @@ sub getIssues{
                     example_query => $ia->{example_query} || '',
                     tab => $ia->{tab} || '',
                     src_url => $ia->{src_url} || '',
+                    other_queries => $ia->{other_queries},
                 );
 
-                update_pr_template(\%new_data, $data->{issue_id}, $ia->{src_url});
+                warn Dumper $ia;
+
+                update_pr_template(\%new_data, $data->{issue_id}, $ia);
 
                 return if !$is_new_ia;
                 $d->rs('InstantAnswer')->update_or_create({%new_data});
@@ -436,7 +439,7 @@ sub get_mentions {
 }
 
 sub update_pr_template {
-    my ($data, $pr_number, $source) = @_;
+    my ($data, $pr_number, $ia) = @_;
 
     # find dax comment at spot #1 or bail
     my @comments = $gh->issue->comments($pr_number);
@@ -457,14 +460,51 @@ sub update_pr_template {
         }
     }
 
+    my $examples = $data->{example_query};
+    $data->{other_queries} =~ s/"|\[|\]//g;
+    $examples .=", ". $data->{other_queries};
+
+    my $browsers;
+    foreach my $browser (qw(safari firefox ie opera chrome)){
+        my $val = $ia->{"browsers_$browser"};
+        if($val){
+            $val = '&#10003;';
+        }else{
+            $val = ' ';
+        }
+        $browsers .= '['.$val.'] ' . $browser. "\n";
+    }
+
+    my $other_tests;
+    foreach my $test (qw(code_review design_review)){
+        my $val = $ia->{$test};
+        my $name = $test;
+        $name =~ s/_/ /g;
+
+        if($val){
+            $val = '&#10003;';
+        }else{
+            $val = ' ';
+        }
+        $other_tests .= '['.$val.'] '. $name. "\n";
+    }
+
     my $message = qq(
 Automated data from [IA page](https://duck.co/ia/view/$data->{meta_id})
 
 ---
 **Description**: $data->{description}
-**Example Query**: $data->{example_query}
+**Example Query**: $examples
 **Tab Name**: $data->{tab}
 **Source**: $data->{src_url}
+
+**Testing**
+
+Browsers
+$browsers
+
+Review
+$other_tests
 );
 
     my $dax = $ENV{DAX_TOKEN};
