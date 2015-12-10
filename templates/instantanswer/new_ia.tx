@@ -1,6 +1,7 @@
 <div id="new_ia_header">
     <div class="content-wrap">
         <h1> New Instant Answer </h1>
+        <p>If you've already created a pull request, you can <a href="#" id="create-from-pr">skip this step</a></p>
     </div>
 </div>
 <div id="new_ia_wizard" class="content-wrap">
@@ -30,15 +31,28 @@ eg: The Forecast IA is a spice that displays the current weather and a 7-day for
     
     <div class="wizard_field">
         <h3 class="label"> Type </h3>
-        <p class="field_desc">Depending on the scale of the data and how often it might change, your IA will be best suited for a specific type.</p>
-        <span class="frm__select">
-            <select id="repo-select" class="wizard_field_insert">
-                <option>Goodies</option>
-                <option>Spice</option>
-                <option>Fathead</option>
-                <option>Longtail</option>
-            </select>
-        </span>
+        <p class="field_desc">Each Instant Answer type specializes in handling certain scenarios - most common Instant Answers are Goodies and Spices</p>
+        <div  id="repo-radio" class="wizard_field_insert left">
+            <input type="radio" name="types" value="goodies" checked/>
+                <label>Goodie</label>
+                <p>Instant Answer made from pure code</p>
+            <input type="radio" name="types" value="fathead">
+                <label>Fathead</label>
+                <p>Uses a key-value store to search a database</p>
+            <input type="radio" name="types" value="goodies">
+                 <label>Cheatsheet</label>
+        </div>
+        <div class="wizard_field_insert right">
+            <input type="radio" name="types" value="spice" />
+                <label>Spice</label>
+                <p>requires an API as its data source</p>
+            <input type="radio" name="types" value="longtail">
+                <label>Longtail</label>
+                <p>Requires the ability to do full-text search</p>
+            <input type="radio" name="types" value="">
+                <label>I don't know</label>
+        </div>
+        <span class="clearfix"></span>
     </div>
 
     <hr></hr>
