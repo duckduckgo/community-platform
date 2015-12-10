@@ -8,6 +8,22 @@
         return new Handlebars.SafeString(string);
     });
 
+    Handlebars.registerHelper("issueToFilter", function(issue) {
+	if(issue === "lhf") {
+	    return "lowhangingfruit";
+	}
+
+	if(issue === "high_p") {
+	    return "priorityhigh";
+	}
+
+	if(issue === "bugs") {
+	    return "bug";
+	}
+	
+	return issue;
+    });
+
     // Return elapsed time expressed as days from now (e.g. 5 days, 1 day, today)
     Handlebars.registerHelper("timeago", function(date, full) {
         var timestring = full? " days ago" : "d";
@@ -298,7 +314,7 @@
         var month = date[1]? months[parseInt(date[1].replace('0', '')) - 1] : '';
         var day = date[2] || '';
 
-        return month + ", " + day + " " + year;
+        return month + " " + day + ", " + year;
     });
 
     // Returns true if value1 % value2 equals zero

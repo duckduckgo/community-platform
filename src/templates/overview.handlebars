@@ -1,87 +1,91 @@
-{{#each ias}}
-    <div class="half-w {{#if @first}}left{{else}}right{{/if}}">
-    <h2 class="left">
-        <span class="heavy">{{count}}</span> {{@key}} Instant Answers
-    </h2>
-        <div class="button btn--primary right"><a href="/ia{{#eq @key 'new'}}/dev/pipeline{{/eq}}">See All</a></div>
-        <span class="clearfix"></span>
-        
-        <ul class="iap-list">
-            {{#each list}}
-                <li class="ia-item">
-                  <div class="ia_dev_milestone-{{dev_milestone}} ia_repo-{{repo}} ia-item__container">
-                        
-                    <div class="left ia-item--stamp circle stamp--{{repo}}"></div>
-                    <h3 class="left ia-item--header"><a href="/ia/view/{{id}}">{{name}}</a></h3>
+<header>
+  <span class="pull-left">Instant Answers</span>
+  <a class="btn btn--primary pull-right" href="/ia/new_ia">Create Instant Answer</a>
+</header>
 
-                    {{#if most_recent}}
-                        {{#eq @key 'live'}}
-                            {{#if live_date}}
-                                <span class="ia_date right">launched on {{parse_date live_date}}</span>
-                            {{/if}}
-                        {{else}}
-                            {{#if created_date}}
-                                <span class="ia_date right">created on {{parse_date created_date}}</span>
-                            {{/if}}
-                        {{/eq}}
-                    {{else}}                    
-                        {{#if issues}}
-                            <i class="icon-bug right"></i>
-                        {{/if}}
-                        {{#eq @key 'live'}}
-                            {{#if edits}}
-                                <i class="icon-edit right"></i>
-                            {{/if}}
-                        {{/eq}}
+<section class="clearfix">
+{{#each ias}}
+    <div class="half {{#if @first}}overview__clm--left{{else}}overview__clm--right{{/if}}">
+      <header>
+	<strong>
+	  <span class="pull-left">
+	    {{#if @first}}
+	      Recently Created
+	    {{else}}
+	      Recently Live
+	    {{/if}}
+	  </span>
+          <a class="pull-right tx-clr--lt" href="/ia{{#eq @key 'new'}}/dev/pipeline{{/eq}}">{{count}} Total</a>
+	</strong>
+      </header>
+        
+      <ul class="iap-list clearfix">
+        {{#each list}}
+        <li>
+          <div class="ia_dev_milestone-{{dev_milestone}} ia_repo-{{repo}} ia-item__container clearfix">
+            <div class="left ia-item--stamp circle stamp--{{repo}}"></div>
+            <a class="left tx-clr--dk" href="/ia/view/{{id}}">{{name}}</a>
+              {{#if most_recent}}
+                {{#eq @key 'live'}}
+                  {{#if live_date}}
+                    <span class="tx-clr--lt tx-size--small ia_date right">{{timeago live_date}}</span>
+                  {{/if}}
+                {{else}}
+                  {{#if created_date}}
+                    <span class="tx-clr--lt tx-size--small ia_date right">{{timeago created_date}}</span>
+                  {{/if}}
+                {{/eq}}
+              {{else}}                    
+                {{#if issues}}
+                    <i class="icon-bug right"></i>
+                {{/if}}
+                {{#eq @key 'live'}}
+                    {{#if edits}}
+                      <i class="icon-edit right"></i>
                     {{/if}}
-                                    
-                    <span class="clearfix"></span>
-                  </div>
-                </li>
-            {{/each}}
-        </ul>
+                {{/eq}}
+              {{/if}}                      
+          </div>
+        </li>
+        {{/each}}
+      </ul>
     </div>
 {{/each}}
+</section>
 
-<span class="clearfix"></span>
+<header>
+  <span class="pull-left">Top Issues on GitHub</span>
+  <a href="https://github.com/duckduckgo/zeroclickinfo-spice/blob/master/CONTRIBUTING.md" class="btn btn--wire__blue pull-right">Learn How To Contribute</a>
+</header>
 
-<div id="top-issues">
-    <div class="top-issues__title">
-        <h2 class="left">Top Issues on GitHub</h2>
-        <div class="button btn--primary right"><a href="/ia/dev/issues">See All</a></div>
-        <span class="clearfix"></span>
-    </div>
-    <ul class="top-issues__list">
-        {{#each issues}}
-            <li class="top-issues__list__item main-tag">
-                <div class="list-container--left left main-tag__left">
-                    <ul class="list-container--left__issues issues_col main-tag__left__list">
-                        {{#loop_n 5 list}}
-                            <li>
-                                <div class="left ia-item--stamp circle stamp--{{repo}}"></div>
-                                <div class="one-line left">
-                                    <h5 class="issue-title">
-                                        <a href="https://github.com/duckduckgo/zeroclickinfo-{{repo}}/issues/{{issue_id}}">
-                                            {{title}}
-                                        </a>
-                                    </h5>
-                                    <span class="issue-details">
-                                        #{{issue_id}} opened on {{parse_date date}} by <a href="https://github.com/{{author}}">{{author}}</a> 
-                                        &middot; IA Page: <a href="/ia/view/{{ia_id}}">{{ia_name}}</a>
-                                    </span>
-                                </div>
-                                <span class="clearfix"></span>
-                            </li>
-                        {{/loop_n}}
-                    </ul>
-                </div>
-                <div class="list-container--right right main-tag__right">
-                    <div class="tag-{{slug name}} tag-container right">
-                        <h3 class="heavy">{{name}}</h3>
-                    </div>
-                </div>
-                <span class="clearfix"></span>
-            <li>
-        {{/each}}
-    </ul>
+<div id="top-issues" class="issues-list clearfix">
+  {{#each issues}}
+  <section>
+    <header>
+      <span class="pull-left"><strong><a class="tx-clr--dk" href="/ia/dev/issues?tag={{slug name}}">{{name}}</a></strong></span>
+      <span class="pull-right">
+	<strong>
+	  <a class="tx-clr--lt" href="/ia/dev/issues?tag={{issueToFilter @key}}">{{list.length}} Total</a>
+        </strong>
+      </span>
+    </header>
+      <ul class="list-container--left__issues issues_col main-tag__left__list">
+        {{#loop_n 5 list}}
+        <li class="clearfix">
+          <span class="pull-left">
+	    <a class="tx-clr--dk one-line issue-name" href="https://github.com/duckduckgo/zeroclickinfo-{{repo}}/issues/{{issue_id}}">
+              {{title}}
+            </a>
+	    <span class="tx-clr--lt tx-size--small">
+              opened {{timeago date false}} ago by <a class="tx-clr--lt" href="https://github.com/{{author}}">{{author}}</a> 
+	    </span>
+	  </span>
+          <span class="issue-details pull-right">
+            <a href="/ia/view/{{ia_id}}" class="tx-clr--lt tx-size--small">{{ia_name}}</a>
+          </span>
+        </li>
+        {{/loop_n}}
+      </ul>
+    </section>
+    {{/each}}
 </div>
