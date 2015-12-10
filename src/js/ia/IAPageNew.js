@@ -9,6 +9,10 @@
         init: function() {
             // console.log("IAPageNew init()");
             var page_new = this;
+                
+            // 100% width
+            $(".site-main > .content-wrap").first().removeClass("content-wrap").addClass("wrap-pipeline");
+            $(".breadcrumb-nav").remove();
 
             $("#new_ia_wizard_save").click(function(evt) {
                 var data = {};
@@ -18,9 +22,10 @@
                     var temp_field = temp_id.replace(/\-[^\-]+$/, "");
                     console.log(temp_field);
                     var temp_type = temp_id.replace(/^.+\-/, "");
-                    var temp_val = (temp_type === "select")? $.trim($temp_el.find("option:selected").text()) : $.trim($temp_el.val());
+                    var temp_val = (temp_type === "radio")? $.trim($temp_el.find('input[type="radio"]:checked').val()) : $.trim($temp_el.val());
 
                     if (temp_field) {
+                        temp_field = temp_field.replace(/^.+\-/, "");
                         data[temp_field] = temp_val;
                     }
                 });

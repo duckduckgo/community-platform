@@ -42,15 +42,6 @@ my @repos = (
 my $token = $ENV{DDGC_GITHUB_TOKEN} || $ENV{DDG_GITHUB_BASIC_OAUTH_TOKEN};
 my $gh = Net::GitHub->new(access_token => $token);
 
-# build a list of the PRs in our database
-my $rs = $d->rs('InstantAnswer::Issues');
-my @pull_requests = $rs->search({'is_pr' => 1}, {result_class => 'DBIx::Class::ResultClass::HashRefInflator'})->all;
-
-# build hash to make searching easier. Concat pr number and repo to avoid collisions
-my %pr_hash;
-map{ $pr_hash{$_->{issue_id}.$_->{repo}} = $_ } @pull_requests;
-
-#warn Dumper keys %pr_hash;
 
 my $today = localtime;
 # get last days worth of issues
@@ -112,7 +103,7 @@ sub getIssues{
 
             my $state = $issue->{state};
             if ($state ne 'open') {
-                $state = $gh->pull_request->is_merged($issue->{number})? 'merged' : $state;
+                $state = $gh->pull_request->is_merged('duckduckgo','zeroclickinfo-'.$repo, $issue->{number})? 'merged' : $state;
             }
 
             # add entry to result array
@@ -136,7 +127,6 @@ sub getIssues{
 			);
 
 			push(@results, \%entry);
-            delete $pr_hash{$issue->{'number'}.$repo};
             
             my $create_page = sub {
                 my $data = \%entry;
@@ -231,7 +221,6 @@ sub getIssues{
             # check for an existing IA page.  Create one if none are found
             try {
                 $d->db->txn_do($create_page) if $is_pr;
-                
             } catch {
                 print "Update error $_ \n rolling back\n";
                 $d->errorlog("Error updating ghIssues: '$_'...");
@@ -327,24 +316,29 @@ sub duckco_user {
 
 # check the status of PRs in $pr_hash.  If they were merged
 # then update the file paths in the db
-my $merge_files = sub {
-    PR: while ( my ($pr, $data) = each %pr_hash){
-        $gh->set_default_user_repo('duckduckgo', "zeroclickinfo-$data->{repo}");
-        my $pr = $gh->pull_request->pull($data->{issue_id});
+sub merge_files {
+    my ($data, $issue_id) = @_;
+        $gh->set_default_user_repo('duckduckgo', "zeroclickinfo-".$data->repo);
+        my $pr;
+        try{
+            $pr = $gh->pull_request->pull($issue_id);
+        }catch{
+        };
+
+        return unless $pr;
 
         # closed PRs have undef merged_at.  Merged ones have the date
-        next PR unless $pr->{merged_at};
+        return unless $pr->{merged_at};
         
-        my @files_changed = $gh->pull_request->files($data->{issue_id});
+        my @files_changed = $gh->pull_request->files($issue_id);
 
         my @files;
         map{ push(@files, $_->{filename}) } @files_changed;
 
         #update code in db
-        my $result = $d->rs('InstantAnswer')->find({id => $data->{instant_answer_id}});
+        my $result = $d->rs('InstantAnswer')->find({id => $data->id});
         $result->update({code => JSON->new->ascii(1)->encode(\@files)}) if $result;
-    }
-};
+}
 
 my $update = sub {
     #$d->rs('InstantAnswer::Issues')->delete_all();
@@ -374,6 +368,8 @@ my $update = sub {
 	        });
 
         }
+
+        merge_files($ia, $result->{issue_id}) if $ia;
     }
 };
 
@@ -440,7 +436,6 @@ sub get_mentions {
 getIssues;
 
 try {
-    $d->db->txn_do($merge_files);
     $d->db->txn_do($update);
 } catch {
     print "Update error $_ \n rolling back\n";
