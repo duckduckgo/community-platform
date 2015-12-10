@@ -20,7 +20,7 @@
             });
 
             $("body").on('click', "#create-ia-from-pr-cancel", function(evt) {
-                var $modal = $(this).parent();
+                var $modal = $("#create-ia-from-pr-form");
                 $modal.addClass("hide");
                 $modal.find("input, textarea").val("").removeClass("not_saved");
                 $("#create-ia-from-pr").removeClass("hide");
