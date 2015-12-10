@@ -14,8 +14,7 @@
 	    <div class="wizard_field">
 		<h3 class="label"> Description </h3>
 		<p class="field_desc"> What is the purpose for your Instant Answer?</p>
-		<textarea cols="100" class="frm__text wizard_field_insert" id="description-input" placeholder="
-	eg: The Forecast IA is a spice that displays the current weather and a 7-day forecast for your local city (ie. ‘Weather’), or a queried city triggered by city name (eg. ‘Weather in Paris’) or zip code (eg. Weather 92501). Data is provided by our friends at Forecast.io. "></textarea>
+		<textarea cols="100" class="frm__text wizard_field_insert" id="description-input" placeholder="eg: The Forecast IA is a spice that displays the current weather and a 7-day forecast for your local city (ie. ‘Weather’), or a queried city triggered by city name (eg. ‘Weather in Paris’) or zip code (eg. Weather 92501). Data is provided by our friends at Forecast.io. "></textarea>
 	    </div>
 	 
 	    <div class="wizard_field">
