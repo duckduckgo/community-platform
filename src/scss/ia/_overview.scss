@@ -62,15 +62,6 @@ a {
     }
 }
 
-#create-ia-from-pr { margin-right: 1em; }
-
-#create-ia-from-pr-form {
-    width: 40em;
-    left: 43em;
-
-    input { margin-bottom: 1em; }
-}
-
 #create-new-ia-form {
     width: 29.5em;
     left: 50em;
@@ -83,9 +74,7 @@ a {
     #id-input { width: 18.25em; }
 
     #name-input { width: 29em; }
-}
-
-#create-new-ia-form, #create-ia-from-pr-form {
+    
     position: fixed;
     background-color: #fff;
     z-index: 1000;

@@ -6,6 +6,18 @@
     }
 }
 
+#create-ia-from-pr { margin-right: 1em; }
+
+#create-ia-from-pr-form {
+    left: 51em;
+    top: 25em;
+
+    input { margin-bottom: 1em; }
+    .button { width: 93%; }
+}
+
+#create-ia-from-pr-cancel { cursor: pointer; }
+
 #new_ia_header {
     background-color: $blue-light;
     padding: 1em;
