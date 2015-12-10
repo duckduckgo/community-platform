@@ -30,7 +30,7 @@
         var timestring = full? " days ago" : "d";
         if (date) {
             // expected date format: YYYY-MM-DDTHH:mm:ssZ e.g. 2011-04-22T13:33:48Z
-            date = date.replace("/T.*Z/", " ");
+            date = date.replace("/T.*Z/", "");
             date = moment.utc(date, format);
             
             var elapsed = parseInt(moment().diff(date, "days", true));
