@@ -18,32 +18,6 @@
                 $("#ia-overview").html(template);
             });
 
-             $("body").on("click", "#create-new-ia, #create-ia-from-pr", function(evt) {
-                $("#create-new-ia, #create-ia-from-pr").addClass("hide");
-                $("#" + $(this).attr("id") + "-form").removeClass("hide");
-            });
-
-            $("body").on('click', "#new-ia-form-cancel, #create-ia-from-pr-cancel", function(evt) {
-                var $modal = $(this).parent();
-                $modal.addClass("hide");
-                $modal.find("input, textarea").val("").removeClass("not_saved");
-                $("#create-new-ia, #create-ia-from-pr").removeClass("hide");
-            });
-
-            $("body").on("click", "#create-ia-from-pr-save", function(evt) {
-                var $pr_input = $("#pr-input");
-                var pr = $.trim($pr_input.val());
-                if (pr.length) {
-                    var jqxhr = $.post("/ia/create_from_pr", {
-                        pr : pr
-                    })
-                    .done(function(data) {
-                        console.log(data);
-                        checkRedirect(data, $pr_input);
-                    });
-                }
-            });
-
             $("body").on('click', "#new-ia-form-save", function(evt) {
                 var $id_input = $("#id-input");
                 var name = $.trim($("#name-input").val());

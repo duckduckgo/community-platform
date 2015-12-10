@@ -14,6 +14,32 @@
             $(".site-main > .content-wrap").first().removeClass("content-wrap").addClass("wrap-pipeline");
             $(".breadcrumb-nav").remove();
 
+             $("body").on("click", "#create-ia-from-pr", function(evt) {
+                $("#create-ia-from-pr").addClass("hide");
+                $("#create-ia-from-pr-form").removeClass("hide");
+            });
+
+            $("body").on('click', "#create-ia-from-pr-cancel", function(evt) {
+                var $modal = $(this).parent();
+                $modal.addClass("hide");
+                $modal.find("input, textarea").val("").removeClass("not_saved");
+                $("#create-ia-from-pr").removeClass("hide");
+            });
+
+            $("body").on("click", "#create-ia-from-pr-save", function(evt) {
+                var $pr_input = $("#pr-input");
+                var pr = $.trim($pr_input.val());
+                if (pr.length) {
+                    var jqxhr = $.post("/ia/create_from_pr", {
+                        pr : pr
+                    })
+                    .done(function(data) {
+                        console.log(data);
+                        checkRedirect(data, $pr_input);
+                    });
+                }
+            });
+            
             $("#new_ia_wizard_save").click(function(evt) {
                 var data = {};
                 $(".wizard_field").each(function(idx) {

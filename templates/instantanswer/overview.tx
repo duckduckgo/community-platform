@@ -45,22 +45,6 @@
         </div>
         <span class="clearfix"></span>
     </div>
-
-    <div id="create-ia-from-pr-form" class="new-ia-form hide">
-        <div>
-            <div class="label"> PR link </div>
-            <input id="pr-input" class="new-ia-input frm__input" />
-        </div>
-
-        <div class="button btn--primary left" id="create-ia-from-pr-save">
-            Save
-        </div>
-
-        <div class="button left" id="create-ia-from-pr-cancel">
-            Cancel
-        </div>
-        <span class="clearfix"></span>
-    </div>
 <: } :>
 
 <div class="pipeline__toggle-view" id="pipeline_toggle-view">
