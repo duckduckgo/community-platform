@@ -1,3 +1,11 @@
+#deprecated {
+    @include center-content();
+}
+
+.deprecated-wrap {
+    @include wrapper();
+}
+
 #deprecated, #ghosted {
     .dev_pipeline-column {
         width: 15.5%;
