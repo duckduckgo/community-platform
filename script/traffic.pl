@@ -12,7 +12,7 @@ use Cwd 'getcwd';
 my $d = DDGC->new;
 
 # get IA traffic stats
-system( qq(sudo /usr/bin/s3cmd -c /root/.s3cfg ls s3://ddg-statistics/ | sort -k1 -r | head -n1 | awk {'print $4'} | xargs /usr/bin/s3cmd -c /root/.s3cfg get && gzip -df statistics_*.gz) );
+system( q(sudo /usr/bin/s3cmd -c /usr/local/etc/s3cmd/ddgc-stats.s3cfg ls s3://ddg-statistics/ | sort -k1 -r | head -n1 | awk {'print $4'} | xargs /usr/bin/s3cmd -c /usr/local/etc/s3cmd/ddgc-stats.s3cfg -f get && gzip -df statistics_*.gz) );
 
 my $update = sub { 
     $d->rs('InstantAnswer::Traffic')->delete;
