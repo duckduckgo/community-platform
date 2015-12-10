@@ -71,6 +71,14 @@
                     });
                 }
             });
+            
+            function checkRedirect(data, $input) {
+                if (data.result && data.id) {
+                    window.location = '/ia/view/' + data.id;
+                } else {
+                    $input.addClass("not_saved");
+                }
+            }
         }
     };
 })(DDH); 
