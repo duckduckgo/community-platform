@@ -63,35 +63,18 @@
     </div>
 <: } :>
 
-<div class="pipeline__toggle-view" id="pipeline_toggle-view">
-    <div class="pager-wrap">
-        <span class="button-group  button-group--paging">
-            <a href="#" class="button pipeline__toggle-view__button button-nav-current disabled" id="pipeline_toggle-home">
-                Home
-            </a>
-            <a href="/ia/dev/pipeline" class="button pipeline__toggle-view__button" id="pipeline_toggle-dev">
-                Dev Pipeline
-            </a>
-            <a href="/ia/dev/issues" class="button pipeline__toggle-view__button" id="pipeline_toggle-live">
-                Issues
-            </a>
-            <a href="/ia/dev/deprecated" class="button pipeline__toggle-view__button" id="pipeline_toggle-deprecated">
-                Deprecated
-            </a>
-        </span>
+<div class="developer-nav">
+    <h1>Developer Pages</h1>
+
+    <div class="pages">
+      <a href="/ia/dev" class="active-link">Overview</a>
+      <a href="/ia/dev/pipeline">In-Development</a>
+      <a href="/ia/dev/issues">Live Issues</a>
+      <: if $is_admin { :>
+	<a href="/ia/dev/deprecated">Archives</a>
+      <: } :>
     </div>
-
-    <: if $is_admin { :>
-      <div id="create-new-ia" class="button right">
-        New IA Page
-      </div>
-
-      <div id="create-ia-from-pr" class="button right">
-        New IA Page from GitHub PR
-      </div>
-    <: } :>
 </div>
 
-<h1>IA Pages Overview</h1>
 <div id="ia-overview">
 </div>
