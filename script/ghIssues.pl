@@ -438,6 +438,10 @@ sub get_mentions {
 sub update_pr_template {
     my ($data, $pr_number, $ia) = @_;
 
+    # XXX comment this line to test pr template posts
+    # it will make actual posts to GitHub PRs.
+    return unless $d->is_live;
+
     # find dax comment at spot #1 or bail
     my @comments = $gh->issue->comments($pr_number);
 
@@ -488,13 +492,15 @@ sub update_pr_template {
         $mobile .= '['.$val.'] '. $type. "\n";
     }
 
-    map{ $data->{$_} = ' ' unless $data->{$_}; warn $data->{$_}; } qw(src_url description tab);
+    map{ $data->{$_} = ' ' unless $data->{$_} } qw(src_url description tab);
     
     my $message = qq(
 Automated data from [IA page](https://duck.co/ia/view/$data->{meta_id})
 
 ---
 **Basic Info**
+
+These are the important fields from the IA page.  Please check these for errors or missing information and update the [IA page](https://duck.co/ia/view/$data->{meta_id})
 
 **Description**: $data->{description}
 **Example Query**: $examples
