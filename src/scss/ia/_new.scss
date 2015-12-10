@@ -1,5 +1,9 @@
 #new_ia_wizard {
     .wizard_field { margin-bottom: 3em; }
+    ul { 
+       list-style: none;
+       li a { color: $grey-light; }
+    }
 }
 
 #new_ia_header {
@@ -7,5 +11,10 @@
     padding: 1em;
     margin-top: -1.2em;
     margin-bottom: 2em;
-    h1 { color: $white; }
+    h1, a { color: $white; }
+    p { color: $blue-lightest; }
+    h1 { 
+        text-align: left;
+        margin-bottom: 0.25em;
+    }
 }
