@@ -20,6 +20,10 @@
         init: function(ops) {
             //console.log("IAPage.init()\n");
 
+            // Allow blue band to get 100% page width
+            $(".site-main > .content-wrap").first().removeClass("content-wrap");
+            $(".breadcrumb-nav").remove();
+
             var page = this;
             var json_url = "/ia/view/" + DDH_iaid + "/json";
 
@@ -62,10 +66,6 @@
                             ia_data.edited_dev_milestone = ia_data.live.dev_milestone;
                         }
                     }
-
-                    // Allow blue band to get 100% page width
-                    $(".site-main > .content-wrap").first().removeClass("content-wrap");
-                    $(".breadcrumb-nav").remove();
 
                     // Separate back-end files from front-end ones
                     ia_data.live.back_end = [];
@@ -154,6 +154,25 @@
                         $(this).hide();
                         $(".ia-issues ul li").show();
                     });
+
+		    if(localStorage.dismissInfo) {
+			$('.infobox').hide();
+			$('.infobox__button').show();
+		    } else {
+			$('.infobox').show();
+		    }
+
+		    $('body').on('click', '.infobox .ddgsi-close-bold', function() {
+			localStorage.dismissInfo = true;
+			$('.infobox').hide();
+			$('.infobox__button').show();
+		    });
+
+		    $('body').on('click', '.infobox__button', function(evt) {
+			evt.preventDefault();
+			$('.infobox').show();
+			$('.infobox__button').hide();
+		    });
 
                     $("#view_json").click(function(evt) {
                         location.href = json_url;
