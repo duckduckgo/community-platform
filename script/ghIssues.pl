@@ -435,7 +435,7 @@ sub update_pr_template {
 
     # XXX comment this line to test pr template posts
     # it will make actual posts to GitHub PRs.
-    return unless $d->is_live;
+    #return unless $d->is_live;
 
     # find dax comment at spot #1 or bail
     my @comments = $gh->issue->comments($pr_number);
@@ -456,6 +456,7 @@ sub update_pr_template {
             $comment_number = $comment->{id};
         }
     }
+
 
     my $examples = $data->{example_query} || ' ';
 
@@ -488,19 +489,25 @@ sub update_pr_template {
     }
 
     map{ $data->{$_} = ' ' unless $data->{$_} } qw(src_url description tab);
-    
+
+    if($data->{repo} =~ /fathead/i){
+        $data->{tab} = "About";
+    }elsif($data->{repo} =~ /goodie/i){
+        $data->{tab} = "Answer";
+    }
+
     my $message = qq(
-Automated data from [IA page](https://duck.co/ia/view/$data->{meta_id})
-
----
-**Basic Info**
-
-These are the important fields from the IA page.  Please check these for errors or missing information and update the [IA page](https://duck.co/ia/view/$data->{meta_id})
+## Instant Answer Metadata from [IA page](https://duck.co/ia/view/$data->{meta_id})
 
 **Description**: $data->{description}
+
 **Example Query**: $examples
+
 **Tab Name**: $data->{tab}
+
 **Source**: $data->{src_url}
+
+*These are the important fields from the IA page.  Please check these for errors or missing information and update the [IA page](https://duck.co/ia/view/$data->{meta_id})*
 
 ---
 **Testing**
@@ -510,10 +517,15 @@ $browsers
 
 **Mobile**
 $mobile
+
+---
+*This is an automated message which will be updated as changes are made to the [IA page](https://duck.co/ia/view/$data->{meta_id})*
 );
 
     my $dax = $ENV{DAX_TOKEN};
     return unless $dax;
+
+    warn "Posting comment";
 
     my $dax_comment = Net::GitHub->new(access_token => $dax);
     if(!$comment_number){
