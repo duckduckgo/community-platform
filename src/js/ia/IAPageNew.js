@@ -16,12 +16,13 @@
 
              $("body").on("click", "#create-ia-from-pr", function(evt) {
                 $("#create-ia-from-pr").addClass("hide");
-                $("#create-ia-from-pr-form").removeClass("hide");
+                $("#create-ia-from-pr-form, #create-ia-from-pr-bg").removeClass("hide");
             });
 
             $("body").on('click', "#create-ia-from-pr-cancel", function(evt) {
                 var $modal = $("#create-ia-from-pr-form");
                 $modal.addClass("hide");
+                $("#create-ia-from-pr-bg").addClass("hide");
                 $modal.find("input, textarea").val("").removeClass("not_saved");
                 $("#create-ia-from-pr").removeClass("hide");
             });

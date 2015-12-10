@@ -5,7 +5,8 @@
     </div>
 </div>
 <div id="new_ia_wizard" class="content-wrap">
-    <div id="create-ia-from-pr-form" class="new-ia-form hide">
+    <div id="create-ia-from-pr-bg" class="modal-bg hide"></div>
+    <div id="create-ia-from-pr-form" class="new-ia-form hide modal-wrapper">
         <div>
             <h3 class="label left"> Enter Pull Request Link</h3>
             <div class="right" id="create-ia-from-pr-cancel">
