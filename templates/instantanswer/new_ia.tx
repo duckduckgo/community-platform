@@ -7,12 +7,13 @@
 <div id="new_ia_wizard" class="content-wrap">
     <div id="create-ia-from-pr-form" class="new-ia-form hide">
         <div>
-            <div class="label"> PR link </div>
+            <h3 class="label"> Enter Pull Request Link</h3>
+            <p>The IA Page will be created from the details within your pull request.</p>
             <input id="pr-input" class="new-ia-input frm__input" />
         </div>
 
         <div class="button btn--primary left" id="create-ia-from-pr-save">
-            Save
+            Create Instant Answer Page
         </div>
 
         <div class="button left" id="create-ia-from-pr-cancel">
