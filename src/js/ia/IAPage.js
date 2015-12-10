@@ -155,7 +155,7 @@
                         $(".ia-issues ul li").show();
                     });
 
-		    if(localStorage.dismissInfo) {
+		    if($('.infobox[data-contributor=old]').length || localStorage.dismissInfo) {
 			$('.infobox').hide();
 			$('.infobox__button').show();
 		    } else {
