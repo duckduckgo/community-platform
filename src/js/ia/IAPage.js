@@ -155,7 +155,7 @@
                         $(".ia-issues ul li").show();
                     });
 
-		    if($('.infobox[data-contributor=old]').length || localStorage.dismissInfo) {
+		    if($('.infobox[data-contributor=old]').length) {
 			$('.infobox').hide();
 			$('.infobox__button').show();
 		    } else {
@@ -163,7 +163,6 @@
 		    }
 
 		    $('body').on('click', '.infobox .ddgsi-close-bold', function() {
-			localStorage.dismissInfo = true;
 			$('.infobox').hide();
 			$('.infobox__button').show();
 		    });
