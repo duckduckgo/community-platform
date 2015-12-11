@@ -88,7 +88,7 @@
     {{#if pr.issue_id}}
         <div class="sidebar-field">
             <div class="field-label primary-label"> Dev Machine </div>
-            {{#eq beta_install 'success'}}
+            {{#match beta_install 'success'}}
                 <p>Installed on <a href="http://beta.duckduckgo.com/{{#if beta_query}}?q={{beta_query}}{{/if}}">beta</a></p>
                 <div class="button btn--primary" id="beta-single">Re-install on beta</div>
             {{else}}
@@ -98,7 +98,7 @@
                 {{else}}
                     <span></span>
                 {{/eq}}
-            {{/eq}}
+            {{/match}}
         </div>
     {{/if}}
 

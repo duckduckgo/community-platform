@@ -8,17 +8,39 @@
 
         sort_by_date: false,
         selected_tag: '',
+	ia_issues: {},
+
+	render: function() {
+	    $('#issues').html(this.ia_issues);
+	    
+	    $('.filter-all').attr('data-count', $('.issues-list li[data-repo]').length);
+	    $('.filter-lhf').attr('data-count', $('.issues-list .tag-lowhangingfruit').length);
+	    $('.filter-bugs').attr('data-count', $('.issues-list .tag-bug').length);
+	    $('.filter-high').attr('data-count', $('.issues-list .tag-priorityhigh').length);
+	},
 
         init: function() {
             // console.log("IAIssues init()");
             var issues_p = this;
             var url = window.location.pathname.replace(/\/$/, '') + "/json";
 
+	    // 100% width
+            $(".site-main > .content-wrap").first().removeClass("content-wrap").addClass("issues-wrap");
+	    $(".breadcrumb-nav").remove();
+	    $(".site-main").addClass("developer-main");
+
+	    $('#wrapper').css('min-width', '1200px');
+	    
             $.getJSON(url, function(data) { 
+		console.log(data);
                 // console.log(window.location.pathname);
                 var ia_issues;
                 ia_issues = Handlebars.templates.issues(data);
-                $("#issues").html(ia_issues);
+
+		issues_p.ia_issues = ia_issues;
+		issues_p.render();
+
+		$('.filter-all').addClass('selected');
 
                 var parameters = window.location.search.replace("?", "");
                 parameters = $.trim(parameters.replace(/\/$/, ''));
@@ -30,7 +52,7 @@
                         var field = temp[0];
                         var value = temp[1];
                         if ((field === "tag") && value) {
-                            $("#issue-" + value).trigger("click");
+                            $('a[data-filter=".tag-' + value + '"]').trigger("click");
                         } else if ((field === "sort") && (value === "date")) {
                             $("#sort_date").trigger("click");
                         }
@@ -68,9 +90,20 @@
 
                 issues_p.filter();
             });
+
+	    $('#issues').on('click', 'a[data-filter]', function(evt) {
+		evt.preventDefault();
+		issues_p.render();
+
+		$('.issues-list .filter-' + $(this).data('type')).addClass('selected');
+		if($(this).data('filter')) {
+		    $('li[data-repo]').not($(this).data('filter')).hide();
+		}
+	    });
         },
 
         filter: function() {
+	    console.log("this");
             var selector = this.sort_by_date? "#pipeline-live__list .by_date_item" : "#pipeline-live__list .by_ia_item";
             var url = this.sort_by_date? "&sort=date" : "";
 

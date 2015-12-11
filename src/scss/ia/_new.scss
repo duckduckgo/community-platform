@@ -1,4 +1,32 @@
 #new_ia_wizard {
     .wizard_field { margin-bottom: 3em; }
-    .button { width: 3em; }
+    ul { 
+       list-style: none;
+       li a { color: $grey-light; }
+    }
+}
+
+#create-ia-from-pr { margin-right: 1em; }
+
+#create-ia-from-pr-form {
+    left: 51em;
+    top: 25em;
+
+    input { margin-bottom: 1em; }
+    .button { width: 93%; }
+}
+
+#create-ia-from-pr-cancel { cursor: pointer; }
+
+#new_ia_header {
+    background-color: $blue-light;
+    padding: 1em;
+    margin-top: -1.2em;
+    margin-bottom: 2em;
+    h1, a { color: $white; }
+    p { color: $blue-lightest; }
+    h1 { 
+        text-align: left;
+        margin-bottom: 0.25em;
+    }
 }
