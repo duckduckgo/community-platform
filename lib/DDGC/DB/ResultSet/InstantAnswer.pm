@@ -7,21 +7,22 @@ use namespace::autoclean;
 
 sub ia_index_hri {
     my ( $self, $limit, $last ) = @_;
-    my $ial = $self->search( {
-            'topic.name' => [ { '!=' => 'test' }, undef ],
-            'me.dev_milestone' => { '=' => 'live'},
+    my $ial = $self->search(
+        {'topic.name' => [{ '!=' => 'test' }, { '=' => undef}],
+         'me.perl_module' => { -not_like => 'DDG::Goodie::IsAwesome::%' },
+         'me.dev_milestone' => { '=' => 'live'},
         },
         {
             prefetch => { instant_answer_topics => 'topic' },
             'select' => [
                 qw/ name repo src_name
                     dev_milestone description
-                    template meta_id
+                    template meta_id perl_module
                 /, ],
              'as' => [
                 qw/ name repo src_name
                     dev_milestone description
-                    template id
+                    template id perl_module
                 /, ],
             collapse => 1,
         },

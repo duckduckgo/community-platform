@@ -66,10 +66,11 @@ sub ialist_json :Chained('base') :PathPart('json') :Args() {
 
     my @ial = $rs->search(
         {'topic.name' => [{ '!=' => 'test' }, { '=' => undef}],
+         'me.perl_module' => { -not_like => 'DDG::Goodie::IsAwesome::%' },
          'me.dev_milestone' => { '=' => 'live'},
         },
         {
-            columns => [ qw/ name repo src_name dev_milestone description template /, {id => 'meta_id'} ],
+            columns => [ qw/ perl_module name repo src_name dev_milestone description template /, {id => 'meta_id'} ],
             prefetch => { instant_answer_topics => 'topic' },
             result_class => 'DBIx::Class::ResultClass::HashRefInflator',
         }
@@ -349,7 +350,7 @@ sub issues_json :Chained('issues_base') :PathPart('json') :Args(0) {
     my ( $self, $c ) = @_;        
 
     my $rs = $c->d->rs('InstantAnswer::Issues');
-    my @result = $rs->search({'is_pr' => 0},{order_by => { -desc => 'date'}})->all;
+    my @result = $rs->search({'is_pr' => { '=' => 0}, 'status' => { '=' => 'open'}},{order_by => { -desc => 'date'}})->all;
     my %ial;
     my $ia;
     my $id;
@@ -381,7 +382,8 @@ sub issues_json :Chained('issues_base') :PathPart('json') :Args(0) {
                     author => $issue->author,
                     ia_id => $id,
                     ia_name => $ia->name,
-                    repo => $issue->repo
+                    repo => $issue->repo,
+                    status => $issue->status
             );
 
             push @issues_by_date, \%temp_issue;
@@ -392,7 +394,7 @@ sub issues_json :Chained('issues_base') :PathPart('json') :Args(0) {
 
                 $ial{$id}->{issues} = \@existing_issues;
             } else {
-                push @issues, \%temp_issue;;
+                push @issues, \%temp_issue;
 
                 $ial{$id}  = {
                         name => $ia->name,
@@ -713,7 +715,7 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
                        $ia_data{live}->{beta_query} = $beta_pr->{meta}? $beta_pr->{meta}->{example_query} : 0;
                    }
                }
-            } else {
+            } elsif ($issue->status eq 'open') {
                 push(@ia_issues, {
                     issue_id => $issue->issue_id,
                     title => $issue->title,
