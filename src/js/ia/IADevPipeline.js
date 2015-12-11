@@ -9,7 +9,8 @@
             'missing',
             'important',
             'mentioned',
-            'attention'
+            'attention',
+            'beta'
         ],
 
         current_filter: '',

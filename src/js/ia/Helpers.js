@@ -25,12 +25,13 @@
     });
 
     // Return elapsed time expressed as days from now (e.g. 5 days, 1 day, today)
-    Handlebars.registerHelper("timeago", function(date, full) {
+    Handlebars.registerHelper("timeago", function(date, full, from_beta) {
+        var format = from_beta? "ddd MMM D HH:mm:ss YYYY" : "YYYY-MM-DD";
         var timestring = full? " days ago" : "d";
         if (date) {
             // expected date format: YYYY-MM-DDTHH:mm:ssZ e.g. 2011-04-22T13:33:48Z
-            date = date.replace("/T.*Z/", " ");
-            date = moment.utc(date, "YYYY-MM-DD");
+            date = date.replace("/T.*Z/", "");
+            date = moment.utc(date, format);
             
             var elapsed = parseInt(moment().diff(date, "days", true));
             date = elapsed + timestring;
