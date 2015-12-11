@@ -349,7 +349,7 @@ sub issues_json :Chained('issues_base') :PathPart('json') :Args(0) {
     my ( $self, $c ) = @_;        
 
     my $rs = $c->d->rs('InstantAnswer::Issues');
-    my @result = $rs->search({'is_pr' => 0},{order_by => { -desc => 'date'}})->all;
+    my @result = $rs->search({'is_pr' => 0, 'status' => 'open'},{order_by => { -desc => 'date'}})->all;
     my %ial;
     my $ia;
     my $id;
@@ -713,7 +713,7 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
                        $ia_data{live}->{beta_query} = $beta_pr->{meta}? $beta_pr->{meta}->{example_query} : 0;
                    }
                }
-            } else {
+            } elsif ($issue->status eq 'open') {
                 push(@ia_issues, {
                     issue_id => $issue->issue_id,
                     title => $issue->title,
