@@ -394,7 +394,7 @@ sub issues_json :Chained('issues_base') :PathPart('json') :Args(0) {
 
                 $ial{$id}->{issues} = \@existing_issues;
             } else {
-                push @issues, \%temp_issue;;
+                push @issues, \%temp_issue;
 
                 $ial{$id}  = {
                         name => $ia->name,
