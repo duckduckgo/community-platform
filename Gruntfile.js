@@ -272,7 +272,7 @@ module.exports = function(grunt) {
             revert_release: "./script/revert_pkg_version.pl release",
             deleteBuildFiles: "mkdir -p build && rm -r build",
             bower: "bower install",
-	    commit_static: "git commit root/static package.json -m 'Release IA pages version: <%= pkg.version %>'",
+	    commit_static: "git add root/static/* package.json && git commit -m 'Release IA pages version: <%= pkg.version %>'",
         },
 
 	// Build again if any of the JS / SCSS files changed.
