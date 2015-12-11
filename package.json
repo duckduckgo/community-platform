@@ -1,6 +1,6 @@
 {
   "name": "ddg_community_platform",
-  "version": "0.150.0",
+  "version": "0.151.0",
   "engines": {
     "node": ">=0.10.0"
   },
