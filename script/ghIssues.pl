@@ -66,7 +66,6 @@ sub getIssues{
 		
         # add all the data we care about to an array
 		for my $issue (@issues){
-
             $progress->update($line);
             $line++;
 
@@ -97,7 +96,6 @@ sub getIssues{
             
             $comments = to_json $comments if $comments;
             $last_comment = to_json $last_comment if $last_comment;
-
 
             my $producer = assign_producer($issue->{assignee}->{login});
 
@@ -147,15 +145,7 @@ sub getIssues{
 
                 $data->{body} =~ s/\n|\r//g;
 
-                # try to get a description from the PR text
-                my ($description) = $data->{body} =~ /What does your Instant Answer do\?\*\*(.*?)(?:\*|$)/i;
-                
-                # api documentation
-                my ($api_link) = $data->{body} =~ /What is the data source.*?\*\*.*?(https?:\/\/.*?)?(?:\>|\)|\*|$)/i;
 
-                # api documentation
-                my ($forum_link) = $data->{body} =~ /Is this Instant Answer connected.*?\*\*.*?(?:https?:\/\/duck\.co\/ideas\/idea\/([0-9]+).*?)?(?:\>|\)|\*|$)/i;
-                
                 # get the file info for the pr
                 $gh->set_default_user_repo('duckduckgo', "zeroclickinfo-$data->{repo}");
                 my $pr = $gh->pull_request->pull($data->{issue_id});
@@ -182,7 +172,6 @@ sub getIssues{
                     $is_new_ia = 1 if $tag->{name} eq 'New Instant Answer';
                     $pm = "DDG::Goodie::CheatSheets" if $tag->{name} eq 'CheatSheet';
                 }
-                return if !$is_new_ia;
 
                 my $developer = [{
                         name => $data->{author},
@@ -199,12 +188,12 @@ sub getIssues{
                     meta_id => $ia->{meta_id} || $data->{name},
                     name => $ia->{name} || ucfirst $name,
                     dev_milestone => $ia->{dev_milestone} || 'planning',
-                    description => $ia->{description} || $description,
+                    description => $ia->{description},
                     created_date => $ia->{created_date} || $date, 
                     repo => $ia->{repo} || $data->{repo},
                     perl_module => $ia->{perl_module} || $pm,
-                    forum_link => $ia->{forum_link} || $forum_link,
-                    src_api_documentation => $ia->{src_api_documentation} || $api_link,
+                    forum_link => $ia->{forum_link},
+                    src_api_documentation => $ia->{src_api_documentation},
                     developer => $ia->{developer} || $developer,
                     last_update => $issue->{updated_at},
                     last_commit => $data->{last_commit},
@@ -213,9 +202,17 @@ sub getIssues{
                     at_mentions => $data->{mentions},
                     producer => $data->{producer},
                     template => $template,
+                    example_query => $ia->{example_query} || '',
+                    tab => $ia->{tab} || '',
+                    src_url => $ia->{src_url} || '',
                 );
 
+                update_pr_template(\%new_data, $data->{issue_id}, $ia);
+
+                #return 1 if !$is_new_ia;
                 $d->rs('InstantAnswer')->update_or_create({%new_data});
+
+
             };
 
             # check for an existing IA page.  Create one if none are found
@@ -433,6 +430,118 @@ sub get_mentions {
     }
 }
 
+sub update_pr_template {
+    my ($data, $pr_number, $ia) = @_;
+
+    # XXX comment this line to test pr template posts
+    # it will make actual posts to GitHub PRs.
+    return unless $d->is_live;
+
+    # find dax comment at spot #1 or bail
+    my @comments = $gh->issue->comments($pr_number);
+
+    my $comment_number;
+    if(scalar @comments){
+        my $comment = $comments[0];
+        return unless $comment->{user}->{login} eq 'daxtheduck';
+
+        # skip dax welcome message if it exists
+        if($comment->{body} =~ /Thanks for taking the time to contribute!/){
+            if(scalar @comments > 1){
+                $comment = $comments[1];
+                return unless $comment->{user}->{login} eq 'daxtheduck';
+                $comment_number = $comment->{id};
+            }
+        }else{
+            $comment_number = $comment->{id};
+        }
+    }
+
+
+    my $examples = $data->{example_query} || ' ';
+
+    if(defined $ia->{other_queries}){
+        $ia->{other_queries} =~ s/"|\[|\]//g;
+        $ia->{other_queries} =~ s/,/, /g;
+        $examples .=", ". $ia->{other_queries};
+    }
+
+    my $browsers;
+    foreach my $browser (qw(safari firefox ie opera chrome)){
+        my $val = $ia->{"browsers_$browser"};
+        if($val){
+            $val = 'X';
+        }else{
+            $val = ' ';
+        }
+        $browsers .= '- ['.$val.'] ' . $browser. "\n";
+    }
+
+    my $mobile;
+    foreach my $type (qw(android ios)){
+        my $val = $ia->{"mobile_$type"};
+        if($val){
+            $val = 'X';
+        }else{
+            $val = ' ';
+        }
+        $mobile .= '- ['.$val.'] '. $type. "\n";
+    }
+
+    map{ $data->{$_} = ' ' unless $data->{$_} } qw(src_url description tab);
+
+    if($data->{repo} =~ /fathead/i){
+        $data->{tab} = "About";
+    }elsif($data->{repo} =~ /goodie/i){
+        $data->{tab} = "Answer";
+    }
+
+    my $message = qq(
+## Instant Answer Metadata from [IA page](https://duck.co/ia/view/$data->{meta_id})
+
+**Description**: $data->{description}
+
+**Example Query**: $examples
+
+**Tab Name**: $data->{tab}
+
+**Source**: $data->{src_url}
+
+*These are the important fields from the IA page.  Please check these for errors or missing information and update the [IA page](https://duck.co/ia/view/$data->{meta_id})*
+
+---
+**Testing**
+
+**Browsers**
+$browsers
+
+**Mobile**
+$mobile
+
+---
+*This is an automated message which will be updated as changes are made to the [IA page](https://duck.co/ia/view/$data->{meta_id})*
+);
+
+    my $dax = $ENV{DAX_TOKEN};
+    return unless $dax;
+
+    warn "Posting comment";
+
+    my $dax_comment = Net::GitHub->new(access_token => $dax);
+    if(!$comment_number){
+        # update the comment
+        $dax_comment->issue->create_comment('duckduckgo', 'zeroclickinfo-'.$data->{repo}, $pr_number, {
+            "body" => $message
+            }
+        );
+    }else{
+        $dax_comment->issue->update_comment('duckduckgo', 'zeroclickinfo-'.$data->{repo}, $comment_number, {
+            "body" => $message
+            }
+        );
+    }
+}
+
 getIssues;
 
 try {
@@ -441,4 +550,3 @@ try {
     print "Update error $_ \n rolling back\n";
     $d->errorlog("Error updating ghIssues: '$_'...");
 }
-
