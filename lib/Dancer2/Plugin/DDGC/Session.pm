@@ -23,13 +23,6 @@ on_plugin_import {
                         { username => $dsl->session('__user') || undef }
                     )
                 );
-                # TODO: Make this XHR along with session init handling. See: #662
-                if ( !$dsl->session('username_field') ) {
-                    $dsl->session(
-                        username_field =>
-                        md5_hex( Data::UUID->new->create_str . rand )
-                    );
-                }
                 if ( !$dsl->session('action_token') ) {
                     $dsl->session(
                         action_token =>
