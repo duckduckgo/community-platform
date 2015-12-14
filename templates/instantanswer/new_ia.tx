@@ -23,9 +23,9 @@
         <span class="clearfix"></span>
     </div>
     
-    <div id="signup-bg" class="modal-bg hide"></div>
-    <div id="signup-form" class=" hide modal-wrapper">
-        <form method="post" action="https://ddgc-staging.duckduckgo.com/my/register">
+    <div id="signup-bg" class="modal-bg"></div>
+    <div id="signup-form" class=" modal-wrapper">
+        <form method="post" action="<: $u('My', 'register') :>">
             <h3 class="label left"> Create an Account</h3>
             <div class="right" id="signup-cancel">
                  <i class="ddgsi ddgsi-close"></i>
@@ -37,9 +37,7 @@
             <input id="email-input" name="email" placeholder="Email" class="email-input frm__input" />
         </form>
 
-        <div class="button btn--primary left" id="signup-save">
-            Create Account
-        </div>
+        <input class="button btn--primary left" value="Create Account" type="submit" name="register" id="signup-save" />
         <p>Your duck.co community account is not in any way connected to your searches on duckduckgo.com</p>
         <hr></hr>
         <p>Already have an account? <a href="#">Sign In</a>
