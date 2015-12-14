@@ -25,16 +25,17 @@
     
     <div id="signup-bg" class="modal-bg hide"></div>
     <div id="signup-form" class=" hide modal-wrapper">
-        <div>
+        <form method="post" action="https://ddgc-staging.duckduckgo.com/my/register">
             <h3 class="label left"> Create an Account</h3>
             <div class="right" id="signup-cancel">
                  <i class="ddgsi ddgsi-close"></i>
             </div>
             <p class="clearfix">Thanks - but you'll need to create an account (or <a href="#">sign in</a>) before you can proceed. Don't worry, it will be quick!</p>
-            <input id="username-input" class="username-input frm__input" />
-            <input id="pwd-input" class="pwd-input frm__input" />
-            <input id="email-input" class="email-input frm__input" />
-        </div>
+            <input name="action_token" class="text" type="hidden">
+            <input id="username-input" placeholder="Username" name="username" class="username-input frm__input" />
+            <input id="pwd-input" type="password" placeholder="Password" name="password" class="pwd-input frm__input" />
+            <input id="email-input" name="email" placeholder="Email" class="email-input frm__input" />
+        </form>
 
         <div class="button btn--primary left" id="signup-save">
             Create Account
