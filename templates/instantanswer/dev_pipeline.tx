@@ -11,6 +11,10 @@
     </div>
 </div>
 
+<: if $is_admin { :>
+    <div id="create-new-ia" class="button right hide"></div>
+<: } :>
+
 <div id="page_sidebar" class="hide">
 </div>
 
