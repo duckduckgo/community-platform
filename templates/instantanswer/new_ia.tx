@@ -23,6 +23,28 @@
         <span class="clearfix"></span>
     </div>
     
+    <div id="signup-bg" class="modal-bg hide"></div>
+    <div id="signup-form" class=" hide modal-wrapper">
+        <div>
+            <h3 class="label left"> Create an Account</h3>
+            <div class="right" id="signup-cancel">
+                 <i class="ddgsi ddgsi-close"></i>
+            </div>
+            <p class="clearfix">Thanks - but you'll need to create an account (or <a href="#">sign in</a>) before you can proceed. Don't worry, it will be quick!</p>
+            <input id="username-input" class="username-input frm__input" />
+            <input id="pwd-input" class="pwd-input frm__input" />
+            <input id="email-input" class="email-input frm__input" />
+        </div>
+
+        <div class="button btn--primary left" id="signup-save">
+            Create Account
+        </div>
+        <p>Your duck.co community account is not in any way connected to your searches on duckduckgo.com</p>
+        <hr></hr>
+        <p>Already have an account? <a href="#">Sign In</a>
+
+        <span class="clearfix"></span>
+    </div>
     <div class="wrap-left left twothirds">
 	    <div class="wizard_field">
 		<h3 class="label"> Title </h3>
