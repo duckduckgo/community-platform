@@ -33,12 +33,9 @@
 	    cursor: pointer;
 	}
     }
-}
 
-.infobox__button {
-    color: $blue;
-}
-
-#ia-single-body {
-    padding-top: 2em;
+    &__button {
+	color: $blue;
+	padding-top: 2.5em;
+    }
 }
