@@ -53,7 +53,7 @@
 	      <strong>Set Up Your Dev Environment</strong>
 	    </h2>
 	    <p>
-	      <a href="https://duck.co/duckduckhack/setup_dev_environment"> Here </a> we'll give a step-by-step guide on how to get your development environment ready.
+	      In order to get moving with Instant Answer development, you'll need to <a href="https://duck.co/duckduckhack/setup_dev_environment">setup your environment</a>.
 	    </p>
 	    <p>
 	      If you have any questions, feel free to ask them on our 
@@ -65,8 +65,7 @@
 	      <strong>Fork the Repo</strong>
 	    </h2>
 	    <p>
-	      After getting your environment set up, make sure you fork the right repo to start coding. Check out <a href="https://duck.co/duckduckhack/setup_dev_environment#fork-the-correct-duckduckhack-repository-on-github"> the docs </a>
-              for more information.
+	      Fork the <: if $repo { :><a href="https://github.com/duckduckgo/zeroclickinfo-<: $repo :>#fork-destination-box">zeroclickinfo-<: $repo :></a><: } :> repository on GitHub to get started. For more information see the documentation on <a href="https://duck.co/duckduckhack/setup_dev_environment#fork-the-correct-duckduckhack-repository-on-github">choosing the correct repo</a>.
 	    </p>
 	  </div>
 	  <div class="g third">
@@ -74,10 +73,7 @@
 	      <strong>Create a Pull Request</strong>
 	    </h2>
 	    <p>
-	      When everything is ready, send us your code by creating a <a href="https://duck.co/duckduckhack/preparing_for_a_pull_request">pull request</a>.
-	    </p>
-	    <p>
-	      Thanks for contributing! We hope you have fun!
+	      When your Instant Answer is ready for an initial review, <a href="https://duck.co/duckduckhack/preparing_for_a_pull_request">create a pull request</a>. Be sure to paste the link to this Instant Answer page in the PR description.
 	    </p>
 	  </div>
 	</div>
