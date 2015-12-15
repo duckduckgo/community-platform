@@ -1,0 +1,44 @@
+.infobox {
+    background: $silver;
+    padding: 2em 1.5em;
+    border-radius: 3px;
+
+    .infobox__container {
+	padding-top: 1.5em;
+
+	h2 {
+	    padding-bottom: 1em;
+	    word-break: normal;
+	}
+    }
+
+    .tx-size--medium {
+	font-size: 1.3em;
+    }
+
+    .tx-size--small {
+	font-size: 1.1em;
+    }
+
+    header {
+	padding-bottom: 1.5em;
+	border-bottom: 1px solid $platinum-dark;
+
+	h1 {
+	    margin: 0;
+	}
+
+	.ddgsi-close-bold {
+	    color: $grey;
+	    cursor: pointer;
+	}
+    }
+}
+
+.infobox__button {
+    color: $blue;
+}
+
+#ia-single-body {
+    padding-top: 2em;
+}
