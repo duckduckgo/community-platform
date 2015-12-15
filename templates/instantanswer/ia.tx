@@ -43,9 +43,12 @@
 
     <div class="ia-single__body content-wrap" id="ia-single-body">
       <div class="infobox hide" data-contributor="<: if $new_contributor { :>new<: } else { :>old<: } :>">
-	<header class="fix">
-	  <h1 class="pull-left tx-size--medium tx-clr--dk">Next Steps</h1>
-	  <span class="ddgsi-close-bold tx-size--medium pull-right"></span>
+	<header>
+	  <div class="fix">
+	    <h1 class="pull-left tx-size--medium tx-clr--dk">Next Steps</h1>
+	    <span class="ddgsi-close-bold tx-size--medium pull-right"></span>
+	  </div>
+	  <p>This is the homepage for your Instant Answer! Fill out the details to the best of your ability as others might refer to this page.</p>
 	</header>
 	<div class="gw infobox__container">
 	  <div class="g third">
