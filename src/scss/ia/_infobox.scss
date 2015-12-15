@@ -1,10 +1,22 @@
 .infobox {
+    $line-padding: 1.6em;
+    $gutter: 24px;
+
     background: $silver;
-    padding: 2em 1.5em;
+    padding: 30px;
     border-radius: 3px;
 
+    /* Increase the grid gutters */
+    .gw, .grid-wrap {
+	margin-left: -$gutter;
+    }
+
+    .g, .grid {
+	padding-left: $gutter;
+    }
+    
     .infobox__container {
-	padding-top: 1.5em;
+	padding-top: $line-padding;
 
 	h2 {
 	    padding-bottom: 1em;
@@ -21,7 +33,7 @@
     }
 
     header {
-	padding-bottom: 1.5em;
+	padding-bottom: $line-padding;
 	border-bottom: 1px solid $platinum-dark;
 
 	h1 {
