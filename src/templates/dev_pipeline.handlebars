@@ -142,12 +142,12 @@
                       {{#exists pr 'issue_id'}}
                         {{#eq pr.status 'open'}}
                               <a href="https://github.com/duckduckgo/zeroclickinfo-{{repo}}/issues/{{pr.issue_id}}" class="one-line" id="pr" title="{{format_time last_update}}">
-                                {{timeago last_update 0}}
+                                {{timeago last_update false false}}
                               </a>
                           {{else}}
                               {{#if last_update}}<i class="{{#eq pr.status 'merged'}} platform-pr-merged {{else}} platform-pr-closed {{/eq}}"></i>{{/if}}
                               <span class="no-pr" title="{{format_time last_update}}">
-                                {{timeago last_update 0}}
+                                {{timeago last_update false false}}
                               </span>
                           {{/eq}}
                       {{/exists}}
