@@ -1,10 +1,8 @@
-<div id="new_ia_header">
-    <div class="content-wrap">
-        <h1> New Instant Answer </h1>
-        <p>If you've already created a pull request, you can <a href="#" id="create-ia-from-pr">skip this step</a></p>
-    </div>
+<div class="developer-nav--new">
+  <h1> New Instant Answer </h1>
+  <p class="sub">If you've already created a pull request, you can <a href="#" id="create-ia-from-pr">skip this step</a></p>
 </div>
-<div id="new_ia_wizard" class="content-wrap">
+<div id="new_ia_wizard" class="ia-new">
     <div id="create-ia-from-pr-bg" class="modal-bg hide"></div>
     <div id="create-ia-from-pr-form" class="new-ia-form hide modal-wrapper">
         <div>
@@ -23,32 +21,33 @@
         <span class="clearfix"></span>
     </div>
     
-    <div class="wrap-left left twothirds">
+    <div class="gw">
+    <div class="twothirds g">
 	    <div class="wizard_field">
-		<h3 class="label"> Title </h3>
+		<div class="ia-new__title">Title</div>
 		<input class="frm__input wizard_field_insert" id="name-input" placeholder="eg: Forecast" />
 	    </div>   
 	    
 	    <div class="wizard_field">
-		<h3 class="label"> Description </h3>
+	      <div class="ia-new__title">Description</div>
 		<p class="field_desc"> What is the purpose for your Instant Answer?</p>
 		<textarea cols="100" class="frm__text wizard_field_insert" id="description-input" placeholder="eg: The Forecast IA is a spice that displays the current weather and a 7-day forecast for your local city (ie. ‘Weather’), or a queried city triggered by city name (eg. ‘Weather in Paris’) or zip code (eg. Weather 92501). Data is provided by our friends at Forecast.io. "></textarea>
 	    </div>
 	 
 	    <div class="wizard_field">
-		<h3 class="label"> Example Query </h3>
+	      <div class="ia-new__title">Example Query</div>
 		<p class="field_desc"> Which query (or queries) will trigger your Instant Answer?</p>
 		<input class="frm__input wizard_field_insert" id="example_query-input" placeholder="eg: Weather in Encinitas, Weather 12180, Weather" />
 	    </div>
 	    
 	    <div class="wizard_field">
-		<h3 class="label"> Data Source </h3>
+	      <div class="ia-new__title">Data Source</div>
 		<p class="field_desc">Where are you getting your info from (webpage, API, etc)?</p>
 		<input class="frm__input wizard_field_insert" id="src_url-input" placeholder="https://api.forecast.io/forecast/APIKEY/LATITUDE,LONGITUDE,TIME" />
 	    </div>
 	    
 	    <div class="wizard_field">
-		<h3 class="label"> Type </h3>
+	      <div class="ia-new__title">Type</div>
 		<p class="field_desc">Each Instant Answer type specializes in handling certain scenarios - most common Instant Answers are Goodies and Spices</p>
 		<div  id="repo-radio" class="wizard_field_insert left">
 		    <input type="radio" name="types" value="goodies" checked/>
@@ -76,8 +75,8 @@
 	    <hr></hr>
 	    <div id="new_ia_wizard_save" class="button btn--primary right"> Create Instant Answer Page </div>
     </div>
-    <div class="wrap-right right g third">
-        <h3 class="label"> Example IA Pages</h3>
+    <div class="third g">
+        <div class="ia-new__title"> Example IA Pages</div>
         <ul>
             <li><a href="/ia/view/calculator">Calculator</a></li>
             <li><a href="/ia/view/dictionary_definition">Dictionary</a></li>
@@ -86,5 +85,5 @@
             <li><a href="/ia/view/soundcloud">SoundCloud</a></li>
         </ul>       
     </div>
-    <span class="clearfix"></span>
+    </div>
 </div>

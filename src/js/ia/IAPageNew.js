@@ -11,7 +11,8 @@
             var page_new = this;
                 
             // 100% width
-            $(".site-main > .content-wrap").first().removeClass("content-wrap").addClass("wrap-pipeline");
+            $(".site-main > .content-wrap").first().removeClass("content-wrap").addClass("new-wrap");
+	    $(".site-main").addClass("developer-main");
             $(".breadcrumb-nav").remove();
 
              $("body").on("click", "#create-ia-from-pr", function(evt) {

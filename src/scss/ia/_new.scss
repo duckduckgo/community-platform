@@ -6,8 +6,6 @@
     }
 }
 
-#create-ia-from-pr { margin-right: 1em; }
-
 #create-ia-from-pr-form {
     left: 51em;
     top: 25em;
@@ -20,13 +18,27 @@
 
 #new_ia_header {
     background-color: $blue-light;
-    padding: 1em;
-    margin-top: -1.2em;
-    margin-bottom: 2em;
-    h1, a { color: $white; }
-    p { color: $blue-lightest; }
-    h1 { 
-        text-align: left;
-        margin-bottom: 0.25em;
+    text-align: initial;
+
+    h1, a {
+	color: $white;
+    }
+    
+    p {
+	color: $blue-lightest;
+    }
+}
+
+.new-wrap {
+    @include wrapper();
+
+    .ia-new {
+	padding-top: 3.5em;
+	@include center-content(962px);
+
+	&__title {
+	    font-size: 15px;
+	    font-weight: 500;
+	}
     }
 }
