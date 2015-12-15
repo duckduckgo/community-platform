@@ -11,6 +11,7 @@ FORCE_UPLOAD=0
   export DDGC_REPO_JSON_S3URL='s3://ddg-community/metadata/repo_all.json.bz2'
 DDGC_REPO_BZIP2_OUT="$DDGC_REPO_JSON_OUT.bz2"
 
+[ $FORCE_UPLOAD ] && [ -f $DDGC_REPO_JSON_OUT ] && rm $DDGC_REPO_JSON_OUT
 LAST_MODIFIED_TIME=0
 if [ -f $DDGC_REPO_JSON_OUT ]
 then
