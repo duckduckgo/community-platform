@@ -482,7 +482,11 @@ after insert => sub {
         description  => sprintf('Instant Answer Page [%s](%s) created!',
             $self->name, $self->uri( { activity_feed => 1 } ) ),
     } );
+
+    $schema->resultset('InstantAnswer::LastUpdated')->touch;
 };
+
+after update => sub { $_[0]->schema->resultset('InstantAnswer::LastUpdated')->touch; };
 
 sub create_update_activity {
     my ( $self, $meta3, $description ) = @_;

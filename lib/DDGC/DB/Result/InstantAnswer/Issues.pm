@@ -62,6 +62,9 @@ column status => {
 
 primary_key (qw/issue_id repo/);
 
+after insert => sub { $_[0]->schema->resultset('InstantAnswer::LastUpdated')->touch; };
+after update => sub { $_[0]->schema->resultset('InstantAnswer::LastUpdated')->touch; };
+
 belongs_to 'instant_answer', 'DDGC::DB::Result::InstantAnswer', 'instant_answer_id', {on_delete => 'cascade'};
 
 no Moose;
