@@ -6,7 +6,6 @@
     padding: 30px;
     border-radius: 3px;
 
-    /* Increase the grid gutters */
     .gw, .grid-wrap {
 	margin-left: -$gutter;
     }
@@ -24,12 +23,14 @@
 	}
     }
 
-    .tx-size--medium {
-	font-size: 1.3em;
-    }
+    .tx-size {
+	&--medium {
+	    font-size: 1.3em;
+	}
 
-    .tx-size--small {
-	font-size: 1.1em;
+	&--small {
+	    font-size: 1.1em;
+	}
     }
 
     header {
