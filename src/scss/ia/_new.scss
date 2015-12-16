@@ -1,6 +1,8 @@
 #new_ia_wizard {
     ul { 
-       list-style: none;
+	line-height: 1.66;
+	padding-top: 10px;
+	list-style: none;
     }
 }
 
@@ -34,34 +36,49 @@
 
 .new-wrap {
     @include wrapper();
+    font-size: 15px;
 
     .ia-new {
-	padding-top: 3.5em;
+	padding-top: 1em;
 	@include center-content(962px);
 
 	&__title {
-	    font-size: 15px;
 	    font-weight: 500;
+	    margin-bottom: 10px;
+	}
+
+	.field_desc {
+	    margin-bottom: 15px;
 	}
     }
 
     .wizard_field {
-	padding-left: 0.1em;
-	padding-bottom: 2em;
+	padding: 20px 0;
+    }
+
+    p {
+	margin: 0;
     }
 
     .frm__input, .frm__text {
 	border-radius: 3px;
 	width: 100%;
 	border: none;
+	background-color: $silver;
+	padding: 20px;
     }
 
     .frm__input {
-	height: 3em;
+	height: 4em;
+    }
+
+    .frm__label__txt {
+	overflow: initial;
+	font-weight: 500;
     }
 
     .frm__text {
-	min-height: 5.8em;
+	min-height: 7em;
 	max-width: 100%;
     }
 
@@ -72,14 +89,33 @@
     }
 
     input[type=radio] {
-	height: 1.3em;
+	height: 1.2em;
+	margin-right: 5px;
     }
 
     a {
 	color: $blue;
     }
 
-    hr {
-	margin: 1em 0 3em 0;
+     .third {
+	padding-top: 20px;
+	& > * {
+	    margin-left: 65px;
+	}
     }
+
+     .radio-repo {
+	 padding: 0 1px;
+     }
+
+     hr {
+	 margin-bottom: 3em;
+     }
+
+     .wizard_field_insert {
+	 p {
+	     font-size: 13px;
+	     padding-left: 21px;
+	 }
+     }
 }

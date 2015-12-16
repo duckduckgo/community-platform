@@ -21,53 +21,68 @@
         <span class="clearfix"></span>
     </div>
     
-    <div class="gw">
-    <div class="twothirds g">
+    <div class="twothirds">
 	    <div class="wizard_field">
-		<div class="ia-new__title">Title</div>
+		<div class="ia-new__title tx-clr--dk">Title</div>
 		<input class="frm__input wizard_field_insert" id="name-input" placeholder="e.g., Forecast" />
 	    </div>   
 	    
 	    <div class="wizard_field">
-	      <div class="ia-new__title">Description</div>
-		<p class="field_desc"> What is the purpose for your Instant Answer?</p>
+	      <div class="ia-new__title tx-clr--dk">Description</div>
+		<p class="field_desc tx-clr--lt"> What is the purpose for your Instant Answer?</p>
 		<textarea cols="100" class="frm__text wizard_field_insert" id="description-input" placeholder="e.g., The Forecast IA is a spice that displays the current weather and a 7-day forecast for your local city (ie. ‘Weather’), or a queried city triggered by city name (eg. ‘Weather in Paris’) or zip code (eg. Weather 92501). Data is provided by our friends at Forecast.io. "></textarea>
 	    </div>
 	 
 	    <div class="wizard_field">
-	      <div class="ia-new__title">Example Query</div>
-		<p class="field_desc"> Which query (or queries) will trigger your Instant Answer?</p>
+	      <div class="ia-new__title tx-clr--dk">Example Query</div>
+		<p class="field_desc tx-clr--lt"> Which query (or queries) will trigger your Instant Answer?</p>
 		<input class="frm__input wizard_field_insert" id="example_query-input" placeholder="e.g., Weather in Encinitas, Weather 12180, Weather" />
 	    </div>
 	    
 	    <div class="wizard_field">
-	      <div class="ia-new__title">Data Source</div>
-		<p class="field_desc">Where are you getting your info from (webpage, API, etc)?</p>
+	      <div class="ia-new__title tx-clr--dk">Data Source</div>
+		<p class="field_desc tx-clr--lt">Where are you getting your info from (webpage, API, etc)?</p>
 		<input class="frm__input wizard_field_insert" id="src_url-input" placeholder="https://api.forecast.io/forecast/APIKEY/LATITUDE,LONGITUDE,TIME" />
 	    </div>
 	    
 	    <div class="wizard_field">
-	      <div class="ia-new__title">Type</div>
-		<p class="field_desc">Each Instant Answer type specializes in handling certain scenarios - most common Instant Answers are Goodies and Spices</p>
-		<div  id="repo-radio" class="wizard_field_insert half">
-		    <input type="radio" name="types" value="goodies" checked/>
-			<label>Goodie</label>
-			<p>Instant Answer made from pure code</p>
-		    <input type="radio" name="types" value="fathead">
-			<label>Fathead</label>
-			<p>Uses a key-value store to search a database</p>
-		    <input type="radio" name="types" value="goodies">
-			 <label>Cheatsheet</label>
+	      <div class="ia-new__title tx-clr--dk">Type</div>
+		<p class="field_desc tx-clr--lt">Each Instant Answer type specializes in handling certain scenarios - most common Instant Answers are Goodies and Spices</p>
+		<div class="radio-repo wizard_field_insert half">
+			<label class="frm__label">
+			  <input type="radio" name="types" value="goodies" checked/>
+			  <span class="frm__label__txt">Goodies</span>
+			</label>
+			<p class="tx-clr--lt">Instant Answer made from pure code (e.g., <a href="https://duckduckgo.com/?q=35C+to+F&t=ffab&ia=answer">conversions</a> and <a href="https://duckduckgo.com/?q=color+picker&t=ffab&ia=colorpicker">color picker</a>)</p>
+
+			<label class="frm__label">
+			  <input type="radio" name="types" value="fathead" checked/>
+			  <span class="frm__label__txt">Fathead</span>
+			</label>
+			<p class="tx-clr--lt">Uses a key-value store to search a database (e.g., <a href="https://duckduckgo.com/?q=javascript+console.log&ia=about">console.log</a>)</p>
+
+			<label class="frm__label">
+			  <input type="radio" name="types" value="goodies" checked/>
+			  <span class="frm__label__txt">Cheatsheet</span>
+			</label>
 		</div>
-		<div class="wizard_field_insert half">
-		    <input type="radio" name="types" value="spice" />
-			<label>Spice</label>
-			<p>requires an API as its data source</p>
-		    <input type="radio" name="types" value="longtail">
-			<label>Longtail</label>
-			<p>Requires the ability to do full-text search</p>
-		    <input type="radio" name="types" value="">
-			<label>I don't know</label>
+		<div class="wizard_field_insert half radio-repo">
+		  <label class="frm__label">
+		    <input type="radio" name="types" value="spice" checked/>
+		    <span class="frm__label__txt">Spice</span>
+		  </label>
+		  <p class="tx-clr--lt">Requires an API as its data source (e.g., <a href="https://duckduckgo.com/?q=weather&ia=weather">weather<a/>, <a href="https://duckduckgo.com/?q=bitcoin&ia=currency">bitcoin</a>)</p>
+		    
+		  <label class="frm__label">
+		    <input type="radio" name="types" value="longtail" checked/>
+		    <span class="frm__label__txt">Longtail</span>
+		  </label>
+		  <p class="tx-clr--lt">Requires the ability to do a full-text search (e.g., <a href="https://duckduckgo.com/?q=eye+of+the+tiger+&ia=lyrics">lyrics</a>)</p>
+
+		  <label class="frm__label">
+		    <input type="radio" name="types" value="" checked/>
+		    <span class="frm__label__txt">I don't know</span>
+		  </label>
 		</div>
 		<span class="clearfix"></span>
 	    </div>
@@ -75,7 +90,7 @@
 	    <hr></hr>
 	    <div id="new_ia_wizard_save" class="button btn--primary right"> Create Instant Answer Page </div>
     </div>
-    <div class="third g">
+    <div class="third">
         <div class="ia-new__title"> Example IA Pages</div>
         <ul>
             <li><span class="ddgsi-right"></span><a href="/ia/view/calculator">Calculator</a></li>
@@ -84,6 +99,5 @@
             <li><span class="ddgsi-right"></span><a href="/ia/view/photoshop_cheatsheet">Photoshop Cheatsheet</a></li>
             <li><span class="ddgsi-right"></span><a href="/ia/view/soundcloud">SoundCloud</a></li>
         </ul>       
-    </div>
     </div>
 </div>
