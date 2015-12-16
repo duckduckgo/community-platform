@@ -104,7 +104,7 @@ sub iarepo_json :Chained('iarepo') :PathPart('json') :Args(0) {
               ),
     });
 
-    $c->return_if_not_modified( $iarepo->last_modified );
+    $c->return_if_not_modified( $c->d->rs('InstantAnswer::LastUpdated')->search->last_modified );
 
     $iarepo = $iarepo->prefetch( { instant_answer_topics => 'topic' });
     my %iah;
