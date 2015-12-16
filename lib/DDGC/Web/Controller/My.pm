@@ -256,6 +256,7 @@ sub github_oauth :Chained('base') :Args(0) {
 	$user = $c->d->rs('User')->search({
 		github_id => $user_info->{id},
 	})->order_by({ -desc => 'id' })->one_row;
+	$user->store_github_credentials( $user_info ) if $user;
 
 	if ( $user_info->{email} && !$user ) {
 		$user = $c->d->rs('User')->search(

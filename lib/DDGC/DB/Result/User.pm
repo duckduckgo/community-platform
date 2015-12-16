@@ -245,10 +245,36 @@ sub store_github_credentials {
 	my ( $self, $user_info ) = @_;
 	$self->update( {
 		github_user_linked => $user_info->{login},
+		github_id          => $user_info->{id},
 		github_access_token => sha256_base64(
-			$user_info->{access_token}
+			delete $user_info->{access_token}
 		)
 	} );
+	my %github_stats_user_columns = map {
+		$_ => $user_info->{$_},
+	} (qw/
+		login gravatar_id name company
+		blog location email bio type
+		created_at updated_at
+	/);
+
+	# update_or_create_related would be nice here, but GitHub::User is not keyed on github_id
+	my $github_stats_user = $self->schema->resultset('GitHub::User')->find({
+		github_id => $user_info->{id}
+	});
+	if ( $github_stats_user ) {
+		$github_stats_user->update({
+			%github_stats_user_columns,
+			gh_data => $user_info
+		})
+	}
+	else {
+		$self->schema->resultset('GitHub::User')->create({
+			%github_stats_user_columns,
+			github_id => $user_info->{id},
+			gh_data => $user_info
+		})
+	}
 }
 
 sub add_default_notifications {
