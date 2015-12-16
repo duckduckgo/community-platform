@@ -246,7 +246,7 @@ sub github_oauth :Chained('base') :Args(0) {
 
 	if ($c->user) {
 		$c->user->store_github_credentials( $user_info );
-		$c->response->redirect( $c->session->{last_url} // $c->chained_uri('My','account') );
+		$c->response->redirect( $c->chained_uri('My','account') );
 	}
 
 	$user_info->{access_token} = $access_token;
