@@ -120,9 +120,14 @@ column updated => {
 	set_on_update => 1,
 };
 
-column github_user => {
-    data_type => 'text',
-    is_nullable => 1
+column github_user_plaintext => {
+	data_type => 'text',
+	is_nullable => 1
+};
+
+column github_user_linked => {
+	data_type => 'text',
+	is_nullable => 1
 };
 
 column new_contributor => {
@@ -145,6 +150,11 @@ has xmpp => (
 sub _build_xmpp {
 	my ( $self ) = @_;
 	return { $self->ddgc->xmpp->user($self->username) };
+}
+
+sub github_user {
+	my ( $self ) = @_;
+	return $self->github_user_linked || $self->github_user_plaintext;
 }
 
 sub userpage_obj {
