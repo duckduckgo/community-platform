@@ -672,6 +672,19 @@ sub forgotpw :Chained('logged_out') :Args(0) {
 	$c->stash->{sentok} = 1;
 }
 
+sub register_from_ia_wizard :Chained('logged_out') :Args(0) {
+        my ( $self, $c ) = @_;
+        $c->stash->{not_last_url} = 1;
+        $c->stash->{x} = '';
+        
+        my $username = $c->req->params->{username};
+        my $password = $c->req->params->{password};
+        my $email = $c->req->params->{email};
+        new_user($c, $username, $password, $email);
+
+	$c->response->redirect($c->chained_uri('My','login',{ register_successful => 1, username => $username }));
+}
+
 sub register :Chained('logged_out') :Args(0) {
 	my ( $self, $c ) = @_;
 	$c->stash->{not_last_url} = 1;

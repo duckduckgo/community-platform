@@ -25,13 +25,13 @@
     
     <div id="signup-bg" class="modal-bg"></div>
     <div id="signup-form" class=" modal-wrapper">
-        <form method="post" action="<: $u('My', 'register') :>">
+        <form method="post" action="<: $u('My', 'register_from_ia_wizard') :>">
             <h3 class="label left"> Create an Account</h3>
             <div class="right" id="signup-cancel">
                  <i class="ddgsi ddgsi-close"></i>
             </div>
             <p class="clearfix">Thanks - but you'll need to create an account (or <a href="#">sign in</a>) before you can proceed. Don't worry, it will be quick!</p>
-            <input name="action_token" class="text" type="hidden">
+            <input type="hidden" name="action_token" class="text" value="<: $c.session.action_token :>" />
             <input id="username-input" placeholder="Username" name="username" class="username-input frm__input" />
             <input id="pwd-input" type="password" placeholder="Password" name="password" class="pwd-input frm__input" />
             <input id="email-input" name="email" placeholder="Email" class="email-input frm__input" />
