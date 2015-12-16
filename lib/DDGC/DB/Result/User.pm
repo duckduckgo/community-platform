@@ -224,8 +224,8 @@ has_many 'user_reports', 'DDGC::DB::Result::User::Report', 'users_id', {
 };
 
 # DDGC::DB::Result::GitHub::User already belongs to User...
-# But this happens to be a handy way of having a might_have-like accessor to a
-# Result instance without complaining from DBIC.
+# But this happens to be a handy way of having a nullable-might_have-left-joiny
+# accessor to a Result instance without complaining from DBIC.
 # This almost certainly means I am missing something in the docs, but it works.
 #  - JBa
 belongs_to github_stats_user => 'DDGC::DB::Result::GitHub::User',
