@@ -250,7 +250,6 @@ sub github_oauth :Chained('base') :Args(0) {
 	}
 
 	$user_info->{access_token} = $access_token;
-	( $user_info->{cp_login} = $user_info->{login} ) =~ s/-/_/g;
 	$c->session->{github_user_info} = $user_info;
 
 	$user = $c->d->rs('User')->search({
@@ -268,8 +267,9 @@ sub github_oauth :Chained('base') :Args(0) {
 	}
 
 	if ( !$user ) {
+		( my $cp_login = $user_info->{login} ) =~ s/-/_/g;
 		$user = $self->_github_oauth_register(
-			$c, $user_info->{cp_login}, $user_info
+			$c, $cp_login, $user_info
 		);
 		return $c->detach if !$user;
 	}
