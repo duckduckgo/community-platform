@@ -231,7 +231,13 @@ sub github_oauth :Chained('base') :Args(0) {
 		return $c->detach;
 	}
 
-	$user_info = JSON::MaybeXS->new->utf8(1)->decode($response->content);
+	try {
+		$user_info = JSON::MaybeXS->new->utf8(1)->decode($response->content);
+	}
+	catch {
+		$c->stash->{no_user_info} = 1;
+		return $c->detach;
+	};
 
 	if ( !$user_info->{login} ) {
 		$c->stash->{no_user_info} = 1;
