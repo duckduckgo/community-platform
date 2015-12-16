@@ -720,51 +720,11 @@ sub register :Chained('logged_out') :Args(0) {
 
 	return $c->detach if $error;
 
-	my $username = $c->stash->{username};
-	my $password = $c->req->params->{password};
-	
-	my $find_user = $c->d->find_user($username);
 
-	if ($find_user) {
-		$c->stash->{user_exist} = $username;
-		$error = 1;
-	}
+        my $username = $c->stash->{username};
+        my $password = $c->req->params->{password};
 
-	return $c->detach if $error;
-
-	# Skip actual account creation if this field is filled
-	unless ($c->req->params->{emailagain}) {
-		$c->require_action_token;
-		my $user = $c->d->create_user($username,$password);
-
-		if ($user) {
-			$user->check_password($password);
-			if ($email) {
-				$user->data({}) if !$user->data;
-				my $data = $user->data();
-				$c->stash->{email_verify_token} = $data->{email_verify_token} = $c->d->uid;
-				$c->stash->{email_verify_link} =
-				    $c->chained_uri('My','email_verify',$user->lowercase_username, $c->stash->{email_verify_token});
-				$user->data($data);
-				$user->email($email);
-				$user->email_verified(0);
-				$user->update;
-				$c->d->postman->template_mail(
-					1,
-					$user->email,
-					'"DuckDuckGo Community" <noreply@duck.co>',
-					'[DuckDuckGo Community] ' . $user->username . ', thank you for registering. Please verify your email address',
-					'register',
-					$c->stash,
-				);
-			}
-			$c->session->{action_token} = undef;
-			$c->session->{captcha_string} = undef;
-		} else {
-			$c->stash->{register_failed} = 1;
-			return $c->detach;
-		}
-	}
+        new_user($c, $username, $password, $email);
 
 	$c->response->redirect($c->chained_uri('My','login',{ register_successful => 1, username => $username }));
 
@@ -827,6 +787,54 @@ sub requestlanguage :Chained('logged_in') :Args(0) {
 
 		}
 	}
+}
+
+sub new_user {
+    my ($c, $username, $password, $email) = @_;
+
+    my $find_user = $c->d->find_user($username);
+    my $error;
+ 
+    if ($find_user) {
+    	$c->stash->{user_exist} = $username;
+    	$error = 1;
+    }
+
+    return $c->detach if $error;
+    
+    # Skip actual account creation if this field is filled
+    unless ($c->req->params->{emailagain}) {
+    	$c->require_action_token;
+    	my $user = $c->d->create_user($username,$password);
+    
+    	if ($user) {
+    		$user->check_password($password);
+    		if ($email) {
+    			$user->data({}) if !$user->data;
+    			my $data = $user->data();
+    			$c->stash->{email_verify_token} = $data->{email_verify_token} = $c->d->uid;
+    			$c->stash->{email_verify_link} =
+    			    $c->chained_uri('My','email_verify',$user->lowercase_username, $c->stash->{email_verify_token});
+    			$user->data($data);
+    			$user->email($email);
+    			$user->email_verified(0);
+    			$user->update;
+    			$c->d->postman->template_mail(
+    				1,
+    				$user->email,
+    				'"DuckDuckGo Community" <noreply@duck.co>',
+    				'[DuckDuckGo Community] ' . $user->username . ', thank you for registering. Please verify your email address',
+    				'register',
+    				$c->stash,
+    			);
+    		}
+    		$c->session->{action_token} = undef;
+    		$c->session->{captcha_string} = undef;
+    	} else {
+    		$c->stash->{register_failed} = 1;
+    		return $c->detach;
+    	}
+    }
 }
 
 no Moose;
