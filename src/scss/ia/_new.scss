@@ -1,9 +1,12 @@
 #new_ia_wizard {
-    .wizard_field { margin-bottom: 3em; }
     ul { 
        list-style: none;
-       li a { color: $grey-light; }
     }
+}
+
+#new_ia_wizard_save {
+    padding: 0.5em 1em;
+    margin-bottom: 2em;
 }
 
 #create-ia-from-pr-form {
@@ -40,5 +43,43 @@
 	    font-size: 15px;
 	    font-weight: 500;
 	}
+    }
+
+    .wizard_field {
+	padding-left: 0.1em;
+	padding-bottom: 2em;
+    }
+
+    .frm__input, .frm__text {
+	border-radius: 3px;
+	width: 100%;
+	border: none;
+    }
+
+    .frm__input {
+	height: 3em;
+    }
+
+    .frm__text {
+	min-height: 5.8em;
+	max-width: 100%;
+    }
+
+    .ddgsi-right {
+	font-size: 0.7em;
+	padding-right: 0.5em;
+	color: $grey;
+    }
+
+    input[type=radio] {
+	height: 1.3em;
+    }
+
+    a {
+	color: $blue;
+    }
+
+    hr {
+	margin: 1em 0 3em 0;
     }
 }
