@@ -245,6 +245,11 @@ sub github_oauth :Chained('base') :Args(0) {
 	}
 
 	if ($c->user) {
+		my $user_check = $c->d->rs('User')->find({ github_id => $user_info->{id} });
+		if ( $user_check && ( $user_check->id != $c->user->id ) ) {
+			$c->stash->{other_user_linked} = 1;
+			return $c->detach;
+		}
 		$c->user->store_github_credentials( $user_info );
 		$c->response->redirect( $c->chained_uri('My','account') );
 	}

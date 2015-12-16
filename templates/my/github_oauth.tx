@@ -40,6 +40,13 @@
         </div>
     </div>
 
+: } elsif $other_user_linked {
+
+    <div class="notice error">
+        <i class="icn icon-warning-sign"></i>
+        Another user has already signed up with this Github account.
+    </div>
+
 : } elsif $no_user_info {
 
     <div class="notice error">
