@@ -487,6 +487,7 @@ after insert => sub {
 };
 
 after update => sub { $_[0]->schema->resultset('InstantAnswer::LastUpdated')->touch; };
+after delete => sub { $_[0]->schema->resultset('InstantAnswer::LastUpdated')->touch; };
 
 sub create_update_activity {
     my ( $self, $meta3, $description ) = @_;

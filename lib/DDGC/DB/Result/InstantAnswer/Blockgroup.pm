@@ -26,6 +26,7 @@ primary_key ('id');
 
 after insert => sub { $_[0]->schema->resultset('InstantAnswer::LastUpdated')->touch; };
 after update => sub { $_[0]->schema->resultset('InstantAnswer::LastUpdated')->touch; };
+after delete => sub { $_[0]->schema->resultset('InstantAnswer::LastUpdated')->touch; };
 
 no Moose;
 __PACKAGE__->meta->make_immutable ( inline_constructor => 0 );
