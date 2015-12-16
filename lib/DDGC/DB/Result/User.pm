@@ -14,6 +14,7 @@ use File::Temp qw/ tempfile /;
 use Carp;
 use Prosody::Mod::Data::Access;
 use Digest::MD5 qw( md5_hex );
+use Digest::SHA qw/ sha256_base64 /;
 use List::MoreUtils qw( uniq  );
 use namespace::autoclean;
 use DateTime;
@@ -237,6 +238,16 @@ after insert => sub {
 	my ( $self ) = @_;
 	$self->add_default_notifications;
 };
+
+sub store_github_credentials {
+	my ( $self, $user_info ) = @_;
+	$self->update( {
+		github_user_linked => $user_info->{login},
+		github_access_token => sha256_base64(
+			$user_info->{access_token}
+		)
+	} );
+}
 
 sub add_default_notifications {
 	my ( $self ) = @_;

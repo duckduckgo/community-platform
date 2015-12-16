@@ -158,7 +158,7 @@ sub _github_oauth_register {
 		return 0;
 	}
 
-	$user->update({ github_access_token => $user_info->{access_token} });
+	$user->store_github_credentials( $user_info );
 	return $user;
 }
 
@@ -245,9 +245,7 @@ sub github_oauth :Chained('base') :Args(0) {
 	}
 
 	if ($c->user) {
-		$c->user->update({
-			github_access_token => $access_token
-		});
+		$c->user->store_github_credentials( $user_info );
 		$c->response->redirect( $c->session->{last_url} // $c->chained_uri('My','account') );
 	}
 
@@ -264,7 +262,7 @@ sub github_oauth :Chained('base') :Args(0) {
 			 \[ 'LOWER(email) = ? AND email_verified = 1', ( lc( $user_info->{email} ) ) ],
 		)->order_by({ -desc => 'id' })->one_row;
 		if ( $user ) {
-			$user->update({ github_access_token => $access_token });
+			$user->store_github_credentials( $user_info );
 		}
 	}
 

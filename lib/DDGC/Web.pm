@@ -81,8 +81,9 @@ __PACKAGE__->config(
 			github => {
 				credential => {
 					class           => 'Password',
-					password_type   => 'clear',
+					password_type   => 'hashed',
 					password_field  => 'github_access_token',
+					password_hash_type => 'SHA-256',
 				},
 				store => {
 					class			=> '+DDGC::Web::Authentication::Store::DDGC',
