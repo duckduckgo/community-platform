@@ -273,10 +273,13 @@ sub github_oauth :Chained('base') :Args(0) {
 
 	if ( !$user ) {
 		( my $cp_login = $user_info->{login} ) =~ s/-/_/g;
-		$user = $self->_github_oauth_register(
-			$c, $cp_login, $user_info
-		);
-		return $c->detach if !$user;
+		if ( $c->d->rs('User')->find({ username => $cp_login }) ) {
+			$c->stash->{username_taken} = 1;
+			return $c->detach
+		}
+		$c->stash->{cp_login} = $cp_login;
+		$c->stash->{create_user} = 1;
+		return $c->detach;
 	}
 
 LOGIN:

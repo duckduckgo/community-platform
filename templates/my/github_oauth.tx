@@ -39,6 +39,34 @@
 
         </div>
     </div>
+: } elsif $create_user {
+
+    <div class="notice warning">
+        <i class="icn icon-warning-sign"></i>
+        Registering duck.co account for <: $cp_login :>.
+    </div>
+
+    <div class="form-border">
+        <div class="form-wrap account-form">
+
+            <form action='/my/github_oauth' method="post">
+                <h2>Register Account</h2>
+                <input type="hidden"
+                       name="username"
+                       value="<: $cp_login :>" />
+
+                <div class="third">
+                    <div class="input-wrap">
+                        <input type="submit"
+                               class="button submit"
+                               value="Create account <: $cp_login :>" />
+                    </div>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
 
 : } elsif $other_user_linked {
 
@@ -77,3 +105,30 @@
 
 : }
 
+
+: if $username_taken || $create_user {
+    <div class="content-box account-box">
+        <div class="head">
+            <h2>Important!</h2>
+        </div>
+        <div class="body">
+            <div class="row">
+                <p>
+                    <strong>Continuing will register a new account</strong>.
+                </p>
+                <p>
+                    If you wish to link an existing duck.co account with your Github account,
+                    please Login with your existing username and password, then on your account
+                    page choose "Link Github Account".
+                </p>
+                <p>
+                    You can reach your account page after Login by clicking your username on
+                    the top-right of any page.
+                </p>
+                <p>
+                    <strong>We cannot link your existing account later if you proceed with registration now!</strong>
+                </p>
+            </div>
+        </div>
+    </div>
+: }
