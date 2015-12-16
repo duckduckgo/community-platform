@@ -131,6 +131,26 @@
 					</a>
 				</div>
 			</div>
+			<div class="row">
+				<div class="twothird">
+					<label>
+					Github:
+					: if $c.user.github_stats_user {
+						: my $github_login = $c.user.github_stats_user.login
+						<a href="<: $github_login :>"><: $github_login :></a>
+					: }
+					</label>
+				</div>
+				<div class="third">
+					<a href="<: $u('My','github_oauth') :>" class="button button--right">
+						<: if $c.user.github_stats_user { :>
+							<: $l('Update') :>
+						<: } else { :>
+							<: $l('Link Github Account') :>
+						<: } :>
+					</a>
+				</div>
+			</div>
 			<: if $c.user.public { :>
 				<: if !$c.user.admin && ($c.user.is('forum_manager') || $c.user.is('idea_manager') || $c.user.is('translation_manager')) { :>
 					<div class="row">
