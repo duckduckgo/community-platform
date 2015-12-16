@@ -61,5 +61,12 @@
         An unknown error occurred. Please try again later.
     </div>
 
+: } elsif $unable_to_login {
+
+    <div class="notice error">
+        <i class="icn icon-warning-sign"></i>
+        Unable to verify Github credentials.
+    </div>
+
 : }
 

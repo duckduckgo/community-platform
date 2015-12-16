@@ -286,6 +286,7 @@ LOGIN:
 		return $c->detach;
 	}
 
+	$c->stash->{unable_to_login} = 1;
 	$c->stash->{error} = 1;
 }
 
