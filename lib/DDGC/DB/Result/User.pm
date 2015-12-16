@@ -248,10 +248,12 @@ after insert => sub {
 
 sub store_github_credentials {
 	my ( $self, $user_info ) = @_;
+	my $gh_data = { %$user_info };
+	delete $gh_data->{access_token};
 	$self->update( {
 		github_id          => $user_info->{id},
 		github_access_token => sha256_base64(
-			delete $user_info->{access_token}
+			$user_info->{access_token}
 		)
 	} );
 	my %github_stats_user_columns = map {
@@ -269,14 +271,14 @@ sub store_github_credentials {
 	if ( $github_stats_user ) {
 		$github_stats_user->update({
 			%github_stats_user_columns,
-			gh_data => $user_info
+			gh_data => $gh_data,
 		})
 	}
 	else {
 		$self->schema->resultset('GitHub::User')->create({
 			%github_stats_user_columns,
 			github_id => $user_info->{id},
-			gh_data => $user_info
+			gh_data => $gh_data,
 		})
 	}
 }
