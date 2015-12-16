@@ -126,11 +126,6 @@ column github_user_plaintext => {
 	is_nullable => 1
 };
 
-column github_user_linked => {
-	data_type => 'text',
-	is_nullable => 1
-};
-
 unique_column github_id => {
 	data_type => 'bigint',
 	is_nullable => 1
@@ -160,7 +155,8 @@ sub _build_xmpp {
 
 sub github_user {
 	my ( $self ) = @_;
-	return $self->github_user_linked || $self->github_user_plaintext;
+	return $self->github_stats_user->login if $self->github_stats_user;
+	return $self->github_user_plaintext;
 }
 
 sub userpage_obj {
@@ -253,7 +249,6 @@ after insert => sub {
 sub store_github_credentials {
 	my ( $self, $user_info ) = @_;
 	$self->update( {
-		github_user_linked => $user_info->{login},
 		github_id          => $user_info->{id},
 		github_access_token => sha256_base64(
 			delete $user_info->{access_token}
