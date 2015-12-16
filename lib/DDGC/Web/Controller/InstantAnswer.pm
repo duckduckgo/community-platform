@@ -1182,6 +1182,7 @@ sub new_ia :Chained('base') :PathPart('new_ia') :Args() {
     my ( $self, $c ) = @_;
 
     $c->stash->{ia_page} = "IAPageNew";
+    $c->stash->{result} = 1;
     $c->stash->{title} = "Create New Instant Answer";
 }
 

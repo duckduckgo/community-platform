@@ -23,8 +23,8 @@
         <span class="clearfix"></span>
     </div>
     
-    <div id="signup-bg" class="modal-bg"></div>
-    <div id="signup-form" class=" modal-wrapper">
+    <div id="signup-bg" class="modal-bg <: if ($result || $c.user) { :>hide<: } :>"></div>
+    <div id="signup-form" class="<: if ($result || $c.user) { :>hide<: } :> modal-wrapper">
         <form method="post" action="<: $u('My', 'register_from_ia_wizard') :>">
             <h3 class="label left"> Create an Account</h3>
             <div class="right" id="signup-cancel">
@@ -36,7 +36,7 @@
             <input id="pwd-input" type="password" placeholder="Password" name="password" class="pwd-input frm__input" />
             <input id="email-input" name="email" placeholder="Email" class="email-input frm__input" />
 
-        <input class="button btn--primary left" value="Create Account" type="submit" name="register" id="signup-save" />
+        <div class="button btn--primary left"  name="register" id="signup-save" >Create Account</div>
         </form>
         <p>Your duck.co community account is not in any way connected to your searches on duckduckgo.com</p>
         <hr></hr>

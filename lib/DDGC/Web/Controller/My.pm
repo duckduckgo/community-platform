@@ -681,8 +681,10 @@ sub register_from_ia_wizard :Chained('logged_out') :Args(0) {
         my $password = $c->req->params->{password};
         my $email = $c->req->params->{email};
         my $action_token = $c->session->{action_token}; 
-        new_user($c, $username, $password, $email);
-        $c->forward('/my/login', { username => $username, password => $password, action_token => $action_token });
+        $c->stash->{result} = new_user($c, $username, $password, $email);
+        $c->stash->{x} = {result => $c->stash->{result}};
+        $c->forward($c->view('JSON'));
+    #    $c->forward('/my/login', { username => $username, password => $password, action_token => $action_token });
 }
 
 sub register :Chained('logged_out') :Args(0) {
@@ -843,9 +845,10 @@ sub new_user {
     		}
     		$c->session->{action_token} = undef;
     		$c->session->{captcha_string} = undef;
+                return 1;
     	} else {
     		$c->stash->{register_failed} = 1;
-    		return $c->detach;
+    		return 0;
     	}
     }
 }
