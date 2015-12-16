@@ -680,9 +680,9 @@ sub register_from_ia_wizard :Chained('logged_out') :Args(0) {
         my $username = $c->req->params->{username};
         my $password = $c->req->params->{password};
         my $email = $c->req->params->{email};
+        my $action_token = $c->session->{action_token}; 
         new_user($c, $username, $password, $email);
-
-	$c->response->redirect($c->chained_uri('My','login',{ register_successful => 1, username => $username }));
+        $c->forward('/my/login', { username => $username, password => $password, action_token => $action_token });
 }
 
 sub register :Chained('logged_out') :Args(0) {
