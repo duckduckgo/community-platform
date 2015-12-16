@@ -131,6 +131,11 @@ column github_user_linked => {
 	is_nullable => 1
 };
 
+unique_column github_id => {
+	data_type => 'bigint',
+	is_nullable => 1
+};
+
 column new_contributor => {
     data_type => 'smallint',
     is_nullable => 0,
@@ -217,9 +222,6 @@ has_many 'user_blogs', 'DDGC::DB::Result::User::Blog', 'users_id', {
 has_many 'user_reports', 'DDGC::DB::Result::User::Report', 'users_id', {
   cascade_delete => 0,
 };
-has_many 'github_users', 'DDGC::DB::Result::GitHub::User', 'users_id', {
-  cascade_delete => 0,
-};
 
 has_many 'failedlogins', 'DDGC::DB::Result::User::FailedLogin', 'users_id';
 
@@ -274,13 +276,6 @@ sub admin {
 	( $set )
 		? $self->add_role('admin')
 		: $self->del_role('admin');
-}
-
-sub github_user {
-	my ( $self ) = @_;
-	return $self->search_related('github_users',{},{
-		order_by => { -desc => 'updated' }
-	})->first;
 }
 
 sub normalise_role {
