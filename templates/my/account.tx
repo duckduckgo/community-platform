@@ -185,7 +185,7 @@
 				<p>We provide a public XMPP server with this account, which you can add to your favourite client. You can find a list of clients <a href="http://xmpp.org/xmpp-software/clients/">here</a>. XMPP is an open-standard instant communication protocol like ICQ, MSN or Yahoo. You can find more information on <a href="http://wikipedia.org/wiki/XMPP">Wikipedia</a>.
 				<p>
 					<strong>NOTE:</strong> If you sign in using Github you can use the <a href='/my/forgotpw'>Forgot Password</a> page to set your XMPP password.
-					You will need to log out first and have a valid email address set!
+					You will need to log out first and have a verified email address set!
 				</p>
 				<p>
 					<strong>Username:</strong> <: $c.user.lowercase_username :><br/>
