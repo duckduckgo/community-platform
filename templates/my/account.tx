@@ -137,7 +137,7 @@
 					Github:
 					: if $c.user.github_stats_user {
 						: my $github_login = $c.user.github_stats_user.login
-						<a href="<: $github_login :>"><: $github_login :></a>
+						<a href="https://github.com/<: $github_login :>"><: $github_login :></a>
 					: }
 					</label>
 				</div>
