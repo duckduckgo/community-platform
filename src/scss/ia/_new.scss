@@ -11,12 +11,27 @@
     margin-bottom: 2em;
 }
 
-#create-ia-from-pr-form {
-    left: 51em;
-    top: 25em;
+#create-ia-from-pr-save {
+    margin-top: 0.5em;
+    padding-top: 6px;
+    padding-bottom: 6px;
+    width: 100%;
+}
 
-    input { margin-bottom: 1em; }
-    .button { width: 93%; }
+#create-ia-from-pr-form {
+    left: 45%;
+    top: 50%;
+    width: 25%;
+
+    p {
+	padding: 1em 0;
+    }
+
+    input { 
+	margin-bottom: 1.5em;
+	margin-top: 0.5em;
+    }
+    .button { width: 93.5%; }
 }
 
 #create-ia-from-pr-cancel { cursor: pointer; }
@@ -38,8 +53,12 @@
     @include wrapper();
     font-size: 15px;
 
+    .modal-wrapper {
+	padding: 2em;
+    }
+
     .ia-new {
-	padding-top: 1em;
+	padding-top: 1.76em;
 	@include center-content(962px);
 
 	&__title {
@@ -65,11 +84,11 @@
 	width: 100%;
 	border: none;
 	background-color: $silver;
-	padding: 20px;
+	padding: 15px 20px;
     }
 
     .frm__input {
-	height: 4em;
+	height: 3.5em;
     }
 
     .frm__label__txt {
@@ -80,6 +99,7 @@
     .frm__text {
 	min-height: 7em;
 	max-width: 100%;
+	line-height: 1.66;
     }
 
     .ddgsi-right {
@@ -90,7 +110,7 @@
 
     input[type=radio] {
 	height: 1.2em;
-	margin-right: 5px;
+	margin-right: 9px;
     }
 
     a {
@@ -115,7 +135,16 @@
      .wizard_field_insert {
 	 p {
 	     font-size: 13px;
-	     padding-left: 21px;
+	     padding-left: 25px;
+	     height: 4em;
 	 }
+     }
+
+     .radio-repo--left {
+	 padding-right: 30px;
+     }
+
+     .radio-repo--right {
+	 padding-left: 30px;
      }
 }
