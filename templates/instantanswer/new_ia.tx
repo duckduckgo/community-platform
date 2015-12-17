@@ -40,7 +40,7 @@
         </form>
         <p>Your duck.co community account is not in any way connected to your searches on duckduckgo.com</p>
         <hr></hr>
-        <p>Already have an account? <a class="login_newia" href="#">Sign In</a>
+        <p>Already have an account? <a class="login_newia" href="#">Sign In</a></p>
 
         <span class="clearfix"></span>
     </div>

@@ -84,7 +84,7 @@ sub login :Chained('logged_out') :Args(0) {
 		}
 
 		my $user = $c->d->find_user($c->stash->{username});
-                my $result = authenticate($c, $user);
+                my $result = authenticate($c, $user, $c->stash->{username}, $c->req->params->{password});
 
                 if ($result->{result}) {
           	    $last_url = $c->chained_uri('My','account') unless defined $last_url;
@@ -101,7 +101,7 @@ sub login_from_ia_wizard :Chained('logged_out') :Args(0) {
         $c->stash->{not_last_url} = 1;
         my $username = $c->req->params->{ username };
         my $user = $c->d->find_user($c->stash->{username});
-        my $result = authenticate($c, $user);
+        my $result = authenticate($c, $user, $username, $c->req->params->{password});
 
         $c->stash->{x} = $result;
         $c->forward($c->view('JSON'));
@@ -826,7 +826,6 @@ sub new_user {
     				$c->stash,
     			);
     		}
-    		$c->session->{action_token} = undef;
     		$c->session->{captcha_string} = undef;
                 return 1;
     	} else {
@@ -837,7 +836,7 @@ sub new_user {
 }
 
 sub authenticate {
-    my ($c, $user) = @_;
+    my ($c, $user, $username, $password) = @_;
     my %result = (
         result => 0,
         detach => 0
@@ -850,8 +849,7 @@ sub authenticate {
           $result{detach} = 1;
      } 
     
-     if ( my $username = lc($c->stash->{username}) and
-        my $password = $c->req->params->{password} ) {
+     if ( $username && $password) {
           $c->require_action_token;
           if ($c->authenticate({
           	username => $username,
