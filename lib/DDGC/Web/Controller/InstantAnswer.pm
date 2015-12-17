@@ -772,7 +772,7 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
         }
     }
 
-    my $server = "http://beta..duckduckgo.com/install?asana&ia=" . $ia->id;
+    my $server = "http://beta.duckduckgo.com/install?asana&ia=" . $ia->id;
     my $result = asana_req('', $server);
 
     try{
