@@ -48,7 +48,7 @@
 	    <div class="wizard_field">
 	      <div class="ia-new__title tx-clr--dk">Type</div>
 		<p class="field_desc tx-clr--lt">Each Instant Answer type specializes in handling certain scenarios - most common Instant Answers are Goodies and Spices</p>
-		<div class="radio-repo wizard_field_insert half radio-repo--left">
+		<div id="repo-radio" class="radio-repo wizard_field_insert half radio-repo--left">
 			<label class="frm__label">
 			  <input type="radio" name="types" value="goodies" checked/>
 			  <span class="frm__label__txt">Goodies</span>
