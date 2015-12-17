@@ -41,7 +41,7 @@
 	    
 	    <div class="wizard_field">
 	      <div class="ia-new__title tx-clr--dk">Data Source</div>
-		<p class="field_desc tx-clr--lt">Put in a link to the API documentation.</p>
+		<p class="field_desc tx-clr--lt">Link to the data source or API, if any</a>
 		<input class="frm__input wizard_field_insert" id="src_url-input" placeholder="http://api.alternativeto.net/" />
 	    </div>
 	    
@@ -53,7 +53,7 @@
 			  <input type="radio" name="types" value="goodies" checked/>
 			  <span class="frm__label__txt">Goodies</span>
 			</label>
-			<p class="tx-clr--lt">Self-contained Instant Answers (e.g., <a target="_blank" href="https://duckduckgo.com/?q=35C+to+F&t=ffab&ia=answer">conversions</a>, <a href="https://duckduckgo.com/?q=color+picker&t=ffab&ia=colorpicker" target="_blank">color picker</a>)</p>
+			<p class="tx-clr--lt">IA is self-contained or produces its own data (e.g., <a target="_blank" href="https://duckduckgo.com/?q=35C+to+F&t=ffab&ia=answer">conversions</a>, <a href="https://duckduckgo.com/?q=color+picker&t=ffab&ia=colorpicker" target="_blank">color picker</a>)</p>
 
 			<label class="frm__label">
 			  <input type="radio" name="types" value="fathead" checked/>
@@ -63,8 +63,9 @@
 
 			<label class="frm__label">
 			  <input type="radio" name="types" value="goodies" checked/>
-			  <span class="frm__label__txt">Cheatsheet</span>
+			  <span class="frm__label__txt">Cheat Sheet</span>
 			</label>
+			<p class="tx-clr--lt">Short lists and cheat sheets (e.g. <a href="https://duckduckgo.com/?q=tennis+help&t=ffab&ia=cheatsheet">tennis help</a>, <a href="https://duckduckgo.com/?q=regex+cheat+sheet&t=ffab&ia=cheatsheet">regex syntax</a>)</a>
 		</div>
 		<div class="wizard_field_insert half radio-repo radio-repo--right">
 		  <label class="frm__label">
