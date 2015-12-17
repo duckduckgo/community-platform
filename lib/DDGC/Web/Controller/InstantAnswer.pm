@@ -613,6 +613,7 @@ sub ia_base :Chained('base') :PathPart('view') :CaptureArgs(1) {  # /ia/view/cal
     my $can_commit;
     my $commit_class = "hide";
     my $dev_milestone = $ia->dev_milestone;
+    $c->stash->{repo} = $ia->repo;
 
     if ($c->user) {
         $permissions = $ia->users->find($c->user->id);
@@ -640,7 +641,6 @@ sub ia_base :Chained('base') :PathPart('view') :CaptureArgs(1) {  # /ia/view/cal
                 if ($c->user->new_contributor) {
                     $c->stash->{new_contributor} = 1;
                     $c->stash->{id} = $ia->id;
-                    $c->stash->{repo} = $ia->repo;
                     user_contributed($c->user);
                 }
             }

@@ -11,7 +11,8 @@
             var page_new = this;
                 
             // 100% width
-            $(".site-main > .content-wrap").first().removeClass("content-wrap").addClass("wrap-pipeline");
+            $(".site-main > .content-wrap").first().removeClass("content-wrap").addClass("new-wrap");
+	    $(".site-main").addClass("developer-main");
             $(".breadcrumb-nav").remove();
 
              $("body").on("click", "#create-ia-from-pr", function(evt) {
@@ -47,7 +48,6 @@
                     var $temp_el = $(this).find(".wizard_field_insert");
                     var temp_id = $temp_el.attr("id");
                     var temp_field = temp_id.replace(/\-[^\-]+$/, "");
-                    console.log(temp_field);
                     var temp_type = temp_id.replace(/^.+\-/, "");
                     var temp_val = (temp_type === "radio")? $.trim($temp_el.find('input[type="radio"]:checked').val()) : $.trim($temp_el.val());
 
