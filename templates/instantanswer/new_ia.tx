@@ -31,8 +31,11 @@
                  <i class="ddgsi ddgsi-close"></i>
             </div>
             <p class="clearfix">Thanks - but you'll need to create an account (or <a class="login_newia" href="#">sign in</a>) before you can proceed. Don't worry, it will be quick!</p>
+            <p class="error-msg hide" id="signup-undef-error">An error occurred. Please try again</p>
             <input type="hidden" name="action_token" class="text" value="<: $c.session.action_token :>" />
+            <p class="error-msg hide" id="signup-username-error">Username can't be empty</p>
             <input id="signup-username-input" placeholder="Username" name="username" class="username-input frm__input" />
+            <p class="error-msg hide" id="signup-pwd-error">Password must be at least 8 characters long</p>
             <input id="signup-pwd-input" type="password" placeholder="Password" name="password" class="pwd-input frm__input" />
             <input id="signup-email-input" name="email" placeholder="Email" class="email-input frm__input" />
 
@@ -53,8 +56,11 @@
                  <i class="ddgsi ddgsi-close"></i>
             </div>
             <p class="clearfix">Thanks - but you'll need to sign in before you can proceed. Don't worry, it will be quick!</p>
+            <p class="error-msg hide" id="login-undef-error">Wrong username or password</p>
             <input type="hidden" name="action_token" class="text" value="<: $c.session.action_token :>" />
+            <p class="error-msg hide" id="login-username-error">Username can't be empty</p>
             <input id="login-username-input" placeholder="Username" name="username" class="username-input frm__input" />
+            <p class="error-msg hide" id="login-pwd-error">Invalid password</p>
             <input id="login-pwd-input" type="password" placeholder="Password" name="password" class="pwd-input frm__input" />
 
         <div class="button btn--primary left"  name="login" id="login-save" >Sign in</div>

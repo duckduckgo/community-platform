@@ -52,8 +52,18 @@
                 var username = $(prefix + "username-input").val();
                 var pwd = $(prefix + "pwd-input").val();
                 
+                $(".error-msg").addClass("hide");
+                
                 if (username.length && (pwd.length >= 8)) {
                     login(username, pwd);
+                } else {
+                   if (!username.length) {
+                      $("#login-username-error").removeClass("hide");
+                   }
+
+                   if (pwd.length < 8) {
+                      $("#login-pwd-error").removeClass("hide");
+                   }
                 }
             });
 
@@ -62,6 +72,8 @@
                 var username = $(prefix + "username-input").val();
                 var pwd = $(prefix + "pwd-input").val();
                 var email = $(prefix + "email-input").val();
+                
+                $(".error-msg").addClass("hide");
                 
                 if (username.length && (pwd.length >= 8)) {
 		    var req = $.post("/my/register_from_ia_wizard", {
@@ -74,8 +86,18 @@
 		        if (data && data.result) {
 		    	    $("#signup-bg, #signup-form").addClass("hide");
                             login(username, pwd);
-		        }
+		        } else {
+                            $("#signup-undef-error").removeClass("hide");
+                        }
 		    });
+                } else {
+                    if (!username.length) {
+                        $("#signup-username-error").removeClass("hide");
+                    }
+
+                    if (pwd.length < 8) {
+                        $("#signup-pwd-error").removeClass("hide");
+                    }
                 }
             });
             
@@ -99,7 +121,9 @@
 	                $("#login-bg, #login-form").addClass("hide");
 	                var data = getData();
 	                create_ia(data);
-	            }
+	            } else {
+                      $("#login-undef-error").removeClass("hide");
+                    }
 	        });
             }
 
