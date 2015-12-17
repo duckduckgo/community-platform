@@ -960,7 +960,7 @@ sub beta_req {
     my $req = HTTP::Request->new(GET => $server);
 
     my $resp;
-    try {
+    try{
         $resp = $ua->request($req);
         $resp = $resp->decoded_content? from_json($resp->decoded_content) : undef;
     };
