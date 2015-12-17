@@ -2,70 +2,7 @@
 
     <div class="notice warning">
         <i class="icn icon-warning-sign"></i>
-        Your Github username is unavailable, please choose another.
-    </div>
-
-    <div class="form-border">
-        <div class="form-wrap account-form">
-
-            : if $invalid_username {
-                <div class="notice error">
-                    <i class="icn icon-warning-sign"></i>
-                    The username may only contain standard latin letters
-                    (A-Z), numbers, "." and "_".
-                </div>
-            : }
-            <form action='/my/github_oauth' method="post">
-                <h2>Choose a Username</h2>
-
-                <div class="third">
-                    <div class="input-wrap">
-                        <input placeholder="Your duck.co Username"
-                               type="text"
-                               name="username"
-                        />
-                    </div>
-                </div>
-
-                <div class="third">
-                    <div class="input-wrap">
-                        <input type="submit"
-                               class="button submit"
-                               value="Submit" />
-                    </div>
-                </div>
-
-            </form>
-
-        </div>
-    </div>
-: } elsif $create_user {
-
-    <div class="notice warning">
-        <i class="icn icon-warning-sign"></i>
-        Registering duck.co account for <: $cp_login :>.
-    </div>
-
-    <div class="form-border">
-        <div class="form-wrap account-form">
-
-            <form action='/my/github_oauth' method="post">
-                <h2>Register Account</h2>
-                <input type="hidden"
-                       name="username"
-                       value="<: $cp_login :>" />
-
-                <div class="third">
-                    <div class="input-wrap">
-                        <input type="submit"
-                               class="button submit"
-                               value="Create account <: $cp_login :>" />
-                    </div>
-                </div>
-
-            </form>
-
-        </div>
+        This username is unavailable, please choose another.
     </div>
 
 : } elsif $other_user_linked {
@@ -106,7 +43,44 @@
 : }
 
 
-: if $username_taken || $create_user {
+: if $create_user {
+
+    <div class="form-border">
+        <div class="form-wrap account-form">
+
+            : if $invalid_username {
+                <div class="notice error">
+                    <i class="icn icon-warning-sign"></i>
+                    The username may only contain standard latin letters
+                    (A-Z), numbers, "." and "_".
+                </div>
+            : }
+            <form action='/my/github_oauth' method="post">
+                <h2>Choose a Username</h2>
+
+                <div class="third">
+                    <div class="input-wrap">
+                        <input placeholder="Your duck.co Username"
+                               type="text"
+                               value="<: $cp_login :>"
+                               name="username"
+                        />
+                    </div>
+                </div>
+
+                <div class="third">
+                    <div class="input-wrap">
+                        <input type="submit"
+                               class="button submit"
+                               value="Submit" />
+                    </div>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+
     <div class="content-box account-box">
         <div class="head">
             <h2>Important!</h2>
