@@ -42,20 +42,53 @@
                 }
             });
 
+            $(".login_newia").click(function(evt) {
+                $("#signup-bg, #signup-form").addClass("hide");
+                $("#login-bg, #login-form").removeClass("hide");
+            });
+
+            $("#login-save").click(function(evt) {
+                var prefix = "#login-";
+                var username = $(prefix + "username-input").val();
+                var pwd = $(prefix + "pwd-input").val();
+                
+                if (username.length && (pwd.length >= 8)) {
+		    var req = $.post("/my/login_from_ia_wizard", {
+		        username: username,
+		        password: pwd,
+		        action_token: $('input[name="action_token"]').val()
+		    })
+		    .done(function(data) {
+		        if (data && data.result) {
+		    	    $("#login-bg, #login-form").addClass("hide");
+		    	    var data = getData();
+		    	    create_ia(data);
+		        }
+		    });
+                }
+            });
+
             $("#signup-save").click(function(evt) {
-                var req = $.post("/my/register_from_ia_wizard", {
-                    username: $("#username-input").val(),
-                    password: $("#pwd-input").val(),
-                    email: $("#email-input").val(),
-                    action_token: $('input[name="action_token"]').val()
-                })
-                .done(function(data) {
-                    if (data && data.result) {
-                        $("#signup-bg, #signup-form").addClass("hide");
-                        var data = getData();
-                        create_ia(data);
-                    }
-                });
+                var prefix = "#signup-";
+                var username = $(prefix + "username-input").val();
+                var pwd = $(prefix + "pwd-input").val();
+                var email = $(prefix + "email-input").val();
+                
+                if (username.length && (pwd.length >= 8)) {
+		    var req = $.post("/my/register_from_ia_wizard", {
+		        username: username,
+		        password: pwd,
+		        email: email,
+		        action_token: $('input[name="action_token"]').val()
+		    })
+		    .done(function(data) {
+		        if (data && data.result) {
+		    	    $("#signup-bg, #signup-form").addClass("hide");
+		    	    var data = getData();
+		    	    create_ia(data);
+		        }
+		    });
+                }
             });
             
             $("#new_ia_wizard_save").click(function(evt) {

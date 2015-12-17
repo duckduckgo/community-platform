@@ -23,27 +23,48 @@
         <span class="clearfix"></span>
     </div>
     
-    <div id="signup-bg" class="modal-bg <: if ($result || $c.user) { :>hide<: } :>"></div>
-    <div id="signup-form" class="<: if ($result || $c.user) { :>hide<: } :> modal-wrapper">
-        <form method="post" action="<: $u('My', 'register_from_ia_wizard') :>">
+    <div id="signup-bg" class="modal-bg hide"></div>
+    <div id="signup-form" class="hide modal-wrapper">
+        <form>
             <h3 class="label left"> Create an Account</h3>
             <div class="right" id="signup-cancel">
                  <i class="ddgsi ddgsi-close"></i>
             </div>
-            <p class="clearfix">Thanks - but you'll need to create an account (or <a href="#">sign in</a>) before you can proceed. Don't worry, it will be quick!</p>
+            <p class="clearfix">Thanks - but you'll need to create an account (or <a class="login_newia" href="#">sign in</a>) before you can proceed. Don't worry, it will be quick!</p>
             <input type="hidden" name="action_token" class="text" value="<: $c.session.action_token :>" />
-            <input id="username-input" placeholder="Username" name="username" class="username-input frm__input" />
-            <input id="pwd-input" type="password" placeholder="Password" name="password" class="pwd-input frm__input" />
-            <input id="email-input" name="email" placeholder="Email" class="email-input frm__input" />
+            <input id="signup-username-input" placeholder="Username" name="username" class="username-input frm__input" />
+            <input id="signup-pwd-input" type="password" placeholder="Password" name="password" class="pwd-input frm__input" />
+            <input id="signup-email-input" name="email" placeholder="Email" class="email-input frm__input" />
 
         <div class="button btn--primary left"  name="register" id="signup-save" >Create Account</div>
         </form>
         <p>Your duck.co community account is not in any way connected to your searches on duckduckgo.com</p>
         <hr></hr>
-        <p>Already have an account? <a href="#">Sign In</a>
+        <p>Already have an account? <a class="login_newia" href="#">Sign In</a>
 
         <span class="clearfix"></span>
     </div>
+    
+    <div id="login-bg" class="modal-bg hide"></div>
+    <div id="login-form" class="hide modal-wrapper">
+        <form>
+            <h3 class="label left"> Sign in</h3>
+            <div class="right" id="login-cancel">
+                 <i class="ddgsi ddgsi-close"></i>
+            </div>
+            <p class="clearfix">Thanks - but you'll need to sign in before you can proceed. Don't worry, it will be quick!</p>
+            <input type="hidden" name="action_token" class="text" value="<: $c.session.action_token :>" />
+            <input id="login-username-input" placeholder="Username" name="username" class="username-input frm__input" />
+            <input id="login-pwd-input" type="password" placeholder="Password" name="password" class="pwd-input frm__input" />
+
+        <div class="button btn--primary left"  name="login" id="login-save" >Sign in</div>
+        </form>
+        <p>Your duck.co community account is not in any way connected to your searches on duckduckgo.com</p>
+        <hr></hr>
+
+        <span class="clearfix"></span>
+    </div>
+
     <div class="wrap-left left twothirds">
 	    <div class="wizard_field">
 		<h3 class="label"> Title </h3>
