@@ -53,18 +53,7 @@
                 var pwd = $(prefix + "pwd-input").val();
                 
                 if (username.length && (pwd.length >= 8)) {
-		    var req = $.post("/my/login_from_ia_wizard", {
-		        username: username,
-		        password: pwd,
-		        action_token: $('input[name="action_token"]').val()
-		    })
-		    .done(function(data) {
-		        if (data && data.result) {
-		    	    $("#login-bg, #login-form").addClass("hide");
-		    	    var data = getData();
-		    	    create_ia(data);
-		        }
-		    });
+                    login(username, pwd);
                 }
             });
 
@@ -84,8 +73,7 @@
 		    .done(function(data) {
 		        if (data && data.result) {
 		    	    $("#signup-bg, #signup-form").addClass("hide");
-		    	    var data = getData();
-		    	    create_ia(data);
+                            login(username, pwd);
 		        }
 		    });
                 }
@@ -99,6 +87,21 @@
                     $("#signup-bg, #signup-form").removeClass("hide");
                 }
             });
+
+            function login(username, pwd) {
+	        var req = $.post("/my/login_from_ia_wizard", {
+	            username: username,
+	            password: pwd,
+	            action_token: $('input[name="action_token"]').val()
+	        })
+	        .done(function(data) {
+	            if (data && data.result) {
+	                $("#login-bg, #login-form").addClass("hide");
+	                var data = getData();
+	                create_ia(data);
+	            }
+	        });
+            }
 
             function getData() {
                 var data = {};

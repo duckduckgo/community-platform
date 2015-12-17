@@ -836,7 +836,7 @@ sub new_user {
     }
 }
 
-sub autheticate {
+sub authenticate {
     my ($c, $user) = @_;
     my %result = (
         result => 0,
