@@ -934,7 +934,11 @@ sub asana_req {
     $req->header("x-hub-signature" => $header_data);
     $req->content($json_data);
 
-    my $result = $ua->request($req);
+    my $result;
+    try{
+        $result = $ua->request($req);
+    };
+
     return $result;
 }
 
@@ -945,8 +949,11 @@ sub beta_req {
     my $server = "http://beta.duckduckgo.com/installed.json";
     my $req = HTTP::Request->new(GET => $server);
 
-    my $resp = $ua->request($req);
-    $resp = $resp->decoded_content? from_json($resp->decoded_content) : undef;
+    my $resp;
+    try {
+        $resp = $ua->request($req);
+        $resp = $resp->decoded_content? from_json($resp->decoded_content) : undef;
+    };
 
     return $resp;
 }
