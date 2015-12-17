@@ -462,232 +462,6 @@ sub overview_json :Chained('overview_base') :PathPart('json') :Args(0) {
         })->count;
 
     my $resp = beta_req();
-     
-    @ias = $rs->search({
-         dev_milestone => 'live',
-         live_date => { '!=' => undef }, 
-         'topic.name' => [{ '!=' => 'test' }, { '=' => undef}]
-     },
-     {   
-         prefetch => { instant_answer_topics => 'topic'},
-         rows => 5,
-         order_by => {-desc => 'live_date'}
-    })->all;
-    
-    my $temp_ia;
-    for my $ia (@ias) {
-        $temp_ia = $ia->TO_JSON('pipeline');
-        $temp_ia->{most_recent} = 1;
-        push @live_ias, $temp_ia;
-     }
-
-     my @issues = $c->d->rs('InstantAnswer::Issues')->search({},{order_by => {-desc => 'date'}})->all;
-
-     my @bugs;
-     my @high_p;
-     my @lhf;
-
-     for my $issue (@issues) {
-        my $is_pr = $issue->is_pr;
-        my $issue_ia = $c->d->rs('InstantAnswer')->find($issue->instant_answer_id);
-        if ($is_pr ne 1) {
-            my %temp_issue = (
-                title => $issue->title,
-                body => $issue->body,
-                date => $issue->date,
-                issue_id => $issue->issue_id,
-                ia_id => $issue->instant_answer_id,
-                repo => $issue->repo,
-                status => $issue->status? $issue->status : undef,
-                author => $issue->author
-            );
-
-            my @temp_tags;
-            my $is_highp = 0;
-            my $is_bug = 0;
-            my $is_lhf = 0;
-
-            $temp_issue{ia_name} = $issue_ia->name;
-
-            for my $tag (@{$issue->tags}) {
-                my $tag_name = $tag->{name};
-
-                my %temp_tag = (
-                    name => $tag_name,
-                    color => $tag->{color}
-                );
-
-                push @temp_tags, \%temp_tag;
-
-                if ($tag_name eq 'Priority: High') {
-                    $is_highp = 1;
-                } elsif ($tag_name eq 'Bug') {
-                    $is_bug = 1;
-                } elsif ($tag_name eq 'Low-Hanging Fruit') {
-                    $is_lhf = 1;
-                }
-            }
-
-            $temp_issue{tags} = \@temp_tags;
-
-            if ($is_highp) {
-                push @high_p, \%temp_issue;
-            } elsif ($is_bug) {
-                push @bugs, \%temp_issue;
-            } elsif ($is_lhf) {
-                push @lhf, \%temp_issue;
-            }
-         } else {
-            my $pr = $issue;
-            if (($pr->status eq 'open' || $pr->status eq 'merged') && $resp && (($issue_ia->dev_milestone ne 'live') && ($issue_ia->dev_milestone ne 'deprecated'))) {
-                my $pr_id = $pr->issue_id;
-                my $repo = $issue_ia->repo;
-                my $beta_pr = $resp->{$repo}->{$pr_id};
-                if ($beta_pr) {
-                    my $beta_install = $beta_pr->{install_status};
-                    if ($beta_install =~ /success/i) {
-                        if (scalar @dev_ias < 5) {
-                            $temp_ia = $issue_ia->TO_JSON('pipeline');
-                            $temp_ia->{most_recent} = 1;
-                            $temp_ia->{beta_date} = $beta_pr->{date};
-                            push @dev_ias, $temp_ia;
-                        }
-                        
-                        $dev_count++;
-                    }
-                }
-
-            }
-         }
-     }
-
-
-     my %top_issues = (
-         bugs => { name => "Bugs", list => \@bugs },
-         high_p => { name => "Priority: High", list => \@high_p },
-         lhf => { name => "Low-Hanging Fruit", list => \@lhf }
-     );
-
-     #Sort IAs in beta by date
-     @dev_ias = reverse sort { str2time($a->{beta_date}) <=> str2time($b->{beta_date}) } @dev_ias;
-
-     my %ias = (
-         live => { count => $live_count, list => \@live_ias },
-         new => { count =>  $dev_count, list => \@dev_ias }
-     );
-
-     $c->stash->{x} = {
-         ias => \%ias,
-         issues => \%top_issues
-     };
-
-     $c->stash->{not_last_url} = 1;
-     $c->forward($c->view('JSON'));
-}
-
-sub overview :Chained('overview_base') :PathPart('') :Args(0) {
-     my ( $self, $c ) = @_;
-}
-
-sub ia_base :Chained('base') :PathPart('view') :CaptureArgs(1) {  # /ia/view/calculator
-    my ( $self, $c, $answer_id ) = @_;
-
-    $c->stash->{ia_page} = "IAPage";
-    $c->stash->{ia} = $c->d->rs('InstantAnswer')->find({meta_id => $answer_id});
-    my $ia = $c->stash->{ia};
-    
-    unless ($ia) {
-        $c->response->redirect($c->chained_uri('InstantAnswer','index',{ instant_answer_not_found => 1 }));
-        return $c->detach;
-    }
-    
-    @{$c->stash->{issues}} = $c->d->rs('InstantAnswer::Issues')->search({instant_answer_id => $ia->id}); 
-
-    my $permissions;
-    my $is_admin;
-    my $can_edit;
-    my $can_commit;
-    my $commit_class = "hide";
-    my $dev_milestone = $ia->dev_milestone;
-
-    if ($c->user) {
-        $permissions = $ia->users->find($c->user->id);
-        $is_admin = $c->user->admin;
-
-        if ($permissions || $is_admin) {
-            $can_edit = 1;
-
-            if ($is_admin) {
-                my @edits = get_all_edits($c->d, $answer_id);
-                $can_commit = 1;
-                $commit_class = '' if @edits;
-
-                my @blockgroups = $c->d->rs('InstantAnswer::Blockgroup')->search(
-                    {},
-                    {
-                        columns => [ qw/ blockgroup id / ],
-                        order_by => [ qw / blockgroup / ],
-                        result_class => 'DBIx::Class::ResultClass::HashRefInflator',
-                    }
-                )->all;
-
-                $c->stash->{blockgroup_list} = \@blockgroups;
-            } else {
-                if ($c->user->new_contributor) {
-                    $c->stash->{new_contributor} = 1;
-                    $c->stash->{id} = $ia->id;
-                    $c->stash->{repo} = $ia->repo;
-                    user_contributed($c->user);
-                }
-            }
-        }
-    }
-
-    $c->stash->{title} = $ia->name;
-    $c->stash->{can_edit} = $can_edit;
-    $c->stash->{can_commit} = $can_commit;
-    $c->stash->{commit_class} = $commit_class;
-
-    my @topics = $c->d->rs('Topic')->search(
-        {'name' => { '!=' => 'test' }},
-        {
-            columns => [ qw/ name id /],
-            order_by => [ qw/ name/ ],
-            result_class => 'DBIx::Class::ResultClass::HashRefInflator',
-        }
-    )->all;
-
-    $c->stash->{topic_list} = \@topics;
-    $c->stash->{dev_milestone} = $dev_milestone;
-    if ($dev_milestone eq 'live') {
-        $c->add_bc('Instant Answers', $c->chained_uri('InstantAnswer','index'));
-    } elsif ($dev_milestone eq 'deprecated') {
-        $c->add_bc('IA Pages Overview', $c->chained_uri('InstantAnswer','overview'));
-        $c->add_bc('Deprecated', $c->chained_uri('InstantAnswer','deprecated'));
-    } else {
-        $c->add_bc('IA Pages Overview', $c->chained_uri('InstantAnswer','overview'));
-        $c->add_bc('Dev Pipeline', $c->chained_uri('InstantAnswer','dev_pipeline'));
-    }
-    $c->add_bc($c->stash->{ia}->name);
-}
-
-sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
-    my ( $self, $c) = @_;
-
-    my $ia = $c->stash->{ia};
-    my $edited;
-    my @issues = $c->d->rs('InstantAnswer::Issues')->search({instant_answer_id => $ia->id},{order_by => {'-desc' => 'date'}});
-    my @ia_issues;
-    my %pull_request;
-    my @ia_pr;
-    my %ia_data;
-    my $permissions;
-    my $is_admin;
-    my $dev_milestone = $ia->dev_milestone; 
-
-    $ia_data{live} = $ia->TO_JSON;
-
-    my $resp = beta_req();
     
     for my $issue (@issues) {
         if ($issue) {
@@ -934,7 +708,10 @@ sub asana_req {
     $req->header("x-hub-signature" => $header_data);
     $req->content($json_data);
 
-    my $result = $ua->request($req);
+    my $result;
+    eval{
+        $result = $ua->request($req);
+    }; $c->d->errorlog("Error getting asana tasks from beta ... $@") if $@;
     return $result;
 }
 
@@ -943,7 +720,10 @@ sub beta_req {
 
     my $ua = LWP::UserAgent->new;
     my $server = "http://beta.duckduckgo.com/installed.json";
-    my $req = HTTP::Request->new(GET => $server);
+    my $req;
+    eval{
+        $req = HTTP::Request->new(GET => $server);
+    }; $c->d->errorlog("Error from beta_req ... $@") if $@;
 
     my $resp = $ua->request($req);
     $resp = $resp->decoded_content? from_json($resp->decoded_content) : undef;
