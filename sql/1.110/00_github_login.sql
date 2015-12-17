@@ -10,4 +10,6 @@ ALTER TABLE github_user ADD CONSTRAINT github_user_fk_github_id FOREIGN KEY (git
 ALTER TABLE github_user DROP COLUMN access_token;
 ALTER TABLE github_user DROP COLUMN users_id;
 
+DROP TABLE github_user_link;
+
 COMMIT;
