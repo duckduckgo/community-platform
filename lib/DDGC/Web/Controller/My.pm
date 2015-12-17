@@ -61,6 +61,25 @@ sub campaign_nothanks :Chained('base') :Args(0) {
 	return $c->detach;
 }
 
+sub _post_login_setup {
+	my ( $self, $c ) = @_;
+	my $user = $c->user;
+	$c->req->env->{'psgix.session.options'}{change_id} = 1;
+	my $data = $user->data;
+	delete $data->{token};
+	$c->set_new_action_token;
+	if ( $data->{invalidate_existing_sessions} &&
+		time > $user->data->{invalidate_existing_sessions_timestamp} + (60 * 60 * 24) ) {
+		delete $data->{invalidate_existing_sessions};
+		delete $data->{invalidate_existing_sessions_timestamp};
+		delete $data->{post_invalidation_tokens};
+	}
+	elsif ( $data->{invalidate_existing_sessions} ) {
+		push @{ $data->{post_invalidation_tokens} }, $c->session->{action_token};
+	}
+	$user->update( { data => $data } );
+}
+
 sub logged_out :Chained('base') :PathPart('') :CaptureArgs(0) {
 	my ( $self, $c ) = @_;
 	if ($c->user) {
@@ -101,21 +120,7 @@ sub login :Chained('logged_out') :Args(0) {
 				username => $username,
 				password => $password,
 			}, 'users')) {
-				$c->req->env->{'psgix.session.options'}{change_id} = 1;
-				my $data = $c->user->data;
-				delete $data->{token};
-				$c->set_new_action_token;
-				if ( $data->{invalidate_existing_sessions} &&
-					time > $user->data->{invalidate_existing_sessions_timestamp} + (60 * 60 * 24) ) {
-					delete $data->{invalidate_existing_sessions};
-					delete $data->{invalidate_existing_sessions_timestamp};
-					delete $data->{post_invalidation_tokens};
-				}
-				elsif ( $data->{invalidate_existing_sessions} ) {
-					push @{ $data->{post_invalidation_tokens} }, $c->session->{action_token};
-				}
-				$c->user->data($data);
-				$c->user->update;
+				$self->_post_login_setup( $c );
 				$last_url = $c->chained_uri('My','account') unless defined $last_url;
 				$c->response->redirect($last_url);
 				return $c->detach;
@@ -288,6 +293,7 @@ LOGIN:
 	}, 'github')) {
 		$c->req->env->{'psgix.session.options'}{change_id} = 1;
 		delete $c->session->{github_user_info};
+		$self->_post_login_setup( $c );
 		$c->response->redirect( $c->session->{last_url} // $c->chained_uri('My','account') );
 		return $c->detach;
 	}
