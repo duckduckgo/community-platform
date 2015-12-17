@@ -285,7 +285,6 @@ sub github_oauth :Chained('base') :Args(0) {
 LOGIN:
 	if ($c->authenticate({
 		username => $user->username,
-		github_access_token => $access_token,
 	}, 'github')) {
 		$c->req->env->{'psgix.session.options'}{change_id} = 1;
 		delete $c->session->{github_user_info};
