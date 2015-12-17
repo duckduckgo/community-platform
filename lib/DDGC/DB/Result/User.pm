@@ -14,7 +14,6 @@ use File::Temp qw/ tempfile /;
 use Carp;
 use Prosody::Mod::Data::Access;
 use Digest::MD5 qw( md5_hex );
-use Digest::SHA qw/ sha256_base64 /;
 use List::MoreUtils qw( uniq  );
 use namespace::autoclean;
 use DateTime;
@@ -137,11 +136,6 @@ column new_contributor => {
     default_value => 1
 };
 
-column github_access_token => {
-	data_type => 'text',
-	is_nullable => 1
-};
-
 has xmpp => (
 	isa => 'HashRef',
 	is => 'ro',
@@ -252,9 +246,6 @@ sub store_github_credentials {
 	delete $gh_data->{access_token};
 	$self->update( {
 		github_id          => $user_info->{id},
-		github_access_token => sha256_base64(
-			$user_info->{access_token}
-		)
 	} );
 	my %github_stats_user_columns = map {
 		$_ => $user_info->{$_},
