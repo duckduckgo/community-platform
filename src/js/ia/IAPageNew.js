@@ -104,7 +104,7 @@
             $("#new_ia_wizard_save").click(function(evt) {
                 var data = getData();
                 if (data.id && username.length) {
-                    create_ia();
+                    create_ia(data);
                 } else if (!username.length) {
                     $("#signup-bg, #signup-form").removeClass("hide");
                 }
