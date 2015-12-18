@@ -15,7 +15,6 @@
     margin-top: 0.5em;
     padding-top: 6px;
     padding-bottom: 6px;
-    width: 100%;
 }
 
 #create-ia-from-pr-form {
@@ -31,10 +30,22 @@
 	margin-bottom: 1.5em;
 	margin-top: 0.5em;
     }
-    .button { width: 93.5%; }
+    .button { width: 21.9em; }
 }
 
-#create-ia-from-pr-cancel { cursor: pointer; }
+#create-ia-from-pr-cancel, #signup-cancel, #login-cancel { cursor: pointer; }
+
+#signup-form, #login-form {
+    width: 32em;
+    margin-left: 18%;
+
+    input, .first-p, .button { margin-bottom: 1em; }
+    .button { width: 29.9em; }
+}
+
+#login-form { top: 20em; }
+
+#signup-form {top: 14em; }
 
 #new_ia_header {
     background-color: $blue-light;
