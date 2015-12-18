@@ -1,19 +1,17 @@
-<div id="new_ia_header">
-    <div class="content-wrap">
-        <h1> New Instant Answer </h1>
-        <p>If you've already created a pull request, you can <a href="#" id="create-ia-from-pr">skip this step</a></p>
-    </div>
+<div class="developer-nav--new">
+  <h1> New Instant Answer </h1>
+  <p class="sub">If you've already created a pull request, you can <a href="#" id="create-ia-from-pr">skip this step</a></p>
 </div>
-<div id="new_ia_wizard" class="content-wrap">
+<div id="new_ia_wizard" class="ia-new">
     <div id="create-ia-from-pr-bg" class="modal-bg hide"></div>
-    <div id="create-ia-from-pr-form" class="new-ia-form hide modal-wrapper">
+    <div id="create-ia-from-pr-form" class="new-ia-div hide modal-wrapper">
         <div>
-            <h3 class="label left"> Enter Pull Request Link</h3>
+            <h3 class="left tx-clr--dk"> <strong>Enter Pull Request Link</strong></h3>
             <div class="right" id="create-ia-from-pr-cancel">
                  <i class="ddgsi ddgsi-close"></i>
             </div>
-            <p class="clearfix">The IA Page will be created from the details within your pull request.</p>
-            <input id="pr-input" class="new-ia-input frm__input" />
+            <p class="clearfix tx-clr--lt">The IA Page will be created from the details within your pull request.</p>
+            <input id="pr-input" class="new-ia-input frm__input" placeholder="e.g., https://github.com/duckduckgo/zeroclickinfo-spice/pull/2328"/>
         </div>
 
         <div class="button btn--primary left" id="create-ia-from-pr-save">
@@ -23,52 +21,115 @@
         <span class="clearfix"></span>
     </div>
     
-    <div class="wrap-left left twothirds">
+    <div id="signup-bg" class="modal-bg hide"></div>
+    <div id="signup-form" class="hide modal-wrapper">
+        <div>
+            <h3 class="label left"> Create an Account</h3>
+            <div class="right" id="signup-cancel">
+                 <i class="ddgsi ddgsi-close"></i>
+            </div>
+            <p class="clearfix first-p">Thanks - but you'll need to create an account (or <a class="login_newia" href="#">sign in</a>) before you can proceed. Don't worry, it will be quick!</p>
+            <p class="error-msg hide" id="signup-undef-error">An error occurred. Please try again</p>
+            <input type="hidden" name="action_token" class="text" value="<: $c.session.action_token :>" />
+            <span class="error-msg hide" id="signup-username-error">Username can't be empty</span>
+            <input id="signup-username-input" placeholder="Username" name="username" class="username-input frm__input" />
+            <span class="error-msg hide" id="signup-pwd-error">Password must be at least 8 characters long</span>
+            <input id="signup-pwd-input" type="password" placeholder="Password" name="password" class="pwd-input frm__input" />
+            <input id="signup-email-input" name="email" placeholder="Email" class="email-input frm__input" />
+
+        <div class="button btn--primary"  name="register" id="signup-save" >Create Account</div>
+        </div>
+        <p>Your duck.co community account is not in any way connected to your searches on duckduckgo.com</p>
+        <hr></hr>
+        <p>Already have an account? <a class="login_newia" href="#">Sign In</a></p>
+
+        <span class="clearfix"></span>
+    </div>
+    
+    <div id="login-bg" class="modal-bg hide"></div>
+    <div id="login-form" class="hide modal-wrapper">
+        <div>
+            <h3 class="label left"> Sign in</h3>
+            <div class="right" id="login-cancel">
+                 <i class="ddgsi ddgsi-close"></i>
+            </div>
+            <p class="clearfix first-p">Thanks - but you'll need to sign in before you can proceed. Don't worry, it will be quick!</p>
+            <p class="error-msg hide" id="login-undef-error">Wrong username or password</p>
+            <input type="hidden" name="action_token" class="text" value="<: $c.session.action_token :>" />
+            <span class="error-msg hide" id="login-username-error">Username can't be empty</span>
+            <input id="login-username-input" placeholder="Username" name="username" class="username-input frm__input" />
+            <span class="error-msg hide" id="login-pwd-error">Invalid password</span>
+            <input id="login-pwd-input" type="password" placeholder="Password" name="password" class="pwd-input frm__input" />
+
+        <div class="button btn--primary"  name="login" id="login-save" >Sign in</div>
+        </div>
+        <p>Your duck.co community account is not in any way connected to your searches on duckduckgo.com</p>
+        <span class="clearfix"></span>
+    </div>
+
+    <div class="twothirds">
 	    <div class="wizard_field">
-		<h3 class="label"> Title </h3>
-		<input class="frm__input wizard_field_insert" id="name-input" placeholder="eg: Forecast" />
+		<div class="ia-new__title tx-clr--dk">Title</div>
+		<input class="frm__input wizard_field_insert" id="name-input" placeholder="e.g., AlternativeTo" />
 	    </div>   
 	    
 	    <div class="wizard_field">
-		<h3 class="label"> Description </h3>
-		<p class="field_desc"> What is the purpose for your Instant Answer?</p>
-		<textarea cols="100" class="frm__text wizard_field_insert" id="description-input" placeholder="eg: The Forecast IA is a spice that displays the current weather and a 7-day forecast for your local city (ie. ‘Weather’), or a queried city triggered by city name (eg. ‘Weather in Paris’) or zip code (eg. Weather 92501). Data is provided by our friends at Forecast.io. "></textarea>
+	      <div class="ia-new__title tx-clr--dk">Description</div>
+		<p class="field_desc tx-clr--lt">Describe the purpose of your IA. This will appear on the public Instant Answer Page. </p>
+		<textarea cols="100" class="frm__text wizard_field_insert" id="description-input" placeholder="e.g., AlternativeTo lists alternatives to web-based software, desktop computer software, and mobile apps, and sorts the alternatives by various criteria, including the number of registered users who have clicked the Like button for each of them on AlternativeTo."></textarea>
 	    </div>
 	 
 	    <div class="wizard_field">
-		<h3 class="label"> Example Query </h3>
-		<p class="field_desc"> Which query (or queries) will trigger your Instant Answer?</p>
-		<input class="frm__input wizard_field_insert" id="example_query-input" placeholder="eg: Weather in Encinitas, Weather 12180, Weather" />
+	      <div class="ia-new__title tx-clr--dk">Example Query</div>
+		<p class="field_desc tx-clr--lt">List out some example queries that will trigger this Instant Answer.</p>
+		<input class="frm__input wizard_field_insert" id="example_query-input" placeholder="e.g., Alternative To Notepad, Alternative To Spotify for Windows" />
 	    </div>
 	    
 	    <div class="wizard_field">
-		<h3 class="label"> Data Source </h3>
-		<p class="field_desc">Where are you getting your info from (webpage, API, etc)?</p>
-		<input class="frm__input wizard_field_insert" id="src_url-input" placeholder="https://api.forecast.io/forecast/APIKEY/LATITUDE,LONGITUDE,TIME" />
+	      <div class="ia-new__title tx-clr--dk">Data Source</div>
+		<p class="field_desc tx-clr--lt">Link to the data source or API, if any</a>
+		<input class="frm__input wizard_field_insert" id="src_url-input" placeholder="http://api.alternativeto.net/" />
 	    </div>
 	    
 	    <div class="wizard_field">
-		<h3 class="label"> Type </h3>
-		<p class="field_desc">Each Instant Answer type specializes in handling certain scenarios - most common Instant Answers are Goodies and Spices</p>
-		<div  id="repo-radio" class="wizard_field_insert left">
-		    <input type="radio" name="types" value="goodies" checked/>
-			<label>Goodie</label>
-			<p>Instant Answer made from pure code</p>
-		    <input type="radio" name="types" value="fathead">
-			<label>Fathead</label>
-			<p>Uses a key-value store to search a database</p>
-		    <input type="radio" name="types" value="goodies">
-			 <label>Cheatsheet</label>
+	      <div class="ia-new__title tx-clr--dk">Type</div>
+		<p class="field_desc tx-clr--lt">Each Instant Answer type specializes in handling certain scenarios - most common Instant Answers are Goodies and Spices</p>
+		<div id="repo-radio" class="radio-repo wizard_field_insert half radio-repo--left">
+			<label class="frm__label">
+			  <input type="radio" name="types" value="goodies" checked/>
+			  <span class="frm__label__txt">Goodies</span>
+			</label>
+			<p class="tx-clr--lt">IA is self-contained or produces its own data (e.g., <a target="_blank" href="https://duckduckgo.com/?q=35C+to+F&t=ffab&ia=answer">conversions</a>, <a href="https://duckduckgo.com/?q=color+picker&t=ffab&ia=colorpicker" target="_blank">color picker</a>)</p>
+
+			<label class="frm__label">
+			  <input type="radio" name="types" value="fathead" checked/>
+			  <span class="frm__label__txt">Fathead</span>
+			</label>
+			<p class="tx-clr--lt"> Key-Value lookup in a large database (e.g., <a target="_blank" href="https://duckduckgo.com/?q=javascript+console.log&ia=about">console.log</a>)</p>
+
+			<label class="frm__label">
+			  <input type="radio" name="types" value="goodies" checked/>
+			  <span class="frm__label__txt">Cheat Sheet</span>
+			</label>
+			<p class="tx-clr--lt">Short lists and cheat sheets (e.g. <a href="https://duckduckgo.com/?q=tennis+help&t=ffab&ia=cheatsheet">tennis help</a>, <a href="https://duckduckgo.com/?q=regex+cheat+sheet&t=ffab&ia=cheatsheet">regex syntax</a>)</a>
 		</div>
-		<div class="wizard_field_insert right">
-		    <input type="radio" name="types" value="spice" />
-			<label>Spice</label>
-			<p>requires an API as its data source</p>
-		    <input type="radio" name="types" value="longtail">
-			<label>Longtail</label>
-			<p>Requires the ability to do full-text search</p>
-		    <input type="radio" name="types" value="">
-			<label>I don't know</label>
+		<div class="wizard_field_insert half radio-repo radio-repo--right">
+		  <label class="frm__label">
+		    <input type="radio" name="types" value="spice" checked/>
+		    <span class="frm__label__txt">Spice</span>
+		  </label>
+		  <p class="tx-clr--lt">Data is provided by an API in real-time (e.g., <a target="_blank" href="https://duckduckgo.com/?q=weather&ia=weather">weather<a/>, <a href="https://duckduckgo.com/?q=bitcoin&ia=currency" target="_blank">bitcoin</a>)</p>
+		    
+		  <label class="frm__label">
+		    <input type="radio" name="types" value="longtail" checked/>
+		    <span class="frm__label__txt">Longtail</span>
+		  </label>
+		  <p class="tx-clr--lt">Full-text search (e.g., <a target="_blank" href="https://duckduckgo.com/?q=eye+of+the+tiger+&ia=lyrics">lyrics</a>)</p>
+
+		  <label class="frm__label">
+		    <input type="radio" name="types" value="" checked/>
+		    <span class="frm__label__txt">I don't know</span>
+		  </label>
 		</div>
 		<span class="clearfix"></span>
 	    </div>
@@ -76,15 +137,14 @@
 	    <hr></hr>
 	    <div id="new_ia_wizard_save" class="button btn--primary right"> Create Instant Answer Page </div>
     </div>
-    <div class="wrap-right right g third">
-        <h3 class="label"> Example IA Pages</h3>
+    <div class="third">
+        <div class="ia-new__title"> Example IA Pages</div>
         <ul>
-            <li><a href="/ia/view/calculator">Calculator</a></li>
-            <li><a href="/ia/view/dictionary_definition">Dictionary</a></li>
-            <li><a href="/ia/view/forecast">Forecast</a></li>
-            <li><a href="/ia/view/photoshop_cheatsheet">Photoshop Cheatsheet</a></li>
-            <li><a href="/ia/view/soundcloud">SoundCloud</a></li>
+            <li><span class="ddgsi-right"></span><a href="/ia/view/calculator" target="_blank">Calculator</a></li>
+            <li><span class="ddgsi-right"></span><a href="/ia/view/dictionary_definition" target="_blank">Dictionary</a></li>
+            <li><span class="ddgsi-right"></span><a href="/ia/view/forecast" target="_blank">Forecast</a></li>
+            <li><span class="ddgsi-right"></span><a href="/ia/view/photoshop_cheatsheet" target="_blank">Photoshop Cheatsheet</a></li>
+            <li><span class="ddgsi-right"></span><a href="/ia/view/soundcloud" target="_blank">SoundCloud</a></li>
         </ul>       
     </div>
-    <span class="clearfix"></span>
 </div>
