@@ -223,7 +223,11 @@ sub dev_pipeline_json :Chained('dev_pipeline_base') :PathPart('json') :Args(0) {
     my $asana_server = "http://beta.duckduckgo.com/install?asana&ia=everything";
 
     my $result = asana_req('', $asana_server);
-    $result = $result->decoded_content ? from_json($result->decoded_content) : undef;
+    try{
+        $result = $result->decoded_content ? from_json($result->decoded_content) : undef;
+    }catch{
+        $result = {};
+    };
 
     my %dev_ias;
     my $temp_ia;
@@ -609,6 +613,7 @@ sub ia_base :Chained('base') :PathPart('view') :CaptureArgs(1) {  # /ia/view/cal
     my $can_commit;
     my $commit_class = "hide";
     my $dev_milestone = $ia->dev_milestone;
+    $c->stash->{repo} = $ia->repo;
 
     if ($c->user) {
         $permissions = $ia->users->find($c->user->id);
@@ -636,7 +641,6 @@ sub ia_base :Chained('base') :PathPart('view') :CaptureArgs(1) {  # /ia/view/cal
                 if ($c->user->new_contributor) {
                     $c->stash->{new_contributor} = 1;
                     $c->stash->{id} = $ia->id;
-                    $c->stash->{repo} = $ia->repo;
                     user_contributed($c->user);
                 }
             }
@@ -769,10 +773,12 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
     }
 
     my $server = "http://beta.duckduckgo.com/install?asana&ia=" . $ia->id;
-
     my $result = asana_req('', $server);
-    $ia_data{live}->{asana} = $result->decoded_content ? from_json($result->decoded_content) : undef;
-    $ia_data{live}->{asana} = $ia_data{live}->{asana}? $ia_data{live}->{asana}->{$ia->id} : undef;
+
+    try{
+        $ia_data{live}->{asana} = $result->decoded_content ? from_json($result->decoded_content) : undef;
+        $ia_data{live}->{asana} = $ia_data{live}->{asana}? $ia_data{live}->{asana}->{$ia->id} : undef;
+    };
 
     $c->stash->{x} = \%ia_data;
 
@@ -911,6 +917,12 @@ sub asana :Chained('base') :PathPart('asana') :Args(0) {
     my $server = "http://beta.duckduckgo.com/install?asana";
 
     my $result = asana_req(\%data, $server);
+    try{
+        $result = $result->decoded_content;
+    }
+    catch{
+        $result = {};
+    };
 
     $c->stash->{x}->{result} = $result->decoded_content;
     return $c->forward($c->view('JSON'));
@@ -934,7 +946,11 @@ sub asana_req {
     $req->header("x-hub-signature" => $header_data);
     $req->content($json_data);
 
-    my $result = $ua->request($req);
+    my $result;
+    try{
+        $result = $ua->request($req);
+    };
+
     return $result;
 }
 
@@ -945,8 +961,11 @@ sub beta_req {
     my $server = "http://beta.duckduckgo.com/installed.json";
     my $req = HTTP::Request->new(GET => $server);
 
-    my $resp = $ua->request($req);
-    $resp = $resp->decoded_content? from_json($resp->decoded_content) : undef;
+    my $resp;
+    try {
+        $resp = $ua->request($req);
+        $resp = $resp->decoded_content? from_json($resp->decoded_content) : undef;
+    };
 
     return $resp;
 }

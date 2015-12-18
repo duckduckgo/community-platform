@@ -1,19 +1,36 @@
 #new_ia_wizard {
-    .wizard_field { margin-bottom: 3em; }
     ul { 
-       list-style: none;
-       li a { color: $grey-light; }
+	line-height: 1.66;
+	padding-top: 10px;
+	list-style: none;
     }
 }
 
-#create-ia-from-pr { margin-right: 1em; }
+#new_ia_wizard_save {
+    padding: 0.5em 1em;
+    margin-bottom: 2em;
+}
+
+#create-ia-from-pr-save {
+    margin-top: 0.5em;
+    padding-top: 6px;
+    padding-bottom: 6px;
+}
 
 #create-ia-from-pr-form {
-    left: 51em;
-    top: 25em;
+    left: 45%;
+    top: 50%;
+    width: 25%;
 
-    input { margin-bottom: 1em; }
-    .button { width: 93%; }
+    p {
+	padding: 1em 0;
+    }
+
+    input { 
+	margin-bottom: 1.5em;
+	margin-top: 0.5em;
+    }
+    .button { width: 21.9em; }
 }
 
 #create-ia-from-pr-cancel, #signup-cancel, #login-cancel { cursor: pointer; }
@@ -22,20 +39,123 @@
     width: 32em;
     margin-left: 18%;
 
-    input { margin-bottom: 1em; }
+    input, .first-p, .button { margin-bottom: 1em; }
+    .button { width: 29.9em; }
 }
 
 #login-form { top: 20em; }
 
+#signup-form {top: 14em; }
+
 #new_ia_header {
     background-color: $blue-light;
-    padding: 1em;
-    margin-top: -1.2em;
-    margin-bottom: 2em;
-    h1, a { color: $white; }
-    p { color: $blue-lightest; }
-    h1 { 
-        text-align: left;
-        margin-bottom: 0.25em;
+    text-align: initial;
+
+    h1, a {
+	color: $white;
     }
+    
+    p {
+	color: $blue-lightest;
+    }
+}
+
+.new-wrap {
+    @include wrapper();
+    font-size: 15px;
+
+    .modal-wrapper {
+	padding: 2em;
+    }
+
+    .ia-new {
+	padding-top: 1.76em;
+	@include center-content(962px);
+
+	&__title {
+	    font-weight: 500;
+	    margin-bottom: 10px;
+	}
+
+	.field_desc {
+	    margin-bottom: 15px;
+	}
+    }
+
+    .wizard_field {
+	padding: 20px 0;
+    }
+
+    p {
+	margin: 0;
+    }
+
+    .frm__input, .frm__text {
+	border-radius: 3px;
+	width: 100%;
+	border: none;
+	background-color: $silver;
+	padding: 15px 20px;
+    }
+
+    .frm__input {
+	height: 3.5em;
+    }
+
+    .frm__label__txt {
+	overflow: initial;
+	font-weight: 500;
+    }
+
+    .frm__text {
+	min-height: 7em;
+	max-width: 100%;
+	line-height: 1.66;
+    }
+
+    .ddgsi-right {
+	font-size: 0.7em;
+	padding-right: 0.5em;
+	color: $grey;
+    }
+
+    input[type=radio] {
+	height: 1.2em;
+	margin-right: 9px;
+    }
+
+    a {
+	color: $blue;
+    }
+
+     .third {
+	padding-top: 20px;
+	& > * {
+	    margin-left: 65px;
+	}
+    }
+
+     .radio-repo {
+	 padding: 0 1px;
+     }
+
+     hr {
+	 margin-bottom: 3em;
+     }
+
+     .wizard_field_insert {
+	 p {
+	     font-size: 13px;
+	     padding-left: 25px;
+	     height: 4em;
+	 }
+     }
+
+     .radio-repo--left {
+	 padding-right: 30px;
+     }
+
+     .radio-repo--right {
+	 padding-left: 30px;
+     }
 }
