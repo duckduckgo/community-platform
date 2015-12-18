@@ -5,7 +5,7 @@
         <input type="hidden"
                name="action_token"
                class="text"
-               value="<: $c.session.action_token :>"
+               value="<: $session.action_token :>"
         />
 
         <div class="input-wrap">
