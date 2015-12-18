@@ -16,16 +16,15 @@
             $(".breadcrumb-nav").remove();
 
              $("body").on("click", "#create-ia-from-pr", function(evt) {
-                $("#create-ia-from-pr").addClass("hide");
                 $("#create-ia-from-pr-form, #create-ia-from-pr-bg").removeClass("hide");
             });
 
-            $("body").on('click', "#create-ia-from-pr-cancel", function(evt) {
-                var $modal = $("#create-ia-from-pr-form");
+            $("body").on('click', "#create-ia-from-pr-cancel, #signup-cancel, #login-cancel", function(evt) {
+                var prefix = "#" + $(this).attr("id").replace("-cancel", "");
+                var $modal = $(prefix + "-form");
                 $modal.addClass("hide");
-                $("#create-ia-from-pr-bg").addClass("hide");
+                $(prefix + "-bg").addClass("hide");
                 $modal.find("input, textarea").val("").removeClass("not_saved");
-                $("#create-ia-from-pr").removeClass("hide");
             });
 
             $("body").on("click", "#create-ia-from-pr-save", function(evt) {

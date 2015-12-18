@@ -16,7 +16,16 @@
     .button { width: 93%; }
 }
 
-#create-ia-from-pr-cancel { cursor: pointer; }
+#create-ia-from-pr-cancel, #signup-cancel, #login-cancel { cursor: pointer; }
+
+#signup-form, #login-form {
+    width: 32em;
+    margin-left: 18%;
+
+    input { margin-bottom: 1em; }
+}
+
+#login-form { top: 20em; }
 
 #new_ia_header {
     background-color: $blue-light;
