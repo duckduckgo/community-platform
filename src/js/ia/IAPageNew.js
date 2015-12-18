@@ -28,6 +28,16 @@
                 $modal.find("input, textarea").val("").removeClass("not_saved");
             });
 
+            $("body").keypress(function(evt) {
+                if (evt.which === 13) {
+                    if (!$("#signup-form").hasClass("hide")) {
+                        $("#signup-save").trigger("click");
+                    } else if (!$("#login-form").hasClass("hide")) {
+                        $("#login-save").trigger("click");
+                    }
+                }
+            });
+
             $("body").on("click", "#create-ia-from-pr-save", function(evt) {
                 var $pr_input = $("#pr-input");
                 var pr = $.trim($pr_input.val());
