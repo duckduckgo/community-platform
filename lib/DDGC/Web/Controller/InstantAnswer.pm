@@ -1218,13 +1218,14 @@ sub create_ia :Chained('base') :PathPart('create') :Args() {
     my $ia = $c->d->rs('InstantAnswer')->find({id => $meta_id}) || $c->d->rs('InstantAnswer')->find({meta_id => $meta_id});
 
     if ($c->user && (!$ia)) {
-       $is_admin = $c->user->admin;
+        $is_admin = $c->user->admin;
         my $dev_milestone = $data->{dev_milestone}? $data->{dev_milestone} : "planning";
         my $name = $data->{name};
         my $repo = $data->{repo}? lc $data->{repo} : undef;
+        my $other_queries = $data->{other_queries}? from_json($data->{other_queries}) : [];
 
         # Capitalize each word in the name string
-        $name =~ s/([\w']+)/\u\L$1/g; 
+        $name =~ s/([\w']+)/\u\L$1/g;
         
         if (length $meta_id) { 
             my $new_ia = $c->d->rs('InstantAnswer')->create({
@@ -1234,7 +1235,9 @@ sub create_ia :Chained('base') :PathPart('create') :Args() {
                 dev_milestone => $dev_milestone,
                 description => $data->{description},
                 repo => $repo,
-                src_url => $data->{src_url}
+                src_url => $data->{src_url},
+                example_query => $data->{example_query},
+                other_queries => $data->{other_queries}
             });
 
             save_milestone_date($new_ia, 'created');
