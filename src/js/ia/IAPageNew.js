@@ -151,7 +151,7 @@
                         data[temp_field] = temp_val;
 
                         if (temp_field === "example_query") {
-                            var queries = temp_val.replace(/((\s(?:\,)\s)|((\s(?:\,))|((?:\,)\s)))/g, ",").split(",");
+                            var queries = temp_val.replace(/((\s+(?:\,)\s+)|((\s+(?:\,))|((?:\,)\s+)))/g, ",").split(",");
                             data.example_query = queries.shift();
                             data.other_queries = JSON.stringify(queries);
                         }
