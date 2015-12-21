@@ -56,7 +56,7 @@
 	      <strong>Set Up Your Dev Environment</strong>
 	    </h2>
 	    <p>
-	      See the <a href="https://talsraviv.gitbooks.io/duckduckhackdocs/content/duckduckhack/welcome/setup-dev-environment.html">Setup Guide</a> to get your dev environment ready for coding.
+	      See the <a href="http://docs.duckduckhack.com/welcome/setup-dev-environment.html">Setup Guide</a> to get your dev environment ready for coding.
 	    </p>
 	  </div>
 	  <div class="g third">
@@ -64,7 +64,7 @@
 	      <strong>Fork the Repo</strong>
 	    </h2>
 	    <p>
-	      Fork the <: if $repo { :><a href="https://github.com/duckduckgo/zeroclickinfo-<: $repo :>#fork-destination-box">zeroclickinfo-<: $repo :></a> <: } else { :> correct <: } :> repository on GitHub to get started. For more information see the documentation on <a href="https://talsraviv.gitbooks.io/duckduckhackdocs/content/duckduckhack/welcome/setup-dev-environment.html#1-fork-the-appropriate-repository-on-githubcom">choosing the correct repo</a>.
+	      Fork the <: if $repo { :><a href="https://github.com/duckduckgo/zeroclickinfo-<: $repo :>#fork-destination-box">zeroclickinfo-<: $repo :></a> <: } else { :> correct <: } :> repository on GitHub to get started. For more information see the documentation on <a href="http://docs.duckduckhack.com/welcome/setup-dev-environment.html#1-fork-the-appropriate-repository-on-githubcom">choosing the correct repo</a>.
 	    </p>
 	  </div>
 	  <div class="g third">
@@ -72,7 +72,7 @@
 	      <strong>Create a Pull Request</strong>
 	    </h2>
 	    <p>
-	      When your Instant Answer is ready for an initial review, <a href="https://talsraviv.gitbooks.io/duckduckhackdocs/content/duckduckhack/submitting/pull-request.html">create a pull request</a>. Be sure to paste the link to this Instant Answer page in the PR description:
+	      When your Instant Answer is ready for an initial review, <a href="http://docs.duckduckhack.com/submitting/pull-request.html">create a pull request</a>. Be sure to paste the link to this Instant Answer page in the PR description:
 	    </p>
 	    <p>
 	      IA: <a href="<: $c.request.base ~ $c.request.path :>"><: $c.request.base ~ $c.request.path :></a>
