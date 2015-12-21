@@ -139,6 +139,15 @@
             <span class="readonly"> {{perl_module}} </span>
         </div>
     {{/if}}
+
+    {{#if pr.issue_id}}
+        {{#match beta_install 'success'}}
+            <div class="sidebar-field">
+                <div class="field-label primary-label"> Dev Machine </div>
+                    <p>Installed on <a href="http://beta.duckduckgo.com/{{#if beta_query}}?q={{beta_query}}{{/if}}">beta</a></p>
+            </div>
+        {{/match}}
+    {{/if}}
 {{/if}}
 
 {{#if pr.status}}
