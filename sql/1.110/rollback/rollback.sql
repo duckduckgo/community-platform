@@ -1,0 +1,5 @@
+BEGIN;
+
+ALTER TABLE users RENAME COLUMN github_user_plaintext TO github_user;
+
+COMMIT;
