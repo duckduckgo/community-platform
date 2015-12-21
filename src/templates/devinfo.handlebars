@@ -1,10 +1,12 @@
-<div class="ia-single--info infobox__button hide">
-  <a href="#">
-    <span class="icon-question-sign"></span> Next Steps
-  </a>
-</div>
-
 {{#ne_and dev_milestone 'live' 'deprecated'}}
+    {{#if permissions.can_edit}}
+        <div class="ia-single--info infobox__button hide">
+          <a href="#">
+            <span class="icon-question-sign"></span> Next Steps
+          </a>
+        </div>
+    {{/if}}
+
     <div class="ia-single--info">
         <h3 class="ia-single--header">
             <span {{#ne_and dev_milestone 'live' 'deprecated'}}{{#if permissions.admin}}class="asterisk"{{/if}}{{/ne_and}}>ID</span>
