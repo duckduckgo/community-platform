@@ -18,6 +18,10 @@
     }
     
     .infobox__container {
+	p {
+	    word-break: break-word;
+	}
+	
 	padding-top: $line-padding;
 
 	h2 {
