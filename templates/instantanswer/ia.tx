@@ -48,7 +48,7 @@
 	    <h1 class="pull-left tx-size--medium tx-clr--dk">Next Steps</h1>
 	    <span class="ddgsi-close-bold tx-size--medium pull-right"></span>
 	  </div>
-	  <p>This is home page for your Instant Answer and can be referred to by its URL: <a href="<: $c.request.base ~ $c.request.path :>"><: $c.request.base ~ $c.request.path :></a></p>
+	  <p>This is the home page for your Instant Answer and can be referred to by its URL: <a href="<: $c.request.base ~ $c.request.path :>"><: $c.request.base ~ $c.request.path :></a></p>
 	</header>
 	<div class="gw infobox__container">
 	  <div class="g third">
