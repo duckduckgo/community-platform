@@ -35,6 +35,7 @@
             <input id="signup-username-input" placeholder="Username" name="username" class="username-input frm__input" />
             <span class="error-msg hide" id="signup-pwd-error">Password must be at least 8 characters long</span>
             <input id="signup-pwd-input" type="password" placeholder="Password" name="password" class="pwd-input frm__input" />
+            <span class="error-msg hide" id="signup-email-error">Email address not properly formatted</span>
             <input id="signup-email-input" name="email" placeholder="Email" class="email-input frm__input" />
 
         <div class="button btn--primary"  name="register" id="signup-save" >Create Account</div>
