@@ -113,6 +113,7 @@
             
             $("#new_ia_wizard_save").click(function(evt) {
                 var data = getData();
+                $(".error-message").addClass("hide");
                 if (data.id && username.length) {
                     create_ia(data);
                 } else if (!username.length) {
@@ -170,6 +171,8 @@
                    console.log(data);
                    if (data.result && data.id) {
                        window.location = '/ia/view/' + data.id;
+                   } else { 
+                       $("#id-error").removeClass("hide");
                    }
                });
             }

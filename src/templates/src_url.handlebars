@@ -8,9 +8,6 @@
             <a href="#" class="devpage-cancel {{#n_exists staged 'src_url'}}hide{{/n_exists}}" id="dev-cancel-src_url">Cancel</a>
         {{/ne_and}}
     {{/if}}
-        {{#if forum_link}}
-            <a href="/ideas/idea/{{forum_link}}" {{#ne_and dev_milestone 'live' 'deprecated'}}class="sep--before devpage-forum"{{/ne_and}}>Forum Thread</a>
-        {{/if}}
     </h3>
 
     <p  class="readonly--info {{#exists staged 'src_url'}}hide{{/exists}}" id="src_url--readonly">
