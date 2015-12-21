@@ -79,13 +79,14 @@
 
             $("#signup-save").click(function(evt) {
                 var prefix = "#signup-";
-                var username = $(prefix + "username-input").val();
-                var pwd = $(prefix + "pwd-input").val();
-                var email = $(prefix + "email-input").val();
+                var username = $.trim($(prefix + "username-input").val());
+                var pwd = $.trim($(prefix + "pwd-input").val());
+                var email = $.trim($(prefix + "email-input").val());
+                var correct_email = ((!email.length) || (email.length && email.match(/^[^\s\t\r\n]+@[^\s\r\t\n]+\.[a-z]+$/)))? true : false;
                 
                 $(".error-msg").addClass("hide");
                 
-                if (username.length && (pwd.length >= 8)) {
+                if (username.length && (pwd.length >= 8) && correct_email) {
 		    var req = $.post("/my/register_from_ia_wizard", {
 		        username: username,
 		        password: pwd,
@@ -107,6 +108,10 @@
 
                     if (pwd.length < 8) {
                         $("#signup-pwd-error").removeClass("hide");
+                    }
+
+                    if (!correct_email) {
+                        $("#signup-email-error").removeClass("hide");
                     }
                 }
             });
