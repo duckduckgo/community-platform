@@ -1309,35 +1309,39 @@ sub create_ia_from_pr :Chained('base') :PathPart('create_from_pr') :Args() {
             }
 
             if($id){
-                $result = 1;
+                my $ia = $c->d->rs('InstantAnswer')->find({id => $id}) || $c->d->rs('InstantAnswer')->find({meta_id => $id});
 
-                my $new_ia = $c->d->rs('InstantAnswer')->update_or_create({
-                    id => $id,
-                    meta_id => $id,
-                    name => $id,
-                    repo => $repo,
-                    dev_milestone => 'planning'
-                });
+                if (!$ia) {
+                    $result = 1;
 
-                $c->d->rs('InstantAnswer::Issues')->update_or_create({
-                    instant_answer_id => $id,
-                    repo => $repo,
-                    issue_id => $pr_number,
-                    is_pr => 1,
-                    tags => {},
-                });
+                    my $new_ia = $c->d->rs('InstantAnswer')->update_or_create({
+                        id => $id,
+                        meta_id => $id,
+                        name => $id,
+                        repo => $repo,
+                        dev_milestone => 'planning'
+                    });
 
-                # update first comment with link to IA page
-                my $has_link = $pr_data->{body} =~ /https?:\/\/duck.co\/ia\/view\/.+$/;
+                    $c->d->rs('InstantAnswer::Issues')->update_or_create({
+                        instant_answer_id => $id,
+                        repo => $repo,
+                        issue_id => $pr_number,
+                        is_pr => 1,
+                        tags => {},
+                    });
 
-                if(!$has_link){
-                    $gh->pull_request->update_pull($pr_number, {
-                            body => "$pr_data->{body}\n---\nhttps://duck.co/ia/view/$id"
-                            });
-                }
+                    # update first comment with link to IA page
+                    my $has_link = $pr_data->{body} =~ /https?:\/\/duck.co\/ia\/view\/.+$/;
 
-                if (!$user->admin) {
-                    $new_ia->add_to_users($user);
+                    if(!$has_link){
+                        $gh->pull_request->update_pull($pr_number, {
+                                body => "$pr_data->{body}\n---\nhttps://duck.co/ia/view/$id"
+                                });
+                    }
+
+                    if (!$user->admin) {
+                        $new_ia->add_to_users($user);
+                    }
                 }
             }
         }
