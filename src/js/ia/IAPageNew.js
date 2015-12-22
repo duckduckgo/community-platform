@@ -41,7 +41,7 @@
             $("body").on("click", "#create-ia-from-pr-save", function(evt) {
                 var $pr_input = $("#pr-input");
                 var pr = $.trim($pr_input.val());
-                if (pr.length) {
+                if (pr.length && username.length) {
                     var jqxhr = $.post("/ia/create_from_pr", {
                         pr : pr
                     })
@@ -49,6 +49,8 @@
                         console.log(data);
                         checkRedirect(data, $pr_input);
                     });
+                } else {
+                    $("#signup-bg, #signup-form").removeClass("hide");
                 }
             });
 
@@ -121,6 +123,8 @@
                 $(".error-message").addClass("hide");
                 if (data.id && username.length) {
                     create_ia(data);
+                } else if (!data.id) {
+                    $("#id-empty-error").removeClass("hide");
                 } else if (!username.length) {
                     $("#signup-bg, #signup-form").removeClass("hide");
                 }
