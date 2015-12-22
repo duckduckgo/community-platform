@@ -39,16 +39,10 @@
             });
 
             $("body").on("click", "#create-ia-from-pr-save", function(evt) {
-                var $pr_input = $("#pr-input");
-                var pr = $.trim($pr_input.val());
-                if (pr.length && username.length) {
-                    var jqxhr = $.post("/ia/create_from_pr", {
-                        pr : pr
-                    })
-                    .done(function(data) {
-                        console.log(data);
-                        checkRedirect(data, $pr_input);
-                    });
+                var pr = getPR();
+                $(".error-msg").addClass("hide");
+                if (username.length) {
+                    create_ia_from_pr(pr);
                 } else {
                     $("#signup-bg, #signup-form").removeClass("hide");
                 }
@@ -89,20 +83,20 @@
                 $(".error-msg").addClass("hide");
                 
                 if (username.length && (pwd.length >= 8) && correct_email) {
-		    var req = $.post("/my/register_from_ia_wizard", {
-		        username: username,
-		        password: pwd,
-		        email: email,
-		        action_token: $('input[name="action_token"]').val()
-		    })
-		    .done(function(data) {
-		        if (data && data.result) {
-		    	    $("#signup-bg, #signup-form").addClass("hide");
-                            login(username, pwd);
-		        } else {
+		            var req = $.post("/my/register_from_ia_wizard", {
+		                username: username,
+		                password: pwd,
+		                email: email,
+		                action_token: $('input[name="action_token"]').val()
+		            })
+		            .done(function(data) {
+		                if (data && data.result) {
+		    	            $("#signup-bg, #signup-form").addClass("hide");
+                                    login(username, pwd);
+		                } else {
                             $("#signup-undef-error").removeClass("hide");
                         }
-		    });
+		            });
                 } else {
                     if (!username.length) {
                         $("#signup-username-error").removeClass("hide");
@@ -121,30 +115,40 @@
             $("#new_ia_wizard_save").click(function(evt) {
                 var data = getData();
                 $(".error-message").addClass("hide");
-                if (data.id && username.length) {
+                if (username.length) {
                     create_ia(data);
-                } else if (!data.id) {
-                    $("#id-empty-error").removeClass("hide");
-                } else if (!username.length) {
+                } else {
                     $("#signup-bg, #signup-form").removeClass("hide");
                 }
             });
 
             function login(username, pwd) {
-	        var req = $.post("/my/login_from_ia_wizard", {
-	            username: username,
-	            password: pwd,
-	            action_token: $('input[name="action_token"]').val()
-	        })
-	        .done(function(data) {
-	            if (data && data.result) {
-	                $("#login-bg, #login-form").addClass("hide");
-	                var data = getData();
-	                create_ia(data);
-	            } else {
-                      $("#login-undef-error").removeClass("hide");
+                var req = $.post("/my/login_from_ia_wizard", {
+                    username: username,
+                    password: pwd,
+                    action_token: $('input[name="action_token"]').val()
+                })
+                .done(function(data) {
+                    if (data && data.result) {
+                        $("#login-bg, #login-form").addClass("hide");
+                        if ($("#create-ia-from-pr-form").hasClass("hide")) {
+                            var data = getData();
+                            create_ia(data);
+                        } else {
+                            var pr = getPR();
+                            create_ia_from_pr(pr);
+                        }
+                    } else {
+                        $("#login-undef-error").removeClass("hide");
                     }
-	        });
+                });
+            }
+
+            function getPR() {
+                var $pr_input = $("#pr-input");
+                var pr = $.trim($pr_input.val());
+
+                return pr;
             }
 
             function getData() {
@@ -172,26 +176,40 @@
                 return data;
             }
 
+            function create_ia_from_pr(pr) {
+                if (pr.length) {
+                    var jqxhr = $.post("/ia/create_from_pr", {
+                        pr : pr
+                    })
+                    .done(function(data) {
+                        console.log(data);
+                        checkRedirect(data, $("#pr-error"));
+                    });
+                } else {
+                    $("#pr-empty-error").removeClass("hide");
+                }
+            }
+
             function create_ia(data) {
-                var jqxhr = $.post("/ia/create", {
-                   data : JSON.stringify(data)
-                })
-                .done(function(data) {
-                   console.log(data);
-                   if (data.result && data.id) {
-                       window.location = '/ia/view/' + data.id;
-                   } else { 
-                       $("#id-error").removeClass("hide");
-                   }
-               });
+                if (data.id) {
+                    var jqxhr = $.post("/ia/create", {
+                       data : JSON.stringify(data)
+                    })
+                    .done(function(data) {
+                       console.log(data);
+                       checkRedirect(data, $("#id-error"));
+                    });
+                } else {
+                    $("#id-empty-error").removeClass("hide");
+                }
             }
             
-            function checkRedirect(data, $input) {
-                if (data.result && data.id) {
-                    window.location = '/ia/view/' + data.id;
-                } else {
-                    $input.addClass("not_saved");
-                }
+            function checkRedirect(data, $msg) {
+               if (data.result && data.id) {
+                   window.location = '/ia/view/' + data.id;
+               } else { 
+                   $msg.removeClass("hide");
+               }
             }
         }
     };
