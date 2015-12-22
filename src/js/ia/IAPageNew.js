@@ -10,10 +10,11 @@
             // console.log("IAPageNew init()");
             var page_new = this;
             var username = $(".user-name").text();
+            var logged_in = username.length? true : false;
                 
             // 100% width
             $(".site-main > .content-wrap").first().removeClass("content-wrap").addClass("new-wrap");
-	    $(".site-main").addClass("developer-main");
+	        $(".site-main").addClass("developer-main");
             $(".breadcrumb-nav").remove();
 
              $("body").on("click", "#create-ia-from-pr", function(evt) {
@@ -41,11 +42,7 @@
             $("body").on("click", "#create-ia-from-pr-save", function(evt) {
                 var pr = getPR();
                 $(".error-msg").addClass("hide");
-                if (username.length) {
-                    create_ia_from_pr(pr);
-                } else {
-                    $("#signup-bg, #signup-form").removeClass("hide");
-                }
+                create_ia_from_pr(pr);
             });
 
             $(".login_newia").click(function(evt) {
@@ -92,7 +89,7 @@
 		            .done(function(data) {
 		                if (data && data.result) {
 		    	            $("#signup-bg, #signup-form").addClass("hide");
-                                    login(username, pwd);
+                            login(username, pwd);
 		                } else {
                             $("#signup-undef-error").removeClass("hide");
                         }
@@ -115,11 +112,7 @@
             $("#new_ia_wizard_save").click(function(evt) {
                 var data = getData();
                 $(".error-message").addClass("hide");
-                if (username.length) {
-                    create_ia(data);
-                } else {
-                    $("#signup-bg, #signup-form").removeClass("hide");
-                }
+                create_ia(data);
             });
 
             function login(username, pwd) {
@@ -131,6 +124,7 @@
                 .done(function(data) {
                     if (data && data.result) {
                         $("#login-bg, #login-form").addClass("hide");
+                        logged_in = true;
                         if ($("#create-ia-from-pr-form").hasClass("hide")) {
                             var data = getData();
                             create_ia(data);
@@ -177,7 +171,7 @@
             }
 
             function create_ia_from_pr(pr) {
-                if (pr.length) {
+                if (pr.length && logged_in) {
                     var jqxhr = $.post("/ia/create_from_pr", {
                         pr : pr
                     })
@@ -185,22 +179,26 @@
                         console.log(data);
                         checkRedirect(data, $("#pr-error"));
                     });
-                } else {
+                } else if (!pr.length) {
                     $("#pr-empty-error").removeClass("hide");
+                } else {
+                    $("#signup-bg, #signup-form").removeClass("hide");
                 }
             }
 
             function create_ia(data) {
-                if (data.id) {
+                if (data.id && logged_in) {
                     var jqxhr = $.post("/ia/create", {
                        data : JSON.stringify(data)
                     })
-                    .done(function(data) {
-                       console.log(data);
-                       checkRedirect(data, $("#id-error"));
+                    .done(function(result) {
+                       console.log(result);
+                       checkRedirect(result, $("#id-error"));
                     });
-                } else {
+                } else if (!data.id) {
                     $("#id-empty-error").removeClass("hide");
+                } else {
+                    $("#signup-bg, #signup-form").removeClass("hide");
                 }
             }
             
