@@ -1360,11 +1360,6 @@ input.not_saved, select.not_saved, .button.not_saved {
     text-align: center;
 }
 
-.dev_pipeline-column__list .can_edit {
-    font-weight: 600;
-    background-color: rgb(246, 250, 209);
-}
-
 .generate-screenshot--button.generate-screenshot--disabled {
     background-color: $grey;
     border-color: $grey-dark;
