@@ -51,7 +51,7 @@ column description => {
 column approved => {
     data_type => 'smallint',
     is_nullable => 0,
-    default => 0
+    default => 1
 };
 
 # JSON string cointaining parameters such as

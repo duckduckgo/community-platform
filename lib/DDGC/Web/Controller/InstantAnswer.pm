@@ -1226,6 +1226,12 @@ sub create_ia :Chained('base') :PathPart('create') :Args() {
         my $name = $data->{name};
         my $repo = $data->{repo}? lc $data->{repo} : undef;
         my $other_queries = $data->{other_queries}? from_json($data->{other_queries}) : [];
+        my $approved = $c->user->email_verified? 1 : 0;
+        my $author = {
+            url => 'https://duck.co/user/' . $c->user->username,
+            name => $c->user->username,
+            type => "duck.co"
+        };
 
         # Capitalize each word in the name string
         $name =~ s/([\w']+)/\u\L$1/g;
@@ -1240,7 +1246,9 @@ sub create_ia :Chained('base') :PathPart('create') :Args() {
                 repo => $repo,
                 src_url => $data->{src_url},
                 example_query => $data->{example_query},
-                other_queries => $data->{other_queries}
+                other_queries => $data->{other_queries},
+                approved => $approved,
+                developer => to_json([$author])
             });
 
             save_milestone_date($new_ia, 'created');
@@ -1277,6 +1285,12 @@ sub create_ia_from_pr :Chained('base') :PathPart('create_from_pr') :Args() {
 
             my @files = $gh->pull_request->files($pr_number);
             my $pr_data = $gh->pull_request->pull($pr_number);
+            my $approved = $user->email_verified? 1 : 0;
+            my %author = (
+                url => 'https://duck.co/user/' . $c->user->username,
+                name => $c->user->username,
+                type => "duck.co"
+            );
 
                 # spice
             if($repo =~ /spice/i){
@@ -1322,7 +1336,9 @@ sub create_ia_from_pr :Chained('base') :PathPart('create_from_pr') :Args() {
                         meta_id => $id,
                         name => $id,
                         repo => $repo,
-                        dev_milestone => 'planning'
+                        dev_milestone => 'planning',
+                        approved => $approved,
+                        developer => [\%author]
                     });
 
                     $c->d->rs('InstantAnswer::Issues')->update_or_create({
