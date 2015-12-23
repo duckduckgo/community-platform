@@ -10,8 +10,7 @@
       </span>
     </header>
     <ul>
-      {{#each ia}}
-      {{#each issues}}
+      {{#each by_date}}
       <li class="{{#each tags}}tag-{{slug name}} {{/each}}" data-repo="{{repo}}">
 	<span class="pull-left">
 	  <a class="tx-clr--dk one-line issue-name" href="https://github.com/duckduckgo/zeroclickinfo-{{repo}}/issues/{{issue_id}}">
@@ -25,7 +24,6 @@
           <a href="/ia/view/{{ia_id}}" class="tx-clr--lt tx-size--small">{{ia_name}}</a>
         </span>
       </li>
-      {{/each}}
       {{/each}}
     </ul>
   </section>
