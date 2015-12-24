@@ -28,6 +28,22 @@
             <span class="error-notification hide">ID can't be empty</span>
         {{/if}}
     </div>
+    
+    {{#if permissions.can_edit}}
+        <div class="ia-single--info">
+            <h3 class="ia-single--header">
+                <span>Public</span>
+            </h3>
+
+           {{#is_false public}}
+               <p> This IA Page is hidden</p>
+               {{#if permissions.admin}}<div class="button btn--primary page-toggle-public" id="public-true">Make Public</div>{{/if}}
+           {{else}}
+               <p> This IA Page is public </p>
+               {{#if permissions.admin}}<div class="button btn--primary page-toggle-public" id="public-false">Hide from Dev Pipeline</div>{{/if}}
+           {{/is_false}}
+        </div>
+    {{/if}}
 {{/ne_and}}
 
     {{#exists pr 'id'}}

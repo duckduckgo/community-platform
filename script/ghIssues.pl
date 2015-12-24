@@ -205,6 +205,7 @@ sub getIssues{
                     example_query => $ia->{example_query} || '',
                     tab => $ia->{tab} || '',
                     src_url => $ia->{src_url} || '',
+                    public => 1
                 );
 
                 update_pr_template(\%new_data, $data->{issue_id}, $ia);

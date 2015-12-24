@@ -212,12 +212,27 @@ sub dev_pipeline_json :Chained('dev_pipeline_base') :PathPart('json') :Args(0) {
     # Get IAs not yet live
     # and sort them by last activity (newest activity on top - ones with null activity value last)
     # the sorting here is temporary, just for demonstrational purposes
-    @ias = $rs->search(
-        {'dev_milestone' => { '=' => ['planning', 'development', 'testing', 'complete']}},
-        {
+    if ($c->stash->{is_admin}) {
+        @ias = $rs->search(
+            {
+                'dev_milestone' => { '=' => ['planning', 'development', 'testing', 'complete']}
+            },
+            {
                 order_by => \[ 'me.last_update DESC NULLS LAST'],
-        }
-    );
+            }
+        );
+    } else {
+        @ias = $rs->search(
+            {
+                'dev_milestone' => { '=' => ['planning', 'development', 'testing', 'complete']},
+                'public' => { '=' => 1 }
+            },
+            {
+                order_by => \[ 'me.last_update DESC NULLS LAST'],
+            }
+        );
+    }
+
     $key = 'dev_milestone';
 
     my $asana_server = "http://beta.duckduckgo.com/install?asana&ia=everything";
@@ -1223,6 +1238,12 @@ sub create_ia :Chained('base') :PathPart('create') :Args() {
         my $name = $data->{name};
         my $repo = $data->{repo}? lc $data->{repo} : undef;
         my $other_queries = $data->{other_queries}? from_json($data->{other_queries}) : [];
+        my $public = $c->user->email_verified? 1 : 0;
+        my $author = {
+            url => 'https://duck.co/user/' . $c->user->username,
+            name => $c->user->username,
+            type => "duck.co"
+        };
 
         # Capitalize each word in the name string
         $name =~ s/([\w']+)/\u\L$1/g;
@@ -1237,7 +1258,9 @@ sub create_ia :Chained('base') :PathPart('create') :Args() {
                 repo => $repo,
                 src_url => $data->{src_url},
                 example_query => $data->{example_query},
-                other_queries => $data->{other_queries}
+                other_queries => $data->{other_queries},
+                public => $public,
+                developer => to_json([$author])
             });
 
             save_milestone_date($new_ia, 'created');
@@ -1249,7 +1272,6 @@ sub create_ia :Chained('base') :PathPart('create') :Args() {
             $result = 1;
         }
     }
-
     $c->stash->{x} = {
         result => $result,
         id => $meta_id
@@ -1274,6 +1296,12 @@ sub create_ia_from_pr :Chained('base') :PathPart('create_from_pr') :Args() {
 
             my @files = $gh->pull_request->files($pr_number);
             my $pr_data = $gh->pull_request->pull($pr_number);
+            my $public = $user->email_verified? 1 : 0;
+            my %author = (
+                url => 'https://duck.co/user/' . $c->user->username,
+                name => $c->user->username,
+                type => "duck.co"
+            );
 
                 # spice
             if($repo =~ /spice/i){
@@ -1319,7 +1347,9 @@ sub create_ia_from_pr :Chained('base') :PathPart('create_from_pr') :Args() {
                         meta_id => $id,
                         name => $id,
                         repo => $repo,
-                        dev_milestone => 'planning'
+                        dev_milestone => 'planning',
+                        public => $public,
+                        developer => [\%author]
                     });
 
                     $c->d->rs('InstantAnswer::Issues')->update_or_create({
