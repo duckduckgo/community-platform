@@ -223,6 +223,15 @@
                 }
             });
 
+            $("body").on("click", ".sidebar-toggle-public", function(evt) {
+                var field = "public";
+                var value = $(this).attr("id").replace(/^.+\-/, "");
+                value = (value === "true")? 1 : 0;
+                var id = $("#page_sidebar").attr("ia_id");
+
+                autocommit(field, value, id);
+            });
+
             $("body").on("click", "#sidebar-close, .deselect-all", function(evt) {
                 var $selected = $(".dev_pipeline-column__list .selected");
                 $selected.removeClass("selected");

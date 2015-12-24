@@ -851,6 +851,14 @@
                         }
                     });
 
+                    $("body").on('click', ".page-toggle-public", function(evt) {
+                        var field = "public";
+                        var value = $(this).attr("id").replace(/^.+\-/, "");
+                        value = (value === "true")? 1 : 0;
+
+                        autocommit(field, value, DDH_iaid, false);
+                    });
+
                     // Dev Page: commit any field inside .ia-single--left and .ia-single--right (except popup fields)
                     $("body").on('click', ".devpage-commit", function(evt) {
                         evt.preventDefault();
