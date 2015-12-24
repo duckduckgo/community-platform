@@ -225,7 +225,7 @@ sub dev_pipeline_json :Chained('dev_pipeline_base') :PathPart('json') :Args(0) {
         @ias = $rs->search(
             {
                 'dev_milestone' => { '=' => ['planning', 'development', 'testing', 'complete']},
-                'approved' => { '=' => 1 }
+                'public' => { '=' => 1 }
             },
             {
                 order_by => \[ 'me.last_update DESC NULLS LAST'],
