@@ -48,7 +48,7 @@ column description => {
     pipeline => 1
 };
 
-column approved => {
+column public => {
     data_type => 'smallint',
     is_nullable => 0,
     default => 1
