@@ -9,7 +9,7 @@
         {{/ne_and}}
     {{/if}}
         {{#if forum_link}}
-            <a href="/ideas/idea/{{forum_link}}" {{#ne_and dev_milestone 'live' 'deprecated'}}class="sep--before devpage-forum"{{/ne_and}}>Forum Thread</a>
+            <a href="/ideas/idea/{{forum_link}}" {{#ne_and dev_milestone 'live' 'deprecated'}}class="{{#if permissions.can_edit}}sep--before{{/if}} devpage-forum"{{/ne_and}}>Forum Thread</a>
         {{/if}}
     </h3>
 

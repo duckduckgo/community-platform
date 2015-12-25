@@ -9,7 +9,8 @@
             'missing',
             'important',
             'mentioned',
-            'attention'
+            'attention',
+            'beta'
         ],
 
         current_filter: '',
@@ -27,6 +28,12 @@
             var dev_p = this;
             var url = window.location.pathname.replace(/\/$/, '') + "/json";
             var username = $(".user-name").text();
+
+	        // 100% width
+            $(".site-main > .content-wrap").first().removeClass("content-wrap").addClass("wrap-pipeline");
+	        $(".breadcrumb-nav").remove();
+	        $(".site-main").addClass("developer-main");
+
 
             $.getJSON(url, function(data) { 
                 // console.log(window.location.pathname);
@@ -48,16 +55,10 @@
 
                 sort_pipeline();
 
-                $("#pipeline-stats").html(stats);
-
                 if ($.trim($("#select-action option:selected").text()) === "type") {
                     $("#select-milestone").addClass("hide");
                     $("#select-type").removeClass("hide");
                 }
-
-                // 100% width
-                $(".site-main > .content-wrap").first().removeClass("content-wrap").addClass("wrap-pipeline");
-		        $(".breadcrumb-nav").remove();
 
                 var parameters = window.location.search.replace("?", "");
                 parameters = $.trim(parameters.replace(/\/$/, ''));
@@ -220,6 +221,15 @@
                        autocommit(field, value, id);
                    }
                 }
+            });
+
+            $("body").on("click", ".sidebar-toggle-public", function(evt) {
+                var field = "public";
+                var value = $(this).attr("id").replace(/^.+\-/, "");
+                value = (value === "true")? 1 : 0;
+                var id = $("#page_sidebar").attr("ia_id");
+
+                autocommit(field, value, id);
             });
 
             $("body").on("click", "#sidebar-close, .deselect-all", function(evt) {

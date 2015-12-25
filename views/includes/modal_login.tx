@@ -2,10 +2,16 @@
     <h4>Login</h4>
     <form action="/my/login" method="post">
 
+        <input type="hidden"
+               name="action_token"
+               class="text"
+               value="<: $session.action_token :>"
+        />
+
         <div class="input-wrap">
             <input type="text"
                    placeholder="Your Username"
-                   name="<: $session.username_field :>"
+                   name="username"
                    class="text"
                    value="<: $username :>"
             />

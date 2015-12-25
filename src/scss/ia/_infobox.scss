@@ -1,0 +1,66 @@
+// This is the infobox that guides the developer.
+// It tells her what to do next.
+.infobox {
+    $line-padding: 1.6em;
+    $gutter: 24px;
+
+    background: $silver;
+    padding: 30px;
+    padding-bottom: 10px;
+    border-radius: 3px;
+
+    .gw, .grid-wrap {
+	margin-left: -$gutter;
+    }
+
+    .g, .grid {
+	padding-left: $gutter;
+    }
+    
+    .infobox__container {
+	p {
+	    word-break: break-word;
+	}
+	
+	padding-top: $line-padding;
+
+	h2 {
+	    padding-bottom: 1em;
+	    word-break: normal;
+	}
+    }
+
+    .tx-size {
+	&--medium {
+	    font-size: 1.3em;
+	}
+
+	&--small {
+	    font-size: 1.1em;
+	}
+    }
+
+    header {
+	padding-bottom: $line-padding;
+	border-bottom: 1px solid $platinum-dark;
+
+	h1 {
+	    margin: 0;
+	}
+
+	.ddgsi-close-bold {
+	    color: $grey;
+	    cursor: pointer;
+	}
+
+	p {
+	    padding-top: 1em;
+	    margin-bottom: 0px;
+	}
+    }
+
+    &__button {
+	color: $blue;
+	padding-top: 2.5em;
+    }
+}

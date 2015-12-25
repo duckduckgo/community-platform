@@ -1,9 +1,8 @@
 <div class="header-nav">
     <ul>
-        <li class="nav-develop"><a href="/duckduckhack">Develop</a></li>
-        <li class="nav-translate"><a href="/translate">Translate</a></li>
+        <li class="nav-develop"><a href="/ia/dev">Develop</a></li>
+        <li class="nav-docs"><a href="http://docs.duckduckhack.com/">Docs</a></li>
         <li class="nav-help"><a href="/help">Help</a></li>
-        <li class="nav-forums"><a href="/forum">Forums</a></li>
         <li class="nav-blog"><a href="/blog">Blog</a></li>
     </ul>
 </div>
