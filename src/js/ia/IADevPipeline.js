@@ -29,10 +29,10 @@
             var url = window.location.pathname.replace(/\/$/, '') + "/json";
             var username = $(".user-name").text();
 
-	    // 100% width
+	        // 100% width
             $(".site-main > .content-wrap").first().removeClass("content-wrap").addClass("wrap-pipeline");
-	    $(".breadcrumb-nav").remove();
-	    $(".site-main").addClass("developer-main");
+	        $(".breadcrumb-nav").remove();
+	        $(".site-main").addClass("developer-main");
 
 
             $.getJSON(url, function(data) { 
