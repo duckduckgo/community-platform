@@ -68,6 +68,11 @@
         <div class="field-label primary-label"> Producer </div>
         <input class="edit-sidebar" data-focus-class="frm__input" id="edit-sidebar-producer" value="{{producer}}" />
     </div>
+    
+    <div id="sidebar-perl_module" class="sidebar-field">
+        <div class="field-label primary-label"> Contributors </div>
+        <span class="readonly"> {{#each developer}} <a href="{{url}}">{{name}}</a>{{#unless @last}}, {{/unless}}{{/each}}</span>
+    </div>
 
     <div class="sidebar-field">
         <div class="field-label primary-label"> Template </div>
@@ -150,6 +155,13 @@
             <span class="readonly"> {{perl_module}} </span>
         </div>
     {{/if}}
+
+    {{#is_true (length developer)}}
+        <div id="sidebar-perl_module" class="sidebar-field">
+            <div class="field-label primary-label"> Contributors </div>
+            <span class="readonly"> {{#each developer}} <a href="{{url}}">{{name}}</a>{{#unless @last}}, {{/unless}}{{/each}}</span>
+        </div>
+    {{/is_true}}
 
     {{#if pr.issue_id}}
         {{#match beta_install 'success'}}
