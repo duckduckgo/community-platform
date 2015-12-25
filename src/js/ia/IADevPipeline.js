@@ -342,6 +342,15 @@
                .done(function(data) {
                    if (data.result.saved) {
                        dev_p.saved = true;
+                       var $item = $(".dev_pipeline-column__list .selected");
+                       var meta_id = $item.attr("id").replace("pipeline-list__", "");
+                       var milestone = $item.parents(".dev_pipeline-column").attr("id").replace("pipeline-", "");
+
+                       setPageData(meta_id, milestone, field, value);
+
+                       if (!$("#page_sidebar").hasClass("hide")) {
+                           appendSidebar(1, false);
+                       }
                    }
                });
             }
@@ -414,6 +423,18 @@
 
                     if (temp_ia.id === meta_id) {
                         return temp_ia;
+                    }
+                }
+            }
+            
+            function setPageData(meta_id, milestone, field, value) {
+                console.log(meta_id);
+                console.log(milestone);
+                for (var idx = 0; idx < dev_p.data.dev_milestones[milestone].length; idx++) {
+                    var temp_ia = dev_p.data.dev_milestones[milestone][idx];
+
+                    if (temp_ia.id === meta_id) {
+                        dev_p.data.dev_milestones[milestone][idx][field] = value;
                     }
                 }
             }
