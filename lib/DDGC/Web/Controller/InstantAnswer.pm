@@ -213,22 +213,12 @@ sub dev_pipeline_json :Chained('dev_pipeline_base') :PathPart('json') :Args(0) {
     # and sort them by last activity (newest activity on top - ones with null activity value last)
     # the sorting here is temporary, just for demonstrational purposes
     if ($c->stash->{is_admin}) {
-        @ias = $rs->search(
-            {
-                'dev_milestone' => { '=' => ['planning', 'development', 'testing', 'complete']}
-            },
-            {
-                order_by => \[ 'me.last_update DESC NULLS LAST'],
-            }
-        );
+        @ias = $rs->search({'dev_milestone' => { '=' => ['planning', 'development', 'testing', 'complete']}});
     } else {
         @ias = $rs->search(
             {
                 'dev_milestone' => { '=' => ['planning', 'development', 'testing', 'complete']},
                 'public' => { '=' => 1 }
-            },
-            {
-                order_by => \[ 'me.last_update DESC NULLS LAST'],
             }
         );
     }
