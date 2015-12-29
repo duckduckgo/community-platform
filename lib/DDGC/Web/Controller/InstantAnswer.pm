@@ -242,7 +242,7 @@ sub dev_pipeline_json :Chained('dev_pipeline_base') :PathPart('json') :Args(0) {
     for my $ia (@ias) {
         $temp_ia = $ia->TO_JSON('pipeline');
         
-        my $pr = $c->d->rs('InstantAnswer::Issues')->search({is_pr => 1, instant_answer_id => $ia->id}, {result_class => 'DBIx::Class::ResultClass::HashRefInflator'})->first;
+        my $pr = $c->d->rs('InstantAnswer::Issues')->search({is_pr => 1, instant_answer_id => $ia->id}, {result_class => 'DBIx::Class::ResultClass::HashRefInflator'})->one_row;
         $pr->{tags} = $pr->{tags}? from_json($pr->{tags}) : undef;
         $temp_ia->{pr} = $pr;
 

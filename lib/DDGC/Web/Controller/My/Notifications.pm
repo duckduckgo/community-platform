@@ -123,7 +123,7 @@ sub unfollow :Chained('base') :Args(1) {
 	$c->require_action_token;
 	my $user_notification = $c->user->search_related('user_notifications',{
 		id => $id
-	})->first;
+	})->one_row;
 	if ($user_notification) {
 		$user_notification->delete;
 	}

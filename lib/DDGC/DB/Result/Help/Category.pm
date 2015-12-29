@@ -54,7 +54,7 @@ sub content_by_language_id {
   my ( $self, $language_id ) = @_;
   $self->search_related('help_category_contents',{
     language_id => $language_id
-  })->first;
+  })->one_row;
 }
 
 sub content_by_language_id_cached {
@@ -63,7 +63,7 @@ sub content_by_language_id_cached {
     language_id => $language_id
   },{
     cache_for => 600
-  })->first;
+  })->one_row;
 }
 
 no Moose;

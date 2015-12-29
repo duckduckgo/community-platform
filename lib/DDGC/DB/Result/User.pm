@@ -254,7 +254,7 @@ sub github_user {
 	my ( $self ) = @_;
 	return $self->search_related('github_users',{},{
 		order_by => { -desc => 'updated' }
-	})->first;
+	})->one_row;
 }
 
 sub normalise_role {
@@ -387,7 +387,7 @@ sub rate_limit_comment {
 			$self->ddgc->db->format_datetime(
 				DateTime->now - DateTime::Duration->new( seconds => $self->ddgc->config->comment_rate_limit ),
 			) },
-		})->first;
+		})->one_row;
 	}
 	return 0;
 }
@@ -751,7 +751,7 @@ sub responded_campaign {
 			responded => { '!=' => undef },
 			($time_ago) ? ( responded => { '<' => $time_ago } ) : (),
 			(defined $bad) ? ( bad_response => $bad ) : (),
-	})->first;
+	})->one_row;
 }
 
 sub set_responded_campaign {
@@ -816,13 +816,13 @@ sub get_coupon {
 	my $coupon = $self->schema->resultset('User::Coupon')->search({
 		users_id => $self->id,
 		campaign_id => $self->ddgc->config->id_for_campaign($campaign),
-	})->first;
+	})->one_row;
 
 	if (!$coupon && $opts->{create}) {
 		$coupon = $self->schema->resultset('User::Coupon')->search({
 			users_id => undef,
 			campaign_id => $self->ddgc->config->id_for_campaign($campaign),
-		})->first;
+		})->one_row;
 	}
 
 	return 0 if (!$coupon);

@@ -31,7 +31,7 @@ sub done_wizard {
 	my $tdl = $c->d->rs('Token::Domain::Language')->search({
 		token_domain_id => $self->token_domain_id,
 		language_id => $self->language_id,
-	})->first;
+	})->one_row;
 	$c->res->redirect($c->chained_uri(@{$tdl->u}));
 }
 

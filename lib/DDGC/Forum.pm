@@ -239,7 +239,7 @@ sub add_comment {
 				context => 'DDGC::DB::Result::Thread',
 				context_id => $context_id,
 				parent_id => undef,
-			})->first;
+			})->one_row;
 			if ($thread_comment) {
 				return $self->add_comment(
 					'DDGC::DB::Result::Comment',
