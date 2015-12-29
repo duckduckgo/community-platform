@@ -1287,11 +1287,11 @@ sub create_ia_from_pr :Chained('base') :PathPart('create_from_pr') :Args() {
             my @files = $gh->pull_request->files($pr_number);
             my $pr_data = $gh->pull_request->pull($pr_number);
             my $public = $user->email_verified? 1 : 0;
-            my %author = (
+            my $author = {
                 url => 'https://duck.co/user/' . $c->user->username,
                 name => $c->user->username,
                 type => "duck.co"
-            );
+            };
 
                 # spice
             if($repo =~ /spice/i){
@@ -1339,7 +1339,7 @@ sub create_ia_from_pr :Chained('base') :PathPart('create_from_pr') :Args() {
                         repo => $repo,
                         dev_milestone => 'planning',
                         public => $public,
-                        developer => [\%author]
+                        developer => to_json([$author])
                     });
 
                     $c->d->rs('InstantAnswer::Issues')->update_or_create({
