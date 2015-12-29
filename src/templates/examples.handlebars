@@ -75,11 +75,11 @@
     <div class="readonly--info {{#or staged.example_query staged.other_queries}}hide{{/or}}" id="example_query--readonly">
         {{#if example_query}}
             {{#ne_and dev_milestone 'live' 'deprecated'}}
-                {{#if test_machine}}
-                    <a class="one-line" href="https://{{test_machine}}.duckduckgo.com/?q={{encodeURIComponent example_query}}{{tab_url tab}}" title="try this example on DuckDuckGo">{{example_query}}</a>
+                {{#or test_machine (match_fn beta_install 'success')}}
+                    <a class="one-line" href="https://{{#match beta_install 'success'}}beta{{else}}{{test_machine}}{{/match}}.duckduckgo.com/?q={{encodeURIComponent example_query}}{{tab_url tab}}" title="try this example on DuckDuckGo">{{example_query}}</a>
                 {{else}}
                     <span>{{example_query}}</span>
-                {{/if}}
+                {{/or}}
             {{else}}
                 <a class="one-line" href="https://duckduckgo.com/?q={{encodeURIComponent example_query}}{{tab_url tab}}" title="try this example on DuckDuckGo">{{example_query}}</a>
             {{/ne_and}}
@@ -87,11 +87,11 @@
         {{#if other_queries}}
             {{#each other_queries}}
                 {{#ne_and ../../dev_milestone 'live' 'deprecated'}}
-                    {{#if ../../test_machine}}
-                        <a class="one-line" href="https://{{../../../test_machine}}.duckduckgo.com/?q={{encodeURIComponent this}}{{tab_url ../../../tab}}" title="try this example on DuckDuckGo">{{this}}</a>
+                    {{#or ../../test_machine (match_fn ../../beta_install 'success')}}
+                        <a class="one-line" href="https://{{#match ../../../beta_install 'success'}}beta{{else}}{{../../../test_machine}}{{/match}}.duckduckgo.com/?q={{encodeURIComponent this}}{{tab_url ../../../tab}}" title="try this example on DuckDuckGo">{{this}}</a>
                     {{else}}
                         <span>{{this}}</span>
-                    {{/if}}
+                    {{/or}}
                 {{else}}
                     <a class="one-line" href="https://duckduckgo.com/?q={{encodeURIComponent this}}{{tab_url ../../tab}}" title="try this example on DuckDuckGo">{{this}}</a>
                 {{/ne_and}}

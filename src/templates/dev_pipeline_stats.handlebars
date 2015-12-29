@@ -11,9 +11,11 @@
 <a href="/ia/dev/issues" class="pipeline__toggle-view__button" id="pipeline_toggle-live">
   Issues
 </a>
-<a href="/ia/dev/deprecated" class="pipeline__toggle-view__button" id="pipeline_toggle-deprecated">
-  Deprecated
-</a>
+{{#if permissions.admin}}
+    <a href="/ia/dev/deprecated" class="pipeline__toggle-view__button" id="pipeline_toggle-deprecated">
+      Deprecated
+    </a>
+{{/if}}
 
 
 <!--

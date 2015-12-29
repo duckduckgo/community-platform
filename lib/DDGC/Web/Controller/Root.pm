@@ -71,7 +71,7 @@ sub base :Chained('/') :PathPart('') :CaptureArgs(0) {
 	$c->stash->{page_class} = "texture";
 	$c->stash->{is_live} = $c->d->is_live;
 	$c->stash->{is_view} = $c->d->is_view;
-	$c->stash->{is_dev} = ( $c->d->is_live || $c->d->is_view ) ? 1 : 0;
+	$c->stash->{is_dev} = ( $c->d->is_live || $c->d->is_view ) ? 0 : 1;
 	$c->stash->{errors} = [];
     $c->stash->{js_version} = $c->d->config->js_version;
 
@@ -184,6 +184,9 @@ sub wear :Chained('base') :PathPart('wear') :Args(0) {
 		$c->stash->{user} = $c->user;
 		$c->stash->{campaign} = $c->user->get_first_available_campaign;
 		if ($c->stash->{campaign}) {
+			if ($c->stash->{campaign} eq 'share' && !$c->user->responded_campaign('share')) {
+				goto REDIRECT;
+			}
 			$c->stash->{campaign_config} = $c->d->config->campaigns->{ $c->stash->{campaign} };
 			$c->user->set_seen_campaign($c->stash->{campaign}, 'campaign');
 		}
@@ -196,7 +199,12 @@ sub wear :Chained('base') :PathPart('wear') :Args(0) {
 				$c->stash->{no_campaign} = 1;
 			}
 		}
+		return $c->detach;
 	}
+
+REDIRECT:
+	$c->response->redirect( 'https://duckduckgo.com/about' );
+	return $c->detach;
 }
 
 sub status :Chained('base') :PathPart('status') :Args(0) {

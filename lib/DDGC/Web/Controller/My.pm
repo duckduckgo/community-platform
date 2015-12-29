@@ -106,32 +106,14 @@ sub login :Chained('logged_out') :Args(0) {
 		}
 
 		my $user = $c->d->find_user($c->stash->{username});
-		if (($user && $user->rate_limit_login)
-		    || ($c->session->{failed_logins} && $c->session->{failed_logins} > $c->d->config->login_failure_session_limit) ) {
-			sleep 0.5; # Look like we tried
-			$c->stash->{login_failed} = 1;
-			return $c->detach;
-		}
+                my $result = authenticate($c, $user, $c->stash->{username}, $c->req->params->{password});
 
-		if ( my $username = lc($c->stash->{username}) and
-		     my $password = $c->req->params->{password} ) {
-			$c->require_action_token;
-			if ($c->authenticate({
-				username => $username,
-				password => $password,
-			}, 'users')) {
-				$self->_post_login_setup( $c );
-				$last_url = $c->chained_uri('My','account') unless defined $last_url;
-				$c->response->redirect($last_url);
-				return $c->detach;
-			} else {
-				$c->session->{failed_logins} ++;
-				if ($user) {
-					$user->failedlogins->create({});
-				}
-				$c->stash->{login_failed} = 1;
-			}
-		}
+                if ($result->{result}) {
+          	    $last_url = $c->chained_uri('My','account') unless defined $last_url;
+          	    $c->response->redirect($last_url);
+                } elsif ($result->{detach}) {
+                    return $c->detach;
+                }
 	}
 }
 
@@ -301,6 +283,18 @@ LOGIN:
 
 	$c->stash->{unable_to_login} = 1;
 	$c->stash->{error} = 1;
+}
+
+sub login_from_ia_wizard :Chained('logged_out') :Args(0) {
+        my ($self, $c) = @_;
+
+        $c->stash->{not_last_url} = 1;
+        my $username = $c->req->params->{ username };
+        my $user = $c->d->find_user($c->stash->{username});
+        my $result = authenticate($c, $user, $username, $c->req->params->{password});
+
+        $c->stash->{x} = $result;
+        $c->forward($c->view('JSON'));
 }
 
 sub logged_in :Chained('base') :PathPart('') :CaptureArgs(0) {
@@ -586,6 +580,7 @@ sub email_verify :Chained('base') :Args(2) {
 	$user->data($data);
 	$user->email_verified(1);
 	$user->update;
+    $user->instant_answers->update({public => 1});
 	$c->stash->{success} = 1;
 }
 
@@ -871,6 +866,21 @@ sub _verify_email {
 }
 
 
+sub register_from_ia_wizard :Chained('logged_out') :Args(0) {
+        my ( $self, $c ) = @_;
+        $c->stash->{not_last_url} = 1;
+        $c->stash->{x} = '';
+        
+        my $username = $c->req->params->{username};
+        my $password = $c->req->params->{password};
+        my $email = $c->req->params->{email};
+        my $action_token = $c->session->{action_token}; 
+        my $result = new_user($c, $username, $password, $email);
+        $c->stash->{x} = {result => $result};
+        $c->forward($c->view('JSON'));
+    #    $c->forward('/my/login', { username => $username, password => $password, action_token => $action_token });
+}
+
 sub register :Chained('logged_out') :Args(0) {
 	my ( $self, $c ) = @_;
 	$c->stash->{not_last_url} = 1;
@@ -919,38 +929,17 @@ sub register :Chained('logged_out') :Args(0) {
 
 	return $c->detach if $error;
 
-	my $username = $c->stash->{username};
-	my $password = $c->req->params->{password};
-	
-	my $find_user = $c->d->find_user($username);
 
-	if ($find_user) {
-		$c->stash->{user_exist} = $username;
-		$error = 1;
-	}
+        my $username = $c->stash->{username};
+        my $password = $c->req->params->{password};
 
-	return $c->detach if $error;
+        my $result = new_user($c, $username, $password, $email);
 
-	# Skip actual account creation if this field is filled
-	unless ($c->req->params->{emailagain}) {
-		$c->require_action_token;
-		my $user = $c->d->create_user($username,$password);
-
-		if ($user) {
-			$user->check_password($password);
-			if ($email) {
-				$self->_verify_email( $c, $user, $email );
-			}
-			$c->session->{action_token} = undef;
-			$c->session->{captcha_string} = undef;
-		} else {
-			$c->stash->{register_failed} = 1;
-			return $c->detach;
-		}
-	}
-
-	$c->response->redirect($c->chained_uri('My','login',{ register_successful => 1, username => $username }));
-
+        if ($result) {
+	    $c->response->redirect($c->chained_uri('My','login',{ register_successful => 1, username => $username }));
+        } else {
+            return $c->detach;
+        }
 }
 
 sub requestlanguage :Chained('logged_in') :Args(0) {
@@ -1010,6 +999,102 @@ sub requestlanguage :Chained('logged_in') :Args(0) {
 
 		}
 	}
+}
+
+sub new_user {
+    my ($c, $username, $password, $email) = @_;
+
+    my $find_user = $c->d->find_user($username);
+    my $error;
+ 
+    if ($find_user) {
+    	$c->stash->{user_exist} = $username;
+    	$error = 1;
+    }
+
+    return 0 if $error;
+    
+    # Skip actual account creation if this field is filled
+    unless ($c->req->params->{emailagain}) {
+    	$c->require_action_token;
+    	my $user = $c->d->create_user($username,$password);
+    
+    	if ($user) {
+    		$user->check_password($password);
+    		if ($email) {
+    			$user->data({}) if !$user->data;
+    			my $data = $user->data();
+    			$c->stash->{email_verify_token} = $data->{email_verify_token} = $c->d->uid;
+    			$c->stash->{email_verify_link} =
+    			    $c->chained_uri('My','email_verify',$user->lowercase_username, $c->stash->{email_verify_token});
+    			$user->data($data);
+    			$user->email($email);
+    			$user->email_verified(0);
+    			$user->update;
+    			$c->d->postman->template_mail(
+    				1,
+    				$user->email,
+    				'"DuckDuckGo Community" <noreply@duck.co>',
+    				'[DuckDuckGo Community] ' . $user->username . ', thank you for registering. Please verify your email address',
+    				'register',
+    				$c->stash,
+    			);
+    		}
+    		$c->session->{captcha_string} = undef;
+                return 1;
+    	} else {
+    		$c->stash->{register_failed} = 1;
+    		return 0;
+    	}
+    }
+}
+
+sub authenticate {
+    my ($c, $user, $username, $password) = @_;
+    my %result = (
+        result => 0,
+        detach => 0
+    );
+
+    if (($user && $user->rate_limit_login)
+      || ($c->session->{failed_logins} && $c->session->{failed_logins} > $c->d->config->login_failure_session_limit) ) {
+          sleep 0.5; # Look like we tried
+          $c->stash->{login_failed} = 1;
+          $result{detach} = 1;
+     } 
+    
+     if ( $username && $password) {
+          $c->require_action_token;
+          if ($c->authenticate({
+          	username => $username,
+          	password => $password,
+          }, 'users')) {
+          	$c->req->env->{'psgix.session.options'}{change_id} = 1;
+          	my $data = $c->user->data;
+          	delete $data->{token};
+          	$c->set_new_action_token;
+          	if ( $data->{invalidate_existing_sessions} &&
+          		time > $user->data->{invalidate_existing_sessions_timestamp} + (60 * 60 * 24) ) {
+          		delete $data->{invalidate_existing_sessions};
+          		delete $data->{invalidate_existing_sessions_timestamp};
+          		delete $data->{post_invalidation_tokens};
+          	}
+          	elsif ( $data->{invalidate_existing_sessions} ) {
+          		push @{ $data->{post_invalidation_tokens} }, $c->session->{action_token};
+          	}
+          	$c->user->data($data);
+          	$c->user->update;
+          	$result{result} = 1;
+          } else {
+          	$c->session->{failed_logins} ++;
+          	if ($user) {
+          		$user->failedlogins->create({});
+          	}
+          	$c->stash->{login_failed} = 1;
+          }
+     }
+
+     return \%result
 }
 
 no Moose;

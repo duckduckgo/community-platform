@@ -9,7 +9,8 @@
             'missing',
             'important',
             'mentioned',
-            'attention'
+            'attention',
+            'beta'
         ],
 
         current_filter: '',
@@ -27,6 +28,12 @@
             var dev_p = this;
             var url = window.location.pathname.replace(/\/$/, '') + "/json";
             var username = $(".user-name").text();
+
+	        // 100% width
+            $(".site-main > .content-wrap").first().removeClass("content-wrap").addClass("wrap-pipeline");
+	        $(".breadcrumb-nav").remove();
+	        $(".site-main").addClass("developer-main");
+
 
             $.getJSON(url, function(data) { 
                 // console.log(window.location.pathname);
@@ -48,16 +55,10 @@
 
                 sort_pipeline();
 
-                $("#pipeline-stats").html(stats);
-
                 if ($.trim($("#select-action option:selected").text()) === "type") {
                     $("#select-milestone").addClass("hide");
                     $("#select-type").removeClass("hide");
                 }
-
-                // 100% width
-                $(".site-main > .content-wrap").first().removeClass("content-wrap").addClass("wrap-pipeline");
-		        $(".breadcrumb-nav").remove();
 
                 var parameters = window.location.search.replace("?", "");
                 parameters = $.trim(parameters.replace(/\/$/, ''));
@@ -222,6 +223,15 @@
                 }
             });
 
+            $("body").on("click", ".sidebar-toggle-public", function(evt) {
+                var field = "public";
+                var value = $(this).attr("id").replace(/^.+\-/, "");
+                value = (value === "true")? 1 : 0;
+                var id = $("#page_sidebar").attr("ia_id");
+
+                autocommit(field, value, id);
+            });
+
             $("body").on("click", "#sidebar-close, .deselect-all", function(evt) {
                 var $selected = $(".dev_pipeline-column__list .selected");
                 $selected.removeClass("selected");
@@ -332,6 +342,15 @@
                .done(function(data) {
                    if (data.result.saved) {
                        dev_p.saved = true;
+                       var $item = $(".dev_pipeline-column__list .selected");
+                       var meta_id = $item.attr("id").replace("pipeline-list__", "");
+                       var milestone = $item.parents(".dev_pipeline-column").attr("id").replace("pipeline-", "");
+
+                       setPageData(meta_id, milestone, field, value);
+
+                       if (!$("#page_sidebar").hasClass("hide")) {
+                           appendSidebar(1, false);
+                       }
                    }
                });
             }
@@ -404,6 +423,18 @@
 
                     if (temp_ia.id === meta_id) {
                         return temp_ia;
+                    }
+                }
+            }
+            
+            function setPageData(meta_id, milestone, field, value) {
+                console.log(meta_id);
+                console.log(milestone);
+                for (var idx = 0; idx < dev_p.data.dev_milestones[milestone].length; idx++) {
+                    var temp_ia = dev_p.data.dev_milestones[milestone][idx];
+
+                    if (temp_ia.id === meta_id) {
+                        dev_p.data.dev_milestones[milestone][idx][field] = value;
                     }
                 }
             }

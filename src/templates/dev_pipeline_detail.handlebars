@@ -68,12 +68,28 @@
         <div class="field-label primary-label"> Producer </div>
         <input class="edit-sidebar" data-focus-class="frm__input" id="edit-sidebar-producer" value="{{producer}}" />
     </div>
+    
+    <div id="sidebar-perl_module" class="sidebar-field">
+        <div class="field-label primary-label"> Contributors </div>
+        <span class="readonly"> {{#each developer}} <a href="{{url}}">{{name}}</a>{{#unless @last}}, {{/unless}}{{/each}}</span>
+    </div>
 
     <div class="sidebar-field">
         <div class="field-label primary-label"> Template </div>
         <input class="edit-sidebar" data-focus-class="frm__input" id="edit-sidebar-template" value="{{template}}" />
     </div>
 
+    <div class="sidebar-field">
+        <div class="field-label primary-label"> Public </div>
+        {{#is_false public}}
+            <p>This IA Page is hidden</p>
+            <div class="button btn--primary sidebar-toggle-public" id="public-true">Make Public</div>
+        {{else}}
+            <p>This IA Page is public</p>
+            <div class="button btn--primary sidebar-toggle-public" id="public-false">Hide from Dev Pipeline</div>
+        {{/is_false}}
+    </div>
+    
     <div class="sidebar-field">
         <div class="field-label primary-label"> Asana Tasks </div>
         {{#if asana}}
@@ -88,7 +104,7 @@
     {{#if pr.issue_id}}
         <div class="sidebar-field">
             <div class="field-label primary-label"> Dev Machine </div>
-            {{#eq beta_install 'success'}}
+            {{#match beta_install 'success'}}
                 <p>Installed on <a href="http://beta.duckduckgo.com/{{#if beta_query}}?q={{beta_query}}{{/if}}">beta</a></p>
                 <div class="button btn--primary" id="beta-single">Re-install on beta</div>
             {{else}}
@@ -98,7 +114,7 @@
                 {{else}}
                     <span></span>
                 {{/eq}}
-            {{/eq}}
+            {{/match}}
         </div>
     {{/if}}
 
@@ -138,6 +154,22 @@
             <div class="field-label primary-label"> Perl Module </div>
             <span class="readonly"> {{perl_module}} </span>
         </div>
+    {{/if}}
+
+    {{#is_true (length developer)}}
+        <div id="sidebar-perl_module" class="sidebar-field">
+            <div class="field-label primary-label"> Contributors </div>
+            <span class="readonly"> {{#each developer}} <a href="{{url}}">{{name}}</a>{{#unless @last}}, {{/unless}}{{/each}}</span>
+        </div>
+    {{/is_true}}
+
+    {{#if pr.issue_id}}
+        {{#match beta_install 'success'}}
+            <div class="sidebar-field">
+                <div class="field-label primary-label"> Dev Machine </div>
+                    <p>Installed on <a href="http://beta.duckduckgo.com/{{#if beta_query}}?q={{beta_query}}{{/if}}">beta</a></p>
+            </div>
+        {{/match}}
     {{/if}}
 {{/if}}
 

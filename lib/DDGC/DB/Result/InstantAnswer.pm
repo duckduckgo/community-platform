@@ -48,6 +48,13 @@ column description => {
     pipeline => 1
 };
 
+column public => {
+    data_type => 'smallint',
+    is_nullable => 0,
+    default_value => 1,
+    pipeline => 1
+};
+
 # JSON string cointaining parameters such as
 # fallback_timeout, for IAs with slow upstream providers
 column answerbar => {
@@ -131,6 +138,7 @@ column src_name => {
 column src_url => {
 	data_type => 'text',
 	is_nullable => 1,
+        for_endpt => 1
 };
 
 # documentation url
@@ -481,7 +489,12 @@ after insert => sub {
         description  => sprintf('Instant Answer Page [%s](%s) created!',
             $self->name, $self->uri( { activity_feed => 1 } ) ),
     } );
+
+    $schema->resultset('InstantAnswer::LastUpdated')->touch;
 };
+
+after update => sub { $_[0]->schema->resultset('InstantAnswer::LastUpdated')->touch; };
+after delete => sub { $_[0]->schema->resultset('InstantAnswer::LastUpdated')->touch; };
 
 sub create_update_activity {
     my ( $self, $meta3, $description ) = @_;

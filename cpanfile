@@ -96,6 +96,7 @@ requires 'Test::EOL', '1.5';
 requires 'Text::VimColor', '0.20';
 requires 'Text::Fuzzy', '0.14';
 requires 'Text::CSV', '1.32';
+requires 'Text::Trim', '1.02';
 requires 'URI::Find::Simple', '1.03';
 requires 'URL::Encode', '0.01';
 requires 'Web::Scraper', '0.37';

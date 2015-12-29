@@ -20,6 +20,10 @@
         init: function(ops) {
             //console.log("IAPage.init()\n");
 
+            // Allow blue band to get 100% page width
+            $(".site-main > .content-wrap").first().removeClass("content-wrap");
+            $(".breadcrumb-nav").remove();
+
             var page = this;
             var json_url = "/ia/view/" + DDH_iaid + "/json";
 
@@ -63,10 +67,6 @@
                         }
                     }
 
-                    // Allow blue band to get 100% page width
-                    $(".site-main > .content-wrap").first().removeClass("content-wrap");
-                    $(".breadcrumb-nav").remove();
-
                     // Separate back-end files from front-end ones
                     ia_data.live.back_end = [];
                     ia_data.live.front_end = [];
@@ -109,7 +109,8 @@
                             triggers: Handlebars.templates.triggers(latest_edits_data),
                             test: Handlebars.templates.test(latest_edits_data),
                             advanced:  Handlebars.templates.advanced(latest_edits_data),
-                            traffic: Handlebars.templates.traffic(latest_edits_data)
+                            traffic: Handlebars.templates.traffic(latest_edits_data),
+                            src_url: Handlebars.templates.src_url(latest_edits_data)
                         },
                         screens : Handlebars.templates.screens(ia_data),
                     };
@@ -143,7 +144,8 @@
                         is_stackexchange : Handlebars.templates.pre_edit_is_stackexchange(ia_data),
                         id : Handlebars.templates.pre_edit_id(ia_data),
                         blockgroup: Handlebars.templates.pre_edit_blockgroup(ia_data),
-                        deployment_state: Handlebars.templates.pre_edit_deployment_state(ia_data)
+                        deployment_state: Handlebars.templates.pre_edit_deployment_state(ia_data),
+                        src_url: Handlebars.templates.pre_edit_src_url(ia_data)
                     };
 
                     page.updateAll(readonly_templates, ia_data, false);
@@ -152,6 +154,24 @@
                         $(this).hide();
                         $(".ia-issues ul li").show();
                     });
+
+		    if($('.infobox[data-contributor=old]').length) {
+			$('.infobox').hide();
+			$('.infobox__button').show();
+		    } else {
+			$('.infobox').show();
+		    }
+
+		    $('body').on('click', '.infobox .ddgsi-close-bold', function() {
+			$('.infobox').hide();
+			$('.infobox__button').show();
+		    });
+
+		    $('body').on('click', '.infobox__button', function(evt) {
+			evt.preventDefault();
+			$('.infobox').show();
+			$('.infobox__button').hide();
+		    });
 
                     $("#view_json").click(function(evt) {
                         location.href = json_url;
@@ -829,6 +849,14 @@
                             $(this).addClass("is-disabled");
                             commitEdit($editable, "developer", true);
                         }
+                    });
+
+                    $("body").on('click', ".page-toggle-public", function(evt) {
+                        var field = "public";
+                        var value = $(this).attr("id").replace(/^.+\-/, "");
+                        value = (value === "true")? 1 : 0;
+
+                        autocommit(field, value, DDH_iaid, false);
                     });
 
                     // Dev Page: commit any field inside .ia-single--left and .ia-single--right (except popup fields)
@@ -1510,6 +1538,7 @@
 
         field_order: [
             'description',
+            'src_url',
             'examples',
             'screens',
             'github',
@@ -1533,6 +1562,7 @@
             'src_id',
             'src_name',
             'src_domain',
+            'src_url',
             'is_stackexchange',
             'src_options',
             'unsafe',

@@ -20,6 +20,10 @@ column topics_id => {
 
 primary_key (qw/instant_answer_id topics_id/);
 
+after insert => sub { $_[0]->schema->resultset('InstantAnswer::LastUpdated')->touch; };
+after update => sub { $_[0]->schema->resultset('InstantAnswer::LastUpdated')->touch; };
+after delete => sub { $_[0]->schema->resultset('InstantAnswer::LastUpdated')->touch; };
+
 belongs_to 'instant_answer', 'DDGC::DB::Result::InstantAnswer', 'instant_answer_id', {on_delete => 'cascade'};
 belongs_to 'topic', 'DDGC::DB::Result::Topic', 'topics_id', {on_delete => 'cascade'};
 
