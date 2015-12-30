@@ -19,7 +19,7 @@ use Plack::App::File;
 use Plack::Session::State::Cookie;
 use Plack::Session::Store::File;
 
-my $ddgc_home = '/home/' . (getpwuid($<))[0] . '/ddgc';
+my $ddgc_home = (getpwuid($<))[7] . '/ddgc';
 my $ddgc_sessions = "$ddgc_home/sessions/";
 mkdir $ddgc_sessions unless -d $ddgc_sessions;
 

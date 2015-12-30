@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-SCRIPTDIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+SCRIPTDIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" 1>/dev/null && pwd )
 PSGI_SCRIPT=$SCRIPTDIR/ddgc_dev_server.psgi
 LIBDIR=$SCRIPTDIR/../lib
 PORT=5001
