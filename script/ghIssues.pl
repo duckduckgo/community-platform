@@ -140,11 +140,13 @@ sub getIssues{
                 } )->hri->one_row;
                 my $new_ia = 1 if !$ia;
 
+                # no auto generating IA pages from a PR anymore
+                return unless $ia;
+
                 my @time = localtime(time);
                 my $date = "$time[4]/$time[3]/".($time[5]+1900);
 
                 $data->{body} =~ s/\n|\r//g;
-
 
                 # get the file info for the pr
                 $gh->set_default_user_repo('duckduckgo', "zeroclickinfo-$data->{repo}");
@@ -183,11 +185,17 @@ sub getIssues{
                 my $name = $data->{name};
                 $name =~ s/_/ /g;
 
+                # move status to development once we have seen the PR
+                my $dev_milestone;
+                if($ia->{dev_milestone} eq 'planning'){
+                    $dev_milestone = 'development';
+                }
+
                 my %new_data = (
                     id => $ia->{id} || $data->{name},
                     meta_id => $ia->{meta_id} || $data->{name},
                     name => $ia->{name} || ucfirst $name,
-                    dev_milestone => $ia->{dev_milestone} || 'planning',
+                    dev_milestone => $dev_milestone || $ia->{dev_milestone},
                     description => $ia->{description},
                     created_date => $ia->{created_date} || $date, 
                     repo => $ia->{repo} || $data->{repo},
