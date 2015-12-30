@@ -173,7 +173,7 @@ sub issues_report {
         my $first_comment = $github_issue->github_comments
             ->with_github_user_id('!=' => $github_issue->github_user_id)
             ->order_by('created_at')
-            ->first;
+            ->one_row;
 
         next unless $first_comment;  # FIXME  - should us a duration of zero instead of skipping?
 
@@ -228,7 +228,7 @@ sub code_review_report {
         my $comment = $github_pull->github_review_comments
             ->with_github_user_id('!=' => $github_pull->github_user_id)
             ->order_by('created_at')
-            ->first
+            ->one_row
             || next;
 
         my $duration = $comment->created_at - $github_pull->created_at;

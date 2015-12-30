@@ -69,7 +69,7 @@ sub BUILD {
 	$self->error($self->_dir." is not writeable") unless -w $self->_dir;
 	if ($self->has_domain) {
 		$self->error("got domain and alldomain at once") if $self->alldomain;
-		my $tc = $self->d->rs('Token::Domain')->search({ key => $self->domain })->first;
+		my $tc = $self->d->rs('Token::Domain')->search({ key => $self->domain })->one_row;
 		$self->error("no domain found") unless $tc;
 		$self->generate_pos_for_domain($tc,$self->_dir);
 	} elsif ($self->alldomain) {

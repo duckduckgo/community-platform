@@ -203,7 +203,7 @@ sub set_user_vote {
 	if ($vote) {
 		my $voted = $self->search_related('token_language_translation_votes',{
 			users_id => $user->db->id,
-		})->first;
+		})->one_row;
 		unless ($voted) {
 			$self->create_related('token_language_translation_votes',{
 				users_id => $user->db->id,
