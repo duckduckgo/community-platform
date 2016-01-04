@@ -1582,7 +1582,9 @@ sub save_milestone_date {
     return unless $field;
     
     my @time = localtime(time);
-    my $date = "$time[4]/$time[3]/".($time[5]+1900);
+    my ($month, $day, $year) = ($time[4]+1, $time[3], $time[5]+1900);
+    my $date = "$month/$day/$year";
+
     update_ia($ia, $field, $date);
 
     update_ia($ia, 'test_machine', undef) if ($milestone eq 'live');
