@@ -525,6 +525,8 @@ $mobile
 *This is an automated message which will be updated as changes are made to the [IA page](https://duck.co/ia/view/$data->{meta_id})*
 );
     # check to see if anything has been updated since the last post
+    # remove white space and testing block of the comment.  Testing
+    # has markdown clickable check boxes that we don't want to compare.
     my $tmp_message = $message;
     map{
         $_ =~ s/\s//g;
