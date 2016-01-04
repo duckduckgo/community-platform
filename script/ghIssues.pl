@@ -144,7 +144,8 @@ sub getIssues{
                 return unless $ia;
 
                 my @time = localtime(time);
-                my $date = "$time[4]/$time[3]/".($time[5]+1900);
+                my ($month, $day, $year) = ($time[4]+1, $time[3], $time[5]+1900);
+                my $date = "$month/$day/$year";
 
                 $data->{body} =~ s/\n|\r//g;
 
