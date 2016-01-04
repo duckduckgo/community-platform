@@ -528,11 +528,10 @@ $mobile
     # remove white space and testing block of the comment.  Testing
     # has markdown clickable check boxes that we don't want to compare.
     my $tmp_message = $message;
-    map{
+    for ($tmp_message, $old_comment){
         $_ =~ s/\s//g;
         $_ =~ s/\*\*Testing\*\*.*$//g;
-    } ($tmp_message, $old_comment);
-
+    }
     return if $tmp_message eq $old_comment;
 
     my $dax = $ENV{DAX_TOKEN};
