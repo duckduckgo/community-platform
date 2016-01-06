@@ -451,6 +451,7 @@ sub update_pr_template {
     my @comments = $gh->issue->comments($pr_number);
 
     my $comment_number;
+    my $old_comment = '';
     if(scalar @comments){
         my $comment = $comments[0];
         return unless $comment->{user}->{login} eq 'daxtheduck';
@@ -464,6 +465,7 @@ sub update_pr_template {
             }
         }else{
             $comment_number = $comment->{id};
+            $old_comment = $comment->{body};
         }
     }
 
@@ -531,12 +533,20 @@ $mobile
 ---
 *This is an automated message which will be updated as changes are made to the [IA page](https://duck.co/ia/view/$data->{meta_id})*
 );
+    # check to see if anything has been updated since the last post
+    # remove white space and testing block of the comment.  Testing
+    # has markdown clickable check boxes that we don't want to compare.
+    my $tmp_message = $message;
+    for ($tmp_message, $old_comment){
+        $_ =~ s/\s//g;
+        $_ =~ s/\*\*Testing\*\*.*$//g;
+    }
+    return if $tmp_message eq $old_comment;
 
     my $dax = $ENV{DAX_TOKEN};
     return unless $dax;
 
     warn "Posting comment";
-
     my $dax_comment = Net::GitHub->new(access_token => $dax);
     if(!$comment_number){
         # update the comment
