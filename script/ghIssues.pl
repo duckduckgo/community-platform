@@ -45,7 +45,7 @@ my $gh = Net::GitHub->new(access_token => $token);
 
 my $today = localtime;
 # get last days worth of issues
-my $since = $today - (24 * ONE_DAY);
+my $since = $today - (1 * ONE_DAY);
 
 # get the GH issues
 sub getIssues{
@@ -445,7 +445,7 @@ sub update_pr_template {
 
     # XXX comment this line to test pr template posts
     # it will make actual posts to GitHub PRs.
-#    return unless $d->is_live;
+    return unless $d->is_live;
 
     # find dax comment at spot #1 or bail
     my @comments = $gh->issue->comments($pr_number);
