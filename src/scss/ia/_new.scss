@@ -59,9 +59,18 @@
     }
 }
 
+#signup-save {
+    padding: 0.5em 1em;
+    margin-bottom: 2em;
+}
+
 .new-wrap {
     @include wrapper();
     font-size: 15px;
+
+    .center {
+	text-align: center;
+    }
 
     .modal-wrapper {
 	padding: 2em;
