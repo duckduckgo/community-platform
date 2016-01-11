@@ -92,7 +92,7 @@
 	    
 	    <div class="wizard_field">
 	      <div class="ia-new__title tx-clr--dk">Data Source</div>
-		<p class="field_desc tx-clr--lt">Link to the data source or API, if any</a>
+		<p class="field_desc tx-clr--lt">Link to the data source or API, if any</p>
 		<input class="frm__input wizard_field_insert" id="src_url-input" placeholder="http://api.alternativeto.net/" />
 	    </div>
 	    
