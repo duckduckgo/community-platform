@@ -37,15 +37,14 @@
 
 #signup-form, #login-form {
     width: 32em;
-    margin-left: 18%;
+    top: 36%;
+    left: 43%;
 
     input, .first-p, .button { margin-bottom: 1em; }
     .button { width: 29.9em; }
 }
 
 #login-form { top: 20em; }
-
-#signup-form {top: 14em; }
 
 #new_ia_header {
     background-color: $blue-light;
