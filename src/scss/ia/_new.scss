@@ -37,15 +37,14 @@
 
 #signup-form, #login-form {
     width: 32em;
-    margin-left: 18%;
+    top: 36%;
+    left: 43%;
 
     input, .first-p, .button { margin-bottom: 1em; }
     .button { width: 29.9em; }
 }
 
 #login-form { top: 20em; }
-
-#signup-form {top: 14em; }
 
 #new_ia_header {
     background-color: $blue-light;
@@ -60,12 +59,25 @@
     }
 }
 
+#signup-save {
+    padding: 0.7em 1em;
+    margin-bottom: 2em;
+}
+
 .new-wrap {
     @include wrapper();
     font-size: 15px;
 
+    .center {
+	text-align: center;
+    }
+
     .modal-wrapper {
 	padding: 2em;
+    }
+
+    hr {
+	transform: scaleX(2);
     }
 
     .ia-new {
@@ -137,10 +149,6 @@
 
      .radio-repo {
 	 padding: 0 1px;
-     }
-
-     hr {
-	 margin-bottom: 3em;
      }
 
      .wizard_field_insert {
