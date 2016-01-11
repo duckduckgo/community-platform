@@ -45,7 +45,7 @@ my $gh = Net::GitHub->new(access_token => $token);
 
 my $today = localtime;
 # get last days worth of issues
-my $since = $today - (1 * ONE_DAY);
+my $since = $today - (24 * ONE_DAY);
 
 # get the GH issues
 sub getIssues{
@@ -445,7 +445,7 @@ sub update_pr_template {
 
     # XXX comment this line to test pr template posts
     # it will make actual posts to GitHub PRs.
-    return unless $d->is_live;
+#    return unless $d->is_live;
 
     # find dax comment at spot #1 or bail
     my @comments = $gh->issue->comments($pr_number);
@@ -470,34 +470,12 @@ sub update_pr_template {
     }
 
 
-    my $examples = $data->{example_query} || ' ';
+    my $examples = "[$data->{example_query}](https://beta.duckduckgo.com/?q=$data->{example_query})" || ' ';
 
     if(defined $ia->{other_queries}){
         $ia->{other_queries} =~ s/"|\[|\]//g;
         $ia->{other_queries} =~ s/,/, /g;
-        $examples .=", ". $ia->{other_queries};
-    }
-
-    my $browsers;
-    foreach my $browser (qw(safari firefox ie opera chrome)){
-        my $val = $ia->{"browsers_$browser"};
-        if($val){
-            $val = 'X';
-        }else{
-            $val = ' ';
-        }
-        $browsers .= '- ['.$val.'] ' . $browser. "\n";
-    }
-
-    my $mobile;
-    foreach my $type (qw(android ios)){
-        my $val = $ia->{"mobile_$type"};
-        if($val){
-            $val = 'X';
-        }else{
-            $val = ' ';
-        }
-        $mobile .= '- ['.$val.'] '. $type. "\n";
+        $examples .=", ". "[$ia->{other_queries}](https://beta.duckduckgo.com/?q=$ia->{other_queries})";
     }
 
     map{ $data->{$_} = ' ' unless $data->{$_} } qw(src_url description tab);
@@ -509,7 +487,7 @@ sub update_pr_template {
     }
 
     my $message = qq(
-## Instant Answer Metadata from [IA page](https://duck.co/ia/view/$data->{meta_id})
+## [$data->{name}](https://duck.co/ia/view/$data->{meta_id})
 
 **Description**: $data->{description}
 
@@ -520,15 +498,6 @@ sub update_pr_template {
 **Source**: $data->{src_url}
 
 *These are the important fields from the IA page.  Please check these for errors or missing information and update the [IA page](https://duck.co/ia/view/$data->{meta_id})*
-
----
-**Testing**
-
-**Browsers**
-$browsers
-
-**Mobile**
-$mobile
 
 ---
 *This is an automated message which will be updated as changes are made to the [IA page](https://duck.co/ia/view/$data->{meta_id})*
@@ -546,7 +515,7 @@ $mobile
     my $dax = $ENV{DAX_TOKEN};
     return unless $dax;
 
-    warn "Posting comment";
+    warn "Posting comment: $data->{name}";
     my $dax_comment = Net::GitHub->new(access_token => $dax);
     if(!$comment_number){
         # update the comment
