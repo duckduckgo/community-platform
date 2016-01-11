@@ -76,6 +76,10 @@
 	padding: 2em;
     }
 
+    hr {
+	transform: scaleX(2);
+    }
+
     .ia-new {
 	padding-top: 1.76em;
 	@include center-content(962px);
@@ -145,10 +149,6 @@
 
      .radio-repo {
 	 padding: 0 1px;
-     }
-
-     hr {
-	 margin-bottom: 3em;
      }
 
      .wizard_field_insert {
