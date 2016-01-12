@@ -140,11 +140,14 @@ sub getIssues{
                 } )->hri->one_row;
                 my $new_ia = 1 if !$ia;
 
+                # no auto generating IA pages from a PR anymore
+                return unless $ia;
+
                 my @time = localtime(time);
-                my $date = "$time[4]/$time[3]/".($time[5]+1900);
+                my ($month, $day, $year) = ($time[4]+1, $time[3], $time[5]+1900);
+                my $date = "$month/$day/$year";
 
                 $data->{body} =~ s/\n|\r//g;
-
 
                 # get the file info for the pr
                 $gh->set_default_user_repo('duckduckgo', "zeroclickinfo-$data->{repo}");
@@ -183,11 +186,17 @@ sub getIssues{
                 my $name = $data->{name};
                 $name =~ s/_/ /g;
 
+                # move status to development once we have seen the PR
+                my $dev_milestone;
+                if($ia->{dev_milestone} eq 'planning'){
+                    $dev_milestone = 'development';
+                }
+
                 my %new_data = (
                     id => $ia->{id} || $data->{name},
                     meta_id => $ia->{meta_id} || $data->{name},
                     name => $ia->{name} || ucfirst $name,
-                    dev_milestone => $ia->{dev_milestone} || 'planning',
+                    dev_milestone => $dev_milestone || $ia->{dev_milestone},
                     description => $ia->{description},
                     created_date => $ia->{created_date} || $date, 
                     repo => $ia->{repo} || $data->{repo},
@@ -442,6 +451,7 @@ sub update_pr_template {
     my @comments = $gh->issue->comments($pr_number);
 
     my $comment_number;
+    my $old_comment = '';
     if(scalar @comments){
         my $comment = $comments[0];
         return unless $comment->{user}->{login} eq 'daxtheduck';
@@ -455,6 +465,7 @@ sub update_pr_template {
             }
         }else{
             $comment_number = $comment->{id};
+            $old_comment = $comment->{body};
         }
     }
 
@@ -522,12 +533,20 @@ $mobile
 ---
 *This is an automated message which will be updated as changes are made to the [IA page](https://duck.co/ia/view/$data->{meta_id})*
 );
+    # check to see if anything has been updated since the last post
+    # remove white space and testing block of the comment.  Testing
+    # has markdown clickable check boxes that we don't want to compare.
+    my $tmp_message = $message;
+    for ($tmp_message, $old_comment){
+        $_ =~ s/\s//g;
+        $_ =~ s/\*\*Testing\*\*.*$//g;
+    }
+    return if $tmp_message eq $old_comment;
 
     my $dax = $ENV{DAX_TOKEN};
     return unless $dax;
 
     warn "Posting comment";
-
     my $dax_comment = Net::GitHub->new(access_token => $dax);
     if(!$comment_number){
         # update the comment

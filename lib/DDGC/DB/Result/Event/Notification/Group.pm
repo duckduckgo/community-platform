@@ -77,7 +77,7 @@ sub u {
 
 sub group_object {
 	my ( $self ) = @_;
-	my $event_notification = $self->event_notifications->first;
+	my $event_notification = $self->event_notifications->one_row;
 	if ($self->user_notification_group->sub_context eq '') {
 		return $event_notification->event->get_context_obj;
 	}

@@ -189,7 +189,7 @@ sub add_user_translation {
 		my $found = $self->search_related('token_language_translations',{
 			%{$translation},
 			username => $user->username,
-		})->first;
+		})->one_row;
 		unless ($found) {
 			my $plurals=$self->max_msgstr_index;
 			for (my $i = $plurals; $i > -1; $i--) {
@@ -242,12 +242,12 @@ sub auto_use {
 		}
 		my $translator_translation_language = $translation->user->search_related('user_languages',{
 			language_id => $self->token_domain_language->language->id,
-		})->first;
+		})->one_row;
 		$grade{$translation->key} = defined $translator_translation_language ? $translator_translation_language->grade : 0;
 		for my $vote ($translation->votes) {
 			my $translation_language = $vote->user->search_related('user_languages',{
 				language_id => $self->token_domain_language->language->id,
-			})->first;
+			})->one_row;
 			my $translation_grade = $translation_language ? $translation_language->grade : 0;
 			my $best_grade = defined $grade{$translation->key} ? $grade{$translation->key} : 0;
 			$grade{$translation->key} = $translation_grade if $translation_grade > $best_grade;

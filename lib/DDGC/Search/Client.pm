@@ -115,7 +115,7 @@ sub resultset {
         });
 
         if (my $ducky = $c->req->param('ducky')) {
-            my $first = $resultset->first;
+            my $first = $resultset->first; # $resultset may still need full cursor, so don't use ->one_row to get $first
             if (defined $first && $first->can('u')) {
                 $c->response->redirect($c->chained_uri(@{$first->u}));
                 return $c->detach;

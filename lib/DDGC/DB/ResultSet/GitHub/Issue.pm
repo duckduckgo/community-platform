@@ -41,10 +41,9 @@ sub most_recent {
     return $self->search(
         {},
         {
-            rows => 1,
             order_by => { -desc => 'updated_at' },
         }
-    )->first;
+    )->one_row;
 }
 
 no Moose;

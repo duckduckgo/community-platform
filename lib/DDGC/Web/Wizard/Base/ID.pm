@@ -29,7 +29,7 @@ sub next {
 	my $next_rs = $self->next_rs($c);
 	$self->count($next_rs->count);
 	if ($self->count) {
-		my $next = $next_rs->first;
+		my $next = $next_rs->one_row; # using ->one_row will exhaust the underlying cursor, but doesn't look it's needed
 		$self->current_id($next->id);
 		my $url = $c->chained_uri(@{$next->u});
 		$self->current_url($url);
