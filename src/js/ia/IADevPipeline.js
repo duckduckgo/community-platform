@@ -38,7 +38,7 @@
 	    $(window).scroll((function() {
 		// Cache the DOM queries.
 		var headerHeight = $('.site-header').outerHeight() + $('.developer-nav').outerHeight(),
-		    $sidebar = $('#page_sidebar');
+		    $sidebar = $('#page_sidebar, #actions_sidebar');
 
 		return function() {
 		    if(headerHeight - window.pageYOffset <= 0) {

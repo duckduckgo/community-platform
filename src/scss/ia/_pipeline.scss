@@ -200,6 +200,12 @@ textarea.edit-sidebar {
     .frm__select {
 	width: 100%;
     }
+
+    &.is_fixed {
+	position: fixed;
+	height: 100vh;
+	padding-top: 23px;
+    }
 }
 
 #page_sidebar, #actions_sidebar {
