@@ -457,8 +457,8 @@
                                        encodeURIComponent('https://ia-screenshots.s3.amazonaws.com/' + DDH_iaid + '_' + image + '.png?nocache=' + Math.floor(Math.random() * 10000)) +
                                        '&f=1';
                             },
-                            createImageEndpoint: 'https://jag.duckduckgo.com/screenshot/create/' + DDH_iaid,
-                            saveImageEndpoint: 'https://jag.duckduckgo.com/screenshot/save/' + DDH_iaid
+                            createImageEndpoint: 'https://ranger.duckduckgo.com/screenshot/create/' + DDH_iaid,
+                            saveImageEndpoint: 'https://ranger.duckduckgo.com/screenshot/save/' + DDH_iaid
                         },
                         events: {
                             refreshClick: {
