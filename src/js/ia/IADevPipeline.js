@@ -35,6 +35,20 @@
 	        $(".site-main").addClass("developer-main");
 
 
+	    $(window).scroll((function() {
+		// Cache the DOM queries.
+		var headerHeight = $('.site-header').outerHeight() + $('.developer-nav').outerHeight(),
+		    $sidebar = $('#page_sidebar, #actions_sidebar');
+
+		return function() {
+		    if(headerHeight - window.pageYOffset <= 0) {
+			$sidebar.addClass('is_fixed');
+		    } else {
+			$sidebar.removeClass('is_fixed');
+		    }
+		};
+	    }()));
+
             $.getJSON(url, function(data) { 
                 // console.log(window.location.pathname);
                 // Check user permissions and add to the data
