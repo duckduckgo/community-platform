@@ -1,3 +1,4 @@
+<link href="/blog/rss" type="application/atom+xml" rel="alternate" title="DuckDuckGo Blog" />
 <div class="breadcrumb-nav">
 <div class='breadcrumbs'>
     : # TODO - deprecate this phony breadcrumb
