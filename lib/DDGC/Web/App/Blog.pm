@@ -30,6 +30,7 @@ sub feed {
 # TODO: Get a better way to do this.
 get qr/^.*/ => sub {
     var( page_class => 'page-blog texture' );
+    var( include_atom_link_rel => 1 );
     pass;
 };
 
