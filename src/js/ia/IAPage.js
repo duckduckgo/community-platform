@@ -1649,6 +1649,9 @@
 
                 if (ia_data.live.hasOwnProperty("traffic") && ia_data.live.traffic.dates.length) {
                     var traffic = $("#ia_traffic").get(0).getContext("2d");
+                    var traffic_counts = [0];
+                    traffic_counts.push.apply(ia_data.live.traffic.counts);
+
                     var chart_data = {
                         labels: ia_data.live.traffic.dates,
                         datasets: [
@@ -1660,7 +1663,7 @@
                                 pointStrokeColor: "#fff",
                                 pointHighlightFill: "#fff",
                                 pointHighlightStroke: "#4495d4",
-                                data: ia_data.live.traffic.counts
+                                data: traffic_counts
                             }
                         ]
                     };
