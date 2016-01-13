@@ -396,7 +396,6 @@ textarea.edit-sidebar {
 	}
 
         .item-name {
-            .no-pr { text-decoration: line-through; }
 
 	    .item-activity a {
 		color: $blue;
@@ -549,3 +548,5 @@ textarea.edit-sidebar {
 .filter-count {
     padding-left: 0.4em;
 }
+
+.no-pr { text-decoration: line-through; }
