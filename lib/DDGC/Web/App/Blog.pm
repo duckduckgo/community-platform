@@ -20,6 +20,7 @@ sub feed {
                 title       => $_->{title},
                 modified    => $_->{updated},
                 content     => $_->{content},
+                author      => $_->{user}->{username},
             }} @{ $posts }
         ],
     );
