@@ -9,7 +9,7 @@
 : }
 
 : if $vars.include_atom_link_rel {
-    <link href="/blog/rss" type="application/atom+xml" rel="alternate" title="DuckDuckGo Blog" />
+    <link href="/blog/rss" type="application/atom+xml" rel="alternate index" title="DuckDuckGo Blog" />
 : }
 
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1" />
