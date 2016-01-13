@@ -1647,7 +1647,7 @@
                     }
                 }
 
-                if (ia_data.live.hasOwnProperty("traffic") && ia_data.live.traffic) {
+                if (ia_data.live.hasOwnProperty("traffic") && ia_data.live.traffic.dates.length) {
                     var traffic = $("#ia_traffic").get(0).getContext("2d");
                     var chart_data = {
                         labels: ia_data.live.traffic.dates,
