@@ -14,7 +14,8 @@ sub get_array_by_pixel {
     # to int and sum the two types
     for(my $i = 0; $i < scalar @counts-1; $i++) {
         my $total = $counts[$i] + $counts[$i+1];
-        push(@int_counts, $total + 0);    
+        push(@int_counts, $total + 0); 
+        $i++
     }
 
     my @combined_dates;
