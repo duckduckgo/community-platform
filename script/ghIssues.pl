@@ -45,12 +45,15 @@ my $gh = Net::GitHub->new(access_token => $token);
 
 my $today = localtime;
 # get last days worth of issues
-my $since = $today - (5 * ONE_DAY);
+my $since = $today - (1 * ONE_DAY);
 
 # get the GH issues
 sub getIssues{
     foreach my $repo (@repos){
         my $line = 1;
+        
+        warn "Getting all issues since ". $since->datetime;
+
         my @issues = $gh->issue->repos_issues('duckduckgo', $repo, {
                 state => 'all',
                 since => $since->datetime
@@ -521,15 +524,15 @@ sub update_pr_template {
     try{
         if(!$comment_number){
             # update the comment
-            # $dax_comment->issue->create_comment('duckduckgo', 'zeroclickinfo-'.$data->{repo}, $pr_number, {
-            #     "body" => $message
-            #     }
-            # );
+            $dax_comment->issue->create_comment('duckduckgo', 'zeroclickinfo-'.$data->{repo}, $pr_number, {
+                "body" => $message
+                }
+            );
         }else{
-            #$dax_comment->issue->update_comment('duckduckgo', 'zeroclickinfo-'.$data->{repo}, $comment_number, {
-            #    "body" => $message
-            #    }
-            #);
+            $dax_comment->issue->update_comment('duckduckgo', 'zeroclickinfo-'.$data->{repo}, $comment_number, {
+                "body" => $message
+                }
+            );
         }
     }
     catch {
