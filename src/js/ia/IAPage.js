@@ -1544,7 +1544,8 @@
             'github',
             'triggers',
             'advanced',
-            'test'
+            'test',
+            'traffic'
         ],
 
         edit_field_order: [
@@ -1676,9 +1677,9 @@
                     }
                 }
 
-                /*
-                if (ia_data.live.hasOwnProperty("traffic") && ia_data.live.traffic) {
+                if (ia_data.live.hasOwnProperty("traffic") && ia_data.live.traffic.dates.length) {
                     var traffic = $("#ia_traffic").get(0).getContext("2d");
+
                     var chart_data = {
                         labels: ia_data.live.traffic.dates,
                         datasets: [
@@ -1694,9 +1695,12 @@
                             }
                         ]
                     };
+
+                    Chart.defaults.global.scaleBeginAtZero = true;
                     var chart = new Chart(traffic).Line(chart_data);
+                } else {
+                    $("#traffic_wrapper").addClass("hide");
                 }
-                */
 
                 $(".ia-single--right").append(templates.live.devinfo);
 
