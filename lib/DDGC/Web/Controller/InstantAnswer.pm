@@ -1318,7 +1318,7 @@ sub create_ia_from_pr :Chained('base') :PathPart('create_from_pr') :Args() {
                 # cheat sheets
                 if($is_cheatsheet){
                     ($id) = $cheat_sheet_json =~ /(?:'|")id(?:'|"):\s?(?:'|")(.+)(?:'|"),/;
-                    $perl_module = "DDGC::Goodie::CheatSheets";
+                    $perl_module = "DDG::Goodie::CheatSheets";
                     $tab = "Cheat Sheet";
                 }else{
                     # find from perl module
