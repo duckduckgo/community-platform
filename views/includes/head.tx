@@ -8,7 +8,7 @@
     <link rel="stylesheet" media="screen, projection, handheld" href="/static/css/ia<: $settings.ddgc_config.js_version :>.css" />
 : }
 
-<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
 
 <!--[if lt IE 9]>
 <script src="/static/js/html5shiv.js"></script>
