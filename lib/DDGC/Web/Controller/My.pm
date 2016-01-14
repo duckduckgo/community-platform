@@ -389,7 +389,6 @@ sub email_verify :Chained('base') :Args(2) {
 	$user->data($data);
 	$user->email_verified(1);
 	$user->update;
-    $user->instant_answers->update({public => 1});
 	$c->stash->{success} = 1;
 }
 

@@ -1228,7 +1228,6 @@ sub create_ia :Chained('base') :PathPart('create') :Args() {
         my $name = $data->{name};
         my $repo = $data->{repo}? lc $data->{repo} : undef;
         my $other_queries = $data->{other_queries}? from_json($data->{other_queries}) : [];
-        my $public = $c->user->email_verified? 1 : 0;
         my $author = {
             url => 'https://duck.co/user/' . $c->user->username,
             name => $c->user->username,
@@ -1249,7 +1248,7 @@ sub create_ia :Chained('base') :PathPart('create') :Args() {
                 src_url => $data->{src_url},
                 example_query => $data->{example_query},
                 other_queries => $data->{other_queries},
-                public => $public,
+                public => 0,
                 developer => to_json([$author]),
                 perl_module => $data->{perl_module},
                 tab => $data->{tab}
@@ -1288,7 +1287,6 @@ sub create_ia_from_pr :Chained('base') :PathPart('create_from_pr') :Args() {
 
             my @files = $gh->pull_request->files($pr_number);
             my $pr_data = $gh->pull_request->pull($pr_number);
-            my $public = $user->email_verified? 1 : 0;
             my $author = {
                 url => 'https://duck.co/user/' . $c->user->username,
                 name => $c->user->username,
@@ -1344,7 +1342,7 @@ sub create_ia_from_pr :Chained('base') :PathPart('create_from_pr') :Args() {
                         name => $id,
                         repo => $repo,
                         dev_milestone => 'planning',
-                        public => $public,
+                        public => 1,
                         developer => to_json([$author]),
                         perl_module => $perl_module,
                         tab => $tab
