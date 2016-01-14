@@ -249,15 +249,6 @@ sub github_oauth :Chained('base') :Args(0) {
 	})->order_by({ -desc => 'id' })->one_row;
 	$user->store_github_credentials( $user_info ) if $user;
 
-	if ( $user_info->{email} && !$user ) {
-		$user = $c->d->rs('User')->search(
-			 \[ 'LOWER(email) = ? AND email_verified = 1', ( lc( $user_info->{email} ) ) ],
-		)->order_by({ -desc => 'id' })->one_row;
-		if ( $user ) {
-			$user->store_github_credentials( $user_info );
-		}
-	}
-
 	if ( !$user ) {
 		( my $cp_login = $user_info->{login} ) =~ s/-/_/g;
 		if ( $c->d->rs('User')->find({ username => $cp_login }) ) {
