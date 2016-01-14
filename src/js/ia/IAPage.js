@@ -1679,12 +1679,12 @@
 
                 if (ia_data.live.hasOwnProperty("traffic") && ia_data.live.traffic.dates.length) {
                     var traffic = $("#ia_traffic").get(0).getContext("2d");
+                    var empty_labels = ia_data.live.traffic.counts.map(function(obj){return "";});
 
                     var chart_data = {
-                        labels: ia_data.live.traffic.dates,
+                        labels: empty_labels,
                         datasets: [
                             {
-                                label: "Last 30 days traffic",
                                 fillColor: "rgba(0,0,0,0)",
                                 strokeColor: "#4495d4",
                                 pointColor: "#4495d4",
