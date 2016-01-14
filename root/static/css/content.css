@@ -4662,7 +4662,6 @@ a.fill {
   overflow: hidden; }
 
 .header-logo {
-  width: 265px;
   float: left; }
 
 .header-logo__logo {
@@ -4902,22 +4901,10 @@ a.fill {
   color: #606060;
   padding: 20px 22px 21px;
   font-size: 16px;
-  line-height: 1;
-  text-shadow: 0 1px 0 #fff;
-  border-left: 1px solid transparent;
-  border-right: 1px solid #d5d5d5;
-  box-shadow: inset 1px 0 0 #f3f3f3, 1px 0 0 #f3f3f3; }
-
-.header-nav li:first-child a {
-  border-left: 1px solid #d5d5d5; }
+  line-height: 1; }
 
 .header-nav .active a, .header-nav a:hover, .header-nav ul li:first-child a:hover, .page-home li.nav-home a, .page-blog li.nav-blog a, .page-translate li.nav-translate a, .page-develop li.nav-develop a, .page-forums li.nav-forums a, .page-help li.nav-help a {
-  color: black;
-  background: #cdcdcd;
-  border-left-color: #bbb;
-  border-right-color: #bbb;
-  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
-  box-shadow: 1px 0 0 #f3f3f3; }
+  color: #60a5da; }
 
 .page-home .header-nav ul {
   border-left-color: #c3c3c3; }
