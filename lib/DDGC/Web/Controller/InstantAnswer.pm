@@ -1250,7 +1250,9 @@ sub create_ia :Chained('base') :PathPart('create') :Args() {
                 example_query => $data->{example_query},
                 other_queries => $data->{other_queries},
                 public => $public,
-                developer => to_json([$author])
+                developer => to_json([$author]),
+                perl_module => $data->{perl_module},
+                tab => $data->{tab}
             });
 
             save_milestone_date($new_ia, 'created');
@@ -1292,6 +1294,8 @@ sub create_ia_from_pr :Chained('base') :PathPart('create_from_pr') :Args() {
                 name => $c->user->username,
                 type => "duck.co"
             };
+            my $perl_module;
+            my $tab;
 
                 # spice
             if($repo =~ /spice/i){
@@ -1314,6 +1318,8 @@ sub create_ia_from_pr :Chained('base') :PathPart('create_from_pr') :Args() {
                 # cheat sheets
                 if($is_cheatsheet){
                     ($id) = $cheat_sheet_json =~ /(?:'|")id(?:'|"):\s?(?:'|")(.+)(?:'|"),/;
+                    $perl_module = "DDG::Goodie::CheatSheets";
+                    $tab = "Cheat Sheet";
                 }else{
                     # find from perl module
                     foreach my $file (@files){
@@ -1339,7 +1345,9 @@ sub create_ia_from_pr :Chained('base') :PathPart('create_from_pr') :Args() {
                         repo => $repo,
                         dev_milestone => 'planning',
                         public => $public,
-                        developer => to_json([$author])
+                        developer => to_json([$author]),
+                        perl_module => $perl_module,
+                        tab => $tab
                     });
 
                     $c->d->rs('InstantAnswer::Issues')->update_or_create({

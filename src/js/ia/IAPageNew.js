@@ -162,6 +162,13 @@
                             var queries = temp_val.replace(/\,\s*\,/g, ",").replace(/((\s+(?:\,)\s+)|((\s+(?:\,))|((?:\,)\s+)))/g, ",").split(",");
                             data.example_query = queries.shift();
                             data.other_queries = JSON.stringify(queries);
+                        } else if (temp_field === "repo" && temp_val === "goodies") {
+                            var option_name = $.trim($temp_el.find('input[type="radio"]:checked').parent().find(".frm__label__txt").text());
+
+                            if (option_name.toLowerCase() === "cheat sheet") {
+                                data.perl_module = "DDG::Goodie::CheatSheets";
+                                data.tab = "Cheat Sheet";
+                           }
                         }
                     }
                 });
