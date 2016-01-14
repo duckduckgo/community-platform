@@ -365,12 +365,13 @@ a.fill {
 .site-header { 
 	position: relative;
 	overflow: hidden;
-	min-height: 57px;
+	min-height: 65px;
 	width: 100%;
 	border-bottom: 1px solid #bdbdbd;	
 }
 .site-header {
-	box-shadow: inset 0 0 1px rgba(255,255,255,0.1), 0 1px 1px rgba(0,0,0,0.1);
+        border-bottom: 1px solid rgba(0, 0, 0, .25);
+	border-top: 4px $blue-light solid;
 	background: white;	
 }
 	.lt-ie9 .site-header { background: #e2e2e2;}
@@ -379,7 +380,7 @@ a.fill {
 		.header-logo__logo { 
 			width: 46px;
 			height: 46px; 
-			padding: 6px 19px 0 0;
+			padding: 13px 19px 0 0;
 			float: left;			
 		}
         .header-logo__text {
@@ -517,45 +518,23 @@ a.fill {
 	
 		.header-login { 
 			float: right; 
-			position: relative; 
-			top: 9px; 
 		}			
 			.account-actions { 
+			    padding-top: 22px;
                 display: inline-block; 
-                text-shadow: 0 1px 0 #fff; 
-                border: 1px solid #bcbcbc; 
-                -webkit-border-radius: 5px;
-                border-radius: 5px;	
                 white-space: nowrap;
                 word-wrap: break-word; 
             }			
-			.account-actions__btn { 			
-				padding: 8px 22px 9px; 
-				font-size: 12px;
-				display: block;
-				float: left;
-				color: #6c6c6c;
-				font-weight: normal;
-				font-size: 13px;				
-				-webkit-border-radius: 0 5px 5px 0;
-				border-radius: 0 5px 5px 0;
-				background: #f0f0f0;			
-				background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2ZmZmZmZiIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNmMGYwZjAiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
-				background: -moz-linear-gradient(top,  #ffffff 0%, #f0f0f0 100%);
-				background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(100%,#f0f0f0));
-				background: -webkit-linear-gradient(top,  #ffffff 0%,#f0f0f0 100%);
-				background: -o-linear-gradient(top,  #ffffff 0%,#f0f0f0 100%);
-				background: -ms-linear-gradient(top,  #ffffff 0%,#f0f0f0 100%);
-				background: linear-gradient(to bottom,  #ffffff 0%,#f0f0f0 100%);
-				-pie-background: linear-gradient(to bottom,  #ffffff 0%,#f0f0f0 100%);
-			}	
-			.account-actions__btn:hover { background: #f0f0f0; }
-			.account-actions__btn:active { background: #fff; }
-				.account-actions__btn--first { 
-					border-right: 1px solid #bfbfbf; 
-					-webkit-border-radius: 5px 0 0 5px;
-					border-radius: 5px 0 0 5px;
-				}
+			.account-actions a {
+			    color: #606060;
+			    text-transform: capitalize;
+			    padding: 0 5px 9px; 
+			}
+
+			.account-actions a:hover {
+			    color: $blue-light;
+			}
+
 			.page-signup .header-login .nav-signup { display: none; }
 				.page-signup .header-login .nav-login { 
 					-webkit-border-radius: 5px;
@@ -592,8 +571,7 @@ a.fill {
 		.header-nav a { 
 			display: block; 
 			color: #606060; 
-			padding: 20px 22px 21px; 
-			font-size: 16px;
+			padding: 26px 22px 21px; 
 			line-height: 1; 
 		}
 			
@@ -897,7 +875,6 @@ filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=2);
 @media only screen and (max-width: 788px) {
 	.site-main .content-wrap { width: 98%; }	
 	.topmsg { zoom: 0.85; }
-	.header-login { position: absolute; right: 0; }	
 	.site-header .user-avatar { visibility: visible; }
 	.header-notice { padding-bottom: 4px; }
 	.header-nav, .header-notice { clear: both; float: none; padding-top: 4px;}
@@ -955,7 +932,7 @@ filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=2);
 	}
 	.header-login .account-actions a { 
 		font-size: 12px;
-		padding: 8px 12px 9px; 
+		padding: 8px 20px 9px; 
 	}
 	.header-account-info .user-avatar, .header-account-info .user-notifications {
 		visibility: hidden;		
