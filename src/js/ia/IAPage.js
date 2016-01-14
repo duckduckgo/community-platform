@@ -1685,7 +1685,7 @@
                         datasets: [
                             {
                                 label: "Last 30 days traffic",
-                                fillColor: "#60a5da",
+                                fillColor: "rgba(0,0,0,0)",
                                 strokeColor: "#4495d4",
                                 pointColor: "#4495d4",
                                 pointStrokeColor: "#fff",
@@ -1696,6 +1696,7 @@
                         ]
                     };
 
+                    Chart.defaults.global.datasetFill = false;
                     Chart.defaults.global.scaleBeginAtZero = true;
                     var chart = new Chart(traffic).Line(chart_data);
                 } else {
