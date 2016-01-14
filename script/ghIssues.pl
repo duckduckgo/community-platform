@@ -51,6 +51,9 @@ my $since = $today - (1 * ONE_DAY);
 sub getIssues{
     foreach my $repo (@repos){
         my $line = 1;
+        
+        warn "Getting all issues since ". $since->datetime;
+
         my @issues = $gh->issue->repos_issues('duckduckgo', $repo, {
                 state => 'all',
                 since => $since->datetime
@@ -517,18 +520,24 @@ sub update_pr_template {
 
     warn "Posting comment: $data->{name}";
     my $dax_comment = Net::GitHub->new(access_token => $dax);
-    if(!$comment_number){
-        # update the comment
-        $dax_comment->issue->create_comment('duckduckgo', 'zeroclickinfo-'.$data->{repo}, $pr_number, {
-            "body" => $message
-            }
-        );
-    }else{
-        $dax_comment->issue->update_comment('duckduckgo', 'zeroclickinfo-'.$data->{repo}, $comment_number, {
-            "body" => $message
-            }
-        );
+
+    try{
+        if(!$comment_number){
+            # update the comment
+            $dax_comment->issue->create_comment('duckduckgo', 'zeroclickinfo-'.$data->{repo}, $pr_number, {
+                "body" => $message
+                }
+            );
+        }else{
+            $dax_comment->issue->update_comment('duckduckgo', 'zeroclickinfo-'.$data->{repo}, $comment_number, {
+                "body" => $message
+                }
+            );
+        }
     }
+    catch {
+        $d->errorlog("Error posting dax comment: '$_'...");
+    };
 }
 
 getIssues;
