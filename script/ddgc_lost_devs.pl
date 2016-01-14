@@ -13,6 +13,7 @@ use Data::Dumper;
 use Net::GitHub::V3;
 use Getopt::Long;
 use HTTP::Date;
+use Spreadsheet::WriteExcel;
 
 my $since;
 GetOptions(
@@ -32,15 +33,30 @@ my @results = $rs->search(
     }
 )->all;
 
+my $book = Spreadsheet::WriteExcel->new('dev-without-pr.xls');
+my $sheet = $book->add_worksheet();
+my $row = 0;
+
 foreach my $result (@results){
     next if $result->{dev_milestone} !~ /planning/i;
     next unless $d->rs('InstantAnswer::Issues')->search({is_pr => 1, instant_answer_id => $result->{id}});
+    next unless $result->{developer};
 
     my $dev = from_json $result->{developer} if exists $result->{developer};
+    next unless $dev->[0]->{name};
 
-    printf("IA: %s\t Date: %s\tDev: %s\n",
-        $result->{id},
+    my $today = localtime;
+    my $link =  qq(https://duck.co/ia/view/$result->{id});
+
+    my @data = [
+        $dev->[0]->{name},
+        $link,
         $result->{created_date},
-        $dev->[0]->{url}
-    );
+        $today
+    ];
+
+    for(my $i = 0; $i < scalar @data; $i++){
+        $sheet->write($row, $i, $data[$i]); 
+    }
+    $row++
 }
