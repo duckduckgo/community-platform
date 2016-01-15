@@ -1657,6 +1657,27 @@
             });
         },
 
+        getWeekends: function(dates) {
+            var result = [];
+
+            $.each(dates, function(idx) {
+                var date = dates[idx];
+
+                date.replace("T", " ").replace("Z", " ");
+                date = moment.utc(date, "YYYY-MM-DD HH:mm:ss");
+
+                var is_sunday = date.format("d") === "0"? true : false;
+
+                if (is_sunday) {
+                    result.push(date.format("ddd D MMM YYYY"));
+                } else {
+                    result.push("");
+                }
+            });
+
+            return result;
+        },
+
         updateAll: function(templates, ia_data, edit) {
             var dev_milestone = ia_data.live.dev_milestone;
 
@@ -1679,6 +1700,7 @@
 
                 if (ia_data.live.hasOwnProperty("traffic") && ia_data.live.traffic.dates.length) {
                     var traffic = $("#ia_traffic").get(0).getContext("2d");
+                    //var weekend_labels = this.getWeekends(ia_data.live.traffic.dates);
                     var empty_labels = ia_data.live.traffic.counts.map(function(obj){return "";});
 
                     var chart_data = {
