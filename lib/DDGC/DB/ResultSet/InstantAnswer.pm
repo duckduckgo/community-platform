@@ -18,11 +18,13 @@ sub ia_index_hri {
                 qw/ name repo src_name
                     dev_milestone description
                     template meta_id perl_module
+                    live_date created_date
                 /, ],
              'as' => [
                 qw/ name repo src_name
                     dev_milestone description
                     template id perl_module
+                    live_date created_date
                 /, ],
             collapse => 1,
         },
