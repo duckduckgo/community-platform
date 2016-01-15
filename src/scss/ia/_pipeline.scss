@@ -180,11 +180,18 @@ textarea.edit-sidebar {
     color: $grey;
     position: relative;
 }
+
 #page_sidebar {
     width: 395px;
     overflow-x: hidden;
     overflow-y: auto;
     margin-bottom: 13em;
+
+    &.is_fixed {
+	position: fixed;
+	height: 100vh;
+	padding-top: 23px;
+    }
 }
 
 #actions_sidebar {
@@ -192,6 +199,12 @@ textarea.edit-sidebar {
 
     .frm__select {
 	width: 100%;
+    }
+
+    &.is_fixed {
+	position: fixed;
+	height: 100vh;
+	padding-top: 23px;
     }
 }
 
@@ -205,7 +218,7 @@ textarea.edit-sidebar {
     background-color: $white;
     padding: 2em;
     border: 1px solid rgba(200,200,200,0.2);
-    padding-top: 17.7em;
+    padding-top: 14.7em;
 
     .frm__label {
 	font-weight: 400;
@@ -383,7 +396,6 @@ textarea.edit-sidebar {
 	}
 
         .item-name {
-            .no-pr { text-decoration: line-through; }
 
 	    .item-activity a {
 		color: $blue;
@@ -536,3 +548,5 @@ textarea.edit-sidebar {
 .filter-count {
     padding-left: 0.4em;
 }
+
+.no-pr { text-decoration: line-through; }

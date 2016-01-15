@@ -768,7 +768,7 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
                         answer_id => $ia->meta_id, 
                         date => { '<' => $today->date()}, 
                         date => { '>' => $month_ago},
-                        pixel_type => [{ '=' => 'iaoi'}]
+                        pixel_type => [qw( iaoi ias )]
                     });
                 
                 my $iaoi = $traffic_rs->get_array_by_pixel();
@@ -1228,7 +1228,6 @@ sub create_ia :Chained('base') :PathPart('create') :Args() {
         my $name = $data->{name};
         my $repo = $data->{repo}? lc $data->{repo} : undef;
         my $other_queries = $data->{other_queries}? from_json($data->{other_queries}) : [];
-        my $public = $c->user->email_verified? 1 : 0;
         my $author = {
             url => 'https://duck.co/user/' . $c->user->username,
             name => $c->user->username,
@@ -1249,8 +1248,10 @@ sub create_ia :Chained('base') :PathPart('create') :Args() {
                 src_url => $data->{src_url},
                 example_query => $data->{example_query},
                 other_queries => $data->{other_queries},
-                public => $public,
-                developer => to_json([$author])
+                public => 0,
+                developer => to_json([$author]),
+                perl_module => $data->{perl_module},
+                tab => $data->{tab}
             });
 
             save_milestone_date($new_ia, 'created');
@@ -1286,12 +1287,13 @@ sub create_ia_from_pr :Chained('base') :PathPart('create_from_pr') :Args() {
 
             my @files = $gh->pull_request->files($pr_number);
             my $pr_data = $gh->pull_request->pull($pr_number);
-            my $public = $user->email_verified? 1 : 0;
             my $author = {
                 url => 'https://duck.co/user/' . $c->user->username,
                 name => $c->user->username,
                 type => "duck.co"
             };
+            my $perl_module;
+            my $tab;
 
                 # spice
             if($repo =~ /spice/i){
@@ -1314,6 +1316,8 @@ sub create_ia_from_pr :Chained('base') :PathPart('create_from_pr') :Args() {
                 # cheat sheets
                 if($is_cheatsheet){
                     ($id) = $cheat_sheet_json =~ /(?:'|")id(?:'|"):\s?(?:'|")(.+)(?:'|"),/;
+                    $perl_module = "DDG::Goodie::CheatSheets";
+                    $tab = "Cheat Sheet";
                 }else{
                     # find from perl module
                     foreach my $file (@files){
@@ -1338,8 +1342,10 @@ sub create_ia_from_pr :Chained('base') :PathPart('create_from_pr') :Args() {
                         name => $id,
                         repo => $repo,
                         dev_milestone => 'planning',
-                        public => $public,
-                        developer => to_json([$author])
+                        public => 1,
+                        developer => to_json([$author]),
+                        perl_module => $perl_module,
+                        tab => $tab
                     });
 
                     $c->d->rs('InstantAnswer::Issues')->update_or_create({
