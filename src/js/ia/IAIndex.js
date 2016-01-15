@@ -316,6 +316,11 @@
                 }
             }
 
+            if (sort_field.length) {
+                var direction = this.sort_asc? "sort_asc" : "sort_desc";
+                url += "&" + direction + "=" + sort_field;
+            }
+
             url = url.length? "?" + url.replace("#", "").replace("&", ""): "/ia";
             
             // Allows changing URL without reloading, since it doesn't add the new URL to history;
