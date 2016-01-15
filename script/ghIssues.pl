@@ -300,7 +300,7 @@ sub get_comments {
 sub duckco_user {
     my ($gh_user) = @_;
 
-    my $user = $d->rs('User')->find({github_user => $gh_user});
+    my $user = $d->rs('User')->find_by_github_login( $gh_user );
     my $admin = 0;
     my $comleader = 0;
     my $username;
@@ -388,7 +388,7 @@ sub assign_producer {
     return $producers[int(rand(@producers))] unless $gh_user;
 
     # look for linked duck.co account
-    my $user = $d->rs('User')->find({github_user => $gh_user});
+    my $user = $d->rs('User')->find_by_github_login( $gh_user );
 
     if ($user && $user->admin) {
         $gh_user = $user->username;
@@ -428,7 +428,7 @@ sub get_mentions {
     my $duck_users;
     # get duck.co id for each
     foreach my $gh_user (@mentions){
-        my $user = $d->rs('User')->find({github_user => $gh_user});
+        my $user = $d->rs('User')->find_by_github_login( $gh_user );
         
         if($user){
             push(@$duck_users, {name => $user->username} );
