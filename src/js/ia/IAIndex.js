@@ -15,11 +15,14 @@
             template: ''
         },
 
+        query: '',
+
+        $list_item: '',
+
         init: function() {
             //console.log("IAIndex init()");
             var ind = this;
             var url = "/ia/json";
-            var $list_item;
             var $clear_filters;
             //var right_pane_top;
             //var right_pane_left;
@@ -27,11 +30,10 @@
             var window_top;
             var $dropdown_header;
             var $input_query;
-            var query = ""; 
             ind.ia_list = ia_init();
 
             ind.refresh();
-            $list_item = $("#ia-list .ia-item");
+            this.$list_item = $("#ia-list .ia-item");
             $clear_filters = $("#clear_filters");
             $right_pane = $("#filters");
             //right_pane_top = $right_pane.offset().top;
@@ -51,7 +53,7 @@
                         var temp = parameters[idx].split("=");
                         var field = temp[0];
                         var value = temp[1];
-                        if (field && value && (ind.selected_filter.hasOwnProperty(field) || field === "q")) {
+                        if (field && value && (ind.selected_filter.hasOwnProperty(field)) || field === "q" || field === "sort_asc" || field === "sort_desc") {
                             if (ind.selected_filter.hasOwnProperty(field)) {
                                 var selector = "ia_" + field + "-" + value;
                                 selector = (field === 'topic')? "." + selector : "#" + selector;
@@ -64,15 +66,20 @@
                                 $input_query.val(decodeURIComponent(value.replace(/\+/g, " ")));
                                 $(".filters--search-button").trigger("click");
                                 param_count++;
+                            } else if ((field === "sort_asc" || field === "sort_desc") && value) {
+                                console.log("SORTING");
+                                ind.sort_asc = (field.replace("sort_", "") === "asc")? 1 : 0;
+                                console.log(ind.sort.asc);
+                                ind.sort(value);
                             }
                         }
                     });
 
                     if (param_count === 0) {
-                        ind.filter($list_item, query);
+                        ind.filter();
                     }
                 } else {
-                    ind.filter($list_item, query);
+                    ind.filter();
                 }
             });
 
@@ -109,8 +116,8 @@
                     || (evt.type === "click" && $(this).hasClass("filters--search-button"))) {
                     var temp_query = $.trim($input_query.val());
                     if (temp_query !== query) {
-                        query = temp_query;
-                        ind.filter($list_item, query);
+                        this.query = temp_query;
+                        ind.filter();
                         if ($clear_filters.hasClass("hide")) {
                             $clear_filters.removeClass("hide");
                         }
@@ -169,7 +176,7 @@
 
             $("body").on("click", "#clear_filters", function(evt) {
                 $(this).addClass("hide");
-                query = "";
+                this.query = "";
                 ind.selected_filter.dev_milestone = "";
                 ind.selected_filter.repo = "";
                 ind.selected_filter.topic = "";
@@ -187,7 +194,7 @@
                 $("#ia_repo-all, #ia_topic-all, #ia_template-all").parent().addClass("is-selected");
 
                 $(".button-group-vertical").find(".ia-repo").removeClass("fill");
-                ind.filter($list_item);
+                ind.filter();
             });
 
             $(".button-group .button, .button-group-vertical .row, .topic").click(function(evt) {
@@ -250,20 +257,22 @@
                         $("#filter_topic").find(".dropdown_header span").text($(this).text());
                     }
 
-                    query = $.trim($input_query.val());
+                    this.query = $.trim($input_query.val());
 
-                    ind.filter($list_item, query);
+                    ind.filter();
                 }
             });
         },
 
-        filter: function($obj, query) {
+        filter: function($obj) {
+            var query = this.query;
             var repo = this.selected_filter.repo;
             var dev_milestone = this.selected_filter.dev_milestone;
             var topic = this.selected_filter.topic;
             var template = this.selected_filter.template;
             var regex;
             var url = "";
+            var $obj = this.$list_item;
 
             if (query) {
                 console.log("filter: query " + query);
@@ -380,22 +389,20 @@
             }
         },
 
+        elapsed_time: function(date) {
+            date = moment.utc(date.toString().replace("/T.*Z/", " "), "YYYY-MM-DD");
+            return parseInt(moment().diff(date, "days", true));
+        },
+
         sort: function(what) {
             //console.log("sorting %s by %s", this.sort_asc ? "ascending" : "descending", what);
-
-            // reverse
-            if (this.sort_field == what) {
-                this.sort_asc = 1 - this.sort_asc;
-            }
-            else {
-                this.sort_asc = 1; // reset
-            }
-
             this.sort_field = what;
             var ascending = this.sort_asc;
-
+            var is_date = what.match(/\_date/)? 1 : 0;
+            console.log(is_date + " " + what + " Asc: " + ascending);
+            var ind = this;
+            
             this.ia_list.sort(function(l,r) {
-
                 // sort direction
                 if (ascending) {
                     var a=l, b=r;
@@ -404,6 +411,10 @@
                     var a=r; b=l;
                 }
 
+                if (is_date) {
+                    a[what] = a[what]? ind.elapsed_time(a[what]) : 0;
+                    b[what] = b[what]? ind.elapsed_time(b[what]) : 0;
+                }
                 
                 if (a[what] > b[what]) {
                     return 1;
@@ -416,12 +427,18 @@
                 return 0;
             });
             
-            this.refresh();
+            this.refresh(true);
         },
 
-        refresh: function() {
+        refresh: function(just_sorted) {
+            just_sorted = just_sorted? true : false;
             var iap = Handlebars.templates.index({ia: this.ia_list});
             $("#ia_index").html(iap);
+
+            if (just_sorted) {
+                this.$list_item = $("#ia-list .ia-item");
+                this.filter();
+            }
         }
 
     };
