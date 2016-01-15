@@ -1678,6 +1678,16 @@
             return result;
         },
 
+        sumCounts: function(counts) {
+            var sum = 0;
+
+            $.each(counts, function(idx) {
+                sum += counts[idx];
+            });
+
+            return sum;
+        },
+
         updateAll: function(templates, ia_data, edit) {
             var dev_milestone = ia_data.live.dev_milestone;
 
@@ -1701,6 +1711,8 @@
                 if (ia_data.live.hasOwnProperty("traffic") && ia_data.live.traffic.dates.length) {
                     var traffic = $("#ia_traffic").get(0).getContext("2d");
                     //var weekend_labels = this.getWeekends(ia_data.live.traffic.dates);
+                    var traffic_header =  $("#traffic_wrapper h3 span").text() + ": " +this.sumCounts(ia_data.live.traffic.counts) + " queries total";
+                    $("#traffic_wrapper h3 span").text(traffic_header);
                     var empty_labels = ia_data.live.traffic.counts.map(function(obj){return "";});
 
                     var chart_data = {
