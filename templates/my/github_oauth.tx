@@ -1,0 +1,108 @@
+: if $username_taken {
+
+    <div class="notice warning">
+        <i class="icn icon-warning-sign"></i>
+        This username is unavailable, please choose another.
+    </div>
+
+: } elsif $other_user_linked {
+
+    <div class="notice error">
+        <i class="icn icon-warning-sign"></i>
+        Another user has already signed up with this Github account.
+    </div>
+
+: } elsif $no_user_info {
+
+    <div class="notice error">
+        <i class="icn icon-warning-sign"></i>
+        No user info returned from Github.
+    </div>
+
+: } elsif $state_not_matching {
+
+    <div class="notice error">
+        <i class="icn icon-warning-sign"></i>
+        Authentication error.
+    </div>
+
+: } elsif $unknown_error {
+
+    <div class="notice error">
+        <i class="icn icon-warning-sign"></i>
+        An unknown error occurred. Please try again later.
+    </div>
+
+: } elsif $unable_to_login {
+
+    <div class="notice error">
+        <i class="icn icon-warning-sign"></i>
+        Unable to verify Github credentials.
+    </div>
+
+: }
+
+
+: if $create_user {
+
+    <div class="form-border">
+        <div class="form-wrap account-form">
+
+            : if $invalid_username {
+                <div class="notice error">
+                    <i class="icn icon-warning-sign"></i>
+                    The username may only contain standard latin letters
+                    (A-Z), numbers, "." and "_".
+                </div>
+            : }
+            <form action='/my/github_oauth' method="post">
+                <h2>Choose a Username</h2>
+
+                <div class="third">
+                    <div class="input-wrap">
+                        <input placeholder="Your duck.co Username"
+                               type="text"
+                               value="<: $cp_login :>"
+                               name="username"
+                        />
+                    </div>
+                </div>
+
+                <div class="third">
+                    <div class="input-wrap">
+                        <input type="submit"
+                               class="button submit"
+                               value="Submit" />
+                    </div>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+
+    <div class="content-box account-box">
+        <div class="head">
+            <h2>Important!</h2>
+        </div>
+        <div class="body">
+            <div class="row">
+                <p>
+                    <strong>Continuing will register a new account</strong>.
+                </p>
+                <p>
+                    If you wish to link an existing duck.co account with your Github account,
+                    please Login with your existing username and password, then on your account
+                    page choose "Link Github Account".
+                </p>
+                <p>
+                    You can reach your account page after Login by clicking your username on
+                    the top-right of any page.
+                </p>
+                <p>
+                    <strong>We cannot link your existing account later if you proceed with registration now!</strong>
+                </p>
+            </div>
+        </div>
+    </div>
+: }
