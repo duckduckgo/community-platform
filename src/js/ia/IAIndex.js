@@ -58,8 +58,6 @@
                                 var selector = "ia_" + field + "-" + value;
                                 selector = (field === 'topic')? "." + selector : "#" + selector;
                                 var $filter = $($(selector).parent().get(0));
-                                console.log($filter);
-                                console.log($filter.length);
                                 $(selector).parent().trigger("click");
                                 param_count++;
                             } else if ((field === "q") && value) {
@@ -67,9 +65,7 @@
                                 $(".filters--search-button").trigger("click");
                                 param_count++;
                             } else if ((field === "sort_asc" || field === "sort_desc") && value) {
-                                console.log("SORTING");
                                 ind.sort_asc = (field.replace("sort_", "") === "asc")? 1 : 0;
-                                console.log(ind.sort.asc);
                                 ind.sort(value);
                             }
                         }
@@ -110,13 +106,12 @@
             
             $("body").on("click keypress", "#search-ias, #filters .one-field input.text, .filters--search-button", function(evt) {
                 evt.stopPropagation(); 
-                console.log(evt.type, this);
 
                 if (((evt.type === "keypress" && evt.which === 13) && $(this).hasClass("text"))
                     || (evt.type === "click" && $(this).hasClass("filters--search-button"))) {
                     var temp_query = $.trim($input_query.val());
-                    if (temp_query !== query) {
-                        this.query = temp_query;
+                    if (temp_query !== ind.query) {
+                        ind.query = temp_query;
                         ind.filter();
                         if ($clear_filters.hasClass("hide")) {
                             $clear_filters.removeClass("hide");
@@ -176,7 +171,7 @@
 
             $("body").on("click", "#clear_filters", function(evt) {
                 $(this).addClass("hide");
-                this.query = "";
+                ind.query = "";
                 ind.selected_filter.dev_milestone = "";
                 ind.selected_filter.repo = "";
                 ind.selected_filter.topic = "";
@@ -257,14 +252,14 @@
                         $("#filter_topic").find(".dropdown_header span").text($(this).text());
                     }
 
-                    this.query = $.trim($input_query.val());
+                    ind.query = $.trim($input_query.val());
 
                     ind.filter();
                 }
             });
         },
 
-        filter: function($obj) {
+        filter: function() {
             var query = this.query;
             var repo = this.selected_filter.repo;
             var dev_milestone = this.selected_filter.dev_milestone;
@@ -275,7 +270,6 @@
             var $obj = this.$list_item;
 
             if (query) {
-                console.log("filter: query " + query);
                 query = query.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
                 regex = new RegExp(query, "gi");
                 url += "&q=" + encodeURIComponent(query.replace(/\x5c/g, "")).replace(/%20/g, "+");
@@ -316,9 +310,9 @@
                 }
             }
 
-            if (sort_field.length) {
+            if (this.sort_field.length) {
                 var direction = this.sort_asc? "sort_asc" : "sort_desc";
-                url += "&" + direction + "=" + sort_field;
+                url += "&" + direction + "=" + this.sort_field;
             }
 
             url = url.length? "?" + url.replace("#", "").replace("&", ""): "/ia";
@@ -400,11 +394,9 @@
         },
 
         sort: function(what) {
-            //console.log("sorting %s by %s", this.sort_asc ? "ascending" : "descending", what);
             this.sort_field = what;
             var ascending = this.sort_asc;
             var is_date = what.match(/\_date/)? 1 : 0;
-            console.log(is_date + " " + what + " Asc: " + ascending);
             var ind = this;
             
             this.ia_list.sort(function(l,r) {
