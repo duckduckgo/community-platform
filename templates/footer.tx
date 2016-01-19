@@ -1,22 +1,35 @@
 <div class="site-bottom">
 	<div class="content-wrap">
-		<div class="half">
+		<div class="third">
 			<div class="nav-col">
-				<h4>DuckDuckGo:</h4>
+				<h4>Community</h4>
 				<ul>
-					<li><a href="https://duckduckgo.com/spread">Spread DuckDuckGo</a></li>
-					<li><a href="https://duck.co/help/community/swag">Get DuckDuckGo Gear</a></li>
-					<li><a href="https://duck.co/help/community/following-duckduckgo">Follow DuckDuckGo</a></li>
+					<li><a href="/">Duck.co</a></li>
+					<li><a href="http://duckduckhack.com/">DuckDuckHack</a></li>
+					<li><a href="https://duckduckgo.com/spread">Spread</a></li>
+					<li><a href="/help/community/swag">Swag</a></li>
 				</ul>
 			</div>
 		</div>
-		<div class="half">
+		<div class="third">
 			<div class="nav-col">
-				<h4>DuckDuckHack:</h4>
+				<h4>Follow</h4>
 				<ul>
-					<li><a href="http://duckduckhack.com/">Develop Instant Answers</a></li>
-					<li><a href="https://duck.co/ia">Instant Answers</a></li>
-					<li><a href="https://twitter.com/duckduckhack">Follow DuckDuckHack on Twitter</a></li>
+					<li><a href="https://twitter.com/duckduckgo">Twitter</a></li>
+					<li><a href="/blog">Blog</a></li>
+					<li><a href="https://www.reddit.com/r/duckduckgo">Reddit</a></li>
+					<li><a href="https://github.com/duckduckgo">GitHub</a></li>
+				</ul>
+			</div>
+		</div>
+		<div class="third">
+			<div class="nav-col">
+				<h4>More</h4>
+				<ul>
+					<li><a href="/help">Help</a></li>
+					<li><a href="/help/privacy">Privacy</a></li>
+					<li><a href="https://duckduckgo.com/hiring/">Jobs</a></li>
+					<li><a href="https://duckduckgo.com/traffic.html">Traffic</a></li>
 				</ul>
 			</div>
 		</div>
