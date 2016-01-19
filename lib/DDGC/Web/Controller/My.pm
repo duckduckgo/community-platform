@@ -9,6 +9,9 @@ use Time::HiRes qw/ sleep /;
 use Email::Valid;
 use Digest::MD5 qw( md5_hex );
 use Try::Tiny;
+use JSON::MaybeXS;
+use URI;
+use HTTP::Request::Common;
 
 BEGIN {extends 'Catalyst::Controller'; }
 
@@ -58,6 +61,25 @@ sub campaign_nothanks :Chained('base') :Args(0) {
 	return $c->detach;
 }
 
+sub _post_login_setup {
+	my ( $self, $c ) = @_;
+	my $user = $c->user;
+	$c->req->env->{'psgix.session.options'}{change_id} = 1;
+	my $data = $user->data;
+	delete $data->{token};
+	$c->set_new_action_token;
+	if ( $data->{invalidate_existing_sessions} &&
+		time > $user->data->{invalidate_existing_sessions_timestamp} + (60 * 60 * 24) ) {
+		delete $data->{invalidate_existing_sessions};
+		delete $data->{invalidate_existing_sessions_timestamp};
+		delete $data->{post_invalidation_tokens};
+	}
+	elsif ( $data->{invalidate_existing_sessions} ) {
+		push @{ $data->{post_invalidation_tokens} }, $c->session->{action_token};
+	}
+	$user->update( { data => $data } );
+}
+
 sub logged_out :Chained('base') :PathPart('') :CaptureArgs(0) {
 	my ( $self, $c ) = @_;
 	if ($c->user) {
@@ -93,6 +115,165 @@ sub login :Chained('logged_out') :Args(0) {
                     return $c->detach;
                 }
 	}
+}
+
+sub _github_oauth_register {
+	my ( $self, $c, $username, $user_info ) = @_;
+	my $user;
+
+	if ( $username !~ /^[a-zA-Z0-9_\.]+$/ ) {
+		$c->stash->{invalid_username} = 1;
+		$c->stash->{username_taken} = 1;
+		return 0;
+	}
+	try {
+		$user = $c->d->create_user( $username, $c->d->uid );
+		$self->_verify_email( $c, $user, $user_info->{email} )
+			if ( $user && $user_info->{email} );
+	}
+	catch {
+		if ( $_ =~ /^user exists/ ) {
+			$c->stash->{username_taken} = 1;
+		}
+		else {
+			$c->stash->{unknown_error} = 1;
+		}
+		return 0;
+	};
+	if ( !$user ) {
+		$c->stash->{unknown_error} = 1;
+		return 0;
+	}
+
+	$user->store_github_credentials( $user_info );
+	return $user;
+}
+
+sub github_oauth :Chained('base') :Args(0) {
+	my ( $self, $c ) = @_;
+	$c->stash->{not_last_url} = 1;
+
+	my $params = $c->req->params;
+
+	$c->stash->{title} = 'Login with Github';
+	$c->add_bc($c->stash->{title}, '');
+	my $user;
+	my $user_info;
+	my $access_token;
+
+	if ( $params->{username} && $c->session->{github_user_info}->{login} ) {
+		$user = $self->_github_oauth_register(
+			$c, $params->{username}, $c->session->{github_user_info}
+		);
+		return $c->detach if !$user;
+		$user_info = $c->session->{github_user_info};
+		$access_token = $c->session->{github_user_info}->{access_token};
+		goto LOGIN;
+	}
+
+	if ( !$params->{code} || !$params->{state} ) {
+		$c->session->{gh_oauth_state} = $c->d->uid;
+		my $uri = URI->new('https://github.com/login/oauth/authorize');
+		$uri->query_form( {
+			client_id => $c->d->config->github_client_id,
+			redirect_uri => $c->chained_uri('My','github_oauth'),
+			state => $c->session->{gh_oauth_state},
+		} );
+		$c->response->redirect( $uri );
+		return $c->detach;
+	}
+
+	if ( $params->{state} ne $c->session->{gh_oauth_state} ) {
+		$c->stash->{state_not_matching} = 1;
+		return $c->detach;
+	}
+
+	my $response = $c->d->http->request(
+		POST 'https://github.com/login/oauth/access_token', {
+			client_id => $c->d->config->github_client_id,
+			client_secret => $c->d->config->github_client_secret,
+			code => $params->{code},
+			state => $c->session->{gh_oauth_state},
+		}, Accept => 'application/json',
+	);
+
+	if ( !$response->is_success ) {
+		$c->stash->{no_user_info} = 1;
+		return $c->detach;
+	}
+
+	$access_token  = JSON::MaybeXS->new->utf8(1)->decode($response->content)->{access_token};
+	if ( !$access_token ) {
+		$c->stash->{no_user_info} = 1;
+		return $c->detach;
+	}
+
+	$response = $c->d->http->request(
+		GET 'https://api.github.com/user',
+		Authorization => "token $access_token",
+	);
+
+	if ( !$response->is_success ) {
+		$c->stash->{no_user_info} = 1;
+		return $c->detach;
+	}
+
+	try {
+		$user_info = JSON::MaybeXS->new->utf8(1)->decode($response->content);
+	}
+	catch {
+		$c->stash->{no_user_info} = 1;
+		return $c->detach;
+	};
+
+	if ( !$user_info->{login} ) {
+		$c->stash->{no_user_info} = 1;
+		return $c->detach;
+	}
+
+	if ($c->user) {
+		my $user_check = $c->d->rs('User')->find({ github_id => $user_info->{id} });
+		if ( $user_check && ( $user_check->id != $c->user->id ) ) {
+			$c->stash->{other_user_linked} = 1;
+			return $c->detach;
+		}
+		$c->user->store_github_credentials( $user_info );
+		$c->response->redirect( $c->chained_uri('My','account') );
+	}
+
+	$user_info->{access_token} = $access_token;
+	$c->session->{github_user_info} = $user_info;
+
+	$user = $c->d->rs('User')->search({
+		github_id => $user_info->{id},
+	})->order_by({ -desc => 'id' })->one_row;
+	$user->store_github_credentials( $user_info ) if $user;
+
+	if ( !$user ) {
+		( my $cp_login = $user_info->{login} ) =~ s/-/_/g;
+		if ( $c->d->rs('User')->find({ username => $cp_login }) ) {
+			$c->stash->{username_taken} = 1;
+		}
+		else {
+			$c->stash->{cp_login} = $cp_login;
+		}
+		$c->stash->{create_user} = 1;
+		return $c->detach;
+	}
+
+LOGIN:
+	if ($c->authenticate({
+		username => $user->username,
+	}, 'github')) {
+		$c->req->env->{'psgix.session.options'}{change_id} = 1;
+		delete $c->session->{github_user_info};
+		$self->_post_login_setup( $c );
+		$c->response->redirect( $c->session->{last_url} // $c->chained_uri('My','account') );
+		return $c->detach;
+	}
+
+	$c->stash->{unable_to_login} = 1;
+	$c->stash->{error} = 1;
 }
 
 sub login_from_ia_wizard :Chained('logged_out') :Args(0) {
@@ -367,6 +548,7 @@ sub unsubscribe :Chained('base') :Args(2) {
 
 sub email_verify :Chained('base') :Args(2) {
 	my ( $self, $c, $username, $token ) = @_;
+	$c->stash->{not_last_url} = 1;
 
 	$c->stash->{title} = 'Email confirmation token check';
 		$c->add_bc($c->stash->{title}, '');
@@ -651,6 +833,28 @@ sub forgotpw :Chained('logged_out') :Args(0) {
 
 	$c->stash->{sentok} = 1;
 }
+
+sub _verify_email {
+	my ( $self, $c, $user, $email ) = @_;
+	$user->data({}) if !$user->data;
+	my $data = $user->data();
+	$c->stash->{email_verify_token} = $data->{email_verify_token} = $c->d->uid;
+	$c->stash->{email_verify_link} =
+	    $c->chained_uri('My','email_verify',$user->lowercase_username, $c->stash->{email_verify_token});
+	$user->data($data);
+	$user->email($email);
+	$user->email_verified(0);
+	$user->update;
+	$c->d->postman->template_mail(
+		1,
+		$user->email,
+		'"DuckDuckGo Community" <noreply@duck.co>',
+		'[DuckDuckGo Community] ' . $user->username . ', thank you for registering. Please verify your email address',
+		'register',
+		$c->stash,
+	);
+}
+
 
 sub register_from_ia_wizard :Chained('logged_out') :Args(0) {
         my ( $self, $c ) = @_;

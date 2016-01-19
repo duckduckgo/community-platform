@@ -77,7 +77,7 @@ sub rootdir {
 has_conf web_base => DDGC_WEB_BASE => sub {
 	( $_[0]->is_live )
 		? 'https://duck.co'
-		: 'https://view.dukgo.com';
+		: 'https://ddgc-staging.duckduckgo.com';
 };
 
 sub prosody_db_samplefile { File::Spec->rel2abs( File::Spec->catfile( dist_dir('DDGC'), 'ddgc.prosody.sqlite' ) ) }
@@ -115,7 +115,7 @@ sub is_live {
 
 sub is_view {
 	my $self = shift;
-	$self->prosody_userhost() eq 'view.dukgo.com' ? 1 : 0
+	$self->prosody_userhost() eq 'ddgc-staging-xmpp.duckduckgo.com' ? 1 : 0
 }
 
 has_conf prosody_admin_username => DDGC_PROSODY_ADMIN_USERNAME => 'testone';

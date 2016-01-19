@@ -78,5 +78,8 @@
 				<div class="half"><div class="input-wrap"><input type="submit" value="Create my account" class="button blue submit" name="register" /></div></div>
 			</div>
 		</form>
+		<p>
+			or <a href="/my/github_oauth" name="register">Login with Github</a>
+		</p>
 	</div>
 </div>

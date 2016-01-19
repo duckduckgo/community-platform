@@ -51,6 +51,9 @@ my $since = $today - (1 * ONE_DAY);
 sub getIssues{
     foreach my $repo (@repos){
         my $line = 1;
+        
+        warn "Getting all issues since ". $since->datetime;
+
         my @issues = $gh->issue->repos_issues('duckduckgo', $repo, {
                 state => 'all',
                 since => $since->datetime
@@ -300,7 +303,7 @@ sub get_comments {
 sub duckco_user {
     my ($gh_user) = @_;
 
-    my $user = $d->rs('User')->find({github_user => $gh_user});
+    my $user = $d->rs('User')->find_by_github_login( $gh_user );
     my $admin = 0;
     my $comleader = 0;
     my $username;
@@ -388,7 +391,7 @@ sub assign_producer {
     return $producers[int(rand(@producers))] unless $gh_user;
 
     # look for linked duck.co account
-    my $user = $d->rs('User')->find({github_user => $gh_user});
+    my $user = $d->rs('User')->find_by_github_login( $gh_user );
 
     if ($user && $user->admin) {
         $gh_user = $user->username;
@@ -428,7 +431,7 @@ sub get_mentions {
     my $duck_users;
     # get duck.co id for each
     foreach my $gh_user (@mentions){
-        my $user = $d->rs('User')->find({github_user => $gh_user});
+        my $user = $d->rs('User')->find_by_github_login( $gh_user );
         
         if($user){
             push(@$duck_users, {name => $user->username} );
@@ -517,18 +520,24 @@ sub update_pr_template {
 
     warn "Posting comment: $data->{name}";
     my $dax_comment = Net::GitHub->new(access_token => $dax);
-    if(!$comment_number){
-        # update the comment
-        $dax_comment->issue->create_comment('duckduckgo', 'zeroclickinfo-'.$data->{repo}, $pr_number, {
-            "body" => $message
-            }
-        );
-    }else{
-        $dax_comment->issue->update_comment('duckduckgo', 'zeroclickinfo-'.$data->{repo}, $comment_number, {
-            "body" => $message
-            }
-        );
+
+    try{
+        if(!$comment_number){
+            # update the comment
+            $dax_comment->issue->create_comment('duckduckgo', 'zeroclickinfo-'.$data->{repo}, $pr_number, {
+                "body" => $message
+                }
+            );
+        }else{
+            $dax_comment->issue->update_comment('duckduckgo', 'zeroclickinfo-'.$data->{repo}, $comment_number, {
+                "body" => $message
+                }
+            );
+        }
     }
+    catch {
+        $d->errorlog("Error posting dax comment: '$_'...");
+    };
 }
 
 getIssues;

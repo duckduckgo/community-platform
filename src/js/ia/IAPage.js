@@ -1657,6 +1657,37 @@
             });
         },
 
+        getWeekends: function(dates) {
+            var result = [];
+
+            $.each(dates, function(idx) {
+                var date = dates[idx];
+
+                date.replace("T", " ").replace("Z", " ");
+                date = moment.utc(date, "YYYY-MM-DD HH:mm:ss");
+
+                var is_sunday = date.format("d") === "0"? true : false;
+
+                if (is_sunday) {
+                    result.push(date.format("ddd D MMM YYYY"));
+                } else {
+                    result.push("");
+                }
+            });
+
+            return result;
+        },
+
+        sumCounts: function(counts) {
+            var sum = 0;
+
+            $.each(counts, function(idx) {
+                sum += counts[idx];
+            });
+
+            return sum;
+        },
+
         updateAll: function(templates, ia_data, edit) {
             var dev_milestone = ia_data.live.dev_milestone;
 
@@ -1679,13 +1710,16 @@
 
                 if (ia_data.live.hasOwnProperty("traffic") && ia_data.live.traffic.dates.length) {
                     var traffic = $("#ia_traffic").get(0).getContext("2d");
+                    //var weekend_labels = this.getWeekends(ia_data.live.traffic.dates);
+                    var traffic_header =  $("#traffic_wrapper h3 span").text() + ": " +this.sumCounts(ia_data.live.traffic.counts) + " queries total";
+                    $("#traffic_wrapper h3 span").text(traffic_header);
+                    var empty_labels = ia_data.live.traffic.counts.map(function(obj){return "";});
 
                     var chart_data = {
-                        labels: ia_data.live.traffic.dates,
+                        labels: empty_labels,
                         datasets: [
                             {
-                                label: "Last 30 days traffic",
-                                fillColor: "#60a5da",
+                                fillColor: "rgba(0,0,0,0)",
                                 strokeColor: "#4495d4",
                                 pointColor: "#4495d4",
                                 pointStrokeColor: "#fff",
@@ -1696,6 +1730,7 @@
                         ]
                     };
 
+                    Chart.defaults.global.datasetFill = false;
                     Chart.defaults.global.scaleBeginAtZero = true;
                     var chart = new Chart(traffic).Line(chart_data);
                 } else {

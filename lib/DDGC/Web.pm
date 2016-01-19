@@ -78,6 +78,14 @@ __PACKAGE__->config(
 					class			=> '+DDGC::Web::Authentication::Store::DDGC',
 				},
 			},
+			github => {
+				credential => {
+					class           => 'NoPassword',
+				},
+				store => {
+					class			=> '+DDGC::Web::Authentication::Store::DDGC',
+				},
+			}
 		},
 	},
 	'custom-error-message' => {
