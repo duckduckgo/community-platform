@@ -769,18 +769,15 @@ a.fill {
 .site-bottom {
     // The sidebar for the dev page (which has a z-index of 1) needs to be underneath the footer.
     z-index: $site-bottom-z-index;
-	background: #f4f4f4 url('../img/bg-site-bottom-texture.jpg');
-	border-top: 1px solid #d4d4d4;
-	box-shadow: inset 0 1px 0 (255,255,255,0.3);
-	padding: 25px 0;
+	padding: 50px 0 20px 0;
 	overflow: hidden;
 }
 	.site-bottom .nav-col { padding-left: 25px; }
-		.site-bottom h4 { margin: 0 0 16px; color: #565656; font-size: 1em; font-weight: bold; }
-		.site-bottom ul { list-style: none; padding: 0; margin: 0; font-size: 0.95em; }
+		.site-bottom h4 { margin: 0 0 16px; color: #E1E5E8; font-size: 1.2em; font-weight: 500; }
+		.site-bottom ul { list-style: none; padding: 0; margin: 0; font-size: 0.90em; }
 		.site-bottom li { list-style: none; margin: 0 0 6px; padding: 0; line-height: 1; }
-		.site-bottom a { color: #3363b3; text-decoration: none; }
-			.site-bottom a:hover { color: #3e77d5; }
+		.site-bottom a { color: #E1E5E8; text-decoration: none; }
+			.site-bottom a:hover { color: white; }
 	
 /* 
 	Site Footer

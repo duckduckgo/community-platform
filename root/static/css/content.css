@@ -5140,10 +5140,7 @@ h1 + .intro, .intro--mg {
 */
 .site-bottom {
   z-index: 2;
-  background: #f4f4f4 url("../img/bg-site-bottom-texture.jpg");
-  border-top: 1px solid #d4d4d4;
-  box-shadow: inset 0 1px 0 255, 255, 255, 0.3;
-  padding: 25px 0;
+  padding: 50px 0 20px 0;
   overflow: hidden; }
 
 .site-bottom .nav-col {
@@ -5151,15 +5148,15 @@ h1 + .intro, .intro--mg {
 
 .site-bottom h4 {
   margin: 0 0 16px;
-  color: #565656;
-  font-size: 1em;
-  font-weight: bold; }
+  color: #E1E5E8;
+  font-size: 1.2em;
+  font-weight: 500; }
 
 .site-bottom ul {
   list-style: none;
   padding: 0;
   margin: 0;
-  font-size: 0.95em; }
+  font-size: 0.90em; }
 
 .site-bottom li {
   list-style: none;
@@ -5168,11 +5165,11 @@ h1 + .intro, .intro--mg {
   line-height: 1; }
 
 .site-bottom a {
-  color: #3363b3;
+  color: #E1E5E8;
   text-decoration: none; }
 
 .site-bottom a:hover {
-  color: #3e77d5; }
+  color: white; }
 
 /* 
 	Site Footer
@@ -5394,3 +5391,17 @@ h1 + .intro, .intro--mg {
     padding-top: 10px; }
   .header-account-info {
     margin-right: -5px; } }
+
+.site-bottom {
+  bottom: 0;
+  background-color: #434A50; }
+  .site-bottom .nav-col {
+    text-align: center; }
+
+.footer-tagline {
+  font-size: 0.9em;
+  color: #E1E5E8;
+  text-align: center;
+  border-top: 1px solid rgba(136, 136, 136, 0.18);
+  margin-top: 2em;
+  padding-top: 20px; }
