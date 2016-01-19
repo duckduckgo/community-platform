@@ -401,10 +401,10 @@ a.fill {
 		.header-logo h3 { color: #a2a2a2; font-weight: normal; padding-top: 0; font-size: 12px; }
 	
 		.header-account-info {
-			padding-top: 11px; 
+			padding-top: 17px; 
 			width: 13em;
 			line-height: 1;
-			float: left;
+			float: right;
 			padding-left: 22px;
 			position: relative;
 		}
@@ -464,13 +464,7 @@ a.fill {
 				position: relative;
 				line-height: 36px;
 				text-align: center;
-				background: #f1f1f1; 
 				color: #64656a;				
-				text-shadow: 0 -1px 0 #555459;
-				border: 1px solid #c5c5c5;				
-				-moz-box-shadow: -1px 0 0 #fff inset, 0 1px 0 rgba(0,0,0,0.1);
-				-webkit-box-shadow: -1px 0 0 #fff inset, 0 1px 0 rgba(0,0,0,0.1);
-				box-shadow: -1px 0 0 #fff inset, 0 1px 0 rgba(0,0,0,0.1);
 			}
 				.user-avatar img { 
 					position: absolute; 
@@ -478,7 +472,7 @@ a.fill {
 					left: -1px;
 					border: 1px solid #fff;
 					-webkit-border-radius: 3px;
-					border-radius: 3px;
+					border-radius: 50%;
 					z-index: 2;
 				}
 			
@@ -493,7 +487,7 @@ a.fill {
 				font-size: 140%;
 			}		
 			.header-account-info .user-name { 
-				color: #474747; 
+				color: #606060; 
 				padding: 2px 0; 
 				display: block; 
 				float: left;
@@ -503,7 +497,16 @@ a.fill {
 				white-space: nowrap;
 				word-wrap: break-word;
 				text-overflow: ellipsis;				
+
+				a {
+				    color: #606060;
+				}
+
+				a:hover, a:active {
+				    color: #60a5da;
+				}
 			}
+
 			.header-account-info .account-links {  }
 			.header-account-info .account-links { display: block; text-shadow: 0 1px 0 #fff; padding-top: 6px; }
 			.header-account-info .account-links a { 
@@ -512,8 +515,9 @@ a.fill {
 				font-size: 12px;
 				display: block;
 				float: left;
+				color: #606060;
 			}	
-				.header-account-info .account-links a:hover { color: black; }
+				.header-account-info .account-links a:hover { color: #60a5da; }
 				.header-account-info .account-links a.first { border-left: none; padding-left: 0; }
 	
 		.header-login { 
