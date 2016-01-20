@@ -533,14 +533,17 @@ a.fill {
 			    color: #111;
 			    font-weight: 500;
 			    text-transform: capitalize;
-			    padding: 0 5px 9px; 
+			    padding: 0 0 9px 22px; 
 			}
 
 			.account-actions a:hover {
 			    color: $blue-light;
 			}
 
-			.page-signup .header-login .nav-signup { display: none; }
+			.page-signup .header-login .nav-signup { 
+			    display: none;
+			    padding: 0 22px 9px;
+			}
 				.page-signup .header-login .nav-login { 
 					-webkit-border-radius: 5px;
 					border-radius: 5px;
