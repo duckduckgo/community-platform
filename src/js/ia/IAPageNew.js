@@ -184,7 +184,16 @@
                     })
                     .done(function(data) {
                         console.log(data);
-                        checkRedirect(data, $("#pr-error"));
+                        var $id_error = $("#pr-id-error");
+                        var $msg = $("#pr-error");
+                        if (data) {
+                            var $link = $id_error.find("a");
+                            $link.text(data.name);
+                            $link.attr("href", "/ia/view/" + data.id);
+                            $msg = data.exists? $id_error : $("#pr-error");
+                        }
+                        
+                        checkRedirect(data, $msg);
                     });
                 } else if (!pr.length) {
                     $("#pr-empty-error").removeClass("hide");
