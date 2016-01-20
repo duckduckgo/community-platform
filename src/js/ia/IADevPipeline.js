@@ -117,6 +117,11 @@
                 }
             });
 
+            $("body").on("click", "#sidebar-maintainer", function(evt) {
+                $(this).find("input").removeClass("hide");
+                $(this).find(".readonly").addClass("hide");
+            });
+
             $("body").on("click", "#pipeline_toggle-dev", function(evt) {
                 dev_p.query = "";
 
