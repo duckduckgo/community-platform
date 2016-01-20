@@ -497,7 +497,8 @@ a.fill {
 				text-overflow: ellipsis;				
 
 				a {
-				    color: #606060;
+				    color: #111;
+				    font-weight: 500;
 				}
 
 				a:hover, a:active {
@@ -513,7 +514,8 @@ a.fill {
 				font-size: 12px;
 				display: block;
 				float: left;
-				color: #606060;
+				color: #111;
+				font-weight: 500;
 			}	
 				.header-account-info .account-links a:hover { color: #60a5da; }
 				.header-account-info .account-links a.first { border-left: none; padding-left: 0; }
@@ -528,7 +530,8 @@ a.fill {
                 word-wrap: break-word; 
             }			
 			.account-actions a {
-			    color: #606060;
+			    color: #111;
+			    font-weight: 500;
 			    text-transform: capitalize;
 			    padding: 0 5px 9px; 
 			}
@@ -572,7 +575,8 @@ a.fill {
 		}
 		.header-nav a { 
 			display: block; 
-			color: #606060; 
+			color: #111;
+			font-weight: 500;
 			padding: 26px 22px 21px; 
 			line-height: 1; 
 		}
