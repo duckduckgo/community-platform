@@ -74,7 +74,7 @@
     <div class="twothirds">
 	    <div class="wizard_field">
 		<div class="ia-new__title tx-clr--dk">Title</div>
-        <p class="error-message hide" id="id-error">An Instant Answer with this title already exists: </p>
+        <p class="error-message hide" id="id-error">An Instant Answer with this title already exists: <a href=""></a></p>
         <p class="error-message hide" id="id-empty-error">The value for this field can't be empty</p>
 		<input class="frm__input wizard_field_insert" id="name-input" placeholder="e.g., AlternativeTo" />
 	    </div>   

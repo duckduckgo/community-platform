@@ -209,7 +209,14 @@
                     })
                     .done(function(result) {
                        console.log(result);
-                       checkRedirect(result, $("#id-error"));
+                       var $id_error = $("#id-error");
+                       if (result) {
+                           var $link = $id_error.find("a");
+                           $link.text(result.name);
+                           $link.attr("href", "/ia/view/" + result.id);
+                       }
+                       
+                       checkRedirect(result, $id_error);
                     });
                 } else if (!data.id) {
                     $("#id-empty-error").removeClass("hide");

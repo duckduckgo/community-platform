@@ -1221,6 +1221,8 @@ sub create_ia :Chained('base') :PathPart('create') :Args() {
     my $meta_id = format_id($data->{id});
     warn $meta_id;
     my $ia = $c->d->rs('InstantAnswer')->find({id => $meta_id}) || $c->d->rs('InstantAnswer')->find({meta_id => $meta_id});
+    my $name;
+    my $exists;
 
     if ($c->user && (!$ia)) {
         $is_admin = $c->user->admin;
@@ -1262,10 +1264,17 @@ sub create_ia :Chained('base') :PathPart('create') :Args() {
 
             $result = 1;
         }
+    } elsif ($ia) {
+        $meta_id = $ia->meta_id;
+        $name = $ia->name;
+        $exists = 1;
     }
+    
     $c->stash->{x} = {
         result => $result,
-        id => $meta_id
+        id => $meta_id,
+        name => $name,
+        exists => $exists
     };
 
     $c->stash->{not_last_url} = 1;
