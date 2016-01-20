@@ -288,7 +288,7 @@ column maintainer => {
     is_nullable => 1,
     pipeline => 1,
     for_endpt => 1
-}
+};
 
 # code review (can be completed, aka '1', or not completed, aka '0')
 column code_review => {
