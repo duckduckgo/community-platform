@@ -184,7 +184,16 @@
                     })
                     .done(function(data) {
                         console.log(data);
-                        checkRedirect(data, $("#pr-error"));
+                        var $id_error = $("#pr-id-error");
+                        var $msg = $("#pr-error");
+                        if (data) {
+                            var $link = $id_error.find("a");
+                            $link.text(data.name);
+                            $link.attr("href", "/ia/view/" + data.id);
+                            $msg = data.exists? $id_error : $("#pr-error");
+                        }
+                        
+                        checkRedirect(data, $msg);
                     });
                 } else if (!pr.length) {
                     $("#pr-empty-error").removeClass("hide");
@@ -200,7 +209,14 @@
                     })
                     .done(function(result) {
                        console.log(result);
-                       checkRedirect(result, $("#id-error"));
+                       var $id_error = $("#id-error");
+                       if (result) {
+                           var $link = $id_error.find("a");
+                           $link.text(result.name);
+                           $link.attr("href", "/ia/view/" + result.id);
+                       }
+                       
+                       checkRedirect(result, $id_error);
                     });
                 } else if (!data.id) {
                     $("#id-empty-error").removeClass("hide");

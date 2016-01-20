@@ -1221,6 +1221,8 @@ sub create_ia :Chained('base') :PathPart('create') :Args() {
     my $meta_id = format_id($data->{id});
     warn $meta_id;
     my $ia = $c->d->rs('InstantAnswer')->find({id => $meta_id}) || $c->d->rs('InstantAnswer')->find({meta_id => $meta_id});
+    my $name;
+    my $exists;
 
     if ($c->user && (!$ia)) {
         $is_admin = $c->user->admin;
@@ -1262,10 +1264,17 @@ sub create_ia :Chained('base') :PathPart('create') :Args() {
 
             $result = 1;
         }
+    } elsif ($ia) {
+        $meta_id = $ia->meta_id;
+        $name = $ia->name;
+        $exists = 1;
     }
+    
     $c->stash->{x} = {
         result => $result,
-        id => $meta_id
+        id => $meta_id,
+        name => $name,
+        exists => $exists
     };
 
     $c->stash->{not_last_url} = 1;
@@ -1277,7 +1286,9 @@ sub create_ia_from_pr :Chained('base') :PathPart('create_from_pr') :Args() {
     my $url = $c->req->params->{pr};
     my ($id, $result) = '';
     my $user = $c->user;
-
+    my $name;
+    my $exists;
+    
     if ($user) {
         if(my ($repo, $pr_number) = $url =~ /https?:\/\/github.com\/duckduckgo\/zeroclickinfo-(.+)\/pull\/(.+)$/){
             # get data form this pr
@@ -1368,6 +1379,10 @@ sub create_ia_from_pr :Chained('base') :PathPart('create_from_pr') :Args() {
                     if (!$user->admin) {
                         $new_ia->add_to_users($user);
                     }
+                } else {
+                    $id = $ia->meta_id;
+                    $name = $ia->name;
+                    $exists = 1;
                 }
             }
         }
@@ -1375,7 +1390,9 @@ sub create_ia_from_pr :Chained('base') :PathPart('create_from_pr') :Args() {
     
     $c->stash->{x} = {
         result => $result,
-        id => $id
+        id => $id,
+        exists => $exists,
+        name => $name
     };
 
     $c->stash->{not_last_url} = 1;

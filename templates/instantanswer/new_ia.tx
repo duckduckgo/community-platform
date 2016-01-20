@@ -12,6 +12,7 @@
             </div>
             <p class="clearfix tx-clr--lt">The IA Page will be created from the details within your pull request.</p>
             <p class="error-msg hide" id="pr-error">Incorrect URL</p>
+            <p class="error-msg hide" id="pr-id-error">IA Page already exists: <a href=""></a></p>
             <p class="error-msg hide" id="pr-empty-error">This field can't be empty</p>
             <input id="pr-input" class="new-ia-input frm__input" placeholder="e.g., https://github.com/duckduckgo/zeroclickinfo-spice/pull/2328"/>
         </div>
@@ -73,7 +74,7 @@
     <div class="twothirds">
 	    <div class="wizard_field">
 		<div class="ia-new__title tx-clr--dk">Title</div>
-        <p class="error-message hide" id="id-error">An Instant Answer with this title already exists</p>
+        <p class="error-message hide" id="id-error">An Instant Answer with this title already exists: <a href=""></a></p>
         <p class="error-message hide" id="id-empty-error">The value for this field can't be empty</p>
 		<input class="frm__input wizard_field_insert" id="name-input" placeholder="e.g., AlternativeTo" />
 	    </div>   
