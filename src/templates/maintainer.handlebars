@@ -12,9 +12,9 @@
 
     <p  class="readonly--info {{#exists staged 'maintainer'}}hide{{/exists}}" id="maintainer--readonly">
         {{#if maintainer}}
-            {{maintainer}}
+            <a href="/user/{{maintainer}}">{{maintainer}}</a>
         {{else}}
-            <span class="no-available">No data source provided.</span>
+            <span class="no-available">No maintainer yet.</span>
         {{/if}}
     </p>
 
