@@ -69,7 +69,13 @@
         <input class="edit-sidebar" data-focus-class="frm__input" id="edit-sidebar-producer" value="{{producer}}" />
     </div>
     
-    <div id="sidebar-perl_module" class="sidebar-field">
+    <div id="sidebar-maintainer" class="sidebar-field">
+        <div class="field-label primary-label"> Maintainer </div>
+        {{#if maintainer}} <span class="readonly"> <a href="/user/{{maintainer}}">{{maintainer}}</a></span> {{/if}}
+        <input class="edit-sidebar {{#if maintainer}}hide{{/if}}" data-focus-class="frm__input" id="edit-sidebar-maintainer" value="{{maintainer}}" />
+    </div>
+
+    <div  class="sidebar-field">
         <div class="field-label primary-label"> Contributors </div>
         <span class="readonly"> {{#each developer}} <a href="{{url}}">{{name}}</a>{{#unless @last}}, {{/unless}}{{/each}}</span>
     </div>
@@ -153,6 +159,13 @@
         <div id="sidebar-perl_module" class="sidebar-field">
             <div class="field-label primary-label"> Perl Module </div>
             <span class="readonly"> {{perl_module}} </span>
+        </div>
+    {{/if}}
+    
+    {{#if maintainer}}
+        <div id="sidebar-maintainer" class="sidebar-field">
+            <div class="field-label primary-label"> Maintainer </div>
+            <span class="readonly"> <a href="/user/{{maintainer}}">{{maintainer}}</a></span>
         </div>
     {{/if}}
 

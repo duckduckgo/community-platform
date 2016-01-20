@@ -100,6 +100,36 @@
     </div>
 {{/ne_and}}
 
+<div class="ia-single--info">
+    <h3 class="ia-single--header">
+            <span>Maintainer</span>
+    {{#if permissions.admin}}
+        {{#ne_and dev_milestone 'live' 'deprecated'}}
+            <a href="#" class="devpage-edit {{#exists staged 'maintainer'}}hide{{/exists}}" id="dev-edit-maintainer">Edit</a>
+            <a href="#" class="devpage-commit sep--after {{#n_exists staged 'maintainer'}}hide{{/n_exists}}" id="dev-commit-maintainer">Commit</a>
+            <a href="#" class="devpage-cancel {{#n_exists staged 'maintainer'}}hide{{/n_exists}}" id="dev-cancel-maintainer">Cancel</a>
+        {{/ne_and}}
+    {{/if}}
+    </h3>
+
+    <p  class="readonly--info {{#exists staged 'maintainer'}}hide{{/exists}}" id="maintainer--readonly">
+        {{#if maintainer}}
+            <a href="/user/{{maintainer}}">{{maintainer}}</a>
+        {{else}}
+            <span class="no-available">No maintainer yet.</span>
+        {{/if}}
+    </p>
+
+    {{#if permissions.admin}}
+        <input class="{{#n_exists staged 'maintainer'}}hide{{/n_exists}} frm__input maintainer js-autocommit hidden-toshow" id="maintainer-input"
+            value="{{~#exists staged 'maintainer'~}}
+                {{staged.maintainer}}
+            {{~else~}}
+                {{maintainer}}
+            {{~/exists~}}" />
+    {{/if}}
+</div>
+
 <div class="ia-attribution ia-single--info">
     <h3 class="ia-single--header">Contributors
     {{#if permissions.can_edit}}

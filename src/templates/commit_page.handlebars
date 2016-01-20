@@ -173,6 +173,19 @@
             </tr>
         {{/not_null}}
 
+        {{#not_null maintainer}}
+            <tr class="updates_list">
+                <th>Maintainer</th>
+
+                <td name="maintainer"  id="maintainer_original">
+                    {{original.maintainer}}
+                </td>
+                <td name="maintainer">
+                    {{maintainer}}
+                </td>
+            </tr>
+        {{/not_null}}
+
         {{#not_null designer}}
             <tr class="updates_list">
                 <th>Designer</th>

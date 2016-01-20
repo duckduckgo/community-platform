@@ -282,6 +282,14 @@ column developer => {
     for_endpt => 1
 };
 
+#IA maintainer
+column maintainer => {
+    data_type => 'text',
+    is_nullable => 1,
+    pipeline => 1,
+    for_endpt => 1
+};
+
 # code review (can be completed, aka '1', or not completed, aka '0')
 column code_review => {
     data_type => 'integer',

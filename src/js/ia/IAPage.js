@@ -145,7 +145,8 @@
                         id : Handlebars.templates.pre_edit_id(ia_data),
                         blockgroup: Handlebars.templates.pre_edit_blockgroup(ia_data),
                         deployment_state: Handlebars.templates.pre_edit_deployment_state(ia_data),
-                        src_url: Handlebars.templates.pre_edit_src_url(ia_data)
+                        src_url: Handlebars.templates.pre_edit_src_url(ia_data),
+                        maintainer: Handlebars.templates.pre_edit_maintainer(ia_data)
                     };
 
                     page.updateAll(readonly_templates, ia_data, false);
@@ -1772,6 +1773,7 @@
                     $(".ia-single--edits").append(templates.producer);
                     $(".ia-single--edits").append(templates.designer);
                     $(".ia-single--edits").append(templates.developer);
+                    $(".ia-single--edits").append(templates.maintainer);
                     $(".ia-single--edits").append(templates.tab);
                     $(".ia-single--edits").append(templates.id);
                     $(".ia-single--edits").append(templates.blockgroup);
