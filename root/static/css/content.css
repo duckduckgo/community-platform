@@ -4703,7 +4703,6 @@ a.fill {
 
 .header-account-info {
   padding-top: 17px;
-  width: 13em;
   line-height: 1;
   float: right;
   padding-left: 22px;
@@ -4786,7 +4785,6 @@ a.fill {
   display: block;
   float: left;
   height: 1em;
-  width: 8.9em;
   overflow: hidden;
   white-space: nowrap;
   word-wrap: break-word;
