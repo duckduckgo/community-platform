@@ -1251,6 +1251,7 @@ sub create_ia :Chained('base') :PathPart('create') :Args() {
                 example_query => $data->{example_query},
                 other_queries => $data->{other_queries},
                 public => 0,
+                maintainer => $c->user->username,
                 developer => to_json([$author]),
                 perl_module => $data->{perl_module},
                 tab => $data->{tab}
@@ -1291,7 +1292,7 @@ sub create_ia_from_pr :Chained('base') :PathPart('create_from_pr') :Args() {
             my $pr_data = $gh->pull_request->pull($pr_number);
             my $author = {
                 url => 'https://duck.co/user/' . $c->user->username,
-                name => $c->user->username,
+                name => $user->username,
                 type => "duck.co"
             };
             my $perl_module;
@@ -1345,6 +1346,7 @@ sub create_ia_from_pr :Chained('base') :PathPart('create_from_pr') :Args() {
                         repo => $repo,
                         dev_milestone => 'planning',
                         public => 1,
+                        maintainer => $user->username,
                         developer => to_json([$author]),
                         perl_module => $perl_module,
                         tab => $tab
