@@ -588,7 +588,7 @@ a.fill {
 	Site Content
 */
 
-.site-main { position: relative; overflow: hidden; padding: 15px 0; }		
+.site-main { margin-bottom: 5em; position: relative; overflow: hidden; padding: 15px 0; }		
 	.intro-message { max-width: 95%; line-height: 1.38; margin: -30px auto 40px; }
 	h1 + .intro, .intro--mg { margin-top: -20px; }
 		.page-home .intro-message { max-width: 85%; }		
@@ -866,7 +866,6 @@ filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=2);
 	.topmsg + .content-wrap h1 { max-width: 85%; }
 }
 @media only screen and (max-width: 930px) {
-	.header-logo { width: 220px; }
 		.header-logo.wide { width: 300px; }
 	.header-account-info { position: absolute; top: 0; right: 0; }	
 }
@@ -878,22 +877,6 @@ filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=2);
 	.topmsg { zoom: 0.85; }
 	.site-header .user-avatar { visibility: visible; }
 	.header-notice { padding-bottom: 4px; }
-	.header-nav, .header-notice { clear: both; float: none; padding-top: 4px;}
-		.header-nav ul { float: none; }
-		.header-nav li { 
-			width: 20%; /* assuming 4 nav items */
-			-webkit-box-sizing: border-box;
-			-moz-box-sizing: border-box;
-			-ms-box-sizing: border-box;
-			-o-box-sizing: border-box;
-			box-sizing: border-box;
-		}
-		.header-nav a { 
-			border-top: 1px solid #d5d5d5;
-			padding-left: 0;
-			padding-right: 0;
-			width: 100%;
-		}
 }
 @media only screen and (max-width: 60em) {		
 	body, .content-wrap {
@@ -908,11 +891,6 @@ filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=2);
 	}
 	
 	.language_nav { margin-top: 6px; }
-	
-	
-	.site-bottom .nav-col { padding-left: 0; text-align: center; }
-		.nav-col h4 { font-size: 17px; padding-top: 14px; }
-		.nav-col li { display: inline-block; padding: 0 7px; }
 }
 
 @media only screen and (max-width: 430px) {
@@ -922,28 +900,12 @@ filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=2);
 		.header-account-info { width: 13em; }
 			.header-account-info .user-avatar { margin-right: 19px; }
 */	
-	.header-nav ul { border: none; border-top: 1px solid #d5d5d5;}
-	.header-nav li { width: 100%; float: none; clear: both; }
-	.header-nav ul li a, .header-nav ul li:first-child a  { 
-		border-left: none; 
-		border-right: none; 
-		padding: 11px 0; 
-		border-top: 1px solid #f3f3f3;
-		border-bottom: 1px solid #d5d5d5;
-	}
-	.header-login .account-actions a { 
-		font-size: 12px;
-		padding: 8px 20px 9px; 
-	}
 	.header-account-info .user-avatar, .header-account-info .user-notifications {
 		visibility: hidden;		
 	}
 	.breadcrumb-right { margin-top: 0; }	
 }
 @media only screen and (max-width: 375px) {
-	.header-logo {
-		width: 180px;
-	}
 		.header-logo__logo {
 			padding-right: 9px;
 		}
