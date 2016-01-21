@@ -499,6 +499,8 @@ sub overview_json :Chained('overview_base') :PathPart('json') :Args(0) {
      for my $issue (@issues) {
         my $is_pr = $issue->is_pr;
         my $issue_ia = $c->d->rs('InstantAnswer')->find($issue->instant_answer_id);
+        next unless $issue_ia;
+
         if ($is_pr ne 1) {
             my %temp_issue = (
                 title => $issue->title,
@@ -548,7 +550,7 @@ sub overview_json :Chained('overview_base') :PathPart('json') :Args(0) {
             }
          } else {
             my $pr = $issue;
-            if (($pr->status eq 'open' || $pr->status eq 'merged') && $resp && (($issue_ia->dev_milestone ne 'live') && ($issue_ia->dev_milestone ne 'deprecated'))) {
+            if ($pr->status && ($pr->status eq 'open' || $pr->status eq 'merged') && $resp && ($issue_ia && ($issue_ia->dev_milestone ne 'live') && ($issue_ia->dev_milestone ne 'deprecated'))) {
                 my $pr_id = $pr->issue_id;
                 my $repo = $issue_ia->repo;
                 my $beta_pr = $resp->{$repo}->{$pr_id};
@@ -687,7 +689,6 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
     my $edited;
     my @issues = $c->d->rs('InstantAnswer::Issues')->search({instant_answer_id => $ia->id},{order_by => {'-desc' => 'date'}});
     my @ia_issues;
-    my %pull_request;
     my @ia_pr;
     my %ia_data;
     my $permissions;
@@ -701,7 +702,7 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
     for my $issue (@issues) {
         if ($issue) {
             if ($issue->is_pr) {
-               %pull_request = (
+               my %pull_request = (
                     id => $issue->issue_id,
                     title => $issue->title,
                     body => $issue->body,
