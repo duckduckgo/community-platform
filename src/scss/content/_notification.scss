@@ -1,0 +1,29 @@
+.ddgsi-comment {
+    &.notification {
+	float: left;
+	font-size: 1.2em;
+	padding-right: 10px;
+	padding-top: 9px;
+	color: $grey-light;
+    }
+
+    &.has-notification {
+	&:after {
+	    visibility: visible;
+	}
+    }
+
+    &:after {
+	content: ' ';
+	display: inline-block;
+	width: 6px;
+	height: 6px;
+	background: $blue-light;
+	border-radius: 50%;
+	position: relative;
+	bottom: 9px;
+	right: 5px;
+	border: 1px solid white;
+	visibility: hidden;
+    }
+}

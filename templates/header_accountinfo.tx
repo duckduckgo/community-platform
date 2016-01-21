@@ -1,14 +1,11 @@
 <div class="header-account-info">
+  <: my $notification_count = $undone_notifications_count || $c.user.undone_notifications_count :>
+    <a href="<: $u('My::Notifications','index') :>">
+      <i class="ddgsi ddgsi-comment notification <: if $notification_count { :>has-notification<: } :>"></i>
+    </a>
+
 	<div class="user-avatar">
 		<: i($c.user,'userpic',{ userpic_size => 32 }) :>
-	</div>
-	<div class="user-notifications">
-		<: my $notification_count = $undone_notifications_count || $c.user.undone_notifications_count :>
-		<: if $notification_count { :>
-			<a class="user-notifications__num" href="<: $u('My::Notifications','index') :>">
-				<: $notification_count :>
-			</a>
-		<: } :>
 	</div>
 	<span class="user-name"><a href="<: $u('My','account') :>" class="first"><: $c.user.username :></a></span>
 	<span class="account-links">
