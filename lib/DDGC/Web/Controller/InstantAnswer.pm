@@ -711,7 +711,7 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
                     date => $issue->date
                );
 
-               $ia_data{live}->{pr} = \%pull_request;
+               push(@ia_issues, \%pull_request);
 
                if ($resp) {
                    my $pr_id = $pull_request{id};
