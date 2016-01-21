@@ -64,7 +64,7 @@
 	      <strong>Fork the Repo</strong>
 	    </h2>
 	    <p>
-	      Fork the <: if $repo { :><a href="https://github.com/duckduckgo/zeroclickinfo-<: $repo :>#fork-destination-box">zeroclickinfo-<: $repo :></a> <: } else { :> correct <: } :> repository on GitHub to get started. For more information see the documentation on <a href="http://docs.duckduckhack.com/welcome/setup-dev-environment.html#1-fork-the-appropriate-repository-on-githubcom">choosing the correct repo</a>.
+	      <: if !$repo { :> Choose the <a href="http://docs.duckduckhack.com/welcome/determining-ia-type.html">type of Instant Answer</a>, and then f<: } else { :>F<: } :>ork the <: if $repo { :><a href="https://github.com/duckduckgo/zeroclickinfo-<: $repo :>#fork-destination-box">zeroclickinfo-<: $repo :></a> <: } else { :> correct <: } :> repository on GitHub to get started. For more information see the documentation on <a href="http://docs.duckduckhack.com/welcome/setup-dev-environment.html#1-fork-the-appropriate-repository-on-githubcom">choosing the correct repo</a>.
 	    </p>
 	  </div>
 	  <div class="g third">
