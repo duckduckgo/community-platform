@@ -550,7 +550,7 @@ sub overview_json :Chained('overview_base') :PathPart('json') :Args(0) {
             }
          } else {
             my $pr = $issue;
-            if ($pr->status && ($pr->status eq 'open' || $pr->status eq 'merged') && $resp && ($issue_ia && ($issue_ia->dev_milestone ne 'live') && ($issue_ia->dev_milestone ne 'deprecated'))) {
+            if ($pr->status && ($pr->status eq 'open' || $pr->status eq 'merged') && $resp && (($issue_ia->dev_milestone ne 'live') && ($issue_ia->dev_milestone ne 'deprecated'))) {
                 my $pr_id = $pr->issue_id;
                 my $repo = $issue_ia->repo;
                 my $beta_pr = $resp->{$repo}->{$pr_id};
