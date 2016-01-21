@@ -3,8 +3,8 @@
   <p class="sub">If you've already created a pull request, you can <a href="#" id="create-ia-from-pr">skip this step</a></p>
 </div>
 <div id="new_ia_wizard" class="ia-new">
-    <div id="create-ia-from-pr-bg" class="modal-bg hide"></div>
-    <div id="create-ia-from-pr-form" class="new-ia-div hide modal-wrapper">
+    <div id="create-ia-from-pr-bg" class="modal-bg <: if $c.session.ia_data && $c.session.ia_data.pr { :><: } else { :>hide<: } :>"></div>
+    <div id="create-ia-from-pr-form" class="new-ia-div <: if $c.session.ia_data && $c.session.ia_data.pr { :><: } else { :>hide<: } :> modal-wrapper">
         <div>
             <h3 class="left tx-clr--dk"> <strong>Enter Pull Request Link</strong></h3>
             <div class="right" id="create-ia-from-pr-cancel">
@@ -14,7 +14,7 @@
             <p class="error-msg hide" id="pr-error">Incorrect URL</p>
             <p class="error-msg hide" id="pr-id-error">IA Page already exists: <a href=""></a></p>
             <p class="error-msg hide" id="pr-empty-error">This field can't be empty</p>
-            <input id="pr-input" class="new-ia-input frm__input" placeholder="e.g., https://github.com/duckduckgo/zeroclickinfo-spice/pull/2328"/>
+            <input id="pr-input" class="new-ia-input frm__input" <: if $c.session.ia_data { :>value="<: $c.session.ia_data.pr :>"<: } :> placeholder="e.g., https://github.com/duckduckgo/zeroclickinfo-spice/pull/2328"/>
         </div>
 
         <div class="button btn--primary left" id="create-ia-from-pr-save">
@@ -41,7 +41,7 @@
 
         <div class="button btn--primary"  name="login" id="login-save" >Sign in</div>
         <div>
-            <p> Or <a id="save_before_oauth" href="#">Login from GitHub</a></p>
+            <p id="oauth_p"> Or <a id="save_before_oauth" href="#">Login from GitHub</a></p>
         </div>
         </div>
         <p>Your duck.co community account is not in any way connected to your searches on duckduckgo.com</p>
@@ -60,9 +60,7 @@
 	      <div class="ia-new__title tx-clr--dk">Description</div>
 		<p class="field_desc tx-clr--lt">Describe the purpose of your IA. This will appear on the public Instant Answer Page. </p>
 		<textarea cols="100" class="frm__text wizard_field_insert" id="description-input" 
-        placeholder="e.g., AlternativeTo lists alternatives to web-based software, desktop computer software, and mobile apps, and sorts the alternatives by various criteria, including the number of registered users who have clicked the Like button for each of them on AlternativeTo.">
-	    <: if $c.session.ia_data { :><: $c.session.ia_data.description :> <: } :> 
-        </textarea>
+        placeholder="e.g., AlternativeTo lists alternatives to web-based software, desktop computer software, and mobile apps, and sorts the alternatives by various criteria, including the number of registered users who have clicked the Like button for each of them on AlternativeTo."><: if $c.session.ia_data { :><: $c.session.ia_data.description :> <: } :></textarea>
         </div>
 	 
 	    <div class="wizard_field">

@@ -19,7 +19,8 @@
 
             $(document).ready(function() {
                 if ($("#session_ia_data").length && username.length) {
-                    $("#new_ia_wizard_save").trigger("click");
+                    var $to_click = $("#create-ia-from-pr-form").hasClass("hide")? $("#new_ia_wizard_save") : $("#create-ia-from-pr-save");
+                    $to_click.trigger("click");
                 }
             });
 
@@ -77,8 +78,13 @@
             });
 
             $("#save_before_oauth").click(function(evt) {
-                var data = getData();
-                console.log(data);
+                var data;
+                if ($("#create-ia-from-pr-form").hasClass("hide")) {
+                    data = getData();
+                } else {
+                    data = { pr: getPR() };
+                }
+                
                 save_before_oauth(data);
             });
           

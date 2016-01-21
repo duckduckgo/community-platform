@@ -1275,6 +1275,7 @@ sub create_ia :Chained('base') :PathPart('create') :Args() {
         $meta_id = $ia->meta_id;
         $name = $ia->name;
         $exists = 1;
+        delete $c->session->{ia_data};
     }
     
     $c->stash->{x} = {
@@ -1387,10 +1388,13 @@ sub create_ia_from_pr :Chained('base') :PathPart('create_from_pr') :Args() {
                     if (!$user->admin) {
                         $new_ia->add_to_users($user);
                     }
+
+                    delete $c->session->{ia_data};
                 } else {
                     $id = $ia->meta_id;
                     $name = $ia->name;
                     $exists = 1;
+                    delete $c->session->{ia_data};
                 }
             }
         }
