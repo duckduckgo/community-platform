@@ -5643,6 +5643,175 @@ h1 + .intro, .intro--mg {
   .header-account-info {
     margin-right: -5px; } }
 
+@font-face {
+  font-family: 'ddg-serp-icons';
+  src: url("../../static/fonts/ddg-serp-icons.eot?-275i7f");
+  src: url("../../static/fonts/ddg-serp-icons.eot?#iefix-275i7f") format("embedded-opentype"), url("../../static/fonts/ddg-serp-icons.ttf?-275i7f") format("truetype"), url("../../static/fonts/ddg-serp-icons.woff?-275i7f") format("woff"), url("../../static/fonts/ddg-serp-icons.svg?-275i7f#ddg-serp-icons") format("svg");
+  font-weight: normal;
+  font-style: normal; }
+
+[class^="ddgsi-"], [class*=" ddgsi-"] {
+  font-family: 'ddg-serp-icons';
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale; }
+
+.ddgsi-cloudsave:before {
+  content: "\63"; }
+
+.ddgsi-check:before {
+  content: "\2713"; }
+
+.ddgsi-heart:before {
+  content: "\2665"; }
+
+.ddgsi-icon_pause:before {
+  content: "\2551"; }
+
+.ddgsi-icon_play:before {
+  content: "\25ba"; }
+
+.ddgsi-right-big:before {
+  content: "\203a"; }
+
+.ddgsi-left-big:before {
+  content: "\2039"; }
+
+.ddgsi-loupe:before {
+  content: "\53"; }
+
+.ddgsi-warning:before {
+  content: "\77"; }
+
+.ddgsi-info-sign:before {
+  content: "\49"; }
+
+.ddgsi-t-up:before {
+  content: "\25b2"; }
+
+.ddgsi-t-right:before {
+  content: "\25b6"; }
+
+.ddgsi-t-left:before {
+  content: "\25c0"; }
+
+.ddgsi-t-down:before {
+  content: "\25bc"; }
+
+.ddgsi-upload:before {
+  content: "\2912"; }
+
+.ddgsi-users:before {
+  content: "\55"; }
+
+.ddgsi-download:before {
+  content: "\2913"; }
+
+.ddgsi-clock:before {
+  content: "\43"; }
+
+.ddgsi-arrow-top:before {
+  content: "\2b06"; }
+
+.ddgsi-alert:before {
+  content: "\21"; }
+
+.ddgsi-music-note:before {
+  content: "\266b"; }
+
+.ddgsi-left-sign:before {
+  content: "\25c1"; }
+
+.ddgsi-more-sign:before {
+  content: "\2295"; }
+
+.ddgsi-right-sign:before {
+  content: "\25b7"; }
+
+.ddgsi-less-sign:before {
+  content: "\229d"; }
+
+.ddgsi-menu:before {
+  content: "\21f6"; }
+
+.ddgsi-minus:before {
+  content: "\2d"; }
+
+.ddgsi-plus:before {
+  content: "\2b"; }
+
+.ddgsi-swap:before {
+  content: "\21a9"; }
+
+.ddgsi-close:before {
+  content: "\58"; }
+
+.ddgsi-home:before {
+  content: "\2302"; }
+
+.ddgsi-down:before {
+  content: "\76"; }
+
+.ddgsi-more:before {
+  content: "\2026"; }
+
+.ddgsi-up:before {
+  content: "\5e"; }
+
+.ddgsi-move:before {
+  content: "\2629"; }
+
+.ddgsi-user:before {
+  content: "\75"; }
+
+.ddgsi-star:before {
+  content: "\2605"; }
+
+.ddgsi-grid:before {
+  content: "\47"; }
+
+.ddgsi-check-sign:before {
+  content: "\2611"; }
+
+.ddgsi-eye:before {
+  content: "\69"; }
+
+.ddgsi-region:before {
+  content: "\2637"; }
+
+.ddgsi-cry:before {
+  content: "\2639"; }
+
+.ddgsi-uploaded:before {
+  content: "\21d1"; }
+
+.ddgsi-prev:before {
+  content: "\ab"; }
+
+.ddgsi-next:before {
+  content: "\bb"; }
+
+.ddgsi-close-bold:before {
+  content: "\d7"; }
+
+.ddgsi-left:before {
+  content: "\3c"; }
+
+.ddgsi-right:before {
+  content: "\3e"; }
+
+.ddgsi-marker:before {
+  content: "\40"; }
+
+.ddgsi-comment:before {
+  content: "\4f"; }
+
 .site-bottom {
   bottom: 0;
   background-color: #434A50; }
