@@ -149,6 +149,20 @@ sub _github_oauth_register {
 	return $user;
 }
 
+sub save_data_before_redirect :Chained('base') :PathPart('save_before_oauth') :Args() {
+    my ( $self, $c ) = @_;
+
+    use Data::Dumper;
+    print Dumper $c->req->params;
+    my $data = $c->req->params;
+    $c->session->{ia_data} = $data;
+
+
+    $c->stash->{x} = { result => 1 };
+    $c->stash->{not_last_url} = 1;
+    return $c->forward($c->view('JSON'));
+}
+
 sub github_oauth :Chained('base') :Args(0) {
 	my ( $self, $c ) = @_;
 	$c->stash->{not_last_url} = 1;

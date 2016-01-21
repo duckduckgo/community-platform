@@ -70,7 +70,7 @@
                 }
             });
 
-            $("#signup-save").click(function(evt) {
+            /*$("#signup-save").click(function(evt) {
                 var prefix = "#signup-";
                 var username = $.trim($(prefix + "username-input").val());
                 var pwd = $.trim($(prefix + "pwd-input").val());
@@ -107,14 +107,36 @@
                         $("#signup-email-error").removeClass("hide");
                     }
                 }
+            });*/
+
+            $("#save_before_oauth").click(function(evt) {
+                var data = getData();
+                console.log(data);
+                save_before_oauth(data);
             });
-            
+          
             $("#new_ia_wizard_save").click(function(evt) {
                 var data = getData();
                 $(".error-message").addClass("hide");
                 create_ia(data);
             });
 
+            function save_before_oauth(data) {
+                var req = $.post("/my/save_before_oauth", data)
+                .done(function(result) {
+                    console.log("After saving before oauth: " + result);
+                    window.location = "/my/github_oauth";
+                });
+            }
+
+            function github() {
+                var req = $.post("/my/github_oauth", {
+                    action_token: $('input[name="action_token"]').val()
+                })
+                .done(function(data) {
+                });
+            }
+            
             function login(username, pwd) {
                 var req = $.post("/my/login_from_ia_wizard", {
                     username: username,
@@ -198,7 +220,7 @@
                 } else if (!pr.length) {
                     $("#pr-empty-error").removeClass("hide");
                 } else {
-                    $("#signup-bg, #signup-form").removeClass("hide");
+                    $("#login-bg, #login-form").removeClass("hide");
                 }
             }
 
@@ -221,7 +243,7 @@
                 } else if (!data.id) {
                     $("#id-empty-error").removeClass("hide");
                 } else {
-                    $("#signup-bg, #signup-form").removeClass("hide");
+                    $("#login-bg, #login-form").removeClass("hide");
                 }
             }
             

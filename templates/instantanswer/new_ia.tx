@@ -24,7 +24,7 @@
         <span class="clearfix"></span>
     </div>
     
-    <div id="signup-bg" class="modal-bg hide"></div>
+   <!---- <div id="signup-bg" class="modal-bg hide"></div>
     <div id="signup-form" class="hide modal-wrapper">
         <div>
             <h3 class="label left"> Create an Account</h3>
@@ -48,7 +48,7 @@
         <p class="center tx-clr--lt">Already have an account? <a class="login_newia" href="#">Sign In</a></p>
 
         <span class="clearfix"></span>
-    </div>
+    </div> --->
     
     <div id="login-bg" class="modal-bg hide"></div>
     <div id="login-form" class="hide modal-wrapper">
@@ -66,6 +66,9 @@
             <input id="login-pwd-input" type="password" placeholder="Password" name="password" class="pwd-input frm__input" />
 
         <div class="button btn--primary"  name="login" id="login-save" >Sign in</div>
+        <div>
+            <p> Or <a id="save_before_oauth" href="#">Login from GitHub</a></p>
+        </div>
         </div>
         <p>Your duck.co community account is not in any way connected to your searches on duckduckgo.com</p>
         <span class="clearfix"></span>
@@ -76,25 +79,31 @@
 		<div class="ia-new__title tx-clr--dk">Title</div>
         <p class="error-message hide" id="id-error">An Instant Answer with this title already exists: <a href=""></a></p>
         <p class="error-message hide" id="id-empty-error">The value for this field can't be empty</p>
-		<input class="frm__input wizard_field_insert" id="name-input" placeholder="e.g., AlternativeTo" />
+		<input class="frm__input wizard_field_insert" id="name-input" placeholder="e.g., AlternativeTo" <: if $c.session.ia_data { :>value="<: $c.session.ia_data.name :>"<: } :>/>
 	    </div>   
 	    
 	    <div class="wizard_field">
 	      <div class="ia-new__title tx-clr--dk">Description</div>
 		<p class="field_desc tx-clr--lt">Describe the purpose of your IA. This will appear on the public Instant Answer Page. </p>
-		<textarea cols="100" class="frm__text wizard_field_insert" id="description-input" placeholder="e.g., AlternativeTo lists alternatives to web-based software, desktop computer software, and mobile apps, and sorts the alternatives by various criteria, including the number of registered users who have clicked the Like button for each of them on AlternativeTo."></textarea>
-	    </div>
+		<textarea cols="100" class="frm__text wizard_field_insert" id="description-input" 
+        placeholder="e.g., AlternativeTo lists alternatives to web-based software, desktop computer software, and mobile apps, and sorts the alternatives by various criteria, including the number of registered users who have clicked the Like button for each of them on AlternativeTo.">
+	    <: if $c.session.ia_data { :><: $c.session.ia_data.description :> <: } :> 
+        </textarea>
+        </div>
 	 
 	    <div class="wizard_field">
 	      <div class="ia-new__title tx-clr--dk">Example Query</div>
 		<p class="field_desc tx-clr--lt">List out some example queries that will trigger this Instant Answer.</p>
-		<input class="frm__input wizard_field_insert" id="example_query-input" placeholder="e.g., Alternative To Notepad, Alternative To Spotify for Windows" />
+		<input class="frm__input wizard_field_insert" id="example_query-input"  
+        <: if $c.session.ia_data { :>value="<: $c.session.ia_data.example_query :><: if $c.session.ia_data.other_queries { :>,<: for $c.session.ia_data.other_queries -> $query { :> 
+        <:$query :>, <: } :><: } :>"<: } :> 
+        placeholder="e.g., Alternative To Notepad, Alternative To Spotify for Windows" />
 	    </div>
 	    
 	    <div class="wizard_field">
 	      <div class="ia-new__title tx-clr--dk">Data Source</div>
 		<p class="field_desc tx-clr--lt">Link to the data source or API, if any</p>
-		<input class="frm__input wizard_field_insert" id="src_url-input" placeholder="http://api.alternativeto.net/" />
+		<input class="frm__input wizard_field_insert" id="src_url-input" <: if $c.session.ia_data { :> value="<: $c.session.ia_data.src_url :>"<: } :> placeholder="http://api.alternativeto.net/" />
 	    </div>
 	    
 	    <div class="wizard_field">
