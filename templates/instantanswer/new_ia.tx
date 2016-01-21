@@ -163,3 +163,6 @@
         </ul>       
     </div>
 </div>
+<: if $c.session.ia_data { :>
+    <div class="hide" id="session_ia_data"></div>
+<: } :>

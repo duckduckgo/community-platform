@@ -17,7 +17,13 @@
 	        $(".site-main").addClass("developer-main");
             $(".breadcrumb-nav").remove();
 
-             $("body").on("click", "#create-ia-from-pr", function(evt) {
+            $(document).ready(function() {
+                if ($("#session_ia_data").length && username.length) {
+                    $("#new_ia_wizard_save").trigger("click");
+                }
+            });
+
+            $("body").on("click", "#create-ia-from-pr", function(evt) {
                 $("#create-ia-from-pr-form, #create-ia-from-pr-bg").removeClass("hide");
             });
 
