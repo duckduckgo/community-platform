@@ -135,14 +135,6 @@
                 });
             }
 
-            function github() {
-                var req = $.post("/my/github_oauth", {
-                    action_token: $('input[name="action_token"]').val()
-                })
-                .done(function(data) {
-                });
-            }
-            
             function login(username, pwd) {
                 var req = $.post("/my/login_from_ia_wizard", {
                     username: username,
