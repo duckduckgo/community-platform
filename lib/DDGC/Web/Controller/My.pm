@@ -152,8 +152,6 @@ sub _github_oauth_register {
 sub save_data_before_redirect :Chained('base') :PathPart('save_before_oauth') :Args() {
     my ( $self, $c ) = @_;
 
-    use Data::Dumper;
-    print Dumper $c->req->params;
     my $data = $c->req->params->{data}? decode_json($c->req->params->{data}) : "";
     if ($data->{other_queries}) {
         $data->{other_queries} = decode_json($data->{other_queries});
@@ -161,7 +159,7 @@ sub save_data_before_redirect :Chained('base') :PathPart('save_before_oauth') :A
     
     $c->session->{ia_data} = $data;
 
-    $c->stash->{x} = { result => 1 };
+    $c->stash->{x} = { success => 1 };
     $c->stash->{not_last_url} = 1;
     return $c->forward($c->view('JSON'));
 }

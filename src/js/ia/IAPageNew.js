@@ -76,45 +76,6 @@
                 }
             });
 
-            /*$("#signup-save").click(function(evt) {
-                var prefix = "#signup-";
-                var username = $.trim($(prefix + "username-input").val());
-                var pwd = $.trim($(prefix + "pwd-input").val());
-                var email = $.trim($(prefix + "email-input").val());
-                var correct_email = ((!email.length) || (email.length && email.match(/^[^\s\t\r\n]+@[^\s\r\t\n]+\.[a-z]+$/)))? true : false;
-                
-                $(".error-msg").addClass("hide");
-                
-                if (username.length && (pwd.length >= 8) && correct_email) {
-		            var req = $.post("/my/register_from_ia_wizard", {
-		                username: username,
-		                password: pwd,
-		                email: email,
-		                action_token: $('input[name="action_token"]').val()
-		            })
-		            .done(function(data) {
-		                if (data && data.result) {
-		    	            $("#signup-bg, #signup-form").addClass("hide");
-                            login(username, pwd);
-		                } else {
-                            $("#signup-undef-error").removeClass("hide");
-                        }
-		            });
-                } else {
-                    if (!username.length) {
-                        $("#signup-username-error").removeClass("hide");
-                    }
-
-                    if (pwd.length < 8) {
-                        $("#signup-pwd-error").removeClass("hide");
-                    }
-
-                    if (!correct_email) {
-                        $("#signup-email-error").removeClass("hide");
-                    }
-                }
-            });*/
-
             $("#save_before_oauth").click(function(evt) {
                 var data = getData();
                 console.log(data);
@@ -132,8 +93,9 @@
                     data: JSON.stringify(data)
                 })
                 .done(function(result) {
-                    console.log("After saving before oauth: " + result);
-                    window.location = "/my/github_oauth";
+                    if (result && result.success) {
+                        window.location = "/my/github_oauth";
+                    }
                 });
             }
 
