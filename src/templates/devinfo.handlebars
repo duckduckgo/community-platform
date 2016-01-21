@@ -46,14 +46,16 @@
     {{/if}}
 {{/ne_and}}
 
-    {{#exists pr 'id'}}
+{{#if issues}} 
         <div class="ia-single--info">
             <h3 class="ia-single--header">PR #</h3>
-            <a href="https://github.com/duckduckgo/zeroclickinfo-{{repo}}/issues/{{pr.id}}" class="one-line" id="pr">
-                {{pr.id}}
+            {{#each issues}}
+                <a href="https://github.com/duckduckgo/zeroclickinfo-{{../repo}}/issues/{{id}}" class="one-line" id="pr">
+                    {{id}}
             </a>
+        {{/each}}
         </div>
-    {{/exists}}
+{{/if}}
 
 {{#ne_and dev_milestone 'live' 'deprecated'}}
     {{#if permissions.admin}}
