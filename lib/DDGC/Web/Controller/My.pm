@@ -9,7 +9,7 @@ use Time::HiRes qw/ sleep /;
 use Email::Valid;
 use Digest::MD5 qw( md5_hex );
 use Try::Tiny;
-use JSON::MaybeXS;
+use JSON::MaybeXS 'decode_json';
 use URI;
 use HTTP::Request::Common;
 
@@ -154,9 +154,12 @@ sub save_data_before_redirect :Chained('base') :PathPart('save_before_oauth') :A
 
     use Data::Dumper;
     print Dumper $c->req->params;
-    my $data = $c->req->params;
+    my $data = $c->req->params->{data}? decode_json($c->req->params->{data}) : "";
+    if ($data->{other_queries}) {
+        $data->{other_queries} = decode_json($data->{other_queries});
+    }
+    
     $c->session->{ia_data} = $data;
-
 
     $c->stash->{x} = { result => 1 };
     $c->stash->{not_last_url} = 1;

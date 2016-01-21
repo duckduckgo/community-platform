@@ -128,7 +128,9 @@
             });
 
             function save_before_oauth(data) {
-                var req = $.post("/my/save_before_oauth", data)
+                var req = $.post("/my/save_before_oauth", {
+                    data: JSON.stringify(data)
+                })
                 .done(function(result) {
                     console.log("After saving before oauth: " + result);
                     window.location = "/my/github_oauth";
@@ -181,7 +183,14 @@
                         if (temp_field === "example_query") {
                             var queries = temp_val.replace(/\,\s*\,/g, ",").replace(/((\s+(?:\,)\s+)|((\s+(?:\,))|((?:\,)\s+)))/g, ",").split(",");
                             data.example_query = queries.shift();
-                            data.other_queries = JSON.stringify(queries);
+                            var polished_queries = [];
+                            $.each(queries, function(idx) {
+                                var tmp_query = queries[idx];
+                                if (tmp_query !== "") {
+                                    polished_queries.push(tmp_query);
+                                }
+                            });
+                            data.other_queries = JSON.stringify(polished_queries);
                         } else if (temp_field === "repo" && temp_val === "goodies") {
                             var option_name = $.trim($temp_el.find('input[type="radio"]:checked').parent().find(".frm__label__txt").text());
 
