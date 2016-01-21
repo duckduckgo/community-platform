@@ -1207,12 +1207,9 @@ sub usercheck :Chained('base') :PathPart('usercheck') :Args() {
 sub new_ia :Chained('base') :PathPart('new_ia') :Args() {
     my ( $self, $c ) = @_;
     
-    use Data::Dumper;
     $c->stash->{ia_page} = "IAPageNew";
     $c->stash->{result} = 1;
     $c->stash->{title} = "Create New Instant Answer";
-
-    print Dumper $c->session->{ia_data};
 }
 
 sub create_ia :Chained('base') :PathPart('create') :Args() {

@@ -3,8 +3,8 @@
   <p class="sub">If you've already created a pull request, you can <a href="#" id="create-ia-from-pr">skip this step</a></p>
 </div>
 <div id="new_ia_wizard" class="ia-new">
-    <div id="create-ia-from-pr-bg" class="modal-bg <: if $c.session.ia_data && $c.session.ia_data.pr { :><: } else { :>hide<: } :>"></div>
-    <div id="create-ia-from-pr-form" class="new-ia-div <: if $c.session.ia_data && $c.session.ia_data.pr { :><: } else { :>hide<: } :> modal-wrapper">
+    <div id="create-ia-from-pr-bg" class="modal-bg <: if !$c.session.ia_data || ($c.session.ia_data && !$c.session.ia_data.pr) { :>hide<: } :>"></div>
+    <div id="create-ia-from-pr-form" class="new-ia-div <: if !$c.session.ia_data || ($c.session.ia_data && !$c.session.ia_data.pr) { :>hide<: } :> modal-wrapper">
         <div>
             <h3 class="left tx-clr--dk"> <strong>Enter Pull Request Link</strong></h3>
             <div class="right" id="create-ia-from-pr-cancel">
