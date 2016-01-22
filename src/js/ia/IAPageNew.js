@@ -17,7 +17,14 @@
 	        $(".site-main").addClass("developer-main");
             $(".breadcrumb-nav").remove();
 
-             $("body").on("click", "#create-ia-from-pr", function(evt) {
+            $(document).ready(function() {
+                if ($("#session_ia_data").length && username.length) {
+                    var $to_click = $("#create-ia-from-pr-form").hasClass("hide")? $("#new_ia_wizard_save") : $("#create-ia-from-pr-save");
+                    $to_click.trigger("click");
+                }
+            });
+
+            $("body").on("click", "#create-ia-from-pr", function(evt) {
                 $("#create-ia-from-pr-form, #create-ia-from-pr-bg").removeClass("hide");
             });
 
@@ -70,50 +77,33 @@
                 }
             });
 
-            $("#signup-save").click(function(evt) {
-                var prefix = "#signup-";
-                var username = $.trim($(prefix + "username-input").val());
-                var pwd = $.trim($(prefix + "pwd-input").val());
-                var email = $.trim($(prefix + "email-input").val());
-                var correct_email = ((!email.length) || (email.length && email.match(/^[^\s\t\r\n]+@[^\s\r\t\n]+\.[a-z]+$/)))? true : false;
-                
-                $(".error-msg").addClass("hide");
-                
-                if (username.length && (pwd.length >= 8) && correct_email) {
-		            var req = $.post("/my/register_from_ia_wizard", {
-		                username: username,
-		                password: pwd,
-		                email: email,
-		                action_token: $('input[name="action_token"]').val()
-		            })
-		            .done(function(data) {
-		                if (data && data.result) {
-		    	            $("#signup-bg, #signup-form").addClass("hide");
-                            login(username, pwd);
-		                } else {
-                            $("#signup-undef-error").removeClass("hide");
-                        }
-		            });
+            $("#save_before_oauth").click(function(evt) {
+                var data;
+                if ($("#create-ia-from-pr-form").hasClass("hide")) {
+                    data = getData();
                 } else {
-                    if (!username.length) {
-                        $("#signup-username-error").removeClass("hide");
-                    }
-
-                    if (pwd.length < 8) {
-                        $("#signup-pwd-error").removeClass("hide");
-                    }
-
-                    if (!correct_email) {
-                        $("#signup-email-error").removeClass("hide");
-                    }
+                    data = { pr: getPR() };
                 }
+                
+                save_before_oauth(data);
             });
-            
+          
             $("#new_ia_wizard_save").click(function(evt) {
                 var data = getData();
                 $(".error-message").addClass("hide");
                 create_ia(data);
             });
+
+            function save_before_oauth(data) {
+                var req = $.post("/my/save_before_oauth", {
+                    data: JSON.stringify(data)
+                })
+                .done(function(result) {
+                    if (result && result.success) {
+                        window.location = "/my/github_oauth";
+                    }
+                });
+            }
 
             function login(username, pwd) {
                 var req = $.post("/my/login_from_ia_wizard", {
@@ -161,7 +151,14 @@
                         if (temp_field === "example_query") {
                             var queries = temp_val.replace(/\,\s*\,/g, ",").replace(/((\s+(?:\,)\s+)|((\s+(?:\,))|((?:\,)\s+)))/g, ",").split(",");
                             data.example_query = queries.shift();
-                            data.other_queries = JSON.stringify(queries);
+                            var polished_queries = [];
+                            $.each(queries, function(idx) {
+                                var tmp_query = queries[idx];
+                                if (tmp_query !== "") {
+                                    polished_queries.push(tmp_query);
+                                }
+                            });
+                            data.other_queries = JSON.stringify(polished_queries);
                         } else if (temp_field === "repo" && temp_val === "goodies") {
                             var option_name = $.trim($temp_el.find('input[type="radio"]:checked').parent().find(".frm__label__txt").text());
 
@@ -198,7 +195,7 @@
                 } else if (!pr.length) {
                     $("#pr-empty-error").removeClass("hide");
                 } else {
-                    $("#signup-bg, #signup-form").removeClass("hide");
+                    $("#login-bg, #login-form").removeClass("hide");
                 }
             }
 
@@ -221,7 +218,7 @@
                 } else if (!data.id) {
                     $("#id-empty-error").removeClass("hide");
                 } else {
-                    $("#signup-bg, #signup-form").removeClass("hide");
+                    $("#login-bg, #login-form").removeClass("hide");
                 }
             }
             

@@ -9,7 +9,7 @@ use Time::HiRes qw/ sleep /;
 use Email::Valid;
 use Digest::MD5 qw( md5_hex );
 use Try::Tiny;
-use JSON::MaybeXS;
+use JSON::MaybeXS 'decode_json';
 use URI;
 use HTTP::Request::Common;
 
@@ -147,6 +147,21 @@ sub _github_oauth_register {
 
 	$user->store_github_credentials( $user_info );
 	return $user;
+}
+
+sub save_data_before_redirect :Chained('base') :PathPart('save_before_oauth') :Args() {
+    my ( $self, $c ) = @_;
+
+    my $data = $c->req->params->{data}? decode_json($c->req->params->{data}) : "";
+    if ($data->{other_queries}) {
+        $data->{other_queries} = decode_json($data->{other_queries});
+    }
+    
+    $c->session->{ia_data} = $data;
+
+    $c->stash->{x} = { success => 1 };
+    $c->stash->{not_last_url} = 1;
+    return $c->forward($c->view('JSON'));
 }
 
 sub github_oauth :Chained('base') :Args(0) {
