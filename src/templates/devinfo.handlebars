@@ -46,16 +46,18 @@
     {{/if}}
 {{/ne_and}}
 
-{{#if issues}} 
+{{#unless @issues}} 
         <div class="ia-single--info">
             <h3 class="ia-single--header">PR #</h3>
+            <ul>
             {{#each issues}}
-                <a href="https://github.com/duckduckgo/zeroclickinfo-{{../repo}}/issues/{{id}}" class="one-line" id="pr">
-                    {{id}}
-            </a>
-        {{/each}}
+                <li>
+                <a href="https://github.com/duckduckgo/zeroclickinfo-{{../repo}}/issues/{{id}}" class="one-line" id="pr">{{id}}</a>
+                </li>
+            {{/each}}
+            </ul>
         </div>
-{{/if}}
+{{/unless}}
 
 {{#ne_and dev_milestone 'live' 'deprecated'}}
     {{#if permissions.admin}}
