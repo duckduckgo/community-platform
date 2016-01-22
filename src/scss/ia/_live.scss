@@ -12,6 +12,8 @@
     -moz-osx-font-smoothing: grayscale;
     -webkit-font-smoothing: antialiased;
 
+    .platform-pr-merged, .platform-pr-closed { line-height: 1.35; }
+
     /* Add padding left and right of the wrapper.
        This is so that when the screen gets smaller the content won't
        touch the side of the screen. */
@@ -39,6 +41,8 @@
         div {
             margin-left: 65px;
         }
+
+        li { margin-bottom: 0.25em; }
     }
 
     .tag-grp {
