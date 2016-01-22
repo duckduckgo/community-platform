@@ -41,7 +41,7 @@
 
         <div class="button btn--primary"  name="login" id="login-save" >Sign in</div>
         <div>
-            <p id="oauth_p"> Or <a id="save_before_oauth" href="#">Login from GitHub</a></p>
+            <p id="oauth_p"> Or <a id="save_before_oauth" href="#">Login with GitHub</a></p>
         </div>
         </div>
         <p>Your duck.co community account is not in any way connected to your searches on duckduckgo.com</p>
