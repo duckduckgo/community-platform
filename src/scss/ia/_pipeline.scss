@@ -1,6 +1,10 @@
 $blue-variant: #7AB4E3;
 $gold-variant: #F6BE68;
 
+.platform-pr-merged { color: $purple; }
+
+.platform-pr-closed { color: $red; }
+
 #sort_pipeline {
     background-color: transparent;
     border: none;
@@ -310,9 +314,6 @@ textarea.edit-sidebar {
 	background-color: $silver;
     }
 
-    .platform-pr-merged { color: $purple; }
-
-    .platform-pr-closed { color: $red; }
 
     .activity-details {
         a { 
