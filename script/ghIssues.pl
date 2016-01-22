@@ -191,9 +191,11 @@ sub getIssues{
 
                 # move status to development once we have seen the PR
                 my $dev_milestone;
-                if($ia->{dev_milestone} eq 'planning'){
+                if (($ia->{dev_milestone} eq 'planning') && ($state eq 'open')){
                     $dev_milestone = 'development';
-                }
+                } elsif ((($ia->{dev_milestone} ne 'live') && ($ia->{dev_milestone} ne 'deprecated')) && (($state eq 'merged') || $state eq 'closed')) {
+                    $dev_milestone = ($state eq 'merged')? 'complete' : 'planning';
+                } 
 
                 my %new_data = (
                     id => $ia->{id} || $data->{name},
