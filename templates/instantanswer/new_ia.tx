@@ -11,9 +11,9 @@
                  <i class="ddgsi ddgsi-close"></i>
             </div>
             <p class="clearfix tx-clr--lt">The IA Page will be created from the details within your pull request.</p>
-            <p class="error-msg hide" id="pr-error">Incorrect URL</p>
-            <p class="error-msg hide" id="pr-id-error">IA Page already exists: <a href=""></a></p>
-            <p class="error-msg hide" id="pr-empty-error">This field can't be empty</p>
+            <p class="error-message hide" id="pr-error">Incorrect URL</p>
+            <p class="error-message hide" id="pr-id-error">IA Page already exists: <a href=""></a></p>
+            <p class="error-message hide" id="pr-empty-error">This field can't be empty</p>
             <input id="pr-input" class="new-ia-input frm__input" <: if $c.session.ia_data { :>value="<: $c.session.ia_data.pr :>"<: } :> placeholder="e.g., https://github.com/duckduckgo/zeroclickinfo-spice/pull/2328"/>
         </div>
 
@@ -32,11 +32,11 @@
                  <i class="ddgsi ddgsi-close"></i>
             </div>
             <p class="clearfix first-p">Thanks - but you'll need to sign in before you can proceed. Don't worry, it will be quick!</p>
-            <p class="error-msg hide" id="login-undef-error">Wrong username or password</p>
+            <p class="error-message hide" id="login-undef-error">Wrong username or password</p>
             <input type="hidden" name="action_token" class="text" value="<: $c.session.action_token :>" />
-            <span class="error-msg hide" id="login-username-error">Username can't be empty</span>
+            <span class="error-message hide" id="login-username-error">Username can't be empty</span>
             <input id="login-username-input" placeholder="Username" name="username" class="username-input frm__input" />
-            <span class="error-msg hide" id="login-pwd-error">Invalid password</span>
+            <span class="error-message hide" id="login-pwd-error">Invalid password</span>
             <input id="login-pwd-input" type="password" placeholder="Password" name="password" class="pwd-input frm__input" />
 
         <div class="button btn--primary"  name="login" id="login-save" >Sign in</div>
