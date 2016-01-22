@@ -68,7 +68,7 @@
 		<p class="field_desc tx-clr--lt">List out some example queries that will trigger this Instant Answer.</p>
 		<input class="frm__input wizard_field_insert" id="example_query-input"  
         <: if $c.session.ia_data { :>value="<: $c.session.ia_data.example_query :><: if $c.session.ia_data.other_queries { :>,<: for $c.session.ia_data.other_queries -> $query { :> 
-        <:$query :>, <: } :><: } :>"<: } :> 
+        <:$query :>, <: } } :>"<: } :> 
         placeholder="e.g., Alternative To Notepad, Alternative To Spotify for Windows" />
 	    </div>
 	    
