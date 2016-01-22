@@ -255,9 +255,9 @@ sub dev_pipeline_json :Chained('dev_pipeline_base') :PathPart('json') :Args(0) {
             $temp_ia->{asana} = $result->{$ia->id};
         }
         
-        if ($ia->last_update && $ia->last_commit && $pr->{issue_id}) {
-            my $last_commit = from_json($ia->last_commit);
-            if (($pr->{status} eq 'open' ||$pr->{status} eq 'merged') && $resp) {
+        if ($pr->{issue_id}) {
+            my $last_commit = $ia->last_commit? from_json($ia->last_commit) : undef;
+            if (($pr->{status} eq 'open' || $pr->{status} eq 'merged') && $resp) {
                 my $pr_id = $pr->{issue_id};
                 my $repo = $ia->repo;
                 my $beta_pr = $resp->{$repo}->{$pr_id};
@@ -266,6 +266,10 @@ sub dev_pipeline_json :Chained('dev_pipeline_base') :PathPart('json') :Args(0) {
                 if ($beta_pr) {
                     $temp_ia->{beta_install} = $beta_pr->{install_status};
                     $temp_ia->{beta_query} = $beta_pr->{meta}? $beta_pr->{meta}->{example_query} : 0;
+                } elsif ($pr->{status} eq 'merged') {
+                    #All merged PRs are on beta
+                    $temp_ia->{beta_install} = "success";
+                    $temp_ia->{beta_query} = 0;
                 }
             }
        }
@@ -722,6 +726,9 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
                    if ($beta_pr) {
                        $ia_data{live}->{beta_install} = $beta_pr->{install_status};
                        $ia_data{live}->{beta_query} = $beta_pr->{meta}? $beta_pr->{meta}->{example_query} : 0;
+                   } elsif ($issue->status eq 'merged') {
+                       $ia_data{live}->{beta_install} = 'success';
+                       $ia_data{live}->{beta_query} = 0;
                    }
                }
             } elsif ($issue->status eq 'open') {
