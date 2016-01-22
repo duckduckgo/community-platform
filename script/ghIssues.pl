@@ -193,8 +193,12 @@ sub getIssues{
                 my $dev_milestone;
                 if (($ia->{dev_milestone} eq 'planning') && ($state eq 'open')){
                     $dev_milestone = 'development';
-                } elsif ((($ia->{dev_milestone} ne 'live') && ($ia->{dev_milestone} ne 'deprecated')) && (($state eq 'merged') || $state eq 'closed')) {
-                    $dev_milestone = ($state eq 'merged')? 'complete' : 'planning';
+                } elsif (($ia->{dev_milestone} ne 'live') && ($ia->{dev_milestone} ne 'deprecated')) {
+                    if ($state eq 'merged') {
+                        $dev_milestone = 'complete';
+                    } elsif ($state eq 'closed') {
+                        $dev_milestone = 'planning';
+                    }
                 } 
 
                 my %new_data = (
