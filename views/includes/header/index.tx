@@ -2,15 +2,15 @@
 	<div class="content-wrap">
 		<: if $duckpan { :>
 			<div class="header-logo wide">			
-				<div class="header-logo__logo"><a href="<: $u('Root','index') :>"><img src="/static/images/logo.svg" alt="DuckPAN Perl Archive Network" /></a></div>
+				<div class="header-logo__logo"><a href="/"><img src="/static/images/logo.svg" alt="DuckPAN Perl Archive Network" /></a></div>
 			</div>
 		<: } else if $duckduckhack { :>
 			<div class="header-logo">
-				<div class="header-logo__logo"><a href="<: $u('Root','index') :>"><img src="/static/images/logo.svg" alt="DuckDuckGo Community Platform" /></a></div>
+				<div class="header-logo__logo"><a href="/"><img src="/static/images/logo.svg" alt="DuckDuckGo Community Platform" /></a></div>
 			</div>	
 		<: } else { :>
 			<div class="header-logo">
-				<div class="header-logo__logo"><a href="<: $u('Root','index') :>"><img src="/static/images/logo.svg" alt="DuckDuckGo Community Platform" /></a></div>
+				<div class="header-logo__logo"><a href="/"><img src="/static/images/logo.svg" alt="DuckDuckGo Community Platform" /></a></div>
 			</div>	
 		<: } :>
         : include "includes/header/nav.tx"

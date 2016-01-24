@@ -4,11 +4,15 @@
       <i class="ddgsi ddgsi-comment notification <: if $notification_count { :>has-notification<: } :>"></i>
     </a>
 
-	<div class="user-avatar">
-		<: i($c.user,'userpic',{ userpic_size => 32 }) :>
+    <span class="user-name">
+      <a class="js-popout-link"><: $c.user.username :></a>
+      <div class="modal modal--popout modal--popout--sm modal--popout--bottom js-popout-main">
+	<div class="modal__box">
+	  <div class="modal__body">
+	    <div><a href="<: $u('My','account') :>">Profile</a></div>
+	    <div><a href="<: $u('My','logout', { action_token => $action_token }) :>">Logout</a></div>
+	  </div>
 	</div>
-	<span class="user-name"><a href="<: $u('My','account') :>" class="first"><: $c.user.username :></a></span>
-	<span class="account-links">
-		<a class="first" href="<: $u('My','logout', { action_token => $action_token }) :>">Logout</a>
-	</span>
+      </div>
+    </span>
 </div>

@@ -4942,7 +4942,7 @@ a.fill {
 */
 .site-header {
   position: relative;
-  overflow: hidden;
+  overflow: initial;
   min-height: 65px;
   width: 100%;
   border-bottom: 1px solid #bdbdbd; }
@@ -4956,7 +4956,7 @@ a.fill {
   background: #e2e2e2; }
 
 .site-header .content-wrap {
-  overflow: hidden; }
+  overflow: initial; }
 
 .header-logo {
   float: left; }
@@ -5084,7 +5084,8 @@ a.fill {
   overflow: hidden;
   white-space: nowrap;
   word-wrap: break-word;
-  text-overflow: ellipsis; }
+  text-overflow: ellipsis;
+  padding-top: 9px; }
   .header-account-info .user-name a {
     color: #111;
     font-weight: 500; }
@@ -5170,7 +5171,7 @@ a.fill {
   display: block;
   color: #111;
   font-weight: 500;
-  padding: 26px 22px 21px;
+  padding: 26px 15px 21px;
   line-height: 1; }
 
 .header-nav .active a, .header-nav a:hover, .header-nav ul li:first-child a:hover, .page-home li.nav-home a, .page-blog li.nav-blog a, .page-translate li.nav-translate a, .page-develop li.nav-develop a, .page-forums li.nav-forums a, .page-help li.nav-help a {
@@ -5833,10 +5834,10 @@ h1 + .intro, .intro--mg {
   width: 25%; }
 
 .ddgsi-comment.notification {
-  float: left;
+  float: right;
   font-size: 1.2em;
-  padding-right: 10px;
-  padding-top: 9px;
+  padding-left: 30px;
+  padding-top: 7px;
   color: #aaaaaa; }
 
 .ddgsi-comment.has-notification:after {
@@ -5854,3 +5855,20 @@ h1 + .intro, .intro--mg {
   right: 5px;
   border: 1px solid white;
   visibility: hidden; }
+
+.modal--popout--bottom.modal--popout--sm .modal__box {
+  left: -60px; }
+
+.modal--popout .modal__box {
+  font-size: 14.4px; }
+
+.modal__box {
+  min-width: 85px;
+  text-align: left; }
+  .modal__box .modal__body > div {
+    padding-bottom: 1em; }
+    .modal__box .modal__body > div:last-child {
+      padding-bottom: 0; }
+
+.modal--popout--sm .modal__box {
+  width: 85px; }

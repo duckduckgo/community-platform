@@ -1,9 +1,9 @@
 .ddgsi-comment {
     &.notification {
-	float: left;
+	float: right;
 	font-size: 1.2em;
-	padding-right: 10px;
-	padding-top: 9px;
+	padding-left: 30px;
+	padding-top: 7px;
 	color: $grey-light;
     }
 
@@ -26,4 +26,29 @@
 	border: 1px solid white;
 	visibility: hidden;
     }
+}
+
+.modal--popout--bottom.modal--popout--sm .modal__box {
+    left: -60px;
+}
+
+.modal--popout .modal__box {
+    font-size: 14.4px;
+}
+
+.modal__box {
+    min-width: 85px;
+    text-align: left;
+
+    .modal__body > div {
+	padding-bottom: 1em;
+
+	&:last-child {
+	    padding-bottom: 0;
+	}
+    }
+}
+
+.modal--popout--sm .modal__box {
+    width: 85px;
 }

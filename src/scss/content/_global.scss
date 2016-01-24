@@ -364,7 +364,7 @@ a.fill {
 */
 .site-header { 
 	position: relative;
-	overflow: hidden;
+	overflow: initial;
 	min-height: 65px;
 	width: 100%;
 	border-bottom: 1px solid #bdbdbd;	
@@ -375,7 +375,7 @@ a.fill {
 	background: white;	
 }
 	.lt-ie9 .site-header { background: #e2e2e2;}
-	.site-header .content-wrap { overflow: hidden; }
+	.site-header .content-wrap { overflow: initial; }
 	.header-logo { float: left; }
 		.header-logo__logo { 
 			width: 46px;
@@ -494,7 +494,8 @@ a.fill {
 				overflow: hidden;				
 				white-space: nowrap;
 				word-wrap: break-word;
-				text-overflow: ellipsis;				
+				text-overflow: ellipsis;
+				padding-top: 9px;
 
 				a {
 				    color: #111;
@@ -580,7 +581,7 @@ a.fill {
 			display: block; 
 			color: #111;
 			font-weight: 500;
-			padding: 26px 22px 21px; 
+			padding: 26px 15px 21px; 
 			line-height: 1; 
 		}
 			

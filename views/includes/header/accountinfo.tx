@@ -1,22 +1,19 @@
 <div class="header-account-info">
-    <div class="user-avatar">
-        : include 'includes/user/current/avatar.tx' { userpic_size => 32 }
-    </div>
-    <div class="user-notifications">
-        : my $notification_count = $vars.user.unread_notifications || 0;
-        : if $notification_count {
-            <a class="user-notifications__num" href='/my/notifications'>
-                : $notification_count
-            </a>
-        : }
-    </div>
+  <: my $notification_count = $vars.user.unread_notifications || $undone_notifications_count || $vars.user.undone_notifications_count || 0; :>
+    <a href="/my/notifications">
+      <i class="ddgsi ddgsi-comment notification <: if $notification_count { :>has-notification<: } :>"></i>
+    </a>
+
     <span class="user-name">
-        <a href="/my/account" class="first">
-            : $vars.user.username
-        </a>
-    </span>
-    <span class="account-links">
-        <a class="first" href="<: uri_for('/my/logout', { action_token => $session.action_token }) :>">Logout</a>
+      <a class="js-popout-link"><: $vars.user.username :></a>
+      <div class="modal modal--popout modal--popout--sm modal--popout--bottom js-popout-main">
+	<div class="modal__box">
+	  <div class="modal__body">
+	    <div><a href="<: $u('My','account') :>">Profile</a></div>
+	    <div><a href="<: $u('My','logout', { action_token => $action_token }) :>">Logout</a></div>
+	  </div>
+	</div>
+      </div>
     </span>
 </div>
 
