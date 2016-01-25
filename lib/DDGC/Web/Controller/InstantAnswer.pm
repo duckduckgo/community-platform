@@ -776,7 +776,7 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
                         answer_id => $ia->meta_id, 
                         date => { '<' => $today->date()}, 
                         date => { '>' => $month_ago},
-                        pixel_type => [qw( iaoi ias )]
+                        pixel_type => [qw( iaoi iaoe )]
                     });
                 
                 my $iaoi = $traffic_rs->get_array_by_pixel();
