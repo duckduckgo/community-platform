@@ -1360,10 +1360,18 @@ sub create_ia_from_pr :Chained('base') :PathPart('create_from_pr') :Args() {
                 if (!$ia) {
                     $result = 1;
 
+                    my $name = $id;
+                    
+                    # Underscores to spaces
+                    $name =~ s/\_/ /g;
+                    
+                    # Capitalize each word in the name string
+                    $name =~ s/([\w']+)/\u\L$1/g;
+                    
                     my $new_ia = $c->d->rs('InstantAnswer')->update_or_create({
                         id => $id,
                         meta_id => $id,
-                        name => $id,
+                        name => $name,
                         repo => $repo,
                         dev_milestone => 'planning',
                         public => 1,
@@ -1379,6 +1387,7 @@ sub create_ia_from_pr :Chained('base') :PathPart('create_from_pr') :Args() {
                         issue_id => $pr_number,
                         is_pr => 1,
                         tags => {},
+                        status => $pr_data->{status}
                     });
 
                     # update first comment with link to IA page
