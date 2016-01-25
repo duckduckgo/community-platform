@@ -112,7 +112,9 @@
             <div class="field-label primary-label"> Dev Machine </div>
             {{#match beta_install 'success'}}
                 <p>Installed on <a href="http://beta.duckduckgo.com/{{#if beta_query}}?q={{beta_query}}{{/if}}">beta</a></p>
-                <div class="button btn--primary" id="beta-single">Re-install on beta</div>
+                {{#eq pr.status 'open'}}
+                    <div class="button btn--primary" id="beta-single">Re-install on beta</div>
+                {{/eq}}
             {{else}}
                 {{#eq pr.status 'open'}}
                     {{#if beta_install}}Install on beta failed: <div class="readonly">{{beta_install}}</div>{{/if}}

@@ -257,12 +257,12 @@ sub dev_pipeline_json :Chained('dev_pipeline_base') :PathPart('json') :Args(0) {
         
         if ($pr->{issue_id}) {
             my $last_commit = $ia->last_commit? from_json($ia->last_commit) : undef;
-            if (($pr->{status} eq 'open' || $pr->{status} eq 'merged') && $resp) {
+            if (($pr->{status} eq 'open'  && $resp) || ($pr->{status} eq 'merged')) {
                 my $pr_id = $pr->{issue_id};
                 my $repo = $ia->repo;
-                my $beta_pr = $resp->{$repo}->{$pr_id};
+                my $beta_pr = $resp? $resp->{$repo}->{$pr_id} : undef;
                 $temp_ia->{beta_install} = 0;
-                warn $beta_pr->{install_status};
+                #warn $beta_pr->{install_status};
                 if ($beta_pr) {
                     $temp_ia->{beta_install} = $beta_pr->{install_status};
                     $temp_ia->{beta_query} = $beta_pr->{meta}? $beta_pr->{meta}->{example_query} : 0;
