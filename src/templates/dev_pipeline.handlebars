@@ -91,7 +91,7 @@
                                 {{timeago last_update false false}}
                               </a>
                           {{else}}
-                              {{#if last_update}}<i class="{{#eq pr.status 'merged'}} platform-pr-merged {{else}} platform-pr-closed {{/eq}}"></i>{{/if}}
+                              {{#if last_update}}<i class="{{#eq pr.status 'merged'}} platform-pr-merged {{/eq}} {{#eq pr.status 'closed'}} platform-pr-closed {{/eq}}"></i>{{/if}}
                               <span class="no-pr" title="{{format_time last_update}}">
                                 {{timeago last_update false false}}
                               </span>
@@ -145,7 +145,7 @@
                                 {{timeago last_update false false}}
                               </a>
                           {{else}}
-                              {{#if last_update}}<i class="{{#eq pr.status 'merged'}} platform-pr-merged {{else}} platform-pr-closed {{/eq}}"></i>{{/if}}
+                              {{#if last_update}}<i class="{{#eq pr.status 'merged'}} platform-pr-merged {{/eq}} {{#eq pr.status 'closed'}} platform-pr-closed {{/eq}}"></i>{{/if}}
                               <span class="no-pr" title="{{format_time last_update}}">
                                 {{timeago last_update false false}}
                               </span>
@@ -199,7 +199,7 @@
                                 {{timeago last_update false false}}
                               </a>
                           {{else}}
-                              {{#if last_update}}<i class="{{#eq pr.status 'merged'}} platform-pr-merged {{else}} platform-pr-closed {{/eq}}"></i>{{/if}}
+                              {{#if last_update}}<i class="{{#eq pr.status 'merged'}} platform-pr-merged {{/eq}} {{#eq pr.status 'closed'}} platform-pr-closed {{/eq}}"></i>{{/if}}
                               <span class="no-pr" title="{{format_time last_update}}">
                                 {{timeago last_update false false}}
                               </span>
@@ -253,7 +253,7 @@
                                 {{timeago last_update false false}}
                               </a>
                           {{else}}
-                              {{#if last_update}}<i class="{{#eq pr.status 'merged'}} platform-pr-merged {{else}} platform-pr-closed {{/eq}}"></i>{{/if}}
+                              {{#if last_update}}<i class="{{#eq pr.status 'merged'}} platform-pr-merged {{/eq}} {{#eq pr.status 'closed'}} platform-pr-closed {{/eq}}"></i>{{/if}}
                               <span class="no-pr" title="{{format_time last_update}}">
                                 {{timeago last_update false false}}
                               </span>
