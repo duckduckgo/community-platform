@@ -11,6 +11,7 @@ use DateTime;
 use LWP::UserAgent;
 use Digest::SHA;
 use Date::Parse;
+use Data::Dumper;
 
 my $INST = DDGC::Config->new->appdir_path."/root/static/js";
 
@@ -471,7 +472,9 @@ sub overview_json :Chained('overview_base') :PathPart('json') :Args(0) {
         })->count;
 
     my $resp = beta_req();
-     
+    warn "#################################";
+    warn Dumper $resp;
+
     @ias = $rs->search({
          dev_milestone => 'live',
          live_date => { '!=' => undef }, 
@@ -698,6 +701,8 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
 
     my $resp = beta_req();
     
+    warn "#################################";
+    warn Dumper $resp;
     for my $issue (@issues) {
         if ($issue) {
             if ($issue->is_pr) {
@@ -768,7 +773,7 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
                         answer_id => $ia->meta_id, 
                         date => { '<' => $today->date()}, 
                         date => { '>' => $month_ago},
-                        pixel_type => [qw( iaoi ias )]
+                        pixel_type => [qw( iaoi iaoe )]
                     });
                 
                 my $iaoi = $traffic_rs->get_array_by_pixel();
@@ -945,10 +950,10 @@ sub asana_req {
 
     my $key = $ENV{'BETA_KEY'};
     my $req = HTTP::Request->new(GET => $server);
-    my $header_data = "sha1=".Digest::SHA::hmac_sha1_hex($json_data, $key);
+    #  my $header_data = "sha1=".Digest::SHA::hmac_sha1_hex($json_data, $key);
 
     $req->header('content-type' => 'application/json');
-    $req->header("x-hub-signature" => $header_data);
+    #$req->header("x-hub-signature" => $header_data);
     $req->content($json_data);
 
     my $result;
@@ -970,6 +975,9 @@ sub beta_req {
     try {
         $resp = $ua->request($req);
         $resp = $resp->decoded_content? from_json($resp->decoded_content) : undef;
+    }
+    catch{
+        warn " json error";
     };
 
     return $resp;
