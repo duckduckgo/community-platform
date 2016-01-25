@@ -722,11 +722,10 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
                    $ia_data{live}->{pr} = \%pull_request;
                }
 
-               if ($resp && ($pull_request{status} eq 'open' || $pull_request{status} eq 'merged')) {
+               if ($resp && (!$ia_data{live}->{beta_install})) {
                    my $pr_id = $pull_request{id};
                    my $repo = $ia->repo;
-                   my $beta_pr = $resp->{repo}? $resp->{$repo}->{$pr_id} : 0;
-                   $ia_data{live}->{beta_install} = 0;
+                   my $beta_pr = $resp->{$repo}? $resp->{$repo}->{$pr_id} : 0;
 
                    if ($beta_pr) {
                        $ia_data{live}->{beta_install} = $beta_pr->{install_status};
