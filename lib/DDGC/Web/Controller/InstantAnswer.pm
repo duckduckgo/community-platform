@@ -718,7 +718,7 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
 
                push(@ia_issues, \%pull_request);
 
-               if ($pull_request{status} eq 'open') {
+               if ($pull_request{status} && ($pull_request{status} eq 'open')) {
                    $ia_data{live}->{pr} = \%pull_request;
                }
 
@@ -731,7 +731,7 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
                    if ($beta_pr) {
                        $ia_data{live}->{beta_install} = $beta_pr->{install_status};
                        $ia_data{live}->{beta_query} = $beta_pr->{meta}? $beta_pr->{meta}->{example_query} : 0;
-                   } elsif ($issue->status eq 'merged') {
+                   } elsif ($issue->status  && ($issue->status eq 'merged')) {
                        $ia_data{live}->{beta_install} = 'success';
                        $ia_data{live}->{beta_query} = 0;
                    }
@@ -1305,16 +1305,20 @@ sub create_ia_from_pr :Chained('base') :PathPart('create_from_pr') :Args() {
     my $user = $c->user;
     my $name;
     my $exists;
+    my $pr_data;
+    my $repo;
+    my $pr_number;
+    my $gh;
     
     if ($user) {
-        if(my ($repo, $pr_number) = $url =~ /https?:\/\/github.com\/duckduckgo\/zeroclickinfo-(.+)\/pull\/(.+)$/){
+        if(($repo, $pr_number) = $url =~ /https?:\/\/github.com\/duckduckgo\/zeroclickinfo-(.+)\/pull\/(.+)$/){
             # get data form this pr
             my $token = $ENV{DDGC_GITHUB_TOKEN} || $ENV{DDG_GITHUB_BASIC_OAUTH_TOKEN};
-            my $gh = Net::GitHub->new(access_token => $token);
+            $gh = Net::GitHub->new(access_token => $token);
             $gh->set_default_user_repo('duckduckgo', "zeroclickinfo-$repo");
 
             my @files = $gh->pull_request->files($pr_number);
-            my $pr_data = $gh->pull_request->pull($pr_number);
+            $pr_data = $gh->pull_request->pull($pr_number);
             my $author = {
                 url => 'https://duck.co/user/' . $c->user->username,
                 name => $user->username,
@@ -1385,13 +1389,19 @@ sub create_ia_from_pr :Chained('base') :PathPart('create_from_pr') :Args() {
                         tab => $tab
                     });
 
+                    my $status = $pr_data->{state};
+                    if ($status ne 'open') {
+                        $status = $gh->pull_request->is_merged('duckduckgo', 'zeroclickinfo-' . $repo, $pr_data->{number})? 'merged' : $status;
+                    }
+
                     $c->d->rs('InstantAnswer::Issues')->update_or_create({
                         instant_answer_id => $id,
                         repo => $repo,
                         issue_id => $pr_number,
                         is_pr => 1,
                         tags => {},
-                        status => $pr_data->{status}
+                        date => $pr_data->{created_at},
+                        status => $status
                     });
 
                     # update first comment with link to IA page
