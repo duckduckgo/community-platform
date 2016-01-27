@@ -23,7 +23,7 @@
 	</div>
 	<div class="third">
 		<div class="callout-box blue">
-			<a class="head" href="<: $u('DuckDuckHack','index') :>">
+			<a class="head" href="http://duckduckhack.com/">
 				<i class="icon-tools"></i> 
 				<h2>Develop</h2>				
 			</a>

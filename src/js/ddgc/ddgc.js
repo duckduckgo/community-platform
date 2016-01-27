@@ -1,4 +1,8 @@
 $(document).ready(function() {
+    $('.user-name .js-popout-link').click(function() {
+	$('.user-name .modal').toggleClass('is-showing');
+    });
+
 	$('.no-js').addClass('js').removeClass('no-js');
 	
 	$('.js-remove').remove();

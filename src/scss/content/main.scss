@@ -1,3 +1,7 @@
+@import "bower_components/compass-sass-mixins/lib/compass";
+@import "bower_components/compass-sass-mixins/lib/compass/support"; // automatic legacy browser support (kinda)
+@import "bower_components/compass-sass-mixins/lib/animation/core";
+
 @import "../../../bower_components/duckduckgo-colors/_colors";
 @import "../../../bower_components/_ls/_vars";
 @import "../../../bower_components/duckduckgo-styles/_vars";
@@ -6,6 +10,10 @@
 @import "../../../bower_components/_ls/objects/_circle";
 @import "../../../bower_components/_ls/objects/_faux";
 @import "../../../bower_components/_ls/objects/_media";
+
+@import "../../../bower_components/duckduckgo-styles/mixins";
+@import "../../../bower_components/duckduckgo-styles/objects/modal";
+@import "../../../bower_components/duckduckgo-styles/objects/modal-popout";
 
 @import "../_z-index";
 @import "_font-face";
@@ -17,4 +25,8 @@
 @import "_content";
 @import "../../../bower_components/_ls/_litestrap";
 @import "_global";
+@import "../ia/fonts";
 
+@import "footer";
+@import "overrides";
+@import "notification";
