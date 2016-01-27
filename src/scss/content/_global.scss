@@ -367,10 +367,10 @@ a.fill {
 	overflow: initial;
 	min-height: 65px;
 	width: 100%;
-	border-bottom: 1px solid #bdbdbd;	
+	box-shadow: 0 1px 0 rgba(0,0,0,0.15);
+	z-index: 3;
 }
 .site-header {
-        border-bottom: 1px solid rgba(0, 0, 0, .25);
 	border-top: 4px $blue-light solid;
 	background: white;	
 }
@@ -496,6 +496,7 @@ a.fill {
 				word-wrap: break-word;
 				text-overflow: ellipsis;
 				padding-top: 9px;
+				cursor: pointer;
 
 				a {
 				    color: #111;
