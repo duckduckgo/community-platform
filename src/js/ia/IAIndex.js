@@ -318,9 +318,7 @@
                     if (!shown) {
                         var split_query = query.split(/\s/);
                         $.each(split_query, function(idx) {
-                            console.log(split_query[idx]);
                             var temp_regex = new RegExp(split_query[idx].replace("\\", ""), "gi");
-                            console.log(temp_regex);
                             ind.filter_regex($children, temp_regex);
                         });
                     }
