@@ -1,8 +1,9 @@
 <div class="developer-nav">
-    <h1>Developer Pages</h1>
+    <h1>Instant Answers</h1>
 
     <div class="pages">
       <a href="/ia/dev" class="active-link">Overview</a>
+      <a href="/ia/">Live</a>
       <a href="/ia/dev/pipeline">In-Development</a>
       <a href="/ia/dev/issues">Live Issues</a>
       <: if $is_admin { :>

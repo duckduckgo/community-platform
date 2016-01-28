@@ -1,6 +1,11 @@
 (function(env) {
 
     DDH.IAIndex = function() {
+	$(".site-main > .content-wrap").first().removeClass("content-wrap").addClass("index-wrap");
+	$(".site-main").addClass("index-main");
+	
+	$('#wrapper').css('min-width', '1200px');
+
         this.init();
     };
 
