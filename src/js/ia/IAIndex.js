@@ -41,6 +41,11 @@
             $dropdown_header = $right_pane.children(".dropdown").children(".dropdown_header");
             $input_query = $('#filters input[name="query"]');
 
+	    $(".site-main > .content-wrap").first().removeClass("content-wrap").addClass("index-wrap");
+	    $(".site-main").addClass("index-main");
+
+	    $('#wrapper').css('min-width', '1200px');
+
             $(document).ready(function() {
                 var parameters = window.location.search.replace("?", "");
                 parameters = $.trim(parameters.replace(/\/$/, ''));
