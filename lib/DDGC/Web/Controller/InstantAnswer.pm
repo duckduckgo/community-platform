@@ -1084,10 +1084,9 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
                             $complat_user = $c->d->rs('User')->find({username => $temp_username});
                             return $c->forward($c->view('JSON')) unless $complat_user;
 
-                            if ($complat_user->public_username) {
-                                $temp_url = 'https://duck.co/user/'.$temp_username;
-                            } else {
-                                $temp_url = "https://duck.co/admin/user/view/".$temp_username;
+                            $temp_url = 'https://duck.co/user/'.$temp_username;
+                            
+                            if (!$complat_user->public_username) {
                                 $temp_private = 1;
                             }
                         } elsif ($temp_type eq 'github') {

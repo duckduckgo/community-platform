@@ -120,7 +120,11 @@
 
     <p  class="readonly--info {{#exists staged 'maintainer'}}hide{{/exists}}" id="maintainer--readonly">
         {{#if maintainer}}
-            <a href="/user/{{maintainer}}">{{maintainer}}</a>
+            <a href="/user/{{maintainer}}" {{#if permissions.admin}}class="left"{{/if}}>{{maintainer}}</a>
+            {{#if permissions.admin}}
+                <a class="left" href="/admin/user/view/{{maintainer}}"> [A] </a>
+                <span class="clearfix"></span>
+            {{/if}}
         {{else}}
             <span class="no-available">No maintainer yet.</span>
         {{/if}}
@@ -150,12 +154,22 @@
         {{#each developer}}
           <li>
             {{#unless private}}
-                <a href="{{url}}" class="one-line">{{name}}</a>
+                <a href="{{url}}" class="one-line left">{{name}}</a>
+                {{#if ../../permissions.admin}}
+                    {{#eq type 'duck.co'}}<a class="left" href="/admin/user/view/{{name}}">[A]</a>{{else}}<span></span>{{/eq}}
+                {{/if}}
+                <span class="clearfix"></span>
             {{else}}
-                {{#if ../permissions.admin}}
-                    <a href="{{url}}" class="one-line">{{name}}</a>
+                {{#if ../../permissions.admin}}
+                    <span class="one-line left">{{name}}</span>
+                    {{#eq type 'duck.co'}}<a class="left" href="/admin/user/view/{{name}}">[A]</a>{{else}}<span></span>{{/eq}}
+                    <span class="clearfix"></span>
                 {{else}}
-                    &lt;private user&gt;
+                    {{#eq name ../../../username}}
+                        <a href="{{url}}" class="one-line">{{name}}</a>
+                    {{else}}
+                        &lt;private user&gt;
+                    {{/eq}}
                 {{/if}}
             {{/unless}}
          </li>
