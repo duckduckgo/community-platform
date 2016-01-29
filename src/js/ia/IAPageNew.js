@@ -201,6 +201,7 @@
 
             function create_ia(data) {
                 if (data.id && logged_in) {
+                    data.action_token = $('meta[name=action-token]').attr("content");
                     var jqxhr = $.post("/ia/create", {
                        data : JSON.stringify(data)
                     })
