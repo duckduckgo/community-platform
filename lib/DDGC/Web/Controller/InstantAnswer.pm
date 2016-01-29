@@ -1226,6 +1226,7 @@ sub new_ia :Chained('base') :PathPart('new_ia') :Args() {
 
 sub create_ia :Chained('base') :PathPart('create') :Args() {
     my ( $self, $c ) = @_;
+    $c->check_action_token;
 
     my $is_admin;
     my $result = '';
