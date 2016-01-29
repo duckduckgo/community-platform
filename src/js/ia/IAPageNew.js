@@ -9,7 +9,7 @@
         init: function() {
             // console.log("IAPageNew init()");
             var page_new = this;
-            var username = $(".user-name").text();
+            var username = $(".user-name a.js-popout-link").text();
             var logged_in = username.length? true : false;
                 
             // 100% width
