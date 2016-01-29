@@ -78,7 +78,7 @@
     <ul class="dev_pipeline-column__list" id="pipeline-planning__list">
         {{#each planning}}
             <li id="pipeline-list__{{id}}" class="{{#if beta_install}}{{#match beta_install 'success'}}beta{{/match}}{{/if}} {{#if pr.issue_id}} {{#if last_update}} {{#is_before last_comment.date last_commit.date}}{{#unless last_commit.admin}} attention {{/unless}} {{else}} {{#unless last_comment.admin}} attention {{/unless}} {{/is_before}} {{/if}}
-            {{#each pr.tags}}{{#eq (slug name) 'priorityhigh'}} important {{/eq}}{{/each}}{{/if}}{{#if can_edit}}can_edit{{/if}} producer-{{#if producer}}{{slug producer}}{{/if}} designer-{{designer}} {{#if developer}}{{#each developer}}developer-{{slug name}} {{/each}}{{else}}developer-{{/if}}
+            {{#each pr.tags}}{{#eq (slug name) 'priorityhigh'}} important {{/eq}}{{/each}}{{/if}}{{#if can_edit}}can_edit{{/if}}
              {{#is_false_array perl_module name repo example_query producer developer}} missing {{/is_false_array}}
              {{#each at_mentions}}{{#eq ../../../username name}} mentioned {{/eq}}{{/each}}">
                 <div class="item-name pipeline__stamp-{{repo}}">
@@ -132,7 +132,7 @@
     <ul class="dev_pipeline-column__list" id="pipeline-development__list">
         {{#each development}}
             <li id="pipeline-list__{{id}}" class="{{#if beta_install}}{{#match beta_install 'success'}}beta{{/match}}{{/if}} {{#if pr.issue_id}} {{#if last_update}} {{#is_before last_comment.date last_commit.date}}{{#unless last_commit.admin}} attention {{/unless}} {{else}} {{#unless last_comment.admin}} attention {{/unless}} {{/is_before}} {{/if}}
-            {{#each pr.tags}}{{#eq (slug name) 'priorityhigh'}} important {{/eq}}{{/each}}{{/if}}{{#if can_edit}}can_edit{{/if}} producer-{{#if producer}}{{slug producer}}{{/if}} designer-{{designer}} {{#if developer}}{{#each developer}}developer-{{slug name}} {{/each}}{{else}}developer-{{/if}}
+            {{#each pr.tags}}{{#eq (slug name) 'priorityhigh'}} important {{/eq}}{{/each}}{{/if}}{{#if can_edit}}can_edit{{/if}} 
              {{#is_false_array perl_module name repo example_query producer developer}} missing {{/is_false_array}}
              {{#each at_mentions}}{{#eq ../../../username name}} mentioned {{/eq}}{{/each}}">
                 <div class="item-name pipeline__stamp-{{repo}}">
@@ -186,7 +186,7 @@
     <ul class="dev_pipeline-column__list" id="pipeline-testing__list">
         {{#each testing}}
             <li id="pipeline-list__{{id}}" class="{{#if beta_install}}{{#match beta_install 'success'}}beta{{/match}}{{/if}} {{#if pr.issue_id}} {{#if last_update}} {{#is_before last_comment.date last_commit.date}}{{#unless last_commit.admin}} attention {{/unless}} {{else}} {{#unless last_comment.admin}} attention {{/unless}} {{/is_before}} {{/if}}
-            {{#each pr.tags}}{{#eq (slug name) 'priorityhigh'}} important {{/eq}}{{/each}}{{/if}}{{#if can_edit}}can_edit{{/if}} producer-{{#if producer}}{{slug producer}}{{/if}} designer-{{designer}} {{#if developer}}{{#each developer}}developer-{{slug name}} {{/each}}{{else}}developer-{{/if}}
+            {{#each pr.tags}}{{#eq (slug name) 'priorityhigh'}} important {{/eq}}{{/each}}{{/if}}{{#if can_edit}}can_edit{{/if}} 
              {{#is_false_array perl_module name repo example_query producer developer}} missing {{/is_false_array}}
              {{#each at_mentions}}{{#eq ../../../username name}} mentioned {{/eq}}{{/each}}">
                 <div class="item-name pipeline__stamp-{{repo}}">
@@ -240,7 +240,7 @@
     <ul class="dev_pipeline-column__list" id="pipeline-complete__list">
         {{#each complete}}
             <li id="pipeline-list__{{id}}" class="{{#if beta_install}}{{#match beta_install 'success'}}beta{{/match}}{{/if}} {{#if pr.issue_id}} {{#if last_update}} {{#is_before last_comment.date last_commit.date}}{{#unless last_commit.admin}} attention {{/unless}} {{else}} {{#unless last_comment.admin}} attention {{/unless}} {{/is_before}} {{/if}}
-            {{#each pr.tags}}{{#eq (slug name) 'priorityhigh'}} important {{/eq}}{{/each}}{{/if}}{{#if can_edit}}can_edit{{/if}} producer-{{#if producer}}{{slug producer}}{{/if}} designer-{{designer}} {{#if developer}}{{#each developer}}developer-{{slug name}} {{/each}}{{else}}developer-{{/if}}
+            {{#each pr.tags}}{{#eq (slug name) 'priorityhigh'}} important {{/eq}}{{/each}}{{/if}}{{#if can_edit}}can_edit{{/if}} 
              {{#is_false_array perl_module name repo example_query producer developer}} missing {{/is_false_array}}
              {{#each at_mentions}}{{#eq ../../../username name}} mentioned {{/eq}}{{/each}}">
                 <div class="item-name pipeline__stamp-{{repo}}">
