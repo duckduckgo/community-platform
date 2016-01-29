@@ -138,7 +138,7 @@
 
 <div class="ia-attribution ia-single--info">
     <h3 class="ia-single--header">Contributors
-    {{#if permissions.can_edit}}
+    {{#if permissions.admin}}
         {{#ne_and dev_milestone 'live' 'deprecated'}}
             <a href="#" class="devpage-edit-popup" id="dev-edit-contributors">Edit</a>
             <div id="edit-modal" class="hide"></div>
@@ -148,7 +148,17 @@
     <ul>
       {{#if developer}}
         {{#each developer}}
-          <li><a href="{{url}}" class="one-line">{{name}}</a></li>
+          <li>
+            {{#unless private}}
+                <a href="{{url}}" class="one-line">{{name}}</a>
+            {{else}}
+                {{#if ../permissions.admin}}
+                    <a href="{{url}}" class="one-line">{{name}}</a>
+                {{else}}
+                    &lt;private user&gt;
+                {{/if}}
+            {{/unless}}
+         </li>
         {{/each}}
       {{else}}
         <span class="no-available">No contributors yet.</span>

@@ -1078,12 +1078,18 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
                         my $temp_type = $dev->{type};
                         my $temp_fullname = $dev->{name} || $temp_username;
                         my $temp_url;
+                        my $temp_private = 0;
 
                         if ($temp_type eq 'duck.co') {
                             $complat_user = $c->d->rs('User')->find({username => $temp_username});
                             return $c->forward($c->view('JSON')) unless $complat_user;
 
-                            $temp_url = 'https://duck.co/user/'.$temp_username;
+                            if ($complat_user->public_username) {
+                                $temp_url = 'https://duck.co/user/'.$temp_username;
+                            } else {
+                                $temp_url = "https://duck.co/admin/user/view/".$temp_username;
+                                $temp_private = 1;
+                            }
                         } elsif ($temp_type eq 'github') {
                             return $c->forward($c->view('JSON')) unless check_github($temp_username);
 
@@ -1102,7 +1108,8 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
                         my %temp_dev = (
                             name => $temp_fullname,
                             type => $temp_type,
-                            url => $temp_url
+                            url => $temp_url,
+                            private => $temp_private
                         );
 
                         push @result_devs, \%temp_dev;
