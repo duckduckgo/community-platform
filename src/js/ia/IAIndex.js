@@ -264,6 +264,22 @@
             });
         },
 
+        filter_regex: function($children, regex) {
+            var shown = 0;
+
+            $children.each(function(idx) {
+                temp_name = $.trim($(this).find(".ia-item--header").text());
+                temp_desc = $.trim($(this).find(".ia-item--details--bottom").text());
+
+                if (regex.test(temp_name) || regex.test(temp_desc)) {
+                    $(this).parent().show();
+                    shown++;
+                }
+            });
+
+            return shown;
+        },
+
         filter: function() {
             var query = this.query;
             var repo = this.selected_filter.repo;
@@ -302,14 +318,15 @@
                 var temp_name;
                 var temp_desc;
                 if (regex) {
-                    $children.each(function(idx) {
-                        temp_name = $.trim($(this).find(".ia-item--header").text());
-                        temp_desc = $.trim($(this).find(".ia-item--details--bottom").text());
-
-                        if (regex.test(temp_name) || regex.test(temp_desc)) {
-                            $(this).parent().show();
-                        }
-                    });
+                    var shown = this.filter_regex($children, regex);
+                    var ind = this;
+                    if (!shown) {
+                        var split_query = query.split(/\s/);
+                        $.each(split_query, function(idx) {
+                            var temp_regex = new RegExp(split_query[idx].replace("\\", ""), "gi");
+                            ind.filter_regex($children, temp_regex);
+                        });
+                    }
                 } else {
                     $children.parent().show();
                 }

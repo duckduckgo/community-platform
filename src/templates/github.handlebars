@@ -12,22 +12,24 @@
   {{#if issues.length}}
     <ul class="clear">
       {{#each issues}}
-        <li {{#gt @index 4}}class="hide"{{/gt}}>
-          <div>
-            <a class="one-line" href="https://github.com/duckduckgo/zeroclickinfo-{{../repo}}/issues/{{issue_id}}">{{title}} #{{issue_id}}</a>
-            <span class="{{#if tags}}sep--after{{/if}}">
-                {{#loop_n 3 tags}}
-                  <span class="tag-grp">
-                    <i class="icon-circle" style="color: #{{color}};" /> <span class="tag-name">{{name}}</span>
-                  </span>
-                {{/loop_n}}
-            </span>
-            <span>
-                <span class="date">Created {{parse_date date}} by <a class="author" href="https://github.com/{{author}}">{{author}}</a></span>
-            </span>
-          </div>
-          <span class="clearfix"></span>
-        </li>
+        {{#if title}}
+            <li {{#gt @index 4}}class="hide"{{/gt}}>
+              <div>
+                <a class="one-line" href="https://github.com/duckduckgo/zeroclickinfo-{{../repo}}/issues/{{issue_id}}">{{title}} #{{issue_id}}</a>
+                <span class="{{#if tags}}sep--after{{/if}}">
+                    {{#loop_n 3 tags}}
+                      <span class="tag-grp">
+                        <i class="icon-circle" style="color: #{{color}};" /> <span class="tag-name">{{name}}</span>
+                      </span>
+                    {{/loop_n}}
+                </span>
+                <span>
+                    <span class="date">Created {{parse_date date}} by <a class="author" href="https://github.com/{{author}}">{{author}}</a></span>
+                </span>
+              </div>
+              <span class="clearfix"></span>
+            </li>
+        {{/if}}
       {{/each}}
     </ul>
     {{#gt issues 5}}

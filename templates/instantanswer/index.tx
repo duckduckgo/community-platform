@@ -38,11 +38,11 @@
     <div class="one-field clearfix">
         <!--[if lt IE 10]> 
             <input type="text" class="text filters--search" name="query" 
-            value="" autocorrect="off" autocapitalize="off" autocomplete="off">
+            value="" autocorrect="off" autocapitalize="off" autocomplete="off" autofocus>
         <![endif]-->
         <!--[if gt IE 9]><!--> 
              <input type="text" class="text filters--search" placeholder="Filter Instant Answers" name="query"
-             value="" autocorrect="off" autocapitalize="off" autocomplete="off">
+             value="" autocorrect="off" autocapitalize="off" autocomplete="off" autofocus>
         <!--<![endif]-->
         <div class="filters--search-button">
           <span class="ddgsi-loupe"></span>
