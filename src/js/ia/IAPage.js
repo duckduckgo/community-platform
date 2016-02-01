@@ -26,7 +26,8 @@
 
             var page = this;
             var json_url = "/ia/view/" + DDH_iaid + "/json";
-
+            var this_username = $.trim($(".header-account-info .user-name a.js-popout-link").text());
+            
             if (DDH_iaid) {
                 //console.log("for ia id '%s'", DDH_iaid);
 
@@ -883,11 +884,10 @@
 
                     $("body").on('click', ".assign-button.js-autocommit", function(evt) {
                         var $input = $(".team-input");
-                        var username = $.trim($(".header-account-info .user-name").text());
-                        $input.val(username);
+                        $input.val(this_username);
                         $("#producer-input").removeClass("focused");
                          $("#contributors-popup .save-button-popup").removeClass("is-disabled");
-                        usercheck("duck.co", username, null, $("#producer-input"));
+                        usercheck("duck.co", this_username, null, $("#producer-input"));
                     });
 
                     $("body").on('click', '.js-pre-editable.button', function(evt) {

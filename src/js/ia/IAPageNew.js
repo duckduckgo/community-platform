@@ -9,7 +9,7 @@
         init: function() {
             // console.log("IAPageNew init()");
             var page_new = this;
-            var username = $(".user-name").text();
+            var username = $(".user-name a.js-popout-link").text();
             var logged_in = username.length? true : false;
                 
             // 100% width
@@ -201,6 +201,7 @@
 
             function create_ia(data) {
                 if (data.id && logged_in) {
+                    data.action_token = $('meta[name=action-token]').attr("content");
                     var jqxhr = $.post("/ia/create", {
                        data : JSON.stringify(data)
                     })

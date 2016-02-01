@@ -505,7 +505,7 @@ sub overview_json :Chained('overview_base') :PathPart('json') :Args(0) {
         my $issue_ia = $c->d->rs('InstantAnswer')->find($issue->instant_answer_id);
         next unless $issue_ia;
 
-        if ($is_pr ne 1) {
+        if (($is_pr ne 1) && ($issue->status eq 'open')) {
             my %temp_issue = (
                 title => $issue->title,
                 body => $issue->body,
@@ -1230,6 +1230,7 @@ sub new_ia :Chained('base') :PathPart('new_ia') :Args() {
 
 sub create_ia :Chained('base') :PathPart('create') :Args() {
     my ( $self, $c ) = @_;
+    $c->check_action_token;
 
     my $is_admin;
     my $result = '';

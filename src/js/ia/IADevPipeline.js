@@ -27,7 +27,7 @@
             // console.log("IADevPipeline init()");
             var dev_p = this;
             var url = window.location.pathname.replace(/\/$/, '') + "/json";
-            var username = $(".user-name").text();
+            var username = $(".user-name a.js-popout-link").text();
 
 	        // 100% width
             $(".site-main > .content-wrap").first().removeClass("content-wrap").addClass("wrap-pipeline");
