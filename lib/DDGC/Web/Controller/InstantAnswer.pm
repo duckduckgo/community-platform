@@ -694,6 +694,7 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
     my @issues = $c->d->rs('InstantAnswer::Issues')->search({instant_answer_id => $ia->id},{order_by => {'-desc' => 'date'}});
     my @ia_issues;
     my @ia_pr;
+    my @all_prs;
     my %ia_data;
     my $permissions;
     my $is_admin;
@@ -716,7 +717,7 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
                     date => $issue->date
                );
 
-               push(@ia_issues, \%pull_request);
+               push(@all_prs, \%pull_request);
 
                if ($pull_request{status} && ($pull_request{status} eq 'open')) {
                    $ia_data{live}->{pr} = \%pull_request;
@@ -736,16 +737,18 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
                        $ia_data{live}->{beta_query} = 0;
                    }
                }
-            } elsif ($issue->status eq 'open') {
-                push(@ia_issues, {
-                    issue_id => $issue->issue_id,
-                    title => $issue->title,
-                    body => $issue->body,
-                    tags => $issue->tags,
-                    author => $issue->author,
-                    status => $issue->status? $issue->status : undef,
-                    date => $issue->date
-                });
+            } else {
+                if (($issue->status eq 'open') && $issue->title) {
+                    push(@ia_issues, {
+                        issue_id => $issue->issue_id,
+                        title => $issue->title,
+                        body => $issue->body,
+                        tags => $issue->tags,
+                        author => $issue->author,
+                        status => $issue->status? $issue->status : undef,
+                        date => $issue->date
+                    });
+                }
             }
         }
     }
@@ -755,6 +758,7 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
     warn Dumper $ia->TO_JSON if debug;
     
     $ia_data{live}->{issues} = \@ia_issues;
+    $ia_data{live}->{prs} = \@all_prs;
     
     if ($c->user) {
         $permissions = $c->stash->{ia}->users->find($c->user->id);
