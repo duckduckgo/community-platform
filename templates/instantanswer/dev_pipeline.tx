@@ -12,6 +12,8 @@
     </div>
 </div>
 
+<input type="hidden" name="action_token" class="text" value="<: $c.session.action_token :>" />
+
 <: if $is_admin { :>
     <div id="create-new-ia" class="button right hide"></div>
 <: } :>

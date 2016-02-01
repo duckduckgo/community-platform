@@ -117,6 +117,7 @@
             var jqxhr = $.post("/ia/commit/" + DDH_iaid + "/save", {
                 values: JSON.stringify(values),
                 id: DDH_iaid,
+                action_token: $.trim($('meta[name=action-token]').attr("content")) 
             })
             .done(function(data) {
                 if (data.result && data.result.saved) {

@@ -344,7 +344,8 @@
 
             function send_to_beta(prs) {
                 var jqxhr = $.post("/ia/send_to_beta", {
-                    data : prs
+                    data : prs,
+                    action_token: $.trim($('meta[name=action-token]').attr("content")) 
                 })
                 .done(function(data) {
                     dev_p.saved = true;
@@ -356,7 +357,8 @@
                    field : field,
                    value : value,
                    id : id,
-                   autocommit : 1
+                   autocommit : 1,
+                   action_token: $.trim($('meta[name=action-token]').attr("content")) 
                })
                .done(function(data) {
                    if (data.result.saved) {
@@ -574,7 +576,8 @@
 
             function create_task(id) {
                 var jhxqr = $.post("/ia/asana", {
-                    id : id
+                    id : id,
+                    action_token: $.trim($('meta[name=action-token]').attr("content")) 
                 })
                 .done(function(data) {
                     console.log("Got so far");
@@ -639,7 +642,8 @@
                 var jqxhr = $.post("/ia/save_multiple", {
                     field : field,
                     value : value,
-                    ias : ias
+                    ias : ias,
+                    action_token: $.trim($('meta[name=action-token]').attr("content")) 
                 })
                 .done(function(data) {
                     dev_p.saved = true;
