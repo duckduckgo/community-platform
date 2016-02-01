@@ -26,10 +26,13 @@
 					<div class="input-wrap"><input type="text" placeholder="New Email" name="emailaddress" class="text" title="Enter your new email address here" /></div>
 				</div>
 				<div class="half">
+				: if !$c.user.github_id {
 					<div class="input-wrap"><input type="password" placeholder="Duck.co Password" name="password" class="text" title="Your duck.co password" /></div>
+				</div>
 			</div>
 			<div class="half">	
 				<div class="half">					
+				: }
 					<div class="input-wrap"><input type="submit" value="Submit" class="button blue submit" name="save_email" /></div>
 				</div>
 			</div>
