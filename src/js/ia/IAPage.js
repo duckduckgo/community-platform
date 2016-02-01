@@ -1050,7 +1050,8 @@
                     function usercheck(type, username, $type, $username) {
                         var jqxhr = $.post("/ia/usercheck", {
                             type: type,
-                            username: username
+                            username: username,
+                            action_token: $.trim($('meta[name=action-token]').attr("content")) 
                         })
                         .done(function(data) {
                             var $parent =  $username.hasClass("group-vals")? $username.parent().parent() : $username.parent();
@@ -1434,8 +1435,11 @@
                     //Install pr on beta
                     function beta_install(pr) {
                         var prs = [pr];
+                        var data = {};
+                        data.action_token = $.trim($('meta[name=action-token]').attr("content"));
+                        data.prs = JSON.stringify(prs);
                         var jqxhr = $.post("/ia/send_to_beta", {
-                            data : JSON.stringify(prs)
+                            data : data
                         })
                         .done(function (data) {
                             if (!ia_data.staged) {
@@ -1447,7 +1451,8 @@
                     }
                     function create_task(id) {
                         var jqxhr = $.post("/ia/asana", {
-                            id : id
+                            id : id,
+                            action_token: $.trim($('meta[name=action-token]').attr("content"))
                         })
                         .done(function(data) {
                         });
@@ -1459,7 +1464,8 @@
                             field : field,
                             value : value,
                             id : id,
-                            autocommit: 1
+                            autocommit: 1,
+                            action_token: $.trim($('meta[name=action-token]').attr("content"))
                         })
                         .done(function(data) {
                             subfield = subfield? subfield : "";
@@ -1503,7 +1509,8 @@
                             field : field,
                             value : value,
                             id : id,
-                            autocommit: 0
+                            autocommit: 0,
+                            action_token: $.trim($('meta[name=action-token]').attr("content"))
                         })
                         .done(function(data) {
                             console.log(data);

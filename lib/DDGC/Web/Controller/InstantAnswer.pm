@@ -848,6 +848,7 @@ sub commit_json :Chained('commit_base') :PathPart('json') :Args(0) {
 
 sub commit_save :Chained('commit_base') :PathPart('save') :Args(0) {
     my ( $self, $c ) = @_;
+    $c->check_action_token;
 
     my $is_admin;
     my $result = '';
@@ -875,6 +876,7 @@ sub commit_save :Chained('commit_base') :PathPart('save') :Args(0) {
 # {goodies: [#pr1, #pr2, #pr3], spice: [#pr1, #pr2] ... and so on
 sub send_to_beta :Chained('base') :PathPart('send_to_beta') :Args(0) {
     my ( $self, $c ) = @_;
+    $c->check_action_token;
     
     my $ua = LWP::UserAgent->new;
 
@@ -905,6 +907,7 @@ sub send_to_beta :Chained('base') :PathPart('send_to_beta') :Args(0) {
 
 sub asana :Chained('base') :PathPart('asana') :Args(0) {
     my ($self, $c) = @_;
+    $c->check_action_token;
 
     my @ia = $c->d->rs('InstantAnswer')->search(
         {meta_id => $c->req->params->{id}},
@@ -945,7 +948,7 @@ sub asana :Chained('base') :PathPart('asana') :Args(0) {
         $result = {};
     };
 
-    $c->stash->{x}->{result} = $result->decoded_content;
+    $c->stash->{x}->{result} = $result;
     return $c->forward($c->view('JSON'));
 }
 
@@ -995,6 +998,7 @@ sub beta_req {
 # This is used only in the dev pipeline and for now it's only available to admins
 sub save_multiple :Chained('base') :PathPart('save_multiple') :Args(0) {
     my ( $self, $c ) = @_;
+    $c->check_action_token;
 
     my %result;
     $c->stash->{x}->{result} = '';
@@ -1030,6 +1034,8 @@ sub save_multiple :Chained('base') :PathPart('save_multiple') :Args(0) {
 
 sub save_edit :Chained('base') :PathPart('save') :Args(0) {
     my ( $self, $c ) = @_;
+    $c->check_action_token;
+    
     my $ia = $c->d->rs('InstantAnswer')->find({meta_id => $c->req->params->{id}});
     
     unless ($ia) {
@@ -1200,6 +1206,7 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
 
 sub usercheck :Chained('base') :PathPart('usercheck') :Args() {
     my ( $self, $c ) = @_;
+    $c->check_action_token;
 
     my $username = $c->req->params->{username};
     my $type = $c->req->params->{type};
@@ -1305,6 +1312,8 @@ sub create_ia :Chained('base') :PathPart('create') :Args() {
 
 sub create_ia_from_pr :Chained('base') :PathPart('create_from_pr') :Args() {
     my ( $self, $c ) = @_;
+    $c->check_action_token;
+    
     my $url = $c->req->params->{pr};
     my ($id, $result) = '';
     my $user = $c->user;

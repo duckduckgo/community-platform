@@ -16,6 +16,8 @@
     <: } :>
 </select>
 
+<input type="hidden" name="action_token" class="text" value="<: $c.session.action_token :>" />
+
 <div class="ia-single">
     <div class="ia-single__top nowrap" id="ia-single-top">
         <div class="content-wrap">
