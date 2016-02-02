@@ -221,7 +221,7 @@ textarea.edit-sidebar {
     bottom: 0;
     background-color: $white;
     padding: 2em;
-    border: 1px solid rgba(200,200,200,0.2);
+    box-shadow: -1px 0 0 rgba(0,0,0,.15);
     padding-top: 14.7em;
 
     .frm__label {
@@ -551,3 +551,7 @@ textarea.edit-sidebar {
 }
 
 .no-pr { text-decoration: line-through; }
+
+#dev_pipeline .waiting-circle {
+    margin-top: 3.5em;
+}
