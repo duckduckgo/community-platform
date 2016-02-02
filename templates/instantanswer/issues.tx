@@ -13,4 +13,12 @@
 </div>
 
 <div id="issues">
+  <div class='waiting-circle'>
+    <div class='waiting'>
+      <span><div></div></span>
+      <div></div>
+      <div></div>
+      <span><div></div></span>
+    </div>
+  </div>
 </div>
