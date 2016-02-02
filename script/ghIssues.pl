@@ -65,11 +65,11 @@ sub getIssues{
         }
 
         print "Starting $repo\n";
-        my $progress = Term::ProgressBar->new(scalar @issues);
+        my $progress = Term::ProgressBar->new(scalar @issues) unless $d->is_live;
 		
         # add all the data we care about to an array
 		for my $issue (@issues){
-            $progress->update($line);
+            $progress->update($line) unless $d->is_live;
             $line++;
 
             # get the IA name from the link in the first comment
