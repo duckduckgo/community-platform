@@ -1,0 +1,89 @@
+.waiting-circle {
+    display: inline-block;
+    border-radius: 50%;
+    height: 100px;
+    width: 100px;
+    //border: 2px solid $grey-light;
+    position: relative;
+    left: 46%;
+}
+
+.waiting {
+  font-size: 8px;
+  position: relative;
+  left: 25%;
+  top: 45%;
+  
+  > * {
+    display: inline-block;
+    float: left;   
+
+    &:nth-child(1) {
+	@include animation(first 0.5s ease-out infinite);
+
+	> * {
+	    background: $blue-light;
+	    height: 1em;
+	    width: 1em;
+	    border-radius: 50%;
+	    @include animation(opacity 0.5s ease-out infinite);
+	}
+    }
+    
+    &:nth-child(2), &:nth-child(3) {
+	width: 1em;
+	height: 1em;
+	background: $blue-light;
+	border-radius: 50%;
+	@include animation(middle 0.5s linear infinite);
+    }
+  
+    &:nth-child(4) {
+	@include animation(last 0.5s ease-out infinite);
+
+	> * {
+	    background: $blue-light;
+	    height: 1em;
+	    width: 1em;
+	    border-radius: 50%;
+	    @include animation(opacity 0.5s ease-out infinite reverse);
+	}
+    }
+  }
+}
+
+@include keyframes(opacity) {
+    from {
+	opacity: 0;
+    }
+    to {
+	opacity: 1;
+    }
+}
+
+@include keyframes(first) {
+  from {
+    @include transform(translateX(-8px));
+  }
+  to {
+    @include transform(translateX(8px));
+  }
+}
+
+@include keyframes(middle) {
+  from {
+    @include transform(translateX(0));
+  }
+  to {
+    @include transform(translateX(8px));
+  }
+}
+
+@include keyframes(last) {
+  from {
+    @include transform(translateX(0));
+  }
+  to {
+    @include transform(translateX(8px));
+  }
+}
