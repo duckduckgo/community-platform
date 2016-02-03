@@ -429,7 +429,7 @@ sub email :Chained('logged_in') :Args(0) {
 
 	$c->require_action_token;
 
-	if ($c->user->github_id || !$c->user->check_password($c->req->params->{password})) {
+	if (!$c->user->github_id && !$c->user->check_password($c->req->params->{password})) {
 		$c->stash->{wrong_password} = 1;
 		return;
 	}
