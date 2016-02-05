@@ -555,7 +555,7 @@ sub add_developer {
 
     try{
         if($user){
-            my $ddgc_name = $user->user_name ;
+            my $ddgc_name = $user->username ;
             return $dev_json if $dev_json =~ /duck.co\/user\/$ddgc_name/g;
         }
 
