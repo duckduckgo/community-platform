@@ -105,7 +105,6 @@ sub getIssues{
             my $state = $issue->{state};
             if ($state ne 'open') {
                 $state = $gh->pull_request->is_merged('duckduckgo','zeroclickinfo-'.$repo, $issue->{number})? 'merged' : $state;
-                # add this dev to the dev list if the pr was merged
             }
 
             # add entry to result array
