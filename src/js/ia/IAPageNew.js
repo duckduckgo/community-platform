@@ -64,7 +64,7 @@
                 
                 $(".error-msg").addClass("hide");
                 
-                if (username.length && (pwd.length >= 8)) {
+                if (username.length && pwd.length) {
                     login(username, pwd);
                 } else {
                    if (!username.length) {
