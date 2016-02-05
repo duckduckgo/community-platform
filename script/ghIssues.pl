@@ -105,6 +105,7 @@ sub getIssues{
             my $state = $issue->{state};
             if ($state ne 'open') {
                 $state = $gh->pull_request->is_merged('duckduckgo','zeroclickinfo-'.$repo, $issue->{number})? 'merged' : $state;
+                # add this dev to the dev list if the pr was merged
             }
 
             # add entry to result array
@@ -193,6 +194,10 @@ sub getIssues{
                 my $dev_milestone;
                 if($ia->{dev_milestone} eq 'planning'){
                     $dev_milestone = 'development';
+                }
+
+                if($ia->{developer} && $data->{state} eq 'merged'){
+                    $ia->{developer} = add_developer($ia->{developer}, $data->{author});
                 }
 
                 my %new_data = (
@@ -538,6 +543,38 @@ sub update_pr_template {
     catch {
         $d->errorlog("Error posting dax comment: '$_'...");
     };
+}
+
+sub add_developer {
+    my ($dev_json, $author) = @_;
+    # don't add duplicates
+    return $dev_json if $dev_json =~ /$author/ig;
+
+    my $user = $d->rs('User')->find_by_github_login($author);
+    my $data;
+
+    try{
+        if($user){
+            my $ddgc_name = $user->user_name ;
+            return $dev_json if $dev_json =~ /duck.co\/user\/$ddgc_name/g;
+        }
+
+        $data = from_json($dev_json);
+
+        my $new_dev = {
+            name => $author,
+            type => 'github',
+            url => "https://github.com/$author"
+        };
+        push(@{$data}, $new_dev);
+        $data = to_json($data);
+
+    }catch{
+       # fall back to un-altered dev data
+       $data = $dev_json;
+    };
+
+   return $data;
 }
 
 getIssues;
