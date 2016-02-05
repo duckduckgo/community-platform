@@ -142,7 +142,7 @@
                     var temp_id = $temp_el.attr("id");
                     var temp_field = temp_id.replace(/\-[^\-]+$/, "");
                     var temp_type = temp_id.replace(/^.+\-/, "");
-                    var temp_val = (temp_type === "radio")? $.trim($temp_el.find('input[type="radio"]:checked').val()) : $.trim($temp_el.val());
+                    var temp_val = (temp_type === "radio")? $.trim($temp_el.find('input[type="radio"]:checked').val()) : $.trim($temp_el.val().replace(/"/g, ""));
 
                     if (temp_field) {
                         temp_field = temp_field.replace(/^.+\-/, "");
@@ -153,7 +153,7 @@
                             data.example_query = queries.shift();
                             var polished_queries = [];
                             $.each(queries, function(idx) {
-                                var tmp_query = queries[idx];
+                                var tmp_query = $.trim(queries[idx].replace(/"/g, ""));
                                 if (tmp_query !== "") {
                                     polished_queries.push(tmp_query);
                                 }
