@@ -314,7 +314,7 @@
                             }
 
                             var type = $.trim($available_types.find("option:selected").text());
-                            var username = $.trim($dev_username.val());
+                            var username = $.trim($dev_username.val().replace(/"/g, ""));
 
                             if (username && type && (type !== "ddg")) {
                                 usercheck(type, username, $available_types, $dev_username);
@@ -997,7 +997,7 @@
                             var $obj = $("#row-diff-" + field);
 
                             if ($(this).hasClass("js-input")) {
-                                value = $.trim($(this).val());
+                                value = $.trim($(this).val().replace(/"/g, ""));
                             } else if ($(this).hasClass("js-check")) {
                                 value = $("#" + field + "-check").hasClass("icon-check")? 1 : 0;
                                 console.log("#" + field + "-check");
@@ -1011,7 +1011,7 @@
                                      console.log(value);
                                 } else {
                                     $input = $obj.find("input.js-input,#description textarea");
-                                    value = $.trim($input.val());
+                                    value = $.trim($input.val().replace(/"/g, ""));
                                 }
                             }
 
@@ -1176,7 +1176,7 @@
                                         value = null;
                                     }
                                 } else if (editable_type === "input" || editable_type === "textarea") {
-                                    value = ($editable.attr("type") === "number")? parseInt($editable.val()) : $.trim($editable.val());
+                                    value = ($editable.attr("type") === "number")? parseInt($editable.val()) : $.trim($editable.val().replace(/"/g, ""));
 
                                     if ($editable.hasClass("comma-separated")) {
                                         value = value.length? JSON.stringify(value.split(/\s*,\s*/)) : "[]";
@@ -1229,9 +1229,9 @@
                                 var $li_item = (ia_data.live.dev_milestone !== "live" && ia_data.live.dev_milestone !== "deprecated")? $(this).parent().parent().parent() : $(this).parent().parent();
 
                                 temp_val = {};
-                                temp_val.name = $.trim($(this).val());
+                                temp_val.name = $.trim($(this).val()).replace(/"/g, "");
                                 temp_val.type = $.trim($li_item.find(".available_types").find("option:selected").text()) || "legacy";
-                                temp_val.username = $.trim($li_item.find(".developer_username input[type='text']").val());
+                                temp_val.username = $.trim($li_item.find(".developer_username input[type='text']").val().replace(/"/g, ""));
                                 
                                 if (!temp_val.username) {
                                     return;
@@ -1240,7 +1240,7 @@
                                 if (field === "topic") {
                                     temp_val = $(this).attr("value").length? $.trim($(this).text()) : "";
                                 } else {
-                                    temp_val = $.trim($(this).val());
+                                    temp_val = $.trim($(this).val().replace(/"/g, ""));
                                 }
                             }
 
@@ -1264,7 +1264,7 @@
                                 if ($(this).hasClass("frm__input")
                                     || $(this).hasClass("selection-group__item-input")) {
                                     temp_field = $.trim($(this).attr("id").replace("-input", ""));
-                                    temp_value = ($(this).attr("type") === "number")? parseInt($(this).val()) : $.trim($(this).val());
+                                    temp_value = ($(this).attr("type") === "number")? parseInt($(this).val()) : $.trim($(this).val().replace(/"/g, ""));
                                 } else {
                                     temp_field = $.trim($(this).attr("id").replace("-check", ""));
                                     if ($(this).attr("checked") || $(this).hasClass("icon-check")) {
