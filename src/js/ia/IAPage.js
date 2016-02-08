@@ -1673,18 +1673,19 @@
 
             var now = moment();
             var month_ago = now.subtract(30, "days");
+            var iap = this;
 
             live_date = moment(live_date);
             var last_date = live_date.diff(month_ago) > 1? live_date : month_ago;
             
             $.each(traffic.dates, function(idx) {
                 var temp_date = traffic.dates[idx];
-                result = this.diffZeros(temp_date, last_date, result);
+                result = iap.diffZeros(temp_date, last_date, result);
                 result += traffic.counts[idx];
                 last_date = temp_date;
             });
 
-            result = this.diffZeros(now, last_date, result);
+            result = iap.diffZeros(now, last_date, result);
             console.log(result);
 
             return result;
