@@ -1665,23 +1665,38 @@
             });
         },
 
-        getWeekends: function(dates) {
+        // Build a new array from counts,
+        // filled with zeros in the days for which
+        // we have no traffic
+        normalizeTraffic: function(traffic, live_date) {
             var result = [];
 
-            $.each(dates, function(idx) {
-                var date = dates[idx];
+            var now = moment();
+            var month_ago = now.subtract(30, "days");
 
-                date.replace("T", " ").replace("Z", " ");
-                date = moment.utc(date, "YYYY-MM-DD HH:mm:ss");
-
-                var is_sunday = date.format("d") === "0"? true : false;
-
-                if (is_sunday) {
-                    result.push(date.format("ddd D MMM YYYY"));
-                } else {
-                    result.push("");
-                }
+            live_date = moment(live_date);
+            var last_date = live_date.diff(month_ago) > 1? live_date : month_ago;
+            
+            $.each(traffic.dates, function(idx) {
+                var temp_date = traffic.dates[idx];
+                result = diffZeros(temp_date, last_date, result);
+                result += traffic.counts[idx];
+                last_date = temp_date;
             });
+
+            result = diffZeros(now, last_date, result);
+            console.log(result);
+
+            return result;
+        },
+
+        diffZeros: function(last, previous, result) {
+            var diff = last.diff(previous, "days");
+
+            if (diff > 1) {
+                var zeros = new Array(diff - 1).join('0').split('').map(parseInt);
+                result += zeros;
+            } 
 
             return result;
         },
@@ -1719,9 +1734,11 @@
                 if (ia_data.live.hasOwnProperty("traffic") && ia_data.live.traffic.dates.length) {
                     var traffic = $("#ia_traffic").get(0).getContext("2d");
                     //var weekend_labels = this.getWeekends(ia_data.live.traffic.dates);
-                    var traffic_header =  $("#traffic_wrapper h3 span").text() + ": " +this.sumCounts(ia_data.live.traffic.counts) + " queries total";
+                    var traffic_header =  $("#traffic_wrapper h3 span").text() + ": " + this.sumCounts(ia_data.live.traffic.counts) + " queries total";
                     $("#traffic_wrapper h3 span").text(traffic_header);
-                    var empty_labels = ia_data.live.traffic.counts.map(function(obj){return "";});
+                    var counts = this.normalizeTraffic(ia_data.live.traffic, ia_data.live.live_date);
+                    $("#traffic_counts").text(counts.length);
+                    var empty_labels = counts.map(function(obj){return "";});
 
                     var chart_data = {
                         labels: empty_labels,
@@ -1733,7 +1750,7 @@
                                 pointStrokeColor: "#fff",
                                 pointHighlightFill: "#fff",
                                 pointHighlightStroke: "#4495d4",
-                                data: ia_data.live.traffic.counts
+                                data: counts
                             }
                         ]
                     };

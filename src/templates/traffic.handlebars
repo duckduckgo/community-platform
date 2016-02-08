@@ -1,7 +1,7 @@
 {{#or permissions.can_edit permissions.admin}}
     <div id="traffic_wrapper">
         <h3 class="ia-single--header">
-            <span>Traffic from Last 30 Days</span>
+            <span>Traffic from Last <span id="traffic_count">30</span> Days</span>
         </h3>
         <canvas class="charts" id="ia_traffic"></canvas>
     </div>
