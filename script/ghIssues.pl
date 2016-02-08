@@ -201,6 +201,10 @@ sub getIssues{
                     }
                 } 
 
+                if($ia->{developer} && $data->{state} eq 'merged'){
+                    $ia->{developer} = add_developer($ia->{developer}, $data->{author}, $ia);
+                }
+
                 my %new_data = (
                     id => $ia->{id} || $data->{name},
                     meta_id => $ia->{meta_id} || $data->{name},
@@ -544,6 +548,40 @@ sub update_pr_template {
     catch {
         $d->errorlog("Error posting dax comment: '$_'...");
     };
+}
+
+sub add_developer {
+    my ($dev_json, $author, $ia) = @_;
+    # don't add duplicates
+    return $dev_json if $dev_json =~ /$author/ig;
+
+    my $user = $d->rs('User')->find_by_github_login($author);
+    my $data;
+
+    try{
+        if($user){
+            my $ddgc_name = $user->username;
+            # Give edit permissions to the contributor
+            $ia->add_to_users($user);
+            return $dev_json if $dev_json =~ /duck.co\/user\/$ddgc_name/g;
+        }
+
+        $data = from_json($dev_json);
+
+        my $new_dev = {
+            name => $author,
+            type => 'github',
+            url => "https://github.com/$author"
+        };
+        push(@{$data}, $new_dev);
+        $data = to_json($data);
+
+    }catch{
+       # fall back to un-altered dev data
+       $data = $dev_json;
+    };
+
+   return $data;
 }
 
 getIssues;

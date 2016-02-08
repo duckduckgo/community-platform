@@ -234,7 +234,7 @@
                 if ((evt.type === "keypress" && evt.which === 13) || (evt.type === "change" && $(this).children("select").length)) {
                    var field = $(this).attr("id").replace("edit-sidebar-", "");
                    if ((field !== "description") || (field === "description" && evt.ctrlKey)) {
-                       var value = (evt.type === "change")? $.trim($(this).find("option:selected").text()) : $.trim($(this).val());
+                       var value = (evt.type === "change")? $.trim($(this).find("option:selected").text()) : $.trim($(this).val().replace(/"/g, ""));
                        var id = $("#page_sidebar").attr("ia_id");
 
                        autocommit(field, value, id);
@@ -296,7 +296,7 @@
                         value = $.trim($(this).find("option:selected").text().replace(/\s/g, "_"));
                     } else {
                         field = $.trim($(this).attr("id").replace("input-", ""));
-                        value = $.trim($(this).val());
+                        value = $.trim($(this).val().replace(/"/g, ""));
                     }
 
                     $(".dev_pipeline-column__list .selected").each(function(idx) {

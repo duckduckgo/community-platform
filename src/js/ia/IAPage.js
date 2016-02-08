@@ -314,7 +314,7 @@
                             }
 
                             var type = $.trim($available_types.find("option:selected").text());
-                            var username = $.trim($dev_username.val());
+                            var username = $.trim($dev_username.val().replace(/"/g, ""));
 
                             if (username && type && (type !== "ddg")) {
                                 usercheck(type, username, $available_types, $dev_username);
@@ -997,7 +997,7 @@
                             var $obj = $("#row-diff-" + field);
 
                             if ($(this).hasClass("js-input")) {
-                                value = $.trim($(this).val());
+                                value = $.trim($(this).val().replace(/"/g, ""));
                             } else if ($(this).hasClass("js-check")) {
                                 value = $("#" + field + "-check").hasClass("icon-check")? 1 : 0;
                                 console.log("#" + field + "-check");
@@ -1011,7 +1011,7 @@
                                      console.log(value);
                                 } else {
                                     $input = $obj.find("input.js-input,#description textarea");
-                                    value = $.trim($input.val());
+                                    value = $.trim($input.val().replace(/"/g, ""));
                                 }
                             }
 
@@ -1176,7 +1176,7 @@
                                         value = null;
                                     }
                                 } else if (editable_type === "input" || editable_type === "textarea") {
-                                    value = ($editable.attr("type") === "number")? parseInt($editable.val()) : $.trim($editable.val());
+                                    value = ($editable.attr("type") === "number")? parseInt($editable.val()) : $.trim($editable.val().replace(/"/g, ""));
 
                                     if ($editable.hasClass("comma-separated")) {
                                         value = value.length? JSON.stringify(value.split(/\s*,\s*/)) : "[]";
@@ -1229,9 +1229,9 @@
                                 var $li_item = (ia_data.live.dev_milestone !== "live" && ia_data.live.dev_milestone !== "deprecated")? $(this).parent().parent().parent() : $(this).parent().parent();
 
                                 temp_val = {};
-                                temp_val.name = $.trim($(this).val());
+                                temp_val.name = $.trim($(this).val()).replace(/"/g, "");
                                 temp_val.type = $.trim($li_item.find(".available_types").find("option:selected").text()) || "legacy";
-                                temp_val.username = $.trim($li_item.find(".developer_username input[type='text']").val());
+                                temp_val.username = $.trim($li_item.find(".developer_username input[type='text']").val().replace(/"/g, ""));
                                 
                                 if (!temp_val.username) {
                                     return;
@@ -1240,7 +1240,7 @@
                                 if (field === "topic") {
                                     temp_val = $(this).attr("value").length? $.trim($(this).text()) : "";
                                 } else {
-                                    temp_val = $.trim($(this).val());
+                                    temp_val = $.trim($(this).val().replace(/"/g, ""));
                                 }
                             }
 
@@ -1264,7 +1264,7 @@
                                 if ($(this).hasClass("frm__input")
                                     || $(this).hasClass("selection-group__item-input")) {
                                     temp_field = $.trim($(this).attr("id").replace("-input", ""));
-                                    temp_value = ($(this).attr("type") === "number")? parseInt($(this).val()) : $.trim($(this).val());
+                                    temp_value = ($(this).attr("type") === "number")? parseInt($(this).val()) : $.trim($(this).val().replace(/"/g, ""));
                                 } else {
                                     temp_field = $.trim($(this).attr("id").replace("-check", ""));
                                     if ($(this).attr("checked") || $(this).hasClass("icon-check")) {
@@ -1665,23 +1665,38 @@
             });
         },
 
-        getWeekends: function(dates) {
+        // Build a new array from counts,
+        // filled with zeros in the days for which
+        // we have no traffic
+        normalizeTraffic: function(traffic, live_date) {
             var result = [];
 
-            $.each(dates, function(idx) {
-                var date = dates[idx];
+            var now = moment();
+            var month_ago = now.subtract(30, "days");
 
-                date.replace("T", " ").replace("Z", " ");
-                date = moment.utc(date, "YYYY-MM-DD HH:mm:ss");
-
-                var is_sunday = date.format("d") === "0"? true : false;
-
-                if (is_sunday) {
-                    result.push(date.format("ddd D MMM YYYY"));
-                } else {
-                    result.push("");
-                }
+            live_date = moment(live_date);
+            var last_date = live_date.diff(month_ago) > 1? live_date : month_ago;
+            
+            $.each(traffic.dates, function(idx) {
+                var temp_date = traffic.dates[idx];
+                result = diffZeros(temp_date, last_date, result);
+                result += traffic.counts[idx];
+                last_date = temp_date;
             });
+
+            result = diffZeros(now, last_date, result);
+            console.log(result);
+
+            return result;
+        },
+
+        diffZeros: function(last, previous, result) {
+            var diff = last.diff(previous, "days");
+
+            if (diff > 1) {
+                var zeros = new Array(diff - 1).join('0').split('').map(parseInt);
+                result += zeros;
+            } 
 
             return result;
         },
@@ -1719,9 +1734,11 @@
                 if (ia_data.live.hasOwnProperty("traffic") && ia_data.live.traffic.dates.length) {
                     var traffic = $("#ia_traffic").get(0).getContext("2d");
                     //var weekend_labels = this.getWeekends(ia_data.live.traffic.dates);
-                    var traffic_header =  $("#traffic_wrapper h3 span").text() + ": " +this.sumCounts(ia_data.live.traffic.counts) + " queries total";
+                    var traffic_header =  $("#traffic_wrapper h3 span").text() + ": " + this.sumCounts(ia_data.live.traffic.counts) + " queries total";
                     $("#traffic_wrapper h3 span").text(traffic_header);
-                    var empty_labels = ia_data.live.traffic.counts.map(function(obj){return "";});
+                    var counts = this.normalizeTraffic(ia_data.live.traffic, ia_data.live.live_date);
+                    $("#traffic_counts").text(counts.length);
+                    var empty_labels = counts.map(function(obj){return "";});
 
                     var chart_data = {
                         labels: empty_labels,
@@ -1733,7 +1750,7 @@
                                 pointStrokeColor: "#fff",
                                 pointHighlightFill: "#fff",
                                 pointHighlightStroke: "#4495d4",
-                                data: ia_data.live.traffic.counts
+                                data: counts
                             }
                         ]
                     };
@@ -1742,7 +1759,8 @@
                     Chart.defaults.global.scaleBeginAtZero = true;
                     var chart = new Chart(traffic).Line(chart_data);
                 } else {
-                    $("#traffic_wrapper").addClass("hide");
+                    $("#traffic_dates, canvas").addClass("hide");
+                    $("#no_traffic").removeClass("hide");
                 }
 
                 $(".ia-single--right").append(templates.live.devinfo);
