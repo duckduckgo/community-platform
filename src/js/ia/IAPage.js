@@ -1679,12 +1679,12 @@
             
             $.each(traffic.dates, function(idx) {
                 var temp_date = traffic.dates[idx];
-                result = diffZeros(temp_date, last_date, result);
+                result = this.diffZeros(temp_date, last_date, result);
                 result += traffic.counts[idx];
                 last_date = temp_date;
             });
 
-            result = diffZeros(now, last_date, result);
+            result = this.diffZeros(now, last_date, result);
             console.log(result);
 
             return result;
@@ -1734,8 +1734,8 @@
                 if (ia_data.live.hasOwnProperty("traffic") && ia_data.live.traffic.dates.length) {
                     var traffic = $("#ia_traffic").get(0).getContext("2d");
                     //var weekend_labels = this.getWeekends(ia_data.live.traffic.dates);
-                    var traffic_header =  $("#traffic_wrapper h3 span").text() + ": " + this.sumCounts(ia_data.live.traffic.counts) + " queries total";
-                    $("#traffic_wrapper h3 span").text(traffic_header);
+                    var traffic_header =  ": " + this.sumCounts(ia_data.live.traffic.counts) + " queries total";
+                    $("#queries_total").text(traffic_header);
                     var counts = this.normalizeTraffic(ia_data.live.traffic, ia_data.live.live_date);
                     $("#traffic_counts").text(counts.length);
                     var empty_labels = counts.map(function(obj){return "";});
