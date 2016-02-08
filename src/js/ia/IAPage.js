@@ -1672,32 +1672,52 @@
             var result = [];
 
             var now = moment();
-            var month_ago = now.subtract(30, "days");
+            var month_ago = moment().subtract(30, "days");
             var iap = this;
 
             live_date = moment(live_date);
             var last_date = live_date.diff(month_ago) > 1? live_date : month_ago;
+            console.log("last date: " + last_date.format());
+            console.log("month ago: " + month_ago.format());
+            console.log("live date: " + live_date.format());
             
-            $.each(traffic.dates, function(idx) {
-                var temp_date = traffic.dates[idx];
+            for (var idx = 0; idx < traffic.dates.length; idx++) {
+                var temp_date = moment(traffic.dates[idx]);
                 result = iap.diffZeros(temp_date, last_date, result);
-                result += traffic.counts[idx];
+                result.push(traffic.counts[idx]);
                 last_date = temp_date;
-            });
 
-            result = iap.diffZeros(now, last_date, result);
-            console.log(result);
+                if (idx+1 === traffic.dates.length) {
+                    result = iap.diffZeros(now, last_date, result);
+                    result.push(0);
+                    console.log(result);
 
-            return result;
+                    return result;
+                }
+            }
+
         },
 
         diffZeros: function(last, previous, result) {
+            console.log("LAST: " + last.format());
+            console.log("PREVIOUS: " + previous.format());
+            console.log(result);
             var diff = last.diff(previous, "days");
+            console.log("DIFF: " + diff);
 
             if (diff > 1) {
-                var zeros = new Array(diff - 1).join('0').split('').map(parseInt);
-                result += zeros;
+                var zeros = [];
+                
+                for (var i = 0; i < (diff - 1); i++) {
+                    zeros.push(0);
+                }
+
+                console.log(zeros);
+                result = result.concat(zeros);
+                console.log("result after zeros: " + result);
             } 
+
+            console.log(result);
 
             return result;
         },
