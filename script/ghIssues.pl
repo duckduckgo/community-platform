@@ -202,7 +202,7 @@ sub getIssues{
                 } 
 
                 if($ia->{developer} && $data->{state} eq 'merged'){
-                    $ia->{developer} = add_developer($ia->{developer}, $data->{author});
+                    $ia->{developer} = add_developer($ia->{developer}, $data->{author}, $ia);
                 }
 
                 my %new_data = (
@@ -551,7 +551,7 @@ sub update_pr_template {
 }
 
 sub add_developer {
-    my ($dev_json, $author) = @_;
+    my ($dev_json, $author, $ia) = @_;
     # don't add duplicates
     return $dev_json if $dev_json =~ /$author/ig;
 
@@ -560,7 +560,9 @@ sub add_developer {
 
     try{
         if($user){
-            my $ddgc_name = $user->username ;
+            my $ddgc_name = $user->username;
+            # Give edit permissions to the contributor
+            $ia->add_to_users($user);
             return $dev_json if $dev_json =~ /duck.co\/user\/$ddgc_name/g;
         }
 
