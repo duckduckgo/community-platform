@@ -1679,9 +1679,6 @@
 
             live_date = moment(live_date);
             var last_date = live_date.diff(month_ago) > 1? live_date : month_ago;
-            console.log("last date: " + last_date.format());
-            console.log("month ago: " + month_ago.format());
-            console.log("live date: " + live_date.format());
             
             for (var idx = 0; idx < traffic.dates.length; idx++) {
                 var temp_date = moment(traffic.dates[idx]);
@@ -1691,15 +1688,10 @@
             }
 
             return result;
-
         },
 
         diffZeros: function(last, previous, result) {
-            console.log("LAST: " + last.format());
-            console.log("PREVIOUS: " + previous.format());
-            console.log(result);
             var diff = last.diff(previous, "days");
-            console.log("DIFF: " + diff);
 
             if (diff > 1) {
                 var zeros = [];
@@ -1708,12 +1700,8 @@
                     zeros.push(0);
                 }
 
-                console.log(zeros);
                 result = result.concat(zeros);
-                console.log("result after zeros: " + result);
             } 
-
-            console.log(result);
 
             return result;
         },
