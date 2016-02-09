@@ -1671,8 +1671,10 @@
         normalizeTraffic: function(traffic, live_date) {
             var result = [];
 
-            var now = moment();
-            var month_ago = moment().subtract(30, "days");
+            // Data is updated every Monday
+            // so the dates array will have last Monday as last entry
+            var monday = moment(traffic.dates[traffic.dates.length - 1]);
+            var month_ago = monday.subtract(30, "days");
             var iap = this;
 
             live_date = moment(live_date);
@@ -1686,15 +1688,9 @@
                 result = iap.diffZeros(temp_date, last_date, result);
                 result.push(traffic.counts[idx]);
                 last_date = temp_date;
-
-                if (idx+1 === traffic.dates.length) {
-                    result = iap.diffZeros(now, last_date, result);
-                    result.push(0);
-                    console.log(result);
-
-                    return result;
-                }
             }
+
+            return result;
 
         },
 
@@ -1758,7 +1754,7 @@
                     var traffic_header =  ": " + this.sumCounts(ia_data.live.traffic.counts) + " queries total";
                     $("#queries_total").text(traffic_header);
                     var counts = this.normalizeTraffic(ia_data.live.traffic, ia_data.live.live_date);
-                    $("#traffic_counts").text(counts.length);
+                    $("#traffic_count").text(counts.length);
                     var empty_labels = counts.map(function(obj){return "";});
 
                     var chart_data = {
