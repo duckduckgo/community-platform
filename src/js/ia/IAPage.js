@@ -1764,7 +1764,7 @@
                     Chart.defaults.global.scaleBeginAtZero = true;
                     var chart = new Chart(traffic).Line(chart_data);
                 } else {
-                    $("#traffic_dates, canvas").addClass("hide");
+                    $("#traffic_dates, #update_frequency, canvas").addClass("hide");
                     $("#no_traffic").removeClass("hide");
                 }
 
