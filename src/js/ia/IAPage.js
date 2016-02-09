@@ -1671,22 +1671,21 @@
         normalizeTraffic: function(traffic, live_date) {
             var result = [];
 
-            var now = moment();
-            var month_ago = now.subtract(30, "days");
+            // Data is updated every Monday
+            // so the dates array will have last Monday as last entry
+            var monday = moment(traffic.dates[traffic.dates.length - 1]);
+            var month_ago = monday.subtract(30, "days");
             var iap = this;
 
             live_date = moment(live_date);
             var last_date = live_date.diff(month_ago) > 1? live_date : month_ago;
             
-            $.each(traffic.dates, function(idx) {
-                var temp_date = traffic.dates[idx];
+            for (var idx = 0; idx < traffic.dates.length; idx++) {
+                var temp_date = moment(traffic.dates[idx]);
                 result = iap.diffZeros(temp_date, last_date, result);
-                result += traffic.counts[idx];
+                result.push(traffic.counts[idx]);
                 last_date = temp_date;
-            });
-
-            result = iap.diffZeros(now, last_date, result);
-            console.log(result);
+            }
 
             return result;
         },
@@ -1695,8 +1694,13 @@
             var diff = last.diff(previous, "days");
 
             if (diff > 1) {
-                var zeros = new Array(diff - 1).join('0').split('').map(parseInt);
-                result += zeros;
+                var zeros = [];
+                
+                for (var i = 0; i < (diff - 1); i++) {
+                    zeros.push(0);
+                }
+
+                result = result.concat(zeros);
             } 
 
             return result;
@@ -1738,7 +1742,7 @@
                     var traffic_header =  ": " + this.sumCounts(ia_data.live.traffic.counts) + " queries total";
                     $("#queries_total").text(traffic_header);
                     var counts = this.normalizeTraffic(ia_data.live.traffic, ia_data.live.live_date);
-                    $("#traffic_counts").text(counts.length);
+                    $("#traffic_count").text(counts.length);
                     var empty_labels = counts.map(function(obj){return "";});
 
                     var chart_data = {
@@ -1760,7 +1764,7 @@
                     Chart.defaults.global.scaleBeginAtZero = true;
                     var chart = new Chart(traffic).Line(chart_data);
                 } else {
-                    $("#traffic_dates, canvas").addClass("hide");
+                    $("#traffic_dates, #update_frequency, canvas").addClass("hide");
                     $("#no_traffic").removeClass("hide");
                 }
 

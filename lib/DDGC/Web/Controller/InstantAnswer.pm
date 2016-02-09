@@ -778,11 +778,16 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
             
             if ($is_dev || $is_admin) {
                 my $today = DateTime->today();
-                my $month_ago = $today->clone->subtract( days => 30 )->date();
+                my $monday = 1;
+                my $weekdays = 7;
+                
+                # Traffic data is updated on Mondays
+                my $last_monday = $today->subtract(days => ($today->day_of_week - $monday) %$weekdays || $weekdays);
+                my $month_ago = $last_monday->clone->subtract( days => 30 )->date();
                 my $traffic_rs = $c->d->rs('InstantAnswer::Traffic')->search(
                     {
                         answer_id => $ia->meta_id, 
-                        date => { '<' => $today->date()}, 
+                        date => { '<' => $last_monday->date()}, 
                         date => { '>' => $month_ago},
                         pixel_type => [qw( iaoi iaoe )]
                     });
