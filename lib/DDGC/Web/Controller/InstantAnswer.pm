@@ -1080,7 +1080,7 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
             my $value = $c->req->params->{value};
             my $autocommit = $c->req->params->{autocommit};
             my $complat_user = $c->d->rs('User')->find({username => $value});
-            $complat_user = $c->d->rs('User')->find_by_github_login($value) unless $complat_user;
+            ($complat_user = $c->d->rs('User')->find_by_github_login($value)) unless $complat_user;
             my $complat_user_admin = $complat_user? $complat_user->admin : '';
             
             # developers can be any complat user
@@ -1137,12 +1137,12 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
             } elsif ($field eq "maintainer") {
                 my %maintainer;
                 if ($complat_user) {
-                    %maintainer = ( duckco => $value );
+                    %maintainer = ( duckco => $complat_user->username );
                     # give edit permissions
-                    $ia->add_to_users($complat_user) unless $complat_user_admin;
+                    $ia->add_to_users($complat_user) unless $complat_user_admin || $ia->users->find($complat_user->id);
                     
                     if($complat_user->github_id) {
-                        $value = $complat_user->github_id;
+                        $value = $c->d->rs('GitHub::User')->find({github_id => $complat_user->github_id})->login;
                         $maintainer{github} = $value;
                     }
                 } elsif (check_github($value)) {
@@ -1290,7 +1290,7 @@ sub create_ia :Chained('base') :PathPart('create') :Args() {
 
         my $maintainer = { 
             duckco => $c->user->username,
-            github => $c->user->github_id
+            github => $c->d->rs('GitHub::User')->find({github_id => $c->user->github_id})->login
         };
 
         # Capitalize each word in the name string
@@ -1316,7 +1316,7 @@ sub create_ia :Chained('base') :PathPart('create') :Args() {
 
             save_milestone_date($new_ia, 'created');
 
-            if (!$is_admin) {
+            if ((!$is_admin) && (!$ia->users->find($c->user->id))) {
                 $new_ia->add_to_users($c->user);
             }
 
