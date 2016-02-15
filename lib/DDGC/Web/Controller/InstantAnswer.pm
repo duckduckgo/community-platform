@@ -1137,26 +1137,20 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
             } elsif ($field eq "maintainer") {
                 my %maintainer;
                 if ($complat_user) {
-                    %maintainer = ( name => $value );
+                    %maintainer = ( duckco => $value );
                     # give edit permissions
                     $ia->add_to_users($complat_user) unless $complat_user_admin;
                     
                     if($complat_user->github_id) {
                         $value = $complat_user->github_id;
-
-                        $maintainer{type} = 'github';
-                    } else {
-                        $maintainer{type} = 'duck.co';
+                        $maintainer{github} = $value;
                     }
                 } elsif (check_github($value)) {
                     # this github account isn't tied to any duck.co account
                     # we still allow it to be listed as maintainer
                     # but can't give edit permissions
 
-                    %maintainer = (
-                        name => $value,
-                        type => 'github'
-                    );
+                    %maintainer = ( github => $value );
                 }
                 
                 return $c->forward($c->view('JSON')) unless %maintainer || $value eq '';
