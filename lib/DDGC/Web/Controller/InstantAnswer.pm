@@ -1288,6 +1288,11 @@ sub create_ia :Chained('base') :PathPart('create') :Args() {
             type => "duck.co"
         };
 
+        my $maintainer = { 
+            duckco => $c->user->username,
+            github => $c->user->github_id
+        };
+
         # Capitalize each word in the name string
         $name =~ s/([\w']+)/\u\L$1/g;
         
@@ -1303,7 +1308,7 @@ sub create_ia :Chained('base') :PathPart('create') :Args() {
                 example_query => $data->{example_query},
                 other_queries => $data->{other_queries},
                 public => 0,
-                maintainer => $c->user->username,
+                maintainer => to_json($maintainer),
                 developer => to_json([$author]),
                 perl_module => $data->{perl_module},
                 tab => $data->{tab}
