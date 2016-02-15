@@ -1080,6 +1080,7 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
             my $value = $c->req->params->{value};
             my $autocommit = $c->req->params->{autocommit};
             my $complat_user = $c->d->rs('User')->find({username => $value});
+            $complat_user = $c->d->rs('User')->find_by_github_login($value) unless $complat_user;
             my $complat_user_admin = $complat_user? $complat_user->admin : '';
             
             # developers can be any complat user
@@ -1134,7 +1135,33 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
             if ($field =~ /designer|producer/){
                 return $c->forward($c->view('JSON')) unless $complat_user_admin || $value eq '';
             } elsif ($field eq "maintainer") {
-                return $c->forward($c->view('JSON')) unless $complat_user || $value eq '';
+                my %maintainer;
+                if ($complat_user) {
+                    %maintainer = ( name => $value );
+                    # give edit permissions
+                    $ia->add_to_users($complat_user) unless $complat_user_admin;
+                    
+                    if($complat_user->github_id) {
+                        $value = $complat_user->github_id;
+
+                        $maintainer{type} = 'github';
+                    } else {
+                        $maintainer{type} = 'duck.co';
+                    }
+                } elsif (check_github($value)) {
+                    # this github account isn't tied to any duck.co account
+                    # we still allow it to be listed as maintainer
+                    # but can't give edit permissions
+
+                    %maintainer = (
+                        name => $value,
+                        type => 'github'
+                    );
+                }
+                
+                return $c->forward($c->view('JSON')) unless %maintainer || $value eq '';
+
+                $value = %maintainer? to_json \%maintainer : '';
             } elsif ($field eq "id") {
                 $field = "meta_id";
                 $value = format_id($value);

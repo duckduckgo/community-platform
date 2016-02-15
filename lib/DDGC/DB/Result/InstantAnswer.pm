@@ -287,6 +287,7 @@ column maintainer => {
     data_type => 'text',
     is_nullable => 1,
     pipeline => 1,
+    is_json => 1,
     for_endpt => 1
 };
 
