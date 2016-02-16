@@ -865,7 +865,7 @@ sub commit_save :Chained('commit_base') :PathPart('save') :Args(0) {
             my $ia = $c->d->rs('InstantAnswer')->find({meta_id => $c->req->params->{id}});
             my $params = from_json($c->req->params->{values});
             
-            $result = save($c, $params, $ia);
+            $result = save($c, $params, $ia, 0);
         }
     }
 
@@ -1028,7 +1028,7 @@ sub save_multiple :Chained('base') :PathPart('save_multiple') :Args(0) {
         my @update;
         
         push(@update, {value => $value, field => $field});
-        save($c, \@update, $ia);
+        save($c, \@update, $ia, 0);
         save_milestone_date($ia, $value);
 
         $result{$id} = 1;
@@ -1136,29 +1136,8 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
             if ($field =~ /designer|producer/){
                 return $c->forward($c->view('JSON')) unless ($complat_user_admin || $value eq '');
             } elsif ($field eq "maintainer") {
-                my %maintainer;
-                if ($complat_user) {
-                    %maintainer = ( duckco => $complat_user->username );
-                    # give edit permissions
-                    $ia->add_to_users($complat_user) unless ($complat_user_admin || $ia->users->find($complat_user->id));
-                    
-                    if($complat_user->github_id) {
-                        my $gh_user = $c->d->rs('GitHub::User')->find({github_id => $complat_user->github_id})->login;
-                        if ($gh_user) {
-                            $maintainer{github} = $gh_user;
-                        }
-                    }
-                } elsif (check_github($value)) {
-                    # this github account isn't tied to any duck.co account
-                    # we still allow it to be listed as maintainer
-                    # but can't give edit permissions
-
-                    %maintainer = ( github => $value );
-                }
-                
-                return $c->forward($c->view('JSON')) unless (%maintainer || $value eq '');
-
-                $value = %maintainer? to_json \%maintainer : '';
+                $value = format_maintainer($c, $value, $ia, 0);
+                return $c->forward($c->view('JSON')) unless ($value || $value eq '');
             } elsif ($field eq "id") {
                 $field = "meta_id";
                 $value = format_id($value);
@@ -1214,7 +1193,7 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
                     $value = $new_meta_id;
                 }
                 
-                save($c, \@update, $ia);
+                save($c, \@update, $ia, 1);
                 $saved = 1;
                 
                 save_milestone_date($ia, $c->req->params->{value});
@@ -1543,7 +1522,7 @@ sub format_maintainer {
 }
 
 sub save {
-    my($c, $params, $ia) = @_;
+    my($c, $params, $ia, $autocommit) = @_;
     my %result;
     my $saved;
 
@@ -1567,7 +1546,7 @@ sub save {
         } else {          
             if ($field eq 'id') {
                $field = 'meta_id';
-            } elsif ($field eq 'maintainer') {
+            } elsif ($field eq 'maintainer' && (!$autocommit)) {
                 $value = format_maintainer($c, $value, $ia, 1);
             }
             
