@@ -1,11 +1,11 @@
 <p>
-    <a href='/github'>Github Stats</a>
+    <a href='/admin/stats/github'>Github Stats</a>
 </p>
 
 <p>
-    <a href='/contributions'>Community Platform Contributions</a>
+    <a href='/admin/stats/contributions'>Community Platform Contributions</a>
 </p>
 
 <p>
-    <a href='/coupons'>Assigned Coupons</a>
+    <a href='/admin/stats/coupons'>Assigned Coupons</a>
 </p>
