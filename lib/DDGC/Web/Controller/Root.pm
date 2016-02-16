@@ -115,7 +115,7 @@ sub redir :Chained('base') :PathPart('redir') :Args(0) {
 		$c->response->redirect($c->chained_uri('Root','index',{ bad_url => 1 }));
 		return $c->detach;
 	}
-	$c->session->{r_url} = $u->canonical;
+	( $c->session->{r_url} = $u->canonical ) =~ s/'/%27/;
 	$c->session->{r_referer_validated} = (index($c->req->headers->referer, $c->req->base->as_string) == 0) ? 1 : 0;
 	$c->response->redirect($c->chained_uri('Root','r'));
 	return $c->detach;
