@@ -1476,7 +1476,7 @@
                                     } else if (field === "id" || data.result.id) {
                                         location.href = "/ia/view/" + data.result.id;
                                     } else {
-                                        ia_data.live[field] = (is_json && data.result[field])? $.parseJSON(data.result[field]) : data.result[field];
+                                        ia_data.live[field] = ((is_json || (field === "maintainer")) && data.result[field])? $.parseJSON(data.result[field]) : data.result[field];
                                         if ((field === "developer" && ia_data.permissions && ia_data.permissions.admin)
                                             || ($("#ia-single--details ." + field).length || (subfield && $("#ia-single--details ." + subfield).length))
                                             || ((field === "example_query" || field === "other_queries") && (!ia_data.examples_saved))) {
