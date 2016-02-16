@@ -7,12 +7,12 @@
     <span class="user-name">
       <a class="js-popout-link"><: $vars.user.username :></a>
       <div class="modal modal--popout modal--popout--sm modal--popout--bottom js-popout-main">
-	<div class="modal__box">
-	  <div class="modal__body">
-	    <div><a href="<: $u('My','account') :>">Profile</a></div>
-	    <div><a href="<: $u('My','logout', { action_token => $action_token }) :>">Logout</a></div>
-	  </div>
-	</div>
+        <div class="modal__box">
+          <div class="modal__body">
+            <div><a href="<: $u('My','account') :>">Profile</a></div>
+            <div><a href="<: $u('My','logout', { action_token => $action_token }) :>">Logout</a></div>
+          </div>
+        </div>
       </div>
     </span>
 </div>
