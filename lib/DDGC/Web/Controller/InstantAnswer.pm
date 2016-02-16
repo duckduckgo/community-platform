@@ -864,6 +864,7 @@ sub commit_save :Chained('commit_base') :PathPart('save') :Args(0) {
             # get the IA 
             my $ia = $c->d->rs('InstantAnswer')->find({meta_id => $c->req->params->{id}});
             my $params = from_json($c->req->params->{values});
+            
             $result = save($c, $params, $ia);
         }
     }
@@ -1133,17 +1134,19 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
             my $new_meta_id;
 
             if ($field =~ /designer|producer/){
-                return $c->forward($c->view('JSON')) unless $complat_user_admin || $value eq '';
+                return $c->forward($c->view('JSON')) unless ($complat_user_admin || $value eq '');
             } elsif ($field eq "maintainer") {
                 my %maintainer;
                 if ($complat_user) {
                     %maintainer = ( duckco => $complat_user->username );
                     # give edit permissions
-                    $ia->add_to_users($complat_user) unless $complat_user_admin || $ia->users->find($complat_user->id);
+                    $ia->add_to_users($complat_user) unless ($complat_user_admin || $ia->users->find($complat_user->id));
                     
                     if($complat_user->github_id) {
-                        $value = $c->d->rs('GitHub::User')->find({github_id => $complat_user->github_id})->login;
-                        $maintainer{github} = $value;
+                        my $gh_user = $c->d->rs('GitHub::User')->find({github_id => $complat_user->github_id})->login;
+                        if ($gh_user) {
+                            $maintainer{github} = $gh_user;
+                        }
                     }
                 } elsif (check_github($value)) {
                     # this github account isn't tied to any duck.co account
@@ -1153,7 +1156,7 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
                     %maintainer = ( github => $value );
                 }
                 
-                return $c->forward($c->view('JSON')) unless %maintainer || $value eq '';
+                return $c->forward($c->view('JSON')) unless (%maintainer || $value eq '');
 
                 $value = %maintainer? to_json \%maintainer : '';
             } elsif ($field eq "id") {
@@ -1499,6 +1502,46 @@ sub format_id {
     return $id;
 }
 
+# Return the properly formatted JSON value
+# for the maintainer column
+sub format_maintainer {
+    my ( $c, $value, $ia, $commit ) = @_;
+    
+    my $complat_user = $c->d->rs('User')->find({username => $value});
+    ($complat_user = $c->d->rs('User')->find_by_github_login($value)) unless $complat_user;
+    my $complat_user_admin = $complat_user? $complat_user->admin : '';
+
+    
+    my %maintainer;
+    if ($complat_user) {
+        %maintainer = ( duckco => $complat_user->username );
+
+        if ($commit) {
+            # give edit permissions
+            $ia->add_to_users($complat_user) unless ($complat_user_admin || $ia->users->find($complat_user->id));
+        }
+
+        if($complat_user->github_id) {
+            my $gh_user = $c->d->rs('GitHub::User')->find({github_id => $complat_user->github_id})->login;
+            if ($gh_user) {
+                $maintainer{github} = $gh_user;
+            }
+        }
+    } elsif (check_github($value)) {
+        # this github account isn't tied to any duck.co account
+        # we still allow it to be listed as maintainer
+        # but can't give edit permissions
+
+        %maintainer = ( github => $value );
+    }
+
+    if (%maintainer) {
+        $value = to_json \%maintainer;
+    }
+
+    return $value;
+}
+
 sub save {
     my($c, $params, $ia) = @_;
     my %result;
@@ -1524,6 +1567,8 @@ sub save {
         } else {          
             if ($field eq 'id') {
                $field = 'meta_id';
+            } elsif ($field eq 'maintainer') {
+                $value = format_maintainer($c, $value, $ia, 1);
             }
             
             commit_edit($c->d, $ia, $field, $value);
