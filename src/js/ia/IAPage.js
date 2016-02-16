@@ -1522,7 +1522,7 @@
                                     }
                                 }
 
-                                if (is_json) {
+                                if (is_json || (field === "maintainer")) {
                                     ia_data.edited[field] = $.parseJSON(data.result[field]);
                                 } else {
                                     ia_data.edited[field] = data.result[field];
