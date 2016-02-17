@@ -9,7 +9,7 @@ sub touch {
     my ( $self ) = @_;
     my $row = $self->search->one_row;
     my $token = $self->ddgc->uid;
-    return $row->update({ token => $token }) if $row;
+    return eval { $row->update({ token => $token }) } if $row;
     $self->create({ token => $token });
 }
 
