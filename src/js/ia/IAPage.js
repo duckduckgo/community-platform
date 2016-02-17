@@ -147,7 +147,8 @@
                         blockgroup: Handlebars.templates.pre_edit_blockgroup(ia_data),
                         deployment_state: Handlebars.templates.pre_edit_deployment_state(ia_data),
                         src_url: Handlebars.templates.pre_edit_src_url(ia_data),
-                        maintainer: Handlebars.templates.pre_edit_maintainer(ia_data)
+                        maintainer: Handlebars.templates.pre_edit_maintainer(ia_data),
+                        production_state: Handlebars.templates.production_state(ia_data)
                     };
 
                     page.updateAll(readonly_templates, ia_data, false);
@@ -1808,6 +1809,7 @@
                     $(".ia-single--edits").append(templates.id);
                     $(".ia-single--edits").append(templates.blockgroup);
                     $(".ia-single--edits").append(templates.deployment_state);
+                    $(".ia-single--edits").append(templates.production_state);
                 }
             }
 

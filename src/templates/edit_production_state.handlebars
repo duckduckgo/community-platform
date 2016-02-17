@@ -1,0 +1,14 @@
+<div class="column-right-edits left" id="column-edits-production_state">
+    <div class="column-right-edits__child js-editable" id="production_state" production_state="production_state">
+        <div class="ia_production_state left">
+            <span class="editable left" name="production_state">
+                <select class="available_production_states" tabindex="-1">
+                    <option value="0">{{production_state}}</option>
+                    {{#not_eq production_state 'offline'}}<option value="1">offline</option>{{/not_eq}}
+                    {{#not_eq production_state 'online'}}<option value="2">online</option>{{/not_eq}}
+                </select>
+            </span>
+        </div>
+    </div>
+</div>
+
