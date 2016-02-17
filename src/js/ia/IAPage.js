@@ -148,7 +148,7 @@
                         deployment_state: Handlebars.templates.pre_edit_deployment_state(ia_data),
                         src_url: Handlebars.templates.pre_edit_src_url(ia_data),
                         maintainer: Handlebars.templates.pre_edit_maintainer(ia_data),
-                        production_state: Handlebars.templates.production_state(ia_data)
+                        production_state: Handlebars.templates.pre_edit_production_state(ia_data)
                     };
 
                     page.updateAll(readonly_templates, ia_data, false);
