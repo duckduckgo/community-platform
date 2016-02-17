@@ -304,7 +304,7 @@
                             if (ia_data.live.dev_milestone !== "live" && ia_data.live.dev_milestone !== "deprecated") {
                                 $parent = $(this).parent().parent().parent();
                             } else {
-                                $parent =  $(this).parent();
+                                $parent =  $(this).parent().parent();
                             }
 
                             $dev_username = $parent.find(".developer_username input");
@@ -1012,7 +1012,7 @@
                                      console.log(value);
                                 } else {
                                     $input = $obj.find("input.js-input,#description textarea");
-                                    value = $.trim($input.val().replace(/"/g, ""));
+                                    value = $input.length? $.trim($input.val().replace(/"/g, "")) : '';
                                 }
                             }
 
