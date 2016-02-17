@@ -459,7 +459,7 @@ column release_version => {
     is_nullable => 1,
 };
 
-# Is it live or not?
+# Where is it in the release process?
 column deployment_state => {
     data_type => 'varchar',
     size => 15,
@@ -467,9 +467,17 @@ column deployment_state => {
 };
 
 column blockgroup => {
-	data_type => 'varchar',
-	size => 20,
-	is_nullable => 1,
+    data_type => 'varchar',
+    size => 20,
+    is_nullable => 1,
+    for_endpt => 1
+};
+
+# Should this be made live or not?
+column production_state => {
+    data_type => 'varchar',
+    size => 10,
+    is_nullable => 1,
 	for_endpt => 1
 };
 
