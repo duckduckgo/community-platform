@@ -339,7 +339,7 @@
                     });
 
                     // Dev Page: commit blockgroup on change
-                    $("body").on("change", ".blockgroup.js-autocommit", function(evt) {
+                    $("body").on("change", ".blockgroup.js-autocommit, .production_state.js-autocommit", function(evt) {
                         commitEdit($(this));
                     });
 

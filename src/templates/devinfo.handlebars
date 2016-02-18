@@ -65,12 +65,25 @@
             <h3 class="ia-single--header">Blockgroup</h3>
             <span class="frm__select">
                 <select class="available_blockgroups blockgroup js-autocommit" tabindex="-1" id="blockgroup-select">
-                    {{#if blockgroup}}<option value="0">{{blockgroup}}</blockgroup>{{/if}}
+                    {{#if blockgroup}}<option value="0">{{blockgroup}}</option>{{/if}}
                 </select>
             </span>
         </div>
     {{/if}}
 
+    {{#if permissions.admin}}
+        <div class="ia-single--info">
+            <h3 class="ia-single--header">Production State</h3>
+            <span class="frm__select">
+                <select class="available_production_states production_state js-autocommit" tabindex="-1" id="production_state-select">
+                    {{#if production_state}}<option value="0">{{production_state}}</option>{{/if}}
+                    {{#not_eq production_state 'offline'}}<option value="1">offline</option>{{/not_eq}}
+                    {{#not_eq production_state 'online'}}<option value="2">online</option>{{/not_eq}}
+                </select>
+            </span>
+        </div>
+    {{/if}}
+    
     <div class="ia-single--info">
         <h3 class="ia-single--header">Dev Machine</h3>
 
