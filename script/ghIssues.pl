@@ -583,6 +583,9 @@ sub add_developer {
         $data = to_json($data);
 
     }catch{
+       print "Error while updating developers $_ \n fall back to un-altered dev data";
+       $d->errorlog("Error while updating developers in ghIssues: '$_'...");
+
        # fall back to un-altered dev data
        $data = $dev_json;
     };
