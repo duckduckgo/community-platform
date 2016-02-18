@@ -1,6 +1,10 @@
 @import "bower_components/compass-sass-mixins/lib/compass/css3/flexbox";
 @import "bower_components/compass-sass-mixins/lib/compass/css3/transform";
 
+.page-blog .site-main {
+    padding: 15px 10px;
+}
+
 #plDebug {
     display: none;
 }
