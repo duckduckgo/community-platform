@@ -58,7 +58,7 @@
     <li class="nav-menu__item"><a href="/blog">Blog</a></li>
 
     : if $vars.user {
-      <li class="nav-menu__heading">Logged In As <: $vars.user.username :></li>
+      <li class="nav-menu__heading"><: $vars.user.username :></li>
       <li class="nav-menu__item"><a href="/my/account">Profile</a></li>
       <li class="nav-menu__item"><a href="<: uri_for('/my/logout', { action_token => $session.action_token }) :>">Log Out</a></li>
     : } else {
