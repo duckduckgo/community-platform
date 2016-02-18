@@ -1004,9 +1004,9 @@
                                 console.log("#" + field + "-check");
                                 console.log(value);
                             } else {
-                                var input;
-                                if (field === "dev_milestone" || field === "repo" || field === "blockgroup" || field === "deployment_state") {
-                                     $input = $obj.find(".available_" + field + "s option:selected");
+                                // Dropdowns
+                                var $input = $obj.find(".available_" + field + "s option:selected");
+                                if ($input.length) {
                                      value = $.trim($input.text());
                                      value = (value === "---")? null : value;
                                      console.log(value);

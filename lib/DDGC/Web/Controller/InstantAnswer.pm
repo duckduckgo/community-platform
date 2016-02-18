@@ -1136,7 +1136,7 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
             } elsif ($field eq "maintainer") {
                 return $c->forward($c->view('JSON')) unless $complat_user || $value eq '';
             } elsif ($field eq "id") {
-                return $c->forward($c->view('JSON')) unless $complat_user_admin;
+                return $c->forward($c->view('JSON')) unless $is_admin;
                 $field = "meta_id";
                 $value = format_id($value);
                 
@@ -1161,10 +1161,11 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
                     return $c->forward($c->view('JSON'));
                 }
             } elsif ($field eq "blockgroup") {
-                return $c->forward($c->view('JSON')) unless $complat_user_admin;
+                return $c->forward($c->view('JSON')) unless $is_admin;
                 $value = ($value eq "")? undef : $value;
             } elsif ($field eq "production_state") {
-                return $c->forward($c->view('JSON')) unless $complat_user_admin;
+                my $valid_val = (($value eq "offline") || ($value eq "online"))? 1 : 0;
+                return $c->forward($c->view('JSON')) unless ($is_admin && $valid_val);
             }
 
             my $edits = add_edit($c, $ia,  $field, $value);
