@@ -3,6 +3,7 @@
 
 .page-blog .site-main {
     padding: 15px 10px;
+    padding-bottom: 200px;
 }
 
 #plDebug {
@@ -73,6 +74,7 @@
     }
 
     .ddgsi-close {
+	z-index: 1;
 	padding: 1.6em 1em 1em;
 	position: absolute;
 	top: 0;

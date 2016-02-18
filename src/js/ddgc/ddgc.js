@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    $('.nav-menu').click(function() {
+    $('.nav-menu a').click(function() {
 	$('.slideout').toggleClass('is-open');
     });
 
