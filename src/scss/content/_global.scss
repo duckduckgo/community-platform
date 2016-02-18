@@ -375,7 +375,9 @@ a.fill {
 	background: white;	
 }
 	.lt-ie9 .site-header { background: #e2e2e2;}
-	.site-header .content-wrap { overflow: initial; }
+	.site-header .content-wrap { 
+	    overflow: initial;
+	}
 	.header-logo { float: left; }
 		.header-logo__logo { 
 			width: 46px;
