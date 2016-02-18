@@ -65,6 +65,16 @@
     &.is-open {
 	@include transform(translate3d(0, 0, 0));
     }
+
+    .ddgsi-close {
+	padding: 1.6em 1em 1em;
+	position: absolute;
+	top: 0;
+	right: 0;
+	text-align: center;
+	color: #bfbfbf;
+	font-size: 1.2em;
+    }
 }
 
 .nav-menu {

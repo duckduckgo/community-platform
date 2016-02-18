@@ -51,6 +51,7 @@
 
 <div class="slideout">
   <ul class="nav-menu__list">
+    <i class="ddgsi ddgsi-close"></i>
     <li class="nav-menu__heading">Menu</li>
     <li class="nav-menu__item"><a href="/ia/dev">Instant Answers</a></li>
     <li class="nav-menu__item"><a href="http://docs.duckduckhack.com/">Docs</a></li>
