@@ -61,4 +61,31 @@
     background-color: rgba(242,242,242,0.975);
     transition: transform 0.3s ease-in-out 0s;
     @include transform(translate3d(14.25em, 0, 0));
+
+    &.is-open {
+	@include transform(translate3d(0, 0, 0));
+    }
+}
+
+.nav-menu {
+    &__list {
+	padding-left: 1.5em;
+	padding-top: 0;
+	padding-bottom: 0;
+	list-style: none;
+    }
+
+    &__heading {
+	padding-top: 2.2em;
+	padding-bottom: 1.6em;
+	margin-bottom: -1.25em;
+	color: $grey-dark;
+	text-transform: uppercase;
+	font-size: 0.75em;
+    }
+
+    &__item a {
+	font-size: 0.9176em;
+	color: $slate;
+    }
 }
