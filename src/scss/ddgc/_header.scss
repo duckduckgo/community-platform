@@ -1,0 +1,46 @@
+#plDebug {
+    display: none;
+}
+
+.site-header.mobile {
+    .header-logo {
+	margin-right: auto;
+	float: none;
+	text-align: center;
+
+	&__logo {
+	    width: initial;
+	    height: initial;
+	    float: none;
+	    padding: initial;
+	    padding-top: 13px;
+	}
+    }
+
+    .ddgsi-comment.notification {
+	float: none;
+	font-size: 1.5em;
+	padding-left: 0px;
+    }
+
+    .notification-bubble {
+	margin-right: auto;
+    }
+
+    .flex-container {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+	padding: 0 20px 0 20px;
+    }
+
+    .nav-menu {
+	padding-top: 13px;
+
+	.ddgsi-menu {
+	    font-size: 1.2em;
+	    color: #a5a5a5;
+	}
+    }
+}

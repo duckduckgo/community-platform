@@ -20,6 +20,8 @@
 <meta property="og:site_name" content="DuckDuckGo Community Platform" />
 <meta name="description" content="Community Platform of DuckDuckGo - Translate DuckDuckGo, Develop Instant Answers, Discuss" />
 
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+
 : if $userpage_home {
     : if $up.field('openid_server').value && $up.field('openid_delegate').value {
         <link rel="openid.server" href="<: $up.field('openid_server').value :>">
