@@ -6,6 +6,8 @@
 }
 
 .site-header.mobile {
+    display: none;
+    
     .header-logo {
 	margin-right: auto;
 	float: none;
@@ -97,5 +99,15 @@
     &__item a {
 	font-size: 0.9176em;
 	color: $slate;
+    }
+}
+
+@media all and (max-width: 500px) {
+    .site-header {
+	display: none;
+    }
+    
+    .site-header.mobile {
+	display: block;
     }
 }

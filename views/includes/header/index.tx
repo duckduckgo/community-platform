@@ -1,4 +1,3 @@
-<!--
 <div class="site-header">
 	<div class="content-wrap">
 		<: if $duckpan { :>
@@ -24,7 +23,7 @@
 
     </div>
 </div>
--->
+
 
 <div class="site-header mobile">
   <div class="content-wrap">
