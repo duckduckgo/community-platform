@@ -554,7 +554,7 @@ sub update_pr_template {
 }
 
 sub add_developer {
-    my ($dev_json, $author, $ia) = @_;
+    my ($dev_json, $author, $ia_hash) = @_;
     # don't add duplicates
     return $dev_json if $dev_json =~ /$author/ig;
 
@@ -564,8 +564,11 @@ sub add_developer {
     try{
         if($user){
             my $ddgc_name = $user->username;
+            
             # Give edit permissions to the contributor
-            $ia->add_to_users($user);
+            my $ia = $d->rs('InstantAnswer')->find({id => $ia_hash->{id}});
+            $ia->add_to_users($user) unless ($ia->users->find($user->id) || $user->admin);
+            
             return $dev_json if $dev_json =~ /duck.co\/user\/$ddgc_name/g;
         }
 
