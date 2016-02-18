@@ -1351,6 +1351,12 @@ sub create_ia_from_pr :Chained('base') :PathPart('create_from_pr') :Args() {
                 name => $user->username,
                 type => "duck.co"
             };
+            
+            my $maintainer = { 
+                duckco => $c->user->username,
+                github => $c->d->rs('GitHub::User')->find({github_id => $c->user->github_id})->login
+            };
+            
             my $perl_module;
             my $tab;
 
@@ -1410,7 +1416,7 @@ sub create_ia_from_pr :Chained('base') :PathPart('create_from_pr') :Args() {
                         repo => $repo,
                         dev_milestone => 'planning',
                         public => 1,
-                        maintainer => $user->username,
+                        maintainer => to_json($maintainer),
                         developer => to_json([$author]),
                         perl_module => $perl_module,
                         tab => $tab
