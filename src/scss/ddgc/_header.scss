@@ -1,3 +1,6 @@
+@import "bower_components/compass-sass-mixins/lib/compass/css3/flexbox";
+@import "bower_components/compass-sass-mixins/lib/compass/css3/transform";
+
 #plDebug {
     display: none;
 }
@@ -28,10 +31,10 @@
     }
 
     .flex-container {
-	display: flex;
-	flex-direction: row;
-	align-items: center;
-	justify-content: center;
+	@include display-flex;
+	@include flex-direction(row);
+	@include align-items(center);
+	@include justify-content(center);
 	padding: 0 20px 0 20px;
     }
 
@@ -43,4 +46,19 @@
 	    color: #a5a5a5;
 	}
     }
+}
+
+.slideout {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: auto;
+    z-index: 3;
+    width: 14em;
+    height: 100%;
+    box-shadow: -1px 0 1px rgba(0,0,0,0.2);
+    background-color: rgba(242,242,242,0.975);
+    transition: transform 0.3s ease-in-out 0s;
+    @include transform(translate3d(14.25em, 0, 0));
 }
