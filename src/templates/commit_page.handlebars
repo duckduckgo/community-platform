@@ -69,6 +69,19 @@
             </tr>
         {{/not_null}}
 
+        {{#not_null production_state}}
+            <tr class="updates_list">
+                <th>Production State</th>
+
+                <td name="production_state"  id="production_state_original">
+                    {{original.production_state}}
+                </td>
+                <td name="production_state">
+                    {{production_state}}
+                </td>
+            </tr>
+        {{/not_null}}
+
         {{#not_null template}}
             <tr class="updates_list">
                 <th>Template</th>
