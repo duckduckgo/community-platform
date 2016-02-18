@@ -176,7 +176,10 @@ sub getIssues{
                 my $is_new_ia;
                 for my $tag (@{$data->{tags}}){
                     $is_new_ia = 1 if $tag->{name} eq 'New Instant Answer';
-                    $pm = "DDG::Goodie::CheatSheets" if $tag->{name} eq 'CheatSheet';
+                     if ($tag->{name} eq 'CheatSheet') {
+                        $pm = "DDG::Goodie::CheatSheets";
+                        $ia->{tab} = "Cheat Sheet";
+                     }
                 }
 
                 my $developer = [{
@@ -496,7 +499,7 @@ sub update_pr_template {
     if($data->{repo} =~ /fathead/i){
         $data->{tab} = "About";
     }elsif($data->{repo} =~ /goodie/i){
-        $data->{tab} = "Answer";
+        $data->{tab} = ($data->{tab} eq "Cheat Sheet")? $data->{tab} : "Answer";
     }
 
     my $message = qq(
