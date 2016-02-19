@@ -1260,6 +1260,7 @@ sub create_ia :Chained('base') :PathPart('create') :Args() {
 
     if ($c->user && (!$ia)) {
         $is_admin = $c->user->admin;
+        my $gh_id = $c->user->github_id;
         my $dev_milestone = $data->{dev_milestone}? $data->{dev_milestone} : "planning";
         my $name = $data->{name};
         my $repo = $data->{repo}? lc $data->{repo} : undef;
@@ -1272,7 +1273,7 @@ sub create_ia :Chained('base') :PathPart('create') :Args() {
 
         my $maintainer = { 
             duckco => $c->user->username,
-            github => $c->d->rs('GitHub::User')->find({github_id => $c->user->github_id})->login
+            github => $gh_id? $c->d->rs('GitHub::User')->find({github_id => $gh_id})->login : ''
         };
 
         # Capitalize each word in the name string
@@ -1345,6 +1346,7 @@ sub create_ia_from_pr :Chained('base') :PathPart('create_from_pr') :Args() {
             $gh->set_default_user_repo('duckduckgo', "zeroclickinfo-$repo");
 
             my @files = $gh->pull_request->files($pr_number);
+            my $gh_id = $user->github_id;
             $pr_data = $gh->pull_request->pull($pr_number);
             my $author = {
                 url => 'https://duck.co/user/' . $c->user->username,
@@ -1354,7 +1356,7 @@ sub create_ia_from_pr :Chained('base') :PathPart('create_from_pr') :Args() {
             
             my $maintainer = { 
                 duckco => $c->user->username,
-                github => $c->d->rs('GitHub::User')->find({github_id => $c->user->github_id})->login
+                github => $gh_id? $c->d->rs('GitHub::User')->find({github_id => $gh_id})->login : ''
             };
             
             my $perl_module;
@@ -1500,14 +1502,15 @@ sub format_maintainer {
     my %maintainer;
     if ($complat_user) {
         %maintainer = ( duckco => $complat_user->username );
+        my $gh_id = $complat_user->github_id;
 
         if ($commit) {
             # give edit permissions
             $ia->add_to_users($complat_user) unless ($complat_user_admin || $ia->users->find($complat_user->id));
         }
 
-        if($complat_user->github_id) {
-            my $gh_user = $c->d->rs('GitHub::User')->find({github_id => $complat_user->github_id})->login;
+        if($gh_id) {
+            my $gh_user = $c->d->rs('GitHub::User')->find({github_id => $gh_id})->login;
             if ($gh_user) {
                 $maintainer{github} = $gh_user;
             }
