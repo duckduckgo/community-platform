@@ -176,7 +176,10 @@ sub getIssues{
                 my $is_new_ia;
                 for my $tag (@{$data->{tags}}){
                     $is_new_ia = 1 if $tag->{name} eq 'New Instant Answer';
-                    $pm = "DDG::Goodie::CheatSheets" if $tag->{name} eq 'CheatSheet';
+                     if ($tag->{name} eq 'CheatSheet') {
+                        $pm = "DDG::Goodie::CheatSheets";
+                        $ia->{tab} = "Cheat Sheet";
+                     }
                 }
 
                 my $developer = [{
@@ -496,7 +499,7 @@ sub update_pr_template {
     if($data->{repo} =~ /fathead/i){
         $data->{tab} = "About";
     }elsif($data->{repo} =~ /goodie/i){
-        $data->{tab} = "Answer";
+        $data->{tab} = ($data->{tab} eq "Cheat Sheet")? $data->{tab} : "Answer";
     }
 
     my $message = qq(
@@ -551,7 +554,7 @@ sub update_pr_template {
 }
 
 sub add_developer {
-    my ($dev_json, $author, $ia) = @_;
+    my ($dev_json, $author, $ia_hash) = @_;
     # don't add duplicates
     return $dev_json if $dev_json =~ /$author/ig;
 
@@ -561,8 +564,14 @@ sub add_developer {
     try{
         if($user){
             my $ddgc_name = $user->username;
+            
             # Give edit permissions to the contributor
-            $ia->add_to_users($user);
+            my $ia = $ia_hash? $d->rs('InstantAnswer')->find({id => $ia_hash->{id}}) : undef;
+            
+            if ($ia) {
+                $ia->add_to_users($user) unless ($ia->users->find($user->id) || $user->admin);
+            }
+
             return $dev_json if $dev_json =~ /duck.co\/user\/$ddgc_name/g;
         }
 
@@ -577,6 +586,9 @@ sub add_developer {
         $data = to_json($data);
 
     }catch{
+       print "Error while updating developers $_ \n fall back to un-altered dev data";
+       $d->errorlog("Error while updating developers in ghIssues: '$_'...");
+
        # fall back to un-altered dev data
        $data = $dev_json;
     };
