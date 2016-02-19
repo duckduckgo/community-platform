@@ -1035,7 +1035,9 @@
                                 is_json = true;
                             }
 
-                            if (value !== edited_value && value !== live_value) {
+                            var both_empty = checkEmpty(edited_value, value);
+                            
+                            if (value !== edited_value && value !== live_value && (!both_empty)) {
                                 save(field, value, DDH_iaid, $obj, is_json);
                             } else {
                                 $obj.replaceWith(pre_templates[field]);
@@ -1046,6 +1048,15 @@
                             }
                         }
                     });
+
+                    //Check if both the edited value and the live value are empty
+                    function checkEmpty(value, live_data) {
+                        var value_empty = (!value || value === "" || value === "[]" || value === "{}")? true : false;
+                        var live_empty = (!live_data || live_data === "" || live_data === "[]" || live_data === "{}")? true : false;
+                        var both_empty = (value_empty && live_empty)? true : false;
+
+                        return both_empty;
+                    }
 
                     // Check if username exists for the given account type (either github or duck.co)
                     function usercheck(type, username, $type, $username) {
@@ -1129,7 +1140,10 @@
                         console.log("After getUnsaved... " + field + " " + value);
                         console.log("Live data: " + live_data);
                         console.log("Live data without JSON " + ia_data.live[field]);
-                        if (field && (live_data != value)) {
+
+                        var both_empty = checkEmpty(value, live_data);
+
+                        if (field && (live_data != value) && (!both_empty)) {
                             if (parent_field) {
                                 autocommit(parent_field, value, DDH_iaid, is_json, field);
                             } else {
