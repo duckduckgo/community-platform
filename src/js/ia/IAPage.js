@@ -147,7 +147,8 @@
                         blockgroup: Handlebars.templates.pre_edit_blockgroup(ia_data),
                         deployment_state: Handlebars.templates.pre_edit_deployment_state(ia_data),
                         src_url: Handlebars.templates.pre_edit_src_url(ia_data),
-                        maintainer: Handlebars.templates.pre_edit_maintainer(ia_data)
+                        maintainer: Handlebars.templates.pre_edit_maintainer(ia_data),
+                        production_state: Handlebars.templates.pre_edit_production_state(ia_data)
                     };
 
                     page.updateAll(readonly_templates, ia_data, false);
@@ -338,7 +339,7 @@
                     });
 
                     // Dev Page: commit blockgroup on change
-                    $("body").on("change", ".blockgroup.js-autocommit", function(evt) {
+                    $("body").on("change", ".blockgroup.js-autocommit, .production_state.js-autocommit", function(evt) {
                         commitEdit($(this));
                     });
 
@@ -1003,9 +1004,9 @@
                                 console.log("#" + field + "-check");
                                 console.log(value);
                             } else {
-                                var input;
-                                if (field === "dev_milestone" || field === "repo" || field === "blockgroup" || field === "deployment_state") {
-                                     $input = $obj.find(".available_" + field + "s option:selected");
+                                // Dropdowns
+                                var $input = $obj.find(".available_" + field + "s option:selected");
+                                if ($input.length) {
                                      value = $.trim($input.text());
                                      value = (value === "---")? null : value;
                                      console.log(value);
@@ -1808,6 +1809,7 @@
                     $(".ia-single--edits").append(templates.id);
                     $(".ia-single--edits").append(templates.blockgroup);
                     $(".ia-single--edits").append(templates.deployment_state);
+                    $(".ia-single--edits").append(templates.production_state);
                 }
             }
 
