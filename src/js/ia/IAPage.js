@@ -1021,7 +1021,7 @@
                                 && (field === "topic" || field === "other_queries" || field === "triggers" || field === "perl_dependencies" || field === "src_options"))
                                 || (field === "answerbar") || (field === "developer")) {
                                 if (field !== "answerbar" && field !== "src_options") {
-                                    value = getGroupVals(field);
+                                    value = (field === "other_queries")? getGroupVals(field, $("#column-edits-other_queries .other_queries input")) : getGroupVals(field);
                                 } else if (field === "src_options") {
                                     value = {};
                                     value = getSectionVals(null, "src_options-group");
@@ -1049,13 +1049,12 @@
                                 }
 
                                 equal_vals = (eqArrays(temp_val, live_value) || eqArrays(temp_val, edited_value))? true : false;
+                                
                                 value = JSON.stringify(value);
                                 temp_val = JSON.stringify(temp_val);
                                 edited_value = JSON.stringify(ia_data.edited[field]);
                                 live_value = JSON.stringify(ia_data.live[field]);
-                                console.log("new val: " + temp_val);
-                                console.log("edited val: " + edited_value);
-                                console.log("live val: " + live_value);
+                                
                                 equal_vals = equal_vals? equal_vals : ((temp_val === live_value) || (temp_val === edited_value));
                                 is_json = true;
                             } else {
@@ -1268,32 +1267,34 @@
                             } else if ((ia_data.live.dev_milestone !== "live" && ia_data.live.dev_milestone !== "deprecated") && (field === "developer")) {
                                 $selector = $(".developer_username input[type='text']");
                             } else {
-                                $selector = $("." + field).children("input");
+                                $selector = $("." + field).find("input");
                             }
                         }
 
                         $selector.each(function(index) {
-                            if (field === "developer") {
-                                var $li_item = (ia_data.live.dev_milestone !== "live" && ia_data.live.dev_milestone !== "deprecated")? $(this).parent().parent().parent() : $(this).parent().parent();
+                            if ($(this).css("display") !== "none") {
+                                if (field === "developer") {
+                                    var $li_item = (ia_data.live.dev_milestone !== "live" && ia_data.live.dev_milestone !== "deprecated")? $(this).parent().parent().parent() : $(this).parent().parent();
 
-                                temp_val = {};
-                                temp_val.name = $.trim($(this).val()).replace(/"/g, "");
-                                temp_val.type = $.trim($li_item.find(".available_types").find("option:selected").text()) || "legacy";
-                                temp_val.username = $.trim($li_item.find(".developer_username input[type='text']").val().replace(/"/g, ""));
-                                
-                                if (!temp_val.username) {
-                                    return;
-                                }
-                            } else {
-                                if (field === "topic") {
-                                    temp_val = $(this).attr("value").length? $.trim($(this).text()) : "";
+                                    temp_val = {};
+                                    temp_val.name = $.trim($(this).val()).replace(/"/g, "");
+                                    temp_val.type = $.trim($li_item.find(".available_types").find("option:selected").text()) || "legacy";
+                                    temp_val.username = $.trim($li_item.find(".developer_username input[type='text']").val().replace(/"/g, ""));
+                                    
+                                    if (!temp_val.username) {
+                                        return;
+                                    }
                                 } else {
-                                    temp_val = $.trim($(this).val().replace(/"/g, ""));
+                                    if (field === "topic") {
+                                        temp_val = $(this).attr("value").length? $.trim($(this).text()) : "";
+                                    } else {
+                                        temp_val = $.trim($(this).val().replace(/"/g, ""));
+                                    }
                                 }
-                            }
 
-                            if (temp_val && $.inArray(temp_val, value) === -1) {
-                                value.push(temp_val);
+                                if (temp_val && $.inArray(temp_val, value) === -1) {
+                                    value.push(temp_val);
+                                }
                             }
                         });
 
