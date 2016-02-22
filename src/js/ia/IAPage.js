@@ -1035,7 +1035,8 @@
                                 is_json = true;
                             }
 
-                            var both_empty = checkEmpty(edited_value, value);
+                            var both_empty = checkEmpty(value, live_value);
+                            both_empty = (!both_empty)? checkEmpty(value, edited_value) : both_empty;
                             
                             if (value !== edited_value && value !== live_value && (!both_empty)) {
                                 save(field, value, DDH_iaid, $obj, is_json);
