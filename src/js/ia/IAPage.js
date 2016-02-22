@@ -1030,10 +1030,33 @@
                                     value.fallback_timeout = $("#answerbar input").val();
                                 }
 
-                                equal_vals = (eqArrays(value, live_value) || eqArrays(value, edited_value))? true : false;
+
+                                var temp_val = value;
+                                if (field === "developer") {
+                                    temp_val = [];
+                                    var gh_url = "https://github.com/";
+                                    var duckco_url = "/user/";
+                                    $.each(value, function(idx) {
+                                        var idx_val = value[idx];
+                                        var temp_hash = {
+                                            url: (idx_val.type === "github")? gh_url + idx_val.username : duckco_url + idx_val.username,
+                                            name: idx_val.name,
+                                            type: idx_val.type
+                                        };
+
+                                        temp_val.push(temp_hash);
+                                    });
+                                }
+
+                                equal_vals = (eqArrays(temp_val, live_value) || eqArrays(temp_val, edited_value))? true : false;
                                 value = JSON.stringify(value);
+                                temp_val = JSON.stringify(temp_val);
                                 edited_value = JSON.stringify(ia_data.edited[field]);
                                 live_value = JSON.stringify(ia_data.live[field]);
+                                console.log("new val: " + temp_val);
+                                console.log("edited val: " + edited_value);
+                                console.log("live val: " + live_value);
+                                equal_vals = equal_vals? equal_vals : ((temp_val === live_value) || (temp_val === edited_value));
                                 is_json = true;
                             } else {
                                 equal_vals = ((value === live_value) || (value === edited_value))? true : false;
