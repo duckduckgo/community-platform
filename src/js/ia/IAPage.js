@@ -996,6 +996,7 @@
                             var edited_value = ia_data.edited[field];
                             var live_value = ia_data.live[field];
                             var $obj = $("#row-diff-" + field);
+                            var equal_vals;
 
                             if ($(this).hasClass("js-input")) {
                                 value = $.trim($(this).val().replace(/"/g, ""));
@@ -1029,16 +1030,19 @@
                                     value.fallback_timeout = $("#answerbar input").val();
                                 }
 
+                                equal_vals = (eqArrays(value, live_value) || eqArrays(value, edited_value))? true : false;
                                 value = JSON.stringify(value);
                                 edited_value = JSON.stringify(ia_data.edited[field]);
                                 live_value = JSON.stringify(ia_data.live[field]);
                                 is_json = true;
+                            } else {
+                                equal_vals = ((value === live_value) || (value === edited_value))? true : false;
                             }
 
                             var both_empty = checkEmpty(value, live_value);
                             both_empty = (!both_empty)? checkEmpty(value, edited_value) : both_empty;
                             
-                            if (value !== edited_value && value !== live_value && (!both_empty)) {
+                            if ((!equal_vals) && (!both_empty)) {
                                 save(field, value, DDH_iaid, $obj, is_json);
                             } else {
                                 $obj.replaceWith(pre_templates[field]);
@@ -1049,6 +1053,11 @@
                             }
                         }
                     });
+
+                    // Check if two arrays are equal
+                    function eqArrays(arr1, arr2) {
+                        return (($(arr1).not(arr2).length === 0) && ($(arr2).not(arr1).length === 0));
+                    }
 
                     //Check if both the edited value and the live value are empty
                     function checkEmpty(value, live_data) {
