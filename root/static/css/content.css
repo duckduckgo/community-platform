@@ -5185,6 +5185,7 @@ a.fill {
 	Site Content
 */
 .site-main {
+  min-width: 85%;
   margin-bottom: 5em;
   position: relative;
   overflow: hidden;
