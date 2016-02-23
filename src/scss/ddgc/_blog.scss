@@ -257,7 +257,7 @@
 @media only screen and (max-width: 40em) {
 	.tab-half, .tab-third { float: none; width: auto; }
 		.sidebar .tab-half h5, .tab-mid h5 { text-align: left; }
-	.blog-content { width: auto; margin: 0 8px 10px; }
+	.blog-content { width: auto; }
 	.post-snippet, .post-body { margin: 0 auto 48px; }
 		.blog-content .notice { margin-right: auto; }
 	.date-box { display: none; }
@@ -265,9 +265,4 @@
 	.author-photo img { width: 100px; }
 	.author-details { margin: 0 18px 0 120px; }
 	.action-item { margin-right: 15px; }
-	
-	.page-blog .breadcrumb-nav {
-		padding-left: 7px;
-		padding-right: 7px;
-	}
 }

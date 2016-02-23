@@ -882,7 +882,7 @@ filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=2);
 	.site-header .user-avatar { visibility:hidden; }
 }
 @media only screen and (max-width: 788px) {
-	.site-main .content-wrap { width: 98%; }	
+	.site-main .content-wrap { min-width: 100%; }	
 	.topmsg { zoom: 0.85; }
 	.site-header .user-avatar { visibility: visible; }
 	.header-notice { padding-bottom: 4px; }

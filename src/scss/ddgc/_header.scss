@@ -2,12 +2,18 @@
 @import "bower_components/compass-sass-mixins/lib/compass/css3/transform";
 
 .page-blog .site-main {
-    padding: 15px 10px;
+    padding: 15px 20px;
     padding-bottom: 200px;
 }
 
 #plDebug {
     display: none;
+}
+
+.site-header.desktop {
+    padding-left: 20px;
+    padding-right: 20px;
+    box-sizing: border-box;
 }
 
 .site-header.mobile {
@@ -47,6 +53,7 @@
 
     .nav-menu {
 	padding-top: 13px;
+	padding-left: 6px;
 
 	.ddgsi-menu {
 	    font-size: 1.2em;
@@ -122,6 +129,10 @@
 }
 
 @media all and (max-width: 500px) {
+    .blog-content {
+	-webkit-text-size-adjust: 100%;
+    }
+
     .site-header {
 	display: none;
     }
