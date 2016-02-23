@@ -1299,7 +1299,7 @@ sub create_ia :Chained('base') :PathPart('create') :Args() {
 
             save_milestone_date($new_ia, 'created');
 
-            if ((!$is_admin) && (!$ia->users->find($c->user->id))) {
+            if ((!$is_admin) && (!$new_ia->users->find($c->user->id))) {
                 $new_ia->add_to_users($c->user);
             }
 
