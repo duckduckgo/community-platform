@@ -5185,6 +5185,7 @@ a.fill {
 	Site Content
 */
 .site-main {
+  min-width: 85%;
   margin-bottom: 5em;
   position: relative;
   overflow: hidden;
@@ -5605,7 +5606,7 @@ h1 + .intro, .intro--mg {
 
 @media only screen and (max-width: 788px) {
   .site-main .content-wrap {
-    width: 98%; }
+    min-width: 100%; }
   .topmsg {
     zoom: 0.85; }
   .site-header .user-avatar {
@@ -5839,6 +5840,7 @@ h1 + .intro, .intro--mg {
   font-size: 1.2em;
   padding-left: 30px;
   padding-top: 7px;
+  position: relative;
   color: #aaaaaa; }
 
 .ddgsi-comment.has-notification:after {
@@ -5851,11 +5853,14 @@ h1 + .intro, .intro--mg {
   height: 6px;
   background: #60a5da;
   border-radius: 50%;
-  position: relative;
-  bottom: 9px;
-  right: 5px;
+  position: absolute;
+  bottom: 12px;
+  right: -2px;
   border: 1px solid white;
   visibility: hidden; }
+
+.desktop .ddgsi-comment:after {
+  bottom: 9px; }
 
 .modal--popout--bottom.modal--popout--sm .modal__box {
   left: -60px; }

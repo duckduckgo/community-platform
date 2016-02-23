@@ -597,7 +597,7 @@ a.fill {
 	Site Content
 */
 
-.site-main { margin-bottom: 5em; position: relative; overflow: hidden; padding: 15px 0; }		
+.site-main { min-width: 85%; margin-bottom: 5em; position: relative; overflow: hidden; padding: 15px 0; }		
 	.intro-message { max-width: 95%; line-height: 1.38; margin: -30px auto 40px; }
 	h1 + .intro, .intro--mg { margin-top: -20px; }
 		.page-home .intro-message { max-width: 85%; }		
@@ -882,7 +882,7 @@ filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=2);
 	.site-header .user-avatar { visibility:hidden; }
 }
 @media only screen and (max-width: 788px) {
-	.site-main .content-wrap { width: 98%; }	
+	.site-main .content-wrap { min-width: 100%; }	
 	.topmsg { zoom: 0.85; }
 	.site-header .user-avatar { visibility: visible; }
 	.header-notice { padding-bottom: 4px; }
