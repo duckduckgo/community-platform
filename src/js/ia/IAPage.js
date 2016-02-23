@@ -996,6 +996,7 @@
                             var edited_value = ia_data.edited[field];
                             var live_value = ia_data.live[field];
                             var $obj = $("#row-diff-" + field);
+                            var equal_vals;
 
                             if ($(this).hasClass("js-input")) {
                                 value = $.trim($(this).val().replace(/"/g, ""));
@@ -1020,7 +1021,7 @@
                                 && (field === "topic" || field === "other_queries" || field === "triggers" || field === "perl_dependencies" || field === "src_options"))
                                 || (field === "answerbar") || (field === "developer")) {
                                 if (field !== "answerbar" && field !== "src_options") {
-                                    value = getGroupVals(field);
+                                    value = (field === "other_queries")? getGroupVals(field, $("#column-edits-other_queries .other_queries input")) : getGroupVals(field);
                                 } else if (field === "src_options") {
                                     value = {};
                                     value = getSectionVals(null, "src_options-group");
@@ -1029,13 +1030,41 @@
                                     value.fallback_timeout = $("#answerbar input").val();
                                 }
 
+
+                                var temp_val = value;
+                                if (field === "developer") {
+                                    temp_val = [];
+                                    var gh_url = "https://github.com/";
+                                    var duckco_url = "/user/";
+                                    $.each(value, function(idx) {
+                                        var idx_val = value[idx];
+                                        var temp_hash = {
+                                            url: (idx_val.type === "github")? gh_url + idx_val.username : duckco_url + idx_val.username,
+                                            name: idx_val.name,
+                                            type: idx_val.type
+                                        };
+
+                                        temp_val.push(temp_hash);
+                                    });
+                                }
+
+                                equal_vals = (eqArrays(temp_val, live_value) || eqArrays(temp_val, edited_value))? true : false;
+                                
                                 value = JSON.stringify(value);
+                                temp_val = JSON.stringify(temp_val);
                                 edited_value = JSON.stringify(ia_data.edited[field]);
                                 live_value = JSON.stringify(ia_data.live[field]);
+                                
+                                equal_vals = equal_vals? equal_vals : ((temp_val === live_value) || (temp_val === edited_value));
                                 is_json = true;
+                            } else {
+                                equal_vals = ((value === live_value) || (value === edited_value))? true : false;
                             }
 
-                            if (value !== edited_value && value !== live_value) {
+                            var both_empty = checkEmpty(value, live_value);
+                            both_empty = (!both_empty)? checkEmpty(value, edited_value) : both_empty;
+                            
+                            if ((!equal_vals) && (!both_empty)) {
                                 save(field, value, DDH_iaid, $obj, is_json);
                             } else {
                                 $obj.replaceWith(pre_templates[field]);
@@ -1046,6 +1075,20 @@
                             }
                         }
                     });
+
+                    // Check if two arrays are equal
+                    function eqArrays(arr1, arr2) {
+                        return (($(arr1).not(arr2).length === 0) && ($(arr2).not(arr1).length === 0));
+                    }
+
+                    //Check if both the edited value and the live value are empty
+                    function checkEmpty(value, live_data) {
+                        var value_empty = (!value || value === "" || value === "[]" || value === "{}")? true : false;
+                        var live_empty = (!live_data || live_data === "" || live_data === "[]" || live_data === "{}")? true : false;
+                        var both_empty = (value_empty && live_empty)? true : false;
+
+                        return both_empty;
+                    }
 
                     // Check if username exists for the given account type (either github or duck.co)
                     function usercheck(type, username, $type, $username) {
@@ -1129,7 +1172,10 @@
                         console.log("After getUnsaved... " + field + " " + value);
                         console.log("Live data: " + live_data);
                         console.log("Live data without JSON " + ia_data.live[field]);
-                        if (field && (live_data != value)) {
+
+                        var both_empty = checkEmpty(value, live_data);
+
+                        if (field && (live_data != value) && (!both_empty)) {
                             if (parent_field) {
                                 autocommit(parent_field, value, DDH_iaid, is_json, field);
                             } else {
@@ -1221,32 +1267,34 @@
                             } else if ((ia_data.live.dev_milestone !== "live" && ia_data.live.dev_milestone !== "deprecated") && (field === "developer")) {
                                 $selector = $(".developer_username input[type='text']");
                             } else {
-                                $selector = $("." + field).children("input");
+                                $selector = $("." + field).find("input");
                             }
                         }
 
                         $selector.each(function(index) {
-                            if (field === "developer") {
-                                var $li_item = (ia_data.live.dev_milestone !== "live" && ia_data.live.dev_milestone !== "deprecated")? $(this).parent().parent().parent() : $(this).parent().parent();
+                            if ($(this).css("display") !== "none") {
+                                if (field === "developer") {
+                                    var $li_item = (ia_data.live.dev_milestone !== "live" && ia_data.live.dev_milestone !== "deprecated")? $(this).parent().parent().parent() : $(this).parent().parent();
 
-                                temp_val = {};
-                                temp_val.name = $.trim($(this).val()).replace(/"/g, "");
-                                temp_val.type = $.trim($li_item.find(".available_types").find("option:selected").text()) || "legacy";
-                                temp_val.username = $.trim($li_item.find(".developer_username input[type='text']").val().replace(/"/g, ""));
-                                
-                                if (!temp_val.username) {
-                                    return;
-                                }
-                            } else {
-                                if (field === "topic") {
-                                    temp_val = $(this).attr("value").length? $.trim($(this).text()) : "";
+                                    temp_val = {};
+                                    temp_val.name = $.trim($(this).val()).replace(/"/g, "");
+                                    temp_val.type = $.trim($li_item.find(".available_types").find("option:selected").text()) || "legacy";
+                                    temp_val.username = $.trim($li_item.find(".developer_username input[type='text']").val().replace(/"/g, ""));
+                                    
+                                    if (!temp_val.username) {
+                                        return;
+                                    }
                                 } else {
-                                    temp_val = $.trim($(this).val().replace(/"/g, ""));
+                                    if (field === "topic") {
+                                        temp_val = $(this).attr("value").length? $.trim($(this).text()) : "";
+                                    } else {
+                                        temp_val = $.trim($(this).val().replace(/"/g, ""));
+                                    }
                                 }
-                            }
 
-                            if (temp_val && $.inArray(temp_val, value) === -1) {
-                                value.push(temp_val);
+                                if (temp_val && $.inArray(temp_val, value) === -1) {
+                                    value.push(temp_val);
+                                }
                             }
                         });
 
