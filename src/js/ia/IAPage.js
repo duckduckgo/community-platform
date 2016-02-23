@@ -1021,7 +1021,8 @@
                                 && (field === "topic" || field === "other_queries" || field === "triggers" || field === "perl_dependencies" || field === "src_options"))
                                 || (field === "answerbar") || (field === "developer")) {
                                 if (field !== "answerbar" && field !== "src_options") {
-                                    value = (field === "other_queries")? getGroupVals(field, $("#column-edits-other_queries .other_queries input")) : getGroupVals(field);
+                                    var $selector = $("#column-edits-" + field + " ." + field + " input");
+                                    value = getGroupVals(field, $selector);
                                 } else if (field === "src_options") {
                                     value = {};
                                     value = getSectionVals(null, "src_options-group");
@@ -1035,11 +1036,19 @@
                                 if (field === "developer") {
                                     temp_val = [];
                                     var gh_url = "https://github.com/";
-                                    var duckco_url = "/user/";
+                                    var ddg_url = "www.duckduckhack.com";
+                                    var temp_url = "/user/";
                                     $.each(value, function(idx) {
                                         var idx_val = value[idx];
+                                        
+                                        if (idx_val.type === "github") {
+                                            temp_url = gh_url;
+                                        } else if (idx_val.type === "ddg") {
+                                            temp_url = ddg_url;
+                                        }
+
                                         var temp_hash = {
-                                            url: (idx_val.type === "github")? gh_url + idx_val.username : duckco_url + idx_val.username,
+                                            url: temp_url + idx_val.username,
                                             name: idx_val.name,
                                             type: idx_val.type
                                         };
