@@ -205,6 +205,9 @@ sub wanted_repos {
         duckduckgo/zeroclickinfo-fathead
         duckduckgo/zeroclickinfo-goodies
         duckduckgo/zeroclickinfo-longtail
+        duckduckgo/p5-app-duckpan
+        duckduckgo/duckduckhack-docs
+        duckduckgo/duckduckgo
     |;
 }
 
@@ -237,7 +240,7 @@ sub update_repo_from_data {
     my $gh_repo = $gh_user
         ->related_resultset('github_repos')
         ->update_or_create(\%columns, { key => 'github_repo_github_id' });
-
+    
     printf "Updating %s/%s\n", $gh_repo->owner_name, $gh_repo->repo_name;
     print "   commits...\n";
     $self->update_repo_commits($gh_repo);
