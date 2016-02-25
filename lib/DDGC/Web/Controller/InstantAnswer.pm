@@ -1081,8 +1081,7 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
             my $value = $c->req->params->{value};
             my $autocommit = $c->req->params->{autocommit};
             my $rs_user = $c->d->rs('User');
-            my $complat_user = $rs_user->find({username => $value});
-            ($complat_user = $rs_user->find_by_github_login($value)) unless $complat_user;
+            my $complat_user = $rs_user->find({username => $value}) || $rs_user->find_by_github_login($value);
             my $complat_user_admin = $complat_user? $complat_user->admin : '';
             
             # developers can be any complat user
@@ -1137,8 +1136,7 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
             if ($field =~ /designer|producer/){
                 return $c->forward($c->view('JSON')) unless ($complat_user_admin || $value eq '');
             } elsif ($field eq "maintainer") {
-                $value = format_maintainer($c, $value, $ia, 0);
-                return $c->forward($c->view('JSON')) unless (defined $value);
+                return $c->forward($c->view('JSON')) unless $value = format_maintainer($c, $value, $ia, 0);
             } elsif ($field eq "id") {
                 $field = "meta_id";
                 $value = format_id($value);
@@ -1274,7 +1272,7 @@ sub create_ia :Chained('base') :PathPart('create') :Args() {
 
         my $maintainer = { 
             duckco => $c->user->username,
-            github => $gh_id? $c->d->rs('GitHub::User')->find({github_id => $gh_id})->login : ''
+            github => $gh_id ? $c->d->rs('GitHub::User')->find({github_id => $gh_id})->login : ''
         };
 
         # Capitalize each word in the name string
@@ -1357,7 +1355,7 @@ sub create_ia_from_pr :Chained('base') :PathPart('create_from_pr') :Args() {
             
             my $maintainer = { 
                 duckco => $c->user->username,
-                github => $gh_id? $c->d->rs('GitHub::User')->find({github_id => $gh_id})->login : ''
+                github => $gh_id ? $c->d->rs('GitHub::User')->find({github_id => $gh_id})->login : ''
             };
             
             my $perl_module;
@@ -1496,24 +1494,21 @@ sub format_maintainer {
     my ( $c, $value, $ia, $commit ) = @_;
     
     my $user = $c->d->rs('User');
-    my $complat_user = $user->find({username => $value});
-    ($complat_user = $user->find_by_github_login($value)) unless $complat_user;
+    my $complat_user = $user->find({username => $value}) || $user->find_by_github_login($value);
     my $complat_user_admin = $complat_user? $complat_user->admin : '';
 
     
     my %maintainer;
     if ($complat_user) {
         %maintainer = ( duckco => $complat_user->username );
-        my $gh_id = $complat_user->github_id;
 
         if ($commit) {
             # give edit permissions
             $ia->add_to_users($complat_user) unless ($complat_user_admin || $ia->users->find($complat_user->id));
         }
 
-        my $gh_user = $gh_id? $c->d->rs('GitHub::User')->find({github_id => $gh_id})->login : undef;
-        if ($gh_user) {
-            $maintainer{github} = $gh_user;
+        if (my $gh_id = $complat_user->github_id) {
+            $maintainer{github} = $c->d->rs('GitHub::User')->find({github_id => $gh_id})->login;
         }
     } elsif (check_github($value)) {
         # this github account isn't tied to any duck.co account
@@ -1523,7 +1518,7 @@ sub format_maintainer {
         %maintainer = ( github => $value );
     }
 
-    $value = (!keys %maintainer)? undef : to_json \%maintainer;
+    $value = (!keys %maintainer)? 0 : to_json \%maintainer;
 
     return $value;
 }
