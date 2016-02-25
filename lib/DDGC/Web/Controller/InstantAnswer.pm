@@ -1518,7 +1518,7 @@ sub format_maintainer {
         %maintainer = ( github => $value );
     }
 
-    $value = (!keys %maintainer)? 0 : to_json \%maintainer;
+    $value = (!keys %maintainer) ? 0 : to_json \%maintainer;
 
     return $value;
 }
