@@ -323,8 +323,8 @@
                     if (!shown) {
                         var split_query = query.split(/\s/);
                         $.each(split_query, function(idx) {
-                            var temp_regex = new RegExp(split_query[idx].replace("\\", ""), "gi");
-                            ind.filter_regex($children, temp_regex);
+                            regex = new RegExp(split_query[idx].replace("\\", ""), "gi");
+                            ind.filter_regex($children, regex);
                         });
                     }
                 } else {
