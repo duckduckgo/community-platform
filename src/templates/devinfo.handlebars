@@ -121,7 +121,11 @@
             {{#if maintainer.duckco}}
                 <a href="/user/{{maintainer.duckco}}">{{maintainer.duckco}}</a>
             {{else}}
-                <a href="https://github.com/{{maintainer.github}}">{{maintainer.github}}</a>
+                {{#if maintainer.github}}
+                    <a href="https://github.com/{{maintainer.github}}">{{maintainer.github}}</a>
+                {{else}}
+                    <span class="no-available">No maintainer yet.</span>
+                {{/if}}
             {{/if}}
         {{else}}
             <span class="no-available">No maintainer yet.</span>
