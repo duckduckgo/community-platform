@@ -526,6 +526,10 @@ sub update_repo_forks {
     my @gh_forks;
     push @gh_forks, $self->update_repo_fork_from_data($gh_repo, $_)
         for @$forks_data;
+    
+    my @gh_events;
+    push @gh_events, $self->update_github_event_from_data($gh_repo, $_, 'github_fork') 
+       for @$forks_data;
 
     return \@gh_forks;
 }
@@ -541,10 +545,27 @@ sub update_repo_fork_from_data {
     $columns{created_at}     = parse_datetime($fork->{created_at});
     $columns{updated_at}     = parse_datetime($fork->{updated_at});
     $columns{gh_data}        = $fork;
-
+    
     return $gh_repo
         ->related_resultset('github_forks')
         ->update_or_create(\%columns, { key => 'github_fork_github_id' });
 }
+
+# populate the github_event table separately while filling in the others
+sub update_github_event_from_data {
+    my ($self, $gh_repo, $data, $eventtype) = @_;
+
+    my %columns;
+    $columns{github_id}         = $data{id};
+    $columns{github_user_id}    = $self->find_or_update_user($data->{owner}->{login})->id;
+    $columns{github_repo_id}    = $gh_repo{id};
+    $columns{github_event_type} = $eventtype;
+    $columns{github_event_date} = $data{created_at};
+    
+    return $gh_repo
+           ->related_resultset('github_events')
+           ->update_or_create(\%columns, { key => 'github_event__id' });
+}
+
 
 1;
