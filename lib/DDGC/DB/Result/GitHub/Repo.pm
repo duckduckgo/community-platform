@@ -60,6 +60,10 @@ has_many github_forks => 'DDGC::DB::Result::GitHub::Fork',
     { 'foreign.github_repo_id' => 'self.id' },
     { cascade_delete => 1 };
 
+has_many github_events => 'DDGC::DB::Result::Github::Event',
+    { 'foreign.github_repo_id'=> 'self.id' },
+    { cascade_delete => 1 };
+
 sub owner_name { my @p = split('/',$_[0]->full_name); return $p[0]; }
 sub repo_name  { my @p = split('/',$_[0]->full_name); return $p[1]; }
 

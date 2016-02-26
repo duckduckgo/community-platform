@@ -563,7 +563,7 @@ sub update_github_event_from_data {
     $columns{github_event_date} = $data->{created_at};
     
     return $gh_repo
-           ->related_resultset('github_events')
+           ->related_resultset('github_event')
            ->update_or_create(\%columns, { key => 'github_event_id' });
 }
 

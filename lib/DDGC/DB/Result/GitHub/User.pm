@@ -63,5 +63,9 @@ has_many github_issue_events => 'DDGC::DB::Result::GitHub::Issue::Event',
     { 'foreign.github_user_id' => 'self.id' },
     { cascade_delete => 1 };
 
+has_many github_events => 'DDGC::DB::Result::Github::Event',
+    { 'foreign.github_user_id' => 'self.id' },
+    { cascade_delete => 1 };
+
 no Moose;
 __PACKAGE__->meta->make_immutable( inline_constructor => 0 );
