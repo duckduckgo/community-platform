@@ -754,34 +754,24 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
         if (($is_admin || $permissions) && ($ia->dev_milestone eq 'live' || $ia->dev_milestone eq 'deprecated')) {
             $edited = current_ia($c->d, $ia);
             $ia_data{edited} = $edited;
-            my $is_dev = 0;
-
-            foreach my $dev (@{$ia_data{live}->{developer}}) {
-                $dev->{name} =~ s/.*\/([^\/]*)$/$1/;
-                if (($dev->{name} eq $c->user->username) && ($dev->{type} eq 'duck.co')) {
-                    $is_dev = 1;
-                }
-            }
             
-            if ($is_dev || $is_admin) {
-                my $today = DateTime->today();
-                my $monday = 1;
-                my $weekdays = 7;
-                
-                # Traffic data is updated on Mondays
-                my $last_monday = $today->subtract(days => ($today->day_of_week - $monday) %$weekdays || $weekdays);
-                my $month_ago = $last_monday->clone->subtract( days => 30 )->date();
-                my $traffic_rs = $c->d->rs('InstantAnswer::Traffic')->search(
-                    {
-                        answer_id => $ia->meta_id, 
-                        date => { '<' => $last_monday->date()}, 
-                        date => { '>' => $month_ago},
-                        pixel_type => [qw( iaoi iaoe )]
-                    });
-                
-                my $iaoi = $traffic_rs->get_array_by_pixel();
-                $ia_data{live}->{traffic} = $iaoi;
-            }
+            my $today = DateTime->today();
+            my $monday = 1;
+            my $weekdays = 7;
+            
+            # Traffic data is updated on Mondays
+            my $last_monday = $today->subtract(days => ($today->day_of_week - $monday) %$weekdays || $weekdays);
+            my $month_ago = $last_monday->clone->subtract( days => 30 )->date();
+            my $traffic_rs = $c->d->rs('InstantAnswer::Traffic')->search(
+                {
+                    answer_id => $ia->meta_id, 
+                    date => { '<' => $last_monday->date()}, 
+                    date => { '>' => $month_ago},
+                    pixel_type => [qw( iaoi iaoe )]
+                });
+            
+            my $iaoi = $traffic_rs->get_array_by_pixel();
+            $ia_data{live}->{traffic} = $iaoi;
         }
     }
 
