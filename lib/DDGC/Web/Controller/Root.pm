@@ -167,6 +167,7 @@ sub end : ActionClass('RenderView') {
 
 sub wear :Chained('base') :PathPart('wear') :Args(0) {
 	my ( $self, $c ) = @_;
+	goto REDIRECT;
 
 	$c->session->{wear_referer} = lc( $c->req->headers->referer ) if !$c->session->{wear_referer};
 
