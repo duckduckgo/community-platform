@@ -556,7 +556,7 @@ sub update_github_event_from_data {
     my ($self, $gh_repo, $data, $eventtype) = @_;
 
     my %columns;
-    $columns{github_id}         = $data->{id};
+    $columns{github_event_id}   = $data->{id};
     $columns{github_user_id}    = $self->find_or_update_user($data->{owner}->{login})->id;
     $columns{github_repo_id}    = $gh_repo->{id};
     $columns{github_event_type} = $eventtype;

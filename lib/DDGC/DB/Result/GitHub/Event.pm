@@ -9,7 +9,7 @@ use namespace::autoclean;
 table 'github_event';
 
 primary_column id        => {data_type => 'bigint', is_auto_increment => 1};
-column github_id         => {data_type => 'bigint', is_nullable => 0};
+column github_event_id   => {data_type => 'bigint', is_nullable => 0};
 column github_user_id    => {data_type => 'bigint', is_nullable => 0};
 column github_repo_id    => {data_type => 'bigint', is_nullable => 0};
 column github_event_type => {data_type => 'text', is_nullable => 0};
