@@ -110,13 +110,6 @@
                 }
             });
 
-            $("body").on("click", "#asana-create", function(evt) {
-                if (!$(this).hasClass("disabled")) {
-                    create_task($.trim($("#edit-sidebar-id").val()));
-                    $(this).addClass("disabled");
-                }
-            });
-
             $("body").on("click", "#sidebar-maintainer", function(evt) {
                 $(this).find("input").removeClass("hide");
                 $(this).find(".readonly").addClass("hide");
@@ -572,18 +565,6 @@
                     var temp_count = $(".dev_pipeline-column__list li." + temp_filter).length;
                     $("#count-" + temp_filter).text(temp_count);
                 });
-            }
-
-            function create_task(id) {
-                var jhxqr = $.post("/ia/asana", {
-                    id : id,
-                    action_token: $.trim($('meta[name=action-token]').attr("content")) 
-                })
-                .done(function(data) {
-                    console.log("Got so far");
-                    dev_p.saved = true;
-                });
-                    
             }
 
             function filter(which_filter, reset) {
