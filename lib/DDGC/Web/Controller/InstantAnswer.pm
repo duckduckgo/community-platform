@@ -865,7 +865,8 @@ sub commit_save :Chained('commit_base') :PathPart('save') :Args(0) {
             # get the IA 
             my $ia = $c->d->rs('InstantAnswer')->find({meta_id => $c->req->params->{id}});
             my $params = from_json($c->req->params->{values});
-            $result = save($c, $params, $ia);
+            
+            $result = save($c, $params, $ia, 0);
         }
     }
 
@@ -1028,7 +1029,7 @@ sub save_multiple :Chained('base') :PathPart('save_multiple') :Args(0) {
         my @update;
         
         push(@update, {value => $value, field => $field});
-        save($c, \@update, $ia);
+        save($c, \@update, $ia, 0);
         save_milestone_date($ia, $value);
 
         $result{$id} = 1;
@@ -1080,7 +1081,8 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
 
             my $value = $c->req->params->{value};
             my $autocommit = $c->req->params->{autocommit};
-            my $complat_user = $c->d->rs('User')->find({username => $value});
+            my $rs_user = $c->d->rs('User');
+            my $complat_user = $rs_user->find({username => $value}) || $rs_user->find_by_github_login($value);
             my $complat_user_admin = $complat_user? $complat_user->admin : '';
             
             # developers can be any complat user
@@ -1133,9 +1135,9 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
             my $new_meta_id;
 
             if ($field =~ /designer|producer/){
-                return $c->forward($c->view('JSON')) unless $complat_user_admin || $value eq '';
+                return $c->forward($c->view('JSON')) unless ($complat_user_admin || $value eq '');
             } elsif ($field eq "maintainer") {
-                return $c->forward($c->view('JSON')) unless $complat_user || $value eq '';
+                return $c->forward($c->view('JSON')) unless $value = format_maintainer($c, $value, $ia, 0);
             } elsif ($field eq "id") {
                 return $c->forward($c->view('JSON')) unless $is_admin;
                 $field = "meta_id";
@@ -1196,7 +1198,7 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
                     $value = $new_meta_id;
                 }
                 
-                save($c, \@update, $ia);
+                save($c, \@update, $ia, 1);
                 $saved = 1;
                 
                 save_milestone_date($ia, $c->req->params->{value});
@@ -1263,6 +1265,7 @@ sub create_ia :Chained('base') :PathPart('create') :Args() {
 
     if ($c->user && (!$ia)) {
         $is_admin = $c->user->admin;
+        my $gh_id = $c->user->github_id;
         my $dev_milestone = $data->{dev_milestone}? $data->{dev_milestone} : "planning";
         my $name = $data->{name};
         my $repo = $data->{repo}? lc $data->{repo} : undef;
@@ -1271,6 +1274,11 @@ sub create_ia :Chained('base') :PathPart('create') :Args() {
             url => 'https://duck.co/user/' . $c->user->username,
             name => $c->user->username,
             type => "duck.co"
+        };
+
+        my $maintainer = { 
+            duckco => $c->user->username,
+            github => $gh_id ? $c->d->rs('GitHub::User')->find({github_id => $gh_id})->login : ''
         };
 
         # Capitalize each word in the name string
@@ -1288,7 +1296,7 @@ sub create_ia :Chained('base') :PathPart('create') :Args() {
                 example_query => $data->{example_query},
                 other_queries => $data->{other_queries},
                 public => 0,
-                maintainer => $c->user->username,
+                maintainer => to_json($maintainer),
                 developer => to_json([$author]),
                 perl_module => $data->{perl_module},
                 tab => $data->{tab}
@@ -1296,7 +1304,7 @@ sub create_ia :Chained('base') :PathPart('create') :Args() {
 
             save_milestone_date($new_ia, 'created');
 
-            if (!$is_admin) {
+            if ((!$is_admin) && (!$new_ia->users->find($c->user->id))) {
                 $new_ia->add_to_users($c->user);
             }
 
@@ -1343,12 +1351,19 @@ sub create_ia_from_pr :Chained('base') :PathPart('create_from_pr') :Args() {
             $gh->set_default_user_repo('duckduckgo', "zeroclickinfo-$repo");
 
             my @files = $gh->pull_request->files($pr_number);
+            my $gh_id = $user->github_id;
             $pr_data = $gh->pull_request->pull($pr_number);
             my $author = {
                 url => 'https://duck.co/user/' . $c->user->username,
                 name => $user->username,
                 type => "duck.co"
             };
+            
+            my $maintainer = { 
+                duckco => $c->user->username,
+                github => $gh_id ? $c->d->rs('GitHub::User')->find({github_id => $gh_id})->login : ''
+            };
+            
             my $perl_module;
             my $tab;
 
@@ -1408,7 +1423,7 @@ sub create_ia_from_pr :Chained('base') :PathPart('create_from_pr') :Args() {
                         repo => $repo,
                         dev_milestone => 'planning',
                         public => 1,
-                        maintainer => $user->username,
+                        maintainer => to_json($maintainer),
                         developer => to_json([$author]),
                         perl_module => $perl_module,
                         tab => $tab
@@ -1479,8 +1494,41 @@ sub format_id {
     return $id;
 }
 
+# Return the properly formatted JSON value
+# for the maintainer column
+sub format_maintainer {
+    my ( $c, $value, $ia, $commit ) = @_;
+    
+    my $user = $c->d->rs('User');
+    my $complat_user = $user->find({username => $value}) || $user->find_by_github_login($value);
+    my $complat_user_admin = $complat_user? $complat_user->admin : '';
+
+    
+    my %maintainer;
+    if ($complat_user) {
+        %maintainer = ( duckco => $complat_user->username );
+
+        if ($commit) {
+            # give edit permissions
+            $ia->add_to_users($complat_user) unless ($complat_user_admin || $ia->users->find($complat_user->id));
+        }
+
+        if (my $gh_id = $complat_user->github_id) {
+            $maintainer{github} = $c->d->rs('GitHub::User')->find({github_id => $gh_id})->login;
+        }
+    } elsif (check_github($value)) {
+        # this github account isn't tied to any duck.co account
+        # we still allow it to be listed as maintainer
+        # but can't give edit permissions
+
+        %maintainer = ( github => $value );
+    }
+
+    return %maintainer ? to_json \%maintainer : 0;
+}
+
 sub save {
-    my($c, $params, $ia) = @_;
+    my($c, $params, $ia, $autocommit) = @_;
     my %result;
     my $saved;
 
@@ -1504,6 +1552,8 @@ sub save {
         } else {          
             if ($field eq 'id') {
                $field = 'meta_id';
+            } elsif ($field eq 'maintainer' && (!$autocommit)) {
+                $value = format_maintainer($c, $value, $ia, 1);
             }
             
             commit_edit($c->d, $ia, $field, $value);
