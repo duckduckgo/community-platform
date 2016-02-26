@@ -225,15 +225,6 @@ sub dev_pipeline_json :Chained('dev_pipeline_base') :PathPart('json') :Args(0) {
 
     $key = 'dev_milestone';
 
-    my $asana_server = "http://beta.duckduckgo.com/install?asana&ia=everything";
-
-    my $result = asana_req('', $asana_server);
-    try{
-        $result = $result->decoded_content ? from_json($result->decoded_content) : undef;
-    }catch{
-        $result = {};
-    };
-
     my %dev_ias;
     my $temp_ia;
 
@@ -249,10 +240,6 @@ sub dev_pipeline_json :Chained('dev_pipeline_base') :PathPart('json') :Args(0) {
         if ($c->user && (!$c->user->admin)) {
             my $can_edit = $ia->users->find($c->user->id)? 1 : undef;
             $temp_ia->{can_edit} = $can_edit;
-        }
-
-        if ($result && $result->{$ia->id}) {
-            $temp_ia->{asana} = $result->{$ia->id};
         }
         
         if ($pr->{issue_id}) {
@@ -278,8 +265,7 @@ sub dev_pipeline_json :Chained('dev_pipeline_base') :PathPart('json') :Args(0) {
     }
 
     $c->stash->{x} = {
-        $key.'s' => \%dev_ias,
-        asana => $result
+        $key.'s' => \%dev_ias
     };
 
     $c->stash->{not_last_url} = 1;
@@ -799,14 +785,6 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
         }
     }
 
-    my $server = "http://beta.duckduckgo.com/install?asana&ia=" . $ia->id;
-    my $result = asana_req('', $server);
-
-    try{
-        $ia_data{live}->{asana} = $result->decoded_content ? from_json($result->decoded_content) : undef;
-        $ia_data{live}->{asana} = $ia_data{live}->{asana}? $ia_data{live}->{asana}->{$ia->id} : undef;
-    };
-
     $c->stash->{x} = \%ia_data;
 
     $c->stash->{not_last_url} = 1;
@@ -909,79 +887,6 @@ sub send_to_beta :Chained('base') :PathPart('send_to_beta') :Args(0) {
     }
 
     return $c->forward($c->view('JSON'));
-}
-
-sub asana :Chained('base') :PathPart('asana') :Args(0) {
-    my ($self, $c) = @_;
-    $c->check_action_token;
-
-    my @ia = $c->d->rs('InstantAnswer')->search(
-        {meta_id => $c->req->params->{id}},
-        {
-            prefetch => qw/issues/,
-            result_class => 'DBIx::Class::ResultClass::HashRefInflator',
-        }
-    );
-    my $ia = $ia[0];
-
-    my $pr;
-    foreach my $issue (@{$ia->{issues}}){
-        if($issue->{is_pr}){
-            $pr = $issue;
-        }
-    }
-
-    $c->stash->{x}->{result} = '';
-    return $c->forward($c->view('JSON')) unless ($ia && $c->user && $c->user->admin);
-
-    my %data = (
-          repo      => $ia->{repo},
-          user      => $c->user->username,
-          producer  => $ia->{producer},
-          action    => 'duckco',
-          number    => $pr->{issue_id},
-          id        => $c->req->params->{id},
-          title     => $pr->{title},
-    );
-
-    my $server = "http://beta.duckduckgo.com/install?asana";
-
-    my $result = asana_req(\%data, $server);
-    try{
-        $result = $result->decoded_content;
-    }
-    catch{
-        $result = {};
-    };
-
-    $c->stash->{x}->{result} = $result;
-    return $c->forward($c->view('JSON'));
-}
-
-sub asana_req {
-    my ($data, $server) = @_;
-
-    if(!$data){
-        $data = { stuff => "nothing"};
-    }
-
-    my $ua = LWP::UserAgent->new;
-    my $json_data = $data? to_json($data) : '';
-
-    my $key = $ENV{'BETA_KEY'};
-    my $req = HTTP::Request->new(GET => $server);
-    my $header_data = "sha1=".Digest::SHA::hmac_sha1_hex($json_data, $key);
-
-    $req->header('content-type' => 'application/json');
-    $req->header("x-hub-signature" => $header_data);
-    $req->content($json_data);
-
-    my $result;
-    try{
-        $result = $ua->request($req);
-    };
-
-    return $result;
 }
 
 sub beta_req {
