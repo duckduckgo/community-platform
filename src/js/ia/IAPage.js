@@ -249,13 +249,6 @@
                         $("#contributors-popup").addClass("hide");
                     });
 
-                    $("body").on("click", "#asana_button", function(evt) {
-                        if(!$(this).hasClass("is-disabled")) {
-                            create_task(DDH_iaid);
-                            $(this).addClass("is-disabled");
-                        }
-                    });
-
                     $("body").on("click", ".devpage-cancel", function(evt) {
                         evt.preventDefault();
 
@@ -1507,14 +1500,6 @@
                             ia_data.staged.beta = 1;
                         });
                     }
-                    function create_task(id) {
-                        var jqxhr = $.post("/ia/asana", {
-                            id : id,
-                            action_token: $.trim($('meta[name=action-token]').attr("content"))
-                        })
-                        .done(function(data) {
-                        });
-                    }
 
                     // Saves values for editable fields on the dev page
                     function autocommit(field, value, id, is_json, subfield) {
@@ -1534,7 +1519,7 @@
                                     } else if (field === "id" || data.result.id) {
                                         location.href = "/ia/view/" + data.result.id;
                                     } else {
-                                        ia_data.live[field] = (is_json && data.result[field])? $.parseJSON(data.result[field]) : data.result[field];
+                                        ia_data.live[field] = ((is_json || (field === "maintainer")) && data.result[field])? $.parseJSON(data.result[field]) : data.result[field];
                                         if ((field === "developer" && ia_data.permissions && ia_data.permissions.admin)
                                             || ($("#ia-single--details ." + field).length || (subfield && $("#ia-single--details ." + subfield).length))
                                             || ((field === "example_query" || field === "other_queries") && (!ia_data.examples_saved))) {
@@ -1580,7 +1565,7 @@
                                     }
                                 }
 
-                                if (is_json) {
+                                if (is_json || (field === "maintainer")) {
                                     ia_data.edited[field] = $.parseJSON(data.result[field]);
                                 } else {
                                     ia_data.edited[field] = data.result[field];
