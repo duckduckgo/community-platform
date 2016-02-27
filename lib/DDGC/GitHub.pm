@@ -291,6 +291,10 @@ sub update_repo_pulls {
     push @gh_pulls, $self->update_repo_pull_from_data($gh_repo, $_)
         for @$pulls_data;
 
+    my @gh_events;
+    push @gh_events, $self->update_repo_pull_from_data($gh_repo, $_, 'github_pull')
+        for @$pulls_data;
+
     return \@gh_pulls;
 }
 
@@ -333,6 +337,11 @@ sub update_repo_review_comments {
     my @gh_comments;
     push @gh_comments, $self->update_repo_review_comment_from_data($gh_repo, $_)
         for @$comments_data;
+    
+    print "   events...\n";
+    my @gh_events;
+    push @gh_events, $self->update_github_event_from_data($gh_repo, $_, 'github_comment')
+       for @$comments_data;
 
     return \@gh_comments;
 }
@@ -436,6 +445,11 @@ sub update_repo_commits {
     push @gh_commits, $self->update_repo_commit_from_data($gh_repo, $_)
         for @$commits_data;
 
+    print "   events...\n";
+    my @gh_events;
+    push @gh_events, $self->update_github_event_from_data($gh_repo, $_, 'github_commit')
+       for @$commits_data;
+
     return \@gh_commits;
 }
 
@@ -485,6 +499,11 @@ sub update_repo_issues {
     push @gh_issues, $self->update_repo_issue_from_data($gh_repo, $_)
         for @$issues_data;
 
+    print "   events...\n";
+    my @gh_events;
+    push @gh_events, $self->update_github_event_from_data($gh_repo, $_, 'github_issue')
+       for @$issues_data;
+
     return \@gh_issues;
 }
 
@@ -526,11 +545,6 @@ sub update_repo_forks {
     push @gh_forks, $self->update_repo_fork_from_data($gh_repo, $_)
         for @$forks_data;
     
-    print "   events...\n"; 
-    my @gh_events;
-    push @gh_events, $self->update_github_event_from_data($gh_repo, $_, 'github_fork') 
-       for @$forks_data;
-    
     return \@gh_forks;
 }
 
@@ -553,14 +567,18 @@ sub update_repo_fork_from_data {
 
 # populate the github_event table separately while filling in the others
 sub update_github_event_from_data {
-    my ($self, $gh_repo, $data, $eventtype) = @_;
+    my ($self, $gh_repo, $data, $event_type) = @_;
     
+    my $unique = $data->{sha} || "$data->{id}";
+    my $user = $data->{commit} ? 'committer' : 'user'; 
+    my $date = $data->{commit} ? parse_datetime($data->{commit}->{$user}->{date}) : parse_datetime($data->{created_at});
+
     my %columns;
-    $columns{github_id}         = $data->{id};
-    $columns{github_user_id}    = $self->find_or_update_user($data->{owner}->{login})->id;
+    $columns{github_id}         = $unique;
+    $columns{github_user_id}    = $self->find_or_update_user($data->{$user}->{login})->id;
     $columns{github_repo_id}    = $gh_repo->id;
-    $columns{github_event_type} = $eventtype;
-    $columns{github_event_date} = parse_datetime($data->{created_at});
+    $columns{github_event_type} = $event_type;
+    $columns{github_event_date} = $date;
 
       
     return $gh_repo

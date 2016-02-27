@@ -7,7 +7,7 @@ use namespace::autoclean;
 
 sub with_created_at {
     my ($self, $operator, $date) = @_;
-	$self->search({ 'me.created_at' => { $operator => $date } });
+	$self->search({ 'me.github_event_date' => { $operator => $date } });
 }
 
 sub with_github_user_id {
