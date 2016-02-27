@@ -60,7 +60,7 @@ has_many github_forks => 'DDGC::DB::Result::GitHub::Fork',
     { 'foreign.github_repo_id' => 'self.id' },
     { cascade_delete => 1 };
 
-has_many github_events => 'DDGC::DB::Result::Github::Event',
+has_many github_events => 'DDGC::DB::Result::GitHub::Event',
     { 'foreign.github_repo_id'=> 'self.id' },
     { cascade_delete => 1 };
 
