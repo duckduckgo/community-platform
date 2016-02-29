@@ -1,7 +1,7 @@
 : if $r_referer_validated {
-<html><head><script>window.opener=null</script><meta http-equiv='refresh' content="0;URL='<: $r_url :>'">
+<html><head><script>window.opener=null</script><meta http-equiv='refresh' content="0;URL='<: $r_url | raw :>'">
 : } else {
-<html><head><script>window.opener=null</script><meta http-equiv='refresh' content="10;URL='<: $r_url :>'">
-<body>Redirecting to external URL <a href="<: $r_url :>"><: $r_url :></a> in 10 seconds.
+<html><head><script>window.opener=null</script><meta http-equiv='refresh' content="10;URL='<: $r_url | raw :>'">
+<body>Redirecting to external URL <a href="<: $r_url | raw :>"><: $r_url :></a> in 10 seconds.
 : }
 
