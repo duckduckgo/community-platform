@@ -485,13 +485,20 @@ sub update_pr_template {
         }
     }
 
-
     my $examples = "[$data->{example_query}](https://beta.duckduckgo.com/?q=$data->{example_query})" || ' ';
 
     if(defined $ia->{other_queries}){
-        $ia->{other_queries} =~ s/"|\[|\]//g;
-        $ia->{other_queries} =~ s/,/, /g;
-        $examples .=", ". "[$ia->{other_queries}](https://beta.duckduckgo.com/?q=$ia->{other_queries})";
+        my $q = qq({"examples": $ia->{other_queries} });
+        try{
+            $q = from_json($q);
+        }
+        catch{
+            return;
+        };
+
+        foreach my $query (@{$q->{examples}}){
+            $examples .=", ". "[$query](https://beta.duckduckgo.com/?q=$query)";
+        }
     }
 
     map{ $data->{$_} = ' ' unless $data->{$_} } qw(src_url description tab);
