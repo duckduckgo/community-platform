@@ -33,10 +33,10 @@ my @results;
 
 # the repos we care about
 my @repos = (
-#    'zeroclickinfo-spice',
+    'zeroclickinfo-spice',
     'zeroclickinfo-goodies',
-#    'zeroclickinfo-longtail',
-#    'zeroclickinfo-fathead'
+    'zeroclickinfo-longtail',
+    'zeroclickinfo-fathead'
 );
 
 my $token = $ENV{DDGC_GITHUB_TOKEN} || $ENV{DDG_GITHUB_BASIC_OAUTH_TOKEN};
@@ -544,12 +544,12 @@ sub update_pr_template {
     try{
         if(!$comment_number){
             # update the comment
-               $dax_comment->issue->create_comment('duckduckgo', 'zeroclickinfo-'.$data->{repo}, $pr_number, {
+            $dax_comment->issue->create_comment('duckduckgo', 'zeroclickinfo-'.$data->{repo}, $pr_number, {
                 "body" => $message
                 }
             );
         }else{
-              $dax_comment->issue->update_comment('duckduckgo', 'zeroclickinfo-'.$data->{repo}, $comment_number, {
+            $dax_comment->issue->update_comment('duckduckgo', 'zeroclickinfo-'.$data->{repo}, $comment_number, {
                 "body" => $message
                 }
             );
