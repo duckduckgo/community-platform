@@ -71,8 +71,8 @@
     
     <div id="sidebar-maintainer" class="sidebar-field">
         <div class="field-label primary-label"> Maintainer </div>
-        {{#if maintainer}} <span class="readonly"> <a href="/user/{{maintainer}}">{{maintainer}}</a></span> {{/if}}
-        <input class="edit-sidebar {{#if maintainer}}hide{{/if}}" data-focus-class="frm__input" id="edit-sidebar-maintainer" value="{{maintainer}}" />
+        {{#if maintainer}} <span class="readonly"> {{#if maintainer.duckco}} <a href="/user/{{maintainer.duckco}}">{{maintainer.duckco}}</a> {{else}} <a href="https://github.com/{{maintainer.github}}">{{maintainer.github}}</a> {{/if}} </span> {{/if}}
+        <input class="edit-sidebar {{#if maintainer}}hide{{/if}}" data-focus-class="frm__input" id="edit-sidebar-maintainer" value="{{#if maintainer.duckco}}{{maintainer.duckco}}{{else}}{{maintainer.github}}{{/if}}" />
     </div>
 
     <div  class="sidebar-field">
@@ -156,7 +156,7 @@
     {{#if maintainer}}
         <div id="sidebar-maintainer" class="sidebar-field">
             <div class="field-label primary-label"> Maintainer </div>
-            <span class="readonly"> <a href="/user/{{maintainer}}">{{maintainer}}</a></span>
+            <span class="readonly"> {{#if maintainer.duckco}} <a href="/user/{{maintainer.duckco}}">{{maintainer.duckco}}</a> {{else}} <a href="https://github.com/{{maintainer.github}}">{{maintainer.github}}</a>{{/if}}</span>
         </div>
     {{/if}}
 

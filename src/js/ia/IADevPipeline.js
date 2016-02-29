@@ -359,7 +359,7 @@
                        var $item = $(".dev_pipeline-column__list .selected");
                        var meta_id = $item.attr("id").replace("pipeline-list__", "");
                        var milestone = $item.parents(".dev_pipeline-column").attr("id").replace("pipeline-", "");
-
+                       value = ((field === "maintainer") && value)? JSON.parse(data.result[field]) : value;
                        setPageData(meta_id, milestone, field, value);
 
                        if (!$("#page_sidebar").hasClass("hide")) {
