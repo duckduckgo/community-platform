@@ -14,10 +14,10 @@ while (my $ia = $ias->next) {
         my %updated_maintainer;
         my $duckco_user = $d->rs('User')->find({username => $maintainer});
 
-        if ($duckco_user) {
+        if ($duckco_user || (!$d->is_live)) {
             %updated_maintainer = ( duckco => $maintainer );
 
-            if ($duckco_user->github_id) {
+            if ($d->is_live && $duckco_user->github_id) {
                 $updated_maintainer{github} = $d->rs('GitHub::User')->find({github_id => $duckco_user->github_id})->login;
             }
         } else {
