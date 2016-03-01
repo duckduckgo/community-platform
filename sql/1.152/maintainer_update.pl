@@ -14,19 +14,24 @@ my %seen;
 while(<DATA>){
 	chomp;
 	my ($id, $git_login) = split /\t/;
-	unless(exists $seen{$git_login}){
+	unless($seen{$git_login}){
 		if(my $git_user = $d->rs('GitHub::User')->find({login => $git_login})){
 			if(my $duckco_user = $d->rs('User')->find({github_id => $git_user->github_id})){
-				$seen{$git_login} = $duckco_user->username;
+				$seen{$git_login} = $duckco_user;
 			}
 		}
 	}
 
-	my $maintainer = exists $seen{$git_login}
-		? qq|{"duckco":"$seen{$git_login}","github":"$git_login"}|
-		: qq|{"github":"$git_login"}|;
-	
 	if(my $ia = $d->rs('InstantAnswer')->find({meta_id => $id})){
+		my $maintainer;
+		if(my $du = $seen{$git_login}){
+			$maintainer = '{"duckco":"' . $du->username . qq|","github":"$git_login"}|;
+			$ia->add_to_users($du);
+		}
+		else{
+			$maintainer = qq|{"github":"$git_login"}|;
+		}
+
 		$ia->update({maintainer => $maintainer});
 	}
 	else{ warn "Failed to lookup IA with id of $id" }
@@ -651,7 +656,7 @@ xkcd	sdball
 teredo	seanheaton				
 redis_cheat_sheet	seisfeld				
 sip_response_codes_cheat_sheet	seisfeld				
-recipes	sekhavati				
+recipes bsstoner
 product_hunt	sevastos				
 http_status_codes_cheat_sheet	ShreyasMinocha				
 angular_js_cheat_sheet	SibuStephen				
