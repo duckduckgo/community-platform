@@ -26,7 +26,7 @@ while(<DATA>){
 		my $maintainer;
 		if(my $du = $seen{$git_login}){
 			$maintainer = '{"duckco":"' . $du->username . qq|","github":"$git_login"}|;
-			$ia->add_to_users($du);
+			$ia->add_to_users($du) unless $ia->users->find($du->id) || $du->admin;
 		}
 		else{
 			$maintainer = qq|{"github":"$git_login"}|;
