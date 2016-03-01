@@ -305,7 +305,7 @@ gimp_cheat_sheet	elebow
 jargon	elebow				
 people_in_space	elebow				
 yacht_specs	elephantRunAway				
-conversions	elohmrow				
+conversions mintsoft
 figlet	engvik				
 minecraft	engvik				
 jquery_cheat_sheet	epik				
