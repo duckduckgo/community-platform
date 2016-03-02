@@ -23,8 +23,8 @@ while (my $ia = $ias->next) {
             if ($duckco_user || (!$is_live)) {
                 %updated_maintainer = ( duckco => $maintainer );
 
-                if ($is_live && $duckco_user->github_id) {
-                    $updated_maintainer{github} = $d->rs('GitHub::User')->find({github_id => $duckco_user->github_id})->login;
+                if (my $git_id = $duckco_user->github_id) {
+                    $updated_maintainer{github} = $d->rs('GitHub::User')->find({github_id => $git_id})->login;
                 }
             } else {
                 die "Maintainer '$maintainer' is not a duck.co user!";
