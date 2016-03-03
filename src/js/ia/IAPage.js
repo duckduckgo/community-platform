@@ -1486,11 +1486,12 @@
                     //Install pr on beta
                     function beta_install(pr) {
                         var prs = [pr];
-                        var data = {};
-                        data.action_token = $.trim($('meta[name=action-token]').attr("content"));
-                        data.prs = JSON.stringify(prs);
+                        var action_token = $.trim($('meta[name=action-token]').attr("content"));
+                        
+                        var data = JSON.stringify(prs);
                         var jqxhr = $.post("/ia/send_to_beta", {
-                            data : data
+                            data : data,
+                            action_token : action_token
                         })
                         .done(function (data) {
                             if (!ia_data.staged) {
