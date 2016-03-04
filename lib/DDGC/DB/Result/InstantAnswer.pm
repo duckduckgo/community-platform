@@ -249,6 +249,7 @@ column screenshots => {
 column unsafe => {
 	data_type => 'integer',
 	is_nullable => 1,
+    for_endpt => 1
 };
 
 # IA type
