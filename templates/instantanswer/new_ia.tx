@@ -23,7 +23,7 @@
 
         <span class="clearfix"></span>
     </div>
-    
+
     <div id="login-bg" class="modal-bg hide"></div>
     <div id="login-form" class="hide modal-wrapper">
         <div>
@@ -54,30 +54,30 @@
         <p class="error-message hide" id="id-error">An Instant Answer with this title already exists: <a href=""></a></p>
         <p class="error-message hide" id="id-empty-error">The value for this field can't be empty</p>
 		<input class="frm__input wizard_field_insert" id="name-input" placeholder="e.g., AlternativeTo" <: if $c.session.ia_data { :>value="<: $c.session.ia_data.name :>"<: } :>/>
-	    </div>   
-	    
+	    </div>
+
 	    <div class="wizard_field">
 	      <div class="ia-new__title tx-clr--dk">Description</div>
 		<p class="field_desc tx-clr--lt">Describe the purpose of your IA. This will appear on the public Instant Answer Page. </p>
-		<textarea cols="100" class="frm__text wizard_field_insert" id="description-input" 
+		<textarea cols="100" class="frm__text wizard_field_insert" id="description-input"
         placeholder="e.g., AlternativeTo lists alternatives to web-based software, desktop computer software, and mobile apps, and sorts the alternatives by various criteria, including the number of registered users who have clicked the Like button for each of them on AlternativeTo."><: if $c.session.ia_data { :><: $c.session.ia_data.description :> <: } :></textarea>
         </div>
-	 
+
 	    <div class="wizard_field">
 	      <div class="ia-new__title tx-clr--dk">Example Query</div>
 		<p class="field_desc tx-clr--lt">List out some example queries that will trigger this Instant Answer.</p>
-		<input class="frm__input wizard_field_insert" id="example_query-input"  
-        <: if $c.session.ia_data { :>value="<: $c.session.ia_data.example_query :><: if $c.session.ia_data.other_queries { :>,<: for $c.session.ia_data.other_queries -> $query { :> 
-        <:$query :>, <: } } :>"<: } :> 
+		<input class="frm__input wizard_field_insert" id="example_query-input"
+        <: if $c.session.ia_data { :>value="<: $c.session.ia_data.example_query :><: if $c.session.ia_data.other_queries { :>,<: for $c.session.ia_data.other_queries -> $query { :>
+        <:$query :>, <: } } :>"<: } :>
         placeholder="e.g., Alternative To Notepad, Alternative To Spotify for Windows" />
 	    </div>
-	    
+
 	    <div class="wizard_field">
 	      <div class="ia-new__title tx-clr--dk">Data Source</div>
 		<p class="field_desc tx-clr--lt">Link to the data source or API, if any</p>
 		<input class="frm__input wizard_field_insert" id="src_url-input" <: if $c.session.ia_data { :> value="<: $c.session.ia_data.src_url :>"<: } :> placeholder="http://api.alternativeto.net/" />
 	    </div>
-	    
+
 	    <div class="wizard_field">
 	      <div class="ia-new__title tx-clr--dk">Type</div>
 		<p class="field_desc tx-clr--lt">Each Instant Answer type specializes in handling certain scenarios - most common Instant Answers are Goodies and Spices</p>
@@ -106,7 +106,7 @@
 		    <span class="frm__label__txt">Spice</span>
 		  </label>
 		  <p class="tx-clr--lt">Data is provided by an API in real-time (e.g., <a target="_blank" href="https://duckduckgo.com/?q=weather&ia=weather">weather<a/>, <a href="https://duckduckgo.com/?q=bitcoin&ia=currency" target="_blank">bitcoin</a>)</p>
-		    
+
 		  <label class="frm__label">
 		    <input type="radio" name="types" value="longtail" <: if $c.session.ia_data && $c.session.ia_data.repo == 'longtail' { :>checked<: } :>/>
 		    <span class="frm__label__txt">Longtail</span>
@@ -130,9 +130,9 @@
             <li><span class="ddgsi-right"></span><a href="/ia/view/calculator" target="_blank">Calculator</a></li>
             <li><span class="ddgsi-right"></span><a href="/ia/view/dictionary_definition" target="_blank">Dictionary</a></li>
             <li><span class="ddgsi-right"></span><a href="/ia/view/forecast" target="_blank">Forecast</a></li>
-            <li><span class="ddgsi-right"></span><a href="/ia/view/photoshop_cheatsheet" target="_blank">Photoshop Cheatsheet</a></li>
+            <li><span class="ddgsi-right"></span><a href="/ia/view/photoshop_cheat_sheet" target="_blank">Photoshop Cheatsheet</a></li>
             <li><span class="ddgsi-right"></span><a href="/ia/view/soundcloud" target="_blank">SoundCloud</a></li>
-        </ul>       
+        </ul>
     </div>
 </div>
 <: if $c.session.ia_data { :>
