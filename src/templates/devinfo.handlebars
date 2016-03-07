@@ -131,11 +131,11 @@
 
     <p  class="readonly--info {{#exists staged 'maintainer'}}hide{{/exists}}" id="maintainer--readonly">
         {{#if maintainer}}
-            {{#if maintainer.duckco}}
-                <a href="/user/{{maintainer.duckco}}">{{maintainer.duckco}}</a>
+            {{#if maintainer.github}}
+                (github) <a href="https://github.com/{{maintainer.github}}"> {{maintainer.github}}</a>
             {{else}}
-                {{#if maintainer.github}}
-                    <a href="https://github.com/{{maintainer.github}}">{{maintainer.github}}</a>
+                {{#if maintainer.duckco}}
+                    (duck.co) <a href="/user/{{maintainer.duckco}}"> {{maintainer.duckco}}</a>
                 {{else}}
                     <span class="no-available">No maintainer yet.</span>
                 {{/if}}
