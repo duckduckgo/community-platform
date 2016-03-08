@@ -1172,7 +1172,6 @@ sub create_ia :Chained('base') :PathPart('create') :Args() {
         };
 
         my $maintainer = { 
-            duckco => $c->user->username,
             github => $gh_id ? $c->d->rs('GitHub::User')->find({github_id => $gh_id})->login : ''
         };
 
