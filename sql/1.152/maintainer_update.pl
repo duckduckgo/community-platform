@@ -26,9 +26,7 @@ while(<DATA>){
 		if(my $du = $seen{$git_login}){
 			$ia->add_to_users($du) unless $ia->users->find($du->id) || $du->admin;
 		}
-		else{
-			$ia->update({maintainer => qq|{"github":"$git_login"}|});
-		}
+		$ia->update({maintainer => qq|{"github":"$git_login"}|});
 
 	}
 	else{ warn "Failed to lookup IA with id of $id" }
@@ -153,7 +151,6 @@ dogo_news	dogomedia
 base64	dogweather				
 awesome_bar_cheat_sheet	domjacko				
 anagram	drschwabe				
-alternative_to	duckduckgo				
 android_enthusiasts	duckduckgo	internal			
 annex	duckduckgo	internal			
 apache	duckduckgo	internal			
@@ -173,7 +170,6 @@ club_penguin	duckduckgo	internal
 cross_validated	duckduckgo	internal			
 database_administrators	duckduckgo	internal			
 destiny	duckduckgo	internal			
-dewey	duckduckgo				
 diablo	duckduckgo	internal			
 digimon_wiki	duckduckgo	internal			
 disney	duckduckgo	internal			
@@ -224,7 +220,6 @@ memory_alpha	duckduckgo	internal
 memory_beta	duckduckgo	internal			
 mercurial	duckduckgo	internal			
 money_longtail	duckduckgo	internal			
-moon_phases	duckduckgo				
 movie_longtail	duckduckgo	internal			
 muppet_wiki	duckduckgo	internal			
 my_sql	duckduckgo	internal			
@@ -241,9 +236,7 @@ pro_webmasters	duckduckgo	internal
 programming_longtail	duckduckgo	internal			
 psychology_wiki	duckduckgo	internal			
 python	duckduckgo	internal			
-randagram	duckduckgo				
 ranger_wiki	duckduckgo	internal			
-reverse	duckduckgo				
 rpg_longtail	duckduckgo	internal			
 rune_scape_wiki	duckduckgo	internal			
 science_fiction	duckduckgo	internal			
@@ -255,7 +248,6 @@ share_point	duckduckgo	internal
 sims	duckduckgo	internal			
 skeptics	duckduckgo	internal			
 source_forge	duckduckgo	internal			
-spell	duckduckgo				
 sponge_bob_square_pants	duckduckgo	internal			
 stack_overflow	duckduckgo	internal			
 star_wars_fanon	duckduckgo	internal			
@@ -271,12 +263,10 @@ theoretical_computer_science	duckduckgo	internal
 tibia	duckduckgo	internal			
 tractors	duckduckgo	internal			
 travel_longtail	duckduckgo	internal			
-twelve_oclock	duckduckgo				
 twentyfour	duckduckgo	internal			
 unix	duckduckgo	internal			
 ux_longtail	duckduckgo	internal			
 web_applications	duckduckgo	internal			
-where_am_i	duckduckgo				
 wikipedia_czech	duckduckgo	internal			
 wikipedia_dutch	duckduckgo	internal			
 wikipedia_fathead	duckduckgo	internal			
