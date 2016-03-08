@@ -1400,16 +1400,12 @@ sub format_maintainer {
 
     
     my %maintainer;
-    if ($complat_user) {
-        %maintainer = ( duckco => $complat_user->username );
-
+    if ($complat_user && (my $gh_id = $complat_user->github_id)) {
+        %maintainer = ( github => $c->d->rs('GitHub::User')->find({github_id => $gh_id})->login );
+        
         if ($commit) {
             # give edit permissions
             $ia->add_to_users($complat_user) unless ($complat_user_admin || $ia->users->find($complat_user->id));
-        }
-
-        if (my $gh_id = $complat_user->github_id) {
-            $maintainer{github} = $c->d->rs('GitHub::User')->find({github_id => $gh_id})->login;
         }
     } elsif (check_github($value)) {
         # this github account isn't tied to any duck.co account
