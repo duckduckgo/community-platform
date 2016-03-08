@@ -19,6 +19,7 @@ sub serve_path {
             my $idx_path = sprintf( '%s/%s', $dir, $file );
             if ( -f $idx_path ) {
                 $dir = $idx_path;
+                last;
             }
         }
     }
