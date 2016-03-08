@@ -3,8 +3,7 @@ ul { list-style: none; }
 #userpage-wrap { padding: 0 5 em; }
 
 #userpage-keywords-title {
-    margin-top: 1.3em;
-    margin-bottom: 1.5em;
+    margin-bottom: 0.8em;
     font-size: 1.1em;
     color: #aaa;
 }
