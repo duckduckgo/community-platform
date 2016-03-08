@@ -23,16 +23,13 @@ while(<DATA>){
 	}
 
 	if(my $ia = $d->rs('InstantAnswer')->find({meta_id => $id})){
-		my $maintainer;
 		if(my $du = $seen{$git_login}){
-			$maintainer = '{"duckco":"' . $du->username . qq|","github":"$git_login"}|;
 			$ia->add_to_users($du) unless $ia->users->find($du->id) || $du->admin;
 		}
 		else{
-			$maintainer = qq|{"github":"$git_login"}|;
+			$ia->update({maintainer => qq|{"github":"$git_login"}|});
 		}
 
-		$ia->update({maintainer => $maintainer});
 	}
 	else{ warn "Failed to lookup IA with id of $id" }
 }
