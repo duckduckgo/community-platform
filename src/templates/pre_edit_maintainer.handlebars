@@ -10,9 +10,7 @@
         <div class="column-center-live__child">
             <p class="column-center-live__child__p">
                 {{#if live.maintainer}}
-                    {{#if live.maintainer.duckco}}
-                        <a href="/user/{{live.maintainer.duckco}}">{{live.maintainer.duckco}}</a>
-                    {{else}}
+                    {{#if live.maintainer.github}}
                         <a href="https://github.com/{{live.maintainer.github}}">{{live.maintainer.github}}</a>
                     {{/if}}
                 {{else}}
@@ -25,9 +23,7 @@
         <div class="column-right-edits__child">
             <p class="column-right-edits__child__p">
                 {{#if edited.maintainer}}
-                    {{#if edited.maintainer.duckco}}
-                        <a href="/user/{{edited.maintainer.duckco}}">{{edited.maintainer.duckco}}</a>
-                    {{else}}
+                    {{#if edited.maintainer.github}}
                         <a href="https://github.com/{{edited.maintainer.github}}">{{edited.maintainer.github}}</a>
                     {{/if}}
                 {{/if}}

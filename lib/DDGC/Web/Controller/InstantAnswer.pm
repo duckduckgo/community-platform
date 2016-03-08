@@ -1254,7 +1254,6 @@ sub create_ia_from_pr :Chained('base') :PathPart('create_from_pr') :Args() {
             };
             
             my $maintainer = { 
-                duckco => $c->user->username,
                 github => $gh_id ? $c->d->rs('GitHub::User')->find({github_id => $gh_id})->login : ''
             };
             
@@ -1401,17 +1400,22 @@ sub format_maintainer {
     my %maintainer;
     if ($complat_user && (my $gh_id = $complat_user->github_id)) {
         %maintainer = ( github => $c->d->rs('GitHub::User')->find({github_id => $gh_id})->login );
-        
-        if ($commit) {
-            # give edit permissions
-            $ia->add_to_users($complat_user) unless ($complat_user_admin || $ia->users->find($complat_user->id));
-        }
     } elsif (check_github($value)) {
         # this github account isn't tied to any duck.co account
         # we still allow it to be listed as maintainer
         # but can't give edit permissions
 
         %maintainer = ( github => $value );
+
+        if (my $gh_id = $c->d->rs('GitHub::User')->find({login => $value})->github_id) {
+            $complat_user = $user->find({github_id => $gh_id});
+            $complat_user_admin = $complat_user? $complat_user->admin : '';
+        }
+    }
+
+    if ($complat_user && $commit && %maintainer) {
+        # give edit permissions
+        $ia->add_to_users($complat_user) unless ($complat_user_admin || $ia->users->find($complat_user->id));
     }
 
     return %maintainer ? to_json \%maintainer : 0;
